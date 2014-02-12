@@ -1,0 +1,16 @@
+.content.row
+  = render 'private/shared/balances', accounts: @accounts, title: t('header.deposit'), icon_class: 'fa-credit-card'
+  ul
+    - @depostis.each do |d|
+      li
+        .title
+          == d.currency
+        .description
+          == d.description
+          .service
+            i.fa.fa-cogs
+            code = d.transfer
+            i.fa.fa-clock-o
+            code = d.latency
+        .actions
+          a.btn.btn-inverse href='#{d.link}' = t(".#{d.id}.action")

@@ -1,0 +1,14 @@
+development:
+  adapter: mysql2
+  database: peatio_development
+  username: root
+
+test:
+  adapter: mysql2
+  database: peatio_test
+  username: root
+
+production:
+  adapter: mysql2
+  database: peatio_development
+  username: root

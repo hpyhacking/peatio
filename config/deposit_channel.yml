@@ -1,0 +1,17 @@
+- id: satoshi
+  code: 200
+  currency: btc
+  link: /deposits/coin?currency=btc
+  description: btc
+  confirm: 1
+  confirm_max: 6
+  low: 0.1
+  transfer: now
+  latency: 10
+- id: bank
+  code: 400
+  currency: cny
+  link: /deposits/bank
+  description: cny
+  transfer: now
+  latency: 10

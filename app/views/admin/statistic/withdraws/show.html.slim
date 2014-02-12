@@ -1,0 +1,5 @@
+.row: .col-md-12.alert
+  = datagrid_form_for @withdraws_grid, url: admin_statistic_withdraws_path
+  = render partial: "datagrid/group", locals: {groups: @groups}
+.row: .col-md-12
+  = datagrid_table(@withdraws_grid, @assets)

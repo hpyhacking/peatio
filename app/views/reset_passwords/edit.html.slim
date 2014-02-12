@@ -1,0 +1,10 @@
+= simple_form_for @token, :wrapper => :dialog do |f|
+  = f.input :password
+  .control-group
+    .controls
+      = f.button :submit
+
+  #tips-wrapper
+    #tips
+      i.fa.fa-lightbulb
+      span = t('.password')

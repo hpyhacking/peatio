@@ -1,0 +1,189 @@
+@mixin icon-dimensions {
+  width: 16px;
+  height: 16px;
+}
+
+.wg-detached-filter, .wice-grid{
+
+  a.date-label {text-decoration: none;}
+  a.date-label:hover {text-decoration: line-through;}
+
+  .clickable{
+    cursor: pointer;
+    margin-bottom: 2px;
+    margin-right: 2px;
+  }
+
+  .ui-datepicker-trigger, .wg-detached-filter .ui-datepicker-trigger{
+    cursor: pointer;
+  }
+
+  .custom-dropdown-container {
+    position: relative;
+    padding-right: 18px;
+
+
+    .collapse-multi-select-icon, .expand-multi-select-icon{
+      width: 12px;
+      height: 12px;
+      position:absolute;
+      top:0;
+      right:0;
+    }
+
+    .collapse-multi-select-icon{
+      background: transparent url(/assets/icons/grid/collapse.gif) no-repeat;
+    }
+
+    .expand-multi-select-icon{
+      background: transparent url(/assets/icons/grid/expand.gif) no-repeat;
+    }
+
+  }
+
+  .text-filter-container {
+    position: relative; padding-right: 13px;
+    .negation-checkbox {
+      position:absolute;
+      top:0;
+      right:0;
+    }
+  }
+
+
+}
+
+
+table.wice-grid{
+
+
+  .desc,  .asc{
+    padding-right: 18px;
+    text-decoration:none;
+  }
+
+  .desc {
+    background: transparent url(/assets/icons/grid/arrow_down.gif) right no-repeat
+  }
+  .asc  {
+    background: transparent url(/assets/icons/grid/arrow_up.gif)   right no-repeat
+  }
+
+  .submit.clickable{
+    background: transparent url(/assets/icons/grid/table_refresh.png) no-repeat;
+    @include icon-dimensions;
+  }
+
+  .reset.clickable{
+    background: transparent url(/assets/icons/grid/table.png) no-repeat;
+    @include icon-dimensions;
+  }
+
+
+  .wg-show-filter.clickable,
+  .wg-hide-filter.clickable{
+    background: transparent url(/assets/icons/grid/page_white_find.png) no-repeat;
+    @include icon-dimensions;
+  }
+
+
+  .export-to-csv-button.clickable{
+    margin-right: 0px;
+    background: transparent url(/assets/icons/grid/page_white_excel.png) no-repeat;
+    @include icon-dimensions;
+  }
+
+  .clickable.select-all{
+    background: transparent url(/assets/icons/grid/tick_all.png) no-repeat;
+    @include icon-dimensions;
+    float:left;
+  }
+
+  .clickable.deselect-all{
+    background: transparent url(/assets/icons/grid/untick_all.png) no-repeat;
+    @include icon-dimensions;
+    float:left;
+  }
+
+
+  /* in case of twitter bootstrap :) */
+  thead th select{
+    width: auto;
+  }
+
+  .pagination{
+    margin: 0px;
+    float: left;
+  }
+
+
+  tr.wg-filter-row  input[type=text] {
+    width: 100px;
+  }
+
+  .pagination_status {
+    font-weight: bold;
+    float: right;
+  }
+
+}
+
+.wice-grid-query-panel{
+  li {list-style-type: none; }
+
+  ul {margin-left: 0 }
+
+  a.wice-grid-delete-query .delete-icon{
+    background: transparent url(/assets/icons/grid/delete.png) no-repeat;
+    float: left;
+    @include icon-dimensions;
+  }
+}
+
+table.wice-grid {
+  th, td {
+    padding: 6px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  td.actions { width: 60px; text-align: center; }
+  th.wa-label { width: 120px; }
+  th.wa-category, td.wa-category { width: 90px; text-align: center;}
+
+  th, td {
+    &.state { width: 80px; text-align: center; }
+    &.locked { width: 80px; text-align: right; }
+    &.currency-address-type { width: 120px; text-align: center; }
+    &.currency-category { width: 120px; text-align: center; }
+    &.amount-fee { width: 120px; text-align: right; }
+    &.amount { width: 80px; text-align: right; }
+    &.created_at.short { width: 90px; text-align: right; }
+    &.created_at { width: 160px; text-align: right; }
+    &.done_at.short { width: 90px; text-align: right; }
+    &.address { width: 100px; }
+    &.address_label { width: 100px; }
+    &.key { width: 200px; }
+    &.title { width: 350px; }
+    &.balance { width: 80px; text-align: right; }
+    &.modifiable_id { width: 70px; text-align: right; }
+    &.modifiable_type { width: 115px; text-align: right; }
+    &.actions { 
+      width: auto;
+      padding-left: 20px;
+      padding-right: 20px;
+      text-align: center; 
+      a + a { margin-left: 5px; } 
+    }
+
+    &[class^=is_] {
+      text-align: center;
+      width: 120px;
+    }
+  }
+
+  td {
+    &.address, &.tx_id { font-family: monospace; }
+  }
+}

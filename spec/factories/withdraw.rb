@@ -1,0 +1,27 @@
+FactoryGirl.define do
+  factory :withdraw do
+    sum { 10.to_d }
+    state :wait
+    currency :btc
+    address 'sample_to_long_long_long_address'
+    address_label 'sample'
+    address_type :satoshi
+    password 'Password123'
+    member { create :member, identity: create(:identity) }
+
+    account do
+      member.accounts.first.tap do |a|
+        a.balance = 50000
+        a.save(validate: false)
+      end
+    end
+
+    trait :alipay do
+      currency :cny
+      address_type :alipay
+      address_label { member.name }
+      sum { 1000.to_d }
+    end
+  end
+end
+

@@ -1,0 +1,10 @@
+class DocumentsController < ApplicationController
+  def show
+    @doc = Document.find_by_key(params[:id])
+    if @doc.is_auth and !current_user
+      render :nothing => true
+    else
+      render :inline => @doc.body.html_safe
+    end
+  end
+end

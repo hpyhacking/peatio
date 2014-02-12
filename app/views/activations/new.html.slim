@@ -1,0 +1,9 @@
+#tips-wrapper
+  #tips
+    p
+      span == t('.tip', email: current_user.email)
+    p: span <strong class='text-danger'>#{t(".spam")}</strong>
+.resend-button
+  = link_to activation_path(@activation), :method => :put, :class => 'btn btn-primary first' do
+    span.fui-mail
+    span #{t('helpers.submit.activation.update')}

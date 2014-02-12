@@ -1,0 +1,34 @@
+.navbar-collapse.collapse data-no-turbolink='true' style="height: 0px;"
+  - if current_user
+    ul.nav.navbar-nav
+      li
+        a href='#{main_app.market_path(latest_market)}'
+          i.fa.fa-exchange
+          span = t('header.market')
+      li
+        a href='#{main_app.deposits_path}'
+          i.fa.fa-credit-card
+          span = t('header.deposit')
+      li
+        a href='#{main_app.new_withdraw_path}'
+          i.fa.fa-money
+          span = t('header.withdraw')
+    ul.nav.navbar-nav.pull-right
+      li.user-email: a: span = current_user.email
+      li: a href='#{main_app.settings_path}'
+        i.fa.fa-user
+        span = t('header.settings')
+      - if is_admin?
+        li: a href='#{main_app.admin_dashboard_path}' id='admin'
+          i.fa.fa-tachometer
+          span = t('header.admin')
+      li: a#sign_out href='#{main_app.signout_path}'
+        i.fa.fa-sign-out
+  - else
+    ul.nav.navbar-nav.pull-right
+      li: a href='#{main_app.signin_path}'
+        i.fa.fa-sign-in
+        span = t('header.signin')
+      li: a href='#{main_app.signup_path}'
+        i.fa.fa-lightbulb
+        span = t('header.signup')

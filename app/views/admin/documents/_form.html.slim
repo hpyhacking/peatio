@@ -1,0 +1,10 @@
+= simple_form_for [:admin, document] do |f|
+  = f.input :title
+  = f.input :key
+  = f.input :body, as: :text
+  = f.input :is_auth
+  = f.button :submit
+
+coffee:
+  $ ->
+    $("#document_body").qeditor()

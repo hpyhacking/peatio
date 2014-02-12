@@ -1,0 +1,9 @@
+en:
+  private:
+    shared:
+      balances:
+        locked: Frozen
+        balance: Balance
+        title: "%{icon} %{c} Account"
+        cny_format: '0.00'
+        btc_format: '0.00000000'

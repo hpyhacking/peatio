@@ -1,0 +1,34 @@
+zh-CN:
+  private:
+    settings:
+      success: 设置成功！
+      failure: 无效动态密码，设置失败。请重试。
+      index:
+        safety_instruction: 建议您启动全部安全设置，以保障帐户及资金安全。
+        reset_password: 重置登录密码
+        reauthenticate: 身份验证
+        account_versions:
+          title: 账户历史
+          description: 每一笔交易、每一分钱收入都是有据可查，巨细无遗的。
+          view: 浏览
+        two_factor_auth:
+          title: 两步验证
+          description: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。
+          configure: 设置验证
+          disable: 禁用两步验证
+        passwords:
+          title: 重置密码
+          description: 请定期重置您的登录密码，以增加账户的安全性。
+        language:
+          title: 语言
+          description: 如果您愿意并有能力贡献貔貅其他语言版本，请<a href='mailto:services@peatio.com?subject=貔貅交易所开源多语言版本&body=我愿意为貔貅交易所贡献 .... 语言版本'>联系我们</a>。
+    otps:
+      new:
+        step_1: 第一步
+        step_2: 第二步
+        step_3: 第三步
+        or: 或
+        download_app: 下载并打开Google Authenticator应用到您的智能手机上。
+        scan_qr_code: 用手机扫瞄二维码
+        enter_passphrase: 将以下密文手动输入到手机验证器中
+        enter_passcode: 填入手机显示的动态密码以激活两步验证

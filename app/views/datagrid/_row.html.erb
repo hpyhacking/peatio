@@ -1,0 +1,5 @@
+<tr class="<%= asset.try(:state) %> <%= options[:cycle] && cycle(*options[:cycle]) %>">
+  <% grid.html_columns(*options[:columns]).each do |column| %>
+    <td class="<%= datagrid_column_classes(grid, column) %>"><%= datagrid_format_value(grid, column, asset) %></td>
+  <% end %>
+</tr>

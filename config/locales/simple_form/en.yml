@@ -1,0 +1,83 @@
+en:
+  helpers:
+    action:
+      view: View
+      customer_service: contact us
+    submit:
+      order_ask:
+        create: ASK
+      order_bid:
+        create: BID
+      document:
+        create: Create Document
+        update: Update Document
+        destroy: Destroy Document
+      member:
+        update: Open Account
+      identity:
+        save: Sign In
+        create: Sign Up
+        destroy: Sign Out
+        verify: Verify
+      otp:
+        verify: Verify
+        update: Activiate
+      activation:
+        update: Resend it to me!
+      reset_two_factor:
+        create: Reset Two Factor
+      reset_password:
+        update: 重置登录密码
+        create: 重置登录密码
+      withdraw:
+        edit: Process
+        update: Process Withdraw
+        create: Create Request
+        new: 下一步
+      withdraw_address:
+        create: Add Withdraw Address
+      deposit:
+        create: Deposit
+  simple_form:
+    "yes": 'Yes'
+    "no": 'No'
+    required:
+      text: 'required'
+      mark: '*'
+    error_notification:
+      default_message: "Please review the problems below:"
+    labels:
+      otp:
+        otp: OTP. in your Phone
+      withdraw_address:
+        label: Label
+        address: Address
+        category: Category
+      withdraw:
+        password: Password
+    placeholders:
+      defaults:
+        email: Sign In E-mail
+        password: 登录密码 (大小写字母与数字)
+        password: Password
+        otp: 2-Factor
+        name: Real Name
+        alipay: Alipay
+        price: Price
+        volume: Volume
+      document:
+        key: Document link URL key
+        title: Document Title
+      withdraw:
+        amount: Withdraw Amount
+        amount: 您想要提现的金额
+        password: 请验证登录密码
+      withdraw_address:
+        label: 法币地址标签需与本人真实姓名相符
+        address: 比特币收款地址或网银账户
+      order_bid:
+        origin_volume:  Buy Volume
+        sum: Sum
+      order_ask:
+        origin_volume:  Sell Volume
+        sum: Sum

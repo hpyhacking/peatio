@@ -1,0 +1,83 @@
+zh-CN:
+  helpers:
+    action:
+      view: 查看
+      customer_service: 联系客服
+    submit:
+      order_ask:
+        create: 卖出
+      order_bid:
+        create: 买入
+      document:
+        create: '创建文档'
+        update: '更新文档'
+        destroy: '删除文档'
+      member:
+        update: '开通账户'
+      identity:
+        save: 登录
+        create: 注册
+        destroy: 登出
+        verify: 验证
+      otp:
+        verify: 验证
+        update: 激活
+      activation:
+        update: '重新发送邮件!'
+      reset_two_factor:
+        create: 重置两步验证
+      reset_password:
+        update: 重置登录密码
+        create: 重置登录密码
+      withdraw:
+        edit: 处理
+        update: 处理提现
+        create: 提交申请
+        new: 下一步
+      withdraw_address:
+        create: 新增提现地址
+      deposit:
+        create: 充值
+  simple_form:
+    "yes": '是'
+    "no": '否'
+    required:
+      text: '必须的'
+      mark: '*'
+    error_notification:
+      default_message: "请检查以下问题:"
+    labels:
+      otp:
+        otp: 验证器上的密码
+      withdraw_address:
+        label: 标签
+        address: 地址
+        category: 种类
+      withdraw:
+        password: 登录密码
+    placeholders:
+      defaults:
+        email: 登录邮件地址
+        password: 登录密码 (大小写字母与数字)
+        password_confirmation: 重复登录密码
+        otp: 两步验证
+        name: 真实姓名
+        alipay: 支付宝地址
+        price: 价格
+        volume: 数量
+      document:
+        key: 文章连接URL键值
+        title: 文章标题
+      withdraw:
+        sum: 提现总金额
+        amount: 您想要提现的金额
+        password: 请验证登录密码
+      withdraw_address:
+        label: 支付宝姓名/银行户名与开户行/其他标签
+        address: 支付宝账户/银行卡号/收款地址
+      order_bid:
+        origin_volume:  买入数量
+        sum: 总成交金额
+      order_ask:
+        origin_volume:  卖出数量
+        sum: 总成交金额

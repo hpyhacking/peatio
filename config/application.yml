@@ -1,0 +1,50 @@
+defaults: &defaults
+  LANGUAGE_CODE: zh-CN
+  DEFAULT_MARKET: cnybtc
+
+  TESTNET: true
+
+  SERVICE_PLATFORM: olark
+
+  # sites hosts
+  URL_HOST: peatio.dev
+  URL_SCHEMA: http
+
+  # below settings only in production env
+  SMTP_DOMAIN: YOUR_SMTP_DOMAIN
+  SMTP_ADDRESS: YOUR_SMTP_ADDRESS
+  SMTP_USERNAME: YOUR_SMTP_USERNAME
+  SMTP_PASSWORD: YOUR_SMTP_PASSWORD
+
+  # system notify mail settings
+  SYSTEM_MAIL_FROM: system@peatio.dev
+  SYSTEM_MAIL_TO: group@peatio.dev
+
+  # session expire seconds
+  SESSION_EXPIRE: 120
+
+  # customer services Olark id
+  OLARK_ID: YOUR_OLARK_ID
+
+  # recaptcha settings
+  RECAPTCHA_PUBLIC_KEY: 6LfxHegSAAAAAOD6mQ1PFvXgBApsHl_oO_y9EtI9
+  RECAPTCHA_PRIVATE_KEY: 6LfxHegSAAAAAH4M8CuhJJoH8VGYswg2HI_xY5N1
+
+  # admin role account
+  ADMIN: ['admin@peatio.dev']
+
+  API_WHITELIST: []
+
+  # pusher config
+  PUSHER_APP: 65910
+  PUSHER_KEY: 50d404c35db92d736a57
+  PUSHER_SECRET: 75d6e6685209cc60cc4d
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

@@ -1,0 +1,4 @@
+.row: .col-md-12.alert
+  = datagrid_form_for @members_grid, url: admin_statistic_members_path
+.row: .col-md-12
+  = datagrid_table @members_grid, @assets

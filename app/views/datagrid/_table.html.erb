@@ -1,0 +1,30 @@
+<%#
+Local variables:
+* grid - instance of Datagrid
+* assets - Array of database Entities
+* options - passed options Hash
+%>
+<%
+  options[:html][:class] += " table"
+%>
+<%= content_tag :table, options[:html] do %>
+  <thead>
+    <%= datagrid_header(grid, options) %>
+  </thead>
+  <tbody>
+    <% if assets.empty? %>
+      <tr><td colspan="99" style="text-align:center; font-size: 32px;">......</td></tr> 
+    <% else %>
+    <%= datagrid_rows(grid, assets, options) %>
+    <% end %>
+  </tbody>
+  <% if assets && assets.respond_to?('current_page') %>
+  <tfoot>
+    <tr>
+      <td colspan=100>
+        <%= paginate(assets) %>
+      <td>
+    </tr>
+  </tfoot>
+  <% end %>
+<% end %>

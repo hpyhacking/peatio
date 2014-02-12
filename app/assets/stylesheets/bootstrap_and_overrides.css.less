@@ -1,0 +1,104 @@
+@import "bootstrap/variables";
+
+input:not([type=radio]).peatio-form-control {
+  .form-control
+}
+
+@container-sm: 940px;
+@container-md: 940px;
+@container-lg: 940px;
+
+@import "bootstrap/bootstrap";
+
+.btn {
+  .btn-lg;
+  font-size: 1em;
+  border: none !important;
+
+  &.btn-inverse {
+    background: #34495E;
+    color: white;
+  }
+
+  &.secondary {
+    background: #bdc3c7;
+    color: white;
+
+    &:hover, &:focus {
+      background: #cacfd2;
+    }
+  }
+}
+
+.label {
+  background-color: #ebedef;
+  color: #7b8996;
+  font-weight: normal;
+  margin-right: 4px;
+  padding: 5px 9px;
+}
+
+.control-inline {
+  vertical-align: top;
+  display: inline-block;
+
+  span {
+    display: block;
+    text-align: left;
+  }
+
+  & + .control-inline {
+    margin-left: 10px;
+  }
+}
+
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+  padding-top: 0px;
+}
+
+.form-horizontal {
+  .control-label {
+    padding-top: 0;
+  }
+
+  .decimal .control-label,
+  .password .control-label {
+    padding-top: 12px;
+  }
+
+  .checkbox input,
+  .radio input {
+    display: block;
+    margin-left: -30px;
+  }
+}
+
+.input-append {
+  position: relative;
+  * {
+    float: left
+  }
+
+  input {
+    -webkit-border-radius: 6px 0 0 6px;
+    -moz-border-radius: 6px 0 0 6px;
+    border-radius: 6px 0 0 6px;
+  }
+
+  @add-on-border: 1px solid #ccc;
+  .add-on:last-child {
+    -webkit-border-radius: 0 4px 4px 0;
+    -moz-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+
+    color: white;
+    min-width: 30px;
+    padding: 9px 15px;
+    border-top: @add-on-border;
+    border-right: @add-on-border;
+    border-bottom: @add-on-border;
+    box-sizing: border-box;
+  }
+}
+

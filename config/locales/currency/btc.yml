@@ -1,0 +1,10 @@
+btc:
+  number:
+    currency:
+      format:
+        delimiter: ! ','
+        format: ! '<i class=fa fa-btc></i> %n'
+        precision: 4
+        separator: .
+        significant: false
+        strip_insignificant_zeros: false

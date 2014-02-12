@@ -1,0 +1,13 @@
+defaults: &defaults
+  member:
+    tags: 
+      - hero
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

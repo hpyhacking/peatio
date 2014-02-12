@@ -1,0 +1,339 @@
+en:
+  tags:
+    vip: VIP
+    hero: Hero Member
+  markets:
+    cnybtc: CNY - BTC
+  gon:
+    ask: Ask
+    bid: Bid
+  request_accepted: 请求提交成功，请耐心等待。
+  back: Back
+  invalid_password: Invalid password
+  date:
+    formats:
+      short: '%m-%d %H:%M'
+      default: '%m/%d/%Y %H:%M'
+  time:
+    formats:
+      short: '%m-%d %H:%M'
+      default: '%m/%d/%Y %H:%M'
+  token_mailer:
+    reset_password:
+      subject: '[Peatio] Please Reset Your Password'
+    reset_two_factor:
+      subject: '[Peatio] Please Reset Your Two Factor'
+    activation:
+      subject: '[Peatio] Account Activation'
+  currency:
+    name:
+      cny: Chinese Yuan
+      btc: Bitcoin
+    code:
+      cny: CNY
+      btc: BTC
+    format:
+      zero: 'N/A'
+      cny: '0,0.00'
+      btc: '0,0.0000'
+    icon-large:
+      cny: <i class='fa fa-2x fa-yen'></i>
+      btc: <i class='fa fa-2x fa-btc'></i>
+    icon:
+      cny: <i class='fa fa-yen'></i>
+      btc: <i class='fa fa-btc'></i>
+    sum:
+      bid: Total Price <span class=bid_totle></span>%{bid_icon}
+      ask: Total Price <span class=ask_totle></span>%{bid_icon}
+  identities:
+    new:
+      title: SIGN UP
+      signin: SIGN IN
+      password: Please enter a password of at least eight, and must include uppercase and lowercase letters and numbers.
+  sessions:
+    new:
+      title: SIGN IN
+      signup: SIGN UP
+      reset_password: Forgot Password?
+    new_with_two_factor_auth:
+      title: 2 Step Verification
+      reset_two_factor: Lost 2-step-verification device
+    create_with_two_factor_auth:
+      session_expired: Session expired. Try again.
+    failure:
+      account_locked: Too many failed login attempts. To ensure the safety of your account, we have locked your account. To unlock, reset your password by clicking on "Forgot Password".
+  reset_two_factors:
+    create:
+      success: 重置两步验证邮件已经发送，请根据邮件内容进行操作。
+    edit:
+      success: 两步验证禁用成功，登录后在账户设置中可再次激活。
+  reset_passwords:
+    create:
+      success: 登录密码找回邮件已经发送，请根据邮件内容进行操作。
+    edit:
+      password: 请输入至少8位密码，并必须包含大写、小写字母与数字。
+      invalid: Invalid Request!!!
+      submit: Reset Password
+    update:
+      success: 密码已经重置，请妥善保管您的新密码。
+      invalid: Invalid Request!!!
+  shared:
+    olark:
+      welcome_title: Chat with us!
+      chatting_title: Now Chatting
+      chat_input_text: Type here and hit <enter> to chat
+  welcome:
+    cowndown: <span class='days'></span>天 <span class='hours'></span>小时 <span class='minutes'></span>分钟 <span class='seconds'></span>秒
+  private:
+    trade:
+      trades:
+        orders:
+          title: Orders
+        trades:
+          title: Trades
+        charges:
+          title: Charges
+      orders:
+        index:
+          done: Done
+          cancel: Cancel
+          confirm: "Are you sure cancel order #%{id}?"
+        destroy:
+          :true: "#%{id} Cancel Order Successful"
+          :false: "#%{id} Cancel Order Reject"
+    withdraws:
+      create:
+        request_accepted: Withdraw request accepted.
+      index:
+        fee: Fee
+        total: Total
+  activerecord:
+    models:
+      trade: Trades
+      order: Orders
+      order_ask: ASK
+      order_bid: BID
+      members_statistic: Members Statistic
+      orders_statistic: Orders Statistic
+      trades_statistic: Trades Statistic
+      deposits_statistic: Deposits Statistic
+      withdraws_statistic: Withdraws Statistic
+      member_trades_statistic: BTC统计
+      document: 文档
+      withdraw: 提现
+      deposit: 充值
+      payment_transaction: 充值
+    attributes:
+      document:
+        body: 内容
+        key: 索引键
+        title: 标题
+        is_auth: 是否登录查阅
+      withdraw_address:
+        address: 提现地址
+        category: 提现方式
+        label: 标签
+      account:
+        currency: Currency
+        currency_text: 币种 
+        balance: Balance
+        locked: Frozen
+      deposit:
+        currency-address-type: Currency - Pay type
+        state: State
+        tx_id: TX ID
+        member_id: Member ID
+        created_at: Submitted at
+        address: Address
+        address_label: Address label
+        amount: Amount
+        done_at: Completed at
+        sn: 个人识别码
+      withdraw:
+        id: ID
+        sn: 序号
+        withdraw_id: 编号
+        currency-address-type: Currency - Address type
+        address-label: Address - Label
+        amount-fee: Amount / Fee
+        fee: Fee
+        currency: Currency
+        amount: Amount
+        address: Address
+        address_label: Address label
+        address_type: Address type
+        address_type_text: Address type
+        state: Status
+        state_text: Status
+        tx_id: transaction_id
+        withdraw_address_id: Withdraw address
+        position_in_queue: Queue No.
+        detail: 金额明细
+      account_version:
+        id: 编号
+        locked: 冻结
+        amount: 金额
+        balance: 余额
+        reason: 原因
+        modifiable_id: 相关编号
+        modifiable_type: 相关数据
+        created_at : 创建日期
+      reset_password:
+        email: Sign In Email
+      trade:
+        bid: Bid
+        ask: Ask
+        fee: Fee
+        price: Strike Price
+        volume: Strike Volume
+        category: Bid/Ask
+        order: Order
+      order:
+        bid: Bid
+        ask: Ask
+        price: Price
+        total: Total
+        volume: Volume
+        origin_volume: 数量
+        sum: 总价
+        category: Bid/Ask
+        kind: 类别
+        at: 时间
+        id: 编号
+        state: 状态
+        operation: 操作
+      payment_transaction:
+        at: Date Time
+        txid: Transaction ID
+        amount: Amount
+        confirmations: Confirmations
+        state: State
+        state_done: Done
+        state_wait: Wait
+      member:
+        name: 真实姓名
+        email: 邮件地址
+        created_at: 注册时间
+        sn: 个人识别码
+        tag_list: 标签
+    errors:
+      models:
+        order_bid:
+          attributes:
+            sum:
+              expensive: 账户余额不足
+            price:
+              range: 请指定适当的价格
+        order_ask:
+          attributes:
+            origin_volume:
+              expensive: 账户余额不足
+            price:
+              range: 请指定适当的价格
+        account:
+          attributes:
+            balance:
+              less: 您的账户余额不足
+        identity:
+          attributes:
+            email:
+              invalid: 无效的邮件地址
+            password:
+              invalid: 无效的登录密码
+        reset_two_factor:
+          attributes:
+            base:
+              too_soon: 访问过于频繁，请稍后再试。
+        reset_password:
+          attributes:
+            base:
+              too_soon: 访问过于频繁，请稍后再试。
+            email:
+              match: 登录邮件地址错误。
+            password:
+              invalid: 密码格式错误
+        activation:
+          attributes:
+            base:
+              too_soon: An activation email was sent to your email address less than 5 minutes ago.
+        withdraw_address:
+          attributes:
+            label:
+              alipay_invalid: 需要与您的真实姓名绑定，请填写您注册时使用的真实姓名。
+            address:
+              satoshi_ismine: 为系统所有，请使用您所拥有的提现地址进行绑定。
+              satoshi_invalid: 格式无效，请填写正确的比特币提现地址。
+              alipay_invalid: 格式无效，请填写正确的支付宝提现地址。
+        withdraw:
+          attributes:
+            password:
+              match: invalid
+            amount:
+              poor: insufficient
+              alipay_min: 低于支付宝提现最小限额 500.00
+              alipay_max: 高于支付宝提现最大限额 5000.00
+              bank_min: 低于银行转账提现最小限额 5000.00
+      messages:
+        undef: unknown reason
+        less: balance less
+        verify: verify error
+        strength: is invalid password strength
+        password: 请输入至少8位密码并必须包含大写、小写字母与数字。
+        orders:
+          price: limit price %{l} ~ %{h}
+          sum: limit sum price %{l} ~ %{h}
+          precision: minimum precision %{p}
+  tips:
+    enable_otp: For your account security, we strongly recommend that you turn OTP login authentication. Please go to <a href='%{url}'>Security</a> set OTP.
+    empty_orders: You haven't anything orders !!! Maybe you can go to try one.
+    order_created: Order Successful !!! View your <a href='%{url}'>orders</a>.
+  header:
+    admin: Admin
+    market: Markets
+    settings: Profile
+    signin: Sign In
+    signout: Sign Out
+    signup: Sign Up
+    deposit: Deposit
+    withdraw: Withdraw
+  footer:
+    about: About
+    privacy: privacy
+    contact: Contact
+    price: Price
+  activations:
+    new:
+      tip: Activation link was sent to %{email}
+      spam: Mail maybe in your spam box, please checkout.
+    edit:
+      success: Account activated successfully! Please login below.
+  recaptcha:
+    errors:
+      verification_failed: 验证码错误，请再试试看。
+      recaptcha_unavailable: 验证时遇到错误，请稍后重试。
+  actions:
+    unlock: 解锁
+    confirm: 确认
+    back: 返回
+    block: 区块中查看地址
+    destroy: Delete
+    destroy_confirm: Are you sure delete it?
+    detail: Detail
+    publish: Publish
+    edit: Edit
+    preview: Preview
+    close: Close
+    cancel: Cancel
+    view: View
+    clipboard:
+      click: Click to copy
+      done: 复制成功
+      done: Copyed
+    reject: 驳回
+  global:
+    ask_price: Ask
+    bid_price: Bid
+    latest_price: Last
+    high_price: High
+    low_price: Low
+    volume: Volume

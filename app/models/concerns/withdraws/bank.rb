@@ -1,0 +1,21 @@
+module Concerns
+  module Withdraws
+    module Bank
+      extend ActiveSupport::Concern
+
+      def _fix_bank_fee
+        fix = 2
+        self.sum = self.sum.round(fix, 2)
+        self.fee = self.sum * '0.003'.to_d
+        self.fee = self.fee.round(fix, 2)
+      end
+
+      def _valid_bank_sum
+        unless self.sum > 5000
+          return :min
+        end
+      end
+    end
+  end
+end
+

@@ -1,0 +1,22 @@
+.row
+  .col-md-6
+    = detail_section_tag t('.member_title')
+    = detail_tag @member, field: :name
+    = detail_tag @member, field: :email
+    = detail_tag @member, field: :sn
+    = detail_tag @member, field: :created_at
+    = detail_tag @member, field: :tag_list
+    = detail_section_tag t('.actions_title')
+    - BaseConfig.member.tags.each do |k|
+      = link_to member_path(@member, tag: k), method: :patch, class: 'btn btn-success' do
+        = member_tag(k)
+  .col-md-6
+    - @member.accounts.each do |a|
+      = detail_section_tag "#{a.currency_text} #{t('.accounts_title')}"
+      = detail_tag a, field: :currency_text
+      = detail_tag a, field: :balance
+      = detail_tag a, field: :locked
+.row
+  .col-md-12
+    = detail_section_tag t('.account_versions_title')
+    = datagrid_table(@account_versions_grid, @assets, html: {:class => 'datagrid table-striped table-hover account_versions_grid'})

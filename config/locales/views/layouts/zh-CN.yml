@@ -1,0 +1,17 @@
+zh-CN:
+  layouts:
+    admin:
+      menus:
+        sections:
+          members: 用户管理
+          deposits: 充值通道
+          sites_statistics: 数据统计
+          operating: 运营管理
+        items:
+          operating:
+            documents: 文档管理
+            withdraws: 提现管理
+          deposits:
+            currency: 法币充值
+    application:
+      close: 关闭

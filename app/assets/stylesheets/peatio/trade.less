@@ -1,0 +1,206 @@
+#market {
+  .col-md-3, .col-md-9 {
+    padding-left: 0;
+  }
+
+  .orders {
+    tr:hover {
+      cursor: pointer;
+      text-shadow: @main-color -1px 0px;
+    }
+
+    td {
+      padding: 2px;
+      border: none;
+    }
+  }
+
+  .orders, .trades {
+    margin-top: 15px;
+
+    h3.title, h3.last {
+      font-size: 20px;
+      text-align: right;
+      padding-right: 76px;
+      margin-bottom: 9px;
+    }
+
+    i.fa.fa-external-link {
+      color: @main-color;
+      font-size: 16px;
+      position: absolute;
+      padding-left: 8px;
+      padding-top: 7px;
+    }
+
+    h3.last {
+      height: 23px;
+      color: @bid-color;
+      &.up { color: @ask-color; }
+      margin-bottom: 5px;
+      margin-top: 3px;
+    }
+
+    &:first-of-type { margin-top: 11px; }
+
+    table tr.empty { height: 19px; }
+
+    table td {
+      font-size: 14px;
+      line-height: 14px !important;
+
+      &.title { text-align: right; width: 40px; padding-right: 20px !important; }
+      &.amount { width: 76px; }
+      &.price, &.amount { text-align: right; font-family: monospace; }
+      &.up, &.ask { color: @ask-color; }
+      &.down, &.bid { color: @bid-color; }
+
+      &.sn, &.time { & > g { font-size: 12px; } }
+    }
+  }
+
+  .trade-wrapper {
+    .slider-wrapper {
+      padding: 5px 40px;
+    }
+
+    [data-order='bid'],  {
+      span.add-on, 
+      input[type='submit'] {
+        background-color: @bid-color;
+      }
+    }
+
+    [data-order='ask'] {
+      span.add-on, 
+      input[type='submit'] {
+        background-color: @ask-color;
+      }
+    }
+
+    .account-wrapper {
+      .order-funds {
+        padding: 5px 40px;
+        .box-sizing(border-box);
+        span {
+          font-size: 20px;
+        }
+        border-left: 1px solid #f2f2f2;
+        border-right: 1px solid #f2f2f2;
+      }
+      .available-funds {
+        padding: 20px 40px;
+        padding-bottom: 0px;
+        .box-sizing(border-box);
+        border-left: 1px solid #f2f2f2;
+        border-right: 1px solid #f2f2f2;
+
+        .col-md-2 { margin-top: 7px; text-align: center; }
+        .col-md-2 > i.fa { font-size: 26px; color: @ignore-color; }
+
+        span, i {
+          font-size: 30px;
+          font-weight: bold;
+        }
+      }
+      .locked-funds {
+        span, i {
+          margin: 0px 2px;
+          font-size: 18px;
+          line-height: 28px;
+          color: @ignore-color;
+        }
+
+        padding: 8px 10px;
+        background-color: @main-color;
+        .box-sizing(border-box);
+      }
+
+      .available-funds {
+      }
+    }
+    .order-wrapper {
+      background-color: #f2f2f2;
+      padding: 30px 0px 20px;
+      margin-bottom: 10px;
+
+      form {
+        .help-inline { padding-left: 0px; text-align: center; }
+        .controls { height: 65px; }
+        margin-left: 30px;
+        margin-right: 30px;
+        label.string { text-align: center; }
+        input.string { width: 163px; }
+
+        .input-append {
+          width: 177px;
+          cursor: pointer;
+          input.string { width: 119px; }
+        }
+
+        input.btn.btn-success {
+          margin-right: 1px;
+        }
+
+        [class^=fui-] {
+          font-size: 20px;
+          margin: 32px 6px;
+        }
+
+        span.label {
+          margin-top: 14px;
+          position: absolute;
+        }
+        span.label-info {
+          left: 50px;
+        }
+        span.label-success, span.label-important { 
+          right: 195px;
+        }
+      }
+    }
+    .history-wrapper {
+      h3.title {
+        text-align: center;
+        margin-top: 20px !important;
+        font-size: 20px;
+        border-bottom: 1px solid #f2f2f2;
+        padding-bottom: 4px;
+      }
+      table {
+        tr.empty-row > td {
+          text-align: center;
+          font-size: 20px;
+          background: none;
+        }
+        th.id { width: 60px; }
+        th.at { width: 140px; }
+        th.kind { width: 50px; }
+        th.price, td.price { text-align: right; width: 70px; }
+        th.volume, td.volume { text-align: right; width: 197px; margin-right: 10px !important; }
+        th.state, td.state { width: 80px; text-align: right;}
+        th.operation, td.operation { width: 55px; text-align: center;}
+      }
+    }
+  }
+
+  .tabbable {
+    margin-left: 4px;
+    .nav {
+      a {
+        width: 110px;
+        height: inherit;
+      }
+
+      li:not(.active) a {
+        &:hover, &:focus {
+          background-color: transparent;
+        }
+      }
+    }
+
+    .tab-pane {
+      overflow: hidden;
+    }
+  }
+}

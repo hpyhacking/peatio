@@ -1,0 +1,57 @@
+.content.row
+  .profile
+    .picture
+      i.fa.fa-user
+    .summary
+      p = current_user.email
+      p
+        - current_user.tag_list.each do |key|
+          span.label.label-info
+            = member_tag(key)
+      p = t('.safety_instruction')
+  ul
+    li
+      .title
+        i.fa.fa-list
+        = t('.account_versions.title')
+      .description
+        = t('.account_versions.description')
+      .actions
+        a.btn.btn-inverse href='#{account_versions_path}' = t('.account_versions.view')
+    li
+      .title
+        i.fa.fa-superscript
+        = t('.two_factor_auth.title')
+      .description
+        = t('.two_factor_auth.description')
+      .actions
+        - if @two_factor_auth_enabled
+          a.btn.btn-inverse data-toggle="modal" href="#reauth" = t('.two_factor_auth.disable')
+        -else
+          = link_to t('.two_factor_auth.configure'), new_otp_path, class: 'btn btn-inverse'
+    li
+      .title
+        i.fa.fa-key
+        = t('.passwords.title')
+      .description
+        = t('.passwords.description')
+      .actions
+        = link_to t('.reset_password'), new_reset_password_path, class: 'btn btn-inverse'
+    li
+      .title
+        i.fa.fa-font
+        = t('.language.title')
+      .description
+        == t('.language.description')
+
+#reauth.modal.hide.fade
+  .modal-header
+    button.close aria-hidden="true" data-dismiss="modal" type="button"
+    h3 = t('.reauthenticate')
+  .modal-body
+    = form_tag otp_path, :method => :delete do
+      .control-inline.control-group
+        = password_field_tag :password, nil, placeholder: t('simple_form.placeholders.defaults.password')
+      .control-inline.control-group
+        = submit_tag t('.two_factor_auth.disable'), class: 'btn btn-inverse'
+

@@ -1,0 +1,11 @@
+footer.bottom-menu.bottom-menu-inverse: .container: .row
+  .col-md-5: ul.bottom-links
+    li
+      = document_to(title: t('footer.price'), key: 'price-details')
+    li
+      = document_to(title: t('footer.contact'), key: 'contact-us')
+  #brand.col-md-2: a href='#{main_app.root_path}' PEATIO
+  .col-md-5: .bottom-icons.pull-right
+    li: a href="#{main_app.root_path(:lang => 'zh-CN')}" 中文
+    li: a href="#{main_app.root_path(:lang => 'en')}" English
+    li: a target='_blank' href='http://www.miitbeian.gov.cn' 京ICP备13047168

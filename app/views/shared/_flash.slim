@@ -1,0 +1,10 @@
+-if flash[:error]
+  #error.dialog.dialog-danger
+    span.text-error
+      = flash[:error]
+    button.btn data-dismiss="alert" x
+-if flash[:notice]
+  #notice.dialog.dialog-success
+    span.text-primary
+      = flash[:notice]
+    button.btn data-dismiss="alert" x

@@ -1,0 +1,5 @@
+.row: .col-md-12.alert
+  = datagrid_form_for @orders_grid, url: admin_statistic_orders_path
+  = render partial: "datagrid/group", locals: {groups: @groups}
+.row: .col-md-12
+  = datagrid_table(@orders_grid, @assets)

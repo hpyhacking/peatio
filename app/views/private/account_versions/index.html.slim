@@ -1,0 +1,9 @@
+.content.row
+  .profile
+    .picture
+      i.fa.fa-list
+    .summary
+      p = t('.description')
+      = datagrid_form_for @account_versions_grid, url: account_versions_path
+  .versions
+    = datagrid_table(@account_versions_grid, @assets, html: {:class => 'datagrid table-striped table-hover account_versions_grid'})

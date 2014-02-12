@@ -1,0 +1,32 @@
+en:
+  admin:
+    members:
+      show:
+        member_title: 用户信息
+        actions_title: 操作
+        accounts_title: 账户信息
+        account_versions_title: 账户记录
+    dashboard:
+      index:
+        accounts_title: Accounts summary
+        daemons_title: Daemons summary
+    documents:
+      index:
+        new: New document
+    currency_deposits:
+      new:
+        deposit: 充值
+        accounts_title: 账户信息
+      create:
+        success: 'Alipay Charge Successful.'
+    withdraws:
+      withdraw:
+        member_title: Member accounts
+        withdraw_title: Withdraws
+      show:
+        title: Manage withdraws
+        actions_title: Available actions
+      update:
+        success: Withdraw processed
+      destroy:
+        success: Withdraw rejected

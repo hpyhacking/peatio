@@ -1,0 +1,9 @@
+.content.row
+  h3.text-center 新增提现地址
+  = simple_form_for @withdraw_address, :html => {:class => 'max-width'} do |f|
+    = f.input :label
+    = f.input :address
+    = f.input :category, prompt: "请选择"
+    .control-group: .controls
+      p: span 提示：法币提现地址标签需填写本人<b>真实姓名</b>。 <span class='text-warning'>姓名不符的提现请求将被驳回</span>
+      = f.button :submit

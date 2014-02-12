@@ -1,0 +1,21 @@
+.row
+  .step
+    h3 = t('.step-1')
+    p = t('.open-wallet')
+
+  .step
+    h3 = t('.step-2')
+    p = t('.send-coin')
+    p
+      h5.label = @address.address
+      a.label data-clipboard-text='#{@address.address}': i.fa.fa-copy
+      br
+      == link_to_block(@address)
+    .divider
+      = t('.or')
+    p = t('.scan-qr')
+    = qr_tag(@address.address)
+
+  .step
+    h3 = t('.step-3')
+    p = t('.check-confirm')

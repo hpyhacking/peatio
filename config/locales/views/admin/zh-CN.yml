@@ -1,0 +1,32 @@
+zh-CN:
+  admin:
+    members:
+      show:
+        member_title: 用户信息
+        actions_title: 操作
+        accounts_title: 账户信息
+        account_versions_title: 账户记录
+    dashboard:
+      index:
+        accounts_title: 账户汇总
+        daemons_title: 系统汇总
+    documents:
+      index:
+        new: 新建文档
+    currency_deposits:
+      new:
+        deposit: 充值
+        accounts_title: 账户信息
+      create:
+        success: 充值成功
+    withdraws:
+      withdraw:
+        member_title: 用户账户信息
+        withdraw_title: 提现请求信息
+      show:
+        title: 处理提现
+        actions_title: 可执行操作
+      update:
+        success: 提现已经开始处理
+      destroy:
+        success: 提现已经被驳回
