@@ -1,5 +1,5 @@
 #! /bin/sh
- 
+
 ### BEGIN INIT INFO
 # Provides:          unicorn
 # Required-Start:    $all
@@ -9,14 +9,14 @@
 # Short-Description: starts the unicorn web server
 # Description:       starts unicorn
 ### END INIT INFO
- 
+
 # Change these to match your app:
 USER=deploy
-APP_NAME=current
-APP_PATH=/var/www/peat.io
+APP_NAME=peatio
+APP_PATH=/home/deploy/www
 ENV=production
-RBENV_RUBY_VERSION=2.0.0-p247
- 
+RBENV_RUBY_VERSION=2.1.0
+
 # env
 APP_ROOT="$APP_PATH/$APP_NAME"
 RBENV_ROOT="/home/$USER/.rbenv"
@@ -29,17 +29,17 @@ NAME=unicorn
 DESC="Unicorn app for peatio"
 PID="$APP_ROOT/tmp/pids/unicorn.pid"
 OLD_PID="$PID.oldbin"
- 
+
 cd $APP_ROOT || exit 1
- 
+
 sig () {
         test -s "$PID" && kill -$1 `cat $PID`
 }
- 
+
 oldsig () {
         test -s $OLD_PID && kill -$1 `cat $OLD_PID`
 }
- 
+
 case ${1-help} in
 start)
         sig 0 && echo >&2 "Already running" && exit 0
@@ -72,5 +72,5 @@ rotate)
         exit 1
         ;;
 esac
- 
+
 exit 0
