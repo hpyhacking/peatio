@@ -4,8 +4,6 @@ defaults: &defaults
 
   TESTNET: true
 
-  SERVICE_PLATFORM: olark
-
   # sites hosts
   URL_HOST: peatio.dev
   URL_SCHEMA: http
