@@ -5,7 +5,6 @@
 
 
 * Exchange: https://peatio.com/
-* Testnet Exchange: https://peat.io/
 
 ## Development
 
