@@ -103,30 +103,17 @@ Peatio supports the following databases:
     # Type the database root password
 
     # Create a user for Peatio
-    # do not type the 'mysql>', this is part of the prompt
     # change $password in the command below to a real password you pick
-    mysql> CREATE USER 'peatio'@'localhost' IDENTIFIED BY '$password';
+    CREATE USER 'peatio'@'localhost' IDENTIFIED BY '$password';
 
     # Create the PeatioPeatio production database
-    mysql> CREATE DATABASE IF NOT EXISTS `peatio_production` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;
+    CREATE DATABASE IF NOT EXISTS `peatio_production` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;
 
     # Grant the Peatio user necessary permissions on the table.
-    mysql> GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `peatio_production`.* TO 'peatio'@'localhost';
+    GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `peatio_production`.* TO 'peatio'@'localhost';
 
     # Quit the database session
     mysql> \q
-
-    # Try connecting to the new database with the new user
-    mysql -u peatio -p -D peatio_production
-
-    # Type the password you replaced $password with earlier
-
-    # You should now see a 'mysql>' prompt
-
-    # Quit the database session
-    mysql> \q
-
-    # You are done installing the database and can go back to the rest of the installation.
 
 
 ## 4. Redis
@@ -134,7 +121,7 @@ Peatio supports the following databases:
 Be sure to install the latest stable Redis, as the package in the distro may be a bit old:
 
     sudo apt-add-repository -y ppa:rwky/redis
-    sudo apt-get update && sudo apt-get install redis-server
+    sudo apt-get update && sudo apt-get install -y redis-server
 
 
 ## 5. Nginx
@@ -142,13 +129,13 @@ Be sure to install the latest stable Redis, as the package in the distro may be 
 We recommend the latest version of nginx (we like the new and shiny). To install on Ubuntu:
 
     # Remove any existing versions of nginx
-	sudo apt-get remove '^nginx.*$'
+    sudo apt-get remove '^nginx.*$'
 
-	# Add nginx key
+    # Add nginx key
     curl http://nginx.org/keys/nginx_signing.key | sudo apt-key add -
 
-	# Setup a sources.list.d file for the nginx repository and insert the following lines
-	sudo vim /etc/apt/sources.list
+    # Setup a sources.list.d file for the nginx repository and insert the following lines
+    sudo vim /etc/apt/sources.list
 
     deb http://nginx.org/packages/ubuntu/ precise nginx
     deb-src http://nginx.org/packages/ubuntu/ precise nginx
@@ -161,11 +148,10 @@ We recommend the latest version of nginx (we like the new and shiny). To install
 ##### install bitcoind
 
     sudo add-apt-repository ppa:bitcoin/bitcoin
-    sudo apt-get update && sudo apt-get install bitcoind
+    sudo apt-get update && sudo apt-get install -y bitcoind
 
 By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin data directory `$HOME/.bitcoin/`.
 
-	# Edit an empty ~/.bitcoin/bitcoin.conf file
     mkdir ~/.bitcoin
     vim ~/.bitcoin/bitcoin.conf
 
@@ -174,6 +160,9 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
     daemon=1
     rpcusername=INVENT_A_UNIQUE_USERNAME
     rpcpassword=INVENT_A_UNIQUE_PASSWORD
+
+    # If run on the test network instead of the real bitcoin network
+    testnet=1
 
 #### Start Bitcoind
 
@@ -184,8 +173,8 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
 
 #### Clone the Source
 
-	# install peatio to ~/www/peatio
-	mkdir ~/www
+    # install peatio to ~/www/peatio
+    mkdir ~/www
     cd ~/www
     git clone git@github.com:peatio/peatio.git
 
@@ -193,22 +182,22 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
     cd ~/www/peatio
 
     ＃ Install necessary gems
-    bundle install
+    bundle install --without development test
+
 
 #### Configure Peatio
-
 
 **Database:**
 
     vim config/database.yml
-    
+
     # Sample of database.yml
     production:
       adapter: mysql2
       database: peatio_production
       username: peatio
       password: your_password_of_db
-      
+
     # Initialize the database
     RAILS_ENV=production bundle exec rake db:setup
 
@@ -218,17 +207,13 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
 
 **Unicorn:**
 
-    sudo ln -s config/peatio.nginx.conf /etc/nginx/sites-enabled/peatio.nginx.conf
+    sudo mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.disabled
+    sudo cp /home/deploy/www/peatio/config/nginx.conf /etc/nginx/conf.d/peatio.conf
+    sudo cp config/unicorn_peatio.sh /etc/init.d/peatio
+    sudo chmod +x /etc/init.d/peatio
 
 #### Run Peatio
 
-
-
-
-
-
-
-
-
-
+    sudo service nginx restart
+    sudo /etc/init.d/unicorn_peatio.sh start
 
