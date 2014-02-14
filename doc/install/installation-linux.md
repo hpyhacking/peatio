@@ -185,7 +185,7 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
     bundle install --without development test
 
 
-#### Configure Peatio
+#### Configure Peatio and run
 
 **Database:**
 
@@ -205,15 +205,20 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
 
     TODO
 
-**Unicorn:**
+**Nginx:**
 
     sudo mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.disabled
     sudo cp /home/deploy/www/peatio/config/nginx.conf /etc/nginx/conf.d/peatio.conf
-    sudo cp config/unicorn_peatio.sh /etc/init.d/peatio
-    sudo chmod +x /etc/init.d/peatio
-
-#### Run Peatio
-
     sudo service nginx restart
-    sudo /etc/init.d/unicorn_peatio.sh start
+
+**Unicorn:**
+
+    RAILS_ENV=production bundle exec rake assets:precompile
+    bundle exec unicorn_rails -E production -c config/unicorn.rb -D
+
+**Resque:**
+
+    RAILS_ENV=production rake environment resque:work QUEUE=* PIDFILE=/home/deploy/www/peatio/tmp/pids/resque.pid &
+
+
 
