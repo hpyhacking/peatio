@@ -20,10 +20,9 @@ https://peatio.com/
 ** More details are in the [requirements doc](doc/install/requirements.md)
 
 
-### Installation
+### Getting start
 
-* [Manual installation guide for production server](doc/install/installation.md)
-
+* [Developing document](doc/install/development.md)
 
 ### Contributing
 
