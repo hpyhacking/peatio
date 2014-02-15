@@ -1,5 +1,5 @@
-Developing under OS X
----------------------
+Developing document for Mac and Linux
+-------------------------------------
 
 The Peatio installation consists of setting up the following components:
 
@@ -17,6 +17,8 @@ The Peatio installation consists of setting up the following components:
 * Redis
 * PhatomJS
 * qrencode
+
+** More details are in the [requirements doc](doc/install/requirements.md)
 
 ##### Install PhatomJS
 
