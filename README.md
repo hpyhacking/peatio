@@ -1,6 +1,5 @@
 Peatio: Open Source Bitcoin Exchange
 =====================================
-https://peatio.com/
 
 ![logo](public/peatio.png)
 
