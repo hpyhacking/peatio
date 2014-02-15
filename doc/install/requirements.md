@@ -64,6 +64,8 @@ If you run bitcoind at local, the necessary hard drive space largely depends on 
 
 **Install PhantomJS**
 
+    sudo apt-get install -y libfontconfig libfontconfig-dev libfreetype6-dev
+
 * Download the [32 bit](https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-i686.tar.bz2)
 or [64 bit](https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-x86_64.tar.bz2)
 binary.
