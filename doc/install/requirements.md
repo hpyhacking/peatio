@@ -1,11 +1,11 @@
 Operating Systems
 -----------------
 
-Peatio is developed for Mac and Linux operating system, Ubuntu 12.04 TLS is recommended.
+Peatio is developed for Mac and Linux operating system, Ubuntu 12.04 LTS is recommended.
 
 ## Officially supports
 
-* Ubuntu Linux 12.04 TLS
+* Ubuntu Linux 12.04 LTS
 * Mac OS X Mavericks
 
 ## Ruby versions
