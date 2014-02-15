@@ -3,18 +3,6 @@
     padding-left: 0;
   }
 
-  .orders {
-    tr:hover {
-      cursor: pointer;
-      text-shadow: @main-color -1px 0px;
-    }
-
-    td {
-      padding: 2px;
-      border: none;
-    }
-  }
-
   .orders, .trades {
     margin-top: 15px;
 
@@ -56,6 +44,16 @@
       &.down, &.bid { color: @bid-color; }
 
       &.sn, &.time { & > g { font-size: 12px; } }
+    }
+
+    tr:hover {
+      cursor: pointer;
+      text-shadow: @main-color -1px 0px;
+    }
+
+    td {
+      padding: 2px;
+      border: none;
     }
   }
 
