@@ -95,14 +95,14 @@ binary.
 
 ##### Configuration
 
-**Database:**
+**Config database settings:**
 
     vim config/database.yml
 
     # Initialize the database and load the seed data
     bundle exec rake db:setup
 
-**E-mail:**
+**Config email smtp settins:**
 
     TODO
 
