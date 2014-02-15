@@ -113,10 +113,9 @@ binary.
     rake environment resque:work QUEUE=*
     rails server
 
-**visit websiete:**
+**visit websiete:** [http://localhost:3000](http://localhost:3000)
 
-visit url: http://localhost:3000
-user: admin@peatio.dev
-pass: Pass@word8
+    user: admin@peatio.dev
+    pass: Pass@word8
 
 
