@@ -1,14 +1,13 @@
-development:
+development: &defaults
   adapter: mysql2
   database: peatio_development
   username: root
+  password: password
 
 test:
-  adapter: mysql2
+  <<: *defaults
   database: peatio_test
-  username: root
 
 production:
-  adapter: mysql2
-  database: peatio_development
-  username: root
+  <<: *defaults
+  database: peatio_production
