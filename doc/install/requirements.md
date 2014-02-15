@@ -1,9 +1,9 @@
 Operating Systems
 -----------------
 
-Peatio is developed for Mac and Linux operating system.
+Peatio is developed for Mac and Linux operating system, Ubuntu 12.04 TLS is recommended.
 
-## officially supports
+## Officially supports
 
 * Ubuntu Linux 12.04 TLS
 * Mac OS X Mavericks
@@ -42,19 +42,39 @@ If you run bitcoind at local, the necessary hard drive space largely depends on 
 
 ## Development Dependencies
 
+* Peatio use [Phantomjs](http://phantomjs.org/) to test JavaScript.
+* Peatio use [qrencode](http://fukuchi.org/works/qrencode/index.html.en) to generate QR Code.
+
 #### For Mac
 
+**Install PhantomJS**
 
-**Install dependencies using Homebrew**
+    # Install dependencies using Homebrew
+    brew install phantomjs
 
-    brew install qt4 qrencode
+** More details are in the [poltergeist](https://github.com/jonleighton/poltergeist/blob/master/README.md) doc.
+
+**Install qrencode**
+
+    # Install dependencies using Homebrew
+    brew install phantomjs qrencode
 
 
 #### For Ubuntu
 
-**Install dependencies using apt**
+**Install PhantomJS**
 
-    sudo apt-get install libqtwebkit-dev
+* Download the [32 bit](https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-i686.tar.bz2)
+or [64 bit](https://phantomjs.googlecode.com/files/phantomjs-1.9.2-linux-x86_64.tar.bz2)
+binary.
+* Extract the tarball and copy `bin/phantomjs` into your `PATH`
+
+** More details are in the [poltergeist](https://github.com/jonleighton/poltergeist/blob/master/README.md) doc.
+
+
+**Install qrencode**
+
+    sudo apt-get install qrencode libqrencode-dev
 
 
 ## Support

@@ -14,11 +14,11 @@ The Peatio installation consists of setting up the following components:
 
 ## 1. Packages / Dependencies
 
-Create (if it doesn’t already exist) a deploy user, and assign it to the sudo group, then re-login as deploy user
+Create (if it doesn’t already exist) a deploy user, and assign it to the sudo group
 
     adduser deploy
     usermod -a -G sudo deploy
-    logout
+    logout # and re-login as deploy user
 
 Make sure your system is up-to-date and install it.
 
@@ -31,23 +31,9 @@ Make sure your system is up-to-date and install it.
     # for Ubuntu >= 12.10
     sudo apt-get install software-properties-common
 
-**Note:**
-During this installation some files will need to be edited manually.
-If you are familiar with vim set it as default editor with the commands below.
-If you are not familiar with vim please skip this and keep using the default editor.
-
-    # Install vim and set as default editor
-    sudo apt-get install -y vim
-    sudo update-alternatives --set editor /usr/bin/vim.basic
-
 Install the required packages:
 
-    sudo apt-get install curl qrencode libqrencode-dev
-
-Make sure you have Git installed
-
-    # Install Git
-    sudo apt-get install -y git-core
+    sudo apt-get install -y curl qrencode libqrencode-dev git-core
 
 
 ## 2. Ruby
