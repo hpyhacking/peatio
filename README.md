@@ -1,4 +1,4 @@
-Peatio: Open Source Bitcoin Exchange
+Peatio: An open-source crypto currency exchange
 =====================================
 
 ![logo](public/peatio.png)
