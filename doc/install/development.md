@@ -49,7 +49,7 @@ binary.
 
 ## 2. Bitcoind
 
-##### Install bitcoind
+#### Install bitcoind
 
 **For Mac**
 
@@ -61,11 +61,10 @@ Download and Install [Bitcoin](http://bitcoin.org/en/download)
     sudo apt-get update
     sudo apt-get install -y bitcoind
 
-##### Configure bitcoind
+#### Configure bitcoind
 
-Put following lines into your to your bitcoin configure file:
+Insert the following lines into your bitcoin.conf, and replce with your username and password.
 
-    # Insert the following code in it, and replce with your username and password
     server=1
     daemon=1
     rpcusername=INVENT_A_UNIQUE_USERNAME
@@ -84,7 +83,7 @@ Put following lines into your to your bitcoin configure file:
     ~/.bitcoin/bitcoin.conf
 
 
-##### Start Bitcoind
+#### Start Bitcoind
 
 **For Mac**
 
