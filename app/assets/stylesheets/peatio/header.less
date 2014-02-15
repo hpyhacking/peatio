@@ -70,20 +70,25 @@ header.navbar {
     }
   }
 
+  #menu.navbar {
+    margin-bottom: 0;
+    .icon-bar {
+      background: white;
+    }
+  }
   #menu.navbar-inner {
     background-color: @main-color;
     border-bottom: 4px solid @focus-color;
     .border-radius;
     .box-sizing(border);
 
+    .nav.navbar-nav.right-section {
+      float: right;
+    }
+
     .nav:first-of-type > li {
       border-right: 0px dashed @ignore-color;
       &.active { background-color: @focus-color; }
-    }
-
-    .navbar-nav > li > a {
-      padding-top: 30px;
-      padding-bottom: 30px;
     }
 
     .nav > li > a:hover,
