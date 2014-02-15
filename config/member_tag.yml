@@ -1,7 +1,7 @@
 defaults: &defaults
-  member:
-    tags: 
-      - hero
+  tags: 
+    - vip
+    - hero
 
 development:
   <<: *defaults

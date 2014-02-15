@@ -10,7 +10,7 @@ module Admin
     end
 
     def update
-      raise unless BaseConfig.member.tags.include? params[:tag]
+      raise unless MemberTag.tags.include? params[:tag]
       if @member.tag_list.include? params[:tag]
         @member.tag_list.remove params[:tag]
       else

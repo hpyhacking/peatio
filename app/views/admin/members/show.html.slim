@@ -7,7 +7,7 @@
     = detail_tag @member, field: :created_at
     = detail_tag @member, field: :tag_list
     = detail_section_tag t('.actions_title')
-    - BaseConfig.member.tags.each do |k|
+    - MemberTag.tags.each do |k|
       = link_to member_path(@member, tag: k), method: :patch, class: 'btn btn-success' do
         = member_tag(k)
   .col-md-6
