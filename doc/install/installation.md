@@ -1,4 +1,5 @@
-## Overview
+Overview
+--------
 
 The Peatio installation consists of setting up the following components:
 
@@ -41,7 +42,7 @@ If you are not familiar with vim please skip this and keep using the default edi
 
 Install the required packages:
 
-    sudo apt-get install curl qrencode libqrencode-dev libqtwebkit-dev
+    sudo apt-get install curl qrencode libqrencode-dev
 
 Make sure you have Git installed
 
