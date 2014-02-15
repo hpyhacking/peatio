@@ -67,7 +67,7 @@ Insert the following lines into your bitcoin.conf, and replce with your username
 
     server=1
     daemon=1
-    rpcusername=INVENT_A_UNIQUE_USERNAME
+    rpcuser=INVENT_A_UNIQUE_USERNAME
     rpcpassword=INVENT_A_UNIQUE_PASSWORD
 
     # If run on the test network instead of the real bitcoin network
