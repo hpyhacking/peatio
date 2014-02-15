@@ -86,7 +86,7 @@ Peatio supports the following databases:
 * MySQL (preferred)
 * TODO: PostgreSQL
 
-#### MySQL
+##### MySQL
 
     # Install the database packages
     sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev
@@ -164,14 +164,14 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
     # If run on the test network instead of the real bitcoin network
     testnet=1
 
-#### Start Bitcoind
+##### Start Bitcoind
 
     bitcoind
 
 
 ## 7. Peatio
 
-#### Clone the Source
+##### Clone the Source
 
     # install peatio to ~/www/peatio
     mkdir ~/www
@@ -185,7 +185,7 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
     bundle install --without development test
 
 
-#### Configure Peatio and run
+##### Configure Peatio and run
 
 **Database:**
 

@@ -45,15 +45,7 @@ Peatio is released under the terms of the MIT license. See [http://peatio.mit-li
 
 ### Installation
 
-##### Official installation guide
-
-* [Manual installation guide for Mac OSX](doc/install/installation-mac.md)
-* [Manual installation guide for Linux](doc/install/installation-linux.md)
-
-
-##### Third party one-click installers
-
-* TODO
+* [Manual installation guide for production server](doc/install/installation.md)
 
 
 ### Contributing
