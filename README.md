@@ -1,11 +1,11 @@
 Peatio: An open-source crypto currency exchange
 =====================================
 
-![logo](public/peatio.png)
-
 ### What is Peatio?
 
 [Peatio](http://en.wikipedia.org/wiki/Pixiu) (Chinese: 貔貅) is a Chinese mythical hybrid creature considered to be a very powerful protector to practitioners of Feng Shui.
+
+![logo](public/peatio.png)
 
 ### Requirements
 
