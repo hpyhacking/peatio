@@ -16,6 +16,7 @@ The Peatio installation consists of setting up the following components:
 * MySQL
 * Redis
 * PhatomJS
+* qrencode
 
 ** More details are in the [requirements](doc/install/requirements.md)
 
@@ -56,7 +57,7 @@ The Peatio installation consists of setting up the following components:
 
 **Resque:**
 
-    rake environment resque:work QUEUE=* PIDFILE=/home/deploy/www/peatio/tmp/pids/resque.pid
+    rake environment resque:work QUEUE=*
     rails server
 
 
