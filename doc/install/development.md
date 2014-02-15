@@ -106,6 +106,10 @@ binary.
 
     TODO
 
+##### Load the seed data
+
+    rake db:seed
+
 #### Run Peatio
 
 **Resque:**
@@ -113,5 +117,10 @@ binary.
     rake environment resque:work QUEUE=*
     rails server
 
+**visit websiete:**
+
+    visit url: http://localhost:3000
+    user: admin@peatio.dev
+    pass: Pass@word8
 
 
