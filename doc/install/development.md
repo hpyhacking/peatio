@@ -53,7 +53,7 @@ binary.
 
 **For Mac**
 
-    TODO
+Download and Install [Bitcoin](http://bitcoin.org/en/download)    
 
 **For Linux**
 
@@ -63,14 +63,7 @@ binary.
 
 ##### Configure bitcoind
 
-**For Mac**
-
-    TODO
-
-**For Linux**
-
-    mkdir ~/.bitcoin
-    vim ~/.bitcoin/bitcoin.conf
+Put following lines into your to your bitcoin configure file:
 
     # Insert the following code in it, and replce with your username and password
     server=1
@@ -81,7 +74,23 @@ binary.
     # If run on the test network instead of the real bitcoin network
     testnet=1
 
+
+**For Mac**
+
+    ~/Library/Application Support/Bitcoin/bitcoin.conf
+
+**For Linxu**
+
+    ~/.bitcoin/bitcoin.conf
+
+
 ##### Start Bitcoind
+
+**For Mac**
+
+    open /Applications/Bitcoin-Qt.app --args -server
+
+**For Linux**
 
     bitcoind
 
