@@ -92,26 +92,23 @@ binary.
     cd peatio
     bundle install
 
-
-##### Configuration
-
-**Config database settings:**
+##### Config database settings:
 
     vim config/database.yml
 
     # Initialize the database and load the seed data
     bundle exec rake db:setup
 
-**Config email smtp settins:**
+##### Config email smtp settins:
 
     TODO
 
-#### Run Peatio
+##### Run Peatio
 
     rake environment resque:work QUEUE=*
     rails server
 
-**visit websiete:** [http://localhost:3000](http://localhost:3000)
+##### Visit [http://localhost:3000](http://localhost:3000)
 
     user: admin@peatio.dev
     pass: Pass@word8
