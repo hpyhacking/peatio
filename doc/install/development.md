@@ -108,8 +108,6 @@ binary.
 
 #### Run Peatio
 
-**Resque:**
-
     rake environment resque:work QUEUE=*
     rails server
 
