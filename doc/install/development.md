@@ -99,16 +99,12 @@ binary.
 
     vim config/database.yml
 
-    # Initialize the database
+    # Initialize the database and load the seed data
     bundle exec rake db:setup
 
 **E-mail:**
 
     TODO
-
-##### Load the seed data
-
-    rake db:seed
 
 #### Run Peatio
 
@@ -119,8 +115,8 @@ binary.
 
 **visit websiete:**
 
-    visit url: http://localhost:3000
-    user: admin@peatio.dev
-    pass: Pass@word8
+visit url: http://localhost:3000
+user: admin@peatio.dev
+pass: Pass@word8
 
 
