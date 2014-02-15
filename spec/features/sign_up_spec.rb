@@ -31,7 +31,7 @@ describe 'Sign up', js: true do
 
   it 'allows a user to sign up and activate the account in a different browser' do
     fill_in_sign_up_form
-    Capybara.current_session.driver.browser.clear_cookies
+    clear_cookie
     visit email_activation_link
     expect(page).to have_content(I18n.t('activations.edit.success'))
 

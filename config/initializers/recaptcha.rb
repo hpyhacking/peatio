@@ -9,7 +9,7 @@ module Recaptcha
       if Rails.env.production?
         verify_recaptcha_without_development(*options)
       else
-        if self.params[:recaptcha_response_field] == 'skip'
+        if self.params[:skip] == 'skip'
           true
         else
           verify_recaptcha_without_development(*options)

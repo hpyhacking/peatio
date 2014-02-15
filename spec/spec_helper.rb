@@ -3,6 +3,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
+require 'capybara/poltergeist'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -14,7 +15,12 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 I18n.locale = :en
 
-Capybara.javascript_driver = :webkit
+Capybara.register_driver :poltergeist do |app|
+  options = {:js_errors => false, :logger => nil, :phantomjs_logger => nil}
+  Capybara::Poltergeist::Driver.new(app, options)
+end
+
+Capybara.javascript_driver = :poltergeist
 
 RSpec.configure do |config|
   # ## Mock Framework

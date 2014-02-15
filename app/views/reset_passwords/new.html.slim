@@ -1,5 +1,7 @@
 = simple_form_for @reset_pwd, :wrapper => :dialog do |f|
   = f.input :email
+  - unless Rails.env.production?
+    = f.input :skip
   .control-group
     = recaptcha_tags :display => {:theme => 'white'}
     - @reset_pwd.errors.delete :email

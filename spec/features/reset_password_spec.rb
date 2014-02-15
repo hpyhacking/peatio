@@ -9,7 +9,7 @@ describe 'password', js: true do # need to be js because of recaptcha
     click_on I18n.t('private.settings.index.reset_password')
 
     fill_in 'reset_password_email', with: identity.email
-    fill_in 'recaptcha_response_field', with: 'skip'
+    fill_in 'reset_password_skip', with: 'skip'
     click_on I18n.t('helpers.submit.reset_password.create')
     expect(page).to have_content(I18n.t 'reset_passwords.create.success')
 

@@ -1,5 +1,6 @@
 class Token < ActiveRecord::Base
   attr_accessor :email
+  attr_accessor :skip
   belongs_to :identity
 
   before_validation :generate_token, :if => 'token.nil?'

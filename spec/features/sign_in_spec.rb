@@ -27,8 +27,8 @@ describe 'Sign in' do
       click_on I18n.t('header.signin')
     end
 
-    it 'if he tries to perform 2-step verification after session expires, should redirect user back to login step with error message' do
-      Capybara.current_session.driver.browser.clear_cookies
+    it 'if he tries to perform 2-step verification after session expires, should redirect user back to login step with error message', js: true do
+      clear_cookie
 
       otp = ROTP::TOTP.new(identity.two_factor.otp_secret).now
       fill_in 'identity_otp', with: otp
@@ -38,12 +38,11 @@ describe 'Sign in' do
       expect(page).to have_content(I18n.t('sessions.create_with_two_factor_auth.session_expired'))
     end
 
-
     it 'allow user to disable it if they have lost their phone', js: true do
       click_on I18n.t 'sessions.new_with_two_factor_auth.reset_two_factor'
 
       fill_in 'reset_two_factor_email', with: identity.email
-      fill_in 'recaptcha_response_field', with: 'skip'
+      fill_in 'reset_two_factor_skip', with: 'skip'
       click_on I18n.t 'helpers.submit.reset_two_factor.create'
 
       expect(current_path).to eq(signin_path)
@@ -75,7 +74,7 @@ describe 'Sign in' do
     # reset password
     click_on I18n.t('sessions.new.reset_password')
     fill_in 'reset_password_email', with: identity.email
-    fill_in 'recaptcha_response_field', with: 'skip'
+    fill_in 'reset_password_skip', with: 'skip'
     click_on I18n.t('helpers.submit.reset_password.create')
 
     # have to sleep again to get the correct mail =(
