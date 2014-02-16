@@ -17,8 +17,17 @@ The Peatio installation consists of setting up the following components:
 * Redis
 * PhatomJS
 * qrencode
+* Pusher
 
 ** More details are in the [requirements doc](doc/install/requirements.md)
+
+### Pusher
+
+Peatio dependence [Pusher](http://pusher.com) service, you can change your key in `config/application.yml` file for production environment. we support development key and secret in repo, is only support test and development environment.
+
+     PUSHER_APP: 65910
+     PUSHER_KEY: 50d404c35db92d736a57
+     PUSHER_SECRET: 75d6e6685209cc60cc4d
 
 ##### Install PhatomJS
 
