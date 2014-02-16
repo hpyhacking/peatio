@@ -76,7 +76,7 @@ Insert the following lines into your bitcoin.conf, and replce with your username
 
 **For Mac**
 
-    ~/Library/Application Support/Bitcoin/bitcoin.conf
+    ~/Library/Application\ Support/Bitcoin/bitcoin.conf
 
 **For Linxu**
 
