@@ -57,7 +57,7 @@ If you run bitcoind at local, the necessary hard drive space largely depends on 
 **Install qrencode**
 
     # Install dependencies using Homebrew
-    brew install phantomjs qrencode
+    brew install qrencode
 
 
 #### For Ubuntu
