@@ -28,6 +28,8 @@ Peatio dependence [Pusher](http://pusher.com) service, you can change your key i
      PUSHER_APP: 65910
      PUSHER_KEY: 50d404c35db92d736a57
      PUSHER_SECRET: 75d6e6685209cc60cc4d
+     
+More details to visit [pusher official website](http://pusher.com)
 
 ##### Install PhatomJS
 
