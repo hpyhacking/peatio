@@ -59,6 +59,7 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'mails_viewer'
   gem 'timecop'
+  gem 'dotenv-rails'
 end
 
 group :test do

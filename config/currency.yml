@@ -3,7 +3,7 @@ defaults: &defaults
     cny: 1
     btc: 2
   coins:
-    btc: http://bitcoinrpc:password@127.0.0.1:18332
+    btc: http://username:password@127.0.0.1:18332
 
 development:
   <<: *defaults

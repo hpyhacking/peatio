@@ -92,6 +92,9 @@ GEM
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.3.1)
     diff-lcs (1.2.5)
+    dotenv (0.9.0)
+    dotenv-rails (0.9.0)
+      dotenv (= 0.9.0)
     enumerize (0.7.0)
       activesupport (>= 3.2)
     erubis (2.7.0)
@@ -357,6 +360,7 @@ DEPENDENCIES
   database_cleaner
   datagrid
   debugger
+  dotenv-rails
   enumerize
   es5-shim-rails
   factory_girl_rails
