@@ -65,16 +65,8 @@ class ApplicationController < ActionController::Base
 
   private
   def set_language
-    unless params[:lang].blank?
-      cookies[:lang] = params[:lang]
-    end
-
-    I18n.locale = cookies[:lang] || ENV['LANGUAGE_CODE']
-  end
-
-  def extract_locale_from_accept_language_header
-    lang = request.env['HTTP_ACCEPT_LANGUAGE'] || ''
-    lang = lang.scan(/^(\w{2}|\w{2}-\w{2})[,;]/).first
+    cookies[:lang] = params[:lang] unless params[:lang].blank?
+    I18n.locale = cookies[:lang] || http_accept_language.compatible_language_from(I18n.available_locales)
   end
 
   def coin_rpc_connection_refused

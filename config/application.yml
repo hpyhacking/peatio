@@ -5,7 +5,6 @@ defaults: &defaults
   # admin role account
   URL_HOST: peatio.dev
   URL_SCHEMA: http
-  LANGUAGE_CODE: zh-CN
   DEFAULT_MARKET: cnybtc
   SESSION_EXPIRE: 120
   API_WHITELIST: []

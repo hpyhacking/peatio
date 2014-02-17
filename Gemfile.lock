@@ -127,6 +127,7 @@ GEM
       tilt
     hashie (2.0.5)
     hike (1.2.3)
+    http_accept_language (2.0.1)
     httpclient (2.3.4.1)
     i18n (0.6.9)
     introjs-rails (0.5.0)
@@ -370,6 +371,7 @@ DEPENDENCIES
   font-awesome-less
   gon
   handlebars_assets
+  http_accept_language
   introjs-rails
   jbuilder
   jquery-rails

@@ -46,6 +46,7 @@ gem 'jbuilder'
 gem 'acts-as-taggable-on'
 gem 'active_hash'
 gem 'pusher'
+gem 'http_accept_language'
 
 group :development, :test do
   gem 'factory_girl_rails'
