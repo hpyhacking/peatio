@@ -33,11 +33,7 @@ module Peatio
   end
 end
 
-if ENV['TESTNET']
-  SITE_NAME = "Peatio [testnet]"
-else
-  SITE_NAME = "Peatio"
-end
+SITE_NAME = "Peatio"
 
 Time::DATE_FORMATS[:default] = "%Y-%m-%d %H:%M:%S"
 HandlebarsAssets::Config.template_namespace = 'JST'

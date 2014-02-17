@@ -31,10 +31,6 @@ class PaymentTransaction < ActiveRecord::Base
   end
 
   def deposit!(raw)
-    if ENV['TESTNET'] && config[:expand]
-      self.amount *= config[:expand].to_d
-    end
-
     deposit = Deposit.create! \
       :state => :done,
       :address => self.payment_address.address,
