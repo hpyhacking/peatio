@@ -1,11 +1,4 @@
-.profile
-  .picture
-    i.fa class="#{icon_class}"
-  .summary
-    h3 = title
-    - accounts.each do |account|
-      - currency = account.currency
-      div class="row currency-#{currency}"
-          .col-md-4 == t('.title', icon: t("currency.icon.#{currency}"), c: t("currency.name.#{currency}"))
-          .col-md-4.available data-amount-format='#{t(".#{currency}_format")}' data-label='#{t('.balance')}' = account.balance
-          .col-md-4.locked data-amount-format="#{t(".#{currency}_format")}" data-label="#{t('.locked')}" = account.locked
+- current_user.accounts.each do |account|
+  .row
+    .col-md-4.available data-amount-format='#{}' data-label='#{t('.balance')}' = account.balance
+    .col-md-4.locked data-amount-format="#{}" data-label="#{t('.locked')}" = account.locked

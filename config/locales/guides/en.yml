@@ -1,0 +1,11 @@
+en:
+  guides:
+    deposits:
+      panel: Deposits
+      index:
+        title: Select a Deposit Channel
+        intro: Deposit Intro
+    withdraws:
+      panel: Withdraws
+      new:
+        title: Select a Withdraw Channel

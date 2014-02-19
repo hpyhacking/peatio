@@ -10,6 +10,6 @@ html lang="en"
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
     #wrap
       = render 'shared/browser'
-      = content_for?(:content) ? yield(:content) : yield
+      = yield
       #push
     = render 'shared/footer'

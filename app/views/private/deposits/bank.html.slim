@@ -1,26 +1,18 @@
-.row
-  .step
-    h2 = t('.step-1')
-    p = t('.select-bank')
-    .row
-      .col-md-2
-        h3 = t('.name')
-        h3.label 邱亮
-        a.label data-clipboard-text='邱亮': i.fa.fa-copy
-      .col-md-4
-        h3 = t('.card')
-        h3.label 6214 8501 0176 3297
-        a.label data-clipboard-text='6214850101763297': i.fa.fa-copy
-      .col-md-4
-        h3 = t('.bank')
-        h3.label 招商银行 北京市双榆树支行
+p
+  h4 = t('.step-1')
+  p = t('.select-bank')
 
-  .step
-    h2 = t('.step-2')
-    p = t('.send-money')
-    p
-      h5.label = current_user.sn
-
-  .step
-    h2 = t('.step-3')
-    p = t('.check-confirm')
+  h5 = t('.name')
+  h5 = @deposit.account_holder
+  h5 = t('.card')
+  h5 = @deposit.account_number
+  h5 = t('.bank')
+  h5 #{@deposit.account_bank}
+p
+  h4 = t('.step-2')
+  p = t('.send-money')
+  p
+    h5 = current_user.sn
+p
+  h4 = t('.step-3')
+  p = t('.check-confirm')

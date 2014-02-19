@@ -1,16 +1,15 @@
-.content.row
-  = render 'private/shared/balances', accounts: @accounts, title: t('header.deposit'), icon_class: 'fa-credit-card'
-  ul
-    - @depostis.each do |d|
-      li
-        .title
-          == d.currency
-        .description
-          == d.description
-          .service
-            i.fa.fa-cogs
-            code = d.transfer
-            i.fa.fa-clock-o
-            code = d.latency
-        .actions
-          a.btn.btn-inverse href='#{d.link}' = t(".#{d.id}.action")
+ul.list-group
+  - @depostis.each do |d|
+    li.list-group-item
+      a href='#{d.link}' = d.currency
+      span.pull-right.inner-list
+        span.label.label-success
+          i.fa.fa-cogs
+          span = d.transfer
+        span.label.label-success
+          i.fa.fa-clock-o
+          span = d.latency
+      .desc: span.text-ignore = d.description
+
+= content_for :guide do
+  = render 'private/shared/balances'

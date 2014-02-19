@@ -12,10 +12,11 @@ html lang="en"
       = render 'shared/browser'
       = render 'shared/header'
       = render 'shared/flash'
-      .container
-        .row: .col-md-12
-          .text-center
-            #content = Notice.get
-        = content_for?(:content) ? yield(:content) : yield
+
+      - if content_for?(:frame)
+        = yield(:frame)
+      - else 
+        = yield
+
       #push
     = render 'shared/footer'

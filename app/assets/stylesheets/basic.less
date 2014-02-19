@@ -8,8 +8,16 @@ g { color: @gray-light; }
 * + i[class^=fa] { margin-left: 4px; }
 i[class^=fa] + * { margin-left: 4px; }
 
+.text-ignore {
+  color: @gray-light; 
+}
+
 strong + span {
   margin-left: 5px;
+}
+
+span.label + span.label {
+  margin-left: 8px;
 }
 
 /*numeral extend*/

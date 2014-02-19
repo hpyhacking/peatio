@@ -10,6 +10,7 @@ module Private
     end
 
     def bank
+      @deposit = DepositChannel.find('bank')
     end
 
     def index

@@ -1,0 +1,10 @@
+zh-CN:
+  guides:
+    deposits:
+      panel: 资金充值
+      index:
+        title: 选择资金充值通道
+    withdraws:
+      panel: 资金提现
+      new:
+        title: 选择资金提现通道
