@@ -4,11 +4,17 @@ html, body {
   font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", sans-serif;
 }
 
+header {
+  margin-top: 15px;
+}
+
 #wrap {
   min-height: 100%;
   height: auto !important;
   height: 100%;
   margin: 0 auto 0 - @footer-height;
+
+  & + iframe { display: none; }
 }
 
 #push, footer {

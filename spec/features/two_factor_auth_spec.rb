@@ -5,7 +5,6 @@ describe '2-step verification' do
 
   it 'allows user to set it up and disable it' do
     login identity
-    save_and_open_page
     click_on I18n.t('header.settings')
     expect(page).to_not have_content I18n.t('private.settings.index.two_factor_auth.disable')
 

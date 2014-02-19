@@ -1,24 +1,14 @@
-header.navbar: #menu.navbar-inner: .container: nav#menu.navbar role="navigation"
-  .container-fluid
-    .navbar-header
-      button.navbar-toggle data-target="#top_menu" data-toggle="collapse" type="button"
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      a.navbar-brand href="#"
-    #top_menu.navbar-collapse.collapse data-no-turbolink='true' style="height: 0px;"
-      - if current_user
-        ul.nav.navbar-nav.left-section
-          = top_nav_link(t('header.market'), market_path(latest_market), 'exchange')
-          = top_nav_link(t('header.deposit'), deposits_path, 'credit-card')
-          = top_nav_link(t('header.withdraw'), new_withdraw_path, 'credit-money')
-        ul.nav.navbar-nav.right-section
-          li.user-email: a: span = current_user.email
-          = top_nav_link(t('header.settings'), settings_path, 'user')
-          - if is_admin?
-            li: a href='#{main_app.admin_dashboard_path}' id='admin'
-              i.fa.fa-tachometer
-              span = t('header.admin')
-          li: a#sign_out href='#{main_app.signout_path}'
-            i.fa.fa-sign-out
+- if current_user
+  ul.nav.navbar-nav.navbar-left
+    = top_nav_link(t('header.market'), market_path(latest_market), 'exchange')
+    = top_nav_link(t('header.deposit'), deposits_path, 'credit-card')
+    = top_nav_link(t('header.withdraw'), new_withdraw_path, 'money')
+  ul.nav.navbar-nav.navbar-right
+    = top_nav_link(current_user.email, settings_path, 'user')
+    - if is_admin?
+      li: a href='#{main_app.admin_dashboard_path}' id='admin'
+        i.fa.fa-tachometer
+        span = t('header.admin')
+    li: a#sign_out href='#{main_app.signout_path}'
+      i.fa.fa-sign-out
+      span = t('header.signout')

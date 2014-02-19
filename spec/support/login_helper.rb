@@ -9,6 +9,4 @@ def login identity, otp='', password='Password123'
     fill_in 'identity_otp', with: otp
     click_on I18n.t('helpers.submit.identity.verify')
   end
-
-  click_on I18n.t('header.getstart')
 end
