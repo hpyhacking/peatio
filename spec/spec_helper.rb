@@ -58,7 +58,6 @@ RSpec.configure do |config|
 
   config.before(:each) do
     if example.metadata[:js]
-      I18n.locale = 'zh-CN'
       DatabaseCleaner.strategy = :truncation
     else
       DatabaseCleaner.strategy = :transaction

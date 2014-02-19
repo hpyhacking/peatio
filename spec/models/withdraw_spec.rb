@@ -53,9 +53,9 @@ describe Withdraw do
         create(:withdraw, state: state)
         create_list(:withdraw, 2)
 
-        create(:withdraw, :alipay, state: :done)
-        alipay_withdraw = create(:withdraw, :alipay)
-        expect(alipay_withdraw.position_in_queue).to eq(1)
+        create(:withdraw, :bank, state: :done)
+        bank_withdraw = create(:withdraw, :bank)
+        expect(bank_withdraw.position_in_queue).to eq(1)
 
         withdraw.save!
         expect(withdraw.position_in_queue).to eq(3)

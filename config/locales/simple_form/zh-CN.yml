@@ -62,7 +62,6 @@ zh-CN:
         password_confirmation: 重复登录密码
         otp: 两步验证
         name: 真实姓名
-        alipay: 支付宝地址
         price: 价格
         volume: 数量
       document:

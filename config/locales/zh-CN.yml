@@ -259,19 +259,15 @@ zh-CN:
         withdraw_address:
           attributes:
             label:
-              alipay_invalid: 需要与您的真实姓名绑定，请填写您注册时使用的真实姓名。
             address:
               satoshi_ismine: 为系统所有，请使用您所拥有的提现地址进行绑定。
               satoshi_invalid: 格式无效，请填写正确的比特币提现地址。
-              alipay_invalid: 格式无效，请填写正确的支付宝提现地址。
         withdraw:
           attributes:
             password:
               match: 登录密码错误，请重新输入。
             sum:
               poor: 账户余额不足，请核对。
-              alipay_min: 低于支付宝提现最小限额 500.00
-              alipay_max: 高于支付宝提现最大限额 5000.00
               bank_min: 低于银行转账提现最小限额 5000.00
       messages:
         undef: 未知错误原因
@@ -326,8 +322,9 @@ zh-CN:
     cancel: 撤销
     view: 查看
     clipboard:
-      click: 点击复制
+      click: Click to copy
       done: 复制成功
+      done: Copyed
     transact: 处理
     reject: 驳回
   global:

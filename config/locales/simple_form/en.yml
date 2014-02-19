@@ -62,7 +62,6 @@ en:
         password: Password
         otp: 2-Factor
         name: Real Name
-        alipay: Alipay
         price: Price
         volume: Volume
       document:

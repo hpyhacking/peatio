@@ -16,10 +16,4 @@ describe 'deposits' do
     click_on I18n.t 'private.deposits.index.bank.action'
     expect(page).to have_content member.sn
   end
-
-  it 'admin can manually deposit into alipay' do
-    admin_identity = create :identity, email: 'admin@peatio.dev'
-    deposit admin_identity, member, 1200
-    expect(page).to have_content(I18n.t('admin.currency_deposits.create.success'))
-  end
 end

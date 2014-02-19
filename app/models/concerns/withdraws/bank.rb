@@ -11,7 +11,7 @@ module Concerns
       end
 
       def _valid_bank_sum
-        unless self.sum > 5000
+        unless self.sum > 100
           return :min
         end
       end

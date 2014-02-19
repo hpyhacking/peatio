@@ -16,9 +16,9 @@ FactoryGirl.define do
       end
     end
 
-    trait :alipay do
+    trait :bank do
       currency :cny
-      address_type :alipay
+      address_type :bank
       address_label { member.name }
       sum { 1000.to_d }
     end

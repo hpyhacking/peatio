@@ -4,8 +4,8 @@ h3 = t('.title')
   = f.input :password, :as => 'password', :input_html => {:name => 'password'}
   .control-group
     .controls
-      = f.button :submit, t('helpers.submit.identity.save'), class: 'primary'
-      a.btn.secondary href='#{signup_path}' = t('.signup')
+      = f.button :submit, t('header.signin'), class: 'primary'
+      a.btn.secondary href='#{signup_path}' = t('header.signup')
 
   #tips-wrapper
     #tips

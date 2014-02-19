@@ -15,8 +15,6 @@ class Member < ActiveRecord::Base
   before_validation :generate_sn
   before_create :create_accounts
 
-  attr_accessor :alipay
-
   def initial?
     name? and !name.empty?
   end

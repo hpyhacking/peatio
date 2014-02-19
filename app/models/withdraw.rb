@@ -1,8 +1,6 @@
 class Withdraw < ActiveRecord::Base
   include Concerns::Withdraws::Bank
   include Concerns::Withdraws::Satoshi
-  include Concerns::Withdraws::Alipay
-  include Concerns::Withdraws::Protoshares
 
   extend Enumerize
   enumerize :state, in: {

@@ -1,13 +1,3 @@
-- id: alipay
-  code: 100
-  currency: cny
-  low: 500
-  max: 10000
-  fee: 0.005
-  fee_max: 50
-  fixed: 2
-  proportion: true
-  inuse: true
 - id: satoshi
   code: 200
   currency: btc
@@ -18,9 +8,9 @@
   code: 400
   currency: cny
   fixed: 2
-  fee: 0.005
   fee_max: 0
-  low: 500
+  low: 100
   max: 50000
+  fee: 0.005
   proportion: true
   inuse: true

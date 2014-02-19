@@ -30,7 +30,6 @@ en:
       address_type:
         protoshares: 比特股
         satoshi: 比特币
-        alipay: 支付宝
         bank: 银行转账
       state:
         wait: 等待
@@ -39,10 +38,9 @@ en:
       address_type:
         protoshares: 比特股
         satoshi: 比特币
-        alipay: 支付宝
         bank: 银行转账
       state:
-        wait: 等待
+        apply: 待确认
         wait: 待校验
         reject: 被驳回
         examined: 已校验
@@ -56,5 +54,4 @@ en:
       category:
         protoshares: 比特股
         satoshi: Bitcoin
-        alipay: Alipay
         bank: 银行转账

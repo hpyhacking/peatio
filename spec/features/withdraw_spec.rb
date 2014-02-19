@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'withdraw' do
   let!(:member) { create(:member) }
   let!(:identity) { create :identity, member: member }
+
   let(:radio_label) do
     "#{member.name} @ #{identity.email}"
   end
@@ -28,8 +29,8 @@ describe 'withdraw' do
 
     form = find('.simple_form')
     expect(form).to have_text(I18n.t('enumerize.withdraw.state.apply'))
-    expect(form).to have_text('594.0')
-    expect(form).to have_text('6.0')
+    expect(form).to have_text('600.0')
+    expect(form).to have_text('0.0')
 
     click_on I18n.t('actions.confirm')
 
@@ -85,7 +86,7 @@ describe 'withdraw' do
 
     fill_in 'withdraw_address_label', with: member.name
     fill_in 'withdraw_address_address', with: identity.email
-    select I18n.t('enumerize.withdraw.address_type.alipay'), from: 'withdraw_address_category'
+    select I18n.t('enumerize.withdraw.address_type.bank'), from: 'withdraw_address_category'
     click_on I18n.t 'helpers.submit.withdraw_address.create'
   end
 

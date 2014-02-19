@@ -7,7 +7,6 @@ class WithdrawAddress < ActiveRecord::Base
   belongs_to :account
 
   validates_presence_of :label, :address, :category, :account_id
-  validate :validate_alipay_address, :if => 'category.try(:alipay?)'
   validate :validate_coin_address, :if => 'coin?'
 
   def coin?
@@ -19,12 +18,6 @@ class WithdrawAddress < ActiveRecord::Base
   end
 
   private
-
-  def validate_alipay_address
-    unless /\A(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}))|(1\d{10})\z/i =~ self.address
-      errors.add(:address, :alipay_invalid)
-    end
-  end
 
   def validate_coin_address
     currency = WithdrawChannel.currency(self.category)
