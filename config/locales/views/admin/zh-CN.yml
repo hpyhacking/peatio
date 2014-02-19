@@ -30,3 +30,6 @@ zh-CN:
         success: 提现已经开始处理
       destroy:
         success: 提现已经被驳回
+    statistic:
+      filter: 筛选
+      click-to-expand: 点击展开

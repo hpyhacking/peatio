@@ -1,4 +1,23 @@
 .row: .col-md-12.alert
-  = datagrid_form_for @members_grid, url: admin_statistic_members_path
+  #filter-accordion.panel-group
+    .panel.panel-default
+      .panel-heading
+        h4.panel-title.row
+          a data-parent="#filter-accordion" data-toggle="collapse" href="#filter"
+            span.col-md-8 = t('admin.statistic.filter')
+            span.col-md-4.text-right.text-muted = t('admin.statistic.click-to-expand')
+      #filter.panel-collapse.collapse
+        .panel-body
+          = form_for @members_grid, url: admin_statistic_members_path, html: {method: :get, class: 'form-horizontal'} do |f|
+            - @members_grid.filters.each do |filter|
+              div.form-group
+                = f.datagrid_label filter, class: "col-md-2 control-label"
+                div.col-md-10
+                  = f.datagrid_filter filter, class: "form-control"
+            div.form-group
+              div.col-md-offset-2.col-md-10
+                = f.submit t('datagrid.form.submit'), class: "btn btn-primary"
+
 .row: .col-md-12
   = datagrid_table @members_grid, @assets
+

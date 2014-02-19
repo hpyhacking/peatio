@@ -30,3 +30,6 @@ en:
         success: Withdraw processed
       destroy:
         success: Withdraw rejected
+    statistic:
+      filter: Filter
+      click-to-expand: Click to expand
