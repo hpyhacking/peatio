@@ -15,9 +15,9 @@ en:
       member:
         update: Open Account
       identity:
-        save: Sign In
-        create: Sign Up
-        destroy: Sign Out
+        save: Sign in
+        create: Sign up
+        destroy: Sign out
         verify: Verify
       otp:
         verify: Verify
@@ -57,7 +57,7 @@ en:
         password: Password
     placeholders:
       defaults:
-        email: Sign In E-mail
+        email: Sign in email
         password: 登录密码 (大小写字母与数字)
         password: Password
         otp: 2-Factor
