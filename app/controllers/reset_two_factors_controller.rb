@@ -12,7 +12,7 @@ class ResetTwoFactorsController < ApplicationController
 
     if verify_recaptcha(:model => @reset_otp, :attribute => :captcha) \
       and @reset_otp.save
-      redirect_to root_path, :notice => t('.success')
+      redirect_to signin_path, :notice => t('.success')
     else
       render :new
     end

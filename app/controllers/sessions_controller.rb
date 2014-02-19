@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
 
     @identity = Identity.find(env["omniauth.auth"].uid)
     if @identity.too_many_failed_login_attempts
-      flash[:error] = t('sessions.failure.account_locked')
+      flash[:alert] = t('sessions.failure.account_locked')
       render :new and return
     end
 
@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
   def create_with_two_factor_auth
     tmp_identity_id = session[:tmp_identity_id]
     if tmp_identity_id.blank?
-      flash[:error] = t('.session_expired')
+      flash[:alert] = t('.session_expired')
       redirect_to signin_path and return
     end
 
@@ -52,7 +52,7 @@ class SessionsController < ApplicationController
     if @identity.present?
       @identity.increment_retry_count
       @identity.save
-      flash[:error] = t('.account_locked') if @identity.too_many_failed_login_attempts
+      flash.now[:alert] = t('.account_locked') if @identity.too_many_failed_login_attempts
     else
       @identity = Identity.new
     end

@@ -29,7 +29,7 @@ describe Private::OtpsController do
 
       it 'sets flash error' do
         do_request
-        expect(flash[:error]).to eq I18n.t('invalid_password')
+        expect(flash[:alert]).to eq I18n.t('invalid_password')
       end
 
       it 'does not reset two factor auth' do

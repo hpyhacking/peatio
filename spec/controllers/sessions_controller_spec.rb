@@ -24,7 +24,7 @@ describe SessionsController do
 
       it 'shows flash message to notify account locked' do
         do_request
-        expect(flash[:error]).to eq(I18n.t 'sessions.failure.account_locked')
+        expect(flash[:alert]).to eq(I18n.t 'sessions.failure.account_locked')
       end
     end
 
@@ -62,7 +62,7 @@ describe SessionsController do
 
       it 'shows flash message to notify account locked' do
         do_request
-        expect(flash[:error]).to eq(I18n.t 'sessions.failure.account_locked')
+        expect(flash[:alert]).to eq(I18n.t 'sessions.failure.account_locked')
       end
     end
   end

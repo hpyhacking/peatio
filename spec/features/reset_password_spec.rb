@@ -5,7 +5,7 @@ describe 'password', js: true do # need to be js because of recaptcha
 
   it 'can be reset by user' do
     login identity
-    click_on I18n.t('header.settings')
+    click_on identity.email
     click_on I18n.t('private.settings.index.reset_password')
 
     fill_in 'reset_password_email', with: identity.email

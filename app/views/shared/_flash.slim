@@ -1,10 +1,10 @@
--if flash[:error]
-  #error.dialog.dialog-danger
-    span.text-error
-      = flash[:error]
-    button.btn data-dismiss="alert" x
 -if flash[:notice]
-  #notice.dialog.dialog-success
-    span.text-primary
-      = flash[:notice]
-    button.btn data-dismiss="alert" x
+  .container: #notice.alert.alert-dismissable.alert-success
+    button.close type="button" data-dismiss="alert" aria-hidden="true" &times;
+    strong = t("flash.notice")
+    span = flash[:notice]
+-if flash[:alert]
+  .container: #alert.alert.alert-dismissable.alert-warning
+    button.close type="button" data-dismiss="alert" aria-hidden="true" &times;
+    strong = t("flash.alert")
+    span = flash[:alert]

@@ -10,7 +10,7 @@ describe 'member tags' do
 
   it 'user can view self tags in settings index' do
     login identity
-    click_on I18n.t('header.settings')
+    click_on identity.email
     expect(page).to have_content 'Hero Member'
   end
 end

@@ -335,5 +335,8 @@ en:
     high_price: High
     low_price: Low
     volume: Volume
+  flash:
+    notice: Well done!
+    alert: Warning!
   'yes': 'Yes'
   'no': 'No'

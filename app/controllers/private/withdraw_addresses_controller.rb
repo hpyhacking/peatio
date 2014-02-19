@@ -10,7 +10,7 @@ module Private
       if @withdraw_address.save
         redirect_to new_withdraw_path
       else
-        flash[:error] = @withdraw_address.errors.full_messages
+        flash[:alert] = @withdraw_address.errors.full_messages
         render :index
       end
     end

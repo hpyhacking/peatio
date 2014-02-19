@@ -25,7 +25,7 @@ class ActivationsController < ApplicationController
   def update
     activation = Activation.new identity: current_identity, email: current_identity.email
     unless activation.save
-      flash[:error] = activation.errors.full_messages.join('; ')
+      flash[:alert] = activation.errors.full_messages.join('; ')
     end
     redirect_to new_activation_path
   end

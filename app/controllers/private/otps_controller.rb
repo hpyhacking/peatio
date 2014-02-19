@@ -19,7 +19,7 @@ module Private
         flash[:notice] = t('private.settings.success')
         redirect_to settings_path
       else
-        flash[:error] = t('private.settings.failure')
+        flash[:alert] = t('private.settings.failure')
         redirect_to new_otp_path
       end
     end
@@ -29,7 +29,7 @@ module Private
         current_identity.two_factor.update_attribute(:is_active, false)
         flash[:notice] = t('private.settings.success')
       else
-        flash[:error] = t('invalid_password')
+        flash[:alert] = t('invalid_password')
       end
       redirect_to settings_path
     end

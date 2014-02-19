@@ -5,7 +5,7 @@ describe '2-step verification' do
 
   it 'allows user to set it up and disable it' do
     login identity
-    click_on I18n.t('header.settings')
+    click_on identity.email
     expect(page).to_not have_content I18n.t('private.settings.index.two_factor_auth.disable')
 
     # set up
@@ -18,7 +18,7 @@ describe '2-step verification' do
     find('#sign_out').click
     login identity, ROTP::TOTP.new(secret).now
 
-    click_on I18n.t('header.settings')
+    click_on identity.email
     expect(page).to_not have_content I18n.t('private.settings.index.two_factor_auth.configure')
 
     # disable

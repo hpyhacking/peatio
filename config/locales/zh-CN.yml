@@ -335,5 +335,8 @@ zh-CN:
     high_price: 最高
     low_price: 最低
     volume: 成交量
+  flash:
+    notice: 非常好!
+    alert: 警告!
   'yes': 是
   'no': 否
