@@ -8,7 +8,7 @@ defaults: &defaults
   DEFAULT_MARKET: cnybtc
   SESSION_EXPIRE: 120
   API_WHITELIST: []
-  ADMIN: ['admin@peatio.dev']
+  ADMIN: 'admin@peatio.dev,admin@example.com'
 
   # below settings only in production env
   # system notify mail settings

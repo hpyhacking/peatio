@@ -39,7 +39,7 @@ describe 'withdraw' do
   end
 
   it 'allow user to see their current position in the withdraw process queue' do
-    admin_identity = create :identity, email: 'admin@peatio.dev'
+    admin_identity = create :identity, email: Member.admins.first
     deposit admin_identity, member, 1500
 
     # sign out admin

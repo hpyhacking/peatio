@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'withdraw' do
   let!(:member) { create :member }
-  let!(:admin_member) { create :member, email: 'admin@peatio.dev' }
+  let!(:admin_member) { create :member, email: Member.admins.first }
   let!(:identity) { create :identity, member: admin_member }
 
   let!(:account) do

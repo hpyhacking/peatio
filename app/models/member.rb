@@ -19,12 +19,8 @@ class Member < ActiveRecord::Base
     name? and !name.empty?
   end
 
-  def create_default_withdraw_address
-    
-  end
-
   def admin?
-    @is_admin ||= (eval Figaro.env.admin).include?(self.email)
+    @is_admin ||= self.class.admins.include?(self.email)
   end
 
   def get_account(currency)
@@ -52,6 +48,10 @@ class Member < ActiveRecord::Base
       m.identity_id = auth.uid
       m.email = auth[:info][:email]
       m.save! && m
+    end
+
+    def admins
+      Figaro.env.admin.split(',')
     end
   end
 
