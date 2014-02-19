@@ -1,7 +1,6 @@
 class ResetPasswordsController < ApplicationController
   include Concerns::TokenManagement
 
-  layout 'dialog'
   before_filter :token_required, :only => [:edit, :update]
 
   def new

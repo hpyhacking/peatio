@@ -1,11 +1,23 @@
-footer.bottom-menu.bottom-menu-inverse: .container: .row
-  .col-md-5: ul.bottom-links
-    li
-      = document_to(title: t('footer.price'), key: 'price-details')
-    li
-      = document_to(title: t('footer.contact'), key: 'contact-us')
-  #brand.col-md-2: a href='#{main_app.root_path}' PEATIO
-  .col-md-5: .bottom-icons.pull-right
-    li: a href="#{main_app.root_path(:lang => 'zh-CN')}" 中文
-    li: a href="#{main_app.root_path(:lang => 'en')}" English
-    li: a target='_blank' href='http://www.miitbeian.gov.cn' 京ICP备13047168
+footer: .container: .row: .col-md-12.text-center
+  p
+    iframe src="http://ghbtns.com/github-btn.html?user=peatio&repo=peatio&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"
+    iframe src="http://ghbtns.com/github-btn.html?user=peatio&repo=peatio&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"
+  p
+    | Maintained by the 
+    a target='_blank' href='https://github.com/orgs/peatio/teams/owners' core team 
+    | with the help of 
+    a target='_blank' href='https://github.com/peatio/peatio/graphs/contributors' our contributors
+    |.
+  p 
+    | Code licensed under 
+    a target='_blank' href='http://peatio.mit-license.org/' MIT
+    |, documentation under 
+    a target='_blank' href='http://creativecommons.org/licenses/by/3.0/' CC BY 3.0
+    |.
+  p: ul.list-inline
+    li: span Currently v#{Peatio::VERSION}
+    li: a target='_blank' href='https://github.com/peatio/peatio' GitHub
+    li: a target='_blank' href='https://github.com/peatio/peatio/tree/master/doc' Documents
+    li: a target='_blank' href='https://github.com/peatio/peatio/wiki/About' About
+    li: a target='_blank' href='https://github.com/peatio/peatio/issues?state=open' Issues
+    li: a target='_blank' href='https://github.com/peatio/peatio/releases' Releases

@@ -1,5 +1,4 @@
 class SessionsController < ApplicationController
-  layout 'dialog'
 
   before_filter :auth_anybody!, :only => [:new, :create, :failure]
   before_filter :auth_member!, :only => :destroy

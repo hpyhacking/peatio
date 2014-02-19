@@ -5,8 +5,10 @@ def login identity, otp='', password='Password123'
   fill_in 'identity_password', with: password
   click_on I18n.t('header.signin')
 
-  return if otp.blank?
+  unless otp.blank?
+    fill_in 'identity_otp', with: otp
+    click_on I18n.t('helpers.submit.identity.verify')
+  end
 
-  fill_in 'identity_otp', with: otp
-  click_on I18n.t('helpers.submit.identity.verify')
+  click_on I18n.t('header.getstart')
 end

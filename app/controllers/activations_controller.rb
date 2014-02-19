@@ -1,8 +1,6 @@
 class ActivationsController < ApplicationController
   include Concerns::TokenManagement
 
-  layout 'dialog'
-
   before_filter :auth_member!, only: [:new, :update]
   before_filter do
     redirect_to root_path if current_identity && current_identity.is_active?

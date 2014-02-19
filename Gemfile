@@ -4,7 +4,6 @@ gem 'rails'
 
 gem 'mysql2'
 gem 'daemons-rails'
-gem 'bootstrap_helper'
 gem 'omniauth'
 gem 'omniauth-identity'
 gem 'qrencoder'

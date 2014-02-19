@@ -1,4 +1,4 @@
-nav#menu.navbar role="navigation"
+header.navbar: #menu.navbar-inner: .container: nav#menu.navbar role="navigation"
   .container-fluid
     .navbar-header
       button.navbar-toggle data-target="#top_menu" data-toggle="collapse" type="button"
@@ -22,11 +22,3 @@ nav#menu.navbar role="navigation"
               span = t('header.admin')
           li: a#sign_out href='#{main_app.signout_path}'
             i.fa.fa-sign-out
-      - else
-        ul.nav.navbar-nav.pull-right
-          li: a href='#{main_app.signin_path}'
-            i.fa.fa-sign-in
-            span = t('header.signin')
-          li: a href='#{main_app.signup_path}'
-            i.fa.fa-lightbulb
-            span = t('header.signup')

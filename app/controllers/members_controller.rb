@@ -1,6 +1,4 @@
 class MembersController < ApplicationController
-  layout 'dialog'
-
   before_filter :auth_member!
   before_filter :auth_no_initial!
 

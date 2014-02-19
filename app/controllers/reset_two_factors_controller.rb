@@ -1,7 +1,6 @@
 class ResetTwoFactorsController < ApplicationController
   include Concerns::TokenManagement
 
-  layout 'dialog'
   before_filter :token_required, :only => :edit
 
   def new

@@ -10,12 +10,6 @@ html lang="en"
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
     #wrap
       = render 'shared/browser'
-      = render 'shared/menu'
-      = render 'shared/flash'
-      .container
-        .row: .col-md-12
-          .text-center
-            #content = Notice.get
-        = content_for?(:content) ? yield(:content) : yield
+      = content_for?(:content) ? yield(:content) : yield
       #push
     = render 'shared/footer'
