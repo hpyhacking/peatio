@@ -61,11 +61,11 @@ group :development, :test do
   gem 'mails_viewer'
   gem 'timecop'
   gem 'dotenv-rails'
+  gem 'rspec-rails'
 end
 
 group :test do
   gem 'database_cleaner'
-  gem 'rspec-rails'
   gem 'mocha', :require => false
   gem 'shoulda-matchers'
   gem 'capybara'
