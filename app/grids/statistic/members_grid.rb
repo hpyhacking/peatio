@@ -10,15 +10,19 @@ module Statistic
 
     filter :sn do |value| where('members.sn = ?', value) end
     filter :email do |value| where('members.email like ?', "%#{value}%") end
-    filter(:is_active, :enum, :select => [['Yes', 1], ['No', 0]])
+    filter(:is_active, :enum, :select => [[I18n.t('yes'), 1], [I18n.t('no'), 0]])
 
-    column(:id) 
+    column(:id)
     column(:email)
     column(:sn) do |asset|
       asset.member.try(:sn)
     end
     column_i18n(:created_at)
-    column(:is_active)
+    column(:is_active) do |identity|
+      format(identity) do |identity|
+        identity.is_active ? t('yes') : t('no')
+      end
+    end
     column(:action) do |asset|
       format(asset) do |asset|
         if asset.is_active && asset.member
