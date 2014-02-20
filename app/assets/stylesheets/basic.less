@@ -39,3 +39,23 @@ hr.split {
 /* webkit */
 
 /* basic */
+[data-title] {
+  &:before {
+    .text-ignore;
+    font-size: 16px;
+    display: block;
+    content: attr(data-title);
+    margin-bottom: 5px;
+  }
+
+  font-size: 18px;
+}
+
+.col{
+  margin-bottom: -99999px;
+  padding-bottom: 99999px;
+}
+
+.col-wrap {
+  overflow: hidden;
+}
