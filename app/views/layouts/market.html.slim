@@ -1,0 +1,9 @@
+= content_for :frame do
+  .container
+    #global
+      = render partial: 'shared/markets'
+      = render partial: 'shared/global'
+    .panel.panel-default
+      .panel-body
+        = yield
+= render template: "layouts/application"
