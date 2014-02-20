@@ -33,7 +33,7 @@ en:
         edit: Process
         update: Process Withdraw
         create: Create Request
-        new: 下一步
+        new: Next
       withdraw_address:
         create: Add Withdraw Address
       deposit:

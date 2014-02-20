@@ -7,7 +7,6 @@ en:
   gon:
     ask: Ask
     bid: Bid
-  request_accepted: 请求提交成功，请耐心等待。
   back: Back
   invalid_password: Invalid password
   date:
@@ -102,7 +101,7 @@ en:
           :true: "#%{id} Cancel Order Successful"
           :false: "#%{id} Cancel Order Reject"
     withdraws:
-      create:
+      update:
         request_accepted: Withdraw request accepted.
       index:
         fee: Fee

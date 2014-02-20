@@ -23,9 +23,7 @@ module Private
       @withdraw = current_user.withdraws.find(params[:id])
       @withdraw.update_attribute(:state, :wait) if @withdraw.state.apply?
       @withdraw.examine
-
-      flash[:notice] = I18n.t '.request_accepted'
-      redirect_to edit_withdraw_path(@withdraw)
+      redirect_to new_withdraw_path, flash: {notice: t('.request_accepted')}
     end
 
     def destroy

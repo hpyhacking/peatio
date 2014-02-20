@@ -1,15 +1,9 @@
-= simple_form_for @withdraw, html: {class: 'form-horizontal'} do |f|
-  = f.input :withdraw_address_id, collection: @withdraw_addresses, \
-    as: :radio_buttons, checked: @withdraw_addresses.first.try(:id), required: true
-  .form-group
-    .col-md-2
-    .col-md-10
+= simple_form_for @withdraw do |f|
+  = f.input :withdraw_address_id, collection: @withdraw_addresses, prompt: "请选择"
   = f.input :sum, as: :decimal, input_html: {min: 0}
   = f.input :password
-  .form-group
-    .col-md-2
-    .col-md-10
-      = f.button :submit, t('helpers.submit.withdraw.new')
+  hr.split
+  = f.button :wrapped, t('helpers.submit.withdraw.new'), cancel: market_path(latest_market)
 
 = content_for :guide do
   = link_to t('helpers.submit.withdraw_address.create'), withdraw_addresses_path

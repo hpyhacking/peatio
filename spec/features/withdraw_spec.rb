@@ -34,8 +34,8 @@ describe 'withdraw' do
 
     click_on I18n.t('actions.confirm')
 
-    form = find('.simple_form')
-    expect(form).to have_text(I18n.t('enumerize.withdraw.state.wait'))
+    expect(current_path).to eq(new_withdraw_path)
+    expect(page).to have_text(I18n.t('private.withdraws.update.request_accepted'))
   end
 
   it 'allow user to see their current position in the withdraw process queue' do
@@ -51,7 +51,6 @@ describe 'withdraw' do
     # 1st withdraw
     submit_withdraw_request 800
     click_on I18n.t('actions.confirm')
-    click_on I18n.t('actions.back')
     expect(current_path).to eq(new_withdraw_path)
     expect(find('.currency-cny .available').text).to eq("1700.0")
     expect(find('.currency-cny .locked').text).to eq("800.0")
@@ -60,7 +59,6 @@ describe 'withdraw' do
     # 2nd withdraw
     submit_withdraw_request 800
     click_on I18n.t('actions.confirm')
-    click_on I18n.t('actions.back')
     expect(current_path).to eq(new_withdraw_path)
     expect(find('.currency-cny .available').text).to eq("900.0")
     expect(find('.currency-cny .locked').text).to eq("1600.0")
@@ -91,7 +89,7 @@ describe 'withdraw' do
   end
 
   def submit_withdraw_request amount
-    choose radio_label
+    select radio_label, from: 'Withdraw address'
     fill_in 'withdraw_sum', with: amount
     fill_in 'withdraw_password', with: 'Password123'
     click_on I18n.t 'helpers.submit.withdraw.new'
