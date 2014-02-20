@@ -29,6 +29,7 @@ module Peatio
     config.i18n.available_locales = [:en, 'zh-CN']
 
     config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/lib/extras)
 
     config.time_zone = 'Beijing'
   end

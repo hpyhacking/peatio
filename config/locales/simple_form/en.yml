@@ -39,6 +39,10 @@ en:
       deposit:
         create: Deposit
   simple_form:
+    creating: "Creating..."
+    updating: 'Updating...'
+    buttons:
+      cancel: 'Cancel'
     "yes": 'Yes'
     "no": 'No'
     required:

@@ -39,6 +39,11 @@ zh-CN:
       deposit:
         create: 充值
   simple_form:
+    creating: "Creating..."
+    updating: 'Updating...'
+    buttons:
+      or: 'or'
+      cancel: 'cancel'
     "yes": '是'
     "no": '否'
     required:

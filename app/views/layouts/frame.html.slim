@@ -5,11 +5,17 @@
         h2.panel-title = t("guides.#{controller_name}.panel")
       .panel-body
         .row
-          #guide.col-md-5
+          #guide.col-md-4
             h3 = t("guides.#{controller_name}.#{action_name}.title")
             p.text-ignore = t("guides.#{controller_name}.#{action_name}.intro")
             - if content_for?(:guide)
               = yield(:guide)
-          #content.col-md-7
+          #content.col-md-8
             = yield
+    - if content_for?(:attach)
+      .panel.panel-default
+        .panel-heading
+          h3.panel-title = t("guides.#{controller_name}.panel-attach")
+        .panel-body
+          = yield(:attach)
 = render template: "layouts/application"

@@ -1,5 +1,5 @@
 h3 = t('.title')
-= simple_form_for @identity, :url => two_factor_auth_path, :method => :post, :wrapper => :dialog do |f|
+= simple_form_for @identity, :url => two_factor_auth_path, :method => :post do |f|
   = f.input :otp, :input_html => {:autofocus => true}
   .control-group
     .controls

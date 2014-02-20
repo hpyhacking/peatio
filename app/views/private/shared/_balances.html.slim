@@ -1,4 +1,4 @@
 - current_user.accounts.each do |account|
   .row
-    .col-md-4.available data-amount-format='#{}' data-label='#{t('.balance')}' = account.balance
-    .col-md-4.locked data-amount-format="#{}" data-label="#{t('.locked')}" = account.locked
+    .col-md-4 class='currency-#{account.currency}': .available data-amount-format='#{}' data-label='#{t('.balance')}' = account.balance
+    .col-md-4 class='currency-#{account.currency}': .locked data-amount-format="#{}" data-label="#{t('.locked')}" = account.locked

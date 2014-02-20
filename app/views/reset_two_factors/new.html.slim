@@ -1,4 +1,4 @@
-= simple_form_for @reset_otp, :wrapper => :dialog do |f|
+= simple_form_for @reset_otp do |f|
   = f.input :email
   - unless Rails.env.production?
     = f.input :skip

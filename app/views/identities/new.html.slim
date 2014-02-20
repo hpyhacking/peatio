@@ -1,16 +1,12 @@
-h3 = t('.title')
-= simple_form_for @identity, :url => '/auth/identity/register', :wrapper => :dialog do |f|
+= simple_form_for @identity, :url => '/auth/identity/register' do |f|
   <input type='hidden' name='token' value='#{params[:token]}'></input>
   = f.input :email, :input_html => {:name => 'email', :autofocus => 'true'}
   = f.input :password, :input_html => {:name => 'password'}
   = f.input :password_confirmation, :input_html => {:name => 'password_confirmation'}
-  .control-group
-    .controls
-      = f.button :submit, t('header.signup'), class: 'primary'
-      a.btn.secondary href='#{signin_path}'= t('header.signin')
+  hr.split
+  = f.button :wrapped, t('header.signup'), cancel: root_path
 
-  #tips-wrapper
-    #tips
-      p
-        i.fa.fa-lightbulb-o
-        span = t('.password')
+= content_for :guide do
+  ul.list-unstyled
+    li: span.text-warning = t('.password')
+    li: a href='#{signin_path}'= t('header.signin')

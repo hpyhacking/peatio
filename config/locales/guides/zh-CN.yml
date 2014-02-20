@@ -8,3 +8,11 @@ zh-CN:
       panel: 资金提现
       new:
         title: 选择资金提现通道
+    sessions:
+      panel: Sign In
+      new:
+        title: Sign In to Exchange
+    identities:
+      panel: Sign Up
+      new:
+        title: Sign Up to Exchange

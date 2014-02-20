@@ -1,7 +1,7 @@
 ul.list-group
   - @depostis.each do |d|
     li.list-group-item
-      a href='#{d.link}' = d.currency
+      a href='#{d.link}' = d.id
       span.pull-right.inner-list
         span.label.label-success
           i.fa.fa-cogs

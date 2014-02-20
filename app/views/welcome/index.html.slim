@@ -7,7 +7,7 @@ header.text-center
     h1.brand PEATIO
     section
       h3 An open-source crypto currency exchange.
-    .row
+    #getstart.row
       - unless current_user
         .col-md-2.col-md-offset-4
           a href="#{signin_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signin")

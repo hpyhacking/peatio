@@ -13,7 +13,7 @@ describe 'deposits' do
   it 'allows user to view itself SN code' do
     login identity
     click_on I18n.t 'header.deposit'
-    click_on I18n.t 'private.deposits.index.bank.action'
+    click_on 'bank'
     expect(page).to have_content member.sn
   end
 end

@@ -1,6 +1,6 @@
 .order-wrapper data-order='#{order.kind}'
   .row: .col-md-12
-    = simple_form_for [market, order], :wrapper => :ordering, :remote => true do |f|
+    = simple_form_for [market, order], :remote => true do |f|
       = f.input :origin_volume, as: :string
       span.fui-cross
       = f.input :price, as: :string

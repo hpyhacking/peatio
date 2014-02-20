@@ -1,22 +1,19 @@
-- if @withdraw_addresses.any?
-  = simple_form_for @withdraw, html: {class: 'form-horizontal'}, wrapper: :horizontal do |f|
-    = f.input :withdraw_address_id, collection: @withdraw_addresses, \
-      as: :radio_buttons, checked: @withdraw_addresses.first.id, required: true
-    .form-group
-      .col-md-2
-      .col-md-10
-        = link_to withdraw_addresses_path, class: 'btn secondary btn-sm' do
-          i.fa.fa-plus
-          span = t('helpers.submit.withdraw_address.create')
-    = f.input :sum, as: :decimal, input_html: {min: 0}
-    = f.input :password
-    .form-group
-      .col-md-2
-      .col-md-10
-        = f.button :submit, t('helpers.submit.withdraw.new')
-- else
-  = link_to t('helpers.submit.withdraw_address.create'), withdraw_addresses_path
+= simple_form_for @withdraw, html: {class: 'form-horizontal'} do |f|
+  = f.input :withdraw_address_id, collection: @withdraw_addresses, \
+    as: :radio_buttons, checked: @withdraw_addresses.first.try(:id), required: true
+  .form-group
+    .col-md-2
+    .col-md-10
+  = f.input :sum, as: :decimal, input_html: {min: 0}
+  = f.input :password
+  .form-group
+    .col-md-2
+    .col-md-10
+      = f.button :submit, t('helpers.submit.withdraw.new')
 
 = content_for :guide do
+  = link_to t('helpers.submit.withdraw_address.create'), withdraw_addresses_path
   = render 'private/shared/balances'
-// = datagrid_table(@withdraws_grid)
+
+= content_for :attach do
+  = datagrid_table(@withdraws_grid)
