@@ -31,7 +31,9 @@ zh-CN:
       panel: 登录
       new:
         title: 登录以开始交易
+        intro: 感谢您回来。
     identities:
       panel: 注册
       new:
         title: 注册以开始交易
+        intro: 输入注册信息开始您的加密数字货币之旅。

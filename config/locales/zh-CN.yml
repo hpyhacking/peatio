@@ -123,6 +123,10 @@ zh-CN:
       deposit: 充值
       payment_transaction: 充值
     attributes:
+      identity:
+        email: 邮箱地址
+        password: 登录密码
+        password_confirmation: 重复登录密码
       document:
         body: 内容
         key: 索引键
