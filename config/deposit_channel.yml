@@ -15,7 +15,6 @@
   description: cny
   transfer: now
   latency: 10
-  account_bank: Fack Bank Name
-  account_holder: Fack Card Holder
-  account_number: Fack Card Number
-
+  account_bank: '#Fack Bank Name#'
+  account_holder: '#Fack Card Holder#'
+  account_number: '#Fack Card Number#'

@@ -1,14 +1,32 @@
 zh-CN:
   guides:
+    settings:
+      panel: 账户资料
+      index:
+        title: 查看并修改您的信息
+        intro: 管理并查看您的信息、记录等。
     deposits:
       panel: 资金充值
+      coin:
+        title: 为您的账户充值
+        intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到貔貅交易所账户。
+      bank:
+        title: 为您的账户充值
+        intro: 使用银行卡转账进行充值，推荐用户大额充值使用。
       index:
-        title: 选择资金充值通道
+        title: 为您的交易所账户充值
+        intro: 您可以充值人民币以购买比特币，或者充值比特币以兑换人民币。
     withdraws:
       panel: 资金提现
       new:
         title: 选择资金提现通道
+        intro: 快速的选择提现地址并输入要提现的金额到您的账户。
         attach-title: 提现记录历史
+    withdraw_addresses:
+      panel: 资金提现
+      index:
+        title: 创建资金提现地址
+        intro: 通过创建提现地址，以便每次提现时方便选择要提现的收款方。
     sessions:
       panel: 登录
       new:

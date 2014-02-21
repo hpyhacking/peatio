@@ -77,8 +77,8 @@ zh-CN:
         amount: 您想要提现的金额
         password: 请验证登录密码
       withdraw_address:
-        label: 支付宝姓名/银行户名与开户行/其他标签
-        address: 支付宝账户/银行卡号/收款地址
+        label: 银行户名与开户行 / 其他标签
+        address: 银行卡号 / 收款地址
       order_bid:
         origin_volume:  买入数量
         sum: 总成交金额

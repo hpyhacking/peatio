@@ -1,15 +1,21 @@
 ul.list-group
   - @depostis.each do |d|
     li.list-group-item
-      a href='#{d.link}' = d.id
-      span.pull-right.inner-list
-        span.label.label-success
-          i.fa.fa-cogs
-          span = d.transfer
-        span.label.label-success
-          i.fa.fa-clock-o
-          span = d.latency
-      .desc: span.text-ignore = d.description
+      .row.row-middle
+        .col-md-10
+          .row.row-middle
+            .col-md-6
+              h4 = d.name_text
+            .col-md-6
+              span.label.label-success
+                i.fa.fa-cogs
+                span = d.transfer_text
+              span.label.label-success
+                i.fa.fa-clock-o
+                span = d.latency_text
+          p.text-ignore = d.intro_text
+        .col-md-2
+          a.btn.btn-success.btn-block href='#{d.link}' = t('.go')
 
 = content_for :guide do
   = render 'private/shared/balances'

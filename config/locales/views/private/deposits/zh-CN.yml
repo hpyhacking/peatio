@@ -21,15 +21,4 @@ zh-CN:
         step-3: 第三步
         check-confirm: 在钱包中点击发送付款，此交易将被广播到全网，您即可在这里查看到此笔交易，当交易达到全网1个确认时，系统将自动充值到账（您不必刷新此界面，交易与充值结果会实时更新显示）。
       index:
-        bank:
-          title: 银行转账
-          description: 使用银行卡转账到进行充值，推荐用户大额充值使用。
-          transfer: 手工
-          latency: 10分钟
-          action: 转账充值
-        satoshi:
-          title: 比特币
-          description: 使用本地钱包或任意在线钱包服务进行自动充值。
-          transfer: 自动
-          latency: 1 全网确认
-          action: 钱包充值
+        go: 立即充值
