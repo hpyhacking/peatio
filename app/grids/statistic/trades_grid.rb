@@ -9,7 +9,7 @@ module Statistic
     end
 
     filter(:currency, :enum, :select => Trade.currency.value_options, :default => 3, :include_blank => false)
-    filter(:created_at, :date, :range => true, :default => proc { [1.day.ago.to_date, Date.today]})
+    filter(:created_at, :datetime, :range => true, :default => proc { [1.day.ago, Time.now]})
 
     column(:id, :order => nil)
     column(:ask_id, :order => nil)

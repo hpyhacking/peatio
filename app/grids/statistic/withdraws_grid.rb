@@ -10,7 +10,7 @@ module Statistic
 
     filter(:address_type, :enum, :select => Withdraw.address_type.value_options, :default => 100, :include_blank => false)
     filter(:state, :enum, :select => Withdraw.state.value_options, :default => 500)
-    filter(:created_at, :date, :range => true, :default => proc { [1.day.ago.to_date, Date.today]})
+    filter(:created_at, :datetime, :range => true, :default => proc { [1.day.ago, Time.now]})
 
     column(:member) do |model|
       format(model) do 

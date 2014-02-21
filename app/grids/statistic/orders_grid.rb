@@ -11,7 +11,7 @@ module Statistic
     filter(:currency, :enum, :select => Order.currency.value_options, :default => 3, :include_blank => false)
     filter(:state, :enum, :select => Order.state.value_options)
     filter(:type, :enum, :select => [[OrderBid.model_name.human, OrderBid.model_name], [OrderAsk.model_name.human, OrderAsk.model_name]])
-    filter(:created_at, :date, :range => true, :default => proc { [7.day.ago.to_date, Date.today]})
+    filter(:created_at, :datetime, :range => true, :default => proc { [7.day.ago, Time.now]})
 
     column(:member_id) do |model|
       format(model) do 

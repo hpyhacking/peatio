@@ -11,7 +11,7 @@ module Statistic
     filter(:currency, :enum, :select => Deposit.currency.value_options, :default => 1)
     filter(:address_type, :enum, :select => Deposit.address_type.value_options, :default => 100)
     filter(:state, :enum, :select => Deposit.state.value_options, :default => 500)
-    filter(:created_at, :date, :range => true, :default => proc { [1.day.ago.to_date, Date.today]})
+    filter(:created_at, :datetime, :range => true, :default => proc { [1.day.ago, Time.now]})
 
     column :member do |model|
       format(model) do 
