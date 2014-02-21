@@ -4,7 +4,7 @@ zh-CN:
       success: 设置成功！
       failure: 无效动态密码，设置失败。请重试。
       index:
-        safety_instruction: 建议您启动全部安全设置，以保障帐户及资金安全。
+        safety_instruction: 建议您启动两部验证，以保障帐户及资金安全。
         reset_password: 重置登录密码
         reauthenticate: 身份验证
         account_versions:
@@ -21,7 +21,7 @@ zh-CN:
           description: 请定期重置您的登录密码，以增加账户的安全性。
         language:
           title: 语言
-          description: 如果您愿意并有能力贡献貔貅其他语言版本，请<a href='mailto:services@peatio.com?subject=貔貅交易所开源多语言版本&body=我愿意为貔貅交易所贡献 .... 语言版本'>联系我们</a>。
+          description: 如果您愿意并有能力贡献貔貅其他语言版本，请<a href='mailto:community@peatio.com?subject=貔貅交易所开源多语言版本&body=我愿意为貔貅交易所贡献 .... 语言版本'>联系我们</a>。
     otps:
       new:
         step_1: 第一步

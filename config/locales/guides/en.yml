@@ -1,5 +1,9 @@
 en:
   guides:
+    settings:
+      panel: Member Profile
+      index:
+        title: Setting your profile
     deposits:
       panel: Deposits
       index:

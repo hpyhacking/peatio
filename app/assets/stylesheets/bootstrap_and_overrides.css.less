@@ -10,10 +10,11 @@
 @screen-lg-desktop:          @screen-lg-min;
 
 @main-color: rgba(83,102,120, 1.0);
+@main-dark-color: darken(@main-color, 10%);
 @body-bg: rgba(242, 242, 242, 1.0);
-@btn-primary-bg: darken(@main-color, 10%);
+@btn-primary-bg: @main-dark-color;
 
-@navbar-default-bg: rgba(52,72,95, 1.0);
+@navbar-default-bg: @main-dark-color;
 @navbar-default-link-color: #DDD;
 @navbar-default-link-hover-color: #EEE;
 @navbar-default-link-active-color: #EEE;
@@ -34,3 +35,10 @@
 @import 'market';
 @import 'ticker';
 @import 'admin';
+
+.row-middle {
+  .display(flex);
+  .align-items(center);
+  .justify-content(center);
+  .flex-direction(row);
+}
