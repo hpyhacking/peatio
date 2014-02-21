@@ -1,5 +1,6 @@
 zh-CN:
   datagrid:
+    empty: 未有任何查询数据
     filters:
       date:
         range_separator: " ~ "

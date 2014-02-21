@@ -13,7 +13,7 @@ Local variables:
   </thead>
   <tbody>
     <% if assets.empty? %>
-      <tr><td colspan="99" style="text-align:center; font-size: 32px;">......</td></tr> 
+      <tr><td class='datagrid-empty' colspan="99"><%= t('datagrid.empty') %><td></tr> 
     <% else %>
     <%= datagrid_rows(grid, assets, options) %>
     <% end %>

@@ -1,5 +1,6 @@
 en:
   datagrid:
+    empty: Empty Result Data
     filters:
       date:
         range_separator: " ~ "
