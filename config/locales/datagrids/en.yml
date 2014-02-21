@@ -1,9 +1,9 @@
 en:
   datagrid:
-    empty: Empty Result Data
+    empty: no data found
     filters:
       date:
-        range_separator: " ~ "
+        range_separator: " to "
     form:
       submit: Search
     withdraws_grid:
@@ -14,99 +14,99 @@ en:
         address_type_text: Address
         amount: Amount
         fee: Fee
-        created_at: At
-        done_at: Done At
+        created_at: Created at
+        done_at: Completed at
         state_text: State
     members_grid:
       columns:
-        sn: SN
+        sn: Serial number
         email: Email
-        created_at: At
+        created_at: Created at
         actions: Actions
     account_versions_grid:
       columns:
-        created_at: At
+        created_at: Created at
         currency_text: Currency
         balance: Balance
         in: In
         out: Out
         amount: Amount
         reason_text: Reason
-        modifiable_type: LINK
+        modifiable_type: Link
         fee: Fee
       filters:
         reason: Reason
         currency: Currency
     statistic_members_grid:
       columns:
-        sn: SN
+        sn: Serial number
         id: ID
         email: Email
-        created_at: At
+        created_at: Created at
         is_active: Active
         detail: Detail
         action: Action
       filters:
-        sn: SN
+        sn: Serial number
         is_active: Active
-        created_at: At
+        created_at: Created at
         email: Email
       groups:
         count: Count
     statistic_orders_grid:
       columns:
-        id: SN
+        id: Serial number
         price: Price
         volume: Volume
-        created_at: At
+        created_at: Created at
         state_text: State
         member_id: Member
       filters:
         state: State
         currency: Currency
-        created_at: At
-        type: ASK/BID
+        created_at: Created at
+        type: Ask/Bid
       groups:
-        avg: AVG
-        sum: SUM
-        sum_strike: SUM DONE
-        count: ORDER COUNT
+        avg: Avg
+        sum: Sum
+        sum_strike: Sum done
+        count: Order count
     statistic_trades_grid:
       columns:
         id: ID
         price: Price
         volume: Volume
         strike_amount: Amount
-        created_at: At
+        created_at: Created at
       filters:
         currency: Currency
-        created_at: At
+        created_at: Created at
       groups:
         count: Count
         volume: Volume
         amount: Amount
-        min_price: MIN
-        max_price: MAX
-        avg_price: AVG
-        amount_fee: AMOUNT FEE
-        volume_fee: VOLUME FEE
+        min_price: Min
+        max_price: Max
+        avg_price: Avg
+        amount_fee: Amount fee
+        volume_fee: Volume fee
     statistic_deposits_grid:
       columns:
         member: Member
-        address_type_text: Pay Type
-        tx_id: Tx
-        amount: AMOUNT
+        address_type_text: Pay type
+        tx_id: TX ID
+        amount: Amount
         currency: Currency
-        created_at: At
+        created_at: Created at
         state_text: State
       filters:
         currency: Currency
         state: State
-        created_at: At
+        created_at: Created at
         address_type: Address
       groups:
-        count: COUNT
-        amount: AMOUNT
+        count: Count
+        amount: Amount
     statistic_withdraws_grid:
       columns:
         member: Member
@@ -114,12 +114,12 @@ en:
         address: Adress
         amount: Amount
         currency: Currency
-        created_at: At
+        created_at: Created at
         state_text: State
       filters:
         state: State
-        created_at: At
+        created_at: Created at
         address_type: Address
       groups:
-        count: COUNT
-        amount: AMOUNT
+        count: Count
+        amount: Amount
