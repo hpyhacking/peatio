@@ -43,7 +43,7 @@ zh-CN:
     updating: 'Updating...'
     buttons:
       or: 'or'
-      cancel: 'cancel'
+      cancel: 取消
     "yes": '是'
     "no": '否'
     required:

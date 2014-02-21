@@ -12,6 +12,7 @@ en:
       panel: Withdraws
       new:
         title: Select a Withdraw Channel
+        attach-title: Withdraw History
     sessions:
       panel: Sign In
       new:

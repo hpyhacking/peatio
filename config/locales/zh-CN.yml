@@ -203,7 +203,7 @@ zh-CN:
         operation: 操作
       payment_transaction:
         at: 时间
-        txid: 交易ID
+        txid: 交易编号
         amount: 金额
         confirmations: 确认数
         state: 状态

@@ -7,3 +7,4 @@ zh-CN:
         title: "%{icon} %{c} 账户"
         cny_format: '0.00'
         btc_format: '0.00000000'
+        total: 总额合计

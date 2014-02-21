@@ -8,6 +8,7 @@ zh-CN:
       panel: 资金提现
       new:
         title: 选择资金提现通道
+        attach-title: 提现记录历史
     sessions:
       panel: 登录
       new:

@@ -1,6 +1,6 @@
 zh-CN:
   datagrid:
-    empty: 未有任何查询数据
+    empty: 没有任何数据查询结果
     filters:
       date:
         range_separator: " ~ "
@@ -8,6 +8,8 @@ zh-CN:
       submit: 查询
     withdraws_grid:
       columns:
+        sn: 编号
+        name: 姓名
         position_in_queue: 队列位置
         currency_text: 币种
         address_label: 标签
