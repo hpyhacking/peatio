@@ -9,10 +9,10 @@ zh-CN:
       new:
         title: 选择资金提现通道
     sessions:
-      panel: Sign In
+      panel: 登录
       new:
-        title: Sign In to Exchange
+        title: 登录以开始交易
     identities:
-      panel: Sign Up
+      panel: 注册
       new:
-        title: Sign Up to Exchange
+        title: 注册以开始交易

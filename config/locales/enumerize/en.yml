@@ -2,18 +2,18 @@ en:
   enumerize:
     account_version:
       reason:
-        fix: 系统修正
-        unknown: 未知
-        strike_add: 成交增加
-        strike_sub: 成交扣除
-        strike_fee: 手续费
-        strike_unlock: 成交解除冻结
-        order_cancel: 撤单
-        order_submit: 挂单
-        deposit: 充值
-        withdraw: 提现
-        withdraw_lock: 提现冻结
-        withdraw_unlock: 提现驳回
+        fix: FIX
+        unknown: UNKNOWN
+        strike_add: TRADE PLUS
+        strike_sub: TRADE SUB
+        strike_fee: TRADE FEE
+        strike_unlock: TRADE UNLOCK
+        order_cancel: ORDER CANCEL
+        order_submit: ORDER SUBMIT
+        deposit: DEPOSIT
+        withdraw: WITHDRAW
+        withdraw_lock: WITHDRAW LOCK
+        withdraw_unlock: WITHDRAW UNLOCK
     state:
       done: Done
       wait: Wait
@@ -23,35 +23,32 @@ en:
       btc: BTC
     order:
       state:
-        done: 完全成交
-        wait: 等待成交
-        cancel: 撤销
+        done: DONE
+        wait: WAIT
+        cancel: CANCEL
     deposit:
       address_type:
-        protoshares: 比特股
-        satoshi: 比特币
-        bank: 银行转账
+        satoshi: Bitcoin
+        bank: Bank
       state:
-        wait: 等待
-        done: 完成
+        wait: WAIT
+        done: DONE
     withdraw: 
       address_type:
-        protoshares: 比特股
-        satoshi: 比特币
-        bank: 银行转账
+        satoshi: Bitcoin
+        bank: Bank
       state:
-        apply: 待确认
-        wait: 待校验
-        reject: 被驳回
-        examined: 已校验
-        examined_warning: 校验异常
-        transact: 处理中
-        coin_ready: 提现中
-        coin_done: 提现完毕
-        done: 已提现
-        cancel: 撤销
+        apply: Apply
+        wait: Wait
+        reject: Reject
+        examined: Examined
+        examined_warning: Warning
+        transact: Transact
+        coin_ready: Coin Ready
+        coin_done: Coin Done
+        done: Done
+        cancel: Cancel
     withdraw_address:
       category:
-        protoshares: 比特股
         satoshi: Bitcoin
-        bank: 银行转账
+        bank: Bank

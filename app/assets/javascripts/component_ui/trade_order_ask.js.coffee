@@ -1,7 +1,7 @@
 window.TradeOrderAskUI = flight.component ->
   @.defaultAttrs
     volumeSel: 'input[id$=volume]'
-    appendSel: '.input-append'
+    appendSel: '.input-group'
 
   @.after 'initialize', ->
     price = (gon.bids[0] && gon.bids[0][0]) || null
@@ -14,6 +14,6 @@ window.TradeOrderAskUI = flight.component ->
     @.on 'order_empty', ->
       @.trigger document, 'trade::order', {order: 'ask'}
 
-    @.select('volumeSel').wrap("<div class=input-append></div>")
-    $("<span class=add-on><i class='fa fa-bolt'></i></span>").appendTo(@.select('appendSel')).click =>
+    @.select('volumeSel').wrap("<div class=input-group></div>")
+    $("<span class=input-group-btn><button class='btn btn-default btn-warning' type='button'><i class='fa fa-bolt'></i></button></span>").appendTo(@.select('appendSel')).click =>
       @.select('volumeSel').val(gon.accounts.ask.balance).fixAsk().trigger 'change'

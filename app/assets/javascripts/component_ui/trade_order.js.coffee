@@ -56,6 +56,7 @@ window.TradeOrderUI = flight.component ->
       @.info()
 
   @.info = (volume, price) ->
+    return
     if volume and price
       @.select('infoSel').text("#{fixAsk volume} @ #{fixBid price}")
     else

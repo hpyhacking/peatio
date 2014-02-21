@@ -17,7 +17,6 @@
       ul.nav.nav-tabs
         li.active: a#bid-panel-link.bid-panel href="#bid_panel" data-toggle="tab" == t('.bid_panel', currency: @ask_name)
         li: a.ask-panel href="#ask_panel" data-toggle="tab" == t('.ask_panel', currency: @ask_name)
-        li: a href="#help_panel" data-toggle="tab" = t('.help_panel')
       .tab-content
         #bid_panel.tab-pane.active: .trade-wrapper
           = render partial: 'account_wrapper', locals: {order: 'bid', ask: @ask, bid: @bid}
@@ -27,4 +26,3 @@
           = render partial: 'account_wrapper', locals: {order: 'ask', ask: @ask, bid: @bid}
           = render partial: 'order_wrapper', locals: {market: @market, order: @order_ask}
           = render partial: 'history_wrapper'
-        #help_panel.tab-pane

@@ -1,8 +1,10 @@
 = content_for :frame do
   .container
-    #global
-      = render partial: 'shared/markets'
-      = render partial: 'shared/global'
+    #global.row
+      .col-md-2
+        = render partial: 'shared/markets'
+      .col-md-10
+        = render partial: 'shared/ticker'
     .panel.panel-default
       .panel-body
         = yield

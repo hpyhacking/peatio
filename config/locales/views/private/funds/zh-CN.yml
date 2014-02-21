@@ -19,13 +19,5 @@ zh-CN:
             withdraw: 提现
             fix: 系统修正
         ref:
-          system: '系统'
-          default: '默认'
-          cny:
-            strike_add: '订单 %{order} 价格%{price} 成交量 %{volume} 卖出 %{amount} 手续费 %{fee}'
-            strike_sub: '订单 %{order} 价格%{price} 成交量 %{volume} 买入 %{amount}'
-            deposit: '通过 %{payment_way} 充值 交易编号 %{payment_id}'
-          btc:
-            strike_add: '订单 %{order} 价格%{price} 成交量 %{volume} 买入 %{amount} 手续费 %{fee}'
-            strike_sub: '订单 %{order} 价格%{price} 成交量 %{volume} 卖出 %{amount}'
-            deposit: '为地址 %{payment_address} 充值 交易编号 %{payment_id}'
+          system: 系统
+          default: 默认

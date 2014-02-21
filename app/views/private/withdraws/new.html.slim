@@ -1,5 +1,5 @@
 = simple_form_for @withdraw do |f|
-  = f.input :withdraw_address_id, collection: @withdraw_addresses, prompt: "请选择"
+  = f.input :withdraw_address_id, collection: @withdraw_addresses, prompt: t('actions.select')
   = f.input :sum, as: :decimal, input_html: {min: 0}
   = f.input :password
   hr.split

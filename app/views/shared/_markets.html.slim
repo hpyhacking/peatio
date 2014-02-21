@@ -1,6 +1,6 @@
-#market_selector.btn-group.select
-  button.btn.btn-default.dropdown-toggle.clearfix data-toggle="dropdown"
-    = I18n.t("markets.#{latest_market}")
+#market_selector.btn-group
+  button.btn.btn-default.dropdown-toggle.btn-lg type="button" data-toggle="dropdown"
+    | #{I18n.t("markets.#{latest_market}")}
     span.caret
   ul.dropdown-menu role="menu"
     - Market.enumerize.each_key do |key|

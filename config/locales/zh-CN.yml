@@ -308,6 +308,7 @@ zh-CN:
       verification_failed: 验证码错误，请再试试看。
       recaptcha_unavailable: 验证时遇到错误，请稍后重试。
   actions:
+    select: 请选择
     unlock: 解锁
     confirm: 确认
     back: 返回
@@ -321,12 +322,11 @@ zh-CN:
     close: 退出
     cancel: 撤销
     view: 查看
-    clipboard:
-      click: Click to copy
-      done: 复制成功
-      done: Copyed
     transact: 处理
     reject: 驳回
+    clipboard:
+      click: 点击拷贝
+      done: 拷贝完毕
   global:
     ask_price: 卖出
     bid_price: 买入

@@ -9,7 +9,7 @@ en:
         reauthenticate: Re-authenticate
         account_versions:
           title: Account History
-          description: 每一笔交易、每一分钱收入都是有据可查，巨细无遗的。
+          description: Description
           view: View
         two_factor_auth:
           title: 2-Step Verification

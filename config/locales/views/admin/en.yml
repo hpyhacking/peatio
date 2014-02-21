@@ -2,10 +2,10 @@ en:
   admin:
     members:
       show:
-        member_title: 用户信息
-        actions_title: 操作
-        accounts_title: 账户信息
-        account_versions_title: 账户记录
+        member_title: Member Info
+        actions_title: Action
+        accounts_title: Account Info
+        account_versions_title: Account Version
     dashboard:
       index:
         accounts_title: Accounts summary
@@ -15,8 +15,8 @@ en:
         new: New document
     currency_deposits:
       new:
-        deposit: 充值
-        accounts_title: 账户信息
+        deposit: Deposit
+        accounts_title: Account Info
       create:
         success: 'Alipay Charge Successful.'
     withdraws:

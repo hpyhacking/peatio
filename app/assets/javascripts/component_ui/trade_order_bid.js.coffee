@@ -1,7 +1,7 @@
 window.TradeOrderBidUI = flight.component ->
   @.defaultAttrs
     sumSel: 'input[id$=sum]'
-    appendSel: '.input-append'
+    appendSel: '.input-group'
 
   @.after 'initialize', ->
     price = (gon.asks[0] && gon.asks[0][0]) || null
@@ -14,7 +14,6 @@ window.TradeOrderBidUI = flight.component ->
     @.on 'order_empty', ->
       @.trigger document, 'trade::order', {order: 'bid'}
 
-    @.select('sumSel').wrap("<div class=input-append></div>")
-    @.select('appendSel').append
-    $("<span class=add-on><i class='fa fa-bolt'></i></span>").appendTo(@.select('appendSel')).click =>
+    @.select('sumSel').wrap("<div class=input-group></div>")
+    $("<span class=input-group-btn><button class='btn btn-default btn-warning' type='button'><i class='fa fa-bolt'></i></button></span>").appendTo(@.select('appendSel')).click =>
       @.select('sumSel').val(gon.accounts.bid.balance).fixBid().trigger 'change'

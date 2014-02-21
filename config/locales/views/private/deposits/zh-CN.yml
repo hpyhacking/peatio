@@ -33,9 +33,3 @@ zh-CN:
           transfer: 自动
           latency: 1 全网确认
           action: 钱包充值
-        protoshare:
-          title: 比特股
-          description: 使用本地钱包或任意在线钱包服务进行自动充值。
-          transfer: 自动
-          latency: 1 全网确认
-          action: 钱包充值

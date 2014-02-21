@@ -2,12 +2,10 @@
   .row: .col-md-12
     = simple_form_for [market, order], :remote => true do |f|
       = f.input :origin_volume, as: :string
-      span.fui-cross
       = f.input :price, as: :string
-      span.fui-arrow-right
       = f.input :sum, as: :string
-      .control-group
-        = f.button :submit, :class => "pull-right btn-wide"
+      hr.split
+      = f.button :wrapped
       span.label.label-info
       span.label.label-success
       span.label.label-important

@@ -28,7 +28,6 @@ zh-CN:
         cancel: 撤销
     deposit:
       address_type:
-        protoshares: 比特股
         satoshi: 比特币
         bank: 银行转账
       state:
@@ -36,7 +35,6 @@ zh-CN:
         done: 完成
     withdraw: 
       address_type:
-        protoshares: 比特股
         satoshi: 比特币
         bank: 银行转账
       state:
@@ -52,6 +50,5 @@ zh-CN:
         cancel: 撤销
     withdraw_address:
       category:
-        protoshares: 比特股
         satoshi: 比特币
         bank: 银行转账

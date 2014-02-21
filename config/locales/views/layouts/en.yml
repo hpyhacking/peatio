@@ -3,15 +3,15 @@ en:
     admin:
       menus:
         sections:
-          members: 用户管理
-          deposits: 充值通道
-          sites_statistics: 数据统计
-          operating: 运营管理
+          members: Member 
+          deposits: Deposit
+          sites_statistics: STAT
+          operating: Operating
         items:
           operating:
-            documents: 文档管理
-            withdraws: 提现管理
+            documents: Documents
+            withdraws: Withdraws
           deposits:
-            currency: 法币充值
+            currency: Deposit
     application:
-      close: 关闭
+      close: Close

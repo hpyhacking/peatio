@@ -27,8 +27,8 @@ en:
       reset_two_factor:
         create: Reset Two Factor
       reset_password:
-        update: 重置登录密码
-        create: 重置登录密码
+        update: Reset Sign in Password
+        create: Reset Sign in Password
       withdraw:
         edit: Process
         update: Process Withdraw
@@ -62,7 +62,7 @@ en:
     placeholders:
       defaults:
         email: Sign in email
-        password: 登录密码 (大小写字母与数字)
+        password: Sign in password
         password: Password
         otp: 2-Factor
         name: Real Name
@@ -73,11 +73,11 @@ en:
         title: Document Title
       withdraw:
         amount: Withdraw Amount
-        amount: 您想要提现的金额
-        password: 请验证登录密码
+        amount: You wang withdraw amount
+        password: Please validation your sign inpassword
       withdraw_address:
-        label: 法币地址标签需与本人真实姓名相符
-        address: 比特币收款地址或网银账户
+        label: Real name
+        address: Address
       order_bid:
         origin_volume:  Buy Volume
         sum: Sum
