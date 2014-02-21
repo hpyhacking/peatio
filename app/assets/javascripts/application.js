@@ -25,6 +25,7 @@
 //= require bootstrap/scrollspy
 //= require bootstrap/tab
 //= require bootstrap/transition
+//= require bootstrap-datetimepicker
 //
 //= require moment
 //= require numeral
