@@ -3,10 +3,10 @@ en:
     admin:
       menus:
         sections:
-          members: Member 
-          deposits: Deposit
-          sites_statistics: STAT
-          operating: Operating
+          members: Members
+          deposits: Deposits
+          sites_statistics: Analytics
+          operating: Operations
         items:
           operating:
             documents: Documents
