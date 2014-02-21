@@ -38,7 +38,7 @@ class Withdraw < ActiveRecord::Base
   validate :validate_password, on: :create
 
   def coin?
-    address_type.satoshi? or address_type.protoshares?
+    address_type.try(:satoshi?) or address_type.try(:protoshares?)
   end
 
   def examine
