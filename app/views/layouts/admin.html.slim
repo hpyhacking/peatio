@@ -10,7 +10,7 @@
           li class='#{check_active(Document)}'
             a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
         - if can? :manage, Withdraw
-          li: a href='#{admin_withdraws_path}' = t('.menus.items.operating.withdraws')
+          li.ops: a href='#{admin_withdraws_path}' = t('.menus.items.operating.withdraws')
 
         li.nav-header = t('.menus.sections.sites_statistics')
         - if can? :read, Statistic::MembersGrid

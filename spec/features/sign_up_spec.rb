@@ -6,10 +6,13 @@ describe 'Sign up', js: true do
   def fill_in_sign_up_form
     visit root_path
     click_on I18n.t('header.signup')
-    fill_in 'email', with: 'wei@example.com'
-    fill_in 'password', with: 'Password123'
-    fill_in 'password_confirmation', with: 'Password123'
-    click_on I18n.t('header.signup')
+
+    within('form#new_identity') do
+      fill_in 'email', with: 'wei@example.com'
+      fill_in 'password', with: 'Password123'
+      fill_in 'password_confirmation', with: 'Password123'
+      click_on I18n.t('header.signup')
+    end
   end
 
   def email_activation_link

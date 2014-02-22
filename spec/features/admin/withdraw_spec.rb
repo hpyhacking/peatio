@@ -18,8 +18,10 @@ describe 'withdraw' do
   def visit_admin_withdraw_page
     login identity
     click_on I18n.t('header.admin')
-    expect(page).to have_content(I18n.t('layouts.admin.menus.items.operating.withdraws'))
-    click_on I18n.t('layouts.admin.menus.items.operating.withdraws')
+    within '.ops' do
+      expect(page).to have_content(I18n.t('layouts.admin.menus.items.operating.withdraws'))
+      click_on I18n.t('layouts.admin.menus.items.operating.withdraws')
+    end
   end
 
   it 'admin view withdraws' do
