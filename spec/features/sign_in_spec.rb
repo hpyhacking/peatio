@@ -5,12 +5,7 @@ describe 'Sign in' do
   let!(:user) { create :member, identity: identity }
 
   it 'allows a user to sign in with email, password' do
-    visit root_path
-    click_on I18n.t('header.signin')
-    fill_in 'identity_email', with: identity.email
-    fill_in 'identity_password', with: 'Password123'
-    click_on I18n.t('header.signin')
-
+    login identity
     expect(page).to have_content(I18n.t('header.market'))
   end
 
@@ -20,11 +15,7 @@ describe 'Sign in' do
       two_factor.refresh
       two_factor.update_attributes(is_active: true)
 
-      visit root_path
-      click_on I18n.t('header.signin')
-      fill_in 'identity_email', with: identity.email
-      fill_in 'identity_password', with: 'Password123'
-      click_on I18n.t('header.signin')
+      login identity
     end
 
     it 'if he tries to perform 2-step verification after session expires, should redirect user back to login step with error message', js: true do
