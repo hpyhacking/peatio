@@ -15,7 +15,7 @@ ul.list-group
                 span = d.latency_text
           p.text-ignore = d.intro_text
         .col-md-2
-          a.btn.btn-success.btn-block href='#{d.link}' = t('.go')
+          a.btn.btn-success.btn-block class="#{d.id}" href='#{d.link}' = t('.go')
 
 = content_for :guide do
   = render 'private/shared/balances'

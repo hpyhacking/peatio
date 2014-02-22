@@ -10,10 +10,10 @@ describe 'deposits' do
     Account.any_instance.stubs(:payment_addresses).returns(object)
   end
 
-  it 'allows user to view itself SN code' do
+  it 'allows user to view his/her SN code' do
     login identity
     click_on I18n.t 'header.deposit'
-    click_on 'bank'
+    find('.btn.bank').click
     expect(page).to have_content member.sn
   end
 end
