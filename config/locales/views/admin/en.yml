@@ -32,4 +32,33 @@ en:
         success: Withdraw rejected
     statistic:
       filter: Filter
+      summary: Summary
       click-to-expand: Click to expand
+      members:
+        show:
+          count: Member count
+      orders:
+        show:
+          avg: Average order price
+          sum: Total order volume
+          sum_strike: Total successful order volume
+          count: Order count
+      trades:
+        show:
+          count: Count
+          volume: Volume
+          amount: Amount
+          min_price: Low
+          max_price: High
+          avg_price: Average
+          amount_fee: Total fee amount
+          volume_fee: Total fee count
+      deposits:
+        show:
+          count: Count
+          amount: Amount
+      withdraws:
+        show:
+          count: Count
+          amount: Amount
+          fee: Fee

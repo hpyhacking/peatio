@@ -51,8 +51,6 @@ en:
         is_active: Active
         created_at: Created at
         email: Email
-      groups:
-        count: Count
     statistic_orders_grid:
       columns:
         id: Serial number
@@ -66,11 +64,6 @@ en:
         currency: Currency
         created_at: Created at
         type: Ask/Bid
-      groups:
-        avg: Avg
-        sum: Sum
-        sum_strike: Sum done
-        count: Order count
     statistic_trades_grid:
       columns:
         id: ID
@@ -81,15 +74,6 @@ en:
       filters:
         currency: Currency
         created_at: Created at
-      groups:
-        count: Count
-        volume: Volume
-        amount: Amount
-        min_price: Min
-        max_price: Max
-        avg_price: Avg
-        amount_fee: Amount fee
-        volume_fee: Volume fee
     statistic_deposits_grid:
       columns:
         member: Member
@@ -104,9 +88,6 @@ en:
         state: State
         created_at: Created at
         address_type: Address
-      groups:
-        count: Count
-        amount: Amount
     statistic_withdraws_grid:
       columns:
         member: Member
@@ -120,6 +101,3 @@ en:
         state: State
         created_at: Created at
         address_type: Address
-      groups:
-        count: Count
-        amount: Amount

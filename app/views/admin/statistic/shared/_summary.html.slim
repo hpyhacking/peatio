@@ -9,6 +9,6 @@
       .datagrid-groups
         - if groups
           - groups.each do |key, val|
-            .datagrid.group
-              h3.title = key
-              span.value = val
+            .datagrid.group.row
+              span.col-md-2.title = t("admin.statistic.#{controller_name}.#{controller.action_name}.#{key}")
+              span.col-md-10.value = val
