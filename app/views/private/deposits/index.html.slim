@@ -1,6 +1,6 @@
 ul.list-group
   - @depostis.each do |d|
-    li.list-group-item
+    li.list-group-item class='deposit-channel-#{d.id}'
       .row.row-middle
         .col-md-10
           .row.row-middle
@@ -15,7 +15,7 @@ ul.list-group
                 span = d.latency_text
           p.text-ignore = d.intro_text
         .col-md-2
-          a.btn.btn-success.btn-block class="#{d.id}" href='#{d.link}' = t('.go')
+          a.btn.btn-success.btn-block href='#{d.link}' = t('actions.go')
 
 = content_for :guide do
   = render 'private/shared/balances'

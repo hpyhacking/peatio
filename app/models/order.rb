@@ -75,9 +75,7 @@ class Order < ActiveRecord::Base
   end
 
   def self.head(currency)
-    # WARNING time_priority must before price_priority 
-    # generate order 'price, created_at' to execute right query
-    active.with_currency(currency.downcase).time_priority.price_priority.first
+    active.with_currency(currency.downcase).matching_rule.first
   end
 
   def self.empty
@@ -95,6 +93,4 @@ class Order < ActiveRecord::Base
   def kind_text
     self.class.model_name.human
   end
-
-  scope :time_priority, -> { order('created_at ASC') }
 end

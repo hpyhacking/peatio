@@ -308,6 +308,7 @@ en:
       verification_failed: Invlaid verification
       recaptcha_unavailable: Invlaid verification
   actions:
+    go: Go
     select : Please Select
     unlock: Unlock
     confirm: Confirm

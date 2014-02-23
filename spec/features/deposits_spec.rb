@@ -13,7 +13,9 @@ describe 'deposits' do
   it 'allows user to view his/her SN code' do
     login identity
     click_on I18n.t 'header.deposit'
-    find('.btn.bank').click
+    within '.deposit-channel-bank' do
+      click_on I18n.t('actions.go')
+    end
     expect(page).to have_content member.sn
   end
 end

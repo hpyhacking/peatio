@@ -1,5 +1,6 @@
 def login identity, otp='', password='Password123'
   visit root_path
+  
   click_on I18n.t('header.signin')
 
   within 'form#new_identity' do

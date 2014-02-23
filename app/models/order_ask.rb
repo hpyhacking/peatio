@@ -21,5 +21,5 @@ class OrderAsk < Order
 
   has_many :trades, foreign_key: 'ask_id'
 
-  scope :price_priority, -> { order('price ASC') }
+  scope :matching_rule, -> { order('price ASC, created_at ASC') }
 end

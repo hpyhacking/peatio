@@ -10,15 +10,13 @@ class Global
   def order_asks
     @asks ||= OrderAsk.active.
       with_currency(currency).
-      time_priority.
-      price_priority.position
+      matching_rule.position
   end
 
   def order_bids
     @bids ||= OrderBid.active.
       with_currency(currency).
-      time_priority.
-      price_priority.position
+      matching_rule.position
   end
 
   def channel
