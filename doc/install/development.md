@@ -117,6 +117,12 @@ Insert the following lines into your bitcoin.conf, and replce with your username
     # uncomment reCAPTCHA and Pusher related settings
     vim config/application.yml
 
+##### Setup bitcoind rpc endpoint
+
+    # replace username:password and port with the one you set in
+    # bitcoin.conf in previous step
+    vim config/currency.yml
+
 ##### Config database settings:
 
     vim config/database.yml
