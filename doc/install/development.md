@@ -10,8 +10,7 @@ The Peatio installation consists of setting up the following components:
 
 ## 1. Requirements
 
-* XCode and/or the XCode Command Line Tools.
-* Homebrew
+* Linux / Mac OSX
 * Ruby 2.1.0, using [RVM](http://rvm.io/) or [rbenv](https://github.com/sstephenson/rbenv)
 * MySQL
 * Redis
@@ -21,14 +20,14 @@ The Peatio installation consists of setting up the following components:
 
 ** More details are in the [requirements doc](doc/install/requirements.md)
 
+### reCAPTCHA
+
+Peatio use [reCAPTCHA](https://www.google.com/recaptcha) to make sure certain operations is not done by bots. A development key/secrect pair is provided in `config/application.yml` (uncomment to use). PLEASE USE IT IN DEVELOPMENT/TEST ENVIRONMENT ONLY!
+
 ### Pusher
 
-Peatio dependence [Pusher](http://pusher.com) service, you can change your key in `config/application.yml` file for production environment. we support development key and secret in repo, is only support test and development environment.
+Peatio depends on [Pusher](http://pusher.com). A development key/secret pair for development/test is provided in `config/application.yml` (uncomment to use). PLEASE USE IT IN DEVELOPMENT/TEST ENVIRONMENT ONLY!
 
-     PUSHER_APP: 65910
-     PUSHER_KEY: 50d404c35db92d736a57
-     PUSHER_SECRET: 75d6e6685209cc60cc4d
-     
 More details to visit [pusher official website](http://pusher.com)
 
 ##### Install PhatomJS
@@ -37,7 +36,7 @@ More details to visit [pusher official website](http://pusher.com)
 
     brew install phantomjs
 
-**For Linux**
+**For Ubuntu**
 
     sudo apt-get install -y libfontconfig libfontconfig-dev libfreetype6-dev
 
@@ -54,7 +53,7 @@ binary.
 
     brew install qrencode
 
-**For Linux**
+**For Ubuntu**
 
     sudo apt-get install qrencode libqrencode-dev
 
@@ -66,7 +65,7 @@ binary.
 
 Download and Install [Bitcoin](http://bitcoin.org/en/download)    
 
-**For Linux**
+**For Ubuntu**
 
     sudo add-apt-repository ppa:bitcoin/bitcoin
     sudo apt-get update
@@ -113,16 +112,17 @@ Insert the following lines into your bitcoin.conf, and replce with your username
     cd peatio
     bundle install
 
+##### Setup reCAPTCHA/Pusher:
+
+    # uncomment reCAPTCHA and Pusher related settings
+    vim config/application.yml
+
 ##### Config database settings:
 
     vim config/database.yml
 
     # Initialize the database and load the seed data
     bundle exec rake db:setup
-
-##### Config email smtp settins:
-
-    TODO
 
 ##### Run Peatio
 
@@ -133,5 +133,4 @@ Insert the following lines into your bitcoin.conf, and replce with your username
 
     user: admin@peatio.dev
     pass: Pass@word8
-
 
