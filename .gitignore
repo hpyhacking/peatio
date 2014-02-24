@@ -17,5 +17,8 @@
 /log/*.pid
 /tmp
 
+# Ignore ctags
+.tags
+
 /vendor/bundle
 .env
