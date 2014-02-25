@@ -33,8 +33,8 @@ while($running) do
     end
   end
 
-  confiming = PaymentTransaction.with_state(:confirming).load
-  confiming.each do |payment_transaction|
+  confirming = PaymentTransaction.with_state(:confirming).load
+  confirming.each do |payment_transaction|
     rpc = CoinRPC[payment_transaction.currency]
     raw = rpc.gettransaction(payment_transaction.txid)
     payment_transaction.confirm! raw
