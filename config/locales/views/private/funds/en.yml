@@ -15,7 +15,7 @@ en:
           btc:
             strike_add: Plus
             strike_sub: Sub
-            deposit: Depositi
+            deposit: Deposit
             withdraw: Withdraw
             fix: Fix
         ref:
