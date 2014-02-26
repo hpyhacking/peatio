@@ -34,7 +34,7 @@ class PaymentTransaction < ActiveRecord::Base
     deposit = Deposit.create! \
       :state => :done,
       :address => self.payment_address.address,
-      :address_type => config[:name],
+      :address_type => config[:id],
       :currency => config[:currency],
       :address_label => "daemon",
       :account_id => self.account.id,
