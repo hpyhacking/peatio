@@ -67,6 +67,4 @@ class PaymentTransaction < ActiveRecord::Base
     self.payment_address.account
   end
 
-  def self.deposit(txid)
-  end
 end
