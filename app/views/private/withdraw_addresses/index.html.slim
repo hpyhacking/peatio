@@ -1,6 +1,9 @@
 = simple_form_for @withdraw_address do |f|
   = f.input :label
   = f.input :address
-  = f.input :category, prompt: "请选择"
+  = f.input :category, prompt: t('actions.select')
   hr.split
   = f.button :wrapped, cancel: new_withdraw_path
+
+= content_for :after do
+  = balance_panel

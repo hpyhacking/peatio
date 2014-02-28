@@ -1,8 +1,10 @@
 module Private
   class WithdrawsController < BaseController
     def new
-      @withdraw = Withdraw.new
       @withdraw_addresses = current_user.withdraw_addresses
+      redirect_to withdraw_addresses_path and return if @withdraw_addresses.empty?
+
+      @withdraw = Withdraw.new
       load_history
     end
 
