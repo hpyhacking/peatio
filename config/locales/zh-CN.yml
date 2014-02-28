@@ -290,13 +290,13 @@ zh-CN:
     order_created: 下单成功，您可以在<a href='%{url}'>订单中心</a>查看。
   header:
     admin: 管理
-    market: 交易大厅
+    market: 现货市场
     settings: 账户
     signin: 登录
     signout: 安全退出
-    signup: 注册
-    deposit: 充值
-    withdraw: 提现
+    signup: 开户注册
+    deposit: 资金充值
+    withdraw: 资金提现
     getstart: 前往交易大厅
   footer:
     about: 关于我们

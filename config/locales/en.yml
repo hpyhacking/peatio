@@ -286,7 +286,7 @@ en:
     order_created: Order Successful !!! View your <a href='%{url}'>orders</a>.
   header:
     admin: Admin
-    market: Markets
+    market: Cash Markets
     settings: Profile
     signin: Sign In
     signout: Exit
