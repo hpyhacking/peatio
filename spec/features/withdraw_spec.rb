@@ -18,14 +18,14 @@ describe 'withdraw' do
     create_withdraw_address
 
     expect(page).to have_content identity.email
-    expect(find('.currency-cny .available').text).to eq("1000.0")
-    expect(find('.currency-cny .locked').text).to eq("0.0")
+    expect(find('.account-cny .available').text).to eq("1000.0")
+    expect(find('.account-cny .locked').text).to eq("0.0")
 
     # submit withdraw request
     submit_withdraw_request 600
 
-    expect(find('.currency-cny .available').text).to eq("400.0")
-    expect(find('.currency-cny .locked').text).to eq("600.0")
+    expect(find('.account-cny .available').text).to eq("400.0")
+    expect(find('.account-cny .locked').text).to eq("600.0")
 
     form = find('.simple_form')
     expect(form).to have_text(I18n.t('enumerize.withdraw.state.apply'))
@@ -52,25 +52,25 @@ describe 'withdraw' do
     submit_withdraw_request 800
     click_on I18n.t('actions.confirm')
     expect(current_path).to eq(new_withdraw_path)
-    expect(find('.currency-cny .available').text).to eq("1700.0")
-    expect(find('.currency-cny .locked').text).to eq("800.0")
+    expect(find('.account-cny .available').text).to eq("1700.0")
+    expect(find('.account-cny .locked').text).to eq("800.0")
     expect(find('tbody tr:last-of-type .position_in_queue').text).to eq("1")
 
     # 2nd withdraw
     submit_withdraw_request 800
     click_on I18n.t('actions.confirm')
     expect(current_path).to eq(new_withdraw_path)
-    expect(find('.currency-cny .available').text).to eq("900.0")
-    expect(find('.currency-cny .locked').text).to eq("1600.0")
+    expect(find('.account-cny .available').text).to eq("900.0")
+    expect(find('.account-cny .locked').text).to eq("1600.0")
     expect(find('tbody tr:last-of-type .position_in_queue').text).to eq("2")
 
     submit_withdraw_request 600
-    expect(find('.currency-cny .available').text).to eq("300.0")
-    expect(find('.currency-cny .locked').text).to eq("2200.0")
+    expect(find('.account-cny .available').text).to eq("300.0")
+    expect(find('.account-cny .locked').text).to eq("2200.0")
     click_on I18n.t('actions.cancel')
     expect(current_path).to eq(new_withdraw_path)
-    expect(find('.currency-cny .available').text).to eq("900.0")
-    expect(find('.currency-cny .locked').text).to eq("1600.0")
+    expect(find('.account-cny .available').text).to eq("900.0")
+    expect(find('.account-cny .locked').text).to eq("1600.0")
   end
 
   private

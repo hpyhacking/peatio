@@ -1,5 +1,7 @@
 en:
   guides:
+    panels:
+      balance: Account Balance
     settings:
       panel: Member Profile
       index:
@@ -12,7 +14,7 @@ en:
       panel: Withdraws
       new:
         title: Select a Withdraw Channel
-        attach-title: Withdraw History
+        default-panel: Withdraw History
     sessions:
       panel: Sign In
       new:

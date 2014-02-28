@@ -4,6 +4,7 @@ zh-CN:
       balances:
         locked: 冻结
         balance: 余额
+        available: 可用
         title: "%{icon} %{c} 账户"
         cny_format: '0.00'
         btc_format: '0.00000000'

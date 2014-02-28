@@ -1,5 +1,7 @@
 = content_for :frame do
   .container
+    - if content_for?(:before)
+      = yield(:before)
     .panel.panel-default
       .panel-heading
         h2.panel-title = t("guides.#{controller_name}.panel")
@@ -12,10 +14,6 @@
               = yield(:guide)
           #content.col-md-8.col
             = yield
-    - if content_for?(:attach)
-      .panel.panel-default
-        .panel-heading
-          h3.panel-title = t("guides.#{controller_name}.#{action_name}.attach-title")
-        .panel-body
-          = yield(:attach)
+    - if content_for?(:after)
+      = yield(:after)
 = render template: "layouts/application"

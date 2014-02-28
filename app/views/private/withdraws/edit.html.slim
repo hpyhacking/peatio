@@ -24,5 +24,5 @@
     - else
       = link_to t('actions.back'), new_withdraw_path, class: 'btn btn-default btn-lg pull-right'
 
-= content_for :guide do
-  = render 'private/shared/balances'
+= content_for :after do
+  = balance_panel

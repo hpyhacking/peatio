@@ -96,4 +96,26 @@ module ApplicationHelper
     result = result.gsub(/#{SimpleForm.form_class}/, "simple_form").html_safe
     result.gsub(/col-sm-\d/, "").html_safe
   end
+
+  def panel(name: 'default-panel', key: nil, &block)
+    key ||= "guides.#{controller_name}.#{action_name}.#{name}"
+
+    content_tag(:div, :class => 'panel panel-default') do
+      content_tag(:div, :class => 'panel-heading') do
+        content_tag(:h3, :class => 'panel-title') do
+          I18n.t(key)
+        end
+      end +
+      content_tag(:div, :class => 'panel-body') do
+        capture(&block)
+      end
+    end
+  end
+
+  def balance_panel(member: nil)
+    member ||= current_user
+    panel name: 'balance-pannel', key: 'guides.panels.balance' do
+      render partial: 'private/shared/balances', locals: {member: member}
+    end
+  end
 end

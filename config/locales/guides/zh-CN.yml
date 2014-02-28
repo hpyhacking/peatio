@@ -1,5 +1,7 @@
 zh-CN:
   guides:
+    panels:
+      balance: 用户账户信息
     settings:
       panel: 账户资料
       index:
@@ -21,7 +23,7 @@ zh-CN:
       new:
         title: 选择资金提现通道
         intro: 快速的选择提现地址并输入要提现的金额到您的账户。
-        attach-title: 提现记录历史
+        default-panel: 提现记录历史
     withdraw_addresses:
       panel: 资金提现
       index:

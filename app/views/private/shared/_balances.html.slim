@@ -1,11 +1,7 @@
-- current_user.accounts.each do |account|
-  .row
-    .col-md-7: h4 = account.currency_text
-  .row
-    .col-md-7 class='currency-#{account.currency}': h5.text-ignore = t('.balance')
-    .col-md-5 class='currency-#{account.currency}': h5.available = account.balance
-  .row
-    .col-md-7 class='currency-#{account.currency}': h5.text-ignore = t('.locked')
-    .col-md-5 class='currency-#{account.currency}': h5.locked = account.locked
-  .row
-    .col-md-7 class='currency-#{account.currency}': h5.amount data-title="#{t('.total', currency: account.currency_text)}" = account.amount
+.row
+  - member.accounts.each do |account|
+    .col-md-6
+      .row class='account-#{account.currency}'
+        .col-md-4: h5.amount data-title='#{account.currency_text}' = account.amount
+        .col-md-3: h5.locked.text-right data-title='#{t('.locked')}' = account.locked
+        .col-md-3: h5.available.text-right data-title='#{t('.available')}' = account.balance
