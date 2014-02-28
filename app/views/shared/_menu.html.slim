@@ -1,7 +1,7 @@
 ul#menu.nav.navbar-nav.navbar-left
   = top_nav_link(t('header.market'), market_path(latest_market), 'exchange')
   = top_nav_link(t('header.deposit'), deposits_path, 'credit-card')
-  = top_nav_link(t('header.withdraw'), new_withdraw_path, 'money')
+  = top_nav_link(t('header.withdraw'), new_withdraw_path, 'money', controllers: ['withdraw_addresses'])
 - if current_user
   ul.nav.navbar-nav.navbar-right
     = top_nav_link(current_user.email, settings_path, 'user')

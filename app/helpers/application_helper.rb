@@ -80,8 +80,9 @@ module ApplicationHelper
     link_to t("actions.block"), uri, target: '_blank'
   end
 
-  def top_nav_link(link_text, link_path, link_icon)
-    class_name = current_page?(link_path) ? 'active' : ''
+  def top_nav_link(link_text, link_path, link_icon, controllers: [])
+    class_name = current_page?(link_path) ? 'active' : nil
+    class_name ||= controllers.include?(controller_name) ? 'active' : nil
 
     content_tag(:li, :class => class_name) do
       link_to link_path do
