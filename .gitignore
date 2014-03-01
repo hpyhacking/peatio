@@ -20,5 +20,7 @@
 # Ignore ctags
 .tags
 
+# Ignore vim temporary files
+**/*.swp
 /vendor/bundle
 .env
