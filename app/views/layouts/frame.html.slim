@@ -8,11 +8,15 @@
       .panel-body
         .row.col-wrap
           #guide.col-md-4
-            h3 = t("guides.#{controller_name}.#{action_name}.title")
+            - if content_for?(:guide_title)
+              = yield(:guide_title)
+            - else
+              h3 = t("guides.#{controller_name}.#{action_name}.title")
             p.text-ignore = t("guides.#{controller_name}.#{action_name}.intro")
             - if content_for?(:guide)
               = yield(:guide)
           #content.col-md-8.col
+            = render 'shared/flash'
             = yield
     - if content_for?(:after)
       = yield(:after)

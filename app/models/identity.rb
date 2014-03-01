@@ -12,6 +12,7 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
 
   validates :email, presence: true, uniqueness: true, email: true
   validates :password, presence: true, format: { with: PASSWORD_REGEX }, on: :create
+  validates :password_confirmation, presence: true, format: { with: PASSWORD_REGEX }, on: :create
 
   after_create :create_activation
 

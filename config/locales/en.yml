@@ -2,6 +2,7 @@ en:
   tags:
     vip: VIP
     hero: Hero Member
+    admin: Admin
   markets:
     cnybtc: CNY - BTC
   gon:
@@ -49,18 +50,6 @@ en:
       title: SIGN UP
       signin: Sign In
       password: Please enter a password of at least eight, and must include uppercase and lowercase letters and numbers.
-  sessions:
-    new:
-      title: SIGN IN
-      signup: Sign Up
-      reset_password: Forgot Password?
-    new_with_two_factor_auth:
-      title: 2 Step Verification
-      reset_two_factor: Lost 2-step-verification device
-    create_with_two_factor_auth:
-      session_expired: Session expired. Try again.
-    failure:
-      account_locked: Too many failed login attempts. To ensure the safety of your account, we have locked your account. To unlock, reset your password by clicking on "Forgot Password".
   reset_two_factors:
     create:
       success: 重置两步验证邮件已经发送，请根据邮件内容进行操作。
@@ -294,6 +283,7 @@ en:
     deposit: Deposit
     withdraw: Withdraw
     getstart: Get Start
+    assets: Assets
   footer:
     about: About
     privacy: privacy

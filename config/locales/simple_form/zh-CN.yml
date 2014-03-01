@@ -51,6 +51,9 @@ zh-CN:
       mark: '*'
     error_notification:
       default_message: "请检查以下问题:"
+    hints:
+      identity:
+        password: 请输入至少8位，并必须包含大写、小写字母与数字。
     labels:
       otp:
         otp: 验证器上的密码
@@ -60,15 +63,21 @@ zh-CN:
         category: 种类
       withdraw:
         password: 登录密码
+      session:
+        email: 登录邮箱
+        password: 登录密码
+      identity:
+        email: 登录邮箱
+        password: 新密码
+        password_confirmation: 确认密码
     placeholders:
-      defaults:
-        email: 登录邮件地址
-        password: 登录密码 (大小写字母与数字)
-        password_confirmation: 重复登录密码
-        otp: 两步验证
-        name: 真实姓名
-        price: 价格
-        volume: 数量
+      session:
+        email: 邮箱地址
+        password: ''
+      identity:
+        email: 例如：xiaobai@example.com
+        password: 请设置登录密码
+        password_confirmation: 确认密码
       document:
         key: 文章连接URL键值
         title: 文章标题

@@ -3,25 +3,42 @@ zh-CN:
     settings:
       success: 设置成功！
       failure: 无效动态密码，设置失败。请重试。
+
       index:
         safety_instruction: 建议您启动两部验证，以保障帐户及资金安全。
         reset_password: 重置登录密码
         reauthenticate: 身份验证
-        account_versions:
-          title: 账户历史
-          description: 每一笔交易、每一分钱收入都是有据可查，巨细无遗的。
-          view: 浏览
+
+        email:
+          title: 邮箱绑定
+          description: 您的邮箱还未经过验证，点击“发送邮件”按钮，完成验证。
+          description-done: 您的邮箱已验证通过，请牢记并保护好此邮箱地址，这是您作为登录的唯一账户。
+          resend: 再次发送
+          done: 已绑定
+
         two_factor_auth:
           title: 两步验证
-          description: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。
+          description: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户，在此我们使用谷歌身份验证器。
           configure: 设置验证
           disable: 禁用两步验证
+
+        identity:
+          title: 实名认证
+          description: 为配合国家相关法令条例，请您正确输入信息，完成认证。
+          go: 设置
+
+        asset_passwords:
+          title: 资金密码
+          description: 在您提现时，需要资金密码进行验证，强烈建议您不要使用和登录密码同样的密码！
+          go: 设置
+        
         passwords:
-          title: 重置密码
-          description: 请定期重置您的登录密码，以增加账户的安全性。
-        language:
-          title: 语言
-          description: 如果您愿意并有能力贡献貔貅其他语言版本，请<a href='mailto:community@peatio.com?subject=貔貅交易所开源多语言版本&body=我愿意为貔貅交易所贡献 .... 语言版本'>联系我们</a>。
+          title: 登录密码
+          description: 此密码仅限作网站登录使用，请您牢记。
+          go: 修改
+
+        
+
     otps:
       new:
         step_1: 第一步

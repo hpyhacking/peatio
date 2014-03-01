@@ -11,6 +11,7 @@ class SessionsController < ApplicationController
     session.delete :active_code
 
     @identity = Identity.find(env["omniauth.auth"].uid)
+
     if @identity.too_many_failed_login_attempts
       flash[:alert] = t('sessions.failure.account_locked')
       render :new and return
@@ -18,7 +19,7 @@ class SessionsController < ApplicationController
 
     if @identity.has_active_two_factor_auth?
       session[:tmp_identity_id] = @identity.id
-      redirect_to two_factor_auth_path
+      redirect_to two_factor_auth_path and return
     else
       Member.from_auth(env["omniauth.auth"])
       auth_success
@@ -57,9 +58,7 @@ class SessionsController < ApplicationController
       @identity = Identity.new
     end
 
-    @identity.errors.add(:email)
-    @identity.errors.add(:password)
-
+    flash.now[:alert] = t('.error')
     render :new
   end
 

@@ -1,10 +1,10 @@
 = simple_form_for @identity, :url => '/auth/identity/callback', :method => :post do |f|
-  = f.input :email, :input_html => {:name => 'auth_key', :autofocus => 'true'}
-  = f.input :password, :as => 'password', :input_html => {:name => 'password'}
+  = f.input :email, :input_html => {:name => 'auth_key', :autofocus => 'true'}, label: t('simple_form.labels.session.email'), placeholder: t('simple_form.placeholders.session.email')
+  = f.input :password, :as => 'password', :input_html => {:name => 'password'}, label: t('simple_form.labels.session.password'), placeholder: t('simple_form.placeholders.session.password')
   hr.split
   = f.button :wrapped, t('header.signin'), cancel: root_path
 
 = content_for :guide do
   ul.list-unstyled
     li: a href='#{new_reset_password_path}' = t('.reset_password')
-    li: a href='#{signup_path}' = t('.signup')
+    li: a href='#{signup_path}' = t('header.signup')

@@ -1,25 +1,40 @@
 ul.list-group
   li.list-group-item
-    .row
-      .col-md-2
-        i.fa.fa-user.fa-5x
-      .col-md-10
-        h4 = current_user.email
-        ul.list-group
-          - if current_user.admin?
-            span.label.label-warning ADMIN
-          - current_user.tag_list.each do |key|
-            span.label.label-info
-              = member_tag(key)
+    .row.row-middle
+      .col-md-1
+        i.fa.fa-envelope-o.fa-2x
+      .col-md-8
+        h4 = t('.email.title')
+        p.text-ignore = t('.email.description')
+      .col-md-3
+        = link_to t('.email.resend'), root_path, class: 'btn btn-success btn-block'
   li.list-group-item
     .row.row-middle
       .col-md-1
-        i.fa.fa-list.fa-2x
+        i.fa.fa-thumbs-o-up.fa-2x
       .col-md-8
-        h4 = t('.account_versions.title')
-        p.text-ignore = t('.account_versions.description')
+        h4 = t('.identity.title')
+        p.text-ignore = t('.identity.description')
       .col-md-3
-        a.btn.btn-success.btn-block href='#{account_versions_path}' = t('.account_versions.view')
+        = link_to t('.identity.go'), new_reset_password_path, class: 'btn btn-success btn-block'
+  li.list-group-item
+    .row.row-middle
+      .col-md-1
+        i.fa.fa-money.fa-2x
+      .col-md-8
+        h4 = t('.asset_passwords.title')
+        p.text-ignore = t('.asset_passwords.description')
+      .col-md-3
+        = link_to t('.asset_passwords.go'), root_path, class: 'btn btn-success btn-block'
+  li.list-group-item
+    .row.row-middle
+      .col-md-1
+        i.fa.fa-key.fa-2x
+      .col-md-8
+        h4 = t('.passwords.title')
+        p.text-ignore = t('.passwords.description')
+      .col-md-3
+        = link_to t('.passwords.go'), new_reset_password_path, class: 'btn btn-success btn-block'
   li.list-group-item
     .row.row-middle
       .col-md-1
@@ -32,23 +47,6 @@ ul.list-group
           a.btn.btn-warning.btn-block data-toggle="modal" href="#reauth" = t('.two_factor_auth.disable')
         -else
           = link_to t('.two_factor_auth.configure'), new_otp_path, class: 'btn btn-success btn-block'
-  li.list-group-item
-    .row.row-middle
-      .col-md-1
-        i.fa.fa-key.fa-2x
-      .col-md-8
-        h4 = t('.passwords.title')
-        p.text-ignore = t('.passwords.description')
-      .col-md-3
-        = link_to t('.reset_password'), new_reset_password_path, class: 'btn btn-success btn-block'
-  li.list-group-item
-    .row.row-middle
-      .col-md-1
-        i.fa.fa-font.fa-2x
-      .col-md-8
-        h4 = t('.language.title')
-        p.text-ignore == t('.language.description')
-      .col-md-3
 
 #reauth.modal.hide.fade
   .modal-header
@@ -61,5 +59,15 @@ ul.list-group
       .control-inline.control-group
         = submit_tag t('.two_factor_auth.disable'), class: 'btn btn-inverse'
 
+= content_for :guide_title do
+  h3
+    i.fa.fa-user
+    span = current_user.email
+
 = content_for :guide do
-  p.text-warning = t('.safety_instruction')
+  ul.list-group
+    - if current_user.admin?
+      span.label.label-warning ADMIN
+    - current_user.tag_list.each do |key|
+      span.label.label-info
+        = member_tag(key)

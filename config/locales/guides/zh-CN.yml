@@ -3,9 +3,8 @@ zh-CN:
     panels:
       balance: 用户账户信息
     settings:
-      panel: 账户资料
+      panel: 我的账户
       index:
-        title: 查看并修改您的信息
         intro: 管理并查看您的信息、记录等。
     deposits:
       panel: 资金充值
@@ -32,10 +31,13 @@ zh-CN:
     sessions:
       panel: 登录
       new:
-        title: 登录以开始交易
-        intro: 感谢您回来。
+        title: 登录我的账户
+        intro: 现在登录，以便您开始交易，随时关注交易动态。
+      failure:
+        title: 登录我的账户
+        intro: 现在登录，以便您开始交易，随时关注交易动态。
     identities:
-      panel: 注册
+      panel: 创建账户
       new:
-        title: 注册以开始交易
-        intro: 输入注册信息开始您的加密数字货币之旅。
+        title: 创建我的账户
+        intro: 这将是您在貔貅交易所使用各项服务所需要的用户名，例如交易购买、转账、提币、提现等，为了您的账户安全，尽量避免不安全的因素，请您填写完整。

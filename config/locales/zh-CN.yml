@@ -1,7 +1,8 @@
 zh-CN:
   tags:
     vip: VIP
-    hero: Hero Member
+    hero: 超级用户
+    admin: 管理员
   markets:
     cnybtc: CNY - BTC
   gon:
@@ -49,18 +50,6 @@ zh-CN:
       title: 账户注册
       signin: 立即登录
       password: 请输入至少8位密码，并必须包含大写、小写字母与数字。
-  sessions:
-    new:
-      title: 账户登录
-      signup: 立即注册
-      reset_password: 忘记密码
-    new_with_two_factor_auth:
-      title: 两步验证
-      reset_two_factor: 遗失两步验证
-    create_with_two_factor_auth:
-      session_expired: 操作超时，请重试。
-    failure:
-      account_locked: 密码错误次数过多，为保证您的帐户安全该帐户已被锁定。重置密码请点击“忘记密码”。
   reset_two_factors:
     create:
       success: 重置两步验证邮件已经发送，请根据邮件内容进行操作。
@@ -125,8 +114,8 @@ zh-CN:
     attributes:
       identity:
         email: 邮箱地址
-        password: 登录密码
-        password_confirmation: 重复登录密码
+        password: 新密码
+        password_confirmation: 确认密码
       document:
         zh_cn_body: 中文内容
         zh_cn_title: 中文标题
@@ -290,14 +279,15 @@ zh-CN:
     order_created: 下单成功，您可以在<a href='%{url}'>订单中心</a>查看。
   header:
     admin: 管理
-    market: 现货市场
+    market: 交易大厅
     settings: 账户
     signin: 登录
     signout: 安全退出
-    signup: 开户注册
-    deposit: 资金充值
-    withdraw: 资金提现
+    signup: 创建账户
+    deposit: 充值
+    withdraw: 提现
     getstart: 前往交易大厅
+    assets: 资产统计
   footer:
     about: 关于我们
     privacy: 隐私声明
@@ -343,6 +333,6 @@ zh-CN:
     volume: 成交量
   flash:
     notice: 非常好!
-    alert: 警告!
+    alert: 错误!
   'yes': 是
   'no': 否
