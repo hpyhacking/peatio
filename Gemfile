@@ -55,7 +55,6 @@ group :development, :test do
   gem 'meta_request'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'debugger'
   gem 'pry-rails'
   gem 'quiet_assets'
   gem 'mails_viewer'
