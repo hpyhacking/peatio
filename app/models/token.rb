@@ -1,24 +1,26 @@
 class Token < ActiveRecord::Base
-  attr_accessor :email
-  attr_accessor :skip
-  belongs_to :identity
+  belongs_to :member
+
+  define_callbacks :confirmed
 
   before_validation :generate_token, :if => 'token.nil?'
-  before_validation :check_email, :on => :create, :if => 'email'
-  before_create :invalidate_old_tokens
-  after_commit :send_token, on: :create
-  after_update :used
+  before_create :invalidate_earlier_tokens
+  after_commit :send_token
+  before_update :confirmed
 
-  validates :email, presence: true, email: true, on: :create
-  validates_presence_of :identity, :token
+  validates_presence_of :member, :token
   validate :check_latest_send, on: :create
-
-  scope :with_identity, -> (identity_id) { where("identity_id = ?", identity_id) }
-  scope :with_token, -> (token) { where("token = ?", token) }
-  scope :available, -> { where("expire_at > ?", DateTime.now).where("is_used = ?", false) }
 
   def to_param
     self.token
+  end
+
+  scope :with_member, -> (id) { where("member_id = ?", id) }
+  scope :with_token, -> (token) { where("token = ?", token) }
+  scope :available, -> { where("expire_at > ?", DateTime.now).where("is_used = ?", false) }
+
+  def self.head
+    order('created_at desc').first
   end
 
   def self.verify(token)
@@ -26,25 +28,25 @@ class Token < ActiveRecord::Base
   end
 
   private
-  def used
-    self.is_used = true
+
+  def confirmed
+    run_callbacks :confirmed do
+      self.is_used = true
+    end
   end
 
   def send_token
-    email = identity.email
+    email = self.member.email
     mailer = self.class.model_name.param_key
     TokenMailer.send(mailer, email, token).deliver
   end
 
-  def invalidate_old_tokens
-    self.class.available.with_identity(identity_id).update_all(is_used: true)
+  def invalidate_earlier_tokens
+    self.class.available.with_member(member_id).update_all(is_used: true)
   end
 
   def check_latest_send
-    latest = self.class.
-      available.
-      with_identity(self.identity_id).
-      order('created_at desc').first
+    latest = self.class.available.with_member(self.member_id).head
 
     if latest && latest.created_at > DateTime.now.ago(60 * 5)
       self.errors.add(:base, :too_soon)
@@ -55,14 +57,5 @@ class Token < ActiveRecord::Base
     self.is_used = false
     self.token = SecureRandom.hex(16)
     self.expire_at = DateTime.now.since(60 * 30)
-  end
-
-  def check_email
-    identity = Identity.find_by_email(self.email)
-    if identity
-      self.identity_id = identity.id
-    else
-      self.errors.add(:email, :match)
-    end
   end
 end

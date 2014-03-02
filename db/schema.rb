@@ -189,7 +189,7 @@ ActiveRecord::Schema.define(version: 20140304015055) do
   create_table "tokens", force: true do |t|
     t.string   "token"
     t.datetime "expire_at"
-    t.integer  "identity_id"
+    t.integer  "member_id"
     t.boolean  "is_used"
     t.string   "type"
     t.datetime "created_at"

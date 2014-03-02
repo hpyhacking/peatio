@@ -14,8 +14,6 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
   validates :password, presence: true, format: { with: PASSWORD_REGEX }, on: :create
   validates :password_confirmation, presence: true, format: { with: PASSWORD_REGEX }, on: :create
 
-  after_create :create_activation
-
   def direct_update_pin(pin)
     update_column(:pin_digest, BCrypt::Password.create(pin))
   end
@@ -46,11 +44,5 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
 
   def too_many_failed_login_attempts
     retry_count.present? && retry_count >= MAX_LOGIN_ATTEMPTS
-  end
-
-  private
-
-  def create_activation
-    self.activation = Activation.new email: email
   end
 end

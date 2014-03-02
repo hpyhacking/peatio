@@ -1,9 +1,7 @@
 class Activation < Token
-  after_update :activate_identity
-
+  set_callback :confirmed, :after, :active_member
+  
   private
-
-  def activate_identity
-    identity.update_attributes(is_active: true)
+  def active_member
   end
 end
