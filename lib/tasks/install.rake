@@ -19,9 +19,9 @@ namespace :install do
       pusher_secret = var 'Pusher Secret: '
     end
 
-    if yes_no('是否自己设定 Recaptcha 服务帐号？')
-      recaptcha_public_key  = var 'Recaptcha public key: '
-      recaptcha_private_key = var 'Recaptcha private key: '
+    if yes_no('是否自己设定 reCaptcha 服务帐号？')
+      recaptcha_public_key  = var 'reCaptcha public key: '
+      recaptcha_private_key = var 'reCaptcha private key: '
     end
 
     if yes_no('是否设定 SMTP 服务？')
