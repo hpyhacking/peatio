@@ -1,13 +1,19 @@
 = simple_vertical_form_for [:admin, document] do |f|
   = f.input :title
   = f.input :key
-  = render 'wysiwyg_toolbar', target: '#document_body'
-  = f.input :body, as: :text
-  = f.input :is_auth
+  = f.input :body, as: :hidden
+
+  label class="string optional control-label" for="editor" = t('activerecord.attributes.document.body')
+  = render 'wysiwyg_toolbar', target: '#editor'
+  #editor.panel
+
+  = f.input :is_auth, as: :radio_buttons
   = f.button :submit
 
 coffee:
   $ ->
+    $('#editor').html($('#document_body').val())
+
     $("a[title]").tooltip container: "body"
     $(".dropdown-menu input").click(->
       false
@@ -19,7 +25,7 @@ coffee:
       $(this).change()
       return
 
-    $("#document_body").wysiwyg
+    $("#editor").wysiwyg
       hotKeys:
         "ctrl+b meta+b": "bold"
         "ctrl+i meta+i": "italic"
@@ -27,4 +33,7 @@ coffee:
         "ctrl+z meta+z": "undo"
         "ctrl+y meta+y meta+shift+z": "redo"
       dragAndDropImages: false
+
+    $('input[type=submit]').on 'click', (event) ->
+      $('#document_body').val($('#editor').cleanHtml())
 
