@@ -1,11 +1,14 @@
-Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :identity,
-    fields: [:email],
-    on_failed_registration: lambda {|env| IdentitiesController.action(:new).call(env);}
-end
+signup = lambda { |env| 
+  IdentitiesController.action(:new).call(env) 
+}
 
-OmniAuth.config.on_failure = Proc.new { |env|
+failure = lambda { |env|
   SessionsController.action(:failure).call(env)
 }
 
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :identity, fields: [:email], on_failed_registration: signup
+end
+
+OmniAuth.config.on_failure = failure
 OmniAuth.config.logger = Rails.logger
