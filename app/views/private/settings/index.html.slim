@@ -43,21 +43,7 @@ ul.list-group
         h4 = t('.two_factor_auth.title')
         p.text-ignore = t('.two_factor_auth.description')
       .col-md-3
-        - if @two_factor_auth_enabled
-          a.btn.btn-warning.btn-block data-toggle="modal" href="#reauth" = t('.two_factor_auth.disable')
-        -else
-          = link_to t('.two_factor_auth.configure'), new_otp_path, class: 'btn btn-success btn-block'
-
-#reauth.modal.hide.fade
-  .modal-header
-    button.close aria-hidden="true" data-dismiss="modal" type="button"
-    h3 = t('.reauthenticate')
-  .modal-body
-    = form_tag otp_path, :method => :delete do
-      .control-inline.control-group
-        = password_field_tag :password, nil, placeholder: t('simple_form.placeholders.defaults.password')
-      .control-inline.control-group
-        = submit_tag t('.two_factor_auth.disable'), class: 'btn btn-inverse'
+        = link_to t('.two_factor_auth.configure'), new_otp_path, class: 'btn btn-success btn-block'
 
 = content_for :guide_title do
   h3
