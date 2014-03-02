@@ -90,4 +90,10 @@ module ApplicationHelper
       end
     end
   end
+
+  def simple_vertical_form_for(record, options={}, &block)
+    result = simple_form_for(record, options, &block)
+    result = result.gsub(/#{SimpleForm.form_class}/, "simple_form").html_safe
+    result.gsub(/col-sm-\d/, "").html_safe
+  end
 end
