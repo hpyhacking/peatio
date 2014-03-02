@@ -11,7 +11,7 @@
 //= require jquery.flot.time
 //= require jquery.slimscroll
 //= require jquery.transit
-//= require jquery.qeditor
+//= require jquery.hotkeys
 //
 //= require bootstrap/affix
 //= require bootstrap/alert
@@ -26,6 +26,7 @@
 //= require bootstrap/tab
 //= require bootstrap/transition
 //= require bootstrap-datetimepicker
+//= require bootstrap-wysiwyg
 //
 //= require moment
 //= require numeral

@@ -1,0 +1,56 @@
+.btn-toolbar data-role="editor-toolbar" data-target="#{target}"
+  .btn-group
+    a.btn.btn-default.btn-sm.dropdown-toggle data-original-title="Font Size" data-toggle="dropdown" title=""
+      i.fa.fa-text-height
+      b.caret
+    ul.dropdown-menu
+      li
+        a data-edit="fontSize 5"
+          font size="5" Huge
+      li
+        a data-edit="fontSize 3"
+          font size="3" Normal
+      li
+        a data-edit="fontSize 1"
+          font size="1" Small
+  .btn-group
+    a.btn.btn-default.btn-sm data-edit="bold" data-original-title="Bold (Ctrl/Cmd+B)" title=""
+      i.fa.fa-bold
+    a.btn.btn-default.btn-sm data-edit="italic" data-original-title="Italic (Ctrl/Cmd+I)" title=""
+      i.fa.fa-italic
+    a.btn.btn-default.btn-sm data-edit="strikethrough" data-original-title="Strikethrough" title=""
+      i.fa.fa-strikethrough
+    a.btn.btn-default.btn-sm data-edit="underline" data-original-title="Underline (Ctrl/Cmd+U)" title=""
+      i.fa.fa-underline
+  .btn-group
+    a.btn.btn-default.btn-sm data-edit="insertunorderedlist" data-original-title="Bullet list" title=""
+      i.fa.fa-list-ul
+    a.btn.btn-default.btn-sm data-edit="insertorderedlist" data-original-title="Number list" title=""
+      i.fa.fa-list-ol
+    a.btn.btn-default.btn-sm data-edit="outdent" data-original-title="Reduce indent (Shift+Tab)" title=""
+      i.fa.fa-indent
+    a.btn.btn-default.btn-sm data-edit="indent" data-original-title="Indent (Tab)" title=""
+      i.fa.fa-outdent
+  .btn-group
+    a.btn.btn-default.btn-sm data-edit="justifyleft" data-original-title="Align Left (Ctrl/Cmd+L)" title=""
+      i.fa.fa-align-left
+    a.btn.btn-default.btn-sm data-edit="justifycenter" data-original-title="Center (Ctrl/Cmd+E)" title=""
+      i.fa.fa-align-center
+    a.btn.btn-default.btn-sm data-edit="justifyright" data-original-title="Align Right (Ctrl/Cmd+R)" title=""
+      i.fa.fa-align-right
+    a.btn.btn-default.btn-sm data-edit="justifyfull" data-original-title="Justify (Ctrl/Cmd+J)" title=""
+      i.fa.fa-align-justify
+  .btn-group
+    a.btn.btn-default.btn-sm.dropdown-toggle data-original-title="Hyperlink" data-toggle="dropdown" title=""
+      i.fa.fa-link
+    .dropdown-menu.input-append
+      input.span2 data-edit="createLink" placeholder="URL" type="text"
+        button.btn.btn-default.btn-sm type="button"
+    a.btn.btn-default.btn-sm data-edit="unlink" data-original-title="Remove Hyperlink" title=""
+      i.fa.fa-cut
+  .btn-group
+    a.btn.btn-default.btn-sm data-edit="undo" data-original-title="Undo (Ctrl/Cmd+Z)" title=""
+      i.fa.fa-undo
+    a.btn.btn-default.btn-sm data-edit="redo" data-original-title="Redo (Ctrl/Cmd+Y)" title=""
+      i.fa.fa-repeat
+

@@ -5,6 +5,29 @@
   = f.input :is_auth
   = f.button :submit
 
+.row
+  = render 'wysiwyg_toolbar', target: '#editor'
+  #editor contenteditable="true" style="overflow:scroll; min-height:300px; background: white; padding: 10px" stuff here
+
 coffee:
   $ ->
-    $("#document_body").qeditor()
+    $("a[title]").tooltip container: "body"
+    $(".dropdown-menu input").click(->
+      false
+    ).change(->
+      $(this).parent(".dropdown-menu").siblings(".dropdown-toggle").dropdown "toggle"
+      return
+    ).keydown "esc", ->
+      @value = ""
+      $(this).change()
+      return
+
+    $("#editor").wysiwyg
+      hotKeys:
+        "ctrl+b meta+b": "bold"
+        "ctrl+i meta+i": "italic"
+        "ctrl+u meta+u": "underline"
+        "ctrl+z meta+z": "undo"
+        "ctrl+y meta+y meta+shift+z": "redo"
+      dragAndDropImages: false
+
