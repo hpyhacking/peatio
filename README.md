@@ -1,5 +1,4 @@
-
-Peatio: An open-source crypto currency exchange
+An open-source crypto currency exchange
 =====================================
 
 ### What is Peatio?
