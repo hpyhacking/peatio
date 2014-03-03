@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/peatio/peatio.png?branch=master)](https://travis-ci.org/peatio/peatio)
 
 Peatio: An open-source crypto currency exchange
 =====================================
@@ -12,6 +11,7 @@ Peatio: An open-source crypto currency exchange
 ### Status
 
 [![Code Climate](https://codeclimate.com/github/peatio/peatio.png)](https://codeclimate.com/github/peatio/peatio)
+[![Build Status](https://travis-ci.org/peatio/peatio.png?branch=master)](https://travis-ci.org/peatio/peatio)
 
 ### Requirements
 
