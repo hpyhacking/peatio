@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/peatio/peatio.png?branch=master)](https://travis-ci.org/peatio/peatio)
+
 Peatio: An open-source crypto currency exchange
 =====================================
 
