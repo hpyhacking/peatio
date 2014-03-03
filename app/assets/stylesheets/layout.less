@@ -35,13 +35,25 @@ footer {
   .list-group {
     margin-right: -15px;
     margin-bottom: 0px;
+
     .list-group-item {
       border-left: 0px;
       border-right: 0px;
 
+      &.split {
+        padding-bottom: 8px;
+        & > * {
+          margin-top: 4px;
+          margin-bottom: 0px;
+          .text-ignore;
+        }
+      }
+
       &:first-of-type {
+        padding-top: 0px;
         border-top: 0px;
       }
+
       &:last-of-type {
         border-bottom: 0px;
       }

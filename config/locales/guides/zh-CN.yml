@@ -2,32 +2,53 @@ zh-CN:
   guides:
     panels:
       balance: 用户账户信息
-    settings:
-      panel: 我的账户
-      index:
-        intro: 管理并查看您的信息、记录等。
-    deposits:
-      panel: 资金充值
-      coin:
-        title: 为您的账户充值
-        intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到貔貅交易所账户。
-      bank:
-        title: 为您的账户充值
-        intro: 使用银行卡转账进行充值，推荐用户大额充值使用。
-      index:
-        title: 为您的交易所账户充值
-        intro: 您可以充值人民币以购买比特币，或者充值比特币以兑换人民币。
-    withdraws:
-      panel: 资金提现
-      new:
-        title: 选择资金提现通道
-        intro: 快速的选择提现地址并输入要提现的金额到您的账户。
-        default-panel: 提现记录历史
-    withdraw_addresses:
-      panel: 资金提现
-      index:
-        title: 创建资金提现地址
-        intro: 通过创建提现地址，以便每次提现时方便选择要提现的收款方。
+
+    private:
+      settings:
+        panel: 我的账户
+        index:
+          intro: 管理并查看您的信息、记录等。
+
+      two_factors:
+        panel: 两步验证
+        new:
+          title: 设置两步验证
+          intro: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。
+        edit:
+          title: 解除两步验证
+          intro: 若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。
+
+      deposits:
+        panel: 资金充值
+        coin:
+          title: 为您的账户充值
+          intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到貔貅交易所账户。
+        bank:
+          title: 为您的账户充值
+          intro: 使用银行卡转账进行充值，推荐用户大额充值使用。
+        index:
+          title: 为您的交易所账户充值
+          intro: 您可以充值人民币以购买比特币，或者充值比特币以兑换人民币。
+
+      withdraws:
+        panel: 资金提现
+        new:
+          title: 选择资金提现通道
+          intro: 快速的选择提现地址并输入要提现的金额到您的账户。
+          default-panel: 提现记录历史
+
+      withdraw_addresses:
+        panel: 资金提现
+        index:
+          title: 创建资金提现地址
+          intro: 通过创建提现地址，以便每次提现时方便选择要提现的收款方。
+
+    verify:
+      two_factors:
+        panel: 两步验证
+        new:
+          intro: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。 
+
     sessions:
       panel: 登录
       new:
@@ -36,6 +57,7 @@ zh-CN:
       failure:
         title: 登录我的账户
         intro: 现在登录，以便您开始交易，随时关注交易动态。
+
     identities:
       panel: 创建账户
       new:

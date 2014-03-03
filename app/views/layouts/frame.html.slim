@@ -4,15 +4,15 @@
       = yield(:before)
     .panel.panel-default
       .panel-heading
-        h2.panel-title = t("guides.#{controller_name}.panel")
+        h2.panel-title = guide_panel_title
       .panel-body
         .row.col-wrap
           #guide.col-md-4
             - if content_for?(:guide_title)
               = yield(:guide_title)
             - else
-              h3 = t("guides.#{controller_name}.#{action_name}.title")
-            p.text-ignore = t("guides.#{controller_name}.#{action_name}.intro")
+              h3 = guide_title
+            p.text-ignore = guide_intro
             - if content_for?(:guide)
               = yield(:guide)
           #content.col-md-8.col
@@ -20,4 +20,5 @@
             = yield
     - if content_for?(:after)
       = yield(:after)
+
 = render template: "layouts/application"

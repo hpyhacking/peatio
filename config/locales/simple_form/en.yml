@@ -19,8 +19,8 @@ en:
         create: Sign up
         destroy: Sign out
         verify: Verify
-      otp:
-        verify: Verify
+      two_factor:
+        create: Verify
         update: Activiate
       activation:
         update: Resend it to me!
@@ -42,7 +42,8 @@ en:
     creating: "Creating..."
     updating: 'Updating...'
     buttons:
-      cancel: 'Cancel'
+      or: Or
+      cancel: Cancel
     "yes": 'Yes'
     "no": 'No'
     required:
@@ -51,28 +52,36 @@ en:
     error_notification:
       default_message: "Please review the problems below:"
     labels:
-      otp:
-        otp: OTP. in your Phone
+      two_factor:
+        uri: 二维码
+        otp_secret: 密文
+        otp: 验证器上的密码
       withdraw_address:
         label: Label
         address: Address
         category: Category
       withdraw:
         password: Password
+      session:
+        email: 登录邮箱
+        password: 登录密码
+      identity:
+        email: 登录邮箱
+        password: 新密码
+        password_confirmation: 确认密码
     placeholders:
-      defaults:
-        email: Sign in email
-        password: Sign in password
-        password: Password
-        otp: 2-Factor
-        name: Real Name
-        price: Price
-        volume: Volume
+      session:
+        email: 邮箱地址
+        password: ''
+      identity:
+        email: Example：xiaobai@example.com
+        password: 请设置登录密码
+        password_confirmation: 确认密码
       document:
         key: Document link URL key
         title: Document Title
       withdraw:
-        amount: Withdraw Amount
+        sum: Withdraw Amount
         amount: You wang withdraw amount
         password: Please validation your sign inpassword
       withdraw_address:
@@ -83,4 +92,9 @@ en:
         sum: Sum
       order_ask:
         origin_volume:  Sell Volume
-        sum: Sum
+        sum: 总成交金额
+    hints:
+      two_factor:
+        otp_scret: 建议备份
+      identity:
+        password: 请输入至少8位，并必须包含大写、小写字母与数字。

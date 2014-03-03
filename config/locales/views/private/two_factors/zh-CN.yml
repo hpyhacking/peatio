@@ -1,0 +1,13 @@
+zh-CN:
+  private:
+    two_factors:
+      edit:
+        disable: 禁用
+      new:
+        step-1: 第一步
+        step-2: 第二步
+        step-3: 第三步
+        or: 或
+        download-app: 下载并打开Google Authenticator应用到您的智能手机上，具体操作方式可点击这里。
+        scan-qr-code: 用手机扫瞄二维码或将以下密文手动输入到手机验证器中。
+        enter-passcode: 填入手机显示的动态密码以激活两步验证

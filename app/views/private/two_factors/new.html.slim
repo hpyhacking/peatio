@@ -1,0 +1,33 @@
+= simple_form_for @two_factor, :url => two_factor_path, as: :two_factor, :method => :post do |f|
+  h4 = t('.step-1')
+  p.text-info
+    span = t('.download-app')
+
+  h4 = t('.step-2')
+  p.text-info
+    span = t('.scan-qr-code')
+
+  = f.input :uri do
+    = qr_tag(@two_factor.uri)
+
+  = f.input :otp_secret do
+    .input-group
+      = f.input_field :otp_secret, class: 'upcase', readonly: true
+      span.input-group-btn
+        a.btn.btn-default href='#{edit_two_factor_path(:refresh => true)}'
+          i.fa.fa-refresh
+
+  h4 = t('.step-3')
+  p.text-info
+    span = t('.enter-passcode')
+
+  = f.input :otp
+
+  hr.split
+  = f.button :wrapped, cancel: settings_path
+
+= content_for :guide do
+  ul.list-unstyled
+    li: a href='#' = t('.android')
+    li: a href='#' = t('.ios')
+    li: a href='#' = t('.blackbery')

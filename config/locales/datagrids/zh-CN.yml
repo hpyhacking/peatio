@@ -45,12 +45,12 @@ zh-CN:
         id: 编号
         email: 邮件地址
         created_at: 注册时间
-        is_active: 激活
+        activated: 激活
         detail: 详情
         action: 操作
       filters:
         sn: 识别码
-        is_active: 是否激活
+        activated: 是否激活
         created_at: 注册时间
         email: 邮件地址
     statistic_orders_grid:

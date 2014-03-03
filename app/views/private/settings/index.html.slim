@@ -1,31 +1,23 @@
 ul.list-group
+
   li.list-group-item
     .row.row-middle
       .col-md-1
         i.fa.fa-envelope-o.fa-2x
       .col-md-8
         h4 = t('.email.title')
-        p.text-ignore = t('.email.description')
+        - if current_user.activated?
+          p.text-ignore = t('.email.description-activated')
+        - else
+          p.text-ignore = t('.email.description')
       .col-md-3
-        = link_to t('.email.resend'), root_path, class: 'btn btn-success btn-block'
-  li.list-group-item
-    .row.row-middle
-      .col-md-1
-        i.fa.fa-thumbs-o-up.fa-2x
-      .col-md-8
-        h4 = t('.identity.title')
-        p.text-ignore = t('.identity.description')
-      .col-md-3
-        = link_to t('.identity.go'), new_reset_password_path, class: 'btn btn-success btn-block'
-  li.list-group-item
-    .row.row-middle
-      .col-md-1
-        i.fa.fa-money.fa-2x
-      .col-md-8
-        h4 = t('.asset_passwords.title')
-        p.text-ignore = t('.asset_passwords.description')
-      .col-md-3
-        = link_to t('.asset_passwords.go'), root_path, class: 'btn btn-success btn-block'
+        - if current_user.activated?
+          a href="#" class="btn btn-default btn-block disabled" role="button"
+            i.fa.fa-check-circle
+            span = t('.email.activated')
+        - else
+          = link_to t('.email.resend'), new_activation_path, class: 'btn btn-success btn-block'
+
   li.list-group-item
     .row.row-middle
       .col-md-1
@@ -34,16 +26,46 @@ ul.list-group
         h4 = t('.passwords.title')
         p.text-ignore = t('.passwords.description')
       .col-md-3
-        = link_to t('.passwords.go'), new_reset_password_path, class: 'btn btn-success btn-block'
+        = link_to t('.passwords.go'), new_reset_password_path, class: 'btn btn-default btn-block'
+
+  li.list-group-item
+    .row.row-middle
+      .col-md-1
+        i.fa.fa-thumbs-o-up.fa-2x
+      .col-md-8
+        h4 
+          span = t('.identity.title')
+          i.fa.fa-bolt.text-warning
+        p.text-ignore = t('.identity.description')
+      .col-md-3
+        = link_to t('.identity.go'), new_reset_password_path, class: 'btn btn-success btn-block'
+
+  li.list-group-item
+    .row.row-middle
+      .col-md-1
+        i.fa.fa-money.fa-2x
+      .col-md-8
+        h4 
+          span = t('.asset_passwords.title')
+          i.fa.fa-bolt.text-warning
+        p.text-ignore = t('.asset_passwords.description')
+      .col-md-3
+        = link_to t('.asset_passwords.go'), root_path, class: 'btn btn-success btn-block'
+
   li.list-group-item
     .row.row-middle
       .col-md-1
         i.fa.fa-superscript.fa-2x
       .col-md-8
-        h4 = t('.two_factor_auth.title')
+        h4 
+          span = t('.two_factor_auth.title')
+          i.fa.fa-bolt.text-warning
         p.text-ignore = t('.two_factor_auth.description')
       .col-md-3
-        = link_to t('.two_factor_auth.configure'), new_otp_path, class: 'btn btn-success btn-block'
+        - unless current_user.two_factor_activated?
+          = link_to t('.two_factor_auth.enable'), new_two_factor_path, class: 'btn btn-success btn-block'
+        - else
+          = link_to t('.two_factor_auth.disable'), edit_two_factor_path, class: 'btn btn-success btn-block'
 
 = content_for :guide_title do
   h3
@@ -57,3 +79,5 @@ ul.list-group
     - current_user.tag_list.each do |key|
       span.label.label-info
         = member_tag(key)
+  p.text-warning 
+    == t('.safety_instruction')

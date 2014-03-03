@@ -1,8 +1,9 @@
 module Private
   class SettingsController < BaseController
     def index
-      two_factor = current_identity.two_factor
-      @two_factor_auth_enabled =  two_factor && two_factor.is_active
+      unless current_user.activated?
+        flash.now[:info] = t('.activated')
+      end
     end
   end
 end

@@ -6,14 +6,14 @@ describe 'Sign in' do
 
   it 'allows a user to sign in with email, password' do
     login identity
-    expect(page).to have_content(I18n.t('header.market'))
+    expect(current_path).to eq(settings_path)
   end
 
   context 'when a user has 2-step verification setup and after signing in with email, password' do
     before do
       two_factor = identity.create_two_factor
       two_factor.refresh
-      two_factor.update_attributes(is_active: true)
+      two_factor.update_attributes(activated: true)
 
       login identity
     end

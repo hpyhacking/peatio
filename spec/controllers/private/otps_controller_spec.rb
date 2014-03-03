@@ -10,7 +10,7 @@ describe Private::OtpsController do
   describe '#destroy' do
     before do
       identity.create_two_factor
-      identity.two_factor.update_attributes(is_active: true)
+      identity.two_factor.update_attributes(activated: true)
     end
 
     context 'valid password' do
@@ -20,7 +20,7 @@ describe Private::OtpsController do
         expect do
           do_request
           identity.reload
-        end.to change { identity.two_factor.is_active }.from(true).to(false)
+        end.to change { identity.two_factor.activated? }.from(true).to(false)
       end
     end
 
@@ -36,7 +36,7 @@ describe Private::OtpsController do
         expect do
           do_request
           identity.reload
-        end.to_not change { identity.two_factor.is_active }
+        end.to_not change { identity.two_factor.activated? }
       end
     end
   end

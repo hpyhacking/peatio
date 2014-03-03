@@ -13,11 +13,12 @@ Peatio::Application.routes.draw do
   get '/signout' => 'sessions#destroy', :as => :signout
   get '/auth/failure' => 'sessions#failure', :as => :failure
   post '/auth/identity/callback' => 'sessions#create'
-
-  get  '/auth/two_factor_auth' => 'sessions#new_with_two_factor_auth', as: :two_factor_auth
-  post '/auth/two_factor_auth' => 'sessions#create_with_two_factor_auth'
-
+  
   resource :member, :only => [:edit, :update]
+
+  namespace :verify do
+    resource :two_factor, :only => [:new, :create]
+  end
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do
     resources :reset_passwords
@@ -45,7 +46,7 @@ Peatio::Application.routes.draw do
 
   scope module: 'private' do
     get '/settings', to: 'settings#index', as: :settings
-    resource :otp, :only => [:new, :create, :destroy]
+    resource :two_factor, :only => [:new, :create, :edit, :destroy]
 
     resources :deposits, :only => :index do
       collection do

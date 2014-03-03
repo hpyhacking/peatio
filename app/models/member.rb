@@ -3,24 +3,74 @@ class Member < ActiveRecord::Base
 
   has_many :orders
   has_many :accounts
-  has_many :withdraw_addresses, through: :accounts
-  has_many :deposits
   has_many :withdraws
+  has_many :withdraw_addresses, through: :accounts
   has_many :deposits, through: :accounts
-  belongs_to :identity
   has_and_belongs_to_many :trades
 
-  validates :sn, presence: true
+  has_one :two_factor
 
+  delegate :activated?, to: :two_factor, prefix: true
+
+  has_many :authentications, dependent: :destroy
+
+  validates :sn, presence: true
   before_validation :generate_sn
+
   before_create :create_accounts
 
-  def initial?
-    name? and !name.empty?
+  def active
+    self.update_column(:activated, true)
+  end
+
+  class << self
+    def from_auth(auth_hash)
+      member = locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)
+      member
+    end
+
+    private
+
+    def locate_auth(auth_hash)
+      Authentication.locate(auth_hash).try(:member)
+    end
+
+    def locate_email(auth_hash)
+      member = find_by_email(auth_hash['info']['email'])
+      return nil unless member
+      member.add_auth(auth_hash)
+      member 
+    end
+
+    def create_from_auth(auth_hash)
+      member = create(email: auth_hash['info']['email'])
+      member.add_auth(auth_hash)
+      member
+    end
+  end
+
+  def self.admins
+    Figaro.env.admin.split(',')
   end
 
   def admin?
     @is_admin ||= self.class.admins.include?(self.email)
+  end
+
+  def add_auth(auth_hash)
+    authentications.build_auth(auth_hash).save
+  end
+
+  def trigger(event, data)
+    Pusher["private-#{self.sn}"].trigger_async(event, data)
+  end
+
+  def to_s
+    "#{name || email} - #{sn}"
+  end
+
+  def initial?
+    name? and !name.empty?
   end
 
   def get_account(currency)
@@ -34,35 +84,7 @@ class Member < ActiveRecord::Base
     end
   end
 
-  class << self
-    def from_auth(auth)
-      find_auth(auth) || create_auth(auth)
-    end
-
-    def find_auth(auth)
-      Member.find_by_email(auth[:info][:email])
-    end
-
-    def create_auth(auth)
-      m = Member.new
-      m.identity_id = auth.uid
-      m.email = auth[:info][:email]
-      m.save! && m
-    end
-
-    def admins
-      Figaro.env.admin.split(',')
-    end
-  end
-
-  def trigger(event, data)
-    Pusher["private-#{self.sn}"].trigger_async(event, data)
-  end
-
-  def to_s
-    "#{name} - #{sn}"
-  end
-
+  private
   def generate_sn
     self.sn and return
     begin 
@@ -70,7 +92,9 @@ class Member < ActiveRecord::Base
     end while Member.where(:sn => self.sn).any?
   end
 
-  private
+  def activation
+    Activation.create(member: self)
+  end
 
   def create_accounts
     self.accounts = Currency.codes.map do |key, code|

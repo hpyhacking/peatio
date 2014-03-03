@@ -7,6 +7,14 @@ en:
         safety_instruction: In order to protect your bitcoins and personal information, we strongly suggest that you use 2-Step Verification.
         reset_password: Reset Password
         reauthenticate: Re-Authenticate
+
+        email:
+          title: 邮箱绑定
+          description: 您的邮箱还未经过验证，点击“发送邮件”按钮，完成验证。
+          description-activated: 您的邮箱已验证通过，请牢记并保护好此邮箱地址，这是您作为登录的唯一账户。
+          resend: 再次发送
+          activated: 已绑定
+
         account_versions:
           title: Account History
           description: This shows all the transactions you have conducted with your accounts of all supported currencies.

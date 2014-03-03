@@ -1,11 +1,20 @@
 -if flash[:notice]
   #notice.alert.alert-dismissable.alert-success
     button.close type="button" data-dismiss="alert" aria-hidden="true" &times;
-    strong = t("flash.notice")
-    span = flash[:notice]
+    h5
+      i.fa.fa-bullhorn
+      span = flash[:notice]
+
 -if flash[:alert]
   #alert.alert.alert-dismissable.alert-warning
     button.close type="button" data-dismiss="alert" aria-hidden="true" &times;
     h5
       i.fa.fa-bell-o
       span = flash[:alert]
+
+-if flash[:info]
+  #info.alert.alert-dismissable.alert-info
+    button.close type="button" data-dismiss="alert" aria-hidden="true" &times;
+    h5
+      i.fa.fa-info-circle
+      span = flash[:info]

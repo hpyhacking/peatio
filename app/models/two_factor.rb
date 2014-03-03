@@ -1,24 +1,24 @@
 class TwoFactor < ActiveRecord::Base
-  belongs_to :identity
+  belongs_to :member
 
   attr_accessor :otp
 
   def verify
-    if ROTP::TOTP.new(otp_secret).verify(otp)
-      update_attribute(:is_active, true)
-      touch(:last_verify_at)
-      return true
-    end
+    rotp = ROTP::TOTP.new(self.otp_secret)
 
-    return false
+    if rotp.verify(self.otp)
+      touch(:last_verify_at)
+    else
+      false
+    end
   end
 
   def refresh
-    update_attribute(:otp_secret, ROTP::Base32.random_base32) unless is_active
+    update_attribute(:otp_secret, ROTP::Base32.random_base32)
   end
 
   def uri
     totp = ROTP::TOTP.new(self.otp_secret)
-    totp.provisioning_uri("PEATIO / #{identity.email}")
+    totp.provisioning_uri("PEATIO / #{member.email}")
   end
 end

@@ -43,12 +43,12 @@ en:
         id: ID
         email: Email
         created_at: Created at
-        is_active: Active
+        activated: Active
         detail: Detail
         action: Action
       filters:
         sn: Serial number
-        is_active: Active
+        activated: Active
         created_at: Created at
         email: Email
     statistic_orders_grid:

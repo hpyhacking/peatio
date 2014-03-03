@@ -42,8 +42,8 @@ module ApplicationHelper
   end
 
   def qr_tag(data)
-    data = QREncoder.encode(data).png.resize(220, 220).to_data_url
-    image_tag(data, :class => 'qrcode img-rounded')
+    data = QREncoder.encode(data).png.resize(272, 272).to_data_url
+    image_tag(data, :class => 'qrcode img-thumbnail')
   end
 
   def rev_category(type)
@@ -118,5 +118,21 @@ module ApplicationHelper
     panel name: 'balance-pannel', key: 'guides.panels.balance' do
       render partial: 'private/shared/balances', locals: {member: member}
     end
+  end
+
+  def guide_panel_title
+    t("guides.#{i18n_controller_path}.panel")
+  end
+
+  def guide_title
+    t("guides.#{i18n_controller_path}.#{action_name}.title", default: t("guides.#{i18n_controller_path}.panel"))
+  end
+
+  def guide_intro
+    t("guides.#{i18n_controller_path}.#{action_name}.intro")
+  end
+
+  def i18n_controller_path
+    controller_path.gsub(/\//, '.')
   end
 end

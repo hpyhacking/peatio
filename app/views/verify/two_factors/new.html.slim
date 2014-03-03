@@ -1,0 +1,10 @@
+= simple_form_for @two_factor, :url => verify_two_factor_path, :method => :post do |f|
+  = f.input :otp, :input_html => {:autofocus => true}
+  hr.split
+  = f.button :wrapped, cancel: signup_path
+
+coffee:
+  $ ->
+    setTimeout ->
+      history.back()
+    , 1000 * 120

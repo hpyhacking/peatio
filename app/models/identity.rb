@@ -23,11 +23,11 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
   end
 
   def direct_disable_otp
-    self.two_factor && self.two_factor.update_attribute(:is_active, false)
+    self.two_factor && self.two_factor.update_attribute(:activated, false)
   end
 
   def has_active_two_factor_auth?
-    self.two_factor && self.two_factor.is_active
+    self.two_factor && self.two_factor.activated?
   end
 
   ## verify GA

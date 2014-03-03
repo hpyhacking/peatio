@@ -4,8 +4,10 @@ class ActivationsController < ApplicationController
   before_action :auth_member!, only: :update
   before_action :token_required!, only: :edit
 
-  def update
-    activation = Activation.new member: current_user
+  def new
+    raise if current_user.activated?
+
+    activation = Activation.new(member: current_user)
 
     if activation.save
       flash[:notice] = t('.notice')
@@ -18,7 +20,7 @@ class ActivationsController < ApplicationController
 
   def edit
     if @token.save
-      redirect_to root_path, notice: t('.notice')
+      redirect_to settings_path, notice: t('.notice')
     end
   end
 end

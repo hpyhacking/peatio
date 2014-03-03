@@ -1,0 +1,4 @@
+= simple_form_for @two_factor, :url => two_factor_path, as: :two_factor, :method => :delete do |f|
+  = f.input :otp
+  hr.split
+  = f.button :wrapped, t('.disable'), cancel: settings_path

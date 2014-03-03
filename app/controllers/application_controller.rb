@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :current_identity, :current_user, :is_admin?, :latest_market, :gon
+  helper_method :current_user, :is_admin?, :latest_market, :gon
   before_filter :set_language, :setting_default
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
@@ -31,26 +31,18 @@ class ApplicationController < ActionController::Base
     "#{params[:bid]}#{params[:ask]}".to_sym
   end
 
-  def current_identity
-    @current_identity ||= Identity.find_by_id(session[:identity_id])
-  end
-
   def current_user
-    @current_user ||= current_identity.try(:member)
+    @current_user ||= Member.find_by_id(session[:member_id])
   end
 
   def auth_member!
-    redirect_to main_app.root_path unless current_identity
+    redirect_to root_path unless current_user
   end
 
   def auth_active!
-    if current_identity && !@current_identity.reload.is_active?
-      redirect_to main_app.new_activation_path
-    end
   end
 
   def auth_no_initial!
-    redirect_to main_app.root_path if current_user && current_user.initial?
   end
 
   def auth_anybody!

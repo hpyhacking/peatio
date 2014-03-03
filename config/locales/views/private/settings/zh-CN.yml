@@ -5,22 +5,22 @@ zh-CN:
       failure: 无效动态密码，设置失败。请重试。
 
       index:
-        safety_instruction: 建议您启动两部验证，以保障帐户及资金安全。
+        safety_instruction: 您应启用全部 <b>安全设置</b><i class='fa fa-bolt'></i>，以保障帐户及资金安全。
         reset_password: 重置登录密码
         reauthenticate: 身份验证
 
         email:
           title: 邮箱绑定
           description: 您的邮箱还未经过验证，点击“发送邮件”按钮，完成验证。
-          description-done: 您的邮箱已验证通过，请牢记并保护好此邮箱地址，这是您作为登录的唯一账户。
+          description-activated: 您的邮箱已验证通过，请牢记并保护好此邮箱地址，这是您作为登录的唯一账户。
           resend: 再次发送
-          done: 已绑定
+          activated: 已绑定
 
         two_factor_auth:
           title: 两步验证
           description: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户，在此我们使用谷歌身份验证器。
-          configure: 设置验证
-          disable: 禁用两步验证
+          enable: 设置
+          disable: 禁用
 
         identity:
           title: 实名认证
