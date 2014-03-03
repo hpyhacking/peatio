@@ -7,6 +7,10 @@ Peatio: An open-source crypto currency exchange
 
 ![logo](public/peatio.png)
 
+### Status
+
+[![Code Climate](https://codeclimate.com/github/peatio/peatio.png)](https://codeclimate.com/github/peatio/peatio)
+
 ### Requirements
 
 * Ubuntu Linux / Mac OSX
