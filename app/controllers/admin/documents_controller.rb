@@ -19,7 +19,7 @@ module Admin
         render :new
       end
     end
-    
+
     def show
       render inline: @document.body.html_safe
     end
@@ -44,7 +44,7 @@ module Admin
     end
 
     def document_params
-      params.required(:document).permit(:body, :title, :key, :is_auth)
+      params.required(:document).permit(:key, :is_auth, *Document.locale_params)
     end
 
     def create_document

@@ -124,9 +124,11 @@ en:
       payment_transaction: Payment
     attributes:
       document:
-        body: Body
+        zh_cn_body: Chinese content
+        zh_cn_title: Chinese title
+        en_body: English content
+        en_title: English title
         key: Key
-        title: Title
         is_auth: Is Auth
       withdraw_address:
         address: Address

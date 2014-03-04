@@ -22,6 +22,16 @@ class Document < ActiveRecord::Base
     end
   end
 
+  def self.locale_params
+    params = []
+    TRANSLATABLE_ATTR.each do |attr|
+      Rails.configuration.i18n.available_locales.each do |locale|
+        params << "#{locale.underscore}_#{attr}".to_sym
+      end
+    end
+    params
+  end
+
   private
 
   def with_locale locale

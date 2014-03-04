@@ -1,39 +1,45 @@
 = simple_vertical_form_for [:admin, document] do |f|
-  = f.input :title
+  - Rails.configuration.i18n.available_locales.each do |locale|
+    - locale = locale.underscore
+    div.locale_container
+      = f.input "#{locale}_title"
+      = f.input "#{locale}_body", as: :hidden, input_html: { class: 'document_body' }
+
+      - editor_id = "#{locale}_editor"
+      label class="string optional control-label" = t("activerecord.attributes.document.#{locale}_body")
+      = render 'wysiwyg_toolbar', target: "##{editor_id}"
+      .editor.panel id="#{editor_id}"
+
   = f.input :key
-  = f.input :body, as: :hidden
-
-  label class="string optional control-label" for="editor" = t('activerecord.attributes.document.body')
-  = render 'wysiwyg_toolbar', target: '#editor'
-  #editor.panel
-
   = f.input :is_auth, as: :radio_buttons
   = f.button :submit
 
-coffee:
-  $ ->
-    $('#editor').html($('#document_body').val())
+javascript:
+  $(function() {
+    $('.document_body').each(function(i, el){
+      $(el).closest('.locale_container').find('.editor').html($(el).val())
+    })
 
-    $("a[title]").tooltip container: "body"
-    $(".dropdown-menu input").click(->
-      false
-    ).change(->
-      $(this).parent(".dropdown-menu").siblings(".dropdown-toggle").dropdown "toggle"
-      return
-    ).keydown "esc", ->
-      @value = ""
-      $(this).change()
-      return
+    $("a[title]").tooltip({
+      container: "body"
+    });
 
-    $("#editor").wysiwyg
-      hotKeys:
-        "ctrl+b meta+b": "bold"
-        "ctrl+i meta+i": "italic"
-        "ctrl+u meta+u": "underline"
-        "ctrl+z meta+z": "undo"
+    $(".editor").wysiwyg({
+      hotKeys: {
+        "ctrl+b meta+b": "bold",
+        "ctrl+i meta+i": "italic",
+        "ctrl+u meta+u": "underline",
+        "ctrl+z meta+z": "undo",
         "ctrl+y meta+y meta+shift+z": "redo"
+      },
       dragAndDropImages: false
+    });
 
-    $('input[type=submit]').on 'click', (event) ->
-      $('#document_body').val($('#editor').cleanHtml())
+    $('input[type=submit]').on('click', function(event) {
+      $('.editor').each(function(i, el){
+        var value = $(el).cleanHtml();
+        $(el).closest('.locale_container').find('.document_body').val(value)
+      })
+    });
+  })
 

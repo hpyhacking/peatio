@@ -128,9 +128,11 @@ zh-CN:
         password: 登录密码
         password_confirmation: 重复登录密码
       document:
-        body: 内容
+        zh_cn_body: 中文内容
+        zh_cn_title: 中文标题
+        en_body: 英文内容
+        en_title: 英文标题
         key: 索引键
-        title: 标题
         is_auth: 是否登录查阅
       withdraw_address:
         address: 提现地址
