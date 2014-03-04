@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140105034746) do
+ActiveRecord::Schema.define(version: 20140304015055) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -58,6 +58,18 @@ ActiveRecord::Schema.define(version: 20140105034746) do
     t.datetime "updated_at"
     t.datetime "done_at"
   end
+
+  create_table "document_translations", force: true do |t|
+    t.integer  "document_id", null: false
+    t.string   "locale",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "title"
+    t.text     "body"
+  end
+
+  add_index "document_translations", ["document_id"], name: "index_document_translations_on_document_id", using: :btree
+  add_index "document_translations", ["locale"], name: "index_document_translations_on_locale", using: :btree
 
   create_table "documents", force: true do |t|
     t.string   "key"

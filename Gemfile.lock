@@ -113,6 +113,9 @@ GEM
       jquery-rails
     font-awesome-less (4.0.2)
       less-rails (>= 2.4.2)
+    globalize (4.0.0)
+      activemodel (>= 4.0.0, < 5)
+      activerecord (>= 4.0.0, < 5)
     gon (5.0.1)
       actionpack (>= 2.3.0)
       json
@@ -363,6 +366,7 @@ DEPENDENCIES
   figaro
   flot-rails
   font-awesome-less
+  globalize (~> 4.0.0)
   gon
   handlebars_assets
   http_accept_language
