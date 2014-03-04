@@ -24,16 +24,18 @@ javascript:
       container: "body"
     });
 
-    $(".editor").wysiwyg({
-      hotKeys: {
-        "ctrl+b meta+b": "bold",
-        "ctrl+i meta+i": "italic",
-        "ctrl+u meta+u": "underline",
-        "ctrl+z meta+z": "undo",
-        "ctrl+y meta+y meta+shift+z": "redo"
-      },
-      dragAndDropImages: false
-    });
+    $(".editor").each(function(){
+      $(this).wysiwyg({
+        hotKeys: {
+          "ctrl+b meta+b": "bold",
+          "ctrl+i meta+i": "italic",
+          "ctrl+u meta+u": "underline",
+          "ctrl+z meta+z": "undo",
+          "ctrl+y meta+y meta+shift+z": "redo"
+        },
+        dragAndDropImages: false
+      });
+    })
 
     $('input[type=submit]').on('click', function(event) {
       $('.editor').each(function(i, el){
