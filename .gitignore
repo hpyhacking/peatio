@@ -17,6 +17,9 @@
 /log/*.pid
 /tmp
 
+# Ignore all config files
+/config/database.yml
+
 # Ignore ctags
 .tags
 
