@@ -30,7 +30,7 @@ module Verify
     end
 
     def timeout_temp_user_in_session
-      redirect_to signup_path, notice: t('.timeout') if temp_user.nil?
+      redirect_to signin_path, notice: t('.timeout') if temp_user.nil?
     end
 
     def auth_success
