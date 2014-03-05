@@ -18,6 +18,7 @@ class Member < ActiveRecord::Base
   before_validation :generate_sn
 
   before_create :create_accounts
+  after_commit :send_activation
 
   class << self
     def from_auth(auth_hash)
@@ -88,16 +89,16 @@ class Member < ActiveRecord::Base
     Identity.find(authentications.find_by_provider('identity').uid)
   end
 
+  def send_activation
+    Activation.create(member: self)
+  end
+
   private
   def generate_sn
     self.sn and return
     begin 
       self.sn = "PEA#{ROTP::Base32.random_base32(8).upcase}TIO"
     end while Member.where(:sn => self.sn).any?
-  end
-
-  def activation
-    Activation.create(member: self)
   end
 
   def create_accounts

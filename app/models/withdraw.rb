@@ -35,7 +35,6 @@ class Withdraw < ActiveRecord::Base
   validates :tx_id, presence: true, uniqueness: true, on: :update
 
   validate :ensure_account_balance, on: :create
-  validate :validate_password, on: :create
 
   def coin?
     address_type.try(:satoshi?) or address_type.try(:protoshares?)
@@ -75,13 +74,6 @@ class Withdraw < ActiveRecord::Base
 
   def last_completed_withdraw_cache_key
     "last_completed_withdraw_id_for_#{address_type}"
-  end
-
-  def validate_password
-    unless self.member.identity.authenticate(self.password)
-      errors.clear
-      errors.add(:password, :match)
-    end
   end
 
   def ensure_account_balance

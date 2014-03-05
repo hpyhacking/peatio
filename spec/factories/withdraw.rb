@@ -7,7 +7,7 @@ FactoryGirl.define do
     address_label 'sample'
     address_type :satoshi
     password 'Password123'
-    member { create :member, identity: create(:identity) }
+    member { create :member }
 
     account do
       member.accounts.first.tap do |a|

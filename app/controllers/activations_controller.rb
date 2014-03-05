@@ -7,9 +7,9 @@ class ActivationsController < ApplicationController
   def new
     raise if current_user.activated?
 
-    activation = Activation.new(member: current_user)
+    activation = current_user.send_activation
 
-    if activation.save
+    if activation.valid?
       flash[:notice] = t('.notice')
     else
       flash[:alert] = activation.errors.full_messages
@@ -20,7 +20,11 @@ class ActivationsController < ApplicationController
 
   def edit
     if @token.save
-      redirect_to settings_path, notice: t('.notice')
+      if current_user
+        redirect_to settings_path, notice: t('.notice')
+      else
+        redirect_to signin_path, notice: t('.notice')
+      end
     end
   end
 end

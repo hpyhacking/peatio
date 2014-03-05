@@ -23,8 +23,6 @@ zh-CN:
       two_factor:
         create: 验证
         update: 激活
-      activation:
-        update: '重新发送邮件!'
       reset_two_factor:
         create: 重置两步验证
       reset_password:

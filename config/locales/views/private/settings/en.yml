@@ -15,21 +15,28 @@ en:
           resend: 再次发送
           activated: 已绑定
 
-        account_versions:
-          title: Account History
-          description: This shows all the transactions you have conducted with your accounts of all supported currencies.
-          view: View
         two_factor_auth:
           title: 2-Step Verification
+          description: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户，在此我们使用谷歌身份验证器。
+          enable: 设置
+          disable: 禁用
+
+        identity:
+          title: 实名认证
           description: Help keep the bad guys out of your account by using both your password and your phone.
-          configure: Configure
-          disable: Disable
+          go: 设置
+
+        asset_passwords:
+          title: 资金密码
+          description: 在您提现时，需要资金密码进行验证，强烈建议您不要使用和登录密码同样的密码！
+          go: 设置
+        
         passwords:
-          title: Password
-          description: Change your password regularly to protect your account.
-        language:
-          title: Language
-          description: If you are willing and able to contribute to brave the other language versions, please <a href='mailto:community@peatio.com?subject=Peatio Language Support&body=I am willing to contribute to the ... version of Peatio'>contact us</a>.
+          title: 登录密码
+          description: 此密码仅限作网站登录使用，请您牢记。
+          go: 修改
+
+        
     otps:
       new:
         step_1: Step 1

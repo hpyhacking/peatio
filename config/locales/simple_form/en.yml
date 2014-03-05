@@ -23,8 +23,6 @@ en:
       two_factor:
         create: Verify
         update: Activiate
-      activation:
-        update: Resend it to me!
       reset_two_factor:
         create: Reset Two Factor
       reset_password:

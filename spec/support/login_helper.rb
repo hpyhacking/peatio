@@ -1,4 +1,4 @@
-def login identity, otp=nil, password='Password123'
+def login(identity, otp: nil, password: 'Password123')
   visit root_path
   click_on I18n.t('header.signin')
   expect(current_path).to eq(signin_path)
@@ -9,10 +9,14 @@ def login identity, otp=nil, password='Password123'
     click_on I18n.t('header.signin')
   end
 
-  unless otp
+  if otp
     fill_in 'identity_otp', with: otp
     click_on I18n.t('helpers.submit.identity.verify')
   end
 end
 
-alias :signup :login
+def check_signin
+  expect(page).to have_content(I18n.t('header.signout'))
+end
+
+alias :signin :login

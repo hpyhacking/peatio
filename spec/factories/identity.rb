@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :identity do
-    email { member.try(:email) || Faker::Internet.email }
+    email { Faker::Internet.email }
     password { 'Password123' }
     password_confirmation { 'Password123' }
     is_active true

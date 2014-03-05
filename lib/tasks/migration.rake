@@ -8,4 +8,11 @@ namespace :migration do
       puts "updated #{i.email} acivation to #{i.is_active?}"
     end
   end
+
+  desc "build auth to exist identites"
+  task build_auth_to_exist_identites: :environment do
+    Identity.all.each do |i|
+      Authentication.create uid: i.id, provider: 'identity'
+    end
+  end
 end
