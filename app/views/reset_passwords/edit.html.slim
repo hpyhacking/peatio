@@ -1,10 +1,4 @@
 = simple_form_for @token do |f|
   = f.input :password
-  .control-group
-    .controls
-      = f.button :submit
-
-  #tips-wrapper
-    #tips
-      i.fa.fa-lightbulb
-      span = t('.password')
+  hr.split
+  = f.button :wrapped

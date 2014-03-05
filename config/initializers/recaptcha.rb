@@ -5,14 +5,16 @@ end
 
 module Recaptcha
   module Verify
-    def verify_recaptcha_with_development(*options)
+    def verify_recaptcha_with_development(options = {})
+      options[:attribute] ||= 'recaptcha'
+
       if Rails.env.production?
-        verify_recaptcha_without_development(*options)
+        verify_recaptcha_without_development(options)
       else
-        if self.params[:skip] == 'skip'
+        if self.params[:recaptcha_response_field] == 'skip'
           true
         else
-          verify_recaptcha_without_development(*options)
+          verify_recaptcha_without_development(options)
         end
       end
     end

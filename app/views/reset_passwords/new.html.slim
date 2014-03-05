@@ -1,11 +1,5 @@
-= simple_form_for @reset_pwd do |f|
+= simple_form_for @reset_password do |f|
   = f.input :email
-  - unless Rails.env.production?
-    = f.input :skip
-  .control-group
-    = recaptcha_tags :display => {:theme => 'white'}
-    - @reset_pwd.errors.delete :email
-    - @reset_pwd.errors.delete :identity
-    span.text-error = @reset_pwd.errors.full_messages.join
-  .control-group
-    = f.button :submit, style: 'margin-top: 10px; width: 120px;'
+  = f.input :recaptcha, as: :recaptcha
+  hr.split
+  = f.button :wrapped, cancel: signin_path

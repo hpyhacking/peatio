@@ -3,6 +3,7 @@ class Token < ActiveRecord::Base
 
   define_callbacks :confirmed
 
+  before_validation :set_member_from_email
   before_validation :generate_token, :if => 'token.nil?'
   before_create :invalidate_earlier_tokens
   after_commit :send_token
@@ -50,6 +51,17 @@ class Token < ActiveRecord::Base
 
     if latest && latest.created_at > DateTime.now.ago(60 * 5)
       self.errors.add(:base, :too_soon)
+    end
+  end
+
+  def set_member_from_email
+    if self.respond_to?(:email) and self.member.nil?
+      member = Member.find_by_email(self.email)
+      unless member
+        self.errors.add(:email, :'not-member')
+      else
+        self.member = member
+      end
     end
   end
 

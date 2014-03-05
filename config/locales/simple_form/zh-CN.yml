@@ -29,7 +29,7 @@ zh-CN:
         create: 重置两步验证
       reset_password:
         update: 重置登录密码
-        create: 重置登录密码
+        create: 发送重置请求
       withdraw:
         edit: 处理
         update: 处理提现
@@ -53,6 +53,8 @@ zh-CN:
     error_notification:
       default_message: "请检查以下问题:"
     labels:
+      defaults:
+        recaptcha: 验证码
       two_factor:
         uri: 二维码
         otp_secret: 密文
@@ -70,6 +72,8 @@ zh-CN:
         email: 登录邮箱
         password: 新密码
         password_confirmation: 确认密码
+      reset_password:
+        password: 新密码
     placeholders:
       session:
         email: 邮箱地址
@@ -94,8 +98,12 @@ zh-CN:
       order_ask:
         origin_volume:  卖出数量
         sum: 总成交金额
+      reset_password:
+        password: 请设置登录密码
     hints:
       two_factor:
         otp_scret: 建议备份
       identity:
+        password: 请输入至少8位，并必须包含大写、小写字母与数字。
+      reset_password:
         password: 请输入至少8位，并必须包含大写、小写字母与数字。
