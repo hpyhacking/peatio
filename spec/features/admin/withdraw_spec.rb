@@ -1,9 +1,10 @@
 require 'spec_helper'
 
 describe 'withdraw' do
-  let!(:member) { create :member }
-  let!(:admin_member) { create :member, email: Member.admins.first }
-  let!(:identity) { create :identity, member: admin_member }
+  let!(:member) { create :member, email: identity_normal.email }
+  let!(:admin_member) { create :member, email: identity.email}
+  let!(:identity_normal) { create :identity }
+  let!(:identity) { create :identity, email: Member.admins.first }
 
   let!(:account) do
     member.get_account(:btc).tap { |a| a.update_attributes locked: 100, balance: 100 }

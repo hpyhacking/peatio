@@ -1,11 +1,11 @@
-def login(identity, otp: nil, password: 'Password123')
+def login(identity, otp: nil, password: nil)
   visit root_path
   click_on I18n.t('header.signin')
   expect(current_path).to eq(signin_path)
 
   within 'form#new_identity' do
     fill_in 'identity_email', with: identity.email
-    fill_in 'identity_password', with: identity.password
+    fill_in 'identity_password', with: (password || identity.password)
     click_on I18n.t('header.signin')
   end
 

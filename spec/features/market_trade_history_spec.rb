@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 feature 'show account info', js: true do
-  let(:member) { create :member }
+  let(:identity) { create :identity }
   let(:other_member) { create :member }
-  let(:identity) { create :identity, member: member }
+  let(:member) { create :member, email: identity.email}
   let!(:bid_account) do
     member.get_account('cny').tap { |a| a.update_attributes locked: 400, balance: 1000 }
   end

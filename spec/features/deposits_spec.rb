@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe 'deposits' do
-  let!(:member) { create(:member) }
-  let!(:identity) { create :identity, member: member }
-  let(:address) { create :payment_address }
+  let!(:identity) { create :identity }
+  let!(:member) { create :member, email: identity.email  }
+  let!(:address) { create :payment_address }
 
   before do
     object = stub(:empty? => false, :using => address)

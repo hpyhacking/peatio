@@ -29,5 +29,7 @@
           li class='#{check_active(Statistic::WithdrawsGrid)}'
             a href='#{admin_statistic_withdraws_path}' = Statistic::WithdrawsGrid.grid_name
     .col-md-10
+      = render 'shared/flash'
       = yield
+
 = render template: "layouts/application"

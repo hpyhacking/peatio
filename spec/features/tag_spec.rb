@@ -1,16 +1,11 @@
 require 'spec_helper'
 
 describe 'member tags' do
-  let(:member) { create :member }
-  let(:identity) { create :identity, member: member }
-
-  before do
-    member.tag_list = 'hero'
-  end
+  let!(:identity) { create :identity }
+  let!(:member) { create :member, email: identity.email, tag_list: 'hero' }
 
   it 'user can view self tags in settings index' do
-    login identity
-    click_on identity.email
+    signin identity
     expect(page).to have_content 'Hero Member'
   end
 end

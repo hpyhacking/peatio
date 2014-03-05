@@ -7,6 +7,7 @@ module Recaptcha
   module Verify
     def verify_recaptcha_with_development(options = {})
       options[:attribute] ||= 'recaptcha'
+      return true if Rails.env.test?
 
       if Rails.env.production?
         verify_recaptcha_without_development(options)

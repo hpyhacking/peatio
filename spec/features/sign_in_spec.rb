@@ -17,7 +17,6 @@ describe 'Sign in' do
       signin identity
       clear_cookie
 
-      save_and_open_page
       fill_in 'two_factor_otp', with: two_factor.now
       click_on I18n.t('helpers.submit.two_factor.create')
 

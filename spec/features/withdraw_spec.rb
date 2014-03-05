@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'withdraw' do
-  let!(:member) { create(:member) }
-  let!(:identity) { create :identity, member: member }
+  let!(:identity) { create :identity }
+  let!(:member) { create :member, email: identity.email  }
 
   let(:radio_label) do
     "#{member.name} @ #{identity.email}"

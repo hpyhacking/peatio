@@ -37,8 +37,6 @@ zh-CN:
           description: 此密码仅限作网站登录使用，请您牢记。
           go: 修改
 
-        
-
     otps:
       new:
         step_1: 第一步

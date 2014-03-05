@@ -15,5 +15,6 @@ def deposit admin_identity, member, amount
     within 'form' do
       click_on I18n.t('helpers.submit.deposit.create')
     end
+
     expect(page).to have_content(I18n.t('admin.currency_deposits.create.success'))
 end
