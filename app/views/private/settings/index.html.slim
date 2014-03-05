@@ -18,15 +18,16 @@ ul.list-group
         - else
           = link_to t('.email.resend'), new_activation_path, class: 'btn btn-success btn-block'
 
-  li.list-group-item
-    .row.row-middle
-      .col-md-1
-        i.fa.fa-key.fa-2x
-      .col-md-8
-        h4 = t('.passwords.title')
-        p.text-ignore = t('.passwords.description')
-      .col-md-3
-        = link_to t('.passwords.go'), new_reset_password_path, class: 'btn btn-default btn-block'
+  - if current_user.identity
+    li.list-group-item
+      .row.row-middle
+        .col-md-1
+          i.fa.fa-key.fa-2x
+        .col-md-8
+          h4 = t('.passwords.title')
+          p.text-ignore = t('.passwords.description')
+        .col-md-3
+          = link_to t('.passwords.go'), edit_identity_path, class: 'btn btn-default btn-block'
 
   li.list-group-item
     .row.row-middle

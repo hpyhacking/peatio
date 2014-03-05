@@ -19,10 +19,6 @@ class Member < ActiveRecord::Base
 
   before_create :create_accounts
 
-  def active
-    self.update_column(:activated, true)
-  end
-
   class << self
     def from_auth(auth_hash)
       member = locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)
@@ -51,6 +47,10 @@ class Member < ActiveRecord::Base
 
   def self.admins
     Figaro.env.admin.split(',')
+  end
+
+  def active
+    self.update_column(:activated, true)
   end
 
   def admin?
@@ -82,6 +82,10 @@ class Member < ActiveRecord::Base
     less.each do |code|
       self.accounts.create(currency: code, balance: 0, locked: 0)
     end
+  end
+
+  def identity
+    Identity.find(authentications.find_by_provider('identity').uid)
   end
 
   private

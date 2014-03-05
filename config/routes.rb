@@ -13,8 +13,9 @@ Peatio::Application.routes.draw do
   get '/signout' => 'sessions#destroy', :as => :signout
   get '/auth/failure' => 'sessions#failure', :as => :failure
   post '/auth/identity/callback' => 'sessions#create'
-  
+
   resource :member, :only => [:edit, :update]
+  resource :identity, :only => [:edit, :update]
 
   namespace :verify do
     resource :two_factor, :only => [:new, :create]

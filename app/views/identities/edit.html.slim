@@ -1,0 +1,6 @@
+= simple_form_for @identity do |f|
+  = f.input :old_password
+  = f.input :password
+  = f.input :password_confirmation
+  hr.split
+  = f.button :wrapped, cancel: settings_path

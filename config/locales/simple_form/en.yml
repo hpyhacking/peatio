@@ -19,6 +19,7 @@ en:
         create: Sign up
         destroy: Sign out
         verify: Verify
+        update: Change
       two_factor:
         create: Verify
         update: Activiate

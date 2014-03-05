@@ -19,6 +19,7 @@ zh-CN:
         create: 注册
         destroy: 登出
         verify: 验证
+        update: 修改
       two_factor:
         create: 验证
         update: 激活
