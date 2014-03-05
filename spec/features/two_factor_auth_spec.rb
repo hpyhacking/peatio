@@ -1,36 +1,37 @@
 require 'spec_helper'
 
 describe '2-step verification' do
-  let(:identity) { create :identity, member: create(:member) }
+  let!(:identity) { create :identity }
+  let!(:member) { create :member, email: identity.email }
 
   it 'allows user to set it up and disable it' do
-    login identity
-    click_on identity.email
-    expect(page).to_not have_content I18n.t('private.settings.index.two_factor_auth.disable')
+    signin identity
 
-    # set up
-    click_on I18n.t('private.settings.index.two_factor_auth.configure')
-    secret = page.find('code').text
-    fill_in 'otp_otp', with: ROTP::TOTP.new(secret).now
-    click_on I18n.t('helpers.submit.otp.update')
-    expect(page.find('#notice')).to have_content I18n.t('private.settings.success')
+    # enable
+    within '#two_factor_auth' do
+      click_on t('private.settings.index.two_factor_auth.enable')
+    end
 
-    find('#sign_out').click
-    login identity, ROTP::TOTP.new(secret).now
+    secret = page.find('#two_factor_otp_secret').value
+    fill_in 'two_factor_otp', with: ROTP::TOTP.new(secret).now
+    click_on t('private.two_factors.new.submit')
+    expect(page).to have_content t('private.two_factors.create.notice')
 
-    click_on identity.email
-    expect(page).to_not have_content I18n.t('private.settings.index.two_factor_auth.configure')
+    # signin again
+    signout
+    signin identity, otp: ROTP::TOTP.new(secret).now
 
     # disable
-    click_link I18n.t('private.settings.index.two_factor_auth.disable')
-    fill_in 'password', with: "Password123"
-    click_button I18n.t('private.settings.index.two_factor_auth.disable')
-    expect(page).to have_content I18n.t('private.settings.index.two_factor_auth.configure')
+    within '#two_factor_auth' do
+      click_link t('private.settings.index.two_factor_auth.disable')
+    end
 
-    find('#sign_out').click
-    login identity
+    fill_in 'two_factor_otp', with: ROTP::TOTP.new(secret).now
+    click_on t('private.two_factors.edit.submit')
+    expect(page).to have_content t('private.two_factors.destroy.notice')
 
-    # login success, back to dashboard
-    expect(page).to have_content(I18n.t('header.market'))
+    signout
+    signin identity
+    check_signin
   end
 end

@@ -10,9 +10,13 @@ def login(identity, otp: nil, password: 'Password123')
   end
 
   if otp
-    fill_in 'identity_otp', with: otp
-    click_on I18n.t('helpers.submit.identity.verify')
+    fill_in 'two_factor_otp', with: otp
+    click_on I18n.t('helpers.submit.two_factor.create')
   end
+end
+
+def signout
+  click_link t('header.signout')
 end
 
 def check_signin

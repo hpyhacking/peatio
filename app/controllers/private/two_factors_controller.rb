@@ -14,7 +14,7 @@ module Private
     def create
       if @two_factor.verify
         @two_factor.update_attribute(:activated, true)
-        redirect_to settings_path, notice: t('.success')
+        redirect_to settings_path, notice: t('.notice')
       else
         redirect_to new_two_factor_path, alert: t('.alert')
       end
@@ -23,7 +23,7 @@ module Private
     def destroy
       if @two_factor.verify
         @two_factor.update_attribute(:activated, false)
-        redirect_to settings_path, notice: t('.success')
+        redirect_to settings_path, notice: t('.notice')
       else
         redirect_to edit_two_factor_path, alert: t('.alert')
       end

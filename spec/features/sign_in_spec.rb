@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Sign in' do
-  let(:identity) { create :identity }
+  let!(:identity) { create :identity }
   let!(:member) { create :member, email: identity.email }
 
   it 'allows a user to sign in with email, password' do
