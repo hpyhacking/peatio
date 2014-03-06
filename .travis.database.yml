@@ -1,0 +1,10 @@
+test:
+  adapter: mysql2
+  database: peatio_test
+  username: root
+  encoding: utf8
+cucumber:
+  adapter: mysql2
+  database: peatio_test
+  username: root
+  encoding: utf8
