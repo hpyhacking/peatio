@@ -8,6 +8,7 @@ before_install:
 before_script:
   - "mysql -e 'create database peatio_test;'"
   - "cp ./.travis.database.yml ./config/database.yml"
+  - "cp ./.travis.application.yml ./config/application.yml"
 script:
   - bundle exec rake db:schema:load
   - bundle exec rake db:test:prepare
