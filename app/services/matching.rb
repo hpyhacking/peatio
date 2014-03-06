@@ -1,12 +1,6 @@
 class Matching
   def initialize(currency)
     @currency = currency
-
-    bid = OrderBid.head(@currency)
-    ask = OrderAsk.head(@currency)
-
-    self.ask_price = ask.try(:price) || 0
-    self.bid_price = bid.try(:price) || 0
   end
 
   attr_accessor :bid_price, :ask_price
@@ -15,9 +9,6 @@ class Matching
     ActiveRecord::Base.transaction do
       bid = OrderBid.head(@currency).try(:lock!)
       ask = OrderAsk.head(@currency).try(:lock!)
-
-      self.ask_price = ask.try(:price) || 0
-      self.bid_price = bid.try(:price) || 0
 
       if bid and ask and bid.price >= ask.price
         lock_account(bid, ask)

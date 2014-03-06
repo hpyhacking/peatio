@@ -16,8 +16,9 @@ Signal.trap(:TERM) do
   end
 end
 
-[:cnybtc].each do |currency|
+Market.all.each do |market|
   pids << fork do
+    currency = market.id.to_sym
     $PROGRAM_NAME = "price_matching::#{currency}"
 
     trap(:TERM) do exit end
