@@ -22,10 +22,11 @@ zh-CN:
           enable: 设置
           disable: 禁用
 
-        identity:
+        verification:
           title: 实名认证
           description: 为配合国家相关法令条例，请您正确输入信息，完成认证。
-          go: 设置
+          go: 提交
+          verified: 已验证
 
         asset_passwords:
           title: 资金密码

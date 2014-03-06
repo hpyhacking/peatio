@@ -52,3 +52,7 @@ zh-CN:
       category:
         satoshi: 比特币
         bank: 银行转账
+    id_document:
+      category:
+        id_card: 身份证
+        passport: 护照

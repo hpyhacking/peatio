@@ -21,10 +21,11 @@ en:
           enable: 设置
           disable: 禁用
 
-        identity:
-          title: 实名认证
+        verification:
+          title: Verification
           description: Help keep the bad guys out of your account by using both your password and your phone.
-          go: 设置
+          go: Submit
+          verified: Verified
 
         asset_passwords:
           title: 资金密码

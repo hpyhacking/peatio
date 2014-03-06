@@ -111,7 +111,12 @@ zh-CN:
       withdraw: 提现
       deposit: 充值
       payment_transaction: 充值
+      id_document: 实名认证
     attributes:
+      id_document:
+        name: 真实姓名
+        sn: 证件号码
+        category: 证件类型
       identity:
         email: 邮箱地址
         password: 新密码
