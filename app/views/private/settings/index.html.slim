@@ -1,5 +1,6 @@
 ul.list-group
 
+  // member email activated
   li.list-group-item
     .row.row-middle
       .col-md-1
@@ -18,6 +19,7 @@ ul.list-group
         - else
           = link_to t('.email.resend'), new_activation_path, class: 'btn btn-success btn-block'
 
+  // change identity password
   - if current_user.identity
     li.list-group-item
       .row.row-middle
@@ -29,30 +31,25 @@ ul.list-group
         .col-md-3
           = link_to t('.passwords.go'), edit_identity_path, class: 'btn btn-default btn-block'
 
+  // id document verify
   li.list-group-item
     .row.row-middle
       .col-md-1
         i.fa.fa-thumbs-o-up.fa-2x
       .col-md-8
         h4 
-          span = t('.identity.title')
+          span = t('.verification.title')
           i.fa.fa-bolt.text-warning
-        p.text-ignore = t('.identity.description')
+        p.text-ignore = t('.verification.description')
       .col-md-3
-        = link_to t('.identity.go'), new_reset_password_path, class: 'btn btn-success btn-block'
+        - if @verified
+          a href="#" class="btn btn-default btn-block disabled" role="button"
+            i.fa.fa-check-circle
+            span = t('.verification.verified')
+        - else
+          = link_to t('.verification.go'), new_id_document_path, class: 'btn btn-success btn-block'
 
-  li.list-group-item
-    .row.row-middle
-      .col-md-1
-        i.fa.fa-money.fa-2x
-      .col-md-8
-        h4 
-          span = t('.asset_passwords.title')
-          i.fa.fa-bolt.text-warning
-        p.text-ignore = t('.asset_passwords.description')
-      .col-md-3
-        = link_to t('.asset_passwords.go'), root_path, class: 'btn btn-success btn-block'
-
+  // two factor setting
   li.list-group-item
     #two_factor_auth.row.row-middle
       .col-md-1
@@ -63,10 +60,10 @@ ul.list-group
           i.fa.fa-bolt.text-warning
         p.text-ignore = t('.two_factor_auth.description')
       .col-md-3
-        - unless current_user.two_factor_activated?
-          = link_to t('.two_factor_auth.enable'), new_two_factor_path, class: 'btn btn-success btn-block'
-        - else
+        - if @two_factor
           = link_to t('.two_factor_auth.disable'), edit_two_factor_path, class: 'btn btn-success btn-block'
+        - else
+          = link_to t('.two_factor_auth.enable'), new_two_factor_path, class: 'btn btn-success btn-block'
 
 = content_for :guide_title do
   h3

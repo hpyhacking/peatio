@@ -111,7 +111,12 @@ en:
       withdraw: Withdraw
       deposit: Deposit
       payment_transaction: Payment
+      id_document: ID Document
     attributes:
+      id_document:
+        name: Full Name
+        sn: ID Document Number
+        category: ID Docuemnt Type
       document:
         zh_cn_body: Chinese content
         zh_cn_title: Chinese title

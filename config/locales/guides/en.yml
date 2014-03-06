@@ -43,6 +43,12 @@ en:
           title: 创建资金提现地址
           intro: 通过创建提现地址，以便每次提现时方便选择要提现的收款方。
 
+      id_documents:
+        panel: 实名认证
+        new:
+          title: 提交实名认证信息
+          intro: 
+
     verify:
       two_factors:
         panel: 两步验证

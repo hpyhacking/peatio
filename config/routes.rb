@@ -47,6 +47,7 @@ Peatio::Application.routes.draw do
 
   scope module: 'private' do
     get '/settings', to: 'settings#index', as: :settings
+    resource :id_document, :only => [:new, :create]
     resource :two_factor, :only => [:new, :create, :edit, :destroy]
 
     resources :deposits, :only => :index do

@@ -52,3 +52,7 @@ en:
       category:
         satoshi: Bitcoin
         bank: Bank
+    id_document:
+      category:
+        id_card: ID Card
+        passport: Passport
