@@ -5,7 +5,7 @@ ul#menu.nav.navbar-nav.navbar-left
   = top_nav_link(t('header.withdraw'), new_withdraw_path, 'money', controllers: ['withdraw_addresses'])
 - if current_user
   ul.nav.navbar-nav.navbar-right
-    = top_nav_link(current_user.email, settings_path, 'user')
+    = top_nav_link(current_user.email, settings_path, 'user', controllers: ['two_factors', 'identities'])
     - if is_admin?
       li: a href='#{main_app.admin_dashboard_path}' id='admin'
         i.fa.fa-tachometer
