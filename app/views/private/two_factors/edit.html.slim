@@ -2,3 +2,6 @@
   = f.input :otp
   hr.split
   = f.button :wrapped, t('.submit'), cancel: settings_path
+
+= content_for :guide do
+  p.text-warning = t('.warning')

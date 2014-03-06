@@ -1,0 +1,7 @@
+en:
+  activations:
+    new:
+      tip: Activation link was sent to %{email}
+      spam: Mail maybe in your spam box, please checkout.
+    edit:
+      notice: Account activated successfully! Please login below.

@@ -1,0 +1,10 @@
+zh-CN:
+  identities:
+    new:
+      title: 账户注册
+      signin: 立即登录
+      password: 请输入至少8位密码，并必须包含大写、小写字母与数字。
+    update:
+      auth-error: 您输入的旧密码错误，请重新输入。
+      auth-same: 您输入的新密码与旧密码相同，请重新输入。
+      notice: 登录密码修改成功。

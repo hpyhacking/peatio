@@ -1,0 +1,7 @@
+en:
+  identities:
+    new:
+      title: SIGN UP
+      signin: Sign In
+      password: Please enter a password of at least eight, and must include uppercase and lowercase letters and numbers.
+

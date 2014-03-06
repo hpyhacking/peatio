@@ -16,7 +16,8 @@ module Private
         @two_factor.update_attribute(:activated, true)
         redirect_to settings_path, notice: t('.notice')
       else
-        redirect_to new_two_factor_path, alert: t('.alert')
+        flash.now[:alert] = t('.alert')
+        render :new
       end
     end
 
@@ -25,7 +26,8 @@ module Private
         @two_factor.update_attribute(:activated, false)
         redirect_to settings_path, notice: t('.notice')
       else
-        redirect_to edit_two_factor_path, alert: t('.alert')
+        flash.now[:alert] = t('.alert')
+        render :edit
       end
     end
 

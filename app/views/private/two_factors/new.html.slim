@@ -1,11 +1,11 @@
 = simple_form_for @two_factor, :url => two_factor_path, as: :two_factor, :method => :post do |f|
   h4 = t('.step-1')
-  p.text-info
+  p
     span = t('.download-app')
+    span == t('.guide-link')
 
   h4 = t('.step-2')
-  p.text-info
-    span = t('.scan-qr-code')
+  p: span = t('.scan-qr-code')
 
   = f.input :uri do
     = qr_tag(@two_factor.uri)
@@ -18,8 +18,7 @@
           i.fa.fa-refresh
 
   h4 = t('.step-3')
-  p.text-info
-    span = t('.enter-passcode')
+  p: span = t('.enter-passcode')
 
   = f.input :otp
 
@@ -28,6 +27,9 @@
 
 = content_for :guide do
   ul.list-unstyled
-    li: a href='#' = t('.android')
-    li: a href='#' = t('.ios')
-    li: a href='#' = t('.blackbery')
+    li: a target='_blank' href='https://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8'
+      i.fa.fa-apple
+      span = t('.ios')
+    li: a target='_blank' href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2'
+      i.fa.fa-android
+      span = t('.android')

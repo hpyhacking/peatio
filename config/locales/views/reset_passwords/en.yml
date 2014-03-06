@@ -1,0 +1,12 @@
+en:
+  reset_passwords:
+    create:
+      success: 登录密码找回邮件已经发送，请根据邮件内容进行操作。
+    edit:
+      password: 请输入至少8位密码，并必须包含大写、小写字母与数字。
+      invalid: 无效的请求
+      submit: 重置登录密码
+    update:
+      success: 登录密码已经重置，请妥善保管您的新密码。
+      invalid: 无效的请求
+
