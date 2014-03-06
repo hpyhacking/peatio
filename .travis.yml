@@ -6,7 +6,7 @@ before_install:
   - sudo apt-get install -y libfontconfig libfontconfig-dev libfreetype6-dev
   - sudo apt-get install -y qrencode libqrencode-dev
 before_script:
-  - "mysql -e 'create database my_app_test;'"
+  - "mysql -e 'create database peatio_test;'"
   - "cp ./.travis.database.yml ./config/database.yml"
 script:
   - bundle exec rake db:schema:load
