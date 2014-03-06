@@ -1,6 +1,6 @@
-# Peatio API V1.0
+# Peatio API v1.0
 
-### ORDER BOOK
+#### Deeps
 
 GET /api/deeps/cnybtc
 
@@ -56,9 +56,10 @@ $curl https://cn.peatio.com/api/deeps/cnybtc
 }
 ```
 
-### TRANSACTIONS
+#### Trades
 
 GET /api/trades
+GET /api/trades?since=tid
 
 Return JSON Data format:
 ```
@@ -98,7 +99,7 @@ $ curl https://cn.peatio.com/api/trades/cnybtc
 ]
 ```
 
-### TICKER
+#### Tickers
 
 GET /api/tickers
 
