@@ -12,7 +12,7 @@ class ActivationsController < ApplicationController
     if activation.valid?
       flash[:notice] = t('.notice')
     else
-      flash[:alert] = activation.errors.full_messages
+      flash[:alert] = activation.errors.full_messages.join
     end
 
     redirect_to settings_path

@@ -121,7 +121,7 @@ module ApplicationHelper
   end
 
   def guide_panel_title
-    t("guides.#{i18n_controller_path}.panel")
+    t("guides.#{i18n_controller_path}.#{action_name}.panel", default: t("guides.#{i18n_controller_path}.panel"))
   end
 
   def guide_title
@@ -129,7 +129,7 @@ module ApplicationHelper
   end
 
   def guide_intro
-    t("guides.#{i18n_controller_path}.#{action_name}.intro")
+    t("guides.#{i18n_controller_path}.#{action_name}.intro", default: "")
   end
 
   def i18n_controller_path

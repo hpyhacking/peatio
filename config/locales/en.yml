@@ -45,11 +45,6 @@ en:
     sum:
       bid: Total Price <span class=bid_totle></span>%{bid_icon}
       ask: Total Price <span class=ask_totle></span>%{bid_icon}
-  identities:
-    new:
-      title: SIGN UP
-      signin: Sign In
-      password: Please enter a password of at least eight, and must include uppercase and lowercase letters and numbers.
   reset_two_factors:
     create:
       success: 重置两步验证邮件已经发送，请根据邮件内容进行操作。
@@ -294,12 +289,6 @@ en:
     privacy: privacy
     contact: Contact
     price: Price
-  activations:
-    new:
-      tip: Activation link was sent to %{email}
-      spam: Mail maybe in your spam box, please checkout.
-    edit:
-      success: Account activated successfully! Please login below.
   recaptcha:
     errors:
       verification_failed: Invlaid verification

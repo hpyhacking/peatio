@@ -45,26 +45,11 @@ zh-CN:
     sum:
       bid: 合计 <span class=bid_totle></span>%{bid_icon}
       ask: 合计 <span class=ask_totle></span>%{bid_icon}
-  identities:
-    new:
-      title: 账户注册
-      signin: 立即登录
-      password: 请输入至少8位密码，并必须包含大写、小写字母与数字。
   reset_two_factors:
     create:
       success: 重置两步验证邮件已经发送，请根据邮件内容进行操作。
     edit:
       success: 两步验证禁用成功，登录后在账户设置中可再次激活。
-  reset_passwords:
-    create:
-      success: 登录密码找回邮件已经发送，请根据邮件内容进行操作。
-    edit:
-      password: 请输入至少8位密码，并必须包含大写、小写字母与数字。
-      invalid: 无效的请求
-      submit: 重置登录密码
-    update:
-      success: 登录密码已经重置，请妥善保管您的新密码。
-      invalid: 无效的请求
   shared:
     olark:
       welcome_title: 联系我们
@@ -178,7 +163,7 @@ zh-CN:
         modifiable_type: 相关数据
         created_at : 创建日期
       reset_password:
-        email: 登录邮件地址
+        email: 邮箱地址
       trade:
         bid: 买入
         ask: 卖出
@@ -238,7 +223,9 @@ zh-CN:
             email:
               invalid: 无效的邮件地址
             password:
-              invalid: 请输入至少8位，并必须包含大写、小写字母与数字。
+              invalid: 无效的密码格式，请重新输入。
+            password_confirmation:
+              confirmation: 与您输入的新密码不一致，请重新输入。
         reset_two_factor:
           attributes:
             base:
@@ -248,6 +235,7 @@ zh-CN:
             base:
               too_soon: 访问过于频繁，请稍后再试。
             email:
+              not-member: 请输入有效的邮箱地址。
               match: 登录邮件地址错误。
             password:
               invalid: 密码格式错误
@@ -268,12 +256,17 @@ zh-CN:
             sum:
               poor: 账户余额不足，请核对。
               bank_min: 低于银行转账提现最小限额 5000.00
+        two_factor:
+          attributes:
+            otp:
+              invalid: 密码有误，请重新输入。
       messages:
         undef: 未知错误原因
         less: 余额不足
         verify: 验证失败
         strength: 无效的密码强度
         password: 请输入至少8位密码并必须包含大写、小写字母与数字。
+        blank: 请务必填写此项内容。
         orders:
           price: 单价限额 %{l} ~ %{h}
           sum: 挂单总限额 %{l} ~ %{h}
@@ -298,12 +291,6 @@ zh-CN:
     privacy: 隐私声明
     contact: 联系我们
     price: 资费说明
-  activations:
-    new:
-      tip: 激活连接已经发送到 <span class='text-primary'>%{email}</span>
-      spam: 该邮件有可能出现在垃圾邮件中，请注意查看。
-    edit:
-      success: 激活成功！请登录
   recaptcha:
     errors:
       verification_failed: 验证码错误，请再试试看。

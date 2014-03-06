@@ -8,6 +8,7 @@ zh-CN:
         safety_instruction: 您应启用全部 <b>安全设置</b><i class='fa fa-bolt'></i>，以保障帐户及资金安全。
         reset_password: 重置登录密码
         reauthenticate: 身份验证
+        activated: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
 
         email:
           title: 邮箱绑定
@@ -20,12 +21,12 @@ zh-CN:
           title: 两步验证
           description: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户，在此我们使用谷歌身份验证器。
           enable: 设置
-          disable: 禁用
+          disable: 解除
 
         verification:
           title: 实名认证
-          description: 为配合国家相关法令条例，请您正确输入信息，完成认证。
-          go: 提交
+          description: 为配合国家相关法令条例，请您正确输入信息，进行身份认证，身份认证未完成将不能在网站进行任何操作。
+          go: 设置
           verified: 已验证
 
         asset_passwords:

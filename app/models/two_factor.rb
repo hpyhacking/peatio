@@ -9,6 +9,7 @@ class TwoFactor < ActiveRecord::Base
     if rotp.verify(self.otp)
       touch(:last_verify_at)
     else
+      self.errors.add :otp, :invalid
       false
     end
   end
