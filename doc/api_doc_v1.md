@@ -2,7 +2,7 @@
 
 #### Deeps
 
-GET /api/deeps/cnybtc
+* GET /api/deeps/cnybtc
 
 Return JSON data format:
 
@@ -58,8 +58,8 @@ $curl https://cn.peatio.com/api/deeps/cnybtc
 
 #### Trades
 
-GET /api/trades
-GET /api/trades?since=tid
+* GET /api/trades
+* GET /api/trades?since=tid
 
 Return JSON Data format:
 ```
@@ -101,7 +101,7 @@ $ curl https://cn.peatio.com/api/trades/cnybtc
 
 #### Tickers
 
-GET /api/tickers
+* GET /api/tickers
 
 Return JSON data format:
 
