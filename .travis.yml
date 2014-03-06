@@ -1,7 +1,7 @@
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y libfontconfig libfontconfig-dev libfreetype6-dev
-  - sudo apt-get install -y sudo apt-get install qrencode libqrencode-dev
+  - sudo apt-get install -y qrencode libqrencode-dev
 notifications:
   webhooks: https://peatio.slack.com/services/hooks/travis?token=Rah5xOTiG33TryAfoV0peOKz
 language: ruby
