@@ -10,6 +10,7 @@ en:
     bid: Bid
   back: Back
   invalid_password: Invalid password
+
   date:
     formats:
       short: '%m-%d %H:%M'
@@ -18,6 +19,7 @@ en:
     formats:
       short: '%m-%d %H:%M'
       default: '%m/%d/%Y %H:%M'
+
   token_mailer:
     reset_password:
       subject: '[Peatio] Please Reset Your Password'
@@ -25,6 +27,7 @@ en:
       subject: '[Peatio] Please Reset Your Two Factor'
     activation:
       subject: '[Peatio] Account Activation'
+
   currency:
     name:
       cny: Chinese Yuan
@@ -50,23 +53,7 @@ en:
       success: 重置两步验证邮件已经发送，请根据邮件内容进行操作。
     edit:
       success: 两步验证禁用成功，登录后在账户设置中可再次激活。
-  reset_passwords:
-    create:
-      success: 登录密码找回邮件已经发送，请根据邮件内容进行操作。
-    edit:
-      password: 请输入至少8位密码，并必须包含大写、小写字母与数字。
-      invalid: Invalid Request!!!
-      submit: Reset Password
-    update:
-      success: 密码已经重置，请妥善保管您的新密码。
-      invalid: Invalid Request!!!
-  shared:
-    olark:
-      welcome_title: Chat with us!
-      chatting_title: Now Chatting
-      chat_input_text: Type here and hit <enter> to chat
-  welcome:
-    cowndown: <span class='days'></span>天 <span class='hours'></span>小时 <span class='minutes'></span>分钟 <span class='seconds'></span>秒
+
   private:
     trade:
       trades:
@@ -90,189 +77,7 @@ en:
       index:
         fee: Fee
         total: Total
-  activerecord:
-    models:
-      trade: Trades
-      order: Orders
-      order_ask: ASK
-      order_bid: BID
-      members_statistic: Members Statistic
-      orders_statistic: Orders Statistic
-      trades_statistic: Trades Statistic
-      deposits_statistic: Deposits Statistic
-      withdraws_statistic: Withdraws Statistic
-      member_trades_statistic: BTC统计
-      document: Document
-      withdraw: Withdraw
-      deposit: Deposit
-      payment_transaction: Payment
-      id_document: ID Document
-    attributes:
-      id_document:
-        name: Full Name
-        sn: ID Document Number
-        category: ID Docuemnt Type
-      document:
-        zh_cn_body: Chinese content
-        zh_cn_title: Chinese title
-        en_body: English content
-        en_title: English title
-        key: Key
-        is_auth: Is Auth
-      withdraw_address:
-        address: Address
-        category: Category
-        label: Label
-      account:
-        currency: Currency
-        currency_text: Currency
-        balance: Balance
-        locked: Frozen
-      deposit:
-        currency-address-type: Currency - Pay type
-        state: State
-        tx_id: TX ID
-        member_id: Member ID
-        created_at: Submitted at
-        address: Address
-        address_label: Address label
-        amount: Amount
-        done_at: Completed at
-        sn: SN
-      withdraw:
-        id: ID
-        sn: SN
-        withdraw_id: ID
-        currency-address-type: Currency - Address type
-        address-label: Address - Label
-        amount-fee: Amount / Fee
-        fee: Fee
-        currency: Currency
-        amount: Amount
-        address: Address
-        address_label: Address label
-        address_type: Address type
-        address_type_text: Address type
-        state: Status
-        state_text: Status
-        tx_id: transaction_id
-        withdraw_address_id: Withdraw address
-        position_in_queue: Queue No.
-        detail: Detail
-      account_version:
-        id: ID
-        locked: Forzen
-        amount: Amount
-        balance: Balance
-        reason: Reason
-        modifiable_id: LINK ID
-        modifiable_type: LINK
-        created_at : Created At
-      reset_password:
-        email: Sign in email
-      trade:
-        bid: Bid
-        ask: Ask
-        fee: Fee
-        price: Strike Price
-        volume: Strike Volume
-        category: Bid/Ask
-        order: Order
-      order:
-        bid: Bid
-        ask: Ask
-        price: Price
-        total: Total
-        volume: Volume
-        origin_volume: Volume
-        sum: Sum
-        category: Bid/Ask
-        kind: Kind
-        at: At
-        id: ID
-        state: State
-        operation: Operation
-      payment_transaction:
-        at: Date Time
-        txid: Transaction ID
-        amount: Amount
-        confirmations: Confirmations
-        state: State
-        state_done: Done
-        state_wait: Wait
-      member:
-        name: Real Name
-        email: Email
-        created_at: Register At
-        sn: SN
-        tag_list: Tags
-    errors:
-      models:
-        order_bid:
-          attributes:
-            sum:
-              expensive: Expensive Account
-            price:
-              range: Invalid Price Range
-        order_ask:
-          attributes:
-            origin_volume:
-              expensive: Expensive Account
-            price:
-              range: Invalid Price Range
-        account:
-          attributes:
-            balance:
-              less: Blance Less
-        identity:
-          attributes:
-            email:
-              invalid: Invalid Email
-            password:
-              invalid: Invalid Password
-        reset_two_factor:
-          attributes:
-            base:
-              too_soon: Visit too soon
-        reset_password:
-          attributes:
-            base:
-              too_soon: Visit too soon
-            email:
-              match: Invalid Sign in Email
-            password:
-              invalid: Invalid Password
-        activation:
-          attributes:
-            base:
-              too_soon: An activation email was sent to your email address less than 5 minutes ago.
-        withdraw_address:
-          attributes:
-            label:
-            address:
-              satoshi_ismine: Used Address
-              satoshi_invalid: Invalid Address
-        withdraw:
-          attributes:
-            password:
-              match: invalid
-            amount:
-              poor: insufficient
-              bank_min: Less 5000.00
-      messages:
-        undef: unknown reason
-        less: balance less
-        verify: verify error
-        strength: is invalid password strength
-        password: 请输入至少8位密码并必须包含大写、小写字母与数字。
-        orders:
-          price: limit price %{l} ~ %{h}
-          sum: limit sum price %{l} ~ %{h}
-          precision: minimum precision %{p}
-  tips:
-    enable_otp: For your account security, we strongly recommend that you turn OTP login authentication. Please go to <a href='%{url}'>Security</a> set OTP.
-    empty_orders: You haven't anything orders !!! Maybe you can go to try one.
-    order_created: Order Successful !!! View your <a href='%{url}'>orders</a>.
+
   header:
     admin: Admin
     market: Cash Markets
@@ -284,18 +89,21 @@ en:
     withdraw: Withdraw
     getstart: Get Start
     assets: Assets
+
   footer:
     about: About
     privacy: privacy
     contact: Contact
     price: Price
+
   recaptcha:
     errors:
       verification_failed: Invlaid verification
       recaptcha_unavailable: Invlaid verification
+
   actions:
     go: Go
-    select : Please Select
+    select: Please Select
     unlock: Unlock
     confirm: Confirm
     back: Back
@@ -314,6 +122,7 @@ en:
     clipboard:
       click: Click to copy
       done: Copyed
+
   global:
     ask_price: Ask
     bid_price: Bid
@@ -321,8 +130,6 @@ en:
     high_price: High
     low_price: Low
     volume: Volume
-  flash:
-    notice: Well done!
-    alert: Warning!
+
   'yes': 'Yes'
   'no': 'No'

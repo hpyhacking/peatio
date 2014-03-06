@@ -1,8 +1,0 @@
-zh-CN:
-  activerecord:
-    models:
-      statistic/orders_grid: 指令统计
-      statistic/trades_grid: 交易统计
-      statistic/members_grid: 用户统计
-      statistic/deposits_grid: 充值统计
-      statistic/withdraws_grid: 提现统计

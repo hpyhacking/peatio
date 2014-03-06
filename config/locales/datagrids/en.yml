@@ -8,6 +8,8 @@ en:
       submit: Search
     withdraws_grid:
       columns:
+        sn: SN
+        name: Name
         position_in_queue: Queue
         currency_text: Currency
         address_label: Label

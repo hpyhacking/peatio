@@ -1,8 +1,5 @@
 en:
   private:
-    shared:
-      balances:
-        total: 'Total %{currency} amount:'
     markets:
       history_wrapper:
         orders_wait: Latest Orders

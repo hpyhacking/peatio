@@ -3,10 +3,12 @@ en:
     settings:
       success: Settings updated successfully
       failure: Invalid passcode. Please try again.
+
       index:
         safety_instruction: In order to protect your bitcoins and personal information, we strongly suggest that you use 2-Step Verification.
-        reset_password: Reset Password
-        reauthenticate: Re-Authenticate
+        reset_password: 重置登录密码
+        reauthenticate: 身份验证
+        activated: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
 
         email:
           title: 邮箱绑定
@@ -37,7 +39,6 @@ en:
           description: 此密码仅限作网站登录使用，请您牢记。
           go: 修改
 
-        
     otps:
       new:
         step_1: Step 1

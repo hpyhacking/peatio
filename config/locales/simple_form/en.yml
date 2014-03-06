@@ -37,6 +37,8 @@ en:
         create: Add Withdraw Address
       deposit:
         create: Deposit
+      id_document:
+        create: 提交
   simple_form:
     creating: "Creating..."
     updating: 'Updating...'
@@ -68,6 +70,7 @@ en:
         password: 登录密码
       identity:
         email: 登录邮箱
+        old_password: 旧密码
         password: 新密码
         password_confirmation: 确认密码
       reset_password:
@@ -80,6 +83,8 @@ en:
         email: Example：xiaobai@example.com
         password: 请设置登录密码
         password_confirmation: 确认密码
+        edit:
+          password: 请设置新密码
       document:
         key: Document link URL key
         title: Document Title
@@ -97,11 +102,15 @@ en:
         origin_volume:  Sell Volume
         sum: 总成交金额
       reset_password:
+        email: 例如：xiaobai@example.com
         password: 请设置登录密码
     hints:
       two_factor:
-        otp_scret: 建议备份
+        otp_secret: 建议您备份好二维码图片或者密文，以免手机意外丢失后给您带来不便。
+        otp: 您的验证器每三十秒会重新生成新密码，请及时输入。
       identity:
         password: 请输入至少8位，并必须包含大写、小写字母与数字。
       reset_password:
         password: 请输入至少8位，并必须包含大写、小写字母与数字。
+      id_document:
+        name: 请填写与您证件上一致的姓名。

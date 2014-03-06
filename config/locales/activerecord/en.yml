@@ -1,8 +1,0 @@
-en:
-  activerecord:
-    models:
-      statistic/orders_grid: Orders Stat
-      statistic/trades_grid: Trading Stat
-      statistic/members_grid: Members Stat
-      statistic/deposits_grid: Deposits Stat
-      statistic/withdraws_grid: Withdraws Stat
