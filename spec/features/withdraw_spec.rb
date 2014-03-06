@@ -39,7 +39,7 @@ describe 'withdraw' do
     expect(form).to have_text('600.0')
     expect(form).to have_text('0.0')
 
-    click_on I18n.t('actions.confirm')
+    click_on t('actions.confirm')
 
     expect(current_path).to eq(new_withdraw_path)
     expect(page).to have_text(I18n.t('private.withdraws.update.request_accepted'))
@@ -57,7 +57,7 @@ describe 'withdraw' do
 
     # 1st withdraw
     submit_withdraw_request 800
-    click_on I18n.t('actions.confirm')
+    click_on t('actions.confirm')
     expect(current_path).to eq(new_withdraw_path)
     expect(find('.account-cny .available').text).to eq("1700.0")
     expect(find('.account-cny .locked').text).to eq("800.0")
@@ -65,7 +65,7 @@ describe 'withdraw' do
 
     # 2nd withdraw
     submit_withdraw_request 800
-    click_on I18n.t('actions.confirm')
+    click_on t('actions.confirm')
     expect(current_path).to eq(new_withdraw_path)
     expect(find('.account-cny .available').text).to eq("900.0")
     expect(find('.account-cny .locked').text).to eq("1600.0")
