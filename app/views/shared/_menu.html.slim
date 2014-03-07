@@ -3,8 +3,8 @@ ul#menu.nav.navbar-nav.navbar-left
   = top_nav_link(t('header.deposit'), deposits_path, 'credit-card')
   = top_nav_link(t('header.withdraw'), new_withdraw_path, 'money', controllers: ['withdraw_addresses'])
   = top_nav_link(t('header.assets'), root_path, 'bar-chart-o')
-- if current_user
-  ul.nav.navbar-nav.navbar-right
+ul.nav.navbar-nav.navbar-right
+  - if current_user
     = top_nav_link(current_user.email, settings_path, 'user', controllers: ['two_factors', 'identities', 'id_documents'])
     - if is_admin?
       li: a href='#{main_app.admin_dashboard_path}' id='admin'
@@ -13,7 +13,14 @@ ul#menu.nav.navbar-nav.navbar-left
     li: a#sign_out href='#{main_app.signout_path}'
       i.fa.fa-sign-out
       span = t('header.signout')
-- else
-  ul.nav.navbar-nav.navbar-right
+  - else
     = top_nav_link(t('header.signin'), signin_path, '')
     = top_nav_link(t('header.signup'), signup_path, '')
+
+  li.dropdown
+    a.dropdown-toggle href="#" data-toggle="dropdown"
+      img src='#{language_path}'
+      b.caret
+    ul#languages.dropdown-menu
+      - I18n.available_locales.each do |lang|
+        li: a href="?lang=#{lang}": img src='#{language_path(lang)}'

@@ -135,4 +135,9 @@ module ApplicationHelper
   def i18n_controller_path
     controller_path.gsub(/\//, '.')
   end
+
+  def language_path(lang=nil)
+    lang ||= I18n.locale
+    asset_path("languages/#{lang}.png")
+  end
 end
