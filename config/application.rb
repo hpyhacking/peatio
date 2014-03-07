@@ -30,8 +30,6 @@ module Peatio
 
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += %W(#{config.root}/lib/extras)
-
-    config.time_zone = 'Beijing'
   end
 end
 
