@@ -32,8 +32,10 @@ class Market < ActiveYaml::Base
   def submit(attrs)
     order = Matching::Order.new attrs
     @engine.submit order
-    if @engine.match?
-    end
+  end
+
+  def latest_price
+    Trade.latest_price(id.to_sym)
   end
 
   def to_s
