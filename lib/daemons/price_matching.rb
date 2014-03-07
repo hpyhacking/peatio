@@ -24,7 +24,7 @@ Market.all.each do |market|
     trap(:TERM) do exit end
 
     loop do
-      matching = Matching.new(currency)
+      matching = OldMatching.new(currency)
       result = matching.run(Trade.latest_price(currency))
 
       if result == :idle

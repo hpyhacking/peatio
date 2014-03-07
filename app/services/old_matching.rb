@@ -1,4 +1,4 @@
-class Matching
+class OldMatching
   def initialize(currency)
     @currency = currency
   end

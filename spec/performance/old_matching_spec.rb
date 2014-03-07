@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Matching, performance: true do
+describe OldMatching, performance: true do
 
   MANY = 30
 
@@ -26,7 +26,7 @@ describe Matching, performance: true do
       elapsed = Benchmark.realtime do
         expect do
           MANY.times do
-            Matching.new(:cnybtc).run(latest_price)
+            OldMatching.new(:cnybtc).run(latest_price)
           end
         end.to change(Trade, :count).by(MANY)
       end

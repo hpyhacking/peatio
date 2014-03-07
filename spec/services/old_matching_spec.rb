@@ -12,10 +12,10 @@ shared_context "submit order", :a => :b do
     order_ask.stubs(:strike)
   end
 
-  subject { Matching.new(:cnybtc).run(latest_price) }
+  subject { OldMatching.new(:cnybtc).run(latest_price) }
 end
 
-describe Matching do
+describe OldMatching do
   include_context "submit order"
 
   describe "full matching" do
