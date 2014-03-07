@@ -31,7 +31,7 @@ class Market < ActiveYaml::Base
 
   def submit(attrs)
     order = Matching::Order.new attrs
-    @engine.submit order
+    @engine.submit_and_run! order
   end
 
   def latest_price

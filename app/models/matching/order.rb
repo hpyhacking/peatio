@@ -22,7 +22,14 @@ module Matching
       price_compare = price <=> other.price
       return price_compare unless price_compare == 0
 
-      timestamp <=> other.timestamp
+      time_compare = timestamp <=> other.timestamp
+      return time_compare unless time_compare == 0
+
+      id <=> other.id
+    end
+
+    def equal?(other)
+      id == other.id
     end
 
     private
