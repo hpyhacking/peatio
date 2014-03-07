@@ -61,7 +61,7 @@ class Withdraw < ActiveRecord::Base
 
   def generate_sn
     id_part = sprintf '%04d', id
-    date_part = created_at.strftime('%y%m%d%H%M')
+    date_part = created_at.localtime.strftime('%y%m%d%H%M')
     self.sn = "#{date_part}#{id_part}"
     update_column(:sn, sn)
   end

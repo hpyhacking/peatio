@@ -30,9 +30,12 @@ describe Withdraw do
   end
 
   describe 'sn' do
-    before do 
+    before do
       Timecop.freeze(Time.local(2013,10,7,18,18,18))
       @withdraw = create(:withdraw, currency: 'btc', id: 1)
+    end
+
+    after do
       Timecop.return
     end
 
