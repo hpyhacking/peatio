@@ -3,9 +3,10 @@
 # *sellers* who submit *ask* orders, and people exchange B for A *buyers*
 # who submit *bid* orders.
 #
-# For example, in 'btcusd' market, the commodity pair is `{btc, usd}`.
-# Sellers sell out _btc_ for _usd_, buyers buy in _btc_ with _usd_. _btc_
-# is the `target`, while _usd_ is the `price`.
+# ID of market is always in the form "#{B}#{A}". For example, in 'cnybtc'
+# market, the commodity pair is `{btc, cny}`. Sellers sell out _btc_ for
+# _cny_, buyers buy in _btc_ with _cny_. _btc_ is the `target`, while _cny_
+# is the `price`.
 
 class Market < ActiveYaml::Base
   include Enumerizeable
@@ -15,12 +16,15 @@ class Market < ActiveYaml::Base
 
   attr :name, :target_unit, :price_unit
 
+  # TODO: our market id is the opposite of conventional market name.
+  # e.g. our 'cnybtc' market should use 'btccny' as id, and its name should
+  # be 'BTC/CNY'
   def initialize(*args)
     super
 
-    @target_unit = id[0,3]
-    @price_unit  = id[3,3]
-    @name = "#{@target_unit}/#{@price_unit}".upcase
+    @price_unit  = id[0,3]
+    @target_unit = id[3,3]
+    @name = "#{@price_unit} - #{@target_unit}".upcase
 
     @engine = Matching::FIFOEngine.new self
   end
