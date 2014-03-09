@@ -42,5 +42,9 @@ class Market < ActiveYaml::Base
     id
   end
 
+  def as_json(options=nil)
+    {name: name, target_unit: target_unit, price_unit: price_unit}
+  end
+
 end
 
