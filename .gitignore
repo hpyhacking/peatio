@@ -18,6 +18,7 @@
 /tmp
 
 # Ignore all config files
+/config/application.yml
 /config/database.yml
 
 # Ignore ctags

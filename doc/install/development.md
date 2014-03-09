@@ -63,7 +63,7 @@ binary.
 
 **For Mac**
 
-Download and Install [Bitcoin](http://bitcoin.org/en/download)    
+Download and Install [Bitcoin](http://bitcoin.org/en/download)
 
 **For Ubuntu**
 
@@ -111,6 +111,11 @@ Insert the following lines into your bitcoin.conf, and replce with your username
     git clone git@github.com:peatio/peatio.git
     cd peatio
     bundle install
+
+##### Prepare configure files:
+
+    cp config/application.yml.example config/application.yml
+    cp config/database.yml.example config/database.yml
 
 ##### Setup reCAPTCHA/Pusher:
 
