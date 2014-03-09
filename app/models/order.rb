@@ -93,4 +93,14 @@ class Order < ActiveRecord::Base
   def kind_text
     self.class.model_name.human
   end
+
+  def to_matching_attributes
+    { id: id,
+      market: market,
+      type: type[-3, 3].downcase.to_sym,
+      volume: volume,
+      price: price,
+      timestamp: created_at.to_i }
+  end
+
 end

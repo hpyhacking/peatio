@@ -3,8 +3,8 @@ module Matching
 
     def initialize(market, ask, bid, price, volume)
       @market = market
-      @ask    = OrderAsk.lock(true).find(ask[:id])
-      @bid    = OrderBid.lock(true).find(bid[:id])
+      @ask    = OrderAsk.lock(true).find(ask.id)
+      @bid    = OrderBid.lock(true).find(bid.id)
       @price  = price
       @volume = volume
 

@@ -12,8 +12,8 @@ module Matching
       @id        = attrs[:id]
       @timestamp = attrs[:timestamp]
       @type      = attrs[:type].try(:to_sym)
-      @volume    = attrs[:volume].try(:to_d)
-      @price     = attrs[:price].try(:to_d)
+      @volume    = attrs[:volume]
+      @price     = attrs[:price]
 
       raise InvalidOrderError unless valid?(attrs)
     end

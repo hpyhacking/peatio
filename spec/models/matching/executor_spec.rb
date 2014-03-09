@@ -11,8 +11,8 @@ describe Matching::Executor do
   subject { Matching::Executor.new(market, ask, bid, price, volume) }
 
   context "full execution" do
-    let(:ask) { create(:order_ask, price: price, volume: volume, member: alice) }
-    let(:bid) { create(:order_bid, price: price, volume: volume, member: bob) }
+    let(:ask) { ::Matching::Order.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
+    let(:bid) { ::Matching::Order.new create(:order_bid, price: price, volume: volume, member: bob).to_matching_attributes }
 
     it "should create trade" do
       expect {
@@ -34,8 +34,8 @@ describe Matching::Executor do
     it "should mark both orders as done" do
       subject.execute!
 
-      ask.reload.state.should == Order::DONE
-      bid.reload.state.should == Order::DONE
+      Order.find(ask.id).state.should == Order::DONE
+      Order.find(bid.id).state.should == Order::DONE
     end
   end
 
