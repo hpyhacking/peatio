@@ -14,6 +14,10 @@ describe Matching::Order do
         Matching.mock_order(type: :bid, volume: 0)
       }.to raise_error(Matching::InvalidOrderError)
     end
+
+    it "should initialize market" do
+        Matching.mock_order(type: :bid).market.should be_instance_of(Market)
+    end
   end
 
   context "spaceship operator" do

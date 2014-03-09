@@ -6,7 +6,7 @@ module Matching
 
     ZERO = 0.to_d
 
-    attr :id, :timestamp, :type, :volume, :price
+    attr :id, :timestamp, :type, :volume, :price, :market
 
     def initialize(attrs)
       @id        = attrs[:id]
@@ -14,6 +14,7 @@ module Matching
       @type      = attrs[:type].try(:to_sym)
       @volume    = attrs[:volume]
       @price     = attrs[:price]
+      @market    = Market.find attrs[:market]
 
       raise InvalidOrderError unless valid?(attrs)
     end
@@ -36,7 +37,7 @@ module Matching
 
     def valid?(attrs)
       return false unless [:ask, :bid].include?(type)
-      id && timestamp && volume > ZERO && price > ZERO
+      id && timestamp && market && volume > ZERO && price > ZERO
     end
 
   end
