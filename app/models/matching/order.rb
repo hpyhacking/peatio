@@ -16,7 +16,7 @@ module Matching
       @price     = attrs[:price]
       @market    = Market.find attrs[:market]
 
-      raise InvalidOrderError unless valid?(attrs)
+      raise InvalidOrderError.new(attrs) unless valid?(attrs)
     end
 
     def <=>(other)

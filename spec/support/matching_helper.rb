@@ -15,12 +15,16 @@ end
 module Matching
 
   class <<self
+    @@mock_order_id = 10000
+
     def mock_order(attrs)
+      @@mock_order_id += 1
       Matching::Order.new({
-        id: Time.now.to_i,
+        id: @@mock_order_id,
         timestamp: Time.now.to_i,
         volume: 1+rand(10),
-        price:  3000+rand(3000)
+        price:  3000+rand(3000),
+        market: 'cnybtc'
       }.merge(attrs))
     end
   end

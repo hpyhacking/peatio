@@ -25,13 +25,6 @@ class Market < ActiveYaml::Base
     @price_unit  = id[0,3]
     @target_unit = id[3,3]
     @name = "#{@price_unit} - #{@target_unit}".upcase
-
-    @engine = Matching::FIFOEngine.new self
-  end
-
-  def submit(attrs)
-    order = Matching::Order.new attrs
-    @engine.submit_and_run! order
   end
 
   def latest_price
@@ -40,10 +33,6 @@ class Market < ActiveYaml::Base
 
   def to_s
     id
-  end
-
-  def as_json(options=nil)
-    {name: name, target_unit: target_unit, price_unit: price_unit}
   end
 
 end
