@@ -10,6 +10,24 @@ describe Matching::Executor do
 
   subject { Matching::Executor.new(market, ask, bid, price, volume) }
 
+  context "invalid volume" do
+    let(:ask) { ::Matching::Order.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
+    let(:bid) { ::Matching::Order.new create(:order_bid, price: price, volume: 3.to_d, member: bob).to_matching_attributes }
+
+    it "should raise error" do
+      expect { subject.execute! }.to raise_error(Matching::TradeExecutionError)
+    end
+  end
+
+  context "invalid price" do
+    let(:ask) { ::Matching::Order.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
+    let(:bid) { ::Matching::Order.new create(:order_bid, price: price-1, volume: volume, member: bob).to_matching_attributes }
+
+    it "should raise error" do
+      expect { subject.execute! }.to raise_error(Matching::TradeExecutionError)
+    end
+  end
+
   context "full execution" do
     let(:ask) { ::Matching::Order.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
     let(:bid) { ::Matching::Order.new create(:order_bid, price: price, volume: volume, member: bob).to_matching_attributes }

@@ -1,4 +1,6 @@
 module Matching
+  class TradeExecutionError < StandardError; end
+
   class Executor
 
     def initialize(market, ask, bid, price, volume)
@@ -12,6 +14,8 @@ module Matching
     end
 
     def execute!
+      raise TradeExecutionError unless valid?
+
       ActiveRecord::Base.transaction do
         lock_account!
 
@@ -29,6 +33,12 @@ module Matching
     end
 
     private
+
+    def valid?
+      [@ask.volume, @bid.volume].min >= @volume &&
+        @ask.price <= @price &&
+        @bid.price >= @price
+    end
 
     def lock_account!
       @bid.hold_account.lock!
