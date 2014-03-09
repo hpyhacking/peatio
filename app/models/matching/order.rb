@@ -9,11 +9,13 @@ module Matching
     attr :id, :timestamp, :type, :volume, :price, :market
 
     def initialize(attrs)
+      attrs.symbolize_keys!
+
       @id        = attrs[:id]
       @timestamp = attrs[:timestamp]
       @type      = attrs[:type].try(:to_sym)
-      @volume    = attrs[:volume]
-      @price     = attrs[:price]
+      @volume    = attrs[:volume].try(:to_d)
+      @price     = attrs[:price].try(:to_d)
       @market    = Market.find attrs[:market]
 
       raise InvalidOrderError.new(attrs) unless valid?(attrs)

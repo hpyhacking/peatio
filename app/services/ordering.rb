@@ -31,6 +31,8 @@ class Ordering
         @order.errors.add(@order.hold_account_attr, :expensive)
         raise ActiveRecord::Rollback
       end
+
+      Resque.enqueue(Job::Matching, @order.to_matching_attributes)
     end
 
     raise unless @order.errors.empty?

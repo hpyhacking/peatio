@@ -1,9 +1,10 @@
 module Matching
   class FIFOEngine
 
-    def initialize(market)
+    def initialize(market, continue=true)
       @market    = market
-      @orderbook = OrderBook.new
+
+      initialize_orderbook(continue)
     end
 
     def submit!(order)
@@ -23,6 +24,17 @@ module Matching
     end
 
     private
+
+    def initialize_orderbook(continue)
+      @orderbook = OrderBook.new
+
+      if continue
+        ::Order.active.with_currency(@market.id).order('id asc').each do |order|
+          order = ::Matching::Order.new order.to_matching_attributes
+          submit! order
+        end
+      end
+    end
 
     def orderbook
       @orderbook
