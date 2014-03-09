@@ -31,8 +31,8 @@ describe Job::Matching do
         order.reload.state.should     == ::Order::DONE
         fill_bid.reload.state.should  == ::Order::DONE
 
-        fill_ask.reload.state.should  == ::Order::WAIT
-        fill_ask.reload.volume.should == '10.0'.to_d
+        fill_ask.reload.state.should_not == ::Order::DONE
+        fill_ask.reload.volume.should    == '10.0'.to_d
       end
     end
 

@@ -22,6 +22,8 @@ module Matching
         @bid.strike trade
         @ask.strike trade
 
+        Global[@market].trigger_trade trade
+
         trade
       end
     end

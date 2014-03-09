@@ -30,8 +30,7 @@ module Matching
                    raise NotImplementedError
                  end
 
-      trade = executor.execute!
-      Global[@market].trigger_trade trade
+      executor.execute!
     end
 
     private

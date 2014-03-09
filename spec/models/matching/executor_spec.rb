@@ -37,6 +37,11 @@ describe Matching::Executor do
       Order.find(ask.id).state.should == Order::DONE
       Order.find(bid.id).state.should == Order::DONE
     end
+
+    it "should publish trade through pusher" do
+      Pusher.expects(:trigger_async)
+      subject.execute!
+    end
   end
 
   context "partial ask execution" do
