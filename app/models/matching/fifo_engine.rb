@@ -1,7 +1,7 @@
 module Matching
   class FIFOEngine
 
-    def initialize(market, continue=true)
+    def initialize(market, continue=false)
       @market    = market
 
       initialize_orderbook(continue)
