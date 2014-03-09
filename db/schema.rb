@@ -94,7 +94,7 @@ ActiveRecord::Schema.define(version: 20140306021833) do
   end
 
   create_table "id_documents", force: true do |t|
-    t.integer  "type"
+    t.integer  "category"
     t.string   "name"
     t.string   "sn"
     t.integer  "member_id"
