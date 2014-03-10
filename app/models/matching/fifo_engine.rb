@@ -1,10 +1,9 @@
 module Matching
   class FIFOEngine
 
-    def initialize(market, continue=false)
-      @market    = market
-
-      initialize_orderbook(continue)
+    def initialize(market, options={})
+      @market = market
+      initialize_orderbook(options[:continue])
     end
 
     def submit!(order)

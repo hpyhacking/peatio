@@ -11,7 +11,12 @@ module Job
       end
 
       def engine_for(market)
-        engines[market.id] ||= ::Matching::FIFOEngine.new(market, ENV['CONTINUE'] == '1')
+        engines[market.id] ||= create_engine(market)
+      end
+
+      def create_engine(market)
+        continue = ENV['CONTINUE'] == '1'
+        ::Matching::FIFOEngine.new(market, continue: continue)
       end
 
       def engines
