@@ -16,10 +16,23 @@ module Matching
       orderbook.highest_bid.price >= orderbook.lowest_ask.price
     end
 
+    def trade
+      ask, bid     = orderbook.pop_closest_pair!
+      strike_price = get_strike_price ask, bid
+
+      if ask.volume == bid.volume
+        [ask, bid, strike_price, ask.volume]
+      else
+        small, large = [ask, bid].sort_by(&:volume)
+        orderbook.submit get_left_partial(small, large)
+
+        [ask, bid, strike_price, small.volume]
+      end
+    end
+
     def trade!
-      ask, bid = orderbook.pop_closest_pair!
-      executor = ask.volume == bid.volume ? full_match_executor(ask, bid) : partial_match_executor(ask, bid)
-      executor.execute!
+      ask, bid, strike_price, volume = trade
+      Executor.new(@market, ask, bid, strike_price, volume).execute!
     end
 
     private
@@ -44,17 +57,6 @@ module Matching
       # sort by id instead of timestamp, because the timestamp comes from
       # created_at in db whose precision is limited to seconds.
       [ask, bid].sort_by(&:id).first.price
-    end
-
-    def full_match_executor(ask, bid)
-      Executor.new(@market, ask, bid, get_strike_price(ask, bid), ask.volume)
-    end
-
-    def partial_match_executor(ask, bid)
-      small, large = [ask, bid].sort_by(&:volume)
-      orderbook.submit get_left_partial(small, large)
-
-      Executor.new(@market, ask, bid, get_strike_price(ask, bid), small.volume)
     end
 
     def get_left_partial(small, large)
