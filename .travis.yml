@@ -9,6 +9,7 @@ before_script:
   - "mysql -e 'create database peatio_test;'"
   - "cp ./.travis.database.yml ./config/database.yml"
   - "cp ./.travis.application.yml ./config/application.yml"
+  - "cp ./.travis.currency.yml ./config/currency.yml"
   - "mkdir -p ./tmp/cache"
 script:
   - bundle exec rake db:schema:load

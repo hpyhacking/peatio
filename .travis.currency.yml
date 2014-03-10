@@ -1,0 +1,15 @@
+defaults: &defaults
+  currencies:
+    cny: 1
+    btc: 2
+  coins:
+    btc: http://username:password@127.0.0.1:18332
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
