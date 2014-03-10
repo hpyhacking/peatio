@@ -20,6 +20,7 @@
 # Ignore all config files
 /config/application.yml
 /config/database.yml
+/config/currency.yml
 
 # Ignore ctags
 .tags
