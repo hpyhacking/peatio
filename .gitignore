@@ -26,3 +26,4 @@
 
 /vendor/bundle
 .env
+.ruby-version
