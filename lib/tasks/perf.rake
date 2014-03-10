@@ -1,46 +1,98 @@
+require_relative '../../spec/support/matching_helper'
+
 namespace :perf do
 
-  desc "Order matching performance tests"
-  task :matching => :environment do
-    raise "This task must be run in test environment: RAILS_ENV=test" unless Rails.env.test?
+  namespace :matching do
+    desc "In-memory matching engine performance"
+    task :engine => :environment do
+      raise "This task must be run in test environment: RAILS_ENV=test" unless Rails.env.test?
 
-    num   = ENV['NUM'] || 100
-    round = ENV['ROUND'] || 3
-    results = []
+      num   = ENV['NUM'] || 1000
+      round = ENV['ROUND'] || 5
+      results = []
 
-    puts "Matching Performance Test (#{round} rounds, #{num} full match orders per round)\n"
+      puts "Matching Performance Test (#{round} rounds, #{num} full match orders per round)\n"
 
-    round.times do |i|
-      puts "Round #{i+1} >>\n"
+      round.times do |i|
+        puts "Round #{i+1} >>\n"
 
-      ::Order.delete_all
-      ::Trade.delete_all
-      ::Member.delete_all
-
-      t = Benchmark.realtime do
-        (num/2).times do
-          make_ask_order('10.0'.to_d, '1.0'.to_d)
-          make_bid_order('10.0'.to_d, '1.0'.to_d)
+        orders = []
+        t = Benchmark.realtime do
+          (num/2).times do
+            price = 3000+rand(3000)
+            volume = 1+rand(10)
+            orders << Matching.mock_order(type: :ask, volume: volume, price: price)
+            orders << Matching.mock_order(type: :bid, volume: volume, price: price)
+          end
         end
+
+        puts "#{num} orders created in #{t} seconds."
+
+        market = Market.find('cnybtc')
+        engine = Matching::FIFOEngine.new(market)
+        engine.define_singleton_method(:submit) do |order|
+          orderbook.submit(order)
+          trade while match?
+        end
+
+        t = Benchmark.realtime do
+          orders.each do |order|
+            engine.submit order
+          end
+        end
+
+        puts "#{num} orders processed in #{t} seconds = #{'%.2f' % (num/t)} orders/sec"
+
+        results << [num, t]
       end
 
-      puts "#{num} orders created in #{t} seconds."
-
-      t = Benchmark.realtime do
-        Order.order('id asc').each do |order|
-          ::Job::Matching.perform order.to_matching_attributes
-        end
-      end
-
-      puts "#{Trade.count} trades created."
-      puts "#{num} orders processed in #{t} seconds = #{'%.2f' % (num/t)} orders/sec"
-
-      results << [num, t]
+      total_num = results.map(&:first).sum
+      total_t   = results.map(&:last).sum
+      puts "Average throughput: #{total_num/total_t} orders/sec"
     end
 
-    total_num = results.map(&:first).sum
-    total_t   = results.map(&:last).sum
-    puts "Average throughput: #{total_num/total_t} orders/sec"
+    desc "Performance of a complete matching cycle, including in-memory matching and write back database"
+    task :complete => :environment do
+      raise "This task must be run in test environment: RAILS_ENV=test" unless Rails.env.test?
+
+      num   = ENV['NUM'] || 100
+      round = ENV['ROUND'] || 3
+      results = []
+
+      puts "Matching Performance Test (#{round} rounds, #{num} full match orders per round)\n"
+
+      round.times do |i|
+        puts "Round #{i+1} >>\n"
+
+        ::Order.delete_all
+        ::Trade.delete_all
+        ::Member.delete_all
+
+        t = Benchmark.realtime do
+          (num/2).times do
+            make_ask_order('10.0'.to_d, '1.0'.to_d)
+            make_bid_order('10.0'.to_d, '1.0'.to_d)
+          end
+        end
+
+        puts "#{num} orders created in #{t} seconds."
+
+        t = Benchmark.realtime do
+          Order.order('id asc').each do |order|
+            ::Job::Matching.perform order.to_matching_attributes
+          end
+        end
+
+        puts "#{Trade.count} trades created."
+        puts "#{num} orders processed in #{t} seconds = #{'%.2f' % (num/t)} orders/sec"
+
+        results << [num, t]
+      end
+
+      total_num = results.map(&:first).sum
+      total_t   = results.map(&:last).sum
+      puts "Average throughput: #{total_num/total_t} orders/sec"
+    end
   end
 
   @seq = 0
