@@ -6,11 +6,12 @@
   = f.input :address_type do
     span = @withdraw.address_type_text
   = f.input :detail, as: 'string', wrapper_html: {class: 'amount-detail'} do
-    span.label = Withdraw.han(:amount)
+    span.label.label-success = Withdraw.han(:amount)
     span.decimal = @withdraw.amount
     span: i.fa.fa-plus
-    span.label = Withdraw.han(:fee)
+    span.label.label-success = Withdraw.han(:fee)
     span.decimal = @withdraw.fee
+    hr.split
     span: i.fa.fa-arrow-right
     span.label.label-success = Withdraw.han(:sum)
     span.decimal = @withdraw.amount + @withdraw.fee
