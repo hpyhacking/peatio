@@ -6,7 +6,6 @@ module Job
 
     class <<self
       def perform(attrs)
-        p attrs
         order = ::Matching::Order.new attrs
         engine_for(order.market).submit!(order)
       end
