@@ -6,7 +6,6 @@ FactoryGirl.define do
     address 'sample_to_long_long_long_address'
     address_label 'sample'
     address_type :satoshi
-    password 'Password123'
     member { create :member }
 
     account do

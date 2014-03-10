@@ -7,12 +7,15 @@ ul.list-group
             .col-md-6
               h4 = d.name_text
             .col-md-6
-              span.label.label-success
-                i.fa.fa-cogs
-                span = d.transfer_text
-              span.label.label-success
-                i.fa.fa-clock-o
-                span = d.latency_text
-          p.text-ignore = d.intro_text
+          .row
+            .col-md-12
+              p.text-ignore = d.intro_text
+          .row
+            .col-md-3
+              i.fa.fa-cogs.text-info
+              span = d.transfer_text
+            .col-md-5
+              i.fa.fa-clock-o.text-info
+              span = d.latency_text
         .col-md-2
-          a.btn.btn-success.btn-block href='#{d.link}' = t('actions.go')
+          a.btn.btn-default.btn-block href='#{d.link}' = t('.go')

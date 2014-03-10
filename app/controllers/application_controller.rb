@@ -39,22 +39,23 @@ class ApplicationController < ActionController::Base
     redirect_to root_path unless current_user
   end
 
-  def auth_active!
+  def auth_activated!
+    redirect_to settings_path, alert: t('private.settings.index.auth-activated') unless current_user.activated?
   end
 
   def auth_no_initial!
   end
 
   def auth_anybody!
-    redirect_to main_app.root_path if current_user
-  end
-
-  def is_admin?
-    current_user.admin?
+    redirect_to root_path if current_user
   end
 
   def auth_admin!
     redirect_to main_app.root_path unless is_admin?
+  end
+
+  def is_admin?
+    current_user.admin?
   end
 
   private

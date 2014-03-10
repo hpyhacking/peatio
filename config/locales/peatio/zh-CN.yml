@@ -2,13 +2,13 @@ zh-CN:
   peatio:
     deposit_channel:
       bank:
-        name: 人民币充值 银行转账
+        name: 人民币充值
         intro: 使用银行卡转账进行充值，推荐用户大额充值使用。 
-        latency: 10 分钟
+        latency: 10 分钟到账
         transfer: 人工处理
       satoshi:
-        name: 比特币充值 客户端转账
-        intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到貔貅交易所账户。
-        latency: 全网 1 确认
+        name: 比特币充值
+        intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
+        latency: 10 分钟到账
         transfer: 自动
 

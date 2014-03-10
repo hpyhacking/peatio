@@ -9,6 +9,7 @@ zh-CN:
         reset_password: 重置登录密码
         reauthenticate: 身份验证
         activated: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
+        auth-activated: 请您立即绑定邮箱地址，否则将无法进行任何操作。
 
         email:
           title: 邮箱绑定

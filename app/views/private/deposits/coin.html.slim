@@ -1,13 +1,12 @@
 p
-  h3 = t('.step-1')
+  h4 = t('.step-1')
   p = t('.open-wallet')
 
 p
-  h3 = t('.step-2')
+  h4 = t('.step-2')
   p = t('.send-coin')
-  p
-    h5 = @address.address
-    == link_to_block(@address)
+  h4.text-info = @address.address
+  == link_to_block(@address)
   .divider
     = t('.or')
   p = t('.scan-qr')
@@ -16,3 +15,5 @@ p
 p
   h3 = t('.step-3')
   p = t('.check-confirm')
+  p
+    span == t('.check-link', link: link_to(t('header.assets')))

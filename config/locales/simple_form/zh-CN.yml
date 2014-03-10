@@ -60,9 +60,10 @@ zh-CN:
         otp_secret: 密文
         otp: 验证器上的密码
       withdraw_address:
-        label: 标签
-        address: 地址
-        category: 种类
+        label: 开户行 / 标签
+        address: 银行卡号 / 地址
+        category: 选择提现种类
+        name: 账户名
       withdraw:
         password: 登录密码
       session:
@@ -93,8 +94,6 @@ zh-CN:
         amount: 您想要提现的金额
         password: 请验证登录密码
       withdraw_address:
-        label: 银行户名与开户行 / 其他标签
-        address: 银行卡号 / 收款地址
       order_bid:
         origin_volume:  买入数量
         sum: 总成交金额
@@ -114,3 +113,5 @@ zh-CN:
         password: 请输入至少8位，并必须包含大写、小写字母与数字。
       id_document:
         name: 请填写与您证件上一致的姓名。
+      withdraw_address:
+        name: 提现银行账户姓名必须与您的实名认证姓名一致。

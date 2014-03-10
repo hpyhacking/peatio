@@ -103,6 +103,7 @@ en:
 
   actions:
     go: Go
+    deposit: Deposit
     select: Please Select
     unlock: Unlock
     confirm: Confirm

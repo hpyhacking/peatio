@@ -99,7 +99,7 @@ module ApplicationHelper
   end
 
   def panel(name: 'default-panel', key: nil, &block)
-    key ||= "guides.#{controller_name}.#{action_name}.#{name}"
+    key ||= "guides.#{i18n_controller_path}.#{action_name}.#{name}"
 
     content_tag(:div, :class => 'panel panel-default') do
       content_tag(:div, :class => 'panel-heading') do

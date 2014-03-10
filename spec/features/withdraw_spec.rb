@@ -14,13 +14,6 @@ describe 'withdraw' do
     account.update_attributes balance: 1000
   end
 
-  it 'withdraw addresses empty auto guide user to created it' do
-    login identity
-    visit root_path
-    click_on I18n.t 'header.withdraw'
-    expect(current_path).to eq(withdraw_addresses_path)
-  end
-
   it 'allows user to add a CNY withdraw address, withdraw CNY' do
     login identity
     create_withdraw_address
@@ -99,7 +92,6 @@ describe 'withdraw' do
   def submit_withdraw_request amount
     select radio_label, from: 'Withdraw address'
     fill_in 'withdraw_sum', with: amount
-    fill_in 'withdraw_password', with: 'Password123'
     click_on I18n.t 'helpers.submit.withdraw.new'
   end
 end

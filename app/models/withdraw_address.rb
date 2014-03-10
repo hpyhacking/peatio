@@ -1,6 +1,8 @@
 class WithdrawAddress < ActiveRecord::Base
   extend Enumerize
 
+  attr_accessor :name
+
   paranoid
   enumerize :category, in: WithdrawChannel.enumerize
 

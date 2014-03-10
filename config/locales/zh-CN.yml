@@ -103,6 +103,7 @@ zh-CN:
 
   actions:
     go: 立刻前往
+    deposit: 立刻充值
     select: 请选择
     unlock: 解锁
     confirm: 确认

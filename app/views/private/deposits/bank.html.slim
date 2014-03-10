@@ -1,18 +1,14 @@
-p
-  h3 = t('.step-1')
-  p = t('.select-bank')
+h4 = t('.step-1')
+p = t('.select-bank')
 
-  h5 = t('.name')
-  h5 = @deposit.account_holder
-  h5 = t('.card')
-  h5 = @deposit.account_number
-  h5 = t('.bank')
-  h5 #{@deposit.account_bank}
-p
-  h3 = t('.step-2')
-  p = t('.send-money')
-  p
-    h5 = current_user.sn
-p
-  h3 = t('.step-3')
-  p = t('.check-confirm')
+h4 = t('.name')
+h4 = @deposit.account_holder
+h4 = t('.card')
+h4 = @deposit.account_number
+h4 = t('.bank')
+h4 #{@deposit.account_bank}
+h4 = t('.step-2')
+p = t('.send-money')
+h5 = current_user.sn
+h4 = t('.step-3')
+p = t('.check-confirm')

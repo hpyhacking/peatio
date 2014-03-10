@@ -17,7 +17,7 @@ class Withdraw < ActiveRecord::Base
   belongs_to :member
   belongs_to :account
   has_many :account_versions, :as => :modifiable
-  attr_accessor :withdraw_address_id, :password, :sum
+  attr_accessor :withdraw_address_id, :sum
 
   after_create :generate_sn
   before_validation :populate_fields_from_address, :fix_fee
@@ -31,7 +31,6 @@ class Withdraw < ActiveRecord::Base
 
   validates :sum, presence: true, on: :create
   validates :sum, numericality: {greater_than: 0}, on: :create
-  validates :password, presence: true, on: :create
   validates :tx_id, presence: true, uniqueness: true, on: :update
 
   validate :ensure_account_balance, on: :create
@@ -77,6 +76,10 @@ class Withdraw < ActiveRecord::Base
   end
 
   def ensure_account_balance
+    unless account
+      errors.add(:withdraw_address_id, :blank) and return
+    end
+
     if self.sum > account.balance
       errors.add(:sum, :poor)
     end

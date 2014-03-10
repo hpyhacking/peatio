@@ -33,23 +33,25 @@ zh-CN:
 
       deposits:
         panel: 资金充值
+
         coin:
-          title: 为您的账户充值
-          intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到貔貅交易所账户。
+          title: 比特币充值
+          intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
         bank:
-          title: 为您的账户充值
+          title: 人民币充值
           intro: 使用银行卡转账进行充值，推荐用户大额充值使用。
+
         index:
-          title: 为您的交易所账户充值
-          intro: 您可以充值人民币以购买比特币，或者充值比特币以兑换人民币。
+          title: 账户充值
+          intro: 为您在貔貅交易所中的账户充值。
 
       withdraws: *withdraws
 
       withdraw_addresses:
         panel: 资金提现
         index:
-          title: 创建资金提现地址
-          intro: 通过创建提现地址，以便每次提现时方便选择要提现的收款方。
+          title: 新增提现地址
+          intro: 通过填写提现地址，以便每次提现时快速选择要提现的收款方。
 
       id_documents:
         panel: 实名认证
