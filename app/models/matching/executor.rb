@@ -9,12 +9,10 @@ module Matching
       @bid    = OrderBid.lock(true).find(bid.id)
       @price  = price
       @volume = volume
-
-      # TODO: validate ask/bid is able to execute with price/volume
     end
 
     def execute!
-      raise TradeExecutionError unless valid?
+      raise TradeExecutionError.new({ask: @ask, bid: @bid, price: @price, volume: @volume}) unless valid?
 
       ActiveRecord::Base.transaction do
         lock_account!
