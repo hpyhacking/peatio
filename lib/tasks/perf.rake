@@ -7,8 +7,8 @@ namespace :perf do
     task :engine => :environment do
       raise "This task must be run in test environment: RAILS_ENV=test" unless Rails.env.test?
 
-      num   = ENV['NUM'] || 1000
-      round = ENV['ROUND'] || 5
+      num   = ENV['NUM'] ? ENV['NUM'].to_i : 10000
+      round = ENV['ROUND'] ? ENV['ROUND'].to_i : 5
       results = []
 
       puts "Matching Performance Test (#{round} rounds, #{num} full match orders per round)\n"
@@ -55,8 +55,8 @@ namespace :perf do
     task :complete => :environment do
       raise "This task must be run in test environment: RAILS_ENV=test" unless Rails.env.test?
 
-      num   = ENV['NUM'] || 100
-      round = ENV['ROUND'] || 3
+      num   = ENV['NUM'] ? ENV['NUM'].to_i : 100
+      round = ENV['ROUND'] ? ENV['ROUND'].to_i : 3
       results = []
 
       puts "Matching Performance Test (#{round} rounds, #{num} full match orders per round)\n"
