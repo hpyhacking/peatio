@@ -2,7 +2,7 @@ zh-CN:
   datagrid:
     empty: 没有任何数据查询结果
     filters:
-      date:
+      datetime:
         range_separator: " ~ "
     form:
       submit: 查询

@@ -23,6 +23,8 @@ zh-CN:
       withdraw:
         member_title: 用户账户信息
         withdraw_title: 提现请求信息
+      edit:
+        actions_title: 可执行操作
       show:
         title: 处理提现
         actions_title: 可执行操作
