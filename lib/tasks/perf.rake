@@ -17,11 +17,20 @@ namespace :perf do
         puts "Round #{i+1} >>\n"
 
         orders = []
+        price_and_volume = []
         t = Benchmark.realtime do
           (num/2).times do
             price = 3000+rand(3000)
             volume = 1+rand(10)
+            price_and_volume << [price, volume]
+          end
+
+          # Create asks and bids seperately, so asks will accumulate in memory before get matched
+          price_and_volume.each do |(price, volume)|
             orders << Matching.mock_order(type: :ask, volume: volume, price: price)
+          end
+
+          price_and_volume.each do |(price, volume)|
             orders << Matching.mock_order(type: :bid, volume: volume, price: price)
           end
         end
