@@ -9,6 +9,7 @@ describe 'withdraw' do
   end
 
   before do
+    Withdraw.any_instance.stubs(:examine).returns(true)
     account = member.get_account(:cny)
     account.update_attributes balance: 1000
   end
