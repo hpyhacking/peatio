@@ -2,6 +2,39 @@ require_relative '../../spec/support/matching_helper'
 
 namespace :perf do
 
+  namespace :order do
+    desc "Order create performance"
+    task :create => :environment do
+      raise "This task must be run in test environment: RAILS_ENV=test" unless Rails.env.test?
+
+      num   = ENV['NUM'] ? ENV['NUM'].to_i : 100
+      round = ENV['ROUND'] ? ENV['ROUND'].to_i : 3
+      results = []
+
+      puts "Matching Performance Test (#{round} rounds, #{num} full match orders per round)\n"
+      member = make_member
+      volume = '1.0'.to_d
+      price  = '3000.45'.to_d
+      order_class = [OrderAsk, OrderBid]
+
+      round.times do |i|
+        puts "Round #{i+1} >>\n"
+        t = Benchmark.realtime do
+          num.times do
+            klass = order_class.sample
+            make_order(klass, member: member, volume: volume, price: price)
+          end
+        end
+        results << [num, t]
+        puts "#{num} orders created in #{t} seconds."
+      end
+
+      total_num = results.map(&:first).sum
+      total_t   = results.map(&:last).sum
+      puts "Average order creation rate: #{total_num/total_t} orders/s"
+    end
+  end
+
   namespace :matching do
     desc "In-memory matching engine performance"
     task :engine => :environment do
