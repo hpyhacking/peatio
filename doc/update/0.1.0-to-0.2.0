@@ -1,0 +1,15 @@
+# From v0.1.0 to v0.2.0
+
+### 0. Backup
+
+### 1. Stop server
+
+### 2. Get latest code
+
+### 3. Migrations
+
+   rake peatio:update:add_ask_member_sn_and_bid_member_sn_to_trades RAILS_ENV=production
+
+### 4. Check
+
+### 5. Start application

@@ -18,6 +18,8 @@ class Matching
         trend = trend_state(strike_price, latest_price)
 
         trade = Trade.create(bid_id: bid.id, ask_id: ask.id,
+                             bid_member_sn: bid.member.sn,
+                             ask_member_sn: ask.member.sn,
                              price: strike_price, volume: strike_volume,
                              currency: @currency, trend: trend)
 
