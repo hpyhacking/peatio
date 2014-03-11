@@ -3,10 +3,10 @@ require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
 
-set :domain, 'peat.io'
+set :domain, 'demo.peat.io'
 set :deploy_to, '/var/www/peatio'
-set :repository, 'https://13bb05c5c4c1459a92287cded4d66be25a939c4f@github.com/peatio/peatio.git'
-set :branch, 'develop'
+set :repository, 'https://github.com/peatio/peatio.git'
+set :branch, 'master'
 
 set :shared_paths, ['config/unicorn_peatio.sh', 'config/database.yml', 'config/application.yml', 'config/currency.yml', 'tmp', 'log']
 
@@ -67,6 +67,11 @@ end
 desc "Stop Daemons"
 task :'daemons:stop' => :environment do
   queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec ./bin/rake daemons:stop && echo Daemons STOP DONE!!!"
+end
+
+desc "Query Daemons"
+task :'daemons:status' => :environment do
+  queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec ./bin/rake daemons:status"
 end
 
 desc "Stop Resque"
