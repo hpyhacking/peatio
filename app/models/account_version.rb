@@ -35,8 +35,8 @@ class AccountVersion < ActiveRecord::Base
     [self.detail.delete(:tmp) || "default", self.detail || {}]
   end
 
-  def merge
-    self.balance + self.locked
+  def amount_change
+    balance + locked
   end
 
   def modify_amount
