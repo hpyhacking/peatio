@@ -30,6 +30,8 @@ module Peatio
 
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += %W(#{config.root}/lib/extras)
+
+    config.assets.initialize_on_precompile = true
   end
 end
 

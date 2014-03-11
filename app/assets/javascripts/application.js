@@ -37,6 +37,8 @@
 //= require ZeroClipboard
 //= require flight
 //= require pusher.min
+//= require i18n
+//= require i18n/translations
 
 //= require_tree ./component_data
 //= require_tree ./component_ui

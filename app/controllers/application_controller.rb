@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   def setting_default
     gon.env = Rails.env
+    gon.local = I18n.locale
     gon.market = Market.find(latest_market)
     gon.ticker = Global[latest_market].ticker
     gon.pusher_key = ENV["PUSHER_KEY"]
@@ -19,7 +20,7 @@ class ApplicationController < ActionController::Base
     }
 
     if current_user
-      gon.current_user = {:sn => current_user.sn} 
+      gon.current_user = {:sn => current_user.sn}
     end
   end
 

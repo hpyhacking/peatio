@@ -1,5 +1,8 @@
+I18n.defaultLocale = 'en'
+I18n.locale = gon.local
+
 $ ->
-  $.fn.extend 
+  $.fn.extend
     fixAsk: ->
       if $(@).text().length
         $(@).text(window.fixAsk $(@).text())
