@@ -159,13 +159,13 @@ class MatchingBenchmark
       end
     end
 
-    puts "\n>> Average throughput (ops: orders per second, mps: matches per second)"
+    puts "\n>> Average throughput (ops: orders per second, eps: execution per second)"
     puts "create members: %.2fops" % [@num/avg[:create_members].last]
     puts "lock funds:     %.2fops" % [@num/avg[:lock_funds].last]
     puts "create orders:  %.2fops" % [@num/avg[:create_orders].last]
     puts "submit orders:  %.2fops" % [@num/(avg[:lock_funds].last+avg[:create_orders].last)]
-    puts "matching:       %.2fmps" % [@matches/avg[:matching].last]
-    puts "execution:      %.2fmps" % [@instructions.size/avg[:execution].last]
+    puts "matching:       %.2fops" % [@processed/avg[:matching].last]
+    puts "execution:      %.2feps" % [@instructions.size/avg[:execution].last]
     puts "* submit order = lock funds + create order"
   end
 
