@@ -49,8 +49,11 @@ end
 
 class MatchingBenchmark
 
-  def initialize(num)
+  def initialize(label, num, round)
+    @label = label.to_s
     @num = num
+    @round = round
+    @times = {}
   end
 
   def create_orders
@@ -82,51 +85,56 @@ class MatchingBenchmark
     end
   end
 
-end
+  def run
+    puts "\n>> Create Orders"
+    Benchmark.benchmark(Benchmark::CAPTION, 10, Benchmark::FORMAT) do |x|
+      @times[:create] = (1..@round).map do |i|
+        x.report("Round #{i}") do
+          create_orders
+        end
+      end
 
-label = ARGV[0] || Time.now.to_i
-num = ARGV[1] ? ARGV[1].to_i : 100
-round = ARGV[2] ? ARV[2].to_i : 3
-
-matching_bm = MatchingBenchmark.new num
-times = {}
-
-puts "\n>> Create Orders"
-Benchmark.benchmark(Benchmark::CAPTION, 10, Benchmark::FORMAT) do |x|
-  times[:create] = (1..round).map do |i|
-    x.report("Round #{i}") do
-      matching_bm.create_orders
+      nil
     end
+
+    puts "\n>> Matching Orders"
+    Benchmark.benchmark(Benchmark::CAPTION, 10, Benchmark::FORMAT) do |x|
+      @times[:matching] = (1..@round).map do |i|
+        x.report("Round #{i}") do
+          matching_orders
+        end
+      end
+
+      nil
+    end
+
+    avg = []
+    File.open(Rails.root.join('tmp', "matching_result_#{@label}"), 'w') do |f|
+      utime_avg = @times[:create].map(&:utime).sum / @round
+      stime_avg = @times[:create].map(&:stime).sum / @round
+      real_avg  = @times[:create].map(&:real).sum  / @round
+      f.puts "#{utime_avg} #{stime_avg} #{real_avg}"
+      avg << real_avg
+
+      utime_avg = @times[:matching].map(&:utime).sum / @round
+      stime_avg = @times[:matching].map(&:stime).sum / @round
+      real_avg  = @times[:matching].map(&:real).sum  / @round
+      f.puts "#{utime_avg} #{stime_avg} #{real_avg}"
+      avg << real_avg
+    end
+
+    puts "\n>> Average throughput (orders per second)"
+    puts "create: %.2fops matching: %.2fops" % [@num/avg[0], @num/avg[1]]
   end
 
-  nil
 end
 
-puts "\n>> Matching Orders"
-Benchmark.benchmark(Benchmark::CAPTION, 10, Benchmark::FORMAT) do |x|
-  times[:matching] = (1..round).map do |i|
-    x.report("Round #{i}") do
-      matching_bm.matching_orders
-    end
-  end
+if $0 == __FILE__
+  raise "Must run in test environment!" unless Rails.env.test?
 
-  nil
+  label = ARGV[0] || Time.now.to_i
+  num = ARGV[1] ? ARGV[1].to_i : 100
+  round = ARGV[2] ? ARV[2].to_i : 3
+
+  MatchingBenchmark.new(label, num, round).run
 end
-
-avg = []
-File.open(Rails.root.join('tmp', "matching_result_#{label}"), 'w') do |f|
-  utime_avg = times[:create].map(&:utime).sum / round
-  stime_avg = times[:create].map(&:stime).sum / round
-  real_avg  = times[:create].map(&:real).sum  / round
-  f.puts "#{utime_avg} #{stime_avg} #{real_avg}"
-  avg << real_avg
-
-  utime_avg = times[:matching].map(&:utime).sum / round
-  stime_avg = times[:matching].map(&:stime).sum / round
-  real_avg  = times[:matching].map(&:real).sum  / round
-  f.puts "#{utime_avg} #{stime_avg} #{real_avg}"
-  avg << real_avg
-end
-
-puts "\n>> Average throughput (orders per second)"
-puts "create: %.2fops matching: %.2fops" % [num/avg[0], num/avg[1]]
