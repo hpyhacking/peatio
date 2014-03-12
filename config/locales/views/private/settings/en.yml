@@ -9,6 +9,7 @@ en:
         reset_password: 重置登录密码
         reauthenticate: 身份验证
         activated: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
+        auth-activated: Please confirm your email address first.
 
         email:
           title: 邮箱绑定
