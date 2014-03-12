@@ -18,19 +18,11 @@ class SweatFactory
       )
     end
 
-    def make_ask_order(volume, price)
-      member = make_member
-      member.get_account(:btc).update_attributes(
-        locked: volume.to_d, balance: rand(100).to_d)
-
+    def make_ask_order(member, volume, price)
       make_order(OrderAsk, volume: volume, price: price, member: member)
     end
 
-    def make_bid_order(volume, price)
-      member = make_member
-      member.get_account(:cny).update_attributes(
-        locked: volume.to_d*price.to_d, balance: rand(10000).to_d)
-
+    def make_bid_order(member, volume, price)
       make_order(OrderBid, volume: volume, price: price, member: member)
     end
 
@@ -53,7 +45,25 @@ class MatchingBenchmark
     @label = label.to_s
     @num = num
     @round = round
-    @times = {}
+    @times = {create_members: [], lock_funds: [], create_orders: [], matching: []}
+  end
+
+  def create_members
+    @members = {ask: [], bid: []}
+
+    (@num/2).times do
+      @members[:ask] << SweatFactory.make_member
+      @members[:bid] << SweatFactory.make_member
+    end
+  end
+
+  def lock_funds
+    @members[:ask].each do |m|
+      m.get_account(:btc).update_attributes(locked: 100)
+    end
+    @members[:bid].each do |m|
+      m.get_account(:cny).update_attributes(locked: 1000000)
+    end
   end
 
   def create_orders
@@ -67,74 +77,88 @@ class MatchingBenchmark
     end
 
     # Create asks and bids seperately, so asks will accumulate in memory before get matched
-    price_and_volume.each do |(price, volume)|
-      @orders << SweatFactory.make_ask_order(volume, price)
+    @members[:ask].each_with_index do |m, i|
+      price, volume = price_and_volume[i]
+      @orders << SweatFactory.make_ask_order(m, volume, price)
     end
-
-    price_and_volume.each do |(price, volume)|
-      @orders << SweatFactory.make_bid_order(volume, price)
+    @members[:bid].each_with_index do |m, i|
+      price, volume = price_and_volume[i]
+      @orders << SweatFactory.make_bid_order(m, volume, price)
     end
   end
 
   def matching_orders
-    @results = []
+    t1 = Trade.count
 
-    (@num/2).times do
-      matching = Matching.new(:cnybtc)
-      @results << matching.run(Trade.latest_price(:cnybtc))
+    @matches = 0
+    matching = Matching.new(:cnybtc)
+    loop do
+      result = matching.run(Trade.latest_price(:cnybtc))
+      @matches += 1
+      raise StopIteration if result == :idle
     end
+
+    @trades = Trade.count - t1
   end
 
   def run
-    puts "\n>> Create Orders"
-    Benchmark.benchmark(Benchmark::CAPTION, 10, Benchmark::FORMAT) do |x|
-      @times[:create] = (1..@round).map do |i|
-        x.report("Round #{i}") do
-          create_orders
-        end
+    (1..@round).map do |i|
+      puts "\n>> Round #{i}"
+      Benchmark.benchmark(Benchmark::CAPTION, 20, Benchmark::FORMAT) do |x|
+        @times[:create_members] << x.report("create members") { create_members }
+        @times[:lock_funds]     << x.report("lock funds") { lock_funds }
+        @times[:create_orders]  << x.report("create orders") { create_orders }
+        nil
       end
-
-      nil
     end
 
-    puts "\n>> Matching Orders"
-    Benchmark.benchmark(Benchmark::CAPTION, 10, Benchmark::FORMAT) do |x|
-      @times[:matching] = (1..@round).map do |i|
-        x.report("Round #{i}") do
-          matching_orders
-        end
-      end
-
-      nil
+    puts "\n>> Match Them All"
+    Benchmark.benchmark(Benchmark::CAPTION, 20, Benchmark::FORMAT) do |x|
+      t = x.report { matching_orders }
+      @times[:matching] = [t]
+      puts "#{@matches} matches run, #{@trades} trades created."
     end
 
-    avg = []
+    save
+  end
+
+  def save
+    avg = {}
+
     File.open(Rails.root.join('tmp', "matching_result_#{@label}"), 'w') do |f|
-      utime_avg = @times[:create].map(&:utime).sum / @round
-      stime_avg = @times[:create].map(&:stime).sum / @round
-      real_avg  = @times[:create].map(&:real).sum  / @round
-      f.puts "#{utime_avg} #{stime_avg} #{real_avg}"
-      avg << real_avg
-
-      utime_avg = @times[:matching].map(&:utime).sum / @round
-      stime_avg = @times[:matching].map(&:stime).sum / @round
-      real_avg  = @times[:matching].map(&:real).sum  / @round
-      f.puts "#{utime_avg} #{stime_avg} #{real_avg}"
-      avg << real_avg
+      @times.each do |k, v|
+        avg[k] = averages(v)
+        f.puts avg[k].join(" ")
+      end
     end
 
     puts "\n>> Average throughput (orders per second)"
-    puts "create: %.2fops matching: %.2fops" % [@num/avg[0], @num/avg[1]]
+    puts "create members: %.2fops" % [@num/avg[:create_members].last]
+    puts "lock funds:     %.2fops" % [@num/avg[:lock_funds].last]
+    puts "create orders:  %.2fops" % [@num/avg[:create_orders].last]
+    puts "submit orders:  %.2fops" % [@num/(avg[:lock_funds].last+avg[:create_orders].last)]
+    puts "matching:       %.2fops" % [@matches/avg[:matching].last]
+    puts "* submit order = lock funds + create order"
   end
 
+  def averages(times)
+    utime_avg = times.map(&:utime).sum / times.size
+    stime_avg = times.map(&:stime).sum / times.size
+    real_avg  = times.map(&:real).sum  / times.size
+    [utime_avg, stime_avg, real_avg]
+  end
 end
 
 if $0 == __FILE__
   raise "Must run in test environment!" unless Rails.env.test?
 
-  label = ARGV[0] || Time.now.to_i
-  num = ARGV[1] ? ARGV[1].to_i : 100
-  round = ARGV[2] ? ARV[2].to_i : 3
+  num = ARGV[0] ? ARGV[0].to_i : 250
+  round = ARGV[1] ? ARGV[1].to_i : 4
+  label = ARGV[2] || Time.now.to_i
+
+  puts "\n>> Setup environment"
+  system("rake db:reset")
+  Dir[Rails.root.join('tmp', 'matching_result_*')].each {|f| FileUtils.rm(f) }
 
   MatchingBenchmark.new(label, num, round).run
 end
