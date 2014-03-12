@@ -39,16 +39,12 @@ class AccountVersion < ActiveRecord::Base
     balance + locked
   end
 
-  def modify_amount
-    @modify_amount ||= self.locked + self.balance
-  end
-
   def in
-    modify_amount > 0 ? modify_amount : nil
+    amount_change > 0 ? amount_change : nil
   end
 
-  def out
-    modify_amount < 0 ? modify_amount : nil
+   def out
+    amount_change < 0 ? amount_change : nil
   end
 
   alias :template :detail_template

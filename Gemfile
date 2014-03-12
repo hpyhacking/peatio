@@ -49,6 +49,8 @@ gem 'pusher'
 gem 'http_accept_language'
 gem "globalize", "~> 4.0.0"
 
+gem 'aasm'
+
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'

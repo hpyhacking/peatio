@@ -21,7 +21,7 @@ class Account < ActiveRecord::Base
   ZERO = 0.to_d
 
   FUNS = {:unlock_funds => 1, :lock_funds => 2, :plus_funds => 3, :sub_funds => 4, :unlock_and_sub_funds => 5}
-  
+
   belongs_to :member
   has_many :payment_addresses
   has_many :withdraw_addresses
@@ -49,7 +49,7 @@ class Account < ActiveRecord::Base
     self.save
     self
   end
-  
+
   def sub_funds(amount, fee: ZERO, reason: nil, ref: nil)
     (amount <= ZERO or amount > self.balance) and raise AccountError
     self.balance -= amount

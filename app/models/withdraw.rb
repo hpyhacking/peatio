@@ -1,4 +1,5 @@
 class Withdraw < ActiveRecord::Base
+  include AASM
   include Concerns::Withdraws::Bank
   include Concerns::Withdraws::Satoshi
 
@@ -17,10 +18,10 @@ class Withdraw < ActiveRecord::Base
   belongs_to :member
   belongs_to :account
   has_many :account_versions, :as => :modifiable
-  attr_accessor :withdraw_address_id, :sum
+  attr_accessor :withdraw_address_id
 
-  after_create :generate_sn
   before_validation :populate_fields_from_address, :fix_fee
+  after_create :generate_sn
   after_update :bust_last_done_cache, if: :state_changed_to_done
 
   validates :address_type, :address, :address_label,
@@ -31,7 +32,7 @@ class Withdraw < ActiveRecord::Base
 
   validates :sum, presence: true, on: :create
   validates :sum, numericality: {greater_than: 0}, on: :create
-  validates :tx_id, presence: true, uniqueness: true, on: :update
+  validates :tx_id, uniqueness: true, allow_nil: true, on: :update
 
   validate :ensure_account_balance, on: :create
 
@@ -40,7 +41,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def examine
-    Resque.enqueue(Job::Examine, self.id) if self.state.wait?
+    Resque.enqueue(Job::Examine, self.id) if submitted?
   end
 
   def position_in_queue
@@ -65,9 +66,89 @@ class Withdraw < ActiveRecord::Base
     update_column(:sn, sn)
   end
 
-  def sum
-    @sum || ((self.amount || 0.to_d) + (self.fee || 0.to_d))
+  aasm do
+    state :submitting, initial: true
+    state :submitted, after_enter: :lock_funds, after_commit: [:send_withdraw_confirm_email, :examine]
+    state :canceled
+    state :accepted
+    state :suspect
+    state :rejected
+    state :processing
+    state :almost_done
+    state :done
+    state :failed
+
+    event :submit do
+      transitions from: :submitting, to: :submitted
+    end
+
+    event :cancel do
+      transitions from: [:submitting, :submitted, :accepted], to: :canceled
+      before do
+        unlock_funds unless submitting?
+      end
+    end
+
+    event :mark_suspect do
+      transitions from: :submitted, to: :suspect
+    end
+
+    event :accept do
+      transitions from: :submitted, to: :accepted
+    end
+
+    event :reject do
+      transitions from: :accepted, to: :rejected
+      after :unlock_funds
+    end
+
+    event :process do
+      transitions from: :accepted, to: :processing
+    end
+
+    event :succeed do
+      transitions from: :processing, to: :done, on_transition: -> (obj) do
+        obj.update_column :aasm_state, 'almost_done'
+        obj.send_coins
+      end
+
+      before [:set_tx_id, :unlock_and_sub_funds]
+
+      error do |e|
+        #warn e
+        #@reason = e.to_s
+      end
+    end
+
+    event :fail do
+      transitions from: :processing, to: :failed
+    end
   end
+
+  def lock_funds
+    account.lock_funds sum, reason: Account::WITHDRAW_LOCK, ref: self
+  end
+
+  def unlock_funds
+    account.unlock_funds sum, reason: Account::WITHDRAW_UNLOCK, ref: self
+  end
+
+  def unlock_and_sub_funds
+    account.unlock_and_sub_funds sum, locked: sum, fee: fee, reason: Account::WITHDRAW, ref: self
+  end
+
+  def set_tx_id
+    @tx_id = @sn unless coin?
+  end
+
+  def send_withdraw_confirm_email
+    puts 'Sending withdraw confirm email!'
+  end
+
+  def send_coins
+    Resque.enqueue(Job::Coin, self.id) if coin?
+  end
+
 
   private
 
@@ -100,8 +181,6 @@ class Withdraw < ActiveRecord::Base
   end
 
   def fix_fee
-    self.sum = self.sum.to_d
-
     if self.respond_to? valid_method = "_valid_#{self.address_type}_sum"
       error = self.instance_eval(valid_method)
       self.errors.add('sum', "#{self.address_type}_#{error}".to_sym) if error
@@ -123,4 +202,6 @@ class Withdraw < ActiveRecord::Base
   def bust_last_done_cache
     Rails.cache.delete(last_completed_withdraw_cache_key)
   end
+
+
 end

@@ -12,6 +12,14 @@ FactoryGirl.define do
       member.accounts.first.tap do |a|
         a.balance = 50000
         a.save(validate: false)
+
+        a.versions.create \
+          balance: a.balance,
+          amount: a.balance,
+          locked: 0,
+          fee: 0,
+          currency: a.currency,
+          fun: Account::FUNS[:plus_funds]
       end
     end
 

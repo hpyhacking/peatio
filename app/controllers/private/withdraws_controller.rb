@@ -8,9 +8,8 @@ module Private
 
     def create
       @withdraw = Withdraw.new(withdraw_params)
-      withdrawing = Withdrawing.new(@withdraw)
 
-      if withdrawing.request
+      if @withdraw.save
         redirect_to edit_withdraw_path(@withdraw)
       else
         @withdraw_addresses = current_user.withdraw_addresses
@@ -21,15 +20,13 @@ module Private
 
     def update
       @withdraw = current_user.withdraws.find(params[:id])
-      @withdraw.update_attribute(:state, :wait) if @withdraw.state.apply?
-      @withdraw.examine
+      @withdraw.submit!
       redirect_to new_withdraw_path, flash: {notice: t('.request_accepted')}
     end
 
     def destroy
       @withdraw = current_user.withdraws.find(params[:id])
-      withdrawing = Withdrawing.new(@withdraw)
-      withdrawing.cancel
+      @withdraw.cancel!
       redirect_to new_withdraw_path
     end
 
@@ -47,7 +44,7 @@ module Private
     def withdraw_params
       params[:withdraw][:state] = :apply
       params[:withdraw][:member_id] = current_user.id
-      params.require(:withdraw).permit(:sum, :password, :member_id, :withdraw_address_id, :state)
+      params.require(:withdraw).permit(:sum, :password, :member_id, :withdraw_address_id)
     end
   end
 end
