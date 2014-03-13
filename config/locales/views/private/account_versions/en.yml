@@ -2,4 +2,4 @@ en:
   private:
     account_versions:
       index:
-        description: 每一笔交易、每一分钱收入都是有据可查，巨细无遗的。
+        description: Every transaction and every penny of income in Peatio are well documented and exhaustive.

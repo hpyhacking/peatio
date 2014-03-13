@@ -38,7 +38,7 @@ en:
       deposit:
         create: Deposit
       id_document:
-        create: 提交
+        create: Submit
   simple_form:
     creating: "Creating..."
     updating: 'Updating...'
@@ -54,11 +54,11 @@ en:
       default_message: "Please review the problems below:"
     labels:
       defaults:
-        recaptcha: 验证码
+        recaptcha: Authentication code
       two_factor:
-        uri: 二维码
-        otp_secret: 密文
-        otp: 验证器上的密码
+        uri: Two-dimensional code
+        otp_secret: Ciphertext
+        otp: Password on the authenticator
       withdraw_address:
         label: Label
         address: Address
@@ -66,25 +66,25 @@ en:
       withdraw:
         password: Password
       session:
-        email: 登录邮箱
-        password: 登录密码
+        email: Login E-mail
+        password: Login Password
       identity:
-        email: 登录邮箱
-        old_password: 旧密码
-        password: 新密码
-        password_confirmation: 确认密码
+        email: Login E-mail
+        old_password: Original password
+        password: New Password
+        password_confirmation: Confirm new password
       reset_password:
-        password: 新密码
+        password: New Password
     placeholders:
       session:
-        email: 邮箱地址
+        email: E-mail Address
         password: ''
       identity:
         email: Example：xiaobai@example.com
-        password: 请设置登录密码
-        password_confirmation: 确认密码
+        password: Please set your login password
+        password_confirmation: Confirm your password
         edit:
-          password: 请设置新密码
+          password: Please set your login password!
       document:
         key: Document link URL key
         title: Document Title
@@ -100,17 +100,17 @@ en:
         sum: Sum
       order_ask:
         origin_volume:  Sell Volume
-        sum: 总成交金额
+        sum: Total Turnover
       reset_password:
-        email: 例如：xiaobai@example.com
-        password: 请设置登录密码
+        email: For example：xiaobai@example.com
+        password: Please set your login password!
     hints:
       two_factor:
-        otp_secret: 建议您备份好二维码图片或者密文，以免手机意外丢失后给您带来不便。
-        otp: 您的验证器每三十秒会重新生成新密码，请及时输入。
+        otp_secret: We recommend that you back up  two-dimensional code image or ciphertext to avoid that you accidental loss of the phone for the inconvenience.
+        otp: Your validator will re-generate a new password every thirty seconds, please input timely.
       identity:
-        password: 请输入至少8位，并必须包含大写、小写字母与数字。
+        password: Set a password which has at least 8 characters and must contain uppercase and lowercase letters and numbers.
       reset_password:
-        password: 请输入至少8位，并必须包含大写、小写字母与数字。
+        password: Set a password which has at least 8 characters and must contain uppercase and lowercase letters and numbers.
       id_document:
-        name: 请填写与您证件上一致的姓名。
+        name: Please fill in the name which  is consistent with your Credentials.

@@ -50,9 +50,9 @@ en:
       ask: Total Price <span class=ask_totle></span>%{bid_icon}
   reset_two_factors:
     create:
-      success: 重置两步验证邮件已经发送，请根据邮件内容进行操作。
+      success: We have sent an email with instructions for resetting your Two-Factor Authentication.
     edit:
-      success: 两步验证禁用成功，登录后在账户设置中可再次激活。
+      success: You have successfully disabled Two-Factor Authentication. You could reset it in your account setting.
 
   private:
     trade:

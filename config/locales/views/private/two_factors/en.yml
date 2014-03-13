@@ -3,23 +3,23 @@ en:
     two_factors:
       edit:
         submit: Disable
-        warning: 注：若您在使用过程中因安装程序丢失，导致无法继续使用两步认证，请您及时联系我们的在线客服。
+        warning: "Tip: If you have lost your two-factor authentication by some reason and can't login your Peatio account, please contact our online customer service."
       new:
         step-1: Step 1
         step-2: Step 2
         step-3: Step 3
         or: OR
         download-app: Install Google Authenticator app on your smart phone and open it.
-        guide-link: 具体操作方式可<a href='https://support.google.com/accounts/answer/1066447?hl=zh-Hans' target='_blank'>点击这里</a>。
-        scan-qr-code: 用 Google Authenticator 应用扫瞄二维码或将以下密文手动添加到验证器中。
-        enter-passcode: 填入手机显示的动态密码以激活两步验证
-        submit: 启用
-        ios: 苹果 iOS 系统
-        android: 谷歌安卓系统
-        blackbery: 黑莓系统
+        guide-link: 具体操作方式可<a href='https://support.google.com/accounts/answer/1066447?hl=zh-Hans' target='_blank'>Click Here</a>。
+        scan-qr-code: Scan the following two-dimensional code with Google Authenticator APP，or add cipher text to the validator manually.
+        enter-passcode: Fill in the dynamic password  displayed by your phone  to activate two-factor verification.
+        submit: Enable
+        ios: Iphone iOS 
+        android: Android
+        blackbery: Blackberry
       create:
-        alert: 您输入的验证器上的密码有误，请重新输入。
-        notice: 两步验证已成功绑定。
+        alert: Password for authentication  is incorrect, please re-enter.
+        notice: Two-factor authentication has been successfully Enabled.
       destroy:
-        alert: 您输入的验证器上的密码有误，请重新输入。
-        notice: 两步验证已成功解除。
+        alert: Password for authentication  is incorrect, please re-enter.
+        notice: Two-factor authentication has been successfully Disabled.
