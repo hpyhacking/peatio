@@ -2,6 +2,6 @@ en:
   private:
     id_documents:
       new:
-        warning: 实名认证信息提交后不得修改，请认真填写。
+        warning: Real-name authentication informations could not be modified after submitting，please fill out. 
       create:
-        notice: 实名认证已验证成功。
+        notice: Real-name authentication has been successfully verified. 

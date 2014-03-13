@@ -2,12 +2,12 @@ en:
   peatio:
     deposit_channel:
       bank:
-        name: 银行转账
-        intro: 使用银行卡转账进行充值，推荐用户大额充值使用。 
-        latency: 10 分钟
-        transfer: 人工处理
+        name: Bank transfer
+        intro: Bank transfer deposits, Recommend for large recharge 
+        latency: 10 minutes
+        transfer: Manual processing
       satoshi:
-        name: 比特币转账
-        intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到貔貅交易所账户。
-        latency: 全网 1 确认
-        transfer: 自动
+        name: Bitcoin Deposits 
+        intro: Deposit bitcoin from your own Wallet address to Peatio account
+        latency: 1 Confirmation
+        transfer: Automatic processing

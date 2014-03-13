@@ -9,4 +9,5 @@ en:
       session_expired: Session expired. Try again.
     failure:
       account_locked: Too many failed login attempts. To ensure the safety of your account, we have locked your account. To unlock, reset your password by clicking on "Forgot Password".
-      error: 您输入的密码和邮箱地址不正确，请重新输入。
+      error: Wrong customer ID or password,please try again.
+             

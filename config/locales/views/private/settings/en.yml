@@ -2,42 +2,46 @@ en:
   private:
     settings:
       success: Settings updated successfully
-      failure: Invalid passcode. Please try again.
+      failure: Invalid passcode. Please try again
 
       index:
-        safety_instruction: In order to protect your bitcoins and personal information, we strongly suggest that you use 2-Step Verification.
-        reset_password: 重置登录密码
-        reauthenticate: 身份验证
-        activated: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
+        safety_instruction: In order to protect your bitcoins and personal information, we strongly suggest that you use  Two-factor Authentication
+        reset_password: Rest your Password 
 
+        reauthenticate: Authentication 
+        activated:  An  email has been sent to your mailbox, please check it  for verification as soon as possible. If you do not received it , please click "send it again" button
+        auth-activated: Please confirm your email address first.
+        
         email:
-          title: 邮箱绑定
-          description: 您的邮箱还未经过验证，点击“发送邮件”按钮，完成验证。
-          description-activated: 您的邮箱已验证通过，请牢记并保护好此邮箱地址，这是您作为登录的唯一账户。
-          resend: 再次发送
-          activated: 已绑定
+          title: E-mail verification 
+          description: Your e-mail has not been verified, click the "Send Mail" button to complete the verification
+          description-activated: Your email adress has been verified successfully, remember and protect this e-mail address, it is the single certificate for your  account 
+          
+          resend: Send it again 
+          activated: Verified 
 
         two_factor_auth:
           title: 2-Step Verification
-          description: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户，在此我们使用谷歌身份验证器。
-          enable: 设置
-          disable: 禁用
+          description: With 2-Step Verification, you’ll protect your account with both your password and your phone 
+          enable: Enable  
+          disable: Disable  
 
         verification:
           title: Verification
-          description: Help keep the bad guys out of your account by using both your password and your phone.
+          description: Help keep the bad guys out of your account by using both your password and your phone
           go: Submit
           verified: Verified
 
         asset_passwords:
-          title: 资金密码
-          description: 在您提现时，需要资金密码进行验证，强烈建议您不要使用和登录密码同样的密码！
-          go: 设置
+          title: Asset password 
+          description: The Asset password will be  needed when you withdrawal your money. It is strongly recommended that you do not use the same password as login password !
+          
+          go: Set 
         
         passwords:
-          title: 登录密码
-          description: 此密码仅限作网站登录使用，请您牢记。
-          go: 修改
+          title: Password 
+          description: This  passwords is required for login , please keep it in mind. 
+          go: Change Password 
 
     otps:
       new:

@@ -20,50 +20,12 @@ zh-CN:
         bid_order: '买 ##sn#'
         orders: 挂单记录
         trades: 交易记录
-        help_title: 帮助（稍后推出）
-        next-label: 下一步
-        prev-label: 上一步
-        done-label: 完成
-        skip-label: 跳过
-        step-1: <p><b>欢迎使用貔貅交易所</b>，首先这里是您的资金面板，点击“买入”与“卖出”两个按钮可进行挂单操作。</o>
-        step-2: "<p><b>资金面板</b>，<span class=text-error>交易币种</span>的资金面板，会显示为可用资金与冻结资金， 可用资金是可以挂单使用的额度，冻结资金是挂单成交前被冻结的额度。您可以点击“卖出”按钮挂单出价卖出此<span class=text-error>交易币种</span>。</p><p class='text-error'><code style='font-size: 14px;'>N/A</code>代表当前无可用资金。</p>"
-        step-3: "<p><b>资金面板</b>，<span class=text-error>结算币种</span>的资金面板，您可以点击“买入”按钮挂单出价买入<span class=text-error>交易币种</span>。</p>"
-        step-6: <p><b>当前挂单记录</b>，依据时间显示最近还未成交的买卖挂单。</p>
-        step-7: <p><b>交易面板菜单</b>，切换显示<span class='text-error'>当前挂单记录</span>与<span class='text-error'>最近成交记录</span>。</p><p>点击下面的灯泡图标可以再次查看交易界面指引。</p>
       global:
         global_orders_title: 十档盘口
         global_trades_title: 成交记录
-        step-4: <p><b>十档盘口</b>，依据价格排序显示系统买卖挂单的价格档位与数量。买卖盘口中间是系统撮合的最后一次成交价。</p><p>系统依据价格优先与时间优先的规则依次撮合成交买卖挂单。</p>
-        step-5: <p><b>成交记录</b>，依据时间显示最近成交单的价格与数量。最后成交价的起落变化会用不同颜色来进行区分。</p>
     withdraws:
       index:
         withdraw_history: 提现历史记录
     funds:
       show:
-        cny_format: '0.00'
-        btc_format: '0.00000000'
         account_history: 账户历史记录
-        reason:
-          cny:
-            strike_add: 成交卖出
-            strike_sub: 成交买入
-            deposit: 充值
-            withdraw: 提现
-            fix: 系统修正
-          btc:
-            strike_add: 成交买入
-            strike_sub: 成交卖出
-            deposit: 充值
-            withdraw: 提现
-            fix: 系统修正
-        ref:
-          system: '系统'
-          default: '默认'
-          cny:
-            strike_add: '订单 %{order} 价格%{price} 成交量 %{volume} 卖出 %{amount} 手续费 %{fee}'
-            strike_sub: '订单 %{order} 价格%{price} 成交量 %{volume} 买入 %{amount}'
-            deposit: '通过 %{payment_way} 充值 交易编号 %{payment_id}'
-          btc:
-            strike_add: '订单 %{order} 价格%{price} 成交量 %{volume} 买入 %{amount} 手续费 %{fee}'
-            strike_sub: '订单 %{order} 价格%{price} 成交量 %{volume} 卖出 %{amount}'
-            deposit: 'payment to %{payment_address} deposit transaction -> %{payment_id}'
