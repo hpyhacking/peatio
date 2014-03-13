@@ -1,30 +1,30 @@
 # -*- encoding: UTF-8 -*-
 namespace :install do
 
-  desc '设定数据库'
+  desc 'setup database'
   task :database do
-    username = var '数据库用户名'
-    password = var '上述用户的密码'
+    username = var 'Database User'
+    password = var 'Database Password'
     config 'config/database.yml' do |content|
       content.gsub! /username: root/,     "username: #{username}"
       content.gsub! /password: password/, "password: #{password}"
     end
   end
 
-  desc '设定应用配置'
+  desc 'setup your application'
   task :application do
-    if yes_no('是否自己设定 Pusher 帐号？')
+    if yes_no('Use your own Push Account? ')
       pusher_app    = var 'Pusher App: '
       pusher_key    = var 'Pusher Key: '
       pusher_secret = var 'Pusher Secret: '
     end
 
-    if yes_no('是否自己设定 reCaptcha 服务帐号？')
+    if yes_no('Use your reCaptcha Account? ')
       recaptcha_public_key  = var 'reCaptcha public key: '
       recaptcha_private_key = var 'reCaptcha private key: '
     end
 
-    if yes_no('是否设定 SMTP 服务？')
+    if yes_no('Do you want to setup SMTP service')
       smtp_domain = var 'SMTP domain: '
       smtp_address = var 'SMTP address: '
       smtp_username = var 'SMTP username: '
@@ -64,7 +64,7 @@ namespace :install do
   end
 
   def config filename, &block
-    desc = "> 文件已存在[ #{filename} ]，是否覆盖？"
+    desc = "> File exist! [ #{filename} ]，overwrite?"
     if !File.exist?(filename) || yes_no(desc)
       write filename, &block
     end
@@ -87,7 +87,7 @@ namespace :install do
   end
 
   def var name
-    input"> 请输入#{name}："
+    input"> Please input #{name}："
   end
 
   def input desc
