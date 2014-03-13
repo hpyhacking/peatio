@@ -38,16 +38,16 @@ en:
         satoshi: Bitcoin
         bank: Bank
       state:
-        apply: Apply
-        wait: Wait
-        reject: Reject
-        examined: Examined
-        examined_warning: Warning
-        transact: Transact
+        submitting: Submitting
+        submitted: Submitted
+        rejected: Rejected
+        accepted: Accepted
+        suspect: Suspect
+        processing: Processing
         coin_ready: Coin Ready
         coin_done: Coin Done
         done: Done
-        cancel: Cancel
+        canceled: Canceled
     withdraw_address:
       category:
         satoshi: Bitcoin

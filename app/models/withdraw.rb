@@ -3,17 +3,26 @@ class Withdraw < ActiveRecord::Base
   include Concerns::Withdraws::Bank
   include Concerns::Withdraws::Satoshi
 
+  STATES = {
+    submitting: 10,
+    submitted: 100,
+    rejected: 110,
+    accepted: 210,
+    suspect: 220,
+    processing: 300,
+    coin_ready: 400,
+    coin_done: 410,
+    done: 500,
+    canceled: 0,
+    almost_done: 499,
+    failed: 510
+  }
+  COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
+
   extend Enumerize
-  enumerize :state, in: {
-    :apply => 10, :wait => 100, :reject => 110,
-    :examined => 210, :examined_warning => 220,
-    :transact => 300,
-    :coin_ready => 400, :coin_done => 410,
-    :done => 500, :cancel => 0}, scope: true
+  enumerize :state, in: STATES, scope: true
   enumerize :address_type, in: WithdrawChannel.enumerize
   enumerize :currency, in: Currency.codes, scope: true
-
-  COMPLETED_STATES = [:done, :reject, :cancel]
 
   belongs_to :member
   belongs_to :account
@@ -36,6 +45,17 @@ class Withdraw < ActiveRecord::Base
 
   validate :ensure_account_balance, on: :create
 
+  scope :completed, -> { where('aasm_state in (?) or state in (?)',
+                               COMPLETED_STATES, STATES.slice(*COMPLETED_STATES).values) }
+  scope :not_completed, -> { where('aasm_state not in (?) or state not in (?)',
+                               COMPLETED_STATES, STATES.slice(*COMPLETED_STATES).values) }
+
+  alias_method :_old_state, :state
+
+  def state
+    _old_state || Enumerize::Value.new(Withdraw.state, aasm_state)
+  end
+
   def coin?
     address_type.try(:satoshi?) or address_type.try(:protoshares?)
   end
@@ -46,10 +66,7 @@ class Withdraw < ActiveRecord::Base
 
   def position_in_queue
     last_done = Rails.cache.fetch(last_completed_withdraw_cache_key) do
-      self.class.
-        with_state(*COMPLETED_STATES).
-        where(address_type: address_type.value).
-        maximum(:id)
+      Withdraw.completed.where(address_type: address_type.value).maximum(:id)
     end
 
     self.class.where("id > ? AND id <= ?", (last_done || 0), id).

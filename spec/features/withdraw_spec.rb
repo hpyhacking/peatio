@@ -25,15 +25,15 @@ describe 'withdraw' do
     # submit withdraw request
     submit_withdraw_request 600
 
-    expect(find('.account-cny .available').text).to eq("400.0")
-    expect(find('.account-cny .locked').text).to eq("600.0")
-
     form = find('.simple_form')
-    expect(form).to have_text(I18n.t('enumerize.withdraw.state.apply'))
+    expect(form).to have_text(I18n.t('enumerize.withdraw.state.submitting'))
     expect(form).to have_text('600.0')
     expect(form).to have_text('0.0')
 
     click_on t('actions.confirm')
+
+    expect(find('.account-cny .available').text).to eq("400.0")
+    expect(find('.account-cny .locked').text).to eq("600.0")
 
     expect(current_path).to eq(new_withdraw_path)
     expect(page).to have_text(I18n.t('private.withdraws.update.request_accepted'))
@@ -66,10 +66,13 @@ describe 'withdraw' do
     expect(find('tbody tr:last-of-type .position_in_queue').text).to eq("2")
 
     submit_withdraw_request 600
+    click_on t('actions.confirm')
     expect(find('.account-cny .available').text).to eq("300.0")
     expect(find('.account-cny .locked').text).to eq("2200.0")
+
     click_on I18n.t('actions.cancel')
     expect(current_path).to eq(new_withdraw_path)
+
     expect(find('.account-cny .available').text).to eq("900.0")
     expect(find('.account-cny .locked').text).to eq("1600.0")
   end
