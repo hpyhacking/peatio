@@ -2,23 +2,23 @@ en:
   private:
     deposits:
       bank:
-        step-1: 第一步
-        select-bank: 大额充值可以选择直接转账到我们的银行账户，为了您的充值可以迅速到账，请您尽量选择与我们相同的银行进行转账充值。您可以选择使用 在线银行转账 或 柜台转账。
-        step-2: 第二步
-        send-money: 无论您选择何种转账方式，请在转账备注中填写如下您的个人识别码，以便您的充值可以迅速到账。
-        step-3: 第三步
-        check-confirm: 请确定您的资金已到账而非转出后（跨行转账通常需要一个小时甚至更久的时间到账），如10分钟内还未充值，请及时与我们的客服人员联系。
-        bank: 开户行
-        card: 卡号
-        name: 户名
+        step-1: Step One
+        select-bank: Large recharge can choose to transfer to our bank account, in order to quickly recharge your arrival, please try to select the same with our bank transfers recharge. You can choose to use the online bank transfer or transfer counter.
+        step-2: Step Two
+        send-money: No matter which way you choose to transfer, please fill in the remarks your personal identification number  , so that you can recharge quickly.
+        step-3: Step Three
+        check-confirm: Interbank transfer generally takes an hour or even longer time. If the delay exceeds your expectations, please contact our customer service staff timely.
+        bank: Bank
+        card: Card NO.
+        name: Account Name
       coin:
-        step-1: 第一步
-        open-wallet: 请使用您常用的钱包服务，本地钱包、在线钱包或移动端的钱包，选择付款或发送。
-        step-2: 第二步
-        send-coin: 在收款地址中填入如下专门为您充值准备的地址，在金额中填入您希望充值到账的金额，同时别忘记支付一定的矿工费以保证交易尽快被全网确认。
-        or: 您也可以
-        scan-qr: 在移动端钱包中扫描二维码来进行支付。
-        step-3: 第三步
-        check-confirm: 在钱包中点击发送付款，此交易将被广播到全网，您即可在这里查看到此笔交易，当交易达到全网1个确认时，系统将自动充值到账（您不必刷新此界面，交易与充值结果会实时更新显示）。
+        step-1: Step one
+        open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
+        step-2: Step Two
+        send-coin: Fill in the collection address the following address which is specifically for your bitcoin deposits. Check the bitcoin amount you want to send,  and do not forget to pay a fee to the miner in order to ensure the transaction could be confirmed quickly.
+        or: You can also to
+        scan-qr: Scanning two-dimensional code to Pay for In the mobile terminal wallet.
+        step-3: Step Three
+        check-confirm: Send bitcoin to your Peatio account. When the transaction get  one confirmation by the whole network, the system will automatically recharge your account.(you do not need refresh this interface, transactions and recharge will be real-time updated).
       index:
-        go: 立即充值
+        go: Deposits Now

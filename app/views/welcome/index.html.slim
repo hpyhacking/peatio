@@ -5,8 +5,8 @@ header.text-center
     a href='http://github.com/peatio/peatio'
       img src='#{image_path 'logo.png'}' width='336px'
     section
-      h3 An open-source crypto currency exchange.
-      h4 开源的数字加密货币交易平台。
+      - Rails.configuration.i18n.available_locales.each do |locale|
+        h3 = t(:slogan, locale: locale)
     #getstart.row
       - unless current_user
         .col-md-2.col-md-offset-4

@@ -1,93 +1,93 @@
 en:
   guides:
     panels:
-      balance: 用户账户信息
+      balance: Account  
 
     private:
       settings:
-        panel: 我的账户
+        panel: My Account 
         index:
-          intro: 管理并修改您的个人资料及绑定信息。
+          intro: Admin and revise your profile.
 
       two_factors:
-        panel: 两步验证
+        panel: Two-Factor Authentication
         new:
-          title: 设置两步验证
-          intro: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。
+          title: Set Two-Factor Authentication
+          intro: With 2-Step Verification, you’ll protect your account with both your password and your phone. Here we use Google Authenticator.
         edit:
-          title: 解除两步验证
-          intro: 若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。
+          title: Disable Two-Factor Authentication
+          intro: If you have a new phone, you can disable Two-Factor Authentication in the old phone, and enable Two-Factor Authentication  with the new one.
         create:
-          title: 设置两步验证
-          intro: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。
+          title: Set Two-Factor Authentication
+          intro: With 2-Step Verification, you’ll protect your account with both your password and your phone. Here we use Google Authenticator.
         destroy:
-          title: 解除两步验证
-          intro: 若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。
+          title: Disable Two-Factor Authentication
+          intro: If you have a new phone, you can disable Two-Factor Authentication in the old phone, and enable Two-Factor Authentication  with the new one.
 
       deposits:
-        panel: 资金充值
+        panel: Deposit 
         coin:
-          title: 为您的账户充值
-          intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到貔貅交易所账户。
+          title: Bitcoin Deposits  
+          intro: Deposit bitcoin from your own Wallet address to Peatio account.
         bank:
-          title: 为您的账户充值
-          intro: 使用银行卡转账进行充值，推荐用户大额充值使用。
+          title: Bank Transfer  
+          intro: Bank transfer deposits, Recommend for large recharge.
         index:
-          title: 为您的交易所账户充值
-          intro: 您可以充值人民币以购买比特币，或者充值比特币以兑换人民币。
+          title: Deposit 
+          intro: You can recharge the CNY to buy bitcoins, or recharge Bitcoin to exchange CNY.
 
       withdraws:
-        panel: 资金提现
+        panel: Withdrawal
         new:
-          title: 选择资金提现通道
-          intro: 快速的选择提现地址并输入要提现的金额到您的账户。
-          default-panel: 提现记录历史
+          title: Select your preferred withdrawal option
+          intro: Select  your withdrawals address and enter the amount you want to withdraw.
+          default-panel: Withdrawal History
 
       withdraw_addresses:
-        panel: 资金提现
+        panel: Withdrawal
         index:
-          title: 创建资金提现地址
-          intro: 通过创建提现地址，以便每次提现时方便选择要提现的收款方。
+          title: Create new withraw address  
+          intro: You can creat one new withdraw address , and it can be available for your withdrawal later.
 
       id_documents:
-        panel: 实名认证
+        panel: Real-name Authentication
         new:
-          title: 提交实名认证信息
-          intro: 为配合国家相关法令条例，请您正确输入信息，进行身份认证，身份认证未完成将不能在网站进行任何操作。
+          title: Submit real-name authentication information
+          intro: In line with the national laws , identity verification is required. please verify your account to proceed.
 
     verify:
       two_factors:
-        panel: 两步验证
+        panel: Two-Factor Authentication
         new:
-          intro: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。 
+          intro: With 2-Step Verification, you’ll protect your account with both your password and your phone. Here we use Google Authenticator.
 
     reset_passwords:
-      panel: 登录密码
+      panel: Password 
       new:
-        title: 重置登录密码
-        intro: 请您输入您创建账户时的邮箱地址，输入验证码提交后，进入邮箱，根据提示重置密码。
+        title: Reset Passwore
+        intro: Please enter your e-mail address which is verified by your  account, enter verification code to submit,and login your mailbox, follow the prompts to reset your password.
       create:
-        title: 重置登录密码
-        intro: 请您输入您创建账户时的邮箱地址，输入验证码提交后，进入邮箱，根据提示重置密码。
+        title: Reset password 
+        intro: Please enter your e-mail address which is verified by your  account, enter verification code to submit,and login your mailbox, follow the prompts to reset your password.
       edit:
-        title: 设置登录密码
+        title: Set Password
       update:
-        title: 设置登录密码
+        title: Set Password
 
     sessions:
-      panel: 登录
+      panel: Login
       new:
-        title: 登录我的账户
-        intro: 现在登录，以便您开始交易，随时关注交易动态。
+        title: Login my account   
+        intro: Login Peatio now for you to exchange.
       failure:
-        title: 登录我的账户
-        intro: 现在登录，以便您开始交易，随时关注交易动态。
+        title: Login my account 
+        intro: Login Peatio now for you to exchange.
 
     identities:
-      panel: 创建账户
+      panel: Create Account 
       new:
-        title: 创建我的账户
-        intro: 这将是您在貔貅交易所使用各项服务所需要的用户名，例如交易购买、转账、提币、提现等，为了您的账户安全，尽量避免不安全的因素，请您填写完整。
+        title: Create My Account 
+        intro: This will be your only ID in Peatio which is necessary for your exchange , despoit and withdrawal . please fill it out carefully.
       edit:
-        panel: 我的账户
-        title: 修改密码
+        panel: My Account   
+        title: Reset Password 

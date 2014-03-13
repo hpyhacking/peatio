@@ -22,6 +22,9 @@
 /config/database.yml
 /config/currency.yml
 
+# Ignore translations.js
+/public/javascripts/translations.js
+
 # Ignore ctags
 .tags
 

@@ -143,7 +143,7 @@ en:
             password:
               invalid: Invalid Password
             password_confirmation:
-              confirmation: 与您输入的新密码不一致，请重新输入。
+              confirmation: Inconsistent with the new password you enter, please re-enter.
         reset_two_factor:
           attributes:
             base:
@@ -154,7 +154,7 @@ en:
               too_soon: Visit too soon
             email:
               match: Invalid Sign in Email
-              match: 登录邮件地址错误。
+              match: Invalid Sign in Email
             password:
               invalid: Invalid Password
         activation:
@@ -177,13 +177,13 @@ en:
         two_factor:
           attributes:
             otp:
-              invalid: 密码有误，请重新输入。
+              invalid: Wrong Password!Please re-enter.
       messages:
         undef: unknown reason
         less: balance less
         verify: verify error
         strength: is invalid password strength
-        password: 请输入至少8位密码并必须包含大写、小写字母与数字。
+        password: Please enter a password at least 8 characters and must contain uppercase and lowercase letters and numbers.
         orders:
           price: limit price %{l} ~ %{h}
           sum: limit sum price %{l} ~ %{h}

@@ -25,9 +25,9 @@ $ ->
 
   window.fix = (type, str) ->
     if type is 'ask'
-      window.round(str, gon.market_config.ask.fixed)
+      window.round(str, gon.market.ask.fixed)
     else if type is 'bid'
-      window.round(str, gon.market_config.bid.fixed)
+      window.round(str, gon.market.bid.fixed)
 
   window.fixAsk = (str) ->
     window.fix('ask', str)

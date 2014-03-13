@@ -1,12 +1,12 @@
 en:
   reset_passwords:
     create:
-      success: 重置密码邮件已经发送至您的邮箱，请根据邮件内容进行操作。如未收到邮件，请到“垃圾邮箱”里找一下哦~ 或重新发送请求。
+      success: E-mail to reset your password with a introduction has been sent to your mailbox. Failure to receive e-mail , go to "junk mail " firstly,or send the request again.
     edit:
-      password: 请输入至少8位密码，并必须包含大写、小写字母与数字。
-      invalid: 无效的请求
-      submit: 重置登录密码
+      password: Please enter at least eight characters and which must contain uppercase and lowercase letters and numbers.
+      invalid: Invalid request
+      submit: Reset Login Password 
     update:
-      success: 登录密码已经重置，请妥善保管您的新密码。
-      invalid: 无效的请求
+      success: Login password has been reset, please keep your new password.
+      invalid: Invalid request
 
