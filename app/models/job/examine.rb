@@ -5,6 +5,8 @@ module Job
     def self.perform(withdraw_id)
       withdraw = Withdraw.find(withdraw_id)
 
+      return unless withdraw.submitted?
+
       if withdraw.account.examine
         withdraw.accept!
       else

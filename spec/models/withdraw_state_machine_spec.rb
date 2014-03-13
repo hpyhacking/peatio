@@ -49,32 +49,71 @@ describe Withdraw do
     before do
       subject.submit!
       subject.accept!
-      subject.process!
     end
 
-    it 'transitions to :processing after calling #process!' do
+    it 'transitions to :processing after calling #process! when withdrawing fiat currency' do
+      subject.expects(:coin?).returns(false)
+
+      subject.process!
+
       expect(subject.processing?).to be_true
     end
 
-    it 'transitions to :done after calling #succeed!' do
-      subject.expects(:send_coins).returns(true)
+    it 'transitions to :failed after calling #fail! when withdrawing fiat currency' do
+      subject.expects(:coin?).returns(false)
 
-      expect { subject.succeed! }.to change{subject.account.amount}.by(-subject.sum)
+      subject.process!
 
-      expect(subject.done?).to be_true
-    end
-
-    it 'transitions to :almost_done after calling #succeed! when send_coins raise Exception' do
-      Resque.expects(:enqueue).raises(StandardError)
-      expect { subject.succeed! }.to change{subject.account.amount}.by(-subject.sum)
-
-      expect(subject.almost_done?).to be_true
-    end
-
-    it 'transitions to :failed after calling #fail!' do
       expect { subject.fail! }.to_not change{subject.account.amount}
 
       expect(subject.failed?).to be_true
+    end
+
+    it 'transitions to :processing after calling #process!' do
+      subject.expects(:send_coins!)
+
+      subject.process!
+
+      expect(subject.processing?).to be_true
+    end
+
+    context 'Job::Coin#perform' do
+      before do
+        @rpc = mock()
+        @rpc.stubs(getbalance: 50000, sendtoaddress: '12345', settxfee: true )
+        @broken_rpc = mock()
+        @broken_rpc.stubs(getbalance: 5)
+
+        subject.expects(:send_coins!)
+        subject.process!
+      end
+
+      it 'transitions to :almost_done after calling rpc but getting Exception' do
+        CoinRPC.stubs(:[]).returns(@broken_rpc)
+
+        Job::Coin.perform(subject.id)
+
+        expect(subject.reload.almost_done?).to be_true
+      end
+
+      it 'transitions to :done after calling rpc' do
+        CoinRPC.stubs(:[]).returns(@rpc)
+
+        expect { Job::Coin.perform(subject.id) }.to change{subject.account.reload.amount}.by(-subject.sum)
+
+        subject.reload
+        expect(subject.done?).to be_true
+        expect(subject.tx_id).to eq('12345')
+      end
+
+      it 'does not send coins again if previous attempt failed' do
+        CoinRPC.stubs(:[]).returns(@broken_rpc)
+        Job::Coin.perform(subject.id)
+        CoinRPC.stubs(:[]).returns(mock())
+
+        expect { Job::Coin.perform(subject.id) }.to_not change{subject.account.reload.amount}
+        expect(subject.reload.almost_done?).to be_true
+      end
     end
   end
 

@@ -104,26 +104,27 @@ class Withdraw < ActiveRecord::Base
 
     event :process do
       transitions from: :accepted, to: :processing
+      after do
+        send_coins! if coin?
+      end
+    end
+
+    event :call_rpc do
+      transitions from: :processing, to: :almost_done
     end
 
     event :succeed do
-      transitions from: :processing, to: :done, on_transition: -> (obj) do
-        obj.update_column :aasm_state, 'almost_done'
-        obj.send_coins
-      end
+      transitions from: [:processing, :almost_done], to: :done
 
       before [:set_tx_id, :unlock_and_sub_funds]
-
-      error do |e|
-        #warn e
-        #@reason = e.to_s
-      end
     end
 
     event :fail do
       transitions from: :processing, to: :failed
     end
   end
+
+  private
 
   def lock_funds
     account.lock_funds sum, reason: Account::WITHDRAW_LOCK, ref: self
@@ -145,12 +146,9 @@ class Withdraw < ActiveRecord::Base
     puts 'Sending withdraw confirm email!'
   end
 
-  def send_coins
+  def send_coins!
     Resque.enqueue(Job::Coin, self.id) if coin?
   end
-
-
-  private
 
   def last_completed_withdraw_cache_key
     "last_completed_withdraw_id_for_#{address_type}"
