@@ -141,6 +141,10 @@ class Withdraw < ActiveRecord::Base
     end
   end
 
+  def cancelable?
+    submitting? or submitted? or accepted?
+  end
+
   private
 
   def lock_funds
