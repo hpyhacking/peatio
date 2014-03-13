@@ -25,6 +25,6 @@ class WithdrawsGrid
     o.position_in_queue if o.position_in_queue > 0
   end
   column :actions, html: true, header: '' do |o|
-    link_to I18n.t('actions.view'), edit_admin_withdraw_path(o)
+    link_to I18n.t('actions.view'), edit_withdraw_path(o)
   end
 end
