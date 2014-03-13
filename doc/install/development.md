@@ -137,7 +137,14 @@ Insert the following lines into your bitcoin.conf, and replce with your username
 
 ##### Run Peatio
 
-    rake environment resque:work QUEUE=*
+    # start matching engine
+    rake environment resque:matching
+
+    # Caution: NEVER start worker with QUEUE=* or QUEUE=matching! There
+    # must be only one matching engine running at any time
+
+    # start worker for other jobs.
+    rake environment resque:work QUEUE=coin,examine
     rails server
 
 ##### Visit [http://localhost:3000](http://localhost:3000)
