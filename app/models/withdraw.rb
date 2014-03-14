@@ -89,18 +89,21 @@ class Withdraw < ActiveRecord::Base
 
   aasm do
     state :submitting, initial: true
-    state :submitted, after_enter: :lock_funds, after_commit: [:send_withdraw_confirm_email, :examine]
+    state :submitted, after_commit: [:send_withdraw_confirm_email, :examine]
     state :canceled
     state :accepted
     state :suspect
     state :rejected
-    state :processing
+    state :processing, after_commit: :send_coins!
     state :almost_done
     state :done
     state :failed
 
     event :submit do
       transitions from: :submitting, to: :submitted
+      after do
+        lock_funds
+      end
     end
 
     event :cancel do
@@ -125,9 +128,6 @@ class Withdraw < ActiveRecord::Base
 
     event :process do
       transitions from: :accepted, to: :processing
-      after do
-        send_coins! if coin?
-      end
     end
 
     event :call_rpc do
@@ -152,14 +152,17 @@ class Withdraw < ActiveRecord::Base
   private
 
   def lock_funds
+    account.lock!
     account.lock_funds sum, reason: Account::WITHDRAW_LOCK, ref: self
   end
 
   def unlock_funds
+    account.lock!
     account.unlock_funds sum, reason: Account::WITHDRAW_UNLOCK, ref: self
   end
 
   def unlock_and_sub_funds
+    account.lock!
     account.unlock_and_sub_funds sum, locked: sum, fee: fee, reason: Account::WITHDRAW, ref: self
   end
 

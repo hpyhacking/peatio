@@ -91,7 +91,7 @@ describe Withdraw do
       it 'transitions to :almost_done after calling rpc but getting Exception' do
         CoinRPC.stubs(:[]).returns(@broken_rpc)
 
-        Job::Coin.perform(subject.id)
+        begin Job::Coin.perform(subject.id); rescue; end
 
         expect(subject.reload.almost_done?).to be_true
       end
@@ -108,7 +108,7 @@ describe Withdraw do
 
       it 'does not send coins again if previous attempt failed' do
         CoinRPC.stubs(:[]).returns(@broken_rpc)
-        Job::Coin.perform(subject.id)
+        begin Job::Coin.perform(subject.id); rescue; end
         CoinRPC.stubs(:[]).returns(mock())
 
         expect { Job::Coin.perform(subject.id) }.to_not change{subject.account.reload.amount}

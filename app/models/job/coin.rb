@@ -3,22 +3,28 @@ module Job
     @queue = :coin
 
     def self.perform(withdraw_id)
-      withdraw = Withdraw.find(withdraw_id)
+      Withdraw.transaction do
+        withdraw = Withdraw.lock.find(withdraw_id)
 
-      return unless withdraw.processing?
+        return unless withdraw.processing?
 
-      withdraw.call_rpc!
+        withdraw.call_rpc!
+      end
 
-      balance = CoinRPC[withdraw.currency].getbalance.to_d
-      raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.amount
+      Withdraw.transaction do
+        withdraw = Withdraw.lock.find(withdraw_id)
 
-      CoinRPC[withdraw.currency].settxfee 0.0005
-      tx_id = CoinRPC[withdraw.currency].sendtoaddress withdraw.address, withdraw.amount.to_f
+        return unless withdraw.almost_done?
 
-      withdraw.update_column :tx_id, tx_id
-      withdraw.succeed!
-    rescue => e
-      #warn e
+        balance = CoinRPC[withdraw.currency].getbalance.to_d
+        raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.amount
+
+        CoinRPC[withdraw.currency].settxfee 0.0005
+        tx_id = CoinRPC[withdraw.currency].sendtoaddress withdraw.address, withdraw.amount.to_f
+
+        withdraw.update_column :tx_id, tx_id
+        withdraw.succeed!
+      end
     end
   end
 end
