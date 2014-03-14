@@ -45,7 +45,7 @@ class MatchingBenchmark
     @label = label.to_s
     @num = num
     @round = round
-    @times = {create_members: [], lock_funds: [], create_orders: [], matching: []}
+    @times = Hash.new {|h,k| h[k] = [] }
   end
 
   def create_members
@@ -173,8 +173,8 @@ class MatchingBenchmark
     puts "lock funds:     %.2fops" % [@num/avg[:lock_funds].last]
     puts "create orders:  %.2fops" % [@num/avg[:create_orders].last]
     puts "submit orders:  %.2fops" % [@num/(avg[:lock_funds].last+avg[:create_orders].last)]
-    puts "matching:       %.2fops" % [@processed/avg[:matching].last]
-    puts "execution:      %.2feps" % [@instructions.size/avg[:execution].last]
+    puts "matching:       %.2fops" % [@processed/avg[:matching].last] if avg[:matching]
+    puts "execution:      %.2feps" % [@instructions.size/avg[:execution].last] if avg[:execution]
     puts "* submit order = lock funds + create order"
   end
 
