@@ -1,5 +1,6 @@
 class Withdraw < ActiveRecord::Base
   include AASM
+  include AASM::Locking
   include Concerns::Withdraws::Bank
   include Concerns::Withdraws::Satoshi
 
