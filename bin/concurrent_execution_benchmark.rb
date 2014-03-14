@@ -11,6 +11,14 @@ class ConcurrentExecuteBenchmark < MatchingBenchmark
     @process_num = process_num
   end
 
+  def collect_time
+    time = Dir[Rails.root.join('tmp', 'concurrent_executor_*')].map do |f|
+      File.open(f, 'r') {|ff| ff.read.to_f }
+    end.max
+    puts "elapsed: #{time}"
+    Benchmark::Tms.new(0, 0, 0, 0, time)
+  end
+
   def execute_trades
     t1 = Trade.count
 
@@ -20,9 +28,12 @@ class ConcurrentExecuteBenchmark < MatchingBenchmark
         ActiveRecord::Base.connection.reconnect!
         puts "Executor #{i+1} started."
 
+        t1 = Time.now
         insts.each do |(ask, bid, strike_price, volume)|
           ::Matching::Executor.new(market, ask, bid, strike_price, volume).execute!
         end
+        elapsed = Time.now - t1
+        File.open(Rails.root.join('tmp', "concurrent_executor_#{i+1}"), 'w') {|f| f.write(elapsed.to_f) }
 
         puts "Executor #{i+1} finished work, stop."
         exit 0
@@ -32,14 +43,14 @@ class ConcurrentExecuteBenchmark < MatchingBenchmark
 
     ActiveRecord::Base.connection.reconnect!
     @trades = Trade.count - t1
-    pid_and_status
+
+    collect_time
   end
 
   def run_execute_trades
     puts "\n>> Execute Trade Instructions"
     Benchmark.benchmark(Benchmark::CAPTION, 20, Benchmark::FORMAT) do |x|
-      t = x.report { execute_trades }
-      @times[:execution] = [t]
+      @times[:execution] = [ execute_trades ]
       puts "#{@instructions.size} trade instructions executed by #{@process_num} executors, #{@trades} trade created."
     end
   end
@@ -58,6 +69,7 @@ if $0 == __FILE__
   puts "\n>> Setup environment"
   system("rake db:reset")
   Dir[Rails.root.join('tmp', 'matching_result_*')].each {|f| FileUtils.rm(f) }
+  Dir[Rails.root.join('tmp', 'concurrent_executor_*')].each {|f| FileUtils.rm(f) }
 
   ConcurrentExecuteBenchmark.new(label, num, round, process_num).run
 end
