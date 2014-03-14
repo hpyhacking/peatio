@@ -11,6 +11,11 @@ module Matching
       order
     end
 
+    def cancel(order)
+      @tree[order.type].delete order
+      @lowest_ask = @highest_bid = nil
+    end
+
     def lowest_ask
       @lowest_ask ||= @tree[:ask].first[0]
     end

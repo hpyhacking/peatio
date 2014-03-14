@@ -87,4 +87,23 @@ describe Matching::FIFOEngine do
     end
   end
 
+  context "submit full match order after some cancellaton" do
+    let(:bid)      { Matching.mock_order(type: :bid, price: price,   volume: 10.to_d)}
+    let(:low_ask)  { Matching.mock_order(type: :ask, price: price-1, volume: 3.to_d) }
+    let(:high_ask) { Matching.mock_order(type: :ask, price: price,   volume: 3.to_d) }
+
+    it "should match bid with high ask" do
+      executor = mock()
+      executor.stubs(:execute!)
+
+      subject.submit!(low_ask) # low ask enters first
+      subject.submit!(high_ask)
+      subject.cancel!(low_ask) # but it's cancelled
+
+      ::Matching::Executor.expects(:new).with(anything, high_ask, bid, anything, anything).returns(executor)
+      subject.submit!(bid)
+    end
+  end
+
+
 end

@@ -32,7 +32,7 @@ class Ordering
         raise ActiveRecord::Rollback
       end
 
-      Resque.enqueue(Job::Matching, @order.to_matching_attributes)
+      Resque.enqueue(Job::Matching, 'submit', @order.to_matching_attributes)
     end
 
     raise unless @order.errors.empty?
@@ -48,6 +48,8 @@ class Ordering
         order.state = Order::CANCEL
         account.unlock_funds(order.sum, reason: Account::ORDER_CANCEL, ref: order)
         order.save!
+
+        Resque.enqueue(Job::Matching, 'cancel', @order.to_matching_attributes)
       else
         false
       end

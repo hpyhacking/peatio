@@ -5,9 +5,17 @@ module Job
     @queue = :matching
 
     class <<self
-      def perform(attrs)
+      def perform(command, attrs)
         order = ::Matching::Order.new attrs
+        send command, order
+      end
+
+      def submit(order)
         engine_for(order.market).submit!(order)
+      end
+
+      def cancel(order)
+        engine_for(order.market).cancel!(order)
       end
 
       def engine_for(market)

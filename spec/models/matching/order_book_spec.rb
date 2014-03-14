@@ -18,6 +18,11 @@ describe Matching::OrderBook do
 
     its(:matchable?) { should be_true }
 
+    it "should cancel order" do
+      subject.cancel subject.lowest_ask
+      subject.lowest_ask.price.should == 2.to_d
+    end
+
     it "should return order ask for lowest price" do
       subject.lowest_ask.price.should == 1.to_d
     end

@@ -11,6 +11,10 @@ module Matching
       trade! while match?
     end
 
+    def cancel!(order)
+      orderbook.cancel(order)
+    end
+
     def match?
       return false unless orderbook.matchable?
       orderbook.highest_bid.price >= orderbook.lowest_ask.price
