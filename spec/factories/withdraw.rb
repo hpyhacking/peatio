@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :withdraw do
     sum { 10.to_d }
-    state :wait
     currency :btc
     address 'sample_to_long_long_long_address'
     address_label 'sample'
@@ -29,6 +28,8 @@ FactoryGirl.define do
       address_label { member.name }
       sum { 1000.to_d }
     end
+
+    factory :bank_withdraw, traits: [:bank]
   end
 end
 

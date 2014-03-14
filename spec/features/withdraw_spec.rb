@@ -69,8 +69,12 @@ describe 'withdraw' do
     click_on t('actions.confirm')
     expect(find('.account-cny .available').text).to eq("300.0")
     expect(find('.account-cny .locked').text).to eq("2200.0")
+    expect(current_path).to eq(new_withdraw_path)
 
-    click_on I18n.t('actions.cancel')
+    within('tbody tr:last-of-type') do
+      click_link t('actions.view')
+    end
+    click_on t('actions.cancel')
     expect(current_path).to eq(new_withdraw_path)
 
     expect(find('.account-cny .available').text).to eq("900.0")

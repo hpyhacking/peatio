@@ -60,6 +60,10 @@ class Withdraw < ActiveRecord::Base
     address_type.try(:satoshi?) or address_type.try(:protoshares?)
   end
 
+  def fiat?
+    !coin?
+  end
+
   def examine
     Resque.enqueue(Job::Examine, self.id) if submitted?
   end
@@ -215,7 +219,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def state_changed_to_done
-    state_changed? && COMPLETED_STATES.include?(state.to_sym)
+    aasm_state_changed? && COMPLETED_STATES.include?(state.to_sym)
   end
 
   def bust_last_done_cache

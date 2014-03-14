@@ -6,7 +6,7 @@ zh-CN:
         range_separator: " ~ "
     form:
       submit: 查询
-    withdraws_grid:
+    withdraws_grid: &withdraw_grid
       columns:
         sn: 编号
         name: 姓名
@@ -19,6 +19,7 @@ zh-CN:
         created_at: 申请时间
         done_at: 完成时间
         state_text: 状态
+    private_withdraws_grid: *withdraw_grid
     members_grid:
       columns:
         sn: 识别码

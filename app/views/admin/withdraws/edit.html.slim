@@ -5,7 +5,7 @@
       = detail_section_tag t('.actions_title')
       a.btn.pull-right href='#{admin_withdraws_path}' = t('actions.back')
       a.btn.pull-right.btn-inverse target='_blank' href='#{admin_member_path(@withdraw.member)}' = t('actions.view')
-      - if @state.examined? or @state.transact?
+      - if @withdraw.accepted? or @withdraw.processing?
         a.btn.btn-success.pull-right data-method='patch' href='#{admin_withdraw_path(@withdraw)}' = t('actions.transact')
-      - if @state.examined?
+      - if @withdraw.accepted?
         a.btn.btn-warning.pull-right data-method='delete' href='#{admin_withdraw_path(@withdraw)}' = t('actions.reject')

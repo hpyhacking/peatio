@@ -36,7 +36,7 @@ module Private
 
     private
     def load_history
-      @withdraws_grid = WithdrawsGrid.new(params[:withdraws_grid]) do |scope|
+      @withdraws_grid = PrivateWithdrawsGrid.new(params[:withdraws_grid]) do |scope|
         scope.where(:member_id => current_user.id).first(10)
       end
     end
