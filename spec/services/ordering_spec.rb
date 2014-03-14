@@ -7,14 +7,18 @@ describe Ordering do
   describe "ordering service can submit order" do
     before do
       order.stubs(:hold_account).returns(account)
-      Resque.expects(:enqueue).with(Job::Matching, order.to_matching_attributes)
+      Resque.expects(:enqueue).with(Job::Matching, 'submit', order.to_matching_attributes)
     end
 
     it {expect(Ordering.new(order).submit).to be_true }
   end
 
   describe "ordering service can cancel order" do
-    before do order.stubs(:hold_account).returns(account) end
+    before do
+      order.stubs(:hold_account).returns(account)
+      Resque.expects(:enqueue).with(Job::Matching, 'cancel', order.to_matching_attributes)
+    end
+
     it { expect(Ordering.new(order).cancel).to be_true }
   end
 end

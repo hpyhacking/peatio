@@ -50,6 +50,7 @@ class Ordering
         order.save!
 
         Resque.enqueue(Job::Matching, 'cancel', @order.to_matching_attributes)
+        true
       else
         false
       end

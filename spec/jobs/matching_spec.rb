@@ -32,8 +32,8 @@ describe Job::Matching do
     let(:order) { create(:order_ask, price: '3999', volume: '10.0', member: alice) }
 
     before do
-      ::Job::Matching.perform bid.to_matching_attributes
-      ::Job::Matching.perform order.to_matching_attributes
+      ::Job::Matching.perform 'submit', bid.to_matching_attributes
+      ::Job::Matching.perform 'submit', order.to_matching_attributes
     end
 
     it "should update market's latest price" do
@@ -50,14 +50,14 @@ describe Job::Matching do
     let(:existing) { create(:order_ask, price: '4001', volume: '10.0', member: alice) }
 
     before do
-      ::Job::Matching.perform existing.to_matching_attributes
+      ::Job::Matching.perform 'submit', existing.to_matching_attributes
     end
 
     it "should match part of existing order" do
       order = create(:order_bid, price: '4001', volume: '8.0', member: bob)
 
       expect {
-        ::Job::Matching.perform order.to_matching_attributes
+        ::Job::Matching.perform 'submit', order.to_matching_attributes
 
         order.reload.state.should        == ::Order::DONE
         existing.reload.state.should_not == ::Order::DONE
@@ -69,7 +69,7 @@ describe Job::Matching do
       order = create(:order_bid, price: '4001', volume: '12.0', member: bob)
 
       expect {
-        ::Job::Matching.perform order.to_matching_attributes
+        ::Job::Matching.perform 'submit', order.to_matching_attributes
 
         order.reload.state.should_not == ::Order::DONE
         order.reload.volume.should    == '2.0'.to_d
@@ -102,33 +102,33 @@ describe Job::Matching do
 
     it "should create many trades" do
       expect {
-        ::Job::Matching.perform ask1.to_matching_attributes
-        ::Job::Matching.perform ask2.to_matching_attributes
+        ::Job::Matching.perform 'submit', ask1.to_matching_attributes
+        ::Job::Matching.perform 'submit', ask2.to_matching_attributes
       }.not_to change(Trade, :count)
 
       expect {
-        ::Job::Matching.perform bid3.to_matching_attributes
+        ::Job::Matching.perform 'submit', bid3.to_matching_attributes
         ask1.reload.state.should  == Order::DONE
         ask2.reload.state.should  == Order::DONE
         bid3.reload.volume.should == '2.0'.to_d
       }.to change(Trade, :count).by(2)
 
       expect {
-        ::Job::Matching.perform ask4.to_matching_attributes
+        ::Job::Matching.perform 'submit', ask4.to_matching_attributes
         bid3.reload.state.should   == Order::DONE
         ask4.reload.volume.should  == '3.0'.to_d
         market.latest_price.should == '4003'.to_d
       }.to change(Trade, :count).by(1)
 
       expect {
-        ::Job::Matching.perform bid5.to_matching_attributes
+        ::Job::Matching.perform 'submit', bid5.to_matching_attributes
         ask4.reload.state.should   == Order::DONE
         bid5.reload.state.should   == Order::DONE
         market.latest_price.should == '4002'.to_d
       }.to change(Trade, :count).by(1)
 
       expect {
-        ::Job::Matching.perform bid6.to_matching_attributes
+        ::Job::Matching.perform 'submit', bid6.to_matching_attributes
       }.not_to change(Trade, :count)
     end
   end
