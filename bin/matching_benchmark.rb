@@ -122,6 +122,13 @@ class MatchingBenchmark
   end
 
   def run
+    run_prepare_orders
+    run_matching_orders
+    run_execute_trades
+    save
+  end
+
+  def run_prepare_orders
     (1..@round).map do |i|
       puts "\n>> Round #{i}"
       Benchmark.benchmark(Benchmark::CAPTION, 20, Benchmark::FORMAT) do |x|
@@ -131,22 +138,24 @@ class MatchingBenchmark
         nil
       end
     end
+  end
 
+  def run_matching_orders
     puts "\n>> Match Them All"
     Benchmark.benchmark(Benchmark::CAPTION, 20, Benchmark::FORMAT) do |x|
       t = x.report { matching_orders }
       @times[:matching] = [t]
       puts "#{@matches} matches run for #{@processed} orders, #{@instructions.size} trade instruction generated."
     end
+  end
 
+  def run_execute_trades
     puts "\n>> Execute Trade Instructions"
     Benchmark.benchmark(Benchmark::CAPTION, 20, Benchmark::FORMAT) do |x|
       t = x.report { execute_trades }
       @times[:execution] = [t]
       puts "#{@instructions.size} trade instructions executed, #{@trades} trade created."
     end
-
-    save
   end
 
   def save
