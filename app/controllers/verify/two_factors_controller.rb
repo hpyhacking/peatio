@@ -37,7 +37,7 @@ module Verify
       member_id = session[:temp_member_id]
       reset_session
       session[:member_id] = member_id
-      MemberMailer.notify_signin(member_id).deliver
+      MemberMailer.notify_signin(member_id).deliver if current_user.activated?
       redirect_to settings_path
     end
 
