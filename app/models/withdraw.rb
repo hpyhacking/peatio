@@ -90,15 +90,15 @@ class Withdraw < ActiveRecord::Base
 
   aasm do
     state :submitting, initial: true
-    state :submitted, after_commit: [:send_withdraw_confirm_email, :examine]
-    state :canceled
+    state :submitted, after_commit: :examine
+    state :canceled, after_commit: :send_email
     state :accepted
-    state :suspect
-    state :rejected
+    state :suspect, after_commit: :send_email
+    state :rejected, after_commit: :send_email
     state :processing, after_commit: :send_coins!
     state :almost_done
-    state :done
-    state :failed
+    state :done, after_commit: :send_email
+    state :failed, after_commit: :send_email
 
     event :submit do
       transitions from: :submitting, to: :submitted
@@ -171,8 +171,8 @@ class Withdraw < ActiveRecord::Base
     @tx_id = @sn unless coin?
   end
 
-  def send_withdraw_confirm_email
-    puts 'Sending withdraw confirm email!'
+  def send_email
+    WithdrawMailer.withdraw_state(self.id).deliver
   end
 
   def send_coins!
