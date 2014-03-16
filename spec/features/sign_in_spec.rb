@@ -9,6 +9,15 @@ describe 'Sign in' do
     expect(current_path).to eq(settings_path)
   end
 
+  it "sends notification email after user sign in" do
+    signin identity
+
+    mail = ActionMailer::Base.deliveries.last
+    expect(mail).to be_present
+    expect(mail.to).to eq([identity.email])
+    expect(mail.subject).to eq(I18n.t 'member_mailer.notify_signin.subject')
+  end
+
   context 'when a user has 2-step verification setup and after signing in with email, password' do
     let!(:member) { create :member, email: identity.email }
     let!(:two_factor) { create :two_factor, member: member }
