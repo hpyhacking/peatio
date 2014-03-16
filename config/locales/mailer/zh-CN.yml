@@ -5,3 +5,11 @@ zh-CN:
   withdraw_mailer:
     withdraw_state:
       subject: 你的提现状态
+  token_mailer:
+    reset_password:
+      subject: '[Peatio] 请重置您的密码'
+    reset_two_factor:
+      subject: '[Peatio] 请重置您的两步验证'
+    activation:
+      subject: '[Peatio] 帐号激活'
+

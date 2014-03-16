@@ -5,3 +5,11 @@ en:
   withdraw_mailer:
     withdraw_state:
       subject: Your withdraw state
+  token_mailer:
+    reset_password:
+      subject: '[Peatio] Please Reset Your Password'
+    reset_two_factor:
+      subject: '[Peatio] Please Reset Your Two Factor'
+    activation:
+      subject: '[Peatio] Account Activation'
+
