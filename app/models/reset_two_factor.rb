@@ -4,7 +4,7 @@ class ResetTwoFactor < Token
   private
 
   def reset_two_factor
-    tokenable.identity.direct_disable_otp
+    self.identity.direct_disable_otp
   end
 end
 

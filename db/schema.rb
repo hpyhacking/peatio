@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140316040020) do
+ActiveRecord::Schema.define(version: 20140312071704) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -213,12 +213,11 @@ ActiveRecord::Schema.define(version: 20140316040020) do
   create_table "tokens", force: true do |t|
     t.string   "token"
     t.datetime "expire_at"
-    t.integer  "tokenable_id"
+    t.integer  "member_id"
     t.boolean  "is_used"
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "tokenable_type", default: "Member"
   end
 
   add_index "tokens", ["type", "token", "expire_at", "is_used"], name: "index_tokens_on_type_and_token_and_expire_at_and_is_used", using: :btree
