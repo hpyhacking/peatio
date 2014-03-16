@@ -3,6 +3,6 @@ class Activation < Token
   
   private
   def active_member
-    member.active
+    tokenable.active
   end
 end

@@ -28,6 +28,7 @@ class Withdraw < ActiveRecord::Base
   belongs_to :member
   belongs_to :account
   has_many :account_versions, :as => :modifiable
+  has_one :token, as: :tokenable
   attr_accessor :withdraw_address_id
 
   before_validation :populate_fields_from_address, :fix_fee

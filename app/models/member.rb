@@ -92,7 +92,7 @@ class Member < ActiveRecord::Base
   end
 
   def send_activation
-    Activation.create(member: self)
+    Activation.create(tokenable: self)
   end
 
   private
