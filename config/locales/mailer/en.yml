@@ -1,0 +1,7 @@
+en:
+  member_mailer:
+    notify_signin:
+      subject: You have just signed in
+  withdraw_mailer:
+    withdraw_state:
+      subject: Your withdraw state

@@ -5,11 +5,11 @@ describe WithdrawMailer do
     let(:withdraw) { create :withdraw }
     let(:mail) do
       withdraw.cancel!
-      WithdrawMailer.withdraw_state(withdraw)
+      WithdrawMailer.withdraw_state(withdraw.id)
     end
 
     it "renders the headers" do
-      mail.subject.should eq("Withdraw state")
+      mail.subject.should eq("Your withdraw state")
       mail.to.should eq([withdraw.member.email])
       mail.from.should eq(["noreply@peatio.com"])
     end
