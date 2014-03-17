@@ -9,5 +9,5 @@ en:
       satoshi:
         name: Bitcoin Deposits 
         intro: Deposit bitcoin from your own Wallet address to Peatio account
-        latency: 1 Confirmed    
-        transfer: Automatic processing   
+        latency: 1 Confirmation
+        transfer: Automatic processing

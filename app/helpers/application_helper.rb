@@ -75,9 +75,13 @@ module ApplicationHelper
 
   def link_to_block(payment_address)
     uri = case payment_address.currency
-    when 'btc' then "https://blockchain.info/address/#{payment_address.address}"
+    when 'btc' then btc_block_url(payment_address.address)
     end
     link_to t("actions.block"), uri, target: '_blank'
+  end
+
+  def btc_block_url(address)
+    CoinRPC[:btc].getinfo[:testnet] ? "http://testnet.btclook.com/addr/#{address}" : "https://blockchain.info/address/#{address}"
   end
 
   def top_nav_link(link_text, link_path, link_icon, controllers: [])
