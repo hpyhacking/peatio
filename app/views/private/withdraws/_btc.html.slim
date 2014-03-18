@@ -1,0 +1,17 @@
+.page-header
+  h3
+    = t('.title')
+    small.pull-right = t('.balance', balance: @account.balance)
+
+= simple_form_for @withdraw do |f|
+  = f.text_field :address_type, value: @withdraw.currency, class: :hidden
+  = f.text_field :currency, value: @withdraw.currency, class: :hidden
+  = f.text_field :account_id, value: @withdraw.account_id, class: :hidden
+
+  = f.input :address, label: t('.address')
+  = f.input :save_address, as: :boolean, label: t('.save_address')
+  = f.input :address_label, label: t('.label')
+  = f.input :sum, as: :decimal, input_html: {min: 0}, label: t('.sum')
+  hr.split
+  = f.button :wrapped, t('helpers.submit.withdraw.new')
+

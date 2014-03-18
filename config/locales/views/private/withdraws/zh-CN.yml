@@ -1,0 +1,20 @@
+zh-CN:
+  private:
+    withdraws:
+      new:
+        withdraw_btc: 'BTC提现'
+        withdraw_cny: '人民币提现'
+      btc:
+        balance: '可用BTC余额: ฿%{balance}'
+        title: 'BTC提现'
+        address: '提现地址'
+        sum: '数量'
+        label: '备注'
+        save_address: '保存?'
+      cny:
+        balance: '可用人民币余额: ฿%{balance}'
+        title: '人民币提现'
+        address: '银行帐号'
+        sum: '提取金额'
+        label: '开户行'
+        save_address: '保存?'

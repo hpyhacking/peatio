@@ -4,7 +4,7 @@ FactoryGirl.define do
     currency :btc
     address 'sample_to_long_long_long_address'
     address_label 'sample'
-    address_type :satoshi
+    address_type :btc
     member { create :member }
 
     account do
@@ -24,7 +24,7 @@ FactoryGirl.define do
 
     trait :bank do
       currency :cny
-      address_type :bank
+      address_type :cny
       address_label { member.name }
       sum { 1000.to_d }
     end

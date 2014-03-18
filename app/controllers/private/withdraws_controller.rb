@@ -1,9 +1,11 @@
 module Private
   class WithdrawsController < BaseController
     def new
-      @withdraw = Withdraw.new
-      @withdraw_addresses = current_user.withdraw_addresses
-      load_history
+      currency = params[:currency] || 'btc'
+      @account = current_user.get_account(currency)
+      @withdraw = Withdraw.new currency: currency, account: @account
+      @withdraw_addresses = current_user.withdraw_addresses.with_category(currency)
+      load_history(currency)
     end
 
     def create
@@ -13,7 +15,7 @@ module Private
         redirect_to edit_withdraw_path(@withdraw)
       else
         @withdraw_addresses = current_user.withdraw_addresses
-        load_history
+        load_history(currency)
         render :new
       end
     end
@@ -21,13 +23,13 @@ module Private
     def update
       @withdraw = current_user.withdraws.find(params[:id])
       @withdraw.submit!
-      redirect_to new_withdraw_path, flash: {notice: t('.request_accepted')}
+      redirect_to new_withdraw_path(currency: @withdraw.currency), flash: {notice: t('.request_accepted')}
     end
 
     def destroy
       @withdraw = current_user.withdraws.find(params[:id])
       @withdraw.cancel!
-      redirect_to new_withdraw_path
+      redirect_to new_withdraw_path(currency: @withdraw.currency)
     end
 
     def edit
@@ -35,16 +37,16 @@ module Private
     end
 
     private
-    def load_history
+    def load_history(currency)
       @withdraws_grid = PrivateWithdrawsGrid.new(params[:withdraws_grid]) do |scope|
-        scope.where(:member_id => current_user.id).first(10)
+        scope.with_currency(currency).where(:member_id => current_user.id).first(10)
       end
     end
 
     def withdraw_params
-      params[:withdraw][:state] = :apply
       params[:withdraw][:member_id] = current_user.id
-      params.require(:withdraw).permit(:sum, :password, :member_id, :withdraw_address_id)
+      params.require(:withdraw).permit(:sum, :password, :member_id, :account_id, :withdraw_address_id,
+                                       :address, :address_label, :address_type, :currency, :save_address)
     end
   end
 end
