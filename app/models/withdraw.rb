@@ -22,7 +22,7 @@ class Withdraw < ActiveRecord::Base
 
   extend Enumerize
   enumerize :state, in: STATES, scope: true
-  enumerize :address_type, in: WithdrawChannel.enumerize
+  enumerize :address_type, in: WithdrawChannel.enumerize(:currency)
   enumerize :currency, in: Currency.codes, scope: true
 
   belongs_to :member
@@ -58,7 +58,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def coin?
-    address_type.try(:satoshi?) or address_type.try(:protoshares?)
+    address_type.try(:btc?)
   end
 
   def fiat?
