@@ -8,10 +8,11 @@
   = f.text_field :currency, value: @withdraw.currency, class: :hidden
   = f.text_field :account_id, value: @withdraw.account_id, class: :hidden
 
-  = f.input :address, label: t('.address')
-  = f.input :save_address, as: :boolean, label: t('.save_address')
+  label.checkbox-inline.pull-right.row
+    input name="withdraw[save_address]" value="1" type="checkbox" = t('.save_address')
+  = f.input :address, collection: []
   = f.input :address_label, label: t('.label')
   = f.input :sum, as: :decimal, input_html: {min: 0}, label: t('.sum')
   hr.split
-  = f.button :wrapped, t('helpers.submit.withdraw.new')
 
+  = f.button :wrapped, t('helpers.submit.withdraw.new')

@@ -222,6 +222,6 @@ class Withdraw < ActiveRecord::Base
   end
 
   def create_withdraw_address
-    WithdrawAddress.create address: address, category: address_type, account: account, label: address_label
+    WithdrawAddress.create address: address, category: address_type, account: account, label: address_label, is_locked: false
   end
 end
