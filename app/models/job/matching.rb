@@ -23,7 +23,7 @@ module Job
       end
 
       def create_engine(market)
-        continue = ENV['CONTINUE'] == '1'
+        continue = ENV['FRESH'] == '1' ? false : true
         ::Matching::FIFOEngine.new(market, continue: continue)
       end
 
