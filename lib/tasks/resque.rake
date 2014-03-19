@@ -3,7 +3,8 @@ require 'resque/tasks'
 namespace :resque do
 
   task :setup => :environment do
-    ENV['QUEUE'] ||= '*'
+    ENV['QUEUE'] ||= 'coin,examine'
+    raise "Never start worker with QUEUE=* !!!" if ENV['QUEUE'] == '*'
   end
 
   desc "Start matching engine"
