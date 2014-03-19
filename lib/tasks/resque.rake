@@ -2,6 +2,10 @@ require 'resque/tasks'
 
 namespace :resque do
 
+  task :setup => :environment do
+    ENV['QUEUE'] ||= '*'
+  end
+
   desc "Start matching engine"
   task :matching => [ :preload, :setup ] do
     require 'resque'
