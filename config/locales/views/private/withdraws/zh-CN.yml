@@ -22,3 +22,4 @@ zh-CN:
         placeholder: '使用保存的帐号或者输入新帐号'
         user_name: '户名'
         hint: '不能修改'
+        subbranch_placeholder: 'xx省xx市xx支行'

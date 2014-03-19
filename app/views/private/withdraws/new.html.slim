@@ -33,9 +33,11 @@ javascript:
       })();
     });
 
-    var $select = $('select').selectize({
+    $('select#withdraw_address').selectize({
       plugins: ['option_destroy'],
-      preload: true,
+      preload: 'focus',
+      persist: false,
+      createOnBlur: true,
       valueField: 'label',
       labelField: 'address',
       searchField: ['label', 'address'],
@@ -43,14 +45,15 @@ javascript:
       render: {
         option: function(item, escape) {
           return '<div><div>' +
-              '<span class="lead">' + escape(item.label) + '</span>' +
-              '<a class="destroy-withdraw-address pull-right" href="javascript:void(0)" data-addr-id="' + item.id + '"> Delete </a>' +
+              '<span>' + escape(item.address) + '</span>' +
             '</div>' +
             '<div>' +
-              '<span>' + escape(item.address) + '</span>' +
+              '<span class="lead">' + escape(item.label) + '</span>' +
+              '<a class="destroy-withdraw-address pull-right" href="javascript:void(0)" data-addr-id="' + item.id + '"> Delete </a>' +
             '</div></div>';
         }
       },
+      onType: function(){},
       load: function(query, callback) {
         if(!callback){
           callback = query;
