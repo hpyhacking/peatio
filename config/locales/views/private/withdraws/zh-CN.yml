@@ -11,6 +11,7 @@ zh-CN:
         sum: '数量'
         label: '备注'
         save_address: '保存?'
+        placeholder: '使用保存的地址或者输入新地址'
       cny:
         balance: '可用人民币余额: ฿%{balance}'
         title: '人民币提现'
@@ -18,3 +19,6 @@ zh-CN:
         sum: '提取金额'
         label: '开户行'
         save_address: '保存?'
+        placeholder: '使用保存的帐号或者输入新帐号'
+        user_name: '户名'
+        hint: '不能修改'
