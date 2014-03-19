@@ -7,11 +7,11 @@ class PrivateWithdrawsGrid
     Withdraw.where.not(aasm_state: :submitting).order('id desc')
   end
 
-  self.default_column_options = { :order => false } 
+  self.default_column_options = { :order => false }
 
   column :created_at
-  column :sum
-  column :address
+  column(:sum) {|withdraw| "#{withdraw.currency_symbol}#{withdraw.sum}"}
+  column(:address) {|withdraw| "#{withdraw.address} (#{withdraw.address_label})" }
   column :position_in_queue do |o|
     o.position_in_queue if o.position_in_queue > 0
   end

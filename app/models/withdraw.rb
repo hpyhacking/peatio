@@ -58,6 +58,14 @@ class Withdraw < ActiveRecord::Base
     _old_state || Enumerize::Value.new(Withdraw.state, aasm_state)
   end
 
+  def currency_symbol
+    case address_type
+    when 'btc' then 'B⃦'
+    when 'cny' then '¥'
+    else ''
+    end
+  end
+
   def coin?
     address_type.try(:btc?)
   end

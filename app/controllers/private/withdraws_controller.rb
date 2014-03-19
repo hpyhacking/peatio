@@ -38,8 +38,11 @@ module Private
 
     private
     def load_history(currency)
+      page = params[:page] || 0
+      per = params[:per] || 2
+
       @withdraws_grid = PrivateWithdrawsGrid.new(params[:withdraws_grid]) do |scope|
-        scope.with_currency(currency).where(member: current_user).first(10)
+        scope.with_currency(currency).where(member: current_user).page(page).per(per)
       end
     end
 
