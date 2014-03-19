@@ -22,13 +22,17 @@ $(function(){
 
   $('select#withdraw_address').selectize({
     plugins: ['option_destroy'],
-    preload: 'focus',
-    persist: false,
+    preload: true,
     createOnBlur: true,
     valueField: 'address',
     labelField: 'label',
     searchField: ['label', 'address'],
-    create: true,
+    create: function(input){
+      return {
+        address: input,
+        label: 'label'
+      }
+    },
     render: {
       option: function(item, escape) {
         return '<div><div>' +
@@ -40,7 +44,6 @@ $(function(){
           '</div></div>';
       }
     },
-    onType: function(){},
     load: function(query, callback) {
       var self = this;
       if(!callback){
