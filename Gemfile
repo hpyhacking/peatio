@@ -48,6 +48,7 @@ gem 'active_hash'
 gem 'pusher'
 gem 'http_accept_language'
 gem "globalize", "~> 4.0.0"
+gem 'liability-proof'
 
 group :development, :test do
   gem 'factory_girl_rails'
