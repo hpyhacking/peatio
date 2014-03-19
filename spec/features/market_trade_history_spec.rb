@@ -20,10 +20,9 @@ feature 'show account info', js: true do
     click_on I18n.t('private.markets.show.bid_panel', currency: ask_name)
     expect(page.find('.orders-wait')).to have_content(I18n.t('actions.cancel'))
 
-    expect do
-      click_on I18n.t('actions.cancel')
-      sleep 0.5
-    end.to change {bid_order.reload.state}.from('wait').to('cancel')
+    Resque.expects(:enqueue).with(Job::Matching, 'cancel', bid_order.to_matching_attributes)
+    click_on I18n.t('actions.cancel')
+    sleep 0.5
   end
 
   scenario 'user can not view other orders' do
