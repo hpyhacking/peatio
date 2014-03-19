@@ -39,7 +39,7 @@ module Private
     private
     def load_history(currency)
       @withdraws_grid = PrivateWithdrawsGrid.new(params[:withdraws_grid]) do |scope|
-        scope.with_currency(currency).where(:member_id => current_user.id).first(10)
+        scope.with_currency(currency).where(member: current_user).first(10)
       end
     end
 

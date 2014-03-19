@@ -46,8 +46,8 @@ zh-CN:
         processing: 处理中
         coin_ready: 准备中
         coin_done: 完毕
-        done: 成功
-        canceled: 撤销
+        done: 提现成功
+        canceled: 已取消
     withdraw_address:
       category:
         satoshi: 比特币 - 网络转账

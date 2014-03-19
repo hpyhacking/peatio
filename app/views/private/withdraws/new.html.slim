@@ -22,7 +22,6 @@ javascript:
               url: '/withdraw_addresses/' + $target.data('addr-id'),
               type: 'DELETE'
               }).done(function(){
-                self.clearOptions();
                 self.load(self.settings.load);
                 self.open();
               });
@@ -38,8 +37,8 @@ javascript:
       preload: 'focus',
       persist: false,
       createOnBlur: true,
-      valueField: 'label',
-      labelField: 'address',
+      valueField: 'address',
+      labelField: 'label',
       searchField: ['label', 'address'],
       create: true,
       render: {
@@ -55,6 +54,7 @@ javascript:
       },
       onType: function(){},
       load: function(query, callback) {
+        var self = this;
         if(!callback){
           callback = query;
           query = '';
@@ -66,12 +66,14 @@ javascript:
             callback();
           },
           success: function(res) {
+            self.clearOptions();
             callback(res);
           }
         });
       },
-      onItemAdd: function(label, $item) {
-        $('form input#withdraw_address_label').val(label);
+      onItemAdd: function(value, $item) {
+        $('form input#withdraw_address_label').val($item.text());
+        $item.text(value);
       }
     });
   });

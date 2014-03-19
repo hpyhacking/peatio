@@ -4,7 +4,7 @@ class PrivateWithdrawsGrid
   include Datagrid::ColumnI18n
 
   scope do
-    Withdraw.order('id desc')
+    Withdraw.where.not(aasm_state: :submitting).order('id desc')
   end
 
   self.default_column_options = { :order => false } 
@@ -12,11 +12,14 @@ class PrivateWithdrawsGrid
   column :created_at
   column :sum
   column :address
-  column :state_text
   column :position_in_queue do |o|
     o.position_in_queue if o.position_in_queue > 0
   end
-  column :actions, html: true, header: '' do |o|
-    link_to I18n.t('actions.view'), edit_withdraw_path(o)
+  column :actions, html: true, header: '' do |withdraw|
+    if withdraw.cancelable?
+      link_to I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete
+    else
+      withdraw.state_text
+    end
   end
 end

@@ -10,8 +10,14 @@ describe 'withdraw' do
 
   before do
     Withdraw.any_instance.stubs(:examine).returns(true)
-    account = member.get_account(:btc)
-    account.update_attributes balance: 1000
+    btc_account = member.get_account(:btc)
+    btc_account.update_attributes balance: 1000
+    cny_account = member.get_account(:cny)
+    cny_account.update_attributes balance: 100000
+
+    @label = 'command address'
+    @btc_addr = create :btc_withdraw_address, account: btc_account, label: @label
+    @cny_addr = create :cny_withdraw_address, account: cny_account, label: @label
   end
 
   it 'allows user to add a BTC withdraw address, withdraw BTC' do
@@ -73,9 +79,8 @@ describe 'withdraw' do
     expect(current_path).to eq(new_withdraw_path)
 
     within('tbody tr:last-of-type') do
-      click_link t('actions.view')
+      click_link t('actions.cancel')
     end
-    click_on t('actions.cancel')
     expect(current_path).to eq(new_withdraw_path)
 
     expect(page).to have_text("1100.0")
@@ -85,7 +90,7 @@ describe 'withdraw' do
   private
 
   def submit_withdraw_request amount
-    fill_in 'withdraw_address', with: '1bitcoinaddress'
+    select @label, from: 'withdraw_address'
     fill_in 'withdraw_address_label', with: 'withdraw address'
     fill_in 'withdraw_sum', with: amount
     click_on I18n.t 'helpers.submit.withdraw.new'
