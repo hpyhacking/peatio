@@ -1,0 +1,27 @@
+= content_for :before do
+  = balance_panel
+
+= content_for :guide_title do
+  h3 = guide_title
+  - if @proof.ready?
+    p: .ready = t('.solvency_proof_ready')
+
+= content_for :guide do
+  p = link_to t('.merkle_approach'), '#'
+
+.tabbable
+  ul.nav.nav-tabs
+    li.active: a.btc-proof href="#btc-proof" data-toggle="tab" == "BTC"
+    li:        a.cny-proof href="#cny-proof" data-toggle="tab" == "CNY"
+
+  .tab-content
+
+    #btc-proof.tab-pane.active: .trade-wrapper
+      .proof
+        h4 = t('.asset-proof')
+      = render 'liability_proof', account: @btc_account, proof: @proof
+
+    #cny-proof.tab-pane:        .trade-wrapper
+      .proof
+        h4 = t('.asset-proof')
+      = render 'liability_proof', account: @cny_account, proof: @proof

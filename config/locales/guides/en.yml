@@ -4,6 +4,10 @@ en:
       balance: Account  
 
     private:
+      assets:
+        panel: Proof of Solvency
+        index:
+          intro: Our bank and btc accounts are public so you know how many assets we hold. We provides proof of liability so you know how many liabilities we have. Your money is safe because our assets > our liabilities.
       settings:
         panel: My Account 
         index:

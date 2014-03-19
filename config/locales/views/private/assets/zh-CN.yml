@@ -1,0 +1,14 @@
+zh-CN:
+  private:
+    assets:
+      index:
+        solvency_proof_ready: 偿付能力可验证
+        merkle_approach: 了解更多偿付能力验证技术。
+        asset-proof: 交易所资产信息
+      liability_proof:
+        liability-proof: 用户存款信息
+        liability-proof-generating: 用户存款信息正在生成中，请30分钟后再来。
+        partial-tree: Partial Tree
+        root-json: Expected Root
+        how-to-verify: 将我们提供的JSON数据拷贝复制到第三方在线验证工具<a href='http://syskall.com/blind-liability-proof/#verify'>Blind Liability Proof Tools</a>上，点击"VERIFY"按钮即可查看验证结果。
+
