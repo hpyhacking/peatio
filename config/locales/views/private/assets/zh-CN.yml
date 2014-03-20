@@ -3,7 +3,10 @@ zh-CN:
     assets:
       index:
         merkle_approach: 了解更多偿付能力验证技术
+      btc_assets:
         asset-proof: 交易所资产信息
+        asset-proof-desc-btc: '我们拥有以下地址:'
+        checking-amount: 查询余额中...
       liability_proof:
         liability-proof: 用户存款信息
         liability-proof-ready: 偿付能力可验证

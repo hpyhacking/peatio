@@ -15,8 +15,7 @@
   .tab-content
 
     #btc-proof.tab-pane.active: .trade-wrapper
-      .proof
-        h4 = t('.asset-proof')
+      = render 'btc_assets', addresses: @btc_addresses
       = render 'liability_proof', account: @btc_account, proof: @btc_proof
 
     #cny-proof.tab-pane:        .trade-wrapper

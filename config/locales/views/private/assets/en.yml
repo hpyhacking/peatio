@@ -3,7 +3,10 @@ en:
     assets:
       index:
         merkle_approach: Learn more about how the proof-of-liability works
+      btc_assets:
         asset-proof: Assets
+        asset-proof-desc-btc: 'We hold below addresses:'
+        checking-amount: Checking amount ...
       liability_proof:
         liability-proof: Liability
         liability-proof-ready: Liability Proof Ready

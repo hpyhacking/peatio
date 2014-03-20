@@ -1,0 +1,8 @@
+.proof
+  h4 = t('.asset-proof')
+  p = t(".asset-proof-desc-btc")
+  table.addresses
+    - addresses.each do |(addr, amount)|
+      tr
+        td.addr = link_to addr, btc_block_url(addr)
+        td.amount = amount
