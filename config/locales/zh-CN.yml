@@ -21,14 +21,6 @@ zh-CN:
       short: '%m-%d %H:%M'
       default: '%Y-%m-%d %H:%M'
 
-  token_mailer:
-    reset_password:
-      subject: '[Peatio] 请重置您的密码'
-    reset_two_factor:
-      subject: '[Peatio] 请重置您的两步验证'
-    activation:
-      subject: '[Peatio] 帐号激活'
-
   currency:
     name:
       cny: 人民币

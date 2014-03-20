@@ -1,19 +1,17 @@
 module Job
   class Examine
     @queue = :examine
-    
+
     def self.perform(withdraw_id)
-      withdraw = Withdraw.find(withdraw_id)
-      return unless withdraw.state.wait?
-      
-      ActiveRecord::Base.transaction do
-        withdraw = Withdraw.find(withdraw_id).lock!
-        return unless withdraw.state.wait?
+      Withdraw.transaction do
+        withdraw = Withdraw.lock.find(withdraw_id)
+
+        return unless withdraw.submitted?
 
         if withdraw.account.examine
-          withdraw.update_attribute(:state, :examined)
+          withdraw.accept!
         else
-          withdraw.update_attribute(:state, :examined_warning)
+          withdraw.mark_suspect!
         end
       end
     end

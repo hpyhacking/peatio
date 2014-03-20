@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306021833) do
+ActiveRecord::Schema.define(version: 20140312071704) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -178,6 +178,20 @@ ActiveRecord::Schema.define(version: 20140306021833) do
     t.integer  "currency"
   end
 
+  create_table "peatio_online_deposit_orders", force: true do |t|
+    t.string   "sn"
+    t.decimal  "amount",     precision: 32, scale: 16
+    t.decimal  "fee",        precision: 32, scale: 16
+    t.integer  "member_id"
+    t.string   "channel"
+    t.integer  "state"
+    t.string   "type"
+    t.text     "details"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "done_at"
+  end
+
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
@@ -252,6 +266,8 @@ ActiveRecord::Schema.define(version: 20140306021833) do
     t.datetime "updated_at"
     t.datetime "done_at"
     t.string   "tx_id"
+    t.string   "aasm_state"
+    t.decimal  "sum",           precision: 32, scale: 16
   end
 
 end

@@ -7,14 +7,14 @@ describe 'withdraw' do
   let!(:identity) { create :identity, email: Member.admins.first }
 
   let!(:account) do
-    member.get_account(:btc).tap { |a| a.update_attributes locked: 100, balance: 100 }
+    member.get_account(:cny).tap { |a| a.update_attributes locked: 8000, balance: 10000 }
   end
+
+  let!(:withdraw) { create :bank_withdraw, member: member, sum: 5000, aasm_state: :accepted, account: account}
 
   before do
     Withdraw.any_instance.stubs(:validate_password).returns(true)
   end
-
-  let!(:withdraw) { create :withdraw, member: member, state: :examined, account: account}
 
   def visit_admin_withdraw_page
     login identity
@@ -47,9 +47,14 @@ describe 'withdraw' do
     click_on I18n.t('actions.transact')
 
     expect(current_path).to eq(admin_withdraws_path)
-    expect(account.reload.locked).to be_d '90'
 
-    expect(account.reload.balance).to be_d '100'
+    click_on I18n.t('actions.view')
+    click_on I18n.t('actions.transact')
+
+    expect(current_path).to eq(admin_withdraws_path)
+
+    expect(account.reload.locked).to be_d '3000'
+    expect(account.reload.balance).to be_d '10000'
   end
 
   it 'admin reject withdraw' do
@@ -59,7 +64,7 @@ describe 'withdraw' do
     click_on I18n.t('actions.reject')
 
     expect(current_path).to eq(admin_withdraws_path)
-    expect(account.reload.locked).to be_d '90'
-    expect(account.reload.balance).to be_d '110.0000'
+    expect(account.reload.locked).to be_d '3000'
+    expect(account.reload.balance).to be_d '15000.0000'
   end
 end

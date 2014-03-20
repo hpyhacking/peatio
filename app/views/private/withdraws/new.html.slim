@@ -1,13 +1,13 @@
-= simple_form_for @withdraw do |f|
-  = f.input :withdraw_address_id, collection: @withdraw_addresses, label_method: 'to_s', prompt: t('actions.select')
-  = f.input :sum, as: :decimal, input_html: {min: 0}
-  hr.split
-  = f.button :wrapped, t('helpers.submit.withdraw.new'), cancel: market_path(latest_market)
+= render partial: @withdraw.currency
 
 = content_for :guide do
-  = link_to t('helpers.submit.withdraw_address.create'), withdraw_addresses_path
+  ul
+    li = link_to t('.withdraw_btc'), new_withdraw_path
+    li = link_to t('.withdraw_cny'), new_withdraw_path(currency: 'cny')
 
-= content_for :after do
-  = balance_panel
+= content_for :after
   = panel do
     = datagrid_table(@withdraws_grid)
+
+= content_for :scripts
+  = javascript_include_tag :withdraw_selectize

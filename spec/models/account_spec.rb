@@ -63,7 +63,7 @@ describe Account do
   describe "double operation" do
     let(:strike_volume) { "10.0".to_d }
     let(:account) { create(:account) }
-    
+
     it "expect double operation funds" do
       expect do
         account.plus_funds(strike_volume, reason: Account::STRIKE_ADD)
@@ -81,7 +81,7 @@ describe Account do
 
   describe "#versions" do
     let(:account) { create(:account) }
-    
+
     context 'when account add funds' do
       subject { account.plus_funds("10".to_d, reason: Account::WITHDRAW).last_version }
 
@@ -166,28 +166,42 @@ describe Account do
 
   describe "#examine" do
     let(:account) { create(:account, locked: "0.0".to_d, balance: "0.0") }
-    before do
-      account.plus_funds("100.0".to_d)
-      account.sub_funds("1.0".to_d)
-      account.plus_funds("12.0".to_d)
-      account.lock_funds("12.0".to_d)
-      account.unlock_funds("1.0".to_d)
-      account.lock_funds("1.0".to_d)
-      account.lock_funds("1.0".to_d)
+
+    context "account without any account versions" do
+      it "returns true" do
+        expect(account.examine).to be_true
+      end
+
+      it "returns false when account changed without versions" do
+        account.update_attribute(:balance, 5000.to_d)
+        expect(account.examine).to be_false
+      end
     end
 
-    it "should be examine success" do
-      expect(account.examine).to be_true
-    end
+    context "account with account versions" do
+      before do
+        account.plus_funds("100.0".to_d)
+        account.sub_funds("1.0".to_d)
+        account.plus_funds("12.0".to_d)
+        account.lock_funds("12.0".to_d)
+        account.unlock_funds("1.0".to_d)
+        account.lock_funds("1.0".to_d)
+        account.lock_funds("1.0".to_d)
+      end
 
-    it "should be examine error whit hack account" do
-      account.update_attribute(:balance, 5000.to_d)
-      expect(account.examine).to be_false
-    end
+      it "returns true" do
+        expect(account.examine).to be_true
+      end
 
-    it "should be examine error whit hack account version" do
-      account.versions.load.sample.update_attribute(:amount, 50.to_d)
-      expect(account.examine).to be_false
+      it "returns false when account balance doesn't match versions" do
+        account.update_attribute(:balance, 5000.to_d)
+        expect(account.examine).to be_false
+      end
+
+      it "returns false when account versions were changed" do
+        account.versions.load.sample.update_attribute(:amount, 50.to_d)
+        expect(account.examine).to be_false
+      end
     end
   end
 end
