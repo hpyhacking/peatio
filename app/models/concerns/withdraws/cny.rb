@@ -1,9 +1,9 @@
 module Concerns
   module Withdraws
-    module Bank
+    module CNY
       extend ActiveSupport::Concern
 
-      def _fix_bank_fee
+      def _fix_cny_fee
         fix = 2
         self.sum = self.sum.round(fix, 2)
         self.fee = self.sum * '0.003'.to_d

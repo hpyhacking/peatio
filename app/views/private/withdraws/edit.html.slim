@@ -24,6 +24,3 @@
     - if @withdraw.cancelable?
       = link_to t('actions.cancel'), withdraw_path(@withdraw), method: :DELETE, class: 'btn btn-default btn-lg pull-right'
     = link_to t('actions.back'), new_withdraw_path, class: 'btn btn-default btn-lg pull-right'
-
-= content_for :after do
-  = balance_panel

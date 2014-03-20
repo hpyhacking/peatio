@@ -1,0 +1,12 @@
+en:
+  private:
+    withdraws:
+      new:
+        withdraw_btc: 'Withdraw BTC'
+        withdraw_cny: 'Withdraw CNY'
+      btc:
+        balance: 'Available BTC: ฿%{balance}'
+        title: 'Withdraw BTC'
+      cny:
+        balance: 'Available CNY: ¥%{balance}'
+        title: 'Withdraw CNY'

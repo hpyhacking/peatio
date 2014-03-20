@@ -3,28 +3,23 @@ class PrivateWithdrawsGrid
   include Datagrid::Naming
   include Datagrid::ColumnI18n
 
-  scope do |m|
-    Withdraw.not_completed.
-      order('created_at asc, state desc')
+  scope do
+    Withdraw.where.not(aasm_state: :submitting).order('id desc')
   end
 
-  self.default_column_options = { :order => false } 
+  self.default_column_options = { :order => false }
 
-  column :sn
-  column :name do |o|
-    o.member.name
-  end
-  column :currency_text
-  column :address_type_text
-  column :address_label
-  column :amount
-  column :fee
   column :created_at
-  column :state_text
+  column(:sum) {|withdraw| "#{withdraw.currency_symbol}#{withdraw.sum}"}
+  column(:address) {|withdraw| "#{withdraw.address} (#{withdraw.address_label})" }
   column :position_in_queue do |o|
     o.position_in_queue if o.position_in_queue > 0
   end
-  column :actions, html: true, header: '' do |o|
-    link_to I18n.t('actions.view'), edit_withdraw_path(o)
+  column :actions, html: true, header: '' do |withdraw|
+    if withdraw.cancelable?
+      link_to I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete
+    else
+      withdraw.state_text
+    end
   end
 end

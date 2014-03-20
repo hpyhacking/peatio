@@ -39,6 +39,7 @@
 //= require pusher.min
 //= require i18n
 //= require i18n/translations
+//= require selectize
 
 //= require_tree ./component_data
 //= require_tree ./component_ui

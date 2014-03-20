@@ -1,8 +1,8 @@
 class Withdraw < ActiveRecord::Base
   include AASM
   include AASM::Locking
-  include Concerns::Withdraws::Bank
-  include Concerns::Withdraws::Satoshi
+  include Concerns::Withdraws::BTC
+  include Concerns::Withdraws::CNY
 
   STATES = {
     submitting: 10,
@@ -22,15 +22,16 @@ class Withdraw < ActiveRecord::Base
 
   extend Enumerize
   enumerize :state, in: STATES, scope: true
-  enumerize :address_type, in: WithdrawChannel.enumerize
+  enumerize :address_type, in: WithdrawChannel.enumerize(:currency)
   enumerize :currency, in: Currency.codes, scope: true
 
   belongs_to :member
   belongs_to :account
   has_many :account_versions, :as => :modifiable
-  attr_accessor :withdraw_address_id
+  attr_accessor :withdraw_address_id, :save_address
 
-  before_validation :populate_fields_from_address, :fix_fee
+  before_validation :fix_fee
+  after_create :create_withdraw_address, if: :save_address?
   after_create :generate_sn
   after_update :bust_last_done_cache, if: :state_changed_to_done
 
@@ -57,8 +58,16 @@ class Withdraw < ActiveRecord::Base
     _old_state || Enumerize::Value.new(Withdraw.state, aasm_state)
   end
 
+  def currency_symbol
+    case address_type
+    when 'btc' then 'B⃦'
+    when 'cny' then '¥'
+    else ''
+    end
+  end
+
   def coin?
-    address_type.try(:satoshi?) or address_type.try(:protoshares?)
+    address_type.try(:btc?)
   end
 
   def fiat?
@@ -193,20 +202,6 @@ class Withdraw < ActiveRecord::Base
     end
   end
 
-  def populate_fields_from_address
-    withdraw_address = WithdrawAddress.where(id: withdraw_address_id).first
-    return if withdraw_address.nil?
-
-    account = withdraw_address.account
-    return if account.nil?
-
-    self.account_id = account.id
-    self.currency = account.currency
-    self.address = withdraw_address.address
-    self.address_type = withdraw_address.category
-    self.address_label = withdraw_address.label
-  end
-
   def fix_fee
     if self.respond_to? valid_method = "_valid_#{self.address_type}_sum"
       error = self.instance_eval(valid_method)
@@ -230,5 +225,11 @@ class Withdraw < ActiveRecord::Base
     Rails.cache.delete(last_completed_withdraw_cache_key)
   end
 
+  def save_address?
+    @save_address == '1'
+  end
 
+  def create_withdraw_address
+    WithdrawAddress.create address: address, category: address_type, account: account, label: address_label, is_locked: false
+  end
 end

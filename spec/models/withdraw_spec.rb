@@ -13,7 +13,7 @@ describe Withdraw do
     end
 
     it "bank is have compute" do
-      withdraw = build(:withdraw, address_type: :bank, sum: '1000'.to_d)
+      withdraw = build(:withdraw, address_type: :cny, sum: '1000'.to_d)
       withdraw.valid?
 
       expect(withdraw.fee).to be_d '3'
@@ -21,7 +21,7 @@ describe Withdraw do
     end
 
     it "bank is have compute with fix" do
-      withdraw = build(:withdraw, address_type: :bank, sum: '1235.232323123'.to_d)
+      withdraw = build(:withdraw, address_type: :cny, sum: '1235.232323123'.to_d)
       withdraw.valid?
 
       expect(withdraw.fee).to be_d '3.70'
