@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140319022302) do
+ActiveRecord::Schema.define(version: 20140320142701) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -36,13 +36,12 @@ ActiveRecord::Schema.define(version: 20140319022302) do
   create_table "accounts", force: true do |t|
     t.integer  "member_id"
     t.integer  "currency"
-    t.decimal  "balance",      precision: 32, scale: 16
-    t.decimal  "locked",       precision: 32, scale: 16
+    t.decimal  "balance",    precision: 32, scale: 16
+    t.decimal  "locked",     precision: 32, scale: 16
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "in",           precision: 32, scale: 16
-    t.decimal  "out",          precision: 32, scale: 16
-    t.text     "partial_tree"
+    t.decimal  "in",         precision: 32, scale: 16
+    t.decimal  "out",        precision: 32, scale: 16
   end
 
   create_table "authentications", force: true do |t|
@@ -179,12 +178,18 @@ ActiveRecord::Schema.define(version: 20140319022302) do
     t.integer  "currency"
   end
 
-  create_table "proofs", force: true do |t|
-    t.string   "root"
-    t.integer  "currency"
-    t.boolean  "ready",      default: false
+  create_table "peatio_online_deposit_orders", force: true do |t|
+    t.string   "sn"
+    t.decimal  "amount",     precision: 32, scale: 16
+    t.decimal  "fee",        precision: 32, scale: 16
+    t.integer  "member_id"
+    t.string   "channel"
+    t.integer  "state"
+    t.string   "type"
+    t.text     "details"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "done_at"
   end
 
   create_table "taggings", force: true do |t|
@@ -234,6 +239,17 @@ ActiveRecord::Schema.define(version: 20140319022302) do
     t.datetime "last_verify_at"
     t.boolean  "activated"
   end
+
+  create_table "versions", force: true do |t|
+    t.string   "item_type",  null: false
+    t.integer  "item_id",    null: false
+    t.string   "event",      null: false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   create_table "withdraw_addresses", force: true do |t|
     t.string   "label"

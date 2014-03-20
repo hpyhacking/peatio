@@ -4,6 +4,8 @@ class Withdraw < ActiveRecord::Base
   include Concerns::Withdraws::BTC
   include Concerns::Withdraws::CNY
 
+  has_paper_trail on: [:update, :destroy]
+
   STATES = {
     submitting: 10,
     submitted: 100,

@@ -8,7 +8,9 @@ module Job
 
         return unless withdraw.processing?
 
-        withdraw.call_rpc!
+        withdraw.whodunnit('resque') do
+          withdraw.call_rpc!
+        end
       end
 
       Withdraw.transaction do
@@ -22,8 +24,10 @@ module Job
         CoinRPC[withdraw.currency].settxfee 0.0005
         tx_id = CoinRPC[withdraw.currency].sendtoaddress withdraw.address, withdraw.amount.to_f
 
-        withdraw.update_column :tx_id, tx_id
-        withdraw.succeed!
+        withdraw.whodunnit('resque') do
+          withdraw.update_column :tx_id, tx_id
+          withdraw.succeed!
+        end
       end
     end
   end
