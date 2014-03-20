@@ -74,7 +74,7 @@ Peatio::Application.routes.draw do
     post '/pusher/auth', to: 'pusher#auth'
   end
 
-  constraints(WhitelistConstraint.new(eval Figaro.env.api_whitelist)) do
+  constraints(WhitelistConstraint.new(JSON.parse(Figaro.env.try(:api_whitelist) || '[]'))) do
     namespace :api, defaults: {format: 'json'}, :constraints => MarketConstraint do
       scope module: :v1 do
         resources :deeps, :only => :show
