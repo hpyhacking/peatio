@@ -2,11 +2,11 @@ zh-CN:
   private:
     assets:
       index:
-        solvency_proof_ready: 偿付能力可验证
-        merkle_approach: 了解更多偿付能力验证技术。
+        merkle_approach: 了解更多偿付能力验证技术
         asset-proof: 交易所资产信息
       liability_proof:
         liability-proof: 用户存款信息
+        liability-proof-ready: 偿付能力可验证
         liability-proof-generating: 用户存款信息正在生成中，请30分钟后再来。
         partial-tree: Partial Tree
         root-json: Expected Root

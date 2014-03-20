@@ -2,13 +2,13 @@ en:
   private:
     assets:
       index:
-        solvency_proof_ready: Solvency Proof Ready
-        merkle_approach: Learn more about how the proof-of-liability works.
+        merkle_approach: Learn more about how the proof-of-liability works
         asset-proof: Assets
       liability_proof:
         liability-proof: Liability
+        liability-proof-ready: Liability Proof Ready
         liability-proof-generating: We're generating the latest liability proof, please come back after 30 minutes.
         partial-tree: Partial Tree
         root-json: Expected Root
-        how-to-verify: To verify your deposits are included in our liability, copy and paste the json data below to <a href='http://syskall.com/blind-liability-proof/#verify'>Blind Liability Proof Tools</a> and click 'VERIFY'
+        how-to-verify: To verify your deposits are included in our liability, copy and paste the json data below to <a target='_blank' href='http://syskall.com/blind-liability-proof/#verify'>Blind Liability Proof Tools</a> and click 'VERIFY'
 

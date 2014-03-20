@@ -1,6 +1,9 @@
 .proof
-  h4 = t('.liability-proof')
-  - if proof.ready? && account.partial_tree.present?
+  h4
+    = t('.liability-proof')
+    | &nbsp;&nbsp;
+    .ready = t('.liability-proof-ready')
+  - if proof.try(:ready?) && account.partial_tree.present?
     p == t('.how-to-verify')
     p = t('.root-json')
     p: textarea rows=3 cols=60 readonly=true = proof.root.to_json

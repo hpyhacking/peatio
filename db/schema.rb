@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(version: 20140319022302) do
 
   create_table "proofs", force: true do |t|
     t.string   "root"
+    t.integer  "currency"
     t.boolean  "ready",      default: false
     t.datetime "created_at"
     t.datetime "updated_at"
