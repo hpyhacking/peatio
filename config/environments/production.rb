@@ -53,6 +53,7 @@ Peatio::Application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :memory_store
+  config.cache_store = :redis_store, { expires_in: 90.minutes }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
