@@ -1,0 +1,13 @@
+.proof
+  h4
+    = t('.liability-proof')
+    | &nbsp;&nbsp;
+    .ready = t('.liability-proof-ready')
+  - if proof.try(:ready?) && account.partial_tree.present?
+    p == t('.how-to-verify')
+    p = t('.root-json')
+    p: textarea rows=3 cols=60 readonly=true = proof.root.to_json
+    p = t('.partial-tree')
+    p: textarea rows=9 cols=60 readonly=true = account.partial_tree.to_json
+  - else
+    p = t('.liability-proof-generating')

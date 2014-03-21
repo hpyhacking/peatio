@@ -2,17 +2,17 @@ en:
   private:
     assets:
       index:
-        liability-proof: Proof of Liability
-        liability-proof-intro: Our bank and btc accounts are public so you know how many assets we hold. We provides proof of liability so you know how many liabilities we have. Your money is safe because our assets > our liabilities.
         merkle_approach: Learn more about how the proof-of-liability works
       btc_assets:
         asset-proof: Assets
         asset-proof-desc-btc: 'We hold below addresses:'
         checking-amount: Checking amount ...
       liability_proof:
-        liability-proof: Liability
-        liability-proof-ready: Liability Proof Ready
+        liability-proof: Proof of Liability
+        liability-proof-intro: Our bank and btc accounts are public so you know how many assets we hold. We provides proof of liability so you know how many liabilities we have. Your money is safe because our assets > our liabilities.
         liability-proof-generating: We're generating the latest liability proof, please come back after 30 minutes.
+        verify-btc: Verify My BTC Assets
+        verify-cny: Verify My CNY Assets
         partial-tree: Partial Tree
         root-json: Expected Root
         how-to-verify: To verify your deposits are included in our liability, copy and paste the json data below to <a target='_blank' href='http://syskall.com/blind-liability-proof/#verify'>Blind Liability Proof Tools</a> and click 'VERIFY'

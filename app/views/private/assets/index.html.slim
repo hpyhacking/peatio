@@ -12,27 +12,4 @@
     div.nav
       | hello world
 
-    .panel.panel-default
-      .panel-heading
-        h2.panel-title = t('.liability-proof')
-      .panel-body
-        .row.col-wrap
-          #guide.col-md-4
-            h3 = t('.liability-proof')
-            p.text-ignore = t('.liability-proof-intro')
-          #content.col-md-8.col
-            .tabbable
-              ul.nav.nav-tabs
-                li.active: a.btc-proof href="#btc-proof" data-toggle="tab" == "BTC"
-                li:        a.cny-proof href="#cny-proof" data-toggle="tab" == "CNY"
-
-              .tab-content
-
-                #btc-proof.tab-pane.active: .trade-wrapper
-                  = render 'btc_assets', addresses: @btc_addresses
-                  = render 'liability_proof', account: @btc_account, proof: @btc_proof
-
-                #cny-proof.tab-pane:        .trade-wrapper
-                  .proof
-                    h4 = t('.asset-proof')
-                  = render 'liability_proof', account: @cny_account, proof: @cny_proof
+    = render 'liability_proof'

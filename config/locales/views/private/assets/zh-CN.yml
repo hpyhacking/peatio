@@ -2,17 +2,17 @@ zh-CN:
   private:
     assets:
       index:
-        liability-proof: 资产证明
-        liability-proof-intro: 我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。
         merkle_approach: 了解更多偿付能力验证技术
       btc_assets:
         asset-proof: 交易所资产信息
         asset-proof-desc-btc: '我们拥有以下地址:'
         checking-amount: 查询余额中...
       liability_proof:
-        liability-proof: 用户存款信息
-        liability-proof-ready: 偿付能力可验证
+        liability-proof: 资产证明
+        liability-proof-intro: 我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。
         liability-proof-generating: 用户存款信息正在生成中，请30分钟后再来。
+        verify-btc: 验证我的BTC资产
+        verify-cny: 验证我的CNY资产
         partial-tree: Partial Tree
         root-json: Expected Root
         how-to-verify: 将我们提供的JSON数据拷贝复制到第三方在线验证工具<a href='http://syskall.com/blind-liability-proof/#verify'>Blind Liability Proof Tools</a>上，点击"VERIFY"按钮即可查看验证结果。
