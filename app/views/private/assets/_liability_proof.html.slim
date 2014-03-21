@@ -13,9 +13,12 @@
             li:        a.cny-proof href="#cny-proof" data-toggle="tab" == t('.verify-cny')
 
           .tab-content
-
             #btc-proof.tab-pane.active: .trade-wrapper
-              = render 'btc_assets', addresses: @btc_addresses
+              .assets-total
+                = t('.btc-assets-total')
+                span.currency
+                  == t("currency.icon.btc")
+                  = Currency.assets['btc']
               = render 'liability_data', account: @btc_account, proof: @btc_proof
 
             #cny-proof.tab-pane:        .trade-wrapper
