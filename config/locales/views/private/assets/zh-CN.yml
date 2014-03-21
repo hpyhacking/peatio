@@ -3,18 +3,20 @@ zh-CN:
     assets:
       index:
         merkle_approach: 了解更多偿付能力验证技术
-      liability_proof:
-        liability-proof: 资产证明
-        liability-proof-intro: 我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。
+      liability_tabs:
         verify-btc: 验证我的BTC资产
         verify-cny: 验证我的CNY资产
         btc-assets-total: 交易所BTC总资产：
         cny-assets-total: 交易所CNY总资产：
+      liability_proof:
+        liability-proof: 资产证明
+        liability-proof-intro: 我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。
         what-is-100-percent-reserve: 什么是100%准备金？
         how-to-verify: 如何验证交易所具备偿付能力？
+        go-verify: 去验证
       liability_data:
         liability-proof-generating: 用户资产证明正在生成中，请30分钟后再来。
         root-json: 交易所总资产验证代码
-        partial-tree: 我的貔貅资产
+        partial-tree: 我的%{currency}资产：
         get-partial-tree: 获取我的资产验证代码
         copy: 复制
