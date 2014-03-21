@@ -10,11 +10,13 @@ zh-CN:
       liability_proof:
         liability-proof: 资产证明
         liability-proof-intro: 我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。
-        liability-proof-generating: 用户存款信息正在生成中，请30分钟后再来。
         verify-btc: 验证我的BTC资产
         verify-cny: 验证我的CNY资产
         btc-assets-total: 交易所BTC总资产
-        partial-tree: Partial Tree
-        root-json: Expected Root
         how-to-verify: 将我们提供的JSON数据拷贝复制到第三方在线验证工具<a href='http://syskall.com/blind-liability-proof/#verify'>Blind Liability Proof Tools</a>上，点击"VERIFY"按钮即可查看验证结果。
-
+      liability_data:
+        liability-proof-generating: 用户资产证明正在生成中，请30分钟后再来。
+        root-json: 交易所总资产验证代码
+        partial-tree: 我的貔貅资产
+        get-partial-tree: 获取我的资产验证代码
+        copy: 复制
