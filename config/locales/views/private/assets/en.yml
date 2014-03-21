@@ -9,8 +9,8 @@ en:
         btc-assets-total: 'Total BTC assets of exchange: '
         cny-assets-total: 'Total CNY assets of exchange: '
       liability_proof:
-        liability-proof: Proof of Liability
-        liability-proof-intro: Our bank and btc accounts are public so you know how many assets we hold. We provides proof of liability so you know how many liabilities we have. Your money is safe because our assets > our liabilities.
+        title: Proof of Liability
+        intro: Our bank and btc accounts are public so you know how many assets we hold. We provides proof of liability so you know how many liabilities we have. Your money is safe because our assets > our liabilities.
         how-to-verify: To verify your deposits are included in our liability, copy and paste the json data below to <a target='_blank' href='http://syskall.com/blind-liability-proof/#verify'>Blind Liability Proof Tools</a> and click 'VERIFY'
         go-verify: Go Verify
       liability_data:
