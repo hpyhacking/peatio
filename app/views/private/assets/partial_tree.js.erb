@@ -1,0 +1,3 @@
+var scope = '#<%= @account.currency %>-proof .partial-tree';
+$(scope + ' pre').text('<%= @account.partial_tree.to_json.html_safe %>');
+$(scope + ' a').removeClass('disabled');

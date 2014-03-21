@@ -6,6 +6,10 @@
       #guide.col-md-4
         h3 = t('.liability-proof')
         p.text-ignore = t('.liability-proof-intro')
+        p
+          = link_to t('.what-is-100-percent-reserve'), '#'
+          br
+          = link_to t('.how-to-verify'), '#'
       #content.col-md-8.col
         .tabbable
           ul.nav.nav-tabs
@@ -22,6 +26,9 @@
               = render 'liability_data', account: @btc_account, proof: @btc_proof
 
             #cny-proof.tab-pane:        .trade-wrapper
-              .proof
-                h4 = t('.asset-proof')
+              .assets-total
+                = t('.cny-assets-total')
+                span.currency
+                  == t("currency.icon.cny")
+                  = Currency.assets['cny']
               = render 'liability_data', account: @cny_account, proof: @cny_proof

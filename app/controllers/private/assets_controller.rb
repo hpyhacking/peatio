@@ -11,5 +11,12 @@ module Private
       @cny_account = current_user.accounts.with_currency(:cny).first
     end
 
+    def partial_tree
+      @account = current_user.accounts.with_currency(params[:id]).first
+      respond_to do |format|
+        format.js
+      end
+    end
+
   end
 end
