@@ -3,15 +3,15 @@
     .root.json
       h5
         = t('.root-json')
-        a.copy.btn.btn-default.btn-xs.pull-right href='#' = t('.copy')
-      pre = proof.root.to_json
+        a.copy.btn.btn-default.btn-xs.pull-right href='#' data-clipboard-target='root_json' = t('.copy')
+      pre#root_json = proof.root.to_json
       .clearfix
     .partial-tree.json
       p
         = t('.partial-tree')
-        a.copy.btn.btn-default.btn-xs.disabled.pull-right href='#' = t('.copy')
+        a.copy.btn.btn-default.btn-xs.disabled.pull-right href='#' data-clipboard-target='partial_tree_json' = t('.copy')
         = link_to t('.get-partial-tree'), partial_tree_asset_path(proof.currency), :class => 'btn btn-default btn-xs pull-right', :remote => true
       .clearfix
-      pre
+      pre#partial_tree_json
   - else
     p = t('.liability-proof-generating')

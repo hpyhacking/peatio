@@ -1,3 +1,5 @@
-var scope = '#<%= @account.currency %>-proof .partial-tree';
-$(scope + ' pre').text('<%= @account.partial_tree.to_json.html_safe %>');
-$(scope + ' a').removeClass('disabled');
+var scope = '#<%= params[:id] %>-proof .partial-tree';
+$(scope + ' pre').text('<%= @json %>');
+
+copy_link = $(scope + ' a.copy');
+copy_link.removeClass('disabled');

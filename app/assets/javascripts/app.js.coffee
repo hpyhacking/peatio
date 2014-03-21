@@ -35,7 +35,7 @@ $ ->
   window.fixBid = (str) ->
     window.fix('bid', str)
 
-  $('[data-clipboard-text]').each ->
+  $('[data-clipboard-text], [data-clipboard-target]').each ->
     zero = new ZeroClipboard($(@))
 
     zero.on 'complete', ->
