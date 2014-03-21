@@ -4,9 +4,25 @@ en:
       new:
         withdraw_btc: 'Withdraw BTC'
         withdraw_cny: 'Withdraw CNY'
-      btc:
-        balance: 'Available BTC: ฿%{balance}'
-        title: 'Withdraw BTC'
-      cny:
-        balance: 'Available CNY: ¥%{balance}'
-        title: 'Withdraw CNY'
+        btc:
+          balance: 'Available BTC: ฿%{balance}'
+          title: 'Withdraw BTC'
+        cny:
+          balance: 'Available CNY: ¥%{balance}'
+          title: 'Withdraw CNY'
+      edit:
+        title: 'Confirm'
+        fee: 'Fee'
+        btc:
+          address: 'Address'
+          address_label: 'Label'
+          fee: 'Fee'
+          amount: 'Amount'
+          sum: 'Sum'
+        cny:
+          name: 'Name'
+          address: 'Account #'
+          address_label: 'Bank'
+          fee: 'Fee'
+          amount: 'Amount'
+          sum: 'Sum'

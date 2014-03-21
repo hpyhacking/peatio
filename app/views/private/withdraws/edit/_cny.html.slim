@@ -1,0 +1,41 @@
+= simple_form_for @withdraw do |f|
+  label.col-sm-4.control-label
+    abbr = t('.name')
+  p.col-sm-7.form-control-static
+    span = current_user.name
+
+  label.col-sm-4.control-label
+    abbr = t('.address')
+  p.col-sm-7.form-control-static
+    span = @withdraw.address
+
+  label.col-sm-4.control-label
+    abbr = t('.address_label')
+  p.col-sm-7.form-control-static
+    span = @withdraw.address_label
+
+  label.col-sm-4.control-label
+    abbr = t('.amount')
+  p.col-sm-7.form-control-static
+    span = @withdraw.currency_symbol
+    span = @withdraw.amount
+
+  label.col-sm-4.control-label
+    abbr = t('.fee')
+  p.col-sm-7.form-control-static
+    span = @withdraw.currency_symbol
+    span = @withdraw.fee
+
+  label.col-sm-4.control-label
+    abbr = t('.sum')
+  p.col-sm-7.form-control-static
+    span = @withdraw.currency_symbol
+    span = @withdraw.sum
+
+  hr.split
+  .form-group: .col-sm-11
+    - if @withdraw.submitting?
+      = link_to t('actions.confirm'), withdraw_path(@withdraw), method: :PATCH, class: 'btn btn-primary btn-lg pull-right'
+    - if @withdraw.cancelable?
+      = link_to t('actions.cancel'), withdraw_path(@withdraw), method: :DELETE, class: 'btn btn-default btn-lg pull-right'
+    = link_to t('actions.back'), new_withdraw_path, class: 'btn btn-default btn-lg pull-right'
