@@ -2,6 +2,8 @@ zh-CN:
   private:
     assets:
       index:
+        liability-proof: 资产证明
+        liability-proof-intro: 我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。
         merkle_approach: 了解更多偿付能力验证技术
       btc_assets:
         asset-proof: 交易所资产信息

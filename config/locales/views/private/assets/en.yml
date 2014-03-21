@@ -2,6 +2,8 @@ en:
   private:
     assets:
       index:
+        liability-proof: Proof of Liability
+        liability-proof-intro: Our bank and btc accounts are public so you know how many assets we hold. We provides proof of liability so you know how many liabilities we have. Your money is safe because our assets > our liabilities.
         merkle_approach: Learn more about how the proof-of-liability works
       btc_assets:
         asset-proof: Assets
