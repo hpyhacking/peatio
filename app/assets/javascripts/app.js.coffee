@@ -2,6 +2,11 @@ I18n.defaultLocale = 'en'
 I18n.locale = gon.local
 
 $ ->
+  if $('#assets-index').length
+    $.scrollIt
+      topOffset: -180
+      activeClass: 'active'
+
   $.fn.extend
     fixAsk: ->
       if $(@).text().length
@@ -84,3 +89,4 @@ $ ->
 
   $(".ask-panel, .bid-panel").click ->
     $(document).trigger('history::resize', gon.history_height)
+

@@ -28,6 +28,7 @@
 //= require bootstrap-datetimepicker
 //= require bootstrap-wysiwyg
 //
+//= require scrollIt
 //= require moment
 //= require numeral
 //= require bignumber

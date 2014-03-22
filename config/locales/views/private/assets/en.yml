@@ -2,6 +2,9 @@ en:
   private:
     assets:
       index:
+        liability-proof: Proof of Assets
+        btc-assets: BTC Assets
+        cny-assets: CNY Assets
         merkle_approach: Learn more about how the proof-of-liability works
       liability_tabs:
         verify-btc: Verify My BTC Assets

@@ -2,6 +2,9 @@ zh-CN:
   private:
     assets:
       index:
+        liability-proof: 资产证明
+        btc-assets: BTC资产清单
+        cny-assets: CNY资产清单
         merkle_approach: 了解更多偿付能力验证技术
       liability_tabs:
         verify-btc: 验证我的BTC资产
