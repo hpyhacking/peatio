@@ -95,6 +95,8 @@ class Member < ActiveRecord::Base
     Activation.create(member: self)
   end
 
+  alias :ac :get_account
+
   private
   def generate_sn
     self.sn and return

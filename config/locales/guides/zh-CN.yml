@@ -34,12 +34,17 @@ zh-CN:
       deposits:
         panel: 资金充值
 
-        coin:
-          title: 比特币充值
-          intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
-        bank:
-          title: 人民币充值
-          intro: 使用银行卡转账进行充值，推荐用户大额充值使用。
+        coins:
+          panel: 资金充值
+
+          show:
+            intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
+        banks:
+          panel: 人民币充值
+
+          new:
+            title: 人民币充值
+            intro: 使用银行卡转账进行充值，推荐用户大额充值使用。
 
         index:
           title: 账户充值

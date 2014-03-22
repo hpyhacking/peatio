@@ -1,24 +1,5 @@
 en:
   private:
     deposits:
-      bank:
-        step-1: Step One
-        select-bank: Large recharge can choose to transfer to our bank account, in order to quickly recharge your arrival, please try to select the same with our bank transfers recharge. You can choose to use the online bank transfer or transfer counter.
-        step-2: Step Two
-        send-money: No matter which way you choose to transfer, please fill in the remarks your personal identification number  , so that you can recharge quickly.
-        step-3: Step Three
-        check-confirm: Interbank transfer generally takes an hour or even longer time. If the delay exceeds your expectations, please contact our customer service staff timely.
-        bank: Bank
-        card: Card NO.
-        name: Account Name
-      coin:
-        step-1: Step one
-        open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
-        step-2: Step Two
-        send-coin: Fill in the collection address the following address which is specifically for your bitcoin deposits. Check the bitcoin amount you want to send,  and do not forget to pay a fee to the miner in order to ensure the transaction could be confirmed quickly.
-        or: You can also to
-        scan-qr: Scanning two-dimensional code to Pay for In the mobile terminal wallet.
-        step-3: Step Three
-        check-confirm: Send bitcoin to your Peatio account. When the transaction get  one confirmation by the whole network, the system will automatically recharge your account.(you do not need refresh this interface, transactions and recharge will be real-time updated).
       index:
         go: Deposits Now

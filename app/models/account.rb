@@ -29,6 +29,13 @@ class Account < ActiveRecord::Base
   has_many :payment_addresses
   has_many :versions, class_name: "::AccountVersion"
 
+  def payment_address
+    if self.payment_addresses.empty?
+      self.gen_payment_address 
+    end
+    self.payment_addresses.using
+  end
+
   def gen_payment_address
     address = CoinRPC[self.currency].getnewaddress("payment")
     self.payment_addresses.create(address: address, currency: self.currency)
@@ -147,6 +154,7 @@ class Account < ActiveRecord::Base
       json.(self, :balance, :locked, :currency)
     end
     self.member.trigger('account', json)
+
   end
 
   scope :locked_sum, -> (currency) { with_currency(currency).sum(:locked) }
