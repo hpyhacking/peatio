@@ -3,17 +3,17 @@ namespace :install do
 
   desc 'setup database'
   task :database do
-    username = var 'Database User'
-    password = var 'Database Password'
+    username = var 'username of database'
+    password = var 'password of database'
     config 'config/database.yml' do |content|
-      content.gsub! /username: root/,     "username: #{username}"
-      content.gsub! /password: password/, "password: #{password}"
+      content.gsub! /\s{2}username:(.*)$/, "  username: #{username}"
+      content.gsub! /\s{2}password:(.*)$/, "  password: #{password}"
     end
   end
 
   desc 'setup your application'
   task :application do
-    if yes_no('Use your own Push Account? ')
+    if yes_no('Use your own Pusher Account? ')
       pusher_app    = var 'Pusher App: '
       pusher_key    = var 'Pusher Key: '
       pusher_secret = var 'Pusher Secret: '
