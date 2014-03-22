@@ -23,7 +23,7 @@ class Account < ActiveRecord::Base
   ZERO = 0.to_d
 
   FUNS = {:unlock_funds => 1, :lock_funds => 2, :plus_funds => 3, :sub_funds => 4, :unlock_and_sub_funds => 5}
-  
+
   belongs_to :member
   has_many :payment_addresses
   has_many :withdraw_addresses
@@ -51,7 +51,7 @@ class Account < ActiveRecord::Base
     self.save
     self
   end
-  
+
   def sub_funds(amount, fee: ZERO, reason: nil, ref: nil)
     (amount <= ZERO or amount > self.balance) and raise AccountError
     self.balance -= amount
@@ -114,7 +114,7 @@ class Account < ActiveRecord::Base
     when :plus_funds then [ZERO, amount]
     when :lock_funds then [amount, ZERO - amount]
     when :unlock_funds then [ZERO - amount, amount]
-    when :unlock_and_sub_funds 
+    when :unlock_and_sub_funds
       locked = ZERO - opts[:locked]
       balance = opts[:locked] - amount
       [locked, balance]
@@ -133,32 +133,13 @@ class Account < ActiveRecord::Base
   def examine
     versions = self.versions.o2n.load
 
-    if versions.empty? and self.amount == ZERO and self.locked == ZERO
-      return true
+    expected_amount = versions.reduce 0 do |expected, v|
+      expected += v.amount_change
+      return false if expected != v.amount
+      expected
     end
 
-    if versions.size == 1
-      one = versions.first
-      return false if one.merge != one.amount
-      expect_amount = one.amount
-    else
-      expect_amount = \
-        versions.inject do |sum, x|
-          if sum.is_a? AccountVersion
-            return false if sum.merge != sum.amount
-            sum = (sum.amount += x.merge)
-            return false if sum != x.amount
-            sum
-          elsif sum.is_a? BigDecimal
-            sum += x.merge
-            return false if sum != x.amount
-            sum
-          end
-        end
-    end
-
-    return false if expect_amount != self.amount
-    return true
+    return expected_amount == self.amount
   end
 
   def trigger

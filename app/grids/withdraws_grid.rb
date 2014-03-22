@@ -4,8 +4,7 @@ class WithdrawsGrid
   include Datagrid::ColumnI18n
 
   scope do |m|
-    Withdraw.
-      without_state(:done, :reject, :cancel).
+    Withdraw.not_completed.
       order('created_at asc, state desc')
   end
 

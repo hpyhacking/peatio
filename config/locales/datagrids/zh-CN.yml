@@ -6,7 +6,7 @@ zh-CN:
         range_separator: " ~ "
     form:
       submit: 查询
-    withdraws_grid:
+    withdraws_grid: &withdraw_grid
       columns:
         sn: 编号
         name: 姓名
@@ -15,10 +15,13 @@ zh-CN:
         address_label: 标签
         address_type_text: 方式
         amount: 实到金额
+        sum: ''
+        address: ''
         fee: 手续费
         created_at: 申请时间
         done_at: 完成时间
         state_text: 状态
+    private_withdraws_grid: *withdraw_grid
     members_grid:
       columns:
         sn: 识别码

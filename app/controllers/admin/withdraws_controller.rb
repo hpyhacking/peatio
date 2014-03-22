@@ -10,13 +10,17 @@ module Admin
     end
 
     def update
-      Withdrawing.new(@withdraw).transact
+      if @withdraw.accepted?
+        @withdraw.process!
+      elsif @withdraw.processing? and @withdraw.fiat?
+        @withdraw.succeed!
+      end
       flash[:notice] = t('.success')
       redirect_to admin_withdraws_path
     end
 
     def destroy
-      Withdrawing.new(@withdraw).reject
+      @withdraw.reject!
       flash[:notice] = t('.success')
       redirect_to admin_withdraws_path
     end

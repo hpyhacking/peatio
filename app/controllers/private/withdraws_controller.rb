@@ -1,36 +1,35 @@
 module Private
   class WithdrawsController < BaseController
     def new
-      @withdraw = Withdraw.new
-      @withdraw_addresses = current_user.withdraw_addresses
-      load_history
+      currency = params[:currency] || 'btc'
+      @account = current_user.get_account(currency)
+      @withdraw = Withdraw.new currency: currency, account: @account
+      @withdraw_addresses = current_user.withdraw_addresses.with_category(currency)
+      load_history(currency)
     end
 
     def create
       @withdraw = Withdraw.new(withdraw_params)
-      withdrawing = Withdrawing.new(@withdraw)
 
-      if withdrawing.request
+      if @withdraw.save
         redirect_to edit_withdraw_path(@withdraw)
       else
         @withdraw_addresses = current_user.withdraw_addresses
-        load_history
+        load_history(currency)
         render :new
       end
     end
 
     def update
       @withdraw = current_user.withdraws.find(params[:id])
-      @withdraw.update_attribute(:state, :wait) if @withdraw.state.apply?
-      @withdraw.examine
-      redirect_to new_withdraw_path, flash: {notice: t('.request_accepted')}
+      @withdraw.submit!
+      redirect_to new_withdraw_path(currency: @withdraw.currency), flash: {notice: t('.request_accepted')}
     end
 
     def destroy
       @withdraw = current_user.withdraws.find(params[:id])
-      withdrawing = Withdrawing.new(@withdraw)
-      withdrawing.cancel
-      redirect_to new_withdraw_path
+      @withdraw.cancel!
+      redirect_to new_withdraw_path(currency: @withdraw.currency)
     end
 
     def edit
@@ -38,16 +37,19 @@ module Private
     end
 
     private
-    def load_history
-      @withdraws_grid = WithdrawsGrid.new(params[:withdraws_grid]) do |scope|
-        scope.where(:member_id => current_user.id).first(10)
+    def load_history(currency)
+      page = params[:page] || 0
+      per = params[:per] || 10
+
+      @withdraws_grid = PrivateWithdrawsGrid.new(params[:withdraws_grid]) do |scope|
+        scope.with_currency(currency).where(member: current_user).page(page).per(per)
       end
     end
 
     def withdraw_params
-      params[:withdraw][:state] = :apply
       params[:withdraw][:member_id] = current_user.id
-      params.require(:withdraw).permit(:sum, :password, :member_id, :withdraw_address_id, :state)
+      params.require(:withdraw).permit(:sum, :password, :member_id, :account_id, :withdraw_address_id,
+                                       :address, :address_label, :address_type, :currency, :save_address)
     end
   end
 end

@@ -1,26 +1,40 @@
 class Withdraw < ActiveRecord::Base
-  include Concerns::Withdraws::Bank
-  include Concerns::Withdraws::Satoshi
+  include AASM
+  include AASM::Locking
+  include Concerns::Withdraws::BTC
+  include Concerns::Withdraws::CNY
+
+  has_paper_trail on: [:update, :destroy]
+
+  STATES = {
+    submitting: 10,
+    submitted: 100,
+    rejected: 110,
+    accepted: 210,
+    suspect: 220,
+    processing: 300,
+    coin_ready: 400,
+    coin_done: 410,
+    done: 500,
+    canceled: 0,
+    almost_done: 499,
+    failed: 510
+  }
+  COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
 
   extend Enumerize
-  enumerize :state, in: {
-    :apply => 10, :wait => 100, :reject => 110,
-    :examined => 210, :examined_warning => 220,
-    :transact => 300,
-    :coin_ready => 400, :coin_done => 410,
-    :done => 500, :cancel => 0}, scope: true
-  enumerize :address_type, in: WithdrawChannel.enumerize
+  enumerize :state, in: STATES, scope: true
+  enumerize :address_type, in: WithdrawChannel.enumerize(:currency)
   enumerize :currency, in: Currency.codes, scope: true
-
-  COMPLETED_STATES = [:done, :reject, :cancel]
 
   belongs_to :member
   belongs_to :account
   has_many :account_versions, :as => :modifiable
-  attr_accessor :withdraw_address_id, :sum
+  attr_accessor :withdraw_address_id, :save_address
 
+  before_validation :fix_fee
+  after_create :create_withdraw_address, if: :save_address?
   after_create :generate_sn
-  before_validation :populate_fields_from_address, :fix_fee
   after_update :bust_last_done_cache, if: :state_changed_to_done
 
   validates :address_type, :address, :address_label,
@@ -31,24 +45,44 @@ class Withdraw < ActiveRecord::Base
 
   validates :sum, presence: true, on: :create
   validates :sum, numericality: {greater_than: 0}, on: :create
-  validates :tx_id, presence: true, uniqueness: true, on: :update
+  validates :tx_id, uniqueness: true, allow_nil: true, on: :update
 
   validate :ensure_account_balance, on: :create
 
+  scope :completed, -> { where('aasm_state in (?) or state in (?)',
+                               COMPLETED_STATES, STATES.slice(*COMPLETED_STATES).values) }
+  scope :not_completed, -> { where('aasm_state not in (?) or state not in (?)',
+                               COMPLETED_STATES, STATES.slice(*COMPLETED_STATES).values) }
+
+  alias_method :_old_state, :state
+
+  def state
+    _old_state || Enumerize::Value.new(Withdraw.state, aasm_state)
+  end
+
+  def currency_symbol
+    case address_type
+    when 'btc' then 'B⃦'
+    when 'cny' then '¥'
+    else ''
+    end
+  end
+
   def coin?
-    address_type.try(:satoshi?) or address_type.try(:protoshares?)
+    address_type.try(:btc?)
+  end
+
+  def fiat?
+    !coin?
   end
 
   def examine
-    Resque.enqueue(Job::Examine, self.id) if self.state.wait?
+    Resque.enqueue(Job::Examine, self.id) if submitted?
   end
 
   def position_in_queue
     last_done = Rails.cache.fetch(last_completed_withdraw_cache_key) do
-      self.class.
-        with_state(*COMPLETED_STATES).
-        where(address_type: address_type.value).
-        maximum(:id)
+      Withdraw.completed.where(address_type: address_type.value).maximum(:id)
     end
 
     self.class.where("id > ? AND id <= ?", (last_done || 0), id).
@@ -65,11 +99,96 @@ class Withdraw < ActiveRecord::Base
     update_column(:sn, sn)
   end
 
-  def sum
-    @sum || ((self.amount || 0.to_d) + (self.fee || 0.to_d))
+  aasm do
+    state :submitting, initial: true
+    state :submitted, after_commit: :examine
+    state :canceled, after_commit: :send_email
+    state :accepted
+    state :suspect, after_commit: :send_email
+    state :rejected, after_commit: :send_email
+    state :processing, after_commit: :send_coins!
+    state :almost_done
+    state :done, after_commit: :send_email
+    state :failed, after_commit: :send_email
+
+    event :submit do
+      transitions from: :submitting, to: :submitted
+      after do
+        lock_funds
+      end
+    end
+
+    event :cancel do
+      transitions from: [:submitting, :submitted, :accepted], to: :canceled
+      before do
+        unlock_funds unless submitting?
+      end
+    end
+
+    event :mark_suspect do
+      transitions from: :submitted, to: :suspect
+    end
+
+    event :accept do
+      transitions from: :submitted, to: :accepted
+    end
+
+    event :reject do
+      transitions from: :accepted, to: :rejected
+      after :unlock_funds
+    end
+
+    event :process do
+      transitions from: :accepted, to: :processing
+    end
+
+    event :call_rpc do
+      transitions from: :processing, to: :almost_done
+    end
+
+    event :succeed do
+      transitions from: [:processing, :almost_done], to: :done
+
+      before [:set_tx_id, :unlock_and_sub_funds]
+    end
+
+    event :fail do
+      transitions from: :processing, to: :failed
+    end
+  end
+
+  def cancelable?
+    submitting? or submitted? or accepted?
   end
 
   private
+
+  def lock_funds
+    account.lock!
+    account.lock_funds sum, reason: Account::WITHDRAW_LOCK, ref: self
+  end
+
+  def unlock_funds
+    account.lock!
+    account.unlock_funds sum, reason: Account::WITHDRAW_UNLOCK, ref: self
+  end
+
+  def unlock_and_sub_funds
+    account.lock!
+    account.unlock_and_sub_funds sum, locked: sum, fee: fee, reason: Account::WITHDRAW, ref: self
+  end
+
+  def set_tx_id
+    @tx_id = @sn unless coin?
+  end
+
+  def send_email
+    WithdrawMailer.withdraw_state(self.id).deliver
+  end
+
+  def send_coins!
+    Resque.enqueue(Job::Coin, self.id) if coin?
+  end
 
   def last_completed_withdraw_cache_key
     "last_completed_withdraw_id_for_#{address_type}"
@@ -85,23 +204,7 @@ class Withdraw < ActiveRecord::Base
     end
   end
 
-  def populate_fields_from_address
-    withdraw_address = WithdrawAddress.where(id: withdraw_address_id).first
-    return if withdraw_address.nil?
-
-    account = withdraw_address.account
-    return if account.nil?
-
-    self.account_id = account.id
-    self.currency = account.currency
-    self.address = withdraw_address.address
-    self.address_type = withdraw_address.category
-    self.address_label = withdraw_address.label
-  end
-
   def fix_fee
-    self.sum = self.sum.to_d
-
     if self.respond_to? valid_method = "_valid_#{self.address_type}_sum"
       error = self.instance_eval(valid_method)
       self.errors.add('sum', "#{self.address_type}_#{error}".to_sym) if error
@@ -117,10 +220,18 @@ class Withdraw < ActiveRecord::Base
   end
 
   def state_changed_to_done
-    state_changed? && COMPLETED_STATES.include?(state.to_sym)
+    aasm_state_changed? && COMPLETED_STATES.include?(state.to_sym)
   end
 
   def bust_last_done_cache
     Rails.cache.delete(last_completed_withdraw_cache_key)
+  end
+
+  def save_address?
+    @save_address == '1'
+  end
+
+  def create_withdraw_address
+    WithdrawAddress.create address: address, category: address_type, account: account, label: address_label, is_locked: false
   end
 end
