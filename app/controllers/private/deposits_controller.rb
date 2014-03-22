@@ -1,7 +1,5 @@
 module Private
   class DepositsController < BaseController
-    before_action :auth_activated!, only: [:coin, :bank]
-
     def coin
       currency = params[:currency]
       redirect_to root_path unless Currency.coins.keys.include?(currency)

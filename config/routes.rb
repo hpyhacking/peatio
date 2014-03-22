@@ -52,11 +52,10 @@ Peatio::Application.routes.draw do
     resource :id_document, :only => [:new, :create]
     resource :two_factor, :only => [:new, :create, :edit, :destroy]
 
-    resources :deposits, :only => :index do
-      collection do
-        get :coin
-        get :bank
-      end
+    resources :deposits, only: :index
+    namespace :deposits do
+      resources :banks, only: [:new, :create]
+      resources :coins, only: [:show]
     end
 
     resources :withdraws, only: :index
