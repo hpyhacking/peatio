@@ -19,3 +19,18 @@ en:
         partial-tree: 'My %{currency} Assets: '
         get-partial-tree: Get my partial tree data
         copy: Copy
+      btc_assets:
+        title: BTC Assets
+        intro: All of exchanges' BTC assets will be listed here.
+        total: BTC Assets Total
+        address: Address
+      cny_assets:
+        title: CNY Assets
+        intro: All of exchanges' CNY assets will be listed here.
+        total: CNY Assets Total
+        description: "
+          <p>每位登录貔貅的用户可通过查询貔貅唯一开户银行余额监督我们的服务。</p>
+          <p>开户银行： 招商银行</p>
+          <p>开户帐号： %{address}</p>
+          <p>查询密码： %{password}</p>
+          <p>查询电话： %{tel}</p>"

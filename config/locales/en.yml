@@ -123,7 +123,7 @@ en:
     reject: Reject
     clipboard:
       click: Click to copy
-      done: Copyed
+      done: Copied
 
   global:
     ask_price: Ask

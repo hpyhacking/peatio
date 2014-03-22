@@ -25,3 +25,13 @@ zh-CN:
         intro: 查看交易所全部BTC资产清单
         total: BTC总资产
         address: 钱包地址
+      cny_assets:
+        title: CNY资产清单
+        intro: 查看交易所全部CNY资产清单
+        total: CNY总资产
+        description: "
+          <p>每位登录貔貅的用户可通过查询貔貅唯一开户银行余额监督我们的服务。</p>
+          <p>开户银行： 招商银行</p>
+          <p>开户帐号： %{address}</p>
+          <p>查询密码： %{password}</p>
+          <p>查询电话： %{tel}</p>"
