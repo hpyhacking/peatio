@@ -38,3 +38,5 @@ zh-CN:
           <p>开户帐号： %{address}</p>
           <p>查询密码： %{password}</p>
           <p>查询电话： %{tel}</p>"
+      partial_tree:
+        success: '获取成功！验证数据生成时间为：%{timestamp}'

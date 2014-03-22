@@ -12,8 +12,9 @@ module Private
     end
 
     def partial_tree
-      account = current_user.accounts.with_currency(params[:id]).first
-      @json   = account.partial_tree.to_json.html_safe
+      account    = current_user.accounts.with_currency(params[:id]).first
+      @timestamp = Proof.with_currency(params[:id]).last.updated_at
+      @json      = account.partial_tree.to_json.html_safe
       respond_to do |format|
         format.js
       end
