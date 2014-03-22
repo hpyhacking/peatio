@@ -6,6 +6,14 @@ zh-CN:
     admin: 管理员
   markets:
     cnybtc: CNY - BTC
+    realtime_price:
+      title: 实时价格
+    account_balance:
+      title: 我的账户
+      available_btc: 可用BTC
+      available_cny: 可用CNY
+      locked_btc: 冻结BTC
+      locked_cny: 冻结CNY
   gon:
     ask: 卖出
     bid: 买入

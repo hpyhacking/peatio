@@ -6,6 +6,14 @@ en:
     admin: Admin
   markets:
     cnybtc: CNY - BTC
+    realtime_price:
+      title: Realtime Price
+    account_balance:
+      title: Account Balance
+      available_btc: BTC
+      available_cny: CNY
+      locked_btc: Locked BTC
+      locked_cny: Locked CNY
   gon:
     ask: Ask
     bid: Bid
