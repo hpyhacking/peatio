@@ -1,0 +1,24 @@
+- root_target = "#{proof.currency}_root_json"
+- partial_tree_target = "#{proof.currency}_partial_tree_json"
+
+.proof
+  - if proof.try(:ready?) && account.partial_tree.present?
+    .root.json
+      h5
+        = t('.root-json')
+        a.copy.btn.btn-default.btn-xs.pull-right href='#' data-clipboard-target=root_target = t('.copy')
+      pre id=root_target = proof.root.to_json
+      .clearfix
+    .partial-tree.json
+      .assets
+        span.title = t('.partial-tree', currency: proof.currency.upcase)
+        span.currency
+          == t("currency.icon.#{proof.currency}")
+          = account.balance
+        a.copy.btn.btn-default.btn-xs.disabled.pull-right href='#' data-clipboard-target=partial_tree_target = t('.copy')
+        = link_to t('.get-partial-tree'), partial_tree_asset_path(proof.currency), :class => 'btn btn-default btn-xs pull-right get-partial-tree', :remote => true
+      .clearfix
+      p.message
+      pre id=partial_tree_target style='display:none;'
+  - else
+    p = t('.liability-proof-generating')

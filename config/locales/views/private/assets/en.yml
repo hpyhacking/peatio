@@ -1,0 +1,41 @@
+en:
+  private:
+    assets:
+      index:
+        liability-proof: Proof of Assets
+        btc-assets: BTC Assets
+        cny-assets: CNY Assets
+        merkle_approach: Learn more about how the proof-of-liability works
+      liability_tabs:
+        verify-btc: Verify My BTC Assets
+        verify-cny: Verify My CNY Assets
+        btc-assets-total: 'Total BTC assets of exchange: '
+        cny-assets-total: 'Total CNY assets of exchange: '
+      liability_proof:
+        title: Proof of Liability
+        intro: Our bank and btc accounts are public so you know how many assets we hold. We provides proof of liability so you know how many liabilities we have. Your money is safe because our assets > our liabilities.
+        how-to-verify: To verify your deposits are included in our liability, copy and paste the json data below to <a target='_blank' href='http://syskall.com/blind-liability-proof/#verify'>Blind Liability Proof Tools</a> and click 'VERIFY'
+        go-verify: Go Verify
+      liability_data:
+        liability-proof-generating: Proof of Liability generation in process, please come back after 30 minutes.
+        root-json: Root node
+        partial-tree: 'My %{currency} Assets: '
+        get-partial-tree: Get my partial tree data
+        copy: Copy
+      btc_assets:
+        title: BTC Assets
+        intro: All of exchanges' BTC assets will be listed here.
+        total: BTC Assets Total
+        address: Address
+      cny_assets:
+        title: CNY Assets
+        intro: All of exchanges' CNY assets will be listed here.
+        total: CNY Assets Total
+        description: "
+          <p>每位登录貔貅的用户可通过查询貔貅唯一开户银行余额监督我们的服务。</p>
+          <p>开户银行： 招商银行</p>
+          <p>开户帐号： %{address}</p>
+          <p>查询密码： %{password}</p>
+          <p>查询电话： %{tel}</p>"
+      partial_tree:
+        success: 'Success! Verification data generated at: %{timestamp}'

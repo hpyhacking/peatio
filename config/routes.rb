@@ -61,6 +61,12 @@ Peatio::Application.routes.draw do
     resources :withdraw_addresses, :only => [:index, :destroy]
     resources :account_versions, :only => :index
 
+    resources :assets do
+      member do
+        get :partial_tree
+      end
+    end
+
     resources :markets, :only => :show, :constraints => MarketConstraint do
       resources :orders, :only => [:index, :destroy]
       resources :order_bids, :only => [:create]

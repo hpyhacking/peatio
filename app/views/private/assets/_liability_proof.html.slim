@@ -1,0 +1,15 @@
+.panel.panel-default
+  .panel-body
+    .row.col-wrap
+      #guide.col-md-4
+        h3 = t('.title')
+        p.text-ignore = t('.intro')
+        p
+          = link_to t('.what-is-100-percent-reserve'), '#'
+          br
+          = link_to t('.how-to-verify'), '#'
+      #content.col-md-8.col
+        = render 'liability_tabs'
+        hr
+        .proof-bottom
+          a.btn.btn-default target='_blank' href='http://syskall.com/proof-of-liabilities/#verify' = t('.go-verify')

@@ -2,6 +2,11 @@ I18n.defaultLocale = 'en'
 I18n.locale = gon.local
 
 $ ->
+  if $('#assets-index').length
+    $.scrollIt
+      topOffset: -180
+      activeClass: 'active'
+
   $.fn.extend
     fixAsk: ->
       if $(@).text().length
@@ -35,7 +40,7 @@ $ ->
   window.fixBid = (str) ->
     window.fix('bid', str)
 
-  $('[data-clipboard-text]').each ->
+  $('[data-clipboard-text], [data-clipboard-target]').each ->
     zero = new ZeroClipboard($(@))
 
     zero.on 'complete', ->
@@ -84,3 +89,4 @@ $ ->
 
   $(".ask-panel, .bid-panel").click ->
     $(document).trigger('history::resize', gon.history_height)
+

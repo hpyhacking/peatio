@@ -37,6 +37,7 @@ GEM
     addressable (2.3.5)
     arel (4.0.1)
     atomic (1.1.14)
+    awesome_print (1.2.0)
     bcrypt-ruby (3.1.2)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
@@ -150,6 +151,8 @@ GEM
     less-rails (2.4.2)
       actionpack (>= 3.1)
       less (~> 2.4.0)
+    liability-proof (0.0.5)
+      awesome_print
     libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -378,6 +381,7 @@ DEPENDENCIES
   kaminari
   launchy
   less-rails
+  liability-proof (= 0.0.5)
   mails_viewer
   meta_request
   mina

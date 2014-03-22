@@ -2,6 +2,8 @@ class Account < ActiveRecord::Base
   extend Enumerize
   enumerize :currency, in: Currency.codes, scope: true
 
+  serialize :partial_tree
+
   validates :member_id, uniqueness: { scope: :currency }
 
   after_commit :trigger
