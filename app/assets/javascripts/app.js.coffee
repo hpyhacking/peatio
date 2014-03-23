@@ -72,9 +72,9 @@ $ ->
 
   if gon.env is 'development'
     Pusher.log = (message) ->
-      #window.console && console.log(message)
+      window.console && console.log(message)
 
-  pusher = new Pusher(gon.pusher_key, {encrypted: true});
+  pusher = new Pusher(gon.pusher_key, {encrypted: true})
 
   GlobalData.attachTo(document, {pusher: pusher})
   AccountData.attachTo(document, {pusher: pusher}) if gon.accounts

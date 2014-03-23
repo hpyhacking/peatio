@@ -1,28 +1,65 @@
-#market.row
-  .col-md-3
-    .orders
-      h3.text-center.title
-        span = t('.orders')
-        i.fa.fa-external-link
-      table.table.asks
-      h3.last
-      table.table.bids
-    .trades
-      h3.text-center.title
-        span = t('.trades')
-        i.fa.fa-external-link
-      .wrap: table.table: tbody
-  .col-md-9
-    .tabbable
-      ul.nav.nav-tabs
-        li.active: a#bid-panel-link.bid-panel href="#bid_panel" data-toggle="tab" == t('.bid_panel', currency: @ask_name)
-        li: a.ask-panel href="#ask_panel" data-toggle="tab" == t('.ask_panel', currency: @ask_name)
-      .tab-content
-        #bid_panel.tab-pane.active: .trade-wrapper
-          = render partial: 'account_wrapper', locals: {order: 'bid', ask: @ask, bid: @bid}
-          = render partial: 'order_wrapper', locals: {market: @market, order: @order_bid}
-          = render partial: 'history_wrapper'
-        #ask_panel.tab-pane: .trade-wrapper
-          = render partial: 'account_wrapper', locals: {order: 'ask', ask: @ask, bid: @bid}
-          = render partial: 'order_wrapper', locals: {market: @market, order: @order_ask}
-          = render partial: 'history_wrapper'
+#market
+  .row
+    .col-md-8
+      .panel.panel-default
+        .panel-heading Chart
+        .panel-body content
+    .col-md-4
+      .panel.panel-default
+        .panel-heading Order Enter
+        .panel-body content
+  .row
+    .col-md-4
+      .panel.panel-default
+        .panel-heading Trades
+        .panel-body
+          .trades
+            table.table
+              thead
+                tr
+                  td.time Time
+                  td.price Price
+                  td.amount Volume
+              tbody
+    .col-md-4
+      .panel.panel-default
+        .panel-heading = t('.orders')
+        .panel-body
+          .orders
+            .col-md-6
+              table.table.asks
+            .col-md-6
+              table.table.bids
+    .col-md-4
+      .panel.panel-default
+        .panel-heading My Orders
+        .panel-body content
+
+  /.row
+    .col-md-3
+      .orders
+        h3.text-center.title
+          span = t('.orders')
+          i.fa.fa-external-link
+        table.table.asks
+        h3.last
+        table.table.bids
+      .trades
+        h3.text-center.title
+          span = t('.trades')
+          i.fa.fa-external-link
+        .wrap: table.table: tbody
+    .col-md-9
+      .tabbable
+        ul.nav.nav-tabs
+          li.active: a#bid-panel-link.bid-panel href="#bid_panel" data-toggle="tab" == t('.bid_panel', currency: @ask_name)
+          li: a.ask-panel href="#ask_panel" data-toggle="tab" == t('.ask_panel', currency: @ask_name)
+        .tab-content
+          #bid_panel.tab-pane.active: .trade-wrapper
+            = render partial: 'account_wrapper', locals: {order: 'bid', ask: @ask, bid: @bid}
+            = render partial: 'order_wrapper', locals: {market: @market, order: @order_bid}
+            = render partial: 'history_wrapper'
+          #ask_panel.tab-pane: .trade-wrapper
+            = render partial: 'account_wrapper', locals: {order: 'ask', ask: @ask, bid: @bid}
+            = render partial: 'order_wrapper', locals: {market: @market, order: @order_ask}
+            = render partial: 'history_wrapper'
