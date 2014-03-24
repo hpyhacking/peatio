@@ -1,26 +1,5 @@
-= simple_form_for @withdraw do |f|
-  = f.input :address do
-    span = @withdraw.address_label
-    span @
-    span = @withdraw.address
-  = f.input :address_type do
-    span = @withdraw.address_type_text
-  = f.input :detail, as: 'string', wrapper_html: {class: 'amount-detail'} do
-    span.label.label-success = Withdraw.han(:amount)
-    span.decimal = @withdraw.amount
-    span: i.fa.fa-plus
-    span.label.label-success = Withdraw.han(:fee)
-    span.decimal = @withdraw.fee
-    hr.split
-    span: i.fa.fa-arrow-right
-    span.label.label-success = Withdraw.han(:sum)
-    span.decimal = @withdraw.amount + @withdraw.fee
-  = f.input :state do
-    span = @withdraw.state_text
-  hr.split
-  .form-group: .col-sm-11
-    - if @withdraw.submitting?
-      = link_to t('actions.confirm'), withdraw_path(@withdraw), method: :PATCH, class: 'btn btn-primary btn-lg pull-right'
-    - if @withdraw.cancelable?
-      = link_to t('actions.cancel'), withdraw_path(@withdraw), method: :DELETE, class: 'btn btn-default btn-lg pull-right'
-    = link_to t('actions.back'), new_withdraw_path, class: 'btn btn-default btn-lg pull-right'
+.page-header
+  h4 = t '.title'
+
+
+= render partial: "private/withdraws/edit/#{@withdraw.currency}"

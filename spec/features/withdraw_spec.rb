@@ -32,7 +32,6 @@ describe 'withdraw' do
     submit_withdraw_request 600
 
     form = find('.simple_form')
-    expect(form).to have_text(I18n.t('enumerize.withdraw.state.submitting'))
     expect(form).to have_text('600.0')
     expect(form).to have_text('0.0')
 
