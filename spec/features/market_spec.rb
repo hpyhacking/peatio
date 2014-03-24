@@ -15,6 +15,8 @@ feature 'show account info', js: true do
   let!(:bid_order) { create :order_bid, price: '21.3' }
   let!(:ask_name) { I18n.t('currency.name.btc') }
 
+  before { Resque.stubs(:enqueue) }
+
   scenario 'user can ordering successful' do
     login identity
     click_on I18n.t('header.market')

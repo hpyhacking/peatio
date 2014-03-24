@@ -35,3 +35,6 @@ Peatio::Application.configure do
 
   config.action_controller.perform_caching = true
 end
+
+Resque.logger = Logger.new Rails.root.join('log', 'resque.log')
+Resque.logger.level = Logger::INFO

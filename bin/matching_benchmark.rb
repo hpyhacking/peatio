@@ -45,7 +45,7 @@ class MatchingBenchmark
     @label = label.to_s
     @num = num
     @round = round
-    @times = {create_members: [], lock_funds: [], create_orders: [], matching: []}
+    @times = Hash.new {|h,k| h[k] = [] }
   end
 
   def create_members
@@ -88,20 +88,47 @@ class MatchingBenchmark
   end
 
   def matching_orders
+    matches = 0
+    instructions = []
+
+    market = Market.find('cnybtc')
+    engine = Matching::FIFOEngine.new(market)
+    engine.define_singleton_method(:submit) do |order|
+      orderbook.submit(order)
+      while match?
+        matches += 1
+        instructions << trade
+      end
+    end
+
+    @processed = Order.active.count
+    Order.active.each do |order|
+      engine.submit ::Matching::Order.new(order.to_matching_attributes)
+    end
+
+    @matches       = matches
+    @instructions  = instructions
+  end
+
+  def execute_trades
     t1 = Trade.count
 
-    @matches = 0
-    matching = Matching.new(:cnybtc)
-    loop do
-      result = matching.run(Trade.latest_price(:cnybtc))
-      @matches += 1
-      raise StopIteration if result == :idle
+    market = Market.find('cnybtc')
+    @instructions.each do |(ask, bid, strike_price, volume)|
+      ::Matching::Executor.new(market, ask, bid, strike_price, volume).execute!
     end
 
     @trades = Trade.count - t1
   end
 
   def run
+    run_prepare_orders
+    run_matching_orders
+    run_execute_trades
+    save
+  end
+
+  def run_prepare_orders
     (1..@round).map do |i|
       puts "\n>> Round #{i}"
       Benchmark.benchmark(Benchmark::CAPTION, 20, Benchmark::FORMAT) do |x|
@@ -111,15 +138,24 @@ class MatchingBenchmark
         nil
       end
     end
+  end
 
+  def run_matching_orders
     puts "\n>> Match Them All"
     Benchmark.benchmark(Benchmark::CAPTION, 20, Benchmark::FORMAT) do |x|
       t = x.report { matching_orders }
       @times[:matching] = [t]
-      puts "#{@matches} matches run, #{@trades} trades created."
+      puts "#{@matches} matches run for #{@processed} orders, #{@instructions.size} trade instruction generated."
     end
+  end
 
-    save
+  def run_execute_trades
+    puts "\n>> Execute Trade Instructions"
+    Benchmark.benchmark(Benchmark::CAPTION, 20, Benchmark::FORMAT) do |x|
+      t = x.report { execute_trades }
+      @times[:execution] = [t]
+      puts "#{@instructions.size} trade instructions executed, #{@trades} trade created."
+    end
   end
 
   def save
@@ -132,12 +168,13 @@ class MatchingBenchmark
       end
     end
 
-    puts "\n>> Average throughput (orders per second)"
+    puts "\n>> Average throughput (ops: orders per second, eps: execution per second)"
     puts "create members: %.2fops" % [@num/avg[:create_members].last]
     puts "lock funds:     %.2fops" % [@num/avg[:lock_funds].last]
     puts "create orders:  %.2fops" % [@num/avg[:create_orders].last]
     puts "submit orders:  %.2fops" % [@num/(avg[:lock_funds].last+avg[:create_orders].last)]
-    puts "matching:       %.2fops" % [@matches/avg[:matching].last]
+    puts "matching:       %.2fops" % [@processed/avg[:matching].last] if avg[:matching]
+    puts "execution:      %.2feps" % [@instructions.size/avg[:execution].last] if avg[:execution]
     puts "* submit order = lock funds + create order"
   end
 

@@ -58,6 +58,7 @@ gem 'handlebars_assets'
 gem 'recaptcha', :require => 'recaptcha/rails'
 gem 'browser'
 gem 'introjs-rails'
+gem 'rbtree'
 gem 'liability-proof', '0.0.5'
 
 group :development, :test do
