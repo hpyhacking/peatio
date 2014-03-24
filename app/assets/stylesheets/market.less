@@ -61,6 +61,34 @@
     }
   }
 
+  .order-enter {
+    li.active a {
+      background-color: white;
+    }
+    .tab-content {
+      height: 390px;
+      padding: 15px;
+      background-color: white;
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+
+      .last-price, .current-balance {
+        .value {
+          float: right;
+          text-align: right;
+        }
+      }
+
+      label.input-group-addon {
+        width: 75px;
+        text-align: right;
+      }
+    }
+  }
+
   .trade-wrapper {
     .slider-wrapper {
       padding: 5px 40px;

@@ -1,14 +1,8 @@
 #market
   .row
-    .col-md-8
-      .panel.panel-default
-        .panel-heading Chart
-        .panel-body
-          .price-chart
-    .col-md-4
-      .panel.panel-default
-        .panel-heading Order Enter
-        .panel-body content
+    .col-md-8 = render partial: 'price_chart'
+    .col-md-4 = render partial: 'order_enter'
+
   .row
     .col-md-4
       .panel.panel-default
@@ -36,7 +30,7 @@
         .panel-heading My Orders
         .panel-body content
 
-  /.row
+  .row
     .col-md-3
       .orders
         h3.text-center.title

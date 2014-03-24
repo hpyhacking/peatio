@@ -1,0 +1,45 @@
+.order-enter
+  ul.nav.nav-tabs
+    li.active: a.bid-panel href="#bid_panel" data-toggle="tab" == t('.bid_panel', currency: @ask_name)
+    li: a.ask-panel href="#ask_panel" data-toggle="tab" == t('.ask_panel', currency: @ask_name)
+  .tab-content
+    #bid_panel.tab-pane.active
+      p.last-price.clearfix
+        label.name Buy Price
+        label.value 3000
+      p.current-balance.clearfix
+        label.name Current Balance
+        label.value 3000
+      p.input-group.price
+        label.input-group-addon Price
+        input.form-control type="input"
+      p.input-group.amount
+        label.input-group-addon Amount
+        input.form-control type="input"
+      p.input-group.total
+        label.input-group-addon Total
+        input.form-control type="input"
+      hr
+      p
+        button.btn.btn-primary.btn-lg.btn-block type="button" Place BUY Order
+
+
+    #ask_panel.tab-pane
+      p.last-price
+        label.name Sell Price
+        label.value 3000
+      p.current-balance
+        label.name Current Balance
+        label.value 3000
+      p.input-group.price
+        label.input-group-addon Price
+        input.form-control type="input"
+      p.input-group.amount
+        label.input-group-addon Amount
+        input.form-control type="input"
+      p.input-group.total
+        label.input-group-addon Total
+        input.form-control type="input"
+      hr
+      p
+        button.btn.btn-primary.btn-lg.btn-block type="button" Place SELL Order
