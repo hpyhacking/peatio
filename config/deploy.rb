@@ -81,5 +81,15 @@ end
 
 desc "Start Resque"
 task :'resque:start' => :environment do
-  queue "cd #{deploy_to}/current && RAILS_ENV=production PIDFILE=./log/resque.pid BACKGROUND=yes QUEUE=* bundle exec rake environment resque:work && echo Resque START DONE!!!"
+  queue "cd #{deploy_to}/current && RAILS_ENV=production PIDFILE=./log/resque.pid BACKGROUND=yes QUEUE=coin,examine bundle exec rake environment resque:work && echo Resque START DONE!!!"
+end
+
+desc "Start Matching Engine"
+task 'matching:start' do
+  queue "cd #{deploy_to}/current && RAILS_ENV=production PIDFILE=./log/matching.pid BACKGROUND=yes bundle exec rake environment resque:matching && echo Matching engine started."
+end
+
+desc "Stop Matching Engine"
+task 'matching:stop' do
+  queue "kill -s QUIT `cat #{deploy_to}/current/log/matching.pid` && echo Matching engine stopped."
 end
