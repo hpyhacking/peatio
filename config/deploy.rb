@@ -3,10 +3,17 @@ require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
 
-set :domain, 'demo.peat.io'
+case ENV['to']
+when 'demo'
+  set :domain, 'demo.peat.io'
+  set :branch, 'master'
+else
+  set :domain, 'stg.peat.io'
+  set :branch, 'staging'
+end
+
 set :deploy_to, '/var/www/peatio'
 set :repository, 'https://github.com/peatio/peatio.git'
-set :branch, 'master'
 
 set :shared_paths, ['config/unicorn_peatio.sh', 'config/database.yml', 'config/application.yml', 'config/currency.yml', 'tmp', 'log']
 
