@@ -27,7 +27,6 @@
             do update
             setInterval ->
               update
-              console.info 'update'
             , 1 * 1 * 1000
 
       credits:
