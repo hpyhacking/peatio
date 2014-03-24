@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324060148) do
+ActiveRecord::Schema.define(version: 20140324062812) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -95,8 +95,10 @@ ActiveRecord::Schema.define(version: 20140324060148) do
   end
 
   create_table "fund_sources", force: true do |t|
-    t.string   "label"
-    t.string   "address"
+    t.integer  "member_id"
+    t.integer  "currency"
+    t.string   "extra"
+    t.string   "uid"
     t.integer  "category"
     t.integer  "account_id"
     t.boolean  "is_locked"
@@ -262,18 +264,18 @@ ActiveRecord::Schema.define(version: 20140324060148) do
     t.integer  "account_id"
     t.integer  "member_id"
     t.integer  "currency"
-    t.decimal  "amount",        precision: 32, scale: 16
-    t.decimal  "fee",           precision: 32, scale: 16
-    t.integer  "address_type"
-    t.string   "address"
-    t.string   "address_label"
+    t.decimal  "amount",              precision: 32, scale: 16
+    t.decimal  "fee",                 precision: 32, scale: 16
+    t.integer  "withdraw_channel_id"
+    t.string   "fund_source_uid"
+    t.string   "fund_source_extra"
     t.integer  "state"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "done_at"
     t.string   "tx_id"
     t.string   "aasm_state"
-    t.decimal  "sum",           precision: 32, scale: 16
+    t.decimal  "sum",                 precision: 32, scale: 16
   end
 
 end

@@ -48,7 +48,7 @@ en:
         coin_done: Coin Done
         done: Done
         canceled: Canceled
-    withdraw_address:
+    fund_source:
       category:
         satoshi: Bitcoin
         bank: Bank

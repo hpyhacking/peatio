@@ -48,7 +48,7 @@ zh-CN:
         coin_done: 完毕
         done: 提现成功
         canceled: 已取消
-    withdraw_address:
+    fund_source:
       category:
         satoshi: 比特币 - 网络转账
         bank: 人民币 - 银行转账

@@ -7,7 +7,7 @@ $(function(){
         $target = $(e.target);
         if ($target.hasClass('destroy-withdraw-address')) {
           $.ajax({
-            url: '/withdraw_addresses/' + $target.data('addr-id'),
+            url: '/fund_sources/' + $target.data('addr-id'),
             type: 'DELETE'
             }).done(function(){
               self.load(self.settings.load);
@@ -20,7 +20,7 @@ $(function(){
     })();
   });
 
-  $('select#withdraw_address').selectize({
+  $('select#fund_sources').selectize({
     plugins: ['option_destroy'],
     preload: true,
     createOnBlur: true,
@@ -51,7 +51,7 @@ $(function(){
         query = '';
       }
       $.ajax({
-        url: '/withdraw_addresses?currency=' + $('input#withdraw_currency').val() + '&query=' + encodeURIComponent(query),
+        url: '/fund_sources?currency=' + $('input#withdraw_currency').val() + '&query=' + encodeURIComponent(query),
         type: 'GET',
         error: function() {
           callback();
@@ -63,7 +63,7 @@ $(function(){
       });
     },
     onItemAdd: function(value, $item) {
-      $('form input#withdraw_address_label').val($item.text());
+      $('form input#fund_source_label').val($item.text());
       $item.text(value);
     }
   });

@@ -58,8 +58,8 @@ Peatio::Application.routes.draw do
     end
 
     resources :withdraws
-    resources :withdraw_addresses, :only => [:index, :destroy]
     resources :account_versions, :only => :index
+    resources :fund_sources, :only => [:index, :destroy]
 
     resources :exchange_assets, :controller => 'assets' do
       member do

@@ -10,7 +10,7 @@
 
   label.checkbox-inline.pull-right.row
     input name="withdraw[save_address]" value="1" type="checkbox" = t('.save_address')
-  = f.input :address, collection: @withdraw_addresses, label_method: :label, value_method: :address, placeholder: t('.placeholder'), label: t('.address')
+  = f.input :address, collection: @fund_sources, label_method: :label, value_method: :address, placeholder: t('.placeholder'), label: t('.address')
   = f.input :address_label, label: t('.label')
   = f.input :sum, as: :decimal, input_html: {min: 0}, label: t('.sum')
   hr.split

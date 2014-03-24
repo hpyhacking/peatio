@@ -1,4 +1,6 @@
 class Withdraw < ActiveRecord::Base
+  extend ActiveHash::Associations::ActiveRecordExtensions
+
   include AASM
   include AASM::Locking
   include Concerns::Withdraws::BTC
@@ -20,24 +22,25 @@ class Withdraw < ActiveRecord::Base
     almost_done: 499,
     failed: 510
   }
+
   COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
 
   extend Enumerize
   enumerize :state, in: STATES, scope: true
-  enumerize :address_type, in: WithdrawChannel.enumerize(:currency)
   enumerize :currency, in: Currency.codes, scope: true
 
   belongs_to :member
   belongs_to :account
+  belongs_to :withdraw_channel
   has_many :account_versions, :as => :modifiable
-  attr_accessor :withdraw_address_id, :save_address
+  attr_accessor :fund_source_id, :save_fund_source
 
   before_validation :fix_fee
-  after_create :create_withdraw_address, if: :save_address?
+  after_create :create_fund_source, if: :save_fund_source?
   after_create :generate_sn
   after_update :bust_last_done_cache, if: :state_changed_to_done
 
-  validates :address_type, :address, :address_label,
+  validates :withdraw_channel, :fund_source_uid, :fund_source_extra,
     :amount, :fee, :account, :currency, :member, presence: true
 
   validates :fee, numericality: {greater_than_or_equal_to: 0}
@@ -61,7 +64,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def currency_symbol
-    case address_type
+    case withdraw_channel.currency
     when 'btc' then 'B⃦'
     when 'cny' then '¥'
     else ''
@@ -69,7 +72,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def coin?
-    address_type.try(:btc?)
+    withdraw_channel.btc?
   end
 
   def fiat?
@@ -82,11 +85,11 @@ class Withdraw < ActiveRecord::Base
 
   def position_in_queue
     last_done = Rails.cache.fetch(last_completed_withdraw_cache_key) do
-      Withdraw.completed.where(address_type: address_type.value).maximum(:id)
+      Withdraw.completed.where(withdraw_channel_id: withdraw_channel.id).maximum(:id)
     end
 
     self.class.where("id > ? AND id <= ?", (last_done || 0), id).
-      where(address_type: address_type.value).
+      where(withdraw_channel_id: withdraw_channel.id).
       count
   end
 
@@ -191,12 +194,12 @@ class Withdraw < ActiveRecord::Base
   end
 
   def last_completed_withdraw_cache_key
-    "last_completed_withdraw_id_for_#{address_type}"
+    "last_completed_withdraw_id_for_#{withdraw_channel.key}"
   end
 
   def ensure_account_balance
     unless account
-      errors.add(:withdraw_address_id, :blank) and return
+      errors.add(:fund_source_id, :blank) and return
     end
 
     if self.sum > account.balance
@@ -205,12 +208,12 @@ class Withdraw < ActiveRecord::Base
   end
 
   def fix_fee
-    if self.respond_to? valid_method = "_valid_#{self.address_type}_sum"
+    if self.respond_to? valid_method = "_valid_#{withdraw_channel.key}_sum"
       error = self.instance_eval(valid_method)
-      self.errors.add('sum', "#{self.address_type}_#{error}".to_sym) if error
+      self.errors.add('sum', "#{withdraw_channel.key}_#{error}".to_sym) if error
     end
 
-    if self.respond_to? fee_method = "_fix_#{self.address_type}_fee"
+    if self.respond_to? fee_method = "_fix_#{withdraw_channel.key}_fee"
       self.instance_eval(fee_method)
     end
 
@@ -227,11 +230,14 @@ class Withdraw < ActiveRecord::Base
     Rails.cache.delete(last_completed_withdraw_cache_key)
   end
 
-  def save_address?
-    @save_address == '1'
+  def save_fund_source?
+    @save_fund_source == '1'
   end
 
-  def create_withdraw_address
-    WithdrawAddress.create address: address, category: address_type, account: account, label: address_label, is_locked: false
+  def create_fund_source
+    FundSource.create \
+      uid: fund_source_uid, 
+      extra: fund_source_extra, 
+      is_locked: false
   end
 end

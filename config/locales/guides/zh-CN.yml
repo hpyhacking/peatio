@@ -47,7 +47,7 @@ zh-CN:
 
       withdraws: *withdraws
 
-      withdraw_addresses:
+      fund_sources:
         panel: 资金提现
         index:
           title: 新增提现地址

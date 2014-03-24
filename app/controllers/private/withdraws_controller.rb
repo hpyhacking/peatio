@@ -4,7 +4,7 @@ module Private
       currency = params[:currency] || 'btc'
       @account = current_user.get_account(currency)
       @withdraw = Withdraw.new currency: currency, account: @account
-      @withdraw_addresses = current_user.withdraw_addresses.with_category(currency)
+      @fund_sources = current_user.fund_sources.with_currency(currency)
       load_history(currency)
     end
 
@@ -14,7 +14,7 @@ module Private
       if @withdraw.save
         redirect_to edit_withdraw_path(@withdraw)
       else
-        @withdraw_addresses = current_user.withdraw_addresses
+        @fund_sources = current_user.fund_sources
         load_history(currency)
         render :new
       end
@@ -48,7 +48,7 @@ module Private
 
     def withdraw_params
       params[:withdraw][:member_id] = current_user.id
-      params.require(:withdraw).permit(:sum, :password, :member_id, :account_id, :withdraw_address_id,
+      params.require(:withdraw).permit(:sum, :password, :member_id, :account_id, :fund_source_id,
                                        :address, :address_label, :address_type, :currency, :save_address)
     end
   end

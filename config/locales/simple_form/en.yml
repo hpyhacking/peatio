@@ -33,7 +33,7 @@ en:
         update: Process Withdraw
         create: Create Request
         new: Next
-      withdraw_address:
+      fund_source:
         create: Add Withdraw Address
       deposit:
         create: Deposit
@@ -59,7 +59,7 @@ en:
         uri: Two-dimensional code
         otp_secret: Ciphertext
         otp: Password on the authenticator
-      withdraw_address:
+      fund_source:
         label: Label
         address: Address
         category: Category
@@ -92,7 +92,7 @@ en:
         sum: Withdraw Amount
         amount: You wang withdraw amount
         password: Please validation your sign inpassword
-      withdraw_address:
+      fund_source:
         label: Real name
         address: Address
       order_bid:

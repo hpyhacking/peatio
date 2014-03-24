@@ -15,4 +15,18 @@ namespace :migration do
       Authentication.create uid: i.id, provider: 'identity'
     end
   end
+
+  desc "migrate fund sources"
+  task build_fund_sources: :environment do
+    if ActiveRecord::Migrator.current_version == 20140324060148
+      puts "BEGIN ------------------------------------------"
+      FundSource.with_deleted.all.each do |f|
+        suppress(Exception) do
+          a = Account.find(f.account_id)
+          f.update_columns(member_id: a.member_id, currency: a.currency_value)
+        end
+      end
+      puts "END --------------------------------------------"
+    end
+  end
 end

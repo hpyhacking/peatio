@@ -43,7 +43,7 @@ en:
           intro: Select  your withdrawals address and enter the amount you want to withdraw.
           default-panel: Withdrawal History
 
-      withdraw_addresses:
+      fund_sources:
         panel: Withdrawal
         index:
           title: Create new withraw address  

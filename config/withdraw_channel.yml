@@ -1,11 +1,11 @@
-- id: satoshi
-  code: 200
+- id: 200
+  key: satoshi
   currency: btc
   fixed: 8
   fee: 0.0005
   inuse: true
-- id: bank
-  code: 400
+- id: 400
+  key: bank
   currency: cny
   fixed: 2
   fee_max: 0
