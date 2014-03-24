@@ -11,7 +11,7 @@
                 price  = []
                 volume = []
 
-                for i in gon.price
+                for i in data
                   price.push [
                     Number(i.date) * 1000
                     Math.round(i.price * 100) / 100
@@ -24,7 +24,7 @@
                 series[0].setData price
                 series[1].setData volume
 
-            do update
+            update()
             setInterval ->
               update
             , 1 * 1 * 1000
