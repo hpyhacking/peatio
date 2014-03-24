@@ -7,6 +7,17 @@ $ ->
       topOffset: -180
       activeClass: 'active'
 
+    $('a.go-verify').on 'click', (e) ->
+      e.preventDefault()
+      root = $('.tab-pane.active .root.json pre').text()
+      partial_tree = $('.tab-pane.active .partial-tree.json pre').text()
+
+      if partial_tree
+        uri = 'http://syskall.com/proof-of-liabilities/#verify?partial_tree=' + partial_tree + '&expected_root=' + root
+        window.open(encodeURI(uri), '_blank')
+      else
+        alert $(@).data('alert')
+
   $.fn.extend
     fixAsk: ->
       if $(@).text().length

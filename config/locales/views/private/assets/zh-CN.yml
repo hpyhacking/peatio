@@ -17,6 +17,7 @@ zh-CN:
         what-is-100-percent-reserve: 什么是100%准备金？
         how-to-verify: 如何验证交易所具备偿付能力？
         go-verify: 去验证
+        json-required: 验证之前请先获取您的资产验证代码。
       liability_data:
         liability-proof-generating: 用户资产证明正在生成中，请30分钟后再来。
         root-json: 交易所总资产验证代码
