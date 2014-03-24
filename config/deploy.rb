@@ -6,10 +6,10 @@ require 'mina/rbenv'
 case ENV['to']
 when 'demo'
   set :domain, 'demo.peat.io'
-  set :branch, 'master'
+  set :branch, 'stable'
 else
   set :domain, 'stg.peat.io'
-  set :branch, 'staging'
+  set :branch, ENV['branch'] || 'master'
 end
 
 set :deploy_to, '/var/www/peatio'
