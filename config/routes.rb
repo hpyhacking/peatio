@@ -61,7 +61,7 @@ Peatio::Application.routes.draw do
     resources :withdraw_addresses, :only => [:index, :destroy]
     resources :account_versions, :only => :index
 
-    resources :assets do
+    resources :exchange_assets, :controller => 'assets' do
       member do
         get :partial_tree
       end
