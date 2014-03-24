@@ -12,6 +12,10 @@
 # Ignore the default SQLite database.
 /db/*.sqlite3
 
+# Ignore config ymls
+/config/database.yml
+/config/application.yml
+
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /log/*.pid
@@ -27,6 +31,9 @@
 
 # Ignore ctags
 .tags
+
+# Ignore vim temporary files
+**/*.swp
 
 /vendor/bundle
 .env

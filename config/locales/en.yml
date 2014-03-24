@@ -21,14 +21,6 @@ en:
       short: '%m-%d %H:%M'
       default: '%m/%d/%Y %H:%M'
 
-  token_mailer:
-    reset_password:
-      subject: '[Peatio] Please Reset Your Password'
-    reset_two_factor:
-      subject: '[Peatio] Please Reset Your Two Factor'
-    activation:
-      subject: '[Peatio] Account Activation'
-
   currency:
     name:
       cny: Chinese Yuan
@@ -123,7 +115,7 @@ en:
     reject: Reject
     clipboard:
       click: Click to copy
-      done: Copyed
+      done: Copied
 
   global:
     ask_price: Ask

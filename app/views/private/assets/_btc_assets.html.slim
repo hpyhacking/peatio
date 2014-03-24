@@ -1,0 +1,20 @@
+.panel.panel-default
+  .panel-body
+    .row.col-wrap
+      #guide.col-md-4
+        h3 = t('.title')
+        p.text-ignore = t('.intro')
+      #content.col-md-8.col
+        .jumbotron
+          .row
+            .col-md-offset-2.col-md-8
+              span.pull-left = t('.total')
+              span.pull-right
+                == t("currency.icon.btc")
+                = Currency.assets['btc']
+          .clearfix
+          .row
+            .col-md-12 style='text-align: center; font-size: .7em'
+              = t('.address')
+              | &nbsp;&nbsp;
+              = main_btc_address_link

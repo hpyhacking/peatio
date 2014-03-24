@@ -28,6 +28,7 @@
 //= require bootstrap-datetimepicker
 //= require bootstrap-wysiwyg
 //
+//= require scrollIt
 //= require moment
 //= require numeral
 //= require bignumber
@@ -39,6 +40,7 @@
 //= require pusher.min
 //= require i18n
 //= require i18n/translations
+//= require selectize
 
 //= require_tree ./component_data
 //= require_tree ./component_ui

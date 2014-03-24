@@ -38,16 +38,16 @@ zh-CN:
         satoshi: 比特币 - 网络转账
         bank: 人民币 - 银行转账
       state:
-        apply: 待确认
-        wait: 待校验
-        reject: 已驳回
-        examined: 待处理
-        examined_warning: 异常
-        transact: 处理中
+        submitting: 待确认
+        submitted: 待校验
+        rejected: 已驳回
+        accepted: 待处理
+        suspect: 异常
+        processing: 处理中
         coin_ready: 准备中
         coin_done: 完毕
-        done: 成功
-        cancel: 撤销
+        done: 提现成功
+        canceled: 已取消
     withdraw_address:
       category:
         satoshi: 比特币 - 网络转账

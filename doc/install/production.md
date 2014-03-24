@@ -208,5 +208,8 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
     rake environment resque:matching
     RAILS_ENV=production rake environment resque:work QUEUE=coin,examine PIDFILE=/home/deploy/www/peatio/tmp/pids/resque.pid &
 
+**Liability Proof**
 
+    # Add this rake task to your crontab so it runs regularly
+    RAILS_ENV=production rake solvency:liability_proof
 

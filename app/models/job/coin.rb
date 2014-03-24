@@ -1,28 +1,34 @@
 module Job
   class Coin
     @queue = :coin
-    
+
     def self.perform(withdraw_id)
-      ActiveRecord::Base.transaction do
-        withdraw = Withdraw.find(withdraw_id).lock!
-        raise :unknown_state unless withdraw.state.coin_ready?
+      Withdraw.transaction do
+        withdraw = Withdraw.lock.find(withdraw_id)
 
-        amount = withdraw.amount
-        balance = CoinRPC[withdraw.currency].getbalance.to_d
+        return unless withdraw.processing?
 
-        if balance >= amount
-          withdraw.update_attribute(:state, :coin_done)
+        withdraw.whodunnit('resque') do
+          withdraw.call_rpc!
         end
       end
 
-      ActiveRecord::Base.transaction do
-        withdraw = Withdraw.find(withdraw_id).lock!
-        raise :unknown_state unless withdraw.state.coin_done?
+      Withdraw.transaction do
+        withdraw = Withdraw.lock.find(withdraw_id)
+
+        return unless withdraw.almost_done?
+
+        balance = CoinRPC[withdraw.currency].getbalance.to_d
+        raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.amount
+
         CoinRPC[withdraw.currency].settxfee 0.0005
         tx_id = CoinRPC[withdraw.currency].sendtoaddress withdraw.address, withdraw.amount.to_f
-        withdraw.update_attributes(tx_id: tx_id, state: :done)
+
+        withdraw.whodunnit('resque') do
+          withdraw.update_column :tx_id, tx_id
+          withdraw.succeed!
+        end
       end
     end
   end
 end
-

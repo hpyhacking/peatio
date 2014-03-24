@@ -4,7 +4,7 @@ class WithdrawAddress < ActiveRecord::Base
   attr_accessor :name
 
   paranoid
-  enumerize :category, in: WithdrawChannel.enumerize
+  enumerize :category, in: WithdrawChannel.enumerize(:currency), scope: true
 
   belongs_to :account
 
@@ -13,6 +13,10 @@ class WithdrawAddress < ActiveRecord::Base
 
   def coin?
     category.try(:satoshi?) or category.try(:protoshares?)
+  end
+
+  def fiat?
+    !coin?
   end
 
   def to_s

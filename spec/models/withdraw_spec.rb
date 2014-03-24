@@ -13,7 +13,7 @@ describe Withdraw do
     end
 
     it "bank is have compute" do
-      withdraw = build(:withdraw, address_type: :bank, sum: '1000'.to_d)
+      withdraw = build(:withdraw, address_type: :cny, sum: '1000'.to_d)
       withdraw.valid?
 
       expect(withdraw.fee).to be_d '3'
@@ -21,7 +21,7 @@ describe Withdraw do
     end
 
     it "bank is have compute with fix" do
-      withdraw = build(:withdraw, address_type: :bank, sum: '1235.232323123'.to_d)
+      withdraw = build(:withdraw, address_type: :cny, sum: '1235.232323123'.to_d)
       withdraw.valid?
 
       expect(withdraw.fee).to be_d '3.70'
@@ -51,9 +51,9 @@ describe Withdraw do
   describe 'position_in_queue' do
     let(:member) { create :member, identity: identity }
 
-    [:done, :reject, :cancel].each do |state|
+    [:done, :rejected, :canceled].each do |state|
       it "returns the number of withdraws of the same type including itself since last #{state} withdraw" do
-        create(:withdraw, state: state)
+        create(:withdraw, aasm_state: state)
         create_list(:withdraw, 2)
 
         create(:withdraw, :bank, state: :done)
@@ -66,7 +66,7 @@ describe Withdraw do
 
       context "when the withdraw itself has the completed state: #{state}" do
         it "returns 0" do
-          withdraw.state = state
+          withdraw.aasm_state = state
           withdraw.save!
 
           expect(withdraw.position_in_queue).to eq(0)
@@ -77,7 +77,7 @@ describe Withdraw do
     it 'stores the last completed withdraw id in cache' do
       withdraw.save!
 
-      described_class.expects(:with_state).once.
+      described_class.expects(:completed).once.
         returns(described_class.all)
 
       withdraw.position_in_queue
@@ -95,14 +95,14 @@ describe Withdraw do
   end
 
   describe 'after update' do
-    [:done, :reject, :cancel].each do |state|
+    [:done, :rejected, :canceled].each do |state|
       it "busts last done withdraw cache when state changes to #{state}" do
         withdraw.save
         key = withdraw.send(:last_completed_withdraw_cache_key)
         Rails.cache.write(key, 123)
 
         expect{
-          withdraw.update_attributes!(state: state, tx_id: 'tx123')
+          withdraw.update_attributes!(aasm_state: state, tx_id: 'tx123')
         }.to change { Rails.cache.read(key) }.from(123).to(nil)
       end
     end
