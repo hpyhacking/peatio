@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140320142701) do
+ActiveRecord::Schema.define(version: 20140324060148) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -28,6 +28,10 @@ ActiveRecord::Schema.define(version: 20140320142701) do
     t.integer  "currency"
     t.integer  "fun"
   end
+
+  add_index "account_versions", ["account_id", "reason"], name: "index_account_versions_on_account_id_and_reason", using: :btree
+  add_index "account_versions", ["member_id", "reason"], name: "index_account_versions_on_member_id_and_reason", using: :btree
+  add_index "account_versions", ["modifiable_id", "modifiable_type"], name: "index_account_versions_on_modifiable_id_and_modifiable_type", using: :btree
 
   create_table "accounts", force: true do |t|
     t.integer  "member_id"
@@ -90,6 +94,17 @@ ActiveRecord::Schema.define(version: 20140320142701) do
     t.datetime "updated_at"
   end
 
+  create_table "fund_sources", force: true do |t|
+    t.string   "label"
+    t.string   "address"
+    t.integer  "category"
+    t.integer  "account_id"
+    t.boolean  "is_locked"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
   create_table "id_documents", force: true do |t|
     t.integer  "category"
     t.string   "name"
@@ -130,8 +145,6 @@ ActiveRecord::Schema.define(version: 20140320142701) do
     t.integer  "state"
     t.boolean  "activated"
   end
-
-  add_index "members", ["sn"], name: "index_members_on_sn", using: :btree
 
   create_table "members_trades", force: true do |t|
     t.integer  "member_id"
@@ -177,20 +190,6 @@ ActiveRecord::Schema.define(version: 20140320142701) do
     t.integer  "currency"
   end
 
-  create_table "peatio_online_deposit_orders", force: true do |t|
-    t.string   "sn"
-    t.decimal  "amount",     precision: 32, scale: 16
-    t.decimal  "fee",        precision: 32, scale: 16
-    t.integer  "member_id"
-    t.string   "channel"
-    t.integer  "state"
-    t.string   "type"
-    t.text     "details"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "done_at"
-  end
-
   create_table "proofs", force: true do |t|
     t.string   "root"
     t.integer  "currency"
@@ -230,16 +229,14 @@ ActiveRecord::Schema.define(version: 20140320142701) do
   add_index "tokens", ["type", "token", "expire_at", "is_used"], name: "index_tokens_on_type_and_token_and_expire_at_and_is_used", using: :btree
 
   create_table "trades", force: true do |t|
-    t.decimal  "price",         precision: 32, scale: 16
-    t.decimal  "volume",        precision: 32, scale: 16
+    t.decimal  "price",      precision: 32, scale: 16
+    t.decimal  "volume",     precision: 32, scale: 16
     t.integer  "ask_id"
     t.integer  "bid_id"
     t.integer  "trend"
     t.integer  "currency"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "ask_member_sn"
-    t.string   "bid_member_sn"
   end
 
   create_table "two_factors", force: true do |t|
@@ -259,17 +256,6 @@ ActiveRecord::Schema.define(version: 20140320142701) do
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
-
-  create_table "withdraw_addresses", force: true do |t|
-    t.string   "label"
-    t.string   "address"
-    t.integer  "category"
-    t.integer  "account_id"
-    t.boolean  "is_locked"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "deleted_at"
-  end
 
   create_table "withdraws", force: true do |t|
     t.string   "sn"
