@@ -13,10 +13,10 @@ $ ->
       partial_tree = $('.tab-pane.active .partial-tree.json pre').text()
 
       if partial_tree
-        uri = 'http://syskall.com/proof-of-liabilities/#verify?partial_tree=' + partial_tree + '&expected_root=' + root
-        window.open(encodeURI(uri), '_blank')
-      else
-        alert $(@).data('alert')
+        message = $(@).data('alert') + JSON.parse(root).timestamp
+        if confirm(message)
+          uri = 'http://syskall.com/proof-of-liabilities/#verify?partial_tree=' + partial_tree + '&expected_root=' + root
+          window.open(encodeURI(uri), '_blank')
 
   $.fn.extend
     fixAsk: ->

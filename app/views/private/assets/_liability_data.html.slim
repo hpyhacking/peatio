@@ -15,10 +15,8 @@
         span.currency
           == t("currency.icon.#{proof.currency}")
           = account.balance
-        a.copy.btn.btn-default.btn-xs.disabled.pull-right href='#' data-clipboard-target=partial_tree_target = t('.copy')
-        = link_to t('.get-partial-tree'), partial_tree_exchange_asset_path(proof.currency), :class => 'btn btn-default btn-xs pull-right get-partial-tree', :remote => true
+        a.copy.btn.btn-default.btn-xs.pull-right href='#' data-clipboard-target=partial_tree_target = t('.copy')
+      pre id=partial_tree_target = account.partial_tree.to_json
       .clearfix
-      p.message
-      pre id=partial_tree_target style='display:none;'
   - else
     p = t('.liability-proof-generating')
