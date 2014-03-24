@@ -10,12 +10,13 @@ module Private
 
       @ask_name = I18n.t("currency.name.#{@ask}")
       @bid_name = I18n.t("currency.name.#{@bid}")
-      
+
       @market = Market.find(params[:market])
 
-      @bids = Global[@market].bids
-      @asks = Global[@market].asks
+      @bids   = Global[@market].bids
+      @asks   = Global[@market].asks
       @trades = Global[@market].trades
+      @price  = Global[@market].price
 
       @order_bid = OrderBid.empty
       @order_ask = OrderAsk.empty

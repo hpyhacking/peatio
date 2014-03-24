@@ -21,9 +21,9 @@ class Global
     end
   end
 
-  def key(key)
-    now = Time.now.to_i
-    time_key = now - (now % 5) # update in every 5 seconds
+  def key(key, interval=5)
+    seconds  = Time.now.to_i
+    time_key = seconds - (seconds % interval)
     "#{@currency}-#{key}-#{time_key}"
   end
 
@@ -65,6 +65,17 @@ class Global
   def since_trades(id)
     trades ||= Trade.with_currency(currency).where("id > ?", id).order(:id).limit(LIMIT)
     trades.map do |t| format_trade(t) end
+  end
+
+  def price
+    Rails.cache.fetch key('price1', 300) do
+      Trade.with_currency(currency)
+        .select("id, price, sum(volume) as volume, trend, currency, max(created_at) as created_at")
+        .where("created_at > ?", 24.to_i.hours.ago).order(:id)
+        .group("ROUND(UNIX_TIMESTAMP(created_at)/(5 * 60))") # group by 5 minutes
+        .order('max(created_at) ASC')
+        .map {|t| format_trade(t)}
+    end
   end
 
   def format_trade(t)
