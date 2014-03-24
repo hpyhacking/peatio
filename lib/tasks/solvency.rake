@@ -11,7 +11,7 @@ namespace :solvency do
           'balance' => account.balance }
       end
 
-      tree = LiabilityProof::Tree.new formatted_accounts, use_float: true
+      tree = LiabilityProof::Tree.new formatted_accounts, currency: type.upcase
 
       puts "Generating root node .."
       proof = Proof.create!(root: tree.root_json, currency: type)

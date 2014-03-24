@@ -12,4 +12,8 @@ class Proof < ActiveRecord::Base
     save!
   end
 
+  def timestamp
+    root['timestamp'] || updated_at.to_s
+  end
+
 end

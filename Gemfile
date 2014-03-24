@@ -59,7 +59,7 @@ gem 'recaptcha', :require => 'recaptcha/rails'
 gem 'browser'
 gem 'introjs-rails'
 gem 'rbtree'
-gem 'liability-proof', '0.0.5'
+gem 'liability-proof', '0.0.6'
 
 group :development, :test do
   gem 'factory_girl_rails'
