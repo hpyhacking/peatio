@@ -1,8 +1,8 @@
-- root_target = "#{proof.currency}_root_json"
-- partial_tree_target = "#{proof.currency}_partial_tree_json"
-
 .proof
   - if proof.try(:ready?) && account.partial_tree.present?
+    - root_target = "#{proof.currency}_root_json"
+    - partial_tree_target = "#{proof.currency}_partial_tree_json"
+
     .root.json
       h5
         = t('.root-json')
