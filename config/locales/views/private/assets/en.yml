@@ -14,7 +14,8 @@ en:
       liability_proof:
         title: Proof of Liability
         intro: Our bank and btc accounts are public so you know how many assets we hold. We provides proof of liability so you know how many liabilities we have. Your money is safe because our assets > our liabilities.
-        how-to-verify: To verify your deposits are included in our liability, copy and paste the json data below to <a target='_blank' href='http://syskall.com/blind-liability-proof/#verify'>Blind Liability Proof Tools</a> and click 'VERIFY'
+        what-is-100-percent-reserve: 'What is 100 percent reserve?'
+        how-to-verify: 'How to verify the exchange is solvent?'
         go-verify: Go Verify
       liability_data:
         liability-proof-generating: Proof of Liability generation in process, please come back after 30 minutes.
