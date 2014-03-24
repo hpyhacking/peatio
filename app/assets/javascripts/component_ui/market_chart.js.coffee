@@ -2,7 +2,11 @@
 
   @drawChart = ->
     @$node.highcharts "StockChart",
+      credits:
+        enabled: false
+
       chart:
+        height: 360
         events:
           load: ->
             series = @series
@@ -27,10 +31,10 @@
             update()
             setInterval ->
               update
-            , 1 * 1 * 1000
+            , 5 * 60 * 1000
 
-      credits:
-        enabled: false
+      navigator:
+        top: 300
 
       rangeSelector:
         inputEnabled: false
@@ -57,7 +61,7 @@
         {
           title:
             text: "Volume"
-          top: 248
+          top: 200
           height: 60
           offset: 0
           lineWidth: 2
