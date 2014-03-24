@@ -28,9 +28,9 @@ module Peatio
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
     config.i18n.available_locales = ['en', 'zh-CN']
 
-    config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths += %W(#{config.root}/lib/extras)
+    config.autoload_paths += %W(#{config.root}/lib #{config.root}/lib/extras)
 
+    config.assets.precompile += ['withdraw_selectize.js']
     config.assets.initialize_on_precompile = true
   end
 end
