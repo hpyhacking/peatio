@@ -100,3 +100,8 @@ desc "Stop Matching Engine"
 task 'matching:stop' do
   queue "kill -s QUIT `cat #{deploy_to}/current/log/matching.pid` && echo Matching engine stopped."
 end
+
+desc "Generate liability proof"
+task 'solvency:liability_proof' do
+  queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec rake solvency:liability_proof"
+end
