@@ -151,7 +151,7 @@ GEM
     less-rails (2.4.2)
       actionpack (>= 3.1)
       less (~> 2.4.0)
-    liability-proof (0.0.7)
+    liability-proof (0.0.8)
       awesome_print
     libv8 (3.16.14.3)
     mail (2.5.4)
@@ -382,7 +382,7 @@ DEPENDENCIES
   kaminari
   launchy
   less-rails
-  liability-proof (= 0.0.7)
+  liability-proof (= 0.0.8)
   mails_viewer
   meta_request
   mina
