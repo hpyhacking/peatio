@@ -9,11 +9,14 @@ $ ->
 
     $('a.go-verify').on 'click', (e) ->
       e.preventDefault()
-      root = $('.tab-pane.active .root.json pre').text()
+
+      root         = $('.tab-pane.active .root.json pre').text()
       partial_tree = $('.tab-pane.active .partial-tree.json pre').text()
 
       if partial_tree
-        message = $(@).data('alert') + JSON.parse(root).timestamp
+        date    = new Date(JSON.parse(root).timestamp)
+        message = $(@).data('alert') + date
+
         if confirm(message)
           uri = 'http://syskall.com/proof-of-liabilities/#verify?partial_tree=' + partial_tree + '&expected_root=' + root
           window.open(encodeURI(uri), '_blank')
