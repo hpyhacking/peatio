@@ -21,12 +21,12 @@
   @handleSuccess = (event, data) ->
     @cleanMsg()
     @select('successSel').text(data.message)
+    @resetForm()
 
   @handleError = (event, data) ->
     @cleanMsg()
     json = JSON.parse(data.responseText)
     @select('dangerSel').text(json.message)
-    @resetForm()
 
   @computeSum = (e) ->
     if @select('priceSel').val() and @select('volumeSel').val()
