@@ -1,0 +1,2 @@
+class DepositChannelBank < DepositChannel
+end

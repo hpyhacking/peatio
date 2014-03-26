@@ -5,7 +5,7 @@ ul.list-group
         .col-md-10
           .row.row-middle
             .col-md-6
-              h4 = d.name_text
+              h4 = d.title_text
             .col-md-6
           .row
             .col-md-12
@@ -18,4 +18,4 @@ ul.list-group
               i.fa.fa-clock-o.text-info
               span = d.latency_text
         .col-md-2
-          a.btn.btn-default.btn-block href='#{d.link}' = t('.go')
+          a.btn.btn-default.btn-block href='#{send("new_#{d.class.model_name.singular}_path")}' = t('.go')

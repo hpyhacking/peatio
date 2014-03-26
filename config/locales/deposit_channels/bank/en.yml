@@ -1,0 +1,20 @@
+en:
+  deposit_channels:
+    bank:
+      title: Bank transfer
+      intro: Bank transfer deposits, Recommend for large recharge 
+      latency: 10 minutes
+      transfer: Manual processing
+  private:
+    deposit_channel_bank:
+      new:
+        step-1: Step One
+        select-bank: Large recharge can choose to transfer to our bank account, in order to quickly recharge your arrival, please try to select the same with our bank transfers recharge. You can choose to use the online bank transfer or transfer counter.
+        step-2: Step Two
+        send-money: No matter which way you choose to transfer, please fill in the remarks your personal identification number  , so that you can recharge quickly.
+        step-3: Step Three
+        check-confirm: Interbank transfer generally takes an hour or even longer time. If the delay exceeds your expectations, please contact our customer service staff timely.
+        bank: Bank
+        card: Card NO.
+        name: Account Name
+

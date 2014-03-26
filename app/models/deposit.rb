@@ -1,7 +1,6 @@
 class Deposit < ActiveRecord::Base
   extend Enumerize
   enumerize :currency, in: Currency.codes
-  enumerize :address_type, in: DepositChannel.enumerize
   enumerize :state, in: {:wait => 100, :done => 500}
 
   belongs_to :member

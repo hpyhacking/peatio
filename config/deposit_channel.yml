@@ -1,20 +1,18 @@
-- id: satoshi
-  code: 200
+- id: 200
+  key: satoshi
   currency: btc
-  link: /deposits/coins/satoshi
-  description: btc
+  transfer: now
+  latency: 10
   confirm: 1
   confirm_max: 6
   low: 0.1
-  transfer: now
-  latency: 10
-- id: bank
-  code: 400
+  type: DepositChannelSatoshi
+- id: 400
+  key: bank
   currency: cny
-  link: /deposits/banks/new
-  description: cny
   transfer: now
   latency: 10
   account_bank: '#Fake Bank Name#'
   account_holder: '#Fake Card Holder#'
   account_number: '#Fake Card Number#'
+  type: DepositChannelBank
