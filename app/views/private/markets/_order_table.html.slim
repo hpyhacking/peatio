@@ -1,8 +1,0 @@
-table.table.table-condensed.table-striped
-  thead
-    tr
-      - attrs.each do |attr|
-        th class='#{attr}' = Order.human_attribute_name(attr)
-      th.operation data-i18n-view='#{t('actions.view')}' data-i18n-cancel='#{t('actions.cancel')}' = Order.human_attribute_name(:operation)
-  tbody
-    tr.empty-row: td colspan=100 ......
