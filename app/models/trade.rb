@@ -18,6 +18,4 @@ class Trade < ActiveRecord::Base
     with_currency(currency).last.try(:price) || "0.0".to_d
   end
 
-  attr_accessor :order
-
 end
