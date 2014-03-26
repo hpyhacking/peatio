@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324062812) do
+ActiveRecord::Schema.define(version: 20140326170234) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -62,12 +62,14 @@ ActiveRecord::Schema.define(version: 20140324062812) do
     t.integer  "account_id"
     t.integer  "member_id"
     t.integer  "currency"
-    t.decimal  "amount",        precision: 32, scale: 16
-    t.string   "address"
-    t.string   "address_label"
-    t.integer  "address_type"
-    t.string   "tx_id"
+    t.decimal  "amount",            precision: 32, scale: 16
+    t.decimal  "fee",               precision: 32, scale: 16
+    t.string   "fund_source_uid"
+    t.string   "fund_source_extra"
+    t.integer  "channel_id"
+    t.string   "txid"
     t.integer  "state"
+    t.string   "aasm_state"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "done_at"
@@ -108,7 +110,7 @@ ActiveRecord::Schema.define(version: 20140324062812) do
   end
 
   create_table "id_documents", force: true do |t|
-    t.integer  "category"
+    t.integer  "type"
     t.string   "name"
     t.string   "sn"
     t.integer  "member_id"
@@ -190,6 +192,20 @@ ActiveRecord::Schema.define(version: 20140324062812) do
     t.datetime "receive_at"
     t.datetime "dont_at"
     t.integer  "currency"
+  end
+
+  create_table "peatio_online_deposit_orders", force: true do |t|
+    t.string   "sn"
+    t.decimal  "amount",     precision: 32, scale: 16
+    t.decimal  "fee",        precision: 32, scale: 16
+    t.integer  "member_id"
+    t.string   "channel"
+    t.integer  "state"
+    t.string   "type"
+    t.text     "details"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "done_at"
   end
 
   create_table "proofs", force: true do |t|

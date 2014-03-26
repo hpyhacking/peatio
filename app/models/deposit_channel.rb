@@ -5,4 +5,8 @@ class DepositChannel < ActiveYaml::Base
   extend ActiveModel::Naming
   include ChannelInheritable
   include ActiveRecord::Inheritance
+
+  def compute_fee(deposit)
+    [deposit.amount, 0.to_d]
+  end
 end

@@ -1,18 +1,13 @@
 - id: 200
   key: satoshi
   currency: btc
-  transfer: now
-  latency: 10
+  type: DepositChannelSatoshi
   confirm: 1
   confirm_max: 6
-  low: 0.1
-  type: DepositChannelSatoshi
 - id: 400
   key: bank
   currency: cny
-  transfer: now
-  latency: 10
+  type: DepositChannelBank
   account_bank: '#Fake Bank Name#'
   account_holder: '#Fake Card Holder#'
   account_number: '#Fake Card Number#'
-  type: DepositChannelBank
