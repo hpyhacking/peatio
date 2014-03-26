@@ -39,6 +39,8 @@ describe Matching::Executor do
         trade.trend.should  == 'up'
         trade.price.should  == price
         trade.volume.should == volume
+        trade.ask_id.should == ask.id
+        trade.bid_id.should == bid.id
       }.to change(Trade, :count).by(1)
     end
 

@@ -17,7 +17,7 @@ module Matching
       ActiveRecord::Base.transaction do
         lock_account!
 
-        trade = Trade.create(ask_id: @ask.id, bid_id: @bid_id,
+        trade = Trade.create(ask_id: @ask.id, bid_id: @bid.id,
                              price: @price, volume: @volume,
                              currency: @market.id.to_sym, trend: trend)
 
