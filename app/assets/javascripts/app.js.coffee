@@ -86,8 +86,8 @@ $ ->
   MarketChartUI.attachTo('.price-chart')
 
   AccountBalanceUI.attachTo('.account-balance')
-  OrderEnterBidUI.attachTo('.order-enter #bid_panel')
-  OrderEnterAskUI.attachTo('.order-enter #ask_panel')
+  OrderEnterUI.attachTo('.order-enter #bid_panel')
+  OrderEnterUI.attachTo('.order-enter #ask_panel')
 
   # TradeAccountUI.attachTo('.account-wrapper')
   # TradeOrderUI.attachTo('.order-wrapper')
