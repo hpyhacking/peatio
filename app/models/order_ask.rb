@@ -1,4 +1,13 @@
 class OrderAsk < Order
+
+  def hold_account
+    member.get_account(ask)
+  end
+
+  def expect_account
+    member.get_account(bid)
+  end
+
   def kind
     "ask"
   end

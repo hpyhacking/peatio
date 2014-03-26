@@ -66,14 +66,6 @@ class Order < ActiveRecord::Base
     self.save!
   end
 
-  def hold_account
-    self.member.get_account(self.instance_eval self.kind)
-  end
-
-  def expect_account
-    self.member.get_account(self.instance_eval self.opposite_kind)
-  end
-
   def self.head(currency)
     active.with_currency(currency.downcase).matching_rule.first
   end
