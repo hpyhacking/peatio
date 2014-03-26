@@ -1,9 +1,16 @@
 #market
   .row
-    .col-md-8 = render partial: 'price_chart'
     .col-md-4 = render partial: 'order_enter', locals: {market: @market, order_bid: @order_bid, order_ask: @order_ask}
 
-  .row
+    .col-md-4
+      .panel.panel-default
+        .panel-heading = t('.orders')
+        .panel-body
+          .orders
+            table.table.asks
+            hr
+            table.table.bids
+
     .col-md-4
       .panel.panel-default
         .panel-heading Trades
@@ -16,21 +23,16 @@
                   td.price Price
                   td.amount Volume
               tbody
-    .col-md-4
-      .panel.panel-default
-        .panel-heading = t('.orders')
-        .panel-body
-          .orders
-            table.table.asks
-            hr
-            table.table.bids
 
+  .row
     .col-md-4
       .panel.panel-default
         .panel-heading My Orders
         .panel-body content
 
-  /.row
+    .col-md-8 = render partial: 'price_chart'
+
+  .row
     .col-md-3
       .orders
         h3.text-center.title

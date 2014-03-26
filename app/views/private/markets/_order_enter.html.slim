@@ -7,10 +7,10 @@
     #bid_panel.tab-pane.active
       p.last-price.clearfix
         label.name Buy Price
-        label.value 3000
+        label.value
       p.current-balance.clearfix
         label.name Current Balance
-        label.value 3000
+        label.value
       = form_for [market, order_bid], :remote => true do |f|
         p.input-group.price
           label.input-group-addon Price
@@ -32,10 +32,10 @@
     #ask_panel.tab-pane
       p.last-price
         label.name Sell Price
-        label.value 3000
+        label.value
       p.current-balance
         label.name Current Balance
-        label.value 3000
+        label.value
       = form_for [market, order_ask], :remote => true do |f|
         p.input-group.price
           label.input-group-addon Price
