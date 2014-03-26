@@ -143,3 +143,34 @@ describe Order, "#head" do
     end
   end
 end
+
+describe Order, "#kind" do
+  it "should be ask for ask order" do
+    OrderAsk.new.kind.should == 'ask'
+  end
+
+  it "should be bid for bid order" do
+    OrderBid.new.kind.should == 'bid'
+  end
+end
+
+describe Order, "related accounts" do
+  let(:alice)  { who_is_billionaire(:alice) }
+  let(:bob)    { who_is_billionaire(:bob) }
+
+  context OrderAsk do
+    it "should hold btc and expect cny" do
+      ask = create(:order_ask, member: alice)
+      ask.hold_account.should == alice.get_account(:btc)
+      ask.expect_account.should == alice.get_account(:cny)
+    end
+  end
+
+  context OrderBid do
+    it "should hold cny and expect btc" do
+      bid = create(:order_bid, member: bob)
+      bid.hold_account.should == bob.get_account(:cny)
+      bid.expect_account.should == bob.get_account(:btc)
+    end
+  end
+end
