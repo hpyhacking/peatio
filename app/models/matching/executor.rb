@@ -14,20 +14,19 @@ module Matching
     def execute!
       raise TradeExecutionError.new({ask: @ask, bid: @bid, price: @price, volume: @volume}) unless valid?
 
+      trade = Trade.create(ask_id: @ask.id, bid_id: @bid.id,
+                           price: @price, volume: @volume,
+                           currency: @market.id.to_sym, trend: trend)
+
       ActiveRecord::Base.transaction do
         lock_account!
 
-        trade = Trade.create(ask_id: @ask.id, bid_id: @bid.id,
-                             price: @price, volume: @volume,
-                             currency: @market.id.to_sym, trend: trend)
-
         @bid.strike trade
         @ask.strike trade
-
-        Global[@market].trigger_trade trade
-
-        trade
       end
+
+      Global[@market].trigger_trade trade
+      trade
     end
 
     private
