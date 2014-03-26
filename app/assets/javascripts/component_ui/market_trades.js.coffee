@@ -9,5 +9,5 @@ window.MarketTradesUI = flight.component ->
     $table.prepend(JST['market_trade'](trade)) for trade in data.trades
 
   @after 'initialize', ->
-    @on document, 'pusher::trades', (event, data) => @refresh(data)
+    @on document, 'market::trades', (event, data) => @refresh(data)
     @refresh {trades: _.first(gon.trades, 20).reverse()}

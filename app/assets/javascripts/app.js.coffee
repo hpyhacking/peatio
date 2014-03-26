@@ -75,10 +75,10 @@ $ ->
   #     window.console && console.log(message)
 
   AccountBalanceUI.attachTo('.account-balance')
-  MarketTickerUI.attachTo('.ticker')
   OrderEnterUI.attachTo('.order-enter #bid_panel')
   OrderEnterUI.attachTo('.order-enter #ask_panel')
 
+  MarketTickerUI.attachTo('.ticker')
   MarketOrdersUI.attachTo('.orders')
   MarketTradesUI.attachTo('.trades')
   MarketChartUI.attachTo('.price-chart')

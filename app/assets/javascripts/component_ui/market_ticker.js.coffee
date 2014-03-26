@@ -22,5 +22,4 @@ window.MarketTickerUI = flight.component ->
     @update @select('latestPriceSelector'), data['last']
 
   @after 'initialize', ->
-    @on document, 'pusher::ticker', @refresh
-    @refresh '', gon.ticker
+    @on document, 'market::ticker', @refresh
