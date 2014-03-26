@@ -16,7 +16,7 @@ class Order < ActiveRecord::Base
   DONE = 'done'
   CANCEL = 'cancel'
 
-  ATTRIBUTES = %w(id at market kind kind_text price state state_text volume origin_volume)
+  ATTRIBUTES = %w(id at market kind price state state_text volume origin_volume)
 
   belongs_to :member
   attr_accessor :total
@@ -88,10 +88,6 @@ class Order < ActiveRecord::Base
 
   def market
     currency
-  end
-
-  def kind_text
-    self.class.model_name.human
   end
 
   def to_matching_attributes
