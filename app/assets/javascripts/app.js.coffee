@@ -99,6 +99,3 @@ $ ->
       TradeHistoryCancelUI.attachTo(selector) if state is 'cancel'
       TradeHistoryDoneUI.attachTo(selector) if state is 'done'
 
-  $(".ask-panel, .bid-panel").click ->
-    $(document).trigger('history::resize', gon.history_height)
-
