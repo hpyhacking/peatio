@@ -5,6 +5,11 @@ ENV['RAILS_ENV'] = 'test'
 require 'benchmark'
 require_relative '../config/environment'
 
+Rails.logger = nil
+ActiveRecord::Base.logger = nil
+ActionController::Base.logger = nil
+ActionView::Base.logger =  nil
+
 class SweatFactory
 
   @@seq = 0
