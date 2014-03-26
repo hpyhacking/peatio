@@ -9,6 +9,14 @@
     priceSel: 'input[id$=price]'
     volumeSel: 'input[id$=volume]'
 
+    lastPrice: '.last-price .value'
+    currentBalanceSel: '.current-balance .value'
+
+  @panelType = ->
+    switch @$node.attr('id')
+      when 'bid_panel' then 'bid'
+      when 'ask_panel' then 'ask'
+
   @cleanMsg = ->
     @select('successSel').text('')
     @select('infoSel').text('')
@@ -69,9 +77,14 @@
   @refreshPrice = (event, price) ->
     @select('priceSel').val(price || gon.ticker.last)
 
+  @refreshCurrentBalance = (event, data) ->
+    type = @panelType()
+    @select('currentBalanceSel').text data[type].balance
+
   @after 'initialize', ->
     @on document, 'order::plan', @orderPlan
     @on document, 'market::price::bid', @refreshPrice
+    @on document, 'trade::account', @refreshCurrentBalance
 
     @on @select('formSel'), 'ajax:success', @handleSuccess
     @on @select('formSel'), 'ajax:error', @handleError

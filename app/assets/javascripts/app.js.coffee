@@ -74,25 +74,19 @@ $ ->
   #   Pusher.log = (message) ->
   #     window.console && console.log(message)
 
-  pusher = new Pusher(gon.pusher_key, {encrypted: true})
-
-  GlobalData.attachTo(document, {pusher: pusher})
-  AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
-  OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
-
+  AccountBalanceUI.attachTo('.account-balance')
   MarketTickerUI.attachTo('.ticker')
+  OrderEnterUI.attachTo('.order-enter #bid_panel')
+  OrderEnterUI.attachTo('.order-enter #ask_panel')
+
   MarketOrdersUI.attachTo('.orders')
   MarketTradesUI.attachTo('.trades')
   MarketChartUI.attachTo('.price-chart')
 
-  AccountBalanceUI.attachTo('.account-balance')
-  OrderEnterUI.attachTo('.order-enter #bid_panel')
-  OrderEnterUI.attachTo('.order-enter #ask_panel')
-
-  # TradeAccountUI.attachTo('.account-wrapper')
-  # TradeOrderUI.attachTo('.order-wrapper')
-  # TradeOrderBidUI.attachTo('#bid_panel .order-wrapper')
-  # TradeOrderAskUI.attachTo('#ask_panel .order-wrapper')
+  pusher = new Pusher(gon.pusher_key, {encrypted: true})
+  GlobalData.attachTo(document, {pusher: pusher})
+  AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
+  OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
 
   for type in ['ask', 'bid']
     for state in ['wait', 'cancel', 'done']

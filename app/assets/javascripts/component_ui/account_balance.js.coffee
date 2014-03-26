@@ -9,5 +9,4 @@
 
   @after 'initialize', ->
     @on document, 'trade::account', @updateAccount
-    @trigger document, 'trade::account', gon.accounts
 
