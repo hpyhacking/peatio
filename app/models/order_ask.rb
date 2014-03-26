@@ -8,14 +8,6 @@ class OrderAsk < Order
     member.get_account(bid)
   end
 
-  def kind
-    "ask"
-  end
-
-  def opposite_kind
-    "bid"
-  end
-
   def sum(v = nil, p = nil)
     v ||= volume
   end

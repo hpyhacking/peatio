@@ -66,6 +66,10 @@ class Order < ActiveRecord::Base
     self.save!
   end
 
+  def kind
+    type.underscore[-3, 3]
+  end
+
   def self.head(currency)
     active.with_currency(currency.downcase).matching_rule.first
   end
