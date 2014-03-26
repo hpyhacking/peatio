@@ -55,8 +55,10 @@ Peatio::Application.routes.draw do
     resources :deposits, only: :index
 
     # channel DONT created by user, this create deposit with channel.
-    DepositChannel.descendants.each do |w|
-      resources w.model_name.singular, only: [:new, :create]
+    namespace :deposits do
+      DepositChannel.descendants.each do |w|
+        resources w.get.key, only: [:new, :create]
+      end
     end
 
     resources :withdraws, only: :index
