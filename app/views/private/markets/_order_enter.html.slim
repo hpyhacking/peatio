@@ -2,6 +2,7 @@
   ul.nav.nav-tabs
     li.active: a.bid-panel href="#bid_panel" data-toggle="tab" == t('.bid_panel', currency: @ask_name)
     li: a.ask-panel href="#ask_panel" data-toggle="tab" == t('.ask_panel', currency: @ask_name)
+
   .tab-content
     #bid_panel.tab-pane.active
       p.last-price.clearfix
@@ -10,19 +11,23 @@
       p.current-balance.clearfix
         label.name Current Balance
         label.value 3000
-      p.input-group.price
-        label.input-group-addon Price
-        input.form-control type="input"
-      p.input-group.amount
-        label.input-group-addon Amount
-        input.form-control type="input"
-      p.input-group.total
-        label.input-group-addon Total
-        input.form-control type="input"
-      hr
-      p
-        button.btn.btn-primary.btn-lg.btn-block type="button" Place BUY Order
-
+      = form_for [market, order_bid], :remote => true do |f|
+        p.input-group.price
+          label.input-group-addon Price
+          = f.text_field :price, class: 'form-control'
+        p.input-group.amount
+          label.input-group-addon Amount
+          = f.text_field :origin_volume, class: 'form-control'
+        p.input-group.total
+          label.input-group-addon Total
+          = f.text_field :sum, class: 'form-control'
+        hr
+        p
+          span.label.label-info
+          span.label.label-success
+          span.label.label-danger
+        p
+          button.btn.btn-primary.btn-lg.btn-block type="submit" Place BUY Order
 
     #ask_panel.tab-pane
       p.last-price
@@ -31,15 +36,20 @@
       p.current-balance
         label.name Current Balance
         label.value 3000
-      p.input-group.price
-        label.input-group-addon Price
-        input.form-control type="input"
-      p.input-group.amount
-        label.input-group-addon Amount
-        input.form-control type="input"
-      p.input-group.total
-        label.input-group-addon Total
-        input.form-control type="input"
-      hr
-      p
-        button.btn.btn-primary.btn-lg.btn-block type="button" Place SELL Order
+      = form_for [market, order_ask], :remote => true do |f|
+        p.input-group.price
+          label.input-group-addon Price
+          = f.text_field :price, class: 'form-control'
+        p.input-group.amount
+          label.input-group-addon Amount
+          = f.text_field :origin_volume, class: 'form-control'
+        p.input-group.total
+          label.input-group-addon Total
+          = f.text_field :sum, class: 'form-control'
+        hr
+        p
+          span.label.label-info
+          span.label.label-success
+          span.label.label-danger
+        p
+          button.btn.btn-primary.btn-lg.btn-block type="submit" Place SELL Order

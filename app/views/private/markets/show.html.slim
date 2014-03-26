@@ -1,7 +1,7 @@
 #market
   .row
     .col-md-8 = render partial: 'price_chart'
-    .col-md-4 = render partial: 'order_enter'
+    .col-md-4 = render partial: 'order_enter', locals: {market: @market, order_bid: @order_bid, order_ask: @order_ask}
 
   .row
     .col-md-4
@@ -30,7 +30,7 @@
         .panel-heading My Orders
         .panel-body content
 
-  .row
+  /.row
     .col-md-3
       .orders
         h3.text-center.title

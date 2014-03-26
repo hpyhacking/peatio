@@ -70,9 +70,9 @@ $ ->
     placement = $(@).data('placement') || 'bottom'
     $(zero.htmlBridge).tooltip({title: gon.clipboard.click, placement: placement})
 
-  if gon.env is 'development'
-    Pusher.log = (message) ->
-      window.console && console.log(message)
+  # if gon.env is 'development'
+  #   Pusher.log = (message) ->
+  #     window.console && console.log(message)
 
   pusher = new Pusher(gon.pusher_key, {encrypted: true})
 
@@ -85,11 +85,13 @@ $ ->
   MarketTradesUI.attachTo('.trades')
   MarketChartUI.attachTo('.price-chart')
 
-  TradeAccountUI.attachTo('.account-wrapper')
+  OrderEnterBidUI.attachTo('.order-enter #bid_panel')
+  OrderEnterAskUI.attachTo('.order-enter #ask_panel')
 
-  TradeOrderUI.attachTo('.order-wrapper')
-  TradeOrderBidUI.attachTo('#bid_panel .order-wrapper')
-  TradeOrderAskUI.attachTo('#ask_panel .order-wrapper')
+  # TradeAccountUI.attachTo('.account-wrapper')
+  # TradeOrderUI.attachTo('.order-wrapper')
+  # TradeOrderBidUI.attachTo('#bid_panel .order-wrapper')
+  # TradeOrderAskUI.attachTo('#ask_panel .order-wrapper')
 
   for type in ['ask', 'bid']
     for state in ['wait', 'cancel', 'done']
