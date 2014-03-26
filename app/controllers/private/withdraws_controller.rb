@@ -1,23 +1,11 @@
 module Private
   class WithdrawsController < BaseController
-    def new
-      currency = params[:currency] || 'btc'
-      @account = current_user.get_account(currency)
-      @withdraw = Withdraw.new currency: currency, account: @account
-      @fund_sources = current_user.fund_sources.with_currency(currency)
-      load_history(currency)
+    def index
+      @channels = WithdrawChannel.all
     end
 
-    def create
-      @withdraw = Withdraw.new(withdraw_params)
-
-      if @withdraw.save
-        redirect_to edit_withdraw_path(@withdraw)
-      else
-        @fund_sources = current_user.fund_sources
-        load_history(currency)
-        render :new
-      end
+    def edit
+      @withdraw = current_user.withdraws.find(params[:id])
     end
 
     def update
@@ -30,10 +18,6 @@ module Private
       @withdraw = current_user.withdraws.find(params[:id])
       @withdraw.cancel!
       redirect_to new_withdraw_path(currency: @withdraw.currency)
-    end
-
-    def edit
-      @withdraw = current_user.withdraws.find(params[:id])
     end
 
     private

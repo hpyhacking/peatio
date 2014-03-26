@@ -4,6 +4,7 @@
   fixed: 8
   fee: 0.0005
   inuse: true
+  type: WithdrawSatoshiChannel
 - id: 400
   key: bank
   currency: cny
@@ -14,3 +15,4 @@
   fee: 0.005
   proportion: true
   inuse: true
+  type: WithdrawBankChannel

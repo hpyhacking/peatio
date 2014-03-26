@@ -16,3 +16,16 @@
   hr.split
 
   = f.button :wrapped, t('helpers.submit.withdraw.new')
+
+= content_for :guide do
+  ul
+    li = link_to t('.withdraw_btc'), new_withdraw_path
+    li = link_to t('.withdraw_cny'), new_withdraw_path(currency: 'cny')
+
+= content_for :after
+  = panel do
+    = datagrid_table(@withdraws_grid)
+
+= content_for :scripts
+  = javascript_include_tag :withdraw_selectize
+

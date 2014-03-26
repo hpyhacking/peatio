@@ -1,0 +1,2 @@
+class WithdrawBankChannel < WithdrawChannel
+end

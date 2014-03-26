@@ -2,6 +2,8 @@ require 'resque/server'
 require 'market_constraint'
 require 'whitelist_constraint'
 
+Rails.application.eager_load!
+
 Peatio::Application.routes.draw do
   if Rails.env == 'development'
     mount Resque::Server.new, :at => "/jobs"
@@ -57,7 +59,13 @@ Peatio::Application.routes.draw do
       end
     end
 
-    resources :withdraws
+    resources :withdraws, only: :index
+
+    # channel DONT created by user, this create withdraw with channel.
+    WithdrawChannel.descendants.each do |w|
+      resources w.model_name.plural, only: [:new, :create]
+    end
+
     resources :account_versions, :only => :index
     resources :fund_sources, :only => [:index, :destroy]
 
