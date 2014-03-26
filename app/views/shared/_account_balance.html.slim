@@ -3,17 +3,17 @@
   .panel-body
     .col-md-6
       ul
-        li.clearfix
-          span.name = t('markets.account_balance.available_btc')
-          span.value = current_user.accounts.balance_sum(:btc)
-        li.clearfix
+        li.available-cash.clearfix
           span.name = t('markets.account_balance.available_cny')
-          span.value = current_user.accounts.balance_sum(:cny)
+          span.value
+        li.available-coin.clearfix
+          span.name = t('markets.account_balance.available_btc')
+          span.value
     .col-md-6
       ul
-        li.clearfix
-          span.name = t('markets.account_balance.locked_btc')
-          span.value = current_user.accounts.locked_sum(:btc)
-        li.clearfix
+        li.locked-cash.clearfix
           span.name = t('markets.account_balance.locked_cny')
-          span.value = current_user.accounts.locked_sum(:cny)
+          span.value
+        li.locked-coin.clearfix
+          span.name = t('markets.account_balance.locked_btc')
+          span.value
