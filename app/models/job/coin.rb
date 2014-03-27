@@ -19,9 +19,11 @@ module Job
         return unless withdraw.almost_done?
 
         balance = CoinRPC[withdraw.currency].getbalance.to_d
-        raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.amount
+        raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.sum
 
-        CoinRPC[withdraw.currency].settxfee 0.0005
+        fee = [withdraw.fee || withdraw.channel.try(:fee) || 0.0005, 0.1].min
+
+        CoinRPC[withdraw.currency].settxfee fee
         txid = CoinRPC[withdraw.currency].sendtoaddress withdraw.fund_uid, withdraw.amount.to_f
 
         withdraw.whodunnit('resque') do
