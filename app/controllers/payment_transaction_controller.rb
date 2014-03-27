@@ -1,5 +1,4 @@
 class PaymentTransactionController < ApplicationController
-  skip_before_filter :check_browser
   before_filter :fetch_transaction_raw
 
   def create

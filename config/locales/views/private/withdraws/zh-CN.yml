@@ -4,7 +4,8 @@ zh-CN:
       new:
         withdraw_btc: 'BTC提现'
         withdraw_cny: '人民币提现'
-        btc:
+      satoshi:
+        new:
           balance: '可用BTC余额: ฿%{balance}'
           title: 'BTC提现'
           address: '提现地址'
@@ -12,7 +13,8 @@ zh-CN:
           label: '备注'
           save_address: '保存?'
           placeholder: '使用保存的地址或者输入新地址'
-        cny:
+      bank:
+        new:
           balance: '可用人民币余额: ฿%{balance}'
           title: '人民币提现'
           address: '银行帐号'

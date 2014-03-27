@@ -1,10 +1,15 @@
 class WithdrawChannel < ActiveYaml::Base
-  include Enumerizeable
-
   set_root_path "#{Rails.root}/config"
   set_filename "withdraw_channel"
 
-  def self.currency(category)
-    self.find_by_id(category).currency.to_s
+  extend ActiveModel::Naming
+  include ChannelInheritable
+  include ActiveRecord::Inheritance
+
+  def self.get
+    WithdrawChannel.where(type: self.to_s).first
+  end
+
+  def calc_fee(withdraw)
   end
 end

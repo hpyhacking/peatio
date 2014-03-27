@@ -30,12 +30,12 @@ describe 'withdraw' do
     visit_admin_withdraw_page
 
     expect(page).to have_content(withdraw.sn)
-    expect(page).to have_content(withdraw.address_label)
-    expect(page).to_not have_content(withdraw.address)
+    expect(page).to have_content(withdraw.fund_extra)
+    expect(page).to_not have_content(withdraw.fund_uid)
 
     click_on I18n.t('actions.view')
-    expect(page).to have_content(withdraw.address)
-    expect(page).to have_content(withdraw.address_label)
+    expect(page).to have_content(withdraw.fund_uid)
+    expect(page).to have_content(withdraw.fund_extra)
     expect(page).to have_content(I18n.t('actions.transact'))
     expect(page).to have_content(I18n.t('actions.reject'))
   end

@@ -1,12 +1,12 @@
 module Private
-  class WithdrawAddressesController < BaseController
+  class FundSourcesController < BaseController
     respond_to :json
     def index
-       respond_with current_user.withdraw_addresses.with_category(params[:currency])
+      respond_with current_user.fund_sources.with_channel(params[:channel_id])
     end
 
     def destroy
-      WithdrawAddress.where(
+      FundSource.where(
         :id => params[:id],
         :is_locked => false,
         :account_id => current_user.accounts).destroy_all

@@ -103,7 +103,7 @@ describe Withdraw do
 
         subject.reload
         expect(subject.done?).to be_true
-        expect(subject.tx_id).to eq('12345')
+        expect(subject.txid).to eq('12345')
       end
 
       it 'does not send coins again if previous attempt failed' do
