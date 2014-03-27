@@ -48,6 +48,9 @@ GEM
       less-rails
     browser (0.3.2)
     builder (3.1.4)
+    byebug (2.7.0)
+      columnize (~> 0.3)
+      debugger-linecache (~> 1.2)
     cached_resource (3.0.0)
       activeresource (>= 3.2)
       activesupport (>= 3.2)
@@ -73,6 +76,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    columnize (0.3.6)
     commonjs (0.2.7)
     daemons (1.1.9)
     daemons-rails (1.2.1)
@@ -82,6 +86,7 @@ GEM
     datagrid (1.0.5)
       rails (>= 3.0)
     debug_inspector (0.0.2)
+    debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
     dotenv (0.9.0)
     dotenv-rails (0.9.0)
@@ -354,6 +359,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-on-rails
   browser
+  byebug
   cached_resource
   cancan
   capybara

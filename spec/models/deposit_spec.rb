@@ -14,7 +14,7 @@ describe Deposit do
 
   context 'when deposit fee 10%' do
     let(:channel) { build(:deposit_channel) }
-    let(:deposit) { create(:deposit, amount: 100.to_d, channel_id: channel.id) }
+    let(:deposit) { create(:deposit, amount: 100.to_d, channel: channel) }
 
     before do
       channel.stubs(:compute_fee).returns [90, 10]

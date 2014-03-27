@@ -1,13 +1,13 @@
 zh-CN:
   deposit_channels:
-    satoshi:
+    satoshis:
       title: 比特币充值
       intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
       latency: 10 分钟到账
       transfer: 自动
   private:
     deposits:
-      satoshi:
+      satoshis:
         new:
           step-1: 第一步
           open-wallet: 请使用您常用的钱包服务，本地钱包、在线钱包或移动端的钱包，选择付款或发送。

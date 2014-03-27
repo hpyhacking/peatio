@@ -2,8 +2,8 @@
   key: satoshi
   currency: btc
   type: DepositChannelSatoshi
-  confirm: 1
-  confirm_max: 6
+  min_confirm: 1
+  max_confirm: 6
 - id: 400
   key: bank
   currency: cny

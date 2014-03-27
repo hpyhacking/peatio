@@ -1,13 +1,13 @@
 en:
   deposit_channels:
-    satoshi:
+    satoshis:
       title: Bitcoin Deposits 
       intro: Deposit bitcoin from your own Wallet address to Peatio account
       latency: 1 Confirmation
       transfer: Automatic processing
   private:
     deposits:
-      satoshi:
+      satoshis:
         new:
           step-1: Step one
           open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.

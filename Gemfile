@@ -74,6 +74,7 @@ group :development, :test do
   gem 'timecop'
   gem 'dotenv-rails'
   gem 'rspec-rails'
+  gem 'byebug'
 end
 
 group :test do

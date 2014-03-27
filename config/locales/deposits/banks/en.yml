@@ -1,13 +1,13 @@
 en:
   deposit_channels:
-    bank:
+    banks:
       title: Bank transfer
       intro: Bank transfer deposits, Recommend for large recharge 
       latency: 10 minutes
       transfer: Manual processing
   private:
     deposits:
-      bank:
+      banks:
         new:
           step-1: Step One
           select-bank: Large recharge can choose to transfer to our bank account, in order to quickly recharge your arrival, please try to select the same with our bank transfers recharge. You can choose to use the online bank transfer or transfer counter.

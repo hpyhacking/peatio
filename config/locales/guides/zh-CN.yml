@@ -37,11 +37,11 @@ zh-CN:
           title: 账户充值
           intro: 为您在貔貅交易所中的账户充值。
 
-        satoshi:
+        satoshis:
           panel: 比特币充值
           new:
             intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
-        bank:
+        banks:
           panel: 人民币充值
           new:
             title: 人民币充值

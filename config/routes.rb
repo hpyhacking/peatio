@@ -57,7 +57,7 @@ Peatio::Application.routes.draw do
     # channel DONT created by user, this create deposit with channel.
     namespace :deposits do
       DepositChannel.descendants.each do |w|
-        resources w.get.key, only: [:new, :create]
+        resource w.get.key, only: [:new, :create]
       end
     end
 

@@ -1,25 +1,23 @@
 class Deposit < ActiveRecord::Base
   include AASM
   include AASM::Locking
+  extend ActiveHash::Associations::ActiveRecordExtensions
 
   extend Enumerize
   enumerize :currency, in: Currency.codes, scope: true
 
   belongs_to :member
   belongs_to :account
+  belongs_to :channel, class_name: 'DepositChannel'
 
   validates_presence_of \
-    :channel_id, :fund_source_uid, :fund_source_extra,
-    :amount, :fee, :account, :member, :currency, :aasm_state, :txid
+    :channel, :amount, :account, \
+    :member, :currency, :aasm_state, :txid
   validates_uniqueness_of :txid
-
-  def channel
-    DepositChannel.find(channel_id)
-  end
 
   attr_accessor :sn
 
-  aasm do
+  aasm :whiny_transitions => false do
     state :submitting, initial: true, before_enter: :compute_fee
     state :submitted
     state :rejected
@@ -47,6 +45,10 @@ class Deposit < ActiveRecord::Base
     event :warn do
       transitions from: :accepted, to: :warning
     end
+  end
+
+  def update_memo(data)
+    self.update_column(:memo, data)
   end
 
   private

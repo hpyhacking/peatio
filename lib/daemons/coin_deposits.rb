@@ -17,28 +17,13 @@ end
 while($running) do
   # PaymentTransactionController process unconfirm transaction created
   # Daemon process update state and confirmations to final
-  #
-  unconfirms = PaymentTransaction.with_state(:unconfirm).load
-  unconfirms.each do |payment_transaction|
+
+  txs = PaymentTransaction.unconfirm + PaymentTransaction.confirming
+  txs.each do |tx|
     ActiveRecord::Base.transaction do
-      rpc = CoinRPC[payment_transaction.currency]
-      raw = rpc.gettransaction(payment_transaction.txid)
-
-      payment_transaction.lock!
-      next unless payment_transaction.check(raw)
-      payment_transaction.account.lock!
-
-      payment_transaction.deposit!(raw)
-      payment_transaction.confirm!(raw)
+      tx.check!
     end
   end
 
-  confirming = PaymentTransaction.with_state(:confirming).load
-  confirming.each do |payment_transaction|
-    rpc = CoinRPC[payment_transaction.currency]
-    raw = rpc.gettransaction(payment_transaction.txid)
-    payment_transaction.confirm! raw
-  end
-
-  sleep 10
+  sleep 5
 end
