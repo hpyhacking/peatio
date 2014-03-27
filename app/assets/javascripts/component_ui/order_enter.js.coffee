@@ -86,6 +86,10 @@
     type = @panelType()
     @select('currentBalanceSel').text data[type].balance
 
+  @setActiveButton = (event) ->
+    $('.type-toggle button').removeClass('active')
+    $(event.target).closest('button').addClass('active')
+
   @after 'initialize', ->
     @on document, 'order::plan', @orderPlan
     @on document, 'market::ticker', @refreshPrice
@@ -100,3 +104,5 @@
 
     @on @select('priceSel'), 'focusout', @computeSum
     @on @select('volumeSel'), 'focusout', @computeSum
+
+    @on '.type-toggle a', 'click', @setActiveButton

@@ -2,10 +2,10 @@
   .panel-heading = t('.place-order')
   .panel-body
     .order-enter
-      .btn-group.type-toggle data-toggle="buttons"
-        button class="btn btn-primary" data-toggle="button"
+      .btn-group.type-toggle
+        button class="btn btn-primary active"
           a.bid-panel href="#bid_panel" data-toggle="tab" == t('.buy', currency: @ask_name)
-        button class="btn btn-primary" data-toggle="button"
+        button class="btn btn-primary"
           a.ask-panel href="#ask_panel" data-toggle="tab" == t('.sell', currency: @ask_name)
 
       hr
