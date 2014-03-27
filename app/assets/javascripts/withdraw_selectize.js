@@ -5,7 +5,7 @@ $(function(){
       var original = self.onOptionSelect;
       return function(e) {
         $target = $(e.target);
-        if ($target.hasClass('destroy-withdraw-address')) {
+        if ($target.hasClass('destroy-fund-source')) {
           $.ajax({
             url: '/fund_sources/' + $target.data('addr-id'),
             type: 'DELETE'
@@ -24,23 +24,23 @@ $(function(){
     plugins: ['option_destroy'],
     preload: true,
     createOnBlur: true,
-    valueField: 'address',
-    labelField: 'label',
-    searchField: ['label', 'address'],
+    valueField: 'uid',
+    labelField: 'extra',
+    searchField: ['uid', 'extra'],
     create: function(input){
       return {
-        address: input,
-        label: 'label'
+        uid: input,
+        extra: 'label'
       }
     },
     render: {
       option: function(item, escape) {
         return '<div><div>' +
-            '<span>' + escape(item.address) + '</span>' +
+            '<span>' + escape(item.uid) + '</span>' +
           '</div>' +
           '<div>' +
-            '<span class="lead">' + escape(item.label) + '</span>' +
-            '<a class="destroy-withdraw-address pull-right" href="javascript:void(0)" data-addr-id="' + item.id + '"> Delete </a>' +
+            '<span class="lead">' + escape(item.extra) + '</span>' +
+            '<a class="destroy-fund-source pull-right" href="javascript:void(0)" data-addr-id="' + item.id + '"> Delete </a>' +
           '</div></div>';
       }
     },
@@ -63,7 +63,7 @@ $(function(){
       });
     },
     onItemAdd: function(value, $item) {
-      $('form input#fund_source_label').val($item.text());
+      $('form input#withdraw_fund_extra').val($item.text());
       $item.text(value);
     }
   });
