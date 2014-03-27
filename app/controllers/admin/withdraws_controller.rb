@@ -1,7 +1,12 @@
 module Admin
   class WithdrawsController < BaseController
     def index
-      @withdraws_grid = ::WithdrawsGrid.new(params[:withdraws_grid])
+      page = params[:page] || 0
+      per = params[:per] || 10
+
+      @withdraws_grid = ::WithdrawsGrid.new(params[:withdraws_grid]) do |scope|
+        scope.page(page).per(per)
+      end
       @assets = @withdraws_grid.assets
     end
 

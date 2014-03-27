@@ -1,0 +1,27 @@
+.page-header
+  h3
+    = t('.title')
+    small.pull-right = t('.balance', balance: @account.balance)
+
+= simple_form_for @withdraw do |f|
+  = f.text_field :channel_id, value: @channel.id, class: :hidden
+  = f.text_field :currency, value: @withdraw.currency, class: :hidden
+  = f.text_field :account_id, value: @withdraw.account_id, class: :hidden
+
+  label.checkbox-inline.pull-right.row
+    input name="withdraw[save_fund_source]" value="1" type="checkbox" = t('.save_address')
+
+  = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.placeholder'), label: t('.address')
+  = f.input :fund_extra, label: t('.label')
+  = f.input :sum, as: :decimal, input_html: {min: 0}, label: t('.sum')
+  hr.split
+
+  = f.button :wrapped, t('helpers.submit.withdraw.new')
+
+= content_for :after
+  = panel do
+    = datagrid_table(@withdraws_grid)
+
+= content_for :scripts
+  = javascript_include_tag :withdraw_selectize
+

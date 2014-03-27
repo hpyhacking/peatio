@@ -11,7 +11,7 @@ class PrivateWithdrawsGrid
 
   column :created_at
   column(:sum) {|withdraw| "#{withdraw.currency_symbol}#{withdraw.sum}"}
-  column(:address) {|withdraw| "#{withdraw.address} (#{withdraw.address_label})" }
+  column(:fund_uid) {|withdraw| "#{withdraw.fund_uid} (#{withdraw.fund_extra})" }
   column :position_in_queue do |o|
     o.position_in_queue if o.position_in_queue > 0
   end

@@ -5,7 +5,7 @@ describe Withdraw do
 
   describe 'fee' do
     it "default fee is zero" do
-      withdraw = build(:withdraw, address_type: 'nil', sum: '10'.to_d)
+      withdraw = build(:withdraw, channel_id: nil, sum: '10'.to_d)
       withdraw.valid?
 
       expect(withdraw.fee).to be_d '0'
@@ -13,7 +13,7 @@ describe Withdraw do
     end
 
     it "bank is have compute" do
-      withdraw = build(:withdraw, address_type: :cny, sum: '1000'.to_d)
+      withdraw = build(:withdraw, channel_id: 400, sum: '1000'.to_d)
       withdraw.valid?
 
       expect(withdraw.fee).to be_d '3'
@@ -21,7 +21,7 @@ describe Withdraw do
     end
 
     it "bank is have compute with fix" do
-      withdraw = build(:withdraw, address_type: :cny, sum: '1235.232323123'.to_d)
+      withdraw = build(:withdraw, channel_id: 400, sum: '1235.232323123'.to_d)
       withdraw.valid?
 
       expect(withdraw.fee).to be_d '3.70'
@@ -102,9 +102,20 @@ describe Withdraw do
         Rails.cache.write(key, 123)
 
         expect{
-          withdraw.update_attributes!(aasm_state: state, tx_id: 'tx123')
+          withdraw.update_attributes!(aasm_state: state, txid: 'tx123')
         }.to change { Rails.cache.read(key) }.from(123).to(nil)
       end
+    end
+  end
+
+  describe 'callbacks' do
+    subject { build :bank_withdraw }
+    it 'creates fund source if asked to save_fund_source' do
+      subject.save_fund_source = '1'
+
+      expect {
+        subject.save
+      }.to change(FundSource, :count).by(1)
     end
   end
 end

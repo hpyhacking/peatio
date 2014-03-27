@@ -4,10 +4,12 @@ en:
       new:
         withdraw_btc: 'Withdraw BTC'
         withdraw_cny: 'Withdraw CNY'
-        btc:
+      satoshi:
+        new:
           balance: 'Available BTC: ฿%{balance}'
           title: 'Withdraw BTC'
-        cny:
+      bank:
+        new:
           balance: 'Available CNY: ¥%{balance}'
           title: 'Withdraw CNY'
       edit:

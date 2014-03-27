@@ -4,7 +4,7 @@ class Member < ActiveRecord::Base
   has_many :orders
   has_many :accounts
   has_many :withdraws
-  has_many :withdraw_addresses, through: :accounts
+  has_many :fund_sources
   has_many :deposits, through: :accounts
   has_and_belongs_to_many :trades
 
@@ -94,6 +94,8 @@ class Member < ActiveRecord::Base
   def send_activation
     Activation.create(member: self)
   end
+
+  alias :ac :get_account
 
   private
   def generate_sn
