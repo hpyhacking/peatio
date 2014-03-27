@@ -3,8 +3,11 @@ class Deposit < ActiveRecord::Base
   include AASM::Locking
   extend ActiveHash::Associations::ActiveRecordExtensions
 
+  STATE = [:submitting, :submitted, :rejected, :accepted, :checked, :warning]
+
   extend Enumerize
   enumerize :currency, in: Currency.codes, scope: true
+  enumerize :aasm_state, in: STATE, scope: true
 
   belongs_to :member
   belongs_to :account
