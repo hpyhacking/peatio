@@ -34,7 +34,7 @@ class Withdraw < ActiveRecord::Base
   has_many :account_versions, :as => :modifiable
   attr_accessor :save_fund_source
 
-  before_validation :fix_fee
+  before_validation :calc_fee
   after_create :create_fund_source, if: :save_fund_source?
   after_create :generate_sn
   after_update :bust_last_done_cache, if: :state_changed_to_done
@@ -206,19 +206,10 @@ class Withdraw < ActiveRecord::Base
     end
   end
 
-  def fix_fee
-    if self.respond_to? valid_method = "_valid_#{channel.key}_sum"
-      error = self.instance_eval(valid_method)
-      self.errors.add('sum', "#{channel.key}_#{error}".to_sym) if error
-    end
-
-    if self.respond_to? fee_method = "_fix_#{channel.key}_fee"
-      self.instance_eval(fee_method)
-    end
-
-    # withdraw fee inner cost
+  def calc_fee
+    channel.calc_fee!(self) if channel
     self.fee ||= 0.0
-    self.amount = (self.sum - self.fee)
+    self.amount = sum - fee
   end
 
   def state_changed_to_done

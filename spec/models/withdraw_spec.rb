@@ -5,7 +5,7 @@ describe Withdraw do
 
   describe 'fee' do
     it "default fee is zero" do
-      withdraw = build(:withdraw, channel_id: 200, sum: '10'.to_d)
+      withdraw = build(:withdraw, channel_id: nil, sum: '10'.to_d)
       withdraw.valid?
 
       expect(withdraw.fee).to be_d '0'
@@ -21,7 +21,7 @@ describe Withdraw do
     end
 
     it "bank is have compute with fix" do
-      withdraw = build(:withdraw, channel_id: 200, sum: '1235.232323123'.to_d)
+      withdraw = build(:withdraw, channel_id: 400, sum: '1235.232323123'.to_d)
       withdraw.valid?
 
       expect(withdraw.fee).to be_d '3.70'
