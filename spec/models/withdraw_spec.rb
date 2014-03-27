@@ -107,4 +107,15 @@ describe Withdraw do
       end
     end
   end
+
+  describe 'callbacks' do
+    subject { build :bank_withdraw }
+    it 'creates fund source if asked to save_fund_source' do
+      subject.save_fund_source = '1'
+
+      expect {
+        subject.save
+      }.to change(FundSource, :count).by(1)
+    end
+  end
 end

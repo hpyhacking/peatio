@@ -16,7 +16,7 @@ zh-CN:
         address_type_text: 方式
         amount: 实到金额
         sum: ''
-        address: ''
+        fund_uid: ''
         fee: 手续费
         created_at: 申请时间
         done_at: 完成时间

@@ -235,6 +235,9 @@ class Withdraw < ActiveRecord::Base
 
   def create_fund_source
     FundSource.create \
+      member: member,
+      currency: currency,
+      channel_id: channel_id,
       uid: fund_uid,
       extra: fund_extra,
       is_locked: false
