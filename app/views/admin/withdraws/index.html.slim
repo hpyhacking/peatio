@@ -1,2 +1,5 @@
+.row: .col-md-12.alert
+  #filter-accordion.panel-group
+    = render "admin/statistic/shared/filter", form_target: @withdraws_grid, url: admin_withdraws_path
 .row: .col-md-12
   = datagrid_table(@withdraws_grid, @assets)

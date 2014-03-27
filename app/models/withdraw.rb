@@ -68,6 +68,10 @@ class Withdraw < ActiveRecord::Base
     WithdrawChannel.find(channel_id)
   end
 
+  def channel_name
+    channel.key
+  end
+
   def currency_symbol
     case channel.currency
     when 'btc' then 'B⃦'

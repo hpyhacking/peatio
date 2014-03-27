@@ -8,20 +8,26 @@ class WithdrawsGrid
       order('created_at asc, state desc')
   end
 
-  self.default_column_options = { :order => false } 
+  self.default_column_options = { :order => false }
+
+  filter(:channel, :enum, select: WithdrawChannel.all.map{|w| [w.key, w.id]}) do |channel, scope|
+    scope.with_channel(channel) if channel
+  end
+
+  filter(:created_at, :date, :range => true, :default => proc { [1.month.ago.to_date, Date.today]}) do |arr, scope|
+    scope.where(created_at: Range.new(arr.first, arr.last)) unless arr.any?(&:blank?)
+  end
 
   column :sn
+  column :created_at
   column :name do |o|
     o.member.name
   end
-  column :currency_text
   column :channel do |w|
     w.channel.key
   end
   column :fund_extra
-  column :amount
-  column :fee
-  column :created_at
+  column :sum
   column :state_text
   column :position_in_queue do |o|
     o.position_in_queue if o.position_in_queue > 0
