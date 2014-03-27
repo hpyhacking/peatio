@@ -30,12 +30,12 @@ en:
           title: Deposit 
           intro: You can recharge the CNY to buy bitcoins, or recharge Bitcoin to exchange CNY.
 
-        satoshi:
+        satoshis:
           panel: Deposits
           new:
             intro: Deposit bitcoin from your own Wallet address to Peatio account.
 
-        bank:
+        banks:
           panel: Bank Transfer
           new:
             intro: Bank transfer deposits, Recommend for large recharge.

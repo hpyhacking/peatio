@@ -7,7 +7,7 @@ zh-CN:
       transfer: 自动
   private:
     deposits:
-      satoshi:
+      satoshis:
         new:
           step-1: 第一步
           open-wallet: 请使用您常用的钱包服务，本地钱包、在线钱包或移动端的钱包，选择付款或发送。

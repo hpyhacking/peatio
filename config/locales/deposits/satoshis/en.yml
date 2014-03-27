@@ -7,7 +7,7 @@ en:
       transfer: Automatic processing
   private:
     deposits:
-      satoshi:
+      satoshis:
         new:
           step-1: Step one
           open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.

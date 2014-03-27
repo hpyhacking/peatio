@@ -5,7 +5,7 @@ FactoryGirl.define do
     after(:build) do |channel|
       channel.stubs(:key).returns('default')
       channel.class.stubs(:get).returns(channel)
-      channel.class.stubs(:find).returns(channel)
+      channel.class.stubs(:find_by_id).returns(channel)
     end
   end
 end

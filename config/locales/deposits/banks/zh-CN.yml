@@ -7,7 +7,7 @@ zh-CN:
       transfer: 人工处理
   private:
     deposits:
-      bank:
+      banks:
         new:
           step-1: 第一步
           select-bank: 您可以选择直接转账到我们的银行账户，为了您的充值可以迅速到账，请您尽量选择与我们相同的银行进行转账充值。您可以选择使用 在线银行转账或柜台转账。

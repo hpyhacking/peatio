@@ -1,6 +1,6 @@
 module Private
   module Deposits
-    class BankController < BaseController
+    class BanksController < BaseController
       def new
         @deposit = DepositChannelBank.get
       end

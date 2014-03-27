@@ -30,9 +30,9 @@ zh-CN:
       address_type:
         satoshi: 比特币
         bank: 银行转账
-      state:
-        wait: 等待
-        done: 完成
+      aasm_state:
+        submitted: 已提交
+        accepted: 已到账
     withdraw: 
       address_type:
         satoshi: 比特币 - 网络转账

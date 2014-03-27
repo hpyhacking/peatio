@@ -30,9 +30,8 @@ en:
       address_type:
         satoshi: Bitcoin
         bank: Bank
-      state:
-        wait: WAIT
-        done: DONE
+      aasm_state:
+        accepted: Accepted
     withdraw: 
       address_type:
         satoshi: Bitcoin
