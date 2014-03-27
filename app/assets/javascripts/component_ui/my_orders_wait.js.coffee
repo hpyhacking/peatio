@@ -18,7 +18,16 @@
       for order in data
         $(JST["orders_wait"](order)).appendTo(@select('table')).show('slow')
 
-  @addOrder = (data) ->
+  @addOrder = (order) ->
+    template = $(JST["orders_wait"](order))
+    existsOrder = @select('table').find("tr[data-id=#{order.id}]")
+
+    if existsOrder.length
+      existsOrder.html template.html()
+    else
+      template.appendTo(@select('table')).show('slow')
+
+    @checkEmpty()
 
   @removeOrder = (order) ->
     $tr = @.select('table').find("tr[data-id=#{order.id}]")
