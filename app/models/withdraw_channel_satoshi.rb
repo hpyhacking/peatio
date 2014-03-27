@@ -1,6 +1,8 @@
 class WithdrawChannelSatoshi < WithdrawChannel
   def calc_fee!(withdraw)
-    withdraw.sum = withdraw.sum.round(8, 2)
-    withdraw.fee = '0.0005'.to_d
+    fixed ||= 8
+    fee ||= '0.0005'
+    withdraw.sum = withdraw.sum.round(fixed, :floor)
+    withdraw.fee = fee.to_d
   end
 end

@@ -1,7 +1,8 @@
 class WithdrawChannelBank < WithdrawChannel
   def calc_fee!(withdraw)
-    fix = 2
-    withdraw.sum = [min, withdraw.sum].max.to_d.round(fix, 2)
-    withdraw.fee = (withdraw.sum * '0.003'.to_d).round(fix, 2)
+    fixed ||= 2
+    fee ||= '0.003'
+    withdraw.sum = [min, withdraw.sum].max.to_d.round(fixed, :floor)
+    withdraw.fee = (withdraw.sum * fee.to_d).round(fixed, :floor)
   end
 end
