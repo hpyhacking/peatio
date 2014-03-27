@@ -73,6 +73,7 @@
   .order-enter {
     .type-toggle {
       width: 100%;
+      margin: 20px 0 12px 0;
 
       a, a:hover {
         padding: 6px 12px;
@@ -85,6 +86,22 @@
         padding: 0;
         width: 50%;
       }
+    }
+
+    .input-group-addon {
+      min-width: 75px;
+    }
+
+    .current-balance label {
+      margin-right: 5px;
+
+      &.currency {
+        text-transform: uppercase;
+      }
+    }
+
+    .status span.lable + span.label {
+      margin-left: 0;
     }
   }
 
