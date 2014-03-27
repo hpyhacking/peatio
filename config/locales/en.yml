@@ -81,7 +81,7 @@ en:
 
   header:
     admin: Admin
-    market: Cash Markets
+    market: Trade
     settings: Profile
     signin: Sign In
     signout: Exit
