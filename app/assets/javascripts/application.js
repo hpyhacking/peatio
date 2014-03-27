@@ -42,6 +42,7 @@
 //= require i18n/translations
 //= require selectize
 //= require highstock
+//= require helper
 
 //= require_tree ./component_data
 //= require_tree ./component_ui
