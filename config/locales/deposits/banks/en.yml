@@ -1,6 +1,6 @@
 en:
   deposit_channels:
-    banks:
+    bank:
       title: Bank transfer
       intro: Bank transfer deposits, Recommend for large recharge 
       latency: 10 minutes
