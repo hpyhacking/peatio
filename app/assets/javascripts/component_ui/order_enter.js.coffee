@@ -51,6 +51,7 @@
       sum    = price.times(volume)
 
       @select('sumSel').val(sum).fixBid()
+      @trigger 'updateAvailable', {sum: sum, volume: volume}
 
   @computeVolume = (e) ->
     if @.select('priceSel').val() and @.select('sumSel').val()
@@ -66,6 +67,7 @@
       volume = sum.dividedBy(price)
 
       @select('volumeSel').val(volume).fixAsk()
+      @trigger 'updateAvailable', {sum: sum, volume: volume}
       @trigger 'order', {price: price, sum: sum, volume: volume}
 
   @orderPlan = (event, data) ->
@@ -84,11 +86,23 @@
 
   @refreshBalance = (event, data) ->
     type = @panelType()
-    @select('currentBalanceSel').text data[type].balance
+    balance = data[type].balance
+    @select('currentBalanceSel').text balance
+    @select('currentBalanceSel').data('balance', balance)
 
   @setActiveButton = (event) ->
     $('.type-toggle button').removeClass('active')
     $(event.target).closest('button').addClass('active')
+
+  @updateAvailable = (event, data) ->
+    type = @panelType()
+    node = @select('currentBalanceSel')
+    balance = BigNumber(node.data('balance'))
+    switch type
+      when 'bid'
+        node.text(balance - data.sum)
+      when 'ask'
+        node.text(balance - data.volume)
 
   @after 'initialize', ->
     @on document, 'order::plan', @orderPlan
@@ -106,3 +120,4 @@
     @on @select('volumeSel'), 'focusout', @computeSum
 
     @on '.type-toggle a', 'click', @setActiveButton
+    @on document, 'updateAvailable', @updateAvailable
