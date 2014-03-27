@@ -1,186 +1,20 @@
 #market {
-  .tabbable {
-    margin-top: 10px;
-  }
+  table td {
+    font-size: 14px;
+    line-height: 14px !important;
+    padding: 2px;
+    border: none;
 
-  .table.asks {
-    margin-bottom: 6px;
-  }
-
-  .orders, .trades {
-    margin-top: 15px;
-
-    h3.title, h3.last {
-      font-size: 20px;
+    &.price, &.amount {
       text-align: right;
-      padding-right: 76px;
-      margin-bottom: 9px;
+      font-family: monospace;
     }
+  }
 
-    i.fa.fa-external-link {
-      color: @main-color;
-      font-size: 16px;
-      position: absolute;
-      padding-left: 8px;
-      padding-top: 7px;
-    }
-
-    h3.last {
-      height: 23px;
-      color: @bid-color;
-      &.up { color: @ask-color; }
-      margin-bottom: 5px;
-      margin-top: 3px;
-    }
-
-    &:first-of-type { margin-top: 11px; }
-
-    table tr.empty { height: 19px; }
-
-    table td {
-      font-size: 14px;
-      line-height: 14px !important;
-
-      &.title { text-align: right; width: 40px; padding-right: 20px !important; }
-      &.amount { width: 76px; }
-      &.price, &.amount { text-align: right; font-family: monospace; }
-      &.up, &.ask { color: @ask-color; }
-      &.down, &.bid { color: @bid-color; }
-
-      &.sn, &.time { & > g { font-size: 12px; } }
-    }
-
+  .orders {
     tr:hover {
       cursor: pointer;
-      text-shadow: @main-color -1px 0px;
-    }
-
-    td {
-      padding: 2px;
-      border: none;
-    }
-  }
-
-  .order-enter {
-    li.active a {
-      background-color: white;
-    }
-    .tab-content {
-      height: 390px;
-      padding: 15px;
-      background-color: white;
-      border-left: 1px solid #ddd;
-      border-right: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
-      border-bottom-left-radius: 4px;
-      border-bottom-right-radius: 4px;
-
-      .last-price, .current-balance {
-        .value {
-          float: right;
-          text-align: right;
-        }
-      }
-
-      label.input-group-addon {
-        width: 75px;
-        text-align: right;
-      }
-    }
-  }
-
-  .trade-wrapper {
-    .slider-wrapper {
-      padding: 5px 40px;
-    }
-
-    .account-wrapper {
-      .order-funds {
-        padding: 5px 40px;
-        .box-sizing(border-box);
-        span {
-          font-size: 20px;
-        }
-        border-left: 1px solid #f2f2f2;
-        border-right: 1px solid #f2f2f2;
-      }
-
-      .available-funds {
-        padding: 20px 40px;
-        padding-bottom: 0px;
-        .box-sizing(border-box);
-        border-left: 1px solid #f2f2f2;
-        border-right: 1px solid #f2f2f2;
-
-
-        span, i {
-          font-size: 30px;
-          font-weight: bold;
-        }
-      }
-
-      .locked-funds {
-        span, i {
-          margin: 0px 2px;
-          font-size: 18px;
-          line-height: 28px;
-          .text-ignore;
-        }
-
-        padding: 8px 10px;
-        background-color: @main-dark-color;
-        .box-sizing(border-box);
-      }
-    }
-
-    .order-wrapper {
-      background-color: #f2f2f2;
-      padding: 30px 0px 20px;
-      margin-bottom: 10px;
-    }
-
-    .history-wrapper {
-      h3.title {
-        text-align: center;
-        margin-top: 20px !important;
-        font-size: 20px;
-        border-bottom: 1px solid #f2f2f2;
-        padding-bottom: 4px;
-      }
-      table {
-        tr.empty-row > td {
-          text-align: center;
-          font-size: 20px;
-          background: none;
-        }
-        th.id { width: 60px; }
-        th.at { width: 140px; }
-        th.kind { width: 50px; }
-        th.price, td.price { text-align: right; width: 70px; }
-        th.volume, td.volume { text-align: right; width: 197px; margin-right: 10px !important; }
-        th.state, td.state { width: 80px; text-align: right;}
-        th.operation, td.operation { width: 55px; text-align: center;}
-      }
-    }
-  }
-
-  .tabbable {
-    margin-left: 4px;
-    .nav {
-      a {
-        width: 110px;
-        height: inherit;
-      }
-
-      li:not(.active) a {
-        &:hover, &:focus {
-          background-color: transparent;
-        }
-      }
-    }
-
-    .tab-pane {
-      overflow: hidden;
+      font-weight: bold;
     }
   }
 }

@@ -3,8 +3,8 @@
   .panel-body
     .order-enter
       ul.nav.nav-tabs
-        li.active: a.bid-panel href="#bid_panel" data-toggle="tab" == t('.bid_panel', currency: @ask_name)
-        li: a.ask-panel href="#ask_panel" data-toggle="tab" == t('.ask_panel', currency: @ask_name)
+        li.active: a.bid-panel href="#bid_panel" data-toggle="tab" == t('.buy', currency: @ask_name)
+        li: a.ask-panel href="#ask_panel" data-toggle="tab" == t('.sell', currency: @ask_name)
 
       .tab-content
         #bid_panel.tab-pane.active
