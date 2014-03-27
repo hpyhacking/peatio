@@ -20,9 +20,20 @@
     }
   }
 
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
   .panel {
     margin-bottom: 10px;
     overflow: hidden;
+
+    .panel-heading  > * {
+      display: inline-block;
+      margin-right: 10px;
+    }
   }
 
   .row:first-of-type .panel {
@@ -43,18 +54,18 @@
     }
   }
 
+  #market_selector li {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
   .account-balance {
-    ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      li {
-        span.name {
-          float: left;
-        }
-        span.value {
-          float: right;
-        }
+    ul li {
+      span.name {
+        float: left;
+      }
+      span.value {
+        float: right;
       }
     }
   }

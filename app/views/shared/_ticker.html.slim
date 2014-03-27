@@ -1,7 +1,9 @@
 .panel.panel-default.ticker
-  .panel-heading = t('markets.realtime_price.title')
-  .panel-body
+  .panel-heading
+    .span
+      = "#{t('trade.markets')}:"
     = render partial: 'shared/market_selector'
+  .panel-body
     ul.list-inline
       li.col-md-2: span.buy data-title='#{t 'global.bid_price'}'
       li.col-md-2: span.sell data-title='#{t 'global.ask_price'}'
