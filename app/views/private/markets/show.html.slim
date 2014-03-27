@@ -32,9 +32,5 @@
                   = t('.volume')
             tbody
 .row
-  .col-md-4
-    .panel.panel-default
-      .panel-heading  = t('.my-orders')
-      .panel-body content
-
+  .col-md-4 = render partial: 'my_orders'
   .col-md-8 = render partial: 'price_chart'

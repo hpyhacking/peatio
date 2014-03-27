@@ -1,0 +1,23 @@
+.panel.panel-default
+  .panel-heading = t('.my-orders')
+  .panel-body
+    ul.nav.nav-tabs
+      li.active: a.orders-wait href="#orders_wait" data-toggle="tab" == t('.orders_wait')
+      li: a.orders-done href="#orders_done" data-toggle="tab" == t('.orders_done')
+
+    .tab-content.my-orders
+      #orders_wait.tab-pane.active
+        table.table.table-condensed.table-striped
+          thead: tr
+            - %w(at price volume).each do |attr|
+              th class='#{attr}' = Order.human_attribute_name(attr)
+            th.operation = Order.human_attribute_name(:operation)
+          tbody
+            tr.empty-row: td colspan=100 ......
+      #orders_done.tab-pane
+        table.table.table-condensed.table-striped
+          thead: tr
+            - %w(at price volume state).each do |attr|
+              th class='#{attr}' = Order.human_attribute_name(attr)
+          tbody
+            tr.empty-row: td colspan=100 ......
