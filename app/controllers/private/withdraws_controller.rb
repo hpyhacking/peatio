@@ -11,7 +11,7 @@ module Private
         redirect_to edit_withdraw_path(@withdraw)
       else
         @fund_sources = current_user.fund_sources
-        load_history(currency)
+        load_history(@withdraw.channel_id)
         render :new
       end
     end
@@ -33,12 +33,12 @@ module Private
     end
 
     private
-    def load_history(currency)
+    def load_history(channel_id)
       page = params[:page] || 0
       per = params[:per] || 10
 
       @withdraws_grid = PrivateWithdrawsGrid.new(params[:withdraws_grid]) do |scope|
-        scope.with_currency(currency).where(member: current_user).page(page).per(per)
+        scope.with_channel(channel_id).where(member: current_user).page(page).per(per)
       end
     end
 

@@ -56,6 +56,8 @@ class Withdraw < ActiveRecord::Base
   scope :not_completed, -> { where('aasm_state not in (?) or state not in (?)',
                                COMPLETED_STATES, STATES.slice(*COMPLETED_STATES).values) }
 
+  scope :with_channel, -> (channel_id) { where channel_id: channel_id }
+
   alias_method :_old_state, :state
 
   def state
@@ -88,11 +90,11 @@ class Withdraw < ActiveRecord::Base
 
   def position_in_queue
     last_done = Rails.cache.fetch(last_completed_withdraw_cache_key) do
-      Withdraw.completed.where(channel_id: channel_id).maximum(:id)
+      Withdraw.completed.with_channel(channel_id).maximum(:id)
     end
 
     self.class.where("id > ? AND id <= ?", (last_done || 0), id).
-      where(channel_id: channel_id).
+      with_channel(channel_id).
       count
   end
 
