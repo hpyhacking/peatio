@@ -53,24 +53,22 @@ Peatio::Application.routes.draw do
     resource :two_factor, :only => [:new, :create, :edit, :destroy]
 
     resources :deposits, only: :index
-
-    # channel DONT created by user, this create deposit with channel.
     namespace :deposits do
-      DepositChannel.descendants.each do |w|
-        resources w.get.key, only: [:new, :create]
+      DepositChannel.all.each do |w|
+        resources w.key, only: [:new, :create]
       end
     end
 
-    resources :withdraws, only: :index
-
-    # channel DONT created by user, this create withdraw with channel.
-    WithdrawChannel.descendants.each do |w|
-      resources w.model_name.plural, only: [:new, :create]
+    resources :withdraws, except: [:new]
+    namespace :withdraws do
+      WithdrawChannel.all.each do |w|
+        resources w.key, only: [:new]
+      end
     end
 
     resources :account_versions, :only => :index
-    resources :fund_sources, :only => [:index, :destroy]
 
+    resources :fund_sources, :only => [:index, :destroy]
     resources :exchange_assets, :controller => 'assets' do
       member do
         get :partial_tree

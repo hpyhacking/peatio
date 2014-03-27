@@ -2,9 +2,9 @@ FactoryGirl.define do
   factory :withdraw do
     sum { 10.to_d }
     currency :btc
-    address 'sample_to_long_long_long_address'
-    address_label 'sample'
-    address_type :btc
+    fund_uid 'sample_to_long_long_long_address'
+    fund_extra 'sample'
+    channel_id 200
     member { create :member }
 
     account do
@@ -24,8 +24,8 @@ FactoryGirl.define do
 
     trait :bank do
       currency :cny
-      address_type :cny
-      address_label { member.name }
+      channel_id 400
+      fund_extra { member.name }
       sum { 1000.to_d }
     end
 

@@ -15,8 +15,10 @@ class WithdrawsGrid
     o.member.name
   end
   column :currency_text
-  column :address_type_text
-  column :address_label
+  column :channel do |w|
+    w.channel.key
+  end
+  column :fund_extra
   column :amount
   column :fee
   column :created_at

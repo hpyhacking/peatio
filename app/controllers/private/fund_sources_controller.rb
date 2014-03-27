@@ -2,7 +2,7 @@ module Private
   class FundSourcesController < BaseController
     respond_to :json
     def index
-       respond_with current_user.fund_sources.with_category(params[:currency])
+      respond_with current_user.fund_sources.with_channel(params[:channel_id])
     end
 
     def destroy

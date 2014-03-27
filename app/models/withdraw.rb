@@ -31,24 +31,23 @@ class Withdraw < ActiveRecord::Base
 
   belongs_to :member
   belongs_to :account
-  belongs_to :withdraw_channel
   has_many :account_versions, :as => :modifiable
-  attr_accessor :fund_source_id, :save_fund_source
+  attr_accessor :save_fund_source
 
   before_validation :fix_fee
   after_create :create_fund_source, if: :save_fund_source?
   after_create :generate_sn
   after_update :bust_last_done_cache, if: :state_changed_to_done
 
-  validates :withdraw_channel, :fund_source_uid, :fund_source_extra,
-    :amount, :fee, :account, :currency, :member, presence: true
+  validates :channel_id, :fund_uid, :fund_extra, :amount, :fee,
+    :account, :currency, :member, presence: true
 
   validates :fee, numericality: {greater_than_or_equal_to: 0}
   validates :amount, numericality: {greater_than: 0}
 
   validates :sum, presence: true, on: :create
   validates :sum, numericality: {greater_than: 0}, on: :create
-  validates :tx_id, uniqueness: true, allow_nil: true, on: :update
+  validates :txid, uniqueness: true, allow_nil: true, on: :update
 
   validate :ensure_account_balance, on: :create
 
@@ -63,8 +62,12 @@ class Withdraw < ActiveRecord::Base
     _old_state || Enumerize::Value.new(Withdraw.state, aasm_state)
   end
 
+  def channel
+    WithdrawChannel.find(channel_id)
+  end
+
   def currency_symbol
-    case withdraw_channel.currency
+    case channel.currency
     when 'btc' then 'B⃦'
     when 'cny' then '¥'
     else ''
@@ -72,7 +75,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def coin?
-    withdraw_channel.btc?
+    ['btc'].include? currency
   end
 
   def fiat?
@@ -85,11 +88,11 @@ class Withdraw < ActiveRecord::Base
 
   def position_in_queue
     last_done = Rails.cache.fetch(last_completed_withdraw_cache_key) do
-      Withdraw.completed.where(withdraw_channel_id: withdraw_channel.id).maximum(:id)
+      Withdraw.completed.where(channel_id: channel_id).maximum(:id)
     end
 
     self.class.where("id > ? AND id <= ?", (last_done || 0), id).
-      where(withdraw_channel_id: withdraw_channel.id).
+      where(channel_id: channel_id).
       count
   end
 
@@ -152,7 +155,7 @@ class Withdraw < ActiveRecord::Base
     event :succeed do
       transitions from: [:processing, :almost_done], to: :done
 
-      before [:set_tx_id, :unlock_and_sub_funds]
+      before [:set_txid, :unlock_and_sub_funds]
     end
 
     event :fail do
@@ -181,8 +184,8 @@ class Withdraw < ActiveRecord::Base
     account.unlock_and_sub_funds sum, locked: sum, fee: fee, reason: Account::WITHDRAW, ref: self
   end
 
-  def set_tx_id
-    @tx_id = @sn unless coin?
+  def set_txid
+    self.txid = @sn unless coin?
   end
 
   def send_email
@@ -194,26 +197,22 @@ class Withdraw < ActiveRecord::Base
   end
 
   def last_completed_withdraw_cache_key
-    "last_completed_withdraw_id_for_#{withdraw_channel.key}"
+    "last_completed_withdraw_id_for_#{channel.key}"
   end
 
   def ensure_account_balance
-    unless account
-      errors.add(:fund_source_id, :blank) and return
-    end
-
     if self.sum > account.balance
       errors.add(:sum, :poor)
     end
   end
 
   def fix_fee
-    if self.respond_to? valid_method = "_valid_#{withdraw_channel.key}_sum"
+    if self.respond_to? valid_method = "_valid_#{channel.key}_sum"
       error = self.instance_eval(valid_method)
-      self.errors.add('sum', "#{withdraw_channel.key}_#{error}".to_sym) if error
+      self.errors.add('sum', "#{channel.key}_#{error}".to_sym) if error
     end
 
-    if self.respond_to? fee_method = "_fix_#{withdraw_channel.key}_fee"
+    if self.respond_to? fee_method = "_fix_#{channel.key}_fee"
       self.instance_eval(fee_method)
     end
 
@@ -236,8 +235,8 @@ class Withdraw < ActiveRecord::Base
 
   def create_fund_source
     FundSource.create \
-      uid: fund_source_uid, 
-      extra: fund_source_extra, 
+      uid: fund_uid,
+      extra: fund_extra,
       is_locked: false
   end
 end

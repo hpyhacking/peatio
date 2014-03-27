@@ -1,7 +1,0 @@
-= simple_form_for @fund_source do |f|
-  = f.input :category, prompt: t('actions.select')
-  = f.input :label
-  = f.input :address
-  = f.input :name, readonly: true, input_html: {value: current_user.name}
-  hr.split
-  = f.button :wrapped, cancel: new_withdraw_path

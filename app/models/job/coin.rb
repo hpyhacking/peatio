@@ -22,10 +22,10 @@ module Job
         raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.amount
 
         CoinRPC[withdraw.currency].settxfee 0.0005
-        tx_id = CoinRPC[withdraw.currency].sendtoaddress withdraw.address, withdraw.amount.to_f
+        txid = CoinRPC[withdraw.currency].sendtoaddress withdraw.fund_uid, withdraw.amount.to_f
 
         withdraw.whodunnit('resque') do
-          withdraw.update_column :tx_id, tx_id
+          withdraw.update_column :txid, txid
           withdraw.succeed!
         end
       end

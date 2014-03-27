@@ -1,2 +1,0 @@
-class WithdrawBankChannel < WithdrawChannel
-end

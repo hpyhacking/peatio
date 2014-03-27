@@ -20,7 +20,7 @@ $(function(){
     })();
   });
 
-  $('select#fund_sources').selectize({
+  $('select#withdraw_fund_uid').selectize({
     plugins: ['option_destroy'],
     preload: true,
     createOnBlur: true,
@@ -51,7 +51,7 @@ $(function(){
         query = '';
       }
       $.ajax({
-        url: '/fund_sources?currency=' + $('input#withdraw_currency').val() + '&query=' + encodeURIComponent(query),
+        url: '/fund_sources?channel_id=' + $('input#withdraw_channel_id').val() + '&query=' + encodeURIComponent(query),
         type: 'GET',
         error: function() {
           callback();

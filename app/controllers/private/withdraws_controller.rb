@@ -4,6 +4,18 @@ module Private
       @channels = WithdrawChannel.all
     end
 
+    def create
+      @withdraw = Withdraw.new(withdraw_params)
+
+      if @withdraw.save
+        redirect_to edit_withdraw_path(@withdraw)
+      else
+        @fund_sources = current_user.fund_sources
+        load_history(currency)
+        render :new
+      end
+    end
+
     def edit
       @withdraw = current_user.withdraws.find(params[:id])
     end
@@ -11,13 +23,13 @@ module Private
     def update
       @withdraw = current_user.withdraws.find(params[:id])
       @withdraw.submit!
-      redirect_to new_withdraw_path(currency: @withdraw.currency), flash: {notice: t('.request_accepted')}
+      redirect_to withdraws_path, flash: {notice: t('.request_accepted')}
     end
 
     def destroy
       @withdraw = current_user.withdraws.find(params[:id])
       @withdraw.cancel!
-      redirect_to new_withdraw_path(currency: @withdraw.currency)
+      redirect_to withdraws_path
     end
 
     private
@@ -32,8 +44,8 @@ module Private
 
     def withdraw_params
       params[:withdraw][:member_id] = current_user.id
-      params.require(:withdraw).permit(:sum, :password, :member_id, :account_id, :fund_source_id,
-                                       :address, :address_label, :address_type, :currency, :save_address)
+      params.require(:withdraw).permit(:password, :member_id, :account_id, :currency, :channel_id,
+                                       :sum, :fund_uid, :fund_extra,  :save_fund_source)
     end
   end
 end
