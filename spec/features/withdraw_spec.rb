@@ -15,7 +15,7 @@ describe 'withdraw' do
     cny_account = member.get_account(:cny)
     cny_account.update_attributes balance: 100000
 
-    @label = 'command address'
+    @label = 'common address'
     @btc_addr = create :btc_fund_source, extra: @label, member: member
     @cny_addr = create :cny_fund_source, extra: @label, member: member
   end
@@ -37,11 +37,11 @@ describe 'withdraw' do
 
     click_on t('actions.confirm')
 
-    expect(page).to have_text("400.0")
-    #expect(find('.account-cny .locked').text).to eq("600.0")
-
-    expect(current_path).to eq(new_withdraw_path)
     expect(page).to have_text(I18n.t('private.withdraws.update.request_accepted'))
+    expect(current_path).to eq(withdraws_path)
+
+    visit new_withdraws_satoshi_path
+    expect(page).to have_text("400.0")
   end
 
   it 'allow user to see their current position in the withdraw process queue' do
@@ -89,8 +89,8 @@ describe 'withdraw' do
   private
 
   def submit_withdraw_request amount
-    select @label, from: 'withdraw_address'
-    fill_in 'withdraw_address_label', with: 'withdraw address'
+    select @label, from: 'withdraw_fund_uid'
+    fill_in 'withdraw_fund_extra', with: 'withdraw address'
     fill_in 'withdraw_sum', with: amount
     click_on I18n.t 'helpers.submit.withdraw.new'
   end
