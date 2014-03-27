@@ -1,18 +1,13 @@
 @MyOrdersDoneUI = flight.component ->
-  @defaultAttrs
-    table: 'table > tbody'
-    empty: '.empty-row'
+  flight.compose.mixin @, [MyOrdersMixin]
 
-  @populate = (data) ->
-    if _.isEmpty(data)
-      @select('empty').show()
-    else
-      @select('empty').hide()
+  @getTemplate = (order) -> $(JST["order_done"](order))
 
-      for order in data
-        $(JST["orders_done"](order)).appendTo(@select('table')).show('slow')
+  @orderHandler = (event, order) ->
+    @addOrUpdateOrder order
 
   @.after 'initialize', ->
     @populate gon.orders.done
+    @on document, 'order::done', @orderHandler
 
 

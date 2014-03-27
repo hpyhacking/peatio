@@ -44,6 +44,7 @@
 //= require highstock
 //= require helper
 
+//= require_tree ./component_mixin
 //= require_tree ./component_data
 //= require_tree ./component_ui
 //= require_tree ./templates
