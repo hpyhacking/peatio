@@ -2,8 +2,6 @@ module Private
   class MarketsController < BaseController
     after_filter :set_default_market
 
-    layout 'market'
-
     def show
       @bid = params[:bid]
       @ask = params[:ask]

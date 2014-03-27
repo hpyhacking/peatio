@@ -1,33 +1,43 @@
-#market
-  .row
-    .col-md-4 = render partial: 'order_enter', locals: {market: @market, order_bid: @order_bid, order_ask: @order_ask}
+= content_for :frame do
+  .container
+    #market
+      .row
+        .col-md-4
+          = render partial: 'shared/account_balance'
+        .col-md-8
+          = render partial: 'shared/ticker'
+      .row
+        .col-md-4 = render partial: 'order_enter',
+          locals: {market: @market, order_bid: @order_bid, order_ask: @order_ask}
 
-    .col-md-4
-      .panel.panel-default
-        .panel-heading = t('.orders')
-        .panel-body
-          .orders
-            table.table.asks
-            hr
-            table.table.bids
+        .col-md-4
+          .panel.panel-default
+            .panel-heading = t('.order-book')
+            .panel-body
+              .orders
+                table.table.asks
+                hr
+                table.table.bids
 
-    .col-md-4
-      .panel.panel-default
-        .panel-heading Trades
-        .panel-body
-          .trades
-            table.table
-              thead
-                tr
-                  td.time Time
-                  td.price Price
-                  td.amount Volume
-              tbody
+        .col-md-4
+          .panel.panel-default
+            .panel-heading = t('.trades')
+            .panel-body
+              .trades
+                table.table
+                  thead
+                    tr
+                      td.time
+                        = t('.time')
+                      td.price
+                        = t('.price')
+                      td.amount
+                        = t('.volume')
+                  tbody
+      .row
+        .col-md-4
+          .panel.panel-default
+            .panel-heading  = t('.my-orders')
+            .panel-body content
 
-  .row
-    .col-md-4
-      .panel.panel-default
-        .panel-heading My Orders
-        .panel-body content
-
-    .col-md-8 = render partial: 'price_chart'
+        .col-md-8 = render partial: 'price_chart'

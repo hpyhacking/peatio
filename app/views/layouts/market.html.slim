@@ -1,9 +1,0 @@
-= content_for :frame do
-  .container
-    #global.row
-      .col-md-4
-        = render partial: 'shared/account_balance'
-      .col-md-8
-        = render partial: 'shared/ticker'
-    = yield
-= render template: "layouts/application"

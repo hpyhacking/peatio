@@ -11,6 +11,44 @@
     }
   }
 
+  .panel {
+    margin-bottom: 10px;
+  }
+
+  .row:first-of-type .panel {
+    height: 110px;
+  }
+
+  .row:nth-of-type(2) .panel {
+    height: 475px;
+  }
+
+  .row:last-of-type .panel {
+    height: 430px;
+  }
+
+  .ticker {
+    li {
+      text-align: center;
+    }
+  }
+
+  .account-balance {
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      li {
+        span.name {
+          float: left;
+        }
+        span.value {
+          float: right;
+        }
+      }
+    }
+  }
+
   .orders {
     tr:hover {
       cursor: pointer;
