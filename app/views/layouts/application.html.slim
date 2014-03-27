@@ -3,11 +3,13 @@ html lang="en"
   head
     link rel="shortcut icon" href="/favicon.png"
     = include_gon
-    = stylesheet_link_tag "application", :media => "all"
     = javascript_include_tag "application"
     = yield(:scripts) if content_for?(:scripts)
     = render 'shared/html5'
     = csrf_meta_tags
+    - stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : "application"
+    = stylesheet_link_tag stylesheet, :media => "all"
+
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
     #wrap
       = render 'shared/browser'

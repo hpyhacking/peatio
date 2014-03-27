@@ -1,0 +1,8 @@
+= content_for :stylesheet do
+  = "market"
+
+= content_for :frame do
+  .container
+    #market
+      = yield
+= render template: "layouts/application"
