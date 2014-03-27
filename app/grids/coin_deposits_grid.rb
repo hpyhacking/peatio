@@ -11,4 +11,5 @@ class CoinDepositsGrid
   column_i18n(:created_at)
   column(:amount)
   column(:aasm_state_text)
+  column(:memo)
 end

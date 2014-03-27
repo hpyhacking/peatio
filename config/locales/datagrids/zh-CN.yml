@@ -6,6 +6,14 @@ zh-CN:
         range_separator: " ~ "
     form:
       submit: 查询
+    coin_deposits_grid:
+      columns:
+        sn: 充值编号
+        txid: 交易编号
+        created_at: 提交时间
+        amount: 充值金额
+        aasm_state_text: 状态
+        memo: 确认数
     withdraws_grid: &withdraw_grid
       columns:
         sn: 编号

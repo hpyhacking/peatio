@@ -31,6 +31,7 @@ zh-CN:
         satoshi: 比特币
         bank: 银行转账
       aasm_state:
+        submitted: 已提交
         accepted: 已到账
     withdraw: 
       address_type:
