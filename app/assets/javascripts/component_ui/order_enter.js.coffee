@@ -82,15 +82,14 @@
       when 'ask'
         @select('lastPrice').text numeral(data.sell).format('0.00')
 
-
-  @refreshCurrentBalance = (event, data) ->
+  @refreshBalance = (event, data) ->
     type = @panelType()
     @select('currentBalanceSel').text data[type].balance
 
   @after 'initialize', ->
     @on document, 'order::plan', @orderPlan
     @on document, 'market::ticker', @refreshPrice
-    @on document, 'trade::account', @refreshCurrentBalance
+    @on document, 'trade::account', @refreshBalance
 
     @on @select('formSel'), 'ajax:success', @handleSuccess
     @on @select('formSel'), 'ajax:error', @handleError
