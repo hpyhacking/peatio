@@ -24,7 +24,7 @@ class Deposit < ActiveRecord::Base
     state :submitting, initial: true, before_enter: :compute_fee
     state :submitted
     state :rejected
-    state :accepted
+    state :accepted, after_commit: :do
     state :checked
     state :warning
 
@@ -38,7 +38,6 @@ class Deposit < ActiveRecord::Base
 
     event :accept do
       transitions from: :submitted, to: :accepted
-      after :do
     end
 
     event :check do
