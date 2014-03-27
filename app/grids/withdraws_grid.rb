@@ -8,7 +8,7 @@ class WithdrawsGrid
       order('created_at asc, state desc')
   end
 
-  self.default_column_options = { :order => false }
+  #self.default_column_options = { :order => false }
 
   filter(:channel, :enum, select: WithdrawChannel.all.map{|w| [w.key, w.id]}) do |channel, scope|
     scope.with_channel(channel) if channel
@@ -26,7 +26,7 @@ class WithdrawsGrid
   column :channel do |w|
     w.channel.key
   end
-  column :fund_extra
+  column :fund_extra, order: false
   column :sum
   column :state_text
   column :position_in_queue do |o|
