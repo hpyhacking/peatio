@@ -6,8 +6,8 @@ en:
         orders_done: Latest Done Orders
         orders_cancel: Latest Cancel Orders
       show:
-        error: Ordering ERROR
-        success: Ordering Successful
+        error: Failed to submit order
+        success: Order submitted successfully
         bid_panel: Buy %{currency}
         ask_panel: Sell %{currency}
         analysis_panel: Analysis
