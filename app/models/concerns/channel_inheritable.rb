@@ -20,7 +20,7 @@ module ChannelInheritable
     end
 
     def i18n_text_key(key)
-      "deposit_channels.#{self.key}.#{key}"
+      "#{self.class.model_name.i18n_key}.#{key}"
     end
   end
 end
