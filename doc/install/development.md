@@ -1,12 +1,5 @@
-Developing document for Mac and Linux
+Development [Mac and Linux]
 -------------------------------------
-
-The Peatio installation consists of setting up the following components:
-
-1. Requirements
-2. Bitcoind
-3. Peatio
-
 
 ## 1. Requirements
 
@@ -140,13 +133,16 @@ Insert the following lines into your bitcoin.conf, and replce with your username
 ##### Run Peatio
 
     # start matching engine
+    # Caution: NEVER start worker with QUEUE=* or QUEUE=matching! There must be only one matching engine running at any time
     rake environment resque:matching
 
-    # Caution: NEVER start worker with QUEUE=* or QUEUE=matching! There
-    # must be only one matching engine running at any time
-
-    # start worker for other jobs.
+    # start withdraw & examine workers.
     rake environment resque:work QUEUE=coin,examine
+    
+    # start trade, deposit and withdraw daemons
+    rake daemons:start
+    
+    # start server
     rails server
 
 ##### Visit [http://localhost:3000](http://localhost:3000)
