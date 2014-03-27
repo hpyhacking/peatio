@@ -1,6 +1,7 @@
 .panel.panel-default.ticker
   .panel-heading = t('markets.realtime_price.title')
   .panel-body
+    = render partial: 'shared/market_selector'
     ul.list-inline
       li.col-md-2: span.buy data-title='#{t 'global.bid_price'}'
       li.col-md-2: span.sell data-title='#{t 'global.ask_price'}'
@@ -8,3 +9,4 @@
       li.col-md-2: span.high data-title='#{t 'global.high_price'}'
       li.col-md-2: span.low data-title='#{t 'global.low_price'}'
       li.col-md-2: span.volume data-title='#{t 'global.volume'}'
+
