@@ -2,8 +2,10 @@ require 'resque/server'
 require 'market_constraint'
 require 'whitelist_constraint'
 
+Rails.application.eager_load! if Rails.env.development?
+
 Peatio::Application.routes.draw do
-  if Rails.env == 'development'
+  if Rails.env.development?
     mount Resque::Server.new, :at => "/jobs"
     mount MailsViewer::Engine => '/mails'
   end
@@ -50,16 +52,24 @@ Peatio::Application.routes.draw do
     resource :id_document, :only => [:new, :create]
     resource :two_factor, :only => [:new, :create, :edit, :destroy]
 
-    resources :deposits, :only => :index do
-      collection do
-        get :coin
-        get :bank
+    resources :deposits, only: :index
+
+    # channel DONT created by user, this create deposit with channel.
+    namespace :deposits do
+      DepositChannel.descendants.each do |w|
+        resource w.get.key, only: [:new, :create]
       end
     end
 
-    resources :withdraws
-    resources :withdraw_addresses, :only => [:index, :destroy]
+    resources :withdraws, only: :index
+
+    # channel DONT created by user, this create withdraw with channel.
+    WithdrawChannel.descendants.each do |w|
+      resources w.model_name.plural, only: [:new, :create]
+    end
+
     resources :account_versions, :only => :index
+    resources :fund_sources, :only => [:index, :destroy]
 
     resources :exchange_assets, :controller => 'assets' do
       member do

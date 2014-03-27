@@ -31,7 +31,7 @@ zh-CN:
         en_title: 英文标题
         key: 索引键
         is_auth: 是否登录查阅
-      withdraw_address:
+      fund_source:
         address: 提现地址
         category: 提现方式
         label: 标签
@@ -68,7 +68,7 @@ zh-CN:
         state: 状态
         state_text: 状态
         tx_id: 业务编号
-        withdraw_address_id: 提现地址
+        fund_source_id: 提现地址
         position_in_queue: 队列位置
         detail: 金额明细
       account_version:
@@ -161,7 +161,7 @@ zh-CN:
           attributes:
             base:
               too_soon: 访问过于频繁，请稍后再试。
-        withdraw_address:
+        fund_source:
           attributes:
             label:
             address:

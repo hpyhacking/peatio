@@ -31,7 +31,7 @@ en:
         en_title: English title
         key: Key
         is_auth: Is Auth
-      withdraw_address:
+      fund_source:
         address: Address
         category: Category
         label: Label
@@ -68,7 +68,7 @@ en:
         state: Status
         state_text: Status
         tx_id: transaction_id
-        withdraw_address_id: Withdraw address
+        fund_source_id: Withdraw address
         position_in_queue: Queue No.
         detail: Detail
       account_version:
@@ -161,7 +161,7 @@ en:
           attributes:
             base:
               too_soon: An activation email was sent to your email address less than 5 minutes ago.
-        withdraw_address:
+        fund_source:
           attributes:
             label:
             address:

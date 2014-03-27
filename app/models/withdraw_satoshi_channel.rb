@@ -1,0 +1,2 @@
+class WithdrawSatoshiChannel < WithdrawChannel
+end

@@ -33,7 +33,7 @@ zh-CN:
         update: 处理提现
         create: 提交申请
         new: 下一步
-      withdraw_address:
+      fund_source:
         create: 新增提现地址
       deposit:
         create: 充值
@@ -59,7 +59,7 @@ zh-CN:
         uri: 二维码
         otp_secret: 密文
         otp: 验证器上的密码
-      withdraw_address:
+      fund_source:
         label: 开户行 / 标签
         address: 银行卡号 / 地址
         category: 选择提现种类
@@ -93,7 +93,7 @@ zh-CN:
         sum: 提现总金额
         amount: 您想要提现的金额
         password: 请验证登录密码
-      withdraw_address:
+      fund_source:
       order_bid:
         origin_volume:  买入数量
         sum: 总成交金额
@@ -113,5 +113,5 @@ zh-CN:
         password: 请输入至少8位，并必须包含大写、小写字母与数字。
       id_document:
         name: 请填写与您证件上一致的姓名。
-      withdraw_address:
+      fund_source:
         name: 提现银行账户姓名必须与您的实名认证姓名一致。

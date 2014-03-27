@@ -1,23 +1,11 @@
 module Private
   class WithdrawsController < BaseController
-    def new
-      currency = params[:currency] || 'btc'
-      @account = current_user.get_account(currency)
-      @withdraw = Withdraw.new currency: currency, account: @account
-      @withdraw_addresses = current_user.withdraw_addresses.with_category(currency)
-      load_history(currency)
+    def index
+      @channels = WithdrawChannel.all
     end
 
-    def create
-      @withdraw = Withdraw.new(withdraw_params)
-
-      if @withdraw.save
-        redirect_to edit_withdraw_path(@withdraw)
-      else
-        @withdraw_addresses = current_user.withdraw_addresses
-        load_history(currency)
-        render :new
-      end
+    def edit
+      @withdraw = current_user.withdraws.find(params[:id])
     end
 
     def update
@@ -32,10 +20,6 @@ module Private
       redirect_to new_withdraw_path(currency: @withdraw.currency)
     end
 
-    def edit
-      @withdraw = current_user.withdraws.find(params[:id])
-    end
-
     private
     def load_history(currency)
       page = params[:page] || 0
@@ -48,7 +32,7 @@ module Private
 
     def withdraw_params
       params[:withdraw][:member_id] = current_user.id
-      params.require(:withdraw).permit(:sum, :password, :member_id, :account_id, :withdraw_address_id,
+      params.require(:withdraw).permit(:sum, :password, :member_id, :account_id, :fund_source_id,
                                        :address, :address_label, :address_type, :currency, :save_address)
     end
   end
