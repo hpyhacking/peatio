@@ -6,11 +6,14 @@ module Private
       before_filter :fetch_transaction_raw!, only: :create
 
       def new
-        redirect_to root_path unless Currency.coins.keys.include?(@currency)
+        account = current_user.get_account(@currency)
+        account.gen_payment_address if account.payment_addresses.empty?
+        @address = account.payment_addresses.using
 
-        @account = current_user.get_account(@currency)
-        @account.gen_payment_address if @account.payment_addresses.empty?
-        @address = @account.payment_addresses.using
+        @coin_deposits_grid = CoinDepositsGrid.new(params[:coin_deposits_grid]) do |scope|
+          scope.with_currency(@currency).where(member: current_user)
+        end
+        @assets = @coin_deposits_grid.assets.page(params[:page]).per(5)
       end
 
       def create
