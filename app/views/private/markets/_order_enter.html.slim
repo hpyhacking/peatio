@@ -2,9 +2,11 @@
   .panel-heading = t('.place-order')
   .panel-body
     .order-enter
-      ul.nav.nav-tabs
-        li.active: a.bid-panel href="#bid_panel" data-toggle="tab" == t('.buy', currency: @ask_name)
-        li: a.ask-panel href="#ask_panel" data-toggle="tab" == t('.sell', currency: @ask_name)
+      .btn-group.type-toggle data-toggle="buttons"
+        button class="btn btn-primary" data-toggle="button"
+          a.bid-panel href="#bid_panel" data-toggle="tab" == t('.buy', currency: @ask_name)
+        button class="btn btn-primary" data-toggle="button"
+          a.ask-panel href="#ask_panel" data-toggle="tab" == t('.sell', currency: @ask_name)
 
       .tab-content
         #bid_panel.tab-pane.active
