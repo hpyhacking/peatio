@@ -9,5 +9,6 @@ class CoinDepositsGrid
 
   column(:txid)
   column_i18n(:created_at)
-  column(:aasm_state)
+  column(:amount)
+  column(:aasm_state_text)
 end
