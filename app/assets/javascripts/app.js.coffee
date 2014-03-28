@@ -46,6 +46,8 @@ $ ->
   OrderEnterUI.attachTo('.order-enter #ask_panel')
   MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
   MyOrdersDoneUI.attachTo('.my-orders #orders_done')
+  PushButton.attachTo('.order-enter')
+  PushButton.attachTo('.my-orders')
 
   MarketTickerUI.attachTo('.ticker')
   MarketOrdersUI.attachTo('.orders')

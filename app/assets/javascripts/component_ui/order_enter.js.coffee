@@ -90,10 +90,6 @@
     @select('currentBalanceSel').text balance
     @select('currentBalanceSel').data('balance', balance)
 
-  @setActiveButton = (event) ->
-    $('.type-toggle button').removeClass('active')
-    $(event.target).closest('button').addClass('active')
-
   @updateAvailable = (event, data) ->
     type = @panelType()
     node = @select('currentBalanceSel')
@@ -119,5 +115,4 @@
     @on @select('priceSel'), 'focusout', @computeSum
     @on @select('volumeSel'), 'focusout', @computeSum
 
-    @on '.type-toggle a', 'click', @setActiveButton
     @on document, 'updateAvailable', @updateAvailable
