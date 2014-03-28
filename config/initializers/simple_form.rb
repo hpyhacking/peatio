@@ -146,3 +146,17 @@ SimpleForm.setup do |config|
   # Default class for inputs
   config.input_class = 'form-control'
 end
+
+module SimpleForm
+  class FormBuilder
+    def lookup_model_names_with_custom_scope
+      if scope = options[:scope]
+        lookup_model_names_without_custom_scope + [scope.to_s]
+      else
+        lookup_model_names_without_custom_scope
+      end
+    end
+
+    alias_method_chain :lookup_model_names, :custom_scope
+  end
+end
