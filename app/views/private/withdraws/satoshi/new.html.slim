@@ -3,7 +3,7 @@
     = t('.title')
     small.pull-right = t('.balance', balance: @account.balance)
 
-= simple_form_for @withdraw do |f|
+= simple_form_for @withdraw, scope: :satoshi do |f|
   = f.text_field :channel_id, value: @channel.id, class: :hidden
   = f.text_field :currency, value: @withdraw.currency, class: :hidden
   = f.text_field :account_id, value: @withdraw.account_id, class: :hidden
@@ -11,9 +11,9 @@
   label.checkbox-inline.pull-right.row
     input name="withdraw[save_fund_source]" value="1" type="checkbox" = t('.save_address')
 
-  = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.placeholder'), label: t('.address')
-  = f.input :fund_extra, label: t('.label')
-  = f.input :sum, as: :decimal, input_html: {min: 0}, label: t('.sum')
+  = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.placeholder')
+  = f.input :fund_extra
+  = f.input :sum, as: :decimal, input_html: {min: 0}
   hr.split
 
   = f.button :wrapped, t('helpers.submit.withdraw.new')

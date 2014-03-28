@@ -64,8 +64,18 @@ zh-CN:
         address: 银行卡号 / 地址
         category: 选择提现种类
         name: 账户名
+      member:
+        name: 账户名
       withdraw:
         password: 登录密码
+        satoshi:
+          fund_uid: 提现地址
+          fund_extra: 备注
+          sum: 数量
+        bank:
+          fund_uid: 银行帐号
+          fund_extra: 开户行
+          sum: 提取金额
       session:
         email: 登录邮箱
         password: 登录密码
@@ -90,10 +100,14 @@ zh-CN:
         key: 文章连接URL键值
         title: 文章标题
       withdraw:
-        sum: 提现总金额
-        amount: 您想要提现的金额
-        password: 请验证登录密码
-      fund_source:
+        bank:
+          sum: 提现总金额
+          fund_uid: 使用保存的帐号或者输入新帐号
+          fund_extra: 使用保存的帐号或者输入新帐号
+        satoshi:
+          sum: 提现总数量
+          fund_uid: 使用保存的地址或者输入新地址
+          fund_extra: 使用保存的地址或者输入新地址
       order_bid:
         origin_volume:  买入数量
         sum: 总成交金额
@@ -114,4 +128,6 @@ zh-CN:
       id_document:
         name: 请填写与您证件上一致的姓名。
       fund_source:
+        name: 提现银行账户姓名必须与您的实名认证姓名一致。
+      member:
         name: 提现银行账户姓名必须与您的实名认证姓名一致。
