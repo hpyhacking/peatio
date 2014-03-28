@@ -67,6 +67,8 @@ zh-CN:
     withdraws:
       update:
         request_accepted: 提现申请提交成功
+      destroy:
+        request_canceled: 提现申请已撤销
       index:
         fee: 手续费
         total: 总计

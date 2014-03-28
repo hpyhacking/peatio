@@ -10,9 +10,7 @@ module Private
       if @withdraw.save
         redirect_to edit_withdraw_path(@withdraw)
       else
-        @fund_sources = current_user.fund_sources
-        load_history(@withdraw.channel_id)
-        render :new
+        redirect_to new_withdraws_bank_path, notice: @withdraw.errors.messages.values.join(' ')
       end
     end
 
@@ -23,13 +21,13 @@ module Private
     def update
       @withdraw = current_user.withdraws.find(params[:id])
       @withdraw.submit!
-      redirect_to withdraws_path, flash: {notice: t('.request_accepted')}
+      redirect_to withdraws_path, notice: t('.request_accepted')
     end
 
     def destroy
       @withdraw = current_user.withdraws.find(params[:id])
       @withdraw.cancel!
-      redirect_to withdraws_path
+      redirect_to withdraws_path, notice: t('.request_canceled')
     end
 
     private
