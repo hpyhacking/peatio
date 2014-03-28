@@ -1,10 +1,9 @@
 en:
-  deposit_channels:
-    bank:
-      title: Bank transfer
-      intro: Bank transfer deposits, Recommend for large recharge 
-      latency: 10 minutes
-      transfer: Manual processing
+  deposit_channel_bank:
+    title: Bank transfer
+    intro: Bank transfer deposits, Recommend for large recharge 
+    latency: 10 minutes
+    transfer: Manual processing
   private:
     deposits:
       banks:
