@@ -258,8 +258,24 @@ GEM
     rbtree (0.4.2)
     recaptcha (0.3.6)
     redis (3.0.7)
+    redis-actionpack (4.0.0)
+      actionpack (~> 4)
+      redis-rack (~> 1.5.0)
+      redis-store (~> 1.1.0)
+    redis-activesupport (4.0.0)
+      activesupport (~> 4)
+      redis-store (~> 1.1.0)
     redis-namespace (1.4.1)
       redis (~> 3.0.4)
+    redis-rack (1.5.0)
+      rack (~> 1.5)
+      redis-store (~> 1.1.0)
+    redis-rails (4.0.0)
+      redis-actionpack (~> 4)
+      redis-activesupport (~> 4)
+      redis-store (~> 1.1.0)
+    redis-store (1.1.4)
+      redis (>= 2.2)
     ref (1.0.5)
     resque (1.25.1)
       mono_logger (~> 1.0)
@@ -419,6 +435,7 @@ DEPENDENCIES
   rails-i18n
   rbtree
   recaptcha
+  redis-rails
   resque
   resque-scheduler
   resque_mailer

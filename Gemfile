@@ -4,6 +4,7 @@ gem 'rails'
 
 gem 'mysql2'
 gem 'daemons-rails'
+gem 'redis-rails'
 
 gem 'qrencoder'
 gem 'rotp'
