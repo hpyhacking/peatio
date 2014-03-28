@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/tomlion/mina-slack.git
+  revision: 5b7571a34f1979784720c0bfef555591e89ca3a7
+  specs:
+    mina-slack (0.0.3)
+      mina (~> 0.3.0)
+      rest-client (~> 1.6.7)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -265,6 +273,8 @@ GEM
       rufus-scheduler (~> 2.0)
     resque_mailer (2.2.6)
       actionmailer (>= 3.0)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rotp (1.6.1)
     rspec-core (2.14.7)
     rspec-expectations (2.14.5)
@@ -392,6 +402,7 @@ DEPENDENCIES
   mails_viewer
   meta_request
   mina
+  mina-slack!
   mocha
   momentjs-rails
   mysql2

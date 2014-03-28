@@ -2,6 +2,7 @@ require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
+require 'mina/slack/tasks'
 
 case ENV['to']
 when 'demo'
@@ -49,6 +50,7 @@ task :deploy => :environment do
       invoke :'unicorn:upgrade'
     end
   end
+  invoke :'slack:finish'
 end
 
 desc "Production Log"

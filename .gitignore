@@ -25,6 +25,7 @@
 /config/application.yml
 /config/database.yml
 /config/currency.yml
+/config/slack.yml
 
 # Ignore translations.js
 /public/javascripts/translations.js

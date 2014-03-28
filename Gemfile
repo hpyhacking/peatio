@@ -65,6 +65,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'mina'
+  gem 'mina-slack', git: 'https://github.com/tomlion/mina-slack.git'
   gem 'meta_request'
   gem 'better_errors'
   gem 'binding_of_caller'
