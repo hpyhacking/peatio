@@ -12,8 +12,9 @@ zh-CN:
         confirm: 确认
         ask_order: '卖 ##sn#'
         bid_order: '买 ##sn#'
-        orders: 挂单记录
-        trades: 交易记录
+      account_balance:
+        title: 账户信息
+        available: 可用 %{currency}
       order_enter:
         place_order: 挂单
         bid_panel: 买入%{currency}
@@ -22,6 +23,10 @@ zh-CN:
         amount: 数量
         total: 合计
         available: 可用
+      order_book:
+        order_book: 挂单记录
+      market_trades:
+        trades: 交易记录
       my_orders:
         my_orders: 我的订单
         orders_wait: 有效委托
