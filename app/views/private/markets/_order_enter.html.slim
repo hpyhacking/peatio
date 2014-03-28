@@ -1,12 +1,12 @@
 .panel.panel-default
-  .panel-heading = t('.place-order')
+  .panel-heading = t('.place_order')
   .panel-body
     .order-enter
       .btn-group.type-toggle
         button class="btn btn-primary active"
-          a.bid-panel href="#bid_panel" data-toggle="tab" == t('.buy', currency: @ask_name)
+          a.bid-panel href="#bid_panel" data-toggle="tab" = t('.bid_panel', currency: @ask_name)
         button class="btn btn-primary"
-          a.ask-panel href="#ask_panel" data-toggle="tab" == t('.sell', currency: @ask_name)
+          a.ask-panel href="#ask_panel" data-toggle="tab" = t('.ask_panel', currency: @ask_name)
 
       hr
 
@@ -14,17 +14,17 @@
         #bid_panel.tab-pane.active
           = form_for [market, order_bid], :remote => true do |f|
             p.input-group.price
-              label.input-group-addon = t('price')
+              label.input-group-addon = t('.price')
               = f.text_field :price, class: 'form-control'
             p.input-group.amount
-              label.input-group-addon = t('amount')
+              label.input-group-addon = t('.amount')
               = f.text_field :origin_volume, class: 'form-control'
             p.input-group.total
-              label.input-group-addon = t('total')
+              label.input-group-addon = t('.total')
               = f.text_field :sum, class: 'form-control'
             p.current-balance.clearfix
-              label.name #{t('available')}
-              label.currency #{@bid}:
+              label.name = t('.available')
+              label.currency = @bid_name
               label.value
             hr
             p.status
@@ -32,7 +32,7 @@
               span.label.label-success
               span.label.label-danger
             p
-              button.btn.btn-primary.btn-lg.btn-block type="submit" Place BUY Order
+              button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.place_order')
 
         #ask_panel.tab-pane
           = form_for [market, order_ask], :remote => true do |f|
@@ -46,8 +46,8 @@
               label.input-group-addon = t('total')
               = f.text_field :sum, class: 'form-control'
             p.current-balance
-              label.name #{t('available')}
-              label.currency #{@ask}:
+              label.name = t('.available')
+              label.currency = @ask_name
               label.value
             hr
             p.status
@@ -55,4 +55,4 @@
               span.label.label-success
               span.label.label-danger
             p
-              button.btn.btn-primary.btn-lg.btn-block type="submit" Place SELL Order
+              button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.place_order')
