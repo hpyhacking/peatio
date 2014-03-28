@@ -13,7 +13,7 @@ describe 'withdraw' do
     btc_account = member.get_account(:btc)
     btc_account.update_attributes balance: 1000
     cny_account = member.get_account(:cny)
-    cny_account.update_attributes balance: 100000
+    #cny_account.update_attributes balance: 0
 
     @label = 'common address'
     @btc_addr = create :btc_fund_source, extra: @label, member: member
@@ -45,7 +45,6 @@ describe 'withdraw' do
   end
 
   it 'allow user to see their current position in the withdraw process queue' do
-    pending "!!!!!!!!!!!!!!!!!!!!!!!!!!"
     admin_identity = create :identity, email: Member.admins.first
     deposit admin_identity, member, 2500
 
@@ -59,39 +58,52 @@ describe 'withdraw' do
     # 1st withdraw
     submit_withdraw_request 800
     click_on t('actions.confirm')
-    expect(current_path).to eq(new_withdraw_path)
+    expect(current_path).to eq(withdraws_path)
+
+    visit new_withdraws_bank_path
     expect(page).to have_text("1700.0")
-    #expect(find('.account-cny .locked').text).to eq("800.0")
     expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("1")
 
     # 2nd withdraw
     submit_withdraw_request 800
     click_on t('actions.confirm')
-    expect(current_path).to eq(new_withdraw_path)
+    expect(current_path).to eq(withdraws_path)
+
+    visit new_withdraws_bank_path
     expect(page).to have_text("900.0")
-    #expect(find('.account-cny .locked').text).to eq("1600.0")
     expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("2")
 
     submit_withdraw_request 600
     click_on t('actions.confirm')
+    expect(current_path).to eq(withdraws_path)
+
+    visit new_withdraws_bank_path
     expect(page).to have_text("300.0")
-    #expect(find('.account-cny .locked').text).to eq("2200.0")
-    expect(current_path).to eq(new_withdraw_path)
 
     within('tbody tr:last-of-type') do
       click_link t('actions.cancel')
     end
-    expect(current_path).to eq(new_withdraw_path)
+    expect(current_path).to eq(withdraws_path)
 
+    visit new_withdraws_bank_path
     expect(page).to have_text("1100.0")
-    #expect(find('.account-cny .locked').text).to eq("1600.0")
+  end
+
+  it 'prevents withdraws that the account has no sufficient balance' do
+    login identity
+
+    visit new_withdraws_bank_path
+
+    submit_withdraw_request 800
+    expect(current_path).to eq(new_withdraws_bank_path)
+    expect(page).to have_text(I18n.t('activerecord.errors.models.withdraw.attributes.sum.poor'))
   end
 
   private
 
   def submit_withdraw_request amount
     select @label, from: 'withdraw_fund_uid'
-    fill_in 'withdraw_fund_extra', with: 'withdraw address'
+    fill_in 'withdraw_fund_extra', with: @label
     fill_in 'withdraw_sum', with: amount
     click_on I18n.t 'helpers.submit.withdraw.new'
   end

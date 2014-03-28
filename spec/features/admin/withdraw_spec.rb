@@ -27,7 +27,6 @@ describe 'withdraw' do
   end
 
   it 'admin view withdraws' do
-    pending "!!!!!!!!!!!!!!!!!!!!!!!!!!"
     visit_admin_withdraw_page
 
     expect(page).to have_content(withdraw.sn)
@@ -42,7 +41,6 @@ describe 'withdraw' do
   end
 
   it 'admin approve withdraw' do
-    pending "!!!!!!!!!!!!!!!!!!!!!!!!!!"
     visit_admin_withdraw_page
 
     click_on I18n.t('actions.view')
@@ -60,7 +58,6 @@ describe 'withdraw' do
   end
 
   it 'admin reject withdraw' do
-    pending "!!!!!!!!!!!!!!!!!!!!!!!!!!"
     visit_admin_withdraw_page
 
     click_on I18n.t('actions.view')
