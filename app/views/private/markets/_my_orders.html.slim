@@ -12,7 +12,7 @@
         #orders_wait.tab-pane.active
           table.table.table-condensed.table-striped
             thead: tr
-              - %w(type at price volume).each do |attr|
+              - %w(kind at price volume).each do |attr|
                 th class='#{attr}' = Order.human_attribute_name(attr)
               th.operation
             tbody
@@ -20,7 +20,7 @@
         #orders_done.tab-pane
           table.table.table-condensed.table-striped
             thead: tr
-              - %w(type at price volume).each do |attr|
+              - %w(kind at price volume).each do |attr|
                 th class='#{attr}' = Order.human_attribute_name(attr)
             tbody
               tr.empty-row: td colspan=100 ......
