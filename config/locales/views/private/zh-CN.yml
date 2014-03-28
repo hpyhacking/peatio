@@ -35,6 +35,8 @@ zh-CN:
         orders_wait: 有效委托
         orders_done: 最新成交
         orders_cancel: 最新撤销
+      price_chart:
+        price_chart: 价格图表
       global:
         global_orders_title: 十档盘口
         global_trades_title: 成交记录

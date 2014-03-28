@@ -136,5 +136,9 @@ zh-CN:
     low_price: 最低
     volume: 成交量
 
+  chart:
+    price: 价格
+    volume: 成交量
+
   'yes': 是
   'no': 否

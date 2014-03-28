@@ -131,5 +131,9 @@ en:
     low_price: Low
     volume: Volume
 
+  chart:
+    price: Price
+    volume: Volume
+
   'yes': 'Yes'
   'no': 'No'

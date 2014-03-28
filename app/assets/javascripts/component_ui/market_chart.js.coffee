@@ -54,13 +54,13 @@
       yAxis: [
         {
           title:
-            text: "Price"
+            text: gon.i18n.chart_price
           height: 160
           lineWidth: 2
         }
         {
           title:
-            text: "Volume"
+            text: gon.i18n.chart_volume
           top: 200
           height: 60
           offset: 0
@@ -71,11 +71,11 @@
       series: [
         {
           type: "line"
-          name: "BTC/CNY"
+          name: gon.i18n.chart_price
         }
         {
           type: "column"
-          name: "Volume"
+          name: gon.i18n.chart_volume
           yAxis: 1
         }
       ]

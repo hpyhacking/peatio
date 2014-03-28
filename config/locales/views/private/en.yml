@@ -35,6 +35,8 @@ en:
         orders_wait: Latest Orders
         orders_done: Done Orders
         orders_cancel: Cancel Orders
+      price_chart:
+        price_chart: Price Chart
       global:
         global_orders_title: ORDERS
         global_trades_title: TRADES
