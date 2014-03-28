@@ -40,6 +40,7 @@
 //= require pusher.min
 //= require selectize
 //= require highstock
+//= require highstock_config
 //= require helper
 
 //= require_tree ./component_mixin
