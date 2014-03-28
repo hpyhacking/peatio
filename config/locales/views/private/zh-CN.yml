@@ -15,7 +15,7 @@ zh-CN:
       account_balance:
         title: 账户信息
         available: 可用 %{currency}
-      order_enter:
+      place_order:
         place_order: 挂单
         bid_panel: 买入%{currency}
         ask_panel: 卖出%{currency}

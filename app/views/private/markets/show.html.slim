@@ -3,7 +3,7 @@
   .col-md-8 = render partial: 'ticker'
 
 .row
-  .col-md-4 = render partial: 'order_enter',
+  .col-md-4 = render partial: 'place_order',
     locals: {market: @market, order_bid: @order_bid, order_ask: @order_ask}
   .col-md-4 = render partial: 'order_book'
   .col-md-4 = render partial: 'market_trades'
