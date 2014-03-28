@@ -8,15 +8,23 @@
 @import 'layout';
 
 #market {
-  table td {
-    font-size: 14px;
-    line-height: 14px !important;
-    padding: 2px;
-    border: none;
+  table {
+    th {
+      &.price, &.amount, &.volume {
+        text-align: right;
+      }
+    }
 
-    &.price, &.amount {
-      text-align: right;
-      font-family: monospace;
+    td {
+      font-size: 14px;
+      line-height: 14px !important;
+      padding: 2px;
+      border: none;
+
+      &.price, &.amount, &.volume {
+        text-align: right;
+        font-family: monospace;
+      }
     }
   }
 
@@ -26,26 +34,40 @@
     margin: 0;
   }
 
+  hr {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
   .panel {
     margin-bottom: 10px;
-    overflow: hidden;
 
-    .panel-heading  > * {
-      display: inline-block;
-      margin-right: 10px;
+    .panel-heading {
+      padding-top: 5px;
+      padding-bottom: 5px;
+
+      > * {
+        display: inline-block;
+        margin-right: 10px;
+      }
+    }
+
+    .panel-body {
+      overflow: hidden;
     }
   }
 
-  .row:first-of-type .panel {
-    height: 110px;
+  .row:nth-of-type(2) .panel:only-child .panel-body {
+    height: 450px;
   }
 
-  .row:nth-of-type(2) .panel {
-    height: 475px;
+  .row:last-of-type .panel .panel-body{
+    height: 390px;
+    overflow: auto;
   }
 
-  .row:last-of-type .panel {
-    height: 430px;
+  .panel#order {
+    height: 370px;
   }
 
   .ticker {
@@ -72,7 +94,6 @@
 
   .type-toggle {
     width: 100%;
-    margin: 20px 0 12px 0;
 
     a, a:hover {
       padding: 6px 12px;
@@ -90,6 +111,7 @@
   .order-enter {
     .input-group-addon {
       min-width: 75px;
+      text-align: right;
     }
 
     .current-balance label {

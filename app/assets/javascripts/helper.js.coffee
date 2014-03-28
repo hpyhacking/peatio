@@ -40,7 +40,7 @@ Handlebars.registerHelper 'format_time', (timestamp) ->
 
 Handlebars.registerHelper 'format_fulltime', (timestamp) ->
   m = moment.unix(timestamp)
-  "#{m.format("YY-MM-DD HH:mm")}#{m.format(":ss")}"
+  "#{m.format("MM-DD HH:mm")}"
 
 Handlebars.registerHelper 'format_mask_number', (number, length = 7) ->
   fractional_len = length - 2
@@ -61,7 +61,7 @@ Handlebars.registerHelper 'format_volume', (origin, volume) ->
   if (origin is volume) or (BigNumber(volume).isZero())
     fixAsk origin
   else
-    "#{fixAsk volume} / #{fixAsk origin}"
+    fixAsk volume
 
 Handlebars.registerHelper 't', (key) -> gon.i18n[key]
 

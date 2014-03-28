@@ -1,4 +1,4 @@
-.panel.panel-default
+.panel.panel-default#order
   .panel-heading = t('.place_order')
   .panel-body
     .order-enter
@@ -26,7 +26,6 @@
               label.name = t('.available')
               label.currency = @bid_name
               label.value
-            hr
             p.status
               span.label.label-info
               span.label.label-success
@@ -49,7 +48,6 @@
               label.name = t('.available')
               label.currency = @ask_name
               label.value
-            hr
             p.status
               span.label.label-info
               span.label.label-success
