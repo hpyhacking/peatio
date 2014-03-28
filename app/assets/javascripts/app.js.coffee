@@ -1,6 +1,3 @@
-I18n.defaultLocale = 'en'
-I18n.locale = gon.local
-
 $ ->
   if $('#assets-index').length
     $.scrollIt

@@ -39,7 +39,6 @@ gem 'resque_mailer'
 gem 'resque-scheduler'
 
 gem 'rails-i18n'
-gem 'i18n-js'
 
 gem 'simple_form', '3.0.1'
 gem 'slim-rails'
