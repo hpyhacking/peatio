@@ -55,7 +55,7 @@ Peatio::Application.routes.draw do
     resources :deposits, only: :index
     namespace :deposits do
       DepositChannel.all.each do |w|
-        resources w.key, only: [:new, :create]
+        resource w.key, only: [:new, :create]
       end
     end
 

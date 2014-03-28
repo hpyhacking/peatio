@@ -5,16 +5,16 @@ def deposit admin_identity, member, amount
     # this part is handled by a google extension
     query = {deposit: { tx_id: "deposit_#{Time.now.to_i}",
               sn: member.sn,
-              address: identity.email,
-              address_label: member.name,
-              address_type: 'bank',
+              fund_uid: identity.email,
+              fund_extra: member.name,
+              channel_id: DepositChannelBank.get.id,
               amount: amount }}
 
     visit(new_admin_currency_deposit_path(query))
 
+    save_and_open_page
+
     within 'form' do
       click_on I18n.t('helpers.submit.deposit.create')
     end
-
-    expect(page).to have_content(I18n.t('admin.currency_deposits.create.success'))
 end

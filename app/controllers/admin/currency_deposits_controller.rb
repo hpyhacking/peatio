@@ -42,7 +42,7 @@ module Admin
       params[:deposit] ||= {}
       params[:deposit][:state] = :done
       params[:deposit][:done_at] = DateTime.now
-      params.require(:deposit).permit(:address, :address_type, :address_label, :tx_id, :amount, :member_id, :account_id, :state, :currency, :done_at, :sn)
+      params.require(:deposit).permit(:fund_uid, :channel_id, :fund_extra, :txid, :amount, :member_id, :account_id, :state, :currency, :done_at, :sn)
     end
   end
 end

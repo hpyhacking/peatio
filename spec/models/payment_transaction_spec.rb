@@ -5,31 +5,27 @@ describe PaymentTransaction do
     tx = FactoryGirl.create(:payment_transaction)
     tx.stubs(:refresh_confirmations)
 
-    tx.stubs(:zero_confirm?).returns(true)
     tx.stubs(:min_confirm?).returns(false)
     tx.stubs(:max_confirm?).returns(false)
 
     expect(tx.unconfirm?).to be_true
-    tx.check
-    tx.check
-    tx.check
+    expect(tx.check).to be_false
+    expect(tx.check).to be_false
+    expect(tx.check).to be_false
     expect(tx.unconfirm?).to be_true
 
-    tx.stubs(:zero_confirm?).returns(false)
     tx.stubs(:min_confirm?).returns(true)
     tx.stubs(:max_confirm?).returns(false)
 
-    tx.check
+    expect(tx.check).to be_true
     expect(tx.confirming?).to be_true
 
-    tx.stubs(:zero_confirm?).returns(false)
     tx.stubs(:min_confirm?).returns(false)
     tx.stubs(:max_confirm?).returns(true)
 
-    tx.check
+    expect(tx.check).to be_true
     expect(tx.confirmed?).to be_true
-
-    expect { tx.check }.to raise_error
+    expect(tx.check).to be_true
   end
 
   describe '#confirm' do
@@ -43,7 +39,6 @@ describe PaymentTransaction do
 
     it "expect zero confirm" do
       tx.stubs(:confirmations).returns(0)
-      expect(tx.zero_confirm?).to be_true
       expect(tx.min_confirm?).to be_false
       expect(tx.max_confirm?).to be_false
     end
@@ -51,7 +46,6 @@ describe PaymentTransaction do
     it "expect min confirm" do
       tx.stubs(:confirmations).returns(1)
 
-      expect(tx.zero_confirm?).to be_false
       expect(tx.min_confirm?).to be_true
       expect(tx.max_confirm?).to be_false
     end
@@ -59,7 +53,6 @@ describe PaymentTransaction do
     it "expect min confirm" do
       tx.stubs(:confirmations).returns(2)
 
-      expect(tx.zero_confirm?).to be_false
       expect(tx.min_confirm?).to be_true
       expect(tx.max_confirm?).to be_false
     end
@@ -67,7 +60,6 @@ describe PaymentTransaction do
     it "expect max confirm" do
       tx.stubs(:confirmations).returns(3)
 
-      expect(tx.zero_confirm?).to be_false
       expect(tx.min_confirm?).to be_false
       expect(tx.max_confirm?).to be_true
     end
@@ -75,15 +67,8 @@ describe PaymentTransaction do
     it "expect max confirm" do
       tx.stubs(:confirmations).returns(4)
 
-      expect(tx.zero_confirm?).to be_false
       expect(tx.min_confirm?).to be_false
       expect(tx.max_confirm?).to be_true
     end
   end
-
-  #it "expect check confirm count" do
-    #tx = FactoryGirl.create(:payment_transaction)
-    #tx.channel = stub(:min_confirm => 1, max_confirm => 3)
-    #tx.stubs(:confirmations).returns(1)
-  #end
 end
