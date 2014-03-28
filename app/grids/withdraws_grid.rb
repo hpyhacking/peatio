@@ -14,7 +14,7 @@ class WithdrawsGrid
     scope.with_channel(channel) if channel
   end
 
-  filter(:created_at, :date, :range => true, :default => proc { [1.month.ago.to_date, Date.today]}) do |arr, scope|
+  filter(:created_at, :date, :range => true, :default => proc { [1.month.ago.to_date, Date.tomorrow]}) do |arr, scope|
     scope.where(created_at: Range.new(arr.first, arr.last)) unless arr.any?(&:blank?)
   end
 
