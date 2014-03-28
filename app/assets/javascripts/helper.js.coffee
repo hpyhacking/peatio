@@ -62,3 +62,6 @@ Handlebars.registerHelper 'format_volume', (origin, volume) ->
     fixAsk origin
   else
     "#{fixAsk volume} / #{fixAsk origin}"
+
+Handlebars.registerHelper 't', (key) -> gon.i18n[key]
+

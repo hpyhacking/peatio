@@ -27,6 +27,9 @@ zh-CN:
         order_book: 挂单记录
       market_trades:
         trades: 交易记录
+        time: 时间
+        price: 价格
+        volume: 数量
       my_orders:
         my_orders: 我的订单
         orders_wait: 有效委托

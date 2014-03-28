@@ -9,6 +9,7 @@ json.market_config @market.attributes
 json.i18n do
   json.ask I18n.t('gon.ask')
   json.bid I18n.t('gon.bid')
+  json.cancel I18n.t('actions.cancel')
 end
 
 json.accounts do
