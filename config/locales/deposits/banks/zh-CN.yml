@@ -1,9 +1,10 @@
 zh-CN:
-  deposit_channel_bank:
-    title: 人民币充值
-    intro: 使用银行卡转账进行充值，推荐用户大额充值使用。 
-    latency: 10 分钟到账
-    transfer: 人工处理
+  deposit_channel:
+    bank:
+      title: 人民币充值
+      intro: 使用银行卡转账进行充值，推荐用户大额充值使用。 
+      latency: 10 分钟到账
+      transfer: 人工处理
   private:
     deposits:
       banks:

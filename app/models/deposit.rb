@@ -58,7 +58,9 @@ class Deposit < ActiveRecord::Base
   end
 
   def set_fee
-    self.amount, self.fee = calc_fee
+    amount, fee = calc_fee
+    self.amount = amount
+    self.fee = fee
   end
 
   def calc_fee

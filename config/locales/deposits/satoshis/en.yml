@@ -1,9 +1,10 @@
 en:
-  deposit_channel_satoshi:
-    title: Bitcoin Deposits 
-    intro: Deposit bitcoin from your own Wallet address to Peatio account
-    latency: 1 Confirmation
-    transfer: Automatic processing
+  deposit_channel:
+    satoshi:
+      title: Bitcoin Deposits 
+      intro: Deposit bitcoin from your own Wallet address to Peatio account
+      latency: 1 Confirmation
+      transfer: Automatic processing
   private:
     deposits:
       satoshis:
