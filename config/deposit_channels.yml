@@ -1,13 +1,9 @@
 - id: 200
   key: satoshi
-  currency: btc
-  type: DepositChannelSatoshi
   min_confirm: 1
   max_confirm: 3
 - id: 400
   key: bank
-  currency: cny
-  type: DepositChannelBank
   account_bank: '#Fake Bank Name#'
   account_holder: '#Fake Card Holder#'
   account_number: '#Fake Card Number#'

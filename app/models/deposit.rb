@@ -11,17 +11,16 @@ class Deposit < ActiveRecord::Base
 
   belongs_to :member
   belongs_to :account
-  belongs_to :channel, class_name: 'DepositChannel'
 
   validates_presence_of \
-    :channel, :amount, :account, \
+    :amount, :account, \
     :member, :currency, :aasm_state, :txid
   validates_uniqueness_of :txid
 
   attr_accessor :sn
 
   aasm :whiny_transitions => false do
-    state :submitting, initial: true, before_enter: :compute_fee
+    state :submitting, initial: true, before_enter: :set_fee
     state :submitted
     state :rejected
     state :accepted, after_commit: :do
@@ -58,9 +57,11 @@ class Deposit < ActiveRecord::Base
     account.lock!.plus_funds amount, reason: Account::DEPOSIT, ref: self
   end
 
-  def compute_fee
-    channel_amount, channel_fee = self.channel.compute_fee(self)
-    self.amount = channel_amount
-    self.fee = channel_fee
+  def set_fee
+    self.amount, self.fee = calc_fee
+  end
+
+  def calc_fee
+    [amount, 0]
   end
 end

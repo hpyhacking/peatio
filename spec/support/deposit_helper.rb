@@ -7,7 +7,6 @@ def deposit admin_identity, member, amount
               sn: member.sn,
               fund_uid: identity.email,
               fund_extra: member.name,
-              channel_id: DepositChannelBank.get.id,
               amount: amount }}
 
     visit(new_admin_currency_deposit_path(query))
