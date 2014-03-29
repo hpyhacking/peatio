@@ -7,21 +7,19 @@ module Matching
 
     def submit(order)
       @tree[order.type][order] = true
-      @lowest_ask = @highest_bid = nil
       order
     end
 
     def cancel(order)
       @tree[order.type].delete order
-      @lowest_ask = @highest_bid = nil
     end
 
     def lowest_ask
-      @lowest_ask ||= @tree[:ask].first[0]
+      @tree[:ask].first[0]
     end
 
     def highest_bid
-      @highest_bid ||= @tree[:bid].last[0]
+      @tree[:bid].last[0]
     end
 
     def matchable?
@@ -34,13 +32,11 @@ module Matching
 
     def delete_ask(ask)
       @tree[:ask].delete ask
-      @lowest_ask = nil
       ask
     end
 
     def delete_bid(bid)
       @tree[:bid].delete bid
-      @highest_bid = nil
       bid
     end
 
