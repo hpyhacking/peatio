@@ -33,6 +33,7 @@ zh-CN:
         update: 处理提现
         create: 提交申请
         new: 下一步
+        all: 提取全部余额
       fund_source:
         create: 新增提现地址
       deposit:

@@ -10,13 +10,18 @@
   = f.text_field :channel_id, value: @channel.id, class: :hidden
   = f.text_field :currency, value: @withdraw.currency, class: :hidden
   = f.text_field :account_id, value: @withdraw.account_id, class: :hidden
+  = f.text_field :balance, value: @account.balance, class: :hidden
 
   label.checkbox-inline.pull-right.row
     input name="withdraw[save_fund_source]" value="1" type="checkbox" = t('.save_address')
 
   = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.placeholder')
   = f.input :fund_extra
-  = f.input :sum, as: :decimal, input_html: {min: 0}
+  = f.input :sum, as: :decimal, input_html: {min: 0} do
+    .input-group
+      = f.text_field :sum, class: 'numeric decimal required form-control', step: 'any', type: 'number', placeholder: t('simple_form.placeholders.withdraw.satoshi.sum')
+      .input-group-btn
+        button.btn id='withdraw_all_btn' type='button' = t('helpers.submit.withdraw.all')
   hr.split
   = f.button :wrapped, t('helpers.submit.withdraw.new')
 
@@ -28,3 +33,9 @@
 = content_for :scripts
   = javascript_include_tag :withdraw_selectize
 
+  javascript:
+    $(function(){
+      $('button#withdraw_all_btn').on('click', function(){
+        $('input#withdraw_sum').val($('input#withdraw_balance').val());
+      });
+    });
