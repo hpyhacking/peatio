@@ -3,8 +3,6 @@ class Withdraw < ActiveRecord::Base
 
   include AASM
   include AASM::Locking
-  include Concerns::Withdraws::BTC
-  include Concerns::Withdraws::CNY
 
   has_paper_trail on: [:update, :destroy]
 

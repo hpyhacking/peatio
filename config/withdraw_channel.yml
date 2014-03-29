@@ -12,7 +12,7 @@
   fee_max: 0
   min: 100
   max: 50000
-  fee: 0.005
+  fee: 0.003
   proportion: true
   inuse: true
   type: WithdrawChannelBank
