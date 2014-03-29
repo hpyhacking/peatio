@@ -7,9 +7,9 @@ module Private
 
     def destroy
       FundSource.where(
-        :id => params[:id],
-        :is_locked => false,
-        :account_id => current_user.accounts).destroy_all
+        member: current_user,
+        id: params[:id],
+        is_locked: false).destroy_all
       head :ok
     end
   end

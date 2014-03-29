@@ -1,0 +1,6 @@
+- id: 1
+  code: CMB
+  name: 招商银行
+- id: 2
+  code: ICBC
+  name: 工商银行

@@ -20,6 +20,7 @@ $(function(){
     })();
   });
 
+  var bank_name_selectize = $('select#withdraw_bank_name').selectize();
   $('select#withdraw_fund_uid').selectize({
     plugins: ['option_destroy'],
     preload: true,
@@ -63,8 +64,20 @@ $(function(){
       });
     },
     onItemAdd: function(value, $item) {
-      $('form input#withdraw_fund_extra').val($item.text());
+      var extra = $item.text();
       $item.text(value);
+      $('form input#withdraw_fund_extra').val(extra);
+
+      var index = extra.indexOf(' ');
+      if(index == -1){
+        var subbranch = extra;
+      } else {
+        var bank_name = extra.slice(0, index);
+        var subbranch = extra.slice(index+1);
+
+        bank_name_selectize[0].selectize.setValue(bank_name);
+        $('form input#withdraw_subbranch').val(subbranch);
+      }
     }
   });
 });

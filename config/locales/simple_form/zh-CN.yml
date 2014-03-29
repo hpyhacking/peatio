@@ -107,6 +107,7 @@ zh-CN:
           sum: 提现总金额
           fund_uid: 使用保存的帐号或者输入新帐号
           fund_extra: 使用保存的帐号或者输入新帐号
+          subbranch: xx分行xx支行
         satoshi:
           sum: 提现总数量
           fund_uid: 使用保存的地址或者输入新地址

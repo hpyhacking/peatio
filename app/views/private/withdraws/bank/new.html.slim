@@ -8,11 +8,15 @@
 
 = simple_form_for @withdraw, scope: :bank do |f|
   = f.text_field :channel_id, value: @channel.id, class: :hidden
-  = f.text_field :currency, value: @withdraw.currency, class: :hidden
-  = f.text_field :account_id, value: @withdraw.account_id, class: :hidden
   = f.text_field :balance, value: @account.balance, class: :hidden
+  = f.input_field :currency, as: :hidden, type: :text
+  = f.input_field :account_id, as: :hidden, type: :text
+  = f.input_field :fund_extra, as: :hidden, type: :text
 
-  = f.input :fund_extra
+  .form-group
+    = f.label :fund_extra
+    .col-sm-3 = f.select :bank_name, @banks, {selected: ''}, class: 'form-control'
+    .col-sm-4 = f.input_field :subbranch, value: '', class: 'form-control'
 
   = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.placeholder')
   .form-group
@@ -41,5 +45,8 @@
     $(function(){
       $('button#withdraw_all_btn').on('click', function(){
         $('input#withdraw_sum').val($('input#withdraw_balance').val());
+      });
+      $('form').on('submit', function(e){
+        $('form input#withdraw_fund_extra').val($('form select#withdraw_bank_name').val() + ' ' + $('form input#withdraw_subbranch').val());
       });
     });
