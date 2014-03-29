@@ -23,7 +23,7 @@ feature 'show account info', js: true do
 
     expect do
       # bid trade panel
-      click_on I18n.t('private.markets.show.bid_panel', currency: ask_name)
+      click_on I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
       fill_in 'order_bid_origin_volume', :with => '4.5'
       expect(page.find('#order_bid_sum')).to be_d ('4.5'.to_d * ask_order.price)
       click_on I18n.t('helpers.submit.order_bid.create')
@@ -32,7 +32,7 @@ feature 'show account info', js: true do
 
     expect do
       # bid trade panel
-      click_on I18n.t('private.markets.show.ask_panel', currency: ask_name)
+      click_on I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
       fill_in 'order_ask_origin_volume', :with => '4.5'
       expect(page.find('#order_ask_sum')).to be_d ('4.5'.to_d * bid_order.price)
       click_on I18n.t('helpers.submit.order_ask.create')
@@ -45,7 +45,7 @@ feature 'show account info', js: true do
     click_on I18n.t('header.market')
 
     # bid trade panel
-    click_on I18n.t('private.markets.show.bid_panel', currency: ask_name)
+    click_on I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
     expect(page.find('#order_bid_price')).to be_d ask_order.price
 
     # ask trade panel
@@ -58,7 +58,7 @@ feature 'show account info', js: true do
     click_on I18n.t('header.market')
 
     # ask trade panel
-    click_on I18n.t('private.markets.show.bid_panel', currency: ask_name)
+    click_on I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
     expect(page.find('.locked-funds').find('span.bid')).to be_d bid_account.locked
     expect(page.find('.available-funds').find('span.bid')).to be_d bid_account.balance
     expect(page.find('.locked-funds').find('span.ask')).to be_d ask_account.locked
