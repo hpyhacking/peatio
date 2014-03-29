@@ -5,7 +5,7 @@ feature 'show account info', js: true do
   let!(:member) { create :member, :activated, email: identity.email  }
 
   let!(:bid_account) do
-    member.get_account('cny') { |a|
+    member.get_account('cny').tap { |a|
       a.plus_funds 1000
       a.save!
     }
