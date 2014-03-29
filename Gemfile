@@ -60,6 +60,7 @@ gem 'browser'
 gem 'introjs-rails'
 gem 'rbtree'
 gem 'liability-proof', '0.0.8'
+gem 'whenever', '~> 0.9.2'
 
 group :development, :test do
   gem 'factory_girl_rails'

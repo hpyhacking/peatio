@@ -3,6 +3,7 @@ require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
 require 'mina/slack/tasks'
+require 'mina/whenever'
 
 case ENV['to']
 when 'demo'
