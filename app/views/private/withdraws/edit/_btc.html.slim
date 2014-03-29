@@ -1,32 +1,24 @@
 = simple_form_for @withdraw do |f|
+  = f.input :fund_uid, required: false do
+    p.form-control-static = @withdraw.fund_uid
 
-  label.col-sm-4.control-label
-    abbr = t('.address')
-  p.col-sm-7.form-control-static
-    span = @withdraw.fund_uid
+  = f.input :fund_extra, required: false do
+    p.form-control-static = @withdraw.fund_extra
 
-  label.col-sm-4.control-label
-    abbr = t('.address_label')
-  p.col-sm-7.form-control-static
-    span = @withdraw.fund_extra
+  = f.input :sum, required: false do
+    p.form-control-static
+      span = @withdraw.currency_symbol
+      span = @withdraw.sum
 
-  label.col-sm-4.control-label
-    abbr = t('.amount')
-  p.col-sm-7.form-control-static
-    span = @withdraw.currency_symbol
-    span = @withdraw.amount
+  = f.input :fee, required: false do
+    p.form-control-static
+      span = @withdraw.currency_symbol
+      span = @withdraw.fee
 
-  label.col-sm-4.control-label
-    abbr = t('.fee')
-  p.col-sm-7.form-control-static
-    span = @withdraw.currency_symbol
-    span = @withdraw.fee
-
-  label.col-sm-4.control-label
-    abbr = t('.sum')
-  p.col-sm-7.form-control-static
-    span = @withdraw.currency_symbol
-    span = @withdraw.sum
+  = f.input :amount, required: false do
+    p.form-control-static
+      span = @withdraw.currency_symbol
+      span = @withdraw.amount
 
   hr.split
   .form-group: .col-sm-11

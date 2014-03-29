@@ -13,7 +13,7 @@ class Proof < ActiveRecord::Base
   end
 
   def timestamp
-    root['timestamp'] || updated_at.to_s
+    Time.at(root['timestamp']/1000) || updated_at
   end
 
 end

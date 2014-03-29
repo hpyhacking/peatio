@@ -12,11 +12,15 @@
   = f.text_field :account_id, value: @withdraw.account_id, class: :hidden
   = f.text_field :balance, value: @account.balance, class: :hidden
 
-  label.checkbox-inline.pull-right.row
-    input name="withdraw[save_fund_source]" value="1" type="checkbox" = t('.save_address')
+  = f.input :fund_extra
 
   = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.placeholder')
-  = f.input :fund_extra
+  .form-group
+    label.control-label.col-sm-4
+    .col-sm-7
+      input name="withdraw[save_fund_source]" value="1" type="checkbox"
+      small.hint = t('.save_fund_source')
+
   = f.input :sum, as: :decimal, input_html: {min: 0} do
     .input-group
       = f.text_field :sum, class: 'numeric decimal required form-control', step: 'any', type: 'number', placeholder: t('simple_form.placeholders.withdraw.satoshi.sum')

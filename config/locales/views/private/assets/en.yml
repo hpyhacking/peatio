@@ -17,13 +17,12 @@ en:
         what-is-100-percent-reserve: 'What is 100 percent reserve?'
         how-to-verify: 'How to verify the exchange is solvent?'
         go-verify: Go Verify
-        timestamp: "A new window will be opened to verify the proof of liability at "
       liability_data:
         liability-proof-generating: Proof of Liability generation in process, please come back after 30 minutes.
         root-json: Root node
         partial-tree: 'My %{currency} Assets: '
         get-partial-tree: Get my partial tree data
-        copy: Copy
+        timestamp: "The proof data is generated at %{time}."
       btc_assets:
         title: BTC Assets
         intro: All of exchanges' BTC assets will be listed here.
