@@ -4,7 +4,7 @@ module DepositCtrlCoinable
   included do
     skip_filter :auth_member!, only: :create
     skip_filter :auth_activated!, only: :create
-    before_filter :fetch_transaction_raw!
+    before_filter :fetch_transaction_raw!, only: :create
   end
 
   def new
