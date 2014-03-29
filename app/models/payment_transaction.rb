@@ -1,19 +1,18 @@
 class PaymentTransaction < ActiveRecord::Base
+  extend Enumerize
+
   include AASM
   include AASM::Locking
-  extend ActiveHash::Associations::ActiveRecordExtensions
+  include Currencible
 
-  extend Enumerize
-  enumerize :currency, in: Currency.codes, scope: true
-  enumerize :aasm_state, in: [:unconfirm, :confirming, :confirmed], scope: true
+  STATE = [:unconfirm, :confirming, :confirmed]
+  enumerize :aasm_state, in: STATE, scope: true
 
   validates_uniqueness_of :txid
   belongs_to :deposit, foreign_key: 'txid', primary_key: 'txid'
   belongs_to :payment_address, foreign_key: 'address', primary_key: 'address'
   has_one :account, through: :payment_address
   has_one :member, through: :account
-
-  after_create :deposit_submit
 
   aasm :whiny_transitions => false do
     state :unconfirm, initial: true
@@ -40,16 +39,6 @@ class PaymentTransaction < ActiveRecord::Base
     raw = CoinRPC[deposit.currency].gettransaction(txid)
     self.confirmations = raw[:confirmations]
     save!
-  end
-
-  def deposit_submit
-    self.deposit = create_deposit \
-      txid: txid,
-      amount: amount,
-      member: member,
-      account: account,
-      currency: currency
-    self.deposit.submit!
   end
 
   def deposit_accept

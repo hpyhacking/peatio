@@ -1,10 +1,7 @@
 module Private
   module Deposits
     class SatoshisController < BaseController
-      include ::ControllerDepositCoinable
-      def currency
-        'btc'
-      end
+      include ::DepositCtrlCoinable
     end
   end
 end

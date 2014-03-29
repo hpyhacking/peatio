@@ -5,4 +5,9 @@ class Currency < ActiveYaml::Base
   def self.codes
     @codes ||= Hash[*all.map do |x| [x.code, x.id] end.flatten].symbolize_keys
   end
+
+  def api
+    raise unless coin?
+    CoinRPC[code]
+  end
 end

@@ -1,10 +1,6 @@
 module Private
   module Deposits
     class BanksController < BaseController
-      def currency
-        'cny'
-      end
-
       def new
       end
 
