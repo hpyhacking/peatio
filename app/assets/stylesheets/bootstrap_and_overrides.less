@@ -5,3 +5,13 @@
 @icon-font-path: "../bootstrap/";
 @icon-font-name: "glyphicons-halflings-regular";
 
+// Uncomment For glyphicons + asset pipeline.
+@font-face {
+ font-family: 'Glyphicons Halflings';
+   src: asset-url("bootstrap/glyphicons-halflings-regular.eot");
+   src: asset-url("bootstrap/glyphicons-halflings-regular.eot?#iefix") format('embedded-opentype'),
+        asset-url("bootstrap/glyphicons-halflings-regular.woff") format('woff'),
+        asset-url("bootstrap/glyphicons-halflings-regular.ttf") format('truetype'),
+        asset-url("bootstrap/glyphicons-halflings-regular.svg#glyphicons-halflingsregular") format('svg');
+}
+// see this for more info about glyphicons: https://github.com/jasontorres/bootstrap-on-rails/issues/3
