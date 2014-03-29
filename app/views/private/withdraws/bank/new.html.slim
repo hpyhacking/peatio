@@ -15,8 +15,8 @@
 
   .form-group
     = f.label :fund_extra
-    .col-sm-3 = f.select :bank_name, @banks, {selected: ''}, class: 'form-control'
-    .col-sm-4 = f.input_field :subbranch, value: '', class: 'form-control'
+    .col-sm-7 = f.select :bank_name, @banks, {selected: ''}, class: 'form-control'
+    /.col-sm-4 = f.input_field :subbranch, value: '', class: 'form-control'
 
   = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.placeholder')
   .form-group
@@ -50,6 +50,12 @@
         $('input#withdraw_sum').val($('input#withdraw_balance').val());
       });
       $('form').on('submit', function(e){
-        $('form input#withdraw_fund_extra').val($('form select#withdraw_bank_name').val() + ' ' + $('form input#withdraw_subbranch').val());
+        var name = $('form select#withdraw_bank_name').val();
+        var subbranch = $('form input#withdraw_subbranch').val();
+        if(subbranch){
+          name = name + ' ' + subbranch
+        }
+
+        $('form input#withdraw_fund_extra').val(name);
       });
     });

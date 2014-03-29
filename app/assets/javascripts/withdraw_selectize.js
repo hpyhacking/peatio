@@ -20,7 +20,7 @@ $(function(){
     })();
   });
 
-  var bank_name_selectize = $('select#withdraw_bank_name').selectize();
+  var sels = $('select#withdraw_bank_name').selectize();
   $('select#withdraw_fund_uid').selectize({
     plugins: ['option_destroy'],
     preload: true,
@@ -29,9 +29,11 @@ $(function(){
     labelField: 'extra',
     searchField: ['uid', 'extra'],
     create: function(input){
+      var bank = sels[0].selectize.getValue();
+
       return {
         uid: input,
-        extra: 'label'
+        extra: (bank || 'label')
       }
     },
     render: {
@@ -71,15 +73,11 @@ $(function(){
       $('form input#withdraw_fund_extra').val(extra);
 
       var index = extra.indexOf(' ');
-      if(index == -1){
-        var subbranch = extra;
-      } else {
-        var bank_name = extra.slice(0, index);
-        var subbranch = extra.slice(index+1);
-
-        bank_name_selectize[0].selectize.setValue(bank_name);
-        $('form input#withdraw_subbranch').val(subbranch);
+      if(index >= 0){
+        $('form input#withdraw_subbranch').val(extra.slice(index+1));
+        extra = extra.slice(0, index);
       }
+      sels[0].selectize.setValue(extra);
     }
   });
 });
