@@ -28,16 +28,31 @@ feature 'show account info', js: true do
     click_on I18n.t('header.market')
 
     expect do
-      # bid trade panel
       click_link I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
       fill_in 'order_bid_price', :with => 22.2
       fill_in 'order_bid_origin_volume', :with => 45
       expect(page.find('#order_bid_sum').value).to be_d (45 * 22.2).to_d
 
       click_on I18n.t('private.markets.place_order.place_order')
-      expect(page).to have_content(I18n.t('private.markets.show.success'))
-      expect(page.find('.bids tr[data-order="1"] .price').text).to eq("22.2000")
+      sleep 0.1 # sucks :(
+      expect(page.find('#bid_panel span.label-success').text).to eq I18n.t('private.markets.show.success')
     end.to change{ OrderBid.all.count }.by(1)
+  end
+
+  scenario 'user can place a sell order by filling in the order form' do
+    login identity
+    click_on I18n.t('header.market')
+
+    expect do
+      click_link I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
+      fill_in 'order_ask_price', :with => 22.2
+      fill_in 'order_ask_origin_volume', :with => 45
+      expect(page.find('#order_ask_sum').value).to be_d (45 * 22.2).to_d
+
+      click_on I18n.t('private.markets.place_order.place_order')
+      sleep 0.1 # sucks :(
+      expect(page.find('#ask_panel span.label-success').text).to eq I18n.t('private.markets.show.success')
+    end.to change{ OrderAsk.all.count }.by(1)
   end
 
   scenario 'user can fill order form by clicking on an existing orders in the order book' do
