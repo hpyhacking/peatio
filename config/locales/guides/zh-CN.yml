@@ -46,14 +46,16 @@ zh-CN:
         bank:
           panel: 银行提现
           new:
-            title: 选择资金提现通道
+            panel: 提现 > 银行提现
+            title: 银行提现
             intro: 快速的选择提现地址并输入要提现的金额到您的账户。
             default-panel: 提现记录历史
         satoshi:
           panel: 比特币提现
           new:
-            title: 选择资金提现通道
-            intro: 快速的选择提现地址并输入要提现的金额到您的账户。
+            panel: 提现 > 比特币提现
+            title: 比特币提现
+            intro: 您可以输入您的提现地址或者选择之前已保存的提现地址，输入提现金额，提取到您的账户地址。
             default-panel: 提现记录历史
 
       fund_sources:

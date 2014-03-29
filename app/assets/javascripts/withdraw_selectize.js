@@ -40,8 +40,10 @@ $(function(){
             '<span>' + escape(item.uid) + '</span>' +
           '</div>' +
           '<div>' +
-            '<span class="lead">' + escape(item.extra) + '</span>' +
-            '<a class="destroy-fund-source pull-right" href="javascript:void(0)" data-addr-id="' + item.id + '"> Delete </a>' +
+            '<span class="">' + escape(item.extra) + '</span>' +
+            '<a class="destroy-fund-source pull-right" href="javascript:void(0)" data-addr-id="' + item.id + '">' +
+              '<span class="glyphicon glyphicon-trash"></span>' +
+            '</a>' +
           '</div></div>';
       }
     },

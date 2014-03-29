@@ -16,10 +16,11 @@
       input name="withdraw[save_fund_source]" value="1" type="checkbox"
       small.hint = t('.save_fund_source')
 
-  = f.input :fund_extra
+  = f.input :fund_extra, required: false
   = f.input :sum, as: :decimal, input_html: {min: 0} do
     .input-group
-      = f.text_field :sum, class: 'numeric decimal required form-control', step: 'any', type: 'number', placeholder: t('simple_form.placeholders.withdraw.bank.sum')
+      = f.text_field :sum, class: 'numeric decimal required form-control',
+        step: 'any', type: 'number', placeholder: t('simple_form.placeholders.withdraw.satoshi.sum')
       .input-group-btn
         button.btn id='withdraw_all_btn' type='button' = t('helpers.submit.withdraw.all')
 
@@ -30,6 +31,9 @@
 = content_for :after
   = panel do
     = datagrid_table(@withdraws_grid)
+
+= content_for :guide
+  = link_to t('guides.private.withdraws.bank.panel'), new_withdraws_bank_path
 
 = content_for :scripts
   = javascript_include_tag :withdraw_selectize

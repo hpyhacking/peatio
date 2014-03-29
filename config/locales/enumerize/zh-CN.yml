@@ -47,6 +47,7 @@ zh-CN:
         coin_ready: 准备中
         coin_done: 完毕
         done: 提现成功
+        almost_done: 发送中
         canceled: 已取消
     fund_source:
       category:

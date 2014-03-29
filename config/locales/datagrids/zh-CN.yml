@@ -18,7 +18,7 @@ zh-CN:
         memo: 确认数
     withdraws_grid: &withdraw_grid
       columns:
-        sn: 编号
+        sn: 交易编号
         name: 姓名
         position_in_queue: 队列位置
         currency_text: 币种
@@ -29,7 +29,7 @@ zh-CN:
         fund_uid: ''
         fund_extra: ''
         fee: 手续费
-        created_at: 申请时间
+        created_at: 提现时间
         done_at: 完成时间
         state_text: 状态
     private_withdraws_grid: *withdraw_grid

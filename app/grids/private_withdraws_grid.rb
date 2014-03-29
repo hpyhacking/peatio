@@ -9,8 +9,9 @@ class PrivateWithdrawsGrid
 
   self.default_column_options = { :order => false }
 
+  column :sn
   column :created_at
-  column(:sum) {|withdraw| "#{withdraw.currency_symbol}#{withdraw.sum}"}
+  column(:sum, header: '') {|withdraw| "#{withdraw.currency_symbol}#{withdraw.sum}"}
   column(:fund_uid) {|withdraw| "#{withdraw.fund_uid} (#{withdraw.fund_extra})" }
   column :position_in_queue do |o|
     o.position_in_queue if o.position_in_queue > 0
