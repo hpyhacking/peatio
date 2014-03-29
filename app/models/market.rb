@@ -36,4 +36,3 @@ class Market < ActiveYaml::Base
   end
 
 end
-
