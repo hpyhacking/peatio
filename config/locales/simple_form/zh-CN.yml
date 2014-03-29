@@ -68,7 +68,9 @@ zh-CN:
       member:
         name: 账户名
       withdraw:
+        name: 收款户名
         password: 登录密码
+        amount: 实际到帐
         satoshi:
           fund_uid: 提现地址
           fund_extra: 备注
