@@ -24,19 +24,19 @@
 
   @resetForm = ->
     @select('volumeSel').val BigNumber(0)
-    @computeSum()
+    @computeSum(event)
 
   @handleSuccess = (event, data) ->
     @cleanMsg()
     @select('successSel').text(data.message)
-    @resetForm()
+    @resetForm(event)
 
   @handleError = (event, data) ->
     @cleanMsg()
     json = JSON.parse(data.responseText)
     @select('dangerSel').text(json.message)
 
-  @computeSum = (e) ->
+  @computeSum = (event) ->
     if @select('priceSel').val() and @select('volumeSel').val()
 
       target = event.target
@@ -53,7 +53,7 @@
       @select('sumSel').val(sum).fixBid()
       @trigger 'updateAvailable', {sum: sum, volume: volume}
 
-  @computeVolume = (e) ->
+  @computeVolume = (event) ->
     if @.select('priceSel').val() and @.select('sumSel').val()
 
       target = event.target
@@ -74,7 +74,7 @@
     return unless (@.$node.is(":visible"))
     @select('priceSel').val(data.price)
     @select('volumeSel').val(data.volume)
-    @computeSum()
+    @computeSum(event)
 
   @refreshPrice = (event, data) ->
     type = @panelType()
