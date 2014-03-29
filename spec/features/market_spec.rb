@@ -2,13 +2,19 @@ require 'spec_helper'
 
 feature 'show account info', js: true do
   let!(:identity) { create :identity }
-  let!(:member) { create :member, email: identity.email  }
+  let!(:member) { create :member, :activated, email: identity.email  }
 
   let!(:bid_account) do
-    member.get_account('cny').tap { |a| a.update_attributes locked: 12, balance: 1000 }
+    member.get_account('cny') { |a|
+      a.plus_funds 1000
+      a.save!
+    }
   end
   let!(:ask_account) do
-    member.get_account('btc').tap { |a| a.update_attributes locked: 23, balance: 2000 }
+    member.get_account('btc').tap { |a|
+      a.plus_funds 2000
+      a.save!
+    }
   end
 
   let!(:ask_order) { create :order_ask, price: '23.6' }
@@ -17,39 +23,33 @@ feature 'show account info', js: true do
 
   before { Resque.stubs(:enqueue) }
 
-  scenario 'user can ordering successful' do
+  scenario 'user can place a buy order by filling in the order form' do
     login identity
     click_on I18n.t('header.market')
 
     expect do
       # bid trade panel
-      click_on I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
-      fill_in 'order_bid_origin_volume', :with => '4.5'
-      expect(page.find('#order_bid_sum')).to be_d ('4.5'.to_d * ask_order.price)
-      click_on I18n.t('helpers.submit.order_bid.create')
-      expect(page).to have_content(I18n.t('private.markets.show.success'))
-    end.to change{ OrderBid.all.size }.from(1).to(2)
+      click_link I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
+      fill_in 'order_bid_price', :with => 22.2
+      fill_in 'order_bid_origin_volume', :with => 45
+      expect(page.find('#order_bid_sum').value).to be_d (45 * 22.2).to_d
 
-    expect do
-      # bid trade panel
-      click_on I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
-      fill_in 'order_ask_origin_volume', :with => '4.5'
-      expect(page.find('#order_ask_sum')).to be_d ('4.5'.to_d * bid_order.price)
-      click_on I18n.t('helpers.submit.order_ask.create')
+      click_on I18n.t('private.markets.place_order.place_order')
       expect(page).to have_content(I18n.t('private.markets.show.success'))
-    end.to change{ OrderAsk.all.size }.from(1).to(2)
+      expect(page.find('.bids tr[data-order="1"] .price').text).to eq("22.2000")
+    end.to change{ OrderBid.all.count }.by(1)
   end
 
-  scenario 'user can use default asks or bids first price in ordering' do
+  scenario 'user can place an order by clicking on existing orders from order book' do
     login identity
     click_on I18n.t('header.market')
 
     # bid trade panel
-    click_on I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
+    click_link I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
     expect(page.find('#order_bid_price')).to be_d ask_order.price
 
     # ask trade panel
-    click_on I18n.t('private.markets.show.ask_panel', currency: ask_name)
+    click_link I18n.t('private.markets.show.ask_panel', currency: ask_name)
     expect(page.find('#order_ask_price')).to be_d bid_order.price
   end
 
