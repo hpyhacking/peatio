@@ -68,19 +68,20 @@ zh-CN:
       member:
         name: 账户名
       withdraw:
-        name: 收款户名
         password: 登录密码
-        amount: 实际到帐
-        fee: 矿工费
         satoshi:
           fund_uid: 提现地址
           fund_extra: 备注
           sum: 数量
           fee: 矿工费
+          amount: 实际到帐
         bank:
+          name: 收款户名
           fund_uid: 银行帐号
           fund_extra: 开户行
-          sum: 提取金额
+          sum: 金额
+          fee: 手续费
+          amount: 实际到帐
       session:
         email: 登录邮箱
         password: 登录密码
@@ -106,7 +107,7 @@ zh-CN:
         title: 文章标题
       withdraw:
         bank:
-          sum: 提现总金额
+          sum: 最低金额2元，单笔限额5万元
           fund_uid: 使用保存的帐号或者输入新帐号
           fund_extra: 使用保存的帐号或者输入新帐号
           subbranch: xx分行xx支行
@@ -137,3 +138,6 @@ zh-CN:
         name: 提现银行账户姓名必须与您的实名认证姓名一致。
       member:
         name: 提现银行账户姓名必须与您的实名认证姓名一致。
+      withdraw:
+        bank:
+          sum: "每笔提现手续费1元，从余额中扣除。<a href='#'>资费说明</a>"

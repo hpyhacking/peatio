@@ -22,10 +22,10 @@ zh-CN:
           placeholder: 使用保存的地址或者输入新地址
       bank:
         new:
-          balance: '可用人民币余额: ฿%{balance}'
+          balance: '可用人民币余额: ¥%{balance}'
           title: 人民币提现
           save_fund_source: 保存您填写的银行信息并作为常用帐号，以便下次直接使用
-          placeholder: 使用保存的帐号或者输入新帐号
+          placeholder: 使用已有银行账号或输入新账号
           subbranch_placeholder: xx省xx市xx支行
       edit:
         title: 确认提现
