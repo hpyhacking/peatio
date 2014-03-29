@@ -4,8 +4,17 @@ zh-CN:
     vip: VIP
     hero: 超级用户
     admin: 管理员
-  markets:
+  trade:
+    markets: 市场
     cnybtc: CNY - BTC
+    realtime_price:
+      title: 实时价格
+    account_balance:
+      title: 我的账户
+      available_btc: 可用BTC
+      available_cny: 可用CNY
+      locked_btc: 冻结BTC
+      locked_cny: 冻结CNY
   gon:
     ask: 卖出
     bid: 买入
@@ -125,6 +134,10 @@ zh-CN:
     latest_price: 成交
     high_price: 最高
     low_price: 最低
+    volume: 成交量
+
+  chart:
+    price: 价格
     volume: 成交量
 
   'yes': 是

@@ -24,7 +24,7 @@ class Market < ActiveYaml::Base
 
     @price_unit  = id[0,3]
     @target_unit = id[3,3]
-    @name = "#{@price_unit} - #{@target_unit}".upcase
+    @name = "#{@target_unit}/#{@price_unit}".upcase
   end
 
   def latest_price

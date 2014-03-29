@@ -1,0 +1,56 @@
+.panel.panel-default#order
+  .panel-heading = t('.place_order')
+  .panel-body
+    .order-enter
+      .btn-group.type-toggle
+        button class="btn btn-primary active"
+          a.bid-panel href="#bid_panel" data-toggle="tab" = t('.bid_panel', currency: @ask_name)
+        button class="btn btn-primary"
+          a.ask-panel href="#ask_panel" data-toggle="tab" = t('.ask_panel', currency: @ask_name)
+
+      hr
+
+      .tab-content
+        #bid_panel.tab-pane.active
+          = form_for [market, order_bid], :remote => true do |f|
+            p.input-group.price
+              label.input-group-addon = t('.price')
+              = f.text_field :price, class: 'form-control'
+            p.input-group.amount
+              label.input-group-addon = t('.amount')
+              = f.text_field :origin_volume, class: 'form-control'
+            p.input-group.total
+              label.input-group-addon = t('.total')
+              = f.text_field :sum, class: 'form-control'
+            p.current-balance.clearfix
+              label.name = t('.available')
+              label.currency = @bid_name
+              label.value
+            p.status
+              span.label.label-info
+              span.label.label-success
+              span.label.label-danger
+            p
+              button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.place_order')
+
+        #ask_panel.tab-pane
+          = form_for [market, order_ask], :remote => true do |f|
+            p.input-group.price
+              label.input-group-addon = t('.price')
+              = f.text_field :price, class: 'form-control'
+            p.input-group.amount
+              label.input-group-addon = t('.amount')
+              = f.text_field :origin_volume, class: 'form-control'
+            p.input-group.total
+              label.input-group-addon = t('.total')
+              = f.text_field :sum, class: 'form-control'
+            p.current-balance
+              label.name = t('.available')
+              label.currency = @ask_name
+              label.value
+            p.status
+              span.label.label-info
+              span.label.label-success
+              span.label.label-danger
+            p
+              button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.place_order')

@@ -94,9 +94,10 @@ Peatio::Application.routes.draw do
         resources :deeps, :only => :show
         resources :trades, :only => :show
         resources :tickers, :only => :show
+        resources :prices, :only => :show
       end
     end
   end
-  
+
   root 'welcome#index'
 end

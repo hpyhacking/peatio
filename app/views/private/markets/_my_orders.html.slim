@@ -1,0 +1,26 @@
+.panel.panel-default
+  .panel-heading = t('.my_orders')
+  .panel-body
+    .my-orders
+      .btn-group.type-toggle
+        button class="btn btn-primary active"
+          a.orders-wait href="#orders_wait" data-toggle="tab" == t('.orders_wait')
+        button class="btn btn-primary"
+          a.orders-done href="#orders_done" data-toggle="tab" == t('.orders_done')
+
+      .tab-content
+        #orders_wait.tab-pane.active
+          table.table.table-condensed.table-striped
+            thead: tr
+              - %w(kind at price volume).each do |attr|
+                th class='#{attr}' = Order.human_attribute_name(attr)
+              th.operation
+            tbody
+              tr.empty-row: td colspan=100 ......
+        #orders_done.tab-pane
+          table.table.table-condensed.table-striped
+            thead: tr
+              - %w(kind at price volume).each do |attr|
+                th class='#{attr}' = Order.human_attribute_name(attr)
+            tbody
+              tr.empty-row: td colspan=100 ......

@@ -40,8 +40,8 @@ window.MarketOrdersUI = flight.component ->
     {price: price, volume: volume, avg_price: avg_price}
 
   @.after 'initialize', ->
-    @.on document, 'pusher::ticker', @.refreshLast
-    @.on document, 'pusher::orders', @.refreshOrders
+    @.on document, 'market::ticker', @.refreshLast
+    @.on document, 'market::orders', @.refreshOrders
 
     _(10).times (n) =>
       @.select('asksSelector').prepend("<tr data-order='#{n}'></tr>")

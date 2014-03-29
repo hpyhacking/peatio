@@ -1,15 +1,9 @@
 en:
   private:
     markets:
-      history_wrapper:
-        orders_wait: Latest Orders
-        orders_done: Latest Done Orders
-        orders_cancel: Latest Cancel Orders
       show:
-        error: Ordering ERROR
-        success: Ordering Successful
-        bid_panel: Buy %{currency}
-        ask_panel: Sell %{currency}
+        error: Failed to submit order
+        success: Order submitted successfully
         analysis_panel: Analysis
         help_panel: Help
         done: DONE
@@ -18,8 +12,31 @@ en:
         confirm: CONFIRM
         ask_order: 'ASK ##sn#'
         bid_order: 'BID ##sn#'
-        orders: Orders
+      account_balance:
+        title: Account Balance
+        available: Available %{currency}
+      place_order:
+        place_order: Place Order
+        bid_panel: Buy %{currency}
+        ask_panel: Sell %{currency}
+        price: Price
+        amount: Amount
+        total: Total
+        available: Available
+      order_book:
+        order_book: Order Book
+      market_trades:
         trades: Trades
+        time: Time
+        price: Price
+        volume: Volume
+      my_orders:
+        my_orders: My Orders
+        orders_wait: Latest Orders
+        orders_done: Done Orders
+        orders_cancel: Cancel Orders
+      price_chart:
+        price_chart: Price Chart
       global:
         global_orders_title: ORDERS
         global_trades_title: TRADES

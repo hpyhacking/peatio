@@ -1,11 +1,8 @@
+= content_for :stylesheet do
+  = "market"
+
 = content_for :frame do
   .container
-    #global.row
-      .col-md-2
-        = render partial: 'shared/markets'
-      .col-md-10
-        = render partial: 'shared/ticker'
-    .panel.panel-default
-      .panel-body
-        = yield
+    #market
+      = yield
 = render template: "layouts/application"

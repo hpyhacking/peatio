@@ -1,0 +1,4 @@
+ul#market_selector
+  - Market.all.each do |market|
+    li
+      = link_to_unless_current market.name, main_app.market_path(market.id)

@@ -137,8 +137,6 @@ GEM
     http_accept_language (2.0.1)
     httpclient (2.3.4.1)
     i18n (0.6.9)
-    i18n-js (2.1.2)
-      i18n
     introjs-rails (0.5.0)
       sass-rails (>= 3.2)
       thor (~> 0.14)
@@ -258,8 +256,24 @@ GEM
     rbtree (0.4.2)
     recaptcha (0.3.6)
     redis (3.0.7)
+    redis-actionpack (4.0.0)
+      actionpack (~> 4)
+      redis-rack (~> 1.5.0)
+      redis-store (~> 1.1.0)
+    redis-activesupport (4.0.0)
+      activesupport (~> 4)
+      redis-store (~> 1.1.0)
     redis-namespace (1.4.1)
       redis (~> 3.0.4)
+    redis-rack (1.5.0)
+      rack (~> 1.5)
+      redis-store (~> 1.1.0)
+    redis-rails (4.0.0)
+      redis-actionpack (~> 4)
+      redis-activesupport (~> 4)
+      redis-store (~> 1.1.0)
+    redis-store (1.1.4)
+      redis (>= 2.2)
     ref (1.0.5)
     resque (1.25.1)
       mono_logger (~> 1.0)
@@ -389,7 +403,6 @@ DEPENDENCIES
   gon
   handlebars_assets
   http_accept_language
-  i18n-js
   introjs-rails
   jbuilder
   jquery-rails
@@ -419,6 +432,7 @@ DEPENDENCIES
   rails-i18n
   rbtree
   recaptcha
+  redis-rails
   resque
   resque-scheduler
   resque_mailer

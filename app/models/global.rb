@@ -7,18 +7,6 @@ class Global
     @currency = currency
   end
 
-  def order_asks
-    @asks ||= OrderAsk.active.
-      with_currency(currency).
-      matching_rule.position
-  end
-
-  def order_bids
-    @bids ||= OrderBid.active.
-      with_currency(currency).
-      matching_rule.position
-  end
-
   def channel
     "market-#{@currency}-global"
   end
@@ -33,73 +21,69 @@ class Global
     end
   end
 
-  def key(key)
-    "#{@currency}-#{key}"
+  def key(key, interval=5)
+    seconds  = Time.now.to_i
+    time_key = seconds - (seconds % interval)
+    "#{@currency}-#{key}-#{time_key}"
   end
 
-  def redis_client
-    Rails.cache
+  def asks
+    Rails.cache.fetch key('asks') do
+      OrderAsk.active.with_currency(currency).matching_rule.position
+    end
+  end
+
+  def bids
+    Rails.cache.fetch key('bids') do
+      OrderBid.active.with_currency(currency).matching_rule.position
+    end
   end
 
   def ticker
-    redis_client.read(key('ticker')) || update_ticker
+    Rails.cache.fetch key('ticker') do
+      Trade.with_currency(currency).tap do |query|
+        return {
+          at:     at,
+          low:    query.h24.minimum(:price) || ZERO,
+          high:   query.h24.maximum(:price) || ZERO,
+          last:   query.last.try(:price)    || ZERO,
+          volume: query.h24.sum(:volume)    || ZERO,
+          buy:    bids.first && bids.first[0] || ZERO,
+          sell:   asks.first && asks.first[0] || ZERO
+        }
+      end
+    end
   end
 
   def trades
-    redis_client.read(key('trades')) || update_trades
+    Rails.cache.fetch key('trades') do
+      @trades = Trade.with_currency(currency).last(LIMIT).reverse
+      @trades.map { |t| format_trade(t) }
+    end
   end
-  
+
   def since_trades(id)
     trades ||= Trade.with_currency(currency).where("id > ?", id).order(:id).limit(LIMIT)
     trades.map do |t| format_trade(t) end
   end
 
-  def asks
-    redis_client.read(key('asks')) || update_asks
-  end
-
-  def bids
-    redis_client.read(key('bids')) || update_bids
-  end
-
-  def update_ticker
-    Trade.with_currency(currency).tap do |query|
-      redis_client.write key('ticker'), {
-        :at => at,
-        :low => query.h24.minimum(:price) || ZERO,
-        :high => query.h24.maximum(:price) || ZERO, 
-        :last => query.last.try(:price) || ZERO, 
-        :volume => query.h24.sum(:volume) || ZERO, 
-        :buy => (bids.first && bids.first[0]) || ZERO, 
-        :sell => (asks.first && asks.first[0]) || ZERO
-      }
+  def price
+    Rails.cache.fetch key('price1', 300) do
+      Trade.with_currency(currency)
+        .select("id, price, sum(volume) as volume, trend, currency, max(created_at) as created_at")
+        .where("created_at > ?", 24.to_i.hours.ago).order(:id)
+        .group("ROUND(UNIX_TIMESTAMP(created_at)/(5 * 60))") # group by 5 minutes
+        .order('max(created_at) ASC')
+        .map {|t| format_trade(t)}
     end
-    ticker
-  end
-
-  def update_asks
-    redis_client.write key('asks'), (order_asks || [])
-    asks
-  end
-
-  def update_bids
-    redis_client.write key('bids'), (order_bids || [])
-    bids
   end
 
   def format_trade(t)
-    { :date => t.created_at.to_i, 
+    { :date => t.created_at.to_i,
       :price => t.price.to_s || ZERO,
       :amount => t.volume.to_s || ZERO,
       :tid => t.id,
       :type => t.trend ? 'sell' : 'buy' }
-  end
-
-  def update_trades
-    @trades ||= Trade.with_currency(currency).last(LIMIT).reverse
-    @maped_trades = @trades.map do |t| format_trade(t) end
-    redis_client.write key('trades'), (@maped_trades || [])
-    trades
   end
 
   def trigger_trade(t)

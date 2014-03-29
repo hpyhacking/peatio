@@ -38,10 +38,12 @@
 //= require ZeroClipboard
 //= require flight
 //= require pusher.min
-//= require i18n
-//= require i18n/translations
 //= require selectize
+//= require highstock
+//= require highstock_config
+//= require helper
 
+//= require_tree ./component_mixin
 //= require_tree ./component_data
 //= require_tree ./component_ui
 //= require_tree ./templates
