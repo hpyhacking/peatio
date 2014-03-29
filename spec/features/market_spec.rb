@@ -40,17 +40,17 @@ feature 'show account info', js: true do
     end.to change{ OrderBid.all.count }.by(1)
   end
 
-  scenario 'user can place an order by clicking on existing orders from order book' do
+  scenario 'user can fill order form by clicking on an existing orders in the order book' do
     login identity
     click_on I18n.t('header.market')
 
-    # bid trade panel
-    click_link I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
-    expect(page.find('#order_bid_price')).to be_d ask_order.price
+    page.find('.asks tr[data-order="0"]').click
+    expect(find('#order_bid_price').value).to be_d ask_order.price
+    expect(find('#order_bid_origin_volume').value).to be_d ask_order.volume
 
-    # ask trade panel
-    click_link I18n.t('private.markets.show.ask_panel', currency: ask_name)
-    expect(page.find('#order_ask_price')).to be_d bid_order.price
+    page.find('.bids tr[data-order="0"]').click
+    expect(find('#order_ask_price').value).to be_d bid_order.price
+    expect(find('#order_ask_origin_volume').value).to be_d bid_order.volume
   end
 
   scenario 'user can view his account balance' do
