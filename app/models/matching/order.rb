@@ -35,6 +35,10 @@ module Matching
       id == other.id
     end
 
+    def to_s
+      "#{@type}:#{id}/#{volume}/#{price}"
+    end
+
     private
 
     def valid?(attrs)

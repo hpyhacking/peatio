@@ -3,16 +3,24 @@ module Matching
 
     def initialize(market, options={})
       @market = market
+      @logger = options.delete(:logger) || Rails.logger
+
       initialize_orderbook(options[:continue])
     end
 
     def submit!(order)
       orderbook.submit(order)
       trade! while match?
+    rescue
+      @logger.fatal "Failed to submit #{order}: #{$!}"
+      @logger.debug $!.backtrace.join("\n")
     end
 
     def cancel!(order)
       orderbook.cancel(order)
+    rescue
+      @logger.fatal "Failed to cancel #{order}: #{$!}"
+      @logger.debug $!.backtrace.join("\n")
     end
 
     def match?
@@ -36,6 +44,7 @@ module Matching
 
     def trade!
       ask, bid, strike_price, volume = trade
+      @logger.info "[#{@market.id}] new trade - #{ask} #{bid} strike_price: #{strike_price} volume: #{volume}"
       Executor.new(@market, ask, bid, strike_price, volume).execute!
     end
 

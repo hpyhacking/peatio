@@ -24,7 +24,7 @@ module Job
 
       def create_engine(market)
         continue = ENV['FRESH'] == '1' ? false : true
-        ::Matching::FIFOEngine.new(market, continue: continue)
+        ::Matching::FIFOEngine.new(market, continue: continue, logger: Resque.logger)
       end
 
       def engines
