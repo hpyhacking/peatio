@@ -53,22 +53,18 @@ feature 'show account info', js: true do
     expect(page.find('#order_ask_price')).to be_d bid_order.price
   end
 
-  scenario 'user can view itself account balance, locked funds in market view' do
+  scenario 'user can view his account balance' do
     login identity
     click_on I18n.t('header.market')
 
-    # ask trade panel
-    click_on I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
-    expect(page.find('.locked-funds').find('span.bid')).to be_d bid_account.locked
-    expect(page.find('.available-funds').find('span.bid')).to be_d bid_account.balance
-    expect(page.find('.locked-funds').find('span.ask')).to be_d ask_account.locked
-    expect(page.find('.available-funds').find('span.ask')).to be_d ask_account.balance
+    # account balance panel
+    expect(page.find('.available-cash .value').text).to be_d bid_account.balance
+    expect(page.find('.available-coin .value').text).to be_d ask_account.balance
 
-    # ask trade panel
-    click_on I18n.t('private.markets.show.ask_panel', currency: ask_name)
-    expect(page.find('.locked-funds').find('span.bid')).to be_d bid_account.locked
-    expect(page.find('.available-funds').find('span.bid')).to be_d bid_account.balance
-    expect(page.find('.locked-funds').find('span.ask')).to be_d ask_account.locked
-    expect(page.find('.available-funds').find('span.ask')).to be_d ask_account.balance
+    # order panel
+    click_link I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
+    expect(page.find('.current-balance .value').text).to be_d bid_account.balance
+    click_link I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
+    expect(page.find('.current-balance .value').text).to be_d ask_account.balance
   end
 end
