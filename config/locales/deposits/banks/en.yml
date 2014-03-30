@@ -47,3 +47,4 @@ en:
     submit:
       deposits_bank:
         create: Submit
+        update: Confirm
