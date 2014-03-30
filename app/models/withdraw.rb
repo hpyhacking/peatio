@@ -205,12 +205,13 @@ class Withdraw < ActiveRecord::Base
   end
 
   def ensure_account_balance
-    if self.sum > account.balance
+    if sum.nil? or sum > account.balance
       errors.add(:sum, :poor)
     end
   end
 
   def calc_fee
+    return if sum.nil? or sum.to_d == 0
     channel.calc_fee!(self) if channel
     self.fee ||= 0.0
     self.amount = sum - fee

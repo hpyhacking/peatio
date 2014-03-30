@@ -10,7 +10,8 @@ module Private
       if @withdraw.save
         redirect_to edit_withdraw_path(@withdraw)
       else
-        redirect_to new_withdraws_bank_path, notice: @withdraw.errors.messages.values.join(' ')
+        path = :"new_withdraws_#{@withdraw.channel.key}_path"
+        redirect_to send(path), notice: @withdraw.errors.messages.values.join(' ')
       end
     end
 
