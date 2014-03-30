@@ -72,12 +72,14 @@ $(function(){
       $item.text(value);
       $('form input#withdraw_fund_extra').val(extra);
 
-      var index = extra.indexOf(' ');
-      if(index >= 0){
-        $('form input#withdraw_subbranch').val(extra.slice(index+1));
-        extra = extra.slice(0, index);
+      if(sels[0]){
+        var index = extra.indexOf(' ');
+        if(index >= 0){
+          $('form input#withdraw_subbranch').val(extra.slice(index+1));
+          extra = extra.slice(0, index);
+        }
+        sels[0].selectize.setValue(extra);
       }
-      sels[0].selectize.setValue(extra);
     }
   });
 });
