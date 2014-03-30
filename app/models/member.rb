@@ -5,7 +5,7 @@ class Member < ActiveRecord::Base
   has_many :accounts
   has_many :withdraws
   has_many :fund_sources
-  has_many :deposits, through: :accounts
+  has_many :deposits
   has_and_belongs_to_many :trades
 
   has_one :two_factor

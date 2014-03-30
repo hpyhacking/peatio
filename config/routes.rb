@@ -55,7 +55,7 @@ Peatio::Application.routes.draw do
     resources :deposits, only: :index
     namespace :deposits do
       Deposit.descendants.each do |w|
-        resources w.name.demodulize.underscore.pluralize, only: [:new, :create]
+        resources w.resource_name
       end
     end
 

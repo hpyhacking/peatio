@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe PaymentTransaction do
   it "expect state transfer" do
-    tx = FactoryGirl.create(:payment_transaction)
+    tx = create(:payment_transaction, deposit: create(:deposit))
     tx.stubs(:refresh_confirmations)
 
     tx.stubs(:min_confirm?).returns(false)

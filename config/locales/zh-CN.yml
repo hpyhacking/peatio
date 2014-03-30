@@ -129,3 +129,9 @@ zh-CN:
 
   'yes': 是
   'no': 否
+
+  banks:
+    bc: 中国银行
+    abc: 中国农业银行
+    cbc: 中国建设银行
+    icbc: 中国工商银行

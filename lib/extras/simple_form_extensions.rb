@@ -12,9 +12,14 @@ module WrappedButton
         if cancel = options.delete(:cancel)
           class_text = 'btn btn-info btn-lg pull-right'
           cancel_text = I18n.t('simple_form.buttons.cancel')
-          submit(*args, &block) + template.link_to(cancel_text, cancel, class: class_text)
+
+          submit(*args) + template.link_to(cancel_text, cancel, class: class_text)
         else
-          submit(*args, &block)
+          if block
+            submit(*args) + template.capture(&block)
+          else
+            submit(*args)
+          end
         end
       end
     end

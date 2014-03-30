@@ -99,7 +99,7 @@ GEM
     dotenv (0.9.0)
     dotenv-rails (0.9.0)
       dotenv (= 0.9.0)
-    enumerize (0.7.0)
+    enumerize (0.8.0)
       activesupport (>= 3.2)
     erubis (2.7.0)
     es5-shim-rails (2.0.5.1)

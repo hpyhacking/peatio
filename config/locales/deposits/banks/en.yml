@@ -1,10 +1,28 @@
 en:
+  activerecord:
+    models:
+      deposits/bank: 银行转账
+    attributes:
+      deposits/bank:
+        fund_extra: 转出银行
+        fund_extra_text: 转出银行
+        fund_uid: 转出账户
+        holder: 转出持卡人
+        receive_fund_holder_text: Receiver holder
+        receive_fund_uid_text: Receiver account
+        receive_fund_extra_text: Receiver bank
+        member_sn: 个人识别码
+
   deposit_channel:
     bank:
-      title: Bank transfer
+      key: Bank transfer
       intro: Bank transfer deposits, Recommend for large recharge 
       latency: 10 minutes
       transfer: Manual processing
+      receive_fund_holder: Wire transfer account holder
+      receive_fund_uid: Wire transfer account number
+      receive_fund_extra: Wire transfer bank name
+
   private:
     deposits:
       banks:
@@ -18,3 +36,13 @@ en:
           bank: Bank
           card: Card NO.
           name: Account Name
+  guides:
+    private:
+      deposits:
+        banks:
+          panel: Bank Transfer
+          intro: Bank transfer deposits, Recommend for large recharge.
+  helpers:
+    submit:
+      deposits_bank:
+        create: Submit

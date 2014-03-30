@@ -8,18 +8,21 @@ class Deposit < ActiveRecord::Base
   STATE = [:submitting, :submitted, :rejected, :accepted, :checked, :warning]
   enumerize :aasm_state, in: STATE, scope: true
 
+  delegate :key_text, to: :channel, prefix: true
+
   belongs_to :member
   belongs_to :account
 
   validates_presence_of \
     :amount, :account, \
-    :member, :currency, :aasm_state, :txid
-  validates_uniqueness_of :txid
+    :member, :currency
+  validates_numericality_of :amount, greater_than: 0
 
   attr_accessor :sn
 
   aasm :whiny_transitions => false do
     state :submitting, initial: true, before_enter: :set_fee
+    state :cancelled
     state :submitted
     state :rejected
     state :accepted, after_commit: :do
@@ -28,6 +31,10 @@ class Deposit < ActiveRecord::Base
 
     event :submit do
       transitions from: :submitting, to: :submitted
+    end
+
+    event :cancel do
+      transitions from: :submitting, to: :cancelled
     end
 
     event :reject do
@@ -49,6 +56,26 @@ class Deposit < ActiveRecord::Base
 
   def update_memo(data)
     self.update_column(:memo, data)
+  end
+
+  def self.channel
+    DepositChannel.find_by_key(name.demodulize.underscore)
+  end
+
+  def channel
+    self.class.channel
+  end
+
+  def self.resource_name
+    name.demodulize.underscore.pluralize
+  end
+
+  def self.params_name
+    name.underscore.gsub('/', '_')
+  end
+
+  def self.new_path
+    "new_#{params_name}_path"
   end
 
   private

@@ -32,6 +32,7 @@ zh-CN:
         bank: 银行转账
       aasm_state:
         submitted: 已提交
+        submitting: 待提交
         accepted: 已到账
     withdraw: 
       address_type:

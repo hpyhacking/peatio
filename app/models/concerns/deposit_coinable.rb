@@ -1,6 +1,10 @@
 module DepositCoinable
   extend ActiveSupport::Concern
 
+  included do
+    validates_uniqueness_of :txid
+  end
+
   def channel
     @channel ||= DepositChannel.find_by_key(self.class.name.demodulize.underscore)
   end
