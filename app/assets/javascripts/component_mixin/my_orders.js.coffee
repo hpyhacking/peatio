@@ -16,7 +16,7 @@
       @select('empty').hide()
 
       for order in data
-        @getTemplate(order).appendTo(@select('table')).show('slow')
+        @getTemplate(order).prependTo(@select('table')).show('slow')
 
   @addOrUpdateOrder = (order) ->
     template = @getTemplate(order)
