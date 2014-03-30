@@ -22,7 +22,7 @@
     @select('infoSel').text('')
     @select('dangerSel').text('')
 
-  @resetForm = ->
+  @resetForm = (event) ->
     @select('volumeSel').val BigNumber(0)
     @computeSum(event)
 
