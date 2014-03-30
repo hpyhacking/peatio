@@ -16,6 +16,7 @@ en:
   deposit_channel:
     bank:
       key: Bank transfer
+      title: Bank transfer
       intro: Bank transfer deposits, Recommend for large recharge 
       latency: 10 minutes
       transfer: Manual processing

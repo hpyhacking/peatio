@@ -1,6 +1,7 @@
 en:
   deposit_channel:
     satoshi:
+      key: Bitcoin Deposits 
       title: Bitcoin Deposits 
       intro: Deposit bitcoin from your own Wallet address to Peatio account
       latency: 1 Confirmation

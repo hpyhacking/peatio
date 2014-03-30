@@ -1,6 +1,7 @@
 zh-CN:
   deposit_channel:
     satoshi:
+      key: 比特币充值
       title: 比特币充值
       intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
       latency: 10 分钟到账
