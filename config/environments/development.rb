@@ -37,6 +37,7 @@ Peatio::Application.configure do
   config.assets.debug = true
 
   config.action_controller.perform_caching = true
+  config.active_record.default_timezone = :local
 end
 
 Resque.logger = Logger.new Rails.root.join('log', 'resque.log')
