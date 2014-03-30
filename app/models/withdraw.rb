@@ -37,13 +37,14 @@ class Withdraw < ActiveRecord::Base
   after_create :generate_sn
   after_update :bust_last_done_cache, if: :state_changed_to_done
 
-  validates :channel_id, :fund_uid, :fund_extra, :amount, :fee,
+  validates :channel_id, :fund_uid, :amount, :fee,
     :account, :currency, :member, presence: true
+
+  validates :fund_extra, presence: { if: :fiat? }
 
   validates :fee, numericality: {greater_than_or_equal_to: 0}
   validates :amount, numericality: {greater_than: 0}
 
-  validates :sum, presence: true, on: :create
   validates :sum, numericality: {greater_than: 0}, on: :create
   validates :txid, uniqueness: true, allow_nil: true, on: :update
 
@@ -211,8 +212,8 @@ class Withdraw < ActiveRecord::Base
   end
 
   def calc_fee
-    return if sum.nil? or sum.to_d == 0
     channel.calc_fee!(self) if channel
+    self.sum ||= 0.0
     self.fee ||= 0.0
     self.amount = sum - fee
   end

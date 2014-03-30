@@ -11,7 +11,7 @@ module Private
         redirect_to edit_withdraw_path(@withdraw)
       else
         path = :"new_withdraws_#{@withdraw.channel.key}_path"
-        redirect_to send(path), notice: @withdraw.errors.messages.values.join(' ')
+        redirect_to send(path), notice: @withdraw.errors.full_messages.join('<br>').html_safe
       end
     end
 

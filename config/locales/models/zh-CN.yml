@@ -57,7 +57,7 @@ zh-CN:
         withdraw_id: 编号
         created_at: 申请时间
         done_at: 完成时间
-        sum: 提现总金额
+        sum: 提取金额
         fee: 提现手续费
         currency: 币种
         amount: 提现金额
@@ -173,6 +173,7 @@ zh-CN:
               match: 登录密码错误，请重新输入。
             sum:
               poor: 账户余额不足，请核对。
+              greater_than: 您提现的数量小于单笔最低限额。
               bank_min: 低于银行转账提现最小限额 5000.00
         two_factor:
           attributes:

@@ -17,7 +17,7 @@
       small.hint = t('.save_fund_source')
 
   = f.input :fund_extra, required: false
-  = f.input :sum, as: :decimal, input_html: {min: 0} do
+  = f.input :sum, as: :decimal, input_html: {min: 0}, required: true do
     .input-group
       = f.text_field :sum, class: 'numeric decimal required form-control',
         step: 'any', type: 'number', placeholder: t('simple_form.placeholders.withdraw.satoshi.sum')
