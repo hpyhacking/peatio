@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/peatio/bootstrap-on-rails.git
+  revision: 1e0ca2e4d3fe129c05cf7a2168bf6824c647496d
+  specs:
+    bootstrap-on-rails (3.1.1)
+      less-rails
+
+GIT
   remote: https://github.com/tomlion/mina-slack.git
   revision: 5b7571a34f1979784720c0bfef555591e89ca3a7
   specs:
@@ -52,8 +59,6 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bootstrap-on-rails (0.0.2)
-      less-rails
     browser (0.3.2)
     builder (3.1.4)
     byebug (2.7.0)
@@ -385,7 +390,7 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.1.2)
   better_errors
   binding_of_caller
-  bootstrap-on-rails
+  bootstrap-on-rails!
   browser
   byebug
   cached_resource
