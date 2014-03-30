@@ -1,6 +1,6 @@
 .page-header
   h3
-    = t('.title')
+    = t('guides.private.withdraws.satoshi.panel')
     small.pull-right = t('.balance', balance: @account.balance)
 
 = simple_form_for @withdraw, scope: :satoshi do |f|
@@ -22,7 +22,7 @@
       = f.text_field :sum, class: 'numeric decimal required form-control',
         step: 'any', type: 'number', placeholder: t('simple_form.placeholders.withdraw.satoshi.sum')
       .input-group-btn
-        button.btn id='withdraw_all_btn' type='button' = t('helpers.submit.withdraw.all')
+        button.btn.btn-primary id='withdraw_all_btn' type='button' = t('helpers.submit.withdraw.all')
 
   hr.split
 

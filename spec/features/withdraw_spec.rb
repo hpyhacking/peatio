@@ -37,10 +37,8 @@ describe 'withdraw' do
 
     click_on t('actions.confirm')
 
+    expect(current_path).to eq(new_withdraws_satoshi_path)
     expect(page).to have_text(I18n.t('private.withdraws.update.request_accepted'))
-    expect(current_path).to eq(withdraws_path)
-
-    visit new_withdraws_satoshi_path
     expect(page).to have_text("400.0")
   end
 
@@ -58,34 +56,26 @@ describe 'withdraw' do
     # 1st withdraw
     submit_withdraw_request 800
     click_on t('actions.confirm')
-    expect(current_path).to eq(withdraws_path)
-
-    visit new_withdraws_bank_path
+    expect(current_path).to eq(new_withdraws_bank_path)
     expect(page).to have_text("1700.0")
     expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("1")
 
     # 2nd withdraw
     submit_withdraw_request 800
     click_on t('actions.confirm')
-    expect(current_path).to eq(withdraws_path)
-
-    visit new_withdraws_bank_path
+    expect(current_path).to eq(new_withdraws_bank_path)
     expect(page).to have_text("900.0")
     expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("2")
 
     submit_withdraw_request 600
     click_on t('actions.confirm')
-    expect(current_path).to eq(withdraws_path)
-
-    visit new_withdraws_bank_path
+    expect(current_path).to eq(new_withdraws_bank_path)
     expect(page).to have_text("300.0")
 
     within('tbody tr:last-of-type') do
       click_link t('actions.cancel')
     end
-    expect(current_path).to eq(withdraws_path)
-
-    visit new_withdraws_bank_path
+    expect(current_path).to eq(new_withdraws_bank_path)
     expect(page).to have_text("1100.0")
   end
 

@@ -22,13 +22,15 @@ module Private
     def update
       @withdraw = current_user.withdraws.find(params[:id])
       @withdraw.submit!
-      redirect_to withdraws_path, notice: t('.request_accepted')
+      path = :"new_withdraws_#{@withdraw.channel.key}_path"
+      redirect_to send(path), notice: t('.request_accepted')
     end
 
     def destroy
       @withdraw = current_user.withdraws.find(params[:id])
       @withdraw.cancel!
-      redirect_to withdraws_path, notice: t('.request_canceled')
+      path = :"new_withdraws_#{@withdraw.channel.key}_path"
+      redirect_to send(path), notice: t('.request_canceled')
     end
 
     private
