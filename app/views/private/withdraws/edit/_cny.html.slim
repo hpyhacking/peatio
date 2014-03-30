@@ -5,7 +5,7 @@
   = f.input :fund_uid, required: false do
     p.form-control-static = @withdraw.fund_uid
 
-  = f.input :fund_extra, required: false do
+  = f.input :fund_extra, required: false, hint: false do
     p.form-control-static = @withdraw.fund_extra
 
   = f.input :sum, required: false, hint: false do
