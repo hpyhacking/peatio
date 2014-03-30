@@ -1,5 +1,5 @@
 //= require es5-shim/es5-shim
-//= require jquery-1.8.3.min
+//= require jquery
 //= require jquery_ujs
 //= require jquery.ui.datepicker
 //= require jquery.ui.slider
