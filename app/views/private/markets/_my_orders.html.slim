@@ -2,10 +2,10 @@
   .panel-heading = t('.my_orders')
   .panel-body
     .my-orders
-      .btn-group.type-toggle
-        button class="btn btn-primary active"
+      ul.btn-group.type-toggle
+        li.btn.btn-primary.active
           a.orders-wait href="#orders_wait" data-toggle="tab" == t('.orders_wait')
-        button class="btn btn-primary"
+        li.btn.btn-primary
           a.orders-done href="#orders_done" data-toggle="tab" == t('.orders_done')
 
       .tab-content
