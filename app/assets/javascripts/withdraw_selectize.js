@@ -5,9 +5,9 @@ $(function(){
       var original = self.onOptionSelect;
       return function(e) {
         $target = $(e.target);
-        if ($target.hasClass('destroy-fund-source')) {
+        if ($target.hasClass('glyphicon-trash')) {
           $.ajax({
-            url: '/fund_sources/' + $target.data('addr-id'),
+            url: '/fund_sources/' + $target.parent().data('addr-id'),
             type: 'DELETE'
             }).done(function(){
               self.load(self.settings.load);
