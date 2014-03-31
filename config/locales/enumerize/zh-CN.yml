@@ -30,13 +30,20 @@ zh-CN:
       address_type:
         satoshi: 比特币
         bank: 银行转账
+      admin_aasm_state:
+        submitted: 待处理
+        submitting: 已提交
+        cancelled: 已撤销
+        accepted: 已到账
+        rejected: 已驳回
+        checked: 已入账
+        warning: 异常
       aasm_state:
         submitted: 受理中
         submitting: 待处理
-        accepted: 已到账
         cancelled: 已撤销
-        rejected: 已驳回
         accepted: 充值成功
+        rejected: 已驳回
         checked: 充值成功
         warning: 异常
     withdraw: 

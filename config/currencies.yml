@@ -7,3 +7,4 @@
   code: btc
   coin: true
   rpc: http://username:password@127.0.0.1:18332
+  blockchain: http://testnet.btclook.com/txn/#{txid}

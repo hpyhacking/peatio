@@ -15,6 +15,7 @@ zh-CN:
         channel_key_text: 通道
         fund_extra_text: 资金来源
         fund_uid: 资金账户
+        txid: 交易
         amount: 金额
         fee: 手续费
         currency_text: 币种

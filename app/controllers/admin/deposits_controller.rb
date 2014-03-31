@@ -6,11 +6,12 @@ module Admin
       @assets = @admin_deposits_grid.assets.page(params[:page]).per(10)
     end
 
-    def show
+    def edit
       @deposit = Deposit.find(params[:id])
     end
 
     def update
+      # accpet
       @deposit = Deposit.find(params[:id])
 
       ActiveRecord::Base.transaction do
@@ -24,6 +25,7 @@ module Admin
     end
 
     def destroy
+      # reject
       @deposit = Deposit.find(params[:id])
 
       ActiveRecord::Base.transaction do

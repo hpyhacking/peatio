@@ -49,4 +49,4 @@ zh-CN:
     submit:
       deposits_bank:
         create: 提交
-        update: 我已成功支付
+        update: 我已成功转账

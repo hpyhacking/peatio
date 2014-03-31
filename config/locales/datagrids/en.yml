@@ -13,6 +13,7 @@ en:
         channel_key_text: Channel
         fund_extra_text: Extra
         fund_uid: UID
+        txid: TXID
         amount: Amount
         fee: Fee
         currency_text: Currency
