@@ -107,12 +107,12 @@ zh-CN:
         title: 文章标题
       withdraw:
         bank:
-          sum: 最低金额2元，单笔限额5万元
+          sum: 单笔限额5万元
           fund_extra: 选择开户行
           fund_uid: 使用已有银行账号或输入新账号
           subbranch: xx分行xx支行
         satoshi:
-          sum: 单笔最低提现0.1BTC
+          sum: ''
           fund_uid: 使用保存的地址或者输入新地址
           fund_extra: 请备注您的钱包地址，方便下次查找使用
       order_bid:
@@ -139,6 +139,8 @@ zh-CN:
       member:
         name: 提现银行账户姓名必须与您的实名认证姓名一致。
       withdraw:
+        satoshi:
+          sum: "矿工费 ฿0.0005 <a href='/faq'>资费说明</a>"
         bank:
-          sum: "每笔提现手续费1元，从提取金额中扣除。<a href='#'>资费说明</a>"
+          sum: "<a href='/faq'>资费说明</a>"
           fund_extra: 若您的开户银行不再列表中，请联系客服。

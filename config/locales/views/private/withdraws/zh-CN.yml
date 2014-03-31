@@ -16,7 +16,7 @@ zh-CN:
         withdraw_cny: 人民币提现
       satoshi:
         new:
-          balance: '可用BTC余额: ฿%{balance}'
+          balance: '可用比特币余额: ฿%{balance}'
           title: BTC提现
           save_fund_source: 保存您填写的地址并作为常用地址，以便下次直接使用
           placeholder: 使用保存的地址或者输入新地址

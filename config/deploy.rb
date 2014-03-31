@@ -15,7 +15,7 @@ else
 end
 
 set :deploy_to, '/var/www/peatio'
-set :repository, 'https://github.com/peatio/peatio.git'
+set :repository, 'https://github.com/peatio/peatio_beijing.git'
 
 set :shared_paths, ['config/unicorn_peatio.sh', 'config/database.yml', 'config/application.yml', 'config/currency.yml', 'tmp', 'log']
 

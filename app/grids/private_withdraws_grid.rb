@@ -11,11 +11,11 @@ class PrivateWithdrawsGrid
 
   column :sn
   column :created_at
-  column(:sum, header: '') {|withdraw| "#{withdraw.currency_symbol}#{withdraw.sum}"}
   column(:fund_uid) {|withdraw| "#{withdraw.fund_uid} (#{withdraw.fund_extra})" }
-  column :position_in_queue do |o|
-    o.position_in_queue if o.position_in_queue > 0
-  end
+  column(:sum, header: '') {|withdraw| "#{withdraw.currency_symbol}#{withdraw.sum}"}
+  #column :position_in_queue do |o|
+    #o.position_in_queue if o.position_in_queue > 0
+  #end
   column :actions, html: true, header: '' do |withdraw|
     if withdraw.cancelable?
       link_to I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete

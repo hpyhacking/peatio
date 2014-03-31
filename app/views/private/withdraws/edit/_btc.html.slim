@@ -5,7 +5,7 @@
   = f.input :fund_extra, required: false do
     p.form-control-static = @withdraw.fund_extra
 
-  = f.input :sum, required: false do
+  = f.input :sum, required: false, hint: false do
     p.form-control-static
       span = @withdraw.currency_symbol
       span = @withdraw.sum

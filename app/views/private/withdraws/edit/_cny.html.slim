@@ -13,16 +13,6 @@
       span = @withdraw.currency_symbol
       span = @withdraw.sum
 
-  = f.input :fee, required: false do
-    p.form-control-static
-      span = @withdraw.currency_symbol
-      span = @withdraw.fee
-
-  = f.input :amount, required: false do
-    p.form-control-static
-      span = @withdraw.currency_symbol
-      span = @withdraw.amount
-
   hr.split
   .form-group: .col-sm-11
     - if @withdraw.submitting?
