@@ -20,11 +20,9 @@ module WrappedButton
             submit(*args) + template.link_to(cancel_text, cancel, class: class_text)
           end
         else
-          if block
-            submit(*args) + template.capture(&block)
-          else
-            submit(*args)
-          end
+          block_view = block ? template.capture(&block) : ""
+          submit_view = options.delete(:no_submit) ? "" : submit(*args)
+          block_view + submit_view
         end
       end
     end
