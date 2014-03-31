@@ -15,6 +15,8 @@ en:
       statistic/members_grid: Members Stat
       statistic/deposits_grid: Deposits Stat
       statistic/withdraws_grid: Withdraws Stat
+      admin/deposits_grid: Deposits
+      admin/withdraws_grid: Withdraws
     attributes:
       id_document:
         name: Full Name

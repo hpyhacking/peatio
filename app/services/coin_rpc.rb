@@ -8,7 +8,7 @@ class CoinRPC
   end
 
   def self.[](currency)
-    url = Currency.coin_urls[currency.to_sym]
+    url = Currency.find_by_code(currency.to_s).rpc
     url ? self.new(url) : nil
   end
 

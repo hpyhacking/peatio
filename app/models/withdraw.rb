@@ -227,16 +227,15 @@ class Withdraw < ActiveRecord::Base
   end
 
   def save_fund_source?
-    @save_fund_source == '1'
+    [true, 'true', '1', 1].include? @save_fund_source
   end
 
   def create_fund_source
-    FundSource.create \
+    FundSource.find_or_create_by \
       member: member,
-      currency: currency,
+      currency: currency_value,
       channel_id: channel_id,
       uid: fund_uid,
-      extra: fund_extra,
-      is_locked: false
+      extra: fund_extra
   end
 end

@@ -8,6 +8,29 @@ zh-CN:
         range_separator: " ~ "
     form:
       submit: 查询
+    admin_deposits_grid:
+      columns:
+        sn: 订单号
+        created_at: 时间
+        channel_key_text: 通道
+        fund_extra_text: 资金来源
+        fund_uid: 资金账户
+        txid: 交易
+        amount: 金额
+        fee: 手续费
+        currency_text: 币种
+        aasm_state_text: 状态
+        full_name: 会员
+    bank_deposits_grid:
+      columns:
+        sn: 订单号
+        created_at: 充值时间
+        channel_key_text: 充值方式
+        fund_extra_text: 开户行
+        fund_uid: 充值账户
+        amount: 充值金额
+        fee: 手续费
+        aasm_state_text: 状态
     coin_deposits_grid:
       columns:
         sn: 充值编号

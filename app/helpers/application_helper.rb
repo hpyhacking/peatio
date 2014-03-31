@@ -133,7 +133,7 @@ module ApplicationHelper
   end
 
   def guide_intro
-    t("guides.#{i18n_controller_path}.#{action_name}.intro", default: "")
+    t("guides.#{i18n_controller_path}.#{action_name}.intro", default: t("guides.#{i18n_controller_path}.intro", default: ''))
   end
 
   def i18n_controller_path

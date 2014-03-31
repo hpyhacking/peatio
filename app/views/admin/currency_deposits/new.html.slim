@@ -1,11 +1,10 @@
 .row
   .col-md-6
-    = detail_section_tag "#{@deposit.channel.key} #{t('.deposit')}"
+    = detail_section_tag "#{t('.deposit')}"
     = simple_form_for @deposit, :url => admin_currency_deposit_path do |f|
       = f.input :txid, readonly: true
       = f.input :sn, readonly: @member ? true : false
       = f.input :fund_uid, readonly: true
-      = f.input :channel_id, as: :hidden
       = f.input :member_id, as: :hidden
       = f.input :fund_extra, readonly: true
       = f.input :amount, readonly: true

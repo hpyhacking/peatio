@@ -1,2 +1,0 @@
-class DepositChannelSatoshi < DepositChannel
-end

@@ -1,9 +1,11 @@
 zh-CN:
-  deposit_channel_satoshi:
-    title: 比特币充值
-    intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
-    latency: 10 分钟到账
-    transfer: 自动
+  deposit_channel:
+    satoshi:
+      key: 块链
+      title: 比特币充值
+      intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
+      latency: 10 分钟到账
+      transfer: 自动
   private:
     deposits:
       satoshis:
@@ -17,3 +19,9 @@ zh-CN:
           step-3: 第三步
           check-confirm: 在钱包中点击发送付款，此交易将被广播到全网，您即可在这里查看到此笔交易，当交易达到全网1个确认 (大约10至60分钟) 时，系统将自动充值到账。
           check-link: 您可以到 %{link} 中查询。
+  guides:
+    private:
+      deposits:
+        satoshis:
+          panel: 比特币充值
+          intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。

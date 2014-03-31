@@ -11,6 +11,8 @@
             a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
         - if can? :manage, Withdraw
           li.ops: a href='#{admin_withdraws_path}' = t('.menus.items.operating.withdraws')
+        - if can? :manage, Deposit
+          li.ops: a href='#{admin_deposits_path}' = t('.menus.items.operating.deposits')
 
         li.nav-header = t('.menus.sections.sites_statistics')
         - if can? :read, Statistic::MembersGrid
