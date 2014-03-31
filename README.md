@@ -37,21 +37,21 @@ Peatio Beijing
 
 #### 代码合并的原则
 
-* 从 `master` 到 `peatio_beijing` 的代码 merge 是单向的么？
+**从 `master` 到 `peatio_beijing` 的代码 merge 是单向的么？**
 > 是的。
 
-* 如果从 `master` merge 过来的代码跟 `opensource_beijing` 冲突怎么办？
+**如果从 `master` merge 过来的代码跟 `opensource_beijing` 冲突怎么办？**
 > 永远在 `opensource_beijing` 解决代码冲突。
 
-* 如果需要一个功能，如何判断应该基于 `master` 上开发还是在 `peatio_beijing` 上开发？
+**如果需要一个功能，如何判断应该基于 `master` 上开发还是在 `peatio_beijing` 上开发？**
 > 找团队商量。
 
-* 如果一个功能需要从 `opensource_beijing` merge 回去 `master` 怎么办？
+**如果一个功能需要从 `opensource_beijing` merge 回去 `master` 怎么办？**
 > 直接将代码复制到 `master`，并在 `master` 提交代码，然后在 merge 回 `peatio_beijing`，永远不反向 merge 回到 `master`。
 
-* 在什么地方管理 `master` 的计划任务?
+**在什么地方管理 `master` 的计划任务?**
 > 代码全部通过 github 的 pull-request 流程。任务管理可以直接用 Github 的 issues，并尽可能鼓励外部开发者参与到项目中来。不方便在 Github 上创建 issue 的话，可以在 Trello 上创建 card。
 
-* 在什么地方管理 `peatio_beijing` 的计划任务?
+**在什么地方管理 `peatio_beijing` 的计划任务?**
 > 代码全部通过 github 的 pull-request 流程。任务管理使用 Trello。
 
