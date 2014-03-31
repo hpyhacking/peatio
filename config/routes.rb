@@ -33,6 +33,7 @@ Peatio::Application.routes.draw do
 
   namespace :admin do
     get '/', to: 'dashboard#index', as: :dashboard
+    resources :deposits
     resources :withdraws
     resources :documents
     resource :currency_deposit, :only => [:new, :create]
@@ -52,7 +53,7 @@ Peatio::Application.routes.draw do
     resource :id_document, :only => [:new, :create]
     resource :two_factor, :only => [:new, :create, :edit, :destroy]
 
-    resources :deposits, only: :index
+    resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
       Deposit.descendants.each do |w|
         resources w.resource_name

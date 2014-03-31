@@ -1,4 +1,4 @@
-= simple_form_for @deposit, defaults: {readonly: true}, url: send(@deposit.class.new_path), method: :get do |f|
+= simple_form_for @deposit, defaults: {readonly: true}, url: deposit_path(@deposit) do |f|
   = f.input :fund_extra_text, as: :string
   = f.input :fund_uid
   = f.input :receive_fund_holder_text
@@ -7,4 +7,5 @@
   = f.input :amount
   = f.input :member_sn
   hr.split
-  = f.button :wrapped, t('actions.back')
+  = f.button :wrapped do
+    = link_to t('actions.cancel'), @deposit, method: :delete, class: 'btn btn-info btn-lg pull-right'

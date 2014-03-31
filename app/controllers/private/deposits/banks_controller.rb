@@ -16,20 +16,12 @@ module Private
         end
       end
 
+      def edit
+        @deposit = current_user.deposits.find(params[:id])
+      end
+
       def show
         @deposit = current_user.deposits.find(params[:id])
-      end
-
-      def update
-        @deposit = current_user.deposits.find(params[:id])
-        @deposit.submit!
-        redirect_to send(model_kls.new_path), notice: t('.success')
-      end
-
-      def destroy
-        @deposit = current_user.deposits.find(params[:id])
-        @deposit.cancel!
-        redirect_to send(model_kls.new_path), notice: t('.success')
       end
 
       private

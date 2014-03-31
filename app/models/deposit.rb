@@ -5,10 +5,13 @@ class Deposit < ActiveRecord::Base
   include AASM::Locking
   include Currencible
 
-  STATE = [:submitting, :submitted, :rejected, :accepted, :checked, :warning]
+  STATE = [:submitting, :cancelled, :submitted, :rejected, :accepted, :checked, :warning]
   enumerize :aasm_state, in: STATE, scope: true
 
+  alias_attribute :sn, :id
+
   delegate :key_text, to: :channel, prefix: true
+  delegate :full_name, to: :member
 
   belongs_to :member
   belongs_to :account
@@ -17,8 +20,6 @@ class Deposit < ActiveRecord::Base
     :amount, :account, \
     :member, :currency
   validates_numericality_of :amount, greater_than: 0
-
-  attr_accessor :sn
 
   aasm :whiny_transitions => false do
     state :submitting, initial: true, before_enter: :set_fee
@@ -77,6 +78,8 @@ class Deposit < ActiveRecord::Base
   def self.new_path
     "new_#{params_name}_path"
   end
+
+  delegate :new_path, to: self
 
   private
   def do

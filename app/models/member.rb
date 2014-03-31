@@ -22,6 +22,8 @@ class Member < ActiveRecord::Base
   before_create :create_accounts
   after_commit :send_activation
 
+  alias_attribute :full_name, :name
+
   class << self
     def from_auth(auth_hash)
       member = locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)

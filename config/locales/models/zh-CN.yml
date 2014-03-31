@@ -15,6 +15,8 @@ zh-CN:
       statistic/members_grid: 用户统计
       statistic/deposits_grid: 充值统计
       statistic/withdraws_grid: 提现统计
+      admin/deposits_grid: 充值管理
+      admin/withdraws_grid: 提现管理
     attributes:
       id_document:
         name: 真实姓名

@@ -5,8 +5,6 @@ module Deposits
     delegate :receive_fund_holder_text, :receive_fund_uid_text, :receive_fund_extra_text, to: :channel
     delegate :sn, to: :member, prefix: true
 
-    alias_attribute :sn, :id
-
     enumerize :fund_extra, in: channel.banks, scope: true, \
       i18n_scope: ["deposit_channel.#{name.demodulize.underscore}.banks", 'banks']
 

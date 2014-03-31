@@ -6,6 +6,18 @@ en:
         range_separator: " to "
     form:
       submit: Search
+    admin_deposits_grid:
+      columns:
+        sn: SN
+        created_at: At
+        channel_key_text: Channel
+        fund_extra_text: Extra
+        fund_uid: UID
+        amount: Amount
+        fee: Fee
+        currency_text: Currency
+        aasm_state_text: State
+        full_name: Member
     bank_deposits_grid:
       columns:
         sn: SN
