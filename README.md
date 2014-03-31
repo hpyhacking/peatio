@@ -40,13 +40,13 @@ Peatio Beijing
 **从 `master` 到 `peatio_beijing` 的代码 merge 是单向的么？**
 > 是的。
 
-**如果从 `master` merge 过来的代码跟 `opensource_beijing` 冲突怎么办？**
-> 永远在 `opensource_beijing` 解决代码冲突。
+**如果从 `master` merge 过来的代码跟 `peatio_beijing` 冲突怎么办？**
+> 永远在 `peatio_beijing` 解决代码冲突。
 
 **如果需要一个功能，如何判断应该基于 `master` 上开发还是在 `peatio_beijing` 上开发？**
 > 找团队商量。
 
-**如果一个功能需要从 `opensource_beijing` merge 回去 `master` 怎么办？**
+**如果一个功能需要从 `peatio_beijing` merge 回去 `master` 怎么办？**
 > 直接将代码复制到 `master`，并在 `master` 提交代码，然后在 merge 回 `peatio_beijing`，永远不反向 merge 回到 `master`。
 
 **在什么地方管理 `master` 的计划任务?**
