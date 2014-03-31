@@ -10,20 +10,17 @@ module WrappedButton
 
         args << options
 
-        if cancel = options.delete(:cancel)
-          class_text = 'btn btn-info btn-lg pull-right'
-          cancel_text = options.delete(:cancel_text) || I18n.t('simple_form.buttons.cancel')
+        block_view = block ? template.capture(&block) : nil
+        submit_view = options.delete(:no_submit) ? nil : submit(*args)
 
-          if no_submit = options.delete(:no_submit)
-            template.link_to(cancel_text, cancel, class: class_text)
-          else
-            submit(*args) + template.link_to(cancel_text, cancel, class: class_text)
+        cancel_view = 
+          if cancel_link = options.delete(:cancel)
+            class_text = 'btn btn-info btn-lg pull-right'
+            cancel_text = options.delete(:cancel_text) || I18n.t('simple_form.buttons.cancel')
+            template.link_to(cancel_text, cancel_link, class: class_text)
           end
-        else
-          block_view = block ? template.capture(&block) : ""
-          submit_view = options.delete(:no_submit) ? "" : submit(*args)
-          block_view + submit_view
-        end
+
+        [submit_view, cancel_view, block_view].join.html_safe
       end
     end
   end

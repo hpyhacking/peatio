@@ -37,7 +37,7 @@ en:
         cancelled: 已撤销
         rejected: 已驳回
         accepted: 已到账
-        checked: 完成
+        checked: 已到账
         warning: 异常
     withdraw: 
       address_type:

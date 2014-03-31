@@ -8,4 +8,4 @@
   = f.input :member_sn
   hr.split
   = f.button :wrapped do
-    = link_to t('actions.cancel'), @deposit, method: :delete, class: 'btn btn-info btn-lg pull-right'
+    = link_to t('actions.cancel'), deposit_path(@deposit), method: :delete, class: 'btn btn-info btn-lg pull-right'

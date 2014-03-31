@@ -18,10 +18,16 @@ module Private
 
       def edit
         @deposit = current_user.deposits.find(params[:id])
+        unless @deposit.may_submit?
+          redirect_to action: 'show'
+        end
       end
 
       def show
         @deposit = current_user.deposits.find(params[:id])
+        if @deposit.may_submit?
+          redirect_to action: 'edit'
+        end
       end
 
       private
