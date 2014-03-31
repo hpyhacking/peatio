@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140329070543) do
+ActiveRecord::Schema.define(version: 20140331084541) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20140329070543) do
     t.string   "extra"
     t.string   "uid"
     t.integer  "channel_id"
-    t.boolean  "is_locked"
+    t.boolean  "is_locked",  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
