@@ -9,6 +9,7 @@ defaults: &defaults
   SESSION_EXPIRE: 120
   API_WHITELIST: []
   ADMIN: 'admin@peatio.dev,admin@example.com'
+  TIMEZONE: 'Beijing'
 
   # below settings only in production env
   # system notify mail settings
