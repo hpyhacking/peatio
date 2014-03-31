@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   helper_method :current_user, :is_admin?, :latest_market, :gon
-  before_filter :set_language, :setting_default
+  before_filter :set_language, :setting_default, :set_timezone
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
   layout 'frame'
@@ -63,6 +63,10 @@ class ApplicationController < ActionController::Base
   def set_language
     cookies[:lang] = params[:lang] unless params[:lang].blank?
     I18n.locale = cookies[:lang] || http_accept_language.compatible_language_from(I18n.available_locales)
+  end
+
+  def set_timezone
+    Time.zone = ENV['TIMEZONE'] if ENV['TIMEZONE']
   end
 
   def coin_rpc_connection_refused
