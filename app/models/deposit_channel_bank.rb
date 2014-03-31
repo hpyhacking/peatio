@@ -1,2 +1,0 @@
-class DepositChannelBank < DepositChannel
-end
