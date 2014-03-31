@@ -15,6 +15,8 @@ zh-CN:
       statistic/members_grid: 用户统计
       statistic/deposits_grid: 充值统计
       statistic/withdraws_grid: 提现统计
+      admin/deposits_grid: 充值管理
+      admin/withdraws_grid: 提现管理
     attributes:
       id_document:
         name: 真实姓名
@@ -44,6 +46,7 @@ zh-CN:
         currency-address-type: 币种-支付方式
         state: 状态
         txid: 业务编号
+        txid_text: 业务编号
         member_id: 用户标识
         created_at: 创建时间
         address: 充值地址
@@ -51,6 +54,13 @@ zh-CN:
         amount: 金额
         done_at: 到账时间
         sn: 个人识别码
+        fee: 手续费
+        fund_uid: 资金
+        fund_extra: 渠道
+        aasm_state_text: 客户状态
+        admin_aasm_state_text: 管理状态
+        currency_text: 币种
+        channel_key_text: 渠道
       withdraw:
         id: ID
         sn: 序号

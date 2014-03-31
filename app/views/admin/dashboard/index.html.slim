@@ -6,7 +6,7 @@
         = detail_tag Account.balance_sum(key) + Account.locked_sum(key), title: 'sum'
         = detail_tag Account.locked_sum(key), title: 'locked'
         = detail_tag Account.balance_sum(key), title: 'balance'
-        - if Currency.coins.keys.include? currency.to_s
+        - if Currency.find_by_code(currency.to_s).coin?
           = detail_tag CoinRPC[currency].safe_getbalance, title: 'wallet'
   .col-md-6
     .row: .col-md-12

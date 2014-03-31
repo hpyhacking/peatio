@@ -9,6 +9,7 @@ en:
           operating: Operations
         items:
           operating:
+            deposits: Deposits
             documents: Documents
             withdraws: Withdraws
           deposits:

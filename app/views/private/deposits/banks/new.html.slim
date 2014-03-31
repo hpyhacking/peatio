@@ -1,14 +1,11 @@
-h4 = t('.step-1')
-p = t('.select-bank')
+= simple_form_for @deposit do |f|
+  = f.input :fund_extra, prompt: t('actions.select')
+  = f.input :fund_uid
+  = f.input :holder, readonly: true, input_html: {:value => current_user.name}
+  = f.input :amount, as: :string
+  hr.split
+  = f.button :wrapped, cancel: deposits_path
 
-h4 = t('.name')
-h4 = @deposit.account_holder
-h4 = t('.card')
-h4 = @deposit.account_number
-h4 = t('.bank')
-h4 #{@deposit.account_bank}
-h4 = t('.step-2')
-p = t('.send-money')
-h5 = current_user.sn
-h4 = t('.step-3')
-p = t('.check-confirm')
+= content_for :after
+  - if @assets && !@assets.empty?
+    = datagrid_table(@bank_deposits_grid, @assets)

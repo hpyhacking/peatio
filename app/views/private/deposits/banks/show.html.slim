@@ -1,0 +1,11 @@
+= simple_form_for @deposit, defaults: {readonly: true} do |f|
+  = f.input :fund_extra_text, as: :string
+  = f.input :fund_uid
+  = f.input :receive_fund_holder_text
+  = f.input :receive_fund_uid_text
+  = f.input :receive_fund_extra_text
+  = f.input :amount
+  = f.input :member_sn
+  hr.split
+  = f.button :wrapped, no_submit: true do
+    = link_to t('actions.back'), url_for(controller: controller_name, action: :new, only_path: true), class: 'btn btn-info btn-lg pull-right'

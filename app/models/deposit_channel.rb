@@ -1,12 +1,7 @@
 class DepositChannel < ActiveYaml::Base
   set_root_path "#{Rails.root}/config"
-  set_filename "deposit_channel"
+  include ChannelInternational
 
-  extend ActiveModel::Naming
-  include ChannelInheritable
-  include ActiveRecord::Inheritance
-
-  def compute_fee(deposit)
-    [deposit.amount, 0.to_d]
-  end
+  include ActiveHash::Associations
+  belongs_to :currency_obj, class_name: 'Currency', foreign_key: 'currency', primary_key: 'code'
 end
