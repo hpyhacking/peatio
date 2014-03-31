@@ -9,6 +9,5 @@ module Deposits
       i18n_scope: ["deposit_channel.#{name.demodulize.underscore}.banks", 'banks']
 
     validates_presence_of :fund_extra, :fund_uid, :amount
-    validates_uniqueness_of :txid, if: :accepted?
   end
 end

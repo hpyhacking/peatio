@@ -15,11 +15,10 @@ module Admin
       @deposit = Deposit.find(params[:id])
 
       ActiveRecord::Base.transaction do
-        if @deposit.update_attributes(destroy_params) \
-          && @deposit.accept!
-          redirect_to admin_deposits_path, notice: t('.notice')
+        if @deposit.accept! or @deposit.submit!
+          redirect_to edit_admin_deposit_path(@deposit), notice: t('.notice')
         else
-          redirect_to admin_deposit_path(@deposit), alert: t('.alert')
+          redirect_to edit_admin_deposit_path(@deposit), alert: t('.alert')
         end
       end
     end
@@ -29,17 +28,12 @@ module Admin
       @deposit = Deposit.find(params[:id])
 
       ActiveRecord::Base.transaction do
-        if @deposit.update_attributes(destroy_params) \
-          && @deposit.reject!
+        if @deposit.reject!
           redirect_to admin_deposits_path, notice: t('.notice')
         else
-          redirect_to admin_deposit_path(@deposit), alert: t('.alert')
+          redirect_to edit_admin_deposit_path(@deposit), alert: t('.alert')
         end
       end
-    end
-
-    def destroy_params
-      params.require(:deposit).permit(:memo)
     end
   end
 end

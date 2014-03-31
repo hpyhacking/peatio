@@ -85,7 +85,9 @@ class Deposit < ActiveRecord::Base
     "new_#{params_name}_path"
   end
 
-  delegate :new_path, to: self
+  def txid_text
+    txid && txid.truncate(40)
+  end
 
   private
   def do
