@@ -1,57 +1,43 @@
 An open-source crypto currency exchange
 =====================================
 
-[![Code Climate](https://codeclimate.com/github/peatio/peatio.png)](https://codeclimate.com/github/peatio/peatio)
-[![Build Status](https://travis-ci.org/peatio/peatio.png?branch=master)](https://travis-ci.org/peatio/peatio)
+### 在本地开发的`Git`流程
 
-### Requirements
+**clone codes**
 
-* Ubuntu Linux / Mac OSX
-* Ruby 2.1.0
-* Rails 4.0+
-* Git 1.7.10+
-* Redis 2.0+
-* MySQL
+    git clone git@github.com:peatio/peatio_beijing.git
+    cd peatio_beijing
+    git remote add peatio_opensource git@github.com:peatio/peatio.git
 
-** More details are in the [requirements doc](doc/install/requirements.md)
+**How to merge from peatio_opensource**
 
+    git fetch peatio_opensource
+    git checkout -b local_branch
+    git merge peatio_opensource/master
+    git checkout master
+    git merge local_branch
 
-### Getting start
+**How to merge code back to peatio_opensource**
 
-* [Developing document](doc/install/development.md)
+> NEVER
 
-### Contributing
+### 代码合并的原则
 
-You can contribute to this project in one of two ways:
+* 从 `peatio_opensource` 到 `peatio_beijing` 的代码 merge 是单向的么？
+> 是的
 
-* Browse our issues, comment on proposals, report bugs.
-* Clone the peatio repo, make some changes according to our development guidelines and issue a pull-request with your changes.
+* 如果从 `peatio_opensource` merge 过来的代码跟 `opensource_beijing` 冲突怎么办？
+> 永远在 `opensource_beijing` 解决代码冲突
 
+* 如果需要一个功能，如何判断应该在 `peatio_opensource` 上开发还是在 `peatio_beijing` 上开发？
+> 找团队商量
 
-### Support
+* 如果一个功能需要从 `opensource_beijing` merge back to `peatio_opensource` 怎么办？
+> 直接将代码复制到 `peatio_opensource`，并在 `peatio_opensource` 提交代码，然后在   merge 回来，永远不直接 merge back 到 `peatio_opensource`
 
-* If you need help, use [Stack Overflow](http://stackoverflow.com/questions/tagged/peatio).
-* If you found a bug, use GitHub issues.
-* If you have an idea, use GitHub issues.
-* If you'd like to ask a general question, use GitHub issues.
-* If you want to contribute, submit a pull request.
-* If you want to contact us, drop an email to [community@peatio.com](mailto:community@peatio.com)
+* 在什么地方管理 `peatio_opensource` 的计划任务?
+> 代码全部通过 github 的 pull-request，review，然后 merge。任务管理直接用 Github 的 issues，并尽可能鼓励外部的人可以参与到项目开发中来。如果必要，可以在 Trello 上创建对应的 card
 
+* 在什么地方管理 `peatio_beijing` 的计划任务?
+> 代码全部通过 github 的 pull-request，review，然后 merge。任务管理使用 Trello。
 
-### License
-
-Peatio is released under the terms of the MIT license. See [http://peatio.mit-license.org](http://peatio.mit-license.org) for more information.
-
-
-### DONATE
-
-**Every satoshi of your kind donation goes into the ongoing work of making Peatio more awesome.**
-
-**peatio-opensource-donate** address [1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3](https://blockchain.info/address/1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3)
-
-
-### What is Peatio?
-
-[Peatio](http://en.wikipedia.org/wiki/Pixiu) (Chinese: 貔貅) is a Chinese mythical hybrid creature considered to be a very powerful protector to practitioners of Feng Shui.
-
-![logo](public/peatio.png)
