@@ -8,6 +8,11 @@
   currency: pts
   min_confirm: 1
   max_confirm: 3
+- id: 202
+  key: litecoin
+  currency: ltc
+  min_confirm: 1
+  max_confirm: 3
 - id: 400
   key: bank
   currency: cny
