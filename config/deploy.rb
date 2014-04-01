@@ -17,7 +17,7 @@ end
 set :deploy_to, '/var/www/peatio'
 set :repository, 'https://github.com/peatio/peatio.git'
 
-set :shared_paths, ['config/unicorn_peatio.sh', 'config/database.yml', 'config/application.yml', 'config/currency.yml', 'tmp', 'log']
+set :shared_paths, ['config/unicorn_peatio.sh', 'config/database.yml', 'config/application.yml', 'config/currencies.yml', 'tmp', 'log']
 
 task :environment do
   invoke :'rbenv:load'
@@ -34,7 +34,7 @@ task :setup => :environment do
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/tmp"]
 
   queue! %[touch "#{deploy_to}/shared/config/database.yml"]
-  queue! %[touch "#{deploy_to}/shared/config/currency.yml"]
+  queue! %[touch "#{deploy_to}/shared/config/currencies.yml"]
   queue! %[touch "#{deploy_to}/shared/config/application.yml"]
 end
 
