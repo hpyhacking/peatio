@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   helper_method :current_user, :is_admin?, :latest_market, :gon
-  before_filter :setting_default, :set_timezone
+  before_filter :set_language, :setting_default, :set_timezone
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
   layout 'frame'

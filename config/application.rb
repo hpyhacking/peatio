@@ -28,10 +28,6 @@ module Peatio
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
     config.i18n.available_locales = ['en', 'zh-CN']
 
-    # force default locale to zh-CN
-    config.i18n.default_locale = :'zh-CN'
-    config.i18n.locale = :'zh-CN'
-
     config.autoload_paths += %W(#{config.root}/lib #{config.root}/lib/extras)
 
     config.assets.precompile += ['withdraw_selectize.js']
