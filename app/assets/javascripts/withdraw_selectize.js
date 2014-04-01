@@ -29,11 +29,14 @@ $(function(){
     labelField: 'extra',
     searchField: ['uid', 'extra'],
     create: function(input){
-      var bank = sels[0].selectize.getValue();
+      var extra = '';
+      if(sels[0]){
+        extra = sels[0].selectize.getValue() || extra;
+      }
 
       return {
         uid: input,
-        extra: (bank || 'label')
+        extra: extra
       }
     },
     render: {
