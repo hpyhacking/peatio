@@ -26,7 +26,7 @@ zh-CN:
 
       deposits:
         panel: 资金充值
-        intro: 为您在貔貅交易所中的账户充值。
+        intro: 选择您充值的种类，比特币和人民币充值均为10分钟到账。
 
       withdraws:
         panel: 资金提现

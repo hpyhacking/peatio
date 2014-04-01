@@ -12,6 +12,7 @@ module ChannelInternational
     end
 
     def i18n_text_key(key)
+      puts "#{self.class.model_name.i18n_key}.#{self.key}.#{key}"
       "#{self.class.model_name.i18n_key}.#{self.key}.#{key}"
     end
   end

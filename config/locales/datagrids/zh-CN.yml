@@ -10,7 +10,7 @@ zh-CN:
       submit: 查询
     admin_deposits_grid:
       columns:
-        sn: 订单号
+        sn: 充值编号
         created_at: 时间
         channel_key_text: 通道
         fund_extra_text: 资金来源
@@ -23,7 +23,7 @@ zh-CN:
         full_name: 会员
     bank_deposits_grid:
       columns:
-        sn: 订单号
+        sn: 充值编号
         created_at: 充值时间
         channel_key_text: 充值方式
         fund_extra_text: 开户行

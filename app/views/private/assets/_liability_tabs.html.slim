@@ -9,7 +9,7 @@
         span.title = t('.btc-assets-total')
         span.currency
           == t("currency.icon.btc")
-          = Currency.assets['btc']
+          = @btc_assets['balance']
       = render 'liability_data', account: @btc_account, proof: @btc_proof
 
     #cny-proof.tab-pane:        .trade-wrapper
@@ -17,5 +17,5 @@
         span.title = t('.cny-assets-total')
         span.currency
           == t("currency.icon.cny")
-          = Currency.assets['cny']
+          = @cny_assets['balance']
       = render 'liability_data', account: @cny_account, proof: @cny_proof

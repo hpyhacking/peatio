@@ -1,11 +1,12 @@
-= simple_form_for @deposit do |f|
+= simple_form_for @deposit, scope: :'deposit.bank' do |f|
+  = f.input :holder, readonly: true, input_html: {:value => current_user.name}
   = f.input :fund_extra, prompt: t('actions.select')
   = f.input :fund_uid
-  = f.input :holder, readonly: true, input_html: {:value => current_user.name}
   = f.input :amount, as: :string
   hr.split
   = f.button :wrapped, cancel: deposits_path
 
 = content_for :after
   - if @assets && !@assets.empty?
-    = datagrid_table(@bank_deposits_grid, @assets)
+    = panel do
+      = datagrid_table(@bank_deposits_grid, @assets)

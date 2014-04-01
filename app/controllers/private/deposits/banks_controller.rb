@@ -17,14 +17,16 @@ module Private
       end
 
       def edit
-        @deposit = current_user.deposits.find(params[:id])
+        @deposit = current_user.deposits.find(params[:id]).becomes(model_kls)
+        load_history
         unless @deposit.may_submit?
           redirect_to action: 'show'
         end
       end
 
       def show
-        @deposit = current_user.deposits.find(params[:id])
+        @deposit = current_user.deposits.find(params[:id]).becomes(model_kls)
+        load_history
         if @deposit.may_submit?
           redirect_to action: 'edit'
         end

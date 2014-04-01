@@ -54,20 +54,26 @@
 
     .panel-body {
       overflow: hidden;
-    }
-  }
 
-  .row:nth-of-type(2) .panel:only-child .panel-body {
-    height: 450px;
+      .trades {
+        height: 330px;
+        overflow-y: auto;
+      }
+
+      .orders {
+        height: 330px;
+        overflow-y: auto;
+      }
+
+      .order-enter {
+        height: 330px;
+      }
+    }
   }
 
   .row:last-of-type .panel .panel-body{
     height: 390px;
     overflow: auto;
-  }
-
-  .panel#order {
-    height: 370px;
   }
 
   .ticker {

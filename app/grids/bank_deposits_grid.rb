@@ -4,7 +4,7 @@ class BankDepositsGrid
   include Datagrid::ColumnI18n
 
   scope do
-    Deposit.order('id DESC')
+    Deposits::Bank.order('id DESC')
   end
 
   column(:sn)

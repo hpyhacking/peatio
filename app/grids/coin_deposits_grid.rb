@@ -4,7 +4,7 @@ class CoinDepositsGrid
   include Datagrid::ColumnI18n
 
   scope do
-    Deposit.order('id DESC')
+    Deposits::Satoshi.order('id DESC')
   end
 
   column(:txid)

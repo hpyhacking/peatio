@@ -11,10 +11,10 @@
               span.pull-left = t('.total')
               span.pull-right
                 == t("currency.icon.btc")
-                = Currency.assets['btc']
+                = @btc_assets['balance']
           .clearfix
           .row
             .col-md-12 style='text-align: center; font-size: .7em'
               = t('.address')
               | &nbsp;&nbsp;
-              = main_btc_address_link
+              = main_btc_address_link @btc_assets
