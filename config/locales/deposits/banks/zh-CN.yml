@@ -22,9 +22,9 @@ zh-CN:
       intro: 通过银行转账的方式，从您的银行账户充值人民币到您的貔貅账户。
       latency: 10 分钟到账
       transfer: 人工处理
-      receive_fund_holder: 银行汇款收款人
-      receive_fund_uid: 银行汇款帐号
-      receive_fund_extra: 银行汇款开户行
+      receive_fund_holder: 邱亮
+      receive_fund_uid: 6214850101763297
+      receive_fund_extra: 招商银行北京双榆树支行
 
   private:
     deposits:
