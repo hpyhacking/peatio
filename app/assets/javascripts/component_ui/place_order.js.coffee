@@ -1,4 +1,4 @@
-@OrderEnterUI = flight.component ->
+@PlaceOrderUI = flight.component ->
   @defaultAttrs
     formSel: 'form'
     successSel: 'span.label-success'
@@ -28,13 +28,13 @@
 
   @handleSuccess = (event, data) ->
     @cleanMsg()
-    @select('successSel').text(data.message)
+    @select('successSel').text(data.message).fadeOut(3500)
     @resetForm(event)
 
   @handleError = (event, data) ->
     @cleanMsg()
     json = JSON.parse(data.responseText)
-    @select('dangerSel').text(json.message)
+    @select('dangerSel').text(json.message).fadeOut(3500)
 
   @computeSum = (event) ->
     if @select('priceSel').val() and @select('volumeSel').val()

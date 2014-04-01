@@ -35,8 +35,8 @@ $ ->
   #     window.console && console.log(message)
 
   AccountBalanceUI.attachTo('.account-balance')
-  OrderEnterUI.attachTo('.order-enter #bid_panel')
-  OrderEnterUI.attachTo('.order-enter #ask_panel')
+  PlaceOrderUI.attachTo('.order-enter #bid_panel')
+  PlaceOrderUI.attachTo('.order-enter #ask_panel')
   MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
   MyOrdersDoneUI.attachTo('.my-orders #orders_done')
   PushButton.attachTo('.order-enter')
