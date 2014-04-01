@@ -62,6 +62,7 @@ zh-CN:
         done: 提现成功
         almost_done: 发送中
         canceled: 已取消
+        failed: 提现出错
     fund_source:
       category:
         satoshi: 比特币 - 网络转账
