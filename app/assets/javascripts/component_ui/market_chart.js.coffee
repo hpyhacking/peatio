@@ -17,11 +17,11 @@
 
                 for i in data
                   price.push [
-                    Number(i.date) * 1000
+                    i.date * 1000
                     Math.round(i.price * 100) / 100
                   ]
                   volume.push [
-                    Number(i.date) * 1000
+                    i.date * 1000
                     Math.round(i.amount * 100) / 100
                   ]
 

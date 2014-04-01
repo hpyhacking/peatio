@@ -1,3 +1,7 @@
+Highcharts.setOptions
+  global:
+    useUTC: false
+
 if gon.local is "zh-CN"
   Highcharts.setOptions
     lang:
