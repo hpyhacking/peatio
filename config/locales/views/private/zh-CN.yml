@@ -15,10 +15,10 @@ zh-CN:
       ticker:
         markets: 实时价格
       account_balance:
-        title: 账户信息
+        title: 账户余额
         available: 可用 %{currency}
       place_order:
-        place_order: 挂单
+        place_order: 快速挂单
         bid_panel: 买入%{currency}
         ask_panel: 卖出%{currency}
         price: 价格
@@ -33,7 +33,7 @@ zh-CN:
         price: 价格
         volume: 数量
       my_orders:
-        my_orders: 我的订单
+        my_orders: 我的委托
         orders_wait: 有效委托
         orders_done: 最新成交
         orders_cancel: 最新撤销
