@@ -1,5 +1,7 @@
 en:
-  slogan: An open-source crypto currency exchange.
+  view_on_github: View on Github
+  slogan: Peatio Beijing - An open-source crypto currency exchange.
+  slogan_desc: "Peatio is a crypto-currency (such as bitcoin) exchange, and is the first that releases its source code in China. Rests on the principles of “open-source, transparent and honest”, Peatio aims to serve a platform for crypto-currency enthusiasts by providing a safe, secure, and easy-to-use exchange that embraces open-source and public trust."
   tags:
     vip: VIP
     hero: Hero Member

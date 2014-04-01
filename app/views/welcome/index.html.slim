@@ -1,12 +1,12 @@
 header.text-center
   .ribbon
-    a href="https://github.com/peatio/peatio" View on GitHub
+    a href="https://github.com/peatio/peatio" = t(:view_on_github)
   .container
     a href='http://github.com/peatio/peatio'
       img src='#{image_path 'logo.png'}' width='336px'
-    section
-      - Rails.configuration.i18n.available_locales.each do |locale|
-        h3 = t(:slogan, locale: locale)
+    section.slogan
+      h3 = t(:slogan)
+      p = t(:slogan_desc)
     #getstart.row
       - unless current_user
         .col-md-2.col-md-offset-4
