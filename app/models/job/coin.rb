@@ -23,7 +23,7 @@ module Job
 
         fee = [withdraw.fee || withdraw.channel.try(:fee) || 0.0005, 0.1].min
 
-        CoinRPC[withdraw.currency].settxfee fee
+        CoinRPC[withdraw.currency].settxfee fee.to_f
         txid = CoinRPC[withdraw.currency].sendtoaddress withdraw.fund_uid, withdraw.amount.to_f
 
         withdraw.whodunnit('resque') do
