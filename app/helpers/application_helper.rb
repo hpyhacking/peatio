@@ -137,11 +137,16 @@ module ApplicationHelper
   end
 
   def i18n_controller_path
-    controller_path.gsub(/\//, '.')
+    @i18n_controller_path ||= controller_path.gsub(/\//, '.')
   end
 
   def language_path(lang=nil)
     lang ||= I18n.locale
     asset_path("languages/#{lang}.png")
   end
+
+  def i18n_meta(key)
+    t("#{i18n_controller_path}.#{action_name}.#{key}", default: :"layouts.meta.#{key}")
+  end
+
 end

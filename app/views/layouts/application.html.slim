@@ -8,6 +8,7 @@ html lang="en"
     = javascript_include_tag "application"
     = yield(:scripts) if content_for?(:scripts)
     = render 'shared/html5'
+    = render 'shared/meta'
     = csrf_meta_tags
 
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"

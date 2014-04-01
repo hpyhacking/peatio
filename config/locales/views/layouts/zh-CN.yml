@@ -16,3 +16,7 @@ zh-CN:
             currency: 法币充值
     application:
       close: 关闭
+    meta:
+      page_title: Peatio - The Opensource Cryptocurrency Exchange
+      page_description: Peatio - The Opensource Cryptocurrency Exchange
+      page_keywords: Peatio,Opensource,Exchange,Cryptocurrency
