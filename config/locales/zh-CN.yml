@@ -98,9 +98,11 @@ zh-CN:
 
   footer:
     about: 关于我们
-    privacy: 隐私声明
-    contact: 联系我们
+    terms_and_service: 声明及用户协议
+    questions: 常见问题
     price: 资费说明
+    liability_proof: 偿付能力验证
+    contact: 联系我们
 
   recaptcha:
     errors:

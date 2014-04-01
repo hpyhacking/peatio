@@ -93,9 +93,11 @@ en:
 
   footer:
     about: About
-    privacy: privacy
-    contact: Contact
+    terms_and_service: Terms & Service
+    questions: Q&A
     price: Price
+    liability_proof: liability Proof
+    contact: Contact
 
   recaptcha:
     errors:
