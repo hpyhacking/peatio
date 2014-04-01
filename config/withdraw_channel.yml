@@ -2,7 +2,7 @@
   key: satoshi
   currency: btc
   fixed: 8
-  fee: 0.0005
+  fee: 0.0001
   inuse: true
   type: WithdrawChannelSatoshi
 - id: 400
