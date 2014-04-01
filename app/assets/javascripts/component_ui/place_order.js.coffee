@@ -11,6 +11,7 @@
 
     lastPrice: '.last-price .value'
     currentBalanceSel: '.current-balance .value'
+    submitButton: ':submit'
 
   @panelType = ->
     switch @$node.attr('id')
@@ -26,15 +27,23 @@
     @select('volumeSel').val BigNumber(0)
     @computeSum(event)
 
+  @disableSubmit = (event, data) ->
+    @select('submitButton').addClass('disabled').attr('disabled', 'disabled')
+
+  @enableSubmit = (event, data) ->
+    @select('submitButton').removeClass('disabled').removeAttr('disabled')
+
   @handleSuccess = (event, data) ->
     @cleanMsg()
-    @select('successSel').text(data.message).fadeOut(3500)
+    @select('successSel').text(data.message).show().fadeOut(3500)
     @resetForm(event)
+    @enableSubmit()
 
   @handleError = (event, data) ->
     @cleanMsg()
     json = JSON.parse(data.responseText)
     @select('dangerSel').text(json.message).fadeOut(3500)
+    @enableSubmit()
 
   @computeSum = (event) ->
     if @select('priceSel').val() and @select('volumeSel').val()
@@ -105,6 +114,7 @@
     @on document, 'market::ticker', @refreshPrice
     @on document, 'trade::account', @refreshBalance
 
+    @on @select('formSel'), 'ajax:beforeSend', @disableSubmit
     @on @select('formSel'), 'ajax:success', @handleSuccess
     @on @select('formSel'), 'ajax:error', @handleError
 
