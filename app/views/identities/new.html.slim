@@ -3,8 +3,15 @@
   = f.input :email, :input_html => {:name => 'email', :autofocus => 'true'}
   = f.input :password, :input_html => {:name => 'password'}
   = f.input :password_confirmation, :input_html => {:name => 'password_confirmation'}
+  .form-group
+    .col-sm-4
+    .col-sm-7
+      label
+        = check_box_tag 'agree'
+        == "&nbsp;我已阅读并同意"
+        a target='_blank' href='/documents/terms_and_service'《貔貅北京用户协议》
   hr.split
-  = f.button :wrapped, t('header.signup'), cancel: root_path
+  = f.button :wrapped, t('header.signup'), class: 'disabled', cancel: root_path, disabled: :disabled
 
 = content_for :guide do
   ul.list-unstyled

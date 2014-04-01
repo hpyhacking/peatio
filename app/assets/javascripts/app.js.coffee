@@ -34,6 +34,7 @@ $ ->
   #   Pusher.log = (message) ->
   #     window.console && console.log(message)
 
+  SignUpUI.attachTo('#new_identity')
   AccountBalanceUI.attachTo('.account-balance')
   PlaceOrderUI.attachTo('.order-enter #bid_panel')
   PlaceOrderUI.attachTo('.order-enter #ask_panel')
