@@ -4,20 +4,22 @@ zh-CN:
       deposits/bank: 银行转账
     attributes:
       deposits/bank:
-        fund_extra: 转出银行
-        fund_extra_text: 转出银行
-        fund_uid: 转出账户
-        holder: 转出持卡人
-        receive_fund_holder_text: 汇款收款人
-        receive_fund_uid_text: 汇款帐号
-        receive_fund_extra_text: 汇款开户行
+        fund_extra: 转账银行
+        fund_extra_text: 转账银行
+        fund_uid: 转账账户
+        holder: 持卡人姓名
+        receive_fund_holder_text: 貔貅交易所收款账户
+        receive_fund_uid_text: 貔貅交易所收款账号
+        receive_fund_extra_text: 貔貅交易所开户行
         member_sn: 个人识别码
+        amount: 您的充值金额
+        sn: 交易编号
 
   deposit_channel:
     bank:
       key: 银行转账
-      title: 人民币银行转账充值
-      intro: 使用银行卡转账进行充值，推荐用户大额充值使用。 
+      title: 银行转账充值
+      intro: 通过银行转账的方式，从您的银行账户充值人民币到您的貔貅账户。
       latency: 10 分钟到账
       transfer: 人工处理
       receive_fund_holder: 银行汇款收款人
@@ -26,7 +28,13 @@ zh-CN:
 
   private:
     deposits:
+      destroy:
+        notice: 撤销成功
+      update:
+        notice: 提交成功，您可在历史记录中查询充值到账情况。
       banks:
+        create:
+          success: 您的充值订单提交成功，请按照我们提供的貔貅账户继续完成你的转账操作。
         new:
           step-1: 第一步
           select-bank: 您可以选择直接转账到我们的银行账户，为了您的充值可以迅速到账，请您尽量选择与我们相同的银行进行转账充值。您可以选择使用 在线银行转账或柜台转账。
@@ -43,10 +51,17 @@ zh-CN:
       deposits:
         banks:
           panel: 银行转账充值
-          intro: 使用银行卡转账进行充值，推荐用户大额充值使用。
+          intro: 通过银行转账的方式，从您的银行账户充值人民币到您的貔貅账户。
+          show:
+            default-panel: 历史记录
+          new:
+            default-panel: 历史记录
+          edit:
+            default-panel: 历史记录
 
   helpers:
     submit:
       deposits_bank:
         create: 提交
         update: 我已成功转账
+        cancel: 取消订单

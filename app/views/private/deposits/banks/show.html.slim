@@ -9,3 +9,8 @@
   hr.split
   = f.button :wrapped, no_submit: true do
     = link_to t('actions.back'), url_for(controller: controller_name, action: :new, only_path: true), class: 'btn btn-info btn-lg pull-right'
+
+= content_for :after
+  - if @assets && !@assets.empty?
+    = panel do
+      = datagrid_table(@bank_deposits_grid, @assets)

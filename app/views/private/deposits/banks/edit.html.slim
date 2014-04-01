@@ -1,6 +1,7 @@
-= simple_form_for @deposit, defaults: {readonly: true}, url: deposit_path(@deposit) do |f|
-  = f.input :fund_extra_text, as: :string
+= simple_form_for @deposit, defaults: {readonly: true, required: false}, url: deposit_path(@deposit), scope: :'deposit.bank' do |f|
+  = f.input :fund_extra, as: :string
   = f.input :fund_uid
+  = f.input :holder, input_html: {:value => current_user.name}
   = f.input :receive_fund_holder_text
   = f.input :receive_fund_uid_text
   = f.input :receive_fund_extra_text
@@ -9,3 +10,8 @@
   hr.split
   = f.button :wrapped do
     = link_to t('actions.cancel'), deposit_path(@deposit), method: :delete, class: 'btn btn-info btn-lg pull-right'
+
+= content_for :after
+  - if @assets && !@assets.empty?
+    = panel do
+      = datagrid_table(@bank_deposits_grid, @assets)
