@@ -21,7 +21,7 @@ zh-CN:
         ask_panel: 卖出%{currency}
         price: 价格
         amount: 数量
-        total: 合计
+        total: 金额
         available: 可用
       order_book:
         order_book: 挂单记录
