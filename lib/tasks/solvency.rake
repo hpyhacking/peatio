@@ -2,6 +2,7 @@ require 'liability-proof'
 
 namespace :solvency do
 
+  desc "Generate liability proof"
   task :liability_proof => :environment do
     Account.currency.values.each do |type|
       puts "\n*** Start #{type} liability proof generation ***"
