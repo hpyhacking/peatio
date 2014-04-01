@@ -44,7 +44,7 @@ defaults: &defaults
   # --------------------------------------------------------------
   # peatio dependence Pusher (http://pusher.com) service
   # you can change your key for production environment.
-  # we support development key and secret 
+  # we support development key and secret
   # uncomment below line only development or test
   #
   # PUSHER_APP: 65910
@@ -54,6 +54,10 @@ defaults: &defaults
   PUSHER_APP: YOUR_PUSHER_APP
   PUSHER_KEY: YOUR_PUSHER_KEY
   PUSHER_SECRET: YOUR_PUSHER_SECRET
+
+  # Airbrake settings
+  # --------------------------------------------------------------
+  AIRBRAKE_KEY: YOUR_AIRBRAKE_KEY
 
 development:
   <<: *defaults

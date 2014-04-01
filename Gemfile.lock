@@ -50,6 +50,9 @@ GEM
     acts-as-taggable-on (3.0.1)
       rails (>= 3, < 5)
     addressable (2.3.5)
+    airbrake (3.1.16)
+      builder
+      multi_json
     arel (4.0.1)
     atomic (1.1.14)
     awesome_print (1.2.0)
@@ -387,6 +390,7 @@ DEPENDENCIES
   aasm
   active_hash
   acts-as-taggable-on
+  airbrake
   bcrypt-ruby (~> 3.1.2)
   better_errors
   binding_of_caller

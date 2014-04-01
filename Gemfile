@@ -91,3 +91,4 @@ group :test do
 end
 
 gem 'unicorn'
+gem 'airbrake'
