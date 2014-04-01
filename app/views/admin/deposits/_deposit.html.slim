@@ -22,9 +22,12 @@
 = detail_tag deposit, field: :txid_text
 
 = detail_section_tag t('.action_title')
-- if deposit.may_submit?
-  = link_to t('.submit'), admin_deposit_path(deposit), method: :patch, class: 'btn btn-default'
-- if deposit.may_accept?
-  = link_to t('.accept'), admin_deposit_path(deposit), method: :patch, class: 'btn btn-default'
-- if deposit.may_reject?
-  = link_to t('.reject'), admin_deposit_path(deposit), method: :delete, class: 'btn btn-default'
+
+.pull-right
+  - if deposit.may_submit?
+    = link_to t('.submit'), admin_deposit_path(deposit), method: :patch, class: 'btn btn-default'
+  - if deposit.may_accept?
+    = link_to t('.accept'), admin_deposit_path(deposit), method: :patch, class: 'btn btn-danger'
+  - if deposit.may_reject?
+    = link_to t('.reject'), admin_deposit_path(deposit), method: :delete, class: 'btn btn-primary'
+  = link_to t('.back'), admin_deposits_path, class: 'btn btn-default'
