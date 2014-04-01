@@ -2,18 +2,8 @@
   key: satoshi
   currency: btc
   min_confirm: 1
-  max_confirm: 3
-- id: 201
-  key: protoshare
-  currency: pts
-  min_confirm: 1
-  max_confirm: 3
-- id: 202
-  key: litecoin
-  currency: ltc
-  min_confirm: 1
-  max_confirm: 3
+  max_confirm: 6
 - id: 400
   key: bank
   currency: cny
-  banks: ['icbc', 'cbc', 'bc', 'bcm', 'abc', 'cmbc', 'cmbc', 'cncb', 'hxb', 'cib', 'spdb', 'bob', 'cncb', 'ceb', 'sdb', 'gdb']
+  banks: ['cmbc', 'bcm', 'cncb', 'hxb', 'cib', 'spdb', 'bob', 'cncb', 'ceb', 'sdb', 'gbd', 'cmb', 'icbc', 'abc', 'bc', 'cbc']
