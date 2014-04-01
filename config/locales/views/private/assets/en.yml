@@ -16,13 +16,13 @@ en:
         intro: Our bank and btc accounts are public so you know how many assets we hold. We provides proof of liability so you know how many liabilities we have. Your money is safe because our assets > our liabilities.
         what-is-100-percent-reserve: 'What is 100 percent reserve?'
         how-to-verify: 'How to verify the exchange is solvent?'
-        go-verify: Go Verify
       liability_data:
         liability-proof-generating: Proof of Liability generation in process, please come back after 30 minutes.
         root-json: Root node
         partial-tree: 'My %{currency} Assets: '
         get-partial-tree: Get my partial tree data
         timestamp: "The proof data is generated at %{time}."
+        go-verify: Go Verify
       btc_assets:
         title: BTC Assets
         intro: All of exchanges' BTC assets will be listed here.
