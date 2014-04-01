@@ -70,7 +70,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def channel
-    self.class.channel
+    self.class.channel || DepositChannel.find(channel_id)
   end
 
   def self.resource_name
