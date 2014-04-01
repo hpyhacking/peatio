@@ -1,7 +1,7 @@
 module Private
   class DepositsController < BaseController
     def index
-      @depostis = DepositChannel.all
+      @deposits = DepositChannel.all
     end
 
     def update
