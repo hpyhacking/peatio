@@ -44,8 +44,7 @@ module Private
         params[model_kls.params_name][:member_id] = current_user.id
         params[model_kls.params_name][:currency] = @channel.currency
         params[model_kls.params_name][:account_id] = current_user.get_account(@channel.currency).id
-        params[model_kls.params_name][:channel_id] = @channel.id
-        params.require(model_kls.params_name).permit(:fund_uid, :fund_extra, :amount, :currency, :account_id, :member_id, :channel_id)
+        params.require(model_kls.params_name).permit(:fund_uid, :fund_extra, :amount, :currency, :account_id, :member_id)
       end
     end
   end
