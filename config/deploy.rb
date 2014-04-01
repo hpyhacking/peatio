@@ -91,7 +91,7 @@ end
 
 desc "Start Resque"
 task :'resque:start' => :environment do
-  queue "cd #{deploy_to}/current && RAILS_ENV=production PIDFILE=./log/resque.pid BACKGROUND=yes QUEUE=coin,examine bundle exec rake environment resque:work && echo Resque START DONE!!!"
+  queue "cd #{deploy_to}/current && RAILS_ENV=production PIDFILE=./log/resque.pid BACKGROUND=yes QUEUE=mailer,coin,examine bundle exec rake environment resque:work && echo Resque START DONE!!!"
 end
 
 desc "Start Matching Engine"
