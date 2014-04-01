@@ -8,6 +8,18 @@ module Admin
       Deposit.order('id DESC')
     end
 
+    filter(:assm_state_text, :enum, select: Deposit::STATE) do |state, scope|
+      scope.with_aasm_state(state) if state
+    end
+
+    filter(:channel, :enum, select: DepositChannel.all.map{|w| [w.key, w.id]}) do |channel, scope|
+      scope.with_channel(channel) if channel
+    end
+
+    filter(:created_at, :date, :range => true, :default => proc { [1.month.ago.to_date, Date.tomorrow]}) do |arr, scope|
+      scope.where(created_at: Range.new(arr.first, arr.last)) unless arr.any?(&:blank?)
+    end
+
     column :sn
     column_i18n :created_at
     column :full_name
