@@ -20,7 +20,7 @@ class WithdrawsGrid
   end
 
   column :sn
-  column :created_at
+  column_localtime :created_at
   column :name do |o|
     o.member.name
   end

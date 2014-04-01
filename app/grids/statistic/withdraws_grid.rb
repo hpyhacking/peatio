@@ -27,7 +27,7 @@ module Statistic
     column(:address) do
       self.address.mask
     end
-    column_i18n(:created_at)
+    column_localtime :created_at
     column(:state_text)
   end
 end

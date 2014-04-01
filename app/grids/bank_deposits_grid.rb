@@ -8,7 +8,7 @@ class BankDepositsGrid
   end
 
   column(:sn)
-  column_i18n(:created_at)
+  column_localtime :created_at
   column(:channel_key_text)
   column(:fund_extra_text)
   column(:fund_uid)

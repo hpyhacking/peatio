@@ -8,7 +8,7 @@ class CoinDepositsGrid
   end
 
   column(:txid)
-  column_i18n(:created_at)
+  column_localtime :created_at
   column(:amount)
   column(:aasm_state_text)
   column(:memo)

@@ -24,7 +24,7 @@ module Statistic
     column(:tx_id) do |deposit|
       deposit.tx_id
     end
-    column_i18n(:created_at)
+    column_localtime :created_at
     column(:state_text)
   end
 end

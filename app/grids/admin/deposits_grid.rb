@@ -21,7 +21,7 @@ module Admin
     end
 
     column :sn
-    column_i18n :created_at
+    column_localtime :created_at
     column :full_name
     column :currency_text
     column :channel_key_text

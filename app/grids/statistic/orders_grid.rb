@@ -27,7 +27,7 @@ module Statistic
         "#{o.volume} / #{o.origin_volume}"
       end
     end
-    column_i18n(:created_at)
+    column_localtime :created_at
     column(:state_text)
   end
 end

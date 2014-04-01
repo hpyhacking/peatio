@@ -10,7 +10,7 @@ class AccountVersionsGrid
   filter(:currency, :enum, :select => Deposit.currency.value_options)
   filter(:reason, :enum, :select => AccountVersion.reason.value_options)
 
-  column :created_at
+  column_localtime :created_at
   column :currency_text, :order => false
 
   column :modifiable_type, :order => false do |m|
