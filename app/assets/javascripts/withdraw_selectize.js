@@ -24,6 +24,7 @@ $(function(){
   $('select#withdraw_fund_uid').selectize({
     plugins: ['option_destroy'],
     preload: true,
+    persist: false,
     createOnBlur: true,
     valueField: 'uid',
     labelField: 'extra',
@@ -58,17 +59,19 @@ $(function(){
         callback = query;
         query = '';
       }
-      $.ajax({
-        url: '/fund_sources?channel_id=' + $('input#withdraw_channel_id').val() + '&query=' + encodeURIComponent(query),
-        type: 'GET',
-        error: function() {
-          callback();
-        },
-        success: function(res) {
-          self.clearOptions();
-          callback(res);
-        }
-      });
+      if(query.length < 4){
+        $.ajax({
+          url: '/fund_sources?channel_id=' + $('input#withdraw_channel_id').val() + '&query=' + encodeURIComponent(query),
+          type: 'GET',
+          error: function() {
+            callback();
+          },
+          success: function(res) {
+            self.clearOptions();
+            callback(res);
+          }
+        });
+      }
     },
     onItemAdd: function(value, $item) {
       var extra = $item.text();
