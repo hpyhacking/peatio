@@ -1,14 +1,14 @@
 .panel.panel-default.ticker
   .panel-heading
     .span
-      == "#{t('trade.markets')}:"
+      == "#{t('.markets')}:"
     = render partial: 'shared/market_selector'
   .panel-body
     ul.list-inline
       li.col-md-2: span.buy data-title='#{t 'global.bid_price'}'
       li.col-md-2: span.sell data-title='#{t 'global.ask_price'}'
-      li.col-md-2: span.last data-title='#{t 'global.latest_price'}'
       li.col-md-2: span.high data-title='#{t 'global.high_price'}'
       li.col-md-2: span.low data-title='#{t 'global.low_price'}'
       li.col-md-2: span.volume data-title='#{t 'global.volume'}'
+      li.col-md-2: span.last data-title='#{t 'global.latest_price'}'
 

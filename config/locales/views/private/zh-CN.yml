@@ -12,6 +12,8 @@ zh-CN:
         confirm: 确认
         ask_order: '卖 ##sn#'
         bid_order: '买 ##sn#'
+      ticker:
+        markets: 实时价格
       account_balance:
         title: 账户信息
         available: 可用 %{currency}
@@ -36,7 +38,7 @@ zh-CN:
         orders_done: 最新成交
         orders_cancel: 最新撤销
       price_chart:
-        price_chart: 价格图表
+        price_chart: 行情走势
       global:
         global_orders_title: 十档盘口
         global_trades_title: 成交记录

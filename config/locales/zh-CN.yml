@@ -131,10 +131,10 @@ zh-CN:
   global:
     ask_price: 卖出
     bid_price: 买入
-    latest_price: 成交
     high_price: 最高
     low_price: 最低
     volume: 成交量
+    latest_price: 最新价格
 
   chart:
     price: 价格

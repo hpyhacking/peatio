@@ -126,10 +126,10 @@ en:
   global:
     ask_price: Ask
     bid_price: Bid
-    latest_price: Last
     high_price: High
     low_price: Low
     volume: Volume
+    latest_price: Last
 
   chart:
     price: Price
