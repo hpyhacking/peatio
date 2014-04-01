@@ -20,5 +20,9 @@
 
     .timestamp
       = t('.timestamp', time: proof.timestamp)
+
+    hr
+    .proof-bottom = verify_link(proof, account)
+
   - else
     p = t('.liability-proof-generating')
