@@ -4,11 +4,12 @@ class WithdrawsGrid
   include Datagrid::ColumnI18n
 
   scope do |m|
-    Withdraw.not_completed.
-      order('created_at asc, state desc')
+    Withdraw.order('created_at asc, state desc')
   end
 
-  #self.default_column_options = { :order => false }
+  filter(:state_text, :enum, select: Withdraw.state.options) do |state, scope|
+    scope.with_state(state) if state
+  end
 
   filter(:channel, :enum, select: WithdrawChannel.all.map{|w| [w.key, w.id]}) do |channel, scope|
     scope.with_channel(channel) if channel

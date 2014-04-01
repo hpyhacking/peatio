@@ -57,6 +57,8 @@ class Withdraw < ActiveRecord::Base
 
   scope :with_channel, -> (channel_id) { where channel_id: channel_id }
 
+  scope :with_state, -> (state) { where aasm_state: state }
+
   alias_method :_old_state, :state
 
   def state
