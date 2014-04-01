@@ -2,6 +2,8 @@ zh-CN:
   private:
     withdraws:
       index:
+        page_title: "资金提现 - 貔貅交易所"
+        page_keywords: "提现,比特币,人民币,资金,加密数字货币"
         satoshi: 比特币提现
         satoshi_intro: 将你在貔貅的比特币余额提取到你的钱包账户
         satoshi_time: 10分钟到帐
@@ -16,12 +18,16 @@ zh-CN:
         withdraw_cny: 人民币提现
       satoshi:
         new:
+          page_title: "btc提现 - 资金提现 - 貔貅交易所"
+          page_keywords: "提现,比特币,加密数字货币"
           balance: '可用比特币余额: ฿%{balance}'
           title: BTC提现
           save_fund_source: 保存您填写的地址并作为常用地址，以便下次直接使用
           placeholder: 使用保存的地址或者输入新地址
       bank:
         new:
+          page_title: "cny提现 - 资金提现 - 貔貅交易所"
+          page_keywords: "提现,比特币,人民币,加密数字货币"
           balance: '可用人民币余额: ¥%{balance}'
           title: 人民币提现
           save_fund_source: 保存您填写的银行信息并作为常用帐号，以便下次直接使用

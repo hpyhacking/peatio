@@ -2,6 +2,8 @@ zh-CN:
   private:
     markets:
       show:
+        page_title: "现货交易 - 貔貅交易所"
+        page_keywords: "交易,比特币,加密数字货币,实时价格,行情走势,比特币买卖,资金流向"
         error: 委托挂单失败
         success: 委托挂单成功
         analysis_panel: 分析面板

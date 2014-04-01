@@ -5,6 +5,8 @@ zh-CN:
       failure: 无效动态密码，设置失败。请重试。
 
       index:
+        page_title: "我的账户 - 貔貅交易所"
+        page_keywords: "账户,比特币,加密数字货币,邮箱验证,手机绑定,实名认证,两步验证,登录密码"
         safety_instruction: 您应启用全部 <b>安全设置</b><i class='fa fa-bolt'></i>，以保障帐户及资金安全。
         reset_password: 重置登录密码
         reauthenticate: 身份验证
