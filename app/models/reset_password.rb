@@ -9,7 +9,7 @@ class ResetPassword < Token
   private
 
   def reset_password
-    self.member.identity.update_attributes \
+    Identity.find_by_email(self.member.email).update_attributes \
       password: self.password, 
       password_confirmation: self.password
   end
