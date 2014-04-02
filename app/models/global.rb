@@ -57,7 +57,7 @@ class Global
 
   def trades
     Rails.cache.fetch key('trades') do
-      @trades = Trade.with_currency(currency).last(LIMIT).reverse
+      @trades = Trade.with_currency(currency).order(:id).reverse_order.limit(LIMIT)
       @trades.map { |t| format_trade(t) }
     end
   end
@@ -83,7 +83,7 @@ class Global
       :price => t.price.to_s || ZERO,
       :amount => t.volume.to_s || ZERO,
       :tid => t.id,
-      :type => t.trend ? 'sell' : 'buy' }
+      :type => t.trend == 'down' ? 'sell' : 'buy' }
   end
 
   def trigger_trade(t)
