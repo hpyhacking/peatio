@@ -20,7 +20,7 @@ class TwoFactor < ActiveRecord::Base
 
   def uri
     totp = ROTP::TOTP.new(self.otp_secret)
-    totp.provisioning_uri("PEATIO / #{member.email}")
+    totp.provisioning_uri("PEATIO/#{member.email}") + '&issuer=PEATIO'
   end
 
   def now
