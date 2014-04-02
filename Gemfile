@@ -63,6 +63,7 @@ gem 'rbtree'
 gem 'liability-proof', '0.0.8'
 gem 'whenever', '~> 0.9.2'
 gem 'grape', '~> 0.6.1'
+gem 'grape-entity', '~> 0.4.1'
 
 group :development, :test do
   gem 'factory_girl_rails'
