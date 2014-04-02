@@ -26,6 +26,8 @@ zh-CN:
 
       deposits:
         panel: 资金充值
+        index:
+          title: 选择充值种类
         intro: 选择您充值的种类，比特币和人民币充值均为10分钟到账。
 
       withdraws:

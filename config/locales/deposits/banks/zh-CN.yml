@@ -12,7 +12,7 @@ zh-CN:
         receive_fund_uid_text: 貔貅交易所收款账号
         receive_fund_extra_text: 貔貅交易所开户行
         member_sn: 个人识别码
-        amount: 您的充值金额
+        amount: 充值金额
         sn: 交易编号
 
   deposit_channel:
@@ -36,6 +36,7 @@ zh-CN:
         create:
           success: 您的充值订单提交成功，请按照我们提供的貔貅账户继续完成你的转账操作。
         new:
+          save_fund_source: 保存您填写的地址并作为常用地址，以便下次直接使用
           page_title: "cny充值 - 资金充值 - 貔貅交易所"
           page_keywords: "充值,比特币,人民币,加密数字货币"
           step-1: 第一步
@@ -64,6 +65,7 @@ zh-CN:
           show:
             default-panel: 历史记录
           new:
+            panel: 充值 > 银行转账充值
             default-panel: 历史记录
           edit:
             default-panel: 历史记录
