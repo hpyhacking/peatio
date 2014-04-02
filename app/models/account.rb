@@ -28,6 +28,7 @@ class Account < ActiveRecord::Base
   has_many :fund_sources
   has_many :payment_addresses
   has_many :versions, class_name: "::AccountVersion"
+  has_many :partial_trees
 
   def payment_address
     if self.payment_addresses.empty?

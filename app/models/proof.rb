@@ -2,6 +2,8 @@ class Proof < ActiveRecord::Base
   extend Enumerize
   enumerize :currency, in: Currency.codes, scope: true
 
+  has_many :partial_trees
+
   serialize :root
   validates_presence_of :root, :currency
 
