@@ -15,7 +15,9 @@ en:
         title: Proof of Liability
         intro: Our bank and btc accounts are public so you know how many assets we hold. We provides proof of liability so you know how many liabilities we have. Your money is safe because our assets > our liabilities.
         what-is-100-percent-reserve: 'What is 100 percent reserve?'
+        what-is-100-percent-reserve-uri: 'https://peatio.com/documents/liability_proof'
         how-to-verify: 'How to verify the exchange is solvent?'
+        how-to-verify-uri: 'https://peatio.com/documents/liability_proof'
       liability_data:
         liability-proof-generating: Proof of Liability generation in process, please come back after 30 minutes.
         root-json: Root node
