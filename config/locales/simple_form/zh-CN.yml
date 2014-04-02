@@ -142,7 +142,7 @@ zh-CN:
         satoshi:
           sum: "矿工费 ฿0.0001 <a href='/documents/price'>资费说明</a>"
         bank:
-          sum: "<a href='/faq'>资费说明</a>"
+          sum: "<a href='/documents/price'>资费说明</a>"
           fund_extra: 若您的开户银行不再列表中，请联系客服。
       deposit:
         bank:
