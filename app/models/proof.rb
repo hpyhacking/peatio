@@ -7,8 +7,6 @@ class Proof < ActiveRecord::Base
   serialize :root
   validates_presence_of :root, :currency
 
-  scope :current, lambda { order('id desc').first }
-
   def ready!
     self.ready = true
     save!
@@ -16,6 +14,10 @@ class Proof < ActiveRecord::Base
 
   def timestamp
     Time.at(root['timestamp']/1000) || updated_at
+  end
+
+  def partial_tree_of(account)
+    partial_trees.where(account: account).first
   end
 
 end

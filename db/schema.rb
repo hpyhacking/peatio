@@ -32,13 +32,12 @@ ActiveRecord::Schema.define(version: 20140402043033) do
   create_table "accounts", force: true do |t|
     t.integer  "member_id"
     t.integer  "currency"
-    t.decimal  "balance",      precision: 32, scale: 16
-    t.decimal  "locked",       precision: 32, scale: 16
+    t.decimal  "balance",    precision: 32, scale: 16
+    t.decimal  "locked",     precision: 32, scale: 16
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "in",           precision: 32, scale: 16
-    t.decimal  "out",          precision: 32, scale: 16
-    t.text     "partial_tree"
+    t.decimal  "in",         precision: 32, scale: 16
+    t.decimal  "out",        precision: 32, scale: 16
   end
 
   create_table "authentications", force: true do |t|
