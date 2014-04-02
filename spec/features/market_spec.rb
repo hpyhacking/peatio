@@ -33,7 +33,7 @@ feature 'show account info', js: true do
       fill_in 'order_bid_origin_volume', :with => 45
       expect(page.find('#order_bid_sum').value).to be_d (45 * 22.2).to_d
 
-      click_on I18n.t('private.markets.place_order.place_order')
+      click_button I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
       sleep 0.1 # sucks :(
       expect(page.find('#bid_panel span.label-success').text).to eq I18n.t('private.markets.show.success')
     end.to change{ OrderBid.all.count }.by(1)
@@ -49,7 +49,7 @@ feature 'show account info', js: true do
       fill_in 'order_ask_origin_volume', :with => 45
       expect(page.find('#order_ask_sum').value).to be_d (45 * 22.2).to_d
 
-      click_on I18n.t('private.markets.place_order.place_order')
+      click_button I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
       sleep 0.1 # sucks :(
       expect(page.find('#ask_panel span.label-success').text).to eq I18n.t('private.markets.show.success')
     end.to change{ OrderAsk.all.count }.by(1)
