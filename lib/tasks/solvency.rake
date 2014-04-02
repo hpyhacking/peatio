@@ -19,7 +19,7 @@ namespace :solvency do
 
       puts "Generating partial trees .."
       accounts.each do |acct|
-        acct.update_attributes(partial_tree: tree.partial_json(acct.member.sn))
+        acct.partial_trees.create! proof: proof, json: tree.partial_json(acct.member.sn)
       end
       puts "#{accounts.size} partial trees generated."
 

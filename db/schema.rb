@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140331084541) do
+ActiveRecord::Schema.define(version: 20140402043033) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -36,13 +36,12 @@ ActiveRecord::Schema.define(version: 20140331084541) do
   create_table "accounts", force: true do |t|
     t.integer  "member_id"
     t.integer  "currency"
-    t.decimal  "balance",      precision: 32, scale: 16
-    t.decimal  "locked",       precision: 32, scale: 16
+    t.decimal  "balance",    precision: 32, scale: 16
+    t.decimal  "locked",     precision: 32, scale: 16
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "in",           precision: 32, scale: 16
-    t.decimal  "out",          precision: 32, scale: 16
-    t.text     "partial_tree"
+    t.decimal  "in",         precision: 32, scale: 16
+    t.decimal  "out",        precision: 32, scale: 16
   end
 
   create_table "authentications", force: true do |t|
@@ -171,6 +170,14 @@ ActiveRecord::Schema.define(version: 20140331084541) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
+  end
+
+  create_table "partial_trees", force: true do |t|
+    t.integer  "proof_id",   null: false
+    t.integer  "account_id", null: false
+    t.text     "json",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "payment_addresses", force: true do |t|

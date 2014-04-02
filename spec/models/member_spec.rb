@@ -14,7 +14,7 @@ describe Member do
     it 'creates accounts for the member' do
       expect {
         member.save!
-      }.to change(member.accounts, :count).by(2)
+      }.to change(member.accounts, :count).by(Currency.codes.size)
 
       Currency.codes.each do |key, code|
         expect(Account.where(member_id: member.id, currency: code).count).to eq 1

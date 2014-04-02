@@ -1,5 +1,6 @@
 .proof
-  - if proof.try(:ready?) && account.partial_tree.present?
+  - partial_tree = proof.partial_tree_of(account)
+  - if proof.try(:ready?) && partial_tree.present?
     - root_target = "#{proof.currency}_root_json"
     - partial_tree_target = "#{proof.currency}_partial_tree_json"
 
@@ -15,14 +16,14 @@
         span.currency
           == t("currency.icon.#{proof.currency}")
           = account.balance
-      pre id=partial_tree_target = account.partial_tree.to_json
+      pre id=partial_tree_target = partial_tree.json.to_json
       .clearfix
 
     .timestamp
       = t('.timestamp', time: proof.timestamp)
 
     hr
-    .proof-bottom = verify_link(proof, account)
+    .proof-bottom = verify_link(proof, partial_tree)
 
   - else
     p = t('.liability-proof-generating')
