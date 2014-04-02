@@ -19,6 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every :sunday, at: '2am' do
+every :day, at: '4am' do
   rake 'rake solvency:liability_proof'
 end
