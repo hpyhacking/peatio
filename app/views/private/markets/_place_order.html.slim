@@ -31,7 +31,7 @@
               span.label.label-success
               span.label.label-danger
             p
-              button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.place_order')
+              button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.bid_panel', currency: @ask_name)
 
         #ask_panel.tab-pane
           = form_for [market, order_ask], :remote => true do |f|
@@ -53,4 +53,4 @@
               span.label.label-success
               span.label.label-danger
             p
-              button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.place_order')
+              button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.ask_panel', currency: @ask_name)
