@@ -2,7 +2,7 @@ en:
   deposit_channel:
     satoshi:
       key: Block Chain
-      title: Bitcoin Deposits 
+      title: Bitcoin Deposits
       intro: Deposit bitcoin from your own Wallet address to Peatio account
       latency: 1 Confirmation
       transfer: Automatic processing
@@ -17,7 +17,7 @@ en:
           or: You can also to
           scan-qr: Scanning two-dimensional code to Pay for In the mobile terminal wallet.
           step-3: Step Three
-          check-confirm: Send bitcoin to your Peatio account. When the transaction get  one confirmation by the whole network, the system will automatically recharge your account.(you do not need refresh this interface, transactions and recharge will be real-time updated).
+          check-confirm: Send bitcoin to your Peatio account. When the transaction gets one confirmation by the whole network, the system will automatically recharge your account.(you do not need to refresh this interface, transactions and recharge will be real-time updated).
   guides:
     private:
       deposits:

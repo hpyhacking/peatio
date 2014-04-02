@@ -109,7 +109,7 @@ Insert the following lines into your bitcoin.conf, and replce with your username
 
     cp config/application.yml.example config/application.yml
     cp config/database.yml.example config/database.yml
-    cp config/currency.yml.example config/currency.yml
+    cp config/currencies.yml.example config/currencies.yml
 
 ##### Setup reCAPTCHA/Pusher:
 
@@ -121,7 +121,7 @@ Insert the following lines into your bitcoin.conf, and replce with your username
     # replace username:password and port with the one you set in
     # username and password should only contain letters and numbers, do not use email as username
     # bitcoin.conf in previous step
-    vim config/currency.yml
+    vim config/currencies.yml
 
 ##### Config database settings:
 
