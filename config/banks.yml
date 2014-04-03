@@ -14,7 +14,7 @@
   code: abc
   name: 中国农业银行
 - id: 6
-  code: cmbc
+  code: cmb
   name: 招商银行
 - id: 7
   code: cmbc
@@ -35,14 +35,11 @@
   code: bob
   name: 北京银行
 - id: 13
-  code: cncb
-  name: 中信银行
-- id: 14
   code: ceb
   name: 中国光大银行
-- id: 15
+- id: 14
   code: sdb
   name: 深圳发展银行
-- id: 16
+- id: 15
   code: gdb
   name: 广东发展银行

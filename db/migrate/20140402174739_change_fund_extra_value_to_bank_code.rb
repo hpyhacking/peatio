@@ -34,6 +34,7 @@ class ChangeFundExtraValueToBankCode < ActiveRecord::Migration
     "bc"=>"中国银行",
     "bcm"=>"交通银行",
     "abc"=>"中国农业银行",
+    "cmb"=>"招商银行",
     "cmbc"=>"民生银行",
     "cncb"=>"中信银行",
     "hxb"=>"华夏银行",

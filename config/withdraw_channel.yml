@@ -15,4 +15,5 @@
   fee: 0.003
   proportion: true
   inuse: true
+  banks: ["icbc", "cbc", "bc", "bcm", "abc", "cmb", "cmbc", "cncb", "hxb", "cib", "spdb", "bob", "cncb", "ceb", "sdb", "pab", "gdb"]
   type: WithdrawChannelBank

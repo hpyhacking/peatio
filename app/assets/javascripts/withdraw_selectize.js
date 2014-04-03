@@ -20,7 +20,7 @@ $(function(){
     })();
   });
 
-  var sels = $('select#withdraw_bank_name').selectize();
+  var sels = $('select#withdraw_fund_extra').selectize();
   $('select#withdraw_fund_uid').selectize({
     plugins: ['option_destroy'],
     preload: true,
