@@ -86,6 +86,7 @@ Peatio::Application.routes.draw do
         get :partial_tree
       end
     end
+    resources :my_assets, :controller => 'my_assets', :only => [:index]
 
     resources :markets, :only => :show, :constraints => MarketConstraint do
       resources :orders, :only => [:index, :destroy]

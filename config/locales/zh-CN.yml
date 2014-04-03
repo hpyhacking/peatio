@@ -99,6 +99,7 @@ zh-CN:
     withdraw: 提现
     getstart: 前往交易大厅
     assets: 资产公开
+    my_assets: 我的资产
 
   admin_header:
     deposits: 充值管理
