@@ -4,6 +4,7 @@ module Private
       def new
         @deposit = model_kls.new
         @fund_sources = current_user.fund_sources.with_channel(@channel.id)
+        gon.banks = Bank.all.reduce({}){|memo, bank| memo[bank.code] = bank.name; memo}
         load_history
       end
 

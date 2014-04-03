@@ -3,7 +3,7 @@
   name: 工商银行
 - id: 2
   code: cbc
-  name: 中国建设银行
+  name: 建设银行
 - id: 3
   code: bc
   name: 中国银行
@@ -12,7 +12,7 @@
   name: 交通银行
 - id: 5
   code: abc
-  name: 中国农业银行
+  name: 农业银行
 - id: 6
   code: cmb
   name: 招商银行
@@ -30,13 +30,13 @@
   name: 兴业银行
 - id: 11
   code: spdb
-  name: 上海浦东发展银行
+  name: 浦东发展银行
 - id: 12
   code: bob
   name: 北京银行
 - id: 13
   code: ceb
-  name: 中国光大银行
+  name: 光大银行
 - id: 14
   code: sdb
   name: 深圳发展银行

@@ -151,18 +151,18 @@ zh-CN:
   banks:
     cmbc: 招商银行
     bc:   中国银行
-    icbc: 中国工商银行
-    cbc: 中国建设银行
-    abc: 中国农业银行
-    cmb: 招商银行
+    icbc: 工商银行
+    cbc:  建设银行
+    abc:  农业银行
+    cmb:  招商银行
     cmbc: 民生银行
-    bcm: 交通银行
+    bcm:  交通银行
     cncb: 中信银行
-    hxb: 华夏银行
-    cib: 兴业银行
-    spdb: 上海浦东发展银行
+    hxb:  华夏银行
+    cib:  兴业银行
+    spdb: 浦东发展银行
     bob: 北京银行
-    ceb: 中国光大银行
+    ceb: 光大银行
     sdb: 深圳发展银行
     gdb: 广东发展银行
     pab: 平安银行

@@ -45,7 +45,7 @@ $(function(){
             '<span>' + escape(item.uid) + '</span>' +
           '</div>' +
           '<div>' +
-            '<span class="">' + escape(item.extra) + '</span>' +
+            '<span class="">' + escape(gon.banks[item.extra]) + '</span>' +
             '<a class="destroy-fund-source pull-right" href="javascript:void(0)" data-addr-id="' + item.id + '">' +
               '<span class="glyphicon glyphicon-trash"></span>' +
             '</a>' +
