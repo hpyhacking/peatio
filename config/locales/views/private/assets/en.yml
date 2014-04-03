@@ -36,7 +36,7 @@ en:
         total: CNY Assets Total
         description: "
           <p>For supervision, you can inquiry the balance of our deposit account:</p>
-          <p>Bank: China Merchants Bank</p>
+          <p>Bank: %{bank}</p>
           <p>Account： %{address}</p>
           <p>Inquiry Password： %{password}</p>
           <p>Inquiry Tel.： %{tel}</p>"
