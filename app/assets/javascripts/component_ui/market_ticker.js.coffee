@@ -1,11 +1,11 @@
 window.MarketTickerUI = flight.component ->
   @defaultAttrs
-    volumeSelector: '.volume',
-    askPriceSelector: '.sell',
-    bidPriceSelector: '.buy',
-    lowPriceSelector: '.low',
-    highPriceSelector: '.high',
-    latestPriceSelector: '.last',
+    volumeSelector: '.value.volume'
+    askPriceSelector: '.value.sell'
+    bidPriceSelector: '.value.buy'
+    lowPriceSelector: '.value.low'
+    highPriceSelector: '.value.high'
+    latestPriceSelector: '.value.last'
 
   @update = (el, text) ->
     text = numeral(text).format('0.00')

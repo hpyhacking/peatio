@@ -39,7 +39,7 @@ zh-CN:
         label: 标签
       account:
         currency: 币种
-        currency_text: 币种 
+        currency_text: 币种
         balance: 余额
         locked: 冻结
       deposit:
@@ -170,7 +170,7 @@ zh-CN:
         activation:
           attributes:
             base:
-              too_soon: 访问过于频繁，请稍后再试。
+              too_soon: 距离上次给您发送激活邮件还未超过5分钟
         fund_source:
           attributes:
             label:
