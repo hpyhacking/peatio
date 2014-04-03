@@ -6,4 +6,4 @@
 - id: 400
   key: bank
   currency: cny
-  banks: ['cmbc', 'bcm', 'cncb', 'hxb', 'cib', 'spdb', 'bob', 'cncb', 'ceb', 'sdb', 'gbd', 'cmb', 'icbc', 'abc', 'bc', 'cbc']
+  banks: ["icbc", "cbc", "bc", "bcm", "abc", "cmb", "cmbc", "cncb", "hxb", "cib", "spdb", "bob", "cncb", "ceb", "pab", "gdb"]

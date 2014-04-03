@@ -1,5 +1,5 @@
-= simple_form_for @deposit, defaults: {readonly: true} do |f|
-  = f.input :fund_extra_text, as: :string
+= simple_form_for @deposit, defaults: {as: :display, required: false} do |f|
+  = f.input :fund_extra_text
   = f.input :fund_uid
   = f.input :receive_fund_holder_text
   = f.input :receive_fund_uid_text

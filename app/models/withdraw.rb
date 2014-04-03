@@ -40,8 +40,6 @@ class Withdraw < ActiveRecord::Base
   validates :channel_id, :fund_uid, :amount, :fee,
     :account, :currency, :member, presence: true
 
-  validates :fund_extra, presence: { if: :fiat? }
-
   validates :fee, numericality: {greater_than_or_equal_to: 0}
   validates :amount, numericality: {greater_than: 0}
 
@@ -63,6 +61,10 @@ class Withdraw < ActiveRecord::Base
 
   def state
     _old_state || Enumerize::Value.new(Withdraw.state, aasm_state)
+  end
+
+  def self.channel
+    WithdrawChannel.find_by_key(name.demodulize.underscore)
   end
 
   def channel

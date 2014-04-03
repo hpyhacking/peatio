@@ -3,11 +3,12 @@
     = t('guides.private.withdraws.satoshi.panel')
     small.pull-right = t('.balance', balance: @account.balance)
 
-= simple_form_for @withdraw, scope: :satoshi do |f|
+= simple_form_for @withdraw, as: :withdraw, scope: :satoshi, url: withdraws_path do |f|
   = f.text_field :channel_id, value: @channel.id, class: :hidden
   = f.text_field :currency, value: @withdraw.currency, class: :hidden
   = f.text_field :account_id, value: @withdraw.account_id, class: :hidden
   = f.text_field :balance, value: @account.balance, class: :hidden
+  = f.input_field :type, type: :text, class: :hidden
 
   = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.placeholder')
   .form-group
@@ -36,7 +37,7 @@
   = link_to t('guides.private.withdraws.bank.panel'), new_withdraws_bank_path
 
 = content_for :scripts
-  = javascript_include_tag :withdraw_selectize
+  = javascript_include_tag :fund_source
 
   javascript:
     $(function(){

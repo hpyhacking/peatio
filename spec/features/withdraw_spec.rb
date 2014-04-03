@@ -16,8 +16,9 @@ describe 'withdraw' do
     #cny_account.update_attributes balance: 0
 
     @label = 'common address'
-    @btc_addr = create :btc_fund_source, extra: @label, member: member
-    @cny_addr = create :cny_fund_source, extra: @label, member: member
+    @bank = 'bc'
+    @btc_addr = create :btc_fund_source, extra: @label, uid: '1btcaddress', member: member
+    @cny_addr = create :cny_fund_source, extra: @bank, uid: '1234566890', member: member
   end
 
   it 'allows user to add a BTC withdraw address, withdraw BTC' do
@@ -29,7 +30,7 @@ describe 'withdraw' do
     expect(page).to have_text("1000.0")
 
     # submit withdraw request
-    submit_withdraw_request 600
+    submit_satoshi_withdraw_request 600
 
     form = find('.simple_form')
     expect(form).to have_text('600.0')
@@ -54,20 +55,20 @@ describe 'withdraw' do
     visit new_withdraws_bank_path
 
     # 1st withdraw
-    submit_withdraw_request 800
+    submit_bank_withdraw_request 800
     click_on t('actions.confirm')
     expect(current_path).to eq(new_withdraws_bank_path)
     expect(page).to have_text("1700.0")
     expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("1")
 
     # 2nd withdraw
-    submit_withdraw_request 800
+    submit_bank_withdraw_request 800
     click_on t('actions.confirm')
     expect(current_path).to eq(new_withdraws_bank_path)
     expect(page).to have_text("900.0")
     expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("2")
 
-    submit_withdraw_request 600
+    submit_bank_withdraw_request 600
     click_on t('actions.confirm')
     expect(current_path).to eq(new_withdraws_bank_path)
     expect(page).to have_text("300.0")
@@ -84,14 +85,21 @@ describe 'withdraw' do
 
     visit new_withdraws_bank_path
 
-    submit_withdraw_request 800
+    submit_bank_withdraw_request 800
     expect(current_path).to eq(new_withdraws_bank_path)
-    expect(page).to have_text(I18n.t('activerecord.errors.models.withdraw.attributes.sum.poor'))
+    expect(page).to have_text(I18n.t('activerecord.errors.models.withdraws/bank.attributes.sum.poor'))
   end
 
   private
 
-  def submit_withdraw_request amount
+  def submit_bank_withdraw_request amount
+    select 'Bank of China', from: 'withdraw_fund_extra'
+    select @bank, from: 'withdraw_fund_uid'
+    fill_in 'withdraw_sum', with: amount
+    click_on I18n.t 'helpers.submit.withdraw.new'
+  end
+
+  def submit_satoshi_withdraw_request amount
     select @label, from: 'withdraw_fund_uid'
     fill_in 'withdraw_fund_extra', with: @label
     fill_in 'withdraw_sum', with: amount

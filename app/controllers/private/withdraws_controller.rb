@@ -46,7 +46,7 @@ module Private
     def withdraw_params
       params[:withdraw][:member_id] = current_user.id
       params.require(:withdraw).permit(:password, :member_id, :account_id, :currency, :channel_id,
-                                       :sum, :fund_uid, :fund_extra,  :save_fund_source)
+                                       :sum, :fund_uid, :fund_extra, :save_fund_source, :type)
     end
   end
 end
