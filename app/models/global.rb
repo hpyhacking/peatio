@@ -91,7 +91,7 @@ class Global
     Pusher.trigger_async(channel, "trades", data)
   end
 
-  def trigger
+  def trigger_ticker
     data = {:ticker => ticker, :asks => asks, :bids => bids}
     Pusher.trigger_async(channel, "update", data)
   end

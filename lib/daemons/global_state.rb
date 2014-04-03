@@ -16,7 +16,7 @@ end
 while($running) do
   Market.enumerize.each_key do |currency|
     Global[currency].tap do |global|
-      global.trigger
+      global.trigger_ticker
     end
   end
   sleep 5
