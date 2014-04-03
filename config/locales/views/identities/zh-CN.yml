@@ -1,6 +1,8 @@
 zh-CN:
   identities:
     new:
+      page_title: "创建账户 - 貔貅交易所"
+      page_keywords: "比特币,加密数字货币,创建账户"
       title: 账户注册
       signin: 立即登录
       password: 请输入至少8位密码，并必须包含大写、小写字母与数字。

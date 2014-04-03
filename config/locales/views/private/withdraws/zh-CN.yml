@@ -2,7 +2,7 @@ zh-CN:
   private:
     withdraws:
       index:
-        page_title: "资金提现 - 貔貅交易所"
+        page_title: "提现 - 貔貅交易所"
         page_keywords: "提现,比特币,人民币,资金,加密数字货币"
         satoshi: 比特币提现
         satoshi_intro: 将你在貔貅的比特币余额提取到你的钱包账户
