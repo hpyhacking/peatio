@@ -3,8 +3,6 @@ class Trade < ActiveRecord::Base
   enumerize :trend, in: {:up => 1, :down => 0}
   enumerize :currency, in: Market.enumerize, scope: true
 
-  has_and_belongs_to_many :members
-
   belongs_to :ask, class_name: 'OrderAsk', foreign_key: 'ask_id'
   belongs_to :bid, class_name: 'OrderBid', foreign_key: 'bid_id'
 
