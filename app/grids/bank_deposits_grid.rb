@@ -23,7 +23,7 @@ class BankDepositsGrid
       view_link + content_tag(:span, ' / ') +
       link_to(t('actions.cancel'), deposit_path(o), method: :delete)
     else
-      view_link
+      o.aasm_state_text
     end
   end
 end
