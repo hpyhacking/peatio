@@ -18,6 +18,8 @@
           #content.col-md-8.col
             = render 'shared/flash'
             = yield
+        - if content_for?(:secondary)
+          = yield(:secondary)
     - if content_for?(:after)
       = yield(:after)
 
