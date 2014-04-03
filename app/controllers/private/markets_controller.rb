@@ -33,8 +33,10 @@ module Private
     end
 
     private
+
     def set_default_market
       cookies[:market] = params[:market]
     end
+
   end
 end
