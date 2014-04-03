@@ -79,6 +79,7 @@ zh-CN:
           name: 收款户名
           fund_uid: 银行帐号
           fund_extra: 开户行
+          fund_extra_text: 开户行
           sum: 金额
           fee: 手续费
           amount: 实际到帐

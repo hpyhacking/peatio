@@ -1,4 +1,4 @@
-= simple_form_for @withdraw, defaults: {as: :display, required: false, hint: false}, scope: :bank, url: withdraw_path(@withdraw) do |f|
+= simple_form_for @withdraw, as: :withdraw, defaults: {as: :display, required: false, hint: false}, scope: :bank, url: withdraw_path(@withdraw) do |f|
   = f.input :name, input_html: { value: current_user.name }
   = f.input :fund_uid
   = f.input :fund_extra_text

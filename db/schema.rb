@@ -202,20 +202,6 @@ ActiveRecord::Schema.define(version: 20140403070840) do
     t.integer  "currency"
   end
 
-  create_table "peatio_online_deposit_orders", force: true do |t|
-    t.string   "sn"
-    t.decimal  "amount",     precision: 32, scale: 16
-    t.decimal  "fee",        precision: 32, scale: 16
-    t.integer  "member_id"
-    t.string   "channel"
-    t.integer  "state"
-    t.string   "type"
-    t.text     "details"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "done_at"
-  end
-
   create_table "proofs", force: true do |t|
     t.string   "root"
     t.integer  "currency"
@@ -268,13 +254,8 @@ ActiveRecord::Schema.define(version: 20140403070840) do
   create_table "two_factors", force: true do |t|
     t.integer  "member_id"
     t.string   "otp_secret"
-    t.datetime "updated_at"
+    t.datetime "last_verify_at"
     t.boolean  "activated"
-    t.integer  "verified_at", default: 0
-    t.string   "otp_type",    default: "HOTP"
-    t.string   "otp_method",  default: "email"
-    t.string   "otp_target"
-    t.integer  "retry_count", default: 0
   end
 
   create_table "versions", force: true do |t|
