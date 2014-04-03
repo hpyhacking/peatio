@@ -1,27 +1,10 @@
-= simple_form_for @withdraw, scope: :bank do |f|
-  = f.input :name, required: false do
-    p.form-control-static = current_user.name
-
-  = f.input :fund_uid, required: false do
-    p.form-control-static = @withdraw.fund_uid
-
-  = f.input :fund_extra, required: false, hint: false do
-    p.form-control-static = @withdraw.fund_extra
-
-  = f.input :sum, required: false, hint: false do
-    p.form-control-static
-      span = @withdraw.currency_symbol
-      span = @withdraw.sum
-
-  = f.input :fee, required: false do
-    p.form-control-static
-      span = @withdraw.currency_symbol
-      span = @withdraw.fee
-
-  = f.input :amount, required: false do
-    p.form-control-static
-      span = @withdraw.currency_symbol
-      span = @withdraw.amount
+= simple_form_for @withdraw, defaults: {as: :display, required: false, hint: false}, scope: :bank, url: withdraw_path(@withdraw) do |f|
+  = f.input :name, input_html: { value: current_user.name }
+  = f.input :fund_uid
+  = f.input :fund_extra_text
+  = f.input :sum, input_html: { value: "#{@withdraw.currency_symbol}#{@withdraw.sum}" }
+  = f.input :fee, input_html: { value: "#{@withdraw.currency_symbol}#{@withdraw.fee}" }
+  = f.input :amount, input_html: { value: "#{@withdraw.currency_symbol}#{@withdraw.amount}" }
 
   hr.split
   .form-group: .col-sm-11

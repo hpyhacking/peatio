@@ -40,7 +40,7 @@ module Private
           scope.with_currency(@channel.currency).where(member: current_user)
         end
 
-        @assets = @bank_deposits_grid.assets.page(params[:page]).per(5)
+        @assets = @bank_deposits_grid.assets.page(params[:page]).per(10)
       end
       def deposit_params
         params[model_kls.params_name][:member_id] = current_user.id
