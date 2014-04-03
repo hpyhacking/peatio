@@ -14,7 +14,7 @@
   = f.input_field :fund_extra, as: :hidden, type: :text
 
   .form-group
-    = f.label :fund_extra
+    = f.label :fund_extra, required: true
     .col-sm-7 = f.select :bank_name, @banks, {selected: ''}, class: 'form-control', placeholder: t('simple_form.placeholders.withdraw.bank.fund_extra')
     /.col-sm-4 = f.input_field :subbranch, value: '', class: 'form-control'
     = f.hint :fund_extra
@@ -26,7 +26,7 @@
       input name="withdraw[save_fund_source]" value="1" type="checkbox"
       small.hint = t('.save_fund_source')
 
-  = f.input :sum, as: :decimal, input_html: {min: 0} do
+  = f.input :sum, as: :decimal, required: true, input_html: {min: 0} do
     .input-group
       = f.text_field :sum, class: 'numeric decimal required form-control', step: 'any', type: 'number', placeholder: t('simple_form.placeholders.withdraw.bank.sum')
       .input-group-btn

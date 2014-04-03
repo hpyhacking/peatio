@@ -1,5 +1,5 @@
 = simple_form_for @deposit, defaults: {readonly: true, required: false}, url: deposit_path(@deposit), scope: :'deposit.bank' do |f|
-  = f.input :fund_extra, as: :string
+  = f.input :fund_extra_text, as: :string
   = f.input :fund_uid
   = f.input :holder, input_html: {:value => current_user.name}
   = f.input :receive_fund_holder_text

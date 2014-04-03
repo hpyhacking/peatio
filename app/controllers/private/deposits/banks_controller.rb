@@ -3,6 +3,7 @@ module Private
     class BanksController < ::Private::Deposits::BaseController
       def new
         @deposit = model_kls.new
+        @fund_sources = current_user.fund_sources.with_channel(@channel.id)
         load_history
       end
 
@@ -12,7 +13,7 @@ module Private
         if @deposit.save
           redirect_to url_for(@deposit), notice: t('.success')
         else
-          render :new
+          redirect_to({ action: 'new' } , notice: @deposit.errors.full_messages.join('<br>').html_safe)
         end
       end
 

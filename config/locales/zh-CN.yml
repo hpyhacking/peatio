@@ -1,5 +1,7 @@
 zh-CN:
-  slogan: 开源的数字加密货币交易平台。
+  view_on_github: 到 Github 上查看
+  slogan: 貔貅北京开源数字加密货币交易平台。
+  slogan_desc: 貔貅交易所是比特币等加密数字货币的交易平台，是国内首个实现开源机制的项目，我们秉承“开放开源，阳光透明”的理念，旨在为广大加密数字货币爱好者，提供一个代码开源开放、资产公开透明，安全易用和最具有公信力的加密数字货币交易服务平台。
   tags:
     vip: VIP
     hero: 超级用户
@@ -96,9 +98,11 @@ zh-CN:
 
   footer:
     about: 关于我们
-    privacy: 隐私声明
-    contact: 联系我们
+    terms_and_service: 声明及用户协议
+    questions: 常见问题
     price: 资费说明
+    liability_proof: 偿付能力验证
+    contact: 联系我们
 
   recaptcha:
     errors:
@@ -145,7 +149,20 @@ zh-CN:
   'no': 否
 
   banks:
-    bc: 中国银行
-    abc: 中国农业银行
-    cbc: 中国建设银行
+    cmbc: 招商银行
+    bc:   中国银行
     icbc: 中国工商银行
+    cbc: 中国建设银行
+    abc: 中国农业银行
+    cmb: 招商银行
+    cmbc: 民生银行
+    bcm: 交通银行
+    cncb: 中信银行
+    hxb: 华夏银行
+    cib: 兴业银行
+    spdb: 上海浦东发展银行
+    bob: 北京银行
+    ceb: 中国光大银行
+    sdb: 深圳发展银行
+    gdb: 广东发展银行
+    pab: 平安银行

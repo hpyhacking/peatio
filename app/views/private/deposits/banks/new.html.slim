@@ -1,7 +1,19 @@
 = simple_form_for @deposit, scope: :'deposit.bank' do |f|
+  = f.text_field :channel_id, value: @channel.id, class: :hidden
+  = f.input_field :fund_extra, as: :hidden, type: :text
   = f.input :holder, readonly: true, input_html: {:value => current_user.name}
-  = f.input :fund_extra, prompt: t('actions.select')
-  = f.input :fund_uid
+
+  = f.input :fund_extra, prompt: t('simple_form.placeholders.deposits.banks.fund_extra')
+
+  = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid,
+            placeholder: t('simple_form.placeholders.deposits.banks.fund_uid')
+
+  .form-group
+    label.control-label.col-sm-4
+    .col-sm-7
+      input name="deposit[save_fund_source]" value="1" type="checkbox"
+      small.hint = t('.save_fund_source')
+
   = f.input :amount, as: :string
   hr.split
   = f.button :wrapped, cancel: deposits_path
@@ -10,3 +22,9 @@
   - if @assets && !@assets.empty?
     = panel do
       = datagrid_table(@bank_deposits_grid, @assets)
+
+= content_for :guide
+  = link_to t('guides.private.deposits.satoshis.panel'), new_deposits_satoshi_path
+
+= content_for :scripts
+  = javascript_include_tag :deposit_selectize
