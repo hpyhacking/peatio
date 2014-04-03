@@ -36,9 +36,9 @@ en:
         total: CNY Assets Total
         description: "
           <p>For supervision, you can inquiry the balance of our deposit account:</p>
-          <p>Bank: %{bank}</p>
+          <p>Bank: China Merchants Bank</p>
           <p>Account： %{address}</p>
-          <p>Inquiry Password： %{password}</p>
+          <p>Inquiry Password：In order to prevent malicious operations, the password is only accessible to our VIP customers. If you're VIP user please contact our customer service to get the password. Thanks for your understanding.</p>
           <p>Inquiry Tel.： %{tel}</p>"
       partial_tree:
         success: 'Success! Verification data generated at: %{timestamp}'
