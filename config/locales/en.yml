@@ -92,6 +92,7 @@ en:
     withdraw: Withdraw
     getstart: Get Start
     assets: Assets
+    my_assets: My Assets
 
   admin_header:
     deposits: Depoists
