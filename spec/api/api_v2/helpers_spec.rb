@@ -19,6 +19,7 @@ describe APIv2::Helpers do
 
   context "#authentic?" do
 
+    let(:tonce)  { (Time.now.to_f*1000).to_i }
     let!(:token) { create(:api_token) }
 
     context "Authenticate using headers" do
@@ -26,8 +27,9 @@ describe APIv2::Helpers do
 
     context "Authenticate using params" do
       it "should return ok" do
-        signature = APIv2::Authenticator.hmac_signature(token.secret_key, '')
-        get '/api/v2/auth_test', access_key: token.access_key, signature: signature
+        payload   = "access_key=#{token.access_key}&foo=bar&hello=world&tonce=#{tonce}"
+        signature = APIv2::Authenticator.hmac_signature(token.secret_key, payload)
+        get '/api/v2/auth_test', access_key: token.access_key, signature: signature, foo: 'bar', hello: 'world', tonce: tonce
         response.should be_success
         response.body.should == 'ok'
       end

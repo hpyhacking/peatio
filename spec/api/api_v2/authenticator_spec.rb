@@ -15,33 +15,69 @@ describe APIv2::Authenticator do
   end
 
   let(:token) { create(:api_token) }
+  let(:tonce) { (Time.now.to_f*1000).to_i }
+
   let(:params) do
     Hashie::Mash.new({
       "access_key" => token.access_key,
-      "signature"  => "somehexcode...", # wrong signature
+      "tonce"      => tonce,
       "foo"        => "bar",
       "hello"      => "world",
       "route_info" => Grape::Route.new
     })
   end
 
-  subject { APIv2::Authenticator.new(nil, params) }
-
-  its(:token)   { should == token }
-  its(:payload) { should == "access_key=#{token.access_key}&foo=bar&hello=world" }
-
-  context "invalid request" do
-    its(:authentic?)       { should be_false }
-    its(:signature_match?) { should be_false }
+  subject do
+    auth               = APIv2::Authenticator.new(nil, params)
+    params[:signature] = APIv2::Authenticator.hmac_signature(token.secret_key, auth.payload)
+    auth
   end
 
-  context "authentic request" do
-    before do
-      params[:signature] = APIv2::Authenticator.hmac_signature(token.secret_key, subject.payload)
-    end
+  its(:authentic?)             { should be_true }
+  its(:signature_match?)       { should be_true }
+  its(:required_params_exist?) { should be_true }
+  its(:fresh?)                 { should be_true }
+  its(:token)                  { should == token }
+  its(:payload)                { should == "access_key=#{token.access_key}&foo=bar&hello=world&tonce=#{tonce}" }
 
-    its(:authentic?)       { should be_true }
-    its(:signature_match?) { should be_true }
+  it "should require access_key" do
+    params[:access_key] = ''
+    subject.required_params_exist?.should be_false
+    subject.should_not be_authentic
+  end
+
+  it "should require tonce" do
+    params[:tonce] = ''
+    subject.required_params_exist?.should be_false
+    subject.should_not be_authentic
+  end
+
+  it "should require signature" do
+    subject.required_params_exist?.should be_true
+
+    params[:signature] = ''
+    subject.required_params_exist?.should be_false
+    subject.should_not be_authentic
+  end
+
+  it "should return false on unmatched signature" do
+    subject.signature_match?.should be_true
+
+    params[:signature] = 'fake'
+    subject.signature_match?.should be_false
+    subject.should_not be_authentic
+  end
+
+  it "should be stale if tonce is older than 5 minutes ago" do
+    params[:tonce] = 6.minutes.ago
+    subject.should_not be_fresh
+    subject.should_not be_authentic
+  end
+
+  it "should not be authentic for invalid token" do
+    params[:access_key] = 'fake'
+    subject.token.should be_nil
+    subject.should_not be_authentic
   end
 
 end
