@@ -1,5 +1,5 @@
 .panel.panel-default.account-balance
-  .panel-heading = t('.title')
+  .panel-heading = t('trade.account_balance.title')
   .panel-body
     .col-md-12
       table.table.table-condensed.table-striped
@@ -9,6 +9,6 @@
         tbody
           - @accounts.each do |account|
             tr class="#{account.currency}"
-              td.name = t(account.currency)
+              td.name = t("currency.name.#{account.currency}")
               td.available = account.balance
               td.locked = account.locked
