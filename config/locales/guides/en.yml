@@ -1,11 +1,11 @@
 en:
   guides:
     panels:
-      balance: Account  
+      balance: Account
 
     private:
       settings:
-        panel: My Account 
+        panel: My Account
         index:
           intro: Admin and revise your profile.
 
@@ -25,7 +25,7 @@ en:
           intro: If you have a new phone, you can disable Two-Factor Authentication in the old phone, and enable Two-Factor Authentication  with the new one.
 
       deposits:
-        panel: Deposit 
+        panel: Deposit
         intro: You can recharge the CNY to buy bitcoins, or recharge Bitcoin to exchange CNY.
 
       withdraws:
@@ -38,7 +38,7 @@ en:
       fund_sources:
         panel: Withdrawal
         index:
-          title: Create new withraw address  
+          title: Create new withraw address
           intro: You can creat one new withdraw address , and it can be available for your withdrawal later.
 
       id_documents:
@@ -51,7 +51,12 @@ en:
         panel: 实名认证
         new:
           title: 提交实名认证信息
-          intro: 
+          intro:
+
+      my_assets:
+        panel: My Assets
+        index:
+          intro: This page contains your asset information, including account balances, trading, deposit, and withdraw history.
 
     verify:
       two_factors:
@@ -60,12 +65,12 @@ en:
           intro: With 2-Step Verification, you’ll protect your account with both your password and your phone. Here we use Google Authenticator.
 
     reset_passwords:
-      panel: Password 
+      panel: Password
       new:
         title: Reset Passwore
         intro: Please enter your e-mail address which is verified by your  account, enter verification code to submit,and login your mailbox, follow the prompts to reset your password.
       create:
-        title: Reset password 
+        title: Reset password
         intro: Please enter your e-mail address which is verified by your  account, enter verification code to submit,and login your mailbox, follow the prompts to reset your password.
       edit:
         title: Set Password
@@ -75,17 +80,18 @@ en:
     sessions:
       panel: Login
       new:
-        title: Login my account   
+        title: Login my account
         intro: Login Peatio now for you to exchange.
       failure:
-        title: Login my account 
+        title: Login my account
         intro: Login Peatio now for you to exchange.
 
     identities:
-      panel: Create Account 
+      panel: Create Account
       new:
-        title: Create My Account 
+        title: Create My Account
         intro: This will be your only ID in Peatio which is necessary for your exchange , despoit and withdrawal . please fill it out carefully.
       edit:
-        panel: My Account   
-        title: Reset Password 
+        panel: My Account
+        title: Reset Password
+
