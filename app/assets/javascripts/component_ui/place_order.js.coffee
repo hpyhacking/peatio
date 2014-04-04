@@ -27,11 +27,14 @@
     @select('volumeSel').val BigNumber(0)
     @computeSum(event)
 
-  @disableSubmit = (event, data) ->
+  @disableSubmit = ->
     @select('submitButton').addClass('disabled').attr('disabled', 'disabled')
 
-  @enableSubmit = (event, data) ->
+  @enableSubmit = ->
     @select('submitButton').removeClass('disabled').removeAttr('disabled')
+
+  @beforeSend = ->
+    @disableSubmit()
 
   @handleSuccess = (event, data) ->
     @cleanMsg()
@@ -114,7 +117,7 @@
     @on document, 'market::ticker', @refreshPrice
     @on document, 'trade::account', @refreshBalance
 
-    @on @select('formSel'), 'ajax:beforeSend', @disableSubmit
+    @on @select('formSel'), 'ajax:beforeSend', @beforeSend
     @on @select('formSel'), 'ajax:success', @handleSuccess
     @on @select('formSel'), 'ajax:error', @handleError
 
