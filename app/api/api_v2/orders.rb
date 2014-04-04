@@ -1,6 +1,8 @@
 module APIv2
   class Orders < Grape::API
 
+    before { authenticate! }
+
     desc 'Get user orders'
     get "/orders" do
       market = Market.find params[:market]
