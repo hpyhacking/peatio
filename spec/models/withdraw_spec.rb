@@ -108,6 +108,15 @@ describe Withdraw do
     end
   end
 
+  context 'account id assignment' do
+    subject { build :withdraw, account_id: 999 }
+
+    it "don't accept account id from outside" do
+      subject.save
+      expect(subject.account_id).to eq(subject.member.get_account(subject.currency).id)
+    end
+  end
+
   describe 'callbacks', truncation: true do
     subject { build :bank_withdraw, save_fund_source: '1' }
 
