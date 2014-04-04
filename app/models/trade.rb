@@ -9,6 +9,8 @@ class Trade < ActiveRecord::Base
   belongs_to :bid, class_name: 'OrderBid', foreign_key: 'bid_id'
 
   scope :h24, -> { where("created_at > ?", 24.hours.ago) }
+  scope :for_member, ->(currency, member) { with_currency(currency)
+    .where("ask_member_id = ? or bid_member_id = ?", member.id, member.id) }
 
   class << self
     def latest_price(currency)

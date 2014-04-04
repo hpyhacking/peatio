@@ -29,6 +29,6 @@ end
 
 json.orders do
   json.wait *([@orders_wait] + Order::ATTRIBUTES)
-  json.done @orders_done.map {|order| order.trades.map {|trade| trade.for_notify(order)} }.flatten
+  json.done @trades_done
   json.cancel *([@orders_cancel] + Order::ATTRIBUTES)
 end
