@@ -17,7 +17,13 @@ module APIv2
     do_not_route_head!
     do_not_route_options!
 
+    # Public APIs
     mount Tickers
-    mount Orders
+
+    # Private APIs
+    group do
+      before { authenticate! }
+      mount Orders
+    end
   end
 end
