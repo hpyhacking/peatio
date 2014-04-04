@@ -34,9 +34,7 @@ describe APIv2::Orders do
     it "should return active orders by default" do
       signed_get '/api/v2/orders', params: {market: 'cnybtc'}, token: token
       response.should be_success
-
-      result = JSON.parse(response.body)
-      result.size.should == 2
+      JSON.parse(response.body).size.should == 2
     end
 
     it "should return complete orders" do

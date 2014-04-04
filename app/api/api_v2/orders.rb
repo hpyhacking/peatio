@@ -3,7 +3,9 @@ module APIv2
 
     before { authenticate! }
 
-    desc 'Get your orders.'
+    desc 'Get your orders.', {
+      params: APIv2::Entities::Order.documentation
+    }
     params do
       requires :market, type: String,  values: Market.all.map(&:id)
       optional :state,  type: String,  default: 'wait', values: Order.state.values
@@ -15,6 +17,8 @@ module APIv2
         .with_currency(market)
         .with_state(params[:state])
         .limit(params[:limit])
+
+      present orders, with: APIv2::Entities::Order
     end
 
   end
