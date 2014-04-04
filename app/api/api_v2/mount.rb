@@ -8,7 +8,7 @@ module APIv2
     format :json
     default_format :json
 
-    helpers Helpers
+    helpers ::APIv2::Helpers
 
     mount Orders
   end

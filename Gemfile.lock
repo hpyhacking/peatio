@@ -142,7 +142,7 @@ GEM
     gon (5.0.1)
       actionpack (>= 2.3.0)
       json
-    grape (0.6.1)
+    grape (0.7.0)
       activesupport
       builder
       hashie (>= 1.2.0)
@@ -152,7 +152,7 @@ GEM
       rack-accept
       rack-mount
       virtus (>= 1.0.0)
-    grape-entity (0.4.1)
+    grape-entity (0.4.2)
       activesupport
       multi_json (>= 1.3.2)
     handlebars_assets (0.15)
@@ -443,8 +443,8 @@ DEPENDENCIES
   font-awesome-less
   globalize (~> 4.0.0)
   gon
-  grape (~> 0.6.1)
-  grape-entity (~> 0.4.1)
+  grape (~> 0.7.0)
+  grape-entity (~> 0.4.2)
   handlebars_assets
   http_accept_language
   introjs-rails
