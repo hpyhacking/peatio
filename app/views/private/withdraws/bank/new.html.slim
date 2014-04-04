@@ -39,7 +39,7 @@
   = link_to t('guides.private.withdraws.satoshi.panel'), new_withdraws_satoshi_path
 
 = content_for :scripts
-  = javascript_include_tag :fund_source
+  = javascript_include_tag asset_path(:fund_source)
 
   javascript:
     $(function(){
