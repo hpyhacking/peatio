@@ -29,8 +29,8 @@ class Withdraw < ActiveRecord::Base
 
   belongs_to :member
   belongs_to :account
-  has_many :account_versions, :as => :modifiable
   attr_accessor :save_fund_source
+  has_many :account_versions, as: :modifiable
 
   before_validation :calc_fee
   before_validation :set_account
@@ -38,7 +38,7 @@ class Withdraw < ActiveRecord::Base
   after_create :generate_sn
   after_update :bust_last_done_cache, if: :state_changed_to_done
 
-  validates :channel_id, :fund_uid, :amount, :fee,
+  validates :fund_uid, :amount, :fee,
     :account, :currency, :member, presence: true
 
   validates :fee, numericality: {greater_than_or_equal_to: 0}
@@ -54,8 +54,6 @@ class Withdraw < ActiveRecord::Base
   scope :not_completed, -> { where('aasm_state not in (?) or state not in (?)',
                                COMPLETED_STATES, STATES.slice(*COMPLETED_STATES).values) }
 
-  scope :with_channel, -> (channel_id) { where channel_id: channel_id }
-
   scope :with_state, -> (state) { where aasm_state: state }
 
   alias_method :_old_state, :state
@@ -69,7 +67,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def channel
-    WithdrawChannel.find(channel_id)
+    self.class.channel
   end
 
   def channel_name
@@ -98,12 +96,10 @@ class Withdraw < ActiveRecord::Base
 
   def position_in_queue
     last_done = Rails.cache.fetch(last_completed_withdraw_cache_key) do
-      Withdraw.completed.with_channel(channel_id).maximum(:id)
+      self.class.completed.maximum(:id)
     end
 
-    self.class.where("id > ? AND id <= ?", (last_done || 0), id).
-      with_channel(channel_id).
-      count
+    self.class.where("id > ? AND id <= ?", (last_done || 0), id).count
   end
 
   alias_attribute :withdraw_id, :sn

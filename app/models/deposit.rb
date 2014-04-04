@@ -27,8 +27,6 @@ class Deposit < ActiveRecord::Base
     :member, :currency
   validates_numericality_of :amount, greater_than: 0
 
-  scope :with_channel, -> (channel_id) { where channel_id: channel_id }
-
   aasm :whiny_transitions => false do
     state :submitting, initial: true, before_enter: :set_fee
     state :cancelled
