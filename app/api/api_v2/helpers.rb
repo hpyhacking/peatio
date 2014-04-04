@@ -6,7 +6,7 @@ module APIv2
       if auth.authentic?
         @current_user = auth.token.member
       else
-        throw :error, status: 401, message: "API Authorization Failed."
+        raise AuthorizationError
       end
     end
 

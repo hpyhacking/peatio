@@ -1,9 +1,6 @@
 module APIv2
   class Orders < Grape::API
 
-    format :json
-    default_format :json
-
     desc 'Get user orders'
     get "/orders" do
       market = Market.find params[:market]
