@@ -5,9 +5,9 @@
     infoSel: 'span.label-info'
     dangerSel: 'span.label-danger'
 
-    sumSel: 'input[id$=sum]'
     priceSel: 'input[id$=price]'
     volumeSel: 'input[id$=volume]'
+    sumSel: 'input[id$=sum]'
 
     lastPrice: '.last-price .value'
     currentBalanceSel: '.current-balance .value'
@@ -33,8 +33,25 @@
   @enableSubmit = ->
     @select('submitButton').removeClass('disabled').removeAttr('disabled')
 
-  @beforeSend = ->
-    @disableSubmit()
+  @confirmDialogMsg = ->
+    confirmType = @select('submitButton').text()
+    price = @select('sumSel').val()
+    volume = @select('volumeSel').val()
+    sum = @select('sumSel').val()
+    """
+    #{gon.i18n.place_order.confirm_submit} "#{confirmType}"?
+
+    #{gon.i18n.place_order.price}: #{price}
+    #{gon.i18n.place_order.volume}: #{volume}
+    #{gon.i18n.place_order.sum}: #{sum}
+    """
+
+
+  @beforeSend = (event, jqXHR) ->
+    if confirm(@confirmDialogMsg())
+      @disableSubmit()
+    else
+      jqXHR.abort()
 
   @handleSuccess = (event, data) ->
     @cleanMsg()
