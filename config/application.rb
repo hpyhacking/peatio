@@ -30,7 +30,7 @@ module Peatio
 
     config.autoload_paths += %W(#{config.root}/lib #{config.root}/lib/extras)
 
-    config.assets.precompile += ['fund_source.js', 'bootstrap-datetimepicker.css']
+    #config.assets.precompile += ['fund_source.js', 'bootstrap-datetimepicker.css']
     config.assets.initialize_on_precompile = true
   end
 end
