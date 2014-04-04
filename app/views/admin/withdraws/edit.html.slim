@@ -1,7 +1,7 @@
 .row
   .col-md-8
     .row: .col-md-12
-      = render @withdraw
+      = render partial: 'withdraw', object: @withdraw
       = detail_section_tag t('.actions_title')
       a.btn.btn-default.pull-right href='#{admin_withdraws_path}' = t('actions.back')
       a.btn.btn-default.pull-right.btn-inverse target='_blank' href='#{admin_member_path(@withdraw.member)}' = t('actions.member')
