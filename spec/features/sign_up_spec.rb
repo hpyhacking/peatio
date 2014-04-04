@@ -13,6 +13,7 @@ describe 'Sign up', js: true do
       fill_in 'email', with: identity.email
       fill_in 'password', with: identity.password
       fill_in 'password_confirmation', with: identity.password_confirmation
+      check 'agree'
       click_on I18n.t('header.signup')
     end
   end
