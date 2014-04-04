@@ -59,14 +59,14 @@ describe 'withdraw' do
     click_on t('actions.confirm')
     expect(current_path).to eq(new_withdraws_bank_path)
     expect(page).to have_text("1700.0")
-    expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("1")
+    #expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("1")
 
     # 2nd withdraw
     submit_bank_withdraw_request 800
     click_on t('actions.confirm')
     expect(current_path).to eq(new_withdraws_bank_path)
     expect(page).to have_text("900.0")
-    expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("2")
+    #expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("2")
 
     submit_bank_withdraw_request 600
     click_on t('actions.confirm')
