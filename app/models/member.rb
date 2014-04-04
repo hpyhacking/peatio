@@ -6,7 +6,6 @@ class Member < ActiveRecord::Base
   has_many :withdraws
   has_many :fund_sources
   has_many :deposits
-  has_and_belongs_to_many :trades
 
   has_one :two_factor
   has_one :id_document
@@ -40,7 +39,7 @@ class Member < ActiveRecord::Base
       member = find_by_email(auth_hash['info']['email'])
       return nil unless member
       member.add_auth(auth_hash)
-      member 
+      member
     end
 
     def create_from_auth(auth_hash)
@@ -102,7 +101,7 @@ class Member < ActiveRecord::Base
   private
   def generate_sn
     self.sn and return
-    begin 
+    begin
       self.sn = "PEA#{ROTP::Base32.random_base32(8).upcase}TIO"
     end while Member.where(:sn => self.sn).any?
   end

@@ -12,6 +12,12 @@ json.i18n do
   json.cancel I18n.t('actions.cancel')
   json.chart_price I18n.t('chart.price')
   json.chart_volume I18n.t('chart.volume')
+  json.place_order do |place_order|
+    place_order.confirm_submit I18n.t('private.markets.show.confirm')
+    place_order.price I18n.t('private.markets.place_order.price')
+    place_order.volume I18n.t('private.markets.place_order.amount')
+    place_order.sum I18n.t('private.markets.place_order.total')
+  end
 end
 
 json.accounts do

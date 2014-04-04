@@ -5,9 +5,9 @@
     infoSel: 'span.label-info'
     dangerSel: 'span.label-danger'
 
-    sumSel: 'input[id$=sum]'
     priceSel: 'input[id$=price]'
     volumeSel: 'input[id$=volume]'
+    sumSel: 'input[id$=sum]'
 
     lastPrice: '.last-price .value'
     currentBalanceSel: '.current-balance .value'
@@ -27,11 +27,31 @@
     @select('volumeSel').val BigNumber(0)
     @computeSum(event)
 
-  @disableSubmit = (event, data) ->
+  @disableSubmit = ->
     @select('submitButton').addClass('disabled').attr('disabled', 'disabled')
 
-  @enableSubmit = (event, data) ->
+  @enableSubmit = ->
     @select('submitButton').removeClass('disabled').removeAttr('disabled')
+
+  @confirmDialogMsg = ->
+    confirmType = @select('submitButton').text()
+    price = @select('sumSel').val()
+    volume = @select('volumeSel').val()
+    sum = @select('sumSel').val()
+    """
+    #{gon.i18n.place_order.confirm_submit} "#{confirmType}"?
+
+    #{gon.i18n.place_order.price}: #{price}
+    #{gon.i18n.place_order.volume}: #{volume}
+    #{gon.i18n.place_order.sum}: #{sum}
+    """
+
+
+  @beforeSend = (event, jqXHR) ->
+    if confirm(@confirmDialogMsg())
+      @disableSubmit()
+    else
+      jqXHR.abort()
 
   @handleSuccess = (event, data) ->
     @cleanMsg()
@@ -114,7 +134,7 @@
     @on document, 'market::ticker', @refreshPrice
     @on document, 'trade::account', @refreshBalance
 
-    @on @select('formSel'), 'ajax:beforeSend', @disableSubmit
+    @on @select('formSel'), 'ajax:beforeSend', @beforeSend
     @on @select('formSel'), 'ajax:success', @handleSuccess
     @on @select('formSel'), 'ajax:error', @handleError
 
