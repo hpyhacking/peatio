@@ -17,6 +17,7 @@ module APIv2
     do_not_route_head!
     do_not_route_options!
 
+    mount Tickers
     mount Orders
   end
 end
