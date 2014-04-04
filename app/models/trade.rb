@@ -8,13 +8,24 @@ class Trade < ActiveRecord::Base
 
   scope :h24, -> { where("created_at > ?", 24.hours.ago) }
 
+  class << self
+    def latest_price(currency)
+      with_currency(currency).order(:id).reverse_order
+        .limit(1).first.try(:price) || "0.0".to_d
+    end
+  end
+
   def sn
     "##{id}"
   end
 
-  def self.latest_price(currency)
-    with_currency(currency).order(:id).reverse_order
-      .limit(1).first.try(:price) || "0.0".to_d
+  def for_notify(kind="")
+    {
+      kind: kind,
+      at: created_at.to_i,
+      price: price,
+      volume: volume
+    }
   end
 
 end
