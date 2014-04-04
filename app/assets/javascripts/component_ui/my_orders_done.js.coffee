@@ -1,10 +1,10 @@
 @MyOrdersDoneUI = flight.component ->
-  flight.compose.mixin @, [MyOrdersMixin]
+  flight.compose.mixin @, [ItemListMixin]
 
   @getTemplate = (order) -> $(JST["order_done"](order))
 
   @orderHandler = (event, order) ->
-    @addOrUpdateOrder order
+    @addOrUpdateItem order
 
   @.after 'initialize', ->
     @populate gon.orders.done
