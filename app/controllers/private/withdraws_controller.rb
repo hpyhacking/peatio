@@ -1,5 +1,8 @@
 module Private
   class WithdrawsController < BaseController
+    before_action :auth_activated!
+    before_action :auth_verified!
+
     def index
       @channels = WithdrawChannel.all
     end
@@ -34,11 +37,12 @@ module Private
     end
 
     private
-    def load_history(channel_id)
+    def load_history
       page = params[:page] || 0
       per = params[:per] || 10
 
-      @withdraws_grid = PrivateWithdrawsGrid.new(params[:withdraws_grid]) do |scope|
+      grid = "#{controller_name}WithdrawsGrid".camelize.safe_constantize
+      @withdraws_grid = grid.new(params[:withdraws_grid]) do |scope|
         scope.where(member: current_user).page(page).per(per)
       end
     end

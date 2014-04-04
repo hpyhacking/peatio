@@ -1,10 +1,10 @@
-class PrivateWithdrawsGrid
+class SatoshiWithdrawsGrid
   include Datagrid
   include Datagrid::Naming
   include Datagrid::ColumnI18n
 
   scope do
-    Withdraw.where.not(aasm_state: :submitting).order('id desc')
+    Withdraws::Satoshi.where.not(aasm_state: :submitting).order('id desc')
   end
 
   self.default_column_options = { :order => false }

@@ -239,7 +239,7 @@ class Withdraw < ActiveRecord::Base
     FundSource.find_or_create_by \
       member: member,
       currency: currency_value,
-      channel_id: channel_id,
+      channel_id: channel.id,
       uid: fund_uid,
       extra: fund_extra
   end
