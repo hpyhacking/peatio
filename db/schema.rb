@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140404074816) do
+ActiveRecord::Schema.define(version: 20140404101823) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -241,16 +241,20 @@ ActiveRecord::Schema.define(version: 20140404074816) do
   add_index "tokens", ["type", "token", "expire_at", "is_used"], name: "index_tokens_on_type_and_token_and_expire_at_and_is_used", using: :btree
 
   create_table "trades", force: true do |t|
-    t.decimal  "price",      precision: 32, scale: 16
-    t.decimal  "volume",     precision: 32, scale: 16
+    t.decimal  "price",         precision: 32, scale: 16
+    t.decimal  "volume",        precision: 32, scale: 16
     t.integer  "ask_id"
     t.integer  "bid_id"
     t.integer  "trend"
     t.integer  "currency"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "ask_member_id"
+    t.integer  "bid_member_id"
   end
 
+  add_index "trades", ["ask_member_id"], name: "index_trades_on_ask_member_id", using: :btree
+  add_index "trades", ["bid_member_id"], name: "index_trades_on_bid_member_id", using: :btree
   add_index "trades", ["currency"], name: "index_trades_on_currency", using: :btree
 
   create_table "two_factors", force: true do |t|
