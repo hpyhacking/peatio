@@ -13,7 +13,8 @@ class Trade < ActiveRecord::Base
   end
 
   def self.latest_price(currency)
-    with_currency(currency).last.try(:price) || "0.0".to_d
+    with_currency(currency).order(:id).reverse_order
+      .limit(1).first.try(:price) || "0.0".to_d
   end
 
 end
