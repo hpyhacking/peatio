@@ -1,3 +1,3 @@
 module Peatio
-  VERSION = "0.2.1"
+  VERSION = "1.1.0"
 end
