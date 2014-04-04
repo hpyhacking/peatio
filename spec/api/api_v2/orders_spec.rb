@@ -13,15 +13,28 @@ describe APIv2::Orders do
     end
 
     it "should require authentication" do
-      get "/api/v2/orders?market=cnybtc&state=wait&limit=20"
+      get "/api/v2/orders", market: 'cnybtc'
       response.code.should == '401'
     end
 
+    it "should validate market param" do
+      signed_get '/api/v2/orders', params: {market: 'mtgox'}, token: token
+      response.code.should == '400'
+      JSON.parse(response.body).should == {"error" => {"code" => 1001,"message" => "market does not have a valid value"}}
+    end
+
+    it "should validate state param" do
+      signed_get '/api/v2/orders', params: {market: 'cnybtc', state: 'test'}, token: token
+      response.code.should == '400'
+      JSON.parse(response.body).should == {"error" => {"code" => 1001,"message" => "state does not have a valid value"}}
+    end
+
     it "should return orders" do
-      signed_get '/api/v2/orders', params: {market: 'cnybtc', state: 'wait', limit: 20}, token: token
+      signed_get '/api/v2/orders', params: {market: 'cnybtc'}, token: token
       response.should be_success
       JSON.parse(response.body).size.should == 2
     end
+
 
   end
 

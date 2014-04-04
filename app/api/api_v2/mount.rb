@@ -7,6 +7,7 @@ module APIv2
 
     format :json
     default_format :json
+    error_formatter :json, ErrorsFormatter.new
 
     helpers ::APIv2::Helpers
 

@@ -43,7 +43,7 @@ describe APIv2::Helpers do
       it "should fail authorization" do
         get '/api/v2/auth_test'
         response.code.should == '401'
-        response.body.should == "{\"error\":{\"code\":2,\"message\":\"Authorization failed\"}}"
+        response.body.should == "{\"error\":{\"code\":2001,\"message\":\"Authorization failed\"}}"
       end
     end
 
