@@ -14,5 +14,8 @@ module APIv2
       @current_user
     end
 
+    def current_market
+      @current_market ||= Market.find params[:market]
+    end
   end
 end

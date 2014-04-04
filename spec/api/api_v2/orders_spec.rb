@@ -2,11 +2,10 @@ require 'spec_helper'
 
 describe APIv2::Orders do
 
+  let(:member) { create(:member) }
+  let(:token)  { create(:api_token, member: member) }
+
   describe "GET /api/v2/orders" do
-
-    let(:member) { create(:member) }
-    let(:token)  { create(:api_token, member: member) }
-
     before do
       create(:order_bid, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member)
       create(:order_bid, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
@@ -41,6 +40,17 @@ describe APIv2::Orders do
       signed_get '/api/v2/orders', params: {market: 'cnybtc', state: Order::DONE}, token: token
       response.should be_success
       JSON.parse(response.body).first['state'].should == Order::DONE
+    end
+
+  end
+
+  describe "GET /api/v2/order" do
+    let(:order) { create(:order_bid, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member) }
+
+    it "should get specified order" do
+      signed_get "/api/v2/order", params: {id: order.id}, token: token
+      response.should be_success
+      JSON.parse(response.body)['id'].should == order.id
     end
 
   end
