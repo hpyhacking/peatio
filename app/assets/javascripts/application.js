@@ -42,6 +42,7 @@
 //= require highstock
 //= require highstock_config
 //= require helper
+//= require fund_source
 
 //= require_tree ./component_mixin
 //= require_tree ./component_data

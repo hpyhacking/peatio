@@ -37,8 +37,6 @@
   = link_to t('guides.private.withdraws.bank.panel'), new_withdraws_bank_path
 
 = content_for :scripts
-  = javascript_include_tag asset_path(:fund_source)
-
   javascript:
     $(function(){
       $('button#withdraw_all_btn').on('click', function(){
