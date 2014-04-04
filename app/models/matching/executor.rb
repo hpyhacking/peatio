@@ -14,7 +14,8 @@ module Matching
     def execute!
       raise TradeExecutionError.new({ask: @ask, bid: @bid, price: @price, volume: @volume}) unless valid?
 
-      trade = Trade.create(ask_id: @ask.id, bid_id: @bid.id,
+      trade = Trade.create(ask_id: @ask.id, ask_member_id: @ask.member_id,
+                           bid_id: @bid.id, bid_member_id: @bid.member_id,
                            price: @price, volume: @volume,
                            currency: @market.id.to_sym, trend: trend)
 
