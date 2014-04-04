@@ -9,9 +9,9 @@
     else
       @select('empty').hide()
 
-  @addOrUpdateItem = (order) ->
-    template = @getTemplate(order)
-    existsItem = @select('tbody').find("tr[data-id=#{order.id}]")
+  @addOrUpdateItem = (item) ->
+    template = @getTemplate(item)
+    existsItem = @select('tbody').find("tr[data-id=#{item.id}]")
 
     if existsItem.length
       existsItem.html template.html()

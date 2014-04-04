@@ -24,3 +24,21 @@ describe Trade, "#to_notify" do
   it { expect(notify[:price]).not_to be_blank }
   it { expect(notify[:volume]).not_to be_blank }
 end
+
+describe Trade, "#notify" do
+  let(:member) { mock('Member') }
+  let(:order_ask) { create(:order_ask) }
+  let(:order_bid) { create(:order_bid) }
+
+  subject { create(:trade, ask: order_ask, bid: order_bid) }
+
+  before do
+    order_ask.stubs(:member).returns(member)
+    order_bid.stubs(:member).returns(member)
+  end
+
+  it "fire member notificaitons" do
+    member.expects(:trigger).at_most(2)
+    subject.notify
+  end
+end

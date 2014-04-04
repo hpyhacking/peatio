@@ -7,7 +7,7 @@
     @addOrUpdateItem order
 
   @.after 'initialize', ->
-    @populate gon.orders.done
-    @on document, 'order::done', @orderHandler
+    # @populate gon.trade.done
+    @on document, 'trade::done', @orderHandler
 
 

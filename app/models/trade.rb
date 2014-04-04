@@ -1,4 +1,6 @@
 class Trade < ActiveRecord::Base
+  ZERO = '0.0'.to_d
+
   extend Enumerize
   enumerize :trend, in: {:up => 1, :down => 0}
   enumerize :currency, in: Market.enumerize, scope: true
@@ -21,11 +23,17 @@ class Trade < ActiveRecord::Base
 
   def for_notify(kind="")
     {
-      kind: kind,
-      at: created_at.to_i,
-      price: price,
-      volume: volume
+      id:     id,
+      kind:   kind,
+      at:     created_at.to_i,
+      price:  price.to_s  || ZERO,
+      volume: volume.to_s || ZERO
     }
+  end
+
+  def notify
+    ask.member.trigger 'trade', for_notify('ask')
+    bid.member.trigger 'trade', for_notify('bid')
   end
 
 end
