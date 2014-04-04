@@ -12,11 +12,19 @@ end
 
 describe APIv2::Mount do
 
-  context "exception handling" do
-    it "should return error message in json format" do
+  context "handle exception on request processing" do
+    it "should render json error message" do
       get "/api/v2/broken"
       response.code.should == '400'
       JSON.parse(response.body).should == {'error' => {'code' => 2014310, 'message' => "MtGox bankrupt"}}
+    end
+  end
+
+  context "handle exception on request routing" do
+    it "should render json error message" do
+      get "/api/v2/non/exist"
+      response.code.should == '404'
+      response.body.should == "Not Found"
     end
   end
 

@@ -5,6 +5,8 @@ module APIv2
     prefix 'api'
     version 'v2', using: :path
 
+    cascade false
+
     format :json
     default_format :json
 
