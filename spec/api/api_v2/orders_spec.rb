@@ -9,7 +9,9 @@ describe APIv2::Orders do
 
     before do
       create(:order_bid, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member)
+      create(:order_bid, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
       create(:order_ask, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member)
+      create(:order_ask, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
     end
 
     it "should require authentication" do
@@ -29,12 +31,19 @@ describe APIv2::Orders do
       JSON.parse(response.body).should == {"error" => {"code" => 1001,"message" => "state does not have a valid value"}}
     end
 
-    it "should return orders" do
+    it "should return active orders by default" do
       signed_get '/api/v2/orders', params: {market: 'cnybtc'}, token: token
       response.should be_success
-      JSON.parse(response.body).size.should == 2
+
+      result = JSON.parse(response.body)
+      result.size.should == 2
     end
 
+    it "should return complete orders" do
+      signed_get '/api/v2/orders', params: {market: 'cnybtc', state: Order::DONE}, token: token
+      response.should be_success
+      JSON.parse(response.body).first['state'].should == Order::DONE
+    end
 
   end
 
