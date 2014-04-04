@@ -65,4 +65,12 @@ namespace :migration do
       end
   end
 
+  desc "update ask_member_id and bid_member_id of trades"
+  task update_ask_member_id_and_bid_member_id_of_trades: :environment do
+    Trade.find_each do |trade|
+      trade.update \
+        ask_member_id: trade.ask.member_id,
+        bid_member_id: trade.bid.member_id
+    end
+  end
 end
