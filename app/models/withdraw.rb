@@ -26,10 +26,10 @@ class Withdraw < ActiveRecord::Base
   extend Enumerize
   enumerize :state, in: STATES, scope: true
   enumerize :currency, in: Currency.codes, scope: true
+  attr_accessor :save_fund_source
 
   belongs_to :member
   belongs_to :account
-  attr_accessor :save_fund_source
   has_many :account_versions, as: :modifiable
 
   before_validation :calc_fee
@@ -239,7 +239,7 @@ class Withdraw < ActiveRecord::Base
     FundSource.find_or_create_by \
       member: member,
       currency: currency_value,
-      channel_id: channel_id,
+      channel_id: channel.id,
       uid: fund_uid,
       extra: fund_extra
   end

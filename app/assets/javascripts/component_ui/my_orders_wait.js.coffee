@@ -1,16 +1,16 @@
 @MyOrdersWaitUI = flight.component ->
-  flight.compose.mixin @, [MyOrdersMixin]
+  flight.compose.mixin @, [ItemListMixin]
 
   @getTemplate = (order) -> $(JST["order_wait"](order))
 
   @orderHandler = (event, order) ->
     switch order.state
       when 'wait'
-        @addOrUpdateOrder order
+        @addOrUpdateItem order
       when 'cancel'
-        @removeOrder order
+        @removeItem order.id
       when 'done'
-        @removeOrder order
+        @removeItem order.id
 
   @.after 'initialize', ->
     @populate gon.orders.wait

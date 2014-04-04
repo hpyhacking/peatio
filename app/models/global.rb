@@ -86,8 +86,10 @@ class Global
       :type => t.trend == 'down' ? 'sell' : 'buy' }
   end
 
-  def trigger_trade(t)
-    data = {:trades => [format_trade(t)]}
+  def trigger_trade(trade)
+    trade.notify # sent member notifications
+
+    data = {:trades => [format_trade(trade)]}
     Pusher.trigger_async(channel, "trades", data)
   end
 

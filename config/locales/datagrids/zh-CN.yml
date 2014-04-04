@@ -55,7 +55,8 @@ zh-CN:
         created_at: 提现时间
         done_at: 完成时间
         state_text: 状态
-    private_withdraws_grid: *withdraw_grid
+    bank_withdraws_grid: *withdraw_grid
+    satoshi_withdraws_grid: *withdraw_grid
     members_grid:
       columns:
         sn: 识别码

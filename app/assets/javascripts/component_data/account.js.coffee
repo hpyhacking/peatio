@@ -6,6 +6,9 @@
       gon.accounts[ask_or_bid] = data
       @trigger 'trade::account', gon.accounts
 
+    @attr.channel.bind 'trade', (data) =>
+      @trigger 'trade::done', data
+
     # Initializing at bootstrap
     @trigger 'trade::account', gon.accounts
 
