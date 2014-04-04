@@ -12,6 +12,9 @@ module APIv2
 
     include ExceptionHandlers
 
+    do_not_route_head!
+    do_not_route_options!
+
     mount Orders
   end
 end
