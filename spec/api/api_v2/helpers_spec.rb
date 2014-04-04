@@ -5,7 +5,7 @@ module APIv2
   class AuthTest < Grape::API
     get("/auth_test") do
       authenticate!
-      'ok'
+      current_user
     end
   end
 
@@ -26,15 +26,20 @@ describe APIv2::Helpers do
     end
 
     context "Authenticate using params" do
-      it "should return ok" do
-        payload   = "access_key=#{token.access_key}&foo=bar&hello=world&tonce=#{tonce}"
-        signature = APIv2::Authenticator.hmac_signature(token.secret_key, payload)
+      let(:payload) { "access_key=#{token.access_key}&foo=bar&hello=world&tonce=#{tonce}" }
+      let(:signature) { APIv2::Authenticator.hmac_signature(token.secret_key, payload) }
+
+      it "should response successfully" do
         get '/api/v2/auth_test', access_key: token.access_key, signature: signature, foo: 'bar', hello: 'world', tonce: tonce
         response.should be_success
-        response.body.should == 'ok'
       end
 
-      it "should return error" do
+      it "should set current user" do
+        get '/api/v2/auth_test', access_key: token.access_key, signature: signature, foo: 'bar', hello: 'world', tonce: tonce
+        response.body.should == token.member.to_s
+      end
+
+      it "should fail authorization" do
         get '/api/v2/auth_test'
         response.code.should == '401'
         response.body.should == 'API Authorization Failed.'
