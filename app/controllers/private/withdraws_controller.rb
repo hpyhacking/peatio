@@ -39,13 +39,13 @@ module Private
       per = params[:per] || 10
 
       @withdraws_grid = PrivateWithdrawsGrid.new(params[:withdraws_grid]) do |scope|
-        scope.with_channel(channel_id).where(member: current_user).page(page).per(per)
+        scope.where(member: current_user).page(page).per(per)
       end
     end
 
     def withdraw_params
       params[:withdraw][:member_id] = current_user.id
-      params.require(:withdraw).permit(:password, :member_id, :currency, :channel_id,
+      params.require(:withdraw).permit(:password, :member_id, :currency,
                                        :sum, :fund_uid, :fund_extra, :save_fund_source, :type)
     end
   end
