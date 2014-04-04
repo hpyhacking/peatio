@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Withdraw do
-  subject { create(:withdraw, sum: 1000) }
+  subject { create(:bank_withdraw, sum: 1000) }
 
   before do
     subject.stubs(:send_withdraw_confirm_email)

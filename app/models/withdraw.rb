@@ -33,6 +33,7 @@ class Withdraw < ActiveRecord::Base
   attr_accessor :save_fund_source
 
   before_validation :calc_fee
+  before_validation :set_account
   after_create :create_fund_source, if: :save_fund_source?
   after_create :generate_sn
   after_update :bust_last_done_cache, if: :state_changed_to_done
@@ -220,6 +221,10 @@ class Withdraw < ActiveRecord::Base
     self.sum ||= 0.0
     self.fee ||= 0.0
     self.amount = sum - fee
+  end
+
+  def set_account
+    self.account = member.get_account(currency)
   end
 
   def state_changed_to_done
