@@ -4,8 +4,7 @@ module Matching
     def initialize(market, options={})
       @market = market
       @logger = options.delete(:logger) || Rails.logger
-
-      initialize_orderbook(options[:continue])
+      @orderbook = OrderBook.new
     end
 
     def submit!(order)
@@ -13,14 +12,14 @@ module Matching
       trade! while match?
     rescue
       @logger.fatal "Failed to submit #{order}: #{$!}"
-      @logger.debug $!.backtrace.join("\n")
+      @logger.fatal $!.backtrace.join("\n")
     end
 
     def cancel!(order)
       orderbook.cancel(order)
     rescue
       @logger.fatal "Failed to cancel #{order}: #{$!}"
-      @logger.debug $!.backtrace.join("\n")
+      @logger.fatal $!.backtrace.join("\n")
     end
 
     def match?
@@ -49,17 +48,6 @@ module Matching
     end
 
     private
-
-    def initialize_orderbook(continue)
-      @orderbook = OrderBook.new
-
-      if continue
-        ::Order.active.with_currency(@market.id).order('id asc').each do |order|
-          order = ::Matching::Order.new order.to_matching_attributes
-          submit! order
-        end
-      end
-    end
 
     def orderbook
       @orderbook
