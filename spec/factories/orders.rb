@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :order_bid do
     bid :cny
     ask :btc
-    currency :cnybtc
+    currency :btccny
     state :wait
     volume { '1'.to_d }
     price { '1'.to_d }
@@ -12,7 +12,7 @@ FactoryGirl.define do
   factory :order_ask do
     bid :cny
     ask :btc
-    currency :cnybtc
+    currency :btccny
     state :wait
     volume { '1'.to_d }
     price { '1'.to_d }

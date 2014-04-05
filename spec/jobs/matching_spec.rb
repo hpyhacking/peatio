@@ -4,7 +4,7 @@ describe Job::Matching do
 
   let(:alice)  { who_is_billionaire(:alice) }
   let(:bob)    { who_is_billionaire(:bob) }
-  let(:market) { Market.find('cnybtc') }
+  let(:market) { Market.find('btccny') }
 
   before do
     Job::Matching.reset_engines

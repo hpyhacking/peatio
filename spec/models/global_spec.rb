@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Global do
-  let(:global) { Global['cnybtc'] }
+  let(:global) { Global['btccny'] }
 
   describe Global, '#ticker' do
     it "expect store to redis" do
@@ -26,7 +26,7 @@ describe Global do
 
   describe Global, '#trades' do
     it "expect store to redis" do
-      create(:trade, currency: 'cnybtc')
+      create(:trade, currency: 'btccny')
       expect(global.trades).to_not be_empty
     end
   end

@@ -4,7 +4,7 @@ describe Matching::Executor do
 
   let(:alice)  { who_is_billionaire(:alice) }
   let(:bob)    { who_is_billionaire(:bob) }
-  let(:market) { Market.find('cnybtc') }
+  let(:market) { Market.find('btccny') }
   let(:price)  { 10.to_d }
   let(:volume) { 5.to_d }
 
