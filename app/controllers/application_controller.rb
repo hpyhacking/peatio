@@ -25,11 +25,11 @@ class ApplicationController < ActionController::Base
   end
 
   def latest_market
-    params[:market] || cookies[:market] || ENV["DEFAULT_MARKET"]
+    params[:market] || cookies[:market_id] || ENV["DEFAULT_MARKET"]
   end
 
   def currency
-    "#{params[:bid]}#{params[:ask]}".to_sym
+    "#{params[:ask]}#{params[:bid]}".to_sym
   end
 
   def current_user

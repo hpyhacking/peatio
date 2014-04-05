@@ -26,7 +26,7 @@ class SatoshiWithdrawsGrid
     if withdraw.cancelable?
       link_to I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete
     else
-      withdraw.state_text
+      withdraw.aasm_state_text
     end
   end
 end

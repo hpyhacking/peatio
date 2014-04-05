@@ -1,31 +1,20 @@
 class Withdraw < ActiveRecord::Base
+  extend Enumerize
   extend ActiveHash::Associations::ActiveRecordExtensions
 
   include AASM
   include AASM::Locking
 
-  has_paper_trail on: [:update, :destroy]
-
-  STATES = {
-    submitting: 10,
-    submitted: 100,
-    rejected: 110,
-    accepted: 210,
-    suspect: 220,
-    processing: 300,
-    coin_ready: 400,
-    coin_done: 410,
-    done: 500,
-    canceled: 0,
-    almost_done: 499,
-    failed: 510
-  }
+  STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
+            :coin_ready, :coin_done, :done, :canceled, :almost_done, :failed]
 
   COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
 
-  extend Enumerize
-  enumerize :state, in: STATES, scope: true
+  has_paper_trail on: [:update, :destroy]
+
   enumerize :currency, in: Currency.codes, scope: true
+  enumerize :aasm_state, in: STATES, scope: true
+
   attr_accessor :save_fund_source
 
   belongs_to :member
@@ -38,8 +27,7 @@ class Withdraw < ActiveRecord::Base
   after_create :generate_sn
   after_update :bust_last_done_cache, if: :state_changed_to_done
 
-  validates :fund_uid, :amount, :fee,
-    :account, :currency, :member, presence: true
+  validates :fund_uid, :amount, :fee, :account, :currency, :member, presence: true
 
   validates :fee, numericality: {greater_than_or_equal_to: 0}
   validates :amount, numericality: {greater_than: 0}
@@ -49,18 +37,8 @@ class Withdraw < ActiveRecord::Base
 
   validate :ensure_account_balance, on: :create
 
-  scope :completed, -> { where('aasm_state in (?) or state in (?)',
-                               COMPLETED_STATES, STATES.slice(*COMPLETED_STATES).values) }
-  scope :not_completed, -> { where('aasm_state not in (?) or state not in (?)',
-                               COMPLETED_STATES, STATES.slice(*COMPLETED_STATES).values) }
-
-  scope :with_state, -> (state) { where aasm_state: state }
-
-  alias_method :_old_state, :state
-
-  def state
-    _old_state || Enumerize::Value.new(Withdraw.state, aasm_state)
-  end
+  scope :completed, -> { where aasm_state: COMPLETED_STATES }
+  scope :not_completed, -> { where.not aasm_state: COMPLETED_STATES }
 
   def self.channel
     WithdrawChannel.find_by_key(name.demodulize.underscore)
@@ -111,7 +89,7 @@ class Withdraw < ActiveRecord::Base
     update_column(:sn, sn)
   end
 
-  aasm do
+  aasm :whiny_transitions => false do
     state :submitting, initial: true
     state :submitted, after_commit: :examine
     state :canceled, after_commit: :send_email
@@ -224,7 +202,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def state_changed_to_done
-    aasm_state_changed? && COMPLETED_STATES.include?(state.to_sym)
+    aasm_state_changed? && COMPLETED_STATES.include?(aasm_state.to_sym)
   end
 
   def bust_last_done_cache

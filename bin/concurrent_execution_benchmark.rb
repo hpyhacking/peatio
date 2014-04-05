@@ -22,7 +22,7 @@ class ConcurrentExecuteBenchmark < MatchingBenchmark
   def execute_trades
     t1 = Trade.count
 
-    market = Market.find('cnybtc')
+    market = Market.find('btccny')
     @instructions.in_groups(@process_num, false).each_with_index do |insts, i|
       unless Process.fork
         ActiveRecord::Base.connection.reconnect!

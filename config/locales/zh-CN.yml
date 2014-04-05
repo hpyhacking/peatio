@@ -8,7 +8,7 @@ zh-CN:
     admin: 管理员
   trade:
     markets: 市场
-    cnybtc: CNY - BTC
+    btccny: BTC/CNY
     realtime_price:
       title: 实时价格
     account_balance:
@@ -85,6 +85,7 @@ zh-CN:
         total: 总计
 
   header:
+    dashboard: 面板
     admin: 管理
     market: 交易大厅
     settings: 账户

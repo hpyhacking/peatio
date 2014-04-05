@@ -80,6 +80,7 @@ en:
         total: Total
 
   header:
+    dashboard: Dashboard
     admin: Admin
     market: Trade
     settings: Profile

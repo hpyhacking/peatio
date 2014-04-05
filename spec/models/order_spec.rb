@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Order, "#fixed" do
-  let(:order_bid) { create(:order_bid, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789') }
-  let(:order_ask) { create(:order_ask, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789') }
+  let(:order_bid) { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789') }
+  let(:order_ask) { create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789') }
   it { expect(order_bid.price).to be_d '12.32' }
   it { expect(order_bid.volume).to be_d '123.12345678' }
   it { expect(order_bid.sum).to be_d ('12.32'.to_d * '123.12345678'.to_d) }
@@ -113,7 +113,7 @@ describe Order, "#done" do
 end
 
 describe Order, "#head" do
-  let(:currency) { :cnybtc }
+  let(:currency) { :btccny }
 
   describe OrderAsk do
     it "price priority" do
