@@ -11,20 +11,47 @@ describe Job::Matching do
   end
 
   context "engines" do
+    let(:attrs)  { create(:order_bid, currency: 'cnybtc').to_matching_attributes }
+    let(:order)  { ::Matching::Order.new attrs }
+
+    before do
+      Job::Matching.instance_variable_set('@order', order)
+    end
+
     it "should find or initialize engine for market" do
-      Job::Matching.engine_for(market).should be_instance_of(::Matching::FIFOEngine)
+      Job::Matching.engine.should be_instance_of(::Matching::FIFOEngine)
     end
 
     it "should get all engines" do
-      Job::Matching.engine_for(market)
-      Job::Matching.engines.keys.should == [market.id]
+      Job::Matching.engine
+      Job::Matching.engines.keys.should == [order.market.id]
     end
 
     it "should reset engines" do
-      Job::Matching.engine_for(market)
       Job::Matching.reset_engines
       Job::Matching.engines.should be_empty
     end
+  end
+
+  context "match existing order on restart" do
+    let!(:ask) { create(:order_ask, price: '3999', volume: '10.0', member: alice) }
+    let!(:bid) { create(:order_bid, price: '3999', volume: '10.0', member: bob) }
+
+    it "should submit existing order only once after engine restart" do
+      engine = mock('engine')
+      engine.expects(:submit!).times(2) # 1 for ask, 1 for bid
+      ::Matching::FIFOEngine.expects(:new).returns(engine)
+      Job::Matching.perform 'submit', bid.to_matching_attributes
+    end
+
+    it "should not match existing orders if one is canceled on engine restart" do
+      engine = mock('engine')
+      engine.expects(:submit!).once # ask
+      engine.expects(:cancel!).once # bid
+      ::Matching::FIFOEngine.expects(:new).returns(engine)
+      Job::Matching.perform 'cancel', bid.to_matching_attributes
+    end
+
   end
 
   context "full match" do
