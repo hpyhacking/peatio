@@ -4,14 +4,14 @@ describe Job::Matching do
 
   let(:alice)  { who_is_billionaire(:alice) }
   let(:bob)    { who_is_billionaire(:bob) }
-  let(:market) { Market.find('cnybtc') }
+  let(:market) { Market.find('btccny') }
 
   before do
     Job::Matching.reset_engines
   end
 
   context "engines" do
-    let(:attrs)  { create(:order_bid, currency: 'cnybtc').to_matching_attributes }
+    let(:attrs)  { create(:order_bid, currency: 'btccny').to_matching_attributes }
     let(:order)  { ::Matching::Order.new attrs }
 
     before do

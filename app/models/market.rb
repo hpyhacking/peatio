@@ -3,7 +3,7 @@
 # *sellers* who submit *ask* orders, and people exchange B for A *buyers*
 # who submit *bid* orders.
 #
-# ID of market is always in the form "#{B}#{A}". For example, in 'cnybtc'
+# ID of market is always in the form "#{B}#{A}". For example, in 'btccny'
 # market, the commodity pair is `{btc, cny}`. Sellers sell out _btc_ for
 # _cny_, buyers buy in _btc_ with _cny_. _btc_ is the `target`, while _cny_
 # is the `price`.
@@ -17,13 +17,13 @@ class Market < ActiveYaml::Base
   attr :name, :target_unit, :price_unit
 
   # TODO: our market id is the opposite of conventional market name.
-  # e.g. our 'cnybtc' market should use 'btccny' as id, and its name should
+  # e.g. our 'btccny' market should use 'btccny' as id, and its name should
   # be 'BTC/CNY'
   def initialize(*args)
     super
 
-    @price_unit  = id[0,3]
-    @target_unit = id[3,3]
+    @target_unit = id[0,3]
+    @price_unit  = id[3,3]
     @name = "#{@target_unit}/#{@price_unit}".upcase
   end
 
