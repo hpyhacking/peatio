@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   end
 
   def currency
-    "#{params[:bid]}#{params[:ask]}".to_sym
+    "#{params[:ask]}#{params[:bid]}".to_sym
   end
 
   def current_user
