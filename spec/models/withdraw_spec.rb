@@ -51,7 +51,7 @@ describe Withdraw do
         create(:satoshi_withdraw, aasm_state: state)
         create_list(:satoshi_withdraw, 2)
 
-        create(:bank_withdraw, state: :done)
+        create(:bank_withdraw, aasm_state: :done)
         bank_withdraw = create(:bank_withdraw)
         expect(bank_withdraw.position_in_queue).to eq(1)
 

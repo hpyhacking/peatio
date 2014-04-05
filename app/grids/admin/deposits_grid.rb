@@ -12,9 +12,9 @@ module Admin
       scope.with_aasm_state(state) if state
     end
 
-    filter(:channel, :enum, select: DepositChannel.all.map{|w| [w.key, w.id]}) do |channel, scope|
-      scope.with_channel(channel) if channel
-    end
+    #filter(:channel, :enum, select: DepositChannel.all.map{|w| [w.key, w.id]}) do |channel, scope|
+      #scope.with_channel(channel) if channel
+    #end
 
     filter(:created_at, :date, :range => true, :default => proc { [1.month.ago.to_date, Date.tomorrow]}) do |arr, scope|
       scope.where(created_at: Range.new(arr.first, arr.last)) unless arr.any?(&:blank?)
