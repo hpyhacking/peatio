@@ -1,31 +1,36 @@
 = content_for :frame do
-  .container: .row
-    .col-md-12
-      = render 'shared/flash'
-      = yield
-
-= content_for :admin_menu do
-  - if can? :manage, Document
-    li class='#{check_active(Document)}'
-      a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
-  - if can? :manage, Withdraw
-    li.ops: a href='#{admin_withdraws_path}' = t('.menus.items.operating.withdraws')
-  - if can? :manage, Deposit
-    li: a href='#{admin_deposits_path}' = t('.menus.items.operating.deposits')
-  - if can? :read, Statistic::MembersGrid
-    li class='#{check_active(Statistic::MembersGrid)}'
-      a href='#{admin_statistic_members_path}' = Statistic::MembersGrid.grid_name
-  - if can? :read, Statistic::OrdersGrid
-    li class='#{check_active(Statistic::OrdersGrid)}'
-      a href='#{admin_statistic_orders_path}' = Statistic::OrdersGrid.grid_name
-  - if can? :read, Statistic::TradesGrid
-    li class='#{check_active(Statistic::TradesGrid)}'
-      a href='#{admin_statistic_trades_path}' = Statistic::TradesGrid.grid_name
-  - if can? :read, Statistic::DepositsGrid
-    li class='#{check_active(Statistic::DepositsGrid)}'
-      a href='#{admin_statistic_deposits_path}' = Statistic::DepositsGrid.grid_name
-  - if can? :read, Statistic::WithdrawsGrid
-    li class='#{check_active(Statistic::WithdrawsGrid)}'
-      a href='#{admin_statistic_withdraws_path}' = Statistic::WithdrawsGrid.grid_name
+  .container
+    .row
+      .col-md-3
+        ul#admin_nav.nav.nav-list
+          li: a#admin href="#{main_app.admin_dashboard_path}" = t('header.dashboard')
+          - if can? :manage, Document
+            li class='#{check_active(Document)}'
+              a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
+          - if can? :manage, Withdraw
+            li.ops: a href='#{admin_withdraws_path}' = t('.menus.items.operating.withdraws')
+          - if can? :read, Statistic::MembersGrid
+            li class='#{check_active(Statistic::MembersGrid)}'
+              a href='#{admin_statistic_members_path}' = Statistic::MembersGrid.grid_name
+          - if can? :read, Statistic::OrdersGrid
+            li class='#{check_active(Statistic::OrdersGrid)}'
+              a href='#{admin_statistic_orders_path}' = Statistic::OrdersGrid.grid_name
+          - if can? :read, Statistic::TradesGrid
+            li class='#{check_active(Statistic::TradesGrid)}'
+              a href='#{admin_statistic_trades_path}' = Statistic::TradesGrid.grid_name
+          - if can? :read, Statistic::DepositsGrid
+            li class='#{check_active(Statistic::DepositsGrid)}'
+              a href='#{admin_statistic_deposits_path}' = Statistic::DepositsGrid.grid_name
+          - if can? :read, Statistic::WithdrawsGrid
+            li class='#{check_active(Statistic::WithdrawsGrid)}'
+              a href='#{admin_statistic_withdraws_path}' = Statistic::WithdrawsGrid.grid_name
+          - Deposit.descendants.each do |kls|
+            - if can? :manage, kls
+              li: a href='#{url_for(kls)}' = t('.menus.items.operating.deposits')
+    .row
+      .col-md-12
+        = render 'shared/flash'
+        .panel
+        = yield
 
 = render template: "layouts/application"
