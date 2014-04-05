@@ -1,10 +1,10 @@
 class MarketConstraint
   def self.matches?(request)
     id = request.path_parameters[:market_id] || request.path_parameters[:id]
-    if Market.enumerize.keys.include?(id.to_sym)
+    if market = Market.find_by_id(id)
       request.path_parameters[:market] = id
-      request.path_parameters[:bid] = id[0..2]
-      request.path_parameters[:ask] = id[3..5]
+      request.path_parameters[:ask] = market.target_unit
+      request.path_parameters[:bid] = market.price_unit
     else
       false
     end
