@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Matching::FIFOEngine do
 
-  let(:market) { Market.find('cnybtc') }
+  let(:market) { Market.find('btccny') }
   let(:price)  { 10.to_d }
   let(:volume) { 5.to_d }
   let(:ask)    { Matching.mock_order(type: :ask, price: price, volume: volume)}
