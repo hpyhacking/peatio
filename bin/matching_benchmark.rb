@@ -35,7 +35,7 @@ class SweatFactory
       klass.create!({
         bid: :cny,
         ask: :btc,
-        currency: :cnybtc,
+        currency: :btccny,
         state: :wait,
         origin_volume: attrs[:volume]
       }.merge(attrs))
@@ -96,7 +96,7 @@ class MatchingBenchmark
     matches = 0
     instructions = []
 
-    market = Market.find('cnybtc')
+    market = Market.find('btccny')
     engine = Matching::FIFOEngine.new(market)
     engine.define_singleton_method(:submit) do |order|
       orderbook.submit(order)
@@ -118,7 +118,7 @@ class MatchingBenchmark
   def execute_trades
     t1 = Trade.count
 
-    market = Market.find('cnybtc')
+    market = Market.find('btccny')
     @instructions.each do |(ask, bid, strike_price, volume)|
       ::Matching::Executor.new(market, ask, bid, strike_price, volume).execute!
     end
