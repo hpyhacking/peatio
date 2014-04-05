@@ -34,7 +34,7 @@ zh-CN:
       address_type:
         satoshi: 比特币 - 网络转账
         bank: 人民币 - 银行转账
-      state:
+      aasm_state:
         submitting: 待确认
         submitted: 待校验
         rejected: 已驳回
