@@ -41,7 +41,7 @@ module Private
 
     private
     def set_default_market
-      cookies[:market] = params[:market]
+      cookies[:market_id] = params[:market]
     end
   end
 end
