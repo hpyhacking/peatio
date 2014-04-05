@@ -63,4 +63,18 @@ describe Matching::OrderBook do
 
   end
 
+  context "#depth" do
+    before do
+      5.times do |i|
+        subject.submit Matching.mock_order(type: :ask, price: 1+i, volume: rand(5)+1)
+        subject.submit Matching.mock_order(type: :bid, price: 1+i, volume: rand(5)+1)
+      end
+    end
+
+    it "should return asks and bids" do
+      subject.depth[:asks].first.should match(/^\$1\.0/)
+      subject.depth[:bids].first.should match(/^\$1\.0/)
+    end
+  end
+
 end
