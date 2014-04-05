@@ -19,12 +19,11 @@ module Statistic
     column :currency do
       self.account.currency_text
     end
-    column(:address_type_text)
     column(:amount)
-    column(:tx_id) do |deposit|
-      deposit.tx_id
+    column(:txid) do |deposit|
+      deposit.txid
     end
     column_localtime :created_at
-    column(:state_text)
+    column(:aasm_state_text)
   end
 end
