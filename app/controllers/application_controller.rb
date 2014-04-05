@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def latest_market
-    params[:market] || cookies[:market] || ENV["DEFAULT_MARKET"]
+    params[:market] || cookies[:market_id] || ENV["DEFAULT_MARKET"]
   end
 
   def currency
