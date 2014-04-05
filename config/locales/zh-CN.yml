@@ -85,6 +85,7 @@ zh-CN:
         total: 总计
 
   header:
+    dashboard: 面板
     admin: 管理
     market: 交易大厅
     settings: 账户
