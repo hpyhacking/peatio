@@ -1,14 +1,21 @@
-= content_for :frame do
-  .container
-    .row
-      .col-md-3
-        ul#admin_nav.nav.nav-list
-          li: a#admin href="#{main_app.admin_dashboard_path}" = t('header.dashboard')
+doctype html
+html lang="en"
+  head
+    = stylesheet_link_tag :admin, media: "all"
+    = javascript_include_tag :admin
+    = csrf_meta_tags
+
+  body id='#{controller_name}-#{action_name}'
+    nav#top-menu.navbar.navbar-inverse.navbar-fixed-top role="navigation"
+      .container
+        ul.nav.navbar-nav.navbar-left
+          li class='#{check_active('dashboard')}': a#admin href="#{main_app.admin_dashboard_path}" = t('header.dashboard')
           - if can? :manage, Document
             li class='#{check_active(Document)}'
               a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
           - if can? :manage, Withdraw
-            li.ops: a href='#{admin_withdraws_path}' = t('.menus.items.operating.withdraws')
+            li class='#{check_active(Withdraw)}'
+              a href='#{admin_withdraws_path}' = t('.menus.items.operating.withdraws')
           - if can? :read, Statistic::MembersGrid
             li class='#{check_active(Statistic::MembersGrid)}'
               a href='#{admin_statistic_members_path}' = Statistic::MembersGrid.grid_name
@@ -27,10 +34,9 @@
           - Deposit.descendants.each do |kls|
             - if can? :manage, kls
               li: a href='#{url_for(kls)}' = t('.menus.items.operating.deposits')
-    .row
-      .col-md-12
-        = render 'shared/flash'
-        .panel
-        = yield
-
-= render template: "layouts/application"
+        ul.nav.navbar-nav.navbar-right
+          p.navbar-text = current_user.email
+          li: a href="#{main_app.root_path}" = t('actions.back')
+    .container
+      = render 'shared/flash'
+      = yield

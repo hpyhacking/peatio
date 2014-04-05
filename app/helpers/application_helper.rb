@@ -34,7 +34,11 @@ module ApplicationHelper
   end
 
   def check_active(klass)
-    return 'active' if (klass.model_name.singular == controller.controller_name.singularize)
+    if klass.is_a? String
+      return 'active' if (klass.singularize == controller.controller_name.singularize)
+    else
+      return 'active' if (klass.model_name.singular == controller.controller_name.singularize)
+    end
   end
 
   def blockchain_url(txid)

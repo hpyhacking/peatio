@@ -1,10 +1,12 @@
+@import "bootstrap/variables";
+
+@import "bootstrap/bootstrap";
+
+body { padding-top: 80px; }
+
 span.detail-item, span.detail-section { display: block; }
 
 span.detail-item {
-  &.empty { 
-    .text-ignore;
-  }
-
   & > i.fa {
     &:before {
       margin-right: 5px;
@@ -15,7 +17,6 @@ span.detail-item {
   text-align: right;
 
   &:before {
-    .text-ignore;
     float: left;
     width: 100px;
     margin-right: 10px;
