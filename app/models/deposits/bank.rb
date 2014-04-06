@@ -1,5 +1,6 @@
 module Deposits
   class Bank < ::Deposit
+    include ::AasmStateI18nable
     attr_accessor :holder, :remember
 
     delegate :receive_fund_holder_text, :receive_fund_uid_text, :receive_fund_extra_text, to: :channel

@@ -15,6 +15,16 @@ zh-CN:
         amount: 您的充值金额
         sn: 交易编号
 
+  deposits/bank:
+    aasm_state:
+      submitting: 已提交
+      cancelled: 已撤销
+      submitted: 受理中
+      accepted: 充值成功
+      rejected: 已驳回
+      checked: 充值成功
+      warning: 异常
+      
   deposit_channel:
     bank:
       key: 银行转账
