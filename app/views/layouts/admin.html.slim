@@ -52,5 +52,6 @@ html lang="en"
           p.navbar-text = current_user.email
           li: a href="#{main_app.root_path}" = t('actions.back')
     .container
+      = breadcrumbs
       = render 'shared/flash'
       = yield
