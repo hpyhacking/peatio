@@ -2,27 +2,17 @@ module Private
   class MyAssetsController < BaseController
     def index
       @accounts = current_user.accounts
-      load_deposits
-      load_withdraws
+      load_transactions
+      gon.jbuilder
     end
 
     private
-    def load_deposits
-      page = params[:page] || 0
-      per = params[:per] || 10
 
-      @deposits_grid = DepositsGrid.new(params[:deposits_grid]) do |scope|
-        scope.where(member: current_user).page(page).per(per)
-      end
-    end
-
-    def load_withdraws
-      page = params[:page] || 0
-      per = params[:per] || 10
-
-      @withdraws_grid = WithdrawsGrid.new(params[:withdraws_grid]) do |scope|
-        scope.where(member: current_user).page(page).per(per)
-      end
+    def load_transactions
+      @deposits = Deposit.where(member: current_user)
+      @withdraws = Withdraw.where(member: current_user).includes(:account)
+      @buys = Trade.where(bid_member_id: current_user.id)
+      @sells = Trade.where(ask_member_id: current_user.id)
     end
   end
 end
