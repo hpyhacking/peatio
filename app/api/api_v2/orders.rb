@@ -29,5 +29,33 @@ module APIv2
       present order, with: APIv2::Entities::Order
     end
 
+    desc 'Create a Sell/Buy order.'
+    params do
+      requires :market, type: String, values: MARKETS
+      requires :side,   type: String, values: %w(Sell Buy)
+      requires :volume, type: String
+      requires :price,  type: String
+    end
+    post "/orders" do
+      klass = params[:side] == 'Sell' ? OrderAsk : OrderBid
+      order = klass.new(
+        member_id:     current_user.id,
+        ask:           current_market.target_unit,
+        bid:           current_market.price_unit,
+        state:         ::Order::WAIT,
+        currency:      params[:market],
+        price:         params[:price],
+        volume:        params[:volume],
+        origin_volume: params[:volume]
+      )
+
+      begin
+        Ordering.new(order).submit
+        present order, with: APIv2::Entities::Order
+      rescue
+        raise CreateOrderError.new($!)
+      end
+    end
+
   end
 end

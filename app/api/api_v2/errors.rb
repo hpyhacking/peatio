@@ -39,4 +39,10 @@ module APIv2
     end
   end
 
+  class CreateOrderError < Error
+    def initialize(e)
+      super code: 2002, text: "Failed to create order. Reason: #{e}", status: 400
+    end
+  end
+
 end

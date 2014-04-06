@@ -17,3 +17,8 @@ end
 def signed_get(uri, opts={})
   signed_request :get, uri, opts
 end
+
+def signed_post(uri, opts={})
+  signed_request :post, uri, opts
+end
+

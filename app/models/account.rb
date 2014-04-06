@@ -52,21 +52,21 @@ class Account < ActiveRecord::Base
   end
 
   def plus_funds(amount, fee: ZERO, reason: nil, ref: nil)
-    (amount <= ZERO or fee > amount) and raise AccountError
+    (amount <= ZERO or fee > amount) and raise AccountError, "cannot add funds (amount: #{amount})"
     self.balance += amount
     self.save
     self
   end
 
   def sub_funds(amount, fee: ZERO, reason: nil, ref: nil)
-    (amount <= ZERO or amount > self.balance) and raise AccountError
+    (amount <= ZERO or amount > self.balance) and raise AccountError, "cannot subtract funds (amount: #{amount})"
     self.balance -= amount
     self.save
     self
   end
 
   def lock_funds(amount, reason: nil, ref: nil)
-    (amount <= ZERO or amount > self.balance) and raise AccountError
+    (amount <= ZERO or amount > self.balance) and raise AccountError, "cannot lock funds (amount: #{amount})"
     self.balance -= amount
     self.locked += amount
     self.save
@@ -74,7 +74,7 @@ class Account < ActiveRecord::Base
   end
 
   def unlock_funds(amount, reason: nil, ref: nil)
-    (amount <= ZERO or amount > self.locked) and raise AccountError
+    (amount <= ZERO or amount > self.locked) and raise AccountError, "cannot unlock funds (amount: #{amount})"
     self.balance += amount
     self.locked -= (amount)
     self.save
@@ -82,9 +82,9 @@ class Account < ActiveRecord::Base
   end
 
   def unlock_and_sub_funds(amount, locked: ZERO, fee: ZERO, reason: nil, ref: nil)
-    raise AccountError if ((amount <= 0) or (amount > locked))
-    raise LockedError unless locked
-    raise LockedError if ((locked <= 0) or (locked > self.locked))
+    raise AccountError, "cannot unlock and subtract funds (amount: #{amount})" if ((amount <= 0) or (amount > locked))
+    raise LockedError, "invalid lock amount" unless locked
+    raise LockedError, "invalid lock amount" if ((locked <= 0) or (locked > self.locked))
     self.balance += (locked - amount)
     self.locked -= (locked)
     self.save
@@ -114,7 +114,7 @@ class Account < ActiveRecord::Base
   end
 
   def self.compute_locked_and_balance(fun, amount, opts)
-    raise AccountError unless FUNS.keys.include?(fun)
+    raise AccountError, "invalid account operation" unless FUNS.keys.include?(fun)
 
     case fun
     when :sub_funds then [ZERO, ZERO - amount]
@@ -125,7 +125,7 @@ class Account < ActiveRecord::Base
       locked = ZERO - opts[:locked]
       balance = opts[:locked] - amount
       [locked, balance]
-    else raise AccountError
+    else raise AccountError, "forbidden account operation"
     end
   end
 
