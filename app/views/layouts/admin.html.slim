@@ -10,30 +10,44 @@ html lang="en"
       .container
         ul.nav.navbar-nav.navbar-left
           li class='#{check_active('dashboard')}': a#admin href="#{main_app.admin_dashboard_path}" = t('header.dashboard')
+
+          - if can? :menu, Deposit
+            li.dropdown
+              a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                span = t('admin_header.deposits')
+                b.caret
+              ul.dropdown-menu
+                - DepositChannel.all.each do |c|
+                  - if can? :manage, c.kls
+                    li: a href='#{url_for([:admin, c.kls])}' = c.title_text
+
           - if can? :manage, Document
             li class='#{check_active(Document)}'
               a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
           - if can? :manage, Withdraw
             li class='#{check_active(Withdraw)}'
               a href='#{admin_withdraws_path}' = t('.menus.items.operating.withdraws')
-          - if can? :read, Statistic::MembersGrid
-            li class='#{check_active(Statistic::MembersGrid)}'
-              a href='#{admin_statistic_members_path}' = Statistic::MembersGrid.grid_name
-          - if can? :read, Statistic::OrdersGrid
-            li class='#{check_active(Statistic::OrdersGrid)}'
-              a href='#{admin_statistic_orders_path}' = Statistic::OrdersGrid.grid_name
-          - if can? :read, Statistic::TradesGrid
-            li class='#{check_active(Statistic::TradesGrid)}'
-              a href='#{admin_statistic_trades_path}' = Statistic::TradesGrid.grid_name
-          - if can? :read, Statistic::DepositsGrid
-            li class='#{check_active(Statistic::DepositsGrid)}'
-              a href='#{admin_statistic_deposits_path}' = Statistic::DepositsGrid.grid_name
-          - if can? :read, Statistic::WithdrawsGrid
-            li class='#{check_active(Statistic::WithdrawsGrid)}'
-              a href='#{admin_statistic_withdraws_path}' = Statistic::WithdrawsGrid.grid_name
-          - Deposit.descendants.each do |kls|
-            - if can? :manage, kls
-              li: a href='#{url_for(kls)}' = t('.menus.items.operating.deposits')
+
+          li.dropdown
+            a href="#" class="dropdown-toggle" data-toggle="dropdown"
+              span = t('admin_header.statistics')
+              b.caret
+            ul.dropdown-menu
+              - if can? :read, Statistic::MembersGrid
+                li class='#{check_active(Statistic::MembersGrid)}'
+                  a href='#{admin_statistic_members_path}' = Statistic::MembersGrid.grid_name
+              - if can? :read, Statistic::OrdersGrid
+                li class='#{check_active(Statistic::OrdersGrid)}'
+                  a href='#{admin_statistic_orders_path}' = Statistic::OrdersGrid.grid_name
+              - if can? :read, Statistic::TradesGrid
+                li class='#{check_active(Statistic::TradesGrid)}'
+                  a href='#{admin_statistic_trades_path}' = Statistic::TradesGrid.grid_name
+              - if can? :read, Statistic::DepositsGrid
+                li class='#{check_active(Statistic::DepositsGrid)}'
+                  a href='#{admin_statistic_deposits_path}' = Statistic::DepositsGrid.grid_name
+              - if can? :read, Statistic::WithdrawsGrid
+                li class='#{check_active(Statistic::WithdrawsGrid)}'
+                  a href='#{admin_statistic_withdraws_path}' = Statistic::WithdrawsGrid.grid_name
         ul.nav.navbar-nav.navbar-right
           p.navbar-text = current_user.email
           li: a href="#{main_app.root_path}" = t('actions.back')

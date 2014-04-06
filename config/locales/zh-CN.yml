@@ -97,6 +97,11 @@ zh-CN:
     getstart: 前往交易大厅
     assets: 资产公开
 
+  admin_header:
+    deposits: 充值管理
+    withdraws: 提现管理
+    statistics: 数据统计
+
   footer:
     about: 关于我们
     terms_and_service: 声明及用户协议

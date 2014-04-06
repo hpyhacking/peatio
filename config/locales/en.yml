@@ -90,6 +90,11 @@ en:
     getstart: Get Start
     assets: Assets
 
+  admin_header:
+    deposits: Depoists
+    withdraws: Withdraws
+    statistics: Data Statistics
+
   footer:
     about: About
     privacy: privacy

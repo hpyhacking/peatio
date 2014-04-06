@@ -4,4 +4,8 @@ class DepositChannel < ActiveYaml::Base
 
   include ActiveHash::Associations
   belongs_to :currency_obj, class_name: 'Currency', foreign_key: 'currency', primary_key: 'code'
+
+  def kls
+    "deposits/#{key}".camelize.constantize
+  end
 end

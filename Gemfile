@@ -20,7 +20,7 @@ gem 'figaro'
 gem 'settingslogic'
 
 gem 'aasm'
-gem 'cancan'
+gem 'cancancan'
 gem 'enumerize'
 gem 'datagrid'
 gem 'cached_resource'

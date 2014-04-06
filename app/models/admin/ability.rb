@@ -9,9 +9,11 @@ module Admin
       can :read, Trade
       can :read, Member
       can :update, Member
-      can :manage, Deposit
       can :manage, Withdraw
       can :manage, Document
+
+      can :menu, Deposit
+      can :manage, ::Deposits::Satoshi
 
       can :read, ::Statistic::DepositsGrid
       can :read, ::Statistic::WithdrawsGrid
