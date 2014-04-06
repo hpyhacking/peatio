@@ -25,6 +25,7 @@ zh-CN:
     bid: 买入
   back: 返回
   invalid_password: 无效的登录密码
+  all: 全部
 
   date:
     formats:

@@ -12,7 +12,7 @@ window.TransactionsUI = flight.component ->
     return @list.filter() if type == ''
 
     @list.filter (item) ->
-      item.values().type == type
+      item.values().type == "#{gon.i18n[type]}"
 
   @initList = ->
     options =

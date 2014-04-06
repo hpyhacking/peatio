@@ -3,49 +3,49 @@
 = content_for :secondary
   .panel.panel-default#transactions
     .panel-heading
-      = t('transactions')
+      = t('.transaction_history')
       span.dropdown.pull-right
         a data-toggle="dropdown" href="#"
-          | Filter by type
+          = t('.filter_by_type')
           span.caret
         ul.dropdown-menu
           li
-            a All
+            a = t('all')
           li
-            a.buy Buy
+            a.buy = t('.buy')
           li
-            a.sell Sell
+            a.sell = t('.sell')
           li
-            a.deposit Deposit
+            a.deposit = t('header.deposit')
           li
-            a.withdraw Withdraw
+            a.withdraw = t('header.withdraw')
     .panel-body
       .col-md-12
         table.table.table-condensed.table-striped
           thead: tr
             th class="sort" data-sort="type"
-              span Type
+              span = t('.type')
               i class="fa fa-sort"
             th class="sort" data-sort="timestamp"
-              span Timestamp
+              span = t('.timestamp')
               i class="fa fa-sort"
             th class="sort" data-sort="fiat_currency"
-              span Fiat Currency
+              span = t('.fiat_currency')
               i class="fa fa-sort"
             th class="sort" data-sort="fiat_amount"
-              span Fiat Amount
+              span = t('.fiat_amount')
               i class="fa fa-sort"
             th class="sort" data-sort="coin_currency"
-              span Coin Currency
+              span = t('.coin_currency')
               i class="fa fa-sort"
             th class="sort" data-sort="coin_amount"
-              span Coin Amount
+              span = t('.coin_amount')
               i class="fa fa-sort"
             th class="sort" data-sort="coin_price"
-              span Coin Price
+              span = t('.coin_price')
               i class="fa fa-sort"
             th class="sort" data-sort="fee"
-              span Fee
+              span = t('.fee')
               i class="fa fa-sort"
           tbody.list
 

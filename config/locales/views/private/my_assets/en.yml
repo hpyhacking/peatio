@@ -1,0 +1,16 @@
+en:
+  private:
+    my_assets:
+      index:
+        buy: Buy
+        sell: Sell
+        filter_by_type: Filter by type
+        transaction_history: Transaction History
+        type: type
+        timestamp: date and time
+        fiat_currency: fiat currency
+        fiat_amount: fiat amount
+        coin_currency: crypto currency
+        coin_amount: crypto amount
+        coin_price: price
+        fee: fee
