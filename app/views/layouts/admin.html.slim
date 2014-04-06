@@ -12,7 +12,7 @@ html lang="en"
           li class='#{check_active('dashboard')}': a#admin href="#{main_app.admin_dashboard_path}" = t('header.dashboard')
 
           - if can? :menu, Deposit
-            li.dropdown
+            li.dropdown class='#{check_active('deposits')}'
               a href="#" class="dropdown-toggle" data-toggle="dropdown"
                 span = t('admin_header.deposits')
                 b.caret
@@ -28,7 +28,7 @@ html lang="en"
             li class='#{check_active(Withdraw)}'
               a href='#{admin_withdraws_path}' = t('.menus.items.operating.withdraws')
 
-          li.dropdown
+          li.dropdown class='#{check_active('statistic')}'
             a href="#" class="dropdown-toggle" data-toggle="dropdown"
               span = t('admin_header.statistics')
               b.caret
