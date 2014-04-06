@@ -45,3 +45,12 @@ json.sells @sells do |sell|
   json.coin_amount sell.volume
   json.coin_price sell.price
 end
+
+json.i18n do
+  json.sell I18n.t('private.my_assets.index.sell')
+  json.buy I18n.t('private.my_assets.index.buy')
+  json.deposit I18n.t('header.deposit')
+  json.withdraw I18n.t('header.withdraw')
+  json.cny I18n.t('currency.name.cny')
+  json.btc I18n.t('currency.name.btc')
+end

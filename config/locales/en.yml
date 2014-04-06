@@ -20,6 +20,7 @@ en:
     bid: Bid
   back: Back
   invalid_password: Invalid password
+  all: All
 
   date:
     formats:
