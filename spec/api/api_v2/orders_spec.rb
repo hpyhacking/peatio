@@ -45,12 +45,25 @@ describe APIv2::Orders do
   end
 
   describe "GET /api/v2/order" do
-    let(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member) }
+    let(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member) }
+    let!(:trade) { create(:trade, bid: order) }
 
     it "should get specified order" do
       signed_get "/api/v2/order", params: {id: order.id}, token: token
       response.should be_success
-      JSON.parse(response.body)['id'].should == order.id
+
+      result = JSON.parse(response.body)
+      result['id'].should == order.id
+      result['executed_volume'].should == '8.99'
+    end
+
+    it "should include related trades" do
+      signed_get "/api/v2/order", params: {id: order.id}, token: token
+
+      result = JSON.parse(response.body)
+      result['trades'].should have(1).trade
+      result['trades'].first['id'].should == trade.id
+      result['trades'].first['side'].should == 'buy'
     end
   end
 
@@ -123,11 +136,6 @@ describe APIv2::Orders do
         result['volume'].should == '12.13'
         result['remaining_volume'].should == '3.14'
         result['executed_volume'].should == '8.99'
-      end
-
-      it "should not expose trades" do
-        signed_delete "/api/v2/order", params: {id: order.id}, token: token
-        JSON.parse(response.body)['trades'].should be_nil
       end
     end
 
