@@ -9,6 +9,7 @@ module Admin
       can :read, Trade
       can :read, Member
       can :update, Member
+
       can :manage, Document
 
       can :menu, Deposit

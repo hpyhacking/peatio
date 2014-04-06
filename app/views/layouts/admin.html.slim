@@ -39,6 +39,7 @@ html lang="en"
             a href="#" class="dropdown-toggle" data-toggle="dropdown"
               span = t('admin_header.statistics')
               span.caret
+
             ul.dropdown-menu
               - if can? :read, Statistic::MembersGrid
                 li class='#{check_active(Statistic::MembersGrid)}'
