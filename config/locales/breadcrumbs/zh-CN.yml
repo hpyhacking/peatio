@@ -2,4 +2,5 @@ zh-CN:
   breadcrumbs:
     admin: 后台管理
     admin/deposits: 充值管理
+    admin/deposits/banks: 银行转账充值
     admin/deposits/satoshis: 比特币充值

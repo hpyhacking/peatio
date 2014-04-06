@@ -13,6 +13,7 @@ module Admin
       can :manage, Document
 
       can :menu, Deposit
+      can :manage, ::Deposits::Bank
       can :manage, ::Deposits::Satoshi
 
       can :read, ::Statistic::DepositsGrid
