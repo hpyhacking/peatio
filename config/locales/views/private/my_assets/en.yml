@@ -1,7 +1,7 @@
 en:
   private:
     my_assets:
-      index:
+      transaction_history:
         buy: Buy
         sell: Sell
         filter_by_type: Filter by type
