@@ -56,6 +56,7 @@ zh-CN:
     labels:
       defaults:
         recaptcha: 验证码
+        otp: 验证器上的密码
       two_factor:
         uri: 二维码
         otp_secret: 密文
@@ -68,6 +69,8 @@ zh-CN:
       member:
         name: 账户名
       withdraw:
+        defaults:
+          otp: 验证器上的密码
         password: 登录密码
         satoshi:
           fund_uid: 提现地址
@@ -94,6 +97,8 @@ zh-CN:
       reset_password:
         password: 新密码
     placeholders:
+      defaults:
+        otp: 6位数字密码
       session:
         email: 邮箱地址
         password: ''
