@@ -8,4 +8,6 @@ window.TransactionsUI = flight.component ->
 
   @after 'initialize', ->
     transactions = gon.deposits.concat(gon.withdraws).concat(gon.buys).concat(gon.sells)
+    transactions.sort (a, b)->
+      a.timestamp - b.timestamp
     @refresh {transactions: transactions}
