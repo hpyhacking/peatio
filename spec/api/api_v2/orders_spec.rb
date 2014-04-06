@@ -45,14 +45,13 @@ describe APIv2::Orders do
   end
 
   describe "GET /api/v2/order" do
-    let(:order) { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member) }
+    let(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member) }
 
     it "should get specified order" do
       signed_get "/api/v2/order", params: {id: order.id}, token: token
       response.should be_success
       JSON.parse(response.body)['id'].should == order.id
     end
-
   end
 
   describe "POST /api/v2/orders" do
@@ -99,6 +98,26 @@ describe APIv2::Orders do
       response.body.should == '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Price must be greater than 0"}}'
     end
 
+  end
+
+  describe "DELETE /api/v2/order" do
+    let!(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member) }
+
+    it "should cancel specified order" do
+      expect {
+        signed_delete "/api/v2/order", params: {id: order.id}, token: token
+        response.should be_success
+        JSON.parse(response.body)['id'].should == order.id
+      }.to change(Order, :count).by(-1)
+    end
+
+    it "should include executed and remaining amount in result" do
+      signed_delete "/api/v2/order", params: {id: order.id}, token: token
+      result = JSON.parse(response.body)
+      result['volume'].should == '12.13'
+      result['remaining_volume'].should == '3.14'
+      result['executed_volume'].should == '8.99'
+    end
   end
 
 end

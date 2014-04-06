@@ -57,5 +57,15 @@ module APIv2
       end
     end
 
+    desc 'Cancel an order.'
+    params do
+      requires :id, type: Integer
+    end
+    delete "/order" do
+      order = current_user.orders.where(id: params[:id]).first
+      order.destroy
+      present order, with: APIv2::Entities::Order
+    end
+
   end
 end

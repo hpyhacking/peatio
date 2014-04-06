@@ -22,3 +22,6 @@ def signed_post(uri, opts={})
   signed_request :post, uri, opts
 end
 
+def signed_delete(uri, opts={})
+  signed_request :delete, uri, opts
+end
