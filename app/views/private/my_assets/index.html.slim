@@ -1,14 +1,19 @@
 .row
   .col-md-12 = render partial: 'account_balance'
 = content_for :secondary
-  ul.nav.nav-tabs
-    li.active
-      a href="#deposit" data-toggle="tab" = t('header.deposit')
-    li
-      a href="#withdraw" data-toggle="tab" = t('header.withdraw')
-  .tab-content
-    #deposit.tab-pane.active
-      = datagrid_table(@deposits_grid)
-    #withdraw.tab-pane
-      = datagrid_table(@withdraws_grid)
+  .panel.panel-default.transactions
+    .panel-heading = t('transactions')
+    .panel-body
+      .col-md-12
+        table.table.table-condensed.table-striped
+          thead: tr
+            th Type
+            th Timestamp
+            th Fiat Currency
+            th Fiat Amount
+            th Coin Currency
+            th Coin Amount
+            th Coin Price
+            th Fee
+          tbody
 
