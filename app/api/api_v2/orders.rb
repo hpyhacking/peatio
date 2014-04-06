@@ -32,12 +32,12 @@ module APIv2
     desc 'Create a Sell/Buy order.'
     params do
       requires :market, type: String, values: MARKETS
-      requires :side,   type: String, values: %w(Sell Buy)
+      requires :side,   type: String, values: %w(sell buy)
       requires :volume, type: String
       requires :price,  type: String
     end
     post "/orders" do
-      klass = params[:side] == 'Sell' ? OrderAsk : OrderBid
+      klass = params[:side] == 'sell' ? OrderAsk : OrderBid
       order = klass.new(
         member_id:     current_user.id,
         ask:           current_market.target_unit,

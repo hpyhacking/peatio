@@ -62,7 +62,7 @@ describe APIv2::Orders do
       member.get_account(:cny).update_attributes(balance: 100000)
 
       expect {
-        signed_post '/api/v2/orders', token: token, params: {market: 'btccny', side: 'Sell', volume: '12.13', price: '2014'}
+        signed_post '/api/v2/orders', token: token, params: {market: 'btccny', side: 'sell', volume: '12.13', price: '2014'}
         response.should be_success
         JSON.parse(response.body)['id'].should == OrderAsk.last.id
       }.to change(OrderAsk, :count).by(1)
@@ -73,7 +73,7 @@ describe APIv2::Orders do
       member.get_account(:cny).update_attributes(balance: 100000)
 
       expect {
-        signed_post '/api/v2/orders', token: token, params: {market: 'btccny', side: 'Buy', volume: '12.13', price: '2014'}
+        signed_post '/api/v2/orders', token: token, params: {market: 'btccny', side: 'buy', volume: '12.13', price: '2014'}
         response.should be_success
         JSON.parse(response.body)['id'].should == OrderBid.last.id
       }.to change(OrderBid, :count).by(1)
@@ -81,20 +81,20 @@ describe APIv2::Orders do
 
     it "should return cannot lock funds error" do
       expect {
-        signed_post '/api/v2/orders', params: {market: 'btccny', side: 'Sell', volume: '12.13', price: '2014'}
+        signed_post '/api/v2/orders', params: {market: 'btccny', side: 'sell', volume: '12.13', price: '2014'}
         response.code.should == '400'
         response.body.should == '{"error":{"code":2002,"message":"Failed to create order. Reason: cannot lock funds (amount: 12.13)"}}'
       }.not_to change(OrderAsk, :count).by(1)
     end
 
     it "should give a number as volume parameter" do
-      signed_post '/api/v2/orders', params: {market: 'btccny', side: 'Sell', volume: 'test', price: '2014'}
+      signed_post '/api/v2/orders', params: {market: 'btccny', side: 'sell', volume: 'test', price: '2014'}
       response.code.should == '400'
       response.body.should == '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Volume is not a number"}}'
     end
 
     it "should give a number as price parameter" do
-      signed_post '/api/v2/orders', params: {market: 'btccny', side: 'Sell', volume: '12.13', price: 'test'}
+      signed_post '/api/v2/orders', params: {market: 'btccny', side: 'sell', volume: '12.13', price: 'test'}
       response.code.should == '400'
       response.body.should == '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Price must be greater than 0"}}'
     end
