@@ -1,51 +1,5 @@
 .row
   .col-md-12 = render partial: 'account_balance'
 = content_for :secondary
-  .panel.panel-default#transactions
-    .panel-heading
-      = t('.transaction_history')
-      span.dropdown.pull-right
-        a data-toggle="dropdown" href="#"
-          = t('.filter_by_type')
-          span.caret
-        ul.dropdown-menu
-          li
-            a = t('all')
-          li
-            a.buy = t('.buy')
-          li
-            a.sell = t('.sell')
-          li
-            a.deposit = t('header.deposit')
-          li
-            a.withdraw = t('header.withdraw')
-    .panel-body
-      .col-md-12
-        table.table.table-condensed.table-striped
-          thead: tr
-            th class="sort" data-sort="type"
-              span = t('.type')
-              i class="fa fa-sort"
-            th class="sort" data-sort="timestamp"
-              span = t('.timestamp')
-              i class="fa fa-sort"
-            th class="sort" data-sort="fiat_currency"
-              span = t('.fiat_currency')
-              i class="fa fa-sort"
-            th class="sort" data-sort="fiat_amount"
-              span = t('.fiat_amount')
-              i class="fa fa-sort"
-            th class="sort" data-sort="coin_currency"
-              span = t('.coin_currency')
-              i class="fa fa-sort"
-            th class="sort" data-sort="coin_amount"
-              span = t('.coin_amount')
-              i class="fa fa-sort"
-            th class="sort" data-sort="coin_price"
-              span = t('.coin_price')
-              i class="fa fa-sort"
-            th class="sort" data-sort="fee"
-              span = t('.fee')
-              i class="fa fa-sort"
-          tbody.list
+  = render partial: 'transaction_history'
 
