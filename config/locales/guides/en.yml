@@ -56,7 +56,7 @@ en:
       my_assets:
         panel: My Assets
         index:
-          intro: This page contains your asset information, including account balances, trading, deposit, and withdraw history.
+          intro: This page contains your asset information, including account balances, successfully completed trading, deposit, and withdraw transaction history.
 
     verify:
       two_factors:
