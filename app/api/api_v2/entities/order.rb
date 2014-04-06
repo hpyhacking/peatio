@@ -1,9 +1,8 @@
 module APIv2
   module Entities
-    class Order < Grape::Entity
-      format_with(:iso8601) {|t| t.iso8601 }
-
+    class Order < Base
       expose :id
+      expose :side
       expose :price
       expose :state
       expose :currency, as: :market
@@ -15,9 +14,16 @@ module APIv2
         order.origin_volume - order.volume
       end
 
-      expose :side do |order, options|
-        order.type[-3, 3] == 'Ask' ? 'sell' : 'buy'
+      expose :trades, if: {type: :full} do |order, options|
+        ::APIv2::Entities::Trade.represent order.trades, side: side
       end
+
+      private
+
+      def side
+        @side ||= @object.type[-3, 3] == 'Ask' ? 'sell' : 'buy'
+      end
+
     end
   end
 end
