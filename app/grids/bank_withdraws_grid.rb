@@ -1,16 +1,16 @@
-class PrivateWithdrawsGrid
+class BankWithdrawsGrid
   include Datagrid
   include Datagrid::Naming
   include Datagrid::ColumnI18n
 
   scope do
-    Withdraw.where.not(aasm_state: :submitting).order('id desc')
+    Withdraws::Bank.where.not(aasm_state: :submitting).order('id desc')
   end
 
   self.default_column_options = { :order => false }
 
   column :sn
-  column :created_at
+  column_localtime :created_at
   column(:sum, header: '') {|withdraw| "#{withdraw.currency_symbol}#{withdraw.sum}"}
   column(:fund_uid) do |withdraw|
     if withdraw.respond_to?(:fund_extra_text) 
@@ -26,7 +26,7 @@ class PrivateWithdrawsGrid
     if withdraw.cancelable?
       link_to I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete
     else
-      withdraw.state_text
+      withdraw.aasm_state_text
     end
   end
 end

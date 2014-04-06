@@ -17,7 +17,7 @@ module Statistic
     column(:sn) do |asset|
       asset.member.try(:sn)
     end
-    column_i18n(:created_at)
+    column_localtime :created_at
     column(:is_active) do |identity|
       format(identity) do |identity|
         identity.is_active ? t('yes') : t('no')

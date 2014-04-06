@@ -25,8 +25,15 @@ module Private
 
       @member.orders.with_currency(@market).tap do |query|
         @orders_wait = query.with_state(:wait)
-        @orders_done = query.with_state(:done).last(5)
         @orders_cancel = query.with_state(:cancel).last(5)
+      end
+
+      @trades_done = Trade.for_member(params[:market], current_user).map do |trade|
+        if trade.ask_member_id == current_user.id
+          trade.for_notify('ask')
+        else
+          trade.for_notify('bid')
+        end
       end
 
       gon.jbuilder
@@ -35,7 +42,7 @@ module Private
     private
 
     def set_default_market
-      cookies[:market] = params[:market]
+      cookies[:market_id] = params[:market]
     end
 
   end

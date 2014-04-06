@@ -29,6 +29,6 @@ end
 
 json.orders do
   json.wait *([@orders_wait] + Order::ATTRIBUTES)
-  json.done *([@orders_done] + Order::ATTRIBUTES)
+  json.done @trades_done
   json.cancel *([@orders_cancel] + Order::ATTRIBUTES)
 end

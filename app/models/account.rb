@@ -101,9 +101,10 @@ class Account < ActiveRecord::Base
       currency: account.currency, member_id: account.member_id }
 
     if opts[:ref] and opts[:ref].respond_to?(:id)
+      ref_klass = opts[:ref].class
       attributes.merge! \
         modifiable_id: opts[:ref].id,
-        modifiable_type: opts[:ref].class.name
+        modifiable_type: ref_klass.respond_to?(:base_class) ? ref_klass.base_class.name : ref_klass.name
     end
 
     locked, balance = compute_locked_and_balance(fun, changed, opts)

@@ -29,4 +29,48 @@ namespace :migration do
       puts "END --------------------------------------------"
     end
   end
+
+  desc "Change bank name in withdraws and fund_sources to bank code"
+  task convert_to_bank_code: :environment do
+    banks = {
+      "icbc"=>"工商银行",
+      "cbc"=>"中国建设银行",
+      "bc"=>"中国银行",
+      "bcm"=>"交通银行",
+      "abc"=>"中国农业银行",
+      "cmb"=>"招商银行",
+      "cmbc"=>"民生银行",
+      "cncb"=>"中信银行",
+      "hxb"=>"华夏银行",
+      "cib"=>"兴业银行",
+      "spdb"=>"上海浦东发展银行",
+      "bob"=>"北京银行",
+      "ceb"=>"中国光大银行",
+      "sdb"=>"深圳发展银行",
+      "gdb"=>"广东发展银行"}.invert
+
+      Withdraws::Bank.class_eval do
+        def fund_extra
+          results = ActiveRecord::Base.connection.exec_query "select fund_extra from #{self.class.table_name} where id = #{id}"
+          results[0].try(:[], 'fund_extra')
+        end
+      end
+
+      FundSource.all.each do |record|
+        record.update_column :extra, banks[record.extra] if banks[record.extra]
+      end
+
+      Withdraws::Bank.all.each do |record|
+        record.update_column :fund_extra, banks[record.fund_extra] if banks[record.fund_extra]
+      end
+  end
+
+  desc "update ask_member_id and bid_member_id of trades"
+  task update_ask_member_id_and_bid_member_id_of_trades: :environment do
+    Trade.find_each do |trade|
+      trade.update \
+        ask_member_id: trade.ask.try(:member_id),
+        bid_member_id: trade.bid.try(:member_id)
+    end
+  end
 end

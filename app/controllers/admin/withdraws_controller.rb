@@ -11,7 +11,7 @@ module Admin
     end
 
     def edit
-      @state = @withdraw.state
+      @state = @withdraw.aasm_state
     end
 
     def update

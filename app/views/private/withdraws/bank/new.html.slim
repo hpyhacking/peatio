@@ -39,8 +39,6 @@
   = link_to t('guides.private.withdraws.satoshi.panel'), new_withdraws_satoshi_path
 
 = content_for :scripts
-  = javascript_include_tag :fund_source
-
   javascript:
     $(function(){
       $('button#withdraw_all_btn').on('click', function(){

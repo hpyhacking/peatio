@@ -1,38 +1,35 @@
 require 'spec_helper'
 
 describe Withdraw do
-  subject(:withdraw) { build(:withdraw) }
+  subject(:withdraw) { build(:satoshi_withdraw) }
 
   describe 'fee' do
-    it "default fee is zero" do
-      withdraw = build(:withdraw, channel_id: nil, sum: '10'.to_d)
-      withdraw.valid?
+    it "computes fee for bank" do
+      withdraw = build(:bank_withdraw, sum: '1000'.to_d)
+      fee = withdraw.channel.fee * withdraw.sum
+      amount = withdraw.sum - fee
 
-      expect(withdraw.fee).to be_d '0'
-      expect(withdraw.amount).to be_d '10'
+      expect(withdraw.valid?).to be_true
+      expect(withdraw.fee).to be_d fee
+      expect(withdraw.amount).to be_d amount
     end
 
-    it "bank is have compute" do
-      withdraw = build(:withdraw, channel_id: 400, sum: '1000'.to_d)
-      withdraw.valid?
+    it "computes fee for bank and limits the fraction length" do
+      withdraw = build(:bank_withdraw, sum: '1235.232323123'.to_d)
+      sum = withdraw.sum.round(withdraw.channel.fixed, :floor)
+      fee = (withdraw.channel.fee * sum).round(withdraw.channel.fixed, :floor)
+      amount = sum - fee
 
-      expect(withdraw.fee).to be_d '3'
-      expect(withdraw.amount).to be_d '997'
-    end
-
-    it "bank is have compute with fix" do
-      withdraw = build(:withdraw, channel_id: 400, sum: '1235.232323123'.to_d)
-      withdraw.valid?
-
-      expect(withdraw.fee).to be_d '3.70'
-      expect(withdraw.amount).to be_d '1231.53'
+      expect(withdraw.valid?).to be_true
+      expect(withdraw.fee).to be_d fee
+      expect(withdraw.amount).to be_d amount
     end
   end
 
   describe 'sn' do
     before do
       Timecop.freeze(Time.local(2013,10,7,18,18,18))
-      @withdraw = create(:withdraw, currency: 'btc', id: 1)
+      @withdraw = create(:satoshi_withdraw, id: 1)
     end
 
     after do
@@ -49,15 +46,13 @@ describe Withdraw do
   end
 
   describe 'position_in_queue' do
-    let(:member) { create :member, identity: identity }
-
     [:done, :rejected, :canceled].each do |state|
       it "returns the number of withdraws of the same type including itself since last #{state} withdraw" do
-        create(:withdraw, aasm_state: state)
-        create_list(:withdraw, 2)
+        create(:satoshi_withdraw, aasm_state: state)
+        create_list(:satoshi_withdraw, 2)
 
-        create(:withdraw, :bank, state: :done)
-        bank_withdraw = create(:withdraw, :bank)
+        create(:bank_withdraw, aasm_state: :done)
+        bank_withdraw = create(:bank_withdraw)
         expect(bank_withdraw.position_in_queue).to eq(1)
 
         withdraw.save!
@@ -86,7 +81,7 @@ describe Withdraw do
 
     context 'when there is no withdraw of the same type with :done status' do
       it 'returns all pending transactions of the same type' do
-        create_list(:withdraw, 2)
+        create_list(:satoshi_withdraw, 2)
         withdraw.save!
 
         expect(withdraw.position_in_queue).to eq(3)
@@ -105,6 +100,15 @@ describe Withdraw do
           withdraw.update_attributes!(aasm_state: state, txid: 'tx123')
         }.to change { Rails.cache.read(key) }.from(123).to(nil)
       end
+    end
+  end
+
+  context 'account id assignment' do
+    subject { build :satoshi_withdraw, account_id: 999 }
+
+    it "don't accept account id from outside" do
+      subject.save
+      expect(subject.account_id).to eq(subject.member.get_account(subject.currency).id)
     end
   end
 
