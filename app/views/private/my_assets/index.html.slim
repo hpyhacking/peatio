@@ -2,7 +2,23 @@
   .col-md-12 = render partial: 'account_balance'
 = content_for :secondary
   .panel.panel-default#transactions
-    .panel-heading = t('transactions')
+    .panel-heading
+      = t('transactions')
+      span.dropdown.pull-right
+        a data-toggle="dropdown" href="#"
+          | Filter by type
+          span.caret
+        ul.dropdown-menu
+          li
+            a All
+          li
+            a.buy Buy
+          li
+            a.sell Sell
+          li
+            a.deposit Deposit
+          li
+            a.withdraw Withdraw
     .panel-body
       .col-md-12
         table.table.table-condensed.table-striped
