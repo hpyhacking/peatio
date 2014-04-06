@@ -34,6 +34,7 @@ json.buys @buys do |buy|
   json.coin_currency buy.market.target_unit
   json.coin_amount buy.volume
   json.coin_price buy.price
+  json.fee ''
 end
 
 json.sells @sells do |sell|
@@ -44,6 +45,7 @@ json.sells @sells do |sell|
   json.coin_currency sell.market.target_unit
   json.coin_amount sell.volume
   json.coin_price sell.price
+  json.fee ''
 end
 
 json.i18n do

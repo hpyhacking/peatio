@@ -60,6 +60,42 @@ module Private
         expect(sells).to include(sell)
         expect(sells).to_not include(others_sell)
       end
+
+      context 'json' do
+        render_views
+        subject(:do_request) { get :index, format: :json }
+
+        it { should be_success }
+
+        def assert_having_expected_keys row
+          %w[type timestamp coin_price fee].each do |key|
+            expect(row).to have_key(key)
+          end
+        end
+
+        it 'contains deposits, withdraws, buys and sells for view rendering' do
+          do_request
+
+          body = JSON.parse(response.body).symbolize_keys
+
+          deposits = body[:deposits]
+          expect(deposits.size).to eq(1)
+          assert_having_expected_keys deposits.first
+
+          withdraws = body[:withdraws]
+          expect(withdraws.size).to eq(2)
+          assert_having_expected_keys withdraws.first
+          assert_having_expected_keys withdraws.last
+
+          buys = body[:buys]
+          expect(buys.size).to eq(1)
+          assert_having_expected_keys buys.first
+
+          sells = body[:sells]
+          expect(sells.size).to eq(1)
+          assert_having_expected_keys sells.first
+        end
+      end
     end
   end
 end
