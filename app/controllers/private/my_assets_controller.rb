@@ -11,7 +11,7 @@ module Private
       page = params[:page] || 0
       per = params[:per] || 10
 
-      @deposits_grid = PrivateDepositsGrid.new(params[:deposits_grid]) do |scope|
+      @deposits_grid = DepositsGrid.new(params[:deposits_grid]) do |scope|
         scope.where(member: current_user).page(page).per(per)
       end
     end
