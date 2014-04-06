@@ -9,7 +9,7 @@ namespace :solvency do
       accounts = Account.with_currency(type).includes(:member)
       formatted_accounts = accounts.map do |account|
         { 'user'    => account.member.sn,
-          'balance' => account.balance }
+          'balance' => account.balance + account.locked }
       end
 
       tree = LiabilityProof::Tree.new formatted_accounts, currency: type.upcase
