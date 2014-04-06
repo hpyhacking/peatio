@@ -6,6 +6,16 @@ zh-CN:
       intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
       latency: 10 分钟到账
       transfer: 自动
+
+  admin:
+    deposits:
+      satoshis:
+        update:
+          notice: 此笔充值已经成功到账。
+        index:
+          accept: 立即充值
+          accept_confirm: 确定立刻确认此充值？
+
   private:
     deposits:
       satoshis:

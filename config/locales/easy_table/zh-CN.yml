@@ -1,0 +1,11 @@
+zh-CN:
+  easy_table:
+    satoshi:
+      aasm_state_text: 状态
+      amount: 充值数量
+      txid: 交易哈希
+      created_at: 交易时间
+      memo: 确认数
+      full_name: 用户
+      state_and_actions: 状态/操作
+      currency_obj_key_text: 币种

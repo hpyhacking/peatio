@@ -1,0 +1,11 @@
+en:
+  easy_table:
+    satoshi:
+      aasm_state_text: State
+      amount: Amount
+      txid: Tx Hash
+      created_at: Created At
+      memo: Confirmations
+      full_name: Member
+      state_and_actions: State/Actions
+      currency_obj_key_text: Currency

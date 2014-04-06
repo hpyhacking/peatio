@@ -3,6 +3,7 @@ module DepositCoinable
 
   included do
     validates_uniqueness_of :txid
+    belongs_to :payment_transaction, foreign_key: 'txid', primary_key: 'txid'
   end
 
   def channel
@@ -23,5 +24,9 @@ module DepositCoinable
     if !self.new_record? && self.memo.to_s != confirmations.to_s
       self.update_attribute(:memo, confirmations.to_s)
     end
+  end
+
+  def blockchain_url
+    currency_obj.blockchain_url(txid)
   end
 end

@@ -6,6 +6,16 @@ en:
       intro: Deposit bitcoin from your own Wallet address to Peatio account
       latency: 1 Confirmation
       transfer: Automatic processing
+
+  admin:
+    deposits:
+      satoshis:
+        update:
+          notice: 此笔充值已经成功到账。
+        index:
+          accept: 充值充值
+          accept_confirm: 确定立刻确认此充值？
+
   private:
     deposits:
       satoshis:

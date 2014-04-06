@@ -15,7 +15,7 @@ html lang="en"
             li.dropdown class='#{check_active('deposits')}'
               a href="#" class="dropdown-toggle" data-toggle="dropdown"
                 span = t('admin_header.deposits')
-                b.caret
+                span.caret
               ul.dropdown-menu
                 - DepositChannel.all.each do |c|
                   - if can? :manage, c.kls
@@ -31,7 +31,7 @@ html lang="en"
           li.dropdown class='#{check_active('statistic')}'
             a href="#" class="dropdown-toggle" data-toggle="dropdown"
               span = t('admin_header.statistics')
-              b.caret
+              span.caret
             ul.dropdown-menu
               - if can? :read, Statistic::MembersGrid
                 li class='#{check_active(Statistic::MembersGrid)}'
