@@ -68,6 +68,7 @@ describe APIv2::Orders do
   end
 
   describe "POST /api/v2/orders" do
+    before { Resque.stubs(:enqueue) }
 
     it "should create a sell order" do
       member.get_account(:btc).update_attributes(balance: 100)
@@ -110,11 +111,12 @@ describe APIv2::Orders do
       response.code.should == '400'
       response.body.should == '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Price must be greater than 0"}}'
     end
-
   end
 
   describe "DELETE /api/v2/order" do
     let!(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member) }
+
+    before { Resque.stubs(:enqueue) }
 
     context "succesful" do
       before do
