@@ -7,14 +7,14 @@ describe APIv2::Orders do
 
   describe "GET /api/v2/orders" do
     before do
-      create(:order_bid, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member)
-      create(:order_bid, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
-      create(:order_ask, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member)
-      create(:order_ask, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
+      create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member)
+      create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
+      create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member)
+      create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
     end
 
     it "should require authentication" do
-      get "/api/v2/orders", market: 'cnybtc'
+      get "/api/v2/orders", market: 'btccny'
       response.code.should == '401'
     end
 
@@ -25,19 +25,19 @@ describe APIv2::Orders do
     end
 
     it "should validate state param" do
-      signed_get '/api/v2/orders', params: {market: 'cnybtc', state: 'test'}, token: token
+      signed_get '/api/v2/orders', params: {market: 'btccny', state: 'test'}, token: token
       response.code.should == '400'
       JSON.parse(response.body).should == {"error" => {"code" => 1001,"message" => "state does not have a valid value"}}
     end
 
     it "should return active orders by default" do
-      signed_get '/api/v2/orders', params: {market: 'cnybtc'}, token: token
+      signed_get '/api/v2/orders', params: {market: 'btccny'}, token: token
       response.should be_success
       JSON.parse(response.body).size.should == 2
     end
 
     it "should return complete orders" do
-      signed_get '/api/v2/orders', params: {market: 'cnybtc', state: Order::DONE}, token: token
+      signed_get '/api/v2/orders', params: {market: 'btccny', state: Order::DONE}, token: token
       response.should be_success
       JSON.parse(response.body).first['state'].should == Order::DONE
     end
@@ -45,7 +45,7 @@ describe APIv2::Orders do
   end
 
   describe "GET /api/v2/order" do
-    let(:order) { create(:order_bid, currency: 'cnybtc', price: '12.326'.to_d, volume: '123.123456789', member: member) }
+    let(:order) { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member) }
 
     it "should get specified order" do
       signed_get "/api/v2/order", params: {id: order.id}, token: token
