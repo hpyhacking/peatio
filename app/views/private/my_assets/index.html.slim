@@ -7,13 +7,29 @@
       .col-md-12
         table.table.table-condensed.table-striped
           thead: tr
-            th Type
-            th Timestamp
-            th Fiat Currency
-            th Fiat Amount
-            th Coin Currency
-            th Coin Amount
-            th Coin Price
-            th Fee
-          tbody
+            th class="sort" data-sort="type"
+              span Type
+              i class="fa fa-sort"
+            th class="sort" data-sort="timestamp"
+              span Timestamp
+              i class="fa fa-sort"
+            th class="sort" data-sort="fiat_currency"
+              span Fiat Currency
+              i class="fa fa-sort"
+            th class="sort" data-sort="fiat_amount"
+              span Fiat Amount
+              i class="fa fa-sort"
+            th class="sort" data-sort="coin_currency"
+              span Coin Currency
+              i class="fa fa-sort"
+            th class="sort" data-sort="coin_amount"
+              span Coin Amount
+              i class="fa fa-sort"
+            th class="sort" data-sort="coin_price"
+              span Coin Price
+              i class="fa fa-sort"
+            th class="sort" data-sort="fee"
+              span Fee
+              i class="fa fa-sort"
+          tbody.list
 

@@ -11,3 +11,8 @@ window.TransactionsUI = flight.component ->
     transactions.sort (a, b)->
       a.timestamp - b.timestamp
     @refresh {transactions: transactions}
+
+    options =
+      valueNames: [ 'type', 'timestamp', 'fiat_currency', 'fiat_amount',
+      'coin_currency', 'coin_amount', 'coin_price', 'fee' ]
+    window.list = new List('transactions', options)
