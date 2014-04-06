@@ -103,21 +103,42 @@ describe APIv2::Orders do
   describe "DELETE /api/v2/order" do
     let!(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member) }
 
-    it "should cancel specified order" do
-      expect {
+    context "succesful" do
+      before do
+        member.get_account(:cny).update_attributes(locked: order.price*order.volume)
+      end
+
+      it "should cancel specified order" do
+        expect {
+          signed_delete "/api/v2/order", params: {id: order.id}, token: token
+          response.should be_success
+          JSON.parse(response.body)['id'].should == order.id
+          order.reload.state.should == Order::CANCEL
+        }.not_to change(Order, :count)
+      end
+
+      it "should include executed and remaining amount in result" do
         signed_delete "/api/v2/order", params: {id: order.id}, token: token
-        response.should be_success
-        JSON.parse(response.body)['id'].should == order.id
-      }.to change(Order, :count).by(-1)
+        result = JSON.parse(response.body)
+        result['volume'].should == '12.13'
+        result['remaining_volume'].should == '3.14'
+        result['executed_volume'].should == '8.99'
+      end
+
+      it "should not expose trades" do
+        signed_delete "/api/v2/order", params: {id: order.id}, token: token
+        JSON.parse(response.body)['trades'].should be_nil
+      end
     end
 
-    it "should include executed and remaining amount in result" do
-      signed_delete "/api/v2/order", params: {id: order.id}, token: token
-      result = JSON.parse(response.body)
-      result['volume'].should == '12.13'
-      result['remaining_volume'].should == '3.14'
-      result['executed_volume'].should == '8.99'
+    context "failed" do
+      it "should return error" do
+        signed_delete "/api/v2/order", params: {id: order.id}, token: token
+        response.code.should == '400'
+        response.body.should == '{"error":{"code":2003,"message":"Failed to cancel order. Reason: cannot unlock funds (amount: 38.6848)"}}'
+      end
     end
+
   end
 
 end

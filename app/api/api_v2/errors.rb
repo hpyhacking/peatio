@@ -45,4 +45,10 @@ module APIv2
     end
   end
 
+  class CancelOrderError < Error
+    def initialize(e)
+      super code: 2003, text: "Failed to cancel order. Reason: #{e}", status: 400
+    end
+  end
+
 end

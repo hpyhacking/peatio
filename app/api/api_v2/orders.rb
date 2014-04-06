@@ -53,7 +53,7 @@ module APIv2
         Ordering.new(order).submit
         present order, with: APIv2::Entities::Order
       rescue
-        raise CreateOrderError.new($!)
+        raise CreateOrderError, $!
       end
     end
 
@@ -62,9 +62,14 @@ module APIv2
       requires :id, type: Integer
     end
     delete "/order" do
-      order = current_user.orders.where(id: params[:id]).first
-      order.destroy
-      present order, with: APIv2::Entities::Order
+      order = current_user.orders.find(params[:id])
+
+      begin
+        Ordering.new(order).cancel
+        present order, with: APIv2::Entities::Order
+      rescue
+        raise CancelOrderError, $!
+      end
     end
 
   end
