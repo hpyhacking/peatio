@@ -2,15 +2,38 @@ p
   h4 = t('.step-1')
   p = t('.open-wallet')
 
+hr.split
+
 p
   h4 = t('.step-2')
   p = t('.send-coin')
-  h4.text-info = @address.address
+  .input-group.col-sm-8
+    .input-group-addon =t('activerecord.attributes.deposit.address')
+    .form-control.form-control-static = @address.address
+    .input-group-addon
+      i.fa.fa-copy data-clipboard-text=@address.address
+
+p
+  div
+    = t('.or')
+    = t('.scan-qr')
+  = qr_tag @address.address
+
+hr.split
 
 p
   h4 = t('.step-3')
-  p = t('.check-confirm')
+  p = t('.check-confirm').html_safe
+
+hr.split
+
+p
+  h4 = t('.step-4')
+  p = t('.history')
 
 = content_for :after
   - unless @assets.empty?
     = datagrid_table(@coin_deposits_grid, @assets)
+
+= content_for :guide
+  = link_to t('guides.private.deposits.banks.panel'), new_deposits_bank_path
