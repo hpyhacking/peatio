@@ -116,8 +116,12 @@
   @refreshBalance = (event, data) ->
     type = @panelType()
     balance = data[type].balance
-    @select('currentBalanceSel').text balance
     @select('currentBalanceSel').data('balance', balance)
+    switch type
+      when 'bid'
+        @select('currentBalanceSel').text(balance).fixBid()
+      when 'ask'
+        @select('currentBalanceSel').text(balance).fixAsk()
 
   @updateAvailable = (event, data) ->
     type = @panelType()
@@ -125,14 +129,15 @@
     balance = BigNumber(node.data('balance'))
     switch type
       when 'bid'
-        node.text(balance - data.sum)
+        node.text(balance - data.sum).fixBid()
       when 'ask'
-        node.text(balance - data.volume)
+        node.text(balance - data.volume).fixAsk()
 
   @after 'initialize', ->
     @on document, 'order::plan', @orderPlan
     @on document, 'market::ticker', @refreshPrice
     @on document, 'trade::account', @refreshBalance
+    @on 'updateAvailable', @updateAvailable
 
     @on @select('formSel'), 'ajax:beforeSend', @beforeSend
     @on @select('formSel'), 'ajax:success', @handleSuccess
@@ -145,4 +150,3 @@
     @on @select('priceSel'), 'focusout', @computeSum
     @on @select('volumeSel'), 'focusout', @computeSum
 
-    @on document, 'updateAvailable', @updateAvailable
