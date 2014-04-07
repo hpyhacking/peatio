@@ -105,14 +105,6 @@
     @select('volumeSel').val(data.volume)
     @computeSum(event)
 
-  @refreshPrice = (event, data) ->
-    type = @panelType()
-    switch type
-      when 'bid'
-        @select('lastPrice').text numeral(data.buy).format('0.00')
-      when 'ask'
-        @select('lastPrice').text numeral(data.sell).format('0.00')
-
   @refreshBalance = (event, data) ->
     type = @panelType()
     balance = data[type].balance
@@ -135,7 +127,6 @@
 
   @after 'initialize', ->
     @on document, 'order::plan', @orderPlan
-    @on document, 'market::ticker', @refreshPrice
     @on document, 'trade::account', @refreshBalance
     @on 'updateAvailable', @updateAvailable
 
