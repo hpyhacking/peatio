@@ -174,4 +174,24 @@ module ApplicationHelper
     t("#{i18n_controller_path}.#{action_name}.#{key}", default: :"layouts.meta.#{key}")
   end
 
+  def description_for(name, &block)
+    content_tag :dl, class: "dl-horizontal dl-#{name}" do
+      capture(&block)
+    end
+  end
+
+  def item_for(model, name, value = nil, &block)
+    capture do
+      if block_given?
+        content_tag(:dt, model.class.human_attribute_name(name)) + 
+          content_tag(:dd, capture(&block))
+      else
+        value = model.try(name)
+        value = value.localtime if value.is_a? DateTime
+
+        content_tag(:dt, model.class.human_attribute_name(name)) + 
+          content_tag(:dd, value)
+      end
+    end
+  end
 end
