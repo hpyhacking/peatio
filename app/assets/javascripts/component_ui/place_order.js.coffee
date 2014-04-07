@@ -46,7 +46,6 @@
     #{gon.i18n.place_order.sum}: #{sum}
     """
 
-
   @beforeSend = (event, jqXHR) ->
     if confirm(@confirmDialogMsg())
       @disableSubmit()
@@ -97,7 +96,6 @@
 
       @select('volumeSel').val(volume).fixAsk()
       @trigger 'updateAvailable', {sum: sum, volume: volume}
-      @trigger 'order', {price: price, sum: sum, volume: volume}
 
   @orderPlan = (event, data) ->
     return unless (@.$node.is(":visible"))
@@ -135,9 +133,6 @@
     @on @select('formSel'), 'ajax:error', @handleError
 
     @on @select('sumSel'), 'change paste keyup', @computeVolume
-    @on @select('priceSel'), 'change paste keyup', @computeSum
-    @on @select('volumeSel'), 'change paste keyup', @computeSum
-
-    @on @select('priceSel'), 'focusout', @computeSum
-    @on @select('volumeSel'), 'focusout', @computeSum
+    @on @select('priceSel'), 'change paste keyup focusout', @computeSum
+    @on @select('volumeSel'), 'change paste keyup focusout', @computeSum
 
