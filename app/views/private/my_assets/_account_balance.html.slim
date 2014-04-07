@@ -9,6 +9,6 @@
         tbody
           - @accounts.each do |account|
             tr class="#{account.currency}"
-              td.name = t("currency.name.#{account.currency}")
+              td.name = t("currency.name.#{account.currency}", default: account.currency_obj.code)
               td.available = account.balance
               td.locked = account.locked
