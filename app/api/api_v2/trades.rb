@@ -1,10 +1,5 @@
 module APIv2
-  class MyData < Grape::API
-
-    desc 'Get your profile and accounts info.'
-    get "/my/info" do
-      present current_user, with: APIv2::Entities::Member
-    end
+  class Trades < Grape::API
 
     desc 'Get your executed trades.'
     params do
@@ -12,7 +7,9 @@ module APIv2
       optional :limit,     type: Integer, default: 50
       optional :timestamp, type: Integer
     end
-    get "/my/trades" do
+    get "/trades" do
+      authenticate!
+
       from = params[:timestamp].present? ? Time.at(params[:timestamp]) : nil
       trades = Trade.for_member(
         params[:market], current_user,

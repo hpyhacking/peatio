@@ -1,6 +1,8 @@
 module APIv2
   class Orders < Grape::API
 
+    before { authenticate! }
+
     desc 'Get your orders.', {
       params: APIv2::Entities::Order.documentation
     }

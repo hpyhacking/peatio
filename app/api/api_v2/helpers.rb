@@ -2,7 +2,7 @@ module APIv2
   module Helpers
 
     def authenticate!
-      auth = Authenticator.new(request, params)
+      auth = Authenticator.new(request, @raw_params)
       if auth.authentic?
         @current_user = auth.token.member
       else

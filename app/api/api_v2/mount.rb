@@ -19,14 +19,12 @@ module APIv2
 
     MARKETS = Market.all.map(&:id)
 
-    # Public APIs
-    mount Tickers
+    # Grape will add default values to params after validation
+    before { @raw_params = params.dup }
 
-    # Private APIs
-    group do
-      before { authenticate! }
-      mount MyData
-      mount Orders
-    end
+    mount Tickers
+    mount Members
+    mount Orders
+    mount Trades
   end
 end
