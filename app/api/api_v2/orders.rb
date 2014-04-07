@@ -9,7 +9,7 @@ module APIv2
     params do
       requires :market, type: String,  values: ::APIv2::Mount::MARKETS
       optional :state,  type: String,  default: 'wait', values: Order.state.values
-      optional :limit,  type: Integer, default: 10
+      optional :limit,  type: Integer, default: 10, range: 1..1000
     end
     get "/orders" do
       orders = current_user.orders

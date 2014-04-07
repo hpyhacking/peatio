@@ -4,7 +4,7 @@ module APIv2
     desc 'Get your executed trades.'
     params do
       requires :market,    type: String,  values: ::APIv2::Mount::MARKETS
-      optional :limit,     type: Integer, default: 50
+      optional :limit,     type: Integer, range: 1..1000, default: 50
       optional :timestamp, type: Integer
     end
     get "/trades" do

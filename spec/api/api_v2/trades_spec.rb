@@ -43,6 +43,12 @@ describe APIv2::Trades do
       response.should be_success
       JSON.parse(response.body).first['id'].should == bid_trade.id
     end
+
+    it "should return limit out of range error" do
+      signed_get '/api/v2/trades', params: {market: 'btccny', limit: 1024}, token: token
+      response.code.should == '400'
+      response.body.should == '{"error":{"code":1001,"message":"limit must be in range: 1..1000"}}'
+    end
   end
 
 end
