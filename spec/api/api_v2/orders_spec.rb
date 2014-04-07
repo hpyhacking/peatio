@@ -72,7 +72,6 @@ describe APIv2::Orders do
 
     it "should create a sell order" do
       member.get_account(:btc).update_attributes(balance: 100)
-      member.get_account(:cny).update_attributes(balance: 100000)
 
       expect {
         signed_post '/api/v2/orders', token: token, params: {market: 'btccny', side: 'sell', volume: '12.13', price: '2014'}
@@ -82,7 +81,6 @@ describe APIv2::Orders do
     end
 
     it "should create a buy order" do
-      member.get_account(:btc).update_attributes(balance: 100)
       member.get_account(:cny).update_attributes(balance: 100000)
 
       expect {
@@ -90,6 +88,12 @@ describe APIv2::Orders do
         response.should be_success
         JSON.parse(response.body)['id'].should == OrderBid.last.id
       }.to change(OrderBid, :count).by(1)
+    end
+
+    it "should set order source to APIv2" do
+      member.get_account(:cny).update_attributes(balance: 100000)
+      signed_post '/api/v2/orders', token: token, params: {market: 'btccny', side: 'buy', volume: '12.13', price: '2014'}
+      OrderBid.last.source.should == 'APIv2'
     end
 
     it "should return cannot lock funds error" do

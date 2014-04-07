@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140405053744) do
+ActiveRecord::Schema.define(version: 20140407011310) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(version: 20140405053744) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
+    t.string   "source",                                            null: false
   end
 
   create_table "partial_trees", force: true do |t|

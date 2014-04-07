@@ -43,6 +43,7 @@ module APIv2
         ask:           current_market.target_unit,
         bid:           current_market.price_unit,
         state:         ::Order::WAIT,
+        source:        'APIv2',
         currency:      params[:market],
         price:         params[:price],
         volume:        params[:volume],
