@@ -1,0 +1,33 @@
+.row
+  .col-md-8
+    .panel.panel-primary
+      .panel-heading
+        span = t('.deposit', sn: @target.sn)
+      .panel-body
+        = description_for :member do
+          = item_for @bank, :sn
+          = item_for @bank.member, :name
+          = item_for @bank, :amount
+          = item_for @bank, :created_at
+          hr.split
+          = item_for @bank, :fund_extra_text
+          = item_for @bank, :fund_uid
+          = item_for @bank, :aasm_state_text
+          = item_for @bank, :txid
+          - if @match and (@bank.may_submit? or @bank.may_accept?)
+            hr.split
+            = link_to t('actions.confirm'), admin_deposits_bank_path(@bank, txid: @target.txid), class: 'btn btn-primary pull-right', method: 'PATCH'
+  .col-md-8
+    .panel class='#{@match ? 'panel-primary' : 'panel-danger'}'
+      .panel-heading
+        span = t('.target_deposit', sn: @target.sn)
+      .panel-body
+        = description_for :member do
+          = item_for @target, :sn
+          = item_for @target, :holder
+          = item_for @target, :amount
+          = item_for @target, :created_at
+          hr.split
+          = item_for @target, :txid
+  .col-md-8
+    = render partial: 'shared/admin/member', locals: {member: @bank.member} 
