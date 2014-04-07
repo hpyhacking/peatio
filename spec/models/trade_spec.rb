@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Trade, "#latest_price" do
+describe Trade, ".latest_price" do
   context "no trade" do
     it { expect(Trade.latest_price(:btccny)).to be_d "0.0" }
   end
@@ -11,7 +11,22 @@ describe Trade, "#latest_price" do
   end
 end
 
-describe Trade, "#to_notify" do
+describe Trade, ".collect_side" do
+  let(:member) { create(:member) }
+  let(:ask)    { create(:order_ask, member: member) }
+  let(:bid)    { create(:order_bid, member: member) }
+
+  let!(:trades) { [create(:trade, ask: ask), create(:trade, bid: bid)] }
+
+  it "should add side attribute on trades" do
+    results = Trade.for_member(ask.currency, member)
+    results.should have(2).trades
+    results.find {|t| t.id == trades.first.id }.side.should == 'ask'
+    results.find {|t| t.id == trades.last.id  }.side.should == 'bid'
+  end
+end
+
+describe Trade, "#for_notify" do
   let(:order_ask) { create(:order_ask) }
   let(:order_bid) { create(:order_bid) }
   let(:trade) { create(:trade, ask: order_ask, bid: order_bid) }
@@ -23,22 +38,24 @@ describe Trade, "#to_notify" do
   it { expect(notify[:at]).not_to be_blank }
   it { expect(notify[:price]).not_to be_blank }
   it { expect(notify[:volume]).not_to be_blank }
+
+  it "should use side as kind" do
+    trade.side = 'ask'
+    trade.for_notify[:kind].should == 'ask'
+  end
+
 end
 
 describe Trade, "#notify" do
-  let(:member) { mock('Member') }
-  let(:order_ask) { create(:order_ask) }
-  let(:order_bid) { create(:order_bid) }
+  let(:member)    { create(:member) }
+  let(:order_ask) { create(:order_ask, member: member) }
+  let(:order_bid) { create(:order_bid, member: member) }
 
-  subject { create(:trade, ask: order_ask, bid: order_bid) }
-
-  before do
-    order_ask.stubs(:member).returns(member)
-    order_bid.stubs(:member).returns(member)
-  end
+  let!(:trade)    { create(:trade, ask: order_ask, bid: order_bid) }
 
   it "fire member notificaitons" do
-    member.expects(:trigger).at_most(2)
-    subject.notify
+    member.expects(:trigger).with('trade', trade.for_notify('ask')).once
+    member.expects(:trigger).with('trade', trade.for_notify('bid')).once
+    trade.notify
   end
 end
