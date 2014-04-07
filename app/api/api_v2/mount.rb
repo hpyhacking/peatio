@@ -23,7 +23,7 @@ module APIv2
     # Private APIs
     group do
       before { authenticate! }
-      mount Members
+      mount MyData
       mount Orders
     end
   end

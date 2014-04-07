@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe APIv2::Members do
+describe APIv2::MyData do
 
   let(:member) do
     create(:verified_member).tap {|m|
@@ -12,16 +12,16 @@ describe APIv2::Members do
 
   before { Currency.stubs(:codes).returns(cny: 1, btc: 2) }
 
-  describe "GET /user_profile" do
+  describe "GET /my/info" do
 
     it "should require authentication" do
-      get '/api/v2/user_profile'
+      get '/api/v2/my/info'
       response.code.should == '401'
       response.body.should == '{"error":{"code":2001,"message":"Authorization failed"}}'
     end
 
     it "should return current user profile with accounts info" do
-      signed_get "/api/v2/user_profile", token: token
+      signed_get "/api/v2/my/info", token: token
       response.should be_success
 
       result = JSON.parse(response.body)
