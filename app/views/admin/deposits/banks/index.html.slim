@@ -1,2 +1,6 @@
-= render partial: 'table', locals: {banks: @oneday_banks}
-= render partial: 'table', locals: {banks: @available_banks}
+.panel.panel-default
+  .panel-heading Panel heading
+  = render partial: 'table', locals: {banks: @oneday_banks}
+.panel.panel-default
+  .panel-heading Panel heading
+  = render partial: 'table', locals: {banks: @available_banks}
