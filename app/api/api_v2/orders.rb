@@ -73,5 +73,17 @@ module APIv2
       end
     end
 
+    desc 'Cancel all my orders.'
+    delete "/orders" do
+      orders = current_user.orders
+
+      begin
+        orders.each {|o| Ordering.new(o).cancel }
+        present orders, with: APIv2::Entities::Order
+      rescue
+        raise CancelOrderError, $!
+      end
+    end
+
   end
 end

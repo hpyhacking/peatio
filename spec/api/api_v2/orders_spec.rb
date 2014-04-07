@@ -155,4 +155,28 @@ describe APIv2::Orders do
 
   end
 
+  describe "DELETE /api/v2/orders" do
+
+    before do
+      Resque.stubs(:enqueue)
+
+      create(:order_ask, currency: 'btccny', price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
+      create(:order_bid, currency: 'btccny', price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
+
+      member.get_account(:btc).update_attributes(locked: '5')
+      member.get_account(:cny).update_attributes(locked: '50')
+    end
+
+    it "should cancel all my orders" do
+      expect {
+        signed_delete "/api/v2/orders", token: token
+        response.should be_success
+
+        result = JSON.parse(response.body)
+        result.should have(2).orders
+        result.each {|o| Order.find(o['id']).state.should == Order::CANCEL }
+      }.not_to change(Order, :count)
+    end
+
+  end
 end
