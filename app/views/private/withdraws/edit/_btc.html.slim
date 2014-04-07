@@ -5,11 +5,15 @@
   = f.input :fee, input_html: { value: "#{@withdraw.currency_symbol}#{@withdraw.fee}" }
   = f.input :amount, input_html: { value: "#{@withdraw.currency_symbol}#{@withdraw.amount}" }
 
+  - if current_user.two_factor_activated?
+    = f.input :otp do
+      = otp_tag
+
   hr.split
-  .form-group: .col-sm-11
-    - if @withdraw.submitting?
-      = link_to t('actions.confirm'), withdraw_path(@withdraw), method: :PATCH, class: 'btn btn-primary btn-lg pull-right'
-    = link_to t('actions.back'), new_withdraws_satoshi_path, class: 'btn btn-default btn-lg pull-right'
+  - if @withdraw.may_submit?
+    = f.button :wrapped, t('actions.confirm'), cancel: :back
+  - else
+    = f.button :wrapped, no_submit: true, cancel: :back
 
 = content_for :guide_title
   h3 = t('guides.private.withdraws.satoshi.panel')

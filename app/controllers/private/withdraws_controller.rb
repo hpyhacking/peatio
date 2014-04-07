@@ -2,6 +2,7 @@ module Private
   class WithdrawsController < BaseController
     before_action :auth_activated!
     before_action :auth_verified!
+    before_action :verify_two_factor!, only: :update
 
     def index
       @channels = WithdrawChannel.all
@@ -49,8 +50,8 @@ module Private
 
     def withdraw_params
       params[:withdraw][:member_id] = current_user.id
-      params.require(:withdraw).permit(:password, :member_id, :currency,
-                                       :sum, :fund_uid, :fund_extra, :save_fund_source, :type)
+      params.require(:withdraw).permit(:member_id, :currency, :sum, :type,
+                                       :fund_uid, :fund_extra, :save_fund_source)
     end
   end
 end

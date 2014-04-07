@@ -82,6 +82,10 @@ class Member < ActiveRecord::Base
     self.accounts.with_currency(currency.to_sym).first
   end
 
+  def two_factor
+    TwoFactor.find_by_member_id(id) || create_two_factor
+  end
+
   def touch_accounts
     less = Currency.codes.keys - self.accounts.map(&:currency).map(&:to_sym)
     less.each do |code|
