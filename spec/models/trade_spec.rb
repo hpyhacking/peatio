@@ -16,13 +16,31 @@ describe Trade, ".collect_side" do
   let(:ask)    { create(:order_ask, member: member) }
   let(:bid)    { create(:order_bid, member: member) }
 
-  let!(:trades) { [create(:trade, ask: ask), create(:trade, bid: bid)] }
+  let!(:trades) {[
+    create(:trade, ask: ask, created_at: 2.days.ago),
+    create(:trade, bid: bid, created_at: 1.day.ago)
+  ]}
 
   it "should add side attribute on trades" do
     results = Trade.for_member(ask.currency, member)
     results.should have(2).trades
     results.find {|t| t.id == trades.first.id }.side.should == 'ask'
     results.find {|t| t.id == trades.last.id  }.side.should == 'bid'
+  end
+
+  it "should sort trades in reverse creation order" do
+    Trade.for_member(ask.currency, member).first.should == trades.last
+  end
+
+  it "should return 1 trade" do
+    results = Trade.for_member(ask.currency, member, limit: 1)
+    results.should have(1).trade
+  end
+
+  it "should return trades from specified time" do
+    results = Trade.for_member(ask.currency, member, from: 1.day.ago)
+    results.should have(1).trade
+    results.first.should == trades.last
   end
 end
 

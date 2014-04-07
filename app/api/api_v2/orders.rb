@@ -1,13 +1,11 @@
 module APIv2
   class Orders < Grape::API
 
-    MARKETS = Market.all.map(&:id)
-
     desc 'Get your orders.', {
       params: APIv2::Entities::Order.documentation
     }
     params do
-      requires :market, type: String,  values: MARKETS
+      requires :market, type: String,  values: ::APIv2::Mount::MARKETS
       optional :state,  type: String,  default: 'wait', values: Order.state.values
       optional :limit,  type: Integer, default: 10
     end
@@ -31,7 +29,7 @@ module APIv2
 
     desc 'Create a Sell/Buy order.'
     params do
-      requires :market, type: String, values: MARKETS
+      requires :market, type: String, values: ::APIv2::Mount::MARKETS
       requires :side,   type: String, values: %w(sell buy)
       requires :volume, type: String
       requires :price,  type: String

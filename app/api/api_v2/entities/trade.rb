@@ -8,7 +8,7 @@ module APIv2
       expose :created_at, format_with: :iso8601
 
       expose :side do |trade, options|
-        options[:side]
+        options[:side] || trade.side
       end
     end
   end
