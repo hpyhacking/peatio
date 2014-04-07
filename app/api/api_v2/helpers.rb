@@ -17,5 +17,10 @@ module APIv2
     def current_market
       @current_market ||= Market.find params[:market]
     end
+
+    def time_from
+      params[:timestamp].present? ? Time.at(params[:timestamp]) : nil
+    end
+
   end
 end
