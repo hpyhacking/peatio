@@ -1,4 +1,7 @@
 en:
+  "true": Yes
+  "false": No
+
   slogan: An open-source crypto currency exchange.
   tags:
     vip: VIP

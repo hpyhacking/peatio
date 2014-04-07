@@ -188,6 +188,7 @@ module ApplicationHelper
       else
         value = model.try(name)
         value = value.localtime if value.is_a? DateTime
+        value = I18n.t(value) if value.is_a? TrueClass
 
         content_tag(:dt, model.class.human_attribute_name(name)) + 
           content_tag(:dd, value)
