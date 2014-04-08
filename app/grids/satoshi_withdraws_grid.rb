@@ -10,16 +10,14 @@ class SatoshiWithdrawsGrid
   self.default_column_options = { :order => false }
 
   column :id
-  column :created_at
+  column_localtime :created_at
   column :fund_uid
   column :fund_extra
   column(:sum) {|withdraw| "#{withdraw.currency_symbol}#{withdraw.sum}"}
-  column :position_in_queue do |o|
-    o.position_in_queue if o.position_in_queue > 0
-  end
   column :actions, html: true, header: '' do |withdraw|
     if withdraw.cancelable?
-      link_to I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete
+      content_tag(:span, "#{withdraw.aasm_state_text} / ") +
+        link_to I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete
     else
       withdraw.aasm_state_text
     end
