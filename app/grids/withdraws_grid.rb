@@ -4,16 +4,16 @@ class WithdrawsGrid
   include Datagrid::ColumnI18n
 
   scope do |m|
-    Withdraw.order('created_at asc, state desc')
+    Withdraw.order('created_at asc, aasm_state desc')
   end
 
-  filter(:state_text, :enum, select: Withdraw.state.options) do |state, scope|
-    scope.with_state(state) if state
+  filter(:aasm_state_text, :enum, select: Withdraw::STATES) do |state, scope|
+    scope.with_aasm_state(state) if state
   end
 
-  filter(:channel, :enum, select: WithdrawChannel.all.map{|w| [w.key, w.id]}) do |channel, scope|
-    scope.with_channel(channel) if channel
-  end
+  #filter(:channel, :enum, select: WithdrawChannel.all.map{|w| [w.key, w.id]}) do |channel, scope|
+    #scope.with_channel(channel) if channel
+  #end
 
   filter(:created_at, :date, :range => true, :default => proc { [1.month.ago.to_date, Date.tomorrow]}) do |arr, scope|
     scope.where(created_at: Range.new(arr.first, arr.last)) unless arr.any?(&:blank?)
@@ -29,7 +29,7 @@ class WithdrawsGrid
   end
   column :fund_extra, order: false
   column :sum
-  column :state_text
+  column :aasm_state_text
   column :position_in_queue do |o|
     o.position_in_queue if o.position_in_queue > 0
   end

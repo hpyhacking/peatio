@@ -3,13 +3,13 @@ class TwoFactor < ActiveRecord::Base
 
   attr_accessor :otp
 
-  def verify
-    rotp = ROTP::TOTP.new(self.otp_secret)
+  def verify(otp = nil)
+    rotp = ROTP::TOTP.new(otp_secret)
 
-    if rotp.verify(self.otp)
+    if rotp.verify(otp || self.otp)
       touch(:last_verify_at)
     else
-      self.errors.add :otp, :invalid
+      errors.add :otp, :invalid
       false
     end
   end
@@ -19,11 +19,11 @@ class TwoFactor < ActiveRecord::Base
   end
 
   def uri
-    totp = ROTP::TOTP.new(self.otp_secret)
-    totp.provisioning_uri("PEATIO / #{member.email}")
+    totp = ROTP::TOTP.new(otp_secret)
+    totp.provisioning_uri("peatio##{member.email}")
   end
 
   def now
-    ROTP::TOTP.new(self.otp_secret).now
+    ROTP::TOTP.new(otp_secret).now
   end
 end

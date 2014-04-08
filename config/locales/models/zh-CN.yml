@@ -77,8 +77,8 @@ zh-CN:
         fund_extra: 地址标签
         address_type: 提现渠道
         channel_name: 提现渠道
-        state: 状态
-        state_text: 状态
+        aasm_state: 状态
+        aasm_state_text: 状态
         txid: 业务编号
         fund_uid: 提现地址
         position_in_queue: 队列位置

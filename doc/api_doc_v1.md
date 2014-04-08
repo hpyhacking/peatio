@@ -2,7 +2,7 @@
 
 #### Deeps
 
-* GET /api/deeps/cnybtc
+* GET /api/deeps/btccny
 
 Return JSON data format:
 
@@ -23,7 +23,7 @@ Return JSON data format:
 **Example**
 
 ```
-$curl https://cn.peatio.com/api/deeps/cnybtc
+$curl https://cn.peatio.com/api/deeps/btccny
 
 {
   "asks": [
@@ -76,7 +76,7 @@ Return JSON Data format:
 
 
 ```
-$ curl https://cn.peatio.com/api/trades/cnybtc
+$ curl https://cn.peatio.com/api/trades/btccny
 
 [
   {
@@ -120,7 +120,7 @@ at: Number(time as integer of seconds)
 **Example**
 
 ```
-$ curl https://cn.peatio.com/api/tickers/cnybtc
+$ curl https://cn.peatio.com/api/tickers/btccny
 
 {
   "ticker": {

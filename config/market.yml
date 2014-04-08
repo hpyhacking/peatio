@@ -1,4 +1,4 @@
-- id: cnybtc
+- id: btccny
   code: 3
   bid: {fee: 0, currency: cny, fixed: 2}
-  ask: {fee: 0, currency: btc, fixed: 8}
+  ask: {fee: 0, currency: btc, fixed: 4}

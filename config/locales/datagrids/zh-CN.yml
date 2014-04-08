@@ -39,8 +39,8 @@ zh-CN:
         amount: 充值金额
         aasm_state_text: 状态
         memo: 确认数
-    withdraws_grid: &withdraw_grid
-      columns:
+    withdraws_grid:
+      columns: &withdraws_columns
         sn: 交易编号
         name: 姓名
         position_in_queue: 队列位置
@@ -49,14 +49,23 @@ zh-CN:
         address_type_text: 方式
         amount: 实到金额
         sum: 金额
-        fund_uid: ''
-        fund_extra: ''
         fee: 手续费
         created_at: 提现时间
         done_at: 完成时间
-        state_text: 状态
-    bank_withdraws_grid: *withdraw_grid
-    satoshi_withdraws_grid: *withdraw_grid
+        aasm_state_text: 状态
+        channel: 通道
+    bank_withdraws_grid: 
+      columns:
+        <<: *withdraws_columns
+        sum: 金额
+        fund_extra_text: 开户行
+        fund_uid: 卡号
+    satoshi_withdraws_grid:
+      columns:
+        <<: *withdraws_columns
+        sum: 数量
+        fund_uid: 地址
+        fund_extra: 备注
     members_grid:
       columns:
         sn: 识别码
