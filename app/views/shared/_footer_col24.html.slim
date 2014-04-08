@@ -1,20 +1,25 @@
 footer: .container: .row: .col-md-24.text-center
   p
-    | Maintained by the
-    a target='_blank' href='https://github.com/orgs/peatio/members' core team
-    | with the help of
-    a target='_blank' href='https://github.com/peatio/peatio/graphs/contributors' our contributors
-    |.
+    = link_to t('footer.about'), document_path('about')
+    = '-'
+    = link_to t('footer.terms_and_service'), document_path('terms_and_service')
+    = '-'
+    = link_to t('footer.questions'), document_path('questions')
+    = '-'
+    = link_to t('footer.price'), document_path('price')
+    = '-'
+    = link_to t('footer.liability_proof'), document_path('liability_proof')
+    = '-'
+    = link_to t('footer.contact'), document_path('contact')
+    = '-'
+    = link_to 'Blog', 'http://blog.peat.io', target: '_blank'
   p
-    | Code licensed under
-    a target='_blank' href='http://peatio.mit-license.org/' MIT
-    |, documentation under
-    a target='_blank' href='http://creativecommons.org/licenses/by/3.0/' CC BY 3.0
-    |.
-  p: ul.list-inline
-    li: span Currently v#{Peatio::VERSION}
-    li: a target='_blank' href='https://github.com/peatio/peatio' GitHub
-    li: a target='_blank' href='https://github.com/peatio/peatio/tree/master/doc' Documents
-    li: a target='_blank' href='https://github.com/peatio/peatio/wiki/About' About
-    li: a target='_blank' href='https://github.com/peatio/peatio/issues?state=open' Issues
-    li: a target='_blank' href='https://github.com/peatio/peatio/releases' Releases
+    span = "客户服务热线：4008-058-128"
+    = "|"
+    span = "貔貅北京QQ群1：2442579"
+    = '|'
+    span = "貔貅北京QQ群2：156726849"
+  p
+    a target='_blank' href='http://www.beianbeian.com/beianxinxi/aacfc7ce-0935-4fe7-993b-af67ef5b7f69.html' 京ICP备13047168
+
+= render partial: 'shared/google_ga' if Rails.env.production?
