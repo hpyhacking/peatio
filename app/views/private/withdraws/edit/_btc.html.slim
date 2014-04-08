@@ -7,6 +7,10 @@
     = f.input :otp do
       = otp_tag
 
+  - if current_user.two_factor_activated?
+    = f.input :otp do
+      = otp_tag
+
   hr.split
   - if @withdraw.may_submit?
     = f.button :wrapped, t('actions.confirm'), cancel: :back

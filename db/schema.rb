@@ -260,13 +260,8 @@ ActiveRecord::Schema.define(version: 20140405053744) do
   create_table "two_factors", force: true do |t|
     t.integer  "member_id"
     t.string   "otp_secret"
-    t.datetime "updated_at"
+    t.datetime "last_verify_at"
     t.boolean  "activated"
-    t.integer  "verified_at", default: 0
-    t.string   "otp_type",    default: "HOTP"
-    t.string   "otp_method",  default: "email"
-    t.string   "otp_target"
-    t.integer  "retry_count", default: 0
   end
 
   create_table "versions", force: true do |t|

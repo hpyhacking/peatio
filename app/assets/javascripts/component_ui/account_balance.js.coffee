@@ -4,7 +4,7 @@
     availableCoinSel: '.available-coin .value'
 
   @updateAccount = (event, data) ->
-    @select('availableCashSel').text(fixAsk data.bid.balance)
+    @select('availableCashSel').text(fixBid data.bid.balance)
     @select('availableCoinSel').text(fixAsk data.ask.balance)
 
   @after 'initialize', ->
