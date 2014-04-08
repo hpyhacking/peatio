@@ -85,6 +85,9 @@ zh-CN:
       withdraw:
         defaults:
           otp: 验证器上的密码
+      deposit:
+        bank:
+          id: 识别码
       session:
         email: 登录邮箱
         password: 登录密码
@@ -165,5 +168,5 @@ zh-CN:
       deposit:
         bank:
           holder: 银行账户姓名必须与您的实名认证姓名一致。
-          id: 请将此信息添加到转账订单的备注（附言或说明）中
+          id: <span class='text-danger'>请将此信息添加到转账订单的备注（附言或说明）中</span>
           amount: "<a href='/documents/price'>资费说明</a>"
