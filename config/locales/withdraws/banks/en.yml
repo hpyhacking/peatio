@@ -1,8 +1,22 @@
 en:
+  activerecord:
+    models:
+      withdraws/bank: 银行转账
+    attributes:
+      withdraws/bank:
+        id: 提现编号
+        full_name: 用户
+        currency_obj_key_text: 币种
+        state_and_actions: 状态/操作
+        fund_extra: 提现银行
+        fund_extra_text: 提现银行
+        fund_uid: 提现账户
+        amount: 金额
+
   withdraw_channel_bank:
     bank:
-      key: Bank transfer
-      title: Bank transfer
+      key: 银行转账提现
+      title: 银行转账提现
       intro: Bank transfer deposits, Recommend for large recharge 
       latency: 10 minutes
       transfer: Manual processing
