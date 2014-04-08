@@ -37,25 +37,8 @@ module APIv2
       requires :price,  type: String
     end
     post "/orders" do
-      klass = params[:side] == 'sell' ? OrderAsk : OrderBid
-      order = klass.new(
-        member_id:     current_user.id,
-        ask:           current_market.target_unit,
-        bid:           current_market.price_unit,
-        state:         ::Order::WAIT,
-        source:        'APIv2',
-        currency:      params[:market],
-        price:         params[:price],
-        volume:        params[:volume],
-        origin_volume: params[:volume]
-      )
-
-      begin
-        Ordering.new(order).submit
-        present order, with: APIv2::Entities::Order
-      rescue
-        raise CreateOrderError, $!
-      end
+      order = create_order params
+      present order, with: APIv2::Entities::Order
     end
 
     desc 'Cancel an order.'
