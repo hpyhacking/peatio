@@ -64,6 +64,9 @@ en:
   admin:
     deposits:
       banks:
+        index:
+          oneday: 二十四小时内充值订单
+          available: 全部未完成充值订单
         show:
           empty_target: 无充值账单
           alert: 未发现外部充值账单，无法处理充值。

@@ -12,6 +12,8 @@ module Admin
         @available_banks = @banks.includes(:member).
           with_aasm_state(:submitting, :warning, :submitted).
           order('id DESC')
+
+        @available_banks -= @oneday_banks
       end
 
       def show
