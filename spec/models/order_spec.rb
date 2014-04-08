@@ -4,11 +4,11 @@ describe Order, "#fixed" do
   let(:order_bid) { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789') }
   let(:order_ask) { create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789') }
   it { expect(order_bid.price).to be_d '12.32' }
-  it { expect(order_bid.volume).to be_d '123.12345678' }
-  it { expect(order_bid.sum).to be_d ('12.32'.to_d * '123.12345678'.to_d) }
+  it { expect(order_bid.volume).to be_d '123.1234' }
+  it { expect(order_bid.sum).to be_d ('12.32'.to_d * '123.1234'.to_d) }
   it { expect(order_ask.price).to be_d '12.32' }
-  it { expect(order_ask.volume).to be_d '123.12345678' }
-  it { expect(order_ask.sum).to be_d '123.12345678'.to_d }
+  it { expect(order_ask.volume).to be_d '123.1234' }
+  it { expect(order_ask.sum).to be_d '123.1234'.to_d }
 end
 
 describe Order, "#done" do
@@ -56,7 +56,7 @@ describe Order, "#done" do
     it "order_ask done" do
       trade = mock_trade(strike_volume, strike_price)
       hold_account.expects(:unlock_and_sub_funds).with(
-        strike_volume, locked: strike_volume, 
+        strike_volume, locked: strike_volume,
         reason: Account::STRIKE_SUB, ref: trade)
 
       expect_account.expects(:plus_funds).with(
