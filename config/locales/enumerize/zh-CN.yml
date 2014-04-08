@@ -38,14 +38,14 @@ zh-CN:
         submitting: 待确认
         submitted: 待校验
         rejected: 已驳回
-        accepted: 待处理
+        accepted: 已提交
         suspect: 异常
-        processing: 处理中
+        processing: 受理中
         coin_ready: 准备中
         coin_done: 完毕
         done: 提现成功
         almost_done: 发送中
-        canceled: 已取消
+        canceled: 已撤销
         failed: 提现出错
     fund_source:
       category:
