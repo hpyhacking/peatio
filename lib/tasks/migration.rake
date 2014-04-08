@@ -73,4 +73,12 @@ namespace :migration do
         bid_member_id: trade.bid.try(:member_id)
     end
   end
+
+  desc "add account for protoshare"
+  task add_account_for_protoshare: :environment do
+    Member.find_each do |member|
+      member.touch_accounts
+    end
+  end
+
 end
