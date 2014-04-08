@@ -1,5 +1,3 @@
-json.market @market.attributes
-
 json.deposits @deposits do |deposit|
   json.type 'deposit'
   json.timestamp deposit.created_at.to_i
