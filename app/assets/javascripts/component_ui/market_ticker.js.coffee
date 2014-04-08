@@ -8,7 +8,7 @@ window.MarketTickerUI = flight.component ->
     latestPriceSelector: '.value.last'
 
   @update = (el, text) ->
-    text = numeral(text).format('0.00')
+    text = round(text, 2)
     if el.text() isnt text
       el.fadeOut ->
         el.text(text).fadeIn()
