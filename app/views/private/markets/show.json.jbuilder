@@ -5,6 +5,7 @@ json.bids @bids
 json.trades @trades
 json.market @market.attributes
 json.market_config @market.attributes
+json.ticker @ticker
 
 json.i18n do
   json.ask I18n.t('gon.ask')

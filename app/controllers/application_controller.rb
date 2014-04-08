@@ -10,8 +10,6 @@ class ApplicationController < ActionController::Base
   def setting_default
     gon.env = Rails.env
     gon.local = I18n.locale
-    gon.market = Market.find(latest_market).attributes
-    gon.ticker = Global[latest_market].ticker
     gon.pusher_key = ENV["PUSHER_KEY"]
 
     gon.clipboard = {
