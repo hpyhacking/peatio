@@ -25,6 +25,10 @@ zh-CN:
   admin:
     withdraws:
       banks:
+        index:
+          one: 待处理提现订单
+          all: 二十四小时内订单
+          empty: 无任何数据
         show:
           process: 受理
           succeed: 提现

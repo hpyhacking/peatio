@@ -1,6 +1,12 @@
-.panel.panel-primary
-  .panel-heading Bank Transfer Withdraws
-  = render partial: 'table', locals: {banks: @one_banks}
-.panel.panel-primary
-  .panel-heading Bank Transfer Withdraws
-  = render partial: 'table', locals: {banks: @all_banks}
+- unless @one_banks.empty?
+  .panel.panel-primary
+    .panel-heading: span = t('.one')
+    = render partial: 'table', locals: {banks: @one_banks}
+
+- unless @all_banks.empty?
+  .panel.panel-primary
+    .panel-heading: span = t('.all')
+    = render partial: 'table', locals: {banks: @all_banks}
+
+- if @all_banks.empty? and @one_banks.empty?
+  h3.text-info.text-center = t('.empty')

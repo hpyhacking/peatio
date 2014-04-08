@@ -9,7 +9,7 @@ class SatoshiWithdrawsGrid
 
   self.default_column_options = { :order => false }
 
-  column :sn
+  column :id
   column :created_at
   column :fund_uid
   column :fund_extra

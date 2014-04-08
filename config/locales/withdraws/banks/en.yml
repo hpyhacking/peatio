@@ -25,5 +25,15 @@ en:
   admin:
     withdraws:
       banks:
+        index:
+          one: 待处理提现订单
+          all: 二十四小时内订单
+          empty: 无任何数据
         show:
+          process: 受理
+          succeed: 提现
+          reject: 驳回
+          succeed_confirm: 确定处理提现？
+          reject_confirm: 确定驳回提现？
           withdraw: 银行卡提现
+          empty: 无任何数据
