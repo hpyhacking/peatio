@@ -70,7 +70,6 @@
       target = event.target
       if not @select('priceSel').is(target)
         @select('priceSel').fixBid()
-
       if not @select('volumeSel').is(target)
         @select('volumeSel').fixAsk()
 
@@ -88,7 +87,7 @@
       if not @select('priceSel').is(target)
         @select('priceSel').fixBid()
       if not @select('sumSel').is(target)
-        @select('sumSel').fixBid()
+        @select('sumSel').fixAsk()
 
       sum    = BigNumber(@select('sumSel').val())
       price  = BigNumber(@select('priceSel').val())
