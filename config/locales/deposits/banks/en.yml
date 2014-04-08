@@ -12,6 +12,18 @@ en:
         receive_fund_uid_text: Receiver account
         receive_fund_extra_text: Receiver bank
         member_sn: 个人识别码
+        amount: 充值金额
+        sn: 交易编号
+
+  deposits/bank:
+    aasm_state:
+      submitting: 已提交
+      cancelled: 已撤销
+      submitted: 受理中
+      accepted: 充值成功
+      rejected: 已驳回
+      checked: 充值成功
+      warning: 异常
 
   deposit_channel:
     bank:
@@ -48,3 +60,16 @@ en:
       deposits_bank:
         create: Submit
         update: Confirm
+
+  admin:
+    deposits:
+      banks:
+        index:
+          oneday: 二十四小时内充值订单
+          available: 全部未完成充值订单
+        show:
+          empty_target: 无充值账单
+          alert: 未发现外部充值账单，无法处理充值。
+          notice: 此账目已经充值成功，请手工记录。
+          deposit: System Deposit SN - %{sn}
+          target_deposit: Target Depsoit - %{sn}

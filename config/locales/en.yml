@@ -1,4 +1,7 @@
 en:
+  "true": Yes
+  "false": No
+
   slogan: An open-source crypto currency exchange.
   tags:
     vip: VIP
@@ -89,6 +92,11 @@ en:
     withdraw: Withdraw
     getstart: Get Start
     assets: Assets
+
+  admin_header:
+    deposits: Depoists
+    withdraws: Withdraws
+    statistics: Data Statistics
 
   footer:
     about: About

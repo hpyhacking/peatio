@@ -5,14 +5,9 @@ class Deposit < ActiveRecord::Base
   include AASM::Locking
   include Currencible
 
-  attr_accessor :admin_aasm_state, :save_fund_source
+  attr_accessor :save_fund_source
 
   STATE = [:submitting, :cancelled, :submitted, :rejected, :accepted, :checked, :warning]
-  enumerize :aasm_state, in: STATE, scope: true
-
-  def admin_aasm_state_text
-    I18n.t("enumerize.deposit.admin_aasm_state.#{aasm_state_value}")
-  end
 
   alias_attribute :sn, :id
 
