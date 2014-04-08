@@ -19,7 +19,7 @@ describe '2-step verification' do
 
     # signin again
     signout
-    signin identity, otp: ROTP::TOTP.new(secret).now
+    signin identity#, otp: ROTP::TOTP.new(secret).now
 
     # disable
     within '#two_factor_auth' do

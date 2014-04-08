@@ -5,14 +5,15 @@ module Verify
     def new
       two_factor = TwoFactor.find_or_create_by(member_id: temp_user.id)
 
-      if two_factor.activated?
+      # false below will be replaced by user settings like current_user.enable_login_two_factor?
+      if false && two_factor.activated?
         @two_factor = TwoFactor.new
       else
         auth_success and return
       end
     end
 
-    def create 
+    def create
       two_factor = temp_user.two_factor
       two_factor.assign_attributes(two_factor_params)
 
@@ -37,8 +38,15 @@ module Verify
       member_id = session[:temp_member_id]
       reset_session
       session[:member_id] = member_id
-      MemberMailer.notify_signin(member_id).deliver if current_user.activated?
+      send_signin_notification
       redirect_to settings_path
+    end
+
+    def send_signin_notification
+      # false below will be placed by a method that return true if user sign in at different ip
+      if false && current_user.activated?
+        MemberMailer.notify_signin(member_id).deliver
+      end
     end
 
     def temp_user

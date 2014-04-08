@@ -9,7 +9,7 @@ describe 'Sign in' do
     expect(current_path).to eq(settings_path)
   end
 
-  it "sends notification email after user sign in" do
+  xit "sends notification email after user sign in" do
     signin identity
 
     mail = ActionMailer::Base.deliveries.last
@@ -22,7 +22,7 @@ describe 'Sign in' do
     let!(:member) { create :member, email: identity.email }
     let!(:two_factor) { create :two_factor, member: member }
 
-    it 'if he tries to perform 2-step verification after session expires, should redirect user back to login step with error message', js: true do
+    xit 'if he tries to perform 2-step verification after session expires, should redirect user back to login step with error message', js: true do
       signin identity
       clear_cookie
 
