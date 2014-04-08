@@ -9,18 +9,5 @@ module ChannelInheritable
     def self.get
       self.superclass.where(type: self.to_s).first
     end
-
-    def method_missing(name, *args)
-      if name =~ /(.*)_text$/
-        attr = $1
-        I18n.t(i18n_text_key(attr), attr)
-      else
-        super
-      end
-    end
-
-    def i18n_text_key(key)
-      "#{self.class.model_name.i18n_key}.#{key}"
-    end
   end
 end
