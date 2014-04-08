@@ -1,0 +1,8 @@
+en:
+  withdraw_channel_bank:
+    bank:
+      key: Bank transfer
+      title: Bank transfer
+      intro: Bank transfer deposits, Recommend for large recharge 
+      latency: 10 minutes
+      transfer: Manual processing

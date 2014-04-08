@@ -1,0 +1,9 @@
+zh-CN:
+  withdraw_channel_bank:
+    bank:
+      key: 银行转账提现
+      title: 银行转账提现
+      intro: Bank transfer deposits, Recommend for large recharge 
+      latency: 10 minutes
+      transfer: Manual processing
+
