@@ -12,7 +12,6 @@ class Market < ActiveYaml::Base
   include Enumerizeable
 
   set_root_path "#{Rails.root}/config"
-  set_filename "market"
 
   attr :name, :target_unit, :price_unit
 
