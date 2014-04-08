@@ -3,21 +3,18 @@ $.fn.extend
     if $(@).text().length
       $(@).text(window.fixAsk $(@).text())
     else if $(@).val().length
-      val = window.fixAsk $(@).val()
-      $(@).val(val)
+      $(@).val(window.fixAsk $(@).val())
     $(@)
 
   fixBid: ->
     if $(@).text().length
       $(@).text(window.fixBid $(@).text())
     else if $(@).val().length
-      val = window.fixBid $(@).val()
-      $(@).val(val)
+      $(@).val(window.fixBid $(@).val())
     $(@)
 
 window.round = (str, fixed) ->
-  zero = Array(fixed - 1).join("0")
-  numeral(BigNumber(str).round(fixed, 1).toString()).format("0.00[#{zero}]")
+  BigNumber(str).round(fixed, BigNumber.ROUND_DOWN).toF(fixed)
 
 window.fix = (type, str) ->
   if type is 'ask'
