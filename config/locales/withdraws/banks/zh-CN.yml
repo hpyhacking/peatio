@@ -9,8 +9,10 @@ zh-CN:
         currency_obj_key_text: 币种
         state_and_actions: 状态/操作
         fund_source: 提现银行
+        fund_extra_text: 提现银行
         fund_uid: 提现账户
         amount: 金额
+        remark: 备注
 
   withdraw_channel_bank:
     bank:
@@ -20,3 +22,13 @@ zh-CN:
       latency: 10 minutes
       transfer: Manual processing
 
+  admin:
+    withdraws:
+      banks:
+        show:
+          process: 受理
+          succeed: 提现
+          reject: 驳回
+          succeed_confirm: 确定处理提现？
+          reject_confirm: 确定驳回提现？
+          withdraw: 银行卡提现

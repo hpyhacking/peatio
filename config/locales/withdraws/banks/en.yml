@@ -8,10 +8,11 @@ en:
         full_name: 用户
         currency_obj_key_text: 币种
         state_and_actions: 状态/操作
-        fund_extra: 提现银行
+        fund_source: 提现银行
         fund_extra_text: 提现银行
         fund_uid: 提现账户
         amount: 金额
+        remark: 备注
 
   withdraw_channel_bank:
     bank:
@@ -20,3 +21,9 @@ en:
       intro: Bank transfer deposits, Recommend for large recharge 
       latency: 10 minutes
       transfer: Manual processing
+
+  admin:
+    withdraws:
+      banks:
+        show:
+          withdraw: 银行卡提现
