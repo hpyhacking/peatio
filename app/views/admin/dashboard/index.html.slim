@@ -1,15 +1,18 @@
 .row
-  .col-md-6
-    .row: .col-md-12
-      - Currency.codes.each do |currency, key|
-        = detail_section_tag "#{currency} #{t('.accounts_title')}"
-        = detail_tag Account.balance_sum(key) + Account.locked_sum(key), title: 'sum'
-        = detail_tag Account.locked_sum(key), title: 'locked'
-        = detail_tag Account.balance_sum(key), title: 'balance'
-        - if Currency.find_by_code(currency.to_s).coin?
-          = detail_tag CoinRPC[currency].safe_getbalance, title: 'wallet'
-  .col-md-6
-    .row: .col-md-12
-      = detail_section_tag t('.daemons_title')
-      - Daemon.statuses.each do |daemon, state|
-        = detail_tag state, title: daemon
+  .col-md-8
+    - Currency.all.each do |c|
+      .panel.panel-primary
+        .panel-heading: span = c.code.upcase
+        .panel-body
+          = description_for :currency do
+            = item_for :sum, Account.balance_sum(c.code) + Account.locked_sum(c.code)
+            = item_for :locked, Account.locked_sum(c.code)
+            = item_for :balance, Account.balance_sum(c.code)
+            - if c.coin?
+              = item_for :'hot-wallet', c.api.safe_getbalance
+  .col-md-6: .panel.panel-primary
+    .panel-heading Daemons Status
+    .panel-body
+      = description_for :daemons do
+        - Daemon.statuses.each do |daemon, state|
+          = item_for daemon, state
