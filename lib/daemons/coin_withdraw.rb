@@ -17,7 +17,7 @@ end
 while($running) do
   logger = Logger.new(STDOUT)
 
-  withdraws = Withdraw.with_state(:coin_ready).load
+  withdraws = Withdraw.with_aasm_state(:coin_ready).load
 
   withdraws.each do |w|
     logger.debug "begin #{w.id} amount: #{w.amount} address: #{w.address}"
