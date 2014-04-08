@@ -1,31 +1,64 @@
-= content_for :frame do
-  .container: .row
-    .col-md-12
+doctype html
+html lang="en"
+  head
+    = stylesheet_link_tag :admin, media: "all"
+    = javascript_include_tag :admin
+    = csrf_meta_tags
+
+  body id='#{controller_name}-#{action_name}'
+    nav#top-menu.navbar.navbar-inverse.navbar-fixed-top role="navigation"
+      .container
+        ul.nav.navbar-nav.navbar-left
+          li class='#{check_active('dashboard')}': a#admin href="#{main_app.admin_dashboard_path}" = t('header.dashboard')
+
+          - if can? :manage, Document
+            li class='#{check_active(Document)}'
+              a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
+
+          - if can? :menu, Deposit
+            li.dropdown class='#{check_active('deposits')}'
+              a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                span = t('admin_header.deposits')
+                span.caret
+              ul.dropdown-menu
+                - DepositChannel.all.each do |c|
+                  - if can? :manage, c.kls
+                    li: a href='#{url_for([:admin, c.kls])}' = c.title_text
+
+          - if can? :menu, Withdraw
+            li.dropdown class='#{check_active('withdraws')}'
+              a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                span = t('admin_header.withdraws')
+                span.caret
+              ul.dropdown-menu
+                - WithdrawChannel.all.each do |c|
+                  - if can? :manage, c.kls
+                    li: a href='#{url_for([:admin, c.kls])}' = c.title_text
+
+          li.dropdown class='#{check_active('statistic')}'
+            a href="#" class="dropdown-toggle" data-toggle="dropdown"
+              span = t('admin_header.statistics')
+              span.caret
+            ul.dropdown-menu
+              - if can? :read, Statistic::MembersGrid
+                li class='#{check_active(Statistic::MembersGrid)}'
+                  a href='#{admin_statistic_members_path}' = Statistic::MembersGrid.grid_name
+              - if can? :read, Statistic::OrdersGrid
+                li class='#{check_active(Statistic::OrdersGrid)}'
+                  a href='#{admin_statistic_orders_path}' = Statistic::OrdersGrid.grid_name
+              - if can? :read, Statistic::TradesGrid
+                li class='#{check_active(Statistic::TradesGrid)}'
+                  a href='#{admin_statistic_trades_path}' = Statistic::TradesGrid.grid_name
+              - if can? :read, Statistic::DepositsGrid
+                li class='#{check_active(Statistic::DepositsGrid)}'
+                  a href='#{admin_statistic_deposits_path}' = Statistic::DepositsGrid.grid_name
+              - if can? :read, Statistic::WithdrawsGrid
+                li class='#{check_active(Statistic::WithdrawsGrid)}'
+                  a href='#{admin_statistic_withdraws_path}' = Statistic::WithdrawsGrid.grid_name
+        ul.nav.navbar-nav.navbar-right
+          p.navbar-text = current_user.email
+          li: a href="#{main_app.root_path}" = t('actions.back')
+    .container
+      = breadcrumbs
       = render 'shared/flash'
       = yield
-
-= content_for :admin_menu do
-  - if can? :manage, Document
-    li class='#{check_active(Document)}'
-      a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
-  - if can? :manage, Withdraw
-    li.ops: a href='#{admin_withdraws_path}' = t('.menus.items.operating.withdraws')
-  - if can? :manage, Deposit
-    li: a href='#{admin_deposits_path}' = t('.menus.items.operating.deposits')
-  - if can? :read, Statistic::MembersGrid
-    li class='#{check_active(Statistic::MembersGrid)}'
-      a href='#{admin_statistic_members_path}' = Statistic::MembersGrid.grid_name
-  - if can? :read, Statistic::OrdersGrid
-    li class='#{check_active(Statistic::OrdersGrid)}'
-      a href='#{admin_statistic_orders_path}' = Statistic::OrdersGrid.grid_name
-  - if can? :read, Statistic::TradesGrid
-    li class='#{check_active(Statistic::TradesGrid)}'
-      a href='#{admin_statistic_trades_path}' = Statistic::TradesGrid.grid_name
-  - if can? :read, Statistic::DepositsGrid
-    li class='#{check_active(Statistic::DepositsGrid)}'
-      a href='#{admin_statistic_deposits_path}' = Statistic::DepositsGrid.grid_name
-  - if can? :read, Statistic::WithdrawsGrid
-    li class='#{check_active(Statistic::WithdrawsGrid)}'
-      a href='#{admin_statistic_withdraws_path}' = Statistic::WithdrawsGrid.grid_name
-
-= render template: "layouts/application"

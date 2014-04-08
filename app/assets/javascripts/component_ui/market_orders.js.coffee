@@ -3,13 +3,6 @@ window.MarketOrdersUI = flight.component ->
     size: 10,
     asksSelector: '.table.asks',
     bidsSelector: '.table.bids',
-    lastSelector: 'h3.last'
-
-  @.refreshLast = (event, data) ->
-    $label = @.select('lastSelector')
-    $label.fadeOut 'slow', ->
-      $label.text fixBid(data['last'])
-      $label.fadeIn('slow')
 
   @.refreshOrders = (event, data) ->
     @.buildOrders(@.select('asksSelector'), data.asks, gon.i18n.ask)
@@ -40,14 +33,12 @@ window.MarketOrdersUI = flight.component ->
     {price: price, volume: volume, avg_price: avg_price}
 
   @.after 'initialize', ->
-    @.on document, 'market::ticker', @.refreshLast
     @.on document, 'market::orders', @.refreshOrders
 
     _(8).times (n) =>
       @.select('asksSelector').prepend("<tr data-order='#{n}'></tr>")
       @.select('bidsSelector').append("<tr data-order='#{n}'></tr>")
 
-    @.refreshLast '', gon.ticker
     @.refreshOrders '', {asks: gon.asks, bids: gon.bids}
 
     @.$node.on 'click', '.asks tr', (e) =>

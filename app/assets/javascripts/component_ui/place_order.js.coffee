@@ -46,7 +46,6 @@
     #{gon.i18n.place_order.sum}: #{sum}
     """
 
-
   @beforeSend = (event, jqXHR) ->
     if confirm(@confirmDialogMsg())
       @disableSubmit()
@@ -97,7 +96,6 @@
 
       @select('volumeSel').val(volume).fixAsk()
       @trigger 'updateAvailable', {sum: sum, volume: volume}
-      @trigger 'order', {price: price, sum: sum, volume: volume}
 
   @orderPlan = (event, data) ->
     return unless (@.$node.is(":visible"))
@@ -105,19 +103,15 @@
     @select('volumeSel').val(data.volume)
     @computeSum(event)
 
-  @refreshPrice = (event, data) ->
-    type = @panelType()
-    switch type
-      when 'bid'
-        @select('lastPrice').text numeral(data.buy).format('0.00')
-      when 'ask'
-        @select('lastPrice').text numeral(data.sell).format('0.00')
-
   @refreshBalance = (event, data) ->
     type = @panelType()
     balance = data[type].balance
-    @select('currentBalanceSel').text balance
     @select('currentBalanceSel').data('balance', balance)
+    switch type
+      when 'bid'
+        @select('currentBalanceSel').text(balance).fixBid()
+      when 'ask'
+        @select('currentBalanceSel').text(balance).fixAsk()
 
   @updateAvailable = (event, data) ->
     type = @panelType()
@@ -125,24 +119,20 @@
     balance = BigNumber(node.data('balance'))
     switch type
       when 'bid'
-        node.text(balance - data.sum)
+        node.text(balance - data.sum).fixBid()
       when 'ask'
-        node.text(balance - data.volume)
+        node.text(balance - data.volume).fixAsk()
 
   @after 'initialize', ->
     @on document, 'order::plan', @orderPlan
-    @on document, 'market::ticker', @refreshPrice
     @on document, 'trade::account', @refreshBalance
+    @on 'updateAvailable', @updateAvailable
 
     @on @select('formSel'), 'ajax:beforeSend', @beforeSend
     @on @select('formSel'), 'ajax:success', @handleSuccess
     @on @select('formSel'), 'ajax:error', @handleError
 
     @on @select('sumSel'), 'change paste keyup', @computeVolume
-    @on @select('priceSel'), 'change paste keyup', @computeSum
-    @on @select('volumeSel'), 'change paste keyup', @computeSum
+    @on @select('priceSel'), 'change paste keyup focusout', @computeSum
+    @on @select('volumeSel'), 'change paste keyup focusout', @computeSum
 
-    @on @select('priceSel'), 'focusout', @computeSum
-    @on @select('volumeSel'), 'focusout', @computeSum
-
-    @on document, 'updateAvailable', @updateAvailable

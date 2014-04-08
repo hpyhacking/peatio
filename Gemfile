@@ -20,7 +20,7 @@ gem 'figaro'
 gem 'settingslogic'
 
 gem 'aasm'
-gem 'cancan'
+gem 'cancancan'
 gem 'enumerize'
 gem 'datagrid'
 gem 'cached_resource'
@@ -64,6 +64,7 @@ gem 'liability-proof', '0.0.8'
 gem 'whenever', '~> 0.9.2'
 gem 'grape', '~> 0.7.0'
 gem 'grape-entity', '~> 0.4.2'
+gem 'easy_table'
 
 group :development, :test do
   gem 'factory_girl_rails'
