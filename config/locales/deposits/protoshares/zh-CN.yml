@@ -7,7 +7,7 @@ zh-CN:
       latency: 10 分钟到账
       transfer: 自动
 
-  deposits/satoshi:
+  deposits/protoshare:
     aasm_state:
       submitted: 受理中
       accepted: 充值成功
@@ -16,7 +16,7 @@ zh-CN:
 
   admin:
     deposits:
-      satoshis:
+      protoshares:
         update:
           notice: 此笔充值已经成功到账。
         index:
