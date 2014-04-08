@@ -67,6 +67,52 @@ describe APIv2::Orders do
     end
   end
 
+  describe "POST /api/v2/orders/multi" do
+    before do
+      Resque.stubs(:enqueue)
+      member.get_account(:btc).update_attributes(balance: 100)
+      member.get_account(:cny).update_attributes(balance: 100000)
+    end
+
+    it "should create a sell order and a buy order" do
+      params = {
+        market: 'btccny',
+        orders: [
+          {side: 'sell', volume: '12.13', price: '2014'},
+          {side: 'buy',  volume: '17.31', price: '2005'}
+        ]
+      }
+
+      expect {
+        signed_post '/api/v2/orders/multi', token: token, params: params
+        response.should be_success
+
+        result = JSON.parse(response.body)
+        result.should have(2).orders
+        result.first['side'].should   == 'sell'
+        result.first['volume'].should == '12.13'
+        result.last['side'].should    == 'buy'
+        result.last['volume'].should  == '17.31'
+      }.to change(Order, :count).by(2)
+    end
+
+    it "should create nothing on error" do
+      params = {
+        market: 'btccny',
+        orders: [
+          {side: 'sell', volume: '12.13', price: '2014'},
+          {side: 'buy',  volume: '17.31', price: 'test'} # <- invalid price
+        ]
+      }
+
+      expect {
+        signed_post '/api/v2/orders/multi', token: token, params: params
+        response.code.should == '400'
+        response.body.should == '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Price must be greater than 0"}}'
+      }.not_to change(Order, :count)
+    end
+  end
+
   describe "POST /api/v2/orders" do
     before { Resque.stubs(:enqueue) }
 

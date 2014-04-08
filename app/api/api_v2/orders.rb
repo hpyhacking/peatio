@@ -29,6 +29,22 @@ module APIv2
       present order, with: APIv2::Entities::Order, type: :full
     end
 
+    desc 'Create multiple sell/buy orders.'
+    params do
+      requires :market, type: String, values: ::APIv2::Mount::MARKETS
+      requires :orders, type: Array do
+        requires :side,   type: String, values: %w(sell buy)
+        requires :volume, type: String
+        requires :price,  type: String
+      end
+    end
+    post "/orders/multi" do
+      Order.transaction do
+        orders = params[:orders].map {|attrs| create_order(attrs) }
+        present orders, with: APIv2::Entities::Order
+      end
+    end
+
     desc 'Create a Sell/Buy order.'
     params do
       requires :market, type: String, values: ::APIv2::Mount::MARKETS
