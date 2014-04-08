@@ -9,16 +9,17 @@ class BankWithdrawsGrid
 
   self.default_column_options = { :order => false }
 
-  column :sn
+  column :id
   column_localtime :created_at
   column :fund_extra_text
   column :fund_uid
   column(:sum) {|withdraw| "#{withdraw.currency_symbol}#{withdraw.sum}"}
   column :actions, html: true, header: '' do |withdraw|
     if withdraw.cancelable?
-      link_to I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete
+      content_tag(:span, "#{withdraw.aasm_state_text} / ") +
+        link_to(I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete)
     else
-      withdraw.aasm_state_text
+      content_tag(:span, withdraw.aasm_state_text)
     end
   end
 end

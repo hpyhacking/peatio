@@ -5,6 +5,8 @@ class Withdraw < ActiveRecord::Base
   include AASM
   include AASM::Locking
 
+  include Currencible
+
   STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
             :coin_ready, :coin_done, :done, :canceled, :almost_done, :failed]
 
@@ -12,8 +14,10 @@ class Withdraw < ActiveRecord::Base
 
   has_paper_trail on: [:update, :destroy]
 
-  enumerize :currency, in: Currency.codes, scope: true
   enumerize :aasm_state, in: STATES, scope: true
+
+  delegate :key_text, to: :channel, prefix: true
+  delegate :full_name, to: :member
 
   attr_accessor :save_fund_source
 
