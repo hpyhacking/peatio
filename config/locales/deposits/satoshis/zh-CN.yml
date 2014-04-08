@@ -9,11 +9,8 @@ zh-CN:
 
   deposits/satoshi:
     aasm_state:
-      submitting: 已提交
-      cancelled: 异常
-      submitted: 已到账
+      submitted: 受理中
       accepted: 充值成功
-      rejected: 已驳回
       checked: 充值成功
       warning: 异常
 
