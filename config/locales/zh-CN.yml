@@ -25,6 +25,7 @@ zh-CN:
     bid: 买入
   back: 返回
   invalid_password: 无效的登录密码
+  all: 全部
 
   date:
     formats:
@@ -99,6 +100,7 @@ zh-CN:
     withdraw: 提现
     getstart: 前往交易大厅
     assets: 资产公开
+    my_assets: 我的资产
 
   admin_header:
     deposits: 充值管理
