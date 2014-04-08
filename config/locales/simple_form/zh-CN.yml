@@ -155,4 +155,5 @@ zh-CN:
       deposit:
         bank:
           holder: 银行账户姓名必须与您的实名认证姓名一致。
-          member_sn: 请将此信息添加到转账订单的备注（附言或说明）中
+          id: 请将此信息添加到转账订单的备注（附言或说明）中
+          amount: "<a href='/documents/price'>资费说明</a>"
