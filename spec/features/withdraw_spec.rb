@@ -44,6 +44,7 @@ describe 'withdraw' do
   end
 
   it 'allow user to see their current position in the withdraw process queue' do
+    pending 'withdraw dashboard'
     admin_identity = create :identity, email: Member.admins.first
     deposit admin_identity, member, 2500
 
