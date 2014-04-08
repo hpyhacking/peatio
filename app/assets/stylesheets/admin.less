@@ -1,10 +1,34 @@
+@import "bootstrap/variables";
+
+@grid-columns: 24;
+
+@grid-gutter-width: 10px;
+
+@import "bootstrap/bootstrap";
+
+.dl-horizontal dt {
+  width: 120px;
+}
+
+.dl-horizontal dd {
+  margin-left: 140px;
+}
+
+body { padding-top: 80px; }
+
+b.caret {
+  margin-left: 5px;
+}
+
+.panel {
+  .table td:first-of-type, .table th:first-of-type {
+    padding-left: 14px;
+  }
+}
+
 span.detail-item, span.detail-section { display: block; }
 
 span.detail-item {
-  &.empty { 
-    .text-ignore;
-  }
-
   & > i.fa {
     &:before {
       margin-right: 5px;
@@ -15,7 +39,6 @@ span.detail-item {
   text-align: right;
 
   &:before {
-    .text-ignore;
     float: left;
     width: 100px;
     margin-right: 10px;

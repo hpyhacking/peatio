@@ -1,0 +1,6 @@
+zh-CN:
+  currency:
+    satoshi:
+      key: BTC
+    renminbi:
+      key: CNY

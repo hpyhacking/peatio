@@ -1,0 +1,14 @@
+- unless banks.empty?
+  = table_for(banks, class: 'table table-condensed table-hover') do |t|
+    - t.column :sn, class: 'col-md-2'
+    - t.column :created_at, class: 'col-md-3'
+    - t.column :currency_obj_key_text, class: 'col-md-2'
+    - t.column :full_name, class: 'col-md-4' do |x|
+      = link_to x.full_name, url_for([:admin, x.member]), target: '_blank'
+    - t.column :fund_source, class: 'col-md-5' do |x|
+      span #{x.fund_extra_text} # #{x.fund_uid}
+    - t.column :amount, class: 'col-md-3' do |x|
+      code.text-info = x.amount
+    - t.column :state_and_actions, class: 'col-md-3' do |x|
+      span = "#{x.aasm_state_text} / "
+      = link_to t("actions.view"), url_for([:admin, x])

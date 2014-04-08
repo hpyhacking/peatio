@@ -7,13 +7,7 @@ ul.nav.navbar-nav.navbar-right
   - if current_user
     = top_nav_link(current_user.email, settings_path, 'user', controllers: ['two_factors', 'identities', 'id_documents'])
     - if is_admin?
-      li.dropdown
-        a.dropdown-toggle href='#' data-toggle='dropdown'
-          span = t('header.dashboard')
-          b.caret
-        ul.dropdown-menu
-          li: a#admin href="#{main_app.admin_dashboard_path}" = t('header.admin')
-          = yield :admin_menu
+      = top_nav_link(t('header.dashboard'), admin_dashboard_path, 'dashboard')
     li: a#sign_out href='#{main_app.signout_path}'
       i.fa.fa-sign-out
       span = t('header.signout')

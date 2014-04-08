@@ -34,7 +34,32 @@ module ApplicationHelper
   end
 
   def check_active(klass)
-    return 'active' if (klass.model_name.singular == controller.controller_name.singularize)
+    if klass.is_a? String
+      return 'active' unless (controller.controller_path.exclude?(klass.singularize))
+    else
+      return 'active' if (klass.model_name.singular == controller.controller_name.singularize)
+    end
+  end
+
+  def breadcrumbs
+    content_tag 'ol', class: 'breadcrumb' do
+      breadcrumb(controller_path.split('/'), []).reverse.join.html_safe
+    end
+  end
+
+  def breadcrumb(paths, result)
+    return result if paths.empty?
+    r = content_tag :li, class: "#{result.empty? ? 'active' : nil}" do
+      if result.empty?
+        I18n.t("breadcrumbs.#{paths.join('/')}", default: 'DEFAULT')
+      else
+        content_tag :a, href: '#' do
+          I18n.t("breadcrumbs.#{paths.join('/')}", default: 'DEFAULT')
+        end
+      end
+    end
+    paths.pop
+    breadcrumb(paths, result << r)
   end
 
   def blockchain_url(txid)
@@ -155,4 +180,25 @@ module ApplicationHelper
     t("#{i18n_controller_path}.#{action_name}.#{key}", default: :"layouts.meta.#{key}")
   end
 
+  def description_for(name, &block)
+    content_tag :dl, class: "dl-horizontal dl-#{name}" do
+      capture(&block)
+    end
+  end
+
+  def item_for(model, name, value = nil, &block)
+    capture do
+      if block_given?
+        content_tag(:dt, model.class.human_attribute_name(name)) + 
+          content_tag(:dd, capture(&block))
+      else
+        value = model.try(name)
+        value = value.localtime if value.is_a? DateTime
+        value = I18n.t(value) if value.is_a? TrueClass
+
+        content_tag(:dt, model.class.human_attribute_name(name)) + 
+          content_tag(:dd, value)
+      end
+    end
+  end
 end

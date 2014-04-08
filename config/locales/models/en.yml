@@ -120,6 +120,7 @@ en:
         created_at: Register At
         sn: SN
         tag_list: Tags
+        activated: Activated
     errors:
       models:
         order_bid:

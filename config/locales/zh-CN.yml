@@ -1,4 +1,7 @@
 zh-CN:
+  "true": 是
+  "false": 否
+
   view_on_github: 到 Github 上查看
   slogan: 貔貅北京开源数字加密货币交易平台。
   slogan_desc: 貔貅交易所是比特币等加密数字货币的交易平台，是国内首个实现开源机制的项目，我们秉承“开放开源，阳光透明”的理念，旨在为广大加密数字货币爱好者，提供一个代码开源开放、资产公开透明，安全易用和最具有公信力的加密数字货币交易服务平台。
@@ -85,7 +88,7 @@ zh-CN:
         total: 总计
 
   header:
-    dashboard: 面板
+    dashboard: 控制面板
     admin: 管理
     market: 交易大厅
     settings: 账户
@@ -96,6 +99,11 @@ zh-CN:
     withdraw: 提现
     getstart: 前往交易大厅
     assets: 资产公开
+
+  admin_header:
+    deposits: 充值管理
+    withdraws: 提现管理
+    statistics: 数据统计
 
   footer:
     about: 关于我们

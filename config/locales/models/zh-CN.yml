@@ -40,8 +40,10 @@ zh-CN:
       account:
         currency: 币种
         currency_text: 币种
+        balance_and_locked: 余额/冻结
         balance: 余额
         locked: 冻结
+        amount: 总额
       deposit:
         currency-address-type: 币种-支付方式
         state: 状态
@@ -128,6 +130,7 @@ zh-CN:
         created_at: 注册时间
         sn: 个人识别码
         tag_list: 标签
+        activated: 激活成功
     errors:
       models:
         order_bid:
