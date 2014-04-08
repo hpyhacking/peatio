@@ -8,6 +8,7 @@ class Deposit < ActiveRecord::Base
   attr_accessor :save_fund_source
 
   STATE = [:submitting, :cancelled, :submitted, :rejected, :accepted, :checked, :warning]
+  enumerize :aasm_state, in: STATE, scope: true
 
   alias_attribute :sn, :id
 

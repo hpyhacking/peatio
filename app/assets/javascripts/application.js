@@ -41,6 +41,7 @@
 //= require selectize
 //= require highstock
 //= require highstock_config
+//= require list
 //= require helper
 //= require fund_source
 

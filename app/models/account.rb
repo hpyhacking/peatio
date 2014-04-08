@@ -1,5 +1,5 @@
 class Account < ActiveRecord::Base
-  extend Enumerize
+  include Currencible
   enumerize :currency, in: Currency.codes, scope: true
 
   validates :member_id, uniqueness: { scope: :currency }

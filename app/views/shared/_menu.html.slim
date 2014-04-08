@@ -3,6 +3,7 @@ ul#menu.nav.navbar-nav.navbar-left
   = top_nav_link(t('header.deposit'), deposits_path, 'credit-card')
   = top_nav_link(t('header.withdraw'), withdraws_path, 'money')
   = top_nav_link(t('header.assets'), exchange_assets_path, 'bar-chart-o')
+  = top_nav_link(t('header.my_assets'), my_assets_path, 'dollar')
 ul.nav.navbar-nav.navbar-right
   - if current_user
     = top_nav_link(current_user.email, settings_path, 'user', controllers: ['two_factors', 'identities', 'id_documents'])

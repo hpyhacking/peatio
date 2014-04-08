@@ -53,3 +53,4 @@ $ ->
   AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
   OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
 
+  TransactionsUI.attachTo('#transactions')

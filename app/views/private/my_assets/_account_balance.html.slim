@@ -1,0 +1,14 @@
+.panel.panel-default.account-balance
+  .panel-heading = t('trade.account_balance.title')
+  .panel-body
+    .col-md-12
+      table.table.table-condensed.table-striped
+        thead: tr
+          - %w(currency balance locked).each do |attr|
+            th class='#{attr}' = Account.human_attribute_name(attr)
+        tbody
+          - @accounts.each do |account|
+            tr class="#{account.currency}"
+              td.name = t("currency.name.#{account.currency}", default: account.currency_obj.code)
+              td.available = account.balance
+              td.locked = account.locked
