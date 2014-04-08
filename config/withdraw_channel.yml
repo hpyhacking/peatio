@@ -15,5 +15,7 @@
   fee: 0
   proportion: true
   inuse: true
-  banks: ["icbc", "cbc", "bc", "bcm", "abc", "cmb", "cmbc", "cncb", "hxb", "cib", "spdb", "bob", "cncb", "ceb", "sdb", "pab", "gdb"]
+  banks: ["icbc", "cmb", "abc", "cbc", "bc", "cmbc", "ceb", "cncb", "bcm", "cib", "spdb", "hxb", "pab", "gdb", "bob"]
   type: WithdrawChannelBank
+
+
