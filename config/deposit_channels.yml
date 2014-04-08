@@ -7,3 +7,8 @@
   key: bank
   currency: cny
   banks: ["icbc", "cmb", "abc", "cbc", "bc", "cmbc", "ceb", "cncb", "bcm", "cib", "spdb", "hxb", "pab", "gdb", "bob"]
+- id: 500
+  key: protoshare
+  currency: pts
+  min_confirm: 1
+  max_confirm: 6
