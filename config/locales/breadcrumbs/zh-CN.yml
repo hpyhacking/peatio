@@ -3,5 +3,8 @@ zh-CN:
     admin: 后台管理
     admin/dashboard: 控制面板
     admin/deposits: 充值管理
+    admin/withdraws: 提现管理
     admin/deposits/banks: 银行转账充值
     admin/deposits/satoshis: 比特币充值
+    admin/withdraws/banks: 银行转账提现
+    admin/withdraws/satoshis: 比特币提现
