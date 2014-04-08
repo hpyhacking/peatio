@@ -5,4 +5,7 @@
   .container
     #market
       = yield
+= content_for :footer do
+  = render 'shared/footer_col24'
+
 = render template: "layouts/application"
