@@ -17,6 +17,7 @@ module Private
       @asks   = Global[@market].asks
       @trades = Global[@market].trades
       @price  = Global[@market].price
+      @ticker = Global[@market].ticker
 
       @order_bid = OrderBid.empty
       @order_ask = OrderAsk.empty
