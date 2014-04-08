@@ -6,10 +6,7 @@
   = f.input :receive_fund_uid_text, clip: true
   = f.input :receive_fund_extra_text, clip: true
   = f.input :amount, hint: false, clip: true
-  = f.input :id, clip: true
-  hr.split
-  = f.button :wrapped do
-    = link_to t('actions.cancel'), deposit_path(@deposit), method: :delete, class: 'btn btn-info btn-lg pull-right'
+  = f.input :sn, clip: true
 
 = content_for :after
   - if @assets && !@assets.empty?
