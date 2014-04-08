@@ -39,7 +39,11 @@ module Verify
       reset_session
       session[:member_id] = member_id
       send_signin_notification
-      redirect_to settings_path
+      if current_user.activated? and (current_user.id_document and current_user.id_document_verified?)
+        redirect_to market_path(latest_market)
+      else
+        redirect_to settings_path
+      end
     end
 
     def send_signin_notification
