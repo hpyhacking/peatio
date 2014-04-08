@@ -2,6 +2,8 @@
   = f.input :fund_uid
   = f.input :fund_extra
   = f.input :sum, input_html: { value: "#{@withdraw.currency_symbol}#{@withdraw.sum}" }
+  = f.input :fee, input_html: { value: "#{@withdraw.currency_symbol}#{@withdraw.fee}" }
+  = f.input :amount, input_html: { value: "#{@withdraw.currency_symbol}#{@withdraw.amount}" }
 
   - if current_user.two_factor_activated?
     = f.input :otp do
