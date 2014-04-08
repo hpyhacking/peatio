@@ -10,5 +10,6 @@ module Deposits
       i18n_scope: ["deposit_channel.#{name.demodulize.underscore}.banks", 'banks']
 
     validates_presence_of :fund_extra, :fund_uid, :amount
+    validates_numericality_of :amount, greater_than_or_equal_to: 100
   end
 end
