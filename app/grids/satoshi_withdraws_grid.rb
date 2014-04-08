@@ -16,7 +16,8 @@ class SatoshiWithdrawsGrid
   column(:sum) {|withdraw| "#{withdraw.currency_symbol}#{withdraw.sum}"}
   column :actions, html: true, header: '' do |withdraw|
     if withdraw.cancelable?
-      link_to I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete
+      content_tag(:span, "#{withdraw.aasm_state_text} / ") +
+        link_to I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete
     else
       withdraw.aasm_state_text
     end
