@@ -14,6 +14,7 @@ module Admin
       can :menu, Deposit
       can :manage, ::Deposits::Bank
       can :manage, ::Deposits::Satoshi
+      can :manage, ::Deposits::Protoshare
 
       can :menu, Withdraw
       can :manage, ::Withdraws::Bank
