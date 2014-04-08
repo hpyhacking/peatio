@@ -44,11 +44,8 @@ module APIv2
     end
 
     def payload
-      @params
-        .select {|k,v| !%w(route_info signature).include?(k) }.to_a
-        .sort_by(&:first)
-        .map {|pair| pair.join('=') }
-        .join('&')
+      hash = @params.select {|k,v| !%w(route_info signature).include?(k) }
+      URI.unescape(hash.to_param)
     end
 
   end
