@@ -30,7 +30,6 @@
 //
 //= require scrollIt
 //= require moment
-//= require numeral
 //= require bignumber
 //= require underscore
 //= require handlebars.runtime
