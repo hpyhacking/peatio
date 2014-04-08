@@ -42,20 +42,17 @@ Handlebars.registerHelper 'format_fulltime', (timestamp) ->
   m = moment.unix(timestamp)
   "#{m.format("MM-DD HH:mm")}"
 
-Handlebars.registerHelper 'format_mask_number', (number, length = 7) ->
-  fractional_len = length - 2
-  fractional_part = Array(fractional_len).join '0'
-  numeral(number).format("0.#{fractional_part}").substr(0, length).replace(/\..*/, "<g>$&</g>")
+Handlebars.registerHelper 'format_mask_fixed_price', (price) ->
+  fixBid(price).replace(/\..*/, "<g>$&</g>")
 
-Handlebars.registerHelper 'format_mask_fixed_number', (number, length = 4) ->
-  fractional_part = Array(length).join '0'
-  numeral(number).format("0.#{fractional_part}").replace(/\..*/, "<g>$&</g>")
+Handlebars.registerHelper 'format_mask_fixed_amount', (amount) ->
+  fixAsk(amount).replace(/\..*/, "<g>$&</g>")
 
 Handlebars.registerHelper 'format_fix_ask', (volume) ->
   fixAsk volume
 
 Handlebars.registerHelper 'format_fix_bid', (price) ->
-  fixAsk price
+  fixBid price
 
 Handlebars.registerHelper 'format_volume', (origin, volume) ->
   if (origin is volume) or (BigNumber(volume).isZero())
