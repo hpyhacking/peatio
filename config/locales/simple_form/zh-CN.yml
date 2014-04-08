@@ -87,7 +87,7 @@ zh-CN:
           otp: 验证器上的密码
       deposit:
         bank:
-          id: 识别码
+          sn: 充值识别码
       session:
         email: 登录邮箱
         password: 登录密码
