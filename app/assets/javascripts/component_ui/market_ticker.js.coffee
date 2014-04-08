@@ -14,12 +14,14 @@ window.MarketTickerUI = flight.component ->
         el.text(text).fadeIn()
 
   @refresh = (event, data) ->
-    @update @select('volumeSelector'), data['volume']
-    @update @select('askPriceSelector'), data['sell']
-    @update @select('bidPriceSelector'), data['buy']
-    @update @select('lowPriceSelector'), data['low']
-    @update @select('highPriceSelector'), data['high']
-    @update @select('latestPriceSelector'), data['last']
+    @update @select('volumeSelector'), data.volume
+    @update @select('askPriceSelector'), data.sell
+    @update @select('bidPriceSelector'), data.buy
+    @update @select('lowPriceSelector'), data.low
+    @update @select('highPriceSelector'), data.high
+    @update @select('latestPriceSelector'), data.last
+
+    document.title = "#{data.last} - #{gon.i18n.brand}"
 
   @after 'initialize', ->
     @on document, 'market::ticker', @refresh
