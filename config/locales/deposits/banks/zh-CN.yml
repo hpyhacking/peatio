@@ -12,7 +12,7 @@ zh-CN:
         receive_fund_uid_text: 貔貅交易所收款账号
         receive_fund_extra_text: 貔貅交易所开户行
         member_sn: 个人识别码
-        amount: 您的充值金额
+        amount: 充值金额
         sn: 交易编号
 
   deposits/bank:
@@ -76,3 +76,13 @@ zh-CN:
         create: 提交
         update: 我已成功转账
         cancel: 取消订单
+
+  admin:
+    deposits:
+      banks:
+        show:
+          empty_target: 无充值账单
+          alert: 未发现外部充值账单，无法处理充值。
+          notice: 此账目已经充值成功，请手工记录。
+          deposit: 系统充值编号 - %{sn}
+          target_deposit: 外部充值编号 - %{sn}

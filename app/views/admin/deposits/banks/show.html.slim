@@ -2,7 +2,7 @@
   .col-md-8
     .panel.panel-primary
       .panel-heading
-        span = t('.deposit', sn: @target.sn)
+        span = t('.deposit', sn: @bank.sn)
       .panel-body
         = description_for :member do
           = item_for @bank, :sn
@@ -20,14 +20,18 @@
   .col-md-8
     .panel class='#{@match ? 'panel-primary' : 'panel-danger'}'
       .panel-heading
-        span = t('.target_deposit', sn: @target.sn)
+        - if @target
+          span = t('.target_deposit', sn: @target.sn)
+        - else
+          span = t('.empty_target')
       .panel-body
-        = description_for :member do
-          = item_for @target, :sn
-          = item_for @target, :holder
-          = item_for @target, :amount
-          = item_for @target, :created_at
-          hr.split
-          = item_for @target, :txid
+        - if @target
+          = description_for :member do
+            = item_for @target, :sn
+            = item_for @target, :holder
+            = item_for @target, :amount
+            = item_for @target, :created_at
+            hr.split
+            = item_for @target, :txid
   .col-md-8
     = render partial: 'shared/admin/member', locals: {member: @bank.member} 

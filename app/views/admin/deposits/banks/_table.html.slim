@@ -10,4 +10,5 @@
     - t.column :amount, class: 'col-md-3' do |x|
       code.text-info = x.amount
     - t.column :state_and_actions, class: 'col-md-3' do |x|
-      span = x.aasm_state_text
+      span = "#{x.aasm_state_text} / "
+      = link_to t("actions.view"), url_for([:admin, x])
