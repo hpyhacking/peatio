@@ -23,6 +23,7 @@ module APIv2
     # Grape will add default values to params after validation
     before { @raw_params = params.dup }
 
+    mount Markets
     mount Tickers
     mount Members
     mount Orders
