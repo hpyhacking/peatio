@@ -39,7 +39,13 @@ Peatio::Application.routes.draw do
     resources :members, :only => [:index, :show, :update]
 
     namespace :deposits do
-      Deposit.descendants.each do |w|
+      Deposit.descendants.each do |d|
+        resources d.resource_name
+      end
+    end
+
+    namespace :withdraws do
+      Withdraw.descendants.each do |w|
         resources w.resource_name
       end
     end

@@ -11,6 +11,10 @@ html lang="en"
         ul.nav.navbar-nav.navbar-left
           li class='#{check_active('dashboard')}': a#admin href="#{main_app.admin_dashboard_path}" = t('header.dashboard')
 
+          - if can? :manage, Document
+            li class='#{check_active(Document)}'
+              a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
+
           - if can? :menu, Deposit
             li.dropdown class='#{check_active('deposits')}'
               a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -21,12 +25,15 @@ html lang="en"
                   - if can? :manage, c.kls
                     li: a href='#{url_for([:admin, c.kls])}' = c.title_text
 
-          - if can? :manage, Document
-            li class='#{check_active(Document)}'
-              a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
-          - if can? :manage, Withdraw
-            li class='#{check_active(Withdraw)}'
-              a href='#{admin_withdraws_path}' = t('.menus.items.operating.withdraws')
+          - if can? :menu, Withdraw
+            li.dropdown class='#{check_active('withdraws')}'
+              a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                span = t('admin_header.withdraws')
+                span.caret
+              ul.dropdown-menu
+                - WithdrawChannel.all.each do |c|
+                  - if can? :manage, c.kls
+                    li: a href='#{url_for([:admin, c.kls])}' = c.title_text
 
           li.dropdown class='#{check_active('statistic')}'
             a href="#" class="dropdown-toggle" data-toggle="dropdown"

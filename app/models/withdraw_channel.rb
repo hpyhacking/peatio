@@ -12,4 +12,8 @@ class WithdrawChannel < ActiveYaml::Base
 
   def calc_fee(withdraw)
   end
+
+  def kls
+    "withdraws/#{key}".camelize.constantize
+  end
 end

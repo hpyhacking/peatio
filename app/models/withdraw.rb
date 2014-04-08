@@ -243,4 +243,8 @@ class Withdraw < ActiveRecord::Base
       uid: fund_uid,
       extra: fund_extra
   end
+
+  def self.resource_name
+    name.demodulize.underscore.pluralize
+  end
 end
