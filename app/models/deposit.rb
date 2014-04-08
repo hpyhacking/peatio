@@ -23,7 +23,7 @@ class Deposit < ActiveRecord::Base
   validates_presence_of \
     :amount, :account, \
     :member, :currency
-  validates_numericality_of :amount, greater_than: 0
+  validates_numericality_of :amount, greater_than_or_equal_to: 100
 
   aasm :whiny_transitions => false do
     state :submitting, initial: true, before_enter: :set_fee

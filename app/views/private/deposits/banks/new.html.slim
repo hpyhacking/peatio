@@ -3,10 +3,10 @@
   = f.input_field :fund_extra, as: :hidden, type: :text
   = f.input :holder, readonly: true, input_html: {:value => current_user.name}
 
-  = f.input :fund_extra, prompt: t('simple_form.placeholders.deposits.banks.fund_extra')
+  = f.input :fund_extra, prompt: t('simple_form.placeholders.deposit.bank.fund_extra')
 
   = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid,
-            placeholder: t('simple_form.placeholders.deposits.banks.fund_uid')
+            placeholder: t('simple_form.placeholders.deposit.bank.fund_uid')
 
   .form-group
     label.control-label.col-sm-4

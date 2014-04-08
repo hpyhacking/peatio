@@ -123,8 +123,9 @@ zh-CN:
           sum: ''
           fund_uid: 使用保存的地址或者输入新地址
           fund_extra: 请备注您的钱包地址，方便下次查找使用
-      deposits:
-        banks:
+      deposit:
+        bank:
+          amount: 单笔最低限额100元
           fund_extra: 选择开户行
           fund_uid: 使用已有银行账号或输入新账号
           subbranch: xx分行xx支行
@@ -132,10 +133,6 @@ zh-CN:
           sum: ''
           fund_uid: 使用保存的地址或者输入新地址
           fund_extra: 请备注您的钱包地址，方便下次查找使用
-      deposits:
-        banks:
-          fund_extra: 选择开户行
-          fund_uid: 使用已有银行账号或输入新账号
       order_bid:
         origin_volume:  买入数量
         sum: 总成交金额
@@ -168,5 +165,5 @@ zh-CN:
       deposit:
         bank:
           holder: 银行账户姓名必须与您的实名认证姓名一致。
-          id: <span class='text-danger'>请将此信息添加到转账订单的备注（附言或说明）中</span>
+          sn: <span class='text-danger'>请将此信息添加到转账订单的备注（附言或说明）中</span>
           amount: "<a href='/documents/price'>资费说明</a>"
