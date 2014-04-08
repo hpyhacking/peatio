@@ -23,13 +23,13 @@ hr.split
 
 p
   h4 = t('.step-3')
-  p = t('.check-confirm').html_safe
+  p = t('.check-confirm', path: exchange_assets_path).html_safe
 
 hr.split
 
 p
   h4 = t('.step-4')
-  p = t('.history')
+  p = t('.history').html_safe
 
 = content_for :after
   - unless @assets.empty?
