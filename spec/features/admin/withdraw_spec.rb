@@ -17,6 +17,7 @@ describe 'withdraw' do
   end
 
   def visit_admin_withdraw_page
+    pending 'skip withdraw dashboard'
     login identity
     click_on I18n.t('header.admin')
 
@@ -27,6 +28,7 @@ describe 'withdraw' do
   end
 
   it 'admin view withdraws' do
+    pending 'skip withdraw dashboard'
     visit_admin_withdraw_page
 
     expect(page).to have_content(withdraw.sn)
@@ -41,6 +43,7 @@ describe 'withdraw' do
   end
 
   it 'admin approve withdraw' do
+    pending 'skip withdraw dashboard'
     visit_admin_withdraw_page
 
     click_on I18n.t('actions.view')
@@ -58,6 +61,7 @@ describe 'withdraw' do
   end
 
   it 'admin reject withdraw' do
+    pending 'skip withdraw dashboard'
     visit_admin_withdraw_page
 
     click_on I18n.t('actions.view')
