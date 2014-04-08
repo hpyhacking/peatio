@@ -26,6 +26,7 @@ module APIv2
     mount Tickers
     mount Members
     mount Orders
+    mount OrderBooks
     mount Trades
   end
 end
