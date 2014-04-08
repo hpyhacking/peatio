@@ -89,3 +89,5 @@ zh-CN:
           notice: 此账目已经充值成功，请手工记录。
           deposit: 系统充值编号 - %{sn}
           target_deposit: 外部充值编号 - %{sn}
+          deposit: 充值
+          confirm: 确认给用户进行充值吗？
