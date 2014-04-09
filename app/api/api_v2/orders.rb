@@ -3,13 +3,11 @@ module APIv2
 
     before { authenticate! }
 
-    desc 'Get your orders.', {
-      params: APIv2::Entities::Order.documentation
-    }
+    desc 'Get your orders.'
     params do
       requires :market, type: String,  values: ::APIv2::Mount::MARKETS
-      optional :state,  type: String,  default: 'wait', values: Order.state.values
-      optional :limit,  type: Integer, default: 10, range: 1..1000
+      optional :state,  type: String,  default: 'wait', values: Order.state.values, desc: "Filter order by state, default to 'wait' (active orders)."
+      optional :limit,  type: Integer, default: 10, range: 1..1000, desc: "Limit the number of returned orders, default to 10."
     end
     get "/orders" do
       orders = current_user.orders
@@ -22,7 +20,7 @@ module APIv2
 
     desc 'Get information of specified order.'
     params do
-      requires :id, type: Integer
+      requires :id, type: Integer, desc: ::APIv2::Entities::Order.documentation[:id][:desc]
     end
     get "/order" do
       order = current_user.orders.where(id: params[:id]).first
@@ -59,7 +57,7 @@ module APIv2
 
     desc 'Cancel an order.'
     params do
-      requires :id, type: Integer
+      requires :id, type: Integer, desc: ::APIv2::Entities::Order.documentation[:id][:desc]
     end
     delete "/order" do
       order = current_user.orders.find(params[:id])
