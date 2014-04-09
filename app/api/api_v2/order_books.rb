@@ -6,8 +6,8 @@ module APIv2
     desc 'Get the order book of specified market.'
     params do
       requires :market, type: String, values: ::APIv2::Mount::MARKETS
-      optional :asks_limit, type: Integer, default: 20, range: 1..200
-      optional :bids_limit, type: Integer, default: 20, range: 1..200
+      optional :asks_limit, type: Integer, default: 20, range: 1..200, desc: 'Limit the number of returned sell orders. Default to 20.'
+      optional :bids_limit, type: Integer, default: 20, range: 1..200, desc: 'Limit the number of returned buy orders. Default to 20.'
     end
     get "/order_book" do
       asks = OrderAsk.active.with_currency(params[:market]).matching_rule.limit(params[:asks_limit])
