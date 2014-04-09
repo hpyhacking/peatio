@@ -7,7 +7,7 @@ module ChannelInternational
         attr = $1
         I18n.t(i18n_text_key(attr), attr)
       else
-        super
+        super(name, *args)
       end
     end
 
