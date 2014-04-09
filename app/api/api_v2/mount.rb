@@ -1,3 +1,5 @@
+require 'grape-swagger'
+
 require_relative 'errors'
 require_relative 'validations'
 
@@ -20,8 +22,14 @@ module APIv2
 
     MARKETS = Market.all.map(&:id)
 
-    # Grape will add default values to params after validation
-    before { @raw_params = params.dup }
+    before do
+      # Grape will add default values to params after validation
+      @raw_params = params.dup
+
+      # enable CORS
+      header['Access-Control-Allow-Origin'] = '*'
+      header['Access-Control-Request-Method'] = '*'
+    end
 
     mount Markets
     mount Tickers
@@ -29,5 +37,7 @@ module APIv2
     mount Orders
     mount OrderBooks
     mount Trades
+
+    add_swagger_documentation api_version: 'v2'
   end
 end
