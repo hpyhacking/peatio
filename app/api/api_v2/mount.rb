@@ -38,6 +38,6 @@ module APIv2
     mount OrderBooks
     mount Trades
 
-    add_swagger_documentation api_version: 'v2'
+    add_swagger_documentation mount_path: '/doc/swagger', api_version: 'v2'
   end
 end
