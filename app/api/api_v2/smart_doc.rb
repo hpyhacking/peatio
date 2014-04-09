@@ -4,27 +4,23 @@ module APIv2
       def included(base)
         base.routes.each do |route|
           route.route_params.each do |param, options|
-            if args = map_doc(param)
-              options.reverse_merge! find_doc(*args)
+            if doc = find_doc(param)
+              options.reverse_merge! doc
             end
           end
         end
       end
 
-      def find_doc(entity, attr)
-        ::APIv2::Entities.const_get(entity).documentation[attr]
-      end
-
-      def map_doc(param)
+      def find_doc(param)
         case param
         when 'market'
-          ['Market', :id]
+          ::APIv2::Entities::Market.documentation[:id]
         when 'side', 'orders[side]'
-          ['Order', :side]
+          ::APIv2::Entities::Order.documentation[:side]
         when 'volume', 'orders[volume]'
-          ['Order', :volume]
+          ::APIv2::Entities::Order.documentation[:volume]
         when 'price', 'orders[price]'
-          ['Order', :price]
+          ::APIv2::Entities::Order.documentation[:price]
         end
       end
 
