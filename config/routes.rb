@@ -32,6 +32,7 @@ Peatio::Application.routes.draw do
     resources :activations, only: [:new, :edit, :update]
   end
 
+  get '/documents/api_v2'
   resources :documents, :only => :show
 
   namespace :admin do

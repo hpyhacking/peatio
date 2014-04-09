@@ -7,4 +7,9 @@ class DocumentsController < ApplicationController
       render :inline => @doc.body.html_safe
     end
   end
+
+  def api_v2
+    render 'api_v2', layout: 'api_v2'
+  end
+
 end

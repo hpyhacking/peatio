@@ -1,0 +1,16 @@
+doctype html
+html lang="en"
+  head
+    = include_gon
+    = stylesheet_link_tag "api_v2", :media => "all"
+    = javascript_include_tag "api_v2"
+    = render 'shared/html5'
+    = render 'shared/meta'
+  body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
+    .container
+      nav.navbar.navbar-default role='navigation'
+        .container-fluid
+          .navbar-header
+            a.navbar-brand href='#' Peatio API Document
+      = yield
+    = render 'shared/footer'

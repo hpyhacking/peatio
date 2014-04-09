@@ -25,10 +25,6 @@ module APIv2
     before do
       # Grape will add default values to params after validation
       @raw_params = params.dup
-
-      # enable CORS
-      header['Access-Control-Allow-Origin'] = '*'
-      header['Access-Control-Request-Method'] = '*'
     end
 
     mount Markets
