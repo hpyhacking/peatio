@@ -20,7 +20,7 @@ module APIv2
       optional :limit,     type: Integer, range: 1..1000, default: 50
       optional :timestamp, type: Integer
     end
-    get "/my/trades" do
+    get "/trades/my" do
       authenticate!
 
       trades = Trade.for_member(

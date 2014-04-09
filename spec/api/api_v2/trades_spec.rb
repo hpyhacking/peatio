@@ -42,15 +42,15 @@ describe APIv2::Trades do
     end
   end
 
-  describe 'GET /api/v2/my/trades' do
+  describe 'GET /api/v2/trades/my' do
     it "should require authentication" do
-      get '/api/v2/my/trades', market: 'btccny'
+      get '/api/v2/trades/my', market: 'btccny'
       response.code.should == '401'
       response.body.should == '{"error":{"code":2001,"message":"Authorization failed"}}'
     end
 
     it "should return all my recent trades" do
-      signed_get '/api/v2/my/trades', params: {market: 'btccny'}, token: token
+      signed_get '/api/v2/trades/my', params: {market: 'btccny'}, token: token
       response.should be_success
 
       result = JSON.parse(response.body)
@@ -59,19 +59,19 @@ describe APIv2::Trades do
     end
 
     it "should return 1 trade" do
-      signed_get '/api/v2/my/trades', params: {market: 'btccny', limit: 1}, token: token
+      signed_get '/api/v2/trades/my', params: {market: 'btccny', limit: 1}, token: token
       response.should be_success
       JSON.parse(response.body).should have(1).trade
     end
 
     it "should return trades after timestamp" do
-      signed_get '/api/v2/my/trades', params: {market: 'btccny', timestamp: 30.hours.ago.to_i}, token: token
+      signed_get '/api/v2/trades/my', params: {market: 'btccny', timestamp: 30.hours.ago.to_i}, token: token
       response.should be_success
       JSON.parse(response.body).should have(1).trade
     end
 
     it "should return limit out of range error" do
-      signed_get '/api/v2/my/trades', params: {market: 'btccny', limit: 1024}, token: token
+      signed_get '/api/v2/trades/my', params: {market: 'btccny', limit: 1024}, token: token
       response.code.should == '400'
       response.body.should == '{"error":{"code":1001,"message":"limit must be in range: 1..1000"}}'
     end
