@@ -10,6 +10,7 @@ before_script:
   - "cp ./.travis.database.yml ./config/database.yml"
   - "cp ./.travis.application.yml ./config/application.yml"
   - "cp ./.travis.currencies.yml ./config/currencies.yml"
+  - "cp ./.travis.markets.yml ./config/markets.yml"
   - "mkdir -p ./tmp/cache"
 script:
   - bundle exec rake db:schema:load

@@ -18,7 +18,7 @@
           = item_for @satoshi, :remark
           hr.split
           ul.list-inline.pull-right
-            - if @satoshi.may_reject?
+            - if @satoshi.may_process?
               li
                 = link_to t('.reject'), url_for([:admin, @satoshi]), class: 'btn btn-danger', method: 'DELETE', confirm: t('.reject_confirm')
             - if @satoshi.may_process?
