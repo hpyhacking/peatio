@@ -36,7 +36,6 @@ Peatio::Application.routes.draw do
 
   namespace :admin do
     get '/', to: 'dashboard#index', as: :dashboard
-    resources :withdraws
     resources :documents
     resource :currency_deposit, :only => [:new, :create]
     resources :members, :only => [:index, :show, :update]
@@ -89,6 +88,7 @@ Peatio::Application.routes.draw do
         get :partial_tree
       end
     end
+    resources :my_assets, :controller => 'my_assets', :only => [:index]
 
     resources :markets, :only => :show, :constraints => MarketConstraint do
       resources :orders, :only => [:index, :destroy]

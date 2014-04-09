@@ -30,7 +30,6 @@
 //
 //= require scrollIt
 //= require moment
-//= require numeral
 //= require bignumber
 //= require underscore
 //= require handlebars.runtime
@@ -41,6 +40,7 @@
 //= require selectize
 //= require highstock
 //= require highstock_config
+//= require list
 //= require helper
 //= require fund_source
 

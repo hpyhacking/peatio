@@ -41,7 +41,7 @@ zh-CN:
         memo: 确认数
     withdraws_grid:
       columns: &withdraws_columns
-        sn: 交易编号
+        id: 交易编号
         name: 姓名
         position_in_queue: 队列位置
         currency_text: 币种

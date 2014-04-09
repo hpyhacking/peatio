@@ -4,6 +4,7 @@ class WithdrawChannel < ActiveYaml::Base
 
   extend ActiveModel::Naming
   include ChannelInheritable
+  include ChannelInternational
   include ActiveRecord::Inheritance
 
   def self.get

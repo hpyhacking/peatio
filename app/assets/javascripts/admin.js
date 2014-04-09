@@ -16,4 +16,6 @@
 //= require bootstrap-datetimepicker
 //= require bootstrap-wysiwyg
 //
+//= require ZeroClipboard
+//
 //= require admin/app

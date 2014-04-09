@@ -1,0 +1,33 @@
+zh-CN:
+  activerecord:
+    models:
+      withdraws/satoshi: 银行转账
+    attributes:
+      withdraws/satoshi:
+        id: 提现编号
+        full_name: 用户
+        currency_obj_key_text: 币种
+        state_and_actions: 状态/操作
+        fund_source: 提现地址
+        amount: 金额
+        remark: 备注
+
+  withdraw_channel_satoshi:
+    satoshi:
+      key: 块链
+      title: 比特币提现
+
+  admin:
+    withdraws:
+      satoshis:
+        index:
+          one: 待处理提现订单
+          all: 二十四小时内订单
+          empty: 无任何数据
+        show:
+          process: 受理
+          succeed: 提现
+          reject: 驳回
+          succeed_confirm: 确定处理提现？
+          reject_confirm: 确定驳回提现？
+          withdraw: 比特币提现

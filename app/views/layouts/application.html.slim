@@ -22,8 +22,11 @@ html lang="en"
 
       - if content_for?(:frame)
         = yield(:frame)
-      - else 
+      - else
         = yield
 
       #push
-    = render 'shared/footer'
+    - if content_for(:footer)
+      = yield(:footer)
+    - else
+      = render 'shared/footer'

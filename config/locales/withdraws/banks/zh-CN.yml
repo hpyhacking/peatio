@@ -1,0 +1,38 @@
+zh-CN:
+  activerecord:
+    models:
+      withdraws/bank: 银行转账
+    attributes:
+      withdraws/bank:
+        id: 提现编号
+        full_name: 用户
+        currency_obj_key_text: 币种
+        state_and_actions: 状态/操作
+        fund_source: 提现银行
+        fund_extra_text: 提现银行
+        fund_uid: 提现账户
+        amount: 金额
+        remark: 备注
+
+  withdraw_channel_bank:
+    bank:
+      key: 银行转账提现
+      title: 银行转账提现
+      intro: Bank transfer deposits, Recommend for large recharge 
+      latency: 10 minutes
+      transfer: Manual processing
+
+  admin:
+    withdraws:
+      banks:
+        index:
+          one: 待处理提现订单
+          all: 二十四小时内订单
+          empty: 无任何数据
+        show:
+          process: 受理
+          succeed: 提现
+          reject: 驳回
+          succeed_confirm: 确定处理提现？
+          reject_confirm: 确定驳回提现？
+          withdraw: 银行卡提现

@@ -9,11 +9,8 @@ zh-CN:
 
   deposits/satoshi:
     aasm_state:
-      submitting: 已提交
-      cancelled: 异常
       submitted: 受理中
       accepted: 充值成功
-      rejected: 已驳回
       checked: 充值成功
       warning: 异常
 
@@ -41,10 +38,10 @@ zh-CN:
           step-3: 第三步
           check-confirm: 完成以上操作后点击发送付款,此交易将被广播到全⺴,您便可以这⾥查看到此笔交易的状态,
                         当交易达到全⺴1个确认 (⼤约10⾄至60分钟) 时,系统将自动充值到账。
-                        您可以到<a href='#'>资产公开</a>中查询。
+                        您可以到<a href='%{path}'>资产公开</a>中查询。
           check-link: 您可以到 %{link} 中查询。
           step-4: 第四步
-          history: 当您在您的钱包中完成发送付款的操作后,点击刷新,就能在⻚面下⽅历史纪录中查看到您当前的充值状态。
+          history: 当您在您的钱包中完成发送付款的操作后,点击<a href='javascript:window.location.reload();'>刷新</a>,就能在⻚面下⽅历史纪录中查看到您当前的充值状态。
   guides:
     private:
       deposits:

@@ -1,10 +1,12 @@
 class Trade < ActiveRecord::Base
+  extend ActiveHash::Associations::ActiveRecordExtensions
   ZERO = '0.0'.to_d
 
   extend Enumerize
   enumerize :trend, in: {:up => 1, :down => 0}
   enumerize :currency, in: Market.enumerize, scope: true
 
+  belongs_to :market, class_name: 'Market', foreign_key: 'currency'
   belongs_to :ask, class_name: 'OrderAsk', foreign_key: 'ask_id'
   belongs_to :bid, class_name: 'OrderBid', foreign_key: 'bid_id'
 
