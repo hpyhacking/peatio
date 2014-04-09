@@ -1,9 +1,10 @@
 module APIv2
   class Tickers < Grape::API
+    helpers ::APIv2::NamedParams
 
     desc 'Get ticker of specific market.'
     params do
-      requires :market, type: String,  values: Market.all.map(&:id)
+      use :market
     end
     get "/tickers/:market" do
       ticker = Global[params[:market]].ticker

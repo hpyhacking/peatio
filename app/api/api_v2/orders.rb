@@ -1,11 +1,12 @@
 module APIv2
   class Orders < Grape::API
+    helpers ::APIv2::NamedParams
 
     before { authenticate! }
 
     desc 'Get your orders.'
     params do
-      requires :market, type: String,  values: ::APIv2::Mount::MARKETS
+      use :auth, :market
       optional :state,  type: String,  default: 'wait', values: Order.state.values, desc: "Filter order by state, default to 'wait' (active orders)."
       optional :limit,  type: Integer, default: 10, range: 1..1000, desc: "Limit the number of returned orders, default to 10."
     end
@@ -20,7 +21,7 @@ module APIv2
 
     desc 'Get information of specified order.'
     params do
-      requires :id, type: Integer, desc: ::APIv2::Entities::Order.documentation[:id][:desc]
+      use :order_id
     end
     get "/order" do
       order = current_user.orders.where(id: params[:id]).first
@@ -29,11 +30,9 @@ module APIv2
 
     desc 'Create multiple sell/buy orders.'
     params do
-      requires :market, type: String, values: ::APIv2::Mount::MARKETS
+      use :market
       requires :orders, type: Array do
-        requires :side,   type: String, values: %w(sell buy)
-        requires :volume, type: String
-        requires :price,  type: String
+        use :order
       end
     end
     post "/orders/multi" do
@@ -45,10 +44,7 @@ module APIv2
 
     desc 'Create a Sell/Buy order.'
     params do
-      requires :market, type: String, values: ::APIv2::Mount::MARKETS
-      requires :side,   type: String, values: %w(sell buy)
-      requires :volume, type: String
-      requires :price,  type: String
+      use :market, :order
     end
     post "/orders" do
       order = create_order params
@@ -57,7 +53,7 @@ module APIv2
 
     desc 'Cancel an order.'
     params do
-      requires :id, type: Integer, desc: ::APIv2::Entities::Order.documentation[:id][:desc]
+      use :order_id
     end
     delete "/order" do
       order = current_user.orders.find(params[:id])

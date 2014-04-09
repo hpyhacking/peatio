@@ -1,5 +1,3 @@
-require 'grape-swagger'
-
 require_relative 'errors'
 require_relative 'validations'
 
@@ -20,8 +18,6 @@ module APIv2
     do_not_route_head!
     do_not_route_options!
 
-    MARKETS = Market.all.map(&:id)
-
     before do
       # Grape will add default values to params after validation
       @raw_params = params.dup
@@ -35,7 +31,5 @@ module APIv2
     mount Trades
 
     add_swagger_documentation mount_path: '/doc/swagger', api_version: 'v2'
-
-    include SmartDoc
   end
 end
