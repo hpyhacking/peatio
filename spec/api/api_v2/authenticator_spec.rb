@@ -35,28 +35,23 @@ describe APIv2::Authenticator do
 
   its(:authentic?)             { should be_true }
   its(:signature_match?)       { should be_true }
-  its(:required_params_exist?) { should be_true }
   its(:fresh?)                 { should be_true }
   its(:token)                  { should == token }
   its(:payload)                { should == "access_key=#{token.access_key}&foo=bar&hello=world&tonce=#{tonce}" }
 
-  it "should require access_key" do
+  it "should not be authentic without access key" do
     params[:access_key] = ''
-    subject.required_params_exist?.should be_false
     subject.should_not be_authentic
   end
 
-  it "should require tonce" do
-    params[:tonce] = ''
-    subject.required_params_exist?.should be_false
+  it "should not be authentic without signature" do
+    subject
+    params[:signature] = nil
     subject.should_not be_authentic
   end
 
-  it "should require signature" do
-    subject.required_params_exist?.should be_true
-
-    params[:signature] = ''
-    subject.required_params_exist?.should be_false
+  it "should not be authentic without tonce" do
+    params[:tonce] = nil
     subject.should_not be_authentic
   end
 

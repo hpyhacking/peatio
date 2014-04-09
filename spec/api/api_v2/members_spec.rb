@@ -13,8 +13,14 @@ describe APIv2::Members do
   describe "GET /members/me" do
     before { Currency.stubs(:codes).returns(cny: 1, btc: 2) }
 
-    it "should require authentication" do
+    it "should require auth params" do
       get '/api/v2/members/me'
+      response.code.should == '400'
+      response.body.should == '{"error":{"code":1001,"message":"access_key is missing, tonce is missing, signature is missing"}}'
+    end
+
+    it "should require authentication" do
+      get '/api/v2/members/me', access_key: 'test', tonce: Time.now.to_i, signature: 'test'
       response.code.should == '401'
       response.body.should == '{"error":{"code":2001,"message":"Authorization failed"}}'
     end

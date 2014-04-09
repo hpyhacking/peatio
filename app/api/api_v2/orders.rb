@@ -21,7 +21,7 @@ module APIv2
 
     desc 'Get information of specified order.'
     params do
-      use :order_id
+      use :auth, :order_id
     end
     get "/order" do
       order = current_user.orders.where(id: params[:id]).first
@@ -30,7 +30,7 @@ module APIv2
 
     desc 'Create multiple sell/buy orders.'
     params do
-      use :market
+      use :auth, :market
       requires :orders, type: Array do
         use :order
       end
@@ -44,7 +44,7 @@ module APIv2
 
     desc 'Create a Sell/Buy order.'
     params do
-      use :market, :order
+      use :auth, :market, :order
     end
     post "/orders" do
       order = create_order params
@@ -53,7 +53,7 @@ module APIv2
 
     desc 'Cancel an order.'
     params do
-      use :order_id
+      use :auth, :order_id
     end
     delete "/order" do
       order = current_user.orders.find(params[:id])
@@ -67,6 +67,9 @@ module APIv2
     end
 
     desc 'Cancel all my orders.'
+    params do
+      use :auth
+    end
     delete "/orders" do
       orders = current_user.orders
 

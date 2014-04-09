@@ -23,11 +23,7 @@ module APIv2
     end
 
     def authentic?
-      required_params_exist? && token && signature_match? && fresh?
-    end
-
-    def required_params_exist?
-      @params[:access_key].present? && @params[:tonce].present? && @params[:signature].present?
+      token && signature_match? && fresh?
     end
 
     def token

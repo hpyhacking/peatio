@@ -15,7 +15,7 @@ module APIv2
 
     desc 'Get your executed trades.'
     params do
-      use :market, :trade_filters
+      use :auth, :market, :trade_filters
     end
     get "/trades/my" do
       authenticate!
