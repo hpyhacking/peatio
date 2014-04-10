@@ -8,4 +8,8 @@ class DepositChannel < ActiveYaml::Base
   def kls
     "deposits/#{key}".camelize.constantize
   end
+
+  def <=>(other)
+    self.sort_order <=> other.sort_order
+  end
 end

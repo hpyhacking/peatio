@@ -21,7 +21,7 @@ html lang="en"
                 span = t('admin_header.deposits')
                 span.caret
               ul.dropdown-menu
-                - DepositChannel.all.each do |c|
+                - DepositChannel.all.sort.each do |c|
                   - if can? :manage, c.kls
                     li: a href='#{url_for([:admin, c.kls])}' = c.title_text
 
