@@ -3,13 +3,13 @@ module APIv2
     class Middleware < ::Grape::Middleware::Base
 
       def before
-        @env['api_v2.user'] = authenticate!
+        @env['api_v2.token'] = authenticate!
       end
 
       def authenticate!
         return unless provided?
         auth = Authenticator.new(request, params)
-        auth.authentic? ? auth.token.member : nil
+        auth.authentic? ? auth.token : nil
       end
 
       def provided?

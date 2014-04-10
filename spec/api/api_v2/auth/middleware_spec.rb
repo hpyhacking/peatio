@@ -4,7 +4,7 @@ describe APIv2::Auth::Middleware do
 
   class TestApp
     def call(env)
-      if user = env['api_v2.user']
+      if user = env['api_v2.token'].try(:member)
         [200, {}, [user.email]]
       else
         [401, {}, ['Unauthorized.']]

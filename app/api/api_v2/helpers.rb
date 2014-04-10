@@ -6,7 +6,11 @@ module APIv2
     end
 
     def current_user
-      @current_user ||= env['api_v2.user']
+      @current_user ||= current_token.try(:member)
+    end
+
+    def current_token
+      @current_token ||= env['api_v2.token']
     end
 
     def current_market
