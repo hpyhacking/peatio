@@ -12,8 +12,8 @@ end
 
 describe APIv2::Mount do
 
-  it "should use auth middleware" do
-    APIv2::Mount.middleware.should == [[::APIv2::Auth::Middleware]]
+  it "should use auth and attack middleware" do
+    APIv2::Mount.middleware.should == [[APIv2::Auth::Middleware], [Rack::Attack]]
   end
 
   context "handle exception on request processing" do

@@ -65,6 +65,7 @@ gem 'whenever', '~> 0.9.2'
 gem 'grape', '~> 0.7.0'
 gem 'grape-entity', '~> 0.4.2'
 gem 'grape-swagger', '~> 0.7.2'
+gem 'rack-attack', '~> 3.0.0'
 gem 'easy_table'
 
 group :development, :test do

@@ -13,12 +13,13 @@ module APIv2
 
     helpers ::APIv2::Helpers
 
-    include ExceptionHandlers
-
     do_not_route_head!
     do_not_route_options!
 
-    use ::APIv2::Auth::Middleware
+    use APIv2::Auth::Middleware
+
+    include Constraints
+    include ExceptionHandlers
 
     mount Markets
     mount Tickers

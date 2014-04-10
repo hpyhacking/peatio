@@ -268,6 +268,8 @@ GEM
     rack (1.5.2)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-attack (3.0.0)
+      rack
     rack-contrib (1.1.0)
       rack (>= 0.9.1)
     rack-mount (0.8.3)
@@ -487,6 +489,7 @@ DEPENDENCIES
   pusher
   qrencoder
   quiet_assets
+  rack-attack (~> 3.0.0)
   rails
   rails-i18n
   rbtree
