@@ -3,6 +3,11 @@ module APIv2
     module Utils
       class <<self
 
+        def cache
+          # Simply use rack-attack cache wrapper
+          @cache ||= Rack::Attack::Cache.new
+        end
+
         def urlsafe_string_40
           # 30 is picked so generated string length is 40
           SecureRandom.urlsafe_base64(30).tr('_-', 'xx')

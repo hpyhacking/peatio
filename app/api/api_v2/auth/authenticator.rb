@@ -20,8 +20,17 @@ module APIv2
       end
 
       def fresh?
-        timestamp = Time.at(@params[:tonce].to_i / 1000.0)
+        key = "api_v2:tonce:#{token.access_key}"
+        last_tonce = Utils.cache.read key
+        return false if last_tonce && last_tonce >= tonce
+        Utils.cache.write key, tonce, nil
+
+        timestamp = Time.at(tonce / 1000.0)
         timestamp > 5.minutes.ago
+      end
+
+      def tonce
+        @tonce ||= @params[:tonce].to_i
       end
 
       def payload
