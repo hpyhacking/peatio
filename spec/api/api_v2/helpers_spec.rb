@@ -28,7 +28,7 @@ describe APIv2::Helpers do
 
     context "Authenticate using params" do
       let(:payload) { "access_key=#{token.access_key}&foo=bar&hello=world&tonce=#{tonce}" }
-      let(:signature) { APIv2::Authenticator.hmac_signature(token.secret_key, payload) }
+      let(:signature) { APIv2::Auth::Utils.hmac_signature(token.secret_key, payload) }
 
       it "should response successfully" do
         get '/api/v2/auth_test', access_key: token.access_key, signature: signature, foo: 'bar', hello: 'world', tonce: tonce

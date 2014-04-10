@@ -1,18 +1,7 @@
 require 'spec_helper'
 
-describe APIv2::Authenticator do
-
-  context '.generate_access_key' do
-    it "should be a string longer than 40 characters" do
-      APIv2::Authenticator.generate_access_key.should match(/^[a-zA-Z0-9]{40}$/)
-    end
-  end
-
-  context '.generate_secret_key' do
-    it "should be a string longer than 40 characters" do
-      APIv2::Authenticator.generate_secret_key.should match(/^[a-zA-Z0-9]{40}$/)
-    end
-  end
+describe APIv2::Auth::Authenticator do
+  Authenticator = APIv2::Auth::Authenticator
 
   let(:token) { create(:api_token) }
   let(:tonce) { (Time.now.to_f*1000).to_i }
@@ -28,8 +17,8 @@ describe APIv2::Authenticator do
   end
 
   subject do
-    auth               = APIv2::Authenticator.new(nil, params)
-    params[:signature] = APIv2::Authenticator.hmac_signature(token.secret_key, auth.payload)
+    auth               = Authenticator.new(nil, params)
+    params[:signature] = APIv2::Auth::Utils.hmac_signature(token.secret_key, auth.payload)
     auth
   end
 

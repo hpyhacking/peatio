@@ -1,6 +1,6 @@
 def sign_params(secret_key, params)
-  auth = APIv2::Authenticator.new(nil, params)
-  APIv2::Authenticator.hmac_signature(secret_key, auth.payload)
+  auth = APIv2::Auth::Authenticator.new(nil, params)
+  APIv2::Auth::Utils.hmac_signature(secret_key, auth.payload)
 end
 
 def signed_request(method, uri, opts={})

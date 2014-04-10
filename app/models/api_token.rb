@@ -9,8 +9,8 @@ class APIToken < ActiveRecord::Base
   private
 
   def generate_keys
-    self.access_key = APIv2::Authenticator.generate_access_key
-    self.secret_key = APIv2::Authenticator.generate_secret_key
+    self.access_key = APIv2::Auth::Utils.generate_access_key
+    self.secret_key = APIv2::Auth::Utils.generate_secret_key
   end
 
 end
