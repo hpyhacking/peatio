@@ -25,6 +25,18 @@ module APIv2
       end
 
       def payload
+        "#{canonical_verb}\n#{canonical_uri}\n#{canonical_query}"
+      end
+
+      def canonical_verb
+        @request.request_method
+      end
+
+      def canonical_uri
+        @request.path_info
+      end
+
+      def canonical_query
         hash = @params.select {|k,v| !%w(route_info signature).include?(k) }
         URI.unescape(hash.to_param)
       end

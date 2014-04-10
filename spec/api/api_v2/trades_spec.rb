@@ -44,7 +44,7 @@ describe APIv2::Trades do
 
   describe 'GET /api/v2/trades/my' do
     it "should require authentication" do
-      get '/api/v2/trades/my', market: 'btccny', access_key: 'test', tonce: Time.now.to_i, signature: 'test'
+      get '/api/v2/trades/my', market: 'btccny', access_key: 'test', tonce: time_to_milliseconds, signature: 'test'
       response.code.should == '401'
       response.body.should == '{"error":{"code":2001,"message":"Authorization failed"}}'
     end

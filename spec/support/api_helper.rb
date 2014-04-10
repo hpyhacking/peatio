@@ -1,5 +1,10 @@
-def sign_params(secret_key, params)
-  auth = APIv2::Auth::Authenticator.new(nil, params)
+def time_to_milliseconds(t=Time.now)
+  (t.to_f*1000).to_i
+end
+
+def sign(secret_key, method, uri, params)
+  req = mock('request', request_method: method.to_s.upcase, path_info: uri)
+  auth = APIv2::Auth::Authenticator.new(req, params)
   APIv2::Auth::Utils.hmac_signature(secret_key, auth.payload)
 end
 
@@ -8,8 +13,8 @@ def signed_request(method, uri, opts={})
 
   params = opts[:params] || {}
   params[:access_key] = token.access_key
-  params[:tonce]      = (Time.now.to_f*1000).to_i
-  params[:signature]  = sign_params(token.secret_key, params)
+  params[:tonce]      = time_to_milliseconds
+  params[:signature]  = sign(token.secret_key, method, uri, params)
 
   send method, uri, params
 end

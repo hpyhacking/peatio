@@ -28,7 +28,7 @@ describe APIv2::Auth::Middleware do
   end
 
   it "should refuse request with incorrect credentials" do
-    get '/', access_key: token.access_key, tonce: (Time.now.to_f*1000).to_i, signature: 'wrong'
+    get '/', access_key: token.access_key, tonce: time_to_milliseconds, signature: 'wrong'
     response.code.should == '401'
     response.body.should == 'Unauthorized.'
   end
