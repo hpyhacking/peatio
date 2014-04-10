@@ -12,6 +12,10 @@ end
 
 describe APIv2::Mount do
 
+  it "should use auth middleware" do
+    APIv2::Mount.middleware.should == [[::APIv2::Auth::Middleware]]
+  end
+
   context "handle exception on request processing" do
     it "should render json error message" do
       get "/api/v2/broken"

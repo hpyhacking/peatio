@@ -2,16 +2,11 @@ module APIv2
   module Helpers
 
     def authenticate!
-      auth = ::APIv2::Auth::Authenticator.new(request, @raw_params)
-      if auth.authentic?
-        @current_user = auth.token.member
-      else
-        raise AuthorizationError
-      end
+      current_user or raise AuthorizationError
     end
 
     def current_user
-      @current_user
+      @current_user ||= env['api_v2.user']
     end
 
     def current_market

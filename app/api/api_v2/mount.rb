@@ -18,10 +18,7 @@ module APIv2
     do_not_route_head!
     do_not_route_options!
 
-    before do
-      # Grape will add default values to params after validation
-      @raw_params = params.dup
-    end
+    use ::APIv2::Auth::Middleware
 
     mount Markets
     mount Tickers

@@ -24,7 +24,7 @@ describe APIv2::Auth::Middleware do
   it "should refuse request without credentials" do
     get '/'
     response.code.should == '401'
-    response.body.should == 'Unauthorized'
+    response.body.should == 'Unauthorized.'
   end
 
   it "should refuse request with incorrect credentials" do
