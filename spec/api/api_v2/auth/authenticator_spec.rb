@@ -7,7 +7,7 @@ describe APIv2::Auth::Authenticator do
   let(:tonce) { time_to_milliseconds }
 
   let(:request) { stub('request', request_method: 'GET', path_info: '/') }
-  let(:payload) { "GET\n/\naccess_key=#{token.access_key}&foo=bar&hello=world&tonce=#{tonce}" }
+  let(:payload) { "GET|/|access_key=#{token.access_key}&foo=bar&hello=world&tonce=#{tonce}" }
 
   let(:params) do
     Hashie::Mash.new({

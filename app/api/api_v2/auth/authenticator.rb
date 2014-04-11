@@ -34,7 +34,7 @@ module APIv2
       end
 
       def payload
-        "#{canonical_verb}\n#{canonical_uri}\n#{canonical_query}"
+        "#{canonical_verb}|#{canonical_uri}|#{canonical_query}"
       end
 
       def canonical_verb
