@@ -17,5 +17,17 @@
   inuse: true
   banks: ["icbc", "cmb", "abc", "cbc", "bc", "cmbc", "ceb", "cncb", "bcm", "cib", "spdb", "hxb", "pab", "gdb", "bob"]
   type: WithdrawChannelBank
-
-
+- id: 500
+  key: litecoin
+  currency: ltc
+  fixed: 4
+  fee: 0.0001
+  inuse: true
+  type: WithdrawChannelLitecoin
+- id: 600
+  key: protoshare
+  currency: pts
+  fixed: 8
+  fee: 0.0001
+  inuse: true
+  type: WithdrawChannelProtoshare
