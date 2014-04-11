@@ -51,13 +51,29 @@
 
     p Payload is a combination of HTTP verb, uri, and query string:
     pre
-      | def payload
-          # canonical_verb is HTTP verb like GET/POST in upcase.
-          # canonical_uri is request path like /api/v2/markets.
-          # canonical_query is the request query sort in alphabetica order, e.g. a=1&b=2&c=3
-          # The combined string looks like: GET|/api/v2/markets|a=1&b=2&c=3
+      | # canonical_verb is HTTP verb like GET/POST in upcase.
+        # canonical_uri is request path like /api/v2/markets.
+        # canonical_query is the request query sort in alphabetica order, including access_key and tonce, e.g. access_key=xxx&foo=bar&tonce=123456789
+        # The combined string looks like: GET|/api/v2/markets|access_key=xxx&foo=bar&tonce=123456789
+        def payload
           "\#{canonical_verb}|\#{canonical_uri}|\#{canonical_query}"
         end
+
+    p Suppose my secret key is 'yyy', then the result of HMAC-SHA256 of above payload is:
+    pre
+      | hash = HMAC-SHA256('GET|/api/v2/markets|access_key=xxx&foo=bar&tonce=123456789', 'yyy').to_hex
+             = 'e324059be4491ed8e528aa7b8735af1e96547fbec96db962d51feb7bf1b64dee'
+
+    p Now we hav a signed request which can be used like this:
+    pre
+      | curl -X GET 'https://peatio.com/api/v2/markets?access_key=xxx&foo=bar&tonce=123456789&signature=e324059be4491ed8e528aa7b8735af1e96547fbec96db962d51feb7bf1b64dee'
+
+.panel.panel-default
+  .panel-heading
+    h3 API List
+
+  .panel-body
+    p All API are listed below with details. Those require access_key/tonce/signature are private API.
 
 .row
   #swagger-ui-container.swagger-ui-wrap
