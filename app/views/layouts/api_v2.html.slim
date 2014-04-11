@@ -9,8 +9,26 @@ html lang="en"
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
     .container
       nav.navbar.navbar-default role='navigation'
-        .container-fluid
-          .navbar-header
-            a.navbar-brand href='#' Peatio API Document
+        .navbar-header
+          a.navbar-brand href='#' Peatio API Document
+        ul.nav.navbar-nav.pull-right
+          - if current_user
+            = top_nav_link(current_user.email, settings_path, 'user', controllers: ['two_factors', 'identities', 'id_documents'])
+            - if is_admin?
+              = top_nav_link(t('header.dashboard'), admin_dashboard_path, 'dashboard')
+            li: a#sign_out href='#{main_app.signout_path}'
+              i.fa.fa-sign-out
+              span = t('header.signout')
+          - else
+            = top_nav_link(t('header.signin'), signin_path, '')
+            = top_nav_link(t('header.signup'), signup_path, '')
+
+          li.dropdown
+            a.dropdown-toggle href="#" data-toggle="dropdown"
+              img src='#{language_path}'
+              b.caret
+            ul#languages.dropdown-menu
+              - I18n.available_locales.each do |lang|
+                li: a href="?lang=#{lang}": img src='#{language_path(lang)}'
       = yield
     = render 'shared/footer'

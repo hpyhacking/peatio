@@ -9,6 +9,7 @@
 //= require swagger-ui/lib/swagger
 //= require swagger-ui/swagger-ui
 //= require swagger-ui/lib/highlight.7.3.pack
+//= require bootstrap/dropdown
 
 $(function() {
 
