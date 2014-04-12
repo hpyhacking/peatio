@@ -15,7 +15,7 @@ $ ->
         window.open(encodeURI(uri), '_blank')
 
   $('[data-clipboard-text], [data-clipboard-target]').each ->
-    zero = new ZeroClipboard($(@))
+    zero = new ZeroClipboard $(@), forceHandCursor: true
 
     zero.on 'complete', ->
       $(zero.htmlBridge)
