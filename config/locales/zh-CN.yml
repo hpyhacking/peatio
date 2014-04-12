@@ -142,8 +142,8 @@ zh-CN:
     transact: 处理
     reject: 驳回
     clipboard:
-      click: 点击拷贝
-      done: 拷贝完毕
+      click: 点击复制
+      done: 复制成功
 
   global:
     ask_price: 卖出
