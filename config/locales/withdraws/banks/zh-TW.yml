@@ -1,0 +1,38 @@
+﻿zh-TW:
+  activerecord:
+    models:
+      withdraws/bank: 銀行轉賬
+    attributes:
+      withdraws/bank:
+        id: 提現編號
+        full_name: 用戶
+        currency_obj_key_text: 幣種
+        state_and_actions: 狀態/操作
+        fund_source: 提現銀行
+        fund_extra_text: 提現銀行
+        fund_uid: 提現賬戶
+        amount: 金額
+        remark: 備註
+
+  withdraw_channel_bank:
+    bank:
+      key: 銀行轉賬提現
+      title: 銀行轉賬提現
+      intro: Bank transfer deposits, Recommend for large recharge 
+      latency: 10 minutes
+      transfer: Manual processing
+
+  admin:
+    withdraws:
+      banks:
+        index:
+          one: 待處理提現訂單
+          all: 二十四小時內訂單
+          empty: 無任何數據
+        show:
+          process: 受理
+          succeed: 提現
+          reject: 駁回
+          succeed_confirm: 確定處理提現？
+          reject_confirm: 確定駁回提現？
+          withdraw: 銀行卡提現

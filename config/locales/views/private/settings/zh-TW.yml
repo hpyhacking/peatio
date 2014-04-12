@@ -1,0 +1,53 @@
+﻿zh-TW:
+  private:
+    settings:
+      success: 設置成功！
+      failure: 無效動態密碼，設置失敗。請重試。
+
+      index:
+        safety_instruction: 您應啟用全部 <b>安全設置</b><i class='fa fa-bolt'></i>，以保障帳戶及資金安全。
+        reset_password: 重置登錄密碼
+        reauthenticate: 身份驗證
+        activated: 郵件已經發送至您的郵箱，請您盡快進入您的郵箱進行驗證，如未收到請點擊再次發送。
+        auth-activated: 請您立即綁定郵箱地址，否則將無法進行任何操作。
+        auth-verified: 請您立即實名認證，否則將無法進行任何操作。
+
+        email:
+          title: 郵箱綁定
+          description: 您的郵箱還未經過驗證，點擊“發送郵件”按鈕，完成驗證。
+          description-activated: 您的郵箱已驗證通過，請牢記並保護好此郵箱地址，這是您作為登錄的唯一賬戶。
+          resend: 再次發送
+          activated: 已綁定
+
+        two_factor_auth:
+          title: 兩步驗證
+          description: 通過將密碼和手機結合使用，可防止別有用心的人侵入您的帳戶，在此我們使用谷歌身份驗證器。
+          enable: 設置
+          disable: 解除
+
+        verification:
+          title: 實名認證
+          description: 為配合國家相關法令條例，請您正確輸入信息，進行身份認證，身份認證未完成將不能在網站進行任何操作。
+          go: 設置
+          verified: 已驗證
+
+        asset_passwords:
+          title: 資金密碼
+          description: 在您提現時，需要資金密碼進行驗證，強烈建議您不要使用和登錄密碼同樣的密碼！
+          go: 設置
+        
+        passwords:
+          title: 登錄密碼
+          description: 此密碼僅限作網站登錄使用，請您牢記。
+          go: 修改
+
+    otps:
+      new:
+        step_1: 第一步
+        step_2: 第二步
+        step_3: 第三步
+        or: 或
+        download_app: 下載並打開Google Authenticator應用到您的智能手機上。
+        scan_qr_code: 用手機掃瞄二維碼
+        enter_passphrase: 將以下密文手動輸入到手機驗證器中
+        enter_passcode: 填入手機顯示的動態密碼以激活兩步驗證
