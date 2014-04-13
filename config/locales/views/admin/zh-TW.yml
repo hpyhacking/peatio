@@ -1,0 +1,66 @@
+﻿zh-TW:
+  admin:
+    members:
+      show:
+        member_title: 用戶信息
+        actions_title: 操作
+        accounts_title: 賬戶信息
+        account_versions_title: 賬戶記錄
+    dashboard:
+      index:
+        accounts_title: 賬戶匯總
+        daemons_title: 系統匯總
+    documents:
+      index:
+        new: 新建文檔
+    currency_deposits:
+      new:
+        deposit: 充值
+        accounts_title: 賬戶信息
+      create:
+        success: 充值成功
+    withdraws:
+      withdraw:
+        member_title: 用戶賬戶信息
+        withdraw_title: 提現請求信息
+      edit:
+        actions_title: 可執行操作
+      show:
+        title: 處理提現
+        actions_title: 可執行操作
+      update:
+        success: 提現已經開始處理
+      destroy:
+        success: 提現已經被駁回
+    statistic:
+      filter: 篩選
+      summary: 總結
+      click-to-expand: 點擊展開
+      members:
+        show:
+          count: 用戶數
+      orders:
+        show:
+          avg: 掛單均價
+          sum: 掛單量
+          sum_strike: 被成交量
+          count: 掛單數
+      trades:
+        show:
+          count: 成交數
+          volume: 總量成交
+          amount: 總價成交
+          min_price: 最低成交價
+          max_price: 最高成交價
+          avg_price: 平均成交價
+          amount_fee: 總價手續費
+          volume_fee: 總量手續費
+      deposits:
+        show:
+          count: 總數
+          amount: 金額合計
+      withdraws:
+        show:
+          count: 總數
+          amount: 金額合計
+          fee: 手續費

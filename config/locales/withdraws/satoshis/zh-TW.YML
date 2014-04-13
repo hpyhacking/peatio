@@ -1,0 +1,33 @@
+﻿zh-TW:
+  activerecord:
+    models:
+      withdraws/satoshi: 銀行轉賬
+    attributes:
+      withdraws/satoshi:
+        id: 提現編號
+        full_name: 用戶
+        currency_obj_key_text: 幣種
+        state_and_actions: 狀態/操作
+        fund_source: 提現地址
+        amount: 金額
+        remark: 備註
+
+  withdraw_channel_satoshi:
+    satoshi:
+      key: 塊鏈
+      title: 比特幣提現
+
+  admin:
+    withdraws:
+      satoshis:
+        index:
+          one: 待處理提現訂單
+          all: 二十四小時內訂單
+          empty: 無任何數據
+        show:
+          process: 受理
+          succeed: 提現
+          reject: 駁回
+          succeed_confirm: 確定處理提現？
+          reject_confirm: 確定駁回提現？
+          withdraw: 比特幣提現
