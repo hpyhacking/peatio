@@ -357,6 +357,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    sqlite3 (1.3.9)
     structured_warnings (0.1.4)
     temple (0.6.7)
     therubyracer (0.12.0)
@@ -462,6 +463,7 @@ DEPENDENCIES
   shoulda-matchers
   simple_form (= 3.0.1)
   slim-rails
+  sqlite3
   therubyracer
   timecop
   uglifier

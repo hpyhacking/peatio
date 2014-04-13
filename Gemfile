@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'rails'
 
 gem 'mysql2'
+gem 'sqlite3'
 gem 'daemons-rails'
 gem 'redis-rails'
 
