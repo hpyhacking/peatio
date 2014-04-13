@@ -1,0 +1,57 @@
+﻿zh-TW:
+  enumerize:
+    account_version:
+      reason:
+        fix: 系統修正
+        unknown: 未知
+        strike_add: 成交增加
+        strike_sub: 成交扣除
+        strike_fee: 手續費
+        strike_unlock: 成交解除凍結
+        order_cancel: 撤單
+        order_submit: 掛單
+        deposit: 儲值
+        withdraw: 提款
+        withdraw_lock: 提款凍結
+        withdraw_unlock: 提款駁回
+    state:
+      done: 完成
+      wait: 等待
+      cancel: 取消
+    currency:
+      twd: TWD
+      btc: BTC
+    order:
+      state:
+        done: 完全成交
+        wait: 等待成交
+        cancel: 撤銷
+    deposit:
+      address_type:
+        satoshi: 比特幣
+        bank: 銀行匯款
+    withdraw: 
+      address_type:
+        satoshi: 比特幣 - 網路轉帳
+        bank: 人民幣 - 銀行轉帳
+      aasm_state:
+        submitting: 待確認
+        submitted: 待檢驗
+        rejected: 已駁回
+        accepted: 已提交
+        suspect: 異常
+        processing: 受理中
+        coin_ready: 準備中
+        coin_done: 完畢
+        done: 提款成功
+        almost_done: 發送中
+        canceled: 已撤銷
+        failed: 提款出錯
+    fund_source:
+      category:
+        satoshi: 比特幣 - 網路匯款
+        bank: 新台幣 - 銀行匯款
+    id_document:
+      category:
+        id_card: 身份證
+        passport: 護照

@@ -1,0 +1,45 @@
+﻿zh-TW:
+  private:
+    withdraws:
+      index:
+        satoshi: 比特幣提款
+        satoshi_intro: 將你在貔貅的比特幣餘額提取到你的錢包帳戶
+        satoshi_time: 10分鐘到帳
+        satoshi_way: 自動
+        bank: 銀行轉帳提款
+        bank_intro: 通過銀行轉帳的方式將您在貔貅的新台幣餘額提取到您的個人銀行帳戶
+        bank_time: 24小時到帳
+        bank_way: 人工處理
+        go: 立即提款
+      new:
+        withdraw_btc: BTC提現
+        withdraw_cny: 新台幣提現
+      satoshi:
+        new:
+          balance: '可用BTC餘額: ฿%{balance}'
+          title: BTC提款
+          save_fund_source: 保存您填寫的地址並作為常用地址，以便下次直接使用
+          placeholder: 使用保存的地址或者輸入新地址
+      bank:
+        new:
+          balance: '可用人民幣餘額: ¥%{balance}'
+          title: 新台幣提款
+          save_fund_source: 保存您填寫的銀行資料並作為常用帳號，以便下次直接使用
+          placeholder: 使用已有銀行帳號或輸入新帳號
+          subbranch_placeholder: 分行名稱
+      edit:
+        title: 確認提款
+        fee: 手續費
+        btc:
+          address: 提款地址
+          address_label: 地址備註
+          fee: 手續費
+          amount: 實際到帳
+          sum: 數量
+        cny:
+          name: 收款戶名
+          address: 銀行帳號
+          address_label: 銀行名稱
+          fee: 手續費
+          amount: 實際到帳
+          sum: 金額

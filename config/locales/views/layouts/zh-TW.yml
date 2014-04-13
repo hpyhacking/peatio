@@ -1,0 +1,22 @@
+﻿zh-TW:
+  layouts:
+    admin:
+      menus:
+        sections:
+          members: 用戶管理
+          deposits: 儲值通道
+          sites_statistics: 數據統計
+          operating: 營運管理
+        items:
+          operating:
+            deposits: 儲值管理
+            documents: 文件管理
+            withdraws: 提款管理
+          deposits:
+            currency: 貨幣充值
+    application:
+      close: 關閉
+    meta:
+      page_title: Peatio - The Opensource Cryptocurrency Exchange
+      page_description: Peatio - The Opensource Cryptocurrency Exchange
+      page_keywords: Peatio,Opensource,Exchange,Cryptocurrency

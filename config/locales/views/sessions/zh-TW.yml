@@ -1,0 +1,13 @@
+﻿zh-TW:
+  sessions:
+    new:
+      reset_password: 忘記密碼
+    new_with_two_factor_auth:
+      title: 雙重驗證
+      reset_two_factor: 遺失雙重驗證
+    create_with_two_factor_auth:
+      session_expired: 操作逾時，請重試。
+    failure:
+      account_locked: 密碼錯誤次數過多，為保證您的帳戶安全該帳戶已被鎖定。重置密碼請點擊“忘記密碼”。
+      error: 您輸入的密碼和電子郵件不正確，請重新輸入。
+

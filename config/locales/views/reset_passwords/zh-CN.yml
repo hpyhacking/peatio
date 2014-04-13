@@ -1,4 +1,4 @@
-zh-CN:
+﻿zh-CN:
   reset_passwords:
     create:
       success: 重置密码邮件已经发送至您的邮箱，请根据邮件内容进行操作。如未收到邮件，请到“垃圾邮箱”里找一下哦~ 或重新发送请求。
@@ -9,4 +9,3 @@ zh-CN:
     update:
       success: 登录密码已经重置，请妥善保管您的新密码。
       invalid: 无效的请求
-

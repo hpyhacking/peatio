@@ -1,0 +1,25 @@
+﻿zh-TW:
+  private:
+    two_factors:
+      edit:
+        submit: 確認解除
+        warning: 注：若您在使用過程中因安裝程序丟失，導致無法繼續使用兩步認證，請您及時聯繫我們的在線客服。
+      new:
+        step-1: 第一步
+        step-2: 第二步
+        step-3: 第三步
+        or: 或
+        download-app: 根據您使用的手機系統類型，點擊左側快捷入口，下載並打開 Google Authenticator 應用到您的智能手機上。
+        guide-link: 具體操作方式可<a href='https://support.google.com/accounts/answer/1066447?hl=zh-Hans' target='_blank'>點擊這裡</a>。
+        scan-qr-code: 用 Google Authenticator 應用掃瞄二維碼或將以下密文手動添加到驗證器中。
+        enter-passcode: 填入手機顯示的動態密碼以啟用雙重驗證
+        submit: 啟用
+        ios: 蘋果 iOS 系統
+        android:  Android系統
+        blackbery: 黑莓系統
+      create:
+        alert: 您輸入的驗證器上的密碼有誤，請重新輸入。
+        notice: 雙重驗證已成功綁定。
+      destroy:
+        alert: 您輸入的驗證器上的密碼有誤，請重新輸入。
+        notice: 雙重驗證已成功解除。

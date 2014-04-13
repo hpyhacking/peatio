@@ -1,0 +1,10 @@
+﻿zh-TW:
+  identities:
+    new:
+      title: 帳戶註冊
+      signin: 立即登入
+      password: 請輸入至少8位密碼，並必須包含大寫、小寫字母與數字。
+    update:
+      auth-error: 您輸入的舊密碼錯誤，請重新輸入。
+      auth-same: 您輸入的新密碼與舊密碼相同，請重新輸入。
+      notice: 登入密碼修改成功。

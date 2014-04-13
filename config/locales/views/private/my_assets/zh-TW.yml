@@ -1,0 +1,16 @@
+﻿zh-TW:
+  private:
+    my_assets:
+      transaction_history:
+        buy: 買入
+        sell: 賣出
+        filter_by_type: 查詢類型
+        transaction_history: 交易記錄
+        type: 類型
+        timestamp: 時間
+        fiat_currency: 貨幣
+        fiat_amount: 貨幣數額
+        coin_currency: 虛擬幣
+        coin_amount: 虛擬幣數額
+        coin_price: 交易價
+        fee: 手續費
