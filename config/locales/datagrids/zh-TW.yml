@@ -1,0 +1,152 @@
+﻿zh-CN:
+  datagrid:
+    empty: 沒有任何數據查詢結果
+    filters:
+      date:
+        range_separator: " ~ "
+      datetime:
+        range_separator: " ~ "
+    form:
+      submit: 查詢
+    admin_deposits_grid:
+      columns:
+        sn: 充值編號
+        created_at: 時間
+        channel_key_text: 通道
+        fund_extra_text: 資金來源
+        fund_uid: 資金賬戶
+        txid: 交易
+        amount: 金額
+        fee: 手續費
+        currency_text: 幣種
+        aasm_state_text: 狀態
+        full_name: 會員
+    bank_deposits_grid:
+      columns:
+        sn: 充值編號
+        created_at: 充值時間
+        channel_key_text: 充值方式
+        fund_extra_text: 開戶行
+        fund_uid: 充值賬戶
+        amount: 充值金額
+        fee: 手續費
+        aasm_state_text: 狀態
+    coin_deposits_grid:
+      columns:
+        sn: 充值編號
+        txid: 交易編號
+        created_at: 提交時間
+        amount: 充值金額
+        aasm_state_text: 狀態
+        memo: 確認數
+    withdraws_grid:
+      columns: &withdraws_columns
+        id: 交易編號
+        name: 姓名
+        position_in_queue: 隊列位置
+        currency_text: 幣種
+        address_label: 標籤
+        address_type_text: 方式
+        amount: 實到金額
+        sum: 金額
+        fee: 手續費
+        created_at: 提現時間
+        done_at: 完成時間
+        aasm_state_text: 狀態
+        channel: 通道
+    bank_withdraws_grid: 
+      columns:
+        <<: *withdraws_columns
+        sum: 金額
+        fund_extra_text: 開戶行
+        fund_uid: 卡號
+    satoshi_withdraws_grid:
+      columns:
+        <<: *withdraws_columns
+        sum: 數量
+        fund_uid: 地址
+        fund_extra: 備註
+    members_grid:
+      columns:
+        sn: 識別碼
+        email: 郵件地址
+        created_at: 註冊時間
+        actions: 操作
+    account_versions_grid:
+      columns:
+        created_at: 時間
+        currency_text: 賬戶
+        balance: 余額變更
+        in: 收入
+        out: 支出
+        amount: 結餘
+        reason_text: 理由
+        modifiable_type: 業務
+        fee: 手續費
+      filters:
+        reason: 分類
+        currency: 幣種
+    statistic_members_grid:
+      columns:
+        sn: 識別碼
+        id: 編號
+        email: 郵件地址
+        created_at: 註冊時間
+        activated: 激活
+        detail: 詳情
+        action: 操作
+      filters:
+        sn: 識別碼
+        activated: 是否激活
+        created_at: 註冊時間
+        email: 郵件地址
+    statistic_orders_grid:
+      columns:
+        id: 編號
+        price: 價格
+        volume: 成交量/掛單量
+        created_at: 掛單時間
+        state_text: 狀態
+        member_id: 用戶
+      filters:
+        state: 狀態
+        currency: 幣種對
+        created_at: 時間
+        type: 買入/賣出
+    statistic_trades_grid:
+      columns:
+        id: 編號
+        price: 成交價
+        volume: 成交量
+        strike_amount: 合計
+        created_at: 時間
+      filters:
+        currency: 幣種對
+        created_at: 時間
+    statistic_deposits_grid:
+      columns:
+        member: 用戶
+        address_type_text: 支付方式
+        tx_id: 交易號
+        amount: 金額
+        currency: 幣種
+        created_at: 時間
+        state_text: 狀態
+      filters:
+        currency: 幣種
+        state: 狀態
+        created_at: 時間
+        address_type: 支付方式
+    statistic_withdraws_grid:
+      columns:
+        member: 用戶
+        address_type_text: 支付方式
+        address: 支付地址
+        amount: 金額
+        currency: 幣種
+        created_at: 時間
+        state_text: 狀態
+      filters:
+        state: 狀態
+        created_at: 時間
+        address_type: 支付方式
