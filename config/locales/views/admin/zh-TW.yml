@@ -2,38 +2,38 @@
   admin:
     members:
       show:
-        member_title: 用戶信息
+        member_title: 用戶資料
         actions_title: 操作
-        accounts_title: 賬戶信息
-        account_versions_title: 賬戶記錄
+        accounts_title: 帳戶資料
+        account_versions_title: 帳戶記錄
     dashboard:
       index:
-        accounts_title: 賬戶匯總
+        accounts_title: 帳戶匯總
         daemons_title: 系統匯總
     documents:
       index:
         new: 新建文檔
     currency_deposits:
       new:
-        deposit: 充值
-        accounts_title: 賬戶信息
+        deposit: 儲值
+        accounts_title: 帳戶信息
       create:
-        success: 充值成功
+        success: 儲值成功
     withdraws:
       withdraw:
-        member_title: 用戶賬戶信息
-        withdraw_title: 提現請求信息
+        member_title: 用戶帳戶資料
+        withdraw_title: 提款請求資料
       edit:
         actions_title: 可執行操作
       show:
-        title: 處理提現
+        title: 處理提款
         actions_title: 可執行操作
       update:
-        success: 提現已經開始處理
+        success: 提款已經開始處理
       destroy:
-        success: 提現已經被駁回
+        success: 提款已經被駁回
     statistic:
-      filter: 篩選
+      filter: 過濾
       summary: 總結
       click-to-expand: 點擊展開
       members:
@@ -48,13 +48,13 @@
       trades:
         show:
           count: 成交數
-          volume: 總量成交
-          amount: 總價成交
+          volume: 成交價格
+          amount: 成交金額
           min_price: 最低成交價
           max_price: 最高成交價
           avg_price: 平均成交價
-          amount_fee: 總價手續費
-          volume_fee: 總量手續費
+          amount_fee: 全部手續費
+          volume_fee: 全部手續費
       deposits:
         show:
           count: 總數

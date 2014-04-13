@@ -15,7 +15,7 @@
       ticker:
         markets: 實時價格
       account_balance:
-        title: 賬戶余額
+        title: 帳戶餘額
         available: 可用 %{currency}
       place_order:
         place_order: 快速掛單
@@ -40,11 +40,11 @@
       price_chart:
         price_chart: 行情走勢
       global:
-        global_orders_title: 十檔盤口
+        global_orders_title: 十檔訂單
         global_trades_title: 成交記錄
     withdraws:
       index:
-        withdraw_history: 提現歷史記錄
+        withdraw_history: 提款歷史記錄
     funds:
       show:
-        account_history: 賬戶歷史記錄
+        account_history: 帳戶歷史記錄

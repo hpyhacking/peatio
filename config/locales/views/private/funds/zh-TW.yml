@@ -4,19 +4,19 @@
       show:
         cny_format: '0.00'
         btc_format: '0.00000000'
-        account_history: 賬戶歷史記錄
+        account_history: 帳戶歷史記錄
         reason:
           cny:
             strike_add: 成交賣出
             strike_sub: 成交買入
-            deposit: 充值
-            withdraw: 提現
+            deposit: 儲值
+            withdraw: 提款
             fix: 系統修正
           btc:
             strike_add: 成交買入
             strike_sub: 成交賣出
-            deposit: 充值
-            withdraw: 提現
+            deposit: 儲值
+            withdraw: 提款
             fix: 系統修正
         ref:
           system: 系統

@@ -2,9 +2,9 @@
   breadcrumbs:
     admin: 後台管理
     admin/dashboard: 控制面板
-    admin/deposits: 充值管理
-    admin/withdraws: 提現管理
-    admin/deposits/banks: 銀行轉賬充值
-    admin/deposits/satoshis: 比特幣充值
-    admin/withdraws/banks: 銀行轉賬提現
-    admin/withdraws/satoshis: 比特幣提現
+    admin/deposits: 儲值管理
+    admin/withdraws: 匯款管理
+    admin/deposits/banks: 銀行轉帳儲值
+    admin/deposits/satoshis: 比特幣儲值
+    admin/withdraws/banks: 銀行轉帳匯款
+    admin/withdraws/satoshis: 比特幣匯款

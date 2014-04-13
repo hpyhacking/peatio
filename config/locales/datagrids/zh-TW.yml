@@ -1,4 +1,4 @@
-﻿zh-CN:
+﻿zh-TW:
   datagrid:
     empty: 沒有任何數據查詢結果
     filters:
@@ -10,33 +10,33 @@
       submit: 查詢
     admin_deposits_grid:
       columns:
-        sn: 充值編號
+        sn: 儲值編號
         created_at: 時間
         channel_key_text: 通道
         fund_extra_text: 資金來源
-        fund_uid: 資金賬戶
+        fund_uid: 資金帳戶
         txid: 交易
         amount: 金額
         fee: 手續費
-        currency_text: 幣種
+        currency_text: 幣別
         aasm_state_text: 狀態
         full_name: 會員
     bank_deposits_grid:
       columns:
-        sn: 充值編號
-        created_at: 充值時間
-        channel_key_text: 充值方式
+        sn: 儲值編號
+        created_at: 儲值時間
+        channel_key_text: 儲值方式
         fund_extra_text: 開戶行
-        fund_uid: 充值賬戶
-        amount: 充值金額
+        fund_uid: 儲值帳戶
+        amount: 儲值金額
         fee: 手續費
         aasm_state_text: 狀態
     coin_deposits_grid:
       columns:
-        sn: 充值編號
+        sn: 儲值編號
         txid: 交易編號
         created_at: 提交時間
-        amount: 充值金額
+        amount: 儲值金額
         aasm_state_text: 狀態
         memo: 確認數
     withdraws_grid:
@@ -44,13 +44,13 @@
         id: 交易編號
         name: 姓名
         position_in_queue: 隊列位置
-        currency_text: 幣種
+        currency_text: 幣別
         address_label: 標籤
         address_type_text: 方式
         amount: 實到金額
         sum: 金額
         fee: 手續費
-        created_at: 提現時間
+        created_at: 匯款時間
         done_at: 完成時間
         aasm_state_text: 狀態
         channel: 通道
@@ -59,7 +59,7 @@
         <<: *withdraws_columns
         sum: 金額
         fund_extra_text: 開戶行
-        fund_uid: 卡號
+        fund_uid: 帳號
     satoshi_withdraws_grid:
       columns:
         <<: *withdraws_columns
@@ -69,14 +69,14 @@
     members_grid:
       columns:
         sn: 識別碼
-        email: 郵件地址
+        email: 電子郵件
         created_at: 註冊時間
         actions: 操作
     account_versions_grid:
       columns:
         created_at: 時間
-        currency_text: 賬戶
-        balance: 余額變更
+        currency_text: 帳戶
+        balance: 餘額變更
         in: 收入
         out: 支出
         amount: 結餘
@@ -85,21 +85,21 @@
         fee: 手續費
       filters:
         reason: 分類
-        currency: 幣種
+        currency: 幣別
     statistic_members_grid:
       columns:
         sn: 識別碼
         id: 編號
-        email: 郵件地址
+        email: 電子郵件
         created_at: 註冊時間
-        activated: 激活
+        activated: 認證
         detail: 詳情
         action: 操作
       filters:
         sn: 識別碼
-        activated: 是否激活
+        activated: 是否認證
         created_at: 註冊時間
-        email: 郵件地址
+        email: 電子郵件
     statistic_orders_grid:
       columns:
         id: 編號
@@ -129,11 +129,11 @@
         address_type_text: 支付方式
         tx_id: 交易號
         amount: 金額
-        currency: 幣種
+        currency: 幣別
         created_at: 時間
         state_text: 狀態
       filters:
-        currency: 幣種
+        currency: 幣別
         state: 狀態
         created_at: 時間
         address_type: 支付方式

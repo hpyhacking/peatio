@@ -4,16 +4,16 @@
       menus:
         sections:
           members: 用戶管理
-          deposits: 充值通道
+          deposits: 儲值通道
           sites_statistics: 數據統計
-          operating: 運營管理
+          operating: 營運管理
         items:
           operating:
-            deposits: 充值管理
-            documents: 文檔管理
-            withdraws: 提現管理
+            deposits: 儲值管理
+            documents: 文件管理
+            withdraws: 提款管理
           deposits:
-            currency: 法幣充值
+            currency: 貨幣充值
     application:
       close: 關閉
     meta:

@@ -5,25 +5,25 @@
       order: 掛單
       order_bid: 買入
       order_ask: 賣出
-      document: 文檔
-      withdraw: 提現
-      deposit: 充值
-      payment_transaction: 充值
-      id_document: 實名認證
+      document: 文件
+      withdraw: 提款
+      deposit: 儲值
+      payment_transaction: 儲值
+      id_document: 姓名認證
       statistic/orders_grid: 指令統計
       statistic/trades_grid: 交易統計
       statistic/members_grid: 用戶統計
-      statistic/deposits_grid: 充值統計
-      statistic/withdraws_grid: 提現統計
-      admin/deposits_grid: 充值管理
-      admin/withdraws_grid: 提現管理
+      statistic/deposits_grid: 儲值統計
+      statistic/withdraws_grid: 提款統計
+      admin/deposits_grid: 儲值管理
+      admin/withdraws_grid: 提款管理
     attributes:
       id_document:
         name: 真實姓名
         sn: 證件號碼
         category: 證件類型
       identity:
-        email: 郵箱地址
+        email: 電子郵件
         password: 新密碼
         password_confirmation: 確認密碼
       document:
@@ -32,36 +32,36 @@
         en_body: 英文內容
         en_title: 英文標題
         key: 索引鍵
-        is_auth: 是否登錄查閱
+        is_auth: 是否登入查閱
       fund_source:
-        address: 提現地址
-        category: 提現方式
+        address: 提款地址
+        category: 提款方式
         label: 標籤
       account:
-        currency: 幣種
-        currency_text: 幣種
-        balance_and_locked: 余額/凍結
-        balance: 余額
+        currency: 幣別
+        currency_text: 幣別
+        balance_and_locked: 餘額/凍結
+        balance: 餘額
         locked: 凍結
         amount: 總額
       deposit:
-        currency-address-type: 幣種-支付方式
+        currency-address-type: 幣別-支付方式
         state: 狀態
         txid: 業務編號
         txid_text: 業務編號
         member_id: 用戶標識
         created_at: 創建時間
-        address: 充值地址
-        address_label: 充值標籤
+        address: 儲值地址
+        address_label: 儲值標籤
         amount: 金額
-        done_at: 到賬時間
+        done_at: 到帳時間
         sn: 個人識別碼
         fee: 手續費
         fund_uid: 資金
         fund_extra: 渠道
         aasm_state_text: 客戶狀態
         admin_aasm_state_text: 管理狀態
-        currency_text: 幣種
+        currency_text: 幣別
         channel_key_text: 渠道
       withdraw:
         id: ID
@@ -69,31 +69,31 @@
         withdraw_id: 編號
         created_at: 申請時間
         done_at: 完成時間
-        sum: 提現
-        fee: 提現手續費
-        currency: 幣種
-        amount: 提現金額
-        address: 提現地址
+        sum: 提款
+        fee: 提款手續費
+        currency: 幣別
+        amount: 提款金額
+        address: 提款地址
         fund_extra: 地址標籤
-        address_type: 提現渠道
-        channel_name: 提現渠道
+        address_type: 提款方式
+        channel_name: 渠道名稱
         aasm_state: 狀態
         aasm_state_text: 狀態
         txid: 業務編號
-        fund_uid: 提現地址
+        fund_uid: 提款地址
         position_in_queue: 隊列位置
         detail: 金額明細
       account_version:
         id: 編號
         locked: 凍結
         amount: 金額
-        balance: 余額
+        balance: 餘額
         reason: 原因
         modifiable_id: 相關編號
         modifiable_type: 相關數據
         created_at : 創建日期
       reset_password:
-        email: 郵箱地址
+        email: 電子郵件
       trade:
         bid: 買入
         ask: 賣出
@@ -130,25 +130,25 @@
         created_at: 註冊時間
         sn: 個人識別碼
         tag_list: 標籤
-        activated: 激活成功
+        activated: 啟用成功
     errors:
       models:
         order_bid:
           attributes:
             sum:
-              expensive: 賬戶余額不足
+              expensive: 帳戶餘額不足
             price:
               range: 請指定適當的價格
         order_ask:
           attributes:
             origin_volume:
-              expensive: 賬戶余額不足
+              expensive: 帳戶餘額不足
             price:
               range: 請指定適當的價格
         account:
           attributes:
             balance:
-              less: 您的賬戶余額不足
+              less: 您的帳戶餘額不足
         identity:
           attributes:
             email:
@@ -160,42 +160,42 @@
         reset_two_factor:
           attributes:
             base:
-              too_soon: 訪問過於頻繁，請稍後再試。
+              too_soon: 請求過於頻繁，請稍後再試。
         reset_password:
           attributes:
             base:
-              too_soon: 訪問過於頻繁，請稍後再試。
+              too_soon: 請求過於頻繁，請稍後再試。
             email:
-              not-member: 請輸入有效的郵箱地址。
-              match: 登錄郵件地址錯誤。
+              not-member: 請輸入有效的電子郵件。
+              match: 登入電子郵件錯誤。
             password:
               invalid: 密碼格式錯誤
         activation:
           attributes:
             base:
-              too_soon: 距離上次給您發送激活郵件還未超過5分鐘
+              too_soon: 距離上次給您發送認證郵件還未超過5分鐘
         fund_source:
           attributes:
             label:
             address:
-              satoshi_ismine: 為系統所有，請使用您所擁有的提現地址進行綁定。
-              satoshi_invalid: 格式無效，請填寫正確的比特幣提現地址。
+              satoshi_ismine: 為系統所有，請使用您所擁有的提款地址進行綁定。
+              satoshi_invalid: 格式無效，請填寫正確的比特幣提款地址。
         withdraw:
           attributes:
             password:
-              match: 登錄密碼錯誤，請重新輸入。
+              match: 登入密碼錯誤，請重新輸入。
             sum:
-              poor: 賬戶余額不足，請核對。
+              poor: 帳戶餘額不足，請核對。
               greater_than: 小於單筆最低限額。
-              bank_min: 低於銀行轉賬提現最小限額 5000.00
+              bank_min: 低於銀行轉帳提現最小限額 5000.00
         two_factor:
           attributes:
             otp:
               invalid: 密碼有誤，請重新輸入。
       messages:
         undef: 未知錯誤原因
-        less: 余額不足
-        verify: 驗證失敗
+        less: 餘額不足
+        verify: 認證失敗
         strength: 無效的密碼強度
         password: 請輸入至少8位密碼並必須包含大寫、小寫字母與數字。
         blank: 不可為空。

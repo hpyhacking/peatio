@@ -8,9 +8,9 @@
         transaction_history: 交易記錄
         type: 類型
         timestamp: 時間
-        fiat_currency: 法幣
-        fiat_amount: 法幣數額
-        coin_currency: 數字幣
-        coin_amount: 數字幣數額
+        fiat_currency: 貨幣
+        fiat_amount: 貨幣數額
+        coin_currency: 虛擬幣
+        coin_amount: 虛擬幣數額
         coin_price: 交易價
         fee: 手續費

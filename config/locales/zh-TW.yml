@@ -1,4 +1,4 @@
-﻿zh-CN:
+﻿zh-TW:
   "true": 是
   "false": 否
 
@@ -11,21 +11,21 @@
     admin: 管理員
   trade:
     markets: 市場
-    btccny: BTC/CNY
+    btccny: BTC/TWD
     realtime_price:
       title: 實時價格
     account_balance:
-      title: 我的賬戶
+      title: 我的帳戶
       available_btc: 可用BTC
-      available_cny: 可用CNY
+      available_cny: 可用TWD
       locked_btc: 凍結BTC
-      locked_cny: 凍結CNY
+      locked_cny: 凍結TWD
   gon:
     ask: 賣出
     bid: 買入
     brand: 貔貅交易所
   back: 返回
-  invalid_password: 無效的登錄密碼
+  invalid_password: 無效的登入密碼
   all: 全部
 
   date:
@@ -39,10 +39,10 @@
 
   currency:
     name:
-      cny: 人民幣
+      cny: 新台幣
       btc: 比特幣
     code:
-      cny: CNY
+      cny: TWD
       btc: BTC
     format:
       zero: 'N/A'
@@ -59,9 +59,9 @@
       ask: 合計 <span class=ask_totle></span>%{bid_icon}
   reset_two_factors:
     create:
-      success: 重置兩步驗證郵件已經發送，請根據郵件內容進行操作。
+      success: 重置雙重驗證郵件已經發送，請根據郵件內容進行操作。
     edit:
-      success: 兩步驗證禁用成功，登錄後在賬戶設置中可再次激活。
+      success: 雙重驗證停用成功，登入後在賬戶設置中可再次激活。
 
   private:
     trade:
@@ -82,9 +82,9 @@
           :false: "#%{id} 撤單失敗"
     withdraws:
       update:
-        request_accepted: 提現申請提交成功
+        request_accepted: 提款申請提交成功
       destroy:
-        request_canceled: 提現申請已撤銷
+        request_canceled: 提款申請已撤銷
       index:
         fee: 手續費
         total: 總計
@@ -92,20 +92,20 @@
   header:
     dashboard: 控制面板
     admin: 管理
-    market: 交易大廳
-    settings: 賬戶
+    market: 下單管理
+    settings: 帳戶
     signin: 登錄
     signout: 安全退出
-    signup: 創建賬戶
-    deposit: 充值
-    withdraw: 提現
-    getstart: 前往交易大廳
+    signup: 創建帳戶
+    deposit: 儲值
+    withdraw: 提款
+    getstart: 前往下單管理
     assets: 資產公開
     my_assets: 我的資產
 
   admin_header:
-    deposits: 充值管理
-    withdraws: 提現管理
+    deposits: 儲值管理
+    withdraws: 提款管理
     statistics: 數據統計
 
   footer:
@@ -123,7 +123,7 @@
 
   actions:
     go: 立刻前往
-    deposit: 立刻充值
+    deposit: 立刻儲值
     select: 請選擇
     unlock: 解鎖
     confirm: 確認
@@ -140,7 +140,7 @@
     view: 查看
     member: 查看用戶
     transact: 處理
-    reject: 駁回
+    reject: 拒絕
     clipboard:
       click: 點擊複製
       done: 複製成功
@@ -161,20 +161,20 @@
   'no': 否
 
   banks:
-    cmbc: 招商銀行
-    bc:   中國銀行
-    icbc: 工商銀行
-    cbc:  建設銀行
-    abc:  農業銀行
-    cmb:  招商銀行
-    cmbc: 民生銀行
-    bcm:  交通銀行
+    cmbc: 台灣銀行
+    bc:   第一銀行
+    icbc: 中華郵政
+    cbc:  土地銀行
+    abc:  渣打銀行
+    cmb:  中國信託
+    cmbc: 合作金庫
+    bcm:  台新銀行
     cncb: 中信銀行
-    hxb:  華夏銀行
-    cib:  興業銀行
-    spdb: 浦東發展銀行
-    bob: 北京銀行
-    ceb: 光大銀行
-    sdb: 深圳發展銀行
-    gdb: 廣東發展銀行
-    pab: 平安銀行
+    hxb:  台中農會
+    cib:  新竹商銀
+    spdb: 上海商銀
+    bob: 台北銀行
+    ceb: 高雄銀行
+    sdb: 基隆一信
+    gdb: 玉山銀行
+    pab: 大眾銀行

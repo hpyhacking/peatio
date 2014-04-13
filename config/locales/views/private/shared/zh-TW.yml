@@ -3,7 +3,7 @@
     shared:
       balances:
         locked: 凍結
-        balance: 余額
+        balance: 餘額
         available: 可用
         title: "%{icon} %{c} 賬戶"
         cny_format: '0.00'

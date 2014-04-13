@@ -2,6 +2,6 @@
   private:
     id_documents:
       new:
-        warning: 實名認證信息提交後不得修改，請認真填寫。
+        warning: 姓名認證資料送出後不得修改，請認真填寫。
       create:
-        notice: 實名認證已驗證成功。
+        notice: 姓名認證已驗證成功。

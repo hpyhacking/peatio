@@ -5,7 +5,7 @@
     edit:
       password: 請輸入至少8位密碼，並必須包含大寫、小寫字母與數字。
       invalid: 無效的請求
-      submit: 重置登录密码
+      submit: 重置登入密碼
     update:
-      success: 登錄密碼已經重置，請妥善保管您的新密碼。
+      success: 登入密碼已經重置，請妥善保管您的新密碼。
       invalid: 無效的請求

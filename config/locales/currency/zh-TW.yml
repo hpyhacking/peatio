@@ -1,6 +1,6 @@
-zh-CN:
+zh-TW:
   currency:
     satoshi:
       key: BTC
-    renminbi:
-      key: CNY
+    taibi:
+      key: TWD
