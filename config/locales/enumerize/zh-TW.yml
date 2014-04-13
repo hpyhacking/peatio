@@ -1,0 +1,57 @@
+﻿zh-CN:
+  enumerize:
+    account_version:
+      reason:
+        fix: 系統修正
+        unknown: 未知
+        strike_add: 成交增加
+        strike_sub: 成交扣除
+        strike_fee: 手續費
+        strike_unlock: 成交解除凍結
+        order_cancel: 撤單
+        order_submit: 掛單
+        deposit: 充值
+        withdraw: 提現
+        withdraw_lock: 提現凍結
+        withdraw_unlock: 提現駁回
+    state:
+      done: 完成
+      wait: 等待
+      cancel: 取消
+    currency:
+      cny: CNY
+      btc: BTC
+    order:
+      state:
+        done: 完全成交
+        wait: 等待成交
+        cancel: 撤銷
+    deposit:
+      address_type:
+        satoshi: 比特幣
+        bank: 銀行轉賬
+    withdraw: 
+      address_type:
+        satoshi: 比特幣 - 網絡轉賬
+        bank: 人民幣 - 銀行轉賬
+      aasm_state:
+        submitting: 待確認
+        submitted: 待校驗
+        rejected: 已駁回
+        accepted: 已提交
+        suspect: 異常
+        processing: 受理中
+        coin_ready: 準備中
+        coin_done: 完畢
+        done: 提現成功
+        almost_done: 發送中
+        canceled: 已撤銷
+        failed: 提現出錯
+    fund_source:
+      category:
+        satoshi: 比特幣 - 網絡轉賬
+        bank: 人民幣 - 銀行轉賬
+    id_document:
+      category:
+        id_card: 身份證
+        passport: 護照

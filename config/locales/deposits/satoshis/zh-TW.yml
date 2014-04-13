@@ -1,0 +1,50 @@
+﻿zh-TW:
+  deposit_channel:
+    satoshi:
+      key: 塊鏈
+      title: 比特幣充值
+      intro: 從本地錢包客戶端或任意在線錢包客戶端轉出比特幣到我們為您提供的充值地址。
+      latency: 10 分鐘到賬
+      transfer: 自動
+
+  deposits/satoshi:
+    aasm_state:
+      submitted: 受理中
+      accepted: 充值成功
+      checked: 充值成功
+      warning: 異常
+
+  admin:
+    deposits:
+      satoshis:
+        update:
+          notice: 此筆充值已經成功到賬。
+        index:
+          accept: 立即充值
+          accept_confirm: 確定立刻確認此充值？
+
+  private:
+    deposits:
+      satoshis:
+        new:
+          step-1: 第一步
+          open-wallet: 請使用您常用的錢包服務，本地錢包、在線錢包或移動端的錢包，選擇付款或發送。
+          step-2: 第二步
+          send-coin: 在您的錢包付款或發款中,複製以下專門為您充值準備的⽐特幣地址,在金額中填入您希望充值到賬的數量,
+                    同時別忘記支付⼀定的礦⼯費以保證交易盡快被全網確認。您也可以在移動端錢包中掃描二維碼來進⾏行支付。
+                    您可以重複使用此⽐特幣地址和二維碼進⾏行充值。
+          or: 您也可以
+          scan-qr: 在移動端錢包中掃描二維碼來進行支付。
+          step-3: 第三步
+          check-confirm: 完成以上操作後點擊發送付款,此交易將被廣播到全⺴,您便可以這⾥查看到此筆交易的狀態,
+                        當交易達到全⺴1個確認 (⼤約10⾄至60分鐘) 時,系統將自動充值到賬。
+                        您可以到<a href='%{path}'>資產公開</a>中查詢。
+          check-link: 您可以到 %{link} 中查詢。
+          step-4: 第四步
+          history: 當您在您的錢包中完成發送付款的操作後,點擊<a href='javascript:window.location.reload();'>刷新</a>,就能在⻚面下⽅歷史紀錄中查看到您當前的充值狀態。
+  guides:
+    private:
+      deposits:
+        satoshis:
+          panel: 比特幣充值
+          intro: 從本地錢包客戶端或任意在線錢包客戶端轉出比特幣到我們為您提供的充值地址。

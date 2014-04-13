@@ -1,0 +1,180 @@
+﻿zh-CN:
+  "true": 是
+  "false": 否
+
+  view_on_github: 到 Github 上查看
+  slogan: 貔貅北京開源數字加密貨幣交易平台。
+  slogan_desc: 貔貅交易所是比特幣等加密數字貨幣的交易平台，是國內首個實現開源機制的項目，我們秉承“開放開源，陽光透明”的理念，旨在為廣大加密數字貨幣愛好者，提供一個代碼開源開放、資產公開透明，安全易用和最具有公信力的加密數字貨幣交易服務平台。
+  tags:
+    vip: VIP
+    hero: 超級用戶
+    admin: 管理員
+  trade:
+    markets: 市場
+    btccny: BTC/CNY
+    realtime_price:
+      title: 實時價格
+    account_balance:
+      title: 我的賬戶
+      available_btc: 可用BTC
+      available_cny: 可用CNY
+      locked_btc: 凍結BTC
+      locked_cny: 凍結CNY
+  gon:
+    ask: 賣出
+    bid: 買入
+    brand: 貔貅交易所
+  back: 返回
+  invalid_password: 無效的登錄密碼
+  all: 全部
+
+  date:
+    formats:
+      short: '%m-%d %H:%M'
+      default: '%Y-%m-%d %H:%M'
+  time:
+    formats:
+      short: '%m-%d %H:%M'
+      default: '%Y-%m-%d %H:%M'
+
+  currency:
+    name:
+      cny: 人民幣
+      btc: 比特幣
+    code:
+      cny: CNY
+      btc: BTC
+    format:
+      zero: 'N/A'
+      cny: '0.00'
+      btc: '0.0000'
+    icon-large:
+      cny: <span class='big-currency'>¥</span>
+      btc: <span class='big-currency'>฿</span>
+    icon:
+      cny: <span class='currency'>¥</span>
+      btc: <span class='currency'>฿</span>
+    sum:
+      bid: 合計 <span class=bid_totle></span>%{bid_icon}
+      ask: 合計 <span class=ask_totle></span>%{bid_icon}
+  reset_two_factors:
+    create:
+      success: 重置兩步驗證郵件已經發送，請根據郵件內容進行操作。
+    edit:
+      success: 兩步驗證禁用成功，登錄後在賬戶設置中可再次激活。
+
+  private:
+    trade:
+      trades:
+        orders:
+          title: 掛單記錄
+        trades:
+          title: 交易記錄
+        charges:
+          title: 充值記錄
+      orders:
+        index:
+          done: 已成交
+          cancel: 撤單
+          confirm: "確定要進行撤單 #%{id} 嗎？"
+        destroy:
+          :true: "#%{id} 撤單成功"
+          :false: "#%{id} 撤單失敗"
+    withdraws:
+      update:
+        request_accepted: 提現申請提交成功
+      destroy:
+        request_canceled: 提現申請已撤銷
+      index:
+        fee: 手續費
+        total: 總計
+
+  header:
+    dashboard: 控制面板
+    admin: 管理
+    market: 交易大廳
+    settings: 賬戶
+    signin: 登錄
+    signout: 安全退出
+    signup: 創建賬戶
+    deposit: 充值
+    withdraw: 提現
+    getstart: 前往交易大廳
+    assets: 資產公開
+    my_assets: 我的資產
+
+  admin_header:
+    deposits: 充值管理
+    withdraws: 提現管理
+    statistics: 數據統計
+
+  footer:
+    about: 關於我們
+    terms_and_service: 聲明及用戶協議
+    questions: 常見問題
+    price: 資費說明
+    liability_proof: 償付能力驗證
+    contact: 聯繫我們
+
+  recaptcha:
+    errors:
+      verification_failed: 驗證碼錯誤，請再試試看。
+      recaptcha_unavailable: 驗證時遇到錯誤，請稍後重試。
+
+  actions:
+    go: 立刻前往
+    deposit: 立刻充值
+    select: 請選擇
+    unlock: 解鎖
+    confirm: 確認
+    back: 返回
+    block: 區塊中查看地址
+    destroy: 刪除
+    destroy_confirm: 您確定要刪除此記錄嗎？
+    detail: 詳情
+    publish: 發布
+    edit: 編輯
+    preview: 預覽
+    close: 退出
+    cancel: 撤銷
+    view: 查看
+    member: 查看用戶
+    transact: 處理
+    reject: 駁回
+    clipboard:
+      click: 點擊複製
+      done: 複製成功
+
+  global:
+    ask_price: 賣出
+    bid_price: 買入
+    high_price: 最高
+    low_price: 最低
+    volume: 成交量
+    latest_price: 最新價格
+
+  chart:
+    price: 價格
+    volume: 成交量
+
+  'yes': 是
+  'no': 否
+
+  banks:
+    cmbc: 招商銀行
+    bc:   中國銀行
+    icbc: 工商銀行
+    cbc:  建設銀行
+    abc:  農業銀行
+    cmb:  招商銀行
+    cmbc: 民生銀行
+    bcm:  交通銀行
+    cncb: 中信銀行
+    hxb:  華夏銀行
+    cib:  興業銀行
+    spdb: 浦東發展銀行
+    bob: 北京銀行
+    ceb: 光大銀行
+    sdb: 深圳發展銀行
+    gdb: 廣東發展銀行
+    pab: 平安銀行
