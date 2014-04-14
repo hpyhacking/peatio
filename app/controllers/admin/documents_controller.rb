@@ -3,6 +3,8 @@ module Admin
     prepend_before_filter :find_document, :only => [:show, :update, :edit]
     prepend_before_filter :create_document, :only => :create
 
+    load_and_authorize_resource
+
     def index
       @documents_grid = ::DocumentsGrid.new(params[:documents_grid])
       @assets = @documents_grid.assets
