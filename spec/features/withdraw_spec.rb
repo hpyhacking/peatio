@@ -9,6 +9,8 @@ describe 'withdraw' do
   end
 
   before do
+    AMQPQueue.stubs(:enqueue)
+
     Withdraw.any_instance.stubs(:examine).returns(true)
     btc_account = member.get_account(:btc)
     btc_account.update_attributes balance: 1000
