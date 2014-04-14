@@ -15,13 +15,13 @@ EM.run do
   Signal.trap("INT")  { EM.stop_event_loop }
   Signal.trap("TERM") { EM.stop_event_loop }
 
-  worker = Worker::Matching.new
+  worker = Worker::WithdrawAudit.new
 
   AMQP.connect(AMQP_CONFIG[:connect]) do |conn|
     puts "Connected to AMQP broker."
 
     channel = AMQP::Channel.new conn
-    channel.queue(AMQP_CONFIG[:queue][:matching]).subscribe do |payload|
+    channel.queue(AMQP_CONFIG[:queue][:withdraw_audit]).subscribe do |payload|
       puts "Received: #{payload}"
       begin
         worker.process JSON.parse(payload)

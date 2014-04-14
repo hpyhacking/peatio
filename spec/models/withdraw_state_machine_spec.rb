@@ -23,7 +23,7 @@ describe Withdraw do
   it 'transitions to :accepted with normal account after calling #submit!' do
     subject.submit!
 
-    Job::Examine.perform(subject.id)
+    Worker::WithdrawAudit.new.process(id: subject.id)
 
     expect(subject.reload.accepted?).to be_true
   end
@@ -32,7 +32,7 @@ describe Withdraw do
     subject.account.update_attribute(:balance, 1000.to_d)
     subject.submit!
 
-    Job::Examine.perform(subject.id)
+    Worker::WithdrawAudit.new.process(id: subject.id)
 
     expect(subject.reload.suspect?).to be_true
   end
