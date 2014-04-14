@@ -5,7 +5,6 @@ describe Withdraw do
 
   before do
     subject.stubs(:send_withdraw_confirm_email)
-    Resque.stubs(:enqueue)
     AMQPQueue.stubs(:enqueue)
   end
 
@@ -78,7 +77,7 @@ describe Withdraw do
       expect(subject.processing?).to be_true
     end
 
-    context 'Job::Coin#perform' do
+    context 'Worker::WithdrawCoin#process' do
       before do
         @rpc = mock()
         @rpc.stubs(getbalance: 50000, sendtoaddress: '12345', settxfee: true )
@@ -92,7 +91,7 @@ describe Withdraw do
       it 'transitions to :almost_done after calling rpc but getting Exception' do
         CoinRPC.stubs(:[]).returns(@broken_rpc)
 
-        begin Job::Coin.perform(subject.id); rescue; end
+        begin Worker::WithdrawCoin.new.process(id: subject.id); rescue; end
 
         expect(subject.reload.almost_done?).to be_true
       end
@@ -100,7 +99,7 @@ describe Withdraw do
       it 'transitions to :done after calling rpc' do
         CoinRPC.stubs(:[]).returns(@rpc)
 
-        expect { Job::Coin.perform(subject.id) }.to change{subject.account.reload.amount}.by(-subject.sum)
+        expect { Worker::WithdrawCoin.new.process(id: subject.id) }.to change{subject.account.reload.amount}.by(-subject.sum)
 
         subject.reload
         expect(subject.done?).to be_true
@@ -109,10 +108,10 @@ describe Withdraw do
 
       it 'does not send coins again if previous attempt failed' do
         CoinRPC.stubs(:[]).returns(@broken_rpc)
-        begin Job::Coin.perform(subject.id); rescue; end
+        begin Worker::WithdrawCoin.new.process(id: subject.id); rescue; end
         CoinRPC.stubs(:[]).returns(mock())
 
-        expect { Job::Coin.perform(subject.id) }.to_not change{subject.account.reload.amount}
+        expect { Worker::WithdrawCoin.new.process(id: subject.id) }.to_not change{subject.account.reload.amount}
         expect(subject.reload.almost_done?).to be_true
       end
     end

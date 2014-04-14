@@ -181,7 +181,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def send_coins!
-    Resque.enqueue(Job::Coin, self.id) if coin?
+    AMQPQueue.enqueue(:withdraw_coin, id: id) if coin?
   end
 
   def last_completed_withdraw_cache_key

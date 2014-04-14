@@ -1,10 +1,11 @@
-module Job
-  class Coin
-    @queue = :coin
+module Worker
+  class WithdrawCoin
 
-    def self.perform(withdraw_id)
+    def process(payload)
+      payload.symbolize_keys!
+
       Withdraw.transaction do
-        withdraw = Withdraw.lock.find(withdraw_id)
+        withdraw = Withdraw.lock.find payload[:id]
 
         return unless withdraw.processing?
 
@@ -14,14 +15,14 @@ module Job
       end
 
       Withdraw.transaction do
-        withdraw = Withdraw.lock.find(withdraw_id)
+        withdraw = Withdraw.lock.find payload[:id]
 
         return unless withdraw.almost_done?
 
         balance = CoinRPC[withdraw.currency].getbalance.to_d
         raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.sum
 
-        fee = [withdraw.fee || withdraw.channel.try(:fee) || 0.0005, 0.1].min
+        fee = [withdraw.fee.to_f || withdraw.channel.try(:fee) || 0.0005, 0.1].min
 
         CoinRPC[withdraw.currency].settxfee fee
         txid = CoinRPC[withdraw.currency].sendtoaddress withdraw.fund_uid, withdraw.amount.to_f
@@ -32,5 +33,6 @@ module Job
         end
       end
     end
+
   end
 end
