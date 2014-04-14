@@ -9,8 +9,6 @@ module Matching
     attr :id, :timestamp, :type, :volume, :price, :market
 
     def initialize(attrs)
-      attrs.symbolize_keys!
-
       @id        = attrs[:id]
       @timestamp = attrs[:timestamp]
       @type      = attrs[:type].try(:to_sym)

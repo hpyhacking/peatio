@@ -1,35 +1,28 @@
 require 'spec_helper'
 
-describe Job::Matching do
+describe Worker::Matching do
 
   let(:alice)  { who_is_billionaire(:alice) }
   let(:bob)    { who_is_billionaire(:bob) }
   let(:market) { Market.find('btccny') }
 
-  before do
-    Job::Matching.reset_engines
-  end
+  subject { Worker::Matching.new }
 
   context "engines" do
     let(:attrs)  { create(:order_bid, currency: 'btccny').to_matching_attributes }
     let(:order)  { ::Matching::Order.new attrs }
 
     before do
-      Job::Matching.instance_variable_set('@order', order)
+      subject.instance_variable_set('@order', order)
     end
 
     it "should find or initialize engine for market" do
-      Job::Matching.engine.should be_instance_of(::Matching::FIFOEngine)
+      subject.engine.should be_instance_of(::Matching::FIFOEngine)
     end
 
     it "should get all engines" do
-      Job::Matching.engine
-      Job::Matching.engines.keys.should == [order.market.id]
-    end
-
-    it "should reset engines" do
-      Job::Matching.reset_engines
-      Job::Matching.engines.should be_empty
+      subject.engine
+      subject.engines.keys.should == [order.market.id]
     end
   end
 
@@ -41,7 +34,7 @@ describe Job::Matching do
       engine = mock('engine')
       engine.expects(:submit!).times(2) # 1 for ask, 1 for bid
       ::Matching::FIFOEngine.expects(:new).returns(engine)
-      Job::Matching.perform 'submit', bid.to_matching_attributes
+      subject.process action: 'submit', order: bid.to_matching_attributes
     end
 
     it "should not match existing orders if one is canceled on engine restart" do
@@ -49,7 +42,7 @@ describe Job::Matching do
       engine.expects(:submit!).once # ask
       engine.expects(:cancel!).once # bid
       ::Matching::FIFOEngine.expects(:new).returns(engine)
-      Job::Matching.perform 'cancel', bid.to_matching_attributes
+      subject.process  action: 'cancel', order: bid.to_matching_attributes
     end
 
   end
@@ -59,8 +52,8 @@ describe Job::Matching do
     let(:order) { create(:order_ask, price: '3999', volume: '10.0', member: alice) }
 
     before do
-      ::Job::Matching.perform 'submit', bid.to_matching_attributes
-      ::Job::Matching.perform 'submit', order.to_matching_attributes
+      subject.process action: 'submit', order: bid.to_matching_attributes
+      subject.process action: 'submit', order: order.to_matching_attributes
     end
 
     it "should update market's latest price" do
@@ -77,14 +70,14 @@ describe Job::Matching do
     let(:existing) { create(:order_ask, price: '4001', volume: '10.0', member: alice) }
 
     before do
-      ::Job::Matching.perform 'submit', existing.to_matching_attributes
+      subject.process action: 'submit', order: existing.to_matching_attributes
     end
 
     it "should match part of existing order" do
       order = create(:order_bid, price: '4001', volume: '8.0', member: bob)
 
       expect {
-        ::Job::Matching.perform 'submit', order.to_matching_attributes
+        subject.process action: 'submit', order: order.to_matching_attributes
 
         order.reload.state.should        == ::Order::DONE
         existing.reload.state.should_not == ::Order::DONE
@@ -96,7 +89,7 @@ describe Job::Matching do
       order = create(:order_bid, price: '4001', volume: '12.0', member: bob)
 
       expect {
-        ::Job::Matching.perform 'submit', order.to_matching_attributes
+        subject.process action: 'submit', order: order.to_matching_attributes
 
         order.reload.state.should_not == ::Order::DONE
         order.reload.volume.should    == '2.0'.to_d
@@ -129,33 +122,33 @@ describe Job::Matching do
 
     it "should create many trades" do
       expect {
-        ::Job::Matching.perform 'submit', ask1.to_matching_attributes
-        ::Job::Matching.perform 'submit', ask2.to_matching_attributes
+        subject.process action: 'submit', order: ask1.to_matching_attributes
+        subject.process action: 'submit', order: ask2.to_matching_attributes
       }.not_to change(Trade, :count)
 
       expect {
-        ::Job::Matching.perform 'submit', bid3.to_matching_attributes
+        subject.process action: 'submit', order: bid3.to_matching_attributes
         ask1.reload.state.should  == Order::DONE
         ask2.reload.state.should  == Order::DONE
         bid3.reload.volume.should == '2.0'.to_d
       }.to change(Trade, :count).by(2)
 
       expect {
-        ::Job::Matching.perform 'submit', ask4.to_matching_attributes
+        subject.process action: 'submit', order: ask4.to_matching_attributes
         bid3.reload.state.should   == Order::DONE
         ask4.reload.volume.should  == '3.0'.to_d
         market.latest_price.should == '4003'.to_d
       }.to change(Trade, :count).by(1)
 
       expect {
-        ::Job::Matching.perform 'submit', bid5.to_matching_attributes
+        subject.process action: 'submit', order: bid5.to_matching_attributes
         ask4.reload.state.should   == Order::DONE
         bid5.reload.state.should   == Order::DONE
         market.latest_price.should == '4002'.to_d
       }.to change(Trade, :count).by(1)
 
       expect {
-        ::Job::Matching.perform 'submit', bid6.to_matching_attributes
+        subject.process action: 'submit', order: bid6.to_matching_attributes
       }.not_to change(Trade, :count)
     end
   end

@@ -2,8 +2,9 @@ module Worker
   class Matching
 
     def process(payload)
-      @order = ::Matching::Order.new payload['order']
-      send payload['action']
+      payload.symbolize_keys!
+      @order = ::Matching::Order.new payload[:order]
+      send payload[:action]
     end
 
     def submit
@@ -36,10 +37,6 @@ module Worker
 
     def engines
       @engines ||= {}
-    end
-
-    def reset_engines
-      @engines = {}
     end
 
   end

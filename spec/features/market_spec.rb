@@ -21,7 +21,7 @@ feature 'show account info', js: true do
   let!(:bid_order) { create :order_bid, price: '21.3' }
   let!(:ask_name) { I18n.t('currency.name.btc') }
 
-  before { Resque.stubs(:enqueue) }
+  before { AMQPQueue.stubs(:enqueue) }
 
   scenario 'user can place a buy order by filling in the order form' do
     login identity
