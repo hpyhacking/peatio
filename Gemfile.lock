@@ -65,6 +65,8 @@ GEM
       debug_inspector (>= 0.0.1)
     browser (0.3.2)
     builder (3.1.4)
+    bunny (1.2.1)
+      amq-protocol (>= 1.9.2)
     byebug (2.7.0)
       columnize (~> 0.3)
       debugger-linecache (~> 1.2)
@@ -406,6 +408,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-on-rails!
   browser
+  bunny (~> 1.2.1)
   byebug
   cached_resource
   cancancan
@@ -426,6 +429,7 @@ DEPENDENCIES
   globalize (~> 4.0.0)
   gon
   handlebars_assets
+  hashie
   http_accept_language
   introjs-rails
   jbuilder

@@ -18,9 +18,11 @@ gem 'omniauth-identity'
 
 gem 'figaro'
 gem 'settingslogic'
+gem 'hashie'
 
 gem 'amqp', '~> 1.3.0'
 gem 'aasm'
+gem 'bunny', '~> 1.2.1'
 gem 'cancancan'
 gem 'enumerize'
 gem 'datagrid'
