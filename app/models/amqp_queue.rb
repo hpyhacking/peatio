@@ -12,6 +12,7 @@ class AMQPQueue
     end
 
     def enqueue(queue, payload)
+      payload = JSON.dump payload
       channel.default_exchange.publish(payload, routing_key: AMQP_CONFIG[:queue][queue])
     end
   end

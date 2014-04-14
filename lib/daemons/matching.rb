@@ -9,21 +9,26 @@ Dir.chdir(root)
 
 require File.join(root, "config", "environment")
 
-class EchoServer < EM::Connection
-  def receive_data(data)
-    if data.strip =~ /exit$/i
-      EM.stop
-    else
-      send_data(data)
+EM.run do
+  puts "Daemon started at #{Time.now}"
+
+  #Signal.trap("INT")  { EM.stop_event_loop }
+  #Signal.trap("TERM") { EM.stop_event_loop }
+
+  worker = Worker::Matching.new
+
+  AMQP.connect(AMQP_CONFIG[:connect]) do |conn|
+    puts "Connected to AMQP broker."
+
+    channel = AMQP::Channel.new conn
+    channel.queue(AMQP_CONFIG[:queue][:matching]).subscribe do |payload|
+      puts "Received: #{payload}"
+      begin
+        worker.process JSON.parse(payload)
+      rescue Exception => e
+        puts "Fatal: #{e}"
+        puts e.backtrace.join("\n")
+      end
     end
   end
-end
-
-EM.run do
-  Signal.trap("INT")  { puts "INT received, stop";  EM.stop_event_loop }
-  Signal.trap("TERM") { puts "TERM received, stop"; EM.stop_event_loop }
-
-  Rails.logger.info "started at #{Time.now}.\n"
-
-  EM.start_server('0.0.0.0', 10000, EchoServer)
 end
