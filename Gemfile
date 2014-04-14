@@ -19,6 +19,7 @@ gem 'omniauth-identity'
 gem 'figaro'
 gem 'settingslogic'
 
+gem 'amqp', '~> 1.3.0'
 gem 'aasm'
 gem 'cancancan'
 gem 'enumerize'
