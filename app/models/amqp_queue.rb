@@ -11,9 +11,22 @@ class AMQPQueue
       @channel ||= connection.create_channel
     end
 
-    def enqueue(queue, payload)
+    def exchanges
+      @exchanges ||= {default: channel.default_exchange}
+    end
+
+    def exchange(id)
+      exchanges[id] ||= channel.send(AMQP_CONFIG[:exchange][id][:type], AMQP_CONFIG[:exchange][id][:name])
+    end
+
+    def publish(eid, payload, attrs={})
       payload = JSON.dump payload
-      channel.default_exchange.publish(payload, routing_key: AMQP_CONFIG[:queue][queue])
+      exchange(eid).publish(payload, attrs)
+    end
+
+    # 1-1 mapping, use default exchange
+    def enqueue(qid, payload)
+      publish(:default, payload, routing_key: AMQP_CONFIG[:queue][qid])
     end
   end
 
