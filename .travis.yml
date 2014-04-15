@@ -11,7 +11,7 @@ before_script:
   - "cp ./.travis.application.yml ./config/application.yml"
   - "cp ./.travis.currencies.yml ./config/currencies.yml"
   - "cp ./.travis.markets.yml ./config/markets.yml"
-  - "touch ./config/amqp.yml"
+  - "cp ./config/amqp.yml.example ./config/amqp.yml"
   - "mkdir -p ./tmp/cache"
 script:
   - bundle exec rake db:schema:load
