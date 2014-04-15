@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'Sign up', js: true do
-  before { Resque.inline = true } # doesn't work
 
   let(:identity) { build(:identity) }
 
@@ -58,5 +57,4 @@ describe 'Sign up', js: true do
     check_signin
   end
 
-  after { Resque.inline = false }
 end

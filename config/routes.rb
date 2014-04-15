@@ -1,4 +1,3 @@
-require 'resque/server'
 require 'market_constraint'
 require 'whitelist_constraint'
 
@@ -6,7 +5,6 @@ Rails.application.eager_load! if Rails.env.development?
 
 Peatio::Application.routes.draw do
   if Rails.env.development?
-    mount Resque::Server.new, :at => "/jobs"
     mount MailsViewer::Engine => '/mails'
   end
 

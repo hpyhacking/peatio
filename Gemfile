@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 #source 'http://ruby.taobao.org'
 
 gem 'rails'
+gem 'rails-i18n'
 
 gem 'mysql2'
 gem 'daemons-rails'
@@ -38,13 +39,8 @@ gem 'http_accept_language'
 gem "globalize", "~> 4.0.0"
 gem 'paper_trail', '~> 3.0.1'
 
-gem 'pusher'
-
 gem 'gon'
-gem 'resque'
-gem 'resque-scheduler'
-
-gem 'rails-i18n'
+gem 'pusher'
 
 gem 'simple_form', '3.0.1'
 gem 'slim-rails'
