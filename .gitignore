@@ -13,9 +13,8 @@
 /db/*.sqlite3
 
 # Ignore all logfiles and tempfiles.
-/log/*.log
-/log/*.pid
-/tmp
+log
+tmp
 
 # Ignore all config files
 /config/application.yml
