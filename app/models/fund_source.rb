@@ -1,6 +1,5 @@
 class FundSource < ActiveRecord::Base
-  extend Enumerize
-  enumerize :currency, in: Currency.codes, scope: true
+  include Currencible
 
   attr_accessor :name
 

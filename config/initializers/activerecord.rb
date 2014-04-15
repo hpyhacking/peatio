@@ -3,3 +3,5 @@ module ActiveModel
     alias :han :human_attribute_name
   end
 end
+
+ActiveRecord::Base.extend ActiveHash::Associations::ActiveRecordExtensions

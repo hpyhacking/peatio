@@ -1,6 +1,5 @@
 class Withdraw < ActiveRecord::Base
   extend Enumerize
-  extend ActiveHash::Associations::ActiveRecordExtensions
 
   include AASM
   include AASM::Locking

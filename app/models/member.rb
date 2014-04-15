@@ -100,7 +100,7 @@ class Member < ActiveRecord::Base
   end
 
   def touch_accounts
-    less = Currency.codes.keys - self.accounts.map(&:currency).map(&:to_sym)
+    less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
     less.each do |code|
       self.accounts.create(currency: code, balance: 0, locked: 0)
     end
@@ -125,7 +125,7 @@ class Member < ActiveRecord::Base
   end
 
   def create_accounts
-    self.accounts = Currency.codes.map do |key, code|
+    self.accounts = Currency.codes.map do |code|
       Account.new(currency: code, balance: 0, locked: 0)
     end
   end

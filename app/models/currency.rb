@@ -1,9 +1,15 @@
 class Currency < ActiveYaml::Base
+  include International
+  include ActiveHash::Associations
+
   set_root_path "#{Rails.root}/config"
-  include ChannelInternational
+
+  def self.hash_codes
+    @codes ||= Hash[*all.map do |x| [x.code, x.id] end.flatten].symbolize_keys
+  end
 
   def self.codes
-    @codes ||= Hash[*all.map do |x| [x.code, x.id] end.flatten].symbolize_keys
+    @keys ||= all.map do |x| x.code end
   end
 
   def self.assets(code)
