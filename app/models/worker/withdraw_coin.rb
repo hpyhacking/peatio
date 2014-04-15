@@ -9,7 +9,7 @@ module Worker
 
         return unless withdraw.processing?
 
-        withdraw.whodunnit('resque') do
+        withdraw.whodunnit('Worker::WithdrawCoin') do
           withdraw.call_rpc!
         end
       end
@@ -27,7 +27,7 @@ module Worker
         CoinRPC[withdraw.currency].settxfee fee
         txid = CoinRPC[withdraw.currency].sendtoaddress withdraw.fund_uid, withdraw.amount.to_f
 
-        withdraw.whodunnit('resque') do
+        withdraw.whodunnit('Worker::WithdrawCoin') do
           withdraw.update_column :txid, txid
           withdraw.succeed!
         end
