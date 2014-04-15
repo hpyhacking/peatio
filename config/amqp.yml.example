@@ -2,8 +2,14 @@ connect:
   host: 127.0.0.1
   port: 5672
 
+exchange:
+  trade_after_strike:
+    name: peatio.trade.after_strike
+    type: fanout
+
 queue:
   matching: peatio.matching
   withdraw_audit: peatio.withdraw.audit
   withdraw_coin: peatio.withdraw.coin
   mailer: peatio.mailer
+  pusher: peatio.pusher
