@@ -4,3 +4,6 @@ connect:
 
 queue:
   matching: peatio.matching
+  withdraw_audit: peatio.withdraw.audit
+  withdraw_coin: peatio.withdraw.coin
+  mailer: peatio.mailer
