@@ -42,7 +42,6 @@ gem 'pusher'
 
 gem 'gon'
 gem 'resque'
-gem 'resque_mailer'
 gem 'resque-scheduler'
 
 gem 'rails-i18n'
