@@ -27,7 +27,7 @@ module Worker
 
     def load_orders(engine)
       orders = ::Order.active.with_currency(@order.market.id)
-        .where('id != ?', @order.id).order('id asc')
+        .where('id < ?', @order.id).order('id asc')
 
       orders.each do |order|
         order = ::Matching::Order.new order.to_matching_attributes
