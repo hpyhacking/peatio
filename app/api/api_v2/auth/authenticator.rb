@@ -46,7 +46,7 @@ module APIv2
       end
 
       def canonical_query
-        hash = @params.select {|k,v| !%w(route_info signature).include?(k) }
+        hash = @params.select {|k,v| !%w(route_info signature format).include?(k) }
         URI.unescape(hash.to_param)
       end
 
