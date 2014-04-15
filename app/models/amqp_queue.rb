@@ -66,9 +66,9 @@ class AMQPQueue
 
         if @mailer_class.deliver?
           begin
-            AMQPQueue.enqueue(:web_mail, mailer_class: @mailer_class.to_s, method: @method_name, args: @args)
+            AMQPQueue.enqueue(:mailer, mailer_class: @mailer_class.to_s, method: @method_name, args: @args)
           rescue
-            Rails.logger.error "Unable to enqueue :web_mail: #{$!}, fallback to synchronous mail delivery"
+            Rails.logger.error "Unable to enqueue :mailer: #{$!}, fallback to synchronous mail delivery"
             deliver!
           end
         end
