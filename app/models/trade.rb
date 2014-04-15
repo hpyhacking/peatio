@@ -35,11 +35,6 @@ class Trade < ActiveRecord::Base
     }
   end
 
-  def notify
-    ask.member.trigger 'trade', for_notify('ask')
-    bid.member.trigger 'trade', for_notify('bid')
-  end
-
   def for_global
     { tid:    id,
       type:   trend == 'down' ? 'sell' : 'buy',

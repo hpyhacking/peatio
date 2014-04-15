@@ -58,8 +58,8 @@ describe Matching::Executor do
       Order.find(bid.id).state.should == Order::DONE
     end
 
-    it "should publish trade through pusher" do
-      Pusher.expects(:trigger_async)
+    it "should publish trade through amqp" do
+      AMQPQueue.expects(:publish)
       subject.execute!
     end
   end

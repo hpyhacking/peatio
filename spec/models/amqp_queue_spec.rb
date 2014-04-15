@@ -12,6 +12,7 @@ describe AMQPQueue do
   let(:channel) { stub('channel', default_exchange: default_exchange) }
 
   before do
+    AMQPQueue.unstub(:publish)
     AMQPQueue.stubs(:exchanges).returns({default: default_exchange})
     AMQPQueue.stubs(:channel).returns(channel)
   end

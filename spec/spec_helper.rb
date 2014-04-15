@@ -63,10 +63,10 @@ RSpec.configure do |config|
     else
       DatabaseCleaner.strategy = :transaction
     end
-
     DatabaseCleaner.start
 
     Rails.cache.clear
+    AMQPQueue.stubs(:publish)
   end
 
   config.after(:each) do

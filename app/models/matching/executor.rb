@@ -26,7 +26,7 @@ module Matching
         @ask.strike trade
       end
 
-      Global[@market].trigger_trade trade
+      AMQPQueue.publish :trade_after_strike, market: @market.id, id: trade.id
       trade
     end
 

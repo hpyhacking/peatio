@@ -5,7 +5,6 @@ describe Withdraw do
 
   before do
     subject.stubs(:send_withdraw_confirm_email)
-    AMQPQueue.stubs(:enqueue)
   end
 
   it 'initializes with state :submitting' do

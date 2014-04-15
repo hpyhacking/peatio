@@ -78,13 +78,6 @@ class Global
     end
   end
 
-  def trigger_trade(trade)
-    trade.notify # sent member notifications
-
-    data = {:trades => [format_trade(trade)]}
-    Pusher.trigger_async(channel, "trades", data)
-  end
-
   def trigger_ticker
     data = {:ticker => ticker, :asks => asks, :bids => bids}
     Pusher.trigger_async(channel, "update", data)
