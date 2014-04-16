@@ -7,7 +7,7 @@
   type: WithdrawChannelSatoshi
 - id: 400
   key: bank
-  currency: cny
+  currency: TWD
   fixed: 2
   fee_max: 0
   min: 100
@@ -15,5 +15,5 @@
   fee: 0.003
   proportion: true
   inuse: true
-  banks: ["icbc", "cbc", "bc", "bcm", "abc", "cmb", "cmbc", "cncb", "hxb", "cib", "spdb", "bob", "cncb", "ceb", "sdb", "pab", "gdb"]
+  banks: ["004", "005", "006", "007", "008", "009", "011", "012", "013", "017", "021", "039", "016", "050", "052", "053", "054"]
   type: WithdrawChannelBank

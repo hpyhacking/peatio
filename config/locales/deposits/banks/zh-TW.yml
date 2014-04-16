@@ -28,7 +28,7 @@
   deposit_channel:
     bank:
       key: 銀行轉帳
-      title: 銀行轉帳充值
+      title: 銀行轉帳儲值
       intro: 通過銀行轉帳的方式，從您的銀行帳戶儲值人民幣到您的貔貅帳戶。
       latency: 10 分鐘到帳
       transfer: 人工處理
