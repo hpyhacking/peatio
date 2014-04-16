@@ -92,13 +92,11 @@ Peatio::Application.routes.draw do
       resources :order_bids, :only => [:create]
       resources :order_asks, :only => [:create]
     end
+
+    post '/pusher/auth', to: 'pusher#auth'
   end
 
   get 'payment_transaction/:currency/:txid', to: 'payment_transaction#create'
-
-  scope module: 'private' do
-    post '/pusher/auth', to: 'pusher#auth'
-  end
 
   constraints(WhitelistConstraint.new(JSON.parse(Figaro.env.try(:api_whitelist) || '[]'))) do
     namespace :api, defaults: {format: 'json'}, :constraints => MarketConstraint do
