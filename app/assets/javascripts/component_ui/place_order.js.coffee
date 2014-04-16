@@ -35,7 +35,7 @@
 
   @confirmDialogMsg = ->
     confirmType = @select('submitButton').text()
-    price = @select('sumSel').val()
+    price = @select('priceSel').val()
     volume = @select('volumeSel').val()
     sum = @select('sumSel').val()
     """
