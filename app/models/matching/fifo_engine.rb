@@ -43,7 +43,7 @@ module Matching
     def trade!
       ask, bid, strike_price, volume = trade
       puts "[#{@market.id}] new trade - #{ask} #{bid} strike_price: #{strike_price} volume: #{volume}"
-      Executor.new(@market, ask, bid, strike_price, volume).execute!
+      AMQPQueue.enqueue(:trade_executor, market_id: @market.id, ask_id: ask.id, bid_id: bid.id, strike_price: strike_price, volume: volume)
     end
 
     private

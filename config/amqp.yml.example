@@ -8,8 +8,10 @@ exchange:
     type: fanout
 
 queue:
-  matching: peatio.matching
+  matching:       peatio.matching
+  trade_executor: peatio.trade.new
+  pusher:         peatio.pusher
+
   withdraw_audit: peatio.withdraw.audit
-  withdraw_coin: peatio.withdraw.coin
-  mailer: peatio.mailer
-  pusher: peatio.pusher
+  withdraw_coin:  peatio.withdraw.coin
+  mailer:         peatio.mailer

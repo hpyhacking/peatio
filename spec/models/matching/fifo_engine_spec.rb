@@ -35,11 +35,8 @@ describe Matching::FIFOEngine do
 
   context "submit full match orders" do
     it "should execute trade" do
-      executor = mock()
-      executor.stubs(:execute!)
-
-      ::Matching::Executor.expects(:new)
-        .with(market, ask, bid, price, volume).returns(executor)
+      AMQPQueue.expects(:enqueue)
+        .with(:trade_executor, market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume)
 
       subject.submit!(ask)
       subject.submit!(bid)
@@ -51,11 +48,8 @@ describe Matching::FIFOEngine do
     let(:ask) { Matching.mock_order(type: :ask, price: price, volume: 3.to_d)}
 
     it "should execute trade" do
-      executor = mock()
-      executor.stubs(:execute!)
-
-      ::Matching::Executor.expects(:new)
-        .with(market, ask, bid, price, 3.to_d).returns(executor)
+      AMQPQueue.expects(:enqueue)
+        .with(:trade_executor, market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: 3.to_d)
 
       subject.submit!(ask)
       subject.submit!(bid)
@@ -73,12 +67,7 @@ describe Matching::FIFOEngine do
     end
 
     it "should execute trade" do
-      executor = mock()
-      executor.stubs(:execute!)
-
-      asks.each do |ask|
-        ::Matching::Executor.expects(:new).returns(executor).once
-      end
+      AMQPQueue.expects(:enqueue).times(asks.size)
 
       asks.each {|ask| subject.submit!(ask) }
       subject.submit!(bid)
@@ -93,14 +82,12 @@ describe Matching::FIFOEngine do
     let(:high_ask) { Matching.mock_order(type: :ask, price: price,   volume: 3.to_d) }
 
     it "should match bid with high ask" do
-      executor = mock()
-      executor.stubs(:execute!)
-
       subject.submit!(low_ask) # low ask enters first
       subject.submit!(high_ask)
       subject.cancel!(low_ask) # but it's cancelled
 
-      ::Matching::Executor.expects(:new).with(anything, high_ask, bid, anything, anything).returns(executor)
+      AMQPQueue.expects(:enqueue)
+        .with(:trade_executor, market_id: market.id, ask_id: high_ask.id, bid_id: bid.id, strike_price: high_ask.price, volume: high_ask.volume)
       subject.submit!(bid)
     end
   end

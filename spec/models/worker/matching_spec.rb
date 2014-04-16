@@ -47,25 +47,6 @@ describe Worker::Matching do
 
   end
 
-  context "full match" do
-    let(:bid) { create(:order_bid, price: '3999', volume: '10.0', member: bob) }
-    let(:order) { create(:order_ask, price: '3999', volume: '10.0', member: alice) }
-
-    before do
-      subject.process action: 'submit', order: bid.to_matching_attributes
-      subject.process action: 'submit', order: order.to_matching_attributes
-    end
-
-    it "should update market's latest price" do
-      market.latest_price.should == 3999.to_d
-    end
-
-    it "should execute a full match" do
-      order.reload.state.should     == ::Order::DONE
-      bid.reload.state.should  == ::Order::DONE
-    end
-  end
-
   context "partial match" do
     let(:existing) { create(:order_ask, price: '4001', volume: '10.0', member: alice) }
 
@@ -76,25 +57,17 @@ describe Worker::Matching do
     it "should match part of existing order" do
       order = create(:order_bid, price: '4001', volume: '8.0', member: bob)
 
-      expect {
-        subject.process action: 'submit', order: order.to_matching_attributes
-
-        order.reload.state.should        == ::Order::DONE
-        existing.reload.state.should_not == ::Order::DONE
-        existing.reload.volume.should    == '2.0'.to_d
-      }.to change(Trade, :count).by(1)
+      AMQPQueue.expects(:enqueue)
+        .with(:trade_executor, market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '8.0'.to_d)
+      subject.process action: 'submit', order: order.to_matching_attributes
     end
 
     it "should match part of new order" do
       order = create(:order_bid, price: '4001', volume: '12.0', member: bob)
 
-      expect {
-        subject.process action: 'submit', order: order.to_matching_attributes
-
-        order.reload.state.should_not == ::Order::DONE
-        order.reload.volume.should    == '2.0'.to_d
-        existing.reload.state.should  == ::Order::DONE
-      }.to change(Trade, :count).by(1)
+      AMQPQueue.expects(:enqueue)
+        .with(:trade_executor, market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '10.0'.to_d)
+      subject.process action: 'submit', order: order.to_matching_attributes
     end
   end
 
@@ -121,35 +94,24 @@ describe Worker::Matching do
     let(:bid6) { create(:order_bid, price: '4001', volume: '5.0', member: bob) }
 
     it "should create many trades" do
-      expect {
-        subject.process action: 'submit', order: ask1.to_matching_attributes
-        subject.process action: 'submit', order: ask2.to_matching_attributes
-      }.not_to change(Trade, :count)
+      subject.process action: 'submit', order: ask1.to_matching_attributes
+      subject.process action: 'submit', order: ask2.to_matching_attributes
 
-      expect {
-        subject.process action: 'submit', order: bid3.to_matching_attributes
-        ask1.reload.state.should  == Order::DONE
-        ask2.reload.state.should  == Order::DONE
-        bid3.reload.volume.should == '2.0'.to_d
-      }.to change(Trade, :count).by(2)
+      AMQPQueue.expects(:enqueue)
+        .with(:trade_executor, market_id: market.id, ask_id: ask1.id, bid_id: bid3.id, strike_price: ask1.price, volume: ask1.volume).once
+      AMQPQueue.expects(:enqueue)
+        .with(:trade_executor, market_id: market.id, ask_id: ask2.id, bid_id: bid3.id, strike_price: ask2.price, volume: ask2.volume).once
+      subject.process action: 'submit', order: bid3.to_matching_attributes
 
-      expect {
-        subject.process action: 'submit', order: ask4.to_matching_attributes
-        bid3.reload.state.should   == Order::DONE
-        ask4.reload.volume.should  == '3.0'.to_d
-        market.latest_price.should == '4003'.to_d
-      }.to change(Trade, :count).by(1)
+      AMQPQueue.expects(:enqueue)
+        .with(:trade_executor, market_id: market.id, ask_id: ask4.id, bid_id: bid3.id, strike_price: bid3.price, volume: '2.0'.to_d).once
+      subject.process action: 'submit', order: ask4.to_matching_attributes
 
-      expect {
-        subject.process action: 'submit', order: bid5.to_matching_attributes
-        ask4.reload.state.should   == Order::DONE
-        bid5.reload.state.should   == Order::DONE
-        market.latest_price.should == '4002'.to_d
-      }.to change(Trade, :count).by(1)
+      AMQPQueue.expects(:enqueue)
+        .with(:trade_executor, market_id: market.id, ask_id: ask4.id, bid_id: bid5.id, strike_price: ask4.price, volume: bid5.volume).once
+      subject.process action: 'submit', order: bid5.to_matching_attributes
 
-      expect {
-        subject.process action: 'submit', order: bid6.to_matching_attributes
-      }.not_to change(Trade, :count)
+      subject.process action: 'submit', order: bid6.to_matching_attributes
     end
   end
 
