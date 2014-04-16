@@ -3,13 +3,13 @@
   name: 臺灣銀行
 - id: 2
   code: 005
-  name: 臺灣土地銀行
+  name: 土地銀行
 - id: 3
   code: 006  
-  name: 合作金庫商業銀行
+  name: 合作商銀
 - id: 4
   code: 007
-  name: 第一商業銀行
+  name: 第一銀行
 - id: 5
   code: 008
   name: 華南商行
@@ -18,13 +18,13 @@
   name: 彰化商銀
 - id: 7
   code: 011
-  name: 上海儲蓄銀行
+  name: 上海銀行
 - id: 8
   code: 012
-  name: 台北富邦商銀
+  name: 台北商銀
 - id: 9
   code: 013
-  name: 國泰世華商銀
+  name: 國泰商銀
 - id: 10
   code: 017
   name: 兆豐商銀
@@ -33,88 +33,19 @@
   name: 花旗銀行
 - id: 12
   code: 039
-  name: 澳盛（台灣）商業銀行
+  name: 澳盛商銀
 - id: 13
   code: 016
   name: 高雄銀行
 - id: 14
   code: 050
-  name: 臺灣中小企業銀行
+  name: 臺灣中小企銀
 - id: 15
   code: 052
-  name: 渣打國際商業銀行
+  name: 渣打商銀
 - id: 16
   code: 053
-  name: 台中商業銀行
+  name: 台中商銀
 - id: 17
   code: 054
-  name: 京城商業銀行
-- id: 18
-  code: 081
-  name: 滙豐商銀
-- id: 19
-  code: 101
-  name: 瑞興商銀
-- id: 20
-  code: 102
-  name: 華泰商銀
-- id: 21
-  code: 103
-  name: 臺灣新光商業銀行
-- id: 22
-  code: 108
-  name: 陽信商業銀行
-- id: 23
-  code: 118
-  name: 板信商業銀行
-- id: 24
-  code: 147
-  name: 三信商業銀行
-- id: 25
-  code: 803
-  name: 聯邦商業銀行
-- id: 26
-  code: 805
-  name: 遠東國際商業銀行
-- id: 27
-  code: 806
-  name: 元大商業銀行
-- id: 28
-  code: 807
-  name: 永豐商業銀行
-- id: 29
-  code: 808
-  name: 玉山商業銀行
-- id: 30
-  code: 809
-  name: 萬泰商業銀行
-- id: 31
-  code: 810
-  name: 星展商銀 	
-- id: 32
-  code: 812
-  name: 台新商銀
-- id: 33
-  code: 814
-  name: 大眾商業銀行
-- id: 35
-  code: 815
-  name: 日盛商銀 	
-- id: 35
-  code: 816
-  name: 安泰商銀
-- id: 36
-  code: 822
-  name: 中國信託商銀
-- id: 37
-  code: 016
-  name: 中華開發工業銀行
-- id: 38
-  code: 048
-  name: 臺灣工業銀行
-- id: 39
-  code:015
-  name: 中國輸出入銀行
-- id: 40
-  code: 018
-  name: 全國農業金庫
+  name: 京城商銀
