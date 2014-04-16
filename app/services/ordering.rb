@@ -32,7 +32,7 @@ class Ordering
         raise ActiveRecord::Rollback
       end
 
-      AMQPQueue.enqueue(:matching, action: 'submit', order: @order.to_matching_attributes)
+      AMQPQueue.enqueue(:order_dispatcher, @order.to_matching_attributes)
     end
 
     raise unless @order.errors.empty?

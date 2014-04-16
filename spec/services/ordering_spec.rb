@@ -7,7 +7,7 @@ describe Ordering do
   describe "ordering service can submit order" do
     before do
       order.stubs(:hold_account).returns(account)
-      AMQPQueue.expects(:enqueue).with(:matching, action: 'submit', order: order.to_matching_attributes)
+      AMQPQueue.expects(:enqueue).with(:order_dispatcher, order.to_matching_attributes)
     end
 
     it {expect(Ordering.new(order).submit).to be_true }
