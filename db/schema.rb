@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140405053744) do
+ActiveRecord::Schema.define(version: 20140416143352) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -130,6 +130,14 @@ ActiveRecord::Schema.define(version: 20140405053744) do
     t.datetime "updated_at"
   end
 
+  create_table "invitations", force: true do |t|
+    t.boolean  "is_used"
+    t.string   "token"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "members", force: true do |t|
     t.string   "sn"
     t.string   "name"
@@ -139,6 +147,15 @@ ActiveRecord::Schema.define(version: 20140405053744) do
     t.datetime "updated_at"
     t.integer  "state"
     t.boolean  "activated"
+    t.integer  "country_code"
+    t.integer  "phone_number"
+  end
+
+  create_table "members_trades", force: true do |t|
+    t.integer  "member_id"
+    t.integer  "trade_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "orders", force: true do |t|
