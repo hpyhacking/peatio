@@ -20,6 +20,11 @@ en:
 
           resend: Send it again
           activated: Verified
+          go: Set
+
+        phone_number:
+          title: Phone Number
+          description: Provide a phone number will make your account more secure. you can quickly reset your password and your account operations will be notified.
 
         two_factor_auth:
           title: Two-Step authentication

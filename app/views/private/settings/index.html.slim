@@ -19,13 +19,31 @@ ul.list-group
         - else
           = link_to t('.email.resend'), new_activation_path, class: 'btn btn-default btn-block'
 
+  // phone number verify
+  li.list-group-item
+    .row.row-middle
+      .col-md-1
+        i.fa.fa-mobile.fa-4x
+      .col-md-8
+        h4
+          span = t('.phone_number.title')
+          i.fa.fa-bolt.text-warning
+        p.text-ignore = t('.phone_number.description')
+      .col-md-3
+        - if current_user.phone_number_verified?
+          a href="#" class="btn btn-success btn-block disabled" role="button"
+            i.fa.fa-check-circle
+            span = t('.phone_number.verified')
+        - else
+          = link_to t('.phone_number.go'), new_verify_phone_number_path, class: 'btn btn-default btn-block'
+
   // id document verify
   li.list-group-item
     .row.row-middle
       .col-md-1
         i.fa.fa-thumbs-o-up.fa-2x
       .col-md-8
-        h4 
+        h4
           span = t('.verification.title')
           i.fa.fa-bolt.text-warning
         p.text-ignore = t('.verification.description')
@@ -43,7 +61,7 @@ ul.list-group
       .col-md-1
         i.fa.fa-superscript.fa-2x
       .col-md-8
-        h4 
+        h4
           span = t('.two_factor_auth.title')
           i.fa.fa-bolt.text-warning
         p.text-ignore = t('.two_factor_auth.description')
@@ -77,5 +95,5 @@ ul.list-group
     - current_user.tag_list.each do |key|
       span.label.label-info
         = member_tag(key)
-  p.text-warning 
+  p.text-warning
     == t('.safety_instruction')

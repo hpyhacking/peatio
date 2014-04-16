@@ -19,6 +19,11 @@ zh-CN:
           resend: 再次发送
           activated: 已绑定
 
+        phone_number:
+          title: 手机绑定
+          description: 绑定手机号码，让你在貔貅交易所的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。
+          go: 设置
+
         two_factor_auth:
           title: 两步验证
           description: 两步验证为您的帐户额外添加了一层保护。
