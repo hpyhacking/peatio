@@ -32,10 +32,10 @@ Peatio::Application.routes.draw do
   resources :documents, :only => :show
 
   scope module: 'private' do
-    get '/settings', to: 'settings#index', as: :settings
     resource :id_document, :only => [:new, :create]
     resource :two_factor, :only => [:new, :create, :edit, :destroy]
 
+    resources :settings, only: [:index]
     resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
       Deposit.descendants.each do |w|
