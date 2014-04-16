@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140416143352) do
+ActiveRecord::Schema.define(version: 20140416151403) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 20140416143352) do
     t.boolean  "activated"
     t.integer  "country_code"
     t.integer  "phone_number"
+    t.boolean  "phone_number_verified"
   end
 
   create_table "members_trades", force: true do |t|
