@@ -1,8 +1,12 @@
 module Worker
   class OrderDispatcher
 
-    def process(order_attrs)
-      AMQPQueue.enqueue(:matching, action: 'submit', order: order_attrs)
+    def new_order(payload)
+      AMQPQueue.enqueue(:matching, action: 'submit', order: payload)
+    end
+
+    def cancel_order(payload)
+      AMQPQueue.enqueue(:matching, action: 'cancel', order: payload)
     end
 
   end
