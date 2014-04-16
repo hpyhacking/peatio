@@ -31,33 +31,6 @@ Peatio::Application.routes.draw do
 
   resources :documents, :only => :show
 
-  namespace :admin do
-    get '/', to: 'dashboard#index', as: :dashboard
-    resources :documents
-    resource :currency_deposit, :only => [:new, :create]
-    resources :members, :only => [:index, :show, :update]
-
-    namespace :deposits do
-      Deposit.descendants.each do |d|
-        resources d.resource_name
-      end
-    end
-
-    namespace :withdraws do
-      Withdraw.descendants.each do |w|
-        resources w.resource_name
-      end
-    end
-
-    namespace :statistic do
-      resource :members, :only => :show
-      resource :orders, :only => :show
-      resource :trades, :only => :show
-      resource :deposits, :only => :show
-      resource :withdraws, :only => :show
-    end
-  end
-
   scope module: 'private' do
     get '/settings', to: 'settings#index', as: :settings
     resource :id_document, :only => [:new, :create]
@@ -94,6 +67,33 @@ Peatio::Application.routes.draw do
     end
 
     post '/pusher/auth', to: 'pusher#auth'
+  end
+
+  namespace :admin do
+    get '/', to: 'dashboard#index', as: :dashboard
+    resources :documents
+    resource :currency_deposit, :only => [:new, :create]
+    resources :members, :only => [:index, :show, :update]
+
+    namespace :deposits do
+      Deposit.descendants.each do |d|
+        resources d.resource_name
+      end
+    end
+
+    namespace :withdraws do
+      Withdraw.descendants.each do |w|
+        resources w.resource_name
+      end
+    end
+
+    namespace :statistic do
+      resource :members, :only => :show
+      resource :orders, :only => :show
+      resource :trades, :only => :show
+      resource :deposits, :only => :show
+      resource :withdraws, :only => :show
+    end
   end
 
   get 'payment_transaction/:currency/:txid', to: 'payment_transaction#create'
