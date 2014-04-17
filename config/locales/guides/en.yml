@@ -59,6 +59,9 @@ en:
           intro: This page contains your asset information, including account balances, successfully completed trading, deposit, and withdraw transaction history.
 
     verify:
+      phone_numbers:
+        panel: Submit Phone Number
+
       two_factors:
         panel: Two-Factor Authentication
         new:

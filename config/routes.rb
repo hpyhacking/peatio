@@ -21,7 +21,7 @@ Peatio::Application.routes.draw do
 
   namespace :verify do
     resource :two_factor,     only: [:new, :create]
-    resources :phone_numbers, only: [:new]
+    resources :phone_numbers, only: [:new, :create]
   end
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do

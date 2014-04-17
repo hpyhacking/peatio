@@ -1,0 +1,11 @@
+zh-CN:
+  verify:
+    phone_numbers:
+      new:
+        title: 绑定手机号码
+        description: 绑定手机号码，让你在貔貅交易所的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。
+        warning: 手机未绑定时，您将无法在网站操作提现以及账户密码找回。
+        phone_number: 请输入手机号码
+        send_code: 获取验证码
+        input_verify_code: 请输入通过短信收到的六位验证码
+        submit: 绑定手机号码
