@@ -1,9 +1,9 @@
-= simple_form_for [:verify, SmsToken.new] do |f|
+= simple_form_for [:verify, SmsToken.new], remote: true do |f|
   = f.input :phone_number do
     .input-group
-      == f.text_field :phone_number, class: 'string optional form-control', placeholder: t('.phone_number')
+      == f.text_field :phone_number, value: current_user.phone_number, class: 'string optional form-control', placeholder: t('.phone_number')
       .input-group-btn
-        button.btn.btn-primary type='submit' name="send_code" = t('.send_code')
+        button.btn.btn-primary type='submit' name="commit" value="send_code" data-text=t('.send_code') = t('.send_code')
   = f.input :verify_code, placeholder: t('.input_verify_code')
 
   hr.split

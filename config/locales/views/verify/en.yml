@@ -9,3 +9,7 @@ en:
         send_code: Send Code
         input_verify_code: Enter the 6-digit code we sent to you
         submit: Save
+        notice:
+          send_code_success: Send verify code success
+        alert:
+          phone_number_error: phone number error
