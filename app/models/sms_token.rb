@@ -33,4 +33,9 @@ class SmsToken < Token
     expire_at <= Time.now
   end
 
+  def update_phone_number
+    phone = Phonelib.parse(phone_number)
+    member.update phone_number: phone.sanitized.to_s
+  end
+
 end

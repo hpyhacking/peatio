@@ -88,4 +88,17 @@ describe SmsToken do
 
     it { should be_expired }
   end
+
+  describe '#update_phone_number' do
+    let(:token) { create :sms_token }
+
+    before do
+      token.phone_number = '123.1234.1234'
+      token.update_phone_number
+    end
+
+    it "should update member's phone_number" do
+      expect(token.member.phone_number).to eq('12312341234')
+    end
+  end
 end
