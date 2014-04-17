@@ -4,13 +4,11 @@ module Job
     @queue = :sms
 
     class << self
-      def perform(sms_token_id)
-        token = SmsToken.find sms_token_id
-
+      def perform(phone_number, sms_message)
         twilio_client.account.sms.messages.create(
           from: ENV["TWILIO_NUMBER"],
-          to:   token.member.phone_number,
-          body: token.sms_message
+          to:   phone_number,
+          body: sms_message
         )
       end
 

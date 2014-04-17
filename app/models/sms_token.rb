@@ -39,7 +39,7 @@ class SmsToken < Token
   end
 
   def send_verify_code
-    Resque.enqueue(Job::Sms, self.id)
+    Resque.enqueue(Job::Sms, member.phone_number, sms_message)
   end
 
   def sms_message
