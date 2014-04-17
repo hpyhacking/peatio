@@ -123,6 +123,7 @@ zh-CN:
 
   actions:
     go: 立刻前往
+    submit: 提交
     deposit: 立刻充值
     select: 请选择
     unlock: 解锁

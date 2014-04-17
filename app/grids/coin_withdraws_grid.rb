@@ -1,4 +1,4 @@
-class SatoshiWithdrawsGrid
+class CoinWithdrawsGrid
   include Datagrid
   include Datagrid::Naming
   include Datagrid::ColumnI18n
@@ -17,7 +17,7 @@ class SatoshiWithdrawsGrid
   column :actions, html: true, header: '' do |withdraw|
     if withdraw.cancelable?
       content_tag(:span, "#{withdraw.aasm_state_text} / ") +
-        link_to(I18n.t('actions.cancel'), withdraw_path(withdraw), method: :delete)
+        link_to(I18n.t('actions.cancel'), url_for([withdraw]), method: :delete)
     else
       withdraw.aasm_state_text
     end
