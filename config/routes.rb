@@ -111,5 +111,6 @@ Peatio::Application.routes.draw do
     end
   end
 
+  get '/forum' => 'forum#index'
   root 'welcome#index'
 end

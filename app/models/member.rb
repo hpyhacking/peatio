@@ -73,6 +73,20 @@ class Member < ActiveRecord::Base
     "#{name || email} - #{sn}"
   end
 
+  def to_muut
+    {
+      id: sn,
+      displayname: name,
+      email: email,
+      avatar: gravatar,
+      is_admin: admin?
+    }
+  end
+
+  def gravatar
+    "//gravatar.com/avatar/" + Digest::MD5.hexdigest(email.strip.downcase) + "?d=retro"
+  end
+
   def initial?
     name? and !name.empty?
   end
