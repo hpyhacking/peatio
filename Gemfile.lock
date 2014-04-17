@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/lgn21st/china_sms.git
+  revision: 68210a17535eda6b810e7c261891b6fc25a9f667
+  specs:
+    china_sms (0.0.6)
+      iconv (~> 1.0.4)
+
+GIT
   remote: https://github.com/peatio/bootstrap-on-rails.git
   revision: 1e0ca2e4d3fe129c05cf7a2168bf6824c647496d
   specs:
@@ -150,6 +157,7 @@ GEM
     http_accept_language (2.0.1)
     httpclient (2.3.4.1)
     i18n (0.6.9)
+    iconv (1.0.4)
     introjs-rails (0.5.0)
       sass-rails (>= 3.2)
       thor (~> 0.14)
@@ -409,6 +417,7 @@ DEPENDENCIES
   cached_resource
   cancancan
   capybara
+  china_sms!
   coffee-rails
   daemons-rails
   database_cleaner

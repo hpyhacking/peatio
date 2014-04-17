@@ -64,6 +64,7 @@ gem 'liability-proof', '0.0.8'
 gem 'whenever', '~> 0.9.2'
 gem 'easy_table'
 gem 'phonelib'
+gem 'china_sms', git: 'https://github.com/lgn21st/china_sms.git'
 
 group :development, :test do
   gem 'factory_girl_rails'
