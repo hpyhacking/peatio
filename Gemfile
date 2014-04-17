@@ -64,7 +64,6 @@ gem 'liability-proof', '0.0.8'
 gem 'whenever', '~> 0.9.2'
 gem 'easy_table'
 gem 'phonelib'
-gem 'twilio-ruby', '~> 3.11'
 
 group :development, :test do
   gem 'factory_girl_rails'

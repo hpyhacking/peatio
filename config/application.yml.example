@@ -54,14 +54,6 @@ defaults: &defaults
   # --------------------------------------------------------------
   AIRBRAKE_KEY: YOUR_AIRBRAKE_KEY
 
-  # twilio setting
-  # --------------------------------------------------------------
-  # https://github.com/twilio/twilio-ruby
-  #
-  TWILIO_NUMBER: YOUR_TWILIO_NUMBER
-  TWILIO_SID: YOUR_TWILIO_SID
-  TWILIO_TOKEN: YOUR_TWILIO_TOKEN
-
 development:
   <<: *defaults
 
