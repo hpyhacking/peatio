@@ -15,4 +15,8 @@ class SmsToken < Token
     end while SmsToken.where(member_id: member_id, token: token).any?
   end
 
+  def expired?
+    expire_at <= Time.now
+  end
+
 end
