@@ -19,7 +19,7 @@ module Verify
       end
     end
 
-    describe 'POST verify/sms_tokens' do
+    describe 'POST verify/sms_tokens in send code phase' do
       let(:member) { create :member }
 
       before { session[:member_id] = member.id }
@@ -74,7 +74,9 @@ module Verify
           }
         }
 
-        before { post :create, attrs }
+        before do
+          post :create, attrs
+        end
 
         it "return status ok" do
           expect(response).to be_ok
@@ -84,9 +86,7 @@ module Verify
           expect(member.reload.phone_number).not_to be_blank
         end
 
-        it "should sent code through SMS" do
-
-        end
+        xit "should send verify code"
       end
     end
 

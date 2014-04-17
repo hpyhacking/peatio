@@ -30,9 +30,13 @@ module Verify
       respond_to do |format|
         if @token.phone_number.present? && @token.valid?
           @token.update_phone_number
-          format.any { render status: :ok, :text => I18n.t('verify.sms_tokens.new.notice.send_code_success')  }
+          @token.send_verify_code
+
+          format.any { render status: :ok,
+                              text: I18n.t('verify.sms_tokens.new.notice.send_code_success')  }
         else
-          format.any { render status: :bad_request, :text => @token.errors.full_messages.to_sentence }
+          format.any { render status: :bad_request,
+                              text: @token.errors.full_messages.to_sentence }
         end
       end
     end

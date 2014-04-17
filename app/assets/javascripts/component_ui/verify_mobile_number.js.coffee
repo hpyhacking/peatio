@@ -10,9 +10,11 @@
 
     if @select('phoneNumberInput').val() is ""
       @select('phoneNumberInput').parent().addClass 'has-error'
-      return event.preventDefault()
-
-    @countDownSendCodeButton()
+      event.preventDefault()
+    else
+      setTimeout =>
+        @countDownSendCodeButton()
+      , 0
 
   @countDownSendCodeButton = ->
     origName  = @select('sendCodeButton').data('orig-name')

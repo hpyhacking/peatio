@@ -101,4 +101,12 @@ describe SmsToken do
       expect(token.member.phone_number).to eq('12312341234')
     end
   end
+
+  describe '#sms_message' do
+    let(:token) { create :sms_token }
+
+    it "sms_message should not be blank" do
+      expect(token.sms_message).not_to be_blank
+    end
+  end
 end

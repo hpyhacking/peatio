@@ -10,6 +10,7 @@ en:
         send_code_alt: Resend in COUNT seconds
         input_verify_code: Enter the 6-digit code we sent to you
         submit: Save
+        sms_message: "authenticate %{code} [Peatio]"
         notice:
           send_code_success: Send verify code success
         alert:

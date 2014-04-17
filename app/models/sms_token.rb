@@ -38,4 +38,12 @@ class SmsToken < Token
     member.update phone_number: phone.sanitized.to_s
   end
 
+  def send_verify_code
+    Resque.enqueue(Job::Sms, self.id)
+  end
+
+  def sms_message
+    I18n.t('verify.sms_tokens.new.sms_message', code: token)
+  end
+
 end
