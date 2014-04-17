@@ -54,3 +54,11 @@ $ ->
   OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
 
   TransactionsUI.attachTo('#transactions')
+  VerifyMobileNumberUI.attachTo('#new_sms_token')
+
+  FlashMessageUI.attachTo('.flash-message')
+
+@App =
+  showInfo: (msg) -> $(document).trigger 'flash-info', msg: msg
+  showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
+  showAlert: (msg) -> $(document).trigger 'flash-alert', msg: msg

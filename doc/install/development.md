@@ -138,7 +138,7 @@ Insert the following lines into your bitcoin.conf, and replce with your username
     rake environment resque:matching
 
     # start withdraw & examine workers.
-    rake environment resque:work QUEUE=coin,examine,mailer
+    rake environment resque:work QUEUE=coin,examine,mailer,sms
 
     # start trade, deposit and withdraw daemons
     rake daemons:start
