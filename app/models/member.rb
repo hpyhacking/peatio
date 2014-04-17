@@ -75,14 +75,12 @@ class Member < ActiveRecord::Base
 
   def to_muut
     {
-      user: {
-        id: sn,
-        displayname: name,
-        email: email,
-        avatar: gravatar,
-        is_admin: admin?
-      }
-    }.to_json
+      id: sn,
+      displayname: name,
+      email: email,
+      avatar: gravatar,
+      is_admin: admin?
+    }
   end
 
   def gravatar

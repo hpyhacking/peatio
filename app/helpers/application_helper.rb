@@ -221,16 +221,12 @@ module ApplicationHelper
     key = ENV['MUUT_KEY']
     secret = ENV['MUUT_SECRET']
     ts = Time.now.to_i
-    message = Base64.strict_encode64 current_user.to_muut
+    message = Base64.strict_encode64 ({user: current_user.try(:to_muut) || {}}).to_json
     signature = Digest::SHA1.hexdigest "#{secret} #{message} #{ts}"
     { key: key,
       signature: signature,
       message: message,
       timestamp: ts
     }
-  end
-
-  def muut_enabled?
-    !!ENV['MUUT_KEY']
   end
 end
