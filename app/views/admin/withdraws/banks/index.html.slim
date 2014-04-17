@@ -4,7 +4,7 @@
     = render partial: 'table', locals: {banks: @one_banks}
 
 - unless @all_banks.empty?
-  .panel.panel-primary
+  .panel.panel-success
     .panel-heading: span = t('.all')
     = render partial: 'table', locals: {banks: @all_banks}
 

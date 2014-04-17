@@ -97,7 +97,7 @@ describe 'withdraw' do
     select 'Bank of China', from: 'withdraw_fund_extra'
     select @bank, from: 'withdraw_fund_uid'
     fill_in 'withdraw_sum', with: amount
-    click_on I18n.t 'helpers.submit.withdraw.new'
+    click_on I18n.t 'private.withdraws.banks.new.submit'
   end
 
   def submit_satoshi_withdraw_request amount

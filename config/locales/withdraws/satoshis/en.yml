@@ -1,11 +1,20 @@
 en:
+  withdraw_channel:
+    satoshi:
+      key: Blockchain
+      title: Bitcoin Blockchain
+      intro: 将比特币余额提取到你的钱包账户
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
+
   activerecord:
     models:
       withdraws/satoshi: 银行转账
     attributes:
       withdraws/satoshi:
         id: 提现编号
-        full_name: 用户
+        member_name: 用户
         currency_obj_key_text: 币种
         state_and_actions: 状态/操作
         fund_source: 提现银行
@@ -13,11 +22,32 @@ en:
         fund_uid: 提现账户
         amount: 金额
         remark: 备注
+    errors:
+      models:
+        withdraws/satoshi:
+          attributes:
+            sum:
+              poor: 账户余额不足，请核对。
+              greater_than: 小于单笔最低限额。
+            fund_uid:
+              blank: 请输入您的提现地址。
+              invalid: 无效的提现地址，请核对。
+              ismine: 提现地址为系统所有，请更换其他地址。
 
-  withdraw_channel_satoshi:
-    satoshi:
-      key: Blockchain
-      title: Bitcoin Withdraw
+  withdraws/satoshi:
+    aasm_state:
+      submitting: 待确认
+      submitted: 待校验
+      rejected: 已驳回
+      accepted: 已提交
+      suspect: 异常
+      processing: 受理中
+      coin_ready: 准备中
+      coin_done: 完毕
+      done: 提现成功
+      almost_done: 发送中
+      canceled: 已撤销
+      failed: 提现出错
 
   admin:
     withdraws:

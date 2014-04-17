@@ -1,28 +1,27 @@
 class Withdraw < ActiveRecord::Base
+  STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
+            :coin_ready, :coin_done, :done, :canceled, :almost_done, :failed]
+  COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
+
   extend Enumerize
 
   include AASM
   include AASM::Locking
-
   include Currencible
 
-  STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
-            :coin_ready, :coin_done, :done, :canceled, :almost_done, :failed]
-
-  COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
+  attr_accessor :save_fund_source
 
   has_paper_trail on: [:update, :destroy]
 
   enumerize :aasm_state, in: STATES, scope: true
 
-  delegate :key_text, to: :channel, prefix: true
-  delegate :full_name, to: :member
-
-  attr_accessor :save_fund_source
-
   belongs_to :member
   belongs_to :account
   has_many :account_versions, as: :modifiable
+
+  delegate :balance, to: :account, prefix: true
+  delegate :key_text, to: :channel, prefix: true
+  delegate :name, to: :member, prefix: true
 
   before_validation :calc_fee
   before_validation :set_account
@@ -35,7 +34,7 @@ class Withdraw < ActiveRecord::Base
   validates :fee, numericality: {greater_than_or_equal_to: 0}
   validates :amount, numericality: {greater_than: 0}
 
-  validates :sum, numericality: {greater_than: 0}, on: :create
+  validates :sum, presence: true, numericality: {greater_than: 0}, on: :create
   validates :txid, uniqueness: true, allow_nil: true, on: :update
 
   validate :ensure_account_balance, on: :create
@@ -84,6 +83,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   alias_attribute :withdraw_id, :sn
+  alias_attribute :full_name, :member_name
 
   def generate_sn
     id_part = sprintf '%04d', id
@@ -194,7 +194,10 @@ class Withdraw < ActiveRecord::Base
   end
 
   def calc_fee
-    channel.calc_fee!(self) if channel
+    if respond_to?(:set_fee)
+      set_fee
+    end
+
     self.sum ||= 0.0
     self.fee ||= 0.0
     self.amount = sum - fee

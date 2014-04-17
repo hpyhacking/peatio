@@ -1,11 +1,20 @@
 en:
+  withdraw_channel:
+    bank:
+      key: Bank Transfer
+      title: Bank Transfer
+      intro: Bank transfer deposits, Recommend for large recharge 
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
+
   activerecord:
     models:
       withdraws/bank: 银行转账
     attributes:
       withdraws/bank:
         id: 提现编号
-        full_name: 用户
+        member_name: 用户
         currency_obj_key_text: 币种
         state_and_actions: 状态/操作
         fund_source: 提现银行
@@ -14,13 +23,17 @@ en:
         amount: 金额
         remark: 备注
 
-  withdraw_channel_bank:
-    bank:
-      key: 银行转账提现
-      title: 银行转账提现
-      intro: Bank transfer deposits, Recommend for large recharge 
-      latency: 10 minutes
-      transfer: Manual processing
+  withdraws/bank:
+    aasm_state:
+      submitting: asdfasdf
+
+  private:
+    withdraws:
+      banks:
+        new:
+          allin: 全部提取
+          fund_uid: 使用已有银行账号或输入新账号
+          fund_extra: 选择开户行
 
   admin:
     withdraws:
@@ -37,3 +50,34 @@ en:
           reject_confirm: 确定驳回提现？
           withdraw: 银行卡提现
           empty: 无任何数据
+
+  simple_form:
+    labels:
+      withdraw:
+        bank:
+          fund_extra: 开户行
+          sum: 提取金额
+          account_balance: 可用金额
+          member_name: 账户名
+    placeholders:
+      withdraw:
+        bank:
+          sum: 最低金额100元，单笔限额5万元
+    hints:
+      withdraw:
+        bank:
+          member_name: <span class='text-danger'>提现银行账户姓名必须与您的实名认证姓名一致</span>
+          sum: "<a target='_balance' href='#'>资费说明</a>"
+          fund_extra: 若您的开户银行不再列表中，请联系客服
+
+  guides:
+    private:
+      withdraws:
+        banks:
+          panel: 银行转账提现
+          new:
+            panel: 银行转账提现
+            intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
+            default-panel: 历史记录
+          edit:
+            intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。

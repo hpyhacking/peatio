@@ -1,30 +1,4 @@
 zh-CN:
-  activerecord:
-    models:
-      deposits/bank: 银行转账
-    attributes:
-      deposits/bank:
-        fund_extra: 转账银行
-        fund_extra_text: 转账银行
-        fund_uid: 转账账户
-        holder: 持卡人姓名
-        receive_fund_holder_text: 貔貅交易所收款账户
-        receive_fund_uid_text: 貔貅交易所收款账号
-        receive_fund_extra_text: 貔貅交易所开户行
-        member_sn: 个人识别码
-        amount: 充值金额
-        sn: 交易编号
-
-  deposits/bank:
-    aasm_state:
-      submitting: 已提交
-      cancelled: 已撤销
-      submitted: 受理中
-      accepted: 充值成功
-      rejected: 已驳回
-      checked: 充值成功
-      warning: 异常
-      
   deposit_channel:
     bank:
       key: 银行转账
@@ -35,47 +9,49 @@ zh-CN:
       receive_fund_holder: 银行汇款收款人
       receive_fund_uid: 银行汇款帐号
       receive_fund_extra: 银行汇款开户行
+      go: 立即充值
+
+  activerecord:
+    models:
+      deposits/bank: 银行转账
+    attributes:
+      deposits/bank:
+        created_at: 时间
+        fund_source: 转账信息
+        fund_extra: 转账银行
+        fund_extra_text: 转账银行
+        fund_uid: 转账账户
+        holder: 持卡人姓名
+        receive_fund_holder_text: 貔貅交易所收款账户
+        receive_fund_uid_text: 貔貅交易所收款账号
+        receive_fund_extra_text: 貔貅交易所开户行
+        member_sn: 个人识别码
+        amount: 充值金额
+        sn: 充值编号
+        state_and_action: 状态 / 操作
+
+  deposits/bank:
+    aasm_state:
+      submitting: 已提交
+      cancelled: 已撤销
+      submitted: 受理中
+      accepted: 充值成功
+      rejected: 已驳回
+      checked: 充值成功
+      warning: 异常
 
   private:
     deposits:
-      destroy:
-        notice: 撤销成功
-      update:
-        notice: 提交成功，您可在历史记录中查询充值到账情况。
       banks:
+        destroy:
+          notice: 撤销充值请求成功。
         create:
-          success: 您的充值订单提交成功，请按照我们提供的貔貅账户继续完成你的转账操作。
+          notice: 您的充值订单提交成功，请按照提示继续完成您的转账操作。
+          submit: 提交
         new:
-          step-1: 第一步
-          select-bank: 您可以选择直接转账到我们的银行账户，为了您的充值可以迅速到账，请您尽量选择与我们相同的银行进行转账充值。您可以选择使用 在线银行转账或柜台转账。
-          step-2: 第二步
-          send-money: 无论您选择何种转账方式，请在转账备注中填写如下您的个人识别码，以便您的充值可以迅速到账。
-          step-3: 第三步
-          check-confirm: 请确定您的资金已到账而非转出后（跨行转账通常需要一个小时甚至更久的时间到账），如10分钟内还未收到充值，请及时与我们的客服人员联系。
-          bank: 开户行
-          card: 卡号
-          name: 户名
-          save_fund_source: 保存您填写的银行信息并作为常用帐号，以便下次直接使用
-
-  guides:
-    private:
-      deposits:
-        banks:
-          panel: 银行转账充值
-          intro: 通过银行转账的方式，从您的银行账户充值人民币到您的貔貅账户。
-          show:
-            default-panel: 历史记录
-          new:
-            default-panel: 历史记录
-          edit:
-            default-panel: 历史记录
-
-  helpers:
-    submit:
-      deposits_bank:
-        create: 提交
-        update: 我已成功转账
-        cancel: 取消订单
+          fund_uid: 使用已有银行账号或输入新账号
+          fund_extra: 选择开户银行
+          submit: 提交
 
   admin:
     deposits:
@@ -91,3 +67,34 @@ zh-CN:
           target_deposit: 外部充值编号 - %{sn}
           deposit: 充值
           confirm: 确认给用户进行充值吗？
+
+  guides:
+    private:
+      deposits:
+        banks:
+          panel: 银行转账充值
+          intro: 通过银行转账的方式，从您的银行账户充值人民币到您的交易账户中。
+          new:
+            default-panel: 历史记录
+          create:
+            default-panel: 历史记录
+          edit:
+            default-panel: 历史记录
+
+  simple_form:
+    labels:
+      deposit:
+        bank:
+          fund_extra: 开户银行
+          member_name: 开户户名
+    placeholders:
+      deposit:
+        bank:
+          amount: 最低金额100元
+    hints:
+      deposit:
+        bank:
+          sum: "<a target='_balance' href='#'>资费说明</a>"
+          fund_extra: 若您的开户银行不再列表中，请联系客服
+          member_name: <span class='text-danger'>充值银行账户姓名必须与您的实名认证姓名一致</span>
+          sn: <span class='text-danger'>请您务必在银行转账操作备注中复制，否则我们无法快速处理您的订单。</span>

@@ -1,6 +1,6 @@
 module Deposits
   class Satoshi < ::Deposit
-    include ::DepositCoinable
-    include ::AasmStateI18nable
+    include ::AasmAbsolutely
+    include ::Deposits::Coinable
   end
 end

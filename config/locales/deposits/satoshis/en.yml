@@ -1,11 +1,22 @@
 en:
+
   deposit_channel:
     satoshi:
       key: Block Chain
       title: Bitcoin Deposits
       intro: Deposit bitcoin from your own Wallet address to Peatio account
-      latency: 1 Confirmation
-      transfer: Automatic processing
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
+
+  activerecord:
+    attributes:
+      deposits/satoshi:
+        created_at: 时间
+        txid: 交易哈希
+        amount: 充值数量
+        memo: 确认数
+        aasm_state_text: 状态
 
   deposits/satoshi:
     aasm_state:
@@ -14,6 +25,14 @@ en:
       checked: 充值成功
       warning: 异常
 
+  guides:
+    private:
+      deposits:
+        satoshis:
+          panel: Deposits
+          intro: Deposit bitcoin from your own Wallet address to Peatio account.
+          new: 
+            default-panel: Deposit Transactions
   admin:
     deposits:
       satoshis:
@@ -37,9 +56,3 @@ en:
           check-confirm: Send bitcoin to your Peatio account. When the transaction gets one confirmation by the whole network, the system will automatically recharge your account.(you do not need to refresh this interface, transactions and recharge will be real-time updated).
           step-4: Step Four
           history: Once you complete sending, click <a href='javascript:window.location.reload();'>refresh</a> to check the status of your new deposit below.
-  guides:
-    private:
-      deposits:
-        satoshis:
-          panel: Deposits
-          intro: Deposit bitcoin from your own Wallet address to Peatio account.

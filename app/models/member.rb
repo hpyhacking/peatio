@@ -18,10 +18,10 @@ class Member < ActiveRecord::Base
   validates :sn, presence: true
   before_validation :generate_sn
 
+  alias_attribute :full_name, :name
+
   before_create :create_accounts
   after_commit :send_activation
-
-  alias_attribute :full_name, :name
 
   class << self
     def from_auth(auth_hash)

@@ -5,7 +5,7 @@ zh-CN:
       txid: 交易哈希
       created_at: 交易时间
       memo: 确认数
-      full_name: 用户
+      member_name: 用户
       state_and_actions: 状态/操作
       currency_obj_key_text: 币种
     bank:
@@ -14,6 +14,6 @@ zh-CN:
       created_at: 提交时间
       fund_source: 充值帐号
       memo: 备注
-      full_name: 用户
+      member_name: 用户
       state_and_actions: 状态/操作
       currency_obj_key_text: 币种
