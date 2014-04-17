@@ -20,7 +20,8 @@ Peatio::Application.routes.draw do
   resource :identity, :only => [:edit, :update]
 
   namespace :verify do
-    resource :two_factor, :only => [:new, :create]
+    resource :two_factor,  only: [:new, :create]
+    resources :sms_tokens, only: [:new, :create]
   end
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do
@@ -31,38 +32,11 @@ Peatio::Application.routes.draw do
 
   resources :documents, :only => :show
 
-  namespace :admin do
-    get '/', to: 'dashboard#index', as: :dashboard
-    resources :documents
-    resource :currency_deposit, :only => [:new, :create]
-    resources :members, :only => [:index, :show, :update]
-
-    namespace :deposits do
-      Deposit.descendants.each do |d|
-        resources d.resource_name
-      end
-    end
-
-    namespace :withdraws do
-      Withdraw.descendants.each do |w|
-        resources w.resource_name
-      end
-    end
-
-    namespace :statistic do
-      resource :members, :only => :show
-      resource :orders, :only => :show
-      resource :trades, :only => :show
-      resource :deposits, :only => :show
-      resource :withdraws, :only => :show
-    end
-  end
-
   scope module: 'private' do
-    get '/settings', to: 'settings#index', as: :settings
     resource :id_document, :only => [:new, :create]
     resource :two_factor, :only => [:new, :create, :edit, :destroy]
 
+    resources :settings, only: [:index]
     resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
       Deposit.descendants.each do |d|
@@ -92,13 +66,38 @@ Peatio::Application.routes.draw do
       resources :order_bids, :only => [:create]
       resources :order_asks, :only => [:create]
     end
+
+    post '/pusher/auth', to: 'pusher#auth'
+  end
+
+  namespace :admin do
+    get '/', to: 'dashboard#index', as: :dashboard
+    resources :documents
+    resource :currency_deposit, :only => [:new, :create]
+    resources :members, :only => [:index, :show, :update]
+
+    namespace :deposits do
+      Deposit.descendants.each do |d|
+        resources d.resource_name
+      end
+    end
+
+    namespace :withdraws do
+      Withdraw.descendants.each do |w|
+        resources w.resource_name
+      end
+    end
+
+    namespace :statistic do
+      resource :members, :only => :show
+      resource :orders, :only => :show
+      resource :trades, :only => :show
+      resource :deposits, :only => :show
+      resource :withdraws, :only => :show
+    end
   end
 
   get 'payment_transaction/:currency/:txid', to: 'payment_transaction#create'
-
-  scope module: 'private' do
-    post '/pusher/auth', to: 'pusher#auth'
-  end
 
   constraints(WhitelistConstraint.new(JSON.parse(Figaro.env.try(:api_whitelist) || '[]'))) do
     namespace :api, defaults: {format: 'json'}, :constraints => MarketConstraint do

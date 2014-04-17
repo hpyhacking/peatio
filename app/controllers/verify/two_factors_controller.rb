@@ -12,7 +12,7 @@ module Verify
       end
     end
 
-    def create 
+    def create
       two_factor = temp_user.two_factor
       two_factor.assign_attributes(two_factor_params)
 
