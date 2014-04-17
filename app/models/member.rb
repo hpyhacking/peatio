@@ -20,7 +20,7 @@ class Member < ActiveRecord::Base
 
   alias_attribute :full_name, :name
 
-  before_create :create_accounts
+  after_create :touch_accounts
   after_commit :send_activation
 
   class << self
@@ -122,11 +122,5 @@ class Member < ActiveRecord::Base
     begin
       self.sn = "PEA#{ROTP::Base32.random_base32(8).upcase}TIO"
     end while Member.where(:sn => self.sn).any?
-  end
-
-  def create_accounts
-    self.accounts = Currency.codes.map do |code|
-      Account.new(currency: code, balance: 0, locked: 0)
-    end
   end
 end

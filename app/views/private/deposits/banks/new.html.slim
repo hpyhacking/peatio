@@ -8,7 +8,7 @@
   = f.input :amount, as: :string
 
   hr.split
-  = f.button :wrapped, t('.submit'), cancel: deposits_path
+  = f.button :wrapped, t('actions.submit'), cancel: deposits_path
 
 = content_for :after
   = panel do

@@ -38,11 +38,6 @@ zh-CN:
               invalid: 无效的提现地址，请核对。
               ismine: 提现地址为系统所有，请更换其他地址。
 
-  helpers:
-    submit:
-      withdraws/satoshi:
-        create: Upload
-
   withdraws/satoshi:
     aasm_state:
       submitting: 待确认
