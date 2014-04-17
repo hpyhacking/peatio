@@ -1,8 +1,8 @@
 en:
   verify:
-    phone_numbers:
+    sms_tokens:
       new:
-        title: Submit Phone Number
+        title: Verify Phone Number
         description: Provide a phone number will make your account more secure. you can quickly reset your password and your account operations will be notified.
         warning: it will not be able to retrieve your account's password if not set the phone number.
         phone_number: Phone number

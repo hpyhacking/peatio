@@ -1,6 +1,6 @@
 zh-CN:
   verify:
-    phone_numbers:
+    sms_tokens:
       new:
         title: 绑定手机号码
         description: 绑定手机号码，让你在貔貅交易所的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。

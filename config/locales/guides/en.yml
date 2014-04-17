@@ -47,20 +47,14 @@ en:
           title: Submit real-name authentication information
           intro: In line with the national laws , identity verification is required. please verify your account to proceed.
 
-      id_documents:
-        panel: 实名认证
-        new:
-          title: 提交实名认证信息
-          intro:
-
       my_assets:
         panel: My Assets
         index:
           intro: This page contains your asset information, including account balances, successfully completed trading, deposit, and withdraw transaction history.
 
     verify:
-      phone_numbers:
-        panel: Submit Phone Number
+      sms_tokens:
+        panel: Verify Phone Number
 
       two_factors:
         panel: Two-Factor Authentication

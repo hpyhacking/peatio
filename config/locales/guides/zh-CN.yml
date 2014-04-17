@@ -78,7 +78,7 @@ zh-CN:
           intro: 这是在貔貅内的所有资产信息，包括账户余额，成功完成的交易，充值，以及提现的历史记录。
 
     verify:
-      phone_numbers:
+      sms_tokens:
         panel: 绑定手机号码
 
       two_factors:
