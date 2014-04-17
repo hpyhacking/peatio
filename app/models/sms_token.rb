@@ -50,9 +50,14 @@ class SmsToken < Token
     if token == verify_code
       true
     else
-      errors.add(:verify_code, "invalid")
+      errors.add(:verify_code, I18n.t("errors.messages.invalid"))
       false
     end
+  end
+
+  def verify!
+    member.update phone_number_verified: true
+    self.update is_used: true
   end
 
 end

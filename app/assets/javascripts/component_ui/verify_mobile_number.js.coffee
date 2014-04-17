@@ -33,16 +33,28 @@
       , 1000
     countDownTimer()
 
-  @beforeSend = (event, jqXHR) ->
+  @beforeSend = (event, jqXHR, settings) ->
+    return if settings.data.match 'send_code'
 
-  @handleSuccess = (event, text) ->
-    App.showInfo text
+    input = @select('verifyCodeInput')
+    input.parent().removeClass 'has-error'
+    if input.val() is ""
+      input.parent().addClass 'has-error'
+      jqXHR.abort()
 
-  @handleError = (event, jqXHR) ->
-    App.showAlert jqXHR.responseText
+  @handleSuccess = (event, text, status, jqXHR) ->
+    data = JSON.parse(text)
+    if data.reload
+      window.location.reload()
+    App.showNotice data.text
+
+  @handleError = (event, jqXHR, status, error) ->
+    data = JSON.parse(jqXHR.responseText)
+    App.showAlert data.text
 
   @after 'initialize', ->
     @on @select('sendCodeButton'), 'click', @verifyPhoneNumber
     @on 'ajax:beforeSend', @beforeSend
     @on 'ajax:success', @handleSuccess
     @on 'ajax:error', @handleError
+

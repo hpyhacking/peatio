@@ -21,11 +21,18 @@ module Verify
 
     describe 'POST verify/sms_tokens in send code phase' do
       let(:member) { create :member }
+      let(:attrs) {
+        {
+          format: :js,
+          sms_token: {phone_number: '123-1234-1234'},
+          commit: 'send_code'
+        }
+      }
 
       before { session[:member_id] = member.id }
 
       it "create sms_token" do
-        post :create, format: :js
+        post :create, attrs
         expect(member.sms_token).to be_is_a(SmsToken)
       end
 
@@ -85,8 +92,74 @@ module Verify
         it "should update member's phone number" do
           expect(member.reload.phone_number).not_to be_blank
         end
+      end
+    end
 
-        xit "should send verify code"
+    describe 'POST verify/sms_tokens in verify code phase' do
+      let(:token) { create :sms_token }
+      let(:member) { token.member }
+      before { session[:member_id] = member.id }
+
+      context "with empty code" do
+        let(:attrs) {
+          {
+            format: :js,
+            sms_token: {verify_code: ''}
+          }
+        }
+
+        before do
+          post :create, attrs
+        end
+
+        it "not return ok status" do
+          expect(response).not_to be_ok
+        end
+      end
+
+      context "with wrong code" do
+        let(:attrs) {
+          {
+            format: :js,
+            sms_token: {verify_code: 'foobar'}
+          }
+        }
+
+        before do
+          post :create, attrs
+        end
+
+        it "not return ok status" do
+          expect(response).not_to be_ok
+        end
+
+        it "has error message" do
+          expect(response.body).not_to be_blank
+        end
+      end
+
+      context "with right code" do
+        let(:attrs) {
+          {
+            format: :js,
+            sms_token: {verify_code: token.token}
+          }
+        }
+
+        before do
+          post :create, attrs
+        end
+
+        it "should update member#phone_number_verified" do
+          expect(member.reload.phone_number_verified).to be_true
+        end
+
+        it "should mark token as used" do
+          expect(token.reload.is_used).to be_true
+        end
+
+        it "should redirect page" do
+        end
       end
     end
 

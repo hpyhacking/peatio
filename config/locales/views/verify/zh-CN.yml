@@ -13,5 +13,6 @@ zh-CN:
         sms_message: "貔貅交易所（北京）验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【貔貅Peatio】"
         notice:
           send_code_success: 手机短信验证码已发送。
+          verify_code_success: 手机短信验证码验证成功。
         alert:
           phone_number_error: 手机号码无效或错误

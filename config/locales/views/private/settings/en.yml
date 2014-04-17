@@ -26,6 +26,7 @@ en:
           title: Phone Number
           description: Provide a phone number will make your account more secure. you can quickly reset your password and your account operations will be notified.
           go: Set
+          verified: Verified
 
         two_factor_auth:
           title: Two-Step authentication

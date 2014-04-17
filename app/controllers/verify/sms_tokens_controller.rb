@@ -32,18 +32,29 @@ module Verify
           @token.update_phone_number
           @token.send_verify_code
 
-          format.any { render status: :ok,
-                              text: I18n.t('verify.sms_tokens.new.notice.send_code_success')  }
+          text = I18n.t('verify.sms_tokens.new.notice.send_code_success')
+          format.any { render status: :ok, text: {text: text}.to_json }
         else
-          format.any { render status: :bad_request,
-                              text: @token.errors.full_messages.to_sentence }
+          text = @token.errors.full_messages.to_sentence
+          format.any { render status: :bad_request, text: {text: text}.to_json }
         end
       end
     end
 
     def verify_code_phase
+      @token.assign_attributes token_params
+
       respond_to do |format|
-        format.any { render status: :ok, :nothing => true  }
+        if @token.verify_code.present? && @token.verify?
+          @token.verify!
+
+          text = I18n.t('verify.sms_tokens.new.notice.verify_code_success')
+          flash[:notice] = text
+          format.any { render status: :ok, text: {text: text, reload: true}.to_json }
+        else
+          text = @token.errors.full_messages.to_sentence
+          format.any { render status: :bad_request, text: {text: text}.to_json }
+        end
       end
     end
 

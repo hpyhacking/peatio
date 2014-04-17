@@ -13,5 +13,6 @@ en:
         sms_message: "Your phone number verification code is: %{code}"
         notice:
           send_code_success: Send verify code success
+          verify_code_success: Verify Code success.
         alert:
           phone_number_error: phone number error
