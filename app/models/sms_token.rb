@@ -46,4 +46,13 @@ class SmsToken < Token
     I18n.t('verify.sms_tokens.new.sms_message', code: token)
   end
 
+  def verify?
+    if token == verify_code
+      true
+    else
+      errors.add(:verify_code, "invalid")
+      false
+    end
+  end
+
 end

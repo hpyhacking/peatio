@@ -109,4 +109,18 @@ describe SmsToken do
       expect(token.sms_message).not_to be_blank
     end
   end
+
+  describe '#verify?' do
+    let(:token) { create :sms_token }
+
+    it "should not be verified" do
+      token.verify_code = 'foobar'
+      expect(token).not_to be_verify
+    end
+
+    it "should be verified " do
+      token.verify_code = token.token
+      expect(token).to be_verify
+    end
+  end
 end
