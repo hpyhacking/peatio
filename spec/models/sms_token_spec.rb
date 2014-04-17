@@ -33,6 +33,41 @@ describe SmsToken do
     end
   end
 
+  describe '.for_member' do
+    let(:member) { create :member }
+
+    context 'do not have token exists' do
+      it "init member doesn't have token" do
+        expect(member.sms_token).to be_nil
+      end
+
+      it "create token for member if not exist" do
+        expect(SmsToken.for_member(member)).to be_is_a(SmsToken)
+      end
+    end
+
+    context 'member have token but not expired' do
+      let(:token) { create :sms_token }
+      let(:member) { token.member }
+
+      it "should retrieve unexpired token" do
+        expect(SmsToken.for_member(member)).to eq(token)
+      end
+    end
+
+    context 'member have expired token' do
+      let(:token) { create :sms_token }
+      let(:member) { token.member }
+
+      before { token.update expire_at: Time.now }
+
+      it 'should create a new token for member' do
+        expect(SmsToken.for_member(member)).not_to be_nil
+        expect(SmsToken.for_member(member)).to be_is_a(SmsToken)
+      end
+    end
+  end
+
   describe "#generate_token" do
     let(:member) { create :member }
     let(:token) { create :sms_token, member: member }
@@ -49,9 +84,7 @@ describe SmsToken do
   describe '#expired?' do
     subject(:token) { create :sms_token }
 
-    before do
-      token.expire_at = Time.now
-    end
+    before { token.expire_at = Time.now }
 
     it { should be_expired }
   end
