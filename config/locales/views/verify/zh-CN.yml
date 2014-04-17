@@ -7,6 +7,7 @@ zh-CN:
         warning: 手机未绑定时，您将无法在网站操作提现以及账户密码找回。
         phone_number: 请输入手机号码
         send_code: 获取验证码
+        send_code_alt: COUNT秒后重新发送
         input_verify_code: 请输入通过短信收到的六位验证码
         submit: 绑定手机号码
         notice:

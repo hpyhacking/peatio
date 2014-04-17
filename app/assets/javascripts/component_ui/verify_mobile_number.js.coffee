@@ -10,7 +10,26 @@
 
     if @select('phoneNumberInput').val() is ""
       @select('phoneNumberInput').parent().addClass 'has-error'
-      event.preventDefault()
+      return event.preventDefault()
+
+    @countDownSendCodeButton()
+
+  @countDownSendCodeButton = ->
+    origName  = @select('sendCodeButton').data('orig-name')
+    altName   = @select('sendCodeButton').data('alt-name')
+    countDown = 30
+
+    @select('sendCodeButton').attr('disabled', 'disabled').addClass('disabled')
+    countDownTimer = =>
+      setTimeout =>
+        if countDown isnt 0
+          countDown--
+          @select('sendCodeButton').text(altName.replace('COUNT', countDown))
+          countDownTimer()
+        else
+          @select('sendCodeButton').removeAttr('disabled').removeClass('disabled').text(origName)
+      , 1000
+    countDownTimer()
 
   @beforeSend = (event, jqXHR) ->
 

@@ -7,6 +7,7 @@ en:
         warning: it will not be able to retrieve your account's password if not set the phone number.
         phone_number: Phone number
         send_code: Send Code
+        send_code_alt: Resend in COUNT seconds
         input_verify_code: Enter the 6-digit code we sent to you
         submit: Save
         notice:
