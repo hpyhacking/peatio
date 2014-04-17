@@ -133,10 +133,24 @@ Insert the following lines into your bitcoin.conf, and replce with your username
     # Initialize the database and load the seed data
     bundle exec rake db:setup
 
-##### Run Peatio
+##### Run Daemons
 
     # start all daemons
     rake daemons:start
+
+    # or start daemon one by one
+    rake daemon:matching:start
+    ...
+
+    # Daemon trade_executor can be run concurrently, e.g. below
+    # line will start four trade executors, each with its own logfile.
+    # Default to 1.
+    TRADE_EXECUTOR=4 rake daemon:trade_executor:start
+
+    # You can do the same when you start all daemons:
+    TRADE_EXECUTOR=4 rake daemon:start
+
+##### Run Peatio
 
     # start server
     rails server
