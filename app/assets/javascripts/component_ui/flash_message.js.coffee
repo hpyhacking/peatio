@@ -4,6 +4,7 @@
     template: 'flash_message'
 
   @showMeg = (data) ->
+    @$node.html("")
     template = JST[@attr.template](data)
     $(template).prependTo(@$node)
 
