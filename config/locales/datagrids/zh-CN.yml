@@ -20,7 +20,7 @@ zh-CN:
         fee: 手续费
         currency_text: 币种
         aasm_state_text: 状态
-        full_name: 会员
+        member_name: 会员
     bank_deposits_grid:
       columns:
         sn: 充值编号
@@ -60,7 +60,7 @@ zh-CN:
         sum: 金额
         fund_extra_text: 开户行
         fund_uid: 卡号
-    satoshi_withdraws_grid:
+    coin_withdraws_grid:
       columns:
         <<: *withdraws_columns
         sum: 数量

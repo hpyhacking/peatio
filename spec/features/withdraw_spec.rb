@@ -10,6 +10,8 @@ describe 'withdraw' do
 
   before do
     Withdraw.any_instance.stubs(:examine).returns(true)
+    CoinRPC.any_instance.stubs(:validateaddress).returns({isvalid: true, ismine: false})
+
     btc_account = member.get_account(:btc)
     btc_account.update_attributes balance: 1000
     cny_account = member.get_account(:cny)
@@ -39,7 +41,7 @@ describe 'withdraw' do
     click_on t('actions.confirm')
 
     expect(current_path).to eq(new_withdraws_satoshi_path)
-    expect(page).to have_text(I18n.t('private.withdraws.update.request_accepted'))
+    expect(page).to have_text(I18n.t('private.withdraws.satoshis.update.notice'))
     expect(page).to have_text("400.0")
   end
 
@@ -87,7 +89,7 @@ describe 'withdraw' do
     visit new_withdraws_bank_path
 
     submit_bank_withdraw_request 800
-    expect(current_path).to eq(new_withdraws_bank_path)
+    expect(current_path).to eq(withdraws_banks_path)
     expect(page).to have_text(I18n.t('activerecord.errors.models.withdraws/bank.attributes.sum.poor'))
   end
 
@@ -97,13 +99,13 @@ describe 'withdraw' do
     select 'Bank of China', from: 'withdraw_fund_extra'
     select @bank, from: 'withdraw_fund_uid'
     fill_in 'withdraw_sum', with: amount
-    click_on I18n.t 'helpers.submit.withdraw.new'
+    click_on I18n.t 'actions.submit'
   end
 
   def submit_satoshi_withdraw_request amount
     select @label, from: 'withdraw_fund_uid'
     fill_in 'withdraw_fund_extra', with: @label
     fill_in 'withdraw_sum', with: amount
-    click_on I18n.t 'helpers.submit.withdraw.new'
+    click_on I18n.t 'actions.submit'
   end
 end

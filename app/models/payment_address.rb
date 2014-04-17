@@ -1,7 +1,5 @@
 class PaymentAddress < ActiveRecord::Base
-  extend Enumerize
-  enumerize :currency, in: Currency.codes, scope: true
-
+  include Currencible
   belongs_to :account
 
   has_many :transactions, class_name: 'PaymentTransaction', foreign_key: 'address', primary_key: 'address'
