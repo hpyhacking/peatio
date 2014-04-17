@@ -1,6 +1,8 @@
 class Identity < OmniAuth::Identity::Models::ActiveRecord
   auth_key :email
   attr_accessor :old_password
+  
+  has_one :member
 
   PASSWORD_REGEX = /\A.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*\z/
   MAX_LOGIN_ATTEMPTS = 5
