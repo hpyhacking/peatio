@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 20140416194300) do
     t.integer  "state"
     t.boolean  "activated"
     t.integer  "country_code"
-    t.integer  "phone_number"
+    t.string   "phone_number"
     t.boolean  "phone_number_verified"
   end
 
