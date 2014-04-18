@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140416194300) do
+ActiveRecord::Schema.define(version: 20140418082715) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(version: 20140416194300) do
     t.text     "json",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "sum"
   end
 
   create_table "payment_addresses", force: true do |t|
@@ -208,6 +209,7 @@ ActiveRecord::Schema.define(version: 20140416194300) do
     t.boolean  "ready",      default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "sum"
   end
 
   create_table "taggings", force: true do |t|

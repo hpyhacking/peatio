@@ -1,3 +1,8 @@
+@App =
+  showInfo:   (msg) -> $(document).trigger 'flash-info',   msg: msg
+  showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
+  showAlert:  (msg) -> $(document).trigger 'flash-alert',  msg: msg
+
 $ ->
   if $('#assets-index').length
     $.scrollIt
@@ -34,6 +39,15 @@ $ ->
   #   Pusher.log = (message) ->
   #     window.console && console.log(message)
 
+  pusher = new Pusher(gon.pusher_key, {encrypted: true})
+  pusher.connection.bind 'state_change', (state) ->
+    if state.current is 'unavailable'
+      $('#markets-show .pusher-unavailable').removeClass('hide')
+
+  GlobalData.attachTo(document, {pusher: pusher})
+  AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
+  OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
+
   SignUpUI.attachTo('#new_identity')
   AccountBalanceUI.attachTo('.account-balance')
   PlaceOrderUI.attachTo('.order-enter #bid_panel')
@@ -48,17 +62,8 @@ $ ->
   MarketTradesUI.attachTo('.trades')
   MarketChartUI.attachTo('.price-chart')
 
-  pusher = new Pusher(gon.pusher_key, {encrypted: true})
-  GlobalData.attachTo(document, {pusher: pusher})
-  AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
-  OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
-
   TransactionsUI.attachTo('#transactions')
   VerifyMobileNumberUI.attachTo('#new_sms_token')
 
   FlashMessageUI.attachTo('.flash-message')
 
-@App =
-  showInfo: (msg) -> $(document).trigger 'flash-info', msg: msg
-  showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
-  showAlert: (msg) -> $(document).trigger 'flash-alert', msg: msg

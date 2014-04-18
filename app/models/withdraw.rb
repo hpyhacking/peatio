@@ -21,6 +21,7 @@ class Withdraw < ActiveRecord::Base
 
   delegate :balance, to: :account, prefix: true
   delegate :key_text, to: :channel, prefix: true
+  delegate :id, to: :channel, prefix: true
   delegate :name, to: :member, prefix: true
 
   before_validation :calc_fee
