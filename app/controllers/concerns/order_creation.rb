@@ -19,6 +19,8 @@ module Concerns
         Ordering.new(@order).submit
         render status: 200, json: success_result
       rescue
+        Rails.logger.debug "Order submit failed: #{$!}"
+        Rails.logger.debug $!.backtrace.join("\n")
         render status: 500, json: error_result(@order.errors)
       end
     end
