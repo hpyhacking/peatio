@@ -25,6 +25,7 @@ conn = Bunny.new AMQP_CONFIG[:connect]
 conn.start
 
 ch = conn.create_channel
+ch.prefetch(1)
 logger.info "Connected to AMQP broker."
 
 terminate = proc do
