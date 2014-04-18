@@ -4,7 +4,7 @@ zh-CN:
       key: 块链
       title: 比特币提现
       intro: 将你在貔貅的比特币余额提取到你的钱包账户
-      latency: 30 分钟到账
+      latency: 受理后 10 分钟到账
       transfer: 人工处理
       go: 立即提现
 

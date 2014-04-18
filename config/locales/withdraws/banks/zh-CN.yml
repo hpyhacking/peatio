@@ -4,7 +4,7 @@ zh-CN:
       key: 银行转账提现
       title: 银行转账提现
       intro: 银行转账方式提现，推荐大额用户使用
-      latency: 30 分钟到账
+      latency: 受理后 10 分钟到账
       transfer: 人工处理
       go: 立即提现
 

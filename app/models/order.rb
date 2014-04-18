@@ -10,7 +10,7 @@ class Order < ActiveRecord::Base
   enumerize :source, in: SOURCES, scope: true
 
   after_commit :trigger
-  before_validation :fixed
+  before_validation :fixed, only: :create
 
   validates_numericality_of :price, :greater_than => 0
   validates_numericality_of :origin_volume, :greater_than => 0
