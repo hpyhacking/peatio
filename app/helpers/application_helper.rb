@@ -117,7 +117,7 @@ module ApplicationHelper
 
   def top_nav_link(link_text, link_path, link_icon, controllers: [])
     class_name = current_page?(link_path) ? 'active' : nil
-    class_name ||= controllers.include?(controller_name) ? 'active' : nil
+    class_name ||= (controllers & controller_path.split('/')).empty? ? nil : 'active'
 
     content_tag(:li, :class => class_name) do
       link_to link_path do
@@ -215,5 +215,18 @@ module ApplicationHelper
         end
       end
     end
+  end
+
+  def muut_api_options
+    key = ENV['MUUT_KEY']
+    secret = ENV['MUUT_SECRET']
+    ts = Time.now.to_i
+    message = Base64.strict_encode64 ({user: current_user.try(:to_muut) || {}}).to_json
+    signature = Digest::SHA1.hexdigest "#{secret} #{message} #{ts}"
+    { key: key,
+      signature: signature,
+      message: message,
+      timestamp: ts
+    }
   end
 end

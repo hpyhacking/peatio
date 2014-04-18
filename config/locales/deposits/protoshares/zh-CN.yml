@@ -2,10 +2,20 @@ zh-CN:
   deposit_channel:
     protoshare:
       key: 块链
-      title: PTS充值
-      intro: 从本地钱包客户端或任意在线钱包客户端转出PTS到我们为您提供的充值地址。
+      title: 比特股充值
+      intro: 从本地钱包客户端或任意在线钱包客户端转出比特股到我们为您提供的充值地址。
       latency: 10 分钟到账
       transfer: 自动
+      go: 立即充值
+
+  activerecord:
+    attributes:
+      deposits/protoshare:
+        created_at: 时间
+        txid: 交易哈希
+        amount: 充值数量
+        memo: 确认数
+        aasm_state_text: 状态
 
   deposits/protoshare:
     aasm_state:
@@ -13,6 +23,15 @@ zh-CN:
       accepted: 充值成功
       checked: 充值成功
       warning: 异常
+
+  guides:
+    private:
+      deposits:
+        protoshares:
+          panel: 比特股充值
+          intro: 从本地钱包客户端或任意在线钱包客户端转出比特股到我们为您提供的充值地址。
+          new: 
+            default-panel: 充值记录
 
   admin:
     deposits:
@@ -28,11 +47,13 @@ zh-CN:
       protoshares:
         new:
           page_title: "btc充值 - 资金充值 - 貔貅交易所"
-          page_keywords: "充值,PTS,Protoshares,人民币,资金,加密数字货币"
+          page_keywords: "充值,比特股,人民币,资金,加密数字货币"
           step-1: 第一步
           open-wallet: 请使用您常用的钱包服务，本地钱包、在线钱包或移动端的钱包，选择付款或发送。
           step-2: 第二步
-          send-coin: 在您的钱包收款地址中复制以下专门为您充值准备的地址，在金额中填入您希望充值到账的金额，同时别忘记支付一定的矿工费以保证交易尽快被全网确认。
+          send-coin: 在您的钱包付款或发款中,复制以下专门为您充值准备的⽐特币地址,在金额中填入您希望充值到账的数量,
+                    同时别忘记支付⼀定的矿⼯费以保证交易尽快被全网确认。您也可以在移动端钱包中扫描二维码来进⾏行支付。
+                    您可以重复使用此⽐特币地址和二维码进⾏行充值。
           or: 您也可以
           scan-qr: 在移动端钱包中扫描二维码来进行支付。
           step-3: 第三步
@@ -42,9 +63,3 @@ zh-CN:
           check-link: 您可以到 %{link} 中查询。
           step-4: 第四步
           history: 当您在您的钱包中完成发送付款的操作后,点击<a href='javascript:window.location.reload();'>刷新</a>,就能在⻚面下⽅历史纪录中查看到您当前的充值状态。
-  guides:
-    private:
-      deposits:
-        protoshares:
-          panel: PTS充值
-          intro: 从本地钱包客户端或任意在线钱包客户端转出PTS到我们为您提供的充值地址。

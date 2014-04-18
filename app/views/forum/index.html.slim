@@ -1,0 +1,10 @@
+a#muut href="https://muut.com/i/peatio" Peatio Forum
+
+= javascript_include_tag "//cdn.muut.com/1/moot.#{I18n.locale.to_s.slice(0,2)}.min.js"
+= stylesheet_link_tag '//cdn.muut.com/1/moot.css'
+javascript:
+  $(function(){
+    $("#muut").muut({
+      api: #{muut_api_options.to_json.html_safe}
+    })
+  });

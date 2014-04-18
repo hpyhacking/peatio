@@ -1,6 +1,5 @@
 class AccountVersion < ActiveRecord::Base
-  extend Enumerize
-  enumerize :currency, in: Currency.codes, scope: true
+  include Currencible
 
   HISTORY = [Account::STRIKE_ADD, Account::STRIKE_SUB, Account::STRIKE_FEE, Account::DEPOSIT, Account::WITHDRAW, Account::FIX]
 
