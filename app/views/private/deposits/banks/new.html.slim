@@ -6,7 +6,7 @@
     = f.input_field :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.fund_uid')
     = f.input_field :save_fund_source, as: :boolean, inline_label: true
 
-  = f.input :amount, as: :string
+  = f.input :amount, as: :decimal, input_html: {min: 0}
 
   hr.split
   = f.button :wrapped, t('actions.submit'), cancel: deposits_path

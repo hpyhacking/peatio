@@ -9,7 +9,7 @@
   = f.input :account_balance, as: :display
   = f.input :sum do
     .input-group
-      = f.input_field :sum, as: :decimal
+      = f.input_field :sum, as: :decimal, min: 0
       .input-group-btn
         button#withdraw_all_btn.btn.btn-success type='button' = t('.allin')
 
