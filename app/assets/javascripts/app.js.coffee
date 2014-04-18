@@ -1,3 +1,8 @@
+@App =
+  showInfo:   (msg) -> $(document).trigger 'flash-info',   msg: msg
+  showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
+  showAlert:  (msg) -> $(document).trigger 'flash-alert',  msg: msg
+
 $ ->
   if $('#assets-index').length
     $.scrollIt
@@ -34,6 +39,15 @@ $ ->
   #   Pusher.log = (message) ->
   #     window.console && console.log(message)
 
+  pusher = new Pusher(gon.pusher_key, {encrypted: true})
+  pusher.connection.bind 'state_change', (state) ->
+    if state.current is 'unavailable'
+      $(document).trigger 'pusher:unavailable'
+
+  GlobalData.attachTo(document, {pusher: pusher})
+  AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
+  OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
+
   AccountBalanceUI.attachTo('.account-balance')
   PlaceOrderUI.attachTo('.order-enter #bid_panel')
   PlaceOrderUI.attachTo('.order-enter #ask_panel')
@@ -47,15 +61,6 @@ $ ->
   MarketTradesUI.attachTo('.trades')
   MarketChartUI.attachTo('.price-chart')
 
-  pusher = new Pusher(gon.pusher_key, {encrypted: true})
-  GlobalData.attachTo(document, {pusher: pusher})
-  AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
-  OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
-
   TransactionsUI.attachTo('#transactions')
   FlashMessageUI.attachTo('.flash-message')
 
-@App =
-  showInfo: (msg) -> $(document).trigger 'flash-info', msg: msg
-  showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
-  showAlert: (msg) -> $(document).trigger 'flash-alert', msg: msg
