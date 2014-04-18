@@ -6,6 +6,7 @@ class Member < ActiveRecord::Base
   has_many :withdraws
   has_many :fund_sources
   has_many :deposits
+  has_many :api_tokens
 
   has_one :two_factor
   has_one :id_document
