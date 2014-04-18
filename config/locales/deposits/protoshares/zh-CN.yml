@@ -31,9 +31,10 @@ zh-CN:
     private:
       deposits:
         protoshares:
-          panel: 比特股充值
+          panel: 充值 / 比特股充值
           intro: 从本地钱包客户端或任意在线钱包客户端转出比特股到我们为您提供的充值地址。
           new: 
+            title: 比特股充值
             default-panel: 充值记录
 
   admin:

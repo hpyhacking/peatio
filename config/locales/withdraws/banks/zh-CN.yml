@@ -93,10 +93,11 @@ zh-CN:
     private:
       withdraws:
         banks:
-          panel: 银行转账提现
+          panel: 提现 / 银行转账提现
           new:
-            panel: 银行转账提现
+            title: 银行转账提现
             intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
             default-panel: 历史记录
           edit:
+            title: 银行转账提现
             intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。

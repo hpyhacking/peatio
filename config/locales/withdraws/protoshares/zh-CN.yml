@@ -23,10 +23,10 @@ zh-CN:
         fund_uid: 提现地址
         aasm_state_text: 状态
         created_at: 时间
-        sum: 数量
-        amount: 金额
+        sum: 提取数量
+        amount: 实际到账
         remark: 备注
-        fee: 手续费
+        fee: 矿工费
     errors:
       models:
         withdraws/protoshare:
@@ -86,11 +86,11 @@ zh-CN:
     labels:
       withdraw:
         protoshare:
-          fee: 手续费
-          sum: 提取金额
+          fee: 矿工费
+          sum: 提取数量
           fund_uid: 提现地址
           fund_extra: 提现标签
-          account_balance: 可用金额
+          account_balance: 可用数量
           member_name: 账户名
     placeholders:
       withdraw:
@@ -100,20 +100,23 @@ zh-CN:
     hints:
       withdraw:
         protoshare:
-          sum: "<a target='_balance' href='#'>资费说明</a>"
+          sum: "<a target='_balance' href=''>资费说明</a>"
 
   guides:
     private:
       withdraws:
         protoshares:
-          panel: 比特股提现
+          panel: 提现 / 比特股提现
           new:
+            title: 比特股提现
             intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
             default-panel: 历史记录
           create:
+            title: 比特股提现
             intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
             default-panel: 历史记录
           edit:
+            title: 比特股提现
             intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
 
   breadcrumbs:

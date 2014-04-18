@@ -100,13 +100,16 @@ zh-CN:
     private:
       deposits:
         banks:
-          panel: 银行转账充值
+          panel: 充值 / 银行转账充值
           intro: 通过银行转账的方式，从您的银行账户充值人民币到您的交易账户中。
           new:
+            title: 银行转账充值
             default-panel: 历史记录
           create:
+            title: 银行转账充值
             default-panel: 历史记录
           edit:
+            title: 银行转账充值
             default-panel: 历史记录
 
   simple_form:
