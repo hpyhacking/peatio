@@ -11,10 +11,14 @@ require File.join(root, "config", "environment")
 
 raise "Worker name must be provided." if ARGV.size != 1
 
-worker = "Worker::#{ARGV[0].camelize}".constantize.new
-queue  = AMQP_CONFIG[:queue][ARGV[0].to_sym]
+logger   = Logger.new STDOUT
+worker   = "Worker::#{ARGV[0].camelize}".constantize.new
+bindings = if ARGV.size > 1
+             ARGV[1..-1].map {|id| AMQP_CONFIG[:binding][id.to_sym] }
+           else
+             [ AMQP_CONFIG[:binding][ARGV[0].to_sym] ]
+           end
 
-logger = Logger.new STDOUT
 
 conn = Bunny.new AMQP_CONFIG[:connect]
 conn.start
@@ -31,12 +35,24 @@ end
 Signal.trap("INT",  &terminate)
 Signal.trap("TERM", &terminate)
 
-ch.queue(queue).subscribe(block: true) do |delivery_info, metadata, payload|
-  logger.info "Received: #{payload}"
-  begin
-    worker.process JSON.parse(payload)
-  rescue Exception => e
-    logger.fatal e
-    logger.fatal e.backtrace.join("\n")
+bindings.each do |binding|
+  queue = ch.queue binding[:queue]
+
+  if binding[:exchange].present?
+    conf = AMQP_CONFIG[:exchange][binding[:exchange]]
+    x = ch.send conf[:type], conf[:name]
+    queue.bind x
+  end
+
+  queue.subscribe do |delivery_info, metadata, payload|
+    logger.info "Received: #{payload}"
+    begin
+      worker.process JSON.parse(payload), metadata, delivery_info
+    rescue Exception => e
+      logger.fatal e
+      logger.fatal e.backtrace.join("\n")
+    end
   end
 end
+
+ch.work_pool.join

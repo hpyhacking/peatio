@@ -1,7 +1,7 @@
 module Worker
   class Mailer
 
-    def process(payload)
+    def process(payload, metadata, delivery_info)
       payload.symbolize_keys!
 
       mailer = payload[:mailer_class].constantize

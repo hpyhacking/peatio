@@ -5,7 +5,10 @@ AMQP_CONFIG[:exchange][:test] = {
   type: 'fanout'
 }
 
-AMQP_CONFIG[:queue][:test] = 'peatio.queue.test'
+AMQP_CONFIG[:binding][:test] = {
+  queue: 'peatio.queue.test',
+  exchange: :test
+}
 
 describe AMQPQueue do
   let(:default_exchange) { stub('default_exchange') }

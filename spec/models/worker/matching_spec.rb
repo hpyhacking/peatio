@@ -34,7 +34,7 @@ describe Worker::Matching do
       engine = mock('engine')
       engine.expects(:submit!).times(2) # 1 for ask, 1 for bid
       ::Matching::FIFOEngine.expects(:new).returns(engine)
-      subject.process action: 'submit', order: bid.to_matching_attributes
+      subject.process({action: 'submit', order: bid.to_matching_attributes}, {}, {})
     end
 
     it "should not match existing orders if one is canceled on engine restart" do
@@ -42,7 +42,7 @@ describe Worker::Matching do
       engine.expects(:submit!).once # ask
       engine.expects(:cancel!).once # bid
       ::Matching::FIFOEngine.expects(:new).returns(engine)
-      subject.process  action: 'cancel', order: bid.to_matching_attributes
+      subject.process({action: 'cancel', order: bid.to_matching_attributes}, {}, {})
     end
 
   end
@@ -51,7 +51,7 @@ describe Worker::Matching do
     let(:existing) { create(:order_ask, price: '4001', volume: '10.0', member: alice) }
 
     before do
-      subject.process action: 'submit', order: existing.to_matching_attributes
+      subject.process({action: 'submit', order: existing.to_matching_attributes}, {}, {})
     end
 
     it "should match part of existing order" do
@@ -59,7 +59,7 @@ describe Worker::Matching do
 
       AMQPQueue.expects(:enqueue)
         .with(:trade_executor, market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '8.0'.to_d)
-      subject.process action: 'submit', order: order.to_matching_attributes
+      subject.process({action: 'submit', order: order.to_matching_attributes}, {}, {})
     end
 
     it "should match part of new order" do
@@ -67,7 +67,7 @@ describe Worker::Matching do
 
       AMQPQueue.expects(:enqueue)
         .with(:trade_executor, market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '10.0'.to_d)
-      subject.process action: 'submit', order: order.to_matching_attributes
+      subject.process({action: 'submit', order: order.to_matching_attributes}, {}, {})
     end
   end
 
@@ -94,24 +94,24 @@ describe Worker::Matching do
     let(:bid6) { create(:order_bid, price: '4001', volume: '5.0', member: bob) }
 
     it "should create many trades" do
-      subject.process action: 'submit', order: ask1.to_matching_attributes
-      subject.process action: 'submit', order: ask2.to_matching_attributes
+      subject.process({action: 'submit', order: ask1.to_matching_attributes}, {}, {})
+      subject.process({action: 'submit', order: ask2.to_matching_attributes}, {}, {})
 
       AMQPQueue.expects(:enqueue)
         .with(:trade_executor, market_id: market.id, ask_id: ask1.id, bid_id: bid3.id, strike_price: ask1.price, volume: ask1.volume).once
       AMQPQueue.expects(:enqueue)
         .with(:trade_executor, market_id: market.id, ask_id: ask2.id, bid_id: bid3.id, strike_price: ask2.price, volume: ask2.volume).once
-      subject.process action: 'submit', order: bid3.to_matching_attributes
+      subject.process({action: 'submit', order: bid3.to_matching_attributes}, {}, {})
 
       AMQPQueue.expects(:enqueue)
         .with(:trade_executor, market_id: market.id, ask_id: ask4.id, bid_id: bid3.id, strike_price: bid3.price, volume: '2.0'.to_d).once
-      subject.process action: 'submit', order: ask4.to_matching_attributes
+      subject.process({action: 'submit', order: ask4.to_matching_attributes}, {}, {})
 
       AMQPQueue.expects(:enqueue)
         .with(:trade_executor, market_id: market.id, ask_id: ask4.id, bid_id: bid5.id, strike_price: ask4.price, volume: bid5.volume).once
-      subject.process action: 'submit', order: bid5.to_matching_attributes
+      subject.process({action: 'submit', order: bid5.to_matching_attributes}, {}, {})
 
-      subject.process action: 'submit', order: bid6.to_matching_attributes
+      subject.process({action: 'submit', order: bid6.to_matching_attributes}, {}, {})
     end
   end
 

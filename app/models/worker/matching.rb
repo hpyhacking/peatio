@@ -1,7 +1,7 @@
 module Worker
   class Matching
 
-    def process(payload)
+    def process(payload, metadata, delivery_info)
       payload.symbolize_keys!
       @order = ::Matching::Order.new payload[:order]
       send payload[:action]

@@ -26,7 +26,8 @@ class AMQPQueue
 
     # 1-1 mapping, use default exchange
     def enqueue(qid, payload)
-      publish(:default, payload, routing_key: AMQP_CONFIG[:queue][qid])
+      key = AMQP_CONFIG[:binding][qid][:queue]
+      publish(:default, payload, routing_key: key)
     end
   end
 
