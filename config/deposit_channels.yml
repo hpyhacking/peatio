@@ -4,20 +4,14 @@
   sort_order: 1
   min_confirm: 1
   max_confirm: 6
-- id: 500
+- id: 300
   key: protoshare
   currency: pts
-  sort_order: 3
-  min_confirm: 1
-  max_confirm: 6
-- id: 600
-  key: litecoin
-  currency: ltc
   sort_order: 2
   min_confirm: 1
   max_confirm: 6
 - id: 400
   key: bank
   currency: cny
-  sort_order: 4
+  sort_order: 3
   banks: ["icbc", "cmb", "abc", "cbc", "bc", "cmbc", "ceb", "cncb", "bcm", "cib", "spdb", "hxb", "pab", "gdb", "bob"]

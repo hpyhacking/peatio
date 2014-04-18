@@ -2,10 +2,45 @@ en:
   deposit_channel:
     protoshare:
       key: Block Chain
-      title: Protoshares Deposits 
-      intro: Deposit protoshares from your own Wallet address to Peatio account
-      latency: 1 Confirmation
-      transfer: Automatic processing
+      title: Protoshare Deposits
+      intro: Deposit protoshare from your own Wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
+
+  activerecord:
+    attributes:
+      deposits/protoshare:
+        created_at: 时间
+        txid: 交易哈希
+        amount: 充值数量
+        memo: 确认数
+        aasm_state_text: 状态
+
+  deposits/protoshare:
+    aasm_state:
+      submitted: 受理中
+      accepted: 充值成功
+      checked: 充值成功
+      warning: 异常
+
+  guides:
+    private:
+      deposits:
+        protoshares:
+          panel: Deposits
+          intro: Deposit protoshare from your own Wallet address to Peatio account.
+          new: 
+            default-panel: Deposit Transactions
+  admin:
+    deposits:
+      protoshares:
+        update:
+          notice: 此笔充值已经成功到账。
+        index:
+          accept: 充值充值
+          accept_confirm: 确定立刻确认此充值？
+
   private:
     deposits:
       protoshares:
@@ -13,14 +48,10 @@ en:
           step-1: Step one
           open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
           step-2: Step Two
-          send-coin: Fill in the collection address the following address which is specifically for your protoshares deposits. Check the protoshares amount you want to send,  and do not forget to pay a fee to the miner in order to ensure the transaction could be confirmed quickly.
+          send-coin: Fill in the collection address the following address which is specifically for your protoshare deposits. Check the protoshare amount you want to send,  and do not forget to pay a fee to the miner in order to ensure the transaction could be confirmed quickly.
           or: You can also to
           scan-qr: Scanning two-dimensional code to Pay for In the mobile terminal wallet.
           step-3: Step Three
-          check-confirm: Send protoshares to your Peatio account. When the transaction get  one confirmation by the whole network, the system will automatically recharge your account.(you do not need refresh this interface, transactions and recharge will be real-time updated).
-  guides:
-    private:
-      deposits:
-        protoshares:
-          panel: Deposits
-          intro: Deposit protoshares from your own Wallet address to Peatio account.
+          check-confirm: Send protoshare to your Peatio account. When the transaction gets one confirmation by the whole network, the system will automatically recharge your account.(you do not need to refresh this interface, transactions and recharge will be real-time updated).
+          step-4: Step Four
+          history: Once you complete sending, click <a href='javascript:window.location.reload();'>refresh</a> to check the status of your new deposit below.

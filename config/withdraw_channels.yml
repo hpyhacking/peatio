@@ -1,10 +1,15 @@
 - id: 200
   key: satoshi
   currency: btc
-  fixed: 8
+  fixed: 4
   fee: 0.0001
-  inuse: true
-  type: WithdrawChannelSatoshi
+  sort_order: 1
+- id: 300
+  key: protoshare
+  currency: pts
+  fixed: 4
+  fee: 0.0001
+  sort_order: 2
 - id: 400
   key: bank
   currency: cny
@@ -14,20 +19,5 @@
   max: 50000
   fee: 0
   proportion: true
-  inuse: true
   banks: ["icbc", "cmb", "abc", "cbc", "bc", "cmbc", "ceb", "cncb", "bcm", "cib", "spdb", "hxb", "pab", "gdb", "bob"]
-  type: WithdrawChannelBank
-- id: 500
-  key: litecoin
-  currency: ltc
-  fixed: 4
-  fee: 0.0001
-  inuse: true
-  type: WithdrawChannelLitecoin
-- id: 600
-  key: protoshare
-  currency: pts
-  fixed: 8
-  fee: 0.0001
-  inuse: true
-  type: WithdrawChannelProtoshare
+  sort_order: 3

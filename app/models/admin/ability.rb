@@ -19,6 +19,7 @@ module Admin
       can :menu, Withdraw
       can :manage, ::Withdraws::Bank
       can :manage, ::Withdraws::Satoshi
+      can :manage, ::Withdraws::Protoshare
 
       can :read, ::Statistic::DepositsGrid
       can :read, ::Statistic::WithdrawsGrid
