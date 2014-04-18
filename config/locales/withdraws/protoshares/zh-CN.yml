@@ -21,6 +21,7 @@ zh-CN:
         fund_extra: 提现标签
         fund_source: 提现标签/地址
         fund_uid: 提现地址
+        aasm_state_text: 状态
         created_at: 时间
         sum: 数量
         amount: 金额
@@ -114,3 +115,6 @@ zh-CN:
             default-panel: 历史记录
           edit:
             intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
+
+  breadcrumbs:
+    admin/withdraws/protoshares: 比特股提现

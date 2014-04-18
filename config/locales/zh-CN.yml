@@ -33,6 +33,11 @@ zh-CN:
       short: '%m-%d %H:%M'
       default: '%Y-%m-%d %H:%M'
 
+  enumerize:
+    currency:
+      cny: CNY
+      btc: BTC
+      pts: PTS
   currency:
     name:
       cny: 人民币

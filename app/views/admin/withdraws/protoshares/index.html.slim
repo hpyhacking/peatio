@@ -1,0 +1,11 @@
+- unless @one_protoshares.empty?
+  .panel.panel-primary
+    .panel-heading: span = t('.one')
+    = render partial: 'table', locals: {protoshares: @one_protoshares}
+- unless @all_protoshares.empty?
+  .panel.panel-success
+    .panel-heading: span = t('.all')
+    = render partial: 'table', locals: {protoshares: @all_protoshares}
+
+- if @all_protoshares.empty? and @one_protoshares.empty?
+  h3.text-info.text-center = t('.empty')

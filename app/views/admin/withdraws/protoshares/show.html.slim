@@ -1,0 +1,28 @@
+.row
+  .col-md-8
+    .panel.panel-primary
+      .panel-heading
+        span = t('.withdraw', sn: @protoshare.id)
+      .panel-body
+        = description_for :withdraw do
+          = item_for @protoshare, :id
+          = item_for @protoshare, :created_at
+          = item_for @protoshare, :aasm_state_text
+          hr.split
+          = item_for @protoshare.member, :name
+          = item_for @protoshare, :fund_extra
+          = item_for @protoshare, :fund_uid do
+            span = @protoshare.fund_uid.truncate(22)
+          = item_for @protoshare, :amount
+          hr.split
+          = item_for @protoshare, :remark
+          hr.split
+          ul.list-inline.pull-right
+            - if @protoshare.may_process?
+              li
+                = link_to t('.reject'), url_for([:admin, @protoshare]), class: 'btn btn-danger', method: 'DELETE', confirm: t('.reject_confirm')
+            - if @protoshare.may_process?
+              li
+                = link_to t('.process'), url_for([:admin, @protoshare]), class: 'btn btn-primary', method: 'PATCH'
+  .col-md-8
+    = render partial: 'shared/admin/member', locals: {member: @protoshare.member} 

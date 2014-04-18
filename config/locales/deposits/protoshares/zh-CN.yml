@@ -16,6 +16,9 @@ zh-CN:
         amount: 充值数量
         memo: 确认数
         aasm_state_text: 状态
+        member_name: 用户
+        state_and_action: 状态/操作
+        currency_text: 币种
 
   deposits/protoshare:
     aasm_state:
@@ -63,3 +66,6 @@ zh-CN:
           check-link: 您可以到 %{link} 中查询。
           step-4: 第四步
           history: 当您在您的钱包中完成发送付款的操作后,点击<a href='javascript:window.location.reload();'>刷新</a>,就能在⻚面下⽅历史纪录中查看到您当前的充值状态。
+
+  breadcrumbs:
+    admin/deposits/protoshares: 比特股充值
