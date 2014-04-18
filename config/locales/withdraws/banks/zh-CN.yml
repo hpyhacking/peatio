@@ -86,7 +86,7 @@ zh-CN:
       withdraw:
         bank:
           member_name: <span class='text-danger'>提现银行账户姓名必须与您的实名认证姓名一致</span>
-          sum: "<a target='_balance' href='#'>资费说明</a>"
+          sum: "<a target='_balance' href='/documents/price'>资费说明</a>"
           fund_extra: 若您的开户银行不再列表中，请联系客服
 
   guides:

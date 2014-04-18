@@ -100,7 +100,7 @@ zh-CN:
     hints:
       withdraw:
         protoshare:
-          sum: "<a target='_balance' href=''>资费说明</a>"
+          sum: "<a target='_balance' href='/documents/price'>资费说明</a>"
 
   guides:
     private:
