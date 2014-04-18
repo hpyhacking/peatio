@@ -11,7 +11,8 @@ require File.join(root, "config", "environment")
 
 raise "Worker name must be provided." if ARGV.size != 1
 
-logger   = Logger.new STDOUT
+Rails.logger = logger = Logger.new STDOUT
+
 worker   = "Worker::#{ARGV[0].camelize}".constantize.new
 bindings = if ARGV.size > 1
              ARGV[1..-1].map {|id| AMQP_CONFIG[:binding][id.to_sym] }

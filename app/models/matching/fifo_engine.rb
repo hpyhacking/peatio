@@ -10,15 +10,15 @@ module Matching
       orderbook.submit(order)
       trade! while match?
     rescue
-      puts "Fatal: Failed to submit #{order}: #{$!}"
-      puts $!.backtrace.join("\n")
+      Rails.logger.fatal "Failed to submit #{order}: #{$!}"
+      Rails.logger.fatal $!.backtrace.join("\n")
     end
 
     def cancel!(order)
       orderbook.cancel(order)
     rescue
-      puts "Fatal: Failed to cancel #{order}: #{$!}"
-      puts $!.backtrace.join("\n")
+      Rails.logger.fatal "Failed to cancel #{order}: #{$!}"
+      Rails.logger $!.backtrace.join("\n")
     end
 
     def match?
@@ -42,7 +42,7 @@ module Matching
 
     def trade!
       ask, bid, strike_price, volume = trade
-      puts "[#{@market.id}] new trade - #{ask} #{bid} strike_price: #{strike_price} volume: #{volume}"
+      Rails.logger.info "[#{@market.id}] new trade - #{ask} #{bid} strike_price: #{strike_price} volume: #{volume}"
       AMQPQueue.enqueue(:trade_executor, market_id: @market.id, ask_id: ask.id, bid_id: bid.id, strike_price: strike_price, volume: volume)
     end
 
