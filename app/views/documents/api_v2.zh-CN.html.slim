@@ -1,0 +1,80 @@
+.jumbotron
+  h2 貔貅开发者接口 (API version 2)
+  small 接口URI前缀: /api/v2
+  br
+  small 返回结果格式: JSON
+
+.panel.panel-default
+  .panel-heading
+    h3 Public/Private API
+
+  .panel-body
+    p 貔貅开发者接口包含两类API: Public API是不需要任何验证就可以使用的接口，而Private API是需要进行签名验证的接口。下表列出了两者的主要区别:
+
+  table.table
+    thead
+      tr
+        th Public API
+        th Private API
+    tbody
+      tr
+        td 无需验证
+        td 需要验证
+      tr
+        td 对于每个IP, 最多200个请求每5分钟
+        td 对于每个用户, 最多800个请求每5分钟; 如果有更高需求可以联系貔貅管理员
+      tr
+        td 无需准备立即可用
+        td 先要向貔貅管理员申请access/secret key
+
+.panel.panel-default
+  .panel-heading
+    h3 如何签名 (验证)
+
+  .panel-body
+    p 在给一个Private API请求签名之前, 你必须准备好你的access/secret key. 在注册好一个貔貅帐号之后，你只需向<a href='mailto:community@peatio.com'>community@peatio.com</a>发一封邮件申请即可。
+    p 所有的Private API都需要这3个用于身份验证的参数:
+    table.table
+      tr
+        td access_key
+        td 你的access key
+      tr
+        td tonce
+        td tonce是一个用正整数表示的时间戳，代表了从<a href='http://en.wikipedia.org/wiki/Unix_epoch'>Unix epoch</a>到当前时间所经过的毫秒(ms)数。tonce必须是递增的, 你的每一个Private API请求的tonce都必须大于前一个请求的tonce。
+      tr
+        td signature
+        td 使用你的secret key生成的签名
+
+    p 签名的生成很简单，先把请求表示为一个字符串, 然后对这个字符串做hash:
+    pre
+      | hash = HMAC-SHA256(payload, secret_key).to_hex
+
+    p Payload就是代表这个请求的字符串, 通过组合HTTP方法, 请求地址和请求参数得到:
+    pre
+      | # canonical_verb是HTTP方法，例如GET
+        # canonical_uri是请求地址， 例如/api/v2/markets
+        # canonical_query是请求参数通过&连接而成的字符串，参数包括access_key和tonce, 参数必须按照字母序排列，例如access_key=xxx&foo=bar&tonce=123456789
+        # 最后再把这三个字符串通过'|'字符连接起来，看起来就像这样:
+        # GET|/api/v2/markets|access_key=xxx&foo=bar&tonce=123456789
+        def payload
+          "\#{canonical_verb}|\#{canonical_uri}|\#{canonical_query}"
+        end
+
+    p 假设我的secret key是"yyy", 那么使用SHA256算法对上面例子中的payload计算HMAC的结果是(以hex表示)：
+    pre
+      | hash = HMAC-SHA256('GET|/api/v2/markets|access_key=xxx&foo=bar&tonce=123456789', 'yyy').to_hex
+             = 'e324059be4491ed8e528aa7b8735af1e96547fbec96db962d51feb7bf1b64dee'
+
+    p 现在我们就可以这样来使用这个签名请求(以curl为例):
+    pre
+      | curl -X GET 'https://peatio.com/api/v2/markets?access_key=xxx&foo=bar&tonce=123456789&signature=e324059be4491ed8e528aa7b8735af1e96547fbec96db962d51feb7bf1b64dee'
+
+.panel.panel-default
+  .panel-heading
+    h3 API列表
+
+  .panel-body
+    p 以下是详细的API列表，展开可以看到每个API的URI和可接受的参数。所有需要access_key/tonce/signature的都是Private API, 其他的则是Public API。
+
+.row
+  #swagger-ui-container.swagger-ui-wrap

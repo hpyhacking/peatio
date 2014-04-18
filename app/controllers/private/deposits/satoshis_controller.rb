@@ -1,7 +1,7 @@
 module Private
   module Deposits
     class SatoshisController < ::Private::Deposits::BaseController
-      include ::DepositCtrlCoinable
+      include ::Deposits::CtrlCoinable
     end
   end
 end

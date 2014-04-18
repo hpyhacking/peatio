@@ -29,20 +29,16 @@ module Private
         @orders_cancel = query.with_state(:cancel).last(5)
       end
 
-      @trades_done = Trade.for_member(params[:market], current_user).map do |trade|
-        if trade.ask_member_id == current_user.id
-          trade.for_notify('ask')
-        else
-          trade.for_notify('bid')
-        end
-      end
+      @trades_done = Trade.for_member(params[:market], current_user)
 
       gon.jbuilder
     end
 
     private
+
     def set_default_market
       cookies[:market_id] = params[:market]
     end
+
   end
 end

@@ -4,6 +4,9 @@ require 'whitelist_constraint'
 Rails.application.eager_load! if Rails.env.development?
 
 Peatio::Application.routes.draw do
+
+  root 'welcome#index'
+
   if Rails.env.development?
     mount MailsViewer::Engine => '/mails'
   end
@@ -27,6 +30,7 @@ Peatio::Application.routes.draw do
     resources :activations, only: [:new, :edit, :update]
   end
 
+  get '/documents/api_v2'
   resources :documents, :only => :show
 
   namespace :admin do
@@ -63,15 +67,15 @@ Peatio::Application.routes.draw do
 
     resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
-      Deposit.descendants.each do |w|
-        resources w.resource_name
+      Deposit.descendants.each do |d|
+        resources d.resource_name
       end
     end
 
     resources :withdraws, except: [:new]
     namespace :withdraws do
-      WithdrawChannel.all.each do |w|
-        resources w.key, only: [:new]
+      Withdraw.descendants.each do |w|
+        resources w.resource_name
       end
     end
 
@@ -109,5 +113,8 @@ Peatio::Application.routes.draw do
     end
   end
 
-  root 'welcome#index'
+  get '/forum' => 'forum#index'
+
+  mount APIv2::Mount => '/'
+
 end

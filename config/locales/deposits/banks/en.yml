@@ -1,4 +1,16 @@
 en:
+  deposit_channel:
+    bank:
+      key: Bank transfer
+      title: Bank transfer
+      intro: Bank transfer deposits, Recommend for large recharge 
+      latency: 10 minutes
+      transfer: Manual
+      receive_fund_holder: Wire transfer account holder
+      receive_fund_uid: Wire transfer account number
+      receive_fund_extra: Wire transfer bank name
+      go: Deposit
+
   activerecord:
     models:
       deposits/bank: 银行转账
@@ -24,17 +36,6 @@ en:
       rejected: 已驳回
       checked: 充值成功
       warning: 异常
-
-  deposit_channel:
-    bank:
-      key: Bank transfer
-      title: Bank transfer
-      intro: Bank transfer deposits, Recommend for large recharge 
-      latency: 10 minutes
-      transfer: Manual processing
-      receive_fund_holder: Wire transfer account holder
-      receive_fund_uid: Wire transfer account number
-      receive_fund_extra: Wire transfer bank name
 
   private:
     deposits:

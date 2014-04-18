@@ -9,8 +9,9 @@ module Concerns
       params[order][:currency] = params[:market]
       params[order][:member_id] = current_user.id
       params[order][:volume] = params[order][:origin_volume]
+      params[order][:source] = 'Web'
       params.require(order).permit(
-        :bid, :ask, :currency, :price,
+        :bid, :ask, :currency, :price, :source,
         :state, :origin_volume, :volume, :member_id)
     end
 
@@ -19,8 +20,8 @@ module Concerns
         Ordering.new(@order).submit
         render status: 200, json: success_result
       rescue
-        Rails.logger.debug "Order submit failed: #{$!}"
-        Rails.logger.debug $!.backtrace.join("\n")
+        Rails.logger.warn "Member id=#{current_user.id} failed to submit order: #{$!}"
+        Rails.logger.warn $!.backtrace[0,20].join("\n")
         render status: 500, json: error_result(@order.errors)
       end
     end
@@ -41,4 +42,3 @@ module Concerns
     end
   end
 end
-

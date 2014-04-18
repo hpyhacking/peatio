@@ -1,6 +1,5 @@
 class Proof < ActiveRecord::Base
-  extend Enumerize
-  enumerize :currency, in: Currency.codes, scope: true
+  include Currencible
 
   has_many :partial_trees
 

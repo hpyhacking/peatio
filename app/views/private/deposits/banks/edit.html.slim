@@ -1,7 +1,7 @@
-= simple_form_for @deposit, defaults: {as: :display, required: false}, url: deposit_path(@deposit), scope: :'deposit.bank' do |f|
+= simple_form_for @deposit, defaults: {as: :display, required: false}, as: :deposit, scope: :bank do |f|
   = f.input :fund_extra_text
   = f.input :fund_uid
-  = f.input :holder, input_html: { value: current_user.name }, hint: false
+  = f.input :member_name, hint: false
   = f.input :receive_fund_holder_text, clip: true
   = f.input :receive_fund_uid_text, clip: true
   = f.input :receive_fund_extra_text, clip: true
@@ -9,6 +9,17 @@
   = f.input :sn, clip: true
 
 = content_for :after
-  - if @assets && !@assets.empty?
-    = panel do
-      = datagrid_table(@bank_deposits_grid, @assets)
+  = panel do
+    = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
+      - t.column :sn, class: 'col-md-1'
+      - t.column :created_at, class: 'col-md-3'
+      - t.column :fund_source, class: 'col-md-3' do |x|
+        span = "#{x.fund_extra_text} @ "
+        code.text-info = x.fund_uid
+      - t.column :amount, class: 'col-md-2'
+      - t.column :state_and_action, class: 'col-md-2' do |x|
+        - if x.aasm_state.submitting?
+          span = "#{x.aasm_state_text} / "
+          = link_to t('actions.cancel'), url_for([x]), method: :delete 
+        - else
+          span = x.aasm_state_text

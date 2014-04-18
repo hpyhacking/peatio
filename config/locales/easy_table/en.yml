@@ -5,7 +5,7 @@ en:
       txid: Tx Hash
       created_at: Created At
       memo: Confirmations
-      full_name: Member
+      member_name: Member
       state_and_actions: State/Actions
       currency_obj_key_text: Currency
     bank:
@@ -14,6 +14,6 @@ en:
       created_at: At
       fund_source: Fund Source
       memo: Memo
-      full_name: Member
+      member_name: Member
       state_and_actions: State/Action
       currency_obj_key_text: Currency
