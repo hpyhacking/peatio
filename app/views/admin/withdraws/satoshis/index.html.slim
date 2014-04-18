@@ -3,7 +3,7 @@
     .panel-heading: span = t('.one')
     = render partial: 'table', locals: {satoshis: @one_satoshis}
 - unless @all_satoshis.empty?
-  .panel.panel-primary
+  .panel.panel-success
     .panel-heading: span = t('.all')
     = render partial: 'table', locals: {satoshis: @all_satoshis}
 

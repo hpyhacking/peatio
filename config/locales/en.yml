@@ -114,6 +114,7 @@ en:
 
   actions:
     go: Go
+    submit: Submit
     deposit: Deposit
     select: Please Select
     unlock: Unlock

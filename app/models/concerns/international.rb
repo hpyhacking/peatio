@@ -1,4 +1,4 @@
-module ChannelInternational
+module International
   extend ActiveSupport::Concern
 
   included do
@@ -16,4 +16,3 @@ module ChannelInternational
     end
   end
 end
-

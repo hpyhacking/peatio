@@ -6,8 +6,6 @@ zh-CN:
       order_bid: 买入
       order_ask: 卖出
       document: 文档
-      withdraw: 提现
-      deposit: 充值
       payment_transaction: 充值
       id_document: 实名认证
       statistic/orders_grid: 指令统计
@@ -44,45 +42,6 @@ zh-CN:
         balance: 余额
         locked: 冻结
         amount: 总额
-      deposit:
-        currency-address-type: 币种-支付方式
-        state: 状态
-        txid: 业务编号
-        txid_text: 业务编号
-        member_id: 用户标识
-        created_at: 创建时间
-        address: 充值地址
-        address_label: 充值标签
-        amount: 金额
-        done_at: 到账时间
-        sn: 个人识别码
-        fee: 手续费
-        fund_uid: 资金
-        fund_extra: 渠道
-        aasm_state_text: 客户状态
-        admin_aasm_state_text: 管理状态
-        currency_text: 币种
-        channel_key_text: 渠道
-      withdraw:
-        id: ID
-        sn: 序号
-        withdraw_id: 编号
-        created_at: 申请时间
-        done_at: 完成时间
-        sum: 提现
-        fee: 提现手续费
-        currency: 币种
-        amount: 提现金额
-        address: 提现地址
-        fund_extra: 地址标签
-        address_type: 提现渠道
-        channel_name: 提现渠道
-        aasm_state: 状态
-        aasm_state_text: 状态
-        txid: 业务编号
-        fund_uid: 提现地址
-        position_in_queue: 队列位置
-        detail: 金额明细
       account_version:
         id: 编号
         locked: 冻结
@@ -180,14 +139,6 @@ zh-CN:
             address:
               satoshi_ismine: 为系统所有，请使用您所拥有的提现地址进行绑定。
               satoshi_invalid: 格式无效，请填写正确的比特币提现地址。
-        withdraw:
-          attributes:
-            password:
-              match: 登录密码错误，请重新输入。
-            sum:
-              poor: 账户余额不足，请核对。
-              greater_than: 小于单笔最低限额。
-              bank_min: 低于银行转账提现最小限额 5000.00
         two_factor:
           attributes:
             otp:

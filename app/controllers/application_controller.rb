@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :current_user, :is_admin?, :latest_market, :gon
+  helper_method :current_user, :is_admin?, :latest_market, :gon, :muut_enabled?
   before_filter :set_language, :setting_default, :set_timezone
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
@@ -62,6 +62,10 @@ class ApplicationController < ActionController::Base
 
   def is_admin?
     current_user && current_user.admin?
+  end
+
+  def muut_enabled?
+    !!ENV['MUUT_KEY']
   end
 
   private

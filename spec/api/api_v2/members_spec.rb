@@ -11,7 +11,7 @@ describe APIv2::Members do
   let(:token)  { create(:api_token, member: member) }
 
   describe "GET /members/me" do
-    before { Currency.stubs(:codes).returns(cny: 1, btc: 2) }
+    before { Currency.stubs(:codes).returns(%w(cny btc)) }
 
     it "should require auth params" do
       get '/api/v2/members/me'

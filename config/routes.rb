@@ -69,15 +69,15 @@ Peatio::Application.routes.draw do
 
     resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
-      Deposit.descendants.each do |w|
-        resources w.resource_name
+      Deposit.descendants.each do |d|
+        resources d.resource_name
       end
     end
 
     resources :withdraws, except: [:new]
     namespace :withdraws do
-      WithdrawChannel.all.each do |w|
-        resources w.key, only: [:new]
+      Withdraw.descendants.each do |w|
+        resources w.resource_name
       end
     end
 
@@ -114,6 +114,8 @@ Peatio::Application.routes.draw do
       end
     end
   end
+
+  get '/forum' => 'forum#index'
 
   mount APIv2::Mount => '/'
 

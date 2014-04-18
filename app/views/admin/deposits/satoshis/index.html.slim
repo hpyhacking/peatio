@@ -4,8 +4,8 @@
       code.text-info = x.txid.truncate(36)
   - t.column :created_at
   - t.column :currency_obj_key_text
-  - t.column :full_name do |x|
-    = link_to x.full_name, url_for([:admin, x.member]), target: '_blank'
+  - t.column :member_name do |x|
+    = link_to x.member_name, url_for([:admin, x.member]), target: '_blank'
   - t.column :amount do |x|
     code.text-info = x.amount
   - t.column :memo do |x|
