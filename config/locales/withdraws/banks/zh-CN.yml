@@ -69,6 +69,11 @@ zh-CN:
           allin: 全部提取
           fund_uid: 使用已有银行账号或输入新账号
           fund_extra: 选择开户行
+          service-time: 人民币提现服务时间：9:00 - 18:00
+          service-time-2: 18：00后的提现申请次日处理
+        edit:
+          service-time: 人民币提现服务时间：9:00 - 18:00（18：00后的提现申请次日处理）
+          service-time-2: 18：00后的提现申请次日处理
 
   simple_form:
     labels:

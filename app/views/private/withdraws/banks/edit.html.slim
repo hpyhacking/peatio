@@ -15,3 +15,7 @@
   - if @withdraw.may_submit?
     = f.button :wrapped, t('actions.confirm') do
       = link_to t('actions.cancel'), url_for(@withdraw), role: 'button', class: 'btn btn-danger btn-lg pull-right', method: :delete
+
+= content_for :guide
+  p: span.text-danger = t('.service-time')
+  p: span: b.text-danger = t('.service-time-2')

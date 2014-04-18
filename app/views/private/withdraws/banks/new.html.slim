@@ -16,6 +16,10 @@
   hr.split
   = f.button :wrapped, t('actions.submit'), cancel: withdraws_path
 
+= content_for :guide
+  p: span.text-danger = t('.service-time')
+  p: span: b.text-danger = t('.service-time-2')
+  
 = content_for :after
   = panel do
     = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
