@@ -2,6 +2,12 @@ require 'liability-proof'
 
 namespace :solvency do
 
+  desc "Clear old liability proofs"
+  task :clean => :environment do
+    Proof.where('created_at < ?', 1.week.ago).delete_all
+    PartialTree.where('created_at < ?', 1.week.ago).delete_all
+  end
+
   desc "Generate liability proof"
   task :liability_proof => :environment do
     Account.currency.values.each do |type|
