@@ -45,8 +45,12 @@
     margin-bottom: 15px;
   }
 
+  .row:last-of-type .panel .panel-body{
+    height: 420px;
+  }
+
   .panel {
-    margin-bottom: 10px;
+    padding-bottom: 10px;
 
     .panel-heading {
       padding-top: 5px;
@@ -59,27 +63,42 @@
     }
 
     .panel-body {
-      overflow: hidden;
-
-      .trades {
-        height: 330px;
-        overflow-y: auto;
+      &.my-orders {
+        .tab-content {
+          height: 365px;
+          overflow-y: auto;
+        }
       }
 
-      .orders {
-        height: 330px;
-        overflow-y: auto;
+      &.orders {
+        tr:hover {
+          cursor: pointer;
+          font-weight: bold;
+        }
       }
 
-      .order-enter {
+      &.place-order {
         height: 360px;
-      }
-    }
-  }
 
-  .row:last-of-type .panel .panel-body{
-    height: 390px;
-    overflow: auto;
+        .input-group-addon {
+          min-width: 75px;
+          text-align: right;
+        }
+
+        .current-balance label {
+          margin-right: 5px;
+
+          &.currency {
+            text-transform: uppercase;
+          }
+        }
+
+        span.label + span.label {
+          margin-left: 0;
+        }
+      }
+
+    }
   }
 
   .ticker {
@@ -142,29 +161,4 @@
     }
   }
 
-  .order-enter {
-    .input-group-addon {
-      min-width: 75px;
-      text-align: right;
-    }
-
-    .current-balance label {
-      margin-right: 5px;
-
-      &.currency {
-        text-transform: uppercase;
-      }
-    }
-
-    span.label + span.label {
-      margin-left: 0;
-    }
-  }
-
-  .orders {
-    tr:hover {
-      cursor: pointer;
-      font-weight: bold;
-    }
-  }
 }
