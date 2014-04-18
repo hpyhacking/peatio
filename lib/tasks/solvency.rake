@@ -15,11 +15,14 @@ namespace :solvency do
       tree = LiabilityProof::Tree.new formatted_accounts, currency: type.upcase
 
       puts "Generating root node .."
-      proof = Proof.create!(root: tree.root_json, currency: type)
+      sum   = tree.root_json['root']['sum']
+      proof = Proof.create!(sum: sum, root: tree.root_json, currency: type)
 
       puts "Generating partial trees .."
       accounts.each do |acct|
-        acct.partial_trees.create! proof: proof, json: tree.partial_json(acct.member.sn)
+        json = tree.partial_json(acct.member.sn)
+        sum  = tree.last_user_node['sum']
+        acct.partial_trees.create! sum: sum, proof: proof, json: tree.partial_json(acct.member.sn)
       end
       puts "#{accounts.size} partial trees generated."
 
