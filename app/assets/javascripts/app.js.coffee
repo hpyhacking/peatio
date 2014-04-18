@@ -42,7 +42,7 @@ $ ->
   pusher = new Pusher(gon.pusher_key, {encrypted: true})
   pusher.connection.bind 'state_change', (state) ->
     if state.current is 'unavailable'
-      $(document).trigger 'pusher:unavailable'
+      $('#markets-show .pusher-unavailable').removeClass('hide')
 
   GlobalData.attachTo(document, {pusher: pusher})
   AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
