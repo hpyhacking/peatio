@@ -12,15 +12,10 @@ zh-CN:
     admin: 管理员
   trade:
     markets: 市场
-    btccny: BTC/CNY
     realtime_price:
       title: 实时价格
     account_balance:
       title: 我的账户
-      available_btc: 可用BTC
-      available_cny: 可用CNY
-      locked_btc: 冻结BTC
-      locked_cny: 冻结CNY
   gon:
     ask: 卖出
     bid: 买入
@@ -42,19 +37,24 @@ zh-CN:
     name:
       cny: 人民币
       btc: 比特币
+      pts: 比特股
     code:
       cny: CNY
       btc: BTC
+      pts: PTS
     format:
       zero: 'N/A'
       cny: '0.00'
       btc: '0.0000'
+      pts: '0.0000'
     icon-large:
       cny: <span class='big-currency'>¥</span>
       btc: <span class='big-currency'>฿</span>
+      pts: <span class='big-currency'>P</span>
     icon:
       cny: <span class='currency'>¥</span>
       btc: <span class='currency'>฿</span>
+      pts: <span class='currency'>P</span>
     sum:
       bid: 合计 <span class=bid_totle></span>%{bid_icon}
       ask: 合计 <span class=ask_totle></span>%{bid_icon}
