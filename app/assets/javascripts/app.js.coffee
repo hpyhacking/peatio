@@ -35,6 +35,14 @@ $ ->
     placement = $(@).data('placement') || 'bottom'
     $(zero.htmlBridge).tooltip({title: gon.clipboard.click, placement: placement})
 
+  AccountBalanceUI.attachTo('.account-balance')
+  PlaceOrderUI.attachTo('.order-enter #bid_panel')
+  PlaceOrderUI.attachTo('.order-enter #ask_panel')
+  MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
+  MyOrdersDoneUI.attachTo('.my-orders #orders_done')
+  PushButton.attachTo('.order-enter')
+  PushButton.attachTo('.my-orders')
+
   # if gon.env is 'development'
   #   Pusher.log = (message) ->
   #     window.console && console.log(message)
@@ -47,14 +55,6 @@ $ ->
   GlobalData.attachTo(document, {pusher: pusher})
   AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
   OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
-
-  AccountBalanceUI.attachTo('.account-balance')
-  PlaceOrderUI.attachTo('.order-enter #bid_panel')
-  PlaceOrderUI.attachTo('.order-enter #ask_panel')
-  MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
-  MyOrdersDoneUI.attachTo('.my-orders #orders_done')
-  PushButton.attachTo('.order-enter')
-  PushButton.attachTo('.my-orders')
 
   MarketTickerUI.attachTo('.ticker')
   MarketOrdersUI.attachTo('.orders')
