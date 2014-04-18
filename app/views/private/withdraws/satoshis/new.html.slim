@@ -1,4 +1,5 @@
 = simple_form_for @withdraw, as: :withdraw, scope: :satoshi do |f|
+  = f.input :channel_id, as: :hidden
   = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.fund_uid')
   = f.input :fund_extra do
     = f.input_field :fund_extra, required: false
