@@ -5,6 +5,9 @@ require 'whitelist_constraint'
 Rails.application.eager_load! if Rails.env.development?
 
 Peatio::Application.routes.draw do
+
+  root 'welcome#index'
+
   if Rails.env.development?
     mount Resque::Server.new, :at => "/jobs"
     mount MailsViewer::Engine => '/mails'
@@ -29,6 +32,7 @@ Peatio::Application.routes.draw do
     resources :activations, only: [:new, :edit, :update]
   end
 
+  get '/documents/api_v2'
   resources :documents, :only => :show
 
   namespace :admin do
@@ -112,5 +116,7 @@ Peatio::Application.routes.draw do
   end
 
   get '/forum' => 'forum#index'
-  root 'welcome#index'
+
+  mount APIv2::Mount => '/'
+
 end
