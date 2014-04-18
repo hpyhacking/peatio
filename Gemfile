@@ -21,12 +21,8 @@ gem 'figaro'
 gem 'settingslogic'
 gem 'hashie'
 
-gem 'eventmachine', '~> 1.0.3'
-gem 'em-http-request', '~> 1.1.2'
-gem 'amqp', '~> 1.3.0'
-gem 'bunny', '~> 1.2.1'
-
 gem 'aasm'
+gem 'bunny', '~> 1.2.1'
 gem 'cancancan'
 gem 'enumerize'
 gem 'datagrid'
