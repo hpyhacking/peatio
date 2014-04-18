@@ -14,13 +14,16 @@ raise "Worker name must be provided." if ARGV.size != 1
 worker = "Worker::#{ARGV[0].camelize}".constantize.new
 queue  = AMQP_CONFIG[:queue][ARGV[0].to_sym]
 
+logger = Logger.new STDOUT
+
 conn = Bunny.new AMQP_CONFIG[:connect]
 conn.start
 
 ch = conn.create_channel
-puts "Connected to AMQP broker."
+logger.info "Connected to AMQP broker."
 
 terminate = proc do
+  # logger is forbidden in signal handling, just use puts here
   puts "Terminating threads .."
   ch.work_pool.kill
   puts "Stopped."
@@ -29,11 +32,11 @@ Signal.trap("INT",  &terminate)
 Signal.trap("TERM", &terminate)
 
 ch.queue(queue).subscribe(block: true) do |delivery_info, metadata, payload|
-  puts "Received: #{payload}"
+  logger.info "Received: #{payload}"
   begin
     worker.process JSON.parse(payload)
   rescue Exception => e
-    puts "Fatal: #{e}"
-    puts e.backtrace.join("\n")
+    logger.fatal e
+    logger.fatal e.backtrace.join("\n")
   end
 end
