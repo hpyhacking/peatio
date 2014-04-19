@@ -23,7 +23,7 @@ describe AMQPConfig do
   end
 
   it "should return queue settings" do
-    AMQPConfig.queue(:testq).should == ['testq', {}]
+    AMQPConfig.queue(:testq).should == ['testq', {durable: true}]
   end
 
   it "should return exchange settings" do
@@ -31,7 +31,7 @@ describe AMQPConfig do
   end
 
   it "should return binding queue" do
-    AMQPConfig.binding_queue(:test).should == ['testq', {}]
+    AMQPConfig.binding_queue(:test).should == ['testq', {durable: true}]
   end
 
   it "should return binding exchange" do

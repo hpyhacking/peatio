@@ -19,7 +19,7 @@ class AMQPConfig
 
     def queue(id)
       name = data[:queue][id][:name]
-      settings = {}
+      settings = { durable: data[:queue][id][:durable] }
       [name, settings]
     end
 
