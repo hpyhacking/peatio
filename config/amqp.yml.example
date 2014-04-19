@@ -10,8 +10,10 @@ exchange:
 queue:
   matching:
     name: peatio.matching
+    durable: true
   new_trade:
     name: peatio.trade.new
+    durable: true
   pusher:
     name: peatio.pusher
   withdraw_audit:
@@ -20,6 +22,7 @@ queue:
     name: peatio.withdraw.coin
   mailer:
     name: peatio.mailer
+    durable: true
 
 binding:
   matching:
