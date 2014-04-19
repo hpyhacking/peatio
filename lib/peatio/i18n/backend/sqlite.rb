@@ -7,7 +7,7 @@ module Peatio
         include ::I18n::Backend::Base
 
         def available_locales
-          Peatio::I18n::Models::Translation.column_names - %w(key desc)
+          Models::Translation.column_names - %w(key desc)
         end
 
         def reload!
@@ -21,7 +21,12 @@ module Peatio
         protected
 
           def lookup(locale, key, scope = [], options = {})
-            nil
+            if record = Models::Translation.find_by(key: key)
+              value = record.send(locale) rescue ""
+              value.presence || record.en
+            else
+              nil
+            end
           end
       end
     end
