@@ -40,10 +40,12 @@ bindings.each do |id|
     queue.bind x
   end
 
-  queue.subscribe do |delivery_info, metadata, payload|
+  manual_ack = AMQPConfig.data[:binding][id][:manual_ack]
+  queue.subscribe(manual_ack: manual_ack) do |delivery_info, metadata, payload|
     logger.info "Received: #{payload}"
     begin
       worker.process JSON.parse(payload), metadata, delivery_info
+      ch.ack(delivery_info.delivery_tag) if manual_ack
     rescue Exception => e
       logger.fatal e
       logger.fatal e.backtrace.join("\n")
