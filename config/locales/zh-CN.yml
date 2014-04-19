@@ -159,6 +159,7 @@ zh-CN:
     low_price: 最低
     volume: 成交量
     latest_price: 最新价格
+    balances: 总资产
 
   chart:
     price: 价格

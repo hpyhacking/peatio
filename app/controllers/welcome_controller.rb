@@ -5,5 +5,8 @@ class WelcomeController < ApplicationController
     if current_user
       redirect_to market_path(latest_market) and return
     end
+
+    @btc_balance = Currency.assets('btc')['balance']
+    @cny_balance  = Currency.assets('cny')['balance']
   end
 end

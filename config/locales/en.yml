@@ -147,6 +147,7 @@ en:
     low_price: Low
     volume: Volume
     latest_price: Last
+    balances: Balances
 
   chart:
     price: Price

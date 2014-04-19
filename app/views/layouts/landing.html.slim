@@ -3,7 +3,7 @@ html lang="en"
   head
     link rel="shortcut icon" href="/favicon.png"
     = include_gon
-    = stylesheet_link_tag "application", :media => "all"
+    = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "application"
     = render 'shared/html5'
     = render 'shared/meta'
@@ -11,6 +11,7 @@ html lang="en"
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
     #wrap
       = render 'shared/browser'
+      = render 'shared/header'
       = yield
       #push
     = render 'shared/footer'

@@ -1,19 +1,107 @@
-header.text-center
+#ticker.container
+  table.table
+    tr.ticker
+      td
+        i.fa.fa-bar-chart-o
+      th BTC/CNY
+      th = t 'global.latest_price'
+      td.value.last
+      th = t 'global.bid_price'
+      td.value.buy
+      th = t 'global.ask_price'
+      td.value.sell
+      th = t 'global.high_price'
+      td.value.high
+      th = t 'global.low_price'
+      td.value.low
+      th = t 'global.volume'
+      td.value.volume
+      th = t 'global.balances'
+      td = "¥#{@cny_balance} / ฿#{@btc_balance}"
+
+
+#ribbon
   .ribbon
     a href="https://github.com/peatio/peatio" = t(:view_on_github)
-  .container
-    a href='http://github.com/peatio/peatio'
-      img src='#{image_path 'logo.png'}' width='336px'
-    section.slogan
-      h3 = t(:slogan)
-      p = t(:slogan_desc1)
-      p = t(:slogan_desc2)
-    #getstart.row
-      - unless current_user
-        .col-md-2.col-md-offset-4
-          a href="#{signin_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signin")
-        .col-md-2
-          a href="#{signup_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signup")
-      - else
-        .col-md-4.col-md-offset-4
-          a href="#{market_path(latest_market)}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.getstart")
+
+#main
+  .row style='padding: 0 20px;'
+    a href='http://github.com/peatio/peatio' style='display: inline-block; padding-top: 40px'
+      img src='#{image_path 'logo.png'}' width='200px'
+    .pull-right.page-header.text-right
+      h1
+        | 貔貅北京
+        br
+        small 开源数字加密货币交易平台
+
+  .row
+    .col-sm-4
+      .panel.panel-primary
+        .panel-heading
+          h3
+            i.fa.fa-fw.fa-gavel.pull-left
+            | 公开透明
+        .panel-body.feature1
+          p 资产公开
+          p 规则透明
+    .col-sm-4
+      .panel.panel-primary
+        .panel-heading
+          h3
+            i.fa.fa-fw.fa-lightbulb-o.pull-left
+            | 开放开源
+        .panel-body.feature1
+          p 提供API接入
+          p 网站代码开源
+    .col-sm-4
+      .panel.panel-primary
+        .panel-heading
+          h3
+            i.fa.fa-fw.fa-money.pull-left
+            | 100%准备金
+        .panel-body.feature1
+          p 不挪用资金
+          p 不虚报数据
+
+  .row
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          h3
+            i.fa.fa-fw.fa-rocket.pull-left
+            | 安全高效
+        .panel-body.small.feature2
+          p SSL加密、手机短信、二次验证保障你的资产安全
+          p 比特币冷钱包，数据库实时备份保护交易所安全
+          p 高效引擎每天可以处理1000,000笔交易
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          h3
+            i.fa.fa-fw.fa-thumbs-o-up.pull-left
+            | 全免费
+        .panel-body.small.feature2
+          p 至2015年4月1日，貔貅北京交易所充值、提现及交易手续费全免。
+          p 期间运营成本由比特基金提供，也欢迎外部捐赠支持貔貅的发展。
+
+          p 注：提现矿工费由貔貅北京代扣
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          h3
+            i.fa.fa-fw.fa-credit-card.pull-left
+            | 充值提现
+        .panel-body.small.feature2
+          p 人民币充值10分钟到帐，比特币1确认到帐
+          p 提现1小时内到帐
+
+    .col-sm-3
+      .panel.panel-default
+        .panel-heading
+          h3
+            i.fa.fa-fw.fa-users.pull-left
+            | 服务时间
+        .panel-body.small.feature2
+          p 7x24小时
+          p VIP服务
+

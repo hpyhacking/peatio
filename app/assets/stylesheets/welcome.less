@@ -1,12 +1,18 @@
 #welcome-index {
-  header {
-    overflow: hidden;
-    position: relative;
-    color: rgba(83,102,120, 1.0);
+  color: rgba(83,102,120, 1.0);
 
-    .container {
-      padding-top: 60px;
-    }
+  .container {
+    padding-top: 0px;
+  }
+
+  #ribbon {
+    position: absolute;
+    height: 250px;
+    top: 0;
+    right: 0;
+    width: 225px;
+    overflow-x: hidden;
+    z-index: 0;
 
     .ribbon a:hover {
       background: @btn-primary-bg;
@@ -21,35 +27,106 @@
       transform: rotate(45deg);
       background: rgba(83,102,120, 1.0);
       position: absolute;
-      top: 75px;
+      top: 45px;
       right: -71px;
       display: block;
       font-weight: 100;
-      font-size: 20px;
+      font-size: 18px;
       color: white;
       height: 45px;
-      width: 330px;
+      width: 270px;
       padding: 8px;
+      padding-left: 70px;
     }
+  }
 
-    section {
-      padding: 30px;
-      padding-top: 14px;
-      margin: 30px;
-      border-top: 1px dashed lighten(@main-color, 20%);
-      border-bottom: 1px dashed lighten(@main-color, 20%);
+  section {
+    padding: 30px;
+    padding-top: 14px;
+    margin: 30px;
+    border-top: 1px dashed lighten(@main-color, 20%);
+    border-bottom: 1px dashed lighten(@main-color, 20%);
 
-      p {
-        width: 640px;
-        text-align: left;
-        font-size: 12pt;
-        margin: 15px auto;
-        text-indent: 32px;
+    p {
+      width: 640px;
+      text-align: left;
+      font-size: 12pt;
+      margin: 15px auto;
+      text-indent: 32px;
+    }
+  }
+
+  nav.navbar {
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    z-index: 10;
+  }
+
+  #getstart {
+    margin-bottom: 50px;
+  }
+
+  #ticker {
+    text-align: center;
+    margin-top: -20px;
+    padding: 5px;
+    width: 940px;
+    box-shadow: 0px 10px 4px 0px #ccc;
+    background: white;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+
+    table {
+      margin-bottom: 0;
+      font-size: 0.9em;
+
+      th, td {
+        border-top: none;
+        padding: 0px 4px;
+      }
+    }
+  }
+
+  #main {
+    padding: 0 20px;
+    margin: 0px auto;
+    width: 940px;
+
+    .panel-primary {
+      border-color: #e5e9ee;
+      .panel-heading {
+        padding: 1px 15px;
+        background-color: #a1b1c1;
+        border-color: #a1b1c1;
+      }
+      .feature1 {
+        padding-left: 55px;
+        font-size: 18px;
+      }
+      i.fa {
+        color: white;
       }
     }
 
-    #getstart {
-      margin-bottom: 50px;
+
+    .panel-default {
+      background: none;
+      border: 0;
+      box-shadow: none;
+
+      .panel-heading {
+        border: 0;
+        background: none;
+      }
+
+      .feature2 {
+        padding-top: 0;
+        padding-left: 55px;
+      }
+
+      i.fa {
+        color: #0D63A7;
+      }
     }
   }
 }
