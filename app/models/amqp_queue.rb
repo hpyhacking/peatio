@@ -2,7 +2,7 @@ class AMQPQueue
 
   class <<self
     def connection
-      @connection ||= Bunny.new(AMQP_CONFIG[:connect]).tap do |conn|
+      @connection ||= Bunny.new(AMQPConfig.connect).tap do |conn|
         conn.start
       end
     end
@@ -16,7 +16,7 @@ class AMQPQueue
     end
 
     def exchange(id)
-      exchanges[id] ||= channel.send(AMQP_CONFIG[:exchange][id][:type], AMQP_CONFIG[:exchange][id][:name])
+      exchanges[id] ||= channel.send *AMQPConfig.exchange(id)
     end
 
     def publish(eid, payload, attrs={})
@@ -25,9 +25,10 @@ class AMQPQueue
     end
 
     # 1-1 mapping, use default exchange
-    def enqueue(qid, payload)
-      key = AMQP_CONFIG[:binding][qid][:queue]
-      publish(:default, payload, routing_key: key)
+    def enqueue(id, payload)
+      args = AMQPConfig.binding_queue(id)
+      setting = args[1].merge(routing_key: args[0])
+      publish(:default, payload, setting)
     end
   end
 

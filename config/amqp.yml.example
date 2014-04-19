@@ -7,17 +7,31 @@ exchange:
     name: peatio.trade.after_strike
     type: fanout
 
+queue:
+  matching:
+    name: peatio.matching
+  new_trade:
+    name: peatio.trade.new
+  pusher:
+    name: peatio.pusher
+  withdraw_audit:
+    name: peatio.withdraw.audit
+  withdraw_coin:
+    name: peatio.withdraw.coin
+  mailer:
+    name: peatio.mailer
+
 binding:
   matching:
-    queue: peatio.matching
+    queue: matching
   trade_executor:
-    queue: peatio.trade.new
+    queue: new_trade
   pusher:
-    queue: peatio.pusher
+    queue: pusher
     exchange: trade_after_strike
   withdraw_audit:
-    queue: peatio.withdraw.audit
+    queue: withdraw_audit
   withdraw_coin:
-    queue: peatio.withdraw.coin
+    queue: withdraw_coin
   mailer:
-    queue: peatio.mailer
+    queue: mailer

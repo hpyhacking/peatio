@@ -2,7 +2,7 @@ module Worker
   class Pusher
 
     def process(payload, metadata, delivery_info)
-      if delivery_info[:exchange] == AMQP_CONFIG[:exchange][:trade_after_strike][:name]
+      if delivery_info[:exchange] == AMQPConfig.data[:exchange][:trade_after_strike][:name]
         publish_trade payload
       end
     end

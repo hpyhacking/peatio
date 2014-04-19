@@ -14,14 +14,9 @@ raise "Worker name must be provided." if ARGV.size != 1
 Rails.logger = logger = Logger.new STDOUT
 
 worker   = "Worker::#{ARGV[0].camelize}".constantize.new
-bindings = if ARGV.size > 1
-             ARGV[1..-1].map {|id| AMQP_CONFIG[:binding][id.to_sym] }
-           else
-             [ AMQP_CONFIG[:binding][ARGV[0].to_sym] ]
-           end
+bindings = ARGV.size > 1 ? ARGV[1..-1] : [ARGV[0]]
 
-
-conn = Bunny.new AMQP_CONFIG[:connect]
+conn = Bunny.new AMQPConfig.connect
 conn.start
 
 ch = conn.create_channel
@@ -37,12 +32,11 @@ end
 Signal.trap("INT",  &terminate)
 Signal.trap("TERM", &terminate)
 
-bindings.each do |binding|
-  queue = ch.queue binding[:queue]
+bindings.each do |id|
+  queue = ch.queue *AMQPConfig.binding_queue(id)
 
-  if binding[:exchange].present?
-    conf = AMQP_CONFIG[:exchange][binding[:exchange]]
-    x = ch.send conf[:type], conf[:name]
+  if args = AMQPConfig.binding_exchange(id)
+    x = ch.send *args
     queue.bind x
   end
 
