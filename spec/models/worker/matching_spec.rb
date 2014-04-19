@@ -58,7 +58,7 @@ describe Worker::Matching do
       order = create(:order_bid, price: '4001', volume: '8.0', member: bob)
 
       AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '8.0'.to_d)
+        .with(:trade_executor, {market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '8.0'.to_d}, anything)
       subject.process({action: 'submit', order: order.to_matching_attributes}, {}, {})
     end
 
@@ -66,7 +66,7 @@ describe Worker::Matching do
       order = create(:order_bid, price: '4001', volume: '12.0', member: bob)
 
       AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '10.0'.to_d)
+        .with(:trade_executor, {market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '10.0'.to_d}, anything)
       subject.process({action: 'submit', order: order.to_matching_attributes}, {}, {})
     end
   end
@@ -98,17 +98,17 @@ describe Worker::Matching do
       subject.process({action: 'submit', order: ask2.to_matching_attributes}, {}, {})
 
       AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, market_id: market.id, ask_id: ask1.id, bid_id: bid3.id, strike_price: ask1.price, volume: ask1.volume).once
+        .with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: bid3.id, strike_price: ask1.price, volume: ask1.volume}, anything).once
       AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, market_id: market.id, ask_id: ask2.id, bid_id: bid3.id, strike_price: ask2.price, volume: ask2.volume).once
+        .with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: bid3.id, strike_price: ask2.price, volume: ask2.volume}, anything).once
       subject.process({action: 'submit', order: bid3.to_matching_attributes}, {}, {})
 
       AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, market_id: market.id, ask_id: ask4.id, bid_id: bid3.id, strike_price: bid3.price, volume: '2.0'.to_d).once
+        .with(:trade_executor, {market_id: market.id, ask_id: ask4.id, bid_id: bid3.id, strike_price: bid3.price, volume: '2.0'.to_d}, anything).once
       subject.process({action: 'submit', order: ask4.to_matching_attributes}, {}, {})
 
       AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, market_id: market.id, ask_id: ask4.id, bid_id: bid5.id, strike_price: ask4.price, volume: bid5.volume).once
+        .with(:trade_executor, {market_id: market.id, ask_id: ask4.id, bid_id: bid5.id, strike_price: ask4.price, volume: bid5.volume}, anything).once
       subject.process({action: 'submit', order: bid5.to_matching_attributes}, {}, {})
 
       subject.process({action: 'submit', order: bid6.to_matching_attributes}, {}, {})

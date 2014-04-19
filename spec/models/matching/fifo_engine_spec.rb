@@ -36,7 +36,7 @@ describe Matching::FIFOEngine do
   context "submit full match orders" do
     it "should execute trade" do
       AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume)
+        .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume}, anything)
 
       subject.submit!(ask)
       subject.submit!(bid)
@@ -49,7 +49,7 @@ describe Matching::FIFOEngine do
 
     it "should execute trade" do
       AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: 3.to_d)
+        .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: 3.to_d}, anything)
 
       subject.submit!(ask)
       subject.submit!(bid)
@@ -87,7 +87,7 @@ describe Matching::FIFOEngine do
       subject.cancel!(low_ask) # but it's cancelled
 
       AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, market_id: market.id, ask_id: high_ask.id, bid_id: bid.id, strike_price: high_ask.price, volume: high_ask.volume)
+        .with(:trade_executor, {market_id: market.id, ask_id: high_ask.id, bid_id: bid.id, strike_price: high_ask.price, volume: high_ask.volume}, anything)
       subject.submit!(bid)
     end
   end

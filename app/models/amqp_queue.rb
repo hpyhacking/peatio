@@ -25,10 +25,10 @@ class AMQPQueue
     end
 
     # 1-1 mapping, use default exchange
-    def enqueue(id, payload)
+    def enqueue(id, payload, attrs={})
       args = AMQPConfig.binding_queue(id)
-      setting = args[1].merge(routing_key: args[0])
-      publish(:default, payload, setting)
+      attrs.merge!(routing_key: args[0])
+      publish(:default, payload, attrs)
     end
   end
 
