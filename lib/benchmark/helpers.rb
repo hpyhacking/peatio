@@ -10,17 +10,6 @@ module Benchmark
       end
     end
 
-    def deposit
-      puts "Depositing .."
-
-      @members[:ask].each do |m|
-        m.get_account(:btc).update_attributes(balance: 100)
-      end
-      @members[:bid].each do |m|
-        m.get_account(:cny).update_attributes(balance: 1000000)
-      end
-    end
-
     def lock_funds
       @members[:ask].each do |m|
         m.get_account(:btc).update_attributes(locked: 100)
