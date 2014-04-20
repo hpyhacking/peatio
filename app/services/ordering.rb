@@ -18,7 +18,7 @@ class Ordering
   def submit
     unless check_latest_price
       @order.errors.add(:price, :range)
-      raise LatestPriceError
+      raise LatestPriceError, "invalid price"
     end
 
     ActiveRecord::Base.transaction do

@@ -6,6 +6,7 @@ class Member < ActiveRecord::Base
   has_many :withdraws
   has_many :fund_sources
   has_many :deposits
+  has_many :api_tokens
 
   has_one :two_factor
   has_one :id_document
@@ -20,10 +21,10 @@ class Member < ActiveRecord::Base
   validates :sn, presence: true
   before_validation :generate_sn
 
-  before_create :create_accounts
-  after_commit :send_activation
-
   alias_attribute :full_name, :name
+
+  after_create :touch_accounts
+  after_commit :send_activation
 
   class << self
     def from_auth(auth_hash)
@@ -75,12 +76,33 @@ class Member < ActiveRecord::Base
     "#{name || email} - #{sn}"
   end
 
+  def to_muut
+    {
+      id: sn,
+      displayname: name,
+      email: email,
+      avatar: gravatar,
+      is_admin: admin?
+    }
+  end
+
+  def gravatar
+    "//gravatar.com/avatar/" + Digest::MD5.hexdigest(email.strip.downcase) + "?d=retro"
+  end
+
   def initial?
     name? and !name.empty?
   end
 
   def get_account(currency)
-    self.accounts.with_currency(currency.to_sym).first
+    account = accounts.with_currency(currency.to_sym).first
+
+    if account.nil?
+      touch_accounts
+      account = accounts.with_currency(currency.to_sym).first
+    end
+
+    account
   end
 
   def two_factor
@@ -88,7 +110,7 @@ class Member < ActiveRecord::Base
   end
 
   def touch_accounts
-    less = Currency.codes.keys - self.accounts.map(&:currency).map(&:to_sym)
+    less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
     less.each do |code|
       self.accounts.create(currency: code, balance: 0, locked: 0)
     end
@@ -110,11 +132,5 @@ class Member < ActiveRecord::Base
     begin
       self.sn = "PEA#{ROTP::Base32.random_base32(8).upcase}TIO"
     end while Member.where(:sn => self.sn).any?
-  end
-
-  def create_accounts
-    self.accounts = Currency.codes.map do |key, code|
-      Account.new(currency: code, balance: 0, locked: 0)
-    end
   end
 end

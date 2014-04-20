@@ -21,6 +21,10 @@ FactoryGirl.define do
           fun: Account::FUNS[:plus_funds]
       end
     end
+
+    after(:build) do |x|
+      x.stubs(:validate_address).returns(true)
+    end
   end
 
   factory :bank_withdraw, class: Withdraws::Bank do

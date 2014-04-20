@@ -4,6 +4,7 @@ FactoryGirl.define do
     ask :btc
     currency :btccny
     state :wait
+    source 'Web'
     volume { '1'.to_d }
     price { '1'.to_d }
     origin_volume { volume }
@@ -14,6 +15,7 @@ FactoryGirl.define do
     ask :btc
     currency :btccny
     state :wait
+    source 'Web'
     volume { '1'.to_d }
     price { '1'.to_d }
     origin_volume { volume }

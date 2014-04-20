@@ -115,9 +115,17 @@ module ApplicationHelper
     CoinRPC[:btc].getinfo[:testnet] ? "http://testnet.btclook.com/addr/#{address}" : "https://blockchain.info/address/#{address}"
   end
 
+  def top_nav(link_text, link_path, link_icon, links = nil, controllers: [])
+    if links && links.length > 1
+      top_dropdown_nav(link_text, link_path, link_icon, links, controllers: controllers)
+    else
+      top_nav_link(link_text, link_path, link_icon, controllers: controllers)
+    end
+  end
+
   def top_nav_link(link_text, link_path, link_icon, controllers: [])
     class_name = current_page?(link_path) ? 'active' : nil
-    class_name ||= controllers.include?(controller_name) ? 'active' : nil
+    class_name ||= (controllers & controller_path.split('/')).empty? ? nil : 'active'
 
     content_tag(:li, :class => class_name) do
       link_to link_path do
@@ -126,6 +134,29 @@ module ApplicationHelper
       end
     end
   end
+
+  def top_dropdown_nav(link_text, link_path, link_icon, links, controllers: [])
+    class_name = current_page?(link_path) ? 'active' : nil
+    class_name ||= (controllers & controller_path.split('/')).empty? ? nil : 'active'
+
+    content_tag(:li, class: "dropdown #{class_name}") do
+      link_to(link_path, class: 'dropdown-toggle', 'data-toggle' => 'dropdown') do
+        concat content_tag(:i, nil, class: "fa fa-#{link_icon}")
+        concat content_tag(:span, link_text)
+        concat content_tag(:b, nil, class: 'caret')
+      end +
+      content_tag(:ul, class: 'dropdown-menu') do
+        links.collect do |link|
+          concat content_tag(:li, link_to(*link))
+        end
+      end
+    end
+  end
+
+  def market_links
+    @market_links ||= Market.all.collect{|m| [m.name, market_path(m.id)]}
+  end
+
 
   def simple_vertical_form_for(record, options={}, &block)
     result = simple_form_for(record, options, &block)
@@ -215,5 +246,18 @@ module ApplicationHelper
         end
       end
     end
+  end
+
+  def muut_api_options
+    key = ENV['MUUT_KEY']
+    secret = ENV['MUUT_SECRET']
+    ts = Time.now.to_i
+    message = Base64.strict_encode64 ({user: current_user.try(:to_muut) || {}}).to_json
+    signature = Digest::SHA1.hexdigest "#{secret} #{message} #{ts}"
+    { key: key,
+      signature: signature,
+      message: message,
+      timestamp: ts
+    }
   end
 end

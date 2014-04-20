@@ -8,3 +8,6 @@
   .col-md-7  = render partial: 'market_trades'
   .col-md-7  = render partial: 'order_book'
   .col-md-10 = render partial: 'my_orders'
+
+
+= render 'shared/muut' if muut_enabled?

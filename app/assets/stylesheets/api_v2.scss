@@ -1,0 +1,16 @@
+//= require 'bootstrap-datetimepicker'
+//= require 'swagger-ui/highlight.default'
+//= require 'swagger-ui/screen'
+//= require 'api_v2_basic'
+
+.swagger-ui-wrap {
+  h1, h2 {
+    margin: 0;
+  }
+}
+
+#documents-api_v2 {
+  footer {
+    margin-top: 30px;
+  }
+}

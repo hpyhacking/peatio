@@ -1,10 +1,9 @@
 class Proof < ActiveRecord::Base
-  extend Enumerize
-  enumerize :currency, in: Currency.codes, scope: true
+  include Currencible
 
   has_many :partial_trees
 
-  serialize :root
+  serialize :root, JSON
   validates_presence_of :root, :currency
 
   def ready!

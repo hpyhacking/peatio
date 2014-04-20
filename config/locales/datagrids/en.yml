@@ -18,7 +18,7 @@ en:
         fee: Fee
         currency_text: Currency
         aasm_state_text: State
-        full_name: Member
+        member_name: Member
     bank_deposits_grid:
       columns:
         sn: SN

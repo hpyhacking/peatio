@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140416194300) do
+ActiveRecord::Schema.define(version: 20140418082715) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -43,6 +43,17 @@ ActiveRecord::Schema.define(version: 20140416194300) do
     t.decimal  "in",         precision: 32, scale: 16
     t.decimal  "out",        precision: 32, scale: 16
   end
+
+  create_table "api_tokens", force: true do |t|
+    t.integer  "member_id",             null: false
+    t.string   "access_key", limit: 50, null: false
+    t.string   "secret_key", limit: 50, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "api_tokens", ["access_key"], name: "index_api_tokens_on_access_key", unique: true, using: :btree
+  add_index "api_tokens", ["secret_key"], name: "index_api_tokens_on_secret_key", unique: true, using: :btree
 
   create_table "authentications", force: true do |t|
     t.string   "provider"
@@ -158,6 +169,7 @@ ActiveRecord::Schema.define(version: 20140416194300) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
+    t.string   "source",                                            null: false
   end
 
   create_table "partial_trees", force: true do |t|
@@ -166,6 +178,7 @@ ActiveRecord::Schema.define(version: 20140416194300) do
     t.text     "json",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "sum"
   end
 
   create_table "payment_addresses", force: true do |t|
@@ -196,6 +209,7 @@ ActiveRecord::Schema.define(version: 20140416194300) do
     t.boolean  "ready",      default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "sum"
   end
 
   create_table "taggings", force: true do |t|

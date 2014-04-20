@@ -30,23 +30,6 @@ zh-CN:
       address_type:
         satoshi: 比特币
         bank: 银行转账
-    withdraw: 
-      address_type:
-        satoshi: 比特币 - 网络转账
-        bank: 人民币 - 银行转账
-      aasm_state:
-        submitting: 待确认
-        submitted: 待校验
-        rejected: 已驳回
-        accepted: 已提交
-        suspect: 异常
-        processing: 受理中
-        coin_ready: 准备中
-        coin_done: 完毕
-        done: 提现成功
-        almost_done: 发送中
-        canceled: 已撤销
-        failed: 提现出错
     fund_source:
       category:
         satoshi: 比特币 - 网络转账

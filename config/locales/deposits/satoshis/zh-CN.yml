@@ -6,6 +6,16 @@ zh-CN:
       intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
       latency: 10 分钟到账
       transfer: 自动
+      go: 立即充值
+
+  activerecord:
+    attributes:
+      deposits/satoshi:
+        created_at: 时间
+        txid: 交易哈希
+        amount: 充值数量
+        memo: 确认数
+        aasm_state_text: 状态
 
   deposits/satoshi:
     aasm_state:
@@ -13,6 +23,15 @@ zh-CN:
       accepted: 充值成功
       checked: 充值成功
       warning: 异常
+
+  guides:
+    private:
+      deposits:
+        satoshis:
+          panel: 比特币充值
+          intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
+          new: 
+            default-panel: 充值记录
 
   admin:
     deposits:
@@ -42,9 +61,3 @@ zh-CN:
           check-link: 您可以到 %{link} 中查询。
           step-4: 第四步
           history: 当您在您的钱包中完成发送付款的操作后,点击<a href='javascript:window.location.reload();'>刷新</a>,就能在⻚面下⽅历史纪录中查看到您当前的充值状态。
-  guides:
-    private:
-      deposits:
-        satoshis:
-          panel: 比特币充值
-          intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。

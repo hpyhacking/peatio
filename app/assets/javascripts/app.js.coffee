@@ -1,3 +1,8 @@
+@App =
+  showInfo:   (msg) -> $(document).trigger 'flash-info',   msg: msg
+  showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
+  showAlert:  (msg) -> $(document).trigger 'flash-alert',  msg: msg
+
 $ ->
   if $('#assets-index').length
     $.scrollIt
@@ -30,34 +35,34 @@ $ ->
     placement = $(@).data('placement') || 'bottom'
     $(zero.htmlBridge).tooltip({title: gon.clipboard.click, placement: placement})
 
+  AccountBalanceUI.attachTo('.account-balance')
+  PlaceOrderUI.attachTo('.place-order #bid_panel')
+  PlaceOrderUI.attachTo('.place-order #ask_panel')
+  MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
+  MyOrdersDoneUI.attachTo('.my-orders #orders_done')
+  PushButton.attachTo('.place-order')
+  PushButton.attachTo('.my-orders')
+
   # if gon.env is 'development'
   #   Pusher.log = (message) ->
   #     window.console && console.log(message)
 
-  AccountBalanceUI.attachTo('.account-balance')
-  PlaceOrderUI.attachTo('.order-enter #bid_panel')
-  PlaceOrderUI.attachTo('.order-enter #ask_panel')
-  MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
-  MyOrdersDoneUI.attachTo('.my-orders #orders_done')
-  PushButton.attachTo('.order-enter')
-  PushButton.attachTo('.my-orders')
+  pusher = new Pusher(gon.pusher_key, {encrypted: true})
+  pusher.connection.bind 'state_change', (state) ->
+    if state.current is 'unavailable'
+      $('#markets-show .pusher-unavailable').removeClass('hide')
+
+  GlobalData.attachTo(document, {pusher: pusher})
+  AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
+  OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
 
   MarketTickerUI.attachTo('.ticker')
   MarketOrdersUI.attachTo('.orders')
   MarketTradesUI.attachTo('.trades')
   MarketChartUI.attachTo('.price-chart')
 
-  pusher = new Pusher(gon.pusher_key, {encrypted: true})
-  GlobalData.attachTo(document, {pusher: pusher})
-  AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
-  OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
-
   TransactionsUI.attachTo('#transactions')
   VerifyMobileNumberUI.attachTo('#new_sms_token')
 
   FlashMessageUI.attachTo('.flash-message')
 
-@App =
-  showInfo: (msg) -> $(document).trigger 'flash-info', msg: msg
-  showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
-  showAlert: (msg) -> $(document).trigger 'flash-alert', msg: msg
