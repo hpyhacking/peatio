@@ -15,5 +15,7 @@ num.times do |i|
     config[:ARGV]     = ARGV + %w(-- trade_executor)
 
     Daemons::Rails.run config[:script], config.to_hash
+
+    break
   end
 end
