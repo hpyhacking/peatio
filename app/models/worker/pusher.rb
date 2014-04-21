@@ -2,8 +2,14 @@ module Worker
   class Pusher
 
     def process(payload, metadata, delivery_info)
-      if delivery_info[:exchange] == AMQPConfig.data[:exchange][:trade_after_strike][:name]
+      case delivery_info[:exchange]
+      when AMQPConfig.data[:exchange][:trade_after_strike][:name]
         publish_trade payload
+      when AMQPConfig.data[:exchange][:notify_member][:name]
+        member = Member.find payload['member_id']
+        event  = payload['event']
+        data   = JSON.parse payload['data']
+        notify_member member, event, data
       end
     end
 

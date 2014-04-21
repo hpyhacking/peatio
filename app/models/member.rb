@@ -66,9 +66,8 @@ class Member < ActiveRecord::Base
     authentications.build_auth(auth_hash).save
   end
 
-  # TODO: remove, replaced by Worker::Pusher.notify_member
   def trigger(event, data)
-    Pusher["private-#{self.sn}"].trigger_async(event, data)
+    AMQPQueue.publish(:notify_member, {member_id: id, event: event, data: data})
   end
 
   def to_s

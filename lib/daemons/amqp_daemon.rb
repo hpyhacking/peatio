@@ -9,7 +9,7 @@ Dir.chdir(root)
 
 require File.join(root, "config", "environment")
 
-raise "Worker name must be provided." if ARGV.size != 1
+raise "Worker name must be provided." if ARGV.size == 0
 
 Rails.logger = logger = Logger.new STDOUT
 
