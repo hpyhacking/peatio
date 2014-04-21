@@ -7,8 +7,8 @@ class Member < ActiveRecord::Base
   has_many :fund_sources
   has_many :deposits
   has_many :api_tokens
+  has_many :two_factors
 
-  has_one :two_factor
   has_one :id_document
   has_one :sms_token
 
