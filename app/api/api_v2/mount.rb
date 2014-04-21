@@ -2,6 +2,8 @@ require_relative 'errors'
 require_relative 'validations'
 
 module APIv2
+  BASE_PATH = Rails.env.production? ? 'https://bj.peatio.com' : nil
+
   class Mount < Grape::API
     prefix 'api'
     version 'v2', using: :path
@@ -28,7 +30,8 @@ module APIv2
     mount OrderBooks
     mount Trades
 
-    add_swagger_documentation mount_path: '/doc/swagger',
-      api_version: 'v2', hide_documentation_path: true
+    add_swagger_documentation base_path: BASE_PATH,
+      mount_path: '/doc/swagger', api_version: 'v2',
+      hide_documentation_path: true
   end
 end
