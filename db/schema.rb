@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140407011310) do
+ActiveRecord::Schema.define(version: 20140421061712) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -29,6 +29,10 @@ ActiveRecord::Schema.define(version: 20140407011310) do
     t.integer  "fun"
   end
 
+  add_index "account_versions", ["account_id", "reason"], name: "index_account_versions_on_account_id_and_reason", using: :btree
+  add_index "account_versions", ["member_id", "reason"], name: "index_account_versions_on_member_id_and_reason", using: :btree
+  add_index "account_versions", ["modifiable_id", "modifiable_type"], name: "index_account_versions_on_modifiable_id_and_modifiable_type", using: :btree
+
   create_table "accounts", force: true do |t|
     t.integer  "member_id"
     t.integer  "currency"
@@ -39,6 +43,9 @@ ActiveRecord::Schema.define(version: 20140407011310) do
     t.decimal  "in",         precision: 32, scale: 16
     t.decimal  "out",        precision: 32, scale: 16
   end
+
+  add_index "accounts", ["member_id", "currency"], name: "index_accounts_on_member_id_and_currency", using: :btree
+  add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
 
   create_table "api_tokens", force: true do |t|
     t.integer  "member_id",             null: false
@@ -137,14 +144,6 @@ ActiveRecord::Schema.define(version: 20140407011310) do
     t.datetime "updated_at"
   end
 
-  create_table "invitations", force: true do |t|
-    t.boolean  "is_used"
-    t.string   "token"
-    t.string   "email"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "members", force: true do |t|
     t.string   "sn"
     t.string   "name"
@@ -154,15 +153,6 @@ ActiveRecord::Schema.define(version: 20140407011310) do
     t.datetime "updated_at"
     t.integer  "state"
     t.boolean  "activated"
-  end
-
-  add_index "members", ["sn"], name: "index_members_on_sn", using: :btree
-
-  create_table "members_trades", force: true do |t|
-    t.integer  "member_id"
-    t.integer  "trade_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "orders", force: true do |t|
@@ -188,6 +178,7 @@ ActiveRecord::Schema.define(version: 20140407011310) do
     t.text     "json",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "sum"
   end
 
   create_table "payment_addresses", force: true do |t|
@@ -212,26 +203,13 @@ ActiveRecord::Schema.define(version: 20140407011310) do
     t.integer  "currency"
   end
 
-  create_table "peatio_online_deposit_orders", force: true do |t|
-    t.string   "sn"
-    t.decimal  "amount",     precision: 32, scale: 16
-    t.decimal  "fee",        precision: 32, scale: 16
-    t.integer  "member_id"
-    t.string   "channel"
-    t.integer  "state"
-    t.string   "type"
-    t.text     "details"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "done_at"
-  end
-
   create_table "proofs", force: true do |t|
     t.string   "root"
     t.integer  "currency"
     t.boolean  "ready",      default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "sum"
   end
 
   create_table "taggings", force: true do |t|
@@ -273,8 +251,6 @@ ActiveRecord::Schema.define(version: 20140407011310) do
     t.integer  "currency"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "ask_member_sn"
-    t.string   "bid_member_sn"
     t.integer  "ask_member_id"
     t.integer  "bid_member_id"
   end
