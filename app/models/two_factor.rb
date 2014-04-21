@@ -20,4 +20,12 @@ class TwoFactor < ActiveRecord::Base
     end
   end
 
+  def active!
+    update activated: true
+  end
+
+  def inactive!
+    update activated: false
+  end
+
 end

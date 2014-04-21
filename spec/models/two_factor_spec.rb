@@ -25,4 +25,18 @@ describe TwoFactor do
     end
   end
 
+  describe '#active!' do
+    subject { create :two_factor }
+    before { subject.active! }
+
+    its(:activated?) { should be_true }
+  end
+
+  describe '#inactive!' do
+    subject { create :two_factor, activated: true }
+    before { subject.inactive! }
+
+    its(:activated?) { should_not be_true }
+  end
+
 end

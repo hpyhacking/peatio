@@ -14,7 +14,7 @@ module Private
 
     def update
       if two_factor_verified?
-        @two_factor.update_attribute(:activated, true)
+        @two_factor.active!
         redirect_to settings_path, notice: t('.notice')
       else
         flash[:alert] = t('.alert')
@@ -24,7 +24,7 @@ module Private
 
     def destroy
       if two_factor_verified?
-        @two_factor.update_attribute(:activated, false)
+        @two_factor.inactive!
         redirect_to settings_path, notice: t('.notice')
       else
         flash[:alert] = t('.alert')
