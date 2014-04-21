@@ -63,17 +63,3 @@ describe Trade, "#for_notify" do
   end
 
 end
-
-describe Trade, "#notify" do
-  let(:member)    { create(:member) }
-  let(:order_ask) { create(:order_ask, member: member) }
-  let(:order_bid) { create(:order_bid, member: member) }
-
-  let!(:trade)    { create(:trade, ask: order_ask, bid: order_bid) }
-
-  it "fire member notificaitons" do
-    member.expects(:trigger).with('trade', trade.for_notify('ask')).once
-    member.expects(:trigger).with('trade', trade.for_notify('bid')).once
-    trade.notify
-  end
-end

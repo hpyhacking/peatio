@@ -1,10 +1,11 @@
-module Job
-  class Examine
-    @queue = :examine
+module Worker
+  class WithdrawAudit
 
-    def self.perform(withdraw_id)
+    def process(payload, metadata, delivery_info)
+      payload.symbolize_keys!
+
       Withdraw.transaction do
-        withdraw = Withdraw.lock.find(withdraw_id)
+        withdraw = Withdraw.lock.find payload[:id]
 
         return unless withdraw.submitted?
 
@@ -15,5 +16,6 @@ module Job
         end
       end
     end
+
   end
 end

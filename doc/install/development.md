@@ -6,6 +6,7 @@ Development [Mac and Linux]
 * Linux / Mac OSX
 * Ruby 2.1.0, using [RVM](http://rvm.io/) or [rbenv](https://github.com/sstephenson/rbenv)
 * MySQL
+* RabbitMQ
 * Redis
 * PhatomJS
 * qrencode
@@ -111,6 +112,7 @@ Insert the following lines into your bitcoin.conf, and replce with your username
     cp config/database.yml.example config/database.yml
     cp config/currencies.yml.example config/currencies.yml
     cp config/markets.yml.example config/markets.yml
+    cp config/amqp.yml.example config/amqp.yml
 
 ##### Setup reCAPTCHA/Pusher:
 
@@ -131,17 +133,24 @@ Insert the following lines into your bitcoin.conf, and replce with your username
     # Initialize the database and load the seed data
     bundle exec rake db:setup
 
-##### Run Peatio
+##### Run Daemons
 
-    # start matching engine
-    # Caution: NEVER start worker with QUEUE=* or QUEUE=matching! There must be only one matching engine running at any time
-    rake environment resque:matching
-
-    # start withdraw & examine workers.
-    rake environment resque:work QUEUE=coin,examine,mailer
-
-    # start trade, deposit and withdraw daemons
+    # start all daemons
     rake daemons:start
+
+    # or start daemon one by one
+    rake daemon:matching:start
+    ...
+
+    # Daemon trade_executor can be run concurrently, e.g. below
+    # line will start four trade executors, each with its own logfile.
+    # Default to 1.
+    TRADE_EXECUTOR=4 rake daemon:trade_executor:start
+
+    # You can do the same when you start all daemons:
+    TRADE_EXECUTOR=4 rake daemon:start
+
+##### Run Peatio
 
     # start server
     rails server

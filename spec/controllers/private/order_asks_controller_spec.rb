@@ -18,8 +18,6 @@ describe Private::OrderAsksController do
     }
   end
 
-  before { Resque.stubs(:enqueue) }
-
   context 'POST :create' do
     it "should create a sell order" do
       expect {
