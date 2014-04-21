@@ -9,13 +9,17 @@ FactoryGirl.define do
 
     trait :two_factor_activated do
       after :create do |member|
-        create :two_factor, member: member
+        member.two_factors.create \
+          type: 'TwoFactor::App',
+          activated: true
       end
     end
 
     trait :two_factor_inactivated do
       after :create do |member|
-        create :two_factor, member: member, activated: false
+        member.two_factors.create \
+          type: 'TwoFactor::App',
+          activated: false
       end
     end
 
