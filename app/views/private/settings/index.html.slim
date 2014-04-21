@@ -67,9 +67,9 @@ ul.list-group
         p.text-ignore = t('.two_factor_auth.description')
       .col-md-3
         - if @two_factor
-          = link_to t('.two_factor_auth.disable'), edit_two_factor_path, class: 'btn btn-default btn-block'
+          = link_to t('.two_factor_auth.disable'), edit_two_factor_path(:app), class: 'btn btn-default btn-block'
         - else
-          = link_to t('.two_factor_auth.enable'), new_two_factor_path, class: 'btn btn-default btn-block'
+          = link_to t('.two_factor_auth.enable'), two_factor_path(:app), class: 'btn btn-default btn-block'
 
   // change identity password
   - if current_user.identity
