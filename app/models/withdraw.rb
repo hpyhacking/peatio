@@ -21,7 +21,9 @@ class Withdraw < ActiveRecord::Base
 
   delegate :balance, to: :account, prefix: true
   delegate :key_text, to: :channel, prefix: true
+  delegate :id, to: :channel, prefix: true
   delegate :name, to: :member, prefix: true
+  delegate :coin?, to: :currency_obj
 
   before_validation :calc_fee
   before_validation :set_account
@@ -52,18 +54,6 @@ class Withdraw < ActiveRecord::Base
 
   def channel_name
     channel.key
-  end
-
-  def currency_symbol
-    case channel.currency
-    when 'btc' then 'B⃦'
-    when 'cny' then '¥'
-    else ''
-    end
-  end
-
-  def coin?
-    ['btc'].include? currency
   end
 
   def fiat?

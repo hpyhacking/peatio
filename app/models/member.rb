@@ -93,7 +93,14 @@ class Member < ActiveRecord::Base
   end
 
   def get_account(currency)
-    self.accounts.with_currency(currency.to_sym).first
+    account = accounts.with_currency(currency.to_sym).first
+
+    if account.nil?
+      touch_accounts
+      account = accounts.with_currency(currency.to_sym).first
+    end
+
+    account
   end
 
   def two_factor

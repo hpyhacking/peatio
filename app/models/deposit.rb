@@ -16,6 +16,7 @@ class Deposit < ActiveRecord::Base
   alias_attribute :sn, :id
 
   delegate :name, to: :member, prefix: true
+  delegate :id, to: :channel, prefix: true
 
   belongs_to :member
   belongs_to :account

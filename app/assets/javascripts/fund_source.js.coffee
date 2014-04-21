@@ -1,32 +1,39 @@
-$(->
-  Selectize.define 'option_destroy', ->
-    self = @
-    @onOptionSelect = ( ->
-      original = self.onOptionSelect
-      (e) ->
-        $target = $(e.target)
-        if $target.hasClass('glyphicon-trash')
-          $.ajax
-            url: "/fund_sources/#{$target.parent().data('addr-id')}"
-            type: 'DELETE'
-          .done ->
-            self.load(self.settings.load)
-            self.open()
-        else
-          original.apply(@, arguments)
-    )()
+Selectize.define 'option_destroy', ->
+  self = @
+  @onOptionSelect = ( ->
+    original = self.onOptionSelect
+    (e) ->
+      $target = $(e.target)
+      if $target.hasClass('fa-trash-o')
+        console.log $target.parent()
+        $.ajax
+          url: "/fund_sources/#{encodeURIComponent($target.parent().data('fs-uid'))}"
+          type: 'DELETE'
+        .done ->
+          self.load(self.settings.load)
+          self.open()
+      else
+        original.apply(@, arguments)
+  )()
 
-  sels = $("select[name$='[fund_extra]']").selectize()
-  $("select[name$='[fund_uid]']").selectize
+$ ->
+  $fund_extra_select = $("form select[name$='[fund_extra]']")
+  $fund_uid_select   = $("form select[name$='[fund_uid]']")
+  $channel_id_input  = $("form input[name$='[channel_id]']")
+  $fund_extra_input  = $("form input[name$='[fund_extra]']")
+
+  sels = $fund_extra_select.selectize()
+  $fe_selectize = sels[0]?.selectize
+
+  $fund_uid_select.selectize
     plugins: ['option_destroy']
-    preload: true
     persist: false
     createOnBlur: true
     valueField: 'uid'
     labelField: 'extra'
     searchField: ['uid', 'extra']
     create: (input) ->
-      extra = sels[0]?.selectize.getValue()
+      extra = $fe_selectize?.getValue()
       {
         uid: input
         extra: extra || ''
@@ -37,15 +44,15 @@ $(->
           <div><span>#{escape(item.uid)}</span></div>
           <div>
             <span>#{escape(gon.banks?[item.extra] or item.extra)}</span>
-            <a class="destroy-fund-source pull-right" href="javascript:void(0)" data-addr-id="#{item.id}">
-              <span class="glyphicon glyphicon-trash"></span>
+            <a class="destroy-fund-source pull-right" href="javascript:void(0)" data-fs-uid="#{item.uid}">
+              <i class="fa fa-trash-o"></i>
             </a>
           </div></div>"""
     load: (query, callback) ->
       [callback, query] = [query, ''] unless callback
       if(query.length < 4)
         $.ajax
-          url: "/fund_sources?channel_id=#{$("input[name$='[channel_id]']").val()}&query=#{encodeURIComponent(query)}"
+          url: "/fund_sources?channel_id=#{$channel_id_input.val()}&query=#{encodeURIComponent(query)}"
           type: 'GET'
           error: -> callback()
           success: (res) =>
@@ -55,7 +62,6 @@ $(->
     onItemAdd: (value, $item) ->
       extra = $item.text()
       $item.text(value)
-      $("form input[name$='[fund_extra]']").val(extra)
+      $fund_extra_input.val(extra)
 
-      sels[0].selectize.setValue(extra) if sels[0]
-)
+      $fe_selectize?.setValue(extra)

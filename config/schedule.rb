@@ -20,5 +20,5 @@
 # Learn more: http://github.com/javan/whenever
 
 every :day, at: '4am' do
-  rake 'rake solvency:liability_proof'
+  rake 'rake solvency:clean solvency:liability_proof'
 end

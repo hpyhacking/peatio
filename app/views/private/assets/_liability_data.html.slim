@@ -15,7 +15,7 @@
         span.title = t('.partial-tree', currency: proof.currency.upcase)
         span.currency
           == t("currency.icon.#{proof.currency}")
-          = account.balance
+          = partial_tree.sum
       pre id=partial_tree_target = partial_tree.json.to_json
       .clearfix
 
