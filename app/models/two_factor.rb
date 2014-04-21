@@ -12,7 +12,7 @@ class TwoFactor < ActiveRecord::Base
       return if not SUBCLASS.include?(type.to_s)
 
       klass = "two_factor/#{type}".camelize.constantize
-      klass.first || klass.create(type: klass.name)
+      klass.find_or_create_by(type: klass.name)
     end
 
     def activated?

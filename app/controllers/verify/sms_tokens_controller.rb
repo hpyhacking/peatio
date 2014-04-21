@@ -47,6 +47,7 @@ module Verify
       respond_to do |format|
         if @token.verify_code.present? && @token.verify?
           @token.verified!
+          current_user.two_factors.by_type(:sms).active!
 
           text = I18n.t('verify.sms_tokens.new.notice.verify_code_success')
           flash[:notice] = text
