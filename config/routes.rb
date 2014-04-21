@@ -37,10 +37,10 @@ Peatio::Application.routes.draw do
   resources :documents, :only => :show
 
   scope module: 'private' do
-    resource :id_document, :only => [:new, :create]
-    resource :two_factor, :only => [:new, :create, :edit, :destroy]
+    resource  :id_document, only: [:new, :create]
 
     resources :settings, only: [:index]
+    resources :two_factors, only: [:show, :create, :edit, :destroy]
     resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
       Deposit.descendants.each do |d|
