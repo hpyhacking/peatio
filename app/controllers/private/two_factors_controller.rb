@@ -6,6 +6,7 @@ module Private
 
     def show
       @two_factor.refresh if params[:refresh]
+      @two_factor.refresh if @two_factor.otp_secret.blank?
     end
 
     def edit

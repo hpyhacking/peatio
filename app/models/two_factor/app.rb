@@ -1,4 +1,5 @@
 class TwoFactor::App < ::TwoFactor
+
   def verify(otp = nil)
     rotp = ROTP::TOTP.new(otp_secret)
 

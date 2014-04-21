@@ -3,7 +3,7 @@ module Verify
     before_action :timeout_temp_user_in_session
 
     def new
-      two_factor = TwoFactor.find_or_create_by(member_id: temp_user.id)
+      two_factor = @temp_user.two_factors.by_type(:app)
 
       if two_factor.activated?
         @two_factor = TwoFactor.new
@@ -13,7 +13,7 @@ module Verify
     end
 
     def create
-      two_factor = temp_user.two_factor
+      two_factor = temp_user.two_factors.by_type(:app)
       two_factor.assign_attributes(two_factor_params)
 
       if two_factor.verify
