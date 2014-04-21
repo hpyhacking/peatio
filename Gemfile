@@ -67,6 +67,7 @@ gem 'grape-entity', '~> 0.4.2'
 gem 'grape-swagger', '~> 0.7.2'
 gem 'rack-attack', '~> 3.0.0'
 gem 'easy_table'
+gem 'ransack', git: 'https://github.com/activerecord-hackery/ransack.git', branch: 'rails-4'
 
 group :development, :test do
   gem 'factory_girl_rails'

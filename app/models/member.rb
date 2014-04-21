@@ -11,8 +11,8 @@ class Member < ActiveRecord::Base
   has_one :two_factor
   has_one :id_document
 
-  delegate :activated?, to: :two_factor, prefix: true
-  delegate :verified?, to: :id_document, prefix: true
+  delegate :activated?, to: :two_factor, prefix: true, allow_nil: true
+  delegate :verified?, to: :id_document, prefix: true, allow_nil: true
 
   has_many :authentications, dependent: :destroy
 

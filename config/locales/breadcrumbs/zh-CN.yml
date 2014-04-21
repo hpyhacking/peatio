@@ -8,3 +8,5 @@ zh-CN:
     admin/deposits/satoshis: 比特币充值
     admin/withdraws/banks: 银行转账提现
     admin/withdraws/satoshis: 比特币提现
+    admin/statistic: 数据统计
+    admin/statistic/members: 用户统计

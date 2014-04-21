@@ -42,17 +42,32 @@ SimpleForm.setup do |config|
     b.optional :readonly
 
     ## Inputs
-    b.use :label
+    #
+    b.use :label, wrap_with: { tag: :div, class: 'col-sm-4 text-right'}
     b.use :input, wrap_with: { tag: :div, class: 'col-sm-7'}
     b.use :error, wrap_with: { tag: :span, class: 'error text-danger col-sm-7 col-sm-offset-4' }
     b.use :hint,  wrap_with: { tag: :span, class: 'hint col-sm-7 col-sm-offset-4' }
+  end
+
+  config.wrappers :search, class: 'form-group',
+    hint_class: :field_with_hint, error_class: :field_with_errors do |b|
+    b.use :placeholder
+    b.optional :maxlength
+    b.optional :pattern
+    b.optional :min_max
+    b.optional :readonly
+
+    ## Inputs
+    b.use :label
+    b.use :input, wrap_with: { tag: :div }
+    b.use :hint,  wrap_with: { tag: :span, class: 'hint' }
   end
 
   # The default wrapper to be used by the FormBuilder.
   config.default_wrapper = :default
 
   # You can define the class to use on all labels. Default is nil.
-  config.label_class = 'col-sm-4 control-label'
+  config.label_class = 'control-label'
 
   # Define the way to render check boxes / radio buttons with labels.
   # Defaults to :nested for bootstrap config.
@@ -101,7 +116,7 @@ SimpleForm.setup do |config|
   # config.label_text = lambda { |label, required| "#{required} #{label}" }
 
   # You can define the class to use on all forms. Default is simple_form.
-  config.form_class = 'simple_form form-horizontal'
+  config.form_class = 'simple_form'
 
   # You can define which elements should obtain additional classes
   # config.generate_additional_classes_for = [:wrapper, :label, :input]

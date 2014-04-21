@@ -260,4 +260,12 @@ module ApplicationHelper
       timestamp: ts
     }
   end
+
+  def yesno(val)
+    if val
+      content_tag(:span, 'YES', class: 'label label-success')
+    else
+      content_tag(:span, 'NO', class: 'label label-danger')
+    end
+  end
 end

@@ -2,8 +2,8 @@ module Admin
   module Statistic
     class MembersController < BaseController
       def show
-        @members_grid = ::Statistic::MembersGrid.new(params[:statistic_members_grid])
-        @assets = @members_grid.assets.page(params[:page]).per(20)
+        @q = Member.order('id desc').includes(:two_factor, :id_document).search(params[:q])
+        @members = @q.result(distinct: true).page params[:page]
       end
     end
   end

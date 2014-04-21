@@ -2,63 +2,46 @@ en:
   admin:
     members:
       show:
-        member_title: Member Info
-        actions_title: Action
-        accounts_title: Account Info
-        account_versions_title: Account Version
+        member_title: 用户信息
+        actions_title: 操作
+        accounts_title: 账户信息
+        account_versions_title: 账户记录
     dashboard:
       index:
-        accounts_title: Accounts summary
-        daemons_title: Daemons summary
+        accounts_title: 账户汇总
+        daemons_title: 系统汇总
     documents:
       index:
-        new: New document
-    currency_deposits:
-      new:
-        deposit: Deposit
-        accounts_title: Account Info
-      create:
-        success: 'Alipay Charge Successful.'
-    withdraws:
-      withdraw:
-        member_title: Member accounts
-        withdraw_title: Withdraws
-      show:
-        title: Manage withdraws
-        actions_title: Available actions
-      update:
-        success: Withdraw processed
-      destroy:
-        success: Withdraw rejected
+        new: 新建文档
     statistic:
-      filter: Filter
-      summary: Summary
-      click-to-expand: Click to expand
+      filter: 筛选
+      summary: 总结
+      click-to-expand: 点击展开
       members:
         show:
-          count: Member count
+          table: 用户数据结果
       orders:
         show:
-          avg: Average order price
-          sum: Total order volume
-          sum_strike: Total successful order volume
-          count: Order count
+          avg: 挂单均价
+          sum: 挂单量
+          sum_strike: 被成交量
+          count: 挂单数
       trades:
         show:
-          count: Count
-          volume: Volume
-          amount: Amount
-          min_price: Low
-          max_price: High
-          avg_price: Average
-          amount_fee: Total fee amount
-          volume_fee: Total fee count
+          count: 成交数
+          volume: 总量成交
+          amount: 总价成交
+          min_price: 最低成交价
+          max_price: 最高成交价
+          avg_price: 平均成交价
+          amount_fee: 总价手续费
+          volume_fee: 总量手续费
       deposits:
         show:
-          count: Count
-          amount: Amount
+          count: 总数
+          amount: 金额合计
       withdraws:
         show:
-          count: Count
-          amount: Amount
-          fee: Fee
+          count: 总数
+          amount: 金额合计
+          fee: 手续费

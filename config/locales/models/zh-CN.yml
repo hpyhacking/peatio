@@ -1,4 +1,6 @@
 zh-CN:
+  attributes:
+    action: 操作
   activerecord:
     models:
       trade: 交易
@@ -84,12 +86,16 @@ zh-CN:
         state_done: 完成
         state_wait: 等待
       member:
+        id: 编号
         name: 真实姓名
         email: 邮件地址
         created_at: 注册时间
         sn: 个人识别码
         tag_list: 标签
         activated: 激活成功
+        activated?: 邮件激活
+        id_document_verified?: 实名认证
+        two_factor_activated?: 二次验证
     errors:
       models:
         order_bid:

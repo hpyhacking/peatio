@@ -1,4 +1,33 @@
-= render "admin/statistic/shared/filter", form_target: @members_grid, url: admin_statistic_members_path
-.row: .col-md-12
-  = datagrid_table @members_grid, @assets
+.row
+  .col-md-5
+    .panel.panel-primary
+      .panel-heading 
+        span = t('.search')
+      .panel-body
+        = search_form_for @q do |f|
+          = f.label :email_cont
+          = f.text_field :email_cont
+          = f.submit
+  .col-md-19
+    .panel.panel-primary
+      .panel-heading 
+        span = t('.table')
+      .panel-body
+        = table_for(@members, class: 'table table-condensed table-hover', model: Member) do |t|
+          - t.column :id, class: 'col-md-1'
+          - t.column :email, class: 'col-md-2' do |x|
+            code.text-info = x.email
+          - t.column :created_at, class: 'col-md-3'
+          - t.column :activated?, class: 'col-md-1' do |x|
+            = yesno x.activated?
+          - t.column :two_factor_activated?, class: 'col-md-1' do |x|
+            = yesno x.two_factor_activated?
+          - t.column :id_document_verified?, class: 'col-md-1' do |x|
+            = yesno x.id_document_verified?
+          - t.column :action, class: 'col-md-1' do |x|
+            = link_to t('actions.view'), url_for([:admin, x]), target: '_blank'
+      .panel-footer
+        = paginate @members
+        .pull-right
+          h5 = @members.size
 
