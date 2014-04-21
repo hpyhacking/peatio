@@ -4,7 +4,7 @@ zh-CN:
       edit:
         submit: 确认解除
         warning: 注：若您在使用过程中因安装程序丢失，导致无法继续使用两步认证，请您及时联系我们的在线客服。
-      new:
+      show:
         step-1: 第一步
         step-2: 第二步
         step-3: 第三步
@@ -17,7 +17,7 @@ zh-CN:
         ios: 苹果 iOS 系统
         android: 谷歌安卓系统
         blackbery: 黑莓系统
-      create:
+      update:
         alert: 您输入的验证器上的密码有误，请重新输入。
         notice: 两步验证已成功绑定。
       destroy:

@@ -19,4 +19,8 @@ describe 'private' do
       id: 'app'
     }
   end
+
+  describe 'put /two_factors/app' do
+    it { expect(put('/two_factors/app')).to be_routable }
+  end
 end

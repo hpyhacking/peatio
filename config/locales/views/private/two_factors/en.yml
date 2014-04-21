@@ -4,7 +4,7 @@ en:
       edit:
         submit: Disable
         warning: "Tip: If you have lost your two-factor authentication by some reason and can't login your Peatio account, please contact our online customer service."
-      new:
+      show:
         step-1: Step 1
         step-2: Step 2
         step-3: Step 3
@@ -14,10 +14,10 @@ en:
         scan-qr-code: Scan the following two-dimensional code with Google Authenticator APP，or add cipher text to the validator manually.
         enter-passcode: Fill in the dynamic password  displayed by your phone  to activate two-factor verification.
         submit: Enable
-        ios: Iphone iOS 
+        ios: Iphone iOS
         android: Android
         blackbery: Blackberry
-      create:
+      update:
         alert: Password for authentication  is incorrect, please re-enter.
         notice: Two-factor authentication has been successfully Enabled.
       destroy:

@@ -4,18 +4,18 @@ describe Private::TwoFactorsController do
   let(:member) { create :member }
   before { session[:member_id] = member.id }
 
-  describe 'GET /new' do
-    before { get :new }
+  describe 'GET /show/app' do
+    before { get :show, id: :app }
 
-    context 'not activated' do
+    context 'not activated yet' do
       it { should respond_with :ok }
-      it { should render_template(:new) }
+      it { should render_template(:show) }
       it "member should have two_factor prepared" do
-        expect(member.two_factor).not_to be_nil
+        expect(member.two_factors).not_to be_empty
       end
     end
 
-    context 'activated' do
+    context 'already activated' do
       let(:member) { create :member, :two_factor_activated }
 
       it { should redirect_to(settings_path) }
@@ -23,7 +23,7 @@ describe Private::TwoFactorsController do
   end
 
   describe 'get /edit' do
-    before { get :edit }
+    before { get :edit, id: 'app' }
 
     context 'not activated' do
       let(:member) { create :member, :two_factor_inactivated }

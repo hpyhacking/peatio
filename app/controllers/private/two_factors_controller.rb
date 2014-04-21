@@ -1,55 +1,57 @@
 module Private
   class TwoFactorsController < BaseController
-    before_filter :fetch
-    before_filter :activated!, only: [:edit, :destroy]
-    before_filter :not_activated!, only: [:new, :create]
+    before_action :fetch
+    before_action :activated!, only: [:edit, :destroy]
+    before_action :not_activated!, only: [:show, :create]
 
-    def new
-      @two_factor.refresh unless @two_factor.activated?
+    def show
+      @two_factor.refresh if params[:refresh]
     end
 
     def edit
     end
 
-    def create
-      if @two_factor.verify
+    def update
+      if two_factor_verified?
         @two_factor.update_attribute(:activated, true)
         redirect_to settings_path, notice: t('.notice')
       else
-        flash.now[:alert] = t('.alert')
-        render :new
+        flash[:alert] = t('.alert')
+        redirect_to two_factor_path(:app)
       end
     end
 
     def destroy
-      if @two_factor.verify
+      if two_factor_verified?
         @two_factor.update_attribute(:activated, false)
         redirect_to settings_path, notice: t('.notice')
       else
-        flash.now[:alert] = t('.alert')
-        render :edit
+        flash[:alert] = t('.alert')
+        render edit_two_factor_path(:app)
       end
     end
 
     private
 
     def fetch
-      @two_factor = current_user.two_factor || current_user.create_two_factor
-      if action_name == 'destroy' or action_name == 'create'
-        @two_factor.assign_attributes(two_factor_params)
-      end
+      @two_factor = current_user.two_factors.by_type(:app)
     end
 
     def two_factor_params
       params.require(:two_factor).permit(:otp)
     end
 
+    def two_factor_verified?
+      @two_factor.assign_attributes(two_factor_params)
+      @two_factor.verify
+    end
+
     def activated!
-      redirect_to settings_path unless current_user.two_factor_activated?
+      redirect_to settings_path if not @two_factor.activated?
     end
 
     def not_activated!
-      redirect_to settings_path if current_user.two_factor_activated?
+      redirect_to settings_path if @two_factor.activated?
     end
   end
 end

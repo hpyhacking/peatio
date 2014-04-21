@@ -40,7 +40,7 @@ Peatio::Application.routes.draw do
     resource  :id_document, only: [:new, :create]
 
     resources :settings, only: [:index]
-    resources :two_factors, only: [:show, :create, :edit, :destroy]
+    resources :two_factors, only: [:show, :update, :edit, :destroy]
     resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
       Deposit.descendants.each do |d|
