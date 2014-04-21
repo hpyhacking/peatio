@@ -7,6 +7,18 @@ FactoryGirl.define do
       activated true
     end
 
+    trait :two_factor_activated do
+      after :create do |member|
+        create :two_factor, member: member
+      end
+    end
+
+    trait :two_factor_inactivated do
+      after :create do |member|
+        create :two_factor, member: member, activated: false
+      end
+    end
+
     trait :verified do
       after :create do |member|
         create :id_document, member: member

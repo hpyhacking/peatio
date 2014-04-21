@@ -34,9 +34,9 @@ module Private
     private
 
     def fetch
-      @two_factor = current_user.two_factor
+      @two_factor = current_user.two_factor || current_user.create_two_factor
       if action_name == 'destroy' or action_name == 'create'
-        @two_factor.assign_attributes(two_factor_params) 
+        @two_factor.assign_attributes(two_factor_params)
       end
     end
 
@@ -45,11 +45,11 @@ module Private
     end
 
     def activated!
-      raise unless current_user.two_factor_activated?
+      redirect_to settings_path unless current_user.two_factor_activated?
     end
 
     def not_activated!
-      raise if current_user.two_factor_activated?
+      redirect_to settings_path if current_user.two_factor_activated?
     end
   end
 end
