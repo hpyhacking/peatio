@@ -2,6 +2,16 @@ require 'spec_helper'
 
 describe TwoFactor do
 
+  describe 'uniq validate' do
+    let(:member) { create :member }
+    let(:two_factor) { member.two_factors.by_type(:app) }
+
+    it "reject duplicate two_factor" do
+      duplicate = TwoFactor.new two_factor.attributes
+      expect(duplicate).not_to be_valid
+    end
+  end
+
   describe 'self.fetch_by_type' do
     it "return nil for wrong type" do
       expect(TwoFactor.by_type(:foobar)).to be_nil
@@ -17,7 +27,7 @@ describe TwoFactor do
     end
   end
 
-  describe 'self.activiated' do
+  describe '.activiated' do
     before { create :member, :two_factor_activated }
 
     it "should has activated" do

@@ -5,6 +5,8 @@ class TwoFactor < ActiveRecord::Base
 
   SUBCLASS = ['app', 'sms', 'email', 'wechat']
 
+  validates_uniqueness_of :type, scope: :member_id
+
   scope :activated, -> { where(activated: true) }
 
   class << self
