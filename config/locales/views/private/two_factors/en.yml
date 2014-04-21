@@ -1,6 +1,13 @@
 en:
   private:
     two_factors:
+      auth:
+        submit: Submit
+        otp_placeholder: 6-digit password
+        google_app: Google Authenticator
+        sms: SMS Verification Messages
+        send_code: Send Code
+        send_code_alt: Resend in COUNT seconds
       edit:
         submit: Disable
         warning: "Tip: If you have lost your two-factor authentication by some reason and can't login your Peatio account, please contact our online customer service."

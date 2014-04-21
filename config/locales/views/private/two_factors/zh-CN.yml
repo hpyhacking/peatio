@@ -1,6 +1,13 @@
 zh-CN:
   private:
     two_factors:
+      auth:
+        submit: 确认
+        otp_placeholder: 6位数字密码
+        google_app: 谷歌身份验证器
+        sms: 手机短信验证
+        send_code: 获取验证码
+        send_code_alt: COUNT秒后重新发送
       edit:
         submit: 确认解除
         warning: 注：若您在使用过程中因安装程序丢失，导致无法继续使用两步认证，请您及时联系我们的在线客服。

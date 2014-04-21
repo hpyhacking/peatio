@@ -2,7 +2,7 @@ zh-CN:
   verify:
     two_factors:
       create:
-        error: 两部验证错误
+        error: 两步验证错误
     sms_tokens:
       new:
         title: 绑定手机号码

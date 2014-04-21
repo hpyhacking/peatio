@@ -1,0 +1,14 @@
+.two-factor-auth-container
+  .col-md-11.input-group
+    .input-group-btn
+      button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
+        span.name = t('private.two_factors.auth.google_app')
+        span.caret
+      ul.dropdown-menu
+        li: a data-type="app" href="javascript:;" = t('private.two_factors.auth.google_app')
+        li: a data-type="sms" href="javascript:;" = t('private.two_factors.auth.sms')
+
+    input.string.optional.form-control name="two_factor[otp]" type="text" placeholder=t('private.two_factors.auth.otp_placeholder')
+
+    .input-group-btn.send-code-button.hide
+      button.btn.btn-primary type='submit' name="commit" value="send_code" data-orig-name=t('private.two_factors.auth.send_code') data-alt-name=t('private.two_factors.auth.send_code_alt') = t('private.two_factors.auth.send_code')
