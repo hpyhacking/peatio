@@ -12,8 +12,8 @@
 
       .col-sm-7
         .input-group style="width:100%;"
-          input.two_factor_auth_type type="hidden" name="two_factor_auth_type" value="app"
-          input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" type="text" placeholder=t('private.two_factors.auth.otp_placeholder')
+          input.two_factor_auth_type type="hidden" name="two_factor[type]" value="app"
+          input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" min="100000" max="999999" type="number" placeholder=t('private.two_factors.auth.otp_placeholder')
           .input-group-btn.send-code-button.hide
             button.btn.btn-primary type='submit' name="commit" value="send_code" data-orig-name=t('private.two_factors.auth.send_code') data-alt-name=t('private.two_factors.auth.send_code_alt') = t('private.two_factors.auth.send_code')
       span.hint.app.col-sm-7.col-sm-offset-4 = t('private.two_factors.auth.hints.app')
@@ -26,8 +26,8 @@
 
       .col-sm-7
         .input-group style="width:100%;"
-          input.two_factor_auth_type type="hidden" name="two_factor_auth_type" value="app"
-          input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" type="text" placeholder=t('private.two_factors.auth.otp_placeholder')
+          input.two_factor_auth_type type="hidden" name="two_factor[type]" value="app"
+          input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" min="100000" max="999999" type="number" placeholder=t('private.two_factors.auth.otp_placeholder')
       span.hint.app.col-sm-7.col-sm-offset-4 = t('private.two_factors.auth.hints.app')
 
     - elsif sms_activated
@@ -37,8 +37,8 @@
 
       .col-sm-7
         .input-group style="width:100%;"
-          input.two_factor_auth_type type="hidden" name="two_factor_auth_type" value="sms"
-          input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" type="text" placeholder=t('private.two_factors.auth.otp_placeholder')
+          input.two_factor_auth_type type="hidden" name="two_factor[type]" value="sms"
+          input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" min="100000" max="999999" type="number" placeholder=t('private.two_factors.auth.otp_placeholder')
 
           .input-group-btn.send-code-button
             button.btn.btn-primary type='submit' name="commit" value="send_code" data-orig-name=t('private.two_factors.auth.send_code') data-alt-name=t('private.two_factors.auth.send_code_alt') = t('private.two_factors.auth.send_code')

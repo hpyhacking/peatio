@@ -3,7 +3,7 @@ en:
     bank:
       key: Bank Transfer
       title: Bank Transfer
-      intro: Bank transfer deposits, Recommend for large recharge 
+      intro: Bank transfer deposits, Recommend for large recharge
       latency: 30 minutes
       transfer: Manual
       go: Withdraw
@@ -34,6 +34,8 @@ en:
           allin: 全部提取
           fund_uid: 使用已有银行账号或输入新账号
           fund_extra: 选择开户行
+        update:
+          alert_two_factor: Two-Factor Authentication error
 
   admin:
     withdraws:

@@ -9,7 +9,7 @@ module Verify
     end
 
     def create
-      two_factor = temp_user.two_factors.by_type(params[:two_factor_auth_type])
+      two_factor = temp_user.two_factors.by_type(params[:two_factor][:type])
       two_factor.assign_attributes(two_factor_params)
 
       if two_factor.verify

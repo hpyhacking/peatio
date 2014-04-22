@@ -71,12 +71,6 @@ module ApplicationHelper
     image_tag(data, :class => 'qrcode img-thumbnail')
   end
 
-  def otp_tag
-    text_field_tag 'two_factor[otp]', '', class: 'form-control',
-      step: 1, min: 100000, max: 999999, type: 'number',
-      placeholder: t('simple_form.placeholders.defaults.otp')
-  end
-
   def rev_category(type)
     type.to_sym == :bid ? :ask : :bid
   end
@@ -261,7 +255,7 @@ module ApplicationHelper
     }
   end
 
-  def render_two_factor_auth(user)
+  def two_factor_tag(user)
     app_activated = user.two_factors.by_type(:app).activated?
     sms_activated = user.two_factors.by_type(:sms).activated?
 

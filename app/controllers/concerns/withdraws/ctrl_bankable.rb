@@ -33,6 +33,11 @@ module Withdraws
 
     def update
       @withdraw = current_user.withdraws.find(params[:id])
+
+      if not two_factor_auth_verified?
+        redirect_to url_for(action: :edit), alert: t('.alert_two_factor') and return
+      end
+
       @withdraw.submit!
       redirect_to url_for(action: :new), notice: t('.notice')
     end
@@ -55,6 +60,14 @@ module Withdraws
       params[:withdraw][:member_id] = current_user.id
       params.require(:withdraw).permit(:member_id, :currency, :sum, :type,
                                        :fund_uid, :fund_extra, :save_fund_source)
+    end
+
+    def two_factor_auth_verified?
+      two_factor = current_user.two_factors.by_type(params[:two_factor][:type])
+      return false unless two_factor
+
+      two_factor.assign_attributes params.require(:two_factor).permit(:otp)
+      two_factor.verify
     end
   end
 end
