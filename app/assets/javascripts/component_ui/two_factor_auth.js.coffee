@@ -32,7 +32,7 @@
   @countDownSendCodeButton = ->
     origName  = @select('sendCodeButton').data('orig-name')
     altName   = @select('sendCodeButton').data('alt-name')
-    countDown = 30
+    countDown = 60
 
     @select('sendCodeButton').attr('disabled', 'disabled').addClass('disabled')
     countDownTimer = =>
