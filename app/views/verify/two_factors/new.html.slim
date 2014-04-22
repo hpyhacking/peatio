@@ -1,5 +1,5 @@
 = simple_form_for TwoFactor.new, :url => verify_two_factor_path, :method => :post do
-  = render_two_factor_auth(@temp_user)
+  = two_factor_tag(@temp_user)
 
   hr.split
 
