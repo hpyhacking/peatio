@@ -50,3 +50,27 @@ describe TwoFactor do
   end
 
 end
+
+describe TwoFactor::Sms do
+  let(:member) { create :member }
+  let(:two_factor) { create :two_factor_sms, member: member }
+  before { two_factor.refresh }
+
+  describe "#refresh" do
+    subject { two_factor }
+
+    its(:otp_secret) { should_not be_blank }
+  end
+
+  describe '#verify' do
+    it "with wrong code" do
+      two_factor.otp = 'foobar'
+      expect(two_factor.verify).not_to be_true
+    end
+
+    it "with right code" do
+      two_factor.otp = two_factor.otp_secret
+      expect(two_factor.verify).to be_true
+    end
+  end
+end
