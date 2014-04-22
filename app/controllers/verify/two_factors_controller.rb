@@ -3,15 +3,13 @@ module Verify
     before_action :timeout_temp_user_in_session
 
     def new
-      two_factor = @temp_user.two_factors.by_type(:app)
-
-      if not two_factor.activated?
+      if not @temp_user.two_factors.activated?
         auth_success and return
       end
     end
 
     def create
-      two_factor = temp_user.two_factors.by_type(:app)
+      two_factor = temp_user.two_factors.by_type(params[:two_factor_auth_type])
       two_factor.assign_attributes(two_factor_params)
 
       if two_factor.verify
