@@ -81,4 +81,11 @@ namespace :migration do
     end
   end
 
+  desc "update type of two_factors to TwoFactor::App"
+  task update_two_factors: :environment do
+    TwoFactor.find_each do |t|
+      t.update type: 'TwoFactor::App'
+    end
+  end
+
 end
