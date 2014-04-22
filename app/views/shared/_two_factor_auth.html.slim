@@ -1,14 +1,35 @@
 .two-factor-auth-container
-  .col-md-11.input-group
-    .input-group-btn
-      button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
-        span.name = t('private.two_factors.auth.google_app')
+  .form-group.string.required
+    - if app_activated && sms_activated
+      label.string.required.col-sm-4.control-label for="two_factor_otp"
+        abbr == "*&nbsp;"
+        span.dropdown-toggle href="javascript:;" data-toggle="dropdown"
+          span.switch-name = t('private.two_factors.auth.google_app')
         span.caret
-      ul.dropdown-menu
-        li: a data-type="app" href="javascript:;" = t('private.two_factors.auth.google_app')
-        li: a data-type="sms" href="javascript:;" = t('private.two_factors.auth.sms')
+        ul.dropdown-menu
+          li: a data-type="app" href="javascript:;" = t('private.two_factors.auth.google_app')
+          li: a data-type="sms" href="javascript:;" = t('private.two_factors.auth.sms')
+      .col-sm-7
+        .input-group style="width:100%;"
+          input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" type="text" placeholder=t('private.two_factors.auth.otp_placeholder')
+          .input-group-btn.send-code-button.hide
+            button.btn.btn-primary type='submit' name="commit" value="send_code" data-orig-name=t('private.two_factors.auth.send_code') data-alt-name=t('private.two_factors.auth.send_code_alt') = t('private.two_factors.auth.send_code')
 
-    input.string.optional.form-control name="two_factor[otp]" type="text" placeholder=t('private.two_factors.auth.otp_placeholder')
+    - elsif app_activated
+      label.string.required.col-sm-4.control-label for="two_factor_otp"
+        abbr == "*&nbsp;"
+        span = t('private.two_factors.auth.google_app')
+      .col-sm-7
+        .input-group style="width:100%;"
+          input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" type="text" placeholder=t('private.two_factors.auth.otp_placeholder')
 
-    .input-group-btn.send-code-button.hide
-      button.btn.btn-primary type='submit' name="commit" value="send_code" data-orig-name=t('private.two_factors.auth.send_code') data-alt-name=t('private.two_factors.auth.send_code_alt') = t('private.two_factors.auth.send_code')
+    - elsif sms_activated
+      label.string.required.col-sm-4.control-label for="two_factor_otp"
+        abbr == "*&nbsp;"
+        span = t('private.two_factors.auth.sms')
+      .col-sm-7
+        .input-group style="width:100%;"
+          input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" type="text" placeholder=t('private.two_factors.auth.otp_placeholder')
+
+          .input-group-btn.send-code-button
+            button.btn.btn-primary type='submit' name="commit" value="send_code" data-orig-name=t('private.two_factors.auth.send_code') data-alt-name=t('private.two_factors.auth.send_code_alt') = t('private.two_factors.auth.send_code')

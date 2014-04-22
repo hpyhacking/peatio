@@ -13,6 +13,8 @@
       .input-group-btn
         button#withdraw_all_btn.btn.btn-success type='button' = t('.allin')
 
+  = render_two_factor_auth(current_user)
+
   hr.split
   = f.button :wrapped, t('actions.submit'), cancel: withdraws_path
 

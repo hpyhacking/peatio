@@ -5,9 +5,7 @@ module Verify
     def new
       two_factor = @temp_user.two_factors.by_type(:app)
 
-      if two_factor.activated?
-        @two_factor = TwoFactor.new
-      else
+      if not two_factor.activated?
         auth_success and return
       end
     end

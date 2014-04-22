@@ -1,5 +1,5 @@
-= form_for @two_factor, :url => verify_two_factor_path, :method => :post do
-  = render 'shared/two_factor_auth'
+= form_for TwoFactor.new, :url => verify_two_factor_path, :method => :post do
+  = render_two_factor_auth(@temp_user)
 
   hr.split
 

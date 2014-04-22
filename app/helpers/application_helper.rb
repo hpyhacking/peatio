@@ -129,7 +129,7 @@ module ApplicationHelper
 
     content_tag(:li, :class => class_name) do
       link_to link_path do
-        content_tag(:i, :class => "fa fa-#{link_icon}") do end + 
+        content_tag(:i, :class => "fa fa-#{link_icon}") do end +
         content_tag(:span, link_text)
       end
     end
@@ -222,11 +222,11 @@ module ApplicationHelper
       title = model_or_title
       capture do
         if block_given?
-          content_tag(:dt, title.to_s) + 
+          content_tag(:dt, title.to_s) +
             content_tag(:dd, capture(&block))
         else
           value = name
-          content_tag(:dt, title.to_s) + 
+          content_tag(:dt, title.to_s) +
             content_tag(:dd, value)
         end
       end
@@ -234,14 +234,14 @@ module ApplicationHelper
       model = model_or_title
       capture do
         if block_given?
-          content_tag(:dt, model.class.human_attribute_name(name)) + 
+          content_tag(:dt, model.class.human_attribute_name(name)) +
             content_tag(:dd, capture(&block))
         else
           value ||= model.try(name)
           value = value.localtime if value.is_a? DateTime
           value = I18n.t(value) if value.is_a? TrueClass
 
-          content_tag(:dt, model.class.human_attribute_name(name)) + 
+          content_tag(:dt, model.class.human_attribute_name(name)) +
             content_tag(:dd, value)
         end
       end
@@ -259,5 +259,13 @@ module ApplicationHelper
       message: message,
       timestamp: ts
     }
+  end
+
+  def render_two_factor_auth(user)
+    app_activated = user.two_factors.by_type(:app).activated?
+    sms_activated = user.two_factors.by_type(:sms).activated?
+
+    render partial: 'shared/two_factor_auth', \
+      locals: {app_activated: app_activated, sms_activated: sms_activated}
   end
 end

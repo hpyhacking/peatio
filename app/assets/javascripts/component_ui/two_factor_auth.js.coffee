@@ -1,12 +1,12 @@
 @TwoFactorAuth = flight.component ->
   @defaultAttrs
-    buttonName: '.input-group-btn button span.name'
+    switchName: 'span.switch-name'
+    switchItem: '.dropdown-menu a'
     sendCodeButton: '.send-code-button'
-    two_factor: '.dropdown-menu a'
 
   @setActiveItem = (event) ->
     item = $(event.target)
-    @select('buttonName').text item.text()
+    @select('switchName').text item.text()
 
     type = item.data('type')
     switch type
@@ -20,4 +20,4 @@
     @select('sendCodeButton').removeClass('hide')
 
   @after 'initialize', ->
-    @on @select('two_factor'), 'click', @setActiveItem
+    @on @select('switchItem'), 'click', @setActiveItem
