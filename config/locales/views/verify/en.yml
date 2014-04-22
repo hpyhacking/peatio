@@ -1,5 +1,8 @@
 en:
   verify:
+    two_factors:
+      create:
+        error: Two factor authentication error
     sms_tokens:
       new:
         title: Verify Phone Number

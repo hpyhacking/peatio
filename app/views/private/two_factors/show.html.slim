@@ -1,4 +1,4 @@
-= simple_form_for @two_factor, :url => two_factor_path, as: :two_factor, :method => :post do |f|
+= simple_form_for @two_factor, as: :two_factor, url: two_factor_path(@two_factor) do |f|
   h4 = t('.step-1')
   p
     span = t('.download-app')
@@ -14,7 +14,7 @@
     .input-group
       = f.input_field :otp_secret, class: 'upcase', readonly: true
       span.input-group-btn
-        a.btn.btn-default href='#{edit_two_factor_path(:refresh => true)}'
+        a.btn.btn-default href='#{two_factor_path(:app, refresh: true)}'
           i.fa.fa-refresh
 
   h4 = t('.step-3')

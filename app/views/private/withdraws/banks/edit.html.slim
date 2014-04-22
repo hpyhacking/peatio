@@ -6,10 +6,7 @@
   = f.input :sum
   = f.input :fee
   = f.input :amount
-
-  - if current_user.two_factor_activated?
-    = f.input :otp do
-      = otp_tag
+  = two_factor_tag(current_user)
 
   hr.split
   - if @withdraw.may_submit?

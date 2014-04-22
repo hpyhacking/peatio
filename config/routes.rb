@@ -34,13 +34,14 @@ Peatio::Application.routes.draw do
   end
 
   get '/documents/api_v2'
-  resources :documents, :only => :show
+  resources :documents, only: [:show]
+  resources :refresh_two_factors, only: [:show]
 
   scope module: 'private' do
-    resource :id_document, :only => [:new, :create]
-    resource :two_factor, :only => [:new, :create, :edit, :destroy]
+    resource  :id_document, only: [:new, :create]
 
     resources :settings, only: [:index]
+    resources :two_factors, only: [:show, :update, :edit, :destroy]
     resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
       Deposit.descendants.each do |d|

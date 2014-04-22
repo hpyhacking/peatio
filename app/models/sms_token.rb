@@ -55,7 +55,7 @@ class SmsToken < Token
     end
   end
 
-  def verify!
+  def verified!
     member.update phone_number_verified: true
     self.update is_used: true
   end

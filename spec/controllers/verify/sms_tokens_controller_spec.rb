@@ -158,7 +158,8 @@ module Verify
           expect(token.reload.is_used).to be_true
         end
 
-        it "should redirect page" do
+        it "should create instance of TwoFactor::Sms" do
+          expect(member.two_factors.by_type(:sms)).to be_is_a(TwoFactor::Sms)
         end
       end
     end

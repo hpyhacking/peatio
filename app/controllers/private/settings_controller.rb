@@ -5,7 +5,7 @@ module Private
         flash.now[:info] = t('.activated')
       end
 
-      @two_factor = (current_user.two_factor and current_user.two_factor_activated?)
+      @two_factor = current_user.two_factors.by_type(:app).activated?
       @verified = (current_user.id_document and current_user.id_document_verified?)
     end
   end
