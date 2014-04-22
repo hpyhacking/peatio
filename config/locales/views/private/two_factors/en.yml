@@ -6,6 +6,7 @@ en:
         otp_placeholder: 6-digit password
         google_app: Google Authenticator
         sms: SMS Verification Messages
+        sms_message: "Your phone number verification code is: %{code}"
         send_code: Send Code
         send_code_alt: Resend in COUNT seconds
         hints:

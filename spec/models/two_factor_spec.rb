@@ -73,4 +73,8 @@ describe TwoFactor::Sms do
       expect(two_factor.verify).to be_true
     end
   end
+
+  describe '#sms_message' do
+    its(:sms_message) { should_not be_blank }
+  end
 end

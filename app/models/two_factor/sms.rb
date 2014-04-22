@@ -1,5 +1,5 @@
 class TwoFactor::Sms < ::TwoFactor
-  VERIFICATION_CODE_LENGTH = 6
+  OTP_LENGTH = 6
 
   def verify
     if otp == otp_secret
@@ -8,14 +8,17 @@ class TwoFactor::Sms < ::TwoFactor
       errors.add :otp, :invalid
       false
     end
-
   end
 
   def refresh
-    begin
-      self.otp_secret = VERIFICATION_CODE_LENGTH.times.map{ Random.rand(9) + 1 }.join
-    end while TwoFactor::Sms.where(member_id: member_id, otp_secret: otp_secret).any?
-
+    update otp_secret: OTP_LENGTH.times.map{ Random.rand(9) + 1 }.join
   end
 
+  def sms_message
+    I18n.t('private.two_factors.auth.sms_message', code: otp_secret)
+  end
+
+  def send_otp
+    Resque.enqueue(Job::Sms, member.phone_number, sms_message)
+  end
 end
