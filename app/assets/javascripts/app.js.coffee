@@ -50,7 +50,9 @@ $ ->
   pusher = new Pusher(gon.pusher_key, {encrypted: true})
   pusher.connection.bind 'state_change', (state) ->
     if state.current is 'unavailable'
-      $('#markets-show .pusher-unavailable').removeClass('hide')
+      setTimeout ->
+        window.location.reload()
+      , 60 * 1000
 
   GlobalData.attachTo(document, {pusher: pusher})
   AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
