@@ -90,6 +90,9 @@ zh-CN:
         sn: 个人识别码
         tag_list: 标签
         activated: 激活成功
+      sms_token:
+        phone_number: "手机号码"
+        verify_code: "验证码"
     errors:
       models:
         order_bid:

@@ -7,12 +7,14 @@ class Member < ActiveRecord::Base
   has_many :fund_sources
   has_many :deposits
   has_many :api_tokens
+  has_many :two_factors
 
-  has_one :two_factor
   has_one :id_document
+  has_one :sms_token
 
-  delegate :activated?, to: :two_factor, prefix: true
-  delegate :verified?, to: :id_document, prefix: true
+  delegate :activated?, to: :two_factors, prefix: true
+  delegate :verified?,  to: :id_document, prefix: true
+  delegate :verified?,  to: :sms_token,   prefix: true
 
   has_many :authentications, dependent: :destroy
 
@@ -101,10 +103,6 @@ class Member < ActiveRecord::Base
     end
 
     account
-  end
-
-  def two_factor
-    TwoFactor.find_by_member_id(id) || create_two_factor
   end
 
   def touch_accounts

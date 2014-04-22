@@ -67,6 +67,8 @@ gem 'grape-entity', '~> 0.4.2'
 gem 'grape-swagger', '~> 0.7.2'
 gem 'rack-attack', '~> 3.0.0'
 gem 'easy_table'
+gem 'phonelib'
+gem 'twilio-ruby', '~> 3.11'
 
 group :development, :test do
   gem 'factory_girl_rails'
