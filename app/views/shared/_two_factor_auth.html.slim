@@ -14,6 +14,8 @@
           input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" type="text" placeholder=t('private.two_factors.auth.otp_placeholder')
           .input-group-btn.send-code-button.hide
             button.btn.btn-primary type='submit' name="commit" value="send_code" data-orig-name=t('private.two_factors.auth.send_code') data-alt-name=t('private.two_factors.auth.send_code_alt') = t('private.two_factors.auth.send_code')
+      span.hint.app.col-sm-7.col-sm-offset-4 = t('private.two_factors.auth.hints.app')
+      span.hint.sms.col-sm-7.col-sm-offset-4.hide = t('private.two_factors.auth.hints.sms')
 
     - elsif app_activated
       label.string.required.col-sm-4.control-label for="two_factor_otp"
@@ -22,6 +24,7 @@
       .col-sm-7
         .input-group style="width:100%;"
           input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" type="text" placeholder=t('private.two_factors.auth.otp_placeholder')
+      span.hint.app.col-sm-7.col-sm-offset-4 = t('private.two_factors.auth.hints.app')
 
     - elsif sms_activated
       label.string.required.col-sm-4.control-label for="two_factor_otp"
@@ -33,3 +36,4 @@
 
           .input-group-btn.send-code-button
             button.btn.btn-primary type='submit' name="commit" value="send_code" data-orig-name=t('private.two_factors.auth.send_code') data-alt-name=t('private.two_factors.auth.send_code_alt') = t('private.two_factors.auth.send_code')
+      span.hint.sms.col-sm-7.col-sm-offset-4 = t('private.two_factors.auth.hints.sms')

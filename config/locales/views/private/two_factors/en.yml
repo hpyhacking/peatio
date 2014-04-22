@@ -8,6 +8,9 @@ en:
         sms: SMS Verification Messages
         send_code: Send Code
         send_code_alt: Resend in COUNT seconds
+        hints:
+          app: Google Authenticator will re-generate a new password every thirty seconds, please input timely.
+          sms: We'll send a text message to you phone with verify code.
       edit:
         submit: Disable
         warning: "Tip: If you have lost your two-factor authentication by some reason and can't login your Peatio account, please contact our online customer service."
