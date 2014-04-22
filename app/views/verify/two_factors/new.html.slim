@@ -1,9 +1,10 @@
-= form_for TwoFactor.new, :url => verify_two_factor_path, :method => :post do
+= simple_form_for TwoFactor.new, :url => verify_two_factor_path, :method => :post do
   = render_two_factor_auth(@temp_user)
 
   hr.split
 
-  .col-md-11
-    button.btn.btn-default.btn-lg.pull-right name="commit" type="submit"
-      =t('private.two_factors.auth.submit')
+  .form-group
+    .form-submit.col-md-11
+      button.btn.btn-default.btn-lg.pull-right name="commit" type="submit"
+        =t('private.two_factors.auth.submit')
 
