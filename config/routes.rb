@@ -34,7 +34,8 @@ Peatio::Application.routes.draw do
   end
 
   get '/documents/api_v2'
-  resources :documents, :only => :show
+  resources :documents, only: [:show]
+  resources :refresh_two_factors, only: [:show]
 
   scope module: 'private' do
     resource  :id_document, only: [:new, :create]
