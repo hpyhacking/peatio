@@ -260,7 +260,8 @@ module ApplicationHelper
     sms_activated = user.two_factors.by_type(:sms).activated?
 
     if !sms_activated and user.phone_number_verified?
-      sms_activated.active!
+      user.two_factors.by_type(:sms).active!
+      sms_activated = true
     end
 
     render partial: 'shared/two_factor_auth', \
