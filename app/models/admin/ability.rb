@@ -19,11 +19,7 @@ module Admin
       can :manage, ::Withdraws::Bank
       can :manage, ::Withdraws::Satoshi
 
-      can :read, ::Statistic::DepositsGrid
-      can :read, ::Statistic::WithdrawsGrid
-      can :read, ::Statistic::TradesGrid
-      can :read, ::Statistic::OrdersGrid
-      can :read, ::Statistic::MembersGrid
+      can :stat, ::Member
     end
   end
 end

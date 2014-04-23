@@ -5,6 +5,7 @@ zh-CN:
     models:
       trade: 交易
       order: 挂单
+      member: 用户
       order_bid: 买入
       order_ask: 卖出
       document: 文档
