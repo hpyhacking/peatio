@@ -44,7 +44,7 @@ class Member < ActiveRecord::Base
     end
 
     def create_from_auth(auth_hash)
-      member = create(email: auth_hash['info']['email'])
+      member = create(email: auth_hash['info']['email'], activated: false)
       member.add_auth(auth_hash)
       member
     end

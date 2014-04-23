@@ -6,7 +6,10 @@
       .panel-body
         = search_form_for @q do |f|
           = f.label :email_cont
-          = f.text_field :email_cont
+          = f.text_field :email_cont, autocomplete: :off
+          = f.label :activated_eq
+          = f.select :activated_eq, options_for_select({'YES' => true, 'NO' => false}, @q.activated_eq), include_blank: 'Oops'
+          hr.split
           = f.submit
   .col-md-19
     .panel.panel-primary
@@ -15,6 +18,7 @@
       .panel-body
         = table_for(@members, class: 'table table-condensed table-hover', model: Member) do |t|
           - t.column :id, class: 'col-md-1'
+          - t.column :name, class: 'col-md-1'
           - t.column :email, class: 'col-md-2' do |x|
             code.text-info = x.email
           - t.column :created_at, class: 'col-md-3'
