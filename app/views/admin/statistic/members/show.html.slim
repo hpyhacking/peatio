@@ -24,8 +24,6 @@
           - t.column :created_at, class: 'col-md-3'
           - t.column :activated?, class: 'col-md-1' do |x|
             = yesno x.activated?
-          - t.column :two_factor_activated?, class: 'col-md-1' do |x|
-            = yesno x.two_factor_activated?
           - t.column :id_document_verified?, class: 'col-md-1' do |x|
             = yesno x.id_document_verified?
           - t.column :action, class: 'col-md-1' do |x|
