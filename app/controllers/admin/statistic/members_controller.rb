@@ -3,7 +3,10 @@ module Admin
     class MembersController < BaseController
       def show
         @q = Member.order('id desc').includes(:two_factor, :id_document).search(params[:q])
-        @members = @q.result(distinct: true).page params[:page]
+        result = @q.result(distinct: true)
+        @result_count = result.size
+        @members_count = Member.all.size
+        @members = result.page params[:page]
       end
     end
   end

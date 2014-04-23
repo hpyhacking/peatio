@@ -2,7 +2,7 @@
   .col-md-5
     .panel.panel-primary
       .panel-heading 
-        span = t('.search')
+        span Search
       .panel-body
         = search_form_for @q do |f|
           = f.label :email_cont
@@ -11,25 +11,30 @@
           = f.select :activated_eq, options_for_select({'YES' => true, 'NO' => false}, @q.activated_eq), include_blank: 'Oops'
           hr.split
           = f.submit
+    .panel.panel-primary
+      .panel-heading 
+        span Data Stat
+      .panel-body
+        dl#stat.dl-horizontal
+          dt All Count
+          dd = @members_count
+          dt Search Count
+          dd = @result_count
   .col-md-19
     .panel.panel-primary
       .panel-heading 
-        span = t('.table')
+        span Members search result
       .panel-body
         = table_for(@members, class: 'table table-condensed table-hover', model: Member) do |t|
           - t.column :id, class: 'col-md-1'
-          - t.column :name, class: 'col-md-1'
           - t.column :email, class: 'col-md-2' do |x|
             code.text-info = x.email
           - t.column :created_at, class: 'col-md-3'
           - t.column :activated?, class: 'col-md-1' do |x|
             = yesno x.activated?
-          - t.column :id_document_verified?, class: 'col-md-1' do |x|
-            = yesno x.id_document_verified?
+          - t.column :id_document_verified?, class: 'col-md-2' do |x|
+            = x.id_document_verified? ? x.name : yesno(x.id_document_verified?)
           - t.column :action, class: 'col-md-1' do |x|
             = link_to t('actions.view'), url_for([:admin, x]), target: '_blank'
       .panel-footer
         = paginate @members
-        .pull-right
-          h5 = @members.size
-
