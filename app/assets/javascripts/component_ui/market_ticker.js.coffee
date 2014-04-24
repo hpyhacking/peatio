@@ -24,4 +24,5 @@ window.MarketTickerUI = flight.component ->
     document.title = "#{data.last} - #{gon.i18n.brand}"
 
   @after 'initialize', ->
+    @refresh 'market::ticker', gon.ticker
     @on document, 'market::ticker', @refresh
