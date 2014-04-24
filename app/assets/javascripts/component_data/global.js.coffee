@@ -12,6 +12,3 @@ window.GlobalData = flight.component ->
 
     @attr.channel.bind 'trades', (data) =>
       @trigger 'market::trades', {trades: data.trades}
-
-    # Initializing at bootstrap
-    @trigger 'market::ticker', gon.ticker
