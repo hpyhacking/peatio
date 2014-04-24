@@ -69,7 +69,11 @@ class Member < ActiveRecord::Base
   end
 
   def trigger(event, data)
-    AMQPQueue.publish(:notify_member, {member_id: id, event: event, data: data})
+    AMQPQueue.enqueue(:pusher_member, {member_id: id, event: event, data: data})
+  end
+
+  def notify(event, data)
+    ::Pusher["private-#{sn}"].trigger_async event, data
   end
 
   def to_s
