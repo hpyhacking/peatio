@@ -35,8 +35,12 @@ ARGV.each do |id|
 
   if args = AMQPConfig.binding_exchange(id)
     x = ch.send *args
-    attrs = { routing_key: AMQPConfig.routing_key(id) }
-    queue.bind x, attrs
+
+    if args.first == 'direct'
+      queue.bind x, routing_key: AMQPConfig.routing_key(id)
+    else
+      queue.bind x
+    end
   end
 
   manual_ack = AMQPConfig.data[:binding][id][:manual_ack]

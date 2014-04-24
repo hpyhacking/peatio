@@ -19,6 +19,6 @@ class TwoFactor::Sms < ::TwoFactor
   end
 
   def send_otp
-    AMQPQueue.enqueue_direct(:sms_notification, phone: member.phone_number, message: sms_message)
+    AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
   end
 end

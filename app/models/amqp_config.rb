@@ -8,9 +8,13 @@ class AMQPConfig
       data[:connect]
     end
 
+    def binding_exchange_id(id)
+      data[:binding][id][:exchange]
+    end
+
     def binding_exchange(id)
-      data[:binding][id][:exchange] &&
-        exchange(data[:binding][id][:exchange])
+      eid = binding_exchange_id(id)
+      eid && exchange(eid)
     end
 
     def binding_queue(id)
@@ -22,8 +26,7 @@ class AMQPConfig
     end
 
     def routing_key(id)
-      x = binding_exchange(id)
-      x && x.first == 'direct' ? binding_queue(id).first : nil
+      binding_queue(id).first
     end
 
     def queue(id)
@@ -37,5 +40,6 @@ class AMQPConfig
       name = data[:exchange][id][:name]
       [type, name]
     end
+
   end
 end

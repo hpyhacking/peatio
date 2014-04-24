@@ -21,21 +21,17 @@ class AMQPQueue
 
     def publish(eid, payload, attrs={})
       payload = JSON.dump payload
+      Rails.logger.debug "[AMQPQueue#publish #{eid}] #{payload} #{attrs.inspect}"
       exchange(eid).publish(payload, attrs)
     end
 
-    # 1-1 mapping, use default exchange
+    # enqueue = publish to direct exchange
     def enqueue(id, payload, attrs={})
-      args = AMQPConfig.binding_queue(id)
-      attrs.merge!(routing_key: args[0])
-      publish(:default, payload, attrs)
-    end
-
-    def enqueue_direct(id, payload, attrs={})
-      eid = AMQPConfig.data[:binding][id][:exchange]
+      eid = AMQPConfig.binding_exchange_id(id) || :default
       attrs.merge!({routing_key: AMQPConfig.routing_key(id)})
       publish(eid, payload, attrs)
     end
+
   end
 
   module Mailer
@@ -87,7 +83,7 @@ class AMQPQueue
 
         if @mailer_class.deliver?
           begin
-            AMQPQueue.enqueue_direct(:email_notification, mailer_class: @mailer_class.to_s, method: @method_name, args: @args)
+            AMQPQueue.enqueue(:email_notification, mailer_class: @mailer_class.to_s, method: @method_name, args: @args)
           rescue
             Rails.logger.error "Unable to enqueue :mailer: #{$!}, fallback to synchronous mail delivery"
             deliver!
