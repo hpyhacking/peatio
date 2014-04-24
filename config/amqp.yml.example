@@ -26,8 +26,8 @@ queue:
     name: peatio.withdraw.audit
   withdraw_coin:
     name: peatio.withdraw.coin
-  mailer:
-    name: peatio.mailer
+  email:
+    name: peatio.notification.email
     durable: true
   sms:
     name: peatio.notification.sms
@@ -48,8 +48,9 @@ binding:
     queue: withdraw_audit
   withdraw_coin:
     queue: withdraw_coin
-  mailer:
-    queue: mailer
+  email_notification:
+    queue: email
+    exchange: notification
   sms_notification:
     queue: sms
     exchange: notification
