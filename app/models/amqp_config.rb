@@ -21,6 +21,11 @@ class AMQPConfig
       ::Worker.const_get(id.to_s.camelize).new
     end
 
+    def routing_key(id)
+      binding_exchange(id).first == 'direct' ?
+        binding_queue(id).first : nil
+    end
+
     def queue(id)
       name = data[:queue][id][:name]
       settings = { durable: data[:queue][id][:durable] }

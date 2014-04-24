@@ -10,10 +10,12 @@ describe AMQPConfig do
   let(:config) do
     Hashie::Mash.new({
       connect:   { host: '127.0.0.1' },
-      exchange:  { testx: { name: 'testx', type: 'fanout' } },
+      exchange:  { testx: { name: 'testx', type: 'fanout' },
+                   testd: { name: 'testd', type: 'direct' }},
       queue:     { testq: { name: 'testq', durable: true } },
       binding:   {
         test:    { queue: 'testq', exchange: 'testx' },
+        testd:   { queue: 'testq', exchange: 'testd' },
         default: { queue: 'testq' }
       }
     })
@@ -49,6 +51,16 @@ describe AMQPConfig do
 
   it "should find binding worker" do
     AMQPConfig.binding_worker(:test).should be_instance_of(Worker::Test)
+  end
+
+  context "#routing_key" do
+    it "should return queue name for direct exchange" do
+      AMQPConfig.routing_key(:testd).should == 'testq'
+    end
+
+    it "should return nil for non direct exchange" do
+      AMQPConfig.routing_key(:test).should be_nil
+    end
   end
 
 end
