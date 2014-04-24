@@ -92,6 +92,3 @@ Peatio::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
   config.active_record.default_timezone = :local
 end
-
-Resque.logger = Logger.new Rails.root.join('log', 'resque.log')
-Resque.logger.level = Logger::INFO
