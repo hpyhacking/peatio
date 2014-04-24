@@ -152,8 +152,7 @@ class Account < ActiveRecord::Base
     json = Jbuilder.encode do |json|
       json.(self, :balance, :locked, :currency)
     end
-    self.member.trigger('account', json)
-
+    member.trigger('account', json)
   end
 
   scope :locked_sum, -> (currency) { with_currency(currency).sum(:locked) }

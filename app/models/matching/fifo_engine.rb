@@ -3,7 +3,6 @@ module Matching
 
     def initialize(market, options={})
       @market = market
-      @logger = options.delete(:logger) || Rails.logger
       @orderbook = OrderBook.new
     end
 
@@ -11,15 +10,15 @@ module Matching
       orderbook.submit(order)
       trade! while match?
     rescue
-      @logger.fatal "Failed to submit #{order}: #{$!}"
-      @logger.fatal $!.backtrace.join("\n")
+      Rails.logger.fatal "Failed to submit #{order}: #{$!}"
+      Rails.logger.fatal $!.backtrace.join("\n")
     end
 
     def cancel!(order)
       orderbook.cancel(order)
     rescue
-      @logger.fatal "Failed to cancel #{order}: #{$!}"
-      @logger.fatal $!.backtrace.join("\n")
+      Rails.logger.fatal "Failed to cancel #{order}: #{$!}"
+      Rails.logger $!.backtrace.join("\n")
     end
 
     def match?
@@ -43,8 +42,13 @@ module Matching
 
     def trade!
       ask, bid, strike_price, volume = trade
-      @logger.info "[#{@market.id}] new trade - #{ask} #{bid} strike_price: #{strike_price} volume: #{volume}"
-      Executor.new(@market, ask, bid, strike_price, volume).execute!
+      Rails.logger.info "[#{@market.id}] new trade - #{ask} #{bid} strike_price: #{strike_price} volume: #{volume}"
+
+      AMQPQueue.enqueue(
+        :trade_executor,
+        {market_id: @market.id, ask_id: ask.id, bid_id: bid.id, strike_price: strike_price, volume: volume},
+        {persistent: false}
+      )
     end
 
     private

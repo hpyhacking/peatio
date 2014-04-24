@@ -69,7 +69,6 @@ describe APIv2::Orders do
 
   describe "POST /api/v2/orders/multi" do
     before do
-      Resque.stubs(:enqueue)
       member.get_account(:btc).update_attributes(balance: 100)
       member.get_account(:cny).update_attributes(balance: 100000)
     end
@@ -114,8 +113,6 @@ describe APIv2::Orders do
   end
 
   describe "POST /api/v2/orders" do
-    before { Resque.stubs(:enqueue) }
-
     it "should create a sell order" do
       member.get_account(:btc).update_attributes(balance: 100)
 
@@ -166,8 +163,6 @@ describe APIv2::Orders do
   describe "DELETE /api/v2/order" do
     let!(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member) }
 
-    before { Resque.stubs(:enqueue) }
-
     context "succesful" do
       before do
         member.get_account(:cny).update_attributes(locked: order.price*order.volume)
@@ -204,8 +199,6 @@ describe APIv2::Orders do
   describe "DELETE /api/v2/orders" do
 
     before do
-      Resque.stubs(:enqueue)
-
       create(:order_ask, currency: 'btccny', price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
       create(:order_bid, currency: 'btccny', price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
 

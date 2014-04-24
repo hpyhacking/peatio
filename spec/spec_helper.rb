@@ -62,6 +62,7 @@ RSpec.configure do |config|
     DatabaseCleaner.start
 
     Rails.cache.clear
+    AMQPQueue.stubs(:publish)
   end
 
   config.after(:each) do
