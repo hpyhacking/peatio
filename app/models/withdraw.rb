@@ -60,8 +60,8 @@ class Withdraw < ActiveRecord::Base
     !coin?
   end
 
-  def examine
-    Resque.enqueue(Job::Examine, self.id) if submitted?
+  def audit
+    AMQPQueue.enqueue(:withdraw_audit, id: id) if submitted?
   end
 
   def position_in_queue
@@ -84,7 +84,7 @@ class Withdraw < ActiveRecord::Base
 
   aasm :whiny_transitions => false do
     state :submitting, initial: true
-    state :submitted, after_commit: :examine
+    state :submitted, after_commit: :audit
     state :canceled, after_commit: :send_email
     state :accepted
     state :suspect, after_commit: :send_email
@@ -170,7 +170,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def send_coins!
-    Resque.enqueue(Job::Coin, self.id) if coin?
+    AMQPQueue.enqueue(:withdraw_coin, id: id) if coin?
   end
 
   def last_completed_withdraw_cache_key

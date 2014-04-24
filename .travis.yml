@@ -11,6 +11,7 @@ before_script:
   - "cp ./.travis.application.yml ./config/application.yml"
   - "cp ./.travis.currencies.yml ./config/currencies.yml"
   - "cp ./.travis.markets.yml ./config/markets.yml"
+  - "cp ./config/amqp.yml.example ./config/amqp.yml"
   - "mkdir -p ./tmp/cache"
 script:
   - bundle exec rake db:schema:load
@@ -22,4 +23,4 @@ after_failure:
   - "echo $RAILS_ENV"
   - "bundle exec rake --version"
 notifications:
-  webhooks: https://peatio.slack.com/services/hooks/travis?token=Rah5xOTiG33TryAfoV0peOKz
+  slack: peatio:F2FWrCANEK3QcjHC16OO541l

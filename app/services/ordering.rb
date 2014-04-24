@@ -32,7 +32,7 @@ class Ordering
         raise ActiveRecord::Rollback
       end
 
-      Resque.enqueue(Job::Matching, 'submit', @order.to_matching_attributes)
+      AMQPQueue.enqueue(:matching, action: 'submit', order: @order.to_matching_attributes)
     end
 
     raise unless @order.errors.empty?
@@ -49,7 +49,7 @@ class Ordering
         account.unlock_funds(order.sum, reason: Account::ORDER_CANCEL, ref: order)
         order.save!
 
-        Resque.enqueue(Job::Matching, 'cancel', @order.to_matching_attributes)
+        AMQPQueue.enqueue(:matching, action: 'cancel', order: @order.to_matching_attributes)
         true
       else
         false

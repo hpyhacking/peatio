@@ -9,7 +9,8 @@ The Peatio installation consists of setting up the following components:
 4. Nginx
 5. Redis
 6. Bitcoind
-7. Peatio
+7. RabbitMQ
+8. Peatio
 
 
 ## 1. Packages / Dependencies
@@ -155,8 +156,11 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
 
     bitcoind
 
+## 7. RabbitMQ
 
-## 7. Peatio
+Please follow instructions here: https://www.rabbitmq.com/install-debian.html
+
+## 8. Peatio
 
 ##### Clone the Source
 
@@ -202,11 +206,6 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
 
     RAILS_ENV=production bundle exec rake assets:precompile
     bundle exec unicorn_rails -E production -c config/unicorn.rb -D
-
-**Resque:**
-
-    rake environment resque:matching
-    RAILS_ENV=production rake environment resque:work QUEUE=coin,examine,mailer,sms PIDFILE=/home/deploy/www/peatio/tmp/pids/resque.pid &
 
 **Liability Proof**
 

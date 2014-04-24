@@ -58,13 +58,13 @@ class Global
   def trades
     Rails.cache.fetch key('trades') do
       @trades = Trade.with_currency(currency).order(:id).reverse_order.limit(LIMIT)
-      @trades.map { |t| format_trade(t) }
+      @trades.map(&:for_global)
     end
   end
 
   def since_trades(id)
     trades ||= Trade.with_currency(currency).where("id > ?", id).order(:id).limit(LIMIT)
-    trades.map do |t| format_trade(t) end
+    trades.map(&:for_global)
   end
 
   def price
@@ -74,28 +74,18 @@ class Global
         .where("created_at > ?", 24.to_i.hours.ago).order(:id)
         .group("ROUND(UNIX_TIMESTAMP(created_at)/(5 * 60))") # group by 5 minutes
         .order('max(created_at) ASC')
-        .map {|t| format_trade(t)}
+        .map(&:for_global)
     end
-  end
-
-  def format_trade(t)
-    { :date => t.created_at.to_i,
-      :price => t.price.to_s || ZERO,
-      :amount => t.volume.to_s || ZERO,
-      :tid => t.id,
-      :type => t.trend == 'down' ? 'sell' : 'buy' }
-  end
-
-  def trigger_trade(trade)
-    trade.notify # sent member notifications
-
-    data = {:trades => [format_trade(trade)]}
-    Pusher.trigger_async(channel, "trades", data)
   end
 
   def trigger_ticker
     data = {:ticker => ticker, :asks => asks, :bids => bids}
     Pusher.trigger_async(channel, "update", data)
+  end
+
+  def trigger_trades(trades)
+    {trades: trades}
+    Pusher.trigger_async(channel, "trades", trades: trades)
   end
 
   def at

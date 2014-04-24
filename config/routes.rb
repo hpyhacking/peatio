@@ -1,4 +1,3 @@
-require 'resque/server'
 require 'market_constraint'
 require 'whitelist_constraint'
 
@@ -9,7 +8,6 @@ Peatio::Application.routes.draw do
   root 'welcome#index'
 
   if Rails.env.development?
-    mount Resque::Server.new, :at => "/jobs"
     mount MailsViewer::Engine => '/mails'
   end
 
