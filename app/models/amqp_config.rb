@@ -22,8 +22,8 @@ class AMQPConfig
     end
 
     def routing_key(id)
-      binding_exchange(id).first == 'direct' ?
-        binding_queue(id).first : nil
+      x = binding_exchange(id)
+      x && x.first == 'direct' ? binding_queue(id).first : nil
     end
 
     def queue(id)

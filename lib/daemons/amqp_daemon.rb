@@ -9,12 +9,9 @@ Dir.chdir(root)
 
 require File.join(root, "config", "environment")
 
-raise "Worker name must be provided." if ARGV.size == 0
+raise "bindings must be provided." if ARGV.size == 0
 
 Rails.logger = logger = Logger.new STDOUT
-
-worker   = "Worker::#{ARGV[0].camelize}".constantize.new
-bindings = ARGV.size > 1 ? ARGV[1..-1] : [ARGV[0]]
 
 conn = Bunny.new AMQPConfig.connect
 conn.start
@@ -32,12 +29,14 @@ end
 Signal.trap("INT",  &terminate)
 Signal.trap("TERM", &terminate)
 
-bindings.each do |id|
+ARGV.each do |id|
+  worker= AMQPConfig.binding_worker(id)
   queue = ch.queue *AMQPConfig.binding_queue(id)
 
   if args = AMQPConfig.binding_exchange(id)
     x = ch.send *args
-    queue.bind x
+    attrs = { routing_key: AMQPConfig.routing_key(id) }
+    queue.bind x, attrs
   end
 
   manual_ack = AMQPConfig.data[:binding][id][:manual_ack]

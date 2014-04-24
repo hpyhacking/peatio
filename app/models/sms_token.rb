@@ -39,7 +39,7 @@ class SmsToken < Token
   end
 
   def send_verify_code
-    Resque.enqueue(Job::Sms, member.phone_number, sms_message)
+    AMQPQueue.enqueue_direct(:sms_notification, phone: member.phone_number, message: sms_message)
   end
 
   def sms_message

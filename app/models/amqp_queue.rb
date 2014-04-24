@@ -30,6 +30,12 @@ class AMQPQueue
       attrs.merge!(routing_key: args[0])
       publish(:default, payload, attrs)
     end
+
+    def enqueue_direct(id, payload, attrs={})
+      eid = AMQPConfig.data[:binding][id][:exchange]
+      attrs.merge!({routing_key: AMQPConfig.routing_key(id)})
+      publish(eid, payload, attrs)
+    end
   end
 
   module Mailer

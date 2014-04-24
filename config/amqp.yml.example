@@ -9,6 +9,9 @@ exchange:
   notify_member:
     name: peatio.member.notify
     type: direct
+  notification:
+    name: peatio.notification
+    type: direct
 
 queue:
   matching:
@@ -25,6 +28,9 @@ queue:
     name: peatio.withdraw.coin
   mailer:
     name: peatio.mailer
+    durable: true
+  sms:
+    name: peatio.notification.sms
     durable: true
 
 binding:
@@ -44,3 +50,6 @@ binding:
     queue: withdraw_coin
   mailer:
     queue: mailer
+  sms_notification:
+    queue: sms
+    exchange: notification
