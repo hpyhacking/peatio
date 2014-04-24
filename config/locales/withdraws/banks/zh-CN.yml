@@ -62,7 +62,7 @@ zh-CN:
       banks:
         update:
           notice: 银行转账提现申请已提交，我们将尽快为您处理。
-          alert_two_factor: 两步验证错误
+          alert_two_factor: 验证码填写有误，请重新输入。
         destroy:
           notice: 银行转账提现申请已撤销，冻结金额已退回到您的账户中。
         new:
