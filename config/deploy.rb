@@ -23,6 +23,7 @@ set :shared_paths, [
   'config/application.yml',
   'config/currencies.yml',
   'config/markets.yml',
+  'config/amqp.yml',
   'tmp',
   'log'
 ]
