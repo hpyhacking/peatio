@@ -7,7 +7,7 @@ module Worker
       trade.ask.member.notify 'trade', trade.for_notify('ask')
       trade.bid.member.notify 'trade', trade.for_notify('bid')
 
-      Market.find(payload['market']).notify 'trades', {trades: [trade.for_global]}
+      Global.new(payload['market']).trigger_trades([trade.for_global])
     end
 
   end

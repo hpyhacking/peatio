@@ -86,12 +86,12 @@ describe Worker::Matching do
     # -----------------------------------------------
     # bid6    |                  | 4001/5           |
     # -----------------------------------------------
-    let(:ask1) { create(:order_ask, price: '4003', volume: '3.0', member: alice) }
-    let(:ask2) { create(:order_ask, price: '4002', volume: '3.0', member: alice) }
-    let(:bid3) { create(:order_bid, price: '4003', volume: '8.0', member: bob) }
-    let(:ask4) { create(:order_ask, price: '4002', volume: '5.0', member: alice) }
-    let(:bid5) { create(:order_bid, price: '4003', volume: '3.0', member: bob) }
-    let(:bid6) { create(:order_bid, price: '4001', volume: '5.0', member: bob) }
+    let!(:ask1) { create(:order_ask, price: '4003', volume: '3.0', member: alice) }
+    let!(:ask2) { create(:order_ask, price: '4002', volume: '3.0', member: alice) }
+    let!(:bid3) { create(:order_bid, price: '4003', volume: '8.0', member: bob) }
+    let!(:ask4) { create(:order_ask, price: '4002', volume: '5.0', member: alice) }
+    let!(:bid5) { create(:order_bid, price: '4003', volume: '3.0', member: bob) }
+    let!(:bid6) { create(:order_bid, price: '4001', volume: '5.0', member: bob) }
 
     it "should create many trades" do
       subject.process({action: 'submit', order: ask1.to_matching_attributes}, {}, {})

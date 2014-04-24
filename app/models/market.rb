@@ -34,9 +34,4 @@ class Market < ActiveYaml::Base
     id
   end
 
-  def notify(event, data)
-    channel = "market-#{id}-global"
-    ::Pusher.trigger_async(channel, event, data)
-  end
-
 end

@@ -53,14 +53,8 @@ describe AMQPConfig do
     AMQPConfig.binding_worker(:test).should be_instance_of(Worker::Test)
   end
 
-  context "#routing_key" do
-    it "should return queue name for direct exchange" do
-      AMQPConfig.routing_key(:testd).should == 'testq'
-    end
-
-    it "should return nil for non direct exchange" do
-      AMQPConfig.routing_key(:test).should be_nil
-    end
+  it "should return queue name of binding" do
+    AMQPConfig.routing_key(:testd).should == 'testq'
   end
 
 end

@@ -83,6 +83,11 @@ class Global
     Pusher.trigger_async(channel, "update", data)
   end
 
+  def trigger_trades(trades)
+    {trades: trades}
+    Pusher.trigger_async(channel, "trades", trades: trades)
+  end
+
   def at
     @at ||= DateTime.now.to_i
   end

@@ -5,9 +5,11 @@ describe AMQPQueue do
     Hashie::Mash.new({
       connect:   { host: '127.0.0.1' },
       exchange:  { testx: { name: 'testx', type: 'fanout' } },
-      queue:     { testq: { name: 'testq', durable: true } },
+      queue:     { testq: { name: 'testq', durable: true },
+                   testd: { name: 'testd'} },
       binding:   {
         test:    { queue: 'testq', exchange: 'testx' },
+        testd:   { queue: 'testd' },
         default: { queue: 'testq' }
       }
     })
@@ -37,8 +39,8 @@ describe AMQPQueue do
   end
 
   it "should publish message on default exchange" do
-    default_exchange.expects(:publish).with(JSON.dump(data: 'hello'), routing_key: 'testq')
-    AMQPQueue.enqueue(:test, data: 'hello')
+    default_exchange.expects(:publish).with(JSON.dump(data: 'hello'), routing_key: 'testd')
+    AMQPQueue.enqueue(:testd, data: 'hello')
   end
 
 end
