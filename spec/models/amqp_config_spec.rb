@@ -1,5 +1,10 @@
 require 'spec_helper'
 
+module Worker
+  class Test
+  end
+end
+
 describe AMQPConfig do
 
   let(:config) do
@@ -41,4 +46,9 @@ describe AMQPConfig do
   it "should set exchange to nil when binding use default exchange" do
     AMQPConfig.binding_exchange(:default).should be_nil
   end
+
+  it "should find binding worker" do
+    AMQPConfig.binding_worker(:test).should be_instance_of(Worker::Test)
+  end
+
 end

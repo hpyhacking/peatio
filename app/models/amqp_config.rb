@@ -17,6 +17,10 @@ class AMQPConfig
       queue data[:binding][id][:queue]
     end
 
+    def binding_worker(id)
+      ::Worker.const_get(id.to_s.camelize).new
+    end
+
     def queue(id)
       name = data[:queue][id][:name]
       settings = { durable: data[:queue][id][:durable] }
