@@ -22,4 +22,4 @@ after_failure:
   - "echo $RAILS_ENV"
   - "bundle exec rake --version"
 notifications:
-  webhooks: https://peatio.slack.com/services/hooks/travis?token=Rah5xOTiG33TryAfoV0peOKz
+  slack: peatio:F2FWrCANEK3QcjHC16OO541l
