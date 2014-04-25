@@ -1,13 +1,9 @@
 class Token < ActiveRecord::Base
   belongs_to :member
 
-  define_callbacks :confirmed
-
   before_validation :set_member_from_email
   before_validation :generate_token, :if => 'token.nil?'
   before_create :invalidate_earlier_tokens
-  after_commit :send_token
-  before_update :confirmed
 
   validates_presence_of :member, :token
   validate :check_latest_send, on: :create
@@ -28,13 +24,11 @@ class Token < ActiveRecord::Base
     with_token(token).available.any?
   end
 
-  private
-
   def confirmed
-    run_callbacks :confirmed do
-      self.is_used = true
-    end
+    self.update is_used: true
   end
+
+  private
 
   def send_token
     email = self.member.email

@@ -1,17 +1,16 @@
 class ActivationsController < ApplicationController
   include Concerns::TokenManagement
 
-  before_action :auth_member!, only: :update
   before_action :token_required!, only: :edit
 
   def new
-    raise if current_user.activated?
+    if current_user.activated?
+      redirect_to settings_path and return
+    end
 
     activation = current_user.send_activation
 
-    if activation.valid?
-      flash[:notice] = t('.notice')
-    else
+    if not activation.valid?
       flash[:alert] = activation.errors.full_messages.join
     end
 
@@ -19,12 +18,12 @@ class ActivationsController < ApplicationController
   end
 
   def edit
-    if @token.save
-      if current_user
-        redirect_to settings_path, notice: t('.notice')
-      else
-        redirect_to signin_path, notice: t('.notice')
-      end
+    @token.confirmed
+
+    if current_user
+      redirect_to settings_path, notice: t('.notice')
+    else
+      redirect_to signin_path, notice: t('.notice')
     end
   end
 end
