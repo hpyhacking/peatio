@@ -4,3 +4,4 @@ multiple: false
 backtrace: true
 monitor: false
 ontop: false
+log_output: true

@@ -7,12 +7,14 @@ class Member < ActiveRecord::Base
   has_many :fund_sources
   has_many :deposits
   has_many :api_tokens
+  has_many :two_factors
 
-  has_one :two_factor
   has_one :id_document
+  has_one :sms_token
 
-  delegate :activated?, to: :two_factor, prefix: true, allow_nil: true
-  delegate :verified?, to: :id_document, prefix: true, allow_nil: true
+  delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
+  delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
+  delegate :verified?,  to: :sms_token,   prefix: true
 
   has_many :authentications, dependent: :destroy
 
@@ -22,7 +24,6 @@ class Member < ActiveRecord::Base
   alias_attribute :full_name, :name
 
   after_create :touch_accounts
-  after_commit :send_activation
 
   class << self
     def from_auth(auth_hash)
@@ -46,6 +47,7 @@ class Member < ActiveRecord::Base
     def create_from_auth(auth_hash)
       member = create(email: auth_hash['info']['email'], activated: false)
       member.add_auth(auth_hash)
+      member.send_activation
       member
     end
   end
@@ -67,7 +69,11 @@ class Member < ActiveRecord::Base
   end
 
   def trigger(event, data)
-    Pusher["private-#{self.sn}"].trigger_async(event, data)
+    AMQPQueue.enqueue(:pusher_member, {member_id: id, event: event, data: data})
+  end
+
+  def notify(event, data)
+    ::Pusher["private-#{sn}"].trigger_async event, data
   end
 
   def to_s
@@ -102,10 +108,7 @@ class Member < ActiveRecord::Base
 
     account
   end
-
-  def two_factor
-    TwoFactor.find_by_member_id(id) || create_two_factor
-  end
+  alias :ac :get_account
 
   def touch_accounts
     less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
@@ -121,8 +124,6 @@ class Member < ActiveRecord::Base
   def send_activation
     Activation.create(member: self)
   end
-
-  alias :ac :get_account
 
   private
   def generate_sn

@@ -1,0 +1,54 @@
+connect:
+  host: 127.0.0.1
+  port: 5672
+
+exchange:
+  trade_after_strike:
+    name: peatio.trade.after_strike
+    type: fanout
+  notification:
+    name: peatio.notification
+    type: direct
+
+queue:
+  matching:
+    name: peatio.matching
+    durable: true
+  new_trade:
+    name: peatio.trade.new
+    durable: true
+  pusher_market:
+    name: peatio.pusher.market
+  pusher_member:
+    name: peatio.pusher.member
+  withdraw_audit:
+    name: peatio.withdraw.audit
+  withdraw_coin:
+    name: peatio.withdraw.coin
+  email:
+    name: peatio.notification.email
+    durable: true
+  sms:
+    name: peatio.notification.sms
+    durable: true
+
+binding:
+  matching:
+    queue: matching
+  trade_executor:
+    queue: new_trade
+  pusher_market:
+    queue: pusher_market
+    exchange: trade_after_strike
+  pusher_member:
+    queue: pusher_member
+  withdraw_audit:
+    queue: withdraw_audit
+  withdraw_coin:
+    queue: withdraw_coin
+  email_notification:
+    queue: email
+    exchange: notification
+  sms_notification:
+    queue: sms
+    exchange: notification

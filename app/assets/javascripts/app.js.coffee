@@ -36,11 +36,11 @@ $ ->
     $(zero.htmlBridge).tooltip({title: gon.clipboard.click, placement: placement})
 
   AccountBalanceUI.attachTo('.account-balance')
-  PlaceOrderUI.attachTo('.order-enter #bid_panel')
-  PlaceOrderUI.attachTo('.order-enter #ask_panel')
+  PlaceOrderUI.attachTo('.place-order #bid_panel')
+  PlaceOrderUI.attachTo('.place-order #ask_panel')
   MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
   MyOrdersDoneUI.attachTo('.my-orders #orders_done')
-  PushButton.attachTo('.order-enter')
+  PushButton.attachTo('.place-order')
   PushButton.attachTo('.my-orders')
 
   # if gon.env is 'development'
@@ -62,5 +62,7 @@ $ ->
   MarketChartUI.attachTo('.price-chart')
 
   TransactionsUI.attachTo('#transactions')
+  VerifyMobileNumberUI.attachTo('#new_sms_token')
   FlashMessageUI.attachTo('.flash-message')
+  TwoFactorAuth.attachTo('.two-factor-auth-container')
 

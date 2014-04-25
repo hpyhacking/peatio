@@ -28,7 +28,9 @@ module APIv2
     mount OrderBooks
     mount Trades
 
-    add_swagger_documentation mount_path: '/doc/swagger',
-      api_version: 'v2', hide_documentation_path: true
+    base_path = Rails.env.production? ? "#{ENV['URL_SCHEMA']}://#{ENV['URL_HOST']}" : nil
+    add_swagger_documentation base_path: base_path,
+      mount_path: '/doc/swagger', api_version: 'v2',
+      hide_documentation_path: true
   end
 end

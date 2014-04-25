@@ -1,0 +1,21 @@
+en:
+  verify:
+    two_factors:
+      create:
+        error: Two factor authentication error
+    sms_tokens:
+      new:
+        title: Verify Phone Number
+        description: Provide a phone number will make your account more secure. you can quickly reset your password and your account operations will be notified.
+        warning: it will not be able to retrieve your account's password if not set the phone number.
+        phone_number: Phone number
+        send_code: Send Code
+        send_code_alt: Resend in COUNT seconds
+        input_verify_code: Enter the 6-digit code we sent to you
+        submit: Save
+        sms_message: "Your phone number verification code is: %{code}"
+        notice:
+          send_code_success: Send verify code success
+          verify_code_success: Verify Code success.
+        alert:
+          phone_number_error: phone number error

@@ -32,6 +32,8 @@
         font-family: monospace;
       }
     }
+
+    margin-bottom: 0;
   }
 
   ul {
@@ -45,8 +47,12 @@
     margin-bottom: 15px;
   }
 
+  .row:last-of-type .panel .panel-body{
+    height: 410px;
+  }
+
   .panel {
-    margin-bottom: 10px;
+    padding-bottom: 10px;
 
     .panel-heading {
       padding-top: 5px;
@@ -59,27 +65,46 @@
     }
 
     .panel-body {
-      overflow: hidden;
+      &.my-orders {
+        .tab-content {
+          height: 365px;
+          overflow-y: auto;
+        }
+      }
 
-      .trades {
-        height: 330px;
+      &.trades {
         overflow-y: auto;
       }
 
-      .orders {
-        height: 330px;
-        overflow-y: auto;
+      &.orders {
+        tr:hover {
+          cursor: pointer;
+          font-weight: bold;
+        }
       }
 
-      .order-enter {
-        height: 360px;
+      &.place-order {
+        height: 390px;
+
+        .input-group-addon {
+          min-width: 75px;
+          text-align: right;
+        }
+
+        .current-balance label {
+          margin-right: 5px;
+
+          &.currency {
+            text-transform: uppercase;
+          }
+        }
+
+        span.label + span.label {
+          margin-left: 0;
+        }
       }
+
     }
-  }
-
-  .row:last-of-type .panel .panel-body{
-    height: 390px;
-    overflow: auto;
   }
 
   .ticker {
@@ -93,11 +118,6 @@
         }
       }
     }
-  }
-
-  #market_selector li {
-    display: inline-block;
-    margin-right: 10px;
   }
 
   .account-balance {
@@ -142,29 +162,4 @@
     }
   }
 
-  .order-enter {
-    .input-group-addon {
-      min-width: 75px;
-      text-align: right;
-    }
-
-    .current-balance label {
-      margin-right: 5px;
-
-      &.currency {
-        text-transform: uppercase;
-      }
-    }
-
-    span.label + span.label {
-      margin-left: 0;
-    }
-  }
-
-  .orders {
-    tr:hover {
-      cursor: pointer;
-      font-weight: bold;
-    }
-  }
 }

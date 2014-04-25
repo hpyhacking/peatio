@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140418082715) do
+ActiveRecord::Schema.define(version: 20140421080408) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -43,6 +43,9 @@ ActiveRecord::Schema.define(version: 20140418082715) do
     t.decimal  "in",         precision: 32, scale: 16
     t.decimal  "out",        precision: 32, scale: 16
   end
+
+  add_index "accounts", ["member_id", "currency"], name: "index_accounts_on_member_id_and_currency", using: :btree
+  add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
 
   create_table "api_tokens", force: true do |t|
     t.integer  "member_id",             null: false
@@ -150,6 +153,9 @@ ActiveRecord::Schema.define(version: 20140418082715) do
     t.datetime "updated_at"
     t.integer  "state"
     t.boolean  "activated"
+    t.integer  "country_code"
+    t.string   "phone_number"
+    t.boolean  "phone_number_verified"
   end
 
   create_table "orders", force: true do |t|
@@ -261,6 +267,7 @@ ActiveRecord::Schema.define(version: 20140418082715) do
     t.string   "otp_secret"
     t.datetime "last_verify_at"
     t.boolean  "activated"
+    t.string   "type"
   end
 
   create_table "versions", force: true do |t|

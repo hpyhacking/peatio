@@ -21,4 +21,18 @@ describe Member do
       end
     end
   end
+
+  describe 'send activation after create' do
+    let(:auth_auth) {
+      {
+        'info' => { 'email' => 'foobar@peatio.dev' }
+      }
+    }
+
+    it 'create activation' do
+      expect {
+        Member.from_auth(auth_auth)
+      }.to change(Activation, :count).by(1)
+    end
+  end
 end

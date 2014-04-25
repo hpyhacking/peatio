@@ -8,11 +8,7 @@ module APIv2
       end
 
       def apply_rules!
-        Rack::Attack.throttle('Unauthorized access', limit: 200, period: 5.minutes) do |req|
-          !req.env['api_v2.token'] && req.ip
-        end
-
-        Rack::Attack.throttle('Authorized access', limit: 800, period: 5.minutes) do |req|
+        Rack::Attack.throttle('Authorized access', limit: 600, period: 5.minutes) do |req|
           req.env['api_v2.token'] && req.env['api_v2.token'].access_key
         end
       end

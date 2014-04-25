@@ -6,26 +6,33 @@ en:
 
       index:
         safety_instruction: In order to protect your bitcoins and personal information, we strongly suggest that you use  Two-factor Authentication
-        reset_password: Rest your Password 
+        reset_password: Rest your Password
 
-        reauthenticate: Authentication 
+        reauthenticate: Authentication
         activated:  An  email has been sent to your mailbox, please check it  for verification as soon as possible. If you do not received it , please click "send it again" button
         auth-activated: Please confirm your email address first.
         auth-verified: Please verify your id first.
-        
+
         email:
-          title: E-mail verification 
+          title: E-mail verification
           description: Your e-mail has not been verified, click the "Send Mail" button to complete the verification
-          description-activated: Your email adress has been verified successfully, remember and protect this e-mail address, it is the single certificate for your  account 
-          
-          resend: Send it again 
-          activated: Verified 
+          description-activated: Your email adress has been verified successfully, remember and protect this e-mail address, it is the single certificate for your  account
+
+          resend: Send it again
+          activated: Verified
+          go: Set
+
+        phone_number:
+          title: Phone Number
+          description: Provide a phone number will make your account more secure. you can quickly reset your password and your account operations will be notified.
+          go: Set
+          verified: Verified
 
         two_factor_auth:
-          title: 2-Step Verification
-          description: With 2-Step Verification, you’ll protect your account with both your password and your phone 
-          enable: Enable  
-          disable: Disable  
+          title: Two-Step authentication
+          description: Two-Step authentication provides another layer of security to your account.
+          enable: Enable
+          disable: Disable
 
         verification:
           title: Verification
@@ -34,15 +41,15 @@ en:
           verified: Verified
 
         asset_passwords:
-          title: Asset password 
+          title: Asset password
           description: The Asset password will be  needed when you withdrawal your money. It is strongly recommended that you do not use the same password as login password !
-          
-          go: Set 
-        
+
+          go: Set
+
         passwords:
-          title: Password 
-          description: This  passwords is required for login , please keep it in mind. 
-          go: Change Password 
+          title: Password
+          description: This  passwords is required for login , please keep it in mind.
+          go: Change Password
 
     otps:
       new:

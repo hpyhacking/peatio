@@ -42,10 +42,15 @@ If you run bitcoind at local, the necessary hard drive space largely depends on 
 
 ## Development Dependencies
 
+* [RabbitMQ](https://www.rabbitmq.com/) is Peatio's backbone, it's the message broker doing all the message exchanges between daemons.
 * Peatio use [Phantomjs](http://phantomjs.org/) to test JavaScript.
 * Peatio use [qrencode](http://fukuchi.org/works/qrencode/index.html.en) to generate QR Code.
 
 #### For Mac
+
+**Install RabbitMQ**
+
+You can find instructions here: https://www.rabbitmq.com/download.html
 
 **Install PhantomJS**
 
@@ -61,6 +66,10 @@ If you run bitcoind at local, the necessary hard drive space largely depends on 
 
 
 #### For Ubuntu
+
+**Install RabbitMQ**
+
+You can find instructions here: https://www.rabbitmq.com/download.html
 
 **Install PhantomJS**
 

@@ -19,9 +19,15 @@ zh-CN:
           resend: 再次发送
           activated: 已绑定
 
+        phone_number:
+          title: 手机绑定
+          description: 绑定手机号码，让你在貔貅交易所的资金更安全，您可以即时收到在网站操作的动态提醒并及时监控账号安全。
+          go: 设置
+          verified: 已验证
+
         two_factor_auth:
           title: 两步验证
-          description: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户，在此我们使用谷歌身份验证器。
+          description: 两步验证为您的帐户额外添加了一层保护。
           enable: 设置
           disable: 解除
 
@@ -35,7 +41,7 @@ zh-CN:
           title: 资金密码
           description: 在您提现时，需要资金密码进行验证，强烈建议您不要使用和登录密码同样的密码！
           go: 设置
-        
+
         passwords:
           title: 登录密码
           description: 此密码仅限作网站登录使用，请您牢记。

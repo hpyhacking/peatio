@@ -10,6 +10,16 @@
 }
 
 #documents-api_v2 {
+  table.result {
+    th:nth-child(1) { width: 80px; }
+    th:nth-child(3) { width: 300px; }
+
+    p {
+      margin: 0px;
+      padding: 0px;
+    }
+  }
+
   footer {
     margin-top: 30px;
   }
