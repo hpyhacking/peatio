@@ -8,9 +8,7 @@ class ActivationsController < ApplicationController
 
     activation = current_user.send_activation
 
-    if activation.valid?
-      flash[:notice] = t('.notice')
-    else
+    if not activation.valid?
       flash[:alert] = activation.errors.full_messages.join
     end
 
