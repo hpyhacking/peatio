@@ -1,5 +1,7 @@
 @VerifyMobileNumberUI = flight.component ->
 
+  @countDown = 0
+
   @defaultAttrs
     phoneNumberInput: '#sms_token_phone_number'
     verifyCodeInput: '#sms_token_verify_code'
@@ -19,14 +21,14 @@
   @countDownSendCodeButton = ->
     origName  = @select('sendCodeButton').data('orig-name')
     altName   = @select('sendCodeButton').data('alt-name')
-    countDown = 30
+    @countDown = 30
 
     @select('sendCodeButton').attr('disabled', 'disabled').addClass('disabled')
     countDownTimer = =>
       setTimeout =>
-        if countDown isnt 0
-          countDown--
-          @select('sendCodeButton').text(altName.replace('COUNT', countDown))
+        if @countDown isnt 0
+          @countDown--
+          @select('sendCodeButton').text(altName.replace('COUNT', @countDown))
           countDownTimer()
         else
           @select('sendCodeButton').removeAttr('disabled').removeClass('disabled').text(origName)
@@ -50,6 +52,7 @@
 
   @handleError = (event, jqXHR, status, error) ->
     data = JSON.parse(jqXHR.responseText)
+    @countDown = 0
     App.showAlert data.text
 
   @after 'initialize', ->
