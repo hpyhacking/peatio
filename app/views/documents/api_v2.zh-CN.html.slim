@@ -46,11 +46,11 @@
         td 使用你的secret key生成的签名
 
     p 签名的生成很简单，先把请求表示为一个字符串, 然后对这个字符串做hash:
-    pre
+    pre: code
       | hash = HMAC-SHA256(payload, secret_key).to_hex
 
     p Payload就是代表这个请求的字符串, 通过组合HTTP方法, 请求地址和请求参数得到:
-    pre
+    pre: code
       | # canonical_verb是HTTP方法，例如GET
         # canonical_uri是请求地址， 例如/api/v2/markets
         # canonical_query是请求参数通过&连接而成的字符串，参数包括access_key和tonce, 参数必须按照字母序排列，例如access_key=xxx&foo=bar&tonce=123456789
@@ -61,13 +61,100 @@
         end
 
     p 假设我的secret key是"yyy", 那么使用SHA256算法对上面例子中的payload计算HMAC的结果是(以hex表示)：
-    pre
+    pre: code
       | hash = HMAC-SHA256('GET|/api/v2/markets|access_key=xxx&foo=bar&tonce=123456789', 'yyy').to_hex
              = 'e324059be4491ed8e528aa7b8735af1e96547fbec96db962d51feb7bf1b64dee'
 
     p 现在我们就可以这样来使用这个签名请求(以curl为例):
-    pre
+    pre: code
       | curl -X GET 'https://peatio.com/api/v2/markets?access_key=xxx&foo=bar&tonce=123456789&signature=e324059be4491ed8e528aa7b8735af1e96547fbec96db962d51feb7bf1b64dee'
+
+.panel.panel-default
+  .panel-heading
+    h3 返回结果
+
+  .panel-body
+    p 如果API调用失败，返回的请求会使用对应的HTTP status code, 同时返回包含了详细错误信息的JSON数据, 比如:
+    pre: code
+      | {"error":{"code":1001,"message":"market does not have a valid value"}}
+    p 所有错误都遵循上面例子的格式，只是code和message不同。code是貔貅自定义的一个错误代码, 表明此错误的类别, message是具体的出错信息.
+
+  .panel-body
+    p 对于成功的API请求, 貔貅则会返回200作为HTTP status code, 同时返回请求的JSON数据.
+    table.table.result
+      thead
+        tr
+          th 数据类型
+          th 数据结构/示例
+          th 备注
+      tbody
+        tr
+          td Market
+          td: pre: code
+            | {"at":1398410899, "ticker":{"buy":"3000.0","sell":"3100.0","low":"3000.0","high":"3000.0","last":"3000.0","vol":"0.11"}}
+          td
+            p Market包含了某一个市场(例如btccny)的所有信息:
+            p at: 以秒为单位的时间戳
+            p buy/sell: 当前买入/卖出价
+            p low/high: 过去24小时之内的最低/最高成交价
+            p last: 最后成交价
+            p vol: 过去24小时之内的总成交量
+        tr
+          td Member
+          td: pre: code
+            | {"sn":"PEA5TFFOGQHTIO","name":"foo","email":"foo@peatio.dev","activated":true,"accounts":[{"currency":"cny","balance":"100243840.0","locked":"0.0"},{"currency":"btc","balance":"99999708.26","locked":"210.8"}]}
+          td
+            p Member包含了某一个用户的所有信息:
+            p sn: 用户的唯一编号
+            p name: 用户名字
+            p email: 用户email
+            p activated: 用户是否已激活
+            p accounts: 用户的所有账户信息, 参见Account
+        tr
+          td Account
+          td: pre: code
+            | {"currency":"cny","balance":"100243840.0","locked":"0.0"}
+          td
+            p Account包含了用户某一个币种账户的信息:
+            p currency: 账户的币种, 如cny, btc
+            p balance: 账户余额, 不包括冻结资金
+            p locked: 冻结资金
+        tr
+          td Order
+          td: pre: code
+            | {"id":7,"side":"sell","price":"3100.0","state":"wait","market":"btccny","created_at":"2014-04-18T02:02:33Z","volume":"100.0","remaining_volume":"89.8","executed_volume":"10.2","trades":[{"id":2,"price":"3100.0","volume":"10.2","market":"btccny","created_at":"2014-04-18T02:04:49Z","side":"sell"}]}
+          td
+            p Order包含了某一个订单的所有信息:
+            p id: 唯一的Order ID
+            p side: Buy/Sell, 代表买单/卖单.
+            p price: 出价
+            p state: 订单的当前状态, wait, done或者cancel.  wait表明订单正在市场上挂单, 是一个active order, 此时订单可能部分成交或者尚未成交; done代表订单已经完全成交; cancel代表订单已经被撤销.
+            p market: 订单参与的交易市场
+            p created_at: 下单时间, ISO8601格式
+            p volume: 购买/卖出数量
+            p remaining_volume: 还未成交的数量. remaining_volume总是小于等于volume, 在订单完全成交时变成0.
+            p executed_volume: 已成交的数量. volume = remaining_volume + executed_volume
+            p trades: 订单的成交记录,参见Trade. 注意: 只有某些返回详细订单数据的API才会包含trades数据.
+        tr
+          td Trade
+          td: pre: code
+            | {"id":2,"price":"3100.0","volume":"10.2","market":"btccny","created_at":"2014-04-18T02:04:49Z","side":"sell"}
+          td
+            p Trade代表订单撮合后形成的一笔交易:
+            p id: 交易的唯一ID
+            p price: 成交价
+            p volume: 成交数量
+            p market: 交易所属的市场
+            p created_at: 成交时间
+            p side: buy/sell, 买或者卖
+        tr
+          td OrderBook
+          td: pre: code
+            | {"asks": [...],"bids": [...]}
+          td
+            p OrderBook包含了当前市场的挂单信息:
+            p asks: 卖单列表
+            p bids: 买单列表
 
 .panel.panel-default
   .panel-heading
