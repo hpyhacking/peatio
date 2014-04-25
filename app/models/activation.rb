@@ -1,8 +1,9 @@
 class Activation < Token
-  set_callback :confirmed, :after, :active_member
 
-  private
-  def active_member
+  after_create :send_token
+
+  def confirmed
+    super
     member.active
   end
 end

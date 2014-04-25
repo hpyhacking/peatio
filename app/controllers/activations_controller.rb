@@ -4,7 +4,9 @@ class ActivationsController < ApplicationController
   before_action :token_required!, only: :edit
 
   def new
-    raise if current_user.activated?
+    if current_user.activated?
+      redirect_to settings_path and return
+    end
 
     activation = current_user.send_activation
 
@@ -16,12 +18,12 @@ class ActivationsController < ApplicationController
   end
 
   def edit
-    if @token.save
-      if current_user
-        redirect_to settings_path, notice: t('.notice')
-      else
-        redirect_to signin_path, notice: t('.notice')
-      end
+    @token.confirmed
+
+    if current_user
+      redirect_to settings_path, notice: t('.notice')
+    else
+      redirect_to signin_path, notice: t('.notice')
     end
   end
 end
