@@ -7,6 +7,8 @@ module Admin
         @result_count = result.size
         @members_count = Member.all.size
         @members = result.page params[:page]
+
+        @register_group = result.where('created_at > ?', 30.days.ago).select('date(created_at) as date, count(id) as total, sum(activated IS TRUE) as total_activated').group('date(created_at)')
       end
     end
   end

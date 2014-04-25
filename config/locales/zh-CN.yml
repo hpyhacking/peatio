@@ -30,10 +30,12 @@ zh-CN:
 
   date:
     formats:
+      date-short: '%m-%d'
       short: '%m-%d %H:%M'
       default: '%Y-%m-%d %H:%M'
   time:
     formats:
+      date-short: '%m-%d'
       short: '%m-%d %H:%M'
       default: '%Y-%m-%d %H:%M'
 
