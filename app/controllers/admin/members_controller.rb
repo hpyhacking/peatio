@@ -2,12 +2,7 @@ module Admin
   class MembersController < BaseController
     load_and_authorize_resource
     def show
-      @accounts = @member.accounts
-
-      @account_versions_grid = AccountVersionsGrid.new(params[:account_versions_grid]) do |scope|
-        scope.where(:member_id => @member.id)
-      end
-      @assets = @account_versions_grid.assets.page(params[:page]).per(20)
+      @account_versions = AccountVersion.where(account_id: current_user.account_ids).order("id DESC").page params[:page]
     end
 
     def update

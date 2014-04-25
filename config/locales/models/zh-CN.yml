@@ -1,6 +1,7 @@
 zh-CN:
   attributes:
     action: 操作
+    currency_text: 币种
   activerecord:
     models:
       trade: 交易
@@ -11,6 +12,8 @@ zh-CN:
       document: 文档
       payment_transaction: 充值
       id_document: 实名认证
+      withdraw: 提现
+      deposit: 充值
       statistic/orders_grid: 指令统计
       statistic/trades_grid: 交易统计
       statistic/members_grid: 用户统计
@@ -41,7 +44,7 @@ zh-CN:
       account:
         currency: 币种
         currency_text: 币种
-        balance_and_locked: 余额/冻结
+        balance_and_locked: 余额 / 冻结
         balance: 余额
         locked: 冻结
         amount: 总额
@@ -51,9 +54,13 @@ zh-CN:
         amount: 金额
         balance: 余额
         reason: 原因
+        reason_text: 原因
         modifiable_id: 相关编号
-        modifiable_type: 相关数据
+        modifiable_type: 关联
         created_at : 创建日期
+        in: 收入
+        out: 支出
+        fee: 手续费
       reset_password:
         email: 邮箱地址
       trade:
