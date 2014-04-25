@@ -24,7 +24,6 @@ class Member < ActiveRecord::Base
   alias_attribute :full_name, :name
 
   after_create :touch_accounts
-  after_commit :send_activation
 
   class << self
     def from_auth(auth_hash)
@@ -48,6 +47,7 @@ class Member < ActiveRecord::Base
     def create_from_auth(auth_hash)
       member = create(email: auth_hash['info']['email'])
       member.add_auth(auth_hash)
+      member.send_activation
       member
     end
   end
@@ -108,6 +108,7 @@ class Member < ActiveRecord::Base
 
     account
   end
+  alias :ac :get_account
 
   def touch_accounts
     less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
@@ -123,8 +124,6 @@ class Member < ActiveRecord::Base
   def send_activation
     Activation.create(member: self)
   end
-
-  alias :ac :get_account
 
   private
   def generate_sn
