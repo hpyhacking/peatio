@@ -55,7 +55,7 @@ module APIv2
     params do
       use :auth, :order_id
     end
-    delete "/order" do
+    post "/order/delete" do
       order = current_user.orders.find(params[:id])
 
       begin
@@ -70,7 +70,7 @@ module APIv2
     params do
       use :auth
     end
-    delete "/orders" do
+    post "/orders/clear" do
       orders = current_user.orders
 
       begin

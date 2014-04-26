@@ -160,7 +160,7 @@ describe APIv2::Orders do
     end
   end
 
-  describe "DELETE /api/v2/order" do
+  describe "POST /api/v2/order/delete" do
     let!(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member) }
 
     context "succesful" do
@@ -170,7 +170,7 @@ describe APIv2::Orders do
 
       it "should cancel specified order" do
         expect {
-          signed_delete "/api/v2/order", params: {id: order.id}, token: token
+          signed_post "/api/v2/order/delete", params: {id: order.id}, token: token
           response.should be_success
           JSON.parse(response.body)['id'].should == order.id
           order.reload.state.should == Order::CANCEL
@@ -178,7 +178,7 @@ describe APIv2::Orders do
       end
 
       it "should include executed and remaining amount in result" do
-        signed_delete "/api/v2/order", params: {id: order.id}, token: token
+        signed_post "/api/v2/order/delete", params: {id: order.id}, token: token
         result = JSON.parse(response.body)
         result['volume'].should == '12.13'
         result['remaining_volume'].should == '3.14'
@@ -188,7 +188,7 @@ describe APIv2::Orders do
 
     context "failed" do
       it "should return error" do
-        signed_delete "/api/v2/order", params: {id: order.id}, token: token
+        signed_post "/api/v2/order/delete", params: {id: order.id}, token: token
         response.code.should == '400'
         response.body.should == '{"error":{"code":2003,"message":"Failed to cancel order. Reason: cannot unlock funds (amount: 38.6848)"}}'
       end
@@ -196,7 +196,7 @@ describe APIv2::Orders do
 
   end
 
-  describe "DELETE /api/v2/orders" do
+  describe "POST /api/v2/orders/clear" do
 
     before do
       create(:order_ask, currency: 'btccny', price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
@@ -208,7 +208,7 @@ describe APIv2::Orders do
 
     it "should cancel all my orders" do
       expect {
-        signed_delete "/api/v2/orders", token: token
+        signed_post "/api/v2/orders/clear", token: token
         response.should be_success
 
         result = JSON.parse(response.body)
