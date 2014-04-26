@@ -1,7 +1,7 @@
 .panel.panel-info
   .panel-heading
-    span = t('.member_info')
-    = link_to t('actions.view'), url_for([:admin, member]), class: 'pull-right', target: '_blank'
+    span Member Info
+    = link_to 'View', url_for([:admin, member]), class: 'pull-right', target: '_blank'
   .panel-body
     = description_for :member do
       = item_for member, :name
@@ -9,7 +9,7 @@
       = item_for member, :activated
       = item_for member, :created_at
   = table_for(member.accounts, class: 'table table-condensed table-hover', model: Account) do |t|
-    - t.column :currency_text
-    - t.column :balance_and_locked do |x|
+    - t.column :currency_text, class: 'col-md-8'
+    - t.column :balance_and_locked, class: 'col-md-10' do |x|
       span #{x.balance} / #{x.locked}
-    - t.column :amount
+    - t.column :amount, class: 'col-md-6'

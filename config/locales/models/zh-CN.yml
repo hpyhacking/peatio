@@ -1,13 +1,19 @@
 zh-CN:
+  attributes:
+    action: 操作
+    currency_text: 币种
   activerecord:
     models:
       trade: 交易
       order: 挂单
+      member: 用户
       order_bid: 买入
       order_ask: 卖出
       document: 文档
       payment_transaction: 充值
       id_document: 实名认证
+      withdraw: 提现
+      deposit: 充值
       statistic/orders_grid: 指令统计
       statistic/trades_grid: 交易统计
       statistic/members_grid: 用户统计
@@ -38,7 +44,7 @@ zh-CN:
       account:
         currency: 币种
         currency_text: 币种
-        balance_and_locked: 余额/冻结
+        balance_and_locked: 余额 / 冻结
         balance: 余额
         locked: 冻结
         amount: 总额
@@ -48,9 +54,13 @@ zh-CN:
         amount: 金额
         balance: 余额
         reason: 原因
+        reason_text: 原因
         modifiable_id: 相关编号
-        modifiable_type: 相关数据
+        modifiable_type: 关联
         created_at : 创建日期
+        in: 收入
+        out: 支出
+        fee: 手续费
       reset_password:
         email: 邮箱地址
       trade:
@@ -84,12 +94,16 @@ zh-CN:
         state_done: 完成
         state_wait: 等待
       member:
+        id: 编号
         name: 真实姓名
         email: 邮件地址
         created_at: 注册时间
         sn: 个人识别码
         tag_list: 标签
         activated: 激活成功
+        activated?: 邮件激活
+        id_document_verified?: 实名认证
+        two_factor_activated?: 二次验证
       sms_token:
         phone_number: "手机号码"
         verify_code: "验证码"

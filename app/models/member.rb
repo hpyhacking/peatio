@@ -12,8 +12,8 @@ class Member < ActiveRecord::Base
   has_one :id_document
   has_one :sms_token
 
-  delegate :activated?, to: :two_factors, prefix: true
-  delegate :verified?,  to: :id_document, prefix: true
+  delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
+  delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
   delegate :verified?,  to: :sms_token,   prefix: true
 
   has_many :authentications, dependent: :destroy
@@ -45,7 +45,7 @@ class Member < ActiveRecord::Base
     end
 
     def create_from_auth(auth_hash)
-      member = create(email: auth_hash['info']['email'])
+      member = create(email: auth_hash['info']['email'], activated: false)
       member.add_auth(auth_hash)
       member.send_activation
       member

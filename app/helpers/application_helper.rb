@@ -255,6 +255,14 @@ module ApplicationHelper
     }
   end
 
+  def yesno(val)
+    if val
+      content_tag(:span, 'YES', class: 'label label-success')
+    else
+      content_tag(:span, 'NO', class: 'label label-danger')
+    end
+  end
+
   def two_factor_tag(user)
     app_activated = user.two_factors.by_type(:app).activated?
     sms_activated = user.two_factors.by_type(:sms).activated?
@@ -264,7 +272,7 @@ module ApplicationHelper
       sms_activated = true
     end
 
-    render partial: 'shared/two_factor_auth', \
-      locals: {app_activated: app_activated, sms_activated: sms_activated}
+    locals = {app_activated: app_activated, sms_activated: sms_activated}
+    render partial: 'shared/two_factor_auth', locals: locals
   end
 end

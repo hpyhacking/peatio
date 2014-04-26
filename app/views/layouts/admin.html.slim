@@ -40,21 +40,9 @@ html lang="en"
               span = t('admin_header.statistics')
               span.caret
             ul.dropdown-menu
-              - if can? :read, Statistic::MembersGrid
-                li class='#{check_active(Statistic::MembersGrid)}'
-                  a href='#{admin_statistic_members_path}' = Statistic::MembersGrid.grid_name
-              - if can? :read, Statistic::OrdersGrid
-                li class='#{check_active(Statistic::OrdersGrid)}'
-                  a href='#{admin_statistic_orders_path}' = Statistic::OrdersGrid.grid_name
-              - if can? :read, Statistic::TradesGrid
-                li class='#{check_active(Statistic::TradesGrid)}'
-                  a href='#{admin_statistic_trades_path}' = Statistic::TradesGrid.grid_name
-              - if can? :read, Statistic::DepositsGrid
-                li class='#{check_active(Statistic::DepositsGrid)}'
-                  a href='#{admin_statistic_deposits_path}' = Statistic::DepositsGrid.grid_name
-              - if can? :read, Statistic::WithdrawsGrid
-                li class='#{check_active(Statistic::WithdrawsGrid)}'
-                  a href='#{admin_statistic_withdraws_path}' = Statistic::WithdrawsGrid.grid_name
+              - if can? :stat, Member
+                li class='#{check_active(Member)}'
+                  a href='#{admin_statistic_members_path}' = Member.model_name.human
         ul.nav.navbar-nav.navbar-right
           p.navbar-text = current_user.email
           li: a href="#{main_app.root_path}" = t('actions.back')
