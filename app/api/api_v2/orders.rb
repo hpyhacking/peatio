@@ -60,7 +60,7 @@ module APIv2
 
       begin
         Ordering.new(order).cancel
-        present order, with: APIv2::Entities::Order
+        present order.reload, with: APIv2::Entities::Order
       rescue
         raise CancelOrderError, $!
       end
