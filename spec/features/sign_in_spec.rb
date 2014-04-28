@@ -25,6 +25,8 @@ describe 'Sign in' do
     before { two_factor.refresh }
 
     it 'if he tries to perform 2-step verification after session expires, should redirect user back to login step with error message', js: true do
+      pending
+
       signin identity
       clear_cookie
 
