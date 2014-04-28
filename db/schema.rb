@@ -97,7 +97,7 @@ ActiveRecord::Schema.define(version: 20140428203350) do
     t.string   "title"
     t.text     "body"
     t.text     "desc"
-    t.text     "keyword"
+    t.text     "keywords"
   end
 
   add_index "document_translations", ["document_id"], name: "index_document_translations_on_document_id", using: :btree
@@ -111,7 +111,7 @@ ActiveRecord::Schema.define(version: 20140428203350) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "desc"
-    t.text     "keyword"
+    t.text     "keywords"
   end
 
   create_table "fund_sources", force: true do |t|
