@@ -4,7 +4,30 @@ module Peatio
   module I18n
     module Backend
       class Sqlite
-        include ::I18n::Backend::Base
+
+        module PathToHash
+          # https://gist.github.com/potatosalad/760726
+          def new_hash(*args)
+            leet = lambda { |hsh, key| hsh[key] = Hash.new(&leet) }
+            Hash.new(*args, &leet)
+          end
+
+          def explode_hash(hash, divider = '.')
+            h = new_hash
+            def h.recursive_send(*args)
+              args.inject(self) { |obj, m| obj.send(m.shift, *m) }
+            end
+
+            hash.dup.each do |k, v|
+              tree = k.split(divider).map { |x| [:[], x] }
+              tree.push([:[]=, tree.pop[1], v])
+              h.recursive_send(*tree)
+            end
+            h
+          end
+        end
+
+        include ::I18n::Backend::Base, PathToHash
 
         def available_locales
           Models::Translation.column_names - %w(key desc)
@@ -20,6 +43,19 @@ module Peatio
 
         def default_separator
           "."
+        end
+
+        def translations
+          locales = available_locales
+
+          hash_with_path = Models::Translation.all.inject({}) do |hash, record|
+            locales.each do |locale|
+              hash["#{locale}#{default_separator}#{record.key}"] = record.send(locale)
+            end
+            hash
+          end
+
+          explode_hash(hash_with_path, default_separator)
         end
 
         protected
