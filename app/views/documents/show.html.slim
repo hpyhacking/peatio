@@ -1,1 +1,10 @@
+= content_for :page_title do
+  title = @doc.title
+
+= content_for :description do
+  meta name='description' content= @doc.desc
+
+= content_for :keywords do
+  meta name='keywords' content= @doc.keywords
+
 .container == @doc.body
