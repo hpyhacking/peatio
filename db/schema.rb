@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140421080408) do
+ActiveRecord::Schema.define(version: 20140428203350) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -96,6 +96,8 @@ ActiveRecord::Schema.define(version: 20140421080408) do
     t.datetime "updated_at"
     t.string   "title"
     t.text     "body"
+    t.text     "desc"
+    t.text     "keyword"
   end
 
   add_index "document_translations", ["document_id"], name: "index_document_translations_on_document_id", using: :btree
@@ -108,6 +110,8 @@ ActiveRecord::Schema.define(version: 20140421080408) do
     t.boolean  "is_auth"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "desc"
+    t.text     "keyword"
   end
 
   create_table "fund_sources", force: true do |t|

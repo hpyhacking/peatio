@@ -9,6 +9,7 @@ describe APIv2::Entities::Order do
 
     its(:id)               { should == order.id }
     its(:price)            { should == order.price }
+    its(:avg_price)        { should == ::Trade::ZERO }
     its(:volume)           { should == order.origin_volume }
     its(:remaining_volume) { should == order.volume }
     its(:executed_volume)  { should == (order.origin_volume - order.volume)}
@@ -20,12 +21,12 @@ describe APIv2::Entities::Order do
   end
 
   context "full exposure" do
-    let!(:trade) { create(:trade, ask: order) }
-
     it "should expose related trades" do
+      create(:trade, ask: order, volume: '8.0', price: '12')
+      create(:trade, ask: order, volume: '0.99', price: '12.56')
+
       json = APIv2::Entities::Order.represent(order, type: :full).serializable_hash 
-      json[:trades].should have(1).trade
-      json[:trades].first[:id].should == trade.id
+      json[:trades].should have(2).trades
     end
   end
 

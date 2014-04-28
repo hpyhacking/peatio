@@ -24,6 +24,8 @@ describe 'withdraw' do
   end
 
   it 'allows user to add a BTC withdraw address, withdraw BTC' do
+    pending
+
     login identity
 
     expect(page).to have_content identity.email

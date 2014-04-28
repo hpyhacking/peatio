@@ -144,6 +144,18 @@ describe Order, "#head" do
   end
 end
 
+describe Order, "#avg_price" do
+  let(:order)  { create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13') }
+  let!(:trades) do
+    create(:trade, ask: order, volume: '8.0', price: '12')
+    create(:trade, ask: order, volume: '0.99', price: '12.56')
+  end
+
+  it "should calculate average price" do
+    order.avg_price.to_s('F').should =~ /^12.06/
+  end
+end
+
 describe Order, "#kind" do
   it "should be ask for ask order" do
     OrderAsk.new.kind.should == 'ask'

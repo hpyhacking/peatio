@@ -14,7 +14,9 @@
 //= require bootstrap/tab
 //= require bootstrap/transition
 //= require bootstrap-datetimepicker
-//= require bootstrap-wysiwyg
+//
+//= require wysihtml5
+//= require bootstrap3-wysihtml5
 //
 //= require ZeroClipboard
 //
