@@ -30,11 +30,11 @@ en:
         zh_cn_body: Chinese content
         zh_cn_title: Chinese title
         zh_cn_desc: Chinese description
-        zh_cn_keyword: Chinese keyword
+        zh_cn_keywords: Chinese keyword
         en_body: English content
         en_title: English title
         en_desc: English description
-        en_keyword: English keyword
+        en_keywords: English keyword
         key: Key
         is_auth: Is Auth
       fund_source:

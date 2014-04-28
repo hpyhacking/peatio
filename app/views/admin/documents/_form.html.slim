@@ -4,7 +4,7 @@
     div.locale_container
       = f.input "#{locale}_title"
       = f.input "#{locale}_desc", as: :text
-      = f.input "#{locale}_keyword", as: :text
+      = f.input "#{locale}_keywords", as: :text
       = f.input "#{locale}_body", as: :text, input_html: { class: 'document_body wysihtml5' }
 
   = f.input :key
