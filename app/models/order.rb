@@ -89,6 +89,16 @@ class Order < ActiveRecord::Base
     currency
   end
 
+  def avg_price
+    if trades.empty?
+      ::Trade::ZERO
+    else
+      sum = trades.map {|t| t.price*t.volume }.sum
+      vol = trades.map(&:volume).sum
+      sum / vol
+    end
+  end
+
   def to_matching_attributes
     { id: id,
       market: market,
