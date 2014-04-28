@@ -460,7 +460,6 @@
                 "pre": 1
             }
         },
-        stylesheets: ["/assets/bootstrap3-wysiwyg5-color.css"], // (path_to_project/lib/css/bootstrap3-wysiwyg5-color.css)
         locale: "en"
     };
 
