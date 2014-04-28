@@ -26,7 +26,6 @@
 //= require bootstrap/tab
 //= require bootstrap/transition
 //= require bootstrap-datetimepicker
-//= require bootstrap-wysiwyg
 //
 //= require scrollIt
 //= require moment
