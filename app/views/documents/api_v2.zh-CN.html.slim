@@ -122,12 +122,13 @@
         tr
           td Order
           td: pre: code
-            | {"id":7,"side":"sell","price":"3100.0","state":"wait","market":"btccny","created_at":"2014-04-18T02:02:33Z","volume":"100.0","remaining_volume":"89.8","executed_volume":"10.2","trades":[{"id":2,"price":"3100.0","volume":"10.2","market":"btccny","created_at":"2014-04-18T02:04:49Z","side":"sell"}]}
+            | {"id":7,"side":"sell","price":"3100.0","avg_price":"3101.2","state":"wait","market":"btccny","created_at":"2014-04-18T02:02:33Z","volume":"100.0","remaining_volume":"89.8","executed_volume":"10.2","trades":[{"id":2,"price":"3100.0","volume":"10.2","market":"btccny","created_at":"2014-04-18T02:04:49Z","side":"sell"}]}
           td
             p Order包含了某一个订单的所有信息:
             p id: 唯一的Order ID
             p side: Buy/Sell, 代表买单/卖单.
             p price: 出价
+            p avg_price: 平均成交价
             p state: 订单的当前状态, wait, done或者cancel.  wait表明订单正在市场上挂单, 是一个active order, 此时订单可能部分成交或者尚未成交; done代表订单已经完全成交; cancel代表订单已经被撤销.
             p market: 订单参与的交易市场
             p created_at: 下单时间, ISO8601格式

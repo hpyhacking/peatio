@@ -118,11 +118,12 @@
         tr
           td Order
           td: pre: code
-            | {"id":7,"side":"sell","price":"3100.0","state":"wait","market":"btccny","created_at":"2014-04-18T02:02:33Z","volume":"100.0","remaining_volume":"89.8","executed_volume":"10.2","trades":[{"id":2,"price":"3100.0","volume":"10.2","market":"btccny","created_at":"2014-04-18T02:04:49Z","side":"sell"}]}
+            | {"id":7,"side":"sell","price":"3100.0","avg_price":"3101.2","state":"wait","market":"btccny","created_at":"2014-04-18T02:02:33Z","volume":"100.0","remaining_volume":"89.8","executed_volume":"10.2","trades":[{"id":2,"price":"3100.0","volume":"10.2","market":"btccny","created_at":"2014-04-18T02:04:49Z","side":"sell"}]}
           td
             p id: Unique order ID
             p side: Buy/Sell
             p price: Order price
+            p avg_price: Average execution price
             p state: wait, done or cancel. 'wait' represents the order is active, it may be a new order or partial complete order; 'done' means the order has been fulfilled completely; 'cancel' means the order has been cancelled.
             p market: Which market the order belongs to
             p created_at: Order created time
