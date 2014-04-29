@@ -1,19 +1,14 @@
-@import 'bootstrap_and_overrides';
-@import (css) 'bootstrap-datetimepicker.css';
+@import 'vars/peatio';
+@import 'bootstrap';
 @import 'font-awesome';
 @import 'selectize.bootstrap3';
+
 @import 'basic';
 @import 'layout';
 @import 'welcome';
 @import 'assets';
 @import 'my_assets';
 
-.row-middle {
-  .display(flex);
-  .align-items(center);
-  .justify-content(center);
-  .flex-direction(row);
-}
 
 .radio_buttons.form-control {
   width: inherit;
