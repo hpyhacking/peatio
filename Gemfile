@@ -48,7 +48,7 @@ gem 'therubyracer'
 gem "jquery-rails"
 gem 'jquery-ui-rails'
 gem 'es5-shim-rails'
-gem 'bootstrap-on-rails', git: "https://github.com/peatio/bootstrap-on-rails.git"
+gem 'bootstrap-sass'
 gem 'font-awesome-less'
 gem 'momentjs-rails'
 gem 'flot-rails'
