@@ -3,7 +3,7 @@ require 'peatio/i18n/Backend/Sqlite'
 module Peatio
   module I18n
     module CLI
-      # Dump data from Simple backend (yml) to Sqlite
+      # Migrate data from Simple backend (yml) to Sqlite
       class Migrator
 
         module HashDeepTraverse
