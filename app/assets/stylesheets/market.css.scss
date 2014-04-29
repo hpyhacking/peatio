@@ -1,9 +1,8 @@
-@import 'lesshat';
-@import "bootstrap/variables";
-@import "peatio_bootstrap_variables";
-@grid-gutter-width: 10px;
-@grid-columns: 24;
-@import "bootstrap/bootstrap";
+@import 'vars/peatio';
+$grid-gutter-width: 10px;
+$grid-columns: 24;
+
+@import 'bootstrap';
 @import 'font-awesome';
 @import 'basic';
 @import 'layout';

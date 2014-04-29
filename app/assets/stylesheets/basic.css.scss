@@ -1,5 +1,5 @@
 /*basic extend*/
-g { color: @gray-light; }
+g { color: $gray-light; }
 
 /*bootstrap mix*/
 /*bootstrap extend*/
@@ -9,7 +9,7 @@ g { color: @gray-light; }
 i[class^=fa] + * { margin-left: 4px; }
 
 .text-ignore {
-  color: @gray-light;
+  color: $gray-light;
 }
 
 strong + span {
@@ -43,10 +43,11 @@ hr.split {
 /* basic */
 [data-title] {
   &:before {
-    .text-ignore;
-    font-size: 16px;
-    display: block;
-    content: attr(data-title);
+    .text-ignore {
+      font-size: 16px;
+      display: block;
+      content: attr(data-title);
+    }
   }
 }
 
@@ -60,9 +61,10 @@ hr.split {
 }
 
 .datagrid-empty {
-  .text-ignore;
-  font-size: 16px;
-  text-align: center;
+  .text-ignore {
+    font-size: 16px;
+    text-align: center;
+  }
 }
 
 span.label {
@@ -73,8 +75,7 @@ abbr {
   border-bottom: 0px !important;
 }
 
-span.hint { .text-ignore; }
-span.error { color: @brand-warning; }
+span.error { color: $brand-warning; }
 
 #alert.alert, #notice.alert, #info.alert {
   h5 {

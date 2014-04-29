@@ -9,7 +9,7 @@
     }
 
     .ribbon a:hover {
-      background: @btn-primary-bg;
+      background: $btn-primary-bg;
       text-decoration: none;
     }
 
@@ -36,8 +36,8 @@
       padding: 30px;
       padding-top: 14px;
       margin: 30px;
-      border-top: 1px dashed lighten(@main-color, 20%);
-      border-bottom: 1px dashed lighten(@main-color, 20%);
+      border-top: 1px dashed lighten($main-color, 20%);
+      border-bottom: 1px dashed lighten($main-color, 20%);
     }
 
     #getstart {

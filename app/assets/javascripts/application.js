@@ -1,31 +1,8 @@
-//= require es5-shim/es5-shim
+//= require es5-shim.min
+//= require es5-sham.min
 //= require jquery
 //= require jquery_ujs
-//= require jquery.ui.datepicker
-//= require jquery.ui.slider
-//= require jquery.ui.spinner
-//= require jquery.ui.tooltip
-//= require jquery.ui.effect
-//= require jquery.ui.draggable
-//= require jquery.flot
-//= require jquery.flot.time
-//= require jquery.slimscroll
-//= require jquery.transit
-//= require jquery.hotkeys
-//
-//= require bootstrap/affix
-//= require bootstrap/alert
-//= require bootstrap/button
-//= require bootstrap/carousel
-//= require bootstrap/collapse
-//= require bootstrap/dropdown
-//= require bootstrap/modal
-//= require bootstrap/tooltip
-//= require bootstrap/popover
-//= require bootstrap/scrollspy
-//= require bootstrap/tab
-//= require bootstrap/transition
-//= require bootstrap-datetimepicker
+//= require bootstrap
 //
 //= require scrollIt
 //= require moment

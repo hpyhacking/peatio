@@ -1,7 +1,7 @@
-//= require 'bootstrap-datetimepicker'
-//= require 'swagger-ui/highlight.default'
-//= require 'swagger-ui/screen'
-//= require 'api_v2_basic'
+@import 'bootstrap-datetimepicker';
+@import 'swagger-ui/highlight.default';
+@import 'swagger-ui/screen';
+@import 'api_v2_basic';
 
 .swagger-ui-wrap {
   h1, h2 {
