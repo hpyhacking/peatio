@@ -20,7 +20,7 @@ module Benchmark
 
       t1 = Time.now
       count = 0
-      AMQPQueue.channel.queue('', auto_delete: true).bind(AMQPQueue.exchange(:trade_after_strike)).subscribe do |info, what, payload|
+      AMQPQueue.channel.queue('', auto_delete: true).bind(AMQPQueue.exchange(:octopus), routing_key: 'trade.#').subscribe do |info, what, payload|
         t = Time.now - t1
         count += 1
         orate = "%.2f" % (@num.to_f/t)

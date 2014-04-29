@@ -3,9 +3,9 @@ connect:
   port: 5672
 
 exchange:
-  trade_after_strike:
-    name: peatio.trade.after_strike
-    type: fanout
+  octopus:
+    name: peatio.octopus
+    type: topic
   notification:
     name: peatio.notification
     type: direct
@@ -39,7 +39,8 @@ binding:
     queue: new_trade
   pusher_market:
     queue: pusher_market
-    exchange: trade_after_strike
+    exchange: octopus
+    topics: trade.#
   pusher_member:
     queue: pusher_member
   withdraw_audit:

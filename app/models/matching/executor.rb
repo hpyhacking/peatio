@@ -26,7 +26,12 @@ module Matching
         @ask.strike trade
       end
 
-      AMQPQueue.publish :trade_after_strike, market: @market.id, id: trade.id
+      AMQPQueue.publish(
+        :octopus,
+        {market: @market.id, id: trade.id, ask_id: @ask.id, bid_id: @bid.id},
+        {routing_key: "trade.#{@market.id}.#{@ask.member_id}.#{@bid.member_id}"}
+      )
+
       trade
     end
 
