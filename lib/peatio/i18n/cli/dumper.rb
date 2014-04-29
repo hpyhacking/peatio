@@ -18,6 +18,15 @@ module Peatio
           end
         end
 
+        def clear_original_yaml_files
+          sqlite_backend = Peatio::I18n::Backend::Sqlite.new
+          locales = sqlite_backend.available_locales
+          files = locales.flat_map { |locale| Rails.root.join("config", "locales", "**", "#{locale}.yml") }
+          Dir.glob(files).each do |f|
+            File.delete f
+          end
+        end
+
         private
         def locales_directory
           Rails.root.join("config", "locales", "compiled")
