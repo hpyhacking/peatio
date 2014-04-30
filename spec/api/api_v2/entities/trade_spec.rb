@@ -18,14 +18,14 @@ describe APIv2::Entities::Trade do
   context "include order" do
     it "should include associated ask order" do
       hash = APIv2::Entities::Trade.represent(trade, include_order: :ask).serializable_hash
-      hash[:ask]['id'].should == trade.ask.id
+      hash[:ask][:id].should == trade.ask.id
       hash[:bid].should be_nil
     end
 
     it "should include associated bid order" do
       hash = APIv2::Entities::Trade.represent(trade, include_order: :bid).serializable_hash
       hash[:ask].should be_nil
-      hash[:bid]['id'].should == trade.bid.id
+      hash[:bid][:id].should == trade.bid.id
     end
   end
 
