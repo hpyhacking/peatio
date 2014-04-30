@@ -40,7 +40,7 @@ EM.run do
       case error
       when EM::WebSocket::WebSocketError
         logger.info "WebSocket error: #{$!}"
-        logger.info $!.backtrade[0,20].join("\n")
+        logger.info $!.backtrace[0,20].join("\n")
         logger.info $!.inspect
       else
         logger.info $!

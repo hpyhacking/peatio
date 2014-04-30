@@ -19,7 +19,7 @@ module APIv2
       data = message[key]
       case key.downcase
       when 'auth'
-        EM.defer -> {
+        defer -> {
           access_key = data['access_key']
           token = APIToken.where(access_key: access_key).includes(:member).first
           result = verify_answer data['answer'], token
@@ -60,13 +60,14 @@ module APIv2
       q = @channel.queue '', auto_delete: true
       q.bind(x, routing_key: trade_topic(side, member))
       q.subscribe(ack: true) do |metadata, payload|
-        EM.defer -> {
+        defer -> {
           payload = JSON.parse payload
-          if trade = Trade.find_by_id(payload['id'])
-            ::APIv2::Entities::Trade.represent(trade, include_order: side, side: side).to_json
-          end
-        }, ->(json) {
-          send :trade, json if json.present?
+          trade = Trade.where("#{side}_member_id" => member.id, "id" => payload['id']).first
+          trade && ::APIv2::Entities::Trade.represent(trade, include_order: side, side: side).serializable_hash
+        }, ->(trade) {
+          send :trade, trade
+          metadata.ack
+        }, ->(error) {
           metadata.ack
         }
       end
@@ -74,6 +75,24 @@ module APIv2
 
     def trade_topic(side, member)
       side == :ask ? "trade.*.#{member.id}.*" : "trade.*.*.#{member.id}"
+    end
+
+    def defer(job, callback, errback=nil)
+      EM.defer -> {
+        begin
+          job.call
+        rescue
+          @logger.error "Error on handling message: #{$!}"
+          @logger.error $!.backtrace[0,20].join("\n")
+          $!
+        end
+      }, ->(result) {
+        if result.is_a?(Exception)
+          errback.call(result) if errback
+        else
+          callback.call(result)
+        end
+      }
     end
 
   end
