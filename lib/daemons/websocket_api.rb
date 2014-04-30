@@ -11,6 +11,11 @@ require File.join(root, "config", "environment")
 
 Rails.logger = logger = Logger.new STDOUT
 
+EM.error_handler do |e|
+  logger.error "Error: #{e}"
+  logger.error e.backtrace[0,20].join("\n")
+end
+
 EM.run do
   conn = AMQP.connect AMQPConfig.connect
   logger.info "Connected to AMQP broker."
@@ -35,6 +40,8 @@ EM.run do
       case error
       when EM::WebSocket::WebSocketError
         logger.info "WebSocket error: #{$!}"
+        logger.info $!.backtrade[0,20].join("\n")
+        logger.info $!.inspect
       else
         logger.info $!
       end
