@@ -18,31 +18,17 @@ EM.run do
   ch = AMQP::Channel.new conn
   ch.prefetch(1)
 
-  x = ch.send *AMQPConfig.exchange(:octopus)
-
   EM::WebSocket.run(host: '0.0.0.0', port: 8080) do |ws|
     logger.debug "New WebSocket connection: #{ws.inspect}"
 
+    protocol = ::APIv2::WebSocketProtocol.new(ws, ch, logger)
+
     ws.onopen do
-      q = ch.queue '', auto_delete: true
-      q.bind(x, routing_key: 'trade.#')
-      q.subscribe(ack: true) do |metadata, payload|
-        EM.defer -> {
-          payload = JSON.parse payload
-          trade = Trade.find_by_id payload['id']
-          ask   = Order.find_by_id payload['ask_id']
-          trade
-        }, ->(trade) {
-          if trade.is_a?(::Trade)
-            entity = ::APIv2::Entities::Trade.represent trade, side: 'ask'
-            ws.send entity.to_json
-          end
-          metadata.ack
-        }
-      end
+      protocol.challenge
     end
 
-    ws.onmessage do |msg|
+    ws.onmessage do |message|
+      protocol.handle message
     end
 
     ws.onerror do |error|
@@ -50,6 +36,7 @@ EM.run do
       when EM::WebSocket::WebSocketError
         logger.info "WebSocket error: #{$!}"
       else
+        logger.info $!
       end
     end
 
