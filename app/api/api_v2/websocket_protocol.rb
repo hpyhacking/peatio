@@ -103,6 +103,9 @@ module APIv2
           $!
         end
       }, ->(result) {
+        # https://www.ruby-forum.com/topic/195010
+        ActiveRecord::Base.clear_reloadable_connections!
+
         if result.is_a?(Exception)
           errback.call(result) if errback
         else
