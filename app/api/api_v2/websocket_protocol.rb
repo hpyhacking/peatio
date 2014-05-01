@@ -28,7 +28,7 @@ module APIv2
           if result
             @token  = token
             @member = member
-            subscribe_trade_topics @member
+            subscribe_trades @member
             send :success, {message: "Authenticated."}
           else
             send :error, {message: "Authentication failed."}
@@ -50,20 +50,15 @@ module APIv2
       answer == OpenSSL::HMAC.hexdigest('SHA256', token.secret_key, str)
     end
 
-    def subscribe_trade_topics(member)
-      subscribe_trade member, :ask
-      subscribe_trade member, :bid
-    end
-
-    def subscribe_trade(member, side)
-      x = @channel.send *AMQPConfig.exchange(:octopus)
+    def subscribe_trades(member)
+      x = @channel.send *AMQPConfig.exchange(:trade)
       q = @channel.queue '', auto_delete: true
-      q.bind(x, routing_key: trade_topic(side, member))
+      q.bind(x, arguments: {'ask_member_id' => member.id, 'bid_member_id' => member.id, 'x-match' => 'any'})
       q.subscribe(ack: true) do |metadata, payload|
         defer -> {
           payload = JSON.parse payload
-          trade = Trade.where("#{side}_member_id" => member.id, "id" => payload['id']).first
-          trade && ::APIv2::Entities::Trade.represent(trade, include_order: side, side: side).serializable_hash
+          trade   = Trade.find payload['id']
+          serialize_trade trade, member, metadata
         }, ->(trade) {
           send :trade, trade
           metadata.ack
@@ -73,8 +68,29 @@ module APIv2
       end
     end
 
-    def trade_topic(side, member)
-      side == :ask ? "trade.*.#{member.id}.*" : "trade.*.*.#{member.id}"
+    def serialize_trade(trade, member, metadata)
+      side = trade_side(member, metadata.headers)
+      hash = ::APIv2::Entities::Trade.represent(trade, side: side).serializable_hash
+
+      if [:both, :ask].include?(side)
+        hash[:ask] = ::APIv2::Entities::Order.represent trade.ask
+      end
+
+      if [:both, :bid].include?(side)
+        hash[:bid] = ::APIv2::Entities::Order.represent trade.bid
+      end
+
+      hash
+    end
+
+    def trade_side(member, headers)
+      if headers['ask_member_id'] == headers['bid_member_id']
+        :both
+      elsif headers['ask_member_id'] == member.id
+        :ask
+      else
+        :bid
+      end
     end
 
     def defer(job, callback, errback=nil)
