@@ -27,9 +27,14 @@ module Matching
       end
 
       AMQPQueue.publish(
-        :octopus,
-        {market: @market.id, id: trade.id},
-        {routing_key: "trade.#{@market.id}.#{@ask.member_id}.#{@bid.member_id}"}
+        :trade,
+        {id: trade.id},
+        {headers: {
+          market: @market.id,
+          ask_member_id: @ask.member_id,
+          bid_member_id: @bid.member_id
+         }
+        }
       )
 
       trade

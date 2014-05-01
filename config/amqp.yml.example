@@ -3,9 +3,9 @@ connect:
   port: 5672
 
 exchange:
-  octopus:
-    name: peatio.octopus
-    type: topic
+  trade:
+    name: peatio.trade
+    type: headers
   notification:
     name: peatio.notification
     type: direct
@@ -39,8 +39,7 @@ binding:
     queue: new_trade
   pusher_market:
     queue: pusher_market
-    exchange: octopus
-    topics: trade.#
+    exchange: trade
   pusher_member:
     queue: pusher_member
   withdraw_audit:
