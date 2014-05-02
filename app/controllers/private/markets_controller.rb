@@ -29,7 +29,7 @@ module Private
         @orders_cancel = query.with_state(:cancel).last(5)
       end
 
-      @trades_done = Trade.for_member(params[:market], current_user)
+      @trades_done = Trade.for_member(params[:market], current_user, limit: 100)
 
       gon.jbuilder
     end
