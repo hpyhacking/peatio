@@ -1,4 +1,4 @@
-require 'peatio/i18n/Backend/Sqlite'
+require 'peatio/i18n/backend/sqlite'
 
 module Peatio
   module I18n
