@@ -5,29 +5,42 @@ module Peatio
     module Backend
       class Sqlite
 
-        module PathToHash
+        module KeyPathToHash
           # https://gist.github.com/potatosalad/760726
           def new_hash(*args)
             leet = lambda { |hsh, key| hsh[key] = Hash.new(&leet) }
             Hash.new(*args, &leet)
           end
 
+          def set_key_path(hash, key_path, value)
+            key = key_path.shift
+            if key_path.empty?
+              hash[key] = value
+            else
+              set_key_path hash[key], key_path, value
+            end
+          end
+
+          # Transform a hash with KeyPath form keys to normal hash"
+          #
+          #     explode_hash({
+          #       'tags.vip'  => 'VIP',
+          #       'tags.hero' => 'Hero Member'
+          #     }
+          #
+          # would return
+          #     {
+          #       'tags' => { 'vip' => 'VIP', 'hero' => 'Hero member' }
+          #     }
+          #
           def explode_hash(hash, divider = '.')
             h = new_hash
-            def h.recursive_send(*args)
-              args.inject(self) { |obj, m| obj.send(m.shift, *m) }
-            end
-
-            hash.dup.each do |k, v|
-              tree = k.split(divider).map { |x| [:[], x] }
-              tree.push([:[]=, tree.pop[1], v])
-              h.recursive_send(*tree)
-            end
+            hash.each { |k, v| set_key_path h, k.split(divider), v }
             h
           end
         end
 
-        include ::I18n::Backend::Base, PathToHash
+        include ::I18n::Backend::Base, KeyPathToHash
 
         def available_locales
           Models::Translation.column_names - %w(key desc)
