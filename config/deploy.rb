@@ -5,29 +5,38 @@ require 'mina/rbenv'
 require 'mina/slack/tasks'
 require 'mina/whenever'
 
-set :deploy_to, '/var/www/peatio'
+set :repository, 'https://github.com/peatio/peatio_beijing.git'
 
 case ENV['to']
 when 'demo'
+  set :deploy_to, '/var/www/peatio'
   set :domain, 'demo.peat.io'
   set :branch, 'stable'
 when 'peatio-appsrv-01'
   set :user, 'deploy'
-  set :forward_agent, true
+  set :term_mode, nil
   set :deploy_to, '/home/deploy/peatio'
   set :domain, 'peatio-appsrv-01'
   set :branch, 'master'
+when 'peatio-appsrv-02'
+  set :user, 'deploy'
+  set :term_mode, nil
+  set :deploy_to, '/home/deploy/peatio'
+  set :domain, 'peatio-appsrv-02'
+  set :branch, 'master'
 when 'peatio-daemon'
   set :user, 'deploy'
+  set :term_mode, nil
   set :deploy_to, '/home/deploy/peatio'
   set :domain, 'peatio-daemon'
   set :branch, 'master'
 else
+  set :deploy_to, '/var/www/peatio'
   set :domain, 'stg.peat.io'
   set :branch, ENV['branch'] || 'master'
 end
 
-set :repository, 'https://github.com/peatio/peatio_beijing.git'
+set :unicorn_pid, lambda { "#{deploy_to}/#{shared_path}/tmp/pids/unicorn.pid" }
 
 set :shared_paths, [
   'config/unicorn_peatio.sh',
@@ -75,7 +84,7 @@ task :deploy => :environment do
     invoke :'rails:assets_precompile'
 
     to :launch do
-      invoke :'unicorn:upgrade'
+      invoke :'unicorn:restart'
     end
   end
   invoke :'slack:finish'
@@ -91,24 +100,47 @@ task :console => :environment do
   queue echo_cmd("cd #{deploy_to}/current && RAILS_ENV=production bundle exec rails console")
 end
 
-desc "Upgrade Unicorn"
-task :'unicorn:upgrade' => :environment do
-  queue 'service unicorn_peatio upgrade && echo Upgrade Unicorn DONE!!!'
+namespace :unicorn do
+  desc "Start Unicorn"
+  task start: :environment do
+    queue 'echo "-----> Start Unicorn"'
+    queue! %{
+      cd #{deploy_to}/#{current_path}
+      bundle exec unicorn_rails -E production -c config/unicorn.rb -D
+    }
+  end
+
+  desc "Stop Unicorn"
+  task stop: :environment do
+    queue 'echo "-----> Stop Unicorn"'
+    queue! %{
+      test -s "#{unicorn_pid}" && kill -QUIT `cat "#{unicorn_pid}"` && echo "Stop Ok" && exit 0
+      echo >&2 "Not running"
+    }
+  end
+
+  desc "Restart Unicorn"
+  task restart: :environment do
+    invoke :'unicorn:stop'
+    invoke :'unicorn:start'
+  end
 end
 
-desc "Start Daemons"
-task :'daemons:start' => :environment do
-  queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec ./bin/rake daemons:start && echo Daemons START DONE!!!"
-end
+namespace :daemons do
+  desc "Start Daemons"
+  task start: :environment do
+    queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec ./bin/rake daemons:start && echo Daemons START DONE!!!"
+  end
 
-desc "Stop Daemons"
-task :'daemons:stop' => :environment do
-  queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec ./bin/rake daemons:stop && echo Daemons STOP DONE!!!"
-end
+  desc "Stop Daemons"
+  task stop: :environment do
+    queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec ./bin/rake daemons:stop && echo Daemons STOP DONE!!!"
+  end
 
-desc "Query Daemons"
-task :'daemons:status' => :environment do
-  queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec ./bin/rake daemons:status"
+  desc "Query Daemons"
+  task status: :environment do
+    queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec ./bin/rake daemons:status"
+  end
 end
 
 desc "Generate liability proof"
