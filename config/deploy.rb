@@ -5,16 +5,28 @@ require 'mina/rbenv'
 require 'mina/slack/tasks'
 require 'mina/whenever'
 
+set :deploy_to, '/var/www/peatio'
+
 case ENV['to']
 when 'demo'
   set :domain, 'demo.peat.io'
   set :branch, 'stable'
+when 'peatio-appsrv-01'
+  set :user, 'deploy'
+  set :forward_agent, true
+  set :deploy_to, '/home/deploy/peatio'
+  set :domain, 'peatio-appsrv-01'
+  set :branch, 'master'
+when 'peatio-daemon'
+  set :user, 'deploy'
+  set :deploy_to, '/home/deploy/peatio'
+  set :domain, 'peatio-daemon'
+  set :branch, 'master'
 else
   set :domain, 'stg.peat.io'
   set :branch, ENV['branch'] || 'master'
 end
 
-set :deploy_to, '/var/www/peatio'
 set :repository, 'https://github.com/peatio/peatio_beijing.git'
 
 set :shared_paths, [
@@ -24,6 +36,8 @@ set :shared_paths, [
   'config/currencies.yml',
   'config/markets.yml',
   'config/amqp.yml',
+  'deposit_channels.yml',
+  'withdraw_channels.yml',
   'tmp',
   'log'
 ]
@@ -46,6 +60,9 @@ task :setup => :environment do
   queue! %[touch "#{deploy_to}/shared/config/currencies.yml"]
   queue! %[touch "#{deploy_to}/shared/config/application.yml"]
   queue! %[touch "#{deploy_to}/shared/config/markets.yml"]
+  queue! %[touch "#{deploy_to}/shared/config/amqp.yml"]
+  queue! %[touch "#{deploy_to}/shared/config/deposit_channels.yml"]
+  queue! %[touch "#{deploy_to}/shared/config/withdraw_channels.yml"]
 end
 
 desc "Deploys the current version to the server."
