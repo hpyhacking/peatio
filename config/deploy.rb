@@ -5,7 +5,7 @@ require 'mina/rbenv'
 require 'mina/slack/tasks'
 require 'mina/whenever'
 
-set :repository, 'https://github.com/peatio/peatio_beijing.git'
+set :repository, 'git@github.com:peatio/peatio_beijing.git'
 
 case ENV['to']
 when 'demo'
@@ -14,19 +14,16 @@ when 'demo'
   set :branch, 'stable'
 when 'peatio-appsrv-01'
   set :user, 'deploy'
-  set :term_mode, nil
   set :deploy_to, '/home/deploy/peatio'
   set :domain, 'peatio-appsrv-01'
   set :branch, 'master'
 when 'peatio-appsrv-02'
   set :user, 'deploy'
-  set :term_mode, nil
   set :deploy_to, '/home/deploy/peatio'
   set :domain, 'peatio-appsrv-02'
   set :branch, 'master'
 when 'peatio-daemon'
   set :user, 'deploy'
-  set :term_mode, nil
   set :deploy_to, '/home/deploy/peatio'
   set :domain, 'peatio-daemon'
   set :branch, 'master'
