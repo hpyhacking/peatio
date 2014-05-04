@@ -23,7 +23,16 @@ EM.run do
   ch = AMQP::Channel.new conn
   ch.prefetch(1)
 
-  EM::WebSocket.run(host: '0.0.0.0', port: 8080) do |ws|
+  config = {host: ENV['WEBSOCKET_HOST'], port: ENV['WEBSOCKET_PORT']}
+  if ENV['WEBSOCKET_SSL_KEY'] && ENV['WEBSOCKET_SSL_CERT']
+    config[:secure] = true
+    config[:tls_options] = {
+      private_key_file: Rails.root.join(ENV['WEBSOCKET_SSL_KEY']).to_s,
+      cert_chain_file: Rails.root.join(ENV['WEBSOCKET_SSL_CERT']).to_s
+    }
+  end
+
+  EM::WebSocket.run(config) do |ws|
     logger.debug "New WebSocket connection: #{ws.inspect}"
 
     protocol = ::APIv2::WebSocketProtocol.new(ws, ch, logger)
