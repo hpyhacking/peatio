@@ -12,10 +12,10 @@ GIT
 
 GIT
   remote: https://github.com/lgn21st/china_sms.git
-  revision: 68210a17535eda6b810e7c261891b6fc25a9f667
+  revision: 9f0f996c4344f7ef77501e9fb2d2a1bb78bfaaba
   specs:
-    china_sms (0.0.6)
-      iconv (~> 1.0.4)
+    china_sms (0.0.7)
+      iconv (~> 1.0)
 
 GIT
   remote: https://github.com/tomlion/mina-slack.git
