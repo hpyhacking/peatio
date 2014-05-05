@@ -54,11 +54,11 @@ defaults: &defaults
   # --------------------------------------------------------------
   AIRBRAKE_KEY: YOUR_AIRBRAKE_KEY
 
-  # juxin sms service settings
+  # Chuang shi man dao sms service settings
   # --------------------------------------------------------------
   #
-  JUXIN_USERNAME: YOUR_JUXIN_USERNAME
-  JUXIN_PASSWORD: YOUR_JUXIN_PASSWORD
+  CHUANGSHIMANDAO_USERNAME: YOUR_USERNAME
+  CHUANGSHIMANDAO_PASSWORD: YOUR_PASSWORD
 
 development:
   <<: *defaults

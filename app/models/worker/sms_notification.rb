@@ -4,7 +4,7 @@ module Worker
     def process(payload, metadata, delivery_info)
       payload.symbolize_keys!
 
-      ChinaSMS.use :juxin, username: ENV['JUXIN_USERNAME'], password: ENV['JUXIN_PASSWORD']
+      ChinaSMS.use :chuangshimandao, username: ENV['CHUANGSHIMANDAO_USERNAME'], password: ENV['CHUANGSHIMANDAO_PASSWORD']
       ChinaSMS.to payload[:phone], payload[:message]
     end
 
