@@ -1,4 +1,5 @@
-@footer-height: 150px;
+$footer-height: 150px;
+
 html, body {
   height: 100%;
   font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", sans-serif;
@@ -12,14 +13,14 @@ header {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin: 0 auto 0 - @footer-height;
+  margin: 0 auto 0 - $footer-height;
 
   & + iframe { display: none; }
 }
 
 #push, footer {
-  height: @footer-height;
-  .box-sizing(border-box);
+  height: $footer-height;
+  box-sizing: 'border-box';
 }
 
 footer {
@@ -45,7 +46,6 @@ footer {
         & > * {
           margin-top: 4px;
           margin-bottom: 0px;
-          .text-ignore;
         }
       }
 
