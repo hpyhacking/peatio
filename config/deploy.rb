@@ -18,11 +18,13 @@ set :deploy_to, '/var/www/peatio'
 set :repository, 'https://github.com/peatio/peatio.git'
 
 set :shared_paths, [
-  'config/unicorn_peatio.sh',
   'config/database.yml',
   'config/application.yml',
   'config/currencies.yml',
   'config/markets.yml',
+  'config/amqp.yml',
+  'config/deposit_channels.yml',
+  'config/withdraw_channels.yml',
   'tmp',
   'log'
 ]
