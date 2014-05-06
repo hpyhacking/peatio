@@ -26,7 +26,17 @@ module Matching
         @ask.strike trade
       end
 
-      AMQPQueue.publish :trade_after_strike, market: @market.id, id: trade.id
+      AMQPQueue.publish(
+        :trade,
+        {id: trade.id},
+        {headers: {
+          market: @market.id,
+          ask_member_id: @ask.member_id,
+          bid_member_id: @bid.member_id
+         }
+        }
+      )
+
       trade
     end
 

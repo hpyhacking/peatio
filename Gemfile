@@ -22,6 +22,7 @@ gem 'settingslogic'
 gem 'hashie'
 
 gem 'aasm'
+gem 'amqp', '~> 1.3.0'
 gem 'bunny', '~> 1.2.1'
 gem 'cancancan'
 gem 'enumerize'
@@ -37,6 +38,8 @@ gem 'paper_trail', '~> 3.0.1'
 
 gem 'gon'
 gem 'pusher'
+gem 'eventmachine', '~> 1.0.3'
+gem 'em-websocket', '~> 0.5.1'
 
 gem 'simple_form', '3.0.1'
 gem 'slim-rails'

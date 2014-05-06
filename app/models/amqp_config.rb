@@ -29,6 +29,10 @@ class AMQPConfig
       binding_queue(id).first
     end
 
+    def topics(id)
+      data[:binding][id][:topics].split(',')
+    end
+
     def queue(id)
       name = data[:queue][id][:name]
       settings = { durable: data[:queue][id][:durable] }

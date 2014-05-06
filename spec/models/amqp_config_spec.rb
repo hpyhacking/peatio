@@ -10,12 +10,14 @@ describe AMQPConfig do
   let(:config) do
     Hashie::Mash.new({
       connect:   { host: '127.0.0.1' },
-      exchange:  { testx: { name: 'testx', type: 'fanout' },
-                   testd: { name: 'testd', type: 'direct' }},
+      exchange:  { testx:  { name: 'testx', type: 'fanout' },
+                   testd:  { name: 'testd', type: 'direct' },
+                   topicx: { name: 'topicx', type: 'topic' } },
       queue:     { testq: { name: 'testq', durable: true } },
       binding:   {
         test:    { queue: 'testq', exchange: 'testx' },
         testd:   { queue: 'testq', exchange: 'testd' },
+        topic:   { queue: 'testq', exchange: 'topicx', topics: 'test.a,test.b' },
         default: { queue: 'testq' }
       }
     })
@@ -55,6 +57,10 @@ describe AMQPConfig do
 
   it "should return queue name of binding" do
     AMQPConfig.routing_key(:testd).should == 'testq'
+  end
+
+  it "should return topics to subscribe" do
+    AMQPConfig.topics(:topic).should == ['test.a', 'test.b']
   end
 
 end
