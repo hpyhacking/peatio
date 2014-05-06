@@ -36,14 +36,13 @@ end
 set :unicorn_pid, lambda { "#{deploy_to}/#{shared_path}/tmp/pids/unicorn.pid" }
 
 set :shared_paths, [
-  'config/unicorn_peatio.sh',
   'config/database.yml',
   'config/application.yml',
   'config/currencies.yml',
   'config/markets.yml',
   'config/amqp.yml',
-  'deposit_channels.yml',
-  'withdraw_channels.yml',
+  'config/deposit_channels.yml',
+  'config/withdraw_channels.yml',
   'tmp',
   'log'
 ]
