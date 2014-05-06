@@ -21,8 +21,14 @@ class Market < ActiveYaml::Base
   def initialize(*args)
     super
 
-    @target_unit = id[0,3]
-    @price_unit  = id[3,3]
+    for target in Currency.codes do
+      if id.start_with?(target)
+        @target_unit = target
+        @price_unit = id[target.length..-1]
+        break
+      end
+    end
+    
     @name = "#{@target_unit}/#{@price_unit}".upcase
   end
 
