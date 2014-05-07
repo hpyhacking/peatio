@@ -22,6 +22,13 @@ defaults: &defaults
   SYSTEM_MAIL_FROM: system@peatio.dev
   SYSTEM_MAIL_TO: group@peatio.dev
 
+  # WebSocket Streaming API settings
+  WEBSOCKET_HOST: 0.0.0.0
+  WEBSOCKET_PORT: 8080
+  # Uncomment below to enable secure WebSocket (wss)
+  #WEBSOCKET_SSL_KEY: 'your_server.key'
+  #WEBSOCKET_SSL_CERT: 'your_server.crt'
+
   # recaptcha settings
   # --------------------------------------------------------------
   # in exchange some operation need validate operator is not bot.

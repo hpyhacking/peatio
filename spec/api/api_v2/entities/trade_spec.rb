@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe APIv2::Entities::Trade do
 
-  let(:trade) { create(:trade) }
+  let(:trade) { create(:trade, ask: create(:order_ask), bid: create(:order_bid)) }
 
   subject { OpenStruct.new APIv2::Entities::Trade.represent(trade, side: 'sell').serializable_hash }
 
