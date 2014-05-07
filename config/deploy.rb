@@ -38,6 +38,7 @@ set :shared_paths, [
   'config/amqp.yml',
   'config/deposit_channels.yml',
   'config/withdraw_channels.yml',
+  'config/unicorn.rb',
   'tmp',
   'log'
 ]
@@ -63,6 +64,7 @@ task setup: :environment do
   queue! %[touch "#{deploy_to}/shared/config/amqp.yml"]
   queue! %[touch "#{deploy_to}/shared/config/deposit_channels.yml"]
   queue! %[touch "#{deploy_to}/shared/config/withdraw_channels.yml"]
+  queue! %[touch "#{deploy_to}/shared/config/unicorn.rb"]
 end
 
 desc "Deploys the current version to the server."
