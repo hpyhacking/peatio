@@ -14,7 +14,17 @@
                 = @btc_assets['balance']
           .clearfix
           .row
-            .col-md-12 style='text-align: center; font-size: .7em'
-              = t('.address')
-              | &nbsp;&nbsp;
-              = main_btc_address_link @btc_assets
+            table.table
+              thead
+                tr
+                  td
+                    = t('.address')
+                  td
+                    = t('.balance')
+              tbody
+                - @btc_proof.addresses.each do |entry|
+                  tr
+                    td
+                      = link_to entry['address'], btc_block_url(entry['address'])
+                    td
+                      = entry['balance']
