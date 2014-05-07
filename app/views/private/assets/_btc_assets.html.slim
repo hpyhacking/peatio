@@ -11,7 +11,7 @@
               span.pull-left = t('.total')
               span.pull-right
                 == t("currency.icon.btc")
-                = @btc_assets['balance']
+                = @btc_proof.asset_sum
           .clearfix
           .row
             table.table

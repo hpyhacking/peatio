@@ -5,7 +5,6 @@ module Private
     before_action :auth_activated!
 
     def index
-      @btc_assets  = Currency.assets('btc')
       @cny_assets  = Currency.assets('cny')
       @btc_proof   = select_proof :btc
       @cny_proof   = select_proof :cny

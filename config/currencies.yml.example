@@ -16,7 +16,6 @@
   coin: true
   rpc: http://username:password@127.0.0.1:18332
   assets:
-    balance: 0
     accounts:
       -
         address: 1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3
