@@ -4,7 +4,10 @@ class Proof < ActiveRecord::Base
   has_many :partial_trees
 
   serialize :root, JSON
+  serialize :addresses, JSON
   validates_presence_of :root, :currency
+
+  delegate :coin?, to: :currency_obj
 
   def ready!
     self.ready = true

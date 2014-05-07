@@ -32,6 +32,16 @@ namespace :solvency do
       end
       puts "#{accounts.size} partial trees generated."
 
+      if proof.coin?
+        puts "\n*** Fetching #{type} total assets ***"
+        addresses = Currency.assets('btc')['accounts'].map do |account|
+          account['address']
+        end.join(',')
+        doc = open "http://btc.blockr.io/api/v1/address/balance/" << addresses
+        proof.addresses = [JSON.parse(doc.read)['data']].flatten
+        puts "address balances fetched."
+      end
+
       proof.ready!
     end
 

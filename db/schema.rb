@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140428203350) do
+ActiveRecord::Schema.define(version: 20140507120249) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -217,6 +217,7 @@ ActiveRecord::Schema.define(version: 20140428203350) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sum"
+    t.text     "addresses"
   end
 
   create_table "taggings", force: true do |t|
