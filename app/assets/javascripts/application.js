@@ -19,6 +19,7 @@
 //= require list
 //= require helper
 //= require fund_source
+//= require jquery.mousewheel
 
 //= require_tree ./component_mixin
 //= require_tree ./component_data

@@ -6,20 +6,20 @@
         a.orders-wait href="#orders_wait" data-toggle="tab" == t('.orders_wait')
       li.btn.btn-primary
         a.orders-done href="#orders_done" data-toggle="tab" == t('.orders_done')
+    table.table.table-condensed.table-striped
+      thead: tr
+        th class='kind col-md-3' = Order.human_attribute_name('kind')
+        th class='at col-md-9' = Order.human_attribute_name('at')
+        th class='price col-md-5' = Order.human_attribute_name('price')
+        th class='volume col-md-5' = Order.human_attribute_name('volume')
+        th class='operation col-md-2'
 
     .tab-content
       #orders_wait.tab-pane.active
         table.table.table-condensed.table-striped
-          thead: tr
-            - %w(kind at price volume).each do |attr|
-              th class='#{attr}' = Order.human_attribute_name(attr)
-            th.operation
           tbody
             tr.empty-row: td colspan=100 ......
       #orders_done.tab-pane
         table.table.table-condensed.table-striped
-          thead: tr
-            - %w(kind at price volume).each do |attr|
-              th class='#{attr}' = Order.human_attribute_name(attr)
           tbody
             tr.empty-row: td colspan=100 ......

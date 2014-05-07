@@ -36,8 +36,13 @@ ARGV.each do |id|
   if args = AMQPConfig.binding_exchange(id)
     x = ch.send *args
 
-    if args.first == 'direct'
+    case args.first
+    when 'direct'
       queue.bind x, routing_key: AMQPConfig.routing_key(id)
+    when 'topic'
+      AMQPConfig.topics(id).each do |topic|
+        queue.bind x, routing_key: topic
+      end
     else
       queue.bind x
     end

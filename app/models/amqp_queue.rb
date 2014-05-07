@@ -21,7 +21,6 @@ class AMQPQueue
 
     def publish(eid, payload, attrs={})
       payload = JSON.dump payload
-      Rails.logger.debug "[AMQPQueue#publish #{eid}] #{payload} #{attrs.inspect}"
       exchange(eid).publish(payload, attrs)
     end
 
