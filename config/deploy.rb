@@ -12,20 +12,10 @@ when 'demo'
   set :deploy_to, '/var/www/peatio'
   set :domain, 'demo.peat.io'
   set :branch, 'stable'
-when 'peatio-appsrv-01'
-  set :user, 'deploy'
-  set :deploy_to, '/home/deploy/peatio'
-  set :domain, 'peatio-appsrv-01'
-  set :branch, 'master'
 when 'peatio-appsrv-02'
   set :user, 'deploy'
   set :deploy_to, '/home/deploy/peatio'
   set :domain, 'peatio-appsrv-02'
-  set :branch, 'master'
-when 'peatio-daemon'
-  set :user, 'deploy'
-  set :deploy_to, '/home/deploy/peatio'
-  set :domain, 'peatio-daemon'
   set :branch, 'master'
 when 'peatio-queue'
   set :user, 'deploy'
@@ -56,7 +46,7 @@ task :environment do
   invoke :'rbenv:load'
 end
 
-task :setup => :environment do
+task setup: :environment do
   queue! %[mkdir -p "#{deploy_to}/shared/log"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/log"]
 
@@ -76,29 +66,22 @@ task :setup => :environment do
 end
 
 desc "Deploys the current version to the server."
-task :deploy => :environment do
+task deploy: :environment do
   deploy do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'rails:assets_precompile'
 
-    to :launch do
-      invoke :'unicorn:restart'
+    unless ['peatio-queue'].include? ENV['to']
+      invoke :'rails:assets_precompile'
+
+      to :launch do
+        invoke :'unicorn:restart'
+      end
     end
   end
   invoke :'slack:finish'
-end
-
-desc "Production Log"
-task :prodlog => :environment do
-  queue echo_cmd("cd #{deploy_to}/current && tail -f log/production.log")
-end
-
-desc "Rails Console"
-task :console => :environment do
-  queue echo_cmd("cd #{deploy_to}/current && RAILS_ENV=production bundle exec rails console")
 end
 
 namespace :unicorn do
