@@ -88,4 +88,13 @@ namespace :migration do
     end
   end
 
+  desc "re-active sms type two-factor"
+  task update_two_factors_for_sms: :environment do
+    Member.find_each do |member|
+      if member.phone_number_verified
+        member.two_factors.by_type(:sms).active!
+      end
+    end
+  end
+
 end
