@@ -65,3 +65,7 @@ $ ->
   VerifyMobileNumberUI.attachTo('#new_sms_token')
   FlashMessageUI.attachTo('.flash-message')
   TwoFactorAuth.attachTo('.two-factor-auth-container')
+
+  $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
+    $(@).scrollTop(@scrollTop + e.deltaY)
+    e.preventDefault()
