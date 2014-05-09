@@ -43,6 +43,7 @@ namespace :solvency do
           proof.addresses = [JSON.parse(doc.read)['data']].flatten
           puts "address balances fetched."
         rescue OpenURI::HTTPRedirect => e
+          proof.addresses = []
           puts "#{type} is not supported by blockr.io yet. Unable to fetch address balances automatically."
         end
       end
