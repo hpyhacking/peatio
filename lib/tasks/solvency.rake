@@ -32,6 +32,21 @@ namespace :solvency do
       end
       puts "#{accounts.size} partial trees generated."
 
+      if proof.coin?
+        puts "\n*** Fetching #{type} total assets ***"
+        addresses = Currency.assets('btc')['accounts'].map do |account|
+          account['address']
+        end.join(',')
+
+        begin
+          doc = open "http://#{type}.blockr.io/api/v1/address/balance/" << addresses, redirect: false
+          proof.addresses = [JSON.parse(doc.read)['data']].flatten
+          puts "address balances fetched."
+        rescue OpenURI::HTTPRedirect => e
+          puts "#{type} is not supported by blockr.io yet. Unable to fetch address balances automatically."
+        end
+      end
+
       proof.ready!
     end
 

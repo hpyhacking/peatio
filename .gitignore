@@ -33,6 +33,9 @@ tmp
 # Ignore vim temporary files
 **/*.swp
 
+# Ignore RubyMine files
+.idea
+
 /vendor/bundle
 .env
 .ruby-version
