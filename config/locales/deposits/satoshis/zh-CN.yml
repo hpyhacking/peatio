@@ -50,7 +50,7 @@ zh-CN:
     deposits:
       satoshis:
         new:
-          page_title: "btc充值 - 资金充值 - 貔貅交易所"
+          page_title: "比特币充值 - 资金充值 - 貔貅交易所"
           page_keywords: "充值,比特币,人民币,资金,加密数字货币"
           step-1: 第一步
           open-wallet: 请使用您常用的钱包服务，本地钱包、在线钱包或移动端的钱包，选择付款或发送。
