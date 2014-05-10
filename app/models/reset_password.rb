@@ -4,13 +4,15 @@ class ResetPassword < Token
   attr_accessor :recaptcha
 
   validates :password, format: { with: Identity::PASSWORD_REGEX }, presence: true, on: :update
+
+  after_create :send_token
   after_update :reset_password
 
   private
 
   def reset_password
     self.member.identity.update_attributes \
-      password: self.password, 
+      password: self.password,
       password_confirmation: self.password
   end
 end

@@ -6,6 +6,12 @@ module EasyTable
           label_or_opts ||= {}
           label_or_opts.merge!({model: @options[:model]})
         end
+
+        if @options[:scope]
+          label_or_opts ||= {}
+          label_or_opts.merge!({scope: @options[:scope]})
+        end
+
         column_without_custom(title, label_or_opts, opts, &block)
       end
 
@@ -16,6 +22,8 @@ module EasyTable
       def translate_with_custom(key)
         if @opts[:model]
           @opts[:model].human_attribute_name(@title)
+        elsif @opts[:scope]
+          I18n.t("easy_table.#{@opts[:scope]}.#{@title}")
         else
           translate_without_custom(key)
         end

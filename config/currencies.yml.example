@@ -3,7 +3,7 @@
   code: cny
   coin: false
   assets:
-    balance: 92343242.56
+    balance: 0
     accounts:
       -
         bank: '招商银行'
@@ -16,7 +16,6 @@
   coin: true
   rpc: http://username:password@127.0.0.1:18332
   assets:
-    balance: 333333
     accounts:
       -
-        address: 1dice8EMZmqKvrGE4Qc9bUFf9PX3xaYDp
+        address: 1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3

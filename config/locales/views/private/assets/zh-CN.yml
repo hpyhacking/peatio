@@ -5,7 +5,6 @@ zh-CN:
         liability-proof: 资产证明
         btc-assets: BTC资产清单
         cny-assets: CNY资产清单
-        merkle_approach: 了解更多偿付能力验证技术
       liability_tabs:
         verify-btc: 验证我的BTC资产
         verify-cny: 验证我的CNY资产
@@ -14,8 +13,6 @@ zh-CN:
       liability_proof:
         title: 资产证明
         intro: 我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。
-        what-is-100-percent-reserve: 什么是100%准备金？
-        what-is-100-percent-reserve-uri: 'https://peatio.com/documents/liability_proof'
         how-to-verify: 如何验证交易所具备偿付能力？
         how-to-verify-uri: 'https://peatio.com/documents/liability_proof'
       liability_data:

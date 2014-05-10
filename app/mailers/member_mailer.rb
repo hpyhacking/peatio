@@ -1,5 +1,5 @@
 class MemberMailer < ActionMailer::Base
-  include Resque::Mailer
+  include AMQPQueue::Mailer
 
   default from: "noreply@peatio.com"
 

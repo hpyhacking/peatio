@@ -71,12 +71,6 @@ module ApplicationHelper
     image_tag(data, :class => 'qrcode img-thumbnail')
   end
 
-  def otp_tag
-    text_field_tag 'two_factor[otp]', '', class: 'form-control',
-      step: 1, min: 100000, max: 999999, type: 'number',
-      placeholder: t('simple_form.placeholders.defaults.otp')
-  end
-
   def rev_category(type)
     type.to_sym == :bid ? :ask : :bid
   end
@@ -115,17 +109,48 @@ module ApplicationHelper
     CoinRPC[:btc].getinfo[:testnet] ? "http://testnet.btclook.com/addr/#{address}" : "https://blockchain.info/address/#{address}"
   end
 
+  def top_nav(link_text, link_path, link_icon, links = nil, controllers: [])
+    if links && links.length > 1
+      top_dropdown_nav(link_text, link_path, link_icon, links, controllers: controllers)
+    else
+      top_nav_link(link_text, link_path, link_icon, controllers: controllers)
+    end
+  end
+
   def top_nav_link(link_text, link_path, link_icon, controllers: [])
     class_name = current_page?(link_path) ? 'active' : nil
-    class_name ||= controllers.include?(controller_name) ? 'active' : nil
+    class_name ||= (controllers & controller_path.split('/')).empty? ? nil : 'active'
 
     content_tag(:li, :class => class_name) do
       link_to link_path do
-        content_tag(:i, :class => "fa fa-#{link_icon}") do end + 
+        content_tag(:i, :class => "fa fa-#{link_icon}") do end +
         content_tag(:span, link_text)
       end
     end
   end
+
+  def top_dropdown_nav(link_text, link_path, link_icon, links, controllers: [])
+    class_name = current_page?(link_path) ? 'active' : nil
+    class_name ||= (controllers & controller_path.split('/')).empty? ? nil : 'active'
+
+    content_tag(:li, class: "dropdown #{class_name}") do
+      link_to(link_path, class: 'dropdown-toggle', 'data-toggle' => 'dropdown') do
+        concat content_tag(:i, nil, class: "fa fa-#{link_icon}")
+        concat content_tag(:span, link_text)
+        concat content_tag(:b, nil, class: 'caret')
+      end +
+      content_tag(:ul, class: 'dropdown-menu') do
+        links.collect do |link|
+          concat content_tag(:li, link_to(*link))
+        end
+      end
+    end
+  end
+
+  def market_links
+    @market_links ||= Market.all.collect{|m| [m.name, market_path(m.id)]}
+  end
+
 
   def simple_vertical_form_for(record, options={}, &block)
     result = simple_form_for(record, options, &block)
@@ -191,11 +216,11 @@ module ApplicationHelper
       title = model_or_title
       capture do
         if block_given?
-          content_tag(:dt, title.to_s) + 
+          content_tag(:dt, title.to_s) +
             content_tag(:dd, capture(&block))
         else
           value = name
-          content_tag(:dt, title.to_s) + 
+          content_tag(:dt, title.to_s) +
             content_tag(:dd, value)
         end
       end
@@ -203,17 +228,51 @@ module ApplicationHelper
       model = model_or_title
       capture do
         if block_given?
-          content_tag(:dt, model.class.human_attribute_name(name)) + 
+          content_tag(:dt, model.class.human_attribute_name(name)) +
             content_tag(:dd, capture(&block))
         else
           value ||= model.try(name)
           value = value.localtime if value.is_a? DateTime
           value = I18n.t(value) if value.is_a? TrueClass
 
-          content_tag(:dt, model.class.human_attribute_name(name)) + 
+          content_tag(:dt, model.class.human_attribute_name(name)) +
             content_tag(:dd, value)
         end
       end
     end
+  end
+
+  def muut_api_options
+    key = ENV['MUUT_KEY']
+    secret = ENV['MUUT_SECRET']
+    ts = Time.now.to_i
+    message = Base64.strict_encode64 ({user: current_user.try(:to_muut) || {}}).to_json
+    signature = Digest::SHA1.hexdigest "#{secret} #{message} #{ts}"
+    { key: key,
+      signature: signature,
+      message: message,
+      timestamp: ts
+    }
+  end
+
+  def yesno(val)
+    if val
+      content_tag(:span, 'YES', class: 'label label-success')
+    else
+      content_tag(:span, 'NO', class: 'label label-danger')
+    end
+  end
+
+  def two_factor_tag(user)
+    app_activated = user.two_factors.by_type(:app).activated?
+    sms_activated = user.two_factors.by_type(:sms).activated?
+
+    if !sms_activated and user.phone_number_verified?
+      user.two_factors.by_type(:sms).active!
+      sms_activated = true
+    end
+
+    locals = {app_activated: app_activated, sms_activated: sms_activated}
+    render partial: 'shared/two_factor_auth', locals: locals
   end
 end

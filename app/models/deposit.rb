@@ -1,4 +1,6 @@
 class Deposit < ActiveRecord::Base
+  STATES = [:submitting, :cancelled, :submitted, :rejected, :accepted, :checked, :warning]
+
   extend Enumerize
 
   include AASM
@@ -7,13 +9,14 @@ class Deposit < ActiveRecord::Base
 
   attr_accessor :save_fund_source
 
-  STATE = [:submitting, :cancelled, :submitted, :rejected, :accepted, :checked, :warning]
-  enumerize :aasm_state, in: STATE, scope: true
+  has_paper_trail on: [:update, :destroy]
+
+  enumerize :aasm_state, in: STATES, scope: true
 
   alias_attribute :sn, :id
 
-  delegate :key_text, to: :channel, prefix: true
-  delegate :full_name, to: :member
+  delegate :name, to: :member, prefix: true
+  delegate :id, to: :channel, prefix: true
 
   belongs_to :member
   belongs_to :account

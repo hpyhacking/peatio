@@ -3,12 +3,12 @@ module Matching
 
   class Executor
 
-    def initialize(market, ask, bid, price, volume)
-      @market = market
-      @ask    = OrderAsk.lock(true).find(ask.id)
-      @bid    = OrderBid.lock(true).find(bid.id)
-      @price  = price
-      @volume = volume
+    def initialize(payload)
+      @market = Market.find payload[:market_id]
+      @ask    = OrderAsk.lock(true).find(payload[:ask_id])
+      @bid    = OrderBid.lock(true).find(payload[:bid_id])
+      @price  = BigDecimal.new payload[:strike_price]
+      @volume = BigDecimal.new payload[:volume]
     end
 
     def execute!
@@ -26,7 +26,17 @@ module Matching
         @ask.strike trade
       end
 
-      Global[@market].trigger_trade trade
+      AMQPQueue.publish(
+        :trade,
+        {id: trade.id},
+        {headers: {
+          market: @market.id,
+          ask_member_id: @ask.member_id,
+          bid_member_id: @bid.member_id
+         }
+        }
+      )
+
       trade
     end
 

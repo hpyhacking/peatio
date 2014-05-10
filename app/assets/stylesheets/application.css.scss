@@ -1,0 +1,23 @@
+@import 'vars/peatio';
+@import 'bootstrap';
+@import 'font-awesome';
+@import 'selectize.bootstrap3';
+
+@import 'basic';
+@import 'layout';
+@import 'welcome';
+@import 'assets';
+@import 'my_assets';
+
+
+.radio_buttons.form-control {
+  width: inherit;
+  height: inherit;
+  border: none;
+  box-shadow: none;
+}
+
+// Fix language selector offset
+.navbar-nav.navbar-right:last-child {
+  margin-right: 0;
+}

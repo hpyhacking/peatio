@@ -6,22 +6,24 @@ class Member < ActiveRecord::Base
   has_many :withdraws
   has_many :fund_sources
   has_many :deposits
+  has_many :api_tokens
+  has_many :two_factors
 
-  has_one :two_factor
   has_one :id_document
+  has_one :sms_token
 
-  delegate :activated?, to: :two_factor, prefix: true
-  delegate :verified?, to: :id_document, prefix: true
+  delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
+  delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
+  delegate :verified?,  to: :sms_token,   prefix: true
 
   has_many :authentications, dependent: :destroy
 
   validates :sn, presence: true
   before_validation :generate_sn
 
-  before_create :create_accounts
-  after_commit :send_activation
-
   alias_attribute :full_name, :name
+
+  after_create :touch_accounts
 
   class << self
     def from_auth(auth_hash)
@@ -43,8 +45,9 @@ class Member < ActiveRecord::Base
     end
 
     def create_from_auth(auth_hash)
-      member = create(email: auth_hash['info']['email'])
+      member = create(email: auth_hash['info']['email'], activated: false)
       member.add_auth(auth_hash)
+      member.send_activation
       member
     end
   end
@@ -66,11 +69,29 @@ class Member < ActiveRecord::Base
   end
 
   def trigger(event, data)
-    Pusher["private-#{self.sn}"].trigger_async(event, data)
+    AMQPQueue.enqueue(:pusher_member, {member_id: id, event: event, data: data})
+  end
+
+  def notify(event, data)
+    ::Pusher["private-#{sn}"].trigger_async event, data
   end
 
   def to_s
     "#{name || email} - #{sn}"
+  end
+
+  def to_muut
+    {
+      id: sn,
+      displayname: name,
+      email: email,
+      avatar: gravatar,
+      is_admin: admin?
+    }
+  end
+
+  def gravatar
+    "//gravatar.com/avatar/" + Digest::MD5.hexdigest(email.strip.downcase) + "?d=retro"
   end
 
   def initial?
@@ -78,15 +99,19 @@ class Member < ActiveRecord::Base
   end
 
   def get_account(currency)
-    self.accounts.with_currency(currency.to_sym).first
-  end
+    account = accounts.with_currency(currency.to_sym).first
 
-  def two_factor
-    TwoFactor.find_by_member_id(id) || create_two_factor
+    if account.nil?
+      touch_accounts
+      account = accounts.with_currency(currency.to_sym).first
+    end
+
+    account
   end
+  alias :ac :get_account
 
   def touch_accounts
-    less = Currency.codes.keys - self.accounts.map(&:currency).map(&:to_sym)
+    less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
     less.each do |code|
       self.accounts.create(currency: code, balance: 0, locked: 0)
     end
@@ -100,19 +125,11 @@ class Member < ActiveRecord::Base
     Activation.create(member: self)
   end
 
-  alias :ac :get_account
-
   private
   def generate_sn
     self.sn and return
     begin
       self.sn = "PEA#{ROTP::Base32.random_base32(8).upcase}TIO"
     end while Member.where(:sn => self.sn).any?
-  end
-
-  def create_accounts
-    self.accounts = Currency.codes.map do |key, code|
-      Account.new(currency: code, balance: 0, locked: 0)
-    end
   end
 end

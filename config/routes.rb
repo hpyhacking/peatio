@@ -1,12 +1,13 @@
-require 'resque/server'
 require 'market_constraint'
 require 'whitelist_constraint'
 
 Rails.application.eager_load! if Rails.env.development?
 
 Peatio::Application.routes.draw do
+
+  root 'welcome#index'
+
   if Rails.env.development?
-    mount Resque::Server.new, :at => "/jobs"
     mount MailsViewer::Engine => '/mails'
   end
 
@@ -20,7 +21,8 @@ Peatio::Application.routes.draw do
   resource :identity, :only => [:edit, :update]
 
   namespace :verify do
-    resource :two_factor, :only => [:new, :create]
+    resource :two_factor,  only: [:new, :create]
+    resources :sms_tokens, only: [:new, :create]
   end
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do
@@ -29,7 +31,47 @@ Peatio::Application.routes.draw do
     resources :activations, only: [:new, :edit, :update]
   end
 
-  resources :documents, :only => :show
+  get '/documents/api_v2'
+  resources :documents, only: [:show]
+  resources :refresh_two_factors, only: [:show]
+
+  scope module: 'private' do
+    resource  :id_document, only: [:new, :create]
+
+    resources :settings, only: [:index]
+    resources :two_factors, only: [:show, :update, :edit, :destroy]
+    resources :deposits, only: [:index, :destroy, :update]
+    namespace :deposits do
+      Deposit.descendants.each do |d|
+        resources d.resource_name
+      end
+    end
+
+    resources :withdraws, except: [:new]
+    namespace :withdraws do
+      Withdraw.descendants.each do |w|
+        resources w.resource_name
+      end
+    end
+
+    resources :account_versions, :only => :index
+
+    resources :fund_sources, :only => [:index, :destroy]
+    resources :exchange_assets, :controller => 'assets' do
+      member do
+        get :partial_tree
+      end
+    end
+    resources :my_assets, :controller => 'my_assets', :only => [:index]
+
+    resources :markets, :only => :show, :constraints => MarketConstraint do
+      resources :orders, :only => [:index, :destroy]
+      resources :order_bids, :only => [:create]
+      resources :order_asks, :only => [:create]
+    end
+
+    post '/pusher/auth', to: 'pusher#auth'
+  end
 
   namespace :admin do
     get '/', to: 'dashboard#index', as: :dashboard
@@ -58,47 +100,7 @@ Peatio::Application.routes.draw do
     end
   end
 
-  scope module: 'private' do
-    get '/settings', to: 'settings#index', as: :settings
-    resource :id_document, :only => [:new, :create]
-    resource :two_factor, :only => [:new, :create, :edit, :destroy]
-
-    resources :deposits, only: [:index, :destroy, :update]
-    namespace :deposits do
-      Deposit.descendants.each do |w|
-        resources w.resource_name
-      end
-    end
-
-    resources :withdraws, except: [:new]
-    namespace :withdraws do
-      WithdrawChannel.all.each do |w|
-        resources w.key, only: [:new]
-      end
-    end
-
-    resources :account_versions, :only => :index
-
-    resources :fund_sources, :only => [:index, :destroy]
-    resources :exchange_assets, :controller => 'assets' do
-      member do
-        get :partial_tree
-      end
-    end
-    resources :my_assets, :controller => 'my_assets', :only => [:index]
-
-    resources :markets, :only => :show, :constraints => MarketConstraint do
-      resources :orders, :only => [:index, :destroy]
-      resources :order_bids, :only => [:create]
-      resources :order_asks, :only => [:create]
-    end
-  end
-
   get 'payment_transaction/:currency/:txid', to: 'payment_transaction#create'
-
-  scope module: 'private' do
-    post '/pusher/auth', to: 'pusher#auth'
-  end
 
   constraints(WhitelistConstraint.new(JSON.parse(Figaro.env.try(:api_whitelist) || '[]'))) do
     namespace :api, defaults: {format: 'json'}, :constraints => MarketConstraint do
@@ -111,5 +113,8 @@ Peatio::Application.routes.draw do
     end
   end
 
-  root 'welcome#index'
+  get '/forum' => 'forum#index'
+
+  mount APIv2::Mount => '/'
+
 end

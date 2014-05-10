@@ -1,4 +1,15 @@
+module SearchButton
+  def search_button(*args, &block)
+    template.content_tag :div, :class => "form-group" do
+      template.content_tag :div, :class => "form-submit" do
+        submit(*args)
+      end
+    end
+  end
+end
+
 module WrappedButton
+
   def wrapped_button(*args, &block)
     template.content_tag :div, :class => "form-group" do
       template.content_tag :div, :class => "form-submit col-sm-11" do
@@ -25,4 +36,5 @@ module WrappedButton
     end
   end
 end
+SimpleForm::FormBuilder.send :include, SearchButton
 SimpleForm::FormBuilder.send :include, WrappedButton

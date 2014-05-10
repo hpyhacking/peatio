@@ -5,7 +5,8 @@ module Private
     protect_from_forgery :except => :auth
   
     def auth
-      if current_user
+      sn = params[:channel_name].split('-', 2).last
+      if current_user && current_user.sn == sn
         response = Pusher[params[:channel_name]].authenticate(params[:socket_id])
         render :json => response
       else

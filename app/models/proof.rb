@@ -1,11 +1,13 @@
 class Proof < ActiveRecord::Base
-  extend Enumerize
-  enumerize :currency, in: Currency.codes, scope: true
+  include Currencible
 
   has_many :partial_trees
 
-  serialize :root
+  serialize :root, JSON
+  serialize :addresses, JSON
   validates_presence_of :root, :currency
+
+  delegate :coin?, to: :currency_obj
 
   def ready!
     self.ready = true
@@ -18,6 +20,12 @@ class Proof < ActiveRecord::Base
 
   def partial_tree_of(account)
     partial_trees.where(account: account).first
+  end
+
+  def asset_sum
+    addresses.reduce 0 do |memo, address|
+      memo + address["balance"]
+    end
   end
 
 end

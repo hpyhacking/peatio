@@ -53,14 +53,15 @@ Peatio::Application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :memory_store
-  config.cache_store = :redis_store, { expires_in: 90.minutes }
+  redis_host = ENV["REDIS_HOST"] || "redis://127.0.0.1:6379/0/peatio"
+  config.cache_store = :redis_store, redis_host, { expires_in: 90.minutes }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  config.assets.precompile += %w( admin.js admin.css html5.js market.css .svg .eot .woff .ttf )
+  config.assets.precompile += %w( admin.js admin.css html5.js market.css api_v2.css api_v2.js .svg .eot .woff .ttf )
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

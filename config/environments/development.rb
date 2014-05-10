@@ -23,7 +23,7 @@ Peatio::Application.configure do
   config.action_mailer.delivery_method = :file
   config.action_mailer.file_settings = { location: 'tmp/mails' }
 
-  config.action_mailer.default_url_options = { :host => "peatio.dev" }
+  config.action_mailer.default_url_options = { :host => ENV["URL_HOST"] }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -39,6 +39,3 @@ Peatio::Application.configure do
   config.action_controller.perform_caching = true
   config.active_record.default_timezone = :local
 end
-
-Resque.logger = Logger.new Rails.root.join('log', 'resque.log')
-Resque.logger.level = Logger::INFO

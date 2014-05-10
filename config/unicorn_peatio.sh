@@ -13,12 +13,12 @@
 # Change these to match your app:
 USER=deploy
 APP_NAME=peatio
-APP_PATH=/home/deploy/www
+APP_PATH=/home/$USER/$APP_NAME
 ENV=production
 RBENV_RUBY_VERSION=2.1.0
 
 # env
-APP_ROOT="$APP_PATH/$APP_NAME"
+APP_ROOT="$APP_PATH/current"
 RBENV_ROOT="/home/$USER/.rbenv"
 PATH="$RBENV_ROOT/bin:$RBENV_ROOT/shims:$PATH"
 SET_PATH="cd $APP_ROOT; rbenv rehash; rbenv local $RBENV_RUBY_VERSION"

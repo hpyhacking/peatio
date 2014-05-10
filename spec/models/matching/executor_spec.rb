@@ -8,7 +8,15 @@ describe Matching::Executor do
   let(:price)  { 10.to_d }
   let(:volume) { 5.to_d }
 
-  subject { Matching::Executor.new(market, ask, bid, price, volume) }
+  subject {
+    Matching::Executor.new(
+      market_id:    market.id,
+      ask_id:       ask.id,
+      bid_id:       bid.id,
+      strike_price: price.to_s('F'),
+      volume:       volume.to_s('F')
+    )
+  }
 
   context "invalid volume" do
     let(:ask) { ::Matching::Order.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
@@ -58,8 +66,8 @@ describe Matching::Executor do
       Order.find(bid.id).state.should == Order::DONE
     end
 
-    it "should publish trade through pusher" do
-      Pusher.expects(:trigger_async)
+    it "should publish trade through amqp" do
+      AMQPQueue.expects(:publish)
       subject.execute!
     end
   end

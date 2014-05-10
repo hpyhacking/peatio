@@ -13,32 +13,13 @@ zh-CN:
     documents:
       index:
         new: 新建文档
-    currency_deposits:
-      new:
-        deposit: 充值
-        accounts_title: 账户信息
-      create:
-        success: 充值成功
-    withdraws:
-      withdraw:
-        member_title: 用户账户信息
-        withdraw_title: 提现请求信息
-      edit:
-        actions_title: 可执行操作
-      show:
-        title: 处理提现
-        actions_title: 可执行操作
-      update:
-        success: 提现已经开始处理
-      destroy:
-        success: 提现已经被驳回
     statistic:
       filter: 筛选
       summary: 总结
       click-to-expand: 点击展开
       members:
         show:
-          count: 用户数
+          table: 用户数据结果
       orders:
         show:
           avg: 挂单均价

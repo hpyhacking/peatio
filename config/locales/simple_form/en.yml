@@ -28,16 +28,13 @@ en:
       reset_password:
         update: Reset Sign in Password
         create: Reset Sign in Password
-      withdraw:
-        edit: Process
-        update: Process Withdraw
-        create: Create Request
-        new: Next
       fund_source:
         create: Add Withdraw Address
       deposit:
         create: Deposit
       id_document:
+        create: Submit
+      withdraw:
         create: Submit
   simple_form:
     creating: "Creating..."
@@ -54,6 +51,7 @@ en:
       default_message: "Please review the problems below:"
     labels:
       defaults:
+        save_fund_source: 保存为常用帐号，以便下次使用
         recaptcha: Authentication code
       two_factor:
         uri: Two-dimensional code
@@ -63,8 +61,6 @@ en:
         label: Label
         address: Address
         category: Category
-      withdraw:
-        password: Password
       session:
         email: Login E-mail
         password: Login Password
@@ -88,10 +84,6 @@ en:
       document:
         key: Document link URL key
         title: Document Title
-      withdraw:
-        sum: Withdraw Amount
-        amount: You wang withdraw amount
-        password: Please validation your sign inpassword
       fund_source:
         label: Real name
         address: Address

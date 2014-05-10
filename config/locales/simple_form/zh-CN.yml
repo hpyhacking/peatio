@@ -9,11 +9,11 @@ zh-CN:
       order_bid:
         create: 买入
       document:
-        create: '创建文档'
-        update: '更新文档'
-        destroy: '删除文档'
+        create: 创建文档
+        update: 更新文档
+        destroy: 删除文档
       member:
-        update: '开通账户'
+        update: 开通账户
       identity:
         save: 登录
         create: 注册
@@ -28,21 +28,13 @@ zh-CN:
       reset_password:
         update: 重置登录密码
         create: 发送重置请求
-      withdraw:
-        edit: 处理
-        update: 处理提现
-        create: 提交申请
-        new: 下一步
-        all: 提取全部余额
       fund_source:
         create: 新增提现地址
-      deposit:
-        create: 充值
       id_document:
         create: 提交
   simple_form:
-    creating: "Creating..."
-    updating: 'Updating...'
+    creating: Creating...
+    updating: Updating...
     buttons:
       or: 'or'
       cancel: 取消
@@ -56,6 +48,7 @@ zh-CN:
     labels:
       defaults:
         recaptcha: 验证码
+        save_fund_source: 保存为常用帐号，以便下次使用
         otp: 验证器上的密码
       two_factor:
         uri: 二维码
@@ -68,24 +61,6 @@ zh-CN:
         name: 账户名
       member:
         name: 账户名
-      withdraw:
-        defaults:
-          otp: 验证器上的密码
-        password: 登录密码
-        satoshi:
-          fund_uid: 提现地址
-          fund_extra: 备注
-          sum: 数量
-          fee: 矿工费
-          amount: 实际到帐
-        bank:
-          name: 收款户名
-          fund_uid: 银行帐号
-          fund_extra: 开户行
-          fund_extra_text: 开户行
-          sum: 金额
-          fee: 手续费
-          amount: 实际到帐
       session:
         email: 登录邮箱
         password: 登录密码
@@ -111,20 +86,6 @@ zh-CN:
       document:
         key: 文章连接URL键值
         title: 文章标题
-      withdraw:
-        bank:
-          sum: 最低金额2元，单笔限额5万元
-          fund_extra: 选择开户行
-          fund_uid: 使用已有银行账号或输入新账号
-          subbranch: xx分行xx支行
-        satoshi:
-          sum: 单笔最低提现0.1BTC
-          fund_uid: 使用保存的地址或者输入新地址
-          fund_extra: 请备注您的钱包地址，方便下次查找使用
-      deposits:
-        banks:
-          fund_extra: 选择开户行
-          fund_uid: 使用已有银行账号或输入新账号
       order_bid:
         origin_volume:  买入数量
         sum: 总成交金额
@@ -148,12 +109,3 @@ zh-CN:
         name: 提现银行账户姓名必须与您的实名认证姓名一致。
       member:
         name: 提现银行账户姓名必须与您的实名认证姓名一致。
-      withdraw:
-        bank:
-          sum: "每笔提现手续费1元，从提取金额中扣除。<a href='#'>资费说明</a>"
-          fund_extra: 若您的开户银行不再列表中，请联系客服。
-      deposit:
-        bank:
-          holder: 银行账户姓名必须与您的实名认证姓名一致。
-          id: 请将此信息添加到转账订单的备注（附言或说明）中
-          amount: "<a href='/documents/price'>资费说明</a>"

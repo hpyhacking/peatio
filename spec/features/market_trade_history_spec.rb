@@ -21,7 +21,7 @@ feature 'show account info', js: true do
     expect(page.all('#orders_wait .order').count).to eq(1) # can only see his order
     expect(page.find('#orders_wait')).to have_content(I18n.t('actions.cancel'))
 
-    Resque.expects(:enqueue).with(Job::Matching, 'cancel', ask_order.to_matching_attributes)
+    AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: ask_order.to_matching_attributes)
     click_on I18n.t('actions.cancel')
     sleep 0.5
   end

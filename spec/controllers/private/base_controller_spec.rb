@@ -12,7 +12,7 @@ describe Private::BaseController do
     before do
       request.env["HTTP_REFERER"] = "/enter_your_otp"
       controller.session[:member_id] = member.id
-      member.two_factor.refresh
+      member.two_factors.by_type(:app).refresh
     end
 
     controller(::Private::BaseController) do
@@ -35,14 +35,14 @@ describe Private::BaseController do
       end
 
       it "renders if provided correct otp" do
-        member.two_factor.update_column :activated, true
-        get :important, two_factor: { otp: member.two_factor.now }
+        member.two_factors.by_type(:app).update_column :activated, true
+        get :important, two_factor: { otp: member.two_factors.by_type(:app).now }
 
         expect(response.body).to eq('you catch me!')
       end
 
       it "redirects if failed with wrong otp" do
-        member.two_factor.update_column :activated, true
+        member.two_factors.by_type(:app).update_column :activated, true
 
         get :important, two_factor: { otp: 123456 }
         expect(response).to redirect_to '/enter_your_otp'

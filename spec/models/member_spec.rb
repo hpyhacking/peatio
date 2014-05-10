@@ -16,9 +16,23 @@ describe Member do
         member.save!
       }.to change(member.accounts, :count).by(Currency.codes.size)
 
-      Currency.codes.each do |key, code|
-        expect(Account.where(member_id: member.id, currency: code).count).to eq 1
+      Currency.codes.each do |code|
+        expect(Account.with_currency(code).where(member_id: member.id).count).to eq 1
       end
+    end
+  end
+
+  describe 'send activation after create' do
+    let(:auth_auth) {
+      {
+        'info' => { 'email' => 'foobar@peatio.dev' }
+      }
+    }
+
+    it 'create activation' do
+      expect {
+        Member.from_auth(auth_auth)
+      }.to change(Activation, :count).by(1)
     end
   end
 end

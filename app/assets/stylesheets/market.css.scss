@@ -1,0 +1,164 @@
+@import 'vars/peatio';
+$grid-gutter-width: 10px;
+$grid-columns: 24;
+
+@import 'bootstrap';
+@import 'font-awesome';
+@import 'basic';
+@import 'layout';
+
+// Fix language selector offset
+.navbar-nav.navbar-right:last-child {
+  margin-right: 0;
+}
+
+#market {
+  table {
+    th {
+      &.price, &.amount, &.volume {
+        text-align: right;
+      }
+    }
+
+    td {
+      font-size: 14px;
+      line-height: 14px !important;
+      padding: 2px;
+      border: none;
+
+      &.price, &.amount, &.volume {
+        text-align: right;
+        font-family: monospace;
+      }
+    }
+
+    margin-bottom: 0;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  hr {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
+  .row:last-of-type .panel .panel-body{
+    height: 410px;
+  }
+
+  .panel {
+    padding-bottom: 10px;
+
+    .panel-heading {
+      padding-top: 5px;
+      padding-bottom: 5px;
+
+      > * {
+        display: inline-block;
+        margin-right: 10px;
+      }
+    }
+
+    .panel-body {
+      &.my-orders {
+        .tab-content {
+          height: 365px;
+          overflow-y: auto;
+        }
+      }
+
+      &.trades {
+        overflow-y: auto;
+      }
+
+      &.orders {
+        tr:hover {
+          cursor: pointer;
+          font-weight: bold;
+        }
+      }
+
+      &.place-order {
+        height: 390px;
+
+        .input-group-addon {
+          min-width: 75px;
+          text-align: right;
+        }
+
+        .current-balance label {
+          margin-right: 5px;
+
+          &.currency {
+            text-transform: uppercase;
+          }
+        }
+
+        span.label + span.label {
+          margin-left: 0;
+        }
+      }
+
+    }
+  }
+
+  .ticker {
+    li {
+      text-align: center;
+      span {
+        display: block;
+        &.name {
+          font-size: 16px;
+          color: #999;
+        }
+      }
+    }
+  }
+
+  .account-balance {
+    ul li {
+      span.name {
+        float: left;
+      }
+      span.value {
+        float: right;
+      }
+    }
+  }
+
+  .type-toggle {
+    width: 100%;
+
+    a, a:hover {
+      padding: 6px 12px;
+      display: block;
+      color: white;
+      text-decoration: none;
+    }
+
+    .btn {
+      padding: 0;
+      width: 50%;
+
+      &.btn-primary {
+        border-color: #ccc;
+        background-color: #eee;
+        a {
+          color: #555;
+        }
+      }
+      &.active {
+        background-color: #3e4c5a;
+        border-color: #34404b;
+        a {
+          color: white;
+        }
+      }
+    }
+  }
+
+}

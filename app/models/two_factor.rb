@@ -3,27 +3,31 @@ class TwoFactor < ActiveRecord::Base
 
   attr_accessor :otp
 
-  def verify(otp = nil)
-    rotp = ROTP::TOTP.new(otp_secret)
+  SUBCLASS = ['app', 'sms', 'email', 'wechat']
 
-    if rotp.verify(otp || self.otp)
-      touch(:last_verify_at)
-    else
-      errors.add :otp, :invalid
-      false
+  validates_uniqueness_of :type, scope: :member_id
+
+  scope :activated, -> { where(activated: true) }
+
+  class << self
+    def by_type(type)
+      return if not SUBCLASS.include?(type.to_s)
+
+      klass = "two_factor/#{type}".camelize.constantize
+      klass.find_or_create_by(type: klass.name)
+    end
+
+    def activated?
+      activated.any?
     end
   end
 
-  def refresh
-    update_attribute(:otp_secret, ROTP::Base32.random_base32)
+  def active!
+    update activated: true
   end
 
-  def uri
-    totp = ROTP::TOTP.new(otp_secret)
-    totp.provisioning_uri("peatio##{member.email}")
+  def inactive!
+    update activated: false
   end
 
-  def now
-    ROTP::TOTP.new(otp_secret).now
-  end
 end

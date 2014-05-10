@@ -1,10 +1,13 @@
 class Order < ActiveRecord::Base
   extend Enumerize
 
-  enumerize :bid, in: Currency.codes
-  enumerize :ask, in: Currency.codes
+  enumerize :bid, in: Currency.hash_codes
+  enumerize :ask, in: Currency.hash_codes
   enumerize :currency, in: Market.enumerize, scope: true
   enumerize :state, in: {:wait => 100, :done => 200, :cancel => 0}, scope: true
+
+  SOURCES = %w(Web APIv2)
+  enumerize :source, in: SOURCES, scope: true
 
   after_commit :trigger
   before_validation :fixed
@@ -84,6 +87,16 @@ class Order < ActiveRecord::Base
 
   def market
     currency
+  end
+
+  def avg_price
+    if trades.empty?
+      ::Trade::ZERO
+    else
+      sum = trades.map {|t| t.price*t.volume }.sum
+      vol = trades.map(&:volume).sum
+      sum / vol
+    end
   end
 
   def to_matching_attributes
