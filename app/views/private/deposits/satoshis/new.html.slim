@@ -31,6 +31,9 @@ p
   h4 = t('.step-4')
   p = t('.history').html_safe
 
+= content_for :guide
+  = image_tag("coins/btc.png")
+
 = content_for :after
   = panel do
     = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
