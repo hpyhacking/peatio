@@ -5,7 +5,7 @@ module Private
     before_action :verify_two_factor!, only: :update
 
     def index
-      @channels = WithdrawChannel.all
+      @channels = WithdrawChannel.all.sort
     end
 
   end

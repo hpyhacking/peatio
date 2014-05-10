@@ -3,13 +3,13 @@
   currency: btc
   fixed: 4
   fee: 0.0001
-  sort_order: 1
+  sort_order: 2
 - id: 300
   key: protoshare
   currency: pts
   fixed: 4
   fee: 0.0001
-  sort_order: 2
+  sort_order: 3
 - id: 400
   key: bank
   currency: cny
@@ -20,4 +20,10 @@
   fee: 0
   proportion: true
   banks: ["icbc", "cmb", "abc", "cbc", "bc", "cmbc", "ceb", "cncb", "bcm", "cib", "spdb", "hxb", "pab", "gdb", "bob"]
-  sort_order: 3
+  sort_order: 4
+- id: 500
+  key: dogecoin
+  currency: dog
+  fixed: 4
+  fee: 0.0001
+  sort_order: 1
