@@ -44,8 +44,7 @@ $ ->
   PushButton.attachTo('.my-orders')
 
   # if gon.env is 'development'
-  #   Pusher.log = (message) ->
-  #     window.console && console.log(message)
+  #   Pusher.log = (message) -> window.console && console.log(message)
 
   pusher = new Pusher(gon.pusher_key, {encrypted: true})
   pusher.connection.bind 'state_change', (state) ->
@@ -53,8 +52,7 @@ $ ->
       $('#markets-show .pusher-unavailable').removeClass('hide')
 
   GlobalData.attachTo(document, {pusher: pusher})
-  AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
-  OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
+  MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
 
   MarketTickerUI.attachTo('.ticker')
   MarketOrdersUI.attachTo('.orders')
