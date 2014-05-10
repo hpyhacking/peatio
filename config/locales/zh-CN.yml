@@ -40,28 +40,34 @@ zh-CN:
       cny: CNY
       btc: BTC
       pts: PTS
+      dog: DOGE
   currency:
     name:
       cny: 人民币
       btc: 比特币
       pts: 比特股
+      dog: 狗币
     code:
       cny: CNY
       btc: BTC
       pts: PTS
+      dog: DOGE
     format:
       zero: 'N/A'
       cny: '0.00'
       btc: '0.0000'
       pts: '0.0000'
+      dog: '0.0000'
     icon-large:
       cny: <span class='big-currency'>¥</span>
       btc: <span class='big-currency'>฿</span>
       pts: <span class='big-currency'>P</span>
+      dog: <span class='big-currency'>Ð</span>
     icon:
       cny: <span class='currency'>¥</span>
       btc: <span class='currency'>฿</span>
       pts: <span class='currency'>P</span>
+      dog: <span class='currency'>Ð</span>
     sum:
       bid: 合计 <span class=bid_totle></span>%{bid_icon}
       ask: 合计 <span class=ask_totle></span>%{bid_icon}
