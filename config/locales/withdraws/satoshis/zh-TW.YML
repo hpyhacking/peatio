@@ -4,8 +4,8 @@
       withdraws/satoshi: 銀行匯款
     attributes:
       withdraws/satoshi:
-        id: 提現編號
-        full_name: 用戶
+        id: 提款號碼
+        full_name: 戶名
         currency_obj_key_text: 幣別
         state_and_actions: 狀態/操作
         fund_source: 提款地址
@@ -14,8 +14,8 @@
 
   withdraw_channel_satoshi:
     satoshi:
-      key: 區塊鏈
-      title: 比特幣提款
+      key: 塊鏈
+      title: 比特幣提現
 
   admin:
     withdraws:
@@ -25,9 +25,9 @@
           all: 二十四小時內訂單
           empty: 無任何數據
         show:
-          process: 受理
-          succeed: 提款
-          reject: 駁回
-          succeed_confirm: 確定處理提款？
-          reject_confirm: 確定取消提款？
-          withdraw: 比特幣提款
+          process: 處理
+          succeed: 提現
+          reject: 拒絕
+          succeed_confirm: 確定處理提現？
+          reject_confirm: 確定拒絕提現？
+          withdraw: 比特幣提現
