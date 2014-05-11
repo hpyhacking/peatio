@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-#source 'http://ruby.taobao.org'
 
 gem 'rails'
 gem 'rails-i18n'
