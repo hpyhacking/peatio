@@ -1,0 +1,117 @@
+zh-CN:
+  withdraw_channel:
+    <%= name.underscore %>:
+      key: 块链
+      title: <%= name %> 提现
+      intro: 将你在貔貅的 <%= name %> 余额提取到你的钱包账户
+      latency: 30 分钟到账
+      transfer: 人工处理
+      go: 立即提现
+
+  activerecord:
+    models:
+      withdraws/<%= name.underscore %>: 银行转账
+    attributes:
+      withdraws/<%= name.underscore %>:
+        id: 提现编号
+        member_name: 用户
+        currency_obj_key_text: 币种
+        state_and_action: 状态/操作
+        fund_extra_text: 提现标签
+        fund_extra: 提现标签
+        fund_source: 提现标签/地址
+        fund_uid: 提现地址
+        created_at: 时间
+        sum: 数量
+        amount: 金额
+        remark: 备注
+        fee: 手续费
+    errors:
+      models:
+        withdraws/<%= name.underscore %>:
+          attributes:
+            sum:
+              poor: 账户余额不足，请核对。
+              greater_than: 小于单笔最低限额。
+            fund_uid:
+              blank: 请输入您的提现地址。
+              invalid: 无效的提现地址，请核对。
+              ismine: 提现地址为系统所有，请更换其他地址。
+
+  withdraws/<%= name.underscore %>:
+    aasm_state:
+      submitting: 待确认
+      submitted: 待校验
+      rejected: 已驳回
+      accepted: 已提交
+      suspect: 异常
+      processing: 受理中
+      coin_ready: 准备中
+      coin_done: 完毕
+      done: 提现成功
+      almost_done: 发送中
+      canceled: 已撤销
+      failed: 提现出错
+
+  private:
+    withdraws:
+      <%= name.underscore.pluralize %>:
+        destroy:
+          notice: 提现申请已被撤销，冻结余额已返还到您的账户
+        update:
+          notice: 提现申请成功，我们会尽快处理您的请求
+          alert_two_factor: 两步验证错误
+        new:
+          submit: 提交
+          allin: 全部提取
+          fund_uid: 使用已有已有提现地址或输入新地址
+          fund_extra: 选择开户行
+
+  admin:
+    withdraws:
+      <%= name.underscore.pluralize %>:
+        index:
+          one: 待处理提现订单
+          all: 二十四小时内订单
+          empty: 无任何数据
+        show:
+          process: 受理
+          succeed: 提现
+          reject: 驳回
+          succeed_confirm: 确定处理提现？
+          reject_confirm: 确定驳回提现？
+          withdraw: <%= name %> 提现
+
+  simple_form:
+    labels:
+      withdraw:
+        <%= name.underscore %>:
+          fee: 手续费
+          sum: 提取金额
+          fund_uid: 提现地址
+          fund_extra: 提现标签
+          account_balance: 可用金额
+          member_name: 账户名
+    placeholders:
+      withdraw:
+        <%= name.underscore %>:
+          sum: 最低 0.001
+          fund_extra: 填写常用标签（可选）
+    hints:
+      withdraw:
+        <%= name.underscore %>:
+          sum: "<a target='_balance' href='#'>资费说明</a>"
+
+  guides:
+    private:
+      withdraws:
+        <%= name.underscore.pluralize %>:
+          panel: <%= name %> 提现
+          new:
+            intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
+            default-panel: 历史记录
+          create:
+            intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
+            default-panel: 历史记录
+          edit:
+            intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
