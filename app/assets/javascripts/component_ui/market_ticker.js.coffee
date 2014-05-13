@@ -21,7 +21,7 @@ window.MarketTickerUI = flight.component ->
     @update @select('highPriceSelector'), data.high
     @update @select('latestPriceSelector'), data.last
 
-    document.title = "#{data.last} - Peatio"
+    document.title = "#{data.last} - 貔貅"
 
   @after 'initialize', ->
     @refresh 'market::ticker', gon.ticker
