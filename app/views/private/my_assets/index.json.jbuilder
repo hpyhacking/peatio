@@ -55,4 +55,6 @@ json.i18n do
   json.withdraw I18n.t('header.withdraw')
   json.cny I18n.t('currency.name.cny')
   json.btc I18n.t('currency.name.btc')
+  json.ptc I18n.t('currency.name.pts')
+  json.dog I18n.t('currency.name.dog')
 end

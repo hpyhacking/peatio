@@ -1,4 +1,4 @@
-window.TransactionsUI = flight.component ->
+@TransactionsUI = flight.component ->
   @defaultAttrs
     table: 'tbody'
     filter: '.dropdown-menu a'
