@@ -1,0 +1,28 @@
+.row
+  .col-md-8
+    .panel.panel-primary
+      .panel-heading
+        span = t('.withdraw', sn: @dogecoin.id)
+      .panel-body
+        = description_for :withdraw do
+          = item_for @dogecoin, :id
+          = item_for @dogecoin, :created_at
+          = item_for @dogecoin, :aasm_state_text
+          hr.split
+          = item_for @dogecoin.member, :name
+          = item_for @dogecoin, :fund_extra
+          = item_for @dogecoin, :fund_uid do
+            span = @dogecoin.fund_uid.truncate(22)
+          = item_for @dogecoin, :amount
+          hr.split
+          = item_for @dogecoin, :remark
+          hr.split
+          ul.list-inline.pull-right
+            - if @dogecoin.may_process?
+              li
+                = link_to t('.reject'), url_for([:admin, @dogecoin]), class: 'btn btn-danger', method: 'DELETE', confirm: t('.reject_confirm')
+            - if @dogecoin.may_process?
+              li
+                = link_to t('.process'), url_for([:admin, @dogecoin]), class: 'btn btn-primary', method: 'PATCH'
+  .col-md-8
+    = render partial: 'shared/admin/member', locals: {member: @dogecoin.member} 
