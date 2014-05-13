@@ -39,3 +39,14 @@
     accounts:
       -
         address: 1dice8EMZmqKvrGE4Qc9bUFf9PX3xaYDp
+- id: 8
+  key: dogecoin
+  code: dog
+  coin: true
+  rpc: http://username:password@127.0.0.1:22555
+  blockchain: http://testnet.btclook.com/txn/#{txid}
+  assets:
+    balance: 333333
+    accounts:
+      -
+        address: 1dice8EMZmqKvrGE4Qc9bUFf9PX3xaYDp

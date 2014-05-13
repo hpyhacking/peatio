@@ -17,11 +17,6 @@ when 'peatio-appsrv-02'
   set :deploy_to, '/home/deploy/peatio'
   set :domain, 'peatio-appsrv-02'
   set :branch, 'master'
-when 'peatio-queue'
-  set :user, 'deploy'
-  set :deploy_to, '/home/deploy/peatio'
-  set :domain, 'peatio-queue'
-  set :branch, 'master'
 else
   set :deploy_to, '/var/www/peatio'
   set :domain, 'stg.peat.io'
@@ -74,13 +69,10 @@ task deploy: :environment do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-
-    unless ['peatio-queue'].include? ENV['to']
       invoke :'rails:assets_precompile'
 
-      to :launch do
-        invoke :'unicorn:restart'
-      end
+    to :launch do
+      invoke :'unicorn:restart'
     end
   end
   invoke :'slack:finish'
