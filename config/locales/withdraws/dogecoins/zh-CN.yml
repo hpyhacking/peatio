@@ -2,8 +2,8 @@ zh-CN:
   withdraw_channel:
     dogecoin:
       key: 块链
-      title: 狗币提现
-      intro: 将你在貔貅的狗币余额提取到你的钱包账户
+      title: 狗狗币提现
+      intro: 将你在貔貅的狗狗币余额提取到你的钱包账户
       latency: 受理后 10 分钟到账
       transfer: 人工处理
       go: 立即提现
@@ -81,7 +81,7 @@ zh-CN:
           reject: 驳回
           succeed_confirm: 确定处理提现？
           reject_confirm: 确定驳回提现？
-          withdraw: 狗币提现
+          withdraw: 狗狗币提现
 
   simple_form:
     labels:
@@ -107,18 +107,18 @@ zh-CN:
     private:
       withdraws:
         dogecoins:
-          panel: 提现 / 狗币提现
+          panel: 提现 / 狗狗币提现
           new:
-            title: 狗币提现
+            title: 狗狗币提现
             intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
             default-panel: 历史记录
           create:
-            title: 狗币提现
-            intro: 您可以输入您的提现地址或者选择已保存提现地址，输入提现数量，提取到您的狗币提现地址。
+            title: 狗狗币提现
+            intro: 您可以输入您的提现地址或者选择已保存提现地址，输入提现数量，提取到您的狗狗币提现地址。
             default-panel: 历史记录
           edit:
-            title: 狗币提现
-            intro: 您可以输入您的提现地址或者选择已保存提现地址，输入提现数量，提取到您的狗币提现地址。
+            title: 狗狗币提现
+            intro: 您可以输入您的提现地址或者选择已保存提现地址，输入提现数量，提取到您的狗狗币提现地址。
 
   breadcrumbs:
-    admin/withdraws/dogecoins: 狗币提现
+    admin/withdraws/dogecoins: 狗狗币提现
