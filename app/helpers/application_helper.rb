@@ -148,7 +148,7 @@ module ApplicationHelper
   end
 
   def market_links
-    @market_links ||= Market.all.collect{|m| [m.name, market_path(m.id)]}
+    @market_links ||= Market.where(hide: nil).collect{|m| [m.name, market_path(m.id)]}
   end
 
 
