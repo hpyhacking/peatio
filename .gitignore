@@ -39,3 +39,6 @@ tmp
 /vendor/bundle
 .env
 .ruby-version
+
+# Ignore RubyMine files
+.idea
