@@ -30,7 +30,7 @@ en:
         protoshares:
           panel: Deposits
           intro: Deposit protoshare from your own Wallet address to Peatio account.
-          new: 
+          new:
             default-panel: Deposit Transactions
   admin:
     deposits:
@@ -48,7 +48,7 @@ en:
           step-1: Step one
           open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
           step-2: Step Two
-          send-coin: Fill in the collection address the following address which is specifically for your protoshare deposits. Check the protoshare amount you want to send,  and do not forget to pay a fee to the miner in order to ensure the transaction could be confirmed quickly.
+          send-coin: Fill in the collection address the following address which is specifically for your dogecoin deposits. Check the protoshare amount you want to send,  and do not forget to pay a fee to the miner in order to ensure the transaction could be confirmed quickly.
           or: You can also to
           scan-qr: Scanning two-dimensional code to Pay for In the mobile terminal wallet.
           step-3: Step Three

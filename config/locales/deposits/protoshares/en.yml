@@ -30,7 +30,7 @@ en:
         protoshares:
           panel: Deposits
           intro: Deposit protoshare from your own Wallet address to Peatio account.
-          new: 
+          new:
             default-panel: Deposit Transactions
   admin:
     deposits:
