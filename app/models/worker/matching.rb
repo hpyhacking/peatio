@@ -39,5 +39,22 @@ module Worker
       @engines ||= {}
     end
 
+    def on_usr1
+      engines.each do |id, eng|
+        dump_file = File.join('/', 'tmp', "orderbook_dump_#{id}_#{Time.now.to_i}")
+        data = eng.dump_orderbook
+
+        File.open(dump_file, 'w') do |f|
+          f.puts "ASK"
+          data[:asks].reverse.each {|o| f.puts o }
+          f.puts "-"*40
+          data[:bids].reverse.each {|o| f.puts o }
+          f.puts "BID"
+        end
+
+        puts "#{id} orderbook dumped to #{dump_file}."
+      end
+    end
+
   end
 end

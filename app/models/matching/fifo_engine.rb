@@ -51,6 +51,10 @@ module Matching
       )
     end
 
+    def dump_orderbook
+      orderbook.dump
+    end
+
     private
 
     def orderbook
