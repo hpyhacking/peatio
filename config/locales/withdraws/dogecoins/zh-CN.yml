@@ -96,7 +96,7 @@ zh-CN:
     placeholders:
       withdraw:
         dogecoin:
-          sum: 最低 0.001
+          sum: 最低 2.0 够狗币
           fund_extra: 填写常用标签（可选）
     hints:
       withdraw:
