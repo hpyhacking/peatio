@@ -72,8 +72,8 @@ describe Matching::OrderBook do
     end
 
     it "should return asks and bids" do
-      subject.depth[:asks].first.should match(/^\$1\.0/)
-      subject.depth[:bids].first.should match(/^\$1\.0/)
+      subject.dump[:asks].first.should match(/\$1\.00\/\d\.0000$/)
+      subject.dump[:bids].first.should match(/\$1\.00\/\d\.0000$/)
     end
   end
 
