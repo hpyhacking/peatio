@@ -40,15 +40,15 @@ module Matching
       bid
     end
 
-    def depth(size=10)
-      { asks: @tree[:ask].keys[0,size].map {|o| depth_format(o) },
-        bids: @tree[:bid].keys[0,size].map {|o| depth_format(o) } }
+    def dump
+      { asks: @tree[:ask].keys.map {|o| dump_format(o) },
+        bids: @tree[:bid].keys.map {|o| dump_format(o) } }
     end
 
     private
 
-    def depth_format(order)
-      "$#{order.price.to_s('F')}/#{order.volume.to_s('F')}"
+    def dump_format(order)
+      "%d/$%.02f/%.04f" % [order.id, order.price, order.volume]
     end
 
   end

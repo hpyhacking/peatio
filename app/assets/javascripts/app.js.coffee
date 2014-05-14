@@ -44,8 +44,7 @@ $ ->
   PushButton.attachTo('.my-orders')
 
   # if gon.env is 'development'
-  #   Pusher.log = (message) ->
-  #     window.console && console.log(message)
+  #   Pusher.log = (message) -> window.console && console.log(message)
 
   pusher = new Pusher(gon.pusher_key, {encrypted: true})
   pusher.connection.bind 'state_change', (state) ->
@@ -55,8 +54,7 @@ $ ->
       , 60 * 1000
 
   GlobalData.attachTo(document, {pusher: pusher})
-  AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
-  OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
+  MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
 
   SignUpUI.attachTo('#new_identity')
   MarketTickerUI.attachTo('.ticker')
