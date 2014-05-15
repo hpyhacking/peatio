@@ -6,21 +6,17 @@ require 'mina/slack/tasks'
 require 'mina/whenever'
 
 set :repository, 'git@github.com:peatio/peatio_beijing.git'
+set :user, 'deploy'
+set :deploy_to, '/home/deploy/peatio'
+set :branch, ENV['branch'] || 'master'
 
 case ENV['to']
 when 'demo'
-  set :deploy_to, '/var/www/peatio'
   set :domain, 'demo.peat.io'
-  set :branch, 'stable'
 when 'peatio-appsrv-02'
-  set :user, 'deploy'
-  set :deploy_to, '/home/deploy/peatio'
   set :domain, 'peatio-appsrv-02'
-  set :branch, 'master'
 else
-  set :deploy_to, '/var/www/peatio'
   set :domain, 'stg.peat.io'
-  set :branch, ENV['branch'] || 'master'
 end
 
 set :unicorn_pid, lambda { "#{deploy_to}/#{shared_path}/tmp/pids/unicorn.pid" }
