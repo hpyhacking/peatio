@@ -14,7 +14,7 @@
     span = "*" + x.member.name[-1]
   - t.column '手机号', class: 'col-md-2' do |x|
     - if x.member.phone_number
-      span = '*** **** ' + x.member.phone_number
+      span = '*** **** ' + x.member.phone_number.last(4)
     - else
       span = '-'
 
