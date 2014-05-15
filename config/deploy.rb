@@ -75,7 +75,6 @@ task deploy: :environment do
       invoke :'unicorn:restart'
     end
   end
-  invoke :'slack:finish'
 end
 
 namespace :unicorn do
