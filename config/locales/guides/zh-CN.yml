@@ -1,5 +1,11 @@
 zh-CN:
   guides:
+    dogecoin_deposit_top_five:
+      panel: 狗狗币充值活动
+      index:
+        title: 充值排行
+        intro: 感谢各位对貔貅交易所的鼓励和支持，这次小活动的获奖名单如下，获奖用户如若未填写手机号码，请尽快在个人账户页面补充后与客服人员联系，绑定过手机号码的用户，客服会与您主动联系。再次感谢大家的支持！
+
     panels:
       balance: 用户账户信息
 
@@ -118,3 +124,5 @@ zh-CN:
       edit:
         panel: 我的账户
         title: 修改密码
+
+

@@ -11,6 +11,7 @@ Peatio::Application.routes.draw do
     mount MailsViewer::Engine => '/mails'
   end
 
+  get '/dogecoin-top-five' => 'dogecoin_deposit_top_five#index'
   get '/signin' => 'sessions#new', :as => :signin
   get '/signup' => 'identities#new', :as => :signup
   get '/signout' => 'sessions#destroy', :as => :signout
