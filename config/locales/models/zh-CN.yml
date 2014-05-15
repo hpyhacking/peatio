@@ -108,6 +108,7 @@ zh-CN:
         activated?: 邮件激活
         id_document_verified?: 实名认证
         two_factor_activated?: 二次验证
+        phone_number: 手机号码
       sms_token:
         phone_number: "手机号码"
         verify_code: "验证码"

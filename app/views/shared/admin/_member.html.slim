@@ -6,6 +6,11 @@
     = description_for :member do
       = item_for member, :name
       = item_for member, :email
+      = item_for member, :phone_number do
+        - if member.phone_number
+          span = member.phone_number
+        - else
+          span = '-'
       = item_for member, :activated
       = item_for member, :created_at
   = table_for(member.accounts, class: 'table table-condensed table-hover', model: Account) do |t|
