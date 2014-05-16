@@ -15,12 +15,14 @@
           p.input-group.price
             label.input-group-addon = t('.price')
             = f.text_field :price, class: 'form-control'
+            span.input-group-addon = market.bid['currency'].upcase
           p.input-group.amount
             label.input-group-addon = t('.amount')
             = f.text_field :origin_volume, class: 'form-control'
           p.input-group.total
             label.input-group-addon = t('.total')
             = f.text_field :sum, class: 'form-control'
+            span.input-group-addon = market.bid['currency'].upcase
           p.current-balance.clearfix
             label.name = t('.available')
             label.currency = @bid_name
@@ -37,12 +39,14 @@
           p.input-group.price
             label.input-group-addon = t('.price')
             = f.text_field :price, class: 'form-control'
+            span.input-group-addon = market.bid['currency'].upcase
           p.input-group.amount
             label.input-group-addon = t('.amount')
             = f.text_field :origin_volume, class: 'form-control'
           p.input-group.total
             label.input-group-addon = t('.total')
             = f.text_field :sum, class: 'form-control'
+            span.input-group-addon = market.bid['currency'].upcase
           p.current-balance
             label.name = t('.available')
             label.currency = @ask_name

@@ -89,6 +89,9 @@ $grid-columns: 24;
           min-width: 75px;
           text-align: right;
         }
+        .input-group-addon:last-child {
+          min-width: 45px;
+        }
 
         .current-balance label {
           margin-right: 5px;
