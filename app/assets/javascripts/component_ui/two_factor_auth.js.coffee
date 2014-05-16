@@ -46,7 +46,9 @@
       , 1000
     countDownTimer()
 
-  @sendCode = ->
+  @sendCode = (event) ->
+    event.preventDefault()
+
     @countDownSendCodeButton()
     $.get('/refresh_two_factors/sms')
 
