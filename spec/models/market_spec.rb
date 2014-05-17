@@ -9,4 +9,9 @@ describe Market do
   its(:target_unit) { should == 'btc' }
   its(:price_unit)  { should == 'cny' }
 
+  it "should raise argument error on invalid market id" do
+    expect { Market.new(id: 'dogecny') }.to raise_error(ArgumentError)
+    expect { Market.new(id: 'dogcny') }.not_to raise_error(ArgumentError)
+  end
+
 end
