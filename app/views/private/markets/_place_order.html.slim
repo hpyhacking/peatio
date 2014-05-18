@@ -12,6 +12,9 @@
     .tab-content
       #bid_panel.tab-pane.active
         = form_for [market, order_bid], :remote => true do |f|
+          p.last-price
+            label = t('.last_price')
+            span.value
           p.input-group.price
             label.input-group-addon = t('.price')
             = f.text_field :price, class: 'form-control'
@@ -36,6 +39,9 @@
 
       #ask_panel.tab-pane
         = form_for [market, order_ask], :remote => true do |f|
+          p.last-price
+            label = t('.last_price')
+            span.value
           p.input-group.price
             label.input-group-addon = t('.price')
             = f.text_field :price, class: 'form-control'

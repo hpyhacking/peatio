@@ -122,10 +122,21 @@
       when 'ask'
         node.text(balance - data.volume).fixAsk()
 
+  @updateLastPrice = (event, data) ->
+    @select('lastPrice').text data.last
+
+  @copyLastPrice = ->
+    lastPrice = @select('lastPrice').text().trim()
+    @select('priceSel').val(lastPrice).focus()
+
   @after 'initialize', ->
     @on document, 'order::plan', @orderPlan
-    @on document, 'trade::account', @refreshBalance
+    @on document, 'market::ticker', @updateLastPrice
     @on 'updateAvailable', @updateAvailable
+
+    @on document, 'trade::account', @refreshBalance
+    @on @select('lastPrice'), 'click', @copyLastPrice
+    @updateLastPrice 'market::ticker', gon.ticker
 
     @on @select('formSel'), 'ajax:beforeSend', @beforeSend
     @on @select('formSel'), 'ajax:success', @handleSuccess

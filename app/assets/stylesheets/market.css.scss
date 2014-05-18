@@ -85,10 +85,16 @@ $grid-columns: 24;
       &.place-order {
         height: 390px;
 
+        .last-price .value {
+          margin-left: 10px;
+          cursor: pointer;
+        }
+
         .input-group-addon {
           min-width: 75px;
           text-align: right;
         }
+
         .input-group-addon:last-child {
           min-width: 45px;
         }

@@ -22,6 +22,7 @@ en:
         bid_panel: Buy %{currency}
         ask_panel: Sell %{currency}
         price: Price
+        last_price: Last Price
         amount: Amount
         total: Total
         available: Available
