@@ -26,6 +26,8 @@ zh-CN:
         amount: 数量
         total: 金额
         available: 可用
+        price_high: 价格超出最新价格10%
+        price_low: 价格低于最新价格10%
       order_book:
         order_book: 挂单记录
       market_trades:

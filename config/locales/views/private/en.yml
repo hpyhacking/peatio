@@ -26,6 +26,8 @@ en:
         amount: Amount
         total: Total
         available: Available
+        price_high: Price exceeds 10%
+        price_low: Price less then 10%
       order_book:
         order_book: Order Book
       market_trades:

@@ -17,6 +17,8 @@ json.i18n do
     place_order.price I18n.t('private.markets.place_order.price')
     place_order.volume I18n.t('private.markets.place_order.amount')
     place_order.sum I18n.t('private.markets.place_order.total')
+    place_order.price_high I18n.t('private.markets.place_order.price_high')
+    place_order.price_low I18n.t('private.markets.place_order.price_low')
   end
 end
 

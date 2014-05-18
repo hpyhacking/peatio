@@ -19,6 +19,8 @@
             label.input-group-addon = t('.price')
             = f.text_field :price, class: 'form-control'
             span.input-group-addon = market.bid['currency'].upcase
+          p.price-alert
+            span.label.label-danger
           p.input-group.amount
             label.input-group-addon = t('.amount')
             = f.text_field :origin_volume, class: 'form-control'
