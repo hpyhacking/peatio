@@ -1,6 +1,6 @@
 - @top = 0
 = table_for(@result, class: 'table table-condensed table-hover', model: Account) do |t|
-  - t.column '排名', class: 'col-md-1' do 
+  - t.column '排名', class: 'col-md-1' do
     - @top += 1
     - if @top > 5
       span = "#{@top}"
@@ -19,4 +19,4 @@
       span = '-'
 
 = content_for :guide
-  span.text-danger 截至到2014年5月26日中午11点 充值数据
+  span.text-danger 截至到2014年5月26日中午11点 交易数据
