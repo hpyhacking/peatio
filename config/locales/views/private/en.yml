@@ -22,9 +22,12 @@ en:
         bid_panel: Buy %{currency}
         ask_panel: Sell %{currency}
         price: Price
+        last_price: Last Price
         amount: Amount
         total: Total
         available: Available
+        price_high: Price exceeds 10%
+        price_low: Price less then 10%
       order_book:
         order_book: Order Book
       market_trades:

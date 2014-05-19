@@ -1,9 +1,10 @@
 @PlaceOrderUI = flight.component ->
   @defaultAttrs
     formSel: 'form'
-    successSel: 'span.label-success'
-    infoSel: 'span.label-info'
-    dangerSel: 'span.label-danger'
+    successSel: '.status span.label-success'
+    infoSel: '.status span.label-info'
+    dangerSel: '.status span.label-danger'
+    priceAlertSel: '.price-alert span.label-danger'
 
     priceSel: 'input[id$=price]'
     volumeSel: 'input[id$=volume]'
@@ -122,16 +123,42 @@
       when 'ask'
         node.text(balance - data.volume).fixAsk()
 
+  @updateLastPrice = (event, data) ->
+    @select('lastPrice').text data.last
+
+  @copyLastPrice = ->
+    lastPrice = @select('lastPrice').text().trim()
+    @select('priceSel').val(lastPrice).focus()
+
+  @priceCheck = (event) ->
+    currentPrice = Number @select('priceSel').val()
+    lastPrice = Number gon.ticker.last
+    priceAlert = @select('priceAlertSel')
+
+    switch
+      when currentPrice > (lastPrice * 1.1)
+        priceAlert.text gon.i18n.place_order.price_high
+      when currentPrice < (lastPrice * 0.9)
+        priceAlert.text gon.i18n.place_order.price_low
+      else
+        priceAlert.text ''
+
+
   @after 'initialize', ->
     @on document, 'order::plan', @orderPlan
-    @on document, 'trade::account', @refreshBalance
+    @on document, 'market::ticker', @updateLastPrice
     @on 'updateAvailable', @updateAvailable
+
+    @on document, 'trade::account', @refreshBalance
+    @on @select('lastPrice'), 'click', @copyLastPrice
+    @updateLastPrice 'market::ticker', gon.ticker
 
     @on @select('formSel'), 'ajax:beforeSend', @beforeSend
     @on @select('formSel'), 'ajax:success', @handleSuccess
     @on @select('formSel'), 'ajax:error', @handleError
 
-    @on @select('sumSel'), 'change paste keyup', @computeVolume
+    @on @select('priceSel'), 'focusout', @priceCheck
     @on @select('priceSel'), 'change paste keyup focusout', @computeSum
     @on @select('volumeSel'), 'change paste keyup focusout', @computeSum
+    @on @select('sumSel'), 'change paste keyup', @computeVolume
 
