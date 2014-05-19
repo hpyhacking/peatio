@@ -8,7 +8,7 @@ window.MarketTickerUI = flight.component ->
     latestPriceSelector: '.value.last'
 
   @update = (el, text) ->
-    text = round(text, 2)
+    text = round(text, gon.market.bid.fixed)
     if el.text() isnt text
       el.fadeOut ->
         el.text(text).fadeIn()
