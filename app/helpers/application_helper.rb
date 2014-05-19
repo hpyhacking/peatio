@@ -138,12 +138,7 @@ module ApplicationHelper
         concat content_tag(:i, nil, class: "fa fa-#{link_icon}")
         concat content_tag(:span, link_text)
         concat content_tag(:b, nil, class: 'caret')
-      end +
-      content_tag(:ul, class: 'dropdown-menu') do
-        links.collect do |link|
-          concat content_tag(:li, link_to(*link))
-        end
-      end
+      end + render(partial: 'shared/market_selector')
     end
   end
 

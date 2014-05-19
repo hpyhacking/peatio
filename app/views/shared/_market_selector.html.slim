@@ -1,4 +1,13 @@
-ul#market_selector
-  - Market.all.each do |market|
-    li
-      = link_to_unless_current market.name, main_app.market_path(market.id)
+ul.dropdown-menu
+  li
+    = link_to 'BTC/CNY', main_app.market_path(:btccny)
+  li
+    = link_to 'PTS/CNY', main_app.market_path(:ptscny)
+
+  li.divider
+
+  li
+    = link_to 'DOG/CNY', main_app.market_path(:dogcny)
+  li
+    = link_to 'DOG/BTC', main_app.market_path(:dogbtc)
+
