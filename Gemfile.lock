@@ -361,6 +361,9 @@ GEM
       railties (>= 4.0.0, < 5.0)
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0)
+    schema_plus (1.5.1)
+      activerecord (>= 3.2)
+      valuable
     selenium-webdriver (2.39.0)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
@@ -412,6 +415,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    valuable (0.9.8)
     virtus (1.0.2)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -502,6 +506,7 @@ DEPENDENCIES
   rotp
   rspec-rails
   sass-rails
+  schema_plus
   selenium-webdriver
   settingslogic
   shoulda-matchers

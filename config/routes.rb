@@ -12,6 +12,8 @@ Peatio::Application.routes.draw do
   end
 
   get '/dogecoin-top-five' => 'dogecoin_deposit_top_five#index'
+  get '/dogecoin-trade-top-ten' => 'dogecoin_trade_top_ten#index'
+
   get '/signin' => 'sessions#new', :as => :signin
   get '/signup' => 'identities#new', :as => :signup
   get '/signout' => 'sessions#destroy', :as => :signout
