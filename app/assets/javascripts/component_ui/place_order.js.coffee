@@ -162,3 +162,7 @@
     @on @select('volumeSel'), 'change paste keyup focusout', @computeSum
     @on @select('sumSel'), 'change paste keyup', @computeVolume
 
+    # Placeholder for dogecoin input volume
+    if gon.market.id in ['dogcny', 'dogbtc']
+      @select('volumeSel').attr('placeholder', '大于1的整数')
+
