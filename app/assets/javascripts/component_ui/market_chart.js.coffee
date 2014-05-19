@@ -17,12 +17,12 @@
 
                 for i in data
                   price.push [
-                    Number(i.date) * 1000
-                    Math.round(i.price * 100) / 100
+                    i.date * 1000
+                    round(i.price, gon.market.bid.fixed)
                   ]
                   volume.push [
-                    Number(i.date) * 1000
-                    Math.round(i.amount * 100) / 100
+                    i.date * 1000
+                    round(i.amount, gon.market.ask.fixed)
                   ]
 
                 series[0].setData price
