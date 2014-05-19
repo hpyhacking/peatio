@@ -1,5 +1,10 @@
 zh-CN:
   guides:
+    dogecoin_trade_top_ten:
+      panel: 狗狗币交易大赛活动
+      index:
+        title: 获奖规则
+
     dogecoin_deposit_top_five:
       panel: 狗狗币充值活动
       index:
