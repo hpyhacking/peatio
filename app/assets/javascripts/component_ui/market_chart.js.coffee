@@ -5,6 +5,9 @@
       credits:
         enabled: false
 
+      tooltip:
+        valueDecimals: gon.market.bid.fixed
+
       chart:
         height: 360
         events:
@@ -12,6 +15,7 @@
             series = @series
             update = ->
               $.getJSON "/api/prices/#{gon.market.id}", (data) ->
+
                 price  = []
                 volume = []
 
