@@ -3,6 +3,7 @@ development: &defaults
   database: peatio_development
   username: root
   password:
+  reconnect: true
 
 test:
   <<: *defaults
