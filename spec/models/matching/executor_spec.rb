@@ -96,4 +96,18 @@ describe Matching::Executor do
     end
   end
 
+  context "execution fail" do
+    let(:ask) { ::Matching::Order.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
+    let(:bid) { ::Matching::Order.new create(:order_bid, price: price, volume: volume, member: bob).to_matching_attributes }
+
+    it "should not create trade" do
+      # set locked funds to 0 so strike will fail
+      alice.get_account(:btc).update_attributes(locked: ::Trade::ZERO)
+
+      expect do
+        expect { subject.execute! }.to raise_error(Account::LockedError)
+      end.not_to change(Trade, :count)
+    end
+  end
+
 end

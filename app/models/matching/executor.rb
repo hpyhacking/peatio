@@ -14,26 +14,16 @@ module Matching
     def execute!
       raise TradeExecutionError.new({ask: @ask, bid: @bid, price: @price, volume: @volume}) unless valid?
 
-      trade = Trade.create(ask_id: @ask.id, ask_member_id: @ask.member_id,
-                           bid_id: @bid.id, bid_member_id: @bid.member_id,
-                           price: @price, volume: @volume,
-                           currency: @market.id.to_sym, trend: trend)
-
-      ActiveRecord::Base.transaction do
-        lock_account!
-
-        @bid.strike trade
-        @ask.strike trade
-      end
+      trade = create_and_strike_trade
 
       AMQPQueue.publish(
         :trade,
-        {id: trade.id},
-        {headers: {
-          market: @market.id,
-          ask_member_id: @ask.member_id,
-          bid_member_id: @bid.member_id
-         }
+        { id: trade.id },
+        { headers: {
+            market: @market.id,
+            ask_member_id: @ask.member_id,
+            bid_member_id: @bid.member_id
+          }
         }
       )
 
@@ -41,6 +31,22 @@ module Matching
     end
 
     private
+
+    def create_and_strike_trade
+      ActiveRecord::Base.transaction do
+        trade = Trade.create(ask_id: @ask.id, ask_member_id: @ask.member_id,
+                             bid_id: @bid.id, bid_member_id: @bid.member_id,
+                             price: @price, volume: @volume,
+                             currency: @market.id.to_sym, trend: trend)
+
+        lock_account!
+
+        @bid.strike trade
+        @ask.strike trade
+
+        trade
+      end
+    end
 
     def valid?
       [@ask.volume, @bid.volume].min >= @volume &&
