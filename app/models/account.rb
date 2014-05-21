@@ -29,9 +29,9 @@ class Account < ActiveRecord::Base
 
   def payment_address
     if self.payment_addresses.empty?
-      self.gen_payment_address 
+      self.gen_payment_address
     end
-    self.payment_addresses.using
+    self.payment_addresses.last
   end
 
   def gen_payment_address
@@ -42,7 +42,7 @@ class Account < ActiveRecord::Base
   def self.after(*names)
     names.each do |name|
       m = instance_method(name.to_s)
-      define_method(name.to_s) do |*args, &block|  
+      define_method(name.to_s) do |*args, &block|
         m.bind(self).(*args, &block)
         yield(self, name.to_sym, *args)
         self
