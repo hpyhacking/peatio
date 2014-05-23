@@ -52,42 +52,29 @@ class Account < ActiveRecord::Base
 
   def plus_funds(amount, fee: ZERO, reason: nil, ref: nil)
     (amount <= ZERO or fee > amount) and raise AccountError, "cannot add funds (amount: #{amount})"
-    self.balance += amount
-    self.save
-    self
+    change_balance_and_locked amount, 0
   end
 
   def sub_funds(amount, fee: ZERO, reason: nil, ref: nil)
     (amount <= ZERO or amount > self.balance) and raise AccountError, "cannot subtract funds (amount: #{amount})"
-    self.balance -= amount
-    self.save
-    self
+    change_balance_and_locked -amount, 0
   end
 
   def lock_funds(amount, reason: nil, ref: nil)
     (amount <= ZERO or amount > self.balance) and raise AccountError, "cannot lock funds (amount: #{amount})"
-    self.balance -= amount
-    self.locked += amount
-    self.save
-    self
+    change_balance_and_locked -amount, amount
   end
 
   def unlock_funds(amount, reason: nil, ref: nil)
     (amount <= ZERO or amount > self.locked) and raise AccountError, "cannot unlock funds (amount: #{amount})"
-    self.balance += amount
-    self.locked -= (amount)
-    self.save
-    self
+    change_balance_and_locked amount, -amount
   end
 
   def unlock_and_sub_funds(amount, locked: ZERO, fee: ZERO, reason: nil, ref: nil)
     raise AccountError, "cannot unlock and subtract funds (amount: #{amount})" if ((amount <= 0) or (amount > locked))
     raise LockedError, "invalid lock amount" unless locked
     raise LockedError, "invalid lock amount (amount: #{amount}, locked: #{locked}, self.locked: #{self.locked})" if ((locked <= 0) or (locked > self.locked))
-    self.balance += (locked - amount)
-    self.locked -= (locked)
-    self.save
-    self
+    change_balance_and_locked locked-amount, -locked
   end
 
   after(*FUNS.keys) do |account, fun, changed, opts|
@@ -153,6 +140,13 @@ class Account < ActiveRecord::Base
       json.(self, :balance, :locked, :currency)
     end
     member.trigger('account', json)
+  end
+
+  def change_balance_and_locked(delta_b, delta_l)
+    self.balance += delta_b
+    self.locked  += delta_l
+    ActiveRecord::Base.connection.execute "update accounts set balance = balance + #{delta_b}, locked = locked + #{delta_l} where id = #{id}"
+    self
   end
 
   scope :locked_sum, -> (currency) { with_currency(currency).sum(:locked) }

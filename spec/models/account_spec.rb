@@ -204,4 +204,20 @@ describe Account do
       end
     end
   end
+
+  describe "#change_balance_and_locked" do
+    it "should update balance and locked funds in memory" do
+      subject.change_balance_and_locked "-10".to_d, "10".to_d
+      subject.balance.should be_d('0')
+      subject.locked.should be_d('20')
+    end
+
+    it "should update balance and locked funds in db" do
+      subject.change_balance_and_locked "-10".to_d, "10".to_d
+      subject.reload
+      subject.balance.should be_d('0')
+      subject.locked.should be_d('20')
+    end
+  end
+
 end
