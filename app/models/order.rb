@@ -6,7 +6,7 @@ class Order < ActiveRecord::Base
   enumerize :currency, in: Market.enumerize, scope: true
   enumerize :state, in: {:wait => 100, :done => 200, :cancel => 0}, scope: true
 
-  SOURCES = %w(Web APIv2)
+  SOURCES = %w(Web APIv2 debug)
   enumerize :source, in: SOURCES, scope: true
 
   after_commit :trigger

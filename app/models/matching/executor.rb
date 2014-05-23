@@ -39,8 +39,6 @@ module Matching
                              price: @price, volume: @volume,
                              currency: @market.id.to_sym, trend: trend)
 
-        lock_account!
-
         @bid.strike trade
         @ask.strike trade
 
@@ -52,14 +50,6 @@ module Matching
       [@ask.volume, @bid.volume].min >= @volume &&
         @ask.price <= @price &&
         @bid.price >= @price
-    end
-
-    def lock_account!
-      @bid.hold_account.lock!
-      @ask.hold_account.lock!
-
-      @bid.expect_account.lock!
-      @ask.expect_account.lock!
     end
 
     def trend
