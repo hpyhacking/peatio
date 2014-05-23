@@ -24,13 +24,8 @@ class Ordering
     ActiveRecord::Base.transaction do
       @order.save!
 
-      begin
-        account = @order.hold_account.lock!
-        account.lock_funds(@order.sum, reason: Account::ORDER_SUBMIT, ref: @order)
-      rescue Account::BalanceError
-        @order.errors.add(@order.hold_account_attr, :expensive)
-        raise ActiveRecord::Rollback
-      end
+      account = @order.hold_account.lock!
+      account.lock_funds(@order.sum, reason: Account::ORDER_SUBMIT, ref: @order)
 
       AMQPQueue.enqueue(:matching, action: 'submit', order: @order.to_matching_attributes)
     end
