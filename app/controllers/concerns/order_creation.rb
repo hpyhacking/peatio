@@ -12,7 +12,7 @@ module Concerns
       params[order][:source] = 'Web'
       params.require(order).permit(
         :bid, :ask, :currency, :price, :source,
-        :state, :origin_volume, :volume, :member_id)
+        :state, :origin_volume, :volume, :member_id, :ord_type)
     end
 
     def order_submit

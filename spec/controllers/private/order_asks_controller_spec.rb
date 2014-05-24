@@ -14,7 +14,7 @@ describe Private::OrderAsksController do
       market:    market.id,
       ask:       market.target_unit,
       bid:       market.price_unit,
-      order_ask: { origin_volume: '12.13', price: '2014.47' }
+      order_ask: { ord_type: 'limit', origin_volume: '12.13', price: '2014.47' }
     }
   end
 

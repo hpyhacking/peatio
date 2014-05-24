@@ -6,12 +6,16 @@ class Order < ActiveRecord::Base
   enumerize :currency, in: Market.enumerize, scope: true
   enumerize :state, in: {:wait => 100, :done => 200, :cancel => 0}, scope: true
 
+  ORD_TYPES = %w(market limit)
+  enumerize :ord_type, in: ORD_TYPES, scope: true
+
   SOURCES = %w(Web APIv2 debug)
   enumerize :source, in: SOURCES, scope: true
 
   after_commit :trigger
   before_validation :fixed
 
+  validates_presence_of :ord_type
   validates_numericality_of :price, :greater_than => 0
   validates_numericality_of :origin_volume, :greater_than => 0
 
@@ -75,10 +79,6 @@ class Order < ActiveRecord::Base
 
   def self.head(currency)
     active.with_currency(currency.downcase).matching_rule.first
-  end
-
-  def self.empty
-    self.new
   end
 
   def at

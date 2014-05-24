@@ -5,6 +5,7 @@ FactoryGirl.define do
     currency :btccny
     state :wait
     source 'Web'
+    ord_type 'limit'
     volume { '1'.to_d }
     price { '1'.to_d }
     origin_volume { volume }
@@ -16,6 +17,7 @@ FactoryGirl.define do
     currency :btccny
     state :wait
     source 'Web'
+    ord_type 'limit'
     volume { '1'.to_d }
     price { '1'.to_d }
     origin_volume { volume }

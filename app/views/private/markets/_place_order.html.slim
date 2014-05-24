@@ -12,6 +12,7 @@
     .tab-content
       #bid_panel.tab-pane.active
         = form_for [market, order_bid], :remote => true do |f|
+          = f.hidden_field :ord_type
           p.last-price
             label = t('.last_price')
             span.value
@@ -41,6 +42,7 @@
 
       #ask_panel.tab-pane
         = form_for [market, order_ask], :remote => true do |f|
+          = f.hidden_field :ord_type
           p.last-price
             label = t('.last_price')
             span.value
