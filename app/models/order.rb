@@ -15,9 +15,12 @@ class Order < ActiveRecord::Base
   after_commit :trigger
   before_validation :fixed
 
-  validates_presence_of :ord_type
-  validates_numericality_of :price, :greater_than => 0
+  validates_presence_of :ord_type, :volume, :origin_volume
   validates_numericality_of :origin_volume, :greater_than => 0
+
+  validates_numericality_of :price, greater_than: 0, allow_nil: false,
+    if: "ord_type == 'limit'"
+  validate :market_order_validations, if: "ord_type == 'market'"
 
   WAIT = 'wait'
   DONE = 'done'
@@ -33,8 +36,8 @@ class Order < ActiveRecord::Base
   scope :position, -> { group("price").pluck(:price, 'sum(volume)') }
 
   def fixed
-    self.price = self.price.to_d.round(config.bid["fixed"], 2)
-    self.volume = self.volume.to_d.round(config.ask["fixed"], 2)
+    self.price = price.to_d.round(config.bid["fixed"], 2) if price
+    self.volume = volume.to_d.round(config.ask["fixed"], 2) if volume
   end
 
   def fee
@@ -106,6 +109,10 @@ class Order < ActiveRecord::Base
       volume: volume,
       price: price,
       timestamp: created_at.to_i }
+  end
+
+  def market_order_validations
+    errors.add(:price, 'must not be present') if price.present?
   end
 
 end
