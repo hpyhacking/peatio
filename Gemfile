@@ -7,7 +7,6 @@ gem 'mysql2'
 gem 'daemons-rails'
 gem 'redis-rails'
 
-gem 'qrencoder'
 gem 'rotp'
 gem 'json'
 gem 'jbuilder'

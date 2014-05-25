@@ -99,7 +99,6 @@ GEM
     childprocess (0.4.0)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
-    chunky_png (1.2.9)
     cliver (0.3.2)
     coderay (1.1.0)
     coercible (1.0.0)
@@ -273,8 +272,6 @@ GEM
       httpclient (~> 2.3.0)
       multi_json (~> 1.0)
       signature (~> 0.1.6)
-    qrencoder (1.4.1)
-      chunky_png (~> 1.1)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
@@ -483,7 +480,6 @@ DEPENDENCIES
   poltergeist
   pry-rails
   pusher
-  qrencoder
   quiet_assets
   rack-attack (~> 3.0.0)
   rails

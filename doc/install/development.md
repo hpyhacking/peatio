@@ -9,7 +9,6 @@ Development [Mac and Linux]
 * RabbitMQ
 * Redis
 * PhatomJS
-* qrencode
 * Pusher
 
 ** More details are in the [requirements doc](doc/install/requirements.md)
@@ -41,15 +40,6 @@ binary.
 
 ** More details are in the [poltergeist](https://github.com/jonleighton/poltergeist/blob/master/README.md) doc.
 
-##### Install qrencode
-
-**For Mac**
-
-    brew install qrencode
-
-**For Ubuntu**
-
-    sudo apt-get install qrencode libqrencode-dev
 
 ## 2. Bitcoind
 

@@ -44,13 +44,13 @@ If you run bitcoind at local, the necessary hard drive space largely depends on 
 
 * [RabbitMQ](https://www.rabbitmq.com/) is Peatio's backbone, it's the message broker doing all the message exchanges between daemons.
 * Peatio use [Phantomjs](http://phantomjs.org/) to test JavaScript.
-* Peatio use [qrencode](http://fukuchi.org/works/qrencode/index.html.en) to generate QR Code.
 
 #### For Mac
 
 **Install RabbitMQ**
 
-You can find instructions here: https://www.rabbitmq.com/download.html
+    # You can find instructions here: https://www.rabbitmq.com/download.html
+    brew install rabbitmq
 
 **Install PhantomJS**
 
@@ -58,11 +58,6 @@ You can find instructions here: https://www.rabbitmq.com/download.html
     brew install phantomjs
 
 ** More details are in the [poltergeist](https://github.com/jonleighton/poltergeist/blob/master/README.md) doc.
-
-**Install qrencode**
-
-    # Install dependencies using Homebrew
-    brew install qrencode
 
 
 #### For Ubuntu
@@ -81,11 +76,6 @@ binary.
 * Extract the tarball and copy `bin/phantomjs` into your `PATH`
 
 ** More details are in the [poltergeist](https://github.com/jonleighton/poltergeist/blob/master/README.md) doc.
-
-
-**Install qrencode**
-
-    sudo apt-get install qrencode libqrencode-dev
 
 
 ## Support
