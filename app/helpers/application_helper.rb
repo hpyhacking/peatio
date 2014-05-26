@@ -62,10 +62,6 @@ module ApplicationHelper
     breadcrumb(paths, result << r)
   end
 
-  def blockchain_url(txid)
-    "https://blockchain.info/tx/#{txid}"
-  end
-
   def qr_tag(text)
     return if text.blank?
     content_tag :div, '', 'class'       => 'qrcode-container img-thumbnail',
