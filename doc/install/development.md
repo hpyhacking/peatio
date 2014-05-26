@@ -98,11 +98,7 @@ Insert the following lines into your bitcoin.conf, and replce with your username
 
 ##### Prepare configure files:
 
-    cp config/application.yml.example config/application.yml
-    cp config/database.yml.example config/database.yml
-    cp config/currencies.yml.example config/currencies.yml
-    cp config/markets.yml.example config/markets.yml
-    cp config/amqp.yml.example config/amqp.yml
+    bin/init_config
 
 ##### Setup reCAPTCHA/Pusher:
 

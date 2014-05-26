@@ -28,4 +28,8 @@ class Proof < ActiveRecord::Base
     end
   end
 
+  def address_url(address)
+    currency_obj.address_url(address)
+  end
+
 end

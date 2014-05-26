@@ -25,6 +25,6 @@
                 - @btc_proof.addresses.each do |entry|
                   tr
                     td
-                      = link_to entry['address'], btc_block_url(entry['address'])
+                      = link_to entry['address'], @btc_proof.address_url(entry['address'])
                     td
                       = entry['balance']

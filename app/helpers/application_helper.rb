@@ -62,10 +62,6 @@ module ApplicationHelper
     breadcrumb(paths, result << r)
   end
 
-  def blockchain_url(txid)
-    "https://blockchain.info/tx/#{txid}"
-  end
-
   def qr_tag(text)
     return if text.blank?
     content_tag :div, '', 'class'       => 'qrcode-container img-thumbnail',
@@ -99,17 +95,6 @@ module ApplicationHelper
         json.at order.created_at.to_i
       end
     end
-  end
-
-  def link_to_block(payment_address)
-    uri = case payment_address.currency
-    when 'btc' then btc_block_url(payment_address.address)
-    end
-    link_to t("actions.block"), uri, target: '_blank'
-  end
-
-  def btc_block_url(address)
-    CoinRPC[:btc].getinfo[:testnet] ? "http://testnet.btclook.com/addr/#{address}" : "https://blockchain.info/address/#{address}"
   end
 
   def top_nav(link_text, link_path, link_icon, links = nil, controllers: [])
