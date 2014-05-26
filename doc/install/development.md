@@ -108,7 +108,7 @@ Insert the following lines into your bitcoin.conf, and replce with your username
 
 ##### Prepare configure files:
 
-    script/init_config
+    bin/init_config
 
 ##### Setup reCAPTCHA/Pusher:
 
