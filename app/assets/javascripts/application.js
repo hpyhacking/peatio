@@ -20,6 +20,7 @@
 //= require helper
 //= require fund_source
 //= require jquery.mousewheel
+//= require qrcode
 
 //= require_tree ./component_mixin
 //= require_tree ./component_data

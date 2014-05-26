@@ -66,9 +66,12 @@ module ApplicationHelper
     "https://blockchain.info/tx/#{txid}"
   end
 
-  def qr_tag(data)
-    data = QREncoder.encode(data).png.resize(272, 272).to_data_url
-    image_tag(data, :class => 'qrcode img-thumbnail')
+  def qr_tag(text)
+    return if text.blank?
+    content_tag :div, '', 'class'       => 'qrcode-container img-thumbnail',
+                          'data-width'  => 272,
+                          'data-height' => 272,
+                          'data-text'   => text
   end
 
   def rev_category(type)

@@ -28,21 +28,13 @@ class Account < ActiveRecord::Base
   has_many :partial_trees
 
   def payment_address
-    if self.payment_addresses.empty?
-      self.gen_payment_address 
-    end
-    self.payment_addresses.using
-  end
-
-  def gen_payment_address
-    address = CoinRPC[self.currency].getnewaddress("payment")
-    self.payment_addresses.create(address: address, currency: self.currency)
+    payment_addresses.last || payment_addresses.create(currency: self.currency)
   end
 
   def self.after(*names)
     names.each do |name|
       m = instance_method(name.to_s)
-      define_method(name.to_s) do |*args, &block|  
+      define_method(name.to_s) do |*args, &block|
         m.bind(self).(*args, &block)
         yield(self, name.to_sym, *args)
         self

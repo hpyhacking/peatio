@@ -79,6 +79,11 @@ describe Account do
     end
   end
 
+  describe "#payment_address" do
+    it { expect(subject.payment_address).not_to be_nil }
+    it { expect(subject.payment_address).to be_is_a(PaymentAddress) }
+  end
+
   describe "#versions" do
     let(:account) { create(:account) }
 

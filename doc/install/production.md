@@ -34,7 +34,7 @@ Make sure your system is up-to-date and install it.
 
 Install the required packages:
 
-    sudo apt-get install -y curl qrencode libqrencode-dev git-core
+    sudo apt-get install -y curl git-core
 
 
 ## 2. Ruby

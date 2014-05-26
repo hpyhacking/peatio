@@ -35,6 +35,13 @@ $ ->
     placement = $(@).data('placement') || 'bottom'
     $(zero.htmlBridge).tooltip({title: gon.clipboard.click, placement: placement})
 
+  $('.qrcode-container').each (index, el) ->
+    $el = $(el)
+    new QRCode el,
+      text:   $el.data('text')
+      width:  $el.data('width')
+      height: $el.data('height')
+
   AccountBalanceUI.attachTo('.account-balance')
   PlaceOrderUI.attachTo('.place-order #bid_panel')
   PlaceOrderUI.attachTo('.place-order #ask_panel')
