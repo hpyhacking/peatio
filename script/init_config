@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+Dir.glob("config/*.yml.example").each do |example_file|
+  target_file = example_file[0..-9]
+
+  if File.exist? target_file
+    puts "Ignore the #{target_file}"
+  else
+    command = "/bin/cp #{example_file} #{target_file}"
+    puts command, `#{command}`
+  end
+end
+
