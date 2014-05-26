@@ -32,6 +32,7 @@ en:
           intro: Deposit bitcoin from your own Wallet address to Peatio account.
           new:
             default-panel: Deposit Transactions
+
   admin:
     deposits:
       satoshis:
