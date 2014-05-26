@@ -97,10 +97,6 @@ module ApplicationHelper
     end
   end
 
-  def btc_block_url(address)
-    CoinRPC[:btc].getinfo[:testnet] ? "http://testnet.btclook.com/addr/#{address}" : "https://blockchain.info/address/#{address}"
-  end
-
   def top_nav(link_text, link_path, link_icon, links = nil, controllers: [])
     if links && links.length > 1
       top_dropdown_nav(link_text, link_path, link_icon, links, controllers: controllers)
