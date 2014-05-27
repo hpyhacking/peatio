@@ -42,13 +42,19 @@ module Worker
     def on_usr1
       engines.each do |id, eng|
         dump_file = File.join('/', 'tmp', "orderbook_dump_#{id}_#{Time.now.to_i}")
-        data = eng.dump_orderbook
+        data = eng.dump
 
         File.open(dump_file, 'w') do |f|
           f.puts "ASK"
-          data[:asks].reverse.each {|o| f.puts o }
+          data[:ask_limit_orders].keys.reverse.each do |k|
+            f.puts k.to_s('F')
+            data[:ask_limit_orders][k].each {|o| f.puts "\t#{o}" }
+          end
           f.puts "-"*40
-          data[:bids].reverse.each {|o| f.puts o }
+          data[:bid_limit_orders].keys.reverse.each do |k|
+            f.puts k.to_s('F')
+            data[:bid_limit_orders][k].each {|o| f.puts "\t#{o}" }
+          end
           f.puts "BID"
         end
 

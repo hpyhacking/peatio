@@ -23,7 +23,12 @@ module Matching
       book.remove order
     rescue
       Rails.logger.fatal "Failed to cancel #{order}: #{$!}"
-      Rails.logger $!.backtrace.join("\n")
+      Rails.logger.fatal $!.backtrace.join("\n")
+    end
+
+    def dump
+      { ask_limit_orders: @ask_limit_orders.dump,
+        bid_limit_orders: @bid_limit_orders.dump }
     end
 
     private
