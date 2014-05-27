@@ -27,6 +27,14 @@ module Matching
       @volume -= v
     end
 
+    def crossed?(price)
+      if type == :ask
+        price >= @price # if people offer price higher or equal than ask limit
+      else
+        price <= @price # if people offer price lower or equal than bid limit
+      end
+    end
+
     def <=>(other)
       id <=> other.id
     end
