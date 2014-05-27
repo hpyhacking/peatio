@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe Matching::LimitOrderBook do
 
-  subject { Matching::LimitOrderBook.new(:ask) }
+  context "#add" do
+    subject { Matching::LimitOrderBook.new(:ask) }
 
-  context "add limit order" do
     it "should create price level for order with new price" do
       order = Matching.mock_order(type: :ask)
       subject.add order
@@ -23,7 +23,9 @@ describe Matching::LimitOrderBook do
     end
   end
 
-  context "remove limit order" do
+  context "#remove" do
+    subject { Matching::LimitOrderBook.new(:ask) }
+
     it "should remove order" do
       order = Matching.mock_order(type: :ask)
       subject.add order
@@ -32,4 +34,40 @@ describe Matching::LimitOrderBook do
     end
   end
 
+  context "#top" do
+    it "should return nil for empty book" do
+      book = Matching::LimitOrderBook.new(:ask)
+      book.top.should be_nil
+    end
+
+    it "should find ask order with lowest price" do
+      book = Matching::LimitOrderBook.new(:ask)
+      o1 = Matching.mock_order(type: :ask, price: '1.0'.to_d)
+      o2 = Matching.mock_order(type: :ask, price: '2.0'.to_d)
+      book.add o1
+      book.add o2
+
+      book.top.should == o1
+    end
+
+    it "should find bid order with highest price" do
+      book = Matching::LimitOrderBook.new(:bid)
+      o1 = Matching.mock_order(type: :bid, price: '1.0'.to_d)
+      o2 = Matching.mock_order(type: :bid, price: '2.0'.to_d)
+      book.add o1
+      book.add o2
+
+      book.top.should == o2
+    end
+
+    it "should favor earlier order if orders have same price" do
+      book = Matching::LimitOrderBook.new(:ask)
+      o1 = Matching.mock_order(type: :ask, price: '1.0'.to_d)
+      o2 = Matching.mock_order(type: :ask, price: '1.0'.to_d)
+      book.add o1
+      book.add o2
+
+      book.top.should == o1
+    end
+  end
 end

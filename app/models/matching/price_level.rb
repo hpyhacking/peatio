@@ -8,6 +8,10 @@ module Matching
       @orders = []
     end
 
+    def top
+      @orders.first
+    end
+
     def add(order)
       @orders << order
     end
