@@ -8,11 +8,11 @@ module Worker
     end
 
     def submit
-      engine.submit!(@order)
+      engine.submit @order
     end
 
     def cancel
-      engine.cancel!(@order)
+      engine.cancel @order
     end
 
     def engine
@@ -20,7 +20,7 @@ module Worker
     end
 
     def create_engine
-      engine = ::Matching::FIFOEngine.new(@order.market)
+      engine = ::Matching::Engine.new(@order.market)
       load_orders(engine) unless ENV['FRESH'] == '1'
       engine
     end
@@ -31,7 +31,7 @@ module Worker
 
       orders.each do |order|
         order = ::Matching::Order.new order.to_matching_attributes
-        engine.submit! order
+        engine.submit order
       end
     end
 

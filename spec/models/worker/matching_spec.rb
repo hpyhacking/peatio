@@ -17,7 +17,7 @@ describe Worker::Matching do
     end
 
     it "should find or initialize engine for market" do
-      subject.engine.should be_instance_of(::Matching::FIFOEngine)
+      subject.engine.should be_instance_of(::Matching::Engine)
     end
 
     it "should get all engines" do
@@ -32,16 +32,16 @@ describe Worker::Matching do
 
     it "should submit existing order only once after engine restart" do
       engine = mock('engine')
-      engine.expects(:submit!).times(2) # 1 for ask, 1 for bid
-      ::Matching::FIFOEngine.expects(:new).returns(engine)
+      engine.expects(:submit).times(2) # 1 for ask, 1 for bid
+      ::Matching::Engine.expects(:new).returns(engine)
       subject.process({action: 'submit', order: bid.to_matching_attributes}, {}, {})
     end
 
     it "should not match existing orders if one is canceled on engine restart" do
       engine = mock('engine')
-      engine.expects(:submit!).once # ask
-      engine.expects(:cancel!).once # bid
-      ::Matching::FIFOEngine.expects(:new).returns(engine)
+      engine.expects(:submit).once # ask
+      engine.expects(:cancel).once # bid
+      ::Matching::Engine.expects(:new).returns(engine)
       subject.process({action: 'cancel', order: bid.to_matching_attributes}, {}, {})
     end
 
