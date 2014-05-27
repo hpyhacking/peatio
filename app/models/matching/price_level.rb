@@ -12,6 +12,10 @@ module Matching
       @orders.first
     end
 
+    def empty?
+      @orders.empty?
+    end
+
     def add(order)
       @orders << order
     end

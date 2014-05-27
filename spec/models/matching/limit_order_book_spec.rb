@@ -27,10 +27,20 @@ describe Matching::LimitOrderBook do
     subject { Matching::LimitOrderBook.new(:ask) }
 
     it "should remove order" do
+      o1 = Matching.mock_order(type: :ask, price: '1.0'.to_d)
+      o2 = Matching.mock_order(type: :ask, price: '1.0'.to_d)
+      subject.add o1
+      subject.add o2
+      subject.remove o1
+
+      subject.dump.values.should have(1).order
+    end
+
+    it "should remove price level if its only order removed" do
       order = Matching.mock_order(type: :ask)
       subject.add order
       subject.remove order
-      subject.dump.values.first.should be_empty
+      subject.dump.should be_empty
     end
   end
 
@@ -70,4 +80,32 @@ describe Matching::LimitOrderBook do
       book.top.should == o1
     end
   end
+
+  context "#fill_top" do
+    subject { Matching::LimitOrderBook.new(:ask) }
+
+    it "should raise error if there is no top order" do
+      expect { subject.fill_top '1.0'.to_d }.to raise_error
+    end
+
+    it "should remove the price level if top order is the only order in level" do
+      subject.add Matching.mock_order(type: :ask, volume: '1.0'.to_d)
+      subject.fill_top '1.0'.to_d
+      subject.dump.should be_empty
+    end
+
+    it "should remove order from level" do
+      subject.add Matching.mock_order(type: :ask, volume: '1.0'.to_d)
+      subject.add Matching.mock_order(type: :ask, volume: '1.0'.to_d)
+      subject.fill_top '1.0'.to_d
+      subject.dump.values.first.should have(1).order
+    end
+
+    it "should fill top order with volume" do
+      subject.add Matching.mock_order(type: :ask, volume: '2.0'.to_d)
+      subject.fill_top '0.5'.to_d
+      subject.top.volume.should == '1.5'.to_d
+    end
+  end
+
 end

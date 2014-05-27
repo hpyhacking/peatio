@@ -11,13 +11,21 @@ module Matching
       singleton.send :define_method, :top, self.class.instance_method("#{@side}_top")
     end
 
+    def fill_top(volume)
+      order = top
+      raise "No top order in empty book." unless order
+      order.volume == volume ? remove(order) : order.fill(volume)
+    end
+
     def add(order)
       @orders[order.price] ||= PriceLevel.new(order.price)
       @orders[order.price].add order
     end
 
     def remove(order)
-      @orders[order.price].remove order
+      price_level = @orders[order.price]
+      price_level.remove order
+      @orders.delete(order.price) if price_level.empty?
     end
 
     def dump

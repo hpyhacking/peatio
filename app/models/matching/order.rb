@@ -22,6 +22,11 @@ module Matching
       raise InvalidOrderError.new(attrs) unless valid?(attrs)
     end
 
+    def fill(v)
+      raise "Not enough volume to fill" if v > @volume
+      @volume -= v
+    end
+
     def <=>(other)
       id <=> other.id
     end
