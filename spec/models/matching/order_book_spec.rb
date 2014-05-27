@@ -2,47 +2,78 @@ require 'spec_helper'
 
 describe Matching::OrderBook do
 
-  subject { Matching::OrderBook.new(:ask) }
+  subject { Matching::OrderBook.new }
 
-  context "add limit order" do
-    it "should raise error given invalid ord_type" do
-      order = Matching.mock_order(type: :ask, ord_type: 'test')
-      expect { subject.add order }.to raise_error(ArgumentError)
-    end
-
-    it "should raise error given wrong order type" do
-      order = Matching.mock_order(type: :bid)
-      expect { subject.add order }.to raise_error(ArgumentError)
-    end
-
-    it "should create price level for order with new price" do
-      order = Matching.mock_order(type: :ask)
-      subject.add order
-      subject.dump[:limit_orders].keys.first.should == order.price
-      subject.dump[:limit_orders].values.first.should have(1).order
-    end
-
-    it "should add order with same price to same price level" do
-      o1 = Matching.mock_order(type: :ask)
-      o2 = Matching.mock_order(type: :ask, price: o1.price)
-      subject.add o1
-      subject.add o2
-
-      subject.dump[:limit_orders].keys.should have(1).price_level
-      subject.dump[:limit_orders].values.first.should have(2).orders
-    end
+  context "Empty" do
+    its(:matchable?) { should be_false }
   end
 
-  context "remove limit order" do
-    it "should raise error if there is no such order" do
-      expect { subject.remove Matching.mock_order(type: :ask) }.to raise_error
+  context "Filled" do
+    before do
+      5.times do |i|
+        subject.submit Matching.mock_order(type: :ask, price: 1+i)
+        subject.submit Matching.mock_order(type: :bid, price: 1+i)
+      end
     end
 
-    it "should remove order" do
-      order = Matching.mock_order(type: :ask)
-      subject.add order
-      subject.remove order
-      subject.dump[:limit_orders].values.first.should be_empty
+    its(:matchable?) { should be_true }
+
+    it "should cancel order" do
+      subject.cancel subject.lowest_ask
+      subject.lowest_ask.price.should == 2.to_d
+    end
+
+    it "should return order ask for lowest price" do
+      subject.lowest_ask.price.should == 1.to_d
+    end
+
+    it "should return order bid with highest price" do
+      subject.highest_bid.price.should == 5.to_d
+    end
+
+    it "should insert new lowest ask order" do
+      subject.submit Matching.mock_order(type: :ask, price: 0.5)
+      subject.lowest_ask.price.should == 0.5.to_d
+    end
+
+    it "should insert new highest bid order" do
+      subject.submit Matching.mock_order(type: :bid, price: 100)
+      subject.highest_bid.price.should == 100.to_d
+    end
+
+    it "should delete lowest ask order" do
+      subject.delete_ask subject.lowest_ask
+      subject.lowest_ask.price.should == 2.to_d
+    end
+
+    it "should delete highest bid order" do
+      subject.delete_bid subject.highest_bid
+      subject.highest_bid.price.should == 4.to_d
+    end
+
+    it "should pop the ask and bid with closest prices" do
+      ask, bid = subject.pop_closest_pair!
+
+      ask.price.should == 1.to_d
+      bid.price.should == 5.to_d
+
+      subject.lowest_ask.price.should == 2.to_d
+      subject.highest_bid.price.should == 4.to_d
+    end
+
+  end
+
+  context "#depth" do
+    before do
+      5.times do |i|
+        subject.submit Matching.mock_order(type: :ask, price: 1+i, volume: rand(5)+1)
+        subject.submit Matching.mock_order(type: :bid, price: 1+i, volume: rand(5)+1)
+      end
+    end
+
+    it "should return asks and bids" do
+      subject.dump[:asks].first.should match(/\$1\.00\/\d\.0000$/)
+      subject.dump[:bids].first.should match(/\$1\.00\/\d\.0000$/)
     end
   end
 

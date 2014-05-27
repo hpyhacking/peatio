@@ -1,40 +1,54 @@
 module Matching
   class OrderBook
 
-    attr :side
-
-    def initialize(side)
-      @side = side.to_sym
-      @limit_orders = RBTree.new
+    def initialize
+      @tree = {ask: RBTree.new, bid: RBTree.new}
     end
 
-    def add(order)
-      raise ArgumentError, "#{side} orderbook accept only #{side} order. Order: #{order.inspect}" if order.type != side
-
-      case order.ord_type
-      when 'limit'
-        @limit_orders[order.price] ||= PriceLevel.new(order.price)
-        @limit_orders[order.price].add order
-      else
-        raise ArgumentError, "Invalid ord_type. Order: #{order.inspect}"
-      end
+    def submit(order)
+      @tree[order.type][order] = true
+      order
     end
 
-    def remove(order)
-      raise ArgumentError, "#{side} orderbook accept only #{side} order. Order: #{order.inspect}" if order.type != side
+    def cancel(order)
+      @tree[order.type].delete order
+    end
 
-      case order.ord_type
-      when 'limit'
-        @limit_orders[order.price].remove order
-      else
-        raise ArgumentError, "Invalid ord_type. Order: #{order.inspect}"
-      end
+    def lowest_ask
+      @tree[:ask].first[0]
+    end
+
+    def highest_bid
+      @tree[:bid].last[0]
+    end
+
+    def matchable?
+      !@tree[:ask].empty? && !@tree[:bid].empty?
+    end
+
+    def pop_closest_pair!
+      [delete_ask(lowest_ask), delete_bid(highest_bid)]
+    end
+
+    def delete_ask(ask)
+      @tree[:ask].delete ask
+      ask
+    end
+
+    def delete_bid(bid)
+      @tree[:bid].delete bid
+      bid
     end
 
     def dump
-      limit_orders = {}
-      @limit_orders.keys.each {|k| limit_orders[k] = @limit_orders[k].dump }
-      { limit_orders: limit_orders }
+      { asks: @tree[:ask].keys.map {|o| dump_format(o) },
+        bids: @tree[:bid].keys.map {|o| dump_format(o) } }
+    end
+
+    private
+
+    def dump_format(order)
+      "%d/$%.02f/%.04f" % [order.id, order.price, order.volume]
     end
 
   end
