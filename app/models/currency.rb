@@ -28,6 +28,6 @@ class Currency < ActiveYaml::Base
 
   def address_url(address)
     raise unless coin?
-    self[:address_url].gsub('#{address}', address)
+    self[:address_url].try :gsub, '#{address}', address
   end
 end
