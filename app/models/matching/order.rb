@@ -23,12 +23,6 @@ module Matching
     end
 
     def <=>(other)
-      price_compare = price <=> other.price
-      return price_compare unless price_compare == 0
-
-      time_compare = timestamp <=> other.timestamp
-      return time_compare unless time_compare == 0
-
       id <=> other.id
     end
 

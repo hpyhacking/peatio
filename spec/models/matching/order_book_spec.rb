@@ -4,7 +4,7 @@ describe Matching::OrderBook do
 
   subject { Matching::OrderBook.new(:ask) }
 
-  context "add order" do
+  context "add limit order" do
     it "should raise error given invalid ord_type" do
       order = Matching.mock_order(type: :ask, ord_type: 'test')
       expect { subject.add order }.to raise_error(ArgumentError)
@@ -30,6 +30,19 @@ describe Matching::OrderBook do
 
       subject.dump[:limit_orders].keys.should have(1).price_level
       subject.dump[:limit_orders].values.first.should have(2).orders
+    end
+  end
+
+  context "remove limit order" do
+    it "should raise error if there is no such order" do
+      expect { subject.remove Matching.mock_order(type: :ask) }.to raise_error
+    end
+
+    it "should remove order" do
+      order = Matching.mock_order(type: :ask)
+      subject.add order
+      subject.remove order
+      subject.dump[:limit_orders].values.first.should be_empty
     end
   end
 

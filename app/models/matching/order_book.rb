@@ -21,6 +21,14 @@ module Matching
     end
 
     def remove(order)
+      raise ArgumentError, "#{side} orderbook accept only #{side} order. Order: #{order.inspect}" if order.type != side
+
+      case order.ord_type
+      when 'limit'
+        @limit_orders[order.price].remove order
+      else
+        raise ArgumentError, "Invalid ord_type. Order: #{order.inspect}"
+      end
     end
 
     def dump
