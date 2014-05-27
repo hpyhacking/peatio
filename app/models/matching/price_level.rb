@@ -1,0 +1,20 @@
+module Matching
+  class PriceLevel
+
+    attr :price
+
+    def initialize(price)
+      @price  = price
+      @orders = []
+    end
+
+    def add(order)
+      @orders << order
+    end
+
+    def dump
+      @orders.map(&:label)
+    end
+
+  end
+end

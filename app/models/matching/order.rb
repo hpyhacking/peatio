@@ -6,7 +6,7 @@ module Matching
 
     ZERO = 0.to_d
 
-    attr :id, :timestamp, :type, :volume, :price, :market
+    attr :id, :timestamp, :type, :ord_type, :volume, :price, :market
 
     def initialize(attrs)
       attrs.symbolize_keys!
@@ -14,6 +14,7 @@ module Matching
       @id        = attrs[:id]
       @timestamp = attrs[:timestamp]
       @type      = attrs[:type].try(:to_sym)
+      @ord_type  = attrs[:ord_type]
       @volume    = attrs[:volume].try(:to_d)
       @price     = attrs[:price].try(:to_d)
       @market    = Market.find attrs[:market]
@@ -37,6 +38,10 @@ module Matching
 
     def to_s
       "#{@type}:#{id}/#{volume}/#{price}"
+    end
+
+    def label
+      "%d/$%.02f/%.04f" % [id, price, volume]
     end
 
     private
