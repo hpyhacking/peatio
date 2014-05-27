@@ -12,6 +12,10 @@ module Matching
       @orders << order
     end
 
+    def remove(order)
+      @orders.delete(order)
+    end
+
     def dump
       @orders.map(&:label)
     end
