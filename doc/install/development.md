@@ -66,6 +66,9 @@ Insert the following lines into your bitcoin.conf, and replce with your username
 
     # If run on the test network instead of the real bitcoin network
     testnet=1
+    # Notify the Rails app when receiving coins
+    walletnotify=curl --data txid=%s http://localhost:3000/deposits/satoshis
+
 
 
 **For Mac**
