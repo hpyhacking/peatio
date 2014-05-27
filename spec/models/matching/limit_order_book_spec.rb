@@ -31,15 +31,15 @@ describe Matching::LimitOrderBook do
       o2 = Matching.mock_order(type: :ask, price: '1.0'.to_d)
       subject.add o1
       subject.add o2
-      subject.remove o1
+      subject.remove o1.dup # dup so it's not the same object, but has same id
 
-      subject.dump.values.should have(1).order
+      subject.dump.values.first.should have(1).order
     end
 
     it "should remove price level if its only order removed" do
       order = Matching.mock_order(type: :ask)
       subject.add order
-      subject.remove order
+      subject.remove order.dup
       subject.dump.should be_empty
     end
   end

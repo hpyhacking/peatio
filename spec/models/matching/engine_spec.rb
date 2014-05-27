@@ -35,6 +35,9 @@ describe Matching::Engine do
 
       subject.ask_limit_orders.dump.should be_empty
       subject.bid_limit_orders.dump.should_not be_empty
+
+      subject.cancel(bid)
+      subject.bid_limit_orders.dump.should be_empty
     end
   end
 
@@ -77,5 +80,16 @@ describe Matching::Engine do
     end
   end
 
+  context "#cancel" do
+    it "should cancel order" do
+      subject.submit(ask)
+      subject.cancel(ask)
+      subject.ask_limit_orders.dump.should be_empty
+
+      subject.submit(bid)
+      subject.cancel(bid)
+      subject.bid_limit_orders.dump.should be_empty
+    end
+  end
 
 end

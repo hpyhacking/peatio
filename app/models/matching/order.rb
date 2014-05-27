@@ -35,14 +35,6 @@ module Matching
       end
     end
 
-    def <=>(other)
-      id <=> other.id
-    end
-
-    def equal?(other)
-      id == other.id
-    end
-
     def to_s
       "#{@type}:#{id}/#{volume}/#{price}"
     end

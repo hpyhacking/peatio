@@ -115,4 +115,17 @@ describe Worker::Matching do
     end
   end
 
+  context "cancel order" do
+    let(:existing) { create(:order_ask, price: '4001', volume: '10.0', member: alice) }
+
+    before do
+      subject.process({action: 'submit', order: existing.to_matching_attributes}, {}, {})
+    end
+
+    it "should cancel existing order" do
+      subject.process({action: 'cancel', order: existing.to_matching_attributes}, {}, {})
+      subject.engines[market.id].ask_limit_orders.dump.should be_empty
+    end
+  end
+
 end

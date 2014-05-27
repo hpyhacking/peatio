@@ -21,7 +21,7 @@ module Matching
     end
 
     def remove(order)
-      @orders.delete(order)
+      @orders.delete_if {|o| o.id == order.id }
     end
 
     def dump
