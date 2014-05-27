@@ -17,7 +17,7 @@ describe Worker::Matching do
     end
 
     it "should find or initialize engine for market" do
-      subject.engine.should be_instance_of(::Matching::FIFOEngine)
+      subject.engine.should be_instance_of(::Matching::Engine)
     end
 
     it "should get all engines" do
@@ -32,16 +32,16 @@ describe Worker::Matching do
 
     it "should submit existing order only once after engine restart" do
       engine = mock('engine')
-      engine.expects(:submit!).times(2) # 1 for ask, 1 for bid
-      ::Matching::FIFOEngine.expects(:new).returns(engine)
+      engine.expects(:submit).times(2) # 1 for ask, 1 for bid
+      ::Matching::Engine.expects(:new).returns(engine)
       subject.process({action: 'submit', order: bid.to_matching_attributes}, {}, {})
     end
 
     it "should not match existing orders if one is canceled on engine restart" do
       engine = mock('engine')
-      engine.expects(:submit!).once # ask
-      engine.expects(:cancel!).once # bid
-      ::Matching::FIFOEngine.expects(:new).returns(engine)
+      engine.expects(:submit).once # ask
+      engine.expects(:cancel).once # bid
+      ::Matching::Engine.expects(:new).returns(engine)
       subject.process({action: 'cancel', order: bid.to_matching_attributes}, {}, {})
     end
 
@@ -112,6 +112,19 @@ describe Worker::Matching do
       subject.process({action: 'submit', order: bid5.to_matching_attributes}, {}, {})
 
       subject.process({action: 'submit', order: bid6.to_matching_attributes}, {}, {})
+    end
+  end
+
+  context "cancel order" do
+    let(:existing) { create(:order_ask, price: '4001', volume: '10.0', member: alice) }
+
+    before do
+      subject.process({action: 'submit', order: existing.to_matching_attributes}, {}, {})
+    end
+
+    it "should cancel existing order" do
+      subject.process({action: 'cancel', order: existing.to_matching_attributes}, {}, {})
+      subject.engines[market.id].ask_limit_orders.dump.should be_empty
     end
   end
 
