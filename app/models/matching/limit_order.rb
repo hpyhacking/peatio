@@ -2,19 +2,16 @@ module Matching
 
   class InvalidOrderError < StandardError; end
 
-  class Order
+  class LimitOrder
 
     ZERO = 0.to_d
 
-    attr :id, :timestamp, :type, :ord_type, :volume, :price, :market
+    attr :id, :timestamp, :type, :volume, :price, :market
 
     def initialize(attrs)
-      attrs.symbolize_keys!
-
       @id        = attrs[:id]
       @timestamp = attrs[:timestamp]
       @type      = attrs[:type].try(:to_sym)
-      @ord_type  = attrs[:ord_type]
       @volume    = attrs[:volume].try(:to_d)
       @price     = attrs[:price].try(:to_d)
       @market    = Market.find attrs[:market]
@@ -25,6 +22,10 @@ module Matching
     def fill(v)
       raise "Not enough volume to fill" if v > @volume
       @volume -= v
+    end
+
+    def filled?
+      volume <= ZERO
     end
 
     def crossed?(price)

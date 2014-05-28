@@ -8,9 +8,16 @@ describe Worker::Matching do
 
   subject { Worker::Matching.new }
 
+  context "#build_order" do
+    it "should build limit order" do
+      order = subject.build_order id: 1, market: 'btccny', ord_type: 'limit', type: 'ask', price: '1.0', volume: '1.0', timestamp: 12345
+      order.should be_instance_of(::Matching::LimitOrder)
+    end
+  end
+
   context "engines" do
     let(:attrs)  { create(:order_bid, currency: 'btccny').to_matching_attributes }
-    let(:order)  { ::Matching::Order.new attrs }
+    let(:order)  { ::Matching::LimitOrder.new attrs }
 
     before do
       subject.instance_variable_set('@order', order)

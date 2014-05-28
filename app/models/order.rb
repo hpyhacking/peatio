@@ -106,6 +106,7 @@ class Order < ActiveRecord::Base
     { id: id,
       market: market,
       type: type[-3, 3].downcase.to_sym,
+      ord_type: ord_type,
       volume: volume,
       price: price,
       timestamp: created_at.to_i }

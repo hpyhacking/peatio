@@ -19,8 +19,8 @@ describe Matching::Executor do
   }
 
   context "invalid volume" do
-    let(:ask) { ::Matching::Order.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
-    let(:bid) { ::Matching::Order.new create(:order_bid, price: price, volume: 3.to_d, member: bob).to_matching_attributes }
+    let(:ask) { ::Matching::LimitOrder.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
+    let(:bid) { ::Matching::LimitOrder.new create(:order_bid, price: price, volume: 3.to_d, member: bob).to_matching_attributes }
 
     it "should raise error" do
       expect { subject.execute! }.to raise_error(Matching::TradeExecutionError)
@@ -28,8 +28,8 @@ describe Matching::Executor do
   end
 
   context "invalid price" do
-    let(:ask) { ::Matching::Order.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
-    let(:bid) { ::Matching::Order.new create(:order_bid, price: price-1, volume: volume, member: bob).to_matching_attributes }
+    let(:ask) { ::Matching::LimitOrder.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
+    let(:bid) { ::Matching::LimitOrder.new create(:order_bid, price: price-1, volume: volume, member: bob).to_matching_attributes }
 
     it "should raise error" do
       expect { subject.execute! }.to raise_error(Matching::TradeExecutionError)
@@ -37,8 +37,8 @@ describe Matching::Executor do
   end
 
   context "full execution" do
-    let(:ask) { ::Matching::Order.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
-    let(:bid) { ::Matching::Order.new create(:order_bid, price: price, volume: volume, member: bob).to_matching_attributes }
+    let(:ask) { ::Matching::LimitOrder.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
+    let(:bid) { ::Matching::LimitOrder.new create(:order_bid, price: price, volume: volume, member: bob).to_matching_attributes }
 
     it "should create trade" do
       expect {
@@ -97,8 +97,8 @@ describe Matching::Executor do
   end
 
   context "execution fail" do
-    let(:ask) { ::Matching::Order.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
-    let(:bid) { ::Matching::Order.new create(:order_bid, price: price, volume: volume, member: bob).to_matching_attributes }
+    let(:ask) { ::Matching::LimitOrder.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
+    let(:bid) { ::Matching::LimitOrder.new create(:order_bid, price: price, volume: volume, member: bob).to_matching_attributes }
 
     it "should not create trade" do
       # set locked funds to 0 so strike will fail

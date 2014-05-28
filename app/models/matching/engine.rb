@@ -12,7 +12,7 @@ module Matching
     def submit(order)
       book, counter_book = get_books order.type
       match order, counter_book
-      book.add order if order.volume > Matching::Order::ZERO
+      book.add order unless order.filled?
     rescue
       Rails.logger.fatal "Failed to submit #{order}: #{$!}"
       Rails.logger.fatal $!.backtrace.join("\n")
@@ -43,7 +43,7 @@ module Matching
     end
 
     def match(order, counter_book)
-      return if order.volume == Matching::Order::ZERO
+      return if order.filled?
 
       counter_order = counter_book.top
       return unless counter_order

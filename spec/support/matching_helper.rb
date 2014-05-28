@@ -19,7 +19,7 @@ module Matching
 
     def mock_order(attrs)
       @@mock_order_id += 1
-      Matching::Order.new({
+      Matching::LimitOrder.new({
         id: @@mock_order_id,
         timestamp: Time.now.to_i,
         volume: 1+rand(10),

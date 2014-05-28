@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe Matching::Order do
+describe Matching::LimitOrder do
 
   context "initialize" do
     it "should throw invalid order error for empty attributes" do
       expect {
-        Matching::Order.new({})
+        Matching::LimitOrder.new({})
       }.to raise_error(Matching::InvalidOrderError)
     end
 
