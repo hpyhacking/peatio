@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Matching::LimitOrderBook do
+describe Matching::OrderBook do
 
   context "#add" do
-    subject { Matching::LimitOrderBook.new(:ask) }
+    subject { Matching::OrderBook.new(:ask) }
 
     it "should create price level for order with new price" do
       order = Matching.mock_limit_order(type: :ask)
@@ -24,7 +24,7 @@ describe Matching::LimitOrderBook do
   end
 
   context "#remove" do
-    subject { Matching::LimitOrderBook.new(:ask) }
+    subject { Matching::OrderBook.new(:ask) }
 
     it "should remove order" do
       o1 = Matching.mock_limit_order(type: :ask, price: '1.0'.to_d)
@@ -46,12 +46,12 @@ describe Matching::LimitOrderBook do
 
   context "#top" do
     it "should return nil for empty book" do
-      book = Matching::LimitOrderBook.new(:ask)
+      book = Matching::OrderBook.new(:ask)
       book.top.should be_nil
     end
 
     it "should find ask order with lowest price" do
-      book = Matching::LimitOrderBook.new(:ask)
+      book = Matching::OrderBook.new(:ask)
       o1 = Matching.mock_limit_order(type: :ask, price: '1.0'.to_d)
       o2 = Matching.mock_limit_order(type: :ask, price: '2.0'.to_d)
       book.add o1
@@ -61,7 +61,7 @@ describe Matching::LimitOrderBook do
     end
 
     it "should find bid order with highest price" do
-      book = Matching::LimitOrderBook.new(:bid)
+      book = Matching::OrderBook.new(:bid)
       o1 = Matching.mock_limit_order(type: :bid, price: '1.0'.to_d)
       o2 = Matching.mock_limit_order(type: :bid, price: '2.0'.to_d)
       book.add o1
@@ -71,7 +71,7 @@ describe Matching::LimitOrderBook do
     end
 
     it "should favor earlier order if orders have same price" do
-      book = Matching::LimitOrderBook.new(:ask)
+      book = Matching::OrderBook.new(:ask)
       o1 = Matching.mock_limit_order(type: :ask, price: '1.0'.to_d)
       o2 = Matching.mock_limit_order(type: :ask, price: '1.0'.to_d)
       book.add o1
@@ -82,7 +82,7 @@ describe Matching::LimitOrderBook do
   end
 
   context "#fill_top" do
-    subject { Matching::LimitOrderBook.new(:ask) }
+    subject { Matching::OrderBook.new(:ask) }
 
     it "should raise error if there is no top order" do
       expect { subject.fill_top '1.0'.to_d }.to raise_error

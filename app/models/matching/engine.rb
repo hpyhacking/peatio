@@ -1,12 +1,12 @@
 module Matching
   class Engine
 
-    attr :ask_limit_orders, :bid_limit_orders
+    attr :ask_orders, :bid_orders
 
     def initialize(market, options={})
       @market = market
-      @ask_limit_orders = LimitOrderBook.new(:ask)
-      @bid_limit_orders = LimitOrderBook.new(:bid)
+      @ask_orders = OrderBook.new(:ask)
+      @bid_orders = OrderBook.new(:bid)
     end
 
     def submit(order)
@@ -27,8 +27,8 @@ module Matching
     end
 
     def dump
-      { ask_limit_orders: @ask_limit_orders.dump,
-        bid_limit_orders: @bid_limit_orders.dump }
+      { ask_orders: @ask_orders.dump,
+        bid_orders: @bid_orders.dump }
     end
 
     private
@@ -36,9 +36,9 @@ module Matching
     def get_books(type)
       case type
       when :ask
-        [@ask_limit_orders, @bid_limit_orders]
+        [@ask_orders, @bid_orders]
       when :bid
-        [@bid_limit_orders, @ask_limit_orders]
+        [@bid_orders, @ask_orders]
       end
     end
 

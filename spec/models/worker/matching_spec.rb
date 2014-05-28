@@ -131,7 +131,7 @@ describe Worker::Matching do
 
     it "should cancel existing order" do
       subject.process({action: 'cancel', order: existing.to_matching_attributes}, {}, {})
-      subject.engines[market.id].ask_limit_orders.dump.should be_empty
+      subject.engines[market.id].ask_orders.dump.should be_empty
     end
   end
 

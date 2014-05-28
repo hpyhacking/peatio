@@ -1,5 +1,5 @@
 module Matching
-  class LimitOrderBook
+  class OrderBook
 
     attr :side
 
