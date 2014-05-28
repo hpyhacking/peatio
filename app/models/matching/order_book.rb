@@ -5,7 +5,8 @@ module Matching
 
     def initialize(side)
       @side   = side.to_sym
-      @orders = RBTree.new
+      @limit_orders = RBTree.new
+      @market_orders = RBTree.new
 
       singleton = class<<self;self;end
       singleton.send :define_method, :top, self.class.instance_method("#{@side}_top")
@@ -18,33 +19,53 @@ module Matching
     end
 
     def add(order)
-      @orders[order.price] ||= PriceLevel.new(order.price)
-      @orders[order.price].add order
+      case order
+      when LimitOrder
+        @limit_orders[order.price] ||= PriceLevel.new(order.price)
+        @limit_orders[order.price].add order
+      when MarketOrder
+        @market_orders[order.id] = order
+      else
+        raise ArgumentError, "Unrecognized order: #{order.inspect}"
+      end
     end
 
     def remove(order)
-      price_level = @orders[order.price]
-      price_level.remove order
-      @orders.delete(order.price) if price_level.empty?
+      case order
+      when LimitOrder
+        price_level = @limit_orders[order.price]
+        price_level.remove order
+        @limit_orders.delete(order.price) if price_level.empty?
+      when MarketOrder
+        @market_orders.delete order.id
+      else
+        raise ArgumentError, "Unrecognized order: #{order.inspect}"
+      end
     end
 
-    def dump
+    def limit_orders
       orders = {}
-      @orders.keys.each {|k| orders[k] = @orders[k].dump }
+      @limit_orders.keys.each {|k| orders[k] = @limit_orders[k].orders }
       orders
+    end
+
+    def market_orders
+      @market_orders.values
     end
 
     private
 
     def ask_top # lowest price wins
-      return if @orders.empty?
-      price, level = @orders.first
+      return @market_orders.first[1] unless @market_orders.empty?
+      return if @limit_orders.empty?
+      price, level = @limit_orders.first
       level.top
     end
 
     def bid_top # highest price wins
-      return if @orders.empty?
-      price, level = @orders.last
+      return @market_orders.first[1] unless @market_orders.empty?
+      return if @limit_orders.empty?
+      price, level = @limit_orders.last
       level.top
     end
 

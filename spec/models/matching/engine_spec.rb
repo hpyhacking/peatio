@@ -18,8 +18,8 @@ describe Matching::Engine do
       subject.submit(ask)
       subject.submit(bid)
 
-      subject.ask_orders.dump.should be_empty
-      subject.bid_orders.dump.should be_empty
+      subject.ask_orders.limit_orders.should be_empty
+      subject.bid_orders.limit_orders.should be_empty
     end
   end
 
@@ -33,11 +33,11 @@ describe Matching::Engine do
       subject.submit(ask)
       subject.submit(bid)
 
-      subject.ask_orders.dump.should be_empty
-      subject.bid_orders.dump.should_not be_empty
+      subject.ask_orders.limit_orders.should be_empty
+      subject.bid_orders.limit_orders.should_not be_empty
 
       subject.cancel(bid)
-      subject.bid_orders.dump.should be_empty
+      subject.bid_orders.limit_orders.should be_empty
     end
   end
 
@@ -56,8 +56,8 @@ describe Matching::Engine do
       asks.each {|ask| subject.submit(ask) }
       subject.submit(bid)
 
-      subject.ask_orders.dump.should be_empty
-      subject.bid_orders.dump.should_not be_empty
+      subject.ask_orders.limit_orders.should be_empty
+      subject.bid_orders.limit_orders.should_not be_empty
     end
   end
 
@@ -75,8 +75,8 @@ describe Matching::Engine do
         .with(:trade_executor, {market_id: market.id, ask_id: high_ask.id, bid_id: bid.id, strike_price: high_ask.price, volume: high_ask.volume}, anything)
       subject.submit(bid)
 
-      subject.ask_orders.dump.should be_empty
-      subject.bid_orders.dump.should_not be_empty
+      subject.ask_orders.limit_orders.should be_empty
+      subject.bid_orders.limit_orders.should_not be_empty
     end
   end
 
@@ -84,11 +84,11 @@ describe Matching::Engine do
     it "should cancel order" do
       subject.submit(ask)
       subject.cancel(ask)
-      subject.ask_orders.dump.should be_empty
+      subject.ask_orders.limit_orders.should be_empty
 
       subject.submit(bid)
       subject.cancel(bid)
-      subject.bid_orders.dump.should be_empty
+      subject.bid_orders.limit_orders.should be_empty
     end
   end
 

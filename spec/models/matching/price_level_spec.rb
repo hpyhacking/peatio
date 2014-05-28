@@ -12,7 +12,7 @@ describe Matching::PriceLevel do
     subject.add o2
     subject.add o3
     subject.remove o2
-    subject.dump.should == [o1.label, o3.label]
+    subject.orders.should == [o1, o3]
   end
 
 end

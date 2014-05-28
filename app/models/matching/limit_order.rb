@@ -1,10 +1,7 @@
+require_relative 'constants'
+
 module Matching
-
-  class InvalidOrderError < StandardError; end
-
   class LimitOrder
-
-    ZERO = 0.to_d
 
     attr :id, :timestamp, :type, :volume, :price, :market
 
