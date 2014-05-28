@@ -5,8 +5,8 @@ describe Matching::Engine do
   let(:market) { Market.find('btccny') }
   let(:price)  { 10.to_d }
   let(:volume) { 5.to_d }
-  let(:ask)    { Matching.mock_order(type: :ask, price: price, volume: volume)}
-  let(:bid)    { Matching.mock_order(type: :bid, price: price, volume: volume)}
+  let(:ask)    { Matching.mock_limit_order(type: :ask, price: price, volume: volume)}
+  let(:bid)    { Matching.mock_limit_order(type: :bid, price: price, volume: volume)}
 
   subject { Matching::Engine.new(market) }
 
@@ -24,7 +24,7 @@ describe Matching::Engine do
   end
 
   context "submit single partial match orders" do
-    let(:ask) { Matching.mock_order(type: :ask, price: price, volume: 3.to_d)}
+    let(:ask) { Matching.mock_limit_order(type: :ask, price: price, volume: 3.to_d)}
 
     it "should execute trade" do
       AMQPQueue.expects(:enqueue)
@@ -42,11 +42,11 @@ describe Matching::Engine do
   end
 
   context "submit an order matching multiple orders" do
-    let(:bid)    { Matching.mock_order(type: :bid, price: price, volume: 10.to_d)}
+    let(:bid)    { Matching.mock_limit_order(type: :bid, price: price, volume: 10.to_d)}
 
     let(:asks) do
       [nil,nil,nil].map do
-        Matching.mock_order(type: :ask, price: price, volume: 3.to_d)
+        Matching.mock_limit_order(type: :ask, price: price, volume: 3.to_d)
       end
     end
 
@@ -62,9 +62,9 @@ describe Matching::Engine do
   end
 
   context "submit full match order after some cancellaton" do
-    let(:bid)      { Matching.mock_order(type: :bid, price: price,   volume: 10.to_d)}
-    let(:low_ask)  { Matching.mock_order(type: :ask, price: price-1, volume: 3.to_d) }
-    let(:high_ask) { Matching.mock_order(type: :ask, price: price,   volume: 3.to_d) }
+    let(:bid)      { Matching.mock_limit_order(type: :bid, price: price,   volume: 10.to_d)}
+    let(:low_ask)  { Matching.mock_limit_order(type: :ask, price: price-1, volume: 3.to_d) }
+    let(:high_ask) { Matching.mock_limit_order(type: :ask, price: price,   volume: 3.to_d) }
 
     it "should match bid with high ask" do
       subject.submit(low_ask) # low ask enters first

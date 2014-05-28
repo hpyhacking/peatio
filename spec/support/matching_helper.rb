@@ -17,7 +17,7 @@ module Matching
   class <<self
     @@mock_order_id = 10000
 
-    def mock_order(attrs)
+    def mock_limit_order(attrs)
       @@mock_order_id += 1
       Matching::LimitOrder.new({
         id: @@mock_order_id,
