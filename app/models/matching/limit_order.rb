@@ -44,8 +44,6 @@ module Matching
       "%d/$%.02f/%.04f" % [id, price, volume]
     end
 
-    private
-
     def valid?(attrs)
       return false unless [:ask, :bid].include?(type)
       id && timestamp && market && volume > ZERO && price > ZERO
