@@ -18,6 +18,8 @@ namespace :solvency do
           'balance' => account.balance + account.locked }
       end
 
+      next if formatted_accounts.empty?
+
       tree = LiabilityProof::Tree.new formatted_accounts, currency: type.upcase
 
       puts "Generating root node .."
