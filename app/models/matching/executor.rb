@@ -1,6 +1,6 @@
-module Matching
-  class TradeExecutionError < StandardError; end
+require_relative 'constants'
 
+module Matching
   class Executor
 
     def initialize(payload)

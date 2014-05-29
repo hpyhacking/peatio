@@ -12,7 +12,7 @@ module Matching
     def submit(order)
       book, counter_book = get_books order.type
       match order, counter_book
-      book.add order unless order.filled?
+      book.add order if order.volume > ZERO
     rescue Matching::NoLimitOrderError
       publish_cancel order, "market order protection"
     rescue
@@ -45,7 +45,7 @@ module Matching
     end
 
     def match(order, counter_book)
-      return if order.filled?
+      return unless order.volume > ZERO
 
       counter_order = counter_book.top
       return unless counter_order

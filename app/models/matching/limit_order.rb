@@ -1,9 +1,7 @@
-require_relative 'order_methods'
+require_relative 'constants'
 
 module Matching
   class LimitOrder
-    include OrderMethods
-
     attr :id, :timestamp, :type, :volume, :price, :market
 
     def initialize(attrs)
@@ -15,6 +13,11 @@ module Matching
       @market    = Market.find attrs[:market]
 
       raise InvalidOrderError.new(attrs) unless valid?(attrs)
+    end
+
+    def fill(v)
+      raise NotEnoughVolume if v > @volume
+      @volume -= v
     end
 
     def crossed?(price)

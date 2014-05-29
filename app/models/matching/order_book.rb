@@ -1,7 +1,6 @@
+require_relative 'constants'
+
 module Matching
-
-  class NoLimitOrderError < StandardError; end
-
   class OrderBook
 
     attr :side
