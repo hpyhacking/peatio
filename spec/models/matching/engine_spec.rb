@@ -88,6 +88,10 @@ describe Matching::Engine do
     end
 
     it "should cancel the market order if it's the first order in book" do
+      mo1 = Matching.mock_market_order(type: :ask, sum_limit: '6.0'.to_d, volume: '1.4'.to_d)
+
+      subject.expects(:publish_cancel).with(mo1, "market order protection")
+      subject.submit mo1
     end
 
     it "should cancel the market order if sum limit reached" do

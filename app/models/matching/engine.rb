@@ -13,6 +13,8 @@ module Matching
       book, counter_book = get_books order.type
       match order, counter_book
       book.add order unless order.filled?
+    rescue Matching::NoLimitOrderError
+      publish_cancel order, "market order protection"
     rescue
       Rails.logger.fatal "Failed to submit #{order}: #{$!}"
       Rails.logger.fatal $!.backtrace.join("\n")
@@ -84,6 +86,9 @@ module Matching
         {market_id: @market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume},
         {persistent: false}
       )
+    end
+
+    def publish_cancel(order, reason)
     end
 
   end
