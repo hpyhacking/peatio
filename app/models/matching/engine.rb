@@ -47,19 +47,30 @@ module Matching
 
       counter_order = counter_book.top
       return unless counter_order
-      return unless order.crossed?(counter_order.price)
 
-      # order is always the new coming order, so the trade price should
-      # always follow the counter order (elder one)
-      trade_price  = counter_order.price
-      trade_volume = [order.volume, counter_order.volume].min
+      if trade = order_match?(order, counter_order)
+        counter_book.fill_top trade[1]
+        order.fill trade[1]
 
-      counter_book.fill_top trade_volume
-      order.fill trade_volume
+        publish order, counter_order, trade[0], trade[1]
 
-      publish order, counter_order, trade_price, trade_volume
+        match order, counter_book
+      end
+    end
 
-      match order, counter_book
+    def order_match?(order, counter_order)
+      if counter_order.is_a?(LimitOrder) # limit/market match limit
+        if order.crossed?(counter_order.price)
+          price  = counter_order.price
+          volume = [order.volume, counter_order.volume].min
+          [price, volume]
+        end
+      elsif order.is_a?(LimitOrder) # limit match market
+        price = order.price
+        volume = [order.volume, counter_order.volume].min
+        [price, volume]
+      else # market match market
+      end
     end
 
     def publish(order, counter_order, price, volume)

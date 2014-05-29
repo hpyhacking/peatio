@@ -16,7 +16,7 @@ describe Matching::Engine do
     let(:ask3) { Matching.mock_limit_order(type: :ask, price: '3.0'.to_d, volume: '1.0'.to_d) }
 
     it "should fill the market order completely" do
-      mo   = Matching.mock_market_order(type: :bid, sum_limit: '6.0'.to_d, volume: '2.4'.to_d)
+      mo = Matching.mock_market_order(type: :bid, sum_limit: '6.0'.to_d, volume: '2.4'.to_d)
 
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume}, anything)
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: ask2.volume}, anything)
@@ -33,75 +33,106 @@ describe Matching::Engine do
 
       subject.bid_orders.market_orders.should be_empty
     end
+
+    it "should fill the market order partially and put it in queue" do
+      mo = Matching.mock_market_order(type: :bid, sum_limit: '6.0'.to_d, volume: '2.4'.to_d)
+
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: ask2.volume}, anything)
+
+      subject.submit ask1
+      subject.submit ask2
+      subject.submit mo
+
+      subject.ask_orders.limit_orders.should be_empty
+      subject.bid_orders.market_orders.should == [mo]
+    end
+
+    it "should cancel the market order if sum limit reached" do
+    end
   end
 
-  context "submit full match orders" do
-    it "should execute trade" do
-      AMQPQueue.expects(:enqueue)
+  context "submit limit order" do
+    it "should match existing market order" do
+      mo = Matching.mock_market_order(type: :bid, sum_limit: '100.0'.to_d, volume: '6.0'.to_d)
+      subject.submit mo
+
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: mo.id, strike_price: ask.price, volume: ask.volume}, anything)
+      subject.submit ask
+
+      subject.ask_orders.limit_orders.should be_empty
+      subject.bid_orders.market_orders.should == [mo]
+      mo.volume.should == '1.0'.to_d
+    end
+
+    context "fully match incoming order" do
+      it "should execute trade" do
+        AMQPQueue.expects(:enqueue)
         .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume}, anything)
 
-      subject.submit(ask)
-      subject.submit(bid)
+        subject.submit(ask)
+        subject.submit(bid)
 
-      subject.ask_orders.limit_orders.should be_empty
-      subject.bid_orders.limit_orders.should be_empty
-    end
-  end
-
-  context "submit single partial match orders" do
-    let(:ask) { Matching.mock_limit_order(type: :ask, price: price, volume: 3.to_d)}
-
-    it "should execute trade" do
-      AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: 3.to_d}, anything)
-
-      subject.submit(ask)
-      subject.submit(bid)
-
-      subject.ask_orders.limit_orders.should be_empty
-      subject.bid_orders.limit_orders.should_not be_empty
-
-      subject.cancel(bid)
-      subject.bid_orders.limit_orders.should be_empty
-    end
-  end
-
-  context "submit an order matching multiple orders" do
-    let(:bid)    { Matching.mock_limit_order(type: :bid, price: price, volume: 10.to_d)}
-
-    let(:asks) do
-      [nil,nil,nil].map do
-        Matching.mock_limit_order(type: :ask, price: price, volume: 3.to_d)
+        subject.ask_orders.limit_orders.should be_empty
+        subject.bid_orders.limit_orders.should be_empty
       end
     end
 
-    it "should execute trade" do
-      AMQPQueue.expects(:enqueue).times(asks.size)
+    context "partial match incoming order" do
+      let(:ask) { Matching.mock_limit_order(type: :ask, price: price, volume: 3.to_d)}
 
-      asks.each {|ask| subject.submit(ask) }
-      subject.submit(bid)
+      it "should execute trade" do
+        AMQPQueue.expects(:enqueue)
+        .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: 3.to_d}, anything)
 
-      subject.ask_orders.limit_orders.should be_empty
-      subject.bid_orders.limit_orders.should_not be_empty
+        subject.submit(ask)
+        subject.submit(bid)
+
+        subject.ask_orders.limit_orders.should be_empty
+        subject.bid_orders.limit_orders.should_not be_empty
+
+        subject.cancel(bid)
+        subject.bid_orders.limit_orders.should be_empty
+      end
     end
-  end
 
-  context "submit full match order after some cancellaton" do
-    let(:bid)      { Matching.mock_limit_order(type: :bid, price: price,   volume: 10.to_d)}
-    let(:low_ask)  { Matching.mock_limit_order(type: :ask, price: price-1, volume: 3.to_d) }
-    let(:high_ask) { Matching.mock_limit_order(type: :ask, price: price,   volume: 3.to_d) }
+    context "match order with many counter orders" do
+      let(:bid)    { Matching.mock_limit_order(type: :bid, price: price, volume: 10.to_d)}
 
-    it "should match bid with high ask" do
-      subject.submit(low_ask) # low ask enters first
-      subject.submit(high_ask)
-      subject.cancel(low_ask) # but it's cancelled
+      let(:asks) do
+        [nil,nil,nil].map do
+          Matching.mock_limit_order(type: :ask, price: price, volume: 3.to_d)
+        end
+      end
 
-      AMQPQueue.expects(:enqueue)
+      it "should execute trade" do
+        AMQPQueue.expects(:enqueue).times(asks.size)
+
+        asks.each {|ask| subject.submit(ask) }
+        subject.submit(bid)
+
+        subject.ask_orders.limit_orders.should be_empty
+        subject.bid_orders.limit_orders.should_not be_empty
+      end
+    end
+
+    context "fully match order after some cancellatons" do
+      let(:bid)      { Matching.mock_limit_order(type: :bid, price: price,   volume: 10.to_d)}
+      let(:low_ask)  { Matching.mock_limit_order(type: :ask, price: price-1, volume: 3.to_d) }
+      let(:high_ask) { Matching.mock_limit_order(type: :ask, price: price,   volume: 3.to_d) }
+
+      it "should match bid with high ask" do
+        subject.submit(low_ask) # low ask enters first
+        subject.submit(high_ask)
+        subject.cancel(low_ask) # but it's cancelled
+
+        AMQPQueue.expects(:enqueue)
         .with(:trade_executor, {market_id: market.id, ask_id: high_ask.id, bid_id: bid.id, strike_price: high_ask.price, volume: high_ask.volume}, anything)
-      subject.submit(bid)
+        subject.submit(bid)
 
-      subject.ask_orders.limit_orders.should be_empty
-      subject.bid_orders.limit_orders.should_not be_empty
+        subject.ask_orders.limit_orders.should be_empty
+        subject.bid_orders.limit_orders.should_not be_empty
+      end
     end
   end
 

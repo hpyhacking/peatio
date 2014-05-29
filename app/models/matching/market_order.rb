@@ -28,7 +28,8 @@ module Matching
     def valid?(attrs)
       return false unless [:ask, :bid].include?(type)
       return false if attrs[:price].present? # should have no limit price
-      id && timestamp && market && volume > ZERO && sum_limit > ZERO
+      return false if type == :bid && sum_limit <= ZERO
+      id && timestamp && market && volume > ZERO
     end
 
   end
