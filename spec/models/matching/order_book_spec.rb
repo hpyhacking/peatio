@@ -147,13 +147,13 @@ describe Matching::OrderBook do
     subject { Matching::OrderBook.new(:ask) }
 
     it "should raise error if there is no top order" do
-      expect { subject.fill_top '1.0'.to_d }.to raise_error
+      expect { subject.fill_top '1.0'.to_d, '1.0'.to_d }.to raise_error
     end
 
     it "should complete fill the top market order" do
       subject.add Matching.mock_limit_order(type: :ask, volume: '1.0'.to_d)
       subject.add Matching.mock_market_order(type: :ask, volume: '1.0'.to_d)
-      subject.fill_top '1.0'.to_d
+      subject.fill_top '1.0'.to_d, '1.0'.to_d
       subject.market_orders.should be_empty
       subject.limit_orders.should have(1).order
     end
@@ -161,27 +161,27 @@ describe Matching::OrderBook do
     it "should partial fill the top market order" do
       subject.add Matching.mock_limit_order(type: :ask, volume: '1.0'.to_d)
       subject.add Matching.mock_market_order(type: :ask, volume: '1.0'.to_d)
-      subject.fill_top '0.6'.to_d
+      subject.fill_top '1.0'.to_d, '0.6'.to_d
       subject.market_orders.first.volume.should == '0.4'.to_d
       subject.limit_orders.should have(1).order
     end
 
     it "should remove the price level if top order is the only order in level" do
       subject.add Matching.mock_limit_order(type: :ask, volume: '1.0'.to_d)
-      subject.fill_top '1.0'.to_d
+      subject.fill_top '1.0'.to_d, '1.0'.to_d
       subject.limit_orders.should be_empty
     end
 
     it "should remove order from level" do
       subject.add Matching.mock_limit_order(type: :ask, volume: '1.0'.to_d)
       subject.add Matching.mock_limit_order(type: :ask, volume: '1.0'.to_d)
-      subject.fill_top '1.0'.to_d
+      subject.fill_top '1.0'.to_d, '1.0'.to_d
       subject.limit_orders.values.first.should have(1).order
     end
 
     it "should fill top order with volume" do
       subject.add Matching.mock_limit_order(type: :ask, volume: '2.0'.to_d)
-      subject.fill_top '0.5'.to_d
+      subject.fill_top '1.0'.to_d, '0.5'.to_d
       subject.top.volume.should == '1.5'.to_d
     end
   end

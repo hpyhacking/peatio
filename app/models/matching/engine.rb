@@ -12,7 +12,7 @@ module Matching
     def submit(order)
       book, counter_book = get_books order.type
       match order, counter_book
-      book.add order if order.volume > ZERO
+      book.add order unless order.filled?
     rescue Matching::NoLimitOrderError
       publish_cancel order, "market order protection"
     rescue
@@ -45,34 +45,18 @@ module Matching
     end
 
     def match(order, counter_book)
-      return unless order.volume > ZERO
+      return if order.filled?
 
       counter_order = counter_book.top
       return unless counter_order
 
-      if trade = find_trade_price_and_volume(order, counter_order, counter_book)
-        counter_book.fill_top trade[1]
-        order.fill trade[1]
+      if trade = order.trade_with(counter_order, counter_book)
+        counter_book.fill_top *trade
+        order.fill *trade
 
         publish order, counter_order, trade[0], trade[1]
 
         match order, counter_book
-      end
-    end
-
-    def find_trade_price_and_volume(order, counter_order, counter_book)
-      volume = [order.volume, counter_order.volume].min
-
-      if counter_order.is_a?(LimitOrder) # limit/market match limit
-        if order.crossed?(counter_order.price)
-          [counter_order.price, volume]
-        end
-      elsif order.is_a?(LimitOrder) # limit match market
-        [order.price, volume]
-      else # market match market
-        if price = counter_book.best_limit_price
-          [price, volume]
-        end
       end
     end
 
@@ -89,6 +73,7 @@ module Matching
     end
 
     def publish_cancel(order, reason)
+      # TODO: implement
     end
 
   end

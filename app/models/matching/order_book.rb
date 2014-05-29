@@ -22,10 +22,12 @@ module Matching
       @market_orders.empty? ? limit_top : @market_orders.first[1]
     end
 
-    def fill_top(volume)
+    def fill_top(trade_price, trade_volume)
       order = top
       raise "No top order in empty book." unless order
-      order.volume == volume ? remove(order) : order.fill(volume)
+
+      order.fill trade_price, trade_volume
+      remove order if order.filled?
     end
 
     def add(order)

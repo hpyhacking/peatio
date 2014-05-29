@@ -94,7 +94,23 @@ describe Matching::Engine do
       subject.submit mo1
     end
 
-    it "should cancel the market order if sum limit reached" do
+    it "should partially fill then cancel the market order if sum limit reached" do
+      mo = Matching.mock_market_order(type: :bid, sum_limit: '2.5'.to_d, volume: '2'.to_d)
+
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: '0.75'.to_d}, anything)
+
+      subject.submit bid
+      subject.submit ask1
+      subject.submit ask2
+      subject.submit ask3
+      subject.submit mo
+
+      subject.ask_orders.limit_orders.should have(2).price_level
+      ask2.volume.should == '0.25'.to_d
+      ask3.volume.should == '1.0'.to_d
+
+      subject.bid_orders.market_orders.should be_empty
     end
   end
 

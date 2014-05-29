@@ -15,13 +15,33 @@ module Matching
       raise ::Matching::InvalidOrderError.new(attrs) unless valid?(attrs)
     end
 
-    def fill(v)
-      raise NotEnoughVolume if v > @volume
-      @volume -= v
+    def trade_with(counter_order, counter_book)
+      if counter_order.is_a?(LimitOrder)
+        trade_price  = counter_order.price
+        trade_volume = [volume, volume_limit(trade_price), counter_order.volume].min
+        [trade_price, trade_volume]
+      elsif price = counter_book.best_limit_price
+        trade_price  = price
+        trade_volume = [volume, volume_limit(trade_price), counter_order.volume, counter_order.volume_limit(trade_price)].min
+        [trade_price, trade_volume]
+      end
     end
 
-    def crossed?(price)
-      true
+    def volume_limit(trade_price)
+      type == :ask ? sum_limit : sum_limit/trade_price
+    end
+
+    def fill(trade_price, trade_volume)
+      raise NotEnoughVolume if trade_volume > @volume
+      @volume -= trade_volume
+
+      sum = type == :ask ? trade_volume : trade_price*trade_volume
+      raise ExceedSumLimit if sum > @sum_limit
+      @sum_limit -= sum
+    end
+
+    def filled?
+      volume <= ZERO || sum_limit <= ZERO
     end
 
     def label
@@ -31,8 +51,7 @@ module Matching
     def valid?(attrs)
       return false unless [:ask, :bid].include?(type)
       return false if attrs[:price].present? # should have no limit price
-      return false if type == :bid && sum_limit <= ZERO
-      id && timestamp && market && volume > ZERO
+      id && timestamp && market && volume > ZERO && sum_limit > ZERO
     end
 
   end
