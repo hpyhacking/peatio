@@ -5,13 +5,20 @@ describe Matching::OrderBook do
   context "#add" do
     subject { Matching::OrderBook.new(:ask) }
 
+    it "should reject incoming market order when limit order book is empty" do
+      expect { subject.add Matching.mock_market_order(type: :ask) }.to raise_error(Matching::NoLimitOrderError)
+    end
+
     it "should add market order" do
+      subject.add Matching.mock_limit_order(type: :ask)
+
       o1 = Matching.mock_market_order(type: :ask)
       o2 = Matching.mock_market_order(type: :ask)
       o3 = Matching.mock_market_order(type: :ask)
       subject.add o1
       subject.add o2
       subject.add o3
+
       subject.market_orders.should == [o1, o2, o3]
     end
 
@@ -37,6 +44,7 @@ describe Matching::OrderBook do
     subject { Matching::OrderBook.new(:ask) }
 
     it "should remove market order" do
+      subject.add Matching.mock_limit_order(type: :ask)
       order = Matching.mock_market_order(type: :ask)
       subject.add order
       subject.remove order
@@ -143,16 +151,16 @@ describe Matching::OrderBook do
     end
 
     it "should complete fill the top market order" do
-      subject.add Matching.mock_market_order(type: :ask, volume: '1.0'.to_d)
       subject.add Matching.mock_limit_order(type: :ask, volume: '1.0'.to_d)
+      subject.add Matching.mock_market_order(type: :ask, volume: '1.0'.to_d)
       subject.fill_top '1.0'.to_d
       subject.market_orders.should be_empty
       subject.limit_orders.should have(1).order
     end
 
     it "should partial fill the top market order" do
-      subject.add Matching.mock_market_order(type: :ask, volume: '1.0'.to_d)
       subject.add Matching.mock_limit_order(type: :ask, volume: '1.0'.to_d)
+      subject.add Matching.mock_market_order(type: :ask, volume: '1.0'.to_d)
       subject.fill_top '0.6'.to_d
       subject.market_orders.first.volume.should == '0.4'.to_d
       subject.limit_orders.should have(1).order

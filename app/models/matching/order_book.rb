@@ -1,4 +1,7 @@
 module Matching
+
+  class NoLimitOrderError < StandardError; end
+
   class OrderBook
 
     attr :side
@@ -32,9 +35,11 @@ module Matching
         @limit_orders[order.price] ||= PriceLevel.new(order.price)
         @limit_orders[order.price].add order
       when MarketOrder
+        # Reject incoming market order if there's no existing limit order in
+        # book, so this book can always provide a best limit price.
+        raise NoLimitOrderError if @limit_orders.empty?
+
         @market_orders[order.id] = order
-      else
-        raise ArgumentError, "Unrecognized order: #{order.inspect}"
       end
     end
 
@@ -46,8 +51,6 @@ module Matching
         @limit_orders.delete(order.price) if price_level.empty?
       when MarketOrder
         @market_orders.delete order.id
-      else
-        raise ArgumentError, "Unrecognized order: #{order.inspect}"
       end
     end
 

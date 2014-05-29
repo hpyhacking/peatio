@@ -48,7 +48,7 @@ module Matching
       counter_order = counter_book.top
       return unless counter_order
 
-      if trade = order_match?(order, counter_order)
+      if trade = find_trade_price_and_volume(order, counter_order, counter_book)
         counter_book.fill_top trade[1]
         order.fill trade[1]
 
@@ -58,18 +58,19 @@ module Matching
       end
     end
 
-    def order_match?(order, counter_order)
+    def find_trade_price_and_volume(order, counter_order, counter_book)
+      volume = [order.volume, counter_order.volume].min
+
       if counter_order.is_a?(LimitOrder) # limit/market match limit
         if order.crossed?(counter_order.price)
-          price  = counter_order.price
-          volume = [order.volume, counter_order.volume].min
-          [price, volume]
+          [counter_order.price, volume]
         end
       elsif order.is_a?(LimitOrder) # limit match market
-        price = order.price
-        volume = [order.volume, counter_order.volume].min
-        [price, volume]
+        [order.price, volume]
       else # market match market
+        if price = counter_book.best_limit_price
+          [price, volume]
+        end
       end
     end
 
