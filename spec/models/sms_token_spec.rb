@@ -98,7 +98,7 @@ describe SmsToken do
     end
 
     it "should update member's phone_number" do
-      expect(token.member.phone_number).to eq('12312341234')
+      expect(token.member.phone_number).to eq('+1 (231) 234-1234')
     end
   end
 
