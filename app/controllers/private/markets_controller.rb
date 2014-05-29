@@ -11,7 +11,7 @@ module Private
       @ask_name = I18n.t("currency.name.#{@ask}")
       @bid_name = I18n.t("currency.name.#{@bid}")
 
-      @market = Market.find(params[:market])
+      @market = current_market
 
       @bids   = Global[@market].bids
       @asks   = Global[@market].asks
@@ -29,7 +29,7 @@ module Private
         @orders_cancel = query.with_state(:cancel).last(5)
       end
 
-      @trades_done = Trade.for_member(params[:market], current_user, limit: 100)
+      @trades_done = Trade.for_member(@market.id, current_user, limit: 100)
 
       gon.jbuilder
     end
@@ -37,7 +37,7 @@ module Private
     private
 
     def set_default_market
-      cookies[:market_id] = params[:market]
+      cookies[:market_id] = @market.id
     end
 
   end

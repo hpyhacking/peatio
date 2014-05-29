@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :current_user, :is_admin?, :latest_market, :gon, :muut_enabled?
+  helper_method :current_user, :is_admin?, :current_market, :gon, :muut_enabled?
   before_filter :set_language, :setting_default, :set_timezone
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   def setting_default
     gon.env = Rails.env
     gon.local = I18n.locale
-    gon.market = Market.find(latest_market).attributes
+    gon.market = current_market.attributes
     gon.pusher_key = ENV["PUSHER_KEY"]
 
     gon.clipboard = {
@@ -23,12 +23,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def latest_market
-    params[:market] || cookies[:market_id] || ENV["DEFAULT_MARKET"]
-  end
-
   def currency
     "#{params[:ask]}#{params[:bid]}".to_sym
+  end
+
+  def current_market
+    Market.find_by_id(params[:market]) || Market.find_by_id(cookies[:market_id]) || Market.first
   end
 
   def current_user
