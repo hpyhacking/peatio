@@ -3,6 +3,7 @@ development: &defaults
   database: peatio_development
   username: root
   password:
+  pool: 10
   reconnect: true
 
 test:

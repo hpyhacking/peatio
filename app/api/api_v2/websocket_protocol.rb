@@ -14,33 +14,35 @@ module APIv2
 
     def handle(message)
       @logger.debug message
+
       message = JSON.parse(message)
-      key = message.keys.first
-      data = message[key]
+      key     = message.keys.first
+      data    = message[key]
+
       case key.downcase
       when 'auth'
-        defer -> {
-          access_key = data['access_key']
-          token = APIToken.where(access_key: access_key).includes(:member).first
-          result = verify_answer data['answer'], token
-          [result, token, token.member]
-        }, ->((result, token, member)) {
-          if result
-            @token  = token
-            @member = member
-            subscribe_trades @member
-            send :success, {message: "Authenticated."}
-          else
-            send :error, {message: "Authentication failed."}
-          end
-        }
+        access_key = data['access_key']
+        token = APIToken.where(access_key: access_key).includes(:member).first
+        result = verify_answer data['answer'], token
+
+        if result
+          subscribe_trades token.member
+          send :success, {message: "Authenticated."}
+        else
+          send :error, {message: "Authentication failed."}
+        end
       else
       end
+    rescue
+      @logger.error "Error on handling message: #{$!}"
+      @logger.error $!.backtrace.join("\n")
     end
 
     private
 
     def send(method, data)
+      @logger.debug method.inspect
+      @logger.debug data.inspect
       payload = JSON.dump({method => data})
       @socket.send payload
     end
@@ -55,16 +57,17 @@ module APIv2
       q = @channel.queue '', auto_delete: true
       q.bind(x, arguments: {'ask_member_id' => member.id, 'bid_member_id' => member.id, 'x-match' => 'any'})
       q.subscribe(ack: true) do |metadata, payload|
-        defer -> {
+        begin
           payload = JSON.parse payload
           trade   = Trade.find payload['id']
-          serialize_trade trade, member, metadata
-        }, ->(trade) {
-          send :trade, trade
+
+          send :trade, serialize_trade(trade, member, metadata)
+        rescue
+          @logger.error "Error on subscribe trades: #{$!}"
+          @logger.error $!.backtrace.join("\n")
+        ensure
           metadata.ack
-        }, ->(error) {
-          metadata.ack
-        }
+        end
       end
     end
 
@@ -91,27 +94,6 @@ module APIv2
       else
         :bid
       end
-    end
-
-    def defer(job, callback, errback=nil)
-      EM.defer -> {
-        begin
-          job.call
-        rescue
-          @logger.error "Error on handling message: #{$!}"
-          @logger.error $!.backtrace[0,20].join("\n")
-          $!
-        end
-      }, ->(result) {
-        # https://www.ruby-forum.com/topic/195010
-        ActiveRecord::Base.clear_reloadable_connections!
-
-        if result.is_a?(Exception)
-          errback.call(result) if errback
-        else
-          callback.call(result)
-        end
-      }
     end
 
   end

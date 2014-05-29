@@ -7,7 +7,16 @@ root = File.expand_path(File.dirname(__FILE__))
 root = File.dirname(root) until File.exists?(File.join(root, 'config'))
 Dir.chdir(root)
 
+#require 'em-synchrony'
+#require 'em-synchrony/mysql2'
+#require 'em-synchrony/activerecord'
+
 require File.join(root, "config", "environment")
+
+#db_config = Rails.configuration.database_configuration[Rails.env].merge(
+  #'adapter' => 'em_mysql2'
+#)
+#ActiveRecord::Base.establish_connection(db_config)
 
 Rails.logger = logger = Logger.new STDOUT
 
