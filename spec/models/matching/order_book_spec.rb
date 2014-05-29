@@ -61,6 +61,33 @@ describe Matching::OrderBook do
     end
   end
 
+  context "#best_limit_price" do
+    it "should return highest bid price" do
+      book = Matching::OrderBook.new(:bid)
+      o1   = Matching.mock_limit_order(type: :bid, price: '1.0'.to_d)
+      o2   = Matching.mock_limit_order(type: :bid, price: '2.0'.to_d)
+      book.add o1
+      book.add o2
+
+      book.best_limit_price.should == o2.price
+    end
+
+    it "should return lowest ask price" do
+      book = Matching::OrderBook.new(:ask)
+      o1   = Matching.mock_limit_order(type: :ask, price: '1.0'.to_d)
+      o2   = Matching.mock_limit_order(type: :ask, price: '2.0'.to_d)
+      book.add o1
+      book.add o2
+
+      book.best_limit_price.should == o1.price
+    end
+
+    it "should return nil if there's no limit order" do
+      book = Matching::OrderBook.new(:ask)
+      book.best_limit_price.should be_nil
+    end
+  end
+
   context "#top" do
     it "should return market order if there's any market order" do
       book = Matching::OrderBook.new(:ask)

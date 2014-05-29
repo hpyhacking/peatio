@@ -9,7 +9,15 @@ module Matching
       @market_orders = RBTree.new
 
       singleton = class<<self;self;end
-      singleton.send :define_method, :top, self.class.instance_method("#{@side}_top")
+      singleton.send :define_method, :limit_top, self.class.instance_method("#{@side}_limit_top")
+    end
+
+    def best_limit_price
+      limit_top.try(:price)
+    end
+
+    def top
+      @market_orders.empty? ? limit_top : @market_orders.first[1]
     end
 
     def fill_top(volume)
@@ -55,15 +63,13 @@ module Matching
 
     private
 
-    def ask_top # lowest price wins
-      return @market_orders.first[1] unless @market_orders.empty?
+    def ask_limit_top # lowest price wins
       return if @limit_orders.empty?
       price, level = @limit_orders.first
       level.top
     end
 
-    def bid_top # highest price wins
-      return @market_orders.first[1] unless @market_orders.empty?
+    def bid_limit_top # highest price wins
       return if @limit_orders.empty?
       price, level = @limit_orders.last
       level.top
