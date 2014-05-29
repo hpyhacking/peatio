@@ -3,13 +3,13 @@ require_relative 'constants'
 module Matching
   class MarketOrder
 
-    attr :id, :timestamp, :type, :volume, :guard_price, :market
+    attr :id, :timestamp, :type, :volume, :sum_limit, :market
 
     def initialize(attrs)
       @id          = attrs[:id]
       @timestamp   = attrs[:timestamp]
       @type        = attrs[:type].try(:to_sym)
-      @guard_price = attrs[:guard_price]
+      @sum_limit   = attrs[:sum_limit].try(:to_d)
       @volume      = attrs[:volume].try(:to_d)
       @market      = Market.find attrs[:market]
 
@@ -22,13 +22,13 @@ module Matching
     end
 
     def label
-      "%d/$%.02f/%.04f" % [id, guard_price, volume]
+      "%d/%.04f" % [id, volume]
     end
 
     def valid?(attrs)
       return false unless [:ask, :bid].include?(type)
       return false if attrs[:price].present? # should have no limit price
-      id && timestamp && market && volume > ZERO && guard_price > ZERO
+      id && timestamp && market && volume > ZERO && sum_limit > ZERO
     end
 
   end

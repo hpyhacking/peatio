@@ -7,8 +7,8 @@ describe Matching::MarketOrder do
       expect { Matching.mock_market_order(type: :ask, price: '1.0'.to_d) }.to raise_error
     end
 
-    it "should have positive guard price" do
-      expect { Matching.mock_market_order(type: :ask, guard_price: '0.0'.to_d) }.to raise_error
+    it "should have positive sum limit" do
+      expect { Matching.mock_market_order(type: :ask, sum_limit: '0.0'.to_d) }.to raise_error
     end
   end
 
