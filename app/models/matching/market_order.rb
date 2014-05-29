@@ -1,7 +1,8 @@
-require_relative 'constants'
+require_relative 'order_methods'
 
 module Matching
   class MarketOrder
+    include OrderMethods
 
     attr :id, :timestamp, :type, :volume, :sum_limit, :market
 
@@ -16,9 +17,8 @@ module Matching
       raise ::Matching::InvalidOrderError.new(attrs) unless valid?(attrs)
     end
 
-    def fill(v)
-      raise "Not enough volume to fill" if v > @volume
-      @volume -= v
+    def crossed?(price)
+      true
     end
 
     def label

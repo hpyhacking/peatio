@@ -1,7 +1,8 @@
-require_relative 'constants'
+require_relative 'order_methods'
 
 module Matching
   class LimitOrder
+    include OrderMethods
 
     attr :id, :timestamp, :type, :volume, :price, :market
 
@@ -16,25 +17,12 @@ module Matching
       raise InvalidOrderError.new(attrs) unless valid?(attrs)
     end
 
-    def fill(v)
-      raise "Not enough volume to fill" if v > @volume
-      @volume -= v
-    end
-
-    def filled?
-      volume <= ZERO
-    end
-
     def crossed?(price)
       if type == :ask
         price >= @price # if people offer price higher or equal than ask limit
       else
         price <= @price # if people offer price lower or equal than bid limit
       end
-    end
-
-    def to_s
-      "#{@type}:#{id}/#{volume}/#{price}"
     end
 
     def label
