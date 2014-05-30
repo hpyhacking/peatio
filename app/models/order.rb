@@ -54,20 +54,29 @@ class Order < ActiveRecord::Base
     strike_price = trade.price
     strike_volume = trade.volume
 
-    self.volume -= strike_volume
     real_sub, add = self.class.strike_sum(strike_volume, strike_price)
     real_fee = add * fee
     real_add = add - real_fee
 
     hold_account.unlock_and_sub_funds \
-      real_sub, locked: sum(strike_volume), 
+      real_sub, locked: real_sub,
       reason: Account::STRIKE_SUB, ref: trade
 
     expect_account.plus_funds \
       real_add, fee: real_fee,
       reason: Account::STRIKE_ADD, ref: trade
 
-    self.volume.zero? and self.state = Order::DONE
+    self.volume -= strike_volume
+    self.locked -= real_sub
+
+    if volume.zero?
+      self.state = Order::DONE
+
+      # unlock not used funds
+      hold_account.unlock_funds locked,
+        reason: Account::ORDER_FULLFILLED, ref: trade unless locked.zero?
+    end
+
     self.save!
   end
 

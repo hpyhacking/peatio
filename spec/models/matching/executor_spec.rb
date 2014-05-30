@@ -96,6 +96,36 @@ describe Matching::Executor do
     end
   end
 
+  context "unlock not used funds" do
+    let(:ask) { create(:order_ask, price: price-1, volume: 7.to_d, member: alice) }
+    let(:bid) { create(:order_bid, price: price, volume: volume, member: bob) }
+
+    subject {
+      Matching::Executor.new(
+        market_id:    market.id,
+        ask_id:       ask.id,
+        bid_id:       bid.id,
+        strike_price: price-1, # so bid order only used (price-1)*volume
+        volume:       volume.to_s('F')
+      )
+    }
+
+    it "should unlock funds not used by bid order" do
+      locked_before = bid.hold_account.reload.locked
+
+      subject.execute!
+      locked_after = bid.hold_account.reload.locked
+
+      locked_after.should == locked_before - (price*volume)
+
+    end
+
+    it "should save unused amount in order locked attribute" do
+      subject.execute!
+      bid.reload.locked.should == price*volume - (price-1)*volume
+    end
+  end
+
   context "execution fail" do
     let(:ask) { ::Matching::LimitOrder.new create(:order_ask, price: price, volume: volume, member: alice).to_matching_attributes }
     let(:bid) { ::Matching::LimitOrder.new create(:order_bid, price: price, volume: volume, member: bob).to_matching_attributes }

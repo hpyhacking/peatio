@@ -14,6 +14,7 @@ class AccountVersion < ActiveRecord::Base
     Account::STRIKE_UNLOCK => 130,
     Account::ORDER_SUBMIT => 600,
     Account::ORDER_CANCEL => 610,
+    Account::ORDER_FULLFILLED => 620,
     Account::WITHDRAW_LOCK => 800,
     Account::WITHDRAW_UNLOCK => 810,
     Account::DEPOSIT => 1000,

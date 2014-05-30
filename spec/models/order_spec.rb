@@ -73,7 +73,7 @@ describe Order, "#done" do
       trade = mock_trade(strike_volume, strike_price)
 
       hold_account.expects(:unlock_and_sub_funds).with(
-        strike_volume * strike_price, locked: order.price * strike_volume,
+        strike_volume * strike_price, locked: strike_volume * strike_price,
         reason: Account::STRIKE_SUB, ref: trade)
 
       expect_account.expects(:plus_funds).with(
@@ -137,6 +137,29 @@ describe Order, "#done" do
         let(:strike_price) { "0.7".to_d }
         let(:strike_volume) { "3.1".to_d }
         it_behaves_like "trade done"
+      end
+
+      context "trade done volume 10.0 with price 0.8" do
+        let(:strike_price)  { "0.8".to_d }
+        let(:strike_volume) { "10.0".to_d }
+
+        it "should unlock not used funds" do
+          trade = mock_trade(strike_volume, strike_price)
+
+          hold_account.expects(:unlock_and_sub_funds).with(
+            strike_volume * strike_price, locked: strike_volume * strike_price,
+            reason: Account::STRIKE_SUB, ref: trade)
+
+          expect_account.expects(:plus_funds).with(
+            strike_volume - strike_volume * bid_fee,
+            has_entries(:reason => Account::STRIKE_ADD, :ref => trade))
+
+          hold_account.expects(:unlock_funds).with(
+            strike_volume * (order.price - strike_price),
+            reason: Account::ORDER_FULLFILLED, ref: trade)
+
+          order_bid.strike(trade)
+        end
       end
     end
   end
