@@ -28,7 +28,7 @@ module Private
         redirect_to settings_path, notice: t('.notice')
       else
         flash[:alert] = t('.alert')
-        render edit_two_factor_path(:app)
+        redirect_to edit_two_factor_path(:app)
       end
     end
 
