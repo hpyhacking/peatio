@@ -100,8 +100,6 @@ Peatio::Application.routes.draw do
     end
   end
 
-  get 'payment_transaction/:currency/:txid', to: 'payment_transaction#create'
-
   constraints(WhitelistConstraint.new(JSON.parse(Figaro.env.try(:api_whitelist) || '[]'))) do
     namespace :api, defaults: {format: 'json'}, :constraints => MarketConstraint do
       scope module: :v1 do
