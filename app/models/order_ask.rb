@@ -24,4 +24,8 @@ class OrderAsk < Order
     :origin_volume
   end
 
+  def compute_locked
+    volume
+  end
+
 end

@@ -6,9 +6,11 @@ FactoryGirl.define do
     state :wait
     source 'Web'
     ord_type 'limit'
-    volume { '1'.to_d }
     price { '1'.to_d }
+    volume { '1'.to_d }
     origin_volume { volume }
+    locked { '1'.to_d }
+    origin_locked { '1'.to_d }
   end
 
   factory :order_ask do
@@ -18,8 +20,10 @@ FactoryGirl.define do
     state :wait
     source 'Web'
     ord_type 'limit'
-    volume { '1'.to_d }
     price { '1'.to_d }
+    volume { '1'.to_d }
     origin_volume { volume }
+    locked { '1'.to_d }
+    origin_locked { '1'.to_d }
   end
 end

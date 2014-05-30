@@ -26,4 +26,8 @@ class OrderBid < Order
     :sum
   end
 
+  def compute_locked
+    price*volume
+  end
+
 end

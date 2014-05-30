@@ -13,9 +13,9 @@ class Order < ActiveRecord::Base
   enumerize :source, in: SOURCES, scope: true
 
   after_commit :trigger
-  before_validation :fixed
+  before_validation :fix_number_precision
 
-  validates_presence_of :ord_type, :volume, :origin_volume
+  validates_presence_of :ord_type, :volume, :origin_volume, :locked, :origin_locked
   validates_numericality_of :origin_volume, :greater_than => 0
 
   validates_numericality_of :price, greater_than: 0, allow_nil: false,
@@ -34,11 +34,6 @@ class Order < ActiveRecord::Base
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
   scope :position, -> { group("price").pluck(:price, 'sum(volume)') }
-
-  def fixed
-    self.price = price.to_d.round(config.bid["fixed"], 2) if price
-    self.volume = volume.to_d.round(config.ask["fixed"], 2) if volume
-  end
 
   def fee
     config[self.kind.to_sym]["fee"]
@@ -114,6 +109,13 @@ class Order < ActiveRecord::Base
 
   def market_order_validations
     errors.add(:price, 'must not be present') if price.present?
+  end
+
+  private
+
+  def fix_number_precision
+    self.price = price.to_d.round(config.bid["fixed"], 2) if price
+    self.volume = volume.to_d.round(config.ask["fixed"], 2) if volume
   end
 
 end

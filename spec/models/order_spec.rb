@@ -4,6 +4,8 @@ describe Order, 'validations' do
   it { should validate_presence_of(:ord_type) }
   it { should validate_presence_of(:volume) }
   it { should validate_presence_of(:origin_volume) }
+  it { should validate_presence_of(:locked) }
+  it { should validate_presence_of(:origin_locked) }
 
   context "limit order" do
     it "should make sure price is present" do
@@ -28,7 +30,7 @@ describe Order, 'validations' do
   end
 end
 
-describe Order, "#fixed" do
+describe Order, "#fix_number_precision" do
   let(:order_bid) { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789') }
   let(:order_ask) { create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789') }
   it { expect(order_bid.price).to be_d '12.32' }

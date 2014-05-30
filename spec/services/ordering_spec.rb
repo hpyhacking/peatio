@@ -10,7 +10,15 @@ describe Ordering do
       AMQPQueue.expects(:enqueue).with(:matching, action: 'submit', order: order.to_matching_attributes)
     end
 
-    it {expect(Ordering.new(order).submit).to be_true }
+    it "should return true on success" do
+      Ordering.new(order).submit.should be_true
+    end
+
+    it "should set locked funds on order" do
+      Ordering.new(order).submit
+      order.locked.should == order.compute_locked
+      order.origin_locked.should == order.compute_locked
+    end
   end
 
   describe "ordering service can cancel order" do

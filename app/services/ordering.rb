@@ -22,10 +22,11 @@ class Ordering
     end
 
     ActiveRecord::Base.transaction do
+      @order.locked = @order.origin_locked = @order.compute_locked
       @order.save!
 
       account = @order.hold_account.lock!
-      account.lock_funds(@order.sum, reason: Account::ORDER_SUBMIT, ref: @order)
+      account.lock_funds(@order.locked, reason: Account::ORDER_SUBMIT, ref: @order)
 
       AMQPQueue.enqueue(:matching, action: 'submit', order: @order.to_matching_attributes)
     end
@@ -41,7 +42,7 @@ class Ordering
 
       if order.state == Order::WAIT
         order.state = Order::CANCEL
-        account.unlock_funds(order.sum, reason: Account::ORDER_CANCEL, ref: order)
+        account.unlock_funds(order.compute_locked, reason: Account::ORDER_CANCEL, ref: order)
         order.save!
 
         AMQPQueue.enqueue(:matching, action: 'cancel', order: @order.to_matching_attributes)
