@@ -63,7 +63,7 @@ module Matching
     def publish(order, counter_order, price, volume)
       ask, bid = order.type == :ask ? [order, counter_order] : [counter_order, order]
 
-      Rails.logger.info "[#{@market.id}] new trade - #{ask} #{bid} price: #{price} volume: #{volume}"
+      Rails.logger.info "[#{@market.id}] new trade - ask: #{ask.label} bid: #{bid.label} price: #{price} volume: #{volume}"
 
       AMQPQueue.enqueue(
         :trade_executor,
