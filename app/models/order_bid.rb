@@ -27,7 +27,12 @@ class OrderBid < Order
   end
 
   def compute_locked
-    price*volume
+    case ord_type
+    when 'limit'
+      price*volume
+    when 'market'
+      '1000'.to_d # TODO: replace stub
+    end
   end
 
 end

@@ -40,6 +40,9 @@ module APIv2
 
       order
     rescue
+      Rails.logger.info "Failed to create order: #{$!}"
+      Rails.logger.debug order.inspect
+      Rails.logger.debug $!.backtrace.join("\n")
       raise CreateOrderError, $!
     end
 

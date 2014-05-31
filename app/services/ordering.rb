@@ -10,16 +10,8 @@ class Ordering
     @member ||= Member.find(@order.member_id)
   end
 
-  def check_latest_price
-    latest = Trade.latest_price(@order.currency)
-    latest.zero? || PRICE_RANGE.cover?(@order.price / latest)
-  end
-
   def submit
-    unless check_latest_price
-      @order.errors.add(:price, :range)
-      raise LatestPriceError, "invalid price"
-    end
+    check_price!
 
     ActiveRecord::Base.transaction do
       @order.locked = @order.origin_locked = @order.compute_locked
@@ -52,4 +44,19 @@ class Ordering
       end
     end
   end
+
+  private
+
+  def check_price!
+    if @order.ord_type == 'limit' && !price_in_range?
+      @order.errors.add(:price, :range)
+      raise LatestPriceError, "invalid price"
+    end
+  end
+
+  def price_in_range?
+    latest = Trade.latest_price(@order.currency)
+    latest.zero? || PRICE_RANGE.cover?(@order.price / latest)
+  end
+
 end
