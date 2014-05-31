@@ -77,8 +77,19 @@ namespace :migration do
   desc "set history orders ord_type to limit"
   task set_history_ord_type: :environment do
     Order.find_each do |order|
-      order.ord_type = 'limit'
+      order.ord_type = 'limit' if order.ord_type.blank?
       order.save
+    end
+  end
+
+  desc "set locked and origin_locked on limit orders"
+  task set_order_locked: :environment do
+    Order.find_each do |order|
+      if order.ord_type == 'limit'
+        order.origin_locked = order.price*order.origin_volume
+        order.locked = order.compute_locked
+        order.save
+      end
     end
   end
 end
