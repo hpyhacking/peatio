@@ -35,9 +35,11 @@ describe Order, "#fix_number_precision" do
   let(:order_ask) { create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789') }
   it { expect(order_bid.price).to be_d '12.32' }
   it { expect(order_bid.volume).to be_d '123.1234' }
+  it { expect(order_bid.origin_volume).to be_d '123.1234' }
   it { expect(order_bid.sum).to be_d ('12.32'.to_d * '123.1234'.to_d) }
   it { expect(order_ask.price).to be_d '12.32' }
   it { expect(order_ask.volume).to be_d '123.1234' }
+  it { expect(order_ask.origin_volume).to be_d '123.1234' }
   it { expect(order_ask.sum).to be_d '123.1234'.to_d }
 end
 

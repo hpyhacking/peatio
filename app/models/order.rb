@@ -13,7 +13,7 @@ class Order < ActiveRecord::Base
   enumerize :source, in: SOURCES, scope: true
 
   after_commit :trigger
-  before_validation :fix_number_precision
+  before_validation :fix_number_precision, on: :create
 
   validates_presence_of :ord_type, :volume, :origin_volume, :locked, :origin_locked
   validates_numericality_of :origin_volume, :greater_than => 0
@@ -124,7 +124,11 @@ class Order < ActiveRecord::Base
 
   def fix_number_precision
     self.price = price.to_d.round(config.bid["fixed"], 2) if price
-    self.volume = volume.to_d.round(config.ask["fixed"], 2) if volume
+
+    if volume
+      self.volume = volume.to_d.round(config.ask["fixed"], 2)
+      self.origin_volume = volume
+    end
   end
 
 end
