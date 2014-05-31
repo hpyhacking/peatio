@@ -127,7 +127,7 @@ class Order < ActiveRecord::Base
 
     if volume
       self.volume = volume.to_d.round(config.ask["fixed"], 2)
-      self.origin_volume = volume
+      self.origin_volume = origin_volume.present? ? origin_volume.to_d.round(config.ask["fixed"], 2) : volume
     end
   end
 
