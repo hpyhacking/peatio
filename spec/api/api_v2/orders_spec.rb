@@ -49,10 +49,12 @@ describe APIv2::Orders do
     let!(:trade) { create(:trade, bid: order) }
 
     it "should get specified order" do
+      p order
       signed_get "/api/v2/order", params: {id: order.id}, token: token
       response.should be_success
 
       result = JSON.parse(response.body)
+      p result
       result['id'].should == order.id
       result['executed_volume'].should == '8.99'
     end
@@ -150,7 +152,7 @@ describe APIv2::Orders do
     it "should give a number as volume parameter" do
       signed_post '/api/v2/orders', params: {market: 'btccny', side: 'sell', volume: 'test', price: '2014'}
       response.code.should == '400'
-      response.body.should == '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Volume is not a number"}}'
+      response.body.should == '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Volume must be greater than 0"}}'
     end
 
     it "should give a number as price parameter" do

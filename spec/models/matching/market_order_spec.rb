@@ -8,12 +8,12 @@ describe Matching::MarketOrder do
     end
 
     it "should only accept positive sum limit" do
-      expect { Matching.mock_market_order(type: :bid, sum_limit: '0.0'.to_d) }.to raise_error
+      expect { Matching.mock_market_order(type: :bid, locked: '0.0'.to_d) }.to raise_error
     end
   end
 
   context "#fill" do
-    subject { Matching.mock_market_order(type: :bid, sum_limit: '10.0'.to_d, volume: '2.0'.to_d) }
+    subject { Matching.mock_market_order(type: :bid, locked: '10.0'.to_d, volume: '2.0'.to_d) }
 
     it "should raise not enough volume error" do
       expect { subject.fill('1.0'.to_d, '3.0'.to_d) }.to raise_error(Matching::NotEnoughVolume)
@@ -26,7 +26,7 @@ describe Matching::MarketOrder do
     it "should also decrease volume and sum limit" do
       subject.fill '6.0'.to_d, '1.0'.to_d
       subject.volume.should == '1.0'.to_d
-      subject.sum_limit.should == '4.0'.to_d
+      subject.locked.should == '4.0'.to_d
     end
   end
 

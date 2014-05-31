@@ -34,7 +34,7 @@ module Matching
         id: @@mock_order_id,
         timestamp: Time.now.to_i,
         volume: 1+rand(10),
-        sum_limit: 15000+rand(15000),
+        locked: 15000+rand(15000),
         market: 'btccny'
       }.merge(attrs))
     end

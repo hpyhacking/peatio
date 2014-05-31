@@ -113,6 +113,7 @@ class Order < ActiveRecord::Base
       ord_type: ord_type,
       volume: volume,
       price: price,
+      locked: locked,
       timestamp: created_at.to_i }
   end
 

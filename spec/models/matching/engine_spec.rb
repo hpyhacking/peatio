@@ -17,7 +17,7 @@ describe Matching::Engine do
     let(:ask3) { Matching.mock_limit_order(type: :ask, price: '3.0'.to_d, volume: '1.0'.to_d) }
 
     it "should fill the market order completely" do
-      mo = Matching.mock_market_order(type: :bid, sum_limit: '6.0'.to_d, volume: '2.4'.to_d)
+      mo = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '2.4'.to_d)
 
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume}, anything)
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: ask2.volume}, anything)
@@ -37,7 +37,7 @@ describe Matching::Engine do
     end
 
     it "should fill the market order partially and put it in queue" do
-      mo = Matching.mock_market_order(type: :bid, sum_limit: '6.0'.to_d, volume: '2.4'.to_d)
+      mo = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '2.4'.to_d)
 
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume}, anything)
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: ask2.volume}, anything)
@@ -52,8 +52,8 @@ describe Matching::Engine do
     end
 
     it "should match existing market order with best limit price" do
-      mo1 = Matching.mock_market_order(type: :ask, sum_limit: '6.0'.to_d, volume: '1.4'.to_d)
-      mo2 = Matching.mock_market_order(type: :bid, sum_limit: '6.0'.to_d, volume: '3.0'.to_d)
+      mo1 = Matching.mock_market_order(type: :ask, locked: '6.0'.to_d, volume: '1.4'.to_d)
+      mo2 = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '3.0'.to_d)
 
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: mo1.id, bid_id: mo2.id, strike_price: ask1.price, volume: mo1.volume}, anything)
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo2.id, strike_price: ask1.price, volume: ask1.volume}, anything)
@@ -71,8 +71,8 @@ describe Matching::Engine do
     end
 
     it "should partially match existing market order" do
-      mo1 = Matching.mock_market_order(type: :ask, sum_limit: '6.0'.to_d, volume: '1.4'.to_d)
-      mo2 = Matching.mock_market_order(type: :bid, sum_limit: '6.0'.to_d, volume: '1.0'.to_d)
+      mo1 = Matching.mock_market_order(type: :ask, locked: '6.0'.to_d, volume: '1.4'.to_d)
+      mo2 = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '1.0'.to_d)
 
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: mo1.id, bid_id: mo2.id, strike_price: ask1.price, volume: mo2.volume}, anything)
 
@@ -88,14 +88,14 @@ describe Matching::Engine do
     end
 
     it "should cancel the market order if it's the first order in book" do
-      mo1 = Matching.mock_market_order(type: :ask, sum_limit: '6.0'.to_d, volume: '1.4'.to_d)
+      mo1 = Matching.mock_market_order(type: :ask, locked: '6.0'.to_d, volume: '1.4'.to_d)
 
       subject.expects(:publish_cancel).with(mo1, "market order protection")
       subject.submit mo1
     end
 
     it "should partially fill then cancel the market order if sum limit reached" do
-      mo = Matching.mock_market_order(type: :bid, sum_limit: '2.5'.to_d, volume: '2'.to_d)
+      mo = Matching.mock_market_order(type: :bid, locked: '2.5'.to_d, volume: '2'.to_d)
 
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume}, anything)
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: '0.75'.to_d}, anything)
@@ -117,7 +117,7 @@ describe Matching::Engine do
   context "submit limit order" do
     it "should match existing market order" do
       bid = Matching.mock_limit_order(type: :bid, price: '0.1'.to_d, volume: '0.1'.to_d)
-      mo = Matching.mock_market_order(type: :bid, sum_limit: '100.0'.to_d, volume: '6.0'.to_d)
+      mo = Matching.mock_market_order(type: :bid, locked: '100.0'.to_d, volume: '6.0'.to_d)
       subject.submit bid
       subject.submit mo
 

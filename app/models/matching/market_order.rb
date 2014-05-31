@@ -2,13 +2,13 @@ require_relative 'constants'
 
 module Matching
   class MarketOrder
-    attr :id, :timestamp, :type, :volume, :sum_limit, :market
+    attr :id, :timestamp, :type, :volume, :locked, :market
 
     def initialize(attrs)
       @id          = attrs[:id]
       @timestamp   = attrs[:timestamp]
       @type        = attrs[:type].try(:to_sym)
-      @sum_limit   = attrs[:sum_limit].try(:to_d)
+      @locked      = attrs[:locked].try(:to_d)
       @volume      = attrs[:volume].try(:to_d)
       @market      = Market.find attrs[:market]
 
@@ -28,7 +28,7 @@ module Matching
     end
 
     def volume_limit(trade_price)
-      type == :ask ? sum_limit : sum_limit/trade_price
+      type == :ask ? locked : locked/trade_price
     end
 
     def fill(trade_price, trade_volume)
@@ -36,12 +36,12 @@ module Matching
       @volume -= trade_volume
 
       sum = type == :ask ? trade_volume : trade_price*trade_volume
-      raise ExceedSumLimit if sum > @sum_limit
-      @sum_limit -= sum
+      raise ExceedSumLimit if sum > @locked
+      @locked -= sum
     end
 
     def filled?
-      volume <= ZERO || sum_limit <= ZERO
+      volume <= ZERO || locked <= ZERO
     end
 
     def label
@@ -51,7 +51,7 @@ module Matching
     def valid?(attrs)
       return false unless [:ask, :bid].include?(type)
       return false if attrs[:price].present? # should have no limit price
-      id && timestamp && market && volume > ZERO && sum_limit > ZERO
+      id && timestamp && market && volume > ZERO && locked > ZERO
     end
 
   end
