@@ -47,9 +47,9 @@ module Matching
     end
 
     def valid?
-      [@ask.volume, @bid.volume].min >= @volume &&
-        @ask.price <= @price &&
-        @bid.price >= @price
+      return false if @ask.ord_type == 'limit' && @ask.price > @price
+      return false if @bid.ord_type == 'limit' && @bid.price < @price
+      [@ask.volume, @bid.volume].min >= @volume
     end
 
     def trend
