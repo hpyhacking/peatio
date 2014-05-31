@@ -10,7 +10,7 @@ FactoryGirl.define do
     volume { '1'.to_d }
     origin_volume { volume }
     locked { price.to_d*volume.to_d }
-    origin_locked { price.to_d*origin_volume.to_d }
+    origin_locked { locked }
   end
 
   factory :order_ask do

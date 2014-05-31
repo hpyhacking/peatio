@@ -96,6 +96,24 @@ describe Matching::Executor do
     end
   end
 
+  context "partially filled market order whose locked fund run out" do
+    let(:ask) { create(:order_ask, price: '2.0'.to_d, volume: '3.0'.to_d, member: alice) }
+    let(:bid) { create(:order_bid, price: nil, ord_type: 'market', volume: '2.0'.to_d, locked: '3.0'.to_d, member: bob) }
+
+    it "should cancel the market order" do
+      executor = Matching::Executor.new(
+        market_id:    market.id,
+        ask_id:       ask.id,
+        bid_id:       bid.id,
+        strike_price: '2.0',
+        volume:       '1.5'
+      )
+      executor.execute!
+
+      bid.reload.state.should == Order::CANCEL
+    end
+  end
+
   context "unlock not used funds" do
     let(:ask) { create(:order_ask, price: price-1, volume: 7.to_d, member: alice) }
     let(:bid) { create(:order_bid, price: price, volume: volume, member: bob) }
