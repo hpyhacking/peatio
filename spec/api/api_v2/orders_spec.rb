@@ -49,12 +49,10 @@ describe APIv2::Orders do
     let!(:trade) { create(:trade, bid: order) }
 
     it "should get specified order" do
-      p order
       signed_get "/api/v2/order", params: {id: order.id}, token: token
       response.should be_success
 
       result = JSON.parse(response.body)
-      p result
       result['id'].should == order.id
       result['executed_volume'].should == '8.99'
     end

@@ -4,8 +4,8 @@ class OrderAsk < Order
 
   scope :matching_rule, -> { order('price ASC, created_at ASC') }
 
-  def self.strike_sum(volume, price)
-    [volume, volume * price]
+  def get_account_changes(trade)
+    [trade.volume, trade.funds]
   end
 
   def hold_account

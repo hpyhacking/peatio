@@ -19,9 +19,9 @@ describe Matching::Engine do
     it "should fill the market order completely" do
       mo = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '2.4'.to_d)
 
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume}, anything)
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: ask2.volume}, anything)
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask3.id, bid_id: mo.id, strike_price: ask3.price, volume: '0.4'.to_d}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume, funds: '1.0'.to_d}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: ask2.volume, funds: '2.0'.to_d}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask3.id, bid_id: mo.id, strike_price: ask3.price, volume: '0.4'.to_d, funds: '1.2'.to_d}, anything)
 
       subject.submit bid
       subject.submit ask1
@@ -39,8 +39,8 @@ describe Matching::Engine do
     it "should fill the market order partially and put it in queue" do
       mo = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '2.4'.to_d)
 
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume}, anything)
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: ask2.volume}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume, funds: '1.0'.to_d}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: ask2.volume, funds: '2.0'.to_d}, anything)
 
       subject.submit bid
       subject.submit ask1
@@ -55,8 +55,8 @@ describe Matching::Engine do
       mo1 = Matching.mock_market_order(type: :ask, locked: '6.0'.to_d, volume: '1.4'.to_d)
       mo2 = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '3.0'.to_d)
 
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: mo1.id, bid_id: mo2.id, strike_price: ask1.price, volume: mo1.volume}, anything)
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo2.id, strike_price: ask1.price, volume: ask1.volume}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: mo1.id, bid_id: mo2.id, strike_price: ask1.price, volume: mo1.volume, funds: '1.4'.to_d}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo2.id, strike_price: ask1.price, volume: ask1.volume, funds: '1.0'.to_d}, anything)
 
       subject.submit ask1
       subject.submit mo1
@@ -74,7 +74,7 @@ describe Matching::Engine do
       mo1 = Matching.mock_market_order(type: :ask, locked: '6.0'.to_d, volume: '1.4'.to_d)
       mo2 = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '1.0'.to_d)
 
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: mo1.id, bid_id: mo2.id, strike_price: ask1.price, volume: mo2.volume}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: mo1.id, bid_id: mo2.id, strike_price: ask1.price, volume: mo2.volume, funds: '1.0'.to_d}, anything)
 
       subject.submit ask1
       subject.submit mo1
@@ -94,11 +94,11 @@ describe Matching::Engine do
       subject.submit mo1
     end
 
-    it "should partially fill then cancel the market order if sum limit reached" do
+    it "should partially fill then cancel the market order if locked funds run out" do
       mo = Matching.mock_market_order(type: :bid, locked: '2.5'.to_d, volume: '2'.to_d)
 
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume}, anything)
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: '0.75'.to_d}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume, funds: '1.0'.to_d}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: '0.75'.to_d, funds: '1.5'.to_d}, anything)
 
       subject.submit bid
       subject.submit ask1
@@ -121,7 +121,7 @@ describe Matching::Engine do
       subject.submit bid
       subject.submit mo
 
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: mo.id, strike_price: ask.price, volume: ask.volume}, anything)
+      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: mo.id, strike_price: ask.price, volume: ask.volume, funds: '50.0'.to_d}, anything)
       subject.submit ask
 
       subject.ask_orders.limit_orders.should be_empty
@@ -132,7 +132,7 @@ describe Matching::Engine do
     context "fully match incoming order" do
       it "should execute trade" do
         AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume}, anything)
+        .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume, funds: '50.0'.to_d}, anything)
 
         subject.submit(ask)
         subject.submit(bid)
@@ -147,7 +147,7 @@ describe Matching::Engine do
 
       it "should execute trade" do
         AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: 3.to_d}, anything)
+        .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: 3.to_d, funds: '30.0'.to_d}, anything)
 
         subject.submit(ask)
         subject.submit(bid)
@@ -191,7 +191,7 @@ describe Matching::Engine do
         subject.cancel(low_ask) # but it's cancelled
 
         AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, {market_id: market.id, ask_id: high_ask.id, bid_id: bid.id, strike_price: high_ask.price, volume: high_ask.volume}, anything)
+        .with(:trade_executor, {market_id: market.id, ask_id: high_ask.id, bid_id: bid.id, strike_price: high_ask.price, volume: high_ask.volume, funds: '30.0'.to_d}, anything)
         subject.submit(bid)
 
         subject.ask_orders.limit_orders.should be_empty

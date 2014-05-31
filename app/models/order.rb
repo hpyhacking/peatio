@@ -36,11 +36,11 @@ class Order < ActiveRecord::Base
   scope :position, -> { group("price").pluck(:price, 'sum(volume)') }
 
   def fee
-    config[self.kind.to_sym]["fee"]
+    config[kind.to_sym]["fee"]
   end
 
   def config
-    @config ||= Market.find(self.currency)
+    @config ||= Market.find(currency)
   end
 
   def trigger
@@ -51,12 +51,9 @@ class Order < ActiveRecord::Base
   end
 
   def strike(trade)
-    strike_price = trade.price
-    strike_volume = trade.volume
-
-    real_sub, add = self.class.strike_sum(strike_volume, strike_price)
-    real_fee = add * fee
-    real_add = add - real_fee
+    real_sub, add = get_account_changes trade
+    real_fee      = add * fee
+    real_add      = add - real_fee
 
     hold_account.unlock_and_sub_funds \
       real_sub, locked: real_sub,
@@ -66,7 +63,7 @@ class Order < ActiveRecord::Base
       real_add, fee: real_fee,
       reason: Account::STRIKE_ADD, ref: trade
 
-    self.volume -= strike_volume
+    self.volume -= trade.volume
     self.locked -= real_sub
 
     if volume.zero?
@@ -120,19 +117,19 @@ class Order < ActiveRecord::Base
       timestamp: created_at.to_i }
   end
 
-  def market_order_validations
-    errors.add(:price, 'must not be present') if price.present?
-  end
-
   private
 
   def fix_number_precision
-    self.price = price.to_d.round(config.bid["fixed"], 2) if price
+    self.price = config.fix_number_precision(:bid, price.to_d) if price
 
     if volume
-      self.volume = volume.to_d.round(config.ask["fixed"], 2)
-      self.origin_volume = origin_volume.present? ? origin_volume.to_d.round(config.ask["fixed"], 2) : volume
+      self.volume = config.fix_number_precision(:ask, volume.to_d)
+      self.origin_volume = origin_volume.present? ? config.fix_number_precision(:ask, origin_volume.to_d) : volume
     end
+  end
+
+  def market_order_validations
+    errors.add(:price, 'must not be present') if price.present?
   end
 
 end

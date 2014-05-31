@@ -54,20 +54,24 @@ module Matching
         counter_book.fill_top *trade
         order.fill *trade
 
-        publish order, counter_order, trade[0], trade[1]
+        publish order, counter_order, trade
 
         match order, counter_book
       end
     end
 
-    def publish(order, counter_order, price, volume)
+    def publish(order, counter_order, trade)
       ask, bid = order.type == :ask ? [order, counter_order] : [counter_order, order]
 
-      Rails.logger.info "[#{@market.id}] new trade - ask: #{ask.label} bid: #{bid.label} price: #{price} volume: #{volume}"
+      price  = @market.fix_number_precision :bid, trade[0]
+      volume = @market.fix_number_precision :ask, trade[1]
+      funds  = trade[2]
+
+      Rails.logger.info "[#{@market.id}] new trade - ask: #{ask.label} bid: #{bid.label} price: #{price} volume: #{volume} funds: #{funds}"
 
       AMQPQueue.enqueue(
         :trade_executor,
-        {market_id: @market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume},
+        {market_id: @market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume, funds: funds},
         {persistent: false}
       )
     end

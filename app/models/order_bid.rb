@@ -4,8 +4,8 @@ class OrderBid < Order
 
   scope :matching_rule, -> { order('price DESC, created_at ASC') }
 
-  def self.strike_sum(volume, price)
-    [volume * price, volume]
+  def get_account_changes(trade)
+    [trade.funds, trade.volume]
   end
 
   def hold_account
@@ -31,7 +31,7 @@ class OrderBid < Order
     when 'limit'
       price*volume
     when 'market'
-      '1000'.to_d # TODO: replace stub
+      '100'.to_d # TODO: replace stub
     end
   end
 

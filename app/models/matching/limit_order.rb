@@ -7,9 +7,9 @@ module Matching
     def initialize(attrs)
       @id        = attrs[:id]
       @timestamp = attrs[:timestamp]
-      @type      = attrs[:type].try(:to_sym)
-      @volume    = attrs[:volume].try(:to_d)
-      @price     = attrs[:price].try(:to_d)
+      @type      = attrs[:type].to_sym
+      @volume    = attrs[:volume].to_d
+      @price     = attrs[:price].to_d
       @market    = Market.find attrs[:market]
 
       raise InvalidOrderError.new(attrs) unless valid?(attrs)
@@ -18,15 +18,19 @@ module Matching
     def trade_with(counter_order, counter_book)
       if counter_order.is_a?(LimitOrder)
         if crossed?(counter_order.price)
-          [counter_order.price, [volume, counter_order.volume].min]
+          trade_price  = counter_order.price
+          trade_volume = [volume, counter_order.volume].min
+          trade_funds    = trade_price.mult_and_round(trade_volume)
+          [trade_price, trade_volume, trade_funds]
         end
       else
         trade_volume = [volume, counter_order.volume, counter_order.volume_limit(price)].min
-        [price, trade_volume]
+        trade_funds    = price.mult_and_round(trade_volume)
+        [price, trade_volume, trade_funds]
       end
     end
 
-    def fill(trade_price, trade_volume)
+    def fill(trade_price, trade_volume, trade_funds)
       raise NotEnoughVolume if trade_volume > @volume
       @volume -= trade_volume
     end

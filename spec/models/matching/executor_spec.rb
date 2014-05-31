@@ -14,7 +14,8 @@ describe Matching::Executor do
       ask_id:       ask.id,
       bid_id:       bid.id,
       strike_price: price.to_s('F'),
-      volume:       volume.to_s('F')
+      volume:       volume.to_s('F'),
+      funds:        (price*volume).to_s('F')
     )
   }
 
@@ -57,6 +58,12 @@ describe Matching::Executor do
       trade = subject.execute!
 
       trade.trend.should == 'down'
+    end
+
+    it "should set trade used funds" do
+      market.expects(:latest_price).returns(11.to_d)
+      trade = subject.execute!
+      trade.funds.should == price*volume
     end
 
     it "should mark both orders as done" do
@@ -106,7 +113,8 @@ describe Matching::Executor do
         ask_id:       ask.id,
         bid_id:       bid.id,
         strike_price: '2.0',
-        volume:       '1.5'
+        volume:       '1.5',
+        funds:        '3.0'
       )
       executor.execute!
 
@@ -124,7 +132,8 @@ describe Matching::Executor do
         ask_id:       ask.id,
         bid_id:       bid.id,
         strike_price: price-1, # so bid order only used (price-1)*volume
-        volume:       volume.to_s('F')
+        volume:       volume.to_s('F'),
+        funds:        ((price-1)*volume).to_s('F')
       )
     }
 
@@ -135,7 +144,6 @@ describe Matching::Executor do
       locked_after = bid.hold_account.reload.locked
 
       locked_after.should == locked_before - (price*volume)
-
     end
 
     it "should save unused amount in order locked attribute" do
