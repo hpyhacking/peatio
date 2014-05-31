@@ -30,7 +30,7 @@ module Worker
         .where('id < ?', @order.id).order('id asc')
 
       orders.each do |order|
-        order = ::Matching::LimitOrder.new order.to_matching_attributes
+        order = build_order order.to_matching_attributes
         engine.submit order
       end
     end
