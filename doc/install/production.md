@@ -26,12 +26,6 @@ Make sure your system is up-to-date and install it.
     sudo apt-get update -y
     sudo apt-get upgrade -y
 
-    # for Ubuntu <= 12.04
-    sudo apt-get install python-software-properties
-
-    # for Ubuntu >= 12.10
-    sudo apt-get install software-properties-common
-
 Install the required packages:
 
     sudo apt-get install -y curl git-core
@@ -41,29 +35,24 @@ Install the required packages:
 
 Installing [rbenv](https://github.com/sstephenson/rbenv) using a Installer
 
-    curl https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
+    sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties
 
-    # update .bash_profile according to the instruction and insert the following lines
-    vim ~/.bash_profile
+    cd
+    git clone git://github.com/sstephenson/rbenv.git .rbenv
+    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+    echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+    exec $SHELL
 
-    export RBENV_ROOT="${HOME}/.rbenv"
-    if [ -d "${RBENV_ROOT}" ]; then
-      export PATH="${RBENV_ROOT}/bin:${PATH}"
-      eval "$(rbenv init -)"
-    fi
+    git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+    echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+    exec $SHELL
 
-    # reload the shell
-    source ~/.bash_profile
+    rbenv install 2.1.2
+    rbenv global 2.1.2
+    ruby -v
 
-    # install the dependencies (using the installer tool)
-    rbenv bootstrap-ubuntu-12-04
+    echo "gem: --no-ri --no-rdoc" > ~/.gemrc
 
-    # install a Ruby version
-    rbenv install 2.1.0
-    rbenv rehash
-    rbenv global 2.1.0
-
-    # install bundler
     gem install bundler
 
 
@@ -72,37 +61,11 @@ Installing [rbenv](https://github.com/sstephenson/rbenv) using a Installer
 Peatio supports the following databases:
 
 * MySQL (preferred)
-* TODO: PostgreSQL
 
 ##### MySQL
 
     # Install the database packages
-    sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev
-
-    # Pick a database root password (can be anything), type it and press enter
-    # Retype the database root password and press enter
-
-    # Secure your installation.
-    sudo mysql_secure_installation
-
-    # Login to MySQL
-    mysql -u root -p
-
-    # Type the database root password
-
-    # Create a user for Peatio
-    # change $password in the command below to a real password you pick
-    CREATE USER 'peatio'@'localhost' IDENTIFIED BY '$password';
-
-    # Create the PeatioPeatio production database
-    CREATE DATABASE IF NOT EXISTS `peatio_production` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;
-
-    # Grant the Peatio user necessary permissions on the table.
-    GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `peatio_production`.* TO 'peatio'@'localhost';
-
-    # Quit the database session
-    mysql> \q
-
+    sudo apt-get install mariadb-server mariadb-client libmariadbclient-dev
 
 ## 4. Redis
 
@@ -125,11 +88,12 @@ We recommend the latest version of nginx (we like the new and shiny). To install
     # Setup a sources.list.d file for the nginx repository and insert the following lines
     sudo vim /etc/apt/sources.list
 
-    deb http://nginx.org/packages/ubuntu/ precise nginx
-    deb-src http://nginx.org/packages/ubuntu/ precise nginx
+    deb http://nginx.org/packages/ubuntu/ trusty nginx
+    deb-src http://nginx.org/packages/ubuntu/ trusty nginx
 
     # install nginx
-    sudo apt-get update && sudo apt-get -y install nginx
+    sudo apt-get update
+    sudo apt-get install nginx
 
 ## 6. Bitcoind
 
@@ -151,6 +115,9 @@ By default, bitcoind will look for a file name "bitcoin.conf" in the bitcoin dat
 
     # If run on the test network instead of the real bitcoin network
     testnet=1
+
+    # Notify when receiving coins
+    walletnotify=/usr/local/sbin/rabbitmqadmin publish routing_key=peatio.deposit.coin payload='{"txid":"%s", "channel_key":"satoshi"}'
 
 ##### Start Bitcoind
 
