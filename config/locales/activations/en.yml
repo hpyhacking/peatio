@@ -1,0 +1,4 @@
+en:
+  activations:
+    new:
+      login_required: login required!
