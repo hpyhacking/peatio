@@ -10,7 +10,7 @@ Dir.chdir(root)
 require File.join(root, "config", "environment")
 
 $running = true
-Signal.trap("TERM") do 
+Signal.trap("TERM") do
   $running = false
 end
 
@@ -22,7 +22,7 @@ while($running) do
 
   txs = PaymentTransaction.with_aasm_state(:unconfirm, :confirming)
   txs.each do |tx|
-    Rails.logger.debug "------- ##{tx.id} -------" 
+    Rails.logger.debug "------- ##{tx.id} -------"
     ActiveRecord::Base.transaction do tx.check!  end
     Rails.logger.debug "======= ##{tx.id} ======="
   end
