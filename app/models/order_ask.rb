@@ -16,10 +16,6 @@ class OrderAsk < Order
     member.get_account(bid)
   end
 
-  def hold_account_attr
-    :origin_volume
-  end
-
   def compute_locked
     volume
   end

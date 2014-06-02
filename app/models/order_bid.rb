@@ -16,10 +16,6 @@ class OrderBid < Order
     member.get_account(ask)
   end
 
-  def hold_account_attr
-    :sum
-  end
-
   LOCKING_BUFFER_FACTOR = '1.1'.to_d
   def compute_locked
     case ord_type
