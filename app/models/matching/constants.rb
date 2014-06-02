@@ -1,6 +1,6 @@
 module Matching
 
-  ZERO = 0.to_d
+  ZERO = 0.to_d unless defined?(ZERO)
 
   class InvalidOrderError   < StandardError; end
   class NotEnoughVolume     < StandardError; end
