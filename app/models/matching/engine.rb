@@ -77,7 +77,12 @@ module Matching
     end
 
     def publish_cancel(order, reason)
-      # TODO: implement
+      Rails.logger.info "[#{@market.id}] cancel order ##{order.id} - reason: #{reason}"
+      AMQPQueue.enqueue(
+        :order_processor,
+        {action: 'cancel', order: {id: order.id}},
+        {persistent: false}
+      )
     end
 
   end

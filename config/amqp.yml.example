@@ -17,6 +17,9 @@ queue:
   new_trade:
     name: peatio.trade.new
     durable: true
+  order_processor:
+    name: peatio.order.processor
+    durable: true
   pusher_market:
     name: peatio.pusher.market
   pusher_member:
@@ -40,6 +43,8 @@ binding:
     queue: matching
   trade_executor:
     queue: new_trade
+  order_processor:
+    queue: order_processor
   pusher_market:
     queue: pusher_market
     exchange: trade
