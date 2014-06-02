@@ -27,7 +27,7 @@
             = f.text_field :origin_volume, class: 'form-control'
           p.input-group.total
             label.input-group-addon = t('.total')
-            = f.text_field :sum, class: 'form-control'
+            = f.text_field :total, class: 'form-control'
             span.input-group-addon = market.bid['currency'].upcase
           p.current-balance.clearfix
             label.name = t('.available')
@@ -55,7 +55,7 @@
             = f.text_field :origin_volume, class: 'form-control'
           p.input-group.total
             label.input-group-addon = t('.total')
-            = f.text_field :sum, class: 'form-control'
+            = f.text_field :total, class: 'form-control'
             span.input-group-addon = market.bid['currency'].upcase
           p.current-balance
             label.name = t('.available')

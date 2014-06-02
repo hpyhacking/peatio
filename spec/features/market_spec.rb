@@ -29,7 +29,7 @@ feature 'show account info', js: true do
       click_link I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
       fill_in 'order_bid_price', :with => 22.2
       fill_in 'order_bid_origin_volume', :with => 45
-      expect(page.find('#order_bid_sum').value).to be_d (45 * 22.2).to_d
+      expect(page.find('#order_bid_total').value).to be_d (45 * 22.2).to_d
 
       click_button I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
       sleep 0.1 # sucks :(
@@ -45,7 +45,7 @@ feature 'show account info', js: true do
       click_link I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
       fill_in 'order_ask_price', :with => 22.2
       fill_in 'order_ask_origin_volume', :with => 45
-      expect(page.find('#order_ask_sum').value).to be_d (45 * 22.2).to_d
+      expect(page.find('#order_ask_total').value).to be_d (45 * 22.2).to_d
 
       click_button I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
       sleep 0.1 # sucks :(

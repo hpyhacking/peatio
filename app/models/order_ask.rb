@@ -16,10 +16,6 @@ class OrderAsk < Order
     member.get_account(bid)
   end
 
-  def sum(v = nil, p = nil)
-    v ||= volume
-  end
-
   def hold_account_attr
     :origin_volume
   end

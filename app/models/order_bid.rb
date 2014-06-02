@@ -16,12 +16,6 @@ class OrderBid < Order
     member.get_account(ask)
   end
 
-  def sum(v = nil, p = nil)
-    p ||= self.price
-    v ||= self.volume
-    (v * p) if (v && p)
-  end
-
   def hold_account_attr
     :sum
   end
