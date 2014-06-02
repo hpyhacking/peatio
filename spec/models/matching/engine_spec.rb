@@ -57,6 +57,7 @@ describe Matching::Engine do
 
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: mo1.id, bid_id: mo2.id, strike_price: ask1.price, volume: mo1.volume, funds: '1.4'.to_d}, anything)
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo2.id, strike_price: ask1.price, volume: ask1.volume, funds: '1.0'.to_d}, anything)
+      AMQPQueue.expects(:enqueue).with(:order_processor, {action: 'cancel', order: {id: mo2.id}}, anything)
 
       subject.submit ask1
       subject.submit mo1

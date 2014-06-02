@@ -191,7 +191,7 @@ describe APIv2::Orders do
       it "should return error" do
         signed_post "/api/v2/order/delete", params: {id: order.id}, token: token
         response.code.should == '400'
-        response.body.should == '{"error":{"code":2003,"message":"Failed to cancel order. Reason: cannot unlock funds (amount: 38.6848)"}}'
+        response.body.should == '{"error":{"code":2003,"message":"Failed to cancel order. Reason: cannot unlock funds (amount: 20.1082)"}}'
       end
     end
 
