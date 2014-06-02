@@ -10,7 +10,7 @@ module Worker
       txid = payload[:txid]
 
       channel = DepositChannel.find_by_key(channel_key)
-      raw     = CoinRPC[channel.currency_obj.code].gettransaction(txid)
+      raw     = channel.currency_obj.api.gettransaction(txid)
       detail  = raw[:details].first.symbolize_keys!
       return if detail[:account] != "payment" || detail[:category] != "receive"
 
