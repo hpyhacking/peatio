@@ -28,9 +28,14 @@ module Matching
       Rails.logger.fatal $!.backtrace.join("\n")
     end
 
-    def dump
-      { ask_orders: @ask_orders.dump,
-        bid_orders: @bid_orders.dump }
+    def limit_orders
+      { ask: @ask_orders.limit_orders,
+        bid: @bid_orders.limit_orders }
+    end
+
+    def market_orders
+      { ask: @ask_orders.market_orders,
+        bid: @bid_orders.market_orders }
     end
 
     private

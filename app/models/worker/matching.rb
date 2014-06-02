@@ -39,26 +39,45 @@ module Worker
       @engines ||= {}
     end
 
+    # dump limit orderbook
     def on_usr1
       engines.each do |id, eng|
-        dump_file = File.join('/', 'tmp', "orderbook_dump_#{id}_#{Time.now.to_i}")
-        data = eng.dump
+        dump_file = File.join('/', 'tmp', "limit_orderbook_#{id}")
+        limit_orders = eng.limit_orders
 
         File.open(dump_file, 'w') do |f|
           f.puts "ASK"
-          data[:ask_limit_orders].keys.reverse.each do |k|
+          limit_orders[:ask].keys.reverse.each do |k|
             f.puts k.to_s('F')
-            data[:ask_limit_orders][k].each {|o| f.puts "\t#{o}" }
+            limit_orders[:ask][k].each {|o| f.puts "\t#{o.label}" }
           end
           f.puts "-"*40
-          data[:bid_limit_orders].keys.reverse.each do |k|
+          limit_orders[:bid].keys.reverse.each do |k|
             f.puts k.to_s('F')
-            data[:bid_limit_orders][k].each {|o| f.puts "\t#{o}" }
+            limit_orders[:bid][k].each {|o| f.puts "\t#{o.label}" }
           end
           f.puts "BID"
         end
 
-        puts "#{id} orderbook dumped to #{dump_file}."
+        puts "#{id} limit orderbook dumped to #{dump_file}."
+      end
+    end
+
+    # dump market orderbook
+    def on_usr2
+      engines.each do |id, eng|
+        dump_file = File.join('/', 'tmp', "market_orderbook_#{id}")
+        market_orders = eng.market_orders
+
+        File.open(dump_file, 'w') do |f|
+          f.puts "ASK"
+          market_orders[:ask].each {|o| f.puts "\t#{o.label}" }
+          f.puts "-"*40
+          market_orders[:bid].each {|o| f.puts "\t#{o.label}" }
+          f.puts "BID"
+        end
+
+        puts "#{id} market orderbook dumped to #{dump_file}."
       end
     end
 
