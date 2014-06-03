@@ -3,6 +3,12 @@ require 'whitelist_constraint'
 
 Rails.application.eager_load! if Rails.env.development?
 
+class ActionDispatch::Routing::Mapper
+  def draw(routes_name)
+    instance_eval(File.read(Rails.root.join("config/routes/#{routes_name}.rb")))
+  end
+end
+
 Peatio::Application.routes.draw do
 
   root 'welcome#index'
@@ -76,32 +82,7 @@ Peatio::Application.routes.draw do
     post '/pusher/auth', to: 'pusher#auth'
   end
 
-  namespace :admin do
-    get '/', to: 'dashboard#index', as: :dashboard
-    resources :documents
-    resource :currency_deposit, :only => [:new, :create]
-    resources :members, :only => [:index, :show, :update]
-
-    namespace :deposits do
-      Deposit.descendants.each do |d|
-        resources d.resource_name
-      end
-    end
-
-    namespace :withdraws do
-      Withdraw.descendants.each do |w|
-        resources w.resource_name
-      end
-    end
-
-    namespace :statistic do
-      resource :members, :only => :show
-      resource :orders, :only => :show
-      resource :trades, :only => :show
-      resource :deposits, :only => :show
-      resource :withdraws, :only => :show
-    end
-  end
+  draw :admin
 
   get 'payment_transaction/:currency/:txid', to: 'payment_transaction#create'
 
