@@ -5,10 +5,6 @@ describe Matching::OrderBook do
   context "#add" do
     subject { Matching::OrderBook.new(:ask) }
 
-    it "should reject incoming market order when limit order book is empty" do
-      expect { subject.add Matching.mock_market_order(type: :ask) }.to raise_error(Matching::NoLimitOrderError)
-    end
-
     it "should add market order" do
       subject.add Matching.mock_limit_order(type: :ask)
 

@@ -36,11 +36,12 @@ describe Matching::Engine do
       subject.bid_orders.market_orders.should be_empty
     end
 
-    it "should fill the market order partially and put it in queue" do
+    it "should fill the market order partially and cancel it" do
       mo = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '2.4'.to_d)
 
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume, funds: '1.0'.to_d}, anything)
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: ask2.volume, funds: '2.0'.to_d}, anything)
+      AMQPQueue.expects(:enqueue).with(:order_processor, {action: 'cancel', order: {id: mo.id}}, anything)
 
       subject.submit bid
       subject.submit ask1
@@ -48,51 +49,7 @@ describe Matching::Engine do
       subject.submit mo
 
       subject.ask_orders.limit_orders.should be_empty
-      subject.bid_orders.market_orders.should == [mo]
-    end
-
-    it "should match existing market order with best limit price" do
-      mo1 = Matching.mock_market_order(type: :ask, locked: '6.0'.to_d, volume: '1.4'.to_d)
-      mo2 = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '3.0'.to_d)
-
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: mo1.id, bid_id: mo2.id, strike_price: ask1.price, volume: mo1.volume, funds: '1.4'.to_d}, anything)
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo2.id, strike_price: ask1.price, volume: ask1.volume, funds: '1.0'.to_d}, anything)
-      AMQPQueue.expects(:enqueue).with(:order_processor, {action: 'cancel', order: {id: mo2.id}}, anything)
-
-      subject.submit ask1
-      subject.submit mo1
-      subject.submit mo2
-
-      subject.ask_orders.limit_orders.should be_empty
-      subject.ask_orders.market_orders.should be_empty
-
-      # there's no limit order in bid orderbook, so the partially matched
-      # market order will be canceled
       subject.bid_orders.market_orders.should be_empty
-    end
-
-    it "should partially match existing market order" do
-      mo1 = Matching.mock_market_order(type: :ask, locked: '6.0'.to_d, volume: '1.4'.to_d)
-      mo2 = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '1.0'.to_d)
-
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: mo1.id, bid_id: mo2.id, strike_price: ask1.price, volume: mo2.volume, funds: '1.0'.to_d}, anything)
-
-      subject.submit ask1
-      subject.submit mo1
-      subject.submit mo2
-
-      subject.ask_orders.limit_orders.should_not be_empty
-      subject.ask_orders.market_orders.should == [mo1]
-      subject.bid_orders.market_orders.should be_empty
-
-      mo1.volume.should == '0.4'.to_d
-    end
-
-    it "should cancel the market order if it's the first order in book" do
-      mo1 = Matching.mock_market_order(type: :ask, locked: '6.0'.to_d, volume: '1.4'.to_d)
-
-      subject.expects(:publish_cancel).with(mo1, "market order protection")
-      subject.submit mo1
     end
 
     it "should partially fill then cancel the market order if locked funds run out" do
@@ -116,20 +73,6 @@ describe Matching::Engine do
   end
 
   context "submit limit order" do
-    it "should match existing market order" do
-      bid = Matching.mock_limit_order(type: :bid, price: '0.1'.to_d, volume: '0.1'.to_d)
-      mo = Matching.mock_market_order(type: :bid, locked: '100.0'.to_d, volume: '6.0'.to_d)
-      subject.submit bid
-      subject.submit mo
-
-      AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: mo.id, strike_price: ask.price, volume: ask.volume, funds: '50.0'.to_d}, anything)
-      subject.submit ask
-
-      subject.ask_orders.limit_orders.should be_empty
-      subject.bid_orders.market_orders.should == [mo]
-      mo.volume.should == '1.0'.to_d
-    end
-
     context "fully match incoming order" do
       it "should execute trade" do
         AMQPQueue.expects(:enqueue)

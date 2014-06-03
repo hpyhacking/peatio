@@ -12,9 +12,7 @@ module Matching
     def submit(order)
       book, counter_book = get_books order.type
       match order, counter_book
-      book.add order unless order.filled?
-    rescue Matching::NoLimitOrderError
-      publish_cancel order, "market order protection"
+      add_or_cancel order, book
     rescue
       Rails.logger.fatal "Failed to submit #{order}: #{$!}"
       Rails.logger.fatal $!.backtrace.join("\n")
@@ -63,6 +61,12 @@ module Matching
 
         match order, counter_book
       end
+    end
+
+    def add_or_cancel(order, book)
+      return if order.filled?
+      order.is_a?(LimitOrder) ?
+        book.add(order) : publish_cancel(order, "fill or kill market order")
     end
 
     def publish(order, counter_order, trade)
