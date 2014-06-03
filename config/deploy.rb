@@ -9,6 +9,7 @@ set :repository, 'git@github.com:peatio/peatio_beijing.git'
 set :user, 'deploy'
 set :deploy_to, '/home/deploy/peatio'
 set :branch, ENV['branch'] || 'master'
+set :without_admin, false
 
 case ENV['to']
 when 'demo'
@@ -65,9 +66,10 @@ task deploy: :environment do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-      invoke :'rails:assets_precompile'
+    invoke :'rails:assets_precompile'
 
     to :launch do
+      invoke :del_admin if without_admin
       invoke :'unicorn:restart'
     end
   end
@@ -119,4 +121,11 @@ end
 desc "Generate liability proof"
 task 'solvency:liability_proof' do
   queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec rake solvency:liability_proof"
+end
+
+desc 'delete admin'
+task :del_admin do
+  queue! "rm -rf #{deploy_to}/current/app/controllers/admin"
+  queue! "rm -rf #{deploy_to}/current/app/views/admin"
+  queue! "sed -i '/draw\ :admin/d' #{deploy_to}/current/config/routes.rb"
 end
