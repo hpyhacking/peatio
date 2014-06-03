@@ -17,7 +17,12 @@ class OrderAsk < Order
   end
 
   def compute_locked
-    volume
+    case ord_type
+    when 'limit'
+      volume
+    when 'market'
+      estimate_required_funds(Global[currency].bids) {|p, v| v}
+    end
   end
 
 end

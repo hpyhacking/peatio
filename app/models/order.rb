@@ -127,4 +127,27 @@ class Order < ActiveRecord::Base
     errors.add(:price, 'must not be present') if price.present?
   end
 
+  FUSE = '0.9'.to_d
+  def estimate_required_funds(price_levels)
+    required_funds = Account::ZERO
+    expected_volume = volume
+
+    start_from, _ = price_levels.first
+    filled_at     = start_from
+
+    until expected_volume.zero? || price_levels.empty?
+      level_price, level_volume = price_levels.shift
+      filled_at = level_price
+
+      v = [expected_volume, level_volume].min
+      required_funds += yield level_price, v
+      expected_volume -= v
+    end
+
+    raise "Market is not deep enough" unless expected_volume.zero?
+    raise "Volume too large" if (filled_at-start_from).abs/start_from > FUSE
+
+    required_funds
+  end
+
 end

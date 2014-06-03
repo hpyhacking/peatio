@@ -6,11 +6,12 @@ describe OrderBid do
 
   its(:compute_locked) { should == subject.volume*subject.price }
 
-  context "#estimate_required_funds" do
+  context "compute locked for market order" do
     let(:price_levels) do
-      [ ['1.0'.to_d, '10.0'.to_d],
-        ['2.0'.to_d, '20.0'.to_d],
-        ['3.0'.to_d, '30.0'.to_d] ]
+      [ ['100'.to_d, '10.0'.to_d],
+        ['101'.to_d, '10.0'.to_d],
+        ['102'.to_d, '10.0'.to_d],
+        ['200'.to_d, '10.0'.to_d] ]
     end
 
     before do
@@ -20,15 +21,21 @@ describe OrderBid do
     end
 
     it "should require a little" do
-      OrderBid.new(volume: '5'.to_d).estimate_required_funds.should == '5'.to_d
+      OrderBid.new(volume: '5'.to_d, ord_type: 'market').compute_locked.should == '500'.to_d.mult_and_round(OrderBid::LOCKING_BUFFER_FACTOR)
     end
 
     it "should require more" do
-      OrderBid.new(volume: '35'.to_d).estimate_required_funds.should == '65'.to_d
+      OrderBid.new(volume: '25'.to_d, ord_type: 'market').compute_locked.should == '2520'.to_d.mult_and_round(OrderBid::LOCKING_BUFFER_FACTOR)
     end
 
     it "should raise error if the market is not deep enough" do
-      expect { OrderBid.new(volume: '100'.to_d).estimate_required_funds }.to raise_error
+      expect { OrderBid.new(volume: '50'.to_d, ord_type: 'market').compute_locked }.to raise_error
+    end
+
+    it "should raise error if volume is too large" do
+      expect { OrderBid.new(volume: '30'.to_d, ord_type: 'market').compute_locked }.not_to raise_error
+      expect { OrderBid.new(volume: '31'.to_d, ord_type: 'market').compute_locked }.to raise_error
     end
   end
+
 end

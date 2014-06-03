@@ -22,26 +22,9 @@ class OrderBid < Order
     when 'limit'
       price*volume
     when 'market'
-      estimate_required_funds.mult_and_round(LOCKING_BUFFER_FACTOR)
+      funds = estimate_required_funds(Global[currency].asks) {|p, v| p.mult_and_round(v) }
+      funds.mult_and_round(LOCKING_BUFFER_FACTOR)
     end
-  end
-
-  def estimate_required_funds
-    required_funds = Account::ZERO
-    expected_volume = volume
-
-    price_levels = Global[currency].asks
-
-    until expected_volume.zero? || price_levels.empty?
-      level_price, level_volume = price_levels.shift
-      v = [expected_volume, level_volume].min
-      required_funds += level_price.mult_and_round(v)
-      expected_volume -= v
-    end
-
-    raise "Market is not deep enough" unless expected_volume.zero?
-
-    required_funds
   end
 
 end

@@ -237,3 +237,18 @@ describe Order, "#avg_price" do
     Order.new(locked: '10.0', origin_locked: '20.0', volume: '1.0', origin_volume: '3.0').avg_price.should == '5'.to_d
   end
 end
+
+describe Order, "#estimate_required_funds" do
+  let(:price_levels) do
+    [ ['1.0'.to_d, '10.0'.to_d],
+      ['2.0'.to_d, '20.0'.to_d],
+      ['3.0'.to_d, '30.0'.to_d] ]
+  end
+
+  before do
+    global = Global.new('btccny')
+    global.stubs(:asks).returns(price_levels)
+    Global.stubs(:[]).returns(global)
+  end
+
+end
