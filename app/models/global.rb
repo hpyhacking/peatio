@@ -29,13 +29,13 @@ class Global
 
   def asks
     Rails.cache.fetch key('asks') do
-      OrderAsk.active.only_limit.with_currency(currency).matching_rule.position
+      OrderAsk.best_price(currency)
     end
   end
 
   def bids
     Rails.cache.fetch key('bids') do
-      OrderBid.active.only_limit.with_currency(currency).matching_rule.position
+      OrderBid.best_price(currency)
     end
   end
 
