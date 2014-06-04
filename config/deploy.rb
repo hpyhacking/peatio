@@ -14,8 +14,11 @@ set :without_admin, false
 case ENV['to']
 when 'demo'
   set :domain, 'demo.peat.io'
-when 'peatio-appsrv-02'
-  set :domain, 'peatio-appsrv-02'
+when 'peatio-admin-02'
+  set :domain, 'peatio-admin-02'
+when 'peatio-web-01'
+  set :domain, 'peatio-web-01'
+  set :without_admin, true
 else
   set :domain, 'stg.peat.io'
 end
@@ -127,5 +130,7 @@ desc 'delete admin'
 task :del_admin do
   queue! "rm -rf #{deploy_to}/current/app/controllers/admin"
   queue! "rm -rf #{deploy_to}/current/app/views/admin"
+  queue! "rm -rf #{deploy_to}/current/app/models/worker"
+  queue! "rm -rf #{deploy_to}/current/lib/daemons"
   queue! "sed -i '/draw\ :admin/d' #{deploy_to}/current/config/routes.rb"
 end
