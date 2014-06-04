@@ -23,19 +23,16 @@ Create (if it doesn’t already exist) a deploy user, and assign it to the sudo 
 
 Make sure your system is up-to-date and install it.
 
-    sudo apt-get update -y
-    sudo apt-get upgrade -y
-
-Install the required packages:
-
-    sudo apt-get install -y curl git-core
-
+    sudo apt-get update
+    sudo apt-get upgrade
 
 ## 2. Ruby
 
 Installing [rbenv](https://github.com/sstephenson/rbenv) using a Installer
 
-    sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties
+    sudo apt-get install git-core curl zlib1g-dev build-essential \
+                         libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 \
+                         libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties
 
     cd
     git clone git://github.com/sstephenson/rbenv.git .rbenv
@@ -62,10 +59,9 @@ Peatio supports the following databases:
 
 * MySQL (preferred)
 
-##### MySQL
+##### MariaDB
 
-    # Install the database packages
-    sudo apt-get install mariadb-server mariadb-client libmariadbclient-dev
+Please follow instructions here:  https://downloads.mariadb.org/mariadb/repositories/#mirror=nus&distro=Ubuntu&distro_release=trusty&version=10.0
 
 ## 4. Redis
 
