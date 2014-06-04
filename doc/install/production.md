@@ -57,7 +57,7 @@ Installing [rbenv](https://github.com/sstephenson/rbenv) using a Installer
 
 Peatio supports the following databases:
 
-* MySQL (preferred)
+* MariaDB (MySQL)
 
 ##### MariaDB
 
