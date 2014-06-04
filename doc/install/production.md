@@ -3,7 +3,7 @@ Overview
 
 The Peatio installation consists of setting up the following components:
 
-1. Packages / Dependencies
+1. Preparation
 2. Ruby
 3. Database
 4. Nginx
@@ -13,7 +13,7 @@ The Peatio installation consists of setting up the following components:
 8. Peatio
 
 
-## 1. Packages / Dependencies
+## 1. Preparation
 
 Create (if it doesn’t already exist) a deploy user, and assign it to the sudo group
 
@@ -21,7 +21,7 @@ Create (if it doesn’t already exist) a deploy user, and assign it to the sudo 
     usermod -a -G sudo deploy
     logout # and re-login as deploy user
 
-Make sure your system is up-to-date and install it.
+Make sure your system is up-to-date.
 
     sudo apt-get update
     sudo apt-get upgrade
@@ -62,6 +62,8 @@ Peatio supports the following databases:
 ##### MariaDB
 
 Please follow instructions here:  https://downloads.mariadb.org/mariadb/repositories/#mirror=nus&distro=Ubuntu&distro_release=trusty&version=10.0
+
+    sudo apt-get install mariadb-server mariadb-client libmariadbclient-dev
 
 ## 4. Redis
 
