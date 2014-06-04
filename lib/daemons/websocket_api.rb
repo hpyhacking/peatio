@@ -11,6 +11,7 @@ Dir.chdir(root)
 #require 'em-synchrony/mysql2'
 #require 'em-synchrony/activerecord'
 
+require 'socket'
 require File.join(root, "config", "environment")
 
 #db_config = Rails.configuration.database_configuration[Rails.env].merge(
@@ -47,6 +48,18 @@ EM.run do
     protocol = ::APIv2::WebSocketProtocol.new(ws, ch, logger)
 
     ws.onopen do
+      if ws.pingable?
+        port, ip = Socket.unpack_sockaddr_in(ws.get_peername)
+
+        EM.add_periodic_timer 10 do
+          ws.ping "#{ip}:#{port}"
+        end
+
+        ws.onpong do |message|
+          logger.debug "pong: #{message}"
+        end
+      end
+
       protocol.challenge
     end
 
