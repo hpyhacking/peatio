@@ -34,6 +34,7 @@ class Order < ActiveRecord::Base
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
   scope :position, -> { group("price").pluck(:price, 'sum(volume)') }
+  scope :only_limit, -> { where(ord_type: 'limit') }
 
   def fee
     config[kind.to_sym]["fee"]
