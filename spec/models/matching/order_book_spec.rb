@@ -38,14 +38,14 @@ describe Matching::OrderBook do
     it "should broadcast add event" do
       order = Matching.mock_limit_order(type: :ask)
 
-      AMQPQueue.expects(:enqueue).with(:order_processor, {action: 'add', order: {id: order.id}}, {persistent: false})
+      AMQPQueue.expects(:enqueue).with(:slave_book, {action: 'add', order: order.attributes}, {persistent: false})
       subject.add order
     end
 
     it "should not broadcast add event" do
       order = Matching.mock_limit_order(type: :ask)
 
-      AMQPQueue.expects(:enqueue).with(:order_processor, {action: 'add', order: {id: order.id}}, {persistent: false}).never
+      AMQPQueue.expects(:enqueue).with(:slave_book, {action: 'add', order: order.attributes}, {persistent: false}).never
       Matching::OrderBook.new(:ask, broadcast: false).add order
     end
   end

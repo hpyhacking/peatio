@@ -1,16 +1,16 @@
 module Matching
   class Engine
 
-    attr :ask_orders, :bid_orders
+    attr :orderbook
+    delegate :ask_orders, :bid_orders, to: :orderbook
 
-    def initialize(market, options={})
-      @market = market
-      @ask_orders = OrderBook.new(:ask)
-      @bid_orders = OrderBook.new(:bid)
+    def initialize(market)
+      @market    = market
+      @orderbook = OrderBookManager.new
     end
 
     def submit(order)
-      book, counter_book = get_books order.type
+      book, counter_book = orderbook.get_books order.type
       match order, counter_book
       add_or_cancel order, book
     rescue
@@ -19,7 +19,7 @@ module Matching
     end
 
     def cancel(order)
-      book, counter_book = get_books order.type
+      book, counter_book = orderbook.get_books order.type
       book.remove order
     rescue
       Rails.logger.fatal "Failed to cancel #{order}: #{$!}"
@@ -27,25 +27,16 @@ module Matching
     end
 
     def limit_orders
-      { ask: @ask_orders.limit_orders,
-        bid: @bid_orders.limit_orders }
+      { ask: ask_orders.limit_orders,
+        bid: bid_orders.limit_orders }
     end
 
     def market_orders
-      { ask: @ask_orders.market_orders,
-        bid: @bid_orders.market_orders }
+      { ask: ask_orders.market_orders,
+        bid: bid_orders.market_orders }
     end
 
     private
-
-    def get_books(type)
-      case type
-      when :ask
-        [@ask_orders, @bid_orders]
-      when :bid
-        [@bid_orders, @ask_orders]
-      end
-    end
 
     def match(order, counter_book)
       return if order.filled?

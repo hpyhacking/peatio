@@ -3,7 +3,7 @@ module Worker
 
     def process(payload, metadata, delivery_info)
       payload.symbolize_keys!
-      @order = build_order payload[:order]
+      @order = ::Matching::OrderBookManager.build_order payload[:order]
       send payload[:action]
     end
 
@@ -30,7 +30,7 @@ module Worker
         .where('id < ?', @order.id).order('id asc')
 
       orders.each do |order|
-        order = build_order order.to_matching_attributes
+        order = ::Matching::OrderBookManager.build_order order.to_matching_attributes
         engine.submit order
       end
     end
@@ -79,12 +79,6 @@ module Worker
 
         puts "#{id} market orderbook dumped to #{dump_file}."
       end
-    end
-
-    def build_order(attrs)
-      attrs.symbolize_keys!
-      klass = ::Matching.const_get "#{attrs[:ord_type]}_order".camelize
-      klass.new attrs
     end
 
   end

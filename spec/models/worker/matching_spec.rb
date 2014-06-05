@@ -8,13 +8,6 @@ describe Worker::Matching do
 
   subject { Worker::Matching.new }
 
-  context "#build_order" do
-    it "should build limit order" do
-      order = subject.build_order id: 1, market: 'btccny', ord_type: 'limit', type: 'ask', price: '1.0', volume: '1.0', timestamp: 12345
-      order.should be_instance_of(::Matching::LimitOrder)
-    end
-  end
-
   context "engines" do
     let(:attrs)  { create(:order_bid, currency: 'btccny').to_matching_attributes }
     let(:order)  { ::Matching::LimitOrder.new attrs }
@@ -74,6 +67,10 @@ describe Worker::Matching do
 
       AMQPQueue.expects(:enqueue)
         .with(:trade_executor, {market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '10.0'.to_d, funds: '40010'.to_d}, anything)
+      AMQPQueue.expects(:enqueue)
+        .with(:slave_book, {action: 'remove', order: existing.to_matching_attributes}, anything)
+      AMQPQueue.expects(:enqueue)
+        .with(:slave_book, {action: 'add', order: order.to_matching_attributes}, anything)
       subject.process({action: 'submit', order: order.to_matching_attributes}, {}, {})
     end
   end
@@ -99,6 +96,14 @@ describe Worker::Matching do
     let!(:ask4) { create(:order_ask, price: '4002', volume: '5.0', member: alice) }
     let!(:bid5) { create(:order_bid, price: '4003', volume: '3.0', member: bob) }
     let!(:bid6) { create(:order_bid, price: '4001', volume: '5.0', member: bob) }
+
+    let(:orderbook) { Matching::OrderBookManager.new(broadcast: false) }
+    let(:engine)    { Matching::Engine.new(market) }
+
+    before do
+      engine.stubs(:orderbook).returns(orderbook)
+      subject.stubs(:engines).returns({market.id => engine})
+    end
 
     it "should create many trades" do
       subject.process({action: 'submit', order: ask1.to_matching_attributes}, {}, {})

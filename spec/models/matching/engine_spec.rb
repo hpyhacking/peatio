@@ -8,7 +8,9 @@ describe Matching::Engine do
   let(:ask)    { Matching.mock_limit_order(type: :ask, price: price, volume: volume)}
   let(:bid)    { Matching.mock_limit_order(type: :bid, price: price, volume: volume)}
 
-  subject { Matching::Engine.new(market) }
+  let(:orderbook) { Matching::OrderBookManager.new(broadcast: false) }
+  subject         { Matching::Engine.new(market) }
+  before          { subject.stubs(:orderbook).returns(orderbook) }
 
   context "submit market order" do
     let(:bid)  { Matching.mock_limit_order(type: :bid, price: '0.1'.to_d, volume: '0.1'.to_d) }
