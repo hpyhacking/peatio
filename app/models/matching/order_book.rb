@@ -5,7 +5,8 @@ module Matching
 
     attr :side
 
-    def initialize(side, options={})
+    def initialize(market, side, options={})
+      @market = market
       @side   = side.to_sym
       @limit_orders = RBTree.new
       @market_orders = RBTree.new

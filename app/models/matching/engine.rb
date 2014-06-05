@@ -6,7 +6,7 @@ module Matching
 
     def initialize(market)
       @market    = market
-      @orderbook = OrderBookManager.new
+      @orderbook = OrderBookManager.new(market.id)
     end
 
     def submit(order)

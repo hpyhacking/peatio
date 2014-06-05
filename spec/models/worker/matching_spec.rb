@@ -97,7 +97,7 @@ describe Worker::Matching do
     let!(:bid5) { create(:order_bid, price: '4003', volume: '3.0', member: bob) }
     let!(:bid6) { create(:order_bid, price: '4001', volume: '5.0', member: bob) }
 
-    let(:orderbook) { Matching::OrderBookManager.new(broadcast: false) }
+    let(:orderbook) { Matching::OrderBookManager.new('btccny', broadcast: false) }
     let(:engine)    { Matching::Engine.new(market) }
 
     before do
