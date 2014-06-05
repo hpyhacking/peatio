@@ -15,6 +15,10 @@ class Trade < ActiveRecord::Base
 
   scope :h24, -> { where("created_at > ?", 24.hours.ago) }
 
+  attr_accessor :side
+
+  alias_method :sn, :id
+
   class << self
     def latest_price(currency)
       with_currency(currency).order(:id).reverse_order
@@ -32,10 +36,13 @@ class Trade < ActiveRecord::Base
     end
   end
 
-  attr_accessor :side
+  def self_trade?
+    ask_member_id == bid_member_id
+  end
 
-  def sn
-    "##{id}"
+  def trigger_notify
+    ask.member.notify 'trade', for_notify('ask')
+    bid.member.notify 'trade', for_notify('bid')
   end
 
   def for_notify(kind=nil)
@@ -49,11 +56,12 @@ class Trade < ActiveRecord::Base
   end
 
   def for_global
-    { tid:    id,
+    {
+      tid:    id,
       type:   trend == 'down' ? 'sell' : 'buy',
       date:   created_at.to_i,
       price:  price.to_s || ZERO,
-      amount: volume.to_s || ZERO }
+      amount: volume.to_s || ZERO
+    }
   end
-
 end
