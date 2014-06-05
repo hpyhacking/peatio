@@ -1,7 +1,7 @@
 doctype html
 html lang="en"
   head
-    link rel="shortcut icon" href="/favicon.png"
+    = favicon_link_tag 'favicon.ico'
     = include_gon
     - stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : "application"
     = stylesheet_link_tag stylesheet, media: "all"
