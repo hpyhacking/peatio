@@ -3,11 +3,9 @@ module Worker
 
     def process(payload, metadata, delivery_info)
       trade = Trade.find payload['id']
+      trade.trigger_notify
 
-      trade.ask.member.notify 'trade', trade.for_notify('ask')
-      trade.bid.member.notify 'trade', trade.for_notify('bid')
-
-      Global.new(metadata.headers['market']).trigger_trades([trade.for_global])
+      Global[trade.market].trigger_trades [trade.for_global]
     end
 
   end
