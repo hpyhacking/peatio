@@ -24,5 +24,9 @@ module Matching
       @orders.delete_if {|o| o.id == order.id }
     end
 
+    def find(id)
+      @orders.find {|o| o.id == id }
+    end
+
   end
 end

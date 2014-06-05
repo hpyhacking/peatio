@@ -33,6 +33,15 @@ module Matching
       remove order if order.filled?
     end
 
+    def find(order)
+      case order
+      when LimitOrder
+        @limit_orders[order.price].find(order.id)
+      when MarketOrder
+        @market_orders[order.id]
+      end
+    end
+
     def add(order)
       case order
       when LimitOrder
