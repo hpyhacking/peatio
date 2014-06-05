@@ -5,10 +5,12 @@ module Matching
 
     attr :side
 
-    def initialize(side)
+    def initialize(side, options={})
       @side   = side.to_sym
       @limit_orders = RBTree.new
       @market_orders = RBTree.new
+
+      @broadcast = options.has_key?(:broadcast) ? options[:broadcast] : true
 
       singleton = class<<self;self;end
       singleton.send :define_method, :limit_top, self.class.instance_method("#{@side}_limit_top")
@@ -37,7 +39,11 @@ module Matching
         @limit_orders[order.price].add order
       when MarketOrder
         @market_orders[order.id] = order
+      else
+        raise ArgumentError, "Unknown order type"
       end
+
+      broadcast 'add', order
     end
 
     def remove(order)
@@ -48,7 +54,11 @@ module Matching
         @limit_orders.delete(order.price) if price_level.empty?
       when MarketOrder
         @market_orders.delete order.id
+      else
+        raise ArgumentError, "Unknown order type"
       end
+
+      broadcast 'remove', order
     end
 
     def limit_orders
@@ -73,6 +83,17 @@ module Matching
       return if @limit_orders.empty?
       price, level = @limit_orders.last
       level.top
+    end
+
+    def broadcast(action, order, options={})
+      return unless @broadcast
+
+      Rails.logger.info "#{action} order ##{order.id} - #{options.inspect}"
+      AMQPQueue.enqueue(
+        :order_processor,
+        {action: action, order: {id: order.id}},
+        {persistent: false}
+      )
     end
 
   end

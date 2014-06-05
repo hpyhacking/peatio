@@ -34,6 +34,20 @@ describe Matching::OrderBook do
       subject.limit_orders.keys.should have(1).price_level
       subject.limit_orders.values.first.should == [o1, o2]
     end
+
+    it "should broadcast add event" do
+      order = Matching.mock_limit_order(type: :ask)
+
+      AMQPQueue.expects(:enqueue).with(:order_processor, {action: 'add', order: {id: order.id}}, {persistent: false})
+      subject.add order
+    end
+
+    it "should not broadcast add event" do
+      order = Matching.mock_limit_order(type: :ask)
+
+      AMQPQueue.expects(:enqueue).with(:order_processor, {action: 'add', order: {id: order.id}}, {persistent: false}).never
+      Matching::OrderBook.new(:ask, broadcast: false).add order
+    end
   end
 
   context "#remove" do
