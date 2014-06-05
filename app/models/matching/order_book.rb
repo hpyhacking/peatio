@@ -90,8 +90,8 @@ module Matching
 
       Rails.logger.info "#{action} order ##{order.id} - #{options.inspect}"
       AMQPQueue.enqueue(
-        :order_processor,
-        {action: action, order: {id: order.id}},
+        :slave_book,
+        {action: action, order: order.attributes},
         {persistent: false}
       )
     end

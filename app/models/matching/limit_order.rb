@@ -2,15 +2,16 @@ require_relative 'constants'
 
 module Matching
   class LimitOrder
-    attr :id, :timestamp, :type, :volume, :price, :market
+    attr :attributes, :id, :timestamp, :type, :volume, :price, :market
 
     def initialize(attrs)
-      @id        = attrs[:id]
-      @timestamp = attrs[:timestamp]
-      @type      = attrs[:type].to_sym
-      @volume    = attrs[:volume].to_d
-      @price     = attrs[:price].to_d
-      @market    = Market.find attrs[:market]
+      @attributes = attrs
+      @id         = attrs[:id]
+      @timestamp  = attrs[:timestamp]
+      @type       = attrs[:type].to_sym
+      @volume     = attrs[:volume].to_d
+      @price      = attrs[:price].to_d
+      @market     = Market.find attrs[:market]
 
       raise InvalidOrderError.new(attrs) unless valid?(attrs)
     end

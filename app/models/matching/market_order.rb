@@ -2,15 +2,16 @@ require_relative 'constants'
 
 module Matching
   class MarketOrder
-    attr :id, :timestamp, :type, :volume, :locked, :market
+    attr :attributes, :id, :timestamp, :type, :volume, :locked, :market
 
     def initialize(attrs)
-      @id          = attrs[:id]
-      @timestamp   = attrs[:timestamp]
-      @type        = attrs[:type].to_sym
-      @locked      = attrs[:locked].to_d
-      @volume      = attrs[:volume].to_d
-      @market      = Market.find attrs[:market]
+      @attributes = attrs
+      @id         = attrs[:id]
+      @timestamp  = attrs[:timestamp]
+      @type       = attrs[:type].to_sym
+      @locked     = attrs[:locked].to_d
+      @volume     = attrs[:volume].to_d
+      @market     = Market.find attrs[:market]
 
       raise ::Matching::InvalidOrderError.new(attrs) unless valid?(attrs)
     end
