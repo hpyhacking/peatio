@@ -14,11 +14,13 @@ set :without_admin, false
 case ENV['to']
 when 'demo'
   set :domain, 'demo.peat.io'
-when 'peatio-admin-02'
-  set :domain, 'peatio-admin-02'
+when 'peatio-daemon'
+  set :domain, 'peatio-daemon'
 when 'peatio-web-01'
   set :domain, 'peatio-web-01'
   set :without_admin, true
+when 'peatio-admin'
+  set :domain, 'peatio-admin'
 else
   set :domain, 'stg.peat.io'
 end
