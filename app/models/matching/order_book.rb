@@ -11,6 +11,7 @@ module Matching
       @market_orders = RBTree.new
 
       @broadcast = options.has_key?(:broadcast) ? options[:broadcast] : true
+      broadcast(action: 'new', market: @market, side: @side)
 
       singleton = class<<self;self;end
       singleton.send :define_method, :limit_top, self.class.instance_method("#{@side}_limit_top")
@@ -43,7 +44,7 @@ module Matching
         raise ArgumentError, "Unknown order type"
       end
 
-      broadcast 'add', order
+      broadcast(action: 'add', order: order.attributes)
     end
 
     def remove(order)
@@ -58,7 +59,7 @@ module Matching
         raise ArgumentError, "Unknown order type"
       end
 
-      broadcast 'remove', order
+      broadcast(action: 'remove', order: order.attributes)
     end
 
     def limit_orders
@@ -85,15 +86,10 @@ module Matching
       level.top
     end
 
-    def broadcast(action, order, options={})
+    def broadcast(data)
       return unless @broadcast
-
-      Rails.logger.info "#{action} order ##{order.id} - #{options.inspect}"
-      AMQPQueue.enqueue(
-        :slave_book,
-        {action: action, order: order.attributes},
-        {persistent: false}
-      )
+      Rails.logger.debug "orderbook broadcast: #{data.inspect}"
+      AMQPQueue.enqueue(:slave_book, data, {persistent: false})
     end
 
   end
