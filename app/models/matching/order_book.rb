@@ -30,7 +30,11 @@ module Matching
       raise "No top order in empty book." unless order
 
       order.fill trade_price, trade_volume, trade_funds
-      remove order if order.filled?
+      if order.filled?
+        remove order
+      else
+        broadcast(action: 'update', order: order.attributes)
+      end
     end
 
     def find(order)
