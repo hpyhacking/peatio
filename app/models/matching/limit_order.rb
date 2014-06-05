@@ -5,7 +5,7 @@ module Matching
     attr :attributes, :id, :timestamp, :type, :volume, :price, :market
 
     def initialize(attrs)
-      @attributes = attrs
+      @attributes = attrs.merge(ord_type: 'limit')
       @id         = attrs[:id]
       @timestamp  = attrs[:timestamp]
       @type       = attrs[:type].to_sym
