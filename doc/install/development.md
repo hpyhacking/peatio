@@ -4,7 +4,7 @@ Development [Mac and Linux]
 ## 1. Requirements
 
 * Linux / Mac OSX
-* Ruby 2.1.0, using [RVM](http://rvm.io/) or [rbenv](https://github.com/sstephenson/rbenv)
+* Ruby 2.1.2, using [RVM](http://rvm.io/) or [rbenv](https://github.com/sstephenson/rbenv)
 * MySQL
 * RabbitMQ
 * Redis
@@ -13,17 +13,17 @@ Development [Mac and Linux]
 
 ** More details are in the [requirements doc](doc/install/requirements.md)
 
-### reCAPTCHA
+#### reCAPTCHA
 
 Peatio use [reCAPTCHA](https://www.google.com/recaptcha) to make sure certain operations is not done by bots. A development key/secrect pair is provided in `config/application.yml` (uncomment to use). PLEASE USE IT IN DEVELOPMENT/TEST ENVIRONMENT ONLY!
 
-### Pusher
+#### Pusher
 
 Peatio depends on [Pusher](http://pusher.com). A development key/secret pair for development/test is provided in `config/application.yml` (uncomment to use). PLEASE USE IT IN DEVELOPMENT/TEST ENVIRONMENT ONLY!
 
 More details to visit [pusher official website](http://pusher.com)
 
-##### Install PhatomJS
+#### Install PhatomJS
 
 **For Mac**
 
@@ -40,6 +40,23 @@ binary.
 
 ** More details are in the [poltergeist](https://github.com/jonleighton/poltergeist/blob/master/README.md) doc.
 
+#### Install RabbitMQ
+
+**For Mac**
+
+    brew install rabbitmq
+
+**For Ubuntu**
+
+Please follow instructions here: https://www.rabbitmq.com/install-debian.html
+
+    # config rabbitmq
+    sudo rabbitmq-plugins enable rabbitmq_management
+    sudo service rabbitmq-server restart
+    wget http://localhost:15672/cli/rabbitmqadmin
+    chmod +x rabbitmqadmin
+    sudo mv rabbitmqadmin /usr/local/sbin
+
 
 ## 2. Bitcoind
 
@@ -47,7 +64,7 @@ binary.
 
 **For Mac**
 
-Download and Install [Bitcoin](http://bitcoin.org/en/download)
+Download and Install [Bitcoin Core](http://bitcoin.org/en/download)
 
 **For Ubuntu**
 
@@ -66,8 +83,8 @@ Insert the following lines into your bitcoin.conf, and replce with your username
 
     # If run on the test network instead of the real bitcoin network
     testnet=1
-    # Notify the Rails app when receiving coins
-    walletnotify=curl --data txid=%s http://localhost:3000/deposits/satoshis
+    # Notify when receiving coins
+    walletnotify=/usr/local/sbin/rabbitmqadmin publish routing_key=peatio.deposit.coin payload='{"txid":"%s", "channel_key":"satoshi"}'
 
 
 
@@ -84,7 +101,7 @@ Insert the following lines into your bitcoin.conf, and replce with your username
 
 **For Mac**
 
-    open /Applications/Bitcoin-Qt.app --args -server
+    open /Applications/Bitcoin-Qt.app
 
 **For Linux**
 

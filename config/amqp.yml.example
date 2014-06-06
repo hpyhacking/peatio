@@ -35,6 +35,8 @@ queue:
     name: peatio.withdraw.audit
   withdraw_coin:
     name: peatio.withdraw.coin
+  deposit_coin:
+    name: peatio.deposit.coin
   deposit_coin_address:
     name: peatio.deposit.coin.address
     durable: true
@@ -67,6 +69,8 @@ binding:
     queue: withdraw_audit
   withdraw_coin:
     queue: withdraw_coin
+  deposit_coin:
+    queue: deposit_coin
   deposit_coin_address:
     queue: deposit_coin_address
   email_notification:

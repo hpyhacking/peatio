@@ -21,7 +21,6 @@
     @select('authType').val('app')
     @select('smsHint').addClass('hide')
     @select('appHint').removeClass('hide')
-    @rememberLastSelecct('app')
 
   @switchToSms = ->
     @select('switchName').text @select('switchItemSms').text()
@@ -29,7 +28,6 @@
     @select('authType').val('sms')
     @select('smsHint').removeClass('hide')
     @select('appHint').addClass('hide')
-    @rememberLastSelecct('sms')
 
   @countDownSendCodeButton = ->
     origName  = @select('sendCodeButton').data('orig-name')
@@ -54,19 +52,7 @@
     @countDownSendCodeButton()
     $.get('/refresh_two_factors/sms')
 
-  @rememberLastSelecct = (type) ->
-    if localStorage
-      localStorage["two_factor_auth_type"] = ['app', 'sms'].indexOf(type)
-
-  @resumeLastSelect = (type) ->
-    if localStorage
-      index = parseInt(localStorage["two_factor_auth_type"] || '0')
-      switch index
-        when 0 then @switchToApp()
-        when 1 then @switchToSms()
-
   @after 'initialize', ->
     @on @select('switchItem'), 'click', @setActiveItem
     @on @select('sendCodeButton'), 'click', @sendCode
-    @resumeLastSelect()
 

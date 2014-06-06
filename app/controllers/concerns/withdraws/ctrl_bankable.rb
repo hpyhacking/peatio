@@ -63,8 +63,10 @@ module Withdraws
     end
 
     def two_factor_auth_verified?
+      return true if not current_user.two_factors.activated?
+
       two_factor = current_user.two_factors.by_type(params[:two_factor][:type])
-      return false unless two_factor
+      return false if not two_factor
 
       two_factor.assign_attributes params.require(:two_factor).permit(:otp)
       two_factor.verify

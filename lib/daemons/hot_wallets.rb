@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+# You might want to change this
 ENV["RAILS_ENV"] ||= "development"
 
 root = File.expand_path(File.dirname(__FILE__))
@@ -14,8 +15,8 @@ Signal.trap("TERM") do
 end
 
 while($running) do
-  Market.enumerize.each_key do |currency|
-    Global[currency].tap { |global| global.trigger_ticker }
+  Currency.all.each do |currency|
+    currency.refresh_balance if currency.coin?
   end
 
   sleep 5

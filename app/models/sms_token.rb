@@ -35,7 +35,7 @@ class SmsToken < Token
 
   def update_phone_number
     phone = Phonelib.parse(phone_number)
-    member.update phone_number: phone.sanitized.to_s
+    member.update phone_number: phone.international.to_s
   end
 
   def send_verify_code
