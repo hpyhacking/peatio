@@ -133,6 +133,25 @@ task :del_admin do
   queue! "rm -rf #{deploy_to}/current/app/controllers/admin"
   queue! "rm -rf #{deploy_to}/current/app/views/admin"
   queue! "rm -rf #{deploy_to}/current/app/models/worker"
-  queue! "rm -rf #{deploy_to}/current/lib/daemons"
+
+  [
+    'amqp_daemon.rb',
+    'coin_deposits.rb',
+    'coin_deposits_ctl',
+    'deposit_coin_address_ctl',
+    'global_state.rb',
+    'global_state_ctl',
+    'hot_wallets.rb',
+    'hot_wallets_ctl',
+    'matching_ctl',
+    'notification_ctl',
+    'pusher_ctl',
+    'trade_executor_ctl',
+    'withdraw_audit_ctl',
+    'withdraw_coin_ctl'
+  ].each do |filename|
+    queue! "rm -rf #{deploy_to}/current/lib/daemons/#{filename}"
+  end
+
   queue! "sed -i '/draw\ :admin/d' #{deploy_to}/current/config/routes.rb"
 end
