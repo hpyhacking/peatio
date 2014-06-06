@@ -28,15 +28,11 @@ class Global
   end
 
   def asks
-    Rails.cache.fetch key('asks') do
-      OrderAsk.best_price(currency)
-    end
+    Rails.cache.read "peatio:#{currency}:depth:asks"
   end
 
   def bids
-    Rails.cache.fetch key('bids') do
-      OrderBid.best_price(currency)
-    end
+    Rails.cache.read "peatio:#{currency}:depth:bids"
   end
 
   def ticker
