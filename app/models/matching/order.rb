@@ -6,7 +6,7 @@ module Matching
 
     ZERO = 0.to_d
 
-    attr :id, :timestamp, :type, :volume, :price, :market
+    attr :id, :timestamp, :type, :ord_type, :volume, :price, :market
 
     def initialize(attrs)
       attrs.symbolize_keys!
@@ -14,6 +14,7 @@ module Matching
       @id        = attrs[:id]
       @timestamp = attrs[:timestamp]
       @type      = attrs[:type].try(:to_sym)
+      @ord_type  = attrs[:ord_type]
       @volume    = attrs[:volume].try(:to_d)
       @price     = attrs[:price].try(:to_d)
       @market    = Market.find attrs[:market]
@@ -21,22 +22,25 @@ module Matching
       raise InvalidOrderError.new(attrs) unless valid?(attrs)
     end
 
-    def <=>(other)
-      price_compare = price <=> other.price
-      return price_compare unless price_compare == 0
-
-      time_compare = timestamp <=> other.timestamp
-      return time_compare unless time_compare == 0
-
-      id <=> other.id
+    def fill(v)
+      raise "Not enough volume to fill" if v > @volume
+      @volume -= v
     end
 
-    def equal?(other)
-      id == other.id
+    def crossed?(price)
+      if type == :ask
+        price >= @price # if people offer price higher or equal than ask limit
+      else
+        price <= @price # if people offer price lower or equal than bid limit
+      end
     end
 
     def to_s
       "#{@type}:#{id}/#{volume}/#{price}"
+    end
+
+    def label
+      "%d/$%.02f/%.04f" % [id, price, volume]
     end
 
     private

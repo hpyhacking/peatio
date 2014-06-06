@@ -1,5 +1,5 @@
 ul#menu.nav.navbar-nav.navbar-left
-  = top_nav(t('header.market'), market_path(latest_market), 'exchange', market_links)
+  = top_nav(t('header.market'), market_path(current_market), 'exchange', market_links)
   = top_nav_link(t('header.deposit'), deposits_path, 'credit-card', controllers: ['deposits'])
   = top_nav_link(t('header.withdraw'), withdraws_path, 'money', controllers: ['withdraws'])
   = top_nav_link(t('header.assets'), exchange_assets_path, 'bar-chart-o')

@@ -14,9 +14,11 @@ namespace :solvency do
       puts "\n*** Start #{type} liability proof generation ***"
       accounts = Account.with_currency(type).includes(:member)
       formatted_accounts = accounts.map do |account|
-        { 'user'    => account.member.sn,
+        { 'user'    => account.member.email,
           'balance' => account.balance + account.locked }
       end
+
+      next if formatted_accounts.empty?
 
       tree = LiabilityProof::Tree.new formatted_accounts, currency: type.upcase
 
@@ -26,9 +28,9 @@ namespace :solvency do
 
       puts "Generating partial trees .."
       accounts.each do |acct|
-        json = tree.partial_json(acct.member.sn)
+        json = tree.partial_json(acct.member.email)
         sum  = tree.last_user_node['sum']
-        acct.partial_trees.create! sum: sum, proof: proof, json: tree.partial_json(acct.member.sn)
+        acct.partial_trees.create! sum: sum, proof: proof, json: tree.partial_json(acct.member.email)
       end
       puts "#{accounts.size} partial trees generated."
 

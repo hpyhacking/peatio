@@ -3,7 +3,6 @@ require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
 require 'mina/slack/tasks'
-require 'mina/whenever'
 
 set :repository, 'git@github.com:peatio/peatio_beijing.git'
 set :user, 'deploy'
@@ -39,6 +38,8 @@ set :shared_paths, [
   'tmp',
   'log'
 ]
+
+set :unicorn_pid, lambda { "#{deploy_to}/#{shared_path}/tmp/pids/unicorn.pid" }
 
 task :environment do
   invoke :'rbenv:load'

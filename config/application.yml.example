@@ -5,7 +5,6 @@ defaults: &defaults
   # admin role account
   URL_HOST: peatio.dev
   URL_SCHEMA: http
-  DEFAULT_MARKET: btccny
   SESSION_EXPIRE: 120
   API_WHITELIST: []
   ADMIN: 'admin@peatio.dev,admin@example.com'

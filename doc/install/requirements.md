@@ -64,7 +64,14 @@ If you run bitcoind at local, the necessary hard drive space largely depends on 
 
 **Install RabbitMQ**
 
-You can find instructions here: https://www.rabbitmq.com/download.html
+    # You can find instructions here: https://www.rabbitmq.com/install-debian.html
+
+    # configure rabbitmq after install
+    sudo rabbitmq-plugins enable rabbitmq_management
+    sudo service rabbitmq-server restart
+    wget http://localhost:15672/cli/rabbitmqadmin
+    chmod +x rabbitmqadmin
+    sudo mv rabbitmqadmin /usr/local/sbin
 
 **Install PhantomJS**
 

@@ -83,16 +83,16 @@ class Withdraw < ActiveRecord::Base
   end
 
   aasm :whiny_transitions => false do
-    state :submitting, initial: true
-    state :submitted, after_commit: :audit
-    state :canceled, after_commit: :send_email
+    state :submitting,  initial: true
+    state :submitted,   after_commit: :audit
+    state :canceled,    after_commit: :send_email
     state :accepted
-    state :suspect, after_commit: :send_email
-    state :rejected, after_commit: :send_email
-    state :processing, after_commit: :send_coins!
+    state :suspect,     after_commit: :send_email
+    state :rejected,    after_commit: :send_email
+    state :processing,  after_commit: :send_coins!
     state :almost_done
-    state :done, after_commit: :send_email
-    state :failed, after_commit: :send_email
+    state :done,        after_commit: :send_email
+    state :failed,      after_commit: :send_email
 
     event :submit do
       transitions from: :submitting, to: :submitted
@@ -117,7 +117,7 @@ class Withdraw < ActiveRecord::Base
     end
 
     event :reject do
-      transitions from: [:accepted, :processing], to: :rejected
+      transitions from: [:submitted, :accepted, :processing], to: :rejected
       after :unlock_funds
     end
 
