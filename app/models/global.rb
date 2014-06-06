@@ -28,15 +28,19 @@ class Global
   end
 
   def asks
-    Rails.cache.read "peatio:#{currency}:depth:asks"
+    Rails.cache.read("peatio:#{currency}:depth:asks") || []
   end
 
   def bids
-    Rails.cache.read "peatio:#{currency}:depth:bids"
+    Rails.cache.read("peatio:#{currency}:depth:bids") || []
+  end
+
+  def default_ticker
+    {low: ZERO, high: ZERO, last: ZERO, volume: ZERO}
   end
 
   def ticker
-    ticker          = Rails.cache.read "peatio:#{currency}:ticker"
+    ticker          = Rails.cache.read("peatio:#{currency}:ticker") || default_ticker
     best_buy_price  = bids.first && bids.first[0] || ZERO
     best_sell_price = asks.first && asks.first[0] || ZERO
 
@@ -48,7 +52,7 @@ class Global
   end
 
   def trades
-    Rails.cache.read "peatio:#{currency}:trades"
+    Rails.cache.read("peatio:#{currency}:trades") || []
   end
 
   def since_trades(id)

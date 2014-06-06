@@ -21,6 +21,8 @@ feature 'show account info', js: true do
   let!(:bid_order) { create :order_bid, price: '21.3' }
   let!(:ask_name) { I18n.t('currency.name.btc') }
 
+  let(:global) { Global[Market.find('btccny')] }
+
   scenario 'user can place a buy order by filling in the order form' do
     login identity
     click_on I18n.t('header.market')
@@ -54,6 +56,10 @@ feature 'show account info', js: true do
   end
 
   scenario 'user can fill order form by clicking on an existing orders in the order book' do
+    global.stubs(:asks).returns([[ask_order.price, ask_order.volume]])
+    global.stubs(:bids).returns([[bid_order.price, bid_order.volume]])
+    Global.stubs(:[]).returns(global)
+
     login identity
     click_on I18n.t('header.market')
 

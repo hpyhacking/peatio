@@ -37,13 +37,17 @@ module Worker
 
     def initialize_market_data(market)
       trades = Trade.with_currency(market)
+
       @trades[market.id] = trades.order('id desc').limit(FRESH_TRADES).map(&:for_global)
+      Rails.cache.write "peatio:#{market.id}:trades", @trades[market.id]
+
       @tickers[market.id] = {
         low:    trades.h24.minimum(:price) || ::Trade::ZERO,
         high:   trades.h24.maximum(:price) || ::Trade::ZERO,
         last:   trades.last.try(:price)    || ::Trade::ZERO,
         volume: trades.h24.sum(:volume)    || ::Trade::ZERO
       }
+      Rails.cache.write "peatio:#{market.id}:ticker", @tickers[market.id]
     end
 
   end
