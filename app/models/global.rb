@@ -48,10 +48,7 @@ class Global
   end
 
   def trades
-    Rails.cache.fetch key('trades') do
-      @trades = Trade.with_currency(currency).order(:id).reverse_order.limit(LIMIT)
-      @trades.map(&:for_global)
-    end
+    Rails.cache.read "peatio:#{currency}:trades"
   end
 
   def since_trades(id)
