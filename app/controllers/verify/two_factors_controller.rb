@@ -36,7 +36,7 @@ module Verify
       session[:member_id] = member_id
       send_signin_notification
       if current_user.activated? and (current_user.id_document and current_user.id_document_verified?)
-        redirect_to market_path(latest_market)
+        redirect_to market_path(current_market)
       else
         redirect_to settings_path
       end
