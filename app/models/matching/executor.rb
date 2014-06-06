@@ -19,7 +19,7 @@ module Matching
 
       AMQPQueue.publish(
         :trade,
-        { id: trade.id },
+        trade.as_json,
         { headers: {
             market: @market.id,
             ask_member_id: @ask.member_id,

@@ -25,6 +25,8 @@ queue:
   order_processor:
     name: peatio.order.processor
     durable: true
+  market_ticker:
+    name: peatio.trade.market_ticker
   pusher_market:
     name: peatio.pusher.market
   pusher_member:
@@ -53,6 +55,9 @@ binding:
     queue: new_trade
   order_processor:
     queue: order_processor
+  market_ticker:
+    queue: market_ticker
+    exchange: trade
   pusher_market:
     queue: pusher_market
     exchange: trade
