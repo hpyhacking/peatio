@@ -36,17 +36,8 @@ module Worker
 
     def cache_book
       @managers.keys.each do |market|
-        ask_depth = get_depth market, :ask
-        Rails.cache.write "peatio:#{market}:depth:asks", ask_depth
-
-        best_sell_price = ask_depth.first.try(:first)
-        Rails.cache.write "peatio:#{market}:ticker:sell", best_sell_price
-
-        bid_depth = get_depth market, :bid
-        Rails.cache.write "peatio:#{market}:depth:bids", bid_depth
-
-        best_buy_price = bid_depth.first.try(:first)
-        Rails.cache.write "peatio:#{market}:ticker:buy", best_buy_price
+        Rails.cache.write "peatio:#{market}:depth:asks", get_depth(market, :ask)
+        Rails.cache.write "peatio:#{market}:depth:bids", get_depth(market, :bid)
       end
     end
 

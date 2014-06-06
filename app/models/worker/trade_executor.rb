@@ -28,13 +28,7 @@ module Worker
       ticker[:last]    = trade.price
       ticker[:volume] += trade.volume
 
-      cache_ticker(trade.market.id, ticker)
-    end
-
-    def cache_ticker(market, ticker)
-      [:low, :high, :last, :volume].each do |k|
-        Rails.cache.write "peatio:#{market}:ticker:#{k}",    ticker[k]
-      end
+      Rails.cache.write "peatio:#{trade.market.id}:ticker", ticker
     end
 
   end
