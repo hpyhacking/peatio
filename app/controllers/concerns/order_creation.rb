@@ -21,6 +21,7 @@ module Concerns
         render status: 200, json: success_result
       rescue
         Rails.logger.warn "Member id=#{current_user.id} failed to submit order: #{$!}"
+        Rails.logger.warn params.inspect
         Rails.logger.warn $!.backtrace[0,20].join("\n")
         render status: 500, json: error_result(@order.errors)
       end
