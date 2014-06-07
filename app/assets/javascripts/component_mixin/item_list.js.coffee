@@ -11,7 +11,7 @@
 
   @addOrUpdateItem = (item) ->
     template = @getTemplate(item)
-    existsItem = @select('tbody').find("tr[data-id=#{item.id}-#{item.kind}]")
+    existsItem = @select('tbody').find("tr[data-id=#{item.id}][data-kind=#{item.kind}]")
 
     if existsItem.length
       existsItem.html template.html()
