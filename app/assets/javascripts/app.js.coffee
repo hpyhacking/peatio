@@ -53,7 +53,7 @@ $ ->
   # if gon.env is 'development'
   #   Pusher.log = (message) -> window.console && console.log(message)
 
-  pusher = new Pusher(gon.pusher_key, {encrypted: true})
+  pusher = new Pusher gon.pusher_key, gon.pusher_options
   pusher.connection.bind 'state_change', (state) ->
     if state.current is 'unavailable'
       $('#markets-show .pusher-unavailable').removeClass('hide')
