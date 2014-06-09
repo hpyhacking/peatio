@@ -9,6 +9,7 @@ set :user, 'deploy'
 set :deploy_to, '/home/deploy/peatio'
 set :branch, ENV['branch'] || 'master'
 set :without_admin, false
+set :without_daemons, false
 
 case ENV['to']
 when 'demo'
@@ -20,6 +21,7 @@ when 'peatio-web-01'
   set :without_admin, true
 when 'peatio-admin'
   set :domain, 'peatio-admin'
+  set :without_daemons, true
 else
   set :domain, 'stg.peat.io'
 end
@@ -76,6 +78,7 @@ task deploy: :environment do
 
     to :launch do
       invoke :del_admin if without_admin
+      invoke :del_daemons if without_daemons
       invoke :'unicorn:restart'
     end
   end
@@ -149,10 +152,18 @@ task :del_admin do
     'pusher_ctl',
     'trade_executor_ctl',
     'withdraw_audit_ctl',
-    'withdraw_coin_ctl'
+    'withdraw_coin_ctl',
+    'payment_transaction_ctl',
+    'payment_transaction.rb',
+    'deposit_coin_ctl'
   ].each do |filename|
     queue! "rm -rf #{deploy_to}/current/lib/daemons/#{filename}"
   end
 
   queue! "sed -i '/draw\ :admin/d' #{deploy_to}/current/config/routes.rb"
+end
+
+desc 'delete daemons'
+task :del_daemons do
+  queue! "rm -rf #{deploy_to}/current/lib/daemons"
 end
