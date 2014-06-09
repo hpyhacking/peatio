@@ -2,17 +2,28 @@ module Worker
   class Matching
 
     def process(payload, metadata, delivery_info)
-      payload.symbolize_keys!
-      @order = ::Matching::Order.new payload[:order]
-      send payload[:action]
+      @payload = payload.symbolize_keys
+      send @payload[:action]
     end
 
     def submit
+      @order = ::Matching::Order.new @payload[:order]
       engine.submit @order
     end
 
     def cancel
+      @order = ::Matching::Order.new @payload[:order]
       engine.cancel @order
+    end
+
+    def reload
+      if @payload[:market] == 'all'
+        @engines = {}
+        Rails.logger.info "All engines reloaded."
+      else
+        engines.delete @payload[:market]
+        Rails.logger.info "#{@payload[:market]} engine reloaded."
+      end
     end
 
     def engine
