@@ -2,10 +2,7 @@ module Worker
   class Matching
 
     def initialize
-      Market.all.each do |market|
-        create_engine market
-        load_orders market
-      end
+      reload 'all'
     end
 
     def process(payload, metadata, delivery_info)
@@ -33,16 +30,21 @@ module Worker
 
     def reload(market)
       if market == 'all'
-        @engines = {}
+        Market.all.each {|market| initialize_engine market }
         Rails.logger.info "All engines reloaded."
       else
-        engines.delete market
+        initialize_engine market
         Rails.logger.info "#{market} engine reloaded."
       end
     end
 
     def build_order(attrs)
       ::Matching::OrderBookManager.build_order attrs
+    end
+
+    def initialize_engine(market)
+      create_engine market
+      load_orders market
     end
 
     def create_engine(market)
