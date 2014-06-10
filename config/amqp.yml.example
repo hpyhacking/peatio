@@ -19,6 +19,7 @@ queue:
     durable: true
   slave_book:
     name: peatio.orderbook.slave
+    durable: true
   new_trade:
     name: peatio.trade.new
     durable: true
