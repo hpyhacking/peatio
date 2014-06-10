@@ -2,7 +2,7 @@ module Worker
   class Matching
 
     def initialize
-      @loaded_to = {}
+      @submitted = {}
       Market.all.each do |market|
         create_engine market
         load_orders market
@@ -25,12 +25,15 @@ module Worker
     end
 
     def submit(order)
-      return unless order
-      engines[order.market.id].submit(order)
+      if already_submitted?(order)
+        Rails.logger.info "Order##{order.id} already submitted."
+      else
+        engines[order.market.id].submit(order)
+        @submitted[order.market.id] = order.id
+      end
     end
 
     def cancel(order)
-      return unless order
       engines[order.market.id].cancel(order)
     end
 
@@ -45,18 +48,12 @@ module Worker
     end
 
     def build_order(attrs)
-      order = ::Matching::OrderBookManager.build_order attrs
-      if already_loaded?(order)
-        Rails.logger.info "Order##{order.id} already loaded."
-        nil
-      else
-        order
-      end
+      ::Matching::OrderBookManager.build_order attrs
     end
 
-    def already_loaded?(order)
-      return false unless @loaded_to[order.market.id]
-      order.id <= @loaded_to[order.market.id]
+    def already_submitted?(order)
+      return false unless @submitted[order.market.id]
+      order.id <= @submitted[order.market.id]
     end
 
     def create_engine(market)
@@ -64,14 +61,9 @@ module Worker
     end
 
     def load_orders(market)
-      orders = ::Order.active.with_currency(market.id).order('id asc')
-
-      orders.each do |order|
-        order = ::Matching::OrderBookManager.build_order order.to_matching_attributes
-        engines[market.id].submit order
+      ::Order.active.with_currency(market.id).order('id asc').each do |order|
+        submit build_order(order.to_matching_attributes)
       end
-
-      @loaded_to[market.id] = orders.last.try(:id)
     end
 
     def engines
