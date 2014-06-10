@@ -2,7 +2,6 @@ module Worker
   class Matching
 
     def initialize
-      @submitted = {}
       Market.all.each do |market|
         create_engine market
         load_orders market
@@ -25,12 +24,7 @@ module Worker
     end
 
     def submit(order)
-      if already_submitted?(order)
-        Rails.logger.info "Order##{order.id} already submitted."
-      else
-        engines[order.market.id].submit(order)
-        @submitted[order.market.id] = order.id
-      end
+      engines[order.market.id].submit(order)
     end
 
     def cancel(order)
@@ -49,11 +43,6 @@ module Worker
 
     def build_order(attrs)
       ::Matching::OrderBookManager.build_order attrs
-    end
-
-    def already_submitted?(order)
-      return false unless @submitted[order.market.id]
-      order.id <= @submitted[order.market.id]
     end
 
     def create_engine(market)
