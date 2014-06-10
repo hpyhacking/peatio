@@ -1,19 +1,27 @@
 module Worker
   class Matching
 
+    def initialize
+      @loaded_to = {}
+      Market.all.each do |market|
+        create_engine market
+        load_orders market
+      end
+    end
+
     def process(payload, metadata, delivery_info)
       @payload = payload.symbolize_keys
       send @payload[:action]
     end
 
     def submit
-      @order = ::Matching::OrderBookManager.build_order @payload[:order]
-      engine.submit @order
+      order = build_order @payload[:order]
+      engines[order.market.id].submit(order) if order
     end
 
     def cancel
-      @order = ::Matching::OrderBookManager.build_order @payload[:order]
-      engine.cancel @order
+      order = build_order @payload[:order]
+      engines[order.market.id].cancel(order) if order
     end
 
     def reload
@@ -26,24 +34,34 @@ module Worker
       end
     end
 
-    def engine
-      engines[@order.market.id] ||= create_engine
+    def build_order(attrs)
+      order = ::Matching::OrderBookManager.build_order attrs
+      if already_loaded?(order)
+        Rails.logger.info "Order##{order.id} already loaded."
+        nil
+      else
+        order
+      end
     end
 
-    def create_engine
-      engine = ::Matching::Engine.new(@order.market)
-      load_orders(engine) unless ENV['FRESH'] == '1'
-      engine
+    def already_loaded?(order)
+      return false unless @loaded_to[order.market.id]
+      order.id <= @loaded_to[order.market.id]
     end
 
-    def load_orders(engine)
-      orders = ::Order.active.with_currency(@order.market.id)
-        .where('id < ?', @order.id).order('id asc')
+    def create_engine(market)
+      engines[market.id] = ::Matching::Engine.new(market)
+    end
+
+    def load_orders(market)
+      orders = ::Order.active.with_currency(market.id).order('id asc')
 
       orders.each do |order|
         order = ::Matching::OrderBookManager.build_order order.to_matching_attributes
-        engine.submit order
+        engines[market.id].submit order
       end
+
+      @loaded_to[market.id] = orders.last.try(:id)
     end
 
     def engines
