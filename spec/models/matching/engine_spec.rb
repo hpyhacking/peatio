@@ -13,10 +13,10 @@ describe Matching::Engine do
   before          { subject.stubs(:orderbook).returns(orderbook) }
 
   context "submit market order" do
-    let(:bid)  { Matching.mock_limit_order(type: :bid, price: '0.1'.to_d, volume: '0.1'.to_d) }
-    let(:ask1) { Matching.mock_limit_order(type: :ask, price: '1.0'.to_d, volume: '1.0'.to_d) }
-    let(:ask2) { Matching.mock_limit_order(type: :ask, price: '2.0'.to_d, volume: '1.0'.to_d) }
-    let(:ask3) { Matching.mock_limit_order(type: :ask, price: '3.0'.to_d, volume: '1.0'.to_d) }
+    let!(:bid)  { Matching.mock_limit_order(type: :bid, price: '0.1'.to_d, volume: '0.1'.to_d) }
+    let!(:ask1) { Matching.mock_limit_order(type: :ask, price: '1.0'.to_d, volume: '1.0'.to_d) }
+    let!(:ask2) { Matching.mock_limit_order(type: :ask, price: '2.0'.to_d, volume: '1.0'.to_d) }
+    let!(:ask3) { Matching.mock_limit_order(type: :ask, price: '3.0'.to_d, volume: '1.0'.to_d) }
 
     it "should fill the market order completely" do
       mo = Matching.mock_market_order(type: :bid, locked: '6.0'.to_d, volume: '2.4'.to_d)
@@ -75,6 +75,14 @@ describe Matching::Engine do
   end
 
   context "submit limit order" do
+    context "double submit" do
+      it "should ignore double submitted order" do
+        subject.submit(ask)
+        subject.submit(ask)
+        subject.ask_orders.limit_orders.values.first.should == [ask]
+      end
+    end
+
     context "fully match incoming order" do
       it "should execute trade" do
         AMQPQueue.expects(:enqueue)
