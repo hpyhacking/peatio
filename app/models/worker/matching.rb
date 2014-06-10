@@ -10,27 +10,37 @@ module Worker
     end
 
     def process(payload, metadata, delivery_info)
-      @payload = payload.symbolize_keys
-      send @payload[:action]
+      payload.symbolize_keys!
+
+      case payload[:action]
+      when 'submit'
+        submit build_order(payload[:order])
+      when 'cancel'
+        cancel build_order(payload[:order])
+      when 'reload'
+        reload payload[:market]
+      else
+        Rails.logger.fatal "Unknown action: #{payload[:action]}"
+      end
     end
 
-    def submit
-      order = build_order @payload[:order]
-      engines[order.market.id].submit(order) if order
+    def submit(order)
+      return unless order
+      engines[order.market.id].submit(order)
     end
 
-    def cancel
-      order = build_order @payload[:order]
-      engines[order.market.id].cancel(order) if order
+    def cancel(order)
+      return unless order
+      engines[order.market.id].cancel(order)
     end
 
-    def reload
-      if @payload[:market] == 'all'
+    def reload(market)
+      if market == 'all'
         @engines = {}
         Rails.logger.info "All engines reloaded."
       else
-        engines.delete @payload[:market]
-        Rails.logger.info "#{@payload[:market]} engine reloaded."
+        engines.delete market
+        Rails.logger.info "#{market} engine reloaded."
       end
     end
 
