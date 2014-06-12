@@ -28,15 +28,11 @@ class Global
   end
 
   def asks
-    Rails.cache.fetch key('asks') do
-      OrderAsk.active.with_currency(currency).matching_rule.position
-    end
+    OrderAsk.active.with_currency(currency).matching_rule.position
   end
 
   def bids
-    Rails.cache.fetch key('bids') do
-      OrderBid.active.with_currency(currency).matching_rule.position
-    end
+    OrderBid.active.with_currency(currency).matching_rule.position
   end
 
   def ticker
