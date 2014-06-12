@@ -8,6 +8,8 @@ html lang="en"
     = render 'shared/html5'
     = render 'shared/meta'
     = csrf_meta_tags
+    = render 'shared/mixpanel'
+
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
     #wrap
       = render 'shared/browser'

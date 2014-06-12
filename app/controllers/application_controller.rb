@@ -99,6 +99,7 @@ class ApplicationController < ActionController::Base
   end
 
   def mixpanel_track(action, *args)
+    return unless ENV['MIXPANEL_TOKEN'].present?
     mixpanel_tracker.send action, mixpanel_cookie, *args
   end
 

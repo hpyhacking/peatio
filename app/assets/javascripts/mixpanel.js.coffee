@@ -1,5 +1,3 @@
-setupMixpanel = ->
-  $ ->
-    mixpanel.track(location.pathname)
-
-setupMixpanel()
+$ ->
+  return unless mixpanel?
+  mixpanel.track(location.pathname)
