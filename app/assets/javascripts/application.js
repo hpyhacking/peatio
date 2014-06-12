@@ -21,6 +21,7 @@
 //= require fund_source
 //= require jquery.mousewheel
 //= require qrcode
+//= require mixpanel
 
 //= require_tree ./component_mixin
 //= require_tree ./component_data
