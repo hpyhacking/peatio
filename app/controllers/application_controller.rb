@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     }
 
     if current_user
-      gon.current_user = {:sn => current_user.sn}
+      gon.current_user = {sn: current_user.sn, email: current_user.email}
     end
   end
 
