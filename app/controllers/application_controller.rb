@@ -76,6 +76,7 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
   def set_language
     cookies[:lang] = params[:lang] unless params[:lang].blank?
     I18n.locale = cookies[:lang] || http_accept_language.compatible_language_from(I18n.available_locales)
@@ -88,4 +89,17 @@ class ApplicationController < ActionController::Base
   def coin_rpc_connection_refused
     render 'errors/connection'
   end
+
+  def mixpanel_cookie
+    JSON.parse cookies["mp_#{ENV['MIXPANEL_TOKEN']}_mixpanel"]
+  end
+
+  def mixpanel_tracker
+    @mixpanel_tracker ||= MixpanelTracker.new ENV['MIXPANEL_TOKEN']
+  end
+
+  def mixpanel_track(action, *args)
+    mixpanel_tracker.send action, mixpanel_cookie, *args
+  end
+
 end

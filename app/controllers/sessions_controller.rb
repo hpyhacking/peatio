@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
   def create
     @member = Member.from_auth(env["omniauth.auth"])
     session[:temp_member_id] = @member.id
+    mixpanel_track :signin, @member
     redirect_to new_verify_two_factor_path
   end
 
