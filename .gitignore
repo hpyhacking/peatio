@@ -39,3 +39,4 @@ tmp
 /vendor/bundle
 .env
 .ruby-version
+config/locales/compiled

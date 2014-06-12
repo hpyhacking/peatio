@@ -4,6 +4,7 @@ gem 'rails'
 gem 'rails-i18n'
 
 gem 'mysql2'
+gem 'sqlite3'
 gem 'daemons-rails'
 gem 'redis-rails'
 
