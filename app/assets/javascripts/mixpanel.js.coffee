@@ -1,7 +1,8 @@
 previous_path = ->
   return unless document.referrer?
   url = document.referrer
-  url.match(/:\/\/(.[^/]+)(.+)/)[2]
+  result = url.match(/:\/\/(.[^/]+)(.+)/)
+  result[2] if result?
 
 $ ->
   return unless mixpanel?
