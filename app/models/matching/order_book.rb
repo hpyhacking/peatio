@@ -48,6 +48,8 @@ module Matching
     end
 
     def add(order)
+      raise InvalidOrderError, "volume is zero" if order.volume <= ZERO
+
       case order
       when LimitOrder
         @limit_orders[order.price] ||= PriceLevel.new(order.price)

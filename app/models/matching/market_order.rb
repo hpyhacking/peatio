@@ -54,7 +54,7 @@ module Matching
     def valid?(attrs)
       return false unless [:ask, :bid].include?(type)
       return false if attrs[:price].present? # should have no limit price
-      id && timestamp && market && volume > ZERO && locked > ZERO
+      id && timestamp && market && locked > ZERO
     end
 
     def attributes

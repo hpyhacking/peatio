@@ -19,6 +19,12 @@ describe Matching::OrderBook do
   context "#add" do
     subject { Matching::OrderBook.new('btccny', :ask) }
 
+    it "should reject invalid order whose volume is zero" do
+      expect {
+        subject.add Matching.mock_limit_order(type: :ask, volume: '0.0'.to_d)
+      }.to raise_error(::Matching::InvalidOrderError)
+    end
+
     it "should add market order" do
       subject.add Matching.mock_limit_order(type: :ask)
 
