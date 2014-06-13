@@ -41,4 +41,17 @@ describe Worker::SlaveBook do
     end
   end
 
+  context "#process" do
+    it "should remove an empty order" do
+      subject.process({action: 'add', order: low_ask.attributes}, {}, {})
+      subject.get_depth('btccny', :ask).should_not be_empty
+
+      # after matching, order volume could be ZERO
+      attrs = low_ask.attributes.merge(volume: '0.0'.to_d)
+      subject.process({action: 'remove', order: attrs}, {}, {})
+
+      subject.get_depth('btccny', :ask).should be_empty
+    end
+  end
+
 end
