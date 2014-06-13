@@ -10,22 +10,15 @@ class Ordering
     @member ||= Member.find(@order.member_id)
   end
 
-  def check_latest_price
-    latest = Trade.latest_price(@order.currency)
-    latest.zero? || PRICE_RANGE.cover?(@order.price / latest)
-  end
-
   def submit
-    unless check_latest_price
-      @order.errors.add(:price, :range)
-      raise LatestPriceError, "invalid price"
-    end
+    check_price!
 
     ActiveRecord::Base.transaction do
+      @order.locked = @order.origin_locked = @order.compute_locked
       @order.save!
 
       account = @order.hold_account.lock!
-      account.lock_funds(@order.sum, reason: Account::ORDER_SUBMIT, ref: @order)
+      account.lock_funds(@order.locked, reason: Account::ORDER_SUBMIT, ref: @order)
 
       AMQPQueue.enqueue(:matching, action: 'submit', order: @order.to_matching_attributes)
     end
@@ -34,21 +27,36 @@ class Ordering
     return true
   end
 
-  def cancel
+  def cancel(slient=false)
     ActiveRecord::Base.transaction do
       order = Order.find(@order.id).lock!
       account = @order.hold_account.lock!
 
       if order.state == Order::WAIT
         order.state = Order::CANCEL
-        account.unlock_funds(order.sum, reason: Account::ORDER_CANCEL, ref: order)
+        account.unlock_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)
         order.save!
 
-        AMQPQueue.enqueue(:matching, action: 'cancel', order: @order.to_matching_attributes)
+        AMQPQueue.enqueue(:matching, action: 'cancel', order: @order.to_matching_attributes) unless slient
         true
       else
         false
       end
     end
   end
+
+  private
+
+  def check_price!
+    if @order.ord_type == 'limit' && !price_in_range?
+      @order.errors.add(:price, :range)
+      raise LatestPriceError, "invalid price"
+    end
+  end
+
+  def price_in_range?
+    latest = Trade.latest_price(@order.currency)
+    latest.zero? || PRICE_RANGE.cover?(@order.price / latest)
+  end
+
 end

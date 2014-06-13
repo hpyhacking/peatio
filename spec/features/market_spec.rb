@@ -21,6 +21,8 @@ feature 'show account info', js: true do
   let!(:bid_order) { create :order_bid, price: '21.3' }
   let!(:ask_name) { I18n.t('currency.name.btc') }
 
+  let(:global) { Global[Market.find('btccny')] }
+
   scenario 'user can place a buy order by filling in the order form' do
     login identity
     click_on I18n.t('header.market')
@@ -29,7 +31,7 @@ feature 'show account info', js: true do
       click_link I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
       fill_in 'order_bid_price', :with => 22.2
       fill_in 'order_bid_origin_volume', :with => 45
-      expect(page.find('#order_bid_sum').value).to be_d (45 * 22.2).to_d
+      expect(page.find('#order_bid_total').value).to be_d (45 * 22.2).to_d
 
       click_button I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
       sleep 0.1 # sucks :(
@@ -45,7 +47,7 @@ feature 'show account info', js: true do
       click_link I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
       fill_in 'order_ask_price', :with => 22.2
       fill_in 'order_ask_origin_volume', :with => 45
-      expect(page.find('#order_ask_sum').value).to be_d (45 * 22.2).to_d
+      expect(page.find('#order_ask_total').value).to be_d (45 * 22.2).to_d
 
       click_button I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
       sleep 0.1 # sucks :(
@@ -54,6 +56,10 @@ feature 'show account info', js: true do
   end
 
   scenario 'user can fill order form by clicking on an existing orders in the order book' do
+    global.stubs(:asks).returns([[ask_order.price, ask_order.volume]])
+    global.stubs(:bids).returns([[bid_order.price, bid_order.volume]])
+    Global.stubs(:[]).returns(global)
+
     login identity
     click_on I18n.t('header.market')
 

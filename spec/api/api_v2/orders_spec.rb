@@ -150,7 +150,7 @@ describe APIv2::Orders do
     it "should give a number as volume parameter" do
       signed_post '/api/v2/orders', params: {market: 'btccny', side: 'sell', volume: 'test', price: '2014'}
       response.code.should == '400'
-      response.body.should == '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Volume is not a number"}}'
+      response.body.should == '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Volume must be greater than 0"}}'
     end
 
     it "should give a number as price parameter" do
@@ -161,11 +161,7 @@ describe APIv2::Orders do
   end
 
   describe "POST /api/v2/order/delete" do
-    let!(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member) }
-    let!(:trades) do
-      create(:trade, bid: order, volume: '8.0', price: '12')
-      create(:trade, bid: order, volume: '0.99', price: '12.56')
-    end
+    let!(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', locked: '20.1082', origin_locked: '38.0882', member: member) }
 
     context "succesful" do
       before do
@@ -187,7 +183,7 @@ describe APIv2::Orders do
         result['volume'].should == '12.13'
         result['remaining_volume'].should == '3.14'
         result['executed_volume'].should == '8.99'
-        result['avg_price'].should =~ /^12.06/
+        result['avg_price'].should == '2.0'
       end
     end
 
@@ -195,7 +191,7 @@ describe APIv2::Orders do
       it "should return error" do
         signed_post "/api/v2/order/delete", params: {id: order.id}, token: token
         response.code.should == '400'
-        response.body.should == '{"error":{"code":2003,"message":"Failed to cancel order. Reason: cannot unlock funds (amount: 38.6848)"}}'
+        response.body.should == '{"error":{"code":2003,"message":"Failed to cancel order. Reason: cannot unlock funds (amount: 20.1082)"}}'
       end
     end
 

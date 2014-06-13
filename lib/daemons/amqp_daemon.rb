@@ -64,9 +64,12 @@ ARGV.each do |id|
   workers << worker
 end
 
-Signal.trap("USR1") do
-  puts "USR1 received."
-  workers.each {|w| w.on_usr1 if w.respond_to?(:on_usr1) }
+%w(USR1 USR2).each do |signal|
+  Signal.trap(signal) do
+    puts "#{signal} received."
+    handler = "on_#{signal.downcase}"
+    workers.each {|w| w.send handler if w.respond_to?(handler) }
+  end
 end
 
 ch.work_pool.join

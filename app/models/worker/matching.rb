@@ -1,48 +1,59 @@
 module Worker
   class Matching
 
+    def initialize
+      reload 'all'
+    end
+
     def process(payload, metadata, delivery_info)
-      @payload = payload.symbolize_keys
-      send @payload[:action]
-    end
+      payload.symbolize_keys!
 
-    def submit
-      @order = ::Matching::Order.new @payload[:order]
-      engine.submit @order
-    end
-
-    def cancel
-      @order = ::Matching::Order.new @payload[:order]
-      engine.cancel @order
-    end
-
-    def reload
-      if @payload[:market] == 'all'
-        @engines = {}
-        Rails.logger.info "All engines reloaded."
+      case payload[:action]
+      when 'submit'
+        submit build_order(payload[:order])
+      when 'cancel'
+        cancel build_order(payload[:order])
+      when 'reload'
+        reload payload[:market]
       else
-        engines.delete @payload[:market]
-        Rails.logger.info "#{@payload[:market]} engine reloaded."
+        Rails.logger.fatal "Unknown action: #{payload[:action]}"
       end
     end
 
-    def engine
-      engines[@order.market.id] ||= create_engine
+    def submit(order)
+      engines[order.market.id].submit(order)
     end
 
-    def create_engine
-      engine = ::Matching::Engine.new(@order.market)
-      load_orders(engine) unless ENV['FRESH'] == '1'
-      engine
+    def cancel(order)
+      engines[order.market.id].cancel(order)
     end
 
-    def load_orders(engine)
-      orders = ::Order.active.with_currency(@order.market.id)
-        .where('id < ?', @order.id).order('id asc')
+    def reload(market)
+      if market == 'all'
+        Market.all.each {|market| initialize_engine market }
+        Rails.logger.info "All engines reloaded."
+      else
+        initialize_engine market
+        Rails.logger.info "#{market} engine reloaded."
+      end
+    end
 
-      orders.each do |order|
-        order = ::Matching::Order.new order.to_matching_attributes
-        engine.submit order
+    def build_order(attrs)
+      ::Matching::OrderBookManager.build_order attrs
+    end
+
+    def initialize_engine(market)
+      create_engine market
+      load_orders market
+    end
+
+    def create_engine(market)
+      engines[market.id] = ::Matching::Engine.new(market)
+    end
+
+    def load_orders(market)
+      ::Order.active.with_currency(market.id).order('id asc').each do |order|
+        submit build_order(order.to_matching_attributes)
       end
     end
 
@@ -50,26 +61,45 @@ module Worker
       @engines ||= {}
     end
 
+    # dump limit orderbook
     def on_usr1
       engines.each do |id, eng|
-        dump_file = File.join('/', 'tmp', "orderbook_dump_#{id}_#{Time.now.to_i}")
-        data = eng.dump
+        dump_file = File.join('/', 'tmp', "limit_orderbook_#{id}")
+        limit_orders = eng.limit_orders
 
         File.open(dump_file, 'w') do |f|
           f.puts "ASK"
-          data[:ask_limit_orders].keys.reverse.each do |k|
+          limit_orders[:ask].keys.reverse.each do |k|
             f.puts k.to_s('F')
-            data[:ask_limit_orders][k].each {|o| f.puts "\t#{o}" }
+            limit_orders[:ask][k].each {|o| f.puts "\t#{o.label}" }
           end
           f.puts "-"*40
-          data[:bid_limit_orders].keys.reverse.each do |k|
+          limit_orders[:bid].keys.reverse.each do |k|
             f.puts k.to_s('F')
-            data[:bid_limit_orders][k].each {|o| f.puts "\t#{o}" }
+            limit_orders[:bid][k].each {|o| f.puts "\t#{o.label}" }
           end
           f.puts "BID"
         end
 
-        puts "#{id} orderbook dumped to #{dump_file}."
+        puts "#{id} limit orderbook dumped to #{dump_file}."
+      end
+    end
+
+    # dump market orderbook
+    def on_usr2
+      engines.each do |id, eng|
+        dump_file = File.join('/', 'tmp', "market_orderbook_#{id}")
+        market_orders = eng.market_orders
+
+        File.open(dump_file, 'w') do |f|
+          f.puts "ASK"
+          market_orders[:ask].each {|o| f.puts "\t#{o.label}" }
+          f.puts "-"*40
+          market_orders[:bid].each {|o| f.puts "\t#{o.label}" }
+          f.puts "BID"
+        end
+
+        puts "#{id} market orderbook dumped to #{dump_file}."
       end
     end
 

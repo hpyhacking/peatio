@@ -19,8 +19,9 @@ module Private
       @price  = Global[@market].price
       @ticker = Global[@market].ticker
 
-      @order_bid = OrderBid.empty
-      @order_ask = OrderAsk.empty
+      # default to limit order
+      @order_bid = OrderBid.new ord_type: 'limit'
+      @order_ask = OrderAsk.new ord_type: 'limit'
 
       @member = current_user
 

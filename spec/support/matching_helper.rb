@@ -17,15 +17,25 @@ module Matching
   class <<self
     @@mock_order_id = 10000
 
-    def mock_order(attrs)
+    def mock_limit_order(attrs)
       @@mock_order_id += 1
-      Matching::Order.new({
+      Matching::LimitOrder.new({
         id: @@mock_order_id,
         timestamp: Time.now.to_i,
         volume: 1+rand(10),
         price:  3000+rand(3000),
-        market: 'btccny',
-        ord_type: 'limit'
+        market: 'btccny'
+      }.merge(attrs))
+    end
+
+    def mock_market_order(attrs)
+      @@mock_order_id += 1
+      Matching::MarketOrder.new({
+        id: @@mock_order_id,
+        timestamp: Time.now.to_i,
+        volume: 1+rand(10),
+        locked: 15000+rand(15000),
+        market: 'btccny'
       }.merge(attrs))
     end
   end

@@ -6,14 +6,21 @@ class Order < ActiveRecord::Base
   enumerize :currency, in: Market.enumerize, scope: true
   enumerize :state, in: {:wait => 100, :done => 200, :cancel => 0}, scope: true
 
+  ORD_TYPES = %w(market limit)
+  enumerize :ord_type, in: ORD_TYPES, scope: true
+
   SOURCES = %w(Web APIv2 debug)
   enumerize :source, in: SOURCES, scope: true
 
   after_commit :trigger
-  before_validation :fixed
+  before_validation :fix_number_precision, on: :create
 
-  validates_numericality_of :price, :greater_than => 0
+  validates_presence_of :ord_type, :volume, :origin_volume, :locked, :origin_locked
   validates_numericality_of :origin_volume, :greater_than => 0
+
+  validates_numericality_of :price, greater_than: 0, allow_nil: false,
+    if: "ord_type == 'limit'"
+  validate :market_order_validations, if: "ord_type == 'market'"
 
   WAIT = 'wait'
   DONE = 'done'
@@ -27,18 +34,14 @@ class Order < ActiveRecord::Base
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
   scope :position, -> { group("price").pluck(:price, 'sum(volume)') }
-
-  def fixed
-    self.price = self.price.to_d.round(config.bid["fixed"], 2)
-    self.volume = self.volume.to_d.round(config.ask["fixed"], 2)
-  end
+  scope :best_price, ->(currency) { where(ord_type: 'limit').active.with_currency(currency).matching_rule.position }
 
   def fee
-    config[self.kind.to_sym]["fee"]
+    config[kind.to_sym]["fee"]
   end
 
   def config
-    @config ||= Market.find(self.currency)
+    @config ||= Market.find(currency)
   end
 
   def trigger
@@ -49,23 +52,32 @@ class Order < ActiveRecord::Base
   end
 
   def strike(trade)
-    strike_price = trade.price
-    strike_volume = trade.volume
-
-    self.volume -= strike_volume
-    real_sub, add = self.class.strike_sum(strike_volume, strike_price)
-    real_fee = add * fee
-    real_add = add - real_fee
+    real_sub, add = get_account_changes trade
+    real_fee      = add * fee
+    real_add      = add - real_fee
 
     hold_account.unlock_and_sub_funds \
-      real_sub, locked: sum(strike_volume), 
+      real_sub, locked: real_sub,
       reason: Account::STRIKE_SUB, ref: trade
 
     expect_account.plus_funds \
       real_add, fee: real_fee,
       reason: Account::STRIKE_ADD, ref: trade
 
-    self.volume.zero? and self.state = Order::DONE
+    self.volume -= trade.volume
+    self.locked -= real_sub
+
+    if volume.zero?
+      self.state = Order::DONE
+
+      # unlock not used funds
+      hold_account.unlock_funds locked,
+        reason: Account::ORDER_FULLFILLED, ref: trade unless locked.zero?
+    elsif ord_type == 'market' && locked.zero?
+      # partially filled market order has run out its locked fund
+      self.state = Order::CANCEL
+    end
+
     self.save!
   end
 
@@ -77,10 +89,6 @@ class Order < ActiveRecord::Base
     active.with_currency(currency.downcase).matching_rule.first
   end
 
-  def self.empty
-    self.new
-  end
-
   def at
     created_at.to_i
   end
@@ -90,22 +98,57 @@ class Order < ActiveRecord::Base
   end
 
   def avg_price
-    if trades.empty?
-      ::Trade::ZERO
-    else
-      sum = trades.map {|t| t.price*t.volume }.sum
-      vol = trades.map(&:volume).sum
-      sum / vol
-    end
+    return ::Trade::ZERO if volume == origin_volume
+    (origin_locked - locked) / (origin_volume - volume)
   end
 
   def to_matching_attributes
     { id: id,
       market: market,
       type: type[-3, 3].downcase.to_sym,
+      ord_type: ord_type,
       volume: volume,
       price: price,
+      locked: locked,
       timestamp: created_at.to_i }
+  end
+
+  private
+
+  def fix_number_precision
+    self.price = config.fix_number_precision(:bid, price.to_d) if price
+
+    if volume
+      self.volume = config.fix_number_precision(:ask, volume.to_d)
+      self.origin_volume = origin_volume.present? ? config.fix_number_precision(:ask, origin_volume.to_d) : volume
+    end
+  end
+
+  def market_order_validations
+    errors.add(:price, 'must not be present') if price.present?
+  end
+
+  FUSE = '0.9'.to_d
+  def estimate_required_funds(price_levels)
+    required_funds = Account::ZERO
+    expected_volume = volume
+
+    start_from, _ = price_levels.first
+    filled_at     = start_from
+
+    until expected_volume.zero? || price_levels.empty?
+      level_price, level_volume = price_levels.shift
+      filled_at = level_price
+
+      v = [expected_volume, level_volume].min
+      required_funds += yield level_price, v
+      expected_volume -= v
+    end
+
+    raise "Market is not deep enough" unless expected_volume.zero?
+    raise "Volume too large" if (filled_at-start_from).abs/start_from > FUSE
+
+    required_funds
   end
 
 end

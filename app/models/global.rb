@@ -28,38 +28,31 @@ class Global
   end
 
   def asks
-    Rails.cache.fetch key('asks') do
-      OrderAsk.active.with_currency(currency).matching_rule.position
-    end
+    Rails.cache.read("peatio:#{currency}:depth:asks") || []
   end
 
   def bids
-    Rails.cache.fetch key('bids') do
-      OrderBid.active.with_currency(currency).matching_rule.position
-    end
+    Rails.cache.read("peatio:#{currency}:depth:bids") || []
+  end
+
+  def default_ticker
+    {low: ZERO, high: ZERO, last: ZERO, volume: ZERO}
   end
 
   def ticker
-    Rails.cache.fetch key('ticker') do
-      Trade.with_currency(currency).tap do |query|
-        return {
-          at:     at,
-          low:    query.h24.minimum(:price) || ZERO,
-          high:   query.h24.maximum(:price) || ZERO,
-          last:   query.last.try(:price)    || ZERO,
-          volume: query.h24.sum(:volume)    || ZERO,
-          buy:    bids.first && bids.first[0] || ZERO,
-          sell:   asks.first && asks.first[0] || ZERO
-        }
-      end
-    end
+    ticker          = Rails.cache.read("peatio:#{currency}:ticker") || default_ticker
+    best_buy_price  = bids.first && bids.first[0] || ZERO
+    best_sell_price = asks.first && asks.first[0] || ZERO
+
+    ticker.merge({
+      at: at,
+      sell: best_sell_price,
+      buy: best_buy_price
+    })
   end
 
   def trades
-    Rails.cache.fetch key('trades') do
-      @trades = Trade.with_currency(currency).order(:id).reverse_order.limit(LIMIT)
-      @trades.map(&:for_global)
-    end
+    Rails.cache.read("peatio:#{currency}:trades") || []
   end
 
   def since_trades(id)

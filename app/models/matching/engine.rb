@@ -1,75 +1,95 @@
 module Matching
   class Engine
 
-    attr :ask_limit_orders, :bid_limit_orders
+    attr :orderbook
+    delegate :ask_orders, :bid_orders, to: :orderbook
 
-    def initialize(market, options={})
-      @market = market
-      @ask_limit_orders = LimitOrderBook.new(:ask)
-      @bid_limit_orders = LimitOrderBook.new(:bid)
+    def initialize(market)
+      @market        = market
+      @orderbook     = OrderBookManager.new(market.id)
+      @last_accepted = nil
     end
 
     def submit(order)
-      book, counter_book = get_books order.type
+      raise DoubleSubmitError if already_submitted?(order)
+
+      book, counter_book = orderbook.get_books order.type
       match order, counter_book
-      book.add order if order.volume > Matching::Order::ZERO
+      add_or_cancel order, book
+
+      @last_accepted = order
     rescue
-      Rails.logger.fatal "Failed to submit #{order}: #{$!}"
+      Rails.logger.fatal "Failed to submit order #{order.label}: #{$!}"
       Rails.logger.fatal $!.backtrace.join("\n")
     end
 
     def cancel(order)
-      book, counter_book = get_books order.type
+      book, counter_book = orderbook.get_books order.type
       book.remove order
     rescue
-      Rails.logger.fatal "Failed to cancel #{order}: #{$!}"
+      Rails.logger.fatal "Failed to cancel order #{order.label}: #{$!}"
       Rails.logger.fatal $!.backtrace.join("\n")
     end
 
-    def dump
-      { ask_limit_orders: @ask_limit_orders.dump,
-        bid_limit_orders: @bid_limit_orders.dump }
+    def limit_orders
+      { ask: ask_orders.limit_orders,
+        bid: bid_orders.limit_orders }
+    end
+
+    def market_orders
+      { ask: ask_orders.market_orders,
+        bid: bid_orders.market_orders }
     end
 
     private
 
-    def get_books(type)
-      case type
-      when :ask
-        [@ask_limit_orders, @bid_limit_orders]
-      when :bid
-        [@bid_limit_orders, @ask_limit_orders]
-      end
+    def already_submitted?(order)
+      @last_accepted && order.id <= @last_accepted.id
     end
 
     def match(order, counter_book)
-      return if order.volume == Matching::Order::ZERO
+      return if order.filled?
 
       counter_order = counter_book.top
       return unless counter_order
-      return unless order.crossed?(counter_order.price)
 
-      # order is always the new coming order, so the trade price should
-      # always follow the counter order (elder one)
-      trade_price  = counter_order.price
-      trade_volume = [order.volume, counter_order.volume].min
+      if trade = order.trade_with(counter_order, counter_book)
+        counter_book.fill_top *trade
+        order.fill *trade
 
-      counter_book.fill_top trade_volume
-      order.fill trade_volume
+        publish order, counter_order, trade
 
-      publish order, counter_order, trade_price, trade_volume
-
-      match order, counter_book
+        match order, counter_book
+      end
     end
 
-    def publish(order, counter_order, price, volume)
+    def add_or_cancel(order, book)
+      return if order.filled?
+      order.is_a?(LimitOrder) ?
+        book.add(order) : publish_cancel(order, "fill or kill market order")
+    end
+
+    def publish(order, counter_order, trade)
       ask, bid = order.type == :ask ? [order, counter_order] : [counter_order, order]
 
-      Rails.logger.info "[#{@market.id}] new trade - #{ask} #{bid} price: #{price} volume: #{volume}"
+      price  = @market.fix_number_precision :bid, trade[0]
+      volume = @market.fix_number_precision :ask, trade[1]
+      funds  = trade[2]
+
+      Rails.logger.info "[#{@market.id}] new trade - ask: #{ask.label} bid: #{bid.label} price: #{price} volume: #{volume} funds: #{funds}"
 
       AMQPQueue.enqueue(
         :trade_executor,
-        {market_id: @market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume},
+        {market_id: @market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume, funds: funds},
+        {persistent: false}
+      )
+    end
+
+    def publish_cancel(order, reason)
+      Rails.logger.info "[#{@market.id}] cancel order ##{order.id} - reason: #{reason}"
+      AMQPQueue.enqueue(
+        :order_processor,
+        {action: 'cancel', order: {id: order.id}},
         {persistent: false}
       )
     end

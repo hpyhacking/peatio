@@ -32,6 +32,12 @@ class Market < ActiveYaml::Base
     Trade.latest_price(id.to_sym)
   end
 
+  # type is :ask or :bid
+  def fix_number_precision(type, d)
+    digits = send(type)['fixed']
+    d.round digits, 2
+  end
+
   def to_s
     id
   end

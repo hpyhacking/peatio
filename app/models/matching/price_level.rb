@@ -1,7 +1,7 @@
 module Matching
   class PriceLevel
 
-    attr :price
+    attr :price, :orders
 
     def initialize(price)
       @price  = price
@@ -24,8 +24,8 @@ module Matching
       @orders.delete_if {|o| o.id == order.id }
     end
 
-    def dump
-      @orders.map(&:label)
+    def find(id)
+      @orders.find {|o| o.id == id }
     end
 
   end

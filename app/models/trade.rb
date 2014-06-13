@@ -13,6 +13,8 @@ class Trade < ActiveRecord::Base
   belongs_to :ask_member, class_name: 'Member', foreign_key: 'ask_member_id'
   belongs_to :bid_member, class_name: 'Member', foreign_key: 'bid_member_id'
 
+  validates_presence_of :price, :volume, :funds
+
   scope :h24, -> { where("created_at > ?", 24.hours.ago) }
 
   attr_accessor :side
