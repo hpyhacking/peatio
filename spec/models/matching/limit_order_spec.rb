@@ -9,12 +9,6 @@ describe Matching::LimitOrder do
       }.to raise_error(Matching::InvalidOrderError)
     end
 
-    it "should throw invalid order error given no volume" do
-      expect {
-        Matching.mock_limit_order(type: :bid, volume: 0)
-      }.to raise_error(Matching::InvalidOrderError)
-    end
-
     it "should initialize market" do
         Matching.mock_limit_order(type: :bid).market.should be_instance_of(Market)
     end

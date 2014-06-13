@@ -54,7 +54,7 @@ module Matching
 
     def valid?(attrs)
       return false unless [:ask, :bid].include?(type)
-      id && timestamp && market && volume > ZERO && price > ZERO
+      id && timestamp && market && price > ZERO
     end
 
     def attributes
