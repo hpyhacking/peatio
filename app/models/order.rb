@@ -46,7 +46,6 @@ class Order < ActiveRecord::Base
       json.(self, *ATTRIBUTES)
     end
     member.trigger('order', json)
-    Global[currency].trigger_ticker
   end
 
   def strike(trade)
@@ -59,7 +58,7 @@ class Order < ActiveRecord::Base
     real_add = add - real_fee
 
     hold_account.unlock_and_sub_funds \
-      real_sub, locked: sum(strike_volume),
+      real_sub, locked: sum(strike_volume), 
       reason: Account::STRIKE_SUB, ref: trade
 
     expect_account.plus_funds \
