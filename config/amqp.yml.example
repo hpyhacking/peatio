@@ -36,6 +36,8 @@ queue:
   sms:
     name: peatio.notification.sms
     durable: true
+  mixpanel:
+    name: peatio.mixpanel.event
 
 binding:
   matching:
@@ -61,3 +63,5 @@ binding:
   sms_notification:
     queue: sms
     exchange: notification
+  mixpanel:
+    queue: mixpanel

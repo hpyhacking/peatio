@@ -73,6 +73,7 @@ defaults: &defaults
 
   # MixPanel
   MIXPANEL_TOKEN: YOUR_MIXPANEL_TOKEN
+  MIXPANEL_POOL: 20
 
 development:
   <<: *defaults

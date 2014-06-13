@@ -1,12 +1,14 @@
 class MixpanelTracker
 
   def initialize(token)
-    @tracker = Mixpanel::Tracker.new token
+    @tracker = Mixpanel::Tracker.new(token) do |type, message|
+      AMQPQueue.enqueue(:mixpanel, [type, message])
+    end
   end
 
-  def activate(mp_cookie, member=Member.new)
-    @tracker.track mp_cookie['distinct_id'], "Activation", email: member.email
-    @tracker.alias member.email, mp_cookie['distinct_id']
+  def activate(mp_cookie, member)
+    @tracker.track mp_cookie['distinct_id'], "Activation", email: member.try(:email)
+    @tracker.alias member.email, mp_cookie['distinct_id'] if member
   end
 
   def signin(mp_cookie, member)

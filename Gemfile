@@ -37,6 +37,7 @@ gem 'paper_trail', '~> 3.0.1'
 
 gem 'gon'
 gem 'pusher'
+gem 'thread'
 gem 'mixpanel-ruby'
 gem 'eventmachine', '~> 1.0.3'
 gem 'em-websocket', '~> 0.5.1'
