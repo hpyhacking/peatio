@@ -10,4 +10,5 @@ $ ->
   if previous_path() == '/signin' && gon.current_user?
     mixpanel.alias gon.current_user.email
 
-  mixpanel.track(location.pathname)
+  if location.pathname == '/signup'
+    mixpanel.track("Sign Up")
