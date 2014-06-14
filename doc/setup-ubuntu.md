@@ -60,6 +60,7 @@ Please follow instructions here:  https://downloads.mariadb.org/mariadb/reposito
 
     sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
     sudo add-apt-repository 'deb http://download.nus.edu.sg/mirror/mariadb/repo/10.0/ubuntu trusty main'
+    sudo apt-get update
     sudo apt-get install mariadb-server mariadb-client libmariadbclient-dev
 
 #### Install Redis
