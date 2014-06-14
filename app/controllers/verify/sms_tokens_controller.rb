@@ -32,6 +32,8 @@ module Verify
           @token.update_phone_number
           @token.send_verify_code
 
+          mixpanel_track :sms_token_sent, current_user, @token
+
           text = I18n.t('verify.sms_tokens.new.notice.send_code_success')
           format.any { render status: :ok, text: {text: text}.to_json }
         else
@@ -48,6 +50,8 @@ module Verify
         if @token.verify_code.present? && @token.verify?
           @token.verified!
           current_user.two_factors.by_type(:sms).active!
+
+          mixpanel_track :phone_number_verified, current_user, @token
 
           text = I18n.t('verify.sms_tokens.new.notice.verify_code_success')
           flash[:notice] = text

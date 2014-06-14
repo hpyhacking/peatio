@@ -63,6 +63,7 @@ RSpec.configure do |config|
 
     Rails.cache.clear
     AMQPQueue.stubs(:publish)
+    MixpanelTracker.stubs(:track)
   end
 
   config.after(:each) do

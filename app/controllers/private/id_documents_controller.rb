@@ -7,6 +7,7 @@ module Private
     def create
       @id_document = current_user.create_id_document(id_docuemnt_params)
       if @id_document.valid?
+        mixpanel_track :id_document_created, @id_document
         redirect_to settings_path, notice: t('.notice')
       else
         render :new

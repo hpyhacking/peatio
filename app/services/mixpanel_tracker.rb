@@ -20,11 +20,12 @@ class MixpanelTracker
   def activate(mp_cookie, member)
     @tracker.track mp_cookie['distinct_id'], "Activation", email: member.try(:email)
     @tracker.alias member.email, mp_cookie['distinct_id'] if member
+    @tracker.people.set(member.email, get_profile(member))
   end
 
-  def signin(mp_cookie, member)
-    @tracker.alias member.email, mp_cookie['distinct_id']
-    @tracker.people.set(member.email, get_profile(member))
+  def id_document_created(mp_cookie, id_document)
+    member = id_document.member
+    @tracker.people.set(member.email, '$name' => member.name, 'verified' => true)
   end
 
   def order_accepted(order)
@@ -37,6 +38,15 @@ class MixpanelTracker
     id = order.member.email
     @tracker.track id, "Order Canceled", order.to_matching_attributes
     @tracker.people.increment id, "Order Canceled" => 1
+  end
+
+  def sms_token_sent(mp_cookie, member, token)
+    @tracker.track member.email, "SMS Verify Code Sent", phone: token.phone_number, code: token.token
+  end
+
+  def phone_number_verified(mp_cookie, member, token)
+    @tracker.track member.email, "Phone Number Verified", phone: token.phone_number, code: token.token
+    @tracker.people.set member.email, '$phone' => token.phone_number
   end
 
   private

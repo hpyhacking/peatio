@@ -91,7 +91,8 @@ class ApplicationController < ActionController::Base
   end
 
   def mixpanel_cookie
-    JSON.parse cookies["mp_#{ENV['MIXPANEL_TOKEN']}_mixpanel"]
+    str = cookies["mp_#{ENV['MIXPANEL_TOKEN']}_mixpanel"]
+    str && JSON.parse(str)
   end
 
   def mixpanel_track(action, *args)
