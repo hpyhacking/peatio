@@ -12,3 +12,5 @@ $ ->
 
   if location.pathname == '/signup'
     mixpanel.track("Sign Up")
+
+  mixpanel.track_forms("#new_identity", "Sign Up Form Submit")
