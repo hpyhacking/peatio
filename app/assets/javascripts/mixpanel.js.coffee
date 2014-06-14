@@ -4,6 +4,10 @@ previous_path = ->
   result = url.match(/:\/\/(.[^/]+)(.+)/)
   result[2] if result?
 
+safe_track_links = (sel, eventName) ->
+  $(sel).on 'click', (e) ->
+    mixpanel.track(eventName)
+
 $ ->
   return unless mixpanel?
 
@@ -14,3 +18,8 @@ $ ->
     mixpanel.track("Sign Up")
 
   mixpanel.track_forms("#new_identity", "Sign Up Form Submit")
+
+  safe_track_links '#market .ask-panel', "Ask Panel Click"
+  safe_track_links '#market .bid-panel', "Bid Panel Click"
+  safe_track_links '#new_order_ask button', "Ask Order Submit"
+  safe_track_links '#new_order_bid button', "Bid Order Submit"
