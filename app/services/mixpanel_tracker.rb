@@ -1,5 +1,16 @@
 class MixpanelTracker
 
+  class <<self
+    def instance
+      @instance ||= new(ENV['MIXPANEL_TOKEN'])
+    end
+
+    def track(action, *args)
+      return unless ENV['MIXPANEL_TOKEN'].present?
+      instance.send action, *args
+    end
+  end
+
   def initialize(token)
     @tracker = Mixpanel::Tracker.new(token) do |type, message|
       AMQPQueue.enqueue(:mixpanel, [type, message])
@@ -16,6 +27,18 @@ class MixpanelTracker
     @tracker.people.set(member.email, get_profile(member))
   end
 
+  def order_accepted(order)
+    id = order.member.email
+    @tracker.track id, "Order Accepted", order.to_matching_attributes
+    @tracker.people.increment id, "Order Accepted" => 1
+  end
+
+  def order_canceled(order)
+    id = order.member.email
+    @tracker.track id, "Order Canceled", order.to_matching_attributes
+    @tracker.people.increment id, "Order Canceled" => 1
+  end
+
   private
 
   def get_profile(member)
@@ -23,7 +46,7 @@ class MixpanelTracker
       '$name'        => member.name,
       '$created'     => member.created_at,
       'sn'           => member.sn,
-      'phone_number' => member.phone_number }
+      '$phone'       => member.phone_number }
   end
 
 end

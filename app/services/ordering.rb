@@ -30,6 +30,8 @@ class Ordering
       AMQPQueue.enqueue(:matching, action: 'submit', order: @order.to_matching_attributes)
     end
 
+    MixpanelTracker.track(:order_accepted, @order)
+
     raise unless @order.errors.empty?
     return true
   end
@@ -45,6 +47,7 @@ class Ordering
         order.save!
 
         AMQPQueue.enqueue(:matching, action: 'cancel', order: @order.to_matching_attributes)
+        MixpanelTracker.track(:order_canceled, @order)
         true
       else
         false

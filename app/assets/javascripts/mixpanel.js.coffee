@@ -6,7 +6,18 @@ previous_path = ->
 
 safe_track_links = (sel, eventName) ->
   $(sel).on 'click', (e) ->
-    mixpanel.track(eventName)
+    mixpanel.track eventName
+
+track_order_submit = (type) ->
+  formSel   = "#new_order_#{type}"
+  buttonSel = "#{formSel} button[type=submit]"
+
+  $(buttonSel).on 'click', (e) ->
+    mixpanel.track "Order Submit",
+      type: type,
+      price: $("#order_#{type}_price").val(),
+      volume: $("#order_#{type}_origin_volume").val(),
+      total: $("#order_#{type}_sum").val()
 
 $ ->
   return unless mixpanel?
@@ -19,7 +30,5 @@ $ ->
 
   mixpanel.track_forms("#new_identity", "Sign Up Form Submit")
 
-  safe_track_links '#market .ask-panel', "Ask Panel Click"
-  safe_track_links '#market .bid-panel', "Bid Panel Click"
-  safe_track_links '#new_order_ask button', "Ask Order Submit"
-  safe_track_links '#new_order_bid button', "Bid Order Submit"
+  track_order_submit 'ask'
+  track_order_submit 'bid'

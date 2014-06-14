@@ -94,13 +94,8 @@ class ApplicationController < ActionController::Base
     JSON.parse cookies["mp_#{ENV['MIXPANEL_TOKEN']}_mixpanel"]
   end
 
-  def mixpanel_tracker
-    @mixpanel_tracker ||= MixpanelTracker.new ENV['MIXPANEL_TOKEN']
-  end
-
   def mixpanel_track(action, *args)
-    return unless ENV['MIXPANEL_TOKEN'].present?
-    mixpanel_tracker.send action, mixpanel_cookie, *args
+    MixpanelTracker.track action, mixpanel_cookie, *args
   end
 
 end
