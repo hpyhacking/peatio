@@ -13,12 +13,13 @@ An open-source crypto currency exchange
 * Redis 2.0+
 * MySQL
 
-** More details are in the [requirements doc](doc/install/requirements.md)
+** More details are in the [doc](doc).
 
 
 ### Getting start
 
-* [Developing document](doc/install/development.md)
+* [Setup on Mac OS X](doc/setup-osx.md)
+* [Setup on Ubuntu](doc/setup-ubuntu.md)
 
 ### Contributing
 
