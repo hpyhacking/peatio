@@ -127,6 +127,8 @@ class Account < ActiveRecord::Base
   end
 
   def trigger
+    return unless member
+
     json = Jbuilder.encode do |json|
       json.(self, :balance, :locked, :currency)
     end
