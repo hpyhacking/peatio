@@ -25,7 +25,6 @@ class AccountVersion < ActiveRecord::Base
   belongs_to :modifiable, polymorphic: true
 
   scope :history, -> { with_reason(*HISTORY).reverse_order }
-  scope :o2n, -> { order('id asc') }
 
   def detail_template
     if self.detail.nil? || self.detail.empty?
