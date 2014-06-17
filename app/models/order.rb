@@ -115,8 +115,6 @@ class Order < ActiveRecord::Base
       timestamp: created_at.to_i }
   end
 
-  private
-
   def fix_number_precision
     self.price = config.fix_number_precision(:bid, price.to_d) if price
 
@@ -125,6 +123,8 @@ class Order < ActiveRecord::Base
       self.origin_volume = origin_volume.present? ? config.fix_number_precision(:ask, origin_volume.to_d) : volume
     end
   end
+
+  private
 
   def market_order_validations
     errors.add(:price, 'must not be present') if price.present?
