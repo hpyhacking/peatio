@@ -28,7 +28,7 @@ class AccountVersion < ActiveRecord::Base
 
   def detail_template
     if self.detail.nil? || self.detail.empty?
-      return ["system", {}] 
+      return ["system", {}]
     end
 
     [self.detail.delete(:tmp) || "default", self.detail || {}]
