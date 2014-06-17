@@ -42,9 +42,8 @@ module APIv2
     private
 
     def send(method, data)
-      @logger.debug method.inspect
-      @logger.debug data.inspect
       payload = JSON.dump({method => data})
+      @logger.debug payload
       @socket.send payload
     end
 
