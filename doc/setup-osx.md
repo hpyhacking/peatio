@@ -3,12 +3,12 @@ Setup on Mac OS X 10.9 Mavericks
 
 ### Overview
 
-* Install Homebrew
-* Install Ruby
-* Install MariaDB
-* Install Redis
-* Install RabbitMQ
-* Install Bitcoind
+* Install [Homebrew](http://brew.sh/)
+* Install [Ruby](https://www.ruby-lang.org/en/)
+* Install [MariaDB](https://mariadb.org/) (A community developed fork of MySQL)
+* Install [Redis](http://redis.io/)
+* Install [RabbitMQ](https://www.rabbitmq.com/)
+* Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
 * Configure Peatio
 
 #### Install Homebrew

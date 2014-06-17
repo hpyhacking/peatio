@@ -4,11 +4,11 @@ Setup on Ubuntu 14.04 LTS
 ### Overview
 
 * Setup deploy user
-* Install Ruby
-* Install MariaDB
-* Install Redis
-* Install RabbitMQ
-* Install Bitcoind
+* Install [Ruby](https://www.ruby-lang.org/en/)
+* Install [MariaDB](https://mariadb.org/) (A community developed fork of MySQL)
+* Install [Redis](http://redis.io/)
+* Install [RabbitMQ](https://www.rabbitmq.com/)
+* Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
 * Configure Peatio
 
 #### Setup deploy user
