@@ -27,7 +27,6 @@ Peatio::Application.routes.draw do
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do
     resources :reset_passwords
-    resources :reset_two_factors
     resources :activations, only: [:new, :edit, :update]
   end
 
