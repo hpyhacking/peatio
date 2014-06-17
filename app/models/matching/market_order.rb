@@ -48,7 +48,7 @@ module Matching
     end
 
     def label
-      "%d/%.04f" % [id, volume]
+      "%d/%f" % [id, volume]
     end
 
     def valid?(attrs)
