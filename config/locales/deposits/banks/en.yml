@@ -44,14 +44,14 @@ en:
     deposits:
       banks:
         destroy:
-          notice: 撤销充值请求成功。
+          notice: Revocation request is successful.
         create:
-          notice: 您的充值订单提交成功，请按照提示继续完成您的转账操作。
-          submit: 提交
+          notice: Recharge request successfully submitted. Use the info below to complete the bank transfer.
+          submit: Submit
         new:
           fund_uid: Use existing bank account or enter a new account
           fund_extra: Select Bank
-          submit: 提交
+          submit: Submit
 
   guides:
     private:
@@ -82,19 +82,19 @@ en:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
           fund_extra: If your bank is no longer the list, please contact customer service
           member_name: <span class='text-danger'>Recharge bank account name must match the name with your real name authentication</span>
-          sn: <span class='text-danger'>请您务必在银行转账操作备注中复制，否则我们无法快速处理您的订单。</span>
+          sn: <span class='text-danger'>Please copy the SN in your bank transfer's message, otherwise we can not process your order quickly.</span>
 
   admin:
     deposits:
       banks:
         index:
-          oneday: 二十四小时内充值订单
-          available: 全部未完成充值订单
+          oneday: Rrequests in 24 hours
+          available: All pending requires
         show:
-          empty_target: 无充值账单
-          alert: 未发现外部充值账单，无法处理充值。
-          notice: 此账目已经充值成功，请手工记录。
-          deposit: System Deposit SN - %{sn}
-          target_deposit: Target Depsoit - %{sn}
-          deposit: 充值
-          confirm: 确认给用户进行充值吗？
+          empty_target: Empty Recharge
+          alert: Not find Recharge, can not process.
+          notice: The recharge have been successful.
+          deposit: Deposit Request - %{sn}
+          accept: Accept
+          target_deposit: Wire Transfer - %{sn}
+          confirm: Confirm accept recharge?

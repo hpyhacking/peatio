@@ -44,6 +44,7 @@ en:
       account:
         currency: Currency
         currency_text: Currency
+        balance_and_locked: Balance / Locked
         balance: Balance
         locked: Frozen
       deposit:

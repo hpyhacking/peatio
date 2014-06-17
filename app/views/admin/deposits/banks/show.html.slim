@@ -16,7 +16,7 @@
           = item_for @bank, :txid
           - if @match and (@bank.may_submit? or @bank.may_accept?)
             hr.split
-            = link_to t('.deposit'), admin_deposits_bank_path(@bank, txid: @target.txid), class: 'btn btn-primary pull-right', method: 'PATCH', confirm: t('.confirm')
+            = link_to t('.accept'), admin_deposits_bank_path(@bank, txid: @target.txid), class: 'btn btn-primary pull-right', method: 'PATCH', confirm: t('.confirm')
   .col-md-8
     .panel class='#{@match ? 'panel-primary' : 'panel-danger'}'
       .panel-heading
@@ -34,4 +34,4 @@
             hr.split
             = item_for @target, :txid
   .col-md-8
-    = render partial: 'shared/admin/member', locals: {member: @bank.member} 
+    = render partial: 'shared/admin/member', locals: {member: @bank.member}

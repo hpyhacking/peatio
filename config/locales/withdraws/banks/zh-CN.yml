@@ -41,6 +41,20 @@ zh-CN:
       canceled: 已撤销
       failed: 提现出错
 
+  private:
+    withdraws:
+      banks:
+        update:
+          notice: 银行转账提现申请已提交，我们将尽快为您处理。
+          alert_two_factor: 两步验证错误
+        destroy:
+          notice: 银行转账提现申请已撤销，冻结金额已退回到您的账户中。
+        new:
+          submit: 提交
+          allin: 全部提取
+          fund_uid: 使用已有银行账号或输入新账号
+          fund_extra: 选择开户行
+
   admin:
     withdraws:
       banks:
@@ -56,20 +70,6 @@ zh-CN:
           reject_confirm: 确定驳回提现？
           withdraw: 银行卡提现
           empty: 无任何数据
-
-  private:
-    withdraws:
-      banks:
-        update:
-          notice: 银行转账提现申请已提交，我们将尽快为您处理。
-          alert_two_factor: 两步验证错误
-        destroy:
-          notice: 银行转账提现申请已撤销，冻结金额已退回到您的账户中。
-        new:
-          submit: 提交
-          allin: 全部提取
-          fund_uid: 使用已有银行账号或输入新账号
-          fund_extra: 选择开户行
 
   simple_form:
     labels:
@@ -100,4 +100,5 @@ zh-CN:
             intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
             default-panel: 历史记录
           edit:
+            panel: 银行转账提现
             intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。

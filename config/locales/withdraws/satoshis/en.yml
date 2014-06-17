@@ -3,25 +3,29 @@ en:
     satoshi:
       key: Blockchain
       title: Bitcoin Blockchain
-      intro: 将比特币余额提取到你的钱包账户
+      intro: Withdraw Bitcoin to your own Bitcoin wallet
       latency: 30 minutes
       transfer: Manual
       go: Withdraw
 
   activerecord:
     models:
-      withdraws/satoshi: 银行转账
+      withdraws/satoshi: Withdraw
     attributes:
       withdraws/satoshi:
-        id: 提现编号
-        member_name: 用户
-        currency_obj_key_text: 币种
-        state_and_actions: 状态/操作
-        fund_source: 提现银行
-        fund_extra_text: 提现银行
-        fund_uid: 提现账户
-        amount: 金额
-        remark: 备注
+        id: ID
+        member_name: Account
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_extra_text: Withdraw Label
+        fund_extrat: Withdraw Label
+        fund_source: Bank
+        fund_uid: Account
+        created_at: Created At
+        sum: Amount
+        amount: Amount
+        remark: Remark
+        fee: Fee
     errors:
       models:
         withdraws/satoshi:
@@ -34,26 +38,34 @@ en:
               invalid: 无效的提现地址，请核对。
               ismine: 提现地址为系统所有，请更换其他地址。
 
+  withdraws/satoshi:
+    aasm_state:
+      submitting: Submitting
+      submitted: Submitted
+      rejected: Rejected
+      accepted: Accepted
+      suspect: Suspect
+      processing: processing
+      coin_ready: Coin Ready
+      coin_done: Coin Done
+      done: Done
+      almost_done: Almost Done
+      canceled: Cancelled
+      failed: Failed
+
   private:
     withdraws:
       satoshis:
+        destroy:
+          notice: Withdraw been canceled, frozen balance has returned to your account
         update:
+          notice: Withdraw request is submit successful, we will process it as soon as possible
           alert_two_factor: Two-Factor Authentication error
-
-  withdraws/satoshi:
-    aasm_state:
-      submitting: 待确认
-      submitted: 待校验
-      rejected: 已驳回
-      accepted: 已提交
-      suspect: 异常
-      processing: 受理中
-      coin_ready: 准备中
-      coin_done: 完毕
-      done: 提现成功
-      almost_done: 发送中
-      canceled: 已撤销
-      failed: 提现出错
+        new:
+          submit: Submit
+          allin: All-In
+          fund_uid: Use saved address or enter a new address
+          fund_extra: 选择开户行
 
   admin:
     withdraws:
@@ -69,3 +81,37 @@ en:
           succeed_confirm: 确定处理提现？
           reject_confirm: 确定驳回提现？
           withdraw: 比特币提现
+
+  simple_form:
+    labels:
+      withdraw:
+        satoshi:
+          fee: Fee
+          sum: Amount
+          fund_uid: Bitcoin Address
+          fund_extra: Label
+          account_balance: Account Balance
+          member_name: Account
+    placeholders:
+      withdraw:
+        satoshi:
+          sum: Minimum amount 0.001
+          fund_extra: Enter a label for this address (optional)
+    hints:
+      withdraw:
+        satoshi:
+          sum: "<a target='_balance' href='#'>Fee structure</a>"
+
+  guides:
+    private:
+      withdraws:
+        satoshis:
+          panel: Withdraw
+          new:
+            intro: Enter the Bitcoin address and amount you want to withdraw.
+            default-panel: Withdraw History
+          create:
+            intro: Enter the Bitcoin address and amount you want to withdraw.
+            default-panel: Withdraw History
+          edit:
+            intro: Enter the Bitcoin address and amount you want to withdraw.

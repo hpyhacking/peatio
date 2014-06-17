@@ -95,6 +95,6 @@ zh-CN:
           alert: 未发现外部充值账单，无法处理充值。
           notice: 此账目已经充值成功，请手工记录。
           deposit: 系统充值编号 - %{sn}
+          accept: 充值
           target_deposit: 外部充值编号 - %{sn}
-          deposit: 充值
           confirm: 确认给用户进行充值吗？
