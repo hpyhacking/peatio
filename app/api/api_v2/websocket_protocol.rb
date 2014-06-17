@@ -26,7 +26,7 @@ module APIv2
         result = verify_answer data['answer'], token
 
         if result
-          subscribe_orders token.member
+          subscribe_orders
           subscribe_trades token.member
           send :success, {message: "Authenticated."}
         else
@@ -52,7 +52,7 @@ module APIv2
       answer == OpenSSL::HMAC.hexdigest('SHA256', token.secret_key, str)
     end
 
-    def subscribe_orders(member)
+    def subscribe_orders
       x = @channel.send *AMQPConfig.exchange(:orderbook)
       q = @channel.queue '', auto_delete: true
       q.bind(x).subscribe do |metadata, payload|
