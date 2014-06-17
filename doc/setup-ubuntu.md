@@ -3,15 +3,15 @@ Setup on Ubuntu 14.04 LTS
 
 ### Overview
 
-* Setup deploy user
-* Install [Ruby](https://www.ruby-lang.org/en/)
-* Install [MariaDB](https://mariadb.org/) (A community developed fork of MySQL)
-* Install [Redis](http://redis.io/)
-* Install [RabbitMQ](https://www.rabbitmq.com/)
-* Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
-* Configure Peatio
+1. Setup deploy user
+2. Install [Ruby](https://www.ruby-lang.org/en/)
+3. Install [MariaDB](https://mariadb.org/) (A community developed fork of MySQL)
+4. Install [Redis](http://redis.io/)
+5. Install [RabbitMQ](https://www.rabbitmq.com/)
+6. Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
+7. Configure Peatio
 
-#### Setup deploy user
+### 1. Setup deploy user
 
 Create (if it doesn’t exist) deploy user, and assign it to the sudo group:
 
@@ -20,7 +20,7 @@ Create (if it doesn’t exist) deploy user, and assign it to the sudo group:
 
 Re-login as deploy user
 
-#### Install Ruby
+### 2. Install Ruby
 
 Make sure your system is up-to-date.
 
@@ -54,7 +54,7 @@ Install bundler
     gem install bundler
     rbenv rehash
 
-#### Install MariaDB
+### 3. Install MariaDB
 
 Please follow instructions here:  https://downloads.mariadb.org/mariadb/repositories/#mirror=nus&distro=Ubuntu&distro_release=trusty&version=10.0
 
@@ -63,7 +63,7 @@ Please follow instructions here:  https://downloads.mariadb.org/mariadb/reposito
     sudo apt-get update
     sudo apt-get install mariadb-server mariadb-client libmariadbclient-dev
 
-#### Install Redis
+### 4. Install Redis
 
 Be sure to install the latest stable Redis, as the package in the distro may be a bit old:
 
@@ -71,7 +71,7 @@ Be sure to install the latest stable Redis, as the package in the distro may be 
     sudo apt-get update
     sudo apt-get install redis-server
 
-#### Install RabbitMQ
+### 5. Install RabbitMQ
 
 Please follow instructions here: https://www.rabbitmq.com/install-debian.html
 
@@ -86,7 +86,7 @@ Please follow instructions here: https://www.rabbitmq.com/install-debian.html
     chmod +x rabbitmqadmin
     sudo mv rabbitmqadmin /usr/local/sbin
 
-#### Install Bitcoind
+### 6. Install Bitcoind
 
     sudo add-apt-repository ppa:bitcoin/bitcoin
     sudo apt-get update
@@ -115,7 +115,7 @@ Insert the following lines into the bitcoin.conf, and replce with your username 
 
     bitcoind
 
-#### Configure Peatio
+### 7. Configure Peatio
 
 **Clone the project**
 
