@@ -117,9 +117,7 @@ class Account < ActiveRecord::Base
   end
 
   def examine
-    versions = self.versions.order(:id)
-
-    expected_amount = versions.reduce 0 do |expected, v|
+    expected_amount = versions.order(:id).reduce(0) do |expected, v|
       expected += v.amount_change
       return false if expected != v.amount
       expected
