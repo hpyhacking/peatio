@@ -53,21 +53,6 @@ zh-CN:
           fund_extra: 选择开户银行
           submit: 提交
 
-  admin:
-    deposits:
-      banks:
-        index:
-          oneday: 二十四小时内充值订单
-          available: 全部未完成充值订单
-        show:
-          empty_target: 无充值账单
-          alert: 未发现外部充值账单，无法处理充值。
-          notice: 此账目已经充值成功，请手工记录。
-          deposit: 系统充值编号 - %{sn}
-          target_deposit: 外部充值编号 - %{sn}
-          deposit: 充值
-          confirm: 确认给用户进行充值吗？
-
   guides:
     private:
       deposits:
@@ -98,3 +83,18 @@ zh-CN:
           fund_extra: 若您的开户银行不再列表中，请联系客服
           member_name: <span class='text-danger'>充值银行账户姓名必须与您的实名认证姓名一致</span>
           sn: <span class='text-danger'>请您务必在银行转账操作备注中复制，否则我们无法快速处理您的订单。</span>
+
+  admin:
+    deposits:
+      banks:
+        index:
+          oneday: 二十四小时内充值订单
+          available: 全部未完成充值订单
+        show:
+          empty_target: 无充值账单
+          alert: 未发现外部充值账单，无法处理充值。
+          notice: 此账目已经充值成功，请手工记录。
+          deposit: 系统充值编号 - %{sn}
+          target_deposit: 外部充值编号 - %{sn}
+          deposit: 充值
+          confirm: 确认给用户进行充值吗？

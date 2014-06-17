@@ -3,7 +3,7 @@ en:
     bank:
       key: Bank transfer
       title: Bank transfer
-      intro: Bank transfer deposits, Recommend for large recharge 
+      intro: Bank transfer deposits, Recommend for large recharge
       latency: 10 minutes
       transfer: Manual
       receive_fund_holder: Wire transfer account holder
@@ -13,54 +13,76 @@ en:
 
   activerecord:
     models:
-      deposits/bank: 银行转账
+      deposits/bank: Deposit Bank
     attributes:
       deposits/bank:
-        fund_extra: 转出银行
-        fund_extra_text: 转出银行
-        fund_uid: 转出账户
-        holder: 转出持卡人
+        created_at: Created At
+        fund_source: Fund Source
+        fund_extra: Fund Extra
+        fund_extra_text: Fund Extra
+        fund_uid: Fund Account
+        holder: Holder
         receive_fund_holder_text: Receiver holder
         receive_fund_uid_text: Receiver account
         receive_fund_extra_text: Receiver bank
-        member_sn: 个人识别码
-        amount: 充值金额
-        sn: 交易编号
+        member_sn: Member SN
+        amount: Amount
+        sn: SN
+        state_and_action: State/Action
 
   deposits/bank:
     aasm_state:
-      submitting: 已提交
-      cancelled: 已撤销
-      submitted: 受理中
-      accepted: 充值成功
-      rejected: 已驳回
-      checked: 充值成功
-      warning: 异常
+      submitting: Submitting
+      cancelled: Cancelled
+      submitted: Submitted
+      accepted: Accepted
+      rejected: Rejected
+      checked: Checked
+      warning: Warning
 
   private:
     deposits:
       banks:
+        destroy:
+          notice: 撤销充值请求成功。
+        create:
+          notice: 您的充值订单提交成功，请按照提示继续完成您的转账操作。
+          submit: 提交
         new:
-          step-1: Step One
-          select-bank: Large recharge can choose to transfer to our bank account, in order to quickly recharge your arrival, please try to select the same with our bank transfers recharge. You can choose to use the online bank transfer or transfer counter.
-          step-2: Step Two
-          send-money: No matter which way you choose to transfer, please fill in the remarks your personal identification number  , so that you can recharge quickly.
-          step-3: Step Three
-          check-confirm: Interbank transfer generally takes an hour or even longer time. If the delay exceeds your expectations, please contact our customer service staff timely.
-          bank: Bank
-          card: Card NO.
-          name: Account Name
+          fund_uid: Use existing bank account or enter a new account
+          fund_extra: Select Bank
+          submit: 提交
+
   guides:
     private:
       deposits:
         banks:
           panel: Bank Transfer
           intro: Bank transfer deposits, Recommend for large recharge.
-  helpers:
-    submit:
-      deposits_bank:
-        create: Submit
-        update: Confirm
+          new:
+            default-panel: Bank Transfer Deposit History
+          create:
+            default-panel: Bank Transfer Deposit History
+          edit:
+            default-panel: Bank Transfer Deposit History
+
+  simple_form:
+    labels:
+      deposit:
+        bank:
+          fund_extra: Sender Bank
+          member_name: Sender Name
+    placeholders:
+      deposit:
+        bank:
+          amount: Minimum amount 100
+    hints:
+      deposit:
+        bank:
+          sum: "<a target='_balance' href='#'>Fee structure</a>"
+          fund_extra: If your bank is no longer the list, please contact customer service
+          member_name: <span class='text-danger'>Recharge bank account name must match the name with your real name authentication</span>
+          sn: <span class='text-danger'>请您务必在银行转账操作备注中复制，否则我们无法快速处理您的订单。</span>
 
   admin:
     deposits:

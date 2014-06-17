@@ -4,6 +4,8 @@ en:
     filters:
       date:
         range_separator: " to "
+      datetime:
+        range_separator: " to "
     form:
       submit: Search
     admin_deposits_grid:
