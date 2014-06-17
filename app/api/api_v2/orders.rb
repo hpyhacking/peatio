@@ -71,7 +71,7 @@ module APIv2
       use :auth
     end
     post "/orders/clear" do
-      orders = current_user.orders
+      orders = current_user.orders.with_state(:wait)
 
       begin
         orders.each {|o| Ordering.new(o).cancel }
