@@ -37,19 +37,19 @@ Install bundler
     gem install bundler
     rbenv rehash
 
-#### Install MariaDB
+### 3. Install MariaDB
 
     brew install mariadb
 
-#### Install Redis
+### 4. Install Redis
 
     brew install redis
 
-#### install RabbitMQ
+### 5. install RabbitMQ
 
     brew install rabbitmq
 
-#### install Bitcoind
+### 6. install Bitcoind
 
 Download and Install [Bitcoin Core](http://bitcoin.org/en/download)
 
@@ -74,7 +74,7 @@ Insert the following lines into the bitcoin.conf, and replce with your username 
 
     open /Applications/Bitcoin-Qt.app
 
-#### Configure Peatio
+### 7. Configure Peatio
 
 **Clone the project**
 
