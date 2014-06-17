@@ -48,7 +48,7 @@ module Matching
     end
 
     def label
-      "%d/%f" % [id, volume]
+      "%d/%s" % [id, volume.to_s('F')]
     end
 
     def valid?(attrs)

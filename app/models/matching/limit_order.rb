@@ -49,7 +49,7 @@ module Matching
     end
 
     def label
-      "%d/$%f/%f" % [id, price, volume]
+      "%d/$%s/%s" % [id, price.to_s('F'), volume.to_s('F')]
     end
 
     def valid?(attrs)
