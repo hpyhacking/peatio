@@ -250,5 +250,11 @@ describe Order, "#estimate_required_funds" do
     global.stubs(:asks).returns(price_levels)
     Global.stubs(:[]).returns(global)
   end
+end
 
+describe Order, "#strike" do
+  it "should raise error if order has been cancelled" do
+    order = Order.new(state: Order::CANCEL)
+    expect { order.strike(mock('trade')) }.to raise_error
+  end
 end
