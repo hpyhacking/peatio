@@ -19,6 +19,7 @@ class Member < ActiveRecord::Base
   has_many :authentications, dependent: :destroy
 
   validates :sn, presence: true
+  validates :display_name, uniqueness: true, allow_blank: true
   before_validation :generate_sn
 
   alias_attribute :full_name, :name
@@ -82,8 +83,8 @@ class Member < ActiveRecord::Base
 
   def to_muut
     {
-      id: sn,
-      displayname: name,
+      id: id,
+      displayname: display_name,
       email: email,
       avatar: gravatar,
       is_admin: admin?
