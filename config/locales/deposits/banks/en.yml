@@ -91,10 +91,11 @@ en:
           oneday: Rrequests in 24 hours
           available: All pending requires
         show:
-          empty_target: Empty Recharge
           alert: Not find Recharge, can not process.
           notice: The recharge have been successful.
-          deposit: Deposit Request - %{sn}
+          deposit: Deposit Request
           accept: Accept
-          target_deposit: Wire Transfer - %{sn}
+          target_deposit: Wire Transfer
           confirm: Confirm accept recharge?
+        update:
+          blank_txid: Txid can't be blank
