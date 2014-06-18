@@ -56,11 +56,10 @@ module APIv2
       use :auth, :order_id
     end
     post "/order/delete" do
-      order = current_user.orders.find(params[:id])
-
       begin
+        order = current_user.orders.find(params[:id])
         Ordering.new(order).cancel
-        present order.reload, with: APIv2::Entities::Order
+        present order, with: APIv2::Entities::Order
       rescue
         raise CancelOrderError, $!
       end
@@ -71,9 +70,8 @@ module APIv2
       use :auth
     end
     post "/orders/clear" do
-      orders = current_user.orders.with_state(:wait)
-
       begin
+        orders = current_user.orders.with_state(:wait)
         orders.each {|o| Ordering.new(o).cancel }
         present orders, with: APIv2::Entities::Order
       rescue

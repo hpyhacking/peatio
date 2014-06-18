@@ -169,29 +169,20 @@ describe APIv2::Orders do
       end
 
       it "should cancel specified order" do
+        AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: order.to_matching_attributes)
         expect {
           signed_post "/api/v2/order/delete", params: {id: order.id}, token: token
           response.should be_success
           JSON.parse(response.body)['id'].should == order.id
-          order.reload.state.should == Order::CANCEL
         }.not_to change(Order, :count)
-      end
-
-      it "should include executed and remaining amount in result" do
-        signed_post "/api/v2/order/delete", params: {id: order.id}, token: token
-        result = JSON.parse(response.body)
-        result['volume'].should == '12.13'
-        result['remaining_volume'].should == '3.14'
-        result['executed_volume'].should == '8.99'
-        result['avg_price'].should == '2.0'
       end
     end
 
     context "failed" do
-      it "should return error" do
-        signed_post "/api/v2/order/delete", params: {id: order.id}, token: token
+      it "should return order not found error" do
+        signed_post "/api/v2/order/delete", params: {id: '0'}, token: token
         response.code.should == '400'
-        response.body.should == '{"error":{"code":2003,"message":"Failed to cancel order. Reason: cannot unlock funds (amount: 20.1082)"}}'
+        JSON.parse(response.body)['error']['code'].should == 2003
       end
     end
 
@@ -208,13 +199,16 @@ describe APIv2::Orders do
     end
 
     it "should cancel all my orders" do
+      member.orders.each do |o|
+        AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: o.to_matching_attributes)
+      end
+
       expect {
         signed_post "/api/v2/orders/clear", token: token
         response.should be_success
 
         result = JSON.parse(response.body)
         result.should have(2).orders
-        result.each {|o| Order.find(o['id']).state.should == Order::CANCEL }
       }.not_to change(Order, :count)
     end
 
