@@ -66,9 +66,10 @@ module Matching
     def remove(order)
       case order
       when LimitOrder
-        price_level = @limit_orders[order.price]
-        price_level.remove order
-        @limit_orders.delete(order.price) if price_level.empty?
+        if price_level = @limit_orders[order.price]
+          price_level.remove order
+          @limit_orders.delete(order.price) if price_level.empty?
+        end
       when MarketOrder
         @market_orders.delete order.id
       else
