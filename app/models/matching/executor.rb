@@ -12,32 +12,8 @@ module Matching
     end
 
     def execute!
-      ActiveRecord::Base.transaction do
-        @ask = OrderAsk.lock(true).find(@payload[:ask_id])
-        @bid = OrderBid.lock(true).find(@payload[:bid_id])
-
-        raise TradeExecutionError.new({ask: @ask, bid: @bid, price: @price, volume: @volume, funds: @funds}) unless valid?
-
-        @trade = Trade.create(ask_id: @ask.id, ask_member_id: @ask.member_id,
-                             bid_id: @bid.id, bid_member_id: @bid.member_id,
-                             price: @price, volume: @volume, funds: @funds,
-                             currency: @market.id.to_sym, trend: trend)
-
-        @bid.strike @trade
-        @ask.strike @trade
-      end
-
-      AMQPQueue.publish(
-        :trade,
-        @trade.as_json,
-        { headers: {
-            market: @market.id,
-            ask_member_id: @ask.member_id,
-            bid_member_id: @bid.member_id
-          }
-        }
-      )
-
+      create_trade_and_strike_orders
+      publish_trade
       @trade
     end
 
@@ -51,6 +27,36 @@ module Matching
 
     def trend
       @price >= @market.latest_price ? 'up' : 'down'
+    end
+
+    def create_trade_and_strike_orders
+      ActiveRecord::Base.transaction do
+        @ask = OrderAsk.lock(true).find(@payload[:ask_id])
+        @bid = OrderBid.lock(true).find(@payload[:bid_id])
+
+        raise TradeExecutionError.new({ask: @ask, bid: @bid, price: @price, volume: @volume, funds: @funds}) unless valid?
+
+        @trade = Trade.create(ask_id: @ask.id, ask_member_id: @ask.member_id,
+                              bid_id: @bid.id, bid_member_id: @bid.member_id,
+                              price: @price, volume: @volume, funds: @funds,
+                              currency: @market.id.to_sym, trend: trend)
+
+        @bid.strike @trade
+        @ask.strike @trade
+      end
+    end
+
+    def publish_trade
+      AMQPQueue.publish(
+        :trade,
+        @trade.as_json,
+        { headers: {
+            market: @market.id,
+            ask_member_id: @ask.member_id,
+            bid_member_id: @bid.member_id
+          }
+        }
+      )
     end
 
   end
