@@ -17,8 +17,10 @@ conn = Bunny.new AMQPConfig.connect
 conn.start
 
 ch = conn.create_channel
-ch.prefetch(1)
-logger.info "Connected to AMQP broker."
+id = $0.split(':')[2]
+prefetch = AMQPConfig.channel(id)[:prefetch] || 0
+ch.prefetch(prefetch) if prefetch > 0
+logger.info "Connected to AMQP broker (prefetch: #{prefetch > 0 ? prefetch : 'default'})"
 
 terminate = proc do
   # logger is forbidden in signal handling, just use puts here

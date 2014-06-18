@@ -81,3 +81,7 @@ binding:
   sms_notification:
     queue: sms
     exchange: notification
+
+channel:
+  trade_executor:
+    prefetch: 1
