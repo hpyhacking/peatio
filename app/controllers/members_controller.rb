@@ -9,19 +9,15 @@ class MembersController < ApplicationController
   def update
     @member = current_user
 
-    ActiveRecord::Base.transaction do
-      if @member.update_attributes(member_params)
-        redirect_to root_path
-      else
-        render :edit
-      end
+    if @member.update_attributes(member_params)
+      redirect_to forum_path
+    else
+      render :edit
     end
   end
 
   private
   def member_params
-    # auto generate member pin code
-    params[:member][:sn] = Member.only_sn
-    params.required(:member).permit(:sn, :name)
+    params.required(:member).permit(:display_name)
   end
 end

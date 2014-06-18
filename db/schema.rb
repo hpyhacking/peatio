@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140531054739) do
+ActiveRecord::Schema.define(version: 20140618004355) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -151,6 +151,7 @@ ActiveRecord::Schema.define(version: 20140531054739) do
   create_table "members", force: true do |t|
     t.string   "sn"
     t.string   "name"
+    t.string   "display_name"
     t.string   "email"
     t.integer  "identity_id"
     t.datetime "created_at"
@@ -171,12 +172,12 @@ ActiveRecord::Schema.define(version: 20140531054739) do
     t.decimal  "origin_volume",            precision: 32, scale: 16
     t.integer  "state"
     t.datetime "done_at"
+    t.string   "type",          limit: 8
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
     t.string   "source",                                             null: false
-    t.string   "type",          limit: 8
     t.string   "ord_type",      limit: 10
     t.decimal  "locked",                   precision: 32, scale: 16
     t.decimal  "origin_locked",            precision: 32, scale: 16
@@ -211,6 +212,15 @@ ActiveRecord::Schema.define(version: 20140531054739) do
     t.datetime "receive_at"
     t.datetime "dont_at"
     t.integer  "currency"
+  end
+
+  create_table "profiles", force: true do |t|
+    t.integer  "member_id"
+    t.string   "phone"
+    t.string   "last_login_ip"
+    t.datetime "last_login_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "proofs", force: true do |t|

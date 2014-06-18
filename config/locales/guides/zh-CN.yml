@@ -116,3 +116,9 @@ zh-CN:
       edit:
         panel: 我的账户
         title: 修改密码
+
+    members:
+      panel: 个人资料
+      edit:
+        title: 修改个人资料
+        intro:

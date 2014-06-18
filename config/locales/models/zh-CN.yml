@@ -100,6 +100,7 @@ zh-CN:
       member:
         id: 编号
         name: 真实姓名
+        display_name: 论坛昵称
         email: 邮件地址
         created_at: 注册时间
         sn: 个人识别码
