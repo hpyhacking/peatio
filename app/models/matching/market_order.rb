@@ -20,12 +20,12 @@ module Matching
       if counter_order.is_a?(LimitOrder)
         trade_price  = counter_order.price
         trade_volume = [volume, volume_limit(trade_price), counter_order.volume].min
-        trade_funds    = trade_price.mult_and_round(trade_volume)
+        trade_funds  = trade_price.mult_and_round(trade_volume)
         [trade_price, trade_volume, trade_funds]
       elsif price = counter_book.best_limit_price
         trade_price  = price
         trade_volume = [volume, volume_limit(trade_price), counter_order.volume, counter_order.volume_limit(trade_price)].min
-        trade_funds    = trade_price.mult_and_round(trade_volume)
+        trade_funds  = trade_price.mult_and_round(trade_volume)
         [trade_price, trade_volume, trade_funds]
       end
     end

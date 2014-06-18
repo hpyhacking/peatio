@@ -28,7 +28,11 @@ class Ordering
     return true
   end
 
-  def cancel(slient=false)
+  def cancel
+    AMQPQueue.enqueue(:matching, action: 'cancel', order: @order.to_matching_attributes)
+  end
+
+  def cancel!
     ActiveRecord::Base.transaction do
       order = Order.find(@order.id).lock!
       account = @order.hold_account.lock!
@@ -37,11 +41,8 @@ class Ordering
         order.state = Order::CANCEL
         account.unlock_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)
         order.save!
-
-        AMQPQueue.enqueue(:matching, action: 'cancel', order: @order.to_matching_attributes) unless slient
-        true
       else
-        false
+        raise "Only active order can be cancelled. id: #{order.id}, state: #{order.state}"
       end
     end
   end

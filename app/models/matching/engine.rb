@@ -26,6 +26,7 @@ module Matching
     def cancel(order)
       book, counter_book = orderbook.get_books order.type
       book.remove order
+      publish_cancel order, "cancelled by user"
     rescue
       Rails.logger.fatal "Failed to cancel order #{order.label}: #{$!}"
       Rails.logger.fatal $!.backtrace.join("\n")
@@ -89,7 +90,7 @@ module Matching
       Rails.logger.info "[#{@market.id}] cancel order ##{order.id} - reason: #{reason}"
       AMQPQueue.enqueue(
         :order_processor,
-        {action: 'cancel', order: {id: order.id}},
+        {action: 'cancel', order: order.attributes},
         {persistent: false}
       )
     end
