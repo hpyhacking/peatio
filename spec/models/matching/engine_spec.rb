@@ -43,7 +43,7 @@ describe Matching::Engine do
 
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask1.id, bid_id: mo.id, strike_price: ask1.price, volume: ask1.volume, funds: '1.0'.to_d}, anything)
       AMQPQueue.expects(:enqueue).with(:trade_executor, {market_id: market.id, ask_id: ask2.id, bid_id: mo.id, strike_price: ask2.price, volume: ask2.volume, funds: '2.0'.to_d}, anything)
-      AMQPQueue.expects(:enqueue).with(:order_processor, {action: 'cancel', order: {id: mo.id}}, anything)
+      AMQPQueue.expects(:enqueue).with(:order_processor, has_entries(action: 'cancel', order: has_entry(id: mo.id)), anything)
 
       subject.submit bid
       subject.submit ask1
@@ -101,7 +101,7 @@ describe Matching::Engine do
 
       it "should execute trade" do
         AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: 3.to_d, funds: '30.0'.to_d}, anything)
+          .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: 3.to_d, funds: '30.0'.to_d}, anything)
 
         subject.submit(ask)
         subject.submit(bid)
@@ -109,6 +109,8 @@ describe Matching::Engine do
         subject.ask_orders.limit_orders.should be_empty
         subject.bid_orders.limit_orders.should_not be_empty
 
+        AMQPQueue.expects(:enqueue)
+          .with(:order_processor, {action: 'cancel', order: bid.attributes}, anything)
         subject.cancel(bid)
         subject.bid_orders.limit_orders.should be_empty
       end

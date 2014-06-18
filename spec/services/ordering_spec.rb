@@ -29,9 +29,17 @@ describe Ordering do
   describe "ordering service can cancel order" do
     before do
       order.stubs(:hold_account).returns(account)
-      AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: order.to_matching_attributes)
     end
 
-    it { expect(Ordering.new(order).cancel).to be_true }
+    it "should soft cancel order" do
+      AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: order.to_matching_attributes)
+      Ordering.new(order).cancel
+    end
+
+    it "should hard cancel order" do
+      Ordering.new(order).cancel!
+      order.reload.state.should == Order::CANCEL
+      account.reload.locked.should == ('100'.to_d - order.locked)
+    end
   end
 end
