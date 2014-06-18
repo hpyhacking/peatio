@@ -14,25 +14,6 @@ describe Worker::Matching do
     end
   end
 
-  context "match existing order on restart" do
-    let!(:ask) { create(:order_ask, price: '3999', volume: '30.0', member: alice) }
-    let!(:bid) { create(:order_bid, price: '3999', volume: '10.0', member: bob) }
-
-    let!(:orderbook) { Matching::OrderBookManager.new('btccny', broadcast: false) }
-    let!(:engine)    { Matching::Engine.new(market) }
-
-    before do
-      engine.stubs(:orderbook).returns(orderbook)
-      ::Matching::Engine.stubs(:new).returns(engine)
-    end
-
-    it "should submit existing order only once after engine restart" do
-      AMQPQueue.expects(:enqueue)
-        .with(:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: '3999'.to_d, volume: '10.0'.to_d, funds: '39990'.to_d}, anything).once
-      subject.process({action: 'submit', order: bid.to_matching_attributes}, {}, {})
-    end
-  end
-
   context "partial match" do
     let(:existing) { create(:order_ask, price: '4001', volume: '10.0', member: alice) }
 

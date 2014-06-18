@@ -7,17 +7,12 @@ module Matching
     def initialize(market)
       @market        = market
       @orderbook     = OrderBookManager.new(market.id)
-      @last_accepted = nil
     end
 
     def submit(order)
-      raise DoubleSubmitError if already_submitted?(order)
-
       book, counter_book = orderbook.get_books order.type
       match order, counter_book
       add_or_cancel order, book
-
-      @last_accepted = order
     rescue
       Rails.logger.fatal "Failed to submit order #{order.label}: #{$!}"
       Rails.logger.fatal $!.backtrace.join("\n")
@@ -43,10 +38,6 @@ module Matching
     end
 
     private
-
-    def already_submitted?(order)
-      @last_accepted && order.id <= @last_accepted.id
-    end
 
     def match(order, counter_book)
       return if order.filled?

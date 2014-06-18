@@ -49,7 +49,10 @@ ARGV.each do |id|
     end
   end
 
-  manual_ack = AMQPConfig.data[:binding][id][:manual_ack]
+  clean_start = AMQPConfig.data[:binding][id][:clean_start]
+  queue.purge if clean_start
+
+  manual_ack  = AMQPConfig.data[:binding][id][:manual_ack]
   queue.subscribe(manual_ack: manual_ack) do |delivery_info, metadata, payload|
     logger.info "Received: #{payload}"
     begin

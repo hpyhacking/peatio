@@ -51,6 +51,7 @@ queue:
 binding:
   matching:
     queue: matching
+    clean_start: true
   slave_book:
     queue: slave_book
     exchange: orderbook

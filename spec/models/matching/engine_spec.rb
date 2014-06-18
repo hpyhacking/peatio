@@ -75,14 +75,6 @@ describe Matching::Engine do
   end
 
   context "submit limit order" do
-    context "double submit" do
-      it "should ignore double submitted order" do
-        subject.submit(ask)
-        subject.submit(ask)
-        subject.ask_orders.limit_orders.values.first.should == [ask]
-      end
-    end
-
     context "fully match incoming order" do
       it "should execute trade" do
         AMQPQueue.expects(:enqueue)
