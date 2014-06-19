@@ -1,6 +1,7 @@
 class Ordering
   PRICE_RANGE = ("0.01".to_d.."100".to_d)
   class LatestPriceError < RuntimeError; end
+  class CancelOrderError < StandardError; end
 
   def initialize(order)
     @order = order
@@ -42,7 +43,7 @@ class Ordering
         account.unlock_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)
         order.save!
       else
-        raise "Only active order can be cancelled. id: #{order.id}, state: #{order.state}"
+        raise CancelOrderError, "Only active order can be cancelled. id: #{order.id}, state: #{order.state}"
       end
     end
   end
