@@ -67,16 +67,20 @@ module Matching
       case order
       when LimitOrder
         if price_level = @limit_orders[order.price]
-          price_level.remove order
+          order = price_level.find order.id # so we can return fresh order
+          price_level.remove order if order
           @limit_orders.delete(order.price) if price_level.empty?
         end
       when MarketOrder
-        @market_orders.delete order.id
+        if order = @market_orders[order.id]
+          @market_orders.delete order.id
+        end
       else
         raise ArgumentError, "Unknown order type"
       end
 
       broadcast(action: 'remove', order: order.attributes)
+      order
     end
 
     def limit_orders

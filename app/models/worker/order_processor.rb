@@ -24,6 +24,9 @@ module Worker
         puts "Order##{order.id} cancelled."
         true
       end
+    rescue Ordering::CancelOrderError
+      puts "Skipped: #{$!}"
+      true
     end
 
     def create_cancel_thread

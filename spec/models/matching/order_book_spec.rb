@@ -98,6 +98,15 @@ describe Matching::OrderBook do
       subject.remove order.dup
       subject.limit_orders.should be_empty
     end
+
+    it "should return order in book" do
+      o1 = Matching.mock_limit_order(type: :ask, price: '1.0'.to_d)
+      o2 = o1.dup
+      o1.volume = '12345'.to_d
+      subject.add o1
+      o = subject.remove o2
+      o.volume.should == '12345'.to_d
+    end
   end
 
   context "#best_limit_price" do
