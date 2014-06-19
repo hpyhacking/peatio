@@ -99,6 +99,11 @@ describe Matching::OrderBook do
       subject.limit_orders.should be_empty
     end
 
+    it "should return nil if order is not found" do
+      order = Matching.mock_limit_order(type: :ask)
+      subject.remove(order).should be_nil
+    end
+
     it "should return order in book" do
       o1 = Matching.mock_limit_order(type: :ask, price: '1.0'.to_d)
       o2 = o1.dup
