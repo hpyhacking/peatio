@@ -4,7 +4,10 @@ html lang="en"
     link rel="shortcut icon" href="/favicon.png"
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "jquery"
+    = render 'shared/html5'
+    = render 'shared/meta'
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
     #wrap
-      = yield
+      .container
+        = yield
     = render 'shared/footer'
