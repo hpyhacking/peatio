@@ -1,5 +1,5 @@
 class ForumController < ApplicationController
-  layout 'landing'
+  layout 'forum'
 
   def index
     render text: 'Please provide muut key and secret' and return unless muut_enabled?
