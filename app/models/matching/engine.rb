@@ -20,7 +20,7 @@ module Matching
 
     def cancel(order)
       book, counter_book = orderbook.get_books order.type
-      book.remove order
+      order = book.remove order
       publish_cancel order, "cancelled by user"
     rescue
       Rails.logger.fatal "Failed to cancel order #{order.label}: #{$!}"
