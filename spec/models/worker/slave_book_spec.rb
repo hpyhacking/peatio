@@ -42,6 +42,12 @@ describe Worker::SlaveBook do
   end
 
   context "#process" do
+    it "should create new orderbook manager" do
+      subject.process({action: 'add', order: low_ask.attributes}, {}, {})
+      subject.process({action: 'new', market: 'btccny', side: 'ask'}, {}, {})
+      subject.get_depth('btccny', :ask).should be_empty
+    end
+
     it "should remove an empty order" do
       subject.process({action: 'add', order: low_ask.attributes}, {}, {})
       subject.get_depth('btccny', :ask).should_not be_empty

@@ -20,6 +20,7 @@ module Worker
       case @payload.action
       when 'new'
         @managers.delete(@payload.market)
+        initialize_orderbook_manager(@payload.market)
       when 'add'
         book.add order
       when 'update'
@@ -51,7 +52,11 @@ module Worker
 
     def manager
       market = @payload.order.market
-      @managers[market] ||= ::Matching::OrderBookManager.new(market, broadcast: false)
+      @managers[market] || initialize_orderbook_manager(market)
+    end
+
+    def initialize_orderbook_manager(market)
+      @managers[market] = ::Matching::OrderBookManager.new(market, broadcast: false)
     end
 
     def get_depth(market, side)
