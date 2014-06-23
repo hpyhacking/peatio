@@ -2,7 +2,7 @@ module APIv2
   class Trades < Grape::API
     helpers ::APIv2::NamedParams
 
-    desc 'Get recent trades on market.'
+    desc 'Get recent trades on market, each trade is included only once.'
     params do
       use :market, :trade_filters
     end
