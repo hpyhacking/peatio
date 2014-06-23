@@ -12,8 +12,8 @@ module Worker
     end
 
     def cancel
-      return unless engines.has_key?(@order.market.id)
       @order = ::Matching::Order.new @payload[:order]
+      return unless engines.has_key?(@order.market.id)
       engine.cancel @order
     end
 
