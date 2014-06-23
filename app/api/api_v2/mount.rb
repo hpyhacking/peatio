@@ -13,7 +13,6 @@ module APIv2
 
     helpers ::APIv2::Helpers
 
-    do_not_route_head!
     do_not_route_options!
 
     use APIv2::Auth::Middleware
