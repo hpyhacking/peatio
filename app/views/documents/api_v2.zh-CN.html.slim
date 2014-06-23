@@ -147,7 +147,7 @@
             p volume: 成交数量
             p market: 交易所属的市场
             p created_at: 成交时间
-            p side: buy/sell, 买或者卖
+            p side: buy/sell, 买或者卖, 只有/api/v2/trades/my返回的trade才会包含这个字段,代表这个trade是由你的买单或者卖单产生的./api/v2/trades返回的trade中此字段永远为空.
         tr
           td OrderBook
           td: pre: code
