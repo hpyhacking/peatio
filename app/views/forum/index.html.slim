@@ -18,7 +18,8 @@ javascript:
   document.onreadystatechange = function () {
     if (document.readyState == "complete") {
       $("#muut").muut({
-        api: #{muut_api_options.to_json.html_safe}
+        api: #{muut_api_options.to_json.html_safe},
+        login_url: "/signin"
       })
     }
   }
