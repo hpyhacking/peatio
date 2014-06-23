@@ -20,6 +20,10 @@ module APIv2
     include Constraints
     include ExceptionHandlers
 
+    before do
+      header 'Access-Control-Allow-Origin', '*'
+    end
+
     mount Markets
     mount Tickers
     mount Members
