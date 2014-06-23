@@ -140,24 +140,8 @@ class Account < ActiveRecord::Base
   def change_balance_and_locked(delta_b, delta_l)
     self.balance += delta_b
     self.locked  += delta_l
-    update_balance_and_locked_in_db(delta_b, delta_l)
-    self
-  end
-
-  # in worst condition, the method will run 1+retry_count times then fail
-  def update_balance_and_locked_in_db(delta_b, delta_l, retry_count=5)
     ActiveRecord::Base.connection.execute "update accounts set balance = balance + #{delta_b}, locked = locked + #{delta_l} where id = #{id}"
-  rescue ActiveRecord::StatementInvalid
-    # cope with "Mysql2::Error: Deadlock found ..." exception
-    if retry_count > 0
-      sleep 0.2
-      retry_count -= 1
-      puts "Retry change balance and locked (#{retry_count} retry left) .."
-      retry
-    else
-      puts "Failed to change balance and locked (#{delta_b}, #{delta_l})"
-      raise $!
-    end
+    self
   end
 
   scope :locked_sum, -> (currency) { with_currency(currency).sum(:locked) }

@@ -12,7 +12,7 @@ module Matching
     end
 
     def execute!
-      create_trade_and_strike_orders
+      retry_on_error(5) { create_trade_and_strike_orders }
       publish_trade
       @trade
     end
@@ -27,6 +27,22 @@ module Matching
 
     def trend
       @price >= @market.latest_price ? 'up' : 'down'
+    end
+
+    # in worst condition, the method will run 1+retry_count times then fail
+    def retry_on_error(retry_count, &block)
+      block.call
+    rescue ActiveRecord::StatementInvalid
+      # cope with "Mysql2::Error: Deadlock found ..." exception
+      if retry_count > 0
+        sleep 0.2
+        retry_count -= 1
+        puts "Retry trade execution (#{retry_count} retry left) .."
+        retry
+      else
+        puts "Failed to execute trade: #{@payload.inspect}"
+        raise $!
+      end
     end
 
     def create_trade_and_strike_orders
