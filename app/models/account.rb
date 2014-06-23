@@ -137,12 +137,16 @@ class Account < ActiveRecord::Base
     member.trigger('account', json)
   end
 
-  # in worst condition, the method will run 1+retry_count times then fail
-  def change_balance_and_locked(delta_b, delta_l, retry_count=5)
+  def change_balance_and_locked(delta_b, delta_l)
     self.balance += delta_b
     self.locked  += delta_l
-    ActiveRecord::Base.connection.execute "update accounts set balance = balance + #{delta_b}, locked = locked + #{delta_l} where id = #{id}"
+    update_balance_and_locked_in_db(delta_b, delta_l)
     self
+  end
+
+  # in worst condition, the method will run 1+retry_count times then fail
+  def update_balance_and_locked_in_db(delta_b, delta_l, retry_count=5)
+    ActiveRecord::Base.connection.execute "update accounts set balance = balance + #{delta_b}, locked = locked + #{delta_l} where id = #{id}"
   rescue ActiveRecord::StatementInvalid
     # cope with "Mysql2::Error: Deadlock found ..." exception
     if retry_count > 0
