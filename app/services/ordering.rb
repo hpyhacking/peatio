@@ -25,7 +25,7 @@ class Ordering
       AMQPQueue.enqueue(:matching, action: 'submit', order: @order.to_matching_attributes)
     end
 
-    MixpanelTracker.track(:order_accepted, @order)
+    MixpanelTracker.track(:order_accepted, @order) if @order.source == 'Web'
 
     raise unless @order.errors.empty?
     return true
@@ -45,7 +45,7 @@ class Ordering
         account.unlock_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)
         order.save!
 
-        MixpanelTracker.track(:order_canceled, @order)
+        MixpanelTracker.track(:order_canceled, @order) if @order.source == 'Web'
       else
         raise CancelOrderError, "Only active order can be cancelled. id: #{order.id}, state: #{order.state}"
       end
