@@ -18,6 +18,7 @@ class MixpanelTracker
   end
 
   def activate(mp_cookie, member)
+    return unless mp_cookie
     @tracker.track mp_cookie['distinct_id'], "Activation", email: member.try(:email)
     @tracker.alias member.email, mp_cookie['distinct_id'] if member
     @tracker.people.set(member.email, get_profile(member))
