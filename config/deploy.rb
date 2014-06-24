@@ -26,8 +26,6 @@ else
   set :domain, 'stg.peat.io'
 end
 
-set :unicorn_pid, lambda { "#{deploy_to}/#{shared_path}/tmp/pids/unicorn.pid" }
-
 set :shared_paths, [
   'config/database.yml',
   'config/application.yml',
@@ -36,12 +34,10 @@ set :shared_paths, [
   'config/amqp.yml',
   'config/deposit_channels.yml',
   'config/withdraw_channels.yml',
-  'config/unicorn.rb',
   'tmp',
   'log'
 ]
 
-set :unicorn_pid, lambda { "#{deploy_to}/#{shared_path}/tmp/pids/unicorn.pid" }
 
 task :environment do
   invoke :'rbenv:load'
@@ -64,7 +60,6 @@ task setup: :environment do
   queue! %[touch "#{deploy_to}/shared/config/amqp.yml"]
   queue! %[touch "#{deploy_to}/shared/config/deposit_channels.yml"]
   queue! %[touch "#{deploy_to}/shared/config/withdraw_channels.yml"]
-  queue! %[touch "#{deploy_to}/shared/config/unicorn.rb"]
 end
 
 desc "Deploys the current version to the server."
@@ -79,51 +74,48 @@ task deploy: :environment do
     to :launch do
       invoke :del_admin if without_admin
       invoke :del_daemons if without_daemons
-      invoke :'unicorn:restart'
+      invoke :'passenger:restart'
     end
   end
 end
 
-namespace :unicorn do
-  desc "Start Unicorn"
-  task start: :environment do
-    queue 'echo "-----> Start Unicorn"'
-    queue! %{
-      cd #{deploy_to}/#{current_path}
-      bundle exec unicorn_rails -E production -c config/unicorn.rb -D
+namespace :passenger do
+  desc "Restart Passenger"
+  task :restart do
+    queue %{
+      echo "-----> Restarting passenger"
+      cd #{deploy_to}/current
+      #{echo_cmd %[mkdir -p tmp]}
+      #{echo_cmd %[touch tmp/restart.txt]}
     }
-  end
-
-  desc "Stop Unicorn"
-  task stop: :environment do
-    queue 'echo "-----> Stop Unicorn"'
-    queue! %{
-      test -s "#{unicorn_pid}" && kill -QUIT `cat "#{unicorn_pid}"` && echo "Stop Ok" && exit 0
-      echo >&2 "Not running"
-    }
-  end
-
-  desc "Restart Unicorn"
-  task restart: :environment do
-    invoke :'unicorn:stop'
-    invoke :'unicorn:start'
   end
 end
 
 namespace :daemons do
   desc "Start Daemons"
   task start: :environment do
-    queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec ./bin/rake daemons:start && echo Daemons START DONE!!!"
+    queue %{
+      cd #{deploy_to}/current
+      RAILS_ENV=production bundle exec ./bin/rake daemons:start
+      echo Daemons START DONE!!!
+    }
   end
 
   desc "Stop Daemons"
   task stop: :environment do
-    queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec ./bin/rake daemons:stop && echo Daemons STOP DONE!!!"
+    queue %{
+      cd #{deploy_to}/current
+      RAILS_ENV=production bundle exec ./bin/rake daemons:stop
+      echo Daemons STOP DONE!!!
+    }
   end
 
   desc "Query Daemons"
   task status: :environment do
-    queue "cd #{deploy_to}/current && RAILS_ENV=production bundle exec ./bin/rake daemons:status"
+    queue %{
+      cd #{deploy_to}/current
+      RAILS_ENV=production bundle exec ./bin/rake daemons:status
+    }
   end
 end
 
