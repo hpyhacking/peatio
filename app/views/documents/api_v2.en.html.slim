@@ -21,8 +21,8 @@
         td No authentication required
         td Authentication required
       tr
-        td 200 requests/ip/5minutes
-        td 800 requests/keypair/5minutes, you can contact Peatio if you need more.
+        td Unlimited
+        td 6000 requests/keypair/5minutes, you can contact Peatio if you need more.
       tr
         td Ready to use
         td You need to request for access/secret key at first
@@ -147,6 +147,24 @@
             | {"asks": [...],"bids": [...]}
           td
             p OrderBook shows orders on market.
+
+.panel.panel-default
+  .panel-heading
+    h3 Tips/Caveats
+
+  .panel-body
+    table.table
+      thead
+        tr
+          th API
+          th Detail
+      tbody
+        tr
+          td POST /api/v2/order/delete
+          td Cancel order is an asynchronous operation. A success response only means your cancel request has been accepted, it doesn't mean the order has been cancelled. You should always use /api/v2/order or websocket api to get order's latest state.
+        tr
+          td POST /api/v2/orders/clear
+          td Cancel all your orders is an asynchronous operation. A success response only means your request has been accepted. The orders in response may or may not have been cancelled yet.
 
 .panel.panel-default
   .panel-heading
