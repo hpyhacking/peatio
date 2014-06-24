@@ -23,7 +23,7 @@ when 'peatio-admin'
   set :domain, 'peatio-admin'
   set :without_daemons, true
 else
-  set :domain, 'stg.peat.io'
+  set :domain, 'peatio-stg'
 end
 
 set :shared_paths, [
@@ -37,7 +37,6 @@ set :shared_paths, [
   'tmp',
   'log'
 ]
-
 
 task :environment do
   invoke :'rbenv:load'
@@ -130,26 +129,12 @@ task :del_admin do
   queue! "rm -rf #{deploy_to}/current/app/views/admin"
   queue! "rm -rf #{deploy_to}/current/app/models/worker"
 
-  [
-    'amqp_daemon.rb',
-    'coin_deposits.rb',
-    'coin_deposits_ctl',
-    'deposit_coin_address_ctl',
-    'global_state.rb',
-    'global_state_ctl',
-    'hot_wallets.rb',
-    'hot_wallets_ctl',
-    'matching_ctl',
-    'notification_ctl',
-    'pusher_ctl',
-    'trade_executor_ctl',
-    'withdraw_audit_ctl',
-    'withdraw_coin_ctl',
-    'payment_transaction_ctl',
-    'payment_transaction.rb',
-    'deposit_coin_ctl'
-  ].each do |filename|
-    queue! "rm -rf #{deploy_to}/current/lib/daemons/#{filename}"
+  keeps = ['daemons', 'websocket_api.rb', 'websocket_api_ctl']
+  Dir[File.dirname(__FILE__)+'/../lib/daemons/*'].each do |path|
+    filename = File.basename(path)
+    if not keeps.include?(filename)
+      queue! "rm -rf #{deploy_to}/current/lib/daemons/#{filename}"
+    end
   end
 
   queue! "sed -i '/draw\ :admin/d' #{deploy_to}/current/config/routes.rb"
