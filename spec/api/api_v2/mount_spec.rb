@@ -3,6 +3,10 @@ require 'spec_helper'
 module APIv2
   class Mount
 
+    get "/null" do
+      ''
+    end
+
     get "/broken" do
       raise Error, code: 2014310, text: 'MtGox bankrupt'
     end
@@ -14,6 +18,12 @@ describe APIv2::Mount do
 
   it "should use auth and attack middleware" do
     APIv2::Mount.middleware.should == [[APIv2::Auth::Middleware], [Rack::Attack]]
+  end
+
+  it "should allow 3rd party ajax call" do
+    get "/api/v2/null"
+    response.should be_success
+    response.headers['Access-Control-Allow-Origin'].should == '*'
   end
 
   context "handle exception on request processing" do
