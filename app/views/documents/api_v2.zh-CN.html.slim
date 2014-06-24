@@ -21,8 +21,8 @@
         td 无需验证
         td 需要验证
       tr
-        td 对于每个IP, 最多200个请求每5分钟
-        td 对于每个用户, 最多800个请求每5分钟; 如果有更高需求可以联系貔貅管理员
+        td 无限制
+        td 对于每个用户, 最多6000个请求每5分钟(平均20个请求/秒); 如果有更高需求可以联系貔貅管理员
       tr
         td 无需准备立即可用
         td 先要向貔貅管理员申请access/secret key
@@ -156,6 +156,24 @@
             p OrderBook包含了当前市场的挂单信息:
             p asks: 卖单列表
             p bids: 买单列表
+
+.panel.panel-default
+  .panel-heading
+    h3 注意事项
+
+  .panel-body
+    table.table
+      thead
+        tr
+          th API
+          th Detail
+      tbody
+        tr
+          td POST /api/v2/order/delete
+          td 取消挂单. 取消挂单是一个异步操作,api成功返回仅代表取消请求已经成功提交,服务器正在处理,不代表订单已经取消. 当你的挂单有尚未处理的成交(trade)事务,或者取消请求队列繁忙时,该订单会延迟取消. api返回被取消的订单,返回结果中的订单不一定处于取消状态,你的代码不应该依赖api返回结果,而应该通过/api/v2/order或者websocket api来得到该订单的最新状态.
+        tr
+          td POST /api/v2/orders/clear
+          td 取消你所有的挂单. 取消挂单是一个异步操作, api成功返回代表取消请求已经提交,服务器正在处理. api返回的结果是你当前挂单的集合,结果中的订单不一定处于取消状态.
 
 .panel.panel-default
   .panel-heading
