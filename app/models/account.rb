@@ -13,6 +13,7 @@ class Account < ActiveRecord::Base
   STRIKE_UNLOCK = :strike_unlock
   ORDER_CANCEL = :order_cancel
   ORDER_SUBMIT = :order_submit
+  ORDER_FULLFILLED = :order_fullfilled
   WITHDRAW_LOCK = :withdraw_lock
   WITHDRAW_UNLOCK = :withdraw_unlock
   DEPOSIT = :deposit
@@ -74,6 +75,8 @@ class Account < ActiveRecord::Base
     fee = opts[:fee] || ZERO
     reason = opts[:reason] || Account::UNKNOWN
 
+    account = Account.find(account.id).lock!
+
     attributes = {
       fun: fun, fee: fee, reason: reason, amount: account.amount,
       currency: account.currency, member_id: account.member_id }
@@ -116,9 +119,7 @@ class Account < ActiveRecord::Base
   end
 
   def examine
-    versions = self.versions.o2n.load
-
-    expected_amount = versions.reduce 0 do |expected, v|
+    expected_amount = versions.order(:id).reduce(0) do |expected, v|
       expected += v.amount_change
       return false if expected != v.amount
       expected
@@ -128,6 +129,8 @@ class Account < ActiveRecord::Base
   end
 
   def trigger
+    return unless member
+
     json = Jbuilder.encode do |json|
       json.(self, :balance, :locked, :currency)
     end

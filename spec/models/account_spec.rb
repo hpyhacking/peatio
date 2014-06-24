@@ -75,7 +75,7 @@ describe Account do
       expect do
         account.plus_funds(strike_volume, reason: Account::STRIKE_ADD)
         account.sub_funds(strike_volume, reason: Account::STRIKE_FEE)
-      end.to change{account.versions.size}.from(0).to(2)
+      end.to change{account.reload.versions.size}.from(0).to(2)
     end
   end
 

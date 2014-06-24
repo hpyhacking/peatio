@@ -167,9 +167,9 @@ ActiveRecord::Schema.define(version: 20140618004355) do
     t.integer  "bid"
     t.integer  "ask"
     t.integer  "currency"
-    t.decimal  "price",                   precision: 32, scale: 16
-    t.decimal  "volume",                  precision: 32, scale: 16
-    t.decimal  "origin_volume",           precision: 32, scale: 16
+    t.decimal  "price",                    precision: 32, scale: 16
+    t.decimal  "volume",                   precision: 32, scale: 16
+    t.decimal  "origin_volume",            precision: 32, scale: 16
     t.integer  "state"
     t.datetime "done_at"
     t.string   "type",          limit: 8
@@ -274,6 +274,7 @@ ActiveRecord::Schema.define(version: 20140618004355) do
     t.datetime "updated_at"
     t.integer  "ask_member_id"
     t.integer  "bid_member_id"
+    t.decimal  "funds",         precision: 32, scale: 16
   end
 
   add_index "trades", ["ask_member_id"], name: "index_trades_on_ask_member_id", using: :btree

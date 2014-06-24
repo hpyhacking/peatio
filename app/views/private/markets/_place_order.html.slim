@@ -12,6 +12,7 @@
     .tab-content
       #bid_panel.tab-pane.active
         = form_for [market, order_bid], :remote => true do |f|
+          = f.hidden_field :ord_type
           p.last-price
             label = t('.last_price')
             span.value
@@ -26,7 +27,7 @@
             = f.text_field :origin_volume, class: 'form-control'
           p.input-group.total
             label.input-group-addon = t('.total')
-            = f.text_field :sum, class: 'form-control'
+            = f.text_field :total, class: 'form-control'
             span.input-group-addon = market.bid['currency'].upcase
           p.current-balance.clearfix
             label.name = t('.available')
@@ -41,6 +42,7 @@
 
       #ask_panel.tab-pane
         = form_for [market, order_ask], :remote => true do |f|
+          = f.hidden_field :ord_type
           p.last-price
             label = t('.last_price')
             span.value
@@ -53,7 +55,7 @@
             = f.text_field :origin_volume, class: 'form-control'
           p.input-group.total
             label.input-group-addon = t('.total')
-            = f.text_field :sum, class: 'form-control'
+            = f.text_field :total, class: 'form-control'
             span.input-group-addon = market.bid['currency'].upcase
           p.current-balance
             label.name = t('.available')

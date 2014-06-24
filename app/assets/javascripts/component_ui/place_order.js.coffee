@@ -8,7 +8,7 @@
 
     priceSel: 'input[id$=price]'
     volumeSel: 'input[id$=volume]'
-    sumSel: 'input[id$=sum]'
+    sumSel: 'input[id$=total]'
 
     lastPrice: '.last-price .value'
     currentBalanceSel: '.current-balance .value'

@@ -11,18 +11,18 @@ en:
   activerecord:
     attributes:
       deposits/satoshi:
-        created_at: 时间
-        txid: 交易哈希
-        amount: 充值数量
-        memo: 确认数
-        aasm_state_text: 状态
+        created_at: Created At
+        txid: Transaction ID
+        amount: Amount
+        memo: Confirmation
+        aasm_state_text: State
 
   deposits/satoshi:
     aasm_state:
-      submitted: 受理中
-      accepted: 充值成功
-      checked: 充值成功
-      warning: 异常
+      submitted: Submitted
+      accepted: Accepted
+      checked: Checked
+      warning: Warning
 
   guides:
     private:

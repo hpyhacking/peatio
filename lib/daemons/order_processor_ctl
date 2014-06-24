@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'daemons/rails/config'
+
+num = ENV['ORDER_PROCESSOR'] ? ENV['ORDER_PROCESSOR'].to_i : 1
+
+num.times do |i|
+  if pid = fork
+    Process.detach pid
+  else
+    config = Daemons::Rails::Config.for_controller(File.expand_path(__FILE__))
+
+    config[:app_name] = "peatio:amqp:order_processor:#{i+1}"
+    config[:script]   = "#{File.expand_path('../amqp_daemon.rb', __FILE__)}"
+    config[:ARGV]     = ARGV + %w(-- order_processor)
+
+    Daemons::Rails.run config[:script], config.to_hash
+
+    break
+  end
+end

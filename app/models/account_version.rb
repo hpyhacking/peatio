@@ -14,6 +14,7 @@ class AccountVersion < ActiveRecord::Base
     Account::STRIKE_UNLOCK => 130,
     Account::ORDER_SUBMIT => 600,
     Account::ORDER_CANCEL => 610,
+    Account::ORDER_FULLFILLED => 620,
     Account::WITHDRAW_LOCK => 800,
     Account::WITHDRAW_UNLOCK => 810,
     Account::DEPOSIT => 1000,
@@ -24,11 +25,10 @@ class AccountVersion < ActiveRecord::Base
   belongs_to :modifiable, polymorphic: true
 
   scope :history, -> { with_reason(*HISTORY).reverse_order }
-  scope :o2n, -> { order('id asc') }
 
   def detail_template
     if self.detail.nil? || self.detail.empty?
-      return ["system", {}] 
+      return ["system", {}]
     end
 
     [self.detail.delete(:tmp) || "default", self.detail || {}]

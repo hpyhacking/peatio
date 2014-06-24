@@ -33,6 +33,10 @@ class AMQPConfig
       data[:binding][id][:topics].split(',')
     end
 
+    def channel(id)
+      data[:channel][id] || {}
+    end
+
     def queue(id)
       name = data[:queue][id][:name]
       settings = { durable: data[:queue][id][:durable] }

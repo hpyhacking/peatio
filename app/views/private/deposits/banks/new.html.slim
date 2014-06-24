@@ -23,6 +23,6 @@
       - t.column :state_and_action, class: 'col-md-2' do |x|
         - if x.aasm_state.submitting?
           span = "#{x.aasm_state_text} / "
-          = link_to t('actions.cancel'), url_for([x]), method: :delete 
+          = link_to t('actions.cancel'), url_for([x]), method: :delete
         - else
           span = x.aasm_state_text

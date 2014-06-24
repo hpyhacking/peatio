@@ -1,5 +1,13 @@
 class OrderAsk < Order
 
+  has_many :trades, foreign_key: 'ask_id'
+
+  scope :matching_rule, -> { order('price ASC, created_at ASC') }
+
+  def get_account_changes(trade)
+    [trade.volume, trade.funds]
+  end
+
   def hold_account
     member.get_account(ask)
   end
@@ -8,19 +16,13 @@ class OrderAsk < Order
     member.get_account(bid)
   end
 
-  def sum(v = nil, p = nil)
-    v ||= volume
+  def compute_locked
+    case ord_type
+    when 'limit'
+      volume
+    when 'market'
+      estimate_required_funds(Global[currency].bids) {|p, v| v}
+    end
   end
 
-  def self.strike_sum(volume, price)
-    [volume, volume * price]
-  end
-
-  def hold_account_attr
-    :origin_volume
-  end
-
-  has_many :trades, foreign_key: 'ask_id'
-
-  scope :matching_rule, -> { order('price ASC, created_at ASC') }
 end

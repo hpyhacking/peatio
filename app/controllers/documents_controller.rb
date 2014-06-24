@@ -16,4 +16,8 @@ class DocumentsController < ApplicationController
     render 'api_v2', layout: 'api_v2'
   end
 
+  def websocket_api
+    render 'websocket_api', layout: 'api_v2'
+  end
+
 end
