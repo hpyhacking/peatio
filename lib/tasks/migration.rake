@@ -109,7 +109,14 @@ namespace :migration do
         order.locked = order.compute_locked
       end
 
-      order.save! if order.changed?
+      if order.changed?
+        if order.valid?
+          order.save!
+        else
+          p order
+          p order.errors
+        end
+      end
     end
   end
 end
