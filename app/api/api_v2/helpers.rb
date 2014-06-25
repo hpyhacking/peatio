@@ -5,6 +5,10 @@ module APIv2
       current_user or raise AuthorizationError
     end
 
+    def redis
+      @r ||= Redis.new db: 1
+    end
+
     def current_user
       @current_user ||= current_token.try(:member)
     end
