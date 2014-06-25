@@ -17,11 +17,11 @@ class MixpanelTracker
     end
   end
 
-  def activate(mp_cookie, member)
+  def activate(mp_cookie, token)
     return unless mp_cookie
-    @tracker.track mp_cookie['distinct_id'], "Activation", email: member.try(:email)
-    @tracker.alias member.email, mp_cookie['distinct_id'] if member
-    @tracker.people.set(member.email, get_profile(member))
+    @tracker.track mp_cookie['distinct_id'], "Activation", email: token.member.email, token: token.token
+    @tracker.alias token.member.email, mp_cookie['distinct_id']
+    @tracker.people.set(token.member.email, get_profile(token.member))
   end
 
   def id_document_created(mp_cookie, id_document)
