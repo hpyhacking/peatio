@@ -27,13 +27,13 @@ def next_ts(market, period = 1)
     ts = Time.at(JSON.parse(latest)[0])
     ts += period.minutes
   else
-    ts = Trade.first.created_at.to_i
+    ts = Trade.with_currency(market).first.created_at.to_i
     ts = Time.at(ts -  ts % (period * 60))
   end
 end
 
-def OHLC(start, period = 1)
-  trades = Trade.where(created_at: start..(start + period.minutes)).pluck(:price, :volume)
+def OHLC(market, start, period = 1)
+  trades = Trade.with_currency(market).where(created_at: start..(start + period.minutes)).pluck(:price, :volume)
   return nil if trades.count == 0
 
   prices, volumes = trades.transpose
@@ -45,7 +45,7 @@ def fill(market, period = 1)
     ts = next_ts(market, period)
     break if ts + period.minutes > Time.now + 1.second
 
-    k = OHLC(ts, period)
+    k = OHLC(market, ts, period)
     if k.nil?
       k = JSON.parse @r.lindex(key(market, period), -1)
       k = [ts.to_i, k[4], k[4], k[4], k[4], 0]
