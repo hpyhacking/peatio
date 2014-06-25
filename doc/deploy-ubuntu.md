@@ -151,7 +151,7 @@ find the following lines, and uncomment them:
 ##### Clone the Source
 
     mkdir -p ~/peatio
-    git clone git@github.com:peatio/peatio.git ~/peatio/current
+    git clone git://github.com/peatio/peatio.git ~/peatio/current
     cd peatio/current
 
     ＃ Install dependency gems

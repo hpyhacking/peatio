@@ -119,7 +119,7 @@ Insert the following lines into the bitcoin.conf, and replce with your username 
 
 **Clone the project**
 
-    git clone git@github.com:peatio/peatio.git
+    git clone git://github.com/peatio/peatio.git
     cd peatio
     bundle install
 
