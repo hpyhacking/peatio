@@ -21,7 +21,7 @@ module Matching
         if crossed?(counter_order.price)
           trade_price  = counter_order.price
           trade_volume = [volume, counter_order.volume].min
-          trade_funds  = trade_price.mult_and_round(trade_volume)
+          trade_funds  = trade_price*trade_volume
           [trade_price, trade_volume, trade_funds]
         end
       else
