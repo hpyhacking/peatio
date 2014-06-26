@@ -62,7 +62,10 @@ Peatio::Application.routes.draw do
         get :partial_tree
       end
     end
-    resources :my_assets, :controller => 'my_assets', :only => [:index]
+
+    get '/history/orders' => 'history#orders', as: :order_history
+    get '/history/trades' => 'history#trades', as: :trade_history
+    get '/history/account' => 'history#account', as: :account_history
 
     resources :markets, :only => :show, :constraints => MarketConstraint do
       resources :orders, :only => [:index, :destroy]

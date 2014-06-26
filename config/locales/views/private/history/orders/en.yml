@@ -1,0 +1,20 @@
+en:
+  private:
+    history:
+      orders:
+        order_history: Order History
+        id: ID
+        type: Type
+        state: State
+        market: Market
+        price: Price
+        volume: Volume
+        average_price: Avg. Price
+        fullfilled_volume: Fullfilled
+        timestamp: Created At
+      order:
+        ask: Sell
+        bid: Buy
+        wait: Open
+        cancel: Cancelled
+        done: Done

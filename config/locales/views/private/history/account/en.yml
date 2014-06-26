@@ -1,11 +1,11 @@
 en:
   private:
-    my_assets:
-      transaction_history:
+    history:
+      account:
         buy: Buy
         sell: Sell
         filter_by_type: Filter by type
-        transaction_history: Transaction History
+        account_history: Account History
         type: type
         timestamp: date and time
         fiat_currency: fiat currency

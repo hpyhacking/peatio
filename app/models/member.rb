@@ -57,6 +57,10 @@ class Member < ActiveRecord::Base
     Figaro.env.admin.split(',')
   end
 
+  def trades
+    Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
+  end
+
   def active
     self.update_column(:activated, true)
   end
