@@ -1,0 +1,20 @@
+.container
+  .panel.panel-default#transactions
+    .panel-heading
+      = t('.order_history')
+    .panel-body
+      .col-md-12
+        table.table.table-condensed.table-striped
+          thead: tr
+            th = t('.id')
+            th = t('.type')
+            th = t('.state')
+            th = t('.market')
+            th = t('.price')
+            th = t('.volume')
+            th = t('.average_price')
+            th = t('.fullfilled_volume')
+            th = t('.timestamp')
+          tbody.list
+            = render partial: 'order', collection: @orders
+        = paginate @orders

@@ -1,0 +1,13 @@
+zh-CN:
+  private:
+    history:
+      orders:
+        id: ID
+        type: 类型
+        state: 状态
+        market: 货币对
+        price: 委托价
+        volume: 委托数量
+        average_price: 平均成交价
+        fullfilled_volume: 成交数量
+        timestamp: 委托时间

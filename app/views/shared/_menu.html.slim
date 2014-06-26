@@ -3,7 +3,7 @@ ul#menu.nav.navbar-nav.navbar-left
   = top_nav_link(t('header.deposit'), deposits_path, 'credit-card', controllers: ['deposits'])
   = top_nav_link(t('header.withdraw'), withdraws_path, 'money', controllers: ['withdraws'])
   = top_nav_link(t('header.assets'), exchange_assets_path, 'bar-chart-o')
-  = top_nav_link(t('header.history'), transaction_history_path, 'dollar')
+  = top_nav_link(t('header.history'), order_history_path, 'dollar')
 ul.nav.navbar-nav.navbar-right
   - if current_user
     = top_nav_link(current_user.email, settings_path, 'user', controllers: ['two_factors', 'identities', 'id_documents'])

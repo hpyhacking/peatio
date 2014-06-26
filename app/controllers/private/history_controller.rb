@@ -13,6 +13,7 @@ module Private
     end
 
     def orders
+      @orders = current_user.orders.includes(:trades).order("id desc").page(params[:page]).per(50)
     end
 
   end
