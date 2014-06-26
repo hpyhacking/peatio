@@ -65,7 +65,7 @@ Peatio::Application.routes.draw do
 
     get '/history/orders' => 'history#orders', as: :order_history
     get '/history/trades' => 'history#trades', as: :trade_history
-    get '/history/transactions' => 'history#transactions', as: :transaction_history
+    get '/history/account' => 'history#account', as: :account_history
 
     resources :markets, :only => :show, :constraints => MarketConstraint do
       resources :orders, :only => [:index, :destroy]

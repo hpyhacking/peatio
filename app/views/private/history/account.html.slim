@@ -1,7 +1,7 @@
 .container
   .panel.panel-default#transactions
     .panel-heading
-      = t('.transaction_history')
+      = t('.account_history')
       span.dropdown.pull-right
         a data-toggle="dropdown" href="#"
           = t('.filter_by_type')
@@ -9,10 +9,6 @@
         ul.dropdown-menu
           li
             a = t('all')
-          li
-            a.buy = t('.buy')
-          li
-            a.sell = t('.sell')
           li
             a.deposit = t('header.deposit')
           li

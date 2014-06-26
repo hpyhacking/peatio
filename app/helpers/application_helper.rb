@@ -138,7 +138,7 @@ module ApplicationHelper
   def history_links
     [ [t('header.order_history'), order_history_path],
       [t('header.trade_history'), trade_history_path],
-      [t('header.account_history'), '#'] ]
+      [t('header.account_history'), account_history_path] ]
   end
 
   def market_links

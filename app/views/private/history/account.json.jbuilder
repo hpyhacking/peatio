@@ -49,8 +49,8 @@ json.sells @sells do |sell|
 end
 
 json.i18n do
-  json.sell I18n.t('private.history.transactions.sell')
-  json.buy I18n.t('private.history.transactions.buy')
+  json.sell I18n.t('private.history.account.sell')
+  json.buy I18n.t('private.history.account.buy')
   json.deposit I18n.t('header.deposit')
   json.withdraw I18n.t('header.withdraw')
   json.cny I18n.t('currency.name.cny')
