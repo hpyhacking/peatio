@@ -94,7 +94,7 @@ en:
     withdraw: Withdraw
     getstart: Get Start
     assets: Solvency
-    my_assets: My Assets
+    history: History
 
   admin_header:
     deposits: Depoists

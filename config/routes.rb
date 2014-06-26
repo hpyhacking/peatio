@@ -64,6 +64,8 @@ Peatio::Application.routes.draw do
     end
     resources :my_assets, :controller => 'my_assets', :only => [:index]
 
+    get '/history/transactions' => 'history#transactions', as: :transaction_history
+
     resources :markets, :only => :show, :constraints => MarketConstraint do
       resources :orders, :only => [:index, :destroy]
       resources :order_bids, :only => [:create]
