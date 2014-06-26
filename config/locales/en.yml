@@ -95,6 +95,9 @@ en:
     getstart: Get Start
     assets: Solvency
     history: History
+    order_history: Order History
+    trade_history: Trade History
+    account_history: Account History
 
   admin_header:
     deposits: Depoists
