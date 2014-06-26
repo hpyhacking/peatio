@@ -21,6 +21,14 @@ An open-source crypto currency exchange
 * [Setup on Mac OS X](doc/setup-osx.md)
 * [Setup on Ubuntu](doc/setup-ubuntu.md)
 
+### API
+
+You can interact with Peatio through API:
+
+* [API v2](http://demo.peat.io/documents/api_v2?lang=en)
+* [Websocket API](http://demo.peat.io/documents/websocket_api)
+* [peatio-client-ruby](https://github.com/peatio/peatio-client-ruby) is a ruby wrapper of both HTTP/Websocket API. 
+
 ### Contributing
 
 You can contribute to this project in one of two ways:
