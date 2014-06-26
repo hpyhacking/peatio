@@ -10,15 +10,16 @@ require File.join(root, "config", "environment")
 
 Rails.logger = @logger = Logger.new STDOUT
 
-@r = Redis.new db: 1
+@r ||= Redis.new url: ENV["REDIS_HOST"], db: 1
 
 $running = true
 Signal.trap("TERM") do
   $running = false
 end
 
+
 def key(market, period = 1)
-  "#{market}-k#{period}"
+  "peatio:#{market}:k:#{period}"
 end
 
 def next_ts(market, period = 1)
@@ -37,7 +38,7 @@ def OHLC(market, start, period = 1)
   return nil if trades.count == 0
 
   prices, volumes = trades.transpose
-  [start.to_i, prices.first.to_f, prices.max.to_f, prices.min.to_f, prices.last.to_f, volumes.reduce(&:+).to_f.round(4)]
+  [start.to_i, prices.first.to_f, prices.max.to_f, prices.min.to_f, prices.last.to_f, volumes.sum.to_f.round(4)]
 end
 
 def fill(market, period = 1)
