@@ -62,7 +62,6 @@ Peatio::Application.routes.draw do
         get :partial_tree
       end
     end
-    resources :my_assets, :controller => 'my_assets', :only => [:index]
 
     get '/history/transactions' => 'history#transactions', as: :transaction_history
 
