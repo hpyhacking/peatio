@@ -2,6 +2,7 @@ en:
   private:
     history:
       orders:
+        order_history: Order History
         id: ID
         type: Type
         state: State

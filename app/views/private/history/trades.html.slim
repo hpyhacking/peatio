@@ -1,0 +1,19 @@
+.container
+  .panel.panel-default#transactions
+    .panel-heading
+      = t('.trade_history')
+    .panel-body
+      .col-md-12
+        table.table.table-condensed.table-striped
+          thead: tr
+            th = t('.side')
+            th = t('.created_at')
+            th = t('.base_currency')
+            th = t('.base_amount')
+            th = t('.quote_currency')
+            th = t('.quote_amount')
+            th = t('.price')
+          tbody.list
+            = render partial: 'trade', collection: @trades
+        .pull-right
+          = paginate @trades

@@ -2,6 +2,7 @@ zh-CN:
   private:
     history:
       orders:
+        order_history: 委托记录
         id: ID
         type: 类型
         state: 状态
