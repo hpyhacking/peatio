@@ -12,3 +12,9 @@ zh-CN:
         average_price: 平均成交价
         fullfilled_volume: 成交数量
         timestamp: 委托时间
+      order:
+        ask: 卖出
+        bid: 买入
+        wait: 待成交
+        cancel: 已取消
+        done: 已成交
