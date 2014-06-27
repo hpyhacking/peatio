@@ -35,4 +35,17 @@ describe Member do
       }.to change(Activation, :count).by(1)
     end
   end
+
+  describe '#trades' do
+    subject { create(:member) }
+
+    it "should find all trades belong to user" do
+      ask = create(:order_ask, member: member)
+      bid = create(:order_bid, member: member)
+      t1 = create(:trade, ask: ask)
+      t2 = create(:trade, bid: bid)
+      member.trades.order('id').should == [t1, t2]
+    end
+  end
+
 end

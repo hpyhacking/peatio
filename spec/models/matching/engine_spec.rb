@@ -160,4 +160,30 @@ describe Matching::Engine do
     end
   end
 
+  context "float number edge cases" do
+    it "should add up used funds to locked funds" do
+      order = create(:order_bid, price: '3662.05', volume: '0.62')
+      bid  = Matching.mock_limit_order(order.to_matching_attributes)
+
+      ask1 = Matching.mock_limit_order(type: :ask, price: '3658.28'.to_d, volume: '0.0129'.to_d)
+      ask2 = Matching.mock_limit_order(type: :ask, price: '3661.72'.to_d, volume: '0.26'.to_d)
+      ask3 = Matching.mock_limit_order(type: :ask, price: '3659.00'.to_d, volume: '0.2945'.to_d)
+      ask4 = Matching.mock_limit_order(type: :ask, price: '3661.68'.to_d, volume: '0.0526'.to_d)
+
+      used_funds = 0
+      subject.stubs(:publish).with do |order, counter_order, trade|
+        price, volume, funds = trade
+        used_funds += funds
+      end
+
+      subject.submit bid
+      subject.submit ask1
+      subject.submit ask2
+      subject.submit ask3
+      subject.submit ask4
+
+      used_funds.should ==  order.compute_locked
+    end
+  end
+
 end
