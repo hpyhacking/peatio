@@ -135,10 +135,15 @@ module ApplicationHelper
     end
   end
 
+  def history_links
+    [ [t('header.order_history'), order_history_path],
+      [t('header.trade_history'), trade_history_path],
+      [t('header.account_history'), account_history_path] ]
+  end
+
   def market_links
     @market_links ||= Market.all.collect{|m| [m.name, market_path(m.id)]}
   end
-
 
   def simple_vertical_form_for(record, options={}, &block)
     result = simple_form_for(record, options, &block)
