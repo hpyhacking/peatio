@@ -24,7 +24,7 @@ class Global
   def key(key, interval=5)
     seconds  = Time.now.to_i
     time_key = seconds - (seconds % interval)
-    "#{@currency}-#{key}-#{time_key}"
+    "peatio:#{@currency}:#{key}:#{time_key}"
   end
 
   def asks
@@ -63,7 +63,7 @@ class Global
   end
 
   def price
-    Rails.cache.fetch key('price1', 300) do
+    Rails.cache.fetch key('price', 300) do
       Trade.with_currency(currency)
         .select("id, price, sum(volume) as volume, trend, currency, max(created_at) as created_at")
         .where("created_at > ?", 24.to_i.hours.ago).order(:id)
@@ -74,12 +74,11 @@ class Global
   end
 
   def trigger_ticker
-    data = {:ticker => ticker, :asks => asks, :bids => bids}
+    data = {ticker: ticker, asks: asks, bids: bids}
     Pusher.trigger_async(channel, "update", data)
   end
 
   def trigger_trades(trades)
-    {trades: trades}
     Pusher.trigger_async(channel, "trades", trades: trades)
   end
 

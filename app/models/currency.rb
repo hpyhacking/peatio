@@ -22,7 +22,7 @@ class Currency < ActiveYaml::Base
   end
 
   def balance_cache_key
-    "hot-wallet-#{code}-balance"
+    "peatio:hotwallet:#{code}:balance"
   end
 
   def balance
