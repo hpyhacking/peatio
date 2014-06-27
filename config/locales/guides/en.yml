@@ -5,7 +5,7 @@ en:
 
     private:
       settings:
-        panel: My Account
+        panel: Settings
         index:
           intro: Admin and revise your profile.
 

@@ -20,6 +20,9 @@ html lang="en"
       - else
         = render 'shared/header'
 
+      - if content_for?(:before_content)
+        = yield(:before_content)
+
       - if content_for?(:frame)
         = yield(:frame)
       - else

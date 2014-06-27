@@ -12,7 +12,7 @@ en:
     realtime_price:
       title: Realtime Price
     account_balance:
-      title: Account Balance
+      title: Balance
       available_btc: BTC
       available_cny: CNY
   gon:
@@ -98,6 +98,7 @@ en:
     order_history: Order History
     trade_history: Trade History
     account_history: Account History
+    my_profile: My Profile
 
   admin_header:
     deposits: Depoists

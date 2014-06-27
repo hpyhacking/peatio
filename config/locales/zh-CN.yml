@@ -107,6 +107,7 @@ zh-CN:
     order_history: 委托记录
     trade_history: 成交记录
     account_history: 账户记录
+    my_profile: 我的账户
 
   admin_header:
     deposits: 充值管理
