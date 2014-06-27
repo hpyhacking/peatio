@@ -91,7 +91,7 @@ describe 'withdraw' do
     visit new_withdraws_bank_path
 
     submit_bank_withdraw_request 800
-    expect(current_path).to eq(withdraws_banks_path)
+    expect(URI(current_path).path).to eq(URI(withdraws_banks_path).path)
     expect(page).to have_text(I18n.t('activerecord.errors.models.withdraws/bank.attributes.sum.poor'))
   end
 
