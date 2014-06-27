@@ -98,6 +98,7 @@ en:
     order_history: Order History
     trade_history: Trade History
     account_history: Account History
+    my_profile: My Profile
 
   admin_header:
     deposits: Depoists
