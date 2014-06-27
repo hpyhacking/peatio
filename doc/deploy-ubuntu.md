@@ -5,7 +5,7 @@ Deploy on Ubuntu 14.04
 
 1. Setup deploy user
 2. Install [Ruby](https://www.ruby-lang.org/en/)
-3. Install [MariaDB](https://mariadb.org/) (A community developed fork of MySQL)
+3. Install [MySQL](http://www.mysql.com/)
 4. Install [Redis](http://redis.io/)
 5. Install [RabbitMQ](https://www.rabbitmq.com/)
 6. Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
@@ -55,14 +55,9 @@ Install bundler
     gem install bundler
     rbenv rehash
 
-### 3. Install MariaDB
+### 3. Install MySQL
 
-Please follow instructions here: https://downloads.mariadb.org/mariadb/repositories/#mirror=nus&distro=Ubuntu&distro_release=trusty&version=10.0
-
-    sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-    sudo add-apt-repository 'deb http://download.nus.edu.sg/mirror/mariadb/repo/10.0/ubuntu trusty main'
-    sudo apt-get update
-    sudo apt-get install mariadb-server mariadb-client libmariadbclient-dev
+    sudo apt-get install mysql-server  mysql-client  libmysqlclient-dev
 
 ### 4. Install Redis
 

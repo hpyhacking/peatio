@@ -5,11 +5,12 @@ Setup on Mac OS X 10.9 Mavericks
 
 1. Install [Homebrew](http://brew.sh/)
 2. Install [Ruby](https://www.ruby-lang.org/en/)
-3. Install [MariaDB](https://mariadb.org/) (A community developed fork of MySQL)
+3. Install [MySQL](http://www.mysql.com/)
 4. Install [Redis](http://redis.io/)
 5. Install [RabbitMQ](https://www.rabbitmq.com/)
 6. Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
-7. Configure Peatio
+7. Install [PhantomJS](http://phantomjs.org/)
+8. Configure Peatio
 
 ### 1. Install Homebrew
 
@@ -37,19 +38,19 @@ Install bundler
     gem install bundler
     rbenv rehash
 
-### 3. Install MariaDB
+### 3. Install MySQL
 
-    brew install mariadb
+    brew install mysql
 
 ### 4. Install Redis
 
     brew install redis
 
-### 5. install RabbitMQ
+### 5. Install RabbitMQ
 
     brew install rabbitmq
 
-### 6. install Bitcoind
+### 6. Install Bitcoind
 
 Download and Install [Bitcoin Core](http://bitcoin.org/en/download)
 
@@ -74,7 +75,13 @@ Insert the following lines into the bitcoin.conf, and replce with your username 
 
     open /Applications/Bitcoin-Qt.app
 
-### 7. Configure Peatio
+### 7. Install PhantomJS
+
+Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to run the tests. Install the PhantomJS is neccessary.
+
+    brew install phantomjs
+
+### 8. Configure Peatio
 
 **Clone the project**
 
