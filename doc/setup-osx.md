@@ -125,7 +125,7 @@ More details to visit [pusher official website](http://pusher.com)
     TRADE_EXECUTOR=4 rake daemon:trade_executor:start
 
     # You can do the same when you start all daemons:
-    TRADE_EXECUTOR=4 rake daemon:start
+    TRADE_EXECUTOR=4 rake daemons:start
 
 **Run Peatio**
 
