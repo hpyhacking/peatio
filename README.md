@@ -6,12 +6,13 @@ An open-source crypto currency exchange
 
 ### Requirements
 
-* Ubuntu Linux / Mac OSX
+* Linux / Mac OSX
 * Ruby 2.1.0
 * Rails 4.0+
 * Git 1.7.10+
 * Redis 2.0+
 * MySQL
+* RabbitMQ
 
 ** More details are in the [doc](doc).
 
