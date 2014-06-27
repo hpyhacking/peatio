@@ -12,7 +12,7 @@ en:
     realtime_price:
       title: Realtime Price
     account_balance:
-      title: Account Balance
+      title: Balance
       available_btc: BTC
       available_cny: CNY
   gon:

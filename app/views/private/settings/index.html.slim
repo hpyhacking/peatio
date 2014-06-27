@@ -1,5 +1,5 @@
-.row
-  .col-md-12 = render partial: 'account_balance'
+= content_for :before_content do
+  .container = render partial: 'account_balance'
 
 ul.list-group
 
