@@ -1,7 +1,7 @@
 def login(identity, otp: nil, password: nil)
   visit root_path
   click_on I18n.t('header.signin')
-  expect(current_path).to eq(signin_path)
+  expect(URI(current_path).path).to eq(URI(signin_path).path)
 
   within 'form#new_identity' do
     fill_in 'identity_email', with: identity.email

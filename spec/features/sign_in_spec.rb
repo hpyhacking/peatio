@@ -6,7 +6,7 @@ describe 'Sign in' do
 
   it 'allows a user to sign in with email, password' do
     signin identity
-    expect(current_path).to eq(settings_path)
+    expect(URI(current_path).path).to eq(URI(settings_path).path)
   end
 
   it "sends notification email after user sign in" do
