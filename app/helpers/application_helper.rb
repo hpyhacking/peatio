@@ -129,7 +129,11 @@ module ApplicationHelper
       end +
       content_tag(:ul, class: 'dropdown-menu') do
         links.collect do |link|
-          concat content_tag(:li, link_to(*link))
+          if link == '-'
+            concat tag(:li, class: 'divider')
+          else
+            concat content_tag(:li, link_to(*link))
+          end
         end
       end
     end
@@ -142,7 +146,11 @@ module ApplicationHelper
   end
 
   def market_links
-    @market_links ||= Market.where(hide: nil).collect{|m| [m.name, market_path(m.id)]}
+    [ ['BTC/CNY', market_path(:btccny)],
+      ['PTS/CNY', market_path(:ptscny)],
+      ['DOG/CNY', market_path(:dogcny)],
+      '-',
+      ['DOG/BTC', market_path(:dogbtc)] ]
   end
 
   def simple_vertical_form_for(record, options={}, &block)
