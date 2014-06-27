@@ -7,7 +7,7 @@ ul#menu.nav.navbar-nav.navbar-left
 
 ul.nav.navbar-nav.navbar-right
   - if current_user
-    = top_nav_link(current_user.email, settings_path, 'user', controllers: ['two_factors', 'identities', 'id_documents'])
+    = top_nav_link(t('header.my_profile'), settings_path, 'user', controllers: ['two_factors', 'identities', 'id_documents'])
     - if is_admin?
       = top_nav_link('', admin_dashboard_path, 'dashboard')
     li: a#sign_out href='#{main_app.signout_path}'
