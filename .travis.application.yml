@@ -10,6 +10,8 @@ defaults: &defaults
   API_WHITELIST: []
   ADMIN: 'admin@peatio.dev,admin@example.com'
 
+  REDIS_URL: redis://127.0.0.1:6379
+
   # below settings only in production env
   # system notify mail settings
   # recaptcha settings

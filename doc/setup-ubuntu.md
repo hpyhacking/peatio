@@ -5,10 +5,11 @@ Setup on Ubuntu 14.04 LTS
 
 1. Setup deploy user
 2. Install [Ruby](https://www.ruby-lang.org/en/)
-3. Install [MariaDB](https://mariadb.org/) (A community developed fork of MySQL)
+3. Install [MySQL](http://www.mysql.com/)
 4. Install [Redis](http://redis.io/)
 5. Install [RabbitMQ](https://www.rabbitmq.com/)
 6. Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
+7. Install [PhantomJS](http://phantomjs.org/)
 7. Configure Peatio
 
 ### 1. Setup deploy user
@@ -54,14 +55,9 @@ Install bundler
     gem install bundler
     rbenv rehash
 
-### 3. Install MariaDB
+### 3. Install MySQL
 
-Please follow instructions here:  https://downloads.mariadb.org/mariadb/repositories/#mirror=nus&distro=Ubuntu&distro_release=trusty&version=10.0
-
-    sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
-    sudo add-apt-repository 'deb http://download.nus.edu.sg/mirror/mariadb/repo/10.0/ubuntu trusty main'
-    sudo apt-get update
-    sudo apt-get install mariadb-server mariadb-client libmariadbclient-dev
+    sudo apt-get install mysql-server  mysql-client  libmysqlclient-dev
 
 ### 4. Install Redis
 
@@ -115,7 +111,18 @@ Insert the following lines into the bitcoin.conf, and replce with your username 
 
     bitcoind
 
-### 7. Configure Peatio
+### 7. Install PhantomJS
+
+Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to run the tests. Install the PhantomJS is neccessary.
+
+    sudo apt-get update
+    sudo apt-get install build-essential chrpath git-core libssl-dev libfontconfig1-dev
+    git clone git://github.com/ariya/phantomjs.git
+    cd phantomjs
+    git checkout 1.9
+    ./build.sh
+
+### 8. Configure Peatio
 
 **Clone the project**
 

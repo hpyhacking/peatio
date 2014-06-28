@@ -23,8 +23,6 @@ module Worker
       ticker[:low]     = trade.price if trade.price < ticker[:low]
       ticker[:high]    = trade.price if trade.price > ticker[:high]
       ticker[:last]    = trade.price
-      ticker[:volume] += trade.volume
-
       Rails.cache.write "peatio:#{trade.market.id}:ticker", ticker
     end
 
@@ -44,8 +42,7 @@ module Worker
       @tickers[market.id] = {
         low:    trades.h24.minimum(:price) || ::Trade::ZERO,
         high:   trades.h24.maximum(:price) || ::Trade::ZERO,
-        last:   trades.last.try(:price)    || ::Trade::ZERO,
-        volume: trades.h24.sum(:volume)    || ::Trade::ZERO
+        last:   trades.last.try(:price)    || ::Trade::ZERO
       }
       Rails.cache.write "peatio:#{market.id}:ticker", @tickers[market.id]
     end

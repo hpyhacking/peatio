@@ -10,7 +10,7 @@ require File.join(root, "config", "environment")
 
 Rails.logger = @logger = Logger.new STDOUT
 
-@r ||= Redis.new url: ENV["REDIS_HOST"] || 'redis://127.0.0.1:6379', db: 1
+@r ||= Redis.new url: ENV["REDIS_URL"], db: 1
 
 $running = true
 Signal.trap("TERM") do

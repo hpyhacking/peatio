@@ -14,7 +14,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
-I18n.locale = :en
+I18n.available_locales = ['en']
 
 Capybara.register_driver :poltergeist do |app|
   options = {:js_errors => false, :debug => false, :logger => nil, :phantomjs_logger => nil}
