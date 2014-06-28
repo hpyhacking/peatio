@@ -15,7 +15,7 @@ Peatio::Application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :file_store, "tmp"
-  config.cache_store = :redis_store, { expires_in: 90.minutes }
+  config.cache_store = :redis_store, { expires_in: 24.hours }
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
