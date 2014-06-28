@@ -23,7 +23,9 @@ module Worker
       ticker[:low]     = trade.price if trade.price < ticker[:low]
       ticker[:high]    = trade.price if trade.price > ticker[:high]
       ticker[:last]    = trade.price
-      ticker[:volume] += trade.volume
+
+      # FIXME: do NOT touch database
+      ticker[:volume]  = Trade.with_currency(trade.market).h24.sum(:volume) || ::Trade::ZERO
 
       Rails.cache.write "peatio:#{trade.market.id}:ticker", ticker
     end
