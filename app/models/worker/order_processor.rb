@@ -29,19 +29,25 @@ module Worker
       true
     end
 
+    def process_cancel_jobs
+      queue = @cancel_queue
+      @cancel_queue = []
+
+      queue.each do |attrs|
+        unless check_and_cancel(attrs)
+          @cancel_queue << attrs
+        end
+      end
+    rescue
+      Rails.logger.debug "Failed to process cancel job: #{$!}"
+      Rails.logger.debug $!.backtrace.join("\n")
+    end
+
     def create_cancel_thread
       Thread.new do
         loop do
           sleep 5
-
-          queue = @cancel_queue
-          @cancel_queue = []
-
-          queue.each do |attrs|
-            unless check_and_cancel(attrs)
-              @cancel_queue << attrs
-            end
-          end
+          process_cancel_jobs
         end
       end
     end
