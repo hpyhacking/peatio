@@ -45,6 +45,9 @@ module Worker
         Rails.cache.write "peatio:#{market}:depth:bids", bids
         Rails.logger.debug "SlaveBook #{market} - bids depth updated (#{bids.first.last.to_s('F')}@#{bids.first.first.to_s('F')})"
       end
+    rescue
+      Rails.logger.error "Failed to cache book: #{$!}"
+      Rails.logger.error $!.backtrace.join("\n")
     end
 
     def order
