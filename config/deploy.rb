@@ -9,19 +9,19 @@ set :user, 'deploy'
 set :deploy_to, '/home/deploy/peatio'
 set :branch, ENV['branch'] || 'master'
 set :without_admin, false
-set :without_daemons, false
 
 case ENV['to']
 when 'demo'
   set :domain, 'demo.peat.io'
 when 'peatio-daemon'
   set :domain, 'peatio-daemon'
+when 'peatio-redis'
+  set :domain, 'peatio-redis'
 when 'peatio-web-01'
   set :domain, 'peatio-web-01'
   set :without_admin, true
 when 'peatio-admin'
   set :domain, 'peatio-admin'
-  set :without_daemons, true
 else
   set :domain, 'peatio-stg'
 end
@@ -72,7 +72,7 @@ task deploy: :environment do
 
     to :launch do
       invoke :del_admin if without_admin
-      invoke :del_daemons if without_daemons
+      invoke :del_daemons
       invoke :'passenger:restart'
     end
   end
@@ -129,18 +129,32 @@ task :del_admin do
   queue! "rm -rf #{deploy_to}/current/app/views/admin"
   queue! "rm -rf #{deploy_to}/current/app/models/worker"
 
-  keeps = ['daemons', 'websocket_api.rb', 'websocket_api_ctl']
-  Dir[File.dirname(__FILE__)+'/../lib/daemons/*'].each do |path|
-    filename = File.basename(path)
-    if not keeps.include?(filename)
-      queue! "rm -rf #{deploy_to}/current/lib/daemons/#{filename}"
-    end
-  end
-
   queue! "sed -i '/draw\ :admin/d' #{deploy_to}/current/config/routes.rb"
 end
 
 desc 'delete daemons'
 task :del_daemons do
-  queue! "rm -rf #{deploy_to}/current/lib/daemons"
+
+  keeps = []
+
+  case domain
+  when 'peatio-admin'
+    queue! "rm -rf #{deploy_to}/current/lib/daemons"
+  when 'peatio-daemon'
+    queue! "rm -rf #{deploy_to}/current/lib/daemons/k.rb"
+    queue! "rm -rf #{deploy_to}/current/lib/daemons/k_ctl"
+  when 'peatio-web-01'
+    keeps = ['daemons', 'websocket_api.rb', 'websocket_api_ctl']
+  when 'peatio-redis'
+    keeps = ['daemons', 'k.rb', 'k_ctl']
+  end
+
+  if not keeps.empty?
+    Dir[File.dirname(__FILE__)+'/../lib/daemons/*'].each do |path|
+      filename = File.basename(path)
+      if not keeps.include?(filename)
+        queue! "rm -rf #{deploy_to}/current/lib/daemons/#{filename}"
+      end
+    end
+  end
 end
