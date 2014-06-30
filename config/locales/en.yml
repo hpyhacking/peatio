@@ -111,11 +111,6 @@ en:
     contact: Contact
     price: Price
 
-  recaptcha:
-    errors:
-      verification_failed: Invlaid verification
-      recaptcha_unavailable: Invlaid verification
-
   actions:
     go: Go
     submit: Submit

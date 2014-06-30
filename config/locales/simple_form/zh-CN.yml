@@ -47,7 +47,6 @@ zh-CN:
       default_message: "请检查以下问题:"
     labels:
       defaults:
-        recaptcha: 验证码
         save_fund_source: 保存为常用帐号，以便下次使用
         otp: 验证器上的密码
       two_factor:
