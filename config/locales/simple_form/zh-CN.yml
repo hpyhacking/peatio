@@ -100,9 +100,9 @@ zh-CN:
         otp_secret: 建议您备份好二维码图片或者密文，以免手机意外丢失后给您带来不便。
         otp: 您的验证器每三十秒会重新生成新密码，请及时输入。
       identity:
-        password: 请输入至少8位，并必须包含大写、小写字母与数字。
+        password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
       reset_password:
-        password: 请输入至少8位，并必须包含大写、小写字母与数字。
+        password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
       id_document:
         name: 请填写与您证件上一致的姓名。
       fund_source:

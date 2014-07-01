@@ -101,8 +101,8 @@ en:
         otp_secret: We recommend that you back up  two-dimensional code image or ciphertext to avoid that you accidental loss of the phone for the inconvenience.
         otp: Your validator will re-generate a new password every thirty seconds, please input timely.
       identity:
-        password: Set a password which has at least 8 characters and must contain uppercase and lowercase letters and numbers.
+        password: Set a password which has at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
       reset_password:
-        password: Set a password which has at least 8 characters and must contain uppercase and lowercase letters and numbers.
+        password: Set a password which has at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
       id_document:
         name: Please fill in the name which  is consistent with your Credentials.
