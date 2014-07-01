@@ -27,7 +27,7 @@ zh-CN:
         receive_fund_extra_text: 貔貅交易所开户行
         member_sn: 个人识别码
         amount: 充值金额
-        sn: 充值编号
+        sn: 转账备注（必填）
         state_and_action: 状态 / 操作
 
   deposits/bank:
@@ -82,7 +82,7 @@ zh-CN:
           sum: "<a target='_balance' href='#'>资费说明</a>"
           fund_extra: 若您的开户银行不再列表中，请联系客服
           member_name: <span class='text-danger'>充值银行账户姓名必须与您的实名认证姓名一致</span>
-          sn: <span class='text-danger'>请您务必在银行转账操作备注中复制，否则我们无法快速处理您的订单。</span>
+          sn: "<span class='text-danger'>请您务必在银行转账操作备注中填写数字: <b>%{sn}</b>，否则我们无法快速处理您的订单。</span>"
 
   admin:
     deposits:
