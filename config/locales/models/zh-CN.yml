@@ -171,7 +171,7 @@ zh-CN:
         less: 余额不足
         verify: 验证失败
         strength: 无效的密码强度
-        password: 请输入至少8位密码并必须包含大写、小写字母与数字。
+        password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
         blank: 不可为空。
         orders:
           price: 单价限额 %{l} ~ %{h}
