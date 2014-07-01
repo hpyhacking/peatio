@@ -6,7 +6,7 @@
   = f.input :receive_fund_uid_text, clip: true
   = f.input :receive_fund_extra_text, clip: true
   = f.input :amount, hint: false, clip: true
-  = f.input :sn, clip: true
+  = f.input :sn, clip: true, hint: raw(t('simple_form.hints.deposit.bank.sn', sn: @deposit.sn))
 
 = content_for :after
   = panel do
@@ -20,6 +20,6 @@
       - t.column :state_and_action, class: 'col-md-2' do |x|
         - if x.aasm_state.submitting?
           span = "#{x.aasm_state_text} / "
-          = link_to t('actions.cancel'), url_for([x]), method: :delete 
+          = link_to t('actions.cancel'), url_for([x]), method: :delete
         - else
           span = x.aasm_state_text
