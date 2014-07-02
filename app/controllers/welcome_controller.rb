@@ -6,7 +6,7 @@ class WelcomeController < ApplicationController
       redirect_to market_path(current_market) and return
     end
 
-    @btc_balance = Currency.assets('btc')['balance']
-    @cny_balance  = Currency.assets('cny')['balance']
+    @btc_balance = Proof.current(:btc).try(:balance)
+    @cny_balance  = Proof.current(:cny).try(:balance)
   end
 end
