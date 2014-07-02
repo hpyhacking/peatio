@@ -65,6 +65,7 @@ gem 'easy_table'
 gem 'ransack', git: 'https://github.com/activerecord-hackery/ransack.git', branch: 'rails-4'
 gem 'phonelib'
 gem 'twilio-ruby', '~> 3.11'
+gem 'simple_captcha2', require: 'simple_captcha'
 
 group :development, :test do
   gem 'factory_girl_rails'
