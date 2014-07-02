@@ -15,6 +15,10 @@ html lang="en"
             li class='#{check_active(Document)}'
               a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
 
+          - if can? :read, Proof
+            li class='#{check_active(Proof)}'
+              a href='#{admin_proofs_path}' = t(".menus.items.operating.proofs")
+
           - if can? :menu, Deposit
             li.dropdown class='#{check_active('deposits')}'
               a href="#" class="dropdown-toggle" data-toggle="dropdown"
