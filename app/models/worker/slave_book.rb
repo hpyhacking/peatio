@@ -37,13 +37,9 @@ module Worker
 
     def cache_book
       @managers.keys.each do |market|
-        asks = get_depth(market, :ask)
-        Rails.cache.write "peatio:#{market}:depth:asks", asks
-        Rails.logger.debug "SlaveBook #{market} - asks depth updated (#{asks.first.last.to_s('F')}@#{asks.first.first.to_s('F')})"
-
-        bids = get_depth(market, :bid)
-        Rails.cache.write "peatio:#{market}:depth:bids", bids
-        Rails.logger.debug "SlaveBook #{market} - bids depth updated (#{bids.first.last.to_s('F')}@#{bids.first.first.to_s('F')})"
+        Rails.cache.write "peatio:#{market}:depth:asks", get_depth(market, :ask)
+        Rails.cache.write "peatio:#{market}:depth:bids", get_depth(market, :bid)
+        Rails.logger.debug "SlaveBook (#{market}) updated"
       end
     rescue
       Rails.logger.error "Failed to cache book: #{$!}"
