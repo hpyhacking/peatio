@@ -27,8 +27,7 @@ $ ->
 
   if location.pathname == '/signup'
     mixpanel.track("Sign Up")
-
-  mixpanel.track_forms("#new_identity", "Sign Up Form Submit")
+    mixpanel.track_forms("#new_identity", "Sign Up Form Submit")
 
   track_order_submit 'ask'
   track_order_submit 'bid'
