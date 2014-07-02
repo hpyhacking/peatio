@@ -223,12 +223,12 @@ ActiveRecord::Schema.define(version: 20140702035833) do
   create_table "proofs", force: true do |t|
     t.string   "root"
     t.integer  "currency"
-    t.boolean  "ready",                               default: false
+    t.boolean  "ready",                 default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sum"
     t.text     "addresses"
-    t.decimal  "balance",    precision: 10, scale: 0
+    t.string   "balance",    limit: 30
   end
 
   create_table "taggings", force: true do |t|

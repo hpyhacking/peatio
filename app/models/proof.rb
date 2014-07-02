@@ -5,7 +5,9 @@ class Proof < ActiveRecord::Base
 
   serialize :root, JSON
   serialize :addresses, JSON
+
   validates_presence_of :root, :currency
+  validates_numericality_of :balance, allow_nil: true, greater_than: 0
 
   delegate :coin?, to: :currency_obj
 
