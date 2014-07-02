@@ -3,9 +3,9 @@ en:
     create:
       success: E-mail to reset your password with a introduction has been sent to your mailbox. Failure to receive e-mail , go to "junk mail " firstly,or send the request again.
     edit:
-      password: Please enter at least eight characters and which must contain uppercase and lowercase letters and numbers.
+      password: Please enter a password at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
       invalid: Invalid request
-      submit: Reset Login Password 
+      submit: Reset Login Password
     update:
       success: Login password has been reset, please keep your new password.
       invalid: Invalid request

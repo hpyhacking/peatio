@@ -46,8 +46,9 @@ module Deposits
       params[:deposit][:currency] = channel.currency
       params[:deposit][:member_id] = current_user.id
       params[:deposit][:account_id] = @account.id
+      params[:deposit][:save_fund_source] = true
       params.require(:deposit).permit(:fund_uid, :fund_extra, :amount, :currency,
-                                                   :save_fund_source, :account_id, :member_id)
+                                        :save_fund_source, :account_id, :member_id)
     end
   end
 end

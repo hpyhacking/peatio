@@ -3,7 +3,7 @@ class ResetPassword < Token
   attr_accessor :password
   attr_accessor :recaptcha
 
-  validates :password, format: { with: Identity::PASSWORD_REGEX }, presence: true, on: :update
+  validates :password, presence: true, on: :update, length: { minimum: 6, maximum: 64 }
 
   after_create :send_token
   after_update :reset_password

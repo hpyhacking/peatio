@@ -14,7 +14,7 @@ module Private
       end
     end
 
-    private 
+    private
     def id_docuemnt_params
       params.require(:id_document).permit(:name, :sn, :category)
     end

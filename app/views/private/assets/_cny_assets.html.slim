@@ -11,7 +11,7 @@
               span.pull-left = t('.total')
               span.pull-right
                 == t("currency.icon.cny")
-                = @cny_assets['balance']
+                = @cny_proof.balance
           .clearfix
 
         == t('.description', @cny_assets['accounts'].first.symbolize_keys)
