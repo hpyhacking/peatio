@@ -3,7 +3,6 @@
   code: cny
   coin: false
   assets:
-    balance: 0
     accounts:
       -
         bank: '招商银行'

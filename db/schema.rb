@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140618004355) do
+ActiveRecord::Schema.define(version: 20140702035833) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -114,6 +114,12 @@ ActiveRecord::Schema.define(version: 20140618004355) do
     t.text     "keywords"
   end
 
+  create_table "dogecoin_trades", id: false, force: true do |t|
+    t.datetime "created_at"
+    t.decimal  "volume",     precision: 32, scale: 16
+    t.integer  "member_id"
+  end
+
   create_table "fund_sources", force: true do |t|
     t.integer  "member_id"
     t.integer  "currency"
@@ -172,12 +178,12 @@ ActiveRecord::Schema.define(version: 20140618004355) do
     t.decimal  "origin_volume",            precision: 32, scale: 16
     t.integer  "state"
     t.datetime "done_at"
-    t.string   "type",          limit: 8
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
     t.string   "source",                                             null: false
+    t.string   "type",          limit: 8
     t.string   "ord_type",      limit: 10
     t.decimal  "locked",                   precision: 32, scale: 16
     t.decimal  "origin_locked",            precision: 32, scale: 16
@@ -214,23 +220,15 @@ ActiveRecord::Schema.define(version: 20140618004355) do
     t.integer  "currency"
   end
 
-  create_table "profiles", force: true do |t|
-    t.integer  "member_id"
-    t.string   "phone"
-    t.string   "last_login_ip"
-    t.datetime "last_login_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "proofs", force: true do |t|
     t.string   "root"
     t.integer  "currency"
-    t.boolean  "ready",      default: false
+    t.boolean  "ready",                               default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sum"
     t.text     "addresses"
+    t.decimal  "balance",    precision: 10, scale: 0
   end
 
   create_table "taggings", force: true do |t|
