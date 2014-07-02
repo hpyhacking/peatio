@@ -96,6 +96,7 @@ class Account < ActiveRecord::Base
 
       AccountVersion.optimistically_lock_account_and_create!(account.balance, account.locked, attributes)
     rescue ActiveRecord::StaleObjectError
+      Rails.logger.info "Stale account##{account.id} found when create associated account version, retry."
       account = Account.find(account.id)
       retry
     end
