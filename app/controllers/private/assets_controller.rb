@@ -6,8 +6,8 @@ module Private
 
     def index
       @cny_assets  = Currency.assets('cny')
-      @btc_proof   = select_proof :btc
-      @cny_proof   = select_proof :cny
+      @btc_proof   = Proof.current :btc
+      @cny_proof   = Proof.current :cny
       @btc_account = current_user.accounts.with_currency(:btc).first
       @cny_account = current_user.accounts.with_currency(:cny).first
     end
@@ -19,13 +19,6 @@ module Private
       respond_to do |format|
         format.js
       end
-    end
-
-    private
-
-    def select_proof(code)
-      scope = Proof.with_currency(code)
-      scope.where('created_at <= ?', 1.day.ago).last || scope.last
     end
 
   end

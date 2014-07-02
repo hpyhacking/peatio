@@ -11,6 +11,11 @@ class Proof < ActiveRecord::Base
 
   delegate :coin?, to: :currency_obj
 
+  def self.current(code)
+    proofs = with_currency(code)
+    proofs.where('created_at <= ?', 1.day.ago).last || proofs.last
+  end
+
   def ready!
     self.ready = true
     save!
