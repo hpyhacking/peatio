@@ -68,8 +68,9 @@ class Order < ActiveRecord::Base
       real_add, fee: real_fee,
       reason: Account::STRIKE_ADD, ref: trade
 
-    self.volume -= trade.volume
-    self.locked -= real_sub
+    self.volume         -= trade.volume
+    self.locked         -= real_sub
+    self.funds_received += add
 
     if volume.zero?
       self.state = Order::DONE

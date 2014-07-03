@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703065321) do
+ActiveRecord::Schema.define(version: 20140703070953) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -173,20 +173,21 @@ ActiveRecord::Schema.define(version: 20140703065321) do
     t.integer  "bid"
     t.integer  "ask"
     t.integer  "currency"
-    t.decimal  "price",                    precision: 32, scale: 16
-    t.decimal  "volume",                   precision: 32, scale: 16
-    t.decimal  "origin_volume",            precision: 32, scale: 16
+    t.decimal  "price",                     precision: 32, scale: 16
+    t.decimal  "volume",                    precision: 32, scale: 16
+    t.decimal  "origin_volume",             precision: 32, scale: 16
     t.integer  "state"
     t.datetime "done_at"
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
-    t.string   "source",                                             null: false
-    t.string   "type",          limit: 8
-    t.string   "ord_type",      limit: 10
-    t.decimal  "locked",                   precision: 32, scale: 16
-    t.decimal  "origin_locked",            precision: 32, scale: 16
+    t.string   "source",                                                            null: false
+    t.string   "type",           limit: 8
+    t.string   "ord_type",       limit: 10
+    t.decimal  "locked",                    precision: 32, scale: 16
+    t.decimal  "origin_locked",             precision: 32, scale: 16
+    t.decimal  "funds_received",            precision: 32, scale: 16, default: 0.0
   end
 
   create_table "partial_trees", force: true do |t|
