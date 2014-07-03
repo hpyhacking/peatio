@@ -2,7 +2,8 @@ class IdDocument < ActiveRecord::Base
   extend Enumerize
 
   belongs_to :member
-  validates_presence_of :sn, :category, :name
+  validates_presence_of :sn, :category
+  validates :name, presence: true, chinese_name: true
   validates_uniqueness_of :member
 
   enumerize :category, in: {id_card: 0, passport: 1}
