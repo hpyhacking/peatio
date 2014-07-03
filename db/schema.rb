@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140702035833) do
+ActiveRecord::Schema.define(version: 20140703065321) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -275,7 +275,9 @@ ActiveRecord::Schema.define(version: 20140702035833) do
     t.decimal  "funds",         precision: 32, scale: 16
   end
 
+  add_index "trades", ["ask_id"], name: "index_trades_on_ask_id", using: :btree
   add_index "trades", ["ask_member_id"], name: "index_trades_on_ask_member_id", using: :btree
+  add_index "trades", ["bid_id"], name: "index_trades_on_bid_id", using: :btree
   add_index "trades", ["bid_member_id"], name: "index_trades_on_bid_member_id", using: :btree
   add_index "trades", ["currency"], name: "index_trades_on_currency", using: :btree
 
