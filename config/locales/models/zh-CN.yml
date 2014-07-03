@@ -179,3 +179,4 @@ zh-CN:
           precision: 最低精度为 %{p}
         id_documents:
           name_invalid: 名字格式不正确，不能包含数字或字母。
+          sn_invalid: 身份证格式不正确，如果身份证号包含字母请使用大写。
