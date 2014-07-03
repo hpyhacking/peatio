@@ -36,6 +36,10 @@ class Order < ActiveRecord::Base
   scope :position, -> { group("price").pluck(:price, 'sum(volume)') }
   scope :best_price, ->(currency) { where(ord_type: 'limit').active.with_currency(currency).matching_rule.position }
 
+  def funds_used
+    origin_locked - locked
+  end
+
   def fee
     config[kind.to_sym]["fee"]
   end
@@ -100,11 +104,6 @@ class Order < ActiveRecord::Base
 
   def market
     currency
-  end
-
-  def avg_price
-    return ::Trade::ZERO if volume == origin_volume
-    (origin_locked - locked) / (origin_volume - volume)
   end
 
   def to_matching_attributes
