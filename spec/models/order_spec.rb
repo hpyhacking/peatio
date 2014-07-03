@@ -197,18 +197,6 @@ describe Order, "#head" do
   end
 end
 
-describe Order, "#avg_price" do
-  let(:order)  { create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13') }
-  let!(:trades) do
-    create(:trade, ask: order, volume: '8.0', price: '12')
-    create(:trade, ask: order, volume: '0.99', price: '12.56')
-  end
-
-  it "should calculate average price" do
-    order.avg_price.to_s('F').should =~ /^12.06/
-  end
-end
-
 describe Order, "#kind" do
   it "should be ask for ask order" do
     OrderAsk.new.kind.should == 'ask'
@@ -237,6 +225,16 @@ describe Order, "related accounts" do
       bid.hold_account.should == bob.get_account(:cny)
       bid.expect_account.should == bob.get_account(:btc)
     end
+  end
+end
+
+describe Order, "#avg_price" do
+  it "should be zero if not filled yet" do
+    Order.new(volume: '1.0', origin_volume: '1.0').avg_price.should == '0'.to_d
+  end
+
+  it "should calculate average price" do
+    Order.new(locked: '10.0', origin_locked: '20.0', volume: '1.0', origin_volume: '3.0').avg_price.should == '5'.to_d
   end
 end
 

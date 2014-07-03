@@ -103,13 +103,8 @@ class Order < ActiveRecord::Base
   end
 
   def avg_price
-    if trades.empty?
-      ::Trade::ZERO
-    else
-      sum = trades.map {|t| t.price*t.volume }.sum
-      vol = trades.map(&:volume).sum
-      sum / vol
-    end
+    return ::Trade::ZERO if volume == origin_volume
+    (origin_locked - locked) / (origin_volume - volume)
   end
 
   def to_matching_attributes
