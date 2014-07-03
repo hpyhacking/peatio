@@ -225,4 +225,40 @@ describe Account do
     end
   end
 
+  describe "after callback" do
+    it "should create account version associated to account change" do
+      expect {
+        subject.unlock_and_sub_funds('1.0'.to_d, locked: '2.0'.to_d)
+      }.to change(AccountVersion, :count).by(1)
+
+      v = AccountVersion.last
+
+      v.member_id.should == subject.member_id
+      v.account.should   == subject
+      v.fun.should       == 'unlock_and_sub_funds'
+      v.reason.should    == 'unknown'
+      v.amount.should    == subject.amount
+      v.balance.should   == '1.0'.to_d
+      v.locked.should    == '-2.0'.to_d
+    end
+
+    it "should retry the whole transaction on stale object error" do
+      # `unlock_and_sub_funds('5.0'.to_d, locked: '8.0'.to_d, fee: ZERO)`
+      ActiveRecord::Base.connection.execute "update accounts set balance = balance + 3, locked = locked - 8 where id = #{subject.id}"
+
+      expect {
+        expect {
+          ActiveRecord::Base.transaction do
+            create(:order_ask) # any other statements should be executed
+            subject.unlock_and_sub_funds('1.0'.to_d, locked: '2.0'.to_d)
+          end
+        }.to change(OrderAsk, :count).by(1)
+      }.to change(AccountVersion, :count).by(1)
+
+      v = AccountVersion.last
+      v.amount.should  == '14.0'.to_d
+      v.balance.should == '1.0'.to_d
+      v.locked.should  == '-2.0'.to_d
+    end
+  end
 end

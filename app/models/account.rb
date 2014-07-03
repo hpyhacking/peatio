@@ -71,27 +71,35 @@ class Account < ActiveRecord::Base
   end
 
   after(*FUNS.keys) do |account, fun, changed, opts|
-    opts ||= {}
-    fee = opts[:fee] || ZERO
-    reason = opts[:reason] || Account::UNKNOWN
+    begin
+      opts ||= {}
+      fee = opts[:fee] || ZERO
+      reason = opts[:reason] || Account::UNKNOWN
 
-    account = Account.find(account.id).lock!
+      attributes = { fun: fun,
+                     fee: fee,
+                     reason: reason,
+                     amount: account.amount,
+                     currency: account.currency,
+                     member_id: account.member_id,
+                     account_id: account.id }
 
-    attributes = {
-      fun: fun, fee: fee, reason: reason, amount: account.amount,
-      currency: account.currency, member_id: account.member_id }
+      if opts[:ref] and opts[:ref].respond_to?(:id)
+        ref_klass = opts[:ref].class
+        attributes.merge! \
+          modifiable_id: opts[:ref].id,
+          modifiable_type: ref_klass.respond_to?(:base_class) ? ref_klass.base_class.name : ref_klass.name
+      end
 
-    if opts[:ref] and opts[:ref].respond_to?(:id)
-      ref_klass = opts[:ref].class
-      attributes.merge! \
-        modifiable_id: opts[:ref].id,
-        modifiable_type: ref_klass.respond_to?(:base_class) ? ref_klass.base_class.name : ref_klass.name
+      locked, balance = compute_locked_and_balance(fun, changed, opts)
+      attributes.merge! locked: locked, balance: balance
+
+      AccountVersion.optimistically_lock_account_and_create!(account.balance, account.locked, attributes)
+    rescue ActiveRecord::StaleObjectError
+      Rails.logger.info "Stale account##{account.id} found when create associated account version, retry."
+      account = Account.find(account.id)
+      retry
     end
-
-    locked, balance = compute_locked_and_balance(fun, changed, opts)
-    attributes.merge! locked: locked, balance: balance
-
-    account.versions.create(attributes)
   end
 
   def self.compute_locked_and_balance(fun, amount, opts)
