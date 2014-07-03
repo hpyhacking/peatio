@@ -34,7 +34,7 @@ class AMQPConfig
     end
 
     def channel(id)
-      data[:channel][id] || {}
+      (data[:channel] && data[:channel][id]) || {}
     end
 
     def queue(id)
