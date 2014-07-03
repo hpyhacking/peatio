@@ -89,4 +89,14 @@ namespace :migration do
       order.save! if order.changed?
     end
   end
+
+  desc "fill funds_received of history orders"
+  task fill_funds_received: :environment do
+    OrderBid.where(funds_received: 0).update_all('funds_received = origin_volume - volume')
+
+    OrderAsk.where(funds_received: 0).find_each do |order|
+      funds = order.trades.sum(:funds)
+      order.update_columns funds_received: funds if funds > ::Trade::ZERO
+    end
+  end
 end
