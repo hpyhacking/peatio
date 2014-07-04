@@ -1,7 +1,6 @@
 class ResetPassword < Token
   attr_accessor :email
   attr_accessor :password
-  attr_accessor :recaptcha
 
   validates :password, presence: true, on: :update, length: { minimum: 6, maximum: 64 }
 

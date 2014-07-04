@@ -115,11 +115,6 @@ en:
     liability_proof: liability Proof
     contact: Contact
 
-  recaptcha:
-    errors:
-      verification_failed: Invlaid verification
-      recaptcha_unavailable: Invlaid verification
-
   actions:
     go: Go
     submit: Submit

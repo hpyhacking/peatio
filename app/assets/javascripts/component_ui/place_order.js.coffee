@@ -26,7 +26,7 @@
 
   @resetForm = (event) ->
     @select('volumeSel').val BigNumber(0)
-    @computeSum(event)
+    @select('sumSel').val BigNumber(0)
 
   @disableSubmit = ->
     @select('submitButton').addClass('disabled').attr('disabled', 'disabled')

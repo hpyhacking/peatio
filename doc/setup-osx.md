@@ -93,14 +93,13 @@ Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to r
 
     bin/init_config
 
-**Setup reCAPTCHA / Pusher**
+**Setup Pusher**
 
-* Peatio use [reCAPTCHA](https://www.google.com/recaptcha) to make sure certain operations is not done by bots. A development key/secrect pair is provided in `config/application.yml` (uncomment to use). PLEASE USE IT IN DEVELOPMENT/TEST ENVIRONMENT ONLY!
 * Peatio depends on [Pusher](http://pusher.com). A development key/secret pair for development/test is provided in `config/application.yml` (uncomment to use). PLEASE USE IT IN DEVELOPMENT/TEST ENVIRONMENT ONLY!
 
 More details to visit [pusher official website](http://pusher.com)
 
-    # uncomment reCAPTCHA and Pusher related settings
+    # uncomment Pusher related settings
     vim config/application.yml
 
 **Setup bitcoind rpc endpoint**
