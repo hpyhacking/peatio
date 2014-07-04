@@ -52,7 +52,6 @@ en:
     labels:
       defaults:
         save_fund_source: Save information for future usage
-        recaptcha: Authentication code
       two_factor:
         uri: Two-dimensional code
         otp_secret: Ciphertext

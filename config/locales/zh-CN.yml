@@ -122,11 +122,6 @@ zh-CN:
     liability_proof: 偿付能力验证
     contact: 联系我们
 
-  recaptcha:
-    errors:
-      verification_failed: 验证码错误，请再试试看。
-      recaptcha_unavailable: 验证时遇到错误，请稍后重试。
-
   actions:
     go: 立刻前往
     submit: 提交

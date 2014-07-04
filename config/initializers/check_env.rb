@@ -2,8 +2,6 @@ environments = %w(
   PUSHER_APP
   PUSHER_KEY
   PUSHER_SECRET
-  RECAPTCHA_PUBLIC_KEY
-  RECAPTCHA_PRIVATE_KEY
 )
 
 environments.select! do |key|

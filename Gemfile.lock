@@ -306,7 +306,6 @@ GEM
     raindrops (0.12.0)
     rake (10.1.1)
     rbtree (0.4.2)
-    recaptcha (0.3.6)
     redis (3.0.7)
     redis-actionpack (4.0.0)
       actionpack (~> 4)
@@ -486,7 +485,6 @@ DEPENDENCIES
   rails-i18n
   ransack!
   rbtree
-  recaptcha
   redis-rails
   rotp
   rspec-rails
