@@ -19,11 +19,6 @@ namespace :install do
       pusher_secret = var 'Pusher Secret: '
     end
 
-    if yes_no('Use your reCaptcha Account? ')
-      recaptcha_public_key  = var 'reCaptcha public key: '
-      recaptcha_private_key = var 'reCaptcha private key: '
-    end
-
     if yes_no('Do you want to setup SMTP service')
       smtp_domain = var 'SMTP domain: '
       smtp_address = var 'SMTP address: '
@@ -36,8 +31,6 @@ namespace :install do
       lines = customize 'PUSHER_APP',    pusher_app,    lines
       lines = customize 'PUSHER_KEY',    pusher_key,    lines
       lines = customize 'PUSHER_SECRET', pusher_secret, lines
-      lines = customize 'RECAPTCHA_PUBLIC_KEY',  recaptcha_public_key,  lines
-      lines = customize 'RECAPTCHA_PRIVATE_KEY', recaptcha_private_key, lines
       if smtp_address
         lines = customize 'SMTP_DOMAIN',   smtp_domain, lines
         lines = customize 'SMTP_ADDRESS',  smtp_address, lines

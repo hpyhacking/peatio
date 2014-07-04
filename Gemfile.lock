@@ -306,7 +306,6 @@ GEM
     raindrops (0.12.0)
     rake (10.1.1)
     rbtree (0.4.2)
-    recaptcha (0.3.6)
     redis (3.0.7)
     redis-actionpack (4.0.0)
       actionpack (~> 4)
@@ -358,6 +357,8 @@ GEM
     shoulda-matchers (2.5.0)
       activesupport (>= 3.0.0)
     signature (0.1.7)
+    simple_captcha2 (0.2.2)
+      rails (>= 3.1, < 4.1)
     simple_form (3.0.1)
       actionpack (>= 4.0.0, < 4.1)
       activemodel (>= 4.0.0, < 4.1)
@@ -486,7 +487,6 @@ DEPENDENCIES
   rails-i18n
   ransack!
   rbtree
-  recaptcha
   redis-rails
   rotp
   rspec-rails
@@ -494,6 +494,7 @@ DEPENDENCIES
   selenium-webdriver
   settingslogic
   shoulda-matchers
+  simple_captcha2
   simple_form (= 3.0.1)
   slim-rails
   therubyracer

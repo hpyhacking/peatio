@@ -30,19 +30,6 @@ defaults: &defaults
   #WEBSOCKET_SSL_KEY: 'your_server.key'
   #WEBSOCKET_SSL_CERT: 'your_server.crt'
 
-  # recaptcha settings
-  # --------------------------------------------------------------
-  # in exchange some operation need validate operator is not bot.
-  # peatio use RECAPTCHA validate this
-  # so you need apply a new key or use we support development key
-  # uncomment below line only development or test
-  #
-  # RECAPTCHA_PUBLIC_KEY: 6LfxHegSAAAAAOD6mQ1PFvXgBApsHl_oO_y9EtI9
-  # RECAPTCHA_PRIVATE_KEY: 6LfxHegSAAAAAH4M8CuhJJoH8VGYswg2HI_xY5N1
-
-  RECAPTCHA_PUBLIC_KEY: YOUR_RECAPTCHA_PUBLIC_KEY
-  RECAPTCHA_PRIVATE_KEY: YOUR_RECAPTCHA_PRIVATE_KEY
-
   # pusher settings
   # --------------------------------------------------------------
   # peatio dependence Pusher (http://pusher.com) service

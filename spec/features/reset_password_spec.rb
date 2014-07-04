@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'password', js: true do # need to be js because of recaptcha
+describe 'password' do
   let!(:identity) { create :identity }
   let!(:password) { 'New1Password' }
   let!(:member) { create :member, email: identity.email }
