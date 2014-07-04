@@ -197,3 +197,6 @@ en:
           price: limit price %{l} ~ %{h}
           sum: limit sum price %{l} ~ %{h}
           precision: minimum precision %{p}
+        id_documents:
+          name_invalid: Name must be Chinese characters.
+          sn_invalid: The ID Card Number is invalid.
