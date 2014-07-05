@@ -60,6 +60,7 @@ binding:
     manual_ack: true
   order_processor:
     queue: order_processor
+    manual_ack: true
   market_ticker:
     queue: market_ticker
     exchange: trade
@@ -85,4 +86,6 @@ binding:
 
 channel:
   trade_executor:
+    prefetch: 5
+  order_processor:
     prefetch: 5
