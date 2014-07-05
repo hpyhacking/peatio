@@ -57,6 +57,7 @@ binding:
     exchange: orderbook
   trade_executor:
     queue: new_trade
+    manual_ack: true
   order_processor:
     queue: order_processor
   market_ticker:
@@ -84,4 +85,4 @@ binding:
 
 channel:
   trade_executor:
-    prefetch: 1
+    prefetch: 5
