@@ -28,7 +28,8 @@ You can interact with Peatio through API:
 
 * [API v2](http://demo.peat.io/documents/api_v2?lang=en)
 * [Websocket API](http://demo.peat.io/documents/websocket_api)
-* [peatio-client-ruby](https://github.com/peatio/peatio-client-ruby) is a ruby wrapper of both HTTP/Websocket API. 
+* [peatio-client-ruby](https://github.com/peatio/peatio-client-ruby) is a ruby wrapper of both HTTP/Websocket API.
+* [peatio-client-python](https://github.com/JohnnyZhao/peatio-client-python) is a python wrapper of HTTP API.
 
 ### Contributing
 
