@@ -1,7 +1,7 @@
 class WithdrawMailer < ActionMailer::Base
   include AMQPQueue::Mailer
 
-  default from: "noreply@peatio.com"
+  default from: ENV['SYSTEM_MAIL_FROM']
 
   def withdraw_state(withdraw_id)
     @withdraw = Withdraw.find withdraw_id
