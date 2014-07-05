@@ -3,8 +3,10 @@ class DocumentsController < ApplicationController
 
   def show
     @doc = Document.find_by_key(params[:id])
+
     if not @doc
-      redirect_to request.referer and return
+      redirect_to(request.referer || root_path)
+      return
     end
 
     if @doc.is_auth and !current_user
