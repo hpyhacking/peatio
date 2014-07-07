@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: id_documents
+#
+#  id         :integer          not null, primary key
+#  category   :integer
+#  name       :string(255)
+#  sn         :string(255)
+#  member_id  :integer
+#  created_at :datetime
+#  updated_at :datetime
+#  verified   :boolean
+#
+
 class IdDocument < ActiveRecord::Base
   extend Enumerize
 
