@@ -11,7 +11,7 @@ describe WithdrawMailer do
     it "renders the headers" do
       mail.subject.should eq("Your withdraw state")
       mail.to.should eq([withdraw.member.email])
-      mail.from.should eq(["noreply@peatio.com"])
+      mail.from.should eq([ENV['SYSTEM_MAIL_FROM']])
     end
 
     it "renders the body" do

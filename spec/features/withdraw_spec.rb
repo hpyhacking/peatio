@@ -86,6 +86,9 @@ describe 'withdraw' do
   end
 
   it 'prevents withdraws that the account has no sufficient balance' do
+    current_user = Member.find_by_email identity.email
+    create :two_factor_sms, member: current_user
+
     login identity
 
     visit new_withdraws_bank_path

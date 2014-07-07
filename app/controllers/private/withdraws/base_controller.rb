@@ -19,8 +19,7 @@ module Private
           redirect_to settings_path, alert: t('private.two_factors.auth.please_active_two_factor')
         end
       end
+
     end
   end
 end
-
-

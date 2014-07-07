@@ -16,6 +16,11 @@ class OrderBid < Order
     member.get_account(ask)
   end
 
+  def avg_price
+    return ::Trade::ZERO if funds_received.zero?
+    funds_used / funds_received
+  end
+
   LOCKING_BUFFER_FACTOR = '1.1'.to_d
   def compute_locked
     case ord_type

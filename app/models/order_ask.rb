@@ -16,6 +16,11 @@ class OrderAsk < Order
     member.get_account(bid)
   end
 
+  def avg_price
+    return ::Trade::ZERO if funds_used.zero?
+    funds_received / funds_used
+  end
+
   def compute_locked
     case ord_type
     when 'limit'
