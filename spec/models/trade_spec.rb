@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: trades
+#
+#  id            :integer          not null, primary key
+#  price         :decimal(32, 16)
+#  volume        :decimal(32, 16)
+#  ask_id        :integer
+#  bid_id        :integer
+#  trend         :integer
+#  currency      :integer
+#  created_at    :datetime
+#  updated_at    :datetime
+#  ask_member_id :integer
+#  bid_member_id :integer
+#  funds         :decimal(32, 16)
+#
+
 require 'spec_helper'
 
 describe Trade, ".latest_price" do
