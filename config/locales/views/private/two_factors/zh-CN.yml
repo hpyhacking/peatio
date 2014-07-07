@@ -2,6 +2,7 @@ zh-CN:
   private:
     two_factors:
       auth:
+        please_active_two_factor: 为了您的资金安全, 请先绑定手机或设置两步验证。
         submit: 确认
         otp_placeholder: 6位数字密码
         google_app: 谷歌身份验证器

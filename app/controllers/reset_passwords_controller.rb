@@ -10,7 +10,7 @@ class ResetPasswordsController < ApplicationController
   def create
     @reset_password = ResetPassword.new(reset_password_params)
 
-    if verify_recaptcha(model: @reset_password) and @reset_password.save
+    if @reset_password.save
       redirect_to signin_path, notice: t('.success')
     else
       unless @reset_password.errors[:base].empty?

@@ -38,7 +38,7 @@ en:
       my_orders:
         my_orders: My Orders
         orders_wait: Latest Orders
-        orders_done: Done Orders
+        orders_done: Completed Orders
         orders_cancel: Cancel Orders
       price_chart:
         price_chart: Price Chart
