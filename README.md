@@ -16,12 +16,12 @@ Peatio Beijing
     # update to latest version of master
     git checkout master
     git pull
-    
+
     # merge master to peatio_beiijng
     git checkout peatio_beijing
-    git merge master    
-    
-    # git push remote_name local_branch:remote_branch    
+    git merge master
+
+    # git push remote_name local_branch:remote_branch
     git push peatio_beijing peatio_beijing:master
 
 **How to merge code back to master**
@@ -31,7 +31,6 @@ Peatio Beijing
 **Should I push peatio_beijing branch to master?**
 
 > NEVER
-
 
 ***
 

@@ -144,7 +144,7 @@ task :del_daemons do
     queue! "rm -rf #{deploy_to}/current/lib/daemons/k.rb"
     queue! "rm -rf #{deploy_to}/current/lib/daemons/k_ctl"
   when 'peatio-web-01'
-    keeps = ['daemons', 'websocket_api.rb', 'websocket_api_ctl']
+    queue! "rm -rf #{deploy_to}/current/lib/daemons"
   when 'peatio-redis'
     keeps = ['daemons', 'k.rb', 'k_ctl']
   end
