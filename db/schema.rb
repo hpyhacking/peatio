@@ -181,20 +181,21 @@ ActiveRecord::Schema.define(version: 20140707115022) do
     t.integer  "bid"
     t.integer  "ask"
     t.integer  "currency"
-    t.decimal  "price",                    precision: 32, scale: 16
-    t.decimal  "volume",                   precision: 32, scale: 16
-    t.decimal  "origin_volume",            precision: 32, scale: 16
+    t.decimal  "price",                     precision: 32, scale: 16
+    t.decimal  "volume",                    precision: 32, scale: 16
+    t.decimal  "origin_volume",             precision: 32, scale: 16
     t.integer  "state"
     t.datetime "done_at"
-    t.string   "type",          limit: 8
+    t.string   "type",           limit: 8
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
-    t.string   "source",                                             null: false
-    t.string   "ord_type",      limit: 10
-    t.decimal  "locked",                   precision: 32, scale: 16
-    t.decimal  "origin_locked",            precision: 32, scale: 16
+    t.string   "source",                                                            null: false
+    t.string   "ord_type",       limit: 10
+    t.decimal  "locked",                    precision: 32, scale: 16
+    t.decimal  "origin_locked",             precision: 32, scale: 16
+    t.decimal  "funds_received",            precision: 32, scale: 16, default: 0.0
   end
 
   create_table "partial_trees", force: true do |t|
@@ -283,7 +284,9 @@ ActiveRecord::Schema.define(version: 20140707115022) do
     t.decimal  "funds",         precision: 32, scale: 16
   end
 
+  add_index "trades", ["ask_id"], name: "index_trades_on_ask_id", using: :btree
   add_index "trades", ["ask_member_id"], name: "index_trades_on_ask_member_id", using: :btree
+  add_index "trades", ["bid_id"], name: "index_trades_on_bid_id", using: :btree
   add_index "trades", ["bid_member_id"], name: "index_trades_on_bid_member_id", using: :btree
   add_index "trades", ["currency"], name: "index_trades_on_currency", using: :btree
 

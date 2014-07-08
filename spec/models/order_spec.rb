@@ -1,3 +1,27 @@
+# == Schema Information
+#
+# Table name: orders
+#
+#  id            :integer          not null, primary key
+#  bid           :integer
+#  ask           :integer
+#  currency      :integer
+#  price         :decimal(32, 16)
+#  volume        :decimal(32, 16)
+#  origin_volume :decimal(32, 16)
+#  state         :integer
+#  done_at       :datetime
+#  type          :string(8)
+#  member_id     :integer
+#  created_at    :datetime
+#  updated_at    :datetime
+#  sn            :string(255)
+#  source        :string(255)      not null
+#  ord_type      :string(10)
+#  locked        :decimal(32, 16)
+#  origin_locked :decimal(32, 16)
+#
+
 require 'spec_helper'
 
 describe Order, 'validations' do
@@ -197,18 +221,6 @@ describe Order, "#head" do
   end
 end
 
-describe Order, "#avg_price" do
-  let(:order)  { create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13') }
-  let!(:trades) do
-    create(:trade, ask: order, volume: '8.0', price: '12')
-    create(:trade, ask: order, volume: '0.99', price: '12.56')
-  end
-
-  it "should calculate average price" do
-    order.avg_price.to_s('F').should =~ /^12.06/
-  end
-end
-
 describe Order, "#kind" do
   it "should be ask for ask order" do
     OrderAsk.new.kind.should == 'ask'
@@ -237,6 +249,21 @@ describe Order, "related accounts" do
       bid.hold_account.should == bob.get_account(:cny)
       bid.expect_account.should == bob.get_account(:btc)
     end
+  end
+end
+
+describe Order, "#avg_price" do
+  it "should be zero if not filled yet" do
+    OrderAsk.new(locked: '1.0', origin_locked: '1.0', volume: '1.0', origin_volume: '1.0', funds_received: '0').avg_price.should == '0'.to_d
+    OrderBid.new(locked: '1.0', origin_locked: '1.0', volume: '1.0', origin_volume: '1.0', funds_received: '0').avg_price.should == '0'.to_d
+  end
+
+  it "should calculate average price of bid order" do
+    OrderBid.new(locked: '10.0', origin_locked: '20.0', volume: '1.0', origin_volume: '3.0', funds_received: '2.0').avg_price.should == '5'.to_d
+  end
+
+  it "should calculate average price of ask order" do
+    OrderAsk.new(locked: '1.0', origin_locked: '2.0', volume: '1.0', origin_volume: '2.0', funds_received: '10.0').avg_price.should == '10'.to_d
   end
 end
 

@@ -1,3 +1,27 @@
+# == Schema Information
+#
+# Table name: orders
+#
+#  id            :integer          not null, primary key
+#  bid           :integer
+#  ask           :integer
+#  currency      :integer
+#  price         :decimal(32, 16)
+#  volume        :decimal(32, 16)
+#  origin_volume :decimal(32, 16)
+#  state         :integer
+#  done_at       :datetime
+#  type          :string(8)
+#  member_id     :integer
+#  created_at    :datetime
+#  updated_at    :datetime
+#  sn            :string(255)
+#  source        :string(255)      not null
+#  ord_type      :string(10)
+#  locked        :decimal(32, 16)
+#  origin_locked :decimal(32, 16)
+#
+
 class OrderAsk < Order
 
   has_many :trades, foreign_key: 'ask_id'
@@ -14,6 +38,11 @@ class OrderAsk < Order
 
   def expect_account
     member.get_account(bid)
+  end
+
+  def avg_price
+    return ::Trade::ZERO if funds_used.zero?
+    funds_received / funds_used
   end
 
   def compute_locked
