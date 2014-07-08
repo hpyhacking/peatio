@@ -29,9 +29,7 @@ def next_ts(market, period = 1)
     ts += period.minutes
   else
     ts = Trade.with_currency(market).first.created_at.to_i
-    ts = Time.at(ts -  ts % (period * 60))
-
-    period == 10080 ? ts.beginning_of_week : ts
+    period == 10080 ? Time.at(ts).beginning_of_week : Time.at(ts -  ts % (period * 60))
   end
 end
 
