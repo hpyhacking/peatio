@@ -3,7 +3,7 @@ class TransferObserver < AuditObserver
 
   def after_update(record)
     if record.aasm_state_changed?
-      TransferAuditLog.audit!(record, current_user)
+      Audit::TransferAuditLog.audit!(record, current_user)
     end
   end
 
