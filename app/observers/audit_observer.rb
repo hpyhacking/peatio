@@ -1,5 +1,5 @@
-class AuditObserver < ActionController::Caching::Sweeper
+class AuditObserver < ActiveRecord::Observer
   def current_user
-    controller ? controller.send(:current_user) : Thread.current[:user]
+    Member.current
   end
 end

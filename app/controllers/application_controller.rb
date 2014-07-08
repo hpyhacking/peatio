@@ -1,10 +1,9 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  include ControllerObserver
-
   helper_method :current_user, :is_admin?, :current_market, :gon, :muut_enabled?
   before_filter :set_language, :setting_default, :set_timezone
+  before_filter :set_current_user
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
   layout 'frame'
@@ -42,6 +41,10 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_user ||= Member.find_by_id(session[:member_id])
+  end
+
+  def set_current_user
+    Member.current = current_user
   end
 
   def auth_member!

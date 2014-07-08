@@ -51,6 +51,14 @@ class Member < ActiveRecord::Base
       member
     end
 
+    def current
+      Thread.current[:user]
+    end
+
+    def current=(user)
+      Thread.current[:user] = user
+    end
+
     private
 
     def locate_auth(auth_hash)
