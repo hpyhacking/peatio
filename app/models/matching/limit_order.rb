@@ -26,7 +26,7 @@ module Matching
         end
       else
         trade_volume = [volume, counter_order.volume, counter_order.volume_limit(price)].min
-        trade_funds  = price.mult_and_round(trade_volume)
+        trade_funds  = price*trade_volume
         [price, trade_volume, trade_funds]
       end
     end

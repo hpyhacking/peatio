@@ -51,8 +51,8 @@ class OrderBid < Order
     when 'limit'
       price*volume
     when 'market'
-      funds = estimate_required_funds(Global[currency].asks) {|p, v| p.mult_and_round(v) }
-      funds.mult_and_round(LOCKING_BUFFER_FACTOR)
+      funds = estimate_required_funds(Global[currency].asks) {|p, v| p*v }
+      funds*LOCKING_BUFFER_FACTOR
     end
   end
 
