@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140702035833) do
+ActiveRecord::Schema.define(version: 20140707115022) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -57,6 +57,20 @@ ActiveRecord::Schema.define(version: 20140702035833) do
 
   add_index "api_tokens", ["access_key"], name: "index_api_tokens_on_access_key", unique: true, using: :btree
   add_index "api_tokens", ["secret_key"], name: "index_api_tokens_on_secret_key", unique: true, using: :btree
+
+  create_table "audit_logs", force: true do |t|
+    t.string   "type"
+    t.integer  "operator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "auditable_id"
+    t.string   "auditable_type"
+    t.string   "source_state"
+    t.string   "target_state"
+  end
+
+  add_index "audit_logs", ["auditable_id", "auditable_type"], name: "index_audit_logs_on_auditable_id_and_auditable_type", using: :btree
+  add_index "audit_logs", ["operator_id"], name: "index_audit_logs_on_operator_id", using: :btree
 
   create_table "authentications", force: true do |t|
     t.string   "provider"
@@ -112,12 +126,6 @@ ActiveRecord::Schema.define(version: 20140702035833) do
     t.datetime "updated_at"
     t.text     "desc"
     t.text     "keywords"
-  end
-
-  create_table "dogecoin_trades", id: false, force: true do |t|
-    t.datetime "created_at"
-    t.decimal  "volume",     precision: 32, scale: 16
-    t.integer  "member_id"
   end
 
   create_table "fund_sources", force: true do |t|
@@ -178,12 +186,12 @@ ActiveRecord::Schema.define(version: 20140702035833) do
     t.decimal  "origin_volume",            precision: 32, scale: 16
     t.integer  "state"
     t.datetime "done_at"
+    t.string   "type",          limit: 8
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
     t.string   "source",                                             null: false
-    t.string   "type",          limit: 8
     t.string   "ord_type",      limit: 10
     t.decimal  "locked",                   precision: 32, scale: 16
     t.decimal  "origin_locked",            precision: 32, scale: 16
