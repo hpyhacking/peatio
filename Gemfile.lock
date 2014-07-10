@@ -486,6 +486,7 @@ DEPENDENCIES
   rack-attack (~> 3.0.0)
   rails
   rails-i18n
+  rails-observers
   ransack!
   rbtree
   redis-rails
