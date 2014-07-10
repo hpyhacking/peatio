@@ -45,7 +45,7 @@ describe OrderAsk do
     end
 
     it "should require a little" do
-      OrderBid.new(volume: '5'.to_d, ord_type: 'market').compute_locked.should == '1010'.to_d.mult_and_round(OrderBid::LOCKING_BUFFER_FACTOR)
+      OrderBid.new(volume: '5'.to_d, ord_type: 'market').compute_locked.should == '1010'.to_d * OrderBid::LOCKING_BUFFER_FACTOR
     end
 
     it "should raise error if volume is too large" do
