@@ -1,0 +1,18 @@
+.col-md-10
+a.btn.btn-default href='/tickets/new' = '新建工单'
+
+ul.list-group
+  - @tickets.each do |t|
+    li.list-group-item
+      .row.row-middle
+        .col-md-9
+          .row.row-middle
+            .col-md-6
+              h4 = link_to t.title, ticket_path(t)
+            .col-md-6
+          .row
+            .col-md-12
+              p.text-ignore = t.content
+            .col-md-5
+              i.fa.fa-clock-o.text-info
+              span = time_ago_in_words t.created_at

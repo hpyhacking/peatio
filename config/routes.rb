@@ -74,6 +74,11 @@ Peatio::Application.routes.draw do
     end
 
     post '/pusher/auth', to: 'pusher#auth'
+
+    resources :tickets, only: [:index, :new, :create, :show] do
+      resources :comments, only: [:create]
+    end
+
   end
 
   namespace :admin do

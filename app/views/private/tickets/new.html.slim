@@ -1,0 +1,5 @@
+= simple_form_for @ticket do |f|
+  = f.input :title
+  = f.input :content
+  hr.split
+  = f.button :wrapped, cancel: tickets_path

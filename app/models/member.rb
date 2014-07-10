@@ -27,6 +27,8 @@ class Member < ActiveRecord::Base
   has_many :deposits
   has_many :api_tokens
   has_many :two_factors
+  has_many :tickets, foreign_key: 'author_id'
+  has_many :comments, foreign_key: 'author_id'
 
   has_one :id_document
   has_one :sms_token
