@@ -2,7 +2,7 @@ module Admin
   class MembersController < BaseController
     load_and_authorize_resource
     def show
-      @account_versions = AccountVersion.where(account_id: current_user.account_ids).order("id DESC").page params[:page]
+      @account_versions = AccountVersion.where(account_id: @member.account_ids).order(:id).reverse_order.page params[:page]
     end
 
     def update
