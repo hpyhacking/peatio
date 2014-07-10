@@ -38,6 +38,9 @@ module Peatio
       g.template_engine :erb
       g.stylesheets     false
     end
+
+    # Observer configuration
+    config.active_record.observers = :transfer_observer
   end
 end
 

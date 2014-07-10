@@ -33,6 +33,7 @@ gem 'active_hash'
 gem 'http_accept_language'
 gem "globalize", "~> 4.0.0"
 gem 'paper_trail', '~> 3.0.1'
+gem 'rails-observers'
 
 gem 'gon'
 gem 'pusher'
