@@ -73,6 +73,8 @@ module Matching
           }
         }
       )
+
+      MixpanelTracker.track :valuable_trade, @trade
     end
 
   end

@@ -15,6 +15,8 @@ class MixpanelTracker
     @tracker = Mixpanel::Tracker.new(token) do |type, message|
       AMQPQueue.enqueue(:mixpanel, [type, message])
     end
+
+    @maker = Member.find_by_email 'forex@peatio.com'
   end
 
   def activate(mp_cookie, token)
@@ -48,6 +50,15 @@ class MixpanelTracker
   def phone_number_verified(mp_cookie, member, token)
     @tracker.track member.email, "Phone Number Verified", phone: token.phone_number, code: token.token
     @tracker.people.set member.email, '$phone' => token.phone_number
+  end
+
+  def valuable_trade(trade)
+    return unless @maker
+    if trade.ask_member_id != @maker.id && trade.bid_member_id != @maker.id
+      @tracker.track @maker.email, "Trade (human to human)", trade.as_json
+    elsif trade.ask_member_id != @maker.id || trade.bid_member_id != @maker.id
+      @tracker.track @maker.email, "Trade (maker to human)", trade.as_json
+    end
   end
 
   private
