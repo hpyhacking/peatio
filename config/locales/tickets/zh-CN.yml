@@ -1,0 +1,9 @@
+zh-CN:
+  private:
+    tickets:
+      ticket_create_succ: 工单创建成功。
+      ticket_create_fail: 工单创建失败, 请稍候再试。
+      comment_succ: 回复成功。
+      comment_fail: 回复失败，请稍候再试。
+      me: 我
+      supporter: 客服

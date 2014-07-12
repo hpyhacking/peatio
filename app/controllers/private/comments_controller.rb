@@ -5,9 +5,9 @@ module Private
       comment = ticket.comments.new(comment_params.merge(author_id: current_user.id))
 
       if comment.save
-        flash[:notice] = "Comment successfully" #TODO i18n
+        flash[:notice] = I18n.t("private.tickets.comment_succ")
       else
-        flash[:alert] = "Something went wrong" #TODO i18n
+        flash[:alert] = I18n.t("private.tickets.comment_fail")
       end
       redirect_to ticket_path(ticket)
     end

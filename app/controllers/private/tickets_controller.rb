@@ -11,10 +11,10 @@ module Private
     def create
       ticket = current_user.tickets.create(ticket_params)
       if ticket.save
-        flash[:notice] = "工单已经成功建立" #TODO i18n
+        flash[:notice] = I18n.t('private.tickets.ticket_create_succ')
         redirect_to tickets_path
       else
-        flash[:alert] = "Something went wrong" #TODO i18n
+        flash[:alert] = I18n.t('private.tickets.ticket_create_fail')
         render :new
       end
     end

@@ -1,9 +1,9 @@
 module Private::TicketsHelper
   def member_tittle(author)
     if current_user == author
-      "我" #TODO I18n
+      I18n.t('private.tickets.me')
     else
-      "客服" #TODO I18n
+      I18n.t('private.tickets.supporter')
     end
   end
 end

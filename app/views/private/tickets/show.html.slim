@@ -1,3 +1,4 @@
+.col-md-10
 a.btn.btn-default href='/tickets' = '返回'
 
 ul.list-group
@@ -6,7 +7,7 @@ ul.list-group
       .col-md-9
         .row.row-middle
           .col-md-6
-            h4 = "我 - #{@ticket.title}"
+            h4 = "#{I18n.t('private.tickets.me')} - #{@ticket.title}"
           .col-md-6
         .row
           .col-md-12
@@ -31,6 +32,6 @@ ul.list-group
               span = time_ago_in_words c.created_at
 
 = simple_form_for @comment, url: ticket_comments_path(@ticket.id) do |f|
-  = f.input :content
+  = f.input :content, label: false,  input_html: { style: 'width:165%;', rows: 3 }
   hr.split
   = f.button :wrapped, cancel: tickets_path
