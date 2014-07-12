@@ -31,11 +31,13 @@ class Member < ActiveRecord::Base
   has_one :id_document
   has_one :sms_token
 
+  has_many :authentications, dependent: :destroy
+
+  scope :enabled, where(disabled: false)
+
   delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
   delegate :verified?,  to: :sms_token,   prefix: true
-
-  has_many :authentications, dependent: :destroy
 
   validates :sn, presence: true
   validates :display_name, uniqueness: true, allow_blank: true
@@ -48,7 +50,7 @@ class Member < ActiveRecord::Base
   class << self
     def from_auth(auth_hash)
       member = locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)
-      member
+      member.disabled? ? nil : member
     end
 
     def current
