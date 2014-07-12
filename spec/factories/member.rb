@@ -33,8 +33,15 @@ FactoryGirl.define do
       phone_number_verified true
     end
 
+    trait :admin do
+      after :create do |member|
+        ENV['ADMIN'] = (Member.admins << member.email).join(',')
+      end
+    end
+
     factory :activated_member, traits: [:activated]
     factory :verified_member, traits: [:activated, :verified]
     factory :verified_phone_number, traits: [:activated, :phone_number_verified]
+    factory :admin_member, traits: [:admin]
   end
 end

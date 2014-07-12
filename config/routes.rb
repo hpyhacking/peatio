@@ -88,7 +88,9 @@ Peatio::Application.routes.draw do
     get '/', to: 'dashboard#index', as: :dashboard
 
     resources :documents
-    resource :currency_deposit, :only => [:new, :create]
+    resources :id_documents,     only: [:index]
+    resource  :currency_deposit, only: [:new, :create]
+    resources :members,          only: [:index, :show, :update]
     resources :proofs
     resources :tickets, only: [:index, :show] do
       member do
