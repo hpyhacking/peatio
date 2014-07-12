@@ -1,0 +1,15 @@
+﻿zh-TW:
+  member_mailer:
+    notify_signin:
+      subject: 你剛登入了貔貅
+  withdraw_mailer:
+    withdraw_state:
+      subject: 你的提款狀態
+  token_mailer:
+    reset_password:
+      subject: '[Peatio] 請重置您的密碼'
+    reset_two_factor:
+      subject: '[Peatio] 請重置您的雙重認證'
+    activation:
+      subject: '[Peatio] 帳號啟用'
+

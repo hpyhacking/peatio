@@ -1,0 +1,19 @@
+﻿zh-TW:
+  easy_table:
+    satoshi:
+      amount: 儲值數量量
+      txid: 交易ID
+      created_at: 交易時間
+      memo: 確認樹
+      full_name: 用户
+      state_and_actions: 狀態/操作
+      currency_obj_key_text: 幣別
+    bank:
+      sn: 儲值編號
+      amount: 儲值金額
+      created_at: 送出時間
+      fund_source: 儲值帳號
+      memo: 備註
+      full_name: 用户
+      state_and_actions: 狀態/操作
+      currency_obj_key_text: 幣別

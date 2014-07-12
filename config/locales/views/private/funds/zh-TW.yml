@@ -1,0 +1,23 @@
+﻿zh-TW:
+  private:
+    funds:
+      show:
+        cny_format: '0.00'
+        btc_format: '0.00000000'
+        account_history: 帳戶歷史記錄
+        reason:
+          cny:
+            strike_add: 成交賣出
+            strike_sub: 成交買入
+            deposit: 儲值
+            withdraw: 提款
+            fix: 系統修正
+          btc:
+            strike_add: 成交買入
+            strike_sub: 成交賣出
+            deposit: 儲值
+            withdraw: 提款
+            fix: 系統修正
+        ref:
+          system: 系統
+          default: 默認

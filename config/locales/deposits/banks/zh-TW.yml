@@ -1,0 +1,93 @@
+﻿zh-TW:
+  activerecord:
+    models:
+      deposits/bank: 銀行轉帳
+    attributes:
+      deposits/bank:
+        fund_extra: 轉帳銀行
+        fund_extra_text: 轉帳銀行
+        fund_uid: 轉帳帳戶
+        holder: 持卡人姓名
+        receive_fund_holder_text: 貔貅交易所收款帳戶
+        receive_fund_uid_text: 貔貅交易所收款帳號
+        receive_fund_extra_text: 貔貅交易所開戶行
+        member_sn: 個人識別碼
+        amount: 儲值金額
+        sn: 交易編號
+
+  deposits/bank:
+    aasm_state:
+      submitting: 已提交
+      cancelled: 已撤銷
+      submitted: 受理中
+      accepted: 儲值成功
+      rejected: 已駁回
+      checked: 儲值成功
+      warning: 異常
+      
+  deposit_channel:
+    bank:
+      key: 銀行轉帳
+      title: 銀行轉帳儲值
+      intro: 通過銀行轉帳的方式，從您的銀行帳戶儲值人民幣到您的貔貅帳戶。
+      latency: 10 分鐘到帳
+      transfer: 人工處理
+      receive_fund_holder: 銀行匯款收款人
+      receive_fund_uid: 銀行匯款帳號
+      receive_fund_extra: 銀行匯款開戶行
+
+  private:
+    deposits:
+      destroy:
+        notice: 取消成功
+      update:
+        notice: 送出成功，您可在歷史記錄中查詢儲值到帳情況。
+      banks:
+        create:
+          success: 您的儲值訂單送出成功，請按照我們提供的貔貅帳戶繼續完成你的轉帳操作。
+        new:
+          step-1: 第一步
+          select-bank: 您可以選擇直接轉帳到我們的銀行帳戶，為了您的儲值可以迅速到帳，請您盡量選擇與我們相同的銀行進行轉帳充值。您可以選擇使用 在線銀行轉帳或臨櫃轉帳。
+          step-2: 第二步
+          send-money: 無論您選擇何種轉帳方式，請在轉帳備註中填寫如下您的個人識別碼，以便您的充值可以迅速到帳。
+          step-3: 第三步
+          check-confirm: 請確定您的資金已到帳而非轉出後（跨行轉帳通常需要一個小時甚至更久的時間到帳），如10分鐘內還未收到儲值，請及時與我們的客服人員聯繫。
+          bank: 銀行
+          card: 帳號
+          name: 戶名
+          save_fund_source: 保存您填寫的銀行資料並作為常用帳號，以便下次直接使用
+
+  guides:
+    private:
+      deposits:
+        banks:
+          panel: 銀行轉帳儲值
+          intro: 通過銀行轉帳的方式，從您的銀行帳戶儲值人民幣到您的貔貅帳戶。
+          show:
+            default-panel: 歷史記錄
+          new:
+            default-panel: 歷史記錄
+          edit:
+            default-panel: 歷史記錄
+
+  helpers:
+    submit:
+      deposits_bank:
+        create: 送出
+        update: 我已成功轉帳
+        cancel: 取消訂單
+
+  admin:
+    deposits:
+      banks:
+        index:
+          oneday: 二十四小時內儲值訂單
+          available: 全部未完成儲值訂單
+        show:
+          empty_target: 無儲值帳單
+          alert: 未發現外部儲值帳單，無法處理充值。
+          notice: 此帳目已經儲值成功，請人工記錄。
+          deposit: 系統儲值編號 - %{sn}
+          target_deposit: 外部儲值編號 - %{sn}
+          deposit: 儲值
+          confirm: 確認給用戶進行儲值嗎？

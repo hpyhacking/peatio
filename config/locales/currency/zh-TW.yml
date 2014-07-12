@@ -1,0 +1,6 @@
+zh-TW:
+  currency:
+    satoshi:
+      key: BTC
+    taibi:
+      key: TWD

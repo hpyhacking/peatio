@@ -1,0 +1,11 @@
+﻿zh-TW:
+  reset_passwords:
+    create:
+      success: 重置密碼郵件已經發送至您的郵箱，請根據郵件內容進行操作。如未收到郵件，請到“垃圾郵箱”裡找一下哦~ 或重新發送請求。
+    edit:
+      password: 請輸入至少8位密碼，並必須包含大寫、小寫字母與數字。
+      invalid: 無效的請求
+      submit: 重置登入密碼
+    update:
+      success: 登入密碼已經重置，請妥善保管您的新密碼。
+      invalid: 無效的請求
