@@ -2,18 +2,18 @@ module APIv2
   class Trades < Grape::API
     helpers ::APIv2::NamedParams
 
-    desc 'Get recent trades on market, each trade is included only once.'
+    desc 'Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.'
     params do
       use :market, :trade_filters
     end
     get "/trades" do
       trades = Trade.with_currency(params[:market]).order('id desc').limit(params[:limit])
-      trades = trades.where('created_at >= ?', time_from) if time_from
+      trades = trades.where('created_at <= ?', time_from) if time_from
 
       present trades, with: APIv2::Entities::Trade
     end
 
-    desc 'Get your executed trades.'
+    desc 'Get your executed trades. Trades are sorted in reverse creation order.'
     params do
       use :auth, :market, :trade_filters
     end

@@ -30,9 +30,12 @@ describe APIv2::Trades do
     end
 
     it "should return trades after timestamp" do
-      get '/api/v2/trades', market: 'btccny', timestamp: 30.hours.ago.to_i
+      another = create(:trade, bid: bid, created_at: 6.hours.ago)
+      get '/api/v2/trades', market: 'btccny', timestamp: 8.hours.ago.to_i, limit: 1
       response.should be_success
-      JSON.parse(response.body).should have(1).trade
+      json = JSON.parse(response.body)
+      json.should have(1).trade
+      json.first['id'].should == bid_trade.id
     end
 
     it "should sort trades in reverse creation order" do
