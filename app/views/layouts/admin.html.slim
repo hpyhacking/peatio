@@ -9,55 +9,58 @@ html lang="en"
     nav#top-menu.navbar.navbar-inverse.navbar-fixed-top role="navigation"
       .container
         ul.nav.navbar-nav.navbar-left
-          li class='#{check_active('dashboard')}': a#admin href="#{main_app.admin_dashboard_path}" = t('header.dashboard')
+          li class = check_active('dashboard')
+            = link_to t('header.dashboard'), main_app.admin_dashboard_path
 
           - if can? :manage, Document
-            li class='#{check_active(Document)}'
-              a href='#{admin_documents_path}' = t(".menus.items.operating.documents")
+            li class = check_active(Document)
+              = link_to t(".menus.items.operating.documents"), admin_documents_path
 
           - if can? :read, Proof
-            li class='#{check_active(Proof)}'
-              a href='#{admin_proofs_path}' = t(".menus.items.operating.proofs")
+            li class = check_active(Proof)
+              = link_to t(".menus.items.operating.proofs"), admin_proofs_path
 
           - if can? :menu, Deposit
-            li.dropdown class='#{check_active('deposits')}'
-              a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            li.dropdown class = check_active('deposits')
+              = link_to 'javascript:;', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
                 span = t('admin_header.deposits')
                 span.caret
               ul.dropdown-menu
                 - DepositChannel.all.sort.each do |c|
                   - if can? :manage, c.kls
-                    li: a href='#{url_for([:admin, c.kls])}' = c.title_text
+                    li = link_to c.title_text, [:admin, c.kls]
 
           - if can? :menu, Withdraw
-            li.dropdown class='#{check_active('withdraws')}'
-              a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            li.dropdown class = check_active('withdraws')
+              = link_to 'javascript:;', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
                 span = t('admin_header.withdraws')
                 span.caret
               ul.dropdown-menu
                 - WithdrawChannel.all.each do |c|
                   - if can? :manage, c.kls
-                    li: a href='#{url_for([:admin, c.kls])}' = c.title_text
+                    li = link_to c.title_text, [:admin, c.kls]
 
           - if can? :manage, IdDocument
-            li class='#{check_active('id_documents')}'
+            li class = check_active('id_documents')
               = link_to t('admin_header.id_documents'), admin_id_documents_path
 
-          li.dropdown class='#{check_active('statistic')}'
-            a href="#" class="dropdown-toggle" data-toggle="dropdown"
+          - if can? :manage, Ticket
+            li class = check_active(Proof)
+              = link_to t(".menus.items.operating.tickets"), admin_tickets_path
+
+          li.dropdown class = check_active('statistic')
+            = link_to 'javascript:;', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
               span = t('admin_header.statistics')
               span.caret
             ul.dropdown-menu
               - if can? :stat, Member
-                li class='#{check_active(Member)}'
-                  a href='#{admin_statistic_members_path}' = Member.model_name.human
-          - if can? :manage, Ticket
-            li class='#{check_active(Proof)}'
-              a href='#{admin_tickets_path}' = t(".menus.items.operating.tickets")
+                li class = check_active(Member)
+                  = link_to Member.model_name.human, admin_statistic_members_path
 
         ul.nav.navbar-nav.navbar-right
           p.navbar-text = current_user.email
-          li: a href="#{main_app.root_path}" = t('actions.back')
+          li = link_to t('actions.back'), main_app.root_path
+
     .container
       = breadcrumbs
       = render 'shared/flash'
