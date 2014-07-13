@@ -72,4 +72,9 @@ describe APIv2::Auth::Authenticator do
     subject.should_not be_authentic
   end
 
+  it "should not be authentic if associated member is disabled" do
+    token.member.update_attributes disabled: true
+    subject.token.should be_nil
+  end
+
 end
