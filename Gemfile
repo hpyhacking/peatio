@@ -69,7 +69,6 @@ gem 'easy_table'
 gem 'ransack', git: 'https://github.com/activerecord-hackery/ransack.git', branch: 'rails-4'
 gem 'phonelib'
 gem 'china_sms', git: 'https://github.com/lgn21st/china_sms.git'
-gem 'schema_plus'
 
 group :development, :test do
   gem 'factory_girl_rails'
