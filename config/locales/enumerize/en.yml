@@ -21,6 +21,8 @@ en:
     currency:
       cny: CNY
       btc: BTC
+      pts: PTS
+      dog: DOGE
     order:
       state:
         done: DONE
@@ -47,7 +49,7 @@ en:
         accepted: 已到账
         checked: 已到账
         warning: 异常
-    withdraw: 
+    withdraw:
       address_type:
         satoshi: Bitcoin
         bank: Bank

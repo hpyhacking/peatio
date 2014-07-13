@@ -18,6 +18,11 @@ zh-CN:
       done: 完成
       wait: 等待
       cancel: 取消
+    currency:
+      cny: CNY
+      btc: BTC
+      pts: PTS
+      dog: DOGE
     order:
       state:
         done: 完全成交

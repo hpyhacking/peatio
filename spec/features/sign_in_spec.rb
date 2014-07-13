@@ -9,7 +9,13 @@ describe 'Sign in' do
     expect(current_path).to eq(settings_path)
   end
 
-  xit "sends notification email after user sign in" do
+  it 'prevents a user to sign if his account is disabled' do
+    member.update_attributes disabled: true
+    signin identity
+    expect(current_path).to eq(signin_path)
+  end
+
+  it "sends notification email after user sign in" do
     signin identity
 
     mail = ActionMailer::Base.deliveries.last

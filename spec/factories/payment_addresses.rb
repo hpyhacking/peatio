@@ -3,6 +3,6 @@
 FactoryGirl.define do
   factory :payment_address do
     address "MyString"
-    account { create(:account, member: create(:member)) }
+    account { create(:member).get_account(:cny) }
   end
 end

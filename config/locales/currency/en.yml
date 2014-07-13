@@ -1,0 +1,40 @@
+en:
+  currency:
+    satoshi:
+      key: BTC
+    renminbi:
+      key: CNY
+    protoshare:
+      key: PTS
+    dogecoin:
+      key: DOG
+
+    name:
+      cny: Chinese Yuan
+      btc: Bitcoin
+      pts: ProtoShares
+      dog: DogeCoin
+    code:
+      cny: CNY
+      btc: BTC
+      pts: PTS
+      dog: DOGE
+    format:
+      zero: 'N/A'
+      cny: '0,0.00'
+      btc: '0,0.0000'
+      pts: '0,0.0000'
+      dog: '0,0.0000'
+    icon-large:
+      cny: <span class='big-currency'>¥</span>
+      btc: <span class='big-currency'>฿</span>
+      pts: <span class='big-currency'>P</span>
+      dog: <span class='big-currency'>Ð</span>
+    icon:
+      cny: <span class='currency'>¥</span>
+      btc: <span class='currency'>฿</span>
+      pts: <span class='currency'>P</span>
+      dog: <span class='currency'>Ð</span>
+    sum:
+      bid: Total Price <span class=bid_totle></span>%{bid_icon}
+      ask: Total Price <span class=ask_totle></span>%{bid_icon}

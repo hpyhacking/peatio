@@ -1,6 +1,8 @@
 zh-CN:
   verify:
     two_factors:
+      new:
+        timeout: 两步验证超时
       create:
         error: 两步验证错误
     sms_tokens:

@@ -7,7 +7,8 @@ en:
       reset_two_factor: Lost 2-step-verification device
     create_with_two_factor_auth:
       session_expired: Session expired. Try again.
+    create:
+      error: You account has been disabled, contact admin if you have any problem.
     failure:
       account_locked: Too many failed login attempts. To ensure the safety of your account, we have locked your account. To unlock, reset your password by clicking on "Forgot Password".
       error: Wrong customer ID or password,please try again.
-             

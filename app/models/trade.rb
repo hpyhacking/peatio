@@ -47,7 +47,7 @@ class Trade < ActiveRecord::Base
 
     def for_member(currency, member, options={})
       trades = with_currency(currency).where("ask_member_id = ? or bid_member_id = ?", member.id, member.id).order('id desc')
-      trades = trades.where('created_at >= ?', options[:from]) if options[:from].present?
+      trades = trades.where('created_at <= ?', options[:from]) if options[:from].present?
       trades = trades.limit(options[:limit]) if options[:limit].present?
 
       trades.each do |trade|

@@ -3,6 +3,6 @@ FactoryGirl.define do
     txid { Faker::Lorem.characters(16) }
     currency { 'btc' }
     amount { 10.to_d }
-    payment_address { create(:payment_address) }
+    payment_address
   end
 end
