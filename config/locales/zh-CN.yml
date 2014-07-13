@@ -94,6 +94,7 @@ zh-CN:
     deposits: 充值管理
     withdraws: 提现管理
     statistics: 数据统计
+    id_documents: 身份验证
 
   footer:
     about: 关于我们

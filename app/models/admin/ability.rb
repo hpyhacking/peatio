@@ -14,6 +14,7 @@ module Admin
       can :update, Proof
       can :manage, Document
       can :manage, Ticket
+      can :manage, IdDocument
 
       can :menu, Deposit
       can :manage, ::Deposits::Bank

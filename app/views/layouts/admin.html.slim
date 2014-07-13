@@ -39,6 +39,10 @@ html lang="en"
                   - if can? :manage, c.kls
                     li: a href='#{url_for([:admin, c.kls])}' = c.title_text
 
+          - if can? :manage, IdDocument
+            li class='#{check_active('id_documents')}'
+              = link_to t('admin_header.id_documents'), admin_id_documents_path
+
           li.dropdown class='#{check_active('statistic')}'
             a href="#" class="dropdown-toggle" data-toggle="dropdown"
               span = t('admin_header.statistics')
