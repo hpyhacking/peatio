@@ -4,3 +4,23 @@ zh-CN:
       key: BTC
     renminbi:
       key: CNY
+
+    name:
+      cny: 人民币
+      btc: 比特币
+    code:
+      cny: CNY
+      btc: BTC
+    format:
+      zero: 'N/A'
+      cny: '0.00'
+      btc: '0.0000'
+    icon-large:
+      cny: <span class='big-currency'>¥</span>
+      btc: <span class='big-currency'>฿</span>
+    icon:
+      cny: <span class='currency'>¥</span>
+      btc: <span class='currency'>฿</span>
+    sum:
+      bid: 合计 <span class=bid_totle></span>%{bid_icon}
+      ask: 合计 <span class=ask_totle></span>%{bid_icon}

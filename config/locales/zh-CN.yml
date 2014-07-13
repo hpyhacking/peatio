@@ -39,26 +39,6 @@ zh-CN:
       short: '%m-%d %H:%M'
       default: '%Y-%m-%d %H:%M'
 
-  currency:
-    name:
-      cny: 人民币
-      btc: 比特币
-    code:
-      cny: CNY
-      btc: BTC
-    format:
-      zero: 'N/A'
-      cny: '0.00'
-      btc: '0.0000'
-    icon-large:
-      cny: <span class='big-currency'>¥</span>
-      btc: <span class='big-currency'>฿</span>
-    icon:
-      cny: <span class='currency'>¥</span>
-      btc: <span class='currency'>฿</span>
-    sum:
-      bid: 合计 <span class=bid_totle></span>%{bid_icon}
-      ask: 合计 <span class=ask_totle></span>%{bid_icon}
   reset_two_factors:
     create:
       success: 重置两步验证邮件已经发送，请根据邮件内容进行操作。
