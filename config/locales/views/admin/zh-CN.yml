@@ -6,7 +6,7 @@ zh-CN:
       comments_count: 回复数量
       replies: 回复
       open_tickets: 未结束工单
-      closed_tickets: 已关闭工单
+      closed_tickets: 已结束工单
     members:
       show:
         member_title: 用户信息
