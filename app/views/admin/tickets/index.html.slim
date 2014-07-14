@@ -1,0 +1,25 @@
+= link_to t("admin.tickets.open_tickets"), admin_tickets_path
+|&nbsp &nbsp &nbsp
+= link_to t("admin.tickets.closed_tickets"), admin_tickets_path(closed: true)
+
+ul.list-group
+  - @tickets.each do |t|
+    li.list-group-item
+      .row.row-middle
+        .col-md-30
+          .row.row-middle
+            .col-md-6
+              h4 = link_to t.title, admin_ticket_path(t)
+            .col-md-6
+          .row
+            .col-md-12
+              p.text-ignore = t.content
+          .row
+            .col-md-15
+              span = time_ago_in_words t.created_at
+            .col-md-1
+              = link_to(t('admin.tickets.view'), admin_ticket_path(t.id))
+            .col-md-2
+              = link_to(t('admin.tickets.close'), admin_ticket_path(t.id))
+            .col-md-3
+              ="#{t('admin.tickets.comments_count')}(#{t.comments.count})"

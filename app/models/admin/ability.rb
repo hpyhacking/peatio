@@ -12,6 +12,7 @@ module Admin
       can :update, Member
       can :update, Proof
       can :manage, Document
+      can :manage, Ticket
 
       can :menu, Deposit
       can :manage, ::Deposits::Bank

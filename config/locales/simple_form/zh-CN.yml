@@ -34,6 +34,8 @@ zh-CN:
         create: 提交
       ticket:
         create: 提交
+      comment:
+        create: 回复
   simple_form:
     creating: Creating...
     updating: Updating...

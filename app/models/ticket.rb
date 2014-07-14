@@ -17,6 +17,9 @@ class Ticket < ActiveRecord::Base
   has_many :comments
   belongs_to :author, class_name: 'Member', foreign_key: 'author_id'
 
+  scope :open, -> { where(aasm_state: :open) }
+  scope :close, -> { where(aasm_state: :closed) }
+
   aasm whiny_transitions: false do
     state :open
     state :closed

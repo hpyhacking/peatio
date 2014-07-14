@@ -87,6 +87,9 @@ Peatio::Application.routes.draw do
     resource :currency_deposit, :only => [:new, :create]
     resources :members, :only => [:index, :show, :update]
     resources :proofs
+    resources :tickets, only: [:index, :show] do
+      resources :comments, only: [:create]
+    end
 
     namespace :deposits do
       Deposit.descendants.each do |d|
