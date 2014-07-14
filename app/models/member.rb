@@ -33,7 +33,7 @@ class Member < ActiveRecord::Base
 
   has_many :authentications, dependent: :destroy
 
-  scope :enabled, where(disabled: false)
+  scope :enabled, -> { where(disabled: false) }
 
   delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
