@@ -10,6 +10,7 @@
 #
 
 class Comment < ActiveRecord::Base
+  acts_as_readable on: :created_at
   belongs_to :ticket
   belongs_to :author, class_name: 'Member', foreign_key: 'author_id'
 

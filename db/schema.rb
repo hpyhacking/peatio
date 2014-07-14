@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140712030803) do
+ActiveRecord::Schema.define(version: 20140714143823) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -248,6 +248,16 @@ ActiveRecord::Schema.define(version: 20140712030803) do
     t.text     "addresses"
     t.string   "balance",    limit: 30
   end
+
+  create_table "read_marks", force: true do |t|
+    t.integer  "readable_id"
+    t.integer  "member_id",                null: false
+    t.string   "readable_type", limit: 20, null: false
+    t.datetime "timestamp"
+  end
+
+  add_index "read_marks", ["member_id"], name: "index_read_marks_on_member_id", using: :btree
+  add_index "read_marks", ["readable_type", "readable_id"], name: "index_read_marks_on_readable_type_and_readable_id", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"

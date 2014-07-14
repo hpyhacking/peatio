@@ -1,4 +1,11 @@
 GIT
+  remote: git@github.com:poshboytl/unread.git
+  revision: b8fa0502e9558c93388a104bcbe20376cf43027d
+  specs:
+    unread (0.4.0)
+      activerecord (>= 3)
+
+GIT
   remote: https://github.com/activerecord-hackery/ransack.git
   revision: 8009ae93e3e00325e41edd231b4b917c45a2c6c2
   branch: rails-4
@@ -503,4 +510,5 @@ DEPENDENCIES
   twilio-ruby (~> 3.11)
   uglifier
   unicorn
+  unread!
   whenever (~> 0.9.2)

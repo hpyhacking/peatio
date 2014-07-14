@@ -13,6 +13,7 @@
 class Ticket < ActiveRecord::Base
   include AASM
   include AASM::Locking
+  acts_as_readable on: :created_at
 
   has_many :comments
   belongs_to :author, class_name: 'Member', foreign_key: 'author_id'
