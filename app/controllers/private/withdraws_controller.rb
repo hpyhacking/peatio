@@ -2,7 +2,6 @@ module Private
   class WithdrawsController < BaseController
     before_action :auth_activated!
     before_action :auth_verified!
-    before_action :verify_two_factor!, only: :update
 
     def index
       @channels = WithdrawChannel.all
