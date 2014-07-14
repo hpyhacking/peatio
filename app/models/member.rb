@@ -162,6 +162,15 @@ class Member < ActiveRecord::Base
     Activation.create(member: self)
   end
 
+  def unread_comments
+    ticket_ids = self.tickets.open.collect(&:id)
+    if ticket_ids.any?
+      Comment.where(ticket_id: [ticket_ids]).where("author_id <> ?", self.id).unread_by(self)
+    else
+      []
+    end
+  end
+
   private
   def generate_sn
     self.sn and return

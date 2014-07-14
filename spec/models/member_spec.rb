@@ -87,4 +87,13 @@ describe Member do
     specify { Thread.current[:user].should == member }
   end
 
+  describe "#unread_messages" do
+    let!(:member) { create(:member) }
+    let!(:ticket) { create(:ticket, author: member) }
+    let!(:comment) { create(:comment, ticket: ticket) }
+    before { ticket.mark_as_read! for: member }
+
+    specify { member.unread_comments.should == [comment] }
+  end
+
 end

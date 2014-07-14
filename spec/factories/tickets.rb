@@ -2,8 +2,7 @@
 
 FactoryGirl.define do
   factory :ticket do
-    content "MyText"
-    state "MyString"
-    author_id 1
+    sequence(:content) { |n| "Content #{n}" }
+    author
   end
 end

@@ -2,7 +2,9 @@
 
 FactoryGirl.define do
   factory :comment do
-    content "MyText"
-    author_id 1
+    sequence(:content) { |n| "Content #{n}" }
+    ticket
+    author
   end
+
 end

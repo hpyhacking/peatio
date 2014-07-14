@@ -115,3 +115,25 @@ input.boolean.optional.form-control {
   margin-left: 0px;
   margin-right: 6px;
 }
+
+.counter {
+  opacity: 1;
+  position: absolute;
+  top: 6px;
+  right: 2px;
+  display: inline-block;
+  font-size: 9px;
+  font-family: verdana;
+  line-height: 14px;
+  text-align: center;
+  border: 1px solid #fff;
+  color: #fff;
+  background-color: #ff4918;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  -webkit-transition: opacity .3s ease-in-out, visibility .2s ease;
+  -moz-transition: opacity .3s ease-in-out, visibility .2s ease;
+  -o-transition: opacity .3s ease-in-out, visibility .2s ease;
+  transition: opacity .3s ease-in-out, visibility .2s ease;
+}
