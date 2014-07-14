@@ -7,9 +7,7 @@ module APIv2
       use :market, :trade_filters
     end
     get "/trades" do
-      trades = Trade.with_currency(params[:market]).order('id desc').limit(params[:limit])
-      trades = trades.where('created_at <= ?', time_from) if time_from
-
+      trades = Trade.filter(params[:market], time_to, params[:from], params[:to], params[:limit])
       present trades, with: APIv2::Entities::Trade
     end
 
@@ -22,7 +20,8 @@ module APIv2
 
       trades = Trade.for_member(
         params[:market], current_user,
-        limit: params[:limit], from: time_from
+        limit: params[:limit], time_to: time_to,
+        from: params[:from], to: params[:to]
       )
 
       present trades, with: APIv2::Entities::Trade

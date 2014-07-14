@@ -45,11 +45,17 @@ class Trade < ActiveRecord::Base
         .limit(1).first.try(:price) || "0.0".to_d
     end
 
-    def for_member(currency, member, options={})
-      trades = with_currency(currency).where("ask_member_id = ? or bid_member_id = ?", member.id, member.id).order('id desc')
-      trades = trades.where('created_at <= ?', options[:from]) if options[:from].present?
-      trades = trades.limit(options[:limit]) if options[:limit].present?
+    def filter(market, timestamp, from, to, limit)
+      trades = with_currency(market).order('id desc')
+      trades = trades.limit(limit) if limit.present?
+      trades = trades.where('created_at <= ?', timestamp) if timestamp.present?
+      trades = trades.where('id > ?', from) if from.present?
+      trades = trades.where('id < ?', to) if to.present?
+      trades
+    end
 
+    def for_member(currency, member, options={})
+      trades = filter(currency, options[:time_to], options[:from], options[:to], options[:limit]).where("ask_member_id = ? or bid_member_id = ?", member.id, member.id)
       trades.each do |trade|
         trade.side = trade.ask_member_id == member.id ? 'ask' : 'bid'
       end
