@@ -9,3 +9,4 @@ en:
       supporter: Support
       close: Close Ticket
       close_succ: Ticket closed successfully
+      close_confirm: Are you sure to close this ticket?
