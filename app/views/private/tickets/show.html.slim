@@ -1,5 +1,7 @@
-.col-md-10
-a.btn.btn-default href='/tickets' = t("back")
+.col-md-8
+= link_to t("private.tickets.close"), close_ticket_path(@ticket), method: :patch, confirm: t("private.tickets.close_confirm"), class: "btn btn-default"
+| &nbsp &nbsp &nbsp
+= link_to t("back"), tickets_path, class: "btn btn-default"
 
 ul.list-group
   li.list-group-item
@@ -33,4 +35,4 @@ ul.list-group
 = simple_form_for @comment, url: ticket_comments_path(@ticket.id) do |f|
   = f.input :content, label: false,  input_html: { style: 'width:165%;', rows: 3 }
   hr.split
-  = f.button :wrapped, cancel: tickets_path
+  = f.button :wrapped

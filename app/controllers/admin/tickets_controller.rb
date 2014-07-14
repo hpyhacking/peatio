@@ -6,9 +6,19 @@ module Admin
     end
 
     def show
-      @ticket = Ticket.find(params[:id])
-      @comments = @ticket.comments
+      @comments = ticket.comments
       @comment = Comment.new
+    end
+
+    def close
+      flash[:notice] = I18n.t('private.tickets.close_succ') if ticket.close!
+      redirect_to admin_tickets_path
+    end
+
+    protected
+
+    def ticket
+      @ticket ||= Ticket.find(params[:id])
     end
 
   end

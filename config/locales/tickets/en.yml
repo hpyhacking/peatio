@@ -7,3 +7,5 @@ en:
       cooment_fail: Comment failed, please try again latter
       me: me
       supporter: Support
+      close: Close Ticket
+      close_succ: Ticket closed successfully

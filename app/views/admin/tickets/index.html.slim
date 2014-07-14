@@ -19,7 +19,8 @@ ul.list-group
               span = time_ago_in_words t.created_at
             .col-md-1
               = link_to(t('admin.tickets.view'), admin_ticket_path(t.id))
-            .col-md-2
-              = link_to(t('admin.tickets.close'), admin_ticket_path(t.id))
+            - unless t.closed?
+              .col-md-2
+                = link_to(t('admin.tickets.close'), close_admin_ticket_path(t.id), confirm: t("private.tickets.close_confirm"), method: :patch)
             .col-md-3
               ="#{t('admin.tickets.comments_count')}(#{t.comments.count})"

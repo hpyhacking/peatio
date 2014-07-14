@@ -7,3 +7,6 @@ zh-CN:
       comment_fail: 回复失败，请稍候再试。
       me: 我
       supporter: 客服
+      close: 关闭工单
+      close_succ: 工单已关闭
+      close_confirm: 您确定要关闭这个工单吗？
