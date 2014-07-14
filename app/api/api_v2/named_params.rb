@@ -26,6 +26,8 @@ module APIv2
     params :trade_filters do
       optional :limit,     type: Integer, range: 1..1000, default: 50, desc: 'Limit the number of returned trades. Default to 50.'
       optional :timestamp, type: Integer, desc: "An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned."
+      optional :from,      type: Integer, desc: "Trade id. If set, only trades created after the trade will be returned."
+      optional :to,        type: Integer, desc: "Trade id. If set, only trades created before the trade will be returned."
     end
 
   end
