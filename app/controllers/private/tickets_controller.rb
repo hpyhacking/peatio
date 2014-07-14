@@ -2,6 +2,7 @@ module Private
   class TicketsController < BaseController
     def index
       @tickets = current_user.tickets.open
+      redirect_to new_ticket_path if @tickets.empty?
     end
 
     def new
