@@ -1,0 +1,12 @@
+.panel.panel-primary
+  .panel-heading: span = t('.verify_account')
+  = table_for(@id_documents, class: 'table table-condensed table-hover') do |t|
+    - t.column :id, class: 'col-md-2'
+    - t.column :name, class: 'col-md-2' do |x|
+      = link_to x.name, admin_id_document_path(x)
+    - t.column :category, class: 'col-md-2' do |x|
+      = t("enumerize.id_document.category.#{x.category}")
+    - t.column :sn, class: 'col-md-2'
+    - t.column :updated_at, t('.request_at'), class: 'col-md-2'
+    - t.column :verified?, class: 'col-md-2' do |x|
+      = link_to yesno(x.verified?), admin_id_document_path(x)
