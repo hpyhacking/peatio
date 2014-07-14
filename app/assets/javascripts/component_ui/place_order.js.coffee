@@ -62,7 +62,7 @@
   @handleError = (event, data) ->
     @cleanMsg()
     json = JSON.parse(data.responseText)
-    @select('dangerSel').text(json.message).fadeOut(3500)
+    @select('dangerSel').text(json.message).show().fadeOut(3500)
     @enableSubmit()
 
   @computeSum = (event) ->
