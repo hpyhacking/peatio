@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= Member.find_by_id(session[:member_id])
+    @current_user ||= Member.enabled.where(id: session[:member_id]).first
   end
 
   def set_current_user

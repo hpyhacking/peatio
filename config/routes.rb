@@ -83,12 +83,18 @@ Peatio::Application.routes.draw do
 
   namespace :admin do
     get '/', to: 'dashboard#index', as: :dashboard
+
     resources :documents
     resource :currency_deposit, :only => [:new, :create]
-    resources :members, :only => [:index, :show, :update]
     resources :proofs
     resources :tickets, only: [:index, :show] do
       resources :comments, only: [:create]
+    end
+
+    resources :members, :only => [:index, :show, :update] do
+      member do
+        post :toggle
+      end
     end
 
     namespace :deposits do

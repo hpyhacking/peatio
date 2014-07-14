@@ -1,6 +1,8 @@
 en:
   verify:
     two_factors:
+      new:
+        timeout: Two factor authentication timeout
       create:
         error: Two factor authentication error
     sms_tokens:

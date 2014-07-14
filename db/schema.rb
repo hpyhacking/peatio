@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707115022) do
+ActiveRecord::Schema.define(version: 20140712030803) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 20140707115022) do
     t.integer  "country_code"
     t.string   "phone_number"
     t.boolean  "phone_number_verified"
+    t.boolean  "disabled",              default: false
   end
 
   create_table "orders", force: true do |t|
@@ -186,12 +187,12 @@ ActiveRecord::Schema.define(version: 20140707115022) do
     t.decimal  "origin_volume",             precision: 32, scale: 16
     t.integer  "state"
     t.datetime "done_at"
-    t.string   "type",           limit: 8
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
     t.string   "source",                                                            null: false
+    t.string   "type",           limit: 8
     t.string   "ord_type",       limit: 10
     t.decimal  "locked",                    precision: 32, scale: 16
     t.decimal  "origin_locked",             precision: 32, scale: 16
