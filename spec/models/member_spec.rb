@@ -94,7 +94,7 @@ describe Member do
     let!(:ticket) { create(:ticket, author: user) }
     let!(:comment) { create(:comment, ticket: ticket) }
 
-    before { MarkRead.delete_all }
+    before { ReadMark.delete_all }
 
     specify { user.unread_comments.count.should == 1 }
 
