@@ -9,15 +9,18 @@ ul.list-group
       .row.row-middle
         .col-md-30
           .row.row-middle
-            .col-md-6
-              h4 = link_to t.title, admin_ticket_path(t)
-            .col-md-6
+            .col-md-14
+              h4 = link_to t.title_for_display, admin_ticket_path(t)
+            .col-md-14
           .row
             .col-md-12
               p.text-ignore = t.content
           .row
             .col-md-15
-              span = time_ago_in_words t.created_at
+              .col-md-12
+                span = "#{I18n.t("private.tickets.from")}: #{t.author.email}"
+              .col-md-6
+                 span = time_ago_in_words t.created_at
             .col-md-1
               = link_to(t('admin.tickets.view'), admin_ticket_path(t.id))
             - unless t.closed?
