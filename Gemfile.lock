@@ -1,11 +1,4 @@
 GIT
-  remote: git@github.com:poshboytl/unread.git
-  revision: b8fa0502e9558c93388a104bcbe20376cf43027d
-  specs:
-    unread (0.4.0)
-      activerecord (>= 3)
-
-GIT
   remote: https://github.com/activerecord-hackery/ransack.git
   revision: 8009ae93e3e00325e41edd231b4b917c45a2c6c2
   branch: rails-4
@@ -16,6 +9,13 @@ GIT
       activesupport (>= 4.0)
       i18n
       polyamorous (~> 0.6.0)
+
+GIT
+  remote: https://github.com/poshboytl/unread.git
+  revision: b8fa0502e9558c93388a104bcbe20376cf43027d
+  specs:
+    unread (0.4.0)
+      activerecord (>= 3)
 
 GIT
   remote: https://github.com/tomlion/mina-slack.git
@@ -68,7 +68,7 @@ GEM
       eventmachine
     annotate (2.5.0)
       rake
-    arel (4.0.1)
+    arel (4.0.2)
     atomic (1.1.16)
     awesome_print (1.2.0)
     axiom-types (0.1.0)
@@ -195,7 +195,7 @@ GEM
     http_accept_language (2.0.1)
     http_parser.rb (0.6.0)
     httpclient (2.3.4.1)
-    i18n (0.6.9)
+    i18n (0.6.11)
     ice_nine (0.11.0)
     introjs-rails (0.5.0)
       sass-rails (>= 3.2)
@@ -244,7 +244,7 @@ GEM
       metaclass (~> 0.0.1)
     momentjs-rails (2.5.1)
       railties (>= 3.1)
-    multi_json (1.9.3)
+    multi_json (1.10.1)
     multi_xml (0.5.5)
     mysql2 (0.3.15)
     nilio (1.0.0)
@@ -404,7 +404,7 @@ GEM
       builder (>= 2.1.2)
       jwt (>= 0.1.2)
       multi_json (>= 1.3.0)
-    tzinfo (0.3.39)
+    tzinfo (0.3.40)
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)

@@ -66,7 +66,7 @@ gem 'easy_table'
 gem 'ransack', git: 'https://github.com/activerecord-hackery/ransack.git', branch: 'rails-4'
 gem 'phonelib'
 gem 'twilio-ruby', '~> 3.11'
-gem 'unread', git: 'git@github.com:poshboytl/unread.git'
+gem 'unread', git: 'https://github.com/poshboytl/unread.git'
 
 group :development, :test do
   gem 'factory_girl_rails'
