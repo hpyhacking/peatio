@@ -137,3 +137,8 @@ input.boolean.optional.form-control {
   -o-transition: opacity .3s ease-in-out, visibility .2s ease;
   transition: opacity .3s ease-in-out, visibility .2s ease;
 }
+
+.unread {
+  background: #f2f2f2;
+  margin-right: 15px;
+}

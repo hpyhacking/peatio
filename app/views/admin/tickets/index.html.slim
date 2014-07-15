@@ -4,7 +4,8 @@
 
 ul.list-group
   - @tickets.each do |t|
-    li.list-group-item
+    li class = (t.unread?(current_user) || t.comments.unread_by(current_user).any? ? ["unread", "list-group-item"] : ["list-group-item"])
+
       .row.row-middle
         .col-md-30
           .row.row-middle

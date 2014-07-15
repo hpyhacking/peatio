@@ -1,5 +1,7 @@
 module Private
   class TicketsController < BaseController
+    after_filter :mark_ticket_as_read, only: [:create, :show]
+
     def index
       @tickets = current_user.tickets.open
       redirect_to new_ticket_path if @tickets.empty?
@@ -10,8 +12,8 @@ module Private
     end
 
     def create
-      ticket = current_user.tickets.create(ticket_params)
-      if ticket.save
+      @ticket = current_user.tickets.create(ticket_params)
+      if @ticket.save
         flash[:notice] = I18n.t('private.tickets.ticket_create_succ')
         redirect_to tickets_path
       else
@@ -22,6 +24,9 @@ module Private
 
     def show
       @comments = ticket.comments
+      @comments.unread_by(current_user).each do |c|
+        c.mark_as_read! for: current_user
+      end
       @comment = Comment.new
     end
 
@@ -38,6 +43,10 @@ module Private
 
     def ticket
       @ticket ||= current_user.tickets.find(params[:id])
+    end
+
+    def mark_ticket_as_read
+      ticket.mark_as_read!(for: current_user) if ticket.unread?(current_user)
     end
   end
 end

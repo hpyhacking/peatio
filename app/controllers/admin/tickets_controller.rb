@@ -1,5 +1,6 @@
 module Admin
   class TicketsController < BaseController
+
     def index
       @tickets = Ticket.order("created_at DESC")
       @tickets = params[:closed].nil? ? @tickets.open : @tickets.closed
@@ -7,7 +8,11 @@ module Admin
 
     def show
       @comments = ticket.comments
+      @comments.unread_by(current_user).each do |c|
+        c.mark_as_read! for: current_user
+      end
       @comment = Comment.new
+      ticket.mark_as_read!(for: current_user) if ticket.unread?(current_user)
     end
 
     def close
