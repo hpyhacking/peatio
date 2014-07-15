@@ -79,6 +79,7 @@ en:
     trade_history: Trade History
     account_history: Account History
     my_profile: My Profile
+    tickets: Tickets
 
   admin_header:
     deposits: Depoists

@@ -12,6 +12,7 @@ en:
             deposits: Deposits
             documents: Documents
             withdraws: Withdraws
+            tickets: Tickets
           deposits:
             currency: Deposit
     application:

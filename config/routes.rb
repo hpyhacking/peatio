@@ -74,6 +74,14 @@ Peatio::Application.routes.draw do
     end
 
     post '/pusher/auth', to: 'pusher#auth'
+
+    resources :tickets, only: [:index, :new, :create, :show] do
+      member do
+        patch :close
+      end
+      resources :comments, only: [:create]
+    end
+
   end
 
   namespace :admin do
@@ -82,6 +90,12 @@ Peatio::Application.routes.draw do
     resources :documents
     resource :currency_deposit, :only => [:new, :create]
     resources :proofs
+    resources :tickets, only: [:index, :show] do
+      member do
+        patch :close
+      end
+      resources :comments, only: [:create]
+    end
 
     resources :members, :only => [:index, :show, :update] do
       member do

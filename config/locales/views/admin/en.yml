@@ -1,5 +1,12 @@
 en:
   admin:
+    tickets:
+      view: View
+      close: Close Ticket
+      comments_count: comments count
+      replies: Replies
+      open_tickets: Open Tickets
+      closed_tickets: Closed Tickets
     members:
       show:
         member_title: 用户信息

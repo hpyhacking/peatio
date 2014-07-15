@@ -47,6 +47,10 @@ html lang="en"
               - if can? :stat, Member
                 li class='#{check_active(Member)}'
                   a href='#{admin_statistic_members_path}' = Member.model_name.human
+          - if can? :manage, Ticket
+            li class='#{check_active(Proof)}'
+              a href='#{admin_tickets_path}' = t(".menus.items.operating.tickets")
+
         ul.nav.navbar-nav.navbar-right
           p.navbar-text = current_user.email
           li: a href="#{main_app.root_path}" = t('actions.back')
