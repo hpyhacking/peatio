@@ -89,12 +89,13 @@ describe Member do
   end
 
   describe "#unread_messages" do
-    let!(:member) { create(:member) }
-    let!(:ticket) { create(:ticket, author: member) }
-    let!(:comment) { create(:comment, ticket: ticket) }
-    before { ticket.mark_as_read! for: member }
+    let!(:user) { create(:member) }
 
-    specify { member.unread_comments.should == [comment] }
+    let!(:ticket) { create(:ticket, author: user) }
+    let!(:comment) { create(:comment, ticket: ticket) }
+
+    specify { user.unread_comments.count.should == 1 }
+
   end
 
 end
