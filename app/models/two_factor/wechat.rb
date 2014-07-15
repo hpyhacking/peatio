@@ -1,3 +1,3 @@
-class TwoFactor::Wechart < ::TwoFactor
+class TwoFactor::Wechat < ::TwoFactor
 
 end
