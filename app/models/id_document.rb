@@ -22,13 +22,5 @@ class IdDocument < ActiveRecord::Base
 
   enumerize :category, in: {id_card: 0, passport: 1}
 
-  before_create :set_verified
-
   alias_attribute :full_name, :name
-
-  private
-
-  def set_verified
-    self.verified = true
-  end
 end
