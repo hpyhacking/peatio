@@ -36,4 +36,8 @@ class Ticket < ActiveRecord::Base
     end
   end
 
+  def title_for_display(n = 60)
+    title.blank? ? content.truncate(n) : title.truncate(n)
+  end
+
 end

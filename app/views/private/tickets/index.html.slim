@@ -9,9 +9,9 @@ ul.list-group
       .row.row-middle
         .col-md-9
           .row.row-middle
-            .col-md-6
-              h4 = link_to t.title, ticket_path(t)
-            .col-md-6
+            .col-md-14
+              h4 = link_to t.title_for_display, ticket_path(t)
+            .col-md-14
           .row
             .col-md-12
               p.text-ignore = t.content

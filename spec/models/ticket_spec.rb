@@ -29,7 +29,20 @@ describe Ticket do
       it { should be_valid }
     end
 
+  end
 
+  describe "#title_for_display" do
+    let(:text) { 'alsadkjf aslkdjf aslkdjfla skdjf alsdkjf dlsakjf lasdkjf sadkfasdf xx' }
+    context "title is present" do
+      let(:ticket) { create(:ticket, title: text)}
+      subject{ ticket }
+      its(:title_for_display) { should == "alsadkjf aslkdjf aslkdjfla skdjf alsdkjf dlsakjf lasdkjf ..." }
+    end
 
+    context "title is blank" do
+      let(:ticket) { create(:ticket, content: text) }
+      subject{ ticket }
+      its(:title_for_display) { should == "alsadkjf aslkdjf aslkdjfla skdjf alsdkjf dlsakjf lasdkjf ..." }
+    end
   end
 end
