@@ -1,5 +1,6 @@
 development: &defaults
   adapter: mysql2
+  encoding: utf8
   database: peatio_development
   username: root
   password:
