@@ -49,7 +49,8 @@ class Member < ActiveRecord::Base
   validates :sn, presence: true
   validates :display_name, uniqueness: true, allow_blank: true
 
-  after_create :touch_accounts
+  before_create :build_default_id_document
+  after_create  :touch_accounts
 
   class << self
     def from_auth(auth_hash)
@@ -178,5 +179,10 @@ class Member < ActiveRecord::Base
     begin
       self.sn = "PEA#{ROTP::Base32.random_base32(8).upcase}TIO"
     end while Member.where(:sn => self.sn).any?
+  end
+
+  def build_default_id_document
+    build_id_document
+    true
   end
 end

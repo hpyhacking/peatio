@@ -4,6 +4,5 @@ FactoryGirl.define do
     name { Faker::Name.name }
     sn { Faker::Number.number(15).to_s }
     verified true
-    member
   end
 end

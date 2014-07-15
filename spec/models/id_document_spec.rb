@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # == Schema Information
 #
 # Table name: id_documents
@@ -15,12 +16,8 @@
 require 'spec_helper'
 
 describe IdDocument do
-  it "sets member name to same as the document" do
-    doc = create(:id_document, name: "Sun Xiaomei", member: create(:member, name: "Xiaomei"))
-    expect(doc.member.name).to eql doc.name
-  end
+  let(:member) { create(:member) }
+  subject { member.id_document }
 
-  it "sets verified to true by default" do
-    expect(create(:id_document, verified: false)).to be_verified
-  end
+  it { should be_valid }
 end
