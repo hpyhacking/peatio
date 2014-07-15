@@ -2,11 +2,12 @@ zh-CN:
   private:
     two_factors:
       auth:
+        please_active_two_factor: 为了您的资金安全, 请先绑定手机或设置两步验证。
         submit: 确认
         otp_placeholder: 6位数字密码
         google_app: 谷歌身份验证器
         sms: 手机短信验证
-        sms_message: "貔貅交易所（北京）验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【貔貅Peatio】"
+        sms_message: "验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【貔貅交易所（北京）】"
         send_code: 获取验证码
         send_code_alt: COUNT秒后重新发送
         hints:

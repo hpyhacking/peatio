@@ -8,9 +8,9 @@
         fund_extra_text: 轉帳銀行
         fund_uid: 轉帳帳戶
         holder: 持卡人姓名
-        receive_fund_holder_text: 貔貅交易所收款帳戶
-        receive_fund_uid_text: 貔貅交易所收款帳號
-        receive_fund_extra_text: 貔貅交易所開戶行
+        receive_fund_holder_text: 郵局帳號戶名 
+        receive_fund_uid_text: 中華郵政代碼
+        receive_fund_extra_text: 中華郵政帳號
         member_sn: 個人識別碼
         amount: 儲值金額
         sn: 交易編號
@@ -32,9 +32,9 @@
       intro: 通過銀行轉帳的方式，從您的銀行帳戶儲值人民幣到您的貔貅帳戶。
       latency: 10 分鐘到帳
       transfer: 人工處理
-      receive_fund_holder: 銀行匯款收款人
-      receive_fund_uid: 銀行匯款帳號
-      receive_fund_extra: 銀行匯款開戶行
+      receive_fund_holder: 莊博淳
+      receive_fund_uid: 700
+      receive_fund_extra: 01910010531353
 
   private:
     deposits:

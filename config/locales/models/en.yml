@@ -44,6 +44,7 @@ en:
       account:
         currency: Currency
         currency_text: Currency
+        balance_and_locked: Balance / Locked
         balance: Balance
         locked: Frozen
       deposit:
@@ -120,6 +121,7 @@ en:
         state_wait: Wait
       member:
         name: Real Name
+        display_name: Display Name
         email: Email
         created_at: Register At
         sn: SN
@@ -190,7 +192,7 @@ en:
         less: balance less
         verify: verify error
         strength: is invalid password strength
-        password: Please enter a password at least 8 characters and must contain uppercase and lowercase letters and numbers.
+        password: Please enter a password at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
         orders:
           price: limit price %{l} ~ %{h}
           sum: limit sum price %{l} ~ %{h}

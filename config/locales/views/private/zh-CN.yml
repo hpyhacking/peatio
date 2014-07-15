@@ -22,9 +22,12 @@ zh-CN:
         bid_panel: 买入%{currency}
         ask_panel: 卖出%{currency}
         price: 价格
+        last_price: 最新价格
         amount: 数量
         total: 金额
         available: 可用
+        price_high: 价格超出最新价格10%
+        price_low: 价格低于最新价格10%
       order_book:
         order_book: 挂单记录
       market_trades:

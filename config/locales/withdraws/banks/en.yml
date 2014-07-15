@@ -10,76 +10,96 @@ en:
 
   activerecord:
     models:
-      withdraws/bank: 银行转账
+      withdraws/bank: Withdraw Bank
     attributes:
       withdraws/bank:
-        id: 提现编号
-        member_name: 用户
-        currency_obj_key_text: 币种
-        state_and_actions: 状态/操作
-        fund_source: 提现银行
-        fund_extra_text: 提现银行
-        fund_uid: 提现账户
-        amount: 金额
-        remark: 备注
+        id: ID
+        member_name: Member
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_source: Bank
+        fund_extra_text: Bank
+        fund_uid: Bank Account
+        sum: Amount
+        fee: Fee
+        amount: Amount
+        remark: Remark
+        created_at: Created At
 
   withdraws/bank:
     aasm_state:
-      submitting: asdfasdf
+      submitting: Submitting
+      submitted: Submitted
+      rejected: Rejected
+      accepted: Accepted
+      suspect: Suspect
+      processing: Processing
+      coin_ready: Coin Ready
+      coin_done: Coin Done
+      done: Done
+      almost_done: Almost Done
+      canceled: Canceld
+      failed: Failed
+
 
   private:
     withdraws:
       banks:
-        new:
-          allin: 全部提取
-          fund_uid: 使用已有银行账号或输入新账号
-          fund_extra: 选择开户行
         update:
+          notice: Bank Transfer withdrawal application has been submitted, we will back to you as soon as possible
           alert_two_factor: Two-Factor Authentication error
+        destroy:
+          notice: Bank Transfer withdraw has been cancelled, frozen amount has been returned to your account.
+        new:
+          submit: Submit
+          allin: All-In
+          fund_uid: Use existing bank account or enter a new account
+          fund_extra: Select Bank
 
   admin:
     withdraws:
       banks:
         index:
-          one: 待处理提现订单
-          all: 二十四小时内订单
-          empty: 无任何数据
+          one: Pending withdrawal Orders
+          all: Twenty-four hours Orders
+          empty: No Data
         show:
-          process: 受理
-          succeed: 提现
-          reject: 驳回
-          succeed_confirm: 确定处理提现？
-          reject_confirm: 确定驳回提现？
-          withdraw: 银行卡提现
-          empty: 无任何数据
+          process: Process
+          succeed: Succeed
+          reject: Reject
+          succeed_confirm: Confirm Process?
+          reject_confirm: Confirm Reject?
+          withdraw: Withdraw
+          empty: No Data
 
   simple_form:
     labels:
       withdraw:
         bank:
-          fund_extra: 开户行
-          sum: 提取金额
-          account_balance: 可用金额
-          member_name: 账户名
+          fund_extra: Bank
+          sum: Amount
+          account_balance: Account Balance
+          member_name: Account Holder Name
     placeholders:
       withdraw:
         bank:
-          sum: 最低金额100元，单笔限额5万元
+          sum: Minimum amount 100
     hints:
       withdraw:
         bank:
-          member_name: <span class='text-danger'>提现银行账户姓名必须与您的实名认证姓名一致</span>
-          sum: "<a target='_balance' href='#'>资费说明</a>"
-          fund_extra: 若您的开户银行不再列表中，请联系客服
+          member_name: <span class='text-danger'>Withdraw bank account name must match the name with your real-name authentication</span>
+          sum: "<a target='_balance' href='#'>Fee structure</a>"
+          fund_extra: If your bank is no longer the list, please contact customer service
 
   guides:
     private:
       withdraws:
         banks:
-          panel: 银行转账提现
+          panel: Bank Transfer
           new:
-            panel: 银行转账提现
-            intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
-            default-panel: 历史记录
+            panel: Withdraw
+            intro: Select the bank to cash withdrawal amount and enter the account number and complete submission. Withdraw your bank account and your name must be consistent with the real-name authentication name.
+            default-panel: Withdraw History
           edit:
-            intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
+            panel: Withdraw
+            intro: Select the bank to cash withdrawal amount and enter the account number and complete submission. Withdraw your bank account and your name must be consistent with the real-name authentication name.

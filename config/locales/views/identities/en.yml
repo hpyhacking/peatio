@@ -3,8 +3,8 @@ en:
     new:
       title: SIGN UP
       signin: Sign In
-      password: Please enter a password of at least eight, and must include uppercase and lowercase letters and numbers.
+      password: Please enter a password at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
     update:
-      auth-error: The original password you entered is incorrect, please re-enter. 
-      auth-same: The new password you entered is the same as the old password, please re-enter. 
-      notice: Login Password changed successfully. 
+      auth-error: The original password you entered is incorrect, please re-enter.
+      auth-same: The new password you entered is the same as the old password, please re-enter.
+      notice: Login Password changed successfully.
