@@ -13,5 +13,23 @@
 require 'spec_helper'
 
 describe Ticket do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "Validation" do
+    context "Both title and content is empty" do
+      subject { Ticket.new }
+      it { should_not be_valid }
+    end
+
+    context "Title is empty" do
+      subject { Ticket.new(content: 'xman is here') }
+      it { should be_valid }
+    end
+
+    context "Content is empty" do
+      subject { Ticket.new(title: 'xman is here') }
+      it { should be_valid }
+    end
+
+
+
+  end
 end

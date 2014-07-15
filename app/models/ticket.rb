@@ -15,6 +15,8 @@ class Ticket < ActiveRecord::Base
   include AASM::Locking
   acts_as_readable on: :created_at
 
+  validates_with TicketValidator
+
   has_many :comments
   belongs_to :author, class_name: 'Member', foreign_key: 'author_id'
 

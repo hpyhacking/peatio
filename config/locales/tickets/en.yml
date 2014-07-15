@@ -10,3 +10,4 @@ en:
       close: Close Ticket
       close_succ: Ticket closed successfully
       close_confirm: Are you sure to close this ticket?
+      title_content_both_blank: Title and content could be both be empty.
