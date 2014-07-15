@@ -15,6 +15,7 @@
 #  country_code          :integer
 #  phone_number          :string(255)
 #  phone_number_verified :boolean
+#  disabled              :boolean          default(FALSE)
 #
 
 require 'spec_helper'
