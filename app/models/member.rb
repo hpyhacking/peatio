@@ -4,7 +4,6 @@
 #
 #  id                    :integer          not null, primary key
 #  sn                    :string(255)
-#  name                  :string(255)
 #  display_name          :string(255)
 #  email                 :string(255)
 #  identity_id           :integer
@@ -40,14 +39,15 @@ class Member < ActiveRecord::Base
   scope :enabled, -> { where(disabled: false) }
 
   delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
+  delegate :name,       to: :id_document, allow_nil: true
+  delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
   delegate :verified?,  to: :sms_token,   prefix: true
 
-  validates :sn, presence: true
-  validates :display_name, uniqueness: true, allow_blank: true
   before_validation :generate_sn
 
-  alias_attribute :full_name, :name
+  validates :sn, presence: true
+  validates :display_name, uniqueness: true, allow_blank: true
 
   after_create :touch_accounts
 

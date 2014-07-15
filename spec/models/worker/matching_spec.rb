@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Worker::Matching do
 
-  let(:alice)  { who_is_billionaire(:alice) }
-  let(:bob)    { who_is_billionaire(:bob) }
+  let(:alice)  { who_is_billionaire }
+  let(:bob)    { who_is_billionaire }
   let(:market) { Market.find('btccny') }
 
   subject { Worker::Matching.new }

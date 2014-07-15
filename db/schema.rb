@@ -156,6 +156,9 @@ ActiveRecord::Schema.define(version: 20140714143823) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "verified"
+    t.text     "address"
+    t.string   "zipcode"
+    t.string   "country"
   end
 
   create_table "identities", force: true do |t|
@@ -172,7 +175,6 @@ ActiveRecord::Schema.define(version: 20140714143823) do
 
   create_table "members", force: true do |t|
     t.string   "sn"
-    t.string   "name"
     t.string   "display_name"
     t.string   "email"
     t.integer  "identity_id"

@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :member, aliases: [:author] do
     email { Faker::Internet.email }
-    name { Faker::Name.name }
 
     trait :activated do
       activated true

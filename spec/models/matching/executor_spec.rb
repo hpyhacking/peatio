@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Matching::Executor do
 
-  let(:alice)  { who_is_billionaire(:alice) }
-  let(:bob)    { who_is_billionaire(:bob) }
+  let(:alice)  { who_is_billionaire }
+  let(:bob)    { who_is_billionaire }
   let(:market) { Market.find('btccny') }
   let(:price)  { 10.to_d }
   let(:volume) { 5.to_d }

@@ -4,7 +4,6 @@
 #
 #  id                    :integer          not null, primary key
 #  sn                    :string(255)
-#  name                  :string(255)
 #  display_name          :string(255)
 #  email                 :string(255)
 #  identity_id           :integer
