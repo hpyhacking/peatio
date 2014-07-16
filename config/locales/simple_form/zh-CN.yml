@@ -32,6 +32,10 @@ zh-CN:
         create: 新增提现地址
       id_document:
         create: 提交
+      ticket:
+        create: 提交
+      comment:
+        create: 回复
   simple_form:
     creating: Creating...
     updating: Updating...
@@ -49,6 +53,7 @@ zh-CN:
       defaults:
         save_fund_source: 保存为常用帐号，以便下次使用
         otp: 验证器上的密码
+        title: 标题
       two_factor:
         uri: 二维码
         otp_secret: 密文
@@ -70,6 +75,8 @@ zh-CN:
         password_confirmation: 确认密码
       reset_password:
         password: 新密码
+      ticket:
+        content: 详细描述
     placeholders:
       defaults:
         otp: 6位数字密码

@@ -36,6 +36,8 @@ en:
         create: Submit
       withdraw:
         create: Submit
+      ticket:
+        create: Submit
   simple_form:
     creating: "Creating..."
     updating: 'Updating...'
@@ -52,6 +54,7 @@ en:
     labels:
       defaults:
         save_fund_source: Save information for future usage
+        title: Title
       two_factor:
         uri: Two-dimensional code
         otp_secret: Ciphertext
@@ -70,6 +73,8 @@ en:
         password_confirmation: Confirm new password
       reset_password:
         password: New Password
+      ticket:
+        content: More detail
     placeholders:
       session:
         email: E-mail Address

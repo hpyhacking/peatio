@@ -29,9 +29,18 @@ describe APIv2::Trades do
       JSON.parse(response.body).should have(1).trade
     end
 
-    it "should return trades after timestamp" do
+    it "should return trades before timestamp" do
       another = create(:trade, bid: bid, created_at: 6.hours.ago)
       get '/api/v2/trades', market: 'btccny', timestamp: 8.hours.ago.to_i, limit: 1
+      response.should be_success
+      json = JSON.parse(response.body)
+      json.should have(1).trade
+      json.first['id'].should == bid_trade.id
+    end
+
+    it "should return trades between id range" do
+      another = create(:trade, bid: bid)
+      get '/api/v2/trades', market: 'btccny', from: ask_trade.id, to: another.id
       response.should be_success
       json = JSON.parse(response.body)
       json.should have(1).trade
@@ -67,7 +76,7 @@ describe APIv2::Trades do
       JSON.parse(response.body).should have(1).trade
     end
 
-    it "should return trades after timestamp" do
+    it "should return trades before timestamp" do
       signed_get '/api/v2/trades/my', params: {market: 'btccny', timestamp: 30.hours.ago.to_i}, token: token
       response.should be_success
       JSON.parse(response.body).should have(1).trade

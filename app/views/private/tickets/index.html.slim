@@ -1,0 +1,20 @@
+.col-md-10
+a.btn.btn-default href='/tickets/new' = '新建工单'
+br
+br
+
+ul.list-group
+  - @tickets.each do |t|
+    li class = (t.comments.unread_by(current_user).any? ? ["unread", "list-group-item"] : ["list-group-item"])
+      .row.row-middle
+        .col-md-9
+          .row.row-middle
+            .col-md-14
+              h4 = link_to t.title_for_display, ticket_path(t)
+            .col-md-14
+          .row
+            .col-md-12
+              p.text-ignore = t.content
+            .col-md-5
+              i.fa.fa-clock-o.text-info
+              span = time_ago_in_words t.created_at
