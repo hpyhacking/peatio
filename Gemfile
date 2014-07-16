@@ -67,6 +67,7 @@ gem 'ransack', git: 'https://github.com/activerecord-hackery/ransack.git', branc
 gem 'phonelib'
 gem 'twilio-ruby', '~> 3.11'
 gem 'unread', git: 'https://github.com/poshboytl/unread.git'
+gem 'carrierwave', '~> 0.10.0'
 
 group :development, :test do
   gem 'factory_girl_rails'
