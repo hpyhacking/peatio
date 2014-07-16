@@ -25,6 +25,7 @@ module APIv2
     end
     get "/order" do
       order = current_user.orders.where(id: params[:id]).first
+      raise OrderNotFoundError, params[:id] unless order
       present order, with: APIv2::Entities::Order, type: :full
     end
 

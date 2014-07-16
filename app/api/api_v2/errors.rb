@@ -51,4 +51,9 @@ module APIv2
     end
   end
 
+  class OrderNotFoundError < Error
+    def initialize(id)
+      super code: 2004, text: "Order##{id} doesn't exist.", status: 404
+    end
+  end
 end

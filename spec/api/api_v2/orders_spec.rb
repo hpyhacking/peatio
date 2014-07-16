@@ -65,6 +65,11 @@ describe APIv2::Orders do
       result['trades'].first['id'].should == trade.id
       result['trades'].first['side'].should == 'buy'
     end
+
+    it "should get 404 error when order doesn't exist" do
+      signed_get "/api/v2/order", params: {id: 99999}, token: token
+      response.code.should == '404'
+    end
   end
 
   describe "POST /api/v2/orders/multi" do
