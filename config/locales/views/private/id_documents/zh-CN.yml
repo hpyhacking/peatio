@@ -1,7 +1,5 @@
 zh-CN:
   private:
     id_documents:
-      new:
-        warning: 实名认证信息提交后不得修改，请认真填写。
-      create:
-        notice: 实名认证已验证成功。
+      update:
+        notice: 实名认证信息已成功提交。

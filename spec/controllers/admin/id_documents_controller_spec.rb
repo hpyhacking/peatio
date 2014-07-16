@@ -8,7 +8,7 @@ describe Admin::IdDocumentsController do
     before { get :index }
 
     it { should respond_with :ok }
-    # it { should render_template(:index) }
+    it { should render_template(:index) }
   end
 
 end

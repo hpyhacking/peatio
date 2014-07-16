@@ -1,7 +1,5 @@
 en:
   private:
     id_documents:
-      new:
-        warning: Real-name authentication informations could not be modified after submitting，please fill out. 
-      create:
-        notice: Real-name authentication has been successfully verified. 
+      update:
+        notice: Your account verification has been submitted.

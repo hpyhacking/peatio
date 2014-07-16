@@ -11,7 +11,7 @@ en:
         reauthenticate: Authentication
         activated:  An  email has been sent to your mailbox, please check it  for verification as soon as possible. If you do not received it , please click "send it again" button
         auth-activated: Please confirm your email address first.
-        auth-verified: Please verify your id first.
+        auth-verified: Please verify your account first.
 
         email:
           title: E-mail verification
@@ -35,7 +35,7 @@ en:
           disable: Disable
 
         verification:
-          title: Verification
+          title: Verify Account
           description: Help keep the bad guys out of your account by using both your password and your phone
           go: Submit
           verified: Verified

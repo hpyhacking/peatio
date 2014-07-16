@@ -1,10 +1,12 @@
 = simple_form_for @id_document, :url => id_document_path do |f|
-  = f.input :category, prompt: t('actions.select')
   = f.input :name
+  = f.input :zipcode
+  = f.country_select :country
+  = f.input :category, prompt: t('actions.select')
   = f.input :sn
   hr.split
   = f.button :wrapped, cancel: settings_path
 
 = content_for :guide do
-  p.text-warning 
+  p.text-warning
     = t('.warning')
