@@ -1,9 +1,16 @@
 = simple_form_for @id_document, :url => id_document_path do |f|
   = f.input :name
+  = f.input :birth_date, as: :date, \
+    start_year: Date.today.year - 70, \
+    end_year: Date.today.year - 12, \
+    order: [:month, :year]
+  = f.input :address
+  = f.input :city
+  = f.input :country, as: :country
   = f.input :zipcode
-  = f.country_select :country
   = f.input :category, prompt: t('actions.select')
   = f.input :sn
+  = f.input :id_bill_type, prompt: t('actions.select')
   hr.split
   = f.button :wrapped, cancel: settings_path
 

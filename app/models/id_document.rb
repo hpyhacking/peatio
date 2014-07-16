@@ -23,6 +23,7 @@ class IdDocument < ActiveRecord::Base
   validates_uniqueness_of :member
 
   enumerize :category, in: {id_card: 0, passport: 1, driver_license: 2}
+  enumerize :id_bill_type, in: {bank_statement: 0, tax_bill: 1}
 
   alias_attribute :full_name, :name
 

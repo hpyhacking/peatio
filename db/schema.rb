@@ -156,9 +156,12 @@ ActiveRecord::Schema.define(version: 20140715083857) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "verified"
+    t.date     "birth_date"
     t.text     "address"
-    t.string   "zipcode"
+    t.string   "city"
     t.string   "country"
+    t.string   "zipcode"
+    t.integer  "id_bill_type"
     t.string   "aasm_state"
   end
 
