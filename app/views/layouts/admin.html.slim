@@ -16,6 +16,10 @@ html lang="en"
             li class = check_active(Document)
               = link_to t(".menus.items.operating.documents"), admin_documents_path
 
+          - if can? :manage, IdDocument
+            li class = check_active('id_documents')
+              = link_to t('admin_header.id_documents'), admin_id_documents_path
+
           - if can? :read, Proof
             li class = check_active(Proof)
               = link_to t(".menus.items.operating.proofs"), admin_proofs_path
@@ -40,10 +44,6 @@ html lang="en"
                   - if can? :manage, c.kls
                     li = link_to c.title_text, [:admin, c.kls]
 
-          - if can? :manage, IdDocument
-            li class = check_active('id_documents')
-              = link_to t('admin_header.id_documents'), admin_id_documents_path
-
           - if can? :manage, Ticket
             li class = check_active(Proof)
               = link_to t(".menus.items.operating.tickets"), admin_tickets_path
@@ -58,7 +58,6 @@ html lang="en"
                   = link_to Member.model_name.human, admin_statistic_members_path
 
         ul.nav.navbar-nav.navbar-right
-          p.navbar-text = current_user.email
           li = link_to t('actions.back'), main_app.root_path
 
     .container
