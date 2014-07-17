@@ -26,13 +26,7 @@ module Admin
           redirect_to :back and return
         end
 
-        ActiveRecord::Base.transaction do
-          @bank.lock!
-          @bank.submit!
-          @bank.accept!
-          @bank.touch(:done_at)
-          @bank.update_attribute(:txid, target_params[:txid])
-        end
+        @bank.charge!(target_params[:txid])
 
         redirect_to :back
       end
