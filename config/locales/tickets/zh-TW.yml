@@ -1,0 +1,14 @@
+zh-TW:
+  private:
+    tickets:
+      ticket_create_succ: 申訴創建成功。
+      ticket_create_fail: 申訴創建失敗, 請稍候再試。
+      comment_succ: 回復成功。
+      comment_fail: 回復失敗，請稍候再試。
+      me: 我
+      supporter: 客服
+      close: 關閉申訴
+      close_succ: 申訴已關閉
+      close_confirm: 您確定要關閉這個申訴嗎？
+      title_content_both_blank: 標題和描述至少要填寫一個哦！
+      from: 來自
