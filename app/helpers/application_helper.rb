@@ -62,13 +62,12 @@ module ApplicationHelper
     breadcrumb(paths, result << r)
   end
 
-  def blockchain_url(txid)
-    "https://blockchain.info/tx/#{txid}"
-  end
-
-  def qr_tag(data)
-    data = QREncoder.encode(data).png.resize(272, 272).to_data_url
-    image_tag(data, :class => 'qrcode img-thumbnail')
+  def qr_tag(text)
+    return if text.blank?
+    content_tag :div, '', 'class'       => 'qrcode-container img-thumbnail',
+                          'data-width'  => 272,
+                          'data-height' => 272,
+                          'data-text'   => text
   end
 
   def rev_category(type)
@@ -98,17 +97,6 @@ module ApplicationHelper
     end
   end
 
-  def link_to_block(payment_address)
-    uri = case payment_address.currency
-    when 'btc' then btc_block_url(payment_address.address)
-    end
-    link_to t("actions.block"), uri, target: '_blank'
-  end
-
-  def btc_block_url(address)
-    CoinRPC[:btc].getinfo[:testnet] ? "http://testnet.btclook.com/addr/#{address}" : "https://blockchain.info/address/#{address}"
-  end
-
   def top_nav(link_text, link_path, link_icon, links = nil, controllers: [])
     if links && links.length > 1
       top_dropdown_nav(link_text, link_path, link_icon, links, controllers: controllers)
@@ -117,13 +105,15 @@ module ApplicationHelper
     end
   end
 
-  def top_nav_link(link_text, link_path, link_icon, controllers: [])
+  def top_nav_link(link_text, link_path, link_icon, controllers: [], counter: 0)
     class_name = current_page?(link_path) ? 'active' : nil
     class_name ||= (controllers & controller_path.split('/')).empty? ? nil : 'active'
 
     content_tag(:li, :class => class_name) do
       link_to link_path do
-        content_tag(:i, :class => "fa fa-#{link_icon}") do end +
+        content_tag(:i, :class => "fa fa-#{link_icon}") do
+          content_tag(:span, counter,class: "counter") if counter != 0
+        end +
         content_tag(:span, link_text)
       end
     end
@@ -147,10 +137,15 @@ module ApplicationHelper
     end
   end
 
+  def history_links
+    [ [t('header.order_history'), order_history_path],
+      [t('header.trade_history'), trade_history_path],
+      [t('header.account_history'), account_history_path] ]
+  end
+
   def market_links
     @market_links ||= Market.all.collect{|m| [m.name, market_path(m.id)]}
   end
-
 
   def simple_vertical_form_for(record, options={}, &block)
     result = simple_form_for(record, options, &block)

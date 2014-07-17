@@ -1,7 +1,7 @@
 doctype html
 html lang="en"
   head
-    link rel="shortcut icon" href="/favicon.png"
+    link href="/favicon.ico" rel="shortcut icon"
     = include_gon
     - stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : "application"
     = stylesheet_link_tag stylesheet, media: "all"
@@ -19,6 +19,9 @@ html lang="en"
         = yield(:header)
       - else
         = render 'shared/header'
+
+      - if content_for?(:before_content)
+        = yield(:before_content)
 
       - if content_for?(:frame)
         = yield(:frame)

@@ -2,6 +2,7 @@ zh-TW:
   currency:
     satoshi:
       key: BTC
+<<<<<<< HEAD
     renminbi:
       key: TWD
 
@@ -24,3 +25,7 @@ zh-TW:
     sum:
       bid: 合计 <span class=bid_totle></span>%{bid_icon}
       ask: 合计 <span class=ask_totle></span>%{bid_icon}
+=======
+    taibi:
+      key: TWD
+>>>>>>> master

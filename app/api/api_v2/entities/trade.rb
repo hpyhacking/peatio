@@ -4,6 +4,7 @@ module APIv2
       expose :id
       expose :price
       expose :volume
+      expose :funds
       expose :currency, as: :market
       expose :created_at, format_with: :iso8601
 

@@ -6,19 +6,30 @@ An open-source crypto currency exchange
 
 ### Requirements
 
-* Ubuntu Linux / Mac OSX
+* Linux / Mac OSX
 * Ruby 2.1.0
 * Rails 4.0+
 * Git 1.7.10+
 * Redis 2.0+
 * MySQL
+* RabbitMQ
 
-** More details are in the [requirements doc](doc/install/requirements.md)
+** More details are in the [doc](doc).
 
 
 ### Getting start
 
-* [Developing document](doc/install/development.md)
+* [Setup on Mac OS X](doc/setup-osx.md)
+* [Setup on Ubuntu](doc/setup-ubuntu.md)
+
+### API
+
+You can interact with Peatio through API:
+
+* [API v2](http://demo.peat.io/documents/api_v2?lang=en)
+* [Websocket API](http://demo.peat.io/documents/websocket_api)
+* [peatio-client-ruby](https://github.com/peatio/peatio-client-ruby) is a ruby wrapper of both HTTP/Websocket API.
+* [peatio-client-python](https://github.com/JohnnyZhao/peatio-client-python) is a python wrapper of HTTP API.
 
 ### Contributing
 

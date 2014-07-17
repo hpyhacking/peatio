@@ -21,6 +21,8 @@ class Market < ActiveYaml::Base
   def initialize(*args)
     super
 
+    raise ArgumentError, "market id must be 6 chars long (3 chars base currency code + 3 chars quote currency code, e.g. 'btccny')" if id.size != 6
+
     @target_unit = id[0,3]
     @price_unit  = id[3,3]
     @name = "#{@target_unit}/#{@price_unit}".upcase
@@ -28,6 +30,12 @@ class Market < ActiveYaml::Base
 
   def latest_price
     Trade.latest_price(id.to_sym)
+  end
+
+  # type is :ask or :bid
+  def fix_number_precision(type, d)
+    digits = send(type)['fixed']
+    d.round digits, 2
   end
 
   def to_s

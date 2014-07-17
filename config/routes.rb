@@ -27,11 +27,11 @@ Peatio::Application.routes.draw do
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do
     resources :reset_passwords
-    resources :reset_two_factors
     resources :activations, only: [:new, :edit, :update]
   end
 
   get '/documents/api_v2'
+  get '/documents/websocket_api'
   resources :documents, only: [:show]
   resources :refresh_two_factors, only: [:show]
 
@@ -62,7 +62,10 @@ Peatio::Application.routes.draw do
         get :partial_tree
       end
     end
-    resources :my_assets, :controller => 'my_assets', :only => [:index]
+
+    get '/history/orders' => 'history#orders', as: :order_history
+    get '/history/trades' => 'history#trades', as: :trade_history
+    get '/history/account' => 'history#account', as: :account_history
 
     resources :markets, :only => :show, :constraints => MarketConstraint do
       resources :orders, :only => [:index, :destroy]
@@ -71,13 +74,34 @@ Peatio::Application.routes.draw do
     end
 
     post '/pusher/auth', to: 'pusher#auth'
+
+    resources :tickets, only: [:index, :new, :create, :show] do
+      member do
+        patch :close
+      end
+      resources :comments, only: [:create]
+    end
+
   end
 
   namespace :admin do
     get '/', to: 'dashboard#index', as: :dashboard
+
     resources :documents
     resource :currency_deposit, :only => [:new, :create]
-    resources :members, :only => [:index, :show, :update]
+    resources :proofs
+    resources :tickets, only: [:index, :show] do
+      member do
+        patch :close
+      end
+      resources :comments, only: [:create]
+    end
+
+    resources :members, :only => [:index, :show, :update] do
+      member do
+        post :toggle
+      end
+    end
 
     namespace :deposits do
       Deposit.descendants.each do |d|
@@ -99,8 +123,6 @@ Peatio::Application.routes.draw do
       resource :withdraws, :only => :show
     end
   end
-
-  get 'payment_transaction/:currency/:txid', to: 'payment_transaction#create'
 
   constraints(WhitelistConstraint.new(JSON.parse(Figaro.env.try(:api_whitelist) || '[]'))) do
     namespace :api, defaults: {format: 'json'}, :constraints => MarketConstraint do

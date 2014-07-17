@@ -5,6 +5,9 @@
       credits:
         enabled: false
 
+      tooltip:
+        valueDecimals: gon.market.bid.fixed
+
       chart:
         height: 360
         events:
@@ -12,17 +15,18 @@
             series = @series
             update = ->
               $.getJSON "/api/prices/#{gon.market.id}", (data) ->
+
                 price  = []
                 volume = []
 
                 for i in data
                   price.push [
-                    Number(i.date) * 1000
-                    Math.round(i.price * 100) / 100
+                    i.date * 1000
+                    Number round(i.price, gon.market.bid.fixed)
                   ]
                   volume.push [
-                    Number(i.date) * 1000
-                    Math.round(i.amount * 100) / 100
+                    i.date * 1000
+                    Number round(i.amount, gon.market.ask.fixed)
                   ]
 
                 series[0].setData price

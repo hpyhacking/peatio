@@ -35,6 +35,13 @@ $ ->
     placement = $(@).data('placement') || 'bottom'
     $(zero.htmlBridge).tooltip({title: gon.clipboard.click, placement: placement})
 
+  $('.qrcode-container').each (index, el) ->
+    $el = $(el)
+    new QRCode el,
+      text:   $el.data('text')
+      width:  $el.data('width')
+      height: $el.data('height')
+
   AccountBalanceUI.attachTo('.account-balance')
   PlaceOrderUI.attachTo('.place-order #bid_panel')
   PlaceOrderUI.attachTo('.place-order #ask_panel')
@@ -44,17 +51,15 @@ $ ->
   PushButton.attachTo('.my-orders')
 
   # if gon.env is 'development'
-  #   Pusher.log = (message) ->
-  #     window.console && console.log(message)
+  #   Pusher.log = (message) -> window.console && console.log(message)
 
-  pusher = new Pusher(gon.pusher_key, {encrypted: true})
+  pusher = new Pusher gon.pusher_key, gon.pusher_options
   pusher.connection.bind 'state_change', (state) ->
     if state.current is 'unavailable'
       $('#markets-show .pusher-unavailable').removeClass('hide')
 
   GlobalData.attachTo(document, {pusher: pusher})
-  AccountData.attachTo(document, {pusher: pusher}) if gon.accounts
-  OrderData.attachTo(document, {pusher: pusher}) if gon.current_user
+  MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
 
   MarketTickerUI.attachTo('.ticker')
   MarketOrdersUI.attachTo('.orders')

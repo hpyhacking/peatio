@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: accounts
+#
+#  id         :integer          not null, primary key
+#  member_id  :integer
+#  currency   :integer
+#  balance    :decimal(32, 16)
+#  locked     :decimal(32, 16)
+#  created_at :datetime
+#  updated_at :datetime
+#  in         :decimal(32, 16)
+#  out        :decimal(32, 16)
+#
+
 require 'spec_helper'
 
 describe Account do
@@ -75,8 +90,13 @@ describe Account do
       expect do
         account.plus_funds(strike_volume, reason: Account::STRIKE_ADD)
         account.sub_funds(strike_volume, reason: Account::STRIKE_FEE)
-      end.to change{account.versions.size}.from(0).to(2)
+      end.to change{account.reload.versions.size}.from(0).to(2)
     end
+  end
+
+  describe "#payment_address" do
+    it { expect(subject.payment_address).not_to be_nil }
+    it { expect(subject.payment_address).to be_is_a(PaymentAddress) }
   end
 
   describe "#versions" do
@@ -202,6 +222,58 @@ describe Account do
         account.versions.load.sample.update_attribute(:amount, 50.to_d)
         expect(account.examine).to be_false
       end
+    end
+  end
+
+  describe "#change_balance_and_locked" do
+    it "should update balance and locked funds in memory" do
+      subject.change_balance_and_locked "-10".to_d, "10".to_d
+      subject.balance.should be_d('0')
+      subject.locked.should be_d('20')
+    end
+
+    it "should update balance and locked funds in db" do
+      subject.change_balance_and_locked "-10".to_d, "10".to_d
+      subject.reload
+      subject.balance.should be_d('0')
+      subject.locked.should be_d('20')
+    end
+  end
+
+  describe "after callback" do
+    it "should create account version associated to account change" do
+      expect {
+        subject.unlock_and_sub_funds('1.0'.to_d, locked: '2.0'.to_d)
+      }.to change(AccountVersion, :count).by(1)
+
+      v = AccountVersion.last
+
+      v.member_id.should == subject.member_id
+      v.account.should   == subject
+      v.fun.should       == 'unlock_and_sub_funds'
+      v.reason.should    == 'unknown'
+      v.amount.should    == subject.amount
+      v.balance.should   == '1.0'.to_d
+      v.locked.should    == '-2.0'.to_d
+    end
+
+    it "should retry the whole transaction on stale object error" do
+      # `unlock_and_sub_funds('5.0'.to_d, locked: '8.0'.to_d, fee: ZERO)`
+      ActiveRecord::Base.connection.execute "update accounts set balance = balance + 3, locked = locked - 8 where id = #{subject.id}"
+
+      expect {
+        expect {
+          ActiveRecord::Base.transaction do
+            create(:order_ask) # any other statements should be executed
+            subject.unlock_and_sub_funds('1.0'.to_d, locked: '2.0'.to_d)
+          end
+        }.to change(OrderAsk, :count).by(1)
+      }.to change(AccountVersion, :count).by(1)
+
+      v = AccountVersion.last
+      v.amount.should  == '14.0'.to_d
+      v.balance.should == '1.0'.to_d
+      v.locked.should  == '-2.0'.to_d
     end
   end
 end

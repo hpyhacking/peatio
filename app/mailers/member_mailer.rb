@@ -1,7 +1,7 @@
 class MemberMailer < ActionMailer::Base
   include AMQPQueue::Mailer
 
-  default from: "noreply@peatio.com"
+  default from: ENV['SYSTEM_MAIL_FROM']
 
   def notify_signin(member_id)
     member = Member.find member_id

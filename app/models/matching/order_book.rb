@@ -1,54 +1,129 @@
+require_relative 'constants'
+
 module Matching
   class OrderBook
 
-    def initialize
-      @tree = {ask: RBTree.new, bid: RBTree.new}
+    attr :side
+
+    def initialize(market, side, options={})
+      @market = market
+      @side   = side.to_sym
+      @limit_orders = RBTree.new
+      @market_orders = RBTree.new
+
+      @broadcast = options.has_key?(:broadcast) ? options[:broadcast] : true
+      broadcast(action: 'new', market: @market, side: @side)
+
+      singleton = class<<self;self;end
+      singleton.send :define_method, :limit_top, self.class.instance_method("#{@side}_limit_top")
     end
 
-    def submit(order)
-      @tree[order.type][order] = true
-      order
+    def best_limit_price
+      limit_top.try(:price)
     end
 
-    def cancel(order)
-      @tree[order.type].delete order
+    def top
+      @market_orders.empty? ? limit_top : @market_orders.first[1]
     end
 
-    def lowest_ask
-      @tree[:ask].first[0]
+    def fill_top(trade_price, trade_volume, trade_funds)
+      order = top
+      raise "No top order in empty book." unless order
+
+      order.fill trade_price, trade_volume, trade_funds
+      if order.filled?
+        remove order
+      else
+        broadcast(action: 'update', order: order.attributes)
+      end
     end
 
-    def highest_bid
-      @tree[:bid].last[0]
+    def find(order)
+      case order
+      when LimitOrder
+        @limit_orders[order.price].find(order.id)
+      when MarketOrder
+        @market_orders[order.id]
+      end
     end
 
-    def matchable?
-      !@tree[:ask].empty? && !@tree[:bid].empty?
+    def add(order)
+      raise InvalidOrderError, "volume is zero" if order.volume <= ZERO
+
+      case order
+      when LimitOrder
+        @limit_orders[order.price] ||= PriceLevel.new(order.price)
+        @limit_orders[order.price].add order
+      when MarketOrder
+        @market_orders[order.id] = order
+      else
+        raise ArgumentError, "Unknown order type"
+      end
+
+      broadcast(action: 'add', order: order.attributes)
     end
 
-    def pop_closest_pair!
-      [delete_ask(lowest_ask), delete_bid(highest_bid)]
+    def remove(order)
+      case order
+      when LimitOrder
+        remove_limit_order(order)
+      when MarketOrder
+        remove_market_order(order)
+      else
+        raise ArgumentError, "Unknown order type"
+      end
     end
 
-    def delete_ask(ask)
-      @tree[:ask].delete ask
-      ask
+    def limit_orders
+      orders = {}
+      @limit_orders.keys.each {|k| orders[k] = @limit_orders[k].orders }
+      orders
     end
 
-    def delete_bid(bid)
-      @tree[:bid].delete bid
-      bid
-    end
-
-    def depth(size=10)
-      { asks: @tree[:ask].keys[0,size].map {|o| depth_format(o) },
-        bids: @tree[:bid].keys[0,size].map {|o| depth_format(o) } }
+    def market_orders
+      @market_orders.values
     end
 
     private
 
-    def depth_format(order)
-      "$#{order.price.to_s('F')}/#{order.volume.to_s('F')}"
+    def remove_limit_order(order)
+      price_level = @limit_orders[order.price]
+      return unless price_level
+
+      order = price_level.find order.id # so we can return fresh order
+      return unless order
+
+      price_level.remove order
+      @limit_orders.delete(order.price) if price_level.empty?
+
+      broadcast(action: 'remove', order: order.attributes)
+      order
+    end
+
+    def remove_market_order(order)
+      if order = @market_orders[order.id]
+        @market_orders.delete order.id
+        broadcast(action: 'remove', order: order.attributes)
+        order
+      end
+    end
+
+    def ask_limit_top # lowest price wins
+      return if @limit_orders.empty?
+      price, level = @limit_orders.first
+      level.top
+    end
+
+    def bid_limit_top # highest price wins
+      return if @limit_orders.empty?
+      price, level = @limit_orders.last
+      level.top
+    end
+
+    def broadcast(data)
+      return unless @broadcast
+      Rails.logger.debug "orderbook broadcast: #{data.inspect}"
+      AMQPQueue.enqueue(:slave_book, data, {persistent: false})
     end
 
   end

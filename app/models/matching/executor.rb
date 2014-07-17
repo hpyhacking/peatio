@@ -1,63 +1,78 @@
-module Matching
-  class TradeExecutionError < StandardError; end
+require_relative 'constants'
 
+module Matching
   class Executor
 
     def initialize(payload)
-      @market = Market.find payload[:market_id]
-      @ask    = OrderAsk.lock(true).find(payload[:ask_id])
-      @bid    = OrderBid.lock(true).find(payload[:bid_id])
-      @price  = BigDecimal.new payload[:strike_price]
-      @volume = BigDecimal.new payload[:volume]
+      @payload = payload
+      @market  = Market.find payload[:market_id]
+      @price   = BigDecimal.new payload[:strike_price]
+      @volume  = BigDecimal.new payload[:volume]
+      @funds   = BigDecimal.new payload[:funds]
     end
 
     def execute!
-      raise TradeExecutionError.new({ask: @ask, bid: @bid, price: @price, volume: @volume}) unless valid?
-
-      trade = Trade.create(ask_id: @ask.id, ask_member_id: @ask.member_id,
-                           bid_id: @bid.id, bid_member_id: @bid.member_id,
-                           price: @price, volume: @volume,
-                           currency: @market.id.to_sym, trend: trend)
-
-      ActiveRecord::Base.transaction do
-        lock_account!
-
-        @bid.strike trade
-        @ask.strike trade
-      end
-
-      AMQPQueue.publish(
-        :trade,
-        {id: trade.id},
-        {headers: {
-          market: @market.id,
-          ask_member_id: @ask.member_id,
-          bid_member_id: @bid.member_id
-         }
-        }
-      )
-
-      trade
+      retry_on_error(5) { create_trade_and_strike_orders }
+      publish_trade
+      @trade
     end
 
     private
 
     def valid?
-      [@ask.volume, @bid.volume].min >= @volume &&
-        @ask.price <= @price &&
-        @bid.price >= @price
-    end
-
-    def lock_account!
-      @bid.hold_account.lock!
-      @ask.hold_account.lock!
-
-      @bid.expect_account.lock!
-      @ask.expect_account.lock!
+      return false if @ask.ord_type == 'limit' && @ask.price > @price
+      return false if @bid.ord_type == 'limit' && @bid.price < @price
+      @funds > ZERO && [@ask.volume, @bid.volume].min >= @volume
     end
 
     def trend
       @price >= @market.latest_price ? 'up' : 'down'
+    end
+
+    # in worst condition, the method will run 1+retry_count times then fail
+    def retry_on_error(retry_count, &block)
+      block.call
+    rescue ActiveRecord::StatementInvalid
+      # cope with "Mysql2::Error: Deadlock found ..." exception
+      if retry_count > 0
+        sleep 0.2
+        retry_count -= 1
+        puts "Retry trade execution (#{retry_count} retry left) .."
+        retry
+      else
+        puts "Failed to execute trade: #{@payload.inspect}"
+        raise $!
+      end
+    end
+
+    def create_trade_and_strike_orders
+      ActiveRecord::Base.transaction do
+        @ask = OrderAsk.lock(true).find(@payload[:ask_id])
+        @bid = OrderBid.lock(true).find(@payload[:bid_id])
+
+        raise TradeExecutionError.new({ask: @ask, bid: @bid, price: @price, volume: @volume, funds: @funds}) unless valid?
+
+        @trade = Trade.create!(ask_id: @ask.id, ask_member_id: @ask.member_id,
+                               bid_id: @bid.id, bid_member_id: @bid.member_id,
+                               price: @price, volume: @volume, funds: @funds,
+                               currency: @market.id.to_sym, trend: trend)
+
+        @bid.strike @trade
+        @ask.strike @trade
+      end
+    end
+
+    def publish_trade
+      AMQPQueue.publish(
+        :trade,
+        @trade.as_json,
+        { headers: {
+            market: @market.id,
+            ask_member_id: @ask.member_id,
+            bid_member_id: @bid.member_id
+          }
+        }
+      )
     end
 
   end

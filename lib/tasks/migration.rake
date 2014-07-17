@@ -73,4 +73,34 @@ namespace :migration do
         bid_member_id: trade.bid.try(:member_id)
     end
   end
+
+  desc "set history orders ord_type to limit"
+  task fix_orders_without_ord_type_and_locked: :environment do
+    Order.find_each do |order|
+      if order.ord_type.blank?
+        order.ord_type = 'limit'
+      end
+
+      if order.ord_type == 'limit'
+        order.origin_locked = order.price*order.origin_volume
+        order.locked = order.compute_locked
+      end
+
+      order.save! if order.changed?
+    end
+  end
+
+  desc "fill funds_received of history orders"
+  task fill_funds_received: :environment do
+    OrderBid.where(funds_received: 0).update_all('funds_received = origin_volume - volume')
+
+    total = OrderAsk.where(funds_received: 0).count
+    count = 0
+    OrderAsk.where(funds_received: 0).find_each do |order|
+      count += 1
+      funds = order.trades.sum(:funds)
+      order.update_columns funds_received: funds if funds > ::Trade::ZERO
+      puts "[#{count}/#{total}] filled #{funds} for ask##{order.id}"
+    end
+  end
 end

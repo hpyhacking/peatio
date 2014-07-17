@@ -1,43 +1,4 @@
-p
-  h4 = t('.step-1')
-  p = t('.open-wallet')
-
-hr.split
-
-p
-  h4 = t('.step-2')
-  p = t('.send-coin')
-  .input-group.col-sm-8
-    .input-group-addon =t('activerecord.attributes.deposit.address')
-    .form-control.form-control-static = @address.address
-    .input-group-addon
-      i.fa.fa-copy data-clipboard-text=@address.address
-
-p
-  div
-    = t('.or')
-    = t('.scan-qr')
-  = qr_tag @address.address
-
-hr.split
-
-p
-  h4 = t('.step-3')
-  p = t('.check-confirm', path: exchange_assets_path).html_safe
-
-hr.split
-
-p
-  h4 = t('.step-4')
-  p = t('.history').html_safe
-
-= content_for :after
-  = panel do
-    = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
-      - t.column :created_at, class: 'col-md-3'
-      - t.column :txid, class: 'col-md-4' do |x|
-        a href='#{x.blockchain_url}' target='_blank'
-          code.text-info = x.txid.truncate(32)
-      - t.column :amount, class: 'col-md-2'
-      - t.column :memo, class: 'col-md-1'
-      - t.column :aasm_state_text, class: 'col-md-2'
+- send_coin = t('.send-coin')
+- check_confirm = t('.check-confirm', path: exchange_assets_path).html_safe
+- locals = { address: @address, assets: @assets, model: @model, send_coin: send_coin, check_confirm: check_confirm }
+= render partial: 'private/deposits/shared/new', locals: locals

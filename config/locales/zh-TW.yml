@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 zh-TW:
   "true": 是
   "false": 否
@@ -5,6 +6,15 @@ zh-TW:
   view_on_github: 連到Github上看
   slogan: 台灣比特王加密貨幣交易平台。
   slogan_desc: 貔貅交易所是比特幣等加密數字貨幣的交易平台，是國內首個實現開源機制的項目，我們秉承「開放開源，陽光透明」的理念，旨在為廣大加密數字貨幣愛好者，提供一個代碼開源開放、資產公開透明，安全易用和最具有公信力的加密數字貨幣交易服務平台。
+=======
+﻿zh-TW:
+  "true": 是
+  "false": 否
+
+  view_on_github: 到 Github 上查看
+  slogan: 台灣比特王BITCOIN交易平台。
+  slogan_desc: 貔貅交易所是比特幣等加密數字貨幣的交易平台，是國內首個實現開源機制的項目，我們秉承“開放開源，陽光透明”的理念，旨在為廣大加密數字貨幣愛好者，提供一個代碼開源開放、資產公開透明，安全易用和最具有公信力的加密數字貨幣交易服務平台。
+>>>>>>> master
   tags:
     vip: VIP
     hero: 超級用戶
@@ -13,9 +23,15 @@ zh-TW:
     markets: 市場
     btccny: BTC/TWD
     realtime_price:
+<<<<<<< HEAD
       title: 目前價格
     account_balance:
       title: 帳戶餘額
+=======
+      title: 實時價格
+    account_balance:
+      title: 我的帳戶
+>>>>>>> master
       available_btc: 可用BTC
       available_cny: 可用TWD
       locked_btc: 凍結BTC
@@ -23,27 +39,66 @@ zh-TW:
   gon:
     ask: 賣出
     bid: 買入
+<<<<<<< HEAD
     brand: 比特王交易所
   back: 返回
   invalid_password: 登錄密碼錯誤
+=======
+    brand: 貔貅交易所
+  back: 返回
+  invalid_password: 無效的登入密碼
+>>>>>>> master
   all: 全部
 
   date:
     formats:
+<<<<<<< HEAD
       date-short: '%m-%d'
+=======
+>>>>>>> master
       short: '%m-%d %H:%M'
       default: '%Y-%m-%d %H:%M'
   time:
     formats:
+<<<<<<< HEAD
       date-short: '%m-%d'
       short: '%m-%d %H:%M'
       default: '%Y-%m-%d %H:%M'
 
+=======
+      short: '%m-%d %H:%M'
+      default: '%Y-%m-%d %H:%M'
+
+  currency:
+    name:
+      cny: 新台幣
+      btc: 比特幣
+    code:
+      cny: TWD
+      btc: BTC
+    format:
+      zero: 'N/A'
+      cny: '0.00'
+      btc: '0.0000'
+    icon-large:
+      cny: <span class='big-currency'>¥</span>
+      btc: <span class='big-currency'>฿</span>
+    icon:
+      cny: <span class='currency'>¥</span>
+      btc: <span class='currency'>฿</span>
+    sum:
+      bid: 合計 <span class=bid_totle></span>%{bid_icon}
+      ask: 合計 <span class=ask_totle></span>%{bid_icon}
+>>>>>>> master
   reset_two_factors:
     create:
       success: 重置雙重驗證郵件已經發送，請根據郵件內容進行操作。
     edit:
+<<<<<<< HEAD
       success: 雙重驗證禁用成功，登錄後在帳戶設置中可再次啟動。
+=======
+      success: 雙重驗證停用成功，登入後在賬戶設置中可再次激活。
+>>>>>>> master
 
   private:
     trade:
@@ -64,9 +119,15 @@ zh-TW:
           :false: "#%{id} 撤單失敗"
     withdraws:
       update:
+<<<<<<< HEAD
         request_accepted: 提現申請提交成功
       destroy:
         request_canceled: 提現申請已撤銷
+=======
+        request_accepted: 提款申請提交成功
+      destroy:
+        request_canceled: 提款申請已撤銷
+>>>>>>> master
       index:
         fee: 手續費
         total: 總計
@@ -74,13 +135,18 @@ zh-TW:
   header:
     dashboard: 控制面板
     admin: 管理
+<<<<<<< HEAD
     market: 買賣大廳
+=======
+    market: 下單管理
+>>>>>>> master
     settings: 帳戶
     signin: 登錄
     signout: 安全退出
     signup: 創建帳戶
     deposit: 儲值
     withdraw: 提款
+<<<<<<< HEAD
     getstart: 前往買賣大廳
     assets: 資產公開
     history: 歷史記錄
@@ -89,6 +155,11 @@ zh-TW:
     account_history: 帳戶記錄
     my_profile: 我的帳戶
     tickets: 申訴
+=======
+    getstart: 前往下單管理
+    assets: 資產公開
+    my_assets: 我的資產
+>>>>>>> master
 
   admin_header:
     deposits: 儲值管理
@@ -101,11 +172,23 @@ zh-TW:
     questions: 常見問題
     price: 資費說明
     liability_proof: 償付能力驗證
+<<<<<<< HEAD
     contact: 聯絡我們
 
   actions:
     go: 立刻前往
     submit: 送出
+=======
+    contact: 聯繫我們
+
+  recaptcha:
+    errors:
+      verification_failed: 驗證碼錯誤，請再試試看。
+      recaptcha_unavailable: 驗證時遇到錯誤，請稍後重試。
+
+  actions:
+    go: 立刻前往
+>>>>>>> master
     deposit: 立刻儲值
     select: 請選擇
     unlock: 解鎖
@@ -115,7 +198,11 @@ zh-TW:
     destroy: 刪除
     destroy_confirm: 您確定要刪除此記錄嗎？
     detail: 詳情
+<<<<<<< HEAD
     publish: 發佈
+=======
+    publish: 發布
+>>>>>>> master
     edit: 編輯
     preview: 預覽
     close: 退出
@@ -123,7 +210,11 @@ zh-TW:
     view: 查看
     member: 查看用戶
     transact: 處理
+<<<<<<< HEAD
     reject: 駁回
+=======
+    reject: 拒絕
+>>>>>>> master
     clipboard:
       click: 點擊複製
       done: 複製成功
@@ -144,6 +235,7 @@ zh-TW:
   'no': 否
 
   banks:
+<<<<<<< HEAD
     cmbc: 台灣銀行
     bc:   土地銀行
     icbc: 合作金庫
@@ -161,3 +253,22 @@ zh-TW:
     sdb: 中華郵政
     gdb: 匯豐銀行
     pab: 台新銀行
+=======
+    004: 台灣銀行
+    005: 臺灣土地銀行
+    006: 合作金庫商業銀行
+    007: 第一商業銀行
+    008: 華南商業銀行
+    009: 彰化商業銀行
+    011: 合作金庫
+    012: 台新銀行
+    013: 中信銀行
+    017: 兆豐商銀
+    021: 花旗商銀 	
+    039: 澳盛商銀 	
+    016: 高雄銀行
+    050: 臺灣中小企業銀行
+    052: 渣打國際商業銀行
+    053: 台中商業銀行
+    054: 京城商業銀行 
+>>>>>>> master

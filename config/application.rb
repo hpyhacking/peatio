@@ -32,6 +32,15 @@ module Peatio
 
     #config.assets.precompile += ['fund_source.js', 'bootstrap-datetimepicker.css']
     config.assets.initialize_on_precompile = true
+
+    config.generators do |g|
+      g.orm             :active_record
+      g.template_engine :erb
+      g.stylesheets     false
+    end
+
+    # Observer configuration
+    config.active_record.observers = :transfer_observer
   end
 end
 

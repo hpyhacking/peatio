@@ -5,9 +5,12 @@ FactoryGirl.define do
     currency :btccny
     state :wait
     source 'Web'
-    volume { '1'.to_d }
+    ord_type 'limit'
     price { '1'.to_d }
+    volume { '1'.to_d }
     origin_volume { volume }
+    locked { price.to_d*volume.to_d }
+    origin_locked { locked }
   end
 
   factory :order_ask do
@@ -16,8 +19,11 @@ FactoryGirl.define do
     currency :btccny
     state :wait
     source 'Web'
-    volume { '1'.to_d }
+    ord_type 'limit'
     price { '1'.to_d }
+    volume { '1'.to_d }
     origin_volume { volume }
+    locked { volume }
+    origin_locked { locked }
   end
 end

@@ -4,7 +4,6 @@
   = f.input :fund_extra, prompt: t('.fund_extra')
   = f.input :fund_uid do
     = f.input_field :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.fund_uid')
-    = f.input_field :save_fund_source, as: :boolean, inline_label: true
 
   = f.input :amount, as: :string
 
@@ -23,6 +22,6 @@
       - t.column :state_and_action, class: 'col-md-2' do |x|
         - if x.aasm_state.submitting?
           span = "#{x.aasm_state_text} / "
-          = link_to t('actions.cancel'), url_for([x]), method: :delete 
+          = link_to t('actions.cancel'), url_for([x]), method: :delete
         - else
           span = x.aasm_state_text

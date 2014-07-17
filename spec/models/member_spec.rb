@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: members
+#
+#  id                    :integer          not null, primary key
+#  sn                    :string(255)
+#  name                  :string(255)
+#  display_name          :string(255)
+#  email                 :string(255)
+#  identity_id           :integer
+#  created_at            :datetime
+#  updated_at            :datetime
+#  state                 :integer
+#  activated             :boolean
+#  country_code          :integer
+#  phone_number          :string(255)
+#  phone_number_verified :boolean
+#  disabled              :boolean          default(FALSE)
+#
+
 require 'spec_helper'
 
 describe Member do
@@ -35,4 +55,49 @@ describe Member do
       }.to change(Activation, :count).by(1)
     end
   end
+
+  describe '#trades' do
+    subject { create(:member) }
+
+    it "should find all trades belong to user" do
+      ask = create(:order_ask, member: member)
+      bid = create(:order_bid, member: member)
+      t1 = create(:trade, ask: ask)
+      t2 = create(:trade, bid: bid)
+      member.trades.order('id').should == [t1, t2]
+    end
+  end
+
+  describe ".current" do
+    let(:member) { create(:member) }
+    before do
+      Thread.current[:user] = member
+    end
+
+    after do
+      Thread.current[:user] = nil
+    end
+
+    specify { Member.current.should == member }
+  end
+
+  describe ".current=" do
+    let(:member) { create(:member) }
+    before { Member.current = member }
+    after { Member.current = nil }
+    specify { Thread.current[:user].should == member }
+  end
+
+  describe "#unread_messages" do
+    let!(:user) { create(:member) }
+
+    let!(:ticket) { create(:ticket, author: user) }
+    let!(:comment) { create(:comment, ticket: ticket) }
+
+    before { ReadMark.delete_all }
+
+    specify { user.unread_comments.count.should == 1 }
+
+  end
+
 end

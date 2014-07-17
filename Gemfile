@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-#source 'http://ruby.taobao.org'
 
 gem 'rails'
 gem 'rails-i18n'
@@ -8,7 +7,6 @@ gem 'mysql2'
 gem 'daemons-rails'
 gem 'redis-rails'
 
-gem 'qrencoder'
 gem 'rotp'
 gem 'json'
 gem 'jbuilder'
@@ -35,6 +33,7 @@ gem 'active_hash'
 gem 'http_accept_language'
 gem "globalize", "~> 4.0.0"
 gem 'paper_trail', '~> 3.0.1'
+gem 'rails-observers'
 
 gem 'gon'
 gem 'pusher'
@@ -54,7 +53,6 @@ gem 'font-awesome-sass'
 gem 'momentjs-rails'
 gem 'flot-rails'
 gem 'handlebars_assets'
-gem 'recaptcha', :require => 'recaptcha/rails'
 gem 'browser'
 gem 'introjs-rails'
 gem 'rbtree'
@@ -68,6 +66,7 @@ gem 'easy_table'
 gem 'ransack', git: 'https://github.com/activerecord-hackery/ransack.git', branch: 'rails-4'
 gem 'phonelib'
 gem 'twilio-ruby', '~> 3.11'
+gem 'unread', git: 'https://github.com/poshboytl/unread.git'
 
 group :development, :test do
   gem 'factory_girl_rails'
@@ -84,6 +83,7 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'rspec-rails'
   gem 'byebug'
+  gem "annotate", '~> 2.5.0'
 end
 
 group :test do

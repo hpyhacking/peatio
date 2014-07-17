@@ -1,0 +1,117 @@
+﻿zh-TW:
+  withdraw_channel:
+    satoshi:
+      key: 塊鏈
+      title: 比特幣提款
+      intro: 將你在交易所得比特幣餘額提取到你的錢包帳戶
+      latency: 30 分鐘到帳
+      transfer: 人工處理
+      go: 立即提現
+
+  activerecord:
+    models:
+      withdraws/satoshi: 銀行匯款
+    attributes:
+      withdraws/satoshi:
+        id: 提款號碼
+        member_name: 用戶
+        currency_obj_key_text: 幣別
+        state_and_action: 狀態/操作
+        fund_extra_text: 提款標籤
+        fund_extra: 提款標籤
+        fund_source: 提款標籤/地址
+        fund_uid: 提款地址
+        created_at: 時間
+        sum: 總額
+        amount: 金額
+        remark: 備註
+        fee: 手續費
+    errors:
+      models:
+        withdraws/satoshi:
+          attributes:
+            sum:
+              poor: 帳戶餘額不足，請查核。
+              greater_than: 小於單筆最低限額。
+            fund_uid:
+              blank: 請輸入你的提現地址。
+              invalid: 無效的提款地址，請檢察。
+              ismine: 提款地址為系統所有，請更換其他地址。
+
+  withdraws/satoshi:
+    aasm_state:
+      submitting: 確認中
+      submitted: 檢驗中
+      rejected: 已拒絕
+      accepted: 已接受
+      suspect: 異常
+      processing: 處理中
+      coin_ready: 準備中
+      coin_done: 完成
+      done: 提款成功
+      almost_done: 發送中
+      canceled: 已取消
+      failed: 提款出錯
+
+  private:
+    withdraws:
+      satoshis:
+        destroy:
+          notice: 提款申請已被取消，凍結餘額已返還到您的帳戶
+        update:
+          notice: 提款申請成功，我們會盡快處理您的請求
+          alert_two_factor: 雙重認證錯誤
+        new:
+          submit: 送出
+          allin: 全部取出
+          fund_uid: 使用已有提現地址或輸入新地址
+          fund_extra: 選擇開戶銀行
+
+  admin:
+    withdraws:
+      satoshis:
+        index:
+          one: 待處理提款訂單
+          all: 二十四小時內訂單
+          empty: 無任何數據
+        show:
+          process: 處理
+          succeed: 提款
+          reject: 拒絕
+          succeed_confirm: 確定處理提款？
+          reject_confirm: 確定拒絕提現？
+          withdraw: 比特幣提現
+
+  simple_form:
+    labels:
+      withdraw:
+        satoshi:
+          fee: 手續費
+          sum: 提款金額
+          fund_uid: 提款地址
+          fund_extra: 提款標籤
+          account_balance: 可用金額
+          member_name: 帳戶名
+    placeholders:
+      withdraw:
+        satoshi:
+          sum: 最低 0.001
+          fund_extra: 填寫常用標籤（可選）
+    hints:
+      withdraw:
+        satoshi:
+          sum: "<a target='_balance' href='#'>資費說明</a>"
+
+  guides:
+    private:
+      withdraws:
+        satoshis:
+          panel: 比特幣提現
+          new:
+            intro: 選擇提款銀行並輸入帳號和提取金額，完成送出。您提款的銀行帳戶姓名必須和您姓名認證的姓名一致。
+            default-panel: 歷史紀錄
+          create:
+            intro: 選擇提款銀行並輸入帳號和提取金額，完成送出。您提款的銀行帳戶姓名必須和您姓名認證的姓名一致。
+            default-panel: 歷史紀錄
+          edit:
+            intro: 選擇提款銀行並輸入帳號和提取金額，完成送出。您提款的銀行帳戶姓名必須和您姓名認證的姓名一致。

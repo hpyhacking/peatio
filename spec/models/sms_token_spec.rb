@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: tokens
+#
+#  id         :integer          not null, primary key
+#  token      :string(255)
+#  expire_at  :datetime
+#  member_id  :integer
+#  is_used    :boolean
+#  type       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 require 'spec_helper'
 
 describe SmsToken do
@@ -98,7 +112,7 @@ describe SmsToken do
     end
 
     it "should update member's phone_number" do
-      expect(token.member.phone_number).to eq('12312341234')
+      expect(token.member.phone_number).to eq('+1 (231) 234-1234')
     end
   end
 

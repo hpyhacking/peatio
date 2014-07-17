@@ -1,3 +1,25 @@
+# == Schema Information
+#
+# Table name: withdraws
+#
+#  id         :integer          not null, primary key
+#  sn         :string(255)
+#  account_id :integer
+#  member_id  :integer
+#  currency   :integer
+#  amount     :decimal(32, 16)
+#  fee        :decimal(32, 16)
+#  fund_uid   :string(255)
+#  fund_extra :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  done_at    :datetime
+#  txid       :string(255)
+#  aasm_state :string(255)
+#  sum        :decimal(32, 16)
+#  type       :string(255)
+#
+
 class Withdraw < ActiveRecord::Base
   STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
             :coin_ready, :coin_done, :done, :canceled, :almost_done, :failed]
@@ -83,16 +105,16 @@ class Withdraw < ActiveRecord::Base
   end
 
   aasm :whiny_transitions => false do
-    state :submitting, initial: true
-    state :submitted, after_commit: :audit
-    state :canceled, after_commit: :send_email
+    state :submitting,  initial: true
+    state :submitted,   after_commit: :audit
+    state :canceled,    after_commit: :send_email
     state :accepted
-    state :suspect, after_commit: :send_email
-    state :rejected, after_commit: :send_email
-    state :processing, after_commit: :send_coins!
+    state :suspect,     after_commit: :send_email
+    state :rejected,    after_commit: :send_email
+    state :processing,  after_commit: :send_coins!
     state :almost_done
-    state :done, after_commit: :send_email
-    state :failed, after_commit: :send_email
+    state :done,        after_commit: :send_email
+    state :failed,      after_commit: :send_email
 
     event :submit do
       transitions from: :submitting, to: :submitted
@@ -117,7 +139,7 @@ class Withdraw < ActiveRecord::Base
     end
 
     event :reject do
-      transitions from: [:accepted, :processing], to: :rejected
+      transitions from: [:submitted, :accepted, :processing], to: :rejected
       after :unlock_funds
     end
 

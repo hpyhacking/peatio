@@ -8,7 +8,7 @@ module Admin
         @oneday_banks = @banks.includes(:member).
           where('created_at > ?', start_at).
           order('id DESC')
-        
+
         @available_banks = @banks.includes(:member).
           with_aasm_state(:submitting, :warning, :submitted).
           order('id DESC')
@@ -17,35 +17,23 @@ module Admin
       end
 
       def show
-        if params[:target]
-          @target = ::Deposits::Bank.new(target_params)
-          @match = @bank.sn == @target.sn &&
-            @bank.member.name == @target.holder &&
-            @bank.amount == @target.amount
-          flash.now[:notice] = t('.notice') if @bank.aasm_state.accepted?
-        else
-          @match = false
-          flash.now[:alert] = t('.alert') if @bank.aasm_state.accepted?
-        end
+        flash.now[:notice] = t('.notice') if @bank.aasm_state.accepted?
       end
 
       def update
-        raise 'unknown txid' unless params[:txid]
-
-        ActiveRecord::Base.transaction do
-          @bank.lock!
-          @bank.submit!
-          @bank.accept!
-          @bank.touch(:done_at)
-          @bank.update_attribute(:txid, params[:txid])
+        if target_params[:txid].blank?
+          flash[:alert] = t('.blank_txid')
+          redirect_to :back and return
         end
+
+        @bank.charge!(target_params[:txid])
 
         redirect_to :back
       end
 
       private
       def target_params
-        params.require(:target).permit(:sn, :holder, :amount, :created_at, :txid)
+        params.require(:deposits_bank).permit(:sn, :holder, :amount, :created_at, :txid)
       end
     end
   end

@@ -1,0 +1,16 @@
+development: &defaults
+  adapter: mysql2
+  database: peatio_bitking
+  username: root
+  password: 314159
+#  host:  59.127.216.102 
+  pool: 10
+  reconnect: true
+
+test:
+  <<: *defaults
+  database: peatio_test
+
+production:
+  <<: *defaults
+  database: peatio_development

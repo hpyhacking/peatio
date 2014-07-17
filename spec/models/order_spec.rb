@@ -1,14 +1,69 @@
+# == Schema Information
+#
+# Table name: orders
+#
+#  id             :integer          not null, primary key
+#  bid            :integer
+#  ask            :integer
+#  currency       :integer
+#  price          :decimal(32, 16)
+#  volume         :decimal(32, 16)
+#  origin_volume  :decimal(32, 16)
+#  state          :integer
+#  done_at        :datetime
+#  type           :string(8)
+#  member_id      :integer
+#  created_at     :datetime
+#  updated_at     :datetime
+#  sn             :string(255)
+#  source         :string(255)      not null
+#  ord_type       :string(10)
+#  locked         :decimal(32, 16)
+#  origin_locked  :decimal(32, 16)
+#  funds_received :decimal(32, 16)  default(0.0)
+#
+
 require 'spec_helper'
 
-describe Order, "#fixed" do
+describe Order, 'validations' do
+  it { should validate_presence_of(:ord_type) }
+  it { should validate_presence_of(:volume) }
+  it { should validate_presence_of(:origin_volume) }
+  it { should validate_presence_of(:locked) }
+  it { should validate_presence_of(:origin_locked) }
+
+  context "limit order" do
+    it "should make sure price is present" do
+      order = Order.new(currency: 'btccny', price: nil, ord_type: 'limit')
+      order.should_not be_valid
+      order.errors[:price].should == ["is not a number"]
+    end
+
+    it "should make sure price is greater than zero" do
+      order = Order.new(currency: 'btccny', price: '0.0'.to_d, ord_type: 'limit')
+      order.should_not be_valid
+      order.errors[:price].should == ["must be greater than 0"]
+    end
+  end
+
+  context "market order" do
+    it "should make sure price is not present" do
+      order = Order.new(currency: 'btccny', price: '0.0'.to_d, ord_type: 'market')
+      order.should_not be_valid
+      order.errors[:price].should == ['must not be present']
+    end
+  end
+end
+
+describe Order, "#fix_number_precision" do
   let(:order_bid) { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789') }
   let(:order_ask) { create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789') }
   it { expect(order_bid.price).to be_d '12.32' }
   it { expect(order_bid.volume).to be_d '123.1234' }
-  it { expect(order_bid.sum).to be_d ('12.32'.to_d * '123.1234'.to_d) }
+  it { expect(order_bid.origin_volume).to be_d '123.1234' }
   it { expect(order_ask.price).to be_d '12.32' }
   it { expect(order_ask.volume).to be_d '123.1234' }
-  it { expect(order_ask.sum).to be_d '123.1234'.to_d }
+  it { expect(order_ask.origin_volume).to be_d '123.1234' }
 end
 
 describe Order, "#done" do
@@ -43,7 +98,7 @@ describe Order, "#done" do
       trade = mock_trade(strike_volume, strike_price)
 
       hold_account.expects(:unlock_and_sub_funds).with(
-        strike_volume * strike_price, locked: order.price * strike_volume,
+        strike_volume * strike_price, locked: strike_volume * strike_price,
         reason: Account::STRIKE_SUB, ref: trade)
 
       expect_account.expects(:plus_funds).with(
@@ -108,6 +163,29 @@ describe Order, "#done" do
         let(:strike_volume) { "3.1".to_d }
         it_behaves_like "trade done"
       end
+
+      context "trade done volume 10.0 with price 0.8" do
+        let(:strike_price)  { "0.8".to_d }
+        let(:strike_volume) { "10.0".to_d }
+
+        it "should unlock not used funds" do
+          trade = mock_trade(strike_volume, strike_price)
+
+          hold_account.expects(:unlock_and_sub_funds).with(
+            strike_volume * strike_price, locked: strike_volume * strike_price,
+            reason: Account::STRIKE_SUB, ref: trade)
+
+          expect_account.expects(:plus_funds).with(
+            strike_volume - strike_volume * bid_fee,
+            has_entries(:reason => Account::STRIKE_ADD, :ref => trade))
+
+          hold_account.expects(:unlock_funds).with(
+            strike_volume * (order.price - strike_price),
+            reason: Account::ORDER_FULLFILLED, ref: trade)
+
+          order_bid.strike(trade)
+        end
+      end
     end
   end
 end
@@ -144,18 +222,6 @@ describe Order, "#head" do
   end
 end
 
-describe Order, "#avg_price" do
-  let(:order)  { create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13') }
-  let!(:trades) do
-    create(:trade, ask: order, volume: '8.0', price: '12')
-    create(:trade, ask: order, volume: '0.99', price: '12.56')
-  end
-
-  it "should calculate average price" do
-    order.avg_price.to_s('F').should =~ /^12.06/
-  end
-end
-
 describe Order, "#kind" do
   it "should be ask for ask order" do
     OrderAsk.new.kind.should == 'ask'
@@ -184,5 +250,41 @@ describe Order, "related accounts" do
       bid.hold_account.should == bob.get_account(:cny)
       bid.expect_account.should == bob.get_account(:btc)
     end
+  end
+end
+
+describe Order, "#avg_price" do
+  it "should be zero if not filled yet" do
+    OrderAsk.new(locked: '1.0', origin_locked: '1.0', volume: '1.0', origin_volume: '1.0', funds_received: '0').avg_price.should == '0'.to_d
+    OrderBid.new(locked: '1.0', origin_locked: '1.0', volume: '1.0', origin_volume: '1.0', funds_received: '0').avg_price.should == '0'.to_d
+  end
+
+  it "should calculate average price of bid order" do
+    OrderBid.new(locked: '10.0', origin_locked: '20.0', volume: '1.0', origin_volume: '3.0', funds_received: '2.0').avg_price.should == '5'.to_d
+  end
+
+  it "should calculate average price of ask order" do
+    OrderAsk.new(locked: '1.0', origin_locked: '2.0', volume: '1.0', origin_volume: '2.0', funds_received: '10.0').avg_price.should == '10'.to_d
+  end
+end
+
+describe Order, "#estimate_required_funds" do
+  let(:price_levels) do
+    [ ['1.0'.to_d, '10.0'.to_d],
+      ['2.0'.to_d, '20.0'.to_d],
+      ['3.0'.to_d, '30.0'.to_d] ]
+  end
+
+  before do
+    global = Global.new('btccny')
+    global.stubs(:asks).returns(price_levels)
+    Global.stubs(:[]).returns(global)
+  end
+end
+
+describe Order, "#strike" do
+  it "should raise error if order has been cancelled" do
+    order = Order.new(state: Order::CANCEL)
+    expect { order.strike(mock('trade')) }.to raise_error
   end
 end

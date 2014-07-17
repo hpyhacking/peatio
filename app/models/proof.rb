@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: proofs
+#
+#  id         :integer          not null, primary key
+#  root       :string(255)
+#  currency   :integer
+#  ready      :boolean          default(FALSE)
+#  created_at :datetime
+#  updated_at :datetime
+#  sum        :string(255)
+#  addresses  :text
+#  balance    :string(30)
+#
+
 class Proof < ActiveRecord::Base
   include Currencible
 
@@ -5,9 +20,16 @@ class Proof < ActiveRecord::Base
 
   serialize :root, JSON
   serialize :addresses, JSON
+
   validates_presence_of :root, :currency
+  validates_numericality_of :balance, allow_nil: true, greater_than: 0
 
   delegate :coin?, to: :currency_obj
+
+  def self.current(code)
+    proofs = with_currency(code)
+    proofs.where('created_at <= ?', 1.day.ago).last || proofs.last
+  end
 
   def ready!
     self.ready = true
@@ -26,6 +48,10 @@ class Proof < ActiveRecord::Base
     addresses.reduce 0 do |memo, address|
       memo + address["balance"]
     end
+  end
+
+  def address_url(address)
+    currency_obj.address_url(address)
   end
 
 end

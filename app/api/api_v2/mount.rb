@@ -13,7 +13,6 @@ module APIv2
 
     helpers ::APIv2::Helpers
 
-    do_not_route_head!
     do_not_route_options!
 
     use APIv2::Auth::Middleware
@@ -21,12 +20,17 @@ module APIv2
     include Constraints
     include ExceptionHandlers
 
+    before do
+      header 'Access-Control-Allow-Origin', '*'
+    end
+
     mount Markets
     mount Tickers
     mount Members
     mount Orders
     mount OrderBooks
     mount Trades
+    mount K
 
     base_path = Rails.env.production? ? "#{ENV['URL_SCHEMA']}://#{ENV['URL_HOST']}" : nil
     add_swagger_documentation base_path: base_path,

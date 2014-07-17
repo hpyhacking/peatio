@@ -21,8 +21,25 @@ class Currency < ActiveYaml::Base
     CoinRPC[code]
   end
 
+  def balance_cache_key
+    "peatio:hotwallet:#{code}:balance"
+  end
+
+  def balance
+    Rails.cache.read(balance_cache_key) || 0
+  end
+
+  def refresh_balance
+    Rails.cache.write(balance_cache_key, api.safe_getbalance) if coin?
+  end
+
   def blockchain_url(txid)
     raise unless coin?
     blockchain.gsub('#{txid}', txid)
+  end
+
+  def address_url(address)
+    raise unless coin?
+    self[:address_url].try :gsub, '#{address}', address
   end
 end

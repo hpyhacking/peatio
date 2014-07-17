@@ -62,7 +62,7 @@ describe APIv2::Auth::Authenticator do
 
   it "should be stale if tonce is smaller than last seen" do
     subject.should be_fresh
-    subject.expects(:tonce).returns(time_to_milliseconds(1.second.ago))
+    subject.stubs(:tonce).returns(time_to_milliseconds(1.second.ago))
     subject.should_not be_fresh
   end
 
@@ -70,6 +70,11 @@ describe APIv2::Auth::Authenticator do
     params[:access_key] = 'fake'
     subject.token.should be_nil
     subject.should_not be_authentic
+  end
+
+  it "should not be authentic if associated member is disabled" do
+    token.member.update_attributes disabled: true
+    subject.token.should be_nil
   end
 
 end

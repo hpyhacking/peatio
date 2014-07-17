@@ -1,0 +1,15 @@
+zh-CN:
+  private:
+    history:
+      trades:
+        trade_history: 成交记录
+        side: 类型
+        created_at: 时间
+        base_currency: 基准货币
+        base_amount: 数量
+        quote_currency: 报价货币
+        quote_amount: 数量
+        price: 成交价
+      trade:
+        sell: 卖出
+        buy: 买入

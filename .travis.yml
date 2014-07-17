@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.1.1
+  - 2.1.2
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y libfontconfig libfontconfig-dev libfreetype6-dev

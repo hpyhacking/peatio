@@ -1,5 +1,26 @@
+# == Schema Information
+#
+# Table name: members
+#
+#  id                    :integer          not null, primary key
+#  sn                    :string(255)
+#  name                  :string(255)
+#  display_name          :string(255)
+#  email                 :string(255)
+#  identity_id           :integer
+#  created_at            :datetime
+#  updated_at            :datetime
+#  state                 :integer
+#  activated             :boolean
+#  country_code          :integer
+#  phone_number          :string(255)
+#  phone_number_verified :boolean
+#  disabled              :boolean          default(FALSE)
+#
+
 class Member < ActiveRecord::Base
   acts_as_taggable
+  acts_as_reader
 
   has_many :orders
   has_many :accounts
@@ -8,17 +29,22 @@ class Member < ActiveRecord::Base
   has_many :deposits
   has_many :api_tokens
   has_many :two_factors
+  has_many :tickets, foreign_key: 'author_id'
+  has_many :comments, foreign_key: 'author_id'
 
   has_one :id_document
   has_one :sms_token
+
+  has_many :authentications, dependent: :destroy
+
+  scope :enabled, -> { where(disabled: false) }
 
   delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
   delegate :verified?,  to: :sms_token,   prefix: true
 
-  has_many :authentications, dependent: :destroy
-
   validates :sn, presence: true
+  validates :display_name, uniqueness: true, allow_blank: true
   before_validation :generate_sn
 
   alias_attribute :full_name, :name
@@ -28,7 +54,15 @@ class Member < ActiveRecord::Base
   class << self
     def from_auth(auth_hash)
       member = locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)
-      member
+      member.disabled? ? nil : member
+    end
+
+    def current
+      Thread.current[:user]
+    end
+
+    def current=(user)
+      Thread.current[:user] = user
     end
 
     private
@@ -54,6 +88,10 @@ class Member < ActiveRecord::Base
 
   def self.admins
     Figaro.env.admin.split(',')
+  end
+
+  def trades
+    Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
   end
 
   def active
@@ -82,8 +120,8 @@ class Member < ActiveRecord::Base
 
   def to_muut
     {
-      id: sn,
-      displayname: name,
+      id: id,
+      displayname: display_name,
       email: email,
       avatar: gravatar,
       is_admin: admin?
@@ -123,6 +161,15 @@ class Member < ActiveRecord::Base
 
   def send_activation
     Activation.create(member: self)
+  end
+
+  def unread_comments
+    ticket_ids = self.tickets.open.collect(&:id)
+    if ticket_ids.any?
+      Comment.where(ticket_id: [ticket_ids]).where("author_id <> ?", self.id).unread_by(self).to_a
+    else
+      []
+    end
   end
 
   private

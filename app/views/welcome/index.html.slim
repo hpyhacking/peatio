@@ -15,4 +15,4 @@ header.text-center
           a href="#{signup_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signup")
       - else
         .col-md-4.col-md-offset-4
-          a href="#{market_path(latest_market)}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.getstart")
+          a href="#{market_path(current_market)}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.getstart")

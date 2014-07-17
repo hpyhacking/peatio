@@ -29,6 +29,7 @@ tmp
 
 # Ignore ctags
 .tags
+tags
 
 # Ignore vim temporary files
 **/*.swp
