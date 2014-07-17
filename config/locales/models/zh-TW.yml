@@ -1,8 +1,12 @@
-﻿zh-TW:
+zh-TW:
+  attributes:
+    action: 操作
+    currency_text: 幣別
   activerecord:
     models:
       trade: 交易
       order: 掛單
+      member: 用户
       order_bid: 買入
       order_ask: 賣出
       document: 文件
