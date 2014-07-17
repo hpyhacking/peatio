@@ -3,7 +3,7 @@
   = f.input :birth_date, as: :date, \
     start_year: Date.today.year - 70, \
     end_year: Date.today.year - 12, \
-    order: [:month, :year]
+    order: [:day, :month, :year]
   = f.input :address
   = f.input :city
   = f.input :country, as: :country
