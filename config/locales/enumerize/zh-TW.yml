@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 zh-TW:
-=======
-﻿zh-TW:
->>>>>>> master
   enumerize:
     account_version:
       reason:
@@ -34,17 +30,10 @@ zh-TW:
       address_type:
         satoshi: 比特幣
         bank: 銀行匯款
-<<<<<<< HEAD
     withdraw:
       address_type:
         satoshi: 比特幣 - 網路轉帳
         bank: 新台幣 - 銀行轉帳
-=======
-    withdraw: 
-      address_type:
-        satoshi: 比特幣 - 網路轉帳
-        bank: 人民幣 - 銀行轉帳
->>>>>>> master
       aasm_state:
         submitting: 待確認
         submitted: 待檢驗

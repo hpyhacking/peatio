@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 zh-TW:
   deposit_channel:
     bank:
@@ -12,24 +11,17 @@ zh-TW:
       receive_fund_extra: 0191001053153
       go: 立即儲值
 
-=======
-﻿zh-TW:
->>>>>>> master
   activerecord:
     models:
       deposits/bank: 銀行轉帳
     attributes:
       deposits/bank:
-<<<<<<< HEAD
         created_at: 時間
         fund_source: 轉帳信息
-=======
->>>>>>> master
         fund_extra: 轉帳銀行
         fund_extra_text: 轉帳銀行
         fund_uid: 轉帳帳戶
         holder: 持卡人姓名
-<<<<<<< HEAD
         receive_fund_holder_text: 比特王郵局戶名
         receive_fund_uid_text: 比特王中華郵政代碼
         receive_fund_extra_text: 比特王郵局帳號
@@ -37,14 +29,6 @@ zh-TW:
         amount: 儲值金額
         sn: 轉帳備註（必填）
         state_and_action: 狀態 / 操作
-=======
-        receive_fund_holder_text: 貔貅交易所收款帳戶
-        receive_fund_uid_text: 貔貅交易所收款帳號
-        receive_fund_extra_text: 貔貅交易所開戶行
-        member_sn: 個人識別碼
-        amount: 儲值金額
-        sn: 交易編號
->>>>>>> master
 
   deposits/bank:
     aasm_state:
@@ -55,7 +39,6 @@ zh-TW:
       rejected: 已駁回
       checked: 儲值成功
       warning: 異常
-<<<<<<< HEAD
 
   private:
     deposits:
@@ -69,62 +52,20 @@ zh-TW:
           fund_uid: 使用已有銀行帳號或輸入新帳號
           fund_extra: 選擇開戶銀行
           submit: 提交
-=======
-      
-  deposit_channel:
-    bank:
-      key: 銀行轉帳
-      title: 銀行轉帳儲值
-      intro: 通過銀行轉帳的方式，從您的銀行帳戶儲值人民幣到您的貔貅帳戶。
-      latency: 10 分鐘到帳
-      transfer: 人工處理
-      receive_fund_holder: 銀行匯款收款人
-      receive_fund_uid: 銀行匯款帳號
-      receive_fund_extra: 銀行匯款開戶行
-
-  private:
-    deposits:
-      destroy:
-        notice: 取消成功
-      update:
-        notice: 送出成功，您可在歷史記錄中查詢儲值到帳情況。
-      banks:
-        create:
-          success: 您的儲值訂單送出成功，請按照我們提供的貔貅帳戶繼續完成你的轉帳操作。
-        new:
-          step-1: 第一步
-          select-bank: 您可以選擇直接轉帳到我們的銀行帳戶，為了您的儲值可以迅速到帳，請您盡量選擇與我們相同的銀行進行轉帳充值。您可以選擇使用 在線銀行轉帳或臨櫃轉帳。
-          step-2: 第二步
-          send-money: 無論您選擇何種轉帳方式，請在轉帳備註中填寫如下您的個人識別碼，以便您的充值可以迅速到帳。
-          step-3: 第三步
-          check-confirm: 請確定您的資金已到帳而非轉出後（跨行轉帳通常需要一個小時甚至更久的時間到帳），如10分鐘內還未收到儲值，請及時與我們的客服人員聯繫。
-          bank: 銀行
-          card: 帳號
-          name: 戶名
-          save_fund_source: 保存您填寫的銀行資料並作為常用帳號，以便下次直接使用
->>>>>>> master
 
   guides:
     private:
       deposits:
         banks:
           panel: 銀行轉帳儲值
-<<<<<<< HEAD
           intro: 通過銀行轉帳的方式，從您的銀行帳戶充值人民幣到您的交易帳戶中。
           new:
             default-panel: 歷史記錄
           create:
-=======
-          intro: 通過銀行轉帳的方式，從您的銀行帳戶儲值人民幣到您的貔貅帳戶。
-          show:
-            default-panel: 歷史記錄
-          new:
->>>>>>> master
             default-panel: 歷史記錄
           edit:
             default-panel: 歷史記錄
 
-<<<<<<< HEAD
   simple_form:
     labels:
       deposit:
@@ -142,20 +83,11 @@ zh-TW:
           fund_extra: 若您的開戶銀行不再列表中，請聯繫客服
           member_name: <span class='text-danger'>充值銀行賬戶姓名必須與您的實名認證姓名一致</span>
           sn: "<span class='text-danger'>請您務必在銀行轉賬操作備註中填寫數字: <b>%{sn}</b>，否則我們無法快速處理您的訂單。</span>"
-=======
-  helpers:
-    submit:
-      deposits_bank:
-        create: 送出
-        update: 我已成功轉帳
-        cancel: 取消訂單
->>>>>>> master
 
   admin:
     deposits:
       banks:
         index:
-<<<<<<< HEAD
           oneday: 二十四小時內充值訂單
           available: 全部未完成充值訂單
         show:
@@ -167,15 +99,3 @@ zh-TW:
           confirm: 確認給用戶進行充值嗎？
         update:
           blank_txid: Txid 不能為空
-=======
-          oneday: 二十四小時內儲值訂單
-          available: 全部未完成儲值訂單
-        show:
-          empty_target: 無儲值帳單
-          alert: 未發現外部儲值帳單，無法處理充值。
-          notice: 此帳目已經儲值成功，請人工記錄。
-          deposit: 系統儲值編號 - %{sn}
-          target_deposit: 外部儲值編號 - %{sn}
-          deposit: 儲值
-          confirm: 確認給用戶進行儲值嗎？
->>>>>>> master

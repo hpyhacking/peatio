@@ -1,19 +1,12 @@
-<<<<<<< HEAD
 zh-TW:
   attributes:
     action: 操作
     currency_text: 幣別
-=======
-﻿zh-TW:
->>>>>>> master
   activerecord:
     models:
       trade: 交易
       order: 掛單
-<<<<<<< HEAD
       member: 用户
-=======
->>>>>>> master
       order_bid: 買入
       order_ask: 賣出
       document: 文件

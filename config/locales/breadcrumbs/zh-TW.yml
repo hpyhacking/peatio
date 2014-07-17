@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 zh-TW:
-=======
-﻿zh-TW:
->>>>>>> master
   breadcrumbs:
     admin: 後台管理
     admin/dashboard: 控制面板
@@ -12,9 +8,6 @@ zh-TW:
     admin/deposits/satoshis: 比特幣儲值
     admin/withdraws/banks: 銀行轉帳匯款
     admin/withdraws/satoshis: 比特幣匯款
-<<<<<<< HEAD
     admin/statistic: 數據統計
     admin/statistic/members: 用戶統計
     admin/members: 用戶資訊
-=======
->>>>>>> master
