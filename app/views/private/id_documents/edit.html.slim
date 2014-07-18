@@ -1,4 +1,4 @@
-= simple_form_for @id_document, :url => id_document_path do |f|
+= simple_form_for @id_document do |f|
   = f.input :name
   = f.input :birth_date, as: :date, \
     start_year: Date.today.year - 70, \
@@ -10,7 +10,11 @@
   = f.input :zipcode
   = f.input :category, prompt: t('actions.select')
   = f.input :sn
+  = f.simple_fields_for :id_document_file, @id_document.id_document_file || @id_document.build_id_document_file do |p|
+    = p.input :file, as: :file
   = f.input :id_bill_type, prompt: t('actions.select')
+  = f.simple_fields_for :id_bill_file, @id_document.id_bill_file || @id_document.build_id_bill_file do |p|
+    = p.input :file, as: :file
   hr.split
   = f.button :wrapped, cancel: settings_path
 
