@@ -48,7 +48,6 @@ gem 'slim-rails'
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
-gem 'therubyracer'
 gem "jquery-rails"
 gem 'bootstrap-sass'
 gem 'bootstrap-wysihtml5-rails'
@@ -69,6 +68,7 @@ gem 'easy_table'
 gem 'ransack', git: 'https://github.com/activerecord-hackery/ransack.git', branch: 'rails-4'
 gem 'phonelib'
 gem 'china_sms', git: 'https://github.com/lgn21st/china_sms.git'
+gem 'unread', git: 'https://github.com/poshboytl/unread.git'
 
 group :development, :test do
   gem 'factory_girl_rails'
@@ -98,5 +98,8 @@ group :test do
   gem 'poltergeist'
 end
 
-gem 'unicorn'
+group :production do
+  gem "therubyracer"
+end
+
 gem 'airbrake'

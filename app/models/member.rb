@@ -15,10 +15,12 @@
 #  country_code          :integer
 #  phone_number          :string(255)
 #  phone_number_verified :boolean
+#  disabled              :boolean          default(FALSE)
 #
 
 class Member < ActiveRecord::Base
   acts_as_taggable
+  acts_as_reader
 
   has_many :orders
   has_many :accounts
@@ -27,6 +29,8 @@ class Member < ActiveRecord::Base
   has_many :deposits
   has_many :api_tokens
   has_many :two_factors
+  has_many :tickets, foreign_key: 'author_id'
+  has_many :comments, foreign_key: 'author_id'
 
   has_one :id_document
   has_one :sms_token
@@ -157,6 +161,15 @@ class Member < ActiveRecord::Base
 
   def send_activation
     Activation.create(member: self)
+  end
+
+  def unread_comments
+    ticket_ids = self.tickets.open.collect(&:id)
+    if ticket_ids.any?
+      Comment.where(ticket_id: [ticket_ids]).where("author_id <> ?", self.id).unread_by(self).to_a
+    else
+      []
+    end
   end
 
   private

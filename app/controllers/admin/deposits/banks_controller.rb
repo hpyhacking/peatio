@@ -30,15 +30,9 @@ module Admin
       end
 
       def update
-        raise 'unknown txid' unless params[:txid]
+        raise 'unknown txid' unless target_params[:txid]
 
-        ActiveRecord::Base.transaction do
-          @bank.lock!
-          @bank.submit!
-          @bank.accept!
-          @bank.touch(:done_at)
-          @bank.update_attribute(:txid, params[:txid])
-        end
+        @bank.charge!(target_params[:txid])
 
         redirect_to :back
       end

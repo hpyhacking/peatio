@@ -32,6 +32,6 @@ class IdDocument < ActiveRecord::Base
   end
 
   def set_member_name
-    self.member.update_attribute(:name, self.name)
+    member.update_attribute(:name, name)
   end
 end

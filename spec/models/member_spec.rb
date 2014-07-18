@@ -15,6 +15,7 @@
 #  country_code          :integer
 #  phone_number          :string(255)
 #  phone_number_verified :boolean
+#  disabled              :boolean          default(FALSE)
 #
 
 require 'spec_helper'
@@ -85,6 +86,18 @@ describe Member do
     before { Member.current = member }
     after { Member.current = nil }
     specify { Thread.current[:user].should == member }
+  end
+
+  describe "#unread_messages" do
+    let!(:user) { create(:member) }
+
+    let!(:ticket) { create(:ticket, author: user) }
+    let!(:comment) { create(:comment, ticket: ticket) }
+
+    before { ReadMark.delete_all }
+
+    specify { user.unread_comments.count.should == 1 }
+
   end
 
 end
