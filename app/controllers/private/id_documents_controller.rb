@@ -20,7 +20,7 @@ module Private
 
     def id_docuemnt_params
       params.require(:id_document).permit(:name, :birth_date, :address, :city, :country, :zipcode,
-                                          :category, :sn, :id_bill_type,
+                                          :id_document_type, :id_document_number, :id_bill_type,
                                           {id_document_file_attributes: [:id, :file]},
                                           {id_bill_file_attributes: [:id, :file]})
     end

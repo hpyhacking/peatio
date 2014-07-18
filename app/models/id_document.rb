@@ -2,21 +2,21 @@
 #
 # Table name: id_documents
 #
-#  id           :integer          not null, primary key
-#  category     :integer
-#  name         :string(255)
-#  sn           :string(255)
-#  member_id    :integer
-#  created_at   :datetime
-#  updated_at   :datetime
-#  verified     :boolean
-#  birth_date   :date
-#  address      :text
-#  city         :string(255)
-#  country      :string(255)
-#  zipcode      :string(255)
-#  id_bill_type :integer
-#  aasm_state   :string(255)
+#  id                 :integer          not null, primary key
+#  id_document_type   :integer
+#  name               :string(255)
+#  id_document_number :string(255)
+#  member_id          :integer
+#  created_at         :datetime
+#  updated_at         :datetime
+#  verified           :boolean
+#  birth_date         :date
+#  address            :text
+#  city               :string(255)
+#  country            :string(255)
+#  zipcode            :string(255)
+#  id_bill_type       :integer
+#  aasm_state         :string(255)
 #
 
 class IdDocument < ActiveRecord::Base
@@ -32,11 +32,11 @@ class IdDocument < ActiveRecord::Base
 
   belongs_to :member
 
-  validates_presence_of :name, :category, :sn, allow_nil: true
+  validates_presence_of :name, :id_document_type, :id_document_number, :id_document_number, allow_nil: true
   validates_uniqueness_of :member
 
-  enumerize :category, in: {id_card: 0, passport: 1, driver_license: 2}
-  enumerize :id_bill_type, in: {bank_statement: 0, tax_bill: 1}
+  enumerize :id_document_type, in: {id_card: 0, passport: 1, driver_license: 2}
+  enumerize :id_bill_type,     in: {bank_statement: 0, tax_bill: 1}
 
   alias_attribute :full_name, :name
 

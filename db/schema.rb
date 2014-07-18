@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140717033231) do
+ActiveRecord::Schema.define(version: 20140718141345) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -156,9 +156,9 @@ ActiveRecord::Schema.define(version: 20140717033231) do
   end
 
   create_table "id_documents", force: true do |t|
-    t.integer  "category"
+    t.integer  "id_document_type"
     t.string   "name"
-    t.string   "sn"
+    t.string   "id_document_number"
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"

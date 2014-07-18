@@ -1,5 +1,17 @@
 zh-CN:
   private:
     id_documents:
+      edit:
+        name: 真实姓名
+        birth_date: 生日
+        address: 地址
+        city: 城市
+        country: 国家
+        zipcode: 邮编
+        id_document_type: 证件类型
+        id_document_number: 证件号码
+        id_document_file: 证件照片
+        id_bill_type: 账单类型
+        id_bill_file: 账单照片
       update:
         notice: 实名认证信息已成功提交。

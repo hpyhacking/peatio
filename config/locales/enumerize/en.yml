@@ -47,7 +47,7 @@ en:
         accepted: 已到账
         checked: 已到账
         warning: 异常
-    withdraw: 
+    withdraw:
       address_type:
         satoshi: Bitcoin
         bank: Bank
@@ -67,6 +67,7 @@ en:
         satoshi: Bitcoin
         bank: Bank
     id_document:
-      category:
+      id_document_type:
         id_card: ID Card
         passport: Passport
+        driver_license: Driver's License

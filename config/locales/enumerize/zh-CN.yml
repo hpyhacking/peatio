@@ -35,6 +35,7 @@ zh-CN:
         satoshi: 比特币 - 网络转账
         bank: 人民币 - 银行转账
     id_document:
-      category:
+      id_document_type:
         id_card: 身份证
         passport: 护照
+        driver_license: 驾照

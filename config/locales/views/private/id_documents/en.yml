@@ -1,5 +1,17 @@
 en:
   private:
     id_documents:
+      edit:
+        name: Full Name
+        birth_date: Birth Date
+        address: Address
+        city: City
+        country: Country
+        zipcode: Zipcode
+        id_document_type: ID Document Type
+        id_document_number: ID Document Number
+        id_document_file: ID Document Photo
+        id_bill_type: Proof Of Residence
+        id_bill_file: Proof Of Residence Photo
       update:
         notice: Your account verification has been submitted.
