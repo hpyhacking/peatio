@@ -41,20 +41,20 @@ class IdDocument < ActiveRecord::Base
   alias_attribute :full_name, :name
 
   aasm do
-    state :unapproved, initial: true
-    state :pending_approve
-    state :approved
+    state :unverified, initial: true
+    state :verifying
+    state :verified
 
     event :submit do
-      transitions from: :unapproved,      to: :pending_approve
+      transitions from: :unverified, to: :verifying
     end
 
     event :approve do
-      transitions from: :pending_approve, to: :approved
+      transitions from: :verifying,  to: :verified
     end
 
     event :reject do
-      transitions from: :pending_approve, to: :unapproved
+      transitions from: :verifying,  to: :unverified
     end
   end
 end

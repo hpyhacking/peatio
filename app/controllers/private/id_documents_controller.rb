@@ -9,7 +9,7 @@ module Private
       @id_document = current_user.id_document
 
       if @id_document.update_attributes id_docuemnt_params
-        @id_document.submit if @id_document.unapproved?
+        @id_document.submit if @id_document.unverified?
         redirect_to settings_path, notice: t('.notice')
       else
         render :edit

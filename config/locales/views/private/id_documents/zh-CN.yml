@@ -2,6 +2,10 @@ zh-CN:
   private:
     id_documents:
       edit:
+        state: 验证状态
+        state_unverified: 未验证
+        state_verifying: 验证中
+        state_verified: 已验证
         name: 真实姓名
         birth_date: 生日
         address: 地址

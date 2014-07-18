@@ -39,3 +39,6 @@ zh-CN:
         id_card: 身份证
         passport: 护照
         driver_license: 驾照
+      id_bill_type:
+        bank_statement: 银行账单
+        tax_bill: 税单

@@ -1,3 +1,11 @@
+.state.clearfix
+  .col-sm-4.text-right
+    h2 = t('.state')
+  .col-sm-7
+    h2 = t(".state_#{@id_document.aasm_state}")
+
+hr.split
+
 = simple_form_for @id_document do |f|
   = f.input :name, label: t('.name')
   = f.input :birth_date, as: :date, label: t('.birth_date'), \

@@ -2,6 +2,10 @@ en:
   private:
     id_documents:
       edit:
+        state: State
+        state_unverified: UNVERIFIED
+        state_verifying: VERIFYING
+        state_verified: VERIFIED
         name: Full Name
         birth_date: Birth Date
         address: Address

@@ -71,3 +71,6 @@ en:
         id_card: ID Card
         passport: Passport
         driver_license: Driver's License
+      id_bill_type:
+        bank_statement: Bank Statement
+        tax_bill: Tax Bill

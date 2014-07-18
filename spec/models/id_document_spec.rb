@@ -29,7 +29,7 @@ describe IdDocument do
 
   context 'aasm_state' do
     describe 'default state' do
-      its(:aasm_state) { should eq('unapproved') }
+      its(:aasm_state) { should eq('unverified') }
     end
 
     describe 'submit' do
@@ -37,16 +37,16 @@ describe IdDocument do
         subject.submit
       end
 
-      its(:aasm_state) { should eq('pending_approve') }
+      its(:aasm_state) { should eq('verifying') }
     end
 
-    describe 'approved' do
+    describe 'verified' do
       before do
         subject.submit
         subject.approve
       end
 
-      its(:aasm_state) { should eq('approved') }
+      its(:aasm_state) { should eq('verified') }
     end
 
     describe 'reject' do
@@ -55,7 +55,7 @@ describe IdDocument do
         subject.reject
       end
 
-      its(:aasm_state) { should eq('unapproved') }
+      its(:aasm_state) { should eq('unverified') }
     end
   end
 end
