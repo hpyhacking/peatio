@@ -1,0 +1,115 @@
+﻿zh-TW:
+  guides:
+    panels:
+      balance: 用戶帳戶資訊
+
+    private:
+      settings:
+        panel: 我的帳戶
+        index:
+          intro: 管理並修改您的個人資料及綁定設定。
+
+      two_factors:
+        panel: 雙重認證
+        new:
+          title: 設置雙重認證
+          intro: 通過將密碼和手機結合使用，可防止別有用心的人侵入您的帳戶。在此我們使用GOOGLE身份認證器。
+        edit:
+          title: 解除雙重認證
+          intro: 若您換了新手機，您可以先解除舊手機的兩步驗證，接觸後再用新手機進行雙重驗證的設置。
+        create:
+          title: 設置雙重認證
+          intro: 通過將密碼和手機結合使用，可防止別人惡意侵入您的帳戶。在此我們使用GOOGLE身份認證器。
+        destroy:
+          title: 解除雙重認證
+          intro: 若您換了新手機，您可以先解除舊手機的兩步認證，接觸後再用新手機進行雙重認證的設置。
+
+      deposits:
+        panel: 資金儲值
+        intro: 選擇您儲值的方式，比特幣和新台幣儲值均為10分鐘到帳。
+
+      withdraws:
+        panel: 資金提款
+        index:
+          title: 選擇提款方式
+          intro: 選擇您提款的方式，比特幣提款10分鐘到賬，新台幣提款24小時到帳。
+        edit:
+          panel: 提款 > 確認提款
+          bank:
+            intro: 選擇提款銀行並輸入帳號和提款金額，完成送出。您提款的銀行帳戶姓名必須和您姓名認證的姓名一樣。
+          satoshi:
+            intro: 請您及時確認您的提款申請，如填寫有誤請您點擊“返回”，重新填寫。
+        bank:
+          panel: 銀行轉帳提款
+          new:
+            panel: 提款 > 銀行轉帳提款
+            title: 銀行轉帳提款
+            intro: 選擇提款銀行並輸入帳號和提取金額，完成送出。您提款的銀行帳戶姓名必須和您姓名認證的姓名一樣。
+            default-panel: 歷史記錄
+        satoshi:
+          panel: 比特幣提款
+          new:
+            panel: 提款 > 比特幣提款
+            title: 比特幣提款
+            intro: 您可以輸入您的提款地址或者選擇之前已保存的提款地址，輸入提款金額，提取到您的比特幣提款地址。
+            default-panel: 歷史記錄
+
+      fund_sources:
+        panel: 資金提款
+        index:
+          title: 新增提款地址
+          intro: 通過填寫提款地址，以便每次提款時快速選擇要提款的收款方。
+
+      id_documents:
+        panel: 姓名認證
+        new:
+          title: 提交姓名認證信息
+          intro: 為配合國家相關法令條例，請您正確輸入信息，進行身份認證，身份認證未完成將不能在網站進行任何操作。
+
+      id_documents:
+        panel: 姓名認證
+        new:
+          title: 提交姓名認證信息
+          intro: 為配合國家相關法令條例，請您正確輸入信息，進行身份認證，身份認證未完成將不能在網站進行任何操作。
+
+      my_assets:
+        panel: 我的資產
+        index:
+          intro: 這是在貔貅內的所有資產信息，包括賬戶余額，成功完成的交易，充值，以及提款的歷史記錄。
+
+    verify:
+      two_factors:
+        panel: 兩步驗證
+        new:
+          intro: 通過將密碼和手機結合使用，可防止別有用心的人侵入您的帳戶。在此我們使用谷歌身份驗證器。 
+
+    reset_passwords:
+      panel: 登錄密碼
+      new:
+        title: 重置登入密碼
+        intro: 請您輸入您創建帳戶時的電子郵件，輸入驗證碼提交後，進入郵箱，根據提示重置密碼。
+      create:
+        title: 重置登入密碼
+        intro: 請您輸入您創建帳戶時的電子郵件，輸入驗證碼提交後，進入郵箱，根據提示重置密碼。
+      edit:
+        title: 重置登入密碼
+      update:
+        title: 重置登入密碼
+
+    sessions:
+      panel: 登入
+      new:
+        title: 登入我的帳戶
+        intro: 現在登入，以便您開始交易，隨時關注交易動態。
+      failure:
+        title: 登入我的帳戶
+        intro: 現在登入，以便您開始交易，隨時關注交易動態。
+
+    identities:
+      panel: 創建帳戶
+      new:
+        title: 創建我的帳戶
+        intro: 這將是您在貔貅交易所使用各項服務所需要的用戶名，例如交易購買、轉帳、提幣、提款等，為了您的帳戶安全，盡量避免不安全的因素，請您填寫完整。
+      edit:
+        panel: 我的帳戶
+        title: 修改密碼

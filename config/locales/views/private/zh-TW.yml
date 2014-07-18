@@ -1,0 +1,50 @@
+﻿zh-TW:
+  private:
+    markets:
+      show:
+        error: 委託掛單失敗
+        success: 委託掛單成功
+        analysis_panel: 分析面板
+        help_panel: 幫助面板
+        done: 成交
+        cancel: 撤單
+        cancel_confirm: 確認撤銷此單嗎？
+        confirm: 確認
+        ask_order: '賣 ##sn#'
+        bid_order: '買 ##sn#'
+      ticker:
+        markets: 實時價格
+      account_balance:
+        title: 帳戶餘額
+        available: 可用 %{currency}
+      place_order:
+        place_order: 快速掛單
+        bid_panel: 買入%{currency}
+        ask_panel: 賣出%{currency}
+        price: 價格
+        amount: 數量
+        total: 金額
+        available: 可用
+      order_book:
+        order_book: 掛單記錄
+      market_trades:
+        trades: 交易記錄
+        time: 時間
+        price: 價格
+        volume: 數量
+      my_orders:
+        my_orders: 我的委託
+        orders_wait: 有效委託
+        orders_done: 最新成交
+        orders_cancel: 最新撤銷
+      price_chart:
+        price_chart: 行情走勢
+      global:
+        global_orders_title: 十檔訂單
+        global_trades_title: 成交記錄
+    withdraws:
+      index:
+        withdraw_history: 提款歷史記錄
+    funds:
+      show:
+        account_history: 帳戶歷史記錄

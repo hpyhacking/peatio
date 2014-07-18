@@ -1,0 +1,163 @@
+zh-TW:
+  "true": 是
+  "false": 否
+
+  view_on_github: 連到Github上看
+  slogan: 貔貅 - 开源加密貨幣交易平台。
+  slogan_desc: 貔貅交易所是比特幣等加密數字貨幣的交易平台，是國內首個實現開源機制的項目，我們秉承「開放開源，陽光透明」的理念，旨在為廣大加密數字貨幣愛好者，提供一個代碼開源開放、資產公開透明，安全易用和最具有公信力的加密數字貨幣交易服務平台。
+  tags:
+    vip: VIP
+    hero: 超級用戶
+    admin: 管理員
+  trade:
+    markets: 市場
+    btccny: BTC/TWD
+    realtime_price:
+      title: 目前價格
+    account_balance:
+      title: 帳戶餘額
+      available_btc: 可用BTC
+      available_cny: 可用TWD
+      locked_btc: 凍結BTC
+      locked_cny: 凍結TWD
+  gon:
+    ask: 賣出
+    bid: 買入
+    brand: 貔貅交易所
+  back: 返回
+  invalid_password: 登錄密碼錯誤
+  all: 全部
+
+  date:
+    formats:
+      date-short: '%m-%d'
+      short: '%m-%d %H:%M'
+      default: '%Y-%m-%d %H:%M'
+  time:
+    formats:
+      date-short: '%m-%d'
+      short: '%m-%d %H:%M'
+      default: '%Y-%m-%d %H:%M'
+
+  reset_two_factors:
+    create:
+      success: 重置雙重驗證郵件已經發送，請根據郵件內容進行操作。
+    edit:
+      success: 雙重驗證禁用成功，登錄後在帳戶設置中可再次啟動。
+
+  private:
+    trade:
+      trades:
+        orders:
+          title: 掛單記錄
+        trades:
+          title: 交易記錄
+        charges:
+          title: 儲值記錄
+      orders:
+        index:
+          done: 已成交
+          cancel: 撤單
+          confirm: "確定要進行撤單 #%{id} 嗎？"
+        destroy:
+          :true: "#%{id} 撤單成功"
+          :false: "#%{id} 撤單失敗"
+    withdraws:
+      update:
+        request_accepted: 提現申請提交成功
+      destroy:
+        request_canceled: 提現申請已撤銷
+      index:
+        fee: 手續費
+        total: 總計
+
+  header:
+    dashboard: 控制面板
+    admin: 管理
+    market: 買賣大廳
+    settings: 帳戶
+    signin: 登錄
+    signout: 安全退出
+    signup: 創建帳戶
+    deposit: 儲值
+    withdraw: 提款
+    getstart: 前往買賣大廳
+    assets: 資產公開
+    history: 歷史記錄
+    order_history: 委託查詢
+    trade_history: 成交查詢
+    account_history: 帳戶記錄
+    my_profile: 我的帳戶
+    tickets: 申訴
+
+  admin_header:
+    deposits: 儲值管理
+    withdraws: 提款管理
+    statistics: 數據統計
+
+  footer:
+    about: 關於我們
+    terms_and_service: 聲明及用戶協議
+    questions: 常見問題
+    price: 資費說明
+    liability_proof: 償付能力驗證
+    contact: 聯絡我們
+
+  actions:
+    go: 立刻前往
+    submit: 送出
+    deposit: 立刻儲值
+    select: 請選擇
+    unlock: 解鎖
+    confirm: 確認
+    back: 返回
+    block: 區塊中查看地址
+    destroy: 刪除
+    destroy_confirm: 您確定要刪除此記錄嗎？
+    detail: 詳情
+    publish: 發佈
+    edit: 編輯
+    preview: 預覽
+    close: 退出
+    cancel: 撤銷
+    view: 查看
+    member: 查看用戶
+    transact: 處理
+    reject: 駁回
+    clipboard:
+      click: 點擊複製
+      done: 複製成功
+
+  global:
+    ask_price: 賣出
+    bid_price: 買入
+    high_price: 最高
+    low_price: 最低
+    volume: 成交量
+    latest_price: 最新價格
+
+  chart:
+    price: 價格
+    volume: 成交量
+
+  'yes': 是
+  'no': 否
+
+  banks:
+    cmbc: 台灣銀行
+    bc:   土地銀行
+    icbc: 合作金庫
+    cbc:  第一銀行
+    abc:  華南銀行
+    cmb:  彰化銀行
+    cmbc: 上海銀行
+    bcm:  台北富邦
+    cncb: 國泰世華
+    hxb:  兆豐銀行
+    cib:  花旗銀行
+    spdb: 高雄銀行
+    bob: 中小企業
+    ceb: 渣打銀行
+    sdb: 中華郵政
+    gdb: 匯豐銀行
+    pab: 台新銀行

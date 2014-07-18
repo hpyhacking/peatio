@@ -1,0 +1,5 @@
+﻿zh-TW:
+  private:
+    account_versions:
+      index:
+        description: 每一筆交易、每一分錢收入都是有據可查，鉅細無遺的。
