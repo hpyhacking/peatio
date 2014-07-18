@@ -59,7 +59,7 @@ en:
     reset_passwords:
       panel: Password
       new:
-        title: Reset Passwore
+        title: Reset Password
         intro: Please enter your e-mail address which is verified by your  account, enter verification code to submit,and login your mailbox, follow the prompts to reset your password.
       create:
         title: Reset password
