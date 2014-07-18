@@ -45,7 +45,6 @@ gem 'slim-rails'
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
-gem 'therubyracer'
 gem "jquery-rails"
 gem 'bootstrap-sass'
 gem 'bootstrap-wysihtml5-rails'
@@ -94,6 +93,10 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver'
   gem 'poltergeist'
+end
+
+group :production do
+  gem "therubyracer"
 end
 
 gem 'unicorn'

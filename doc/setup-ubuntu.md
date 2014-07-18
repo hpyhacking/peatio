@@ -10,7 +10,8 @@ Setup on Ubuntu 14.04 LTS
 5. Install [RabbitMQ](https://www.rabbitmq.com/)
 6. Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
 7. Install [PhantomJS](http://phantomjs.org/)
-7. Configure Peatio
+8. Install a JavaScript Runtime
+9. Configure Peatio
 
 ### 1. Setup deploy user
 
@@ -122,7 +123,13 @@ Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to r
     git checkout 1.9
     ./build.sh
 
-### 8. Configure Peatio
+### 8. Install a JavaScript Runtime
+
+A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do but Node.js is recommended.
+
+    sudo apt-get install nodejs
+
+### 9. Configure Peatio
 
 **Clone the project**
 
