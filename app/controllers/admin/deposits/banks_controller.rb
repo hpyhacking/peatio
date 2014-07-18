@@ -30,9 +30,9 @@ module Admin
       end
 
       def update
-        raise 'unknown txid' unless target_params[:txid]
+        raise 'unknown txid' unless params[:txid]
 
-        @bank.charge!(target_params[:txid])
+        @bank.charge!(params[:txid])
 
         redirect_to :back
       end
