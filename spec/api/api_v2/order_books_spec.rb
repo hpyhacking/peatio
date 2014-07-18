@@ -27,4 +27,23 @@ describe APIv2::OrderBooks do
     end
   end
 
+  describe "GET /api/v2/depth" do
+    let(:asks) { [['100', '2.0'], ['120', '1.0']] }
+    let(:bids) { [['90', '3.0'], ['50', '1.0']] }
+
+    before do
+      global = mock("global", asks: asks, bids: bids)
+      Global.stubs(:[]).returns(global)
+    end
+
+    it "should sort asks and bids from highest to lowest" do
+      get '/api/v2/depth', market: 'btccny'
+      response.should be_success
+
+      result = JSON.parse(response.body)
+      result['asks'].should == asks.reverse
+      result['bids'].should == bids
+    end
+  end
+
 end
