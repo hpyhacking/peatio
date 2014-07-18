@@ -32,7 +32,7 @@ class IdDocument < ActiveRecord::Base
 
   belongs_to :member
 
-  validates_presence_of :name, :id_document_type, :id_document_number, :id_document_number, allow_nil: true
+  validates_presence_of :name, :id_document_type, :id_document_number, allow_nil: true
   validates_uniqueness_of :member
 
   enumerize :id_document_type, in: {id_card: 0, passport: 1, driver_license: 2}
