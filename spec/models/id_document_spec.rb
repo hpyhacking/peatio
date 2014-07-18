@@ -16,7 +16,7 @@ require 'spec_helper'
 
 describe IdDocument do
   it "sets member name to same as the document" do
-    doc = create(:id_document, name: "Sun Xiaomei", member: create(:member, name: "Xiaomei"))
+    doc = create(:id_document, name: "孙小美", member: create(:member, name: "小美"))
     expect(doc.member.name).to eql doc.name
   end
 
