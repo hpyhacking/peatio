@@ -1,0 +1,44 @@
+﻿zh-TW:
+  private:
+    assets:
+      index:
+        liability-proof: 資產證明
+        btc-assets: BTC資產清單
+        cny-assets: TWD資產清單
+        merkle_approach: 了解更多償付能力驗證技術
+      liability_tabs:
+        verify-btc: 驗證我的BTC資產
+        verify-cny: 驗證我的TWD資產
+        btc-assets-total: 交易所BTC總資產：
+        cny-assets-total: 交易所TWD總資產：
+      liability_proof:
+        title: 資產證明
+        intro: 我們將銀行帳戶，比特幣錢包地址，以及用戶存款總額公開以便用戶時刻了解我們的資產狀況；我們提供的數字證明能證明我們提供的存款總額數據是真實的。我們通過技術手段來保證您的資金處於隨時能夠提款的狀態。
+        what-is-100-percent-reserve: 什麼是100%儲備金？
+        what-is-100-percent-reserve-uri: 'https://peatio.com/documents/liability_proof'
+        how-to-verify: 如何驗證交易所具備償付能力？
+        how-to-verify-uri: 'https://peatio.com/documents/liability_proof'
+      liability_data:
+        liability-proof-generating: 用戶資產證明正在生成中，請30分鐘後再來。
+        root-json: 交易所總資產驗證代碼
+        partial-tree: 我的%{currency}資產：
+        get-partial-tree: 獲取我的資產驗證代碼
+        timestamp: "當前操作僅針對您在%{time}的資產驗證。"
+        go-verify: 去驗證
+      btc_assets:
+        title: BTC資產清單
+        intro: 查看交易所全部BTC資產清單
+        total: BTC總資產
+        address: 錢包地址
+      cny_assets:
+        title: TWD資產清單
+        intro: 查看交易所全部TWD資產清單
+        total: TWD總資產
+        description: "
+          <p>每位登錄貔貅的用戶可通過查詢貔貅唯一開戶銀行余額監督我們的服務。</p>
+          <p>開戶銀行： %{bank}</p>
+          <p>開戶帳號： %{address}</p>
+          <p>查詢密碼： %{password}</p>
+          <p>查詢電話： %{tel}</p>"
+      partial_tree:
+        success: '獲取成功！驗證數據生成時間為：%{timestamp}'

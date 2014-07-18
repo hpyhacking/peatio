@@ -1,0 +1,23 @@
+zh-TW:
+  verify:
+    two_factors:
+      new:
+        timeout: 雙重驗證超時
+      create:
+        error: 雙重驗證錯誤
+    sms_tokens:
+      new:
+        title: 綁定手機號碼
+        description: 綁定手機號碼，讓你在比特王交易所的資金更安全，還可以快速找回密碼，並即時收到您在網站操作的動態提醒和監控帳號安全。
+        warning: 手機未綁定時，您將無法在網站操作提現以及帳戶密碼找回。
+        phone_number: 請輸入手機號碼
+        send_code: 獲取驗證碼
+        send_code_alt: COUNT秒後重新發送
+        input_verify_code: 請輸入通過短信收到的六位驗證碼
+        submit: 綁定手機號碼
+        sms_message: "驗證碼為：%{code}，30分鐘內有效。（提示：工作人員不會索要，切勿洩露！）【比特王交易所（台灣）】"
+        notice:
+          send_code_success: 手機短信驗證碼已發送。
+          verify_code_success: 手機短信驗證碼驗證成功。
+        alert:
+          phone_number_error: 手機號碼無效或錯誤

@@ -1,0 +1,7 @@
+﻿zh-TW:
+  private:
+    id_documents:
+      new:
+        warning: 姓名認證資料送出後不得修改，請認真填寫。
+      create:
+        notice: 姓名認證已驗證成功。

@@ -40,3 +40,4 @@ tags
 /vendor/bundle
 .env
 .ruby-version
+config/locales/views/reset_passwords/zh-CN.yml

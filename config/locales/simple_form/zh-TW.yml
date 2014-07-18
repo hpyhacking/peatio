@@ -1,0 +1,159 @@
+﻿zh-TW:
+  helpers:
+    action:
+      view: 查看
+      customer_service: 聯繫客服
+    submit:
+      order_ask:
+        create: 賣出
+      order_bid:
+        create: 買入
+      document:
+        create: '創建文件'
+        update: '更新文件'
+        destroy: '刪除文件'
+      member:
+        update: '開通帳戶'
+      identity:
+        save: 登入
+        create: 註冊
+        destroy: 登出
+        verify: 驗證
+        update: 修改
+      two_factor:
+        create: 驗證
+        update: 啟用
+      reset_two_factor:
+        create: 重置雙重認證
+      reset_password:
+        update: 重置登入密碼
+        create: 發送重置請求
+      withdraw:
+        edit: 處理
+        update: 處理提現
+        create: 提交申請
+        new: 下一步
+        all: 提出全部餘額
+      fund_source:
+        create: 新增提款地址
+      deposit:
+        create: 儲值
+      id_document:
+        create: 提交
+  simple_form:
+    creating: "Creating..."
+    updating: 'Updating...'
+    buttons:
+      or: 'or'
+      cancel: 取消
+    "yes": '是'
+    "no": '否'
+    required:
+      text: '必須的'
+      mark: '*'
+    error_notification:
+      default_message: "請檢查以下問題:"
+    labels:
+      defaults:
+        recaptcha: 驗證碼
+        otp: 驗證器上的密碼
+      two_factor:
+        uri: 二維碼
+        otp_secret: 密文
+        otp: 驗證器上的密碼
+      fund_source:
+        label: 開戶行 / 標籤
+        address: 銀行帳號 / 地址
+        category: 選擇提款方式
+        name: 帳戶名
+      member:
+        name: 帳戶名
+      withdraw:
+        defaults:
+          otp: 驗證器上的密碼
+        password: 登入密碼
+        satoshi:
+          fund_uid: 提款地址
+          fund_extra: 備註
+          sum: 數量
+          fee: 手續費
+          amount: 實際到帳
+        bank:
+          name: 收款戶名
+          fund_uid: 銀行帳號
+          fund_extra: 開戶行
+          fund_extra_text: 開戶行
+          sum: 金額
+          fee: 手續費
+          amount: 實際到帳
+      session:
+        email: 登入郵件
+        password: 登入密碼
+      identity:
+        email: 登入郵件
+        old_password: 舊密碼
+        password: 新密碼
+        password_confirmation: 確認密碼
+      reset_password:
+        password: 新密碼
+    placeholders:
+      defaults:
+        otp: 6位數字密碼
+      session:
+        email: 郵箱地址
+        password: ''
+      identity:
+        email: 例如：xiaobai@example.com
+        password: 請設置登入密碼
+        password_confirmation: 確認密碼
+        edit:
+          password: 請設置新密碼
+      document:
+        key: 文章連接URL鍵值
+        title: 文章標題
+      withdraw:
+        bank:
+          sum: 最低金額2元，單筆限額5萬元
+          fund_extra: 選擇銀行
+          fund_uid: 使用已有銀行帳號或輸入新帳號
+          subbranch: xx分行
+        satoshi:
+          sum: 單筆最低提現0.1BTC
+          fund_uid: 使用保存的地址或者輸入新地址
+          fund_extra: 請備註您的錢包地址，方便下次查找使用
+      deposits:
+        banks:
+          fund_extra: 選擇開戶行
+          fund_uid: 使用已有銀行帳號或輸入新帳號
+      order_bid:
+        origin_volume:  買入數量
+        sum: 總成交金額
+      order_ask:
+        origin_volume:  賣出數量
+        sum: 總成交金額
+      reset_password:
+        email: 例如：xiaobai@example.com
+        password: 請設置登入密碼
+    hints:
+      two_factor:
+        otp_secret: 建議您備份好二維碼圖片或者密文，以免手機意外丟失後給您帶來不便。
+        otp: 您的驗證器每三十秒會重新生成新密碼，請及時輸入。
+      identity:
+        password: 請輸入至少8位，並必須包含大寫、小寫字母與數字。
+      reset_password:
+        password: 請輸入至少8位，並必須包含大寫、小寫字母與數字。
+      id_document:
+        name: 請填寫與您證件上一致的姓名。
+      fund_source:
+        name: 提款銀行帳戶姓名必須與您的姓名認證姓名一致。
+      member:
+        name: 提款銀行帳戶姓名必須與您的姓名認證姓名一致。
+      withdraw:
+        bank:
+          sum: "每筆提款手續費1元，從提款金額中扣除。<a href='#'>資費說明</a>"
+          fund_extra: 若您的開戶銀行不在列表中，請聯繫客服。
+      deposit:
+        bank:
+          holder: 銀行帳戶姓名必須與您的姓名認證姓名一致。
+          id: 請將此資料添加到轉帳訂單的備註（附言或說明）中
+          amount: "<a href='/documents/price'>資費說明</a>"

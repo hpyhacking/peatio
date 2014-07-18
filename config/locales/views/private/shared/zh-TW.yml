@@ -1,0 +1,11 @@
+﻿zh-TW:
+  private:
+    shared:
+      balances:
+        locked: 凍結
+        balance: 餘額
+        available: 可用
+        title: "%{icon} %{c} 賬戶"
+        cny_format: '0.00'
+        btc_format: '0.00000000'
+        total: 總額合計

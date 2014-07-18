@@ -1,0 +1,101 @@
+zh-TW:
+  deposit_channel:
+    bank:
+      key: 銀行轉帳
+      title: 銀行轉帳充值
+      intro: 通過銀行轉帳的方式，從您的銀行帳戶儲值人民幣到您的比特王賬戶。
+      latency: 10 分鐘到帳
+      transfer: 人工處理
+      receive_fund_holder: 莊博淳
+      receive_fund_uid: 700
+      receive_fund_extra: 0191001053153
+      go: 立即儲值
+
+  activerecord:
+    models:
+      deposits/bank: 銀行轉帳
+    attributes:
+      deposits/bank:
+        created_at: 時間
+        fund_source: 轉帳信息
+        fund_extra: 轉帳銀行
+        fund_extra_text: 轉帳銀行
+        fund_uid: 轉帳帳戶
+        holder: 持卡人姓名
+        receive_fund_holder_text: 比特王郵局戶名
+        receive_fund_uid_text: 比特王中華郵政代碼
+        receive_fund_extra_text: 比特王郵局帳號
+        member_sn: 個人識別碼
+        amount: 儲值金額
+        sn: 轉帳備註（必填）
+        state_and_action: 狀態 / 操作
+
+  deposits/bank:
+    aasm_state:
+      submitting: 已提交
+      cancelled: 已撤銷
+      submitted: 受理中
+      accepted: 儲值成功
+      rejected: 已駁回
+      checked: 儲值成功
+      warning: 異常
+
+  private:
+    deposits:
+      banks:
+        destroy:
+          notice: 取消儲值請求成功。
+        create:
+          notice: 您的儲值訂單提交成功，請按照提示繼續完成您的轉賬操作。
+          submit: 送出
+        new:
+          fund_uid: 使用已有銀行帳號或輸入新帳號
+          fund_extra: 選擇開戶銀行
+          submit: 提交
+
+  guides:
+    private:
+      deposits:
+        banks:
+          panel: 銀行轉帳儲值
+          intro: 通過銀行轉帳的方式，從您的銀行帳戶充值人民幣到您的交易帳戶中。
+          new:
+            default-panel: 歷史記錄
+          create:
+            default-panel: 歷史記錄
+          edit:
+            default-panel: 歷史記錄
+
+  simple_form:
+    labels:
+      deposit:
+        bank:
+          fund_extra: 開戶銀行
+          member_name: 開戶戶名
+    placeholders:
+      deposit:
+        bank:
+          amount: 最低金額100元
+    hints:
+      deposit:
+        bank:
+          sum: "<a target='_balance' href='#'>資費說明</a>"
+          fund_extra: 若您的開戶銀行不再列表中，請聯繫客服
+          member_name: <span class='text-danger'>充值銀行賬戶姓名必須與您的實名認證姓名一致</span>
+          sn: "<span class='text-danger'>請您務必在銀行轉賬操作備註中填寫數字: <b>%{sn}</b>，否則我們無法快速處理您的訂單。</span>"
+
+  admin:
+    deposits:
+      banks:
+        index:
+          oneday: 二十四小時內充值訂單
+          available: 全部未完成充值訂單
+        show:
+          alert: 未發現外部充值賬單，無法處理充值。
+          notice: 此賬目已經充值成功，請手工記錄。
+          deposit: 充值請求
+          accept: 充值
+          target_deposit: 外部充值
+          confirm: 確認給用戶進行充值嗎？
+        update:
+          blank_txid: Txid 不能為空
