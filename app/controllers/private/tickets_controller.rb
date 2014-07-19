@@ -3,7 +3,8 @@ module Private
     after_filter :mark_ticket_as_read, only: [:create, :show]
 
     def index
-      @tickets = current_user.tickets.open
+      @tickets = current_user.tickets
+      @tickets = params[:closed].nil? ? @tickets.open : @tickets.closed
       redirect_to new_ticket_path if @tickets.empty?
     end
 
