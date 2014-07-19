@@ -14,3 +14,5 @@ en:
       from: from
       view_closed_tickets: View closed tickets
       view_open_tickets: View open tickets
+      notify_title: Your ticket got a new reply
+      notify_content: "Your ticket got a new reply, please follow the link bellow to see the detail:"
