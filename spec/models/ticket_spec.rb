@@ -46,4 +46,21 @@ describe Ticket do
       its(:title_for_display) { should == "alsadkjf aslkdjf aslkdjfla skdjf alsdkjf dlsakjf lasdkjf ..." }
     end
   end
+
+  describe "#send_notification" do
+    let(:ticket) { create(:ticket) }
+    let(:mailer) { mock() }
+    before do
+      mailer.stubs(:deliver)
+      ticket
+    end
+
+    after do
+      ticket.send(:send_notification)
+    end
+
+    it "should notify the admin" do
+      TicketMailer.expects(:admin_notification).with(ENV['SUPPORTERS_EMAILS'], ticket).returns(mailer)
+    end
+  end
 end

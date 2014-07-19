@@ -16,6 +16,8 @@ class Ticket < ActiveRecord::Base
   include AASM::Locking
   acts_as_readable on: :created_at
 
+  after_commit :send_notification, on: [:create]
+
   validates_with TicketValidator
 
   has_many :comments
@@ -39,6 +41,12 @@ class Ticket < ActiveRecord::Base
 
   def title_for_display(n = 60)
     title.blank? ? content.truncate(n) : title.truncate(n)
+  end
+
+  private
+
+  def send_notification
+    TicketMailer.admin_notification(ENV['SUPPORTERS_EMAILS'], self).deliver
   end
 
 end
