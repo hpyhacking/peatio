@@ -17,24 +17,22 @@ describe Comment do
     let!(:author) { create(:member, email: 'terry@apple.com') }
     let!(:admin)  { create(:member) }
     let!(:ticket) { create(:ticket, author: author) }
+    let(:mailer) { mock() }
+    before { mailer.stubs(:deliver) }
+    after { comment.send(:send_notification) }
 
     context "admin reply the ticket" do
       let!(:comment) { create(:comment, author: admin, ticket: ticket)}
-      let(:mailer) { mock() }
-      before { mailer.stubs(:deliver) }
-
       it "should notify the author" do
-        CommentMailer.expects(:notify).with('terry@apple.com', comment).returns(mailer)
-        comment.send(:send_notification)
+        CommentMailer.expects(:user_notification).with('terry@apple.com', comment).returns(mailer)
       end
     end
 
     context "author reply the ticket" do
       let!(:comment) { create(:comment, author: author, ticket: ticket)}
 
-      it "should not notify the author" do
-        CommentMailer.expects(:notify).never
-        comment.send(:send_notification)
+      it "should not notify the admin" do
+        CommentMailer.expects(:admin_notification).with(ENV['SUPPORTERS_EMAILS'], comment).returns(mailer)
       end
 
     end

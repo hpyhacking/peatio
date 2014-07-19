@@ -14,5 +14,8 @@ zh-CN:
       from: 来自
       view_closed_tickets: 查看已结束的工单
       view_open_tickets: 查看未结束的工单
-      notify_title: 你的工单有了新的回复
-      notify_content: 你的工单有一条新的回复, 请在下方链接查看详情：
+      comments:
+        user_notification_title: 你的工单有了新的回复
+        user_notification_content: 你的工单有一条新的回复, 请在下方链接查看详情：
+        admin_notification_title: 用户%{email}回复了工单
+        admin_notification_content: 用户%{email}回复了工单，详情请查看链接：

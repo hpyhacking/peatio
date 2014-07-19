@@ -24,8 +24,10 @@ class Comment < ActiveRecord::Base
   def send_notification
     ticket_author = self.ticket.author
 
-    if ticket_author != self.author && ticket_author.email.present?
-      CommentMailer.notify(ticket_author.email, self).deliver
+    if ticket_author != self.author
+      CommentMailer.user_notification(ticket_author.email, self).deliver
+    else
+      CommentMailer.admin_notification(ENV['SUPPORTERS_EMAILS'], self).deliver
     end
   end
 end
