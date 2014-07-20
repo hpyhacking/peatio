@@ -77,6 +77,11 @@
         span = @id_document.updated_at
     .row
       .col-md-6.text-right
+        label = t('.state')
+      .col-md-18
+        span = t(".state_#{@id_document.aasm_state}")
+    .row
+      .col-md-6.text-right
         label = t('.verified')
       .col-md-18
         = yesno(@id_document.verified?)
