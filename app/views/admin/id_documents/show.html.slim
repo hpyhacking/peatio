@@ -54,7 +54,7 @@
       .col-md-6.text-right
         label = t('.id_document_file')
       .col-md-18
-        span = @id_document.id_document_file
+        = admin_asset_tag @id_document.id_document_file
     .row
       .col-md-6.text-right
         label = t('.id_bill_type')
@@ -64,7 +64,7 @@
       .col-md-6.text-right
         label = t('.id_bill_file')
       .col-md-18
-        span = @id_document.id_bill_file
+        = admin_asset_tag @id_document.id_bill_file
     .row
       .col-md-6.text-right
         label = t('.created_at')
