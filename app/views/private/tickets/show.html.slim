@@ -13,7 +13,7 @@ ul.list-group
           .col-md-14
         .row
           .col-md-14
-            p.text-ignore = @ticket.content
+            p = @ticket.content
           .col-md-5
             i.fa.fa-clock-o.text-info
             span = time_ago_in_words @ticket.created_at
@@ -27,7 +27,7 @@ ul.list-group
             .col-md-6
           .row
             .col-md-12
-              p.text-ignore = c.content
+              p = c.content
             .col-md-5
               i.fa.fa-clock-o.text-info
               span = time_ago_in_words c.created_at

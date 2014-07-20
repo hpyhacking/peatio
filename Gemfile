@@ -96,7 +96,3 @@ group :test do
   gem 'selenium-webdriver'
   gem 'poltergeist'
 end
-
-group :production do
-  gem "therubyracer"
-end
