@@ -50,11 +50,11 @@ class IdDocument < ActiveRecord::Base
     end
 
     event :approve do
-      transitions from: :verifying,  to: :verified
+      transitions from: [:unverified, :verifying],  to: :verified
     end
 
     event :reject do
-      transitions from: :verifying,  to: :unverified
+      transitions from: [:verifying, :verified],  to: :unverified
     end
   end
 end

@@ -1,0 +1,97 @@
+.col-md-18
+  .panel: .panel-body
+    .row
+      .col-md-6.text-right
+        label = t('.id')
+      .col-md-18
+        span = @id_document.id
+    .row
+      .col-md-6.text-right
+        label = t('.name')
+      .col-md-18
+        span = link_to @id_document.name, admin_member_path(@id_document.member)
+    .row
+      .col-md-6.text-right
+        label = t('.email')
+      .col-md-18
+        span = link_to @id_document.member.email, admin_member_path(@id_document.member)
+    .row
+      .col-md-6.text-right
+        label = t('.birth_day')
+      .col-md-18
+        span = @id_document.birth_date
+    .row
+      .col-md-6.text-right
+        label = t('.address')
+      .col-md-18
+        span = @id_document.address
+    .row
+      .col-md-6.text-right
+        label = t('.city')
+      .col-md-18
+        span = @id_document.city
+    .row
+      .col-md-6.text-right
+        label = t('.country')
+      .col-md-18
+        span = @id_document.country
+    .row
+      .col-md-6.text-right
+        label = t('.zipcode')
+      .col-md-18
+        span = @id_document.zipcode
+    .row
+      .col-md-6.text-right
+        label = t('.id_document_type')
+      .col-md-18
+        span = @id_document.id_document_type
+    .row
+      .col-md-6.text-right
+        label = t('.id_document_number')
+      .col-md-18
+        span = @id_document.id_document_number
+    .row
+      .col-md-6.text-right
+        label = t('.id_document_file')
+      .col-md-18
+        span = @id_document.id_document_file
+    .row
+      .col-md-6.text-right
+        label = t('.id_bill_type')
+      .col-md-18
+        span = @id_document.id_bill_type.present? ? @id_document.id_bill_type : t('.unknow')
+    .row
+      .col-md-6.text-right
+        label = t('.id_bill_file')
+      .col-md-18
+        span = @id_document.id_bill_file
+    .row
+      .col-md-6.text-right
+        label = t('.created_at')
+      .col-md-18
+        span = @id_document.created_at
+    .row
+      .col-md-6.text-right
+        label = t('.updated_at')
+      .col-md-18
+        span = @id_document.updated_at
+    .row
+      .col-md-6.text-right
+        label = t('.verified')
+      .col-md-18
+        = yesno(@id_document.verified?)
+
+    hr.split
+
+    .row
+      .col-md-5.text-right
+
+      - if @id_document.may_approve?
+        .col-md-4
+          button.btn.btn-primary
+            = link_to t('.approve'), admin_id_document_path(@id_document, approve: 'true'), method: :patch, style: 'color: white;'
+
+      - if @id_document.may_reject?
+        .col-md-4
+          button.btn.btn-danger
+            = link_to t('.reject'), admin_id_document_path(@id_document, reject: 'true'), method: :patch, style: 'color: white;'
