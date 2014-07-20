@@ -9,7 +9,7 @@
       = link_to x.member.email, admin_member_path(x.member)
     - t.column :id_document_type, t('.id_document_type'), class: 'col-md-3' do |x|
       = x.id_document_type.blank? ? t('.unknow') : t("enumerize.id_document_type.#{x.id_document_type}")
-    - t.column :id_bill_type, t('.id_bill_type'), class: 'col-md-2' do |x|
+    - t.column :id_bill_type, t('.id_bill_type'), class: 'col-md-3' do |x|
       = x.id_bill_type.blank? ? t('.unknow') : t("enumerize.id_document.id_bill_type.#{x.id_bill_type}")
     - t.column :updated_at, t('.request_at'), class: 'col-md-4'
     - t.column :verified, class: 'col-md-1' do |x|
