@@ -33,7 +33,7 @@ ul.list-group
           i.fa.fa-bolt.text-warning
         p.text-ignore = t('.verification.description')
       .col-md-3
-        - if @verified
+        - if current_user.id_document_verified?
           a href="#" class="btn btn-success btn-block disabled" role="button"
             i.fa.fa-check-circle
             span = t('.verification.verified')
