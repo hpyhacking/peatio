@@ -24,7 +24,9 @@ FactoryGirl.define do
 
     trait :verified do
       after :create do |member|
-        member.id_document.update verified: true
+        id_doc = member.id_document
+        id_doc.submit!
+        id_doc.approve!
       end
     end
 
