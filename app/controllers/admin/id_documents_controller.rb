@@ -3,6 +3,7 @@ module Admin
     load_and_authorize_resource
 
     def index
+      @id_documents = @id_documents.order(:updated_at).reverse_order
     end
 
     def show

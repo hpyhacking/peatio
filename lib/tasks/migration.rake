@@ -103,4 +103,15 @@ namespace :migration do
       puts "[#{count}/#{total}] filled #{funds} for ask##{order.id}"
     end
   end
+
+  desc "reset aasm_state of id_documents"
+  task reset_aasm_state_of_id_documents: :environment do
+    IdDocument.find_each do |id_doc|
+      if id_doc.verified
+        id_doc.update aasm_state: 'verified'
+      else
+        id_doc.update aasm_state: 'unverified'
+      end
+    end
+  end
 end
