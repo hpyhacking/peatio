@@ -18,6 +18,7 @@ set :shared_paths, [
   'config/amqp.yml',
   'config/deposit_channels.yml',
   'config/withdraw_channels.yml',
+  'public/uploads',
   'tmp',
   'log'
 ]
@@ -36,6 +37,9 @@ task :setup => :environment do
 
   queue! %[mkdir -p "#{deploy_to}/shared/tmp"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/tmp"]
+
+  queue! %[mkdir -p "#{deploy_to}/shared/public/uploads"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/public/uploads"]
 
   queue! %[touch "#{deploy_to}/shared/config/database.yml"]
   queue! %[touch "#{deploy_to}/shared/config/currencies.yml"]
