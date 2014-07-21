@@ -5,6 +5,8 @@ module TagHelper
   end
 
   def admin_asset_tag(asset)
+    return if asset.blank?
+
     if asset.image?
       link_to image_tag(asset.file.url, style: 'max-width:500px;max-height:500px;'), asset.file.url, target: '_blank'
     else
