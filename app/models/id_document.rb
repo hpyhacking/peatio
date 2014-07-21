@@ -32,8 +32,8 @@ class IdDocument < ActiveRecord::Base
 
   belongs_to :member
   validates_presence_of :id_document_type, :name, :id_document_number
-  validates :name, chinese_name: true, if: Proc.new { |r| r.category == "id_card" }
-  validates :id_document_number, chinese_id_card_num: true, if: Proc.new { |r| r.category == "id_card" }
+  validates :name, chinese_name: true, if: Proc.new { |r| r.id_document_type == "id_card" }
+  validates :id_document_number, chinese_id_card_num: true, if: Proc.new { |r| r.id_document_type == "id_card" }
   validates_uniqueness_of :member
 
   enumerize :id_document_type, in: {id_card: 0, passport: 1, driver_license: 2}
