@@ -17,3 +17,4 @@
     - t.column '', class: 'col-md-1' do |x|
       = link_to t('actions.view'), admin_id_document_path(x)
 
+  = paginate @id_documents
