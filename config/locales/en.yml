@@ -87,6 +87,7 @@ en:
     deposits: Depoists
     withdraws: Withdraws
     statistics: Data Statistics
+    id_documents: Verify Account
 
   footer:
     about: About

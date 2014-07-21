@@ -22,10 +22,6 @@ zh-CN:
       admin/deposits_grid: 充值管理
       admin/withdraws_grid: 提现管理
     attributes:
-      id_document:
-        name: 真实姓名
-        sn: 证件号码
-        category: 证件类型
       identity:
         email: 邮箱地址
         password: 新密码

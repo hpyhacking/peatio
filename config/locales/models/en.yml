@@ -18,10 +18,6 @@ en:
       admin/deposits_grid: Deposits
       admin/withdraws_grid: Withdraws
     attributes:
-      id_document:
-        name: Full Name
-        sn: ID Document Number
-        category: ID Docuemnt Type
       identity:
         email: Email
         password: New Password

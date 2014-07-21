@@ -12,6 +12,10 @@ defaults: &defaults
 
   REDIS_URL: redis://127.0.0.1:6379
 
+  # supports emails
+  SUPPORTERS_EMAILS: 'wangxiaoxia@peatio.com; liangqing@peatio.com' # Use semicolon!
+
+
   # below settings only in production env
   # system notify mail settings
   # --------------------------------------------------------------

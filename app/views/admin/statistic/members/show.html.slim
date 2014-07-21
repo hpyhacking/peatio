@@ -1,7 +1,7 @@
 .row
   .col-md-5
     .panel.panel-primary
-      .panel-heading 
+      .panel-heading
         span Search
       .panel-body
         = search_form_for @q do |f|
@@ -13,7 +13,7 @@
           hr.split
           = f.submit
     .panel.panel-primary
-      .panel-heading 
+      .panel-heading
         span Member Register Stats
       .panel-body
         dl#stat.dl-horizontal
@@ -32,7 +32,7 @@
           code = number_to_percentage(x.total_activated.fdiv(x.total) * 100, precision: 0)
   .col-md-19
     .panel.panel-primary
-      .panel-heading 
+      .panel-heading
         span Members search result
       .panel-body
         = table_for(@members, class: 'table table-condensed table-hover', model: Member) do |t|
@@ -47,7 +47,7 @@
             = link_to text, toggle_admin_member_path(x), remote: true, method: :post, class: 'toggle'
           - t.column :id_document_verified?, class: 'col-md-2' do |x|
             = x.id_document_verified? ? x.name : yesno(x.id_document_verified?)
-          - t.column :action, class: 'col-md-1' do |x|
+          - t.column :actions, class: 'col-md-1' do |x|
             = link_to t('actions.view'), url_for([:admin, x]), target: '_blank'
       .panel-footer
         = paginate @members

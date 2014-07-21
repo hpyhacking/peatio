@@ -4,6 +4,5 @@ FactoryGirl.define do
     name { ["太太", "张三", "李四", "王二麻子"].sample }
     sn { Faker::Number.number(15).to_s }
     verified true
-    member
   end
 end

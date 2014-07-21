@@ -69,6 +69,10 @@ en:
         satoshi: Bitcoin
         bank: Bank
     id_document:
-      category:
+      id_document_type:
         id_card: ID Card
         passport: Passport
+        driver_license: Driver's License
+      id_bill_type:
+        bank_statement: Bank Statement
+        tax_bill: Tax Bill

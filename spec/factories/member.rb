@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :member, aliases: [:author] do
     email { Faker::Internet.email }
-    name { Faker::Name.name }
 
     trait :activated do
       activated true
@@ -25,7 +24,7 @@ FactoryGirl.define do
 
     trait :verified do
       after :create do |member|
-        create :id_document, member: member
+        member.id_document.update verified: true
       end
     end
 
@@ -33,8 +32,15 @@ FactoryGirl.define do
       phone_number_verified true
     end
 
+    trait :admin do
+      after :create do |member|
+        ENV['ADMIN'] = (Member.admins << member.email).join(',')
+      end
+    end
+
     factory :activated_member, traits: [:activated]
     factory :verified_member, traits: [:activated, :verified]
     factory :verified_phone_number, traits: [:activated, :phone_number_verified]
+    factory :admin_member, traits: [:admin]
   end
 end

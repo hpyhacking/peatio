@@ -4,7 +4,6 @@
 #
 #  id                    :integer          not null, primary key
 #  sn                    :string(255)
-#  name                  :string(255)
 #  display_name          :string(255)
 #  email                 :string(255)
 #  identity_id           :integer
@@ -21,7 +20,8 @@
 require 'spec_helper'
 
 describe Member do
-  subject(:member) { build(:member) }
+  let(:member) { build(:member) }
+  subject { member }
 
   describe 'sn' do
     subject(:member) { create(:member) }
@@ -39,6 +39,13 @@ describe Member do
       Currency.codes.each do |code|
         expect(Account.with_currency(code).where(member_id: member.id).count).to eq 1
       end
+    end
+  end
+
+  describe 'build id_document before create' do
+    it 'create id_document for the member' do
+      member.save
+      expect(member.reload.id_document).to_not be_blank
     end
   end
 

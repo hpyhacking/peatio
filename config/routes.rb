@@ -45,7 +45,7 @@ Peatio::Application.routes.draw do
   resources :refresh_two_factors, only: [:show]
 
   scope module: 'private' do
-    resource  :id_document, only: [:new, :create]
+    resource  :id_document, only: [:edit, :update]
 
     resources :settings, only: [:index]
     resources :two_factors, only: [:show, :update, :edit, :destroy]
@@ -90,7 +90,6 @@ Peatio::Application.routes.draw do
       end
       resources :comments, only: [:create]
     end
-
   end
 
   draw :admin

@@ -35,6 +35,7 @@ gem 'http_accept_language'
 gem "globalize", "~> 4.0.0"
 gem 'paper_trail', '~> 3.0.1'
 gem 'rails-observers'
+gem 'country_select', '~> 1.3.1'
 
 gem 'gon'
 gem 'pusher'
@@ -69,6 +70,8 @@ gem 'ransack', git: 'https://github.com/activerecord-hackery/ransack.git', branc
 gem 'phonelib'
 gem 'china_sms', git: 'https://github.com/lgn21st/china_sms.git'
 gem 'unread', git: 'https://github.com/poshboytl/unread.git'
+gem 'carrierwave', '~> 0.10.0'
+gem 'airbrake'
 
 group :development, :test do
   gem 'factory_girl_rails'
@@ -97,9 +100,3 @@ group :test do
   gem 'selenium-webdriver'
   gem 'poltergeist'
 end
-
-group :production do
-  gem "therubyracer"
-end
-
-gem 'airbrake'

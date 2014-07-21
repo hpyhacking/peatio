@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714143823) do
+ActiveRecord::Schema.define(version: 20140718141345) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -57,6 +57,13 @@ ActiveRecord::Schema.define(version: 20140714143823) do
 
   add_index "api_tokens", ["access_key"], name: "index_api_tokens_on_access_key", unique: true, using: :btree
   add_index "api_tokens", ["secret_key"], name: "index_api_tokens_on_secret_key", unique: true, using: :btree
+
+  create_table "assets", force: true do |t|
+    t.string  "type"
+    t.integer "attachable_id"
+    t.string  "attachable_type"
+    t.string  "file"
+  end
 
   create_table "audit_logs", force: true do |t|
     t.string   "type"
@@ -149,13 +156,20 @@ ActiveRecord::Schema.define(version: 20140714143823) do
   end
 
   create_table "id_documents", force: true do |t|
-    t.integer  "category"
+    t.integer  "id_document_type"
     t.string   "name"
-    t.string   "sn"
+    t.string   "id_document_number"
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "verified"
+    t.date     "birth_date"
+    t.text     "address"
+    t.string   "city"
+    t.string   "country"
+    t.string   "zipcode"
+    t.integer  "id_bill_type"
+    t.string   "aasm_state"
   end
 
   create_table "identities", force: true do |t|
@@ -172,7 +186,6 @@ ActiveRecord::Schema.define(version: 20140714143823) do
 
   create_table "members", force: true do |t|
     t.string   "sn"
-    t.string   "name"
     t.string   "display_name"
     t.string   "email"
     t.integer  "identity_id"

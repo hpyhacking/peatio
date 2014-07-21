@@ -233,8 +233,8 @@ describe Order, "#kind" do
 end
 
 describe Order, "related accounts" do
-  let(:alice)  { who_is_billionaire(:alice) }
-  let(:bob)    { who_is_billionaire(:bob) }
+  let(:alice)  { who_is_billionaire }
+  let(:bob)    { who_is_billionaire }
 
   context OrderAsk do
     it "should hold btc and expect cny" do

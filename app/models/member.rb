@@ -4,7 +4,6 @@
 #
 #  id                    :integer          not null, primary key
 #  sn                    :string(255)
-#  name                  :string(255)
 #  display_name          :string(255)
 #  email                 :string(255)
 #  identity_id           :integer
@@ -40,16 +39,18 @@ class Member < ActiveRecord::Base
   scope :enabled, -> { where(disabled: false) }
 
   delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
+  delegate :name,       to: :id_document, allow_nil: true
+  delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
   delegate :verified?,  to: :sms_token,   prefix: true
 
-  validates :sn, presence: true
-  validates :display_name, uniqueness: true, allow_blank: true
   before_validation :generate_sn
 
-  alias_attribute :full_name, :name
+  validates :sn, presence: true
+  validates :display_name, uniqueness: true, allow_blank: true
 
-  after_create :touch_accounts
+  before_create :build_default_id_document
+  after_create  :touch_accounts
 
   class << self
     def from_auth(auth_hash)
@@ -178,5 +179,10 @@ class Member < ActiveRecord::Base
     begin
       self.sn = "PEA#{ROTP::Base32.random_base32(8).upcase}TIO"
     end while Member.where(:sn => self.sn).any?
+  end
+
+  def build_default_id_document
+    build_id_document
+    true
   end
 end
