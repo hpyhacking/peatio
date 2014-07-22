@@ -31,7 +31,7 @@ class IdDocument < ActiveRecord::Base
   accepts_nested_attributes_for :id_bill_file
 
   belongs_to :member
-  validates_presence_of :id_document_type, :name, :id_document_number
+  validates_presence_of :id_document_type, :name, :id_document_number, allow_nil: true
   validates :name, chinese_name: true, if: Proc.new { |r| r.id_document_type == "id_card" }
   validates :id_document_number, chinese_id_card_num: true, if: Proc.new { |r| r.id_document_type == "id_card" }
   validates_uniqueness_of :member
