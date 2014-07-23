@@ -157,7 +157,8 @@ class Member < ActiveRecord::Base
   end
 
   def identity
-    Identity.find(authentications.find_by_provider('identity').uid)
+    authentication = authentications.find_by(provider: 'identity')
+    authentication ? Identity.find(authentication.uid) : nil
   end
 
   def send_activation
