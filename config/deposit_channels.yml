@@ -9,3 +9,9 @@
   currency: cny
   sort_order: 2
   banks: ["icbc", "cbc", "bc", "bcm", "abc", "cmb", "cmbc", "cncb", "hxb", "cib", "spdb", "bob", "ceb", "sdb", "pab", "gdb"]
+  bank_accounts:
+    -
+      bank: 'Your Bank Name'
+      branch: 'Your Bank Branch'
+      holder: 'Your Account Holder'
+      account: 'Your Account Number'

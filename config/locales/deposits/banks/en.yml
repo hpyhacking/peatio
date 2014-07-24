@@ -6,9 +6,6 @@ en:
       intro: Bank transfer deposits, Recommend for large recharge
       latency: 10 minutes
       transfer: Manual
-      receive_fund_holder: Wire transfer account holder
-      receive_fund_uid: Wire transfer account number
-      receive_fund_extra: Wire transfer bank name
       go: Deposit
 
   activerecord:
@@ -52,6 +49,11 @@ en:
           fund_uid: Use existing bank account or enter a new account
           fund_extra: Select Bank
           submit: Submit
+        edit:
+          bank: Receive Bank Name
+          branch: Receive Bank Branch
+          hodler: Receive holder
+          number: Receive Account
 
   guides:
     private:

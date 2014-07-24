@@ -7,7 +7,7 @@ module Deposits
 
       validates_presence_of :fund_extra, :fund_uid, :amount
 
-      delegate :receive_fund_holder_text, :receive_fund_uid_text, :receive_fund_extra_text, to: :channel
+      delegate :accounts, to: :channel
 
       enumerize :fund_extra, in: channel.banks, scope: true, i18n_scope: 'banks'
     end
