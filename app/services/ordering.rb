@@ -22,8 +22,9 @@ class Ordering
       account = @order.hold_account
       account.lock_funds(@order.locked, reason: Account::ORDER_SUBMIT, ref: @order)
 
-      AMQPQueue.enqueue(:matching, action: 'submit', order: @order.to_matching_attributes)
     end
+
+    AMQPQueue.enqueue(:matching, action: 'submit', order: @order.to_matching_attributes)
 
     raise unless @order.errors.empty?
     return true
