@@ -59,10 +59,11 @@ ARGV.each do |id|
     logger.info "Received: #{payload}"
     begin
       worker.process JSON.parse(payload), metadata, delivery_info
-      ch.ack(delivery_info.delivery_tag) if manual_ack
     rescue Exception => e
       logger.fatal e
       logger.fatal e.backtrace.join("\n")
+    ensure
+      ch.ack(delivery_info.delivery_tag) if manual_ack
     end
   end
 

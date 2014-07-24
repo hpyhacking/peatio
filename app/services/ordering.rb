@@ -29,7 +29,7 @@ class Ordering
     MixpanelTracker.track(:order_accepted, @order) if @order.source == 'Web'
 
     raise unless @order.errors.empty?
-    return true
+    true
   end
 
   def cancel

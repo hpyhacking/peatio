@@ -20,6 +20,7 @@
   fee: 0
   proportion: true
   banks: ["icbc", "cmb", "abc", "cbc", "bc", "cmbc", "ceb", "cncb", "bcm", "cib", "spdb", "hxb", "pab", "gdb", "bob"]
+  type: WithdrawChannelBank
   sort_order: 4
 - id: 500
   key: dogecoin
