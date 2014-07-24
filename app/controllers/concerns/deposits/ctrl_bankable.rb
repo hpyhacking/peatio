@@ -10,7 +10,7 @@ module Deposits
       @deposit = model_kls.new member: current_user, account: @account, member: current_user
       @fund_sources = current_user.fund_sources.with_channel(@channel.id)
       @assets = model_kls.where(member: current_user).order('id desc').first(10)
-      gon.banks = ::Bank.fetch
+      gon.banks = model_kls.bank_hash
     end
 
     def create

@@ -137,8 +137,3 @@ en:
   'yes': 'Yes'
   'no': 'No'
 
-  banks:
-    bc: Bank of China
-    abc: Agricultural Bank of China
-    icbc: Industrial and Commercial Bank of China
-    cmb: China Merchants Bank

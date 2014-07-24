@@ -5,7 +5,6 @@ Selectize.define 'option_destroy', ->
     (e) ->
       $target = $(e.target)
       if $target.hasClass('fa-trash-o')
-        console.log $target.parent()
         $.ajax
           url: "/fund_sources/#{encodeURIComponent($target.parent().data('fs-uid'))}"
           type: 'DELETE'

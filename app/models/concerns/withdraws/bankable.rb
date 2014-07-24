@@ -9,9 +9,13 @@ module Withdraws
 
       alias_attribute :remark, :id
 
-      enumerize :fund_extra, in: channel.banks, scope: true, \
-        i18n_scope: ["withdraw_channel.#{name.demodulize.underscore}.banks", 'banks']
+      enumerize :fund_extra, in: channel.banks, scope: true, i18n_scope: 'banks'
+    end
 
+    module ClassMethods
+      def bank_hash
+        enumerized_attributes['fund_extra'].options.inject({}) {|k, v| k[v[1]] = v[0]; k}
+      end
     end
   end
 end
