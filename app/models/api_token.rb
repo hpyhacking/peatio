@@ -14,9 +14,15 @@ class APIToken < ActiveRecord::Base
 
   belongs_to :member
 
+  serialize :trusted_ip_list
+
   validates_presence_of :access_key, :secret_key
 
   before_validation :generate_keys, on: :create
+
+  def allow_ip?(ip)
+    trusted_ip_list.blank? || trusted_ip_list.include?(ip)
+  end
 
   private
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140721125900) do
+ActiveRecord::Schema.define(version: 20140724033014) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -48,11 +48,12 @@ ActiveRecord::Schema.define(version: 20140721125900) do
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
 
   create_table "api_tokens", force: true do |t|
-    t.integer  "member_id",             null: false
-    t.string   "access_key", limit: 50, null: false
-    t.string   "secret_key", limit: 50, null: false
+    t.integer  "member_id",                  null: false
+    t.string   "access_key",      limit: 50, null: false
+    t.string   "secret_key",      limit: 50, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "trusted_ip_list"
   end
 
   add_index "api_tokens", ["access_key"], name: "index_api_tokens_on_access_key", unique: true, using: :btree
