@@ -8,4 +8,4 @@
   key: bank
   currency: cny
   sort_order: 2
-  banks: ["icbc", "cbc", "bc", "bcm", "abc", "cmb", "cmbc", "cncb", "hxb", "cib", "spdb", "bob", "cncb", "ceb", "sdb", "pab", "gdb"]
+  banks: ["icbc", "cbc", "bc", "bcm", "abc", "cmb", "cmbc", "cncb", "hxb", "cib", "spdb", "bob", "ceb", "sdb", "pab", "gdb"]
