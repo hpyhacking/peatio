@@ -15,9 +15,16 @@
   currency: cny
   sort_order: 4
   banks: ["icbc", "cmb", "abc", "cbc", "bc", "cmbc", "ceb", "cncb", "bcm", "cib", "spdb", "hxb", "pab", "gdb", "bob"]
+  bank_accounts:
+    -
+      bank: 招商银行
+      branch: 北京双榆树支行
+      holder: 邱亮
+      account: 6214 8501 0176 3297
 - id: 500
   key: dogecoin
   currency: dog
   sort_order: 1
   min_confirm: 1
   max_confirm: 6
+

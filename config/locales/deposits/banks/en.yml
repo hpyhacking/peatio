@@ -6,9 +6,6 @@ en:
       intro: Bank transfer deposits, Recommend for large recharge
       latency: 10 minutes
       transfer: Manual processing
-      receive_fund_holder: 邱亮
-      receive_fund_uid: 6214850101763297
-      receive_fund_extra: 招商银行北京双榆树支行
       go: Deposit
 
   activerecord:
@@ -52,6 +49,11 @@ en:
           fund_uid: Use existing bank account or enter a new account
           fund_extra: Select Bank
           submit: Submit
+        edit:
+          bank: Receive Bank Name
+          branch: Receive Bank Branch
+          hodler: Receive holder
+          account: Receive Account
 
   guides:
     private:
