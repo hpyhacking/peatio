@@ -53,7 +53,7 @@ en:
           bank: Receive Bank Name
           branch: Receive Bank Branch
           hodler: Receive holder
-          number: Receive Account
+          account: Receive Account
 
   guides:
     private:

@@ -53,7 +53,7 @@ zh-CN:
           bank: 收款银行
           branch: 收款开户行
           holder: 收款账户
-          number: 收款账号
+          account: 收款账号
 
   guides:
     private:
