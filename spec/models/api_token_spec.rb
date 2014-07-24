@@ -32,4 +32,15 @@ describe APIToken do
     token.secret_key.should == secret_key
   end
 
+  it "should allow ip if ip filters is not set" do
+    token.allow_ip?('127.0.0.1').should == true
+    token.allow_ip?('127.0.0.2').should == true
+  end
+
+  it "should allow ip if ip is in ip whitelist" do
+    token.trusted_ip_list = %w(127.0.0.1)
+    token.allow_ip?('127.0.0.1').should == true
+    token.allow_ip?('127.0.0.2').should == false
+  end
+
 end
