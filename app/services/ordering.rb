@@ -26,8 +26,7 @@ class Ordering
 
     AMQPQueue.enqueue(:matching, action: 'submit', order: @order.to_matching_attributes)
 
-    raise unless @order.errors.empty?
-    return true
+    true
   end
 
   def cancel
