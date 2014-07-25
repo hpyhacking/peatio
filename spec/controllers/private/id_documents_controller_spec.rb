@@ -20,7 +20,7 @@ describe Private::IdDocumentsController do
 
     before { put :update, attrs }
     it { should redirect_to(settings_path) }
-    it { expect(assigns[:id_document].aasm_state).to eq('verifying') }
+    it { expect(assigns[:id_document].aasm_state).to eq('verified') }
   end
 
 end
