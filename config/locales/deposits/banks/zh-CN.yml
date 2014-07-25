@@ -19,9 +19,6 @@ zh-CN:
         fund_extra_text: 转账银行
         fund_uid: 转账账户
         holder: 持卡人姓名
-        receive_fund_holder_text: 貔貅交易所收款账户
-        receive_fund_uid_text: 貔貅交易所收款账号
-        receive_fund_extra_text: 貔貅交易所开户行
         member_sn: 个人识别码
         amount: 充值金额
         sn: 转账备注（必填）
