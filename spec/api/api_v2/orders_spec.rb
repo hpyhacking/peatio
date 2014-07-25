@@ -110,6 +110,7 @@ describe APIv2::Orders do
       }
 
       expect {
+        AMQPQueue.expects(:enqueue).times(0)
         signed_post '/api/v2/orders/multi', token: token, params: params
         response.code.should == '400'
         response.body.should == '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Price must be greater than 0"}}'

@@ -25,7 +25,7 @@ module APIv2
       params[:timestamp].present? ? Time.at(params[:timestamp]) : nil
     end
 
-    def create_order(attrs)
+    def build_order(attrs)
       klass = attrs[:side] == 'sell' ? OrderAsk : OrderBid
 
       order = klass.new(
@@ -40,12 +40,25 @@ module APIv2
         volume:        attrs[:volume],
         origin_volume: attrs[:volume]
       )
-      Ordering.new(order).submit
+    end
 
+    def create_order(attrs)
+      order = build_order attrs
+      Ordering.new(order).submit
       order
     rescue
       Rails.logger.info "Failed to create order: #{$!}"
       Rails.logger.debug order.inspect
+      Rails.logger.debug $!.backtrace.join("\n")
+      raise CreateOrderError, $!
+    end
+
+    def create_orders(multi_attrs)
+      orders = multi_attrs.map {|attrs| build_order attrs }
+      Ordering.new(orders).submit
+      orders
+    rescue
+      Rails.logger.info "Failed to create order: #{$!}"
       Rails.logger.debug $!.backtrace.join("\n")
       raise CreateOrderError, $!
     end

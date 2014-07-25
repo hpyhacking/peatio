@@ -37,10 +37,8 @@ module APIv2
       end
     end
     post "/orders/multi" do
-      Order.transaction do
-        orders = params[:orders].map {|attrs| create_order(attrs) }
+        orders = create_orders params[:orders]
         present orders, with: APIv2::Entities::Order
-      end
     end
 
     desc 'Create a Sell/Buy order.'

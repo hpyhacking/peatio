@@ -107,4 +107,11 @@ describe Member do
 
   end
 
+  describe "#identity" do
+    it "should not raise but return nil when authentication is not found" do
+      member = create(:member)
+      expect(member.identity).to be_nil
+    end
+  end
+
 end
