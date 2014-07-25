@@ -19,9 +19,6 @@ en:
         fund_extra_text: Fund Extra
         fund_uid: Fund Account
         holder: Holder
-        receive_fund_holder_text: Receiver holder
-        receive_fund_uid_text: Receiver account
-        receive_fund_extra_text: Receiver bank
         member_sn: Member SN
         amount: Amount
         sn: SN
