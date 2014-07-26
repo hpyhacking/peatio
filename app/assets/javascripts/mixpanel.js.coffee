@@ -22,8 +22,8 @@ track_order_submit = (type) ->
 $ ->
   return unless mixpanel?
 
-  if previous_path() == '/signin' && gon.current_user?
-    mixpanel.alias gon.current_user.email
+  if gon.current_user?
+    mixpanel.identify gon.current_user.email
 
   if location.pathname == '/signup'
     mixpanel.track("Sign Up")
