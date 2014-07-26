@@ -30,8 +30,10 @@ class MixpanelTracker
     return unless mp_cookie
     @tracker.track mp_cookie['distinct_id'], "Signin", email: member.email
     @tracker.alias member.email, mp_cookie['distinct_id']
-    @tracker.people.set(member.email, 'Last Signin At' => Time.now.to_s(:utc))
     @tracker.people.increment(member.email, 'Signin Count' => 1)
+
+    profile = get_profile(member).merge('Last Signin At' => Time.now.to_s(:utc))
+    @tracker.people.set(member.email, profile))
   end
 
   def id_document_created(mp_cookie, id_document)
