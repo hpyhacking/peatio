@@ -33,7 +33,7 @@ class MixpanelTracker
     @tracker.people.increment(member.email, 'Signin Count' => 1)
 
     profile = get_profile(member).merge('Last Signin At' => Time.now.to_s(:utc))
-    @tracker.people.set(member.email, profile))
+    @tracker.people.set(member.email, profile)
   end
 
   def id_document_created(mp_cookie, id_document)
