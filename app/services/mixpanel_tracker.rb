@@ -26,6 +26,14 @@ class MixpanelTracker
     @tracker.people.set(token.member.email, get_profile(token.member))
   end
 
+  def signin(mp_cookie, member)
+    return unless mp_cookie
+    @tracker.track mp_cookie['distinct_id'], "Signin", email: member.email
+    @tracker.alias member.email, mp_cookie['distinct_id']
+    @tracker.people.set(member.email, 'Last Signin At' => Time.now)
+    @tracker.people.increment(member.email, 'Signin Count' => 1)
+  end
+
   def id_document_created(mp_cookie, id_document)
     member = id_document.member
     @tracker.people.set(member.email, '$name' => member.name, 'verified' => true)

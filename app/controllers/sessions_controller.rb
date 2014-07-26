@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
     @member = Member.from_auth(env["omniauth.auth"])
 
     if @member
+      mixpanel_track :signin, @member
       session[:temp_member_id] = @member.id
       redirect_to new_verify_two_factor_path
     else
