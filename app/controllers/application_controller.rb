@@ -101,7 +101,7 @@ class ApplicationController < ActionController::Base
   end
 
   def mixpanel_track(action, *args)
-    MixpanelTracker.track action, mixpanel_cookie, *args
+    MixpanelTracker.track action, request, mixpanel_cookie, *args
   end
 
 end

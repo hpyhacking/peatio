@@ -19,26 +19,26 @@ class MixpanelTracker
     @maker = Member.find_by_email 'forex@peatio.com'
   end
 
-  def activate(mp_cookie, token)
+  def activate(req, mp_cookie, token)
     return unless mp_cookie
-    @tracker.track mp_cookie['distinct_id'], "Activation", email: token.member.email, token: token.token
+    @tracker.track mp_cookie['distinct_id'], "Activation", {email: token.member.email, token: token.token}, req.ip
     @tracker.alias token.member.email, mp_cookie['distinct_id']
-    @tracker.people.set(token.member.email, get_profile(token.member))
+    @tracker.people.set(token.member.email, get_profile(token.member), req.ip)
   end
 
-  def signin(mp_cookie, member)
+  def signin(req, mp_cookie, member)
     return unless mp_cookie
-    @tracker.track mp_cookie['distinct_id'], "Signin", email: member.email
+    @tracker.track mp_cookie['distinct_id'], "Signin", {email: member.email}, req.ip
     @tracker.alias member.email, mp_cookie['distinct_id']
-    @tracker.people.increment(member.email, 'Signin Count' => 1)
+    @tracker.people.increment(member.email, {'Signin Count' => 1}, req.ip)
 
     profile = get_profile(member).merge('Last Signin At' => Time.now.to_s(:utc))
-    @tracker.people.set(member.email, profile)
+    @tracker.people.set(member.email, profile, req.ip)
   end
 
-  def id_document_created(mp_cookie, id_document)
+  def id_document_created(req, mp_cookie, id_document)
     member = id_document.member
-    @tracker.people.set(member.email, '$name' => member.name, 'verified' => true)
+    @tracker.people.set(member.email, {'$name' => member.name, 'verified' => true}, req.ip)
   end
 
   def order_accepted(order)
@@ -53,13 +53,13 @@ class MixpanelTracker
     @tracker.people.increment id, "Order Canceled" => 1
   end
 
-  def sms_token_sent(mp_cookie, member, token)
-    @tracker.track member.email, "SMS Verify Code Sent", phone: token.phone_number, code: token.token
+  def sms_token_sent(req, mp_cookie, member, token)
+    @tracker.track member.email, "SMS Verify Code Sent", {phone: token.phone_number, code: token.token}, req.ip
   end
 
-  def phone_number_verified(mp_cookie, member, token)
-    @tracker.track member.email, "Phone Number Verified", phone: token.phone_number, code: token.token
-    @tracker.people.set member.email, '$phone' => token.phone_number
+  def phone_number_verified(req, mp_cookie, member, token)
+    @tracker.track member.email, "Phone Number Verified", {phone: token.phone_number, code: token.token}, req.ip
+    @tracker.people.set member.email, {'$phone' => token.phone_number}, req.ip
   end
 
   def valuable_trade(trade)
