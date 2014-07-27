@@ -1,6 +1,4 @@
-class DepositChannel < ActiveYaml::Base
-  set_root_path "#{Rails.root}/config"
-
+class DepositChannel < ActiveYamlBase
   include Channelable
   include HashCurrencible
   include International
