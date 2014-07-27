@@ -1,5 +1,4 @@
 = simple_form_for @identity, :url => '/auth/identity/register' do |f|
-  <input type='hidden' name='token' value='#{params[:token]}'></input>
   = f.input :email, :input_html => {:name => 'email', :autofocus => 'true'}
   = f.input :password, :input_html => {:name => 'password'}
   = f.input :password_confirmation, :input_html => {:name => 'password_confirmation'}
