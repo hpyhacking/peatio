@@ -82,7 +82,7 @@ en:
       panel: Create Account
       new:
         title: Create My Account
-        intro: This will be your only ID in Peatio which is necessary for your exchange , despoit and withdrawal . please fill it out carefully.
+        intro: This will be your only ID on Peatio which is necessary for your exchange , deposit and withdrawal . please fill it out carefully.
       edit:
         panel: My Account
         title: Reset Password
