@@ -10,10 +10,10 @@ ul.nav.navbar-nav.navbar-right
     = top_nav_link(t('header.my_profile'), settings_path, 'user', controllers: ['two_factors', 'identities', 'id_documents'])
     - if is_admin?
       = top_nav_link('', admin_dashboard_path, 'dashboard')
+    = top_nav_link(t('header.tickets'), tickets_path, 'comments', controllers: ['tickets'], counter: current_user.unread_comments.count)
     li: a#sign_out href='#{main_app.signout_path}'
       i.fa.fa-sign-out
       span = t('header.signout')
-    = top_nav_link(t('header.tickets'), tickets_path, 'comments', controllers: ['tickets'], counter: current_user.unread_comments.count)
   - else
     = top_nav_link(t('header.signin'), signin_path, '')
     = top_nav_link(t('header.signup'), signup_path, '')
