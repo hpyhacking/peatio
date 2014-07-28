@@ -1,6 +1,3 @@
-require 'market_constraint'
-require 'whitelist_constraint'
-
 Rails.application.eager_load! if Rails.env.development?
 
 class ActionDispatch::Routing::Mapper
