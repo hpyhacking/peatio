@@ -161,7 +161,7 @@ $grid-columns: 24;
         }
       }
       &.active {
-        background-color: #3e4c5a;
+        background-color: $btn-primary-bg;
         border-color: #34404b;
         a {
           color: white;
