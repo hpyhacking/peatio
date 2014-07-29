@@ -1,6 +1,8 @@
 zh-CN:
   private:
     tickets:
+      new:
+        intro: 如果您有任何问题，意见或建议需要和我们沟通，请给我们建立一个工单，我们会尽快回复您。
       ticket_create_succ: 工单创建成功。
       ticket_create_fail: 工单创建失败, 请稍候再试。
       comment_succ: 回复成功。

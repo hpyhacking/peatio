@@ -27,6 +27,8 @@ en:
       deposits:
         panel: Deposit
         intro: You can recharge the CNY to buy bitcoins, or recharge Bitcoin to exchange CNY.
+      tickets:
+        panel: Tickets
 
       withdraws:
         panel: Withdrawal

@@ -1,6 +1,8 @@
 en:
   private:
     tickets:
+      new:
+        intro: If you have any problems, start a new discussion so that our staff can help you out as soon as possible. All discussions are private between you and the support staff.
       ticket_create_succ: Ticket created successfully.
       ticket_create_fail: Failed to create ticket, please try again latter.
       comment_succ: Comment successfully.

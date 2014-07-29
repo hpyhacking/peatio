@@ -1,4 +1,8 @@
 = simple_form_for @ticket do |f|
+  .form-group
+    .col-sm-4.text-right
+    .col-sm-7
+      = t('.intro')
   = f.input :title
   = f.input :content, input_html: {rows: 10}
   hr.split
