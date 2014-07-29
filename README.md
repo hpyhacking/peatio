@@ -57,7 +57,8 @@ Peatio is released under the terms of the MIT license. See [http://peatio.mit-li
 
 ### Exchanges using Peatio
 
-* [ACX.IO](http://acx.io) - Australian Cryptocurrency Exchange
+* [Peatio Exchange](https://peatio.com) - Peatio Cryptocurrency Exchange in China
+* [ACX.IO](https://acx.io) - Australian Cryptocurrency Exchange
 * [CoinDex.ch](http://coindex.ch) - Swiss Bitcoin Exchange
 * [Mulcoin.com](http://mulcoin.com)
 
