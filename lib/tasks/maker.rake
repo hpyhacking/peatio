@@ -16,7 +16,7 @@ namespace :maker do
   end
 
   def api_orders_in_time_range(m, t1, t2)
-    scope = Order.where(created_at: t1..t2, source: 'APIv2').where('member_id != ?', m.id)
+    scope = Order.where(created_at: t1..t2, source: 'APIv2')
     count = scope.count
     maut10 = scope.group('member_id').select('*, count(*) as c').order('c desc').limit(10)
     maut10stats = maut10.map do |o|
