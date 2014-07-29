@@ -55,6 +55,13 @@ You can contribute to this project in one of two ways:
 Peatio is released under the terms of the MIT license. See [http://peatio.mit-license.org](http://peatio.mit-license.org) for more information.
 
 
+### Exchanges using Peatio
+
+* [ACX.IO](http://acx.io) - Australian Cryptocurrency Exchange
+* [CoinDex.ch](http://coindex.ch) - Swiss Bitcoin Exchange
+* [Mulcoin.com](http://mulcoin.com)
+
+
 ### DONATE
 
 **Every satoshi of your kind donation goes into the ongoing work of making Peatio more awesome.**
