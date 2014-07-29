@@ -55,7 +55,7 @@ You can contribute to this project in one of two ways:
 Peatio is released under the terms of the MIT license. See [http://peatio.mit-license.org](http://peatio.mit-license.org) for more information.
 
 
-### Exchanges using Peatio
+### Known Exchanges using Peatio
 
 * [Peatio Exchange](https://peatio.com) - Peatio Cryptocurrency Exchange in China
 * [ACX.IO](https://acx.io) - Australian Cryptocurrency Exchange
