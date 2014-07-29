@@ -29,7 +29,7 @@ class TwoFactor::App < ::TwoFactor
 
   def uri
     totp = ROTP::TOTP.new(otp_secret)
-    totp.provisioning_uri("peatio##{member.email}")
+    totp.provisioning_uri("#{ENV['URL_HOST']}##{member.email}")
   end
 
   def now
