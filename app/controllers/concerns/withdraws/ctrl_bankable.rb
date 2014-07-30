@@ -7,13 +7,9 @@ module Withdraws
     end
 
     def new
-      @withdraw ||= model_kls.new currency: channel.currency, \
-        account: @account, member: current_user
-
+      @withdraw ||= model_kls.new currency: channel.currency, account: @account, member: current_user
       @fund_sources = current_user.fund_sources.with_channel(channel.id)
-      @assets = model_kls.without_aasm_state(:submitting).where(member: current_user).order('id desc').first(10)
-
-      gon.banks = model_kls.bank_hash
+      @assets = model_kls.without_aasm_state(:submitting).where(member: current_user).order(:id).reverse_order.limit(10)
     end
 
     def create
@@ -59,7 +55,7 @@ module Withdraws
       params[:withdraw][:currency] = channel.currency
       params[:withdraw][:member_id] = current_user.id
       params.require(:withdraw).permit(:member_id, :currency, :sum, :type,
-                                       :fund_uid, :fund_extra, :save_fund_source)
+                                       :fund_uid, :fund_extra)
     end
 
     def two_factor_auth_verified?

@@ -38,7 +38,6 @@ class Account < ActiveRecord::Base
   FUNS = {:unlock_funds => 1, :lock_funds => 2, :plus_funds => 3, :sub_funds => 4, :unlock_and_sub_funds => 5}
 
   belongs_to :member
-  has_many :fund_sources
   has_many :payment_addresses
   has_many :versions, class_name: "::AccountVersion"
   has_many :partial_trees

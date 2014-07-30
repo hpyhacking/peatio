@@ -3,7 +3,6 @@
   = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.fund_uid')
   = f.input :fund_extra do
     = f.input_field :fund_extra, required: false
-    = f.input_field :save_fund_source, as: :boolean, inline_label: true
 
   = f.input :account_balance, as: :display
   = f.input :sum do

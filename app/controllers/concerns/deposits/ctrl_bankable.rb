@@ -9,8 +9,7 @@ module Deposits
     def new
       @deposit = model_kls.new member: current_user, account: @account, member: current_user
       @fund_sources = current_user.fund_sources.with_channel(@channel.id)
-      @assets = model_kls.where(member: current_user).order('id desc').first(10)
-      gon.banks = model_kls.bank_hash
+      @assets = model_kls.where(member: current_user).order(:id).reverse_order.limit(10)
     end
 
     def create
@@ -46,9 +45,8 @@ module Deposits
       params[:deposit][:currency] = channel.currency
       params[:deposit][:member_id] = current_user.id
       params[:deposit][:account_id] = @account.id
-      params[:deposit][:save_fund_source] = true
       params.require(:deposit).permit(:fund_uid, :fund_extra, :amount, :currency,
-                                        :save_fund_source, :account_id, :member_id)
+                                      :account_id, :member_id)
     end
   end
 end

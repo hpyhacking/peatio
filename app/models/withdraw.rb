@@ -31,8 +31,6 @@ class Withdraw < ActiveRecord::Base
   include AASM::Locking
   include Currencible
 
-  attr_accessor :save_fund_source
-
   has_paper_trail on: [:update, :destroy]
 
   enumerize :aasm_state, in: STATES, scope: true
@@ -49,7 +47,6 @@ class Withdraw < ActiveRecord::Base
 
   before_validation :calc_fee
   before_validation :set_account
-  after_create :create_fund_source, if: :save_fund_source?
   after_create :generate_sn
   after_update :bust_last_done_cache, if: :state_changed_to_done
 
@@ -225,19 +222,6 @@ class Withdraw < ActiveRecord::Base
 
   def bust_last_done_cache
     Rails.cache.delete(last_completed_withdraw_cache_key)
-  end
-
-  def save_fund_source?
-    [true, 'true', '1', 1].include? @save_fund_source
-  end
-
-  def create_fund_source
-    FundSource.find_or_create_by \
-      member: member,
-      currency: currency_value,
-      channel_id: channel.id,
-      uid: fund_uid,
-      extra: fund_extra
   end
 
   def self.resource_name
