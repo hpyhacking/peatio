@@ -59,7 +59,6 @@ Peatio::Application.routes.draw do
 
     resources :account_versions, :only => :index
 
-    resources :fund_sources, :only => [:index, :destroy]
     resources :exchange_assets, :controller => 'assets' do
       member do
         get :partial_tree

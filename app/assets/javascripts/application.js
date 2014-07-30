@@ -13,12 +13,10 @@
 //= require ZeroClipboard
 //= require flight
 //= require pusher.min
-//= require selectize
 //= require highstock
 //= require highstock_config
 //= require list
 //= require helper
-//= require fund_source
 //= require jquery.mousewheel
 //= require qrcode
 
