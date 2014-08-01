@@ -13,7 +13,7 @@
   key: satoshi
   code: btc
   coin: true
-  rpc: http://username:password@127.0.0.1:18332
+  rpc: http://username:password@127.0.0.1:8332
   blockchain: https://blockchain.info/tx/#{txid}
   address_url: https://blockchain.info/address/#{address}
   assets:
