@@ -3,11 +3,11 @@ class Currency < ActiveYamlBase
   include ActiveHash::Associations
 
   def self.hash_codes
-    @codes ||= Hash[*all.map do |x| [x.code, x.id] end.flatten].symbolize_keys
+    @codes ||= all.inject({}) {|memo, i| memo[i.code.to_sym] = i.id; memo}
   end
 
   def self.codes
-    @keys ||= all.map do |x| x.code end
+    @keys ||= all.map &:code
   end
 
   def self.assets(code)
