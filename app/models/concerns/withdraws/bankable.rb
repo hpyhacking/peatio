@@ -8,8 +8,6 @@ module Withdraws
       delegate :name, to: :member, prefix: true
 
       alias_attribute :remark, :id
-
-      enumerize :fund_extra, in: channel.banks, scope: true, i18n_scope: 'banks'
     end
   end
 end

@@ -1,0 +1,2 @@
+class Bank < ActiveYamlBase
+end
