@@ -6,7 +6,7 @@
   max_confirm: 3
 - id: 400
   key: bank
-  currency: usd
+  currency: cny
   sort_order: 2
   bank_accounts:
     -

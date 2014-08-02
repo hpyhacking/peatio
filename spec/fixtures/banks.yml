@@ -1,15 +1,15 @@
 - id: 1
   code: foo
-  currency: usd
+  currency: cny
   deposit: true
   withdraw: true
 - id: 2
   code: bar
-  currency: usd
+  currency: cny
   deposit: true
   withdraw: true
 - id: 3
   code: abc
-  currency: usd
+  currency: cny
   deposit: true
   withdraw: true
