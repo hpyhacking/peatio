@@ -1,0 +1,15 @@
+- id: 1
+  code: foo
+  currency: usd
+  deposit: true
+  withdraw: true
+- id: 2
+  code: bar
+  currency: usd
+  deposit: true
+  withdraw: true
+- id: 3
+  code: abc
+  currency: usd
+  deposit: true
+  withdraw: true
