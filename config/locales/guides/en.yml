@@ -38,10 +38,10 @@ en:
           default-panel: Withdrawal History
 
       fund_sources:
-        panel: Withdrawal
+        panel: Fund source
         index:
-          title: Create new withraw address
-          intro: You can creat one new withdraw address , and it can be available for your withdrawal later.
+          title: Create new fund source
+          intro: You can creat one new fund source, and it can be available for your deposit or withdrawal later.
 
       id_documents:
         panel: Real-name Authentication

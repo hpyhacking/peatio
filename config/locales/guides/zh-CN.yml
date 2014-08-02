@@ -58,10 +58,10 @@ zh-CN:
             default-panel: 历史记录
 
       fund_sources:
-        panel: 资金提现
+        panel: 充值提现账号管理
         index:
-          title: 新增提现地址
-          intro: 通过填写提现地址，以便每次提现时快速选择要提现的收款方。
+          title: 充值提现账号管理
+          intro: 通过增加充值提现账号，以便每次充值提现时快速选择。
 
       id_documents:
         panel: 实名认证

@@ -14,10 +14,6 @@ zh-CN:
     attributes:
       deposits/bank:
         created_at: 时间
-        fund_source: 转账信息
-        fund_extra: 转账银行
-        fund_extra_text: 转账银行
-        fund_uid: 转账账户
         holder: 持卡人姓名
         member_sn: 个人识别码
         amount: 充值金额
@@ -43,8 +39,8 @@ zh-CN:
           notice: 您的充值订单提交成功，请按照提示继续完成您的转账操作。
           submit: 提交
         new:
-          fund_uid: 使用已有银行账号或输入新账号
-          fund_extra: 选择开户银行
+          fund_source: 充值账号
+          manage_fund_source: 管理充值账号
           submit: 提交
         edit:
           bank: 收款银行

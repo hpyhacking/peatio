@@ -43,8 +43,8 @@ en:
           notice: Recharge request successfully submitted. Use the info below to complete the bank transfer.
           submit: Submit
         new:
-          fund_uid: Use existing bank account or enter a new account
-          fund_extra: Select Bank
+          fund_source: Select Fund Source
+          manage_fund_source: Manage Fund Source
           submit: Submit
         edit:
           bank: Receive Bank Name

@@ -1,10 +1,17 @@
 require 'spec_helper'
 
 describe 'fund_sources' do
-  it { expect(get('/fund_sources_cny')).to be_routable }
-  it { expect(get('/fund_sources_cny')).to route_to \
-       controller: 'private/fund_sources',
-       action: 'index',
-       currency: 'cny'
-  }
+  context 'deposit' do
+    it { expect(get('/btc_fund_sources')).to be_routable }
+    it { expect(get('/btc_fund_sources')).to route_to \
+         controller: 'private/fund_sources',
+         action: 'index',
+         currency: 'btc'
+    }
+    it { expect(get('/btc_fund_sources/new')).to route_to \
+         controller: 'private/fund_sources',
+         action: 'new',
+         currency: 'btc'
+    }
+  end
 end
