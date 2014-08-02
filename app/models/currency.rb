@@ -1,8 +1,6 @@
-class Currency < ActiveYaml::Base
+class Currency < ActiveYamlBase
   include International
   include ActiveHash::Associations
-
-  set_root_path "#{Rails.root}/config"
 
   def self.hash_codes
     @codes ||= Hash[*all.map do |x| [x.code, x.id] end.flatten].symbolize_keys

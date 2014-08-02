@@ -8,10 +8,8 @@
 # _cny_, buyers buy in _btc_ with _cny_. _btc_ is the `target`, while _cny_
 # is the `price`.
 
-class Market < ActiveYaml::Base
+class Market < ActiveYamlBase
   include Enumerizeable
-
-  set_root_path "#{Rails.root}/config"
 
   attr :name, :target_unit, :price_unit
 

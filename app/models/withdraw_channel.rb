@@ -1,6 +1,4 @@
-class WithdrawChannel < ActiveYaml::Base
-  set_root_path "#{Rails.root}/config"
-
+class WithdrawChannel < ActiveYamlBase
   include Channelable
   include HashCurrencible
   include International

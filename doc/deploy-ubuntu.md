@@ -122,7 +122,7 @@ Add HTTPS support to APT
 
     sudo apt-get install apt-transport-https ca-certificates
 
-Add the passenger repository
+Add the passenger repository. Note that this only works for Ubuntu 14.04. For other versions of Ubuntu, you have to add the appropriate repository according to Section 2.3.1 of this [link](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html).
 
     sudo add-apt-repository 'deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main'
     sudo apt-get update
