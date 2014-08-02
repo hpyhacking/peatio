@@ -26,7 +26,7 @@ module APIv2
       global = Global[params[:market]]
       asks = global.asks[0,params[:limit]].reverse
       bids = global.bids[0,params[:limit]]
-      {asks: asks, bids: bids}
+      {timestamp: Time.now.to_i, asks: asks, bids: bids}
     end
 
   end
