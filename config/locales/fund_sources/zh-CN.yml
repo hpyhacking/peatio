@@ -3,6 +3,14 @@ zh-CN:
     fund_sources:
       index:
         new: 新建
+        currency: 币种
+        bank: 银行
+        label: 标签
+        account: 账号
+        address: 地址
+        action: 操作
+        delete: 移除
+        are_you_sure: 确定移除以保存的地址?
       new:
         fund_source_selector: 银行
         fund_source_uid: 账号

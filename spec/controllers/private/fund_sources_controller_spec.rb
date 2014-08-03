@@ -56,4 +56,17 @@ describe Private::FundSourcesController do
     end
   end
 
+  describe 'DELETE' do
+    before do
+      @fund_source = create(:fund_source, member: member)
+    end
+
+    it "should delete fund_source" do
+      expect {
+        delete :destroy, {currency: @fund_source.currency, id: @fund_source.id}
+        response.should be_redirect
+      }.to change(FundSource, :count).by(-1)
+    end
+  end
+
 end

@@ -1,5 +1,16 @@
+= table_for(@fund_sources, class: 'table table-condensed table-hover') do |t|
+  - t.column :currency, t('.currency'), class: 'col-md-2' do |x|
+    = t("currency.name.#{x.currency}")
+  - if @currency.coin?
+    - t.column :extra, t('.label'), class: 'col-md-3'
+  - else
+    - t.column :extra, t('.bank'), class: 'col-md-3' do |x|
+      = t("banks.#{x.extra}")
+  - t.column :uid, @currency.coin? ? t('.address') : t('.account'), class: 'col-md-5'
+  - t.column :action, t('.action'), class: 'col-md-2' do |x|
+    = link_to t('.delete'), url_for([@currency.code, x]), method: :delete, confirm: t('.are_you_sure')
+
 .row
   .col-md-3.col-md-offset-9
     = link_to t('.new'), [:new, @currency.code, :fund_source], class: 'btn btn-default btn-block'
 
-hr.split

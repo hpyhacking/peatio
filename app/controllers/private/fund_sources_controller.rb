@@ -21,6 +21,11 @@ module Private
       end
     end
 
+    def destroy
+      current_user.fund_sources.find(params[:id]).destroy
+      redirect_to [params[:currency], :fund_sources]
+    end
+
     private
 
     def set_variables

@@ -3,6 +3,14 @@ en:
     fund_sources:
       index:
         new: New
+        currency: Currency
+        bank: Bank
+        label: Label
+        account: Account
+        address: Address
+        action: Action
+        delete: Delete
+        are_you_sure: Are you sure?
       new:
         fund_source_selector: Select Bank
         fund_source_uid: Account Number
