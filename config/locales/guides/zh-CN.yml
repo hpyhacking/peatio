@@ -33,6 +33,7 @@ zh-CN:
 
       withdraws:
         panel: 资金提现
+        default-panel: 资金提现
         index:
           title: 选择提现种类
           intro: 选择您提现的种类，比特币提现10分钟到账，人民币提现24小时到账。

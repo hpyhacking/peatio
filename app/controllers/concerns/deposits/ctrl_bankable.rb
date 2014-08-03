@@ -7,7 +7,7 @@ module Deposits
     end
 
     def new
-      @deposit = model_kls.new member: current_user, account: @account, member: current_user
+      @deposit = model_kls.new currency: channel.currency, account: @account, member: current_user
     end
 
     def create
@@ -16,7 +16,7 @@ module Deposits
       if @deposit.save
         redirect_to url_for([:edit, @deposit]), notice: t('.notice')
       else
-        render :new
+        render :new, alert: t('.alert')
       end
     end
 

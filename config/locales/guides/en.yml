@@ -32,6 +32,7 @@ en:
 
       withdraws:
         panel: Withdrawal
+        default-panel: Withdrawal
         new:
           title: Select your preferred withdrawal option
           intro: Select  your withdrawals address and enter the amount you want to withdraw.

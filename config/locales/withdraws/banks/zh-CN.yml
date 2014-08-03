@@ -50,10 +50,12 @@ zh-CN:
         destroy:
           notice: 银行转账提现申请已撤销，冻结金额已退回到您的账户中。
         new:
+          fund_source: 提现账号
+          manage_fund_source: 管理提现账号
           submit: 提交
           allin: 全部提取
-          fund_uid: 使用已有银行账号或输入新账号
-          fund_extra: 选择开户行
+        create:
+          notice: 您的提现请求提交成功，请按照提示继续完成您的转账操作。
 
   admin:
     withdraws:
