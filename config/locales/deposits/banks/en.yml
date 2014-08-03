@@ -14,15 +14,15 @@ en:
     attributes:
       deposits/bank:
         created_at: Created At
-        fund_source: Fund Source
-        fund_extra: Fund Extra
-        fund_extra_text: Fund Extra
-        fund_uid: Fund Account
         holder: Holder
+        fund_extra: Sender Bank
+        fund_uid: Sender Account
         member_sn: Member SN
+        member_name: Sender Name
         amount: Amount
         sn: SN
         state_and_action: State/Action
+        label: Label
 
   deposits/bank:
     aasm_state:
@@ -66,11 +66,6 @@ en:
             default-panel: Bank Transfer Deposit History
 
   simple_form:
-    labels:
-      deposit:
-        bank:
-          fund_extra: Sender Bank
-          member_name: Sender Name
     placeholders:
       deposit:
         bank:

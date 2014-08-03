@@ -15,10 +15,14 @@ zh-CN:
       deposits/bank:
         created_at: 时间
         holder: 持卡人姓名
+        fund_extra: 开户银行
+        fund_uid: 账号
         member_sn: 个人识别码
+        member_name: 开户户名
         amount: 充值金额
         sn: 转账备注（必填）
         state_and_action: 状态 / 操作
+        label: 标签
 
   deposits/bank:
     aasm_state:
@@ -62,11 +66,6 @@ zh-CN:
             default-panel: 历史记录
 
   simple_form:
-    labels:
-      deposit:
-        bank:
-          fund_extra: 开户银行
-          member_name: 开户户名
     placeholders:
       deposit:
         bank:

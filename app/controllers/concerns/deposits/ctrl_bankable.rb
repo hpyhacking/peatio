@@ -8,8 +8,6 @@ module Deposits
 
     def new
       @deposit = model_kls.new member: current_user, account: @account, member: current_user
-      @fund_sources = current_user.fund_sources.with_currency(channel.currency)
-      @assets = model_kls.where(member: current_user).order(:id).reverse_order.limit(10)
     end
 
     def create
@@ -18,14 +16,12 @@ module Deposits
       if @deposit.save
         redirect_to url_for([:edit, @deposit]), notice: t('.notice')
       else
-        new
         render :new
       end
     end
 
     def edit
       @deposit = current_user.deposits.find(params[:id])
-      @assets = model_kls.where(member: current_user).order('id desc').first(10)
     end
 
     def destroy
@@ -39,14 +35,15 @@ module Deposits
     def fetch
       @account = current_user.get_account(channel.currency)
       @model = model_kls
+      @fund_sources = current_user.fund_sources.with_currency(channel.currency)
+      @assets = model_kls.where(member: current_user).order(:id).reverse_order.limit(10)
     end
 
     def deposit_params
       params[:deposit][:currency] = channel.currency
       params[:deposit][:member_id] = current_user.id
       params[:deposit][:account_id] = @account.id
-      params.require(:deposit).permit(:fund_uid, :fund_extra, :amount, :currency,
-                                      :account_id, :member_id)
+      params.require(:deposit).permit(:fund_source, :amount, :currency, :account_id, :member_id)
     end
   end
 end
