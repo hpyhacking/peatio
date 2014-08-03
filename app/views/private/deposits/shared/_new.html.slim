@@ -1,5 +1,5 @@
 - if address.address.blank?
-  p == t('.gen_address')
+  p = t('.gen_address_html')
 - else
   p
     h4 = t('.step-1')
@@ -33,7 +33,7 @@
 
   p
     h4 = t('.step-4')
-    p == t('.history')
+    p = t('.history_html')
 
   = content_for :after
     = panel do
