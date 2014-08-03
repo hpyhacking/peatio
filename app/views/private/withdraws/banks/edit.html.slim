@@ -1,7 +1,7 @@
 - defaults = {as: :display, required: false, hint: false}
 = simple_form_for @withdraw, as: :withdraw, defaults: defaults, scope: :bank do |f|
   = f.input :member_name
-  = f.input :fund_extra_text
+  = f.input :fund_extra
   = f.input :fund_uid
   = f.input :sum
   = f.input :fee
