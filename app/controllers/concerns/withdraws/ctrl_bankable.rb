@@ -8,7 +8,7 @@ module Withdraws
 
     def new
       @withdraw ||= model_kls.new currency: channel.currency, account: @account, member: current_user
-      @fund_sources = current_user.fund_sources.with_channel(channel.id)
+      @fund_sources = current_user.fund_sources.with_currency(channel.currency)
       @assets = model_kls.without_aasm_state(:submitting).where(member: current_user).order(:id).reverse_order.limit(10)
     end
 

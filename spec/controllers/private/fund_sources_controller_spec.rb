@@ -21,4 +21,39 @@ describe Private::FundSourcesController do
     it { expect(assigns(:fund_source)).to be_present }
   end
 
+  describe 'POST create' do
+    it "should not create fund_source with blank extra" do
+      params = { currency: :cny,
+                 fund_source: { extra: '',
+                                uid: '1234 1234 1234'} }
+
+      expect {
+        post :create, params
+        response.should be_success
+      }.not_to change(FundSource, :count)
+    end
+
+    it "should not create fund_source with blank uid" do
+      params = { currency: :cny,
+                 fund_source: { extra: 'bank_code_1',
+                                uid: ''} }
+
+      expect {
+        post :create, params
+        response.should be_success
+      }.not_to change(FundSource, :count)
+    end
+
+    it "should create fund_source successful" do
+      params = { currency: :cny,
+                 fund_source: { extra: 'bank_code_1',
+                                uid: '1234 1234 1234'} }
+
+      expect {
+        post :create, params
+        response.should be_redirect
+      }.to change(FundSource, :count).by(1)
+    end
+  end
+
 end

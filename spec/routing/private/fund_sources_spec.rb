@@ -13,5 +13,6 @@ describe 'fund_sources' do
          action: 'new',
          currency: 'btc'
     }
+    it { expect(post('/btc_fund_sources')).to be_routable }
   end
 end

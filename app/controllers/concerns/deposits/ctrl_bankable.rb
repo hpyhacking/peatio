@@ -8,7 +8,7 @@ module Deposits
 
     def new
       @deposit = model_kls.new member: current_user, account: @account, member: current_user
-      @fund_sources = current_user.fund_sources.with_channel(@channel.id)
+      @fund_sources = current_user.fund_sources.with_currency(channel.currency)
       @assets = model_kls.where(member: current_user).order(:id).reverse_order.limit(10)
     end
 

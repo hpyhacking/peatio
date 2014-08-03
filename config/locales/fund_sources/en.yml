@@ -3,3 +3,8 @@ en:
     fund_sources:
       index:
         new: New
+      new:
+        fund_source_selector: Select Bank
+        fund_source_uid: Account Number
+        fund_source_label: Label
+        fund_source_address: Address

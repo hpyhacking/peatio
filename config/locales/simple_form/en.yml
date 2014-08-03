@@ -29,7 +29,7 @@ en:
         update: Reset Sign in Password
         create: Reset Sign in Password
       fund_source:
-        create: Add Withdraw Address
+        create: Save
       deposit:
         create: Deposit
       id_document:

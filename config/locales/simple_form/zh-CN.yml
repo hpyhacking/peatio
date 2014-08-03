@@ -29,7 +29,7 @@ zh-CN:
         update: 重置登录密码
         create: 发送重置请求
       fund_source:
-        create: 新增提现地址
+        create: 保存
       id_document:
         create: 提交
       ticket:

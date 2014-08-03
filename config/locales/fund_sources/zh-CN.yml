@@ -3,3 +3,8 @@ zh-CN:
     fund_sources:
       index:
         new: 新建
+      new:
+        fund_source_selector: 银行
+        fund_source_uid: 账号
+        fund_source_label: 标签
+        fund_source_address: 地址
