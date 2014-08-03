@@ -74,7 +74,6 @@ zh-CN:
       deposit:
         bank:
           sum: "<a target='_balance' href='#'>资费说明</a>"
-          fund_extra: 若您的开户银行不再列表中，请联系客服
           member_name: <span class='text-danger'>充值银行账户姓名必须与您的实名认证姓名一致</span>
           sn: "<span class='text-danger'>请您务必在银行转账操作备注中填写数字: <b>%{sn}</b>，否则我们无法快速处理您的订单。</span>"
 

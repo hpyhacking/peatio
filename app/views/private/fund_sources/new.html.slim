@@ -4,7 +4,8 @@
       collection: @banks,
       value_method: :code,
       label_method: -> (i) { t("banks.#{i.code}") },
-      prompt: t('actions.select')
+      prompt: t('actions.select'),
+      hint: t('.extra_hint')
     = f.input :uid, label: t('.fund_source_uid')
   - else
     = f.input :extra, label: t('.fund_source_label')

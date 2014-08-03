@@ -74,7 +74,6 @@ en:
       deposit:
         bank:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
-          fund_extra: If your bank is no longer the list, please contact customer service
           member_name: <span class='text-danger'>Recharge bank account name must match the name with your real name authentication</span>
           sn: <span class='text-danger'>Please copy the SN in your bank transfer's message, otherwise we can not process your order quickly.</span>
 
