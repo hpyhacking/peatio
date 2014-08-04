@@ -16,7 +16,7 @@ set :shared_paths, [
   'config/currencies.yml',
   'config/markets.yml',
   'config/amqp.yml',
-  'config/bank.yml',
+  'config/banks.yml',
   'config/deposit_channels.yml',
   'config/withdraw_channels.yml',
   'public/uploads',
@@ -47,7 +47,7 @@ task :setup => :environment do
   queue! %[touch "#{deploy_to}/shared/config/application.yml"]
   queue! %[touch "#{deploy_to}/shared/config/markets.yml"]
   queue! %[touch "#{deploy_to}/shared/config/amqp.yml"]
-  queue! %[touch "#{deploy_to}/shared/config/bank.yml"]
+  queue! %[touch "#{deploy_to}/shared/config/banks.yml"]
   queue! %[touch "#{deploy_to}/shared/config/deposit_channels.yml"]
   queue! %[touch "#{deploy_to}/shared/config/withdraw_channels.yml"]
 end
