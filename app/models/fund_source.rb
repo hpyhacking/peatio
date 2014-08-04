@@ -7,11 +7,11 @@
 #  currency   :integer
 #  extra      :string(255)
 #  uid        :string(255)
-#  channel_id :integer
 #  is_locked  :boolean          default(FALSE)
 #  created_at :datetime
 #  updated_at :datetime
 #  deleted_at :datetime
+#  bsb        :string(255)
 #
 
 class FundSource < ActiveRecord::Base

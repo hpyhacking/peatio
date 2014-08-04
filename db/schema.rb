@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140804002557) do
+ActiveRecord::Schema.define(version: 20140804151249) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -364,7 +364,7 @@ ActiveRecord::Schema.define(version: 20140804002557) do
     t.datetime "done_at"
     t.string   "txid"
     t.string   "aasm_state"
-    t.decimal  "sum",        precision: 32, scale: 16
+    t.decimal  "sum",        precision: 32, scale: 16, default: 0.0, null: false
     t.string   "type"
   end
 
