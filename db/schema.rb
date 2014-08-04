@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140724033014) do
+ActiveRecord::Schema.define(version: 20140804002557) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -144,6 +144,12 @@ ActiveRecord::Schema.define(version: 20140724033014) do
     t.text     "keywords"
   end
 
+  create_table "dogecoin_trades", id: false, force: true do |t|
+    t.datetime "created_at"
+    t.decimal  "volume",     precision: 32, scale: 16
+    t.integer  "member_id"
+  end
+
   create_table "fund_sources", force: true do |t|
     t.integer  "member_id"
     t.integer  "currency"
@@ -196,12 +202,9 @@ ActiveRecord::Schema.define(version: 20140724033014) do
     t.integer  "country_code"
     t.string   "phone_number"
     t.boolean  "phone_number_verified"
-    t.boolean  "disabled",                         default: false
-    t.string   "referral_code",         limit: 32
-    t.integer  "inviter_id"
+    t.boolean  "disabled",              default: false
+    t.boolean  "api_disabled",          default: false
   end
-
-  add_index "members", ["inviter_id"], name: "index_members_on_inviter_id", using: :btree
 
   create_table "orders", force: true do |t|
     t.integer  "bid"
@@ -212,12 +215,12 @@ ActiveRecord::Schema.define(version: 20140724033014) do
     t.decimal  "origin_volume",             precision: 32, scale: 16
     t.integer  "state"
     t.datetime "done_at"
-    t.string   "type",           limit: 8
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
     t.string   "source",                                                            null: false
+    t.string   "type",           limit: 8
     t.string   "ord_type",       limit: 10
     t.decimal  "locked",                    precision: 32, scale: 16
     t.decimal  "origin_locked",             precision: 32, scale: 16
