@@ -16,8 +16,9 @@
 #  done_at    :datetime
 #  txid       :string(255)
 #  aasm_state :string(255)
-#  sum        :decimal(32, 16)
+#  sum        :decimal(32, 16)  default(0.0), not null
 #  type       :string(255)
+#  bsb        :string(255)
 #
 
 class Withdraw < ActiveRecord::Base

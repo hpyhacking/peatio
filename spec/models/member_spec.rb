@@ -15,6 +15,9 @@
 #  phone_number          :string(255)
 #  phone_number_verified :boolean
 #  disabled              :boolean          default(FALSE)
+#  api_disabled          :boolean          default(FALSE)
+#  inviter_id            :integer
+#  referral_code_reward  :boolean          default(FALSE)
 #
 
 require 'spec_helper'
