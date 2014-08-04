@@ -23,8 +23,8 @@
       - t.column :id, class: 'col-md-1'
       - t.column :created_at, class: 'col-md-2'
       - t.column :fund_uid, class: 'col-md-5' do |x|
+        span = "#{x.fund_extra} @ "
         code.text-info = x.fund_uid
-        span = " @ #{x.fund_extra.truncate(6)}"
       - t.column :amount, class: 'col-md-1'
       - t.column :fee, class: 'col-md-1'
       - t.column :state_and_action, class: 'col-md-2' do |x|

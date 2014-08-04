@@ -14,10 +14,10 @@
 = content_for :after
   = panel do
     = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
-      - t.column :sn, class: 'col-md-1'
-      - t.column :created_at, class: 'col-md-3'
-      - t.column :fund_source, class: 'col-md-3' do |x|
-        span = "#{x.fund_extra} @ "
+      - t.column :sn, class: 'col-md-2'
+      - t.column :created_at, class: 'col-md-2'
+      - t.column :fund_source, class: 'col-md-4' do |x|
+        span = "#{x.fund_extra_text} @ "
         code.text-info = x.fund_uid
       - t.column :amount, class: 'col-md-2'
       - t.column :state_and_action, class: 'col-md-2' do |x|

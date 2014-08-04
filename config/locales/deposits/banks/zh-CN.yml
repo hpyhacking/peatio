@@ -23,6 +23,7 @@ zh-CN:
         sn: 转账备注（必填）
         state_and_action: 状态 / 操作
         label: 标签
+        fund_source: 充值账号
 
   deposits/bank:
     aasm_state:

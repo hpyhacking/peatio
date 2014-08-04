@@ -23,6 +23,7 @@ en:
         sn: SN
         state_and_action: State/Action
         label: Label
+        fund_source: Fund Source
 
   deposits/bank:
     aasm_state:
