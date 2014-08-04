@@ -20,7 +20,11 @@ module Admin
     end
 
     def toggle
-      @member.disabled = !@member.disabled?
+      if params[:api]
+        @member.api_disabled = !@member.api_disabled?
+      else
+        @member.disabled = !@member.disabled?
+      end
       @member.save
     end
 

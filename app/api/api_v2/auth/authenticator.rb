@@ -12,7 +12,7 @@ module APIv2
       end
 
       def token
-        @token ||= APIToken.where(access_key: @params[:access_key]).first
+        @token ||= APIToken.joins(:member).where(access_key: @params[:access_key]).merge(Member.api_enabled).first
       end
 
       def signature_match?
