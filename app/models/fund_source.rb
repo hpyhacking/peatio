@@ -25,10 +25,6 @@ class FundSource < ActiveRecord::Base
 
   validates_presence_of :uid, :extra, :member
 
-  def to_s
-    "#{uid} @ #{extra}"
-  end
-
   def label
     if currency_obj.try :coin?
       [extra, uid].join('#')
