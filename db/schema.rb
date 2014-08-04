@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140803202610) do
+ActiveRecord::Schema.define(version: 20140804002557) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -196,6 +196,7 @@ ActiveRecord::Schema.define(version: 20140803202610) do
     t.string   "phone_number"
     t.boolean  "phone_number_verified"
     t.boolean  "disabled",              default: false
+    t.boolean  "api_disabled",          default: false
   end
 
   create_table "orders", force: true do |t|

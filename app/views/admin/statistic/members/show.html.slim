@@ -42,9 +42,12 @@
           - t.column :created_at, class: 'col-md-3'
           - t.column :activated?, class: 'col-md-1' do |x|
             = yesno x.activated?
-          - t.column :disabled?, class: 'col-md-1' do |x|
+          - t.column 'Disabled? (Web/API)', class: 'col-md-1' do |x|
             - text = x.disabled? ? 'Yes' : 'No'
-            = link_to text, toggle_admin_member_path(x), remote: true, method: :post, class: 'toggle'
+            = link_to text, toggle_admin_member_path(x), remote: true, method: :post, class: 'toggle-web'
+            | &nbsp;/&nbsp;
+            - text = x.api_disabled? ? 'Yes' : 'No'
+            = link_to text, toggle_admin_member_path(x, api: true), remote: true, method: :post, class: 'toggle-api'
           - t.column :id_document_verified?, class: 'col-md-2' do |x|
             = x.id_document_verified? ? x.name : yesno(x.id_document_verified?)
           - t.column :actions, class: 'col-md-1' do |x|
