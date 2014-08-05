@@ -2,6 +2,10 @@ zh-CN:
   private:
     fund_sources:
       index:
+        manage_coin_address: 管理比特币地址
+        manage_bank_account: 管理银行账号
+        guide_intro_coin: 通过增加比特币提现地址，以便每次提现时快速选择。
+        guide_intro_bank: 通过增加提现银行账号，以便每次提现时快速选择。
         new: 新建
         currency: 币种
         bank: 银行
