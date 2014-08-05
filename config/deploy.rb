@@ -20,6 +20,9 @@ when 'peatio-redis'
 when 'peatio-web-01'
   set :domain, 'peatio-web-01'
   set :without_admin, true
+when 'peatio-web-02'
+  set :domain, 'peatio-web-02'
+  set :without_admin, true
 when 'peatio-admin'
   set :domain, 'peatio-admin'
 else
