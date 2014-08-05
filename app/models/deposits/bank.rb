@@ -24,6 +24,7 @@ module Deposits
   class Bank < ::Deposit
     include ::AasmAbsolutely
     include ::Deposits::Bankable
+    include ::FundSourceable
 
     def charge!(txid)
       ActiveRecord::Base.transaction do

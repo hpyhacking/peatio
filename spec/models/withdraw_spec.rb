@@ -67,26 +67,4 @@ describe Withdraw do
       expect(subject.account_id).to eq(subject.member.get_account(subject.currency).id)
     end
   end
-
-  describe 'callbacks', truncation: true do
-    subject { build :bank_withdraw, save_fund_source: '1' }
-
-    it 'creates fund source if asked to save_fund_source' do
-      expect {
-        subject.save
-      }.to change(FundSource, :count).by(1)
-    end
-
-    it "doesn't create duplicate fund sources" do
-      subject.save
-
-      expect {
-        create :bank_withdraw,
-          save_fund_source: '1',
-          fund_uid: subject.fund_uid,
-          fund_extra: subject.fund_extra,
-          member: subject.member
-      }.to change(FundSource, :count).by(0)
-    end
-  end
 end

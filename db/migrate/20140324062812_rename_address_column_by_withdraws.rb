@@ -8,7 +8,5 @@ class RenameAddressColumnByWithdraws < ActiveRecord::Migration
     rename_column :withdraws, :address, :fund_source_uid
     rename_column :withdraws, :address_label, :fund_source_extra
     rename_column :withdraws, :address_type, :withdraw_channel_id
-    
-    Rake::Task['migration:build_fund_sources'].invoke 
   end
 end

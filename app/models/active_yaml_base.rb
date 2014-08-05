@@ -1,3 +1,7 @@
 class ActiveYamlBase < ActiveYaml::Base
-  set_root_path "#{Rails.root}/config"
+  if Rails.env == 'test'
+    set_root_path "#{Rails.root}/spec/fixtures"
+  else
+    set_root_path "#{Rails.root}/config"
+  end
 end

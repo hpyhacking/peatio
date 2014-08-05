@@ -64,8 +64,10 @@ en:
         new:
           submit: Submit
           allin: All-In
-          fund_uid: Use saved address or enter a new address
-          fund_extra: 选择开户行
+          fund_source_label: Label
+          manage_fund_source: Manage Fund Source
+        create:
+          notice: Withdrawal request successfully submitted. Use the info below to complete the bank transfer.
 
   admin:
     withdraws:

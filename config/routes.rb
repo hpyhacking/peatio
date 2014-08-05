@@ -38,11 +38,18 @@ Peatio::Application.routes.draw do
   resources :documents, only: [:show]
   resources :refresh_two_factors, only: [:show]
 
-  scope module: 'private' do
+  scope module: :private do
     resource  :id_document, only: [:edit, :update]
 
     resources :settings, only: [:index]
     resources :two_factors, only: [:show, :update, :edit, :destroy]
+
+    Currency.all.each do |c|
+      resources "#{c.code}_fund_sources",
+        controller: :fund_sources,
+        defaults: { currency: c.code }
+    end
+
     resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
       Deposit.descendants.each do |d|
@@ -59,7 +66,6 @@ Peatio::Application.routes.draw do
 
     resources :account_versions, :only => :index
 
-    resources :fund_sources, :only => [:index, :destroy]
     resources :exchange_assets, :controller => 'assets' do
       member do
         get :partial_tree

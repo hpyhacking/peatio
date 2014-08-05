@@ -149,7 +149,6 @@ ActiveRecord::Schema.define(version: 20140804151249) do
     t.integer  "currency"
     t.string   "extra"
     t.string   "uid"
-    t.integer  "channel_id"
     t.boolean  "is_locked",  default: false
     t.datetime "created_at"
     t.datetime "updated_at"

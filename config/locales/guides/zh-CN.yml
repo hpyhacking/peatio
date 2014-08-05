@@ -33,6 +33,7 @@ zh-CN:
 
       withdraws:
         panel: 资金提现
+        default-panel: 资金提现
         index:
           title: 选择提现种类
           intro: 选择您提现的种类，比特币提现10分钟到账，人民币提现24小时到账。
@@ -58,10 +59,10 @@ zh-CN:
             default-panel: 历史记录
 
       fund_sources:
-        panel: 资金提现
+        panel: 充值提现账号管理
         index:
-          title: 新增提现地址
-          intro: 通过填写提现地址，以便每次提现时快速选择要提现的收款方。
+          title: 充值提现账号管理
+          intro: 通过增加充值提现账号，以便每次充值提现时快速选择。
 
       id_documents:
         panel: 实名认证

@@ -1,0 +1,11 @@
+- id: 1
+  key: dollar
+  code: cny
+  coin: false
+- id: 2
+  key: satoshi
+  code: btc
+  coin: true
+  rpc: http://bitcoinrpc:5gKAgrJv8CQr2CGUhjVbBFLSj29HnE6YGXvfykHJzS3k@127.0.0.1:18332
+  blockchain: http://testnet.btclook.com/txn/#{txid}
+  address_url: https://blockchain.info/address/#{address}

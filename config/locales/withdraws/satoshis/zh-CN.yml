@@ -64,8 +64,10 @@ zh-CN:
         new:
           submit: 提交
           allin: 全部提取
-          fund_uid: 使用已有已有提现地址或输入新地址
-          fund_extra: 选择开户行
+          fund_source_label: 标签
+          manage_fund_source: 管理提现地址
+        create:
+          notice: 您的提现请求提交成功，请按照提示继续完成您的转账操作。
 
   admin:
     withdraws:

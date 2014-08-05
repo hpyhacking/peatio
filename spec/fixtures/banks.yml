@@ -1,0 +1,15 @@
+- id: 1
+  code: bank_code_1
+  currency: cny
+  deposit: true
+  withdraw: true
+- id: 2
+  code: bank_code_2
+  currency: cny
+  deposit: true
+  withdraw: true
+- id: 3
+  code: bank_code_3
+  currency: cny
+  deposit: true
+  withdraw: true

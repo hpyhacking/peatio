@@ -3,19 +3,8 @@ module Deposits
     extend ActiveSupport::Concern
 
     included do
-      attr_accessor :holder, :remember
-
-      validates_presence_of :fund_extra, :fund_uid, :amount
-
+      validates :fund_extra, :fund_uid, :amount, presence: true
       delegate :accounts, to: :channel
-
-      enumerize :fund_extra, in: channel.banks, scope: true, i18n_scope: 'banks'
-    end
-
-    module ClassMethods
-      def bank_hash
-        enumerized_attributes['fund_extra'].options.inject({}) {|k, v| k[v[1]] = v[0]; k}
-      end
     end
   end
 end

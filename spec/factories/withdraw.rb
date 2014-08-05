@@ -2,9 +2,8 @@ FactoryGirl.define do
   factory :satoshi_withdraw, class: Withdraws::Satoshi do
     sum { 10.to_d }
     currency :btc
-    fund_uid 'sample_to_long_long_long_address'
-    fund_extra 'sample'
     member { create :member }
+    fund_source { create(:btc_fund_source).id }
     type 'Withdraws::Satoshi'
 
     account do
@@ -30,9 +29,8 @@ FactoryGirl.define do
   factory :bank_withdraw, class: Withdraws::Bank do
     member { create :member }
     currency :cny
-    fund_uid 'sample_to_long_long_long_address'
-    fund_extra { 'cmb' }
     sum { 1000.to_d }
+    fund_source { create(:cny_fund_source).id }
     type 'Withdraws::Bank'
 
     account do

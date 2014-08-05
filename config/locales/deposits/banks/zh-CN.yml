@@ -14,15 +14,16 @@ zh-CN:
     attributes:
       deposits/bank:
         created_at: 时间
-        fund_source: 转账信息
-        fund_extra: 转账银行
-        fund_extra_text: 转账银行
-        fund_uid: 转账账户
         holder: 持卡人姓名
+        fund_extra: 开户银行
+        fund_uid: 账号
         member_sn: 个人识别码
+        member_name: 开户户名
         amount: 充值金额
         sn: 转账备注（必填）
         state_and_action: 状态 / 操作
+        label: 标签
+        fund_source: 充值账号
 
   deposits/bank:
     aasm_state:
@@ -43,8 +44,8 @@ zh-CN:
           notice: 您的充值订单提交成功，请按照提示继续完成您的转账操作。
           submit: 提交
         new:
-          fund_uid: 使用已有银行账号或输入新账号
-          fund_extra: 选择开户银行
+          fund_source: 充值账号
+          manage_fund_source: 管理充值账号
           submit: 提交
         edit:
           bank: 收款银行
@@ -66,11 +67,6 @@ zh-CN:
             default-panel: 历史记录
 
   simple_form:
-    labels:
-      deposit:
-        bank:
-          fund_extra: 开户银行
-          member_name: 开户户名
     placeholders:
       deposit:
         bank:
@@ -79,7 +75,6 @@ zh-CN:
       deposit:
         bank:
           sum: "<a target='_balance' href='#'>资费说明</a>"
-          fund_extra: 若您的开户银行不再列表中，请联系客服
           member_name: <span class='text-danger'>充值银行账户姓名必须与您的实名认证姓名一致</span>
           sn: "<span class='text-danger'>请您务必在银行转账操作备注中填写数字: <b>%{sn}</b>，否则我们无法快速处理您的订单。</span>"
 

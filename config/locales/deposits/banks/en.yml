@@ -14,15 +14,16 @@ en:
     attributes:
       deposits/bank:
         created_at: Created At
-        fund_source: Fund Source
-        fund_extra: Fund Extra
-        fund_extra_text: Fund Extra
-        fund_uid: Fund Account
         holder: Holder
+        fund_extra: Sender Bank
+        fund_uid: Sender Account
         member_sn: Member SN
+        member_name: Sender Name
         amount: Amount
         sn: SN
         state_and_action: State/Action
+        label: Label
+        fund_source: Fund Source
 
   deposits/bank:
     aasm_state:
@@ -43,8 +44,8 @@ en:
           notice: Recharge request successfully submitted. Use the info below to complete the bank transfer.
           submit: Submit
         new:
-          fund_uid: Use existing bank account or enter a new account
-          fund_extra: Select Bank
+          fund_source: Select Fund Source
+          manage_fund_source: Manage Fund Source
           submit: Submit
         edit:
           bank: Receive Bank Name
@@ -66,11 +67,6 @@ en:
             default-panel: Bank Transfer Deposit History
 
   simple_form:
-    labels:
-      deposit:
-        bank:
-          fund_extra: Sender Bank
-          member_name: Sender Name
     placeholders:
       deposit:
         bank:
@@ -79,7 +75,6 @@ en:
       deposit:
         bank:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
-          fund_extra: If your bank is no longer the list, please contact customer service
           member_name: <span class='text-danger'>Recharge bank account name must match the name with your real name authentication</span>
           sn: <span class='text-danger'>Please copy the SN in your bank transfer's message, otherwise we can not process your order quickly.</span>
 
