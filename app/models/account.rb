@@ -16,10 +16,6 @@
 class Account < ActiveRecord::Base
   include Currencible
 
-  validates :member_id, uniqueness: { scope: :currency }
-
-  after_commit :trigger
-
   FIX = :fix
   UNKNOWN = :unknown
   STRIKE_ADD = :strike_add
@@ -41,6 +37,11 @@ class Account < ActiveRecord::Base
   has_many :payment_addresses
   has_many :versions, class_name: "::AccountVersion"
   has_many :partial_trees
+
+  validates :member_id, uniqueness: { scope: :currency }
+  validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
+
+  after_commit :trigger
 
   def payment_address
     payment_addresses.last || payment_addresses.create(currency: self.currency)
