@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140804002557) do
+ActiveRecord::Schema.define(version: 20140806141419) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -155,7 +155,6 @@ ActiveRecord::Schema.define(version: 20140804002557) do
     t.integer  "currency"
     t.string   "extra"
     t.string   "uid"
-    t.integer  "channel_id"
     t.boolean  "is_locked",  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -226,6 +225,9 @@ ActiveRecord::Schema.define(version: 20140804002557) do
     t.decimal  "origin_locked",             precision: 32, scale: 16
     t.decimal  "funds_received",            precision: 32, scale: 16, default: 0.0
   end
+
+  add_index "orders", ["currency", "state"], name: "index_orders_on_currency_and_state", using: :btree
+  add_index "orders", ["member_id"], name: "index_orders_on_member_id", using: :btree
 
   create_table "partial_trees", force: true do |t|
     t.integer  "proof_id",   null: false
@@ -336,6 +338,7 @@ ActiveRecord::Schema.define(version: 20140804002557) do
   add_index "trades", ["ask_member_id"], name: "index_trades_on_ask_member_id", using: :btree
   add_index "trades", ["bid_id"], name: "index_trades_on_bid_id", using: :btree
   add_index "trades", ["bid_member_id"], name: "index_trades_on_bid_member_id", using: :btree
+  add_index "trades", ["created_at"], name: "index_trades_on_created_at", using: :btree
   add_index "trades", ["currency"], name: "index_trades_on_currency", using: :btree
 
   create_table "two_factors", force: true do |t|
@@ -371,7 +374,7 @@ ActiveRecord::Schema.define(version: 20140804002557) do
     t.datetime "done_at"
     t.string   "txid"
     t.string   "aasm_state"
-    t.decimal  "sum",        precision: 32, scale: 16
+    t.decimal  "sum",        precision: 32, scale: 16, default: 0.0, null: false
     t.string   "type"
   end
 
