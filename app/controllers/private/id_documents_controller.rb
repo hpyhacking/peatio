@@ -8,7 +8,7 @@ module Private
     def update
       @id_document = current_user.id_document
 
-      if @id_document.update_attributes id_docuemnt_params
+      if @id_document.update_attributes id_document_params
         @id_document.submit! if @id_document.unverified?
 
         redirect_to settings_path, notice: t('.notice')
@@ -19,7 +19,7 @@ module Private
 
     private
 
-    def id_docuemnt_params
+    def id_document_params
       params.require(:id_document).permit(:name, :birth_date, :address, :city, :country, :zipcode,
                                           :id_document_type, :id_document_number, :id_bill_type,
                                           {id_document_file_attributes: [:id, :file]},
