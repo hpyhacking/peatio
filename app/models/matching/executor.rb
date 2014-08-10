@@ -74,7 +74,7 @@ module Matching
         }
       )
 
-      MixpanelTracker.track :valuable_trade, @trade
+      #MixpanelTracker.track :valuable_trade, @trade
     end
 
   end
