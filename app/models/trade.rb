@@ -51,6 +51,7 @@ class Trade < ActiveRecord::Base
       trades = trades.where('created_at <= ?', timestamp) if timestamp.present?
       trades = trades.where('id > ?', from) if from.present?
       trades = trades.where('id < ?', to) if to.present?
+      trades = trades.where('id < ?', from + limit + 1) if limit.present? and from.present? and not to.present?
       trades
     end
 
