@@ -276,4 +276,25 @@ describe Account do
       v.locked.should  == '-2.0'.to_d
     end
   end
+
+  describe "concurrent lock_funds" do
+    it "should raise error on the second lock_funds" do
+      account1 = Account.find subject.id
+      account2 = Account.find subject.id
+
+      subject.reload.balance.should == BigDecimal.new('10')
+
+      expect do
+        ActiveRecord::Base.transaction do
+          account1.lock_funds 8, reason: Account::ORDER_SUBMIT
+        end
+        ActiveRecord::Base.transaction do
+          account2.lock_funds 8, reason: Account::ORDER_SUBMIT
+        end
+      end.to raise_error(ActiveRecord::RecordInvalid)
+
+      subject.reload.balance.should == BigDecimal.new('2')
+    end
+  end
+
 end

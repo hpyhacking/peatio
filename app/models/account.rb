@@ -113,6 +113,7 @@ class Account < ActiveRecord::Base
     rescue ActiveRecord::StaleObjectError
       Rails.logger.info "Stale account##{account.id} found when create associated account version, retry."
       account = Account.find(account.id)
+      raise ActiveRecord::RecordInvalid, account unless account.valid?
       retry
     end
   end
