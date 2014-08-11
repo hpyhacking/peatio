@@ -63,5 +63,9 @@ module APIv2
       raise CreateOrderError, $!
     end
 
+    def order_param
+      params[:order_by].downcase == 'asc' ? 'id asc' : 'id desc'
+    end
+
   end
 end

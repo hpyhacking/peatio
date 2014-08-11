@@ -52,6 +52,13 @@ describe APIv2::Trades do
       response.should be_success
       JSON.parse(response.body).first['id'].should == bid_trade.id
     end
+
+    it "should get trades by from and limit" do
+      another = create(:trade, bid: bid, created_at: 6.hours.ago)
+      get '/api/v2/trades', market: 'btccny', from: ask_trade.id, limit: 1, order_by: 'asc'
+      response.should be_success
+      JSON.parse(response.body).first['id'].should == bid_trade.id
+    end
   end
 
   describe 'GET /api/v2/trades/my' do
