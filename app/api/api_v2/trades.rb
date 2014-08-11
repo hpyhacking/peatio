@@ -7,7 +7,7 @@ module APIv2
       use :market, :trade_filters
     end
     get "/trades" do
-      trades = Trade.filter(params[:market], time_to, params[:from], params[:to], params[:limit])
+      trades = Trade.filter(params[:market], time_to, params[:from], params[:to], params[:limit], params[:order] || 'id desc')
       present trades, with: APIv2::Entities::Trade
     end
 
@@ -21,7 +21,8 @@ module APIv2
       trades = Trade.for_member(
         params[:market], current_user,
         limit: params[:limit], time_to: time_to,
-        from: params[:from], to: params[:to]
+        from: params[:from], to: params[:to],
+        order: params[:order] || 'id desc'
       )
 
       present trades, with: APIv2::Entities::Trade
