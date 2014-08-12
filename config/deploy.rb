@@ -8,7 +8,7 @@ set :repository, 'git@github.com:peatio/peatio_beijing.git'
 set :user, 'deploy'
 set :deploy_to, '/home/deploy/peatio'
 set :branch, ENV['branch'] || 'master'
-set :without_admin, false
+set :keep_releases, 20
 
 case ENV['to']
 when 'demo'
@@ -19,10 +19,8 @@ when 'peatio-redis'
   set :domain, 'peatio-redis'
 when 'peatio-web-01'
   set :domain, 'peatio-web-01'
-  set :without_admin, true
 when 'peatio-web-02'
   set :domain, 'peatio-web-02'
-  set :without_admin, true
 when 'peatio-admin'
   set :domain, 'peatio-admin'
 else
@@ -35,6 +33,7 @@ set :shared_paths, [
   'config/currencies.yml',
   'config/markets.yml',
   'config/amqp.yml',
+  'config/banks.yml',
   'config/deposit_channels.yml',
   'config/withdraw_channels.yml',
   'public/uploads',
@@ -64,6 +63,7 @@ task setup: :environment do
   queue! %[touch "#{deploy_to}/shared/config/application.yml"]
   queue! %[touch "#{deploy_to}/shared/config/markets.yml"]
   queue! %[touch "#{deploy_to}/shared/config/amqp.yml"]
+  queue! %[touch "#{deploy_to}/shared/config/banks.yml"]
   queue! %[touch "#{deploy_to}/shared/config/deposit_channels.yml"]
   queue! %[touch "#{deploy_to}/shared/config/withdraw_channels.yml"]
 end
@@ -78,9 +78,10 @@ task deploy: :environment do
     invoke :'rails:assets_precompile'
 
     to :launch do
-      invoke :del_admin if without_admin
+      invoke :del_admin
       invoke :del_daemons
       invoke :'passenger:restart'
+      invoke :'deploy:cleanup'
     end
   end
 end
@@ -132,11 +133,13 @@ end
 
 desc 'delete admin'
 task :del_admin do
-  queue! "rm -rf #{deploy_to}/current/app/controllers/admin"
-  queue! "rm -rf #{deploy_to}/current/app/views/admin"
-  queue! "rm -rf #{deploy_to}/current/app/models/worker"
+  if ['peatio-web-01', 'peatio-web-02'].include?(domain)
+    queue! "rm -rf #{deploy_to}/current/app/controllers/admin"
+    queue! "rm -rf #{deploy_to}/current/app/views/admin"
+    queue! "rm -rf #{deploy_to}/current/app/models/worker"
 
-  queue! "sed -i '/draw\ :admin/d' #{deploy_to}/current/config/routes.rb"
+    queue! "sed -i '/draw\ :admin/d' #{deploy_to}/current/config/routes.rb"
+  end
 end
 
 desc 'delete daemons'
@@ -150,7 +153,7 @@ task :del_daemons do
   when 'peatio-daemon'
     queue! "rm -rf #{deploy_to}/current/lib/daemons/k.rb"
     queue! "rm -rf #{deploy_to}/current/lib/daemons/k_ctl"
-  when 'peatio-web-01'
+  when 'peatio-web-01', 'peatio-web-02'
     queue! "rm -rf #{deploy_to}/current/lib/daemons"
   when 'peatio-redis'
     keeps = ['daemons', 'k.rb', 'k_ctl']

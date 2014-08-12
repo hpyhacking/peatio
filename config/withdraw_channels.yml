@@ -15,11 +15,11 @@
   currency: cny
   fixed: 2
   fee_max: 0
-  min: 1
+  min: 100
   max: 50000
   fee: 0
   proportion: true
-  banks: ["icbc", "cmb", "abc", "cbc", "bc", "cmbc", "ceb", "cncb", "bcm", "cib", "spdb", "hxb", "pab", "gdb", "bob"]
+  inuse: true
   type: WithdrawChannelBank
   sort_order: 4
 - id: 500

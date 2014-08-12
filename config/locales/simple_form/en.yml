@@ -29,7 +29,7 @@ en:
         update: Reset Sign in Password
         create: Reset Sign in Password
       fund_source:
-        create: Add Withdraw Address
+        create: Save
       deposit:
         create: Deposit
       id_document:
@@ -53,7 +53,6 @@ en:
       default_message: "Please review the problems below:"
     labels:
       defaults:
-        save_fund_source: Save information for future usage
         title: Title
       two_factor:
         uri: Two-dimensional code

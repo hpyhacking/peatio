@@ -14,7 +14,6 @@
   key: bank
   currency: cny
   sort_order: 4
-  banks: ["icbc", "cmb", "abc", "cbc", "bc", "cmbc", "ceb", "cncb", "bcm", "cib", "spdb", "hxb", "pab", "gdb", "bob"]
   bank_accounts:
     -
       bank: 招商银行

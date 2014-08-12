@@ -16,3 +16,9 @@ en:
     sdb:  Shenzhen Development Bank
     pab:  Ping An Bank Co., Ltd.
     gdb:  Guangdong Development Bank
+
+    # for test
+    bank_code_1: bank_code_1
+    bank_code_2: bank_code_2
+    bank_code_3: bank_code_3
+

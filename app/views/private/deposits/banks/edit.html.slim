@@ -1,7 +1,5 @@
 = simple_form_for @deposit, defaults: {as: :display, required: false}, as: :deposit, scope: :bank do |f|
 
-  hr.split
-
   - @deposit.accounts.each_with_index do |account, i|
     = f.simple_fields_for :account, account do |x|
       = x.input :bank, label: t('.bank')
@@ -10,9 +8,9 @@
       = x.input :account, label: t('.account')
     hr.split
 
-  = f.input :fund_extra_text
-  = f.input :fund_uid
   = f.input :member_name, hint: false
+  = f.input :fund_extra
+  = f.input :fund_uid
   = f.input :amount, hint: false, clip: true
   = f.input :sn, clip: true, hint: raw(t('simple_form.hints.deposit.bank.sn', sn: @deposit.sn))
 
@@ -21,10 +19,10 @@
 = content_for :after
   = panel do
     = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
-      - t.column :sn, class: 'col-md-1'
-      - t.column :created_at, class: 'col-md-3'
-      - t.column :fund_source, class: 'col-md-3' do |x|
-        span = "#{x.fund_extra_text} @ "
+      - t.column :sn, class: 'col-md-2'
+      - t.column :created_at, class: 'col-md-2'
+      - t.column :label, class: 'col-md-3' do |x|
+        span = "#{x.fund_extra} @ "
         code.text-info = x.fund_uid
       - t.column :amount, class: 'col-md-2'
       - t.column :state_and_action, class: 'col-md-2' do |x|

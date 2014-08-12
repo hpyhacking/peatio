@@ -1,16 +1,16 @@
 FactoryGirl.define do
   factory :fund_source do
-    extra 'bitcoin address'
+    extra 'bitcoin'
     uid '1bitcoinaddress'
-    channel_id '200'
     is_locked false
+    currency 'btc'
 
     member { create(:member) }
 
     trait :cny do
-      extra 'cny bank'
-      uid 'cnybankaddress'
-      channel_id '400'
+      extra 'bank_code_1'
+      uid '123412341234'
+      currency 'cny'
     end
 
     factory :cny_fund_source, traits: [:cny]

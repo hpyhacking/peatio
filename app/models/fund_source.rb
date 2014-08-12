@@ -7,7 +7,6 @@
 #  currency   :integer
 #  extra      :string(255)
 #  uid        :string(255)
-#  channel_id :integer
 #  is_locked  :boolean          default(FALSE)
 #  created_at :datetime
 #  updated_at :datetime
@@ -25,9 +24,11 @@ class FundSource < ActiveRecord::Base
 
   validates_presence_of :uid, :extra, :member
 
-  scope :with_channel, -> (channel_id) { where channel_id: channel_id }
-
-  def to_s
-    "#{uid} @ #{extra}"
+  def label
+    if currency_obj.try :coin?
+      [extra, uid].join('#')
+    else
+      [I18n.t("banks.#{extra}"), "****#{uid[-4..-1]}"].join('#')
+    end
   end
 end

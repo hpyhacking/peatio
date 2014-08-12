@@ -51,10 +51,12 @@ en:
         destroy:
           notice: Bank Transfer withdraw has been cancelled, frozen amount has been returned to your account.
         new:
+          fund_source: Select Fund Source
+          manage_fund_source: Manage Fund Source
           submit: Submit
           allin: All-In
-          fund_uid: Use existing bank account or enter a new account
-          fund_extra: Select Bank
+        create:
+          notice: Withdrawal request successfully submitted. Use the info below to complete the bank transfer.
 
   admin:
     withdraws:

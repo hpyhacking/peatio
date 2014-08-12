@@ -16,7 +16,7 @@
 #  done_at    :datetime
 #  txid       :string(255)
 #  aasm_state :string(255)
-#  sum        :decimal(32, 16)
+#  sum        :decimal(32, 16)  default(0.0), not null
 #  type       :string(255)
 #
 
@@ -24,6 +24,8 @@ module Withdraws
   class Bank < ::Withdraw
     include ::AasmAbsolutely
     include ::Withdraws::Bankable
+    include ::FundSourceable
+
     validates :sum, presence: true, numericality: {greater_than_or_equal_to: 100}, on: :create
   end
 end

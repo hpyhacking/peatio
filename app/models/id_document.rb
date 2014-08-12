@@ -9,7 +9,6 @@
 #  member_id          :integer
 #  created_at         :datetime
 #  updated_at         :datetime
-#  verified           :boolean
 #  birth_date         :date
 #  address            :text
 #  city               :string(255)

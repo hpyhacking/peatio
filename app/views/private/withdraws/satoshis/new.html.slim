@@ -1,9 +1,11 @@
 = simple_form_for @withdraw, as: :withdraw, scope: :satoshi do |f|
-  = f.input :channel_id, as: :hidden
-  = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.fund_uid')
-  = f.input :fund_extra do
-    = f.input_field :fund_extra, required: false
-    = f.input_field :save_fund_source, as: :boolean, inline_label: true
+
+  = f.input :fund_source,
+    label: t('.fund_source_label'),
+    collection: @fund_sources,
+    label_method: :label,
+    include_blank: false,
+    hint: link_to(t('.manage_fund_source'), url_for([@channel.currency, :fund_sources]))
 
   = f.input :account_balance, as: :display
   = f.input :sum do
@@ -21,8 +23,8 @@
       - t.column :id, class: 'col-md-1'
       - t.column :created_at, class: 'col-md-2'
       - t.column :fund_uid, class: 'col-md-5' do |x|
+        span = "#{x.fund_extra} @ "
         code.text-info = x.fund_uid
-        span = " @ #{x.fund_extra.truncate(6)}"
       - t.column :amount, class: 'col-md-1'
       - t.column :fee, class: 'col-md-1'
       - t.column :state_and_action, class: 'col-md-2' do |x|

@@ -16,7 +16,7 @@
 #  done_at    :datetime
 #  txid       :string(255)
 #  aasm_state :string(255)
-#  sum        :decimal(32, 16)
+#  sum        :decimal(32, 16)  default(0.0), not null
 #  type       :string(255)
 #
 
@@ -24,6 +24,8 @@ module Withdraws
   class Satoshi < ::Withdraw
     include ::AasmAbsolutely
     include ::Withdraws::Coinable
+    include ::FundSourceable
+
     validates :sum, presence: true, numericality: {greater_than: 0.0001}, on: :create
   end
 end

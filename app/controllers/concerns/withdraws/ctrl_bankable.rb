@@ -7,22 +7,15 @@ module Withdraws
     end
 
     def new
-      @withdraw ||= model_kls.new currency: channel.currency, \
-        account: @account, member: current_user
-
-      @fund_sources = current_user.fund_sources.with_channel(channel.id)
-      @assets = model_kls.without_aasm_state(:submitting).where(member: current_user).order('id desc').first(10)
-
-      gon.banks = model_kls.bank_hash
+      @withdraw = model_kls.new currency: channel.currency, account: @account, member: current_user
     end
 
     def create
       @withdraw = model_kls.new(withdraw_params)
 
       if @withdraw.save
-        redirect_to url_for([:edit, @withdraw])
+        redirect_to url_for([:edit, @withdraw]), notice: t('.notice')
       else
-        new
         render :new, alert: t('.alert')
       end
     end
@@ -53,13 +46,14 @@ module Withdraws
     def fetch
       @account = current_user.get_account(channel.currency)
       @model = model_kls
+      @fund_sources = current_user.fund_sources.with_currency(channel.currency)
+      @assets = model_kls.without_aasm_state(:submitting).where(member: current_user).order(:id).reverse_order.limit(10)
     end
 
     def withdraw_params
       params[:withdraw][:currency] = channel.currency
       params[:withdraw][:member_id] = current_user.id
-      params.require(:withdraw).permit(:member_id, :currency, :sum, :type,
-                                       :fund_uid, :fund_extra, :save_fund_source)
+      params.require(:withdraw).permit(:fund_source, :member_id, :currency, :sum)
     end
 
     def two_factor_auth_verified?

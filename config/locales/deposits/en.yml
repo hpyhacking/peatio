@@ -6,9 +6,9 @@ en:
           step-1: Step one
           open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
           step-2: Step Two
-          gen_address: Your deposit address is being generated, please wait for a moment then click <a href='javascript:window.location.reload();'>refresh</a> to check result.
+          gen_address_html: Your deposit address is being generated, please wait for a moment then click <a href='javascript:window.location.reload();'>refresh</a> to check result.
           or: You can also to
           scan-qr: Scanning two-dimensional code to Pay for In the mobile terminal wallet.
           step-3: Step Three
           step-4: Step Four
-          history: Once you complete sending, click <a href='javascript:window.location.reload();'>refresh</a> to check the status of your new deposit below.
+          history_html: Once you complete sending, click <a href='javascript:window.location.reload();'>refresh</a> to check the status of your new deposit below.

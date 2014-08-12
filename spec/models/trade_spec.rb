@@ -47,7 +47,7 @@ describe Trade, ".collect_side" do
   end
 
   it "should sort trades in reverse creation order" do
-    Trade.for_member(ask.currency, member).first.should == trades.last
+    Trade.for_member(ask.currency, member, order: 'id desc').first.should == trades.last
   end
 
   it "should return 1 trade" do

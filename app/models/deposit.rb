@@ -29,8 +29,6 @@ class Deposit < ActiveRecord::Base
   include AASM::Locking
   include Currencible
 
-  attr_accessor :save_fund_source
-
   has_paper_trail on: [:update, :destroy]
 
   enumerize :aasm_state, in: STATES, scope: true
@@ -42,8 +40,6 @@ class Deposit < ActiveRecord::Base
 
   belongs_to :member
   belongs_to :account
-
-  after_create :create_fund_source, if: :save_fund_source?
 
   validates_presence_of \
     :amount, :account, \
@@ -125,18 +121,5 @@ class Deposit < ActiveRecord::Base
 
   def calc_fee
     [amount, 0]
-  end
-
-  def save_fund_source?
-    [true, 'true', '1', 1].include? @save_fund_source
-  end
-
-  def create_fund_source
-    FundSource.find_or_create_by \
-      member: member,
-      currency: currency_value,
-      channel_id: channel.id,
-      uid: fund_uid,
-      extra: fund_extra
   end
 end
