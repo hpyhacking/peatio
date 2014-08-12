@@ -15,8 +15,9 @@ zh-CN:
       deposits/bank:
         created_at: 时间
         holder: 持卡人姓名
-        fund_extra: 开户银行
-        fund_uid: 账号
+        fund_extra: 转账银行
+        fund_extra_text: 转账银行
+        fund_uid: 转账账号
         member_sn: 个人识别码
         member_name: 开户户名
         amount: 充值金额
