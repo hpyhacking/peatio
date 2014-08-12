@@ -8,7 +8,7 @@ module Private
     def update
       @id_document = current_user.id_document
 
-      if @id_document.update_attributes id_docuemnt_params
+      if @id_document.update_attributes id_document_params
         # Auto approve id_document verify
         @id_document.submit!  if @id_document.may_submit?
         @id_document.approve! if @id_document.may_approve?

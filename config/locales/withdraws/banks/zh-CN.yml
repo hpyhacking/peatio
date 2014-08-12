@@ -54,6 +54,11 @@ zh-CN:
           manage_fund_source: 管理提现账号
           submit: 提交
           allin: 全部提取
+          service-time: 人民币提现服务时间：9:00 - 18:00
+          service-time-2: 18：00后的提现申请次日处理
+        edit:
+          service-time: 人民币提现服务时间：9:00 - 18:00（18：00后的提现申请次日处理）
+          service-time-2: 18：00后的提现申请次日处理
         create:
           notice: 您的提现请求提交成功，请按照提示继续完成您的转账操作。
 
@@ -72,25 +77,6 @@ zh-CN:
           reject_confirm: 确定驳回提现？
           withdraw: 银行卡提现
           empty: 无任何数据
-
-  private:
-    withdraws:
-      banks:
-        update:
-          notice: 银行转账提现申请已提交，我们将尽快为您处理。
-          alert_two_factor: 验证码填写有误，请重新输入。
-        destroy:
-          notice: 银行转账提现申请已撤销，冻结金额已退回到您的账户中。
-        new:
-          submit: 提交
-          allin: 全部提取
-          fund_uid: 使用已有银行账号或输入新账号
-          fund_extra: 选择开户行
-          service-time: 人民币提现服务时间：9:00 - 18:00
-          service-time-2: 18：00后的提现申请次日处理
-        edit:
-          service-time: 人民币提现服务时间：9:00 - 18:00（18：00后的提现申请次日处理）
-          service-time-2: 18：00后的提现申请次日处理
 
   simple_form:
     labels:
