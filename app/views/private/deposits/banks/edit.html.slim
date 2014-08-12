@@ -9,25 +9,11 @@
     hr.split
 
   = f.input :member_name, hint: false
-  = f.input :fund_extra
+  = f.input :fund_extra_text
   = f.input :fund_uid
   = f.input :amount, hint: false, clip: true
   = f.input :sn, clip: true, hint: raw(t('simple_form.hints.deposit.bank.sn', sn: @deposit.sn))
 
   hr.split
 
-= content_for :after
-  = panel do
-    = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
-      - t.column :sn, class: 'col-md-2'
-      - t.column :created_at, class: 'col-md-2'
-      - t.column :label, class: 'col-md-3' do |x|
-        span = "#{x.fund_extra} @ "
-        code.text-info = x.fund_uid
-      - t.column :amount, class: 'col-md-2'
-      - t.column :state_and_action, class: 'col-md-2' do |x|
-        - if x.aasm_state.submitting?
-          span = "#{x.aasm_state_text} / "
-          = link_to t('actions.cancel'), url_for([x]), method: :delete
-        - else
-          span = x.aasm_state_text
+= render partial: 'assets', locals: { assets: @assets, model: @model }
