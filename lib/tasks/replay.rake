@@ -43,9 +43,11 @@ namespace :replay do
       v0 = acc.versions.order(:id).where('created_at < ?', start).last
       balances[acc.currency] = arr = [v0.amount]
 
-      acc.versions.select([:created_at, :amount]).order(:id).where('abs(locked) != abs(balance) and id > ?', v0.id).each do |v|
-        index = (v.created_at.to_i - start.to_i - period) / period
-        arr[bln_arr.size + index + 1] = v.amount if arr[bln_arr.size + index + 1].nil?
+      acc.versions.select([:id, :created_at, :amount]).order(:id).where('abs(locked) != abs(balance) and id > ?', v0.id).find_in_batches(batch_size: 5000) do |versions|
+        versions.each do |v|
+          index = (v.created_at.to_i - start.to_i - period) / period
+          arr[bln_arr.size + index + 1] = v.amount if arr[bln_arr.size + index + 1].nil?
+        end
       end
       arr[arr_size - 1] = acc.versions.last.amount
       arr = arr[0, arr_size] if arr.count > arr_size
@@ -76,9 +78,11 @@ namespace :replay do
       v0 = acc.versions.order(:id).where('created_at < ?', start).last
       balances[acc.currency] = arr = [v0.amount]
 
-      acc.versions.select([:created_at, :amount]).order(:id).where('abs(locked) != abs(balance) and id > ?', v0.id).each do |v|
-        index = (v.created_at.to_i - start.to_i - period) / period
-        arr[bln_arr.size + index + 1] = v.amount if arr[bln_arr.size + index + 1].nil?
+      acc.versions.select([:id, :created_at, :amount]).order(:id).where('abs(locked) != abs(balance) and id > ?', v0.id).find_in_batches(batch_size: 5000) do |versions|
+        versions.each do |v|
+          index = (v.created_at.to_i - start.to_i - period) / period
+          arr[bln_arr.size + index + 1] = v.amount if arr[bln_arr.size + index + 1].nil?
+        end
       end
       arr[arr_size - 1] = acc.versions.last.amount
       arr = arr[0, arr_size] if arr.count > arr_size
