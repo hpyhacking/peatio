@@ -33,7 +33,7 @@ namespace :replay do
     puts "replaying for #{m.email}"
 
     period = 600
-    start = Date.new(2014, 8, 1).to_time
+    start = Time.new(2014, 8, 1, 8, 0, 0)
     start = Time.at(start.to_i + bln_arr.size * period)
     arr_size = bln_arr.size + (Time.now.to_i - start.to_i) / period + 1
 
@@ -43,7 +43,7 @@ namespace :replay do
       v0 = acc.versions.order(:id).where('created_at < ?', start).last
       balances[acc.currency] = arr = [v0.amount]
 
-      acc.versions.select([:created_at, :amount]).order(:id).where('abs(locked) != abs(balance) and created_at >= ?', start).each do |v|
+      acc.versions.select([:created_at, :amount]).order(:id).where('abs(locked) != abs(balance) and id > ?', v0.id).each do |v|
         index = (v.created_at.to_i - start.to_i - period) / period
         arr[bln_arr.size + index + 1] = v.amount if arr[bln_arr.size + index + 1].nil?
       end
@@ -66,7 +66,7 @@ namespace :replay do
     puts "replaying for #{m.email}"
 
     period = 600
-    start = Date.new(2014, 8, 1).to_time
+    start = Time.new(2014, 8, 1, 8, 0, 0)
     start = Time.at(start.to_i + bln_arr.size * period)
     arr_size = bln_arr.size + (Time.now.to_i - start.to_i) / period + 1
 
@@ -76,7 +76,7 @@ namespace :replay do
       v0 = acc.versions.order(:id).where('created_at < ?', start).last
       balances[acc.currency] = arr = [v0.amount]
 
-      acc.versions.select([:created_at, :amount]).order(:id).where('abs(locked) != abs(balance) and created_at >= ?', start).each do |v|
+      acc.versions.select([:created_at, :amount]).order(:id).where('abs(locked) != abs(balance) and id > ?', v0.id).each do |v|
         index = (v.created_at.to_i - start.to_i - period) / period
         arr[bln_arr.size + index + 1] = v.amount if arr[bln_arr.size + index + 1].nil?
       end
