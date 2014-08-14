@@ -3,7 +3,8 @@ namespace :replay do
   desc "replay account balances"
   task account: :environment do
     start = Date.new(2014, 8, 1).to_time
-    period = 6000
+    period = 600
+    arr_size = (Time.now.to_i - start.to_i) / period + 1
 
     players = Member.find_all_by_email(['foo@peatio.dev','bar@peatio.dev']).collect do |m|
       puts "replaying for #{m.email}"
@@ -13,10 +14,13 @@ namespace :replay do
         v0 = acc.versions.order(:id).where('created_at < ?', start).last
         balances[acc.currency] = arr = [v0.amount]
 
-        acc.versions.order(:id).where('created_at >= ?', start).each do |v|
+        acc.versions.order(:id).where('abs(locked) != abs(balance) and created_at >= ?', start).each do |v|
           index = (v.created_at.to_i - start.to_i - period) / period
           arr[index + 1] = v.amount if arr[index + 1].nil?
         end
+        arr[arr_size - 1] = acc.versions.last.amount
+        arr = arr[0, arr_size] if arr.count > arr_size
+
         arr.each_with_index{|item, index| arr[index] = arr[index - 1] if arr[index].nil?}
         arr.collect!{|item| item.to_f.round(2) }
       end
@@ -37,10 +41,13 @@ namespace :replay do
         v0 = acc.versions.order(:id).where('created_at < ?', start).last
         balances[acc.currency] = arr = [v0.amount]
 
-        acc.versions.order(:id).where('created_at >= ?', start).each do |v|
+        acc.versions.order(:id).where('abs(locked) != abs(balance) and created_at >= ?', start).each do |v|
           index = (v.created_at.to_i - start.to_i - period) / period
           arr[index + 1] = v.amount if arr[index + 1].nil?
         end
+        arr[arr_size - 1] = acc.versions.last.amount
+        arr = arr[0, arr_size] if arr.count > arr_size
+
         arr.each_with_index{|item, index| arr[index] = arr[index - 1] if arr[index].nil?}
         arr.collect!{|item| item.to_f.round(2) }
       end
