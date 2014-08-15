@@ -3,7 +3,7 @@ module Withdraws
     extend ActiveSupport::Concern
 
     included do
-      validates_presence_of :fund_extra, :holder
+      validates_presence_of :fund_extra
 
       delegate :name, to: :member, prefix: true
 
