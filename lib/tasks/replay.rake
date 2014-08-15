@@ -44,7 +44,7 @@ namespace :replay do
       acc.versions.select([:id, :created_at, :amount]).order(:id).where('abs(locked) != abs(balance) and id > ?', v0.id).find_in_batches(batch_size: 20000) do |versions|
         versions.each do |v|
           index = (v.created_at.to_i - start.to_i - period) / period
-          arr[bln_arr.size + index + 1] = v.amount if arr[bln_arr.size + index + 1].nil?
+          arr[bln_arr.size + index + 1] = v.amount
         end
       end
       arr[arr_size - 1] = acc.versions.last.amount
@@ -83,7 +83,7 @@ namespace :replay do
       acc.versions.select([:id, :created_at, :amount]).order(:id).where('abs(locked) != abs(balance) and id > ?', v0.id).find_in_batches(batch_size: 20000) do |versions|
         versions.each do |v|
           index = (v.created_at.to_i - start.to_i - period) / period
-          arr[bln_arr.size + index + 1] = v.amount if arr[bln_arr.size + index + 1].nil?
+          arr[bln_arr.size + index + 1] = v.amount
         end
       end
       arr[arr_size - 1] = acc.versions.last.amount
