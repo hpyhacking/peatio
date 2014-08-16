@@ -158,7 +158,7 @@ A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do b
     cd peatio/current
 
     ＃ Install dependency gems
-    bundle install --without development test
+    bundle install --without development test --path vendor/bundle
 
 ##### Configure Peatio
 
