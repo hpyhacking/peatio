@@ -16,6 +16,7 @@ namespace :admin do
   resources :members, :only => [:index, :show, :update] do
     member do
       post :toggle
+      put  :deactive_two_factor
     end
   end
 
