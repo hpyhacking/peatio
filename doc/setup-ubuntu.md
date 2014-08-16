@@ -3,26 +3,17 @@ Setup on Ubuntu 14.04 LTS
 
 ### Overview
 
-1. Setup deploy user
-2. Install [Ruby](https://www.ruby-lang.org/en/)
-3. Install [MySQL](http://www.mysql.com/)
-4. Install [Redis](http://redis.io/)
-5. Install [RabbitMQ](https://www.rabbitmq.com/)
-6. Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
-7. Install [PhantomJS](http://phantomjs.org/)
-8. Install a JavaScript Runtime
-9. Configure Peatio
+1. Install [Ruby](https://www.ruby-lang.org/en/)
+2. Install [MySQL](http://www.mysql.com/)
+3. Install [Redis](http://redis.io/)
+4. Install [RabbitMQ](https://www.rabbitmq.com/)
+5. Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
+6. Install [PhantomJS](http://phantomjs.org/)
+7. Install a JavaScript Runtime
+8. Configure Peatio
 
-### 1. Setup deploy user
 
-Create (if it doesn’t exist) deploy user, and assign it to the sudo group:
-
-    adduser deploy
-    usermod -a -G sudo deploy
-
-Re-login as deploy user
-
-### 2. Install Ruby
+### Step 1: Install Ruby
 
 Make sure your system is up-to-date.
 
@@ -56,11 +47,11 @@ Install bundler
     gem install bundler
     rbenv rehash
 
-### 3. Install MySQL
+### Step 2: Install MySQL
 
     sudo apt-get install mysql-server  mysql-client  libmysqlclient-dev
 
-### 4. Install Redis
+### Step 3: Install Redis
 
 Be sure to install the latest stable Redis, as the package in the distro may be a bit old:
 
@@ -68,7 +59,7 @@ Be sure to install the latest stable Redis, as the package in the distro may be 
     sudo apt-get update
     sudo apt-get install redis-server
 
-### 5. Install RabbitMQ
+### Step 4: Install RabbitMQ
 
 Please follow instructions here: https://www.rabbitmq.com/install-debian.html
 
@@ -83,7 +74,7 @@ Please follow instructions here: https://www.rabbitmq.com/install-debian.html
     chmod +x rabbitmqadmin
     sudo mv rabbitmqadmin /usr/local/sbin
 
-### 6. Install Bitcoind
+### Step 5: Install Bitcoind
 
     sudo add-apt-repository ppa:bitcoin/bitcoin
     sudo apt-get update
@@ -112,7 +103,7 @@ Insert the following lines into the bitcoin.conf, and replce with your username 
 
     bitcoind
 
-### 7. Install PhantomJS
+### Step 6: Install PhantomJS
 
 Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to run the tests. Install the PhantomJS is neccessary.
 
@@ -123,13 +114,13 @@ Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to r
     git checkout 1.9
     ./build.sh
 
-### 8. Install a JavaScript Runtime
+### Step 7: Install a JavaScript Runtime
 
 A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do but Node.js is recommended.
 
     sudo apt-get install nodejs
 
-### 9. Configure Peatio
+### Step 8: Configure Peatio
 
 **Clone the project**
 
