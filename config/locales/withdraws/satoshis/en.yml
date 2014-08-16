@@ -31,12 +31,12 @@ en:
         withdraws/satoshi:
           attributes:
             sum:
-              poor: 账户余额不足，请核对。
-              greater_than: 小于单笔最低限额。
+              poor: Account balance is insufficient
+              greater_than: Greater than
             fund_uid:
-              blank: 请输入您的提现地址。
-              invalid: 无效的提现地址，请核对。
-              ismine: 提现地址为系统所有，请更换其他地址。
+              blank: Please enter your withdrawal address
+              invalid: Invalid withdrawals address, please review.
+              ismine: Please use a new address.
 
   withdraws/satoshi:
     aasm_state:
@@ -72,17 +72,17 @@ en:
   admin:
     withdraws:
       satoshis:
-        index:
-          one: 待处理提现订单
-          all: 二十四小时内订单
-          empty: 无任何数据
+        index: 
+          one: Pending withdrawals
+          all: Last 24 hours
+          empty: No data
         show:
-          process: 受理
-          succeed: 提现
-          reject: 驳回
-          succeed_confirm: 确定处理提现？
-          reject_confirm: 确定驳回提现？
-          withdraw: 比特币提现
+          process: Accepted
+          succeed: Withdraw
+          reject: Reject
+          succeed_confirm: Process withdrawal?
+          reject_confirm: Reject withdrawal?
+          withdraw: Withdrawals
 
   simple_form:
     labels:

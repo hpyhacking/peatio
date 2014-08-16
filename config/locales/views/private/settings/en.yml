@@ -1,15 +1,15 @@
 en:
   private:
     settings:
-      success: Settings updated successfully
-      failure: Invalid passcode. Please try again
+      success: Settings updated successfully.
+      failure: Invalid passcode. Please try again.
 
       index:
         safety_instruction: In order to protect your bitcoins and personal information, we strongly suggest that you use  Two-factor Authentication
         reset_password: Rest your Password
 
         reauthenticate: Authentication
-        activated:  An  email has been sent to your mailbox, please check it  for verification as soon as possible. If you do not received it , please click "send it again" button
+        activated:  An  email has been sent to your mailbox, please check it for verification as soon as possible. If you do not received it , please click "send it again" button
         auth-activated: Please confirm your email address first.
         auth-verified: Please verify your account first.
 
@@ -24,7 +24,7 @@ en:
 
         phone_number:
           title: Phone Number
-          description: Provide a phone number will make your account more secure. you can quickly reset your password and your account operations will be notified.
+          description: Provide a phone number will make your account more secure. You can quickly reset your password and your account operations will be notified.
           go: Set
           verified: Verified
 
@@ -42,13 +42,13 @@ en:
 
         asset_passwords:
           title: Asset password
-          description: The Asset password will be  needed when you withdrawal your money. It is strongly recommended that you do not use the same password as login password !
+          description: The asset password will be needed when you withdraw your money. It is strongly recommended that you do not use the same password as your account password!
 
           go: Set
 
         passwords:
           title: Password
-          description: This  passwords is required for login , please keep it in mind.
+          description: This password is required for login, please remember it.
           go: Change Password
 
     otps:

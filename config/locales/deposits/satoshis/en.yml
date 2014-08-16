@@ -3,7 +3,7 @@ en:
     satoshi:
       key: Block Chain
       title: Bitcoin Deposits
-      intro: Deposit bitcoin from your own Wallet address to Peatio account
+      intro: Deposit bitcoin from your own wallet address to Peatio account
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
@@ -37,10 +37,10 @@ en:
     deposits:
       satoshis:
         update:
-          notice: 此笔充值已经成功到账。
+          notice: The deposit was successful.
         index:
-          accept: 充值充值
-          accept_confirm: 确定立刻确认此充值？
+          accept: Accept
+          accept_confirm: Confirm deposit?
 
   private:
     deposits:

@@ -3,52 +3,52 @@ en:
     tickets:
       view: View
       close: Close Ticket
-      comments_count: comments count
+      comments_count: Comments Count
       replies: Replies
       open_tickets: Open Tickets
       closed_tickets: Closed Tickets
     members:
       show:
-        member_title: 用户信息
-        actions_title: 操作
-        accounts_title: 账户信息
-        account_versions_title: 账户记录
+        member_title: User Information
+        actions_title: Action
+        accounts_title: Account Information
+        account_versions_title: Records
     dashboard:
       index:
-        accounts_title: 账户汇总
-        daemons_title: 系统汇总
+        accounts_title: Account Summary
+        daemons_title: System Summary
     documents:
       index:
-        new: 新建文档
+        new: New Document
     statistic:
-      filter: 筛选
-      summary: 总结
-      click-to-expand: 点击展开
+      filter: Filter
+      summary: Summary
+      click-to-expand: Expand
       members:
         show:
-          table: 用户数据结果
+          table: Results
       orders:
         show:
-          avg: 挂单均价
-          sum: 挂单量
-          sum_strike: 被成交量
-          count: 挂单数
+          avg: Average
+          sum: Order Volume
+          sum_strike: By Volume
+          count: Count
       trades:
         show:
-          count: 成交数
-          volume: 总量成交
-          amount: 总价成交
-          min_price: 最低成交价
-          max_price: 最高成交价
-          avg_price: 平均成交价
-          amount_fee: 总价手续费
-          volume_fee: 总量手续费
+          count: Transactions
+          volume: Volume
+          amount: Total Amount
+          min_price: Minimum Price
+          max_price: Maximum Price
+          avg_price: Average Price
+          amount_fee: Transaction Fee
+          volume_fee: Total Fee
       deposits:
         show:
-          count: 总数
-          amount: 金额合计
+          count: Total
+          amount: Total Amount
       withdraws:
         show:
-          count: 总数
-          amount: 金额合计
-          fee: 手续费
+          count: Total
+          amount: Total Amount
+          fee: Fee

@@ -113,7 +113,7 @@ en:
       columns:
         member: Member
         address_type_text: Pay type
-        tx_id: TX ID
+        tx_id: TxID
         amount: Amount
         currency: Currency
         created_at: Created at

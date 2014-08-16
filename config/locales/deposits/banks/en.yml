@@ -3,7 +3,7 @@ en:
     bank:
       key: Bank transfer
       title: Bank transfer
-      intro: Bank transfer deposits, Recommend for large recharge
+      intro: Bank transfer deposits, recommend for large recharge
       latency: 10 minutes
       transfer: Manual
       go: Deposit
@@ -58,7 +58,7 @@ en:
       deposits:
         banks:
           panel: Bank Transfer
-          intro: Bank transfer deposits, Recommend for large recharge.
+          intro: Bank transfer deposits, recommend for large recharge.
           new:
             default-panel: Bank Transfer Deposit History
           create:
@@ -82,14 +82,14 @@ en:
     deposits:
       banks:
         index:
-          oneday: Rrequests in 24 hours
-          available: All pending requires
+          oneday: Requests in the last 24 hours
+          available: All Pending Requests
         show:
-          alert: Not find Recharge, can not process.
+          alert: Recharge cannot be located.
           notice: The recharge have been successful.
           deposit: Deposit Request
           accept: Accept
           target_deposit: Wire Transfer
-          confirm: Confirm accept recharge?
+          confirm: Confirm recharge?
         update:
-          blank_txid: Txid can't be blank
+          blank_txid: TxID can't be blank

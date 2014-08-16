@@ -22,16 +22,16 @@ en:
         step-3: Step 3
         or: OR
         download-app: Install Google Authenticator app on your smart phone and open it.
-        guide-link: 具体操作方式可<a href='https://support.google.com/accounts/answer/1066447?hl=zh-Hans' target='_blank'>Click Here</a>。
-        scan-qr-code: Scan the following two-dimensional code with Google Authenticator APP，or add cipher text to the validator manually.
+        guide-link: <a href='https://support.google.com/accounts/answer/1066447' target='_blank'>Installation Instructions</a>。
+        scan-qr-code: Scan the following QR code with Google Authenticator APP，or add cipher text to the validator manually.
         enter-passcode: Fill in the dynamic password  displayed by your phone  to activate two-factor verification.
         submit: Enable
         ios: Iphone iOS
         android: Android
         blackbery: Blackberry
       update:
-        alert: Password for authentication  is incorrect, please re-enter.
+        alert: Password for authentication is incorrect, please re-enter.
         notice: Two-factor authentication has been successfully Enabled.
       destroy:
-        alert: Password for authentication  is incorrect, please re-enter.
+        alert: Password for authentication is incorrect, please re-enter.
         notice: Two-factor authentication has been successfully Disabled.
