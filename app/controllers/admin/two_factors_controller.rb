@@ -3,7 +3,7 @@ module Admin
     load_and_authorize_resource
 
     def destroy
-      @two_factor.inactive!
+      @two_factor.deactive!
 
       redirect_to :back
     end

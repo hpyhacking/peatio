@@ -38,7 +38,7 @@ class TwoFactor < ActiveRecord::Base
     update activated: true
   end
 
-  def inactive!
+  def deactive!
     update activated: false
   end
 

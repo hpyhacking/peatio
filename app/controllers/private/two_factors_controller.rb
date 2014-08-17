@@ -24,7 +24,7 @@ module Private
 
     def destroy
       if two_factor_verified?
-        @two_factor.inactive!
+        @two_factor.deactive!
         redirect_to settings_path, notice: t('.notice')
       else
         flash[:alert] = t('.alert')
