@@ -7,3 +7,4 @@ en:
         deactive_app_two_factor: Google TFA
         inactive: Inactive
         deactive: Deactive
+        are_you_sure: Are you sure deactive two factor authentication?

@@ -19,16 +19,16 @@
       = item_for t('.deactive_sms_two_factor') do
         - sms_two_factor = member.two_factors.by_type(:sms)
         - if sms_two_factor.activated?
-          = link_to t('.deactive'), admin_member_two_factor_path(member, sms_two_factor), method: :delete, class: 'btn btn-primary btn-xs'
+          = link_to t('.deactive'), admin_member_two_factor_path(member, sms_two_factor), method: :delete, confirm: t('.are_you_sure'), class: 'btn btn-danger btn-xs'
         - else
-          span = link_to t('.inactive'), 'javascript:;', class: 'btn btn-primary btn-xs', disabled: 'disabled'
+          span = t('.inactive')
 
       = item_for t('.deactive_app_two_factor') do
         - app_two_factor = member.two_factors.by_type(:app)
         - if app_two_factor.activated?
-          = link_to t('.deactive'), admin_member_two_factor_path(member, app_two_factor), method: :delete, class: 'btn btn-primary btn-xs'
+          = link_to t('.deactive'), admin_member_two_factor_path(member, app_two_factor), method: :delete, confirm: t('.are_you_sure'), class: 'btn btn-danger btn-xs'
         - else
-          span = link_to t('.inactive'), 'javascript:;', class: 'btn btn-primary btn-xs', disabled: 'disabled'
+          span = t('.inactive')
 
 
   = table_for(member.accounts, class: 'table table-condensed table-hover', model: Account) do |t|

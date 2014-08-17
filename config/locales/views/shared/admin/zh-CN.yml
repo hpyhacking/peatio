@@ -7,3 +7,4 @@ zh-CN:
         deactive_app_two_factor: 谷歌两步验证
         inactive: 未激活
         deactive: 取消
+        are_you_sure: 确认取消二次验证？
