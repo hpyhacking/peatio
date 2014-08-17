@@ -3,3 +3,7 @@ zh-CN:
     admin:
       member:
         member_info: 用户信息
+        deactive_sms_two_factor: 短信两步验证
+        deactive_app_two_factor: 谷歌两步验证
+        inactive: 未激活
+        deactive: 取消

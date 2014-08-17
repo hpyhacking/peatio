@@ -3,3 +3,7 @@ en:
     admin:
       member:
         member_info: Member Info
+        deactive_sms_two_factor: SMS TFA
+        deactive_app_two_factor: Google TFA
+        inactive: Inactive
+        deactive: Deactive

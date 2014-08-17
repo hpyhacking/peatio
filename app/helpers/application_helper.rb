@@ -206,7 +206,7 @@ module ApplicationHelper
     end
   end
 
-  def item_for(model_or_title, name, value = nil, &block)
+  def item_for(model_or_title, name='', value = nil, &block)
     if model_or_title.is_a? String or model_or_title.is_a? Symbol
       title = model_or_title
       capture do
