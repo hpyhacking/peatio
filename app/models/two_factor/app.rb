@@ -13,6 +13,8 @@
 class TwoFactor::App < ::TwoFactor
 
   def verify(otp = nil)
+    return false if otp_secret.blank?
+
     rotp = ROTP::TOTP.new(otp_secret)
 
     if rotp.verify(otp || self.otp)
