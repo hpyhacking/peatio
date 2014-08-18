@@ -90,23 +90,6 @@ describe Withdraw do
       expect(subject.sum).to eq subject.account_versions.last.locked
     end
 
-    it 'transitions to :accepted with normal account after calling #submit!' do
-      subject.submit!
-
-      Worker::WithdrawAudit.new.process({id: subject.id}, {}, {})
-
-      expect(subject.reload.accepted?).to be_true
-    end
-
-    it 'transitions to :suspect with suspect account after calling #submit!' do
-      subject.account.update_attribute(:balance, 1000.to_d)
-      subject.submit!
-
-      Worker::WithdrawAudit.new.process({id: subject.id}, {}, {})
-
-      expect(subject.reload.suspect?).to be_true
-    end
-
     it 'transitions to :rejected after calling #reject!' do
       subject.submit!
       subject.accept!
