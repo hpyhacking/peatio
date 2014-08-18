@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+ENV["RAILS_ENV"] ||= "development"
+
+root = File.expand_path(File.dirname(__FILE__))
+root = File.dirname(root) until File.exists?(File.join(root, 'config'))
+Dir.chdir(root)
+
+require File.join(root, "config", "environment")
+
+$running = true
+Signal.trap("TERM") do
+  $running = false
+end
+
+while($running) do
+  Withdraw.submitted.each do |withdraw|
+    if withdraw.coin?
+      currency = withdraw.currency
+      fund_uid = withdraw.fund_uid
+      result = CoinRPC[currency].validateaddress(fund_uid)
+
+      if result[:isvalid] == false
+        withdraw.reject!
+        return
+      elsif (result[:ismine] == true) || PaymentAddress.find_by_address(fund_uid)
+        withdraw.reject!
+        return
+      end
+    end
+
+    withdraw.with_lock do
+      if withdraw.account.examine
+        withdraw.accept!
+      else
+        withdraw.mark_suspect!
+      end
+    end
+  end
+
+  sleep 5
+end

@@ -80,10 +80,6 @@ class Withdraw < ActiveRecord::Base
     !coin?
   end
 
-  def audit
-    AMQPQueue.enqueue(:withdraw_audit, id: id) if submitted?
-  end
-
   def position_in_queue
     last_done = Rails.cache.fetch(last_completed_withdraw_cache_key) do
       self.class.completed.maximum(:id)
@@ -104,7 +100,7 @@ class Withdraw < ActiveRecord::Base
 
   aasm :whiny_transitions => false do
     state :submitting,  initial: true
-    state :submitted,   after_commit: :audit
+    state :submitted
     state :canceled,    after_commit: :send_email
     state :accepted
     state :suspect,     after_commit: :send_email

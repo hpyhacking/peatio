@@ -32,8 +32,6 @@ queue:
     name: peatio.pusher.market
   pusher_member:
     name: peatio.pusher.member
-  withdraw_audit:
-    name: peatio.withdraw.audit
   withdraw_coin:
     name: peatio.withdraw.coin
   deposit_coin:
@@ -69,8 +67,6 @@ binding:
     exchange: trade
   pusher_member:
     queue: pusher_member
-  withdraw_audit:
-    queue: withdraw_audit
   withdraw_coin:
     queue: withdraw_coin
   deposit_coin:
