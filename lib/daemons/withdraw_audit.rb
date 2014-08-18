@@ -18,14 +18,21 @@ while($running) do
     if withdraw.coin?
       currency = withdraw.currency
       fund_uid = withdraw.fund_uid
-      result = CoinRPC[currency].validateaddress(fund_uid)
+
+      begin
+        result = CoinRPC[currency].validateaddress(fund_uid)
+      rescue
+        puts "Error on withdraw: #{$!}"
+        puts $!.backtrace.join("\n")
+        next
+      end
 
       if result[:isvalid] == false
         withdraw.reject!
-        return
+        next
       elsif (result[:ismine] == true) || PaymentAddress.find_by_address(fund_uid)
         withdraw.reject!
-        return
+        next
       end
     end
 
