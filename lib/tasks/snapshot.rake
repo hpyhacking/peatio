@@ -23,11 +23,11 @@ namespace :snapshot do
 
     asks = ask_orders.map do |mid, amount|
       m = Member.find mid
-      [m.id, m.email, amount]
+      [m.id, m.email, m.accounts.with_currency(:btc).first.payment_address.address, amount]
     end
     bids = bid_orders.map do |mid, amount|
       m = Member.find mid
-      [m.id, m.email, amount]
+      [m.id, m.email, m.accounts.with_currency(:btc).first.payment_address.address, amount]
     end
 
     asks_total = asks.map(&:last).reduce(&:+)
