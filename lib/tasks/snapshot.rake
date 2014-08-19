@@ -10,10 +10,11 @@ namespace :snapshot do
       case line.strip
       when /(\d+)\/\$([0-9.]+)\/([0-9.]+)/
         order = Order.find $1
+        volume = BigDecimal.new $3
         if order.is_a?(OrderAsk)
-          ask_orders[order.member_id] << order
+          ask_orders[order.member_id] << volume
         else
-          bid_orders[order.member_id] << order
+          bid_orders[order.member_id] << volume
         end
       else
         puts "skip line: #{line}"
@@ -21,14 +22,14 @@ namespace :snapshot do
     end
 
     asks = []
-    ask_orders.each do |mid, orders|
+    ask_orders.each do |mid, vols|
       m = Member.find mid
-      asks << [m.id, m.email, orders.sum(&:volume)]
+      asks << [m.id, m.email, vols.sum]
     end
     bids = []
-    ask_orders.each do |mid, orders|
+    ask_orders.each do |mid, vols|
       m = Member.find mid
-      bids << [m.id, m.email, orders.sum(&:volume)]
+      bids << [m.id, m.email, vols.sum]
     end
 
     asks_total = asks.map(&:last).reduce(&:+)
