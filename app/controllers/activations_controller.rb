@@ -4,6 +4,8 @@ class ActivationsController < ApplicationController
   before_action :token_required!, only: :edit
 
   def new
+    return redirect_to signin_path, notice: t('.login_required') if current_user.nil?
+
     if current_user.activated?
       redirect_to settings_path and return
     end

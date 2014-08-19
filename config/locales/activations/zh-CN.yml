@@ -1,0 +1,4 @@
+zh-CN:
+  activations:
+    new:
+      login_required: 本操作需要登录，请先登录
