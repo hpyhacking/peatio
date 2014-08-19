@@ -46,7 +46,7 @@ en:
       deposit:
         currency-address-type: Currency - Pay type
         state: State
-        tx_id: TX ID
+        tx_id: TxID
         member_id: Member ID
         created_at: Submitted at
         address: Address

@@ -12,9 +12,9 @@ en:
         city: City
         country: Country
         zipcode: Zipcode
-        id_document_type: ID Document Type
-        id_document_number: ID Document Number
-        id_document_file: ID Document Photo
+        id_document_type: Document Type
+        id_document_number: Document Number
+        id_document_file: Document Photo
         id_bill_type: Proof Of Residence
         id_bill_file: Proof Of Residence Photo
       update:
