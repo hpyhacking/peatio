@@ -1,5 +1,46 @@
 namespace :snapshot do
 
+  desc "calculate member active order voulme percentage of ME snapshot"
+  task member_volume: :environment do
+    ask_orders = Hash.new{|h,k| h[k] = []}
+    bid_orders = Hash.new{|h,k| h[k] = []}
+    File.readlines('/tmp/limit_orderbook_btccny').each do |line|
+      line.strip!
+      current = nil
+      case line.strip
+      when /(\d+)\/\$([0-9.]+)\/([0-9.]+)/
+        order = Order.find $1
+        if order.is_a?(OrderAsk)
+          ask_orders[order.member_id] << order
+        else
+          bid_orders[order.member_id] << order
+        end
+      else
+        puts "skip line: #{line}"
+      end
+    end
+
+    asks = []
+    ask_orders.each do |mid, orders|
+      m = Member.find mid
+      asks << [m.id, m.email, orders.sum(&:volume)]
+    end
+    bids = []
+    ask_orders.each do |mid, orders|
+      m = Member.find mid
+      bids << [m.id, m.email, orders.sum(&:volume)]
+    end
+
+    asks_total = asks.map(&:last).reduce(&:+)
+    bids_total = bids.map(&:last).reduce(&:+)
+
+    asks.each{|ask| ask << (ask.last / asks_total).round(8) }
+    bids.each{|bid| bid << (bid.last / bids_total).round(8) }
+
+    IO.write Rails.root.to_s + '/asks.csv', asks.collect{|item| item.join(',')}.join("\n")
+    IO.write Rails.root.to_s + '/bids.csv', bids.collect{|item| item.join(',')}.join("\n")
+  end
+
   desc "snapshot of orderbook"
   task orderbook: :environment do
     asks = []
