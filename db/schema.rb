@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140806141419) do
+ActiveRecord::Schema.define(version: 20140819085359) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -222,6 +222,7 @@ ActiveRecord::Schema.define(version: 20140806141419) do
 
   add_index "orders", ["currency", "state"], name: "index_orders_on_currency_and_state", using: :btree
   add_index "orders", ["member_id"], name: "index_orders_on_member_id", using: :btree
+  add_index "orders", ["state"], name: "index_orders_on_state", using: :btree
 
   create_table "partial_trees", force: true do |t|
     t.integer  "proof_id",   null: false
