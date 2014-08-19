@@ -2,8 +2,8 @@ namespace :snapshot do
 
   desc "calculate member active order voulme percentage of ME snapshot"
   task member_volume: :environment do
-    ask_orders = Hash.new{|h,k| h[k] = []}
-    bid_orders = Hash.new{|h,k| h[k] = []}
+    ask_orders = Hash.new{|h,k| h[k] = 0}
+    bid_orders = Hash.new{|h,k| h[k] = 0}
     File.readlines('/tmp/limit_orderbook_btccny').each do |line|
       line.strip!
       current = nil
@@ -12,24 +12,22 @@ namespace :snapshot do
         order = Order.find $1
         volume = BigDecimal.new $3
         if order.is_a?(OrderAsk)
-          ask_orders[order.member_id] << volume
+          ask_orders[order.member_id] += volume
         else
-          bid_orders[order.member_id] << volume
+          bid_orders[order.member_id] += volume*order.price
         end
       else
         puts "skip line: #{line}"
       end
     end
 
-    asks = []
-    ask_orders.each do |mid, vols|
+    asks = ask_orders.map do |mid, amount|
       m = Member.find mid
-      asks << [m.id, m.email, vols.sum]
+      [m.id, m.email, amount]
     end
-    bids = []
-    ask_orders.each do |mid, vols|
+    bids = bid_orders.map do |mid, amount|
       m = Member.find mid
-      bids << [m.id, m.email, vols.sum]
+      [m.id, m.email, amount]
     end
 
     asks_total = asks.map(&:last).reduce(&:+)
