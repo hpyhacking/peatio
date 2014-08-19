@@ -1,11 +1,9 @@
 module Withdraws  
   module Withdrawable
-    def self.included base
-      base.class_eval do
-        included do
-          before_filter :fetch
-        end
-      end
+    extend ActiveSupport::Concern
+
+    included do
+      before_filter :fetch
     end
     
     def new
