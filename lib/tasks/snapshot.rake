@@ -3,14 +3,14 @@ namespace :snapshot do
   desc "snapshot of orderbook"
   task orderbook: :environment do
     asks = []
-    OrderAsk.where(state: 'wait').group_by(&:member_id).each do |mid, orders|
+    OrderAsk.active.with_currency('btccny').group_by(&:member_id).each do |mid, orders|
       amount = orders.map(&:volume).reduce(&:+)
       m = Member.find mid
       asks << [m.id, m.email, amount]
     end
 
     bids = []
-    OrderBid.where(state: 'wait').group_by(&:member_id).each do |mid, orders|
+    OrderBid.active.with_currency('btccny').group_by(&:member_id).each do |mid, orders|
       amount = orders.collect{|order| order.volume * order.price }.reduce(&:+)
       m = Member.find mid
       bids << [m.id, m.email, amount]
