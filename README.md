@@ -1,43 +1,43 @@
 An open-source crypto currency exchange
 =====================================
 
-Peatio is a free and open-source crypto currency exchange implementation of Rails framework and other cutitng-edge technologies.
+Peatio is a free and open-source crypto currency exchange implementation of the Rails framework and other cuting-edge technology.
 
 [![Code Climate](https://codeclimate.com/github/peatio/peatio.png)](https://codeclimate.com/github/peatio/peatio)
 [![Build Status](https://travis-ci.org/peatio/peatio.png?branch=master)](https://travis-ci.org/peatio/peatio)
 
 ### Mission
 
-Our mission is to build the world best open-source crypto currency exchagne with high performance, safety, be trusted and enjobable by users. And we also want to move technology of crypto currency exchange forward, with maintainance fix and new features, help people build their own exchange as easily as possible all around the world.
+Our mission is to build the world best open-source crypto currency exchange with a high performance trading engine and safety which can be trusted and enjoyed by users. Additionally we want to move thecrypto currency exchange  technology forward by providing support and add new features. We are helping people to build easy their own exchange around the world.
 
-Any help is greatly appreciated, feel free to submit pull-requests or open issues.
+Help is greatly appreciated, feel free to submit pull-requests or open issues.
 
 
 ### Features
 
-* Designed for high performance crypto currency exchange.
-* Built-in high performance matching-engine.
-* Built-in [Proof of Solvency](https://iwilcox.me.uk/2014/proving-bitcoin-reserves) Audit.
-* Built-in ticket system for customer support.
-* Usability and scalibility.
-* Websocket API and high frequency trading support.
-* Support multiple digital currencies, like Bitcoin, Litecoin, Dogecoin, etc.
-* Highly customized of payment processing for both fait and digital currency.
-* SMS and Google Two-Factor authenticaton.
-* [KYC Verification](http://en.wikipedia.org/wiki/Know_your_customer).
-* Powerful admin dashboard and management tools.
-* Highly configurable and extendable.
-* Industry standard security out of box.
-* Activity community behind.
-* Free and open-source.
-* Lovingly created and maintained by [Peatio open-source group](http://peat.io).
+* Designed as high performance crypto currency exchange
+* Built-in high performance matching-engine
+* Built-in [Proof of Solvency](https://iwilcox.me.uk/2014/proving-bitcoin-reserves) Audit
+* Built-in ticket system for customer support
+* Usability and scalibility
+* Websocket API and high frequency trading support
+* Support multiple digital currencies (eg. Bitcoin, Litecoin, Dogecoin etc.)
+* Easy customization of payment processing for both fiat or digital currencies
+* SMS and Google Two-Factor authenticaton
+* [KYC Verification](http://en.wikipedia.org/wiki/Know_your_customer)
+* Powerful admin dashboard and management tools
+* Highly configurable and extendable
+* Industry standard security out of box
+* Active community behind
+* Free and open-source
+* Created and maintained by [Peatio open-source group](http://peat.io).
 
 
 ### Known Exchanges using Peatio
 
 * [Peatio Exchange](https://peatio.com) - Peatio Cryptocurrency Exchange in China
 * [ACX.IO](https://acx.io) - Australian Cryptocurrency Exchange
-* [CoinDex.ch](http://coindex.ch) - Swiss Bitcoin Exchange
+* [coindex.ch](http://coindex.ch) - Swiss Bitcoin Exchange
 * [Mulcoin.com](http://mulcoin.com)
 * ecoinz.info (Launch soon) - New Zealand Cryptocurrency Exchange
 
@@ -98,3 +98,5 @@ Peatio is released under the terms of the MIT license. See [http://peatio.mit-li
 [Peatio](http://en.wikipedia.org/wiki/Pixiu) (Chinese: 貔貅) is a Chinese mythical hybrid creature considered to be a very powerful protector to practitioners of Feng Shui.
 
 ![logo](public/peatio.png)
+
+
