@@ -8,7 +8,7 @@ Peatio is a free and open-source crypto currency exchange implementation of the 
 
 ### Mission
 
-Our mission is to build the world best open-source crypto currency exchange with a high performance trading engine and safety which can be trusted and enjoyed by users. Additionally we want to move thecrypto currency exchange  technology forward by providing support and add new features. We are helping people to build easy their own exchange around the world.
+Our mission is to build the world best open-source crypto currency exchange with a high performance trading engine and safety which can be trusted and enjoyed by users. Additionally we want to move the crypto currency exchange technology forward by providing support and add new features. We are helping people to build easy their own exchange around the world.
 
 Help is greatly appreciated, feel free to submit pull-requests or open issues.
 
