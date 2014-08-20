@@ -1,8 +1,46 @@
 An open-source crypto currency exchange
 =====================================
 
+Peatio is an free and open-source crypto currency exchange implementation of Rails framework and other cuting-edge techonloty.
+
 [![Code Climate](https://codeclimate.com/github/peatio/peatio.png)](https://codeclimate.com/github/peatio/peatio)
 [![Build Status](https://travis-ci.org/peatio/peatio.png?branch=master)](https://travis-ci.org/peatio/peatio)
+
+### Mission
+
+Our mission is to build the world best open-source crypto currency exchagne with high performance, safety, be trusted and enjobable by users. And we also want to moving technoloty of crypto currency exchange forward, with maintainance fix and new features, help poeple build they own exchange as easy as possible all around the world.
+
+Any help is greatly appreciated, feel free to submit pull-requests or open issues.
+
+
+### Features
+
+* Designed for high performance crypto currency exchange.
+* Built-in high performance matching-engine.
+* Built-in [Proof of Solvency](https://iwilcox.me.uk/2014/proving-bitcoin-reserves) Audit.
+* Built-in ticket system for custom support
+* Usability and scalibility
+* Websocket API and high frequency trading support
+* Support multiple digital currencies, like Bitcoin, Litecoin, Dogecoin, etc.
+* Highly customized of payment processing for both fait or digital currency.
+* SMS and Google Two-Factor authenticaton.
+* [KYC Verification](http://en.wikipedia.org/wiki/Know_your_customer)
+* Powerful admin dashboard and management tools.
+* Highly configurable and extendable
+* Industry standard security out of box.
+* Activity community behind.
+* Free and open-source.
+* Lovingly created and maintained by [Peatio open-source group](http://peat.io).
+
+
+### Known Exchanges using Peatio
+
+* [Peatio Exchange](https://peatio.com) - Peatio Cryptocurrency Exchange in China
+* [ACX.IO](https://acx.io) - Australian Cryptocurrency Exchange
+* [CoinDex.ch](http://coindex.ch) - Swiss Bitcoin Exchange
+* [Mulcoin.com](http://mulcoin.com)
+* ecoinz.info (Launch soon) - New Zealand Cryptocurrency Exchange
+
 
 ### Requirements
 
@@ -17,10 +55,11 @@ An open-source crypto currency exchange
 ** More details are in the [doc](doc).
 
 
-### Getting start
+### Getting started
 
 * [Setup on Mac OS X](doc/setup-osx.md)
 * [Setup on Ubuntu](doc/setup-ubuntu.md)
+* [Deploy production server](doc/deploy-ubuntu.md)
 
 ### API
 
@@ -32,36 +71,19 @@ You can interact with Peatio through API:
 * [peatio-client-python](https://github.com/JohnnyZhao/peatio-client-python) is a python client written by JohnnyZhao.
 * [peatioJavaClient](https://github.com/classic1999/peatioJavaClient.git) is a java client written by classic1999.
 
-### Contributing
 
-You can contribute to this project in one of two ways:
+### Getting Involved
 
-* Browse our issues, comment on proposals, report bugs.
+Want to report a bug, request a feature, contribute or translate Peatio?
+
+* Browse our [issues](https://github.com/peatio/peatio/issues), comment on proposals, report bugs.
 * Clone the peatio repo, make some changes according to our development guidelines and issue a pull-request with your changes.
-
-
-### Support
-
-* If you need help, use [Stack Overflow](http://stackoverflow.com/questions/tagged/peatio).
-* If you found a bug, use GitHub issues.
-* If you have an idea, use GitHub issues.
-* If you'd like to ask a general question, use GitHub issues.
-* If you want to contribute, submit a pull request.
 * If you want to contact us, drop an email to [community@peatio.com](mailto:community@peatio.com)
 
 
 ### License
 
 Peatio is released under the terms of the MIT license. See [http://peatio.mit-license.org](http://peatio.mit-license.org) for more information.
-
-
-### Known Exchanges using Peatio
-
-* [Peatio Exchange](https://peatio.com) - Peatio Cryptocurrency Exchange in China
-* [ACX.IO](https://acx.io) - Australian Cryptocurrency Exchange
-* [CoinDex.ch](http://coindex.ch) - Swiss Bitcoin Exchange
-* [Mulcoin.com](http://mulcoin.com)
-* ecoinz.info (Launch soon) - New Zealand Cryptocurrency Exchange
 
 
 ### DONATE

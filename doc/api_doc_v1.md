@@ -1,4 +1,4 @@
-# Peatio API v1.0
+# Peatio API v1.0 (Deprecated)
 
 #### Deeps
 
