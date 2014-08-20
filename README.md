@@ -1,14 +1,14 @@
 An open-source crypto currency exchange
 =====================================
 
-Peatio is an free and open-source crypto currency exchange implementation of Rails framework and other cuting-edge techonloty.
+Peatio is a free and open-source crypto currency exchange implementation of Rails framework and other cutitng-edge technologies.
 
 [![Code Climate](https://codeclimate.com/github/peatio/peatio.png)](https://codeclimate.com/github/peatio/peatio)
 [![Build Status](https://travis-ci.org/peatio/peatio.png?branch=master)](https://travis-ci.org/peatio/peatio)
 
 ### Mission
 
-Our mission is to build the world best open-source crypto currency exchagne with high performance, safety, be trusted and enjobable by users. And we also want to moving technoloty of crypto currency exchange forward, with maintainance fix and new features, help poeple build they own exchange as easy as possible all around the world.
+Our mission is to build the world best open-source crypto currency exchagne with high performance, safety, be trusted and enjobable by users. And we also want to move technology of crypto currency exchange forward, with maintainance fix and new features, help people build their own exchange as easily as possible all around the world.
 
 Any help is greatly appreciated, feel free to submit pull-requests or open issues.
 
@@ -18,15 +18,15 @@ Any help is greatly appreciated, feel free to submit pull-requests or open issue
 * Designed for high performance crypto currency exchange.
 * Built-in high performance matching-engine.
 * Built-in [Proof of Solvency](https://iwilcox.me.uk/2014/proving-bitcoin-reserves) Audit.
-* Built-in ticket system for custom support
-* Usability and scalibility
-* Websocket API and high frequency trading support
+* Built-in ticket system for customer support.
+* Usability and scalibility.
+* Websocket API and high frequency trading support.
 * Support multiple digital currencies, like Bitcoin, Litecoin, Dogecoin, etc.
-* Highly customized of payment processing for both fait or digital currency.
+* Highly customized of payment processing for both fait and digital currency.
 * SMS and Google Two-Factor authenticaton.
-* [KYC Verification](http://en.wikipedia.org/wiki/Know_your_customer)
+* [KYC Verification](http://en.wikipedia.org/wiki/Know_your_customer).
 * Powerful admin dashboard and management tools.
-* Highly configurable and extendable
+* Highly configurable and extendable.
 * Industry standard security out of box.
 * Activity community behind.
 * Free and open-source.
