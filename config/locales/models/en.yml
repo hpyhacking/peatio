@@ -158,7 +158,7 @@ en:
             base:
               too_soon: Visit too soon
             email:
-              match: Invalid Sign in Email
+              not-member: Invalid Email
               match: Invalid Sign in Email
             password:
               invalid: Invalid Password
