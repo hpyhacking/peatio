@@ -1,9 +1,8 @@
-感谢您注册 Peatio，赶快点击下面的链接验证你的E-mail吧：
+<%= t(".click_to_verify") %>
 
 <%= @token_url %>
 
-如果链接无法点击，请完整拷贝到浏览器地址栏里直接访问。
-30分钟之后链接失效，请登录重置。
+<%= t(".unable_to_click") %>
+<%= t(".link_expire") %>
 
-Thanks,
-The Peatio Team
+<%= mailer_signature %>

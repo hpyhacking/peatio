@@ -1,0 +1,16 @@
+zh-CN:
+  token_mailer:
+    activation:
+      subject: '[Peatio] 帐号激活'
+      click_to_verify: 感谢您注册 Peatio，赶快点击下面的链接验证你的E-mail吧：
+      unable_to_click: 如果链接无法点击，请完整拷贝到浏览器地址栏里直接访问。
+      link_expire: 30分钟之后链接失效，请登录重置。
+    reset_password:
+      subject: '[Peatio] 请重置您的密码'
+      hi: 您好
+      follow_the_link: 请使用下面的连接，在30分钟之内尝试重置您的登录密码：
+    reset_two_factor:
+      subject: '[Peatio] 请重置您的两步验证'
+      follow_the_link: 请使用下面的连接，在30分钟之内尝试重置您的两步验证：
+      note: 操作成功后两步验证在登录时将被禁用，登录后在账户设置中可再次激活。
+
