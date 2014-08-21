@@ -82,7 +82,7 @@ zh-CN:
     deposit: 充值
     withdraw: 提现
     getstart: 前往交易大厅
-    assets: 资产公开
+    assets: "100%保证金"
     history: 历史记录
     order_history: 委托记录
     trade_history: 成交记录
