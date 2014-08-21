@@ -44,6 +44,7 @@ class Member < ActiveRecord::Base
   delegate :name,       to: :id_document, allow_nil: true
   delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
+  delegate :id_document_number,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :sms_token,   prefix: true
 
   before_validation :generate_sn

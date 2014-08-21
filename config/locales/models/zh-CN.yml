@@ -100,6 +100,7 @@ zh-CN:
         email: 邮件地址
         created_at: 注册时间
         sn: 个人识别码
+        id_document_number: 身份证号码
         tag_list: 标签
         activated: 激活成功
         activated?: 邮件激活

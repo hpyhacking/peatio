@@ -6,6 +6,7 @@
     = description_for :member do
       = item_for member, :name
       = item_for member, :email
+      = item_for member, :id_document_number
       = item_for member, :phone_number do
         - if member.phone_number
           span = member.phone_number
