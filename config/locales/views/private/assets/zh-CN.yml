@@ -5,7 +5,7 @@ zh-CN:
         page_title: "资产公开 - 貔貅交易所"
         page_keywords: "资产,比特币,人民币,网上交易,账目,交易记录"
         page_description: "貔貅（北京）交易所打造的是一个阳光透明的加密数字货币交易平台，公开公布交易所偿付能力，资金流向,比特币总资产,人民币总资产。平台的每一笔资金和收入都有据可查，用户可在任何时候对貔貅（北京）的服务进行监督。"
-        liability-proof: '100%保证金'
+        liability-proof: '100%准备金'
         btc-assets: BTC资产清单
         cny-assets: CNY资产清单
       liability_tabs:
@@ -14,12 +14,12 @@ zh-CN:
         btc-assets-total: 交易所BTC总资产：
         cny-assets-total: 交易所CNY总资产：
       liability_proof:
-        title: '100%保证金'
+        title: '100%准备金'
         intro: 我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。
         how-to-verify: 如何验证交易所具备偿付能力？
         how-to-verify-uri: 'https://peatio.com/documents/liability_proof'
       liability_data:
-        liability-proof-generating: "100%保证金自证数据正在生成中，请30分钟后再来。"
+        liability-proof-generating: "100%准备金自证数据正在生成中，请30分钟后再来。"
         root-json: 交易所总资产验证代码
         partial-tree: 我的%{currency}资产：
         get-partial-tree: 获取我的资产验证代码
