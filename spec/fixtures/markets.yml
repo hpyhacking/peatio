@@ -2,3 +2,8 @@
   code: 3
   bid: {fee: 0, currency: cny, fixed: 2}
   ask: {fee: 0, currency: btc, fixed: 4}
+- id: ptsbtc
+  code: 6
+  bid: {fee: 0, currency: btc, fixed: 4}
+  ask: {fee: 0, currency: pts, fixed: 4}
+  visible: false
