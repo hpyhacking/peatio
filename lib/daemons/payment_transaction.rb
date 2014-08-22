@@ -15,16 +15,16 @@ Signal.trap("TERM") do
 end
 
 while($running) do
-  # PaymentTransactionController process unconfirm transaction created
-  # Daemon process update state and confirmations to final
-
-  Rails.logger.debug "=========================================="
-
-  txs = PaymentTransaction.with_aasm_state(:unconfirm, :confirming)
-  txs.each do |tx|
-    Rails.logger.debug "------- ##{tx.id} -------"
-    ActiveRecord::Base.transaction do tx.check!  end
-    Rails.logger.debug "======= ##{tx.id} ======="
+  PaymentTransaction.with_aasm_state(:unconfirm, :confirming).each do |tx|
+    begin
+      tx.with_lock do
+        tx.check!
+      end
+    rescue
+      puts "Error on PaymentTransaction: #{$!}"
+      puts $!.backtrace.join("\n")
+      next
+    end
   end
 
   sleep 5

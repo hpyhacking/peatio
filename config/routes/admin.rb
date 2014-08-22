@@ -13,10 +13,12 @@ namespace :admin do
     resources :comments, only: [:create]
   end
 
-  resources :members, :only => [:index, :show, :update] do
+  resources :members, only: [:index, :show, :update] do
     member do
       post :toggle
     end
+
+    resources :two_factors, only: [:destroy]
   end
 
   namespace :deposits do

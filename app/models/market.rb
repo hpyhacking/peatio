@@ -11,7 +11,14 @@
 class Market < ActiveYamlBase
   include Enumerizeable
 
+  field :visible, default: true
+
   attr :name, :target_unit, :price_unit
+
+  self.singleton_class.send :alias_method, :all_with_invisible, :all
+  def self.all
+    all_with_invisible.select &:visible
+  end
 
   # TODO: our market id is the opposite of conventional market name.
   # e.g. our 'btccny' market should use 'btccny' as id, and its name should

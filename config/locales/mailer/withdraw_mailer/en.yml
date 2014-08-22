@@ -1,0 +1,5 @@
+en:
+  withdraw_mailer:
+    withdraw_state:
+      subject: Your withdraw state
+      your_state: "Your withdraw's state:"

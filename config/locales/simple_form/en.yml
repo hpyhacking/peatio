@@ -24,7 +24,7 @@ en:
         create: Verify
         update: Activiate
       reset_two_factor:
-        create: Reset Two Factor
+        create: Reset Two-Factor
       reset_password:
         update: Reset Sign in Password
         create: Reset Sign in Password
@@ -55,7 +55,7 @@ en:
       defaults:
         title: Title
       two_factor:
-        uri: Two-dimensional code
+        uri: QR code
         otp_secret: Ciphertext
         otp: Password on the authenticator
       fund_source:
@@ -63,10 +63,10 @@ en:
         address: Address
         category: Category
       session:
-        email: Login E-mail
-        password: Login Password
+        email: Sign In E-mail
+        password: Sign In Password
       identity:
-        email: Login E-mail
+        email: Sign In E-mail
         old_password: Original password
         password: New Password
         password_confirmation: Confirm new password
@@ -83,7 +83,7 @@ en:
         password: Please set your login password
         password_confirmation: Confirm your password
         edit:
-          password: Please set your login password!
+          password: Please set your account password!
       document:
         key: Document link URL key
         title: Document Title
@@ -101,11 +101,11 @@ en:
         password: Please set your login password!
     hints:
       two_factor:
-        otp_secret: We recommend that you back up  two-dimensional code image or ciphertext to avoid that you accidental loss of the phone for the inconvenience.
+        otp_secret: We recommend that you back up QR code image or ciphertext to avoid that you accidental loss of the phone for the inconvenience.
         otp: Your validator will re-generate a new password every thirty seconds, please input timely.
       identity:
         password: Set a password which has at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
       reset_password:
         password: Set a password which has at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
       id_document:
-        name: Please fill in the name which  is consistent with your Credentials.
+        name: Please fill in the name which is consistent with your Credentials.

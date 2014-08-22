@@ -1,6 +1,3 @@
-Peatio Beijing
-===
-
 #### 在本地开发的`Git`流程
 
 **clone project**
@@ -53,4 +50,3 @@ Peatio Beijing
 
 **在什么地方管理 `peatio_beijing` 的计划任务?**
 > 代码全部通过 github 的 pull-request 流程。任务管理使用 Trello。
-

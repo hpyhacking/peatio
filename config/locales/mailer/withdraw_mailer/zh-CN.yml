@@ -1,0 +1,5 @@
+zh-CN:
+  withdraw_mailer:
+    withdraw_state:
+      subject: 你的提现状态
+      your_state: 你的提现状态：

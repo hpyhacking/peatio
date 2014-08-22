@@ -84,15 +84,15 @@ en:
     tickets: Tickets
 
   admin_header:
-    deposits: Depoists
+    deposits: Deposits
     withdraws: Withdraws
     statistics: Data Statistics
     id_documents: Verify Account
 
   footer:
     about: About
-    terms_and_service: Terms & Service
-    questions: Q&A
+    privacy: Privacy
+    contact: Contact
     price: Price
     liability_proof: liability Proof
     contact: Contact
@@ -107,7 +107,7 @@ en:
     back: Back
     block: view in block
     destroy: Delete
-    destroy_confirm: Are you sure delete it?
+    destroy_confirm: Are you sure you want to delete this?
     detail: Detail
     publish: Publish
     edit: Edit

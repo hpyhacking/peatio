@@ -1,10 +1,9 @@
-您好
+<%= t(".hi") %>
 
-请使用下面的连接，在30分钟之内尝试重置您的两步验证：
+<%= t(".follow_the_link") %>
 
 <%= @token_url %>
 
-操作成功后两步验证在登录时将被禁用，登录后在账户设置中可再次激活。
+<%= t(".note") %>
 
-谢谢
-The Peatio Team
+<%= mailer_signature %>
