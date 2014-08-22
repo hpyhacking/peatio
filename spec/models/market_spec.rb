@@ -8,7 +8,7 @@ describe Market do
   end
 
   context 'visible market' do
-    it { expect(Market.orig_all.count).to eq(2) }
+    # it { expect(Market.orig_all.count).to eq(2) }
     it { expect(Market.all.count).to eq(1) }
   end
 

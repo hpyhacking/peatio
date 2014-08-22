@@ -15,9 +15,9 @@ class Market < ActiveYamlBase
 
   attr :name, :target_unit, :price_unit
 
-  self.singleton_class.send :alias_method, :orig_all, :all
+  self.singleton_class.send :alias_method, :all_with_invisible, :all
   def self.all
-    orig_all.select &:visible
+    all_with_invisible.select &:visible
   end
 
   # TODO: our market id is the opposite of conventional market name.
