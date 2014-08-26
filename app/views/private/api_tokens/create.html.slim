@@ -1,0 +1,11 @@
+p = t('.desc')
+
+form role='form'
+  p.input-group
+    span.input-group-addon Access Key
+    input.form-control type='text' value=@token.access_key disabled='1'
+  p.input-group
+    span.input-group-addon Secret Key
+    input.form-control type='text' value=@token.secret_key disabled='1'
+
+p = link_to t('actions.back'), api_tokens_path, role: 'button', class: 'btn btn-primary btn-lg pull-right'

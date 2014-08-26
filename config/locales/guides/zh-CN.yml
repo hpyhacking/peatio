@@ -14,6 +14,9 @@ zh-CN:
         index:
           title: 我的API密钥
           intro: 您所有的API密钥列表。IP白名单为空代表任何IP都能使用该密钥。
+        new:
+          title: 创建新密钥
+          intro: 标签可以帮助您记忆密钥的用处，可选。
 
       two_factors:
         panel: 两步验证

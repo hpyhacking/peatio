@@ -13,16 +13,18 @@ module Private
     end
 
     def create
+      @token = current_user.api_tokens.build api_token_params
+
       if !two_factor_auth_verified?
-        redirect_to url_for(action: :new), alert: t('.alert_two_factor')
-        return
+        flash.now[:alert] = t('.alert_two_factor')
+        render :new and return
       end
 
-      @token = current_user.api_tokens.build api_token_params
       if @token.save
-        redirect_to url_for(action: :index), notice: t('.success')
+        flash.now[:notice] = t('.success')
       else
-        redirect_to url_for(action: :index), alert: t('.failed')
+        flash.now[:alert] = t('.failed')
+        render :new
       end
     end
 
