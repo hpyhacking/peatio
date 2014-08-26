@@ -81,6 +81,23 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def two_factor_activated!
+    if not current_user.two_factors.activated?
+      redirect_to settings_path, alert: t('private.two_factors.auth.please_active_two_factor')
+    end
+  end
+
+  def two_factor_auth_verified?
+    return true if not current_user.two_factors.activated?
+
+    two_factor = current_user.two_factors.by_type(params[:two_factor][:type])
+    return false unless two_factor
+
+    two_factor.assign_attributes params.require(:two_factor).permit(:otp)
+    two_factor.verify
+  end
+
   def set_language
     cookies[:lang] = params[:lang] unless params[:lang].blank?
     I18n.locale = cookies[:lang] || http_accept_language.compatible_language_from(I18n.available_locales)

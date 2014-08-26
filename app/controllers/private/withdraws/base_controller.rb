@@ -14,12 +14,6 @@ module Private
         "withdraws/#{self.controller_name.singularize}".camelize.constantize
       end
 
-      def two_factor_activated!
-        if not current_user.two_factors.activated?
-          redirect_to settings_path, alert: t('private.two_factors.auth.please_active_two_factor')
-        end
-      end
-
     end
   end
 end

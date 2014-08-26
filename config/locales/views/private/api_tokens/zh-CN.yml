@@ -3,3 +3,8 @@ zh-CN:
     api_tokens:
       index:
         no_token: 没有API密钥
+        create: 创建新密钥
+      create:
+        alert_two_factor: 两步验证失败。
+        success: 密钥创建成功。
+        failed: 很抱歉，密钥创建失败, 请再几分钟后重试或联系管理员。
