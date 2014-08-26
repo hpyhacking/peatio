@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826083906) do
+ActiveRecord::Schema.define(version: 20140826093508) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -350,6 +350,7 @@ ActiveRecord::Schema.define(version: 20140826083906) do
     t.datetime "last_verify_at"
     t.boolean  "activated"
     t.string   "type"
+    t.datetime "refreshed_at"
   end
 
   create_table "versions", force: true do |t|
