@@ -4,6 +4,7 @@ zh-CN:
     currency_text: 币种
   activerecord:
     models:
+      api_token: API密钥
       trade: 交易
       order: 挂单
       member: 用户
@@ -22,6 +23,10 @@ zh-CN:
       admin/deposits_grid: 充值管理
       admin/withdraws_grid: 提现管理
     attributes:
+      api_token:
+        access_key: Access Key
+        trusted_ip_list: IP白名单
+        actions: 操作
       identity:
         email: 邮箱地址
         password: 新密码

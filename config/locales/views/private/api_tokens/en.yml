@@ -1,0 +1,5 @@
+en:
+  private:
+    api_tokens:
+      index:
+        no_token: You have no API token.

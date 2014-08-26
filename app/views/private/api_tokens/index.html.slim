@@ -1,0 +1,15 @@
+table.table.table-condensed.table-striped
+  thead: tr
+    - %w(access_key trusted_ip_list actions).each do |attr|
+      th class='#{attr}' = APIToken.human_attribute_name(attr)
+  tbody
+    - if @tokens.empty?
+      tr
+        td colspan='3' style='text-align: center;'
+          p.text-ignore = t('.no_token')
+    - else
+      - @tokens.each do |token|
+        tr
+          td.access_key = token.access_key
+          td.trusted_ip_list = token.trusted_ip_list.try(:join, ', ')
+          td.actions

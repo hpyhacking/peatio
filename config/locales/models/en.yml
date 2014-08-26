@@ -1,6 +1,7 @@
 en:
   activerecord:
     models:
+      api_tokens: API Token
       trade: Trades
       order: Orders
       order_bid: BID
@@ -18,6 +19,10 @@ en:
       admin/deposits_grid: Deposits
       admin/withdraws_grid: Withdraws
     attributes:
+      api_token:
+        access_key: Access Key
+        trusted_ip_list: IP Whitelist
+        actions: Actions
       identity:
         email: Email
         password: New Password

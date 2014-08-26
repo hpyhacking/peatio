@@ -1,0 +1,5 @@
+zh-CN:
+  private:
+    api_tokens:
+      index:
+        no_token: 没有API密钥

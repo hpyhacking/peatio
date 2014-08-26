@@ -9,6 +9,12 @@ zh-CN:
         index:
           intro: 管理并修改您的个人资料及绑定信息。
 
+      api_tokens:
+        panel: API密钥
+        index:
+          title: 我的API密钥
+          intro: 您所有的API密钥列表。IP白名单为空代表任何IP都能使用该密钥。
+
       two_factors:
         panel: 两步验证
         new:
