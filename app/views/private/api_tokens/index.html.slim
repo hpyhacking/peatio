@@ -4,8 +4,9 @@
 
 table.table.table-condensed.table-striped
   thead: tr
-    - %w(access_key trusted_ip_list actions).each do |attr|
-      th class='#{attr}' = APIToken.human_attribute_name(attr)
+    th class='token-label' = APIToken.human_attribute_name('label')
+    th class='access_key' = APIToken.human_attribute_name('access_key')
+    th
   tbody
     - if @tokens.empty?
       tr
@@ -14,6 +15,9 @@ table.table.table-condensed.table-striped
     - else
       - @tokens.each do |token|
         tr
+          td.token-label = token.label
           td.access_key = token.access_key
-          td.trusted_ip_list = token.trusted_ip_list.try(:join, ', ')
           td.actions
+            = link_to t('.edit'), '#'
+            | &nbsp;
+            = link_to t('.destroy'), api_token_path(token), method: :delete, data: {confirm: t('.destroy-confirm')}

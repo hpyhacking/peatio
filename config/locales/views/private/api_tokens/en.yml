@@ -3,8 +3,14 @@ en:
     api_tokens:
       index:
         no_token: You have no API token.
+        edit: Edit
+        destroy: Destroy
         create: Create New Token
       create:
         alert_two_factor: Two step authentication failed.
         success: API token created successfully.
         failed: Failed to create API token. Please try again later or contact admin.
+        desc: Please copy and paste keys below to a safe place and save. The secret key will never be displayed again.
+      destroy:
+        success: The token has been successfully destroyed.
+        failed: Failed to destroy token.

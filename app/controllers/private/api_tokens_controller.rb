@@ -28,6 +28,15 @@ module Private
       end
     end
 
+    def destroy
+      @token = current_user.api_tokens.find params[:id]
+      if @token.destroy
+        redirect_to url_for(action: :index), notice: t('.success')
+      else
+        redirect_to url_for(action: :index), notice: t('.failed')
+      end
+    end
+
     private
 
     def api_token_params
