@@ -17,6 +17,8 @@ zh-CN:
         new:
           title: 创建新密钥
           intro: 标签可以帮助您记忆密钥的用处，可选。
+        create:
+          title: 创建新密钥
 
       two_factors:
         panel: 两步验证
