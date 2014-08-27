@@ -21,3 +21,10 @@ table.table.table-condensed.table-striped
             = link_to t('.edit'), edit_api_token_path(token)
             | &nbsp;
             = link_to t('.destroy'), api_token_path(token), method: :delete, data: {confirm: t('.destroy-confirm')}
+
+= content_for :guide do
+  p = link_to t('.http'), '/documents/api_v2', target: '_blank'
+  p = link_to t('.websocket'), '/documents/websocket_api', target: '_blank'
+  p
+    = t('.more')
+    = link_to 'https://github.com/peatio/peatio#api', 'https://github.com/peatio/peatio#api', target: '_blank'

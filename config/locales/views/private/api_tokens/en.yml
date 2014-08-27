@@ -6,6 +6,9 @@ en:
         edit: Edit
         destroy: Destroy
         create: Create New Token
+        http: HTTP API Document
+        websocket: Websocket API Document
+        more: "For more information please check the API section on github:"
       new:
         label_hint: Label helps you remember token usage, optional.
       create:
