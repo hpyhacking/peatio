@@ -22,6 +22,7 @@ en:
       api_token:
         access_key: Access Key
         trusted_ip_list: IP Whitelist
+        ip_whitelist: IP Whitelist
         actions: Actions
       identity:
         email: Email

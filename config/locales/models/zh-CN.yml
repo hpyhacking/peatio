@@ -26,6 +26,7 @@ zh-CN:
       api_token:
         access_key: Access Key
         trusted_ip_list: IP白名单
+        ip_whitelist: IP白名单
         label: 标签
         actions: 操作
       identity:

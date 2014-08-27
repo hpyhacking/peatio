@@ -18,6 +18,6 @@ table.table.table-condensed.table-striped
           td.token-label = token.label
           td.access_key = token.access_key
           td.actions
-            = link_to t('.edit'), '#'
+            = link_to t('.edit'), edit_api_token_path(token)
             | &nbsp;
             = link_to t('.destroy'), api_token_path(token), method: :delete, data: {confirm: t('.destroy-confirm')}

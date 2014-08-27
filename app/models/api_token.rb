@@ -25,6 +25,14 @@ class APIToken < ActiveRecord::Base
     trusted_ip_list.blank? || trusted_ip_list.include?(ip)
   end
 
+  def ip_whitelist=(list)
+    self.trusted_ip_list = list.split(/,\s*/)
+  end
+
+  def ip_whitelist
+    trusted_ip_list.try(:join, ',')
+  end
+
   private
 
   def generate_keys

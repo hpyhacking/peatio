@@ -11,6 +11,14 @@ en:
         success: API token created successfully.
         failed: Failed to create API token. Please try again later or contact admin.
         desc: Please copy and paste keys below to a safe place and save. The secret key will never be displayed again.
+      edit:
+        access_key_hint: Created at %{created_at}
+        label_hint: Label helps you remember token usage, optional.
+        ip_whitelist_hint: Seperate IP by commas, leave this field blank means all IP are allowed.
+      update:
+        alert_two_factor: Two step authentication failed.
+        success: Saved successfully.
+        failed: Failed to save token. Please try again later or contact admin.
       destroy:
         success: The token has been successfully destroyed.
         failed: Failed to destroy token.
