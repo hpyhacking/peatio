@@ -51,6 +51,11 @@ en:
           description: This password is required for login, please remember it.
           go: Change Password
 
+        api_tokens:
+          title: API Tokens
+          description: Create and manage your API tokens.
+          go: Set
+
     otps:
       new:
         step_1: Step 1
