@@ -7,6 +7,8 @@ zh-CN:
         destroy: 删除
         destroy-confirm: "密钥删除之后无法找回，您确认要继续吗？"
         create: 创建新密钥
+      new:
+        label_hint: 标签可以帮助记忆密钥的用途，可选
       create:
         alert_two_factor: 两步验证失败。
         success: 密钥创建成功。

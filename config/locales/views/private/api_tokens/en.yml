@@ -6,6 +6,8 @@ en:
         edit: Edit
         destroy: Destroy
         create: Create New Token
+      new:
+        label_hint: Label helps you remember token usage, optional.
       create:
         alert_two_factor: Two step authentication failed.
         success: API token created successfully.

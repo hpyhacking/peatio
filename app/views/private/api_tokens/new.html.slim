@@ -1,5 +1,5 @@
 = simple_form_for @token do |f|
-  = f.input :label
+  = f.input :label, hint: t('.label_hint')
   = two_factor_tag(current_user)
   hr.split
   = f.button :wrapped, t('actions.confirm') do
