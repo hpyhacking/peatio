@@ -1,5 +1,5 @@
 .proof
-  - partial_tree = proof.partial_tree_of(account)
+  - partial_tree = proof.try(:partial_tree_of, account)
   - if proof.try(:ready?) && partial_tree.present?
     - root_target = "#{proof.currency}_root_json"
     - partial_tree_target = "#{proof.currency}_partial_tree_json"
