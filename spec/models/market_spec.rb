@@ -21,4 +21,12 @@ describe Market do
     its(:price_unit)  { should == 'cny' }
     its(:visible)     { should be_true }
   end
+
+  context 'enumerize' do
+    subject { Market.enumerize }
+
+    it { should be_has_key :btccny }
+    it { should be_has_key :ptsbtc }
+  end
+
 end
