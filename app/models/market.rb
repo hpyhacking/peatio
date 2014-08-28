@@ -9,8 +9,6 @@
 # is the `price`.
 
 class Market < ActiveYamlBase
-  include Enumerizeable
-
   field :visible, default: true
 
   attr :name, :target_unit, :price_unit
@@ -18,6 +16,10 @@ class Market < ActiveYamlBase
   self.singleton_class.send :alias_method, :all_with_invisible, :all
   def self.all
     all_with_invisible.select &:visible
+  end
+
+  def self.enumerize
+    all_with_invisible.inject({}) {|hash, i| hash[i.id.to_sym] = i.code; hash }
   end
 
   # TODO: our market id is the opposite of conventional market name.
