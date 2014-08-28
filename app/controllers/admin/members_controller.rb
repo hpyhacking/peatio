@@ -2,6 +2,10 @@ module Admin
   class MembersController < BaseController
     load_and_authorize_resource
 
+    def index
+      @members = @members.order(:id).reverse_order.page params[:page]
+    end
+
     def show
       @account_versions = AccountVersion.where(account_id: @member.account_ids).order(:id).reverse_order.page params[:page]
     end
