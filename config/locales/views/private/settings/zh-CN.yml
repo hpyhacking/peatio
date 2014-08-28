@@ -47,6 +47,11 @@ zh-CN:
           description: 此密码仅限作网站登录使用，请您牢记。
           go: 修改
 
+        api_tokens:
+          title: API密钥
+          description: 申请和管理您的API密钥
+          go: 设置
+
     otps:
       new:
         step_1: 第一步

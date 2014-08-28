@@ -44,4 +44,8 @@ describe APIToken do
     token.allow_ip?('127.0.0.2').should == false
   end
 
+  it "should tranlsate comma seperated whitelist to trusted ip list" do
+    token.ip_whitelist = "127.0.0.1, 127.0.0.2,127.0.0.3"
+    token.trusted_ip_list = %w(127.0.0.1 127.0.0.2 127.0.0.3)
+  end
 end

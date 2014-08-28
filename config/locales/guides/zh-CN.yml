@@ -9,6 +9,20 @@ zh-CN:
         index:
           intro: 管理并修改您的个人资料及绑定信息。
 
+      api_tokens:
+        panel: API密钥
+        index:
+          title: 我的API密钥
+          intro: 貔貅交易所为您提供了功能完备,高性能的自动化交易API, 通过API您能够得到当前市场行情, 建立买单卖单, 查询自己的委托及成交记录, 查询账户余额及个人信息.
+        new:
+          title: 创建新密钥
+        create:
+          title: 创建新密钥
+        edit:
+          title: 设置API密钥
+        update:
+          title: 设置API密钥
+
       two_factors:
         panel: 两步验证
         new:
