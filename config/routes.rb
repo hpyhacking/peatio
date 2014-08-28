@@ -43,6 +43,7 @@ Peatio::Application.routes.draw do
 
     resources :settings, only: [:index]
     resources :two_factors, only: [:show, :update, :edit, :destroy]
+    resources :api_tokens
 
     Currency.all.each do |c|
       resources "#{c.code}_fund_sources",

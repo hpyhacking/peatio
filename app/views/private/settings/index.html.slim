@@ -86,6 +86,16 @@ ul.list-group
         .col-md-3
           = link_to t('.passwords.go'), edit_identity_path, class: 'btn btn-default btn-block'
 
+  li.list-group-item
+    .row.row-middle
+      .col-md-1
+        i.fa.fa-code.fa-2x
+      .col-md-8
+        h4 = t('.api_tokens.title')
+        p.text-ignore = t('.api_tokens.description')
+      .col-md-3
+        = link_to t('.api_tokens.go'), api_tokens_path, class: 'btn btn-default btn-block'
+
 = content_for :guide_title do
   h3
     i.fa.fa-user

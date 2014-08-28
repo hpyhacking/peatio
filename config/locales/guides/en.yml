@@ -9,6 +9,20 @@ en:
         index:
           intro: Admin and revise your profile.
 
+      api_tokens:
+        panel: API Tokens
+        index:
+          title: My Tokens
+          intro: "A list of all your API tokens. An empty 'IP Whitelist' means any ip is allowed to use the token."
+        new:
+          title: Create API Token
+        create:
+          title: Create API Token
+        edit:
+          title: Edit API Token
+        update:
+          title: Edit API Token
+
       two_factors:
         panel: Two-Factor Authentication
         new:
