@@ -162,7 +162,7 @@ GEM
     factory_girl_rails (4.3.0)
       factory_girl (~> 4.3.0)
       railties (>= 3.0.0)
-    faker (1.2.0)
+    faker (1.4.3)
       i18n (~> 0.5)
     ffi (1.9.3)
     figaro (0.7.0)
@@ -456,7 +456,7 @@ DEPENDENCIES
   enumerize
   eventmachine (~> 1.0.3)
   factory_girl_rails
-  faker
+  faker (~> 1.4.3)
   figaro
   flot-rails
   font-awesome-sass
