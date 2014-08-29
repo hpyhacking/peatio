@@ -160,6 +160,10 @@ class Withdraw < ActiveRecord::Base
     submitting? or submitted? or accepted?
   end
 
+  def quick?
+    sum <= currency_obj.quick_withdraw_max
+  end
+
   private
 
   def lock_funds
