@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :member, aliases: [:author] do
     email { Faker::Internet.email }
+    phone_number { Faker::Number.number(12).to_s }
 
     trait :activated do
       activated true
@@ -25,6 +26,7 @@ FactoryGirl.define do
     trait :verified do
       after :create do |member|
         id_doc = member.id_document
+        id_doc.update attributes_for(:id_document)
         id_doc.submit!
         id_doc.approve!
       end

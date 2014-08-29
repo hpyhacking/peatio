@@ -1,8 +1,7 @@
 FactoryGirl.define do
   factory :id_document do
-    category  :id_card
     name { Faker::Name.name }
-    sn { Faker::Number.number(15).to_s }
-    verified true
+    id_document_type :id_card
+    id_document_number { Faker::Number.number(15).to_s }
   end
 end

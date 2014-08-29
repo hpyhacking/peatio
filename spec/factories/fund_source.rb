@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :fund_source do
     extra 'bitcoin'
-    uid '1bitcoinaddress'
+    uid { Faker::Bitcoin.address }
     is_locked false
     currency 'btc'
 

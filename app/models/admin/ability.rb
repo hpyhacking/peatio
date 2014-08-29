@@ -7,12 +7,10 @@ module Admin
 
       can :read, Order
       can :read, Trade
-      can :read, Member
       can :read, Proof
-      can :update, Member
-      can :toggle, Member
       can :update, Proof
       can :manage, Document
+      can :manage, Member
       can :manage, Ticket
       can :manage, IdDocument
       can :manage, TwoFactor
@@ -24,8 +22,6 @@ module Admin
       can :menu, Withdraw
       can :manage, ::Withdraws::Bank
       can :manage, ::Withdraws::Satoshi
-
-      can :stat, ::Member
     end
   end
 end
