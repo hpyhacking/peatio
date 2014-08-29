@@ -162,6 +162,15 @@ describe Member do
       it { expect(subject.count).to eq(1) }
       it { expect(subject).to be_include(member) }
     end
+
+    describe 'searching by deposit address' do
+      let(:payment_address) { create(:btc_payment_address) }
+      let(:member) { payment_address.account.member }
+      subject { Member.searching(field: 'wallet_address', term: payment_address.address) }
+
+      it { expect(subject.count).to eq(1) }
+      it { expect(subject).to be_include(member) }
+    end
   end
 
 end

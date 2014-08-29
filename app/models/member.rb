@@ -26,6 +26,7 @@ class Member < ActiveRecord::Base
 
   has_many :orders
   has_many :accounts
+  has_many :payment_addresses, through: :accounts
   has_many :withdraws
   has_many :fund_sources
   has_many :deposits
@@ -83,7 +84,11 @@ class Member < ActiveRecord::Base
                when 'name'
                  joins(:id_document).where('id_documents.name LIKE ?', "%#{term}%")
                when 'wallet_address'
-                 joins(:fund_sources).where('fund_sources.uid' => term).order(:id)
+                 members = joins(:fund_sources).where('fund_sources.uid' => term)
+                 if members.empty?
+                  members = joins(:payment_addresses).where('payment_addresses.address' => term)
+                 end
+                 members
                else
                  all
                end
