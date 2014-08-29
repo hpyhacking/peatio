@@ -46,7 +46,7 @@ html lang="en"
 
           - if can? :manage, Member
             li class = check_active('members')
-              = link_to t(".menus.items.sections.members"), admin_members_path
+              = link_to t(".menus.sections.members"), admin_members_path
 
           - if can? :manage, Ticket
             li class = check_active(Proof)

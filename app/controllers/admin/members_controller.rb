@@ -3,7 +3,9 @@ module Admin
     load_and_authorize_resource
 
     def index
-      @members = @members.order(:id).reverse_order.page params[:page]
+      @search_field = params[:search_field]
+      @search_term = params[:search_term]
+      @members = Member.searching(field: @search_field, term: @search_term).page params[:page]
     end
 
     def show
