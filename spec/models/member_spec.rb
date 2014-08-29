@@ -158,6 +158,9 @@ describe Member do
       let(:fund_source) { create(:btc_fund_source) }
       let(:member) { fund_source.member }
       subject { Member.searching(field: 'wallet_address', term: fund_source.uid) }
+
+      it { expect(subject.count).to eq(1) }
+      it { expect(subject).to be_include(member) }
     end
   end
 
