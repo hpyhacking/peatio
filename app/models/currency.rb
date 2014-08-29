@@ -40,4 +40,9 @@ class Currency < ActiveYamlBase
     raise unless coin?
     self[:address_url].try :gsub, '#{address}', address
   end
+
+  def quick_withdraw_max
+    @quick_withdraw_max ||= BigDecimal.new self[:quick_withdraw_max].to_s
+  end
+
 end

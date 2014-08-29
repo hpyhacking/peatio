@@ -39,6 +39,7 @@ while($running) do
     withdraw.with_lock do
       if withdraw.account.examine
         withdraw.accept!
+        withdraw.process! if withdraw.quick?
       else
         withdraw.mark_suspect!
       end
