@@ -4,7 +4,6 @@ namespace :admin do
   resources :documents
   resources :id_documents,     only: [:index, :show, :update]
   resource  :currency_deposit, only: [:new, :create]
-  resources :members,          only: [:index, :show, :update]
   resources :proofs
   resources :tickets, only: [:index, :show] do
     member do

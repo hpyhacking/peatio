@@ -8,6 +8,13 @@ en:
       open_tickets: Open Tickets
       closed_tickets: Closed Tickets
     members:
+      index:
+        search: Search
+        members: Members
+        email: Email
+        name: Name
+        phone: Phone Number
+        wallet_address: Wallet Address
       show:
         member_title: User Information
         actions_title: Action

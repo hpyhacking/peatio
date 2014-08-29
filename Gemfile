@@ -75,7 +75,7 @@ gem 'airbrake'
 
 group :development, :test do
   gem 'factory_girl_rails'
-  gem 'faker'
+  gem 'faker', '~> 1.4.3'
   gem 'mina'
   gem 'mina-slack', git: 'https://github.com/tomlion/mina-slack.git'
   gem 'meta_request'

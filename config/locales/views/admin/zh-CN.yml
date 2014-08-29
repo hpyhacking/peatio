@@ -8,6 +8,13 @@ zh-CN:
       open_tickets: 未结束工单
       closed_tickets: 已结束工单
     members:
+      index:
+        search: 搜索
+        members: 用户列表
+        email: 邮箱地址
+        name: 姓名
+        phone: 手机号码
+        wallet_address: 钱包地址
       show:
         member_title: 用户信息
         actions_title: 操作

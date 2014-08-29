@@ -69,6 +69,27 @@ class Member < ActiveRecord::Base
       Thread.current[:user] = user
     end
 
+    def admins
+      Figaro.env.admin.split(',')
+    end
+
+    def searching(field: nil, term: nil)
+      result = case field
+               when 'email'
+                 search(email_cont: term).result(distinct: true).order(:id)
+               when 'phone_number'
+                 search(phone_number_cont: term).result(distinct: true).order(:id)
+               when 'name'
+                 joins(:id_document).where('id_documents.name LIKE ?', "%#{term}%")
+               when 'wallet_address'
+                 joins(:fund_sources).where('fund_sources.uid' => term).order(:id)
+               else
+                 all
+               end
+
+      result.order(:id).reverse_order
+    end
+
     private
 
     def locate_auth(auth_hash)
@@ -88,10 +109,6 @@ class Member < ActiveRecord::Base
       member.send_activation
       member
     end
-  end
-
-  def self.admins
-    Figaro.env.admin.split(',')
   end
 
   def trades
