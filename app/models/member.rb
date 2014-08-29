@@ -75,18 +75,20 @@ class Member < ActiveRecord::Base
     end
 
     def searching(field: nil, term: nil)
-      case field
-      when 'email'
-        search(email_cont: term).result(distinct: true).order(:id).reverse_order
-      when 'phone_number'
-        search(phone_number_cont: term).result(distinct: true).order(:id).reverse_order
-      when 'name'
-        joins(:id_document).where('id_documents.name LIKE ?', "%#{term}%").order(:id).reverse_order
-      when 'wallet_address'
-        joins(:fund_sources).where('fund_sources.uid' => term).order(:id).reverse_order
-      else
-        all
-      end
+      result = case field
+               when 'email'
+                 search(email_cont: term).result(distinct: true).order(:id)
+               when 'phone_number'
+                 search(phone_number_cont: term).result(distinct: true).order(:id)
+               when 'name'
+                 joins(:id_document).where('id_documents.name LIKE ?', "%#{term}%")
+               when 'wallet_address'
+                 joins(:fund_sources).where('fund_sources.uid' => term).order(:id)
+               else
+                 all
+               end
+
+      result.order(:id).reverse_order
     end
 
     private
