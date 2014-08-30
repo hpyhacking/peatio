@@ -1,17 +1,5 @@
 .row
-  .col-md-5
-    .panel.panel-primary
-      .panel-heading
-        span Search
-      .panel-body
-        = search_form_for @q do |f|
-          = f.label :email_cont
-          = f.text_field :email_cont, autocomplete: :off
-          hr.split
-          = f.label :activated_eq
-          = f.select :activated_eq, options_for_select({'YES' => true, 'NO' => false}, @q.activated_eq), include_blank: 'Oops'
-          hr.split
-          = f.submit
+  .col-md-12
     .panel.panel-primary
       .panel-heading
         span Member Register Stats
@@ -19,8 +7,6 @@
         dl#stat.dl-horizontal
           dt All Count
           dd = @members_count
-          dt Search Count
-          dd = @result_count
       = table_for(@register_group, class: 'table table-condensed table-hover') do |t|
         - t.column :date, 'Date', class: 'col-md-8' do |x|
           span = x.date.to_formatted_s(:short)
@@ -30,27 +16,3 @@
           code.text-info = x.total
         - t.column :rate, 'Rate', class: 'col-md-6' do |x|
           code = number_to_percentage(x.total_activated.fdiv(x.total) * 100, precision: 0)
-  .col-md-19
-    .panel.panel-primary
-      .panel-heading
-        span Members search result
-      .panel-body
-        = table_for(@members, class: 'table table-condensed table-hover', model: Member) do |t|
-          - t.column :id, class: 'col-md-1'
-          - t.column :email, class: 'col-md-2' do |x|
-            code.text-info = x.email
-          - t.column :created_at, class: 'col-md-3'
-          - t.column :activated?, class: 'col-md-1' do |x|
-            = yesno x.activated?
-          - t.column 'Disabled? (Web/API)', class: 'col-md-1' do |x|
-            - text = x.disabled? ? 'Yes' : 'No'
-            = link_to text, toggle_admin_member_path(x), remote: true, method: :post, class: 'toggle-web'
-            | &nbsp;/&nbsp;
-            - text = x.api_disabled? ? 'Yes' : 'No'
-            = link_to text, toggle_admin_member_path(x, api: true), remote: true, method: :post, class: 'toggle-api'
-          - t.column :id_document_verified?, class: 'col-md-2' do |x|
-            = x.id_document_verified? ? x.name : yesno(x.id_document_verified?)
-          - t.column :actions, class: 'col-md-1' do |x|
-            = link_to t('actions.view'), url_for([:admin, x]), target: '_blank'
-      .panel-footer
-        = paginate @members
