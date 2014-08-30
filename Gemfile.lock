@@ -1,16 +1,4 @@
 GIT
-  remote: https://github.com/activerecord-hackery/ransack.git
-  revision: 8009ae93e3e00325e41edd231b4b917c45a2c6c2
-  branch: rails-4
-  specs:
-    ransack (1.1.0)
-      actionpack (>= 4.0)
-      activerecord (>= 4.0)
-      activesupport (>= 4.0)
-      i18n
-      polyamorous (~> 0.6.0)
-
-GIT
   remote: https://github.com/poshboytl/unread.git
   revision: b8fa0502e9558c93388a104bcbe20376cf43027d
   specs:
@@ -276,8 +264,6 @@ GEM
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
-    polyamorous (0.6.4)
-      activerecord (>= 3.0)
     polyglot (0.3.3)
     pry (0.9.12.6)
       coderay (~> 1.0)
@@ -495,7 +481,6 @@ DEPENDENCIES
   rails
   rails-i18n
   rails-observers
-  ransack!
   rbtree
   redis-rails
   rotp
