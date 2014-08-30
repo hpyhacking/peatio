@@ -75,7 +75,7 @@ class Member < ActiveRecord::Base
       Figaro.env.admin.split(',')
     end
 
-    def searching(field: nil, term: nil)
+    def search(field: nil, term: nil)
       result = case field
                when 'email'
                  where('members.email LIKE ?', "%#{term}%")

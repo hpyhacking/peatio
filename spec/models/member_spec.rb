@@ -117,56 +117,56 @@ describe Member do
     end
   end
 
-  describe 'Member.searching' do
+  describe 'Member.search' do
     before do
       create(:member)
       create(:member)
       create(:member)
     end
 
-    describe 'searching without any condition' do
-      subject { Member.searching(field: nil, term: nil) }
+    describe 'search without any condition' do
+      subject { Member.search(field: nil, term: nil) }
 
       it { expect(subject.count).to eq(3) }
     end
 
-    describe 'searching by email' do
+    describe 'search by email' do
       let(:member) { create(:member) }
-      subject { Member.searching(field: 'email', term: member.email) }
+      subject { Member.search(field: 'email', term: member.email) }
 
       it { expect(subject.count).to eq(1) }
       it { expect(subject).to be_include(member) }
     end
 
-    describe 'searching by phone number' do
+    describe 'search by phone number' do
       let(:member) { create(:member) }
-      subject { Member.searching(field: 'phone_number', term: member.phone_number) }
+      subject { Member.search(field: 'phone_number', term: member.phone_number) }
 
       it { expect(subject.count).to eq(1) }
       it { expect(subject).to be_include(member) }
     end
 
-    describe 'searching by name' do
+    describe 'search by name' do
       let(:member) { create(:verified_member) }
-      subject { Member.searching(field: 'name', term: member.name) }
+      subject { Member.search(field: 'name', term: member.name) }
 
       it { expect(subject.count).to eq(1) }
       it { expect(subject).to be_include(member) }
     end
 
-    describe 'searching by wallet address' do
+    describe 'search by wallet address' do
       let(:fund_source) { create(:btc_fund_source) }
       let(:member) { fund_source.member }
-      subject { Member.searching(field: 'wallet_address', term: fund_source.uid) }
+      subject { Member.search(field: 'wallet_address', term: fund_source.uid) }
 
       it { expect(subject.count).to eq(1) }
       it { expect(subject).to be_include(member) }
     end
 
-    describe 'searching by deposit address' do
+    describe 'search by deposit address' do
       let(:payment_address) { create(:btc_payment_address) }
       let(:member) { payment_address.account.member }
-      subject { Member.searching(field: 'wallet_address', term: payment_address.address) }
+      subject { Member.search(field: 'wallet_address', term: payment_address.address) }
 
       it { expect(subject.count).to eq(1) }
       it { expect(subject).to be_include(member) }
