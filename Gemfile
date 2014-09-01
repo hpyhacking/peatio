@@ -83,7 +83,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'rspec-rails'
   gem 'byebug'
-  gem "annotate", '~> 2.5.0'
 end
 
 group :test do

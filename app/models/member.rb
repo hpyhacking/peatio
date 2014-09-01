@@ -1,25 +1,3 @@
-# == Schema Information
-#
-# Table name: members
-#
-#  id                    :integer          not null, primary key
-#  sn                    :string(255)
-#  display_name          :string(255)
-#  email                 :string(255)
-#  identity_id           :integer
-#  created_at            :datetime
-#  updated_at            :datetime
-#  state                 :integer
-#  activated             :boolean
-#  country_code          :integer
-#  phone_number          :string(255)
-#  phone_number_verified :boolean
-#  disabled              :boolean          default(FALSE)
-#  api_disabled          :boolean          default(FALSE)
-#  inviter_id            :integer
-#  referral_code_reward  :boolean          default(FALSE)
-#
-
 class Member < ActiveRecord::Base
   acts_as_taggable
   acts_as_reader

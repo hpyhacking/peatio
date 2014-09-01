@@ -1,14 +1,3 @@
-# == Schema Information
-#
-# Table name: assets
-#
-#  id              :integer          not null, primary key
-#  type            :string(255)
-#  attachable_id   :integer
-#  attachable_type :string(255)
-#  file            :string(255)
-#
-
 class Asset < ActiveRecord::Base
   belongs_to :attachable, polymorphic: true
 

@@ -54,8 +54,6 @@ GEM
     amqp (1.3.0)
       amq-protocol (>= 1.9.2)
       eventmachine
-    annotate (2.5.0)
-      rake
     arel (4.0.2)
     atomic (1.1.16)
     awesome_print (1.2.0)
@@ -418,7 +416,6 @@ DEPENDENCIES
   active_hash
   acts-as-taggable-on
   amqp (~> 1.3.0)
-  annotate (~> 2.5.0)
   bcrypt-ruby (~> 3.1.2)
   better_errors
   binding_of_caller
