@@ -1,7 +1,11 @@
 .row
-  .col-md-7
-    = render partial: 'shared/admin/member', locals: {member: @member} 
-  .col-md-17
+  .col-md-12
+    = render partial: 'shared/admin/member', locals: {member: @member}
+  .col-md-12
+    = render partial: 'shared/admin/member_accounts', locals: {member: @member}
+
+.row
+  .col-md-24
     .panel.panel-info
       .panel-heading Accounts Log
       .panel-body
@@ -28,5 +32,4 @@
               span -
           - t.column :fee, class: 'col-md-2' do |x|
             code.text-info = x.fee
-      .panel-footer
         = paginate @account_versions, test: 'asdf'

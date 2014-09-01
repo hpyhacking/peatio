@@ -74,12 +74,12 @@ class Member < ActiveRecord::Base
       Figaro.env.admin.split(',')
     end
 
-    def searching(field: nil, term: nil)
+    def search(field: nil, term: nil)
       result = case field
                when 'email'
-                 search(email_cont: term).result(distinct: true).order(:id)
+                 where('members.email LIKE ?', "%#{term}%")
                when 'phone_number'
-                 search(phone_number_cont: term).result(distinct: true).order(:id)
+                 where('members.phone_number LIKE ?', "%#{term}%")
                when 'name'
                  joins(:id_document).where('id_documents.name LIKE ?', "%#{term}%")
                when 'wallet_address'
