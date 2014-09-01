@@ -1,5 +1,5 @@
 .row
-  .col-md-8
+  .col-md-12
     .panel.panel-primary
       .panel-heading
         span = t('.withdraw', sn: @dogecoin.id)
@@ -24,5 +24,7 @@
             - if @dogecoin.may_process?
               li
                 = link_to t('.process'), url_for([:admin, @dogecoin]), class: 'btn btn-primary', method: 'PATCH'
-  .col-md-8
-    = render partial: 'shared/admin/member', locals: {member: @dogecoin.member} 
+
+  .col-md-12
+    = render partial: 'shared/admin/member', locals: {member: @dogecoin.member}
+    = render partial: 'shared/admin/account', locals: {account: @dogecoin.account}
