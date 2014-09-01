@@ -13,7 +13,7 @@ zh-CN:
             documents: 文档管理
             withdraws: 提现管理
             proofs: 资产证明管理
-            tickets: 工单管理
+            tickets: 服务单管理
           deposits:
             currency: 法币充值
     application:

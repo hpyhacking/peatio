@@ -1,25 +1,27 @@
 zh-CN:
   private:
     tickets:
+      index:
+        new_ticket: 新建服务单
       new:
-        intro: 如果您有任何问题，意见或建议需要和我们沟通，请给我们建立一个工单，我们会尽快回复您。
-      ticket_create_succ: 工单创建成功。
-      ticket_create_fail: 工单创建失败, 请稍候再试。
+        intro: 如果您有任何问题，意见或建议需要和我们沟通，请给我们建立一个服务单，我们会尽快回复您。
+      ticket_create_succ: 服务单创建成功。
+      ticket_create_fail: 服务单创建失败, 请稍候再试。
       comment_succ: 回复成功。
       comment_fail: 回复失败，请稍候再试。
       me: 我
       supporter: 客服
-      close: 关闭工单
-      close_succ: 工单已关闭
-      close_confirm: 您确定要关闭这个工单吗？
+      close: 关闭服务单
+      close_succ: 服务单已关闭
+      close_confirm: 您确定要关闭这个服务单吗？
       title_content_both_blank: 标题和描述至少要填写一个哦！
       from: 来自
-      view_closed_tickets: 查看已结束的工单
-      view_open_tickets: 查看未结束的工单
-      admin_notification_title: 用户 %{email} 新建了工单
-      admin_notification_content: 用户 %{email} 新建了工单，详情请查看链接：
+      view_closed_tickets: 查看已结束的服务单
+      view_open_tickets: 查看未结束的服务单
+      admin_notification_title: 用户 %{email} 新建了服务单
+      admin_notification_content: 用户 %{email} 新建了服务单，详情请查看链接：
       comments:
-        user_notification_title: 你的工单有了新的回复
-        user_notification_content: 你的工单有一条新的回复, 请在下方链接查看详情：
-        admin_notification_title: 用户 %{email} 回复了工单
-        admin_notification_content: 用户 %{email} 回复了工单，详情请查看链接：
+        user_notification_title: 你的服务单有了新的回复
+        user_notification_content: 你的服务单有一条新的回复, 请在下方链接查看详情：
+        admin_notification_title: 用户 %{email} 回复了服务单
+        admin_notification_content: 用户 %{email} 回复了服务单，详情请查看链接：
