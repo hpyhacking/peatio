@@ -1,6 +1,6 @@
 .panel.panel-info
   .panel-heading
-    span Member Info
+    span = t('.member_info')
     = link_to 'View', url_for([:admin, member]), class: 'pull-right', target: '_blank'
   .panel-body
     = description_for :member do
@@ -29,10 +29,3 @@
           = link_to t('.deactive'), admin_member_two_factor_path(member, app_two_factor), method: :delete, confirm: t('.are_you_sure'), class: 'btn btn-danger btn-xs'
         - else
           span = t('.inactive')
-
-
-  = table_for(member.accounts, class: 'table table-condensed table-hover', model: Account) do |t|
-    - t.column :currency_text, class: 'col-md-8'
-    - t.column :balance_and_locked, class: 'col-md-10' do |x|
-      span #{x.balance} / #{x.locked}
-    - t.column :amount, class: 'col-md-6'
