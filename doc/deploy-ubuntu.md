@@ -10,8 +10,9 @@ Deploy on Ubuntu 14.04
 5. Install [RabbitMQ](https://www.rabbitmq.com/)
 6. Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
 7. Install [Nginx with Passenger](https://www.phusionpassenger.com/)
-8. Install a JavaScript Runtime
-8. Configure Peatio
+8. Install JavaScript Runtime
+9. Install ImageMagick
+10. Configure Peatio
 
 ### 1. Setup deploy user
 
@@ -145,14 +146,19 @@ find the following lines, and uncomment them:
     passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
     passenger_ruby /home/deploy/.rbenv/shims/ruby;
 
-### 8. Install a JavaScript Runtime
+### 8. Install JavaScript Runtime
 
 A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do but Node.js is recommended.
 
     sudo apt-get install nodejs
 
 
-#### 9. Setup production environment variable
+### 9. Install ImageMagick
+
+    sudo apt-get install imagemagick
+
+
+#### 10. Setup production environment variable
 
     echo "export RAILS_ENV=production" >> ~/.bashrc
 

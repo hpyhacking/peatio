@@ -10,7 +10,8 @@ Setup on Mac OS X 10.9 Mavericks
 5. Install [RabbitMQ](https://www.rabbitmq.com/)
 6. Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
 7. Install [PhantomJS](http://phantomjs.org/)
-8. Configure Peatio
+8. Install ImageMagick
+9. Configure Peatio
 
 ### 1. Install Homebrew
 
@@ -87,6 +88,10 @@ Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to r
     brew install phantomjs
 
 ### 8. Configure Peatio
+
+    brew install imagemagick
+
+### 9. Configure Peatio
 
 **Clone the project**
 
