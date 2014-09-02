@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/galetahub/simple-captcha.git
+  revision: 2602bf19a63df25929960b5a7721a9d265281ec1
+  specs:
+    simple_captcha (0.1.6)
+
+GIT
   remote: https://github.com/poshboytl/unread.git
   revision: b8fa0502e9558c93388a104bcbe20376cf43027d
   specs:
@@ -489,6 +495,7 @@ DEPENDENCIES
   selenium-webdriver
   settingslogic
   shoulda-matchers
+  simple_captcha!
   simple_form (= 3.0.1)
   slim-rails
   timecop

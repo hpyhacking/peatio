@@ -67,6 +67,7 @@ gem 'phonelib'
 gem 'twilio-ruby', '~> 3.11'
 gem 'unread', git: 'https://github.com/poshboytl/unread.git'
 gem 'carrierwave', '~> 0.10.0'
+gem 'simple_captcha', git: 'https://github.com/galetahub/simple-captcha.git'
 
 group :development, :test do
   gem 'factory_girl_rails'

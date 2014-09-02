@@ -44,12 +44,18 @@ describe 'Sign in' do
     end
   end
 
-  it 'locked member after too many failed attempts', js: true do
-    pending "delay password failed counter" and return
-    5.times do signin identity, password: 'wrong' end
-    expect(page).to have_content I18n.t('sessions.failure.account_locked')
+  it 'display captcha after too many failed attempts' do
+    3.times do signin identity, password: 'wrong' end
+    expect(page).not_to have_content(t('simple_form.labels.session.captcha'))
+
+    signin identity, password: 'wrong'
+    expect(page).to have_content(t('simple_form.labels.session.captcha'))
 
     signin identity
-    expect(page).to have_content I18n.t('sessions.failure.account_locked')
+    signout
+
+    signin identity, password: 'wrong'
+    expect(page).not_to have_content(t('simple_form.labels.session.captcha'))
   end
+
 end
