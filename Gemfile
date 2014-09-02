@@ -68,6 +68,7 @@ gem 'twilio-ruby', '~> 3.11'
 gem 'unread', github: 'poshboytl/unread'
 gem 'carrierwave', '~> 0.10.0'
 gem 'simple_captcha', github: 'galetahub/simple-captcha'
+gem 'utf8-cleaner', '~> 0.0.9' # Removes invalid UTF8 characters from the URL and other env vars
 
 group :development, :test do
   gem 'factory_girl_rails'
