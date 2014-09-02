@@ -1,18 +1,18 @@
 GIT
-  remote: https://github.com/galetahub/simple-captcha.git
+  remote: git://github.com/galetahub/simple-captcha.git
   revision: 2602bf19a63df25929960b5a7721a9d265281ec1
   specs:
     simple_captcha (0.1.6)
 
 GIT
-  remote: https://github.com/poshboytl/unread.git
+  remote: git://github.com/poshboytl/unread.git
   revision: b8fa0502e9558c93388a104bcbe20376cf43027d
   specs:
     unread (0.4.0)
       activerecord (>= 3)
 
 GIT
-  remote: https://github.com/tomlion/mina-slack.git
+  remote: git://github.com/tomlion/mina-slack.git
   revision: 5b7571a34f1979784720c0bfef555591e89ca3a7
   specs:
     mina-slack (0.0.3)
@@ -314,6 +314,8 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.1.1)
     rbtree (0.4.2)
+    rdoc (4.1.1)
+      json (~> 1.4)
     redis (3.0.7)
     redis-actionpack (4.0.0)
       actionpack (~> 4)
@@ -331,8 +333,9 @@ GEM
       redis-store (~> 1.1.0)
     redis-store (1.1.4)
       redis (>= 2.2)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
+    rest-client (1.6.8)
+      mime-types (~> 1.16)
+      rdoc (>= 2.4.2)
     rotp (1.6.1)
     rspec-core (2.14.7)
     rspec-expectations (2.14.5)
