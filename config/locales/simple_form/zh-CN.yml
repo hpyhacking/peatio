@@ -67,6 +67,7 @@ zh-CN:
       session:
         email: 登录邮箱
         password: 登录密码
+        captcha: 验证码
       identity:
         email: 登录邮箱
         old_password: 旧密码

@@ -59,8 +59,7 @@ class Member < ActiveRecord::Base
 
   class << self
     def from_auth(auth_hash)
-      member = locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)
-      member.disabled? ? nil : member
+      locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)
     end
 
     def current
