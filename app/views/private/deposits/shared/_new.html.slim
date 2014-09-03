@@ -1,21 +1,22 @@
 - if address.address.blank?
   p = t('.gen_address_html')
 - else
-  p
-    h4 = t('.step-1')
-    p = t('.open-wallet')
+  h4 = t('.step-1')
+  p = t('.open-wallet')
 
   hr.split
 
-  p
-    h4 = t('.step-2')
-    p = send_coin
+  h4 = t('.step-2')
+  p = send_coin
 
   .input-group.col-sm-8
     .input-group-addon =t('activerecord.attributes.deposit.address')
     .form-control.form-control-static = address.address
     .input-group-addon
       i.fa.fa-copy data-clipboard-text = address.address
+    .input-group-addon
+      span.countdown.hint style='display:none;' = t('.countdown')
+      = link_to t('.generate-new'), url_for(action: 'gen_address'), class: 'generate-link', method: :post, remote: true, onclick: "$('span.countdown').show();$(this).hide();"
 
   p
     div
@@ -25,15 +26,13 @@
 
   hr.split
 
-  p
-    h4 = t('.step-3')
-    p = check_confirm
+  h4 = t('.step-3')
+  p = check_confirm
 
   hr.split
 
-  p
-    h4 = t('.step-4')
-    p = t('.history_html')
+  h4 = t('.step-4')
+  p = t('.history_html')
 
   = content_for :after
     = panel do
