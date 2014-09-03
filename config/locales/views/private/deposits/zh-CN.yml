@@ -3,3 +3,8 @@ zh-CN:
     deposits:
       index:
         go: 立即充值
+      shared:
+        new:
+          countdown: 正在生成地址..
+        gen_address:
+          require_transaction: 当前地址没有使用过之前不能生成新地址。
