@@ -39,6 +39,7 @@ Help is greatly appreciated, feel free to submit pull-requests or open issues.
 * [ACX.IO](https://acx.io) - Australian Cryptocurrency Exchange
 * [coindex.ch](http://coindex.ch) - Swiss Bitcoin Exchange
 * [Mulcoin.com](http://mulcoin.com)
+* [Yes-BTC](http://www.yes-btc.com) - Bitcoin Exchange in Taiwan
 * ecoinz.info (Launch soon) - New Zealand Cryptocurrency Exchange
 
 
