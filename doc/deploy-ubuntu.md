@@ -18,8 +18,8 @@ Deploy on Ubuntu 14.04
 
 Create (if it doesn’t exist) deploy user, and assign it to the sudo group:
 
-    adduser deploy
-    usermod -a -G sudo deploy
+    sudo adduser deploy
+    sudo usermod -a -G sudo deploy
 
 Re-login as deploy user
 
