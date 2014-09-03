@@ -1,4 +1,4 @@
-Setup on Mac OS X 10.9 Mavericks
+Setup on Mac OS X 10.9 Mavericks for local development
 -------------------------------------
 
 ### Overview
