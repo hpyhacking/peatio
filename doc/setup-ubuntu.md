@@ -1,4 +1,4 @@
-Setup on Ubuntu 14.04 LTS
+Setup on Ubuntu 14.04 LTS for local development
 -------------------------------------
 
 ### Overview
