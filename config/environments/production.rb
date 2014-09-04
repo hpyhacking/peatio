@@ -91,4 +91,6 @@ Peatio::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
   config.active_record.default_timezone = :local
+
+  config.middleware.insert_after ActionDispatch::Static, ::SecurityMiddleware
 end

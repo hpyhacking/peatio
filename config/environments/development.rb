@@ -37,4 +37,6 @@ Peatio::Application.configure do
   config.assets.debug = true
 
   config.active_record.default_timezone = :local
+
+  config.middleware.insert_after ActionDispatch::Static, ::SecurityMiddleware
 end
