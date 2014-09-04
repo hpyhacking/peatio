@@ -404,6 +404,7 @@ GEM
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    utf8-cleaner (0.0.9)
     virtus (1.0.2)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -502,4 +503,5 @@ DEPENDENCIES
   twilio-ruby (~> 3.11)
   uglifier
   unread!
+  utf8-cleaner (~> 0.0.9)
   whenever (~> 0.9.2)
