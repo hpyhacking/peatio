@@ -13,11 +13,7 @@ class ResetPasswordsController < ApplicationController
     if @reset_password.save
       redirect_to signin_path, notice: t('.success')
     else
-      unless @reset_password.errors[:base].empty?
-        flash.now[:alert] = @reset_password.errors[:base].join
-      end
-
-      render :new
+      redirect_to url_for(action: :new), alert: @reset_password.errors.full_messages_for(:email).join(', ')
     end
   end
 
