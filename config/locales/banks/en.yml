@@ -16,6 +16,7 @@ en:
     sdb:  Shenzhen Development Bank
     pab:  Ping An Bank Co., Ltd.
     gdb:  Guangdong Development Bank
+    psbc: Postal Savings Bank of China
 
     # for test
     bank_code_1: bank_code_1

@@ -78,4 +78,8 @@
   currency: cny
   deposit: true
   withdraw: true
-
+- id: 17
+  code: psbc
+  currency: cny
+  deposit: true
+  withdraw: true
