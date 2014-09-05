@@ -55,6 +55,8 @@ Peatio::Application.configure do
   # config.cache_store = :memory_store
   config.cache_store = :redis_store, ENV['REDIS_URL'], { expires_in: 24.hours }
 
+  config.session_store :redis_store, :key => '_peatio_session', :expire_after => ENV['SESSION_EXPIRE'].to_i.minutes
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
 
