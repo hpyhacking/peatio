@@ -29,7 +29,7 @@ html lang="en"
         = yield
 
       #push
-    - if content_for(:footer)
+    - if content_for?(:footer)
       = yield(:footer)
     - else
       = render 'shared/footer'
