@@ -15,7 +15,7 @@ html lang="en"
     #wrap
       = render 'shared/browser'
 
-      - if content_for(:header)
+      - if content_for?(:header)
         = yield(:header)
       - else
         = render 'shared/header'
