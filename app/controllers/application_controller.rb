@@ -100,7 +100,8 @@ class ApplicationController < ActionController::Base
 
   def set_language
     cookies[:lang] = params[:lang] unless params[:lang].blank?
-    I18n.locale = cookies[:lang] || http_accept_language.compatible_language_from(I18n.available_locales)
+    locale = cookies[:lang] || http_accept_language.compatible_language_from(I18n.available_locales)
+    I18n.locale = locale if I18n.available_locales.include?(locale)
   end
 
   def set_timezone
