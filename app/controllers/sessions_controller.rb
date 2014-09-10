@@ -37,6 +37,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    clear_all_sessions current_user.id
     reset_session
     redirect_to root_path
   end
