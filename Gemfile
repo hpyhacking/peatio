@@ -70,7 +70,7 @@ gem 'phonelib'
 gem 'china_sms', git: 'https://github.com/lgn21st/china_sms.git'
 gem 'unread', git: 'https://github.com/poshboytl/unread.git'
 gem 'carrierwave', '~> 0.10.0'
-gem 'airbrake'
+gem 'airbrake', '~> 4.1.0'
 
 group :development, :test do
   gem 'factory_girl_rails'
