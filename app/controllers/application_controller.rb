@@ -116,8 +116,9 @@ class ApplicationController < ActionController::Base
   end
 
   def clear_all_sessions(member_id)
-    redis = Rails.cache.instance_variable_get(:@data)
-    redis.keys("peatio:sessions:*").each {|k| Rails.cache.delete k.split(':').last }
+    if redis = Rails.cache.instance_variable_get(:@data)
+      redis.keys("peatio:sessions:*").each {|k| Rails.cache.delete k.split(':').last }
+    end
 
     Rails.cache.delete_matched "peatio:sessions:#{member_id}:*"
   end
