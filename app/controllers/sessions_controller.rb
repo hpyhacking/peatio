@@ -35,6 +35,11 @@ class SessionsController < ApplicationController
     redirect_to signin_path, alert: t('.error')
   end
 
+  def setup
+    save_session_key session[:member_id], cookies['_peatio_session']
+    redirect_to settings_path
+  end
+
   def destroy
     reset_session
     redirect_to root_path

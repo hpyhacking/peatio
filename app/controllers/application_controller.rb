@@ -110,4 +110,16 @@ class ApplicationController < ActionController::Base
   def coin_rpc_connection_refused
     render 'errors/connection'
   end
+
+  def save_session_key(member_id, key)
+    Rails.cache.write "peatio:sessions:#{member_id}:#{key}", 1, expire_after: ENV['SESSION_EXPIRE'].to_i.minutes
+  end
+
+  def clear_all_sessions(member_id)
+    redis = Rails.cache.instance_variable_get(:@data)
+    redis.keys("peatio:sessions:*").each {|k| Rails.cache.delete k.split(':').last }
+
+    Rails.cache.delete_matched "peatio:sessions:#{member_id}:*"
+  end
+
 end
