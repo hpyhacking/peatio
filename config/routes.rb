@@ -17,7 +17,6 @@ Peatio::Application.routes.draw do
   get '/signin' => 'sessions#new', :as => :signin
   get '/signup' => 'identities#new', :as => :signup
   get '/signout' => 'sessions#destroy', :as => :signout
-  get '/session/begin' => 'sessions#setup', :as => :session_setup
   get '/auth/failure' => 'sessions#failure', :as => :failure
   post '/auth/identity/callback' => 'sessions#create'
 

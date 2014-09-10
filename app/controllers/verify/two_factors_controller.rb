@@ -31,11 +31,10 @@ module Verify
     end
 
     def auth_success
-      member_id = session[:temp_member_id]
-      reset_session
-      session[:member_id] = member_id
-      MemberMailer.notify_signin(member_id).deliver if current_user.activated?
-      redirect_to session_setup_path
+      session[:member_id] = session.delete :temp_member_id
+      save_session_key current_user.id, cookies['_peatio_session']
+      MemberMailer.notify_signin(current_user.id).deliver if current_user.activated?
+      redirect_to settings_path
     end
 
     def temp_user

@@ -21,6 +21,7 @@ class SessionsController < ApplicationController
         redirect_to signin_path, alert: t('.disabled')
       else
         clear_failed_logins
+        reset_session rescue nil
         session[:temp_member_id] = @member.id
         redirect_to new_verify_two_factor_path
       end
@@ -33,11 +34,6 @@ class SessionsController < ApplicationController
   def failure
     increase_failed_logins
     redirect_to signin_path, alert: t('.error')
-  end
-
-  def setup
-    save_session_key session[:member_id], cookies['_peatio_session']
-    redirect_to settings_path
   end
 
   def destroy
