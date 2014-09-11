@@ -1,5 +1,6 @@
 en:
   mailer:
+    dear_user: "Dear user,"
     signature:
       thanks: Thanks,
       team: The Peatio Team

@@ -1,5 +1,11 @@
 en:
   withdraw_mailer:
     withdraw_state:
-      subject: Your withdraw state
-      your_state: "Your withdraw's state:"
+      subject: "[Peatio] Your withdraw state update"
+      your_state: "Your withdrawal state: "
+    accepted:
+      subject: "[Peatio] Your withdraw state update"
+      content: "The request of your %{currency} withdrawal has been successfully submitted.\n\nWe will approve it as soon as possible.\n\nPlease be patient with us.\n\nContact us if you have any questions."
+    done:
+      subject: "[Peatio] Your withdraw state update"
+      content: "The request of your %{currency} withdrawal has been approved.\n\nPlease check it out.\n\nContact us if you have any questions."
