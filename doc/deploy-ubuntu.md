@@ -161,6 +161,7 @@ A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do b
 #### 10. Setup production environment variable
 
     echo "export RAILS_ENV=production" >> ~/.bashrc
+    source ~/.bashrc
 
 ##### Clone the Source
 
