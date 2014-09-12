@@ -144,6 +144,10 @@ Next, we need to update the Nginx configuration to point Passenger to the versio
 find the following lines, and uncomment them:
 
     passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
+    passenger_ruby /usr/bin/ruby;
+
+update the second line to read:
+
     passenger_ruby /home/deploy/.rbenv/shims/ruby;
 
 ### 8. Install JavaScript Runtime
