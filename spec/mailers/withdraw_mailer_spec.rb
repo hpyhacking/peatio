@@ -9,7 +9,7 @@ describe WithdrawMailer do
     end
 
     it "renders the headers" do
-      mail.subject.should eq("Your withdraw state")
+      mail.subject.should eq("[Peatio] Your withdraw state update")
       mail.to.should eq([withdraw.member.email])
       mail.from.should eq([ENV['SYSTEM_MAIL_FROM']])
     end
@@ -19,4 +19,43 @@ describe WithdrawMailer do
     end
   end
 
+  describe "accepted" do
+    let(:withdraw) { create :satoshi_withdraw }
+    let(:mail) do
+      withdraw.submit!
+      withdraw.accept!
+      WithdrawMailer.accepted(withdraw.id)
+    end
+
+    it "renders the headers" do
+      mail.subject.should eq("[Peatio] Your withdraw state update")
+      mail.to.should eq([withdraw.member.email])
+      mail.from.should eq([ENV['SYSTEM_MAIL_FROM']])
+    end
+
+    it "renders the body" do
+      mail.body.encoded.should match("accepted")
+    end
+  end
+
+  describe "done" do
+    let(:withdraw) { create :satoshi_withdraw }
+    let(:mail) do
+      withdraw.submit!
+      withdraw.accept!
+      withdraw.process!
+      withdraw.succeed!
+      WithdrawMailer.done(withdraw.id)
+    end
+
+    it "renders the headers" do
+      mail.subject.should eq("[Peatio] Your withdraw state update")
+      mail.to.should eq([withdraw.member.email])
+      mail.from.should eq([ENV['SYSTEM_MAIL_FROM']])
+    end
+
+    it "renders the body" do
+      mail.body.encoded.should match("complete")
+    end
+  end
 end

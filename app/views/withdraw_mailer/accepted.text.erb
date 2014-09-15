@@ -1,5 +1,5 @@
 <%= t('mailer.dear_user') %>
 
-<%= t(".your_state") %><%= @withdraw.aasm_state %>
+<%= t('.content', currency: @withdraw.currency_text) %>
 
 <%= t("mailer.signature") %>

@@ -1,5 +1,11 @@
 zh-CN:
   withdraw_mailer:
     withdraw_state:
-      subject: 你的提现状态
-      your_state: 你的提现状态：
+      subject: "[貔貅]你的提现状态更新"
+      your_state: "你的提现状态："
+    accepted:
+      subject: "[貔貅]你的提现状态更新"
+      content: "您的%{currency}提现请求已经被成功提交。\n\n我们会尽快处理您的提现请求。\n\n谢谢您的耐心等待。\n\n如果您有任何问题，请及时与我们联系。"
+    done:
+      subject: "[貔貅]你的提现状态更新"
+      content: "您的%{currency}提现请求已经处理完毕。\n\n请查询您的账户。\n\n如果您有任何问题，请及时与我们联系。"
