@@ -15,4 +15,5 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
   def too_many_failed_login_attempts
     retry_count.present? && retry_count >= MAX_LOGIN_ATTEMPTS
   end
+
 end

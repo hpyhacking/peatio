@@ -15,7 +15,6 @@ describe 'password' do
     click_on t('helpers.submit.identity.update')
     expect(page).to have_content(t('identities.update.notice'))
 
-    signout
     signin identity, password: password
     check_signin
   end
