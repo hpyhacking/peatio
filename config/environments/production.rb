@@ -40,7 +40,7 @@ Peatio::Application.configure do
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # Set to :debug to see everything in the log.
   config.log_level = :info
@@ -54,6 +54,8 @@ Peatio::Application.configure do
   # Use a different cache store in production.
   # config.cache_store = :memory_store
   config.cache_store = :redis_store, ENV['REDIS_URL'], { expires_in: 24.hours }
+
+  config.session_store :redis_store, :key => '_peatio_session', :expire_after => ENV['SESSION_EXPIRE'].to_i.minutes
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -91,4 +93,6 @@ Peatio::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
   config.active_record.default_timezone = :local
+
+  config.middleware.insert_before Rack::Runtime, ::SecurityMiddleware
 end

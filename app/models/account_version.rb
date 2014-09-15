@@ -1,23 +1,3 @@
-# == Schema Information
-#
-# Table name: account_versions
-#
-#  id              :integer          not null, primary key
-#  member_id       :integer
-#  account_id      :integer
-#  reason          :integer
-#  balance         :decimal(32, 16)
-#  locked          :decimal(32, 16)
-#  fee             :decimal(32, 16)
-#  amount          :decimal(32, 16)
-#  modifiable_id   :integer
-#  modifiable_type :string(255)
-#  created_at      :datetime
-#  updated_at      :datetime
-#  currency        :integer
-#  fun             :integer
-#
-
 class AccountVersion < ActiveRecord::Base
   include Currencible
 

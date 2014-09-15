@@ -1,18 +1,3 @@
-# == Schema Information
-#
-# Table name: proofs
-#
-#  id         :integer          not null, primary key
-#  root       :string(255)
-#  currency   :integer
-#  ready      :boolean          default(FALSE)
-#  created_at :datetime
-#  updated_at :datetime
-#  sum        :string(255)
-#  addresses  :text
-#  balance    :string(30)
-#
-
 require 'spec_helper'
 
 describe Proof do

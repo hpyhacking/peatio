@@ -1,23 +1,3 @@
-# == Schema Information
-#
-# Table name: members
-#
-#  id                    :integer          not null, primary key
-#  sn                    :string(255)
-#  display_name          :string(255)
-#  email                 :string(255)
-#  identity_id           :integer
-#  created_at            :datetime
-#  updated_at            :datetime
-#  state                 :integer
-#  activated             :boolean
-#  country_code          :integer
-#  phone_number          :string(255)
-#  phone_number_verified :boolean
-#  disabled              :boolean          default(FALSE)
-#  api_disabled          :boolean          default(FALSE)
-#
-
 class Member < ActiveRecord::Base
   acts_as_taggable
   acts_as_reader
@@ -58,8 +38,7 @@ class Member < ActiveRecord::Base
 
   class << self
     def from_auth(auth_hash)
-      member = locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)
-      member.disabled? ? nil : member
+      locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)
     end
 
     def current

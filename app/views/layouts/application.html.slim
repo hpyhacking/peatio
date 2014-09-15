@@ -16,7 +16,7 @@ html lang="en"
     #wrap
       = render 'shared/browser'
 
-      - if content_for(:header)
+      - if content_for?(:header)
         = yield(:header)
       - else
         = render 'shared/header'
@@ -30,7 +30,7 @@ html lang="en"
         = yield
 
       #push
-    - if content_for(:footer)
+    - if content_for?(:footer)
       = yield(:footer)
     - else
       = render 'shared/footer'

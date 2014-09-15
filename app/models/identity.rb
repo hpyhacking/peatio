@@ -1,19 +1,3 @@
-# == Schema Information
-#
-# Table name: identities
-#
-#  id              :integer          not null, primary key
-#  email           :string(255)
-#  password_digest :string(255)
-#  is_active       :boolean
-#  retry_count     :integer
-#  is_locked       :boolean
-#  locked_at       :datetime
-#  last_verify_at  :datetime
-#  created_at      :datetime
-#  updated_at      :datetime
-#
-
 class Identity < OmniAuth::Identity::Models::ActiveRecord
   auth_key :email
   attr_accessor :old_password
@@ -31,4 +15,5 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
   def too_many_failed_login_attempts
     retry_count.present? && retry_count >= MAX_LOGIN_ATTEMPTS
   end
+
 end

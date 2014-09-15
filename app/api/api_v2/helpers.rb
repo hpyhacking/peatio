@@ -67,5 +67,18 @@ module APIv2
       params[:order_by].downcase == 'asc' ? 'id asc' : 'id desc'
     end
 
+    def format_ticker(ticker)
+      { at: ticker[:at],
+        ticker: {
+          buy: ticker[:buy],
+          sell: ticker[:sell],
+          low: ticker[:low],
+          high: ticker[:high],
+          last: ticker[:last],
+          vol: ticker[:volume]
+        }
+      }
+    end
+
   end
 end

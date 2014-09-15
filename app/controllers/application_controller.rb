@@ -100,7 +100,8 @@ class ApplicationController < ActionController::Base
 
   def set_language
     cookies[:lang] = params[:lang] unless params[:lang].blank?
-    I18n.locale = cookies[:lang] || http_accept_language.compatible_language_from(I18n.available_locales)
+    locale = cookies[:lang] || http_accept_language.compatible_language_from(I18n.available_locales)
+    I18n.locale = locale if locale && I18n.available_locales.include?(locale.to_sym)
   end
 
   def set_timezone
@@ -111,6 +112,18 @@ class ApplicationController < ActionController::Base
     render 'errors/connection'
   end
 
+  def save_session_key(member_id, key)
+    Rails.cache.write "peatio:sessions:#{member_id}:#{key}", 1, expire_after: ENV['SESSION_EXPIRE'].to_i.minutes
+  end
+
+  def clear_all_sessions(member_id)
+    if redis = Rails.cache.instance_variable_get(:@data)
+      redis.keys("peatio:sessions:*").each {|k| Rails.cache.delete k.split(':').last }
+    end
+
+    Rails.cache.delete_matched "peatio:sessions:#{member_id}:*"
+  end
+
   def mixpanel_cookie
     str = cookies["mp_#{ENV['MIXPANEL_TOKEN']}_mixpanel"]
     str && JSON.parse(str)
@@ -119,5 +132,4 @@ class ApplicationController < ActionController::Base
   def mixpanel_track(action, *args)
     MixpanelTracker.track action, request, mixpanel_cookie, *args
   end
-
 end

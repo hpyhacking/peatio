@@ -31,9 +31,8 @@ module Verify
     end
 
     def auth_success
-      member_id = session[:temp_member_id]
-      reset_session
-      session[:member_id] = member_id
+      session[:member_id] = session.delete :temp_member_id
+      save_session_key current_user.id, cookies['_peatio_session']
       send_signin_notification
       if current_user.activated? and (current_user.id_document and current_user.id_document_verified?)
         redirect_to market_path(current_market)
@@ -52,5 +51,6 @@ module Verify
     def temp_user
       @temp_user ||= Member.find_by_id(session[:temp_member_id])
     end
+
   end
 end

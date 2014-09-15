@@ -11,13 +11,10 @@ class ResetPasswordsController < ApplicationController
     @reset_password = ResetPassword.new(reset_password_params)
 
     if @reset_password.save
+      clear_all_sessions @reset_password.member_id
       redirect_to signin_path, notice: t('.success')
     else
-      unless @reset_password.errors[:base].empty?
-        flash.now[:alert] = @reset_password.errors[:base].join
-      end
-
-      render :new
+      redirect_to url_for(action: :new), alert: @reset_password.errors.full_messages.join(', ')
     end
   end
 
@@ -26,6 +23,7 @@ class ResetPasswordsController < ApplicationController
 
   def update
     if @token.update_attributes(reset_password_update_params)
+      @token.confirmed
       redirect_to signin_path, notice: t('.success')
     else
       render :edit

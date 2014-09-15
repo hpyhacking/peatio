@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140826093508) do
+ActiveRecord::Schema.define(version: 20140902112641) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -283,6 +283,15 @@ ActiveRecord::Schema.define(version: 20140826093508) do
 
   add_index "read_marks", ["member_id"], name: "index_read_marks_on_member_id", using: :btree
   add_index "read_marks", ["readable_type", "readable_id"], name: "index_read_marks_on_readable_type_and_readable_id", using: :btree
+
+  create_table "simple_captcha_data", force: true do |t|
+    t.string   "key",        limit: 40
+    t.string   "value",      limit: 6
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "simple_captcha_data", ["key"], name: "idx_key", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"

@@ -1,18 +1,3 @@
-# == Schema Information
-#
-# Table name: accounts
-#
-#  id         :integer          not null, primary key
-#  member_id  :integer
-#  currency   :integer
-#  balance    :decimal(32, 16)
-#  locked     :decimal(32, 16)
-#  created_at :datetime
-#  updated_at :datetime
-#  in         :decimal(32, 16)
-#  out        :decimal(32, 16)
-#
-
 require 'spec_helper'
 
 describe Account do

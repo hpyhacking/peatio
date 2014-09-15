@@ -5,3 +5,8 @@ zh-CN:
         page_title: "充值 - 貔貅交易所"
         page_keywords: "充值,比特币,人民币,资金,加密数字货币"
         go: 立即充值
+      shared:
+        new:
+          countdown: 正在生成地址..
+        gen_address:
+          require_transaction: 当前地址没有使用过之前不能生成新地址。

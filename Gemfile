@@ -67,16 +67,17 @@ gem 'grape-swagger', '~> 0.7.2'
 gem 'rack-attack', '~> 3.0.0'
 gem 'easy_table'
 gem 'phonelib'
-gem 'china_sms', git: 'https://github.com/lgn21st/china_sms.git'
-gem 'unread', git: 'https://github.com/poshboytl/unread.git'
+gem 'china_sms', github: 'lgn21st/china_sms'
+gem 'unread', github: 'poshboytl/unread'
 gem 'carrierwave', '~> 0.10.0'
 gem 'airbrake', '~> 4.1.0'
+gem 'simple_captcha', github: 'galetahub/simple-captcha'
 
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker', '~> 1.4.3'
   gem 'mina'
-  gem 'mina-slack', git: 'https://github.com/tomlion/mina-slack.git'
+  gem 'mina-slack', github: 'tomlion/mina-slack'
   gem 'meta_request'
   gem 'better_errors'
   gem 'binding_of_caller'
@@ -87,7 +88,6 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'rspec-rails'
   gem 'byebug'
-  gem "annotate", '~> 2.5.0'
 end
 
 group :test do

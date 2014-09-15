@@ -3,3 +3,8 @@ en:
     deposits:
       index:
         go: Deposit Now
+      shared:
+        new:
+          countdown: Generating..
+        gen_address:
+          require_transaction: Cannot generate new address until current address used.

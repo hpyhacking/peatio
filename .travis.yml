@@ -1,10 +1,6 @@
 language: ruby
 rvm:
   - 2.1.2
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y libfontconfig libfontconfig-dev libfreetype6-dev
-  - sudo apt-get install -y qrencode libqrencode-dev
 before_script:
   - "mysql -e 'create database peatio_test;'"
   - "cp ./.travis.database.yml ./config/database.yml"

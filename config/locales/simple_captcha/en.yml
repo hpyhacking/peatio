@@ -1,0 +1,5 @@
+en:
+  simple_captcha:
+    label: Refresh page to get new captcha.
+    placeholder: type characters in image
+

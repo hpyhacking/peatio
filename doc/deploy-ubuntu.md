@@ -1,4 +1,4 @@
-Deploy on Ubuntu 14.04
+Deploy production server on Ubuntu 14.04
 -------------------------------------
 
 ### Overview
@@ -10,15 +10,16 @@ Deploy on Ubuntu 14.04
 5. Install [RabbitMQ](https://www.rabbitmq.com/)
 6. Install [Bitcoind](https://en.bitcoin.it/wiki/Bitcoind)
 7. Install [Nginx with Passenger](https://www.phusionpassenger.com/)
-8. Install a JavaScript Runtime
-8. Configure Peatio
+8. Install JavaScript Runtime
+9. Install ImageMagick
+10. Configure Peatio
 
 ### 1. Setup deploy user
 
 Create (if it doesn’t exist) deploy user, and assign it to the sudo group:
 
-    adduser deploy
-    usermod -a -G sudo deploy
+    sudo adduser deploy
+    sudo usermod -a -G sudo deploy
 
 Re-login as deploy user
 
@@ -143,18 +144,28 @@ Next, we need to update the Nginx configuration to point Passenger to the versio
 find the following lines, and uncomment them:
 
     passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
+    passenger_ruby /usr/bin/ruby;
+
+update the second line to read:
+
     passenger_ruby /home/deploy/.rbenv/shims/ruby;
 
-### 8. Install a JavaScript Runtime
+### 8. Install JavaScript Runtime
 
 A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do but Node.js is recommended.
 
     sudo apt-get install nodejs
 
 
-#### 9. Setup production environment variable
+### 9. Install ImageMagick
+
+    sudo apt-get install imagemagick
+
+
+#### 10. Setup production environment variable
 
     echo "export RAILS_ENV=production" >> ~/.bashrc
+    source ~/.bashrc
 
 ##### Clone the Source
 
@@ -213,7 +224,7 @@ More details to visit [pusher official website](http://pusher.com)
     TRADE_EXECUTOR=4 rake daemon:trade_executor:start
 
     # You can do the same when you start all daemons:
-    TRADE_EXECUTOR=4 rake daemon:start
+    TRADE_EXECUTOR=4 rake daemons:start
 
 **Passenger:**
 

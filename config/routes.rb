@@ -54,7 +54,11 @@ Peatio::Application.routes.draw do
     resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
       Deposit.descendants.each do |d|
-        resources d.resource_name
+        resources d.resource_name do
+          collection do
+            post :gen_address
+          end
+        end
       end
     end
 
