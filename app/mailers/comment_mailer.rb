@@ -1,7 +1,4 @@
-class CommentMailer < ActionMailer::Base
-  include AMQPQueue::Mailer
-
-  default from: ENV['SYSTEM_MAIL_FROM']
+class CommentMailer < BaseMailer
 
   def user_notification(email, comment)
     @ticket_url = ticket_url(comment.ticket)

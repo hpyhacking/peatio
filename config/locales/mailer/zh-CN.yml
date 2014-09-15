@@ -1,5 +1,4 @@
 zh-CN:
   mailer:
-    signature:
-      thanks: 谢谢
-      team: 貔貅团队
+    dear_user: "您好,"
+    signature: "此致\n貔貅团队"
