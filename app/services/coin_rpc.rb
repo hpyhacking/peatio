@@ -13,9 +13,9 @@ class CoinRPC
 
   def self.[](currency)
     c = Currency.find_by_code(currency.to_s)
-    if c && url = c.rpc
-      klass = "::CoinRPC::#{currency.upcase}".constantize
-      klass.new url
+    if c && c.rpc
+      name = c[:handler] || 'BTC'
+      "::CoinRPC::#{name}".constantize.new(c.rpc)
     end
   end
 
