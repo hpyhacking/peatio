@@ -1,5 +1,5 @@
 module Worker
-  class DepositBtsx
+  class DepositBtsx < DepositCoin
 
     BLOCK_DURATION = 10
 
@@ -11,11 +11,31 @@ module Worker
         tx = @rpc.last_deposit_account_transaction
         @last_block_num = tx['block_num'] if tx
       end
+
+      @currency = Currency.find_by_code 'btsx'
+      @channel  = DepositChannel.find_by_key 'bitsharesx'
     end
 
     def process
-      get_new_transactions.each do |block|
-        Rails.logger.info block.inspect
+      get_new_transactions.each do |raw|
+        block   = raw['block_num']
+        txid    = raw['trx_id']
+        entry   = raw['ledger_entries'].first
+        amount  = @rpc.fmt_amount entry['amount']['amount']
+        fee     = @rpc.fmt_amount raw['fee']['amount']
+        address = "#{@currency.deposit_account}|#{entry['memo']}"
+
+        Rails.logger.info "[NEW] block: #{block} id: #{txid}"
+
+        ActiveRecord::Base.transaction do
+          return if PaymentTransaction.find_by_txid(txid)
+
+          receive_at = Time.zone.parse raw['timestamp']
+          deposit = create_deposit(txid, address, amount, block, receive_at, @channel)
+
+          deposit.submit!
+          deposit.accept!
+        end
       end
     end
 

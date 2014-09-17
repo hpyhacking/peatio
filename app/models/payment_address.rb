@@ -9,8 +9,13 @@ class PaymentAddress < ActiveRecord::Base
   validates_uniqueness_of :address, allow_nil: true
 
   def gen_address
-    payload = { payment_address_id: id, currency: currency }
-    attrs   = { persistent: true }
-    AMQPQueue.enqueue(:deposit_coin_address, payload, attrs)
+    if account && account.currency == 'btsx'
+      self.address = "#{currency_obj.deposit_account}|#{account.id}"
+      save
+    else
+      payload = { payment_address_id: id, currency: currency }
+      attrs   = { persistent: true }
+      AMQPQueue.enqueue(:deposit_coin_address, payload, attrs)
+    end
   end
 end

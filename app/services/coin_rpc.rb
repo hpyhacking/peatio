@@ -94,10 +94,6 @@ class CoinRPC
       wallet_transfer amount, 'BTSX', @currency.deposit_account, account
     end
 
-    def getnewaddress(label)
-      @currency.deposit_account
-    end
-
     # validate both account and address
     def validateaddress(account_or_address)
       account = blockchain_get_account account_or_address
