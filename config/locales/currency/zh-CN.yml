@@ -14,11 +14,13 @@ zh-CN:
       btc: 比特币
       pts: 比特股
       dog: 狗狗币
+      btsx: BTSX
     code:
       cny: CNY
       btc: BTC
       pts: PTS
       dog: DOGE
+      btsx: BTSX
     format:
       zero: 'N/A'
       cny: '0.00'
