@@ -106,6 +106,10 @@ class CoinRPC
       validate_address account_or_address
     end
 
+    def last_block
+      blockchain_list_blocks 0, -1
+    end
+
     def fmt_amount(amt)
       amt.to_d / 100000
     end
