@@ -12,8 +12,8 @@ describe Private::OrderBidsController do
   let(:params) do
     { market_id: market.id,
       market:    market.id,
-      ask:       market.target_unit,
-      bid:       market.price_unit,
+      ask:       market.base_unit,
+      bid:       market.quote_unit,
       order_bid: { ord_type: 'limit', origin_volume: '12.13', price: '2014.47' }
     }
   end
