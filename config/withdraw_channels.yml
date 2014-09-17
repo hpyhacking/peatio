@@ -28,3 +28,9 @@
   fixed: 4
   fee: 0.0001
   sort_order: 1
+- id: 600
+  key: bitsharesx
+  currency: btsx
+  fixed: 5
+  fee: 0.1
+  sort_order: 6

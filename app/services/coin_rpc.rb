@@ -7,15 +7,16 @@ class CoinRPC
   class JSONRPCError < RuntimeError; end
   class ConnectionRefusedError < StandardError; end
 
-  def initialize(uri)
-    @uri = URI.parse(uri)
+  def initialize(currency)
+    raise ArgumentError, "missing rpc uri" unless currency.rpc
+    @currency = currency
+    @uri = URI.parse(currency.rpc)
   end
 
   def self.[](currency)
-    c = Currency.find_by_code(currency.to_s)
-    if c && url = c.rpc
+    if c = Currency.find_by_code(currency.to_s)
       klass = "::CoinRPC::#{currency.upcase}".constantize
-      klass.new url
+      klass.new c
     end
   end
 
@@ -77,6 +78,26 @@ class CoinRPC
     rescue Errno::ECONNREFUSED => e
       raise ConnectionRefusedError
     end
+
+    ASSET_IDS = { btsx: 0 }.freeze
+    def getbalance
+      balances = wallet_account_balance(@currency.deposit_account).first[1]
+      balance  = balances.find {|(id, _)| id == ASSET_IDS[:btsx] }.last
+      fmt_amount balance
+    end
+
+    def settxfee(fee)
+      wallet_set_transaction_fee(fee)
+    end
+
+    def sendtoaddress(account, amount)
+      wallet_transfer amount, 'BTSX', @currency.deposit_account, account
+    end
+
+    def fmt_amount(amt)
+      amt.to_d / 100000
+    end
+
   end
 
 end
