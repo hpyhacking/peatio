@@ -29,7 +29,7 @@ end
 json.buys @buys do |buy|
   json.type 'buy'
   json.timestamp buy.created_at.to_i
-  json.fiat_currency buy.market.price_unit
+  json.fiat_currency buy.market.quote_unit
   json.fiat_amount buy.volume * buy.price
   json.coin_currency buy.market.base_unit
   json.coin_amount buy.volume
@@ -40,7 +40,7 @@ end
 json.sells @sells do |sell|
   json.type 'sell'
   json.timestamp sell.created_at.to_i
-  json.fiat_currency sell.market.price_unit
+  json.fiat_currency sell.market.quote_unit
   json.fiat_amount sell.volume * sell.price
   json.coin_currency sell.market.base_unit
   json.coin_amount sell.volume

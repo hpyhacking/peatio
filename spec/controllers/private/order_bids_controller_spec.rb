@@ -13,7 +13,7 @@ describe Private::OrderBidsController do
     { market_id: market.id,
       market:    market.id,
       ask:       market.base_unit,
-      bid:       market.price_unit,
+      bid:       market.quote_unit,
       order_bid: { ord_type: 'limit', origin_volume: '12.13', price: '2014.47' }
     }
   end

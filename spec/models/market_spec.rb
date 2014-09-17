@@ -18,7 +18,7 @@ describe Market do
     its(:id)         { should == 'btccny' }
     its(:name)       { should == 'BTC/CNY' }
     its(:base_unit)  { should == 'btc' }
-    its(:price_unit) { should == 'cny' }
+    its(:quote_unit) { should == 'cny' }
     its(:visible)    { should be_true }
   end
 
