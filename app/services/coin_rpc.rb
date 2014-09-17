@@ -94,6 +94,10 @@ class CoinRPC
       wallet_transfer amount, 'BTSX', @currency.deposit_account, account
     end
 
+    def getnewaddress(label)
+      @currency.deposit_account
+    end
+
     def fmt_amount(amt)
       amt.to_d / 100000
     end
