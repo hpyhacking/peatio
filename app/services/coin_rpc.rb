@@ -98,6 +98,14 @@ class CoinRPC
       @currency.deposit_account
     end
 
+    # validate both account and address
+    def validateaddress(account_or_address)
+      account = blockchain_get_account account_or_address
+      return {isvalid: true} if account && account[:name] == account_or_address
+
+      validate_address account_or_address
+    end
+
     def fmt_amount(amt)
       amt.to_d / 100000
     end
