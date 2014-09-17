@@ -15,8 +15,8 @@ class CoinRPC
 
   def self.[](currency)
     if c = Currency.find_by_code(currency.to_s)
-      klass = "::CoinRPC::#{currency.upcase}".constantize
-      klass.new c
+      name = c[:handler] || 'BTC'
+      "::CoinRPC::#{name}".constantize.new(c)
     end
   end
 
