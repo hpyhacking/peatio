@@ -5,7 +5,7 @@ describe CoinRPC do
     it 'raises custom error on connection refused' do
       Net::HTTP.any_instance.stubs(:request).raises(Errno::ECONNREFUSED)
 
-      rpc_client = CoinRPC.new('http://127.0.0.1:18332')
+      rpc_client = CoinRPC::BTC.new('http://127.0.0.1:18332')
 
       expect {
         rpc_client.http_post_request ''
