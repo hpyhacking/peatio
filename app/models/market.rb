@@ -11,7 +11,7 @@
 class Market < ActiveYamlBase
   field :visible, default: true
 
-  attr :name, :target_unit, :price_unit
+  attr :name, :base_unit, :price_unit
 
   self.singleton_class.send :alias_method, :all_with_invisible, :all
   def self.all
@@ -30,9 +30,9 @@ class Market < ActiveYamlBase
 
     raise ArgumentError, "market id must be 6 chars long (3 chars base currency code + 3 chars quote currency code, e.g. 'btccny')" if id.size != 6
 
-    @target_unit = id[0,3]
+    @base_unit = id[0,3]
     @price_unit  = id[3,3]
-    @name = "#{@target_unit}/#{@price_unit}".upcase
+    @name = "#{@base_unit}/#{@price_unit}".upcase
   end
 
   def latest_price

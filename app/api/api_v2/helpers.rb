@@ -32,7 +32,7 @@ module APIv2
         source:        'APIv2',
         state:         ::Order::WAIT,
         member_id:     current_user.id,
-        ask:           current_market.target_unit,
+        ask:           current_market.base_unit,
         bid:           current_market.price_unit,
         currency:      current_market.id,
         ord_type:      attrs[:ord_type] || 'limit',
