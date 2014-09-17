@@ -52,3 +52,9 @@
     accounts:
       -
         address: 1dice8EMZmqKvrGE4Qc9bUFf9PX3xaYDp
+- id: 16
+  key: bitsharesx
+  code: btsx
+  coin: true
+  rpc: http://username:password@127.0.0.1:0
+  blockchain: http://www.bitsharesblocks.com/blocks/block?id=#{txid}
