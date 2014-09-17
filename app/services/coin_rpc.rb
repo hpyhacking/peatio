@@ -106,8 +106,13 @@ class CoinRPC
       validate_address account_or_address
     end
 
-    def last_block
-      blockchain_list_blocks 0, -1
+    def last_deposit_account_transaction
+      wallet_account_transaction_history(@currency.deposit_account, 'BTSX', -1, 0).first
+    end
+
+    def get_deposit_transactions(from)
+      txs = wallet_account_transaction_history(@currency.deposit_account, 'BTSX', 0, from)
+      txs.select {|tx| tx['is_confirmed'] && !tx['is_virtual'] && !tx['is_market'] && !tx['is_market_cancel'] && tx['ledger_entries'].first['to_account'] == @currency.deposit_account }
     end
 
     def fmt_amount(amt)
