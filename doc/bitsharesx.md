@@ -27,13 +27,24 @@ Enable rpc in `data/config.json`:
 
 #### Daemon Run
 
+First run:
+
 ```
   ./programs/client/bitshares_client --data-dir data
+
+  # create account in console
+  >>> wallet_account_create <deposit account>
 ```
 
-#### Create Account
+Run with startup script:
 
 ```
-  wallet_account_create <deposit account>
-  wallet_unlock 999999999, <passphrase>
+  ./programs/client/bitshares_client --data-dir data --input-log startup
+```
+
+startup script:
+
+```
+  >>> wallet_open <wallet name>
+  >>> wallet_unlock 999999999 <passphrase>
 ```
