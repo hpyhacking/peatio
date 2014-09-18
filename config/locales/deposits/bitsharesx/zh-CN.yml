@@ -30,16 +30,16 @@ zh-CN:
   guides:
     private:
       deposits:
-        bitsharesxs:
+        bitsharesxes:
           panel: 充值 / BTSX充值
-          intro: "从本地钱包客户端或任意在线钱包客户端转出比特币到交易所账户，同时在memo中填入此数字: %{account}。"
+          intro: "从本地钱包客户端或任意在线钱包客户端转出BTSX到您的交易所账户。"
           new:
             title: BTSX充值
             default-panel: 充值记录
 
   admin:
     deposits:
-      bitsharesxs:
+      bitsharesxes:
         update:
           notice: 此笔充值已经成功到账。
         index:
@@ -48,12 +48,13 @@ zh-CN:
 
   private:
     deposits:
-      bitsharesxs:
+      bitsharesxes:
         new:
           page_title: "BTSX充值 - 资金充值 - 貔貅交易所"
           page_keywords: "充值,BTSX,人民币,资金,加密数字货币"
-          send-coin: "在您的钱包付款或发款中,复制以下交易所专用充值地址,在金额中填入您希望充值到账的数量, Memo中填入此数字: %{account}。
-                     同时别忘记支付⼀定的矿⼯费以保证交易尽快被全网确认。您可以重复使用此充值地址和Memo数字充值。"
-          check-confirm: "完成以上操作后点击发送付款,此交易将被广播到全网,您便可以这⾥查看到此笔交易的状态,
-                         当交易被全网确认 (⼤约10-30秒) 时,系统将自动充值到账。
-                         您可以到<a href='%{path}'>资产公开</a>中查询。"
+          send-coin: "在转账界面中, 在“数量”(Amount)一栏请填入您希望充值的数量。“发往”(to)一栏请填入貔貅交易所的BTSX帐号。<b>在“消息”(Memo)一栏中请填入您的充值ID - 请务必填入此ID，否则充值无法自动到帐</b>。"
+          check-confirm: "完成以上操作后点击发送(Send)付款,此交易将被广播到全网,您便可以这⾥查看到此笔交易的状态,
+                         当交易被全网确认 (⼤约10-30秒) 时,系统将自动充值到账。"
+          open-wallet: "请打开BitShares X钱包，选择“转账”。"
+          deposit_account: 交易所BTSX帐号
+          account_id: 充值ID
