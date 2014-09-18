@@ -8,6 +8,8 @@ zh-CN:
       key: PTS
     dogecoin:
       key: DOG
+    bitsharesx:
+      key: BTSX
 
     name:
       cny: 人民币

@@ -91,7 +91,8 @@ class CoinRPC
     end
 
     def sendtoaddress(account, amount)
-      wallet_transfer amount, 'BTSX', @currency.deposit_account, account
+      result = wallet_transfer amount, 'BTSX', @currency.deposit_account, account
+      result[:record_id]
     end
 
     # validate both account and address
