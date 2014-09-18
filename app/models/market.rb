@@ -5,13 +5,13 @@
 #
 # ID of market is always in the form "#{B}#{A}". For example, in 'btccny'
 # market, the commodity pair is `{btc, cny}`. Sellers sell out _btc_ for
-# _cny_, buyers buy in _btc_ with _cny_. _btc_ is the `target`, while _cny_
-# is the `price`.
+# _cny_, buyers buy in _btc_ with _cny_. _btc_ is the `base_unit`, while
+# _cny_ is the `quote_unit`.
 
 class Market < ActiveYamlBase
   field :visible, default: true
 
-  attr :name, :target_unit, :price_unit
+  attr :name
 
   self.singleton_class.send :alias_method, :all_with_invisible, :all
   def self.all
@@ -22,17 +22,11 @@ class Market < ActiveYamlBase
     all_with_invisible.inject({}) {|hash, i| hash[i.id.to_sym] = i.code; hash }
   end
 
-  # TODO: our market id is the opposite of conventional market name.
-  # e.g. our 'btccny' market should use 'btccny' as id, and its name should
-  # be 'BTC/CNY'
   def initialize(*args)
     super
 
-    raise ArgumentError, "market id must be 6 chars long (3 chars base currency code + 3 chars quote currency code, e.g. 'btccny')" if id.size != 6
-
-    @target_unit = id[0,3]
-    @price_unit  = id[3,3]
-    @name = "#{@target_unit}/#{@price_unit}".upcase
+    raise "missing base_unit or quote_unit: #{args}" unless base_unit.present? && quote_unit.present?
+    @name = "#{base_unit}/#{quote_unit}".upcase
   end
 
   def latest_price
