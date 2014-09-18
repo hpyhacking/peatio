@@ -84,6 +84,10 @@ class CoinRPC
       balances = wallet_account_balance(@currency.deposit_account).first[1]
       balance  = balances.find {|(id, _)| id == ASSET_IDS[:btsx] }.last
       fmt_amount balance
+    rescue
+      Rails.logger.warn "Failed to get balance (currency: #{@currency.code} account: #{@currency.deposit_account}): #{$!}"
+      Rails.logger.warn $!.backtrace[0,5].join("\n")
+      0
     end
 
     def settxfee(fee)
