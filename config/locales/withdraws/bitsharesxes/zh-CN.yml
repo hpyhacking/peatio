@@ -111,7 +111,7 @@ zh-CN:
           panel: 提现 / BTSX提现
           new:
             title: BTSX提现
-            intro: 提取您在交易所的BTSX资金到您的钱包。
+            intro: 提取您在交易所的BTSX资金到您的BitShares X账户或者公钥地址。
             default-panel: 历史记录
           create:
             title: BTSX提现
