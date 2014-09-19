@@ -21,6 +21,7 @@ while($running) do
 
       begin
         result = CoinRPC[currency].validateaddress(fund_uid)
+        raise "Invalid address: #{fund_uid}" unless result && result[:isvalid]
       rescue
         puts "Error on withdraw: #{$!}"
         puts $!.backtrace.join("\n")

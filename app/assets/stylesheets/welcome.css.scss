@@ -5,41 +5,6 @@
     padding-top: 0px;
   }
 
-  #ribbon {
-    position: absolute;
-    height: 250px;
-    top: 0;
-    right: 0;
-    width: 225px;
-    overflow-x: hidden;
-    z-index: 0;
-
-    .ribbon a:hover {
-      background: $btn-primary-bg;
-      text-decoration: none;
-    }
-
-    .ribbon a {
-      -webkit-transform: rotate(45deg);
-      -moz-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-      -o-transform: rotate(45deg);
-      transform: rotate(45deg);
-      background: rgba(83,102,120, 1.0);
-      position: absolute;
-      top: 45px;
-      right: -71px;
-      display: block;
-      font-weight: 100;
-      font-size: 18px;
-      color: white;
-      height: 45px;
-      width: 270px;
-      padding: 8px;
-      padding-left: 70px;
-    }
-  }
-
   section {
     padding: 30px;
     padding-top: 14px;
