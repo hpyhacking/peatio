@@ -94,17 +94,37 @@ class CoinRPC
       wallet_set_transaction_fee(fee)
     end
 
-    def sendtoaddress(account, amount)
-      result = wallet_transfer amount, 'BTSX', @currency.deposit_account, account
-      result[:record_id]
+    def sendtoaddress(account_or_address, amount)
+      if validate_account(account_or_address)
+        account_transfer(account_or_address, amount)[:record_id]
+      elsif validate_address(account_or_address)[:isvalid]
+        pubkey_transfer(account_or_address, amount)[:record_id]
+      else
+        raise ArgumentError, "invalid account or address: #{account_or_address}"
+      end
+    end
+
+    def pubkey_transfer(pubkey, amount)
+      account = "peatio-pubkey-temp-#{Time.now.to_i}"
+      wallet_add_contact_account account, pubkey
+      account_transfer account, amount
+    ensure
+      wallet_remove_contact_account(account) rescue nil
+    end
+
+    def account_transfer(account, amount)
+      wallet_transfer amount, 'BTSX', @currency.deposit_account, account
     end
 
     # validate both account and address
     def validateaddress(account_or_address)
-      account = blockchain_get_account account_or_address
-      return {isvalid: true} if account && account[:name] == account_or_address
-
+      return {isvalid: true} if validate_account(account_or_address)
       validate_address account_or_address
+    end
+
+    def validate_account(name)
+      account = blockchain_get_account name
+      account && account[:name] == name
     end
 
     def last_deposit_account_transaction
