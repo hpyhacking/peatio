@@ -3,7 +3,7 @@
   = f.input :fund_source,
     label: t('.fund_source_label'),
     collection: @fund_sources,
-    label_method: :uid,
+    label_method: :label,
     include_blank: false,
     hint: link_to(t('.manage_fund_source'), url_for([@channel.currency, :fund_sources]))
 
