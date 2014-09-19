@@ -25,10 +25,6 @@ class ApplicationController < ActionController::Base
       :click => I18n.t('actions.clipboard.click'),
       :done => I18n.t('actions.clipboard.done')
     }
-
-    if current_user
-      gon.current_user = {:sn => current_user.sn}
-    end
   end
 
   def currency

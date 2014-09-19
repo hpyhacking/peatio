@@ -25,6 +25,7 @@ module Private
       @order_ask = OrderAsk.new ord_type: 'limit'
 
       set_member_data if current_user
+      gon.jbuilder
     end
 
     private
@@ -42,8 +43,6 @@ module Private
       end
 
       @trades_done = Trade.for_member(@market.id, current_user, limit: 100, order: 'id desc')
-
-      gon.jbuilder
     end
 
   end
