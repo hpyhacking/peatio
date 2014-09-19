@@ -57,5 +57,5 @@
   code: btsx
   coin: true
   deposit_account: dev.taimei
-  rpc: http://username:password@127.0.0.1:0
+  rpc: http://username:password@127.0.0.1:0/rpc
   blockchain: http://www.bitsharesblocks.com/blocks/block?id=#{txid}
