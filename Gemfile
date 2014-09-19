@@ -69,6 +69,8 @@ gem 'unread', github: 'poshboytl/unread'
 gem 'carrierwave', '~> 0.10.0'
 gem 'simple_captcha', github: 'galetahub/simple-captcha'
 
+gem 'ember-rails'
+
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker', '~> 1.4.3'

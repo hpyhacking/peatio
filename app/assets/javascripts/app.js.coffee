@@ -1,76 +1,111 @@
-@App =
-  showInfo:   (msg) -> $(document).trigger 'flash-info',   msg: msg
-  showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
-  showAlert:  (msg) -> $(document).trigger 'flash-alert',  msg: msg
+#= require jquery
+#= require handlebars
+#= require ember
+#= require ember-data
+#= require_self
+#= require peatio
 
-$ ->
-  if $('#assets-index').length
-    $.scrollIt
-      topOffset: -180
-      activeClass: 'active'
+#old
 
-    $('a.go-verify').on 'click', (e) ->
-      e.preventDefault()
+#= require es5-shim.min
+#= require es5-sham.min
+#= require jquery_ujs
+#= require bootstrap
+#
+#= require scrollIt
+#= require moment
+#= require bignumber
+#= require underscore
+#= require introjs
+#= require ZeroClipboard
+#= require flight
+#= require pusher.min
+#= require highstock
+#= require highstock_config
+#= require list
+#= require helper
+#= require jquery.mousewheel
+#= require qrcode
+#
+#= require_tree ./component_mixin
+#= require_tree ./component_data
+#= require_tree ./component_ui
+#= require_tree ./templates
 
-      root         = $('.tab-pane.active .root.json pre').text()
-      partial_tree = $('.tab-pane.active .partial-tree.json pre').text()
+# for more details see: http://emberjs.com/guides/application/
+window.Peatio = Ember.Application.create()
 
-      if partial_tree
-        uri = 'http://syskall.com/proof-of-liabilities/#verify?partial_tree=' + partial_tree + '&expected_root=' + root
-        window.open(encodeURI(uri), '_blank')
+Peatio.ApplicationAdapter = DS.FixtureAdapter
 
-  $('[data-clipboard-text], [data-clipboard-target]').each ->
-    zero = new ZeroClipboard $(@), forceHandCursor: true
+# Model
+#
 
-    zero.on 'complete', ->
-      $(zero.htmlBridge)
-        .attr('title', gon.clipboard.done)
-        .tooltip('fixTitle')
-        .tooltip('show')
-    zero.on 'mouseout', ->
-      $(zero.htmlBridge)
-        .attr('title', gon.clipboard.click)
-        .tooltip('fixTitle')
+attr = DS.attr
+hasMany = DS.hasMany
+belongsTo = DS.belongsTo
 
-    placement = $(@).data('placement') || 'bottom'
-    $(zero.htmlBridge).tooltip({title: gon.clipboard.click, placement: placement})
 
-  $('.qrcode-container').each (index, el) ->
-    $el = $(el)
-    new QRCode el,
-      text:   $el.data('text')
-      width:  $el.data('width')
-      height: $el.data('height')
+# Member Model
+Peatio.Member = DS.Model.extend
+  sn: attr()
+  display_name: attr()
+  email: attr()
+  created_at: attr()
+  updated_at: attr()
+  state: attr()
+  country_code: attr()
+  phone_number: attr()
 
-  AccountBalanceUI.attachTo('.account-balance')
-  PlaceOrderUI.attachTo('.place-order #bid_panel')
-  PlaceOrderUI.attachTo('.place-order #ask_panel')
-  MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
-  MyOrdersDoneUI.attachTo('.my-orders #orders_done')
-  PushButton.attachTo('.place-order')
-  PushButton.attachTo('.my-orders')
+Peatio.Member.reopenClass
+  initData: (data) ->
+    window.store.createRecord('member', data)
 
-  # if gon.env is 'development'
-  #   Pusher.log = (message) -> window.console && console.log(message)
+# DepositChannel Model
+Peatio.DepositChannel = DS.Model.extend
+  key: attr()
+  currency: attr()
+  min_confirm: attr()
+  max_confirm: attr()
+  bank_accounts: attr()
 
-  pusher = new Pusher gon.pusher_key, gon.pusher_options
-  pusher.connection.bind 'state_change', (state) ->
-    if state.current is 'unavailable'
-      $('#markets-show .pusher-unavailable').removeClass('hide')
+Peatio.DepositChannel.reopenClass
+  initData: (data) ->
+    window.store.createRecord('deposit-channel', item.attributes) for item in data
 
-  GlobalData.attachTo(document, {pusher: pusher})
-  MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
+# Deposit Model
+Peatio.Deposit = DS.Model.extend
+  account_id: attr()
+  member_id: attr()
+  currency: attr()
+  amount: attr()
+  fee: attr()
+  fund_uid: attr()
+  fund_extra: attr()
+  txid: attr()
+  state: attr()
+  aasm_state: attr()
+  created_at: attr()
+  updated_at: attr()
+  done_at: attr()
+  memo: attr()
+  type: attr()
 
-  MarketTickerUI.attachTo('.ticker')
-  MarketOrdersUI.attachTo('.orders')
-  MarketTradesUI.attachTo('.trades')
-  MarketChartUI.attachTo('.price-chart')
+Peatio.Deposit.reopenClass
+  initData: (data) ->
+    window.store.createRecord('deposit', item) for item in data
 
-  TransactionsUI.attachTo('#transactions')
-  VerifyMobileNumberUI.attachTo('#new_sms_token')
-  FlashMessageUI.attachTo('.flash-message')
-  TwoFactorAuth.attachTo('.two-factor-auth-container')
+# Account Model
+Peatio.Account = DS.Model.extend
+  member_id: attr()
+  currency: attr()
+  balance: attr()
+  locked: attr()
+  created_at: attr()
+  updated_at: attr()
+  in: attr()
+  out: attr()
 
-  $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
-    $(@).scrollTop(@scrollTop + e.deltaY)
-    e.preventDefault()
+Peatio.Account.reopenClass
+  initData: (data) ->
+    window.store.createRecord('account', item) for item in data
+
