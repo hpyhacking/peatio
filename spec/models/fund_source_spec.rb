@@ -7,7 +7,7 @@ describe FundSource do
       let(:fund_source) { build(:btc_fund_source) }
       subject { fund_source }
 
-      its(:label) { should eq("bitcoin##{fund_source.uid}") }
+      its(:label) { should eq("#{fund_source.uid} (bitcoin)") }
     end
 
     context 'bank' do
