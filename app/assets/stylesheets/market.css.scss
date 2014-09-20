@@ -1,15 +1,10 @@
-@import 'vars/peatio';
-$grid-gutter-width: 10px;
-$grid-columns: 24;
-
+@import 'vars/market';
 @import 'bootstrap';
 @import 'font-awesome';
-@import 'basic';
-@import 'layout';
 
-// Fix language selector offset
-.navbar-nav.navbar-right:last-child {
-  margin-right: 0;
+// basic
+.container {
+  width: 1170px !important;
 }
 
 #market {

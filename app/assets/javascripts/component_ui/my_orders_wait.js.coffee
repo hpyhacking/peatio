@@ -13,6 +13,6 @@
         @removeItem order.id
 
   @.after 'initialize', ->
-    @populate gon.orders.wait
+    @on document, 'order::wait::populate', @populate
     @on document, 'order::wait order::cancel order::done', @orderHandler
 

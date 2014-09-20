@@ -1,12 +1,15 @@
-= content_for :stylesheet do
-  = "market"
+doctype html
+html lang="en"
+  head
+    link href="/favicon.ico" rel="shortcut icon"
+    = include_gon
+    = stylesheet_link_tag "market", media: "all"
+    = javascript_include_tag "application"
+    = render 'shared/html5'
+    = render 'shared/meta'
+    = csrf_meta_tags
 
-= content_for :frame do
-  .container
-    #market
-      = yield
+  body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
+    = yield
 
-= content_for :footer do
-  = render 'shared/footer_col24'
-
-= render template: "layouts/application"
+    = render 'shared/footer_col24'

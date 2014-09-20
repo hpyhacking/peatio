@@ -1,6 +1,7 @@
 module Private
   class MarketsController < BaseController
-    after_filter :set_default_market
+    skip_before_action :auth_member!, only: [:show]
+    after_action :set_default_market
 
     layout 'market'
 
@@ -23,6 +24,17 @@ module Private
       @order_bid = OrderBid.new ord_type: 'limit'
       @order_ask = OrderAsk.new ord_type: 'limit'
 
+      set_member_data if current_user
+      gon.jbuilder
+    end
+
+    private
+
+    def set_default_market
+      cookies[:market_id] = @market.id
+    end
+
+    def set_member_data
       @member = current_user
 
       @member.orders.with_currency(@market).tap do |query|
@@ -31,14 +43,6 @@ module Private
       end
 
       @trades_done = Trade.for_member(@market.id, current_user, limit: 100, order: 'id desc')
-
-      gon.jbuilder
-    end
-
-    private
-
-    def set_default_market
-      cookies[:market_id] = @market.id
     end
 
   end
