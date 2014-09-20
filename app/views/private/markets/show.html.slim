@@ -5,7 +5,7 @@
         .col-md-16 = render partial: 'ticker'
         .col-md-8  = render partial: 'account_balance'
       .row
-        .col-md-16 = render partial: 'price_chart'
+        .col-md-16 = render partial: 'market_chart'
         .col-md-8  = render partial: 'place_order', locals: {market: @market, order_bid: @order_bid, order_ask: @order_ask}
       .row
         .col-md-7  = render partial: 'trades'
