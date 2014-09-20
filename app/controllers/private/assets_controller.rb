@@ -1,13 +1,16 @@
 module Private
   class AssetsController < BaseController
-    before_action :auth_activated!
+    skip_before_action :auth_member!, only: [:index]
 
     def index
       @cny_assets  = Currency.assets('cny')
       @btc_proof   = Proof.current :btc
       @cny_proof   = Proof.current :cny
-      @btc_account = current_user.accounts.with_currency(:btc).first
-      @cny_account = current_user.accounts.with_currency(:cny).first
+
+      if current_user
+        @btc_account = current_user.accounts.with_currency(:btc).first
+        @cny_account = current_user.accounts.with_currency(:cny).first
+      end
     end
 
     def partial_tree
