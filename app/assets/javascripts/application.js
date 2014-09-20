@@ -19,6 +19,7 @@
 //= require helper
 //= require jquery.mousewheel
 //= require qrcode
+//= require flipclock.min
 //= require mixpanel
 
 //= require_tree ./component_mixin

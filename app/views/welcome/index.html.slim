@@ -6,8 +6,7 @@
           .logo
             = image_tag('peatio_logo.png')
             h3 貔貅交易所 - 开源数字加密货币交易平台
-        .col-xs-6
-        .col-xs-8
+        .col-xs-8.col-xs-offset-6
           .login-box
             = simple_form_for Identity.new, url: '/auth/identity/callback', method: :post do |f|
               = f.input :email, input_html: {name: 'auth_key', autofocus: 'true'}, label: t('.email'), placeholder: t('simple_form.placeholders.session.email')
@@ -21,6 +20,12 @@
               span = link_to t('.signup'), signup_path
 
   .main-section.main-section-lighter
+    .container
+      .clock
+      h2.text-center
+        | 有趣的事情即将发生
+
+  .main-section
     .container
       .col-sm-6
         .panel.panel-primary
@@ -63,3 +68,12 @@
             p 7x24小时，VIP服务
             p 人民币充值10分钟，比特币1确认
 
+  coffee:
+    $ ->
+      currentDate = new Date()
+      futureDate  = new Date("2014-10-08")
+      diff = futureDate.getTime() / 1000 - currentDate.getTime() / 1000;
+      $('.clock').FlipClock diff,
+        clockFace: 'DailyCounter'
+        countdown: true
+        showSeconds: true
