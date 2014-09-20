@@ -20,6 +20,12 @@ worker = Worker::DepositBtsx.new
 duration = Worker::DepositBtsx::BLOCK_DURATION / 2
 
 while($running) do
-  worker.process
+  begin
+    worker.process
+  rescue
+    Rails.logger.error "Worker failure: #{$!}"
+    Rails.logger.error $!.backtrace.join("\n")
+  end
+
   sleep duration
 end
