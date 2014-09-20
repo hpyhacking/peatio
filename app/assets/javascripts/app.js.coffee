@@ -38,5 +38,5 @@ window.Peatio = Ember.Application.create()
 Peatio.ApplicationAdapter = DS.FixtureAdapter
 
 window.Peatio.Router.map ->
-  @.resource 'currenies', ->
-    #this.resource('currency', { path: ':post_id' });
+  @.resource 'currencies', ->
+

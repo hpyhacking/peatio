@@ -14,6 +14,7 @@
   </head>
 
   <body id="<%= "#{controller_name}-#{action_name}" %>" data-lang="<%= "#{I18n.locale.to_s.downcase}" %>">
+
     <script type = 'text/javascript'>
       $( document ).ready(function() {
         window.store = Peatio.__container__.lookup('store:main');
@@ -26,6 +27,11 @@
         Peatio.Account.initData(<%= raw @accounts.to_json %>)
       });
     </script>
+
+    <script type="text/x-handlebars" id="currencies">
+      <h1>TEST</h1>
+    </script>
+
     <script type="text/x-handlebars">
       <div id="wrap">
 
