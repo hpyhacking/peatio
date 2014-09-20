@@ -1,24 +1,25 @@
-.container
-  ul.nav.nav-tabs role='tablist'
-    li.active = link_to t('header.order_history'), order_history_path
-    li = link_to t('header.trade_history'), trade_history_path
-    li = link_to t('header.account_history'), account_history_path
+- content_for :frame do
+  .container
+    ul.nav.nav-tabs role='tablist'
+      li.active = link_to t('header.order_history'), order_history_path
+      li = link_to t('header.trade_history'), trade_history_path
+      li = link_to t('header.account_history'), account_history_path
 
-  .panel.panel-default#orders
-    .panel-body
-      .col-md-12
-        table.table.table-condensed.table-striped
-          thead: tr
-            th = t('.id')
-            th = t('.type')
-            th = t('.state')
-            th = t('.market')
-            th = t('.price')
-            th = t('.volume')
-            th = t('.average_price')
-            th = t('.fullfilled_volume')
-            th = t('.timestamp')
-          tbody.list
-            = render partial: 'order', collection: @orders
-        .pull-right
-          = paginate @orders
+    .panel.panel-default#orders
+      .panel-body
+        .col-md-24
+          table.table.table-condensed.table-striped
+            thead: tr
+              th = t('.id')
+              th = t('.type')
+              th = t('.state')
+              th = t('.market')
+              th = t('.price')
+              th = t('.volume')
+              th = t('.average_price')
+              th = t('.fullfilled_volume')
+              th = t('.timestamp')
+            tbody.list
+              = render partial: 'order', collection: @orders
+          .pull-right
+            = paginate @orders

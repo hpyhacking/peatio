@@ -1,12 +1,10 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery with: :exception
 
   helper_method :current_user, :is_admin?, :current_market, :gon, :muut_enabled?
   before_filter :set_language, :setting_default, :set_timezone
   before_filter :set_current_user
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
-
-  layout 'frame'
 
   def setting_default
     gon.env = Rails.env
@@ -25,10 +23,6 @@ class ApplicationController < ActionController::Base
       :click => I18n.t('actions.clipboard.click'),
       :done => I18n.t('actions.clipboard.done')
     }
-
-    if current_user
-      gon.current_user = {:sn => current_user.sn}
-    end
   end
 
   def currency

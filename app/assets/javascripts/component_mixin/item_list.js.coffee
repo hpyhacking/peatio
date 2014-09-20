@@ -25,9 +25,9 @@
     item.hide 'slow', -> item.remove()
     @checkEmpty()
 
-  @populate = (data) ->
-    if not _.isEmpty(data)
-      @addOrUpdateItem item for item in data
+  @populate = (event, data) ->
+    if not _.isEmpty(data.orders)
+      @addOrUpdateItem item for item in data.orders
 
     @checkEmpty()
 

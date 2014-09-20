@@ -12,23 +12,18 @@ html lang="en"
     = csrf_meta_tags
 
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
-    #wrap
-      = render 'shared/browser'
+    = render 'shared/browser'
 
-      - if content_for?(:header)
-        = yield(:header)
-      - else
-        = render 'shared/header'
+    - if content_for?(:header)
+      = yield(:header)
+    - else
+      = render 'shared/header'
 
-      - if content_for?(:before_content)
-        = yield(:before_content)
+    - if content_for?(:frame)
+      = yield(:frame)
+    - else
+      = render 'shared/frame'
 
-      - if content_for?(:frame)
-        = yield(:frame)
-      - else
-        = yield
-
-      #push
     - if content_for?(:footer)
       = yield(:footer)
     - else

@@ -1,7 +1,5 @@
 module Private
   class AssetsController < BaseController
-    layout 'application', only: [:index]
-
     before_action :auth_activated!
 
     def index

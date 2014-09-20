@@ -1,17 +1,3 @@
-@import 'vars/peatio';
-$grid-gutter-width: 10px;
-$grid-columns: 24;
-
-@import 'bootstrap';
-@import 'font-awesome';
-@import 'basic';
-@import 'layout';
-
-// Fix language selector offset
-.navbar-nav.navbar-right:last-child {
-  margin-right: 0;
-}
-
 #market {
   table {
     th {

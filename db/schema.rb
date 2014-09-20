@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140902112641) do
+ActiveRecord::Schema.define(version: 20140920062130) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -251,7 +251,7 @@ ActiveRecord::Schema.define(version: 20140902112641) do
 
   create_table "payment_transactions", force: true do |t|
     t.string   "txid"
-    t.decimal  "amount",        precision: 32, scale: 16
+    t.decimal  "amount",                   precision: 32, scale: 16
     t.integer  "confirmations"
     t.string   "address"
     t.integer  "state"
@@ -261,7 +261,10 @@ ActiveRecord::Schema.define(version: 20140902112641) do
     t.datetime "receive_at"
     t.datetime "dont_at"
     t.integer  "currency"
+    t.string   "type",          limit: 60
   end
+
+  add_index "payment_transactions", ["type"], name: "index_payment_transactions_on_type", using: :btree
 
   create_table "proofs", force: true do |t|
     t.string   "root"

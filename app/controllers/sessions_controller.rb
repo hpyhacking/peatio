@@ -1,6 +1,8 @@
 class SessionsController < ApplicationController
   include SimpleCaptcha::ControllerHelpers
 
+  skip_before_action :verify_authenticity_token, only: [:create]
+
   before_action :auth_member!, only: :destroy
   before_action :auth_anybody!, only: [:new, :create, :failure]
 
