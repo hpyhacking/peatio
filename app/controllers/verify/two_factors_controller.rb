@@ -1,6 +1,6 @@
 module Verify
   class TwoFactorsController < ApplicationController
-    before_action :timeout_temp_user_in_session
+    #before_action :timeout_temp_user_in_session
 
     def new
       # TODO: make this configurable per user
