@@ -19,13 +19,38 @@
               == "&nbsp;"
               span = link_to t('.signup'), signup_path
 
-  .main-section.main-section-lighter
+  .main-section.main-section-lighter.countdown
     .container
       .clock
       h2.text-center
         | 有趣的事情即将发生
 
-  .main-section
+  .main-section.tickers
+    .container
+      h2.text-center
+        | 最新价格
+
+      table.table.table-bordered.table-striped.table-hover
+        tr
+          th.text-center 市场
+          th.text-left 最新价格
+          th.text-left 买入
+          th.text-left 卖出
+          th.text-left 最高
+          th.text-left 最低
+          th.text-left 成交量
+        - @markets.each do |market|
+          - ticker = Global[market.id].ticker
+          tr
+            td.text-center = market.name
+            td.text-left = ticker[:last]
+            td.text-left = ticker[:buy]
+            td.text-left = ticker[:sell]
+            td.text-left = ticker[:high]
+            td.text-left = ticker[:low]
+            td.text-left = ticker[:volume]
+
+  .main-section.main-section-lighter
     .container
       .col-sm-6
         .panel.panel-primary
