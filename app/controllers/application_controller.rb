@@ -25,6 +25,24 @@ class ApplicationController < ActionController::Base
     }
 
     gon.currencies = Currency.all.inject({}) {|memo, c| memo[c.code] = {symbol: c[:symbol]}; memo}
+
+    gon.i18n = {
+      brand: I18n.t('gon.brand'),
+      ask: I18n.t('gon.ask'),
+      bid: I18n.t('gon.bid'),
+      cancel: I18n.t('actions.cancel'),
+      chart_price: I18n.t('chart.price'),
+      chart_volume: I18n.t('chart.volume'),
+      place_order: {
+
+        confirm_submit: I18n.t('private.markets.show.confirm'),
+        price: I18n.t('private.markets.place_order.price'),
+        volume: I18n.t('private.markets.place_order.amount'),
+        sum: I18n.t('private.markets.place_order.total'),
+        price_high: I18n.t('private.markets.place_order.price_high'),
+        price_low: I18n.t('private.markets.place_order.price_low')
+      }
+    }
   end
 
   def currency
