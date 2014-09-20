@@ -6,8 +6,6 @@ class ApplicationController < ActionController::Base
   before_filter :set_current_user
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
-  layout 'frame'
-
   def setting_default
     gon.env = Rails.env
     gon.local = I18n.locale

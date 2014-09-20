@@ -1,10 +1,13 @@
-.row
-  .col-md-16 = render partial: 'ticker'
-  .col-md-8  = render partial: 'account_balance'
-.row
-  .col-md-16 = render partial: 'price_chart'
-  .col-md-8  = render partial: 'place_order', locals: {market: @market, order_bid: @order_bid, order_ask: @order_ask}
-.row
-  .col-md-7  = render partial: 'market_trades'
-  .col-md-7  = render partial: 'order_book'
-  .col-md-10 = render partial: 'my_orders'
+= content_for :frame do
+  .container
+    #market
+      .row
+        .col-md-16 = render partial: 'ticker'
+        .col-md-8  = render partial: 'account_balance'
+      .row
+        .col-md-16 = render partial: 'price_chart'
+        .col-md-8  = render partial: 'place_order', locals: {market: @market, order_bid: @order_bid, order_ask: @order_ask}
+      .row
+        .col-md-7  = render partial: 'trades'
+        .col-md-7  = render partial: 'order_book'
+        .col-md-10 = render partial: 'my_orders'

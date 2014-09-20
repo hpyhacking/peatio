@@ -7,8 +7,8 @@ html lang="en"
     = render 'shared/html5'
     = render 'shared/meta'
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
-    .container
-      nav.navbar.navbar-default role='navigation'
+    .navbar.navbar-default.navbar-static-top role='navigation'
+      .container
         .navbar-header
           a.navbar-brand href='#' Peatio API Document
         ul.nav.navbar-nav.pull-right
@@ -30,5 +30,8 @@ html lang="en"
             ul#languages.dropdown-menu
               - I18n.available_locales.each do |lang|
                 li: a href="?lang=#{lang}": img src='#{language_path(lang)}'
+
+    .container
       = yield
+
     = render 'shared/footer'
