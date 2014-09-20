@@ -25,9 +25,9 @@
     <script type="text/x-handlebars" id="currencies/index">
       <div class='container'>
         {{#each model}}
-          <h1>TEST<code>{{attributes.code}}</code></h1>
-          {{#link-to 'deposits'}}Deposits{{/link-to}}
-          {{#link-to 'withdraws'}}Withdraws{{/link-to}}
+          <h1>TEST<code>{{code}}</code></h1>
+          {{#link-to 'deposits' this.code}}Deposits{{/link-to}}
+          {{#link-to 'withdraws' this.code}}Withdraws{{/link-to}}
           {{outlet}}
         {{/each}}
       </div>
@@ -35,6 +35,13 @@
 
     <script type="text/x-handlebars" id="currency">
       <h1>currency</h1>
+    </script>
+
+    <script type='text/x-handlebars' id='deposits'>
+      <h3>D</h3>
+    </script>
+    <script type='text/x-handlebars' id='withdraws'>
+      <h3>W</h3>
     </script>
 
     <script type="text/x-handlebars">

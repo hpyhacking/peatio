@@ -4,8 +4,8 @@
 #= require handlebars
 #= require ember
 #= require ember-data
-#= require_self
 #= require peatio
+#= require_self
 
 #old
 
@@ -39,24 +39,23 @@ window.Peatio = Ember.Application.create()
 window.Peatio.ApplicationAdapter = DS.FixtureAdapter
 window.store = window.Peatio.__container__.lookup('store:main');
 
-$ ->
-  Member.initData window.current_user
-  DepositChannel.initData window.deposit_channels
-  Deposit.initData window.deposits
-  Account.initData window.accounts
-  Currency.initData window.currencies
-  Account.initData window.accounts
+Member.initData window.current_user
+DepositChannel.initData window.deposit_channels
+Deposit.initData window.deposits
+Account.initData window.accounts
+Currency.initData window.currencies
+Account.initData window.accounts
 
 Peatio.Router.map ->
   @.resource 'currencies', ->
-    @.resource 'currency', {path: ':code'}, ->
+    @.resource 'currency', {path: ':id'}, ->
       @.resource 'withdraws'
       @.resource 'deposits'
 
 Peatio.CurrenciesRoute = Ember.Route.extend
   model: ->
-    window.currencies
+    Currency.all()
 
 Peatio.CurrencyRoute = Ember.Route.extend
   model: (params) ->
-    window.currencies[0]
+    Currency.findBy 'id', params.id

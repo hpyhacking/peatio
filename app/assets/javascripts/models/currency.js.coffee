@@ -4,9 +4,6 @@ class Currency extends PeatioModel.Model
   @initData: (records) ->
     PeatioModel.Ajax.disable ->
       $.each records, (idx, record) ->
-        Currency.create(record)
+        Currency.create(record.attributes)
 
 window.Currency = Currency
-
-
-
