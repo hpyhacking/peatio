@@ -1,15 +1,9 @@
-attr = DS.attr
+class Account extends PeatioModel.Model
+  @configure 'Account', 'member_id', 'currency', 'balance', 'locked', 'created_at', 'updated_at', 'in', 'out'
 
-Peatio.Account = DS.Model.extend
-  member_id: attr()
-  currency: attr()
-  balance: attr()
-  locked: attr()
-  created_at: attr()
-  updated_at: attr()
-  in: attr()
-  out: attr()
+  @initData: (records) ->
+    PeatioModel.Ajax.disable ->
+      $.each records, (idx, record) ->
+        Account.create(record)
 
-Peatio.Account.reopenClass
-  initData: (data) ->
-    window.store.createRecord('account', item) for item in data
+window.Account = Account

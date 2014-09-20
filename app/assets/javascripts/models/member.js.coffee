@@ -1,15 +1,9 @@
-attr = DS.attr
+class Member extends PeatioModel.Model
+  @configure 'Member', 'sn', 'display_name', 'created_at', 'updated_at', 'state', 'country_code', 'phone_number'
 
-Peatio.Member = DS.Model.extend
-  sn: attr()
-  display_name: attr()
-  email: attr()
-  created_at: attr()
-  updated_at: attr()
-  state: attr()
-  country_code: attr()
-  phone_number: attr()
+  @initData: (records) ->
+    PeatioModel.Ajax.disable ->
+      $.each records, (idx, record) ->
+        Member.create(record)
 
-Peatio.Member.reopenClass
-  initData: (data) ->
-    window.store.createRecord('member', data)
+window.Member = Member

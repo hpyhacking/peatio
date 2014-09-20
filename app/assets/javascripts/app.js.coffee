@@ -1,4 +1,6 @@
 #= require jquery
+#= require ./lib/peatio_model
+#= require ./lib/ajax
 #= require handlebars
 #= require ember
 #= require ember-data
@@ -37,6 +39,4 @@ window.Peatio = Ember.Application.create()
 
 Peatio.ApplicationAdapter = DS.FixtureAdapter
 
-window.Peatio.Router.map ->
-  @.resource 'currencies', ->
 
