@@ -15,13 +15,13 @@ Signal.trap("TERM") do
 end
 
 while($running) do
-  PaymentTransaction.with_aasm_state(:unconfirm, :confirming).each do |tx|
+  PaymentTransaction::Default.with_aasm_state(:unconfirm, :confirming).each do |tx|
     begin
       tx.with_lock do
         tx.check!
       end
     rescue
-      puts "Error on PaymentTransaction: #{$!}"
+      puts "Error on PaymentTransaction::Default: #{$!}"
       puts $!.backtrace.join("\n")
       next
     end

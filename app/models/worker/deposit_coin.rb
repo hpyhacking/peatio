@@ -15,9 +15,9 @@ module Worker
       return if detail[:account] != "payment" || detail[:category] != "receive"
 
       ActiveRecord::Base.transaction do
-        return if PaymentTransaction.find_by_txid(txid)
+        return if PaymentTransaction::Default.find_by_txid(txid)
 
-        tx = PaymentTransaction.create! \
+        tx = PaymentTransaction::Default.create! \
           txid: txid,
           address: detail[:address],
           amount: detail[:amount].to_s.to_d,
