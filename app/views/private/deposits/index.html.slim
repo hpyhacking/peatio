@@ -2,20 +2,20 @@ ul.list-group
   - @deposits.each do |d|
     li.list-group-item class='deposit-channel-#{d.id}'
       .row.row-middle
-        .col-md-9
+        .col-md-18
           .row.row-middle
-            .col-md-6
-              h4 = d.title_text
-            .col-md-6
-          .row
             .col-md-12
+              h4 = d.title_text
+            .col-md-12
+          .row
+            .col-md-24
               p.text-ignore = d.intro_text
           .row
-            .col-md-3
+            .col-md-6
               i.fa.fa-cogs.text-info
               span = d.transfer_text
-            .col-md-5
+            .col-md-10
               i.fa.fa-clock-o.text-info
               span = d.latency_text
-        .col-md-3
+        .col-md-6
           a.btn.btn-default.btn-block href='#{send("new_deposits_#{d.key}_path")}' = t('.go')
