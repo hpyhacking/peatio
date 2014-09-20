@@ -1,20 +1,13 @@
-= content_for :header do
-  header
-    .container.navbar-fixed-top style="padding-top: 15px;"
-      = render 'shared/pusher'
-      nav#top-menu.navbar.navbar-default role="navigation"
-        = render 'shared/menu'
-
-      ul.nav.nav-justified.assets-nav
-        li.active data-scroll-nav='0'
-          a = t('.liability-proof')
-        li        data-scroll-nav='1'
-          a = t('.btc-assets')
-        li        data-scroll-nav='2'
-          a = t('.cny-assets')
-
 = content_for :frame do
-  .container style="margin-top: 150px; margin-bottom: 240px;"
+  .container
+    ul.nav.nav-justified.assets-nav
+      li.active data-scroll-nav='0'
+        a = t('.liability-proof')
+      li        data-scroll-nav='1'
+        a = t('.btc-assets')
+      li        data-scroll-nav='2'
+        a = t('.cny-assets')
+
     div data-scroll-index=0 = render 'liability_proof'
     div data-scroll-index=1 = render 'btc_assets'
     div data-scroll-index=2 = render 'cny_assets'

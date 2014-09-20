@@ -1,7 +1,5 @@
 module Private
   class HistoryController < BaseController
-    layout 'application'
-
     def account
       @market = current_market
       @deposits = Deposit.where(member: current_user).with_aasm_state(:accepted)

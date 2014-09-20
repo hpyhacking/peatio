@@ -12,7 +12,7 @@ module WrappedButton
 
   def wrapped_button(*args, &block)
     template.content_tag :div, :class => "form-group" do
-      template.content_tag :div, :class => "form-submit col-sm-11" do
+      template.content_tag :div, :class => "form-submit col-sm-22" do
 
         options = args.extract_options!
         loading = self.object.new_record? ? I18n.t('simple_form.creating') : I18n.t('simple_form.updating')
@@ -24,7 +24,7 @@ module WrappedButton
         block_view = block ? template.capture(&block) : nil
         submit_view = options.delete(:no_submit) ? nil : submit(*args)
 
-        cancel_view = 
+        cancel_view =
           if cancel_link = options.delete(:cancel)
             class_text = 'btn btn-info btn-lg pull-right'
             cancel_text = options.delete(:cancel_text) || I18n.t('simple_form.buttons.cancel')
