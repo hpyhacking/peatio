@@ -1,109 +1,65 @@
-#ticker.container
-  table.table
-    tr.ticker
-      td
-        i.fa.fa-bar-chart-o
-      th BTC/CNY
-      th = t 'global.latest_price'
-      td.value.last
-      th = t 'global.bid_price'
-      td.value.buy
-      th = t 'global.ask_price'
-      td.value.sell
-      th = t 'global.high_price'
-      td.value.high
-      th = t 'global.low_price'
-      td.value.low
-      th = t 'global.volume'
-      td.value.volume
-      th = t 'global.balances'
-      td = "¥#{@cny_balance} / ฿#{@btc_balance}"
+- content_for :frame do
+  .main-section
+    .container
+      .row
+        .col-xs-10
+          .logo
+            = image_tag('peatio_logo.png')
+            h3 貔貅交易所 - 开源数字加密货币交易平台
+        .col-xs-6
+        .col-xs-8
+          .login-box
+            = simple_form_for Identity.new, url: '/auth/identity/callback', method: :post do |f|
+              = f.input :email, input_html: {name: 'auth_key', autofocus: 'true'}, label: t('.email'), placeholder: t('simple_form.placeholders.session.email')
+              = f.input :password, as: 'password', input_html: {name: 'password'}, label: t('.password'), placeholder: t('simple_form.placeholders.session.password'), hint: ''
+              = f.button :wrapped, t('header.signin')
+            p.text-center
+              span = link_to t('.forget_pasword'), new_reset_password_path
+            p.text-center
+              span = t('.dont_have_account')
+              == "&nbsp;"
+              span = link_to t('.signup'), signup_path
 
-#main
-  .row style='padding: 0 20px;'
-    a href='http://github.com/peatio/peatio' style='display: inline-block; padding-top: 40px'
-      img src='#{image_path 'logo.png'}' width='200px'
-    .pull-right.page-header.text-right
-      h1
-        | 貔貅北京
-        br
-        small 开源数字加密货币交易平台
+  .main-section.main-section-lighter
+    .container
+      .col-sm-6
+        .panel.panel-primary
+          .panel-heading
+            h3
+              i.fa.fa-fw.fa-gavel.pull-left
+              | 公开透明
+          .panel-body
+            p 源代码开源
+            p 规则透明
 
-  - if Time.now < "2014-8-1".to_time
-    .bs-callout.bs-callout-info
-      h3 = '量化交易大赛 21个BTC等你拿！'
-      p == '帮助程序员的量化交易程序寻找资金，帮助炒币大户发现优秀的程序员，希望通过本次比赛促进比特币量化交易技术的发展。'
-      p == '链接：<a target="_blank" href="http://blog.peatio.com/archives/10">http://blog.peatio.com/archives/10</a>'
+      .col-sm-6
+        .panel.panel-primary
+          .panel-heading
+            h3
+              i.fa.fa-fw.fa-money.pull-left
+              | 100%准备金
+          .panel-body
+            p 不挪用资金
+            p 不虚报数据
 
-  .row
-    .col-sm-8
-      .panel.panel-primary
-        .panel-heading
-          h3
-            i.fa.fa-fw.fa-gavel.pull-left
-            | 公开透明
-        .panel-body.feature1
-          p = '100%准备金'
-          p 规则透明
-    .col-sm-8
-      .panel.panel-primary
-        .panel-heading
-          h3
-            i.fa.fa-fw.fa-lightbulb-o.pull-left
-            | 开放开源
-        .panel-body.feature1
-          p 提供API接入
-          p 网站代码开源
-    .col-sm-8
-      .panel.panel-primary
-        .panel-heading
-          h3
-            i.fa.fa-fw.fa-money.pull-left
-            | 100%准备金
-        .panel-body.feature1
-          p 不挪用资金
-          p 不虚报数据
+      .col-sm-6
+        .panel.panel-primary
+          .panel-heading
+            h3
+              i.fa.fa-fw.fa-lightbulb-o.pull-left
+              | 0手续费
+          .panel-body
+            p 充值、提现及交易手续费全免
+            p 注：提现矿工费由貔貅北京代扣
 
-  .row
-    .col-sm-6
-      .panel.panel-default
-        .panel-heading
-          h3
-            i.fa.fa-fw.fa-rocket.pull-left
-            | 安全高效
-        .panel-body.small.feature2
-          p SSL加密、手机短信、二次验证保障你的资产安全
-          p 比特币冷钱包，数据库实时备份保护交易所安全
-          p 高效引擎每天可以处理1,000,000笔交易
-    .col-sm-6
-      .panel.panel-default
-        .panel-heading
-          h3
-            i.fa.fa-fw.fa-thumbs-o-up.pull-left
-            | 全免费
-        .panel-body.small.feature2
-          p 至2015年4月1日，貔貅北京交易所充值、提现及交易手续费全免。
-          p 期间运营成本由比特基金提供，也欢迎外部捐赠支持貔貅的发展。
 
-          p 注：提现矿工费由貔貅北京代扣
-    .col-sm-6
-      .panel.panel-default
-        .panel-heading
-          h3
-            i.fa.fa-fw.fa-credit-card.pull-left
-            | 充值提现
-        .panel-body.small.feature2
-          p 人民币充值10分钟到帐，比特币1确认到帐
-          p 提现1小时内到帐
-          p 人民币提现服务：9:00-18:00
-
-    .col-sm-6
-      .panel.panel-default
-        .panel-heading
-          h3
-            i.fa.fa-fw.fa-users.pull-left
-            | 服务时间
-        .panel-body.small.feature2
-          p 7x24小时
-          p VIP服务
+      .col-sm-6
+        .panel.panel-primary
+          .panel-heading
+            h3
+              i.fa.fa-fw.fa-rocket.pull-left
+              | 服务时间
+          .panel-body
+            p 7x24小时，VIP服务
+            p 人民币充值10分钟，比特币1确认
 
