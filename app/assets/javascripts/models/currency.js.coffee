@@ -1,12 +1,12 @@
-attr = DS.attr
+class Currency extends PeatioModel.Model
+  @configure 'Currency', 'key', 'code', 'coin', 'key', 'blockchain'
 
-Peatio.Currency = DS.Model.extend
-  key: attr()
-  code: attr()
-  coin: attr()
-  key: attr()
-  blockchain: attr()
+  @initData: (records) ->
+    PeatioModel.Ajax.disable ->
+      $.each records, (idx, record) ->
+        Currency.create(record)
 
-Peatio.Currency.reopenClass
-  initData: (data) ->
-    window.store.createRecord('currency', item.attributes) for item in data
+window.Currency = Currency
+
+
+

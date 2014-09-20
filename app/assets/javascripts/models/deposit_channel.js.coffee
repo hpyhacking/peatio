@@ -1,12 +1,10 @@
-attr = DS.attr
+class DepositChannel extends PeatioModel.Model
+  @configure 'DepositChannel', 'key', 'currency', 'min_confirm', 'max_confirm', 'bank_accounts'
 
-Peatio.DepositChannel = DS.Model.extend
-  key: attr()
-  currency: attr()
-  min_confirm: attr()
-  max_confirm: attr()
-  bank_accounts: attr()
+  @initData: (records) ->
+    PeatioModel.Ajax.disable ->
+      $.each records, (idx, record) ->
+        DepositChannel.create(record)
 
-Peatio.DepositChannel.reopenClass
-  initData: (data) ->
-    window.store.createRecord('deposit-channel', item.attributes) for item in data
+window.DepositChannel = DepositChannel
+

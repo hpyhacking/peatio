@@ -1,24 +1,13 @@
-attr = DS.attr
+class Deposit extends PeatioModel.Model
+  @configure 'Deposit', 'account_id', 'member_id', 'currency', 'amount', 'fee', 'fund_uid', 'fund_extra',
+    'txid', 'state', 'aasm_state', 'created_at', 'updated_at', 'done_at', 'memo', 'type'
 
-Peatio.Deposit = DS.Model.extend
-  account_id: attr()
-  member_id: attr()
-  currency: attr()
-  amount: attr()
-  fee: attr()
-  fund_uid: attr()
-  fund_extra: attr()
-  txid: attr()
-  state: attr()
-  aasm_state: attr()
-  created_at: attr()
-  updated_at: attr()
-  done_at: attr()
-  memo: attr()
-  type: attr()
+  @initData: (records) ->
+    PeatioModel.Ajax.disable ->
+      $.each records, (idx, record) ->
+        Deposit.create(record)
 
-Peatio.Deposit.reopenClass
-  initData: (data) ->
-    window.store.createRecord('deposit', item) for item in data
+window.Deposit = Deposit
+
 
 

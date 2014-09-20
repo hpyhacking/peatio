@@ -5,6 +5,13 @@
 
     <link href="/favicon.ico" rel="shortcut icon"></link>
     <%= include_gon %>
+    <script type = 'text/javascript'>
+      window.deposits = <%= raw @deposits.to_json %>
+      window.accounts = <%= raw @accounts.to_json %>
+      window.deposit_channels = <%= raw @deposit_channels.to_json %>
+      window.current_user = <%= raw current_user.to_json %>
+      window.currencies = <%= raw @currencies.to_json %>
+    </script>
     <%= stylesheet_link_tag stylesheet, media: "all" %>
     <%= javascript_include_tag "app" %>
     <%= yield(:scripts) if content_for?(:scripts) %>
@@ -15,20 +22,19 @@
 
   <body id="<%= "#{controller_name}-#{action_name}" %>" data-lang="<%= "#{I18n.locale.to_s.downcase}" %>">
 
-    <script type = 'text/javascript'>
-      $( document ).ready(function() {
-        window.store = Peatio.__container__.lookup('store:main');
-        window.current_user = <%= raw current_user.to_json %>
-        window.a = <%= raw @currencies.to_json %>
-        Peatio.Member.initData(window.current_user)
-        Peatio.DepositChannel.initData(<%= raw @deposit_channels.to_json %>)
-        Peatio.Deposit.initData(<%= raw @deposits.to_json %>)
-        Account.initData(<%= raw @accounts.to_json %>);
-      });
+    <script type="text/x-handlebars" id="currencies/index">
+      <div class='container'>
+        {{#each model}}
+          <h1>TEST<code>{{attributes.code}}</code></h1>
+          {{#link-to 'deposits'}}Deposits{{/link-to}}
+          {{#link-to 'withdraws'}}Withdraws{{/link-to}}
+          {{outlet}}
+        {{/each}}
+      </div>
     </script>
 
-    <script type="text/x-handlebars" id="currencies">
-      <h1>TEST</h1>
+    <script type="text/x-handlebars" id="currency">
+      <h1>currency</h1>
     </script>
 
     <script type="text/x-handlebars">
