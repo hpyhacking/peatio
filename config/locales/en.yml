@@ -70,8 +70,7 @@ en:
     signin: Sign In
     signout: Exit
     signup: Sign Up
-    deposit: Deposit
-    withdraw: Withdraw
+    funds: Funds
     getstart: Get Start
     assets: Solvency
     history: History

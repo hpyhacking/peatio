@@ -79,8 +79,7 @@ zh-CN:
     signin: 登录
     signout: 安全退出
     signup: 创建账户
-    deposit: 充值
-    withdraw: 提现
+    funds: 资金
     getstart: 前往交易大厅
     assets: 资产公开
     history: 历史记录
