@@ -37,10 +37,10 @@
   = content_for :after
     = panel do
       = table_for(assets, class: 'table table-condensed table-hover', model: model) do |t|
-        - t.column :created_at, class: 'col-md-3'
-        - t.column :txid, class: 'col-md-4' do |x|
+        - t.column :created_at, class: 'col-md-6'
+        - t.column :txid, class: 'col-md-8' do |x|
           a href='#{x.blockchain_url}' target='_blank'
             code.text-info = x.txid.truncate(32)
-        - t.column :amount, class: 'col-md-2'
-        - t.column :memo, class: 'col-md-1'
-        - t.column :aasm_state_text, class: 'col-md-2'
+        - t.column :amount, class: 'col-md-4'
+        - t.column :memo, class: 'col-md-2'
+        - t.column :aasm_state_text, class: 'col-md-4'

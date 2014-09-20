@@ -1,22 +1,23 @@
-.container
-  ul.nav.nav-tabs role='tablist'
-    li = link_to t('header.order_history'), order_history_path
-    li.active = link_to t('header.trade_history'), trade_history_path
-    li = link_to t('header.account_history'), account_history_path
+- content_for :frame do
+  .container
+    ul.nav.nav-tabs role='tablist'
+      li = link_to t('header.order_history'), order_history_path
+      li.active = link_to t('header.trade_history'), trade_history_path
+      li = link_to t('header.account_history'), account_history_path
 
-  .panel.panel-default#trades
-    .panel-body
-      .col-md-12
-        table.table.table-condensed.table-striped
-          thead: tr
-            th = t('.side')
-            th = t('.created_at')
-            th = t('.base_currency')
-            th = t('.base_amount')
-            th = t('.quote_currency')
-            th = t('.quote_amount')
-            th = t('.price')
-          tbody.list
-            = render partial: 'trade', collection: @trades
-        .pull-right
-          = paginate @trades
+    .panel.panel-default#trades
+      .panel-body
+        .col-md-24
+          table.table.table-condensed.table-striped
+            thead: tr
+              th = t('.side')
+              th = t('.created_at')
+              th = t('.base_currency')
+              th = t('.base_amount')
+              th = t('.quote_currency')
+              th = t('.quote_amount')
+              th = t('.price')
+            tbody.list
+              = render partial: 'trade', collection: @trades
+          .pull-right
+            = paginate @trades

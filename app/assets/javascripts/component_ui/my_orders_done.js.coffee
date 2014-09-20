@@ -7,7 +7,7 @@
     @addOrUpdateItem order
 
   @.after 'initialize', ->
-    @populate gon.orders.done.reverse()
+    @on document, 'trade::done::populate', @populate
     @on document, 'trade::done', @orderHandler
 
 

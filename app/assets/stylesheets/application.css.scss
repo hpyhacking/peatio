@@ -5,19 +5,8 @@
 @import 'basic';
 @import 'layout';
 @import 'welcome';
+@import 'market';
 @import 'assets';
 @import 'id_document';
 @import 'history';
 
-
-.radio_buttons.form-control {
-  width: inherit;
-  height: inherit;
-  border: none;
-  box-shadow: none;
-}
-
-// Fix language selector offset
-.navbar-nav.navbar-right:last-child {
-  margin-right: 0;
-}
