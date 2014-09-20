@@ -1,7 +1,11 @@
 @import 'bootstrap-datetimepicker';
 @import 'swagger-ui/highlight.default';
 @import 'swagger-ui/screen';
-@import 'api_v2_basic';
+@import 'vars/peatio';
+@import 'bootstrap';
+@import 'font-awesome';
+@import 'basic';
+@import 'layout';
 
 .swagger-ui-wrap {
   h1, h2 {

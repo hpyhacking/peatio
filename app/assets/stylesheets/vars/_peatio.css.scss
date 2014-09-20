@@ -1,10 +1,5 @@
-$screen-md:                  1px;
-$screen-md-min:              $screen-md;
-$screen-desktop:             $screen-md-min;
-
-$screen-lg:                  9999px;
-$screen-lg-min:              $screen-lg;
-$screen-lg-desktop:          $screen-lg-min;
+$grid-gutter-width: 10px;
+$grid-columns: 24;
 
 $main-color: rgba(83,102,120, 1.0);
 $main-dark-color: darken($main-color, 10%);
@@ -23,6 +18,4 @@ $btn-default-color: #fff;
 $btn-info-bg: #fff;
 $btn-info-color: #333;
 
-$bid-color: rgba(211, 84, 0,0.7);
-$ask-color: rgba(39, 174, 96,0.7);
 $state-warning-text: #CC0000;
