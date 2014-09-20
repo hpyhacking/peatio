@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : "application" %>
+
+    <link href="/favicon.ico" rel="shortcut icon"></link>
+    <%= include_gon %>
+    <%= stylesheet_link_tag stylesheet, media: "all" %>
+    <%= javascript_include_tag "app" %>
+    <%= yield(:scripts) if content_for?(:scripts) %>
+    <%= render 'shared/html5' %>
+    <%= render 'shared/meta' %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body id="<%= "#{controller_name}-#{action_name}" %>" data-lang="<%= "#{I18n.locale.to_s.downcase}" %>">
+    <script type="text/x-handlebars">
+      <div id="wrap">
+
+        <%- if content_for?(:header) %>
+          <%= yield(:header) %>
+        <%- else %>
+          <%= render 'shared/header' %>
+        <%- end %>
+
+        {{outlet}}
+
+        <div id="push"></div>
+      </div>
+
+      <%- if content_for?(:footer) %>
+        <%= yield(:footer) %>
+      <%- else %>
+        <%= render 'shared/footer' %>
+      <%- end %>
+
+    </script>
+  </body>
+</html>
