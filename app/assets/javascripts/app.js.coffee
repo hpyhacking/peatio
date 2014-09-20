@@ -34,9 +34,26 @@
 
 # for more details see: http://emberjs.com/guides/application/
 window.Peatio = Ember.Application.create()
+window.Peatio.ApplicationAdapter = DS.FixtureAdapter
+window.store = window.Peatio.__container__.lookup('store:main');
 
-Peatio.ApplicationAdapter = DS.FixtureAdapter
+#$ ->
+  #Peatio.Member.initData window.current_user
+  #Peatio.DepositChannel.initData window.deposit_channels
+  #Peatio.Deposit.initData window.deposits
+  #Peatio.Account.initData window.accounts
+  #Peatio.Currency.initData(<%= raw @currencies.to_json %>)
 
-window.Peatio.Router.map ->
+Peatio.Router.map ->
   @.resource 'currencies', ->
+    @.resource 'currency', {path: ':code'}, ->
+      @.resource 'withdraws'
+      @.resource 'deposits'
 
+Peatio.CurrenciesRoute = Ember.Route.extend
+  model: -> 
+    window.currencies
+
+Peatio.CurrencyRoute = Ember.Route.extend
+  model: (params) ->
+    window.currencies[0]
