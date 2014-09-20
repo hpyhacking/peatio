@@ -23,6 +23,8 @@ class ApplicationController < ActionController::Base
       :click => I18n.t('actions.clipboard.click'),
       :done => I18n.t('actions.clipboard.done')
     }
+
+    gon.currencies = Currency.all.inject({}) {|memo, c| memo[c.code] = {symbol: c[:symbol]}; memo}
   end
 
   def currency
