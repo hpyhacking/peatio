@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery with: :exception
 
   helper_method :current_user, :is_admin?, :current_market, :gon, :muut_enabled?
   before_filter :set_language, :setting_default, :set_timezone
