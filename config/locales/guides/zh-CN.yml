@@ -5,7 +5,7 @@ zh-CN:
 
     private:
       settings:
-        panel: 账户设置
+        panel: 用户设置
         index:
           intro: 管理并修改您的个人资料及绑定信息。
 
