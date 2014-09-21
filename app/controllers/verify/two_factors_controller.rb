@@ -34,11 +34,7 @@ module Verify
       session[:member_id] = session.delete :temp_member_id
       save_session_key current_user.id, cookies['_peatio_session']
       send_signin_notification
-      if current_user.activated? and (current_user.id_document and current_user.id_document_verified?)
-        redirect_to market_path(current_market)
-      else
-        redirect_to settings_path
-      end
+      redirect_to settings_path
     end
 
     def send_signin_notification
