@@ -63,13 +63,7 @@ Peatio.Router.map ->
 Peatio.ApplicationController = Ember.Controller.extend \
   appName: 'Withdraws & Deposits'
 
-Peatio.ApplicationRoute = Ember.Route.extend
-  redirect: ->
-    @.transitionTo "/currencies"
-  
 Peatio.CurrenciesRoute = Ember.Route.extend
-  redirect: ->
-    @.transitionTo "/currencies/#{Currency.first().code}/deposits"
   model: ->
     Currency.all()
 
