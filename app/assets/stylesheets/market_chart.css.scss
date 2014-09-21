@@ -1,0 +1,26 @@
+.ticker {
+  dl {
+    float: left;
+    margin-bottom: 0;
+    dt, dd {
+      height: 28px;
+      line-height: 28px;
+    }
+    span.name {
+      vertical-align: top;
+      color: #888;
+      font-size: 13px;
+      margin-right: 5px;
+    }
+    span.value {
+      color: #444;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+}
+
+.market-chart {
+  border-top: 1px solid #ccc;
+}
+
