@@ -1,4 +1,3 @@
-- send_coin = t('.send-coin')
 - check_confirm = t('.check-confirm', path: exchange_assets_path).html_safe
 - address = @address
 - assets = @assets
@@ -8,6 +7,7 @@
   p = t('private.deposits.shared.new.gen_address_html')
 - else
   - deposit_account, account_id = address.address.split('|', 2)
+  - send_coin = t('.send-coin', account: deposit_account)
 
   h4 = t('private.deposits.shared.new.step-1')
   p = t('.open-wallet')
@@ -17,19 +17,18 @@
   h4 = t('private.deposits.shared.new.step-2')
   p == send_coin
 
-  .input-group.col-sm-11
+  .input-group.col-sm-11 style='margin: 20px 10px 10px 10px;'
     .input-group-addon style='width: 200px;' = t('.deposit_account')
     .form-control.form-control-static style='text-align: center;' = deposit_account
     .input-group-addon
       i.fa.fa-copy data-clipboard-text = deposit_account
 
-  .input-group.col-sm-11
+  .input-group.col-sm-11 style='margin: 10px 10px 20px 10px;'
     .input-group-addon style='width: 200px; color: red;' = t('.account_id')
     .form-control.form-control-static style='color: red; text-align: center;' = account_id
     .input-group-addon
       i.fa.fa-copy data-clipboard-text = account_id
 
-  br
   div = t('.check-avatar')
   div style='width: 270px; text-align: center;' = image_tag 'btsx.chongzhi.yunbi.png', width: 80
 
