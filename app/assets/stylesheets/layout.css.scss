@@ -26,6 +26,13 @@ header {
 footer {
   padding-top: 20px;
   border-top: 1px solid #DDD;
+  background-color: #3e4c5a;
+
+  color: #ddd;
+
+  a:link {
+    color: #bbb;
+  }
 
   a, span {
     display: inline-block;

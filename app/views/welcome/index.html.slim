@@ -1,5 +1,5 @@
 - content_for :frame do
-  .main-section
+  .main-section.main-section-lighter
     .container
       .row
         .col-xs-15
@@ -28,7 +28,7 @@
                     = f.button :submit, class: 'btn-primary btn-lg btn-block btn-success', value: '登录'
                     h5.text-right = link_to '立即注册', signup_path
 
-  .main-section.main-section-lighter
+  .main-section
     .container
       .col-sm-6
         .panel.panel-ignore
@@ -71,7 +71,7 @@
             p 不虚报数据
 
 
-  .main-section.tickers
+  .main-section.tickers.main-section-lighter
     .container
       h2.text-center
         | 最新价格
@@ -95,7 +95,7 @@
             td.text-left = market.ticker[:low]
             td.text-left = market.ticker[:volume]
 
-  .main-section.main-section-lighter
+  .main-section
     .container
       h2.text-center
         | 价格走势
