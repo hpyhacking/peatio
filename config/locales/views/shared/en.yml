@@ -1,7 +1,5 @@
 en:
   shared:
-    browser:
+    alert:
       modern: In order not to affect trading experience, please use a more popular browser transaction, we recommend you <a target='_blank' href='https://www.google.com/#q=google+chrome'>Google Chrome</a>。
-    pusher:
-      pusher_unavailable: The network connection is temporarily unavailable...
-      refresh: Please refresh
+      pusher_unavailable: "The network connection is temporarily unavailable... <a href='#' class='alert-link'>Please refresh</a>."

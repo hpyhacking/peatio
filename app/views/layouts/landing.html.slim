@@ -10,7 +10,7 @@ html lang="en"
     = csrf_meta_tags
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
     #wrap
-      = render 'shared/browser'
+      = render 'shared/alert'
       = yield
       #push
     = render 'shared/footer'

@@ -1,0 +1,15 @@
+- unless browser.modern?
+  .alert.alert-danger.alert-dismissible role="alert"
+    .container
+      button.close type="button" data-dismiss="alert"
+        span aria-hidden="true" &times;
+        span.sr-only Close
+      span.text-important == t('.modern')
+
+.alert.alert-danger.alert-dismissable.pusher-unavailable.hide role="alert"
+  .container
+    button.close type="button" data-dismiss="alert"
+      span aria-hidden="true" &times;
+      span.sr-only Close
+    span.text-important == t('.pusher_unavailable')
+

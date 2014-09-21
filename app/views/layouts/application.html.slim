@@ -12,7 +12,7 @@ html lang="en"
     = csrf_meta_tags
 
   body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
-    = render 'shared/browser'
+    = render 'shared/alert'
 
     - if content_for?(:header)
       = yield(:header)
