@@ -44,6 +44,7 @@ window.store = window.Peatio.__container__.lookup('store:main');
 
 Member.initData window.current_user
 DepositChannel.initData window.deposit_channels
+WithdrawChannel.initData window.withdraw_channels
 Deposit.initData window.deposits
 Account.initData window.accounts
 Currency.initData window.currencies
@@ -55,7 +56,17 @@ Peatio.Router.map ->
       @.resource 'withdraws'
       @.resource 'deposits'
 
+
+Peatio.ApplicationController = Ember.Controller.extend \
+  appName: 'Withdraws & Deposits'
+
+Peatio.ApplicationRoute = Ember.Route.extend
+  redirect: ->
+    @.transitionTo "/currencies"
+  
 Peatio.CurrenciesRoute = Ember.Route.extend
+  redirect: ->
+    @.transitionTo "/currencies/#{Currency.first().code}/deposits"
   model: ->
     Currency.all()
 
@@ -64,8 +75,11 @@ Peatio.CurrencyRoute = Ember.Route.extend
     Currency.findBy 'code', params.code
 
 Peatio.WithdrawsRoute = Ember.Route.extend
-  model: ->
-    []
+  model: (params) ->
+    currency = @.modelFor('currency');
+    WithdrawChannel.findAllBy 'currency', currency.code
+
 Peatio.DepositsRoute = Ember.Route.extend
-  model: ->
-    []
+  model: (params) ->
+    currency = @.modelFor('currency');
+    DepositChannel.findAllBy 'currency', currency.code
