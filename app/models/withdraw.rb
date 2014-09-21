@@ -28,6 +28,11 @@ class Withdraw < ActiveRecord::Base
   after_create :generate_sn
   after_update :bust_last_done_cache, if: :state_changed_to_done
 
+  after_update :sync_update
+  after_create :sync_create
+  after_destroy :sync_destroy
+
+
   validates :fund_uid, :amount, :fee, :account, :currency, :member, presence: true
 
   validates :fee, numericality: {greater_than_or_equal_to: 0}
@@ -214,4 +219,18 @@ class Withdraw < ActiveRecord::Base
   def self.resource_name
     name.demodulize.underscore.pluralize
   end
+
+  def sync_update
+    ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
+  end
+
+  def sync_create
+    ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'create', attributes: self.as_json })
+  end
+
+  def sync_destroy
+    ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'destroy', id: self.id })
+  end
+
+
 end

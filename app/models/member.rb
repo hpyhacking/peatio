@@ -34,6 +34,7 @@ class Member < ActiveRecord::Base
 
   before_create :build_default_id_document
   after_create  :touch_accounts
+  after_update :sync_update
 
   class << self
     def from_auth(auth_hash)
@@ -188,5 +189,9 @@ class Member < ActiveRecord::Base
   def build_default_id_document
     build_id_document
     true
+  end
+
+  def sync_update
+    ::Pusher["private-#{sn}"].trigger_async('members', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
   end
 end

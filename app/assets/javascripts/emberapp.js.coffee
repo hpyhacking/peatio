@@ -5,7 +5,6 @@
 #= require ember
 #= require ember-data
 #= require peatio
-#= require_self
 
 #old
 
@@ -35,14 +34,18 @@
 #= require_tree ./templates
 #= require app
 #= require pusher
+#= require_self
 
+
+$ ->
+  window.pusher_subscriber = new PusherSubscriber()
 
 # for more details see: http://emberjs.com/guides/application/
 window.Peatio = Ember.Application.create()
 window.Peatio.ApplicationAdapter = DS.FixtureAdapter
 window.store = window.Peatio.__container__.lookup('store:main');
 
-Member.initData window.current_user
+Member.initData [window.current_user]
 DepositChannel.initData window.deposit_channels
 Deposit.initData window.deposits
 Account.initData window.accounts
@@ -69,3 +72,5 @@ Peatio.WithdrawsRoute = Ember.Route.extend
 Peatio.DepositsRoute = Ember.Route.extend
   model: ->
     []
+
+
