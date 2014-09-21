@@ -1,7 +1,5 @@
 zh-CN:
   shared:
-    browser:
+    alert:
       modern: 为了不影响交易体验，请使用更流行的浏览器进行交易，我们向您推荐 <a target='_blank' href='http://www.baidu.com/s?wd=Google+Chrome'>Google Chrome 浏览器</a>。
-    pusher:
-      pusher_unavailable: 与服务器通讯异常，
-      refresh: 请刷新页面重试。
+      pusher_unavailable: "与服务器通讯异常，<a href='#' class='alert-link'>请刷新页面重试</a>。"
