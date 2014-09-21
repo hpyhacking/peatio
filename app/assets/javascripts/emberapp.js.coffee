@@ -42,6 +42,7 @@ $ ->
 
 # for more details see: http://emberjs.com/guides/application/
 window.Peatio = Ember.Application.create()
+
 window.Peatio.ApplicationAdapter = DS.FixtureAdapter
 window.store = window.Peatio.__container__.lookup('store:main');
 
@@ -58,7 +59,6 @@ Peatio.Router.map ->
     @.resource 'currency', { path: ':code' }, ->
       @.resource 'withdraws'
       @.resource 'deposits'
-
 
 Peatio.ApplicationController = Ember.Controller.extend \
   appName: 'Withdraws & Deposits'
