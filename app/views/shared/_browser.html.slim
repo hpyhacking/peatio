@@ -1,6 +1,7 @@
 - unless browser.modern?
-  #danger.dialog
-    span.text-important
-      i.fa.fa-bell
-      == t('.modern')
-    button.btn data-dismiss="alert" x
+  .alert.alert-danger.alert-dismissible role="alert"
+    .container
+      button.close type="button" data-dismiss="alert"
+        span aria-hidden="true" &times;
+        span.sr-only Close
+      span.text-important == t('.modern')
