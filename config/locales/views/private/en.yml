@@ -40,8 +40,8 @@ en:
         orders_wait: Latest Orders
         orders_done: Completed Orders
         orders_cancel: Cancel Orders
-      price_chart:
-        price_chart: Price Chart
+      market_chart:
+        market_chart: Market Chart
       global:
         global_orders_title: ORDERS
         global_trades_title: TRADES
