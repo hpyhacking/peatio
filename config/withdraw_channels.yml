@@ -19,14 +19,12 @@
   max: 50000
   fee: 0
   proportion: true
-  inuse: true
-  type: WithdrawChannelBank
   sort_order: 4
 - id: 500
   key: dogecoin
   currency: dog
-  fixed: 4
-  fee: 0.0001
+  fixed: 0
+  fee: 1
   sort_order: 1
 - id: 600
   key: bitsharesx
