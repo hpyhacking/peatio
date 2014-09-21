@@ -13,7 +13,7 @@
       window.currencies = <%= raw @currencies.to_json %>
     </script>
     <%= stylesheet_link_tag stylesheet, media: "all" %>
-    <%= javascript_include_tag "app" %>
+    <%= javascript_include_tag "emberapp" %>
     <%= yield(:scripts) if content_for?(:scripts) %>
     <%= render 'shared/html5' %>
     <%= render 'shared/meta' %>

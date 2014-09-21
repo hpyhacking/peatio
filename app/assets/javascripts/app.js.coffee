@@ -1,68 +1,78 @@
-#= require jquery
-#= require ./lib/peatio_model
-#= require ./lib/ajax
-#= require handlebars
-#= require ember
-#= require ember-data
-#= require peatio
-#= require_self
+@App =
+  showInfo:   (msg) -> $(document).trigger 'flash-info',   msg: msg
+  showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
+  showAlert:  (msg) -> $(document).trigger 'flash-alert',  msg: msg
 
-#old
+$ ->
+  if $('#assets-index').length
+    $.scrollIt
+      topOffset: -180
+      activeClass: 'active'
 
-#= require es5-shim.min
-#= require es5-sham.min
-#= require jquery_ujs
-#= require bootstrap
-#
-#= require scrollIt
-#= require moment
-#= require bignumber
-#= require underscore
-#= require introjs
-#= require ZeroClipboard
-#= require flight
-#= require pusher.min
-#= require highstock
-#= require highstock_config
-#= require list
-#= require helper
-#= require jquery.mousewheel
-#= require qrcode
-#
-#= require_tree ./component_mixin
-#= require_tree ./component_data
-#= require_tree ./component_ui
-#= require_tree ./templates
+    $('a.go-verify').on 'click', (e) ->
+      e.preventDefault()
 
-# for more details see: http://emberjs.com/guides/application/
-window.Peatio = Ember.Application.create()
-window.Peatio.ApplicationAdapter = DS.FixtureAdapter
-window.store = window.Peatio.__container__.lookup('store:main');
+      root         = $('.tab-pane.active .root.json pre').text()
+      partial_tree = $('.tab-pane.active .partial-tree.json pre').text()
 
-Member.initData window.current_user
-DepositChannel.initData window.deposit_channels
-Deposit.initData window.deposits
-Account.initData window.accounts
-Currency.initData window.currencies
-Account.initData window.accounts
+      if partial_tree
+        uri = 'http://syskall.com/proof-of-liabilities/#verify?partial_tree=' + partial_tree + '&expected_root=' + root
+        window.open(encodeURI(uri), '_blank')
 
-Peatio.Router.map ->
-  @.resource 'currencies', ->
-    @.resource 'currency', { path: ':code' }, ->
-      @.resource 'withdraws'
-      @.resource 'deposits'
+  $('[data-clipboard-text], [data-clipboard-target]').each ->
+    zero = new ZeroClipboard $(@), forceHandCursor: true
 
-Peatio.CurrenciesRoute = Ember.Route.extend
-  model: ->
-    Currency.all()
+    zero.on 'complete', ->
+      $(zero.htmlBridge)
+        .attr('title', gon.clipboard.done)
+        .tooltip('fixTitle')
+        .tooltip('show')
+    zero.on 'mouseout', ->
+      $(zero.htmlBridge)
+        .attr('title', gon.clipboard.click)
+        .tooltip('fixTitle')
 
-Peatio.CurrencyRoute = Ember.Route.extend
-  model: (params) ->
-    Currency.findBy 'code', params.code
+    placement = $(@).data('placement') || 'bottom'
+    $(zero.htmlBridge).tooltip({title: gon.clipboard.click, placement: placement})
 
-Peatio.WithdrawsRoute = Ember.Route.extend
-  model: ->
-    []
-Peatio.DepositsRoute = Ember.Route.extend
-  model: ->
-    []
+  $('.qrcode-container').each (index, el) ->
+    $el = $(el)
+    new QRCode el,
+      text:   $el.data('text')
+      width:  $el.data('width')
+      height: $el.data('height')
+
+  AccountBalanceUI.attachTo('.account-balance')
+  PlaceOrderUI.attachTo('.place-order #bid_panel')
+  PlaceOrderUI.attachTo('.place-order #ask_panel')
+  MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
+  MyOrdersDoneUI.attachTo('.my-orders #orders_done')
+  PushButton.attachTo('.place-order')
+  PushButton.attachTo('.my-orders')
+
+  # if gon.env is 'development'
+  #   Pusher.log = (message) -> window.console && console.log(message)
+
+  pusher = new Pusher gon.pusher_key, gon.pusher_options
+  pusher.connection.bind 'state_change', (state) ->
+    if state.current is 'unavailable'
+      $('#markets-show .pusher-unavailable').removeClass('hide')
+
+  GlobalData.attachTo(document, {pusher: pusher})
+  MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
+
+  MarketTickerUI.attachTo('.ticker')
+  MarketOrdersUI.attachTo('.orders')
+  MarketTradesUI.attachTo('.trades')
+  MarketChartUI.attachTo('.market-chart')
+
+  TransactionsUI.attachTo('#transactions')
+  VerifyMobileNumberUI.attachTo('#new_sms_token')
+  FlashMessageUI.attachTo('.flash-message')
+  TwoFactorAuth.attachTo('.two-factor-auth-container')
+
+  $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
+    $(@).scrollTop(@scrollTop + e.deltaY)
+    e.preventDefault()
+
+  window.pusher = pusher
