@@ -1,6 +1,4 @@
 class DocumentsController < ApplicationController
-  layout 'market'
-
   def show
     @doc = Document.find_by_key(params[:id])
 

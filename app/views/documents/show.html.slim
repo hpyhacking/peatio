@@ -7,4 +7,7 @@
 = content_for :keywords do
   meta name='keywords' content= @doc.keywords
 
-.container == @doc.body
+= content_for :frame do
+  .container
+    .panel.panel-default
+      .panel-body == @doc.body
