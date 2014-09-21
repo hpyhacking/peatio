@@ -59,3 +59,4 @@ zh-CN:
           open-wallet: "请打开BitShares X钱包，选择“转账”。"
           deposit_account: 交易所BTSX帐号
           account_id: Memo
+          check-avatar: "请核对发送到帐号的头像与下面的头像一致:"
