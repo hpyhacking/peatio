@@ -2,8 +2,8 @@ zh-CN:
   withdraw_channel:
     protoshare:
       key: 块链
-      title: 比特股提现
-      intro: 将你在貔貅的比特股余额提取到你的钱包账户
+      title: 原型股PTS提现
+      intro: 将你在貔貅的原型股PTS余额提取到你的钱包账户
       latency: 受理后 10 分钟到账
       transfer: 人工处理
       go: 立即提现
@@ -83,7 +83,7 @@ zh-CN:
           reject: 驳回
           succeed_confirm: 确定处理提现？
           reject_confirm: 确定驳回提现？
-          withdraw: 比特股提现
+          withdraw: 原型股PTS提现
 
   simple_form:
     labels:
@@ -109,18 +109,18 @@ zh-CN:
     private:
       withdraws:
         protoshares:
-          panel: 提现 / 比特股提现
+          panel: 提现 / 原型股PTS提现
           new:
-            title: 比特股提现
+            title: 原型股PTS提现
             intro: 选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。
             default-panel: 历史记录
           create:
-            title: 比特股提现
-            intro: 您可以输入您的提现地址或者选择已保存提现地址，输入提现数量，提取到您的比特股提现地址。
+            title: 原型股PTS提现
+            intro: 您可以输入您的提现地址或者选择已保存提现地址，输入提现数量，提取到您的原型股PTS提现地址。
             default-panel: 历史记录
           edit:
-            title: 比特股提现
-            intro: 您可以输入您的提现地址或者选择已保存提现地址，输入提现数量，提取到您的比特股提现地址。
+            title: 原型股PTS提现
+            intro: 您可以输入您的提现地址或者选择已保存提现地址，输入提现数量，提取到您的原型股PTS提现地址。
 
   breadcrumbs:
-    admin/withdraws/protoshares: 比特股提现
+    admin/withdraws/protoshares: 原型股PTS提现
