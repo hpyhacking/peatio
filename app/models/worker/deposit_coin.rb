@@ -17,7 +17,7 @@ module Worker
       ActiveRecord::Base.transaction do
         return if PaymentTransaction::Default.find_by_txid(txid)
 
-        deposit = create_deposit(
+        deposit(
           txid,
           detail[:address],
           detail[:amount].to_s.to_d,
@@ -25,12 +25,10 @@ module Worker
           Time.at(raw[:timereceived]).to_datetime,
           channel
         )
-
-        deposit.submit!
       end
     end
 
-    def create_deposit(txid, address, amount, confirmations, receive_at, channel)
+    def deposit(txid, address, amount, confirmations, receive_at, channel)
       tx = PaymentTransaction::Default.create!(
         txid: txid,
         address: address,
@@ -40,7 +38,7 @@ module Worker
         currency: channel.currency
       )
 
-      channel.kls.create!(
+      deposit = channel.kls.create!(
         txid: tx.txid,
         amount: tx.amount,
         member: tx.member,
@@ -48,6 +46,8 @@ module Worker
         currency: tx.currency,
         memo: tx.confirmations
       )
+
+      deposit.submit!
     end
 
   end

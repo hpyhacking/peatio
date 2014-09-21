@@ -18,28 +18,25 @@ module Worker
 
     def process
       get_new_transactions.each do |raw|
-        block   = raw['block_num']
-        txid    = raw['trx_id']
-        entry   = raw['ledger_entries'].first
-        amount  = @rpc.fmt_amount entry['amount']['amount']
-        fee     = @rpc.fmt_amount raw['fee']['amount']
-        address = "#{@currency.deposit_account}|#{entry['memo']}"
+        block      = raw['block_num']
+        txid       = raw['trx_id']
+        entry      = raw['ledger_entries'].first
+        amount     = @rpc.fmt_amount entry['amount']['amount']
+        fee        = @rpc.fmt_amount raw['fee']['amount']
+        address    = "#{@currency.deposit_account}|#{entry['memo']}"
+        receive_at = Time.zone.parse raw['timestamp']
 
         Rails.logger.info "NEW - block: #{block} id: #{txid}"
 
         ActiveRecord::Base.transaction do
           return if PaymentTransaction::Btsx.find_by_txid(txid)
 
-          receive_at = Time.zone.parse raw['timestamp']
-          if deposit = create_deposit(txid, address, amount, block, receive_at, @channel)
-            deposit.submit!
-            deposit.accept!
-          end
+          deposit(txid, address, amount, block, receive_at, @channel)
         end
       end
     end
 
-    def create_deposit(txid, address, amount, confirmations, receive_at, channel)
+    def deposit(txid, address, amount, confirmations, receive_at, channel)
       tx = PaymentTransaction::Btsx.create!(
         txid: txid,
         address: address,
@@ -50,7 +47,7 @@ module Worker
       )
 
       if tx.account && tx.member
-        channel.kls.create!(
+        deposit = channel.kls.create!(
           txid: tx.txid,
           amount: tx.amount,
           member: tx.member,
@@ -58,6 +55,9 @@ module Worker
           currency: tx.currency,
           memo: tx.confirmations
         )
+
+        deposit.submit!
+        tx.confirm!
       else
         Rails.logger.info "Transaction##{txid} missing memo, PaymentTransaction##{tx.id} failed to deposit."
         nil
