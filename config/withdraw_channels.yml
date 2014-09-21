@@ -9,7 +9,7 @@
   currency: pts
   fixed: 4
   fee: 0.0001
-  sort_order: 3
+  sort_order: 4
 - id: 400
   key: bank
   currency: cny
@@ -19,13 +19,13 @@
   max: 50000
   fee: 0
   proportion: true
-  sort_order: 4
+  sort_order: 1
 - id: 500
   key: dogecoin
   currency: dog
   fixed: 0
   fee: 1
-  sort_order: 1
+  sort_order: 5
 - id: 600
   key: bitsharesx
   currency: btsx

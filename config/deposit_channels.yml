@@ -7,13 +7,13 @@
 - id: 300
   key: protoshare
   currency: pts
-  sort_order: 3
+  sort_order: 9
   min_confirm: 1
   max_confirm: 6
 - id: 400
   key: bank
   currency: cny
-  sort_order: 4
+  sort_order: 1
   bank_accounts:
     -
       bank: 招商银行
@@ -23,7 +23,7 @@
 - id: 500
   key: dogecoin
   currency: dog
-  sort_order: 1
+  sort_order: 10
   min_confirm: 1
   max_confirm: 6
 - id: 600
