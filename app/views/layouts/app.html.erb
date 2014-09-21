@@ -38,22 +38,12 @@
       {{/each}}
     </script>
 
-    <script type='text/x-handlebars' id='accounts'>
-      {{#each model}}
-        <h1>Account for <code>{{currency}}</code> Balance <code>{{balance}}</code> Locked <code>{{locked}}</code></h1>
-        {{#link-to 'deposits' this.currency}}Deposits{{/link-to}}
-        {{#link-to 'withdraws' this.currency}}Withdraws{{/link-to}}
-      {{/each}}
-      {{outlet}}
-    </script>
-
     <script type="text/x-handlebars" id="accounts/index">
       <p class="text-warning">Please select a account</p>
     </script>
 
     <script type="text/x-handlebars">
       <div id="wrap">
-
         <%- if content_for?(:header) %>
           <%= yield(:header) %>
         <%- else %>
@@ -62,9 +52,7 @@
 
         <div class='container'>
           <h1>{{appName}}</h1>
-
           {{outlet}}
-
         </div>
         <div id="push"></div>
       </div>
@@ -74,7 +62,38 @@
       <%- else %>
         <%= render 'shared/footer' %>
       <%- end %>
+    </script>
 
+    <script type='text/x-handlebars' id='accounts'>
+      <div class="panel panel-default">
+        <div class="panel-heading">Accounts</div>
+        <div class="panel-body">
+          <div class='row'>
+            <div class='col-md-16'>
+              <ul class="list-group">
+                {{#each model}}
+                  <li class="list-group-item">
+                    <div class='row'>
+                      <div class='col-md-18'>
+                        <h1>Account for <code>{{currency}}</code> <code>{{balance}}</code> / <code>{{locked}}</code></h1>
+                      </div>
+                      <div class='col-md-6'>
+                        <ul>
+                          <li>{{#link-to 'deposits' this.currency}}Deposits{{/link-to}}</li>
+                          <li>{{#link-to 'withdraws' this.currency}}Withdraws{{/link-to}}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+            <div class='col-md-8'>
+              {{outlet}} 
+            </div>
+          </div>
+        </div>
+      </div>
     </script>
   </body>
 </html>
