@@ -36,12 +36,12 @@ module Worker
       end
     end
 
-    def deposit(txid, address, amount, confirmations, receive_at, channel)
+    def deposit(txid, address, amount, block, receive_at, channel)
       tx = PaymentTransaction::Btsx.create!(
         txid: txid,
         address: address,
         amount: amount,
-        confirmations: confirmations,
+        confirmations: block, # use confirmations field to save block id
         receive_at: receive_at,
         currency: channel.currency
       )
