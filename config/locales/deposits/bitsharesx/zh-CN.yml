@@ -3,7 +3,7 @@ zh-CN:
     bitsharesx:
       key: 块链
       title: BTSX充值
-      intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
+      intro: 从本地钱包客户端或任意在线钱包客户端转出 BTSX 到我们为您提供的充值地址。
       latency: 全网确认后到帐
       transfer: 自动
       go: 立即充值
@@ -33,7 +33,7 @@ zh-CN:
       deposits:
         bitsharesxes:
           panel: 充值 / BTSX充值
-          intro: "从本地钱包客户端或任意在线钱包客户端转出BTSX到您的交易所账户。"
+          intro: "从本地钱包客户端或任意在线钱包客户端转出 BTSX 到您的交易所账户。"
           new:
             title: BTSX充值
             default-panel: 充值记录

@@ -3,7 +3,7 @@ zh-CN:
     bitsharesx:
       key: 块链
       title: BTSX提现
-      intro: 将你在貔貅的BTSX余额提取到你的钱包账户
+      intro: 将你在貔貅的 BTSX 余额提取到你的钱包账户
       latency: 受理后 10-30秒 到账
       transfer: 人工处理
       go: 立即提现
