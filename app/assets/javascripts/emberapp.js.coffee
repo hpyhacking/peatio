@@ -1,8 +1,8 @@
 #= require jquery
-#= require ./lib/peatio_model
-#= require ./lib/ajax
 #= require handlebars
 #= require ember
+#= require ./lib/peatio_model
+#= require ./lib/ajax
 #= require ember-data
 #= require peatio
 

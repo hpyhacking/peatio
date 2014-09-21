@@ -101,7 +101,7 @@ Log =
 
 moduleKeywords = ['included', 'extended']
 
-class Module
+class Module extends Ember.Object
   @include: (obj) ->
     throw new Error('include(obj) requires obj') unless obj
     for key, value of obj when key not in moduleKeywords
