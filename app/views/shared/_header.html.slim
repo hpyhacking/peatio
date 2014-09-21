@@ -10,13 +10,32 @@
 
     ul.nav.navbar-nav.navbar-right
       - if current_user
-        = top_nav_link(t('header.my_profile'), settings_path, 'user', controllers: ['two_factors', 'identities', 'id_documents'])
-        - if is_admin?
-          = top_nav_link('', admin_dashboard_path, 'dashboard')
-        = top_nav_link(t('header.tickets'), tickets_path, 'comments', controllers: ['tickets'], counter: current_user.unread_comments.count)
-        li: a#sign_out href='#{main_app.signout_path}'
-          i.fa.fa-sign-out
-          span = t('header.signout')
+        - controllers = ['settings', 'two_factors', 'identities', 'id_documents', 'dashboard', 'tickets']
+        - dropdown_class = (controllers & controller_path.split('/')).empty? ? "" : 'active'
+        li.dropdown class = dropdown_class
+          a.dropdown-toggle href="#" data-toggle="dropdown"
+            span = current_user.email
+            - if current_user.unread_comments.count > 0
+              | &nbsp;
+              span.badge = current_user.unread_comments.count
+            b.caret
+          ul.dropdown-menu
+            li: a#profile href = settings_path
+              i.fa.fa-user
+              span = t('header.my_profile')
+            li: a#tickets href = tickets_path
+              i.fa.fa-comments
+              span = t('header.tickets')
+              | &nbsp;
+              span.badge = current_user.unread_comments.count
+            - if is_admin?
+              li: a#admin href = admin_dashboard_path
+                i.fa.fa-dashboard
+                span = t('header.admin')
+            li: a#sign_out href = main_app.signout_path
+              i.fa.fa-sign-out
+              span = t('header.signout')
+
       - else
         = top_nav_link(t('header.signin'), signin_path, '')
         = top_nav_link(t('header.signup'), signup_path, '')

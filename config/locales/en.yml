@@ -65,7 +65,7 @@ en:
   header:
     home: Home
     dashboard: Dashboard
-    admin: Admin
+    admin: Admin Panel
     market: Trade
     settings: Profile
     signin: Sign In

@@ -74,7 +74,7 @@ zh-CN:
   header:
     home: 首页
     dashboard: 控制面板
-    admin: 管理
+    admin: 后台管理
     market: 交易大厅
     settings: 账户
     signin: 登录
