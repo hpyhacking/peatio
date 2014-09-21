@@ -17,14 +17,14 @@
   h4 = t('private.deposits.shared.new.step-2')
   p == send_coin
 
-  .input-group.col-sm-11 style='margin: 20px 10px 10px 10px;'
-    .input-group-addon style='width: 200px;' = t('.deposit_account')
+  .input-group.col-sm-12 style='margin: 20px 10px 10px 10px;'
+    .input-group-addon style='width: 160px;' = t('.deposit_account')
     .form-control.form-control-static style='text-align: center;' = deposit_account
     .input-group-addon
       i.fa.fa-copy data-clipboard-text = deposit_account
 
-  .input-group.col-sm-11 style='margin: 10px 10px 20px 10px;'
-    .input-group-addon style='width: 200px; color: red;' = t('.account_id')
+  .input-group.col-sm-12 style='margin: 10px 10px 20px 10px;'
+    .input-group-addon style='width: 160px; color: red;' = t('.account_id')
     .form-control.form-control-static style='color: red; text-align: center;' = account_id
     .input-group-addon
       i.fa.fa-copy data-clipboard-text = account_id
