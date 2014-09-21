@@ -101,19 +101,6 @@
     }
   }
 
-  .ticker {
-    li {
-      text-align: center;
-      span {
-        display: block;
-        &.name {
-          font-size: 16px;
-          color: #999;
-        }
-      }
-    }
-  }
-
   .account-balance {
     ul li {
       span.name {
