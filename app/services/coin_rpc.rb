@@ -113,7 +113,7 @@ class CoinRPC
     end
 
     def account_transfer(account, amount)
-      wallet_transfer amount, 'BTSX', @currency.deposit_account, account
+      wallet_transfer amount, 'BTSX', @currency.deposit_account, account, "peatio withdrawal"
     end
 
     # validate both account and address
