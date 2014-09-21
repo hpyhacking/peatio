@@ -53,9 +53,9 @@ zh-CN:
         new:
           page_title: "BTSX充值 - 资金充值 - 貔貅交易所"
           page_keywords: "充值,BTSX,人民币,资金,加密数字货币"
-          send-coin: "在转账界面中, 在“数量”(Amount)一栏请填入您希望充值的数量。“发往”(to)一栏请填入貔貅交易所的BTSX帐号。<b>在“消息”(Memo)一栏中请填入您的充值ID - 请务必填入此ID，否则充值无法自动到帐</b>。"
+          send-coin: "在转账界面中, 在“数量”(Amount)一栏请填入您希望充值的数量。“发往”(to)一栏请填入貔貅交易所的BTSX帐号。<b>在“消息”(Memo)一栏中请填入下面的Memo - 请务必填入此ID，否则充值无法自动到帐</b>。"
           check-confirm: "完成以上操作后点击发送(Send)付款,此交易将被广播到全网,您便可以这⾥查看到此笔交易的状态,
                          当交易被全网确认 (⼤约10-30秒) 时,系统将自动充值到账。"
           open-wallet: "请打开BitShares X钱包，选择“转账”。"
           deposit_account: 交易所BTSX帐号
-          account_id: 充值ID
+          account_id: Memo
