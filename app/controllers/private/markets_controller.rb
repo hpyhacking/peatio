@@ -12,11 +12,11 @@ module Private
 
       @market = current_market
 
-      @bids   = Global[@market].bids
-      @asks   = Global[@market].asks
-      @trades = Global[@market].trades
-      @price  = Global[@market].price
-      @ticker = Global[@market].ticker
+      @bids   = @market.bids
+      @asks   = @market.asks
+      @trades = @market.trades
+      @price  = @market.price
+      @ticker = @market.ticker
 
       # default to limit order
       @order_bid = OrderBid.new ord_type: 'limit'

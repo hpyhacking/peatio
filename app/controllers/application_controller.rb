@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
     gon.env = Rails.env
     gon.local = I18n.locale
     gon.market = current_market.attributes
-    gon.ticker = Global[current_market].ticker
+    gon.ticker = current_market.ticker
     gon.pusher_key = ENV['PUSHER_KEY']
     gon.pusher_options = {
       wsHost:    ENV['PUSHER_HOST']     || 'ws.pusherapp.com',
