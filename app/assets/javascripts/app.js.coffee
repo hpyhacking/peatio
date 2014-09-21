@@ -48,7 +48,7 @@ Account.initData window.accounts
 
 Peatio.Router.map ->
   @.resource 'currencies', ->
-    @.resource 'currency', {path: ':id'}, ->
+    @.resource 'currency', { path: ':code' }, ->
       @.resource 'withdraws'
       @.resource 'deposits'
 
@@ -58,4 +58,11 @@ Peatio.CurrenciesRoute = Ember.Route.extend
 
 Peatio.CurrencyRoute = Ember.Route.extend
   model: (params) ->
-    Currency.findBy 'id', params.id
+    Currency.findBy 'code', params.code
+
+Peatio.WithdrawsRoute = Ember.Route.extend
+  model: ->
+    []
+Peatio.DepositsRoute = Ember.Route.extend
+  model: ->
+    []

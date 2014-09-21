@@ -22,19 +22,20 @@
 
   <body id="<%= "#{controller_name}-#{action_name}" %>" data-lang="<%= "#{I18n.locale.to_s.downcase}" %>">
 
-    <script type="text/x-handlebars" id="currencies/index">
+    <script type="text/x-handlebars" id="currencies">
       <div class='container'>
         {{#each model}}
           <h1>TEST<code>{{code}}</code></h1>
           {{#link-to 'deposits' this.code}}Deposits{{/link-to}}
           {{#link-to 'withdraws' this.code}}Withdraws{{/link-to}}
-          {{outlet}}
         {{/each}}
+        {{outlet}}
       </div>
     </script>
 
     <script type="text/x-handlebars" id="currency">
       <h1>currency</h1>
+      {{outlet}}
     </script>
 
     <script type='text/x-handlebars' id='deposits'>
