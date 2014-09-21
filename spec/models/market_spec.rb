@@ -24,4 +24,14 @@ describe Market do
     it { should be_has_key :ptsbtc }
   end
 
+  context 'shortcut of global access' do
+    subject { Market.find('btccny') }
+
+    its(:bids)   { should_not be_nil }
+    its(:asks)   { should_not be_nil }
+    its(:trades) { should_not be_nil }
+    its(:price)  { should_not be_nil }
+    its(:ticker) { should_not be_nil }
+  end
+
 end

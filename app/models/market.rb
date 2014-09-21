@@ -39,8 +39,21 @@ class Market < ActiveYamlBase
     d.round digits, 2
   end
 
+  # shortcut of global access
+  def bids;   global.bids   end
+  def asks;   global.asks   end
+  def trades; global.trades end
+  def price;  global.price  end
+  def ticker; global.ticker end
+
   def to_s
     id
+  end
+
+  private
+
+  def global
+    @global || Global[self.id]
   end
 
 end
