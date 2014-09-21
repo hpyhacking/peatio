@@ -20,12 +20,14 @@ module Admin
       can :manage, ::Deposits::Satoshi
       can :manage, ::Deposits::Protoshare
       can :manage, ::Deposits::Dogecoin
+      can :manage, ::Deposits::Bitsharesx
 
       can :menu, Withdraw
       can :manage, ::Withdraws::Bank
       can :manage, ::Withdraws::Satoshi
       can :manage, ::Withdraws::Protoshare
       can :manage, ::Withdraws::Dogecoin
+      can :manage, ::Withdraws::Bitsharesx
     end
   end
 end

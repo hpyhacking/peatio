@@ -57,4 +57,5 @@ json.i18n do
   json.btc I18n.t('currency.name.btc')
   json.pts I18n.t('currency.name.pts')
   json.dog I18n.t('currency.name.dog')
+  json.btsx I18n.t('currency.name.btsx')
 end

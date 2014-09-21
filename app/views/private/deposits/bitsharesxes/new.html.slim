@@ -1,0 +1,51 @@
+- send_coin = t('.send-coin')
+- check_confirm = t('.check-confirm', path: exchange_assets_path).html_safe
+- address = @address
+- assets = @assets
+- model = @model
+
+- if address.address.blank?
+  p = t('private.deposits.shared.new.gen_address_html')
+- else
+  - deposit_account, account_id = address.address.split('|', 2)
+
+  h4 = t('private.deposits.shared.new.step-1')
+  p = t('.open-wallet')
+
+  hr.split
+
+  h4 = t('private.deposits.shared.new.step-2')
+  p == send_coin
+
+  .input-group.col-sm-8
+    .input-group-addon style='width: 200px;' = t('.deposit_account')
+    .form-control.form-control-static = deposit_account
+    .input-group-addon
+      i.fa.fa-copy data-clipboard-text = deposit_account
+
+  .input-group.col-sm-8
+    .input-group-addon style='width: 200px;' = t('.account_id')
+    .form-control.form-control-static = account_id
+    .input-group-addon
+      i.fa.fa-copy data-clipboard-text = account_id
+
+  hr.split
+
+  h4 = t('private.deposits.shared.new.step-3')
+  p = check_confirm
+
+  hr.split
+
+  h4 = t('private.deposits.shared.new.step-4')
+  p = t('private.deposits.shared.new.history_html')
+
+  = content_for :after
+    = panel do
+      = table_for(assets, class: 'table table-condensed table-hover', model: model) do |t|
+        - t.column :created_at, class: 'col-md-3'
+        - t.column :txid, class: 'col-md-4' do |x|
+          a href='#{x.blockchain_url}' target='_blank'
+            code.text-info = x.txid.truncate(32)
+        - t.column :amount, class: 'col-md-2'
+        - t.column :memo, class: 'col-md-1'
+        - t.column :aasm_state_text, class: 'col-md-2'

@@ -1,0 +1,33 @@
+.panel.panel-primary
+  .panel-heading: span = t('.pending-payments')
+  = table_for(@pending_payments, class: 'table table-condensed table-hover', model: ::PaymentTransaction::Btsx) do |pt|
+    - pt.column :txid do |x|
+      a href='#{x.currency_obj.blockchain_url(x.confirmations.to_s)}' target='_blank'
+        code.text-info = x.txid
+    - pt.column :created_at
+    - pt.column :currency_text
+    - pt.column :amount do |x|
+      code.text-info = x.amount
+    - pt.column :payer
+    - pt.column :address
+
+.panel.panel-success
+  .panel-heading: span = t('.deposit-history')
+  = table_for(@bitsharesxes, class: 'table table-condensed table-hover', model: ::Deposits::Bitsharesx) do |t|
+    - t.column :txid do |x|
+      a href='#{x.blockchain_url}' target='_blank'
+        code.text-info = x.txid
+    - t.column :created_at
+    - t.column :currency_text
+    - t.column :member_name do |x|
+      = link_to x.member_name, url_for([:admin, x.member]), target: '_blank'
+    - t.column :amount do |x|
+      code.text-info = x.amount
+    - t.column :memo do |x|
+      span.badge = x.memo
+    - t.column :state_and_action do |x|
+      span = x.aasm_state_text
+      - if x.may_accept?
+        span = ' / '
+        = link_to t('.accept'), url_for([:admin, x]), method: 'PATCH', confirm: t('.accept_confirm')
+

@@ -24,6 +24,11 @@ zh-CN:
       index:
         accounts_title: 账户汇总
         daemons_title: 系统汇总
+    deposits:
+      bitsharesxes:
+        index:
+          deposit-history: 历史记录
+          pending-payments: 未入账汇款
     documents:
       index:
         new: 新建文档

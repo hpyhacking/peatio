@@ -34,5 +34,36 @@ module Admin
       @member.save
     end
 
+    def pending_payment
+      account = @member.accounts.find params[:account_id]
+      tx      = PaymentTransaction.where('aasm_state != ?', 'confirmed').find_by_txid params[:payment_id]
+
+      if tx && tx.deposit.nil? && tx.currency == account.currency
+        ActiveRecord::Base.transaction do
+          tx.update_attributes address: account.payment_address.address
+
+          channel = DepositChannel.find_by_key account.currency_obj.key
+          deposit = channel.kls.create!(
+            txid: tx.txid,
+            amount: tx.amount,
+            member: tx.member,
+            account: tx.account,
+            currency: tx.currency,
+            memo: tx.confirmations,
+            fund_extra: "manually by admin##{current_user.id}"
+          )
+
+          deposit.submit!
+          tx.confirm!
+        end
+
+        flash[:notice] = I18n.t('.success')
+      else
+        flash[:alert] = I18n.t('.fail')
+      end
+
+      redirect_to admin_member_path(@member)
+    end
+
   end
 end

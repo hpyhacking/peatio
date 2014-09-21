@@ -17,24 +17,38 @@ module Worker
       ActiveRecord::Base.transaction do
         return if PaymentTransaction::Default.find_by_txid(txid)
 
-        tx = PaymentTransaction::Default.create! \
-          txid: txid,
-          address: detail[:address],
-          amount: detail[:amount].to_s.to_d,
-          confirmations: raw[:confirmations],
-          receive_at: Time.at(raw[:timereceived]).to_datetime,
-          currency: channel.currency
-
-        deposit = channel.kls.create! \
-          txid: tx.txid,
-          amount: tx.amount,
-          member: tx.member,
-          account: tx.account,
-          currency: tx.currency,
-          memo: tx.confirmations
-
-        deposit.submit!
+        deposit(
+          txid,
+          detail[:address],
+          detail[:amount].to_s.to_d,
+          raw[:confirmations],
+          Time.at(raw[:timereceived]).to_datetime,
+          channel
+        )
       end
     end
+
+    def deposit(txid, address, amount, confirmations, receive_at, channel)
+      tx = PaymentTransaction::Default.create!(
+        txid: txid,
+        address: address,
+        amount: amount,
+        confirmations: confirmations,
+        receive_at: receive_at,
+        currency: channel.currency
+      )
+
+      deposit = channel.kls.create!(
+        txid: tx.txid,
+        amount: tx.amount,
+        member: tx.member,
+        account: tx.account,
+        currency: tx.currency,
+        memo: tx.confirmations
+      )
+
+      deposit.submit!
+    end
+
   end
 end
