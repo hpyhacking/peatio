@@ -25,17 +25,42 @@ module Worker
         fee     = @rpc.fmt_amount raw['fee']['amount']
         address = "#{@currency.deposit_account}|#{entry['memo']}"
 
-        Rails.logger.info "[NEW] block: #{block} id: #{txid}"
+        Rails.logger.info "NEW - block: #{block} id: #{txid}"
 
         ActiveRecord::Base.transaction do
-          return if PaymentTransaction.find_by_txid(txid)
+          return if PaymentTransaction::Btsx.find_by_txid(txid)
 
           receive_at = Time.zone.parse raw['timestamp']
-          deposit = create_deposit(txid, address, amount, block, receive_at, @channel)
-
-          deposit.submit!
-          deposit.accept!
+          if deposit = create_deposit(txid, address, amount, block, receive_at, @channel)
+            deposit.submit!
+            deposit.accept!
+          end
         end
+      end
+    end
+
+    def create_deposit(txid, address, amount, confirmations, receive_at, channel)
+      tx = PaymentTransaction::Btsx.create!(
+        txid: txid,
+        address: address,
+        amount: amount,
+        confirmations: confirmations,
+        receive_at: receive_at,
+        currency: channel.currency
+      )
+
+      if tx.account && tx.member
+        channel.kls.create!(
+          txid: tx.txid,
+          amount: tx.amount,
+          member: tx.member,
+          account: tx.account,
+          currency: tx.currency,
+          memo: tx.confirmations
+        )
+      else
+        Rails.logger.info "Transaction##{txid} missing memo, PaymentTransaction##{tx.id} failed to deposit."
+        nil
       end
     end
 
