@@ -1,6 +1,6 @@
 ul#menu.nav.navbar-nav.navbar-left
   = top_nav(t('header.market'), market_path(current_market), 'exchange', market_links)
-  = top_nav_link(t('header.funds'), 'funds#/currencies/btc/deposits', 'credit-card', controllers: ['funds'])
+  = top_nav_link(t('header.funds'), '/funds#/accounts/btc/deposits', 'credit-card', controllers: ['funds'])
   = top_nav_link(t('header.assets'), exchange_assets_path, 'bar-chart-o')
   = top_nav_link(t('header.history'), order_history_path, 'book')
 

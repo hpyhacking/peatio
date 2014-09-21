@@ -38,17 +38,17 @@
       {{/each}}
     </script>
 
-    <script type='text/x-handlebars' id='currencies'>
+    <script type='text/x-handlebars' id='accounts'>
       {{#each model}}
-        <h1>TEST<code>{{code}}</code></h1>
-        {{#link-to 'deposits' this.code}}Deposits{{/link-to}}
-        {{#link-to 'withdraws' this.code}}Withdraws{{/link-to}}
+        <h1>Account for <code>{{currency}}</code> Balance <code>{{balance}}</code> Locked <code>{{locked}}</code></h1>
+        {{#link-to 'deposits' this.currency}}Deposits{{/link-to}}
+        {{#link-to 'withdraws' this.currency}}Withdraws{{/link-to}}
       {{/each}}
       {{outlet}}
     </script>
 
-    <script type="text/x-handlebars" id="currencies/index">
-      <p class="text-warning">Please select a currency</p>
+    <script type="text/x-handlebars" id="accounts/index">
+      <p class="text-warning">Please select a account</p>
     </script>
 
     <script type="text/x-handlebars">

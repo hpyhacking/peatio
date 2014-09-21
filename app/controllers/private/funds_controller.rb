@@ -8,7 +8,7 @@ module Private
     def index
       @deposit_channels = DepositChannel.all
       @withdraw_channels = WithdrawChannel.all
-      @currencies = (DepositChannel.all.map(&:currency_obj) + WithdrawChannel.all.map(&:currency_obj)).uniq
+      @currencies = Currency.all
       @deposits = current_user.deposits
       @accounts = current_user.accounts
       @withdraws = current_user.withdraws

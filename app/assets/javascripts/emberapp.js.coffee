@@ -55,28 +55,28 @@ Currency.initData window.currencies
 Withdraw.initData window.withdraws
 
 Peatio.Router.map ->
-  @.resource 'currencies', ->
-    @.resource 'currency', { path: ':code' }, ->
+  @.resource 'accounts', ->
+    @.resource 'account', { path: ':currency' }, ->
       @.resource 'withdraws'
       @.resource 'deposits'
 
 Peatio.ApplicationController = Ember.Controller.extend \
-  appName: 'Withdraws & Deposits'
+  appName: 'Accounts & Withdraws & Deposits'
 
-Peatio.CurrenciesRoute = Ember.Route.extend
+Peatio.AccountsRoute = Ember.Route.extend
   model: ->
-    Currency.all()
+    Account.all()
 
-Peatio.CurrencyRoute = Ember.Route.extend
+Peatio.AccountRoute = Ember.Route.extend
   model: (params) ->
-    Currency.findBy 'code', params.code
+    Account.findBy 'currency', params.currency
 
 Peatio.WithdrawsRoute = Ember.Route.extend
   model: (params) ->
-    currency = @.modelFor('currency');
+    currency = Currency.findBy 'code', @.modelFor('account').currency
     WithdrawChannel.findAllBy 'currency', currency.code
 
 Peatio.DepositsRoute = Ember.Route.extend
   model: (params) ->
-    currency = @.modelFor('currency');
+    currency = Currency.findBy 'code', @.modelFor('account').currency
     DepositChannel.findAllBy 'currency', currency.code
