@@ -40,15 +40,14 @@
           th.text-left 最低
           th.text-left 成交量
         - @markets.each do |market|
-          - ticker = Global[market.id].ticker
           tr
             td.text-center = market.name
-            td.text-left = ticker[:last]
-            td.text-left = ticker[:buy]
-            td.text-left = ticker[:sell]
-            td.text-left = ticker[:high]
-            td.text-left = ticker[:low]
-            td.text-left = ticker[:volume]
+            td.text-left = market.ticker[:last]
+            td.text-left = market.ticker[:buy]
+            td.text-left = market.ticker[:sell]
+            td.text-left = market.ticker[:high]
+            td.text-left = market.ticker[:low]
+            td.text-left = market.ticker[:volume]
 
   .main-section.main-section-lighter
     .container
