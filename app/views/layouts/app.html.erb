@@ -9,6 +9,7 @@
       window.deposits = <%= raw @deposits.to_json %>
       window.accounts = <%= raw @accounts.to_json %>
       window.deposit_channels = <%= raw @deposit_channels.to_json %>
+      window.withdraw_channels = <%= raw @withdraw_channels.to_json %>
       window.current_user = <%= raw current_user.to_json %>
       window.currencies = <%= raw @currencies.to_json %>
     </script>
@@ -22,27 +23,31 @@
 
   <body id="<%= "#{controller_name}-#{action_name}" %>" data-lang="<%= "#{I18n.locale.to_s.downcase}" %>">
 
-    <script type="text/x-handlebars" id="currencies">
-      <div class='container'>
-        {{#each model}}
-          <h1>TEST<code>{{code}}</code></h1>
-          {{#link-to 'deposits' this.code}}Deposits{{/link-to}}
-          {{#link-to 'withdraws' this.code}}Withdraws{{/link-to}}
-        {{/each}}
-        {{outlet}}
-      </div>
+    <script type='text/x-handlebars' id='deposits'>
+      <h1>Deposits</h1>
+      {{#each model}}
+      <h1>{{key}}</h1>
+      {{/each}}
     </script>
 
-    <script type="text/x-handlebars" id="currency">
-      <h1>currency</h1>
+    <script type='text/x-handlebars' id='withdraws'>
+      <h1>Withdraws</h1>
+      {{#each model}}
+      <h1>{{key}}</h1>
+      {{/each}}
+    </script>
+
+    <script type='text/x-handlebars' id='currencies'>
+      {{#each model}}
+        <h1>TEST<code>{{code}}</code></h1>
+        {{#link-to 'deposits' this.code}}Deposits{{/link-to}}
+        {{#link-to 'withdraws' this.code}}Withdraws{{/link-to}}
+      {{/each}}
       {{outlet}}
     </script>
 
-    <script type='text/x-handlebars' id='deposits'>
-      <h3>D</h3>
-    </script>
-    <script type='text/x-handlebars' id='withdraws'>
-      <h3>W</h3>
+    <script type="text/x-handlebars" id="currencies/index">
+      <p class="text-warning">Please select a currency</p>
     </script>
 
     <script type="text/x-handlebars">
@@ -54,8 +59,12 @@
           <%= render 'shared/header' %>
         <%- end %>
 
-        {{outlet}}
+        <div class='container'>
+          <h1>{{appName}}</h1>
 
+          {{outlet}}
+
+        </div>
         <div id="push"></div>
       </div>
 
