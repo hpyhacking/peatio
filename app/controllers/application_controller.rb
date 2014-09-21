@@ -34,7 +34,6 @@ class ApplicationController < ActionController::Base
       chart_price: I18n.t('chart.price'),
       chart_volume: I18n.t('chart.volume'),
       place_order: {
-
         confirm_submit: I18n.t('private.markets.show.confirm'),
         price: I18n.t('private.markets.place_order.price'),
         volume: I18n.t('private.markets.place_order.amount'),
