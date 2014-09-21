@@ -11,6 +11,7 @@ module Private
       @currencies = (DepositChannel.all.map(&:currency_obj) + WithdrawChannel.all.map(&:currency_obj)).uniq
       @deposits = current_user.deposits
       @accounts = current_user.accounts
+      @withdraws = current_user.withdraws
     end
   end
 end

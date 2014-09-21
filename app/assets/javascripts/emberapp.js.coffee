@@ -51,7 +51,7 @@ WithdrawChannel.initData window.withdraw_channels
 Deposit.initData window.deposits
 Account.initData window.accounts
 Currency.initData window.currencies
-Account.initData window.accounts
+Withdraw.initData window.withdraws
 
 Peatio.Router.map ->
   @.resource 'currencies', ->

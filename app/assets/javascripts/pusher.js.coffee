@@ -18,6 +18,9 @@ class PusherSubscriber
     channel.bind 'pusher:subscription_succeeded', (status) ->
       console.log('Pusher bind member channel successfully')
       new MemberHandler(channel)
+      new AccountHandler(channel)
+      new DepositHandler(channel)
+      new WithdrawHandler(channel)
 
 class EventHandler
   constructor: (channel, event) ->
@@ -47,5 +50,40 @@ class MemberHandler extends EventHandler
 
   update: (id, attributes) =>
     Member.update(id, attributes)
+
+class AccountHandler extends EventHandler
+  constructor: (channel) ->
+    super channel, "accounts"
+
+  update: (id, attributes) =>
+    Account.update(id, attributes)
+
+
+class DepositHandler extends EventHandler
+  constructor: (channel) ->
+    super channel, "deposits"
+
+  create: (attributes) =>
+    Deposit.create(attributes)
+
+  update: (id, attributes) =>
+    Deposit.update(id, attributes)
+
+  destroy: (id) =>
+    Deposit.destroy(id)
+
+class WithdrawHandler extends EventHandler
+  constructor: (channel) ->
+    super channel, "withdraws"
+
+  create: (attributes) =>
+    Withdraw.create(attributes)
+
+  update: (id, attributes) =>
+    Withdraw.update(id, attributes)
+
+  destroy: (id) =>
+    Withdraw.destroy(id)
+
 
 window.PusherSubscriber = PusherSubscriber
