@@ -3,7 +3,7 @@
   = table_for(@pending_payments, class: 'table table-condensed table-hover', model: ::PaymentTransaction::Btsx) do |pt|
     - pt.column :txid do |x|
       a href='#{x.currency_obj.blockchain_url(x.confirmations.to_s)}' target='_blank'
-        code.text-info = x.txid.truncate(36)
+        code.text-info = x.txid
     - pt.column :created_at
     - pt.column :currency_text
     - pt.column :amount do |x|
@@ -15,7 +15,7 @@
   = table_for(@bitsharesxes, class: 'table table-condensed table-hover', model: ::Deposits::Bitsharesx) do |t|
     - t.column :txid do |x|
       a href='#{x.blockchain_url}' target='_blank'
-        code.text-info = x.txid.truncate(36)
+        code.text-info = x.txid
     - t.column :created_at
     - t.column :currency_text
     - t.column :member_name do |x|

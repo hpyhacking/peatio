@@ -15,6 +15,7 @@ namespace :admin do
   resources :members, only: [:index, :show, :update] do
     member do
       post :toggle
+      post :pending_payment
     end
 
     resources :two_factors, only: [:destroy]
