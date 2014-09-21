@@ -2,11 +2,18 @@
   .main-section
     .container
       .row
-        .col-xs-10
-          .logo
-            = image_tag('peatio_logo.png')
-            h3 貔貅交易所 - 开源数字加密货币交易平台
-        .col-xs-8.col-xs-offset-6
+        .col-xs-15
+          .row
+            .col-xs-12
+              .logo
+                = image_tag('peatio_logo.png', height: '140')
+            #site-title.col-xs-12
+              h1.text-right 貔貅交易所
+              h3.text-right: b.text-ignore 开源数字加密货币交易平台
+          .row
+            .clock
+            h3.text-center: b.text-ignore 漫步云端，10月8日，不见不散！
+        .col-xs-8.col-xs-offset-1
           .login-box
             = simple_form_for Identity.new, url: '/auth/identity/callback', method: :post do |f|
               = f.input :email, input_html: {name: 'auth_key', autofocus: 'true'}, label: t('.email'), placeholder: t('simple_form.placeholders.session.email')
@@ -18,12 +25,6 @@
               span = t('.dont_have_account')
               == "&nbsp;"
               span = link_to t('.signup'), signup_path
-
-  .main-section.main-section-lighter.countdown
-    .container
-      .clock
-      h2.text-center
-        | 有趣的事情即将发生
 
   .main-section.tickers
     .container

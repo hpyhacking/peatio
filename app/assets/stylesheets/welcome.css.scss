@@ -12,9 +12,18 @@
     }
   }
 
+  #site-title {
+    h1 {
+      color: #555;
+      font-weight: 900;
+      padding-top: 30px;
+      font-size: 40px;
+    }
+  }
+
   .login-box {
     background-color: #f9f9f9;
-    padding: 30px 0 20px 20px;
+    padding: 30px 0 80px 20px;
     border: 1px solid #d8dee3;
     border-radius: 5px;
     .col-sm-8 { width: 15%; }
@@ -23,7 +32,7 @@
 
   .clock {
     width: 620px;
-    margin: 0 auto;
+    margin: 30px auto 10px auto;
   }
 
   .tickers {
