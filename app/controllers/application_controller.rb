@@ -1,12 +1,10 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  protect_from_forgery with: :exception
 
   helper_method :current_user, :is_admin?, :current_market, :gon, :muut_enabled?
   before_filter :set_language, :setting_default, :set_timezone
   before_filter :set_current_user
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
-
-  layout 'frame'
 
   def setting_default
     gon.env = Rails.env
@@ -26,9 +24,25 @@ class ApplicationController < ActionController::Base
       :done => I18n.t('actions.clipboard.done')
     }
 
-    if current_user
-      gon.current_user = {sn: current_user.sn, email: current_user.email}
-    end
+    gon.currencies = Currency.all.inject({}) {|memo, c| memo[c.code] = {symbol: c[:symbol]}; memo}
+
+    gon.i18n = {
+      brand: I18n.t('gon.brand'),
+      ask: I18n.t('gon.ask'),
+      bid: I18n.t('gon.bid'),
+      cancel: I18n.t('actions.cancel'),
+      chart_price: I18n.t('chart.price'),
+      chart_volume: I18n.t('chart.volume'),
+      place_order: {
+
+        confirm_submit: I18n.t('private.markets.show.confirm'),
+        price: I18n.t('private.markets.place_order.price'),
+        volume: I18n.t('private.markets.place_order.amount'),
+        sum: I18n.t('private.markets.place_order.total'),
+        price_high: I18n.t('private.markets.place_order.price_high'),
+        price_low: I18n.t('private.markets.place_order.price_low')
+      }
+    }
   end
 
   def currency

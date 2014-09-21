@@ -1,6 +1,10 @@
 /*basic extend*/
 g { color: $gray-light; }
 
+.container {
+  width: 1170px !important;
+}
+
 /*bootstrap mix*/
 /*bootstrap extend*/
 /*fontawesome extend*/
@@ -141,4 +145,11 @@ input.boolean.optional.form-control {
 .unread {
   background: #f2f2f2;
   margin-right: 15px;
+}
+
+.radio_buttons.form-control {
+  width: inherit;
+  height: inherit;
+  border: none;
+  box-shadow: none;
 }

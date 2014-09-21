@@ -78,7 +78,7 @@ class Withdraw < ActiveRecord::Base
   aasm :whiny_transitions => false do
     state :submitting,  initial: true
     state :submitted
-    state :canceled,    after_commit: :send_email
+    state :canceled,    after_commit: :after_cancel
     state :accepted,    after_commit: :send_email
     state :suspect,     after_commit: :send_email
     state :rejected,    after_commit: :send_email
@@ -96,9 +96,6 @@ class Withdraw < ActiveRecord::Base
 
     event :cancel do
       transitions from: [:submitting, :submitted, :accepted], to: :canceled
-      before do
-        unlock_funds unless submitting?
-      end
     end
 
     event :mark_suspect do
@@ -142,6 +139,11 @@ class Withdraw < ActiveRecord::Base
   end
 
   private
+
+  def after_cancel
+    unlock_funds unless aasm.from_state == :submitting
+    send_email
+  end
 
   def lock_funds
     account.lock!

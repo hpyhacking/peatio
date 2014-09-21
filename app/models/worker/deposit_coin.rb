@@ -15,7 +15,7 @@ module Worker
       return if detail[:account] != "payment" || detail[:category] != "receive"
 
       ActiveRecord::Base.transaction do
-        return if PaymentTransaction.find_by_txid(txid)
+        return if PaymentTransaction::Default.find_by_txid(txid)
 
         deposit = create_deposit(
           txid,
@@ -31,7 +31,7 @@ module Worker
     end
 
     def create_deposit(txid, address, amount, confirmations, receive_at, channel)
-      tx = PaymentTransaction.create!(
+      tx = PaymentTransaction::Default.create!(
         txid: txid,
         address: address,
         amount: amount,

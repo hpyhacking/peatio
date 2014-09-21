@@ -65,6 +65,7 @@ en:
         total: Total
 
   header:
+    home: Home
     dashboard: Dashboard
     admin: Admin
     market: Trade
