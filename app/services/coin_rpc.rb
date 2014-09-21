@@ -28,6 +28,14 @@ class CoinRPC
     raise "Not implemented"
   end
 
+  def safe_getbalance
+    begin
+      getbalance
+    rescue
+      'N/A'
+    end
+  end
+
   class BTC < self
     def handle(name, *args)
       post_body = { 'method' => name, 'params' => args, 'id' => 'jsonrpc' }.to_json
@@ -47,14 +55,6 @@ class CoinRPC
       http.request(request).body
     rescue Errno::ECONNREFUSED => e
       raise ConnectionRefusedError
-    end
-
-    def safe_getbalance
-      begin
-        getbalance
-      rescue
-        'N/A'
-      end
     end
   end
 
