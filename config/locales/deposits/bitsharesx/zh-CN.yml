@@ -19,6 +19,7 @@ zh-CN:
         member_name: 用户
         state_and_action: 状态/操作
         currency_text: 币种
+        payer: 汇款账户
 
   deposits/bitsharesx:
     aasm_state:

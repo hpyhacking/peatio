@@ -24,6 +24,7 @@ module Worker
         amount     = @rpc.fmt_amount entry['amount']['amount']
         fee        = @rpc.fmt_amount raw['fee']['amount']
         address    = "#{@currency.deposit_account}|#{entry['memo']}"
+        payer      = entry['from_account']
         receive_at = Time.zone.parse raw['timestamp']
 
         Rails.logger.info "NEW - block: #{block} id: #{txid}"
@@ -31,14 +32,15 @@ module Worker
         ActiveRecord::Base.transaction do
           return if PaymentTransaction::Btsx.find_by_txid(txid)
 
-          deposit(txid, address, amount, block, receive_at, @channel)
+          deposit(txid, payer, address, amount, block, receive_at, @channel)
         end
       end
     end
 
-    def deposit(txid, address, amount, block, receive_at, channel)
+    def deposit(txid, payer, address, amount, block, receive_at, channel)
       tx = PaymentTransaction::Btsx.create!(
         txid: txid,
+        payer: payer,
         address: address,
         amount: amount,
         confirmations: block, # use confirmations field to save block id
