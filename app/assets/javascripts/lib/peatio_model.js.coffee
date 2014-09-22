@@ -123,6 +123,7 @@ class Module extends Ember.Object
     => func.apply(this, arguments)
 
   constructor: ->
+    super
     @init?(arguments...)
 
 class Model extends Module
@@ -144,7 +145,7 @@ class Model extends Module
   @toString: -> "#{@className}(#{@attributes.join(", ")})"
 
   @find: (id, notFound = @notFound) ->
-    @irecords[id]?.clone() or notFound?(id)
+    @irecords[id]? or notFound?(id)
 
   @findAll: (ids, notFound) ->
     (@find(id) for id in ids when @find(id, notFound))
@@ -175,12 +176,12 @@ class Model extends Module
     result
 
   @select: (callback) ->
-    (record.clone() for record in @records when callback(record))
+    (record for record in @records when callback(record))
 
   @findBy: (name, value) ->
     for record in @records
       if record[name] is value
-        return record.clone()
+        return record
     null
 
   @findAllBy: (name, value) ->
@@ -188,7 +189,7 @@ class Model extends Module
       item[name] is value
 
   @each: (callback) ->
-    callback(record.clone()) for record in @records
+    callback(record) for record in @records
 
   @all: ->
     @cloneArray(@records)
@@ -200,13 +201,13 @@ class Model extends Module
     if end > 1
       @cloneArray(@records.slice(0, end))
     else
-      @records[0]?.clone()
+      @records[0]
 
   @last: (begin)->
     if typeof begin is 'number'
       @cloneArray(@records.slice(-begin))
     else
-      @records[@records.length - 1]?.clone()
+      @records[@records.length - 1]
 
   @count: ->
     @records.length
@@ -268,7 +269,7 @@ class Model extends Module
   # Private
 
   @cloneArray: (array) ->
-    (value.clone() for value in array)
+    (value for value in array)
 
   @idCounter: 0
 
@@ -440,7 +441,7 @@ class Model extends Module
 
     @constructor.sort()
 
-    clone = records[@id].clone()
+    clone = records[@id]
     clone.trigger('update', options)
     clone.trigger('change', 'update', options)
     clone
@@ -453,10 +454,9 @@ class Model extends Module
     @constructor.addRecord(record)
     @constructor.sort()
 
-    clone        = record.clone()
-    clone.trigger('create', options)
-    clone.trigger('change', 'create', options)
-    clone
+    record.trigger('create', options)
+    record.trigger('change', 'create', options)
+    record
 
   bind: (events, callback) ->
     @constructor.bind events, binder = (record) =>
