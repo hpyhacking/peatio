@@ -122,6 +122,11 @@ class ApplicationController < ActionController::Base
       memo
     end
 
+    gon.tickers = Market.all.inject({}) do |memo, market|
+      memo[market.id] = market.ticker
+      memo
+    end
+
     if current_user
       gon.current_user = { sn: current_user.sn }
       gon.accounts = current_user.accounts.inject({}) do |memo, account|
