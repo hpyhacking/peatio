@@ -1,7 +1,6 @@
 json.asks @asks
 json.bids @bids
 json.trades @trades
-json.ticker @ticker
 
 if @member
   json.orders do
