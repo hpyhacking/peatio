@@ -96,8 +96,6 @@ class ApplicationController < ActionController::Base
       :done => I18n.t('actions.clipboard.done')
     }
 
-    gon.currencies = Currency.all.inject({}) {|memo, c| memo[c.code] = {symbol: c[:symbol]}; memo}
-
     gon.i18n = {
       brand: I18n.t('gon.brand'),
       ask: I18n.t('gon.ask'),
@@ -114,6 +112,27 @@ class ApplicationController < ActionController::Base
         price_low: I18n.t('private.markets.place_order.price_low')
       }
     }
+
+    gon.currencies = Currency.all.inject({}) do |memo, currency|
+      memo[currency.code] = {
+        code: currency[:code],
+        symbol: currency[:symbol],
+        isCoin: currency[:coin]
+      }
+      memo
+    end
+
+    if current_user
+      gon.current_user = { sn: current_user.sn }
+      gon.accounts = current_user.accounts.inject({}) do |memo, account|
+        memo[account.currency] = {
+          currency: account.currency,
+          balance: account.balance,
+          locked: account.locked
+        }
+        memo
+      end
+    end
   end
 
   def coin_rpc_connection_refused
