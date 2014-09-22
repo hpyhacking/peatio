@@ -1,48 +1,9 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :is_admin?, :current_market, :gon, :muut_enabled?
-  before_filter :set_language, :setting_default, :set_timezone
-  before_filter :set_current_user
+  helper_method :current_user, :is_admin?, :current_market, :muut_enabled?
+  before_action :set_language, :set_timezone, :set_gon
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
-
-  def setting_default
-    gon.env = Rails.env
-    gon.local = I18n.locale
-    gon.market = current_market.attributes
-    gon.ticker = current_market.ticker
-    gon.pusher_key = ENV['PUSHER_KEY']
-    gon.pusher_options = {
-      wsHost:    ENV['PUSHER_HOST']     || 'ws.pusherapp.com',
-      wsPort:    ENV['PUSHER_WS_PORT']  || '80',
-      wssPort:   ENV['PUSHER_WSS_PORT'] || '443',
-      encrypted: ENV['PUSHER_ENCRYPTED'] == 'true'
-    }
-
-    gon.clipboard = {
-      :click => I18n.t('actions.clipboard.click'),
-      :done => I18n.t('actions.clipboard.done')
-    }
-
-    gon.currencies = Currency.all.inject({}) {|memo, c| memo[c.code] = {symbol: c[:symbol]}; memo}
-
-    gon.i18n = {
-      brand: I18n.t('gon.brand'),
-      ask: I18n.t('gon.ask'),
-      bid: I18n.t('gon.bid'),
-      cancel: I18n.t('actions.cancel'),
-      chart_price: I18n.t('chart.price'),
-      chart_volume: I18n.t('chart.volume'),
-      place_order: {
-        confirm_submit: I18n.t('private.markets.show.confirm'),
-        price: I18n.t('private.markets.place_order.price'),
-        volume: I18n.t('private.markets.place_order.amount'),
-        sum: I18n.t('private.markets.place_order.total'),
-        price_high: I18n.t('private.markets.place_order.price_high'),
-        price_low: I18n.t('private.markets.place_order.price_low')
-      }
-    }
-  end
 
   def currency
     "#{params[:ask]}#{params[:bid]}".to_sym
@@ -53,11 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= Member.enabled.where(id: session[:member_id]).first
-  end
-
-  def set_current_user
-    Member.current = current_user
+    @current_user ||= Member.current = Member.enabled.where(id: session[:member_id]).first
   end
 
   def auth_member!
@@ -119,6 +76,44 @@ class ApplicationController < ActionController::Base
 
   def set_timezone
     Time.zone = ENV['TIMEZONE'] if ENV['TIMEZONE']
+  end
+
+  def set_gon
+    gon.env = Rails.env
+    gon.local = I18n.locale
+    gon.market = current_market.attributes
+    gon.ticker = current_market.ticker
+    gon.pusher_key = ENV['PUSHER_KEY']
+    gon.pusher_options = {
+      wsHost:    ENV['PUSHER_HOST']     || 'ws.pusherapp.com',
+      wsPort:    ENV['PUSHER_WS_PORT']  || '80',
+      wssPort:   ENV['PUSHER_WSS_PORT'] || '443',
+      encrypted: ENV['PUSHER_ENCRYPTED'] == 'true'
+    }
+
+    gon.clipboard = {
+      :click => I18n.t('actions.clipboard.click'),
+      :done => I18n.t('actions.clipboard.done')
+    }
+
+    gon.currencies = Currency.all.inject({}) {|memo, c| memo[c.code] = {symbol: c[:symbol]}; memo}
+
+    gon.i18n = {
+      brand: I18n.t('gon.brand'),
+      ask: I18n.t('gon.ask'),
+      bid: I18n.t('gon.bid'),
+      cancel: I18n.t('actions.cancel'),
+      chart_price: I18n.t('chart.price'),
+      chart_volume: I18n.t('chart.volume'),
+      place_order: {
+        confirm_submit: I18n.t('private.markets.show.confirm'),
+        price: I18n.t('private.markets.place_order.price'),
+        volume: I18n.t('private.markets.place_order.amount'),
+        sum: I18n.t('private.markets.place_order.total'),
+        price_high: I18n.t('private.markets.place_order.price_high'),
+        price_low: I18n.t('private.markets.place_order.price_low')
+      }
+    }
   end
 
   def coin_rpc_connection_refused
