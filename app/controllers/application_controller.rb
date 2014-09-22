@@ -121,6 +121,7 @@ class ApplicationController < ActionController::Base
       }
       memo
     end
+    gon.fiat_currency = Currency.first.code
 
     gon.tickers = Market.all.inject({}) do |memo, market|
       memo[market.id] = market.ticker

@@ -16,6 +16,7 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
             span.total-assets
           .dropdown-menu
             - current_user.accounts.each do |account|
+              - next if not account.currency
               .account-wrap.clearfix
                 .currency
                   span = account.currency.upcase
