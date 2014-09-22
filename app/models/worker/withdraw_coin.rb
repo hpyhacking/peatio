@@ -25,7 +25,7 @@ module Worker
         fee = [withdraw.fee.to_f || withdraw.channel.try(:fee) || 0.0005, 0.1].min
 
         CoinRPC[withdraw.currency].settxfee fee.to_f
-        txid = CoinRPC[withdraw.currency].sendtoaddress withdraw.fund_uid, withdraw.amount.to_f
+        txid = CoinRPC[withdraw.currency].sendtoaddress *withdraw.sendtoaddress_args
 
         withdraw.whodunnit('Worker::WithdrawCoin') do
           withdraw.update_column :txid, txid

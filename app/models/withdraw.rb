@@ -138,6 +138,10 @@ class Withdraw < ActiveRecord::Base
     sum <= currency_obj.quick_withdraw_max
   end
 
+  def sendtoaddress_args
+    [fund_uid, amount.to_f]
+  end
+
   private
 
   def after_cancel

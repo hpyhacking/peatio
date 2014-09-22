@@ -10,5 +10,9 @@ module Withdraws
       self.fee = '0.1'.to_d
     end
 
+    def sendtoaddress_args
+      [fund_uid, amount.to_f, memo]
+    end
+
   end
 end
