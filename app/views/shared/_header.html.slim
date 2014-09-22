@@ -1,4 +1,4 @@
-.navbar.navbar-default.navbar-static-top role = "navigation"
+header.navbar.navbar-default.navbar-static-top role = "navigation"
   .container
     ul#menu.nav.navbar-nav.navbar-left
       = top_nav(t('header.home'), root_path, 'home', root_path) if not current_user
@@ -10,6 +10,12 @@
 
     ul.nav.navbar-nav.navbar-right
       - if current_user
+        li.dropdown.account-balance
+          a.dropdown-toggle href="#" data-toggle="dropdown"
+            span = t('header.account_balance')
+            span.total-assets
+          .dropdown-menu
+
         - controllers = ['settings', 'two_factors', 'identities', 'id_documents', 'dashboard', 'tickets']
         - dropdown_class = (controllers & controller_path.split('/')).empty? ? "" : 'active'
         li.dropdown class = dropdown_class

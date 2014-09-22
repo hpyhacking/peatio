@@ -90,6 +90,7 @@ zh-CN:
     account_history: 账户记录
     my_profile: 用户设置
     tickets: 服务单
+    account_balance: 总资产
 
   admin_header:
     deposits: 充值管理
