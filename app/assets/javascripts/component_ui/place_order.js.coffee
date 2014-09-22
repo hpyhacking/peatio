@@ -104,14 +104,14 @@
     @computeSum(event)
 
   @refreshBalance = (event, data) ->
-    type = @panelType()
-    balance = data[type].balance
-    @select('currentBalanceSel').data('balance', balance)
-    switch type
-      when 'bid'
-        @select('currentBalanceSel').text(balance).fixBid()
-      when 'ask'
-        @select('currentBalanceSel').text(balance).fixAsk()
+    # type = @panelType()
+    # balance = data[type].balance
+    # @select('currentBalanceSel').data('balance', balance)
+    # switch type
+    #   when 'bid'
+    #     @select('currentBalanceSel').text(balance).fixBid()
+    #   when 'ask'
+    #     @select('currentBalanceSel').text(balance).fixAsk()
 
   @updateAvailable = (event, data) ->
     type = @panelType()
@@ -149,7 +149,7 @@
     @on document, 'market::ticker', @updateLastPrice
     @on 'updateAvailable', @updateAvailable
 
-    @on document, 'trade::account', @refreshBalance
+    @on document, 'account::update', @refreshBalance
     @on @select('lastPrice'), 'click', @copyLastPrice
     @updateLastPrice 'market::ticker', gon.ticker
 

@@ -1,12 +1,10 @@
 @AccountBalanceUI = flight.component ->
-  @defaultAttrs
-    availableCashSel: '.available-cash .value'
-    availableCoinSel: '.available-coin .value'
-
   @updateAccount = (event, data) ->
-    @select('availableCashSel').text(fixBid data.bid.balance)
-    @select('availableCoinSel').text(fixAsk data.ask.balance)
+    for currency, account of data
+      symbol = gon.currencies[currency].symbol
+      @$node.find(".account.#{currency} span.balance").text "#{account.balance} #{symbol}"
+      @$node.find(".account.#{currency} span.locked").text "#{account.locked} #{symbol}"
 
   @after 'initialize', ->
-    @on document, 'trade::account', @updateAccount
+    @on document, 'account::update', @updateAccount
 

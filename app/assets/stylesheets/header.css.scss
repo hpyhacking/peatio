@@ -3,5 +3,41 @@ header {
     .total-assets {
       padding-left: 5px;
     }
+
+    .dropdown-menu {
+      padding-bottom: 0;
+    }
+
+    .account-wrap {
+      width: 320px;
+      padding: 8px;
+      border-bottom: 1px solid #ccc;
+
+      .currency {
+        float: left;
+        span {
+          display: inline-block;
+          width: 60px;
+          height: 60px;
+          border: 1px solid #ccc;
+          border-radius: 30px;
+          line-height: 60px;
+          text-align: center;
+          font-size: 24px;
+          margin-right: 12px;
+        }
+      }
+      .account {
+        width: 225px;
+        height: 60px;
+        float: left;
+        font-size: 17px;
+        .row {
+          height: 30px;
+          line-height: 30px;
+          label { margin-bottom: 0; }
+        }
+      }
+    }
   }
 }
