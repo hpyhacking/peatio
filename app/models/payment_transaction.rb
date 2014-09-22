@@ -25,11 +25,6 @@ class PaymentTransaction < ActiveRecord::Base
       transitions :from => [:unconfirm, :confirming], :to => :confirming, :guard => :min_confirm?
       transitions :from => [:unconfirm, :confirming, :confirmed], :to => :confirmed, :guard => :max_confirm?
     end
-
-    event :confirm do |e|
-      transitions :from => [:unconfirm, :confirming, :confirmed], :to => :confirmed
-    end
-
   end
 
   def min_confirm?

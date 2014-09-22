@@ -15,7 +15,9 @@ Signal.trap("TERM") do
 end
 
 while($running) do
-  PaymentTransaction::Default.with_aasm_state(:unconfirm, :confirming).each do |tx|
+  PaymentTransaction.with_aasm_state(:unconfirm, :confirming).each do |tx|
+    next unless tx.deposit
+
     begin
       tx.with_lock do
         tx.check!

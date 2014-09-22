@@ -136,6 +136,12 @@ class CoinRPC
       txs.select {|tx| tx['is_confirmed'] && !tx['is_virtual'] && !tx['is_market'] && !tx['is_market_cancel'] && tx['ledger_entries'].first['to_account'] == @currency.deposit_account }
     end
 
+    def gettransaction(txid)
+      raw       = blockchain_get_transaction(txid)
+      block_num = raw[:chain_location]['block_num']
+      { confirmations: info[:blockchain_head_block_num] - block_num }
+    end
+
     def fmt_amount(amt)
       amt.to_d / 100000
     end

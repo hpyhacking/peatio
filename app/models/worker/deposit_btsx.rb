@@ -59,7 +59,6 @@ module Worker
         )
 
         deposit.submit!
-        tx.confirm!
       else
         Rails.logger.info "Transaction##{txid} missing memo, PaymentTransaction##{tx.id} failed to deposit."
         nil

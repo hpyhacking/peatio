@@ -30,5 +30,5 @@
   key: bitsharesx
   currency: btsx
   sort_order: 3
-  min_confirm: 0
-  max_confirm: 0
+  min_confirm: 1
+  max_confirm: 51
