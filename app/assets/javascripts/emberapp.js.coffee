@@ -4,7 +4,7 @@
 #= require ./lib/peatio_model
 #= require ./lib/ajax
 #= require ember-data
-#= require peatio
+#= require ./emberapp/peatio
 
 #old
 
