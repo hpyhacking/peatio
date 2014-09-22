@@ -50,4 +50,5 @@
           a href='#{x.blockchain_url}' target='_blank'
             code.text-info = x.txid.truncate(32)
         - t.column :amount, class: 'col-md-2'
+        - t.column :memo, class: 'col-md-2'
         - t.column :aasm_state_text, class: 'col-md-2'
