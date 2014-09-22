@@ -8,7 +8,7 @@ module Admin
         @bitsharesxes = @bitsharesxes.includes(:member).
           where('created_at > ?', start_at).
           order('id DESC')
-        @pending_payments = PaymentTransaction::Btsx.where('aasm_state != ?', 'confirmed').order('id DESC')
+        @pending_payments = PaymentTransaction::Btsx.with_aasm_state(:unconfirm).order('id DESC')
       end
 
       def update
