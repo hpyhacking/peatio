@@ -32,24 +32,26 @@ module Worker
         ActiveRecord::Base.transaction do
           return if PaymentTransaction::Btsx.find_by_txid(txid)
 
-          deposit(txid, payer, address, amount, block, receive_at, @channel)
+          deposit(block, txid, payer, address, amount, receive_at, @channel)
         end
       end
     end
 
-    def deposit(txid, payer, address, amount, block, receive_at, channel)
+    def deposit(blockid, txid, payer, address, amount, receive_at, channel)
       tx = PaymentTransaction::Btsx.create!(
+        blockid: blockid,
         txid: txid,
         payer: payer,
         address: address,
         amount: amount,
-        confirmations: block, # use confirmations field to save block id
+        confirmations: 0,
         receive_at: receive_at,
         currency: channel.currency
       )
 
       if tx.account && tx.member
         deposit = channel.kls.create!(
+          blockid: tx.blockid,
           txid: tx.txid,
           amount: tx.amount,
           member: tx.member,

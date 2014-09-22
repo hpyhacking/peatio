@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140921063338) do
+ActiveRecord::Schema.define(version: 20140922085131) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 20140921063338) do
     t.datetime "done_at"
     t.string   "memo"
     t.string   "type"
+    t.string   "blockid"
   end
 
   create_table "document_translations", force: true do |t|
@@ -263,6 +264,7 @@ ActiveRecord::Schema.define(version: 20140921063338) do
     t.integer  "currency"
     t.string   "type",          limit: 60
     t.string   "payer"
+    t.string   "blockid"
   end
 
   add_index "payment_transactions", ["type"], name: "index_payment_transactions_on_type", using: :btree
