@@ -1,37 +1,6 @@
 .panel.panel-default
-  .panel-body.row
-    .ticker
-      dl.col-xs-4
-        dt
-          span.name.last = t('global.latest_price')
-        dd
-          span.value.last
-      dl.col-xs-5
-        dd
-          span.sell.name
-            | &nbsp;
-            = t('global.ask_price')
-          span.sell.value
-        dd
-          span.buy.name
-            | &nbsp;
-            = t('global.bid_price')
-          span.buy.value
-      dl.col-xs-5
-        dd
-          span.high.name
-            | &nbsp;
-            = t('global.high_price')
-          span.high.value
-        dd
-          span.low.name
-            | &nbsp;
-            = t('global.low_price')
-          span.low.value
-      dl.col-xs-4
-        dt
-          span.name.volume = t('global.volume')
-        dd
-          span.value.volume
-
+  .panel-body
+    - include_market_select ||= false
+    = render partial: 'shared/market/market_sel' if include_market_select
+    = render partial: 'shared/market/ticker'
   .panel-body.market-chart

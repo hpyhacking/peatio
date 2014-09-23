@@ -147,15 +147,6 @@ module ApplicationHelper
       [t('header.account_history'), account_history_path] ]
   end
 
-  def market_links
-    [ ['BTC/CNY',  market_path(:btccny)],
-      ['BTSX/CNY', market_path(:btsxcny)],
-      ['PTS/CNY',  market_path(:ptscny)],
-      ['DOG/CNY',  market_path(:dogcny)],
-      '-',
-      ['DOG/BTC',  market_path(:dogbtc)] ]
-  end
-
   def simple_vertical_form_for(record, options={}, &block)
     result = simple_form_for(record, options, &block)
     result = result.gsub(/#{SimpleForm.form_class}/, "simple_form").html_safe
