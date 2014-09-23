@@ -1,4 +1,4 @@
-.navbar.navbar-default.navbar-static-top role = "navigation"
+header.navbar.navbar-default.navbar-static-top role = "navigation"
   .container
     ul#menu.nav.navbar-nav.navbar-left
       = top_nav(t('header.home'), root_path, 'home', root_path) if not current_user
@@ -10,6 +10,28 @@
 
     ul.nav.navbar-nav.navbar-right
       - if current_user
+        li.dropdown.account-balance
+          a.dropdown-toggle href="#" data-toggle="dropdown"
+            span = t('header.account_balance')
+            span.total-assets
+          .dropdown-menu
+            - current_user.accounts.each do |account|
+              - next if not account.currency
+              .account-wrap.clearfix
+                .currency
+                  span = account.currency.upcase
+                .account class = account.currency
+                  .row
+                    .col-xs-7
+                      label = t("currency.name.#{account.currency}")
+                    .col-xs-16.text-right
+                      span.balance
+                  .row
+                    .col-xs-7
+                      label = t('.locked')
+                    .col-xs-16.text-right
+                      span.locked
+
         - controllers = ['settings', 'two_factors', 'identities', 'id_documents', 'dashboard', 'tickets']
         - dropdown_class = (controllers & controller_path.split('/')).empty? ? "" : 'active'
         li.dropdown class = dropdown_class
@@ -20,7 +42,7 @@
               span.badge = current_user.unread_comments.count
             b.caret
           ul.dropdown-menu
-            li: a#profile href = settings_path
+            li: a href = settings_path
               i.fa.fa-user
               span = t('header.my_profile')
             /li: a#tickets href = tickets_path
@@ -29,10 +51,10 @@
               | &nbsp;
               span.badge = current_user.unread_comments.count
             - if is_admin?
-              li: a#admin href = admin_dashboard_path
+              li: a href = admin_dashboard_path
                 i.fa.fa-dashboard
                 span = t('header.admin')
-            li: a#sign_out href = main_app.signout_path
+            li: a href = main_app.signout_path
               i.fa.fa-sign-out
               span = t('header.signout')
 

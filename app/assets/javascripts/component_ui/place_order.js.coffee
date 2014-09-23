@@ -105,7 +105,8 @@
 
   @refreshBalance = (event, data) ->
     type = @panelType()
-    balance = data[type].balance
+    currency = gon.market[type].currency
+    balance = gon.accounts[currency].balance
     @select('currentBalanceSel').data('balance', balance)
     switch type
       when 'bid'
@@ -149,7 +150,7 @@
     @on document, 'market::ticker', @updateLastPrice
     @on 'updateAvailable', @updateAvailable
 
-    @on document, 'trade::account', @refreshBalance
+    @on document, 'account::update', @refreshBalance
     @on @select('lastPrice'), 'click', @copyLastPrice
     @updateLastPrice 'market::ticker', gon.ticker
 

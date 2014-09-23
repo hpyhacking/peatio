@@ -20,7 +20,7 @@ def signout
 end
 
 def check_signin
-  expect(page).to have_content(I18n.t('header.signout'))
+  expect(page).not_to have_content(I18n.t('header.signin'))
 end
 
 alias :signin :login
