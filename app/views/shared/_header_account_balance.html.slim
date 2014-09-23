@@ -1,0 +1,22 @@
+li.dropdown.account-balance
+  a.dropdown-toggle href="#" data-toggle="dropdown"
+    span = t('header.account_balance')
+    span.total-assets
+  .dropdown-menu
+    - current_user.accounts.each do |account|
+      - next if not account.currency
+      .account-wrap.clearfix
+        .currency
+          span = account.currency.upcase
+        .account class = account.currency
+          .row
+            .col-xs-7
+              label = t("currency.name.#{account.currency}")
+            .col-xs-16.text-right
+              span.balance
+          .row
+            .col-xs-7
+              label = t('.locked')
+            .col-xs-16.text-right
+              span.locked
+

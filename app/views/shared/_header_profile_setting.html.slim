@@ -1,0 +1,26 @@
+- controllers = ['settings', 'two_factors', 'identities', 'id_documents', 'dashboard', 'tickets']
+- dropdown_class = (controllers & controller_path.split('/')).empty? ? "" : 'active'
+li.dropdown class = dropdown_class
+  a.dropdown-toggle href="#" data-toggle="dropdown"
+    span = current_user.email
+    - if current_user.unread_comments.count > 0
+      | &nbsp;
+      span.badge = current_user.unread_comments.count
+    b.caret
+  ul.dropdown-menu
+    li: a href = settings_path
+      i.fa.fa-user
+      span = t('header.my_profile')
+    li: a href = tickets_path
+      i.fa.fa-comments
+      span = t('header.tickets')
+      | &nbsp;
+      span.badge = current_user.unread_comments.count
+    - if is_admin?
+      li: a href = admin_dashboard_path
+        i.fa.fa-dashboard
+        span = t('header.admin')
+    li: a href = main_app.signout_path
+      i.fa.fa-sign-out
+      span = t('header.signout')
+
