@@ -16,6 +16,9 @@ Ajax =
   getScope: (object) ->
     object.scope?() or object.scope
 
+  getAfterScope: (object) ->
+    object.afterScope?() or object.afterScope
+
   getCollection: (object) ->
     if object.url isnt object.generateURL
       if typeof object.url is 'function'
@@ -28,8 +31,10 @@ Ajax =
   generateURL: (object, args...) ->
     collection = Ajax.getCollection(object) or Ajax.getCollection(object.constructor)
     scope = Ajax.getScope(object) or Ajax.getScope(object.constructor)
+    afterScope = Ajax.getAfterScope(object) or Ajax.getAfterScope(object.constructor)
     args.unshift(collection)
     args.unshift(scope)
+    args.push(afterScope)
     # construct and clean url
     path = args.join('/')
     path = path.replace /(\/\/)/g, "/"
