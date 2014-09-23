@@ -4,6 +4,8 @@
   showAlert:  (msg) -> $(document).trigger 'flash-alert',  msg: msg
 
 $ ->
+  BigNumber.config(ERRORS: false)
+
   if $('#assets-index').length
     $.scrollIt
       topOffset: -180
