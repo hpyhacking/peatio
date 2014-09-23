@@ -143,10 +143,6 @@ module ApplicationHelper
       [t('header.account_history'), account_history_path] ]
   end
 
-  def market_links
-    @market_links ||= Market.all.collect{|m| [m.name, market_path(m.id)]}
-  end
-
   def simple_vertical_form_for(record, options={}, &block)
     result = simple_form_for(record, options, &block)
     result = result.gsub(/#{SimpleForm.form_class}/, "simple_form").html_safe

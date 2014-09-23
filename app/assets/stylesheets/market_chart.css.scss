@@ -1,3 +1,20 @@
+.market-selector {
+  margin-bottom: 15px;
+  a.btn {
+    margin: 0 10px 0 auto;
+    &.btn-default {
+      font-weight: normal;
+      color: #555;
+      background-color: #eee;
+      border: 1px solid #ccc;
+    }
+    &.btn-default:hover {
+      color: #fff;
+      background-color: $btn-primary-bg;
+    }
+  }
+}
+
 .ticker {
   dl {
     float: left;
