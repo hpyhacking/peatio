@@ -98,7 +98,7 @@
   .main-section
     .container
       h2.text-center
-        | 价格走势
+        = "#{current_market.name} 价格走势"
       = render partial: 'shared/market/chart'
 
   coffee:
