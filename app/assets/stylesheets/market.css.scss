@@ -72,7 +72,6 @@
         height: 390px;
 
         .last-price .value {
-          margin-left: 10px;
           cursor: pointer;
         }
 
@@ -85,12 +84,10 @@
           min-width: 45px;
         }
 
-        .current-balance label {
-          margin-right: 5px;
-
-          &.currency {
-            text-transform: uppercase;
-          }
+        label.name {
+          display: inline-block;
+          width: 70px;
+          margin-right: 10px;
         }
 
         span.label + span.label {
