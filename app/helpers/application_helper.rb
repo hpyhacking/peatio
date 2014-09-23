@@ -148,11 +148,12 @@ module ApplicationHelper
   end
 
   def market_links
-    [ ['BTC/CNY', market_path(:btccny)],
-      ['PTS/CNY', market_path(:ptscny)],
-      ['DOG/CNY', market_path(:dogcny)],
+    [ ['BTC/CNY',  market_path(:btccny)],
+      ['BTSX/CNY', market_path(:btsxcny)],
+      ['PTS/CNY',  market_path(:ptscny)],
+      ['DOG/CNY',  market_path(:dogcny)],
       '-',
-      ['DOG/BTC', market_path(:dogbtc)] ]
+      ['DOG/BTC',  market_path(:dogbtc)] ]
   end
 
   def simple_vertical_form_for(record, options={}, &block)
