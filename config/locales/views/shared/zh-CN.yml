@@ -5,4 +5,5 @@ zh-CN:
       pusher_unavailable: "与服务器通讯异常，<a href='#' class='alert-link'>请刷新页面重试</a>。"
     header:
       balance: 余额
+    header_account_balance:
       locked: 冻结
