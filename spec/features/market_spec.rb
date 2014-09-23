@@ -76,11 +76,7 @@ feature 'show account info', js: true do
     login identity
     click_on I18n.t('header.market')
 
-    # account balance panel
-    expect(page.find('.available-cash .value').text).to be_d bid_account.balance
-    expect(page.find('.available-coin .value').text).to be_d ask_account.balance
-
-    # order panel
+    # account balance at place order panel
     click_link I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
     expect(page.find('.current-balance .value').text).to be_d bid_account.balance
     click_link I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
