@@ -34,5 +34,5 @@
   code: 20
   base_unit: btsx
   quote_unit: cny
-  bid: {fee: 0, currency: cny, fixed: 2}
+  bid: {fee: 0, currency: cny, fixed: 6}
   ask: {fee: 0, currency: btsx, fixed: 5}
