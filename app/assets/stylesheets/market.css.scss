@@ -28,10 +28,6 @@
     margin-bottom: 15px;
   }
 
-  .row:last-of-type .panel .panel-body{
-    height: 410px;
-  }
-
   .panel {
     padding-bottom: 10px;
 
@@ -65,8 +61,6 @@
       }
 
       &.place-order {
-        height: 390px;
-
         .last-price .value {
           cursor: pointer;
         }
@@ -85,22 +79,6 @@
           width: 70px;
           margin-right: 10px;
         }
-
-        span.label + span.label {
-          margin-left: 0;
-        }
-      }
-
-    }
-  }
-
-  .account-balance {
-    ul li {
-      span.name {
-        float: left;
-      }
-      span.value {
-        float: right;
       }
     }
   }
@@ -135,5 +113,4 @@
       }
     }
   }
-
 }

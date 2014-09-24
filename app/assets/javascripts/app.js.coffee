@@ -49,7 +49,6 @@ $ ->
   PlaceOrderUI.attachTo('.place-order #ask_panel')
   MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
   MyOrdersDoneUI.attachTo('.my-orders #orders_done')
-  PushButton.attachTo('.place-order')
   PushButton.attachTo('.my-orders')
 
   # if gon.env is 'development'
