@@ -1,6 +1,6 @@
 zh-CN:
   member_mailer:
     notify_signin:
-      subject: 你刚登录了貔貅
-      just_signed_in: 你刚登录了貔貅。
-      please_contact: 如果你并未登录，请马上联系我们。
+      subject: 您刚刚成功登录了貔貅交易所
+      just_signed_in: 您刚刚成功登录了貔貅交易所。
+      please_contact: 如果此次登录不是您本人操作，请马上联系我们。
