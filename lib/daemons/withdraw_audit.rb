@@ -21,14 +21,14 @@ while($running) do
 
       begin
         result = CoinRPC[currency].validateaddress(fund_uid)
-        raise "Invalid address: #{fund_uid}" unless result && result[:isvalid]
       rescue
         puts "Error on withdraw: #{$!}"
         puts $!.backtrace.join("\n")
         next
       end
 
-      if result[:isvalid] == false
+      if result.nil? || (result[:isvalid] == false)
+        Rails.logger.info "Withdraw##{withdraw.id} uses invalid address: #{fund_uid.inspect}"
         withdraw.reject!
         next
       elsif (result[:ismine] == true) || PaymentAddress.find_by_address(fund_uid)
