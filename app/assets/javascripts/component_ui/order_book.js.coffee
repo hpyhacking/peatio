@@ -1,5 +1,5 @@
 window.OrderBookUI = flight.component ->
-  @defaultAttrs
+  @attributes
     size: 10,
     asksSelector: '.table.asks',
     bidsSelector: '.table.bids',

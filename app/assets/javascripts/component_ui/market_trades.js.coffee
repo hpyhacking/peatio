@@ -1,5 +1,5 @@
 window.MarketTradesUI = flight.component ->
-  @defaultAttrs
+  @attributes
     wrap: '.wrap'
     table: 'tbody'
     defaultHeight: 156

@@ -1,5 +1,5 @@
 window.MarketTickerUI = flight.component ->
-  @defaultAttrs
+  @attributes
     volumeSelector: '.value.volume'
     askPriceSelector: '.value.sell'
     bidPriceSelector: '.value.buy'

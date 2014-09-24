@@ -11,7 +11,7 @@
 //= require handlebars.runtime
 //= require introjs
 //= require ZeroClipboard
-//= require flight
+//= require flight.min
 //= require pusher.min
 //= require highstock
 //= require highstock_config

@@ -1,5 +1,5 @@
 @PlaceOrderUI = flight.component ->
-  @defaultAttrs
+  @attributes
     formSel: 'form'
     successSel: '.status span.label-success'
     infoSel: '.status span.label-info'
