@@ -64,9 +64,9 @@ $ ->
   MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
 
   MarketTickerUI.attachTo('.ticker')
-  MarketOrdersUI.attachTo('.orders')
   MarketTradesUI.attachTo('.trades')
   MarketChartUI.attachTo('.market-chart')
+  OrderBookUI.attachTo('.order-book')
 
   TransactionsUI.attachTo('#transactions')
   VerifyMobileNumberUI.attachTo('#new_sms_token')

@@ -1,14 +1,14 @@
-window.MarketOrdersUI = flight.component ->
-  @.defaultAttrs
+window.OrderBookUI = flight.component ->
+  @defaultAttrs
     size: 10,
     asksSelector: '.table.asks',
     bidsSelector: '.table.bids',
 
-  @.refreshOrders = (event, data) ->
-    @.buildOrders(@.select('asksSelector'), data.asks, gon.i18n.ask)
-    @.buildOrders(@.select('bidsSelector'), data.bids, gon.i18n.bid)
+  @refreshOrders = (event, data) ->
+    @buildOrders(@select('asksSelector'), data.asks, gon.i18n.ask)
+    @buildOrders(@select('bidsSelector'), data.bids, gon.i18n.bid)
 
-  @.buildOrders = (table, orders, prefix) ->
+  @buildOrders = (table, orders, prefix) ->
     $(table).find('tr').each (i, e) ->
       i = parseInt($(e).data('order'))
       sn = "#{prefix} <g>##{i}</g>"
@@ -18,7 +18,7 @@ window.MarketOrdersUI = flight.component ->
       else
         $(e).empty().append(JST["market_order_empty"]({sn: sn}))
 
-  @.computeDeep = (e, orders) ->
+  @computeDeep = (e, orders) ->
     index = parseInt $(e.currentTarget).data('order')
     orders = _.take(orders, index + 1)
 
@@ -32,19 +32,20 @@ window.MarketOrdersUI = flight.component ->
     # order-price, order-deep-volume, order-avg-price
     {price: price, volume: volume, avg_price: avg_price}
 
-  @.after 'initialize', ->
-    @.on document, 'market::orders', @.refreshOrders
+  @after 'initialize', ->
+    @on document, 'market::order_book', @refreshOrders
 
     _(10).times (n) =>
-      @.select('asksSelector').prepend("<tr data-order='#{n}'></tr>")
-      @.select('bidsSelector').append("<tr data-order='#{n}'></tr>")
+      @select('asksSelector').prepend("<tr data-order='#{n}'></tr>")
+      @select('bidsSelector').append("<tr data-order='#{n}'></tr>")
 
-    @.refreshOrders '', {asks: gon.asks, bids: gon.bids}
+    @refreshOrders '', {asks: gon.asks, bids: gon.bids}
 
-    @.$node.on 'click', '.asks tr', (e) =>
+    @$node.on 'click', '.asks tr', (e) =>
       $('.bid-panel').click()
-      @.trigger document, 'order::plan', @.computeDeep(e, gon.asks)
+      @trigger document, 'order::plan', @computeDeep(e, gon.asks)
 
-    @.$node.on 'click', '.bids tr', (e) =>
+    @$node.on 'click', '.bids tr', (e) =>
       $('.ask-panel').click()
-      @.trigger document, 'order::plan', @.computeDeep(e, gon.bids)
+      @trigger document, 'order::plan', @computeDeep(e, gon.bids)
+

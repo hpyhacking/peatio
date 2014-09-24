@@ -21,7 +21,7 @@ window.GlobalData = flight.component ->
 
       @trigger 'market::ticker',  gon.ticker
       @trigger 'market::tickers', gon.tickers
-      @trigger 'market::orders',  asks: gon.asks, bids: gon.bids
+      @trigger 'market::order_book', asks: gon.asks, bids: gon.bids
 
     channel.bind 'trades', (data) =>
       @trigger 'market::trades', {trades: data.trades}
