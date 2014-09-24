@@ -1,5 +1,5 @@
 @TwoFactorAuth = flight.component ->
-  @defaultAttrs
+  @attributes
     switchName: 'span.switch-name'
     switchItem: '.dropdown-menu a'
     switchItemApp: '.dropdown-menu a[data-type="app"]'

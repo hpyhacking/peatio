@@ -1,6 +1,6 @@
 @FlashMessageUI = flight.component ->
 
-  @defaultAttrs
+  @attributes
     template: 'flash_message'
 
   @showMeg = (data) ->
