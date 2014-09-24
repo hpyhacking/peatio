@@ -5,18 +5,17 @@ window.OrderBookUI = flight.component ->
     bidsSelector: '.table.bids',
 
   @refreshOrders = (event, data) ->
-    @buildOrders(@select('asksSelector'), data.asks, gon.i18n.ask)
-    @buildOrders(@select('bidsSelector'), data.bids, gon.i18n.bid)
+    @buildOrders(@select('asksSelector'), data.asks)
+    @buildOrders(@select('bidsSelector'), data.bids)
 
-  @buildOrders = (table, orders, prefix) ->
+  @buildOrders = (table, orders) ->
     $(table).find('tr').each (i, e) ->
       i = parseInt($(e).data('order'))
-      sn = "#{prefix} <g>##{i}</g>"
       if orders[i]
-        data = {price: orders[i][0], amount: orders[i][1], sn: sn}
+        data = {price: orders[i][0], amount: orders[i][1]}
         $(e).empty().append(JST["market_order"](data))
       else
-        $(e).empty().append(JST["market_order_empty"]({sn: sn}))
+        $(e).empty().append(JST["market_order_empty"]({}))
 
   @computeDeep = (e, orders) ->
     index = parseInt $(e.currentTarget).data('order')

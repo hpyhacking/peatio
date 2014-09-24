@@ -1,8 +1,9 @@
 #markets-show {
   table {
-    th {
+    th, td {
       &.price, &.amount, &.volume {
         text-align: right;
+        font-family: monospace;
       }
     }
 
@@ -11,11 +12,6 @@
       line-height: 14px !important;
       padding: 2px;
       border: none;
-
-      &.price, &.amount, &.volume {
-        text-align: right;
-        font-family: monospace;
-      }
     }
 
     margin-bottom: 0;
