@@ -35,7 +35,10 @@ header {
         .row {
           height: 30px;
           line-height: 30px;
-          label { margin-bottom: 0; }
+          label {
+            display: inline;
+            margin-bottom: 0;
+          }
         }
       }
     }
