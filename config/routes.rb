@@ -82,7 +82,11 @@ Peatio::Application.routes.draw do
     get '/history/account' => 'history#account', as: :account_history
 
     resources :markets, :only => :show, :constraints => MarketConstraint do
-      resources :orders, :only => [:index, :destroy]
+      resources :orders, :only => [:index, :destroy] do
+        collection do
+          post :clear
+        end
+      end
       resources :order_bids, :only => [:create] do
         collection do
           post :clear

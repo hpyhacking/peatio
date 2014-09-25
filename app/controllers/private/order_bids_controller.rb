@@ -9,7 +9,7 @@ module Private
 
     def clear
       @orders = OrderBid.where(member_id: current_user.id).with_state(:wait)
-      @orders.each {|o| Ordering.new(o).cancel }
+      Ordering.new(@orders).cancel
       render status: 200, nothing: true
     end
 
