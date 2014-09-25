@@ -156,14 +156,14 @@
       when 'bid'
         available = @getBalance().minus data.sum
         if available.equals(0)
-          @select('positionsLabelSel').hide().text('Full').fadeIn()
+          @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_in).fadeIn()
         else
           @select('positionsLabelSel').fadeOut().text('')
         node.text(available).fixBid()
       when 'ask'
         available = @getBalance().minus data.volume
         if available.equals(0)
-          @select('positionsLabelSel').hide().text('Empty').fadeIn()
+          @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_out).fadeIn()
         else
           @select('positionsLabelSel').fadeOut().text('')
         node.text(available).fixAsk()

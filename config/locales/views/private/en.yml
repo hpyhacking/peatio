@@ -28,6 +28,8 @@ en:
         balance: Balance
         price_high: Price exceeds 10%
         price_low: Price less then 10%
+        full_in: Full
+        full_out: Empty
       order_book:
         order_book: Order Book
         latest_trade: Latest

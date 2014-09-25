@@ -110,7 +110,9 @@ class ApplicationController < ActionController::Base
         volume: I18n.t('private.markets.place_order.amount'),
         sum: I18n.t('private.markets.place_order.total'),
         price_high: I18n.t('private.markets.place_order.price_high'),
-        price_low: I18n.t('private.markets.place_order.price_low')
+        price_low: I18n.t('private.markets.place_order.price_low'),
+        full_in: I18n.t('private.markets.place_order.full_in'),
+        full_out: I18n.t('private.markets.place_order.full_out')
       }
     }
 

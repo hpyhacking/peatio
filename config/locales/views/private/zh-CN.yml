@@ -28,6 +28,8 @@ zh-CN:
         balance: 余额
         price_high: 价格超出最新价格10%
         price_low: 价格低于最新价格10%
+        full_in: 全仓
+        full_out: 空仓
       order_book:
         order_book: 挂单记录
         latest_trade: 最新成交
