@@ -1,10 +1,5 @@
 en:
   currency:
-    satoshi:
-      key: BTC
-    renminbi:
-      key: CNY
-
     name:
       cny: CNY
       btc: Bitcoin

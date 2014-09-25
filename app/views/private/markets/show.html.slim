@@ -2,7 +2,7 @@
   .container
     - if current_user
       .row
-        .col-md-16 = render partial: 'shared/market/chart', locals: {include_market_select: true}
+        .col-md-16 = render partial: 'shared/market/chart'
         .col-md-8  = render partial: 'place_order', locals: {market: @market, order_bid: @order_bid, order_ask: @order_ask}
       .row
         .col-md-7  = render partial: 'trades'
@@ -10,7 +10,7 @@
         .col-md-10 = render partial: 'my_orders'
     - else
       .row
-        .col-md-24 = render partial: 'shared/market/chart', locals: {include_market_select: true}
+        .col-md-24 = render partial: 'shared/market/chart'
       .row
         .col-md-12  = render partial: 'trades'
         .col-md-12  = render partial: 'order_book'

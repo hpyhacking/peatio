@@ -5,18 +5,16 @@ li.dropdown.account-balance
   .dropdown-menu
     - current_user.accounts.each do |account|
       - next if not account.currency
-      .account-wrap.clearfix
-        .currency
-          span = account.currency.upcase
-        .account class = account.currency
-          .row
-            .col-xs-7
-              label = t("currency.name.#{account.currency}")
-            .col-xs-16.text-right
-              span.balance
-          .row
-            .col-xs-7
-              label = t('.locked')
-            .col-xs-16.text-right
-              span.locked
-
+      .account-wrap.clearfix: .row
+        .account class='#{account.currency}'
+          .col-md-12.text-right
+            span.account-name: b = "[#{account.currency_obj.code_text}] #{account.currency_obj.name_text}"
+          .col-md-12.text-right
+            i.fa.fa-lock
+            code: span.locked
+            i.fa.fa-plus
+            code: span.balance
+            hr
+            span.total-title = "#{t('header.total')}: "
+            code
+              span.total

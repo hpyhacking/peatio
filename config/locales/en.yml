@@ -83,6 +83,7 @@ en:
     tickets: Tickets
     account_balance: Total Assets
     back: Back
+    total: Total
 
   admin_header:
     deposits: Deposits

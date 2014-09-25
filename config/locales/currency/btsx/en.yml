@@ -1,0 +1,7 @@
+en:
+  currency:
+    bitshares:
+      key: BTS
+      code: BTSX
+      name: BitsharesX
+      format: '0,0.0000'

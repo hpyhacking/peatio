@@ -1,8 +1,5 @@
 header {
   .account-balance {
-    .total-assets {
-      padding-left: 5px;
-    }
 
     .dropdown-menu {
       padding-bottom: 0;
@@ -11,33 +8,33 @@ header {
     .account-wrap {
       width: 320px;
       padding: 8px;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid $ignore-color; 
+    }
 
-      .currency {
-        float: left;
-        span {
-          display: inline-block;
-          width: 60px;
-          height: 60px;
-          border: 1px solid #ccc;
-          border-radius: 30px;
-          line-height: 60px;
-          text-align: center;
-          font-size: 24px;
-          margin-right: 12px;
-        }
-      }
-      .account {
-        width: 225px;
-        height: 60px;
-        float: left;
-        font-size: 17px;
-        .row {
-          height: 30px;
-          line-height: 30px;
-          label { margin-bottom: 0; }
-        }
-      }
+    hr {
+      margin-top: 2px;
+      margin-bottom: 0px;
+      border-color: $ignore-color;
+      border-style: dashed;
+    }
+
+    i.fa, span.total-title {
+      color: $ignore-color;
+    }
+
+    span.account-name {
+      color: $main-color;
+      margin-top: 12px;
+      display: block;
+      font-size: 18px;
+    }
+
+    span.balance, span.locked {
+      color: $main-color;
+    }
+
+    span.total {
+      font-size: 18px;
     }
   }
 }

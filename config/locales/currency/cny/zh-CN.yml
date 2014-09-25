@@ -1,0 +1,7 @@
+zh-CN:
+  currency:
+    renminbi:
+      key: CNY
+      code: CNY
+      name: 人民币
+      format: '0,0.00'
