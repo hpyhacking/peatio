@@ -1,0 +1,7 @@
+﻿zh-TW:
+  activations:
+    new:
+      tip: 啟用連接已經發送到 <span class='text-primary'>%{email}</span>
+      spam: 該郵件有可能出現在垃圾郵件中，請注意查看。
+    edit:
+      notice: 電子郵件認證已經通過，請您完成其他安全設置。

@@ -1,0 +1,50 @@
+﻿zh-TW:
+  deposit_channel:
+    satoshi:
+      key: 區塊鏈
+      title: 比特幣儲值
+      intro: 從本地錢包客戶端或任意在線錢包客戶端轉出比特幣到我們為您提供的儲值地址。
+      latency: 10 分鐘到帳
+      transfer: 自動
+
+  deposits/satoshi:
+    aasm_state:
+      submitted: 受理中
+      accepted: 儲值成功
+      checked: 儲值成功
+      warning: 異常
+
+  admin:
+    deposits:
+      satoshis:
+        update:
+          notice: 此筆儲值已經成功到帳。
+        index:
+          accept: 立即儲值
+          accept_confirm: 確定立刻確認此儲值？
+
+  private:
+    deposits:
+      satoshis:
+        new:
+          step-1: 第一步
+          open-wallet: 請使用您常用的錢包服務，本地錢包、在線錢包或移動端的錢包，選擇付款或發送。
+          step-2: 第二步
+          send-coin: 在您的錢包付款或發款中,複製以下專門為您儲值準備的比特幣地址,在金額中填入您希望儲值到帳的數量,
+                    同時別忘記支付約定的手續費以保證交易盡快被網路確認。您也可以在智慧手機錢包中掃描二維碼來進行動支付。
+                    您可以重複使用此比特幣地址和二維碼進行動儲值。
+          or: 您也可以
+          scan-qr: 在智慧手機錢包中掃描二維碼來進行支付。
+          step-3: 第三步
+          check-confirm: 完成以上操作後點擊發送匯款,此交易將被廣播到網路,您便可以在這查看到此筆交易的狀態,
+                        當交易達到網路1個確認 (大約10分至60分鐘) 時,系統將自動儲值到帳。
+                        您可以到<a href='%{path}'>資產公開</a>中查詢。
+          check-link: 您可以到 %{link} 中查詢。
+          step-4: 第四步
+          history: 當您在您的錢包中完成發送付款的操作後,點擊<a href='javascript:window.location.reload();'>刷新</a>,就能在網頁下方歷史紀錄中查看到您當前的儲值狀態。
+  guides:
+    private:
+      deposits:
+        satoshis:
+          panel: 比特幣儲值
+          intro: 從本地錢包客戶端或任意在線錢包客戶端轉出比特幣到我們為您提供的儲值地址。

@@ -1,0 +1,103 @@
+﻿zh-TW:
+  withdraw_channel:
+    bank:
+      key: 銀行轉賬提現
+      title: 銀行轉賬提現
+      intro: 銀行轉賬方式提現，推薦大額用戶使用
+      latency: 30 分鐘到賬
+      transfer: 人工處理
+      go: 立即提現
+
+  activerecord:
+    models:
+      withdraws/bank: 銀行轉賬
+    attributes:
+      withdraws/bank:
+        id: 提現編號
+        member_name: 用戶
+        currency_obj_key_text: 幣種
+        state_and_action: 狀態/操作
+        fund_source: 提現銀行
+        fund_extra_text: 提現銀行
+        fund_uid: 提現銀行賬戶
+        sum: 提現金額
+        fee: 手續費
+        amount: 提現金額
+        remark: 備註
+        created_at: 時間
+
+  withdraws/bank:
+    aasm_state:
+      submitting: 待確認
+      submitted: 待校驗
+      rejected: 已駁回
+      accepted: 已提交
+      suspect: 異常
+      processing: 受理中
+      coin_ready: 準備中
+      coin_done: 完畢
+      done: 提現成功
+      almost_done: 發送中
+      canceled: 已撤銷
+      failed: 提現出錯
+
+  admin:
+    withdraws:
+      banks:
+        index:
+          one: 待處理提現訂單
+          all: 二十四小時內訂單
+          empty: 無任何數據
+        show:
+          process: 受理
+          succeed: 提現
+          reject: 駁回
+          succeed_confirm: 確定處理提現？
+          reject_confirm: 確定駁回提現？
+          withdraw: 銀行卡提現
+          empty: 無任何數據
+
+  private:
+    withdraws:
+      banks:
+        update:
+          notice: 銀行轉賬提現申請已提交，我們將盡快為您處理。
+          alert_two_factor: 兩步驗證錯誤
+        destroy:
+          notice: 銀行轉賬提現申請已撤銷，凍結金額已退回到您的賬戶中。
+        new:
+          submit: 提交
+          allin: 全部提取
+          fund_uid: 使用已有銀行賬號或輸入新賬號
+          fund_extra: 選擇開戶行
+
+  simple_form:
+    labels:
+      withdraw:
+        bank:
+          fund_extra: 開戶行
+          sum: 提取金額
+          account_balance: 可用金額
+          member_name: 賬戶名
+    placeholders:
+      withdraw:
+        bank:
+          sum: 最低金額100元，單筆限額5萬元
+    hints:
+      withdraw:
+        bank:
+          member_name: <span class='text-danger'>提現銀行賬戶姓名必須與您的實名認證姓名一致</span>
+          sum: "<a target='_balance' href='#'>資費說明</a>"
+          fund_extra: 若您的開戶銀行不再列表中，請聯繫客服
+
+  guides:
+    private:
+      withdraws:
+        banks:
+          panel: 銀行轉賬提現
+          new:
+            panel: 銀行轉賬提現
+            intro: 選擇提現銀行並輸入帳號和提取金額，完成提交。您提現的銀行賬戶姓名必須和您實名認證的姓名一致。
+            default-panel: 歷史記錄
+          edit:
+            intro: 選擇提現銀行並輸入帳號和提取金額，完成提交。您提現的銀行賬戶姓名必須和您實名認證的姓名一致。
