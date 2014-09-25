@@ -105,6 +105,16 @@ module ApplicationHelper
     end
   end
 
+  def top_market_link(market, current_market)
+    class_name = market.id == current_market.id ? 'active' : nil
+
+    content_tag(:li, :class => class_name) do
+      link_to market_path(market.id) do
+        content_tag(:span, market.name)
+      end
+    end
+  end
+
   def top_nav_link(link_text, link_path, link_icon, controllers: [], counter: 0)
     class_name = current_page?(link_path) ? 'active' : nil
     class_name ||= (controllers & controller_path.split('/')).empty? ? nil : 'active'

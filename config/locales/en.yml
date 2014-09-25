@@ -82,6 +82,7 @@ en:
     my_profile: My Profile
     tickets: Tickets
     account_balance: Total Assets
+    back: Back
 
   admin_header:
     deposits: Deposits
