@@ -121,11 +121,17 @@ header {
       color: $ignore-color;
     }
 
+    i.fa.fa-plus {
+      margin: 0px 0px;
+    }
+
     span.account-name {
       color: $main-color;
-      margin-top: 12px;
+      margin-top: -26px;
       display: block;
       font-size: 18px;
+      background-color: white;
+      text-align: right;
     }
 
     span.balance, span.locked {
