@@ -14,6 +14,7 @@ namespace :admin do
 
   resources :members, only: [:index, :show, :update] do
     member do
+      post :active
       post :toggle
     end
 

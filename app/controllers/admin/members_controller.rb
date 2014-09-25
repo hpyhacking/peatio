@@ -34,5 +34,11 @@ module Admin
       @member.save
     end
 
+    def active
+      @member.update_attribute(:activated, true)
+      @member.save
+      redirect_to admin_member_path(@member)
+    end
+
   end
 end
