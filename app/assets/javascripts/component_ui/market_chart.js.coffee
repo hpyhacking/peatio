@@ -7,7 +7,7 @@
         do callback
 
     dataGrouping = [
-      ['minute', [1,2,5,10,15,30]]
+      ['minute', [1,5,10,15,30,60]]
       ['hour',[1,2,5,10]]
     ]
 
@@ -91,19 +91,23 @@
         selected: 4
         buttons: [
           type: 'minute',
-          count: 5,
-          text: "5#{gon.i18n.time.minute}"
-        ,
-          type: 'minute',
-          count: 15,
-          text: "15#{gon.i18n.time.minute}"
+          count: 10,
+          text: "1#{gon.i18n.time.minute}"
         ,
           type: 'minute',
           count: 30,
+          text: "5#{gon.i18n.time.minute}"
+        ,
+          type: 'minute',
+          count: 60,
+          text: "15#{gon.i18n.time.minute}"
+        ,
+          type: 'minute',
+          count: 120,
           text: "30#{gon.i18n.time.minute}"
         ,
           type: 'hour',
-          count: 60,
+          count: 180,
           text: gon.i18n.time.hour
         ]
 
