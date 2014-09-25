@@ -9,8 +9,6 @@
     dataGrouping = [
       ['minute', [1,2,5,10,15,30]]
       ['hour',[1,2,5,10]]
-      ['day', [1]]
-      ['week',[1]]
     ]
 
     @$node.highcharts "StockChart",
@@ -89,8 +87,8 @@
 
       rangeSelector:
         allButtonsEnabled: true
-        inputEnabled: false
-        selected: 2
+        inputEnabled: true
+        selected: 4
         buttons: [
           type: 'minute',
           count: 5,
@@ -107,14 +105,6 @@
           type: 'hour',
           count: 60,
           text: gon.i18n.time.hour
-        ,
-          type: 'day',
-          count: 1,
-          text: gon.i18n.time.day
-        ,
-          type: 'week',
-          count: 1,
-          text: gon.i18n.time.week
         ]
 
       yAxis: [
