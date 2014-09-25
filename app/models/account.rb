@@ -162,6 +162,12 @@ class Account < ActiveRecord::Base
   class LockedError < AccountError; end
   class BalanceError < AccountError; end
 
+  def as_json(options = {})
+    super.merge({
+      payment_address: payment_address.address
+    })
+  end
+
   private
   def sync_update
     ::Pusher["private-#{member.sn}"].trigger_async('accounts', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })

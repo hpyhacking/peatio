@@ -1,0 +1,19 @@
+<p>请汇款给Terry</p>
+<table class="table">
+  <tr>
+    <th>转账备注</th>
+    <th>时间</th>
+    <th>标签</th>
+    <th>充值金额</th>
+    <th>状态</th>
+  </tr>
+  {{#each deposit in deposits}}
+  <tr>
+    <td>{{deposit.id}}</td>
+    <td>{{deposit.created_at}}</td>
+    <td>{{deposit.fund_extra}} @ {{deposit.fund_uid}}</td>
+    <td>{{deposit.amount}}</td>
+    <td>{{deposit.aasm_state}}</td>
+  </tr>
+  {{/each}}
+</table>

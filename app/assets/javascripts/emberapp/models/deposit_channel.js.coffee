@@ -6,5 +6,8 @@ class DepositChannel extends PeatioModel.Model
       $.each records, (idx, record) ->
         DepositChannel.create(record.attributes)
 
+  account: ->
+    Account.findBy('currency', @currency)
+
 window.DepositChannel = DepositChannel
 

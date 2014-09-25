@@ -24,11 +24,9 @@
 
   <body id="<%= "#{controller_name}-#{action_name}" %>" data-lang="<%= "#{I18n.locale.to_s.downcase}" %>">
 
+
     <script type='text/x-handlebars' id='deposits'>
-      <h1>Deposits</h1>
-      {{#each model}}
-      <h1>{{key}}</h1>
-      {{/each}}
+      {{ partial 'emberapp/templates/deposits' }}
     </script>
 
     <script type='text/x-handlebars' id='withdraws'>
@@ -65,35 +63,7 @@
     </script>
 
     <script type='text/x-handlebars' id='accounts'>
-      <div class="panel panel-default">
-        <div class="panel-heading">Accounts</div>
-        <div class="panel-body">
-          <div class='row'>
-            <div class='col-md-16'>
-              <ul class="list-group">
-                {{#each model}}
-                  <li class="list-group-item">
-                    <div class='row'>
-                      <div class='col-md-18'>
-                        <h1>Account for <code>{{currency}}</code> <code>{{balance}}</code> / <code>{{locked}}</code></h1>
-                      </div>
-                      <div class='col-md-6'>
-                        <ul>
-                          <li>{{#link-to 'deposits' this.currency}}Deposits{{/link-to}}</li>
-                          <li>{{#link-to 'withdraws' this.currency}}Withdraws{{/link-to}}</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                {{/each}}
-              </ul>
-            </div>
-            <div class='col-md-8'>
-              {{outlet}} 
-            </div>
-          </div>
-        </div>
-      </div>
+      {{ partial "emberapp/templates/accounts" }}
     </script>
   </body>
 </html>
