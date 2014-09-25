@@ -136,7 +136,7 @@ class ApplicationController < ActionController::Base
           currency: account.currency,
           balance: account.balance,
           locked: account.locked
-        }
+        } if account.currency
         memo
       end
     end
