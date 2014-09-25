@@ -106,21 +106,21 @@ module ApplicationHelper
   end
 
   def top_market_link(market, current_market)
-    class_name = market.id == current_market.id ? 'active' : nil
+    class_name = ((market.id == current_market.id) ? 'active' : nil)
 
     content_tag(:li, :class => class_name) do
-      link_to market_path(market.id) do
+      link_to market_path(market.id)  do
         content_tag(:span, market.name)
       end
     end
   end
 
-  def top_nav_link(link_text, link_path, link_icon, controllers: [], counter: 0)
+  def top_nav_link(link_text, link_path, link_icon, controllers: [], counter: 0, target: '')
     class_name = current_page?(link_path) ? 'active' : nil
     class_name ||= (controllers & controller_path.split('/')).empty? ? nil : 'active'
 
     content_tag(:li, :class => class_name) do
-      link_to link_path do
+      link_to link_path, target: target do
         content_tag(:i, :class => "fa fa-#{link_icon}") do
           content_tag(:span, counter,class: "counter") if counter != 0
         end +
