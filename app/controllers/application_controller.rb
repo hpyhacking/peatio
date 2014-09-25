@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :is_admin?, :current_market, :muut_enabled?
+  helper_method :current_user, :is_admin?, :current_market, :muut_enabled?, :gon
   before_action :set_language, :set_timezone, :set_gon
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
