@@ -47,6 +47,10 @@
 
     .panel-body {
       &.my-orders {
+	.cancel-all {
+	  margin: 10px 0 10px 0;
+	}
+
         .tab-content {
           height: 325px;
           overflow-y: auto;

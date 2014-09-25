@@ -6,6 +6,11 @@
         a.orders-wait href="#orders_wait" data-toggle="tab" == t('.orders_wait')
       li.btn.btn-primary
         a.orders-done href="#orders_done" data-toggle="tab" == t('.orders_done')
+
+    .cancel-all
+      a.btn.btn-default = t('.cancel_all_bids')
+      a.btn.btn-default = t('.cancel_all_asks')
+
     table.table.table-condensed.table-striped
       thead: tr
         th class='kind col-md-3' = Order.human_attribute_name('kind')

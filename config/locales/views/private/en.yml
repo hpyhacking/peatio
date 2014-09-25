@@ -40,6 +40,8 @@ en:
         orders_wait: Latest Orders
         orders_done: Completed Orders
         orders_cancel: Cancel Orders
+        cancel_all_bids: Cancel All Bids
+        cancel_all_asks: Cancel All Asks
       market_chart:
         market_chart: Market Chart
       global:

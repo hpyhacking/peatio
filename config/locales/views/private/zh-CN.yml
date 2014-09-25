@@ -40,6 +40,8 @@ zh-CN:
         orders_wait: 有效委托
         orders_done: 最新成交
         orders_cancel: 最新撤销
+        cancel_all_bids: 撤销所有买单
+        cancel_all_asks: 撤销所有卖单
       market_chart:
         market_chart: 行情走势
       global:
