@@ -65,43 +65,70 @@
     @select('dangerSel').text(json.message).show().fadeOut(3500)
     @enableSubmit()
 
+  @solveEquation = (target, price, vol, sum, balance) ->
+    if !price
+      price = sum.dividedBy(vol)
+    else if !vol
+      vol = sum.dividedBy(price)
+    else if !sum
+      sum = price.times(vol)
+
+    if sum.greaterThan(balance)
+      [price, vol, sum] = @solveEquation(target, price, null, balance, balance)
+      @select('sumSel').val(sum)
+      @select('volumeSel').val(vol)
+
+    if vol.greaterThan(balance)
+      [price, vol, sum] = @solveEquation(target, price, balance, null, balance)
+      @select('sumSel').val(sum)
+      @select('volumeSel').val(vol)
+
+    [price, vol, sum]
+
+  @getBalance = ->
+    BigNumber( @select('currentBalanceSel').data('balance') )
+
+  @getPrice = ->
+    BigNumber( @select('priceSel').val() )
+
+  @getVolume = ->
+    BigNumber( @select('volumeSel').val() )
+
+  @getSum = ->
+    BigNumber( @select('sumSel').val() )
+
   @sanitize = (el) ->
-    if !$.isNumeric(el.val())
-      el.val '0'
+    el.val '' if !$.isNumeric(el.val())
 
   @computeSum = (event) ->
-    if @select('priceSel').val() and @select('volumeSel').val()
-      @sanitize @select('priceSel')
-      @sanitize @select('volumeSel')
+    @sanitize @select('priceSel')
+    @sanitize @select('volumeSel')
 
-      target = event.target
-      if not @select('priceSel').is(target)
-        @select('priceSel').fixBid()
-      if not @select('volumeSel').is(target)
-        @select('volumeSel').fixAsk()
+    target = event.target
+    if not @select('priceSel').is(target)
+      @select('priceSel').fixBid()
+    if not @select('volumeSel').is(target)
+      @select('volumeSel').fixAsk()
 
-      price  = BigNumber(@select('priceSel').val())
-      volume = BigNumber(@select('volumeSel').val())
-      sum    = price.times(volume)
+    [price, volume, sum] = @solveEquation(target, @getPrice(), @getVolume(), null, @getBalance())
 
-      @select('sumSel').val(sum).fixBid()
-      @trigger 'updateAvailable', {sum: sum, volume: volume}
+    @select('sumSel').val(sum).fixBid()
+    @trigger 'updateAvailable', {sum: sum, volume: volume}
 
   @computeVolume = (event) ->
-    if @.select('priceSel').val() and @.select('sumSel').val()
+    @sanitize @select('priceSel')
+    @sanitize @select('sumSel')
 
-      target = event.target
-      if not @select('priceSel').is(target)
-        @select('priceSel').fixBid()
-      if not @select('sumSel').is(target)
-        @select('sumSel').fixAsk()
+    target = event.target
+    if not @select('priceSel').is(target)
+      @select('priceSel').fixBid()
+    if not @select('sumSel').is(target)
+      @select('sumSel').fixAsk()
 
-      sum    = BigNumber(@select('sumSel').val())
-      price  = BigNumber(@select('priceSel').val())
-      volume = sum.dividedBy(price)
+    [price, volume, sum] = @solveEquation(target, @getPrice(), null, @getSum(), @getBalance())
 
-      @select('volumeSel').val(volume).fixAsk()
-      @trigger 'updateAvailable', {sum: sum, volume: volume}
+    @select('volumeSel').val(volume).fixAsk()
+    @trigger 'updateAvailable', {sum: sum, volume: volume}
 
   @orderPlan = (event, data) ->
     return unless (@.$node.is(":visible"))
@@ -123,12 +150,12 @@
   @updateAvailable = (event, data) ->
     type = @panelType()
     node = @select('currentBalanceSel')
-    balance = BigNumber(node.data('balance'))
+
     switch type
       when 'bid'
-        node.text(balance - data.sum).fixBid()
+        node.text(@getBalance() - data.sum).fixBid()
       when 'ask'
-        node.text(balance - data.volume).fixAsk()
+        node.text(@getBalance() - data.volume).fixAsk()
 
   @updateLastPrice = (event, data) ->
     @select('lastPrice').text data.last
@@ -167,5 +194,5 @@
     @on @select('priceSel'), 'focusout', @priceCheck
     @on @select('priceSel'), 'change paste keyup focusout', @computeSum
     @on @select('volumeSel'), 'change paste keyup focusout', @computeSum
-    @on @select('sumSel'), 'change paste keyup', @computeVolume
+    @on @select('sumSel'), 'change paste keyup focusout', @computeVolume
 
