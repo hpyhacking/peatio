@@ -65,8 +65,14 @@
     @select('dangerSel').text(json.message).show().fadeOut(3500)
     @enableSubmit()
 
+  @sanitize = (el) ->
+    if !$.isNumeric(el.val())
+      el.val '0'
+
   @computeSum = (event) ->
     if @select('priceSel').val() and @select('volumeSel').val()
+      @sanitize @select('priceSel')
+      @sanitize @select('volumeSel')
 
       target = event.target
       if not @select('priceSel').is(target)

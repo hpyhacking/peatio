@@ -17,6 +17,7 @@ window.round = (str, fixed) ->
   BigNumber(str).round(fixed, BigNumber.ROUND_DOWN).toF(fixed)
 
 window.fix = (type, str) ->
+  str = '0' unless $.isNumeric(str)
   if type is 'ask'
     window.round(str, gon.market.ask.fixed)
   else if type is 'bid'
