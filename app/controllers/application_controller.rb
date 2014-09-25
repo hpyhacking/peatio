@@ -101,9 +101,15 @@ class ApplicationController < ActionController::Base
       ask: I18n.t('gon.ask'),
       bid: I18n.t('gon.bid'),
       cancel: I18n.t('actions.cancel'),
-      chart_price: I18n.t('chart.price'),
-      chart_volume: I18n.t('chart.volume'),
       latest_trade: I18n.t('private.markets.order_book.latest_trade'),
+      chart: {
+        price: I18n.t('chart.price'),
+        volume: I18n.t('chart.volume'),
+        open: I18n.t('chart.open'),
+        high: I18n.t('chart.high'),
+        low: I18n.t('chart.low'),
+        close: I18n.t('chart.close')
+      },
       place_order: {
         confirm_submit: I18n.t('private.markets.show.confirm'),
         price: I18n.t('private.markets.place_order.price'),

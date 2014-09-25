@@ -130,6 +130,10 @@ en:
     latest_price: Last
 
   chart:
+    open: Open
+    high: High
+    low: Low
+    close: Close
     price: Price
     volume: Volume
 

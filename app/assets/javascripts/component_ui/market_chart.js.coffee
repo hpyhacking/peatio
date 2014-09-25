@@ -5,31 +5,31 @@
       credits:
         enabled: false
 
-      tooltip:
-        valueDecimals: gon.market.bid.fixed
-
       chart:
         height: 360
         events:
           load: ->
             series = @series
             update = ->
-              $.getJSON "/api/prices/#{gon.market.id}", (data) ->
+              $.getJSON "https://peatio.com/api/v2/k.json?market=#{gon.market.id}&limit=45&period=1", (data) ->
 
-                price  = []
+                ohlc   = []
                 volume = []
 
                 for i in data
-                  price.push [
-                    i.date * 1000
-                    Number round(i.price, gon.market.bid.fixed)
+                  ohlc.push [
+                    Number(i[0]) * 1000 # the date
+                    i[1] # open
+                    i[2] # high
+                    i[3] # low
+                    i[4] # close
                   ]
                   volume.push [
-                    i.date * 1000
-                    Number round(i.amount, gon.market.ask.fixed)
+                    Number(i[0]) * 1000 # the date
+                    i[5] # the volume
                   ]
 
-                series[0].setData price
+                series[0].setData ohlc
                 series[1].setData volume
 
             update()
@@ -40,9 +40,44 @@
       navigator:
         top: 300
 
+      tooltip:
+        valueDecimals: gon.market.bid.fixed
+        backgroundColor:
+          linearGradient:
+            x1: 0
+            y1: 0
+            x2: 0
+            y2: 1
+          stops: [
+            [0, 'white'],
+            [1, '#EEE']
+          ]
+        borderColor: 'gray'
+        borderWidth: 1
+
+      plotOptions:
+        candlestick:
+          color: 'red'
+          upColor: 'green'
+          tooltip:
+            pointFormat:
+              """
+              #{gon.i18n.chart.open}: {point.open}<br/>
+              #{gon.i18n.chart.high}: {point.high}<br/>
+              #{gon.i18n.chart.low}: {point.low}<br/>
+              #{gon.i18n.chart.close}: {point.close}<br/>
+              """
+        column:
+          color: '#3e4c5a'
+          tooltip:
+            pointFormat:
+              """
+              #{gon.i18n.chart.volume}: {point.y}<br/>
+              """
+
       rangeSelector:
         inputEnabled: false
-        selected: 0
+        selected: true
         buttons: [
           {
             type: 'hour',
@@ -57,15 +92,13 @@
 
       yAxis: [
         {
-          title:
-            text: gon.i18n.chart_price
+          opposite: false
           height: 160
           lineWidth: 2
         }
         {
-          title:
-            text: gon.i18n.chart_volume
-          top: 200
+          opposite: false
+          top: 185
           height: 60
           offset: 0
           lineWidth: 2
@@ -74,12 +107,14 @@
 
       series: [
         {
-          type: "line"
-          name: gon.i18n.chart_price
+          type: "candlestick"
+          name: "#{gon.market.base_unit}/#{gon.market.quote_unit}".toUpperCase()
+          dataGrouping:
+            smoothed: true
         }
         {
           type: "column"
-          name: gon.i18n.chart_volume
+          name: gon.i18n.chart.volume
           yAxis: 1
         }
       ]

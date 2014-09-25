@@ -142,6 +142,10 @@ zh-CN:
     latest_price: 最新价格
 
   chart:
+    open: 开盘
+    high: 最高
+    low: 最低
+    close: 收盘
     price: 价格
     volume: 成交量
 
