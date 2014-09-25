@@ -1,13 +1,10 @@
-.panel.panel-default
-  .panel-heading = t('.trades')
+.panel.panel-info
+  .panel-heading
+    span = t('.trades')
   .panel-body.trades
-    table.table
-      thead
-        tr
-          td.time
-            = t('.time')
-          td.price
-            = t('.price')
-          td.amount
-            = t('.volume')
+    table.table.table-condensed.table-striped
+      thead: tr
+        th class='at col-md-9' = t('.time')
+        th class='price col-md-5' = t('.price')
+        th class='volume col-md-5' = t('.volume')
       tbody

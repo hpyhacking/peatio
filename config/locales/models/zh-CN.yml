@@ -83,7 +83,7 @@ zh-CN:
         ask: 卖出
         price: 单价
         total: 总价
-        volume: 剩余/数量
+        volume: 数量
         origin_volume: 数量
         sum: 总价
         category: 买/卖

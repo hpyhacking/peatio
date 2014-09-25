@@ -100,4 +100,27 @@
     input[type=text] { text-align: right; }
   }
   //#==========================================
+  .panel-heading {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+
+  .my-orders {
+    .panel-heading {
+      .btn-group.open .dropdown-toggle {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .one-click-clear {
+        cursor: pointer;
+        span.caret {
+          margin-left: 2px;
+        }
+        a:hover, a:focus {
+          text-decoration: none;
+        }
+      }
+    }
+  }
 }

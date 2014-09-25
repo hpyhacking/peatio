@@ -13,8 +13,9 @@
             .panel.panel-default: .panel-body
               = render partial: 'place_order', locals: {market: @market, order_ask: @order_ask, order_bid: @order_bid}
       .row
-        .col-md-12  = render partial: 'trades'
-        .col-md-12 = render partial: 'my_orders'
+        .col-md-8 = render partial: 'trades'
+        .col-md-8 = render partial: 'my_trades'
+        .col-md-8 = render partial: 'my_orders'
     - else
       .row
         .col-md-24 = render_market_chart

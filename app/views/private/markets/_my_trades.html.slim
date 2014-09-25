@@ -1,0 +1,13 @@
+.panel.panel-info
+  .panel-heading
+    span = t('.my_trades')
+  .panel-body.my-trades
+    #orders_done
+      table.table.table-condensed.table-striped
+        thead: tr
+          th class='kind col-md-3' = Order.human_attribute_name('kind')
+          th class='at col-md-9' = Order.human_attribute_name('at')
+          th class='price col-md-5' = Order.human_attribute_name('price')
+          th class='volume col-md-5' = Order.human_attribute_name('volume')
+          th class='operation col-md-2'
+        tbody
