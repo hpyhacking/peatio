@@ -103,6 +103,7 @@ class ApplicationController < ActionController::Base
       cancel: I18n.t('actions.cancel'),
       chart_price: I18n.t('chart.price'),
       chart_volume: I18n.t('chart.volume'),
+      latest_trade: I18n.t('private.markets.order_book.latest_trade'),
       place_order: {
         confirm_submit: I18n.t('private.markets.show.confirm'),
         price: I18n.t('private.markets.place_order.price'),

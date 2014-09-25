@@ -30,6 +30,7 @@ zh-CN:
         price_low: 价格低于最新价格10%
       order_book:
         order_book: 挂单记录
+        latest_trade: 最新成交
       market_trades:
         trades: 交易记录
         time: 时间

@@ -3,6 +3,13 @@ window.OrderBookUI = flight.component ->
     size: 10,
     asksSelector: '.table.asks',
     bidsSelector: '.table.bids',
+    seperatorSelector: '.table.seperator'
+
+  @refreshSeperator = (event, data) ->
+    attrs = {trade: data.trades[0], hint: gon.i18n.latest_trade}
+    seperator = @select('seperatorSelector')
+    seperator.fadeOut ->
+      seperator.html(JST['market_order_seperator'](attrs)).fadeIn()
 
   @refreshOrders = (event, data) ->
     @buildOrders(@select('asksSelector'), data.asks)
@@ -33,12 +40,14 @@ window.OrderBookUI = flight.component ->
 
   @after 'initialize', ->
     @on document, 'market::order_book', @refreshOrders
+    @on document, 'market::trades', @refreshSeperator
 
     _(10).times (n) =>
       @select('asksSelector').prepend("<tr data-order='#{n}'></tr>")
       @select('bidsSelector').append("<tr data-order='#{n}'></tr>")
 
     @refreshOrders '', {asks: gon.asks, bids: gon.bids}
+    @refreshSeperator '', {trades: gon.trades.slice(0,1)}
 
     @$node.on 'click', '.asks tr', (e) =>
       $('.bid-panel').click()

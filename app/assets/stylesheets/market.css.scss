@@ -29,7 +29,7 @@
   }
 
   .row:last-of-type .panel .panel-body{
-    height: 410px;
+    height: 430px;
   }
 
   .panel {
@@ -69,6 +69,12 @@
         tr:hover {
           cursor: pointer;
           font-weight: bold;
+        }
+
+        .seperator {
+          margin: 15px 0 15px 0;
+          color: #bbb;
+          g { color: #bbb; }
         }
       }
 

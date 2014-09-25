@@ -30,6 +30,7 @@ en:
         price_low: Price less then 10%
       order_book:
         order_book: Order Book
+        latest_trade: Latest
       market_trades:
         trades: Trades
         time: Time
