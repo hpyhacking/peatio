@@ -95,6 +95,9 @@
       background-color: $down-color;
       &:hover { background-color: opacify($down-color, 1.0); }
     }
+
+    span.input-group-addon { min-width: 55px; width: 55px; }
+    input[type=text] { text-align: right; }
   }
   //#==========================================
 }

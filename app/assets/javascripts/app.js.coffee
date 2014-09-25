@@ -45,11 +45,11 @@ $ ->
       height: $el.data('height')
 
   AccountBalanceUI.attachTo('.account-balance')
-  PlaceOrderUI.attachTo('.place-order #bid_panel')
-  PlaceOrderUI.attachTo('.place-order #ask_panel')
+  PlaceOrderUI.attachTo('.order-place #bid_panel')
+  PlaceOrderUI.attachTo('.order-place #ask_panel')
   MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
   MyOrdersDoneUI.attachTo('.my-orders #orders_done')
-  PushButton.attachTo('.place-order')
+  PushButton.attachTo('.order-place')
   PushButton.attachTo('.my-orders')
 
   # if gon.env is 'development'
