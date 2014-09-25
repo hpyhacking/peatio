@@ -47,9 +47,13 @@
 
     .panel-body {
       &.my-orders {
-	.cancel-all {
-	  margin: 10px 0 10px 0;
-	}
+        .one-click-clear {
+          margin: 10px 0 10px 0;
+
+          .dropdown-menu {
+            min-width: 0px;
+          }
+        }
 
         .tab-content {
           height: 325px;
