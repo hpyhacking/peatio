@@ -87,7 +87,7 @@
 
       rangeSelector:
         allButtonsEnabled: true
-        inputEnabled: true
+        inputEnabled: false
         selected: 4
         buttons: [
           type: 'minute',
