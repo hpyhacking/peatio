@@ -12,10 +12,10 @@ class Account extends PeatioModel.Model
   withdraw_channels: ->
     WithdrawChannel.findAllBy 'currency', @currency
 
-
   deposits: ->
     Deposit.findAllBy 'account_id', @id
 
-
+  topDeposits: ->
+    deposits.slice(0,3)
 
 window.Account = Account

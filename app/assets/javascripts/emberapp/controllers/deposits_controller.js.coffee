@@ -4,7 +4,7 @@ Peatio.DepositsController = Ember.ArrayController.extend
     @._super()
     Peatio.set('deposits-controller', @)
     $.subscribe('deposits:create', ->
-      controller.get('deposits').setObjects(controller.get('model')[0].account().deposits())
+      controller.get('deposits').setObjects(controller.get('model')[0].account().topDeposits())
     )
 
   paymentAddress: (->
@@ -20,5 +20,5 @@ Peatio.DepositsController = Ember.ArrayController.extend
   ).property('@each')
 
   deposits: (->
-    @model[0].account().deposits()
+    @model[0].account().topDeposits()
   ).property('@each')

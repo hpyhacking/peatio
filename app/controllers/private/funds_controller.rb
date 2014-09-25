@@ -9,7 +9,7 @@ module Private
       @deposit_channels = DepositChannel.all
       @withdraw_channels = WithdrawChannel.all
       @currencies = Currency.all
-      @deposits = current_user.deposits
+      @deposits = current_user.deposits.order("created_at DESC")
       @accounts = current_user.accounts
       @withdraws = current_user.withdraws
     end
