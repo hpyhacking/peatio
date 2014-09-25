@@ -2,7 +2,7 @@
   .main-section.main-section-lighter
     .container
       .row
-        .col-xs-15
+        .col-xs-15 class='#{current_user ? 'col-xs-offset-4' : ''}'
           .row
             .col-xs-12
               .logo
@@ -13,20 +13,21 @@
           .row
             .clock
             h3.text-center: b style='font-size: 38px; color: #3c4e5e;' 漫步云端，10月8日，不见不散！
-        .col-xs-8.col-xs-offset-1
-          .login-box
-            = simple_form_for Identity.new, url: '/auth/identity/callback', method: :post do |f|
-              h3.text-ignore.text-center 登录貔貅交易所
-              = f.input :email, input_html: {name: 'auth_key', autofocus: 'true'}, label: t('.email'), placeholder: t('simple_form.placeholders.session.email')
-              = f.input :password, as: 'password', input_html: {name: 'password'}, label: t('.password'), placeholder: t('simple_form.placeholders.session.password'), hint: ''
-              .form-group.text-right
-                .row: .col-xs-21
-                  span = link_to "忘记登录密码?", new_reset_password_path
-              .form-group
-                .row
-                  .col-sm-20.col-sm-offset-1
-                    = f.button :submit, class: 'btn-primary btn-lg btn-block btn-success', value: '登录'
-                    h5.text-right = link_to '立即注册', signup_path
+        - unless current_user
+          .col-xs-8.col-xs-offset-1
+            .login-box
+              = simple_form_for Identity.new, url: '/auth/identity/callback', method: :post do |f|
+                h3.text-ignore.text-center 登录貔貅交易所
+                = f.input :email, input_html: {name: 'auth_key', autofocus: 'true'}, label: t('.email'), placeholder: t('simple_form.placeholders.session.email')
+                = f.input :password, as: 'password', input_html: {name: 'password'}, label: t('.password'), placeholder: t('simple_form.placeholders.session.password'), hint: ''
+                .form-group.text-right
+                  .row: .col-xs-21
+                    span = link_to "忘记登录密码?", new_reset_password_path
+                .form-group
+                  .row
+                    .col-sm-20.col-sm-offset-1
+                      = f.button :submit, class: 'btn-primary btn-lg btn-block btn-success', value: '登录'
+                      h5.text-right = link_to '立即注册', signup_path
 
   .main-section
     .container
