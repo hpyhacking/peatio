@@ -83,8 +83,16 @@ Peatio::Application.routes.draw do
 
     resources :markets, :only => :show, :constraints => MarketConstraint do
       resources :orders, :only => [:index, :destroy]
-      resources :order_bids, :only => [:create]
-      resources :order_asks, :only => [:create]
+      resources :order_bids, :only => [:create] do
+        collection do
+          post :clear
+        end
+      end
+      resources :order_asks, :only => [:create] do
+        collection do
+          post :clear
+        end
+      end
     end
 
     post '/pusher/auth', to: 'pusher#auth'
