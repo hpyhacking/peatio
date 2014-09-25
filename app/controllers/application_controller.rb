@@ -102,6 +102,14 @@ class ApplicationController < ActionController::Base
       bid: I18n.t('gon.bid'),
       cancel: I18n.t('actions.cancel'),
       latest_trade: I18n.t('private.markets.order_book.latest_trade'),
+      time: {
+        minute: I18n.t('chart.minute'),
+        hour: I18n.t('chart.hour'),
+        day: I18n.t('chart.day'),
+        week: I18n.t('chart.week'),
+        month: I18n.t('chart.month'),
+        year: I18n.t('chart.year')
+      },
       chart: {
         price: I18n.t('chart.price'),
         volume: I18n.t('chart.volume'),

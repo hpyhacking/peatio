@@ -11,7 +11,7 @@
           load: ->
             series = @series
             update = ->
-              $.getJSON "https://peatio.com/api/v2/k.json?market=#{gon.market.id}&limit=45&period=1", (data) ->
+              $.getJSON "https://peatio.com/api/v2/k.json?market=#{gon.market.id}&limit=60&period=1", (data) ->
 
                 ohlc   = []
                 volume = []
@@ -76,18 +76,33 @@
               """
 
       rangeSelector:
+        allButtonsEnabled: true
         inputEnabled: false
-        selected: true
+        selected: 3
         buttons: [
-          {
-            type: 'hour',
-            count: 4,
-            text: '4h'
-          }, {
-            type: 'hour',
-            count: 12,
-            text: '12h'
-          }
+          type: 'minute',
+          count: 5,
+          text: "5#{gon.i18n.time.minute}"
+        ,
+          type: 'minute',
+          count: 15,
+          text: "15#{gon.i18n.time.minute}"
+        ,
+          type: 'minute',
+          count: 30,
+          text: "30#{gon.i18n.time.minute}"
+        ,
+          type: 'hour',
+          count: 60,
+          text: gon.i18n.time.hour
+        ,
+          type: 'day',
+          count: 1,
+          text: gon.i18n.time.day
+        ,
+          type: 'week',
+          count: 1,
+          text: gon.i18n.time.week
         ]
 
       yAxis: [

@@ -148,6 +148,12 @@ zh-CN:
     close: 收盘
     price: 价格
     volume: 成交量
+    minute: 分
+    hour: 小时
+    day: 日
+    week: 周
+    month: 月
+    year: 年
 
   'yes': 是
   'no': 否

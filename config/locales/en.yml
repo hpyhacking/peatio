@@ -136,6 +136,12 @@ en:
     close: Close
     price: Price
     volume: Volume
+    minute: m
+    hour: Hour
+    day: Day
+    week: Week
+    month: Month
+    year: Year
 
   'yes': 'Yes'
   'no': 'No'
