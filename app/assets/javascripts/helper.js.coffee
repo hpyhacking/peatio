@@ -53,6 +53,10 @@ Handlebars.registerHelper 'format_mask_fixed_amount', (amount) ->
 Handlebars.registerHelper 'format_fix_ask', (volume) ->
   fixAsk volume
 
+Handlebars.registerHelper 'format_trend', (trend) ->
+  # TODO check trend return up-font-color or down-font-color
+  'up-font-color'
+
 Handlebars.registerHelper 'format_fix_bid', (price) ->
   fixBid price
 
