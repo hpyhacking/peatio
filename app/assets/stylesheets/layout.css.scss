@@ -10,6 +10,11 @@ footer {
   box-sizing: 'border-box';
   padding-top: 20px;
   border-top: 1px solid #DDD;
+  background-color: $main-color;
+  color: #ddd;
+  a:link, a:visited {
+    color: #bbb;
+  }
 }
 
 #content {
@@ -144,3 +149,11 @@ header {
   }
 }
 // ==============================================================
+
+// ==============================================================
+.up-color {
+  background-color: $up-color;
+}
+.down-color {
+  background-color: $down-color;
+}

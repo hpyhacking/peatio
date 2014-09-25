@@ -16,7 +16,7 @@
         enabled: false
 
       chart:
-        height: 360
+        height: 363
         events:
           load: ->
             drawChart = =>

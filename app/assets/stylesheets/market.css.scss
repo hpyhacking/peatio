@@ -1,4 +1,6 @@
 #markets-show > .container {
+  //#==========================================
+  // table basic style
   table {
     th, td {
       &.price, &.amount, &.volume {
@@ -7,151 +9,92 @@
       }
     }
 
+    tr:hover {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
     td {
-      font-size: 14px;
-      line-height: 14px !important;
-      padding: 2px;
+      padding: 3px;
       border: none;
+      font-size: 16px;
+      line-height: 15px !important;
     }
-
-    margin-bottom: 0;
   }
+  //#==========================================
 
-  ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
+  //#==========================================
+  // order-book and place-order
 
-  hr {
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
 
-  .row:last-of-type .panel .panel-body{
-    height: 430px;
-  }
 
-  .panel {
-    padding-bottom: 10px;
+  @mixin fix-clear-pannel($left-right: right) {
+    margin-#{$left-right}: 0px;
+    padding-#{$left-right}: 0px;
 
-    .panel-heading {
-      padding-top: 5px;
-      padding-bottom: 5px;
-
-      > * {
-        display: inline-block;
-        margin-right: 10px;
-      }
-    }
-
-    .panel-body {
-      &.my-orders {
-        .one-click-clear {
-          margin: 10px 0 10px 0;
-
-          .dropdown-menu {
-            min-width: 0px;
-          }
-        }
-
-        .tab-content {
-          height: 325px;
-          overflow-y: auto;
-        }
+    .panel { 
+      padding: 10px;
+      .panel-body {
+        height: 460px;
+        margin-bottom: 0px;
+        padding: 0px;
       }
 
-      &.trades {
-        overflow-y: auto;
-      }
-
-      &.order-book {
-        tr:hover {
-          cursor: pointer;
-          font-weight: bold;
-        }
-
-        .seperator {
-          margin: 15px 0 15px 0;
-          color: #bbb;
-          g { color: #bbb; }
-        }
-      }
-
-      &.place-order {
-        height: 390px;
-
-        .price-disadvantage {
-          margin-right: 5px;
-        }
-
-        .last-price .value {
-          cursor: pointer;
-        }
-
-        .input-group-addon {
-          min-width: 75px;
-          text-align: right;
-        }
-
-        .input-group-addon:last-child {
-          min-width: 45px;
-        }
-
-        label.name {
-          display: inline-block;
-          width: 70px;
-          margin-right: 10px;
-        }
-
-        span.label + span.label {
-          margin-left: 0;
-        }
-      }
-
+      border-top-#{$left-right}-radius: 0px;
+      border-bottom-#{$left-right}-radius: 0px;
+      border-#{$left-right}-width: 0px; 
+      margin-bottom: 0px;
     }
   }
 
-  .account-balance {
-    ul li {
-      span.name {
-        float: left;
-      }
-      span.value {
-        float: right;
-      }
+  .order-book { 
+    @include fix-clear-pannel; 
+
+    .panel .panel-body {
+      padding-right: 15px;
+      border-right: 1px solid $split-color;
     }
+    
+    .table.asks { margin-bottom: 0px; }
+    .table.bids { margin-top: 0px; }
+    .table.seperator { margin: 10px 0px; }
   }
 
-  .type-toggle {
-    width: 100%;
+  .order-place {
+    @include fix-clear-pannel(left); 
 
-    a, a:hover {
-      padding: 6px 12px;
-      display: block;
-      color: white;
-      text-decoration: none;
+    .input-group { margin-bottom: 7px; }
+
+    hr { 
+      margin: 23px 0px 22px 0px;
+      border-top-color: $split-color; 
     }
 
-    .btn {
-      padding: 0;
-      width: 50%;
+    .panel {
+      padding-left: 0px;
+    }
 
-      &.btn-primary {
-        border-color: #ccc;
-        background-color: #eee;
-        a {
-          color: #555;
-        }
-      }
-      &.active {
-        background-color: $btn-primary-bg;
-        border-color: #34404b;
-        a {
-          color: white;
-        }
-      }
+    label.name {
+      display: inline-block;
+      width: 70px;
+      margin-right: 10px;
+    }
+
+    span.label + span.label {
+      margin-left: 0;
+    }
+
+    button { border-color: $ignore-color; }
+
+    #bid_panel button {
+      background-color: $up-color;
+      &:hover { background-color: opacify($up-color, 1.0); }
+    }
+
+    #ask_panel button {
+      background-color: $down-color;
+      &:hover { background-color: opacify($down-color, 1.0); }
     }
   }
-
+  //#==========================================
 }
