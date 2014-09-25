@@ -1,4 +1,4 @@
-#markets-show body .container {
+#markets-show > .container {
   table {
     th, td {
       &.price, &.amount, &.volume {
