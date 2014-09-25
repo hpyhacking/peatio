@@ -7,7 +7,7 @@ module Worker
       if run_cache_thread
         cache_thread = Thread.new do
           loop do
-            sleep 1
+            sleep 5
             cache_book
           end
         end
@@ -40,7 +40,6 @@ module Worker
         Rails.cache.write "peatio:#{market}:depth:asks", get_depth(market, :ask)
         Rails.cache.write "peatio:#{market}:depth:bids", get_depth(market, :bid)
         Rails.logger.debug "SlaveBook (#{market}) updated"
-        Global[market].trigger_ticker
       end
     rescue
       Rails.logger.error "Failed to cache book: #{$!}"
