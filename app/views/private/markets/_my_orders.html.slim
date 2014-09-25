@@ -8,9 +8,9 @@
         a.orders-done href="#orders_done" data-toggle="tab" == t('.orders_done')
 
     .cancel-all
-      = link_to t('.clear_bids'), clear_market_order_bids_path(market_id: current_market.id), class: 'btn btn-default', remote: true, method: :post, confirm: t('.confirm_clear_bids')
-      = link_to t('.clear_all'),  clear_market_orders_path(market_id: current_market.id), class: 'btn btn-default', remote: true, method: :post, confirm: t('.confirm_clear_all')
-      = link_to t('.clear_asks'), clear_market_order_asks_path(market_id: current_market.id), class: 'btn btn-default', remote: true, method: :post, confirm: t('.confirm_clear_asks')
+      = link_to t('.clear_bids'), clear_market_order_bids_path(market_id: current_market.id), class: 'btn btn-default', remote: true, method: :post, data: {confirm: t('.confirm_clear_bids')}
+      = link_to t('.clear_all'),  clear_market_orders_path(market_id: current_market.id), class: 'btn btn-default', remote: true, method: :post, data: {confirm: t('.confirm_clear_all')}
+      = link_to t('.clear_asks'), clear_market_order_asks_path(market_id: current_market.id), class: 'btn btn-default', remote: true, method: :post, data: {confirm: t('.confirm_clear_asks')}
 
     table.table.table-condensed.table-striped
       thead: tr
