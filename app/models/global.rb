@@ -67,17 +67,6 @@ class Global
     trades.map(&:for_global)
   end
 
-  def price
-    Rails.cache.fetch key('price', 300) do
-      Trade.with_currency(currency)
-        .select("id, price, sum(volume) as volume, trend, currency, max(created_at) as created_at")
-        .where("created_at > ?", 24.to_i.hours.ago).order(:id)
-        .group("ROUND(UNIX_TIMESTAMP(created_at)/(5 * 60))") # group by 5 minutes
-        .order('max(created_at) ASC')
-        .map(&:for_global)
-    end
-  end
-
   def trigger_ticker
     data = {ticker: ticker, asks: asks, bids: bids}
     Pusher.trigger_async(channel, "update", data)
