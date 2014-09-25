@@ -74,11 +74,12 @@
     else if !sum
       sum = price.times(vol)
 
-    if sum.greaterThan(balance)
+    type = @panelType()
+    if type == 'bid' && sum.greaterThan(balance)
       [price, vol, sum] = @solveEquation(target, price, null, balance, balance)
       @select('sumSel').val(sum)
       @select('volumeSel').val(vol)
-    else if vol.greaterThan(balance)
+    else if type == 'ask' && vol.greaterThan(balance)
       [price, vol, sum] = @solveEquation(target, price, balance, null, balance)
       @select('sumSel').val(sum)
       @select('volumeSel').val(vol)
