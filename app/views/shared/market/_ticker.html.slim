@@ -1,33 +1,41 @@
-.row.ticker
-  dl.col-xs-4
-    dt
-      span.name.last = t('global.latest_price')
-    dd
-      span.value.last
-  dl.col-xs-5
-    dd
-      span.sell.name
-        | &nbsp;
-        = t('global.ask_price')
-      span.sell.value
-    dd
-      span.buy.name
-        | &nbsp;
-        = t('global.bid_price')
-      span.buy.value
-  dl.col-xs-5
-    dd
-      span.high.name
-        | &nbsp;
-        = t('global.high_price')
-      span.high.value
-    dd
-      span.low.name
-        | &nbsp;
-        = t('global.low_price')
-      span.low.value
-  dl.col-xs-4
-    dt
-      span.name.volume = t('global.volume')
-    dd
-      span.value.volume
+.row.ticker-wrapper
+  .col-md-8
+    h1.market-name.text-info = market
+  .col-md-16
+    .row.ticker
+      dl.dl-horizontal.col-md-9.col-md-offset-1
+        dt
+          span.name.volume = t('global.volume')
+        dd
+          span.value.volume
+      dl.dl-horizontal.col-md-7
+        dt
+          span.sell.name
+            | &nbsp;
+            = t('global.ask_price')
+        dd
+          span.sell.value
+      dl.dl-horizontal.col-md-7
+        dt: span.high.name
+          | &nbsp;
+          = t('global.high_price')
+        dd
+          span.high.value
+    .row.ticker
+      dl.dl-horizontal.col-md-9.col-md-offset-1
+        dt: span.name.last = t('global.latest_price')
+        dd: span.value.last
+      dl.dl-horizontal.col-md-7
+        dt
+          span.buy.name
+            | &nbsp;
+            = t('global.bid_price')
+        dd
+          span.buy.value
+      dl.dl-horizontal.col-md-7
+        dt
+          span.low.name
+            | &nbsp;
+            = t('global.low_price')
+        dd
+          span.low.value

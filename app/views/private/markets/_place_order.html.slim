@@ -21,7 +21,7 @@
       label.text-right.name = t('.balance')
       span.value
     p
-      button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.ask_panel', currency: @ask_name)
+      button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.ask_panel', currency: market.ask_currency.name_text)
 
 hr
 
@@ -48,7 +48,7 @@ hr
       label.text-right.name = t('.balance')
       span.value
     p
-      button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.bid_panel', currency: @ask_name)
+      button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.bid_panel', currency: market.ask_currency.name_text)
 
 
     /p.hint-labels

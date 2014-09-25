@@ -1,4 +1,4 @@
-#markets-show > .container {
+#markets-show > #wrap > .container {
   //#==========================================
   // table basic style
   table {
@@ -35,7 +35,7 @@
     .panel { 
       padding: 10px;
       .panel-body {
-        height: 460px;
+        height: 465px;
         margin-bottom: 0px;
         padding: 0px;
       }

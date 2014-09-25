@@ -49,6 +49,14 @@ class Market < ActiveYamlBase
     id
   end
 
+  def ask_currency
+    Currency.find_by_code(ask["currency"])
+  end
+
+  def bid_currency
+    Currency.find_by_code(bid["currency"])
+  end
+
   private
 
   def global

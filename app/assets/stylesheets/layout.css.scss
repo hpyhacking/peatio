@@ -5,6 +5,25 @@ html, body {
   font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", sans-serif;
 }
 
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto 0 - $footer-height;
+
+  & + iframe { display: none; }
+}
+
+#push, footer {
+  height: $footer-height;
+  box-sizing: 'border-box';
+}
+
+footer {
+  padding-top: 20px;
+  border-top: 1px solid #DDD;
+}
+
 footer {
   height: $footer-height;
   box-sizing: 'border-box';

@@ -9,7 +9,7 @@ module ChartHelper
 
   def render_market_chart
     set_gon_kline_data
-    render partial: 'shared/market/chart'
+    render partial: 'shared/market/chart', locals: {market: current_market.name}
   end
 
 end
