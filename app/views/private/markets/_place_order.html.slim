@@ -19,12 +19,14 @@
           p.current-balance.clearfix
             label.text-right.name = t('.balance')
             span.value
+          p.hint-labels
+            span.label.label-warning.price-disadvantage
+            span.label.label-info.positions
+            span.label.girder &nbsp;
           p.input-group.price
             label.input-group-addon = t('.price')
             = f.text_field :price, class: 'form-control'
             span.input-group-addon = market.bid['currency'].upcase
-          p.price-alert
-            span.label.label-danger
           p.input-group.amount
             label.input-group-addon = t('.amount')
             = f.text_field :origin_volume, class: 'form-control'
@@ -48,6 +50,10 @@
           p.current-balance
             label.text-right.name = t('.balance')
             span.value
+          p.hint-labels
+            span.label.label-warning.price-disadvantage
+            span.label.label-info.positions
+            span.label.girder &nbsp;
           p.input-group.price
             label.input-group-addon = t('.price')
             = f.text_field :price, class: 'form-control'

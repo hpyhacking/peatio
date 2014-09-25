@@ -4,7 +4,8 @@
     successSel: '.status span.label-success'
     infoSel: '.status span.label-info'
     dangerSel: '.status span.label-danger'
-    priceAlertSel: '.price-alert span.label-danger'
+    priceAlertSel: '.hint-labels .price-disadvantage'
+    positionsLabelSel: '.hint-labels .positions'
 
     priceSel: 'input[id$=price]'
     volumeSel: 'input[id$=volume]'
@@ -77,8 +78,7 @@
       [price, vol, sum] = @solveEquation(target, price, null, balance, balance)
       @select('sumSel').val(sum)
       @select('volumeSel').val(vol)
-
-    if vol.greaterThan(balance)
+    else if vol.greaterThan(balance)
       [price, vol, sum] = @solveEquation(target, price, balance, null, balance)
       @select('sumSel').val(sum)
       @select('volumeSel').val(vol)
@@ -153,9 +153,19 @@
 
     switch type
       when 'bid'
-        node.text(@getBalance() - data.sum).fixBid()
+        available = @getBalance().minus data.sum
+        if available.equals(0)
+          @select('positionsLabelSel').hide().text('Full').fadeIn()
+        else
+          @select('positionsLabelSel').fadeOut().text('')
+        node.text(available).fixBid()
       when 'ask'
-        node.text(@getBalance() - data.volume).fixAsk()
+        available = @getBalance().minus data.volume
+        if available.equals(0)
+          @select('positionsLabelSel').hide().text('Empty').fadeIn()
+        else
+          @select('positionsLabelSel').fadeOut().text('')
+        node.text(available).fixAsk()
 
   @updateLastPrice = (event, data) ->
     @select('lastPrice').text data.last
@@ -171,11 +181,12 @@
 
     switch
       when currentPrice > (lastPrice * 1.1)
-        priceAlert.text gon.i18n.place_order.price_high
+        priceAlert.hide().text(gon.i18n.place_order.price_high).fadeIn()
       when currentPrice < (lastPrice * 0.9)
-        priceAlert.text gon.i18n.place_order.price_low
+        priceAlert.hide().text(gon.i18n.place_order.price_low).fadeIn()
       else
-        priceAlert.text ''
+        priceAlert.fadeOut ->
+          priceAlert.text('')
 
 
   @after 'initialize', ->

@@ -81,6 +81,10 @@
       &.place-order {
         height: 390px;
 
+        .price-disadvantage {
+          margin-right: 5px;
+        }
+
         .last-price .value {
           cursor: pointer;
         }
