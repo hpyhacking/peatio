@@ -12,17 +12,18 @@ window.OrderBookUI = flight.component ->
       seperator.html(JST['market_order_seperator'](attrs)).fadeIn()
 
   @refreshOrders = (event, data) ->
-    @buildOrders(@select('asksSelector'), data.asks)
-    @buildOrders(@select('bidsSelector'), data.bids)
+    @buildOrders(@select('bidsSelector'), data.bids, 'up-font-color')
+    @buildOrders(@select('asksSelector'), data.asks, 'down-font-color')
 
-  @buildOrders = (table, orders) ->
+  @buildOrders = (table, orders, cls) ->
     $(table).find('tr').each (i, e) ->
       i = parseInt($(e).data('order'))
       if orders[i]
-        data = {price: orders[i][0], amount: orders[i][1]}
+        data = {price: orders[i][0], amount: orders[i][1], cls: cls}
         $(e).empty().append(JST["market_order"](data))
       else
-        $(e).empty().append(JST["market_order_empty"]({}))
+        data = {cls: cls}
+        $(e).empty().append(JST["market_order_empty"](data))
 
   @computeDeep = (e, orders) ->
     index = parseInt $(e.currentTarget).data('order')
