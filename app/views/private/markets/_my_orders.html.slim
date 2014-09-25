@@ -6,6 +6,11 @@
         a.orders-wait href="#orders_wait" data-toggle="tab" == t('.orders_wait')
       li.btn.btn-primary
         a.orders-done href="#orders_done" data-toggle="tab" == t('.orders_done')
+
+    .cancel-all
+      = link_to t('.clear_bids'), clear_market_order_bids_path(market_id: current_market.id), class: 'btn btn-default', remote: true, method: :post, confirm: t('.confirm_clear_bids')
+      = link_to t('.clear_asks'), clear_market_order_asks_path(market_id: current_market.id), class: 'btn btn-default', remote: true, method: :post, confirm: t('.confirm_clear_asks')
+
     table.table.table-condensed.table-striped
       thead: tr
         th class='kind col-md-3' = Order.human_attribute_name('kind')
