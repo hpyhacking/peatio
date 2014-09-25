@@ -48,9 +48,9 @@ defaults: &defaults
   # we support development key and secret
   # uncomment below line only development or test
   #
-  PUSHER_APP: 65910
-  PUSHER_KEY: 50d404c35db92d736a57
-  PUSHER_SECRET: 75d6e6685209cc60cc4d
+  PUSHER_APP: YOUR_PUSHER_APP
+  PUSHER_KEY: YOUR_PUSHER_KEY
+  PUSHER_SECRET: YOUR_PUSHER_SECRET
 
   # PUSHER_APP: YOUR_PUSHER_APP
   # PUSHER_KEY: YOUR_PUSHER_KEY
