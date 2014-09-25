@@ -26,8 +26,6 @@
   //#==========================================
   // order-book and place-order
 
-
-
   @mixin fix-clear-pannel($left-right: right) {
     margin-#{$left-right}: 0px;
     padding-#{$left-right}: 0px;
@@ -53,6 +51,19 @@
     .panel .panel-body {
       padding-right: 15px;
       border-right: 1px solid $split-color;
+    }
+    
+    .table.asks { margin-bottom: 0px; }
+    .table.bids { margin-top: 0px; }
+    .table.seperator { margin: 10px 0px; }
+  }
+
+  .order-book-single { 
+    @include fix-clear-pannel; 
+
+    .panel .panel-body {
+      padding-right: 15px;
+      border-right: 0px !important;
     }
     
     .table.asks { margin-bottom: 0px; }

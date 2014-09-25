@@ -18,7 +18,20 @@
         .col-md-8 = render partial: 'my_orders'
     - else
       .row
-        .col-md-24 = render_market_chart
+        .col-md-18 = render_market_chart
+        .col-md-6: .row
+          .col-md-24.order-book.order-book-single
+            .panel.panel-default: .panel-body
+              table.table.asks
+              table.table.seperator
+              table.table.bids
       .row
-        .col-md-12  = render partial: 'trades'
-        .col-md-12  = render partial: 'order_book'
+        .col-md-8
+          .panel.panel-info
+            .panel-heading
+              span = t('.bid_orders')
+        .col-md-8
+          .panel.panel-info
+            .panel-heading
+              span = t('.ask_orders')
+        .col-md-8 = render partial: 'trades'
