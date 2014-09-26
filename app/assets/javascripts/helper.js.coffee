@@ -54,8 +54,7 @@ Handlebars.registerHelper 'format_fix_ask', (volume) ->
   fixAsk volume
 
 Handlebars.registerHelper 'format_trend', (trend) ->
-  # TODO check trend return up-font-color or down-font-color
-  'up-font-color'
+  "#{trend}-font-color"
 
 Handlebars.registerHelper 'format_fix_bid', (price) ->
   fixBid price
