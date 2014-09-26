@@ -43,9 +43,9 @@ zh-CN:
       my_trades:
         my_trades: 我的委托成交记录
         all: 所有记录
-        buy: 买单成交记录
-        sell: 卖单成交记录
-        cancel: 取消挂单记录
+        buy: 买入成交记录
+        sell: 卖出成交记录
+        cancel: 取消记录
       my_orders:
         my_orders: 我的有效委托
         orders_cancel: 最新撤销

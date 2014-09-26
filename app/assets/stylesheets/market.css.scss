@@ -34,7 +34,7 @@
     margin-#{$left-right}: 0px;
     padding-#{$left-right}: 0px;
 
-    .panel { 
+    .panel {
       padding: 10px;
       .panel-body {
         height: 465px;
@@ -44,45 +44,45 @@
 
       border-top-#{$left-right}-radius: 0px;
       border-bottom-#{$left-right}-radius: 0px;
-      border-#{$left-right}-width: 0px; 
+      border-#{$left-right}-width: 0px;
       margin-bottom: 0px;
     }
   }
 
-  .order-book { 
-    @include fix-clear-pannel; 
+  .order-book {
+    @include fix-clear-pannel;
 
     .panel .panel-body {
       padding-right: 15px;
       border-right: 1px solid $split-color;
     }
-    
+
     .table.asks { margin-bottom: 0px; }
     .table.bids { margin-top: 0px; }
     .table.seperator { margin: 10px 0px; }
   }
 
-  .order-book-single { 
-    @include fix-clear-pannel; 
+  .order-book-single {
+    @include fix-clear-pannel;
 
     .panel .panel-body {
       padding-right: 15px;
       border-right: 0px !important;
     }
-    
+
     .table.asks { margin-bottom: 0px; }
     .table.bids { margin-top: 0px; }
     .table.seperator { margin: 10px 0px; }
   }
 
   .order-place {
-    @include fix-clear-pannel(left); 
+    @include fix-clear-pannel(left);
 
     .input-group { margin-bottom: 7px; }
 
-    hr { 
+    hr {
       margin: 23px 0px 22px 0px;
-      border-top-color: $split-color; 
+      border-top-color: $split-color;
     }
 
     .panel {
@@ -115,6 +115,22 @@
     input[type=text] { text-align: right; }
   }
   //#==========================================
+
+  //#==========================================
+  // my-trades
+  .my-trades {
+    table {
+      &.hidden-buy {
+        tr.bid { display: none; }
+      }
+      &.hidden-sell {
+        tr.ask { display: none; }
+      }
+    }
+  }
+
+  //#==========================================
+
   .panel-heading {
     -moz-user-select: none;
     -webkit-user-select: none;
