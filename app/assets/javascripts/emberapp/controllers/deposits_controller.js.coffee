@@ -10,6 +10,10 @@ Peatio.DepositsController = Ember.ArrayController.extend
       , 1000)
     )
 
+    $.subscribe('payment_address:create', ->
+      $("#payment_address").html(controller.get('model')[0].account().payment_address)
+    )
+
   paymentAddress: (->
     @model[0].account().payment_address
   ).property('@each')

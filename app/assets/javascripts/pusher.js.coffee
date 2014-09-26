@@ -21,6 +21,7 @@ class PusherSubscriber
       new AccountHandler(channel)
       new DepositHandler(channel)
       new WithdrawHandler(channel)
+      new PaymentAddressHandler(channel)
 
 class EventHandler
   constructor: (channel, event) ->
@@ -85,6 +86,16 @@ class WithdrawHandler extends EventHandler
 
   destroy: (id) =>
     Withdraw.destroy(id)
+
+class PaymentAddressHandler extends EventHandler
+  constructor: (channel) ->
+    super channel, "payment_address"
+
+  create: (attributes) =>
+    account = Account.findBy('id', attributes['account_id'])
+    account.payment_address = attributes['address']
+    account.save()
+    $.publish "payment_address:create"
 
 
 window.PusherSubscriber = PusherSubscriber
