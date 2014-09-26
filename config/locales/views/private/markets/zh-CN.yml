@@ -14,6 +14,11 @@ zh-CN:
         bid_order: '买 ##sn#'
         ask_orders: 买单深度
         bid_orders: 卖单深度
+      depths:
+        price: 价格
+        amount: 数量
+        buy: 买入
+        sell: 卖出
       ticker:
         markets: 实时价格
       account_balance:

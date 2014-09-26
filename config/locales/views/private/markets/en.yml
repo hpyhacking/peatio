@@ -12,6 +12,11 @@ en:
         confirm: CONFIRM
         ask_order: 'ASK ##sn#'
         bid_order: 'BID ##sn#'
+      depths:
+        price: Price
+        amount: Amount
+        buy: Buy
+        sell: Sell
       ticker:
         markets: Markets
       account_balance:

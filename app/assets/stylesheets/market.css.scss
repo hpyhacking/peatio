@@ -131,6 +131,16 @@
 
   //#==========================================
 
+  //#==========================================
+  // depths
+  .depths {
+    table {
+      td.ask { color: $up-color; }
+      td.bid { color: $down-color; }
+    }
+  }
+
+  //#==========================================
   .panel-heading {
     -moz-user-select: none;
     -webkit-user-select: none;
