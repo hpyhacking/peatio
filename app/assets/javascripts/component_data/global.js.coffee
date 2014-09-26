@@ -27,4 +27,5 @@ window.GlobalData = flight.component ->
       @trigger 'market::trades', {trades: data.trades}
 
     # Initializing at bootstrap
+    @trigger 'market::trades', {trades: gon.trades}
     @trigger 'market::ticker', gon.ticker

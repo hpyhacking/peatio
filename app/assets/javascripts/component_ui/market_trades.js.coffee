@@ -4,10 +4,9 @@ window.MarketTradesUI = flight.component ->
     table: 'tbody'
     defaultHeight: 156
 
-  @refresh = (data) ->
+  @refresh = (event, data) ->
     $table = @select('table')
     $table.prepend(JST['market_trade'](trade)) for trade in data.trades
 
   @after 'initialize', ->
-    @on document, 'market::trades', (event, data) => @refresh(data)
-    @refresh {trades: _.first(gon.trades, 20).reverse()}
+    @on document, 'market::trades', @refresh
