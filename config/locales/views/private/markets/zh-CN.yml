@@ -24,6 +24,8 @@ zh-CN:
       account_balance:
         title: 账户余额
         available: 可用 %{currency}
+      balance:
+        balance: 余额
       place_order:
         place_order: 快速挂单
         bid_panel: 买入%{currency}
@@ -32,9 +34,8 @@ zh-CN:
         last_price: 最新价格
         amount: 数量
         total: 金额
-        balance: 余额
-        price_high: 价格超出最新价格10%
-        price_low: 价格低于最新价格10%
+        price_high: 过高
+        price_low: 过低
         full_in: 全仓
         full_out: 空仓
       order_book:

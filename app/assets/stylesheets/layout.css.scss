@@ -247,3 +247,14 @@ header {
     font-family: monospace;
   }
 }
+
+.number {
+  font-size: 18px;
+  font-family: monospace;
+}
+
+.number-label {
+  font-size: 14px;
+  color: $ignore-color;
+  margin-right: 5px;
+}

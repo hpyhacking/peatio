@@ -90,18 +90,26 @@
       border-top-color: $split-color;
     }
 
+    .hint-price-disadvantage, .hint-positions  {
+      top: 5px;
+      left: 60px;
+      font-size: 14px;
+      margin-left: 0px;
+      position: absolute;
+      z-index: 10;
+    }
+
+    .status-info, .status-success, .status-danger {
+      top: -2px;
+      left: 5px;
+      font-size: 14px;
+      margin-left: 0px;
+      position: absolute;
+    }
+
     .panel {
+      .panel-body { padding: 0px 5px; }
       padding-left: 0px;
-    }
-
-    label.name {
-      display: inline-block;
-      width: 70px;
-      margin-right: 10px;
-    }
-
-    span.label + span.label {
-      margin-left: 0;
     }
 
     button { border-color: $ignore-color; }
@@ -109,6 +117,14 @@
     #bid_panel button {
       background-color: $up-color;
       &:hover { background-color: opacify($up-color, 1.0); }
+    }
+
+    #ask_panel {
+      margin-top: 25px;
+    }
+
+    button {
+      margin-top: 5px;
     }
 
     #ask_panel button {

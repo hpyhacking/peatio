@@ -1,18 +1,18 @@
 @PlaceOrderUI = flight.component ->
   @attributes
     formSel: 'form'
-    successSel: '.status span.label-success'
-    infoSel: '.status span.label-info'
-    dangerSel: '.status span.label-danger'
-    priceAlertSel: '.hint-labels .price-disadvantage'
-    positionsLabelSel: '.hint-labels .positions'
+    successSel: '.status-success'
+    infoSel: '.status-info'
+    dangerSel: '.status-danger'
+    priceAlertSel: '.hint-price-disadvantage'
+    positionsLabelSel: '.hint-positions'
 
     priceSel: 'input[id$=price]'
     volumeSel: 'input[id$=volume]'
     sumSel: 'input[id$=total]'
 
     lastPrice: '.last-price .value'
-    currentBalanceSel: '.current-balance .value'
+    currentBalanceSel: 'span.current-balance'
     submitButton: ':submit'
 
   @panelType = ->
@@ -56,14 +56,14 @@
 
   @handleSuccess = (event, data) ->
     @cleanMsg()
-    @select('successSel').text(data.message).show().fadeOut(3500)
+    @select('successSel').text(data.message).show().fadeOut(2500)
     @resetForm(event)
     @enableSubmit()
 
   @handleError = (event, data) ->
     @cleanMsg()
     json = JSON.parse(data.responseText)
-    @select('dangerSel').text(json.message).show().fadeOut(3500)
+    @select('dangerSel').text(json.message).show().fadeOut(2500)
     @enableSubmit()
 
   @solveEquation = (target, price, vol, sum, balance) ->
@@ -207,4 +207,3 @@
     @on @select('priceSel'), 'change paste keyup focusout', @computeSum
     @on @select('volumeSel'), 'change paste keyup focusout', @computeSum
     @on @select('sumSel'), 'change paste keyup focusout', @computeVolume
-

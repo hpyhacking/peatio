@@ -3,36 +3,21 @@
     = f.hidden_field :ord_type
     p.input-group.price
       label.input-group-addon = t('.price')
+      span.label.label-danger.hint-price-disadvantage
       = f.text_field :price, class: 'form-control'
       span.input-group-addon = market.bid['currency'].upcase
     p.input-group.amount
       label.input-group-addon = t('.amount')
+      span.label.label-info.hint-positions
       = f.text_field :origin_volume, class: 'form-control'
       span.input-group-addon = market.ask['currency'].upcase
     p.input-group.total
       label.input-group-addon = t('.total')
       = f.text_field :total, class: 'form-control'
       span.input-group-addon = market.bid['currency'].upcase
-    .row
-      .col-md-24
-        p.current-balance.text-right
-          label.text-right.name = t('.balance')
-          span.value
+    = render partial: 'balance'
     p
-      span.label.label-info.col-md-4 asdfasdf
-      span.label.label-info.col-md-4 asdfasdf
-      button.btn.btn-primary.btn-lg.col-md-16 type="submit" = t('.ask_panel', currency: market.ask_currency.name_text)
-    .row
-      .col-md-12
-        p.hint-labels
-          span.label.label-warning.price-disadvantage
-          span.label.label-info.positions
-          span.label.girder &nbsp;
-      .col-md-12
-        p.status
-          span.label.label-info
-          span.label.label-success
-          span.label.label-danger
+      button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.ask_panel', currency: market.ask_currency.name_text)
 
 hr
 
@@ -41,6 +26,7 @@ hr
     = f.hidden_field :ord_type
     p.input-group.price
       label.input-group-addon = t('.price')
+      span.label.label-danger.hint-price-disadvantage
       = f.text_field :price, class: 'form-control'
       span.input-group-addon = market.bid['currency'].upcase
     p.input-group.amount
@@ -49,95 +35,9 @@ hr
       span.input-group-addon = market.ask['currency'].upcase
     p.input-group.total
       label.input-group-addon = t('.total')
+      span.label.label-info.hint-positions
       = f.text_field :total, class: 'form-control'
       span.input-group-addon = market.bid['currency'].upcase
-    .row
-      .col-md-24
-        p.current-balance.text-right
-          label.text-right.name = t('.balance')
-          span.value
-    .row
-      .col-md-12
-        p.hint-labels
-          span.label.label-warning.price-disadvantage
-          span.label.label-info.positions
-          span.label.girder &nbsp;
-      .col-md-12
-        p.status
-          span.label.label-info
-          span.label.label-success
-          span.label.label-danger
+    = render partial: 'balance'
     p
       button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.bid_panel', currency: market.ask_currency.name_text)
-
-
-    /p.hint-labels
-      /span.label.label-warning.price-disadvantage
-      /span.label.label-info.positions
-      /span.label.girder &nbsp;
-    /p.status
-      /span.label.label-info
-      /span.label.label-success
-      /span.label.label-danger
-/    .tab-content
-      /#bid_panel.tab-pane.active
-        /= form_for [market, order_bid], :remote => true do |f|
-          /= f.hidden_field :ord_type
-          /p.last-price
-            /label.text-right.name = t('.last_price')
-            /span.value
-          /p.current-balance.clearfix
-            /label.text-right.name = t('.balance')
-            /span.value
-          /p.hint-labels
-            /span.label.label-warning.price-disadvantage
-            /span.label.label-info.positions
-            /span.label.girder &nbsp;
-          /p.input-group.price
-            /label.input-group-addon = t('.price')
-            /= f.text_field :price, class: 'form-control'
-            /span.input-group-addon = market.bid['currency'].upcase
-          /p.input-group.amount
-            /label.input-group-addon = t('.amount')
-            = f.text_field :origin_volume, class: 'form-control'
-          p.input-group.total
-            label.input-group-addon = t('.total')
-            = f.text_field :total, class: 'form-control'
-            span.input-group-addon = market.bid['currency'].upcase
-          p.status
-            span.label.label-info
-            span.label.label-success
-            span.label.label-danger
-          p
-            button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.bid_panel', currency: @ask_name)
-
-      /#ask_panel.tab-pane
-        /= form_for [market, order_ask], :remote => true do |f|
-          /= f.hidden_field :ord_type
-          /p.last-price
-            /label.text-right.name = t('.last_price')
-            /span.value
-          /p.current-balance
-            /label.text-right.name = t('.balance')
-            /span.value
-          /p.hint-labels
-            /span.label.label-warning.price-disadvantage
-            /span.label.label-info.positions
-            /span.label.girder &nbsp;
-          /p.input-group.price
-            /label.input-group-addon = t('.price')
-            /= f.text_field :price, class: 'form-control'
-            /span.input-group-addon = market.bid['currency'].upcase
-          /p.input-group.amount
-            /label.input-group-addon = t('.amount')
-            /= f.text_field :origin_volume, class: 'form-control'
-          /p.input-group.total
-            /label.input-group-addon = t('.total')
-            /= f.text_field :total, class: 'form-control'
-            /span.input-group-addon = market.bid['currency'].upcase
-          /p.status
-            /span.label.label-info
-            /span.label.label-success
-            /span.label.label-danger
-          /p
-            /button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.ask_panel', currency: @ask_name)
