@@ -167,6 +167,13 @@ header {
       font-size: 18px;
     }
   }
+
+  .account-settings {
+    ul.dropdown-menu {
+      min-width: 0px;
+      width: 100%;
+    }
+  }
 }
 // ==============================================================
 
