@@ -33,10 +33,12 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
       currency = @model[0].currency
       account = @model[0].account()
       data = { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source }
+      $('#withdraw_btc_submit').attr('disabled', 'disabled')
       $.ajax({
         url: '/withdraws/satoshis',
         method: 'post',
         data: { withdraw: data}
-      })
+      }).done(->
+        $('#withdraw_btc_submit').removeAttr('disabled')
+      )
   }
-

@@ -19,4 +19,5 @@ Deposit.initData window.deposits
 Account.initData window.accounts
 Currency.initData window.currencies
 Withdraw.initData window.withdraws
+FundSource.initData window.fund_sources
 

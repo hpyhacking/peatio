@@ -12,6 +12,7 @@ module Private
       @deposits = current_user.deposits
       @accounts = current_user.accounts
       @withdraws = current_user.withdraws
+      @fund_sources = current_user.fund_sources
     end
   end
 end

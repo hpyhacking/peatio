@@ -13,6 +13,7 @@
       window.current_user = <%= raw current_user.to_json %>
       window.currencies = <%= raw @currencies.to_json %>
       window.withdraws = <%= raw @withdraws.to_json %>
+      window.fund_sources= <%= raw @fund_sources.to_json %>
     </script>
     <%= stylesheet_link_tag stylesheet, media: "all" %>
     <%= javascript_include_tag "emberapp" %>
