@@ -129,7 +129,7 @@ header {
     }
 
     .account-wrap {
-      width: 320px;
+      width: 360px;
       padding: 8px;
       border-bottom: 1px solid $ignore-color; 
     }
@@ -151,7 +151,8 @@ header {
 
     span.account-name {
       color: $main-color;
-      margin-top: -26px;
+      margin-top: -24px;
+      padding-right: 10px;
       display: block;
       font-size: 18px;
       background-color: white;
