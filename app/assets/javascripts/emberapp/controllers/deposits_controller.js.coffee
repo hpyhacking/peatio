@@ -3,7 +3,7 @@ Peatio.DepositsController = Ember.ArrayController.extend
     controller = @
     @._super()
     Peatio.set('deposits-controller', @)
-    $.subscribe('deposits:create', ->
+    $.subscribe('deposit:create', ->
       controller.get('deposits').setObjects(controller.get('model')[0].account().topDeposits())
     )
 

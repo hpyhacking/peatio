@@ -6,4 +6,7 @@ class WithdrawChannel extends PeatioModel.Model
       $.each records, (idx, record) ->
         WithdrawChannel.create(record.attributes)
 
+  account: ->
+    Account.findBy('currency', @currency)
+
 window.WithdrawChannel = WithdrawChannel

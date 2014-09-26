@@ -9,7 +9,6 @@
 #= require_self
 #
 
-
 $ ->
   window.pusher_subscriber = new PusherSubscriber()
 
