@@ -1,9 +1,9 @@
-.panel.panel-info
+.panel.panel-info.my-trades
   .panel-heading
     span = t('.my_trades')
-  .panel-body.my-trades
-    #orders_done
-      table.table.table-condensed.table-striped
+  .panel-body
+    table.table.table-condensed.table-striped
+      #orders_done
         thead: tr
           th class='kind col-md-3' = Order.human_attribute_name('kind')
           th class='at col-md-9' = Order.human_attribute_name('at')

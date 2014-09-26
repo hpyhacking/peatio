@@ -1,4 +1,4 @@
-@MyOrdersDoneUI = flight.component ->
+@MyTradesUI = flight.component ->
   flight.compose.mixin @, [ItemListMixin]
 
   @getTemplate = (order) -> $(JST["order_done"](order))

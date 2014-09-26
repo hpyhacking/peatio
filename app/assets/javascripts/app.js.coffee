@@ -47,10 +47,8 @@ $ ->
   AccountBalanceUI.attachTo('.account-balance')
   PlaceOrderUI.attachTo('.order-place #bid_panel')
   PlaceOrderUI.attachTo('.order-place #ask_panel')
-  MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
-  MyOrdersDoneUI.attachTo('.my-orders #orders_done')
-  PushButton.attachTo('.order-place')
-  PushButton.attachTo('.my-orders')
+  MyOrdersUI.attachTo('.my-orders')
+  MyTradesUI.attachTo('.my-trades')
 
   MarketTickerUI.attachTo('.ticker')
   MarketTradesUI.attachTo('.trades')
