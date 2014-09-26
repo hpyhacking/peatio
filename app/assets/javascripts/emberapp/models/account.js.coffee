@@ -18,7 +18,6 @@ class Account extends PeatioModel.Model
   withdraws: ->
     Withdraw.findAllBy 'account_id', @id
 
-
   topDeposits: ->
     deposits.slice(0,3)
 

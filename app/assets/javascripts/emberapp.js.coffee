@@ -7,7 +7,6 @@
 #= require app
 #= require pusher.min
 #= require pusher
-#= require ember-data
 #= require_self
 #= require ./emberapp/peatio
 
@@ -32,10 +31,4 @@
 #= require_tree ./component_ui
 
 # for more details see: http://emberjs.com/guides/application/
-window.Peatio = Ember.Application.create({
-  LOG_VIEW_LOOKUPS: true
-})
-
-window.Peatio.ApplicationAdapter = DS.FixtureAdapter
-window.store = window.Peatio.__container__.lookup('store:main');
-
+window.Peatio = Ember.Application.create()
