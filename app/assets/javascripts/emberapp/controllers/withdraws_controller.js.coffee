@@ -4,7 +4,10 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     @._super()
     Peatio.set('withdraws-controller', @)
     $.subscribe('withdraw:create', ->
-      controller.get('withdraws').setObjects(controller.get('model')[0].account().topWithdraws())
+      controller.get('withdraws').insertAt(0, controller.get('model')[0].account().withdraws().pop())
+      setTimeout(->
+        controller.get('withdraws').popObject()
+      , 1000)
     )
 
   btc: (->
@@ -25,8 +28,8 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
 
   actions: {
     submitWithdraw: ->
-      fund_source = $(event.target).find('#fund_uid').val()
-      sum = $(event.target).find('#fund_uid').val()
+      fund_source = $(event.target).find('#fund_source').val()
+      sum = $(event.target).find('#withdraw_sum').val()
       currency = @model[0].currency
       account = @model[0].account()
       data = { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source }
@@ -35,6 +38,5 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
         method: 'post',
         data: { withdraw: data}
       })
-
   }
 

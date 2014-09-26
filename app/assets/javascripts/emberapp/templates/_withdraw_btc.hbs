@@ -1,0 +1,34 @@
+<h1>比特币提现</h1>
+<form {{ action submitWithdraw id="btc_withdraws" on="submit"}}>
+  <label>标签</label>
+  <input id="fund_source" name="fund_source">
+  <p>
+    <label>可用余额</label>
+    <span>{{balance}} </span>
+  </p>
+
+  <label>提取数量</label>
+  <input name="withdraw_sum", id="withdraw_sum"> <br />
+  <button class="btn btn-primary pull-right">提交</button>
+</form>
+
+<table class="table">
+  <tr>
+    <th>编号</th>
+    <th>时间</th>
+    <th>提现地址</th>
+    <th>实际到账</th>
+    <th>旷工费</th>
+    <th>状态/操作</th>
+  </tr>
+  {{#each withdraw in withdraws}}
+  <tr>
+    <td>{{withdraw.id}}</td>
+    <td>{{withdraw.created_at}}</td>
+    <td>{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}</td>
+    <td>{{deposit.amount}}</td>
+    <td>{{deposit.aasm_state}}</td>
+  </tr>
+  {{/each}}
+</table>
+

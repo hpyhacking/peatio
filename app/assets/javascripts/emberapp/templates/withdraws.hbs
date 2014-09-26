@@ -1,18 +1,6 @@
 {{#if btc}}
-  <h1>比特币提现</h1>
-  <form {{ action submitWithdraw id="btc_withdraws" on="submit"}}>
-    <label>地址</label>
-    <input id="fund_uid" name="fund_uid">
-    <p>
-      <label>可用余额</label>
-      <span>{{balance}} </span>
-    </p>
+  {{partial 'emberapp/templates/_withdraw_btc'}}
 
-    <label>提取数量</label>
-    <input name="withdraw_sum">
-    <br />
-    <button class="btn btn-primary pull-right">提交</a>
-  </form>
 {{/if}}
 
 {{#if cny}}

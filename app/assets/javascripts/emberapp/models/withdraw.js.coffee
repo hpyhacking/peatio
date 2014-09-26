@@ -1,5 +1,5 @@
 class Withdraw extends PeatioModel.Model
-  @configure 'Withdraw', 'sn', 'acount_id', 'member_id', 'currency', 'amount', 'fee', 'fund_uid', 'fund_extra',
+  @configure 'Withdraw', 'sn', 'account_id', 'member_id', 'currency', 'amount', 'fee', 'fund_uid', 'fund_extra',
     'created_at', 'updated_at', 'done_at', 'txid', 'aasm_state', 'sum', 'type'
 
   @extend PeatioModel.Model.Ajax
