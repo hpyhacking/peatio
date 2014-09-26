@@ -20,7 +20,6 @@ window.GlobalData = flight.component ->
       gon.tickers[gon.market.id] = data.ticker
 
       @trigger 'market::ticker',  gon.ticker
-      @trigger 'market::tickers', gon.tickers
       @trigger 'market::order_book', asks: gon.asks, bids: gon.bids
 
     channel.bind 'trades', (data) =>
