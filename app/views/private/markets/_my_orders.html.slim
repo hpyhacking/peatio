@@ -1,7 +1,7 @@
-.panel.panel-info.my-orders
+.panel.panel-with-dropdown.panel-wide.panel-info.my-orders
   .panel-heading
     span = t('.my_orders')
-    div.btn-group.one-click-clear.pull-right
+    .btn-group.pull-right
       a.dropdown-toggle  data-toggle="dropdown"
         b = t('.one_click_clear')
         span.caret
@@ -11,11 +11,11 @@
         li.text-right = link_to t('.clear_all'),  clear_market_orders_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_all')}
   .panel-body
     #orders_wait
-      table.table.table-condensed.table-striped
+      table.table.table-condensed
         thead: tr
-          th.kind.col-md-3 = Order.human_attribute_name('kind')
-          th.at.col-md-9 = Order.human_attribute_name('at')
+          th.kind.col-md-2
+          th.at.col-md-6 = Order.human_attribute_name('at')
           th.price.col-md-5 = Order.human_attribute_name('price')
           th.volume.col-md-5 = Order.human_attribute_name('volume')
-          th.operation.col-md-2
+          th.operation.col-md-3
         tbody

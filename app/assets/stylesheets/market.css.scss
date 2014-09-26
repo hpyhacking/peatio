@@ -3,26 +3,34 @@
   // table basic style
   table {
     th, td {
-      &.time {
+      &.time, &.at, &.kind, &.operation {
         text-align: left;
+        font-size: 14px;
         font-family: monospace;
       }
+
+      &.operation { text-align: right; }
+
       &.price, &.amount, &.volume {
         text-align: right;
         font-family: monospace;
       }
     }
 
-    tr:hover {
+    thead { cursor: pointer; }
+    tbody > tr:hover {
       cursor: pointer;
-      font-weight: bold;
+      background-color: #eee;
     }
 
+    tr.bid { td.kind, td.price, td.amount, td.volume { color: $down-dark-color; } }
+    tr.ask { td.kind, td.price, td.amount, td.volume { color: $up-dark-color; } }
+
     td {
-      padding: 3px;
       border: none;
+      padding: 5px 1px 2px 1px;
       font-size: 16px;
-      line-height: 15px !important;
+      line-height: 16px !important;
     }
   }
   //#==========================================
@@ -37,7 +45,7 @@
     .panel {
       padding: 10px;
       .panel-body {
-        height: 465px;
+        height: 500px;
         margin-bottom: 0px;
         padding: 0px;
       }
@@ -59,7 +67,7 @@
 
     .table.asks { margin-bottom: 0px; }
     .table.bids { margin-top: 0px; }
-    .table.seperator { margin: 10px 0px; }
+    .table.seperator { margin: 8px 0px; }
   }
 
   .order-book-single {
@@ -147,21 +155,4 @@
     -ms-user-select: none;
   }
 
-  .my-orders {
-    .panel-heading {
-      .btn-group.open .dropdown-toggle {
-        -webkit-box-shadow: none;
-        box-shadow: none;
-      }
-      .one-click-clear {
-        cursor: pointer;
-        span.caret {
-          margin-left: 2px;
-        }
-        a:hover, a:focus {
-          text-decoration: none;
-        }
-      }
-    }
-  }
 }

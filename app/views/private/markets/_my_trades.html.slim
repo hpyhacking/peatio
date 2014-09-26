@@ -1,4 +1,4 @@
-.panel.panel-info.my-trades
+.panel.panel-with-dropdown.panel-wide.panel-info.my-trades
   .panel-heading
     span = t('.my_trades')
     div.btn-group.pull-right
@@ -6,15 +6,15 @@
         b.switch-link-name = t('.all')
         span.caret
       ul.dropdown-menu role="menu"
-        li = link_to t('.all'), 'javascript:;', class: 'switch all'
         li = link_to t('.buy'), 'javascript:;', class: 'switch buy'
         li = link_to t('.sell'), 'javascript:;', class: 'switch sell'
+        li = link_to t('.all'), 'javascript:;', class: 'switch all'
   .panel-body
-    table.table.table-condensed.table-striped
+    table.table.table-condensed
       thead: tr
-        th class='kind col-md-3' = Order.human_attribute_name('kind')
-        th class='at col-md-9' = Order.human_attribute_name('at')
-        th class='price col-md-5' = Order.human_attribute_name('price')
-        th class='volume col-md-5' = Order.human_attribute_name('volume')
-        th class='operation col-md-2'
+        th.kind.col-md-2
+        th.at.col-md-6 = Order.human_attribute_name('at')
+        th.price.col-md-5 = Order.human_attribute_name('price')
+        th.volume.col-md-5 = Order.human_attribute_name('volume')
+        th.operation.col-md-3
       tbody

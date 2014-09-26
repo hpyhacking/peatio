@@ -200,3 +200,32 @@ header {
   color: $down-dark-color;
   g { color: $down-dark-color; }
 }
+
+//#========================================
+//# panel custom dropdown menu
+.panel.panel-wide {
+  .panel-body { padding: 5px; }
+  .panel-heading { padding: 5px; }
+
+}
+.panel.panel-with-dropdown {
+  .panel-heading {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+    .btn-group.open .dropdown-toggle {
+      box-shadow: none;
+      -moz-box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+
+    .btn-group {
+      margin-right: 5px;
+      cursor: pointer;
+      span.caret { margin-left: 2px; }
+      a:hover, a:focus { text-decoration: none; }
+    }
+  }
+}
+//#========================================
