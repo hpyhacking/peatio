@@ -229,3 +229,21 @@ header {
   }
 }
 //#========================================
+
+.dl-horizontal.dl-ticker {
+  margin-bottom: 10px;
+  line-height: 40px;
+
+  dt { 
+    width: 38px; 
+    cursor: pointer;
+    color: $ignore-color; 
+  }
+
+  dd {
+    margin-top: -4px;
+    font-size: 20px;
+    margin-left: 42px; 
+    font-family: monospace;
+  }
+}

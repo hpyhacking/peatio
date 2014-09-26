@@ -13,15 +13,26 @@
       label.input-group-addon = t('.total')
       = f.text_field :total, class: 'form-control'
       span.input-group-addon = market.bid['currency'].upcase
-    p.status
-      span.label.label-info
-      span.label.label-success
-      span.label.label-danger
-    p.current-balance
-      label.text-right.name = t('.balance')
-      span.value
+    .row
+      .col-md-24
+        p.current-balance.text-right
+          label.text-right.name = t('.balance')
+          span.value
     p
-      button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.ask_panel', currency: market.ask_currency.name_text)
+      span.label.label-info.col-md-4 asdfasdf
+      span.label.label-info.col-md-4 asdfasdf
+      button.btn.btn-primary.btn-lg.col-md-16 type="submit" = t('.ask_panel', currency: market.ask_currency.name_text)
+    .row
+      .col-md-12
+        p.hint-labels
+          span.label.label-warning.price-disadvantage
+          span.label.label-info.positions
+          span.label.girder &nbsp;
+      .col-md-12
+        p.status
+          span.label.label-info
+          span.label.label-success
+          span.label.label-danger
 
 hr
 
@@ -40,13 +51,22 @@ hr
       label.input-group-addon = t('.total')
       = f.text_field :total, class: 'form-control'
       span.input-group-addon = market.bid['currency'].upcase
-    p.status
-      span.label.label-info
-      span.label.label-success
-      span.label.label-danger
-    p.current-balance
-      label.text-right.name = t('.balance')
-      span.value
+    .row
+      .col-md-24
+        p.current-balance.text-right
+          label.text-right.name = t('.balance')
+          span.value
+    .row
+      .col-md-12
+        p.hint-labels
+          span.label.label-warning.price-disadvantage
+          span.label.label-info.positions
+          span.label.girder &nbsp;
+      .col-md-12
+        p.status
+          span.label.label-info
+          span.label.label-success
+          span.label.label-danger
     p
       button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.bid_panel', currency: market.ask_currency.name_text)
 

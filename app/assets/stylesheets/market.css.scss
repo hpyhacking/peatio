@@ -86,10 +86,7 @@
   .order-place {
     @include fix-clear-pannel(left);
 
-    .input-group { margin-bottom: 7px; }
-
     hr {
-      margin: 23px 0px 22px 0px;
       border-top-color: $split-color;
     }
 

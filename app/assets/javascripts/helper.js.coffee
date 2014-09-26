@@ -41,18 +41,18 @@ Handlebars.registerHelper 'format_time', (timestamp) ->
 
 Handlebars.registerHelper 'format_trade_time', (timestamp) ->
   m = moment.unix(timestamp)
-  "#{m.format("MM-DD")} #{m.format("HH:mm")}#{m.format(":ss")}"
+  "#{m.format("MM/DD")} #{m.format("HH:mm")}#{m.format(":ss")}"
 
 Handlebars.registerHelper 'format_fulltime', (timestamp) ->
   m = moment.unix(timestamp)
-  "#{m.format("MM-DD HH:mm")}"
+  "#{m.format("MM/DD HH:mm")}"
 
 Handlebars.registerHelper 'format_mask_fixed_price', (price) ->
   fixBid(price).replace(/\..*/, "<g>$&</g>")
 
 Handlebars.registerHelper 'format_long_time', (timestamp) ->
   m = moment.unix(timestamp)
-  "#{m.format("YYYY-MM-DD HH:mm")}"
+  "#{m.format("YYYY/MM/DD HH:mm")}"
 
 Handlebars.registerHelper 'format_mask_fixed_amount', (amount) ->
   fixAsk(amount).replace(/\..*/, "<g>$&</g>")
