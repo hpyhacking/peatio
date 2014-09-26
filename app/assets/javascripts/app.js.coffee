@@ -52,17 +52,6 @@ $ ->
   PushButton.attachTo('.order-place')
   PushButton.attachTo('.my-orders')
 
-  # if gon.env is 'development'
-  #   Pusher.log = (message) -> window.console && console.log(message)
-
-  pusher = new Pusher gon.pusher_key, gon.pusher_options
-  pusher.connection.bind 'state_change', (state) ->
-    if state.current is 'unavailable'
-      $('#markets-show .pusher-unavailable').removeClass('hide')
-
-  GlobalData.attachTo(document, {pusher: pusher})
-  MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
-
   MarketTickerUI.attachTo('.ticker')
   MarketTradesUI.attachTo('.trades')
   MarketChartUI.attachTo('.market-chart')
@@ -72,6 +61,16 @@ $ ->
   VerifyMobileNumberUI.attachTo('#new_sms_token')
   FlashMessageUI.attachTo('.flash-message')
   TwoFactorAuth.attachTo('.two-factor-auth-container')
+
+  # if gon.env is 'development'
+  #   Pusher.log = (message) -> window.console && console.log(message)
+  pusher = new Pusher gon.pusher_key, gon.pusher_options
+  pusher.connection.bind 'state_change', (state) ->
+    if state.current is 'unavailable'
+      $('#markets-show .pusher-unavailable').removeClass('hide')
+
+  GlobalData.attachTo(document, {pusher: pusher})
+  MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
 
   $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
     $(@).scrollTop(@scrollTop + e.deltaY)
