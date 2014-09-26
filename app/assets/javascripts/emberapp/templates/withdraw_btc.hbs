@@ -1,7 +1,17 @@
 <h1>比特币提现</h1>
 <form {{ action 'submitWithdraw' id="btc_withdraws" on="submit"}}>
   <label>标签</label>
-  <input id="fund_source" name="fund_source">
+
+
+  {{view Ember.Select
+         content=fsources
+         optionValuePath="content.id"
+         optionLabelPath="content.label"
+         class="select required"
+         id="fund_source"
+         name="fund_source"
+  }}
+
   <p>
     <label>可用余额</label>
     <span>{{balance}} </span>

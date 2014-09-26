@@ -26,6 +26,10 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     @model[0].account().balance
   ).property('@each')
 
+  fsources: (->
+    FundSource.findAllBy('currency', @model[0].currency)
+  ).property('@each')
+
   actions: {
     submitWithdraw: ->
       fund_source = $(event.target).find('#fund_source').val()
