@@ -183,3 +183,12 @@ header {
 .down-font-color {
   color: $down-color;
 }
+
+.up-font-dark-color {
+  color: $up-dark-color;
+  g { color: $up-dark-color; }
+}
+.down-font-dark-color {
+  color: $down-dark-color;
+  g { color: $down-dark-color; }
+}

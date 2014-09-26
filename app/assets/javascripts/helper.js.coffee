@@ -36,6 +36,10 @@ Handlebars.registerHelper 'format_time', (timestamp) ->
   m = moment.unix(timestamp)
   "#{m.format("HH:mm")}#{m.format(":ss")}"
 
+Handlebars.registerHelper 'format_trade_time', (timestamp) ->
+  m = moment.unix(timestamp)
+  "#{m.format("MM-DD")} #{m.format("HH:mm")}#{m.format(":ss")}"
+
 Handlebars.registerHelper 'format_fulltime', (timestamp) ->
   m = moment.unix(timestamp)
   "#{m.format("MM-DD HH:mm")}"
@@ -53,8 +57,11 @@ Handlebars.registerHelper 'format_mask_fixed_amount', (amount) ->
 Handlebars.registerHelper 'format_fix_ask', (volume) ->
   fixAsk volume
 
-Handlebars.registerHelper 'format_trend', (trend) ->
-  "#{trend}-font-color"
+Handlebars.registerHelper 'format_trend', (type) ->
+  if type == 'buy'
+    "up-font-dark-color"
+  else if type == "sell"
+    "down-font-dark-color"
 
 Handlebars.registerHelper 'format_fix_bid', (price) ->
   fixBid price

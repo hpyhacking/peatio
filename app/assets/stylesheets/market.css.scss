@@ -3,6 +3,10 @@
   // table basic style
   table {
     th, td {
+      &.time {
+        text-align: left;
+        font-family: monospace;
+      }
       &.price, &.amount, &.volume {
         text-align: right;
         font-family: monospace;
