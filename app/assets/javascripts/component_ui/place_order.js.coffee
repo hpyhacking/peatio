@@ -138,9 +138,17 @@
 
   @allIn = (event)->
     @select('priceSel').val @getLastPrice()
-    if not @select('sumSel').val()
-      @select('sumSel').val @getBalance()
-    @computeVolume(event)
+
+    console.info @panelType()
+    switch @panelType()
+      when 'ask'
+        if not @select('volumeSel').val()
+          @select('volumeSel').val @getBalance()
+        @computeSum(event)
+      when 'bid'
+        if not @select('sumSel').val()
+          @select('sumSel').val @getBalance()
+        @computeVolume(event)
 
   @orderPlan = (event, data) ->
     @select('priceSel').val(data.price)
