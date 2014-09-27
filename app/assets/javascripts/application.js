@@ -28,4 +28,5 @@
 //= require_tree ./component_data
 //= require_tree ./component_ui
 //= require_tree ./templates
+//= require notifier
 //= require app
