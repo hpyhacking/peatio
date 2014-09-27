@@ -77,12 +77,12 @@
     type = @panelType()
     if type == 'bid' && sum.greaterThan(balance)
       [price, vol, sum] = @solveEquation(target, price, null, balance, balance)
-      @select('sumSel').val(sum)
-      @select('volumeSel').val(vol)
+      @select('sumSel').val(sum).fixBid()
+      @select('volumeSel').val(vol).fixAsk()
     else if type == 'ask' && vol.greaterThan(balance)
       [price, vol, sum] = @solveEquation(target, price, balance, null, balance)
-      @select('sumSel').val(sum)
-      @select('volumeSel').val(vol)
+      @select('sumSel').val(sum).fixBid()
+      @select('volumeSel').val(vol).fixAsk()
 
     [price, vol, sum]
 
