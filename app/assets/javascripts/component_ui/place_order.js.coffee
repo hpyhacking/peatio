@@ -92,6 +92,9 @@
     val = @select('priceSel').val() || '0'
     BigNumber(val)
 
+  @getLastPrice = ->
+    Number gon.ticker.last
+
   @getVolume = ->
     val = @select('volumeSel').val() || '0'
     BigNumber(val)
@@ -133,8 +136,13 @@
     @select('volumeSel').val(volume).fixAsk()
     @trigger 'updateAvailable', {sum: sum, volume: volume}
 
+  @allIn = (event)->
+    @select('priceSel').val @getLastPrice()
+    if not @select('sumSel').val()
+      @select('sumSel').val @getBalance()
+    @computeVolume(event)
+
   @orderPlan = (event, data) ->
-    return unless (@.$node.is(":visible"))
     @select('priceSel').val(data.price)
     @select('volumeSel').val(data.volume)
     @computeSum(event)
@@ -172,7 +180,7 @@
 
   @priceCheck = (event) ->
     currentPrice = Number @select('priceSel').val()
-    lastPrice = Number gon.ticker.last
+    lastPrice = @getLastPrice()
     priceAlert = @select('priceAlertSel')
 
     switch
@@ -199,3 +207,4 @@
     @on @select('priceSel'), 'change paste keyup focusout', @computeSum
     @on @select('volumeSel'), 'change paste keyup focusout', @computeSum
     @on @select('sumSel'), 'change paste keyup focusout', @computeVolume
+    @on @select('currentBalanceSel'), 'click', @allIn
