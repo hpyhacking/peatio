@@ -27,7 +27,7 @@ zh-CN:
     notification:
       title: Peatio交易所
       enabled: 实时更新已开启。
-      new_trade: "您的买单委托 48289# 以 2600.00 价格成交 总共买入 1.3 比特币。"
+      new_trade: "您的%{kind}委托 #%{id} 以 %{price} %{quote_unit} 价格成交，%{kind} %{volume} %{base_unit}。"
   back: 返回
   invalid_password: 无效的登录密码
   all: 全部

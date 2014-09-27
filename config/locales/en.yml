@@ -22,7 +22,7 @@ en:
     notification:
       title: Peatio Exchange
       enabled: Notification enabled.
-      new_trade: "New trade."
+      new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
   back: Back
   invalid_password: Invalid password
   all: All

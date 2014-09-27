@@ -1,5 +1,5 @@
 @MyTradesUI = flight.component ->
-  flight.compose.mixin @, [ItemListMixin]
+  flight.compose.mixin @, [ItemListMixin, NotificationMixin]
 
   @attributes
     switchLinkName: '.switch-link-name'
@@ -8,8 +8,17 @@
 
   @getTemplate = (order) -> $(JST["order_done"](order))
 
-  @orderHandler = (event, order) ->
-    @addOrUpdateItem order
+  @tradeHandler = (event, trade) ->
+    console.log trade
+    @addOrUpdateItem trade
+    message = gon.i18n.notification.new_trade
+      .replace(/%{kind}/g, gon.i18n[trade.kind])
+      .replace(/%{id}/g, trade.id)
+      .replace(/%{price}/g, trade.price)
+      .replace(/%{volume}/g, trade.volume)
+      .replace(/%{base_unit}/g, gon.market.base_unit.toUpperCase())
+      .replace(/%{quote_unit}/g, gon.market.quote_unit.toUpperCase())
+    @notify message
 
   @switch = (event) ->
     link = $(event.target)
@@ -26,7 +35,7 @@
 
   @.after 'initialize', ->
     @on document, 'trade::done::populate', @populate
-    @on document, 'trade::done', @orderHandler
+    @on document, 'trade::done', @tradeHandler
     @on @select('switchLink'), 'click', @switch
 
 

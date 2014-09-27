@@ -92,14 +92,7 @@ $ ->
         else
           Cookies.set('notification', false, 30)
 
-      
       val = (Cookies('notification') == 'true') ? 'true' : 'false'
       $('input[name="notification-checkbox"]').bootstrapSwitch({state: val, onSwitchChange: notification_check})
-
-      fun = ->
-        if Cookies('notification') == 'true'
-          data = {body: gon.i18n.notification.new_trade, tag: 1}
-          notification = new Notification gon.i18n.notification.title, data
-      setInterval fun, 1000
   else
     $('input[name="notification-checkbox"]').bootstrapSwitch(disabled: true)
