@@ -74,25 +74,5 @@ $ ->
     $(@).scrollTop(@scrollTop + e.deltaY)
     e.preventDefault()
 
+  notifier = window.notifier = new Notifier()
 
-  if "Notification" of window
-    if Notification.permission == 'denied'
-      $('input[name="notification-checkbox"]').remove()
-    else
-      notification_check = (event, state) ->
-        if state
-          fun = (permission) ->
-            if permission == 'granted'
-              Cookies.set('notification', true, 30)
-              new Notification(gon.i18n.notification.title, {body: gon.i18n.notification.enabled, tag: 0})
-            else if permission == 'denied'
-              Cookies.set('notification', false, 30)
-          Notification.requestPermission(fun) if Notification.permission == 'default'
-          Cookies.set('notification', true, 30) if Notification.permission == 'granted'
-        else
-          Cookies.set('notification', false, 30)
-
-      val = (Cookies('notification') == 'true') ? 'true' : 'false'
-      $('input[name="notification-checkbox"]').bootstrapSwitch({state: val, onSwitchChange: notification_check})
-  else
-    $('input[name="notification-checkbox"]').bootstrapSwitch(disabled: true)
