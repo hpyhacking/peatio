@@ -113,6 +113,7 @@
           opposite: false
           height: 230
           lineWidth: 2
+          showFirstLabel: false
         }
         {
           opposite: false
@@ -120,6 +121,7 @@
           height: 60
           offset: 0
           lineWidth: 2
+          showFirstLabel: false
         }
       ]
 
