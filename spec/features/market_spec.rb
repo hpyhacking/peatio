@@ -75,7 +75,7 @@ feature 'show account info', js: true do
     click_on I18n.t('header.market')
 
     # account balance at place order panel
-    expect(page.find('#bid_panel .current-balance .value').text).to be_d bid_account.balance
-    expect(page.find('#ask_panel .current-balance .value').text).to be_d ask_account.balance
+    expect(page.find('#bid_panel .current-balance').text).to be_d bid_account.balance
+    expect(page.find('#ask_panel .current-balance').text).to be_d ask_account.balance
   end
 end

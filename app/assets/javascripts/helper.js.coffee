@@ -29,6 +29,9 @@ window.fixAsk = (str) ->
 window.fixBid = (str) ->
   window.fix('bid', str)
 
+Handlebars.registerHelper 'format_cancel', ->
+  gon.i18n.cancel
+
 Handlebars.registerHelper 'format_trade', (ask_or_bid) ->
   gon.i18n[ask_or_bid]
 

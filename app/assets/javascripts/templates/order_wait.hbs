@@ -4,6 +4,6 @@
   <td class='price col-md-5'>{{format_fix_bid price}}</td>
   <td class='volume col-md-5'>{{format_volume origin_volume volume}}</td>
   <td class='operation col-md-3'>
-    <a class='wait text-info' data-method='delete' data-remote='true' data-confirm='are you sure?' rel='nofollow' href='/markets/{{market}}/orders/{{id}}'>[撤销]</a>
+    <a class='wait text-info' data-method='delete' data-remote='true' data-confirm='are you sure?' rel='nofollow' href='/markets/{{market}}/orders/{{id}}'>[{{format_cancel}}]</a>
   </td>
 </tr>
