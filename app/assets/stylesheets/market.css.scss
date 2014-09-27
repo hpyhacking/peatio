@@ -67,7 +67,10 @@
 
     .table.asks { margin-bottom: 0px; }
     .table.bids { margin-top: 0px; }
-    .table.seperator { margin: 8px 0px; }
+    .table.seperator { 
+      td.price { margin: 0px; padding: 0px; font-size: 20px !important; }
+      margin: 18px 0px 8px 0px; 
+    }
   }
 
   .order-book-single {
@@ -87,6 +90,7 @@
     @include fix-clear-pannel(left);
 
     hr {
+      margin-top: 18px;
       border-top-color: $split-color;
     }
 
