@@ -30,9 +30,12 @@ module Worker
         Rails.logger.info "NEW - block: #{block} id: #{txid}"
 
         ActiveRecord::Base.transaction do
-          return if PaymentTransaction::Btsx.find_by_txid(txid)
-
-          deposit(block, txid, payer, address, amount, receive_at, @channel)
+          if PaymentTransaction::Btsx.find_by_txid(txid)
+            Rails.logger.info "Associated PaymentTransaction found, skip."
+          else
+            d = deposit(block, txid, payer, address, amount, receive_at, @channel)
+            Rails.logger.info "Deposit##{d.id} created."
+          end
         end
       end
     end
@@ -61,6 +64,7 @@ module Worker
         )
 
         deposit.submit!
+        deposit
       else
         Rails.logger.info "Transaction##{txid} missing memo, PaymentTransaction##{tx.id} failed to deposit."
         nil
