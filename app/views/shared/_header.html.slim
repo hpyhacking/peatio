@@ -4,7 +4,7 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
 
       - if params[:controller] == 'private/markets'
         = top_nav(t('header.back'), settings_path, 'chevron-left')
-        - Market.all.each do |market|
+        - Market.all.sort.each do |market|
           = top_market_link(market, current_market)
         = top_nav_link(t('header.history'), order_history_path, 'book', target: '_blank') if current_user
       - else
