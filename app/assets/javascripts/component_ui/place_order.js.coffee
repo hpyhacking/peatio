@@ -11,7 +11,6 @@
     volumeSel: 'input[id$=volume]'
     sumSel: 'input[id$=total]'
 
-    lastPrice: '.last-price .value'
     currentBalanceSel: 'span.current-balance'
     submitButton: ':submit'
 
@@ -171,13 +170,6 @@
           @select('positionsLabelSel').fadeOut().text('')
         node.text(available)
 
-  @updateLastPrice = (event, data) ->
-    @select('lastPrice').text data.last
-
-  @copyLastPrice = ->
-    lastPrice = @select('lastPrice').text().trim()
-    @select('priceSel').val(lastPrice).focus()
-
   @priceCheck = (event) ->
     currentPrice = Number @select('priceSel').val()
     lastPrice = Number gon.ticker.last
@@ -195,12 +187,9 @@
 
   @after 'initialize', ->
     @on document, 'order::plan', @orderPlan
-    @on document, 'market::ticker', @updateLastPrice
     @on 'updateAvailable', @updateAvailable
 
     @on document, 'account::update', @refreshBalance
-    @on @select('lastPrice'), 'click', @copyLastPrice
-    @updateLastPrice 'market::ticker', gon.ticker
 
     @on @select('formSel'), 'ajax:beforeSend', @beforeSend
     @on @select('formSel'), 'ajax:success', @handleSuccess
