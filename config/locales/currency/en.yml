@@ -8,6 +8,8 @@ en:
       key: PTS
     dogecoin:
       key: DOG
+    bitsharesx:
+      key: BTSX
 
     name:
       cny: CNY

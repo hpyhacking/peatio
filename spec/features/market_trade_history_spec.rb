@@ -19,10 +19,10 @@ feature 'show account info', js: true do
     click_on I18n.t('header.market')
 
     expect(page.all('#orders_wait .order').count).to eq(1) # can only see his order
-    expect(page.find('#orders_wait')).to have_content('[x]')
+    expect(page.find('#orders_wait')).to have_content("[#{I18n.t('actions.cancel')}]")
 
     AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: ask_order.to_matching_attributes)
-    click_on '[x]'
+    click_on "[#{I18n.t('actions.cancel')}]"
     sleep 0.5
   end
 end

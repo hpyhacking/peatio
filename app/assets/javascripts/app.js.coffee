@@ -45,25 +45,10 @@ $ ->
       height: $el.data('height')
 
   AccountBalanceUI.attachTo('.account-balance')
-  PlaceOrderUI.attachTo('.place-order #bid_panel')
-  PlaceOrderUI.attachTo('.place-order #ask_panel')
-  MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
-  MyOrdersDoneUI.attachTo('.my-orders #orders_done')
-  PushButton.attachTo('.place-order')
-  PushButton.attachTo('.my-orders')
-
-  # if gon.env is 'development'
-  #   Pusher.log = (message) -> window.console && console.log(message)
-
-  pusher = new Pusher gon.pusher_key, gon.pusher_options
-  pusher.connection.bind 'state_change', (state) ->
-    if state.current is 'unavailable'
-      setTimeout ->
-        window.location.reload()
-      , 60 * 1000
-
-  GlobalData.attachTo(document, {pusher: pusher})
-  MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
+  PlaceOrderUI.attachTo('.order-place #bid_panel')
+  PlaceOrderUI.attachTo('.order-place #ask_panel')
+  MyOrdersUI.attachTo('.my-orders')
+  MyTradesUI.attachTo('.my-trades')
 
   SignUpUI.attachTo('#new_identity')
   MarketTickerUI.attachTo('.ticker')
@@ -76,6 +61,41 @@ $ ->
   FlashMessageUI.attachTo('.flash-message')
   TwoFactorAuth.attachTo('.two-factor-auth-container')
 
+  # if gon.env is 'development'
+  #   Pusher.log = (message) -> window.console && console.log(message)
+  pusher = new Pusher gon.pusher_key, gon.pusher_options
+  pusher.connection.bind 'state_change', (state) ->
+    if state.current is 'unavailable'
+      setTimeout ->
+        window.location.reload()
+      , 60 * 1000
+
+  GlobalData.attachTo(document, {pusher: pusher})
+  MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
+
   $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
     $(@).scrollTop(@scrollTop + e.deltaY)
     e.preventDefault()
+
+
+  if "Notification" of window
+    if Notification.permission == 'denied'
+      $('input[name="notification-checkbox"]').remove()
+    else
+      notification_check = (event, state) ->
+        if state
+          fun = (permission) ->
+            if permission == 'granted'
+              Cookies.set('notification', true, 30)
+              new Notification(gon.i18n.notification.title, {body: gon.i18n.notification.enabled, tag: 0})
+            else if permission == 'denied'
+              Cookies.set('notification', false, 30)
+          Notification.requestPermission(fun) if Notification.permission == 'default'
+          Cookies.set('notification', true, 30) if Notification.permission == 'granted'
+        else
+          Cookies.set('notification', false, 30)
+
+      val = (Cookies('notification') == 'true') ? 'true' : 'false'
+      $('input[name="notification-checkbox"]').bootstrapSwitch({state: val, onSwitchChange: notification_check})
+  else
+    $('input[name="notification-checkbox"]').bootstrapSwitch(disabled: true)

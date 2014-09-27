@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :is_admin?, :current_market, :muut_enabled?
+  helper_method :current_user, :is_admin?, :current_market, :muut_enabled?, :gon
   before_action :set_language, :set_timezone, :set_gon
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
@@ -101,15 +101,37 @@ class ApplicationController < ActionController::Base
       ask: I18n.t('gon.ask'),
       bid: I18n.t('gon.bid'),
       cancel: I18n.t('actions.cancel'),
-      chart_price: I18n.t('chart.price'),
-      chart_volume: I18n.t('chart.volume'),
+      latest_trade: I18n.t('private.markets.order_book.latest_trade'),
+      notification: {
+        title: I18n.t('gon.notification.title'),
+        enabled: I18n.t('gon.notification.enabled'),
+        new_trade: I18n.t('gon.notification.new_trade')
+      },
+      time: {
+        minute: I18n.t('chart.minute'),
+        hour: I18n.t('chart.hour'),
+        day: I18n.t('chart.day'),
+        week: I18n.t('chart.week'),
+        month: I18n.t('chart.month'),
+        year: I18n.t('chart.year')
+      },
+      chart: {
+        price: I18n.t('chart.price'),
+        volume: I18n.t('chart.volume'),
+        open: I18n.t('chart.open'),
+        high: I18n.t('chart.high'),
+        low: I18n.t('chart.low'),
+        close: I18n.t('chart.close')
+      },
       place_order: {
         confirm_submit: I18n.t('private.markets.show.confirm'),
         price: I18n.t('private.markets.place_order.price'),
         volume: I18n.t('private.markets.place_order.amount'),
         sum: I18n.t('private.markets.place_order.total'),
         price_high: I18n.t('private.markets.place_order.price_high'),
-        price_low: I18n.t('private.markets.place_order.price_low')
+        price_low: I18n.t('private.markets.place_order.price_low'),
+        full_in: I18n.t('private.markets.place_order.full_in'),
+        full_out: I18n.t('private.markets.place_order.full_out')
       }
     }
 
@@ -135,7 +157,7 @@ class ApplicationController < ActionController::Base
           currency: account.currency,
           balance: account.balance,
           locked: account.locked
-        }
+        } if account.currency
         memo
       end
     end

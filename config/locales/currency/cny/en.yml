@@ -1,0 +1,7 @@
+en:
+  currency:
+    renminbi:
+      key: CNY
+      code: CNY
+      name: Chinese Yuan
+      format: '0,0.00'

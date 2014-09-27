@@ -2,9 +2,7 @@ en:
   "true": Yes
   "false": No
 
-  view_on_github: View on Github
-  slogan: Peatio Beijing - An open-source crypto currency exchange.
-  slogan_desc: "Peatio is a crypto-currency (such as bitcoin) exchange, and is the first that releases its source code in China. Rests on the principles of “open-source, transparent and honest”, Peatio aims to serve a platform for crypto-currency enthusiasts by providing a safe, secure, and easy-to-use exchange that embraces open-source and public trust."
+  slogan: An open-source crypto-currency exchange for world.
   tags:
     vip: VIP
     hero: Hero Member
@@ -21,6 +19,10 @@ en:
     ask: Ask
     bid: Bid
     brand: Peatio Exchange
+    notification:
+      title: Peatio Exchange
+      enabled: Notification enabled.
+      new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
   back: Back
   invalid_password: Invalid password
   all: All
@@ -84,6 +86,8 @@ en:
     my_profile: My Profile
     tickets: Tickets
     account_balance: Total Assets
+    back: Back
+    total: Total
 
   admin_header:
     deposits: Deposits
@@ -133,8 +137,18 @@ en:
     balances: Balances
 
   chart:
+    open: Open
+    high: High
+    low: Low
+    close: Close
     price: Price
     volume: Volume
+    minute: m
+    hour: Hour
+    day: Day
+    week: Week
+    month: Month
+    year: Year
 
   'yes': 'Yes'
   'no': 'No'

@@ -15,7 +15,6 @@ module Private
       @bids   = @market.bids
       @asks   = @market.asks
       @trades = @market.trades
-      @price  = @market.price
 
       # default to limit order
       @order_bid = OrderBid.new ord_type: 'limit'

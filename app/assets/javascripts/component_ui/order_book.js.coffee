@@ -3,19 +3,27 @@ window.OrderBookUI = flight.component ->
     size: 10,
     asksSelector: '.table.asks',
     bidsSelector: '.table.bids',
+    seperatorSelector: '.table.seperator'
+
+  @refreshSeperator = (event, data) ->
+    attrs = {trade: data.trades[0], hint: gon.i18n.latest_trade}
+    seperator = @select('seperatorSelector')
+    seperator.fadeOut ->
+      seperator.html(JST['market_order_seperator'](attrs)).fadeIn()
 
   @refreshOrders = (event, data) ->
-    @buildOrders(@select('asksSelector'), data.asks)
-    @buildOrders(@select('bidsSelector'), data.bids)
+    @buildOrders(@select('bidsSelector'), data.bids, 'up-font-color')
+    @buildOrders(@select('asksSelector'), data.asks, 'down-font-color')
 
-  @buildOrders = (table, orders) ->
+  @buildOrders = (table, orders, cls) ->
     $(table).find('tr').each (i, e) ->
       i = parseInt($(e).data('order'))
       if orders[i]
-        data = {price: orders[i][0], amount: orders[i][1]}
+        data = {price: orders[i][0], amount: orders[i][1], cls: cls}
         $(e).empty().append(JST["market_order"](data))
       else
-        $(e).empty().append(JST["market_order_empty"]({}))
+        data = {cls: cls}
+        $(e).empty().append(JST["market_order_empty"](data))
 
   @computeDeep = (e, orders) ->
     index = parseInt $(e.currentTarget).data('order')
@@ -33,12 +41,14 @@ window.OrderBookUI = flight.component ->
 
   @after 'initialize', ->
     @on document, 'market::order_book', @refreshOrders
+    @on document, 'market::trades', @refreshSeperator
 
     _(10).times (n) =>
       @select('asksSelector').prepend("<tr data-order='#{n}'></tr>")
       @select('bidsSelector').append("<tr data-order='#{n}'></tr>")
 
     @refreshOrders '', {asks: gon.asks, bids: gon.bids}
+    @refreshSeperator '', {trades: gon.trades.slice(0,1)}
 
     @$node.on 'click', '.asks tr', (e) =>
       $('.bid-panel').click()

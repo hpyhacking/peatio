@@ -1,0 +1,70 @@
+en:
+  private:
+    markets:
+      show:
+        on: ON
+        off: OFF
+        notification: Desktop Real Notification
+        error: Failed to submit order
+        success: Order submitted successfully
+        analysis_panel: Analysis
+        help_panel: Help
+        done: DONE
+        cancel: CANCEL
+        cancel_confirm: Are your sure cancel order?
+        confirm: CONFIRM
+        ask_order: 'ASK ##sn#'
+        bid_order: 'BID ##sn#'
+      depths:
+        price: Price
+        amount: Amount
+        buy: Buy
+        sell: Sell
+      ticker:
+        markets: Markets
+      account_balance:
+        title: Account Balance
+        available: Available %{currency}
+      place_order:
+        place_order: Place Order
+        bid_panel: Buy %{currency}
+        ask_panel: Sell %{currency}
+        price: Price
+        last_price: Last Price
+        amount: Amount
+        total: Total
+        balance: Balance
+        price_high: Price exceeds 10%
+        price_low: Price less then 10%
+        full_in: Full
+        full_out: Empty
+      order_book:
+        order_book: Order Book
+        latest_trade: Latest
+      market_trades:
+        trades: Trades
+        time: Time
+        price: Price
+        volume: Volume
+      my_trades:
+        trades: My Trades
+        all: All
+        buy: All buy trades
+        sell: All sell trades
+        cancel: All cancel trades
+      my_orders:
+        my_orders: My Orders
+        orders_wait: Latest Orders
+        orders_done: Completed Orders
+        orders_cancel: Cancel Orders
+        clear_all: Cancel All My Orders
+        clear_bids: Cancel All Bids
+        clear_asks: Cancel All Asks
+        confirm_clear_all: "Are you sure to cancel ALL orders?"
+        confirm_clear_bids: "Are you sure to cancel all BIDS?"
+        confirm_clear_asks: "Are you sure to cancel all ASKS?"
+      market_chart:
+        market_chart: Market Chart
+      global:
+        global_orders_title: ORDERS
+        global_trades_title: TRADES

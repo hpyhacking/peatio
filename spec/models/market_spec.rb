@@ -30,7 +30,6 @@ describe Market do
     its(:bids)   { should_not be_nil }
     its(:asks)   { should_not be_nil }
     its(:trades) { should_not be_nil }
-    its(:price)  { should_not be_nil }
     its(:ticker) { should_not be_nil }
   end
 

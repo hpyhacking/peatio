@@ -1,0 +1,33 @@
+.col-md-8
+  .panel.panel-info.depths
+    .panel-heading
+      span = t('.ask_orders')
+    .panel-body
+      table.table.table-condensed.table-striped
+        thead
+          th.text-left.col-md-8 = t('.buy')
+          th.text-right.col-md-8 = t('.price')
+          th.text-right.col-md-8 = t('.amount')
+        tbody
+          - @asks.each_with_index do |ask, i|
+            tr.ask
+              td.text-left.col-sm-8 = "#{t('.buy')}(#{i})"
+              td.text-right.price.col-sm-8.ask = ask.first
+              td.text-right.amount.col-sm-8.ask = ask.last
+.col-md-8
+  .panel.panel-info.depths
+    .panel-heading
+      span = t('.bid_orders')
+    .panel-body
+      table.table.table-condensed.table-striped
+        thead
+          th.text-left.col-md-8 = t('.sell')
+          th.text-right.col-md-8 = t('.price')
+          th.text-right.col-md-8 = t('.amount')
+        tbody
+          - @bids.each_with_index do |bid, i|
+            tr
+              td.text-left.col-sm-8 = "#{t('.sell')}(#{i})"
+              td.text-right.price.col-sm-8.bid = bid.first
+              td.text-right.amount.col-sm-8.bid = bid.last
+

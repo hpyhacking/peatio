@@ -3,7 +3,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-
+//= require bootstrap-switch.min
+//
 //= require scrollIt
 //= require moment
 //= require bignumber
@@ -21,6 +22,7 @@
 //= require qrcode
 //= require flipclock.min
 //= require mixpanel
+//= require cookies.min
 
 //= require_tree ./component_mixin
 //= require_tree ./component_data

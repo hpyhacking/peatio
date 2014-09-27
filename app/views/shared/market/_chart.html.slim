@@ -1,6 +1,5 @@
 .panel.panel-default
-  .panel-body
+  .panel-body.market-ticker
     - include_market_select ||= false
-    = render partial: 'shared/market/market_sel' if include_market_select
-    = render partial: 'shared/market/ticker'
+    = render partial: 'shared/market/ticker', locals: {market: current_market.name}
   .panel-body.market-chart

@@ -61,7 +61,11 @@ module Admin
       else
         flash[:alert] = I18n.t('.fail')
       end
+    end
 
+    def active
+      @member.update_attribute(:activated, true)
+      @member.save
       redirect_to admin_member_path(@member)
     end
 

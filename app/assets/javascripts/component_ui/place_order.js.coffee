@@ -1,17 +1,18 @@
 @PlaceOrderUI = flight.component ->
   @attributes
     formSel: 'form'
-    successSel: '.status span.label-success'
-    infoSel: '.status span.label-info'
-    dangerSel: '.status span.label-danger'
-    priceAlertSel: '.price-alert span.label-danger'
+    successSel: '.status-success'
+    infoSel: '.status-info'
+    dangerSel: '.status-danger'
+    priceAlertSel: '.hint-price-disadvantage'
+    positionsLabelSel: '.hint-positions'
 
     priceSel: 'input[id$=price]'
     volumeSel: 'input[id$=volume]'
     sumSel: 'input[id$=total]'
 
     lastPrice: '.last-price .value'
-    currentBalanceSel: '.current-balance .value'
+    currentBalanceSel: 'span.current-balance'
     submitButton: ':submit'
 
   @panelType = ->
@@ -48,54 +49,87 @@
     """
 
   @beforeSend = (event, jqXHR) ->
-    if confirm(@confirmDialogMsg())
+    if true #confirm(@confirmDialogMsg())
       @disableSubmit()
     else
       jqXHR.abort()
 
   @handleSuccess = (event, data) ->
     @cleanMsg()
-    @select('successSel').text(data.message).show().fadeOut(3500)
+    @select('successSel').text(data.message).show().fadeOut(2500)
     @resetForm(event)
     @enableSubmit()
 
   @handleError = (event, data) ->
     @cleanMsg()
     json = JSON.parse(data.responseText)
-    @select('dangerSel').text(json.message).show().fadeOut(3500)
+    @select('dangerSel').text(json.message).show().fadeOut(2500)
     @enableSubmit()
 
+  @solveEquation = (target, price, vol, sum, balance) ->
+    if !price
+      price = sum.dividedBy(vol)
+    else if !vol
+      vol = sum.dividedBy(price)
+    else if !sum
+      sum = price.times(vol)
+
+    type = @panelType()
+    if type == 'bid' && sum.greaterThan(balance)
+      [price, vol, sum] = @solveEquation(target, price, null, balance, balance)
+      @select('sumSel').val(sum)
+      @select('volumeSel').val(vol)
+    else if type == 'ask' && vol.greaterThan(balance)
+      [price, vol, sum] = @solveEquation(target, price, balance, null, balance)
+      @select('sumSel').val(sum)
+      @select('volumeSel').val(vol)
+
+    [price, vol, sum]
+
+  @getBalance = ->
+    BigNumber( @select('currentBalanceSel').data('balance') )
+
+  @getPrice = ->
+    BigNumber( @select('priceSel').val() )
+
+  @getVolume = ->
+    BigNumber( @select('volumeSel').val() )
+
+  @getSum = ->
+    BigNumber( @select('sumSel').val() )
+
+  @sanitize = (el) ->
+    el.val '' if !$.isNumeric(el.val())
+
   @computeSum = (event) ->
-    if @select('priceSel').val() and @select('volumeSel').val()
+    @sanitize @select('priceSel')
+    @sanitize @select('volumeSel')
 
-      target = event.target
-      if not @select('priceSel').is(target)
-        @select('priceSel').fixBid()
-      if not @select('volumeSel').is(target)
-        @select('volumeSel').fixAsk()
+    target = event.target
+    if not @select('priceSel').is(target)
+      @select('priceSel').fixBid()
+    if not @select('volumeSel').is(target)
+      @select('volumeSel').fixAsk()
 
-      price  = BigNumber(@select('priceSel').val())
-      volume = BigNumber(@select('volumeSel').val())
-      sum    = price.times(volume)
+    [price, volume, sum] = @solveEquation(target, @getPrice(), @getVolume(), null, @getBalance())
 
-      @select('sumSel').val(sum).fixBid()
-      @trigger 'updateAvailable', {sum: sum, volume: volume}
+    @select('sumSel').val(sum).fixBid()
+    @trigger 'updateAvailable', {sum: sum, volume: volume}
 
   @computeVolume = (event) ->
-    if @.select('priceSel').val() and @.select('sumSel').val()
+    @sanitize @select('priceSel')
+    @sanitize @select('sumSel')
 
-      target = event.target
-      if not @select('priceSel').is(target)
-        @select('priceSel').fixBid()
-      if not @select('sumSel').is(target)
-        @select('sumSel').fixAsk()
+    target = event.target
+    if not @select('priceSel').is(target)
+      @select('priceSel').fixBid()
+    if not @select('sumSel').is(target)
+      @select('sumSel').fixAsk()
 
-      sum    = BigNumber(@select('sumSel').val())
-      price  = BigNumber(@select('priceSel').val())
-      volume = sum.dividedBy(price)
+    [price, volume, sum] = @solveEquation(target, @getPrice(), null, @getSum(), @getBalance())
 
-      @select('volumeSel').val(volume).fixAsk()
-      @trigger 'updateAvailable', {sum: sum, volume: volume}
+    @select('volumeSel').val(volume).fixAsk()
+    @trigger 'updateAvailable', {sum: sum, volume: volume}
 
   @orderPlan = (event, data) ->
     return unless (@.$node.is(":visible"))
@@ -117,12 +151,22 @@
   @updateAvailable = (event, data) ->
     type = @panelType()
     node = @select('currentBalanceSel')
-    balance = BigNumber(node.data('balance'))
+
     switch type
       when 'bid'
-        node.text(balance - data.sum).fixBid()
+        available = @getBalance().minus data.sum
+        if available.equals(0)
+          @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_in).fadeIn()
+        else
+          @select('positionsLabelSel').fadeOut().text('')
+        node.text(available).fixBid()
       when 'ask'
-        node.text(balance - data.volume).fixAsk()
+        available = @getBalance().minus data.volume
+        if available.equals(0)
+          @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_out).fadeIn()
+        else
+          @select('positionsLabelSel').fadeOut().text('')
+        node.text(available).fixAsk()
 
   @updateLastPrice = (event, data) ->
     @select('lastPrice').text data.last
@@ -138,11 +182,12 @@
 
     switch
       when currentPrice > (lastPrice * 1.1)
-        priceAlert.text gon.i18n.place_order.price_high
+        priceAlert.hide().text(gon.i18n.place_order.price_high).fadeIn()
       when currentPrice < (lastPrice * 0.9)
-        priceAlert.text gon.i18n.place_order.price_low
+        priceAlert.hide().text(gon.i18n.place_order.price_low).fadeIn()
       else
-        priceAlert.text ''
+        priceAlert.fadeOut ->
+          priceAlert.text('')
 
 
   @after 'initialize', ->
@@ -161,7 +206,7 @@
     @on @select('priceSel'), 'focusout', @priceCheck
     @on @select('priceSel'), 'change paste keyup focusout', @computeSum
     @on @select('volumeSel'), 'change paste keyup focusout', @computeSum
-    @on @select('sumSel'), 'change paste keyup', @computeVolume
+    @on @select('sumSel'), 'change paste keyup focusout', @computeVolume
 
     # Placeholder for dogecoin input volume
     if gon.market.id in ['dogcny', 'dogbtc']

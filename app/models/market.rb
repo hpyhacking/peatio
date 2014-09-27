@@ -43,11 +43,18 @@ class Market < ActiveYamlBase
   def bids;   global.bids   end
   def asks;   global.asks   end
   def trades; global.trades end
-  def price;  global.price  end
   def ticker; global.ticker end
 
   def to_s
     id
+  end
+
+  def ask_currency
+    Currency.find_by_code(ask["currency"])
+  end
+
+  def bid_currency
+    Currency.find_by_code(bid["currency"])
   end
 
   private
