@@ -91,7 +91,7 @@ en:
         bank:
           member_name: <span class='text-danger'>Withdraw bank account name must match the name with your real-name authentication</span>
           sum: "<a target='_balance' href='#'>Fee structure</a>"
-          fund_extra: If your bank is no longer the list, please contact customer service
+          fund_extra: If your bank is no longer in the list, please contact customer service
 
   guides:
     private:
