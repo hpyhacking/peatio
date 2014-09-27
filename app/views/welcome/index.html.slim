@@ -100,7 +100,7 @@
     .container
       h2.text-center
         = "#{current_market.name} 价格走势"
-      = render partial: 'shared/market/chart'
+      = render_market_chart
 
   coffee:
     $ ->
