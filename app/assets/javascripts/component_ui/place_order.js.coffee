@@ -139,7 +139,6 @@
   @allIn = (event)->
     @select('priceSel').val @getLastPrice()
 
-    console.info @panelType()
     switch @panelType()
       when 'ask'
         if not @select('volumeSel').val()
