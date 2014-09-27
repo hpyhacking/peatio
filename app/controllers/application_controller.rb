@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_market
-    Market.find_by_id(params[:market]) || Market.find_by_id(cookies[:market_id]) || Market.first
+    @current_market ||= Market.find_by_id(params[:market]) || Market.find_by_id(cookies[:market_id]) || Market.first
   end
 
   def current_user
