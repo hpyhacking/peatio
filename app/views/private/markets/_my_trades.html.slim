@@ -9,7 +9,7 @@
         li = link_to t('.buy'), 'javascript:;', class: 'switch buy'
         li = link_to t('.sell'), 'javascript:;', class: 'switch sell'
         li = link_to t('.all'), 'javascript:;', class: 'switch all'
-  .panel-body
+  .panel-body.panel-fixed-table-head
     table.table.table-condensed
       thead: tr
         th.kind.col-md-2
@@ -17,4 +17,6 @@
         th.price.col-md-5 = Order.human_attribute_name('price')
         th.volume.col-md-5 = Order.human_attribute_name('volume')
         th.operation.col-md-3
+  .panel-body.panel-fixed-table-body
+    table.table.table-condensed
       tbody

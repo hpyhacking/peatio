@@ -1,10 +1,12 @@
-.panel.panel-wide.panel-info
+.panel.panel-fixed-table.panel-wide.panel-info
   .panel-heading
     span = t('.trades')
-  .panel-body.trades
+  .panel-body.panel-fixed-table-head
     table.table.table-condensed
       thead: tr
         th class='at col-md-9' = t('.time')
         th class='price col-md-5' = t('.price')
         th class='volume col-md-5' = t('.volume')
+  .panel-body.trades.panel-fixed-table-body
+    table.table.table-condensed
       tbody
