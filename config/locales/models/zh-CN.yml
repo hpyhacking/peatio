@@ -121,6 +121,10 @@ zh-CN:
         fund_extra: 银行
     errors:
       models:
+        withdraw:
+          attributes:
+            amount:
+              greater_than: (提现金额-矿工费)必须大于%{count}
         order_bid:
           attributes:
             sum:

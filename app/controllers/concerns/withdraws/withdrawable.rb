@@ -16,7 +16,8 @@ module Withdraws
       if @withdraw.save
         redirect_to url_for([:edit, @withdraw]), notice: t('.notice')
       else
-        render :new, alert: t('.alert')
+        flash.now[:alert] = @withdraw.errors.full_messages.join(", ")
+        render :new
       end
     end
 
