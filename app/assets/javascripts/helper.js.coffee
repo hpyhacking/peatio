@@ -14,7 +14,7 @@ $.fn.extend
     $(@)
 
 window.round = (str, fixed) ->
-  BigNumber(str).round(fixed, BigNumber.ROUND_DOWN).toF(fixed)
+  BigNumber(str).round(fixed, BigNumber.ROUND_HALF_UP).toF(fixed)
 
 window.fix = (type, str) ->
   str = '0' unless $.isNumeric(str)
