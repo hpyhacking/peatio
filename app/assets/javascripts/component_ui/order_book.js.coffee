@@ -12,8 +12,8 @@ window.OrderBookUI = flight.component ->
       seperator.html(JST['market_order_seperator'](attrs)).fadeIn()
 
   @refreshOrders = (event, data) ->
-    @buildOrders(@select('bidsSelector'), data.bids, 'up-font-color')
-    @buildOrders(@select('asksSelector'), data.asks, 'down-font-color')
+    @buildOrders(@select('bidsSelector'), data.bids, 'up-font-dark-color')
+    @buildOrders(@select('asksSelector'), data.asks, 'down-font-dark-color')
 
   @buildOrders = (table, orders, cls) ->
     $(table).find('tr').each (i, e) ->
