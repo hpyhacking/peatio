@@ -124,7 +124,7 @@
     if not @select('priceSel').is(target)
       @select('priceSel').fixBid()
     if not @select('sumSel').is(target)
-      @select('sumSel').fixAsk()
+      @select('sumSel').fixBid()
 
     [price, volume, sum] = @solveEquation(target, @getPrice(), null, @getSum(), @getBalance())
 
