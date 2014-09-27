@@ -154,19 +154,19 @@
 
     switch type
       when 'bid'
-        available = @getBalance().minus data.sum
-        if available.equals(0)
+        available = window.fix 'bid', @getBalance().minus(data.sum)
+        if BigNumber(available).equals(0)
           @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_in).fadeIn()
         else
           @select('positionsLabelSel').fadeOut().text('')
-        node.text(available).fixBid()
+        node.text(available)
       when 'ask'
-        available = @getBalance().minus data.volume
-        if available.equals(0)
+        available = window.fix 'ask', @getBalance().minus(data.volume)
+        if BigNumber(available).equals(0)
           @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_out).fadeIn()
         else
           @select('positionsLabelSel').fadeOut().text('')
-        node.text(available).fixAsk()
+        node.text(available)
 
   @updateLastPrice = (event, data) ->
     @select('lastPrice').text data.last
