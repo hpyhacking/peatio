@@ -16,7 +16,8 @@
         enabled: false
 
       chart:
-        height: 422
+        height: 437
+        width: 617
         events:
           load: ->
             drawChart = =>
@@ -112,16 +113,16 @@
         {
           opposite: false
           height: 230
-          lineWidth: 2
-          showFirstLabel: false
+          labels:
+            enabled: false
         }
         {
           opposite: false
           top: 245
           height: 60
           offset: 0
-          lineWidth: 2
-          showFirstLabel: false
+          labels:
+            enabled: false
         }
       ]
 
