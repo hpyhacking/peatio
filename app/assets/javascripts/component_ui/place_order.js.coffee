@@ -66,9 +66,7 @@
     @enableSubmit()
 
   @solveEquation = (price, vol, sum, balance) ->
-    if !price
-      price = sum.dividedBy(vol)
-    else if !vol
+    if !vol && !price.equals(0)
       vol = sum.dividedBy(price)
     else if !sum
       sum = price.times(vol)
@@ -100,7 +98,7 @@
     BigNumber(val)
 
   @getSum = ->
-    val = @select('sumSel').val()
+    val = @select('sumSel').val() || '0'
     BigNumber(val)
 
   @sanitize = (el) ->
@@ -109,6 +107,8 @@
   @computeSum = (event) ->
     @sanitize @select('priceSel')
     @sanitize @select('volumeSel')
+
+    return unless @getPrice().greaterThan(0)
 
     target = event.target
     if not @select('priceSel').is(target)
@@ -124,6 +124,8 @@
   @computeVolume = (event) ->
     @sanitize @select('priceSel')
     @sanitize @select('sumSel')
+
+    return unless @getPrice().greaterThan(0)
 
     target = event.target
     if not @select('priceSel').is(target)
