@@ -17,7 +17,6 @@
 
       chart:
         height: 437
-        width: 617
         events:
           load: ->
             drawChart = =>
