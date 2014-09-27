@@ -37,10 +37,10 @@ zh-CN:
         last_price: 最新价格
         amount: 数量
         total: 金额
-        price_high: 过高
-        price_low: 过低
-        full_in: 全仓
-        full_out: 空仓
+        price_high: 高
+        price_low: 低
+        full_in: 满
+        full_out: 空
       order_book:
         order_book: 挂单记录
         latest_trade: 最新成交
