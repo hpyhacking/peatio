@@ -66,7 +66,7 @@
     @select('dangerSel').text(json.message).show().fadeOut(2500)
     @enableSubmit()
 
-  @solveEquation = (target, price, vol, sum, balance) ->
+  @solveEquation = (price, vol, sum, balance) ->
     if !price
       price = sum.dividedBy(vol)
     else if !vol
@@ -76,11 +76,11 @@
 
     type = @panelType()
     if type == 'bid' && sum.greaterThan(balance)
-      [price, vol, sum] = @solveEquation(target, price, null, balance, balance)
+      [price, vol, sum] = @solveEquation(price, null, balance, balance)
       @select('sumSel').val(sum).fixBid()
       @select('volumeSel').val(vol).fixAsk()
     else if type == 'ask' && vol.greaterThan(balance)
-      [price, vol, sum] = @solveEquation(target, price, balance, null, balance)
+      [price, vol, sum] = @solveEquation(price, balance, null, balance)
       @select('sumSel').val(sum).fixBid()
       @select('volumeSel').val(vol).fixAsk()
 
@@ -90,13 +90,16 @@
     BigNumber( @select('currentBalanceSel').data('balance') )
 
   @getPrice = ->
-    BigNumber( @select('priceSel').val() )
+    val = @select('priceSel').val() || '0'
+    BigNumber(val)
 
   @getVolume = ->
-    BigNumber( @select('volumeSel').val() )
+    val = @select('volumeSel').val() || '0'
+    BigNumber(val)
 
   @getSum = ->
-    BigNumber( @select('sumSel').val() )
+    val = @select('sumSel').val()
+    BigNumber(val)
 
   @sanitize = (el) ->
     el.val '' if !$.isNumeric(el.val())
@@ -111,7 +114,7 @@
     if not @select('volumeSel').is(target)
       @select('volumeSel').fixAsk()
 
-    [price, volume, sum] = @solveEquation(target, @getPrice(), @getVolume(), null, @getBalance())
+    [price, volume, sum] = @solveEquation(@getPrice(), @getVolume(), null, @getBalance())
 
     @select('sumSel').val(sum).fixBid()
     @trigger 'updateAvailable', {sum: sum, volume: volume}
@@ -126,7 +129,7 @@
     if not @select('sumSel').is(target)
       @select('sumSel').fixBid()
 
-    [price, volume, sum] = @solveEquation(target, @getPrice(), null, @getSum(), @getBalance())
+    [price, volume, sum] = @solveEquation(@getPrice(), null, @getSum(), @getBalance())
 
     @select('volumeSel').val(volume).fixAsk()
     @trigger 'updateAvailable', {sum: sum, volume: volume}
