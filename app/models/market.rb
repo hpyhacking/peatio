@@ -10,6 +10,7 @@
 
 class Market < ActiveYamlBase
   field :visible, default: true
+  field :sort_order, default: 9999
 
   attr :name
 
@@ -55,10 +56,6 @@ class Market < ActiveYamlBase
 
   def bid_currency
     Currency.find_by_code(bid["currency"])
-  end
-
-  def sort_order
-    self[:sort_order] || 99999
   end
 
   private
