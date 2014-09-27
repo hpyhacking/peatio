@@ -170,7 +170,7 @@ class Account < ActiveRecord::Base
 
   private
   def sync_update
-    ::Pusher["private-#{member.sn}"].trigger_async('accounts', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
+    member.notify('accounts', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
   end
 
 end

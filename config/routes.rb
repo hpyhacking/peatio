@@ -51,7 +51,11 @@ Peatio::Application.routes.draw do
         defaults: { currency: c.code }
     end
 
-    resources :funds, only: [:index]
+    resources :funds, only: [:index] do
+      collection do
+        post :gen_address
+      end
+    end
 
     resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
