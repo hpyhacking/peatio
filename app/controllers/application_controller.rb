@@ -102,6 +102,11 @@ class ApplicationController < ActionController::Base
       bid: I18n.t('gon.bid'),
       cancel: I18n.t('actions.cancel'),
       latest_trade: I18n.t('private.markets.order_book.latest_trade'),
+      notification: {
+        title: I18n.t('gon.notification.title'),
+        enabled: I18n.t('gon.notification.enabled'),
+        new_trade: I18n.t('gon.notification.new_trade')
+      },
       time: {
         minute: I18n.t('chart.minute'),
         hour: I18n.t('chart.hour'),

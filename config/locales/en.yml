@@ -19,6 +19,10 @@ en:
     ask: Ask
     bid: Bid
     brand: Peatio Exchange
+    notification:
+      title: Peatio Exchange
+      enabled: Notification enabled.
+      new_trade: "New trade."
   back: Back
   invalid_password: Invalid password
   all: All

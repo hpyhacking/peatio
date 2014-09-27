@@ -84,7 +84,7 @@ $ ->
           fun = (permission) ->
             if permission == 'granted'
               Cookies.set('notification', true, 30)
-              new Notification('亲爱的云币网会员：', {body: '通过桌面实时更新您可以更迅速的了解您正在挂单的委托状态。', tag: 0})
+              new Notification(gon.i18n.notification.title, {body: gon.i18n.notification.enabled, tag: 0})
             else if permission == 'denied'
               Cookies.set('notification', false, 30)
           Notification.requestPermission(fun) if Notification.permission == 'default'
@@ -98,8 +98,8 @@ $ ->
 
       fun = ->
         if Cookies('notification') == 'true'
-          data = {body: '您的买单委托 48289# 以 2600.00 价格成交 总共买入 1.3 比特币', tag: 1}
-          notification = new Notification '亲爱的云币网会员：', data
+          data = {body: gon.i18n.notification.new_trade, tag: 1}
+          notification = new Notification gon.i18n.notification.title, data
       setInterval fun, 1000
   else
     $('input[name="notification-checkbox"]').bootstrapSwitch(disabled: true)
