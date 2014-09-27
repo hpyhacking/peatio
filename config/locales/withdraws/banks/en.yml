@@ -46,7 +46,7 @@ en:
     withdraws:
       banks:
         update:
-          notice: Bank Transfer withdrawal application has been submitted, we will back to you as soon as possible
+          notice: Bank Transfer withdrawal application has been submitted, we will process it as soon as possible
           alert_two_factor: Two-Factor Authentication error
         destroy:
           notice: Bank Transfer withdraw has been cancelled, frozen amount has been returned to your account.
@@ -89,7 +89,7 @@ en:
     hints:
       withdraw:
         bank:
-          member_name: <span class='text-danger'>Withdraw bank account name must match the name with your real-name authentication</span>
+          member_name: <span class='text-danger'>Withdraw bank account name must match your name used for real-name authentication</span>
           sum: "<a target='_balance' href='#'>Fee structure</a>"
           fund_extra: If your bank is no longer in the list, please contact customer service
 
@@ -100,8 +100,8 @@ en:
           panel: Bank Transfer
           new:
             panel: Withdraw
-            intro: Select the bank to cash withdrawal amount and enter the account number and complete submission. Withdraw your bank account and your name must be consistent with the real-name authentication name.
+            intro: Select the bank to cash withdrawal amount and enter the account number and complete submission. Your bank account and name must be consistent with the real-name authentication name.
             default-panel: Withdraw History
           edit:
             panel: Withdraw
-            intro: Select the bank to cash withdrawal amount and enter the account number and complete submission. Withdraw your bank account and your name must be consistent with the real-name authentication name.
+            intro: Select the bank to cash withdrawal amount and enter the account number and complete submission. Your bank account and name must be consistent with the real-name authentication name.
