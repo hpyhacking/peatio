@@ -22,6 +22,8 @@ zh-CN:
         amount: 数量
         buy: 买入
         sell: 卖出
+        ask_orders: 卖出
+        bid_orders: 买入
       ticker:
         markets: 实时价格
       account_balance:
