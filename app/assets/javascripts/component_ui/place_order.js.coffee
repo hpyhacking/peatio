@@ -193,7 +193,7 @@
     switch
       when currentPrice > (lastPrice * 1.1)
         priceAlert.hide().text(gon.i18n.place_order.price_high).fadeIn()
-      when currentPrice < (lastPrice * 0.9)
+      when currentPrice < (lastPrice * 0.9) && currentPrice > 0
         priceAlert.hide().text(gon.i18n.place_order.price_low).fadeIn()
       else
         priceAlert.fadeOut ->
