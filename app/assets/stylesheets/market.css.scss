@@ -69,7 +69,7 @@
     .table.bids { margin-top: 0px; }
     .table.seperator { 
       td.price { margin: 0px; padding: 0px; font-size: 20px !important; }
-      margin: 18px 0px 8px 0px; 
+      margin: 9px 0px 8px 0px; 
     }
   }
 
@@ -95,8 +95,8 @@
     }
 
     .hint-price-disadvantage, .hint-positions  {
-      top: 5px;
-      left: 60px;
+      top: 6px;
+      left: 57px;
       font-size: 14px;
       margin-left: 0px;
       position: absolute;
@@ -137,7 +137,7 @@
     }
 
     span.input-group-addon { min-width: 55px; width: 55px; }
-    input[type=text] { text-align: right; }
+    input[type=text] { font-family: monospace; font-size: 18px; text-align: right; }
   }
   //#==========================================
 
