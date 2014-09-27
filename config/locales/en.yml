@@ -125,14 +125,6 @@ en:
       click: Click to copy
       done: Copied
 
-  global:
-    ask_price: Ask
-    bid_price: Bid
-    high_price: High
-    low_price: Low
-    volume: Volume
-    latest_price: Last
-
   chart:
     open: Open
     high: High

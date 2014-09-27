@@ -7,3 +7,11 @@ en:
       balance: Balance
     header_account_balance:
       locked: Locked
+    market:
+      ticker:
+        ask_price: Ask
+        bid_price: Bid
+        high_price: High
+        low_price: Low
+        volume: Volume
+        latest_price: Last

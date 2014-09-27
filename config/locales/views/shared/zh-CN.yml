@@ -7,3 +7,11 @@ zh-CN:
       balance: 余额
     header_account_balance:
       locked: 冻结
+    market:
+      ticker:
+        ask_price: 卖一
+        bid_price: 买一
+        high_price: 最高
+        low_price: 最低
+        volume: 成交量
+        latest_price: 最新价格

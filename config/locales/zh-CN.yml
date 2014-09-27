@@ -137,14 +137,6 @@ zh-CN:
       click: 点击复制
       done: 复制成功
 
-  global:
-    ask_price: 卖出
-    bid_price: 买入
-    high_price: 最高
-    low_price: 最低
-    volume: 成交量
-    latest_price: 最新价格
-
   chart:
     open: 开盘
     high: 最高
