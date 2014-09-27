@@ -11,7 +11,6 @@
     volumeSel: 'input[id$=volume]'
     sumSel: 'input[id$=total]'
 
-    lastPrice: '.last-price .value'
     currentBalanceSel: 'span.current-balance'
     submitButton: ':submit'
 
@@ -93,6 +92,9 @@
     val = @select('priceSel').val() || '0'
     BigNumber(val)
 
+  @getLastPrice = ->
+    Number gon.ticker.last
+
   @getVolume = ->
     val = @select('volumeSel').val() || '0'
     BigNumber(val)
@@ -134,8 +136,13 @@
     @select('volumeSel').val(volume).fixAsk()
     @trigger 'updateAvailable', {sum: sum, volume: volume}
 
+  @allIn = (event)->
+    @select('priceSel').val @getLastPrice()
+    if not @select('sumSel').val()
+      @select('sumSel').val @getBalance()
+    @computeVolume(event)
+
   @orderPlan = (event, data) ->
-    return unless (@.$node.is(":visible"))
     @select('priceSel').val(data.price)
     @select('volumeSel').val(data.volume)
     @computeSum(event)
@@ -171,16 +178,9 @@
           @select('positionsLabelSel').fadeOut().text('')
         node.text(available)
 
-  @updateLastPrice = (event, data) ->
-    @select('lastPrice').text data.last
-
-  @copyLastPrice = ->
-    lastPrice = @select('lastPrice').text().trim()
-    @select('priceSel').val(lastPrice).focus()
-
   @priceCheck = (event) ->
     currentPrice = Number @select('priceSel').val()
-    lastPrice = Number gon.ticker.last
+    lastPrice = @getLastPrice()
     priceAlert = @select('priceAlertSel')
 
     switch
@@ -195,12 +195,9 @@
 
   @after 'initialize', ->
     @on document, 'order::plan', @orderPlan
-    @on document, 'market::ticker', @updateLastPrice
     @on 'updateAvailable', @updateAvailable
 
     @on document, 'account::update', @refreshBalance
-    @on @select('lastPrice'), 'click', @copyLastPrice
-    @updateLastPrice 'market::ticker', gon.ticker
 
     @on @select('formSel'), 'ajax:beforeSend', @beforeSend
     @on @select('formSel'), 'ajax:success', @handleSuccess
@@ -211,7 +208,8 @@
     @on @select('volumeSel'), 'change paste keyup focusout', @computeSum
     @on @select('sumSel'), 'change paste keyup focusout', @computeVolume
 
+    @on @select('currentBalanceSel'), 'click', @allIn
+
     # Placeholder for dogecoin input volume
     if gon.market.id in ['dogcny', 'dogbtc']
       @select('volumeSel').attr('placeholder', '大于1的整数')
-

@@ -9,7 +9,6 @@
   @getTemplate = (order) -> $(JST["order_done"](order))
 
   @tradeHandler = (event, trade) ->
-    console.log trade
     @addOrUpdateItem trade
     message = gon.i18n.notification.new_trade
       .replace(/%{kind}/g, gon.i18n[trade.kind])
