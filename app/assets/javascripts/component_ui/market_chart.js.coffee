@@ -44,9 +44,6 @@
               updateData(drawChart)
             , 5 * 60 * 1000
 
-      navigator:
-        top: 300
-
       tooltip:
         valueDecimals: gon.market.bid.fixed
         backgroundColor:
@@ -114,12 +111,12 @@
       yAxis: [
         {
           opposite: false
-          height: 160
+          height: 230
           lineWidth: 2
         }
         {
           opposite: false
-          top: 185
+          top: 245
           height: 60
           offset: 0
           lineWidth: 2
