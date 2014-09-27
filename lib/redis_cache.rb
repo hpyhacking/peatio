@@ -8,7 +8,7 @@ module RedisCache
     def kline(market, period)
       key = "peatio:#{market}:k:#{period}"
       length = redis.llen(key)
-      data = redis.lrange(key, length - 5000, -1).map{|str| JSON.parse(str)}
+      data = redis.lrange(key, length - 1000, -1).map{|str| JSON.parse(str)}
     end
 
   end
