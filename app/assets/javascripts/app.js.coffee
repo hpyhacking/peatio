@@ -73,3 +73,33 @@ $ ->
   $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
     $(@).scrollTop(@scrollTop + e.deltaY)
     e.preventDefault()
+
+
+  if "Notification" of window
+    if Notification.permission == 'denied'
+      $('input[name="notification-checkbox"]').remove()
+    else
+      notification_check = (event, state) ->
+        if state
+          fun = (permission) ->
+            if permission == 'granted'
+              Cookies.set('notification', true, 30)
+              new Notification('亲爱的云币网会员：', {body: '通过桌面实时更新您可以更迅速的了解您正在挂单的委托状态。', tag: 0})
+            else if permission == 'denied'
+              Cookies.set('notification', false, 30)
+          Notification.requestPermission(fun) if Notification.permission == 'default'
+          Cookies.set('notification', true, 30) if Notification.permission == 'granted'
+        else
+          Cookies.set('notification', false, 30)
+
+      
+      val = (Cookies('notification') == 'true') ? 'true' : 'false'
+      $('input[name="notification-checkbox"]').bootstrapSwitch({state: val, onSwitchChange: notification_check})
+
+      fun = ->
+        if Cookies('notification') == 'true'
+          data = {body: '您的买单委托 48289# 以 2600.00 价格成交 总共买入 1.3 比特币', tag: 1}
+          notification = new Notification '亲爱的云币网会员：', data
+      setInterval fun, 1000
+  else
+    $('input[name="notification-checkbox"]').bootstrapSwitch(disabled: true)

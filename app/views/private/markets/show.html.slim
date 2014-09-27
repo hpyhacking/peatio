@@ -11,6 +11,9 @@
               table.table.bids
           .col-md-13.order-place
             .panel.panel-default: .panel-body
+              .row.desktop-real-notification
+                .col-md-12: span.text-ignore = t('.notification')
+                .col-md-12.text-right: input type="checkbox" name="notification-checkbox" data-size='mini' data-on-text="开" data-off-text="关" data-on-color='success'
               = render partial: 'place_order', locals: {market: @market, order_ask: @order_ask, order_bid: @order_bid}
       .row
         .col-md-8 = render partial: 'trades'

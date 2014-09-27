@@ -2,6 +2,9 @@ zh-CN:
   private:
     markets:
       show:
+        on: 开
+        off: 关
+        notification: 桌面实时通知
         error: 委托挂单失败
         success: 委托挂单成功
         analysis_panel: 分析面板

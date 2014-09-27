@@ -2,6 +2,9 @@ en:
   private:
     markets:
       show:
+        on: ON
+        off: OFF
+        notification: Desktop Real Notification
         error: Failed to submit order
         success: Order submitted successfully
         analysis_panel: Analysis

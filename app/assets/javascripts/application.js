@@ -3,6 +3,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require bootstrap-switch.min
 //
 //= require scrollIt
 //= require moment
@@ -19,6 +20,7 @@
 //= require helper
 //= require jquery.mousewheel
 //= require qrcode
+//= require cookies.min
 
 //= require_tree ./component_mixin
 //= require_tree ./component_data
