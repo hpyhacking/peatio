@@ -23,8 +23,8 @@
       background-color: #eee;
     }
 
-    tr.bid { td.kind, td.price, td.amount, td.volume { color: $down-dark-color; } }
-    tr.ask { td.kind, td.price, td.amount, td.volume { color: $up-dark-color; } }
+    tr.bid { td.kind, td.price, td.amount, td.volume { color: $up-dark-color; } }
+    tr.ask { td.kind, td.price, td.amount, td.volume { color: $down-dark-color; } }
 
     td {
       border: none;

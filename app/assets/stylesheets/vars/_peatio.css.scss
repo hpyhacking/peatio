@@ -21,8 +21,13 @@ $btn-info-bg: #fff;
 $btn-info-color: #333;
 
 $state-warning-text: #CC0000;
+
 $up-color: rgba(89, 132, 50, 0.7);
 $down-color: rgba(159, 49, 27, 0.7);
+
+/*debug for colour weakness*/
+/*$up-color: black;*/
+/*$down-color: yellow;*/
 
 $up-dark-color: opacify($up-color, 1.0);
 $down-dark-color: opacify($down-color, 1.0);
