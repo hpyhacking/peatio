@@ -62,6 +62,14 @@ en:
         label: Label
         address: Address
         category: Category
+        btsx:
+          fund_source_address: BTSX Account
+        btc:
+          fund_source_address: BTC Address
+        pts:
+          fund_source_address: PTS Address
+        dog:
+          fund_source_address: Dogecoin Address
       session:
         email: Sign In E-mail
         password: Sign In Password
