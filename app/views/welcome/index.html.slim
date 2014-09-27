@@ -41,6 +41,7 @@
             p 充值、提现及交易手续费全免
             p 注：提现矿工费由貔貅北京代扣
 
+
       .col-sm-6
         .panel.panel-ignore
           .panel-heading
@@ -100,6 +101,7 @@
       h2.text-center
         = "#{current_market.name} 价格走势"
       = render_market_chart
+
   coffee:
     $ ->
       currentDate = new Date()
@@ -109,3 +111,4 @@
         clockFace: 'DailyCounter'
         countdown: true
         showSeconds: true
+
