@@ -57,6 +57,10 @@ class Market < ActiveYamlBase
     Currency.find_by_code(bid["currency"])
   end
 
+  def sort_order
+    self[:sort_order] || 99999
+  end
+
   private
 
   def <=>(other)
