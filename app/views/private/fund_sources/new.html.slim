@@ -8,8 +8,8 @@
       hint: t('.extra_hint')
     = f.input :uid, label: t('.fund_source_uid')
   - else
-    = f.input :extra, label: t('.fund_source_label')
-    = f.input :uid, label: t('.fund_source_address')
+    = f.input :extra, label: t(".fund_source_label"), placeholder: "任意填写"
+    = f.input :uid, label: t("simple_form.labels.fund_source.#{@currency.code}.fund_source_address")
 
   hr.split
 

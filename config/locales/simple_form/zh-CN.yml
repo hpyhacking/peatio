@@ -61,6 +61,15 @@ zh-CN:
         label: 开户行 / 标签
         address: 银行卡号 / 地址
         category: 选择提现种类
+        btsx:
+          fund_source_address: BTSX帐号
+        btc:
+          fund_source_address: 比特币钱包地址
+        pts:
+          fund_source_address: PTS原型股钱包地址
+        dog:
+          fund_source_address: 狗狗币钱包地址
+
         name: 账户名
       member:
         name: 账户名
