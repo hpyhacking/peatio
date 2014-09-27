@@ -23,8 +23,8 @@
       background-color: #eee;
     }
 
-    tr.bid { td.kind, td.price, td.amount, td.volume { color: $down-dark-color; } }
-    tr.ask { td.kind, td.price, td.amount, td.volume { color: $up-dark-color; } }
+    tr.bid { td.kind, td.price, td.amount, td.volume { color: $up-dark-color; } }
+    tr.ask { td.kind, td.price, td.amount, td.volume { color: $down-dark-color; } }
 
     td {
       border: none;
@@ -67,7 +67,10 @@
 
     .table.asks { margin-bottom: 0px; }
     .table.bids { margin-top: 0px; }
-    .table.seperator { margin: 8px 0px; }
+    .table.seperator { 
+      td.price { margin: 0px; padding: 0px; font-size: 20px !important; }
+      margin: 18px 0px 8px 0px; 
+    }
   }
 
   .order-book-single {
@@ -87,6 +90,7 @@
     @include fix-clear-pannel(left);
 
     hr {
+      margin-top: 18px;
       border-top-color: $split-color;
     }
 
@@ -119,7 +123,7 @@
       &:hover { background-color: opacify($up-color, 1.0); }
     }
 
-    #ask_panel {
+    #bid_panel {
       margin-top: 10px;
     }
 
