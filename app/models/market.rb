@@ -59,6 +59,10 @@ class Market < ActiveYamlBase
 
   private
 
+  def <=>(other)
+    self.sort_order <=> other.sort_order
+  end
+
   def global
     @global || Global[self.id]
   end
