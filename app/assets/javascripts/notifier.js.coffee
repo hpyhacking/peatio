@@ -39,7 +39,7 @@ class Notifier
     else
       false
 
-  notify: (title, content, logo = '/yunbi_notification_logo.jpg') ->
+  notify: (title, content, logo = '/peatio-notification-logo.png') ->
     if @enableNotification == true || @enableNotification == "true"
 
       if window.Notification
