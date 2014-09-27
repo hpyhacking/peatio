@@ -81,7 +81,7 @@ zh-CN:
       order:
         bid: 买入
         ask: 卖出
-        price: 单价
+        price: 价格
         total: 总价
         volume: 数量
         origin_volume: 数量
@@ -179,6 +179,6 @@ zh-CN:
         password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
         blank: 不可为空。
         orders:
-          price: 单价限额 %{l} ~ %{h}
+          price: 价格限额 %{l} ~ %{h}
           sum: 挂单总限额 %{l} ~ %{h}
           precision: 最低精度为 %{p}
