@@ -7,11 +7,22 @@
       known: 'price'
       output: 'total'
 
+  @constraintCheck = (v) ->
+    if @orderType == 'ask' && v.greaterThan(@balance)
+      @changeOrder @balance
+      @$node.val @balance
+      false
+    else
+      true
+
+  @onInput = (event) ->
+    value = @value()
+
+    if value && @constraintCheck(value)
+      @changeOrder value
+
   @onOutput = (event, order) ->
     volume = order.total.div order.price
 
-    if @orderType == 'ask' && volume.greaterThan(@balance)
-      volume = @balance
-      @changeOrder volume
-
-    @$node.val volume
+    if @constraintCheck(volume)
+      @$node.val volume

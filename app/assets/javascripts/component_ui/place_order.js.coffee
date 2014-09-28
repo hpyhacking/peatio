@@ -206,9 +206,9 @@
 
   @after 'initialize', ->
     PlaceOrderData.attachTo @$node
-    OrderPriceUI.attachTo   @attr.priceSel,  parent: @
-    OrderVolumeUI.attachTo  @attr.volumeSel, parent: @
-    OrderTotalUI.attachTo   @attr.totalSel,  parent: @
+    OrderPriceUI.attachTo   @select('priceSel'),  parent: @
+    OrderVolumeUI.attachTo  @select('volumeSel'), parent: @
+    OrderTotalUI.attachTo   @select('totalSel'),  parent: @
 
     @on document, 'order::plan', @orderPlan
     @on 'updateAvailable', @updateAvailable
