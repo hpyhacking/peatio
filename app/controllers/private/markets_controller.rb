@@ -27,7 +27,7 @@ module Private
     private
 
     def set_default_market
-      cookies[:market_id] = @market.id
+      set_current_market market: @market
     end
 
     def set_member_data

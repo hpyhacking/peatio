@@ -13,6 +13,11 @@ class ApplicationController < ActionController::Base
     @current_market ||= Market.find_by_id(params[:market]) || Market.find_by_id(cookies[:market_id]) || Market.first
   end
 
+  def set_current_market(market: Market.first)
+    @current_market = market
+    cookies[:market_id] = market.id
+  end
+
   def current_user
     @current_user ||= Member.current = Member.enabled.where(id: session[:member_id]).first
   end
