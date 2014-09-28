@@ -10,8 +10,8 @@
   @onOutput = (event, order) ->
     total = order.price.times order.volume
 
-    if @orderType == 'bid' && total.greaterThan(order.balance)
-      total = order.balance
+    if @orderType == 'bid' && total.greaterThan(@balance)
+      total = @balance
       @changeOrder total
 
     @$node.val total
