@@ -3,10 +3,10 @@ module Worker
 
     BLOCK_DURATION = 10
 
-    def initialize
-      @rpc = CoinRPC['btsx']
+    def initialize(last_block_num)
+      @rpc        = CoinRPC['btsx']
 
-      @last_block_num = ENV['BLOCK_NUM'].to_i
+      @last_block_num = last_block_num
       if @last_block_num < 1
         tx = @rpc.last_deposit_account_transaction
         @last_block_num = tx['block_num'] if tx
@@ -16,26 +16,38 @@ module Worker
       @channel  = DepositChannel.find_by_key 'bitsharesx'
     end
 
+    def rescan(from, to)
+      @rpc.get_deposit_transactions(from, to).each do |raw|
+        if raw['block_num'] >= from && raw['block_num'] <= to
+          process_transaction raw
+        end
+      end
+    end
+
     def process
       get_new_transactions.each do |raw|
-        block      = raw['block_num']
-        txid       = raw['trx_id']
-        entry      = raw['ledger_entries'].first
-        amount     = @rpc.fmt_amount entry['amount']['amount']
-        fee        = @rpc.fmt_amount raw['fee']['amount']
-        address    = "#{@currency.deposit_account}|#{entry['memo']}"
-        payer      = entry['from_account']
-        receive_at = Time.zone.parse raw['timestamp']
+        process_transaction raw
+      end
+    end
 
-        Rails.logger.info "NEW - block: #{block} id: #{txid}"
+    def process_transaction(raw)
+      block      = raw['block_num']
+      txid       = raw['trx_id']
+      entry      = raw['ledger_entries'].first
+      amount     = @rpc.fmt_amount entry['amount']['amount']
+      fee        = @rpc.fmt_amount raw['fee']['amount']
+      address    = "#{@currency.deposit_account}|#{entry['memo']}"
+      payer      = entry['from_account']
+      receive_at = Time.zone.parse raw['timestamp']
 
-        ActiveRecord::Base.transaction do
-          if PaymentTransaction::Btsx.find_by_txid(txid)
-            Rails.logger.info "Associated PaymentTransaction found, skip."
-          else
-            d = deposit(block, txid, payer, address, amount, receive_at, @channel)
-            Rails.logger.info "Deposit##{d.id} created."
-          end
+      Rails.logger.info "NEW - block: #{block} id: #{txid}"
+
+      ActiveRecord::Base.transaction do
+        if PaymentTransaction::Btsx.find_by_txid(txid)
+          Rails.logger.info "Associated PaymentTransaction found, skip."
+        else
+          d = deposit(block, txid, payer, address, amount, receive_at, @channel)
+          Rails.logger.info "Deposit##{d.id} created."
         end
       end
     end

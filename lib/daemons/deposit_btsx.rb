@@ -16,7 +16,7 @@ end
 
 Rails.logger = Logger.new STDOUT
 
-worker = Worker::DepositBtsx.new
+worker = Worker::DepositBtsx.new ENV['BLOCK_NUM'].to_i
 duration = Worker::DepositBtsx::BLOCK_DURATION / 2
 
 while($running) do

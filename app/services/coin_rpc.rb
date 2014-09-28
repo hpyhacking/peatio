@@ -132,8 +132,8 @@ class CoinRPC
       wallet_account_transaction_history(@currency.deposit_account, 'BTSX', -1, 0).first
     end
 
-    def get_deposit_transactions(from)
-      txs = wallet_account_transaction_history(@currency.deposit_account, 'BTSX', 0, from)
+    def get_deposit_transactions(from, to=-1)
+      txs = wallet_account_transaction_history(@currency.deposit_account, 'BTSX', 0, from, to)
       txs.select {|tx| tx['is_confirmed'] && !tx['is_virtual'] && !tx['is_market'] && !tx['is_market_cancel'] && tx['ledger_entries'].first['to_account'] == @currency.deposit_account }
     end
 
