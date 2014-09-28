@@ -204,17 +204,11 @@
         priceAlert.fadeOut ->
           priceAlert.text('')
 
-  @onOutput = (event, data) ->
-    order = data.order
-    order.type = @panelType()
-    @trigger @select("#{data.output}Sel"), 'place_order::field::output', order
-
   @after 'initialize', ->
-    OrderPriceUI.attachTo @attr.priceSel, type: 'shit'
-    OrderVolumeUI.attachTo @attr.volumeSel, lala: 222
-    OrderTotalUI.attachTo @attr.totalSel
-
-    @on 'place_order::order::output', @onOutput
+    PlaceOrderData.attachTo @$node
+    OrderPriceUI.attachTo   @attr.priceSel,  parent: @
+    OrderVolumeUI.attachTo  @attr.volumeSel, parent: @
+    OrderTotalUI.attachTo   @attr.totalSel,  parent: @
 
     @on document, 'order::plan', @orderPlan
     @on 'updateAvailable', @updateAvailable

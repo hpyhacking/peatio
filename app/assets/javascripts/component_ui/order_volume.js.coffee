@@ -10,7 +10,7 @@
   @onOutput = (event, order) ->
     volume = order.total.div order.price
 
-    if order.type == 'ask' && volume.greaterThan(order.balance)
+    if @orderType == 'ask' && volume.greaterThan(order.balance)
       volume = order.balance
       @changeOrder volume
 
