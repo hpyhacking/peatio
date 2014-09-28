@@ -1,15 +1,19 @@
 @PlaceOrderData = flight.component ->
 
   @solve = ->
-    return unless @order[@known]
+    return unless @order[@known] && @order.balance
     @trigger document, "place_order::solve::#{@output}", @order
 
-  @onData = (event, data) ->
+  @setOrder = (event, data) ->
     {input: @input, known: @known, output: @output} = data.variables
     @order[@input] = data.value
     @solve()
 
-  @after 'initialize', ->
-    @order = {price: null, volume: null, total: null}
+  @setBalance = (event, data) ->
+    @order.balance = data.balance
 
-    @on document, 'place_order::data', @onData
+  @after 'initialize', ->
+    @order = {price: null, volume: null, total: null, balance: null}
+
+    @on document, 'place_order::order::change', @setOrder
+    @on document, 'place_order::balance::change', @setBalance

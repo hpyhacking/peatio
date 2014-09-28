@@ -9,7 +9,7 @@
 
   @onChange = (event) ->
     if value = @value()
-      @trigger "place_order::data", variables: @attr.variables, value: value
+      @trigger "place_order::order::change", variables: @attr.variables, value: value
 
   @after 'initialize', ->
     @on @$node, 'change paste keyup', @onChange

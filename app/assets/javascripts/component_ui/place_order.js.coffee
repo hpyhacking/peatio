@@ -160,7 +160,10 @@
     type = @panelType()
     currency = gon.market[type].currency
     balance = gon.accounts[currency].balance
+
     @select('currentBalanceSel').data('balance', balance)
+    @trigger 'place_order::balance::change', balance: BigNumber(balance)
+
     switch type
       when 'bid'
         @select('currentBalanceSel').text(balance).fixBid()

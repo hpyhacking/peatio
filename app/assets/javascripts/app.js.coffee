@@ -45,10 +45,12 @@ $ ->
       height: $el.data('height')
 
   AccountBalanceUI.attachTo('.account-balance')
-  PlaceOrderUI.attachTo('.order-place #bid_panel')
-  PlaceOrderUI.attachTo('.order-place #ask_panel')
   MyOrdersUI.attachTo('.my-orders')
   MyTradesUI.attachTo('.my-trades')
+
+  PlaceOrderData.attachTo(document)
+  PlaceOrderUI.attachTo('.order-place #bid_panel')
+  PlaceOrderUI.attachTo('.order-place #ask_panel')
 
   MarketTickerUI.attachTo('.ticker')
   MarketTradesUI.attachTo('.trades')
@@ -69,7 +71,6 @@ $ ->
 
   GlobalData.attachTo(document, {pusher: pusher})
   MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
-  PlaceOrderData.attachTo(document)
 
   $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
     $(@).scrollTop(@scrollTop + e.deltaY)
