@@ -1,28 +1,63 @@
-<h1>比特币提现</h1>
-<form {{ action 'submitWithdraw' id="btc_withdraws" on="submit"}}>
-  <label>标签</label>
+<h2 class="panel-title">
+  <img alt="BTC" src="/assets/bitcoin-logo.png" class="currency-logo"> 比特币提现</h2>
+<p class="help-block">
+  指定要提现的比特币地址，输入提取数量，提交即可，10分钟之内到账。
+</p>
 
+<form {{ action 'submitWithdraw' id="btc_withdraws" on="submit" }} class="form form-horizontal">
 
-  {{view Ember.Select
+  <div class="form-group">
+    <div class="col-sm-6">
+      <label class="select required control-label" for="withdraw_fund_source">标签</label>
+    </div>
+    <div class="col-sm-12">
+      {{view Ember.Select
          content=fsources
          optionValuePath="content.id"
          optionLabelPath="content.label"
-         class="select required"
+         class="select required form-control"
          id="fund_source"
          name="fund_source"
-  }}
+      }}
+    </div>
+    <span class="col-sm-6 help-block"><a href="/btc_fund_sources">管理提现地址</a></span>
+  </div>
 
-  <p>
-    <label>可用余额</label>
-    <span>{{balance}} </span>
-  </p>
+  <div class="form-group">
+    <div class="col-sm-6">
+      <label class="optional control-label">可用余额</label>
+    </div>
+    <div class="col-sm-12">
+      <p class="form-control-static"><span class="currency-balance">{{balance}}</span></p>
+    </div>
+  </div>
 
-  <label>提取数量</label>
-  <input name="withdraw_sum", id="withdraw_sum"> <br />
-  <button class="btn btn-primary pull-right" id="withdraw_btc_submit">提交</button>
+  <div class="form-group required">
+    <div class="col-sm-6">
+      <label class="decimal required control-label" for="withdraw_sum">提取数量</label>
+    </div>
+    <div class="col-sm-12">
+      <div class="input-group">
+        <input class="numeric decimal required form-control" id="withdraw_sum" min="0" name="withdraw[sum]" placeholder="最低 0.001" step="any" type="number" value="0.0">
+        <div class="input-group-btn"><button class="btn btn-success" id="withdraw_all_btn" type="button">全部提取</button></div>
+      </div>
+    </div>
+    <span class="col-sm-6 help-block"><a target="_balance" href="/documents/price">资费说明</a></span>
+  </div>
+
+  <div class="form-group">
+    <div class="form-submit col-sm-18 col-sm-offset-6">
+      <input  id="withdraw_btc_submit" cancel="/withdraws" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="提交">
+      <a href="/withdraws" class="btn btn-info">取消</a>
+    </div>
+  </div>
+
 </form>
 
-<table class="table">
+<br>
+<h2 class="panel-title">历史记录</h2>
+
+<table class="table withdraw-history">
   <tr>
     <th>编号</th>
     <th>时间</th>
@@ -31,6 +66,7 @@
     <th>旷工费</th>
     <th>状态/操作</th>
   </tr>
+  <tr><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
   {{#each withdraw in withdraws}}
   <tr>
     <td>{{withdraw.id}}</td>

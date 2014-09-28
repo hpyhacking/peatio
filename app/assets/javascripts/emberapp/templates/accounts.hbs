@@ -1,29 +1,38 @@
+<h1 class="page-title">我的资产</h1>
+
 <div class="panel panel-default">
-  <div class="panel-heading">Accounts</div>
-  <div class="panel-body">
+  <div class="panel-body panel-currencies">
+    
     <div class='row'>
-      <div class='col-md-12'>
-        <ul class="list-group">
-          {{#each model}}
-          <li class="list-group-item">
-          <div class='row'>
-            <div class='col-md-18'>
-              <h1>Account for <code>{{currency}}</code> <code>{{balance}}</code> / <code>{{locked}}</code></h1>
-            </div>
-            <div class='col-md-6'>
-              <ul>
-                <li>{{#link-to 'deposits' this.currency}}充值{{/link-to}}</li>
-                <li>{{#link-to 'withdraws' this.currency}}提现{{/link-to}}</li>
-              </ul>
-            </div>
-          </div>
-          </li>
-          {{/each}}
-        </ul>
-      </div>
       <div class='col-md-8'>
-        {{outlet}}
+        
+        <div class="currencies-container">
+          {{#each model}}
+          <table class="currency-item table">
+            <tr>
+              <td class="currency-balance-col">
+                <span class="currency-label label-{{currency}}">{{currency}}</span>
+                <p class="currency-balance"><span class="currency-sign">￥</span>{{balance}}</p>
+                <span class="currency-balance-locked"><i class="fa fa-lock"></i> {{locked}}</span>
+              </td>
+              <td class="currency-actions">
+                <p class="selected">{{#link-to 'deposits' this.currency}}充值{{/link-to}}</p>
+                <p>{{#link-to 'withdraws' this.currency}}提现{{/link-to}}</p>
+              </td>
+            </tr>
+          </table>
+          {{/each}}
+        </div>
+
       </div>
-    </div>
+
+      <div class='col-md-16'>
+        <div class="details-container">
+          {{outlet}}
+        </div>
+      </div>
+
+    </div><!-- .row -->
+
   </div>
 </div>
