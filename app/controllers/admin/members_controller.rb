@@ -61,6 +61,8 @@ module Admin
       else
         flash[:alert] = I18n.t('.fail')
       end
+
+      redirect_to action: :show
     end
 
     def active
