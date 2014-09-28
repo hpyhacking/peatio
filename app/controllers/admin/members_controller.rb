@@ -44,6 +44,7 @@ module Admin
 
           channel = DepositChannel.find_by_key account.currency_obj.key
           deposit = channel.kls.create!(
+            blockid: tx.blockid,
             txid: tx.txid,
             amount: tx.amount,
             member: tx.member,
@@ -54,7 +55,6 @@ module Admin
           )
 
           deposit.submit!
-          tx.confirm!
         end
 
         flash[:notice] = I18n.t('.success')
