@@ -69,6 +69,7 @@ $ ->
 
   GlobalData.attachTo(document, {pusher: pusher})
   MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
+  PlaceOrderData.attachTo(document)
 
   $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
     $(@).scrollTop(@scrollTop + e.deltaY)

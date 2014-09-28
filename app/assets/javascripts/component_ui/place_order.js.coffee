@@ -9,7 +9,7 @@
 
     priceSel: 'input[id$=price]'
     volumeSel: 'input[id$=volume]'
-    sumSel: 'input[id$=total]'
+    totalSel: 'input[id$=total]'
 
     currentBalanceSel: 'span.current-balance'
     submitButton: ':submit'
@@ -26,7 +26,7 @@
 
   @resetForm = (event) ->
     @select('volumeSel').val BigNumber(0)
-    @select('sumSel').val BigNumber(0)
+    @select('totalSel').val BigNumber(0)
 
   @disableSubmit = ->
     @select('submitButton').addClass('disabled').attr('disabled', 'disabled')
@@ -38,7 +38,7 @@
     confirmType = @select('submitButton').text()
     price = @select('priceSel').val()
     volume = @select('volumeSel').val()
-    sum = @select('sumSel').val()
+    sum = @select('totalSel').val()
     """
     #{gon.i18n.place_order.confirm_submit} "#{confirmType}"?
 
@@ -74,11 +74,11 @@
     type = @panelType()
     if type == 'bid' && sum.greaterThan(balance)
       [price, vol, sum] = @solveEquation(price, null, balance, balance)
-      @select('sumSel').val(sum).fixBid()
+      @select('totalSel').val(sum).fixBid()
       @select('volumeSel').val(vol).fixAsk()
     else if type == 'ask' && vol.greaterThan(balance)
       [price, vol, sum] = @solveEquation(price, balance, null, balance)
-      @select('sumSel').val(sum).fixBid()
+      @select('totalSel').val(sum).fixBid()
       @select('volumeSel').val(vol).fixAsk()
 
     [price, vol, sum]
@@ -98,7 +98,7 @@
     BigNumber(val)
 
   @getSum = ->
-    val = @select('sumSel').val() || '0'
+    val = @select('totalSel').val() || '0'
     BigNumber(val)
 
   @sanitize = (el) ->
@@ -118,20 +118,20 @@
 
     [price, volume, sum] = @solveEquation(@getPrice(), @getVolume(), null, @getBalance())
 
-    @select('sumSel').val(sum).fixBid()
+    @select('totalSel').val(sum).fixBid()
     @trigger 'updateAvailable', {sum: sum, volume: volume}
 
   @computeVolume = (event) ->
     @sanitize @select('priceSel')
-    @sanitize @select('sumSel')
+    @sanitize @select('totalSel')
 
     return unless @getPrice().greaterThan(0)
 
     target = event.target
     if not @select('priceSel').is(target)
       @select('priceSel').fixBid()
-    if not @select('sumSel').is(target)
-      @select('sumSel').fixBid()
+    if not @select('totalSel').is(target)
+      @select('totalSel').fixBid()
 
     [price, volume, sum] = @solveEquation(@getPrice(), null, @getSum(), @getBalance())
 
@@ -147,8 +147,8 @@
           @select('volumeSel').val @getBalance()
         @computeSum(event)
       when 'bid'
-        if not @select('sumSel').val()
-          @select('sumSel').val @getBalance()
+        if not @select('totalSel').val()
+          @select('totalSel').val @getBalance()
         @computeVolume(event)
 
   @orderPlan = (event, data) ->
@@ -201,8 +201,11 @@
         priceAlert.fadeOut ->
           priceAlert.text('')
 
-
   @after 'initialize', ->
+    OrderPriceUI.attachTo @select('priceSel')
+    OrderVolumeUI.attachTo @select('volumeSel')
+    OrderTotalUI.attachTo @select('totalSel')
+
     @on document, 'order::plan', @orderPlan
     @on 'updateAvailable', @updateAvailable
 
@@ -213,7 +216,9 @@
     @on @select('formSel'), 'ajax:error', @handleError
 
     @on @select('priceSel'), 'focusout', @priceCheck
-    @on @select('priceSel'), 'change paste keyup focusout', @computeSum
-    @on @select('volumeSel'), 'change paste keyup focusout', @computeSum
-    @on @select('sumSel'), 'change paste keyup focusout', @computeVolume
+
+    #@on @select('priceSel'), 'change paste keyup focusout', @computeSum
+    #@on @select('volumeSel'), 'change paste keyup focusout', @computeSum
+    #@on @select('totalSel'), 'change paste keyup focusout', @computeVolume
+
     @on @select('currentBalanceSel'), 'click', @allIn
