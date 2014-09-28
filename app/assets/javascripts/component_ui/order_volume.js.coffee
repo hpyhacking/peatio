@@ -12,6 +12,6 @@
 
     if order.type == 'ask' && volume.greaterThan(order.balance)
       volume = order.balance
-      @newInput volume
+      @changeOrder volume
 
     @$node.val volume

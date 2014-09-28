@@ -7,11 +7,13 @@
       known: 'price'
       output: 'volume'
 
+  @onInput = (event, order) ->
+
   @onOutput = (event, order) ->
     total = order.price.times order.volume
 
     if order.type == 'bid' && total.greaterThan(order.balance)
       total = order.balance
-      @newInput total
+      @changeOrder total
 
     @$node.val total

@@ -7,13 +7,15 @@
     else
       null
 
-  @newInput = (v) ->
+  @changeOrder = (v) ->
     @trigger 'place_order::order::change', variables: @attr.variables, value: v
 
-  @onChange = (event) ->
+  @onInput = (event) ->
     if value = @value()
-      @newInput value
+      @changeOrder value
 
   @after 'initialize', ->
-    @on @$node, 'change paste keyup', @onChange
+    console.log arguments
+    console.log @attr
+    @on @$node, 'change paste keyup', @onInput
     @on "place_order::field::output", @onOutput

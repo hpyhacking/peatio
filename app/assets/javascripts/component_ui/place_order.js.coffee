@@ -210,9 +210,9 @@
     @trigger @select("#{data.output}Sel"), 'place_order::field::output', order
 
   @after 'initialize', ->
-    OrderPriceUI.attachTo @select('priceSel')
-    OrderVolumeUI.attachTo @select('volumeSel')
-    OrderTotalUI.attachTo @select('totalSel')
+    OrderPriceUI.attachTo @attr.priceSel, type: 'shit'
+    OrderVolumeUI.attachTo @attr.volumeSel, lala: 222
+    OrderTotalUI.attachTo @attr.totalSel
 
     @on 'place_order::order::output', @onOutput
 
