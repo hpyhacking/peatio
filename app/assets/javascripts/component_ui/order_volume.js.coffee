@@ -7,6 +7,11 @@
       known: 'price'
       output: 'total'
 
-  @solve = (event, data) ->
-    volume = data.total.div data.price
+  @onOutput = (event, order) ->
+    volume = order.total.div order.price
+
+    if order.type == 'ask' && volume.greaterThan(order.balance)
+      volume = order.balance
+      @newInput volume
+
     @$node.val volume

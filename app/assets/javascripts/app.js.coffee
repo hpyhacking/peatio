@@ -48,7 +48,8 @@ $ ->
   MyOrdersUI.attachTo('.my-orders')
   MyTradesUI.attachTo('.my-trades')
 
-  PlaceOrderData.attachTo(document)
+  PlaceOrderData.attachTo('.order-place #bid_panel')
+  PlaceOrderData.attachTo('.order-place #ask_panel')
   PlaceOrderUI.attachTo('.order-place #bid_panel')
   PlaceOrderUI.attachTo('.order-place #ask_panel')
 

@@ -7,6 +7,6 @@
       known: 'volume'
       output: 'total'
 
-  @solve = (event, data) ->
-    price = data.total.div data.volume
+  @onOutput = (event, order) ->
+    price = order.total.div order.volume
     @$node.val price

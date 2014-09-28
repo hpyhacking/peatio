@@ -7,10 +7,13 @@
     else
       null
 
+  @newInput = (v) ->
+    @trigger 'place_order::order::change', variables: @attr.variables, value: v
+
   @onChange = (event) ->
     if value = @value()
-      @trigger "place_order::order::change", variables: @attr.variables, value: value
+      @newInput value
 
   @after 'initialize', ->
     @on @$node, 'change paste keyup', @onChange
-    @on document, "place_order::solve::#{@attr.variables.input}", @solve
+    @on "place_order::field::output", @onOutput
