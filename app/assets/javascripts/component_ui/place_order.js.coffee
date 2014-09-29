@@ -167,8 +167,10 @@
     switch type
       when 'bid'
         @select('currentBalanceSel').text(balance).fixBid()
+        @trigger 'place_order::max::total', max: BigNumber(balance)
       when 'ask'
         @select('currentBalanceSel').text(balance).fixAsk()
+        @trigger 'place_order::max::volume', max: BigNumber(balance)
 
   @updateAvailable = (event, data) ->
     type = @panelType()
@@ -205,10 +207,12 @@
           priceAlert.text('')
 
   @after 'initialize', ->
+    type = @panelType()
+
     PlaceOrderData.attachTo @$node
-    OrderPriceUI.attachTo   @select('priceSel'),  parent: @
-    OrderVolumeUI.attachTo  @select('volumeSel'), parent: @
-    OrderTotalUI.attachTo   @select('totalSel'),  parent: @
+    OrderPriceUI.attachTo   @select('priceSel'),  form: @$node, type: type
+    OrderVolumeUI.attachTo  @select('volumeSel'), form: @$node, type: type
+    OrderTotalUI.attachTo   @select('totalSel'),  form: @$node, type: type
 
     @on document, 'order::plan', @orderPlan
     @on 'updateAvailable', @updateAvailable

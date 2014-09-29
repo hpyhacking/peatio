@@ -1,7 +1,8 @@
 @OrderInputMixin = ->
 
   @attributes
-    parent: null
+    form: null
+    type: null
 
   @value = ->
     val = @$node.val()
@@ -14,15 +15,28 @@
     @trigger 'place_order::input', variables: @attr.variables, value: v
 
   @onInput = (event) ->
-    if value = @value()
+    value = @value()
+
+    if value && @validateRange(value)
       @changeOrder value
 
-  @setBalance = (event, data) ->
-    @balance = data.balance
+  @validateRange = (v) ->
+    if @max && v.greaterThan(@max)
+      @changeOrder @max
+      @$node.val @max
+      false
+    else if v.lessThan(0)
+      @$node.val ''
+      false
+    else
+      true
+
+  @onMax = (event, data) ->
+    @max = data.max
 
   @after 'initialize', ->
-    @orderType = @attr.parent.panelType()
+    @orderType = @attr.type
 
     @on @$node, 'change paste keyup', @onInput
-    @on @attr.parent.$node, "place_order::output::#{@attr.variables.input}", @onOutput
-    @on @attr.parent.$node, "place_order::balance::change", @setBalance
+    @on @attr.form, "place_order::max::#{@attr.variables.input}", @onMax
+    @on @attr.form, "place_order::output::#{@attr.variables.input}", @onOutput
