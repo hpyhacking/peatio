@@ -1,0 +1,10 @@
+<% content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+    $(window).load(function(){
+      $.ajax({
+        type: "post",
+        url: "<%= gen_address_funds_path %>"
+      })
+    });
+  </script>
+<% end %>

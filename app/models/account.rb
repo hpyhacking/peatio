@@ -164,7 +164,7 @@ class Account < ActiveRecord::Base
 
   def as_json(options = {})
     super.merge({
-      payment_address: payment_address.address.nil? ? "" : payment_address.address
+      payment_address: payment_addresses.empty? ? "" : payment_addresses.last.address
     })
   end
 

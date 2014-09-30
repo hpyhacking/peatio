@@ -10,13 +10,13 @@ class PaymentAddress < ActiveRecord::Base
 
   validates_uniqueness_of :address, allow_nil: true
 
+  private
   def gen_address
     payload = { payment_address_id: id, currency: currency }
     attrs   = { persistent: true }
     AMQPQueue.enqueue(:deposit_coin_address, payload, attrs)
   end
 
-  private
   def sync_create
     ::Pusher["private-#{account.member.sn}"].trigger_async('payment_address', { type: 'create', attributes: self.as_json})
   end

@@ -19,6 +19,7 @@ module Private
       current_user.accounts.each do |account|
         account.payment_addresses.create(currency: account.currency) if account.payment_addresses.blank?
       end
+      render nothing: true
     end
 
   end
