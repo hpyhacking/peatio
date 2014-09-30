@@ -60,10 +60,7 @@ class AccountVersion < ActiveRecord::Base
   end
 
   def detail_template
-    if self.detail.nil? || self.detail.empty?
-      return ["system", {}]
-    end
-
+    return ["system", {}] if self.detail.nil? || self.detail.empty?
     [self.detail.delete(:tmp) || "default", self.detail || {}]
   end
 
@@ -72,12 +69,16 @@ class AccountVersion < ActiveRecord::Base
   end
 
   def in
-    amount_change > 0 ? amount_change : nil
+    calculate_amount_change(">")
   end
 
    def out
-    amount_change < 0 ? amount_change : nil
+    calculate_amount_change("<")
   end
 
   alias :template :detail_template
+  private
+  def calculate_amount_change(symbol)
+    amount_change.send(symbol, 0) ? amount_change : nil
+  end
 end

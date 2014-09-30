@@ -1,6 +1,6 @@
 class AMQPQueue
 
-  class <<self
+  class << self
     def connection
       @connection ||= Bunny.new(AMQPConfig.connect).tap do |conn|
         conn.start
@@ -12,7 +12,7 @@ class AMQPQueue
     end
 
     def exchanges
-      @exchanges ||= {default: channel.default_exchange}
+      @exchanges ||= { default: channel.default_exchange }
     end
 
     def exchange(id)
@@ -27,14 +27,14 @@ class AMQPQueue
     # enqueue = publish to direct exchange
     def enqueue(id, payload, attrs={})
       eid = AMQPConfig.binding_exchange_id(id) || :default
-      attrs.merge!({routing_key: AMQPConfig.routing_key(id)})
+      attrs.merge!({ routing_key: AMQPConfig.routing_key(id) })
       publish(eid, payload, attrs)
     end
 
   end
 
   module Mailer
-    class <<self
+    class << self
       def included(base)
         base.extend(ClassMethods)
       end

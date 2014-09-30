@@ -8,8 +8,5 @@ class Asset < ActiveRecord::Base
   end
 end
 
-class Asset::IdDocumentFile < Asset
-end
-
-class Asset::IdBillFile < Asset
-end
+Asset::IdDocumentFile = Class.new(Asset)
+Asset::IdBillFile = Class.new(Asset)

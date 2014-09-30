@@ -141,10 +141,7 @@ class Account < ActiveRecord::Base
 
   def trigger
     return unless member
-
-    json = Jbuilder.encode do |json|
-      json.(self, :balance, :locked, :currency)
-    end
+    json = Jbuilder.encode { |json| json.(self, :balance, :locked, :currency) }
     member.trigger('account', json)
   end
 
@@ -158,9 +155,9 @@ class Account < ActiveRecord::Base
   scope :locked_sum, -> (currency) { with_currency(currency).sum(:locked) }
   scope :balance_sum, -> (currency) { with_currency(currency).sum(:balance) }
 
-  class AccountError < RuntimeError; end
-  class LockedError < AccountError; end
-  class BalanceError < AccountError; end
+  AccountError = Class.new(RuntimeError)
+  LockedError = Class.new(AccountError)
+  BalanceError = Class.new(AccountError)
 
   def as_json(options = {})
     super.merge({
