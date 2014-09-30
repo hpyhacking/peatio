@@ -4,7 +4,7 @@
     form: null
     type: null
 
-  @value = ->
+  @getInputValue = ->
     val = @$node.val()
     if $.isNumeric?(val)
       BigNumber(val)
@@ -15,7 +15,7 @@
     @trigger 'place_order::input', variables: @attr.variables, value: v
 
   @onInput = (event) ->
-    value = @value()
+    value = @getInputValue()
 
     if value && @validateRange(value)
       @changeOrder value
