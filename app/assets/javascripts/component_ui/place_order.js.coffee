@@ -87,15 +87,10 @@
     balance = gon.accounts[currency].balance
 
     @select('currentBalanceSel').data('balance', balance)
-    @trigger 'place_order::balance::change', balance: BigNumber(balance)
+    @select('currentBalanceSel').text( window.fix(type, balance) )
 
-    switch type
-      when 'bid'
-        @select('currentBalanceSel').text(balance).fixBid()
-        @trigger 'place_order::max::total', max: BigNumber(balance)
-      when 'ask'
-        @select('currentBalanceSel').text(balance).fixAsk()
-        @trigger 'place_order::max::volume', max: BigNumber(balance)
+    @trigger 'place_order::balance::change', balance: BigNumber(balance)
+    @trigger "place_order::max::#{@usedInput}", max: BigNumber(balance)
 
   @updateAvailable = (event, order) ->
     type = @panelType()
