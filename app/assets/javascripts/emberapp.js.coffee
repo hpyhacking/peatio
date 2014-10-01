@@ -17,9 +17,10 @@
 #= require jquery_ujs
 #= require bootstrap
 #
+#= require bignumber
 #= require moment
 #= require underscore
-#= require flight
+#= require flight.min
 #= require highstock
 #= require highstock_config
 #= require list

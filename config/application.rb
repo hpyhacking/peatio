@@ -22,8 +22,8 @@ module Peatio
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
 
-    #config.ember.ember_path = "#{Rails.root}/app/assets/javascripts/emberapp"
-    #config.handlebars.templates_root = "#{Rails.root}/app/assets/javascripts/emberapp/templates"
+    config.ember.ember_path = "#{Rails.root}/app/assets/javascripts/emberapp"
+    config.handlebars.templates_root = "#{Rails.root}/app/assets/javascripts/emberapp/templates"
 
     config.i18n.enforce_available_locales = false
 

@@ -75,5 +75,3 @@ $ ->
     e.preventDefault()
 
   window.pusher = pusher
-
-  notifier = window.notifier = new Notifier()
