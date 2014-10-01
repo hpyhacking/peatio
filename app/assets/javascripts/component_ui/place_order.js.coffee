@@ -192,19 +192,13 @@
           @select('positionsLabelSel').fadeOut().text('')
         node.text(available)
 
-  @priceCheck = (event) ->
-    currentPrice = Number @select('priceSel').val()
-    lastPrice = @getLastPrice()
-    priceAlert = @select('priceAlertSel')
+  @priceAlertHide = (event) ->
+    @select('priceAlertSel').fadeOut ->
+      $(@).text('')
 
-    switch
-      when currentPrice > (lastPrice * 1.1)
-        priceAlert.hide().text(gon.i18n.place_order.price_high).fadeIn()
-      when currentPrice < (lastPrice * 0.9) && currentPrice > 0
-        priceAlert.hide().text(gon.i18n.place_order.price_low).fadeIn()
-      else
-        priceAlert.fadeOut ->
-          priceAlert.text('')
+  @priceAlertShow = (event, data) ->
+    @select('priceAlertSel')
+      .hide().text(gon.i18n.place_order[data.label]).fadeIn()
 
   @after 'initialize', ->
     type = @panelType()
@@ -214,6 +208,9 @@
     OrderVolumeUI.attachTo  @select('volumeSel'), form: @$node, type: type
     OrderTotalUI.attachTo   @select('totalSel'),  form: @$node, type: type
 
+    @on 'place_order:price_alert:hide', @priceAlertHide
+    @on 'place_order:price_alert:show', @priceAlertShow
+
     @on document, 'order::plan', @orderPlan
     @on 'updateAvailable', @updateAvailable
 
@@ -222,11 +219,5 @@
     @on @select('formSel'), 'ajax:beforeSend', @beforeSend
     @on @select('formSel'), 'ajax:success', @handleSuccess
     @on @select('formSel'), 'ajax:error', @handleError
-
-    @on @select('priceSel'), 'focusout', @priceCheck
-
-    #@on @select('priceSel'), 'change paste keyup focusout', @computeSum
-    #@on @select('volumeSel'), 'change paste keyup focusout', @computeSum
-    #@on @select('totalSel'), 'change paste keyup focusout', @computeVolume
 
     @on @select('currentBalanceSel'), 'click', @allIn
