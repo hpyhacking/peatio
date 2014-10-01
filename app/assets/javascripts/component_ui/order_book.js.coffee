@@ -30,7 +30,7 @@
 
     volume_fun = (memo, num) -> memo.plus(BigNumber(num[1]))
     volume = _.reduce(orders, volume_fun, BigNumber(0))
-    price = _.last(orders)[0]
+    price = BigNumber(_.last(orders)[0])
 
     {price: price, volume: volume}
 

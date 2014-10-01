@@ -91,7 +91,7 @@
     BigNumber(val)
 
   @getLastPrice = ->
-    Number gon.ticker.last
+    BigNumber(gon.ticker.last)
 
   @getVolume = ->
     val = @select('volumeSel').val() || '0'
@@ -137,17 +137,13 @@
     @select('volumeSel').val(volume).fixAsk()
 
   @allIn = (event)->
-    @select('priceSel').val @getLastPrice()
-
     switch @panelType()
       when 'ask'
-        if not @select('volumeSel').val()
-          @select('volumeSel').val @getBalance()
-        @computeSum(event)
+        @trigger 'place_order::input::price', {price: @getLastPrice()}
+        @trigger 'place_order::input::volume', {volume: @getBalance()}
       when 'bid'
-        if not @select('totalSel').val()
-          @select('totalSel').val @getBalance()
-        @computeVolume(event)
+        @trigger 'place_order::input::price', {price: @getLastPrice()}
+        @trigger 'place_order::input::total', {total: @getBalance()}
 
   @refreshBalance = (event, data) ->
     type = @panelType()

@@ -33,9 +33,12 @@
         @value = value
         true
 
+  @roundValueToText = (v) ->
+    v.round(@attr.precision, BigNumber.ROUND_DOWN).toF(@attr.precision)
+
   @setInputValue = (v) ->
     if v?
-      @text = v.round(@attr.precision, BigNumber.ROUND_DOWN).toF(@attr.precision)
+      @text = @roundValueToText(v)
     else
       @text = ''
 
@@ -65,7 +68,7 @@
       true
 
   @onInput = (event, data) ->
-    @$node.val data[@attr.variables.input]
+    @$node.val @roundValueToText(data[@attr.variables.input])
     @process()
 
   @onMax = (event, data) ->
