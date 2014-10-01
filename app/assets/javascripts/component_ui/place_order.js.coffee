@@ -25,8 +25,9 @@
     @select('dangerSel').text('')
 
   @resetForm = (event) ->
-    @select('volumeSel').val BigNumber(0)
-    @select('totalSel').val BigNumber(0)
+    @trigger 'place_order::reset::price'
+    @trigger 'place_order::reset::volume'
+    @trigger 'place_order::reset::total'
 
   @disableSubmit = ->
     @select('submitButton').addClass('disabled').attr('disabled', 'disabled')

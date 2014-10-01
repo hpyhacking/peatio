@@ -74,6 +74,10 @@
   @onMax = (event, data) ->
     @max = data.max
 
+  @onReset = (event) ->
+    @$node.val ''
+    @reset()
+
   @after 'initialize', ->
     @orderType = @attr.type
     @text     = ''
@@ -83,3 +87,4 @@
     @on @attr.form, "place_order::max::#{@attr.variables.input}", @onMax
     @on @attr.form, "place_order::input::#{@attr.variables.input}", @onInput
     @on @attr.form, "place_order::output::#{@attr.variables.input}", @onOutput
+    @on @attr.form, "place_order::reset::#{@attr.variables.input}", @onReset
