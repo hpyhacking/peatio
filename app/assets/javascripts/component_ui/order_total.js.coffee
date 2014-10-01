@@ -9,4 +9,10 @@
 
   @onOutput = (event, order) ->
     total = order.price.times order.volume
-    @$node.val total if @validateRange(total)
+
+    if @validateRange(total)
+      @setInputValue @value
+    else
+      @setInputValue @value
+      @changeOrder @value
+

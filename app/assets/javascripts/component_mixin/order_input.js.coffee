@@ -11,30 +11,41 @@
     else
       null
 
+  @setInputValue = (v) ->
+    if v?
+      @$node.val v
+    else
+      @$node.val ''
+
   @changeOrder = (v) ->
     @trigger 'place_order::input', variables: @attr.variables, value: v
 
   @onInput = (event) ->
     value = @getInputValue()
+    return unless value && !value.equals(@value)
 
-    if value && @validateRange(value)
-      @changeOrder value
+    if @validateRange(value)
+      @changeOrder @value
+    else
+      @setInputValue @value
 
   @validateRange = (v) ->
     if @max && v.greaterThan(@max)
+      @value = @max
       @changeOrder @max
-      @$node.val @max
       false
     else if v.lessThan(0)
-      @$node.val ''
+      @value = null
       false
     else
+      @value = v
       true
 
   @onMax = (event, data) ->
     @max = data.max
 
   @after 'initialize', ->
+    @value     = null
     @orderType = @attr.type
 
     @on @$node, 'change paste keyup', @onInput
