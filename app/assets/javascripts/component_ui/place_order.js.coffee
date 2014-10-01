@@ -119,7 +119,6 @@
     [price, volume, sum] = @solveEquation(@getPrice(), @getVolume(), null, @getBalance())
 
     @select('totalSel').val(sum).fixBid()
-    @trigger 'updateAvailable', {sum: sum, volume: volume}
 
   @computeVolume = (event) ->
     @sanitize @select('priceSel')
@@ -136,7 +135,6 @@
     [price, volume, sum] = @solveEquation(@getPrice(), null, @getSum(), @getBalance())
 
     @select('volumeSel').val(volume).fixAsk()
-    @trigger 'updateAvailable', {sum: sum, volume: volume}
 
   @allIn = (event)->
     @select('priceSel').val @getLastPrice()
@@ -167,20 +165,20 @@
         @select('currentBalanceSel').text(balance).fixAsk()
         @trigger 'place_order::max::volume', max: BigNumber(balance)
 
-  @updateAvailable = (event, data) ->
+  @updateAvailable = (event, order) ->
     type = @panelType()
     node = @select('currentBalanceSel')
 
     switch type
       when 'bid'
-        available = window.fix 'bid', @getBalance().minus(data.sum)
+        available = window.fix 'bid', @getBalance().minus(order.total)
         if BigNumber(available).equals(0)
           @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_in).fadeIn()
         else
           @select('positionsLabelSel').fadeOut().text('')
         node.text(available)
       when 'ask'
-        available = window.fix 'ask', @getBalance().minus(data.volume)
+        available = window.fix 'ask', @getBalance().minus(order.volume)
         if BigNumber(available).equals(0)
           @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_out).fadeIn()
         else
@@ -203,10 +201,9 @@
     OrderVolumeUI.attachTo  @select('volumeSel'), form: @$node, type: type
     OrderTotalUI.attachTo   @select('totalSel'),  form: @$node, type: type
 
-    @on 'place_order:price_alert:hide', @priceAlertHide
-    @on 'place_order:price_alert:show', @priceAlertShow
-
-    @on 'updateAvailable', @updateAvailable
+    @on 'place_order::price_alert::hide', @priceAlertHide
+    @on 'place_order::price_alert::show', @priceAlertShow
+    @on 'place_order::order::updated', @updateAvailable
 
     @on document, 'account::update', @refreshBalance
 

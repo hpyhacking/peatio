@@ -13,3 +13,6 @@
 
     @changeOrder @value unless @validateRange(volume)
     @setInputValue @value
+
+    order.volume = @value
+    @trigger 'place_order::order::updated', order

@@ -13,3 +13,6 @@
 
     @changeOrder @value unless @validateRange(total)
     @setInputValue @value
+
+    order.total = @value
+    @trigger 'place_order::order::updated', order
