@@ -65,76 +65,11 @@
     @select('dangerSel').text(json.message).show().fadeOut(2500)
     @enableSubmit()
 
-  @solveEquation = (price, vol, sum, balance) ->
-    if !vol && !price.equals(0)
-      vol = sum.dividedBy(price)
-    else if !sum
-      sum = price.times(vol)
-
-    type = @panelType()
-    if type == 'bid' && sum.greaterThan(balance)
-      [price, vol, sum] = @solveEquation(price, null, balance, balance)
-      @select('totalSel').val(sum).fixBid()
-      @select('volumeSel').val(vol).fixAsk()
-    else if type == 'ask' && vol.greaterThan(balance)
-      [price, vol, sum] = @solveEquation(price, balance, null, balance)
-      @select('totalSel').val(sum).fixBid()
-      @select('volumeSel').val(vol).fixAsk()
-
-    [price, vol, sum]
-
   @getBalance = ->
     BigNumber( @select('currentBalanceSel').data('balance') )
 
-  @getPrice = ->
-    val = @select('priceSel').val() || '0'
-    BigNumber(val)
-
   @getLastPrice = ->
     BigNumber(gon.ticker.last)
-
-  @getVolume = ->
-    val = @select('volumeSel').val() || '0'
-    BigNumber(val)
-
-  @getSum = ->
-    val = @select('totalSel').val() || '0'
-    BigNumber(val)
-
-  @sanitize = (el) ->
-    el.val '' if !$.isNumeric(el.val())
-
-  @computeSum = (event) ->
-    @sanitize @select('priceSel')
-    @sanitize @select('volumeSel')
-
-    return unless @getPrice().greaterThan(0)
-
-    target = event.target
-    if not @select('priceSel').is(target)
-      @select('priceSel').fixBid()
-    if not @select('volumeSel').is(target)
-      @select('volumeSel').fixAsk()
-
-    [price, volume, sum] = @solveEquation(@getPrice(), @getVolume(), null, @getBalance())
-
-    @select('totalSel').val(sum).fixBid()
-
-  @computeVolume = (event) ->
-    @sanitize @select('priceSel')
-    @sanitize @select('totalSel')
-
-    return unless @getPrice().greaterThan(0)
-
-    target = event.target
-    if not @select('priceSel').is(target)
-      @select('priceSel').fixBid()
-    if not @select('totalSel').is(target)
-      @select('totalSel').fixBid()
-
-    [price, volume, sum] = @solveEquation(@getPrice(), null, @getSum(), @getBalance())
-
-    @select('volumeSel').val(volume).fixAsk()
 
   @allIn = (event)->
     switch @panelType()
