@@ -1,5 +1,5 @@
 @ItemListMixin = ->
-  @defaultAttrs
+  @attributes
     tbody: 'table > tbody'
     empty: '.empty-row'
 

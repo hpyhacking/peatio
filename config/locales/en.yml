@@ -2,7 +2,7 @@ en:
   "true": Yes
   "false": No
 
-  slogan: An open-source crypto currency exchange.
+  slogan: An open-source crypto-currency exchange for world.
   tags:
     vip: VIP
     hero: Hero Member
@@ -19,6 +19,10 @@ en:
     ask: Ask
     bid: Bid
     brand: Peatio Exchange
+    notification:
+      title: Peatio Exchange
+      enabled: Notification enabled.
+      new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
   back: Back
   invalid_password: Invalid password
   all: All
@@ -63,8 +67,9 @@ en:
         total: Total
 
   header:
+    home: Home
     dashboard: Dashboard
-    admin: Admin
+    admin: Admin Panel
     market: Trade
     settings: Profile
     signin: Sign In
@@ -79,6 +84,9 @@ en:
     account_history: Account History
     my_profile: My Profile
     tickets: Tickets
+    account_balance: Total Assets
+    back: Back
+    total: Total
 
   admin_header:
     deposits: Deposits
@@ -116,17 +124,19 @@ en:
       click: Click to copy
       done: Copied
 
-  global:
-    ask_price: Ask
-    bid_price: Bid
-    high_price: High
-    low_price: Low
-    volume: Volume
-    latest_price: Last
-
   chart:
+    open: Open
+    high: High
+    low: Low
+    close: Close
     price: Price
     volume: Volume
+    minute: m
+    hour: Hour
+    day: Day
+    week: Week
+    month: Month
+    year: Year
 
   'yes': 'Yes'
   'no': 'No'

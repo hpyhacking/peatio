@@ -1,4 +1,23 @@
-= render 'shared/pusher'
-.navbar.navbar-default.navbar-static-top role = "navigation"
+header.navbar.navbar-default.navbar-static-top role = "navigation"
   .container
-    = render 'shared/menu'
+    ul#menu.nav.navbar-nav.navbar-left
+
+      - if params[:controller] == 'private/markets'
+        = top_nav(t('header.back'), settings_path, 'chevron-left')
+        - Market.all.sort.each do |market|
+          = top_market_link(market, current_market)
+        = top_nav_link(t('header.history'), order_history_path, 'book', target: '_blank') if current_user
+      - else
+        = top_nav_link(t('header.home'), root_path, 'home', controllers: ['welcome']) unless current_user
+        = top_nav_link(t('header.market'), market_path(current_market.id), 'exchange', controllers: ['markets'])
+        = top_nav_link(t('header.deposit'), deposits_path, 'credit-card', controllers: ['deposits']) if current_user
+        = top_nav_link(t('header.withdraw'), withdraws_path, 'money', controllers: ['withdraws']) if current_user
+        = top_nav_link(t('header.assets'), exchange_assets_path, 'bar-chart-o')
+        = top_nav_link(t('header.history'), order_history_path, 'book') if current_user
+
+    ul.nav.navbar-nav.navbar-right
+      = render partial: 'shared/header_account_balance' if current_user
+      = render partial: 'shared/header_profile_setting' if current_user
+      = top_nav_link(t('header.signin'), signin_path, '') if not current_user
+      = top_nav_link(t('header.signup'), signup_path, '') if not current_user
+      = render partial: 'shared/header_lang_sel'

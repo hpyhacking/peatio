@@ -28,8 +28,10 @@ def next_ts(market, period = 1)
     ts = Time.at(JSON.parse(latest)[0])
     ts += period.minutes
   else
-    ts = Trade.with_currency(market).first.created_at.to_i
-    period == 10080 ? Time.at(ts).beginning_of_week : Time.at(ts -  ts % (period * 60))
+    if first_trade = Trade.with_currency(market).first
+      ts = Trade.with_currency(market).first.created_at.to_i
+      period == 10080 ? Time.at(ts).beginning_of_week : Time.at(ts -  ts % (period * 60))
+    end
   end
 end
 
@@ -80,6 +82,8 @@ end
 while($running) do
   Market.all.each do |market|
     ts = next_ts(market.id, 1)
+    next unless ts
+
     if ts + 1.minute < Time.now - 1.second
       [1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080].each do |period|
         fill(market.id, period)

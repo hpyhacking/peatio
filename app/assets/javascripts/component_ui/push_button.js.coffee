@@ -1,5 +1,5 @@
 @PushButton = flight.component ->
-  @defaultAttrs
+  @attributes
     buttons: '.type-toggle button'
 
   @setActiveButton = (event) ->

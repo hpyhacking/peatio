@@ -5,10 +5,6 @@ html, body {
   font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", sans-serif;
 }
 
-header {
-  padding-top: 15px;
-}
-
 #wrap {
   min-height: 100%;
   height: auto !important;
@@ -26,6 +22,18 @@ header {
 footer {
   padding-top: 20px;
   border-top: 1px solid #DDD;
+}
+
+footer {
+  height: $footer-height;
+  box-sizing: 'border-box';
+  padding-top: 20px;
+  border-top: 1px solid #DDD;
+  background-color: $main-color;
+  color: #ddd;
+  a:link, a:visited {
+    color: #bbb;
+  }
 }
 
 #content {
@@ -64,4 +72,210 @@ footer {
 #guide {
   font-size: 14px;
   padding-left: 26px;
+}
+
+// ==============================================================
+// auto hover dropdown navbar
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+.dropdown-menu .sub-menu {
+    left: 100%;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+    margin-top: -1px;
+}
+
+.dropdown-menu li:hover .sub-menu {
+    visibility: visible;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.nav-tabs .dropdown-menu, .nav-pills .dropdown-menu, .navbar .dropdown-menu {
+    margin-top: 0;
+}
+
+.navbar .sub-menu:before {
+    border-bottom: 7px solid transparent;
+    border-left: none;
+    border-right: 7px solid rgba(0, 0, 0, 0.2);
+    border-top: 7px solid transparent;
+    left: -7px;
+    top: 10px;
+}
+.navbar .sub-menu:after {
+    border-top: 6px solid transparent;
+    border-left: none;
+    border-right: 6px solid #fff;
+    border-bottom: 6px solid transparent;
+    left: 10px;
+    top: 11px;
+    left: -6px;
+}
+// ==============================================================
+
+// ==============================================================
+// header style
+header {
+  .account-balance {
+
+    .dropdown-menu {
+      padding-bottom: 0;
+    }
+
+    .account-wrap {
+      width: 360px;
+      padding: 8px;
+      border-bottom: 1px solid $ignore-color; 
+    }
+
+    hr {
+      margin-top: 2px;
+      margin-bottom: 0px;
+      border-color: $ignore-color;
+      border-style: dashed;
+    }
+
+    i.fa, span.total-title {
+      color: $ignore-color;
+    }
+
+    i.fa.fa-plus {
+      margin: 0px 0px;
+    }
+
+    span.account-name {
+      color: $main-color;
+      margin-top: -24px;
+      padding-right: 10px;
+      display: block;
+      font-size: 18px;
+      background-color: white;
+      text-align: right;
+    }
+
+    span.balance, span.locked {
+      color: $main-color;
+    }
+
+    span.total {
+      font-size: 18px;
+    }
+  }
+
+  .account-settings {
+    ul.dropdown-menu {
+      min-width: 0px;
+      width: 100%;
+    }
+  }
+}
+// ==============================================================
+
+// ==============================================================
+.up-color {
+  background-color: $up-color;
+}
+.down-color {
+  background-color: $down-color;
+}
+
+.up-font-color {
+  color: $up-color;
+}
+.down-font-color {
+  color: $down-color;
+}
+
+.up-font-dark-color {
+  color: $up-dark-color;
+  g { color: $up-dark-color; }
+}
+.down-font-dark-color {
+  color: $down-dark-color;
+  g { color: $down-dark-color; }
+}
+
+//#========================================
+//# panel custom dropdown menu
+.panel {
+  &.panel-wide {
+    .panel-body { padding: 8px; }
+    .panel-heading { padding: 8px; }
+  }
+
+  &.panel-with-dropdown {
+    .panel-heading {
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+
+      .btn-group.open .dropdown-toggle {
+        box-shadow: none;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+      }
+
+      .btn-group {
+        margin-right: 5px;
+        cursor: pointer;
+        span.caret { margin-left: 2px; }
+        a:hover, a:focus { text-decoration: none; }
+      }
+    }
+  }
+
+  .panel-body.panel-fixed-table-head {
+    table { margin-bottom: 0px; }
+    padding-bottom: 0px;
+
+  }
+
+  .panel-body.panel-fixed-table-body {
+    table { margin-bottom: 0px;}
+    overflow-y: auto;
+    height: 470px;
+  }
+}
+
+
+
+//#========================================
+
+.dl-horizontal.dl-ticker {
+  margin-bottom: 10px;
+  line-height: 40px;
+
+  dt { 
+    width: 38px; 
+    cursor: pointer;
+    color: $ignore-color; 
+  }
+
+  dd {
+    margin-top: -4px;
+    font-size: 20px;
+    margin-left: 42px; 
+    font-family: monospace;
+  }
+}
+
+.number {
+  font-size: 18px;
+  font-family: monospace;
+}
+
+.number-label {
+  font-size: 14px;
+  color: $ignore-color;
+  margin-right: 5px;
+}
+
+.text-ignore {
+  color: $ignore-color;
 }

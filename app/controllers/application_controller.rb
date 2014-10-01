@@ -1,44 +1,20 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :is_admin?, :current_market, :gon, :muut_enabled?
-  before_filter :set_language, :setting_default, :set_timezone
-  before_filter :set_current_user
+  helper_method :current_user, :is_admin?, :current_market, :muut_enabled?, :gon
+  before_action :set_language, :set_timezone, :set_gon
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
-
-  def setting_default
-    gon.env = Rails.env
-    gon.local = I18n.locale
-    gon.market = current_market.attributes
-    gon.ticker = Global[current_market].ticker
-    gon.pusher_key = ENV['PUSHER_KEY']
-    gon.pusher_options = {
-      wsHost:    ENV['PUSHER_HOST']     || 'ws.pusherapp.com',
-      wsPort:    ENV['PUSHER_WS_PORT']  || '80',
-      wssPort:   ENV['PUSHER_WSS_PORT'] || '443',
-      encrypted: ENV['PUSHER_ENCRYPTED'] == 'true'
-    }
-
-    gon.clipboard = {
-      :click => I18n.t('actions.clipboard.click'),
-      :done => I18n.t('actions.clipboard.done')
-    }
-  end
 
   def currency
     "#{params[:ask]}#{params[:bid]}".to_sym
   end
 
   def current_market
-    Market.find_by_id(params[:market]) || Market.find_by_id(cookies[:market_id]) || Market.first
+    @current_market ||= Market.find_by_id(params[:market]) || Market.find_by_id(cookies[:market_id]) || Market.first
   end
 
   def current_user
-    @current_user ||= Member.enabled.where(id: session[:member_id]).first
-  end
-
-  def set_current_user
-    Member.current = current_user
+    @current_user ||= Member.current = Member.enabled.where(id: session[:member_id]).first
   end
 
   def auth_member!
@@ -102,6 +78,91 @@ class ApplicationController < ActionController::Base
     Time.zone = ENV['TIMEZONE'] if ENV['TIMEZONE']
   end
 
+  def set_gon
+    gon.env = Rails.env
+    gon.local = I18n.locale
+    gon.market = current_market.attributes
+    gon.ticker = current_market.ticker
+    gon.pusher_key = ENV['PUSHER_KEY']
+    gon.pusher_options = {
+      wsHost:    ENV['PUSHER_HOST']     || 'ws.pusherapp.com',
+      wsPort:    ENV['PUSHER_WS_PORT']  || '80',
+      wssPort:   ENV['PUSHER_WSS_PORT'] || '443',
+      encrypted: ENV['PUSHER_ENCRYPTED'] == 'true'
+    }
+
+    gon.clipboard = {
+      :click => I18n.t('actions.clipboard.click'),
+      :done => I18n.t('actions.clipboard.done')
+    }
+
+    gon.i18n = {
+      brand: I18n.t('gon.brand'),
+      ask: I18n.t('gon.ask'),
+      bid: I18n.t('gon.bid'),
+      cancel: I18n.t('actions.cancel'),
+      latest_trade: I18n.t('private.markets.order_book.latest_trade'),
+      notification: {
+        title: I18n.t('gon.notification.title'),
+        enabled: I18n.t('gon.notification.enabled'),
+        new_trade: I18n.t('gon.notification.new_trade')
+      },
+      time: {
+        minute: I18n.t('chart.minute'),
+        hour: I18n.t('chart.hour'),
+        day: I18n.t('chart.day'),
+        week: I18n.t('chart.week'),
+        month: I18n.t('chart.month'),
+        year: I18n.t('chart.year')
+      },
+      chart: {
+        price: I18n.t('chart.price'),
+        volume: I18n.t('chart.volume'),
+        open: I18n.t('chart.open'),
+        high: I18n.t('chart.high'),
+        low: I18n.t('chart.low'),
+        close: I18n.t('chart.close')
+      },
+      place_order: {
+        confirm_submit: I18n.t('private.markets.show.confirm'),
+        price: I18n.t('private.markets.place_order.price'),
+        volume: I18n.t('private.markets.place_order.amount'),
+        sum: I18n.t('private.markets.place_order.total'),
+        price_high: I18n.t('private.markets.place_order.price_high'),
+        price_low: I18n.t('private.markets.place_order.price_low'),
+        full_in: I18n.t('private.markets.place_order.full_in'),
+        full_out: I18n.t('private.markets.place_order.full_out')
+      }
+    }
+
+    gon.currencies = Currency.all.inject({}) do |memo, currency|
+      memo[currency.code] = {
+        code: currency[:code],
+        symbol: currency[:symbol],
+        isCoin: currency[:coin]
+      }
+      memo
+    end
+    gon.fiat_currency = Currency.first.code
+
+    gon.tickers = Market.all.inject({}) do |memo, market|
+      memo[market.id] = market.ticker
+      memo
+    end
+
+    if current_user
+      gon.current_user = { sn: current_user.sn }
+      gon.accounts = current_user.accounts.inject({}) do |memo, account|
+        memo[account.currency] = {
+          currency: account.currency,
+          balance: account.balance,
+          locked: account.locked
+        } if account.currency
+        memo
+      end
+    end
+  end
+
   def coin_rpc_connection_refused
     render 'errors/connection'
   end
@@ -112,7 +173,7 @@ class ApplicationController < ActionController::Base
 
   def clear_all_sessions(member_id)
     if redis = Rails.cache.instance_variable_get(:@data)
-      redis.keys("peatio:sessions:*").each {|k| Rails.cache.delete k.split(':').last }
+      redis.keys("peatio:sessions:#{member_id}:*").each {|k| Rails.cache.delete k.split(':').last }
     end
 
     Rails.cache.delete_matched "peatio:sessions:#{member_id}:*"

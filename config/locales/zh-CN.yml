@@ -3,7 +3,7 @@ zh-CN:
   "false": 否
 
   view_on_github: 到 Github 上查看
-  slogan: 貔貅北京开源数字加密货币交易平台。
+  slogan: 貔貅，将致力于成为世界级的交易软件。
   slogan_desc: 貔貅交易所是比特币等加密数字货币的交易平台，是国内首个实现开源机制的项目，我们秉承“开放开源，阳光透明”的理念，旨在为广大加密数字货币爱好者，提供一个代码开源开放、资产公开透明，安全易用和最具有公信力的加密数字货币交易服务平台。
   tags:
     vip: VIP
@@ -24,6 +24,10 @@ zh-CN:
     ask: 卖出
     bid: 买入
     brand: 貔貅交易所
+    notification:
+      title: Peatio交易所
+      enabled: 实时更新已开启。
+      new_trade: "您的%{kind}委托 #%{id} 以 %{price} %{quote_unit} 价格成交，%{kind} %{volume} %{base_unit}。"
   back: 返回
   invalid_password: 无效的登录密码
   all: 全部
@@ -72,8 +76,9 @@ zh-CN:
         total: 总计
 
   header:
+    home: 首页
     dashboard: 控制面板
-    admin: 管理
+    admin: 后台管理
     market: 交易大厅
     settings: 账户
     signin: 登录
@@ -86,8 +91,11 @@ zh-CN:
     order_history: 委托记录
     trade_history: 成交记录
     account_history: 账户记录
-    my_profile: 我的账户
+    my_profile: 用户设置
     tickets: 服务单
+    account_balance: 账户资产
+    back: 返回
+    total: 总额
 
   admin_header:
     deposits: 充值管理
@@ -128,17 +136,19 @@ zh-CN:
       click: 点击复制
       done: 复制成功
 
-  global:
-    ask_price: 卖出
-    bid_price: 买入
-    high_price: 最高
-    low_price: 最低
-    volume: 成交量
-    latest_price: 最新价格
-
   chart:
+    open: 开盘
+    high: 最高
+    low: 最低
+    close: 收盘
     price: 价格
     volume: 成交量
+    minute: 分
+    hour: 小时
+    day: 日
+    week: 周
+    month: 月
+    year: 年
 
   'yes': 是
   'no': 否

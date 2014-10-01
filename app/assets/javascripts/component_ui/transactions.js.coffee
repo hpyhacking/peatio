@@ -1,5 +1,5 @@
 window.TransactionsUI = flight.component ->
-  @defaultAttrs
+  @attributes
     table: 'tbody'
     filter: '.dropdown-menu a'
 

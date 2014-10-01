@@ -1,5 +1,5 @@
 window.MarketTickerUI = flight.component ->
-  @defaultAttrs
+  @attributes
     volumeSelector: '.value.volume'
     askPriceSelector: '.value.sell'
     bidPriceSelector: '.value.buy'
@@ -22,8 +22,5 @@ window.MarketTickerUI = flight.component ->
     @update @select('highPriceSelector'), data.high
     @update @select('latestPriceSelector'), data.last
 
-    document.title = "#{gon.market.id}: #{data.last}"
-
   @after 'initialize', ->
-    @refresh 'market::ticker', gon.ticker
     @on document, 'market::ticker', @refresh

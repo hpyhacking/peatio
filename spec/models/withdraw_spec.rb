@@ -2,6 +2,14 @@ require 'spec_helper'
 
 describe Withdraw do
 
+  context 'fund source' do
+    it "should strip trailing spaces in fund_uid" do
+      fund_source = create(:btc_fund_source, uid: 'test   ')
+      @withdraw = create(:satoshi_withdraw, fund_source: fund_source)
+      @withdraw.fund_uid.should == 'test'
+    end
+  end
+
   context 'coin withdraw' do
     subject(:withdraw) { build(:satoshi_withdraw) }
 

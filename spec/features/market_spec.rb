@@ -28,7 +28,6 @@ feature 'show account info', js: true do
     click_on I18n.t('header.market')
 
     expect do
-      click_link I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
       fill_in 'order_bid_price', :with => 22.2
       fill_in 'order_bid_origin_volume', :with => 45
       expect(page.find('#order_bid_total').value).to be_d (45 * 22.2).to_d
@@ -44,7 +43,6 @@ feature 'show account info', js: true do
     click_on I18n.t('header.market')
 
     expect do
-      click_link I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
       fill_in 'order_ask_price', :with => 22.2
       fill_in 'order_ask_origin_volume', :with => 45
       expect(page.find('#order_ask_total').value).to be_d (45 * 22.2).to_d
@@ -63,11 +61,11 @@ feature 'show account info', js: true do
     login identity
     click_on I18n.t('header.market')
 
-    page.find('.asks tr[data-order="0"]').click
+    page.find('.asks tr[data-order="0"]').trigger 'click'
     expect(find('#order_bid_price').value).to be_d ask_order.price
     expect(find('#order_bid_origin_volume').value).to be_d ask_order.volume
 
-    page.find('.bids tr[data-order="0"]').click
+    page.find('.bids tr[data-order="0"]').trigger 'click'
     expect(find('#order_ask_price').value).to be_d bid_order.price
     expect(find('#order_ask_origin_volume').value).to be_d bid_order.volume
   end
@@ -76,14 +74,8 @@ feature 'show account info', js: true do
     login identity
     click_on I18n.t('header.market')
 
-    # account balance panel
-    expect(page.find('.available-cash .value').text).to be_d bid_account.balance
-    expect(page.find('.available-coin .value').text).to be_d ask_account.balance
-
-    # order panel
-    click_link I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
-    expect(page.find('.current-balance .value').text).to be_d bid_account.balance
-    click_link I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
-    expect(page.find('.current-balance .value').text).to be_d ask_account.balance
+    # account balance at place order panel
+    expect(page.find('#bid_panel .current-balance').text).to be_d bid_account.balance
+    expect(page.find('#ask_panel .current-balance').text).to be_d ask_account.balance
   end
 end

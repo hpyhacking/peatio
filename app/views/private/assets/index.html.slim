@@ -8,7 +8,9 @@
       li        data-scroll-nav='2'
         a = t('.cny-assets')
 
-    div data-scroll-index=0 = render 'liability_proof'
+    - if current_user
+      div data-scroll-index=0 = render 'liability_proof'
+
     div data-scroll-index=1 = render 'btc_assets'
     div data-scroll-index=2 = render 'cny_assets'
 

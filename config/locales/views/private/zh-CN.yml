@@ -1,50 +1,5 @@
 zh-CN:
   private:
-    markets:
-      show:
-        error: 委托挂单失败
-        success: 委托挂单成功
-        analysis_panel: 分析面板
-        help_panel: 帮助面板
-        done: 成交
-        cancel: 撤单
-        cancel_confirm: 确认撤销此单吗？
-        confirm: 确认
-        ask_order: '卖 ##sn#'
-        bid_order: '买 ##sn#'
-      ticker:
-        markets: 实时价格
-      account_balance:
-        title: 账户余额
-        available: 可用 %{currency}
-      place_order:
-        place_order: 快速挂单
-        bid_panel: 买入%{currency}
-        ask_panel: 卖出%{currency}
-        price: 价格
-        last_price: 最新价格
-        amount: 数量
-        total: 金额
-        available: 可用
-        price_high: 价格超出最新价格10%
-        price_low: 价格低于最新价格10%
-      order_book:
-        order_book: 挂单记录
-      market_trades:
-        trades: 交易记录
-        time: 时间
-        price: 价格
-        volume: 数量
-      my_orders:
-        my_orders: 我的委托
-        orders_wait: 有效委托
-        orders_done: 最新成交
-        orders_cancel: 最新撤销
-      price_chart:
-        price_chart: 行情走势
-      global:
-        global_orders_title: 十档盘口
-        global_trades_title: 成交记录
     withdraws:
       index:
         withdraw_history: 提现历史记录

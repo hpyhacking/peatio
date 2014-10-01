@@ -2,7 +2,7 @@
 
   @countDown = 0
 
-  @defaultAttrs
+  @attributes
     phoneNumberInput: '#sms_token_phone_number'
     verifyCodeInput: '#sms_token_verify_code'
     sendCodeButton: 'button[value=send_code]'

@@ -1,6 +1,7 @@
 - id: 1
   key: renminbi
   code: cny
+  symbol: "¥"
   coin: false
   assets:
     accounts:
@@ -12,6 +13,7 @@
 - id: 2
   key: satoshi
   code: btc
+  symbol: "฿"
   coin: true
   quick_withdraw_max: 0
   rpc: http://username:password@127.0.0.1:18332

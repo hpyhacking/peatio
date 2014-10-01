@@ -1,0 +1,21 @@
+.panel.panel-with-dropdown.panel-wide.panel-info.my-trades
+  .panel-heading
+    span = t('.my_trades')
+    div.btn-group.pull-right
+      a.dropdown-toggle  data-toggle="dropdown"
+        b.switch-link-name = t('.all')
+        span.caret
+      ul.dropdown-menu role="menu"
+        li.text-right = link_to t('.buy'), 'javascript:;', class: 'switch buy'
+        li.text-right = link_to t('.sell'), 'javascript:;', class: 'switch sell'
+        li.text-right = link_to t('.all'), 'javascript:;', class: 'switch all'
+  .panel-body.panel-fixed-table-head
+    table.table.table-condensed
+      thead: tr
+        th.kind.col-md-2
+        th.at.col-md-6 = Order.human_attribute_name('at')
+        th.price.col-md-5 = Order.human_attribute_name('price')
+        th.volume.col-md-5 = Order.human_attribute_name('volume')
+  .panel-body.panel-fixed-table-body
+    table.table.table-condensed
+      tbody

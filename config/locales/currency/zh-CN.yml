@@ -1,10 +1,5 @@
 zh-CN:
   currency:
-    satoshi:
-      key: BTC
-    renminbi:
-      key: CNY
-
     name:
       cny: 人民币
       btc: 比特币

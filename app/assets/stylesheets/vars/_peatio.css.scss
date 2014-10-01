@@ -5,6 +5,8 @@ $main-color: rgba(83,102,120, 1.0);
 $main-dark-color: darken($main-color, 10%);
 $body-bg: rgba(242, 242, 242, 1.0);
 $btn-primary-bg: $main-dark-color;
+$ignore-color: rgba(170, 168, 168 , 1.0);
+$split-color: #ccc;
 
 $navbar-default-bg: $main-dark-color;
 $navbar-default-link-color: #DCDCDC;
@@ -19,3 +21,13 @@ $btn-info-bg: #fff;
 $btn-info-color: #333;
 
 $state-warning-text: #CC0000;
+
+$up-color: rgba(89, 132, 50, 0.7);
+$down-color: rgba(159, 49, 27, 0.7);
+
+/*debug for colour weakness*/
+/*$up-color: black;*/
+/*$down-color: yellow;*/
+
+$up-dark-color: opacify($up-color, 1.0);
+$down-dark-color: opacify($down-color, 1.0);

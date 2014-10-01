@@ -4,6 +4,8 @@
   showAlert:  (msg) -> $(document).trigger 'flash-alert',  msg: msg
 
 $ ->
+  BigNumber.config(ERRORS: false)
+
   if $('#assets-index').length
     $.scrollIt
       topOffset: -180
@@ -43,16 +45,23 @@ $ ->
       height: $el.data('height')
 
   AccountBalanceUI.attachTo('.account-balance')
-  PlaceOrderUI.attachTo('.place-order #bid_panel')
-  PlaceOrderUI.attachTo('.place-order #ask_panel')
-  MyOrdersWaitUI.attachTo('.my-orders #orders_wait')
-  MyOrdersDoneUI.attachTo('.my-orders #orders_done')
-  PushButton.attachTo('.place-order')
-  PushButton.attachTo('.my-orders')
+  PlaceOrderUI.attachTo('.order-place #bid_panel')
+  PlaceOrderUI.attachTo('.order-place #ask_panel')
+  MyOrdersUI.attachTo('.my-orders')
+  MyTradesUI.attachTo('.my-trades')
+
+  MarketTickerUI.attachTo('.ticker')
+  MarketTradesUI.attachTo('.trades')
+  MarketChartUI.attachTo('.market-chart')
+  OrderBookUI.attachTo('.order-book')
+
+  TransactionsUI.attachTo('#transactions')
+  VerifyMobileNumberUI.attachTo('#new_sms_token')
+  FlashMessageUI.attachTo('.flash-message')
+  TwoFactorAuth.attachTo('.two-factor-auth-container')
 
   # if gon.env is 'development'
   #   Pusher.log = (message) -> window.console && console.log(message)
-
   pusher = new Pusher gon.pusher_key, gon.pusher_options
   pusher.connection.bind 'state_change', (state) ->
     if state.current is 'unavailable'
@@ -61,18 +70,10 @@ $ ->
   GlobalData.attachTo(document, {pusher: pusher})
   MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
 
-  MarketTickerUI.attachTo('.ticker')
-  MarketOrdersUI.attachTo('.orders')
-  MarketTradesUI.attachTo('.trades')
-  MarketChartUI.attachTo('.market-chart')
-
-  TransactionsUI.attachTo('#transactions')
-  VerifyMobileNumberUI.attachTo('#new_sms_token')
-  FlashMessageUI.attachTo('.flash-message')
-  TwoFactorAuth.attachTo('.two-factor-auth-container')
-
   $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
     $(@).scrollTop(@scrollTop + e.deltaY)
     e.preventDefault()
 
   window.pusher = pusher
+
+  notifier = window.notifier = new Notifier()

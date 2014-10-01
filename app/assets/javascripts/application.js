@@ -3,6 +3,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require bootstrap-switch.min
 //
 //= require scrollIt
 //= require moment
@@ -11,7 +12,7 @@
 //= require handlebars.runtime
 //= require introjs
 //= require ZeroClipboard
-//= require flight
+//= require flight.min
 //= require pusher.min
 //= require highstock
 //= require highstock_config
@@ -19,9 +20,11 @@
 //= require helper
 //= require jquery.mousewheel
 //= require qrcode
+//= require cookies.min
 
 //= require_tree ./component_mixin
 //= require_tree ./component_data
 //= require_tree ./component_ui
 //= require_tree ./templates
+//= require notifier
 //= require app

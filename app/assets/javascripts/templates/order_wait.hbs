@@ -1,9 +1,9 @@
-<tr data-id="{{id}}" data-kind="{{kind}}" class="order {{format_trade kind}}">
-  <td class='kind col-md-3'>{{{format_trade kind}}}</td>
-  <td class='at col-md-9'>{{{format_fulltime at}}}</td>
+<tr data-id="{{id}}" data-kind="{{kind}}" class="order {{kind}}">
+  <td class='kind col-md-2'>{{{format_short_trade kind}}}</td>
+  <td class='at col-md-6'>{{{format_fulltime at}}}</td>
   <td class='price col-md-5'>{{format_fix_bid price}}</td>
   <td class='volume col-md-5'>{{format_volume origin_volume volume}}</td>
-  <td class='operation col-md-2'>
-    <a class='wait text-info' data-method='delete' data-remote='true' rel='nofollow' href='/markets/{{market}}/orders/{{id}}'>[x]</a>
+  <td class='operation col-md-3'>
+    <a class='wait text-info' data-method='delete' data-remote='true' data-confirm='are you sure?' rel='nofollow' href='/markets/{{market}}/orders/{{id}}'>[{{format_cancel}}]</a>
   </td>
 </tr>

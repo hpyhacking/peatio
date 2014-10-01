@@ -10,6 +10,7 @@
 
 class Market < ActiveYamlBase
   field :visible, default: true
+  field :sort_order, default: 9999
 
   attr :name
 
@@ -39,8 +40,32 @@ class Market < ActiveYamlBase
     d.round digits, 2
   end
 
+  # shortcut of global access
+  def bids;   global.bids   end
+  def asks;   global.asks   end
+  def trades; global.trades end
+  def ticker; global.ticker end
+
   def to_s
     id
+  end
+
+  def ask_currency
+    Currency.find_by_code(ask["currency"])
+  end
+
+  def bid_currency
+    Currency.find_by_code(bid["currency"])
+  end
+
+  private
+
+  def <=>(other)
+    self.sort_order <=> other.sort_order
+  end
+
+  def global
+    @global || Global[self.id]
   end
 
 end

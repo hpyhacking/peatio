@@ -1,11 +1,11 @@
-module Withdraws  
+module Withdraws
   module Withdrawable
     extend ActiveSupport::Concern
 
     included do
       before_filter :fetch
     end
-    
+
     def new
       @withdraw = model_kls.new currency: channel.currency, account: @account, member: current_user
     end
