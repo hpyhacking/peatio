@@ -151,11 +151,6 @@
           @select('totalSel').val @getBalance()
         @computeVolume(event)
 
-  @orderPlan = (event, data) ->
-    @select('priceSel').val(data.price)
-    @select('volumeSel').val(data.volume)
-    @computeSum(event)
-
   @refreshBalance = (event, data) ->
     type = @panelType()
     currency = gon.market[type].currency
@@ -211,7 +206,6 @@
     @on 'place_order:price_alert:hide', @priceAlertHide
     @on 'place_order:price_alert:show', @priceAlertShow
 
-    @on document, 'order::plan', @orderPlan
     @on 'updateAvailable', @updateAvailable
 
     @on document, 'account::update', @refreshBalance

@@ -34,7 +34,7 @@
   @changeOrder = (v) ->
     @trigger 'place_order::input', variables: @attr.variables, value: v
 
-  @onInput = (event) ->
+  @inputToValue = (event) ->
     value = @getInputValue()
     return unless value
 
@@ -55,6 +55,10 @@
       @value = v
       true
 
+  @onInput = (event, data) ->
+    @$node.val data[@attr.variables.input]
+    @inputToValue()
+
   @onMax = (event, data) ->
     @max = data.max
 
@@ -63,6 +67,7 @@
 
     @reset()
 
-    @on @$node, 'change paste keyup', @onInput
+    @on @$node, 'change paste keyup', @inputToValue
     @on @attr.form, "place_order::max::#{@attr.variables.input}", @onMax
+    @on @attr.form, "place_order::input::#{@attr.variables.input}", @onInput
     @on @attr.form, "place_order::output::#{@attr.variables.input}", @onOutput
