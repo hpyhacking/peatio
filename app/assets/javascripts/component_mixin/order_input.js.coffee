@@ -4,41 +4,45 @@
     form: null
     type: null
 
-  @reset = ->
-    @input = ''
-    @value = null
+  @parseText = ->
+    text = @$node.val()
+    return false if text == @text
 
-  @getInputValue = ->
-    val = @$node.val()
-    return if val == @input
-
-    if $.isNumeric?(val)
-      @input = val
-      BigNumber(val)
-    else if val == '' # reset
-      @reset()
+    if text == ''
+      @text = ''
+      @value = null
       @changeOrder @value
-      null
+      return false
+
+    if $.isNumeric(text)
+      value = BigNumber(text)
+      precision = value.c.length - value.e - 1
+      if precision > @attr.precision
+        @$node.val @text
+        false
+      else
+        @text = text
+        @value = value
+        true
     else
-      @$node.val @input
-      null
+      @$node.val @text
+      false
 
   @setInputValue = (v) ->
     if v?
-      @input = v.round(@attr.precision, BigNumber.ROUND_DOWN).toF(@attr.precision)
+      @text = v.round(@attr.precision, BigNumber.ROUND_DOWN).toF(@attr.precision)
     else
-      @input = ''
+      @text = ''
 
-    @$node.val @input
+    @$node.val @text
 
   @changeOrder = (v) ->
     @trigger 'place_order::input', variables: @attr.variables, value: v
 
-  @inputToValue = (event) ->
-    value = @getInputValue()
-    return unless value
+  @textToValue = (event) ->
+    return unless @parseText()
 
-    if @validateRange(value)
+    if @validateRange(@value)
       @changeOrder @value
     else
       @setInputValue @value
@@ -57,17 +61,17 @@
 
   @onInput = (event, data) ->
     @$node.val data[@attr.variables.input]
-    @inputToValue()
+    @textToValue()
 
   @onMax = (event, data) ->
     @max = data.max
 
   @after 'initialize', ->
     @orderType = @attr.type
+    @text     = ''
+    @value     = null
 
-    @reset()
-
-    @on @$node, 'change paste keyup', @inputToValue
+    @on @$node, 'change paste keyup', @textToValue
     @on @attr.form, "place_order::max::#{@attr.variables.input}", @onMax
     @on @attr.form, "place_order::input::#{@attr.variables.input}", @onInput
     @on @attr.form, "place_order::output::#{@attr.variables.input}", @onOutput
