@@ -4,29 +4,34 @@
     form: null
     type: null
 
+  @reset = ->
+    @text = ''
+    @value = null
+    @changeOrder @value
+
+  @rollback = ->
+    @$node.val @text
+
   @parseText = ->
-    text = @$node.val()
-    return false if text == @text
+    text  = @$node.val()
+    value = BigNumber(text)
 
-    if text == ''
-      @text = ''
-      @value = null
-      @changeOrder @value
-      return false
-
-    if $.isNumeric(text)
-      value = BigNumber(text)
-      precision = value.c.length - value.e - 1
-      if precision > @attr.precision
-        @$node.val @text
+    switch
+      when text == @text
+        false
+      when text == ''
+        @reset()
+        false
+      when !$.isNumeric(text)
+        @rollback()
+        false
+      when (value.c.length - value.e - 1) > @attr.precision
+        @rollback()
         false
       else
         @text = text
         @value = value
         true
-    else
-      @$node.val @text
-      false
 
   @setInputValue = (v) ->
     if v?
