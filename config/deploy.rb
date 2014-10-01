@@ -23,6 +23,8 @@ when 'peatio-web-02'
   set :domain, 'peatio-web-02'
 when 'peatio-admin'
   set :domain, 'peatio-admin'
+when 'yunbi-web-01'
+  set :domain, 'yunbi-web-01'
 else
   set :domain, 'peatio-stg'
 end
@@ -133,7 +135,7 @@ end
 
 desc 'delete admin'
 task :del_admin do
-  if ['peatio-web-01', 'peatio-web-02'].include?(domain)
+  if ['peatio-web-01', 'peatio-web-02', 'yunbi-web-01'].include?(domain)
     queue! "rm -rf #{deploy_to}/current/app/controllers/admin"
     queue! "rm -rf #{deploy_to}/current/app/views/admin"
     queue! "rm -rf #{deploy_to}/current/app/models/worker"
@@ -153,7 +155,7 @@ task :del_daemons do
   when 'peatio-daemon'
     queue! "rm -rf #{deploy_to}/current/lib/daemons/k.rb"
     queue! "rm -rf #{deploy_to}/current/lib/daemons/k_ctl"
-  when 'peatio-web-01', 'peatio-web-02'
+  when 'peatio-web-01', 'peatio-web-02', 'yunbi-web-01'
     queue! "rm -rf #{deploy_to}/current/lib/daemons"
   when 'peatio-redis'
     keeps = ['daemons', 'k.rb', 'k_ctl']
