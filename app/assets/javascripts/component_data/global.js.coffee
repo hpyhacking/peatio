@@ -26,5 +26,11 @@ window.GlobalData = flight.component ->
       @trigger 'market::trades', {trades: data.trades}
 
     # Initializing at bootstrap
-    @trigger 'market::trades', {trades: gon.trades.reverse()} if gon.trades
     @trigger 'market::ticker', gon.ticker
+
+    if gon.asks and gon.bids
+      @trigger 'market::order_book', asks: gon.asks, bids: gon.bids
+
+    if gon.trades
+      @trigger 'market::trades', trades: gon.trades.reverse()
+
