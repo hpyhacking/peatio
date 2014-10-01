@@ -4,11 +4,21 @@
     form: null
     type: null
 
+  @reset = ->
+    @input = ''
+    @value = null
+
   @getInputValue = ->
     val = @$node.val()
-    if val != @input && $.isNumeric?(val)
+    return if val == @input
+
+    if $.isNumeric?(val)
       @input = val
       BigNumber(val)
+    else if val == '' # reset
+      @reset()
+      @changeOrder @value
+      null
     else
       null
 
@@ -48,9 +58,9 @@
     @max = data.max
 
   @after 'initialize', ->
-    @input     = ''
-    @value     = null
     @orderType = @attr.type
+
+    @reset()
 
     @on @$node, 'change paste keyup', @onInput
     @on @attr.form, "place_order::max::#{@attr.variables.input}", @onMax

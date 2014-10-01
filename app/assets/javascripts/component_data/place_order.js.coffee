@@ -4,7 +4,7 @@
     {input: @input, known: @known, output: @output} = data.variables
     @order[@input] = data.value
 
-    return unless @order[@known]
+    return unless @order[@input] && @order[@known]
     @trigger "place_order::output::#{@output}", @order
 
   @after 'initialize', ->
