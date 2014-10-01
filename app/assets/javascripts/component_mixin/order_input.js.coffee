@@ -6,23 +6,26 @@
 
   @getInputValue = ->
     val = @$node.val()
-    if $.isNumeric?(val)
+    if val != @input && $.isNumeric?(val)
+      @input = val
       BigNumber(val)
     else
       null
 
   @setInputValue = (v) ->
     if v?
-      @$node.val v
+      @input = v.round(@attr.precision, BigNumber.ROUND_DOWN).toF(@attr.precision)
     else
-      @$node.val ''
+      @input = ''
+
+    @$node.val @input
 
   @changeOrder = (v) ->
     @trigger 'place_order::input', variables: @attr.variables, value: v
 
   @onInput = (event) ->
     value = @getInputValue()
-    return unless value && !value.equals(@value)
+    return unless value
 
     if @validateRange(value)
       @changeOrder @value
@@ -45,6 +48,7 @@
     @max = data.max
 
   @after 'initialize', ->
+    @input     = ''
     @value     = null
     @orderType = @attr.type
 
