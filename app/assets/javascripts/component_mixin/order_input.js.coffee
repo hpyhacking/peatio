@@ -20,6 +20,7 @@
       @changeOrder @value
       null
     else
+      @$node.val @input
       null
 
   @setInputValue = (v) ->
