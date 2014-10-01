@@ -44,7 +44,7 @@
   @changeOrder = (v) ->
     @trigger 'place_order::input', variables: @attr.variables, value: v
 
-  @textToValue = (event) ->
+  @process = (event) ->
     return unless @parseText()
 
     if @validateRange(@value)
@@ -66,7 +66,7 @@
 
   @onInput = (event, data) ->
     @$node.val data[@attr.variables.input]
-    @textToValue()
+    @process()
 
   @onMax = (event, data) ->
     @max = data.max
@@ -76,7 +76,7 @@
     @text     = ''
     @value     = null
 
-    @on @$node, 'change paste keyup', @textToValue
+    @on @$node, 'change paste keyup', @process
     @on @attr.form, "place_order::max::#{@attr.variables.input}", @onMax
     @on @attr.form, "place_order::input::#{@attr.variables.input}", @onInput
     @on @attr.form, "place_order::output::#{@attr.variables.input}", @onOutput
