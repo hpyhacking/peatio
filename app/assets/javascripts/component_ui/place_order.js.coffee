@@ -101,21 +101,12 @@
     type = @panelType()
     node = @select('currentBalanceSel')
 
-    switch type
-      when 'bid'
-        available = window.fix 'bid', @getBalance().minus(order.total)
-        if BigNumber(available).equals(0)
-          @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_in).fadeIn()
-        else
-          @select('positionsLabelSel').fadeOut().text('')
-        node.text(available)
-      when 'ask'
-        available = window.fix 'ask', @getBalance().minus(order.volume)
-        if BigNumber(available).equals(0)
-          @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_out).fadeIn()
-        else
-          @select('positionsLabelSel').fadeOut().text('')
-        node.text(available)
+    available = window.fix type, @getBalance().minus(order[@usedInput])
+    if BigNumber(available).equals(0)
+      @select('positionsLabelSel').hide().text(gon.i18n.place_order["full_#{type}"]).fadeIn()
+    else
+      @select('positionsLabelSel').fadeOut().text('')
+    node.text(available)
 
   @priceAlertHide = (event) ->
     @select('priceAlertSel').fadeOut ->
@@ -127,6 +118,11 @@
 
   @after 'initialize', ->
     type = @panelType()
+
+    if type == 'ask'
+      @usedInput = 'volume'
+    else
+      @usedInput = 'total'
 
     PlaceOrderData.attachTo @$node
     OrderPriceUI.attachTo   @select('priceSel'),  form: @$node, type: type
