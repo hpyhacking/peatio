@@ -10,9 +10,5 @@
   @onOutput = (event, order) ->
     total = order.price.times order.volume
 
-    if @validateRange(total)
-      @setInputValue @value
-    else
-      @setInputValue @value
-      @changeOrder @value
-
+    @changeOrder @value unless @validateRange(total)
+    @setInputValue @value
