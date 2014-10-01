@@ -34,8 +34,6 @@ GEM
       rack-test (~> 0.6.2)
     active_hash (1.3.0)
       activesupport (>= 2.2.2)
-    active_model_serializers (0.9.0)
-      activemodel (>= 3.2)
     activemodel (4.0.2)
       activesupport (= 4.0.2)
       builder (~> 3.1.0)
@@ -69,10 +67,6 @@ GEM
       descendants_tracker (~> 0.0.3)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.1.3)
-    barber (0.4.2)
-      ember-source
-      execjs
-      handlebars-source
     bcrypt-ruby (3.1.2)
     better_errors (1.1.0)
       coderay (>= 1.0.0)
@@ -149,25 +143,12 @@ GEM
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
-    ember-data-source (1.0.0.beta.10)
-      ember-source
-    ember-rails (0.15.0)
-      active_model_serializers
-      barber (>= 0.4.1)
-      ember-data-source (>= 1.0.0.beta.5)
-      ember-source (>= 1.1.0)
-      execjs (>= 1.2)
-      handlebars-source (> 1.0.0)
-      jquery-rails (>= 1.0.17)
-      railties (>= 3.1)
-    ember-source (1.7.0)
-      handlebars-source (~> 1.0)
     enumerize (0.8.0)
       activesupport (>= 3.2)
     equalizer (0.0.9)
     erubis (2.7.0)
     eventmachine (1.0.3)
-    execjs (2.0.2)
+    execjs (2.2.1)
     factory_girl (4.3.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.3.0)
@@ -208,8 +189,7 @@ GEM
       grape (>= 0.2.0)
       grape-entity (>= 0.3.0)
       kramdown (>= 1.3.1)
-    handlebars-source (1.3.0)
-    handlebars_assets (0.15)
+    handlebars_assets (0.18)
       execjs (>= 1.2.9)
       multi_json
       sprockets (>= 2.0.3)
@@ -469,7 +449,6 @@ DEPENDENCIES
   dotenv-rails
   easy_table
   em-websocket (~> 0.5.1)
-  ember-rails
   enumerize
   eventmachine (~> 1.0.3)
   factory_girl_rails

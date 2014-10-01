@@ -1,7 +1,7 @@
 #= require jquery
 #= require ./lib/tiny-pubsub
-#= require handlebars
-#= require ember
+#= require ./lib/handlebars
+#= require ./lib/ember
 #= require ./lib/peatio_model
 #= require ./lib/ajax
 #= require app

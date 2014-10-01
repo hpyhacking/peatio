@@ -25,14 +25,6 @@
 
   <body id="<%= "#{controller_name}-#{action_name}" %>" data-lang="<%= "#{I18n.locale.to_s.downcase}" %>">
 
-    <script type='text/x-handlebars' id='deposits'>
-      {{ partial 'emberapp/templates/deposits' }}
-    </script>
-
-    <script type='text/x-handlebars' id='withdraws'>
-      {{ partial 'emberapp/templates/withdraws' }}
-    </script>
-
     <script type="text/x-handlebars" id="accounts/index">
       <p class="text-warning">Please select a account</p>
     </script>
@@ -58,8 +50,5 @@
       <%- end %>
     </script>
 
-    <script type='text/x-handlebars' id='accounts'>
-      {{ template "emberapp/templates/accounts" }}
-    </script>
   </body>
 </html>
