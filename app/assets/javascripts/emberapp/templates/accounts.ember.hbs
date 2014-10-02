@@ -2,13 +2,13 @@
 
 <div class="panel panel-default">
   <div class="panel-body panel-currencies">
-    
+
     <div class='row'>
       <div class='col-md-8'>
-        
+
         <div class="currencies-container">
+          {{#each model}}
           <table class="currency-item table">
-            {{#each model}}
             <tr>
               <td class="currency-logo"><img src="/assets/icon-{{unbound currency}}.png" alt=""><span class="currency-symbol">{{currency}}</span></td>
               <td class="currency-balance-col">
@@ -20,8 +20,8 @@
                 <p>{{#link-to 'withdraws' this.currency}}提现{{/link-to}}</p>
               </td>
             </tr>
-            {{/each}}
           </table>
+          {{/each}}
         </div>
 
       </div>
