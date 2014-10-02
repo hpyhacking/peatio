@@ -6,7 +6,7 @@
 
   @reset = ->
     @text = ''
-    @value = null
+    @value = BigNumber('0')
     @changeOrder @value
 
   @rollback = ->
@@ -80,7 +80,7 @@
 
   @after 'initialize', ->
     @orderType = @attr.type
-    @text     = ''
+    @text      = ''
     @value     = null
 
     @on @$node, 'change paste keyup', @process
