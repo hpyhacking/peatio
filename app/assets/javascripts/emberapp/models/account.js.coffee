@@ -19,10 +19,10 @@ class Account extends PeatioModel.Model
     Withdraw.findAllBy 'account_id', @id
 
   topDeposits: ->
-    deposits.reverse().slice(0,3)
+    @deposits().reverse().slice(0,3)
 
   topWithdraws: ->
-    withdraws.reverse().slice(0,3)
+    @withdraws().reverse().slice(0,3)
 
 
 window.Account = Account
