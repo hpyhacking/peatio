@@ -45,4 +45,9 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
       }).done(->
         $('#withdraw_btc_submit').removeAttr('disabled')
       )
+
+    withdrawAll: ->
+      $('#withdraw_sum').val(@get('balance'))
+
+
   }
