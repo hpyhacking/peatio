@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/tomlion/mina-slack.git
+  revision: 5b7571a34f1979784720c0bfef555591e89ca3a7
+  specs:
+    mina-slack (0.0.3)
+      mina (~> 0.3.0)
+      rest-client (~> 1.6.7)
+
+GIT
   remote: git://github.com/galetahub/simple-captcha.git
   revision: 2602bf19a63df25929960b5a7721a9d265281ec1
   specs:
@@ -10,14 +18,6 @@ GIT
   specs:
     unread (0.4.0)
       activerecord (>= 3)
-
-GIT
-  remote: git://github.com/tomlion/mina-slack.git
-  revision: 5b7571a34f1979784720c0bfef555591e89ca3a7
-  specs:
-    mina-slack (0.0.3)
-      mina (~> 0.3.0)
-      rest-client (~> 1.6.7)
 
 GEM
   remote: https://rubygems.org/
