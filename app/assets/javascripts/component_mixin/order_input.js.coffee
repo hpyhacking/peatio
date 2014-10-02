@@ -6,8 +6,7 @@
 
   @reset = ->
     @text = ''
-    @value = BigNumber('0')
-    @changeOrder @value
+    @value = null
 
   @rollback = ->
     @$node.val @text
@@ -21,6 +20,7 @@
         false
       when text == ''
         @reset()
+        @trigger 'place_order::reset', variables: @attr.variables
         false
       when !$.isNumeric(text)
         @rollback()

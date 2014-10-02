@@ -28,6 +28,7 @@
     @trigger 'place_order::reset::price'
     @trigger 'place_order::reset::volume'
     @trigger 'place_order::reset::total'
+    @priceAlertHide()
 
   @disableSubmit = ->
     @select('submitButton').addClass('disabled').attr('disabled', 'disabled')
@@ -96,7 +97,9 @@
     type = @panelType()
     node = @select('currentBalanceSel')
 
+    order[@usedInput] = 0 unless order[@usedInput]
     available = window.fix type, @getBalance().minus(order[@usedInput])
+
     if BigNumber(available).equals(0)
       @select('positionsLabelSel').hide().text(gon.i18n.place_order["full_#{type}"]).fadeIn()
     else
