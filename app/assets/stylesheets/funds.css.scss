@@ -30,11 +30,6 @@
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 15px;
-    .currency-logo {
-      float: right;
-      margin: 10px;
-      max-width: 120px;
-    }
   }
 }
 
@@ -59,12 +54,31 @@
       background-color: #DDCD1B;
     }
   }
+  .currency-logo {
+    text-align: center;
+    width: 20%;
+    img {
+      max-height: 32px;
+    }
+    .currency-symbol {
+      display: block;
+      margin-top: 5px;
+      text-transform: uppercase;
+      color: #999;
+      font-size: 12px;
+    }
+  }
+  .currency-balance-col {
+    padding-left: 0;
+    padding-right: 0;
+  }
   .currency-balance {
-    font-size: 32px;
+    font-size: 24px;
     font-weight: bold;
-    margin: 5px 0 0;
+    font-family: monospace;
+    margin: 0;
     .currency-sign {
-      font-size: 28px;
+      font-size: 20px;
       margin-left: -4px;
     }
   }

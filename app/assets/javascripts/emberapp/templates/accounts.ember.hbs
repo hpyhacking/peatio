@@ -7,11 +7,11 @@
       <div class='col-md-8'>
         
         <div class="currencies-container">
-          {{#each model}}
           <table class="currency-item table">
+            {{#each model}}
             <tr>
+              <td class="currency-logo"><img src="/assets/icon-{{unbound currency}}.png" alt=""><span class="currency-symbol">{{currency}}</span></td>
               <td class="currency-balance-col">
-                <span class="currency-label label-{{currency}}">{{currency}}</span>
                 <p class="currency-balance"><span class="currency-sign">￥</span>{{balance}}</p>
                 <span class="currency-balance-locked"><i class="fa fa-lock"></i> {{locked}}</span>
               </td>
@@ -20,8 +20,8 @@
                 <p>{{#link-to 'withdraws' this.currency}}提现{{/link-to}}</p>
               </td>
             </tr>
+            {{/each}}
           </table>
-          {{/each}}
         </div>
 
       </div>
