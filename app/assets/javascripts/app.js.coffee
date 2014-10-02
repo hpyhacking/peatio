@@ -66,6 +66,11 @@ $ ->
     wsHost: gon.pusher.wsHost
     wsPort: gon.pusher.wsPort
     wssPort: gon.pusher.wssPort
+    disableFlash: true
+    disableStats: true
+    enabledTransports: ['ws']
+    disabledTransports: ['flash', 'sockjs']
+  console.info pusher
   pusher.connection.bind 'state_change', (state) ->
     if state.current is 'unavailable'
       setTimeout ->
