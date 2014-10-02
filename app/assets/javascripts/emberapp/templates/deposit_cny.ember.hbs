@@ -1,9 +1,61 @@
-<p>请汇款给Terry</p>
+<h2 class="panel-title">人民币充值</h2>
+<div class="help-block">
+  通过银行转账汇款的方式，经人工审核后充值人民币到您的交易账户中，流程如下：
+  <ul>
+    <li>1. 提交以下表单，获得转账识别码；</li>
+    <li>2. 银行转账汇款到云币交易所开户行，务必在备注栏填写识别码；</li>
+    <li>3. 人工审核汇款记录，确认后充值到您的云币账户。</li>
+  </ul>
+  <span class="text-danger">特别提醒：充值银行账户姓名必须与您的实名认证姓名一致。</span>
+</div>
+
+<form action="" class="form form-horizontal transfer-form">
+  
+  <table class="table">
+    <tr>
+      <td rowspan="3" class="v-col">汇款人</td>
+      <td><label class="optional control-label">开户户名</label><p class="form-control-static">何斌</p></td>
+      <td rowspan="3" class="v-col">收款人</td>
+      <td><label class="optional control-label">收款账户</label><p class="form-control-static">邱亮</p></td>
+    </tr>
+    <tr>
+      <td>
+        <label class="select required control-label" for="withdraw_fund_source">充值账号 (<a href="/cny_fund_sources">添加</a>|<a href="/cny_fund_sources">管理</a>)</label>
+        {{view Ember.Select
+          content=fsources
+          optionValuePath="content.id"
+          optionLabelPath="content.label"
+          class="select required form-control"
+          id="fund_source"
+          name="fund_source"
+        }}
+      </td>
+      <td><label class="optional control-label">收款账号</label><p class="form-control-static">6214 8501 0176 3297</p></td>
+    </tr>
+    <tr class="last-row">
+      <td><label class="optional control-label">充值金额</label><input class="form-control" name="" placeholder="最低金额100元"></td>
+      <td class="row">
+        <span class="col-md-12"><label class="optional control-label">收款银行</label><p class="form-control-static">招商银行</p></span>
+        <span class="col-md-12"><label class="optional control-label">开户行</label><p class="form-control-static">北京双榆树支行</p></span>
+      </td>
+    </tr>
+  </table>
+
+  <div class="form-group">
+    <div class="form-submit">
+      <input  id="withdraw_btc_submit" cancel="/withdraws" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="提交">
+      <a href="/withdraws" class="btn btn-info">取消</a>
+    </div>
+  </div>
+
+</form>
+
+
 <table class="table">
   <tr>
-    <th>转账备注</th>
+    <th>转账识别码</th>
     <th>时间</th>
-    <th>标签</th>
+    <th>充值银行</th>
     <th>充值金额</th>
     <th>状态</th>
   </tr>

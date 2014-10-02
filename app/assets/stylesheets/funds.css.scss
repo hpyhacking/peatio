@@ -24,12 +24,21 @@
         font-size: 16px;
         font-weight: bold;
       }
+      &.transfer-form {
+        max-width: inherit;
+      }
     }
   }
   .panel-title {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 15px;
+  }
+  .help-block {
+    ul {
+      list-style: none;
+      padding: 10px 0 0 20px;
+    }
   }
 }
 
@@ -122,5 +131,42 @@
         margin-top: -11px;
       }
     }
+  }
+}
+
+.transfer-form {
+  .table {
+    border: 1px solid #ccc;
+    tbody > tr > td {
+      padding: 10px 15px 0 15px;
+      border-right: 1px solid #ccc;
+      border-top: none;
+    }
+    .v-col {
+      padding: 8px;
+      width: 30px;
+      vertical-align: middle;
+    }
+    label {
+      font-size: 13px;
+      font-weight: normal;
+      padding: 0;
+    }
+    .form-control-static {
+      font-size: 16px;
+      font-weight: bold;
+      padding-bottom: 0;
+    }
+    .col-md-12 {
+      padding: 0;
+    }
+    tbody > tr.last-row td {
+      padding-bottom: 15px;
+    }
+  }
+
+  .form-submit {
+    text-align: center;
+    margin: 0 auto;
   }
 }
