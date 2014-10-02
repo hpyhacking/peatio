@@ -36,7 +36,6 @@ $ ->
 
     placement = $(@).data('placement') || 'bottom'
     $(zero.htmlBridge).tooltip({title: gon.clipboard.click, placement: placement})
-
   $('.qrcode-container').each (index, el) ->
     $el = $(el)
     new QRCode el,
@@ -70,7 +69,6 @@ $ ->
     disableStats: true
     enabledTransports: ['ws']
     disabledTransports: ['flash', 'sockjs']
-  console.info pusher
   pusher.connection.bind 'state_change', (state) ->
     if state.current is 'unavailable'
       setTimeout ->
