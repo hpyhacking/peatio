@@ -61,9 +61,11 @@ $ ->
   FlashMessageUI.attachTo('.flash-message')
   TwoFactorAuth.attachTo('.two-factor-auth-container')
 
-  # if gon.env is 'development'
-  #   Pusher.log = (message) -> window.console && console.log(message)
-  pusher = new Pusher gon.pusher_key, gon.pusher_options
+  pusher = new Pusher gon.pusher.key,
+    encrypted: gon.pusher.encrypted
+    wsHost: gon.pusher.wsHost
+    wsPort: gon.pusher.wsPort
+    wssPort: gon.pusher.wssPort
   pusher.connection.bind 'state_change', (state) ->
     if state.current is 'unavailable'
       $('#markets-show .pusher-unavailable').removeClass('hide')
