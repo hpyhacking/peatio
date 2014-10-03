@@ -9,4 +9,7 @@ en:
     google_auth_deactivated:
       subject: "[PEATIO] Google authenticator deactivated"
       google_auth_deactivated: You have deactivated google authenticator successfully
+    reset_password_done:
+      subject: "[PEATIO] Your password changed"
+      successful: Your password has been changed successfully.
 
