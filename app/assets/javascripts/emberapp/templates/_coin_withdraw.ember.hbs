@@ -1,0 +1,26 @@
+<br>
+<h2 class="panel-title">历史记录</h2>
+
+<table class="table withdraw-history">
+  <tr>
+    <th>编号</th>
+    <th>时间</th>
+    <th>提现地址</th>
+    <th>实际到账</th>
+    <th>旷工费</th>
+    <th>状态/操作</th>
+  </tr>
+  {{#each withdraw in withdraws}}
+  <tr>
+    <td>{{withdraw.id}}</td>
+    <td>{{withdraw.created_at}}</td>
+    <td>{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}</td>
+    <td>{{withdraw.amount}}</td>
+    <td>{{withdraw.fee}}</td>
+    <td>{{withdraw.aasm_state}}</td>
+  </tr>
+  {{ else }}
+    <tr><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
+  {{/each}}
+</table>
+
