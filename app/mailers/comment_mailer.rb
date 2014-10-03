@@ -1,14 +1,18 @@
 class CommentMailer < BaseMailer
 
-  def user_notification(email, comment)
+  def user_notification(comment_id)
+    comment = Comment.find comment_id
     @ticket_url = ticket_url(comment.ticket)
-    mail to: email, subject: I18n.t('private.tickets.comments.user_notification_title')
+
+    mail to: comment.ticket.author.email
   end
 
-  def admin_notification(emails, comment)
+  def admin_notification(comment_id)
+    comment = Comment.find comment_id
     @ticket_url = admin_ticket_url(comment.ticket)
     @author_email = comment.author.email
-    mail to: emails, subject: I18n.t('private.tickets.comments.admin_notification_title', email: @author_email)
+
+    mail to: ENV['SUPPORT_MAIL']
   end
 
 end

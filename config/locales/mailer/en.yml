@@ -1,4 +1,6 @@
 en:
   mailer:
-    dear_user: "Dear user,"
-    signature: "Thanks,\nThe Peatio Team"
+    dear_user: Dear user,
+    signature: "Thanks,<br/>The Peatio Team"
+    please_contact: "If it's not you, please <a href='mailto:%{contact_mail}'>contact us</a> ASAP."
+    footer: 'This is an automatically generated email, please do not reply, if you have any question, please <a href="mailto:%{contact_mail}">contact us</a>.'

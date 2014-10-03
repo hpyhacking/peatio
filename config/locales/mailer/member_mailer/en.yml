@@ -1,6 +1,18 @@
 en:
   member_mailer:
     notify_signin:
-      subject: You have just signed in
+      subject: "[PEATIO] You have just signed in"
       just_signed_in: You have just signed in.
-      please_contact: If it's not you, please contact us ASAP.
+    google_auth_activated:
+      subject: "[PEATIO] Google authenticator activated"
+      google_auth_activated: You have activated google authenticator successfully
+    google_auth_deactivated:
+      subject: "[PEATIO] Google authenticator deactivated"
+      google_auth_deactivated: You have deactivated google authenticator successfully
+    reset_password_done:
+      subject: "[PEATIO] Your password changed"
+      successful: Your password has been changed successfully.
+    phone_number_verified:
+      subject: "[PEATIO] Your phone number verified"
+      verified: "Your phone number verified: %{phone_number}"
+

@@ -15,6 +15,7 @@ module Private
     def update
       if two_factor_verified?
         @two_factor.active!
+        MemberMailer.google_auth_activated(current_user.id).deliver
         redirect_to settings_path, notice: t('.notice')
       else
         flash[:alert] = t('.alert')
@@ -25,6 +26,7 @@ module Private
     def destroy
       if two_factor_verified?
         @two_factor.deactive!
+        MemberMailer.google_auth_deactivated(current_user.id).deliver
         redirect_to settings_path, notice: t('.notice')
       else
         flash[:alert] = t('.alert')

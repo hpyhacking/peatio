@@ -49,6 +49,8 @@ module Verify
           @token.verified!
           current_user.two_factors.by_type(:sms).active!
 
+          MemberMailer.phone_number_verified(current_user.id).deliver
+
           text = I18n.t('verify.sms_tokens.new.notice.verify_code_success')
           flash[:notice] = text
           format.any { render status: :ok, text: {text: text, reload: true}.to_json }
