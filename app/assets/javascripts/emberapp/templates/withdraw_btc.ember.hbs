@@ -3,7 +3,7 @@
   指定要提现的比特币地址，输入提取数量，提交即可，10分钟之内到账。
 </p>
 
-<form {{ action 'submitWithdraw' id="btc_withdraws" on="submit" }} class="form form-horizontal">
+<form {{ action 'submitBtcWithdraw' id="btc_withdraw" on="submit" }} class="form form-horizontal">
 
   <div class="form-group">
     <div class="col-sm-6">
@@ -46,7 +46,7 @@
 
   <div class="form-group">
     <div class="form-submit col-sm-18 col-sm-offset-6">
-      <input  id="withdraw_btc_submit" cancel="/withdraws" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="提交">
+      <input  id="withdraw_btc_submit" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="提交">
       <a href="/withdraws" class="btn btn-info">取消</a>
     </div>
   </div>
@@ -65,7 +65,6 @@
     <th>旷工费</th>
     <th>状态/操作</th>
   </tr>
-  <tr><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
   {{#each withdraw in withdraws}}
   <tr>
     <td>{{withdraw.id}}</td>
@@ -75,6 +74,8 @@
     <td>{{withdraw.fee}}</td>
     <td>{{withdraw.aasm_state}}</td>
   </tr>
+  {{ else }}
+    <tr><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
   {{/each}}
 </table>
 

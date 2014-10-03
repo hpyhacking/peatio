@@ -29,3 +29,30 @@ Peatio.DepositsController = Ember.ArrayController.extend
   deposits: (->
     @model[0].account().topDeposits()
   ).property('@each')
+
+  fsources: (->
+    FundSource.findAllBy('currency', @model[0].currency)
+  ).property('@each')
+
+  name: (->
+    current_user.name
+  ).property()
+
+
+  actions: {
+    submitCnyDeposit: ->
+      fund_source = $(event.target).find('#fund_source').val()
+      sum = $(event.target).find('#deposit_sum').val()
+      currency = @model[0].currency
+      account = @model[0].account()
+      data = { account_id: account.id, member_id: current_user.id, currency: currency, amount: sum,  fund_source: fund_source }
+      $('#deposit_cny_submit').attr('disabled', 'disabled')
+      $.ajax({
+        url: '/deposits/banks',
+        method: 'post',
+        data: { deposit: data }
+      }).done(->
+        $('#deposit_cny_submit').removeAttr('disabled')
+      )
+
+  }

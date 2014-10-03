@@ -9,18 +9,18 @@
   <span class="text-danger">特别提醒：充值银行账户姓名必须与您的实名认证姓名一致。</span>
 </div>
 
-<form action="" class="form form-horizontal transfer-form">
-  
+<form {{ action 'submitCnyDeposit' id="cny_deposit" on="submit" }} class="form form-horizontal transfer-form">
+
   <table class="table">
     <tr>
       <td rowspan="3" class="v-col">汇款人</td>
-      <td><label class="optional control-label">开户户名</label><p class="form-control-static">何斌</p></td>
+      <td><label class="optional control-label">开户户名</label><p class="form-control-static">{{name}}</p></td>
       <td rowspan="3" class="v-col">收款人</td>
       <td><label class="optional control-label">收款账户</label><p class="form-control-static">邱亮</p></td>
     </tr>
     <tr>
       <td>
-        <label class="select required control-label" for="withdraw_fund_source">充值账号 (<a href="/cny_fund_sources">添加</a>|<a href="/cny_fund_sources">管理</a>)</label>
+        <label class="select required control-label" for="deposit_fund_source">充值账号 (<a href="/cny_fund_sources">添加</a>|<a href="/cny_fund_sources">管理</a>)</label>
         {{view Ember.Select
           content=fsources
           optionValuePath="content.id"
@@ -33,7 +33,7 @@
       <td><label class="optional control-label">收款账号</label><p class="form-control-static">6214 8501 0176 3297</p></td>
     </tr>
     <tr class="last-row">
-      <td><label class="optional control-label">充值金额</label><input class="form-control" name="" placeholder="最低金额100元"></td>
+      <td><label class="optional control-label">充值金额</label><input class="form-control" id="deposit_sum" name="deposit[sum]" placeholder="最低金额100元"></td>
       <td class="row">
         <span class="col-md-12"><label class="optional control-label">收款银行</label><p class="form-control-static">招商银行</p></span>
         <span class="col-md-12"><label class="optional control-label">开户行</label><p class="form-control-static">北京双榆树支行</p></span>
@@ -43,7 +43,7 @@
 
   <div class="form-group">
     <div class="form-submit">
-      <input  id="withdraw_btc_submit" cancel="/withdraws" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="提交">
+      <input  id="deposit_cny_submit" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="提交">
       <a href="/withdraws" class="btn btn-info">取消</a>
     </div>
   </div>

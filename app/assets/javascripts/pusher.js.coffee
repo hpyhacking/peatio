@@ -66,6 +66,7 @@ class DepositHandler extends EventHandler
 
   create: (attributes) =>
     Deposit.create(attributes)
+    $.publish('deposit:create')
 
   update: (id, attributes) =>
     Deposit.update(id, attributes)

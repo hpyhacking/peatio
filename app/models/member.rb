@@ -178,6 +178,12 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def as_json(options = {})
+    super.merge({
+      "name" => self.name
+    })
+  end
+
   private
   def generate_sn
     self.sn and return

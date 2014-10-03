@@ -31,7 +31,7 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
   ).property('@each')
 
   actions: {
-    submitWithdraw: ->
+    submitBtcWithdraw: ->
       fund_source = $(event.target).find('#fund_source').val()
       sum = $(event.target).find('#withdraw_sum').val()
       currency = @model[0].currency
