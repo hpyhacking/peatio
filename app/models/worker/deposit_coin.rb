@@ -21,9 +21,6 @@ module Worker
     def deposit!(channel, txid, txout, raw, detail)
       return if detail[:account] != "payment" || detail[:category] != "receive"
 
-      Rails.logger.info "*"*100
-      Rails.logger.info txid
-      Rails.logger.info txout
       ActiveRecord::Base.transaction do
         return if PaymentTransaction::Normal.where(txid: txid, txout: txout).first
 
