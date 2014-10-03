@@ -12,7 +12,7 @@ describe Comment do
     context "admin reply the ticket" do
       let!(:comment) { create(:comment, author: admin, ticket: ticket)}
       it "should notify the author" do
-        CommentMailer.expects(:user_notification).with('terry@apple.com', comment.id).returns(mailer)
+        CommentMailer.expects(:user_notification).with(comment.id).returns(mailer)
       end
     end
 
@@ -20,7 +20,7 @@ describe Comment do
       let!(:comment) { create(:comment, author: author, ticket: ticket)}
 
       it "should not notify the admin" do
-        CommentMailer.expects(:admin_notification).with(ENV['SUPPORT_MAIL'], comment.id).returns(mailer)
+        CommentMailer.expects(:admin_notification).with(comment.id).returns(mailer)
       end
 
     end

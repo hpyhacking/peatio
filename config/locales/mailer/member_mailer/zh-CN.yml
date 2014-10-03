@@ -9,4 +9,7 @@ zh-CN:
     google_auth_deactivated:
       subject: "[PEATIO] 重置 Google Authenticator"
       google_auth_deactivated: 您已重置 Google Authenticator。
+    reset_password_done:
+      subject: "[PEATIO] 密码修改成功"
+      successful: "您已成功修改密码。请妥善保管~"
 
