@@ -31,5 +31,11 @@ module Deposits
     def blockchain_url
       currency_obj.blockchain_url(txid)
     end
+
+    def as_json(options = {})
+      super.merge({
+        confirmations: super.payment_transaction.confirmations
+      })
+    end
   end
 end
