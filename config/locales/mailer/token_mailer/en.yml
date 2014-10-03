@@ -4,7 +4,7 @@ en:
       subject: '[Peatio] Account Activation'
       click_to_verify: 'Thank you for signing up on Peatio, please follow this link to verify your Email:'
       unable_to_click: Copy and open the link in your browser if you are unable to click and visit it.
-      link_expire: The link expires in 30 minutes. Sign in again in that case.
+      link_expire: The link expires in 30 minutes.
     reset_password:
       subject: '[Peatio] Please Reset Your Password'
       hi: Hi,

@@ -1,8 +1,13 @@
+<p>
 <%= t(".click_to_verify") %>
+</p>
 
-<%= @token_url %>
+<p>
+<%= link_to @token_url, @token_url %>
+</p>
 
+<p>
 <%= t(".unable_to_click") %>
+<br/>
 <%= t(".link_expire") %>
-
-<%= t("mailer.signature") %>
+</p>
