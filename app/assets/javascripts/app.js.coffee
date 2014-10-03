@@ -45,10 +45,11 @@ $ ->
       height: $el.data('height')
 
   AccountBalanceUI.attachTo('.account-balance')
-  PlaceOrderUI.attachTo('.order-place #bid_panel')
-  PlaceOrderUI.attachTo('.order-place #ask_panel')
   MyOrdersUI.attachTo('.my-orders')
   MyTradesUI.attachTo('.my-trades')
+
+  PlaceOrderUI.attachTo('.order-place #bid_panel')
+  PlaceOrderUI.attachTo('.order-place #ask_panel')
 
   MarketTickerUI.attachTo('.ticker')
   MarketTradesUI.attachTo('.trades')
@@ -60,9 +61,11 @@ $ ->
   FlashMessageUI.attachTo('.flash-message')
   TwoFactorAuth.attachTo('.two-factor-auth-container')
 
-  # if gon.env is 'development'
-  #   Pusher.log = (message) -> window.console && console.log(message)
-  pusher = new Pusher gon.pusher_key, gon.pusher_options
+  pusher = new Pusher gon.pusher.key,
+    encrypted: gon.pusher.encrypted
+    wsHost: gon.pusher.wsHost
+    wsPort: gon.pusher.wsPort
+    wssPort: gon.pusher.wssPort
   pusher.connection.bind 'state_change', (state) ->
     if state.current is 'unavailable'
       $('#markets-show .pusher-unavailable').removeClass('hide')

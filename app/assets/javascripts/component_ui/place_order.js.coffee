@@ -9,7 +9,7 @@
 
     priceSel: 'input[id$=price]'
     volumeSel: 'input[id$=volume]'
-    sumSel: 'input[id$=total]'
+    totalSel: 'input[id$=total]'
 
     currentBalanceSel: 'span.current-balance'
     submitButton: ':submit'
@@ -25,8 +25,10 @@
     @select('dangerSel').text('')
 
   @resetForm = (event) ->
-    @select('volumeSel').val BigNumber(0)
-    @select('sumSel').val BigNumber(0)
+    @trigger 'place_order::reset::price'
+    @trigger 'place_order::reset::volume'
+    @trigger 'place_order::reset::total'
+    @priceAlertHide()
 
   @disableSubmit = ->
     @select('submitButton').addClass('disabled').attr('disabled', 'disabled')
@@ -38,7 +40,7 @@
     confirmType = @select('submitButton').text()
     price = @select('priceSel').val()
     volume = @select('volumeSel').val()
-    sum = @select('sumSel').val()
+    sum = @select('totalSel').val()
     """
     #{gon.i18n.place_order.confirm_submit} "#{confirmType}"?
 
@@ -65,146 +67,69 @@
     @select('dangerSel').text(json.message).show().fadeOut(2500)
     @enableSubmit()
 
-  @solveEquation = (price, vol, sum, balance) ->
-    if !vol && !price.equals(0)
-      vol = sum.dividedBy(price)
-    else if !sum
-      sum = price.times(vol)
-
-    type = @panelType()
-    if type == 'bid' && sum.greaterThan(balance)
-      [price, vol, sum] = @solveEquation(price, null, balance, balance)
-      @select('sumSel').val(sum).fixBid()
-      @select('volumeSel').val(vol).fixAsk()
-    else if type == 'ask' && vol.greaterThan(balance)
-      [price, vol, sum] = @solveEquation(price, balance, null, balance)
-      @select('sumSel').val(sum).fixBid()
-      @select('volumeSel').val(vol).fixAsk()
-
-    [price, vol, sum]
-
   @getBalance = ->
     BigNumber( @select('currentBalanceSel').data('balance') )
 
-  @getPrice = ->
-    val = @select('priceSel').val() || '0'
-    BigNumber(val)
-
   @getLastPrice = ->
-    Number gon.ticker.last
-
-  @getVolume = ->
-    val = @select('volumeSel').val() || '0'
-    BigNumber(val)
-
-  @getSum = ->
-    val = @select('sumSel').val() || '0'
-    BigNumber(val)
-
-  @sanitize = (el) ->
-    el.val '' if !$.isNumeric(el.val())
-
-  @computeSum = (event) ->
-    @sanitize @select('priceSel')
-    @sanitize @select('volumeSel')
-
-    return unless @getPrice().greaterThan(0)
-
-    target = event.target
-    if not @select('priceSel').is(target)
-      @select('priceSel').fixBid()
-    if not @select('volumeSel').is(target)
-      @select('volumeSel').fixAsk()
-
-    [price, volume, sum] = @solveEquation(@getPrice(), @getVolume(), null, @getBalance())
-
-    @select('sumSel').val(sum).fixBid()
-    @trigger 'updateAvailable', {sum: sum, volume: volume}
-
-  @computeVolume = (event) ->
-    @sanitize @select('priceSel')
-    @sanitize @select('sumSel')
-
-    return unless @getPrice().greaterThan(0)
-
-    target = event.target
-    if not @select('priceSel').is(target)
-      @select('priceSel').fixBid()
-    if not @select('sumSel').is(target)
-      @select('sumSel').fixBid()
-
-    [price, volume, sum] = @solveEquation(@getPrice(), null, @getSum(), @getBalance())
-
-    @select('volumeSel').val(volume).fixAsk()
-    @trigger 'updateAvailable', {sum: sum, volume: volume}
+    BigNumber(gon.ticker.last)
 
   @allIn = (event)->
-    @select('priceSel').val @getLastPrice()
-
     switch @panelType()
       when 'ask'
-        if not @select('volumeSel').val()
-          @select('volumeSel').val @getBalance()
-        @computeSum(event)
+        @trigger 'place_order::input::price', {price: @getLastPrice()}
+        @trigger 'place_order::input::volume', {volume: @getBalance()}
       when 'bid'
-        if not @select('sumSel').val()
-          @select('sumSel').val @getBalance()
-        @computeVolume(event)
-
-  @orderPlan = (event, data) ->
-    @select('priceSel').val(data.price)
-    @select('volumeSel').val(data.volume)
-    @computeSum(event)
+        @trigger 'place_order::input::price', {price: @getLastPrice()}
+        @trigger 'place_order::input::total', {total: @getBalance()}
 
   @refreshBalance = (event, data) ->
     type = @panelType()
     currency = gon.market[type].currency
     balance = gon.accounts[currency].balance
-    @select('currentBalanceSel').data('balance', balance)
-    switch type
-      when 'bid'
-        @select('currentBalanceSel').text(balance).fixBid()
-      when 'ask'
-        @select('currentBalanceSel').text(balance).fixAsk()
 
-  @updateAvailable = (event, data) ->
+    @select('currentBalanceSel').data('balance', balance)
+    @select('currentBalanceSel').text( window.fix(type, balance) )
+
+    @trigger 'place_order::balance::change', balance: BigNumber(balance)
+    @trigger "place_order::max::#{@usedInput}", max: BigNumber(balance)
+
+  @updateAvailable = (event, order) ->
     type = @panelType()
     node = @select('currentBalanceSel')
 
-    switch type
-      when 'bid'
-        available = window.fix 'bid', @getBalance().minus(data.sum)
-        if BigNumber(available).equals(0)
-          @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_in).fadeIn()
-        else
-          @select('positionsLabelSel').fadeOut().text('')
-        node.text(available)
-      when 'ask'
-        available = window.fix 'ask', @getBalance().minus(data.volume)
-        if BigNumber(available).equals(0)
-          @select('positionsLabelSel').hide().text(gon.i18n.place_order.full_out).fadeIn()
-        else
-          @select('positionsLabelSel').fadeOut().text('')
-        node.text(available)
+    order[@usedInput] = 0 unless order[@usedInput]
+    available = window.fix type, @getBalance().minus(order[@usedInput])
 
-  @priceCheck = (event) ->
-    currentPrice = Number @select('priceSel').val()
-    lastPrice = @getLastPrice()
-    priceAlert = @select('priceAlertSel')
+    if BigNumber(available).equals(0)
+      @select('positionsLabelSel').hide().text(gon.i18n.place_order["full_#{type}"]).fadeIn()
+    else
+      @select('positionsLabelSel').fadeOut().text('')
+    node.text(available)
 
-    switch
-      when currentPrice > (lastPrice * 1.1)
-        priceAlert.hide().text(gon.i18n.place_order.price_high).fadeIn()
-      when currentPrice < (lastPrice * 0.9) && currentPrice > 0
-        priceAlert.hide().text(gon.i18n.place_order.price_low).fadeIn()
-      else
-        priceAlert.fadeOut ->
-          priceAlert.text('')
+  @priceAlertHide = (event) ->
+    @select('priceAlertSel').fadeOut ->
+      $(@).text('')
 
+  @priceAlertShow = (event, data) ->
+    @select('priceAlertSel')
+      .hide().text(gon.i18n.place_order[data.label]).fadeIn()
 
   @after 'initialize', ->
-    @on document, 'order::plan', @orderPlan
-    @on 'updateAvailable', @updateAvailable
+    type = @panelType()
+
+    if type == 'ask'
+      @usedInput = 'volume'
+    else
+      @usedInput = 'total'
+
+    PlaceOrderData.attachTo @$node
+    OrderPriceUI.attachTo   @select('priceSel'),  form: @$node, type: type
+    OrderVolumeUI.attachTo  @select('volumeSel'), form: @$node, type: type
+    OrderTotalUI.attachTo   @select('totalSel'),  form: @$node, type: type
+
+    @on 'place_order::price_alert::hide', @priceAlertHide
+    @on 'place_order::price_alert::show', @priceAlertShow
+    @on 'place_order::order::updated', @updateAvailable
 
     @on document, 'account::update', @refreshBalance
 
@@ -212,8 +137,4 @@
     @on @select('formSel'), 'ajax:success', @handleSuccess
     @on @select('formSel'), 'ajax:error', @handleError
 
-    @on @select('priceSel'), 'focusout', @priceCheck
-    @on @select('priceSel'), 'change paste keyup focusout', @computeSum
-    @on @select('volumeSel'), 'change paste keyup focusout', @computeSum
-    @on @select('sumSel'), 'change paste keyup focusout', @computeVolume
     @on @select('currentBalanceSel'), 'click', @allIn

@@ -30,9 +30,13 @@
 
     volume_fun = (memo, num) -> memo.plus(BigNumber(num[1]))
     volume = _.reduce(orders, volume_fun, BigNumber(0))
-    price = _.last(orders)[0]
+    price = BigNumber(_.last(orders)[0])
 
     {price: price, volume: volume}
+
+  @placeOrder = (target, data) ->
+      @trigger target, 'place_order::input::price', data
+      @trigger target, 'place_order::input::volume', data
 
   @after 'initialize', ->
     for n in [0...@attr.bookCounter]
@@ -42,9 +46,8 @@
     @on document, 'market::order_book', @refreshOrders
     @on document, 'market::trades', @refreshSeperator
 
-    @on '.asks tr', 'click', (e) =>
-      @trigger document, 'order::plan', @computeDeep(e, gon.asks)
+    @$node.on 'click', '.asks tr', (e) =>
+      @placeOrder $('.order-place #bid_panel'), @computeDeep(e, gon.asks)
 
-    @on '.bids tr', 'click', (e) =>
-      @trigger document, 'order::plan', @computeDeep(e, gon.bids)
-
+    @$node.on 'click', '.bids tr', (e) =>
+      @placeOrder $('.order-place #ask_panel'), @computeDeep(e, gon.bids)
