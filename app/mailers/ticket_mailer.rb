@@ -1,10 +1,18 @@
 class TicketMailer < BaseMailer
 
-  def admin_notification(emails, ticket)
-    @ticket_url = admin_ticket_url(ticket)
-    @author_email = ticket.author.email
+  def author_notification(ticket_id)
+    ticket = Ticket.find ticket_id
+    @ticket_url = ticket_url(ticket)
 
-    mail to: emails, subject: I18n.t('private.tickets.admin_notification_title', email: @author_email)
+    mail to: ticket.author.email
+  end
+
+  def admin_notification(ticket_id)
+    ticket = Ticket.find ticket_id
+    @author_email = ticket.author.email
+    @ticket_url = admin_ticket_url(ticket)
+
+    mail to: ENV['SUPPORT_MAIL']
   end
 
 end

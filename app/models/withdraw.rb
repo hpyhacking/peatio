@@ -82,7 +82,7 @@ class Withdraw < ActiveRecord::Base
 
   aasm :whiny_transitions => false do
     state :submitting,  initial: true
-    state :submitted
+    state :submitted,   after_commit: :send_email
     state :canceled,    after_commit: :after_cancel
     state :accepted,    after_commit: :send_email
     state :suspect,     after_commit: :send_email
@@ -171,8 +171,12 @@ class Withdraw < ActiveRecord::Base
 
   def send_email
     case aasm_state
+    when 'submitted'
+      WithdrawMailer.submitted(self.id).deliver
     when 'accepted'
       WithdrawMailer.accepted(self.id).deliver
+    when 'processing'
+      WithdrawMailer.processing(self.id).deliver
     when 'done'
       WithdrawMailer.done(self.id).deliver
     else
@@ -181,7 +185,11 @@ class Withdraw < ActiveRecord::Base
   end
 
   def send_coins!
-    AMQPQueue.enqueue(:withdraw_coin, id: id) if coin?
+    if coin?
+      AMQPQueue.enqueue(:withdraw_coin, id: id)
+    end
+
+    send_email
   end
 
   def last_completed_withdraw_cache_key

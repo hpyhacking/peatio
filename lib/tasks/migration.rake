@@ -65,4 +65,22 @@ namespace :migration do
       end
     end
   end
+
+  desc "upgrade to new deposit-transaction schema"
+  task new_deposit_transaction_schema: :environment do
+    PaymentTransaction.where(type: nil).update_all(type: 'PaymentTransaction::Normal')
+    PaymentTransaction.where(type: 'PaymentTransaction::Default').update_all(type: 'PaymentTransaction::Normal')
+
+    PaymentTransaction::Normal.find_each do |pt|
+      pt.update_attributes txout: 0
+    end
+
+    Deposit.find_each do |deposit|
+      if deposit.payment_transaction_id.nil?
+        pt = PaymentTransaction.find_by_txid deposit.txid
+        deposit.update_attributes(payment_transaction_id: pt.id, txout: pt.txout) if pt
+      end
+    end
+  end
+
 end

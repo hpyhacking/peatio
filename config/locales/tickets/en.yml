@@ -18,12 +18,4 @@ en:
       from: from
       view_closed_tickets: View closed tickets
       view_open_tickets: View open tickets
-      admin_notification_title: User %{email} created a new ticket
-      admin_notification_content: User %{email} created a new ticket, please follow the link below to see the detail
-      comments:
-        user_notification_title: Your ticket got a new reply
-        user_notification_content: "Your ticket got a new reply, please follow the link below to see the detail:"
-        admin_notification_title: User %{email} reply a ticket
-        admin_notification_content: User %{email} reply a ticket, please follow the link below to see the detail
-
 

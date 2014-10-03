@@ -1,0 +1,9 @@
+en:
+  comment_mailer:
+    admin_notification:
+      subject: "[PEATIO] User reply a ticket"
+      notification_content: User %{email} reply a ticket, please follow the link below to see the detail
+    user_notification:
+      subject: "[PEATIO] Your ticket got a new reply"
+      notification_content: "Your ticket got a new reply, please follow the link below to see the detail:"
+

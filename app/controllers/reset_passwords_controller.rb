@@ -24,6 +24,7 @@ class ResetPasswordsController < ApplicationController
   def update
     if @token.update_attributes(reset_password_update_params)
       @token.confirmed
+      MemberMailer.reset_password_done(@token.member.id).deliver
       redirect_to signin_path, notice: t('.success')
     else
       render :edit

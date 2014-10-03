@@ -1,0 +1,50 @@
+<html><head>
+<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" style=" background: #EEEEEE; font:14px/20px 'Helvetica', Arial, sans-serif;">
+  <tbody>
+  <tr>
+    <td style="padding: 30px 0;"><table cellspacing="0" cellpadding="0" width="650" align="center" border="0" style="background: #FFFFFF; border-radius: 10px">
+        <tbody>
+        <tr>
+          <td>
+            <table width="100%" style="background:#3e4c5a; border-radius: 10px 10px 0 0">
+              <tbody>
+              <tr>
+                <td width="1%" style=" padding: 10px 10px"></td>
+                <td style="font-size:24px; color:#FFF; padding:10px;">PEATIO</td>
+              </tr>
+              </tbody>
+          </table></td>
+        </tr>
+        <tr>
+          <td style="border-top:none; padding:30px; color: #666 ">
+            <!--body-->
+            <table>
+              <tbody>
+              <tr>
+                <td>
+                  <p><%= t('mailer.dear_user') %></p>
+
+                  <p><%= yield %></p>
+
+                  <p><%= raw t('mailer.signature') %></p>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <!--body-->
+          </td>
+        </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td style="padding:0 30px 20px; font-size: 13px; color: #999">
+              <%= raw t('mailer.footer', contact_mail: ENV['SUPPORT_MAIL']) %>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body></html>

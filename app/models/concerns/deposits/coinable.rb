@@ -3,8 +3,9 @@ module Deposits
     extend ActiveSupport::Concern
 
     included do
-      validates_uniqueness_of :txid
-      belongs_to :payment_transaction, foreign_key: 'txid', primary_key: 'txid'
+      validates_presence_of :payment_transaction_id
+      validates_uniqueness_of :payment_transaction_id
+      belongs_to :payment_transaction
     end
 
     def channel
