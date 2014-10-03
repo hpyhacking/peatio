@@ -13,7 +13,7 @@
   {{#each withdraw in withdraws}}
   <tr>
     <td>{{withdraw.id}}</td>
-    <td>{{withdraw.created_at}}</td>
+    <td>{{format-date withdraw.created_at}}</td>
     <td>{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}</td>
     <td>{{withdraw.amount}}</td>
     <td>{{withdraw.fee}}</td>

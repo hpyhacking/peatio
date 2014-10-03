@@ -10,7 +10,7 @@
   </tr>
   {{#each deposit in deposits}}
   <tr>
-    <td>{{deposit.created_at}}</td>
+    <td>{{format-date deposit.created_at}}</td>
     <td>{{deposit.txid}} </td>
     <td>{{deposit.amount}}</td>
     <td>{{deposit.confirmations}}</td>
