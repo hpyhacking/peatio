@@ -66,6 +66,7 @@ module Worker
 
       if tx.account && tx.member
         deposit = channel.kls.create!(
+          payment_transaction_id: tx.id,
           blockid: tx.blockid,
           txid: tx.txid,
           amount: tx.amount,

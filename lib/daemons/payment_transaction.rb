@@ -23,7 +23,7 @@ while($running) do
         tx.check!
       end
     rescue
-      puts "Error on PaymentTransaction::Default: #{$!}"
+      puts "Error on PaymentTransaction::Normal: #{$!}"
       puts $!.backtrace.join("\n")
       next
     end
