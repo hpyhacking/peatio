@@ -5,9 +5,10 @@ Peatio.DepositsController = Ember.ArrayController.extend
     Peatio.set('deposits-controller', @)
     $.subscribe('deposit:create', ->
       controller.get('deposits').insertAt(0, controller.get('model')[0].account().deposits().pop())
-      setTimeout(->
-        controller.get('deposits').popObject()
-      , 1000)
+      if controller.get('deposits') > 3
+        setTimeout(->
+          controller.get('deposits').popObject()
+        , 1000)
     )
 
     $.subscribe('payment_address:create', ->

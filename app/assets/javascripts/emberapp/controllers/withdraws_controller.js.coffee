@@ -5,9 +5,10 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     Peatio.set('withdraws-controller', @)
     $.subscribe('withdraw:create', ->
       controller.get('withdraws').insertAt(0, controller.get('model')[0].account().withdraws().pop())
-      setTimeout(->
-        controller.get('withdraws').popObject()
-      , 1000)
+      if controller.get('withdraws').length > 3
+        setTimeout(->
+          controller.get('withdraws').popObject()
+        , 1000)
     )
 
   btc: (->
@@ -30,6 +31,10 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     FundSource.findAllBy('currency', @model[0].currency)
   ).property('@each')
 
+  name: (->
+    current_user.name
+  ).property('')
+
   actions: {
     submitBtcWithdraw: ->
       fund_source = $(event.target).find('#fund_source').val()
@@ -49,5 +54,18 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     withdrawAll: ->
       $('#withdraw_sum').val(@get('balance'))
 
-
+    submitCnyWithdraw: ->
+      fund_source = $(event.target).find('#fund_source').val()
+      sum = $(event.target).find('#withdraw_sum').val()
+      currency = @model[0].currency
+      account = @model[0].account()
+      data = { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source }
+      $('#withdraw_btc_submit').attr('disabled', 'disabled')
+      $.ajax({
+        url: '/withdraws/banks',
+        method: 'post',
+        data: { withdraw: data}
+      }).done(->
+        $('#withdraw_cny_submit').removeAttr('disabled')
+      )
   }
