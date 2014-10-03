@@ -24,7 +24,7 @@ module Worker
 
         tx = PaymentTransaction::Default.create! \
           txid: txid,
-          tx_out: 0,
+          txout: 0,
           address: detail[:address],
           amount: detail[:amount].to_s.to_d,
           confirmations: raw[:confirmations],

@@ -257,10 +257,10 @@ ActiveRecord::Schema.define(version: 20141003040822) do
     t.datetime "dont_at"
     t.integer  "currency"
     t.string   "type",          limit: 60
-    t.integer  "tx_out"
+    t.integer  "txout"
   end
 
-  add_index "payment_transactions", ["txid", "tx_out"], name: "index_payment_transactions_on_txid_and_tx_out", using: :btree
+  add_index "payment_transactions", ["txid", "txout"], name: "index_payment_transactions_on_txid_and_txout", using: :btree
   add_index "payment_transactions", ["type"], name: "index_payment_transactions_on_type", using: :btree
 
   create_table "proofs", force: true do |t|
