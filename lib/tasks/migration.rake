@@ -66,15 +66,15 @@ namespace :migration do
     end
   end
 
-  desc "fill txout"
-  task fill_txout: :environment do
-    PaymentTransaction::Default.find_each do |pt|
+  desc "upgrade to new deposit-transaction schema"
+  task new_deposit_transaction_schema: :environment do
+    PaymentTransaction.where(type: nil).update_all(type: 'PaymentTransaction::Normal')
+    PaymentTransaction.where(type: 'PaymentTransaction::Default').update_all(type: 'PaymentTransaction::Normal')
+
+    PaymentTransaction::Normal.find_each do |pt|
       pt.update_attributes txout: 0
     end
-  end
 
-  desc "fix association between payment transaction and deposit"
-  task fix_deposit_payment_transaction_association: :environment do
     Deposit.find_each do |deposit|
       if deposit.payment_transaction_id.nil?
         pt = PaymentTransaction.find_by_txid deposit.txid
@@ -82,4 +82,5 @@ namespace :migration do
       end
     end
   end
+
 end
