@@ -9,8 +9,4 @@ en:
       subject: '[Peatio] Please Reset Your Password'
       hi: Hi,
       follow_the_link: 'Please follow this link to reset your password within 30 minutes:'
-    reset_two_factor:
-      subject: '[Peatio] Please Reset Your Two Factor'
-      follow_the_link: 'Please follow this link to reset your Two-Step authentication:'
-      note: Two-Step authentication will be disabled after reset. It can be enabled again on My Profile page.
 

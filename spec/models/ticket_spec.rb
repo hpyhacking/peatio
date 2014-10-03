@@ -47,7 +47,7 @@ describe Ticket do
     end
 
     it "should notify the admin" do
-      TicketMailer.expects(:admin_notification).with(ENV['SUPPORTERS_EMAILS'], ticket).returns(mailer)
+      TicketMailer.expects(:admin_notification).with(ENV['SUPPORT_MAIL'], ticket.id).returns(mailer)
     end
   end
 end

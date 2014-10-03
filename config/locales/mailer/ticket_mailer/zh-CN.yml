@@ -1,0 +1,8 @@
+zh-CN:
+  ticket_mailer:
+    admin_notification:
+      subject: "[PEATIO] 用户新建了服务单"
+      admin_notification_content: 用户 %{email} 新建了服务单，详情请查看链接：
+    author_notification:
+      subject: "[PEATIO] 您的服务单提交成功"
+      thanks_for_submit_ticket: 感谢您的反馈。我们会尽快处理，并第一时间告知您相关进展。

@@ -9,8 +9,4 @@ zh-CN:
       subject: '[Peatio] 请重置您的密码'
       hi: 您好
       follow_the_link: 请使用下面的连接，在30分钟之内尝试重置您的登录密码：
-    reset_two_factor:
-      subject: '[Peatio] 请重置您的两步验证'
-      follow_the_link: 请使用下面的连接，在30分钟之内尝试重置您的两步验证：
-      note: 操作成功后两步验证在登录时将被禁用，登录后在账户设置中可再次激活。
 

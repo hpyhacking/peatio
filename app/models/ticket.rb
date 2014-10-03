@@ -33,7 +33,8 @@ class Ticket < ActiveRecord::Base
   private
 
   def send_notification
-    TicketMailer.admin_notification(ENV['SUPPORTERS_EMAILS'], self).deliver
+    TicketMailer.author_notification(self.id).deliver
+    TicketMailer.admin_notification(self.id).deliver
   end
 
 end
