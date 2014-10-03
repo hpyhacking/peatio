@@ -22,6 +22,11 @@ module Worker
       return if detail[:account] != "payment" || detail[:category] != "receive"
 
       ActiveRecord::Base.transaction do
+        unless PaymentAddress.where(currency: channel.currency_obj.id, address: detail[:address]).first
+          Rails.logger.info "Deposit address not found, skip. txid: #{txid}, txout: #{txout}, address: #{detail[:address]}, amount: #{detail[:amount]}"
+          return
+        end
+
         return if PaymentTransaction::Normal.where(txid: txid, txout: txout).first
 
         tx = PaymentTransaction::Normal.create! \
