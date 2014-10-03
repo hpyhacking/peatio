@@ -32,4 +32,5 @@ html lang="en"
       = yield(:footer)
     - else
       = render 'shared/footer'
-    = render 'shared/analysis'
+
+    = render 'shared/analysis' if Rails.env.production?
