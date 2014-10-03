@@ -21,10 +21,29 @@
 </p>
 
 
-<hr class="split">
 
 <h4>第四部</h4>
 <p>
 当您在您的钱包中完成发送付款的操作后,点击刷新,就能在⻚面下⽅历史纪录中查看到您当前的充值状态。
 </p>
 
+<table class="table">
+  <tr>
+    <th class="text-danger">转账识别码</th>
+    <th>时间</th>
+    <th>充值银行</th>
+    <th>充值金额</th>
+    <th>状态</th>
+  </tr>
+  {{#each deposit in deposits}}
+  <tr>
+    <td class="text-danger">{{deposit.id}}</td>
+    <td>{{deposit.created_at}}</td>
+    <td>{{deposit.fund_extra}} @ {{deposit.fund_uid}}</td>
+    <td>{{deposit.amount}}</td>
+    <td>{{deposit.aasm_state}}</td>
+  </tr>
+  {{else}}
+    <tr><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
+  {{/each}}
+</table>
