@@ -31,6 +31,14 @@ Peatio.DepositsController = Ember.ArrayController.extend
     @model[0].currency == "btsx"
   ).property('@each')
 
+  pts: (->
+    @model[0].currency == "pts"
+  ).property('@each')
+
+  dog: (->
+    @model[0].currency == "dog"
+  ).property('@each')
+
   deposits: (->
     @model[0].account().topDeposits()
   ).property('@each')
