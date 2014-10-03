@@ -3,7 +3,7 @@
   通过银行转账汇款的方式，经人工审核后充值人民币到您的交易账户中，流程如下：
   <ul>
     <li>1. 提交以下表单，获得转账识别码；</li>
-    <li>2. 银行转账汇款到云币交易所开户行，务必在备注栏填写识别码；</li>
+    <li class="text-danger">2. 银行转账汇款到云币交易所开户行，务必在备注栏填写识别码；</li>
     <li>3. 人工审核汇款记录，确认后充值到您的云币账户。</li>
   </ul>
   <span class="text-danger">特别提醒：充值银行账户姓名必须与您的实名认证姓名一致。</span>
@@ -53,7 +53,7 @@
 
 <table class="table">
   <tr>
-    <th>转账识别码</th>
+    <th class="text-danger">转账识别码</th>
     <th>时间</th>
     <th>充值银行</th>
     <th>充值金额</th>
@@ -61,7 +61,7 @@
   </tr>
   {{#each deposit in deposits}}
   <tr>
-    <td>{{deposit.id}}</td>
+    <td class="text-danger">{{deposit.id}}</td>
     <td>{{deposit.created_at}}</td>
     <td>{{deposit.fund_extra}} @ {{deposit.fund_uid}}</td>
     <td>{{deposit.amount}}</td>
