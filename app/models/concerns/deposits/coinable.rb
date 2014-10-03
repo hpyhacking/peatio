@@ -4,7 +4,7 @@ module Deposits
 
     included do
       validates_presence_of :payment_transaction_id
-      validates_uniqueness_of :txid
+      validates_uniqueness_of :payment_transaction_id
       belongs_to :payment_transaction
     end
 

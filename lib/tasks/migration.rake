@@ -78,7 +78,7 @@ namespace :migration do
     Deposit.find_each do |deposit|
       if deposit.payment_transaction_id.nil?
         pt = PaymentTransaction.find_by_txid deposit.txid
-        deposit.update_attributes(payment_transaction_id: pt.id) if pt
+        deposit.update_attributes(payment_transaction_id: pt.id, txout: pt.txout) if pt
       end
     end
   end
