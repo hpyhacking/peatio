@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140922131935) do
+ActiveRecord::Schema.define(version: 20141002075102) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -118,7 +118,6 @@ ActiveRecord::Schema.define(version: 20140922131935) do
     t.datetime "done_at"
     t.string   "memo"
     t.string   "type"
-    t.string   "blockid"
   end
 
   create_table "document_translations", force: true do |t|
@@ -144,12 +143,6 @@ ActiveRecord::Schema.define(version: 20140922131935) do
     t.datetime "updated_at"
     t.text     "desc"
     t.text     "keywords"
-  end
-
-  create_table "dogecoin_trades", id: false, force: true do |t|
-    t.datetime "created_at"
-    t.decimal  "volume",     precision: 32, scale: 16
-    t.integer  "member_id"
   end
 
   create_table "fund_sources", force: true do |t|
@@ -222,7 +215,6 @@ ActiveRecord::Schema.define(version: 20140922131935) do
     t.datetime "updated_at"
     t.string   "sn"
     t.string   "source",                                                            null: false
-    t.integer  "category"
     t.string   "ord_type",       limit: 10
     t.decimal  "locked",                    precision: 32, scale: 16
     t.decimal  "origin_locked",             precision: 32, scale: 16
@@ -252,7 +244,7 @@ ActiveRecord::Schema.define(version: 20140922131935) do
   end
 
   create_table "payment_transactions", force: true do |t|
-    t.string   "txid"
+    t.string   "txid",                                               null: false
     t.decimal  "amount",                   precision: 32, scale: 16
     t.integer  "confirmations"
     t.string   "address"
@@ -264,10 +256,10 @@ ActiveRecord::Schema.define(version: 20140922131935) do
     t.datetime "dont_at"
     t.integer  "currency"
     t.string   "type",          limit: 60
-    t.string   "payer"
-    t.string   "blockid"
+    t.integer  "tx_out",                                             null: false
   end
 
+  add_index "payment_transactions", ["txid", "tx_out"], name: "index_payment_transactions_on_txid_and_tx_out", using: :btree
   add_index "payment_transactions", ["type"], name: "index_payment_transactions_on_type", using: :btree
 
   create_table "proofs", force: true do |t|
@@ -396,7 +388,6 @@ ActiveRecord::Schema.define(version: 20140922131935) do
     t.string   "aasm_state"
     t.decimal  "sum",        precision: 32, scale: 16, default: 0.0, null: false
     t.string   "type"
-    t.string   "memo"
   end
 
 end

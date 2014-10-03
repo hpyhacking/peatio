@@ -8,7 +8,9 @@ class PaymentTransaction < ActiveRecord::Base
   STATE = [:unconfirm, :confirming, :confirmed]
   enumerize :aasm_state, in: STATE, scope: true
 
-  validates_uniqueness_of :txid
+  validates_presence_of :txid, :tx_out
+  validates_uniqueness_of :tx_out, scope: :txid
+
   belongs_to :deposit, foreign_key: 'txid', primary_key: 'txid'
   belongs_to :payment_address, foreign_key: 'address', primary_key: 'address'
   has_one :account, through: :payment_address

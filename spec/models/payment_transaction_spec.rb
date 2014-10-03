@@ -27,4 +27,5 @@ describe PaymentTransaction do
     expect(tx.confirmed?).to be_true
     expect(tx.check).to be_true
   end
+
 end
