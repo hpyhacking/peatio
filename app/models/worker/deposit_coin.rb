@@ -12,6 +12,11 @@ module Worker
       channel = DepositChannel.find_by_key(channel_key)
       raw     = channel.currency_obj.api.gettransaction(txid)
       detail  = raw[:details].first.symbolize_keys!
+
+      deposit!(channel, txid, raw, detail)
+    end
+
+    def deposit!(channel, txid, raw, detail)
       return if detail[:account] != "payment" || detail[:category] != "receive"
 
       ActiveRecord::Base.transaction do
@@ -19,6 +24,7 @@ module Worker
 
         tx = PaymentTransaction::Default.create! \
           txid: txid,
+          tx_out: 0,
           address: detail[:address],
           amount: detail[:amount].to_s.to_d,
           confirmations: raw[:confirmations],
@@ -36,5 +42,6 @@ module Worker
         deposit.submit!
       end
     end
+
   end
 end
