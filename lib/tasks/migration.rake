@@ -65,4 +65,11 @@ namespace :migration do
       end
     end
   end
+
+  desc "fill tx_out"
+  task fill_tx_out: :environment do
+    PaymentTransaction::Default.find_each do |pt|
+      pt.update_attributes tx_out: 0
+    end
+  end
 end
