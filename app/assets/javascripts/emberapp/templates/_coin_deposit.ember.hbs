@@ -1,0 +1,22 @@
+<br>
+<h2 class="panel-title">历史记录</h2>
+<table class="table">
+  <tr>
+    <th>时间</th>
+    <th>交易哈希</th>
+    <th>充值金额</th>
+    <th>确认数</th>
+    <th>状态</th>
+  </tr>
+  {{#each deposit in deposits}}
+  <tr>
+    <td>{{deposit.created_at}}</td>
+    <td>{{deposit.txid}} </td>
+    <td>{{deposit.amount}}</td>
+    <td>{{deposit.confirmations}}</td>
+    <td>{{deposit.aasm_state}}</td>
+  </tr>
+  {{else}}
+    <tr><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
+  {{/each}}
+</table>
