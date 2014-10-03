@@ -72,4 +72,14 @@ namespace :migration do
       pt.update_attributes tx_out: 0
     end
   end
+
+  desc "fix association between payment transaction and deposit"
+  task fix_deposit_payment_transaction_association: :environment do
+    Deposit.find_each do |deposit|
+      if deposit.payment_transaction_id.nil?
+        pt = PaymentTransaction.find_by_txid deposit.txid
+        deposit.update_attributes(payment_transaction_id: pt.id) if pt
+      end
+    end
+  end
 end
