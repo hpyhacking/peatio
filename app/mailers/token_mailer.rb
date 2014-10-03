@@ -5,11 +5,6 @@ class TokenMailer < BaseMailer
     mail :to => email
   end
 
-  def reset_two_factor(email, token)
-    @token_url = edit_reset_two_factor_url(token)
-    mail :to => email
-  end
-
   def activation(email, token)
     @token_url = edit_activation_url token
     mail :to => email
