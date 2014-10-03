@@ -1,7 +1,9 @@
 <% content_for :scripts do %>
   <script type="text/javascript" charset="utf-8">
     $(function(){
-      Peatio.__container__.lookup('router:main').transitionTo("/accounts/<%= current_user.accounts.first.currency %>/deposits");
+      if(window.location.hash === "") {
+        Peatio.__container__.lookup('router:main').transitionTo("/accounts/<%= current_user.accounts.first.currency %>/deposits");
+      }
     });
     $(window).load(function(){
       $.ajax({
