@@ -12,4 +12,7 @@ en:
     reset_password_done:
       subject: "[PEATIO] Your password changed"
       successful: Your password has been changed successfully.
+    phone_number_verified:
+      subject: "[PEATIO] Your phone number verified"
+      verified: "Your phone number verified: %{phone_number}"
 

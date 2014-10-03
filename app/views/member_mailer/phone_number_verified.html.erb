@@ -1,0 +1,7 @@
+<p>
+<%= t(".verified", phone_number: @member.phone_number) %>
+</p>
+
+<p>
+<%= raw t("mailer.please_contact", contact_mail: ENV['SUPPORT_MAIL']) %>
+</p>
