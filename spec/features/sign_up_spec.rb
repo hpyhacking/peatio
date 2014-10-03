@@ -22,7 +22,8 @@ describe 'Sign up', js: true do
     expect(mail.to).to eq([identity.email])
     expect(mail.subject).to eq(I18n.t 'token_mailer.activation.subject')
 
-    mail.body.to_s.match(/http:\/\/peatio\.dev(.*)/)[1]
+    code = ActionView::Base.full_sanitizer.sanitize(mail.body.to_s).scan(/activations\/(.*)\/edit/).first.first
+    "http://peatio.dev/activations/#{code}/edit"
   end
 
   it 'allows a user to sign up and activate the account' do
