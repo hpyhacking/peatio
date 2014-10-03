@@ -52,6 +52,7 @@ module Verify
           current_user.two_factors.by_type(:sms).active!
 
           mixpanel_track :phone_number_verified, current_user, @token
+          MemberMailer.phone_number_verified(current_user.id).deliver
 
           text = I18n.t('verify.sms_tokens.new.notice.verify_code_success')
           flash[:notice] = text
