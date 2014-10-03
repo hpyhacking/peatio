@@ -10,7 +10,7 @@ class PaymentTransaction < ActiveRecord::Base
 
   validates_presence_of :txid
 
-  belongs_to :deposit, foreign_key: 'txid', primary_key: 'txid'
+  has_one :deposit
   belongs_to :payment_address, foreign_key: 'address', primary_key: 'address'
   has_one :account, through: :payment_address
   has_one :member, through: :account

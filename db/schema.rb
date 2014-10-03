@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141002075102) do
+ActiveRecord::Schema.define(version: 20141003040822) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -106,8 +106,8 @@ ActiveRecord::Schema.define(version: 20141002075102) do
     t.integer  "account_id"
     t.integer  "member_id"
     t.integer  "currency"
-    t.decimal  "amount",     precision: 32, scale: 16
-    t.decimal  "fee",        precision: 32, scale: 16
+    t.decimal  "amount",                 precision: 32, scale: 16
+    t.decimal  "fee",                    precision: 32, scale: 16
     t.string   "fund_uid"
     t.string   "fund_extra"
     t.string   "txid"
@@ -118,6 +118,7 @@ ActiveRecord::Schema.define(version: 20141002075102) do
     t.datetime "done_at"
     t.string   "memo"
     t.string   "type"
+    t.integer  "payment_transaction_id"
   end
 
   create_table "document_translations", force: true do |t|
