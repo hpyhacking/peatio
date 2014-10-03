@@ -1,6 +1,12 @@
 zh-CN:
   member_mailer:
     notify_signin:
-      subject: 您刚刚成功登录了貔貅交易所
+      subject: '[PEATIO] 您刚刚成功登录了貔貅交易所'
       just_signed_in: 您刚刚成功登录了貔貅交易所。
-      please_contact: 如果此次登录不是您本人操作，请马上联系我们。
+    google_auth_activated:
+      subject: "[PEATIO] 绑定 Google Authenticator"
+      google_auth_activated: 您已绑定 Google Authenticator。
+    google_auth_deactivated:
+      subject: "[PEATIO] 重置 Google Authenticator"
+      google_auth_deactivated: 您已重置 Google Authenticator。
+
