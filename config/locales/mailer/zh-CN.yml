@@ -1,4 +1,5 @@
 zh-CN:
   mailer:
     dear_user: "您好,"
-    signature: "此致\n貔貅团队"
+    signature: "貔貅团队"
+    footer: '此邮件由系统自动发出，请勿直接回复。 有问题请<a href="mailto:%{contact_mail}">联系我们</a>。'
