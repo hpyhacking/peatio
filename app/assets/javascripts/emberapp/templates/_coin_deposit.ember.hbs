@@ -14,7 +14,7 @@
     <td>{{deposit.txid}} </td>
     <td>{{deposit.amount}}</td>
     <td>{{deposit.confirmations}}</td>
-    <td>{{deposit.aasm_state}}</td>
+    <td>{{state-name deposit.aasm_state}}</td>
   </tr>
   {{else}}
     <tr><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>

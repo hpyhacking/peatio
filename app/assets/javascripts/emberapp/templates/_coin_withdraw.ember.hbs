@@ -17,7 +17,7 @@
     <td>{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}</td>
     <td>{{withdraw.amount}}</td>
     <td>{{withdraw.fee}}</td>
-    <td>{{withdraw.aasm_state}}</td>
+    <td>{{state-name withdraw.aasm_state}}</td>
   </tr>
   {{ else }}
     <tr><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
