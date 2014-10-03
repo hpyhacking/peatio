@@ -40,6 +40,23 @@
       padding: 10px 0 0 20px;
     }
   }
+  .outlined-label {
+    color: #999;
+    font-size: 12px;
+    border: 1px solid #999;
+    padding: 1px 8px;
+    border-radius: 4px;
+    &.new {
+      color: $brand-color;
+      border-color: $brand-color;
+    }
+  }
+  .table tr.new-row {
+    .outlined-label {
+      color: $brand-color;
+      border-color: $brand-color;
+    }
+  }
 }
 
 .currency-item {

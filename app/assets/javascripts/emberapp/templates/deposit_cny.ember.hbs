@@ -3,7 +3,7 @@
   通过银行转账汇款的方式，经人工审核后充值人民币到您的交易账户中，流程如下：
   <ul>
     <li>1. 提交以下表单，获得转账识别码；</li>
-    <li class="text-danger">2. 银行转账汇款到云币交易所开户行，务必在备注栏填写识别码；</li>
+    <li>2. 银行转账汇款到云币交易所开户行，务必在备注栏填写识别码；</li>
     <li>3. 人工审核汇款记录，确认后充值到您的云币账户。</li>
   </ul>
   <span class="text-danger">特别提醒：充值银行账户姓名必须与您的实名认证姓名一致。</span>
@@ -20,7 +20,7 @@
     </tr>
     <tr>
       <td>
-        <label class="select required control-label" for="deposit_fund_source">充值账号 (<a href="/cny_fund_sources">添加</a>|<a href="/cny_fund_sources">管理</a>)</label>
+        <label class="select required control-label" for="deposit_fund_source">充值账号 (<a href="/cny_fund_sources/new">添加</a>|<a href="/cny_fund_sources">管理</a>)</label>
         {{view Ember.Select
           content=fsources
           optionValuePath="content.id"
@@ -53,15 +53,16 @@
 <h2 class="panel-title">历史记录</h2>
 <table class="table">
   <tr>
-    <th class="text-danger">转账识别码</th>
+    <th>转账识别码</th>
     <th>时间</th>
     <th>充值银行</th>
     <th>充值金额</th>
     <th>状态</th>
   </tr>
   {{#each deposit in deposits}}
-  <tr>
-    <td class="text-danger">{{deposit.id}}</td>
+  {{!-- add .new-row class to tr if the current one is new created --}}
+  <tr class="new-row">
+    <td><span class="outlined-label">{{deposit.id}}</span></td>
     <td>{{deposit.created_at}}</td>
     <td>{{deposit.fund_extra}} @ {{deposit.fund_uid}}</td>
     <td>{{deposit.amount}}</td>
