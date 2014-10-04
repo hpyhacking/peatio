@@ -3,6 +3,8 @@ module Private
     skip_before_action :auth_member!, only: [:show]
     after_action :set_default_market
 
+    layout 'market'
+
     def show
       @bid = params[:bid]
       @ask = params[:ask]
