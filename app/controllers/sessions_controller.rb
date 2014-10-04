@@ -24,9 +24,11 @@ class SessionsController < ApplicationController
       else
         clear_failed_logins
         reset_session rescue nil
-        session[:temp_member_id] = @member.id
+        session[:member_id] = @member.id
         mixpanel_track :signin, @member
-        redirect_to new_verify_two_factor_path
+        save_session_key current_user.id, cookies['_peatio_session']
+        MemberMailer.notify_signin(current_user.id).deliver if @member.activated?
+        redirect_to settings_path
       end
     else
       increase_failed_logins
