@@ -1,18 +1,16 @@
 $grid-gutter-width: 10px;
 $grid-columns: 24;
 
-$main-color: rgba(83,102,120, 1.0);
-$main-dark-color: darken($main-color, 10%);
 $body-bg: rgba(242, 242, 242, 1.0);
-$btn-primary-bg: $main-dark-color;
+
+$brand-primary: #364450;
 $ignore-color: rgba(170, 168, 168 , 1.0);
 $split-color: #ccc;
 
-$navbar-default-bg: $main-dark-color;
+$navbar-default-bg: $brand-primary;
 $navbar-default-link-color: #DCDCDC;
 $navbar-default-link-hover-color: #EFEFEF;
 $navbar-default-link-active-color: #EFEFEF;
-$navbar-default-link-hover-bg: darken($navbar-default-bg, 10%);
 
 $btn-default-bg: #428bca;
 $btn-default-color: #fff;

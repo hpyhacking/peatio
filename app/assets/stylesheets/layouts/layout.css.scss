@@ -29,7 +29,7 @@ footer {
   box-sizing: 'border-box';
   padding-top: 20px;
   border-top: 1px solid #DDD;
-  background-color: $main-color;
+  background-color: $brand-primary;
   color: #ddd;
   a:link, a:visited {
     color: #bbb;
@@ -150,7 +150,7 @@ header {
     }
 
     span.account-name {
-      color: $main-color;
+      color: $brand-primary;
       margin-top: -24px;
       padding-right: 10px;
       display: block;
@@ -160,7 +160,7 @@ header {
     }
 
     span.balance, span.locked {
-      color: $main-color;
+      color: $brand-primary;
     }
 
     span.total {
