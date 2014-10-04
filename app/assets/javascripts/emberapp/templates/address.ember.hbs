@@ -1,0 +1,9 @@
+<h2>地址</h2>
+<div class="input-group col-sm-8">
+  <div class="input-group-addon">
+    <span class="translation_missing">地址</span></div><div class="form-control form-control-static" id="payment_address">{{unbound paymentAddress}}</div><div class="input-group-addon">
+      <i class="fa fa-copy" data-clipboard-text="{{unbound paymentAddress}}"></i>
+   </div>
+   <div class="input-group-addon"><span class="countdown hint" style="display:none;">...</span><a class="generate-link" data-method="post" data-remote="true" href="/deposits/{{unbound deposit_channel_key}}s/gen_address" onclick="$(&#39;span.countdown&#39;).show();$(this).hide();" rel="nofollow">生成新地址</a>
+   </div>
+</div>

@@ -56,6 +56,10 @@ Peatio.DepositsController = Ember.ArrayController.extend
     current_user.name
   ).property()
 
+  deposit_channel_key: (->
+    @model[0].key
+  ).property('@each')
+
 
   actions: {
     submitCnyDeposit: ->

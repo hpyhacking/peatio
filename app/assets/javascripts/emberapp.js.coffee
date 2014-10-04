@@ -19,6 +19,7 @@
 #
 #= require bignumber
 #= require moment
+#= require ZeroClipboard
 #= require underscore
 #= require flight.min
 #= require highstock

@@ -12,6 +12,9 @@ class Account extends PeatioModel.Model
   withdraw_channels: ->
     WithdrawChannel.findAllBy 'currency', @currency
 
+  deposit_channel: ->
+    DepositChannel.findBy 'currency', @currency
+
   deposits: ->
     Deposit.findAllBy 'account_id', @id
 
