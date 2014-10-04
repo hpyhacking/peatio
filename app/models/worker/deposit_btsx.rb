@@ -47,7 +47,7 @@ module Worker
           Rails.logger.info "Associated PaymentTransaction found, skip."
         else
           d = deposit(block, txid, payer, address, amount, receive_at, @channel)
-          Rails.logger.info "Deposit##{d.id} created."
+          Rails.logger.info "Deposit##{d.id} created." if d
         end
       end
     end
