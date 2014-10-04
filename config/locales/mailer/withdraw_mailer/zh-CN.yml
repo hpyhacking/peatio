@@ -1,17 +1,24 @@
 zh-CN:
   withdraw_mailer:
+    note: "注：人民币提现由云币网客服人工处理，处理时间为每天9:00—18:00，客服妹纸正在为您提现，请您耐心等待~"
+    offline_note: "注：人民币提现由云币网客服人工处理，处理时间为每天9:00—18:00，现在已经暂停受理了喔。上午9点，客服妹纸将准时为您提现，请您耐心等待~"
+    withdraw_account: 提现帐号
+    withdraw_amount: 提现金额
+    withdraw_time: 提现时间
+    txid: 交易HASH
+
     submitted:
-      subject: "[貔貅]你的提现状态更新"
-      content: "您的%{currency}提现请求已经被成功提交，我们会尽快处理您的提现请求。谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。"
+      subject: "[云币网] 你的提现状态更新"
+      content: "您的云币网账户%{currency}提现申请已经提交。详细信息："
     accepted:
-      subject: "[貔貅]你的提现状态更新"
-      content: "您的%{currency}提现请求已经审核通过，我们会尽快处理您的提现请求。谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。"
+      subject: "[云币网] 你的提现状态更新"
+      content: "您的云币网账户%{currency}提现申请已经受理。详细信息："
     processing:
-      subject: "[貔貅]你的提现状态更新"
-      content: "您的%{currency}提现请求正在处理中，谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。"
+      subject: "[云币网] 你的提现状态更新"
+      content: "您的云币网账户%{currency}提现操作正在处理中。详细信息："
     done:
-      subject: "[貔貅]你的提现状态更新"
-      content: "您的%{currency}提现请求已经处理完毕，请查询您的账户。如果您有任何问题，请及时与我们联系。"
+      subject: "[云币网] 你的提现状态更新"
+      content: "您的云币网账户%{currency}提现操作已成功，请查收。。详细信息："
     withdraw_state:
-      subject: "[貔貅]你的提现状态更新"
+      subject: "[云币网] 你的提现状态更新"
       your_state: "你的提现状态："

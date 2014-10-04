@@ -2,6 +2,27 @@
 <%= t('.content', currency: @withdraw.currency_text) %>
 </p>
 
+<table>
+  <tr>
+    <td><%= t('withdraw_mailer.withdraw_account') %></td>
+    <td><%= [@withdraw.fund_extra_text, '@', @withdraw.fund_uid].join(' ') %></td>
+  </tr>
+  <% if @withdraw.coin? %>
+  <tr>
+    <td><%= t('withdraw_mailer.txid') %></td>
+    <td><%= link_to @withdraw.blockchain_url, @withdraw.blockchain_url %></td>
+  </tr>
+  <% end %>
+  <tr>
+    <td><%= t('withdraw_mailer.withdraw_amount') %></td>
+    <td><%= [@withdraw.amount, @withdraw.currency_text].join(' ') %></td>
+  </tr>
+  <tr>
+    <td><%= t('withdraw_mailer.withdraw_time') %></td>
+    <td><%= @withdraw.updated_at %></td>
+  </tr>
+</table>
+
 <p>
 <%= raw t("mailer.please_contact", contact_mail: ENV['SUPPORT_MAIL']) %>
 </p>
