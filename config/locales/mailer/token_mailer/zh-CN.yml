@@ -1,12 +1,12 @@
 zh-CN:
   token_mailer:
     activation:
-      subject: '[Peatio] 帐号激活'
-      click_to_verify: 感谢您注册 Peatio，赶快点击下面的链接验证你的E-mail吧：
-      unable_to_click: 如果链接无法点击，请完整拷贝到浏览器地址栏里直接访问。
-      link_expire: 链接30分钟之内有效。
+      subject: '[云币网] 用户帐号激活'
+      click_to_verify: 感谢您使用云币网。请点击下面连接完成帐号激活。
+      unable_to_click: "若链接无法点击，请复制链接至浏览器地址栏中直接访问:"
+      link_expire: 30分钟之后链接失效，请登录重置。
     reset_password:
-      subject: '[Peatio] 请重置您的密码'
-      hi: 您好
-      follow_the_link: 请使用下面的连接，在30分钟之内尝试重置您的登录密码：
+      subject: '[云币网] 请重置您的密码'
+      follow_the_link: 云币网欢迎您回来~请点击下面的连接完成密码重置。
+      unable_to_click: "若链接无法点击，请复制链接至浏览器地址栏中直接访问:"
 
