@@ -60,8 +60,7 @@
     <th>状态</th>
   </tr>
   {{#each deposit in deposits}}
-  {{!-- add .new-row class to tr if the current one is new created --}}
-  <tr class="new-row">
+  <tr class="deposit_item">
     <td><span class="outlined-label">{{deposit.id}}</span></td>
     <td>{{format-date deposit.created_at}}</td>
     <td>{{deposit.fund_extra}} @ {{deposit.fund_uid}}</td>
