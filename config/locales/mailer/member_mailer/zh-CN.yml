@@ -1,18 +1,18 @@
 zh-CN:
   member_mailer:
     notify_signin:
-      subject: '[PEATIO] 您刚刚成功登录了貔貅交易所'
-      just_signed_in: 您刚刚成功登录了貔貅交易所。
+      subject: '[云币网] 您刚刚登录了云币网'
+      just_signed_in: 您刚刚登录了云币网。
     google_auth_activated:
-      subject: "[PEATIO] 绑定 Google Authenticator"
+      subject: "[云币网] 绑定 Google Authenticator"
       google_auth_activated: 您已绑定 Google Authenticator。
     google_auth_deactivated:
-      subject: "[PEATIO] 重置 Google Authenticator"
+      subject: "[云币网] 重置 Google Authenticator"
       google_auth_deactivated: 您已重置 Google Authenticator。
     reset_password_done:
-      subject: "[PEATIO] 密码修改成功"
+      subject: "[云币网] 密码修改成功"
       successful: "您已成功修改密码。请妥善保管~"
     phone_number_verified:
-      subject: "[PEATIO] 您已成功绑定手机"
+      subject: "[云币网] 您已成功绑定手机"
       verified: "您已成功绑定手机，号码为：%{phone_number}。"
 
