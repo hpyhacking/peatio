@@ -10,6 +10,7 @@ Ember.Handlebars.helper 'state-name', (state) ->
     when 'rejected'   then '已驳回'
     when 'checked'    then '充值成功'
     when 'warning'    then '异常'
+    when 'suspect'    then '异常'
 
 
 Ember.Handlebars.helper 'account-class', (currency)->

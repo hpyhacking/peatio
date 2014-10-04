@@ -180,7 +180,9 @@ class Member < ActiveRecord::Base
 
   def as_json(options = {})
     super.merge({
-      "name" => self.name
+      "name" => self.name,
+      "app_activated" => self.two_factors.by_type(:app).activated?,
+      "sms_activated" => self.two_factors.by_type(:sms).activated?
     })
   end
 

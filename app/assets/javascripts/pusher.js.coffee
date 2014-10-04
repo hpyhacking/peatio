@@ -66,7 +66,7 @@ class DepositHandler extends EventHandler
 
   create: (attributes) =>
     Deposit.create(attributes)
-    $.publish('deposit:create')
+    $.publish 'deposit:create'
 
   update: (id, attributes) =>
     Deposit.update(id, attributes)
@@ -83,7 +83,8 @@ class WithdrawHandler extends EventHandler
     $.publish('withdraw:create')
 
   update: (id, attributes) =>
-    Withdraw.update(id, attributes)
+    Withdraw.findBy({id: id}).updateAttributes(attributes)
+    $.publish 'withdraw:update', {id: id, attributes: attributes}
 
   destroy: (id) =>
     Withdraw.destroy(id)

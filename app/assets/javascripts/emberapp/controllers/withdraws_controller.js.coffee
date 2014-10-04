@@ -4,7 +4,12 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     @._super()
     Peatio.set('withdraws-controller', @)
     $.subscribe('withdraw:create', ->
-      controller.get('withdraws').insertAt(0, controller.get('model')[0].account().withdraws().pop())
+      record = controller.get('model')[0].account().withdraws().pop()
+      controller.get('withdraws').insertAt(0, record)
+      $.subscribe('withdraw:update', (event, data)->
+        # TODO: Refactor, make it work for every attributes!
+        record.set('aasm_state', data.attributes.aasm_state)
+      )
       if controller.get('withdraws').length > 3
         setTimeout(->
           controller.get('withdraws').popObject()
@@ -47,18 +52,37 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     current_user.name
   ).property('')
 
+  app_activated: (->
+    current_user.app_activated
+  ).property('')
+
+  sms_activated: (->
+    current_user.sms_activated
+  ).property('')
+
+  app_and_sms_activated: (->
+    current_user.app_activated and current_user.sms_activated
+  ).property('')
+
   actions: {
     submitBtcWithdraw: ->
       fund_source = $(event.target).find('#fund_source').val()
       sum = $(event.target).find('#withdraw_sum').val()
       currency = @model[0].currency
       account = @model[0].account()
-      data = { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source }
+      data = { withdraw: { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source }}
+
+      if current_user.app_activated or current_user.sms_activated
+        type = $('.two_factor_auth_type').val()
+        otp = $("#two_factor_otp").val()
+        data['two_factor'] = { type: type, otp: otp }
+
+
       $('#withdraw_btc_submit').attr('disabled', 'disabled')
       $.ajax({
         url: '/withdraws/satoshis',
         method: 'post',
-        data: { withdraw: data}
+        data: data
       }).done(->
         $('#withdraw_btc_submit').removeAttr('disabled')
       )
@@ -71,12 +95,18 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
       sum = $(event.target).find('#withdraw_sum').val()
       currency = @model[0].currency
       account = @model[0].account()
-      data = { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source }
+      data = { withdraw: { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source }}
+
+      if current_user.app_activated or current_user.sms_activated
+        type = $('.two_factor_auth_type').val()
+        otp = $("#two_factor_otp").val()
+        data['two_factor'] = { type: type, otp: otp }
+
       $('#withdraw_btc_submit').attr('disabled', 'disabled')
       $.ajax({
         url: '/withdraws/banks',
         method: 'post',
-        data: { withdraw: data}
+        data: data
       }).done(->
         $('#withdraw_cny_submit').removeAttr('disabled')
       )

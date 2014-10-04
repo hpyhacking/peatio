@@ -54,6 +54,8 @@
       <span class="col-sm-6 help-block"><a target="_balance" href="/documents/price">资费说明</a></span>
     </div>
 
+    {{ view 'two_factor_auth'}}
+
     <div class="form-group">
       <div class="form-submit col-sm-18 col-sm-offset-6">
         <input  id="withdraw_cny_submit" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="提交">
@@ -77,11 +79,11 @@
     {{#each withdraw in withdraws}}
     <tr>
       <td>{{withdraw.id}}</td>
-      <td>{{withdraw.created_at}}</td>
+      <td>{{format-date withdraw.created_at}}</td>
       <td>{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}</td>
       <td>{{withdraw.amount}}</td>
       <td>{{withdraw.fee}}</td>
-      <td>{{withdraw.aasm_state}}</td>
+      <td>{{state-name withdraw.aasm_state}}</td>
     </tr>
     {{else}}
     <tr><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>

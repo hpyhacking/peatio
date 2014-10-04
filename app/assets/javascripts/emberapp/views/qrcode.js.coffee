@@ -11,5 +11,3 @@ Peatio.QrcodeView = Ember.View.extend({
         width:  $el.data('width')
         height: $el.data('height')
 })
-
-
