@@ -24,7 +24,7 @@ module Verify
       let(:attrs) {
         {
           format: :js,
-          sms_token: {phone_number: '123-1234-1234'},
+          token_sms_token: {phone_number: '123-1234-1234'},
           commit: 'send_code'
         }
       }
@@ -40,7 +40,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {phone_number: ''},
+            token_sms_token: {phone_number: ''},
             commit: 'send_code'
           }
         }
@@ -56,7 +56,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {phone_number: 'wrong number'},
+            token_sms_token: {phone_number: 'wrong number'},
             commit: 'send_code'
           }
         }
@@ -76,7 +76,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {phone_number: '123.1234.1234'},
+            token_sms_token: {phone_number: '123.1234.1234'},
             commit: 'send_code'
           }
         }
@@ -104,7 +104,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {verify_code: ''}
+            token_sms_token: {verify_code: ''}
           }
         }
 
@@ -121,7 +121,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {verify_code: 'foobar'}
+            token_sms_token: {verify_code: 'foobar'}
           }
         }
 
@@ -142,7 +142,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {verify_code: token.token}
+            token_sms_token: {verify_code: token.token}
           }
         }
 
