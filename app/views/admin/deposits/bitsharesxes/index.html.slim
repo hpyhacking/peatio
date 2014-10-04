@@ -2,7 +2,7 @@
   .panel-heading: span = t('.pending-payments')
   = table_for(@pending_payments, class: 'table table-condensed table-hover', model: ::PaymentTransaction::Btsx) do |pt|
     - pt.column :txid do |x|
-      a href='#{x.currency_obj.blockchain_url(x.confirmations.to_s)}' target='_blank'
+      a href='#{x.currency_obj.blockchain_url(x.blockid)}' target='_blank'
         code.text-info = x.txid
     - pt.column :created_at
     - pt.column :currency_text
