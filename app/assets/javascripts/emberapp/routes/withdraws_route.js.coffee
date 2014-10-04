@@ -1,3 +1,5 @@
 Peatio.WithdrawsRoute = Ember.Route.extend
   model: (params) ->
-    @modelFor('account').withdraw_channels()
+    account = @modelFor('account')
+    window.current_account_action = "#{account.currency}:withdraw"
+    account.withdraw_channels()

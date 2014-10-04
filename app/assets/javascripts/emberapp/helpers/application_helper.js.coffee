@@ -11,3 +11,14 @@ Ember.Handlebars.helper 'state-name', (state) ->
     when 'checked'    then '充值成功'
     when 'warning'    then '异常'
 
+
+Ember.Handlebars.helper 'account-class', (currency)->
+  current_account = window.current_account_action.split(':')[0]
+  current_action = window.current_account_action.split(':')[1]
+
+  style = "currency-item table"
+
+  if currency == current_account
+    style = "#{style} active #{current_action}-now"
+
+  style

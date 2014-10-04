@@ -1,3 +1,5 @@
 Peatio.DepositsRoute = Ember.Route.extend
   model: (params) ->
-    @modelFor('account').deposit_channels()
+    account = @modelFor('account')
+    window.current_account_action = "#{account.currency}:deposit"
+    account.deposit_channels()
