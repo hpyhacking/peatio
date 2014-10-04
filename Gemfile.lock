@@ -77,6 +77,9 @@ GEM
       sass (~> 3.2)
     bootstrap-wysihtml5-rails (0.3.1.23)
       railties (>= 3.0)
+    bourbon (3.2.3)
+      sass (~> 3.2)
+      thor
     browser (0.3.2)
     builder (3.1.4)
     bunny (1.2.1)
@@ -434,6 +437,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass (~> 3.2.0.2)
   bootstrap-wysihtml5-rails
+  bourbon
   browser
   bunny (~> 1.2.1)
   byebug
