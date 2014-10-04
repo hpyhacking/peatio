@@ -23,8 +23,8 @@
       background-color: #eee;
     }
 
-    tr.bid { td.kind, td.price, td.amount, td.volume { color: $up-dark-color; } }
-    tr.ask { td.kind, td.price, td.amount, td.volume { color: $down-dark-color; } }
+    tr.bid { td.kind, td.price, td.amount, td.volume { color: $brand-up-dark; } }
+    tr.ask { td.kind, td.price, td.amount, td.volume { color: $brand-down-dark; } }
 
     td {
       border: none;
@@ -62,7 +62,7 @@
 
     .panel .panel-body {
       padding-right: 15px;
-      border-right: 1px solid $split-color;
+      border-right: 1px solid $gray-light;
     }
 
     .table.asks { margin-bottom: 0px; }
@@ -91,7 +91,7 @@
 
     hr {
       margin-top: 18px;
-      border-top-color: $split-color;
+      border-top-color: $gray-light;
     }
 
     .hint-price-disadvantage, .hint-positions  {
@@ -116,11 +116,11 @@
       padding-left: 0px;
     }
 
-    button { border-color: $ignore-color; }
+    button { border-color: $gray-light; }
 
     #bid_panel button {
-      background-color: $up-color;
-      &:hover { background-color: opacify($up-color, 1.0); }
+      background-color: $brand-up;
+      &:hover { background-color: opacify($brand-up, 1.0); }
     }
 
     #bid_panel {
@@ -132,8 +132,8 @@
     }
 
     #ask_panel button {
-      background-color: $down-color;
-      &:hover { background-color: opacify($down-color, 1.0); }
+      background-color: $brand-down;
+      &:hover { background-color: opacify($brand-down, 1.0); }
     }
 
     span.input-group-addon { min-width: 55px; width: 55px; }
@@ -158,8 +158,8 @@
   // depths
   .depths {
     table {
-      td.ask { color: $up-color; }
-      td.bid { color: $down-color; }
+      td.ask { color: $brand-up; }
+      td.bid { color: $brand-down; }
     }
   }
 

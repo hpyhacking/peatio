@@ -131,18 +131,18 @@ header {
     .account-wrap {
       width: 360px;
       padding: 8px;
-      border-bottom: 1px solid $ignore-color; 
+      border-bottom: 1px solid $gray-light; 
     }
 
     hr {
       margin-top: 2px;
       margin-bottom: 0px;
-      border-color: $ignore-color;
+      border-color: $gray-light;
       border-style: dashed;
     }
 
     i.fa, span.total-title {
-      color: $ignore-color;
+      color: $gray-light;
     }
 
     i.fa.fa-plus {
@@ -179,26 +179,26 @@ header {
 
 // ==============================================================
 .up-color {
-  background-color: $up-color;
+  background-color: $brand-up;
 }
 .down-color {
-  background-color: $down-color;
+  background-color: $brand-down;
 }
 
 .up-font-color {
-  color: $up-color;
+  color: $brand-up;
 }
 .down-font-color {
-  color: $down-color;
+  color: $brand-down;
 }
 
 .up-font-dark-color {
-  color: $up-dark-color;
-  g { color: $up-dark-color; }
+  color: $brand-up-dark;
+  g { color: $brand-up-dark; }
 }
 .down-font-dark-color {
-  color: $down-dark-color;
-  g { color: $down-dark-color; }
+  color: $brand-down-dark;
+  g { color: $brand-down-dark; }
 }
 
 //#========================================
@@ -254,7 +254,7 @@ header {
   dt { 
     width: 38px; 
     cursor: pointer;
-    color: $ignore-color; 
+    color: $gray-light; 
   }
 
   dd {
@@ -272,10 +272,10 @@ header {
 
 .number-label {
   font-size: 14px;
-  color: $ignore-color;
+  color: $gray-light;
   margin-right: 5px;
 }
 
 .text-ignore {
-  color: $ignore-color;
+  color: $gray-light;
 }
