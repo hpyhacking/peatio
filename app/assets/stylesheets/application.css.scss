@@ -1,13 +1,15 @@
-@import 'vars/peatio';
+@import 'vars/basic';
 @import 'bootstrap';
 @import 'bootstrap-switch.min';
+@import "font-awesome-sprockets";
 @import 'font-awesome';
 
-@import 'basic';
-@import 'layout';
-@import 'welcome';
-@import 'market';
-@import 'market_chart';
-@import 'assets';
-@import 'id_document';
-@import 'history';
+@import 'layouts/basic';
+@import 'layouts/layout';
+
+@import 'features/welcome';
+@import 'features/market';
+@import 'features/market_chart';
+@import 'features/assets';
+@import 'features/id_document';
+@import 'features/history';
