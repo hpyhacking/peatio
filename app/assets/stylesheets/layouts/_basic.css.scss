@@ -1,3 +1,159 @@
+/*basic extend*/
+g { color: $gray-light; }
+
+.container {
+  width: 1170px !important;
+}
+
+/*bootstrap mix*/
+/*bootstrap extend*/
+/*fontawesome extend*/
+
+* + i[class^=fa] { margin-left: 4px; }
+i[class^=fa] + * { margin-left: 4px; }
+
+.text-ignore {
+  color: $gray-light;
+}
+
+strong + span {
+  margin-left: 5px;
+}
+
+span.label + span.label {
+  margin-left: 8px;
+}
+
+.form-submit, .form-group {
+  input[type=submit] + a, a + a {
+    margin-right: 20px;
+  }
+}
+
+hr.split {
+  border-top-color: #DDD;
+  margin-left: 10px;
+  margin-right: 54px;
+}
+
+.caret {
+  margin-left: 10px;
+}
+
+/*simple_form extend*/
+
+/* webkit */
+
+/* basic */
+[data-title] {
+  &:before {
+    .text-ignore {
+      font-size: 16px;
+      display: block;
+      content: attr(data-title);
+    }
+  }
+}
+
+.col{
+  margin-bottom: -99999px;
+  padding-bottom: 99999px;
+}
+
+.col-wrap {
+  overflow: hidden;
+}
+
+.datagrid-empty {
+  .text-ignore {
+    font-size: 16px;
+    text-align: center;
+  }
+}
+
+span.label {
+  padding-top: 5px;
+}
+
+abbr {
+  border-bottom: 0px !important;
+}
+
+span.error { color: $brand-warning; }
+
+#alert.alert, #notice.alert, #info.alert {
+  h5 {
+    i.fa {
+      margin-right: 10px;
+    }
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+}
+
+span.hint, span.error {
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.list-group-item h4 {
+  margin-bottom: 2px;
+}
+
+.upcase {
+  text-transform: uppercase;
+}
+
+#languages {
+  min-width: 64px;
+  width: 64px;
+  li > a{
+    padding-top: 8px;
+  }
+}
+
+input.boolean.optional.form-control {
+  width: inherit;
+  display: inherit;
+  height: auto;
+  margin-left: 0px;
+  margin-right: 6px;
+}
+
+.counter {
+  opacity: 1;
+  position: absolute;
+  top: 6px;
+  right: 2px;
+  display: inline-block;
+  font-size: 9px;
+  font-family: verdana;
+  line-height: 14px;
+  text-align: center;
+  border: 1px solid #fff;
+  color: #fff;
+  background-color: #ff4918;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  -webkit-transition: opacity .3s ease-in-out, visibility .2s ease;
+  -moz-transition: opacity .3s ease-in-out, visibility .2s ease;
+  -o-transition: opacity .3s ease-in-out, visibility .2s ease;
+  transition: opacity .3s ease-in-out, visibility .2s ease;
+}
+
+.unread {
+  background: #f2f2f2;
+  margin-right: 15px;
+}
+
+.radio_buttons.form-control {
+  width: inherit;
+  height: inherit;
+  border: none;
+  box-shadow: none;
+}
+
 $footer-height: 150px;
 
 html, body {
@@ -29,7 +185,7 @@ footer {
   box-sizing: 'border-box';
   padding-top: 20px;
   border-top: 1px solid #DDD;
-  background-color: $main-color;
+  background-color: $brand-primary;
   color: #ddd;
   a:link, a:visited {
     color: #bbb;
@@ -131,18 +287,18 @@ header {
     .account-wrap {
       width: 360px;
       padding: 8px;
-      border-bottom: 1px solid $ignore-color; 
+      border-bottom: 1px solid $gray-light; 
     }
 
     hr {
       margin-top: 2px;
       margin-bottom: 0px;
-      border-color: $ignore-color;
+      border-color: $gray-light;
       border-style: dashed;
     }
 
     i.fa, span.total-title {
-      color: $ignore-color;
+      color: $gray-light;
     }
 
     i.fa.fa-plus {
@@ -150,7 +306,7 @@ header {
     }
 
     span.account-name {
-      color: $main-color;
+      color: $brand-primary;
       margin-top: -24px;
       padding-right: 10px;
       display: block;
@@ -160,7 +316,7 @@ header {
     }
 
     span.balance, span.locked {
-      color: $main-color;
+      color: $brand-primary;
     }
 
     span.total {
@@ -179,26 +335,26 @@ header {
 
 // ==============================================================
 .up-color {
-  background-color: $up-color;
+  background-color: $brand-up;
 }
 .down-color {
-  background-color: $down-color;
+  background-color: $brand-down;
 }
 
 .up-font-color {
-  color: $up-color;
+  color: $brand-up;
 }
 .down-font-color {
-  color: $down-color;
+  color: $brand-down;
 }
 
 .up-font-dark-color {
-  color: $up-dark-color;
-  g { color: $up-dark-color; }
+  color: $brand-up-dark;
+  g { color: $brand-up-dark; }
 }
 .down-font-dark-color {
-  color: $down-dark-color;
-  g { color: $down-dark-color; }
+  color: $brand-down-dark;
+  g { color: $brand-down-dark; }
 }
 
 //#========================================
@@ -254,7 +410,7 @@ header {
   dt { 
     width: 38px; 
     cursor: pointer;
-    color: $ignore-color; 
+    color: $gray-light; 
   }
 
   dd {
@@ -272,10 +428,10 @@ header {
 
 .number-label {
   font-size: 14px;
-  color: $ignore-color;
+  color: $gray-light;
   margin-right: 5px;
 }
 
 .text-ignore {
-  color: $ignore-color;
+  color: $gray-light;
 }

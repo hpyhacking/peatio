@@ -1,11 +1,14 @@
 @import 'vars/basic';
+@import 'vars/custom';
+
 @import 'bootstrap';
 @import 'bootstrap-switch.min';
+
 @import "font-awesome-sprockets";
 @import 'font-awesome';
 
 @import 'layouts/basic';
-@import 'layouts/layout';
+@import 'layouts/custom';
 
 @import 'features/welcome';
 @import 'features/market';
@@ -13,3 +16,4 @@
 @import 'features/assets';
 @import 'features/id_document';
 @import 'features/history';
+@import 'features/custom';

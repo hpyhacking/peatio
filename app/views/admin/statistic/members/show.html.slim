@@ -1,5 +1,5 @@
 .row
-  .col-md-12
+  .col-xs-12
     .panel.panel-primary
       .panel-heading
         span Member Register Stats
@@ -8,11 +8,11 @@
           dt All Count
           dd = @members_count
       = table_for(@register_group, class: 'table table-condensed table-hover') do |t|
-        - t.column :date, 'Date', class: 'col-md-8' do |x|
+        - t.column :date, 'Date', class: 'col-xs-8' do |x|
           span = x.date.to_formatted_s(:short)
-        - t.column :reg, 'Act / Reg', class: 'col-md-10' do |x|
+        - t.column :reg, 'Act / Reg', class: 'col-xs-10' do |x|
           code.text-success = x.total_activated
           span = '/'
           code.text-info = x.total
-        - t.column :rate, 'Rate', class: 'col-md-6' do |x|
+        - t.column :rate, 'Rate', class: 'col-xs-6' do |x|
           code = number_to_percentage(x.total_activated.fdiv(x.total) * 100, precision: 0)

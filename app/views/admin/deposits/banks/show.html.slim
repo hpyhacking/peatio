@@ -1,5 +1,5 @@
 .row
-  .col-md-8
+  .col-xs-8
     .panel.panel-primary
       .panel-heading
         span = t('.deposit')
@@ -14,7 +14,7 @@
           = item_for @bank, :fund_uid
           = item_for @bank, :aasm_state_text
 
-  .col-md-8
+  .col-xs-8
     .panel class='panel-primary'
       .panel-heading
         span = t('.target_deposit')
@@ -26,11 +26,11 @@
             = item_for @bank, :done_at
             - if @bank.may_submit? or @bank.may_accept?
               dt = t('.txid')
-              dd = f.text_field :txid, class: 'col-md-24'
+              dd = f.text_field :txid, class: 'col-xs-24'
               hr.split
               = f.submit t('.accept'), class: 'btn btn-primary pull-right', confirm: t('.confirm')
             - else
               = item_for @bank, :txid
 
-  .col-md-8
+  .col-xs-8
     = render partial: 'shared/admin/member', locals: {member: @bank.member}

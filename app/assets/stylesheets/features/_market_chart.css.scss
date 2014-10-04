@@ -2,7 +2,7 @@
   .container > .row {
     margin-bottom: 12px;
   }
-  .container > .row > .col-md-13 > .panel {
+  .container > .row > .col-xs-13 > .panel {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -30,19 +30,19 @@
     .market-name {
       font-size: 35px;
       font-family: monospace;
-      color: $ignore-color;
+      color: $gray-light;
       margin: 20px 0px 0px 0px;
 
       &:hover {
         cursor: pointer;
-        color: rgba($ignore-color, 0.7);
+        color: rgba($gray-light, 0.7);
       }
     }
   }
 }
 
 .row.ticker-wrapper {
-  border-bottom: 1px solid $split-color;
+  border-bottom: 1px solid $gray-light;
 }
 
 

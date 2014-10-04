@@ -1,9 +1,12 @@
-@import 'vars/basic';
-
 @import 'swagger-ui/highlight.default';
 @import 'swagger-ui/screen';
+
+@import 'vars/basic';
+@import 'vars/custom';
+
 @import 'bootstrap';
 @import 'bootstrap-datetimepicker';
+
 @import "font-awesome-sprockets";
 @import 'font-awesome';
 
