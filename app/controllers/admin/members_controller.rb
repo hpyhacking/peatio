@@ -44,6 +44,7 @@ module Admin
 
           channel = DepositChannel.find_by_key account.currency_obj.key
           deposit = channel.kls.create!(
+            payment_transaction_id: tx.id,
             blockid: tx.blockid,
             txid: tx.txid,
             amount: tx.amount,
