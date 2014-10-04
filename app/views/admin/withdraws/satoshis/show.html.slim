@@ -1,5 +1,5 @@
 .row
-  .col-md-12
+  .col-xs-12
     .panel.panel-primary
       .panel-heading
         span = t('.withdraw', sn: @satoshi.id)
@@ -25,6 +25,6 @@
               li
                 = link_to t('.process'), url_for([:admin, @satoshi]), class: 'btn btn-primary', method: 'PATCH'
 
-  .col-md-12
+  .col-xs-12
     = render partial: 'shared/admin/member', locals: {member: @satoshi.member}
     = render partial: 'shared/admin/account', locals: {account: @satoshi.account}
