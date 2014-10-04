@@ -1,50 +1,226 @@
 <html><head>
-<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" style=" background: #EEEEEE; font:14px/20px 'Helvetica', Arial, sans-serif;">
-  <tbody>
-  <tr>
-    <td style="padding: 30px 0;"><table cellspacing="0" cellpadding="0" width="650" align="center" border="0" style="background: #FFFFFF; border-radius: 10px">
-        <tbody>
-        <tr>
-          <td>
-            <table width="100%" style="background:#3e4c5a; border-radius: 10px 10px 0 0">
-              <tbody>
-              <tr>
-                <td width="1%" style=" padding: 10px 10px"></td>
-                <td style="font-size:24px; color:#FFF; padding:10px;">PEATIO</td>
-              </tr>
-              </tbody>
-          </table></td>
-        </tr>
-        <tr>
-          <td style="border-top:none; padding:30px; color: #666 ">
-            <!--body-->
-            <table>
-              <tbody>
-              <tr>
-                <td>
-                  <p><%= t('mailer.dear_user') %></p>
+<style type="text/css">
+a { word-break: break-word; }
+@media only screen and (max-width: 580px) {
+  table[class=email-body-wrap] {
+    width: 320px !important;
+  }
+  td[class=page-bg-show-thru] {
+    display: none !important;
+  }
+  table[class=layout-block-wrapping-table] {
+    width: 320px !important;
+  }
+  table[class=mso-fixed-width-wrapping-table] {
+    width: 320px !important;
+  }
+  *[class=layout-block-full-width] {
+    width: 320px !important;
+  }
+  table[class=layout-block-column], table[class=layout-block-padded-column] {
+    width: 100% !important;
+  }
+  table[class=layout-block-box-padding] {
+    width: 100% !important;
+    padding: 5px !important;
+  }
+  table[class=layout-block-horizontal-spacer] {
+    display: none !important;
+  }
+  tr[class=layout-block-vertical-spacer] {
+    display: block !important;
+    height: 8px !important;}
+  td[class=container-padding] {
+    display: none !important;
+  }
 
-                  <p><%= yield %></p>
+  *[class~=desktop-only] { display: none !important; }
+  *[class~=mobile-only] { display: block !important; }
 
-                  <p><%= raw t('mailer.signature') %></p>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-            <!--body-->
+  .hide {
+    max-height: none !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  div[eqID="EQMST-FAF8CB70-7279-4D14-B387-749BE413CCF7"] [class~="layout-block-padding-left"] { width: 5px !important; }
+  div[eqID="EQMST-FAF8CB70-7279-4D14-B387-749BE413CCF7"] [class~="layout-block-padding-right"] { width: 5px !important; }
+  div[eqID="EQMST-FAF8CB70-7279-4D14-B387-749BE413CCF7"] [class~="layout-block-content-cell"] { width: 310px !important; }
+
+  div[eqID="EQMST-A74C702E-AB21-4B6E-B590-9B15615C3CA3"] [class~="layout-block-padding-left"] { width: 5px !important; }
+  div[eqID="EQMST-A74C702E-AB21-4B6E-B590-9B15615C3CA3"] [class~="layout-block-padding-right"] { width: 5px !important; }
+  div[eqID="EQMST-A74C702E-AB21-4B6E-B590-9B15615C3CA3"] [class~="layout-block-content-cell"] { width: 310px !important; }
+}
+</style>
+<!--[if gte mso 9]>
+  <style type="text/css" id="Mail Designer Outlook Style Sheet">
+    .mso-fixed-width { width: 704px !important; }
+    .mso-fixed-width-wrapping-table { width: 704px !important; }
+    table.layout-block-horizontal-spacer {
+        display: none !important;
+    }
+    table {
+        border-collapse:collapse;
+        mso-table-lspace:0pt;
+        mso-table-rspace:0pt;
+        mso-table-bspace:0pt;
+        mso-table-tspace:0pt;
+        mso-padding-alt:0;
+        mso-table-top:0;
+        mso-table-wrap:around;
+    }
+    td {
+        border-collapse:collapse;
+        mso-cellspacing:0;
+    }
+  </style>
+  <![endif]-->
+</head>
+<body style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; " background="http://yunbi-edm.qiniudn.com/assets/emails/layouts/MailDesignerImage-F4371A0E-299F-4DD4-9F3C-FEA4179000A3-page-bg.jpg" eqid="EQMST-5B629705-2068-4643-A1B4-1BA752D88F04">
+
+<table width="100%" cellspacing="0" cellpadding="0" id="page-wrap" align="center" background="http://yunbi-edm.qiniudn.com/assets/emails/layouts/MailDesignerImage-F4371A0E-299F-4DD4-9F3C-FEA4179000A3-page-bg.jpg">
+  <tbody><tr>
+    <td>
+
+      <table class="email-body-wrap" width="760" cellspacing="0" cellpadding="0" id="email-body" align="center">
+        <tbody><tr>
+          <td width="30" eqfixedwidth="true" class="page-bg-show-thru">&nbsp;<!-- Left page bg show-thru --></td>
+          <td width="700" id="page-body" eqid="EQMST-E42EE1D2-FD64-4CC3-81A8-CEDDEEA78958" background="http://yunbi-edm.qiniudn.com/assets/emails/layouts/MailDesignerImage-F4371A0E-299F-4DD4-9F3C-FEA4179000A3-background.jpg" bgcolor="#ffffff">
+
+            <!-- Begin of layout container -->
+            <div id="eqLayoutContainer">
+
+              <div eqlayoutblock="" style="display: none; max-height: 0px; overflow: hidden;" eqid="EQMST-1A46FCD3-82CB-49C4-8380-ECB76B74E5FF" class="mobile-only hide" eqsiblinglayoutblockid="188CA4C8-0993-41A1-96D4-3F44AF105B12" background="">
+                <table width="320" cellspacing="0" cellpadding="0" class="layout-block-wrapping-table hide" style="display: none; max-height: 0px; overflow: hidden;">
+                  <tbody><tr>
+                    <td valign="top" class="layout-block-full-width" width="320">
+                      <table cellspacing="0" cellpadding="0" class="layout-block-full-width hide" width="320" style="display: none; max-height: 0px; overflow: hidden;">
+                        <tbody><tr>
+                          <td width="320">
+                            <div class="layout-block-image hide" style="display: none; max-height: 0px; overflow: hidden;">
+                              <img width="320" height="204" alt="" eqid="EQMST-F5CC0C35-2101-4C13-833C-95CD82798FD1" src="http://yunbi-edm.qiniudn.com/assets/emails/layouts/MailDesignerImage-F4371A0E-299F-4DD4-9F3C-FEA4179000A3-image-2.png" border="0" style="display: none; max-height: 0px; overflow: hidden;" class="hide"></div>
+                          </td>
+                        </tr>
+                      </tbody></table>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </div>
+
+              <div eqlayoutblock="" eqid="EQMST-F3FC66D0-DBF8-49CC-A6ED-69360F5C239E" class="desktop-only">
+                <table width="700" cellspacing="0" cellpadding="0" class="mso-fixed-width-wrapping-table">
+                  <tbody><tr>
+                    <td valign="top" class="layout-block-full-width" width="700">
+                      <table cellspacing="0" cellpadding="0" class="layout-block-full-width" width="700">
+                        <tbody><tr>
+                          <td width="700">
+                            <div class="layout-block-image">
+                              <img width="700" height="149" alt="" eqid="EQMST-8DE5F508-4C8F-4623-B4E8-B8C6391E27CB" src="http://yunbi-edm.qiniudn.com/assets/emails/layouts/MailDesignerImage-F4371A0E-299F-4DD4-9F3C-FEA4179000A3-image-1.png" border="0" style="display: block;"></div>
+                          </td>
+                        </tr>
+                      </tbody></table>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </div>
+
+              <div eqlayoutblock="" eqid="EQMST-FAF8CB70-7279-4D14-B387-749BE413CCF7">
+                <table width="700" cellspacing="0" cellpadding="0" class="layout-block-wrapping-table">
+                  <tbody><tr>
+                    <td width="10" class="layout-block-padding-left">&nbsp;</td>
+                    <td class="layout-block-content-cell" width="680">
+                      <table cellspacing="0" cellpadding="0" align="left" class="layout-block-column" width="680">
+                        <tbody><tr>
+                          <td width="660" valign="top" align="left" background="http://yunbi-edm.qiniudn.com/assets/emails/layouts/MailDesignerImage-F4371A0E-299F-4DD4-9F3C-FEA4179000A3-box-bg.jpg" style="padding-left: 10px; padding-right: 10px;" bgcolor="#ffffff" eqid="EQMST-69683F36-0D64-4760-8C07-A761C78446B8">
+                            <table cellspacing="0" cellpadding="0" class="layout-block-box-padding" width="660">
+                              <tbody><tr>
+                                <td align="left" class="layout-block-column" width="660">
+                                  <div  class="text" eqid="EQMST-F3A1462C-0D70-4D4B-867C-6D5D727EAFA1" style="font-size: 16px; font-family: 'Lucida Grande';">
+                                    <div><span style="font-family: Arial; font-size: 18px;"><font color="#575657" face="">您好，</font></span></div><div></div><div><font face="Arial" color="#575657" style="font-size: 18px;"><p>
+
+                                        <%= yield %>
+
+                                  </p></font></div><div><font face="Arial" color="#575657" style="font-size: 18px;"><br></font></div><div><span style="font-size: 14px;"><font face="Helvetica"><font color="#575657" face="Helvetica, Arial, Roboto, Droid Sans, sans-serif">云币网</font> <a href="https://www.yunbi"></a><a href="https://www.yunbi/"><font color="#575657" face="Helvetica, Arial, Roboto, Droid Sans, sans-serif">https://www.yunbi.com/</font></a></font></span></div><div><br></div></div>
+                                </td>
+                              </tr>
+                            </tbody></table>
+                          </td>
+                        </tr>
+                      </tbody></table>
+                    </td>
+                    <td width="10" class="layout-block-padding-right">&nbsp;</td>
+                  </tr>
+                </tbody></table>
+              </div>
+
+              <div eqlayoutblock="" eqid="EQMST-F3FC66D0-DBF8-49CC-A6ED-69360F5C239E" eqsiblinglayoutblockid="EQMST-FFB5F0EF-4BA8-41A9-9783-B0F417A212FE" class="desktop-only">
+                <table width="700" cellspacing="0" cellpadding="0" class="mso-fixed-width-wrapping-table">
+                  <tbody><tr>
+                    <td valign="top" class="layout-block-full-width" width="700">
+                      <table cellspacing="0" cellpadding="0" class="layout-block-full-width" width="700">
+                        <tbody><tr>
+                          <td width="700">
+                            <div class="layout-block-image">
+                              <img width="700" height="16" alt="" eqid="EQMST-8DE5F508-4C8F-4623-B4E8-B8C6391E27CB" src="http://yunbi-edm.qiniudn.com/assets/emails/layouts/MailDesignerImage-F4371A0E-299F-4DD4-9F3C-FEA4179000A3-image-3.png" border="0" style="display: block;"></div>
+                          </td>
+                        </tr>
+                      </tbody></table>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </div>
+
+              <div eqlayoutblock="" style="display: none; max-height: 0px; overflow: hidden;" eqid="EQMST-FFB5F0EF-4BA8-41A9-9783-B0F417A212FE" class="mobile-only hide" eqsiblinglayoutblockid="EQMST-000000F3-C66D-00BF-009C-006E0069360F" background="">
+                <table width="320" cellspacing="0" cellpadding="0" class="mso-fixed-width-wrapping-table hide" style="display: none; max-height: 0px; overflow: hidden;">
+                  <tbody><tr>
+                    <td valign="top" class="layout-block-full-width" width="320">
+                      <table cellspacing="0" cellpadding="0" class="layout-block-full-width hide" width="320" style="display: none; max-height: 0px; overflow: hidden;">
+                        <tbody><tr>
+                          <td width="320">
+                            <div class="layout-block-image hide" style="display: none; max-height: 0px; overflow: hidden;">
+                              <img width="320" height="16" alt="" eqid="EQMST-DFB9797D-C518-4067-BB2A-73C0FCA1D5D5" src="http://yunbi-edm.qiniudn.com/assets/emails/layouts/MailDesignerImage-F4371A0E-299F-4DD4-9F3C-FEA4179000A3-image-4.png" border="0" class="hide" style="display: none; max-height: 0px; overflow: hidden;"></div>
+                          </td>
+                        </tr>
+                      </tbody></table>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </div>
+
+              <div eqlayoutblock="" eqid="EQMST-A74C702E-AB21-4B6E-B590-9B15615C3CA3">
+                <table width="700" cellspacing="0" cellpadding="0" class="layout-block-wrapping-table">
+                  <tbody><tr>
+                    <td width="10" class="layout-block-padding-left">&nbsp;</td>
+                    <td class="layout-block-content-cell" width="680">
+                      <table cellspacing="0" cellpadding="0" align="left" class="layout-block-column" width="680">
+                        <tbody><tr>
+                          <td width="660" valign="top" align="left" background="http://yunbi-edm.qiniudn.com/assets/emails/layouts/MailDesignerImage-F4371A0E-299F-4DD4-9F3C-FEA4179000A3-box-bg-1.jpg" style="padding-left: 10px; padding-right: 10px;" bgcolor="#ffffff" eqid="EQMST-B19FC208-CDA7-4900-AC33-2113CFF863A5">
+                            <table cellspacing="0" cellpadding="0" class="layout-block-box-padding" width="660">
+                              <tbody><tr>
+                                <td align="left" class="layout-block-column" width="660">
+                                  <div  class="text" eqid="EQMST-DE4C3E80-DBD2-4472-9A22-A737EA65F9D1" style="font-size: 16px; font-family: 'Lucida Grande';"><div><font face="Helvetica"><span style="font-size: 14px;"><font color="#aaa8a8" face="Helvetica, Arial, Roboto, Droid Sans, sans-serif">请勿回复本邮件。此邮箱未受监控，您不会得到任何回复。如需帮助，请</font></span><span style="font-size: 14px;"><font color="#929292" face="">&nbsp;</font><a href="https://www.yunbi.com/documents/contact"><font color="#575657" face="Helvetica, Arial, Roboto, Droid Sans, sans-serif">联系我们</font></a><font color="#424242" face="">&nbsp;</font><font color="#aaa8a8" face="Helvetica, Arial, Roboto, Droid Sans, sans-serif">。</font></span></font></div><div><font face="Helvetica"><span style="font-size: 14px;"><font color="#aaa8a8" face="Helvetica, Arial, Roboto, Droid Sans, sans-serif"><br></font></span></font></div><div><span style="font-size: 14px;"><font face="Helvetica"><font color="#aaa8a8" face="Helvetica, Arial, Roboto, Droid Sans, sans-serif">© 2014</font><font color="#929292" face=""> </font><a href="https://www.yunbi.com/"><font color="#575657" face="Helvetica, Arial, Roboto, Droid Sans, sans-serif">云币网</font></a></font></span></div></div>
+                                </td>
+                              </tr>
+                            </tbody></table>
+                          </td>
+                        </tr>
+                      </tbody></table>
+                    </td>
+                    <td width="10" class="layout-block-padding-right">&nbsp;</td>
+                  </tr>
+                </tbody></table>
+              </div>
+
+            </div>
+            <!-- End of layout container -->
+
           </td>
+          <td width="30" eqfixedwidth="true" class="page-bg-show-thru">&nbsp;<!-- Right page bg show-thru --></td>
         </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td style="padding:0 30px 20px; font-size: 13px; color: #999">
-              <%= raw t('mailer.footer', contact_mail: ENV['SUPPORT_MAIL']) %>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+      </tbody></table><!-- email-body -->
+
     </td>
   </tr>
-  </tbody>
-</table>
+</tbody></table><!-- page-wrap -->
+
 </body></html>
