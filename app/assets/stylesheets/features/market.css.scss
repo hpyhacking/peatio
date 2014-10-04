@@ -1,0 +1,173 @@
+#markets-show > #wrap > .container {
+  //#==========================================
+  // table basic style
+  table {
+    th, td {
+      &.time, &.at, &.kind, &.operation {
+        text-align: left;
+        font-size: 14px;
+        font-family: monospace;
+      }
+
+      &.operation { text-align: right; }
+
+      &.price, &.amount, &.volume {
+        text-align: right;
+        font-family: monospace;
+      }
+    }
+
+    thead { cursor: pointer; }
+    tbody > tr:hover {
+      cursor: pointer;
+      background-color: #eee;
+    }
+
+    tr.bid { td.kind, td.price, td.amount, td.volume { color: $up-dark-color; } }
+    tr.ask { td.kind, td.price, td.amount, td.volume { color: $down-dark-color; } }
+
+    td {
+      border: none;
+      padding: 5px 1px 2px 1px;
+      font-size: 16px;
+      line-height: 16px !important;
+    }
+  }
+  //#==========================================
+
+  //#==========================================
+  // order-book and place-order
+
+  @mixin fix-clear-pannel($left-right: right) {
+    margin-#{$left-right}: 0px;
+    padding-#{$left-right}: 0px;
+
+    .panel {
+      padding: 10px;
+      .panel-body {
+        height: 500px;
+        margin-bottom: 0px;
+        padding: 0px;
+      }
+
+      border-top-#{$left-right}-radius: 0px;
+      border-bottom-#{$left-right}-radius: 0px;
+      border-#{$left-right}-width: 0px;
+      margin-bottom: 0px;
+    }
+  }
+
+  .order-book {
+    @include fix-clear-pannel;
+
+    .panel .panel-body {
+      padding-right: 15px;
+      border-right: 1px solid $split-color;
+    }
+
+    .table.asks { margin-bottom: 0px; }
+    .table.bids { margin-top: 0px; }
+    .table.seperator { 
+      td.price { margin: 0px; padding: 0px; font-size: 20px !important; }
+      margin: 9px 0px 8px 0px; 
+    }
+  }
+
+  .order-book-single {
+    @include fix-clear-pannel;
+
+    .panel .panel-body {
+      padding-right: 15px;
+      border-right: 0px !important;
+    }
+
+    .table.asks { margin-bottom: 0px; }
+    .table.bids { margin-top: 0px; }
+    .table.seperator { margin: 10px 0px; }
+  }
+
+  .order-place {
+    @include fix-clear-pannel(left);
+
+    hr {
+      margin-top: 18px;
+      border-top-color: $split-color;
+    }
+
+    .hint-price-disadvantage, .hint-positions  {
+      top: 6px;
+      left: 57px;
+      font-size: 14px;
+      margin-left: 0px;
+      position: absolute;
+      z-index: 10;
+    }
+
+    .status-info, .status-success, .status-danger {
+      top: -2px;
+      left: 5px;
+      font-size: 14px;
+      margin-left: 0px;
+      position: absolute;
+    }
+
+    .panel {
+      .panel-body { padding: 0px 5px; }
+      padding-left: 0px;
+    }
+
+    button { border-color: $ignore-color; }
+
+    #bid_panel button {
+      background-color: $up-color;
+      &:hover { background-color: opacify($up-color, 1.0); }
+    }
+
+    #bid_panel {
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 5px;
+    }
+
+    #ask_panel button {
+      background-color: $down-color;
+      &:hover { background-color: opacify($down-color, 1.0); }
+    }
+
+    span.input-group-addon { min-width: 55px; width: 55px; }
+    input[type=text] { font-family: monospace; font-size: 18px; text-align: right; }
+  }
+  //#==========================================
+
+  //#==========================================
+  .my-trades {
+    table {
+      &.hidden-buy {
+        tr.bid { display: none; }
+      }
+      &.hidden-sell {
+        tr.ask { display: none; }
+      }
+    }
+  }
+  //#==========================================
+
+  //#==========================================
+  // depths
+  .depths {
+    table {
+      td.ask { color: $up-color; }
+      td.bid { color: $down-color; }
+    }
+  }
+
+  //#==========================================
+  .panel-heading {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  //#==========================================
+}
