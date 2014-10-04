@@ -33,7 +33,7 @@ module Verify
 
       it "create sms_token" do
         post :create, attrs
-        expect(member.sms_token).to be_is_a(SmsToken)
+        expect(member.sms_token).to be_is_a(Token::SmsToken)
       end
 
       context "with empty number" do
@@ -96,7 +96,7 @@ module Verify
     end
 
     describe 'POST verify/sms_tokens in verify code phase' do
-      let(:token) { create :sms_token }
+      let(:token) { create :token_sms_token }
       let(:member) { token.member }
       before { session[:member_id] = member.id }
 

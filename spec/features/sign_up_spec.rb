@@ -22,7 +22,7 @@ describe 'Sign up', js: true do
     expect(mail.to).to eq([identity.email])
     expect(mail.subject).to eq(I18n.t 'token_mailer.activation.subject')
 
-    path = "/activations/#{Activation.last.token}/edit"
+    path = "/activations/#{Token::Activation.last.token}/edit"
     link = "http://peatio.dev#{path}"
     expect(mail.body.to_s).to have_link(link)
 

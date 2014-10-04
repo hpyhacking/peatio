@@ -1,4 +1,4 @@
-= simple_form_for @token do |f|
+= simple_form_for @token, url: reset_password_path(@token) do |f|
   = f.input :password
   hr.split
   = f.button :wrapped

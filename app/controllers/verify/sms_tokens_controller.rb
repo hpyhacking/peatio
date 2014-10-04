@@ -7,7 +7,7 @@ module Verify
     end
 
     def create
-      @token = SmsToken.for_member(current_user)
+      @token = Token::SmsToken.for_member(current_user)
 
       if params[:commit] == 'send_code'
         send_code_phase
@@ -62,7 +62,7 @@ module Verify
     end
 
     def token_params
-      params.required(:sms_token).permit(:phone_number, :verify_code)
+      params.required(:token_sms_token).permit(:phone_number, :verify_code)
     end
   end
 end

@@ -1,4 +1,4 @@
-= simple_form_for @reset_password do |f|
+= simple_form_for @reset_password, url: reset_passwords_path do |f|
   = f.input :email
   hr.split
   = f.button :wrapped, cancel: signin_path
