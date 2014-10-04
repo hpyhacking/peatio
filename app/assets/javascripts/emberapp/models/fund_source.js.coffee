@@ -28,5 +28,6 @@ class FundSource extends PeatioModel.Model
       when 'sdb'  then "深圳发展银行"
       when 'pab'  then "平安银行"
       when 'gdb'  then "广东发展银行"
+      else code
 
 window.FundSource = FundSource
