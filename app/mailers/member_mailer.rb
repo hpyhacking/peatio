@@ -1,6 +1,7 @@
 class MemberMailer < BaseMailer
 
-  def notify_signin(member_id)
+  def notify_signin(member_id, request_info)
+    @info = request_info
     set_mail(member_id)
   end
 

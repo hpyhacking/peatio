@@ -2,6 +2,25 @@
 <%= t(".just_signed_in") %>
 </p>
 
+<table>
+  <tr>
+    <td><%= t('.time') %></td>
+    <td><%= Time.now %></td>
+  </tr>
+  <tr>
+    <td><%= t('.browser') %></td>
+    <td><%= [@info['ua_name'], @info['ua_version']].join(' ') %></td>
+  </tr>
+  <tr>
+    <td><%= t('.platform') %></td>
+    <td><%= @info['ua_platform'] %></td>
+  </tr>
+  <tr>
+    <td><%= t('.ip') %></td>
+    <td><%= @info['ip'] %></td>
+  </tr>
+</table>
+
 <p>
 <%= raw t("mailer.please_contact", contact_mail: ENV['SUPPORT_MAIL']) %>
 </p>

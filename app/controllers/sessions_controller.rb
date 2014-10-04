@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
         session[:member_id] = @member.id
         mixpanel_track :signin, @member
         save_session_key @member.id, cookies['_peatio_session']
-        MemberMailer.notify_signin(@member.id).deliver if @member.activated?
+        MemberMailer.notify_signin(@member.id, request_info).deliver if @member.activated?
         redirect_to settings_path
       end
     else
@@ -67,6 +67,15 @@ class SessionsController < ApplicationController
 
   def failed_login_key
     "peatio:session:#{request.ip}:failed_logins"
+  end
+
+  def request_info
+    {
+      ip: request.ip,
+      ua_name: browser.name,
+      ua_version: browser.version,
+      ua_platform: browser.platform
+    }
   end
 
 end
