@@ -17,9 +17,11 @@ module Withdraws
         if @withdraw.save
           @withdraw.submit!
           render nothing: true
+        else
+          render text: @withdraw.errors.full_messages.join, status: 403
         end
       else
-        render json: {message: 'Two Factor Authentication Failed'}, status: 403
+        render text: I18n.t('verify.two_factors.create.error'), status: 403
       end
     end
 

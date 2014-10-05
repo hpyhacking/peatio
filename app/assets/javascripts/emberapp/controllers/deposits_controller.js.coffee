@@ -2,18 +2,11 @@ Peatio.DepositsController = Ember.ArrayController.extend
   init: ->
     controller = @
     @._super()
-    Peatio.set('deposits-controller', @)
+
     $.subscribe 'deposit:create', ->
       records = controller.get('model')[0].account().deposits()
       record = records.pop()
       controller.get('deposits').insertAt(0, record)
-      $.subscribe 'deposit:update', (event, data) ->
-        update_records = _.filter controller.get('deposits'), (r) ->
-          r.id == data.id
-        if update_records.length > 0
-          update_records[0].set('aasm_state', data.attributes.aasm_state)
-          if data.attributes.aasm_state != "submitting" and data.attributes.aasm_state != "submitted"
-            $('#cancel_link').remove()
 
       setTimeout(->
         $('.deposit_item').first().addClass('new-row')
@@ -23,6 +16,12 @@ Peatio.DepositsController = Ember.ArrayController.extend
         setTimeout(->
           controller.get('deposits').popObject()
         , 1000)
+
+    $.subscribe 'deposit:update', (event, data) ->
+      update_records = _.filter controller.get('deposits'), (r) ->
+        r.id == data.id
+      if update_records.length > 0
+        update_records[0].set('aasm_state', data.attributes.aasm_state)
 
     $.subscribe 'payment_address:create', ->
       $("#payment_address").html(controller.get('model')[0].account().payment_address)
@@ -79,15 +78,25 @@ Peatio.DepositsController = Ember.ArrayController.extend
         url: '/deposits/banks',
         method: 'post',
         data: { deposit: data }
-      }).done(->
+      }).always(->
         $('#deposit_cny_submit').removeAttr('disabled')
+      ).fail((result) ->
+        $.publish 'flash', {message: result.responseText }
+      ).done(->
+        $('#deposit_sum').val('')
       )
 
     cancelDeposit: ->
       record_id = event.target.dataset.id
       url = "/deposits/#{@model[0].key}s/#{record_id}"
+      target = event.target
       $.ajax({
         url: url
         method: 'DELETE'
-      })
+      }).fail((result) ->
+        $.publish 'flash', {message: "服务器忙,请稍后重试"}
+      ).done(->
+        $(target).remove()
+      )
+
   }

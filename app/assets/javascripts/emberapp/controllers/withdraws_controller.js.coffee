@@ -9,18 +9,18 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     $.subscribe 'withdraw:create', ->
       record = controller.get('model')[0].account().withdraws().pop()
       controller.get('withdraws').insertAt(0, record)
-      $.subscribe 'withdraw:update', (event, data)->
-        update_records = _.filter(controller.get('withdraws'), (r) ->
-          r.id == data.id)
-        if update_records.length > 0
-          update_records[0].set('aasm_state', data.attributes.aasm_state)
-          if data.attributes.aasm_state != "submitting" and data.attributes.aasm_state != "submitted"
-            $('#cancel_link').remove()
 
       if controller.get('withdraws').length > 3
         setTimeout(->
           controller.get('withdraws').popObject()
         , 1000)
+
+    $.subscribe 'withdraw:update', (event, data)->
+      update_records = _.filter(controller.get('withdraws'), (r) ->
+        r.id == data.id)
+      if update_records.length > 0
+        update_records[0].set('aasm_state', data.attributes.aasm_state)
+
 
   btc: (->
     @model[0].currency == "btc"
@@ -91,16 +91,23 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
         url: "/withdraws/#{@model[0].key}s",
         method: 'post',
         data: data
-      }).done(->
+      }).always(->
         $('#withdraw_submit').removeAttr('disabled')
+      ).fail((result)->
+        $.publish 'flash', {message: result.responseText }
+      ).done(->
+        $('#withdraw_sum').val('')
       )
 
     cancelWithdraw: ->
       record_id = event.target.dataset.id
       url = "/withdraws/#{@model[0].key}s/#{record_id}"
+      target = event.target
       $.ajax({
         url: url
         method: 'DELETE'
-      })
+      }).done(->
+        $(target).remove()
+      )
 
   }
