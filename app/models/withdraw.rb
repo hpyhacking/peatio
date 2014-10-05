@@ -70,7 +70,7 @@ class Withdraw < ActiveRecord::Base
     state :submitting,  initial: true
     state :submitted,   after_commit: :send_email
     state :canceled,    after_commit: :after_cancel
-    state :accepted,    after_commit: :send_email
+    state :accepted
     state :suspect,     after_commit: :send_email
     state :rejected,    after_commit: :send_email
     state :processing,  after_commit: :send_coins!
@@ -159,8 +159,6 @@ class Withdraw < ActiveRecord::Base
     case aasm_state
     when 'submitted'
       WithdrawMailer.submitted(self.id).deliver
-    when 'accepted'
-      WithdrawMailer.accepted(self.id).deliver
     when 'processing'
       WithdrawMailer.processing(self.id).deliver
     when 'done'
