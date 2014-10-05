@@ -23,9 +23,6 @@
       background-color: #eee;
     }
 
-    tr.bid { td.kind, td.price, td.amount, td.volume { color: $brand-up-dark; } }
-    tr.ask { td.kind, td.price, td.amount, td.volume { color: $brand-down-dark; } }
-
     td {
       border: none;
       padding: 5px 1px 2px 1px;
@@ -117,24 +114,9 @@
     }
 
     button { border-color: $gray-light; }
+    button { margin-top: 5px; }
 
-    #bid_panel button {
-      background-color: $brand-up;
-      &:hover { background-color: opacify($brand-up, 1.0); }
-    }
-
-    #bid_panel {
-      margin-top: 10px;
-    }
-
-    button {
-      margin-top: 5px;
-    }
-
-    #ask_panel button {
-      background-color: $brand-down;
-      &:hover { background-color: opacify($brand-down, 1.0); }
-    }
+    #bid_panel { margin-top: 10px; }
 
     span.input-group-addon { min-width: 55px; width: 55px; }
     input[type=text] { font-family: monospace; font-size: 18px; text-align: right; }
@@ -156,12 +138,6 @@
 
   //#==========================================
   // depths
-  .depths {
-    table {
-      td.ask { color: $brand-up; }
-      td.bid { color: $brand-down; }
-    }
-  }
 
   //#==========================================
   .panel-heading {

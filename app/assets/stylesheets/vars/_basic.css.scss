@@ -1,21 +1,17 @@
-$grid-gutter-width: 10px;
-$grid-columns: 24;
+/* peatio exchange site vars
+-------------------------------------------------------------- */
+$sans-serif: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", sans-serif;
 
-$body-bg: rgba(242, 242, 242, 1.0);
+$footer-color: $gray-light;
+$footer-link-color: #bbb;
+$footer-height: 120px;
+$footer-bg: $brand-primary;
 
-$brand-primary: #364450;
-$brand-up: rgba(89, 132, 50, 0.7);
-$brand-up-dark: opacify($brand-up, 1.0);
-$brand-down: rgba(159, 49, 27, 0.7);
-$brand-down-dark: opacify($brand-down, 1.0);
+$content-split: #ddd;
 
-$navbar-default-bg: $brand-primary;
-$navbar-default-link-color: #DCDCDC;
-$navbar-default-link-hover-color: #EFEFEF;
-$navbar-default-link-active-color: #EFEFEF;
+$btn-gutter-width: 20px;
+$text-gutter-width: 5px;
+$icon-gutter-width: 5px;
 
-$btn-default-bg: #428bca;
-$btn-default-color: #fff;
-
-$btn-info-bg: #fff;
-$btn-info-color: #333;
+$up-bg: rgba(89, 132, 50, 1.0);
+$down-bg: rgba(159, 49, 27, 1.0);

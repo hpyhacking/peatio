@@ -3,7 +3,7 @@ html lang="en"
   head
     link href="/favicon.ico" rel="shortcut icon"
     = include_gon
-    - stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : "application"
+    - stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : "market"
     = stylesheet_link_tag stylesheet, media: "all"
     = javascript_include_tag "application"
     = yield(:scripts) if content_for?(:scripts)
