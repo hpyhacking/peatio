@@ -32,7 +32,8 @@ module Worker
       entry      = raw['ledger_entries'].first
       amount     = @rpc.fmt_amount entry['amount']['amount']
       fee        = @rpc.fmt_amount raw['fee']['amount']
-      address    = "#{@currency.deposit_account}|#{entry['memo']}"
+      memo       = entry['memo']
+      address    = "#{@currency.deposit_account}|#{memo}"
       payer      = entry['from_account']
       receive_at = Time.zone.parse raw['timestamp']
 
@@ -42,13 +43,13 @@ module Worker
         if @pt_class.find_by_txid(txid)
           Rails.logger.info "Associated PaymentTransaction found, skip."
         else
-          d = deposit(block, txid, payer, address, amount, receive_at, @channel)
+          d = deposit(block, txid, payer, address, amount, receive_at, memo, @channel)
           Rails.logger.info "Deposit##{d.id} created." if d
         end
       end
     end
 
-    def deposit(blockid, txid, payer, address, amount, receive_at, channel)
+    def deposit(blockid, txid, payer, address, amount, receive_at, memo, channel)
       tx = @pt_class.create!(
         blockid: blockid,
         txid: txid,
@@ -60,7 +61,12 @@ module Worker
         currency: channel.currency
       )
 
-      if tx.account && tx.member
+      unless account = PaymentAddress.destruct_memo(memo)
+        Rails.logger.info "Transaction##{txid} failed memo checksum validation (memo: #{memo}), PaymentTransaction##{tx.id} failed to deposit."
+        return
+      end
+
+      if tx.member && tx.account == account
         deposit = channel.kls.create!(
           payment_transaction_id: tx.id,
           blockid: tx.blockid,

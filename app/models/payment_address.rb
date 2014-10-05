@@ -10,7 +10,7 @@ class PaymentAddress < ActiveRecord::Base
 
   def gen_address
     if account && %w(btsx dns).include?(account.currency)
-      self.address = "#{currency_obj.deposit_account}|#{construct_memo(account)}"
+      self.address = "#{currency_obj.deposit_account}|#{self.class.construct_memo(account)}"
       save
     else
       payload = { payment_address_id: id, currency: currency }
@@ -19,13 +19,13 @@ class PaymentAddress < ActiveRecord::Base
     end
   end
 
-  def construct_memo(account)
+  def self.construct_memo(account)
     member_id = account.member_id.to_s
     size      = member_id.size.to_s(16).upcase
     "#{member_id}#{account.id}#{size}"
   end
 
-  def destruct_memo(memo)
+  def self.destruct_memo(memo)
     size = memo.last.to_i(16)
     return nil if size > (memo.size-2)
 
