@@ -13,7 +13,9 @@ html lang="en"
     = render partial: "shared/header", locals: {fluid: true}
     #wrap
       .sidebar
-        span S
+        ul.list-unstyled
+          - Market.all.sort.each do |market|
+            = top_market_link market, current_market
       .content
         span C
     
