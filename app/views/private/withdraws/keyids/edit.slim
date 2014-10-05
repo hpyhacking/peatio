@@ -1,0 +1,13 @@
+- defaults = {as: :display, required: false, hint: false}
+= simple_form_for @withdraw, as: :withdraw, defaults: defaults, scope: :satoshi do |f|
+  = f.input :fund_extra
+  = f.input :fund_uid
+  = f.input :sum
+  = f.input :fee
+  = f.input :amount
+
+  - if @withdraw.may_submit?
+    = two_factor_tag(current_user)
+    hr.split
+    = f.button :wrapped, t('actions.confirm') do
+      = link_to t('actions.cancel'), url_for(@withdraw), role: 'button', class: 'btn btn-danger btn-lg pull-right', method: :delete

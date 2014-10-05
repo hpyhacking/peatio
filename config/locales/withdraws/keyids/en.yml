@@ -1,18 +1,18 @@
 en:
   withdraw_channel:
-    bitsharesx:
+    keyid:
       key: Blockchain
-      title: BTSX Blockchain
-      intro: Withdraw BTSX to your own BTSX wallet
+      title: KeyID DNS Blockchain
+      intro: Withdraw KeyID DNS to your own KeyID DNS wallet
       latency: 30 minutes
       transfer: Manual
       go: Withdraw
 
   activerecord:
     models:
-      withdraws/bitsharesx: Withdraw
+      withdraws/keyid: Withdraw
     attributes:
-      withdraws/bitsharesx:
+      withdraws/keyid:
         id: ID
         member_name: Account
         currency_obj_key_text: Currency
@@ -28,7 +28,7 @@ en:
         fee: Fee
     errors:
       models:
-        withdraws/bitsharesx:
+        withdraws/keyid:
           attributes:
             sum:
               poor: Account balance is insufficient
@@ -38,7 +38,7 @@ en:
               invalid: Invalid withdrawals address, please review.
               ismine: Please use a new address.
 
-  withdraws/bitsharesx:
+  withdraws/keyid:
     aasm_state:
       submitting: Submitting
       submitted: Submitted
@@ -55,7 +55,7 @@ en:
 
   private:
     withdraws:
-      bitsharesxes:
+      keyids:
         destroy:
           notice: Withdraw been canceled, frozen balance has returned to your account
         update:
@@ -71,7 +71,7 @@ en:
 
   admin:
     withdraws:
-      bitsharesxes:
+      keyids:
         index: 
           one: Pending withdrawals
           all: Last 24 hours
@@ -87,33 +87,33 @@ en:
   simple_form:
     labels:
       withdraw:
-        bitsharesx:
+        keyid:
           fee: Fee
           sum: Amount
-          fund_uid: BTSX Address
+          fund_uid: KeyID DNS Address
           fund_extra: Label
           account_balance: Account Balance
           member_name: Account
     placeholders:
       withdraw:
-        bitsharesx:
+        keyid:
           sum: Minimum amount 0.001
           fund_extra: Enter a label for this address (optional)
     hints:
       withdraw:
-        bitsharesx:
+        keyid:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
 
   guides:
     private:
       withdraws:
-        bitsharesxes:
+        keyids:
           panel: Withdraw
           new:
-            intro: Enter the BTSX address and amount you want to withdraw.
+            intro: Enter the KeyID DNS address and amount you want to withdraw.
             default-panel: Withdraw History
           create:
-            intro: Enter the BTSX address and amount you want to withdraw.
+            intro: Enter the KeyID DNS address and amount you want to withdraw.
             default-panel: Withdraw History
           edit:
-            intro: Enter the BTSX address and amount you want to withdraw.
+            intro: Enter the KeyID DNS address and amount you want to withdraw.
