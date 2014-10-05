@@ -26,7 +26,6 @@
 -------------------------------------------------------------- */
 html, body {
   height: 100%;
-  font-family: $sans-serif;
 }
 
 .container {
@@ -89,7 +88,7 @@ footer {
   box-sizing: 'border-box';
   padding-top: 20px;
   background-color: $footer-bg; 
-  a:link, a:visited { color: $footer-link-color; }
+  border-top: 1px solid $footer-border;
 }
 
 /* ticker 
