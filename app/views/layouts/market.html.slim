@@ -10,17 +10,4 @@ html lang="en"
     = csrf_meta_tags
 
   body id='#{body_id}' data-lang="#{locale_name}"
-    = render 'shared/alert'
-
-    #wrap
-      - if content_for?(:header)
-        = yield(:header)
-      - else
-        = render 'shared/header'
-
-      - if content_for?(:frame)
-        = yield(:frame)
-      - else
-        = render 'shared/frame'
-
-      #push
+    = render partial: "shared/header", locals: {fluid: true}
