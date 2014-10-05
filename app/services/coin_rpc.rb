@@ -83,7 +83,7 @@ class CoinRPC
 
     def getbalance
       balances = wallet_account_balance(@currency.deposit_account).first[1]
-      balance  = balances.find {|(id, _)| id == ASSET_IDS[asset_name] }.last
+      balance  = balances.find {|(id, _)| id == ASSET_IDS[asset_name.to_sym] }.last
       fmt_amount balance
     rescue
       Rails.logger.warn "Failed to get balance (currency: #{@currency.code} account: #{@currency.deposit_account}): #{$!}"
@@ -115,8 +115,7 @@ class CoinRPC
 
     def account_transfer(account, amount, memo)
       memo ||= 'peatio withdrawal'
-      name = self.class.name
-      wallet_transfer amount, name, @currency.deposit_account, account, memo
+      wallet_transfer amount, asset_name, @currency.deposit_account, account, memo
     end
 
     # validate both account and address
