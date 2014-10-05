@@ -15,7 +15,6 @@ zh-CN:
         send_code_alt: COUNT秒后重新发送
         input_verify_code: 请输入通过短信收到的六位验证码
         submit: 绑定手机号码
-        sms_message: "验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【貔貅交易所（北京）】"
         notice:
           send_code_success: 手机短信验证码已发送。
           verify_code_success: 手机短信验证码验证成功。

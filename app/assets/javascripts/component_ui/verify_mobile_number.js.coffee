@@ -3,8 +3,8 @@
   @countDown = 0
 
   @attributes
-    phoneNumberInput: '#sms_token_phone_number'
-    verifyCodeInput: '#sms_token_verify_code'
+    phoneNumberInput: '#token_sms_token_phone_number'
+    verifyCodeInput: '#token_sms_token_verify_code'
     sendCodeButton: 'button[value=send_code]'
 
   @verifyPhoneNumber = (event, data) ->

@@ -1,14 +1,15 @@
 class ResetPasswordsController < ApplicationController
   include Concerns::TokenManagement
-  before_filter :auth_anybody!
-  before_filter :token_required, :only => [:edit, :update]
+
+  before_action :auth_anybody!
+  before_action :token_required, :only => [:edit, :update]
 
   def new
-    @reset_password = ResetPassword.new
+    @reset_password = Token::ResetPassword.new
   end
 
   def create
-    @reset_password = ResetPassword.new(reset_password_params)
+    @reset_password = Token::ResetPassword.new(reset_password_params)
 
     if @reset_password.save
       clear_all_sessions @reset_password.member_id
@@ -33,10 +34,10 @@ class ResetPasswordsController < ApplicationController
 
   private
   def reset_password_params
-    params.required(:reset_password).permit(:email)
+    params.required(:token_reset_password).permit(:email)
   end
 
   def reset_password_update_params
-    params.required(:reset_password).permit(:password)
+    params.required(:token_reset_password).permit(:password)
   end
 end

@@ -40,7 +40,7 @@ describe Member do
     it 'create activation' do
       expect {
         Member.from_auth(auth_auth)
-      }.to change(Activation, :count).by(1)
+      }.to change(Token::Activation, :count).by(1)
     end
   end
 
