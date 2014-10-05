@@ -1,6 +1,7 @@
 header.navbar.navbar-default.navbar-static-top role = "navigation"
   div class='#{fluid ||= false  ? 'container-fluid' : 'container'}'
     ul#menu.nav.navbar-nav.navbar-left
+      a.text-center.navbar-brand href='#{root_path}' PEATIO
       = top_nav_link(t('header.home'), root_path, 'home', controllers: ['welcome']) unless current_user
       = top_nav_link(t('header.market'), market_path(current_market.id), 'exchange', controllers: ['markets'])
       = top_nav_link(t('header.deposit'), deposits_path, 'credit-card', controllers: ['deposits']) if current_user
