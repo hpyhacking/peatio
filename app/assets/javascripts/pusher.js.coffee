@@ -57,7 +57,8 @@ class AccountHandler extends EventHandler
     super channel, "accounts"
 
   update: (id, attributes) =>
-    Account.update(id, attributes)
+    Account.findBy({id: id}).updateAttributes(attributes)
+    $.publish 'account:update', {id: id, attributes: attributes}
 
 
 class DepositHandler extends EventHandler

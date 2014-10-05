@@ -4,7 +4,7 @@
     <span class="text-danger"><strong>人民币提现服务时间：9:00 - 18:00</strong> (18:00后的提现申请次日处理)</span>
   </div>
 
-  <form {{ action 'submitCnyWithdraw' id="cny_withdraws" on="submit" }} class="form form-horizontal">
+  <form {{ action 'submitWithdraw' id="cny_withdraws" on="submit" }} class="form form-horizontal">
 
     <div class="form-group">
       <div class="col-sm-6">
@@ -58,7 +58,7 @@
 
     <div class="form-group">
       <div class="form-submit col-sm-18 col-sm-offset-6">
-        <input  id="withdraw_cny_submit" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="提交">
+        <input  id="withdraw_submit" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="提交">
       </div>
     </div>
 
@@ -85,7 +85,7 @@
       <td>{{withdraw.fee}}</td>
       <td>{{state-name withdraw.aasm_state}}
       {{#if withdraw.is_submitting}}
-      / <a href="#" {{action cancelDeposit}} data-id={{unbound withdraw.id}} id="cancel_link">取消</a>
+      / <a href="#" {{action cancelWithdraw}} data-id={{unbound withdraw.id}} id="cancel_link">取消</a>
       {{/if}}
       </td>
 

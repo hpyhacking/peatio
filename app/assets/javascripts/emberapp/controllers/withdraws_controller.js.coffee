@@ -3,6 +3,11 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     controller = @
     @._super()
     Peatio.set('withdraws-controller', @)
+
+    $.subscribe('account:update', (event, data) ->
+      $("#withdraw_balance").html(controller.model[0].account().balance)
+    )
+
     $.subscribe('withdraw:create', ->
       record = controller.get('model')[0].account().withdraws().pop()
       controller.get('withdraws').insertAt(0, record)
@@ -70,32 +75,10 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
   ).property('')
 
   actions: {
-    submitBtcWithdraw: ->
-      fund_source = $(event.target).find('#fund_source').val()
-      sum = $(event.target).find('#withdraw_sum').val()
-      currency = @model[0].currency
-      account = @model[0].account()
-      data = { withdraw: { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source }}
-
-      if current_user.app_activated or current_user.sms_activated
-        type = $('.two_factor_auth_type').val()
-        otp = $("#two_factor_otp").val()
-        data['two_factor'] = { type: type, otp: otp }
-
-
-      $('#withdraw_btc_submit').attr('disabled', 'disabled')
-      $.ajax({
-        url: '/withdraws/satoshis',
-        method: 'post',
-        data: data
-      }).done(->
-        $('#withdraw_btc_submit').removeAttr('disabled')
-      )
-
     withdrawAll: ->
       $('#withdraw_sum').val(@get('balance'))
 
-    submitCnyWithdraw: ->
+    submitWithdraw: ->
       fund_source = $(event.target).find('#fund_source').val()
       sum = $(event.target).find('#withdraw_sum').val()
       currency = @model[0].currency
@@ -107,16 +90,16 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
         otp = $("#two_factor_otp").val()
         data['two_factor'] = { type: type, otp: otp }
 
-      $('#withdraw_btc_submit').attr('disabled', 'disabled')
+      $('#withdraw_submit').attr('disabled', 'disabled')
       $.ajax({
         url: "/withdraws/#{@model[0].key}s",
         method: 'post',
         data: data
       }).done(->
-        $('#withdraw_cny_submit').removeAttr('disabled')
+        $('#withdraw_submit').removeAttr('disabled')
       )
 
-    cancelDeposit: ->
+    cancelWithdraw: ->
       record_id = event.target.dataset.id
       url = "/withdraws/#{@model[0].key}s/#{record_id}"
       $.ajax({
