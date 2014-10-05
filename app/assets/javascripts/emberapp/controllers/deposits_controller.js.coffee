@@ -13,8 +13,9 @@ Peatio.DepositsController = Ember.ArrayController.extend
         )
         if update_records.length > 0
           update_records[0].set('aasm_state', data.attributes.aasm_state)
-          if data.attributes.aasm_state == "cancelled"
-            $("[data-id=#{data.id}]").parent().html('已撤销')
+          if data.attributes.aasm_state != "submitting" and data.attributes.aasm_state != "submitted"
+            $('#cancel_link').remove()
+
       )
 
       setTimeout(->
@@ -89,7 +90,7 @@ Peatio.DepositsController = Ember.ArrayController.extend
 
     cancelDeposit: ->
       record_id = event.target.dataset.id
-      url = "/deposits/banks/#{record_id}"
+      url = "/deposits/#{@model[0].key}s/#{record_id}"
       $.ajax({
         url: url
         method: 'DELETE'

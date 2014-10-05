@@ -83,7 +83,12 @@
       <td>{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}</td>
       <td>{{withdraw.amount}}</td>
       <td>{{withdraw.fee}}</td>
-      <td>{{state-name withdraw.aasm_state}}</td>
+      <td>{{state-name withdraw.aasm_state}}
+      {{#if withdraw.is_submitting}}
+      / <a href="#" {{action cancelDeposit}} data-id={{unbound withdraw.id}} id="cancel_link">取消</a>
+      {{/if}}
+      </td>
+
     </tr>
     {{else}}
     <tr><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
