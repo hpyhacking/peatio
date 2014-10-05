@@ -1,19 +1,17 @@
+# Deposit worker for all bitshares_toolkit derivations.
 module Worker
-  class DepositBtsx < DepositCoin
+  class DepositBitshares < DepositCoin
 
-    BLOCK_DURATION = 10
-
-    def initialize(last_block_num)
-      @rpc        = CoinRPC['btsx']
+    def initialize(currency, channel, last_block_num)
+      @rpc      = CoinRPC['btsx']
+      @currency = currency
+      @channel  = channel
 
       @last_block_num = last_block_num
       if @last_block_num < 1
         tx = @rpc.last_deposit_account_transaction
         @last_block_num = tx['block_num'] if tx
       end
-
-      @currency = Currency.find_by_code 'btsx'
-      @channel  = DepositChannel.find_by_key 'bitsharesx'
     end
 
     def rescan(from, to)

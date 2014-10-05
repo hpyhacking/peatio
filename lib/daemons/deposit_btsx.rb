@@ -16,8 +16,11 @@ end
 
 Rails.logger = Logger.new STDOUT
 
-worker = Worker::DepositBtsx.new ENV['BLOCK_NUM'].to_i
-duration = Worker::DepositBtsx::BLOCK_DURATION / 2
+currency       = Currency.find_by_code 'btsx'
+channel        = DepositChannel.find_by_key 'bitsharesx'
+last_block_num = ENV['BLOCK_NUM'].to_i
+duration       = 5 # half of block produce duration
+worker         = Worker::DepositBitshares.new currency, channel, last_block_num
 
 while($running) do
   begin
