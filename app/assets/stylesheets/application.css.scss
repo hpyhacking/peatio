@@ -29,7 +29,7 @@ html, body {
 }
 
 .container {
-  width: 1170px !important;
+  width: $min-width !important;
 }
 
 #wrap {
