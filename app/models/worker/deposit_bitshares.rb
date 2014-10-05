@@ -9,7 +9,7 @@ module Worker
       @pt_class = "PaymentTransaction::#{code.capitalize}".constantize
 
       tx = @rpc.last_deposit_account_transaction
-      @last_block_num = tx['block_num']
+      @last_block_num = tx ? tx['block_num'] : @rpc.info[:blockchain_head_block_num]
     end
 
     def rescan(from, to)
