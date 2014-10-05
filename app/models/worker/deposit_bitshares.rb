@@ -2,10 +2,11 @@
 module Worker
   class DepositBitshares < DepositCoin
 
-    def initialize(rpc, currency, channel)
-      @rpc      = rpc
-      @currency = currency
-      @channel  = channel
+    def initialize(code)
+      @rpc      = CoinRPC[code]
+      @currency = Currency.find_by_code code
+      @channel  = DepositChannel.find_by_key @currency.key
+      @pt_class = "PaymentTransaction::#{code.capitalize}".constantize
 
       tx = @rpc.last_deposit_account_transaction
       @last_block_num = tx['block_num']
@@ -38,7 +39,7 @@ module Worker
       Rails.logger.info "NEW - block: #{block} id: #{txid}"
 
       ActiveRecord::Base.transaction do
-        if PaymentTransaction::Btsx.find_by_txid(txid)
+        if @pt_class.find_by_txid(txid)
           Rails.logger.info "Associated PaymentTransaction found, skip."
         else
           d = deposit(block, txid, payer, address, amount, receive_at, @channel)
@@ -48,7 +49,7 @@ module Worker
     end
 
     def deposit(blockid, txid, payer, address, amount, receive_at, channel)
-      tx = PaymentTransaction::Btsx.create!(
+      tx = @pt_class.create!(
         blockid: blockid,
         txid: txid,
         payer: payer,

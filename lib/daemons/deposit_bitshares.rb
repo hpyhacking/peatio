@@ -16,18 +16,18 @@ end
 
 Rails.logger = Logger.new STDOUT
 
-rpc          = CoinRPC['btsx']
-currency     = Currency.find_by_code 'btsx'
-channel      = DepositChannel.find_by_key 'bitsharesx'
-btsx_deposit = Worker::DepositBitshares.new rpc, currency, channel
+btsx_deposit = Worker::DepositBitshares.new 'btsx'
+dns_deposit  = Worker::DepositBitshares.new 'dns'
+
+def safe_process(worker)
+  worker.process
+rescue
+  Rails.logger.error "Worker failure: #{$!}"
+  Rails.logger.error $!.backtrace.join("\n")
+end
 
 while($running) do
-  begin
-    btsx_deposit.process
-  rescue
-    Rails.logger.error "Worker failure: #{$!}"
-    Rails.logger.error $!.backtrace.join("\n")
-  end
-
+  safe_process btsx_deposit
+  safe_process dns_deposit
   sleep 5 # half of block production time
 end
