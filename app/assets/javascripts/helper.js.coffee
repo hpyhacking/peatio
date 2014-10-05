@@ -65,9 +65,9 @@ Handlebars.registerHelper 'format_fix_ask', (volume) ->
 
 Handlebars.registerHelper 'format_trend', (type) ->
   if type == 'buy'
-    "up-font-dark-color"
+    "text-up"
   else if type == "sell"
-    "down-font-dark-color"
+    "test-down"
 
 Handlebars.registerHelper 'format_fix_bid', (price) ->
   fixBid price
