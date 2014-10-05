@@ -170,6 +170,11 @@ class Member < ActiveRecord::Base
 
   def send_password_changed_notification
     MemberMailer.reset_password_done(self.id).deliver
+
+    if phone_number_verified?
+      sms_message = I18n.t('sms.password_changed', email: self.email)
+      AMQPQueue.enqueue(:sms_notification, phone: phone_number, message: sms_message)
+    end
   end
 
   def unread_comments

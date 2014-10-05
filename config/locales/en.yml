@@ -40,6 +40,7 @@ en:
 
   sms:
     verification_code: "Your phone number verification code is: %{code}"
+    password_changed: "Hi %{email}, you password has been changed successfully."
 
   private:
     trade:
