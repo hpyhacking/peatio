@@ -1,12 +1,15 @@
+@import "bourbon";
+
 @import 'swagger-ui/highlight.default';
 @import 'swagger-ui/screen';
 
-@import "bourbon";
-@import 'vars/basic';
-@import 'vars/custom';
+@import 'vars/bootstrap';
 
 @import 'bootstrap';
-@import 'bootstrap-datetimepicker';
+@import 'bootstrap-switch.min';
+
+@import 'vars/basic';
+@import 'vars/custom';
 
 @import "font-awesome-sprockets";
 @import 'font-awesome';
