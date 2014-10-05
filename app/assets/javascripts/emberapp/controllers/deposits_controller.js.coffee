@@ -3,20 +3,17 @@ Peatio.DepositsController = Ember.ArrayController.extend
     controller = @
     @._super()
     Peatio.set('deposits-controller', @)
-    $.subscribe('deposit:create', ->
+    $.subscribe 'deposit:create', ->
       records = controller.get('model')[0].account().deposits()
       record = records.pop()
       controller.get('deposits').insertAt(0, record)
-      $.subscribe('deposit:update', (event, data) ->
-        update_records = _.filter(controller.get('deposits'), (r) ->
+      $.subscribe 'deposit:update', (event, data) ->
+        update_records = _.filter controller.get('deposits'), (r) ->
           r.id == data.id
-        )
         if update_records.length > 0
           update_records[0].set('aasm_state', data.attributes.aasm_state)
           if data.attributes.aasm_state != "submitting" and data.attributes.aasm_state != "submitted"
             $('#cancel_link').remove()
-
-      )
 
       setTimeout(->
         $('.deposit_item').first().addClass('new-row')
@@ -26,11 +23,9 @@ Peatio.DepositsController = Ember.ArrayController.extend
         setTimeout(->
           controller.get('deposits').popObject()
         , 1000)
-    )
 
-    $.subscribe('payment_address:create', ->
+    $.subscribe 'payment_address:create', ->
       $("#payment_address").html(controller.get('model')[0].account().payment_address)
-    )
 
   paymentAddress: (->
     @model[0].account().payment_address
@@ -73,7 +68,7 @@ Peatio.DepositsController = Ember.ArrayController.extend
   ).property('@each')
 
   actions: {
-    submitCnyDeposit: ->
+    submitDeposit: ->
       fund_source = $(event.target).find('#fund_source').val()
       sum = $(event.target).find('#deposit_sum').val()
       currency = @model[0].currency

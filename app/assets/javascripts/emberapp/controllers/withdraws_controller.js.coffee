@@ -2,16 +2,14 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
   init: ->
     controller = @
     @._super()
-    Peatio.set('withdraws-controller', @)
 
-    $.subscribe('account:update', (event, data) ->
+    $.subscribe 'account:update', (event, data) ->
       $("#withdraw_balance").html(controller.model[0].account().balance)
-    )
 
-    $.subscribe('withdraw:create', ->
+    $.subscribe 'withdraw:create', ->
       record = controller.get('model')[0].account().withdraws().pop()
       controller.get('withdraws').insertAt(0, record)
-      $.subscribe('withdraw:update', (event, data)->
+      $.subscribe 'withdraw:update', (event, data)->
         update_records = _.filter(controller.get('withdraws'), (r) ->
           r.id == data.id)
         if update_records.length > 0
@@ -19,12 +17,10 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
           if data.attributes.aasm_state != "submitting" and data.attributes.aasm_state != "submitted"
             $('#cancel_link').remove()
 
-      )
       if controller.get('withdraws').length > 3
         setTimeout(->
           controller.get('withdraws').popObject()
         , 1000)
-    )
 
   btc: (->
     @model[0].currency == "btc"
