@@ -1,0 +1,23 @@
+.row
+  .col-xs-8
+    - Currency.all.each do |c|
+      .panel.panel-primary
+        .panel-heading: span = c.code.upcase
+        .panel-body
+          = description_for :currency do
+            = item_for :sum, Account.balance_sum(c.code) + Account.locked_sum(c.code)
+            = item_for :locked, Account.locked_sum(c.code)
+            = item_for :balance, Account.balance_sum(c.code)
+            - if c.coin?
+<<<<<<< HEAD
+              = item_for :'hot-wallet', c.balance
+  /.col-md-6: .panel.panel-primary
+=======
+              = item_for :'hot-wallet', c.api.safe_getbalance
+  .col-xs-6: .panel.panel-primary
+>>>>>>> 96a28f00ad76ff1f5d1a4a45e2d4f4af4d342188
+    .panel-heading Daemons Status
+    .panel-body
+      = description_for :daemons do
+        - Global.daemon_statuses.each do |daemon, state|
+          = item_for daemon, state

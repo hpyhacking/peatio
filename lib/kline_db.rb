@@ -1,4 +1,4 @@
-module RedisCache
+module KlineDB
   class << self
 
     def redis

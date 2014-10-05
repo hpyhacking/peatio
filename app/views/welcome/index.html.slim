@@ -25,13 +25,13 @@
                     span = link_to "忘记登录密码?", new_reset_password_path
                 .form-group
                   .row
-                    .col-sm-20.col-sm-offset-1
-                      = f.button :submit, class: 'btn-primary btn-lg btn-block btn-success', value: '登录'
+                    .col-xs-20.col-xs-offset-1
+                      = f.button :submit, class: 'btn-primary btn-lg btn-block btn-success', value: t("header.signin")
                       h5.text-right = link_to '立即注册', signup_path
 
   .main-section
     .container
-      .col-sm-6
+      .col-xs-6
         .panel.panel-ignore
           .panel-heading
             h4
@@ -42,7 +42,7 @@
             p 注：提现矿工费由貔貅北京代扣
 
 
-      .col-sm-6
+      .col-xs-6
         .panel.panel-ignore
           .panel-heading
             h4
@@ -51,7 +51,7 @@
           .panel-body
             p 7x24小时，VIP服务
             p 人民币充值10分钟，比特币1确认
-      .col-sm-6
+      .col-xs-6
         .panel.panel-ignore
           .panel-heading
             h4
@@ -61,7 +61,7 @@
             p 源代码开源
             p 规则透明
 
-      .col-sm-6
+      .col-xs-6
         .panel.panel-ignore
           .panel-heading
             h4

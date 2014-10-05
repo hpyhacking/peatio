@@ -1,5 +1,5 @@
 .row
-  .col-md-12
+  .col-xs-12
     .panel.panel-primary
       .panel-heading
         span = t('.withdraw', sn: @bank.sn)
@@ -33,6 +33,6 @@
               li
                 = link_to t('.succeed'), url_for([:admin, @bank]), class: 'btn btn-success', method: 'PATCH', confirm: t('.succeed_confirm')
 
-  .col-md-12
+  .col-xs-12
     = render partial: 'shared/admin/member', locals: {member: @bank.member}
     = render partial: 'shared/admin/account', locals: {account: @bank.account}

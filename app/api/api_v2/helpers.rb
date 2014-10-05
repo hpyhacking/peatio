@@ -6,7 +6,7 @@ module APIv2
     end
 
     def redis
-      @r ||= Redis.new url: ENV["REDIS_URL"], db: 1
+      @r ||= KlineDB.redis
     end
 
     def current_user

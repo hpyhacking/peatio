@@ -1,14 +1,21 @@
-@import 'vars/peatio';
+@import "bourbon";
+@import 'vars/basic';
+@import 'vars/custom';
+
 @import 'bootstrap';
 @import 'bootstrap-switch.min';
+
+@import "font-awesome-sprockets";
 @import 'font-awesome';
 @import 'flipclock';
 
-@import 'basic';
-@import 'layout';
-@import 'welcome';
-@import 'market';
-@import 'market_chart';
-@import 'assets';
-@import 'id_document';
-@import 'history';
+@import 'layouts/basic';
+@import 'layouts/custom';
+
+@import 'features/welcome';
+@import 'features/market';
+@import 'features/market_chart';
+@import 'features/assets';
+@import 'features/id_document';
+@import 'features/history';
+@import 'features/custom';

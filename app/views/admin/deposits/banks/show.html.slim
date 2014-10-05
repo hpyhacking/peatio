@@ -1,5 +1,5 @@
 .row
-  .col-md-8
+  .col-xs-8
     .panel.panel-primary
       .panel-heading
         span = t('.deposit', sn: @bank.sn)
@@ -17,13 +17,11 @@
           - if @match and (@bank.may_submit? or @bank.may_accept?)
             hr.split
             = link_to t('.accept'), admin_deposits_bank_path(@bank, txid: @target.txid), class: 'btn btn-primary pull-right', method: 'PATCH', confirm: t('.confirm')
-  .col-md-8
+  .col-xs-8
     .panel class='#{@match ? 'panel-primary' : 'panel-danger'}'
       .panel-heading
         - if @target
           span = t('.target_deposit', sn: @target.sn)
-        - else
-          span = t('.empty_target')
       .panel-body
         - if @target
           = description_for :member do
@@ -33,5 +31,5 @@
             = item_for @target, :created_at
             hr.split
             = item_for @target, :txid
-  .col-md-8
+  .col-xs-8
     = render partial: 'shared/admin/member', locals: {member: @bank.member}

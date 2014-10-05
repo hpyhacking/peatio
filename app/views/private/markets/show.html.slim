@@ -2,26 +2,26 @@
   .container
     - if current_user
       .row
-        .col-md-13 = render_market_chart
-        .col-md-11: .row
-          .col-md-11.order-book
+        .col-xs-13 = render_market_chart
+        .col-xs-11: .row
+          .col-xs-11.order-book
             .panel.panel-default: .panel-body
               table.table.asks.down-font-dark-color
               table.table.seperator
               table.table.bids.up-font-dark-color
-          .col-md-13.order-place
+          .col-xs-13.order-place
             .panel.panel-default: .panel-body
               .row.desktop-real-notification
-                .col-md-12: span.text-ignore = t('.notification')
-                .col-md-12.text-right: input type="checkbox" name="notification-checkbox" data-size='mini' data-on-text="开" data-off-text="关" data-on-color='success'
+                .col-xs-12: span.text-ignore = t('.notification')
+                .col-xs-12.text-right: input type="checkbox" name="notification-checkbox" data-size='mini' data-on-text="开" data-off-text="关" data-on-color='success'
               = render partial: 'place_order', locals: {market: @market, order_ask: @order_ask, order_bid: @order_bid}
       .row
-        .col-md-8 = render partial: 'trades'
-        .col-md-8 = render partial: 'my_trades'
-        .col-md-8 = render partial: 'my_orders'
+        .col-xs-8 = render partial: 'trades'
+        .col-xs-8 = render partial: 'my_trades'
+        .col-xs-8 = render partial: 'my_orders'
     - else
       .row
-        .col-md-24 = render_market_chart
+        .col-xs-24 = render_market_chart
       .row
         = render partial: 'depths'
-        .col-md-8 = render partial: 'trades'
+        .col-xs-8 = render partial: 'trades'

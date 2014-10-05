@@ -1,5 +1,5 @@
 .row
-  .col-md-6
+  .col-xs-6
     = detail_section_tag "#{t('.deposit')}"
     = simple_form_for @deposit, :url => admin_currency_deposit_path do |f|
       = f.input :txid, readonly: true
@@ -11,7 +11,7 @@
       = f.button :submit
       - if @member
         a.btn.btn-inverse target='_blank' href='#{admin_member_path(@member)}' #{t('actions.view')}
-  .col-md-6
+  .col-xs-6
     - @member && @member.accounts.each do |a|
       = detail_section_tag "#{a.currency_text} #{t('.accounts_title')}"
       = detail_tag a, field: :currency_text

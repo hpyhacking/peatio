@@ -64,7 +64,7 @@ RSpec.configure do |config|
     Rails.cache.clear
     AMQPQueue.stubs(:publish)
     MixpanelTracker.stubs(:track)
-    RedisCache.stubs(:kline).returns([])
+    KlineDB.stubs(:kline).returns([])
   end
 
   config.after(:each) do

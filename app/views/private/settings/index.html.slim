@@ -2,15 +2,15 @@ ul.list-group
   // member email activated
   li.list-group-item
     .row.row-middle
-      .col-md-2
+      .col-xs-2
         i.fa.fa-envelope-o.fa-2x
-      .col-md-16
+      .col-xs-16
         h4 = t('.email.title')
         - if current_user.activated?
           p.text-ignore = t('.email.description-activated')
         - else
           p.text-ignore = t('.email.description')
-      .col-md-6
+      .col-xs-6
         - if current_user.activated?
           a href="#" class="btn btn-success btn-block disabled" role="button"
             i.fa.fa-check-circle
@@ -21,14 +21,14 @@ ul.list-group
   // id document verify
   li.list-group-item
     .row.row-middle
-      .col-md-2
+      .col-xs-2
         i.fa.fa-thumbs-o-up.fa-2x
-      .col-md-16
+      .col-xs-16
         h4
           span = t('.verification.title')
           i.fa.fa-bolt.text-warning
         p.text-ignore = t('.verification.description')
-      .col-md-6
+      .col-xs-6
         - if current_user.id_document_verified?
           a href="#" class="btn btn-success btn-block disabled" role="button"
             i.fa.fa-check-circle
@@ -39,14 +39,14 @@ ul.list-group
   // phone number verify
   li.list-group-item
     .row.row-middle
-      .col-md-2
+      .col-xs-2
         i.fa.fa-mobile.fa-4x
-      .col-md-16
+      .col-xs-16
         h4
           span = t('.phone_number.title')
           i.fa.fa-bolt.text-warning
         p.text-ignore = t('.phone_number.description')
-      .col-md-6
+      .col-xs-6
         - if current_user.phone_number_verified?
           a href="#" class="btn btn-success btn-block disabled" role="button"
             i.fa.fa-check-circle
@@ -57,14 +57,14 @@ ul.list-group
   // two factor setting
   li.list-group-item
     #two_factor_auth.row.row-middle
-      .col-md-2
+      .col-xs-2
         i.fa.fa-superscript.fa-2x
-      .col-md-16
+      .col-xs-16
         h4
           span = t('.two_factor_auth.title')
           i.fa.fa-bolt.text-warning
         p.text-ignore = t('.two_factor_auth.description')
-      .col-md-6
+      .col-xs-6
         - if @two_factor
           = link_to t('.two_factor_auth.disable'), edit_two_factor_path(:app), class: 'btn btn-default btn-block'
         - else
@@ -74,22 +74,22 @@ ul.list-group
   - if current_user.identity
     li.list-group-item
       .row.row-middle
-        .col-md-2
+        .col-xs-2
           i.fa.fa-key.fa-2x
-        .col-md-16
+        .col-xs-16
           h4 = t('.passwords.title')
           p.text-ignore = t('.passwords.description')
-        .col-md-6
+        .col-xs-6
           = link_to t('.passwords.go'), edit_identity_path, class: 'btn btn-default btn-block'
 
   li.list-group-item
     .row.row-middle
-      .col-md-2
+      .col-xs-2
         i.fa.fa-code.fa-2x
-      .col-md-16
+      .col-xs-16
         h4 = t('.api_tokens.title')
         p.text-ignore = t('.api_tokens.description')
-      .col-md-6
+      .col-xs-6
         = link_to t('.api_tokens.go'), api_tokens_path, class: 'btn btn-default btn-block'
 
 = content_for :guide_title do
