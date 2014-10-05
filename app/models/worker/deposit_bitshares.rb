@@ -2,16 +2,13 @@
 module Worker
   class DepositBitshares < DepositCoin
 
-    def initialize(currency, channel, last_block_num)
-      @rpc      = CoinRPC['btsx']
+    def initialize(rpc, currency, channel)
+      @rpc      = rpc
       @currency = currency
       @channel  = channel
 
-      @last_block_num = last_block_num
-      if @last_block_num < 1
-        tx = @rpc.last_deposit_account_transaction
-        @last_block_num = tx['block_num'] if tx
-      end
+      tx = @rpc.last_deposit_account_transaction
+      @last_block_num = tx['block_num']
     end
 
     def rescan(from, to)
