@@ -1,10 +1,15 @@
 @import "bourbon";
-@import 'vars/basic';
-@import 'vars/custom';
 
-@import "bootstrap";
+@import 'vars/bootstrap';
+
+@import 'bootstrap';
+@import 'bootstrap-switch.min';
+
 @import "bootstrap-wysihtml5/core-b3";
 @import "bootstrap-wysihtml5/wysiwyg-color";
+
+@import 'vars/basic';
+@import 'vars/custom';
 
 .dl-horizontal dt {
   width: 120px;
