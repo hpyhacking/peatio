@@ -3,15 +3,13 @@ html lang="en"
   head
     link href="/favicon.ico" rel="shortcut icon"
     = include_gon
-    - stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : "market"
-    = stylesheet_link_tag stylesheet, media: "all"
+    = stylesheet_link_tag 'market', media: "all"
     = javascript_include_tag "application"
-    = yield(:scripts) if content_for?(:scripts)
     = render 'shared/html5'
     = render 'shared/meta'
     = csrf_meta_tags
 
-  body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
+  body id='#{body_id}' data-lang="#{locale_name}"
     = render 'shared/alert'
 
     #wrap
@@ -26,8 +24,3 @@ html lang="en"
         = render 'shared/frame'
 
       #push
-
-    - if content_for?(:footer)
-      = yield(:footer)
-    - else
-      = render 'shared/footer'

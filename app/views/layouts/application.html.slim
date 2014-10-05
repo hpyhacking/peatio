@@ -11,7 +11,7 @@ html lang="en"
     = render 'shared/meta'
     = csrf_meta_tags
 
-  body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
+  body id='#{body_id}' data-lang="#{locale_name}"
     = render 'shared/alert'
 
     #wrap

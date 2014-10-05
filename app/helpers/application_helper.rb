@@ -174,6 +174,14 @@ module ApplicationHelper
     end
   end
 
+  def locale_name 
+    I18n.locale.to_s.downcase
+  end
+
+  def body_id
+    "#{controller_name}-#{action_name}"
+  end
+
   def balance_panel(member: nil)
     member ||= current_user
     panel name: 'balance-pannel', key: 'guides.panels.balance' do
