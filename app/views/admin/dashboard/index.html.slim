@@ -14,5 +14,5 @@
     .panel-heading Daemons Status
     .panel-body
       = description_for :daemons do
-        - Daemon.statuses.each do |daemon, state|
+        - Global.daemon_statuses.each do |daemon, state|
           = item_for daemon, state

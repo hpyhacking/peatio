@@ -15,7 +15,7 @@ Peatio::Application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :file_store, "tmp"
-  config.cache_store = :redis_store, { expires_in: 24.hours }
+  config.cache_store = :redis_store, ENV['REDIS_URL']
 
   config.session_store :redis_store, :key => '_peatio_session', :expire_after => ENV['SESSION_EXPIRE'].to_i.minutes
 

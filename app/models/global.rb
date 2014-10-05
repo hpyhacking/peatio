@@ -3,6 +3,14 @@ class Global
   NOTHING_ARRAY = YAML::dump([])
   LIMIT = 80
 
+  class << self
+    def daemon_statuses
+      Rails.cache.fetch('peatio:daemons:statuses', expires_in: 3.minute) do
+        Daemons::Rails::Monitoring.statuses
+      end
+    end
+  end
+
   def initialize(currency)
     @currency = currency
   end
@@ -53,7 +61,7 @@ class Global
   end
 
   def h24_volume
-    Rails.cache.fetch key('h24_volume', 5) do
+    Rails.cache.fetch key('h24_volume', 5), expires_in: 24.hours do
       Trade.with_currency(currency).h24.sum(:volume) || ZERO
     end
   end

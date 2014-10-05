@@ -47,44 +47,6 @@ describe 'withdraw' do
     expect(page).to have_text("400.0")
   end
 
-  it 'allow user to see their current position in the withdraw process queue' do
-    pending 'withdraw dashboard'
-    admin_identity = create :identity, email: Member.admins.first
-    deposit admin_identity, member, 2500
-
-    # sign out admin
-    find('#sign_out').click
-
-    login identity
-
-    visit new_withdraws_bank_path
-
-    # 1st withdraw
-    submit_bank_withdraw_request 800
-    click_on t('actions.confirm')
-    expect(current_path).to eq(new_withdraws_bank_path)
-    expect(page).to have_text("1700.0")
-    expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("1")
-
-    # 2nd withdraw
-    submit_bank_withdraw_request 800
-    click_on t('actions.confirm')
-    expect(current_path).to eq(new_withdraws_bank_path)
-    expect(page).to have_text("900.0")
-    expect(find('tbody tr:first-of-type .position_in_queue').text).to eq("2")
-
-    submit_bank_withdraw_request 600
-    click_on t('actions.confirm')
-    expect(current_path).to eq(new_withdraws_bank_path)
-    expect(page).to have_text("300.0")
-
-    within('tbody tr:last-of-type') do
-      click_link t('actions.cancel')
-    end
-    expect(current_path).to eq(new_withdraws_bank_path)
-    expect(page).to have_text("1100.0")
-  end
-
   it 'prevents withdraws that the account has no sufficient balance' do
     pending
     current_user = Member.find_by_email identity.email

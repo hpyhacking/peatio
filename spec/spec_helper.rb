@@ -62,7 +62,7 @@ RSpec.configure do |config|
 
     Rails.cache.clear
     AMQPQueue.stubs(:publish)
-    RedisCache.stubs(:kline).returns([])
+    KlineDB.stubs(:kline).returns([])
   end
 
   config.after(:each) do

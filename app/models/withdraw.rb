@@ -26,7 +26,6 @@ class Withdraw < ActiveRecord::Base
   before_validation :calc_fee
   before_validation :set_account
   after_create :generate_sn
-  after_update :bust_last_done_cache, if: :state_changed_to_done
 
   validates :fund_uid, :amount, :fee, :account, :currency, :member, presence: true
 
@@ -55,14 +54,6 @@ class Withdraw < ActiveRecord::Base
 
   def fiat?
     !coin?
-  end
-
-  def position_in_queue
-    last_done = Rails.cache.fetch(last_completed_withdraw_cache_key) do
-      self.class.completed.maximum(:id)
-    end
-
-    self.class.where("id > ? AND id <= ?", (last_done || 0), id).count
   end
 
   alias_attribute :withdraw_id, :sn
@@ -187,10 +178,6 @@ class Withdraw < ActiveRecord::Base
     send_email
   end
 
-  def last_completed_withdraw_cache_key
-    "last_completed_withdraw_id_for_#{channel.key}"
-  end
-
   def ensure_account_balance
     if sum.nil? or sum > account.balance
       errors.add(:sum, :poor)
@@ -209,14 +196,6 @@ class Withdraw < ActiveRecord::Base
 
   def set_account
     self.account = member.get_account(currency)
-  end
-
-  def state_changed_to_done
-    aasm_state_changed? && COMPLETED_STATES.include?(aasm_state.to_sym)
-  end
-
-  def bust_last_done_cache
-    Rails.cache.delete(last_completed_withdraw_cache_key)
   end
 
   def self.resource_name

@@ -78,7 +78,6 @@ en:
         state_text: Status
         tx_id: transaction_id
         fund_source_id: Withdraw address
-        position_in_queue: Queue No.
         detail: Detail
       account_version:
         id: ID
