@@ -8,7 +8,7 @@ html lang="en"
     = render 'shared/html5'
     = render 'shared/meta'
     = csrf_meta_tags
-  body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
+  body id='#{body_id}' data-lang="#{locale_name}"
     #wrap
       = render 'shared/alert'
       = yield
