@@ -32,7 +32,7 @@ class Token < ActiveRecord::Base
 
   def send_token
     email = self.member.email
-    mailer = self.class.model_name.param_key
+    mailer = self.class.to_s.demodulize.underscore
     TokenMailer.send(mailer, email, token).deliver
   end
 

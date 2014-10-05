@@ -14,7 +14,7 @@ class Member < ActiveRecord::Base
   has_many :comments, foreign_key: 'author_id'
 
   has_one :id_document
-  has_one :sms_token
+  has_one :sms_token, class_name: 'Token::SmsToken'
 
   has_many :authentications, dependent: :destroy
 
@@ -165,7 +165,7 @@ class Member < ActiveRecord::Base
   end
 
   def send_activation
-    Activation.create(member: self)
+    Token::Activation.create(member: self)
   end
 
   def unread_comments

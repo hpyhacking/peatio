@@ -1,4 +1,4 @@
-class SmsToken < Token
+class Token::SmsToken < ::Token
 
   VERIFICATION_CODE_LENGTH = 6
 
@@ -26,7 +26,7 @@ class SmsToken < Token
       self.is_used = false
       self.token = VERIFICATION_CODE_LENGTH.times.map{ Random.rand(9) + 1 }.join
       self.expire_at = DateTime.now.since(60 * 30)
-    end while SmsToken.where(member_id: member_id, token: token).any?
+    end while Token::SmsToken.where(member_id: member_id, token: token).any?
   end
 
   def expired?
