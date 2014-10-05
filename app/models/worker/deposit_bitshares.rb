@@ -37,7 +37,7 @@ module Worker
       payer      = entry['from_account']
       receive_at = Time.zone.parse raw['timestamp']
 
-      Rails.logger.info "NEW - block: #{block} id: #{txid}"
+      Rails.logger.info "#{@currency.code.upcase} - block: #{block} id: #{txid}"
 
       ActiveRecord::Base.transaction do
         if @pt_class.find_by_txid(txid)
@@ -61,12 +61,12 @@ module Worker
         currency: channel.currency
       )
 
-      unless account = PaymentAddress.destruct_memo(memo)
+      unless member = PaymentAddress.destruct_memo(memo)
         Rails.logger.info "Transaction##{txid} failed memo checksum validation (memo: #{memo}), PaymentTransaction##{tx.id} failed to deposit."
         return
       end
 
-      if tx.member && tx.account == account
+      if tx.account && tx.member == member
         deposit = channel.kls.create!(
           payment_transaction_id: tx.id,
           blockid: tx.blockid,

@@ -17,23 +17,30 @@ describe PaymentAddress do
     end
   end
 
-  context '.construct_memo' do
-    it "constructs memo" do
-      PaymentAddress.construct_memo(Account.new(member_id: 60, id: 100)).should == '601002'
-      PaymentAddress.construct_memo(Account.new(member_id: 12345678901, id: 12345678902)).should == '1234567890112345678902B'
-    end
-  end
+  context 'memo' do
+    let(:created_at) { Time.at(1234567) }
+    let(:member)     { create(:member) }
+    let(:account)    { member.get_account('btc') }
+    let(:memo)       { "#{member.id}567"}
 
-  context '#destruct_memo' do
-    let(:account) { create(:member).get_account('btc') }
-    let!(:memo)   { PaymentAddress.construct_memo account }
+    before { Timecop.freeze(created_at) }
+    after  { Timecop.return }
+
+    it "constructs memo" do
+      PaymentAddress.construct_memo(account).should == memo
+    end
 
     it "returns the corresponding account if memo is valid" do
-      PaymentAddress.destruct_memo(memo).should == account
+      PaymentAddress.destruct_memo(memo).should == member
     end
 
-    it "returns nil if size bit is missing" do
+    it "returns nil if last bit is missing" do
       wrong_memo = memo[0..-2]
+      PaymentAddress.destruct_memo(wrong_memo).should be_nil
+    end
+
+    it "returns nil if first bit is modified" do
+      wrong_memo = "0" + memo[1..-1]
       PaymentAddress.destruct_memo(wrong_memo).should be_nil
     end
   end

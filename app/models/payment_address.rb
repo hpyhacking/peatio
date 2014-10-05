@@ -20,21 +20,19 @@ class PaymentAddress < ActiveRecord::Base
   end
 
   def self.construct_memo(account)
-    member_id = account.member_id.to_s
-    size      = member_id.size.to_s(16).upcase
-    "#{member_id}#{account.id}#{size}"
+    member = account.member
+    checksum = member.created_at.to_i.to_s[-3..-1]
+    "#{member.id}#{checksum}"
   end
 
   def self.destruct_memo(memo)
-    size = memo.last.to_i(16)
-    return nil if size > (memo.size-2)
+    member_id = memo[0...-3]
+    checksum  = memo[-3..-1]
 
-    member_id = memo[0..(size-1)]
     member = Member.find_by_id member_id
     return nil unless member
-
-    account_id = memo[size..-2]
-    member.accounts.where(id: account_id).first
+    return nil unless member.created_at.to_i.to_s[-3..-1] == checksum
+    member
   end
 
 end
