@@ -10,9 +10,6 @@ zh-CN:
     submitted:
       subject: "[云币网] 你的提现状态更新"
       content: "您的云币网账户%{currency}提现申请已经提交。详细信息："
-    accepted:
-      subject: "[云币网] 你的提现状态更新"
-      content: "您的云币网账户%{currency}提现申请已经受理。详细信息："
     processing:
       subject: "[云币网] 你的提现状态更新"
       content: "您的云币网账户%{currency}提现操作正在处理中。详细信息："

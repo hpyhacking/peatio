@@ -4,10 +4,6 @@ class WithdrawMailer < BaseMailer
     set_mail(withdraw_id)
   end
 
-  def accepted(withdraw_id)
-    set_mail(withdraw_id)
-  end
-
   def processing(withdraw_id)
     set_mail(withdraw_id)
   end
