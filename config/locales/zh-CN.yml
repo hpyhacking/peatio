@@ -39,8 +39,8 @@ zh-CN:
       default: '%Y-%m-%d %H:%M'
 
   sms:
-    verification_code: "验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【貔貅交易所（北京）】"
-    password_changed: "%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！【貔貅交易所（北京）】"
+    verification_code: "云币网验证码：%{code}，30分钟内有效。（提示：为了您的财产安全，千万不要向其他人泄露！云币网工作人员不会向您索要验证码，么么哒~）【云币网yunbi.com】"
+    password_changed: "%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！【云币网yunbi.com】"
 
   private:
     trade:
