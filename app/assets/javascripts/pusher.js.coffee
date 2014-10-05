@@ -69,10 +69,8 @@ class DepositHandler extends EventHandler
     $.publish 'deposit:create'
 
   update: (id, attributes) =>
-    Deposit.update(id, attributes)
-
-  destroy: (id) =>
-    Deposit.destroy(id)
+    Deposit.findBy({id: id}).updateAttributes(attributes)
+    $.publish 'deposit:update', {id: id, attributes: attributes}
 
 class WithdrawHandler extends EventHandler
   constructor: (channel) ->

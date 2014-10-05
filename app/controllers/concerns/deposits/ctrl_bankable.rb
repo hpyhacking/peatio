@@ -27,7 +27,7 @@ module Deposits
     def destroy
       @deposit = current_user.deposits.find(params[:id])
       @deposit.cancel!
-      redirect_to url_for(action: :new), notice: t('.notice')
+      render nothing: true
     end
 
     private

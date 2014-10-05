@@ -57,7 +57,7 @@
     <th>时间</th>
     <th>充值银行</th>
     <th>充值金额</th>
-    <th>状态</th>
+    <th>状态/操作</th>
   </tr>
   {{#each deposit in deposits}}
   <tr class="deposit_item">
@@ -65,7 +65,11 @@
     <td>{{format-date deposit.created_at}}</td>
     <td>{{deposit.fund_extra}} @ {{deposit.fund_uid}}</td>
     <td>{{deposit.amount}}</td>
-    <td>{{state-name deposit.aasm_state}}</td>
+    {{#if deposit.is_submitting }}
+    <td><a href="#" {{action cancelDeposit}} data-id={{unbound deposit.id}}>取消</a></td>
+    {{else}}
+      <td>{{state-name deposit.aasm_state}}</td>
+    {{/if}}
   </tr>
   {{else}}
     <tr><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>

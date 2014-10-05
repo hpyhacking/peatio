@@ -4,7 +4,18 @@ Peatio.DepositsController = Ember.ArrayController.extend
     @._super()
     Peatio.set('deposits-controller', @)
     $.subscribe('deposit:create', ->
-      controller.get('deposits').insertAt(0, controller.get('model')[0].account().deposits().pop())
+      records = controller.get('model')[0].account().deposits()
+      record = records.pop()
+      controller.get('deposits').insertAt(0, record)
+      $.subscribe('deposit:update', (event, data) ->
+        update_records = _.filter(controller.get('deposits'), (r) ->
+          r.id == data.id
+        )
+        if update_records.length > 0
+          update_records[0].set('aasm_state', data.attributes.aasm_state)
+          if data.attributes.aasm_state == "cancelled"
+            $("[data-id=#{data.id}]").parent().html('已撤销')
+      )
 
       setTimeout(->
         $('.deposit_item').first().addClass('new-row')
@@ -60,7 +71,6 @@ Peatio.DepositsController = Ember.ArrayController.extend
     @model[0].key
   ).property('@each')
 
-
   actions: {
     submitCnyDeposit: ->
       fund_source = $(event.target).find('#fund_source').val()
@@ -77,4 +87,11 @@ Peatio.DepositsController = Ember.ArrayController.extend
         $('#deposit_cny_submit').removeAttr('disabled')
       )
 
+    cancelDeposit: ->
+      record_id = event.target.dataset.id
+      url = "/deposits/banks/#{record_id}"
+      $.ajax({
+        url: url
+        method: 'DELETE'
+      })
   }
