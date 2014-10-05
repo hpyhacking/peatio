@@ -71,13 +71,12 @@ Peatio::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :port                 => ENV["SMTP_PORT"],
-    :domain               => ENV["SMTP_DOMAIN"],
-    :address              => ENV["SMTP_ADDRESS"],
-    :user_name            => ENV["SMTP_USERNAME"],
-    :password             => ENV["SMTP_PASSWORD"],
-    :authentication       => 'plain',
-    :enable_starttls_auto => true
+    port:           ENV["SMTP_PORT"],
+    domain:         ENV["SMTP_DOMAIN"],
+    address:        ENV["SMTP_ADDRESS"],
+    user_name:      ENV["SMTP_USERNAME"],
+    password:       ENV["SMTP_PASSWORD"],
+    authentication: ENV["SMTP_AUTHENTICATION"]
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

@@ -15,10 +15,12 @@ defaults: &defaults
   # below settings only in production env
   # system notify mail settings
   # --------------------------------------------------------------
+  SMTP_PORT: 25
   SMTP_DOMAIN: YOUR_SMTP_DOMAIN
   SMTP_ADDRESS: YOUR_SMTP_ADDRESS
   SMTP_USERNAME: YOUR_SMTP_USERNAME
   SMTP_PASSWORD: YOUR_SMTP_PASSWORD
+  SMTP_AUTHENTICATION: plain # could be plain, login or cram_md5
 
   SUPPORT_MAIL: support@peatio.dev
   SYSTEM_MAIL_FROM: system@peatio.dev
