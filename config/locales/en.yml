@@ -2,6 +2,7 @@ en:
   "true": Yes
   "false": No
 
+  view_on_github: View on Github
   slogan: An open-source crypto-currency exchange for world.
   tags:
     vip: VIP
@@ -13,8 +14,7 @@ en:
       title: Realtime Price
     account_balance:
       title: Balance
-      available_btc: BTC
-      available_cny: CNY
+
   gon:
     ask: Ask
     bid: Bid
@@ -29,18 +29,17 @@ en:
 
   date:
     formats:
+      date-short: '%m-%d'
       short: '%m-%d %H:%M'
       default: '%m/%d/%Y %H:%M'
   time:
     formats:
+      date-short: '%m-%d'
       short: '%m-%d %H:%M'
       default: '%m/%d/%Y %H:%M'
 
-  reset_two_factors:
-    create:
-      success: We have sent an email with instructions for resetting your Two-Factor Authentication.
-    edit:
-      success: You have successfully disabled Two-Factor Authentication. You could reset it in your account setting.
+  sms:
+    verification_code: "Your phone number verification code is: %{code}"
 
   private:
     trade:
@@ -62,6 +61,8 @@ en:
     withdraws:
       update:
         request_accepted: Withdraw request accepted.
+      destroy:
+        request_canceled: Withdraw request canceled
       index:
         fee: Fee
         total: Total
@@ -100,6 +101,8 @@ en:
     privacy: Privacy
     contact: Contact
     price: Price
+    liability_proof: liability proof
+    contact: Contact Us
 
   actions:
     go: Go
@@ -119,6 +122,7 @@ en:
     close: Close
     cancel: Cancel
     view: View
+    member: Member
     transact: Transact
     reject: Reject
     clipboard:

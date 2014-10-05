@@ -43,7 +43,7 @@ class Token::SmsToken < ::Token
   end
 
   def sms_message
-    I18n.t('verify.sms_tokens.new.sms_message', code: token)
+    I18n.t('sms.verification_code', code: token)
   end
 
   def verify?
