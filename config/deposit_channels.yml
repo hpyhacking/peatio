@@ -32,3 +32,9 @@
   sort_order: 3
   min_confirm: 10
   max_confirm: 51
+- id: 700
+  key: keyid
+  currency: dns
+  sort_order: 4
+  min_confirm: 10
+  max_confirm: 51

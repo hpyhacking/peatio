@@ -1,0 +1,50 @@
+en:
+  deposit_channel:
+    keyid:
+      key: Block Chain
+      title: KeyID DNS Deposits
+      intro: Deposit KeyID DNS from your own wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
+
+  activerecord:
+    attributes:
+      deposits/keyid:
+        created_at: Created At
+        txid: Transaction ID
+        amount: Amount
+        memo: Confirmation
+        aasm_state_text: State
+
+  deposits/keyid:
+    aasm_state:
+      submitted: Submitted
+      accepted: Accepted
+      checked: Checked
+      warning: Warning
+
+  guides:
+    private:
+      deposits:
+        keyids:
+          panel: Deposits
+          intro: Deposit KeyID DNS from your own Wallet address to Peatio account.
+          new:
+            default-panel: Deposit Transactions
+
+  admin:
+    deposits:
+      keyids:
+        update:
+          notice: The deposit was successful.
+        index:
+          accept: Accept
+          accept_confirm: Confirm deposit?
+
+  private:
+    deposits:
+      keyids:
+        new:
+          send-coin: Fill in the collection address the following address which is specifically for your KeyID DNS deposits. Check the KeyID DNS amount you want to send,  and do not forget to pay a fee to the miner in order to ensure the transaction could be confirmed quickly.
+          check-confirm: Send KeyID DNS to your Peatio account. When the transaction gets one confirmation by the whole network, the system will automatically recharge your account.(you do not need to refresh this interface, transactions and recharge will be real-time updated).
