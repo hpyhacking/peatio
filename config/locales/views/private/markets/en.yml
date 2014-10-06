@@ -26,7 +26,7 @@ en:
         title: Account Balance
         available: Available %{currency}
       ask_entry:
-        title: Sell [%{currency}]
+        title: SELL
         action: Place [SELL] Order
         price: Price
         last_price: Last Price
@@ -38,7 +38,7 @@ en:
         full_in: Full
         full_out: Empty
       bid_entry:
-        title: Buy [%{currency}]
+        title: BUY
         action: Place [BUY] Order
         price: Price
         last_price: Last Price

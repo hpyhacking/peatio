@@ -30,7 +30,7 @@ zh-CN:
       balance:
         balance: 余额
       bid_entry:
-        title: 买入 [%{currency}]
+        title: 买入 
         action: 挂[买单]
         price: 价格
         last_price: 最新价格
@@ -41,7 +41,7 @@ zh-CN:
         full_in: 满
         full_out: 空
       ask_entry:
-        title: 卖出 [%{currency}]
+        title: 卖出 
         action: 挂[卖单]
         price: 价格
         last_price: 最新价格
