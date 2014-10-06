@@ -187,6 +187,10 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def memo
+    PaymentAddress.construct_memo(self)
+  end
+
   private
   def generate_sn
     self.sn and return
