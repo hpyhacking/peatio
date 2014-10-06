@@ -50,6 +50,7 @@ gem "jquery-rails"
 gem 'bootstrap-sass', '~> 3.2.0.2'
 gem 'bootstrap-wysihtml5-rails'
 gem 'font-awesome-sass'
+gem 'bourbon'
 gem 'momentjs-rails'
 gem 'flot-rails'
 gem 'handlebars_assets'

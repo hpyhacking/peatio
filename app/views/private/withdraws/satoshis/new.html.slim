@@ -20,14 +20,14 @@
 = content_for :after
   = panel do
     = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
-      - t.column :id, class: 'col-md-2'
-      - t.column :created_at, class: 'col-md-4'
-      - t.column :fund_uid, class: 'col-md-10' do |x|
+      - t.column :id, class: 'col-xs-2'
+      - t.column :created_at, class: 'col-xs-4'
+      - t.column :fund_uid, class: 'col-xs-10' do |x|
         span = "#{x.fund_extra} @ "
         code.text-info = x.fund_uid
-      - t.column :amount, class: 'col-md-2'
-      - t.column :fee, class: 'col-md-2'
-      - t.column :state_and_action, class: 'col-md-4' do |x|
+      - t.column :amount, class: 'col-xs-2'
+      - t.column :fee, class: 'col-xs-2'
+      - t.column :state_and_action, class: 'col-xs-4' do |x|
         - if x.cancelable?
           span = "#{x.aasm_state_text} / "
           = link_to t('actions.cancel'), url_for([x]), method: :delete

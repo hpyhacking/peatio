@@ -15,6 +15,7 @@ class Deposit < ActiveRecord::Base
 
   delegate :name, to: :member, prefix: true
   delegate :id, to: :channel, prefix: true
+  delegate :coin?, :fiat?, to: :currency_obj
 
   belongs_to :member
   belongs_to :account
@@ -33,7 +34,7 @@ class Deposit < ActiveRecord::Base
     state :cancelled
     state :submitted
     state :rejected
-    state :accepted, after_commit: :do
+    state :accepted, after_commit: [:do, :send_mail, :send_sms]
     state :checked
     state :warning
 
@@ -62,28 +63,30 @@ class Deposit < ActiveRecord::Base
     end
   end
 
-  def update_memo(data)
-    self.update_column(:memo, data)
-  end
+  class << self
+    def channel
+      DepositChannel.find_by_key(name.demodulize.underscore)
+    end
 
-  def self.channel
-    DepositChannel.find_by_key(name.demodulize.underscore)
+    def resource_name
+      name.demodulize.underscore.pluralize
+    end
+
+    def params_name
+      name.underscore.gsub('/', '_')
+    end
+
+    def new_path
+      "new_#{params_name}_path"
+    end
   end
 
   def channel
     self.class.channel
   end
 
-  def self.resource_name
-    name.demodulize.underscore.pluralize
-  end
-
-  def self.params_name
-    name.underscore.gsub('/', '_')
-  end
-
-  def self.new_path
-    "new_#{params_name}_path"
+  def update_memo(data)
+    update_column(:memo, data)
   end
 
   def txid_text
@@ -93,6 +96,22 @@ class Deposit < ActiveRecord::Base
   private
   def do
     account.lock!.plus_funds amount, reason: Account::DEPOSIT, ref: self
+  end
+
+  def send_mail
+    DepositMailer.accepted(self.id).deliver if self.accepted?
+  end
+
+  def send_sms
+    return true if not member.phone_number_verified?
+
+    sms_message = I18n.t('sms.deposit_done', email: member.email,
+                                             currency: currency_text,
+                                             time: I18n.l(Time.now),
+                                             amount: amount,
+                                             balance: account.balance)
+
+    AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
   end
 
   def set_fee

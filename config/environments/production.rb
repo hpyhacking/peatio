@@ -53,7 +53,7 @@ Peatio::Application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :memory_store
-  config.cache_store = :redis_store, ENV['REDIS_URL'], { expires_in: 24.hours }
+  config.cache_store = :redis_store, ENV['REDIS_URL']
 
   config.session_store :redis_store, :key => '_peatio_session', :expire_after => ENV['SESSION_EXPIRE'].to_i.minutes
 
@@ -62,7 +62,7 @@ Peatio::Application.configure do
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  config.assets.precompile += %w( admin.js admin.css html5.js api_v2.css api_v2.js .svg .eot .woff .ttf )
+  config.assets.precompile += %w( market.css admin.js admin.css html5.js api_v2.css api_v2.js .svg .eot .woff .ttf )
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -71,13 +71,12 @@ Peatio::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :port                 => ENV["SMTP_PORT"],
-    :domain               => ENV["SMTP_DOMAIN"],
-    :address              => ENV["SMTP_ADDRESS"],
-    :user_name            => ENV["SMTP_USERNAME"],
-    :password             => ENV["SMTP_PASSWORD"],
-    :authentication       => 'plain',
-    :enable_starttls_auto => true
+    port:           ENV["SMTP_PORT"],
+    domain:         ENV["SMTP_DOMAIN"],
+    address:        ENV["SMTP_ADDRESS"],
+    user_name:      ENV["SMTP_USERNAME"],
+    password:       ENV["SMTP_PASSWORD"],
+    authentication: ENV["SMTP_AUTHENTICATION"]
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

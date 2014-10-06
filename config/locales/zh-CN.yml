@@ -4,22 +4,17 @@ zh-CN:
 
   view_on_github: 到 Github 上查看
   slogan: 貔貅，将致力于成为世界级的交易软件。
-  slogan_desc: 貔貅交易所是比特币等加密数字货币的交易平台，是国内首个实现开源机制的项目，我们秉承“开放开源，阳光透明”的理念，旨在为广大加密数字货币爱好者，提供一个代码开源开放、资产公开透明，安全易用和最具有公信力的加密数字货币交易服务平台。
   tags:
     vip: VIP
     hero: 超级用户
     admin: 管理员
   trade:
     markets: 市场
-    btccny: BTC/CNY
     realtime_price:
       title: 实时价格
     account_balance:
       title: 账户余额
-      available_btc: 可用BTC
-      available_cny: 可用CNY
-      locked_btc: 冻结BTC
-      locked_cny: 冻结CNY
+
   gon:
     ask: 卖出
     bid: 买入
@@ -43,11 +38,11 @@ zh-CN:
       short: '%m-%d %H:%M'
       default: '%Y-%m-%d %H:%M'
 
-  reset_two_factors:
-    create:
-      success: 重置两步验证邮件已经发送，请根据邮件内容进行操作。
-    edit:
-      success: 两步验证禁用成功，登录后在账户设置中可再次激活。
+  sms:
+    verification_code: "验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【貔貅交易所（北京）】"
+    password_changed: "%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！【貔貅交易所（北京）】"
+    deposit_done: "%{email} 您好，您于%{time}进行了（%{currency}）充值操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请及时联系我们！）【貔貅交易所（北京）】"
+    withdraw_done: "%{email} 您好，您于%{time}进行了（%{currency}）提现操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请立即联系客服！）【貔貅交易所（北京）】"
 
   private:
     trade:

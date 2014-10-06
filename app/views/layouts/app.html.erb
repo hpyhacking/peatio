@@ -23,7 +23,7 @@
     <%= csrf_meta_tags %>
   </head>
 
-  <body id="<%= "#{controller_name}-#{action_name}" %>" data-lang="<%= "#{I18n.locale.to_s.downcase}" %>">
+  <body id="<%= body_id %>" data-lang="<%= "#{locale_name}" %>">
 
     <script type="text/x-handlebars" id="accounts/index">
       <p class="text-warning">Please select a account</p>

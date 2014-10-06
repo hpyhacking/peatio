@@ -12,7 +12,7 @@ module WrappedButton
 
   def wrapped_button(*args, &block)
     template.content_tag :div, :class => "form-group" do
-      template.content_tag :div, :class => "form-submit col-sm-22" do
+      template.content_tag :div, :class => "form-submit col-xs-22" do
 
         options = args.extract_options!
         loading = self.object.new_record? ? I18n.t('simple_form.creating') : I18n.t('simple_form.updating')

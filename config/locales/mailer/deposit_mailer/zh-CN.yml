@@ -1,0 +1,6 @@
+zh-CN:
+  deposit_mailer:
+    accepted:
+      subject: "[貔貅] 你的充值已经到账"
+      content: "您的 %{currency} 已经到账."
+

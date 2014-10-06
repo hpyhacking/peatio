@@ -1,8 +1,10 @@
-class ResetPassword < Token
+class Token::ResetPassword < ::Token
   attr_accessor :email
   attr_accessor :password
 
-  validates :password, presence: true, on: :update, length: { minimum: 6, maximum: 64 }
+  validates :password, presence: true,
+                       on: :update,
+                       length: { minimum: 6, maximum: 64 }
 
   after_create :send_token
   after_update :reset_password

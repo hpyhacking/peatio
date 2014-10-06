@@ -24,8 +24,10 @@ class SessionsController < ApplicationController
       else
         clear_failed_logins
         reset_session rescue nil
-        session[:temp_member_id] = @member.id
-        redirect_to new_verify_two_factor_path
+        session[:member_id] = @member.id
+        save_session_key @member.id, cookies['_peatio_session']
+        MemberMailer.notify_signin(@member.id).deliver if @member.activated?
+        redirect_to settings_path
       end
     else
       increase_failed_logins

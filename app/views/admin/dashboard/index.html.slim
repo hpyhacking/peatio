@@ -1,5 +1,5 @@
 .row
-  .col-md-8
+  .col-xs-8
     - Currency.all.each do |c|
       .panel.panel-primary
         .panel-heading: span = c.code.upcase
@@ -10,9 +10,9 @@
             = item_for :balance, Account.balance_sum(c.code)
             - if c.coin?
               = item_for :'hot-wallet', c.api.safe_getbalance
-  .col-md-6: .panel.panel-primary
+  .col-xs-6: .panel.panel-primary
     .panel-heading Daemons Status
     .panel-body
       = description_for :daemons do
-        - Daemon.statuses.each do |daemon, state|
+        - Global.daemon_statuses.each do |daemon, state|
           = item_for daemon, state

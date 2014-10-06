@@ -43,7 +43,6 @@ zh-CN:
       columns: &withdraws_columns
         id: 交易编号
         name: 姓名
-        position_in_queue: 队列位置
         currency_text: 币种
         address_label: 标签
         address_type_text: 方式
@@ -54,7 +53,7 @@ zh-CN:
         done_at: 完成时间
         aasm_state_text: 状态
         channel: 通道
-    bank_withdraws_grid: 
+    bank_withdraws_grid:
       columns:
         <<: *withdraws_columns
         sum: 金额

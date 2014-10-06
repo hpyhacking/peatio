@@ -6,7 +6,7 @@ html lang="en"
     = javascript_include_tag "api_v2"
     = render 'shared/html5'
     = render 'shared/meta'
-  body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
+  body id='#{body_id}' data-lang="#{locale_name}"
     .navbar.navbar-default.navbar-static-top role='navigation'
       .container
         .navbar-header

@@ -1,0 +1,26 @@
+doctype html
+html lang="en"
+  head
+    link href="/favicon.ico" rel="shortcut icon"
+    = include_gon
+    = stylesheet_link_tag 'market', media: "all"
+    = javascript_include_tag "application"
+    = render 'shared/html5'
+    = render 'shared/meta'
+    = csrf_meta_tags
+
+  body id='#{body_id}' data-lang="#{locale_name}"
+    = render 'shared/alert'
+
+    #wrap
+      - if content_for?(:header)
+        = yield(:header)
+      - else
+        = render 'shared/header'
+
+      - if content_for?(:frame)
+        = yield(:frame)
+      - else
+        = render 'shared/frame'
+
+      #push

@@ -15,7 +15,7 @@ class TwoFactor::Sms < ::TwoFactor
   end
 
   def sms_message
-    I18n.t('private.two_factors.auth.sms_message', code: otp_secret)
+    I18n.t('sms.verification_code', code: otp_secret)
   end
 
   def send_otp

@@ -14,7 +14,7 @@ class Member < ActiveRecord::Base
   has_many :comments, foreign_key: 'author_id'
 
   has_one :id_document
-  has_one :sms_token
+  has_one :sms_token, class_name: 'Token::SmsToken'
 
   has_many :authentications, dependent: :destroy
 
@@ -166,7 +166,16 @@ class Member < ActiveRecord::Base
   end
 
   def send_activation
-    Activation.create(member: self)
+    Token::Activation.create(member: self)
+  end
+
+  def send_password_changed_notification
+    MemberMailer.reset_password_done(self.id).deliver
+
+    if phone_number_verified?
+      sms_message = I18n.t('sms.password_changed', email: self.email)
+      AMQPQueue.enqueue(:sms_notification, phone: phone_number, message: sms_message)
+    end
   end
 
   def unread_comments

@@ -1,14 +1,138 @@
-@import 'vars/peatio';
+@import "bourbon";
+
+@import 'vars/bootstrap';
+
 @import 'bootstrap';
 @import 'bootstrap-switch.min';
+
+@import 'vars/basic';
+@import 'vars/custom';
+
+@import "font-awesome-sprockets";
 @import 'font-awesome';
 
-@import 'basic';
-@import 'layout';
-@import 'welcome';
-@import 'market';
-@import 'market_chart';
-@import 'assets';
-@import 'id_document';
-@import 'history';
-@import 'funds';
+@import 'layouts/basic';
+@import 'layouts/header';
+
+@import 'features/welcome';
+@import 'features/market';
+@import 'features/market_chart';
+@import 'features/assets';
+@import 'features/id_document';
+@import 'features/history';
+@import 'features/custom';
+
+/* layouts 
+-------------------------------------------------------------- */
+html, body {
+  height: 100%;
+}
+
+.container {
+  width: 1170px !important;
+}
+
+#wrap {
+  height: auto !important;
+  min-height: 100%;
+  margin: 0 auto 0 - $footer-height;
+
+  & + iframe { display: none; }
+
+  #guide {
+    padding-left: 26px;
+  }
+
+  #content {
+    border-left: 1px solid $content-split;
+    padding-top: 15px;
+
+    .list-group {
+      margin-right: -15px;
+      margin-bottom: 0px;
+
+      .list-group-item {
+        border-left: 0px;
+        border-right: 0px;
+
+        &.split {
+          padding-bottom: 8px;
+
+          & > * {
+            margin-top: 4px;
+            margin-bottom: 0px;
+          }
+        }
+
+        &:first-of-type {
+          padding-top: 0px;
+          border-top: 0px;
+        }
+
+        &:last-of-type {
+          border-bottom: 0px;
+        }
+      }
+    }
+  }
+}
+
+#push, footer {
+  height: $footer-height;
+  box-sizing: 'border-box';
+}
+
+footer {
+  color: $footer-color;
+  height: $footer-height;
+  box-sizing: 'border-box';
+  padding-top: 20px;
+  background-color: $footer-bg; 
+  border-top: 1px solid $footer-border;
+}
+
+/* ticker 
+------------------------------------------- */
+.dl-horizontal.dl-ticker {
+  margin-bottom: 10px;
+  line-height: 40px;
+
+  dt { 
+    width: 38px; 
+    cursor: pointer;
+    color: $gray-light; 
+  }
+
+  dd {
+    margin-top: -4px;
+    font-size: 20px;
+    margin-left: 42px; 
+    font-family: monospace;
+  }
+}
+
+/* simple_form mix
+------------------------------------------------------- */
+form.simple_form {
+  .form-submit, .form-group {
+    input[type=submit] + a, a + a {
+      margin-right: $btn-gutter-width;
+    }
+  }
+
+  hr.split {
+    border-top-color: #DDD;
+    margin-left: 10px;
+    margin-right: 54px;
+  }
+}
+/* flash message element
+
+------------------------------------------------------- */
+.flash-alert, .flash-notice {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  h5 i.fa { margin-right: 10px; }
+}
+
+@import 'layouts/custom';

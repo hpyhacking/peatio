@@ -1,7 +1,15 @@
-@import 'vars/peatio';
-@import "bootstrap";
+@import "bourbon";
+
+@import 'vars/bootstrap';
+
+@import 'bootstrap';
+@import 'bootstrap-switch.min';
+
 @import "bootstrap-wysihtml5/core-b3";
 @import "bootstrap-wysihtml5/wysiwyg-color";
+
+@import 'vars/basic';
+@import 'vars/custom';
 
 .dl-horizontal dt {
   width: 120px;
@@ -75,4 +83,14 @@ span.detail-section {
 
 .unread {
   background: #f2f2f2;
+}
+
+[data-title] {
+  &:before {
+    .text-ignore {
+      font-size: 16px;
+      display: block;
+      content: attr(data-title);
+    }
+  }
 }

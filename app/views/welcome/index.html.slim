@@ -9,10 +9,10 @@ header.text-center
         h3 = t(:slogan, locale: locale)
     #getstart.row
       - unless current_user
-        .col-md-4.col-md-offset-8
+        .col-xs-4.col-xs-offset-8
           a href="#{signin_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signin")
-        .col-md-4
+        .col-xs-4
           a href="#{signup_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signup")
       - else
-        .col-md-4.col-md-offset-8
+        .col-xs-4.col-xs-offset-8
           a href="#{market_path(current_market)}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.getstart")

@@ -32,20 +32,6 @@ describe Withdraw do
       end
     end
 
-    describe 'after update' do
-      [:done, :rejected, :canceled].each do |state|
-        it "busts last done withdraw cache when state changes to #{state}" do
-          withdraw.save
-          key = withdraw.send(:last_completed_withdraw_cache_key)
-          Rails.cache.write(key, 123)
-
-          expect{
-            withdraw.update_attributes!(aasm_state: state, txid: 'tx123')
-          }.to change { Rails.cache.read(key) }.from(123).to(nil)
-        end
-      end
-    end
-
     describe 'account id assignment' do
       subject { build :satoshi_withdraw, account_id: 999 }
 

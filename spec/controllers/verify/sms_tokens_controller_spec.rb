@@ -24,7 +24,7 @@ module Verify
       let(:attrs) {
         {
           format: :js,
-          sms_token: {phone_number: '123-1234-1234'},
+          token_sms_token: {phone_number: '123-1234-1234'},
           commit: 'send_code'
         }
       }
@@ -33,14 +33,14 @@ module Verify
 
       it "create sms_token" do
         post :create, attrs
-        expect(member.sms_token).to be_is_a(SmsToken)
+        expect(member.sms_token).to be_is_a(Token::SmsToken)
       end
 
       context "with empty number" do
         let(:attrs) {
           {
             format: :js,
-            sms_token: {phone_number: ''},
+            token_sms_token: {phone_number: ''},
             commit: 'send_code'
           }
         }
@@ -56,7 +56,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {phone_number: 'wrong number'},
+            token_sms_token: {phone_number: 'wrong number'},
             commit: 'send_code'
           }
         }
@@ -76,7 +76,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {phone_number: '123.1234.1234'},
+            token_sms_token: {phone_number: '123.1234.1234'},
             commit: 'send_code'
           }
         }
@@ -96,7 +96,7 @@ module Verify
     end
 
     describe 'POST verify/sms_tokens in verify code phase' do
-      let(:token) { create :sms_token }
+      let(:token) { create :token_sms_token }
       let(:member) { token.member }
       before { session[:member_id] = member.id }
 
@@ -104,7 +104,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {verify_code: ''}
+            token_sms_token: {verify_code: ''}
           }
         }
 
@@ -121,7 +121,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {verify_code: 'foobar'}
+            token_sms_token: {verify_code: 'foobar'}
           }
         }
 
@@ -142,7 +142,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {verify_code: token.token}
+            token_sms_token: {verify_code: token.token}
           }
         }
 
