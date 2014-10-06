@@ -37,3 +37,9 @@
   quote_unit: cny
   bid: {fee: 0, currency: cny, fixed: 6}
   ask: {fee: 0, currency: btsx, fixed: 5}
+- id: dnscny
+  code: 25
+  base_unit: dns
+  quote_unit: cny
+  bid: {fee: 0, currency: cny, fixed: 4}
+  ask: {fee: 0, currency: dns, fixed: 2}
