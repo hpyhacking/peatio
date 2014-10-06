@@ -71,7 +71,7 @@ Handlebars.registerHelper 'format_trend', (type) ->
   if type == 'buy'
     "text-up"
   else if type == "sell"
-    "test-down"
+    "text-down"
 
 Handlebars.registerHelper 'format_fix_bid', (price) ->
   fixBid price
