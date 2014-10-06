@@ -143,11 +143,11 @@ $entry-height: 190px;
 $order-book-width: $entry-width * 2 + $gutter;
 $order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
 
-$my-orders-width: 222px;
-$my-orders-height: 200px;
+$my-orders-width: 268px;
+$my-orders-height: 280px;
 
 $trades-width: $my-orders-width;
-$trades-height: 200px;
+$trades-height: $my-orders-height;
 
 $chat-width: $min-width - $sidebar-width - $order-book-width - $my-orders-width - $trades-width - $gutter-5x;
 $chat-height: 200px;
@@ -172,10 +172,12 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
   bottom: $gutter; left: $gutter; }
 
 #trades { 
+  min-width: $trades-width;
   width: $trades-width; height: $trades-height; 
-  right: $gutter-3x + $order-book-width + $trades-width; bottom: $gutter; }
+  left: $gutter; bottom: $gutter; }
 
 #my_orders { 
+  min-width: $trades-width;
   width: $my-orders-width; height: $my-orders-height; 
   right: $gutter-2x + $order-book-width ; bottom: $gutter; }
 
