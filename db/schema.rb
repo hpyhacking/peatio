@@ -118,7 +118,6 @@ ActiveRecord::Schema.define(version: 20141006172601) do
     t.datetime "done_at"
     t.string   "memo"
     t.string   "type"
-    t.string   "blockid"
     t.integer  "payment_transaction_id"
     t.integer  "txout"
   end
@@ -148,12 +147,6 @@ ActiveRecord::Schema.define(version: 20141006172601) do
     t.datetime "updated_at"
     t.text     "desc"
     t.text     "keywords"
-  end
-
-  create_table "dogecoin_trades", id: false, force: true do |t|
-    t.datetime "created_at"
-    t.decimal  "volume",     precision: 32, scale: 16
-    t.integer  "member_id"
   end
 
   create_table "fund_sources", force: true do |t|
@@ -220,12 +213,12 @@ ActiveRecord::Schema.define(version: 20141006172601) do
     t.decimal  "origin_volume",             precision: 32, scale: 16
     t.integer  "state"
     t.datetime "done_at"
+    t.string   "type",           limit: 8
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
     t.string   "source",                                                            null: false
-    t.string   "type",           limit: 8
     t.string   "ord_type",       limit: 10
     t.decimal  "locked",                    precision: 32, scale: 16
     t.decimal  "origin_locked",             precision: 32, scale: 16
@@ -269,8 +262,6 @@ ActiveRecord::Schema.define(version: 20141006172601) do
     t.datetime "dont_at"
     t.integer  "currency"
     t.string   "type",          limit: 60
-    t.string   "payer"
-    t.string   "blockid"
     t.integer  "txout"
   end
 
@@ -403,7 +394,6 @@ ActiveRecord::Schema.define(version: 20141006172601) do
     t.string   "aasm_state"
     t.decimal  "sum",        precision: 32, scale: 16, default: 0.0, null: false
     t.string   "type"
-    t.string   "memo"
   end
 
 end

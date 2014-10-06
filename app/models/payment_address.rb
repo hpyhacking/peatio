@@ -23,8 +23,8 @@ class PaymentAddress < ActiveRecord::Base
     address && address.split('|', 2).last
   end
 
-  def self.construct_memo(account)
-    member = account.member
+  def self.construct_memo(obj)
+    member = obj.is_a?(Account) ? obj.member : obj
     checksum = member.created_at.to_i.to_s[-3..-1]
     "#{member.id}#{checksum}"
   end

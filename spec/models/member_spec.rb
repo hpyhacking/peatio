@@ -95,6 +95,12 @@ describe Member do
     end
   end
 
+  describe "#memo" do
+    it "returns deposit memo" do
+      create(:member).memo.should_not be_nil
+    end
+  end
+
   describe 'Member.search' do
     before do
       create(:member)

@@ -26,8 +26,12 @@ describe PaymentAddress do
     before { Timecop.freeze(created_at) }
     after  { Timecop.return }
 
-    it "constructs memo" do
+    it "constructs memo from account" do
       PaymentAddress.construct_memo(account).should == memo
+    end
+
+    it "constructs memo from member" do
+      PaymentAddress.construct_memo(member).should == memo
     end
 
     it "returns the corresponding account if memo is valid" do
