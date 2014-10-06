@@ -20,7 +20,7 @@ class WithdrawMailer < BaseMailer
 
   def set_mail(withdraw_id)
     @withdraw = Withdraw.find withdraw_id
-    mail :to => @withdraw.member.email
+    mail to: @withdraw.member.email
   end
 
 end

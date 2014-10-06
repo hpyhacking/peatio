@@ -10,14 +10,12 @@ module Deposits
     validates_numericality_of :amount, greater_than_or_equal_to: 100
 
     def charge!(txid)
-      ActiveRecord::Base.transaction do
-        self.lock!
-        self.submit!
-        self.accept!
-        self.touch(:done_at)
-        self.update_attribute(:txid, txid)
+      with_lock do
+        submit!
+        accept!
+        touch(:done_at)
+        update_attribute(:txid, txid)
       end
-
     end
 
   end
