@@ -167,10 +167,6 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
   min-height: $order-book-height;
   bottom: $gutter; right: $gutter; }
 
-#order_book .panel-body-content {
-  overflow-y: auto;
-}
-
 #chat { 
   min-width: $chat-width; width: $chat-width; height: $chat-height; 
   bottom: $gutter; left: $gutter; }
@@ -289,6 +285,9 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
   thead { cursor: default; }
   tbody > tr:hover { cursor: pointer; background-color: #333;}
 }
+
+.panel-body-content::-webkit-scrollbar { width: 0 !important }
+.panel-body-content { overflow-y: auto; -ms-overflow-style: none; overflow: -moz-scrollbars-auto; }
 
 @import 'layouts/custom';
 

@@ -27,7 +27,7 @@ $font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
 
 /* bootstrap form mix 
 ------------------------------------------------------------ */
-$input-bg: inherit;
+$input-bg: $panel-bg;
 $input-color: #fff;
 $input-group-addon-bg: #2b3434;
 $input-border: rgb(85, 85, 85);
