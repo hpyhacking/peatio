@@ -143,7 +143,8 @@ $entry-height: 190px;
 $order-book-width: $entry-width * 2 + $gutter;
 $order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
 
-$my-orders-width: 268px;
+$my-orders-width: $min-width - $sidebar-width - $order-book-width;
+$my-orders-width: ($my-orders-width / 2) - $gutter-2x;
 $my-orders-height: 280px;
 
 $trades-width: $my-orders-width;
