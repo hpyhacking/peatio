@@ -170,13 +170,11 @@ class Withdraw < ActiveRecord::Base
   def send_sms
     return true if not member.phone_number_verified?
 
-    sms_message = I18n.t('sms.withdraw_done', {
-      email: member.email,
-      currency: currency_text,
-      time: I18n.l(Time.now),
-      amount: amount,
-      balance: account.balance
-    })
+    sms_message = I18n.t('sms.withdraw_done', email: member.email,
+                                              currency: currency_text,
+                                              time: I18n.l(Time.now),
+                                              amount: amount,
+                                              balance: account.balance)
 
     AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
   end
