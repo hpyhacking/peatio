@@ -16,7 +16,6 @@
         enabled: false
 
       chart:
-        height: 437
         events:
           load: ->
             drawChart = =>
@@ -111,29 +110,24 @@
       yAxis: [
         {
           opposite: false
-          height: 230
           labels:
             enabled: false
         }
         {
           opposite: false
-          top: 245
-          height: 60
-          offset: 0
           labels:
             enabled: false
+          top: "82%"
+          height: "18%"
         }
       ]
 
       series: [
         {
           type: "candlestick"
-          dataGrouping:
-            smoothed: true
         }
         {
           type: "column"
-          name: gon.i18n.chart.volume
           yAxis: 1
         }
       ]

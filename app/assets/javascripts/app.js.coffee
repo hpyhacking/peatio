@@ -30,6 +30,7 @@ $ ->
     $('#ticker, #kline_chart').width(window_w - sidebar_w - order_book_w - gutter_5x)
     $('#chat').width(window_w - sidebar_w - order_book_w - trades_w - my_orders_w - gutter_9x)
     $('#kline_chart').height(window_h - navbar_h - ticker_h - trades_h - gutter_7x)
+    $('.market-chart').height($('#kline_chart').height() - 20)
     $('#order_book').height(window_h - navbar_h - entry_h - gutter_5x)
 
   $(window).resize()
