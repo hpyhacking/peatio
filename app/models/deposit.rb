@@ -58,28 +58,30 @@ class Deposit < ActiveRecord::Base
     end
   end
 
-  def update_memo(data)
-    self.update_column(:memo, data)
-  end
+  class << self
+    def channel
+      DepositChannel.find_by_key(name.demodulize.underscore)
+    end
 
-  def self.channel
-    DepositChannel.find_by_key(name.demodulize.underscore)
+    def resource_name
+      name.demodulize.underscore.pluralize
+    end
+
+    def params_name
+      name.underscore.gsub('/', '_')
+    end
+
+    def new_path
+      "new_#{params_name}_path"
+    end
   end
 
   def channel
     self.class.channel
   end
 
-  def self.resource_name
-    name.demodulize.underscore.pluralize
-  end
-
-  def self.params_name
-    name.underscore.gsub('/', '_')
-  end
-
-  def self.new_path
-    "new_#{params_name}_path"
+  def update_memo(data)
+    update_column(:memo, data)
   end
 
   def txid_text
