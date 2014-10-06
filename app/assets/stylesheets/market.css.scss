@@ -29,7 +29,7 @@
 /* basic layout 
 ------------------------------------------------ */
 $min-height: 620px;
-$navbar-height: 50px;
+$navbar-height: 51px;
 $sidebar-width: $brand-width;
 $gutter: 2px;
 $gutter-2x: $gutter * 2;
@@ -41,13 +41,18 @@ body, html, #wrap, .sidebar, .content { height: 100%; }
 
 body { min-width: $min-width !important; min-height: $min-height !important; }
 
+header {
+  box-sizing: border-box;
+  bottom-border: 0px;
+}
+
 #wrap {
   box-sizing: border-box; 
-  margin-top: 0px - $navbar-height - 1px;
+  margin-top: 0px - $navbar-height;
 }
 
 .sidebar { 
-  padding-top: $navbar-height + 1px;
+  padding-top: $navbar-height;
   background-color: $brand-primary; 
   float: left; 
   position: absolute; 
@@ -75,7 +80,7 @@ body { min-width: $min-width !important; min-height: $min-height !important; }
   top: $navbar-height;
   left: $sidebar-width;
   min-width: $min-width - $sidebar-width;
-  min-height: $min-height - $navbar-height - 1;
+  min-height: $min-height - $navbar-height;
   width: 100%;
   height: 100%;
   position: absolute; 
@@ -125,7 +130,6 @@ body { min-width: $min-width !important; min-height: $min-height !important; }
   .panel-body.panel-fixed-table-body {
     table { margin-bottom: 0px;}
     overflow-y: auto;
-    height: 470px;
   }
 }
 
@@ -178,7 +182,7 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
 
 #kline_chart { 
   min-width: $kline-chart-width; width: $kline-chart-width; 
-  min-height: $kline-chart-height - 1; height: $kline-chart-height; 
+  min-height: $kline-chart-height; height: $kline-chart-height; 
   top: $gutter-2x + $ticker-height; left: $gutter; }
 
 #ticker { 

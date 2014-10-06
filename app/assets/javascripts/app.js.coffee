@@ -14,7 +14,7 @@ $ ->
   gutter_8x = 2 * 8;
 
   $(window).resize ->
-    navbar_h = $('.navbar').height()
+    navbar_h = $('.navbar').height() + 1;
     window_w = $(window).width()
     window_h = $(window).height()
     sidebar_w = $('.sidebar').width()
