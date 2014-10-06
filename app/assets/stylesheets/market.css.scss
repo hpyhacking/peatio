@@ -160,8 +160,8 @@ $kline-chart-width: $ticker-width;
 $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-height - $gutter-4x;
 
 #ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
-.entry-left { top: $base-top; right: $gutter + $entry-width + $gutter; }
-.entry-right { top: $base-top; right: $gutter; }
+.entry-right { top: $base-top; right: $gutter + $entry-width + $gutter; }
+.entry-left { top: $base-top; right: $gutter; }
 
 #order_book { 
   width: $order-book-width; height: $order-book-height; 

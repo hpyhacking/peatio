@@ -1,6 +1,6 @@
 #bid_entry.panel.panel-default.entry-right
   .panel-heading
-    span BID ENTRY
+    span.text-up = t('.title', currency: market.ask_currency.name_text)
   .panel-body
     = form_for [market, order], :remote => true do |f|
       = f.hidden_field :ord_type

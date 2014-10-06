@@ -23,16 +23,26 @@ zh-CN:
         buy: 买入
         sell: 卖出
       ticker:
-        markets: 实时价格
+        title: 市场实时报价
       account_balance:
         title: 账户余额
         available: 可用 %{currency}
       balance:
         balance: 余额
-      place_order:
+      bid_entry:
+        title: 买入 [%{currency}]
         place_order: 快速挂单
-        bid_panel: 买入%{currency}
-        ask_panel: 卖出%{currency}
+        price: 价格
+        last_price: 最新价格
+        amount: 数量
+        total: 金额
+        price_high: 高
+        price_low: 低
+        full_in: 满
+        full_out: 空
+      ask_entry:
+        title: 卖出 [%{currency}]
+        place_order: 快速挂单
         price: 价格
         last_price: 最新价格
         amount: 数量
@@ -42,21 +52,21 @@ zh-CN:
         full_in: 满
         full_out: 空
       order_book:
-        order_book: 挂单记录
+        title: 市场实时挂单记录
         latest_trade: 最新成交
       trades:
-        trades: 市场委单成交记录
+        title: 市场委单成交记录
         time: 时间
         price: 价格
         volume: 数量
       my_trades:
-        my_trades: 我的委单成交记录
+        title: 我的委单成交记录
         all: 全部 [买卖委单]
         buy: "[买入委单]"
         sell: "[卖出委单]"
         cancel: 取消记录
       my_orders:
-        my_orders: 我的有效委单
+        title: 我的有效委单
         orders_cancel: 最新撤销
         one_click_clear: 一键撤销
         clear_all: 全部 [买卖委托]
@@ -65,8 +75,10 @@ zh-CN:
         confirm_clear_all: "确定要撤销全部 [买卖委单] 吗?"
         confirm_clear_bids: "确定要撤销 [买入委单] 吗?"
         confirm_clear_asks: "确定要撤销 [卖出委单] 吗?"
-      market_chart:
-        market_chart: 行情走势
+      kline_chart:
+        title: 行情走势图 - K线
       global:
         global_orders_title: 十档盘口
         global_trades_title: 成交记录
+      chat: 
+        title: 聊天频道
