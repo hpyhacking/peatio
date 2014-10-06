@@ -1,12 +1,12 @@
 @MarketChartUI = flight.component ->
   @drawChart = ->
-    dataGrouping = [
-      ['minute', [1,5,10,15,30,60]]
-      ['hour',[1,2,5,10]]
-    ]
+    dataGrouping =
+      focus: true
+      units: [['minute', [1, 3, 5, 15, 30]], ['hour', [1]]]
 
     @$node.highcharts "StockChart",
       chart:
+        backgroundColor: 'white'
         events:
           load: ->
             formatOhlc = (data) ->
@@ -69,7 +69,6 @@
 
       plotOptions:
         candlestick:
-          animation: true
           color: 'red'
           upColor: 'green'
           dataGrouping: dataGrouping
@@ -96,23 +95,27 @@
         selected: 4
         buttons: [
           type: 'minute',
-          count: 10,
+          count: 100,
           text: "1#{gon.i18n.time.minute}"
         ,
           type: 'minute',
-          count: 30,
+          count: 300,
+          text: "3#{gon.i18n.time.minute}"
+        ,
+          type: 'minute',
+          count: 500,
           text: "5#{gon.i18n.time.minute}"
         ,
           type: 'minute',
-          count: 60,
+          count: 1500,
           text: "15#{gon.i18n.time.minute}"
         ,
           type: 'minute',
-          count: 120,
+          count: 3000,
           text: "30#{gon.i18n.time.minute}"
         ,
           type: 'hour',
-          count: 180,
+          count: 100,
           text: gon.i18n.time.hour
         ]
 
@@ -126,8 +129,8 @@
           opposite: false
           labels:
             enabled: false
-          top: "82%"
-          height: "18%"
+          top: "80%"
+          height: "20%"
         }
       ]
 
