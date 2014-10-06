@@ -32,7 +32,7 @@ $ ->
     $('#kline_chart').height(window_h - navbar_h - ticker_h - trades_h - gutter_7x)
     $('.market-chart').height($('#kline_chart').height() - 20)
     $('#order_book').height(window_h - navbar_h - entry_h - gutter_5x)
-    $('#order_book .panel-body-content').height(window_h - navbar_h - entry_h - gutter_5x - 70)
+    $('#order_book .panel-body-content').height(window_h - navbar_h - entry_h - gutter_5x - 73)
     $('#trades, #my_orders').width((window_w - sidebar_w - order_book_w - gutter_7x) / 2)
 
   $(window).resize()
@@ -83,9 +83,9 @@ $ ->
   MyOrdersUI.attachTo('.my-orders')
   MyTradesUI.attachTo('.my-trades')
 
-  MarketTickerUI.attachTo('.ticker')
-  MarketTradesUI.attachTo('.trades')
   MarketChartUI.attachTo('.market-chart')
+  MarketTickerUI.attachTo('.ticker')
+  MarketTradesUI.attachTo('#trades')
   OrderBookUI.attachTo('#order_book')
 
   TransactionsUI.attachTo('#transactions')
