@@ -47,14 +47,15 @@
     padding: 1px 8px;
     border-radius: 4px;
     &.new {
-      color: $brand-color;
-      border-color: $brand-color;
+      color: $brand-primary;
+
+      border-color: $brand-primary;
     }
   }
   .table tr.new-row {
     .outlined-label {
-      color: $brand-color;
-      border-color: $brand-color;
+      color: $brand-primary;
+      border-color: $brand-primary;
     }
   }
 }
