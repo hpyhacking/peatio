@@ -3,7 +3,7 @@ en:
     protoshare:
       key: Block Chain
       title: Protoshare Deposits
-      intro: Deposit protoshare from your own Wallet address to Peatio account
+      intro: Deposit protoshare from your own Wallet address to Yunbi account
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
@@ -29,7 +29,7 @@ en:
       deposits:
         protoshares:
           panel: Deposits
-          intro: Deposit protoshare from your own Wallet address to Peatio account.
+          intro: Deposit protoshare from your own Wallet address to Yunbi account.
           new:
             default-panel: Deposit Transactions
   admin:
@@ -46,4 +46,4 @@ en:
       protoshares:
         new:
           send-coin: Fill in the collection address the following address which is specifically for your protoshare deposits. Check the protoshare amount you want to send,  and do not forget to pay a fee to the miner in order to ensure the transaction could be confirmed quickly.
-          check-confirm: Send protoshare to your Peatio account. When the transaction gets one confirmation by the whole network, the system will automatically recharge your account.(you do not need to refresh this interface, transactions and recharge will be real-time updated).
+          check-confirm: Send protoshare to your Yunbi account. When the transaction gets one confirmation by the whole network, the system will automatically recharge your account.(you do not need to refresh this interface, transactions and recharge will be real-time updated).

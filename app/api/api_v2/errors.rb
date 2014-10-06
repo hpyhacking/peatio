@@ -20,7 +20,7 @@ module APIv2
   class Error < Grape::Exceptions::Base
     attr :code, :text
 
-    # code: api error code defined by Peatio, errors originated from
+    # code: api error code defined by Yunbi, errors originated from
     # subclasses of Error have code start from 2000.
     # text: human readable error message
     # status: http status code

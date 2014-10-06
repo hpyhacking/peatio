@@ -18,9 +18,9 @@ en:
   gon:
     ask: Ask
     bid: Bid
-    brand: Peatio Exchange
+    brand: Yunbi Exchange
     notification:
-      title: Peatio Exchange
+      title: Yunbi Exchange
       enabled: Notification enabled.
       new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
   back: Back

@@ -2,7 +2,7 @@ zh-CN:
   private:
     id_documents:
       new:
-        page_title: "实名认证 - 我的账户 - 貔貅交易所"
+        page_title: "实名认证 - 我的账户 - 云币网"
         page_keywords: "比特币,加密数字货币,实名认证"
         warning: 实名认证信息提交后不得修改，请认真填写。
       create:

@@ -1,5 +1,5 @@
 .jumbotron
-  h2 貔貅开发者接口 (API version 2)
+  h2 云币网开发者接口 (API version 2)
   small 接口URI前缀: /api/v2
   br
   small 返回结果格式: JSON
@@ -9,7 +9,7 @@
     h3 Public/Private API
 
   .panel-body
-    p 貔貅开发者接口包含两类API: Public API是不需要任何验证就可以使用的接口，而Private API是需要进行签名验证的接口。下表列出了两者的主要区别:
+    p 云币网开发者接口包含两类API: Public API是不需要任何验证就可以使用的接口，而Private API是需要进行签名验证的接口。下表列出了两者的主要区别:
 
   table.table
     thead
@@ -22,10 +22,10 @@
         td 需要验证
       tr
         td 无限制
-        td 对于每个用户, 最多6000个请求每5分钟(平均20个请求/秒); 如果有更高需求可以联系貔貅管理员
+        td 对于每个用户, 最多6000个请求每5分钟(平均20个请求/秒); 如果有更高需求可以联系云币网管理员
       tr
         td 无需准备立即可用
-        td 先要向貔貅管理员申请access/secret key
+        td 先要向云币网管理员申请access/secret key
 
 .panel.panel-default
   .panel-heading
@@ -77,10 +77,10 @@
     p 如果API调用失败，返回的请求会使用对应的HTTP status code, 同时返回包含了详细错误信息的JSON数据, 比如:
     pre: code
       | {"error":{"code":1001,"message":"market does not have a valid value"}}
-    p 所有错误都遵循上面例子的格式，只是code和message不同。code是貔貅自定义的一个错误代码, 表明此错误的类别, message是具体的出错信息.
+    p 所有错误都遵循上面例子的格式，只是code和message不同。code是云币网自定义的一个错误代码, 表明此错误的类别, message是具体的出错信息.
 
   .panel-body
-    p 对于成功的API请求, 貔貅则会返回200作为HTTP status code, 同时返回请求的JSON数据.
+    p 对于成功的API请求, 云币网则会返回200作为HTTP status code, 同时返回请求的JSON数据.
     table.table.result
       thead
         tr

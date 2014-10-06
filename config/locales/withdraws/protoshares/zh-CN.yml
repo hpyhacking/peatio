@@ -3,7 +3,7 @@ zh-CN:
     protoshare:
       key: 块链
       title: 原型股PTS提现
-      intro: 将你在貔貅的原型股PTS余额提取到你的钱包账户
+      intro: 将你在云币网的原型股PTS余额提取到你的钱包账户
       latency: 受理后 10 分钟到账
       transfer: 人工处理
       go: 立即提现

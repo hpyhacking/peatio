@@ -3,7 +3,7 @@ zh-CN:
     bank:
       key: 银行转账
       title: 银行转账充值
-      intro: 通过银行转账的方式，从您的银行账户充值人民币到您的貔貅账户。
+      intro: 通过银行转账的方式，从您的银行账户充值人民币到您的云币网账户。
       latency: 受理后 10 分钟到账
       transfer: 人工处理
       go: 立即充值
@@ -49,10 +49,10 @@ zh-CN:
           manage_fund_source: 管理充值账号
           submit: 提交
         edit:
-          bank: 貔貅交易所收款银行
-          branch: 貔貅交易所开户行
-          holder: 貔貅交易所收款账户
-          account: 貔貅交易所收款账号
+          bank: 云币网收款银行
+          branch: 云币网开户行
+          holder: 云币网收款账户
+          account: 云币网收款账号
 
   admin:
     deposits:
@@ -67,7 +67,7 @@ zh-CN:
       deposits:
         banks:
           panel: 银行转账充值
-          intro: 通过银行转账的方式，从您的银行账户充值人民币到您的貔貅账户。
+          intro: 通过银行转账的方式，从您的银行账户充值人民币到您的云币网账户。
           show:
             default-panel: 历史记录
           new:

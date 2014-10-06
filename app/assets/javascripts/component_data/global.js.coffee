@@ -4,7 +4,7 @@ window.GlobalData = flight.component ->
     symbol = gon.currencies[gon.market.bid.currency].symbol
     price  = data.last
     market = [gon.market.ask.currency, gon.market.bid.currency].join("/").toUpperCase()
-    brand  = "Peatio Exchange"
+    brand  = '云币网'
 
     document.title = "#{symbol}#{price} #{market} - #{brand}"
 

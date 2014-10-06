@@ -1,7 +1,7 @@
 zh-CN:
   identities:
     new:
-      page_title: "创建账户 - 貔貅交易所"
+      page_title: "创建账户 - 云币网"
       page_keywords: "比特币,加密数字货币,创建账户"
       title: 账户注册
       signin: 立即登录
@@ -11,5 +11,5 @@ zh-CN:
       auth-same: 您输入的新密码与旧密码相同，请重新输入。
       notice: 登录密码修改成功, 请重新登录。
     edit:
-      page_title: "修改密码 - 我的账户 - 貔貅交易所"
+      page_title: "修改密码 - 我的账户 - 云币网"
       page_keywords: "比特币,加密数字货币,修改密码"

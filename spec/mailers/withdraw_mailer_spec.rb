@@ -9,7 +9,7 @@ describe WithdrawMailer do
     end
 
     it "renders the headers" do
-      mail.subject.should eq("[Peatio] Your withdraw state update")
+      mail.subject.should eq("[Yunbi] Your withdraw state update")
       mail.to.should eq([withdraw.member.email])
       mail.from.should eq([ENV['SYSTEM_MAIL_FROM']])
     end
@@ -27,7 +27,7 @@ describe WithdrawMailer do
     end
 
     it "renders the headers" do
-      mail.subject.should eq("[Peatio] Your withdraw state update")
+      mail.subject.should eq("[Yunbi] Your withdraw state update")
       mail.to.should eq([withdraw.member.email])
       mail.from.should eq([ENV['SYSTEM_MAIL_FROM']])
     end
@@ -48,7 +48,7 @@ describe WithdrawMailer do
     end
 
     it "renders the headers" do
-      mail.subject.should eq("[Peatio] Your withdraw state update")
+      mail.subject.should eq("[Yunbi] Your withdraw state update")
       mail.to.should eq([withdraw.member.email])
       mail.from.should eq([ENV['SYSTEM_MAIL_FROM']])
     end

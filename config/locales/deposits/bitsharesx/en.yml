@@ -3,7 +3,7 @@ en:
     bitsharesx:
       key: Block Chain
       title: BTSX Deposits
-      intro: Deposit BTSX from your own wallet address to Peatio account
+      intro: Deposit BTSX from your own wallet address to Yunbi account
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
@@ -29,7 +29,7 @@ en:
       deposits:
         bitsharesxs:
           panel: Deposits
-          intro: Deposit BTSX from your own Wallet address to Peatio account.
+          intro: Deposit BTSX from your own Wallet address to Yunbi account.
           new:
             default-panel: Deposit Transactions
 
@@ -47,4 +47,4 @@ en:
       bitsharesxs:
         new:
           send-coin: Fill in the collection address the following address which is specifically for your BTSX deposits. Check the BTSX amount you want to send,  and do not forget to pay a fee to the miner in order to ensure the transaction could be confirmed quickly.
-          check-confirm: Send BTSX to your Peatio account. When the transaction gets one confirmation by the whole network, the system will automatically recharge your account.(you do not need to refresh this interface, transactions and recharge will be real-time updated).
+          check-confirm: Send BTSX to your Yunbi account. When the transaction gets one confirmation by the whole network, the system will automatically recharge your account.(you do not need to refresh this interface, transactions and recharge will be real-time updated).

@@ -1,5 +1,5 @@
 .jumbotron
-  h2 貔貅WebSocket数据接口 (WebSocket API)
+  h2 云币网WebSocket数据接口 (WebSocket API)
   small 接口URI: wss://peatio.com:8080
   br
   small 返回结果格式: JSON
@@ -9,7 +9,7 @@
     h3 WebSocket API
 
   .panel-body
-    p 貔貅WebSocket API为开发者提供一个实时性更强的数据通道。貔貅服务器能够将orderbook的变化以及市场成交数据通过websocket长连接实时的推送(push)给WebSocket API的用户。
+    p 云币网WebSocket API为开发者提供一个实时性更强的数据通道。云币网服务器能够将orderbook的变化以及市场成交数据通过websocket长连接实时的推送(push)给WebSocket API的用户。
     p 使用WebSocket API可以分为简单的三步:
     ol
       li 1. 建立websocket连接
@@ -38,7 +38,7 @@
           console.log("closed");
         }
     p
-      | 还可以参考貔貅官方Ruby客户端的实现:&nbsp;
+      | 还可以参考云币网官方Ruby客户端的实现:&nbsp;
       a href='https://github.com/peatio/peatio-client-ruby/blob/master/lib/peatio_api/streaming_client.rb'
         | https://github.com/peatio/peatio-client-ruby/blob/master/lib/peatio_api/streaming_client.rb
 
@@ -49,7 +49,7 @@
 
   .panel-body
     p 在验证身份之前, 你必须准备好你的access/secret key. 在注册并认证通过后之后，只需访问<a href='/api_tokens'>API密钥</a>页面就可以得到您的密钥。
-    p 当你通过上一步与貔貅服务器建立WebSocket连接之后，貔貅服务器会返回一条格式如下的challenge消息:
+    p 当你通过上一步与云币网服务器建立WebSocket连接之后，云币网服务器会返回一条格式如下的challenge消息:
     pre: code
       | {"challenge":"d45sSFIZZdYzRgwi-zDqA8HFP2MfVoWqXlHX-2LbB_37q9_3pkZ8og"}
     p challenge包含一条随机生成的字符串, 客户端需要用access/secret key对这个字符串签名，然后将签名发回服务器，服务器对签名进行验证，正确则继续下一步，否则返回错误消息。
@@ -67,7 +67,7 @@
     pre: code
       | {auth: {access_key: 'your_access_key', answer: 'the_signature'}}
     p
-      | 更多信息可以参考貔貅官方Ruby客户端的实现:&nbsp;
+      | 更多信息可以参考云币网官方Ruby客户端的实现:&nbsp;
       a href='https://github.com/peatio/peatio-client-ruby/blob/master/lib/peatio_api/streaming_client.rb'
         | https://github.com/peatio/peatio-client-ruby/blob/master/lib/peatio_api/streaming_client.rb
 
@@ -76,7 +76,7 @@
     h3 接受数据
 
   .panel-body
-    p 验证通过后就可以接受服务器发送的实时数据了. 目前貔貅通过WebSocket API提供两类实时数据: Trade和Orderbook. 详细数据格式如下:
+    p 验证通过后就可以接受服务器发送的实时数据了. 目前云币网通过WebSocket API提供两类实时数据: Trade和Orderbook. 详细数据格式如下:
     table.table.result
       thead
         tr

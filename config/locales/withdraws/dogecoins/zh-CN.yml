@@ -3,7 +3,7 @@ zh-CN:
     dogecoin:
       key: 块链
       title: 狗狗币提现
-      intro: 将你在貔貅的狗狗币余额提取到你的钱包账户
+      intro: 将你在云币网的狗狗币余额提取到你的钱包账户
       latency: 受理后 10 分钟到账
       transfer: 人工处理
       go: 立即提现

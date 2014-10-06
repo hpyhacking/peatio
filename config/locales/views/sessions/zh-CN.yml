@@ -1,7 +1,7 @@
 zh-CN:
   sessions:
     new:
-      page_title: "登录 - 貔貅交易所"
+      page_title: "登录 - 云币网"
       page_keywords: "登录,会员登录,比特币,加密数字货币,账号登录"
       reset_password: 忘记密码
     new_with_two_factor_auth:
