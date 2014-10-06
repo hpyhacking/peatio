@@ -28,21 +28,31 @@
 
 /* basic layout 
 ------------------------------------------------ */
+$min-height: 620px;
+$navbar-height: 50px;
+$sidebar-width: $brand-width;
+$gutter: 2px;
+$gutter-2x: $gutter * 2;
+$gutter-3x: $gutter * 3;
+$gutter-4x: $gutter * 4;
+$gutter-5x: $gutter * 5;
 
 body, html, #wrap, .sidebar, .content { height: 100%; }
 
-body { min-width: $min-width !important; }
+body { min-width: $min-width !important; min-height: $min-height !important; }
 
 #wrap {
   box-sizing: border-box; 
-  margin-top: -51px;
+  margin-top: 0px - $navbar-height - 1px;
 }
 
 .sidebar { 
+  padding-top: $navbar-height + 1px;
+  background-color: $brand-primary; 
   float: left; 
   position: absolute; 
-  width: $brand-width;
-  border-right: 1px solid $navbar-default-border;
+  width: $sidebar-width;
+  /*border-right: 1px solid $navbar-default-border;*/
 
   li {
     display: block;
@@ -52,16 +62,35 @@ body { min-width: $min-width !important; }
       background-color: $gray-darker;
     }
   }
+
+  .switch-control {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    i.fa { margin-right: 0px; }
+  }
 }
 
-.sidebar, .content { padding-top: 51px; }
-
-.sidebar {  background-color: $brand-primary; }
-.content { background-color: $brand-primary; }
+.content {
+  top: $navbar-height;
+  left: $sidebar-width;
+  min-width: $min-width - $sidebar-width;
+  min-height: $min-height - $navbar-height - 1;
+  width: 100%;
+  height: 100%;
+  position: absolute; 
+  font-size: 12px;
+  background-color: #000;
+  font-family: $font-family-monospace;
+}
 
 /* panel
 ------------------------------------------------ */
 .panel {
+  position: absolute;
+  box-sizing: padding-box;
+  margin-bottom: 0px;
+
   &.panel-wide {
     .panel-body { padding: 8px; }
     .panel-heading { padding: 8px; }
@@ -99,5 +128,61 @@ body { min-width: $min-width !important; }
     height: 470px;
   }
 }
+
+
+/* order entry
+----------------------------------------------- */
+$base-top: $gutter;
+
+$entry-width: 222px;
+$entry-height: 230px;
+
+$order-book-width: $entry-width * 2 + $gutter;
+$order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
+
+$my-orders-width: 222px;
+$my-orders-height: 200px;
+
+$trades-width: $my-orders-width;
+$trades-height: 200px;
+
+$chat-width: $min-width - $sidebar-width - $order-book-width - $my-orders-width - $trades-width - $gutter-5x;
+$chat-height: 200px;
+
+$ticker-width: $min-width - $sidebar-width - $order-book-width - $gutter-3x;
+$ticker-height: 80px;
+
+$kline-chart-width: $ticker-width;
+$kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-height - $gutter-4x;
+
+#ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
+.entry-left { top: $base-top; right: $gutter + $entry-width + $gutter; }
+.entry-right { top: $base-top; right: $gutter; }
+
+#order_book { 
+  width: $order-book-width; height: $order-book-height; 
+  min-height: $order-book-height;
+  bottom: $gutter; right: $gutter; }
+
+#chat { 
+  min-width: $chat-width; width: $chat-width; height: $chat-height; 
+  bottom: $gutter; left: $gutter; }
+
+#trades { 
+  width: $trades-width; height: $trades-height; 
+  right: $gutter-3x + $order-book-width + $trades-width; bottom: $gutter; }
+
+#my_orders { 
+  width: $my-orders-width; height: $my-orders-height; 
+  right: $gutter-2x + $order-book-width ; bottom: $gutter; }
+
+#kline_chart { 
+  min-width: $kline-chart-width; width: $kline-chart-width; 
+  min-height: $kline-chart-height - 1; height: $kline-chart-height; 
+  top: $gutter-2x + $ticker-height; left: $gutter; }
+
+#ticker { 
+  min-width: $ticker-width; width: $ticker-width; height: $ticker-height; 
+  top: $gutter; left: $gutter; }
 
 @import 'layouts/custom';

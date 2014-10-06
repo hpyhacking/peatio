@@ -4,7 +4,6 @@ $grid-gutter-width: 4px;
 
 $body-bg: #000;
 
-$brand-primary: #111;
 $text-color: #ccc;
 $link-color: #ddd;
 
@@ -13,4 +12,15 @@ $navbar-default-bg: $brand-primary;
 $up-text: rgba(89, 132, 50, 1.0);
 $down-text: rgba(159, 49, 27, 1.0);
 
-$navbar-default-border: #666;
+$navbar-default-border: #ffd711;
+
+$panel-bg: #202020;
+$panel-default-heading-bg: #2b3434;
+$panel-default-border: #333;
+$panel-border-radius: 2px;
+$panel-body-padding: 8px 8px 8px 8px;
+$panel-heading-padding: 2px 8px 0px 8px;
+$panel-default-text: $text-color;
+
+$font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
+
