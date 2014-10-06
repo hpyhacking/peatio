@@ -32,6 +32,7 @@ $ ->
     $('#kline_chart').height(window_h - navbar_h - ticker_h - trades_h - gutter_7x)
     $('.market-chart').height($('#kline_chart').height() - 20)
     $('#order_book').height(window_h - navbar_h - entry_h - gutter_5x)
+    $('#order_book .panel-body-content').height(window_h - navbar_h - entry_h - gutter_5x - 70)
     $('#trades, #my_orders').width((window_w - sidebar_w - order_book_w - gutter_7x) / 2)
 
   $(window).resize()

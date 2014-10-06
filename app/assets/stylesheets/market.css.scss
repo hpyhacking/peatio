@@ -167,6 +167,10 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
   min-height: $order-book-height;
   bottom: $gutter; right: $gutter; }
 
+#order_book .panel-body-content {
+  overflow-y: auto;
+}
+
 #chat { 
   min-width: $chat-width; width: $chat-width; height: $chat-height; 
   bottom: $gutter; left: $gutter; }
