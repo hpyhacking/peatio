@@ -1,6 +1,7 @@
 json.asks @asks
 json.bids @bids
 json.trades @trades
+json.kline_data KlineDB.kline(@market.id, 1)
 
 if @member
   json.orders do
