@@ -113,4 +113,13 @@ namespace :migration do
     end
   end
 
+  desc "generate new bitshares address"
+  task new_bitshares_address: :environment do
+    accounts = Account.with_currency('btsx') + Account.with_currency('dns')
+    accounts.each do |a|
+      addr = a.payment_addresses.create(currency: a.currency)
+      addr.gen_address if addr.address.blank?
+    end
+  end
+
 end

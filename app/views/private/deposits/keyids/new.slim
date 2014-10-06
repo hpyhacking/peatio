@@ -1,0 +1,54 @@
+- check_confirm = t('.check-confirm', path: exchange_assets_path).html_safe
+- address = @address
+- assets = @assets
+- model = @model
+
+- if address.address.blank?
+  p = t('private.deposits.shared.new.gen_address_html')
+- else
+  - deposit_account, account_id = address.address.split('|', 2)
+  - send_coin = t('.send-coin', account: deposit_account)
+
+  h4 = t('private.deposits.shared.new.step-1')
+  p = t('.open-wallet')
+
+  hr.split
+
+  h4 = t('private.deposits.shared.new.step-2')
+  p == send_coin
+
+  .input-group.col-sm-12 style='margin: 20px 10px 10px 10px;'
+    .input-group-addon style='width: 160px;' = t('.deposit_account')
+    .form-control.form-control-static style='text-align: center;' = deposit_account
+    .input-group-addon
+      i.fa.fa-copy data-clipboard-text = deposit_account
+
+  .input-group.col-sm-12 style='margin: 10px 10px 20px 10px;'
+    .input-group-addon style='width: 160px; color: red;' = t('.account_id')
+    .form-control.form-control-static style='color: red; text-align: center;' = account_id
+    .input-group-addon
+      i.fa.fa-copy data-clipboard-text = account_id
+
+  div = t('.check-avatar')
+  div style='width: 270px; text-align: center;' = image_tag 'chongzhi-yunbi.png', width: 80
+
+  hr.split
+
+  h4 = t('private.deposits.shared.new.step-3')
+  p = check_confirm
+
+  hr.split
+
+  h4 = t('private.deposits.shared.new.step-4')
+  p = t('private.deposits.shared.new.history_html')
+
+  = content_for :after
+    = panel do
+      = table_for(assets, class: 'table table-condensed table-hover', model: model) do |t|
+        - t.column :created_at, class: 'col-md-3'
+        - t.column :txid, class: 'col-md-4' do |x|
+          a href='#{x.blockchain_url}' target='_blank'
+            code.text-info = x.txid.truncate(32)
+        - t.column :amount, class: 'col-md-2'
+        - t.column :memo, class: 'col-md-2'
+        - t.column :aasm_state_text, class: 'col-md-2'
