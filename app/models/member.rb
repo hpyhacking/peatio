@@ -182,7 +182,8 @@ class Member < ActiveRecord::Base
     super.merge({
       "name" => self.name,
       "app_activated" => self.two_factors.by_type(:app).activated?,
-      "sms_activated" => self.two_factors.by_type(:sms).activated?
+      "sms_activated" => self.two_factors.by_type(:sms).activated?,
+      "memo" => self.id
     })
   end
 

@@ -30,6 +30,10 @@ Peatio.DepositsController = Ember.ArrayController.extend
     @model[0].account().payment_address
   ).property('@each')
 
+  memo: (->
+    current_user.id
+  ).property('')
+
   btc: (->
     @model[0].currency == "btc"
   ).property('@each')
