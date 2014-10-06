@@ -19,6 +19,10 @@ class Currency < ActiveYamlBase
     CoinRPC[code]
   end
 
+  def fiat?
+    not coin?
+  end
+
   def balance_cache_key
     "peatio:hotwallet:#{code}:balance"
   end
