@@ -1,6 +1,5 @@
 ul.list-group
   - @channels.each do |c|
-    - next if c.key == 'keyid'
     li.list-group-item class='withdraws-channel-#{c.id}'
       .row.row-middle
         .col-xs-18
