@@ -1,12 +1,54 @@
 @MarketChartUI = flight.component ->
+  @drawChart = ->
+    dataGrouping = [
+      ['minute', [1,5,10,15,30,60]]
+      ['hour',[1,2,5,10]]
+    ]
 
-  dataGrouping = [
-    ['minute', [1,5,10,15,30,60]]
-    ['hour',[1,2,5,10]]
-  ]
+    @$node.highcharts "StockChart",
+      chart:
+        events:
+          load: ->
+            formatOhlc = (data) ->
+              [
+                Number(data[0]) * 1000  # date
+                data[1]                 # open
+                data[2]                 # high
+                data[3]                 # low
+                data[4]                 # close
+              ]
 
-  @attributes
-    chartOptions:
+            formatVolume = (data) ->
+              [
+                Number(data[0]) * 1000  # date
+                data[5]                 # volume
+              ]
+
+            fetchData = (limit=5, callback) ->
+              url = "/api/v2/k.json?market=#{gon.market.id}&limit=#{limit}&period=1"
+              $.getJSON url, (data) =>
+                ohlc   = []
+                volume = []
+
+                for i in data
+                  ohlc.push formatOhlc(i)
+                  volume.push formatVolume(i)
+
+                if callback
+                  callback ohlc: ohlc, volume: volume
+
+
+            fetchData 5000, (data) =>
+              @series[0].setData data.ohlc
+              @series[1].setData data.volume
+
+            setInterval =>
+              fetchData 5000, (data) =>
+                @series[0].setData data.ohlc, false
+                @series[1].setData data.volume, false
+                @redraw()
+            , 60 * 1000
+
       credits:
         enabled: false
 
@@ -98,39 +140,6 @@
           yAxis: 1
         }
       ]
-
-  @fetchData = (limit=5, callback) ->
-    url = "/api/v2/k.json?market=#{gon.market.id}&limit=#{limit}&period=1"
-    $.getJSON url, (data) -> callback(data)
-
-  @formatOhlc = (data) ->
-    [
-      Number(data[0]) * 1000  # date
-      data[1]                 # open
-      data[2]                 # high
-      data[3]                 # low
-      data[4]                 # close
-    ]
-
-  @formatVolume = (data) ->
-    [
-      Number(data[0]) * 1000  # date
-      data[5]                 # volume
-    ]
-
-  @drawChart = ->
-    @fetchData 5000, (data) =>
-      ohlc   = []
-      volume = []
-
-      for i in data
-        ohlc.push @formatOhlc(i)
-        volume.push @formatVolume(i)
-
-      @attr.chartOptions.series[0].data = ohlc
-      @attr.chartOptions.series[1].data = volume
-
-      @$node.highcharts "StockChart", @attr.chartOptions
 
   @after 'initialize', ->
     @drawChart()
