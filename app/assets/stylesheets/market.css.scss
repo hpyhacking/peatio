@@ -286,7 +286,7 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
   }
 }
 
-#trades {
+#trades, #my_orders {
   .panel-body-content { height: 220px; }
 }
 

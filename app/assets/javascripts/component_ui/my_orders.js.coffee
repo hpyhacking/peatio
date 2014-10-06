@@ -15,4 +15,3 @@
   @.after 'initialize', ->
     @on document, 'order::wait::populate', @populate
     @on document, 'order::wait order::cancel order::done', @orderHandler
-

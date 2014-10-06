@@ -12,12 +12,11 @@
   .panel-body.panel-body-head
     table.table
       thead: tr
-        th.kind.col-xs-2
-        th.at.col-xs-6 = Order.human_attribute_name('at')
-        th.price.col-xs-5 = Order.human_attribute_name('price')
-        th.volume.col-xs-5 = Order.human_attribute_name('volume')
-        th.operation.col-xs-3
+        th.kind.col-xs-2.text-left
+        th.at.col-xs-8.text-left = Order.human_attribute_name('at')
+        th.price.col-xs-5.text-right = Order.human_attribute_name('price')
+        th.volume.col-xs-5.text-right = Order.human_attribute_name('volume')
+        th.operation.col-xs-4.text-right
   .panel-body.panel-body-content
-    #orders_wait
-      table.table.table-condensed
-        tbody
+    table.table.table-condensed
+      tbody

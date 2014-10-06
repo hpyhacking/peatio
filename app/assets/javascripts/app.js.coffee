@@ -80,7 +80,7 @@ $ ->
   AccountBalanceUI.attachTo('.account-balance')
   PlaceOrderUI.attachTo('#bid_entry')
   PlaceOrderUI.attachTo('#ask_entry')
-  MyOrdersUI.attachTo('.my-orders')
+  MyOrdersUI.attachTo('#my_orders')
   MyTradesUI.attachTo('.my-trades')
 
   MarketChartUI.attachTo('.market-chart')
