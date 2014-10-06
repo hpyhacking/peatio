@@ -137,7 +137,7 @@ header {
 ----------------------------------------------- */
 $base-top: $gutter;
 
-$entry-width: 222px;
+$entry-width: 242px;
 $entry-height: 190px;
 
 $order-book-width: $entry-width * 2 + $gutter;
@@ -262,6 +262,27 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
 
 }
 
+/* order book table
+---------------------------------------------------*/
+.col-left { padding-right: 12px; }
+.panel-body-head { border-bottom: 1px solid #333; }
+#order_book table {
+  margin-bottom: 0px;
+
+  td, th {
+    padding: 0px 2px;
+    border: none;
+  }
+
+  td {
+    &.price, &.amount, &.volume {
+      text-align: right;
+    }
+  }
+
+  thead { cursor: default; }
+  tbody > tr:hover { cursor: pointer; background-color: #333;}
+}
 
 @import 'layouts/custom';
 

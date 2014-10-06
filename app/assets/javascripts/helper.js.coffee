@@ -57,11 +57,15 @@ Handlebars.registerHelper 'format_long_time', (timestamp) ->
   m = moment.unix(timestamp)
   "#{m.format("YYYY/MM/DD HH:mm")}"
 
-Handlebars.registerHelper 'format_mask_fixed_amount', (amount) ->
-  fixAsk(amount).replace(/\..*/, "<g>$&</g>")
+Handlebars.registerHelper 'format_mask_fixed_volume', (volume) ->
+  fixAsk(volume).replace(/\..*/, "<g>$&</g>")
 
 Handlebars.registerHelper 'format_fix_ask', (volume) ->
   fixAsk volume
+
+Handlebars.registerHelper 'format_amount', (amount, price) ->
+  val = (new BigNumber(amount)).times(new BigNumber(price))
+  fixAsk(val).replace(/\..*/, "<g>$&</g>")
 
 Handlebars.registerHelper 'format_trend', (type) ->
   if type == 'buy'

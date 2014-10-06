@@ -51,7 +51,11 @@ en:
         full_out: Empty
       order_book:
         title: Order Book
-        latest_trade: Latest
+        volume: Volume
+        price: Price
+        amount: Amount
+        ask: ASK
+        bid: BID
       trades:
         title: Trades
       market_trades:

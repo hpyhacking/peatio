@@ -1,9 +1,19 @@
 #order_book.panel.panel-default
   .panel-heading
     span = t('.title')
+  .panel-body.panel-body-head
+    #order_book_header.row
+      .col-xs-12.col-left: table.table.table-head
+        thead: tr
+          th.amount.text-right.col-xs-10 = t('.amount')
+          th.volume.text-right.col-xs-7 = t('.volume')
+          th.price.text-right.col-xs-7 = t('.bid')
+      .col-xs-12: table.table.table-head
+        thead: tr
+          th.price.text-right.col-xs-7 = t('.ask')
+          th.volume.text-right.col-xs-7 = t('.volume')
+          th.amount.text-right.col-xs-10 = t('.amount')
   .panel-body
-    table.table
-    table.table
-  .panel-body
-    table.table.asks.text-down
-    table.table.bids.text-up
+    #order_book_body.row
+      .col-xs-12.col-left: table.table.bids
+      .col-xs-12: table.table.asks

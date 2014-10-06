@@ -50,7 +50,11 @@ zh-CN:
         full_out: 空
       order_book:
         title: 市场实时挂单记录
-        latest_trade: 最新成交
+        volume: 数量
+        price: 价格
+        amount: 总价
+        ask: 卖出
+        bid: 买入
       trades:
         title: 市场委单成交记录
         time: 时间
