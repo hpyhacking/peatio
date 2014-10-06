@@ -1,3 +1,4 @@
+require 'rest_client'
 class PaymentTransaction < ActiveRecord::Base
   extend Enumerize
 
