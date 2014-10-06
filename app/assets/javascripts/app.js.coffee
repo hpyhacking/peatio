@@ -12,6 +12,7 @@ $ ->
   gutter_6x = 2 * 6
   gutter_7x = 2 * 7
   gutter_8x = 2 * 8
+  gutter_9x = 2 * 9;
 
   $(window).resize ->
     navbar_h = $('.navbar').height() + 1
@@ -27,7 +28,7 @@ $ ->
     $('.content').width(window_w- sidebar_w)
     $('.content').height(window_h - navbar_h)
     $('#ticker, #kline_chart').width(window_w - sidebar_w - order_book_w - gutter_5x)
-    $('#chat').width(window_w - sidebar_w - order_book_w - trades_w - my_orders_w - 18)
+    $('#chat').width(window_w - sidebar_w - order_book_w - trades_w - my_orders_w - gutter_9x)
     $('#kline_chart').height(window_h - navbar_h - ticker_h - trades_h - gutter_7x)
     $('#order_book').height(window_h - navbar_h - entry_h - gutter_5x)
 
