@@ -12,7 +12,7 @@ $ ->
   gutter_6x = 2 * 6
   gutter_7x = 2 * 7
   gutter_8x = 2 * 8
-  gutter_9x = 2 * 9;
+  gutter_9x = 2 * 9
 
   $(window).resize ->
     navbar_h = $('.navbar').height() + 1
