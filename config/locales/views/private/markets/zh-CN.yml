@@ -30,15 +30,15 @@ zh-CN:
       balance:
         balance: 余额
       bid_entry:
-        title: 买入 
-        action: 挂[买单]
+        title: " [买入] "
+        action: 提交 [买入] 委单
         price: 价格
         last_price: 最新价格
         amount: 数量
         total: 金额
       ask_entry:
-        title: 卖出 
-        action: 挂[卖单]
+        title: " [卖出] "
+        action: 提交 [卖出] 委单
         price: 价格
         last_price: 最新价格
         amount: 数量
@@ -49,14 +49,14 @@ zh-CN:
         full_in: 满
         full_out: 空
       order_book:
-        title: 市场实时挂单记录
+        title: 市场实时委单记录
         volume: 数量
         price: 价格
         amount: 总价
         ask: 卖出
         bid: 买入
       trades:
-        title: 市场委单成交记录
+        title: 实时委单成交记录
         time: 时间
         price: 价格
         volume: 数量

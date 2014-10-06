@@ -1,9 +1,8 @@
 #bid_entry.panel.panel-default.entry-right
   .panel-heading.text-center
+    span #{market.bid_currency.code_text}
     span.text-up = t('.title')
-    span.text-up = "[#{market.ask_currency.code_text}]"
-    i.fa.fa-arrow-left.text-up
-    span.text-up = "[#{market.bid_currency.code_text}]"
+    span #{market.ask_currency.code_text}
   .panel-body
     = form_for [market, order], :remote => true do |f|
       = f.hidden_field :ord_type
