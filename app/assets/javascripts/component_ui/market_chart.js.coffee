@@ -1,47 +1,14 @@
 @MarketChartUI = flight.component ->
 
-  @initMarketChart = ->
-    updateData = (callback) =>
-      $.getJSON "/api/v2/k.json?market=#{gon.market.id}&limit=5&period=1", (data) =>
-        gon.kline_data = gon.kline_data.concat data
-        do callback
+  dataGrouping = [
+    ['minute', [1,5,10,15,30,60]]
+    ['hour',[1,2,5,10]]
+  ]
 
-    dataGrouping = [
-      ['minute', [1,5,10,15,30,60]]
-      ['hour',[1,2,5,10]]
-    ]
-
-    @$node.highcharts "StockChart",
+  @attributes
+    chartOptions:
       credits:
         enabled: false
-
-      chart:
-        events:
-          load: ->
-            drawChart = =>
-              ohlc   = []
-              volume = []
-
-              for i in gon.kline_data
-                ohlc.push [
-                  Number(i[0]) * 1000 # the date
-                  i[1] # open
-                  i[2] # high
-                  i[3] # low
-                  i[4] # close
-                ]
-                volume.push [
-                  Number(i[0]) * 1000 # the date
-                  i[5] # the volume
-                ]
-
-              @series[0].setData ohlc
-              @series[1].setData volume
-
-            drawChart()
-            setInterval ->
-              updateData(drawChart)
-            , 5 * 60 * 1000
 
       tooltip:
         valueDecimals: gon.market.bid.fixed
@@ -132,5 +99,38 @@
         }
       ]
 
+  @fetchData = (limit=5, callback) ->
+    url = "/api/v2/k.json?market=#{gon.market.id}&limit=#{limit}&period=1"
+    $.getJSON url, (data) -> callback(data)
+
+  @formatOhlc = (data) ->
+    [
+      Number(data[0]) * 1000  # date
+      data[1]                 # open
+      data[2]                 # high
+      data[3]                 # low
+      data[4]                 # close
+    ]
+
+  @formatVolume = (data) ->
+    [
+      Number(data[0]) * 1000  # date
+      data[5]                 # volume
+    ]
+
+  @drawChart = ->
+    @fetchData 5000, (data) =>
+      ohlc   = []
+      volume = []
+
+      for i in data
+        ohlc.push @formatOhlc(i)
+        volume.push @formatVolume(i)
+
+      @attr.chartOptions.series[0].data = ohlc
+      @attr.chartOptions.series[1].data = volume
+
+      @$node.highcharts "StockChart", @attr.chartOptions
+
   @after 'initialize', ->
-    @initMarketChart()
+    @drawChart()
