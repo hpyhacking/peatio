@@ -21,7 +21,7 @@ class Withdraw < ActiveRecord::Base
   delegate :key_text, to: :channel, prefix: true
   delegate :id, to: :channel, prefix: true
   delegate :name, to: :member, prefix: true
-  delegate :coin?, to: :currency_obj
+  delegate :coin?, :fiat?, to: :currency_obj
 
   before_validation :calc_fee
   before_validation :set_account
@@ -50,10 +50,6 @@ class Withdraw < ActiveRecord::Base
 
   def channel_name
     channel.key
-  end
-
-  def fiat?
-    !coin?
   end
 
   alias_attribute :withdraw_id, :sn

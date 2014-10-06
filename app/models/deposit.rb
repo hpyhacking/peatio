@@ -15,6 +15,7 @@ class Deposit < ActiveRecord::Base
 
   delegate :name, to: :member, prefix: true
   delegate :id, to: :channel, prefix: true
+  delegate :coin?, :fiat?, to: :currency_obj
 
   belongs_to :member
   belongs_to :account
