@@ -21,7 +21,7 @@ class IdentitiesController < ApplicationController
     end
 
     if @identity.update_attributes(identity_params)
-      MemberMailer.reset_password_done(current_user.id).deliver
+      current_user.send_password_changed_notification
       clear_all_sessions current_user.id
       reset_session
       redirect_to signin_path, notice: t('.notice')

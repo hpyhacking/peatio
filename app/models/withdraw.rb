@@ -21,7 +21,7 @@ class Withdraw < ActiveRecord::Base
   delegate :key_text, to: :channel, prefix: true
   delegate :id, to: :channel, prefix: true
   delegate :name, to: :member, prefix: true
-  delegate :coin?, to: :currency_obj
+  delegate :coin?, :fiat?, to: :currency_obj
 
   before_validation :calc_fee
   before_validation :set_account
@@ -52,10 +52,6 @@ class Withdraw < ActiveRecord::Base
     channel.key
   end
 
-  def fiat?
-    !coin?
-  end
-
   alias_attribute :withdraw_id, :sn
   alias_attribute :full_name, :member_name
 
@@ -69,13 +65,13 @@ class Withdraw < ActiveRecord::Base
   aasm :whiny_transitions => false do
     state :submitting,  initial: true
     state :submitted,   after_commit: :send_email
-    state :canceled,    after_commit: :after_cancel
-    state :accepted,    after_commit: :send_email
+    state :canceled,    after_commit: [:after_cancel, :send_email]
+    state :accepted
     state :suspect,     after_commit: :send_email
     state :rejected,    after_commit: :send_email
-    state :processing,  after_commit: :send_coins!
+    state :processing,  after_commit: [:send_coins!, :send_email]
     state :almost_done
-    state :done,        after_commit: :send_email
+    state :done,        after_commit: [:send_email, :send_sms]
     state :failed,      after_commit: :send_email
 
     event :submit do
@@ -133,7 +129,6 @@ class Withdraw < ActiveRecord::Base
 
   def after_cancel
     unlock_funds unless aasm.from_state == :submitting
-    send_email
   end
 
   def lock_funds
@@ -159,8 +154,6 @@ class Withdraw < ActiveRecord::Base
     case aasm_state
     when 'submitted'
       WithdrawMailer.submitted(self.id).deliver
-    when 'accepted'
-      WithdrawMailer.accepted(self.id).deliver
     when 'processing'
       WithdrawMailer.processing(self.id).deliver
     when 'done'
@@ -170,12 +163,20 @@ class Withdraw < ActiveRecord::Base
     end
   end
 
-  def send_coins!
-    if coin?
-      AMQPQueue.enqueue(:withdraw_coin, id: id)
-    end
+  def send_sms
+    return true if not member.phone_number_verified?
 
-    send_email
+    sms_message = I18n.t('sms.withdraw_done', email: member.email,
+                                              currency: currency_text,
+                                              time: I18n.l(Time.now),
+                                              amount: amount,
+                                              balance: account.balance)
+
+    AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
+  end
+
+  def send_coins!
+    AMQPQueue.enqueue(:withdraw_coin, id: id) if coin?
   end
 
   def ensure_account_balance

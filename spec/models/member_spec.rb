@@ -44,6 +44,18 @@ describe Member do
     end
   end
 
+  describe '#send_password_changed_notification' do
+    let(:member) { create :member }
+
+    before do
+      member.send_password_changed_notification
+      @mail = ActionMailer::Base.deliveries.last
+    end
+
+    it { expect(ActionMailer::Base.deliveries).not_to be_empty }
+    it { expect(@mail.subject).to match "Your password changed" }
+  end
+
   describe '#trades' do
     subject { create(:member) }
 

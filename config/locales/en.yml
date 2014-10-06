@@ -39,7 +39,10 @@ en:
       default: '%m/%d/%Y %H:%M'
 
   sms:
-    verification_code: "Your phone number verification code is: %{code}"
+    verification_code: "Your phone number verification code is: %{code}."
+    password_changed: "Hi %{email}, you password has been changed successfully."
+    deposit_done: "Hi %{email}, the request of your deposit is complete."
+    withdraw_done: "Hi %{email}, the request of your withdrawal is complete."
 
   private:
     trade:

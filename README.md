@@ -72,6 +72,18 @@ You can interact with Peatio through API:
 * [peatio-client-python](https://github.com/JohnnyZhao/peatio-client-python) is a python client written by JohnnyZhao.
 * [peatioJavaClient](https://github.com/classic1999/peatioJavaClient.git) is a java client written by classic1999.
 
+### Custom Style
+
+Peatio front-end based Bootstrap 3.0 version and Sass, and you can custom exchange style for your mind.
+
+* change bootstrap default variables in `vars/_bootstrap.css.scss`
+* change peatio custom default variables in `vars/_basic.css.scss`
+* add your custom variables in `vars/_custom.css.scss`
+* add your custom css style in `layouts/_custom.css.scss`
+* add or change features style in `features/_xyz.css.scss'
+
+`vars/_custom.css.scss` can overwrite `vars/_basic.css.scss` defined variables
+`layout/_custom.css.scss` can overwrite `layout/_basic.css.scss` and `layoputs/_header.css.scss` style
 
 ### Getting Involved
 

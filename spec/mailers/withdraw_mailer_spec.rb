@@ -19,12 +19,11 @@ describe WithdrawMailer do
     end
   end
 
-  describe "accepted" do
+  describe "submitted" do
     let(:withdraw) { create :satoshi_withdraw }
     let(:mail) do
       withdraw.submit!
-      withdraw.accept!
-      WithdrawMailer.accepted(withdraw.id)
+      WithdrawMailer.submitted(withdraw.id)
     end
 
     it "renders the headers" do
@@ -34,7 +33,7 @@ describe WithdrawMailer do
     end
 
     it "renders the body" do
-      mail.body.encoded.should match("accepted")
+      mail.body.encoded.should match("submitted")
     end
   end
 
