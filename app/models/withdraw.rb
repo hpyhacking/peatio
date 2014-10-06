@@ -69,11 +69,11 @@ class Withdraw < ActiveRecord::Base
   aasm :whiny_transitions => false do
     state :submitting,  initial: true
     state :submitted,   after_commit: :send_email
-    state :canceled,    after_commit: :after_cancel
+    state :canceled,    after_commit: [:after_cancel, :send_email]
     state :accepted
     state :suspect,     after_commit: :send_email
     state :rejected,    after_commit: :send_email
-    state :processing,  after_commit: :send_coins!
+    state :processing,  after_commit: [:send_coins!, :send_email]
     state :almost_done
     state :done,        after_commit: [:send_email, :send_sms]
     state :failed,      after_commit: :send_email
@@ -133,7 +133,6 @@ class Withdraw < ActiveRecord::Base
 
   def after_cancel
     unlock_funds unless aasm.from_state == :submitting
-    send_email
   end
 
   def lock_funds
@@ -183,11 +182,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def send_coins!
-    if coin?
-      AMQPQueue.enqueue(:withdraw_coin, id: id)
-    end
-
-    send_email
+    AMQPQueue.enqueue(:withdraw_coin, id: id) if coin?
   end
 
   def ensure_account_balance
