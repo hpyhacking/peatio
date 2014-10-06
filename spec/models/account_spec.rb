@@ -170,6 +170,7 @@ describe Account do
   end
 
   describe "#examine" do
+    let(:member) { create(:member) }
     let(:account) { create(:account, locked: "0.0".to_d, balance: "0.0") }
 
     context "account without any account versions" do
@@ -178,6 +179,7 @@ describe Account do
       end
 
       it "returns false when account changed without versions" do
+        account.stubs(:member).returns(member)
         account.update_attribute(:balance, 5000.to_d)
         expect(account.examine).to be_false
       end
@@ -199,6 +201,7 @@ describe Account do
       end
 
       it "returns false when account balance doesn't match versions" do
+        account.stubs(:member).returns(member)
         account.update_attribute(:balance, 5000.to_d)
         expect(account.examine).to be_false
       end
