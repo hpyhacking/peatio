@@ -43,6 +43,10 @@ describe PaymentAddress do
       wrong_memo = "0" + memo[1..-1]
       PaymentAddress.destruct_memo(wrong_memo).should be_nil
     end
+
+    it "returns memo" do
+      PaymentAddress.new(address: "chongzhi|#{memo}").memo.should == memo
+    end
   end
 
 end
