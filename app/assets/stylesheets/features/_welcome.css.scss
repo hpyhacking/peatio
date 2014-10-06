@@ -1,15 +1,10 @@
 #welcome-index {
   .navbar {
-    margin-bottom: 0;
+    margin-bottom: 15px;
   }
 
   .main-section {
-    padding: 35px 0;
-    background-color: #efefef;
-
-    &.main-section-lighter {
-      background-color: #f9f9f9;
-    }
+    padding: 15px 0;
   }
 
   #site-title {
@@ -21,25 +16,68 @@
     }
   }
 
-  .login-box {
-    h3 {
-      margin-bottom: 38px;
-    }
-
-    .form-group.password {
-      margin-bottom: 0px;
-    }
-    background-color: #eee;
-    padding: 30px 0 10px 20px;
+  #homepage-carousel {
+    text-align: center;
+    height: 334px;
     border: 1px solid #d8dee3;
     border-radius: 5px;
-    .col-xs-8 { width: 15%; }
-    .col-xs-14 { width: 75%; }
+    background-color: #f0f0f0;
+    img {
+      max-height: 100%;  
+      max-width: 100%;
+    }
+    .carousel-indicators {
+      left: auto;
+      right: 20px;
+      margin: 0;
+      width: auto;
+      li {
+        width: 12px;
+        height: 12px;
+        border: none;
+        margin: 1px 3px;
+        background-color: #fff;
+      }
+      .active {
+        background-color: #09c;
+      }
+    }
   }
 
-  .clock {
-    width: 620px;
-    margin: 30px auto 10px auto;
+  .login-box {
+    border: 1px solid #d8dee3;
+    border-radius: 5px;
+    abbr {
+      display: none;
+    }
+    .flash-messages {
+      margin-bottom: 8px;
+    }
+    .form-control {
+      font-size: 14px;
+    }
+    .inline-links {
+      text-align: right;
+      color: #ddd;
+      margin: 30px 0 10px;
+      a {
+        padding: 0 10px;
+        & + a { margin: 0; }
+      }
+    }
+  }
+
+  .section-heading {
+    color: #333;
+    font-size: 22px;
+    font-weight: normal;
+    text-align: center;
+    margin-bottom: 20px;
+    .outline {
+      display: inline-block;
+      border: 1px solid #ddd;
+      padding: 10px 80px;
+    }
   }
 
   .tickers {
@@ -52,22 +90,69 @@
     }
   }
 
-
-.panel-ignore {
-  border-color: #3e4c5a;
-  .panel-heading {
-    background-color: #3e4c5a;
-    h4 { 
-      text-align: center;
-      color: #eee; 
-      padding: 0px;
-      margin: 4px 0px 0px 0px;
+  .feature-highlight {
+    text-align: center;
+    .iconic {
+      display: inline-block;
+      margin-bottom: 20px;
+      width: 80px;
+      height: 80px;
+      border: 1px solid #ddd;
+      border-radius: 50%;
+      .sprite-lightbulb {
+        margin-top: 16px;
+      }
+      .sprite-magnifier {
+        margin-top: 18px;
+      }
+      .sprite-phone {
+        margin-top: 18px;
+      }
+      .sprite-money {
+        margin-top: 22px;
+      }
     }
-
-    i.fa {
-      margin-right: 10px;
+    .heading {
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: normal;
+    }
+    .cnt {
+      color: #777;
+      font-size: 14px;
+      line-height: 1.8;
     }
   }
-}
+
+  .nav-pills {
+    margin-bottom: 15px;
+  }
+  .nav-pills > li > a {
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    height: 48px;
+    background: $brand-success;
+    border: 1px solid $brand-success;
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active {
+      background-color: darken($brand-success, 10%);
+      border-color: darken($brand-success, 12%);
+    }
+  }
+  .nav-pills > li + li {
+    margin: 0;
+  }
+  .nav-pills > li.active > a,
+  .nav-pills > li.active > a:hover,
+  .nav-pills > li.active > a:focus {
+    color: #333;
+    background: none;
+    border-color: #ddd;
+    cursor: text;
+  }
+
 }
 

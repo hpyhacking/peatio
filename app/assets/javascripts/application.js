@@ -20,7 +20,6 @@
 //= require helper
 //= require jquery.mousewheel
 //= require qrcode
-//= require flipclock.min
 //= require mixpanel
 //= require cookies.min
 

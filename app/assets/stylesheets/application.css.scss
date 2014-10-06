@@ -14,6 +14,7 @@
 
 @import 'layouts/basic';
 @import 'layouts/header';
+@import 'layouts/footer';
 
 @import 'features/welcome';
 @import 'features/market';
@@ -22,6 +23,7 @@
 @import 'features/id_document';
 @import 'features/history';
 @import 'features/custom';
+@import 'features/sprites';
 
 /* layouts 
 -------------------------------------------------------------- */
@@ -29,8 +31,13 @@ html, body {
   height: 100%;
 }
 
-.container {
-  width: 1170px !important;
+.container,
+.navbar-static-top {
+  min-width: 992px;
+}
+
+#alert-topbar .alert {
+  margin-bottom: 0;
 }
 
 #wrap {

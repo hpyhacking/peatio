@@ -86,7 +86,7 @@ en:
     placeholders:
       session:
         email: E-mail Address
-        password: ''
+        password: a-z, A-Z, 0-9, at least 6 characters
       identity:
         email: Example：xiaobai@example.com
         password: Please set your login password
