@@ -2,6 +2,31 @@
 <%= t('.content', currency: @deposit.currency_text) %>
 </p>
 
+<table>
+  <tr>
+    <td><%= t('deposit_mailer.deposit_account') %></td>
+    <td><%= [@deposit.fund_extra_text, '@', @deposit.fund_uid].join(' ') %></td>
+  </tr>
+  <tr>
+    <td><%= t('deposit_mailer.deposit_amount') %></td>
+    <td><%= [@deposit.amount, @deposit.currency_text].join(' ') %></td>
+  </tr>
+  <tr>
+    <td><%= t('deposit_mailer.deposit_time') %></td>
+    <td><%= @deposit.updated_at %></td>
+  </tr>
+</table>
+
+<% if @deposit.fiat? %>
+<p>
+<% if working_time? %>
+<%= t('deposit_mailer.note') %>
+<% else %>
+<%= t('deposit_mailer.offline_note') %>
+<% end %>
+</p>
+<% end %>
+
 <p>
 <%= raw t("mailer.please_contact", contact_mail: ENV['SUPPORT_MAIL']) %>
 </p>

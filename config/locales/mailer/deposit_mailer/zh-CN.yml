@@ -1,6 +1,12 @@
 zh-CN:
   deposit_mailer:
+    note: "注：人民币提现由云币网客服人工处理，处理时间为每天9:00—18:00，客服妹纸正在为您提现，请您耐心等待~"
+    offline_note: "注：人民币提现由云币网客服人工处理，处理时间为每天9:00—18:00，现在已经暂停受理了喔。上午9点，客服妹纸将准时为您提现，请您耐心等待~"
+    deposit_account: 充值帐号
+    deposit_amount: 充值金额
+    deposit_time: 充值时间
+
     accepted:
-      subject: "[貔貅] 你的充值已经到账"
-      content: "您的 %{currency} 已经到账."
+      subject: "[云币网] 你的充值已经到账"
+      content: "您的云币网 %{currency} 账户充值已经到账。"
 
