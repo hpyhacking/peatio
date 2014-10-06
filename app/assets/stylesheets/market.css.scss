@@ -134,12 +134,12 @@ header {
 }
 
 
-/* order entry
+/* layout positon
 ----------------------------------------------- */
 $base-top: $gutter;
 
 $entry-width: 222px;
-$entry-height: 230px;
+$entry-height: 190px;
 
 $order-book-width: $entry-width * 2 + $gutter;
 $order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
@@ -189,31 +189,58 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
   min-width: $ticker-width; width: $ticker-width; height: $ticker-height; 
   top: $gutter; left: $gutter; }
 
+
+/* order entry
+-----------------------------------------------------*/
+[data-lang=zh-cn] {
+  #ask_entry, #bid_entry {
+    label.input-group-addon {
+      min-width: 40px !important;
+    }
+  }
+}
+
+#ask_entry, #bid_entry {
+  .panel-body { padding-top: 10px; }
+
+  .btn:focus, .btn:active:focus, .btn.active:focus {
+    outline: 0px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+  }
+
+  .row { margin-bottom: 6px; }
+
+  .input-group {
+    .input-group-addon { 
+      padding: 1px 4px 0px 4px; 
+      color: #eee;
+      font-size: 12px;
+    }
+
+    label.input-group-addon {
+      padding: 3px 6px 0px 6px; 
+      min-width: 60px;
+      text-align: right;
+    }
+
+    span.input-group-addon {
+      padding: 3px 6px 0px 6px; 
+      min-width: 40px;
+      text-align: left;
+    }
+
+    input {
+      text-align: right;
+      padding-top: 10px !important;
+      padding-right: 4px !important;
+      font-size: 12px;
+    }
+
+    margin-bottom: 8px;
+  }
+
+}
+
+
 @import 'layouts/custom';
 
-
-.input-group {
-  .input-group-addon { 
-    padding: 3px 4px 0px 4px; 
-    font-size: 12px;
-  }
-
-  label.input-group-addon {
-    min-width: 60px;
-    text-align: right;
-  }
-
-  span.input-group-addon {
-    min-width: 40px;
-    text-align: left;
-  }
-
-  input {
-    text-align: right;
-    padding-top: 10px !important;
-    padding-right: 4px !important;
-    font-size: 12px;
-  }
-
-  margin-bottom: 5px;
-}

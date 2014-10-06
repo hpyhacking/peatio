@@ -31,7 +31,7 @@ zh-CN:
         balance: 余额
       bid_entry:
         title: 买入 [%{currency}]
-        place_order: 快速挂单
+        action: 挂[买单]
         price: 价格
         last_price: 最新价格
         amount: 数量
@@ -42,7 +42,7 @@ zh-CN:
         full_out: 空
       ask_entry:
         title: 卖出 [%{currency}]
-        place_order: 快速挂单
+        action: 挂[卖单]
         price: 价格
         last_price: 最新价格
         amount: 数量

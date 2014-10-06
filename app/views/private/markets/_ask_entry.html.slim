@@ -20,4 +20,4 @@
         span.input-group-addon = market.bid['currency'].upcase
       = render partial: 'balance'
       p
-        button.btn.btn-primary.btn-lg.btn-block type="submit" = t('.ask_panel', currency: market.ask_currency.name_text)
+        button.btn.btn-danger.btn-sm.btn-block.text-down type="submit" = t('.action')

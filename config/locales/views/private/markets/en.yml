@@ -27,7 +27,7 @@ en:
         available: Available %{currency}
       ask_entry:
         title: Sell [%{currency}]
-        place_order: Place Order
+        action: Place [SELL] Order
         price: Price
         last_price: Last Price
         amount: Amount
@@ -38,8 +38,8 @@ en:
         full_in: Full
         full_out: Empty
       bid_entry:
-        place_order: Place Order
         title: Buy [%{currency}]
+        action: Place [BUY] Order
         price: Price
         last_price: Last Price
         amount: Amount
