@@ -23,6 +23,7 @@ class PaymentTransaction < ActiveRecord::Base
     event :check do |e|
       before :refresh_confirmations
 
+      transitions :from => [:unconfirm], :to => :confirming, :guard => :green_address?
       transitions :from => [:unconfirm, :confirming], :to => :confirming, :guard => :min_confirm?
       transitions :from => [:unconfirm, :confirming, :confirmed], :to => :confirmed, :guard => :max_confirm?
     end
@@ -36,6 +37,12 @@ class PaymentTransaction < ActiveRecord::Base
     deposit.max_confirm?(confirmations)
   end
 
+  def green_address?
+    if currency == 'btc'
+      known_tx?(txid) rescue false
+    end
+  end
+
   def refresh_confirmations
     raw = CoinRPC[deposit.currency].gettransaction(txid)
     self.confirmations = raw[:confirmations]
@@ -44,7 +51,13 @@ class PaymentTransaction < ActiveRecord::Base
 
   def deposit_accept
     if deposit.may_accept?
-      deposit.accept! 
+      deposit.accept!
     end
+  end
+
+  def known_tx?(txid)
+    resp = RestClient.post "https://api.bifubao.com/v00002/tx/innercheck", _time_: Time.now.to_i, tx_hash: txid
+    resp = JSON.parse(resp)
+    !!resp['result']
   end
 end
