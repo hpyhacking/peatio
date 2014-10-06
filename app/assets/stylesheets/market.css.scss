@@ -231,12 +231,34 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
     input {
       text-align: right;
       padding-top: 10px !important;
-      padding-right: 4px !important;
+      padding-right: 6px !important;
+      padding-left: 24px !important;
       font-size: 12px;
     }
 
     margin-bottom: 8px;
   }
+
+  .hint-price-disadvantage, .hint-positions  {
+    top: 3px;
+    left: 42px;
+    font-size: 12px;
+    margin-left: 0px;
+    position: absolute;
+    z-index: 10;
+  }
+
+  .label.label-info { color: $brand-info }
+  .label.label-danger { color: $brand-danger }
+
+  .status-info, .status-success, .status-danger {
+    top: -2px;
+    left: 5px;
+    font-size: 14px;
+    margin-left: 0px;
+    position: absolute;
+  }
+  
 
 }
 

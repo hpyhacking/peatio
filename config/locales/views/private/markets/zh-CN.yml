@@ -36,10 +36,6 @@ zh-CN:
         last_price: 最新价格
         amount: 数量
         total: 金额
-        price_high: 高
-        price_low: 低
-        full_in: 满
-        full_out: 空
       ask_entry:
         title: 卖出 
         action: 挂[卖单]
@@ -47,6 +43,7 @@ zh-CN:
         last_price: 最新价格
         amount: 数量
         total: 金额
+      place_order:
         price_high: 高
         price_low: 低
         full_in: 满
