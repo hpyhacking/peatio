@@ -1,7 +1,7 @@
 zh-CN:
   currency:
     keyid:
-      key: KeyID DNS
+      key: KeyID
       code: DNS
-      name: KeyID
+      name: DNS
       format: '0,0.0000'
