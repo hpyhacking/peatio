@@ -36,7 +36,7 @@ Handlebars.registerHelper 'format_trade', (ask_or_bid) ->
   gon.i18n[ask_or_bid]
 
 Handlebars.registerHelper 'format_short_trade', (ask_or_bid) ->
-  gon.i18n[ask_or_bid][0]
+  gon.i18n[ask_or_bid]
 
 Handlebars.registerHelper 'format_time', (timestamp) ->
   m = moment.unix(timestamp)
