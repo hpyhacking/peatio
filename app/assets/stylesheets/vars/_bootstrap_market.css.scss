@@ -24,3 +24,12 @@ $panel-default-text: $text-color;
 
 $font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
 
+
+/* bootstrap form mix 
+------------------------------------------------------------ */
+$input-bg: inherit;
+$input-color: #fff;
+$input-group-addon-bg: #2b3434;
+$input-border: rgb(85, 85, 85);
+$input-height-base: 25px;
+$input-border-focus: $navbar-default-border;

@@ -4,17 +4,17 @@
   .panel-body
     = form_for [market, order], :remote => true do |f|
       = f.hidden_field :ord_type
-      p.input-group.price
+      .input-group.price
         label.input-group-addon = t('.price')
         span.label.label-danger.hint-price-disadvantage
         = f.text_field :price, class: 'form-control'
         span.input-group-addon = market.bid['currency'].upcase
-      p.input-group.amount
+      .input-group.amount
         label.input-group-addon = t('.amount')
         span.label.label-info.hint-positions
         = f.text_field :origin_volume, class: 'form-control'
         span.input-group-addon = market.ask['currency'].upcase
-      p.input-group.total
+      .input-group.total
         label.input-group-addon = t('.total')
         = f.text_field :total, class: 'form-control'
         span.input-group-addon = market.bid['currency'].upcase
