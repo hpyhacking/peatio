@@ -1,6 +1,5 @@
 ul.list-group
   - @deposits.each do |d|
-    - next if d.key == 'keyid'
     li.list-group-item class='deposit-channel-#{d.id}'
       .row.row-middle
         .col-md-18
