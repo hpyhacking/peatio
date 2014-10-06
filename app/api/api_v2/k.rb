@@ -17,10 +17,10 @@ module APIv2
         offset = (params[:timestamp] - ts) / 60 / params[:period]
         offset = 0 if offset < 0
 
-        redis.lrange(key, offset, offset + params[:limit] - 1).map{|str| JSON.parse(str)}
+        JSON.parse('[%s]' % redis.lrange(key, offset, offset + params[:limit] - 1).join(','))
       else
         length = redis.llen(key)
-        redis.lrange(key, length - params[:limit], -1).map{|str| JSON.parse(str)}
+        JSON.parse('[%s]' % redis.lrange(key, length - params[:limit], -1).join(','))
       end
     end
   end
