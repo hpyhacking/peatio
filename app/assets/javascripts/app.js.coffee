@@ -4,17 +4,17 @@
   showAlert:  (msg) -> $(document).trigger 'flash-alert',  msg: msg
 
 $ ->
-  gutter = 2;
-  gutter_2x = 2 * 2;
-  gutter_3x = 2 * 3;
-  gutter_4x = 2 * 4;
-  gutter_5x = 2 * 5;
-  gutter_6x = 2 * 6;
-  gutter_7x = 2 * 7;
-  gutter_8x = 2 * 8;
+  gutter = 2
+  gutter_2x = 2 * 2
+  gutter_3x = 2 * 3
+  gutter_4x = 2 * 4
+  gutter_5x = 2 * 5
+  gutter_6x = 2 * 6
+  gutter_7x = 2 * 7
+  gutter_8x = 2 * 8
 
   $(window).resize ->
-    navbar_h = $('.navbar').height() + 1;
+    navbar_h = $('.navbar').height() + 1
     window_w = $(window).width()
     window_h = $(window).height()
     sidebar_w = $('.sidebar').width()
