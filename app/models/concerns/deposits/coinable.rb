@@ -34,7 +34,7 @@ module Deposits
 
     def as_json(options = {})
       super.merge({
-        confirmations: super.payment_transaction.confirmations
+        confirmations: self.payment_transaction.confirmations
       })
     end
   end

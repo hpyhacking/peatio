@@ -17,14 +17,12 @@ Peatio.DepositsController = Ember.ArrayController.extend
           controller.get('deposits').popObject()
         , 1000)
 
-    $.subscribe 'deposit:update', (event, data) ->
-      update_records = _.filter controller.get('deposits'), (r) ->
-        r.id == data.id
-      if update_records.length > 0
-        update_records[0].set('aasm_state', data.attributes.aasm_state)
-
     $.subscribe 'payment_address:create', ->
-      $("#payment_address").html(controller.get('model')[0].account().payment_address)
+      address = controller.get('model')[0].account().payment_address
+      $("#payment_address").html(address)
+      $('#payment_address_data').attr('data-clipboard-text', address)
+      $('#qrcode').attr('data-text', address)
+      $('#qrcode').attr('title', address)
 
   paymentAddress: (->
     @model[0].account().payment_address

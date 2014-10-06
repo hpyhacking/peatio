@@ -8,3 +8,5 @@ Peatio.ApplicationController = Ember.Controller.extend
         $('.flash-message').hide(1000)
       , 5000)
 
+
+

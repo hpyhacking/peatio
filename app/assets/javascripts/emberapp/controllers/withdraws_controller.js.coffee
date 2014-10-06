@@ -15,13 +15,6 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
           controller.get('withdraws').popObject()
         , 1000)
 
-    $.subscribe 'withdraw:update', (event, data)->
-      update_records = _.filter(controller.get('withdraws'), (r) ->
-        r.id == data.id)
-      if update_records.length > 0
-        update_records[0].set('aasm_state', data.attributes.aasm_state)
-
-
   btc: (->
     @model[0].currency == "btc"
   ).property('@each')
