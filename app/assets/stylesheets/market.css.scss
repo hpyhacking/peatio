@@ -29,6 +29,7 @@
 /* basic layout 
 ------------------------------------------------ */
 $min-height: 620px;
+$min-width: 1180px;
 $navbar-height: 71px;
 $sidebar-width: $brand-width;
 $gutter: 2px;
@@ -46,6 +47,10 @@ header {
   bottom-border: 0px;
 
   .site-logo { margin-right: 20px !important; margin-left: 20px !important; }
+}
+
+.navbar-static-top {
+  min-width: $min-width;
 }
 
 #wrap {
@@ -331,6 +336,12 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
 #ticker {
   table { th, td { padding: 0px; border: 0px;} margin-bottom: 0px; }
   table { margin-top: 5px; max-width: 700px; td { font-size: 16px; } }
+
+  td {
+    &:after {
+      content: " "attr(data-symbol);
+    }
+  }
 }
 
 

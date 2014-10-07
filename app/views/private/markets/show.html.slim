@@ -1,4 +1,4 @@
-= render partial: 'ticker'
+= render partial: 'ticker', locals: {market: @market}
 = render partial: 'kline_chart'
 = render partial: 'trades'
 = render partial: 'order_book'
