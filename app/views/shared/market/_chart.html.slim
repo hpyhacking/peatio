@@ -1,3 +1,4 @@
-.market-ticker
-  = render partial: 'shared/market/ticker', locals: {market: current_market.name}
-.market-chart
+.panel.panel-default
+  .panel-body.market-ticker
+    = render partial: 'shared/market/ticker'
+  .panel-body.market-chart
