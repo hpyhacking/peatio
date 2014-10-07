@@ -77,7 +77,7 @@ $ ->
       height: $el.data('height')
 
   AccountBalanceUI.attachTo('.account-balance')
-  MyOrdersUI.attachTo('.my-orders')
+  MyOrdersUI.attachTo('#my_orders')
   MyDoneOrdersUI.attachTo('#my_done_orders')
 
   PlaceOrderUI.attachTo('#bid_entry')
