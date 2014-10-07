@@ -107,6 +107,17 @@ describe Member do
     end
   end
 
+  describe '#deactive_phone_number' do
+    let(:member) { create :member, phone_number_verified: true }
+
+    before do
+      member.deactive_phone_number!
+    end
+
+    it { expect(member.phone_number).to be_blank }
+    it { expect(member.phone_number_verified).to be_false }
+  end
+
   describe 'Member.search' do
     before do
       create(:member)

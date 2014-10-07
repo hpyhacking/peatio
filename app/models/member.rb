@@ -186,6 +186,10 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def deactive_phone_number!
+    update phone_number: '', phone_number_verified: false
+  end
+
   private
   def generate_sn
     self.sn and return
