@@ -147,6 +147,9 @@ $my-orders-width: $min-width - $sidebar-width - $order-book-width;
 $my-orders-width: ($my-orders-width / 2) - $gutter-2x;
 $my-orders-height: 280px;
 
+$my-done-orders-width: $my-orders-width;
+$my-done-orders-height: $my-orders-height;
+
 $trades-width: $my-orders-width;
 $trades-height: $my-orders-height;
 
@@ -180,6 +183,11 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
 #my_orders { 
   min-width: $trades-width;
   width: $my-orders-width; height: $my-orders-height; 
+  right: $gutter-2x + $order-book-width ; bottom: $gutter; }
+
+#my_done_orders { 
+  min-width: $trades-width;
+  width: $my-done-orders-width; height: $my-done-orders-height; 
   right: $gutter-2x + $order-book-width ; bottom: $gutter; }
 
 #kline_chart { 
@@ -267,7 +275,7 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
 ---------------------------------------------------*/
 .col-left { padding-right: 12px; }
 .panel-body-head { border-bottom: 1px solid #333; }
-#order_book, #trades, #my_orders {
+#order_book, #trades, #my_orders, #my_done_orders {
   table {
     margin-bottom: 0px;
 
@@ -287,12 +295,18 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
   }
 }
 
-#trades, #my_orders {
+#trades, #my_orders, #my_done_orders {
   .panel-body-content { height: 220px; }
 }
 
 .panel-body-content::-webkit-scrollbar { width: 0 !important }
 .panel-body-content { overflow-y: auto; -ms-overflow-style: none; overflow: -moz-scrollbars-auto; }
+
+.panel-heading {
+  .pull-right + .pull-right {
+    margin-right: 10px;
+  }
+}
 
 @import 'layouts/custom';
 
