@@ -1,7 +1,7 @@
 Ember.Handlebars.helper 'format-date', (date) ->
   moment(date).format('YYYY-MM-DD HH:mm')
 
-Ember.Handlebars.helper 'state-name', (state) ->
+Ember.Handlebars.helper 'deposit-state-name', (state) ->
   switch state
     when 'submitting' then '已提交'
     when 'cancelled'  then '已撤销'
@@ -11,6 +11,22 @@ Ember.Handlebars.helper 'state-name', (state) ->
     when 'checked'    then '充值成功'
     when 'warning'    then '异常'
     when 'suspect'    then '异常'
+
+Ember.Handlebars.helper 'withdraw-state-name', (state) ->
+  switch state
+    when 'submitting' then '待确认'
+    when 'cancelled'  then '已撤销'
+    when 'submitted'  then '待校验'
+    when 'accepted'   then '已提交'
+    when 'rejected'   then '已驳回'
+    when 'warning'    then '异常'
+    when 'suspect'    then '异常'
+    when 'failed'     then '提现出错'
+    when 'almost_done' then '发送中'
+    when 'done'        then '提现成功'
+    when 'processing'  then '受理中'
+    when 'coin_ready'  then '准备中'
+    when 'coin_done'   then '完毕'
 
 
 Ember.Handlebars.helper 'account-class', (currency)->

@@ -65,7 +65,7 @@
     <td>{{format-date deposit.created_at}}</td>
     <td>{{deposit.fund_extra}} @ {{deposit.fund_uid}}</td>
     <td>{{deposit.amount}}</td>
-    <td>{{state-name deposit.aasm_state}}
+    <td>{{deposit-state-name deposit.aasm_state}}
     {{#if deposit.is_submitting}}
     / <a href="#" {{action cancelDeposit}} data-id={{unbound deposit.id}} id="cancel_link">取消</a>
     {{/if}}
