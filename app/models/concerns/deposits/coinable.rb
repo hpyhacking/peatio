@@ -35,7 +35,7 @@ module Deposits
     def as_json(options = {})
       super.merge({
         txid: self.txid.blank? ? "" : self.txid[0..29],
-        confirmations: self.payment_transaction.confirmations,
+        confirmations: self.payment_transaction.nil? ? 0 : self.payment_transaction.confirmations,
         blockchain_url: self.blockchain_url
       })
     end
