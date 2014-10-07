@@ -44,6 +44,8 @@ body { min-width: $min-width !important; min-height: $min-height !important; }
 header {
   box-sizing: border-box;
   bottom-border: 0px;
+
+  .site-logo { margin-right: 20px !important; margin-left: 20px !important; }
 }
 
 #wrap {
