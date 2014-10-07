@@ -128,7 +128,6 @@
     @on 'place_order::price_alert::show', @priceAlertShow
     @on 'place_order::order::updated', @updateAvailable
 
-    @on document, 'order::plan', @orderPlan
     @on document, 'account::update', @refreshBalance
 
     @on @select('formSel'), 'ajax:beforeSend', @beforeSend

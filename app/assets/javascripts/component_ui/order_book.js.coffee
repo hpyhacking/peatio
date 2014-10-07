@@ -41,7 +41,7 @@
     @on document, 'market::trades', @refreshSeperator
 
     $('.asks').on 'click', 'tr', (e) =>
-      @placeOrder $('.order-place #bid_panel'), _.extend(@computeDeep(e, gon.asks), type: 'ask')
+      @placeOrder $('#bid_entry'), _.extend(@computeDeep(e, gon.asks), type: 'ask')
 
     $('.bids').on 'click', 'tr', (e) =>
-      @placeOrder $('.order-place #ask_panel'), _.extend(@computeDeep(e, gon.bids), type: 'bid')
+      @placeOrder $('#ask_entry'), _.extend(@computeDeep(e, gon.bids), type: 'bid')
