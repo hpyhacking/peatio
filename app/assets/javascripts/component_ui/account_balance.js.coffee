@@ -23,7 +23,7 @@
       sum = sum/100000000
       unit = '亿'
     else if sum > 100000
-      sum = sum/100000
+      sum = sum/10000
       unit = '万'
     else
       unit = ''
