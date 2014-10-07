@@ -1,0 +1,11 @@
+- unless @one_keyids.empty?
+  .panel.panel-primary
+    .panel-heading: span = t('.one')
+    = render partial: 'table', locals: {keyids: @one_keyids}
+- unless @all_keyids.empty?
+  .panel.panel-success
+    .panel-heading: span = t('.all')
+    = render partial: 'table', locals: {keyids: @all_keyids}
+
+- if @all_keyids.empty? and @one_keyids.empty?
+  h3.text-info.text-center = t('.empty')

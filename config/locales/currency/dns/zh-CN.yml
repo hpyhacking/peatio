@@ -1,0 +1,7 @@
+zh-CN:
+  currency:
+    keyid:
+      key: KeyID
+      code: DNS
+      name: DNS
+      format: '0,0.0000'

@@ -16,16 +16,18 @@ end
 
 Rails.logger = Logger.new STDOUT
 
-worker = Worker::DepositBtsx.new ENV['BLOCK_NUM'].to_i
-duration = Worker::DepositBtsx::BLOCK_DURATION / 2
+btsx_deposit = Worker::DepositBitshares.new 'btsx'
+dns_deposit  = Worker::DepositBitshares.new 'dns'
+
+def safe_process(worker)
+  worker.process
+rescue
+  Rails.logger.error "Worker failure: #{$!}"
+  Rails.logger.error $!.backtrace.join("\n")
+end
 
 while($running) do
-  begin
-    worker.process
-  rescue
-    Rails.logger.error "Worker failure: #{$!}"
-    Rails.logger.error $!.backtrace.join("\n")
-  end
-
-  sleep duration
+  safe_process btsx_deposit
+  safe_process dns_deposit
+  sleep 5 # half of block production time
 end

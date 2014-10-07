@@ -58,6 +58,8 @@ class CoinRPC
     end
   end
 
+  ASSET_IDS = { BTSX: 0, DNS: 0 }.freeze
+
   class BTSX < self
     def handle(name, *args)
       post_body = { 'method' => name, 'params' => args, 'jsonrpc' => '2.0', 'id' => 0 }.to_json
@@ -79,10 +81,9 @@ class CoinRPC
       raise ConnectionRefusedError
     end
 
-    ASSET_IDS = { btsx: 0 }.freeze
     def getbalance
       balances = wallet_account_balance(@currency.deposit_account).first[1]
-      balance  = balances.find {|(id, _)| id == ASSET_IDS[:btsx] }.last
+      balance  = balances.find {|(id, _)| id == ASSET_IDS[asset_name.to_sym] }.last
       fmt_amount balance
     rescue
       Rails.logger.warn "Failed to get balance (currency: #{@currency.code} account: #{@currency.deposit_account}): #{$!}"
@@ -114,7 +115,7 @@ class CoinRPC
 
     def account_transfer(account, amount, memo)
       memo ||= 'peatio withdrawal'
-      wallet_transfer amount, 'BTSX', @currency.deposit_account, account, memo
+      wallet_transfer amount, asset_name, @currency.deposit_account, account, memo
     end
 
     # validate both account and address
@@ -129,11 +130,11 @@ class CoinRPC
     end
 
     def last_deposit_account_transaction
-      wallet_account_transaction_history(@currency.deposit_account, 'BTSX', -1, 0).first
+      wallet_account_transaction_history(@currency.deposit_account, asset_name, -1, 0).first
     end
 
     def get_deposit_transactions(from, to=-1)
-      txs = wallet_account_transaction_history(@currency.deposit_account, 'BTSX', 0, from, to)
+      txs = wallet_account_transaction_history(@currency.deposit_account, asset_name, 0, from, to)
       txs.select {|tx| tx['is_confirmed'] && !tx['is_virtual'] && !tx['is_market'] && !tx['is_market_cancel'] && tx['ledger_entries'].first['to_account'] == @currency.deposit_account }
     end
 
@@ -147,6 +148,11 @@ class CoinRPC
       amt.to_d / 100000
     end
 
+    def asset_name
+      @asset_name ||= self.class.name.split('::').last
+    end
   end
+
+  class DNS < BTSX; end
 
 end

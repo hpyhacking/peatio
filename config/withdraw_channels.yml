@@ -32,3 +32,9 @@
   fixed: 5
   fee: 0.1
   sort_order: 3
+- id: 700
+  key: keyid
+  currency: dns
+  fixed: 5
+  fee: 0.1
+  sort_order: 4

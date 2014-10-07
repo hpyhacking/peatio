@@ -1,19 +1,15 @@
+# Deposit worker for all bitshares_toolkit derivations.
 module Worker
-  class DepositBtsx < DepositCoin
+  class DepositBitshares < DepositCoin
 
-    BLOCK_DURATION = 10
+    def initialize(code)
+      @rpc      = CoinRPC[code]
+      @currency = Currency.find_by_code code
+      @channel  = DepositChannel.find_by_key @currency.key
+      @pt_class = "PaymentTransaction::#{code.capitalize}".constantize
 
-    def initialize(last_block_num)
-      @rpc        = CoinRPC['btsx']
-
-      @last_block_num = last_block_num
-      if @last_block_num < 1
-        tx = @rpc.last_deposit_account_transaction
-        @last_block_num = tx['block_num'] if tx
-      end
-
-      @currency = Currency.find_by_code 'btsx'
-      @channel  = DepositChannel.find_by_key 'bitsharesx'
+      tx = @rpc.last_deposit_account_transaction
+      @last_block_num = tx ? tx['block_num'] : @rpc.info[:blockchain_head_block_num]
     end
 
     def rescan(from, to)
@@ -36,24 +32,25 @@ module Worker
       entry      = raw['ledger_entries'].first
       amount     = @rpc.fmt_amount entry['amount']['amount']
       fee        = @rpc.fmt_amount raw['fee']['amount']
-      address    = "#{@currency.deposit_account}|#{entry['memo']}"
+      memo       = entry['memo']
+      address    = "#{@currency.deposit_account}|#{memo}"
       payer      = entry['from_account']
       receive_at = Time.zone.parse raw['timestamp']
 
-      Rails.logger.info "NEW - block: #{block} id: #{txid}"
+      Rails.logger.info "#{@currency.code.upcase} - block: #{block} id: #{txid}"
 
       ActiveRecord::Base.transaction do
-        if PaymentTransaction::Btsx.find_by_txid(txid)
+        if @pt_class.find_by_txid(txid)
           Rails.logger.info "Associated PaymentTransaction found, skip."
         else
-          d = deposit(block, txid, payer, address, amount, receive_at, @channel)
+          d = deposit(block, txid, payer, address, amount, receive_at, memo, @channel)
           Rails.logger.info "Deposit##{d.id} created." if d
         end
       end
     end
 
-    def deposit(blockid, txid, payer, address, amount, receive_at, channel)
-      tx = PaymentTransaction::Btsx.create!(
+    def deposit(blockid, txid, payer, address, amount, receive_at, memo, channel)
+      tx = @pt_class.create!(
         blockid: blockid,
         txid: txid,
         payer: payer,
@@ -64,7 +61,12 @@ module Worker
         currency: channel.currency
       )
 
-      if tx.account && tx.member
+      unless member = PaymentAddress.destruct_memo(memo)
+        Rails.logger.info "Transaction##{txid} failed memo checksum validation (memo: #{memo}), PaymentTransaction##{tx.id} failed to deposit."
+        return
+      end
+
+      if tx.account && tx.member == member
         deposit = channel.kls.create!(
           payment_transaction_id: tx.id,
           blockid: tx.blockid,

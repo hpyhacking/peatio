@@ -12,8 +12,8 @@ class PaymentAddress < ActiveRecord::Base
 
   private
   def gen_address
-    if account && account.currency == 'btsx'
-      self.address = "#{currency_obj.deposit_account}|#{account.id}"
+    if account && %w(btsx dns).include?(account.currency)
+      self.address = "#{currency_obj.deposit_account}|#{self.class.construct_memo(account)}"
       save
     else
       payload = { payment_address_id: id, currency: currency }
@@ -25,4 +25,21 @@ class PaymentAddress < ActiveRecord::Base
   def sync_create
     ::Pusher["private-#{account.member.sn}"].trigger_async('payment_address', { type: 'create', attributes: self.as_json})
   end
+
+  def self.construct_memo(account)
+    member = account.member
+    checksum = member.created_at.to_i.to_s[-3..-1]
+    "#{member.id}#{checksum}"
+  end
+
+  def self.destruct_memo(memo)
+    member_id = memo[0...-3]
+    checksum  = memo[-3..-1]
+
+    member = Member.find_by_id member_id
+    return nil unless member
+    return nil unless member.created_at.to_i.to_s[-3..-1] == checksum
+    member
+  end
+
 end

@@ -10,19 +10,23 @@ zh-CN:
       key: DOG
     bitsharesx:
       key: BTSX
+    keyid:
+      key: DNS
 
     name:
       cny: 人民币
       btc: 比特币
       pts: PTS
       dog: 狗狗币
-      btsx: BTSX
+      btsx: Bitshares X
+      dns: KeyID DNS
     code:
       cny: CNY
       btc: BTC
       pts: PTS
       dog: DOGE
       btsx: BTSX
+      dns: DNS
     format:
       zero: 'N/A'
       cny: '0.00'
