@@ -129,10 +129,8 @@ zh-CN:
       panel: 登录
       new:
         title: 登录我的账户
-        intro: 现在登录，以便您开始交易，随时关注交易动态。
       failure:
         title: 登录我的账户
-        intro: 现在登录，以便您开始交易，随时关注交易动态。
 
     identities:
       panel: 创建账户
