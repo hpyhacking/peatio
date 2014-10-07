@@ -93,6 +93,8 @@ zh-CN:
         volume: 数量
         time: 挂单时间
         operation: 操作
+      mask:
+        warning: 请 <span class=text-up>登录</span> 或 <span class=text-up>注册</span> 后进行操作
       kline_chart:
         title: 行情走势图 - K线
       global:

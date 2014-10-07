@@ -88,6 +88,20 @@ header {
   font-family: $font-family-monospace;
 }
 
+.mask {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 900;
+  background-color: rgba(44,44,44,0.8);
+}
+
+#my_orders > .mask { padding-top: 130px; }
+#ask_entry > .mask { padding-top: 80px; }
+#bid_entry > .mask { padding-top: 80px; }
+
 /* panel
 ------------------------------------------------ */
 .panel {
@@ -319,4 +333,3 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
 
 
 @import 'layouts/custom';
-

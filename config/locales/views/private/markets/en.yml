@@ -97,7 +97,9 @@ en:
         volume: Volume
         time: Place Time
         operation: Opt.
-      kline_chart:
+      mask:
+        warning: Please <span class=text-up>Sign up</span> or <span class=text-up>Sign in</span>
+      klime_chart:
         title: Candlestick Charts
       global:
         global_orders_title: ORDERS
