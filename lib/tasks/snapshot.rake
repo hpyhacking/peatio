@@ -1,16 +1,17 @@
 namespace :snapshot do
 
-  def genesis_deposit(version, amount)
+  def genesis_deposit(version, key, amount)
     m = version.account.member
-    txid = "genesis"
+    a = m.get_account(key)
+    txid = "#{key}-genesis-#{version.id}"
     txout = version.id
-    address = version.a.payment_address.address
+    address = a.payment_address.address
     confirmations = 101
     receive_at = Time.now
-    channel = DepositChannel.find_by_key version.account.currency_obj.key
-    pt_class = "PaymentTransaction::#{channel.key.camelize}".constantize
+    channel = DepositChannel.find_by_key a.currency_obj.key
+    pt_class = "PaymentTransaction::#{channel.currency.camelize}".constantize
 
-    pt = pt_class.where(txid: 'genesis', txout: version.id).first
+    pt = pt_class.where(txid: txid, txout: txout).first
     if pt
       puts "Already deposited to member##{m.id} (#{m.email}), skip."
     else
@@ -40,7 +41,7 @@ namespace :snapshot do
         deposit.accept!
       end
 
-      puts "Deposited #{amount} #{channel.key.upcase} to member##{m.id} (#{m.email})"
+      puts "Deposited #{amount} #{channel.currency.upcase} to member##{m.id} (#{m.email})"
     end
   end
 
@@ -66,7 +67,7 @@ namespace :snapshot do
       #m.deposits.create account: acc, currency: 'btsx', amount: amount, fund_uid: 'pts', fund_extra: 'snapshot', txid: "yunbi#{acc.id}"
       puts "#{m.id} #{m.display_name} #{m.email} #{v.amount} #{amount} #{acc.id}"
 
-      deposits << [v, amount]
+      deposits << [v, 'btsx', amount]
       total += amount
     end
 
@@ -124,7 +125,7 @@ namespace :snapshot do
         dns = v.amount*1176
         total += dns
         hit += 1
-        deposits << [v, v.amount]
+        deposits << [v, 'dns', v.amount]
         puts("User#%5d %-40s %-20s => %-20s" % [m.id, "#{m.name} <#{m.email}>", "#{v.amount.to_s('F')} PTS", "#{dns.to_s('F')} DNS"])
       end
     end
