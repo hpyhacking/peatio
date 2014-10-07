@@ -91,6 +91,8 @@ zh-CN:
     account_balance: 账户资产
     back: 返回
     total: 总额
+    deposit: 充值
+    withdraw: 提现
 
   admin_header:
     deposits: 充值管理

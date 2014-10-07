@@ -91,6 +91,8 @@ en:
     account_balance: Total Assets
     back: Back
     total: Total
+    deposit: Deposit
+    withdraw: Withdraw
 
   admin_header:
     deposits: Deposits
