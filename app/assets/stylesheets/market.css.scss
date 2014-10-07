@@ -40,7 +40,10 @@ $gutter-5x: $gutter * 5;
 
 body, html, #wrap, .sidebar, .content { height: 100%; }
 
-body { min-width: $min-width !important; min-height: $min-height !important; }
+body { 
+  min-width: $min-width !important; 
+  min-height: $min-height !important; 
+}
 
 header {
   box-sizing: border-box;
@@ -51,6 +54,10 @@ header {
 
 .navbar-static-top {
   min-width: $min-width;
+}
+
+.container {
+  width: $min-width;
 }
 
 #wrap {

@@ -1,11 +1,11 @@
 header.navbar.navbar-default.navbar-static-top role = "navigation"
-  div class='#{fluid ||= false  ? 'container-fluid' : 'container'}'
+  .container
     ul#menu.nav.navbar-nav.navbar-left
       = top_nav_link(t('header.home'), root_path, '', controllers: ['welcome'])
       = top_nav_link(t('header.market'), market_path(current_market.id), 'exchange')
       = top_nav_link(t('header.funds'), funds_path, 'credit-card', controllers: ['funds']) if current_user
       = top_nav_link(t('header.assets'), exchange_assets_path, 'bar-chart-o')
-      = top_nav_link(t('header.history'), order_history_path, 'book') if current_user
+      = top_nav_link(t('header.history'), order_history_path, 'book', controllers: ['history']) if current_user
       <li><a style='color: rgba(255, 240, 71, 0.8);' href="https://jinshuju.net/f/dAUr8z" target="_blank"><i class="fa fa-comments"></i><span>吐槽有礼</span></a></li>
 
     ul.nav.navbar-nav.navbar-right
