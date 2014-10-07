@@ -2,3 +2,16 @@
   .panel-heading
     span = t('.title')
   .panel-body
+    table.table
+      thead: tr
+        th.col-xs-7.text-center: g #{t('.volume')}
+        th.col-xs-5.text-right: g #{t('.high')}
+        th.col-xs-5.text-right: g #{t('.low')}
+        th.col-xs-7.text-right: g #{t('.last')}
+      tbody: tr
+        td.text-center.volume
+        td.text-right.high
+        td.text-right.low
+        td.text-right.last
+    #ask_bid_ticker
+

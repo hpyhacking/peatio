@@ -24,6 +24,11 @@ zh-CN:
         sell: 卖出
       ticker:
         title: 市场实时报价
+        last: 最新成交价
+        high: 24h 最高价
+        low: 24h 最低价
+        volume: 24h 成交量
+        
       account_balance:
         title: 账户余额
         available: 可用 %{currency}

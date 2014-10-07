@@ -14,10 +14,12 @@ window.GlobalData = flight.component ->
     channel = @attr.pusher.subscribe("market-#{gon.market.id}-global")
 
     channel.bind 'update', (data) =>
+      console.log data.ticker
       gon.asks = data.asks
       gon.bids = data.bids
       gon.ticker = data.ticker
       gon.tickers[gon.market.id] = data.ticker
+      console.log gon.ticker
 
       @trigger 'market::ticker',  gon.ticker
       @trigger 'market::order_book', asks: gon.asks, bids: gon.bids

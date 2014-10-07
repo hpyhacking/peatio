@@ -84,7 +84,7 @@ $ ->
   MyDoneOrdersUI.attachTo('#my_done_orders')
 
   MarketChartUI.attachTo('.market-chart')
-  MarketTickerUI.attachTo('.ticker')
+  MarketTickerUI.attachTo('#ticker')
   MarketTradesUI.attachTo('#trades')
   OrderBookUI.attachTo('#order_book')
 

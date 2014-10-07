@@ -1,17 +1,25 @@
 window.MarketTickerUI = flight.component ->
-  @attributes
-    volumeSelector: '.value.volume'
-    askPriceSelector: '.value.sell'
-    bidPriceSelector: '.value.buy'
-    lowPriceSelector: '.value.low'
-    highPriceSelector: '.value.high'
-    latestPriceSelector: '.value.last'
+  @.lastPrice = 0
 
-  @update = (el, text) ->
+  @attributes
+    latestPriceSelector: 'td.last'
+    highPriceSelector: 'td.high'
+    lowPriceSelector: 'td.low'
+    volumeSelector: 'td.volume'
+    askPriceSelector: 'td.sell'
+    bidPriceSelector: 'td.buy'
+
+  @update = (el, text, trend) ->
     text = round(text, gon.market.bid.fixed)
     if el.text() isnt text
       el.fadeOut ->
-        el.text(text).fadeIn()
+        if trend?
+          if trend
+            el.removeClass("text-down").addClass("text-up").text(text).fadeIn()
+          else
+            el.removeClass("text-up").addClass("text-down").text(text).fadeIn()
+        else
+          el.text(text).fadeIn()
 
   @refresh = (event, data) ->
     @select('volumeSelector').text round(data.volume, gon.market.ask.fixed)
@@ -20,7 +28,12 @@ window.MarketTickerUI = flight.component ->
     @update @select('bidPriceSelector'), data.buy
     @update @select('lowPriceSelector'), data.low
     @update @select('highPriceSelector'), data.high
-    @update @select('latestPriceSelector'), data.last
+
+    old = @select('latestPriceSelector').text()
+    old = 0 if old == "" 
+    trend = BigNumber(data.last).greaterThan(BigNumber(old))
+
+    @update @select('latestPriceSelector'), data.last, trend
 
   @after 'initialize', ->
     @on document, 'market::ticker', @refresh
