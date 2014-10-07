@@ -4,14 +4,14 @@
   .panel-body
     table.table
       thead: tr
-        th.col-xs-4.text-right: g #{t('.volume')}
-        th.col-xs-4.text-right: g #{t('.high')}
-        th.col-xs-4.text-right: g #{t('.low')}
+        th.col-xs-6.text-right: g #{t('.volume')}
+        th.col-xs-3.text-right: g #{t('.high')}
+        th.col-xs-3.text-right: g #{t('.low')}
         th.col-xs-4.text-right: g #{t('.last')}
         th.col-xs-4.text-right: g #{t('.bid')}
         th.col-xs-4.text-right: g #{t('.ask')}
       tbody: tr
-        td.text-right.volume
+        td.text-right.volume data-symbol='#{market.ask['currency'].upcase}'
         td.text-right.high
         td.text-right.low
         td.text-right.last
