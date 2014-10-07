@@ -65,11 +65,15 @@ en:
         volume: Volume
       my_done_orders:
         title: My [Done Orders]
-        all: All
-        buy: All buy trades
-        sell: All sell trades
+        filter: Filter
+        all: ALL DONE
+        buy: BUY DONE
+        sell: SELL DONE
         cancel: All cancel trades
-        my_orders_title: View Active Orders
+        my_orders_title: View Active
+        price: Price
+        volume: Volume
+        time: Place Time
       my_orders:
         title: My [Active Orders]
         orders_wait: Latest Orders
@@ -81,7 +85,12 @@ en:
         confirm_clear_all: "Are you sure to cancel ALL orders?"
         confirm_clear_bids: "Are you sure to cancel all BIDS?"
         confirm_clear_asks: "Are you sure to cancel all ASKS?"
-        my_orders_title: View Done Orders
+        my_done_orders_title: View Done
+        one_click_clear: Cancel
+        price: Price
+        volume: Volume
+        time: Place Time
+        operation: Opt.
       kline_chart:
         title: Candlestick Charts
       global:

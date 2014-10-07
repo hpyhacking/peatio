@@ -4,7 +4,7 @@
   @attributes
     switchMyDoneOrderLink: 'a.switch_my_done_orders'
 
-  @getTemplate = (order) -> $(JST["order_wait"](order))
+  @getTemplate = (order) -> $(JST["order_active"](order))
 
   @orderHandler = (event, order) ->
     switch order.state

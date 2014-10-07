@@ -1,23 +1,23 @@
-#my_done_orders.panel.panel-default
+#my_done_orders.panel.panel-default style='display: none;'
   .panel-heading
     span = t('.title')
     a.switch_my_orders.pull-right.text-up href='#' = t('.my_orders_title')
     .btn-group.pull-right
       a.dropdown-toggle  data-toggle="dropdown"
-        b.switch-link-name = t('.all')
+        b.switch-link-name = t('.filter')
         span.caret
       ul.dropdown-menu role="menu"
+        li.text-right = link_to t('.all'), 'javascript:;', class: 'switch all'
         li.text-right = link_to t('.buy'), 'javascript:;', class: 'switch buy'
         li.text-right = link_to t('.sell'), 'javascript:;', class: 'switch sell'
-        li.text-right = link_to t('.all'), 'javascript:;', class: 'switch all'
   .panel-body.panel-body-head
     table.table
       thead: tr
-        th.at.col-xs-8.text-left = Order.human_attribute_name('at')
-        th.kind.col-xs-4.text-left
-        th.price.col-xs-6.text-right = Order.human_attribute_name('price')
-        th.volume.col-xs-6.text-right = Order.human_attribute_name('volume')
-        th.operation.col-xs-4.text-right
+        th.at.col-xs-8.text-left = t('.time')
+        th.kind.col-xs-3.text-left
+        th.price.col-xs-4.text-right = t('.price')
+        th.volume.col-xs-5.text-right = t('.volume')
+        th.amount.col-xs-4.text-right = t('.amount')
   .panel-body.panel-body-content
     table.table.table-condensed
       tbody
