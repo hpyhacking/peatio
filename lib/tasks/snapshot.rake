@@ -1,5 +1,83 @@
 namespace :snapshot do
 
+  def genesis_deposit(version, amount)
+    m = version.account.member
+    txid = "genesis"
+    txout = version.id
+    address = version.a.payment_address.address
+    confirmations = 101
+    receive_at = Time.now
+    channel = DepositChannel.find_by_key version.account.currency_obj.key
+    pt_class = "PaymentTransaction::#{channel.key.camelize}".constantize
+
+    pt = pt_class.where(txid: 'genesis', txout: version.id).first
+    if pt
+      puts "Already deposited to member##{m.id} (#{m.email}), skip."
+    else
+      ActiveRecord::Base.transaction do
+        tx = pt_class.create!(
+          txid: txid,
+          txout: txout,
+          address: address,
+          amount: amount,
+          confirmations: confirmations,
+          receive_at: receive_at,
+          currency: channel.currency
+        )
+
+        deposit = channel.kls.create!(
+          payment_transaction_id: tx.id,
+          txid: tx.txid,
+          txout: tx.txout,
+          amount: tx.amount,
+          member: tx.member,
+          account: tx.account,
+          currency: tx.currency,
+          memo: tx.confirmations
+        )
+
+        deposit.submit!
+        deposit.accept!
+      end
+
+      puts "Deposited #{amount} #{channel.key.upcase} to member##{m.id} (#{m.email})"
+    end
+  end
+
+  desc "compute customer's allocated BTSX"
+  task :btsx => %w(environment) do
+    pts_id = Currency.find_by_code('pts').id
+    versions = AccountVersion.find_by_sql <<-SQL
+        SELECT * FROM account_versions WHERE id IN
+        ( SELECT max(id) FROM account_versions WHERE created_at < '2014-03-01' AND currency = "#{pts_id}" GROUP BY account_id )
+    SQL
+
+    puts '*' * 80
+
+    deposits = []
+    total = 0
+    versions.each do |v|
+      m = v.account.member
+      acc = m.ac('btsx')
+      amount = v.amount * 500
+
+      #puts "plus funds #{amount} for account##{acc.id}"
+      #acc.plus_funds amount, reason: Account::DEPOSIT
+      #m.deposits.create account: acc, currency: 'btsx', amount: amount, fund_uid: 'pts', fund_extra: 'snapshot', txid: "yunbi#{acc.id}"
+      puts "#{m.id} #{m.display_name} #{m.email} #{v.amount} #{amount} #{acc.id}"
+
+      deposits << [v, amount]
+      total += amount
+    end
+
+    puts '*' * 80
+    puts "TOTAL: Deposit #{total} BTSX for #{versions.size} members"
+
+    if ENV['DEPOSIT'] == '1'
+      deposits.each {|d| genesis_deposit *d }
+    end
+  end
+
   task dns: :environment do
     pts_addresses = CoinRPC['pts'].listaddressgroupings.flatten(1).map(&:first)
 
@@ -29,6 +107,7 @@ namespace :snapshot do
     pts = 0
     total = 0
     hit = 0
+    deposits = []
     versions.each do |v|
       m = v.account.member
 
@@ -45,12 +124,17 @@ namespace :snapshot do
         dns = v.amount*1176
         total += dns
         hit += 1
+        deposits << [v, v.amount]
         puts("User#%5d %-40s %-20s => %-20s" % [m.id, "#{m.name} <#{m.email}>", "#{v.amount.to_s('F')} PTS", "#{dns.to_s('F')} DNS"])
       end
     end
 
     puts "#{pts.to_s('F')} PTS in #{hit} accounts requires #{total.to_s('F')} DNS."
     puts "DNS pool: #{sum} DNS"
+
+    if ENV['DEPOSIT'] == '1'
+      deposits.each {|d| genesis_deposit *d }
+    end
   end
 
   desc "calculate member active order voulme percentage of ME snapshot"

@@ -74,9 +74,10 @@ namespace :emu do
       confirmations = 100
       receive_at = Time.now
       channel = DepositChannel.find_by_key a.currency_obj.key
+      pt_class = "PaymentTransaction::#{channel.key.camelize}".constantize
 
       ActiveRecord::Base.transaction do
-        tx = PaymentTransaction::Normal.create!(
+        tx = pt_class.create!(
           txid: txid,
           txout: txout,
           address: address,
