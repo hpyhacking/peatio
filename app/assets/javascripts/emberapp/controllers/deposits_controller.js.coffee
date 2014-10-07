@@ -77,7 +77,7 @@ Peatio.DepositsController = Ember.ArrayController.extend
       data = { account_id: account.id, member_id: current_user.id, currency: currency, amount: sum,  fund_source: fund_source }
       $('#deposit_cny_submit').attr('disabled', 'disabled')
       $.ajax({
-        url: '/deposits/banks',
+        url: "/deposits/#{@model[0].resources_name}",
         method: 'post',
         data: { deposit: data }
       }).always(->
@@ -90,7 +90,7 @@ Peatio.DepositsController = Ember.ArrayController.extend
 
     cancelDeposit: ->
       record_id = event.target.dataset.id
-      url = "/deposits/#{@model[0].key}s/#{record_id}"
+      url = "/deposits/#{@model[0].resources_name}/#{record_id}"
       target = event.target
       $.ajax({
         url: url

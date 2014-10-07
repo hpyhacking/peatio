@@ -81,7 +81,7 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
 
       $('#withdraw_submit').attr('disabled', 'disabled')
       $.ajax({
-        url: "/withdraws/#{@model[0].key}s",
+        url: "/withdraws/#{@model[0].resources_name}",
         method: 'post',
         data: data
       }).always(->
@@ -94,7 +94,7 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
 
     cancelWithdraw: ->
       record_id = event.target.dataset.id
-      url = "/withdraws/#{@model[0].key}s/#{record_id}"
+      url = "/withdraws/#{@model[0].resources_name}/#{record_id}"
       target = event.target
       $.ajax({
         url: url
