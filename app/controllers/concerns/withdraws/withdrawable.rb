@@ -13,10 +13,15 @@ module Withdraws
     def create
       @withdraw = model_kls.new(withdraw_params)
 
-      if @withdraw.save
-        redirect_to url_for([:edit, @withdraw]), notice: t('.notice')
+      if two_factor_auth_verified?
+        if @withdraw.save
+          @withdraw.submit!
+          render nothing: true
+        else
+          render text: @withdraw.errors.full_messages.join, status: 403
+        end
       else
-        render :new, alert: t('.alert')
+        render text: I18n.t('verify.two_factors.create.error'), status: 403
       end
     end
 

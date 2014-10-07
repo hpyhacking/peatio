@@ -1,27 +1,8 @@
-= content_for :frame do
-  .container
-    - if current_user
-      .row
-        .col-xs-13 = render partial: 'shared/market/chart'
-        .col-xs-11: .row
-          .col-xs-11.order-book
-            .panel.panel-default: .panel-body
-              table.table.asks.text-down
-              table.table.seperator
-              table.table.bids.text-up
-          .col-xs-13.order-place
-            .panel.panel-default: .panel-body
-              .row.desktop-real-notification
-                .col-xs-12: span.text-ignore = t('.notification')
-                .col-xs-12.text-right: input type="checkbox" name="notification-checkbox" data-size='mini' data-on-text="开" data-off-text="关" data-on-color='success'
-              = render partial: 'place_order', locals: {market: @market, order_ask: @order_ask, order_bid: @order_bid}
-      .row
-        .col-xs-8 = render partial: 'trades'
-        .col-xs-8 = render partial: 'my_trades'
-        .col-xs-8 = render partial: 'my_orders'
-    - else
-      .row
-        .col-xs-24 = render partial: 'shared/market/chart'
-      .row
-        = render partial: 'depths'
-        .col-xs-8 = render partial: 'trades'
+= render partial: 'ticker', locals: {market: @market}
+= render partial: 'kline_chart'
+= render partial: 'trades'
+= render partial: 'order_book'
+= render partial: 'my_orders'
+= render partial: 'my_done_orders'
+= render partial: 'ask_entry', locals: {market: @market, order: @order_ask }
+= render partial: 'bid_entry', locals: {market: @market, order: @order_bid }

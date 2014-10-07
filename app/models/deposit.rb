@@ -25,6 +25,10 @@ class Deposit < ActiveRecord::Base
     :member, :currency
   validates_numericality_of :amount, greater_than: 0
 
+  after_update :sync_update
+  after_create :sync_create
+  after_destroy :sync_destroy
+
   aasm :whiny_transitions => false do
     state :submitting, initial: true, before_enter: :set_fee
     state :cancelled
@@ -118,5 +122,17 @@ class Deposit < ActiveRecord::Base
 
   def calc_fee
     [amount, 0]
+  end
+
+  def sync_update
+    ::Pusher["private-#{member.sn}"].trigger_async('deposits', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
+  end
+
+  def sync_create
+    ::Pusher["private-#{member.sn}"].trigger_async('deposits', { type: 'create', attributes: self.as_json })
+  end
+
+  def sync_destroy
+    ::Pusher["private-#{member.sn}"].trigger_async('deposits', { type: 'destroy', id: self.id })
   end
 end

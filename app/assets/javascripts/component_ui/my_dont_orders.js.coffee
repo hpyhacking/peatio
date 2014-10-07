@@ -1,10 +1,11 @@
-@MyTradesUI = flight.component ->
+@MyDoneOrdersUI = flight.component ->
   flight.compose.mixin @, [ItemListMixin, NotificationMixin]
 
   @attributes
     switchLinkName: '.switch-link-name'
     switchLink: 'a.switch'
     table: 'table'
+    switchMyOrderLink: 'a.switch_my_orders'
 
   @getTemplate = (order) -> $(JST["order_done"](order))
 
@@ -36,5 +37,6 @@
     @on document, 'trade::done::populate', @populate
     @on document, 'trade::done', @tradeHandler
     @on @select('switchLink'), 'click', @switch
-
-
+    @on @select('switchMyOrderLink'), 'click', ->
+      $('#my_orders').show()
+      $('#my_done_orders').hide()

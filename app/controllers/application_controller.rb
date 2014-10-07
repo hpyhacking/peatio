@@ -83,11 +83,12 @@ class ApplicationController < ActionController::Base
     gon.local = I18n.locale
     gon.market = current_market.attributes
     gon.ticker = current_market.ticker
-    gon.pusher_key = ENV['PUSHER_KEY']
-    gon.pusher_options = {
-      wsHost:    ENV['PUSHER_HOST']     || 'ws.pusherapp.com',
-      wsPort:    ENV['PUSHER_WS_PORT']  || '80',
-      wssPort:   ENV['PUSHER_WSS_PORT'] || '443',
+
+    gon.pusher = {
+      key:       ENV['PUSHER_KEY'],
+      wsHost:    ENV['PUSHER_HOST']      || 'ws.pusherapp.com',
+      wsPort:    ENV['PUSHER_WS_PORT']   || '80',
+      wssPort:   ENV['PUSHER_WSS_PORT']  || '443',
       encrypted: ENV['PUSHER_ENCRYPTED'] == 'true'
     }
 

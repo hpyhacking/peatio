@@ -1,48 +1,56 @@
 @MarketChartUI = flight.component ->
-
-  @initMarketChart = ->
-    updateData = (callback) =>
-      $.getJSON "/api/v2/k.json?market=#{gon.market.id}&limit=5&period=1", (data) =>
-        gon.kline_data = gon.kline_data.concat data
-        do callback
-
-    dataGrouping = [
-      ['minute', [1,5,10,15,30,60]]
-      ['hour',[1,2,5,10]]
-    ]
+  @drawChart = ->
+    dataGrouping =
+      focus: true
+      units: [['minute', [1, 3, 5, 15, 30]], ['hour', [1]]]
 
     @$node.highcharts "StockChart",
-      credits:
-        enabled: false
-
       chart:
-        height: 437
+        backgroundColor: '#000'
         events:
           load: ->
-            drawChart = =>
-              ohlc   = []
-              volume = []
+            formatOhlc = (data) ->
+              [
+                Number(data[0]) * 1000  # date
+                data[1]                 # open
+                data[2]                 # high
+                data[3]                 # low
+                data[4]                 # close
+              ]
 
-              for i in gon.kline_data
-                ohlc.push [
-                  Number(i[0]) * 1000 # the date
-                  i[1] # open
-                  i[2] # high
-                  i[3] # low
-                  i[4] # close
-                ]
-                volume.push [
-                  Number(i[0]) * 1000 # the date
-                  i[5] # the volume
-                ]
+            formatVolume = (data) ->
+              [
+                Number(data[0]) * 1000  # date
+                data[5]                 # volume
+              ]
 
-              @series[0].setData ohlc
-              @series[1].setData volume
+            fetchData = (limit=5, callback) ->
+              url = "/api/v2/k.json?market=#{gon.market.id}&limit=#{limit}&period=1"
+              $.getJSON url, (data) =>
+                ohlc   = []
+                volume = []
 
-            drawChart()
-            setInterval ->
-              updateData(drawChart)
-            , 5 * 60 * 1000
+                for i in data
+                  ohlc.push formatOhlc(i)
+                  volume.push formatVolume(i)
+
+                if callback
+                  callback ohlc: ohlc, volume: volume
+
+
+            fetchData 5000, (data) =>
+              @series[0].setData data.ohlc
+              @series[1].setData data.volume
+
+            setInterval =>
+              fetchData 5000, (data) =>
+                @series[0].setData data.ohlc, false
+                @series[1].setData data.volume, false
+                @redraw()
+            , 60 * 1000
+
+      credits:
+        enabled: false
 
       tooltip:
         valueDecimals: gon.market.bid.fixed
@@ -53,17 +61,18 @@
             x2: 0
             y2: 1
           stops: [
-            [0, 'white'],
-            [1, '#EEE']
+            [0, '#ccc'],
+            [1, '#ccc']
           ]
         borderColor: 'gray'
         borderWidth: 1
 
       plotOptions:
         candlestick:
-          animation: true
-          color: 'red'
-          upColor: 'green'
+          color: '#990f0f'
+          upColor: '#000000'
+          lineColor: '#cc1414'
+          upLineColor: '#49c043'
           dataGrouping: dataGrouping
           tooltip:
             pointFormat:
@@ -82,61 +91,98 @@
               #{gon.i18n.chart.volume}: {point.y}<br/>
               """
 
+      scrollbar:
+        buttonArrowColor: '#333'
+
+        barBackgroundColor: '#202020'
+        buttonBackgroundColor: '#202020'
+        trackBackgroundColor: '#202020'
+
+        barBorderColor: '#2a2a2a'
+        buttonBorderColor: '#2a2a2a'
+        trackBorderColor: '#2a2a2a'
+
       rangeSelector:
+        buttonTheme: { 
+          fill: 'none',
+          stroke: 'none',
+          'stroke-width': 0,
+          r: 8,
+          style: {
+            color: '#ccc',
+            fontWeight: 'bold'
+          },
+          states: {
+            hover: { },
+            select: {
+              fill: '#ccc',
+              style: {
+                color: 'white'
+              }
+            }
+          }
+        },
         allButtonsEnabled: true
         inputEnabled: false
         selected: 4
         buttons: [
           type: 'minute',
-          count: 10,
+          count: 100,
           text: "1#{gon.i18n.time.minute}"
         ,
           type: 'minute',
-          count: 30,
+          count: 300,
+          text: "3#{gon.i18n.time.minute}"
+        ,
+          type: 'minute',
+          count: 500,
           text: "5#{gon.i18n.time.minute}"
         ,
           type: 'minute',
-          count: 60,
+          count: 1500,
           text: "15#{gon.i18n.time.minute}"
         ,
           type: 'minute',
-          count: 120,
+          count: 3000,
           text: "30#{gon.i18n.time.minute}"
         ,
           type: 'hour',
-          count: 180,
+          count: 100,
           text: gon.i18n.time.hour
         ]
+
+      xAxis:
+        lineColor: '#333'
 
       yAxis: [
         {
           opposite: false
-          height: 230
           labels:
-            enabled: false
+            enabled: true
+          gridLineColor: '#333'
+          gridLineDashStyle: 'Dash'
+          top: "0%"
+          height: "80%"
         }
         {
           opposite: false
-          top: 245
-          height: 60
-          offset: 0
           labels:
             enabled: false
+          top: "80%"
+          gridLineColor: '#000'
+          height: "20%"
         }
       ]
 
       series: [
         {
           type: "candlestick"
-          dataGrouping:
-            smoothed: true
         }
         {
           type: "column"
-          name: gon.i18n.chart.volume
           yAxis: 1
         }
       ]
 
   @after 'initialize', ->
-    @initMarketChart()
+    @drawChart()

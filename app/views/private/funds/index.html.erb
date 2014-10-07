@@ -1,0 +1,15 @@
+<% content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+    $(function(){
+      if(window.location.hash === "") {
+        Peatio.__container__.lookup('router:main').transitionTo("/accounts/<%= current_user.accounts.first.currency %>/deposits");
+      }
+    });
+    $(window).load(function(){
+      $.ajax({
+        type: "post",
+        url: "<%= gen_address_funds_path %>"
+      })
+    });
+  </script>
+<% end %>

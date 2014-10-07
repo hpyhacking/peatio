@@ -14,9 +14,9 @@ module Deposits
       @deposit = model_kls.new(deposit_params)
 
       if @deposit.save
-        redirect_to url_for([:edit, @deposit]), notice: t('.notice')
+        render nothing: true
       else
-        render :new, alert: t('.alert')
+        render text: @deposit.errors.full_messages.join, status: 403
       end
     end
 
@@ -27,7 +27,7 @@ module Deposits
     def destroy
       @deposit = current_user.deposits.find(params[:id])
       @deposit.cancel!
-      redirect_to url_for(action: :new), notice: t('.notice')
+      render nothing: true
     end
 
     private

@@ -1,6 +1,7 @@
 @import "bourbon";
 
 @import 'vars/bootstrap';
+@import 'vars/bootstrap_market';
 
 @import 'bootstrap';
 @import 'bootstrap-switch.min';
@@ -14,9 +15,100 @@
 @import 'layouts/basic';
 @import 'layouts/header';
 
+/* fixed bootstrap navbar right margin width
+------------------------------------------------ */
+.navbar-brand { width: $brand-width; }
+.navbar-static-top { margin-bottom: 0px; }
+.navbar-nav.navbar-right:last-child { margin-right: 0px; }
+.navbar-collapse.collapse { display: block!important; }
+.navbar-nav { margin: 0px !important; & > a { padding: 15px !important; } }
+.navbar-nav > li, .navbar-nav { float: left !important; }
+.navbar-nav.navbar-right:last-child { margin-right: 0px !important; }
+.navbar-right { float: right!important; }
+
+/* basic layout 
+------------------------------------------------ */
+$min-height: 620px;
+$navbar-height: 51px;
+$sidebar-width: $brand-width;
+$gutter: 2px;
+$gutter-2x: $gutter * 2;
+$gutter-3x: $gutter * 3;
+$gutter-4x: $gutter * 4;
+$gutter-5x: $gutter * 5;
+
+body, html, #wrap, .sidebar, .content { height: 100%; }
+
+body { min-width: $min-width !important; min-height: $min-height !important; }
+
+header {
+  box-sizing: border-box;
+  bottom-border: 0px;
+}
+
+#wrap {
+  box-sizing: border-box; 
+  margin-top: 0px - $navbar-height;
+}
+
+.sidebar { 
+  padding-top: $navbar-height;
+  background-color: $brand-primary; 
+  float: left; 
+  position: absolute; 
+  width: $sidebar-width;
+
+  li {
+    display: block;
+    padding: 15px 15px 15px 15px;
+    text-align: center;
+    &.active {
+      background-color: $gray-darker;
+    }
+  }
+
+  .switch-control {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    i.fa { margin-right: 0px; }
+  }
+}
+
+.content {
+  top: $navbar-height;
+  left: $sidebar-width;
+  min-width: $min-width - $sidebar-width;
+  min-height: $min-height - $navbar-height;
+  width: 100%;
+  height: 100%;
+  position: absolute; 
+  font-size: 12px !important;
+  background-color: #000;
+  font-family: $font-family-monospace;
+}
+
+.mask {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 900;
+  background-color: rgba(44,44,44,0.8);
+}
+
+#my_orders > .mask { padding-top: 130px; }
+#ask_entry > .mask { padding-top: 80px; }
+#bid_entry > .mask { padding-top: 80px; }
+
 /* panel
 ------------------------------------------------ */
 .panel {
+  position: absolute;
+  box-sizing: padding-box;
+  margin-bottom: 0px;
+
   &.panel-wide {
     .panel-body { padding: 8px; }
     .panel-heading { padding: 8px; }
@@ -51,8 +143,199 @@
   .panel-body.panel-fixed-table-body {
     table { margin-bottom: 0px;}
     overflow-y: auto;
-    height: 470px;
   }
 }
+
+
+/* layout positon
+----------------------------------------------- */
+$base-top: $gutter;
+
+$entry-width: 242px;
+$entry-height: 190px;
+
+$order-book-width: $entry-width * 2 + $gutter;
+$order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
+
+$my-orders-width: $min-width - $sidebar-width - $order-book-width;
+$my-orders-width: ($my-orders-width / 2) - $gutter-2x;
+$my-orders-height: 280px;
+
+$my-done-orders-width: $my-orders-width;
+$my-done-orders-height: $my-orders-height;
+
+$trades-width: $my-orders-width;
+$trades-height: $my-orders-height;
+
+$chat-width: $min-width - $sidebar-width - $order-book-width - $my-orders-width - $trades-width - $gutter-5x;
+$chat-height: 200px;
+
+$ticker-width: $min-width - $sidebar-width - $order-book-width - $gutter-3x;
+$ticker-height: 80px;
+
+$kline-chart-width: $ticker-width;
+$kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-height - $gutter-4x;
+
+#ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
+.entry-right { top: $base-top; right: $gutter + $entry-width + $gutter; }
+.entry-left { top: $base-top; right: $gutter; }
+
+#order_book { 
+  width: $order-book-width; height: $order-book-height; 
+  min-height: $order-book-height;
+  bottom: $gutter; right: $gutter; }
+
+#chat { 
+  min-width: $chat-width; width: $chat-width; height: $chat-height; 
+  bottom: $gutter; left: $gutter; }
+
+#trades { 
+  min-width: $trades-width;
+  width: $trades-width; height: $trades-height; 
+  left: $gutter; bottom: $gutter; }
+
+#my_orders { 
+  min-width: $trades-width;
+  width: $my-orders-width; height: $my-orders-height; 
+  right: $gutter-2x + $order-book-width ; bottom: $gutter; }
+
+#my_done_orders { 
+  min-width: $trades-width;
+  width: $my-done-orders-width; height: $my-done-orders-height; 
+  right: $gutter-2x + $order-book-width ; bottom: $gutter; }
+
+#kline_chart { 
+  min-width: $kline-chart-width; width: $kline-chart-width; 
+  min-height: $kline-chart-height; height: $kline-chart-height; 
+  top: $gutter-2x + $ticker-height; left: $gutter; }
+
+#ticker { 
+  min-width: $ticker-width; width: $ticker-width; height: $ticker-height; 
+  top: $gutter; left: $gutter; }
+
+
+/* order entry
+-----------------------------------------------------*/
+[data-lang=zh-cn] {
+  #ask_entry, #bid_entry {
+    label.input-group-addon {
+      min-width: 40px !important;
+    }
+  }
+}
+
+#ask_entry, #bid_entry {
+  .panel-body { padding-top: 10px; }
+
+  .btn:focus, .btn:active:focus, .btn.active:focus {
+    outline: 0px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+  }
+
+  .row { margin-bottom: 6px; }
+
+  .input-group {
+    .input-group-addon { 
+      padding: 1px 4px 0px 4px; 
+      color: #eee;
+      font-size: 12px;
+    }
+
+    label.input-group-addon {
+      padding: 3px 6px 0px 6px; 
+      min-width: 60px;
+      text-align: right;
+    }
+
+    span.input-group-addon {
+      padding: 3px 6px 0px 6px; 
+      min-width: 40px;
+      text-align: left;
+    }
+
+    input {
+      text-align: right;
+      padding-top: 10px !important;
+      padding-right: 6px !important;
+      padding-left: 24px !important;
+      font-size: 12px;
+    }
+
+    margin-bottom: 8px;
+  }
+
+  .hint-price-disadvantage, .hint-positions  {
+    top: 3px;
+    left: 42px;
+    font-size: 12px;
+    margin-left: 0px;
+    position: absolute;
+    z-index: 10;
+  }
+
+  .label.label-info { color: $brand-info }
+  .label.label-danger { color: $brand-danger }
+
+  .status-info, .status-success, .status-danger {
+    top: -2px;
+    left: 5px;
+    font-size: 14px;
+    margin-left: 0px;
+    position: absolute;
+  }
+}
+
+/* order-book trades my-orders table
+---------------------------------------------------*/
+.col-left { padding-right: 12px; }
+.panel-body-head { border-bottom: 1px solid #333; }
+
+#order_book, #trades, #my_orders, #my_done_orders {
+  table {
+    margin-bottom: 0px;
+
+    td, th {
+      padding: 0px 2px;
+      border: none;
+    }
+
+    td {
+      &.price, &.amount, &.volume {
+        text-align: right;
+      }
+    }
+
+    thead { cursor: default; }
+    tbody > tr:hover { cursor: pointer; background-color: #333;}
+  }
+}
+
+#trades, #my_orders, #my_done_orders {
+  .panel-body-content { height: 220px; }
+}
+
+.panel-body-content::-webkit-scrollbar { width: 0 !important }
+.panel-body-content { overflow-y: auto; -ms-overflow-style: none; overflow: -moz-scrollbars-auto; }
+
+.panel-heading {
+  .pull-right + .pull-right {
+    margin-right: 10px;
+  }
+}
+
+/* ticker
+---------------------------------------------------*/
+
+#ticker {
+  table { th, td { padding: 0px; border: 0px;} margin-bottom: 0px; }
+  table { margin-top: 5px; max-width: 700px; td { font-size: 16px; } }
+
+  td {
+    &:after {
+      content: " "attr(data-symbol);
+    }
+  }
+}
+
 
 @import 'layouts/custom';

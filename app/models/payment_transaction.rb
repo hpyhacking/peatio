@@ -15,6 +15,8 @@ class PaymentTransaction < ActiveRecord::Base
   has_one :account, through: :payment_address
   has_one :member, through: :account
 
+  after_update :sync_update
+
   aasm :whiny_transitions => false do
     state :unconfirm, initial: true
     state :confirming, after_commit: :deposit_accept
@@ -45,6 +47,14 @@ class PaymentTransaction < ActiveRecord::Base
   def deposit_accept
     if deposit.may_accept?
       deposit.accept! 
+    end
+  end
+
+  private
+
+  def sync_update
+    if self.confirmations_changed?
+      ::Pusher["private-#{deposit.member.sn}"].trigger_async('deposits', { type: 'update', id: self.deposit.id, attributes: {confirmations: self.confirmations}})
     end
   end
 end

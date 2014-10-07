@@ -1,6 +1,7 @@
 <tr data-id="{{id}}" data-kind="{{kind}}" class="order {{kind}}">
-  <td class='kind col-xs-2'>{{{format_short_trade kind}}}</td>
-  <td class='at col-xs-6'>{{{format_fulltime at}}}</td>
-  <td class='price col-xs-6'>{{format_fix_bid price}}</td>
-  <td class='volume col-xs-6'>{{format_fix_ask volume}}</td>
+  <td class='time text-left col-xs-8'>{{{format_fulltime at}}}</td>
+  <td class='kind text-left col-xs-3 {{{format_trend kind}}}'>{{{format_short_trade kind}}}</td>
+  <td class='price text-right col-xs-4'>{{format_fix_bid price}}</td>
+  <td class='volume text-right col-xs-5'>{{format_fix_ask volume}}</td>
+  <td class='amount text-right col-xs-4'>{{{format_amount volume price }}}</td>
 </tr>

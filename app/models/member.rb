@@ -34,6 +34,7 @@ class Member < ActiveRecord::Base
 
   before_create :build_default_id_document
   after_create  :touch_accounts
+  after_update :sync_update
 
   class << self
     def from_auth(auth_hash)
@@ -186,6 +187,15 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def as_json(options = {})
+    super.merge({
+      "name" => self.name,
+      "app_activated" => self.two_factors.by_type(:app).activated?,
+      "sms_activated" => self.two_factors.by_type(:sms).activated?,
+      "memo" => self.id
+    })
+  end
+
   def deactive_phone_number!
     update phone_number: '', phone_number_verified: false
   end
@@ -201,5 +211,9 @@ class Member < ActiveRecord::Base
   def build_default_id_document
     build_id_document
     true
+  end
+
+  def sync_update
+    ::Pusher["private-#{sn}"].trigger_async('members', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
   end
 end

@@ -83,44 +83,6 @@
     .table.seperator { margin: 10px 0px; }
   }
 
-  .order-place {
-    @include fix-clear-pannel(left);
-
-    hr {
-      margin-top: 18px;
-      border-top-color: $gray-light;
-    }
-
-    .hint-price-disadvantage, .hint-positions  {
-      top: 6px;
-      left: 57px;
-      font-size: 14px;
-      margin-left: 0px;
-      position: absolute;
-      z-index: 10;
-    }
-
-    .status-info, .status-success, .status-danger {
-      top: -2px;
-      left: 5px;
-      font-size: 14px;
-      margin-left: 0px;
-      position: absolute;
-    }
-
-    .panel {
-      .panel-body { padding: 0px 5px; }
-      padding-left: 0px;
-    }
-
-    button { border-color: $gray-light; }
-    button { margin-top: 5px; }
-
-    #bid_panel { margin-top: 10px; }
-
-    span.input-group-addon { min-width: 55px; width: 55px; }
-    input[type=text] { font-family: monospace; font-size: 18px; text-align: right; }
-  }
   //#==========================================
 
   //#==========================================
