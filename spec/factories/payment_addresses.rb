@@ -11,6 +11,13 @@ FactoryGirl.define do
       currency Currency.find_by_code('btc').id
     end
 
-    factory :btc_payment_address, traits: [:btc_address]
+    trait :btsx_address do
+      address { Faker::Bitcoin.address }
+      account { create(:member).get_account(:btsx) }
+      currency Currency.find_by_code('btsx').id
+    end
+
+    factory :btc_payment_address,  traits: [:btc_address]
+    factory :btsx_payment_address, traits: [:btsx_address]
   end
 end

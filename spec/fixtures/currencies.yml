@@ -13,3 +13,11 @@
   key: protoshare
   code: pts
   coin: true
+- id: 16
+  key: bitsharesx
+  code: btsx
+  coin: true
+  handler: BTSX
+  deposit_account: test
+  rpc: http://btsx:test@127.0.0.1:20150/rpc
+  blockchain: http://www.bitsharesblocks.com/blocks/block?id=#{txid}

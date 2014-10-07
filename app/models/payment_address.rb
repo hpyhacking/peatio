@@ -11,6 +11,8 @@ class PaymentAddress < ActiveRecord::Base
   validates_uniqueness_of :address, allow_nil: true
 
   def gen_address
+    return if address
+
     if account && %w(btsx dns).include?(account.currency)
       self.address = "#{currency_obj.deposit_account}|#{self.class.construct_memo(account)}"
       save

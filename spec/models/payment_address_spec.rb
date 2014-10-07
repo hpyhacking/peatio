@@ -7,13 +7,18 @@ describe PaymentAddress do
       PaymentAddress.any_instance.stubs(:id).returns(1)
     end
 
-    it "generate address after commit" do
+    it "send address generation message after commit for btc" do
       AMQPQueue.expects(:enqueue)
         .with(:deposit_coin_address,
               {payment_address_id: 1, currency: 'btc'},
               {persistent: true})
 
       PaymentAddress.create currency: :btc
+    end
+
+    it "generate address immediately after commit for btsx" do
+      pa = PaymentAddress.create(account: create(:member).get_account(:btsx), currency: Currency.find_by_code('btsx').id)
+      pa.address.should =~ /^test\|/
     end
   end
 
