@@ -61,4 +61,47 @@ namespace :emu do
     bid_order(1, "5.5", "5.0")
     ask_order(2, "5.3", "2.0")
   end
+
+  desc "Testing Coin deposit."
+  task deposits: :environment do
+    m = Member.find_by_email ENV['email']
+    a = m.get_account(ENV['account'])
+    10.times do |i|
+      timestamp = Time.now.to_i
+      txid = "mock#{SecureRandom.hex(32)}"
+      txout = 0
+      address = a.payment_address.address
+      amount = rand(100000)
+      confirmations = 100
+      receive_at = Time.now
+      channel = DepositChannel.find_by_key a.currency_obj.key
+
+      ActiveRecord::Base.transaction do
+        tx = PaymentTransaction::Normal.create!(
+          txid: txid,
+          txout: txout,
+          address: address,
+          amount: amount,
+          confirmations: confirmations,
+          receive_at: receive_at,
+          currency: channel.currency
+        )
+
+        deposit = channel.kls.create!(
+          payment_transaction_id: tx.id,
+          txid: tx.txid,
+          txout: tx.txout,
+          amount: tx.amount,
+          member: tx.member,
+          account: tx.account,
+          currency: tx.currency,
+          memo: tx.confirmations
+        )
+
+        deposit.submit!
+        deposit.accept!
+      end
+    end
+  end
+
 end

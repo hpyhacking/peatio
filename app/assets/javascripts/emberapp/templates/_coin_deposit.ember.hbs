@@ -11,7 +11,7 @@
   {{#each deposit in deposits}}
   <tr>
     <td>{{format-date deposit.created_at}}</td>
-    <td>{{deposit.txid}} </td>
+    <td><a href="{{unbound deposit.blockchain_url}}" target='_blank'>{{deposit.txid}} </td>
     <td>{{deposit.amount}}</td>
     <td>{{deposit.confirmations}}</td>
     <td>{{state-name deposit.aasm_state}}</td>
