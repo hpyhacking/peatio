@@ -1,27 +1,44 @@
 <h2 class="panel-title">BTSX充值</h2>
-<h4>第一步</h4>
-<p> 请打开BitShares X钱包，选择“转账”。 </p>
 
+<section class="withdraw-instruction">
+  <div class="row">
+    <div class="col-sm-4">
+      <h4 class="steps">1</h4>
+    </div>
 
-<hr class="split">
+    <div class="col-sm-20">
+      <p> 请打开BitShares X钱包，选择“转账”。 </p>
+    </div>
+  </div>
 
-<h4>第二步</h4>
-<p>在转账界面中, 在“数量”(Amount)一栏请填入您希望充值的数量。“发往”(to)一栏请填入貔貅交易所的BTSX帐号，
-我们交易所的账号是：btsx.chongzhi.yunbi。在“消息”<b>(Memo)一栏中请填入下面的MEMO右侧的红色数字， 请务必填入此数字，否则充值无法自动到帐。</b></p>
+  <hr class="split">
+  
+  <div class="row">
+    <div class="col-sm-4">
+      <h4 class="steps">2</h4>
+    </div>
+    <div class="col-sm-20">
 
-<div>
-  {{view 'sync_address'}}
+      <p>在转账界面中, 在“数量”(Amount)一栏请填入您希望充值的数量。“发往”(to)一栏请填入貔貅交易所的BTSX帐号，我们交易所的账号是：btsx.chongzhi.yunbi。在“消息”<b>(Memo)一栏中请填入下面的MEMO右侧的红色数字， 请务必填入此数字，否则充值无法自动到帐。</b></p>
+      
+      <img src="/btsx.chongzhi.yunbi.png" width="80" class="pull-right">
 
-  <p>请核对发送到帐号的头像与下面的头像一致:</p>
+      {{view 'sync_address'}}
 
-  <img src="/btsx.chongzhi.yunbi.png" width="80">
+      <br>请核对发送到帐号的头像与右侧的头像一致。
+      
+    </div>
+  </div>
 
-</div>
-<hr class="split">
+  <hr class="split">
 
-<h4>第三步</h4>
-<p>
-完成以上操作后点击发送(Send)付款,此交易将被广播到全网,您便可以这⾥查看到此笔交易的状态, 当交易达到全网10个确认 (⼤约2-3分钟) 时,系统将自动充值到账。
-</p>
+  <div class="row">
+    <div class="col-sm-4"><h4 class="steps">3</h4></div>
+    <div class="col-sm-20">
+      <p>完成以上操作后点击发送(Send)付款,此交易将被广播到全网，您便可以这⾥查看到此笔交易的状态，当交易达到全网10个确认 (⼤约2-3分钟) 时，系统将自动充值到账。</p>
+    </div>
+  </div>
+
+</section>
 
 {{partial '_coin_deposit'}}
