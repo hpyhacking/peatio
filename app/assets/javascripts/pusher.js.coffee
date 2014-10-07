@@ -21,7 +21,7 @@ class PusherSubscriber
       new AccountHandler(channel)
       new DepositHandler(channel)
       new WithdrawHandler(channel)
-      new PaymentAddressHandler(channel)
+      new DepositAddressHandler(channel)
 
 class EventHandler
   constructor: (channel, event) ->
@@ -94,13 +94,13 @@ class WithdrawHandler extends EventHandler
   destroy: (id) =>
     Withdraw.destroy(id)
 
-class PaymentAddressHandler extends EventHandler
+class DepositAddressHandler extends EventHandler
   constructor: (channel) ->
-    super channel, "payment_address"
+    super channel, "deposit_address"
 
   create: (attributes) =>
     account = Account.findBy('id', attributes['account_id'])
-    account.payment_address = attributes['address']
+    account.deposit_address = attributes['address']
     account.set('deposit_address', 'To The Moon')
     account.set('deposit_address', attributes['address'])
     account.save()
