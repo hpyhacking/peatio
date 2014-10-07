@@ -27,6 +27,12 @@
       &.transfer-form {
         max-width: inherit;
       }
+      .control-label {
+        text-align: left;
+      }
+      .help-block {
+        font-size: 14px;
+      }
     }
   }
   .panel-title {
