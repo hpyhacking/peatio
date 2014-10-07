@@ -53,8 +53,8 @@ en:
         balance: Balance
         price_high: Price exceeds 10%
         price_low: Price less then 10%
-        full_in: Full
-        full_out: Empty
+        full_bid: Full
+        full_ask: Empty
       order_book:
         title: Order Book
         volume: Volume

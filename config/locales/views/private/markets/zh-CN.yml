@@ -52,8 +52,8 @@ zh-CN:
       place_order:
         price_high: 高
         price_low: 低
-        full_in: 满
-        full_out: 空
+        full_bid: 满
+        full_ask: 空
       order_book:
         title: 市场实时委单记录
         volume: 数量
