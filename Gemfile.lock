@@ -507,6 +507,7 @@ DEPENDENCIES
   rails-observers
   rbtree
   redis-rails
+  rest-client (~> 1.6.8)
   rotp
   rspec-rails
   sass-rails
