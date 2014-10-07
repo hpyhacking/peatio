@@ -11,7 +11,7 @@
       - if account.currency_obj.coin?
         = item_for t('.payment_address') do
           = account.payment_address.address
-      - if account.currency == 'btsx'
+      - if %w(dns btsx).include?(account.currency)
         = item_for t('.pending-payment') do
           = form_tag pending_payment_admin_member_path(account.member) do |f|
             = hidden_field_tag :account_id, account.id

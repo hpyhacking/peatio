@@ -4,7 +4,6 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
       - if params[:controller] == 'private/markets'
         = top_nav(t('header.back'), settings_path, 'chevron-left')
         - Market.all.sort.each do |market|
-          - next if market.id == 'dnscny'
           = top_market_link(market, current_market)
         <li><a style='color: rgba(255, 240, 71, 0.8);' href="https://jinshuju.net/f/dAUr8z" target="_blank"><i class="fa fa-comments"></i><span>吐槽有礼</span></a></li>
       - else
