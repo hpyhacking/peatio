@@ -62,6 +62,7 @@ namespace :emu do
     ask_order(2, "5.3", "2.0")
   end
 
+  desc "Testing Coin deposit."
   task deposits: :environment do
     m = Member.find_by_email ENV['email']
     a = m.get_account(ENV['account'])
