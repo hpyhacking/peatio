@@ -1,8 +1,8 @@
 @OrderBookUI = flight.component ->
   @attributes
     bookCounter: 10
-    asksBookSel: 'table.asks'
-    bidsBookSel: 'table.bids'
+    askBookSel: 'table.asks'
+    bidBookSel: 'table.bids'
     seperatorSelector: 'table.seperator'
 
   @refreshSeperator = (event, data) ->
@@ -12,42 +12,36 @@
       seperator.html(JST['order_book_seperator'](attrs)).fadeIn()
 
   @refreshOrders = (event, data) ->
-    @buildOrders(@select('bidsBookSel'), data.bids)
-    @buildOrders(@select('asksBookSel'), data.asks)
+    @buildOrders(@select('bidBookSel'), data.bids, 'bid')
+    @buildOrders(@select('askBookSel'), data.asks, 'ask')
 
-  @buildOrders = (table, orders) ->
-    for i in [0...@attr.bookCounter]
-      tableItem = table.find("tr[data-order='#{i}']")
-      if order = orders[i]
-        data = price: order[0], amount: order[1]
-        tableItem.html(JST["order_book"](data))
-      else
-        tableItem.html(JST['order_book_empty'])
+  @buildOrders = (table, orders, bid_or_ask) ->
+    @select("#{bid_or_ask}BookSel").empty()
+    for i in [0...orders.length]
+      data = price: orders[i][0], volume: orders[i][1], index: i
+      @select("#{bid_or_ask}BookSel").append(JST["order_book_#{bid_or_ask}"](data))
 
   @computeDeep = (event, orders) ->
-    index = Number $(event.currentTarget).data('order')
-    orders = _.take(orders, index + 1)
+    index      = Number $(event.currentTarget).data('order')
+    orders     = _.take(orders, index + 1)
 
     volume_fun = (memo, num) -> memo.plus(BigNumber(num[1]))
-    volume = _.reduce(orders, volume_fun, BigNumber(0))
-    price = BigNumber(_.last(orders)[0])
+    volume     = _.reduce(orders, volume_fun, BigNumber(0))
+    price      = BigNumber(_.last(orders)[0])
+    origVolume = _.last(orders)[1]
 
-    {price: price, volume: volume}
+    {price: price, volume: volume, origVolume: origVolume}
 
   @placeOrder = (target, data) ->
       @trigger target, 'place_order::input::price', data
       @trigger target, 'place_order::input::volume', data
 
   @after 'initialize', ->
-    for n in [0...@attr.bookCounter]
-      @select('asksBookSel').prepend("<tr data-order='#{n}'></tr>")
-      @select('bidsBookSel').append("<tr data-order='#{n}'></tr>")
-
     @on document, 'market::order_book', @refreshOrders
     @on document, 'market::trades', @refreshSeperator
 
-    @$node.on 'click', '.asks tr', (e) =>
-      @placeOrder $('.order-place #bid_panel'), @computeDeep(e, gon.asks)
+    $('.asks').on 'click', 'tr', (e) =>
+      @placeOrder $('#bid_entry'), _.extend(@computeDeep(e, gon.asks), type: 'ask')
 
-    @$node.on 'click', '.bids tr', (e) =>
-      @placeOrder $('.order-place #ask_panel'), @computeDeep(e, gon.bids)
+    $('.bids').on 'click', 'tr', (e) =>
+      @placeOrder $('#ask_entry'), _.extend(@computeDeep(e, gon.bids), type: 'bid')

@@ -16,8 +16,8 @@
 
   @panelType = ->
     switch @$node.attr('id')
-      when 'bid_panel' then 'bid'
-      when 'ask_panel' then 'ask'
+      when 'bid_entry' then 'bid'
+      when 'ask_entry' then 'ask'
 
   @cleanMsg = ->
     @select('successSel').text('')
@@ -85,7 +85,7 @@
   @refreshBalance = (event, data) ->
     type = @panelType()
     currency = gon.market[type].currency
-    balance = gon.accounts[currency].balance
+    balance = gon.accounts[currency]?.balance || 0
 
     @select('currentBalanceSel').data('balance', balance)
     @select('currentBalanceSel').text( window.fix(type, balance) )

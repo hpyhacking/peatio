@@ -1,6 +1,7 @@
-.panel.panel-with-dropdown.panel-wide.panel-info.my-orders
+#my_orders.panel.panel-default
   .panel-heading
-    span = t('.my_orders')
+    span = t('.title')
+    a.switch_my_done_orders.pull-right.text-up href='#' = t('.my_done_orders_title')
     .btn-group.pull-right
       a.dropdown-toggle  data-toggle="dropdown"
         b = t('.one_click_clear')
@@ -9,15 +10,14 @@
         li.text-right = link_to t('.clear_bids'), clear_market_order_bids_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_bids')}
         li.text-right = link_to t('.clear_asks'), clear_market_order_asks_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_asks')}
         li.text-right = link_to t('.clear_all'),  clear_market_orders_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_all')}
-  .panel-body.panel-fixed-table-head
-    table.table.table-condensed
+  .panel-body.panel-body-head
+    table.table
       thead: tr
-        th.kind.col-xs-2
-        th.at.col-xs-6 = Order.human_attribute_name('at')
-        th.price.col-xs-5 = Order.human_attribute_name('price')
-        th.volume.col-xs-5 = Order.human_attribute_name('volume')
-        th.operation.col-xs-3
-  .panel-body.panel-fixed-table-body
-    #orders_wait
-      table.table.table-condensed
-        tbody
+        th.time.col-xs-7.text-left = t('.time')
+        th.kind.col-xs-3.text-left
+        th.price.col-xs-5.text-right = t('.price')
+        th.volume.col-xs-5.text-right = t('.volume')
+        th.operation.col-xs-4.text-right = t('.operation')
+  .panel-body.panel-body-content
+    table.table.table-condensed
+      tbody

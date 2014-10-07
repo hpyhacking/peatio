@@ -27,7 +27,7 @@ describe TwoFactor do
     end
   end
 
-  describe '.activiated' do
+  describe '.activated' do
     before { create :member, :two_factor_activated }
 
     it "should has activated" do
@@ -76,5 +76,18 @@ describe TwoFactor::Sms do
 
   describe '#sms_message' do
     its(:sms_message) { should_not be_blank }
+  end
+
+  describe '#activated' do
+    let(:member) { create :member, phone_number_verified: true }
+    let(:two_factor) { create :two_factor_sms, member: member }
+
+    before do
+      two_factor.deactive!
+    end
+
+    it { expect(two_factor.activated).not_to be_true }
+    it { expect(member.phone_number).to be_blank }
+    it { expect(member.phone_number_verified).not_to be_true }
   end
 end

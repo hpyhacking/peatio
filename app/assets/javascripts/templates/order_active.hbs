@@ -1,0 +1,9 @@
+<tr data-id="{{id}}" data-kind="{{kind}}" class="order {{kind}}">
+  <td class='time text-left col-xs-7'>{{{format_fulltime at}}}</td>
+  <td class='kind text-left col-xs-3 {{{format_trend kind}}}'>{{{format_short_trade kind}}}</td>
+  <td class='price text-right col-xs-5'>{{format_fix_bid price}}</td>
+  <td class='volume text-right col-xs-5'>{{format_volume origin_volume volume}}</td>
+  <td class='col-xs-4 text-right'>
+    <a class='wait text-info' data-method='delete' data-remote='true' data-confirm='are you sure?' rel='nofollow' href='/markets/{{market}}/orders/{{id}}'>[{{format_cancel}}]</a>
+  </td>
+</tr>

@@ -1,12 +1,12 @@
-.panel.panel-fixed-table.panel-wide.panel-info
+#trades.panel.panel-default
   .panel-heading
-    span = t('.trades')
-  .panel-body.panel-fixed-table-head
-    table.table.table-condensed
+    span = t('.title')
+  .panel-body.panel-body-head
+    table.table
       thead: tr
-        th class='at col-xs-9' = t('.time')
-        th class='price col-xs-5' = t('.price')
-        th class='volume col-xs-5' = t('.volume')
-  .panel-body.trades.panel-fixed-table-body
-    table.table.table-condensed
+        th.at.col-xs-12.text-left #{t('.time')}
+        th.price.col-xs-6.text-right #{t('.price')}
+        th.volume.col-xs-6.text-right #{t('.volume')}
+  .panel-body.panel-body-content
+    table.table
       tbody

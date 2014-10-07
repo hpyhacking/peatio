@@ -1,0 +1,19 @@
+#ticker.panel.panel-default
+  .panel-heading
+    span = t('.title')
+  .panel-body
+    table.table
+      thead: tr
+        th.col-xs-4.text-right: g #{t('.volume')}
+        th.col-xs-4.text-right: g #{t('.high')}
+        th.col-xs-4.text-right: g #{t('.low')}
+        th.col-xs-4.text-right: g #{t('.last')}
+        th.col-xs-4.text-right: g #{t('.bid')}
+        th.col-xs-4.text-right: g #{t('.ask')}
+      tbody: tr
+        td.text-right.volume
+        td.text-right.high
+        td.text-right.low
+        td.text-right.last
+        td.text-right.bid
+        td.text-right.ask
