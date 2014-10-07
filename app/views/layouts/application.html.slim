@@ -13,7 +13,7 @@ html lang="en"
     = render 'shared/mixpanel'
 
   body id='#{body_id}' data-lang="#{locale_name}"
-    = render 'shared/alert'
+    #alert-topbar= render 'shared/alert'
 
     #wrap
       - if content_for?(:header)

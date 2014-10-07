@@ -1,30 +1,32 @@
-footer: .container: .row.text-center
-  p
+footer.global-footer: .container: .row
+  p.footer-nav
     = link_to t('footer.about'), document_path('about')
-    | &nbsp;&nbsp;&nbsp;
+    '&nbsp;|
     = link_to t('footer.terms_and_service'), document_path('terms_and_service')
-    | &nbsp;&nbsp;&nbsp;
+    '&nbsp;|
     = link_to t('footer.questions'), document_path('questions')
-    | &nbsp;&nbsp;&nbsp;
+    '&nbsp;|
     = link_to t('footer.price'), document_path('price')
-    | &nbsp;&nbsp;&nbsp;
+    '&nbsp;|
     = link_to t('footer.liability_proof'), document_path('liability_proof')
-    | &nbsp;&nbsp;&nbsp;
+    '&nbsp;|
     = link_to '代码开源', 'https://github.com/peatio/peatio', target: '_blank'
-    | &nbsp;&nbsp;&nbsp;
+    '&nbsp;|
     = link_to t('footer.contact'), document_path('contact')
-    | &nbsp;&nbsp;&nbsp;
+    '&nbsp;|
     = link_to 'Blog', 'http://blog.peatio.com', target: '_blank'
-    | &nbsp;&nbsp;&nbsp;
+    '&nbsp;|
     = link_to '论坛', '/forum'
-  p
-    span = "客户服务热线：400-835-1183"
-    | &nbsp;&nbsp;&nbsp;
+  p.footer-contacts
+    span.pull-right.text-bigger
+      '客户服务热线：
+      strong 400-835-1183
     span = link_to "客服QQ在线咨询", 'http://wpa.b.qq.com/cgi/wpa.php?ln=1&key=XzkzODAxMzE0Nl8xODQ3MzhfNDAwODM1MTE4M18yXw', target: '_blank'
     | &nbsp;&nbsp;&nbsp;
     span = "QQ群1(2000人大群)：2442579"
     | &nbsp;&nbsp;&nbsp;
-    span = "QQ群2-量化交易技术：338686220"
-  p
-    a target='_blank' href='http://www.beianbeian.com/beianxinxi/aacfc7ce-0935-4fe7-993b-af67ef5b7f69.html' 京ICP备13047168
+    span = "QQ群2(量化交易技术)：338686220"
+    | &nbsp;&nbsp;&nbsp;
+    span
+      a target='_blank' href='http://www.beianbeian.com/beianxinxi/aacfc7ce-0935-4fe7-993b-af67ef5b7f69.html' class='beian' 京ICP备13047168 
 

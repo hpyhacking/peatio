@@ -1,5 +1,6 @@
 /* auto header dropdown menu active
 ------------------------------------------------------ */
+
 header {
   .dropdown-menu .sub-menu {
       left: 100%;
@@ -39,6 +40,61 @@ header {
       left: 10px;
       top: 11px;
       left: -6px;
+  }
+  .navbar-nav {
+    margin: 0;
+  }
+  .navbar-nav > li {
+    float: left;
+  }
+  .navbar-nav > li > a {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .navbar-nav.navbar-left {
+    float: left;
+  }
+  .navbar-nav.navbar-right {
+    float: right;
+  }
+  .navbar-nav.navbar-right > li:first-child > a {
+    border: 1px solid $navbar-default-link-color;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 18px;
+    margin-bottom: 18px;
+    > span { margin-right: 5px; }
+  }
+  .site-logo {
+    margin-right: 40px;
+  }
+  .site-logo > a {
+    width: 110px;
+    height: 70px;
+    background-image: url('/assets/site-logo.png');
+    @include background-size(106px 35px);
+    background-repeat: no-repeat;
+    background-position: 0 12px;
+    @include hide-text;
+    .fa { display: none; }
+  }
+  .navbar-nav > .active {
+    position: relative;
+    &:after {
+      bottom: -1px;
+      left: 50%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: rgba(255, 255, 255, 0);
+      border-bottom-color: #ffffff;
+      border-width: 8px;
+      margin-left: -8px;
+    }
   }
 }
 

@@ -63,6 +63,21 @@ SimpleForm.setup do |config|
     b.use :hint,  wrap_with: { tag: :span, class: 'hint' }
   end
 
+  config.wrappers :login, class: 'form-group',
+    hint_class: :field_with_hint, error_class: :field_with_errors do |b|
+    b.use :placeholder
+    b.optional :maxlength
+    b.optional :pattern
+    b.optional :min_max
+    b.optional :readonly
+
+    ## Inputs
+    b.use :label, wrap_with: { tag: :div, class: 'col-xs-4 text-right'}
+    b.use :input, wrap_with: { tag: :div, class: 'col-xs-20'}
+    b.use :error, wrap_with: { tag: :span, class: 'error text-danger col-xs-20 col-xs-offset-4' }
+    b.use :hint,  wrap_with: { tag: :span, class: 'hint col-xs-20 col-xs-offset-4' }
+  end
+
   # The default wrapper to be used by the FormBuilder.
   config.default_wrapper = :default
 
