@@ -6,7 +6,7 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
       = top_nav_link(t('header.deposit'), deposits_path, 'credit-card', controllers: ['deposits']) if current_user
       = top_nav_link(t('header.withdraw'), withdraws_path, 'money', controllers: ['withdraws']) if current_user
       = top_nav_link(t('header.assets'), exchange_assets_path, 'bar-chart-o')
-      = top_nav_link(t('header.history'), order_history_path, 'book') if current_user
+      = top_nav_link(t('header.history'), order_history_path, 'book', controllers: ['history']) if current_user
 
     ul.nav.navbar-nav.navbar-right
       = render partial: 'shared/header_account_balance' if current_user
