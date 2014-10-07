@@ -12,14 +12,17 @@
       seperator.html(JST['order_book_seperator'](attrs)).fadeIn()
 
   @refreshOrders = (event, data) ->
-    @buildOrders(@select('bidBookSel'), data.bids, 'bid')
-    @buildOrders(@select('askBookSel'), data.asks, 'ask')
+    @buildOrders(@select('bidBookSel'), _.first(data.bids, 200), 'bid')
+    @buildOrders(@select('askBookSel'), _.first(data.asks, 200), 'ask')
 
   @buildOrders = (table, orders, bid_or_ask) ->
-    @select("#{bid_or_ask}BookSel").empty()
+    book = @select("#{bid_or_ask}BookSel")
+    book.empty()
+    html = ''
     for i in [0...orders.length]
       data = price: orders[i][0], volume: orders[i][1], index: i
-      @select("#{bid_or_ask}BookSel").append(JST["order_book_#{bid_or_ask}"](data))
+      html += JST["order_book_#{bid_or_ask}"](data)
+    book.append(html)
 
   @computeDeep = (event, orders) ->
     index      = Number $(event.currentTarget).data('order')
