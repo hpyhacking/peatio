@@ -164,7 +164,7 @@ class Account < ActiveRecord::Base
 
   def as_json(options = {})
     super.merge({
-      "deposit_address" => payment_address.deposit_address || ''
+      "deposit_address" => payment_addresses.empty? ? "" : payment_address.deposit_address
     })
   end
 
