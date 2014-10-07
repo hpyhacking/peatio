@@ -2,7 +2,7 @@
   .container
     - if current_user
       .row
-        .col-xs-13 = render_market_chart
+        .col-xs-13 = render partial: 'shared/market/chart'
         .col-xs-11: .row
           .col-xs-11.order-book
             .panel.panel-default: .panel-body
@@ -21,7 +21,7 @@
         .col-xs-8 = render partial: 'my_orders'
     - else
       .row
-        .col-xs-24 = render_market_chart
+        .col-xs-24 = render partial: 'shared/market/chart'
       .row
         = render partial: 'depths'
         .col-xs-8 = render partial: 'trades'

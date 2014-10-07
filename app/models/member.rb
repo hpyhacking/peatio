@@ -187,6 +187,10 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def deactive_phone_number!
+    update phone_number: '', phone_number_verified: false
+  end
+
   def memo
     PaymentAddress.construct_memo(self)
   end
