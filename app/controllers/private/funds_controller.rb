@@ -18,7 +18,9 @@ module Private
 
     def gen_address
       current_user.accounts.each do |account|
-        account.payment_addresses.create(currency: account.currency) if account.payment_addresses.blank?
+        if account.payment_addresses.blank? && account.currency_obj.coin?
+          account.payment_addresses.create(currency: account.currency)
+        end
       end
       render nothing: true
     end
