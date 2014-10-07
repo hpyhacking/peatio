@@ -1,7 +1,6 @@
 Peatio.CurrencyItemView = Ember.View.extend
   templateName: 'currency_item'
   didInsertElement: ->
-    
     $('.currency-withdraw a').bind('click', ->
       $('.currency-item').removeClass('selected')
       $('.currency-item').removeClass('withdraw-now')

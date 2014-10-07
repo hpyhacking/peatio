@@ -29,7 +29,7 @@ Peatio.DepositsController = Ember.ArrayController.extend
   ).property('@each')
 
   memo: (->
-    current_user.id
+    current_user.memo
   ).property('')
 
   btc: (->
@@ -50,6 +50,10 @@ Peatio.DepositsController = Ember.ArrayController.extend
 
   dog: (->
     @model[0].currency == "dog"
+  ).property('@each')
+
+  dns: (->
+    @model[0].currency == "dns"
   ).property('@each')
 
   deposits: (->
