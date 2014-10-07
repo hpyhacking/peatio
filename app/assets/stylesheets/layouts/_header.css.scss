@@ -101,6 +101,9 @@ header {
 /* account balance summary with header
 ------------------------------------------------------ */
 header .account-balance {
+
+  display: none;
+
   .dropdown-menu {
     padding-bottom: 0;
   }
