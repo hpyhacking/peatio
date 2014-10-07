@@ -39,8 +39,8 @@ zh-CN:
         total: 金额
         price_high: 高
         price_low: 低
-        full_in: 满
-        full_out: 空
+        full_bid: 满
+        full_ask: 空
       order_book:
         order_book: 挂单记录
         latest_trade: 最新成交

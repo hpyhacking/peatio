@@ -45,10 +45,11 @@ $ ->
       height: $el.data('height')
 
   AccountBalanceUI.attachTo('.account-balance')
-  PlaceOrderUI.attachTo('.order-place #bid_panel')
-  PlaceOrderUI.attachTo('.order-place #ask_panel')
   MyOrdersUI.attachTo('.my-orders')
   MyTradesUI.attachTo('.my-trades')
+
+  PlaceOrderUI.attachTo('.order-place #bid_panel')
+  PlaceOrderUI.attachTo('.order-place #ask_panel')
 
   MarketTickerUI.attachTo('.ticker')
   MarketTradesUI.attachTo('.trades')
