@@ -125,7 +125,7 @@ namespace :snapshot do
         dns = v.amount*1176
         total += dns
         hit += 1
-        deposits << [v, 'dns', v.amount]
+        deposits << [v, 'dns', dns]
         puts("User#%5d %-40s %-20s => %-20s" % [m.id, "#{m.name} <#{m.email}>", "#{v.amount.to_s('F')} PTS", "#{dns.to_s('F')} DNS"])
       end
     end
