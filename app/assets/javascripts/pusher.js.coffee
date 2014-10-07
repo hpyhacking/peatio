@@ -101,10 +101,10 @@ class PaymentAddressHandler extends EventHandler
   create: (attributes) =>
     account = Account.findBy('id', attributes['account_id'])
     account.payment_address = attributes['address']
-    account.set('payment_address', 'To The Moon')
-    account.set('payment_address', attributes['address'])
+    account.set('deposit_address', 'To The Moon')
+    account.set('deposit_address', attributes['address'])
     account.save()
-    $.publish "payment_address:create"
+    $.publish "deposit_address:create"
 
 
 window.PusherSubscriber = PusherSubscriber
