@@ -1,13 +1,15 @@
 window.MarketTickerUI = flight.component ->
-  @attributes
-    volumeSelector: '.value.volume'
-    askPriceSelector: '.value.sell'
-    bidPriceSelector: '.value.buy'
-    lowPriceSelector: '.value.low'
-    highPriceSelector: '.value.high'
-    latestPriceSelector: '.value.last'
+  @.lastPrice = 0
 
-  @update = (el, text) ->
+  @attributes
+    latestPriceSelector: 'td.last'
+    highPriceSelector: 'td.high'
+    lowPriceSelector: 'td.low'
+    volumeSelector: 'td.volume'
+    bidPriceSelector: 'td.bid'
+    askPriceSelector: 'td.ask'
+
+  @update = (el, text, trend) ->
     if gon.market.id is 'dogcny'
       fixed = 4
     else
@@ -17,7 +19,19 @@ window.MarketTickerUI = flight.component ->
 
     if el.text() isnt text
       el.fadeOut ->
-        el.text(text).fadeIn()
+        if trend?
+          if trend
+            el.removeClass("text-down").addClass("text-up").text(text).fadeIn()
+          else
+            el.removeClass("text-up").addClass("text-down").text(text).fadeIn()
+        else
+          el.text(text).fadeIn()
+
+  @checkTrend = (data) ->
+    old = @select(data[1]).text()
+    old = 0 if old == "" 
+    trend = BigNumber(data[0]).greaterThan(BigNumber(old))
+    @update @select(data[1]), data[0], trend
 
   @refresh = (event, data) ->
     @select('volumeSelector').text round(data.volume, 0)
@@ -26,7 +40,8 @@ window.MarketTickerUI = flight.component ->
     @update @select('bidPriceSelector'), data.buy
     @update @select('lowPriceSelector'), data.low
     @update @select('highPriceSelector'), data.high
-    @update @select('latestPriceSelector'), data.last
+
+    @checkTrend d for d in [[data.last, 'latestPriceSelector'], [data.buy, 'bidPriceSelector'], [data.sell, 'askPriceSelector']]
 
   @after 'initialize', ->
     @on document, 'market::ticker', @refresh

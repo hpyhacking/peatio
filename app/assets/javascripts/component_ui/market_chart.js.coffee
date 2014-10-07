@@ -6,7 +6,7 @@
 
     @$node.highcharts "StockChart",
       chart:
-        backgroundColor: 'white'
+        backgroundColor: '#202020'
         events:
           load: ->
             formatOhlc = (data) ->
