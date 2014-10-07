@@ -63,7 +63,6 @@ RSpec.configure do |config|
 
     Rails.cache.clear
     AMQPQueue.stubs(:publish)
-    MixpanelTracker.stubs(:track)
     KlineDB.stubs(:kline).returns([])
   end
 
