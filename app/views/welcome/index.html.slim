@@ -25,7 +25,7 @@
                     .col-xs-20.col-xs-offset-4
                       = f.button :submit, class: 'btn btn-lg btn-block btn-success', value: t("header.signin")
                       h5.inline-links
-                        = link_to "忘了密码?", new_reset_password_path 
+                        = link_to "忘了密码?", new_reset_password_path
                         '|
                         = link_to '注册新帐号', signup_path
 
@@ -56,7 +56,7 @@
         p.cnt
           | 7x24小时，VIP服务
           br
-          | 人民币充值10分钟，比特币1分钟确认        
+          | 人民币充值10分钟，比特币1分钟确认
 
       .col-xs-6.feature-highlight
         span.iconic
@@ -67,7 +67,7 @@
           br
           | 不虚报数据
 
-  .main-section
+  /.main-section
     .container
       hr
       ul.nav.nav-pills.row role='tablist'
@@ -76,7 +76,7 @@
         <li class="col-xs-6"><a href="#pane-pts-cny" role="tab" data-toggle="pill">PTS/CNY</a></li>
         <li class="col-xs-6"><a href="#pane-dog-cny" role="tab" data-toggle="pill">DOG/CNY</a></li>
 
-      .tab-content
+      /.tab-content
         #pane-btc-cny.tab-pane.active
           = render partial: 'shared/market/chart'
         #pane-btsx-cny.tab-pane 2
@@ -107,14 +107,4 @@
             td.text-left = market.ticker[:high]
             td.text-left = market.ticker[:low]
             td.text-left = market.ticker[:volume]
-
-  coffee:
-    $ ->
-      currentDate = new Date()
-      futureDate  = new Date("2014-10-08")
-      diff = futureDate.getTime() / 1000 - currentDate.getTime() / 1000;
-      $('.clock').FlipClock diff,
-        clockFace: 'DailyCounter'
-        countdown: true
-        showSeconds: true
 
