@@ -153,7 +153,11 @@
 
   @orderPlan = (event, data) ->
     @select('priceSel').val(data.price)
-    @select('volumeSel').val(data.volume)
+    if data.type is @panelType()
+      @select('volumeSel').val(data.origVolume)
+    else
+      @select('volumeSel').val(data.volume)
+
     @computeSum(event)
 
   @refreshBalance = (event, data) ->
@@ -203,9 +207,9 @@
 
 
   @after 'initialize', ->
-    @on document, 'order::plan', @orderPlan
     @on 'updateAvailable', @updateAvailable
 
+    @on document, 'order::plan', @orderPlan
     @on document, 'account::update', @refreshBalance
 
     @on @select('formSel'), 'ajax:beforeSend', @beforeSend
