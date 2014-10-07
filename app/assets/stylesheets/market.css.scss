@@ -29,6 +29,7 @@
 /* basic layout 
 ------------------------------------------------ */
 $min-height: 620px;
+$min-width: 1180px;
 $navbar-height: 71px;
 $sidebar-width: $brand-width;
 $gutter: 2px;
@@ -46,6 +47,10 @@ header {
   bottom-border: 0px;
 
   .site-logo { margin-right: 20px !important; margin-left: 20px !important; }
+}
+
+.navbar-static-top {
+  min-width: $min-width;
 }
 
 #wrap {
