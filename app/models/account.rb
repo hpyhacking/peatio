@@ -164,7 +164,8 @@ class Account < ActiveRecord::Base
 
   def as_json(options = {})
     super.merge({
-      "deposit_address" => payment_address.deposit_address || ''
+      # check if there is a useable address, but don't touch it to create the address now.
+      "deposit_address" => payment_addresses.empty? ? "" : payment_address.deposit_address
     })
   end
 
