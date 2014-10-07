@@ -67,7 +67,7 @@ namespace :snapshot do
       #m.deposits.create account: acc, currency: 'btsx', amount: amount, fund_uid: 'pts', fund_extra: 'snapshot', txid: "yunbi#{acc.id}"
       puts "#{m.id} #{m.display_name} #{m.email} #{v.amount} #{amount} #{acc.id}"
 
-      deposits << [v, 'btsx', amount]
+      deposits << [v, 'btsx', amount] if amount > 0
       total += amount
     end
 
