@@ -4,31 +4,32 @@
   <div class="panel-body panel-currencies">
 
     <div class='row'>
-      <div class='col-md-8'>
+      <div class='col-xs-8'>
 
         <div class="currencies-container">
-          {{#each model}}
-          <table class="{{unbound account-class currency}}">
-            <tr>
+          
+          <table class="table table-currencies">
+            {{#each model}}
+            <tr class="{{unbound account-class currency}}">
               <td class="currency-logo"><img src="/icon-{{unbound currency}}.png" alt=""><span class="currency-symbol">{{currency}}</span></td>
               <td class="currency-balance-col">
                 <p class="currency-balance"><span class="currency-sign">￥</span>{{balance}}</p>
                 <span class="currency-balance-locked"><i class="fa fa-lock"></i> {{locked}}</span>
               </td>
               <td class="currency-actions">
-                <p>{{#link-to 'deposits' this.currency}}充值{{/link-to}}</p>
-                <p>{{#link-to 'withdraws' this.currency}}提现{{/link-to}}</p>
+                <p class="currency-deposit">{{#link-to 'deposits' this.currency}}充值{{/link-to}}</p>
+                <p class="currency-withdraw">{{#link-to 'withdraws' this.currency}}提现{{/link-to}}</p>
               </td>
             </tr>
+            {{/each}}
           </table>
-          {{/each}}
         </div>
 
       </div>
 
       <div class='col-xs-16'>
+        {{template 'flash'}}
         <div class="details-container">
-          {{template 'flash'}}
           {{outlet}}
         </div>
       </div>

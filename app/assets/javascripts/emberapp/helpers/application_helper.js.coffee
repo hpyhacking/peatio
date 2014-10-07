@@ -17,9 +17,9 @@ Ember.Handlebars.helper 'account-class', (currency)->
   current_account = window.current_account_action.split(':')[0]
   current_action = window.current_account_action.split(':')[1]
 
-  style = "currency-item table"
+  style = "currency-item"
 
   if currency == current_account
-    style = "#{style} active #{current_action}-now"
+    style = "#{style} selected #{current_action}-now"
 
   style

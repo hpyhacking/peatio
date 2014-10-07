@@ -7,11 +7,11 @@
 .panel-currencies {
   padding: 0;
   .currencies-container {
-    min-height: 550px;
+    min-height: $funds-panel-height;
     border-right: 1px solid #ddd;
   }
   .details-container {
-    padding: 20px;
+    padding: 20px 20px 0;
     .form {
       margin: 30px 0;
       max-width: 640px;
@@ -60,13 +60,18 @@
   }
 }
 
-.currency-item {
-  margin: 0;
+.table-currencies {
+  border-radius: 5px;
+  right: -1px;
+  margin-bottom: 0;
   > tbody > tr > td {
     border-top: none;
     border-bottom: 1px solid #ddd;
     padding: 20px;
   }
+}
+.currency-item {
+  margin: 0;
   .currency-label {
     font-size: 12px;
     text-transform: uppercase;
@@ -116,6 +121,7 @@
     font-weight: normal;
   }
   .currency-actions {
+    position: relative;
     text-align: right;
     vertical-align: middle;
     p { 
@@ -124,31 +130,42 @@
       &:first-child {
         margin: 0 0 20px 0;
       }
-      &.selected:after, &.selected:before {
-        right: -21px;
-        top: 50%;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-        z-index: 1024;
-      }
-
-      &.selected:after {
-        border-color: rgba(255, 255, 255, 0);
-        border-right-color: #ffffff;
-        border-width: 10px;
-        margin-top: -10px;
-      }
-      &.selected:before {
-        border-color: rgba(221, 221, 221, 0);
-        border-right-color: #dddddd;
-        border-width: 11px;
-        margin-top: -11px;
-      }
     }
+  }
+  &.selected {
+    background-color: #EFF5F0;
+  }
+  &.selected .currency-actions:after, &.selected .currency-actions:before {
+    right: -2px;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    z-index: 1024;
+  }
+
+  &.selected .currency-actions:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-right-color: #ffffff;
+    border-width: 10px;
+    margin-top: -10px;
+  }
+  &.selected .currency-actions:before {
+    border-color: rgba(221, 221, 221, 0);
+    border-right-color: #dddddd;
+    border-width: 11px;
+    margin-top: -11px;
+  }
+  &.deposit-now .currency-actions:after, 
+  &.deposit-now .currency-actions:before {
+    top: 31px;
+  }
+  &.withdraw-now .currency-actions:after, 
+  &.withdraw-now .currency-actions:before {
+    top: 73px;
   }
 }
 
