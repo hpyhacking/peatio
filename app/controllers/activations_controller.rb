@@ -22,8 +22,6 @@ class ActivationsController < ApplicationController
   def edit
     @token.confirmed
 
-    mixpanel_track :activate, @token
-
     if current_user
       redirect_to settings_path, notice: t('.notice')
     else

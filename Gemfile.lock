@@ -254,7 +254,6 @@ GEM
       rake
     mini_portile (0.5.2)
     minitest (4.7.5)
-    mixpanel-ruby (1.4.0)
     mocha (1.0.0)
       metaclass (~> 0.0.1)
     momentjs-rails (2.5.1)
@@ -488,7 +487,6 @@ DEPENDENCIES
   meta_request
   mina
   mina-slack!
-  mixpanel-ruby
   mocha
   momentjs-rails
   mysql2

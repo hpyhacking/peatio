@@ -185,12 +185,4 @@ class ApplicationController < ActionController::Base
     Rails.cache.delete_matched "peatio:sessions:#{member_id}:*"
   end
 
-  def mixpanel_cookie
-    str = cookies["mp_#{ENV['MIXPANEL_TOKEN']}_mixpanel"]
-    str && JSON.parse(str)
-  end
-
-  def mixpanel_track(action, *args)
-    MixpanelTracker.track action, request, mixpanel_cookie, *args
-  end
 end

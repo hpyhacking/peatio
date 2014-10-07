@@ -25,7 +25,6 @@ class SessionsController < ApplicationController
         clear_failed_logins
         reset_session rescue nil
         session[:member_id] = @member.id
-        mixpanel_track :signin, @member
         save_session_key @member.id, cookies['_peatio_session']
         MemberMailer.notify_signin(@member.id, request_info).deliver if @member.activated?
         redirect_to settings_path

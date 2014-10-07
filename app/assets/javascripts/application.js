@@ -20,7 +20,6 @@
 //= require helper
 //= require jquery.mousewheel
 //= require qrcode
-//= require mixpanel
 //= require cookies.min
 
 //= require_tree ./component_mixin

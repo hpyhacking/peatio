@@ -40,7 +40,6 @@ gem 'country_select', '~> 1.3.1'
 gem 'gon', '~> 5.2.0'
 gem 'pusher'
 gem 'thread', '~> 0.1.4'
-gem 'mixpanel-ruby'
 gem 'eventmachine', '~> 1.0.3'
 gem 'em-websocket', '~> 0.5.1'
 
