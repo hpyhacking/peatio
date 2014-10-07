@@ -72,7 +72,7 @@ header {
   .site-logo > a {
     width: 110px;
     height: 70px;
-    background-image: image-url('/assets/site-logo.png');
+    background-image: image-url('site-logo.png');
     @include background-size(106px 35px);
     background-repeat: no-repeat;
     background-position: 0 12px;
