@@ -6,7 +6,7 @@
 
     @$node.highcharts "StockChart",
       chart:
-        backgroundColor: '#202020'
+        backgroundColor: '#000'
         events:
           load: ->
             formatOhlc = (data) ->
@@ -61,16 +61,18 @@
             x2: 0
             y2: 1
           stops: [
-            [0, 'white'],
-            [1, '#EEE']
+            [0, '#ccc'],
+            [1, '#ccc']
           ]
         borderColor: 'gray'
         borderWidth: 1
 
       plotOptions:
         candlestick:
-          color: 'red'
-          upColor: 'green'
+          color: '#990f0f'
+          upColor: '#000000'
+          lineColor: '#cc1414'
+          upLineColor: '#49c043'
           dataGrouping: dataGrouping
           tooltip:
             pointFormat:
@@ -89,7 +91,37 @@
               #{gon.i18n.chart.volume}: {point.y}<br/>
               """
 
+      scrollbar:
+        buttonArrowColor: '#333'
+
+        barBackgroundColor: '#202020'
+        buttonBackgroundColor: '#202020'
+        trackBackgroundColor: '#202020'
+
+        barBorderColor: '#2a2a2a'
+        buttonBorderColor: '#2a2a2a'
+        trackBorderColor: '#2a2a2a'
+
       rangeSelector:
+        buttonTheme: { 
+          fill: 'none',
+          stroke: 'none',
+          'stroke-width': 0,
+          r: 8,
+          style: {
+            color: '#ccc',
+            fontWeight: 'bold'
+          },
+          states: {
+            hover: { },
+            select: {
+              fill: '#ccc',
+              style: {
+                color: 'white'
+              }
+            }
+          }
+        },
         allButtonsEnabled: true
         inputEnabled: false
         selected: 4
@@ -119,17 +151,25 @@
           text: gon.i18n.time.hour
         ]
 
+      xAxis:
+        lineColor: '#333'
+
       yAxis: [
         {
           opposite: false
           labels:
-            enabled: false
+            enabled: true
+          gridLineColor: '#333'
+          gridLineDashStyle: 'Dash'
+          top: "0%"
+          height: "80%"
         }
         {
           opposite: false
           labels:
             enabled: false
           top: "80%"
+          gridLineColor: '#000'
           height: "20%"
         }
       ]
