@@ -91,7 +91,7 @@ zh-CN:
         otp: 6位数字密码
       session:
         email: 邮箱地址
-        password: ''
+        password: 至少6位密码, 建议包含大写、小写字母与数字
       identity:
         email: 例如：xiaobai@example.com
         password: 请设置登录密码

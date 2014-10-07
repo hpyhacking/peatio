@@ -3,17 +3,19 @@
 $grid-columns: 24;
 $grid-gutter-width: 10px;
 
-$body-bg: #f5f5f5;
+$body-bg: #ffffff;
 
-$brand-primary: #364450;
+$brand-primary: #394a5c;
+$brand-success: #87c599;
 
 $up-text: rgb(77, 215, 16);
 $down-text: rgb(208, 0, 23);
 
 $navbar-default-bg: $brand-primary;
-$navbar-default-link-color: #DCDCDC;
+$navbar-default-link-color: rgba(255,255,255,.75);
 $navbar-default-link-hover-color: #EFEFEF;
-$navbar-default-link-active-color: #EFEFEF;
+$navbar-default-link-active-color: #ffffff;
+$navbar-default-link-active-bg: rgba(0,0,0,0);
 
 $btn-default-bg: #428bca;
 $btn-default-color: #fff;
@@ -22,3 +24,7 @@ $btn-info-bg: #fff;
 $btn-info-color: #333;
 
 $font-family-sans-serif: 'Helvetica Neue', Arial, 'Hiragino Sans GB', sans-serif;
+$font-size-base: 16px;
+
+$link-color: #09c;
+$input-color-placeholder: #ccc;

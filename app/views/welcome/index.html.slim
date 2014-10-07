@@ -3,79 +3,91 @@
     .container
       .row
         .col-xs-15 class='#{current_user ? 'col-xs-offset-4' : ''}'
-          .row
-            .col-xs-12
-              .logo
-                = image_tag('peatio_logo.png', height: '140')
-            #site-title.col-xs-12
-              h1.text-right 云币网
-              h3.text-right: b.text-ignore 这一刻，我们正在改变......
-          .row
-            .clock
-            h3.text-center: b style='font-size: 38px; color: #3c4e5e;' 漫步云端，10月8日，不见不散！
+          #homepage-carousel.carousel.slide data-ride="carousel"
+            ol.carousel-indicators
+              <li data-target="#homepage-carousel" data-slide-to="0" class="active"></li>
+              <li data-target="#homepage-carousel" data-slide-to="1" class=""></li>
+            .carousel-inner
+              .item.active
+                = image_tag "homepage-pitch-1.jpg"
+              .item
+                = image_tag "homepage-pitch-2.jpg"
         - unless current_user
           .col-xs-8.col-xs-offset-1
-            .login-box
-              = simple_form_for Identity.new, url: '/auth/identity/callback', method: :post do |f|
-                h3.text-ignore.text-center 登录云币网
-                = f.input :email, input_html: {name: 'auth_key', autofocus: 'true'}, label: t('.email'), placeholder: t('simple_form.placeholders.session.email')
-                = f.input :password, as: 'password', input_html: {name: 'password'}, label: t('.password'), placeholder: t('simple_form.placeholders.session.password'), hint: ''
-                .form-group.text-right
-                  .row: .col-xs-21
-                    span = link_to "忘记登录密码?", new_reset_password_path
-                .form-group
-                  .row
-                    .col-xs-20.col-xs-offset-1
-                      = f.button :submit, class: 'btn-primary btn-lg btn-block btn-success', value: t("header.signin")
-                      h5.text-right = link_to '立即注册', signup_path
+            .login-box.panel.panel-default
+              .panel-heading 登录云币网
+              .panel-body
+                = simple_form_for Identity.new, url: '/auth/identity/callback', method: :post, wrapper: :login do |f|
+                  .flash-messages &nbsp;
+                  = f.input :email, input_html: {name: 'auth_key', autofocus: 'true'}, label: t('.email'), placeholder: t('simple_form.placeholders.session.email')
+                  = f.input :password, as: 'password', input_html: {name: 'password'}, label: t('.password'), placeholder: t('simple_form.placeholders.session.password'), hint: ''
+                  .form-group
+                    .col-xs-20.col-xs-offset-4
+                      = f.button :submit, class: 'btn btn-lg btn-block btn-success', value: t("header.signin")
+                      h5.inline-links
+                        = link_to "忘了密码?", new_reset_password_path 
+                        '|
+                        = link_to '注册新帐号', signup_path
 
   .main-section
     .container
-      .col-xs-6
-        .panel.panel-ignore
-          .panel-heading
-            h4
-              i.fa.fa-fw.fa-lightbulb-o
-              | 手续费全免
-          .panel-body
-            p 充值、提现及交易手续费全免
-            p 注：提现矿工费由云币网代扣
+      .col-xs-6.feature-highlight
+        span.iconic
+          i.sprite.sprite-lightbulb
+        h4.heading 手续费全免
+        p.cnt
+          | 充值、提现及交易手续费全免
+          br
+          | 注：提现矿工费由貔貅北京代扣
 
+      .col-xs-6.feature-highlight
+        span.iconic
+          i.sprite.sprite-magnifier
+        h4.heading 公开透明
+        p.cnt
+          | 源代码开源
+          br
+          | 规则透明
 
-      .col-xs-6
-        .panel.panel-ignore
-          .panel-heading
-            h4
-              i.fa.fa-fw.fa-rocket
-              | 7x24小时服务
-          .panel-body
-            p 7x24小时，VIP服务
-            p 人民币充值10分钟，比特币1确认
-      .col-xs-6
-        .panel.panel-ignore
-          .panel-heading
-            h4
-              i.fa.fa-fw.fa-gavel
-              | 公开透明
-          .panel-body
-            p 源代码开源
-            p 规则透明
+      .col-xs-6.feature-highlight
+        span.iconic
+          i.sprite.sprite-phone
+        h4.heading 7x24小时服务
+        p.cnt
+          | 7x24小时，VIP服务
+          br
+          | 人民币充值10分钟，比特币1分钟确认        
 
-      .col-xs-6
-        .panel.panel-ignore
-          .panel-heading
-            h4
-              i.fa.fa-fw.fa-money
-              | 100%准备金
-          .panel-body
-            p 不挪用资金
-            p 不虚报数据
+      .col-xs-6.feature-highlight
+        span.iconic
+          i.sprite.sprite-money
+        h4.heading 准备金
+        p.cnt
+          | 不挪用资金
+          br
+          | 不虚报数据
 
+  .main-section
+    .container
+      hr
+      ul.nav.nav-pills.row role='tablist'
+        <li class="active col-xs-6"><a href="#pane-btc-cny" role="tab" data-toggle="pill">BTC/CNY</a></li>
+        <li class="col-xs-6"><a href="#pane-btsx-cny" role="tab" data-toggle="pill">BTSX/CNY</a></li>
+        <li class="col-xs-6"><a href="#pane-pts-cny" role="tab" data-toggle="pill">PTS/CNY</a></li>
+        <li class="col-xs-6"><a href="#pane-dog-cny" role="tab" data-toggle="pill">DOG/CNY</a></li>
+
+      .tab-content
+        #pane-btc-cny.tab-pane.active
+          = render_market_chart
+        #pane-btsx-cny.tab-pane 2
+        #pane-pts-cny.tab-pane 3
+        #pane-dog-cny.tab-pane 4
 
   .main-section.tickers.main-section-lighter
     .container
-      h2.text-center
-        | 最新价格
+      hr
+      h2.section-heading
+        span.outline 最新价格
 
       table.table.table-bordered.table-striped.table-hover
         tr
@@ -95,12 +107,6 @@
             td.text-left = market.ticker[:high]
             td.text-left = market.ticker[:low]
             td.text-left = market.ticker[:volume]
-
-  .main-section
-    .container
-      h2.text-center
-        = "#{current_market.name} 价格走势"
-      = render partial: 'shared/market/chart'
 
   coffee:
     $ ->
