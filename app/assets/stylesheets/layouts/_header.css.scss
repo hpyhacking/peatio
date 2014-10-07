@@ -73,7 +73,7 @@ header {
     background-image: url('/assets/site-logo.png');
     @include background-size(106px 35px);
     background-repeat: no-repeat;
-    background-position: 0 15px;
+    background-position: 0 12px;
     @include hide-text;
     .fa { display: none; }
   }

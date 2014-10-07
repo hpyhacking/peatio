@@ -18,7 +18,7 @@
 
   #homepage-carousel {
     text-align: center;
-    height: 334px;
+    min-height: 331px;
     border: 1px solid #d8dee3;
     border-radius: 5px;
     background-color: #f0f0f0;
@@ -59,7 +59,7 @@
     .inline-links {
       text-align: right;
       color: #ddd;
-      margin: 30px 0 10px;
+      margin: 30px 0 7px;
       a {
         padding: 0 10px;
         & + a { margin: 0; }
