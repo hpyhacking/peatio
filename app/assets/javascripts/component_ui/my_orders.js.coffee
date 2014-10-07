@@ -1,7 +1,10 @@
 @MyOrdersUI = flight.component ->
   flight.compose.mixin @, [ItemListMixin]
 
-  @getTemplate = (order) -> $(JST["order_wait"](order))
+  @attributes
+    switchMyDoneOrderLink: 'a.switch_my_done_orders'
+
+  @getTemplate = (order) -> $(JST["order_active"](order))
 
   @orderHandler = (event, order) ->
     switch order.state
@@ -15,4 +18,6 @@
   @.after 'initialize', ->
     @on document, 'order::wait::populate', @populate
     @on document, 'order::wait order::cancel order::done', @orderHandler
-
+    @on @select('switchMyDoneOrderLink'), 'click', ->
+      $('#my_orders').hide()
+      $('#my_done_orders').show()

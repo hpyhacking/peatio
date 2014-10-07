@@ -16,8 +16,8 @@
 
   @panelType = ->
     switch @$node.attr('id')
-      when 'bid_panel' then 'bid'
-      when 'ask_panel' then 'ask'
+      when 'bid_entry' then 'bid'
+      when 'ask_entry' then 'ask'
 
   @cleanMsg = ->
     @select('successSel').text('')
