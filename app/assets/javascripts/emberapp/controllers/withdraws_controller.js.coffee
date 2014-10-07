@@ -39,6 +39,10 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     @model[0].currency == "dns"
   ).property('@each')
 
+  currency: (->
+    @model[0].currency
+  ).property('@each')
+
   withdraws: (->
     @model[0].account().topWithdraws()
   ).property('@each')
