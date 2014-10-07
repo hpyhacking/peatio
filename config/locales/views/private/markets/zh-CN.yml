@@ -28,7 +28,8 @@ zh-CN:
         high: 24h 最高价
         low: 24h 最低价
         volume: 24h 成交量
-        
+        ask: 卖一价
+        bid: 买一价
       account_balance:
         title: 账户余额
         available: 可用 %{currency}

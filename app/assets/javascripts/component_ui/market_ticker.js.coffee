@@ -6,8 +6,8 @@ window.MarketTickerUI = flight.component ->
     highPriceSelector: 'td.high'
     lowPriceSelector: 'td.low'
     volumeSelector: 'td.volume'
-    askPriceSelector: 'td.sell'
-    bidPriceSelector: 'td.buy'
+    bidPriceSelector: 'td.bid'
+    askPriceSelector: 'td.ask'
 
   @update = (el, text, trend) ->
     text = round(text, gon.market.bid.fixed)
@@ -21,6 +21,12 @@ window.MarketTickerUI = flight.component ->
         else
           el.text(text).fadeIn()
 
+  @checkTrend = (data) ->
+    old = @select(data[1]).text()
+    old = 0 if old == "" 
+    trend = BigNumber(data[0]).greaterThan(BigNumber(old))
+    @update @select(data[1]), data[0], trend
+
   @refresh = (event, data) ->
     @select('volumeSelector').text round(data.volume, gon.market.ask.fixed)
 
@@ -29,11 +35,7 @@ window.MarketTickerUI = flight.component ->
     @update @select('lowPriceSelector'), data.low
     @update @select('highPriceSelector'), data.high
 
-    old = @select('latestPriceSelector').text()
-    old = 0 if old == "" 
-    trend = BigNumber(data.last).greaterThan(BigNumber(old))
-
-    @update @select('latestPriceSelector'), data.last, trend
+    @checkTrend d for d in [[data.last, 'latestPriceSelector'], [data.buy, 'bidPriceSelector'], [data.sell, 'askPriceSelector']]
 
   @after 'initialize', ->
     @on document, 'market::ticker', @refresh

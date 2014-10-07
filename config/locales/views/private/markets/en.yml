@@ -22,6 +22,12 @@ en:
         sell: Sell
       ticker:
         title: Realtime Ticker
+        last: Last Price
+        high: 24h High
+        low: 24h Low
+        volume: 24h Volume
+        ask: Ask Price
+        bid: Bid Price
       account_balance:
         title: Account Balance
         available: Available %{currency}
