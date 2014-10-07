@@ -82,5 +82,4 @@ $ ->
     $(@).scrollTop(@scrollTop + e.deltaY)
     e.preventDefault()
 
-  notifier = window.notifier = new Notifier()
-
+  window.pusher = pusher

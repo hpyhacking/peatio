@@ -1,6 +1,7 @@
 module Private
   module Deposits
     class BaseController < ::Private::BaseController
+      layout 'app'
       before_action :channel
       before_action :auth_activated!
       before_action :auth_verified!

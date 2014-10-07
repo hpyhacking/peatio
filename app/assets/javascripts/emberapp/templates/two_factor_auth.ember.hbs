@@ -1,0 +1,65 @@
+<div class="two-factor-auth-container">
+  <div class="form-group string required">
+  {{#if app_and_sms_activated}}
+    <label class="string required col-sm-2 control-label"></label>
+    <div class="col-sm-20">
+      <div class="input-group" style="width:100%;">
+        <div class="input-group-btn">
+          <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:;" style="cursor:pointer;width:145px;">
+            <span class="switch-name">谷歌身份验证器</span>
+            <span class="caret" style="margin-left:5px;"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a data-type="app" href="javascript:;">谷歌身份验证器</a></li>
+            <li><a data-type="sms" href="javascript:;">手机短信验证</a></li>
+          </ul>
+        </div>
+        <input class="two_factor_auth_type" name="two_factor[type]" type="hidden" value="app" />
+        <input class="string required form-control" id="two_factor_otp" name="two_factor[otp]" placeholder="6位数字密码" />
+        <div class="input-group-btn send-code-button hide">
+          <button class="btn btn-primary" data-alt-name="COUNT秒后重新发送" data-orig-name="获取验证码" name="commit" type="submit" value="send_code">获取验证码</button>
+        </div>
+      </div>
+    </div>
+    <span class="hint app col-sm-14 col-sm-offset-8">谷歌验证器每三十秒会重新生成新密码，请及时输入。</span>
+    <span class="hint sms col-sm-14 col-sm-offset-8 hide">请点击“获取验证码”按纽，我们将会把验证码以短信的方式发到您的手机上。</span>
+  {{else}}
+   {{#if app_activated}}
+   <label class="string required col-sm-8 control-label" for="two_factor_otp">
+     <abbr>*&nbsp;</abbr>
+       <span>谷歌身份验证器</span>
+   </label>
+   <div class="col-sm-14">
+     <div class="input-group" style="width:100%;">
+       <input class="two_factor_auth_type" name="two_factor[type]" type="hidden" value="app" />
+       <input class="string required form-control" id="two_factor_otp" name="two_factor[otp]" placeholder="6位数字密码" />
+       <div class="input-group-btn send-code-button">
+      </div>
+    </div>
+  </div>
+  <span class="hint app col-sm-14 col-sm-offset-8">谷歌验证器每三十秒会重新生成新密码，请及时输入。</span>
+
+   {{/if}}
+
+   {{#if sms_activated}}
+        <label class="string required col-sm-8 control-label" for="two_factor_otp">
+          <abbr>*&nbsp;</abbr>
+          <span>手机短信验证</span>
+       </label>
+       <div class="col-sm-14">
+      <div class="input-group" style="width:100%;">
+        <input class="two_factor_auth_type" name="two_factor[type]" type="hidden" value="sms" />
+        <input class="string required form-control" id="two_factor_otp" name="two_factor[otp]" placeholder="6位数字密码" />
+        <div class="input-group-btn send-code-button">
+          <button class="btn btn-primary" data-alt-name="COUNT秒后重新发送" data-orig-name="获取验证码" name="commit" type="submit" value="send_code">获取验证码</button>
+        </div>
+      </div>
+    </div>
+    <span class="hint sms col-sm-14 col-sm-offset-8">请点击“获取验证码”按纽，我们将会把验证码以短信的方式发到您的手机上。</span>
+
+   {{/if}}
+{{/if}}
+
+  </div>
+</div>
+

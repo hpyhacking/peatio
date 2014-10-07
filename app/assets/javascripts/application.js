@@ -30,3 +30,9 @@
 //= require_tree ./templates
 //= require notifier
 //= require app
+//= require_self
+
+
+$(function(){
+  notifier = window.notifier = new Notifier();
+});

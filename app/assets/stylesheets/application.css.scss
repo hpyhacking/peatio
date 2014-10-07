@@ -21,6 +21,7 @@
 @import 'features/assets';
 @import 'features/id_document';
 @import 'features/history';
+@import 'features/funds';
 @import 'features/custom';
 
 /* layouts 
@@ -127,8 +128,8 @@ form.simple_form {
     margin-right: 54px;
   }
 }
-
 /* flash message element
+
 ------------------------------------------------------- */
 .flash-alert, .flash-notice {
   margin-top: 4px;

@@ -14,6 +14,8 @@
           p.text-ignore = guide_intro
           - if content_for?(:guide)
             = yield(:guide)
+          p.deposit-cta
+            = link_to "马上去充值", "/funds#/accounts/cny/deposits", class: 'btn btn-success'
         #content.col-xs-16
           = render 'shared/flash'
           = yield
