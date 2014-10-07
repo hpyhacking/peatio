@@ -26,8 +26,12 @@ class PaymentAddress < ActiveRecord::Base
     ::Pusher["private-#{account.member.sn}"].trigger_async('payment_address', { type: 'create', attributes: self.as_json})
   end
 
-  def self.construct_memo(account)
-    member = account.member
+  def memo
+    address && address.split('|', 2).last
+  end
+
+  def self.construct_memo(obj)
+    member = obj.is_a?(Account) ? obj.member : obj
     checksum = member.created_at.to_i.to_s[-3..-1]
     "#{member.id}#{checksum}"
   end

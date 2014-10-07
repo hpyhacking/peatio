@@ -193,8 +193,12 @@ class Member < ActiveRecord::Base
       "name" => self.name,
       "app_activated" => self.two_factors.by_type(:app).activated?,
       "sms_activated" => self.two_factors.by_type(:sms).activated?,
-      "memo" => self.id
+      "memo" => self.memo
     })
+  end
+
+  def memo
+    PaymentAddress.construct_memo(self)
   end
 
   private

@@ -26,8 +26,12 @@ describe PaymentAddress do
     before { Timecop.freeze(created_at) }
     after  { Timecop.return }
 
-    it "constructs memo" do
+    it "constructs memo from account" do
       PaymentAddress.construct_memo(account).should == memo
+    end
+
+    it "constructs memo from member" do
+      PaymentAddress.construct_memo(member).should == memo
     end
 
     it "returns the corresponding account if memo is valid" do
@@ -42,6 +46,10 @@ describe PaymentAddress do
     it "returns nil if first bit is modified" do
       wrong_memo = "0" + memo[1..-1]
       PaymentAddress.destruct_memo(wrong_memo).should be_nil
+    end
+
+    it "returns memo" do
+      PaymentAddress.new(address: "chongzhi|#{memo}").memo.should == memo
     end
   end
 
