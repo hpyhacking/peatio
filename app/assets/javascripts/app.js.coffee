@@ -111,8 +111,8 @@ $ ->
   GlobalData.attachTo(document, {pusher: pusher})
   MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
 
-  $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
-    $(@).scrollTop(@scrollTop + e.deltaY)
-    e.preventDefault()
+  # $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
+  #   $(@).scrollTop(@scrollTop + e.deltaY)
+  #   e.preventDefault()
 
   window.pusher = pusher
