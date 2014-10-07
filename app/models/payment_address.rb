@@ -18,6 +18,8 @@ class PaymentAddress < ActiveRecord::Base
   end
 
   def sync_create
-    ::Pusher["private-#{account.member.sn}"].trigger_async('payment_address', { type: 'create', attributes: self.as_json})
+    if self.address_changed?
+      ::Pusher["private-#{account.member.sn}"].trigger_async('payment_address', { type: 'create', attributes: self.as_json})
+    end
   end
 end
