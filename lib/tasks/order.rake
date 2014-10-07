@@ -18,7 +18,7 @@ namespace :order do
         bid:           market.quote_unit,
         currency:      market.id,
         ord_type:      'limit',
-        price:         price,
+        price:         BigDecimal(Random.new.rand.to_s).round(3) + price,
         volume:        volume,
         origin_volume: volume
       )

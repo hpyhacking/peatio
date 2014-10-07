@@ -98,7 +98,7 @@ en:
         time: Place Time
         operation: Opt.
       mask:
-        warning: Please <span class=text-up>Sign up</span> or <span class=text-up>Sign in</span>
+        warning: Please <span class=text-up>Sign up</span> or <span class=text-up>Sign in</span> for operation
       klime_chart:
         title: Candlestick Charts
       global:
