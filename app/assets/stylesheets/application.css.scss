@@ -10,7 +10,6 @@
 
 @import "font-awesome-sprockets";
 @import 'font-awesome';
-@import 'flipclock';
 
 @import 'layouts/basic';
 @import 'layouts/header';
@@ -26,7 +25,7 @@
 @import 'features/custom';
 @import 'features/sprites';
 
-/* layouts 
+/* layouts
 -------------------------------------------------------------- */
 html, body {
   height: 100%;
@@ -96,26 +95,26 @@ footer {
   height: $footer-height;
   box-sizing: 'border-box';
   padding-top: 20px;
-  background-color: $footer-bg; 
+  background-color: $footer-bg;
   border-top: 1px solid $footer-border;
 }
 
-/* ticker 
+/* ticker
 ------------------------------------------- */
 .dl-horizontal.dl-ticker {
   margin-bottom: 10px;
   line-height: 40px;
 
-  dt { 
-    width: 38px; 
+  dt {
+    width: 38px;
     cursor: pointer;
-    color: $gray-light; 
+    color: $gray-light;
   }
 
   dd {
     margin-top: -4px;
     font-size: 20px;
-    margin-left: 42px; 
+    margin-left: 42px;
     font-family: monospace;
   }
 }
