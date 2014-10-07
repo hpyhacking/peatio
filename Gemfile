@@ -69,6 +69,7 @@ gem 'twilio-ruby', '~> 3.11'
 gem 'unread', github: 'poshboytl/unread'
 gem 'carrierwave', '~> 0.10.0'
 gem 'simple_captcha', github: 'galetahub/simple-captcha'
+gem 'rest-client', '~> 1.6.8'
 
 group :development, :test do
   gem 'factory_girl_rails'
