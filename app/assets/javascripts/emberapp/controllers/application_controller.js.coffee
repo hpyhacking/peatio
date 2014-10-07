@@ -9,9 +9,9 @@ Peatio.ApplicationController = Ember.Controller.extend
       , 10000)
 
 
-    $.subscribe 'payment_address:create', (event, data) ->
+    $.subscribe 'deposit_address:create', (event, data) ->
       setTimeout(->
-        code = $('#payment_address').html()
+        code = $('#deposit_address').html()
         $("#qrcode").attr('data-text', code)
         $("#qrcode").attr('title', code)
         $('.qrcode-container').each (index, el) ->

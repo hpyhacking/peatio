@@ -1,7 +1,7 @@
 Peatio.AddressView = Ember.View.extend({
   templateName: 'address',
   didInsertElement: ->
-    $.subscribe 'payment_address:create', (event, data) ->
+    $.subscribe 'deposit_address:create', (event, data) ->
       $('[data-clipboard-text], [data-clipboard-target]').each ->
         zero = new ZeroClipboard $(@), forceHandCursor: true
 
