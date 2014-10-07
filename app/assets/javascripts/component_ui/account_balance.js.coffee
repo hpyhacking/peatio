@@ -19,7 +19,15 @@
         sum += +account.balance * +ticker.last
         sum += +account.locked * +ticker.last
 
-    @$node.find(".total-assets").text " ≈ #{symbol} #{round sum, 2}"
+    if sum > 100000000
+      sum = sum/100000000
+      unit = '亿'
+    else if sum > 100000
+      sum = sum/100000
+      unit = '万'
+    else
+      unit = ''
+    @$node.find(".total-assets").text " ≈ #{symbol} #{round sum, 2}#{unit}"
 
   @after 'initialize', ->
     @on document, 'account::update', @updateAccount
