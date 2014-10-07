@@ -57,7 +57,7 @@ header {
   .navbar-nav.navbar-right {
     float: right;
   }
-  .navbar-nav.navbar-right > li:first-child > a {
+  .navbar-nav.navbar-right > .account-balance > a {
     border: 1px solid $navbar-default-link-color;
     border-radius: 5px;
     padding-top: 5px;
@@ -101,8 +101,6 @@ header {
 /* account balance summary with header
 ------------------------------------------------------ */
 header .account-balance {
-
-  display: none;
 
   .dropdown-menu {
     padding-bottom: 0;
