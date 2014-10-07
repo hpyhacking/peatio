@@ -10,7 +10,6 @@ class PaymentAddress < ActiveRecord::Base
 
   validates_uniqueness_of :address, allow_nil: true
 
-  private
   def gen_address
     if account && %w(btsx dns).include?(account.currency)
       self.address = "#{currency_obj.deposit_account}|#{self.class.construct_memo(account)}"
@@ -20,10 +19,6 @@ class PaymentAddress < ActiveRecord::Base
       attrs   = { persistent: true }
       AMQPQueue.enqueue(:deposit_coin_address, payload, attrs)
     end
-  end
-
-  def sync_create
-    ::Pusher["private-#{account.member.sn}"].trigger_async('payment_address', { type: 'create', attributes: self.as_json})
   end
 
   def memo
@@ -44,6 +39,11 @@ class PaymentAddress < ActiveRecord::Base
     return nil unless member
     return nil unless member.created_at.to_i.to_s[-3..-1] == checksum
     member
+  end
+
+  private
+  def sync_create
+    ::Pusher["private-#{account.member.sn}"].trigger_async('payment_address', { type: 'create', attributes: self.as_json})
   end
 
 end
