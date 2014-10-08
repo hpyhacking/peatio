@@ -13,6 +13,8 @@
           = item_for @satoshi, :fund_extra
           = item_for @satoshi, :fund_uid do
             span = @satoshi.fund_uid.truncate(22)
+          = item_for @satoshi, :txid do
+            span = link_to @satoshi.txid, @satoshi.currency_obj.blockchain_url(@satoshi.txid)
           = item_for @satoshi, :amount
           hr.split
           = item_for @satoshi, :remark

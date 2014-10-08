@@ -6,7 +6,6 @@
     = link_to x.member_name, url_for([:admin, x.member]), target: '_blank'
   - t.column :fund_source, class: 'col-md-6' do |x|
     span #{x.fund_uid.truncate(22)} (#{x.fund_extra})
-  - t.column :memo, class: 'col-md-2'
   - t.column :amount, class: 'col-md-3' do |x|
     code.text-info = x.amount
   - t.column :state_and_action, class: 'col-md-3' do |x|
