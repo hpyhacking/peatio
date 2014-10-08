@@ -14,6 +14,7 @@
           = item_for @keyid, :fund_uid do
             span = @keyid.fund_uid.truncate(22)
           = item_for @keyid, :memo
+          = item_for @keyid, :txid
           = item_for @keyid, :amount
           hr.split
           = item_for @keyid, :remark
