@@ -103,5 +103,4 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
       }).done(->
         $(target).remove()
       )
-
   }
