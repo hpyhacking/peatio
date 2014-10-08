@@ -32,9 +32,9 @@ feature 'show account info', js: true do
       fill_in 'order_bid_origin_volume', :with => 45
       expect(page.find('#order_bid_total').value).to be_d (45 * 22.2).to_d
 
-      click_button I18n.t('private.markets.place_order.bid_panel', currency: ask_name)
+      click_button I18n.t('private.markets.bid_entry.action', currency: ask_name)
       sleep 0.1 # sucks :(
-      expect(page.find('#bid_panel span.label-success').text).to eq I18n.t('private.markets.show.success')
+      expect(page.find('#bid_entry span.label-success').text).to eq I18n.t('private.markets.show.success')
     end.to change{ OrderBid.all.count }.by(1)
   end
 
@@ -47,9 +47,9 @@ feature 'show account info', js: true do
       fill_in 'order_ask_origin_volume', :with => 45
       expect(page.find('#order_ask_total').value).to be_d (45 * 22.2).to_d
 
-      click_button I18n.t('private.markets.place_order.ask_panel', currency: ask_name)
+      click_button I18n.t('private.markets.ask_entry.action', currency: ask_name)
       sleep 0.1 # sucks :(
-      expect(page.find('#ask_panel span.label-success').text).to eq I18n.t('private.markets.show.success')
+      expect(page.find('#ask_entry span.label-success').text).to eq I18n.t('private.markets.show.success')
     end.to change{ OrderAsk.all.count }.by(1)
   end
 
@@ -64,10 +64,14 @@ feature 'show account info', js: true do
     page.find('.asks tr[data-order="0"]').trigger 'click'
     expect(find('#order_bid_price').value).to be_d ask_order.price
     expect(find('#order_bid_origin_volume').value).to be_d ask_order.volume
+    expect(find('#order_ask_price').value).to be_d ask_order.price
+    expect(find('#order_ask_origin_volume').value).to be_d ask_order.volume
 
     page.find('.bids tr[data-order="0"]').trigger 'click'
     expect(find('#order_ask_price').value).to be_d bid_order.price
     expect(find('#order_ask_origin_volume').value).to be_d bid_order.volume
+    expect(find('#order_bid_price').value).to be_d bid_order.price
+    expect(find('#order_bid_origin_volume').value).to be_d bid_order.volume
   end
 
   scenario 'user can view his account balance' do
@@ -75,7 +79,7 @@ feature 'show account info', js: true do
     click_on I18n.t('header.market')
 
     # account balance at place order panel
-    expect(page.find('#bid_panel .current-balance').text).to be_d bid_account.balance
-    expect(page.find('#ask_panel .current-balance').text).to be_d ask_account.balance
+    expect(page.find('#bid_entry .current-balance').text).to be_d bid_account.balance
+    expect(page.find('#ask_entry .current-balance').text).to be_d ask_account.balance
   end
 end
