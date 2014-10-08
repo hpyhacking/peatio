@@ -72,7 +72,8 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
       sum = $(event.target).find('#withdraw_sum').val()
       currency = @model[0].currency
       account = @model[0].account()
-      data = { withdraw: { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source }}
+      memo = $('#memo_field input').val()
+      data = { withdraw: { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source, memo: memo }}
 
       if current_user.app_activated or current_user.sms_activated
         type = $('.two_factor_auth_type').val()
