@@ -45,6 +45,8 @@
 
     $('.asks').on 'click', 'tr', (e) =>
       @placeOrder $('#bid_entry'), _.extend(@computeDeep(e, gon.asks), type: 'ask')
+      @placeOrder $('#ask_entry'), {price: 13, volume: 12}
 
     $('.bids').on 'click', 'tr', (e) =>
       @placeOrder $('#ask_entry'), _.extend(@computeDeep(e, gon.bids), type: 'bid')
+      @placeOrder $('#bid_entry'), {price: 13, volume: 12}

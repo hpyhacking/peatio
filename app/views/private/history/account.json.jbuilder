@@ -58,4 +58,5 @@ json.i18n do
   json.pts I18n.t('currency.name.pts')
   json.dog I18n.t('currency.name.dog')
   json.btsx I18n.t('currency.name.btsx')
+  json.dns I18n.t('currency.name.dns')
 end
