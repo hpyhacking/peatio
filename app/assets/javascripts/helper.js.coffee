@@ -68,9 +68,9 @@ Handlebars.registerHelper 'format_amount', (amount, price) ->
   fixAsk(val).replace(/\..*/, "<g>$&</g>")
 
 Handlebars.registerHelper 'format_trend', (type) ->
-  if type == 'buy' or type == 'ask'
+  if type == 'buy' or type == 'bid'
     "text-up"
-  else if type == "sell" or type = 'bid'
+  else if type == "sell" or type = 'ask'
     "text-down"
 
 Handlebars.registerHelper 'format_fix_bid', (price) ->
