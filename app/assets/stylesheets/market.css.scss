@@ -47,6 +47,12 @@ body {
 header {
   box-sizing: border-box;
   bottom-border: 0px;
+
+  .site-logo { margin-right: 20px !important; margin-left: 20px !important; }
+}
+
+.navbar-static-top {
+  min-width: $min-width;
 }
 
 .container {

@@ -8,8 +8,8 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
       = top_nav_link(t('header.history'), order_history_path, 'book', controllers: ['history']) if current_user
 
     ul.nav.navbar-nav.navbar-right
-      = render partial: 'shared/header_account_balance' if current_user
-      = render partial: 'shared/header_profile_setting' if current_user and controller_name == 'private/funds'
+      = render partial: 'shared/header_account_balance' if current_user && controller_name == 'markets'
+      = render partial: 'shared/header_profile_setting' if current_user
       = top_nav_link(t('header.signin'), signin_path, '') unless current_user
       = top_nav_link(t('header.signup'), signup_path, '') unless current_user
       = render partial: 'shared/header_lang_sel'
