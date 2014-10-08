@@ -177,7 +177,7 @@ class Withdraw < ActiveRecord::Base
 
     sms_message = I18n.t('sms.withdraw_done', email: member.email,
                                               currency: currency_text,
-                                              time: I18n.l(Time.now),
+                                              time: I18n.l(Time.now.localtime),
                                               amount: amount,
                                               balance: account.balance)
 

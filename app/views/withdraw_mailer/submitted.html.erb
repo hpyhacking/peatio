@@ -13,7 +13,7 @@
   </tr>
   <tr>
     <td><%= t('withdraw_mailer.withdraw_time') %></td>
-    <td><%= @withdraw.updated_at %></td>
+    <td><%= l @withdraw.updated_at.localtime %></td>
   </tr>
 </table>
 
