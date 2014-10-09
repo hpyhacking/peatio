@@ -15,7 +15,7 @@ Ember.Handlebars.helper 'deposit-state-name', (state) ->
 Ember.Handlebars.helper 'withdraw-state-name', (state) ->
   switch state
     when 'submitting' then '待确认'
-    when 'cancelled'  then '已撤销'
+    when 'canceled'  then '已撤销'
     when 'submitted'  then '待校验'
     when 'accepted'   then '已提交'
     when 'rejected'   then '已驳回'
