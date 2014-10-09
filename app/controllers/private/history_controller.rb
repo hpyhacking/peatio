@@ -9,7 +9,7 @@ module Private
       @withdraws = Withdraw.where(member: current_user).with_aasm_state(:done)
 
       @transactions = (@deposits + @withdraws).sort_by {|t| -t.created_at.to_i }
-      @transactions = Kaminari.paginate_array(@transactions).page(params[:page]).per(50)
+      @transactions = Kaminari.paginate_array(@transactions).page(params[:page]).per(20)
     end
 
     def trades
