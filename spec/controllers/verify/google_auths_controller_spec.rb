@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Private::TwoFactorsController do
+describe Verify::GoogleAuthsController do
   let(:member) { create :member }
   before { session[:member_id] = member.id }
 

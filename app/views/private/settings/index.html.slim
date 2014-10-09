@@ -54,7 +54,7 @@ ul.list-group
         - else
           = link_to t('.phone_number.go'), new_verify_sms_token_path, class: 'btn btn-default btn-block'
 
-  // two factor setting
+  // Google two factor auth setting
   li.list-group-item
     #two_factor_auth.row.row-middle
       .col-xs-2
@@ -66,9 +66,9 @@ ul.list-group
         p.text-ignore = t('.two_factor_auth.description')
       .col-xs-6
         - if @two_factor
-          = link_to t('.two_factor_auth.disable'), edit_two_factor_path(:app), class: 'btn btn-default btn-block'
+          = link_to t('.two_factor_auth.disable'), edit_verify_google_auth_path(:app), class: 'btn btn-default btn-block'
         - else
-          = link_to t('.two_factor_auth.enable'), two_factor_path(:app), class: 'btn btn-default btn-block'
+          = link_to t('.two_factor_auth.enable'), verify_google_auth_path(:app), class: 'btn btn-default btn-block'
 
   // change identity password
   - if current_user.identity
