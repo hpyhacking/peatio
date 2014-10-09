@@ -9,7 +9,7 @@
             = item_for :locked, Account.locked_sum(c.code)
             = item_for :balance, Account.balance_sum(c.code)
             - if c.coin?
-              = item_for :'hot-wallet', c.api.safe_getbalance
+              = item_for :'hot-wallet', c.balance
   .col-xs-6: .panel.panel-primary
     .panel-heading Daemons Status
     .panel-body
