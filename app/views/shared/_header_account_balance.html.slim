@@ -3,7 +3,7 @@ li.dropdown.account-balance
     span = t('header.account_balance')
     span.total-assets
   .dropdown-menu
-    - current_user.accounts.each do |account|
+    - current_user.accounts.sort_by{|a|a.currency_obj.sort_order}.each do |account|
       - next if not account.currency
       .account-wrap.clearfix
         .account class='#{account.currency}': .row
