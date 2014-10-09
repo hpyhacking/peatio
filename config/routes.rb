@@ -24,7 +24,6 @@ Peatio::Application.routes.draw do
   resource :identity, :only => [:edit, :update]
 
   namespace :verify do
-    resource :two_factor,  only: [:new, :create]
     resources :sms_tokens, only: [:new, :create]
   end
 
