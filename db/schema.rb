@@ -397,7 +397,6 @@ ActiveRecord::Schema.define(version: 20141006172601) do
     t.string   "aasm_state"
     t.decimal  "sum",        precision: 32, scale: 16, default: 0.0, null: false
     t.string   "type"
-    t.string   "memo"
   end
 
 end

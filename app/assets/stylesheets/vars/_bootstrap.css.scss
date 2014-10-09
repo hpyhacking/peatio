@@ -3,6 +3,7 @@
 $grid-columns: 24;
 $grid-gutter-width: 10px;
 
+
 $body-bg: #ffffff;
 
 $brand-primary: #394a5c;
@@ -25,6 +26,21 @@ $btn-info-color: #333;
 
 $font-family-sans-serif: 'Helvetica Neue', Arial, 'Hiragino Sans GB', sans-serif;
 $font-size-base: 16px;
+
+/* force use large desktop width 1150px
+--------------------------------------------------*/
+$screen-xs:                  1px;
+$screen-xs-min:              $screen-xs;
+$screen-phone:               $screen-xs-min;
+$screen-sm:                  2px;
+$screen-sm-min:              $screen-sm;
+$screen-tablet:              $screen-sm-min;
+$screen-md:                  3px;
+$screen-md-min:              $screen-md;
+$screen-desktop:             $screen-md-min;
+$screen-lg:                  4px;
+$screen-lg-min:              $screen-lg;
+$screen-lg-desktop:          $screen-lg-min;
 
 $link-color: #09c;
 $input-color-placeholder: #ccc;

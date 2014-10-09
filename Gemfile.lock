@@ -35,7 +35,7 @@ GIT
 GEM
   remote: https://ruby.taobao.org/
   specs:
-    aasm (3.1.1)
+    aasm (3.4.0)
     actionmailer (4.0.2)
       actionpack (= 4.0.2)
       mail (~> 2.5.4)
@@ -440,7 +440,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  aasm
+  aasm (~> 3.4.0)
   active_hash
   acts-as-taggable-on
   airbrake (~> 4.1.0)
