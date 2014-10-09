@@ -86,7 +86,7 @@
       <td>{{withdraw.fee}}</td>
       <td>{{withdraw-state-name withdraw.aasm_state}}
       {{#if withdraw.is_submitting}}
-      / <a href="#" {{action cancelWithdraw}} data-id={{unbound withdraw.id}} id="cancel_link">取消</a>
+      / <a href="#" data-id={{unbound withdraw.id}} class="cancel_link">取消</a>
       {{/if}}
       </td>
 

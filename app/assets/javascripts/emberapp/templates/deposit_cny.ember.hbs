@@ -67,7 +67,7 @@
     <td>{{deposit.amount}}</td>
     <td>{{deposit-state-name deposit.aasm_state}}
     {{#if deposit.is_submitting}}
-    / <a href="#" {{action cancelDeposit}} data-id={{unbound deposit.id}} id="cancel_link">取消</a>
+    / <a href="#" data-id={{unbound deposit.id}} class="cancel_link">取消</a>
     {{/if}}
     </td>
   </tr>

@@ -33,17 +33,17 @@ module Withdraws
       @withdraw = current_user.withdraws.find(params[:id])
 
       if not two_factor_auth_verified?
-        redirect_to url_for(action: :edit), alert: t('.alert_two_factor') and return
+        render text: @withdraw.errors.full_messages.join, status: 403
       end
 
       @withdraw.submit!
-      redirect_to url_for(action: :new), notice: t('.notice')
+      render nothing: true
     end
 
     def destroy
       @withdraw = current_user.withdraws.find(params[:id])
       @withdraw.cancel!
-      redirect_to url_for(action: :new), notice: t('.notice')
+      render nothing: true
     end
 
     private
