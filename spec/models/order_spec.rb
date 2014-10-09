@@ -235,11 +235,11 @@ describe Order, "#avg_price" do
   end
 
   it "should calculate average price of bid order" do
-    OrderBid.new(locked: '10.0', origin_locked: '20.0', volume: '1.0', origin_volume: '3.0', funds_received: '2.0').avg_price.should == '5'.to_d
+    OrderBid.new(currency: 'btccny', locked: '10.0', origin_locked: '20.0', volume: '1.0', origin_volume: '3.0', funds_received: '2.0').avg_price.should == '5'.to_d
   end
 
   it "should calculate average price of ask order" do
-    OrderAsk.new(locked: '1.0', origin_locked: '2.0', volume: '1.0', origin_volume: '2.0', funds_received: '10.0').avg_price.should == '10'.to_d
+    OrderAsk.new(currency: 'btccny', locked: '1.0', origin_locked: '2.0', volume: '1.0', origin_volume: '2.0', funds_received: '10.0').avg_price.should == '10'.to_d
   end
 end
 
