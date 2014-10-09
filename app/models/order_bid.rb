@@ -18,7 +18,7 @@ class OrderBid < Order
 
   def avg_price
     return ::Trade::ZERO if funds_received.zero?
-    funds_used / funds_received
+    config.fix_number_precision(:bid, funds_used / funds_received)
   end
 
   LOCKING_BUFFER_FACTOR = '1.1'.to_d

@@ -9,6 +9,7 @@ module Withdraws
     def blockchain_url
       currency_obj.blockchain_url(txid)
     end
+
   end
 end
 

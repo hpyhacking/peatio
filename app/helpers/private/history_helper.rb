@@ -4,4 +4,20 @@ module Private::HistoryHelper
     trade.ask_member == current_user ? 'sell' : 'buy'
   end
 
+  def transaction_type(t)
+    t(".#{t.class.superclass.name}")
+  end
+
+  def transaction_txid_link(t)
+    return t.txid unless t.currency_obj.coin?
+
+    txid = t.txid || ''
+    case txid
+    when /genesis-/
+      'from PTS snapshot'
+    else
+      link_to txid, t.blockchain_url
+    end
+  end
+
 end
