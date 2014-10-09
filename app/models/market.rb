@@ -10,7 +10,6 @@
 
 class Market < ActiveYamlBase
   field :visible, default: true
-  field :sort_order, default: 9999
 
   attr :name
 
@@ -59,10 +58,6 @@ class Market < ActiveYamlBase
   end
 
   private
-
-  def <=>(other)
-    self.sort_order <=> other.sort_order
-  end
 
   def global
     @global || Global[self.id]

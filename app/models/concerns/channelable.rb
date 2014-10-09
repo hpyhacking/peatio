@@ -11,7 +11,4 @@ module Channelable
     "#{self.class.category}/#{key}".camelize.constantize
   end
 
-  def <=>(other)
-    self.sort_order <=> other.sort_order
-  end
 end
