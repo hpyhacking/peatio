@@ -118,7 +118,6 @@ ActiveRecord::Schema.define(version: 20141003061259) do
     t.datetime "done_at"
     t.string   "memo"
     t.string   "type"
-    t.string   "blockid"
     t.integer  "payment_transaction_id"
     t.integer  "txout"
   end
@@ -201,13 +200,9 @@ ActiveRecord::Schema.define(version: 20141003061259) do
     t.integer  "country_code"
     t.string   "phone_number"
     t.boolean  "phone_number_verified"
-    t.boolean  "disabled",                         default: false
-    t.string   "referral_code",         limit: 32
-    t.integer  "inviter_id"
-    t.boolean  "api_disabled",                     default: false
+    t.boolean  "disabled",              default: false
+    t.boolean  "api_disabled",          default: false
   end
-
-  add_index "members", ["inviter_id"], name: "index_members_on_inviter_id", using: :btree
 
   create_table "orders", force: true do |t|
     t.integer  "bid"
@@ -265,22 +260,11 @@ ActiveRecord::Schema.define(version: 20141003061259) do
     t.datetime "dont_at"
     t.integer  "currency"
     t.string   "type",          limit: 60
-    t.string   "payer"
-    t.string   "blockid"
     t.integer  "txout"
   end
 
   add_index "payment_transactions", ["txid", "txout"], name: "index_payment_transactions_on_txid_and_txout", using: :btree
   add_index "payment_transactions", ["type"], name: "index_payment_transactions_on_type", using: :btree
-
-  create_table "posts", force: true do |t|
-    t.string   "key"
-    t.text     "title"
-    t.text     "body"
-    t.text     "keywords"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "proofs", force: true do |t|
     t.string   "root"
@@ -408,7 +392,6 @@ ActiveRecord::Schema.define(version: 20141003061259) do
     t.string   "aasm_state"
     t.decimal  "sum",        precision: 32, scale: 16, default: 0.0, null: false
     t.string   "type"
-    t.string   "memo"
   end
 
 end
