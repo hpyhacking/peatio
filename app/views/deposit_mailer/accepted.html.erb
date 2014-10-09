@@ -17,16 +17,6 @@
   </tr>
 </table>
 
-<% if @deposit.fiat? %>
-<p>
-<% if working_time? %>
-<%= t('deposit_mailer.note') %>
-<% else %>
-<%= t('deposit_mailer.offline_note') %>
-<% end %>
-</p>
-<% end %>
-
 <p>
 <%= raw t("mailer.please_contact", contact_mail: ENV['SUPPORT_MAIL']) %>
 </p>
