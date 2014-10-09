@@ -18,7 +18,7 @@ class OrderAsk < Order
 
   def avg_price
     return ::Trade::ZERO if funds_used.zero?
-    funds_received / funds_used
+    config.fix_number_precision(:bid, funds_received / funds_used)
   end
 
   def compute_locked
