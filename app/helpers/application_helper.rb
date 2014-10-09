@@ -119,6 +119,7 @@ module ApplicationHelper
     merged = (controllers & controller_path.split('/'))
     class_name = current_page?(link_path) ? 'active' : nil
     class_name ||= merged.empty? ? nil : 'active'
+    class_name ||= ''
     class_name << ' site-logo' if controllers.include?('welcome')
 
     content_tag(:li, :class => class_name) do
