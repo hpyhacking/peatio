@@ -53,7 +53,7 @@ zh-CN:
       defaults:
         otp: 验证器上的密码
         title: 标题
-      two_factor:
+      google_auth:
         uri: 二维码
         otp_secret: 密文
         otp: 验证器上的密码

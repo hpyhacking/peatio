@@ -19,14 +19,10 @@ class RefreshTwoFactorsController < ApplicationController
   private
 
   def find_member
-    @member ||= find_by_member_id || find_by_temp_member_id
+    @member ||= find_by_member_id
   end
 
   def find_by_member_id
     Member.find_by_id(session[:member_id])
-  end
-
-  def find_by_temp_member_id
-    Member.find_by_id(session[:temp_member_id])
   end
 end
