@@ -15,19 +15,9 @@
 @import 'layouts/basic';
 @import 'layouts/header';
 
-/* fixed bootstrap navbar right margin width
------------------------------------------------- */
-.navbar-brand { width: $brand-width; }
-.navbar-static-top { margin-bottom: 0px; }
-.navbar-nav.navbar-right:last-child { margin-right: 0px; }
-.navbar-collapse.collapse { display: block!important; }
-.navbar-nav { margin: 0px !important; & > a { padding: 15px !important; } }
-.navbar-nav > li, .navbar-nav { float: left !important; }
-.navbar-nav.navbar-right:last-child { margin-right: 0px !important; }
-.navbar-right { float: right!important; }
-
 /* basic layout 
 ------------------------------------------------ */
+$min-width: 1280px;
 $min-height: 620px;
 $navbar-height: 51px;
 $sidebar-width: $brand-width;
@@ -46,7 +36,7 @@ body,
 }
 
 body { 
-  min-width: $min-width !important; 
+  min-width: $min-width !important;
   min-height: $min-height !important; 
 }
 
@@ -55,16 +45,8 @@ header {
   bottom-border: 0px;
 }
 
-.navbar-static-top {
-  min-width: $min-width;
-}
-
-.container {
-  width: $min-width;
-}
-
 #wrap {
-  box-sizing: border-box; 
+  box-sizing: border-box;
   margin-top: 0px - $navbar-height;
 }
 
