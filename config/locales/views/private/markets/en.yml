@@ -39,10 +39,6 @@ en:
         amount: Amount
         total: Total
         balance: Balance
-        price_high: Price exceeds 10%
-        price_low: Price less then 10%
-        full_in: Full
-        full_out: Empty
       bid_entry:
         title: " [BUY] "
         action: Place [BUY] Order
@@ -51,10 +47,11 @@ en:
         amount: Amount
         total: Total
         balance: Balance
-        price_high: Price exceeds 10%
-        price_low: Price less then 10%
-        full_bid: Full
-        full_ask: Empty
+      place_order:
+        price_high: HIGH
+        price_low: LOW
+        full_bid: FULL
+        full_ask: EMPTY
       order_book:
         title: Order Book
         volume: Volume

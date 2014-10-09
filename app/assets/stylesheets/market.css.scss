@@ -37,7 +37,13 @@ $gutter-3x: $gutter * 3;
 $gutter-4x: $gutter * 4;
 $gutter-5x: $gutter * 5;
 
-body, html, #wrap, .sidebar, .content { height: 100%; }
+html,
+body, 
+#wrap, 
+.sidebar, 
+.content { 
+  height: 100%; 
+}
 
 body { 
   min-width: $min-width !important; 
@@ -47,8 +53,6 @@ body {
 header {
   box-sizing: border-box;
   bottom-border: 0px;
-
-  .site-logo { margin-right: 20px !important; margin-left: 20px !important; }
 }
 
 .navbar-static-top {
@@ -234,6 +238,15 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
     label.input-group-addon {
       min-width: 40px !important;
     }
+
+    .hint-price-disadvantage, .hint-positions  {
+      top: 3px;
+      left: 42px;
+      font-size: 12px;
+      margin-left: 0px;
+      position: absolute;
+      z-index: 10;
+    }
   }
 }
 
@@ -279,7 +292,7 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
 
   .hint-price-disadvantage, .hint-positions  {
     top: 3px;
-    left: 42px;
+    left: 60px;
     font-size: 12px;
     margin-left: 0px;
     position: absolute;
