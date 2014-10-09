@@ -251,7 +251,7 @@ ActiveRecord::Schema.define(version: 20141006172601) do
   add_index "payment_addresses", ["address"], name: "index_payment_addresses_on_address", using: :btree
 
   create_table "payment_transactions", force: true do |t|
-    t.string   "txid",                                               null: false
+    t.string   "txid"
     t.decimal  "amount",                   precision: 32, scale: 16
     t.integer  "confirmations"
     t.string   "address"
