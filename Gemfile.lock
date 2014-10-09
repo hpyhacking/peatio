@@ -12,6 +12,12 @@ GIT
       iconv (~> 1.0)
 
 GIT
+  remote: git://github.com/mycolorway/SeventeenMon.git
+  revision: 152e90efa4cb267dea013f31cbca24d9278185ed
+  specs:
+    seventeen_mon (1.0.2)
+
+GIT
   remote: git://github.com/poshboytl/unread.git
   revision: b8fa0502e9558c93388a104bcbe20376cf43027d
   specs:
@@ -511,6 +517,7 @@ DEPENDENCIES
   sass-rails
   selenium-webdriver
   settingslogic
+  seventeen_mon!
   shoulda-matchers
   simple_captcha!
   simple_form (= 3.0.1)

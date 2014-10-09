@@ -7,6 +7,7 @@ zh-CN:
       browser: 浏览器
       platform: 操作系统
       ip: IP地址
+      location: 登录地址
     google_auth_activated:
       subject: "[云币网] 绑定 Google Authenticator"
       google_auth_activated: 您已绑定 Google Authenticator。

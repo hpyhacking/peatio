@@ -3,6 +3,11 @@ en:
     notify_signin:
       subject: "[Yunbi] You have just signed in"
       just_signed_in: You have just signed in.
+      time: Signin Time
+      browser: Browser
+      platform: Operation System
+      ip: IP Address
+      location: Signin Location
     google_auth_activated:
       subject: "[Yunbi] Google authenticator activated"
       google_auth_activated: You have activated google authenticator successfully

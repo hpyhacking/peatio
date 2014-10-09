@@ -19,6 +19,10 @@
     <td><%= t('.ip') %></td>
     <td><%= @info['ip'] %></td>
   </tr>
+  <tr>
+    <td><%= t('.location') %></td>
+    <td><%= [@info['country'], @info['province'], @info['city']].join(', ') %></td>
+  </tr>
 </table>
 
 <p>

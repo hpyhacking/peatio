@@ -69,8 +69,13 @@ class SessionsController < ApplicationController
   end
 
   def request_info
+    location = SM.find_by_ip(request.ip)
+
     {
       ip: request.ip,
+      country: location[:country],
+      province: location[:province],
+      city: location[:city],
       ua_name: browser.name,
       ua_version: browser.version,
       ua_platform: browser.platform
