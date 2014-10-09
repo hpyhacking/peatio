@@ -116,8 +116,9 @@ module ApplicationHelper
   end
 
   def top_nav_link(link_text, link_path, link_icon, controllers: [], counter: 0, target: '')
-    class_name = current_page?(link_path) ? 'active' : ''
-    class_name ||= (controllers & controller_path.split('/')).empty? ? '' : 'active'
+    merged = (controllers & controller_path.split('/'))
+    class_name = current_page?(link_path) ? 'active' : nil
+    class_name ||= merged.empty? ? nil : 'active'
     class_name << ' site-logo' if controllers.include?('welcome')
 
     content_tag(:li, :class => class_name) do
