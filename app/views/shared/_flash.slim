@@ -1,6 +1,6 @@
 .flash-message
   -if flash[:notice]
-    .notice.alert-dismissable.alert-success
+    .alert.alert-dismissable.alert-success
       button.close type="button" data-dismiss="alert" aria-hidden="true" &times;
       p
         i.fa.fa-bullhorn
@@ -14,7 +14,7 @@
         span = flash[:alert]
 
   -if flash[:info]
-    #info.alert.alert-dismissable.alert-info
+    .alert.alert-dismissable.alert-info
       button.close type="button" data-dismiss="alert" aria-hidden="true" &times;
       p
         i.fa.fa-info-circle
