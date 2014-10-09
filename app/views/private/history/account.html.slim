@@ -4,46 +4,16 @@
     li = link_to t('header.trade_history'), trade_history_path
     li.active = link_to t('header.account_history'), account_history_path
 
-  .panel.panel-default#transactions
-    .panel-heading
-      | &nbsp;
-      span.dropdown.pull-right
-        a data-toggle="dropdown" href="#"
-          = t('.filter_by_type')
-          span.caret
-        ul.dropdown-menu
-          li
-            a = t('all')
-          li
-            a.deposit = t('header.deposit')
-          li
-            a.withdraw = t('header.withdraw')
-    .panel-body
-      .col-md-12
-        table.table.table-condensed.table-striped
-          thead: tr
-            th class="sort" data-sort="type"
-              span = t('.type')
-              i class="fa fa-sort"
-            th class="sort" data-sort="timestamp"
-              span = t('.timestamp')
-              i class="fa fa-sort"
-            th class="sort" data-sort="fiat_currency"
-              span = t('.fiat_currency')
-              i class="fa fa-sort"
-            th class="sort" data-sort="fiat_amount"
-              span = t('.fiat_amount')
-              i class="fa fa-sort"
-            th class="sort" data-sort="coin_currency"
-              span = t('.coin_currency')
-              i class="fa fa-sort"
-            th class="sort" data-sort="coin_amount"
-              span = t('.coin_amount')
-              i class="fa fa-sort"
-            th class="sort" data-sort="coin_price"
-              span = t('.coin_price')
-              i class="fa fa-sort"
-            th class="sort" data-sort="fee"
-              span = t('.fee')
-              i class="fa fa-sort"
-          tbody.list
+    .panel.panel-default#transactions
+      .panel-body
+        .col-xs-24
+          table.table.table-condensed.table-striped
+            thead: tr
+              th = t('.type')
+              th = t('.timestamp')
+              th = t('.currency')
+              th = t('.amount')
+              th = t('.fee')
+              th = t('.txid')
+            tbody.list
+              = render partial: 'transaction', collection: @transactions

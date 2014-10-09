@@ -6,8 +6,7 @@ module Private
       @market = current_market
       @deposits = Deposit.where(member: current_user).with_aasm_state(:accepted)
       @withdraws = Withdraw.where(member: current_user).with_aasm_state(:done)
-      @buys = @sells = []
-      gon.jbuilder controller: self
+      @transactions = (@deposits + @withdraws).sort_by {|t| -t.created_at.to_i }
     end
 
     def trades
