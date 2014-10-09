@@ -10,13 +10,13 @@ footer.global-footer: .container: .row
     '&nbsp;|
     = link_to t('footer.liability_proof'), document_path('liability_proof')
     '&nbsp;|
-    = link_to '代码开源', 'https://github.com/peatio/peatio', target: '_blank'
+    = link_to t('footer.api'), '/documents/api_v2'
+    '&nbsp;|
+    = link_to t('footer.opensource'), 'https://github.com/peatio/peatio', target: '_blank'
+    '&nbsp;|
+    = link_to t('footer.blog'), 'http://blog.peatio.com', target: '_blank'
     '&nbsp;|
     = link_to t('footer.contact'), document_path('contact')
-    '&nbsp;|
-    = link_to 'Blog', 'http://blog.peatio.com', target: '_blank'
-    '&nbsp;|
-    = link_to '论坛', '/forum'
   p.footer-contacts
     span.pull-right.text-bigger
       '客户服务热线：

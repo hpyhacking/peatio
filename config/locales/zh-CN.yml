@@ -107,6 +107,9 @@ zh-CN:
     price: 资费说明
     liability_proof: 偿付能力验证
     contact: 联系我们
+    api: API接口
+    opensource: 开放源码
+    blog: 博客
 
   actions:
     go: 立刻前往

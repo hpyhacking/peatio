@@ -105,8 +105,11 @@ en:
     privacy: Privacy
     contact: Contact
     price: Price
-    liability_proof: liability Proof
+    liability_proof: Liability Proof
     contact: Contact Us
+    api: API
+    opensource: Open-source
+    blog: BLOG
 
   actions:
     go: Go
