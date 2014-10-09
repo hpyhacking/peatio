@@ -15,3 +15,5 @@ zh-CN:
         low_price: 最低
         volume: 成交量
         latest_price: 最新价格
+    frame:
+      deposit_now: 马上去充值
