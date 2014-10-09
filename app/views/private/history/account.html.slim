@@ -18,3 +18,5 @@
               th = t('.txid')
             tbody.list
               = render partial: 'transaction', collection: @transactions
+          .pull-right
+            = paginate @transactions
