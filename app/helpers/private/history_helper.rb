@@ -9,7 +9,8 @@ module Private::HistoryHelper
   end
 
   def transaction_txid_link(t)
-    return unless t.currency_obj.coin?
+    return t.txid unless t.currency_obj.coin?
+
     txid = t.txid || ''
     link_to txid, t.blockchain_url
   end
