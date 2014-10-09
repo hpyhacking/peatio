@@ -281,7 +281,8 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
 
     input {
       text-align: right;
-      padding-top: 10px !important;
+      padding-top: 8px !important;
+      padding-bottom: 4px !important;
       padding-right: 6px !important;
       padding-left: 24px !important;
       font-size: 12px;
