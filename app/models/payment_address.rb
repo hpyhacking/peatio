@@ -10,7 +10,6 @@ class PaymentAddress < ActiveRecord::Base
 
   validates_uniqueness_of :address, allow_nil: true
 
-  private
   def gen_address
     payload = { payment_address_id: id, currency: currency }
     attrs   = { persistent: true }
@@ -41,6 +40,7 @@ class PaymentAddress < ActiveRecord::Base
     member
   end
 
+  private
   def sync_create
     if self.address_changed?
       ::Pusher["private-#{account.member.sn}"].trigger_async('deposit_address', { type: 'create', attributes: self.as_json})
