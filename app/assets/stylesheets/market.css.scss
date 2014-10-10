@@ -11,6 +11,7 @@
 
 @import "font-awesome-sprockets";
 @import 'font-awesome';
+@import 'csshake.min';
 
 @import 'layouts/basic';
 @import 'layouts/header';
@@ -289,14 +290,17 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
   }
 
   .label.label-info { color: $brand-info }
+  .label.label-success { color: $brand-success }
   .label.label-danger { color: $brand-danger }
 
-  .status-info, .status-success, .status-danger {
-    top: -2px;
-    left: 5px;
+  span.number-label, span.current-balance { font-size: 14px; }
+  span.status-info, .status-success, .status-danger {
     font-size: 14px;
+    top: -2px;
+    left: -5px;
     margin-left: 0px;
     position: absolute;
+    i.fa { margin-left: 4px; }
   }
 }
 
