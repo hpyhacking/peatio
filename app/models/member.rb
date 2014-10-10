@@ -170,7 +170,7 @@ class Member < ActiveRecord::Base
   def send_password_changed_notification
     MemberMailer.reset_password_done(self.id).deliver
 
-    if phone_number_verified?
+    if sms_two_factor.activated?
       sms_message = I18n.t('sms.password_changed', email: self.email)
       AMQPQueue.enqueue(:sms_notification, phone: phone_number, message: sms_message)
     end
@@ -185,17 +185,21 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def app_two_factor
+    two_factors.by_type(:app)
+  end
+
+  def sms_two_factor
+    two_factors.by_type(:sms)
+  end
+
   def as_json(options = {})
     super.merge({
       "name" => self.name,
-      "app_activated" => self.two_factors.by_type(:app).activated?,
-      "sms_activated" => self.two_factors.by_type(:sms).activated?,
+      "app_activated" => self.app_two_factor.activated?,
+      "sms_activated" => self.sms_two_factor.activated?,
       "memo" => self.id
     })
-  end
-
-  def deactive_phone_number!
-    update phone_number: '', phone_number_verified: false
   end
 
   private

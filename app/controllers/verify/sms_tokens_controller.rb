@@ -1,7 +1,7 @@
 module Verify
   class SmsTokensController < ApplicationController
     before_action :auth_member!
-    before_action :phone_number_verified!
+    before_action :activated?
 
     def new
     end
@@ -18,8 +18,8 @@ module Verify
 
     private
 
-    def phone_number_verified!
-      if current_user.phone_number_verified?
+    def activated?
+      if current_user.two_factors.by_type(:sms).activated?
         redirect_to settings_path
       end
     end

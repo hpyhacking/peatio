@@ -4,7 +4,7 @@ describe Token::SmsToken do
 
   describe "validates" do
     it "allow blank phone_number" do
-      token = build :token_sms_token
+      token = build :sms_token
       expect(token).to be_valid
     end
 
@@ -15,7 +15,7 @@ describe Token::SmsToken do
         '123-1234-1234',
         '123.1234.1234'
       ].each do |number|
-        token = build :token_sms_token, phone_number: number
+        token = build :sms_token, phone_number: number
         expect(token).to be_valid
       end
     end
@@ -27,7 +27,7 @@ describe Token::SmsToken do
         '123-1234-1234-1',
         '123 123 1234'
       ].each do |number|
-        token = build :token_sms_token, phone_number: number
+        token = build :sms_token, phone_number: number
         expect(token).not_to be_valid
       end
     end
@@ -43,7 +43,7 @@ describe Token::SmsToken do
     end
 
     context 'member have token but not expired' do
-      let(:token) { create :token_sms_token }
+      let(:token) { create :sms_token }
       let(:member) { token.member }
 
       it "should retrieve unexpired token" do
@@ -52,7 +52,7 @@ describe Token::SmsToken do
     end
 
     context 'member have expired token' do
-      let(:token) { create :token_sms_token }
+      let(:token) { create :sms_token }
       let(:member) { token.member }
 
       before { token.update expire_at: Time.now }
@@ -66,7 +66,7 @@ describe Token::SmsToken do
 
   describe "#generate_token" do
     let(:member) { create :member }
-    let(:token) { create :token_sms_token, member: member }
+    let(:token) { create :sms_token, member: member }
 
     it "generate token before save" do
       expect(token.token).not_to be_blank
@@ -78,7 +78,7 @@ describe Token::SmsToken do
   end
 
   describe '#expired?' do
-    subject(:token) { create :token_sms_token }
+    subject(:token) { create :sms_token }
 
     before { token.expire_at = Time.now }
 
@@ -86,7 +86,7 @@ describe Token::SmsToken do
   end
 
   describe '#update_phone_number' do
-    let(:token) { create :token_sms_token }
+    let(:token) { create :sms_token }
 
     before do
       token.phone_number = '123.1234.1234'
@@ -99,7 +99,7 @@ describe Token::SmsToken do
   end
 
   describe '#sms_message' do
-    let(:token) { create :token_sms_token }
+    let(:token) { create :sms_token }
 
     it "sms_message should not be blank" do
       expect(token.sms_message).not_to be_blank
@@ -107,7 +107,7 @@ describe Token::SmsToken do
   end
 
   describe '#verify?' do
-    let(:token) { create :token_sms_token }
+    let(:token) { create :sms_token }
 
     it "should not be verified" do
       token.verify_code = 'foobar'

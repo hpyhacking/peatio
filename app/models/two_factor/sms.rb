@@ -21,9 +21,4 @@ class TwoFactor::Sms < ::TwoFactor
   def send_otp
     AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
   end
-
-  def deactive!
-    super
-    member.deactive_phone_number!
-  end
 end

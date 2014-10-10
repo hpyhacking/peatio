@@ -96,7 +96,7 @@ module Verify
     end
 
     describe 'POST verify/sms_tokens in verify code phase' do
-      let(:token) { create :token_sms_token }
+      let(:token) { create :sms_token }
       let(:member) { token.member }
       before { session[:member_id] = member.id }
 
@@ -148,10 +148,6 @@ module Verify
 
         before do
           post :create, attrs
-        end
-
-        it "should update member#phone_number_verified" do
-          expect(member.reload.phone_number_verified).to be_true
         end
 
         it "should mark token as used" do

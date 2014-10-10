@@ -47,7 +47,7 @@ ul.list-group
           i.fa.fa-bolt.text-warning
         p.text-ignore = t('.phone_number.description')
       .col-xs-6
-        - if current_user.phone_number_verified?
+        - if current_user.sms_two_factor.activated?
           a href="#" class="btn btn-success btn-block disabled" role="button"
             i.fa.fa-check-circle
             span = t('.phone_number.verified')
