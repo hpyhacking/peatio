@@ -109,4 +109,10 @@ $ ->
     $(@).scrollTop(@scrollTop + e.deltaY)
     e.preventDefault()
 
+  entry = '#ask_entry'
+  $(document).on 'keyup', (e) ->
+    if e.keyCode == 27
+      if entry == '#bid_entry' then entry = '#ask_entry' else entry = '#bid_entry'
+      $(entry).trigger 'place_order::clear'
+
   window.pusher = pusher
