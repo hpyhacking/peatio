@@ -28,7 +28,7 @@ describe TwoFactor do
   end
 
   describe '.activated' do
-    before { create :member, :two_factor_activated }
+    before { create :member, :app_two_factor_activated }
 
     it "should has activated" do
       expect(TwoFactor.activated?).to be_true

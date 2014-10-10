@@ -7,7 +7,7 @@ FactoryGirl.define do
       activated true
     end
 
-    trait :two_factor_activated do
+    trait :app_two_factor_activated do
       after :create do |member|
         member.app_two_factor.active!
       end

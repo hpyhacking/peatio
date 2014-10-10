@@ -16,7 +16,7 @@ describe Verify::GoogleAuthsController do
     end
 
     context 'already activated' do
-      let(:member) { create :member, :two_factor_activated }
+      let(:member) { create :member, :app_two_factor_activated }
 
       it { should redirect_to(settings_path) }
     end
@@ -31,7 +31,7 @@ describe Verify::GoogleAuthsController do
     end
 
     context 'activated' do
-      let(:member) { create :member, :two_factor_activated }
+      let(:member) { create :member, :app_two_factor_activated }
       before { session[:member_id] = member.id }
 
       before { get :edit }
