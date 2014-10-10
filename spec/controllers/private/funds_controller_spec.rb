@@ -14,13 +14,14 @@ describe Private::FundsController do
   end
 
   context "Verified user without two factor auth" do
-    let(:member) { create(:member, :activated, :verified, :two_factor_inactivated) }
+    let(:member) { create(:member, :activated, :verified) }
     before { session[:member_id] = member.id }
 
     before do
       get :index
     end
 
+    it { expect(member.two_factors).not_to be_activated }
     it { expect(response).to redirect_to(settings_path) }
   end
 

@@ -1,4 +1,25 @@
 en:
+  guides:
+    verify:
+      google_auths:
+        panel: Two-Factor Authentication
+        new:
+          title: Set Two-Factor Authentication
+          intro: With 2-Step Verification, you’ll protect your account with both your password and your phone. Here we use Google Authenticator.
+        edit:
+          title: Disable Two-Factor Authentication
+          intro: If you have a new phone, you can disable Two-Factor Authentication in the old phone, and enable Two-Factor Authentication  with the new one.
+        create:
+          title: Set Two-Factor Authentication
+          intro: With 2-Step Verification, you’ll protect your account with both your password and your phone. Here we use Google Authenticator.
+        destroy:
+          title: Disable Two-Factor Authentication
+          intro: If you have a new phone, you can disable Two-Factor Authentication in the old phone, and enable Two-Factor Authentication  with the new one.
+
+      sms_tokens:
+        panel: Verify Phone Number
+
+
   verify:
     google_auths:
       auth:
@@ -35,7 +56,7 @@ en:
         alert: Password for authentication is incorrect, please re-enter.
         notice: Two-factor authentication has been successfully Disabled.
     sms_tokens:
-      new:
+      show:
         title: Verify Phone Number
         description: Provide a phone number will make your account more secure. you can quickly reset your password and your account operations will be notified.
         warning: it will not be able to retrieve your account's password if not set the phone number.

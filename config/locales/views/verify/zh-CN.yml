@@ -1,4 +1,24 @@
 zh-CN:
+  guides:
+    verify:
+      google_auths:
+        panel: 两步验证
+        show:
+          title: 设置两步验证
+          intro: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。
+        edit:
+          title: 解除两步验证
+          intro: 若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。
+        update:
+          title: 设置两步验证
+          intro: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。
+        destroy:
+          title: 解除两步验证
+          intro: 若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。
+
+      sms_tokens:
+        panel: 绑定手机号码
+
   verify:
     google_auths:
       auth:
@@ -34,8 +54,9 @@ zh-CN:
       destroy:
         alert: 您输入的验证器上的密码有误，请重新输入。
         notice: 两步验证已成功解除。
+
     sms_tokens:
-      new:
+      show:
         title: 绑定手机号码
         description: 绑定手机号码，让你在貔貅交易所的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。
         warning: 手机未绑定时，您将无法在网站操作提现以及账户密码找回。
@@ -49,3 +70,4 @@ zh-CN:
           verify_code_success: 手机短信验证码验证成功。
         alert:
           phone_number_error: 手机号码无效或错误
+

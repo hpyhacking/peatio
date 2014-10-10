@@ -3,28 +3,30 @@ require 'spec_helper'
 module Verify
   describe SmsTokensController do
 
-    describe 'GET verify/sms_tokens/new' do
+    describe 'GET verify/sms_token' do
       let(:member) { create :verified_member }
       before { session[:member_id] = member.id }
-      subject(:do_request) { get :new }
 
-      it { should be_success }
-      it { should render_template(:new) }
+      before do
+        get :show
+      end
+
+      it { expect(response).to be_success }
+      it { expect(response).to render_template(:show) }
 
       context 'phone number has been verified' do
         let(:member) { create :member, :sms_two_factor_activated }
 
-        it { should be_redirect }
         it { should redirect_to(settings_path) }
       end
     end
 
-    describe 'POST verify/sms_tokens in send code phase' do
+    describe 'UPDATE verify/sms_token in send code phase' do
       let(:member) { create :member }
       let(:attrs) {
         {
           format: :js,
-          token_sms_token: {phone_number: '123-1234-1234'},
+          sms_token: {phone_number: '123-1234-1234'},
           commit: 'send_code'
         }
       }
@@ -32,7 +34,7 @@ module Verify
       before { session[:member_id] = member.id }
 
       it "create sms_token" do
-        post :create, attrs
+        put :update, attrs
         expect(assigns(:token)).to be_is_a(Token::SmsToken)
       end
 
@@ -40,12 +42,12 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            token_sms_token: {phone_number: ''},
+            sms_token: {phone_number: ''},
             commit: 'send_code'
           }
         }
 
-        before { post :create, attrs }
+        before { put :update, attrs }
 
         it "should not be ok" do
           expect(response).not_to be_ok
@@ -56,12 +58,12 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            token_sms_token: {phone_number: 'wrong number'},
+            sms_token: {phone_number: 'wrong number'},
             commit: 'send_code'
           }
         }
 
-        before { post :create, attrs }
+        before { put :update, attrs }
 
         it "should not be ok" do
           expect(response).not_to be_ok
@@ -76,13 +78,13 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            token_sms_token: {phone_number: '123.1234.1234'},
+            sms_token: {phone_number: '123.1234.1234'},
             commit: 'send_code'
           }
         }
 
         before do
-          post :create, attrs
+          put :update, attrs
         end
 
         it "return status ok" do
@@ -95,7 +97,7 @@ module Verify
       end
     end
 
-    describe 'POST verify/sms_tokens in verify code phase' do
+    describe 'POST verify/sms_token in verify code phase' do
       let(:token) { create :sms_token }
       let(:member) { token.member }
       before { session[:member_id] = member.id }
@@ -104,12 +106,12 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            token_sms_token: {verify_code: ''}
+            sms_token: {verify_code: ''}
           }
         }
 
         before do
-          post :create, attrs
+          put :update, attrs
         end
 
         it "not return ok status" do
@@ -121,12 +123,12 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            token_sms_token: {verify_code: 'foobar'}
+            sms_token: {verify_code: 'foobar'}
           }
         }
 
         before do
-          post :create, attrs
+          put :update, attrs
         end
 
         it "not return ok status" do
@@ -142,19 +144,19 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            token_sms_token: {verify_code: token.token}
+            sms_token: {verify_code: token.token}
           }
         }
 
         before do
-          post :create, attrs
+          put :update, attrs
         end
 
         it "should mark token as used" do
           expect(token.reload.is_used).to be_true
         end
 
-        it "should create instance of TwoFactor::Sms" do
+        it "should update instance of TwoFactor::Sms" do
           expect(member.sms_two_factor).to be_is_a(TwoFactor::Sms)
         end
       end

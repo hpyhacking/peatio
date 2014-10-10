@@ -4,8 +4,8 @@ describe Verify::GoogleAuthsController do
   let(:member) { create :member }
   before { session[:member_id] = member.id }
 
-  describe 'GET /show/app' do
-    before { get :show, id: :app }
+  describe 'GET /show' do
+    before { get :show }
 
     context 'not activated yet' do
       it { should respond_with :ok }
@@ -23,16 +23,18 @@ describe Verify::GoogleAuthsController do
   end
 
   describe 'get /edit' do
-    before { get :edit, id: 'app' }
-
     context 'not activated' do
-      let(:member) { create :member, :two_factor_inactivated }
+      before { get :edit }
 
+      it { expect(member.app_two_factor).not_to be_activated }
       it { should redirect_to(settings_path) }
     end
 
     context 'activated' do
       let(:member) { create :member, :two_factor_activated }
+      before { session[:member_id] = member.id }
+
+      before { get :edit }
 
       it { should respond_with :ok }
       it { should render_template(:edit) }
