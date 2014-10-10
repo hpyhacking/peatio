@@ -67,16 +67,19 @@
       @value = v
       true
 
-  @onInput = (event, data) ->
+  @onInput = (e, data) ->
     @$node.val @roundValueToText(data[@attr.variables.input])
     @process()
 
-  @onMax = (event, data) ->
+  @onMax = (e, data) ->
     @max = data.max
 
-  @onReset = (event) ->
+  @onReset = (e) ->
     @$node.val ''
     @reset()
+
+  @onFocus = (e) ->
+    @$node.focus()
 
   @after 'initialize', ->
     @orderType = @attr.type
@@ -88,3 +91,4 @@
     @on @attr.form, "place_order::input::#{@attr.variables.input}", @onInput
     @on @attr.form, "place_order::output::#{@attr.variables.input}", @onOutput
     @on @attr.form, "place_order::reset::#{@attr.variables.input}", @onReset
+    @on @attr.form, "place_order::focus::#{@attr.variables.input}", @onFocus

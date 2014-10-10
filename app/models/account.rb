@@ -29,7 +29,6 @@ class Account < ActiveRecord::Base
   after_commit :trigger
   after_update :sync_update
 
-
   def payment_address
     payment_addresses.last || payment_addresses.create(currency: self.currency)
   end
@@ -165,7 +164,8 @@ class Account < ActiveRecord::Base
 
   def as_json(options = {})
     super.merge({
-      "payment_address" => payment_addresses.empty? ? "" : payment_addresses.last.address
+      # check if there is a useable address, but don't touch it to create the address now.
+      "deposit_address" => payment_addresses.empty? ? "" : payment_address.deposit_address
     })
   end
 

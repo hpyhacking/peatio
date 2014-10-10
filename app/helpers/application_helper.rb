@@ -116,8 +116,9 @@ module ApplicationHelper
   end
 
   def top_nav_link(link_text, link_path, link_icon, controllers: [], counter: 0, target: '')
+    merged = (controllers & controller_path.split('/'))
     class_name = current_page?(link_path) ? 'active' : nil
-    class_name ||= (controllers & controller_path.split('/')).empty? ? nil : 'active'
+    class_name ||= merged.empty? ? nil : 'active'
 
     content_tag(:li, :class => class_name) do
       link_to link_path, target: target do

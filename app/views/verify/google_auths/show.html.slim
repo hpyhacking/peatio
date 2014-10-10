@@ -1,4 +1,4 @@
-= simple_form_for @two_factor, as: :two_factor, url: two_factor_path(@two_factor) do |f|
+= simple_form_for @google_auth, as: 'google_auth', url: verify_google_auth_path(@google_auth) do |f|
   h4 = t('.step-1')
   p
     span = t('.download-app')
@@ -8,13 +8,13 @@
   p: span = t('.scan-qr-code')
 
   = f.input :uri do
-    = qr_tag(@two_factor.uri)
+    = qr_tag(@google_auth.uri)
 
   = f.input :otp_secret do
     .input-group
       = f.input_field :otp_secret, class: 'upcase', readonly: true
       span.input-group-btn
-        a.btn.btn-default href='#{two_factor_path(:app, refresh: true)}'
+        a.btn.btn-default href='#{verify_google_auth_path(:app, refresh: true)}'
           i.fa.fa-refresh
 
   h4 = t('.step-3')

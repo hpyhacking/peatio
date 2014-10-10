@@ -54,7 +54,7 @@ en:
     labels:
       defaults:
         title: Title
-      two_factor:
+      google_auth:
         uri: QR code
         otp_secret: Ciphertext
         otp: Password on the authenticator

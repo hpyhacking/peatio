@@ -7,11 +7,11 @@
 .panel-currencies {
   padding: 0;
   .currencies-container {
-    min-height: 550px;
+    min-height: $funds-panel-height;
     border-right: 1px solid #ddd;
   }
   .details-container {
-    padding: 20px;
+    padding: 20px 20px 0;
     .form {
       margin: 30px 0;
       max-width: 640px;
@@ -27,6 +27,12 @@
       &.transfer-form {
         max-width: inherit;
       }
+      .control-label {
+        text-align: left;
+      }
+    }
+    .help-block {
+      font-size: 14px;
     }
   }
   .panel-title {
@@ -60,13 +66,18 @@
   }
 }
 
-.currency-item {
-  margin: 0;
+.table-currencies {
+  border-radius: 5px;
+  right: -1px;
+  margin-bottom: 0;
   > tbody > tr > td {
     border-top: none;
     border-bottom: 1px solid #ddd;
     padding: 20px;
   }
+}
+.currency-item {
+  margin: 0;
   .currency-label {
     font-size: 12px;
     text-transform: uppercase;
@@ -105,6 +116,7 @@
     font-family: monospace;
     margin: 0;
     .currency-sign {
+      display: none;
       font-size: 20px;
       margin-left: -4px;
     }
@@ -116,6 +128,7 @@
     font-weight: normal;
   }
   .currency-actions {
+    position: relative;
     text-align: right;
     vertical-align: middle;
     p { 
@@ -124,31 +137,42 @@
       &:first-child {
         margin: 0 0 20px 0;
       }
-      &.selected:after, &.selected:before {
-        right: -21px;
-        top: 50%;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
-        position: absolute;
-        pointer-events: none;
-        z-index: 1024;
-      }
-
-      &.selected:after {
-        border-color: rgba(255, 255, 255, 0);
-        border-right-color: #ffffff;
-        border-width: 10px;
-        margin-top: -10px;
-      }
-      &.selected:before {
-        border-color: rgba(221, 221, 221, 0);
-        border-right-color: #dddddd;
-        border-width: 11px;
-        margin-top: -11px;
-      }
     }
+  }
+  &.selected {
+    background-color: #EFF5F0;
+  }
+  &.selected .currency-actions:after, &.selected .currency-actions:before {
+    right: -2px;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    z-index: 1024;
+  }
+
+  &.selected .currency-actions:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-right-color: #ffffff;
+    border-width: 10px;
+    margin-top: -10px;
+  }
+  &.selected .currency-actions:before {
+    border-color: rgba(221, 221, 221, 0);
+    border-right-color: #dddddd;
+    border-width: 11px;
+    margin-top: -11px;
+  }
+  &.deposit-now .currency-actions:after, 
+  &.deposit-now .currency-actions:before {
+    top: 31px;
+  }
+  &.withdraw-now .currency-actions:after, 
+  &.withdraw-now .currency-actions:before {
+    top: 73px;
   }
 }
 
@@ -194,6 +218,37 @@
   text-align: center;
 }
 
-#paymentAddress {
+#deposit_address{
   text-align: center;
+}
+
+.withdraw-instruction {
+  color: #777;
+  .col-sm-4 {
+    text-align: center;
+  }
+  .steps {
+    display: inline-block;
+    margin: 0;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #DDD;
+    border-radius: 50%;
+    color: #E0E4E7;
+    font-size: 32px;
+    font-weight: normal;
+    line-height: 50px;
+    text-align: center;
+  }
+  p {
+    color: #777;
+    line-height: 1.6;
+  }
+  .split {
+    margin: 15px 0;
+  }
+  .qrcode-container {
+    float: right;
+    margin-left: 10px;
+  }
 }

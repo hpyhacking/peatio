@@ -57,14 +57,16 @@
 
   @handleSuccess = (event, data) ->
     @cleanMsg()
-    @select('successSel').text(data.message).show().fadeOut(2500)
+    @select('successSel').append(JST["hint_order_success"]({msg: data.message})).show()
     @resetForm(event)
     @enableSubmit()
 
   @handleError = (event, data) ->
     @cleanMsg()
+    ef_class = 'shake shake-constant hover-stop'
     json = JSON.parse(data.responseText)
-    @select('dangerSel').text(json.message).show().fadeOut(2500)
+    @select('dangerSel').append(JST["hint_order_warning"]({msg: json.message})).show()
+      .addClass(ef_class).wait(500).removeClass(ef_class)
     @enableSubmit()
 
   @getBalance = ->
@@ -114,6 +116,10 @@
     @select('priceAlertSel')
       .hide().text(gon.i18n.place_order[data.label]).fadeIn()
 
+  @clear = (e) ->
+    @resetForm(e)
+    @trigger 'place_order::focus::price'
+
   @after 'initialize', ->
     type = @panelType()
 
@@ -130,6 +136,7 @@
     @on 'place_order::price_alert::hide', @priceAlertHide
     @on 'place_order::price_alert::show', @priceAlertShow
     @on 'place_order::order::updated', @updateAvailable
+    @on 'place_order::clear', @clear
 
     @on document, 'account::update', @refreshBalance
 

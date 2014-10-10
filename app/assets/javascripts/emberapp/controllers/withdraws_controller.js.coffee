@@ -15,24 +15,36 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
           controller.get('withdraws').popObject()
         , 1000)
 
+
+      setTimeout( ->
+        $('.cancel_link:first').bind('click', (event)->
+          event.preventDefault()
+          event.stopPropagation()
+          record_id = event.target.dataset.id
+          controller.cancelDepositAction(record_id, event.target)
+        )
+      , 500)
+
+
+    setTimeout( ->
+    # Thanks to ember that, we can't handle this click by ember's action
+    # It won't support firefox to get the event after clicking the link.
+    # Fck Ember
+      $('.cancel_link').on('click', (event)->
+        event.preventDefault()
+        event.stopPropagation()
+        record_id = event.target.dataset.id
+        controller.cancelDepositAction(record_id, event.target)
+      )
+    , 100)
+
+
   btc: (->
     @model[0].currency == "btc"
   ).property('@each')
 
   cny: (->
     @model[0].currency == "cny"
-  ).property('@each')
-
-  btsx: (->
-    @model[0].currency == "btsx"
-  ).property('@each')
-
-  pts: (->
-    @model[0].currency == "pts"
-  ).property('@each')
-
-  dog: (->
-    @model[0].currency == "dog"
   ).property('@each')
 
   withdraws: (->
@@ -63,13 +75,24 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     current_user.app_activated and current_user.sms_activated
   ).property('')
 
+  cancelDepositAction: (record_id, target) ->
+    url = "/withdraws/#{@model[0].resources_name}/#{record_id}"
+    $.ajax({
+      url: url
+      method: 'DELETE'
+    }).done(->
+      $(target).remove()
+    )
+
+
+
   actions: {
     withdrawAll: ->
       $('#withdraw_sum').val(@get('balance'))
 
     submitWithdraw: ->
-      fund_source = $(event.target).find('#fund_source').val()
-      sum = $(event.target).find('#withdraw_sum').val()
+      fund_source = $('#fund_source').val()
+      sum = $('#withdraw_sum').val()
       currency = @model[0].currency
       account = @model[0].account()
       data = { withdraw: { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source }}
@@ -81,7 +104,7 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
 
       $('#withdraw_submit').attr('disabled', 'disabled')
       $.ajax({
-        url: "/withdraws/#{@model[0].key}s",
+        url: "/withdraws/#{@model[0].resources_name}",
         method: 'post',
         data: data
       }).always(->
@@ -92,15 +115,5 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
         $('#withdraw_sum').val('')
       )
 
-    cancelWithdraw: ->
-      record_id = event.target.dataset.id
-      url = "/withdraws/#{@model[0].key}s/#{record_id}"
-      target = event.target
-      $.ajax({
-        url: url
-        method: 'DELETE'
-      }).done(->
-        $(target).remove()
-      )
-
   }
+

@@ -17,20 +17,37 @@ Peatio.DepositsController = Ember.ArrayController.extend
           controller.get('deposits').popObject()
         , 1000)
 
-    $.subscribe 'payment_address:create', ->
-      address = controller.get('model')[0].account().payment_address
-      $("#payment_address").html(address)
-      $('#payment_address_data').attr('data-clipboard-text', address)
+      setTimeout(->
+        $('.cancel_link:first').bind('click', (event)->
+          event.preventDefault()
+          event.stopPropagation()
+          record_id = event.target.dataset.id
+          controller.cancelDepositAction(record_id, event.target)
+        )
+      , 500)
+
+    $.subscribe 'deposit_address:create', ->
+      address = controller.get('model')[0].account().deposit_address
+      $("#deposit_address").html(address)
+      $('#deposit_address').attr('data-clipboard-text', address)
       $('#qrcode').attr('data-text', address)
       $('#qrcode').attr('title', address)
 
-  paymentAddress: (->
-    @model[0].account().payment_address
-  ).property('@each')
+    setTimeout( ->
+      # Thanks to ember that, we can't handle this click by ember's action
+      # It won't support firefox to get the event after clicking the link.
+      # Fck Ember
+      $('.cancel_link').on('click', (event)->
+        event.preventDefault()
+        event.stopPropagation()
+        record_id = event.target.dataset.id
+        controller.cancelDepositAction(record_id, event.target)
+      )
+    , 100)
 
-  memo: (->
-    current_user.id
-  ).property('')
+  depositAddress: (->
+    @model[0].account().deposit_address
+  ).property('@each')
 
   btc: (->
     @model[0].currency == "btc"
@@ -38,18 +55,6 @@ Peatio.DepositsController = Ember.ArrayController.extend
 
   cny: (->
     @model[0].currency == "cny"
-  ).property('@each')
-
-  btsx: (->
-    @model[0].currency == "btsx"
-  ).property('@each')
-
-  pts: (->
-    @model[0].currency == "pts"
-  ).property('@each')
-
-  dog: (->
-    @model[0].currency == "dog"
   ).property('@each')
 
   deposits: (->
@@ -68,16 +73,27 @@ Peatio.DepositsController = Ember.ArrayController.extend
     @model[0].key
   ).property('@each')
 
+  cancelDepositAction: (record_id, target)->
+    url = "/deposits/#{@model[0].resources_name}/#{record_id}"
+    $.ajax({
+      url: url
+      method: 'DELETE'
+    }).fail((result) ->
+      $.publish 'flash', {message: "服务器忙,请稍后重试"}
+    ).done(->
+      $(target).remove()
+    )
+
   actions: {
     submitDeposit: ->
-      fund_source = $(event.target).find('#fund_source').val()
-      sum = $(event.target).find('#deposit_sum').val()
+      fund_source = $('#fund_source').val()
+      sum = $('#deposit_sum').val()
       currency = @model[0].currency
       account = @model[0].account()
       data = { account_id: account.id, member_id: current_user.id, currency: currency, amount: sum,  fund_source: fund_source }
       $('#deposit_cny_submit').attr('disabled', 'disabled')
       $.ajax({
-        url: '/deposits/banks',
+        url: "/deposits/#{@model[0].resources_name}",
         method: 'post',
         data: { deposit: data }
       }).always(->
@@ -86,19 +102,6 @@ Peatio.DepositsController = Ember.ArrayController.extend
         $.publish 'flash', {message: result.responseText }
       ).done(->
         $('#deposit_sum').val('')
-      )
-
-    cancelDeposit: ->
-      record_id = event.target.dataset.id
-      url = "/deposits/#{@model[0].key}s/#{record_id}"
-      target = event.target
-      $.ajax({
-        url: url
-        method: 'DELETE'
-      }).fail((result) ->
-        $.publish 'flash', {message: "服务器忙,请稍后重试"}
-      ).done(->
-        $(target).remove()
       )
 
   }

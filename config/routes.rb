@@ -24,8 +24,8 @@ Peatio::Application.routes.draw do
   resource :identity, :only => [:edit, :update]
 
   namespace :verify do
-    resource :two_factor,  only: [:new, :create]
     resources :sms_tokens, only: [:new, :create]
+    resources :google_auths, only: [:show, :update, :edit, :destroy]
   end
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do
@@ -42,7 +42,6 @@ Peatio::Application.routes.draw do
     resource  :id_document, only: [:edit, :update]
 
     resources :settings, only: [:index]
-    resources :two_factors, only: [:show, :update, :edit, :destroy]
     resources :api_tokens
 
     Currency.all.each do |c|
