@@ -113,6 +113,10 @@
     @select('priceAlertSel')
       .hide().text(gon.i18n.place_order[data.label]).fadeIn()
 
+  @clear = (e) ->
+    @resetForm(e)
+    @trigger 'place_order::focus::price'
+
   @after 'initialize', ->
     type = @panelType()
 
@@ -129,6 +133,7 @@
     @on 'place_order::price_alert::hide', @priceAlertHide
     @on 'place_order::price_alert::show', @priceAlertShow
     @on 'place_order::order::updated', @updateAvailable
+    @on 'place_order::clear', @clear
 
     @on document, 'account::update', @refreshBalance
 
