@@ -37,10 +37,6 @@ describe Token::SmsToken do
     let(:member) { create :member }
 
     context 'do not have token exists' do
-      it "init member doesn't have token" do
-        expect(member.sms_token).to be_nil
-      end
-
       it "create token for member if not exist" do
         expect(Token::SmsToken.for_member(member)).to be_is_a(Token::SmsToken)
       end

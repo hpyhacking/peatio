@@ -23,6 +23,14 @@ FactoryGirl.define do
       end
     end
 
+    trait :sms_two_factor_activated do
+      after :create do |member|
+        member.two_factors.create \
+          type: 'TwoFactor::Sms',
+          activated: true
+      end
+    end
+
     trait :verified do
       after :create do |member|
         id_doc = member.id_document
@@ -30,10 +38,6 @@ FactoryGirl.define do
         id_doc.submit!
         id_doc.approve!
       end
-    end
-
-    trait :phone_number_verified do
-      phone_number_verified true
     end
 
     trait :admin do
@@ -44,7 +48,6 @@ FactoryGirl.define do
 
     factory :activated_member, traits: [:activated]
     factory :verified_member, traits: [:activated, :verified]
-    factory :verified_phone_number, traits: [:activated, :phone_number_verified]
     factory :admin_member, traits: [:admin]
   end
 end

@@ -14,7 +14,6 @@ class Member < ActiveRecord::Base
   has_many :comments, foreign_key: 'author_id'
 
   has_one :id_document
-  has_one :sms_token, class_name: 'Token::SmsToken'
 
   has_many :authentications, dependent: :destroy
 
@@ -25,7 +24,6 @@ class Member < ActiveRecord::Base
   delegate :name,       to: :id_document, allow_nil: true
   delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
-  delegate :verified?,  to: :sms_token,   prefix: true
 
   before_validation :generate_sn
 

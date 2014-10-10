@@ -12,7 +12,7 @@ module Verify
       it { should render_template(:new) }
 
       context 'phone number has been verified' do
-        let(:member) { create :verified_phone_number }
+        let(:member) { create :member, :sms_two_factor_activated }
 
         it { should be_redirect }
         it { should redirect_to(settings_path) }
@@ -33,7 +33,7 @@ module Verify
 
       it "create sms_token" do
         post :create, attrs
-        expect(member.sms_token).to be_is_a(Token::SmsToken)
+        expect(assigns(:token)).to be_is_a(Token::SmsToken)
       end
 
       context "with empty number" do

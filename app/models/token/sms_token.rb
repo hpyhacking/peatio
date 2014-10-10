@@ -10,14 +10,14 @@ class Token::SmsToken < ::Token
 
   class << self
     def for_member(member)
-      return member.create_sms_token if member.sms_token.blank?
+      sms_token = find_or_create_by(member_id: member.id)
 
-      if member.sms_token && !member.sms_token.expired?
-        member.sms_token
-      else
-        member.sms_token.destroy
-        member.create_sms_token
+      if sms_token.expired?
+        sms_token.destroy
+        sms_token = create(member_id: member.id)
       end
+
+      sms_token
     end
   end
 
