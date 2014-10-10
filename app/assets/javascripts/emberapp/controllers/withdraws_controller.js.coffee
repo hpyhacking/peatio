@@ -47,18 +47,6 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
     @model[0].currency == "cny"
   ).property('@each')
 
-  btsx: (->
-    @model[0].currency == "btsx"
-  ).property('@each')
-
-  pts: (->
-    @model[0].currency == "pts"
-  ).property('@each')
-
-  dog: (->
-    @model[0].currency == "dog"
-  ).property('@each')
-
   withdraws: (->
     @model[0].account().topWithdraws()
   ).property('@each')
@@ -107,8 +95,7 @@ Peatio.WithdrawsController = Ember.ArrayController.extend
       sum = $('#withdraw_sum').val()
       currency = @model[0].currency
       account = @model[0].account()
-      memo = $('#memo_field input').val()
-      data = { withdraw: { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source, memo: memo }}
+      data = { withdraw: { account_id: account.id, member_id: current_user.id, currency: currency, sum: sum,  fund_source: fund_source }}
 
       if current_user.app_activated or current_user.sms_activated
         type = $('.two_factor_auth_type').val()
