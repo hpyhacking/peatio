@@ -39,7 +39,6 @@ class PaymentAddress < ActiveRecord::Base
     return nil unless member
     return nil unless member.created_at.to_i.to_s[-3..-1] == checksum
     member
->>>>>>> 64ba8b1... add deposit_address
   end
 
   def sync_create
