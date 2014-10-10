@@ -93,10 +93,10 @@
 
       - if @id_document.may_approve?
         .col-xs-4
-          button.btn.btn-primary
-            = link_to t('.approve'), admin_id_document_path(@id_document, approve: 'true'), method: :patch, style: 'color: white;'
+          = link_to admin_id_document_path(@id_document, approve: 'true'), method: :patch, style: 'color: white;' do
+            button.btn.btn-primary = t('.approve')
 
       - if @id_document.may_reject?
         .col-xs-4
-          button.btn.btn-danger
-            = link_to t('.reject'), admin_id_document_path(@id_document, reject: 'true'), method: :patch, style: 'color: white;'
+          = link_to admin_id_document_path(@id_document, reject: 'true'), method: :patch, style: 'color: white;'
+            button.btn.btn-danger = t('.reject')
