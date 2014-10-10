@@ -16,7 +16,6 @@ module Verify
     def update
       if one_time_password_verified?
         @google_auth.active!
-        MemberMailer.google_auth_activated(current_user.id).deliver
         redirect_to settings_path, notice: t('.notice')
       else
         flash[:alert] = t('.alert')
@@ -27,7 +26,6 @@ module Verify
     def destroy
       if one_time_password_verified?
         @google_auth.deactive!
-        MemberMailer.google_auth_deactivated(current_user.id).deliver
         redirect_to settings_path, notice: t('.notice')
       else
         flash[:alert] = t('.alert')

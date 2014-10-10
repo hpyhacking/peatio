@@ -1,5 +1,7 @@
 class TwoFactor::App < ::TwoFactor
 
+  after_update :send_notification_after_change
+
   def verify(otp = nil)
     return false if otp_secret.blank?
 
@@ -25,4 +27,15 @@ class TwoFactor::App < ::TwoFactor
   def now
     ROTP::TOTP.new(otp_secret).now
   end
+
+  def send_notification_after_change
+    return if not self.activated_changed?
+
+    if self.activated
+      MemberMailer.google_auth_activated(member.id).deliver
+    else
+      MemberMailer.google_auth_deactivated(member.id).deliver
+    end
+  end
+
 end
