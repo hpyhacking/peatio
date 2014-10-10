@@ -62,7 +62,7 @@ namespace :emu do
     ask_order(2, "5.3", "2.0")
   end
 
-  desc "Testing Coin deposit."
+  desc "Mock coin deposits."
   task deposits: :environment do
     m = Member.find_by_email ENV['email']
     a = m.get_account(ENV['account'])
@@ -75,9 +75,10 @@ namespace :emu do
       confirmations = 100
       receive_at = Time.now
       channel = DepositChannel.find_by_key a.currency_obj.key
+      pt_class = "PaymentTransaction::#{channel.currency.camelize}".constantize
 
       ActiveRecord::Base.transaction do
-        tx = PaymentTransaction::Normal.create!(
+        tx = pt_class.create!(
           txid: txid,
           txout: txout,
           address: address,
@@ -103,5 +104,4 @@ namespace :emu do
       end
     end
   end
-
 end
