@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe Admin::TwoFactorsController do
   let(:member) { create(:admin_member) }
-  let(:sms_two_factor) { member.two_factors.by_type(:sms) }
-  let(:app_two_factor) { member.two_factors.by_type(:app) }
+  let(:sms_two_factor) { member.sms_two_factor }
+  let(:app_two_factor) { member.app_two_factor }
 
   before do
     session[:member_id] = member.id

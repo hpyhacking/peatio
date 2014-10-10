@@ -155,7 +155,7 @@ module Verify
         end
 
         it "should create instance of TwoFactor::Sms" do
-          expect(member.two_factors.by_type(:sms)).to be_is_a(TwoFactor::Sms)
+          expect(member.sms_two_factor).to be_is_a(TwoFactor::Sms)
         end
       end
     end

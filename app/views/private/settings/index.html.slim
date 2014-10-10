@@ -65,7 +65,7 @@ ul.list-group
           i.fa.fa-bolt.text-warning
         p.text-ignore = t('.two_factor_auth.description')
       .col-xs-6
-        - if @two_factor
+        - if current_user.app_two_factor.activated?
           = link_to t('.two_factor_auth.disable'), edit_verify_google_auth_path(:app), class: 'btn btn-default btn-block'
         - else
           = link_to t('.two_factor_auth.enable'), verify_google_auth_path(:app), class: 'btn btn-default btn-block'

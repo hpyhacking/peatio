@@ -4,7 +4,7 @@ describe TwoFactor do
 
   describe 'uniq validate' do
     let(:member) { create :member }
-    let(:two_factor) { member.two_factors.by_type(:app) }
+    let(:two_factor) { member.app_two_factor }
 
     it "reject duplicate two_factor" do
       duplicate = TwoFactor.new two_factor.attributes

@@ -19,7 +19,7 @@ module Verify
     private
 
     def activated?
-      if current_user.two_factors.by_type(:sms).activated?
+      if current_user.sms_two_factor.activated?
         redirect_to settings_path
       end
     end
@@ -47,7 +47,7 @@ module Verify
       respond_to do |format|
         if @token.verify_code.present? && @token.verify?
           @token.verified!
-          current_user.two_factors.by_type(:sms).active!
+          current_user.sms_two_factor.active!
 
           MemberMailer.phone_number_verified(current_user.id).deliver
 

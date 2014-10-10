@@ -38,7 +38,7 @@ module Verify
     private
 
     def find_google_auth
-      @google_auth = current_user.two_factors.by_type(:app)
+      @google_auth = current_user.app_two_factor
     end
 
     def google_auth_params
