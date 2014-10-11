@@ -48,11 +48,11 @@ module Verify
     end
 
     def google_auth_activated?
-      redirect_to settings_path, notice: t('.already_activated') if @google_auth.activated?
+      redirect_to settings_path, notice: t('.notice.already_activated') if @google_auth.activated?
     end
 
     def google_auth_inactivated?
-      redirect_to settings_path, notice: t('.not_activated_yet') if not @google_auth.activated?
+      redirect_to settings_path, notice: t('.notice.not_activated_yet') if not @google_auth.activated?
     end
 
     def verify_sms_two_factor

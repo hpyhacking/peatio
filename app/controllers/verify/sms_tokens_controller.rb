@@ -19,7 +19,7 @@ module Verify
 
     def activated?
       if current_user.sms_two_factor.activated?
-        redirect_to settings_path
+        redirect_to settings_path, notice: t('.notice.already_activated')
       end
     end
 
@@ -32,7 +32,6 @@ module Verify
 
       respond_to do |format|
         if @token.phone_number.present? && @token.valid?
-          @token.update_phone_number
           @token.send_verify_code
 
           text = I18n.t('verify.sms_tokens.show.notice.send_code_success')

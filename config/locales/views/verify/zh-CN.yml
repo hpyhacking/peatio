@@ -38,9 +38,10 @@ zh-CN:
         ios: 苹果 iOS 系统
         android: 谷歌安卓系统
         blackbery: 黑莓系统
-        previous_two_factor_confirm: 您需要通过短信验证码来授权启用谷歌验证两步验证。
-        already_activated: 您已经成功设定了谷歌两部验证。
-        not_activated_yet: 您还未设定谷歌两部验证。
+        input_sms_two_factor_code: 您需要通过短信验证码来授权启用谷歌验证两步验证。
+        notice:
+          already_activated: 您已经成功设定了谷歌两部验证。
+          not_activated_yet: 您还未设定谷歌两部验证。
       update:
         alert: 您输入的验证器上的密码有误，请重新输入。
         notice: 两步验证已成功绑定。
@@ -51,6 +52,9 @@ zh-CN:
 
     sms_tokens:
       show:
+        step-1: 第一步
+        step-2: 第二步
+        input_google_auth_verify_code: 打开谷歌验证器并将验证器上的验证码输入到这里
         title: 绑定手机号码
         description: 绑定手机号码，让你在貔貅交易所的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。
         warning: 手机未绑定时，您将无法在网站操作提现以及账户密码找回。
@@ -62,6 +66,7 @@ zh-CN:
         notice:
           send_code_success: 手机短信验证码已发送。
           verify_code_success: 手机短信验证码验证成功。
+          already_activated: 您的手机号码已绑定成功。
         alert:
           phone_number_error: 手机号码无效或错误
 

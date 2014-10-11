@@ -11,7 +11,7 @@ class TwoFactor::Sms < ::TwoFactor
   end
 
   def refresh
-    update otp_secret: OTP_LENGTH.times.map{ Random.rand(9) + 1 }.join, refreshed_at: Time.now
+    update otp_secret: gen_code, refreshed_at: Time.now
   end
 
   def sms_message
@@ -20,5 +20,11 @@ class TwoFactor::Sms < ::TwoFactor
 
   def send_otp
     AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
+  end
+
+  private
+
+  def gen_code
+    OTP_LENGTH.times.map{ Random.rand(9) + 1 }.join
   end
 end

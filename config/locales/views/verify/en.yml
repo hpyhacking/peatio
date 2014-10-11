@@ -39,9 +39,10 @@ en:
         ios: Iphone iOS
         android: Android
         blackbery: Blackberry
-        previous_two_factor_confirm: Please input SMS verification code.
-        already_activated: The Google Authenticator has already been set.
-        not_activated_yet: The Google Authenticator hasn't been set yet.
+        input_sms_two_factor_code: Please input SMS verification code.
+        notice:
+          already_activated: The Google Authenticator has already been set.
+          not_activated_yet: The Google Authenticator hasn't been set yet.
       update:
         alert: Password for authentication is incorrect, please re-enter.
         notice: Two-factor authentication has been successfully Enabled.
@@ -51,6 +52,9 @@ en:
         notice: Two-factor authentication has been successfully Disabled.
     sms_tokens:
       show:
+        step-1: Step 1
+        step-2: Step 2
+        input_google_auth_verify_code: Open your Google Authenticator and input the verfy code.
         title: Verify Phone Number
         description: Provide a phone number will make your account more secure. you can quickly reset your password and your account operations will be notified.
         warning: it will not be able to retrieve your account's password if not set the phone number.
@@ -62,5 +66,6 @@ en:
         notice:
           send_code_success: Send verify code success
           verify_code_success: Verify Code success.
+          already_activated: You phone number has been activated.
         alert:
           phone_number_error: phone number error

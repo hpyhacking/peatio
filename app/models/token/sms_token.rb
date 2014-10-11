@@ -41,6 +41,7 @@ class Token::SmsToken < ::Token
   end
 
   def send_verify_code
+    update_phone_number
     AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
   end
 
