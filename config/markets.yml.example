@@ -19,9 +19,9 @@
   bid: {fee: 0, currency: btc, fixed: 4}
   ask: {fee: 0, currency: pts, fixed: 4}
   visible: false
-- id: dogcny
+- id: dogecny
   code: 9
-  base_unit: dog
+  base_unit: doge
   quote_unit: cny
   bid: {fee: 0, currency: cny, fixed: 6}
   ask: {fee: 0, currency: dog, fixed: 0}

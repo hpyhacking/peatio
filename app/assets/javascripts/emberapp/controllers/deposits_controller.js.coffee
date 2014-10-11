@@ -69,8 +69,8 @@ Peatio.DepositsController = Ember.ArrayController.extend
     @model[0].currency == "pts"
   ).property('@each')
 
-  dog: (->
-    @model[0].currency == "dog"
+  doge: (->
+    @model[0].currency == "doge"
   ).property('@each')
 
   dns: (->

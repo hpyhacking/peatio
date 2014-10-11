@@ -10,7 +10,7 @@ window.MarketTickerUI = flight.component ->
     askPriceSelector: 'td.ask'
 
   @update = (el, text, trend) ->
-    if gon.market.id is 'dogcny'
+    if gon.market.id is 'dogecny'
       fixed = 4
     else
       fixed = gon.market.bid.fixed
