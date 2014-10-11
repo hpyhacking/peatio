@@ -1,9 +1,0 @@
-- markets = [ ['BTC/CNY',  market_path(:btccny)],  \
-              ['BTSX/CNY', market_path(:btsxcny)], \
-              ['PTS/CNY',  market_path(:ptscny)],  \
-              ['DOG/CNY',  market_path(:dogcny)],  \
-              ['DOG/BTC',  market_path(:dogbtc)] ]
-
-.market-selector
-  - markets.each do |market|
-    = link_to market.first, market.last, class: (current_market.name == market.first) ? 'btn btn-primary' : 'btn btn-default'
