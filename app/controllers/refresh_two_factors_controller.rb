@@ -1,8 +1,7 @@
 class RefreshTwoFactorsController < ApplicationController
-  before_action :find_member
 
   def show
-    two_factor = @member.two_factors.by_type(params[:id])
+    two_factor = current_user.two_factors.by_type(params[:id])
 
     respond_to do |format|
       if two_factor
@@ -16,13 +15,4 @@ class RefreshTwoFactorsController < ApplicationController
     end
   end
 
-  private
-
-  def find_member
-    @member ||= find_by_member_id
-  end
-
-  def find_by_member_id
-    Member.find_by_id(session[:member_id])
-  end
 end
