@@ -6,3 +6,11 @@ zh-CN:
     funds:
       show:
         account_history: 账户历史记录
+    two_factors:
+      auth:
+        otp_placeholder: '请输入二次验证码'
+        send_code_alt: '发送二次验证码到手机'
+        send_code: '发送到手机'
+        hints:
+          sms: ''
+          app: ''

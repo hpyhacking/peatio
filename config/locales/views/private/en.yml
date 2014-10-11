@@ -6,3 +6,11 @@ en:
     funds:
       show:
         account_history: Account History
+    two_factors:
+      auth:
+        otp_placeholder: 'Please enter two factor code'
+        send_code_alt: 'Send two factor number to phone'
+        send_code: 'Send Code'
+        hints:
+          sms: ''
+          app: ''
