@@ -67,22 +67,6 @@
           br
           | 不虚报数据
 
-  /.main-section
-    .container
-      hr
-      ul.nav.nav-pills.row role='tablist'
-        <li class="active col-xs-6"><a href="#pane-btc-cny" role="tab" data-toggle="pill">BTC/CNY</a></li>
-        <li class="col-xs-6"><a href="#pane-btsx-cny" role="tab" data-toggle="pill">BTSX/CNY</a></li>
-        <li class="col-xs-6"><a href="#pane-pts-cny" role="tab" data-toggle="pill">PTS/CNY</a></li>
-        <li class="col-xs-6"><a href="#pane-dog-cny" role="tab" data-toggle="pill">DOG/CNY</a></li>
-
-      /.tab-content
-        #pane-btc-cny.tab-pane.active
-          = render partial: 'shared/market/chart'
-        #pane-btsx-cny.tab-pane 2
-        #pane-pts-cny.tab-pane 3
-        #pane-dog-cny.tab-pane 4
-
   .main-section.tickers.main-section-lighter
     .container
       hr
