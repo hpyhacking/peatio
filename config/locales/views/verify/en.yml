@@ -40,9 +40,12 @@ en:
         android: Android
         blackbery: Blackberry
         previous_two_factor_confirm: Please input SMS verification code.
+        already_activated: The Google Authenticator has already been set.
+        not_activated_yet: The Google Authenticator hasn't been set yet.
       update:
         alert: Password for authentication is incorrect, please re-enter.
         notice: Two-factor authentication has been successfully Enabled.
+        sms_two_factor_error: SMS Verification code is incorrect, please re-enter.
       destroy:
         alert: Password for authentication is incorrect, please re-enter.
         notice: Two-factor authentication has been successfully Disabled.

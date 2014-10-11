@@ -38,10 +38,13 @@ zh-CN:
         ios: 苹果 iOS 系统
         android: 谷歌安卓系统
         blackbery: 黑莓系统
-        previous_two_factor_confirm: 请输入短信验证码
+        previous_two_factor_confirm: 您需要通过短信验证码来授权启用谷歌验证两步验证。
+        already_activated: 您已经成功设定了谷歌两部验证。
+        not_activated_yet: 您还未设定谷歌两部验证。
       update:
         alert: 您输入的验证器上的密码有误，请重新输入。
         notice: 两步验证已成功绑定。
+        sms_two_factor_error: 您输入的短信验证码有误，请重新输入。
       destroy:
         alert: 您输入的验证器上的密码有误，请重新输入。
         notice: 两步验证已成功解除。
