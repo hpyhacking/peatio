@@ -5,8 +5,8 @@ en:
         on: ON
         off: OFF
         notification: Desktop Real Notification
-        error: Failed to submit order
-        success: Order submitted successfully
+        error: Place Failed
+        success: Place Success
         analysis_panel: Analysis
         help_panel: Help
         done: DONE
