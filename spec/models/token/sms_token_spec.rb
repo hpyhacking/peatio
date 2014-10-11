@@ -109,14 +109,27 @@ describe Token::SmsToken do
   describe '#verify?' do
     let(:token) { create :sms_token }
 
-    it "should not be verified" do
-      token.verify_code = 'foobar'
-      expect(token).not_to be_verify
+    describe 'invalid code' do
+      before { token.verify_code = 'wrong code' }
+
+      it { expect(token).not_to be_verify }
     end
 
-    it "should be verified " do
-      token.verify_code = token.token
-      expect(token).to be_verify
+    describe 'verify succeed' do
+      before { token.verify_code = token.token }
+
+      it { expect(token).to be_verify }
     end
+  end
+
+  describe '#verified!' do
+    let(:token) { create :sms_token }
+    let(:member) { token.member }
+    let(:mail) { ActionMailer::Base.deliveries.last }
+
+    before { token.verified! }
+
+    it { expect(member.sms_two_factor).to be_activated }
+    it { expect(mail.subject).to match('Your phone number verified') }
   end
 end

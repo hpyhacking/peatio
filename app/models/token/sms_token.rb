@@ -6,7 +6,9 @@ class Token::SmsToken < ::Token
   attr_accessor :verify_code
 
   validates_uniqueness_of :token, scope: :member_id
-  validates :phone_number, phone: { possible: true, allow_blank: true, types: [:mobile] }
+  validates :phone_number, phone: { possible: true,
+                                    allow_blank: true,
+                                    types: [:mobile] }
 
   class << self
     def for_member(member)
@@ -57,6 +59,8 @@ class Token::SmsToken < ::Token
 
   def verified!
     self.update is_used: true
+    member.sms_two_factor.active!
+    MemberMailer.phone_number_verified(member.id).deliver
   end
 
 end

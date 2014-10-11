@@ -12,14 +12,20 @@ describe TwoFactor::Sms do
   end
 
   describe '#verify' do
-    it "with wrong code" do
-      two_factor.otp = 'foobar'
-      expect(two_factor.verify).not_to be_true
+    describe 'invalid code' do
+      before do
+        two_factor.otp = 'foobar'
+      end
+
+      it { expect(two_factor.verify).not_to be_true }
     end
 
-    it "with right code" do
-      two_factor.otp = two_factor.otp_secret
-      expect(two_factor.verify).to be_true
+    describe 'verify succeed' do
+      before do
+        two_factor.otp = two_factor.otp_secret
+      end
+
+      it { expect(two_factor.verify).to be_true }
     end
   end
 

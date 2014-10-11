@@ -50,9 +50,6 @@ module Verify
       respond_to do |format|
         if @token.verify_code.present? && @token.verify?
           @token.verified!
-          current_user.sms_two_factor.active!
-
-          MemberMailer.phone_number_verified(current_user.id).deliver
 
           text = I18n.t('verify.sms_tokens.show.notice.verify_code_success')
           flash[:notice] = text
