@@ -39,6 +39,7 @@ en:
         ios: Iphone iOS
         android: Android
         blackbery: Blackberry
+        previous_two_factor_confirm: Please input SMS verification code.
       update:
         alert: Password for authentication is incorrect, please re-enter.
         notice: Two-factor authentication has been successfully Enabled.

@@ -38,6 +38,7 @@ zh-CN:
         ios: 苹果 iOS 系统
         android: 谷歌安卓系统
         blackbery: 黑莓系统
+        previous_two_factor_confirm: 请输入短信验证码
       update:
         alert: 您输入的验证器上的密码有误，请重新输入。
         notice: 两步验证已成功绑定。
