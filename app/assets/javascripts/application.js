@@ -19,6 +19,7 @@
 //= require list
 //= require helper
 //= require jquery.mousewheel
+//= require jquery-timing.min
 //= require qrcode
 //= require cookies.min
 

@@ -57,14 +57,16 @@
 
   @handleSuccess = (event, data) ->
     @cleanMsg()
-    @select('successSel').text(data.message).show().fadeOut(2500)
+    @select('successSel').append(JST["hint_order_success"]({msg: data.message})).show()
     @resetForm(event)
     @enableSubmit()
 
   @handleError = (event, data) ->
     @cleanMsg()
+    ef_class = 'shake shake-constant hover-stop'
     json = JSON.parse(data.responseText)
-    @select('dangerSel').text(json.message).show().fadeOut(2500)
+    @select('dangerSel').append(JST["hint_order_warning"]({msg: json.message})).show()
+      .addClass(ef_class).wait(500).removeClass(ef_class)
     @enableSubmit()
 
   @getBalance = ->
