@@ -97,8 +97,13 @@ class Member < ActiveRecord::Base
     Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
   end
 
-  def active
-    self.update_column(:activated, true)
+  def active!
+    update activated: true
+  end
+
+  def update_password(password)
+    identity.update password: password, password_confirmation: password
+    send_password_changed_notification
   end
 
   def admin?

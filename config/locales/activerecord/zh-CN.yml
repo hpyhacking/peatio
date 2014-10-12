@@ -1,7 +1,4 @@
 zh-CN:
-  attributes:
-    action: 操作
-    currency_text: 币种
   activerecord:
     models:
       api_token: API密钥
@@ -68,8 +65,9 @@ zh-CN:
         in: 收入
         out: 支出
         fee: 手续费
-      reset_password:
+      token/reset_password:
         email: 邮箱地址
+        member: 会员
       trade:
         bid: 买入
         ask: 卖出
@@ -113,7 +111,7 @@ zh-CN:
         id_document_verified?: 实名认证
         two_factor_activated?: 二次验证
         phone_number: 手机号码
-      sms_token:
+      token/sms_token:
         phone_number: "手机号码"
         verify_code: "验证码"
       withdraws/bank:
@@ -144,11 +142,7 @@ zh-CN:
               invalid: 无效的密码格式，请重新输入。
             password_confirmation:
               confirmation: 与您输入的新密码不一致，请重新输入。
-        reset_two_factor:
-          attributes:
-            base:
-              too_soon: 访问过于频繁，请稍后再试。
-        reset_password:
+        token/reset_password:
           attributes:
             base:
               too_soon: 访问过于频繁，请稍后再试。
@@ -157,6 +151,8 @@ zh-CN:
               match: 登录邮件地址错误。
             password:
               invalid: 密码格式错误
+            member:
+              blank: 不存在
         activation:
           attributes:
             base:

@@ -11,7 +11,7 @@ class ActivationsController < ApplicationController
   end
 
   def edit
-    @token.confirmed
+    @token.confirm!
 
     if current_user
       redirect_to settings_path, notice: t('.notice')

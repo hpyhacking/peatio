@@ -10,29 +10,11 @@ class Token::SmsToken < ::Token
                                     allow_blank: true,
                                     types: [:mobile] }
 
-  class << self
-    def for_member(member)
-      sms_token = find_or_create_by(member_id: member.id)
-
-      if sms_token.expired?
-        sms_token.destroy
-        sms_token = create(member_id: member.id)
-      end
-
-      sms_token
-    end
-  end
-
   def generate_token
     begin
-      self.is_used = false
       self.token = VERIFICATION_CODE_LENGTH.times.map{ Random.rand(9) + 1 }.join
       self.expire_at = DateTime.now.since(60 * 30)
     end while Token::SmsToken.where(member_id: member_id, token: token).any?
-  end
-
-  def expired?
-    expire_at <= Time.now
   end
 
   def update_phone_number

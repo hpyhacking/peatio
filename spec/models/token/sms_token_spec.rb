@@ -38,29 +38,53 @@ describe Token::SmsToken do
 
     context 'do not have token exists' do
       it "create token for member if not exist" do
-        expect(Token::SmsToken.for_member(member)).to be_is_a(Token::SmsToken)
+        expect {
+          Token::SmsToken.for_member(member)
+        }.to change(Token::SmsToken, :count).by(1)
       end
     end
 
-    context 'member have token but not expired' do
-      let(:token) { create :sms_token }
-      let(:member) { token.member }
+    context 'member hav token and not expired' do
+      let(:member) { create :member }
+      let(:token) { Token::SmsToken.for_member(member) }
 
-      it "should retrieve unexpired token" do
-        expect(Token::SmsToken.for_member(member)).to eq(token)
-      end
+      before { token }
+
+      it { expect(token).not_to be_expired }
+      it { expect(token).not_to be_is_used }
+      it {
+        expect {
+          Token::SmsToken.for_member(member)
+        }.to change(Token::SmsToken, :count).by(0)
+      }
     end
 
-    context 'member have expired token' do
-      let(:token) { create :sms_token }
-      let(:member) { token.member }
+    context 'member has token without expired but used' do
+      let(:member) { create :member }
+      let(:token) { Token::SmsToken.for_member(member) }
 
-      before { token.update expire_at: Time.now }
+      before { token.update is_used: true }
 
-      it 'should create a new token for member' do
-        expect(Token::SmsToken.for_member(member)).not_to be_nil
-        expect(Token::SmsToken.for_member(member)).to be_is_a(Token::SmsToken)
-      end
+      it { expect(token).not_to be_expired }
+      it { expect(token).to be_is_used }
+      it {
+        expect {
+          Token::SmsToken.for_member(member)
+        }.to change(Token::SmsToken, :count).by(1)
+      }
+    end
+
+    context "member's token expired" do
+      let(:member) { create :member }
+      let(:token) { Token::SmsToken.for_member(member) }
+
+      before { token.update expire_at: 1.minutes.ago }
+
+      it {
+        expect {
+          Token::SmsToken.for_member(member)
+        }.to change(Token::SmsToken, :count).by(1)
+      }
     end
   end
 

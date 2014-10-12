@@ -16,7 +16,7 @@ class TwoFactor::App < ::TwoFactor
   end
 
   def refresh
-    update_attribute(:otp_secret, ROTP::Base32.random_base32)
+    update otp_secret: gen_code, refreshed_at: Time.now
   end
 
   def uri
@@ -26,6 +26,12 @@ class TwoFactor::App < ::TwoFactor
 
   def now
     ROTP::TOTP.new(otp_secret).now
+  end
+
+  private
+
+  def gen_code
+    ROTP::Base32.random_base32
   end
 
   def send_notification_after_change
