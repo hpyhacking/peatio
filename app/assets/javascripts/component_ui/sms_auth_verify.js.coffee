@@ -1,4 +1,4 @@
-@SmsTokenVerifyUI = flight.component ->
+@SmsAuthVerifyUI = flight.component ->
 
   @countDown = 0
 

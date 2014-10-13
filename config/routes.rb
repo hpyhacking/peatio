@@ -24,7 +24,7 @@ Peatio::Application.routes.draw do
   resource :identity, :only => [:edit, :update]
 
   namespace :verify do
-    resource :sms_token,   only: [:show, :update]
+    resource :sms_auth,    only: [:show, :update]
     resource :google_auth, only: [:show, :update, :edit, :destroy]
   end
 

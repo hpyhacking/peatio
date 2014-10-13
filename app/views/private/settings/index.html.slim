@@ -52,7 +52,7 @@ ul.list-group
             i.fa.fa-check-circle
             span = t('.phone_number.verified')
         - else
-          = link_to t('.phone_number.go'), verify_sms_token_path, class: 'btn btn-default btn-block'
+          = link_to t('.phone_number.go'), verify_sms_auth_path, class: 'btn btn-default btn-block'
 
   // Google two factor auth setting
   li.list-group-item

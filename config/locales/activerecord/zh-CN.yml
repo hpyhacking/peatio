@@ -111,9 +111,9 @@ zh-CN:
         id_document_verified?: 实名认证
         two_factor_activated?: 二次验证
         phone_number: 手机号码
-      token/sms_token:
+      two_factor/sms:
         phone_number: "手机号码"
-        verify_code: "验证码"
+        otp: "验证码"
       withdraws/bank:
         fund_extra: 银行
     errors:

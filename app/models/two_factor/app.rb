@@ -1,22 +1,17 @@
 class TwoFactor::App < ::TwoFactor
 
-  after_update :send_notification_after_change
-
-  def verify(otp = nil)
+  def verify?
     return false if otp_secret.blank?
 
     rotp = ROTP::TOTP.new(otp_secret)
 
     if rotp.verify(otp || self.otp)
       touch(:last_verify_at)
+      true
     else
       errors.add :otp, :invalid
       false
     end
-  end
-
-  def refresh
-    update otp_secret: gen_code, refreshed_at: Time.now
   end
 
   def uri
@@ -31,10 +26,11 @@ class TwoFactor::App < ::TwoFactor
   private
 
   def gen_code
-    ROTP::Base32.random_base32
+    self.otp_secret = ROTP::Base32.random_base32
+    self.refreshed_at = Time.new
   end
 
-  def send_notification_after_change
+  def send_notification
     return if not self.activated_changed?
 
     if self.activated

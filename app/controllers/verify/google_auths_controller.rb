@@ -4,11 +4,9 @@ module Verify
     before_action :find_google_auth
     before_action :google_auth_activated?,   only: [:show, :create]
     before_action :google_auth_inactivated?, only: [:edit, :destroy]
-    before_action :verify_sms_two_factor,    only: [:update]
 
     def show
-      @google_auth.refresh if params[:refresh]
-      @google_auth.refresh if @google_auth.otp_secret.blank?
+      @google_auth.refresh! if params[:refresh]
     end
 
     def edit
@@ -44,7 +42,7 @@ module Verify
 
     def one_time_password_verified?
       @google_auth.assign_attributes(google_auth_params)
-      @google_auth.verify
+      @google_auth.verify?
     end
 
     def google_auth_activated?
@@ -55,10 +53,5 @@ module Verify
       redirect_to settings_path, notice: t('.notice.not_activated_yet') if not @google_auth.activated?
     end
 
-    def verify_sms_two_factor
-      if current_user.sms_two_factor.activated? and !two_factor_auth_verified?
-        redirect_to verify_google_auth_path, alert: t('.sms_two_factor_error')
-      end
-    end
   end
 end

@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 module Verify
-  describe SmsTokensController do
+  describe SmsAuthsController do
 
-    describe 'GET verify/sms_token' do
+    describe 'GET verify/sms_auth' do
       let(:member) { create :verified_member }
       before { session[:member_id] = member.id }
 
@@ -14,35 +14,38 @@ module Verify
       it { expect(response).to be_success }
       it { expect(response).to render_template(:show) }
 
-      context 'phone number has been verified' do
+      context 'already verified' do
         let(:member) { create :member, :sms_two_factor_activated }
 
         it { should redirect_to(settings_path) }
       end
     end
 
-    describe 'UPDATE verify/sms_token in send code phase' do
+    describe 'PUT verify/sms_auth in send code phase' do
       let(:member) { create :member }
       let(:attrs) {
         {
           format: :js,
-          sms_token: {phone_number: '123-1234-1234'},
+          sms_auth: {phone_number: '123-1234-1234'},
           commit: 'send_code'
         }
       }
 
-      before { session[:member_id] = member.id }
+      subject { assigns(:sms_auth) }
 
-      it "create sms_token" do
+      before {
+        session[:member_id] = member.id
         put :update, attrs
-        expect(assigns(:token)).to be_is_a(Token::SmsToken)
-      end
+      }
+
+      it { should_not be_nil }
+      its(:otp_secret) { should_not be_blank }
 
       context "with empty number" do
         let(:attrs) {
           {
             format: :js,
-            sms_token: {phone_number: ''},
+            sms_auth: {phone_number: ''},
             commit: 'send_code'
           }
         }
@@ -58,7 +61,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {phone_number: 'wrong number'},
+            sms_auth: {phone_number: 'wrong number'},
             commit: 'send_code'
           }
         }
@@ -78,7 +81,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {phone_number: '123.1234.1234'},
+            sms_auth: {phone_number: '123.1234.1234'},
             commit: 'send_code'
           }
         }
@@ -97,16 +100,16 @@ module Verify
       end
     end
 
-    describe 'POST verify/sms_token in verify code phase' do
-      let(:token) { create :sms_token }
-      let(:member) { token.member }
+    describe 'POST verify/sms_auth in verify code phase' do
+      let(:member) { create :member }
+      let(:sms_auth) { member.sms_two_factor }
       before { session[:member_id] = member.id }
 
       context "with empty code" do
         let(:attrs) {
           {
             format: :js,
-            sms_token: {verify_code: ''}
+            sms_auth: {otp: ''}
           }
         }
 
@@ -123,7 +126,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {verify_code: 'foobar'}
+            sms_auth: {otp: 'foobar'}
           }
         }
 
@@ -144,7 +147,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_token: {verify_code: token.token}
+            sms_auth: {otp: sms_auth.otp_secret}
           }
         }
 
@@ -152,13 +155,9 @@ module Verify
           put :update, attrs
         end
 
-        it "should mark token as used" do
-          expect(token.reload.is_used).to be_true
-        end
-
-        it "should update instance of TwoFactor::Sms" do
-          expect(member.sms_two_factor).to be_is_a(TwoFactor::Sms)
-        end
+        it { expect(response).to be_ok }
+        it { expect(assigns(:sms_auth)).to be_activated }
+        it { expect(member.sms_two_factor).to be_activated }
       end
     end
 

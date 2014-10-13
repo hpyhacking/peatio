@@ -1,8 +1,8 @@
 module Verify
-  class SmsTokensController < ApplicationController
+  class SmsAuthsController < ApplicationController
     before_action :auth_member!
+    before_action :find_sms_auth
     before_action :activated?
-    before_action :find_sms_token
 
     def show
     end
@@ -18,50 +18,51 @@ module Verify
     private
 
     def activated?
-      if current_user.sms_two_factor.activated?
+      if @sms_auth.activated?
         redirect_to settings_path, notice: t('.notice.already_activated')
       end
     end
 
-    def find_sms_token
-      @token ||= Token::SmsToken.for_member(current_user)
+    def find_sms_auth
+      @sms_auth ||= current_user.sms_two_factor
     end
 
     def send_code_phase
-      @token.assign_attributes token_params
+      @sms_auth.send_code_phase = true
+      @sms_auth.assign_attributes token_params
 
       respond_to do |format|
-        if @token.phone_number.present? && @token.valid?
-          @token.send_verify_code
+        if @sms_auth.valid?
+          @sms_auth.send_otp
 
-          text = I18n.t('verify.sms_tokens.show.notice.send_code_success')
+          text = I18n.t('verify.sms_auths.show.notice.send_code_success')
           format.any { render status: :ok, text: {text: text}.to_json }
         else
-          text = @token.errors.full_messages.to_sentence
+          text = @sms_auth.errors.full_messages.to_sentence
           format.any { render status: :bad_request, text: {text: text}.to_json }
         end
       end
     end
 
     def verify_code_phase
-      @token.assign_attributes token_params
+      @sms_auth.assign_attributes token_params
 
       respond_to do |format|
-        if @token.verify_code.present? && @token.verify?
-          @token.verified!
+        if @sms_auth.verify?
+          @sms_auth.active!
 
-          text = I18n.t('verify.sms_tokens.show.notice.verify_code_success')
+          text = I18n.t('verify.sms_auths.show.notice.otp_success')
           flash[:notice] = text
           format.any { render status: :ok, text: {text: text, reload: true}.to_json }
         else
-          text = @token.errors.full_messages.to_sentence
+          text = @sms_auth.errors.full_messages.to_sentence
           format.any { render status: :bad_request, text: {text: text}.to_json }
         end
       end
     end
 
     def token_params
-      params.required(:sms_token).permit(:phone_number, :verify_code)
+      params.required(:sms_auth).permit(:phone_number, :otp)
     end
   end
 end

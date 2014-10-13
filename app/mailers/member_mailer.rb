@@ -12,6 +12,14 @@ class MemberMailer < BaseMailer
     set_mail(member_id)
   end
 
+  def sms_auth_activated(member_id)
+    set_mail(member_id)
+  end
+
+  def sms_auth_deactivated(member_id)
+    set_mail(member_id)
+  end
+
   def reset_password_done(member_id)
     set_mail(member_id)
   end

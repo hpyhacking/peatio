@@ -22,11 +22,6 @@
 
   = f.input :otp
 
-  - if current_user.sms_two_factor.activated?
-    h4 = t('.step-4')
-    p: span = t('.input_sms_two_factor_code')
-    = two_factor_tag(current_user)
-
   hr.split
   = f.button :wrapped, t('.submit'), cancel: settings_path
 

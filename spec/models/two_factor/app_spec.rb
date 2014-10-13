@@ -19,24 +19,26 @@ describe TwoFactor::App do
     end
 
     it "create new one by type" do
-      expect(TwoFactor.by_type(:app)).not_to be_nil
+      expect {
+        expect(app).not_to be_nil
+      }.to change(TwoFactor::App, :count).by(1)
     end
 
-    it "find exist one by tyep" do
-      two_factor = TwoFactor::App.create
-      expect(TwoFactor.by_type(:app)).to eq(two_factor)
+    it "retrieve exist one instead of creating" do
+      two_factor = member.app_two_factor
+      expect(member.app_two_factor).to eq(two_factor)
     end
   end
 
   describe '#active!' do
-    subject { create :two_factor }
+    subject { member.app_two_factor }
     before { subject.active! }
 
     its(:activated?) { should be_true }
   end
 
   describe '#deactive!' do
-    subject { create :two_factor, activated: true }
+    subject { create :two_factor_app, activated: true }
     before { subject.deactive! }
 
     its(:activated?) { should_not be_true }

@@ -1,21 +1,11 @@
-= simple_form_for @token, url: verify_sms_token_path, remote: true, as: :sms_token do |f|
-
-  - if current_user.app_two_factor.activated?
-    h4 = t('.step-1')
-    p: span = t('.phone_number')
+= simple_form_for @sms_auth, url: verify_sms_auth_path, remote: true, as: :sms_auth do |f|
 
   = f.input :phone_number do
     .input-group
       == f.text_field :phone_number, value: current_user.phone_number, label: t('.phone_number'), class: 'string optional form-control', placeholder: t('.phone_number')
       .input-group-btn
         button.btn.btn-primary type='submit' name="commit" value="send_code" data-orig-name=t('.send_code') data-alt-name=t('.send_code_alt') = t('.send_code')
-  = f.input :verify_code, placeholder: t('.input_verify_code')
-
-
-  - if current_user.app_two_factor.activated?
-    h4 = t('.step-2')
-    p: span = t('.input_google_auth_verify_code')
-    = two_factor_tag(current_user)
+  = f.input :otp, placeholder: t('.input_otp')
 
   hr.split
 

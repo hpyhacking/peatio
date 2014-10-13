@@ -16,7 +16,7 @@ zh-CN:
           title: 解除两步验证
           intro: 若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。
 
-      sms_tokens:
+      sms_auths:
         panel: 绑定手机号码
 
   verify:
@@ -28,7 +28,6 @@ zh-CN:
         step-1: 第一步
         step-2: 第二步
         step-3: 第三步
-        step-4: 第四步
         or: 或
         download-app: 根据您使用的手机系统类型，点击左侧快捷入口，下载并打开 Google Authenticator 应用到您的智能手机上。
         guide-link: 具体操作方式可<a href='https://support.google.com/accounts/answer/1066447?hl=zh-Hans' target='_blank'>点击这里</a>。
@@ -38,7 +37,6 @@ zh-CN:
         ios: 苹果 iOS 系统
         android: 谷歌安卓系统
         blackbery: 黑莓系统
-        input_sms_two_factor_code: 您需要通过短信验证码来授权启用谷歌验证两步验证。
         notice:
           already_activated: 您已经成功设定了谷歌两部验证。
           not_activated_yet: 您还未设定谷歌两部验证。
@@ -50,22 +48,19 @@ zh-CN:
         alert: 您输入的验证器上的密码有误，请重新输入。
         notice: 两步验证已成功解除。
 
-    sms_tokens:
+    sms_auths:
       show:
-        step-1: 第一步
-        step-2: 第二步
-        input_google_auth_verify_code: 打开谷歌验证器并将验证器上的验证码输入到这里
         title: 绑定手机号码
         description: 绑定手机号码，让你在貔貅交易所的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。
         warning: 手机未绑定时，您将无法在网站操作提现以及账户密码找回。
         phone_number: 请输入手机号码
         send_code: 获取验证码
         send_code_alt: COUNT秒后重新发送
-        input_verify_code: 请输入通过短信收到的六位验证码
+        input_otp: 请输入通过短信收到的六位验证码
         submit: 绑定手机号码
         notice:
           send_code_success: 手机短信验证码已发送。
-          verify_code_success: 手机短信验证码验证成功。
+          otp_success: 手机短信验证码验证成功。
           already_activated: 您的手机号码已绑定成功。
         alert:
           phone_number_error: 手机号码无效或错误

@@ -89,7 +89,7 @@ $ ->
   MarketTradesUI.attachTo('#trades')
   OrderBookUI.attachTo('#order_book')
 
-  SmsTokenVerifyUI.attachTo('#edit_sms_token')
+  SmsAuthVerifyUI.attachTo('#edit_sms_auth')
   FlashMessageUI.attachTo('.flash-message')
   TwoFactorAuth.attachTo('.two-factor-auth-container')
 
