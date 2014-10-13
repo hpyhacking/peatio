@@ -21,7 +21,7 @@ class PaymentAddress < ActiveRecord::Base
   end
 
   def deposit_address
-    currency_obj.deposit_account || address
+    currency_obj[:deposit_account] || address
   end
 
   def self.construct_memo(obj)
