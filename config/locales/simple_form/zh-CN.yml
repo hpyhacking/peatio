@@ -67,7 +67,7 @@ zh-CN:
           fund_source_address: 比特币钱包地址
         pts:
           fund_source_address: PTS原型股钱包地址
-        dog:
+        doge:
           fund_source_address: 狗狗币钱包地址
         dns:
           fund_source_address: KeyID DNS账号

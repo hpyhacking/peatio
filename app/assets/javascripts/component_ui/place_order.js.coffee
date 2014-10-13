@@ -146,5 +146,5 @@
     @on @select('currentBalanceSel'), 'click', @allIn
 
     # Placeholder for dogecoin input volume
-    if gon.market.id in ['dogcny', 'dogbtc']
+    if gon.market.id in ['dogecny', 'dogebtc']
       @select('volumeSel').attr('placeholder', '大于1的整数')

@@ -68,7 +68,7 @@ en:
           fund_source_address: BTC Address
         pts:
           fund_source_address: PTS Address
-        dog:
+        doge:
           fund_source_address: Dogecoin Address
       session:
         email: Sign In E-mail

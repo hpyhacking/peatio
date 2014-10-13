@@ -1,7 +1,7 @@
 zh-CN:
   currency:
     dogecoin:
-      key: DOG
+      key: DOGE
       code: DOGE
       name: 狗狗币
       format: '0,0.0000'

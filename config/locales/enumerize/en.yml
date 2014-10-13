@@ -22,7 +22,7 @@ en:
       cny: CNY
       btc: BTC
       pts: PTS
-      dog: DOGE
+      doge: DOGE
     order:
       state:
         done: DONE

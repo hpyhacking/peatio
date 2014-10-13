@@ -22,7 +22,7 @@ zh-CN:
       cny: CNY
       btc: BTC
       pts: PTS
-      dog: DOGE
+      doge: DOGE
     order:
       state:
         done: 完全成交

@@ -7,7 +7,7 @@ en:
     protoshare:
       key: PTS
     dogecoin:
-      key: DOG
+      key: DOGE
     bitsharesx:
       key: BTSX
     keyid:
@@ -17,14 +17,14 @@ en:
       cny: CNY
       btc: Bitcoin
       pts: ProtoShares
-      dog: DogeCoin
+      doge: DogeCoin
       btsx: Bitshares X
       dns: KeyID DNS
     code:
       cny: CNY
       btc: BTC
       pts: PTS
-      dog: DOGE
+      doge: DOGE
       btsx: BTSX
       dns: DNS
     format:
@@ -32,17 +32,17 @@ en:
       cny: '0,0.00'
       btc: '0,0.0000'
       pts: '0,0.0000'
-      dog: '0,0.0000'
+      doge: '0,0.0000'
     icon-large:
       cny: <span class='big-currency'>¥</span>
       btc: <span class='big-currency'>฿</span>
       pts: <span class='big-currency'>P</span>
-      dog: <span class='big-currency'>Ð</span>
+      doge: <span class='big-currency'>Ð</span>
     icon:
       cny: <span class='currency'>¥</span>
       btc: <span class='currency'>฿</span>
       pts: <span class='currency'>P</span>
-      dog: <span class='currency'>Ð</span>
+      doge: <span class='currency'>Ð</span>
     sum:
       bid: Total Price <span class=bid_totle></span>%{bid_icon}
       ask: Total Price <span class=ask_totle></span>%{bid_icon}

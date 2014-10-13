@@ -70,12 +70,16 @@ namespace :emu do
       timestamp = Time.now.to_i
       txid = "mock#{SecureRandom.hex(32)}"
       txout = 0
-      address = a.payment_address.address
+      pa = a.payment_address
+      pa.update_attributes(address: "mock#{SecureRandom.hex(20)}") unless pa.address
+      address = pa.address
       amount = rand(100000)
       confirmations = 100
       receive_at = Time.now
       channel = DepositChannel.find_by_key a.currency_obj.key
-      pt_class = "PaymentTransaction::#{channel.currency.camelize}".constantize
+      subclass = channel.currency.camelize
+      subclass = 'Normal' unless PaymentTransaction.const_defined?(subclass)
+      pt_class = PaymentTransaction.const_get subclass
 
       ActiveRecord::Base.transaction do
         tx = pt_class.create!(

@@ -22,7 +22,7 @@
   sort_order: 1
 - id: 500
   key: dogecoin
-  currency: dog
+  currency: doge
   fixed: 0
   fee: 1
   sort_order: 5

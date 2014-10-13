@@ -1,7 +1,7 @@
 en:
   currency:
     dogecoin:
-      key: DOG
+      key: DOGE
       code: DOGE
       name: Dogecoin
       format: '0,0.0000'
