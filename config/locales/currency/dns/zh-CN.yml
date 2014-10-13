@@ -3,5 +3,5 @@ zh-CN:
     keyid:
       key: KeyID
       code: DNS
-      name: DNS
+      name: KeyID
       format: '0,0.0000'
