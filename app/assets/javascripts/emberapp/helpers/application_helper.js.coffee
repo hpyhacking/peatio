@@ -39,3 +39,6 @@ Ember.Handlebars.helper 'account-class', (currency)->
     style = "#{style} selected #{current_action}-now"
 
   style
+
+Ember.Handlebars.helper 'to-lower-case',  (str) ->
+  str.toLowerCase()
