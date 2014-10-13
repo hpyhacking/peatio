@@ -13,4 +13,4 @@ test:
 
 production:
   <<: *defaults
-  database: peatio_development
+  database: peatio_production
