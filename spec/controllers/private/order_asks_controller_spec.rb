@@ -23,7 +23,7 @@ describe Private::OrderAsksController do
       expect {
         post :create, params, {member_id: member.id}
         response.should be_success
-        response.body.should == '{"result":true,"message":"Order submitted successfully"}'
+        response.body.should == '{"result":true,"message":"Place Success"}'
       }.to change(OrderAsk, :count).by(1)
     end
 
