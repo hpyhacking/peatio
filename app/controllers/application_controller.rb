@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
     return false if not two_factor
 
     two_factor.assign_attributes params.require(:two_factor).permit(:otp)
-    two_factor.verify
+    two_factor.verify?
   end
 
   def set_language
