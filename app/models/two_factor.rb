@@ -57,7 +57,7 @@ class TwoFactor < ActiveRecord::Base
   end
 
   def send_notification
-    msg = "#{self.class.name}#send_notification_after_change is not implemented."
+    msg = "#{self.class.name}#send_notification is not implemented."
     raise NotImplementedError.new(msg)
   end
 
