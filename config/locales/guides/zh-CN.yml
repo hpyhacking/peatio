@@ -112,3 +112,6 @@ zh-CN:
       edit:
         title: 修改个人资料
         intro:
+
+    two_factors:
+      panel: 两步验证

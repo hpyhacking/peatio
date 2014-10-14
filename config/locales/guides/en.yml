@@ -80,3 +80,6 @@ en:
         panel: My Account
         title: Reset Password
 
+    two_factors:
+      panel:  Two Factor Authenticator
+      intro: foobar
