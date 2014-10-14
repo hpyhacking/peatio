@@ -50,7 +50,7 @@
     event.preventDefault()
 
     @countDownSendCodeButton()
-    $.get('/refresh_two_factors/sms')
+    $.get('/two_factors/sms')
 
   @after 'initialize', ->
     @on @select('switchItem'), 'click', @setActiveItem

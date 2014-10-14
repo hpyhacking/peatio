@@ -1,4 +1,4 @@
-class RefreshTwoFactorsController < ApplicationController
+class TwoFactorsController < ApplicationController
 
   def show
     two_factor = current_user.two_factors.by_type(params[:id])
