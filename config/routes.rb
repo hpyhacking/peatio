@@ -36,7 +36,7 @@ Peatio::Application.routes.draw do
   get '/documents/api_v2'
   get '/documents/websocket_api'
   resources :documents, only: [:show]
-  resources :two_factors, only: [:show]
+  resources :two_factors, only: [:show, :index, :update]
 
   scope module: :private do
     resource  :id_document, only: [:edit, :update]

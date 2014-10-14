@@ -5,8 +5,10 @@ class TwoFactorsController < ApplicationController
 
     respond_to do |format|
       if two_factor
-        two_factor.refresh!
-        two_factor.send_otp
+        if params[:refresh]
+          two_factor.refresh!
+          two_factor.send_otp
+        end
 
         format.any { render status: :ok, text: {} }
       else
@@ -15,4 +17,9 @@ class TwoFactorsController < ApplicationController
     end
   end
 
+  def index
+  end
+
+  def update
+  end
 end
