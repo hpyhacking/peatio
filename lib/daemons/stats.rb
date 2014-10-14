@@ -19,6 +19,7 @@ end
 workers = []
 Currency.all.each do |currency|
   workers << Worker::FundStats.new(currency)
+  workers << Worker::WalletStats.new(currency)
 end
 Market.all.each do |market|
   workers << Worker::TradeStats.new(market)
@@ -29,5 +30,5 @@ while($running) do
     worker.run
   end
 
-  sleep 5
+  sleep 30
 end
