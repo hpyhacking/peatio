@@ -17,6 +17,9 @@ Signal.trap("TERM") do
 end
 
 workers = []
+Currency.all.each do |currency|
+  workers << Worker::FundStats.new(currency)
+end
 Market.all.each do |market|
   workers << Worker::TradeStats.new(market)
 end
