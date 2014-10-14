@@ -189,6 +189,7 @@ en:
             otp:
               invalid: Wrong Password!Please re-enter.
       messages:
+        invalid_email: Invalid Email Address
         undef: unknown reason
         less: balance less
         verify: verify error

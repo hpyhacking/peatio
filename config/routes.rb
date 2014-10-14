@@ -18,7 +18,7 @@ Peatio::Application.routes.draw do
   get '/signup' => 'identities#new', :as => :signup
   get '/signout' => 'sessions#destroy', :as => :signout
   get '/auth/failure' => 'sessions#failure', :as => :failure
-  post '/auth/identity/callback' => 'sessions#create'
+  match '/auth/:provider/callback' => 'sessions#create', via: [:get, :post]
 
   resource :member, :only => [:edit, :update]
   resource :identity, :only => [:edit, :update]
@@ -26,6 +26,7 @@ Peatio::Application.routes.draw do
   namespace :verify do
     resources :sms_tokens, only: [:new, :create]
     resources :google_auths, only: [:show, :update, :edit, :destroy]
+    resources :emails, only: [:new, :create]
   end
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do

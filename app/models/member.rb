@@ -31,6 +31,7 @@ class Member < ActiveRecord::Base
 
   validates :sn, presence: true
   validates :display_name, uniqueness: true, allow_blank: true
+  validates :email, email: true, uniqueness: true, allow_nil: true
 
   before_create :build_default_id_document
   after_create  :touch_accounts
@@ -88,7 +89,8 @@ class Member < ActiveRecord::Base
     end
 
     def create_from_auth(auth_hash)
-      member = create(email: auth_hash['info']['email'], activated: false)
+      member = create(email: auth_hash['info']['email'], nickname: auth_hash['info']['nickname'],
+                      activated: false)
       member.add_auth(auth_hash)
       member.send_activation
       member

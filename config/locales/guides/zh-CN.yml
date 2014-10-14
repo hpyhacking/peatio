@@ -99,6 +99,9 @@ zh-CN:
         new:
           intro: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。
 
+      emails:
+        panel: 设置邮件地址
+
     reset_passwords:
       panel: 登录密码
       new:
