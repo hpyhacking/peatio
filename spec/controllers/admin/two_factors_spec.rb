@@ -7,6 +7,7 @@ describe Admin::TwoFactorsController do
 
   before do
     session[:member_id] = member.id
+    two_factor_unlocked
     app_two_factor.active!
     sms_two_factor.active!
     request.env["HTTP_REFERER"] = "where_i_came_from"
