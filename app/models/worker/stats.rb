@@ -24,6 +24,10 @@ module Worker
       raise "abstract method"
     end
 
+    def point_n(from)
+      raise "abstract method"
+    end
+
     def collect(period)
       key = key_for period
       loop do
@@ -43,13 +47,6 @@ module Worker
       else
         ts = 30.days.ago.beginning_of_day
       end
-    end
-
-    def point_n(from, period)
-      arr = point_1_set from, period
-      trades_count = arr.sum {|point| point[1]}
-      trade_users_count = arr.sum(&:last)
-      [from.to_i, trades_count, trade_users_count]
     end
 
     def point_1_set(from, period)

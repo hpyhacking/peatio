@@ -7,7 +7,9 @@ module Worker
     end
 
     def run
-      collect 60
+      [60, 1440, 10080].each do |period|
+        collect period
+      end
       Rails.logger.info "#{self.to_s} collected."
     end
 
@@ -16,7 +18,7 @@ module Worker
     end
 
     def key_for(period)
-      "peatio:stats:wallet:#{@currency.id}"
+      "peatio:stats:wallet:#{@currency.code}:#{period}"
     end
 
     def point_n(from, period)

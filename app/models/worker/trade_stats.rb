@@ -21,5 +21,12 @@ module Worker
       [from.to_i, trades.size, trade_users.size]
     end
 
+    def point_n(from, period)
+      arr = point_1_set from, period
+      trades_count = arr.sum {|point| point[1]}
+      trade_users_count = arr.sum(&:last)
+      [from.to_i, trades_count, trade_users_count]
+    end
+
   end
 end

@@ -23,6 +23,7 @@ Currency.all.each do |currency|
 end
 Market.all.each do |market|
   workers << Worker::TradeStats.new(market)
+  workers << Worker::TopStats.new(market)
 end
 
 while($running) do
