@@ -62,6 +62,8 @@ describe TwoFactorsController do
       }
 
       it { expect(response).to redirect_to(settings_path) }
+      it { expect(session[:two_factor_unlock]).to be_true }
+      it { expect(session[:two_factor_unlock_at]).not_to be_blank }
     end
   end
 end
