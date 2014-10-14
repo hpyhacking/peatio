@@ -28,7 +28,12 @@ end
 
 while($running) do
   workers.each do |worker|
-    worker.run
+    begin
+      worker.run
+    rescue
+      Rails.logger.error "#{worker.class.name} failed to run: #{$!}"
+      Rails.logger.error $!.backtrace[0,20].join("\n")
+    end
   end
 
   sleep 30
