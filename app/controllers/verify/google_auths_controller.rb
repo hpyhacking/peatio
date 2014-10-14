@@ -4,6 +4,7 @@ module Verify
     before_action :find_google_auth
     before_action :google_auth_activated?,   only: [:show, :create]
     before_action :google_auth_inactivated?, only: [:edit, :destroy]
+    before_action :two_factor_required!,     only: [:show]
 
     def show
       @google_auth.refresh! if params[:refresh]
@@ -51,6 +52,15 @@ module Verify
 
     def google_auth_inactivated?
       redirect_to settings_path, notice: t('.notice.not_activated_yet') if not @google_auth.activated?
+    end
+
+    def two_factor_required!
+      return if not current_user.sms_two_factor.activated?
+
+      if two_factor_locked?
+        session[:return_to] = request.original_url
+        redirect_to two_factors_path
+      end
     end
 
   end

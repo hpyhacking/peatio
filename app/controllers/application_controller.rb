@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   after_action :allow_iframe
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
+  include TwoFactorHelper
+
   def currency
     "#{params[:ask]}#{params[:bid]}".to_sym
   end

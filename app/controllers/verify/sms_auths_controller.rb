@@ -3,6 +3,7 @@ module Verify
     before_action :auth_member!
     before_action :find_sms_auth
     before_action :activated?
+    before_action :two_factor_required!, only: [:show]
 
     def show
     end
@@ -64,5 +65,15 @@ module Verify
     def token_params
       params.required(:sms_auth).permit(:phone_number, :otp)
     end
+
+    def two_factor_required!
+      return if not current_user.app_two_factor.activated?
+
+      if two_factor_locked?
+        session[:return_to] = request.original_url
+        redirect_to two_factors_path
+      end
+    end
+
   end
 end
