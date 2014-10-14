@@ -50,7 +50,7 @@ module Verify
 
       respond_to do |format|
         if @sms_auth.verify?
-          @sms_auth.active!
+          @sms_auth.active! and unlock_two_factor!
 
           text = I18n.t('verify.sms_auths.show.notice.otp_success')
           flash[:notice] = text

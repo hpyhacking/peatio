@@ -18,8 +18,7 @@ class TwoFactorsController < ApplicationController
 
   def update
     if two_factor_auth_verified?
-      session[:two_factor_unlock] = true
-      session[:two_factor_unlock_at] = Time.now
+      unlock_two_factor!
 
       redirect_to session.delete(:return_to) || settings_path
     else

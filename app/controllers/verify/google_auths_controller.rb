@@ -15,7 +15,7 @@ module Verify
 
     def update
       if one_time_password_verified?
-        @google_auth.active!
+        @google_auth.active! and unlock_two_factor!
         redirect_to settings_path, notice: t('.notice')
       else
         redirect_to verify_google_auth_path, alert: t('.alert')
