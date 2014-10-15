@@ -25,6 +25,7 @@ defaults: &defaults
   SUPPORT_MAIL: support@peatio.dev
   SYSTEM_MAIL_FROM: system@peatio.dev
   SYSTEM_MAIL_TO: group@peatio.dev
+  OPERATE_MAIL_TO: support@peatio.dev
 
   # WebSocket Streaming API settings
   WEBSOCKET_HOST: 0.0.0.0
