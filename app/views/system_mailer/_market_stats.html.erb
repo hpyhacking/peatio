@@ -34,7 +34,7 @@
               <td align="center" valign="top" class="templateColumnContainer" style="padding-top:20px;">
                 <table border="0" cellpadding="20" cellspacing="0" width="100%">
                   <tr>
-                    <td valign="top" class="leftColumnContent" mc:edit="left_column_content">
+                    <td valign="top" class="leftColumnContent">
                       <h2><%= t('.top_trades_users') %></h2>
                       <% if @stats['top_stats'][market.id][1].empty? %>
                         <h3><%= t('.no_data') %></h3>
@@ -51,7 +51,7 @@
               <td align="center" valign="top" class="templateColumnContainer" style="padding-top:20px;">
                 <table border="0" cellpadding="20" cellspacing="0" width="100%">
                   <tr>
-                    <td valign="top" class="rightColumnContent" mc:edit="right_column_content">
+                    <td valign="top" class="rightColumnContent">
                       <h2><%= t('.top_volume_users') %></h2>
                       <% if @stats['top_stats'][market.id][2].empty? %>
                         <h3><%= t('.no_data') %></h3>
