@@ -1,6 +1,8 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :identity, fields: [:email], on_failed_registration: IdentitiesController.action(:new)
-  provider :weibo, ENV['YUNBI_WEIBO_KEY'], ENV['YUNBI_WEIBO_SECRET']
+  if ENV['WEIBO_AUTH'] == "true"
+    provider :weibo, ENV['WEIBO_KEY'], ENV['WEIBO_SECRET']
+  end
 end
 
 OmniAuth.config.on_failure = lambda do |env|
