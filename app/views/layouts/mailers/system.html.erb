@@ -1,397 +1,138 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-        <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title><%= @title %></title>
-        <style type="text/css">
-                        #outlook a{padding:0;}
-                        .ReadMsgBody{width:100%;} .ExternalClass{width:100%;}
-                        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
-                        body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;}
-                        table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;}
-                        img{-ms-interpolation-mode:bicubic;}
-                        body{margin:0; padding:0;}
-                        img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
-                        table{border-collapse:collapse !important;}
-                        body, #bodyTable, #bodyCell{height:100% !important; margin:0; padding:0; width:100% !important;}
-
-                        #bodyCell{padding:20px;}
-                        #templateContainer{width:600px;}
-
-                        body, #bodyTable{
-                                background-color:#6CF;
-                        }
-
-                        #bodyCell{
-                                 border-top:4px solid #BBBBBB;
-                        }
-
-                        #templateContainer{
-                        }
-
-                        h1{
-                                 color:#202020 !important;
-                                display:block;
-                                 font-family:Helvetica;
-                                 font-size:26px;
-                                 font-style:normal;
-                                 font-weight:bold;
-                                 line-height:100%;
-                                 letter-spacing:normal;
-                                margin-top:0;
-                                margin-right:0;
-                                margin-bottom:10px;
-                                margin-left:0;
-                                 text-align:left;
-                        }
-
-                        h2{
-                                 color:#404040 !important;
-                                display:block;
-                                 font-family:Helvetica;
-                                 font-size:20px;
-                                 font-style:normal;
-                                 font-weight:bold;
-                                 line-height:100%;
-                                 letter-spacing:normal;
-                                margin-top:0;
-                                margin-right:0;
-                                margin-bottom:10px;
-                                margin-left:0;
-                                 text-align:left;
-                        }
-
-                        h3{
-                                 color:#606060 !important;
-                                display:block;
-                                 font-family:Helvetica;
-                                 font-size:16px;
-                                 font-style:italic;
-                                 font-weight:normal;
-                                 line-height:100%;
-                                 letter-spacing:normal;
-                                margin-top:0;
-                                margin-right:0;
-                                margin-bottom:10px;
-                                margin-left:0;
-                                 text-align:left;
-                        }
-
-                        h4{
-                                 color:#808080 !important;
-                                display:block;
-                                 font-family:Helvetica;
-                                 font-size:14px;
-                                 font-style:italic;
-                                 font-weight:normal;
-                                 line-height:100%;
-                                 letter-spacing:normal;
-                                margin-top:0;
-                                margin-right:0;
-                                margin-bottom:10px;
-                                margin-left:0;
-                                 text-align:left;
-                        }
-
-                        #templatePreheader{
-                                 background-color:#FFF;
-                        }
-
-                        .preheaderContent{
-                                 color:#808080;
-                                 font-family:Helvetica;
-                                 font-size:10px;
-                                 line-height:125%;
-                                 text-align:left;
-                        }
-
-                        .preheaderContent a:link, .preheaderContent a:visited, /* Yahoo! Mail Override */ .preheaderContent a .yshortcuts /* Yahoo! Mail Override */{
-                                 color:#606060;
-                                 font-weight:normal;
-                                 text-decoration:underline;
-                        }
-
-                        #templateHeader{
-                                 background-color:#FFF;
-                        }
-
-                        .headerContent{
-                                 color:#505050;
-                                 background-color:#6CF;
-                                 font-family:Helvetica;
-                                 font-size:20px;
-                                 font-weight:bold;
-                                 line-height:100%;
-                                 padding-top:30px;
-                                 padding-right:0;
-                                 padding-bottom:30px;
-                                 padding-left:0;
-                                 text-align:center;
-                                 vertical-align:middle;
-                        }
-
-                        .headerContent a:link, .headerContent a:visited, /* Yahoo! Mail Override */ .headerContent a .yshortcuts /* Yahoo! Mail Override */{
-                                 color:#EB4102;
-                                 font-weight:normal;
-                                 text-decoration:underline;
-                        }
-
-                        #headerImage{
-                                height:auto;
-                                max-width:600px;
-                        }
-
-                        .templateBody{
-                                 background-color:#F4F4F4;
-                                 border-top:1px solid #FFFFFF;
-                                 border-bottom:1px solid #CCCCCC;
-                                 margin-bottom: 30px;
-                        }
-
-                        .report {
-                          background-color:#FFF;
-                          margin: 20px 0 10px 0;
-                          border-radius: 8px;
-                        }
-
-                        .report th, .report td {
-                          padding: 10px;
-                          border-bottom: 1px solid #F4F4F4;
-                        }
-
-                        .report td span {
-                          color: #ccc;
-                          font-size: .7em;
-                          font-style: italic;
-                        }
-
-                        .bodyContent{
-                                 color:#505050;
-                                 font-family:Helvetica;
-                                 font-size:16px;
-                                 line-height:150%;
-                                padding-top:20px;
-                                padding-right:20px;
-                                padding-bottom:20px;
-                                padding-left:20px;
-                                 text-align:left;
-                        }
-
-                        .bodyContent a:link, .bodyContent a:visited, /* Yahoo! Mail Override */ .bodyContent a .yshortcuts /* Yahoo! Mail Override */{
-                                 color:#EB4102;
-                                 font-weight:normal;
-                                 text-decoration:underline;
-                        }
-
-                        .bodyContent img{
-                                display:inline;
-                                height:auto;
-                                max-width:560px;
-                        }
-
-                        .templateColumnContainer{width:200px;}
-
-                        #templateColumns{
-                                 background-color:#F4F4F4;
-                        }
-
-                        .leftColumnContent{
-                                 color:#505050;
-                                 font-family:Helvetica;
-                                 font-size:14px;
-                                 line-height:150%;
-                                padding-top:0;
-                                padding-right:20px;
-                                padding-bottom:20px;
-                                padding-left:20px;
-                                 text-align:left;
-                        }
-
-                        .leftColumnContent a:link, .leftColumnContent a:visited, /* Yahoo! Mail Override */ .leftColumnContent a .yshortcuts /* Yahoo! Mail Override */{
-                                 color:#EB4102;
-                                 font-weight:normal;
-                                 text-decoration:underline;
-                        }
-
-                        .centerColumnContent{
-                                 color:#505050;
-                                 font-family:Helvetica;
-                                 font-size:14px;
-                                 line-height:150%;
-                                padding-top:0;
-                                padding-right:20px;
-                                padding-bottom:20px;
-                                padding-left:20px;
-                                 text-align:left;
-                        }
-
-                        .centerColumnContent a:link, .centerColumnContent a:visited, /* Yahoo! Mail Override */ .centerColumnContent a .yshortcuts /* Yahoo! Mail Override */{
-                                 color:#EB4102;
-                                 font-weight:normal;
-                                 text-decoration:underline;
-                        }
-
-                        .rightColumnContent{
-                                 color:#505050;
-                                 font-family:Helvetica;
-                                 font-size:14px;
-                                 line-height:150%;
-                                padding-top:0;
-                                padding-right:20px;
-                                padding-bottom:20px;
-                                padding-left:20px;
-                                 text-align:left;
-                        }
-
-                        .rightColumnContent a:link, .rightColumnContent a:visited, .rightColumnContent a .yshortcuts /* Yahoo! Mail Override */{
-                                 color:#EB4102;
-                                 font-weight:normal;
-                                 text-decoration:underline;
-                        }
-
-                        .leftColumnContent img, .rightColumnContent img{
-                                display:inline;
-                                height:auto;
-                                max-width:260px;
-                        }
-
-                        #templateFooter{
-                                 background-color:#F4F4F4;
-                                 border-top:1px solid #FFFFFF;
-                        }
-
-                        .footerContent{
-                                 color:#808080;
-                                 font-family:Helvetica;
-                                 font-size:10px;
-                                 line-height:150%;
-                                padding-top:20px;
-                                padding-right:20px;
-                                padding-bottom:20px;
-                                padding-left:20px;
-                                 text-align:left;
-                        }
-
-                        .footerContent a:link, .footerContent a:visited, /* Yahoo! Mail Override */ .footerContent a .yshortcuts, .footerContent a span /* Yahoo! Mail Override */{
-                                 color:#606060;
-                                 font-weight:normal;
-                                 text-decoration:underline;
-                        }
-
-            @media only screen and (max-width: 480px){
-                                body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:none !important;}
-                body{width:100% !important; min-width:100% !important;}
-
-                                #bodyCell{padding:10px !important;}
-
-                                #templateContainer{
-                                        max-width:600px !important;
-                                         width:100% !important;
-                                }
-
-                                h1{
-                                         font-size:24px !important;
-                                         line-height:100% !important;
-                                }
-
-                                h2{
-                                         font-size:20px !important;
-                                         line-height:100% !important;
-                                }
-
-                                h3{
-                                         font-size:18px !important;
-                                         line-height:100% !important;
-                                }
-
-                                h4{
-                                         font-size:16px !important;
-                                         line-height:100% !important;
-                                }
-
-                                #templatePreheader{display:none !important;} /* Hide the template preheader to save space */
-
-                                #headerImage{
-                                        height:auto !important;
-                                         max-width:600px !important;
-                                         width:100% !important;
-                                }
-
-                                .headerContent{
-                                         font-size:20px !important;
-                                         line-height:125% !important;
-                                }
-
-                                .bodyContent{
-                                         font-size:18px !important;
-                                         line-height:125% !important;
-                                }
-
-                                .templateColumnContainer{display:block !important; width:100% !important;}
-
-                                .columnImage{
-                                        height:auto !important;
-                                         max-width:480px !important;
-                                         width:100% !important;
-                                }
-
-                                .leftColumnContent{
-                                         font-size:16px !important;
-                                         line-height:125% !important;
-                                }
-
-                                .centerColumnContent{
-                                         font-size:16px !important;
-                                         line-height:125% !important;
-                                }
-
-                                .rightColumnContent{
-                                         font-size:16px !important;
-                                         line-height:125% !important;
-                                }
-
-                                .footerContent{
-                                         font-size:14px !important;
-                                         line-height:115% !important;
-                                }
-
-                                .footerContent a{display:block !important;}
-                        }
-                </style>
-    </head>
-    <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
-        <center>
-                <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
-                <tr>
-                        <td align="center" valign="top" id="bodyCell">
-                        <table border="0" cellpadding="0" cellspacing="0" id="templateContainer">
-                                <td align="center" valign="top">
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
-                                        <tr>
-                                            <td valign="top" class="headerContent">
-                                                <img src="https://raw.githubusercontent.com/peatio/peatio/stable/app/assets/images/logo.png" style="max-width:600px;" id="headerImage"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                            <%= yield %>
-                                <tr>
-                                <td align="center" valign="top">
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter">
-                                        <tr>
-                                            <td valign="top" class="footerContent" style="padding-top:0;">
-                                              <br/>
-                                              <%= link_to 'Peatio', 'https://github.com/peatio/peatio' %>&nbsp;&nbsp;&nbsp;<%= link_to 'Support', "mailto:#{ENV['SUPPORT_MAIL']}" %>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+  </head>
+  <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; height: 100% !important; width: 100% !important; background: #6CF; margin: 0; padding: 0;" bgcolor="#6CF">
+    <style type="text/css">
+.preheaderContent a:visited {
+  color: #606060; font-weight: normal; text-decoration: underline;
+}
+.headerContent a:visited {
+  color: #EB4102; font-weight: normal; text-decoration: underline;
+}
+.bodyContent a:visited {
+  color: #EB4102; font-weight: normal; text-decoration: underline;
+}
+.leftColumnContent a:visited {
+  color: #EB4102; font-weight: normal; text-decoration: underline;
+}
+.centerColumnContent a:visited {
+  color: #EB4102; font-weight: normal; text-decoration: underline;
+}
+.rightColumnContent a:visited {
+  color: #EB4102; font-weight: normal; text-decoration: underline;
+}
+.footerContent a:visited {
+  color: #606060; font-weight: normal; text-decoration: underline;
+}
+  @media only screen and (max-width: 480px) {
+    body {
+      -webkit-text-size-adjust: none !important;
+    }
+    table {
+      -webkit-text-size-adjust: none !important;
+    }
+    td {
+      -webkit-text-size-adjust: none !important;
+    }
+    p {
+      -webkit-text-size-adjust: none !important;
+    }
+    a {
+      -webkit-text-size-adjust: none !important;
+    }
+    li {
+      -webkit-text-size-adjust: none !important;
+    }
+    blockquote {
+      -webkit-text-size-adjust: none !important;
+    }
+    body {
+      width: 100% !important; min-width: 100% !important;
+    }
+    #bodyCell {
+      padding: 10px !important;
+    }
+    #templateContainer {
+      max-width: 600px !important; width: 100% !important;
+    }
+    h1 {
+      font-size: 24px !important; line-height: 100% !important;
+    }
+    h2 {
+      font-size: 20px !important; line-height: 100% !important;
+    }
+    h3 {
+      font-size: 18px !important; line-height: 100% !important;
+    }
+    h4 {
+      font-size: 16px !important; line-height: 100% !important;
+    }
+    #templatePreheader {
+      display: none !important;
+    }
+    #headerImage {
+      height: auto !important; max-width: 600px !important; width: 100% !important;
+    }
+    .headerContent {
+      font-size: 20px !important; line-height: 125% !important;
+    }
+    .bodyContent {
+      font-size: 18px !important; line-height: 125% !important;
+    }
+    .templateColumnContainer {
+      display: block !important; width: 100% !important;
+    }
+    .columnImage {
+      height: auto !important; max-width: 480px !important; width: 100% !important;
+    }
+    .leftColumnContent {
+      font-size: 16px !important; line-height: 125% !important;
+    }
+    .centerColumnContent {
+      font-size: 16px !important; line-height: 125% !important;
+    }
+    .rightColumnContent {
+      font-size: 16px !important; line-height: 125% !important;
+    }
+    .footerContent {
+      font-size: 14px !important; line-height: 115% !important;
+    }
+    .footerContent a {
+      display: block !important;
+    }
+  }
+    </style>
+    <center>
+      <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; height: 100% !important; width: 100% !important; background: #6CF; margin: 0; padding: 0;" bgcolor="#6CF"><tr>
+          <td align="center" valign="top" id="bodyCell" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; height: 100% !important; width: 100% !important; border-top-width: 4px; border-top-color: #BBBBBB; border-top-style: solid; margin: 0; padding: 20px;">
+            <table border="0" cellpadding="0" cellspacing="0" id="templateContainer" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; width: 600px;">
+              <tr>
+                <td align="center" valign="top" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; background: #FFF;" bgcolor="#FFF"><tr>
+                      <td valign="top" class="headerContent" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #505050; font-family: Helvetica; font-size: 20px; font-weight: bold; line-height: 100%; text-align: center; vertical-align: middle; background: #6CF; padding: 30px 0;" align="center" bgcolor="#6CF">
+                        <img src="https://raw.githubusercontent.com/peatio/peatio/stable/app/assets/images/logo.png" style="max-width: 600px; -ms-interpolation-mode: bicubic; height: auto; line-height: 100%; outline: none; text-decoration: none; border: 0;" id="headerImage">
+                      </td>
+                    </tr></table>
+                </td>
+              </tr>
+              <%= yield %>
+              <tr>
+                <td align="center" valign="top" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-top-color: #FFFFFF; border-top-width: 1px; border-top-style: solid; background: #F4F4F4;" bgcolor="#F4F4F4"><tr>
+                      <td valign="top" class="footerContent" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #808080; font-family: Helvetica; font-size: 10px; line-height: 150%; text-align: left; padding: 0 20px 20px;" align="left">
+                        <br>
+                        <%= link_to 'Peatio', 'https://github.com/peatio/peatio' %>&nbsp;&nbsp;&nbsp;<%= link_to 'Support', "mailto:#{ENV['SUPPORT_MAIL']}" %>
+                      </td>
+                    </tr></table>
+                </td>
+              </tr>
             </table>
-        </center>
-    </body>
+          </td>
+        </tr></table>
+    </center>
+  </body>
 </html>
+
