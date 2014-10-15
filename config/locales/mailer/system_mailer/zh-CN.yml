@@ -1,0 +1,17 @@
+zh-CN:
+  system_mailer:
+    daily_stats:
+      trades_users: Trades
+      trades_count: Total Trades
+      trade_users_count: Users Engaged
+      fund_stats: Funds & Assets
+      deposits_count: Total Deposits
+      deposits_amount: Total Deposits Amount
+      withdraws_count: Total Withdraws
+      withdraws_amount: Total Withdraws Amount
+      wallet_stats: Total Asset
+      top_stats: Top Traders
+      top_trades_users: by count
+      top_volume_users: by volume
+      top_stats_count: "%{count}"
+
