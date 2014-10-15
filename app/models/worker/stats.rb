@@ -59,5 +59,15 @@ module Worker
       to < offset ? [] : @redis.lrange(key1, offset, to).map {|str| JSON.parse(str) }
     end
 
+    def get_point(ts, period)
+      key = key_for period
+      first_ts = JSON.parse(@redis.lindex(key, 0)).first
+
+      offset = (ts-first_ts) / (60*period)
+      return if offset < 0
+
+      JSON.parse @redis.lindex(key, offset)
+    end
+
   end
 end
