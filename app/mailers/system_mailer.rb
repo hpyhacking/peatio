@@ -18,8 +18,9 @@ class SystemMailer < BaseMailer
 
   def daily_stats(ts, stats)
     @stats = stats
-    time = Time.at(ts + 1.day - 1)
-    mail subject: "Daily Summary #{time}"
+    from   = Time.at(ts)
+    to     = Time.at(ts + 1.day - 1)
+    mail subject: "Daily Summary (#{from} - #{to})"
   end
 
 end
