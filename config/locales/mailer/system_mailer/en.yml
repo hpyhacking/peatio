@@ -8,10 +8,8 @@ en:
       trades_count: Total Trades
       trade_users_count: Users Engaged
       fund_stats: Funds & Assets
-      deposits_count: Total Deposits
-      deposits_amount: Total Deposits Amount
-      withdraws_count: Total Withdraws
-      withdraws_amount: Total Withdraws Amount
+      deposits: Deposits Amount/Count
+      withdraws: Withdraws Amount/Count
       wallet_stats: Total Asset
       top_stats: Top Traders
       top_trades_users: by count

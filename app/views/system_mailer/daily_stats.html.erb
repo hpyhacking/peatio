@@ -1,19 +1,19 @@
 <h3><%= t('.member_stats') %></h3>
-<table cellspacing=0 cellpadding=5>
+<table cellspacing=0 cellpadding=15>
   <tbody>
     <tr>
-      <td><%= t('.signup_count') %></td>
-      <td><%= @stats['member_stats'][1] %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= t('.signup_count') %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['member_stats'][1] %></td>
     </tr>
     <tr>
-      <td><%= t('.activation_count') %></td>
-      <td><%= @stats['member_stats'][2] %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= t('.activation_count') %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['member_stats'][2] %></td>
     </tr>
   </tbody>
 </table>
 
 <h3><%= t('.trades_users') %></h3>
-<table cellspacing=0 cellpadding=5>
+<table cellspacing=0 cellpadding=15>
   <thead>
     <tr>
       <th></th>
@@ -24,42 +24,38 @@
   <tbody>
   <% Market.all.each do |market| %>
     <tr>
-      <td><%= market.id %></td>
-      <td><%= @stats['trade_users'][market.id][1] %></td>
-      <td><%= @stats['trade_users'][market.id][2] %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= market.id %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['trade_users'][market.id][1] %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['trade_users'][market.id][2] %></td>
     </tr>
   <% end %>
   </tbody>
 </table>
 
 <h3><%= t('.fund_stats') %></h3>
-<table cellspacing=0 cellpadding=5>
+<table cellspacing=0 cellpadding=15>
   <thead>
     <tr>
       <th></th>
-      <th><%= t('.deposits_count') %></th>
-      <th><%= t('.deposits_amount') %></th>
-      <th><%= t('.withdraws_count') %></th>
-      <th><%= t('.withdraws_amount') %></th>
+      <th><%= t('.deposits') %></th>
+      <th><%= t('.withdraws') %></th>
       <th><%= t('.wallet_stats') %></th>
     </tr>
   </thead>
   <tbody>
   <% Currency.all.each do |currency| %>
     <tr>
-      <td><%= currency.code %></td>
-      <td><%= @stats['fund_stats'][currency.code][1] %></td>
-      <td><%= @stats['fund_stats'][currency.code][2] %></td>
-      <td><%= @stats['fund_stats'][currency.code][3] %></td>
-      <td><%= @stats['fund_stats'][currency.code][4] %></td>
-      <td><%= @stats['wallet_stats'][currency.code][3] %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= currency.code %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['fund_stats'][currency.code][2] %>/<%= t('.top_stats_count', count: @stats['fund_stats'][currency.code][1]) %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['fund_stats'][currency.code][4] %>/<%= t('.top_stats_count', count: @stats['fund_stats'][currency.code][3]) %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['wallet_stats'][currency.code][3] %></td>
     </tr>
   <% end %>
   </tbody>
 </table>
 
 <h3><%= t('.top_stats') %></h3>
-<table cellspacing=0 cellpadding=5>
+<table cellspacing=0 cellpadding=15>
   <thead>
     <tr>
       <th></th>
@@ -70,8 +66,8 @@
   <tbody>
   <% Market.all.each do |market| %>
     <tr>
-      <td><%= market.id %></td>
-      <td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'><%= market.id %></td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'>
         <table cellspacing=0 cellpadding=5>
           <% @stats['top_stats'][market.id][1].each_with_index do |(uid, count), i| %>
           <% member = Member.find(uid) %>
@@ -83,7 +79,7 @@
           <% end %>
         </table>
       </td>
-      <td>
+      <td style='border: 1px solid #ccc; vertical-align: top;'>
         <table cellspacing=0 cellpadding=5>
           <% @stats['top_stats'][market.id][2].each_with_index do |(uid, volume), i| %>
           <% member = Member.find(uid) %>

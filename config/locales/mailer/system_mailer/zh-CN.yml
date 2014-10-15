@@ -8,10 +8,8 @@ zh-CN:
       trades_count: 交易总数
       trade_users_count: 交易用户数
       fund_stats: 资金统计
-      deposits_count: 充值笔数
-      deposits_amount: 充值总数
-      withdraws_count: 提现笔数
-      withdraws_amount: 提现总数
+      deposits: 充值金额/笔数
+      withdraws: 提现金额/笔数
       wallet_stats: 总资产
       top_stats: 交易者排名
       top_trades_users: 按交易笔数
