@@ -7,3 +7,15 @@ en:
         warning: Please check your inbox after saving the email address.
         email_address: Email Address
         save: Save
+
+    weibo:
+      destroy:
+        last_auth_alert: You couldn't delete the last authentication
+        unbind_success: Unbind from the Weibo
+
+    identities:
+      new:
+        title: Setup The Password
+        save: Save
+      create:
+        success: Setup password successfully

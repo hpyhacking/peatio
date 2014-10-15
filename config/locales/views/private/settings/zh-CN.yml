@@ -46,6 +46,7 @@ zh-CN:
           title: 登录密码
           description: 此密码仅限作网站登录使用，请您牢记。
           go: 修改
+          set: 设置
 
         api_tokens:
           title: API密钥

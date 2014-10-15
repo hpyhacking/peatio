@@ -98,6 +98,11 @@ class Member < ActiveRecord::Base
     end
   end
 
+
+  def create_auth_for_identity(identity)
+    self.authentications.create(provider: 'identity', uid: identity.id)
+  end
+
   def trades
     Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
   end
