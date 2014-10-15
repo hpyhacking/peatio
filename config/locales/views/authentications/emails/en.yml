@@ -1,5 +1,5 @@
 zh-CN:
-  verify:
+  authentications:
     emails:
       new:
         setup_email: Please setup your email address.
