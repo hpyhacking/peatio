@@ -49,10 +49,3 @@ zh-CN:
           verify_code_success: 手机短信验证码验证成功。
         alert:
           phone_number_error: 手机号码无效或错误
-    emails:
-      new:
-        title: 设置邮件地址
-        setup_email: 请设置你的邮箱, 否则将无法进行任何操作。
-        warning: 设置邮件后, 请查收你的收件箱并进行激活
-        email_address: 邮箱地址
-        save: 保存

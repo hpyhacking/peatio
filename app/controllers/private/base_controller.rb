@@ -12,7 +12,7 @@ module Private
     end
 
     def check_email_nil
-      redirect_to new_verify_email_path if current_user && current_user.email.nil?
+      redirect_to new_authentications_email_path if current_user && current_user.email.nil?
     end
 
   end

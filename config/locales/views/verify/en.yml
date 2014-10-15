@@ -49,10 +49,3 @@ en:
           verify_code_success: Verify Code success.
         alert:
           phone_number_error: phone number error
-    emails:
-      new:
-        title: Setup Email
-        setup_email: Please setup your email address.
-        warning: Please check your inbox after saving the email address.
-        email_address: Email Address
-        save: Save

@@ -92,6 +92,23 @@ ul.list-group
       .col-xs-6
         = link_to t('.api_tokens.go'), api_tokens_path, class: 'btn btn-default btn-block'
 
+  li.list-group-item
+    .row.row-middle
+      .col-xs-2
+        i.fa.fa-weibo.fa-2x
+      .col-xs-16
+        h4 = t(".weibo.title")
+        - if current_user.auth_with?('weibo')
+          p.text-ignore = t(".weibo.bound_desc", { weibo_uid: current_user.auth('weibo').nickname })
+        - else
+          p.text-ignore = t(".weibo.description")
+
+      .col-xs-6
+        - if current_user.auth_with?('weibo')
+          = link_to t('.weibo.unbind'), authentications_weibo_accounts_path, method: :delete, class: 'btn btn-default btn-block'
+        - else
+          = link_to t('.weibo.bind'), '/auth/weibo', class: 'btn btn-default btn-block'
+
 = content_for :guide_title do
   h3
     i.fa.fa-user

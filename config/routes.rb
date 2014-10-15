@@ -26,7 +26,11 @@ Peatio::Application.routes.draw do
   namespace :verify do
     resources :sms_tokens, only: [:new, :create]
     resources :google_auths, only: [:show, :update, :edit, :destroy]
+  end
+
+  namespace :authentications do
     resources :emails, only: [:new, :create]
+    resource :weibo_accounts, only: [:destroy]
   end
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do

@@ -1,4 +1,4 @@
-module Verify
+module Authentications
   class EmailsController < ApplicationController
     before_action :auth_member!
     before_action :check_email_present

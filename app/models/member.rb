@@ -35,6 +35,7 @@ class Member < ActiveRecord::Base
 
   before_create :build_default_id_document
   after_create  :touch_accounts
+  after_update :resend_activation
   after_update :sync_update
 
   class << self
@@ -92,7 +93,7 @@ class Member < ActiveRecord::Base
       member = create(email: auth_hash['info']['email'], nickname: auth_hash['info']['nickname'],
                       activated: false)
       member.add_auth(auth_hash)
-      member.send_activation
+      member.send_activation if auth_hash['provider'] == 'identity'
       member
     end
   end
@@ -167,6 +168,19 @@ class Member < ActiveRecord::Base
     authentication ? Identity.find(authentication.uid) : nil
   end
 
+  def auth(name)
+    authentications.where(provider: name).first
+  end
+
+  def auth_with?(name)
+    auth(name).present?
+  end
+
+  def remove_auth(name)
+    identity.destroy if name == 'identity'
+    auth(name).destroy
+  end
+
   def send_activation
     Token::Activation.create(member: self)
   end
@@ -213,6 +227,10 @@ class Member < ActiveRecord::Base
   def build_default_id_document
     build_id_document
     true
+  end
+
+  def resend_activation
+    self.send_activation if self.email_changed?
   end
 
   def sync_update
