@@ -1,0 +1,19 @@
+<h2><%= t('.trades_users') %></h2>
+<table cellspacing=0 cellpadding=5>
+  <thead>
+    <tr>
+      <th></th>
+      <th><%= t('.trades_count') %></th>
+      <th><%= t('.trade_users_count') %></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% Market.all.each do |market| %>
+    <tr>
+      <td><%= market.id %></td>
+      <td><%= @stats['trade_users'][market.id][1] %></td>
+      <td><%= @stats['trade_users'][market.id][2] %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

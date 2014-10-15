@@ -16,4 +16,10 @@ class SystemMailer < BaseMailer
     mail subject: "Trade execute error: #{@error}"
   end
 
+  def daily_stats(ts, stats)
+    @stats = stats
+    time = Time.at(ts + 1.day - 1)
+    mail subject: "Daily Summary #{time}"
+  end
+
 end

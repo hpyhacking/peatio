@@ -18,6 +18,14 @@ namespace :stats do
       fund_stats[currency.code] = Worker::FundStats.new(currency).get_point(ts, 1440)
       wallet_stats[currency.code] = Worker::WalletStats.new(currency).get_point(ts, 1440)
     end
+
+    SystemMailer.daily_stats(
+      ts,
+      trade_users: trade_users,
+      top_stats: top_stats,
+      fund_stats: fund_stats,
+      wallet_stats: wallet_stats
+    ).deliver
   end
 
 end
