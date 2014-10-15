@@ -2,7 +2,7 @@ namespace :stats do
 
   desc "send stats summary email"
   task email: :environment do
-    yesterday = 1.day.ago.beginning_of_day
+    yesterday = 1.day.ago(Time.now.beginning_of_day)
     ts = yesterday.to_i
 
     trade_users = {}

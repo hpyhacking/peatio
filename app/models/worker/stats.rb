@@ -45,7 +45,7 @@ module Worker
         ts = Time.at JSON.parse(last)[0]
         ts += period.minutes
       else
-        ts = 30.days.ago.beginning_of_day
+        ts = 30.days.ago(Time.now.beginning_of_day)
       end
     end
 
