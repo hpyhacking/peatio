@@ -31,15 +31,16 @@ describe Member do
   end
 
   describe 'send activation after create' do
-    let(:auth_auth) {
+    let(:auth_hash) {
       {
+        'provider' => 'identity',
         'info' => { 'email' => 'foobar@peatio.dev' }
       }
     }
 
     it 'create activation' do
       expect {
-        Member.from_auth(auth_auth)
+        Member.from_auth(auth_hash)
       }.to change(Token::Activation, :count).by(1)
     end
   end
