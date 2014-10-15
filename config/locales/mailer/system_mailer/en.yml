@@ -1,6 +1,7 @@
 en:
   system_mailer:
     daily_stats:
+      base_day: The day before
       member_stats: Members
       signup_count: Signup
       activation_count: Activated

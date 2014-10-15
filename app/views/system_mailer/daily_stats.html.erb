@@ -1,97 +1,76 @@
-<h3><%= t('.member_stats') %></h3>
-<table cellspacing=0 cellpadding=15>
-  <tbody>
-    <tr>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= t('.signup_count') %></td>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['member_stats'][1] %></td>
-    </tr>
-    <tr>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= t('.activation_count') %></td>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['member_stats'][2] %></td>
-    </tr>
-  </tbody>
-</table>
+<tr>
+  <td align="center" valign="top">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateBody">
+      <tr>
+        <td valign="top" class="bodyContent">
+          <h1><%= t('.member_stats') %></h1>
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report">
+            <tr>
+              <td>
+                <%= t('.signup_count') %><br/>
+                <span><%= t('.base_day') %></span>
+              </td>
+              <td>
+                <%= @stats['member_stats'][1] %><br/>
+                <span><%= @base['member_stats'][1] %></span>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>
+                <%= t('.activation_count') %><br/>
+                <span><%= t('.base_day') %></span>
+              </td>
+              <td>
+                <%= @stats['member_stats'][2] %><br/>
+                <span><%= @base['member_stats'][2] %></span>
+              </td>
+              <td></td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
 
-<h3><%= t('.trades_users') %></h3>
-<table cellspacing=0 cellpadding=15>
-  <thead>
-    <tr>
-      <th></th>
-      <th><%= t('.trades_count') %></th>
-      <th><%= t('.trade_users_count') %></th>
-    </tr>
-  </thead>
-  <tbody>
-  <% Market.all.each do |market| %>
-    <tr>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= market.id %></td>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['trade_users'][market.id][1] %></td>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['trade_users'][market.id][2] %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
-
-<h3><%= t('.fund_stats') %></h3>
-<table cellspacing=0 cellpadding=15>
-  <thead>
-    <tr>
-      <th></th>
-      <th><%= t('.deposits') %></th>
-      <th><%= t('.withdraws') %></th>
-      <th><%= t('.wallet_stats') %></th>
-    </tr>
-  </thead>
-  <tbody>
-  <% Currency.all.each do |currency| %>
-    <tr>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= currency.code %></td>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['fund_stats'][currency.code][2] %>/<%= t('.top_stats_count', count: @stats['fund_stats'][currency.code][1]) %></td>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['fund_stats'][currency.code][4] %>/<%= t('.top_stats_count', count: @stats['fund_stats'][currency.code][3]) %></td>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= @stats['wallet_stats'][currency.code][3] %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
-
-<h3><%= t('.top_stats') %></h3>
-<table cellspacing=0 cellpadding=15>
-  <thead>
-    <tr>
-      <th></th>
-      <th><%= t('.top_trades_users') %></th>
-      <th><%= t('.top_volume_users') %></th>
-    </tr>
-  </thead>
-  <tbody>
-  <% Market.all.each do |market| %>
-    <tr>
-      <td style='border: 1px solid #ccc; vertical-align: top;'><%= market.id %></td>
-      <td style='border: 1px solid #ccc; vertical-align: top;'>
-        <table cellspacing=0 cellpadding=5>
-          <% @stats['top_stats'][market.id][1].each_with_index do |(uid, count), i| %>
-          <% member = Member.find(uid) %>
-          <tr>
-            <td><%= i+1 %>.</td>
-            <td><%= member.name %> &lt;<%= member.email %>&gt;</td>
-            <td><%= t('.top_stats_count', count: count) %></td>
-          </tr>
-          <% end %>
-        </table>
-      </td>
-      <td style='border: 1px solid #ccc; vertical-align: top;'>
-        <table cellspacing=0 cellpadding=5>
-          <% @stats['top_stats'][market.id][2].each_with_index do |(uid, volume), i| %>
-          <% member = Member.find(uid) %>
-          <tr>
-            <td><%= i+1 %>.</td>
-            <td><%= member.name %> &lt;<%= member.email %>&gt;</td>
-            <td><%= volume %><%= market.base_unit.upcase %></td>
-          </tr>
-          <% end %>
-        </table>
-      </td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<tr>
+  <td align="center" valign="top">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateBody">
+      <tr>
+        <td valign="top" class="bodyContent">
+          <h1><%= t('.fund_stats') %></h1>
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report">
+            <tr>
+              <th></th>
+              <th><%= t('.deposits') %></th>
+              <th><%= t('.withdraws') %></th>
+              <th><%= t('.wallet_stats') %></th>
+            </tr>
+            <% Currency.all.each do |currency| %>
+            <% code = currency.code %>
+            <tr>
+              <td>
+                <%= code.upcase %><br/>
+                <span>&nbsp;</span>
+              </td>
+              <td>
+                <%= @stats['fund_stats'][code][2] %> (<%= t('.top_stats_count', count: @stats['fund_stats'][code][1]) %>)<br/>
+                <span><%= @base['fund_stats'][code][2] %> (<%= t('.top_stats_count', count: @base['fund_stats'][code][1]) %>)</span>
+              </td>
+              <td>
+                <%= @stats['fund_stats'][code][4] %> (<%= t('.top_stats_count', count: @stats['fund_stats'][code][3]) %>)<br/>
+                <span><%= @base['fund_stats'][code][4] %> (<%= t('.top_stats_count', count: @base['fund_stats'][code][3]) %>)</span>
+              </td>
+              <td>
+                <%= @stats['wallet_stats'][code][3] %><br/>
+                <span><%= @base['wallet_stats'][code][3] %></span>
+              </td>
+            </tr>
+            <% end %>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
