@@ -79,6 +79,7 @@ zh-CN:
     signin: 登录
     signout: 安全退出
     signup: 创建账户
+    login_via_weibo: 微博登陆
     funds: 我的资产
     getstart: 前往交易大厅
     assets: 资产公开
