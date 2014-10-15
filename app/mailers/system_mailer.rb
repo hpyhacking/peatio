@@ -23,7 +23,8 @@ class SystemMailer < BaseMailer
     @base  = base
     from   = Time.at(ts)
     to     = Time.at(ts + 1.day - 1)
-    mail subject: "Daily Summary (#{from} - #{to})"
+    mail subject: "Daily Summary (#{from} - #{to})",
+         to: ENV['OPERATE_MAIL_TO']
   end
 
 end
