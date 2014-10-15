@@ -1,6 +1,9 @@
 zh-CN:
   system_mailer:
     daily_stats:
+      member_stats: Members
+      signup_count: Signup
+      activation_count: Activated
       trades_users: Trades
       trades_count: Total Trades
       trade_users_count: Users Engaged

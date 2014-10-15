@@ -1,3 +1,17 @@
+<h3><%= t('.member_stats') %></h3>
+<table cellspacing=0 cellpadding=5>
+  <tbody>
+    <tr>
+      <td><%= t('.signup_count') %></td>
+      <td><%= @stats['member_stats'][1] %></td>
+    </tr>
+    <tr>
+      <td><%= t('.activation_count') %></td>
+      <td><%= @stats['member_stats'][2] %></td>
+    </tr>
+  </tbody>
+</table>
+
 <h3><%= t('.trades_users') %></h3>
 <table cellspacing=0 cellpadding=5>
   <thead>
