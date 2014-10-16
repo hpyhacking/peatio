@@ -175,4 +175,45 @@ describe Member do
     end
   end
 
+  describe "#create_auth_for_identity" do
+    let(:identity) { create(:identity) }
+    let(:member) { create(:member, email: identity.email) }
+
+    it "should create the authentication" do
+      expect do
+        member.create_auth_for_identity(identity)
+      end.to change(Identity, :count).by(1)
+    end
+  end
+
+  describe "#remove_auth" do
+    let!(:identity) { create(:identity) }
+    let!(:member) { create(:member, email: identity.email) }
+    let!(:weibo_auth) { create(:authentication, provider: 'weibo', member_id: member.id)}
+    let!(:identity_auth) { create(:authentication, provider: 'identity', member_id: member.id, uid: identity.id)}
+
+    context "third party" do
+      it "should delete the weibo auth" do
+        expect do
+          expect do
+            member.remove_auth('weibo')
+          end.not_to change(Identity, :count)
+        end.to change(Authentication, :count).by(-1)
+        member.auth('weibo').should be_nil
+      end
+    end
+
+    context "identity" do
+      it "should delete the ideneity auth and the identity" do
+        expect do
+          expect do
+            member.remove_auth('identity')
+          end.to change(Identity, :count).by(-1)
+        end.to change(Authentication, :count).by(-1)
+        member.auth('identity').should be_nil
+      end
+    end
+  end
+
+
 end
