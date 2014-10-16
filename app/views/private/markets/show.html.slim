@@ -12,10 +12,6 @@ html lang="en"
   body id='#{body_id}' data-lang="#{locale_name}"
     = render partial: "private/markets/header"
     #wrap
-      .sidebar
-        ul.list-unstyled
-          - Market.all.sort.each do |market|
-            = top_market_link market, current_market
       .content
         = render partial: 'ticker', locals: {market: @market}
         = render partial: 'kline_chart'

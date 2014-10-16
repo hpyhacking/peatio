@@ -22,7 +22,6 @@ $min-width: 1280px;
 $min-height: 620px;
 $min-width: 1180px;
 $navbar-height: $navbar-height + 1px;
-$sidebar-width: $brand-width;
 $gutter: 2px;
 $gutter-2x: $gutter * 2;
 $gutter-3x: $gutter * 3;
@@ -32,7 +31,6 @@ $gutter-5x: $gutter * 5;
 html,
 body, 
 #wrap, 
-.sidebar, 
 .content { 
   height: 100%; 
 }
@@ -56,34 +54,9 @@ header {
   margin-top: 0px - $navbar-height;
 }
 
-.sidebar { 
-  padding-top: $navbar-height;
-  background-color: $brand-primary; 
-  float: left; 
-  position: absolute; 
-  width: $sidebar-width;
-
-  li {
-    display: block;
-    padding: 15px 15px 15px 15px;
-    text-align: center;
-    &.active {
-      background-color: $gray-darker;
-    }
-  }
-
-  .switch-control {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    i.fa { margin-right: 0px; }
-  }
-}
-
 .content {
   top: $navbar-height;
-  left: $sidebar-width;
-  min-width: $min-width - $sidebar-width;
+  min-width: $min-width;
   min-height: $min-height - $navbar-height;
   width: 100%;
   height: 100%;
@@ -162,7 +135,7 @@ $entry-height: 190px;
 $order-book-width: $entry-width * 2 + $gutter;
 $order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
 
-$my-orders-width: $min-width - $sidebar-width - $order-book-width;
+$my-orders-width: $min-width - $order-book-width;
 $my-orders-width: ($my-orders-width / 2) - $gutter-2x;
 $my-orders-height: 280px;
 
@@ -172,10 +145,10 @@ $my-done-orders-height: $my-orders-height;
 $trades-width: $my-orders-width;
 $trades-height: $my-orders-height;
 
-$chat-width: $min-width - $sidebar-width - $order-book-width - $my-orders-width - $trades-width - $gutter-5x;
+$chat-width: $min-width - $order-book-width - $my-orders-width - $trades-width - $gutter-5x;
 $chat-height: 200px;
 
-$ticker-width: $min-width - $sidebar-width - $order-book-width - $gutter-3x;
+$ticker-width: $min-width - $order-book-width - $gutter-3x;
 $ticker-height: 80px;
 
 $kline-chart-width: $ticker-width;
