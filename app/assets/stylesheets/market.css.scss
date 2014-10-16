@@ -20,8 +20,8 @@
 ------------------------------------------------ */
 $min-width: 1280px;
 $min-height: 620px;
-$navbar-height: 51px;
 $min-width: 1180px;
+$navbar-height: $navbar-height + 1px;
 $sidebar-width: $brand-width;
 $gutter: 2px;
 $gutter-2x: $gutter * 2;
