@@ -1,0 +1,19 @@
+zh-CN:
+  authentications:
+    emails:
+      new:
+        warning: 设置邮件后, 请查收你的收件箱并进行激活
+        email_address: 邮箱地址
+        save: 保存
+
+    weibo:
+      destroy:
+        last_auth_alert: 亲, 微博是你最后一种登录方式了, 解除了就没法登录了
+        unbind_success: 已经解除微博绑定
+
+    identities:
+      new:
+        password: 密码
+        save: 设置
+      create:
+        success: 密码设置成功

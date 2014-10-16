@@ -14,6 +14,7 @@ gem 'bcrypt-ruby', '~> 3.1.2'
 
 gem 'omniauth'
 gem 'omniauth-identity'
+gem 'omniauth-weibo-oauth2'
 
 gem 'figaro'
 gem 'settingslogic'

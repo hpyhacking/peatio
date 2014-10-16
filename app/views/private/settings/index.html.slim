@@ -71,16 +71,18 @@ ul.list-group
           = link_to t('.two_factor_auth.enable'), verify_google_auth_path, class: 'btn btn-default btn-block'
 
   // change identity password
-  - if current_user.identity
-    li.list-group-item
-      .row.row-middle
-        .col-xs-2
-          i.fa.fa-key.fa-2x
-        .col-xs-16
-          h4 = t('.passwords.title')
-          p.text-ignore = t('.passwords.description')
-        .col-xs-6
+  li.list-group-item
+    .row.row-middle
+      .col-xs-2
+        i.fa.fa-key.fa-2x
+      .col-xs-16
+        h4 = t('.passwords.title')
+        p.text-ignore = t('.passwords.description')
+      .col-xs-6
+        - if current_user.identity
           = link_to t('.passwords.go'), edit_identity_path, class: 'btn btn-default btn-block'
+        - else
+          = link_to t('.passwords.set'), new_authentications_identity_path, class: 'btn btn-default btn-block'
 
   li.list-group-item
     .row.row-middle
@@ -91,6 +93,24 @@ ul.list-group
         p.text-ignore = t('.api_tokens.description')
       .col-xs-6
         = link_to t('.api_tokens.go'), api_tokens_path, class: 'btn btn-default btn-block'
+
+  - if ENV["WEIBO_AUTH"] == "true"
+    li.list-group-item
+      .row.row-middle
+        .col-xs-2
+          i.fa.fa-weibo.fa-2x
+        .col-xs-16
+          h4 = t(".weibo.title")
+          - if current_user.auth_with?('weibo')
+            p.text-ignore = t(".weibo.bound_desc", { nickname: current_user.auth('weibo').nickname })
+          - else
+            p.text-ignore = t(".weibo.description")
+
+        .col-xs-6
+          - if current_user.auth_with?('weibo')
+            = link_to t('.weibo.unbind'), authentications_weibo_accounts_path, method: :delete, class: 'btn btn-success btn-block'
+          - else
+            = link_to t('.weibo.bind'), '/auth/weibo', class: 'btn btn-default btn-block'
 
 = content_for :guide_title do
   h3

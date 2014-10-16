@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141012124243) do
+ActiveRecord::Schema.define(version: 20141015034040) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20141012124243) do
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "nickname"
   end
 
   add_index "authentications", ["member_id"], name: "index_authentications_on_member_id", using: :btree
@@ -201,6 +202,7 @@ ActiveRecord::Schema.define(version: 20141012124243) do
     t.string   "phone_number"
     t.boolean  "disabled",     default: false
     t.boolean  "api_disabled", default: false
+    t.string   "nickname"
   end
 
   create_table "orders", force: true do |t|

@@ -168,6 +168,7 @@ zh-CN:
             otp:
               invalid: 密码有误，请重新输入。
       messages:
+        invalid_email: 无效的邮件地址
         undef: 未知错误原因
         less: 余额不足
         verify: 验证失败

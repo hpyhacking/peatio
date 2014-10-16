@@ -1,0 +1,80 @@
+<tr>
+  <td align="center" valign="top" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateBody" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-top-color: #FFFFFF; border-top-width: 1px; border-top-style: solid; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #CCCCCC; margin-bottom: 30px; background: #F4F4F4;" bgcolor="#F4F4F4">
+      <tr>
+        <td valign="top" class="bodyContent" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #505050; font-family: Helvetica; font-size: 16px; line-height: 150%; text-align: left; padding: 20px;" align="left">
+          <h1 style="color: #202020 !important; display: block; font-family: Helvetica; font-size: 26px; font-style: normal; font-weight: bold; line-height: 100%; letter-spacing: normal; text-align: left; margin: 0 0 10px;" align="left">
+            <%= t('.member_stats') %>
+          </h1>
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-radius: 8px; background: #FFF; margin: 20px 0 10px;" bgcolor="#FFF">
+            <tr>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= t('.signup_count') %><br>
+                <span style="color: #ccc; font-size: .7em; font-style: italic;"><%= t('.base_day') %></span>
+              </td>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= @stats['member_stats'][1] %><br>
+                <span style="color: #ccc; font-size: .7em; font-style: italic;"><%= @base['member_stats'][1] %></span>
+              </td>
+            </tr>
+            <tr>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= t('.activation_count') %><br>
+                <span style="color: #ccc; font-size: .7em; font-style: italic;"><%= t('.base_day') %></span>
+              </td>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= @stats['member_stats'][2] %><br>
+                <span style="color: #ccc; font-size: .7em; font-style: italic;"><%= @base['member_stats'][2] %></span>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+
+<tr>
+  <td align="center" valign="top" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateBody" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-top-color: #FFFFFF; border-top-width: 1px; border-top-style: solid; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #CCCCCC; margin-bottom: 30px; background: #F4F4F4;" bgcolor="#F4F4F4">
+      <tr>
+        <td valign="top" class="bodyContent" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #505050; font-family: Helvetica; font-size: 16px; line-height: 150%; text-align: left; padding: 20px;" align="left">
+          <h1 style="color: #202020 !important; display: block; font-family: Helvetica; font-size: 26px; font-style: normal; font-weight: bold; line-height: 100%; letter-spacing: normal; text-align: left; margin: 0 0 10px;" align="left">
+            <%= t('.fund_stats') %>
+          </h1>
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-radius: 8px; background: #FFF; margin: 20px 0 10px;" bgcolor="#FFF">
+            <tr>
+              <th style="border-bottom-width: 1px; border-bottom-color: #F4F4F4; border-bottom-style: solid; padding: 10px;"></th>
+              <th style="border-bottom-width: 1px; border-bottom-color: #F4F4F4; border-bottom-style: solid; padding: 10px;"><%= t('.deposits') %></th>
+              <th style="border-bottom-width: 1px; border-bottom-color: #F4F4F4; border-bottom-style: solid; padding: 10px;"><%= t('.withdraws') %></th>
+              <th style="border-bottom-width: 1px; border-bottom-color: #F4F4F4; border-bottom-style: solid; padding: 10px;"><%= t('.wallet_stats') %></th>
+            </tr>
+            <% Currency.all.each do |currency| %>
+            <% code = currency.code %>
+            <tr>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= code.upcase %><br>
+                <span style="color: #ccc; font-size: .7em; font-style: italic;">&nbsp;</span>
+              </td>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= @stats['fund_stats'][code][2] %> (<%= t('.top_stats_count', count: @stats['fund_stats'][code][1]) %>)<br>
+                <span style="color: #ccc; font-size: .7em; font-style: italic;"><%= @base['fund_stats'][code][2] %> (<%= t('.top_stats_count', count: @base['fund_stats'][code][1]) %>)</span>
+              </td>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= @stats['fund_stats'][code][4] %> (<%= t('.top_stats_count', count: @stats['fund_stats'][code][3]) %>)<br>
+                <span style="color: #ccc; font-size: .7em; font-style: italic;"><%= @base['fund_stats'][code][4] %> (<%= t('.top_stats_count', count: @base['fund_stats'][code][3]) %>)</span>
+              </td>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= @stats['wallet_stats'][code][3] %><br>
+                <span style="color: #ccc; font-size: .7em; font-style: italic;"><%= @base['wallet_stats'][code][3] %></span>
+              </td>
+            </tr>
+            <% end %>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+
+<%= render partial: 'market_stats', collection: Market.all %>

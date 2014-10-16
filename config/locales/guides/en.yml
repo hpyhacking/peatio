@@ -49,6 +49,18 @@ en:
           title: Submit real-name authentication information
           intro: In line with the national laws , identity verification is required. please verify your account to proceed.
 
+    verify:
+      sms_tokens:
+        panel: Verify Phone Number
+
+      two_factors:
+        panel: Two-Factor Authentication
+        new:
+          intro: With 2-Step Verification, you’ll protect your account with both your password and your phone. Here we use Google Authenticator.
+
+      emails:
+        pannel: Setup Email
+
     reset_passwords:
       panel: Password
       new:

@@ -50,11 +50,20 @@ en:
           title: Password
           description: This password is required for login, please remember it.
           go: Change Password
+          set: Set
 
         api_tokens:
           title: API Tokens
           description: Create and manage your API tokens.
           go: Set
+
+        weibo:
+          title: Connect to Weibo
+          description: After you connecting to Weibo, you can login via Weibo account.
+          bound_desc: This has been connected with %{nickname}.
+          bind: Connect
+          unbind: Disconnect
+
 
     otps:
       new:

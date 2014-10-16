@@ -25,6 +25,7 @@ defaults: &defaults
   SUPPORT_MAIL: support@peatio.dev
   SYSTEM_MAIL_FROM: system@peatio.dev
   SYSTEM_MAIL_TO: group@peatio.dev
+  OPERATE_MAIL_TO: support@peatio.dev
 
   # WebSocket Streaming API settings
   WEBSOCKET_HOST: 0.0.0.0
@@ -60,6 +61,16 @@ defaults: &defaults
   TWILIO_NUMBER: YOUR_TWILIO_NUMBER
   TWILIO_SID: YOUR_TWILIO_SID
   TWILIO_TOKEN: YOUR_TWILIO_TOKEN
+
+
+  # Third party auth
+  # --------------------------------------------------------------
+  #
+  # Weibo
+
+  WEIBO_AUTH: on # on/off
+  WEIBO_KEY: 3820920586
+  WEIBO_SECRET: 2d6174dc698e86860c75d75b1e8a01c8
 
 development:
   <<: *defaults

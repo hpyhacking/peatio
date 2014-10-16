@@ -76,6 +76,13 @@ zh-CN:
           intro: 为配合国家相关法令条例，请您正确输入信息，进行身份认证，身份认证未完成将不能在网站进行任何操作。
 
 
+    authentications:
+      emails:
+        panel: 设置邮件地址
+
+      identities:
+        panel: 密码设置
+
     reset_passwords:
       panel: 登录密码
       new:
