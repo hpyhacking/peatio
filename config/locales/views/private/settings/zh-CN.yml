@@ -56,7 +56,7 @@ zh-CN:
         weibo:
           title: 绑定微博
           description: 绑定微博后你可以通过微博进行登录, 而无需每次都输入账号密码.
-          bound_desc: 此账号已经与 %{weibo_uid} 绑定
+          bound_desc: 此账号已经与 %{nickname} 绑定
           bind: 绑定
           unbind: 解除绑定
 

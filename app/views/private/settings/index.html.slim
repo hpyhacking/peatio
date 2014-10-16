@@ -102,7 +102,7 @@ ul.list-group
         .col-xs-16
           h4 = t(".weibo.title")
           - if current_user.auth_with?('weibo')
-            p.text-ignore = t(".weibo.bound_desc", { weibo_uid: current_user.auth('weibo').nickname })
+            p.text-ignore = t(".weibo.bound_desc", { nickname: current_user.auth('weibo').nickname })
           - else
             p.text-ignore = t(".weibo.description")
 
