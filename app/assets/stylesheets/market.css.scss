@@ -148,11 +148,8 @@ $trades-height: $my-orders-height;
 $chat-width: $min-width - $order-book-width - $my-orders-width - $trades-width - $gutter-5x;
 $chat-height: 200px;
 
-$ticker-width: $min-width - $order-book-width - $gutter-3x;
-$ticker-height: 80px;
-
-$kline-chart-width: $ticker-width;
-$kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-height - $gutter-4x;
+$kline-chart-width: $min-width - $order-book-width - $gutter-3x;
+$kline-chart-height: $min-height - $navbar-height - $trades-height - $gutter-4x;
 
 #ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
 .entry-right { top: $base-top; right: $gutter + $entry-width + $gutter; }
@@ -185,10 +182,6 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
 #kline_chart { 
   min-width: $kline-chart-width; width: $kline-chart-width; 
   min-height: $kline-chart-height; height: $kline-chart-height; 
-  top: $gutter-2x + $ticker-height; left: $gutter; }
-
-#ticker { 
-  min-width: $ticker-width; width: $ticker-width; height: $ticker-height; 
   top: $gutter; left: $gutter; }
 
 
@@ -313,20 +306,5 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
     margin-right: 10px;
   }
 }
-
-/* ticker
----------------------------------------------------*/
-
-#ticker {
-  table { th, td { padding: 0px; border: 0px;} margin-bottom: 0px; }
-  table { margin-top: 5px; max-width: 700px; td { font-size: 16px; } }
-
-  td {
-    &:after {
-      content: " "attr(data-symbol);
-    }
-  }
-}
-
 
 @import 'layouts/custom';
