@@ -46,11 +46,19 @@ zh-CN:
           title: 登录密码
           description: 此密码仅限作网站登录使用，请您牢记。
           go: 修改
+          set: 设置
 
         api_tokens:
           title: API密钥
           description: 申请和管理您的API密钥
           go: 设置
+
+        weibo:
+          title: 绑定微博
+          description: 绑定微博后你可以通过微博进行登录, 而无需每次都输入账号密码.
+          bound_desc: 此账号已经与 %{weibo_uid} 绑定
+          bind: 绑定
+          unbind: 解除绑定
 
     otps:
       new:

@@ -50,6 +50,7 @@ en:
           title: Password
           description: This password is required for login, please remember it.
           go: Change Password
+          set: Set
 
         api_tokens:
           title: API Tokens

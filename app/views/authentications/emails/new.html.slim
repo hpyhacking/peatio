@@ -1,0 +1,12 @@
+= simple_form_for :email, url: authentications_emails_path, method: :post do |f|
+  = f.input :address, label: t('.email_address')
+  = f.button :submit, t('.save'), class: "btn btn-default btn-lg pull-right btn"
+
+= content_for :guide_title do
+  h3
+    i.fa.fa-envelope.fa-2x
+    span = t('.title')
+
+= content_for :guide do
+  p.text-warning
+    = t('.warning')

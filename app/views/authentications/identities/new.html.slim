@@ -1,0 +1,6 @@
+= simple_form_for @identity, url: authentications_identities_path do |f|
+  = f.input :email, disabled: true
+  = f.input :password, label: t('.password')
+  = f.input :password_confirmation
+  hr.split
+  = f.button :wrapped, value: t('.save') ,cancel: settings_path

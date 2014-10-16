@@ -79,6 +79,7 @@ en:
     signin: Sign In
     signout: Exit
     signup: Sign Up
+    login_via_weibo: Login via Weibo
     funds: Funds
     getstart: Get Start
     assets: Solvency
