@@ -5,7 +5,7 @@ module MailHelper
       if amount == 0
         '0'
       else
-        "#{amount} #{currency.code.upcase}"
+        "%.2f %s" % [amount, currency.code.upcase]
       end
     else
       '-'
@@ -22,6 +22,14 @@ module MailHelper
       "#{change} <span style='color:#F00;'>&#11015;</span>".html_safe
     else
       change
+    end
+  end
+
+  def pretty_percentage(value)
+    if value
+      "%.2f%%" % (value*100)
+    else
+      '-'
     end
   end
 

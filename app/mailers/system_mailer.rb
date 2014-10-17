@@ -59,7 +59,7 @@ class SystemMailer < BaseMailer
     if before == 0
       nil
     else
-      100*(now-before) / before.to_f
+      (now-before) / before.to_f
     end
   end
 

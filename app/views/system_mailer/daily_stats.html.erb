@@ -12,10 +12,10 @@
                 <%= t('.signup') %>
               </td>
               <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= @changes[:signup][0] %>
+                <%= pretty_change @changes[:signup][0] %>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= @changes[:signup][1] %>
+                <%= pretty_change pretty_percentage(@changes[:signup][1]), @changes[:signup][1] %>
               </td>
             </tr>
             <tr>
@@ -23,10 +23,10 @@
                 <%= t('.activation') %>
               </td>
               <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= @changes[:activation][0] %>
+                <%= pretty_change @changes[:activation][0] %>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= @changes[:activation][1] %>
+                <%= pretty_change pretty_percentage(@changes[:activation][1]), @changes[:activation][1] %>
               </td>
             </tr>
           </table>
@@ -56,7 +56,7 @@
                 <span style='font-size: .7em; font-size: italic; color: #ccc;'><%= pretty_currency amount[0], currency %></span>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= pretty_change value[1] %><br>
+                <%= pretty_change pretty_percentage(value[1]), value[1] %><br>
                 <span>&nbsp;</span>
               </td>
             </tr>
@@ -86,7 +86,7 @@
                 <%= pretty_change change[0] %>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= pretty_change change[1] %>
+                <%= pretty_change pretty_percentage(change[1]), change[1] %>
               </td>
             </tr>
             <% end %>
