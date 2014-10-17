@@ -4,7 +4,6 @@ class SystemMailer < BaseMailer
           to:   ENV["SYSTEM_MAIL_TO"]
 
   layout 'mailers/system'
-  helper MailHelper
 
   def balance_warning(amount, balance)
     @amount = amount

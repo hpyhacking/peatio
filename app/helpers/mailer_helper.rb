@@ -1,4 +1,4 @@
-module MailHelper
+module MailerHelper
 
   def assets_value_change_total(changes)
     total = changes.sum do |(currency, amount, value)|
