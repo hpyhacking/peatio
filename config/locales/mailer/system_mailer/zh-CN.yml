@@ -1,19 +1,8 @@
 zh-CN:
   system_mailer:
     daily_stats:
-      base_day: 前一天
-      member_stats: 用户统计
-      signup_count: 注册
-      activation_count: 激活
-      fund_stats: 资金统计
-      deposits: 充值金额(笔数)
-      withdraws: 提现金额(笔数)
-      wallet_stats: 总资产
-      top_stats_count: "%{count}笔"
-    market_stats:
-      trades_count: 交易总数
-      trade_users_count: 交易用户数
-      top_stats: 交易者排名
-      top_trades_users: 按交易笔数
-      top_volume_users: 按交易数量
-      top_stats_count: "%{count}笔"
+      member_stats: 用户变动
+      signup: 注册
+      activation: 激活
+      fund_stats: 资金变动
+      trade_stats: 交易变动
