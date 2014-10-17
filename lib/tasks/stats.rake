@@ -13,12 +13,12 @@ namespace :stats do
         point = JSON.parse redis.lindex(key, offset)
         last_hour_close_price = point[4]
 
-        amount*last_hour_close_price
+        (amount*last_hour_close_price).round(2)
       else
         nil
       end
     else
-      amount
+      amount.round(2)
     end
   end
 
