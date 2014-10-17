@@ -8,10 +8,10 @@
           </h1>
           <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-radius: 8px; background: #FFF; margin: 20px 0 10px;" bgcolor="#FFF">
             <tr>
-              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+              <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
                 <%= t('.signup') %>
               </td>
-              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+              <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
                 <%= @changes[:signup][0] %>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
@@ -19,10 +19,10 @@
               </td>
             </tr>
             <tr>
-              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+              <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
                 <%= t('.activation') %>
               </td>
-              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+              <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
                 <%= @changes[:activation][0] %>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
@@ -47,10 +47,10 @@
           <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-radius: 8px; background: #FFF; margin: 20px 0 10px;" bgcolor="#FFF">
             <% @changes[:wallets].each do |(currency, change)| %>
             <tr>
-              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+              <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
                 <%= currency.code.upcase %>
               </td>
-              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+              <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
                 <%= change[0] %>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
@@ -76,10 +76,10 @@
           <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-radius: 8px; background: #FFF; margin: 20px 0 10px;" bgcolor="#FFF">
             <% @changes[:trades].each do |(market, change)| %>
             <tr>
-              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+              <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
                 <%= market.name %>
               </td>
-              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+              <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
                 <%= change[0] %>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">

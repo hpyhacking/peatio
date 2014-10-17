@@ -23,10 +23,10 @@ class SystemMailer < BaseMailer
     @base  = base
 
     @changes = {
-      signup: change(@base['member_stats'][1], @stats['member_stats'][1]),
-      activation: change(@base['member_stats'][2], @stats['member_stats'][2]),
-      wallets: Currency.all.map {|c| [c, change(@base['wallet_stats'][c.code][3], @stats['wallet_stats'][c.code][3]) ] },
-      trades: Market.all.map {|m| [m, change(@base['trade_users'][m.id][1], @stats['trade_users'][m.id][1]) ] }
+      signup: compare(@base['member_stats'][1], @stats['member_stats'][1]),
+      activation: compare(@base['member_stats'][2], @stats['member_stats'][2]),
+      wallets: Currency.all.map {|c| [c, compare(@base['wallet_stats'][c.code][3], @stats['wallet_stats'][c.code][3]) ] },
+      trades: Market.all.map {|m| [m, compare(@base['trade_users'][m.id][1], @stats['trade_users'][m.id][1]) ] }
     }
 
     from   = Time.at(ts)
@@ -37,15 +37,27 @@ class SystemMailer < BaseMailer
 
   private
 
-  def change(before, now)
-    [now-before, change_in_percent(before, now)]
+  def compare(before, now)
+    [ pretty_change(now-before), percentage_compare(before, now) ]
   end
 
-  def change_in_percent(before, now)
+  def percentage_compare(before, now)
     if before == 0
-      'N/A'
+      pretty_change '-', 0
     else
-      "%.2f%%" % (100*(now-before)/before.to_f)
+      v = 100*(now-before) / before.to_f
+      pretty_change("%.2f%%" % v, v)
+    end
+  end
+
+  def pretty_change(change, direction=nil)
+    direction ||= change
+    if direction > 0
+      "#{change} <span style='color:#0F0;'>&#11014;</span>".html_safe
+    elsif direction < 0
+      "#{change} <span style='color:#F00;'>&#11015;</span>".html_safe
+    else
+      change
     end
   end
 
