@@ -4,6 +4,7 @@ class SystemMailer < BaseMailer
           to:   ENV["SYSTEM_MAIL_TO"]
 
   layout 'mailers/system'
+  helper MailHelper
 
   def balance_warning(amount, balance)
     @amount = amount
@@ -25,8 +26,17 @@ class SystemMailer < BaseMailer
     @changes = {
       signup: compare(@base['member_stats'][1], @stats['member_stats'][1]),
       activation: compare(@base['member_stats'][2], @stats['member_stats'][2]),
-      assets: Currency.all.map {|c| [c, compare(@base['asset_stats'][c.code], @stats['asset_stats'][c.code]) ] },
-      trades: Market.all.map {|m| [m, compare(@base['trade_users'][m.id][1], @stats['trade_users'][m.id][1]) ] }
+      assets: Currency.all.map {|c|
+        [ c,
+          compare(@base['asset_stats'][c.code][1], @stats['asset_stats'][c.code][1]),
+          compare(@base['asset_stats'][c.code][0], @stats['asset_stats'][c.code][0])
+        ]
+      },
+      trades: Market.all.map {|m|
+        [ m,
+          compare(@base['trade_users'][m.id][1], @stats['trade_users'][m.id][1])
+        ]
+      }
     }
 
     from   = Time.at(ts)
@@ -39,29 +49,17 @@ class SystemMailer < BaseMailer
 
   def compare(before, now)
     if before.nil? || now.nil?
-      [ '-', '-' ]
+      []
     else
-      [ pretty_change(now-before), percentage_compare(before, now) ]
+      [ now-before, percentage_compare(before, now) ]
     end
   end
 
   def percentage_compare(before, now)
     if before == 0
-      pretty_change '-', 0
+      nil
     else
-      v = 100*(now-before) / before.to_f
-      pretty_change("%.2f%%" % v, v)
-    end
-  end
-
-  def pretty_change(change, direction=nil)
-    direction ||= change
-    if direction > 0
-      "#{change} <span style='color:#0F0;'>&#11014;</span>".html_safe
-    elsif direction < 0
-      "#{change} <span style='color:#F00;'>&#11015;</span>".html_safe
-    else
-      change
+      100*(now-before) / before.to_f
     end
   end
 

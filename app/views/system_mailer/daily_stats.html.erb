@@ -45,16 +45,19 @@
             <%= t('.asset_stats') %>
           </h1>
           <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-radius: 8px; background: #FFF; margin: 20px 0 10px;" bgcolor="#FFF">
-            <% @changes[:assets].each do |(currency, change)| %>
+            <% @changes[:assets].each do |(currency, amount, value)| %>
             <tr>
               <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= currency.code.upcase %>
+                <%= currency.code.upcase %><br>
+                <span>&nbsp;</span>
               </td>
               <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= change[0] %>
+                <%= pretty_change pretty_currency(value[0], currency), value[0] %><br>
+                <span style='font-size: .7em; font-size: italic; color: #ccc;'><%= pretty_currency amount[0], currency %></span>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= change[1] %>
+                <%= pretty_change value[1] %><br>
+                <span>&nbsp;</span>
               </td>
             </tr>
             <% end %>
@@ -80,10 +83,10 @@
                 <%= market.name %>
               </td>
               <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= change[0] %>
+                <%= pretty_change change[0] %>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= change[1] %>
+                <%= pretty_change change[1] %>
               </td>
             </tr>
             <% end %>
