@@ -36,76 +36,41 @@
   showAlert:  (msg) -> $(document).trigger 'flash-alert',  msg: msg
 
 $ ->
-  gutter = 2
-  gutter_2x = 2 * 2
-  gutter_3x = 2 * 3
-  gutter_4x = 2 * 4
-  gutter_5x = 2 * 5
-  gutter_6x = 2 * 6
-  gutter_7x = 2 * 7
-  gutter_8x = 2 * 8
-  gutter_9x = 2 * 9
+  gutter = 2 # linkage to market.css.scss $gutter var
+  gutter_2x = gutter * 2
+  gutter_3x = gutter * 3
+  gutter_4x = gutter * 4
+  gutter_5x = gutter * 5
+  gutter_6x = gutter * 6
+  gutter_7x = gutter * 7
+  gutter_8x = gutter * 8
+  gutter_9x = gutter * 9
+
+  nav_stacked_width = 50 # linkage to market.css.scss $nav_stacked_width var
+  nav_stacked_width_2x = nav_stacked_width * 2
+
+  panel_table_header_high = 73
 
   $(window).resize ->
     navbar_h = $('.navbar').height() + 1
     window_w = $(window).width()
     window_h = $(window).height()
-    sidebar_w = $('.sidebar').width()
-    trades_w = $('#trades').width()
-    trades_h = $('#trades').height()
     entry_h = $('#ask_entry').height()
-    my_orders_w = $('#my_orders').width()
     order_book_w = $('#order_book').width()
-    $('.content').width(window_w- sidebar_w)
+
+    $('.content').width(window_w)
     $('.content').height(window_h - navbar_h)
-    $('#kline_chart').width(window_w - sidebar_w - order_book_w - gutter_5x)
-    $('#kline_chart').height(window_h - navbar_h - trades_h - gutter_6x)
-    $('.market-chart').height($('#kline_chart').height())
+
+    $('#candlestick').width(window_w - order_book_w - gutter_3x - nav_stacked_width_2x)
+    $('#candlestick').height(window_h - navbar_h - gutter_3x)
+
     $('#order_book').height(window_h - navbar_h - entry_h - gutter_5x)
-    $('#order_book .panel-body-content').height(window_h - navbar_h - entry_h - gutter_5x - 73)
-    $('#trades, #my_orders, #my_done_orders').width((window_w - sidebar_w - order_book_w - gutter_7x) / 2)
+    $('#order_book .panel-body-content').height(window_h - navbar_h - entry_h - panel_table_header_high - gutter_5x)
+
 
   $(window).resize()
 
   BigNumber.config(ERRORS: false)
-
-  if $('#assets-index').length
-    $.scrollIt
-      topOffset: -180
-      activeClass: 'active'
-
-    $('a.go-verify').on 'click', (e) ->
-      e.preventDefault()
-
-      root         = $('.tab-pane.active .root.json pre').text()
-      partial_tree = $('.tab-pane.active .partial-tree.json pre').text()
-
-      if partial_tree
-        uri = 'http://syskall.com/proof-of-liabilities/#verify?partial_tree=' + partial_tree + '&expected_root=' + root
-        window.open(encodeURI(uri), '_blank')
-
-  $('[data-clipboard-text], [data-clipboard-target]').each ->
-    zero = new ZeroClipboard $(@), forceHandCursor: true
-
-    zero.on 'complete', ->
-      $(zero.htmlBridge)
-        .attr('title', gon.clipboard.done)
-        .tooltip('fixTitle')
-        .tooltip('show')
-    zero.on 'mouseout', ->
-      $(zero.htmlBridge)
-        .attr('title', gon.clipboard.click)
-        .tooltip('fixTitle')
-
-    placement = $(@).data('placement') || 'bottom'
-    $(zero.htmlBridge).tooltip({title: gon.clipboard.click, placement: placement})
-
-  $('.qrcode-container').each (index, el) ->
-    $el = $(el)
-    new QRCode el,
-      text:   $el.data('text')
-      width:  $el.data('width')
-      height: $el.data('height')
 
   AccountBalanceUI.attachTo('.account-balance')
   MyOrdersUI.attachTo('#my_orders')
@@ -114,10 +79,10 @@ $ ->
   PlaceOrderUI.attachTo('#bid_entry')
   PlaceOrderUI.attachTo('#ask_entry')
 
-  MarketChartUI.attachTo('.market-chart')
+  OrderBookUI.attachTo('#order_book')
   MarketTickerUI.attachTo('#ticker')
   MarketTradesUI.attachTo('#trades')
-  OrderBookUI.attachTo('#order_book')
+  MarketChartUI.attachTo('#candlestick')
 
   VerifyMobileNumberUI.attachTo('#new_token_sms_token')
   FlashMessageUI.attachTo('.flash-message')
@@ -135,10 +100,8 @@ $ ->
   GlobalData.attachTo(document, {pusher: pusher})
   MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
 
-  $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
-    $(@).scrollTop(@scrollTop + e.deltaY)
-    e.preventDefault()
 
+  # TODO: move to place order component
   entry = '#ask_entry'
   $(document).on 'keyup', (e) ->
     if e.keyCode == 27
@@ -147,5 +110,4 @@ $ ->
 
   window.pusher = pusher
 
-$ ->
   notifier = window.notifier = new Notifier()

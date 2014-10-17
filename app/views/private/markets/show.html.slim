@@ -14,10 +14,7 @@ html lang="en"
     #wrap
       .content
         /= render partial: 'ticker', locals: {market: @market}
-        = render partial: 'kline_chart'
-        = render partial: 'trades'
+        = render partial: 'candlestick'
         = render partial: 'order_book'
-        = render partial: 'my_orders'
-        = render partial: 'my_done_orders'
         = render partial: 'ask_entry', locals: {market: @market, order: @order_ask }
         = render partial: 'bid_entry', locals: {market: @market, order: @order_bid }
