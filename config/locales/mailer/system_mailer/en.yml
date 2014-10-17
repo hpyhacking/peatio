@@ -1,19 +1,10 @@
 en:
   system_mailer:
     daily_stats:
-      base_day: The day before
-      member_stats: Members
-      signup_count: Signup
-      activation_count: Activated
-      fund_stats: Funds & Assets
-      deposits: Deposits Amount/Count
-      withdraws: Withdraws Amount/Count
-      wallet_stats: Total Asset
-      top_stats_count: "%{count}"
-    market_stats:
-      trades_count: Total Trades
-      trade_users_count: Users Engaged
-      top_trades_users: Top Traders (by trades)
-      top_volume_users: Top Traders (by volume)
-      no_data: No Data
-      top_stats_count: "%{count}"
+      member_stats: Member Stats
+      signup: Signup
+      activation: Activation
+      asset_stats: Assets Changes
+      trade_stats: Trades Changes
+      asset_value_change_total: Digital Assets Changes Total
+      trades_change_total: Trades Changes Total

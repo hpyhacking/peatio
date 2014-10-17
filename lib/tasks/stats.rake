@@ -1,26 +1,43 @@
 namespace :stats do
 
+  def asset_value(ts, currency, amount)
+    if currency.code != 'cny'
+      redis = KlineDB.redis
+      market = Market.find "#{currency.code}cny"
+      key = "peatio:#{market.id}:k:60"
+      last_hour = 23.hours.since(Time.at ts)
+
+      if redis.llen(key) > 0
+        from = JSON.parse(redis.lindex(key, 0)).first
+        offset = (last_hour.to_i - from) / 60.minutes
+        point = JSON.parse redis.lindex(key, offset)
+        last_hour_close_price = point[4]
+
+        [amount*last_hour_close_price, amount, last_hour_close_price]
+      else
+        []
+      end
+    else
+      [amount, amount, 1]
+    end
+  end
+
   def collect_stats(ts)
     trade_users = {}
-    top_stats = {}
     Market.all.each do |market|
       trade_users[market.id] = Worker::TradeStats.new(market).get_point(ts, 1440)
-      top_stats[market.id] = Worker::TopStats.new(market).get_point(ts, 1440)
     end
 
-    fund_stats = {}
-    wallet_stats = {}
+    asset_stats = {}
     Currency.all.each do |currency|
-      fund_stats[currency.code] = Worker::FundStats.new(currency).get_point(ts, 1440)
-      wallet_stats[currency.code] = Worker::WalletStats.new(currency).get_point(ts, 1440)
+      stat = Worker::WalletStats.new(currency).get_point(ts, 1440)
+      asset_stats[currency.code] = asset_value(ts, currency, stat[3])
     end
 
     member_stats = Worker::MemberStats.new.get_point(ts, 1440)
 
     { trade_users:  trade_users,
-      top_stats:    top_stats,
-      fund_stats:   fund_stats,
-      wallet_stats: wallet_stats,
+      asset_stats:  asset_stats,
       member_stats: member_stats }
   end
 
