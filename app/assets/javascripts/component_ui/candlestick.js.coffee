@@ -1,4 +1,4 @@
-@MarketChartUI = flight.component ->
+@CandlestickUI = flight.component ->
   @drawChart = ->
     dataGrouping =
       focus: true
