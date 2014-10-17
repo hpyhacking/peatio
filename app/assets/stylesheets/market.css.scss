@@ -18,12 +18,13 @@
 
 /* basic layout 
 ------------------------------------------------ */
-$min-width: 1280px;
-$min-height: 620px;
-$min-width: 1180px;
-$navbar-height: $navbar-height + 1px;
-$nav_stacked_width: 50px;
 $gutter: 2px;
+$min-width: 1180px;
+$min-height: 620px;
+$nav_stacked_width: 50px;
+
+$navbar-height: $navbar-height + 1px;
+$nav_stacked_width_2x: $nav_stacked_width * 2;
 $gutter-2x: $gutter * 2;
 $gutter-3x: $gutter * 3;
 $gutter-4x: $gutter * 4;
@@ -130,7 +131,7 @@ header {
 $base-top: $gutter;
 
 $entry-width: 242px;
-$entry-height: 190px;
+$entry-height: 220px;
 
 $order-book-width: $entry-width * 2 + $gutter;
 $order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
@@ -148,17 +149,17 @@ $trades-height: $my-orders-height;
 $chat-width: $min-width - $order-book-width - $my-orders-width - $trades-width - $gutter-5x;
 $chat-height: 200px;
 
-$candlestick-width: $min-width - $order-book-width - $gutter-3x;
+$candlestick-width: $min-width - $order-book-width - $gutter-3x - $nav_stacked_width - $nav_stacked_width;
 $candlestick-height: $min-height - $navbar-height - $gutter-2x;
 
 #ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
-.entry-right { top: $base-top; right: $gutter + $entry-width + $gutter; }
-.entry-left { top: $base-top; right: $gutter; }
+.entry-right { bottom: $gutter; right: $gutter + $entry-width + $gutter; }
+.entry-left { bottom: $gutter; right: $gutter; }
 
 #order_book { 
   width: $order-book-width; height: $order-book-height; 
   min-height: $order-book-height;
-  bottom: $gutter; right: $gutter; }
+  top: $base-top; right: $gutter; }
 
 #chat { 
   min-width: $chat-width; width: $chat-width; height: $chat-height; 
@@ -182,7 +183,7 @@ $candlestick-height: $min-height - $navbar-height - $gutter-2x;
 #candlestick { 
   position: absolute;
   min-width: $candlestick-width; width: $candlestick-width; 
-  min-height: $candlestick-height; height: $candlestick-height; 
+  min-height: $candlestick-height; height: $candlestick-height;
   top: $gutter; left: $gutter + $nav_stacked_width; }
 
 
