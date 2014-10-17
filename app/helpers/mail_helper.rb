@@ -5,7 +5,7 @@ module MailHelper
       if amount == 0
         '0'
       else
-        "%.2f %s" % [amount, currency.code.upcase]
+        "%.2f %s" % [amount, currency.upcase]
       end
     else
       '-'

@@ -49,15 +49,15 @@
             <tr>
               <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
                 <%= currency.code.upcase %><br>
-                <span>&nbsp;</span>
+                <span style='font-size: .7em; font-size: italic; color: #bbb;'>&nbsp;</span>
               </td>
               <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= pretty_change pretty_currency(value[0], currency), value[0] %><br>
-                <span style='font-size: .7em; font-size: italic; color: #ccc;'><%= pretty_currency amount[0], currency %></span>
+                <%= pretty_change pretty_currency(value[0], 'cny'), value[0] %><br>
+                <span style='font-size: .7em; font-size: italic; color: #bbb;'><%= pretty_change pretty_currency(amount[0], currency.code), amount[0] %></span>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
                 <%= pretty_change pretty_percentage(value[1]), value[1] %><br>
-                <span>&nbsp;</span>
+                <span style='font-size: .7em; font-size: italic; color: #bbb;'><%= pretty_change pretty_percentage(amount[1]), amount[1] %></span>
               </td>
             </tr>
             <% end %>
