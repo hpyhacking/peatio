@@ -25,7 +25,7 @@ class SystemMailer < BaseMailer
     @changes = {
       signup: compare(@base['member_stats'][1], @stats['member_stats'][1]),
       activation: compare(@base['member_stats'][2], @stats['member_stats'][2]),
-      wallets: Currency.all.map {|c| [c, compare(@base['wallet_stats'][c.code][3], @stats['wallet_stats'][c.code][3]) ] },
+      assets: Currency.all.map {|c| [c, compare(@base['asset_stats'][c.code], @stats['asset_stats'][c.code]) ] },
       trades: Market.all.map {|m| [m, compare(@base['trade_users'][m.id][1], @stats['trade_users'][m.id][1]) ] }
     }
 
@@ -38,7 +38,11 @@ class SystemMailer < BaseMailer
   private
 
   def compare(before, now)
-    [ pretty_change(now-before), percentage_compare(before, now) ]
+    if before.nil? || now.nil?
+      [ '-', '-' ]
+    else
+      [ pretty_change(now-before), percentage_compare(before, now) ]
+    end
   end
 
   def percentage_compare(before, now)

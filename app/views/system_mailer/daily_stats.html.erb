@@ -42,10 +42,10 @@
       <tr>
         <td valign="top" class="bodyContent" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #505050; font-family: Helvetica; font-size: 16px; line-height: 150%; text-align: left; padding: 20px;" align="left">
           <h1 style="color: #202020 !important; display: block; font-family: Helvetica; font-size: 26px; font-style: normal; font-weight: bold; line-height: 100%; letter-spacing: normal; text-align: left; margin: 0 0 10px;" align="left">
-            <%= t('.fund_stats') %>
+            <%= t('.asset_stats') %>
           </h1>
           <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-radius: 8px; background: #FFF; margin: 20px 0 10px;" bgcolor="#FFF">
-            <% @changes[:wallets].each do |(currency, change)| %>
+            <% @changes[:assets].each do |(currency, change)| %>
             <tr>
               <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
                 <%= currency.code.upcase %>
