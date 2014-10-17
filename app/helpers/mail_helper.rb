@@ -1,5 +1,17 @@
 module MailHelper
 
+  def assets_value_change_total(changes)
+    total = changes.sum do |(currency, amount, value)|
+      currency.code == 'cny' ? 0 : (value[0] || 0)
+    end
+    pretty_change pretty_currency(total, 'cny'), total
+  end
+
+  def trades_change_total(changes)
+    total = changes.sum {|(market, change)| change[0] || 0 }
+    pretty_change total
+  end
+
   def pretty_currency(amount, currency)
     if amount
       if amount == 0

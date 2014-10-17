@@ -24,8 +24,6 @@ class SystemMailer < BaseMailer
     @base  = base
 
     @changes = {
-      signup: compare(@base['member_stats'][1], @stats['member_stats'][1]),
-      activation: compare(@base['member_stats'][2], @stats['member_stats'][2]),
       assets: Currency.all.map {|c|
         [ c,
           compare(@base['asset_stats'][c.code][1], @stats['asset_stats'][c.code][1]),
