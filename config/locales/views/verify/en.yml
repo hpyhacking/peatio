@@ -1,17 +1,27 @@
 en:
+  guides:
+    verify:
+      google_auths:
+        panel: Two-Factor Authentication
+        new:
+          title: Set Two-Factor Authentication
+          intro: With 2-Step Verification, you’ll protect your account with both your password and your phone. Here we use Google Authenticator.
+        edit:
+          title: Disable Two-Factor Authentication
+          intro: If you have a new phone, you can disable Two-Factor Authentication in the old phone, and enable Two-Factor Authentication  with the new one.
+        create:
+          title: Set Two-Factor Authentication
+          intro: With 2-Step Verification, you’ll protect your account with both your password and your phone. Here we use Google Authenticator.
+        destroy:
+          title: Disable Two-Factor Authentication
+          intro: If you have a new phone, you can disable Two-Factor Authentication in the old phone, and enable Two-Factor Authentication  with the new one.
+
+      sms_auths:
+        panel: Verify Phone Number
+
+
   verify:
     google_auths:
-      auth:
-        please_active_two_factor: Please set mobile number or google authenticator first.
-        submit: Submit
-        otp_placeholder: 6-digit password
-        google_app: Google Authenticator
-        sms: SMS Verification Messages
-        send_code: Send Code
-        send_code_alt: Resend in COUNT seconds
-        hints:
-          app: Google Authenticator will re-generate a new password every thirty seconds, please input timely.
-          sms: We'll send a text message to you phone with verify code.
       edit:
         submit: Disable
         warning: "Tip: If you have lost your two-factor authentication by some reason and can't login your Peatio account, please contact our online customer service."
@@ -28,24 +38,29 @@ en:
         ios: Iphone iOS
         android: Android
         blackbery: Blackberry
+        notice:
+          already_activated: The Google Authenticator has already been set.
+          not_activated_yet: The Google Authenticator hasn't been set yet.
       update:
         alert: Password for authentication is incorrect, please re-enter.
         notice: Two-factor authentication has been successfully Enabled.
+        sms_two_factor_error: SMS Verification code is incorrect, please re-enter.
       destroy:
         alert: Password for authentication is incorrect, please re-enter.
         notice: Two-factor authentication has been successfully Disabled.
-    sms_tokens:
-      new:
+    sms_auths:
+      show:
         title: Verify Phone Number
         description: Provide a phone number will make your account more secure. you can quickly reset your password and your account operations will be notified.
         warning: it will not be able to retrieve your account's password if not set the phone number.
         phone_number: Phone number
         send_code: Send Code
         send_code_alt: Resend in COUNT seconds
-        input_verify_code: Enter the 6-digit code we sent to you
+        input_otp: Enter the 6-digit code we sent to you
         submit: Save
         notice:
           send_code_success: Send verify code success
-          verify_code_success: Verify Code success.
+          otp_success: Verify Code success.
+          already_activated: You phone number has been activated.
         alert:
           phone_number_error: phone number error

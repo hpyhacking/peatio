@@ -103,7 +103,7 @@ class Deposit < ActiveRecord::Base
   end
 
   def send_sms
-    return true if not member.phone_number_verified?
+    return true if not member.sms_two_factor.activated?
 
     sms_message = I18n.t('sms.deposit_done', email: member.email,
                                              currency: currency_text,

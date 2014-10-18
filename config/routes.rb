@@ -24,8 +24,8 @@ Peatio::Application.routes.draw do
   resource :identity, :only => [:edit, :update]
 
   namespace :verify do
-    resources :sms_tokens, only: [:new, :create]
-    resources :google_auths, only: [:show, :update, :edit, :destroy]
+    resource :sms_auth,    only: [:show, :update]
+    resource :google_auth, only: [:show, :update, :edit, :destroy]
   end
 
   namespace :authentications do
@@ -42,7 +42,7 @@ Peatio::Application.routes.draw do
   get '/documents/api_v2'
   get '/documents/websocket_api'
   resources :documents, only: [:show]
-  resources :refresh_two_factors, only: [:show]
+  resources :two_factors, only: [:show, :index, :update]
 
   scope module: :private do
     resource  :id_document, only: [:edit, :update]

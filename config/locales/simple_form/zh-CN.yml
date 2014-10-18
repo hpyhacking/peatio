@@ -57,6 +57,8 @@ zh-CN:
         uri: 二维码
         otp_secret: 密文
         otp: 验证器上的密码
+      sms_auth:
+        otp: 短信验证码
       fund_source:
         label: 开户行 / 标签
         address: 银行卡号 / 地址

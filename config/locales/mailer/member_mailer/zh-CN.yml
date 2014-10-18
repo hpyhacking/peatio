@@ -4,11 +4,17 @@ zh-CN:
       subject: '[PEATIO] 您刚刚成功登录了貔貅交易所'
       just_signed_in: 您刚刚成功登录了貔貅交易所。
     google_auth_activated:
-      subject: "[PEATIO] 绑定 Google Authenticator"
-      google_auth_activated: 您已绑定 Google Authenticator。
+      subject: "[PEATIO] 绑定谷歌两步验证"
+      google_auth_activated: 您已绑定谷歌两步验证。
     google_auth_deactivated:
-      subject: "[PEATIO] 重置 Google Authenticator"
-      google_auth_deactivated: 您已重置 Google Authenticator。
+      subject: "[PEATIO] 重置谷歌两步验证"
+      google_auth_deactivated: 您已重置谷歌两步验证。
+    sms_auth_activated:
+      subject: "[PEATIO] 绑定短信两步验证"
+      sms_auth_activated: 您已绑定短信两步验证。
+    sms_auth_deactivated:
+      subject: "[PEATIO] 重置短信两步验证"
+      sms_auth_deactivated: 您已重置短信两步验证。
     reset_password_done:
       subject: "[PEATIO] 密码修改成功"
       successful: "您已成功修改密码。请妥善保管~"

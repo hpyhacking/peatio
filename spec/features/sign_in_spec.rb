@@ -26,9 +26,9 @@ describe 'Sign in' do
 
   context 'when a user has 2-step verification setup and after signing in with email, password' do
     let!(:member) { create :member, email: identity.email }
-    let!(:two_factor) { member.two_factors.by_type(:app) }
+    let!(:two_factor) { member.app_two_factor }
 
-    before { two_factor.refresh }
+    before { two_factor.refresh! }
 
     it 'if he tries to perform 2-step verification after session expires, should redirect user back to login step with error message', js: true do
       pending

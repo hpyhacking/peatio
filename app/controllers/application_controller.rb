@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   after_action :allow_iframe
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
+  include TwoFactorHelper
+
   def currency
     "#{params[:ask]}#{params[:bid]}".to_sym
   end
@@ -19,7 +21,7 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_member!
-    redirect_to root_path unless current_user
+    redirect_to root_path, alert: t('.login_required') unless current_user
   end
 
   def auth_activated!
@@ -66,7 +68,7 @@ class ApplicationController < ActionController::Base
     return false if not two_factor
 
     two_factor.assign_attributes params.require(:two_factor).permit(:otp)
-    two_factor.verify
+    two_factor.verify?
   end
 
   def set_language

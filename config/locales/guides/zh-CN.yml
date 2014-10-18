@@ -23,21 +23,6 @@ zh-CN:
         update:
           title: 设置API密钥
 
-      two_factors:
-        panel: 两步验证
-        new:
-          title: 设置两步验证
-          intro: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。
-        edit:
-          title: 解除两步验证
-          intro: 若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。
-        create:
-          title: 设置两步验证
-          intro: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。
-        destroy:
-          title: 解除两步验证
-          intro: 若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。
-
       deposits:
         panel: 资金充值
         intro: 选择您充值的种类，比特币和人民币充值均为10分钟到账。
@@ -90,14 +75,6 @@ zh-CN:
           title: 提交实名认证信息
           intro: 为配合国家相关法令条例，请您正确输入信息，进行身份认证，身份认证未完成将不能在网站进行任何操作。
 
-    verify:
-      sms_tokens:
-        panel: 绑定手机号码
-
-      two_factors:
-        panel: 两步验证
-        new:
-          intro: 通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。
 
     authentications:
       emails:
@@ -142,3 +119,6 @@ zh-CN:
       edit:
         title: 修改个人资料
         intro:
+
+    two_factors:
+      panel: 两步验证

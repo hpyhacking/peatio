@@ -88,7 +88,7 @@ en:
         modifiable_id: LINK ID
         modifiable_type: LINK
         created_at : Created At
-      reset_password:
+      token/reset_password:
         email: Sign in email
       trade:
         bid: Bid
@@ -154,11 +154,7 @@ en:
               invalid: Invalid Password
             password_confirmation:
               confirmation: Inconsistent with the new password you enter, please re-enter.
-        reset_two_factor:
-          attributes:
-            base:
-              too_soon: Visit too soon
-        reset_password:
+        token/reset_password:
           attributes:
             base:
               too_soon: Visit too soon
@@ -167,6 +163,8 @@ en:
               match: Invalid Sign in Email
             password:
               invalid: Invalid Password
+            member:
+              blank: Not exist!
         activation:
           attributes:
             base:

@@ -7,19 +7,15 @@ FactoryGirl.define do
       activated true
     end
 
-    trait :two_factor_activated do
+    trait :app_two_factor_activated do
       after :create do |member|
-        member.two_factors.create \
-          type: 'TwoFactor::App',
-          activated: true
+        member.app_two_factor.active!
       end
     end
 
-    trait :two_factor_inactivated do
+    trait :sms_two_factor_activated do
       after :create do |member|
-        member.two_factors.create \
-          type: 'TwoFactor::App',
-          activated: false
+        member.sms_two_factor.active!
       end
     end
 
@@ -32,10 +28,6 @@ FactoryGirl.define do
       end
     end
 
-    trait :phone_number_verified do
-      phone_number_verified true
-    end
-
     trait :admin do
       after :create do |member|
         ENV['ADMIN'] = (Member.admins << member.email).join(',')
@@ -44,7 +36,6 @@ FactoryGirl.define do
 
     factory :activated_member, traits: [:activated]
     factory :verified_member, traits: [:activated, :verified]
-    factory :verified_phone_number, traits: [:activated, :phone_number_verified]
     factory :admin_member, traits: [:admin]
   end
 end

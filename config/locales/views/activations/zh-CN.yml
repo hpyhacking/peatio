@@ -1,6 +1,9 @@
 zh-CN:
   activations:
     new:
+      notice: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
+      verified: 您的邮箱已验证通过。
+      login_required: 本操作需要登录，请先登录
       tip: 激活连接已经发送到 <span class='text-primary'>%{email}</span>
       spam: 该邮件有可能出现在垃圾邮件中，请注意查看。
     edit:

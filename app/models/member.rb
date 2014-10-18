@@ -14,7 +14,6 @@ class Member < ActiveRecord::Base
   has_many :comments, foreign_key: 'author_id'
 
   has_one :id_document
-  has_one :sms_token, class_name: 'Token::SmsToken'
 
   has_many :authentications, dependent: :destroy
 
@@ -25,7 +24,6 @@ class Member < ActiveRecord::Base
   delegate :name,       to: :id_document, allow_nil: true
   delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
-  delegate :verified?,  to: :sms_token,   prefix: true
 
   before_validation :generate_sn
 
@@ -107,8 +105,13 @@ class Member < ActiveRecord::Base
     Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
   end
 
-  def active
-    self.update_column(:activated, true)
+  def active!
+    update activated: true
+  end
+
+  def update_password(password)
+    identity.update password: password, password_confirmation: password
+    send_password_changed_notification
   end
 
   def admin?
@@ -193,7 +196,7 @@ class Member < ActiveRecord::Base
   def send_password_changed_notification
     MemberMailer.reset_password_done(self.id).deliver
 
-    if phone_number_verified?
+    if sms_two_factor.activated?
       sms_message = I18n.t('sms.password_changed', email: self.email)
       AMQPQueue.enqueue(:sms_notification, phone: phone_number, message: sms_message)
     end
@@ -208,17 +211,21 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def app_two_factor
+    two_factors.by_type(:app)
+  end
+
+  def sms_two_factor
+    two_factors.by_type(:sms)
+  end
+
   def as_json(options = {})
     super.merge({
       "name" => self.name,
-      "app_activated" => self.two_factors.by_type(:app).activated?,
-      "sms_activated" => self.two_factors.by_type(:sms).activated?,
+      "app_activated" => self.app_two_factor.activated?,
+      "sms_activated" => self.sms_two_factor.activated?,
       "memo" => self.id
     })
-  end
-
-  def deactive_phone_number!
-    update phone_number: '', phone_number_verified: false
   end
 
   private
