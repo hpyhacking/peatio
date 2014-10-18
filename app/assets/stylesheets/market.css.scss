@@ -5,6 +5,7 @@
 
 @import 'bootstrap';
 @import 'bootstrap-switch.min';
+@import 'bootstrap.vertical-tabs';
 
 @import 'vars/basic';
 @import 'vars/custom';
@@ -170,15 +171,15 @@ $candlestick-height: $min-height - $navbar-height - $gutter-2x;
   width: $trades-width; height: $trades-height; 
   left: $gutter; bottom: $gutter; }
 
-#my_orders { 
-  min-width: $trades-width;
-  width: $my-orders-width; height: $my-orders-height; 
-  right: $gutter-2x + $order-book-width ; bottom: $gutter; }
+/*#my_orders { */
+  /*min-width: $trades-width;*/
+  /*width: $my-orders-width; height: $my-orders-height; */
+  /*right: $gutter-2x + $order-book-width ; bottom: $gutter; }*/
 
-#my_done_orders { 
-  min-width: $trades-width;
-  width: $my-done-orders-width; height: $my-done-orders-height; 
-  right: $gutter-2x + $order-book-width ; bottom: $gutter; }
+/*#my_done_orders { */
+  /*min-width: $trades-width;*/
+  /*width: $my-done-orders-width; height: $my-done-orders-height; */
+  /*right: $gutter-2x + $order-book-width ; bottom: $gutter; }*/
 
 #candlestick { 
   position: absolute;
