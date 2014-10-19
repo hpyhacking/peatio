@@ -15,6 +15,8 @@ en:
         confirm: CONFIRM
         ask_order: 'ASK ##sn#'
         bid_order: 'BID ##sn#'
+        my_active_order: Active
+        my_done_order: Done
       depths:
         price: Price
         amount: Amount

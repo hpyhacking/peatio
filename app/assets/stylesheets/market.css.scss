@@ -5,7 +5,6 @@
 
 @import 'bootstrap';
 @import 'bootstrap-switch.min';
-@import 'bootstrap.vertical-tabs';
 
 @import 'vars/basic';
 @import 'vars/custom';
@@ -30,6 +29,24 @@ $gutter-2x: $gutter * 2;
 $gutter-3x: $gutter * 3;
 $gutter-4x: $gutter * 4;
 $gutter-5x: $gutter * 5;
+
+$base-top: $gutter;
+
+$entry-width: 242px;
+$entry-height: 220px;
+
+$order-book-width: $entry-width * 2 + $gutter;
+$order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
+
+$my-orders-tabs-width: 600px;
+$my-orders-tabs-height: 282px;
+
+$trades-width: 0px;
+$trades-height: 0px;
+
+
+$candlestick-width: $min-width - $order-book-width - $gutter-3x - $nav_stacked_width - $nav_stacked_width;
+$candlestick-height: $min-height - $navbar-height - $gutter-2x;
 
 html,
 body, 
@@ -83,11 +100,51 @@ header {
 #ask_entry > .mask { padding-top: 80px; }
 #bid_entry > .mask { padding-top: 80px; }
 
+.float {
+  position: absolute;
+  @include transition(0.1s);
+
+  .sideways {
+    width: auto;
+    position: absolute;
+    li { float: right; }
+    &.tabs-left { left: -30px; }
+
+    &.tabs-left {
+      top: 161px;
+      left: 3px;
+      @include transform(rotate(-90deg)); 
+      @include transform-origin(left bottom);
+    }
+
+    li > a { background: #000; }
+  }
+
+  .tab-content .tab-pane > * { width: 100%; height: 100%; }
+}
+
+#my-order-tabs-wrapper {
+  ul { width: 182px; }
+  height: $my-orders-tabs-height;
+  right: $gutter_2x + $order-book-width;
+  bottom: $gutter;
+
+  width: 0px;
+  .tab-content { display: none; }
+
+  &.hover, &.hover-force { 
+    width: $my-orders-tabs-width; 
+    .tab-content { display: block; } 
+
+    .sideways.tabs-left { left: 1px; }
+  }
+}
+
+
 /* panel
 ------------------------------------------------ */
 .panel {
   position: absolute;
-  box-sizing: padding-box;
   margin-bottom: 0px;
 
   &.panel-wide {
@@ -116,6 +173,8 @@ header {
     }
   }
 
+  .panel-heading a { cursor: pointer; }
+
   .panel-body.panel-fixed-table-head {
     table { margin-bottom: 0px; }
     padding-bottom: 0px;
@@ -129,30 +188,6 @@ header {
 
 /* layout positon
 ----------------------------------------------- */
-$base-top: $gutter;
-
-$entry-width: 242px;
-$entry-height: 220px;
-
-$order-book-width: $entry-width * 2 + $gutter;
-$order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
-
-$my-orders-width: $min-width - $order-book-width;
-$my-orders-width: ($my-orders-width / 2) - $gutter-2x;
-$my-orders-height: 280px;
-
-$my-done-orders-width: $my-orders-width;
-$my-done-orders-height: $my-orders-height;
-
-$trades-width: $my-orders-width;
-$trades-height: $my-orders-height;
-
-$chat-width: $min-width - $order-book-width - $my-orders-width - $trades-width - $gutter-5x;
-$chat-height: 200px;
-
-$candlestick-width: $min-width - $order-book-width - $gutter-3x - $nav_stacked_width - $nav_stacked_width;
-$candlestick-height: $min-height - $navbar-height - $gutter-2x;
-
 #ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
 .entry-right { bottom: $gutter; right: $gutter + $entry-width + $gutter; }
 .entry-left { bottom: $gutter; right: $gutter; }
@@ -160,21 +195,14 @@ $candlestick-height: $min-height - $navbar-height - $gutter-2x;
 #order_book { 
   width: $order-book-width; height: $order-book-height; 
   min-height: $order-book-height;
-  top: $base-top; right: $gutter; }
-
-#chat { 
-  min-width: $chat-width; width: $chat-width; height: $chat-height; 
-  bottom: $gutter; left: $gutter; }
+  top: $base-top; right: $gutter; 
+}
 
 #trades { 
   min-width: $trades-width;
   width: $trades-width; height: $trades-height; 
-  left: $gutter; bottom: $gutter; }
-
-/*#my_orders { */
-  /*min-width: $trades-width;*/
-  /*width: $my-orders-width; height: $my-orders-height; */
-  /*right: $gutter-2x + $order-book-width ; bottom: $gutter; }*/
+  left: $gutter; bottom: $gutter; 
+}
 
 /*#my_done_orders { */
   /*min-width: $trades-width;*/
@@ -185,7 +213,8 @@ $candlestick-height: $min-height - $navbar-height - $gutter-2x;
   position: absolute;
   min-width: $candlestick-width; width: $candlestick-width; 
   min-height: $candlestick-height; height: $candlestick-height;
-  top: $gutter; left: $gutter + $nav_stacked_width; }
+  top: $gutter; left: $gutter + $nav_stacked_width; 
+}
 
 
 /* order entry

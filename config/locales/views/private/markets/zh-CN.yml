@@ -17,6 +17,8 @@ zh-CN:
         bid_order: '买 ##sn#'
         ask_orders: 买单深度
         bid_orders: 卖单深度
+        my_active_order: 有效委单
+        my_done_order: 成交委单
       depths:
         price: 价格
         amount: 数量

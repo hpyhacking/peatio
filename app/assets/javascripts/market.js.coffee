@@ -43,6 +43,8 @@ $ ->
   MarketTradesUI.attachTo('#trades')
   FlashMessageUI.attachTo('.flash-message')
 
+  FloatUI.attachTo('.float')
+
   pusher = new Pusher gon.pusher.key,
     encrypted: gon.pusher.encrypted
     wsHost: gon.pusher.wsHost

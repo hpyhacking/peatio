@@ -15,15 +15,17 @@ html lang="en"
       .content
         /= render partial: 'ticker', locals: {market: @market}
         = render partial: 'candlestick'
+
+        #my-order-tabs-wrapper.float
+          ul.nav.nav-tabs.tabs-left.sideways
+            li: a href='#my_orders_content' data-toggle='tab' = t('.my_active_order')
+            li: a href='#my_done_orders_content' data-toggle='tab' = t('.my_done_order')
+          .tab-content
+            #my_orders_content.tab-pane
+              = render partial: 'my_orders'
+            #my_done_orders_content.tab-pane
+              = render partial: 'my_done_orders'
+
         = render partial: 'order_book'
         = render partial: 'ask_entry', locals: {market: @market, order: @order_ask }
         = render partial: 'bid_entry', locals: {market: @market, order: @order_bid }
-        .my-order-tab-wraper
-          ul.nav.nav-tabs.tabs-left.sideways
-            li.active: a href='#my_orders_content' data-toggle='tab' 有效委托
-            li: a href='#my_done_orders_content' data-toggle='tab' 成交委托
-        .my-order-tab-content-wraper: .tab-content
-          #my_orders_content.tab-pane.active 
-            = render partial: 'my_orders'
-          #my_done_orders_content.tab-pane
-            = render partial: 'my_done_orders'

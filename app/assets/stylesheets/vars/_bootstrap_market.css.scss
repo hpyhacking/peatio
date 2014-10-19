@@ -21,7 +21,7 @@ $down-text: rgb(208, 0, 23);
 
 $navbar-default-border: #ffd711;
 
-$panel-bg: #202020;
+$panel-bg: rgba(32,32,32,0.9);
 $panel-default-heading-bg: #2b3434;
 $panel-default-border: #333;
 $panel-border-radius: 2px;
@@ -31,6 +31,11 @@ $panel-default-text: $text-color;
 
 $font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
 
+$nav-tabs-border-color: #333;
+$nav-tabs-active-link-hover-border-color: #333;
+$nav-tabs-justified-link-border-color: #333;
+$nav-tabs-active-link-hover-bg: $panel-default-heading-bg;
+$nav-tabs-active-link-hover-color: #ccc;
 
 /* bootstrap form mix 
 ------------------------------------------------------------ */
