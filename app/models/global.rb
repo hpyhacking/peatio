@@ -4,6 +4,14 @@ class Global
   LIMIT = 80
 
   class << self
+    def channel
+      "market-global"
+    end
+
+    def trigger(event, data)
+      Pusher.trigger_async(channel, event, data)
+    end
+
     def daemon_statuses
       Rails.cache.fetch('peatio:daemons:statuses', expires_in: 3.minute) do
         Daemons::Rails::Monitoring.statuses
@@ -75,6 +83,8 @@ class Global
     trades.map(&:for_global)
   end
 
+  # TODO: refactor - remove ticker because it's pushed in global_state.rb,
+  #       push asks/bids only
   def trigger_ticker
     data = {ticker: ticker, asks: asks, bids: bids}
     Pusher.trigger_async(channel, "update", data)
