@@ -109,15 +109,20 @@ header {
     width: auto;
     position: absolute;
 
-    li { 
-      float: right; // turn tabs
-      & > a { background: #000; }
-    }
+    li > a { background: #000; }
 
     &.tabs-left {
       left: 3px;
+      li { float: right; } // turn tabs
       @include transform(rotate(-90deg)); 
       @include transform-origin(left bottom);
+    }
+
+    &.tabs-right {
+      right: 3px;
+      li { float: left; } // turn tabs 
+      @include transform(rotate(90deg)); 
+      @include transform-origin(right bottom);
     }
   }
 
@@ -126,7 +131,7 @@ header {
 }
 
 
-@mixin float-wrapper($width, $height, $ul-width: 182px, $ul-top: 198px) {
+@mixin float-wrapper($width, $height, $ul-top: 198px, $ul-width: 182px) {
   & > ul { width: $ul-width; top: $ul-top; }
   height: $height;
 
@@ -140,6 +145,11 @@ header {
   }
 }
 
+#market_switch_tabs_wrapper {
+  top: $gutter;
+  left: $gutter;
+  @include float-wrapper(300px, $trades-tabs-height, 200px);
+}
 
 #market_trades_tabs_wrapper {
   top: $gutter;
@@ -302,7 +312,7 @@ header {
 .col-left { padding-right: 12px; }
 .panel-body-head { border-bottom: 1px solid #333; }
 
-#order_book, #market_trades, #my_orders, #my_done_orders {
+#order_book, #market_trades, #my_orders, #my_done_orders, #market_swtich {
   table {
     margin-bottom: 0px;
 

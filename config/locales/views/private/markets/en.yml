@@ -18,6 +18,7 @@ en:
         my_active_order: Active
         my_done_order: Done
         trades: Trading
+        market_switch: Markets Switch
       depths:
         price: Price
         amount: Amount
@@ -68,6 +69,11 @@ en:
         price: Price
         volume: Volume
         amount: Amount
+      market_switch:
+        title: Markets Switch
+        name: Market
+        ask: ASK
+        bid: BID
       my_done_orders:
         title: My [Done Orders]
         filter: Filter

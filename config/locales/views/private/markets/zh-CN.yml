@@ -20,6 +20,7 @@ zh-CN:
         my_active_order: 有效委单
         my_done_order: 成交委单
         trades: 委单成交
+        market_switch: 市场动态
       depths:
         price: 价格
         amount: 数量
@@ -70,6 +71,11 @@ zh-CN:
         price: 成交价
         volume: 成交量
         amount: 成交总价
+      market_switch:
+        title: 市场动态
+        name: 交易对
+        ask: 卖出价
+        bid: 买入价
       my_done_orders:
         title: 我的 [成交委单]
         filter: 过滤
