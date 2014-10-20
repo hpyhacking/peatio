@@ -21,6 +21,5 @@
         = f.text_field :total, class: 'form-control'
         span.input-group-addon = market.bid['currency'].upcase
       = render partial: 'balance'
-      p
-        button.btn.btn-danger.btn-sm.btn-block.text-down type="submit" = t('.action')
+      button.btn.btn-danger.btn-block.text-down type="submit" = t('.action')
   = render partial: 'mask'

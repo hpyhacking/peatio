@@ -275,7 +275,7 @@ header {
 
     label.input-group-addon {
       padding: 3px 6px 0px 6px; 
-      min-width: 60px;
+      min-width: 70px;
       text-align: right;
     }
 
@@ -314,6 +314,11 @@ header {
     margin-left: 0px;
     position: absolute;
     i.fa { margin-left: 4px; }
+  }
+
+  .row-tips {
+    margin-top: 18px;
+    margin-bottom: 13px;
   }
 }
 
