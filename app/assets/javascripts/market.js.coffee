@@ -40,7 +40,7 @@ $ ->
   MyOrdersUI.attachTo('#my_orders')
   MyDoneOrdersUI.attachTo('#my_done_orders')
   MarketTickerUI.attachTo('#ticker')
-  MarketTradesUI.attachTo('#trades')
+  MarketTradesUI.attachTo('#market_trades')
   FlashMessageUI.attachTo('.flash-message')
 
   FloatUI.attachTo('.float')

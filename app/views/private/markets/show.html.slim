@@ -16,14 +16,14 @@ html lang="en"
         /= render partial: 'ticker', locals: {market: @market}
         = render partial: 'candlestick'
 
-        #trades-tabs-wrapper.float
+        #market_trades_tabs_wrapper.float
           ul.nav.nav-tabs.tabs-left.sideways
-            li: a href='#trades_content' data-toggle='tab' = t('.trades')
+            li: a href='#market_trades_content' data-toggle='tab' = t('.trades')
           .tab-content
-            #trades_content.tab-pane
-              = render partial: 'trades'
+            #market_trades_content.tab-pane
+              = render partial: 'market_trades'
 
-        #my-order-tabs-wrapper.float
+        #my_order_tabs_wrapper.float
           ul.nav.nav-tabs.tabs-left.sideways
             li: a href='#my_orders_content' data-toggle='tab' = t('.my_active_order')
             li: a href='#my_done_orders_content' data-toggle='tab' = t('.my_done_order')

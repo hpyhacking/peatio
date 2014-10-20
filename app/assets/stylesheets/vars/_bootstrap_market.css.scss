@@ -37,6 +37,14 @@ $nav-tabs-justified-link-border-color: #333;
 $nav-tabs-active-link-hover-bg: $panel-default-heading-bg;
 $nav-tabs-active-link-hover-color: #ccc;
 
+$border-radius-base: 2px;
+
+$dropdown-bg: #333;
+$dropdown-link-color: #ccc;
+$dropdown-link-hover-bg: lighten($dropdown-bg, 40%);
+
+$table-bg-hover: #333;
+
 /* bootstrap form mix 
 ------------------------------------------------------------ */
 $input-bg: $panel-bg;

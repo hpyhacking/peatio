@@ -17,6 +17,7 @@ en:
         bid_order: 'BID ##sn#'
         my_active_order: Active
         my_done_order: Done
+        trades: Trading
       depths:
         price: Price
         amount: Amount
@@ -61,13 +62,12 @@ en:
         amount: Amount
         ask: ASK
         bid: BID
-      trades:
-        title: Trades
       market_trades:
-        title: Market Trades
-        time: Time
+        title: Market Tradeing
+        time: Trading Time
         price: Price
         volume: Volume
+        amount: Amount
       my_done_orders:
         title: My [Done Orders]
         filter: Filter

@@ -1,5 +1,7 @@
 <tr>
-  <td class="time text-left col-xs-12">{{{format_trade_time date}}}</td>
-  <td class="price text-right col-xs-6 {{{format_trend type}}}">{{{format_mask_fixed_price price }}}</td>
-  <td class="amount text-right col-xs-6">{{{format_mask_fixed_volume amount }}}</td>
+  <td class="time text-left col-xs-7">{{{format_trade_time date}}}</td>
+  <td class='kind text-left col-xs-2 {{{format_trend type}}}'>{{{format_short_trade type}}}</td>
+  <td class='price text-right col-xs-5'>{{format_fix_bid price}}</td>
+  <td class='volume text-right col-xs-5'>{{format_fix_ask amount}}</td>
+  <td class='amount text-right col-xs-5'>{{{format_amount amount price }}}</td>
 </tr>

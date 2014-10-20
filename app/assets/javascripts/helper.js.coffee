@@ -35,8 +35,13 @@ Handlebars.registerHelper 'format_cancel', ->
 Handlebars.registerHelper 'format_trade', (ask_or_bid) ->
   gon.i18n[ask_or_bid]
 
-Handlebars.registerHelper 'format_short_trade', (ask_or_bid) ->
-  gon.i18n[ask_or_bid]
+Handlebars.registerHelper 'format_short_trade', (type) ->
+  if type == 'buy' or type == 'bid'
+    gon.i18n['bid']
+  else if type == "sell" or type = 'ask'
+    gon.i18n['ask']
+  else
+    'n/a'
 
 Handlebars.registerHelper 'format_time', (timestamp) ->
   m = moment.unix(timestamp)
