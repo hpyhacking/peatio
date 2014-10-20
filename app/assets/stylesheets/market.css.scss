@@ -38,10 +38,10 @@ $entry-height: 220px;
 $order-book-width: $entry-width * 2 + $gutter;
 $order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
 
-$my-orders-tabs-width: 600px;
+$my-orders-tabs-width: 500px;
 $my-orders-tabs-height: 282px;
 
-$trades-tabs-width: 600px;
+$trades-tabs-width: 500px;
 $trades-tabs-height: 282px;
 
 $candlestick-width: $min-width - $order-book-width - $gutter-3x - $nav_stacked_width - $nav_stacked_width;
@@ -148,19 +148,18 @@ header {
 
 #market_switch_tabs_wrapper {
   top: $gutter; left: $gutter;
-  @include float-wrapper(300px, $trades-tabs-height, 200px);
+  @include float-wrapper(260px, $trades-tabs-height, 200px);
 }
 
 #chat_tabs_wrapper {
   bottom: $gutter; left: $gutter;
   min-height: 300px;
-  @include float-wrapper(300px, 300px);
+  @include float-wrapper(260px, 300px);
   &.stop-resize { 
     height: 100px !important; 
     min-height: 100px !important; 
     & > ul { top: 140px }
   }
-
 }
 
 #market_trades_tabs_wrapper {
@@ -342,7 +341,7 @@ header {
       }
     }
 
-    thead { cursor: default; }
+    thead { cursor: default; th { color: #777; }}
     &.table-hover { tbody > tr:hover { cursor: pointer;} }
   }
 }

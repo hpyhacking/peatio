@@ -69,7 +69,7 @@ zh-CN:
         time: 成交时间
         price: 成交价
         volume: 成交量
-        amount: 成交总价
+        amount: 总价
       market_switch:
         title: 市场动态
         name: 交易对
@@ -81,11 +81,9 @@ zh-CN:
         all: 查看 [全部委单]
         buy: 查看 [买入委单]
         sell: 查看 [卖出委单]
-        cancel: 取消记录
-        my_orders_title: 查看有效委单
-        price: 价格
-        volume: 数量
-        time: 挂单时间
+        price: 成交价
+        volume: 成交量
+        time: 创建时间
         amount: 总价
       my_orders:
         title: 我的 [有效委单]
@@ -97,11 +95,11 @@ zh-CN:
         confirm_clear_all: "确定要撤销全部 [买卖委单] 吗?"
         confirm_clear_bids: "确定要撤销 [买入委单] 吗?"
         confirm_clear_asks: "确定要撤销 [卖出委单] 吗?"
-        my_done_orders_title: 查看成交委单
-        price: 价格
-        volume: 数量
-        time: 挂单时间
-        operation: 操作
+        price: 委单价
+        volume: 委单量
+        time: 创建时间
+        amount: 总价
+        operation: 撤销
       mask:
         warning: 请 <a class=text-up href='/'>登录</a> 或 <a class=text-up href='/'>注册</a> 后进行操作
       kline_chart:
