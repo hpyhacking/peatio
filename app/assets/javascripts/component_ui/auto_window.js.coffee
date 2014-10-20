@@ -34,7 +34,6 @@ PANEL_TABLE_HEADER_HIGH = 73
       $('#order_book .panel-body-content').height(window_h - navbar_h - entry_h - panel_table_header_high - gutter_5x)
 
       unless $('#chat_tabs_wrapper').hasClass('stop-resize')
-        console.log 'resize'
         switch_h = $('#market_switch_tabs_wrapper').height()
         $('#chat_tabs_wrapper').height(window_h - navbar_h - switch_h - gutter_9x)
 

@@ -343,7 +343,7 @@ header {
     }
 
     thead { cursor: default; }
-    tbody > tr:hover { cursor: pointer;}
+    &.table-hover { tbody > tr:hover { cursor: pointer;} }
   }
 }
 

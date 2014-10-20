@@ -29,6 +29,20 @@ window.fixAsk = (str) ->
 window.fixBid = (str) ->
   window.fix('bid', str)
 
+window.check_trend = (type) ->
+  if type == 'up' or type == 'buy' or type == 'bid' or type == true
+    true
+  else if type == 'down' or type == "sell" or type = 'ask' or type == false
+    false
+  else
+    throw "unknown trend smybol #{type}"
+
+Handlebars.registerHelper 'format_market', (market) ->
+  market.toUpperCase()
+
+Handlebars.registerHelper 'market_url', (market) ->
+  "/markets/#{market}"
+
 Handlebars.registerHelper 'format_cancel', ->
   gon.i18n.cancel
 
@@ -73,10 +87,16 @@ Handlebars.registerHelper 'format_amount', (amount, price) ->
   fixAsk(val).replace(/\..*/, "<g>$&</g>")
 
 Handlebars.registerHelper 'format_trend', (type) ->
-  if type == 'buy' or type == 'bid'
+  if check_trend(type)
     "text-up"
-  else if type == "sell" or type = 'ask'
+  else
     "text-down"
+
+Handlebars.registerHelper 'trend_icon', (type) ->
+  if check_trend(type)
+    "<i class='fa fa-caret-up text-up'></i>"
+  else
+    "<i class='fa fa-caret-down text-down'></i>"
 
 Handlebars.registerHelper 'format_fix_bid', (price) ->
   fixBid price
