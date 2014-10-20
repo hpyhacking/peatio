@@ -115,7 +115,7 @@ zh-CN:
         phone_number: "手机号码"
         otp: "验证码"
       withdraws/bank:
-        fund_extra: 银行
+        fund_extra: 转账银行
     errors:
       models:
         order_bid:

@@ -13,12 +13,4 @@ module FundSourceable
       self.fund_uid = fs.uid.strip
     end
   end
-
-  def fund_extra_text
-    if self.currency_obj.coin?
-      self.fund_extra
-    else
-      I18n.t("banks.#{self.fund_extra}")
-    end
-  end
 end
