@@ -25,6 +25,7 @@ $nav_stacked_width: 50px;
 
 $navbar-height: $navbar-height + 1px;
 $nav_stacked_width_2x: $nav_stacked_width * 2;
+$panel_table_header_high: 73px;
 $gutter-2x: $gutter * 2;
 $gutter-3x: $gutter * 3;
 $gutter-4x: $gutter * 4;
@@ -228,6 +229,10 @@ header {
   width: $order-book-width; height: $order-book-height; 
   min-height: $order-book-height;
   top: $base-top; right: $gutter; 
+
+  .panel-body-content { 
+    min-height: $min-height - $navbar-height - $entry-height - $panel_table_header_high;
+  }
 }
 
 #candlestick { 
