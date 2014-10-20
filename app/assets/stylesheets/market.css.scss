@@ -96,7 +96,9 @@ header {
   background-color: rgba(44,44,44,0.8);
 }
 
-#my_orders > .mask { padding-top: 130px; }
+#my_orders, #my_done_orders {
+  & > .mask { padding-top: 130px; }
+}
 #ask_entry > .mask { padding-top: 80px; }
 #bid_entry > .mask { padding-top: 80px; }
 
@@ -111,7 +113,6 @@ header {
     &.tabs-left { left: -30px; }
 
     &.tabs-left {
-      top: 161px;
       left: 3px;
       @include transform(rotate(-90deg)); 
       @include transform-origin(left bottom);
@@ -124,7 +125,7 @@ header {
 }
 
 #my-order-tabs-wrapper {
-  ul { width: 182px; }
+  ul { width: 182px; top: 198px; }
   height: $my-orders-tabs-height;
   right: $gutter_2x + $order-book-width;
   bottom: $gutter;
