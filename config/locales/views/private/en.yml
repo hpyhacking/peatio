@@ -3,6 +3,8 @@ en:
     withdraws:
       index:
         withdraw_history: Withdrawal History
+      create:
+        two_factors_error: Two factor authentication failed.
     funds:
       show:
         account_history: Account History

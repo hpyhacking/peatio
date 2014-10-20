@@ -3,6 +3,8 @@ zh-CN:
     withdraws:
       index:
         withdraw_history: 提现历史记录
+      create:
+        two_factors_error: 两步验证失败
     funds:
       show:
         account_history: 账户历史记录
