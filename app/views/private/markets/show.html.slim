@@ -40,6 +40,13 @@ html lang="en"
             #my_done_orders_content.tab-pane
               = render partial: 'my_done_orders'
 
+        #chat_tabs_wrapper.float
+          ul.nav.nav-tabs.tabs-right.sideways
+            li: a href='#chat_content' data-toggle='tab' = t('.chat')
+          .tab-content
+            #chat_content.tab-pane
+              = render partial: 'chat'
+
         = render partial: 'order_book'
         = render partial: 'ask_entry', locals: {market: @market, order: @order_ask }
         = render partial: 'bid_entry', locals: {market: @market, order: @order_bid }

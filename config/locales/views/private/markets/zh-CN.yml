@@ -15,12 +15,11 @@ zh-CN:
         confirm: 确认
         ask_order: '卖 ##sn#'
         bid_order: '买 ##sn#'
-        ask_orders: 买单深度
-        bid_orders: 卖单深度
         my_active_order: 有效委单
         my_done_order: 成交委单
         trades: 委单成交
         market_switch: 市场动态
+        chat: 聊天频道
       depths:
         price: 价格
         amount: 数量

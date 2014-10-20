@@ -19,6 +19,7 @@ en:
         my_done_order: Done
         trades: Trading
         market_switch: Markets Switch
+        chat: Chat Channel
       depths:
         price: Price
         amount: Amount

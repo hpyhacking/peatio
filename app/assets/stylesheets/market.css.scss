@@ -104,6 +104,7 @@ header {
 .float {
   position: absolute;
   @include transition(0.1s);
+  @include transition-property(width);
 
   .sideways {
     width: auto;
@@ -146,20 +147,29 @@ header {
 }
 
 #market_switch_tabs_wrapper {
-  top: $gutter;
-  left: $gutter;
+  top: $gutter; left: $gutter;
   @include float-wrapper(300px, $trades-tabs-height, 200px);
 }
 
+#chat_tabs_wrapper {
+  bottom: $gutter; left: $gutter;
+  min-height: 300px;
+  @include float-wrapper(300px, 300px);
+  &.stop-resize { 
+    height: 100px !important; 
+    min-height: 100px !important; 
+    & > ul { top: 140px }
+  }
+
+}
+
 #market_trades_tabs_wrapper {
-  top: $gutter;
-  right: $gutter_2x + $order-book-width;
+  top: $gutter; right: $gutter_2x + $order-book-width;
   @include float-wrapper($trades-tabs-width, $trades-tabs-height);
 }
 
 #my_order_tabs_wrapper {
-  bottom: $gutter;
-  right: $gutter_2x + $order-book-width;
+  bottom: $gutter; right: $gutter_2x + $order-book-width;
   @include float-wrapper($trades-tabs-width, $trades-tabs-height);
 }
 
