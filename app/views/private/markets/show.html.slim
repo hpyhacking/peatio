@@ -16,6 +16,13 @@ html lang="en"
         /= render partial: 'ticker', locals: {market: @market}
         = render partial: 'candlestick'
 
+        #trades-tabs-wrapper.float
+          ul.nav.nav-tabs.tabs-left.sideways
+            li: a href='#trades_content' data-toggle='tab' = t('.trades')
+          .tab-content
+            #trades_content.tab-pane
+              = render partial: 'trades'
+
         #my-order-tabs-wrapper.float
           ul.nav.nav-tabs.tabs-left.sideways
             li: a href='#my_orders_content' data-toggle='tab' = t('.my_active_order')
