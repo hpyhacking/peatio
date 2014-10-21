@@ -5,7 +5,10 @@
 
   @after 'initialize', ->
     @select('action').click => 
-      @$node.addClass('hover')
+      unless @$node.hasClass('hover')
+        @$node.addClass('hover')
+      else
+        @select('close').click()
 
     @select('close').click => 
       @$node.removeClass('hover')

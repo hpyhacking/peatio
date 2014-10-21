@@ -19,7 +19,6 @@ html lang="en"
     = render partial: "private/markets/header"
     #wrap
       .content
-        /= render partial: 'ticker', locals: {market: @market}
         = render partial: 'candlestick'
 
         #market_switch_tabs_wrapper.float
