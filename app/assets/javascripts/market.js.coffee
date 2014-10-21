@@ -60,10 +60,6 @@ $ ->
   GlobalData.attachTo(document, {pusher: pusher})
   MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
 
-  window.pusher = pusher
-
-  notifier = window.notifier = new Notifier()
-
   window.sfx = (kind) ->
     s = $("##{kind}-fx")[0]
     return unless s.play
@@ -76,6 +72,9 @@ $ ->
 
   window.sfx_success = ->
     window.sfx('success')
+
+  window.pusher = pusher
+  notifier = window.notifier = new Notifier()
 
 # TODO: unknown code
 #@App =

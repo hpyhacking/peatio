@@ -63,7 +63,16 @@ body {
 
   // fixed icon spin 
   -webkit-font-smoothing: antialiased !important;
-  * { -webkit-font-smoothing: antialiased !important; }
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-focus-ring-color: transparent !important;
+
+  * {
+    -webkit-font-smoothing: antialiased !important; 
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-focus-ring-color: transparent !important;
+  }
 
   a.hand-point { cursor: pointer; }
 }
@@ -80,6 +89,30 @@ header {
   span.vol, span.high, span.low {
     font-family: $font-family-monospace;
   }
+
+  .bootstrap-switch.bootstrap-switch-focused {
+    @include box-shadow(none);
+    border-color: $panel-default-border;
+  }
+
+  .bootstrap-switch {
+    margin-top: -2px; 
+    border-color: $panel-default-border;
+
+    & .bootstrap-switch-handle-on.bootstrap-switch-success {
+      color: $text-color !important;
+      background-color: lighten($panel-default-heading-bg, 10%);
+    }
+
+    & .bootstrap-switch-handle-off.bootstrap-switch-default {
+      color: $text-color !important;
+      background-color: $panel-default-heading-bg;
+    }
+
+    .bootstrap-switch-label {
+      background-color: $panel-bg;
+    }
+  }
 }
 
 .navbar-static-top {
@@ -93,6 +126,7 @@ header {
 
 .container-fluid {
   padding-left: 10px;
+  padding-right: 10px;
 }
 
 .content {

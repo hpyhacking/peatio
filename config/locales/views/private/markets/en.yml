@@ -2,9 +2,6 @@ en:
   private:
     markets:
       show:
-        on: ON
-        off: OFF
-        notification: Desktop Real Notification
         error: Place Failed
         success: Place Success
         analysis_panel: Analysis
@@ -67,10 +64,13 @@ en:
         volume: Volume
         amount: Amount
       header:
+        on: ON
+        off: OFF
         switch: '[switch]'
         vol: 24h Volume
         high: High
         low: Low
+        notification: Desktop Real Notification
       market_switch:
         title: Markets Switch
         name: Market
