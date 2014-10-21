@@ -64,8 +64,9 @@ en:
         volume: Volume
         amount: Amount
       header:
-        on: ON
-        off: OFF
+        network: Conn State
+        switch_on: ON
+        switch_off: OFF
         switch: '[switch]'
         vol: 24h Volume
         high: High

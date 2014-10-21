@@ -64,8 +64,9 @@ zh-CN:
         volume: 成交量
         amount: 总价
       header:
-        on: 开
-        off: 关
+        network: 连接状态
+        switch_on: 开
+        switch_off: 关
         switch: '[切换]'
         vol: 二十四小时 成交量
         high: 最高

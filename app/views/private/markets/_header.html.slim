@@ -16,4 +16,7 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
     ul.nav.navbar-nav.navbar-right
       p.navbar-text
         span = t('.notification')
-        span: input type="checkbox" name="notification-checkbox" data-size='mini' data-on-text="#{t('.on')}" data-off-text="#{t('.off')}" data-on-color='success'
+        span: input type="checkbox" name="notification-checkbox" data-size='mini' data-on-text="#{t('.switch_on')}" data-off-text="#{t('.switch_off')}" data-on-color='success'
+      p.navbar-text
+        span = t('.network')
+        span: i.fa.fa-wifi
