@@ -10,6 +10,12 @@ html lang="en"
     = csrf_meta_tags
 
   body id='#{body_id}' data-lang="#{locale_name}"
+    audio preload='preload' id='success-fx'
+      source src="/sounds/success.mp3"
+
+    audio preload='preload' id='warning-fx'
+      source src="/sounds/warning.mp3"
+
     = render partial: "private/markets/header"
     #wrap
       .content

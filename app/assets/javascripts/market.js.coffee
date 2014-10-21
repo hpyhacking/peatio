@@ -63,6 +63,19 @@ $ ->
 
   notifier = window.notifier = new Notifier()
 
+  window.sfx = (kind) ->
+    s = $("##{kind}-fx")[0]
+    return unless s.play
+    s.pause()
+    s.currentTime = 0
+    s.play()
+
+  window.sfx_warning = ->
+    window.sfx('warning')
+
+  window.sfx_success = ->
+    window.sfx('success')
+
 # TODO: unknown code
 #@App =
   #showInfo:   (msg) -> $(document).trigger 'flash-info',   msg: msg

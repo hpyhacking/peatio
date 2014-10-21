@@ -252,8 +252,8 @@ header {
     }
 
     .hint-price-disadvantage, .hint-positions  {
-      top: 3px;
-      left: 42px;
+      top: 2px;
+      left: 39px;
       margin-left: 0px;
       position: absolute;
       z-index: 10;
@@ -315,8 +315,8 @@ header {
   .label.label-danger { color: $brand-danger }
 
   span.status-info, .status-success, .status-danger {
-    top: -2px;
-    left: -5px;
+    top: -3px;
+    left: -6px;
     margin-left: 0px;
     position: absolute;
     i.fa { margin-left: 4px; }
