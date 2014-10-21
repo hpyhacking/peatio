@@ -53,10 +53,6 @@ $ ->
     wsPort: gon.pusher.wsPort
     wssPort: gon.pusher.wssPort
 
-  pusher.connection.bind 'state_change', (state) ->
-    if state.current is 'unavailable'
-      $('#markets-show .pusher-unavailable').removeClass('hide')
-
   GlobalData.attachTo(document, {pusher: pusher})
   MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
 
