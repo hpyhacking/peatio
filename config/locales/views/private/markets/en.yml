@@ -70,6 +70,11 @@ en:
         price: Price
         volume: Volume
         amount: Amount
+      header:
+        switch: '[switch]'
+        vol: 24h Volume
+        high: High
+        low: Low
       market_switch:
         title: Markets Switch
         name: Market

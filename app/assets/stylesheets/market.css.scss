@@ -14,7 +14,6 @@
 @import 'csshake.min';
 
 @import 'layouts/basic';
-@import 'layouts/header';
 
 /* basic layout 
 ------------------------------------------------ */
@@ -58,11 +57,26 @@ body,
 body { 
   min-width: $min-width !important;
   min-height: $min-height !important; 
+
+  // fixed icon spin 
+  -webkit-font-smoothing: antialiased !important;
+  * { -webkit-font-smoothing: antialiased !important; }
+
+  a.hand-point { cursor: pointer; }
 }
 
 header {
   box-sizing: border-box;
   bottom-border: 0px;
+
+  p + p { margin-left: 20px !important; }
+  span + span { margin-left: 10px !important; }
+
+  span[data-title]:before { content: attr(data-title) ": "; }
+
+  span.vol, span.high, span.low {
+    font-family: $font-family-monospace;
+  }
 }
 
 .navbar-static-top {
@@ -72,6 +86,10 @@ header {
 #wrap {
   box-sizing: border-box;
   margin-top: 0px - $navbar-height;
+}
+
+.container-fluid {
+  padding-left: 10px;
 }
 
 .content {
@@ -206,7 +224,7 @@ header {
     }
   }
 
-  .panel-heading a { cursor: pointer; }
+  .panel-heading 
 
   .panel-body.panel-fixed-table-head {
     table { margin-bottom: 0px; }
@@ -234,6 +252,7 @@ header {
     min-height: $min-height - $navbar-height - $entry-height - $panel_table_header_high;
   }
 }
+
 
 #candlestick { 
   position: absolute;
@@ -274,20 +293,20 @@ header {
   .input-group {
     .input-group-addon { 
       padding: 1px 4px 0px 4px; 
-      color: #777;
     }
 
     label.input-group-addon {
       padding: 3px 6px 0px 6px; 
       min-width: 70px;
       text-align: right;
-      color: #777;
+      color: #aaa;
     }
 
     span.input-group-addon {
       padding: 3px 6px 0px 6px; 
       min-width: 40px;
       text-align: left;
+      color: #aaa;
     }
 
     input {

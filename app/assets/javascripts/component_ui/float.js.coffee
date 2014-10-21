@@ -10,6 +10,3 @@
     @select('close').click => 
       @$node.removeClass('hover')
       @select('action').removeClass('active')
-
-      
-

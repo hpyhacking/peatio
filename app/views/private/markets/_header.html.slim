@@ -2,4 +2,15 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
   .container-fluid
     ul#menu.nav.navbar-nav.navbar-left
       a.navbar-brand href='#{root_path}' PEATIO
+      p.navbar-text
+        span.market
+        span: small: a.hand-point.switch-market = t('.switch')
+      p.navbar-text
+        span data-title="#{t('.vol')}"
+          span.vol.text-up
+        span data-title='#{t('.high')}'
+          span.high.text-up
+        span data-title='#{t('.low')}'
+          span.low.text-up
+      
     ul.nav.navbar-nav.navbar-right
