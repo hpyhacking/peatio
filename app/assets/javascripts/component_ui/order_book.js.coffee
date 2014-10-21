@@ -1,19 +1,18 @@
 @OrderBookUI = flight.component ->
   @attributes
-    bookCounter: 10
+    bookLimit: 30
     askBookSel: 'table.asks'
     bidBookSel: 'table.bids'
     seperatorSelector: 'table.seperator'
-
-  @refreshSeperator = (event, data) ->
-    attrs = {trade: data.trades[0], hint: gon.i18n.latest_trade}
-    seperator = @select('seperatorSelector')
-    seperator.fadeOut ->
-      seperator.html(JST['order_book_seperator'](attrs)).fadeIn()
+    timer: '.fa.fa-refresh'
 
   @refreshOrders = (event, data) ->
-    @buildOrders(@select('bidBookSel'), _.first(data.bids, 200), 'bid')
-    @buildOrders(@select('askBookSel'), _.first(data.asks, 200), 'ask')
+    @buildOrders(@select('bidBookSel'), _.first(data.bids, @.attr.bookLimit), 'bid')
+    @buildOrders(@select('askBookSel'), _.first(data.asks, @.attr.bookLimit), 'ask')
+    @resetTimer()
+
+  @resetTimer = ->
+    @select('timer').show().wait(1200).fadeOut(300)
 
   @buildOrders = (table, orders, bid_or_ask) ->
     book = @select("#{bid_or_ask}BookSel")
@@ -41,7 +40,6 @@
 
   @after 'initialize', ->
     @on document, 'market::order_book', @refreshOrders
-    @on document, 'market::trades', @refreshSeperator
 
     $('.asks').on 'click', 'tr', (e) =>
       i = $(e.target).closest('tr').data('order')
