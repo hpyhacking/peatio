@@ -40,8 +40,8 @@ module Worker
       @trades[market.id] = trades.order('id desc').limit(FRESH_TRADES).map(&:for_global)
       Rails.cache.write "peatio:#{market.id}:trades", @trades[market.id]
 
-      low_trade = initialize_market_low(market)
-      high_trade = initialize_market_high(market)
+      low_trade = initialize_market_low(market.id)
+      high_trade = initialize_market_high(market.id)
 
       @tickers[market.id] = {
         low:  low_trade.try(:price)   || ::Trade::ZERO,
@@ -86,7 +86,7 @@ module Worker
     def initialize_market_low(market)
       if low_trade = Trade.with_currency(market).h24.order('price asc').first
         ttl = low_trade.created_at.to_i + 24.hours - Time.now.to_i
-        write_h24_key "peatio:#{market.id}:h24:low", low_trade.price, ttl
+        write_h24_key "peatio:#{market}:h24:low", low_trade.price, ttl
         low_trade
       end
     end
@@ -94,7 +94,7 @@ module Worker
     def initialize_market_high(market)
       if high_trade = Trade.with_currency(market).h24.order('price desc').first
         ttl = high_trade.created_at.to_i + 24.hours - Time.now.to_i
-        write_h24_key "peatio:#{market.id}:h24:high", high_trade.price, ttl
+        write_h24_key "peatio:#{market}:h24:high", high_trade.price, ttl
         high_trade
       end
     end
