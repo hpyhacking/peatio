@@ -274,13 +274,14 @@ header {
   .input-group {
     .input-group-addon { 
       padding: 1px 4px 0px 4px; 
-      color: #eee;
+      color: #777;
     }
 
     label.input-group-addon {
       padding: 3px 6px 0px 6px; 
       min-width: 70px;
       text-align: right;
+      color: #777;
     }
 
     span.input-group-addon {
@@ -308,6 +309,7 @@ header {
     z-index: 10;
   }
 
+  .label { font-size: inherit; }
   .label.label-info { color: $brand-info }
   .label.label-success { color: $brand-success }
   .label.label-danger { color: $brand-danger }
