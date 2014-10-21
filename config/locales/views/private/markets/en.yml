@@ -26,13 +26,9 @@ en:
         buy: Buy
         sell: Sell
       ticker:
-        title: Realtime Ticker
         last: Last Price
-        high: 24h High
-        low: 24h Low
-        volume: 24h Volume
-        ask: Ask Price
-        bid: Bid Price
+        ask: ASK
+        bid: BID
       account_balance:
         title: Account Balance
         available: Available %{currency}

@@ -17,14 +17,16 @@ window.GlobalData = flight.component ->
     global_channel.bind 'tickers', (data) =>
       unless @.last_tickers
         for market, ticker of data
-          data[market]['buy_trend'] = data[market]['sell_trend'] = true
+          data[market]['buy_trend'] = data[market]['sell_trend'] = data[market]['last_trend'] = true
         @.last_tickers = data
 
       tickers = for market, ticker of data
         buy = parseFloat(ticker.buy)
         sell = parseFloat(ticker.sell)
+        last = parseFloat(ticker.last)
         last_buy = parseFloat(@.last_tickers[market].buy)
         last_sell = parseFloat(@.last_tickers[market].sell)
+        last_last = parseFloat(@.last_tickers[market].last)
 
         if buy != last_buy
           data[market]['buy_trend'] = ticker['buy_trend'] = (buy > last_buy)
@@ -35,6 +37,11 @@ window.GlobalData = flight.component ->
           data[market]['sell_trend'] = ticker['sell_trend'] = (sell > last_sell)
         else
           ticker['sell_trend'] = @.last_tickers[market]['sell_trend']
+
+        if last != last_last
+          data[market]['last_trend'] = ticker['last_trend'] = (last > last_last)
+        else
+          ticker['last_trend'] = @.last_tickers[market]['last_trend']
 
         if market == gon.market.id
           @trigger 'market::ticker', ticker

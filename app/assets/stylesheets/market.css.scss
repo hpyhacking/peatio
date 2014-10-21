@@ -35,8 +35,11 @@ $base-top: $gutter;
 $entry-width: 242px;
 $entry-height: 220px;
 
+$ticker-width: $entry-width * 2 + $gutter;
+$ticker-height: 55px;
+
 $order-book-width: $entry-width * 2 + $gutter;
-$order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
+$order-book-height: $min-height - $navbar-height - $entry-height - $ticker-height - $gutter-4x;
 
 $my-orders-tabs-width: 500px;
 $my-orders-tabs-height: 282px;
@@ -243,6 +246,11 @@ header {
 .entry-right { bottom: $gutter; right: $gutter + $entry-width + $gutter; }
 .entry-left { bottom: $gutter; right: $gutter; }
 
+#ticker {
+  width: $ticker-width; height: $ticker-height;
+  bottom: $gutter_2x + $entry-height; right: $gutter;
+}
+
 #order_book { 
   width: $order-book-width; height: $order-book-height; 
   min-height: $order-book-height;
@@ -252,7 +260,6 @@ header {
     min-height: $min-height - $navbar-height - $entry-height - $panel_table_header_high;
   }
 }
-
 
 #candlestick { 
   position: absolute;
@@ -352,7 +359,7 @@ header {
 .col-left { padding-right: 12px; }
 .panel-body-head { border-bottom: 1px solid #333; }
 
-#order_book, #market_trades, #my_orders, #my_done_orders, #market_swtich {
+#ticker, #order_book, #market_trades, #my_orders, #my_done_orders, #market_swtich {
   table {
     margin-bottom: 0px;
 

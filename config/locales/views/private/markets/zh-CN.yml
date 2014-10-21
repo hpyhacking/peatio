@@ -26,11 +26,7 @@ zh-CN:
         buy: 买入
         sell: 卖出
       ticker:
-        title: 市场实时报价
         last: 最新成交价
-        high: 24h 最高价
-        low: 24h 最低价
-        volume: 24h 成交量
         ask: 卖一价
         bid: 买一价
       account_balance:
