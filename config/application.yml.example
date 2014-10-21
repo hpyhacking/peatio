@@ -61,6 +61,12 @@ defaults: &defaults
   TWILIO_SID: YOUR_TWILIO_SID
   TWILIO_TOKEN: YOUR_TWILIO_TOKEN
 
+  # chat setting
+  # --------------------------------------------------------------
+  # Do you want chat feature in your exchange ?
+  # send mail to community@peatio.com
+  CHAT_FEATURE: false
+
 development:
   <<: *defaults
 
