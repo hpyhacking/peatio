@@ -335,6 +335,9 @@ header {
   table {
     margin-bottom: 0px;
 
+    &.hidden-buy { tr.bid { display: none; } }
+    &.hidden-sell { tr.ask { display: none; } }
+
     td, th {
       padding: 0px 2px;
       border: none;
