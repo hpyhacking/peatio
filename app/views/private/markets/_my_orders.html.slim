@@ -1,7 +1,7 @@
 #my_orders.panel.panel-default
   .panel-heading
     span = t('.title')
-    a.switch_my_done_orders.pull-right.text-up href='#' = t('.my_done_orders_title')
+    a.hand-point.pull-right: i.fa.fa-close
     .btn-group.pull-right
       a.dropdown-toggle  data-toggle="dropdown"
         b = t('.one_click_clear')
@@ -13,12 +13,13 @@
   .panel-body.panel-body-head
     table.table
       thead: tr
-        th.time.col-xs-7.text-left = t('.time')
-        th.kind.col-xs-3.text-left
-        th.price.col-xs-5.text-right = t('.price')
-        th.volume.col-xs-5.text-right = t('.volume')
-        th.operation.col-xs-4.text-right = t('.operation')
+        th.time.col-xs-6.text-left = t('.time')
+        th.kind.col-xs-2.text-left
+        th.price.col-xs-4.text-right = t('.price')
+        th.volume.col-xs-4.text-right = t('.volume')
+        th.amount.col-xs-5.text-right = t('.amount')
+        th.operation.col-xs-3.text-right = t('.operation')
   .panel-body.panel-body-content
-    table.table.table-condensed
+    table.table.table-hover
       tbody
   = render partial: 'mask'

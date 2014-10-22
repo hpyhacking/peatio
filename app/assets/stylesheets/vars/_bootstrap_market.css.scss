@@ -7,19 +7,21 @@ $grid-gutter-width: 4px;
 $navbar-padding-horizontal: 5px;
 $navbar-margin-bottom: 0px;
 
+$navbar-height: 30px;
+
 $body-bg: #000;
 
 $text-color: #ccc;
 $link-color: #ddd;
 
-$navbar-default-bg: $brand-primary;
+$navbar-default-bg: rgba(163, 176, 178, 0.18);
 
 $up-text: rgb(77, 215, 16);
 $down-text: rgb(208, 0, 23);
 
-$navbar-default-border: #ffd711;
+$navbar-default-border: rgba(179, 175, 156, 0.28);
 
-$panel-bg: #202020;
+$panel-bg: rgba(32,32,32,0.9);
 $panel-default-heading-bg: #2b3434;
 $panel-default-border: #333;
 $panel-border-radius: 2px;
@@ -29,6 +31,19 @@ $panel-default-text: $text-color;
 
 $font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
 
+$nav-tabs-border-color: #333;
+$nav-tabs-active-link-hover-border-color: #333;
+$nav-tabs-justified-link-border-color: #333;
+$nav-tabs-active-link-hover-bg: $panel-default-heading-bg;
+$nav-tabs-active-link-hover-color: #ccc;
+
+$border-radius-base: 2px;
+
+$dropdown-bg: #333;
+$dropdown-link-color: #ccc;
+$dropdown-link-hover-bg: lighten($dropdown-bg, 40%);
+
+$table-bg-hover: #333;
 
 /* bootstrap form mix 
 ------------------------------------------------------------ */

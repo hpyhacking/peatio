@@ -11,11 +11,11 @@
       @trigger "order::#{data.state}", data
 
     channel.bind 'trade', (data) =>
-      @trigger 'trade::done', data
+      @trigger 'trade', data
 
     # Initializing at bootstrap
     @trigger 'account::update', gon.accounts
+
     if gon.orders
       @trigger 'order::wait::populate', orders: gon.orders.wait
-      @trigger 'trade::done::populate', orders: gon.orders.done.reverse()
-
+      @trigger 'order::done::populate', orders: gon.orders.done.reverse()

@@ -14,25 +14,45 @@
 @import 'csshake.min';
 
 @import 'layouts/basic';
-@import 'layouts/header';
 
 /* basic layout 
 ------------------------------------------------ */
-$min-width: 1280px;
-$min-height: 620px;
-$navbar-height: 51px;
-$min-width: 1180px;
-$sidebar-width: $brand-width;
 $gutter: 2px;
+$min-width: 1180px;
+$min-height: 620px;
+$nav_stacked_width: 50px;
+
+$navbar-height: $navbar-height + 1px;
+$nav_stacked_width_2x: $nav_stacked_width * 2;
+$panel_table_header_high: 73px;
 $gutter-2x: $gutter * 2;
 $gutter-3x: $gutter * 3;
 $gutter-4x: $gutter * 4;
 $gutter-5x: $gutter * 5;
 
+$base-top: $gutter;
+
+$entry-width: 242px;
+$entry-height: 220px;
+
+$ticker-width: $entry-width * 2 + $gutter;
+$ticker-height: 55px;
+
+$order-book-width: $entry-width * 2 + $gutter;
+$order-book-height: $min-height - $navbar-height - $entry-height - $ticker-height - $gutter-4x;
+
+$my-orders-tabs-width: 500px;
+$my-orders-tabs-height: 282px;
+
+$trades-tabs-width: 500px;
+$trades-tabs-height: 282px;
+
+$candlestick-width: $min-width - $order-book-width - $gutter-3x - $nav_stacked_width - $nav_stacked_width;
+$candlestick-height: $min-height - $navbar-height - $gutter-2x;
+
 html,
 body, 
 #wrap, 
-.sidebar, 
 .content { 
   height: 100%; 
 }
@@ -40,11 +60,59 @@ body,
 body { 
   min-width: $min-width !important;
   min-height: $min-height !important; 
+
+  // fixed icon spin 
+  -webkit-font-smoothing: antialiased !important;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-focus-ring-color: transparent !important;
+
+  * {
+    -webkit-font-smoothing: antialiased !important; 
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-focus-ring-color: transparent !important;
+  }
+
+  a.hand-point { cursor: pointer; }
 }
 
 header {
   box-sizing: border-box;
   bottom-border: 0px;
+
+  p + p { margin-left: 20px !important; }
+  span + span { margin-left: 10px !important; }
+
+  span[data-title]:before { content: attr(data-title) ": "; }
+
+  span.vol, span.high, span.low {
+    font-family: $font-family-monospace;
+  }
+
+  .bootstrap-switch.bootstrap-switch-focused {
+    @include box-shadow(none);
+    border-color: $panel-default-border;
+  }
+
+  .bootstrap-switch {
+    margin-top: -2px; 
+    border-color: $panel-default-border;
+
+    & .bootstrap-switch-handle-on.bootstrap-switch-success {
+      color: $text-color !important;
+      background-color: lighten($panel-default-heading-bg, 10%);
+    }
+
+    & .bootstrap-switch-handle-off.bootstrap-switch-default {
+      color: $text-color !important;
+      background-color: $panel-default-heading-bg;
+    }
+
+    .bootstrap-switch-label {
+      background-color: $panel-bg;
+    }
+  }
 }
 
 .navbar-static-top {
@@ -56,39 +124,19 @@ header {
   margin-top: 0px - $navbar-height;
 }
 
-.sidebar { 
-  padding-top: $navbar-height;
-  background-color: $brand-primary; 
-  float: left; 
-  position: absolute; 
-  width: $sidebar-width;
-
-  li {
-    display: block;
-    padding: 15px 15px 15px 15px;
-    text-align: center;
-    &.active {
-      background-color: $gray-darker;
-    }
-  }
-
-  .switch-control {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    i.fa { margin-right: 0px; }
-  }
+.container-fluid {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .content {
   top: $navbar-height;
-  left: $sidebar-width;
-  min-width: $min-width - $sidebar-width;
+  min-width: $min-width;
   min-height: $min-height - $navbar-height;
   width: 100%;
   height: 100%;
   position: absolute; 
-  font-size: 12px !important;
+  font-size: 14px !important;
   background-color: #000;
   font-family: $font-family-monospace;
 }
@@ -103,15 +151,88 @@ header {
   background-color: rgba(44,44,44,0.8);
 }
 
-#my_orders > .mask { padding-top: 130px; }
+#my_orders, #my_done_orders {
+  & > .mask { padding-top: 130px; }
+}
 #ask_entry > .mask { padding-top: 80px; }
 #bid_entry > .mask { padding-top: 80px; }
+
+.float {
+  position: absolute;
+  @include transition(0.1s);
+  @include transition-property(width);
+
+  .sideways {
+    width: auto;
+    position: absolute;
+
+    li > a { background: #000; }
+
+    &.tabs-left {
+      left: 3px;
+      li { float: right; } // turn tabs
+      @include transform(rotate(-90deg)); 
+      @include transform-origin(left bottom);
+    }
+
+    &.tabs-right {
+      right: 3px;
+      li { float: left; } // turn tabs 
+      @include transform(rotate(90deg)); 
+      @include transform-origin(right bottom);
+    }
+  }
+
+  i.fa.fa-close { position: relative; z-index: 910; }
+  .tab-content .tab-pane > * { width: 100%; height: 100%; }
+}
+
+
+@mixin float-wrapper($width, $height, $ul-top: 198px, $ul-width: 182px) {
+  & > ul { width: $ul-width; top: $ul-top; }
+  height: $height;
+
+  width: 0px;
+  .tab-content { display: none; }
+
+  &.hover, &.hover-force { 
+    width: $width; 
+    .tab-content { display: block; } 
+    .sideways.tabs-left { left: 1px; }
+  }
+}
+
+#market_switch_tabs_wrapper {
+  top: $gutter; left: $gutter;
+  @include float-wrapper(260px, $trades-tabs-height, 200px);
+}
+
+#chat_tabs_wrapper {
+  bottom: $gutter; left: $gutter;
+  min-height: 300px;
+  @include float-wrapper(260px, 300px);
+  &.stop-resize { 
+    height: 100px !important; 
+    min-height: 100px !important; 
+    & > ul { top: 140px }
+  }
+}
+
+#market_trades_tabs_wrapper {
+  top: $gutter; right: $gutter_2x + $order-book-width;
+  @include float-wrapper($trades-tabs-width, $trades-tabs-height);
+}
+
+#my_order_tabs_wrapper {
+  bottom: $gutter; right: $gutter_2x + $order-book-width;
+  @include float-wrapper($trades-tabs-width, $trades-tabs-height);
+}
+
 
 /* panel
 ------------------------------------------------ */
 .panel {
   position: absolute;
-  box-sizing: padding-box;
   margin-bottom: 0px;
 
   &.panel-wide {
@@ -140,6 +261,8 @@ header {
     }
   }
 
+  .panel-heading 
+
   .panel-body.panel-fixed-table-head {
     table { margin-bottom: 0px; }
     padding-bottom: 0px;
@@ -151,72 +274,33 @@ header {
   }
 }
 
-
 /* layout positon
 ----------------------------------------------- */
-$base-top: $gutter;
-
-$entry-width: 242px;
-$entry-height: 190px;
-
-$order-book-width: $entry-width * 2 + $gutter;
-$order-book-height: $min-height - $navbar-height - $entry-height - $gutter-3x;
-
-$my-orders-width: $min-width - $sidebar-width - $order-book-width;
-$my-orders-width: ($my-orders-width / 2) - $gutter-2x;
-$my-orders-height: 280px;
-
-$my-done-orders-width: $my-orders-width;
-$my-done-orders-height: $my-orders-height;
-
-$trades-width: $my-orders-width;
-$trades-height: $my-orders-height;
-
-$chat-width: $min-width - $sidebar-width - $order-book-width - $my-orders-width - $trades-width - $gutter-5x;
-$chat-height: 200px;
-
-$ticker-width: $min-width - $sidebar-width - $order-book-width - $gutter-3x;
-$ticker-height: 80px;
-
-$kline-chart-width: $ticker-width;
-$kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-height - $gutter-4x;
-
 #ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
-.entry-right { top: $base-top; right: $gutter + $entry-width + $gutter; }
-.entry-left { top: $base-top; right: $gutter; }
+.entry-right { bottom: $gutter; right: $gutter + $entry-width + $gutter; }
+.entry-left { bottom: $gutter; right: $gutter; }
+
+#ticker {
+  width: $ticker-width; height: $ticker-height;
+  bottom: $gutter_2x + $entry-height; right: $gutter;
+}
 
 #order_book { 
   width: $order-book-width; height: $order-book-height; 
   min-height: $order-book-height;
-  bottom: $gutter; right: $gutter; }
+  top: $base-top; right: $gutter; 
 
-#chat { 
-  min-width: $chat-width; width: $chat-width; height: $chat-height; 
-  bottom: $gutter; left: $gutter; }
+  .panel-body-content { 
+    min-height: $min-height - $navbar-height - $entry-height - $panel_table_header_high;
+  }
+}
 
-#trades { 
-  min-width: $trades-width;
-  width: $trades-width; height: $trades-height; 
-  left: $gutter; bottom: $gutter; }
-
-#my_orders { 
-  min-width: $trades-width;
-  width: $my-orders-width; height: $my-orders-height; 
-  right: $gutter-2x + $order-book-width ; bottom: $gutter; }
-
-#my_done_orders { 
-  min-width: $trades-width;
-  width: $my-done-orders-width; height: $my-done-orders-height; 
-  right: $gutter-2x + $order-book-width ; bottom: $gutter; }
-
-#kline_chart { 
-  min-width: $kline-chart-width; width: $kline-chart-width; 
-  min-height: $kline-chart-height; height: $kline-chart-height; 
-  top: $gutter-2x + $ticker-height; left: $gutter; }
-
-#ticker { 
-  min-width: $ticker-width; width: $ticker-width; height: $ticker-height; 
-  top: $gutter; left: $gutter; }
+#candlestick { 
+  position: absolute;
+  min-width: $candlestick-width; width: $candlestick-width; 
+  min-height: $candlestick-height; height: $candlestick-height;
+  top: $gutter; left: $gutter + $nav_stacked_width; 
+}
 
 
 /* order entry
@@ -228,9 +312,8 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
     }
 
     .hint-price-disadvantage, .hint-positions  {
-      top: 3px;
-      left: 42px;
-      font-size: 12px;
+      top: 2px;
+      left: 39px;
       margin-left: 0px;
       position: absolute;
       z-index: 10;
@@ -251,20 +334,20 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
   .input-group {
     .input-group-addon { 
       padding: 1px 4px 0px 4px; 
-      color: #eee;
-      font-size: 12px;
     }
 
     label.input-group-addon {
       padding: 3px 6px 0px 6px; 
-      min-width: 60px;
+      min-width: 70px;
       text-align: right;
+      color: #aaa;
     }
 
     span.input-group-addon {
       padding: 3px 6px 0px 6px; 
       min-width: 40px;
       text-align: left;
+      color: #aaa;
     }
 
     input {
@@ -273,7 +356,6 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
       padding-bottom: 4px !important;
       padding-right: 6px !important;
       padding-left: 24px !important;
-      font-size: 12px;
     }
 
     margin-bottom: 8px;
@@ -282,24 +364,27 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
   .hint-price-disadvantage, .hint-positions  {
     top: 3px;
     left: 60px;
-    font-size: 12px;
     margin-left: 0px;
     position: absolute;
     z-index: 10;
   }
 
+  .label { font-size: inherit; }
   .label.label-info { color: $brand-info }
   .label.label-success { color: $brand-success }
   .label.label-danger { color: $brand-danger }
 
-  span.number-label, span.current-balance { font-size: 14px; }
   span.status-info, .status-success, .status-danger {
-    font-size: 14px;
-    top: -2px;
-    left: -5px;
+    top: -3px;
+    left: -6px;
     margin-left: 0px;
     position: absolute;
     i.fa { margin-left: 4px; }
+  }
+
+  .row-tips {
+    margin-top: 18px;
+    margin-bottom: 13px;
   }
 }
 
@@ -308,9 +393,12 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
 .col-left { padding-right: 12px; }
 .panel-body-head { border-bottom: 1px solid #333; }
 
-#order_book, #trades, #my_orders, #my_done_orders {
+#ticker, #order_book, #market_trades, #my_orders, #my_done_orders, #market_swtich {
   table {
     margin-bottom: 0px;
+
+    &.hidden-buy { tr.bid { display: none; } }
+    &.hidden-sell { tr.ask { display: none; } }
 
     td, th {
       padding: 0px 2px;
@@ -323,12 +411,12 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
       }
     }
 
-    thead { cursor: default; }
-    tbody > tr:hover { cursor: pointer; background-color: #333;}
+    thead { cursor: default; th { color: #777; }}
+    &.table-hover { tbody > tr:hover { cursor: pointer;} }
   }
 }
 
-#trades, #my_orders, #my_done_orders {
+#market_trades, #my_orders, #my_done_orders {
   .panel-body-content { height: 220px; }
 }
 
@@ -340,20 +428,5 @@ $kline-chart-height: $min-height - $navbar-height - $trades-height - $ticker-hei
     margin-right: 10px;
   }
 }
-
-/* ticker
----------------------------------------------------*/
-
-#ticker {
-  table { th, td { padding: 0px; border: 0px;} margin-bottom: 0px; }
-  table { margin-top: 5px; max-width: 700px; td { font-size: 16px; } }
-
-  td {
-    &:after {
-      content: " "attr(data-symbol);
-    }
-  }
-}
-
 
 @import 'layouts/custom';

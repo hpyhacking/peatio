@@ -2,14 +2,15 @@
   flight.compose.mixin @, [ItemListMixin, NotificationMixin]
 
   @attributes
-    switchLinkName: '.switch-link-name'
-    switchLink: 'a.switch'
     table: 'table'
-    switchMyOrderLink: 'a.switch_my_orders'
+    switchLink: 'a.switch'
+    switchLinkName: '.switch-link-name'
 
-  @getTemplate = (order) -> $(JST["order_done"](order))
+  @getTemplate = (order_or_trade) -> $(JST["order_done"](order_or_trade))
 
-  @tradeHandler = (event, trade) ->
+  @trade = (event, trade) ->
+    return if trade.market != gon.market.id
+
     @addOrUpdateItem trade
     message = gon.i18n.notification.new_trade
       .replace(/%{kind}/g, gon.i18n[trade.kind])
@@ -34,9 +35,8 @@
       @select('table').removeClass('hidden-sell')
 
   @.after 'initialize', ->
-    @on document, 'trade::done::populate', @populate
-    @on document, 'trade::done', @tradeHandler
+    # first of all, use user's done order fill the table.
+    # add new trade in table when trigger trade event.
+    @on document, 'trade', @trade
+    @on document, 'order::done::populate', @populate
     @on @select('switchLink'), 'click', @switch
-    @on @select('switchMyOrderLink'), 'click', ->
-      $('#my_orders').show()
-      $('#my_done_orders').hide()

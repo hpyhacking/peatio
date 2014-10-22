@@ -2,9 +2,6 @@ zh-CN:
   private:
     markets:
       show:
-        on: 开
-        off: 关
-        notification: 桌面实时通知
         error: 委托挂单失败
         success: 委托挂单成功
         analysis_panel: 分析面板
@@ -15,19 +12,18 @@ zh-CN:
         confirm: 确认
         ask_order: '卖 ##sn#'
         bid_order: '买 ##sn#'
-        ask_orders: 买单深度
-        bid_orders: 卖单深度
+        my_active_order: 有效委单
+        my_done_order: 成交委单
+        trades: 委单成交
+        market_switch: 市场动态
+        chat: 聊天频道
       depths:
         price: 价格
         amount: 数量
         buy: 买入
         sell: 卖出
       ticker:
-        title: 市场实时报价
         last: 最新成交价
-        high: 24h 最高价
-        low: 24h 最低价
-        volume: 24h 成交量
         ask: 卖一价
         bid: 买一价
       account_balance:
@@ -61,22 +57,35 @@ zh-CN:
         amount: 总价
         ask: 卖出
         bid: 买入
-      trades:
+      market_trades:
         title: 实时委单成交记录
-        time: 时间
-        price: 价格
-        volume: 数量
+        time: 成交时间
+        price: 成交价
+        volume: 成交量
+        amount: 总价
+      header:
+        network: 连接状态
+        switch_on: 开
+        switch_off: 关
+        switch: '[切换]'
+        vol: 二十四小时 成交量
+        high: 最高
+        low: 最低
+        notification: 桌面实时通知
+      market_switch:
+        title: 市场动态
+        name: 交易对
+        ask: 卖出价
+        bid: 买入价
       my_done_orders:
         title: 我的 [成交委单]
         filter: 过滤
         all: 查看 [全部委单]
         buy: 查看 [买入委单]
         sell: 查看 [卖出委单]
-        cancel: 取消记录
-        my_orders_title: 查看有效委单
-        price: 价格
-        volume: 数量
-        time: 挂单时间
+        price: 成交价
+        volume: 成交量
+        time: 创建时间
         amount: 总价
       my_orders:
         title: 我的 [有效委单]
@@ -88,13 +97,13 @@ zh-CN:
         confirm_clear_all: "确定要撤销全部 [买卖委单] 吗?"
         confirm_clear_bids: "确定要撤销 [买入委单] 吗?"
         confirm_clear_asks: "确定要撤销 [卖出委单] 吗?"
-        my_done_orders_title: 查看成交委单
-        price: 价格
-        volume: 数量
-        time: 挂单时间
-        operation: 操作
+        price: 委单价
+        volume: 委单量
+        time: 创建时间
+        amount: 总价
+        operation: 撤销
       mask:
-        warning: 请 <span class=text-up>登录</span> 或 <span class=text-up>注册</span> 后进行操作
+        warning: 请 <a class=text-up href='/'>登录</a> 或 <a class=text-up href='/'>注册</a> 后进行操作
       kline_chart:
         title: 行情走势图 - K线
       global:

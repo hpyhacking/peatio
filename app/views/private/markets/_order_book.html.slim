@@ -1,6 +1,7 @@
 #order_book.panel.panel-default
   .panel-heading
     span = t('.title')
+    span.pull-right: i.fa.fa-refresh.fa-spin
   .panel-body.panel-body-head
     #order_book_header.row
       .col-xs-12.col-left: table.table
@@ -15,5 +16,5 @@
           th.amount.text-right.col-xs-10 = t('.amount')
   .panel-body.panel-body-content
     #order_book_body.row
-      .col-xs-12.col-left: table.table.bids
-      .col-xs-12: table.table.asks
+      .col-xs-12.col-left: table.table.table-hover.bids
+      .col-xs-12: table.table.table-hover.asks

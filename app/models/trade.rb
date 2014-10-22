@@ -59,7 +59,8 @@ class Trade < ActiveRecord::Base
       kind:   kind || side,
       at:     created_at.to_i,
       price:  price.to_s  || ZERO,
-      volume: volume.to_s || ZERO
+      volume: volume.to_s || ZERO,
+      market: currency
     }
   end
 

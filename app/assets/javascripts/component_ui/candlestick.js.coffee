@@ -1,4 +1,4 @@
-@MarketChartUI = flight.component ->
+@CandlestickUI = flight.component ->
   @drawChart = ->
     dataGrouping =
       focus: true
@@ -6,7 +6,7 @@
 
     @$node.highcharts "StockChart",
       chart:
-        backgroundColor: '#000'
+        backgroundColor: 'rgba(0,0,0, 0.0)'
         events:
           load: ->
             formatOhlc = (data) ->

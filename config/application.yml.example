@@ -64,13 +64,17 @@ defaults: &defaults
 
 
   # Third party auth
-  # --------------------------------------------------------------
-  #
-  # Weibo
 
+  # Weibo
+  # --------------------------------------------------------------
   WEIBO_AUTH: on # on/off
   WEIBO_KEY: 3820920586
   WEIBO_SECRET: 2d6174dc698e86860c75d75b1e8a01c8
+
+  # chat setting
+  # --------------------------------------------------------------
+  # Do you want chat feature in your exchange ?
+  # send mail to community@peatio.com
 
 development:
   <<: *defaults

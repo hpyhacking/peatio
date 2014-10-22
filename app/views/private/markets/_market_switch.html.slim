@@ -1,0 +1,14 @@
+#market_swtich.panel.panel-default.panel-table
+  .panel-heading
+    span = t('.title')
+    a.hand-point.pull-right: i.fa.fa-close
+  .panel-body.panel-body-head
+    table.table
+      thead: tr
+        th.name.col-xs-5.text-left #{t('.name')}
+        th.bid.col-xs-8.text-right #{t('.bid')}
+        th.ask.col-xs-8.text-right #{t('.ask')}
+        th.opt.col-xs-3.text-right
+  .panel-body.panel-body-content
+    table.table
+      tbody

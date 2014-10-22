@@ -2,9 +2,6 @@ en:
   private:
     markets:
       show:
-        on: ON
-        off: OFF
-        notification: Desktop Real Notification
         error: Place Failed
         success: Place Success
         analysis_panel: Analysis
@@ -15,19 +12,20 @@ en:
         confirm: CONFIRM
         ask_order: 'ASK ##sn#'
         bid_order: 'BID ##sn#'
+        my_active_order: Active
+        my_done_order: Done
+        trades: Trading
+        market_switch: Markets Switch
+        chat: Chat Channel
       depths:
         price: Price
         amount: Amount
         buy: Buy
         sell: Sell
       ticker:
-        title: Realtime Ticker
         last: Last Price
-        high: 24h High
-        low: 24h Low
-        volume: 24h Volume
-        ask: Ask Price
-        bid: Bid Price
+        ask: ASK
+        bid: BID
       account_balance:
         title: Account Balance
         available: Available %{currency}
@@ -59,13 +57,26 @@ en:
         amount: Amount
         ask: ASK
         bid: BID
-      trades:
-        title: Trades
       market_trades:
-        title: Market Trades
-        time: Time
+        title: Market Tradeing
+        time: Trading Time
         price: Price
         volume: Volume
+        amount: Amount
+      header:
+        network: Conn State
+        switch_on: ON
+        switch_off: OFF
+        switch: '[switch]'
+        vol: 24h Volume
+        high: High
+        low: Low
+        notification: Desktop Real Notification
+      market_switch:
+        title: Markets Switch
+        name: Market
+        ask: ASK
+        bid: BID
       my_done_orders:
         title: My [Done Orders]
         filter: Filter
@@ -95,7 +106,7 @@ en:
         time: Place Time
         operation: Opt.
       mask:
-        warning: Please <span class=text-up>Sign up</span> or <span class=text-up>Sign in</span> for operation
+        warning: Please <a class=text-up href='/'>Sign up</a> or <a class=text-up href='/'>Sign in</a> for operation
       klime_chart:
         title: Candlestick Charts
       global:
