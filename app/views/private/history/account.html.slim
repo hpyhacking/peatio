@@ -4,18 +4,18 @@
     li = link_to t('header.trade_history'), trade_history_path
     li.active = link_to t('header.account_history'), account_history_path
 
-    .panel.panel-default#transactions
-      .panel-body
-        .col-xs-24
-          table.table.table-condensed.table-striped
-            thead: tr
-              th = t('.type')
-              th = t('.timestamp')
-              th = t('.currency')
-              th = t('.amount')
-              th = t('.fee')
-              th = t('.txid')
-            tbody.list
-              = render partial: 'transaction', collection: @transactions
-          .pull-right
-            = paginate @transactions
+  .panel.panel-default#transactions
+    .panel-body
+      .col-xs-24
+        table.table.table-condensed.table-striped
+          thead: tr
+            th = t('.type')
+            th = t('.timestamp')
+            th = t('.currency')
+            th = t('.amount')
+            th = t('.fee')
+            th = t('.txid')
+          tbody.list
+            = render partial: 'transaction', collection: @transactions
+        .pull-right
+          = paginate @transactions
