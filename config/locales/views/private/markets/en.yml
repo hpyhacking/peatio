@@ -64,6 +64,7 @@ en:
         volume: Volume
         amount: Amount
       header:
+        sound: Sound
         network: Conn State
         switch_on: ON
         switch_off: OFF

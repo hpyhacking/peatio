@@ -6,6 +6,7 @@
     amount: 'span.amount'
     high: 'span.high'
     low: 'span.low'
+    sound: 'input[name="sound-checkbox"]'
 
   @refresh = (event, ticker) ->
     @select('vol').text("#{ticker.volume} #{gon.market.base_unit.toUpperCase()}")
@@ -19,3 +20,12 @@
       @trigger 'switch-market'
 
     @on document, 'market::ticker', @refresh
+
+    if Cookies.get('sound') == undefined
+      Cookies.set('sound', true, 30)
+    state = Cookies.get('sound') == 'true' ? true : false
+
+    @select('sound').bootstrapSwitch
+      state: state
+      onSwitchChange: (event, state) ->
+        Cookies.set('sound', state, 30)

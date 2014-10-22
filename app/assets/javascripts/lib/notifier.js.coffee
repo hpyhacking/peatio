@@ -50,4 +50,3 @@ class Notifier
       setTimeout ( => popup.close() ), 8000
 
 window.Notifier = Notifier
-

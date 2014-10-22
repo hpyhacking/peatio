@@ -64,6 +64,7 @@ zh-CN:
         volume: 成交量
         amount: 总价
       header:
+        sound: 音效
         network: 连接状态
         switch_on: 开
         switch_off: 关
