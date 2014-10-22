@@ -1,3 +1,37 @@
+#= require es5-shim.min
+#= require es5-sham.min
+#= require jquery
+#= require jquery_ujs
+#= require jquery-timing.min
+#= require bootstrap
+#= require bootstrap-switch.min
+#= require scrollIt
+#= require moment
+#= require bignumber
+#= require underscore
+#= require handlebars.runtime
+#= require introjs
+#= require ZeroClipboard
+#= require flight.min
+#= require pusher.min
+#= require list
+#= require jquery.mousewheel
+#= require jquery-timing.min
+#= require qrcode
+#= require cookies.min
+
+#= require ./lib/notifier
+#= require ./lib/pusher_connection
+
+#= require highstock
+#= require_tree ./highcharts/
+
+#= require_tree ./helpers
+#= require_tree ./component_mixin
+#= require_tree ./component_data
+#= require_tree ./component_ui
+#= require_tree ./templates
+
 @App =
   showInfo:   (msg) -> $(document).trigger 'flash-info',   msg: msg
   showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
@@ -92,27 +126,3 @@ $ ->
   SmsAuthVerifyUI.attachTo('#edit_sms_auth')
   FlashMessageUI.attachTo('.flash-message')
   TwoFactorAuth.attachTo('.two-factor-auth-container')
-
-  pusher = new Pusher gon.pusher.key,
-    encrypted: gon.pusher.encrypted
-    wsHost: gon.pusher.wsHost
-    wsPort: gon.pusher.wsPort
-    wssPort: gon.pusher.wssPort
-  pusher.connection.bind 'state_change', (state) ->
-    if state.current is 'unavailable'
-      $('#markets-show .pusher-unavailable').removeClass('hide')
-
-  GlobalData.attachTo(document, {pusher: pusher})
-  MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
-
-  $('.tab-content').on 'mousewheel DOMMouseScroll', (e) ->
-    $(@).scrollTop(@scrollTop + e.deltaY)
-    e.preventDefault()
-
-  entry = '#ask_entry'
-  $(document).on 'keyup', (e) ->
-    if e.keyCode == 27
-      if entry == '#bid_entry' then entry = '#ask_entry' else entry = '#bid_entry'
-      $(entry).trigger 'place_order::clear'
-
-  window.pusher = pusher
