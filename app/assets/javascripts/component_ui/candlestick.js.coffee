@@ -113,9 +113,11 @@
             fontWeight: 'bold'
           },
           states: {
-            hover: { },
+            hover: {
+              fill: '#000',
+            },
             select: {
-              fill: '#ccc',
+              fill: '#000',
               style: {
                 color: 'white'
               }
