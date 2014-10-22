@@ -19,4 +19,3 @@
       @trigger 'switch-market'
 
     @on document, 'market::ticker', @refresh
-

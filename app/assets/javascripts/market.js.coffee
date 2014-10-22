@@ -13,29 +13,35 @@
 #= require underscore
 #= require cookies.min
 #= require handlebars.runtime
-#= require helper
 #= require flight.min
 #= require pusher.min
-#= require highstock
-#= require highstock_config
-#= require notifier
 
+#= require ./lib/sfx
+#= require ./lib/notifier
+#= require ./lib/pusher_connection
+
+#= require highstock
+#= require_tree ./highcharts/
+
+#= require_tree ./helpers
 #= require_tree ./component_mixin
 #= require_tree ./component_data
 #= require_tree ./component_ui
 #= require_tree ./templates
+
 #= require_self
 
 $ ->
   BigNumber.config(ERRORS: false)
 
+  FloatUI.attachTo('.float')
+  HeaderUI.attachTo('header')
   KeyBindUI.attachTo(document)
   AutoWindowUI.attachTo(window)
   PlaceOrderUI.attachTo('#bid_entry')
   PlaceOrderUI.attachTo('#ask_entry')
   OrderBookUI.attachTo('#order_book')
   CandlestickUI.attachTo('#candlestick')
-  HeaderUI.attachTo('header')
 
   AccountBalanceUI.attachTo('.account-balance')
   MyOrdersUI.attachTo('#my_orders')
@@ -45,36 +51,7 @@ $ ->
   MarketTradesUI.attachTo('#market_trades')
   FlashMessageUI.attachTo('.flash-message')
 
-  FloatUI.attachTo('.float')
+  GlobalData.attachTo(document, {pusher: window.pusher})
+  MemberData.attachTo(document, {pusher: window.pusher}) if gon.accounts
 
-  pusher = new Pusher gon.pusher.key,
-    encrypted: gon.pusher.encrypted
-    wsHost: gon.pusher.wsHost
-    wsPort: gon.pusher.wsPort
-    wssPort: gon.pusher.wssPort
-
-  GlobalData.attachTo(document, {pusher: pusher})
-  MemberData.attachTo(document, {pusher: pusher}) if gon.accounts
-
-  window.sfx = (kind) ->
-    s = $("##{kind}-fx")[0]
-    return unless s.play
-    s.pause()
-    s.currentTime = 0
-    s.play()
-
-  window.sfx_warning = ->
-    window.sfx('warning')
-
-  window.sfx_success = ->
-    window.sfx('success')
-
-  window.pusher = pusher
-  notifier = window.notifier = new Notifier()
-
-# TODO: unknown code
-#@App =
-  #showInfo:   (msg) -> $(document).trigger 'flash-info',   msg: msg
-  #showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
-  #showAlert:  (msg) -> $(document).trigger 'flash-alert',  msg: msg
-
+  window.notifier = new Notifier()

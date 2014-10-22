@@ -4,7 +4,9 @@ window.MarketSwitchUI = flight.component ->
 
   @refresh = (event, data) ->
     $table = @select('table').empty()
-    $table.prepend(JST['market_switch'](ticker)) for ticker in data.tickers
+    for ticker in data.tickers
+      ticker['current'] = true if (ticker.market == gon.market.id)
+      $table.prepend(JST['market_switch'](ticker))
 
   @open = ->
     $('#market_switch_tabs_wrapper').addClass('hover')
