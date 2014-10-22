@@ -4,7 +4,8 @@ class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:create]
 
   before_action :auth_member!, only: :destroy
-  before_action :auth_anybody!, only: [:new, :create, :failure]
+  before_action :auth_anybody!, only: [:new, :failure]
+  before_action :add_auth_for_weibo
 
   helper_method :require_captcha?
 
@@ -14,7 +15,7 @@ class SessionsController < ApplicationController
 
   def create
     if !require_captcha? || simple_captcha_valid?
-      @member = Member.from_auth(env["omniauth.auth"])
+      @member = Member.from_auth(auth_hash)
     end
 
     if @member
@@ -66,6 +67,16 @@ class SessionsController < ApplicationController
 
   def failed_login_key
     "peatio:session:#{request.ip}:failed_logins"
+  end
+
+  def auth_hash
+    @auth_hash ||= env["omniauth.auth"]
+  end
+
+  def add_auth_for_weibo
+    if current_user && ENV['WEIBO_AUTH'] == "true" && auth_hash.try(:[], :provider) == 'weibo'
+      redirect_to settings_path, notice: t('.weibo_bind_success') if current_user.add_auth(auth_hash)
+    end
   end
 
 end

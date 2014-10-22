@@ -1,67 +1,56 @@
 class Token < ActiveRecord::Base
   belongs_to :member
 
-  before_validation :set_member_from_email
-  before_validation :generate_token, :if => 'token.nil?'
-  before_create :invalidate_earlier_tokens
+  before_validation :generate_token, on: :create
 
   validates_presence_of :member, :token
   validate :check_latest_send, on: :create
+
+  scope :with_member, -> (id) { where(member_id: id) }
+  scope :with_token, -> (token) { where(token: token) }
+  scope :available, -> { where("expire_at > ? and is_used = ?", DateTime.now, false) }
+
+  class << self
+    def verify(token)
+      with_token(token).available.any?
+    end
+
+    def for_member(member)
+      token = find_or_create_by(member_id: member.id, is_used: false)
+
+      if token.expired?
+        token = create(member_id: member.id)
+      end
+
+      token
+    end
+  end
 
   def to_param
     self.token
   end
 
-  scope :with_member, -> (id) { where("member_id = ?", id) }
-  scope :with_token, -> (token) { where("token = ?", token) }
-  scope :available, -> { where("expire_at > ?", DateTime.now).where("is_used = ?", false) }
-
-  def self.head
-    order('created_at desc').first
+  def expired?
+    expire_at <= Time.now
   end
 
-  def self.verify(token)
-    with_token(token).available.any?
-  end
-
-  def confirmed
+  def confirm!
     self.update is_used: true
   end
 
   private
 
-  def send_token
-    email = self.member.email
-    mailer = self.class.to_s.demodulize.underscore
-    TokenMailer.send(mailer, email, token).deliver
-  end
-
-  def invalidate_earlier_tokens
-    self.class.available.with_member(member_id).update_all(is_used: true)
-  end
-
   def check_latest_send
-    latest = self.class.available.with_member(self.member_id).head
+    latest = self.class.available.with_member(self.member_id)
+      .order(:created_at).reverse_order.first
 
-    if latest && latest.created_at > DateTime.now.ago(60 * 5)
+    if latest && latest.created_at > 5.minutes.ago
       self.errors.add(:base, :too_soon)
     end
   end
 
-  def set_member_from_email
-    if self.respond_to?(:email) and self.member.nil?
-      member = Member.find_by_email(self.email)
-      unless member
-        self.errors.add(:email, :'not-member')
-      else
-        self.member = member
-      end
-    end
-  end
-
   def generate_token
-    self.is_used = false
     self.token = SecureRandom.hex(16)
-    self.expire_at = DateTime.now.since(60 * 30)
+    self.expire_at = 5.minutes.from_now
   end
 end

@@ -1,6 +1,9 @@
 en:
   activations:
     new:
+      notice: An email has been sent to your mailbox, please check it for verification as soon as possible. If you do not received it , please click "send it again" button.
+      verified: Your email adress has been verified successfully.
+      login_required: login required!
       tip: Activation link was sent to %{email}
       spam: Please check your spam folder for the activation link.
     edit:

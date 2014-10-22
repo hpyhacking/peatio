@@ -9,7 +9,7 @@
     hr.split
 
   = f.input :member_name, hint: false
-  = f.input :fund_extra_text
+  = f.input :fund_extra
   = f.input :fund_uid
   = f.input :amount, hint: false, clip: true
   = f.input :sn, clip: true, hint: raw(t('simple_form.hints.deposit.bank.sn', sn: @deposit.sn))

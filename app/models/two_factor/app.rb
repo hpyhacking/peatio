@@ -1,20 +1,17 @@
 class TwoFactor::App < ::TwoFactor
 
-  def verify(otp = nil)
+  def verify?
     return false if otp_secret.blank?
 
     rotp = ROTP::TOTP.new(otp_secret)
 
-    if rotp.verify(otp || self.otp)
+    if rotp.verify(otp)
       touch(:last_verify_at)
+      true
     else
       errors.add :otp, :invalid
       false
     end
-  end
-
-  def refresh
-    update_attribute(:otp_secret, ROTP::Base32.random_base32)
   end
 
   def uri
@@ -25,4 +22,22 @@ class TwoFactor::App < ::TwoFactor
   def now
     ROTP::TOTP.new(otp_secret).now
   end
+
+  private
+
+  def gen_code
+    self.otp_secret = ROTP::Base32.random_base32
+    self.refreshed_at = Time.new
+  end
+
+  def send_notification
+    return if not self.activated_changed?
+
+    if self.activated
+      MemberMailer.google_auth_activated(member.id).deliver
+    else
+      MemberMailer.google_auth_deactivated(member.id).deliver
+    end
+  end
+
 end

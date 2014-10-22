@@ -1,0 +1,181 @@
+zh-CN:
+  activerecord:
+    models:
+      api_token: API密钥
+      trade: 交易
+      order: 挂单
+      member: 用户
+      order_bid: 买入
+      order_ask: 卖出
+      document: 文档
+      payment_transaction: 充值
+      id_document: 实名认证
+      withdraw: 提现
+      deposit: 充值
+      statistic/orders_grid: 指令统计
+      statistic/trades_grid: 交易统计
+      statistic/members_grid: 用户统计
+      statistic/deposits_grid: 充值统计
+      statistic/withdraws_grid: 提现统计
+      admin/deposits_grid: 充值管理
+      admin/withdraws_grid: 提现管理
+    attributes:
+      api_token:
+        access_key: Access Key
+        trusted_ip_list: IP白名单
+        ip_whitelist: IP白名单
+        label: 标签
+        actions: 操作
+      identity:
+        email: 邮箱地址
+        password: 新密码
+        password_confirmation: 确认密码
+      document:
+        zh_cn_body: 中文内容
+        zh_cn_title: 中文标题
+        zh_cn_desc: 中文描述
+        zh_cn_keywords: 中文关键字
+        en_body: 英文内容
+        en_title: 英文标题
+        en_desc: 英文描述
+        en_keywords: 英文关键字
+        key: 索引键
+        is_auth: 是否登录查阅
+      fund_source:
+        address: 提现地址
+        category: 提现方式
+        label: 标签
+      account:
+        currency: 币种
+        currency_text: 币种
+        balance_and_locked: 余额 / 冻结
+        balance: 余额
+        locked: 冻结
+        amount: 总额
+      account_version:
+        id: 编号
+        locked: 冻结
+        amount: 金额
+        balance: 余额
+        reason: 原因
+        reason_text: 原因
+        modifiable_id: 相关编号
+        modifiable_type: 关联
+        created_at : 创建日期
+        in: 收入
+        out: 支出
+        fee: 手续费
+      token/reset_password:
+        email: 邮箱地址
+        member: 会员
+      trade:
+        bid: 买入
+        ask: 卖出
+        fee: 手续费
+        price: 成交价
+        volume: 成交量
+        category: 买/卖
+        order: 订单
+      order:
+        bid: 买入
+        ask: 卖出
+        price: 价格
+        total: 总价
+        volume: 数量
+        origin_volume: 数量
+        sum: 总价
+        category: 买/卖
+        kind: 类别
+        at: 时间
+        id: 编号
+        state: 状态
+        operation: 操作
+      payment_transaction:
+        at: 时间
+        txid: 交易编号
+        amount: 金额
+        confirmations: 确认数
+        state: 状态
+        state_done: 完成
+        state_wait: 等待
+      member:
+        id: 编号
+        name: 真实姓名
+        display_name: 论坛昵称
+        email: 邮件地址
+        created_at: 注册时间
+        sn: 个人识别码
+        tag_list: 标签
+        activated: 激活成功
+        activated?: 邮件激活
+        id_document_verified?: 实名认证
+        two_factor_activated?: 二次验证
+        phone_number: 手机号码
+      two_factor/sms:
+        phone_number: "手机号码"
+        otp: "验证码"
+      withdraws/bank:
+        fund_extra: 转账银行
+    errors:
+      models:
+        order_bid:
+          attributes:
+            sum:
+              expensive: 账户余额不足
+            price:
+              range: 请指定适当的价格
+        order_ask:
+          attributes:
+            origin_volume:
+              expensive: 账户余额不足
+            price:
+              range: 请指定适当的价格
+        account:
+          attributes:
+            balance:
+              less: 您的账户余额不足
+        identity:
+          attributes:
+            email:
+              invalid: 无效的邮件地址
+            password:
+              invalid: 无效的密码格式，请重新输入。
+            password_confirmation:
+              confirmation: 与您输入的新密码不一致，请重新输入。
+        token/reset_password:
+          attributes:
+            base:
+              too_soon: 访问过于频繁，请稍后再试。
+            email:
+              not-member: 请输入有效的邮箱地址。
+              match: 登录邮件地址错误。
+            password:
+              invalid: 密码格式错误
+            member:
+              blank: 不存在
+        activation:
+          attributes:
+            base:
+              too_soon: 距离上次给您发送激活邮件还未超过5分钟
+        fund_source:
+          attributes:
+            label:
+            address:
+              satoshi_ismine: 为系统所有，请使用您所拥有的提现地址进行绑定。
+              satoshi_invalid: 格式无效，请填写正确的比特币提现地址。
+        two_factor:
+          attributes:
+            otp:
+              invalid: 密码有误，请重新输入。
+      messages:
+        invalid_email: 无效的邮件地址
+        undef: 未知错误原因
+        less: 余额不足
+        verify: 验证失败
+        strength: 无效的密码强度
+        password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
+        blank: 不可为空。
+        orders:
+          price: 价格限额 %{l} ~ %{h}
+          sum: 挂单总限额 %{l} ~ %{h}
+          precision: 最低精度为 %{p}

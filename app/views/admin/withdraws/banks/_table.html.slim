@@ -5,7 +5,7 @@
   - t.column :member_name, class: 'col-xs-3' do |x|
     = link_to x.member_name.truncate(4), url_for([:admin, x.member]), target: '_blank'
   - t.column :fund_source, class: 'col-xs-6' do |x|
-    span #{x.fund_extra_text} # #{x.fund_uid}
+    span #{bank_code_to_name x.fund_extra} # #{x.fund_uid}
   - t.column :amount, class: 'col-xs-3' do |x|
     code.text-info = x.amount
   - t.column :state_and_action, class: 'col-xs-3' do |x|

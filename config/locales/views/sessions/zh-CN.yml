@@ -10,6 +10,7 @@ zh-CN:
     create:
       disabled: 您的账户已冻结,如有问题请联系管理员.
       error: 您输入的密码和邮箱地址不正确，请重新输入。
+      weibo_bind_success: 微博绑定成功
     failure:
       account_locked: 密码错误次数过多，为保证您的帐户安全该帐户已被锁定。重置密码请点击“忘记密码”。
       error: 您输入的密码和邮箱地址不正确，请重新输入。

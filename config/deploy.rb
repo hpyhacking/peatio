@@ -9,7 +9,6 @@ set :user, 'deploy'
 set :deploy_to, '/home/deploy/peatio'
 set :branch, 'master'
 set :domain, 'demo.peat.io'
-set :keep_releases, 20
 
 set :shared_paths, [
   'config/database.yml',

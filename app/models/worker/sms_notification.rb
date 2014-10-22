@@ -4,6 +4,8 @@ module Worker
     def process(payload, metadata, delivery_info)
       payload.symbolize_keys!
 
+      raise "TWILIO_NUMBER not set" if ENV['TWILIO_NUMBER'].blank?
+
       twilio_client.account.sms.messages.create(
         from: ENV["TWILIO_NUMBER"],
         to:   payload[:phone],

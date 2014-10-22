@@ -175,7 +175,7 @@ module ApplicationHelper
     end
   end
 
-  def locale_name 
+  def locale_name
     I18n.locale.to_s.downcase
   end
 
@@ -274,15 +274,10 @@ module ApplicationHelper
   end
 
   def two_factor_tag(user)
-    app_activated = user.two_factors.by_type(:app).activated?
-    sms_activated = user.two_factors.by_type(:sms).activated?
-
-    if !sms_activated and user.phone_number_verified?
-      user.two_factors.by_type(:sms).active!
-      sms_activated = true
-    end
-
-    locals = {app_activated: app_activated, sms_activated: sms_activated}
+    locals = {
+      app_activated: user.app_two_factor.activated?,
+      sms_activated: user.sms_two_factor.activated?
+    }
     render partial: 'shared/two_factor_auth', locals: locals
   end
 end

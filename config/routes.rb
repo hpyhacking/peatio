@@ -18,14 +18,20 @@ Peatio::Application.routes.draw do
   get '/signup' => 'identities#new', :as => :signup
   get '/signout' => 'sessions#destroy', :as => :signout
   get '/auth/failure' => 'sessions#failure', :as => :failure
-  post '/auth/identity/callback' => 'sessions#create'
+  match '/auth/:provider/callback' => 'sessions#create', via: [:get, :post]
 
   resource :member, :only => [:edit, :update]
   resource :identity, :only => [:edit, :update]
 
   namespace :verify do
-    resources :sms_tokens, only: [:new, :create]
-    resources :google_auths, only: [:show, :update, :edit, :destroy]
+    resource :sms_auth,    only: [:show, :update]
+    resource :google_auth, only: [:show, :update, :edit, :destroy]
+  end
+
+  namespace :authentications do
+    resources :emails, only: [:new, :create]
+    resources :identities, only: [:new, :create]
+    resource :weibo_accounts, only: [:destroy]
   end
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do
@@ -36,7 +42,7 @@ Peatio::Application.routes.draw do
   get '/documents/api_v2'
   get '/documents/websocket_api'
   resources :documents, only: [:show]
-  resources :refresh_two_factors, only: [:show]
+  resources :two_factors, only: [:show, :index, :update]
 
   scope module: :private do
     resource  :id_document, only: [:edit, :update]

@@ -16,7 +16,8 @@ class Authentication < ActiveRecord::Base
         uid:      auth['uid'],
         provider: auth['provider'],
         token:    auth['credentials'].try(:[], 'token'),
-        secret:   auth['credentials'].try(:[], 'secret')
+        secret:   auth['credentials'].try(:[], 'secret'),
+        nickname: auth['info'].try(:[], 'nickname')
     end
   end
 end

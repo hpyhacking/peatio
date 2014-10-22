@@ -5,17 +5,17 @@ class ResetPasswordsController < ApplicationController
   before_action :token_required, :only => [:edit, :update]
 
   def new
-    @reset_password = Token::ResetPassword.new
+    @token = Token::ResetPassword.new
   end
 
   def create
-    @reset_password = Token::ResetPassword.new(reset_password_params)
+    @token = Token::ResetPassword.new(reset_password_params)
 
-    if @reset_password.save
-      clear_all_sessions @reset_password.member_id
+    if @token.save
+      clear_all_sessions @token.member_id
       redirect_to signin_path, notice: t('.success')
     else
-      redirect_to url_for(action: :new), alert: @reset_password.errors.full_messages.join(', ')
+      redirect_to url_for(action: :new), alert: @token.errors.full_messages.join(', ')
     end
   end
 
@@ -24,8 +24,7 @@ class ResetPasswordsController < ApplicationController
 
   def update
     if @token.update_attributes(reset_password_update_params)
-      @token.confirmed
-      @token.member.send_password_changed_notification
+      @token.confirm!
       redirect_to signin_path, notice: t('.success')
     else
       render :edit
@@ -34,10 +33,10 @@ class ResetPasswordsController < ApplicationController
 
   private
   def reset_password_params
-    params.required(:token_reset_password).permit(:email)
+    params.required(:reset_password).permit(:email)
   end
 
   def reset_password_update_params
-    params.required(:token_reset_password).permit(:password)
+    params.required(:reset_password).permit(:password)
   end
 end

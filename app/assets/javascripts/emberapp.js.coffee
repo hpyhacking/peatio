@@ -1,16 +1,17 @@
 #= require jquery
+#= require pusher.min
+
 #= require ./lib/tiny-pubsub
 #= require ./lib/handlebars
 #= require ./lib/ember
 #= require ./lib/peatio_model
 #= require ./lib/ajax
-#= require app
-#= require pusher.min
-#= require pusher
+
+#= require ./lib/pusher_connection
+#= require ./lib/pusher_subscriber
+
 #= require_self
 #= require ./emberapp/peatio
-
-#old
 
 #= require es5-shim.min
 #= require es5-sham.min
@@ -22,12 +23,10 @@
 #= require ZeroClipboard
 #= require underscore
 #= require flight.min
-#= require highstock
-#= require highstock_config
 #= require list
-#= require helper
 #= require qrcode
-#
+
+#= require_tree ./helpers
 #= require_tree ./component_mixin
 #= require_tree ./component_data
 #= require_tree ./component_ui

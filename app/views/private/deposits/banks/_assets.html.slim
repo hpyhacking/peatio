@@ -4,7 +4,7 @@
       - t.column :sn, class: 'col-xs-4'
       - t.column :created_at, class: 'col-xs-4'
       - t.column :label, class: 'col-xs-6' do |x|
-        span = "#{x.fund_extra_text} @ "
+        span = "#{bank_code_to_name x.fund_extra} @ "
         code.text-info = x.fund_uid
       - t.column :amount, class: 'col-xs-4'
       - t.column :state_and_action, class: 'col-xs-4' do |x|

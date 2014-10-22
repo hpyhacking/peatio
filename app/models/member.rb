@@ -14,7 +14,6 @@ class Member < ActiveRecord::Base
   has_many :comments, foreign_key: 'author_id'
 
   has_one :id_document
-  has_one :sms_token, class_name: 'Token::SmsToken'
 
   has_many :authentications, dependent: :destroy
 
@@ -25,15 +24,16 @@ class Member < ActiveRecord::Base
   delegate :name,       to: :id_document, allow_nil: true
   delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
-  delegate :verified?,  to: :sms_token,   prefix: true
 
   before_validation :generate_sn
 
   validates :sn, presence: true
   validates :display_name, uniqueness: true, allow_blank: true
+  validates :email, email: true, uniqueness: true, allow_nil: true
 
   before_create :build_default_id_document
   after_create  :touch_accounts
+  after_update :resend_activation
   after_update :sync_update
 
   class << self
@@ -88,19 +88,30 @@ class Member < ActiveRecord::Base
     end
 
     def create_from_auth(auth_hash)
-      member = create(email: auth_hash['info']['email'], activated: false)
+      member = create(email: auth_hash['info']['email'], nickname: auth_hash['info']['nickname'],
+                      activated: false)
       member.add_auth(auth_hash)
-      member.send_activation
+      member.send_activation if auth_hash['provider'] == 'identity'
       member
     end
+  end
+
+
+  def create_auth_for_identity(identity)
+    self.authentications.create(provider: 'identity', uid: identity.id)
   end
 
   def trades
     Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
   end
 
-  def active
-    self.update_column(:activated, true)
+  def active!
+    update activated: true
+  end
+
+  def update_password(password)
+    identity.update password: password, password_confirmation: password
+    send_password_changed_notification
   end
 
   def admin?
@@ -165,6 +176,19 @@ class Member < ActiveRecord::Base
     authentication ? Identity.find(authentication.uid) : nil
   end
 
+  def auth(name)
+    authentications.where(provider: name).first
+  end
+
+  def auth_with?(name)
+    auth(name).present?
+  end
+
+  def remove_auth(name)
+    identity.destroy if name == 'identity'
+    auth(name).destroy
+  end
+
   def send_activation
     Token::Activation.create(member: self)
   end
@@ -172,7 +196,7 @@ class Member < ActiveRecord::Base
   def send_password_changed_notification
     MemberMailer.reset_password_done(self.id).deliver
 
-    if phone_number_verified?
+    if sms_two_factor.activated?
       sms_message = I18n.t('sms.password_changed', email: self.email)
       AMQPQueue.enqueue(:sms_notification, phone: phone_number, message: sms_message)
     end
@@ -187,17 +211,21 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def app_two_factor
+    two_factors.by_type(:app)
+  end
+
+  def sms_two_factor
+    two_factors.by_type(:sms)
+  end
+
   def as_json(options = {})
     super.merge({
       "name" => self.name,
-      "app_activated" => self.two_factors.by_type(:app).activated?,
-      "sms_activated" => self.two_factors.by_type(:sms).activated?,
+      "app_activated" => self.app_two_factor.activated?,
+      "sms_activated" => self.sms_two_factor.activated?,
       "memo" => self.id
     })
-  end
-
-  def deactive_phone_number!
-    update phone_number: '', phone_number_verified: false
   end
 
   private
@@ -211,6 +239,10 @@ class Member < ActiveRecord::Base
   def build_default_id_document
     build_id_document
     true
+  end
+
+  def resend_activation
+    self.send_activation if self.email_changed?
   end
 
   def sync_update

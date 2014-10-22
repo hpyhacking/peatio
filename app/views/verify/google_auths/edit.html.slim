@@ -1,4 +1,4 @@
-= simple_form_for @google_auth, as: 'google_auth', url: verify_google_auth_path(:app), method: :delete do |f|
+= simple_form_for @google_auth, as: 'google_auth', url: verify_google_auth_path, method: :delete do |f|
   = f.input :otp
   hr.split
   = f.button :wrapped, t('.submit'), cancel: settings_path

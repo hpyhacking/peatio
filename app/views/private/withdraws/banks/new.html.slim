@@ -24,7 +24,7 @@
       - t.column :id, class: 'col-xs-2 text-center'
       - t.column :created_at, class: 'col-xs-6'
       - t.column :fund_uid, class: 'col-xs-8' do |x|
-        span = "#{x.fund_extra_text} @ "
+        span = "#{bank_code_to_name x.fund_extra} @ "
         code.text-info = x.fund_uid
       - t.column :amount, class: 'col-xs-2'
       - t.column :fee, class: 'col-xs-2'

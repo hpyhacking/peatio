@@ -1,8 +1,14 @@
 class Token::Activation < ::Token
   after_create :send_token
 
-  def confirmed
+  def confirm!
     super
-    member.active
+    member.active!
+  end
+
+  private
+
+  def send_token
+    TokenMailer.activation(member.email, token).deliver
   end
 end

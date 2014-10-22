@@ -1,5 +1,7 @@
 FactoryGirl.define do
   factory :two_factor do
+    member
+
     trait :activated do
       activated true
     end
