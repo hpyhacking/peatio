@@ -294,8 +294,8 @@ header {
     min-height: $min-height - $navbar-height - $entry-height - $panel_table_header_high;
   }
 }
-
 #candlestick { 
+
   position: absolute;
   min-width: $candlestick-width; width: $candlestick-width; 
   min-height: $candlestick-height; height: $candlestick-height;
@@ -429,4 +429,29 @@ header {
   }
 }
 
-@import 'layouts/custom';
+.chart-ticker {
+  border: 0px;
+  background-color: rgba(0,0,0,0) !important;
+  color: #777;
+  font-size: 14px;
+
+  span.t-title {
+    display: inline-block;
+    text-align: rigth;
+    width: 60px;
+    min-width: 60px;
+  }
+
+  span.t-value {
+    color: #ccc !important;
+    font-family: $font-family-monospace;
+    display: inline-block;
+    width: 70px;
+    min-width: 70px;
+    text-align: right;
+    margin-right: 15px;
+    &:last-of-type { margin-left: 10px; text-align: left; }
+  }
+}
+
+@import 'custom/market';
