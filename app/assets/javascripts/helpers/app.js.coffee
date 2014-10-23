@@ -37,8 +37,8 @@ window.check_trend = (type) ->
   else
     throw "unknown trend smybol #{type}"
 
-Handlebars.registerHelper 'format_market', (market) ->
-  market.toUpperCase()
+Handlebars.registerHelper 'format_market', (base, quote) ->
+  "#{base.toUpperCase()}/#{quote.toUpperCase()}"
 
 Handlebars.registerHelper 'market_url', (market) ->
   "/markets/#{market}"

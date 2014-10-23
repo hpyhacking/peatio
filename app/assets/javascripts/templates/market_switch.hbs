@@ -1,14 +1,9 @@
-<tr>
-  <td class='market col-xs-5'>{{format_market market}}</td>
-  <td class='price bid col-xs-8 {{format_trend data.buy_trend}}'>{{data.buy}} {{{trend_icon data.buy_trend}}}</td>
-  <td class='price ask col-xs-8 {{format_trend data.sell_trend}}'>{{data.sell}} {{{trend_icon data.sell_trend}}}</td>
-  <td class='opt col-xs-3 text-right'>
-    {{#if current}}
-    <i class='fa fa-cube'></i>
-    {{else}}
-    <a class='text-info' href='{{market_url market}}' target='_blank'>
-      <i class='fa fa-share'></i>
-    </a>
-    {{/if}}
-  </td>
+{{#if current}}
+<tr class='highlight' data-market='{{market}}'>
+{{else}}
+<tr data-market='{{market}}'>
+{{/if}}
+  <td class='market col-xs-6'>{{format_market data.base_unit data.quote_unit}}</td>
+  <td class='price bid col-xs-9 text-right {{format_trend data.buy_trend}}'>{{data.buy}} {{{trend_icon data.buy_trend}}}</td>
+  <td class='price ask col-xs-9 text-right {{format_trend data.sell_trend}}'>{{data.sell}} {{{trend_icon data.sell_trend}}}</td>
 </tr>

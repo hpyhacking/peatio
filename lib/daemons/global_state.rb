@@ -15,10 +15,11 @@ end
 
 while($running) do
   all_tickers = {}
-  Market.enumerize.each_key do |id|
-    global = Global[id]
+  Market.all.each do |market|
+    global = Global[market.id]
     global.trigger_ticker
-    all_tickers[id] = global.ticker
+    market_unit = {base_unit: market.base_unit, quote_unit: market.quote_unit}
+    all_tickers[market.id] = global.ticker.merge(market_unit)
   end
   Global.trigger 'tickers', all_tickers
 

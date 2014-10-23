@@ -414,6 +414,10 @@ header {
       border: none;
     }
 
+    tr.highlight {
+      font-weight: bolder;
+    }
+
     td {
       &.price, &.amount, &.volume {
         text-align: right;
