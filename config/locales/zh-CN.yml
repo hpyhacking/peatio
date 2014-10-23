@@ -141,12 +141,14 @@ zh-CN:
     close: 收盘价
     price: 价格
     volume: 成交量
+    candlestick: 'K线图'
     minute: 分
     hour: 小时
     day: 日
     week: 周
     month: 月
     year: 年
+    zoom: 缩放
 
   'yes': 是
   'no': 否

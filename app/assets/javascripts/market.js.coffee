@@ -41,7 +41,6 @@ $ ->
   PlaceOrderUI.attachTo('#bid_entry')
   PlaceOrderUI.attachTo('#ask_entry')
   OrderBookUI.attachTo('#order_book')
-  CandlestickUI.attachTo('#candlestick')
 
   AccountBalanceUI.attachTo('.account-balance')
   MyOrdersUI.attachTo('#my_orders')
@@ -51,7 +50,11 @@ $ ->
   MarketTradesUI.attachTo('#market_trades')
   FlashMessageUI.attachTo('.flash-message')
 
+  MarketData.attachTo(document)
   GlobalData.attachTo(document, {pusher: window.pusher})
   MemberData.attachTo(document, {pusher: window.pusher}) if gon.accounts
+
+  CandlestickUI.attachTo('#candlestick')
+  ChartSwitchUI.attachTo('#chart_switch')
 
   window.notifier = new Notifier()

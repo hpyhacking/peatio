@@ -24,6 +24,7 @@ PANEL_TABLE_HEADER_HIGH = 73
       entry_h = $('#ask_entry').height()
       ticker_h = $('#ticker').height()
       order_book_w = $('#order_book').width()
+      chart_switch_h = $('#chart_switch').height()
 
       $('.content').width(window_w)
       $('.content').height(window_h - navbar_h)
@@ -34,6 +35,8 @@ PANEL_TABLE_HEADER_HIGH = 73
       order_h = window_h - navbar_h - entry_h - ticker_h - gutter_7x
       $('#order_book').height(order_h)
       $('#order_book .panel-body-content').height(order_h - panel_table_header_high)
+
+      #$('#chart_switch').attr('style', "top: #{(window_h - navbar_h + chart_switch_h) / 2}px;")
 
       unless $('#chat_tabs_wrapper').hasClass('stop-resize')
         switch_h = $('#market_switch_tabs_wrapper').height()

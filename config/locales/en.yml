@@ -141,12 +141,14 @@ en:
     close: Close
     price: Price
     volume: Volume
+    candlestick: 'Candle Stick'
     minute: m
     hour: Hour
     day: Day
     week: Week
     month: Month
     year: Year
+    zoom: Zoom
 
   'yes': 'Yes'
   'no': 'No'

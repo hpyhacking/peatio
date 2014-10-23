@@ -17,6 +17,14 @@ zh-CN:
         trades: 委单成交
         market_switch: 市场动态
         chat: 聊天频道
+        switch_1: 分线
+        switch_5: 5分钟
+        switch_15: 15分钟
+        switch_30: 30分钟
+        switch_60: 时线
+        switch_120: 2小时
+        switch_360: 6小时
+        switch_1440: 日线
       depths:
         price: 价格
         amount: 数量

@@ -125,7 +125,9 @@ class ApplicationController < ActionController::Base
         open: I18n.t('chart.open'),
         high: I18n.t('chart.high'),
         low: I18n.t('chart.low'),
-        close: I18n.t('chart.close')
+        close: I18n.t('chart.close'),
+        candlestick: I18n.t('chart.candlestick'),
+        zoom: I18n.t('chart.zoom')
       },
       place_order: {
         confirm_submit: I18n.t('private.markets.show.confirm'),

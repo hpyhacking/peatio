@@ -13,15 +13,22 @@ render = Highcharts.RangeSelector.prototype.render
 
 Highcharts.RangeSelector.prototype.render = (min, max) ->
     render.apply(this, [min, max])
-    leftPosition = @.chart.plotLeft - 5
-    topPosition = @.chart.plotTop + 3
+    leftPosition = @.chart.plotLeft
+    topPosition = @.chart.plotTop
     space = 10
 
     @.zoomText.attr
-      text: ''
+      x: leftPosition + 2,
+      y: topPosition + 15,
+      text: gon.i18n.chart.zoom
+
+    leftPosition += @.zoomText.getBBox().width + 15
 
     for button in @.buttons
       button.attr
         x: leftPosition
         y: topPosition 
       leftPosition += button.width + space
+
+f = (callback) -> return
+Highcharts.wrap Highcharts.Tooltip.prototype, 'hide', f

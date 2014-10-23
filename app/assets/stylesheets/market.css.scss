@@ -295,11 +295,20 @@ header {
   }
 }
 #candlestick { 
-
   position: absolute;
   min-width: $candlestick-width; width: $candlestick-width; 
   min-height: $candlestick-height; height: $candlestick-height;
   top: $gutter; left: $gutter + $nav_stacked_width; 
+}
+
+#chart_switch {
+  position: absolute;
+  top: 300px;
+  left: 15px;
+
+  a { color: #333; }
+  a.active { color: #777; }
+  a:hover { color: #eee; }
 }
 
 
@@ -435,8 +444,12 @@ header {
   color: #777;
   font-size: 14px;
 
+  & > div { display: inline-block; width: 100px; }
+  & > div.tooltip-ma { width: 104px; margin-top: 3px; }
+  & > div.tooltip-ticker { margin-top: 5px; }
+
   span.t-title {
-    display: inline-block;
+    display: block;
     text-align: rigth;
     width: 60px;
     min-width: 60px;
@@ -445,12 +458,10 @@ header {
   span.t-value {
     color: #ccc !important;
     font-family: $font-family-monospace;
-    display: inline-block;
     width: 70px;
     min-width: 70px;
     text-align: right;
     margin-right: 15px;
-    &:last-of-type { margin-left: 10px; text-align: left; }
   }
 }
 
