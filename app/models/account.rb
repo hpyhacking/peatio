@@ -26,8 +26,7 @@ class Account < ActiveRecord::Base
   validates :member_id, uniqueness: { scope: :currency }
   validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
 
-  after_commit :trigger
-  after_update :sync_update
+  after_commit :trigger, :sync_update
 
   def payment_address
     payment_addresses.last || payment_addresses.create(currency: self.currency)
@@ -171,8 +170,9 @@ class Account < ActiveRecord::Base
   end
 
   private
+
   def sync_update
-    ::Pusher["private-#{member.sn}"].trigger_async('accounts', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
+    ::Pusher["private-#{member.sn}"].trigger_async('accounts', { type: 'update', id: self.id, attributes: {balance: balance, locked: locked} })
   end
 
 end
