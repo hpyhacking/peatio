@@ -42,6 +42,48 @@ describe Withdraw do
     end
   end
 
+  context 'Worker::WithdrawCoin#process' do
+    subject { create(:satoshi_withdraw) }
+    before do
+      @rpc = mock()
+      @rpc.stubs(getbalance: 50000, sendtoaddress: '12345', settxfee: true )
+      @broken_rpc = mock()
+      @broken_rpc.stubs(getbalance: 5)
+
+      subject.submit
+      subject.accept
+      subject.process
+      subject.save!
+    end
+
+    it 'transitions to :almost_done after calling rpc but getting Exception' do
+      CoinRPC.stubs(:[]).returns(@broken_rpc)
+
+      lambda { Worker::WithdrawCoin.new.process({id: subject.id}, {}, {}) }.should raise_error(Account::BalanceError)
+
+      expect(subject.reload.almost_done?).to be_true
+    end
+
+    it 'transitions to :done after calling rpc' do
+      CoinRPC.stubs(:[]).returns(@rpc)
+
+      expect { Worker::WithdrawCoin.new.process({id: subject.id}, {}, {}) }.to change{subject.account.reload.amount}.by(-subject.sum)
+
+      subject.reload
+      expect(subject.done?).to be_true
+      expect(subject.txid).to eq('12345')
+    end
+
+    it 'does not send coins again if previous attempt failed' do
+      CoinRPC.stubs(:[]).returns(@broken_rpc)
+      begin Worker::WithdrawCoin.new.process({id: subject.id}, {}, {}); rescue; end
+      CoinRPC.stubs(:[]).returns(mock())
+
+      expect { Worker::WithdrawCoin.new.process({id: subject.id}, {}, {}) }.to_not change{subject.account.reload.amount}
+      expect(subject.reload.almost_done?).to be_true
+    end
+  end
+
   context 'aasm_state' do
     subject { create(:bank_withdraw, sum: 1000) }
 
@@ -99,45 +141,6 @@ describe Withdraw do
         subject.process!
 
         expect(subject.processing?).to be_true
-      end
-
-      context 'Worker::WithdrawCoin#process' do
-        before do
-          @rpc = mock()
-          @rpc.stubs(getbalance: 50000, sendtoaddress: '12345', settxfee: true )
-          @broken_rpc = mock()
-          @broken_rpc.stubs(getbalance: 5)
-
-          subject.expects(:send_coins!)
-          subject.process!
-        end
-
-        it 'transitions to :almost_done after calling rpc but getting Exception' do
-          CoinRPC.stubs(:[]).returns(@broken_rpc)
-
-          begin Worker::WithdrawCoin.new.process({id: subject.id}, {}, {}); rescue; end
-
-          expect(subject.reload.almost_done?).to be_true
-        end
-
-        it 'transitions to :done after calling rpc' do
-          CoinRPC.stubs(:[]).returns(@rpc)
-
-          expect { Worker::WithdrawCoin.new.process({id: subject.id}, {}, {}) }.to change{subject.account.reload.amount}.by(-subject.sum)
-
-          subject.reload
-          expect(subject.done?).to be_true
-          expect(subject.txid).to eq('12345')
-        end
-
-        it 'does not send coins again if previous attempt failed' do
-          CoinRPC.stubs(:[]).returns(@broken_rpc)
-          begin Worker::WithdrawCoin.new.process({id: subject.id}, {}, {}); rescue; end
-          CoinRPC.stubs(:[]).returns(mock())
-
-          expect { Worker::WithdrawCoin.new.process({id: subject.id}, {}, {}) }.to_not change{subject.account.reload.amount}
-          expect(subject.reload.almost_done?).to be_true
-        end
       end
     end
 
