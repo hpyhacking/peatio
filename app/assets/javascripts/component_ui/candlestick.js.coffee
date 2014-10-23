@@ -233,6 +233,7 @@ for key, val of DATE_RANGE
           yAxis: 1
           type: "column"
           data: data['volume']
+          color: '#777'
         }
         {
           name: 'MA5'
