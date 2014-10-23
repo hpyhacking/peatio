@@ -10,7 +10,8 @@ module Worker
         return unless withdraw.processing?
 
         withdraw.whodunnit('Worker::WithdrawCoin') do
-          withdraw.call_rpc!
+          withdraw.call_rpc
+          withdraw.save!
         end
       end
 
@@ -29,7 +30,11 @@ module Worker
 
         withdraw.whodunnit('Worker::WithdrawCoin') do
           withdraw.update_column :txid, txid
-          withdraw.succeed!
+
+          # withdraw.succeed! will start another transaction, cause
+          # Account after_commit callbacks not to fire
+          withdraw.succeed
+          withdraw.save!
         end
       end
     end
