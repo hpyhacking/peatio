@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : "application" %>
+
+    <link href="/favicon.ico" rel="shortcut icon"></link>
+    <%= include_gon %>
+    <script type = 'text/javascript'>
+      window.deposits = <%= raw @deposits.to_json %>
+      window.accounts = <%= raw @accounts.to_json %>
+      window.deposit_channels = <%= raw @deposit_channels.to_json %>
+      window.withdraw_channels = <%= raw @withdraw_channels.to_json %>
+      window.current_user = <%= raw current_user.to_json %>
+      window.currencies = <%= raw @currencies.to_json %>
+      window.withdraws = <%= raw @withdraws.to_json %>
+      window.fund_sources= <%= raw @fund_sources.to_json %>
+    </script>
+    <%= stylesheet_link_tag stylesheet, media: "all" %>
+    <%= javascript_include_tag "funds" %>
+    <%= yield(:scripts) if content_for?(:scripts) %>
+    <%= render 'shared/html5' %>
+    <%= render 'shared/meta' %>
+    <%= render 'shared/tongji' if Rails.env.production? %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body id="<%= body_id %>" data-lang="<%= "#{locale_name}" %>">
+
+    <div id="wrap">
+      <%- if content_for?(:header) %>
+        <%= yield(:header) %>
+      <%- else %>
+        <%= render 'shared/header' %>
+      <%- end %>
+
+      <div class='container'>
+        <%= yield %>
+      </div>
+      <div id="push"></div>
+    </div>
+
+    <%- if content_for?(:footer) %>
+      <%= yield(:footer) %>
+    <%- else %>
+      <%= render 'shared/footer' %>
+    <%- end %>
+
+  </body>
+</html>
+
