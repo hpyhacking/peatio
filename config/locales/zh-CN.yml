@@ -3,7 +3,7 @@ zh-CN:
   "false": 否
 
   view_on_github: 到 Github 上查看
-  slogan: 云币网将致力于成为世界级的交易软件。
+  slogan: 貔貅，将致力于成为世界级的交易软件。
   tags:
     vip: VIP
     hero: 超级用户
@@ -18,9 +18,9 @@ zh-CN:
   gon:
     ask: 卖出
     bid: 买入
-    brand: 云币网
+    brand: 貔貅交易所
     notification:
-      title: 云币网
+      title: Peatio交易所
       enabled: 实时更新已开启。
       new_trade: "您的%{kind}委托 #%{id} 以 %{price} %{quote_unit} 价格成交，%{kind} %{volume} %{base_unit}。"
   back: 返回
@@ -39,10 +39,10 @@ zh-CN:
       default: '%Y-%m-%d %H:%M'
 
   sms:
-    verification_code: "云币网验证码：%{code}，30分钟内有效。（提示：为了您的财产安全，千万不要向其他人泄露！云币网工作人员不会向您索要验证码，么么哒~）【云币网yunbi.com】"
-    password_changed: "%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！【云币网yunbi.com】"
-    deposit_done: "%{email} 您好，您于%{time}进行了（%{currency}）充值操作，金额为%{amount}。最新余额为：%{balance}，锁定余额为：%{locked}。（若非本人操作，请及时联系我们！）【云币网yunbi.com】"
-    withdraw_done: "%{email} 您好，您于%{time}进行了（%{currency}）提现操作，金额为%{amount}。最新余额为：%{balance}。锁定余额为：%{locked}（若非本人操作，请立即联系客服！）【云币网yunbi.com】"
+    verification_code: "验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【貔貅交易所（北京）】"
+    password_changed: "%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！【貔貅交易所（北京）】"
+    deposit_done: "%{email} 您好，您于%{time}进行了（%{currency}）充值操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请及时联系我们！）【貔貅交易所（北京）】"
+    withdraw_done: "%{email} 您好，您于%{time}进行了（%{currency}）提现操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请立即联系客服！）【貔貅交易所（北京）】"
 
   private:
     trade:
@@ -62,8 +62,6 @@ zh-CN:
           :true: "#%{id} 撤单成功"
           :false: "#%{id} 撤单失败"
     withdraws:
-      create:
-        slack_notify: "收到新的提现请求, 请立刻处理: <%{url}>"
       update:
         request_accepted: 提现申请提交成功
       destroy:
@@ -84,7 +82,7 @@ zh-CN:
     login_via_weibo: 微博登陆
     funds: 我的资产
     getstart: 前往交易大厅
-    assets: "100%准备金"
+    assets: 资产公开
     history: 历史记录
     order_history: 委托记录
     trade_history: 成交记录
@@ -110,9 +108,6 @@ zh-CN:
     price: 资费说明
     liability_proof: 偿付能力验证
     contact: 联系我们
-    api: API接口
-    opensource: 开放源码
-    blog: 博客
 
   actions:
     go: 立刻前往
