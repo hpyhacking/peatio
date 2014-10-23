@@ -92,7 +92,7 @@ for key, val of DATE_RANGE
 
   @initHighStock = (data) ->
     unit = $("[data-unit=#{data['minutes']}]").text()
-    title = "Spot Trading for #{gon.market.base_unit.toUpperCase()}/#{gon.market.quote_unit.toUpperCase()} - #{unit}"
+    title = "#{gon.market.base_unit.toUpperCase()}/#{gon.market.quote_unit.toUpperCase()} - #{unit}"
 
     dataGrouping =
       units: DATE_RANGE["min#{data['minutes']}"]['dataGrouping_units']
@@ -105,6 +105,9 @@ for key, val of DATE_RANGE
       title:
         text: title
         align: 'right'
+        style:
+          color: 'rgba(119, 119, 119, 0.6)'
+          fontSize: 24
 
       chart:
         marginTop: 100
@@ -129,7 +132,7 @@ for key, val of DATE_RANGE
         shared: true
         headerFormat: "<div class='chart-ticker'><span class='tooltip-title'>{point.key}</span><br />"
         footerFormat: '</div>'
-        positioner: -> {x: 10, y: 1}
+        positioner: -> {x: 10, y: 8}
 
       plotOptions:
         candlestick:
