@@ -291,7 +291,7 @@ header {
   top: $base-top; right: $gutter; 
 
   .panel-body-content { 
-    min-height: $min-height - $navbar-height - $entry-height - $panel_table_header_high;
+    min-height: $min-height - $navbar-height - $entry-height - $panel_table_header_high - $ticker-height;
   }
 }
 #candlestick { 
@@ -309,6 +309,22 @@ header {
   a { color: #333; }
   a.active { color: #777; }
   a:hover { color: #eee; }
+}
+
+#depths_wrapper {
+  left: 0px;
+  bottom: 0px;
+  position: absolute;
+
+  width: 100%;
+  height: 150px;
+  background-color: rgba(28, 28, 28, 0.95);
+
+  table.depths-table {
+    th, td { text-align: right; width: 90px; min-width: 90px; }
+    th { color: #888; }
+    td { color: #eee; }
+  }
 }
 
 

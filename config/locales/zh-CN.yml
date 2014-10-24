@@ -149,6 +149,11 @@ zh-CN:
     month: 月
     year: 年
     zoom: 缩放
+    ask: 买单
+    bid: 卖单
+    depth: 累计深度
+    depth_title: 市场深度
+
 
   'yes': 是
   'no': 否

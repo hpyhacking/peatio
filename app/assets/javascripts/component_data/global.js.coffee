@@ -8,6 +8,20 @@ window.GlobalData = flight.component ->
 
     document.title = "#{symbol}#{price} #{market} - #{brand}"
 
+  @refreshDepth = (data) ->
+    [bids_sum, asks_sum] = [0, 0]
+    asks = _.map data.asks, ([price, volume]) ->
+      [parseFloat(price), asks_sum += parseFloat(volume)]
+    bids = _.map data.bids, ([price, volume]) ->
+      [parseFloat(price), bids_sum += parseFloat(volume)]
+
+    low = _.last(bids)[0]
+    high = _.last(asks)[0]
+    mid = (_.first(bids)[0] + _.first(asks)[0]) / 2
+    offset = _.min([mid - low, high - mid])
+
+    @trigger 'market::depth::response', asks: asks, bids: bids, high: mid + offset, low: mid - offset 
+
   @after 'initialize', ->
     @on document, 'market::ticker', @refreshDocumentTitle
 
@@ -52,9 +66,7 @@ window.GlobalData = flight.component ->
       @.last_tickers = data
 
     market_channel.bind 'update', (data) =>
-      gon.asks = data.asks
-      gon.bids = data.bids
-      @trigger 'market::order_book', asks: gon.asks, bids: gon.bids
+      @trigger 'market::order_book', asks: data.asks, bids: data.bids
 
     market_channel.bind 'trades', (data) =>
       @trigger 'market::trades', {trades: data.trades}
@@ -65,6 +77,7 @@ window.GlobalData = flight.component ->
 
     if gon.asks and gon.bids
       @trigger 'market::order_book', asks: gon.asks, bids: gon.bids
+      @refreshDepth asks: gon.asks, bids: gon.bids 
 
     if gon.trades
       @trigger 'market::trades', trades: gon.trades.reverse()

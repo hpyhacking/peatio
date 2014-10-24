@@ -34,7 +34,7 @@ PANEL_TABLE_HEADER_HIGH = 73
 
       order_h = window_h - navbar_h - entry_h - ticker_h - gutter_7x
       $('#order_book').height(order_h)
-      $('#order_book .panel-body-content').height(order_h - panel_table_header_high)
+      $('#order_book .panel-body-content').height(order_h - panel_table_header_high - gutter_2x)
 
       #$('#chart_switch').attr('style', "top: #{(window_h - navbar_h + chart_switch_h) / 2}px;")
 

@@ -149,6 +149,10 @@ en:
     month: Month
     year: Year
     zoom: Zoom
+    ask: ASK
+    bid: BID
+    depth: Depth
+    depth_title: Market Depth
 
   'yes': 'Yes'
   'no': 'No'
