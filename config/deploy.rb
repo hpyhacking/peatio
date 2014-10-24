@@ -62,7 +62,6 @@ task deploy: :environment do
 
     to :launch do
       invoke :'passenger:restart'
-      invoke :'deploy:cleanup'
     end
   end
 end
