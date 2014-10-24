@@ -1,13 +1,17 @@
 @DepthUI = flight.component ->
+  @attributes
+    chart: '#depths'
+    close: 'a > i.fa.fa-close'
+
   @refresh = (event, data) ->
-    chart = @$node.highcharts()
+    chart = @select('chart').highcharts()
     chart.series[0].setData data.bids.reverse(), false
     chart.series[1].setData data.asks, false
     chart.xAxis[0].setExtremes(data.low, data.high)
     chart.redraw()
 
   @initChart = (data) ->
-    @$node.highcharts
+    @select('chart').highcharts
       chart:
         margin: 0
         height: 150
@@ -80,3 +84,8 @@
   @after 'initialize', ->
     @initChart()
     @on document, 'market::depth::response', @refresh
+    @on document, 'market::depth::fade_toggle', ->
+      @$node.fadeToggle()
+
+    @on @select('close'), 'click', =>
+      @trigger 'market::depth::fade_toggle'

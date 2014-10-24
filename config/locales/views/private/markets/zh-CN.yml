@@ -65,6 +65,7 @@ zh-CN:
         amount: 总价
         ask: 卖出
         bid: 买入
+        fade_toggle_depth: 市场深度
       market_trades:
         title: 实时委单成交记录
         time: 成交时间

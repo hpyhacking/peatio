@@ -41,7 +41,7 @@ $ ->
   PlaceOrderUI.attachTo('#bid_entry')
   PlaceOrderUI.attachTo('#ask_entry')
   OrderBookUI.attachTo('#order_book')
-  DepthUI.attachTo('#depths')
+  DepthUI.attachTo('#depths_wrapper')
 
   AccountBalanceUI.attachTo('.account-balance')
   MyOrdersUI.attachTo('#my_orders')

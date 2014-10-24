@@ -23,8 +23,7 @@ html lang="en"
 
         ul#chart_switch.list-unstyled
           - %w(1 5 15 30 60 120 360 1440).each do |x|
-            li.text-right: a href='#' data-unit='#{x}' = t(".switch_#{x}")
-        
+            li.text-right: a.hand-point.chart-switch href='#' data-unit='#{x}' = t(".switch_#{x}")
 
         #market_switch_tabs_wrapper.float
           ul.nav.nav-tabs.tabs-right.sideways

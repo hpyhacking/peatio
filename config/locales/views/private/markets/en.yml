@@ -65,6 +65,7 @@ en:
         amount: Amount
         ask: ASK
         bid: BID
+        fade_toggle_depth: Market Depth
       market_trades:
         title: Market Tradeing
         time: Trading Time

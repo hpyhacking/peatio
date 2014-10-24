@@ -1,6 +1,7 @@
 #order_book.panel.panel-default
   .panel-heading
     span = t('.title')
+    span.pull-right: a#fade_toggle_depth.hand-point = t('.fade_toggle_depth')
     span.pull-right: i.fa.fa-refresh.fa-spin
   .panel-body.panel-body-head
     #order_book_header.row

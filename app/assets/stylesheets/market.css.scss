@@ -55,6 +55,7 @@ body,
 #wrap, 
 .content { 
   height: 100%; 
+  @include user-select(none);
 }
 
 body { 
@@ -74,7 +75,10 @@ body {
     -webkit-focus-ring-color: transparent !important;
   }
 
-  a.hand-point { cursor: pointer; }
+  a.hand-point { 
+    cursor: pointer; 
+    text-decoration: none;
+  }
 }
 
 header {
@@ -306,12 +310,17 @@ header {
   top: 300px;
   left: 15px;
 
-  a { color: #333; }
-  a.active { color: #777; }
-  a:hover { color: #eee; }
+  a { color: #777; }
+  a:hover { color: lighten(#777, 50%); }
+  a.active { color: #eee; }
 }
 
 #depths_wrapper {
+  & > a {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
   left: 0px;
   bottom: 0px;
   position: absolute;

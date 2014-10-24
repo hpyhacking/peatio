@@ -5,6 +5,7 @@
     bidBookSel: 'table.bids'
     seperatorSelector: 'table.seperator'
     timer: '.fa.fa-refresh'
+    fade_toggle_depth: '#fade_toggle_depth'
 
   @refreshOrders = (event, data) ->
     @buildOrders(@select('bidBookSel'), _.first(data.bids, @.attr.bookLimit), 'bid')
@@ -40,6 +41,9 @@
 
   @after 'initialize', ->
     @on document, 'market::order_book', @refreshOrders
+
+    @on @select('fade_toggle_depth'), 'click', =>
+      @trigger 'market::depth::fade_toggle'
 
     $('.asks').on 'click', 'tr', (e) =>
       i = $(e.target).closest('tr').data('order')

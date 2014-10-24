@@ -15,6 +15,7 @@ window.MarketSwitchUI = flight.component ->
   @after 'initialize', ->
     @on document, 'market::tickers', @refresh
     @on document, 'switch-market', @open
+
     @select('table').on 'click', 'tr', (e) ->
       win = window.open("/markets/#{$(@).data('market')}", '_blank')
       win.focus()

@@ -21,7 +21,7 @@
   @handleData = (data, minutes) ->
     ma = [[], [], [], []]
     ma_sum = [0, 0, 0, 0]
-    ma_def = [4, 9, 15, 29]
+    ma_def = [4, 9, 14, 29]
     [volume, candlestick] = [[], []]
 
     for cur, i in data
