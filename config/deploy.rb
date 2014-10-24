@@ -7,8 +7,8 @@ require 'mina/slack/tasks'
 set :repository, 'https://github.com/peatio/peatio.git'
 set :user, 'deploy'
 set :deploy_to, '/home/deploy/peatio'
-set :branch, 'master'
-set :domain, 'demo.peat.io'
+set :branch, 'stable'
+set :domain, 'demo.peatio.com'
 
 set :shared_paths, [
   'config/database.yml',
@@ -23,7 +23,6 @@ set :shared_paths, [
   'tmp',
   'log'
 ]
-
 
 task :environment do
   invoke :'rbenv:load'
