@@ -40,15 +40,8 @@ module Worker
       @trades[market.id] = trades.order('id desc').limit(FRESH_TRADES).map(&:for_global)
       Rails.cache.write "peatio:#{market.id}:trades", @trades[market.id]
 
-      if low_trade = trades.h24.order('price asc').first
-        ttl = low_trade.created_at.to_i + 24.hours - Time.now.to_i
-        write_h24_key "peatio:#{market.id}:h24:low", low_trade.price, ttl
-      end
-
-      if high_trade = trades.h24.order('price desc').first
-        ttl = high_trade.created_at.to_i + 24.hours - Time.now.to_i
-        write_h24_key "peatio:#{market.id}:h24:high", high_trade.price, ttl
-      end
+      low_trade = initialize_market_low(market.id)
+      high_trade = initialize_market_high(market.id)
 
       @tickers[market.id] = {
         low:  low_trade.try(:price)   || ::Trade::ZERO,
@@ -64,7 +57,10 @@ module Worker
       low_key = "peatio:#{market}:h24:low"
       low = Rails.cache.read(low_key)
 
-      if low.nil? || trade.price < low
+      if low.nil?
+        trade = initialize_market_low(market)
+        low = trade.price
+      elsif trade.price < low
         low = trade.price
         write_h24_key low_key, low
       end
@@ -76,12 +72,31 @@ module Worker
       high_key = "peatio:#{market}:h24:high"
       high = Rails.cache.read(high_key)
 
-      if high.nil? || trade.price > high
+      if high.nil?
+        trade = initialize_market_high(market)
+        high = trade.price
+      elsif trade.price > high
         high = trade.price
         write_h24_key high_key, high
       end
 
       high
+    end
+
+    def initialize_market_low(market)
+      if low_trade = Trade.with_currency(market).h24.order('price asc').first
+        ttl = low_trade.created_at.to_i + 24.hours - Time.now.to_i
+        write_h24_key "peatio:#{market}:h24:low", low_trade.price, ttl
+        low_trade
+      end
+    end
+
+    def initialize_market_high(market)
+      if high_trade = Trade.with_currency(market).h24.order('price desc').first
+        ttl = high_trade.created_at.to_i + 24.hours - Time.now.to_i
+        write_h24_key "peatio:#{market}:h24:high", high_trade.price, ttl
+        high_trade
+      end
     end
 
     def write_h24_key(key, value, ttl=24.hours)

@@ -127,7 +127,7 @@ A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do b
     sudo apt-get install nodejs
 
 
-### Step 8: Configure Peatio
+### Step 8: Install ImageMagick
 
     sudo apt-get install imagemagick
 

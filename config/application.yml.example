@@ -15,7 +15,7 @@ defaults: &defaults
   # below settings only in production env
   # system notify mail settings
   # --------------------------------------------------------------
-  SMTP_PORT: 25
+  SMTP_PORT: YOUR_SMTP_PORT
   SMTP_DOMAIN: YOUR_SMTP_DOMAIN
   SMTP_ADDRESS: YOUR_SMTP_ADDRESS
   SMTP_USERNAME: YOUR_SMTP_USERNAME
