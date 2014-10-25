@@ -141,15 +141,6 @@ RANGE_DEFAULT =
               """
               <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.volume}</span><span class=t-value>{point.y}</span></div><br/>
               """
-        spline:
-          lineWidth: 1
-          dataGrouping: dataGrouping
-          tooltip:
-            pointFormat:
-              """
-              <div class='tooltip-ma'><span class='t-title'>{series.name}</span><span class='t-value'>{point.y}</span></div>
-              """
-
       scrollbar:
         buttonArrowColor: '#333'
         barBackgroundColor: '#202020'
@@ -184,7 +175,14 @@ RANGE_DEFAULT =
           gridLineColor: '#222'
           gridLineDashStyle: 'ShortDot'
           top: "0%"
-          height: "80%"
+          height: "60%"
+        }
+        {
+          labels:
+            enabled: false
+          top: "60%"
+          gridLineColor: '#000'
+          height: "20%"
         }
         {
           labels:
@@ -201,6 +199,9 @@ RANGE_DEFAULT =
         y: 18
         verticalAlign: 'top'
         enabled: true
+        symbolWidth: 0
+        itemDistance: 0
+        margin: 2
         itemStyle: 
           color: '#777'
         itemHoverStyle:
@@ -246,6 +247,56 @@ RANGE_DEFAULT =
           type: 'spline'
           data: data['ma30']
           visible: false
+        }
+        {
+          type: 'spline'
+          data: data['close']
+          visible: false
+          id: 'close'
+          showInLegend: false
+        }
+        {
+          name: 'EMA7',
+          linkedTo: 'close',
+          showInLegend: true,
+          type: 'trendline',
+          algorithm: 'EMA',
+          periods: 7
+          visible: false
+        }
+        {
+          name: 'EMA30',
+          linkedTo: 'close',
+          showInLegend: true,
+          type: 'trendline',
+          algorithm: 'EMA',
+          periods: 30
+          visible: false
+        }
+        {
+          name : 'MACD',
+          linkedTo: 'close',
+          yAxis: 2,
+          showInLegend: true,
+          type: 'trendline',
+          algorithm: 'MACD'
+
+        }
+        {
+          name : 'Signal line',
+          linkedTo: 'close',
+          yAxis: 2,
+          showInLegend: true,
+          type: 'trendline',
+          algorithm: 'signalLine'
+
+        }
+        {
+          name: 'Histogram',
+          linkedTo: 'close',
+          yAxis: 2,
+          showInLegend: true,
+          type: 'histogram'
         }
       ]
 

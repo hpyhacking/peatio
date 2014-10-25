@@ -22,7 +22,7 @@
     ma = [[], [], [], []]
     ma_sum = [0, 0, 0, 0]
     ma_def = [4, 9, 14, 29]
-    [volume, candlestick] = [[], []]
+    [volume, candlestick, close_price] = [[], [], []]
 
     for cur, i in data
       [time, open, high, low, close, vol] = cur
@@ -43,10 +43,11 @@
         ma[j].push [time, ma_val]
         ma_sum[j] = new_sum
 
+      close_price.push [time, close]
       candlestick.push [time, open, high, low, close]
       volume.push {x: time, y: vol, color: if trend then 'rgba(255, 0, 0, 0.5)' else 'rgba(0, 255, 0, 0.5)'}
 
-    result = candlestick: candlestick, volume: volume, orig: data, minutes: minutes
+    result = candlestick: candlestick, volume: volume, orig: data, minutes: minutes, close: close_price
     result["ma#{x + 1}"] = ma[q] for x, q in ma_def
 
     @trigger 'market::candlestick::response', result
