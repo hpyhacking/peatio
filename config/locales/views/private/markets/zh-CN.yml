@@ -77,15 +77,13 @@ zh-CN:
       header:
         sound: 音效
         network: 连接状态
-        switch_on: 开
-        switch_off: 关
-        switch: '[切换]'
+        switch: '[选择交易品种]'
         vol: 二十四小时 成交量
         high: 最高
         low: 最低
         notification: 桌面实时通知
       market_switch:
-        title: 交易品种
+        title: 选择交易品种
         name: 交易对
         ask: 卖出价
         bid: 买入价

@@ -77,15 +77,13 @@ en:
       header:
         sound: Sound
         network: Connection State
-        switch_on: ON
-        switch_off: OFF
-        switch: '[switch]'
+        switch: '[Switch Market]'
         vol: 24h Volume
         high: High
         low: Low
         notification: Desktop Real Notification
       market_switch:
-        title: Markets Switch
+        title: Switch Market
         name: Market
         ask: ASK
         bid: BID

@@ -354,9 +354,11 @@ header {
     }
   }
 
-  v { display: inline-block; }
-  .tabs-left { v { direction: rtl; unicode-bidi: bidi-override; @include transform(rotate(-270deg)); }}
-  .tabs-right { v { @include transform(rotate(270deg)); }}
+  .sideways li { 
+    direction: rtl; 
+    unicode-bidi: bidi-override; 
+    v { display: inline-block; @include transform(rotate(-270deg)); }
+  }
 }
 
 #ask_entry, #bid_entry {
