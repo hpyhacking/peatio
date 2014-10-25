@@ -67,6 +67,7 @@ window.GlobalData = flight.component ->
 
     market_channel.bind 'update', (data) =>
       @trigger 'market::order_book', asks: data.asks, bids: data.bids
+      @refreshDepth asks: data.asks, bids: data.bids 
 
     market_channel.bind 'trades', (data) =>
       @trigger 'market::trades', {trades: data.trades}
