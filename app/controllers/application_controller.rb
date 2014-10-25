@@ -153,9 +153,12 @@ class ApplicationController < ActionController::Base
     end
     gon.fiat_currency = Currency.first.code
 
-    gon.tickers = Market.all.inject({}) do |memo, market|
-      memo[market.id] = market.ticker
-      memo
+    gon.tickers = {}
+    Market.all.each do |market|
+      global = Global[market.id]
+      global.trigger_ticker
+      market_unit = {base_unit: market.base_unit, quote_unit: market.quote_unit}
+      gon.tickers[market.id] = global.ticker.merge(market_unit)
     end
 
     if current_user
