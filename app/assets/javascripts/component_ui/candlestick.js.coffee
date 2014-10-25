@@ -20,37 +20,35 @@ DATETIME_LABEL_FORMAT =
 
 DATE_RANGE = 
   min1: 
-    rangeSelector:
-      buttons: [{type: 'hour', count: 2, text: '2h'}, {type: 'day', count: 1, text: '1d'}]
+    default_range: 1000 * 3600 * 2 # 2h
     dataGrouping_units: [['minute', [1]]]
   min5: 
-    rangeSelector:
-      buttons: [{type: 'hour', count: 10, text: '10h'}, {type: 'day', count: 5, text: '5d'}]
+    default_range: 1000 * 3600 * 10 # 10h
     dataGrouping_units: [['minute', [5]]]
   min15: 
-    rangeSelector:
-      buttons: [{type: 'day', count: 1, text: '1d'}, {type: 'day', count: 10, text: '10d'}]
+    default_range: 1000 * 3600 * 24 * 1 # 1d
     dataGrouping_units: [['minute', [15]]]
   min30: 
-    rangeSelector:
-      buttons: [{type: 'day', count: 2, text: '2d'}, {type: 'day', count: 20, text: '20d'}]
+    default_range: 1000 * 3600 * 24 * 2 # 2d
     dataGrouping_units: [['minute', [30]]]
   min60: 
-    rangeSelector:
-      buttons: [{type: 'day', count: 5, text: '5d'}, {type: 'month', count: 1, text: '1m'}]
+    default_range: 1000 * 3600 * 24 * 5 # 5d
     dataGrouping_units: [['hour', [1]]]
   min120: 
-    rangeSelector:
-      buttons: [{type: 'day', count: 10, text: '10d'}, {type: 'month', count: 2, text: '2m'}]
+    default_range: 1000 * 3600 * 24 * 10 # 10d
     dataGrouping_units: [['hour', [2]]]
   min360: 
-    rangeSelector:
-      buttons: [{type: 'month', count: 1, text: '1m'}, {type: 'month', count: 4, text: '4m'}]
+    default_range: 1000 * 3600 * 24 * 30 * 1 # 1m 
     dataGrouping_units: [['hour', [6]]]
   min1440: 
-    rangeSelector:
-      buttons: [{type: 'month', count: 3, text: '3m'}, {type: 'year', count: 1, text: '1y'}]
+    default_range: 1000 * 3600 * 24 * 30 * 3 # 3m
     dataGrouping_units: [['day', [1]]]
+  min4320: 
+    default_range: 1000 * 3600 * 24 * 30 * 9 # 9m
+    dataGrouping_units: [['day', [3]]]
+  min10080: 
+    default_range: 1000 * 3600 * 24 * 30 * 12 # 12m
+    dataGrouping_units: [['day', [7]]]
 
 RANGE_DEFAULT = 
   fill: 'none',
@@ -69,13 +67,6 @@ RANGE_DEFAULT =
       style:
         color: '#eee'
 
-for key, val of DATE_RANGE
-  DATE_RANGE[key]['rangeSelector']['buttonTheme'] = RANGE_DEFAULT
-  DATE_RANGE[key]['rangeSelector']['buttons'].push {type: 'all', count: 1, text: 'all'}
-  DATE_RANGE[key]['rangeSelector']['selected'] = 0
-  DATE_RANGE[key]['rangeSelector']['inputEnabled'] = false
-  
-
 @CandlestickUI = flight.component ->
   @refresh = (event, data) ->
     @$node.highcharts()?.destroy()
@@ -85,12 +76,13 @@ for key, val of DATE_RANGE
   @initTooltip = ->
     chart = @$node.highcharts()
     tooltips = []
-    for i in [0..5]
+    for i in [0..3]
       if chart.series[i].points.length > 0
         tooltips.push chart.series[i].points[chart.series[i].points.length - 1]
     chart.tooltip.refresh tooltips
 
   @initHighStock = (data) ->
+    range = DATE_RANGE["min#{data['minutes']}"]['default_range']
     unit = $("[data-unit=#{data['minutes']}]").text()
     title = "#{gon.market.base_unit.toUpperCase()}/#{gon.market.quote_unit.toUpperCase()} - #{unit}"
 
@@ -176,7 +168,8 @@ for key, val of DATE_RANGE
         buttonBorderColor: '#2a2a2a'
         trackBorderColor: '#2a2a2a'
 
-      rangeSelector: DATE_RANGE["min#{data['minutes']}"]['rangeSelector']
+      rangeSelector: 
+        enabled: false
 
       xAxis:
         type: 'datetime',
@@ -184,6 +177,7 @@ for key, val of DATE_RANGE
         lineColor: '#333'
         tickColor: '#333'
         tickWidth: 2
+        range: range
 
       navigator:
         maskFill: 'rgba(32, 32, 32, 0.6)'
@@ -214,6 +208,7 @@ for key, val of DATE_RANGE
         enabled: true
         align: 'left'
         verticalAlign: 'top'
+        layout: 'vertical'
         y: 100
         itemStyle: 
           color: '#777'
@@ -227,6 +222,7 @@ for key, val of DATE_RANGE
           name: gon.i18n.chart.candlestick
           type: "candlestick"
           data: data['candlestick']
+          showInLegend: false
         }
         {
           name: gon.i18n.chart.volume
@@ -234,26 +230,31 @@ for key, val of DATE_RANGE
           type: "column"
           data: data['volume']
           color: '#777'
+          showInLegend: false
         }
         {
           name: 'MA5'
           type: 'spline'
           data: data['ma5']
+          color: '#7c9aaa'
         }
         {
           name: 'MA10'
           type: 'spline'
           data: data['ma10']
+          color: '#be8f53'
         }
         {
           name: 'MA15'
           type: 'spline'
           data: data['ma15']
+          visible: false
         }
         {
           name: 'MA30'
           type: 'spline'
           data: data['ma30']
+          visible: false
         }
       ]
 

@@ -17,14 +17,16 @@ zh-CN:
         market_switch: <v>交</v><v>易</v><v>品</v><v>种</v>
         trades: <v>委</v><v>单</v><v>成</v><v>交</v>
         chat: 聊天频道
-        switch_1: 分线
-        switch_5: 5分钟
-        switch_15: 15分钟
-        switch_30: 30分钟
-        switch_60: 时线
-        switch_120: 2小时
-        switch_360: 6小时
-        switch_1440: 日线
+        switch_1: 1m
+        switch_5: 5m
+        switch_15: 15m
+        switch_30: 30m
+        switch_60: 1h
+        switch_120: 2h
+        switch_360: 6h
+        switch_1440: 1d
+        switch_4320: 3d
+        switch_10080: 1w
       depths:
         price: 价格
         amount: 数量

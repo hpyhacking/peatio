@@ -17,14 +17,16 @@ en:
         trades: Trading
         market_switch: Markets Switch
         chat: Chat Channel
-        switch_1: 1 min
-        switch_5: 5 mins
-        switch_15: 15 mins
-        switch_30: 30 mins
-        switch_60: 1 hour
-        switch_120: 2 hours
-        switch_360: 6 hours
-        switch_1440: 1 day
+        switch_1: 1m
+        switch_5: 5m
+        switch_15: 15m
+        switch_30: 30m
+        switch_60: 1h
+        switch_120: 2h
+        switch_360: 6h
+        switch_1440: 1d
+        switch_4320: 3d
+        switch_10080: 1w
       depths:
         price: Price
         amount: Amount
