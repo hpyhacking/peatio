@@ -14,7 +14,7 @@
     @select('chart').highcharts
       chart:
         margin: 0
-        height: 150
+        height: 100
         backgroundColor: 'rgba(0,0,0,0)'
 
       title:

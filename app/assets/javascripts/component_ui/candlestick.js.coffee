@@ -115,7 +115,7 @@ RANGE_DEFAULT =
         shared: true
         headerFormat: "<div class='chart-ticker'><span class='tooltip-title'>{point.key}</span><br />"
         footerFormat: '</div>'
-        positioner: -> {x: 10, y: 0}
+        positioner: -> {x: 0, y: 0}
 
       plotOptions:
         candlestick:
