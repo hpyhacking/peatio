@@ -4,10 +4,7 @@
   <td class='price text-right col-xs-4'>{{format_fix_bid price}}</td>
   <td class='volume text-right col-xs-4'>{{format_volume origin_volume volume}}</td>
   <td class='amount text-right col-xs-5'>{{{format_amount volume price}}}</td>
-  <td class='col-xs-4 text-right'>
-    <!--
-    <a class='wait text-info' data-method='delete' data-remote='true' data-confirm='are you sure?' rel='nofollow' href='/markets/{{market}}/orders/{{id}}'>[{{format_cancel}}]</a>
-    -->
-    <a class='wait text-info' data-method='delete' data-remote='true' data-confirm='are you sure?' rel='nofollow' href='/markets/{{market}}/orders/{{id}}'><i class='fa fa-undo'></i></a>
+  <td class='col-xs-4 text-center'>
+    <a class='wait text-info' data-method='delete' data-remote='true' data-confirm='are you sure?' rel='nofollow' href='/markets/{{market}}/orders/{{id}}'><i class='fa fa-trash'></i></a>
   </td>
 </tr>
