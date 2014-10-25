@@ -102,8 +102,7 @@ RANGE_DEFAULT =
           fontSize: 24
 
       chart:
-        marginTop: 100
-        marginLeft: 15
+        marginTop: 120
         backgroundColor: 'rgba(0,0,0, 0.0)'
 
       credits:
@@ -124,7 +123,7 @@ RANGE_DEFAULT =
         shared: true
         headerFormat: "<div class='chart-ticker'><span class='tooltip-title'>{point.key}</span><br />"
         footerFormat: '</div>'
-        positioner: -> {x: 10, y: 8}
+        positioner: -> {x: 10, y: 0}
 
       plotOptions:
         candlestick:
@@ -206,10 +205,6 @@ RANGE_DEFAULT =
 
       legend:
         enabled: true
-        align: 'left'
-        verticalAlign: 'top'
-        layout: 'vertical'
-        y: 100
         itemStyle: 
           color: '#777'
         itemHoverStyle:

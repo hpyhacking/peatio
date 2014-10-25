@@ -29,7 +29,7 @@ PANEL_TABLE_HEADER_HIGH = 73
       $('.content').width(window_w)
       $('.content').height(window_h - navbar_h)
 
-      $('#candlestick').width(window_w - order_book_w - gutter_3x - nav_stacked_width_2x)
+      $('#candlestick').width(window_w - order_book_w - gutter_3x - nav_stacked_width)
       $('#candlestick').height(window_h - navbar_h - gutter_3x)
 
       order_h = window_h - navbar_h - entry_h - ticker_h - gutter_7x

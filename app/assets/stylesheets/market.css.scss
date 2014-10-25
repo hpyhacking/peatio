@@ -47,7 +47,7 @@ $my-orders-tabs-height: 282px;
 $trades-tabs-width: 500px;
 $trades-tabs-height: 282px;
 
-$candlestick-width: $min-width - $order-book-width - $gutter-3x - $nav_stacked_width - $nav_stacked_width;
+$candlestick-width: $min-width - $order-book-width - $gutter-3x - $nav_stacked_width;
 $candlestick-height: $min-height - $navbar-height - $gutter-2x;
 
 html,
@@ -302,13 +302,14 @@ header {
   position: absolute;
   min-width: $candlestick-width; width: $candlestick-width; 
   min-height: $candlestick-height; height: $candlestick-height;
-  top: $gutter; left: $gutter + $nav_stacked_width; 
+  top: $gutter; left: $gutter; 
 }
 
 #chart_switch {
+  font-size: 12px;
   position: absolute;
-  top: 300px;
-  left: 15px;
+  top: 96px;
+  left: 20px;
 
   a { color: #777; }
   a:hover { color: lighten(#777, 50%); }
@@ -477,24 +478,20 @@ header {
   border: 0px;
   background-color: rgba(0,0,0,0) !important;
   color: #777;
-  font-size: 14px;
+  font-size: 12px;
 
-  & > div { display: inline-block; width: 100px; }
-  & > div.tooltip-ma { width: 104px; margin-top: 3px; }
+  & > div { display: inline-block; width: 70px; }
+  & > div.tooltip-ma { width: 76; margin-top: 3px; }
   & > div.tooltip-ticker { margin-top: 5px; }
 
   span.t-title {
     display: block;
     text-align: rigth;
-    width: 60px;
-    min-width: 60px;
   }
 
   span.t-value {
     color: #ccc !important;
     font-family: $font-family-monospace;
-    width: 70px;
-    min-width: 70px;
     text-align: right;
     margin-right: 15px;
   }
