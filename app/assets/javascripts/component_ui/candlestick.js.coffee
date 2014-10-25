@@ -93,16 +93,8 @@ RANGE_DEFAULT =
         dataGrouping['dateTimeLabelFormats'] = DATETIME_LABEL_FORMAT_FOR_TOOLTIP
 
     @$node.highcharts "StockChart",
-
-      title:
-        text: title
-        align: 'right'
-        style:
-          color: 'rgba(119, 119, 119, 0.6)'
-          fontSize: 24
-
       chart:
-        marginTop: 120
+        marginTop: 95
         backgroundColor: 'rgba(0,0,0, 0.0)'
 
       credits:
@@ -204,6 +196,10 @@ RANGE_DEFAULT =
       ]
 
       legend:
+        align: 'right'
+        floating: true
+        y: 18
+        verticalAlign: 'top'
         enabled: true
         itemStyle: 
           color: '#777'
