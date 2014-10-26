@@ -1,5 +1,6 @@
 @MarketData = flight.component ->
   @refresh = (event, data) ->
+    @trigger 'market::candlestick::request'
     @reqK(gon.market.id, data['x'])
 
   @reqK = (market = gon.market.id, minutes = 60, limit = 5000) ->

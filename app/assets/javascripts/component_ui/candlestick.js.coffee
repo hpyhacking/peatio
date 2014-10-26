@@ -70,8 +70,17 @@ RANGE_DEFAULT =
 INDICATOR = {MA: false, EMA: false}
 
 @CandlestickUI = flight.component ->
+  @mask = ->
+    @$node.find('.mask').show()
+
+  @unmask = ->
+    @$node.find('.mask').hide()
+
+  @request = ->
+    @mask()
+
   @refresh = (event, data) ->
-    @$node.highcharts()?.destroy()
+    @$node.find('#candlestick_chart').highcharts()?.destroy()
     @initHighStock(data)
     @initTooltip()
 
@@ -79,7 +88,7 @@ INDICATOR = {MA: false, EMA: false}
     INDICATOR[key] = false for key, val of INDICATOR
     INDICATOR[data.x] = true
 
-    if chart = @$node.highcharts()
+    if chart = @$node.find('#candlestick_chart').highcharts()
       for indicator, visible of INDICATOR
         for s in chart.series
           if s.userOptions.algorithm? && (s.userOptions.algorithm == indicator)
@@ -87,7 +96,7 @@ INDICATOR = {MA: false, EMA: false}
       chart.redraw()
 
   @initTooltip = ->
-    chart = @$node.highcharts()
+    chart = @$node.find('#candlestick_chart').highcharts()
     tooltips = []
     for i in [0..1]
       if chart.series[i].points.length > 0
@@ -105,8 +114,11 @@ INDICATOR = {MA: false, EMA: false}
     if DATETIME_LABEL_FORMAT_FOR_TOOLTIP
         dataGrouping['dateTimeLabelFormats'] = DATETIME_LABEL_FORMAT_FOR_TOOLTIP
 
-    @$node.highcharts "StockChart",
+    @$node.find('#candlestick_chart').highcharts "StockChart",
       chart:
+        events:
+          load: =>
+            @unmask()
         animation: true
         marginTop: 95
         backgroundColor: 'rgba(0,0,0, 0.0)'
@@ -314,5 +326,6 @@ INDICATOR = {MA: false, EMA: false}
       ]
 
   @after 'initialize', ->
+    @on document, 'market::candlestick::request', @request
     @on document, 'market::candlestick::response', @refresh
     @on document, 'switch::main_indicator_switch', @switch
