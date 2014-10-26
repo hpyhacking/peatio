@@ -18,6 +18,7 @@
   @.after 'initialize', ->
     @on document, 'order::wait::populate', @populate
     @on document, 'order::wait order::cancel order::done', @orderHandler
+
     @on @select('switchMyDoneOrderLink'), 'click', ->
       $('#my_orders').hide()
       $('#my_done_orders').show()
