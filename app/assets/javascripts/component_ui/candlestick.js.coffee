@@ -114,7 +114,7 @@ RANGE_DEFAULT =
         useHTML: true
         shared: true
         headerFormat: "<div class='chart-ticker'><span class='tooltip-title'>{point.key}</span><br />"
-        footerFormat: '</div>'
+        footerFormat: '<ul></div>'
         positioner: -> {x: 0, y: 0}
 
       plotOptions:
@@ -139,8 +139,21 @@ RANGE_DEFAULT =
           tooltip:
             pointFormat:
               """
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.volume}</span><span class=t-value>{point.y}</span></div><br/>
+              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.volume}</span><span class=t-value>{point.y}</span></div><ul class='list-inline'>
               """
+        trendline:
+          tooltip:
+            pointFormat:
+              """
+              <li><i class='fa fa-circle' style='color: {series.color};'></i><span>{series.name}: <b>{point.y}</b></span></li>
+              """
+        histogram:
+          tooltip:
+            pointFormat:
+              """
+              <li><i class='fa fa-circle' style='color: {series.color};'></i><span>{series.name}: <b>{point.y}</b></span></li>
+              """
+        
       scrollbar:
         buttonArrowColor: '#333'
         barBackgroundColor: '#202020'
