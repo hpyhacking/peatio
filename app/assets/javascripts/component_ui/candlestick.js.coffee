@@ -1,5 +1,5 @@
 if gon.local is "zh-CN"
-  DATETIME_LABEL_FORMAT_FOR_TOOLTIP = 
+  DATETIME_LABEL_FORMAT_FOR_TOOLTIP =
     millisecond: ['%m月%e日, %H:%M:%S.%L', '%m月%e日, %H:%M:%S.%L', '-%H:%M:%S.%L']
     second:      ['%m月%e日, %H:%M:%S', '%m月%e日, %H:%M:%S', '-%H:%M:%S']
     minute:      ['%m月%e日, %H:%M', '%m月%e日, %H:%M', '-%H:%M']
@@ -9,7 +9,7 @@ if gon.local is "zh-CN"
     month:       ['%Y年%m月', '%Y年%m月', '-%m']
     year: ['%Y', '%Y', '-%Y']
 
-DATETIME_LABEL_FORMAT = 
+DATETIME_LABEL_FORMAT =
   second: '%H:%M:%S'
   minute: '%H:%M'
   hour: '%H:%M'
@@ -18,39 +18,39 @@ DATETIME_LABEL_FORMAT =
   month: '%Y-%m'
   year: '%Y'
 
-DATE_RANGE = 
-  min1: 
+DATE_RANGE =
+  min1:
     default_range: 1000 * 3600 * 2 # 2h
     dataGrouping_units: [['minute', [1]]]
-  min5: 
+  min5:
     default_range: 1000 * 3600 * 10 # 10h
     dataGrouping_units: [['minute', [5]]]
-  min15: 
+  min15:
     default_range: 1000 * 3600 * 24 * 1 # 1d
     dataGrouping_units: [['minute', [15]]]
-  min30: 
+  min30:
     default_range: 1000 * 3600 * 24 * 2 # 2d
     dataGrouping_units: [['minute', [30]]]
-  min60: 
+  min60:
     default_range: 1000 * 3600 * 24 * 5 # 5d
     dataGrouping_units: [['hour', [1]]]
-  min120: 
+  min120:
     default_range: 1000 * 3600 * 24 * 10 # 10d
     dataGrouping_units: [['hour', [2]]]
-  min360: 
-    default_range: 1000 * 3600 * 24 * 30 * 1 # 1m 
+  min360:
+    default_range: 1000 * 3600 * 24 * 30 * 1 # 1m
     dataGrouping_units: [['hour', [6]]]
-  min1440: 
+  min1440:
     default_range: 1000 * 3600 * 24 * 30 * 3 # 3m
     dataGrouping_units: [['day', [1]]]
-  min4320: 
+  min4320:
     default_range: 1000 * 3600 * 24 * 30 * 9 # 9m
     dataGrouping_units: [['day', [3]]]
-  min10080: 
+  min10080:
     default_range: 1000 * 3600 * 24 * 30 * 12 # 12m
     dataGrouping_units: [['day', [7]]]
 
-RANGE_DEFAULT = 
+RANGE_DEFAULT =
   fill: 'none',
   stroke: 'none',
   'stroke-width': 0,
@@ -101,7 +101,7 @@ INDICATOR = {MA: false, EMA: false}
     for i in [0..1]
       if chart.series[i].points.length > 0
         tooltips.push chart.series[i].points[chart.series[i].points.length - 1]
-    chart.tooltip.refresh tooltips
+    chart.tooltip.refresh tooltips if tooltips.length
 
   @initHighStock = (data) ->
     range = DATE_RANGE["min#{data['minutes']}"]['default_range']
@@ -181,7 +181,7 @@ INDICATOR = {MA: false, EMA: false}
               """
               <li><span style='color: {series.color};'>{series.name}: <b>{point.y}</b></span></li>
               """
-        
+
       scrollbar:
         buttonArrowColor: '#333'
         barBackgroundColor: '#202020'
@@ -191,7 +191,7 @@ INDICATOR = {MA: false, EMA: false}
         buttonBorderColor: '#2a2a2a'
         trackBorderColor: '#2a2a2a'
 
-      rangeSelector: 
+      rangeSelector:
         enabled: false
 
       xAxis:
