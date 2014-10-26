@@ -1,15 +1,17 @@
-@ChartSwitchUI = flight.component ->
+COOKIE_KEY = 'range-unit'
+
+@RangeSwitchUI = flight.component ->
   @attributes
     switch: 'a'
 
   @getUnit = ->
-    if Cookies.get('chart-unit')
-      return parseInt(Cookies.get('chart-unit'))
+    if Cookies.get(COOKIE_KEY)
+      return parseInt(Cookies.get(COOKIE_KEY))
     else
       return @setUnit(60)
 
   @setUnit = (unit) ->
-    Cookies.set('chart-unit', unit)
+    Cookies.set(COOKIE_KEY, unit)
     return unit
 
   @after 'initialize', ->

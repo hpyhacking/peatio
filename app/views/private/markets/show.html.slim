@@ -21,7 +21,7 @@ html lang="en"
       .content
         = render partial: 'candlestick'
 
-        ul#chart_switch.list-inline
+        ul#range_switch.list-inline
           - %w(1 5 15 30 | 60 120 360 | 1440 4320 | 10080).each do |x|
             li.text-center
               - if x == '|'
