@@ -21,13 +21,8 @@ html lang="en"
       .content
         = render partial: 'candlestick'
 
-        ul#range_switch.list-inline
-          - %w(1 5 15 30 | 60 120 360 | 1440 4320 | 10080).each do |x|
-            li.text-center
-              - if x == '|'
-                span |
-              - else
-                a.hand-point.chart-switch href='#' data-unit='#{x}' = t(".switch_#{x}")
+        = render partial: 'range_switch'
+        = render partial: 'indicator_switch'
 
         #market_switch_tabs_wrapper.float
           ul.nav.nav-tabs.tabs-right.sideways.hide

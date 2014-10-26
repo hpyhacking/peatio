@@ -207,22 +207,6 @@ RANGE_DEFAULT =
         }
       ]
 
-      legend:
-        align: 'right'
-        floating: true
-        y: 18
-        verticalAlign: 'top'
-        enabled: true
-        symbolWidth: 0
-        itemDistance: 0
-        margin: 2
-        itemStyle: 
-          color: '#777'
-        itemHoverStyle:
-          color: '#eee'
-        itemHiddenStyle:
-          color: '#333'
-
       series: [
         {
           name: gon.i18n.chart.candlestick

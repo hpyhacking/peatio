@@ -1,6 +1,6 @@
 @MarketData = flight.component ->
   @refresh = (event, data) ->
-    @reqK(data['market'], data['minutes'])
+    @reqK(gon.market.id, data['x'])
 
   @reqK = (market = gon.market.id, minutes = 60, limit = 5000) ->
     url = "/api/v2/k.json?market=#{market}&limit=#{limit}&period=#{minutes}"
@@ -30,4 +30,4 @@
     @trigger 'market::candlestick::response', result
 
   @after 'initialize', ->
-    @on document, 'market::candlestick::request', @refresh
+    @on document, 'switch::range_switch', @refresh

@@ -17,6 +17,7 @@ en:
         trades: Trading
         market_switch: Markets Switch
         chat: Chat Channel
+      range_switch:
         switch_1: 1m
         switch_5: 5m
         switch_15: 15m

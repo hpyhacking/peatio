@@ -305,16 +305,16 @@ header {
   top: $gutter; left: $gutter; 
 }
 
-#range_switch {
+.switch {
   font-size: 12px;
   position: absolute;
-  top: 13px;
-  right: 543px;
-
   a { color: #777; }
   a:hover { color: lighten(#777, 50%); }
   a.active { color: #eee; }
 }
+
+#range_switch { top: 13px; right: 543px; }
+#indicator_switch { top: 33px; right: 538px; }
 
 #depths_wrapper {
   & > a {
