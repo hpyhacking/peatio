@@ -70,6 +70,11 @@
 			return SMA(xData, yData, periods);
 		},
 
+    MA: function (xData, yData, periods) {
+
+			return MA(xData, yData, periods);
+    },
+
 
 		/* Function using the global EMA function.
 		 * 
@@ -271,6 +276,26 @@
 		return lineData;
 	}
 
+	function MA (xData, yData, periods) {
+    var maLine = [],
+        periodArr = [],
+        length = yData.length;
+
+		for (var i = 0; i < length; i++) {
+      periodArr.push(yData[i]);
+
+      if (i >= periods) {
+				maLine.push([xData[i] , arrayAvg(periodArr)]);
+        periodArr.shift();
+      }
+      else {
+				maLine.push([xData[i] , null]);
+      }
+    }
+
+    return maLine;
+  }
+
 
 	/* Function based on the idea of an exponential moving average.
 	 * 
@@ -283,7 +308,6 @@
 	 * @return an array containing the EMA.	
 	**/
 	function EMA (xData, yData, periods) {
-
 		var t,
 			y = false,
 			n = periods,
@@ -384,4 +408,3 @@
 	}
 
 }(Highcharts));
-

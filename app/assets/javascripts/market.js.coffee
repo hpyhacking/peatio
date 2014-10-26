@@ -21,7 +21,6 @@
 #= require ./lib/pusher_connection
 
 #= require highstock
-#= require highsotck_ex
 #= require_tree ./highcharts/
 
 #= require_tree ./helpers

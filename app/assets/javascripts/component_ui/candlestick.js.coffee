@@ -76,7 +76,7 @@ RANGE_DEFAULT =
   @initTooltip = ->
     chart = @$node.highcharts()
     tooltips = []
-    for i in [0..3]
+    for i in [0..1]
       if chart.series[i].points.length > 0
         tooltips.push chart.series[i].points[chart.series[i].points.length - 1]
     chart.tooltip.refresh tooltips
@@ -175,21 +175,22 @@ RANGE_DEFAULT =
           gridLineColor: '#222'
           gridLineDashStyle: 'ShortDot'
           top: "0%"
-          height: "60%"
+          height: "70%"
+          lineColor: '#fff'
         }
         {
           labels:
             enabled: false
-          top: "60%"
+          top: "70%"
           gridLineColor: '#000'
-          height: "20%"
+          height: "15%"
         }
         {
           labels:
             enabled: false
-          top: "80%"
+          top: "85%"
           gridLineColor: '#000'
-          height: "20%"
+          height: "15%"
         }
       ]
 
@@ -225,35 +226,29 @@ RANGE_DEFAULT =
           showInLegend: false
         }
         {
-          name: 'MA5'
-          type: 'spline'
-          data: data['ma5']
-          color: '#7c9aaa'
-        }
-        {
-          name: 'MA10'
-          type: 'spline'
-          data: data['ma10']
-          color: '#be8f53'
-        }
-        {
-          name: 'MA15'
-          type: 'spline'
-          data: data['ma15']
-          visible: false
-        }
-        {
-          name: 'MA30'
-          type: 'spline'
-          data: data['ma30']
-          visible: false
-        }
-        {
           type: 'spline'
           data: data['close']
           visible: false
           id: 'close'
           showInLegend: false
+        }
+        {
+          name: 'MA5',
+          linkedTo: 'close',
+          showInLegend: true,
+          type: 'trendline',
+          algorithm: 'MA',
+          periods: 5
+          color: '#7c9aaa'
+        }
+        {
+          name: 'MA10'
+          linkedTo: 'close',
+          showInLegend: true,
+          type: 'trendline',
+          algorithm: 'MA',
+          periods: 10
+          color: '#be8f53'
         }
         {
           name: 'EMA7',
