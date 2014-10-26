@@ -1,116 +1,90 @@
-ul.list-group
-  // member email activated
-  li.list-group-item
-    .row.row-middle
-      .col-xs-2
-        i.fa.fa-envelope-o.fa-2x
-      .col-xs-16
-        h4 = t('.email.title')
-        - if current_user.activated?
-          p.text-ignore = t('.email.description-activated')
-        - else
-          p.text-ignore = t('.email.description')
-      .col-xs-6
-        - if current_user.activated?
-          a href="#" class="btn btn-success btn-block disabled" role="button"
-            i.fa.fa-check-circle
-            span = t('.email.activated')
-        - else
-          = link_to t('.email.resend'), new_activation_path, class: 'btn btn-default btn-block'
-
-  // id document verify
-  li.list-group-item
-    .row.row-middle
-      .col-xs-2
-        i.fa.fa-thumbs-o-up.fa-2x
-      .col-xs-16
-        h4
-          span = t('.verification.title')
-          i.fa.fa-bolt.text-warning
-        p.text-ignore = t('.verification.description')
-      .col-xs-6
-        - if current_user.id_document_verified?
-          a href="#" class="btn btn-success btn-block disabled" role="button"
-            i.fa.fa-check-circle
-            span = t('.verification.verified')
-        - else
-          = link_to t('.verification.go'), edit_id_document_path, class: 'btn btn-default btn-block'
-
-  // phone number verify
-  li.list-group-item
-    .row.row-middle
-      .col-xs-2
-        i.fa.fa-mobile.fa-4x
-      .col-xs-16
-        h4
-          span = t('.phone_number.title')
-          i.fa.fa-bolt.text-warning
-        p.text-ignore = t('.phone_number.description')
-      .col-xs-6
-        - if current_user.sms_two_factor.activated?
-          a href="#" class="btn btn-success btn-block disabled" role="button"
-            i.fa.fa-check-circle
-            span = t('.phone_number.verified')
-        - else
-          = link_to t('.phone_number.go'), verify_sms_auth_path, class: 'btn btn-default btn-block'
-
-  // Google two factor auth setting
-  li.list-group-item
-    #two_factor_auth.row.row-middle
-      .col-xs-2
-        i.fa.fa-superscript.fa-2x
-      .col-xs-16
-        h4
-          span = t('.two_factor_auth.title')
-          i.fa.fa-bolt.text-warning
-        p.text-ignore = t('.two_factor_auth.description')
-      .col-xs-6
-        - if current_user.app_two_factor.activated?
-          = link_to t('.two_factor_auth.disable'), edit_verify_google_auth_path, class: 'btn btn-default btn-block'
-        - else
-          = link_to t('.two_factor_auth.enable'), verify_google_auth_path, class: 'btn btn-default btn-block'
-
-  // change identity password
-  li.list-group-item
-    .row.row-middle
-      .col-xs-2
-        i.fa.fa-key.fa-2x
-      .col-xs-16
-        h4 = t('.passwords.title')
-        p.text-ignore = t('.passwords.description')
-      .col-xs-6
-        - if current_user.identity
-          = link_to t('.passwords.go'), edit_identity_path, class: 'btn btn-default btn-block'
-        - else
-          = link_to t('.passwords.set'), new_authentications_identity_path, class: 'btn btn-default btn-block'
-
-  li.list-group-item
-    .row.row-middle
-      .col-xs-2
-        i.fa.fa-code.fa-2x
-      .col-xs-16
-        h4 = t('.api_tokens.title')
-        p.text-ignore = t('.api_tokens.description')
-      .col-xs-6
-        = link_to t('.api_tokens.go'), api_tokens_path, class: 'btn btn-default btn-block'
-
+table#setting_list.table
+  tr
+    td.col-xs-2.text-center.vertical-center: i.fa.fa-envelope-o.fa-2x
+    td.col-xs-15
+      h4 = t('.email.title')
+      - if current_user.activated?
+        p.text-ignore = t('.email.description-activated')
+      - else
+        p.text-ignore = t('.email.description')
+    td.col-xs-7.vertical-center
+      - if current_user.activated?
+        a href="#" class="btn btn-success btn-block disabled" role="button"
+          i.fa.fa-check-circle
+          span = t('.email.activated')
+      - else
+        = link_to t('.email.resend'), new_activation_path, class: 'btn btn-default btn-block'
+  tr
+    td.col-xs-2.text-center.vertical-center: i.fa.fa-thumbs-o-up.fa-2x
+    td.col-xs-15
+      h4
+        span = t('.verification.title')
+        i.fa.fa-bolt.text-warning
+      p.text-ignore = t('.verification.description')
+    td.col-xs-7.vertical-center
+      - if current_user.id_document_verified?
+        a href="#" class="btn btn-success btn-block disabled" role="button"
+          i.fa.fa-check-circle
+          span = t('.verification.verified')
+      - else
+        = link_to t('.verification.go'), edit_id_document_path, class: 'btn btn-default btn-block'
+  tr
+    td.col-xs-2.text-center.vertical-center: i.fa.fa-mobile.fa-4x
+    td.col-xs-15
+      h4
+        span = t('.phone_number.title')
+        i.fa.fa-bolt.text-warning
+      p.text-ignore = t('.phone_number.description')
+    td.col-xs-7.vertical-center
+      - if current_user.sms_two_factor.activated?
+        a href="#" class="btn btn-success btn-block disabled" role="button"
+          i.fa.fa-check-circle
+          span = t('.phone_number.verified')
+      - else
+        = link_to t('.phone_number.go'), verify_sms_auth_path, class: 'btn btn-default btn-block'
+  tr
+    td.col-xs-2.text-center.vertical-center: i.fa.fa-superscript.fa-2x
+    td.col-xs-15
+      h4
+        span = t('.two_factor_auth.title')
+        i.fa.fa-bolt.text-warning
+      p.text-ignore = t('.two_factor_auth.description')
+    td.col-xs-7.vertical-center
+      - if current_user.app_two_factor.activated?
+        = link_to t('.two_factor_auth.disable'), edit_verify_google_auth_path, class: 'btn btn-default btn-block'
+      - else
+        = link_to t('.two_factor_auth.enable'), verify_google_auth_path, class: 'btn btn-default btn-block'
+  tr
+    td.col-xs-2.text-center.vertical-center: i.fa.fa-key.fa-2x
+    td.col-xs-15
+      h4 = t('.passwords.title')
+      p.text-ignore = t('.passwords.description')
+    td.col-xs-7.vertical-center
+      - if current_user.identity
+        = link_to t('.passwords.go'), edit_identity_path, class: 'btn btn-default btn-block'
+      - else
+        = link_to t('.passwords.set'), new_authentications_identity_path, class: 'btn btn-default btn-block'
+  tr
+    td.col-xs-2.text-center.vertical-center: i.fa.fa-code.fa-2x
+    td.col-xs-15
+      h4 = t('.api_tokens.title')
+      p.text-ignore = t('.api_tokens.description')
+    td.col-xs-7.vertical-center
+      = link_to t('.api_tokens.go'), api_tokens_path, class: 'btn btn-default btn-block'
   - if ENV["WEIBO_AUTH"] == "true"
-    li.list-group-item
-      .row.row-middle
-        .col-xs-2
-          i.fa.fa-weibo.fa-2x
-        .col-xs-16
-          h4 = t(".weibo.title")
-          - if current_user.auth_with?('weibo')
-            p.text-ignore = t(".weibo.bound_desc", { nickname: current_user.auth('weibo').nickname })
-          - else
-            p.text-ignore = t(".weibo.description")
-
-        .col-xs-6
-          - if current_user.auth_with?('weibo')
-            = link_to t('.weibo.unbind'), authentications_weibo_accounts_path, method: :delete, class: 'btn btn-success btn-block'
-          - else
-            = link_to t('.weibo.bind'), '/auth/weibo', class: 'btn btn-default btn-block'
+    tr
+      td.col-xs-2.text-center.vertical-center: i.fa.fa-weibo.fa-2x
+      td.col-xs-15
+        h4 = t(".weibo.title")
+        - if current_user.auth_with?('weibo')
+          p.text-ignore = t(".weibo.bound_desc", { nickname: current_user.auth('weibo').nickname })
+        - else
+          p.text-ignore = t(".weibo.description")
+      td.col-xs-7.vertical-center
+        - if current_user.auth_with?('weibo')
+          = link_to t('.weibo.unbind'), authentications_weibo_accounts_path, method: :delete, class: 'btn btn-success btn-block'
+        - else
+          = link_to t('.weibo.bind'), '/auth/weibo', class: 'btn btn-default btn-block'
 
 = content_for :guide_title do
   h3

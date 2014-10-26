@@ -14,6 +14,7 @@ abbr { border-bottom: 0px !important; }
 .btn-up { @include button-variant($btn-default-color, $up-bg, $btn-default-border); }
 .btn-down { @include button-variant($btn-default-color, $down-bg, $btn-default-border); }
 
+table.table { td.vertical-center { vertical-align: middle !important; } }
 
 
 /* TODO UNKNDOW CLASS
@@ -22,3 +23,4 @@ abbr { border-bottom: 0px !important; }
 .number-label { color: $gray-light; margin-right: 5px; }
 span.hint { margin-top: 6px; }
 .text-ignore { color: $gray-light; }
+
