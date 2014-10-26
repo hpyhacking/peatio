@@ -22,10 +22,10 @@ feature 'show account info', js: true do
     page.within_window new_window do
       click_link page.all('#my_order_tabs_wrapper li').first.text
       expect(page.all('#my_orders .order').count).to eq(1) # can only see his order
-      expect(page).to have_selector('#my_orders .fa-undo')
+      expect(page).to have_selector('#my_orders .fa-trash')
 
       AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: ask_order.to_matching_attributes)
-      page.first('#my_orders .fa-undo').click
+      page.first('#my_orders .fa-trash').click
       sleep 0.5
     end
   end
