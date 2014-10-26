@@ -34,8 +34,10 @@
 $ ->
   BigNumber.config(ERRORS: false)
 
-  FloatUI.attachTo('.float')
   HeaderUI.attachTo('header')
+  AccountSummaryUI.attachTo('#account_summary')
+
+  FloatUI.attachTo('.float')
   KeyBindUI.attachTo(document)
   AutoWindowUI.attachTo(window)
   PlaceOrderUI.attachTo('#bid_entry')
@@ -43,7 +45,6 @@ $ ->
   OrderBookUI.attachTo('#order_book')
   DepthUI.attachTo('#depths_wrapper')
 
-  AccountBalanceUI.attachTo('.account-balance')
   MyOrdersUI.attachTo('#my_orders')
   MyDoneOrdersUI.attachTo('#my_done_orders')
   MarketTickerUI.attachTo('#ticker')
