@@ -12,3 +12,13 @@ Account.initData window.accounts
 Currency.initData window.currencies
 Withdraw.initData window.withdraws
 FundSource.initData window.fund_sources
+
+
+app = angular.module 'funds', ['templates']
+
+
+app.directive 'currencyItem', ->
+  return {
+    restrict: 'E',
+    templateUrl: '/templates/currency_item.html'
+  }

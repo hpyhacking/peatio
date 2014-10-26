@@ -1,4 +1,27 @@
-<h1>Fuck Ember</h1>
+<h1 class="page-title">我的资产</h1>
+
+<div class="panel panel-default">
+  <div class="panel-body panel-currencies">
+
+    <div class='row'>
+      <div class='col-xs-8'>
+
+        <div class="currencies-container">
+          <currency-item></currency-item>
+        </div>
+      </div>
+
+      <div class='col-xs-16'>
+        <div class="details-container">
+          <!-- {{template 'flash'}} -->
+        </div>
+      </div>
+
+    </div><!-- .row -->
+
+  </div>
+</div>
+
 <% content_for :scripts do %>
   <script type="text/javascript" charset="utf-8">
     $(window).load(function(){
