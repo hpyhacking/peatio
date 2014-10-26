@@ -4,7 +4,6 @@
 
   @updateAccount = (event, data) ->
     for currency, account of data
-      console.log 'update account', currency, account
       amount = (new BigNumber(account.locked)).plus(new BigNumber(account.balance))
       @$node.find("tr.#{currency} span.amount").text(round(amount, 2))
       @$node.find("tr.#{currency} span.locked").text(round(account.locked, 2))
