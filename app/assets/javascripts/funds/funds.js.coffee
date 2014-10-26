@@ -14,11 +14,16 @@ Withdraw.initData window.withdraws
 FundSource.initData window.fund_sources
 
 
-app = angular.module 'funds', ['templates']
+window.app = app = angular.module 'funds', []
 
 
-app.directive 'currencyItem', ->
+app.directive 'accounts', ->
   return {
-    restrict: 'E',
-    templateUrl: '/templates/currency_item.html'
+    restrict: 'E'
+    templateUrl: '/templates/accounts.html'
+    controller: () ->
+      this.accounts = Account.all()
+
+    controllerAs: 'accountsCtrl'
+
   }
