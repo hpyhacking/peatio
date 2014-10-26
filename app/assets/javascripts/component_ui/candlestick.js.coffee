@@ -67,11 +67,24 @@ RANGE_DEFAULT =
       style:
         color: '#eee'
 
+INDICATOR = {MA: false, EMA: false}
+
 @CandlestickUI = flight.component ->
   @refresh = (event, data) ->
     @$node.highcharts()?.destroy()
     @initHighStock(data)
     @initTooltip()
+
+  @switch = (event, data) ->
+    INDICATOR[key] = false for key, val of INDICATOR
+    INDICATOR[data.x] = true
+
+    if chart = @$node.highcharts()
+      for indicator, visible of INDICATOR
+        for s in chart.series
+          if s.userOptions.algorithm? && (s.userOptions.algorithm == indicator)
+            s.setVisible(visible, false)
+      chart.redraw()
 
   @initTooltip = ->
     chart = @$node.highcharts()
@@ -94,6 +107,7 @@ RANGE_DEFAULT =
 
     @$node.highcharts "StockChart",
       chart:
+        animation: true
         marginTop: 95
         backgroundColor: 'rgba(0,0,0, 0.0)'
 
@@ -145,13 +159,13 @@ RANGE_DEFAULT =
           tooltip:
             pointFormat:
               """
-              <li><i class='fa fa-circle' style='color: {series.color};'></i><span>{series.name}: <b>{point.y}</b></span></li>
+              <li><span style='color: {series.color};'>{series.name}: <b>{point.y}</b></span></li>
               """
         histogram:
           tooltip:
             pointFormat:
               """
-              <li><i class='fa fa-circle' style='color: {series.color};'></i><span>{series.name}: <b>{point.y}</b></span></li>
+              <li><span style='color: {series.color};'>{series.name}: <b>{point.y}</b></span></li>
               """
         
       scrollbar:
@@ -237,6 +251,7 @@ RANGE_DEFAULT =
           algorithm: 'MA',
           periods: 5
           color: '#7c9aaa'
+          visible: INDICATOR['MA']
         }
         {
           name: 'MA10'
@@ -246,6 +261,7 @@ RANGE_DEFAULT =
           algorithm: 'MA',
           periods: 10
           color: '#be8f53'
+          visible: INDICATOR['MA']
         }
         {
           name: 'EMA7',
@@ -254,7 +270,7 @@ RANGE_DEFAULT =
           type: 'trendline',
           algorithm: 'EMA',
           periods: 7
-          visible: false
+          visible: INDICATOR['EMA']
         }
         {
           name: 'EMA30',
@@ -263,7 +279,7 @@ RANGE_DEFAULT =
           type: 'trendline',
           algorithm: 'EMA',
           periods: 30
-          visible: false
+          visible: INDICATOR['EMA']
         }
         {
           name : 'MACD',
@@ -275,7 +291,7 @@ RANGE_DEFAULT =
 
         }
         {
-          name : 'Signal line',
+          name : 'SIG',
           linkedTo: 'close',
           yAxis: 2,
           showInLegend: true,
@@ -284,7 +300,7 @@ RANGE_DEFAULT =
 
         }
         {
-          name: 'Histogram',
+          name: 'HIST',
           linkedTo: 'close',
           yAxis: 2,
           showInLegend: true,
@@ -294,3 +310,4 @@ RANGE_DEFAULT =
 
   @after 'initialize', ->
     @on document, 'market::candlestick::response', @refresh
+    @on document, 'switch::main_indicator_switch', @switch

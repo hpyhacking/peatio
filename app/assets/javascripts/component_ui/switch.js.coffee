@@ -1,6 +1,6 @@
 @SwitchUI = flight.component ->
   @attributes
-    switch: 'a'
+    switch: 'li > a'
 
   @getX = ->
     if Cookies.get(@name())

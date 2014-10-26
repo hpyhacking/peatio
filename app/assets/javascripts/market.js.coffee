@@ -56,7 +56,6 @@ $ ->
   MemberData.attachTo(document, {pusher: window.pusher}) if gon.accounts
 
   CandlestickUI.attachTo('#candlestick')
-  SwitchUI.attachTo('#range_switch')
-  #IndicatorSwitchUI.attachTo('ul.indicator_switch')
+  SwitchUI.attachTo('#range_switch, #indicator_switch, #main_indicator_switch')
 
   window.notifier = new Notifier()

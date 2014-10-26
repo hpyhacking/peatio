@@ -1,8 +1,8 @@
-#indicator_switch.switch
+#indicator_switch_wrapper.switch
   ul.list-inline
-    li: ul#main_indicator.indicator_switch.list-inline
-      li.text-center: a.hand-point.chart-switch href='#' MA
-      li.text-center: a.hand-point.chart-switch href='#' EMA
+    li: ul#main_indicator_switch.indicator_switch.list-inline data-x='MA'
+      li.text-center: a.hand-point data-x='MA' href='#' MA
+      li.text-center: a.hand-point data-x='EMA' href='#' EMA
     li.text-center: span |
-    li: ul#indicator.indicator_switch.list-inline
-      li.text-center: a.hand-point.chart-switch href='#' MACD
+    li: ul#indicator_switch.indicator_switch.list-inline data-x='MACD'
+      li.text-center: a.hand-point data-x='MACD' href='#' MACD
