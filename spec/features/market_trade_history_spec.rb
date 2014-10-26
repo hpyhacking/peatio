@@ -26,7 +26,7 @@ feature 'show account info', js: true do
 
       AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: ask_order.to_matching_attributes)
       page.first('#my_orders .fa-trash').click
-      sleep 0.5
+      sleep 2
     end
   end
 end
