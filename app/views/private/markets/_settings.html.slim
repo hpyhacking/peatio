@@ -1,0 +1,12 @@
+li#settings.dropdown
+  a.dropdown-toggle href="#" data-toggle="dropdown"
+    i.fa.fa-gears
+    span = t('.title')
+  .dropdown-menu
+    table.table: tbody
+      tr
+        td: span = t('.sound')
+        td: span: input type="checkbox" name="sound-checkbox" data-size='mini' data-on-color='success'
+      tr
+        td: span = t('.notification')
+        td: span: input type="checkbox" name="notification-checkbox" data-size='mini' data-on-color='success'

@@ -76,15 +76,17 @@ zh-CN:
         volume: 成交量
         amount: 总价
       header:
-        sound: 音效
         network: 连接状态
         switch: '[选择交易品种]'
         vol: 二十四小时 成交量
         high: 最高
         low: 最低
+      settings:
+        sound: 音效
         notification: 桌面实时通知
-        account: 账户
+        title: 设置
       account_summary:
+        account: 账户
         title: 总资产约
         amount: 总计
         locked: 冻结

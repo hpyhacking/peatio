@@ -1,13 +1,15 @@
 li#account_summary.dropdown
   a.dropdown-toggle href="#" data-toggle="dropdown"
     span#total_assets data-title='#{t('.title')}'
-  .dropdown-menu
+  .dropdown-menu.text-right
+    p.text-right: span.text-up = current_user.email
     table.table: tbody
       - current_user.accounts.each do |account|
         - next if not account.currency
         tr class='#{account.currency}'
           td.account-symbol.col-xs-6.text-center
             img src="/icon-#{account.currency}.png" alt="#{account.currency_obj.code_text}"
+            br
             span = account.currency_obj.code_text
           td.account-balance.col-xs-18.text-right
             span.amount data-title='#{t('.amount')}' = account.amount

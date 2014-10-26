@@ -76,13 +76,19 @@ en:
         volume: Volume
         amount: Amount
       header:
-        sound: Sound
         network: Connection State
         switch: '[Switch Market]'
         vol: 24h Volume
         high: High
         low: Low
+      settings:
+        sound: Sound
         notification: Desktop Real Notification
+        title: Settings
+      account_summary:
+        title: Summary
+        amount: Amount
+        locked: Freeze
       market_switch:
         title: Switch Market
         name: Market

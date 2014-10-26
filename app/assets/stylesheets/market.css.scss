@@ -116,24 +116,45 @@ header {
     .bootstrap-switch-label {
       background-color: $panel-bg;
     }
+
+  }
+
+  li.dropdown {
+    table {
+      margin-bottom: 0px;
+      td {
+        vertical-align: middle;
+        border-top: 1px solid $navbar-default-border;
+      }
+    }
+  }
+
+  #settings { 
+    table { 
+      min-width: 226px; 
+      tr:first-of-type {
+        td { border-top: 0px; }
+      }
+    } 
   }
 
   #account_summary {
     font-family: $font-family-monospace;
-    .dropdown-menu { padding: 0px; right: -1px; }
     table {
-      width: 226px;
-      margin-bottom: 0px;
-      td {
-        vertical-align: middle;
-        border-top: 1px solid rgba(179, 175, 156, 0.278431);
-        /*padding-bottom: 4px;*/
-      }
-      td.account-symbol {
-        img { max-height: 32px; }
-      }
+      min-width: 280px;
+      td.account-symbol { img { max-height: 32px; } }
+      span.locked { color: #777; }
     }
+    p { margin: 8px; }
   }
+
+  i.fa.fa-wifi { color: #ccc; }
+
+  .dropdown-menu { 
+    right: -1px !important; 
+    padding: 0px !important; 
+  }
+
 }
 
 .navbar-static-top {
@@ -377,6 +398,13 @@ header {
     unicode-bidi: bidi-override; 
     v { display: inline-block; @include transform(rotate(-270deg)); }
   }
+
+  #account_summary {
+    table {
+      min-width: 260px;
+    }
+  }
+  
 }
 
 #ask_entry, #bid_entry {

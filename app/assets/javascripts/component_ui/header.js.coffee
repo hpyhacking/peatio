@@ -29,3 +29,6 @@
       state: state
       onSwitchChange: (event, state) ->
         Cookies.set('sound', state, 30)
+
+    $('.dropdown-menu').click (e) ->
+      e.stopPropagation()
