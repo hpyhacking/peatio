@@ -117,6 +117,23 @@ header {
       background-color: $panel-bg;
     }
   }
+
+  #account_summary {
+    font-family: $font-family-monospace;
+    .dropdown-menu { padding: 0px; right: -1px; }
+    table {
+      width: 226px;
+      margin-bottom: 0px;
+      td {
+        vertical-align: middle;
+        border-top: 1px solid rgba(179, 175, 156, 0.278431);
+        /*padding-bottom: 4px;*/
+      }
+      td.account-symbol {
+        img { max-height: 32px; }
+      }
+    }
+  }
 }
 
 .navbar-static-top {

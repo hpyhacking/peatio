@@ -15,13 +15,15 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
       
     ul.nav.navbar-nav.navbar-right
       - if current_user
-      = render partial: 'account_summary'
-      p.navbar-text
-        span = t('.sound')
-        span: input type="checkbox" name="sound-checkbox" data-size='mini' data-on-color='success'
-      p.navbar-text
-        span = t('.notification')
-        span: input type="checkbox" name="notification-checkbox" data-size='mini' data-on-color='success'
+        p.navbar-text
+          span data-title='#{t('.account')}' = current_user.email
+        = render partial: 'account_summary'
+        p.navbar-text
+          span = t('.sound')
+          span: input type="checkbox" name="sound-checkbox" data-size='mini' data-on-color='success'
+        p.navbar-text
+          span = t('.notification')
+          span: input type="checkbox" name="notification-checkbox" data-size='mini' data-on-color='success'
       - else
         p.navbar-text
           == t('private.markets.mask.warning')

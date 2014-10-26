@@ -83,6 +83,11 @@ zh-CN:
         high: 最高
         low: 最低
         notification: 桌面实时通知
+        account: 账户
+      account_summary:
+        title: 总资产约
+        amount: 总计
+        locked: 冻结
       market_switch:
         title: 选择交易品种
         name: 交易对
