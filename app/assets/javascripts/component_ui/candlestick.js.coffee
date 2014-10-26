@@ -156,12 +156,14 @@ INDICATOR = {MA: false, EMA: false}
               <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.volume}</span><span class=t-value>{point.y}</span></div><ul class='list-inline'>
               """
         trendline:
+          lineWidth: 1
           tooltip:
             pointFormat:
               """
               <li><span style='color: {series.color};'>{series.name}: <b>{point.y}</b></span></li>
               """
         histogram:
+          lineWidth: 1
           tooltip:
             pointFormat:
               """
@@ -270,6 +272,7 @@ INDICATOR = {MA: false, EMA: false}
           type: 'trendline',
           algorithm: 'EMA',
           periods: 7
+          color: '#7c9aaa'
           visible: INDICATOR['EMA']
         }
         {
@@ -279,6 +282,7 @@ INDICATOR = {MA: false, EMA: false}
           type: 'trendline',
           algorithm: 'EMA',
           periods: 30
+          color: '#be8f53'
           visible: INDICATOR['EMA']
         }
         {
@@ -288,7 +292,7 @@ INDICATOR = {MA: false, EMA: false}
           showInLegend: true,
           type: 'trendline',
           algorithm: 'MACD'
-
+          color: '#7c9aaa'
         }
         {
           name : 'SIG',
@@ -297,7 +301,7 @@ INDICATOR = {MA: false, EMA: false}
           showInLegend: true,
           type: 'trendline',
           algorithm: 'signalLine'
-
+          color: '#be8f53'
         }
         {
           name: 'HIST',
@@ -305,6 +309,7 @@ INDICATOR = {MA: false, EMA: false}
           yAxis: 2,
           showInLegend: true,
           type: 'histogram'
+          color: '#990f0f'
         }
       ]
 
