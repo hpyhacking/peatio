@@ -13,6 +13,8 @@ module Private
       @bid_name = I18n.t("currency.name.#{@bid}")
 
       @market = current_market
+      @markets_orders = Hash[Market.all.map { |m| [m.id, m.sort_order] }]
+        
 
       @bids   = @market.bids
       @asks   = @market.asks

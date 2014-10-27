@@ -4,7 +4,11 @@ window.MarketSwitchUI = flight.component ->
 
   @refresh = (event, data) ->
     $table = @select('table').empty()
-    for ticker in data.tickers
+
+    tickers = _.sortBy data.tickers, (ticker) ->
+      gon.market_orders[ticker.market]
+
+    for ticker in tickers.reverse()
       ticker['current'] = true if (ticker.market == gon.market.id)
       $table.prepend(JST['market_switch'](ticker))
 
@@ -13,3 +17,13 @@ window.MarketSwitchUI = flight.component ->
     @select('table').on 'click', 'tr', (e) ->
       win = window.open("/markets/#{$(@).data('market')}", '_blank')
       win.focus()
+
+    @.hide_accounts = $('tr.hide')
+    $('.view_all_accounts').on 'click', (e) =>
+      $el = $(e.currentTarget)
+      if @.hide_accounts.hasClass('hide')
+        $el.text($el.data('hide-text'))
+        @.hide_accounts.removeClass('hide')
+      else
+        $el.text($el.data('show-text'))
+        @.hide_accounts.addClass('hide')

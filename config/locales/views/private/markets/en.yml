@@ -77,7 +77,6 @@ en:
         amount: Amount
       header:
         network: Connection State
-        switch: '[Switch Market]'
         vol: 24h Volume
         high: High
         low: Low
@@ -89,8 +88,13 @@ en:
         title: Summary
         amount: Amount
         locked: Freeze
+        funds: '[Funds]'
+        signout: '[Sign Out]'
+        settings: '[Member Settings]'
+        view_all_accounts: '[View All]'
+        hide_all_accounts: '[Hide Other]'
       market_switch:
-        title: Switch Market
+        title: '[Switch Market]'
         name: Market
         ask: ASK
         bid: BID
