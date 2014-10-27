@@ -17,6 +17,7 @@
     </script>
     <%= stylesheet_link_tag stylesheet, media: "all" %>
     <%= javascript_include_tag "emberapp" %>
+    <%= javascript_include_tag "locales/#{I18n.locale}" %>
     <%= yield(:scripts) if content_for?(:scripts) %>
     <%= render 'shared/html5' %>
     <%= render 'shared/meta' %>
