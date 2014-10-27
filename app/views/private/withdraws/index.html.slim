@@ -1,0 +1,21 @@
+ul.list-group
+  - @channels.each do |c|
+    li.list-group-item class='withdraws-channel-#{c.id}'
+      .row.row-middle
+        .col-xs-18
+          .row.row-middle
+            .col-xs-12
+              h4 = c.title_text
+            .col-xs-12
+          .row
+            .col-xs-24
+              p.text-ignore = c.intro_text
+          .row
+            .col-xs-6
+              i.fa.fa-cogs.text-info
+              span = c.transfer_text
+            .col-xs-10
+              i.fa.fa-clock-o.text-info
+              span = c.latency_text
+        .col-xs-6
+          a.btn.btn-default.btn-block href='#{send("new_withdraws_#{c.key}_path")}' = c.go_text

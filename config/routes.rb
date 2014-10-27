@@ -62,6 +62,24 @@ Peatio::Application.routes.draw do
       end
     end
 
+    resources :deposits, only: [:index, :destroy, :update]
+    namespace :deposits do
+      Deposit.descendants.each do |d|
+        resources d.resource_name do
+          collection do
+            post :gen_address
+          end
+        end
+      end
+    end
+
+    resources :withdraws, except: [:new]
+    namespace :withdraws do
+      Withdraw.descendants.each do |w|
+        resources w.resource_name
+      end
+    end
+
     resources :account_versions, :only => :index
 
     resources :exchange_assets, :controller => 'assets' do
