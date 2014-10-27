@@ -81,6 +81,7 @@ class Member < ActiveRecord::Base
     end
 
     def locate_email(auth_hash)
+      return nil if auth_hash['info']['email'].blank?
       member = find_by_email(auth_hash['info']['email'])
       return nil unless member
       member.add_auth(auth_hash)
