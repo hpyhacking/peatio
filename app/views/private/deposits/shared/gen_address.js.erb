@@ -1,9 +1,0 @@
-<% if @address %>
-  setTimeout(function() {
-    window.location.reload();
-  }, 3000);
-<% else %>
-  alert("<%= t('.require_transaction')%>");
-  $('span.countdown').hide();
-  $('a.generate-link').show();
-<% end %>
