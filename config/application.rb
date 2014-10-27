@@ -33,6 +33,11 @@ module Peatio
     #config.assets.precompile += ['bootstrap-datetimepicker.css']
     config.assets.initialize_on_precompile = true
 
+    # Precompile all available locales
+    Dir.glob("#{config.root}/app/assets/javascripts/locales/*.js.erb").each do |file|
+      config.assets.precompile << "locales/#{file.match(/([a-z\-A-Z]+\.js)\.erb$/)[1]}"
+    end
+
     config.generators do |g|
       g.orm             :active_record
       g.template_engine :erb
