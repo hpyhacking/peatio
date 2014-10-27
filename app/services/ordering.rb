@@ -1,6 +1,5 @@
 class Ordering
-  PRICE_RANGE = ("0.01".to_d.."100".to_d)
-  class LatestPriceError < RuntimeError; end
+
   class CancelOrderError < StandardError; end
 
   def initialize(order_or_orders)
@@ -31,21 +30,7 @@ class Ordering
 
   private
 
-  def check_price!(order)
-    if order.ord_type == 'limit' && !price_in_range?(order)
-      order.errors.add(:price, :range)
-      raise LatestPriceError, "invalid price"
-    end
-  end
-
-  def price_in_range?(order)
-    latest = Trade.latest_price(order.currency)
-    latest.zero? || PRICE_RANGE.cover?(order.price / latest)
-  end
-
   def do_submit(order)
-    check_price!(order)
-
     order.fix_number_precision # number must be fixed before computing locked
     order.locked = order.origin_locked = order.compute_locked
     order.save!

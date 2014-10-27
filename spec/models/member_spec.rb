@@ -204,5 +204,48 @@ describe Member do
     end
   end
 
+  describe "#locate_email" do
+    context "Email is blank" do
+      let!(:member) { create(:member, email: nil) }
+      let(:auth) {
+        {'info' => { 'email' => nil}}
+      }
+
+      it "should return nil" do
+        Member.count.should == 1
+        Member.send(:locate_email, auth).should be_nil
+      end
+    end
+
+    context "Emails is exist and can find member" do
+      let(:email) { 'fuck@chinese.gov' }
+      let!(:member) { create(:member, email: email) }
+      let(:auth) {
+        { 'provider' => 'weibo', 'uid' => 'hehe', 'info' => { 'email' => email} }
+      }
+
+      it "should return the user and create the auth" do
+        expect do
+          Member.send(:locate_email, auth).should == member
+        end.to change(Authentication, :count).by(1)
+      end
+    end
+
+    context "Email is exist but can not find member" do
+      let(:email) { 'fuck@chinese.gov' }
+      let!(:member) { create(:member, email: email) }
+
+      let(:auth) {
+        { 'provider' => 'weibo', 'uid' => 'hehe', 'info' => { 'email' => email + 'veryhard'} }
+      }
+
+      it "should not create auth and return nil" do
+        expect do
+          Member.send(:locate_email, auth).should be_nil
+        end.not_to change(Authentication, :count)
+      end
+    end
+  end
+
 
 end
