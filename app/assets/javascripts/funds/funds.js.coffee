@@ -14,7 +14,11 @@ Withdraw.initData window.withdraws
 FundSource.initData window.fund_sources
 
 
-window.app = app = angular.module 'funds', ["ui.router"]
+angular.module('translateFilters', []).filter 't', ->
+  (key) ->
+    I18n.t(key)
+
+window.app = app = angular.module 'funds', ["ui.router", "translateFilters"]
 
 app.config ($stateProvider, $urlRouterProvider) ->
   $stateProvider
@@ -75,4 +79,3 @@ app.controller 'DepositsController', ($scope, $stateParams, $http) ->
       .finally ->
         depositCtrl.deposit = {}
         $('.form-submit > input').removeAttr('disabled')
-
