@@ -31,6 +31,10 @@ class Currency < ActiveYamlBase
     Rails.cache.read(balance_cache_key) || 0
   end
 
+  def decimal_digit
+    self.try(:default_decimal_digit) || (fiat? ? 2 : 4)
+  end
+
   def refresh_balance
     Rails.cache.write(balance_cache_key, api.safe_getbalance) if coin?
   end
