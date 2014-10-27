@@ -138,6 +138,11 @@ header {
     } 
   }
 
+  #market_switch {
+    .dropdown-menu { width: 256px; }
+    table { th { border-bottom: 0px; } }
+  }
+
   #account_summary {
     font-family: $font-family-monospace;
     table {
@@ -150,11 +155,19 @@ header {
 
   i.fa.fa-wifi { color: #ccc; }
 
-  .dropdown-menu { 
-    right: -1px !important; 
-    padding: 0px !important; 
+  .navbar-right { 
+    .dropdown-menu { 
+      right: -1px !important; 
+      padding: 0px !important; 
+    }
   }
 
+  .navbar-left { 
+    .dropdown-menu { 
+      left: -1px !important; 
+      padding: 0px !important; 
+    }
+  }
 }
 
 .navbar-static-top {
@@ -250,11 +263,6 @@ header {
     .tab-content { display: block; } 
     .sideways.tabs-left { left: 1px; }
   }
-}
-
-#market_switch_tabs_wrapper {
-  top: $gutter; left: $gutter;
-  @include float-wrapper(260px, $trades-tabs-height, 200px);
 }
 
 #chat_tabs_wrapper {
@@ -487,7 +495,7 @@ header {
 .col-left { padding-right: 12px; }
 .panel-body-head { border-bottom: 1px solid #333; }
 
-#ticker, #order_book, #market_trades, #my_orders, #my_done_orders, #market_swtich {
+#ticker, #order_book, #market_trades, #my_orders, #my_done_orders {
   table {
     margin-bottom: 0px;
 
@@ -508,10 +516,12 @@ header {
         text-align: right;
       }
     }
-
-    thead { cursor: default; th { color: #777; }}
-    &.table-hover { tbody > tr:hover { cursor: pointer;} }
   }
+}
+
+table {
+  thead { cursor: default; th { color: #777; }}
+  &.table-hover { tbody > tr:hover { cursor: pointer;} }
 }
 
 #market_trades, #my_orders, #my_done_orders {
