@@ -1,3 +1,38 @@
 js:
   zh-CN:
     brand: 貔貅
+    funds:
+      deposit: 充值
+      withdraw: 提现
+      deposit_cny:
+        title: 人民币充值
+        desc: 通过银行转账汇款的方式，经人工审核后充值人民币到您的交易账户中，流程如下：
+        desc_item_1: "1. 提交以下表单，获得转账识别码；"
+        desc_item_2: "2. 银行转账汇款到云币交易所开户行，务必在备注栏填写识别码；"
+        desc_item_3: "3. 人工审核汇款记录，确认后充值到您的云币账户。"
+        attention: "特别提醒：充值银行账户姓名必须与您的实名认证姓名一致。"
+        from: 汇款人
+        to: 收款人
+        deposit_name: 开户户名
+        deposit_account: 充值账号
+        add: 添加
+        manage: 管理
+        amount: 充值金额
+        min_amount: 最低金额100元
+        to_account: 收款账号
+        to_name: 收款账户
+        to_bank_name: 收款银行
+        opening_bank_name: 开户行
+        submit: 提交
+
+      deposit_history:
+        title: 历史记录
+        identification: 转账识别码
+        time: 时间
+        from: 充值银行
+        amount: 充值金额
+        state_and_action: "状态/操作"
+        cancel: 取消
+        no_data: 暂无历史数据
+
+

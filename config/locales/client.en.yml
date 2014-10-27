@@ -1,3 +1,37 @@
 js:
   en:
     brand: Peatio
+    funds:
+      deposit: Deposit
+      withdraw: Withdraw
+      deposit_cny:
+        title: Chinese Yuan Deposit
+        desc: "Deposit with Bank, please follow step following:"
+        desc_item_1: "1. Submit the form to get the identification code."
+        desc_item_2: "2. Transfer the money to Yunbi's Bank Account. Please make sure fill in the identification code."
+        desc_item_3: "3. Our supporters will confirm your deposit after we receving the money"
+        attention: "Attention: The name info from bank must be the same with your account name in our site."
+        from: From
+        to: To
+        deposit_name: Your Name
+        deposit_account: Deposit Account
+        add: Add
+        manage: Manage
+        amount: Deposit Amount
+        min_amount: At least 10 yuan
+        to_account: Account
+        to_name: Name
+        to_bank_name: Bank Name
+        opening_bank_name: Account where created
+        submit: Submit
+
+      deposit_history:
+        title: Deposit History
+        identification: Identification Code
+        time: Time
+        from: From
+        amount: Amount
+        state_and_action: "State/Action"
+        cancel: cancel
+        no_data: There is no history data
+
