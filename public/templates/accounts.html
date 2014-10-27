@@ -1,5 +1,9 @@
 <table class="table table-currencies" ng-repeat="account in accountsCtrl.accounts">
-  <tr class="currency-item selected deposit-now" data-currency="cny">
+  <tr class="currency-item" ng-class="{selected: accountsCtrl.isSelected(account.currency),
+    'deposit-now': accountsCtrl.isDeposit(),
+    'withdraw-now': accountsCtrl.isWithdraw() }"
+    data-currency="{{account.currency}}">
+
     <td class="currency-logo"><img src="/icon-{{account.currency}}.png" alt=""><span class="currency-symbol">{{account.code_text}}</span></td>
     <td class="currency-balance-col">
       <p class="currency-balance"><span class="currency-sign">￥</span>{{account.balance}}</p>
@@ -11,4 +15,3 @@
     </td>
   </tr>
 </table>
-

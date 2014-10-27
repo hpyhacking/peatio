@@ -22,7 +22,18 @@ app.directive 'accounts', ->
     restrict: 'E'
     templateUrl: '/templates/accounts.html'
     controller: () ->
-      this.accounts = Account.all()
+      @accounts = Account.all()
+      @selectedCurrency = @accounts[0].currency
+      @currentAction = 'deposit'
+
+      @isSelected = (currency) ->
+        @selectedCurrency == currency
+
+      @isDeposit = ->
+        @currentAction == 'deposit'
+
+      @isWithdraw = ->
+        @currentAction == 'withdraw'
 
     controllerAs: 'accountsCtrl'
 
