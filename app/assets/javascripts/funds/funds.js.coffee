@@ -14,8 +14,19 @@ Withdraw.initData window.withdraws
 FundSource.initData window.fund_sources
 
 
-window.app = app = angular.module 'funds', []
+window.app = app = angular.module 'funds', ["ui.router"]
 
+app.config ($stateProvider, $urlRouterProvider) ->
+  $stateProvider
+    .state('deposits', {
+      url: '/deposits'
+      templateUrl: "/templates/deposits.html"
+    })
+    .state('deposits.currency', {
+      url: "/:currency"
+      templateUrl: "/templates/deposit.html"
+      controller: 'DepositsController'
+    })
 
 app.directive 'accounts', ->
   return {
@@ -38,3 +49,30 @@ app.directive 'accounts', ->
     controllerAs: 'accountsCtrl'
 
   }
+
+app.controller 'DepositsController', ($scope, $stateParams, $http) ->
+  @deposit = {}
+  $scope.currency = $stateParams.currency
+  $scope.name = current_user.name
+  $scope.deposits = Deposit.all()
+  $scope.fsources = FundSource.findAllBy('currency', $scope.currency)
+
+  $scope.noDeposit = ->
+    $scope.deposits.length == 0
+
+  @createDeposit = (currency) ->
+    depositCtrl = @
+    deposit_channel = DepositChannel.findBy('currency', currency)
+    account = deposit_channel.account()
+
+    data = { account_id: account.id, member_id: current_user.id, currency: currency, amount: @deposit.sum, fund_source: @deposit.fund_source }
+
+    $('.form-submit > input').attr('disabled', 'disabled')
+
+    $http.post("/deposits/#{deposit_channel.resources_name}", { deposit: data})
+      .error (data) ->
+        $.publish 'flash', {message: data.responseText }
+      .finally ->
+        depositCtrl.deposit = {}
+        $('.form-submit > input').removeAttr('disabled')
+
