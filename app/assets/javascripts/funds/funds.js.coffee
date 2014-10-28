@@ -60,8 +60,6 @@ app.controller 'DepositsController', ($scope, $stateParams, $http) ->
   $scope.fsources = FundSource.findAllBy('currency', $scope.currency)
   $scope.predicate = '-id'
 
-
-
   @createDeposit = (currency) ->
     depositCtrl = @
     deposit_channel = DepositChannel.findBy('currency', currency)

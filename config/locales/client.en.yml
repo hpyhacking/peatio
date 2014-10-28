@@ -35,3 +35,11 @@ js:
         cancel: cancel
         no_data: There is no history data
 
+        submitting: Submitting
+        cancelled: Cancelled
+        submitted: Submitted
+        accepted: Accepted
+        rejected: Rejected
+        checked: Checked
+        warning: Warning
+        suspect: Suspect

@@ -35,4 +35,12 @@ js:
         cancel: 取消
         no_data: 暂无历史数据
 
+        submitting: 已提交
+        cancelled: 已撤销
+        submitted: 受理中
+        accepted: 充值成功
+        rejected: 已驳回
+        checked: 充值成功
+        warning: 异常
+        suspect: 异常
 
