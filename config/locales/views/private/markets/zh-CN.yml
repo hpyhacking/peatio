@@ -90,7 +90,7 @@ zh-CN:
         amount: 总计
         locked: 冻结
         funds: '[资金]'
-        signout: '[安全推出]'
+        signout: '[安全退出]'
         settings: '[账户设置]'
         view_all_accounts: '[查看全部账户]'
         hide_all_accounts: '[隐藏其他账户]'
@@ -131,5 +131,5 @@ zh-CN:
       global:
         global_orders_title: 十档盘口
         global_trades_title: 成交记录
-      chat: 
+      chat:
         title: 聊天频道
