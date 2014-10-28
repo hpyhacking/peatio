@@ -37,6 +37,7 @@ app.directive 'accounts', ->
     restrict: 'E'
     templateUrl: '/templates/accounts.html'
     controller: () ->
+      ctrl = @
       @accounts = Account.all()
       @selectedCurrency = @accounts[0].currency
       @currentAction = 'deposit'
@@ -49,6 +50,10 @@ app.directive 'accounts', ->
 
       @isWithdraw = ->
         @currentAction == 'withdraw'
+
+      do @event = ->
+        Account.bind "create update destroy", ->
+          ctrl.accounts = Account.all()
 
     controllerAs: 'accountsCtrl'
   }

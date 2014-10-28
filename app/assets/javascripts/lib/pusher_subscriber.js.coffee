@@ -55,10 +55,6 @@ class AccountHandler extends EventHandler
 
   update: (id, attributes) =>
     account = Account.findBy("id", id).updateAttributes(attributes)
-    for k,v of attributes
-       account.set(k, 'To The Moon') # This line is neccessay due some weird bug.
-       account.set(k, v)
-    $.publish 'account:update', {id: id, attributes: attributes}
 
 
 class DepositHandler extends EventHandler
