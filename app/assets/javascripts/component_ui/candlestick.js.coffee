@@ -213,6 +213,8 @@ INDICATOR = {MA: false, EMA: false}
         {
           labels:
             enabled: true
+            align: 'left'
+            rotation: -45
           gridLineColor: '#222'
           gridLineDashStyle: 'ShortDot'
           top: "0%"
