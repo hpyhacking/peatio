@@ -1,7 +1,9 @@
-zh-CN:
-  "true": 是
-  "false": 否
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
 
+zh-CN:
   view_on_github: 到 Github 上查看
   slogan: 貔貅，将致力于成为世界级的交易软件。
   tags:
@@ -14,7 +16,6 @@ zh-CN:
       title: 实时价格
     account_balance:
       title: 账户余额
-
   gon:
     ask: 卖出
     bid: 买入
@@ -26,7 +27,6 @@ zh-CN:
   back: 返回
   invalid_password: 无效的登录密码
   all: 全部
-
   date:
     formats:
       date-short: '%m-%d'
@@ -37,13 +37,11 @@ zh-CN:
       date-short: '%m-%d'
       short: '%m-%d %H:%M'
       default: '%Y-%m-%d %H:%M'
-
   sms:
     verification_code: "验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【貔貅交易所（北京）】"
     password_changed: "%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！【貔貅交易所（北京）】"
     deposit_done: "%{email} 您好，您于%{time}进行了（%{currency}）充值操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请及时联系我们！）【貔貅交易所（北京）】"
     withdraw_done: "%{email} 您好，您于%{time}进行了（%{currency}）提现操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请立即联系客服！）【貔貅交易所（北京）】"
-
   private:
     trade:
       trades:
@@ -69,7 +67,6 @@ zh-CN:
       index:
         fee: 手续费
         total: 总计
-
   header:
     home: 首页
     dashboard: 控制面板
@@ -94,21 +91,17 @@ zh-CN:
     total: 总额
     deposit: 充值
     withdraw: 提现
-
   admin_header:
     deposits: 充值管理
     withdraws: 提现管理
     statistics: 数据统计
     id_documents: 身份验证
-
   footer:
     about: 关于我们
-    terms_and_service: 声明及用户协议
-    questions: 常见问题
+    privacy: 隐私条款
     price: 资费说明
     liability_proof: 偿付能力验证
     contact: 联系我们
-
   actions:
     go: 立刻前往
     submit: 提交
@@ -133,7 +126,6 @@ zh-CN:
     clipboard:
       click: 点击复制
       done: 复制成功
-
   chart:
     open: 开盘价
     high: 最高价
@@ -153,8 +145,5 @@ zh-CN:
     bid: 卖单
     depth: 累计深度
     depth_title: 市场深度
-
-
-  'yes': 是
-  'no': 否
-
+  'yes': '是'
+  'no': '否'
