@@ -4,16 +4,11 @@
     askBookSel: 'table.asks'
     bidBookSel: 'table.bids'
     seperatorSelector: 'table.seperator'
-    timer: '.fa.fa-refresh'
     fade_toggle_depth: '#fade_toggle_depth'
 
   @refreshOrders = (event, data) ->
     @buildOrders(@select('bidBookSel'), _.first(data.bids, @.attr.bookLimit), 'bid')
     @buildOrders(@select('askBookSel'), _.first(data.asks, @.attr.bookLimit), 'ask')
-    @resetTimer()
-
-  @resetTimer = ->
-    @select('timer').show().wait(1200).fadeOut(300)
 
   @buildOrders = (table, orders, bid_or_ask) ->
     book = @select("#{bid_or_ask}BookSel")
