@@ -8,4 +8,14 @@ app.config ($stateProvider, $urlRouterProvider) ->
       url: "/:currency"
       templateUrl: "/templates/deposit.html"
       controller: 'DepositsController'
+      currentAction: 'deposit'
+    })
+    .state('withdraws', {
+      url: '/withdraws'
+      templateUrl: "/templates/withdraws.html"
+    })
+    .state('withdraws.currency', {
+      url: "/:currency"
+      templateUrl: "/templates/withdraw.html"
+      currentAction: "withdraw"
     })

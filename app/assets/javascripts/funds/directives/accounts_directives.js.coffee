@@ -3,20 +3,31 @@ app.directive 'accounts', ->
     restrict: 'E'
     templateUrl: '/templates/accounts.html'
     scope: { localValue: '=accounts' }
-    controller: ($scope) ->
+    controller: ($scope, $state) ->
       ctrl = @
+      @state = $state
       $scope.accounts = Account.all()
       @selectedCurrency = $scope.accounts[0].currency
-      @currentAction = 'deposit'
+      @currentAction = window.location.hash.split('/')[1] # Might have a better way
 
       @isSelected = (currency) ->
         @selectedCurrency == currency
 
       @isDeposit = ->
-        @currentAction == 'deposit'
+        @currentAction == 'deposits'
 
       @isWithdraw = ->
-        @currentAction == 'withdraw'
+        @currentAction == 'withdraws'
+
+      @deposit = (account) ->
+        ctrl.state.transitionTo("deposits.currency", {currency: account.currency})
+        ctrl.selectedCurrency = account.currency
+        ctrl.currentAction = "deposits"
+
+      @withdraw = (account) ->
+        ctrl.state.transitionTo("withdraws.currency", {currency: account.currency})
+        ctrl.selectedCurrency = account.currency
+        ctrl.currentAction = "withdraws"
 
       do @event = ->
         Account.bind "create update destroy", ->
