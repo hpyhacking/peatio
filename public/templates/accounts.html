@@ -1,4 +1,4 @@
-<table class="table table-currencies" ng-repeat="account in accountsCtrl.accounts">
+<table class="table table-currencies" ng-repeat="account in accounts" bind="accounts">
   <tr class="currency-item" ng-class="{selected: accountsCtrl.isSelected(account.currency),
     'deposit-now': accountsCtrl.isDeposit(),
     'withdraw-now': accountsCtrl.isWithdraw() }"

@@ -36,10 +36,11 @@ app.directive 'accounts', ->
   return {
     restrict: 'E'
     templateUrl: '/templates/accounts.html'
-    controller: () ->
+    scope: { localValue: '=accounts' }
+    controller: ($scope) ->
       ctrl = @
-      @accounts = Account.all()
-      @selectedCurrency = @accounts[0].currency
+      $scope.accounts = Account.all()
+      @selectedCurrency = $scope.accounts[0].currency
       @currentAction = 'deposit'
 
       @isSelected = (currency) ->
@@ -53,7 +54,7 @@ app.directive 'accounts', ->
 
       do @event = ->
         Account.bind "create update destroy", ->
-          ctrl.accounts = Account.all()
+          $scope.$apply()
 
     controllerAs: 'accountsCtrl'
   }
