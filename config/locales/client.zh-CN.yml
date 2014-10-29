@@ -1,4 +1,9 @@
-zh_CN:
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
+zh-CN:
   js:
     brand: 貔貅
     funds:
