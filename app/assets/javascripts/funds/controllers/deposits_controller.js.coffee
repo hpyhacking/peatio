@@ -3,6 +3,8 @@ app.controller 'DepositsController', ($scope, $stateParams, $http) ->
   $scope.currency = $stateParams.currency
   $scope.name = current_user.name
   $scope.fsources = FundSource.findAllBy('currency', $scope.currency)
+  $scope.account = Account.findBy('currency', $scope.currency)
+  $scope.deposit_channel = DepositChannel.findBy('currency', $scope.currency)
   $scope.predicate = '-id'
 
   @createDeposit = (currency) ->
@@ -20,4 +22,10 @@ app.controller 'DepositsController', ($scope, $stateParams, $http) ->
       .finally ->
         depositCtrl.deposit = {}
         $('.form-submit > input').removeAttr('disabled')
+
+  $scope.$watch (-> $scope.account.deposit_address), ->
+    setTimeout(->
+      $.publish 'deposit_address:create'
+    , 1000)
+
 

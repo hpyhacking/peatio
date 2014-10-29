@@ -25,10 +25,16 @@ js:
         opening_bank_name: 开户行
         submit: 提交
 
+      deposit_bts:
+        title: 比特币充值
+        open-wallet: 请使用您常用的钱包服务，本地钱包、在线钱包或移动端的钱包，选择付款或发送。
+
       deposit_history:
         title: 历史记录
         identification: 转账识别码
         time: 时间
+        txid: 交易哈希
+        confirmations: 确认数
         from: 充值银行
         amount: 充值金额
         state_and_action: "状态/操作"

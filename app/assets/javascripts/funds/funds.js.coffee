@@ -4,6 +4,7 @@
 #= require_tree ./directives
 #= require_tree ./controllers
 #= require ./router
+#= require ./events
 
 $ ->
   window.pusher_subscriber = new PusherSubscriber()
