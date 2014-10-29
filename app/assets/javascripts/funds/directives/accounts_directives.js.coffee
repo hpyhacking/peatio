@@ -6,13 +6,15 @@ app.directive 'accounts', ->
     controller: ($scope, $state) ->
       ctrl = @
       @state = $state
-      @state.transitionTo("deposits.currency", {currency: Account.first().currency}) if window.location.hash == ""
+      if window.location.hash == ""
+        @state.transitionTo("deposits.currency", {currency: Account.first().currency})
+
       $scope.accounts = Account.all()
 
       # Might have a better way
       # #/deposits/cny
-      @selectedCurrency = window.location.hash.split('/')[2]
-      @currentAction = window.location.hash.split('/')[1]
+      @selectedCurrency = window.location.hash.split('/')[2] || Account.first().currency
+      @currentAction = window.location.hash.split('/')[1] || 'deposits'
 
       @isSelected = (currency) ->
         @selectedCurrency == currency
