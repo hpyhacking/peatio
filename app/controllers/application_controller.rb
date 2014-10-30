@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
     two_factor = current_user.two_factors.by_type(params[:two_factor][:type])
     return false if not two_factor
 
-    two_factor.assign_attributes params.require(:two_factor).permit(:otp)
+    two_factor.assign_attributes params.require(:two_factor).permit(:otp, :type)
     two_factor.verify?
   end
 

@@ -1,5 +1,6 @@
 app.controller 'DepositHistoryController', ($scope, $stateParams, $http) ->
   ctrl = @
+  $scope.predicate = '-id'
   @currency = $stateParams.currency
   @account = Account.findBy('currency', @currency)
   @deposits = @account.deposits()
@@ -11,6 +12,7 @@ app.controller 'DepositHistoryController', ($scope, $stateParams, $http) ->
 
   @refresh = ->
     @deposits = @account.deposits()
+    $scope.$apply()
 
   @cancelDeposit = (deposit) ->
     deposit_channel = DepositChannel.findBy('currency', deposit.currency)

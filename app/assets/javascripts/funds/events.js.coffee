@@ -41,4 +41,8 @@ $(window).load ->
       $('.flash-messages').hide(1000)
     , 10000)
 
+  # init the two factor auth
+  TwoFactorAuth.attachTo('.two-factor-auth-container')
+
+
 

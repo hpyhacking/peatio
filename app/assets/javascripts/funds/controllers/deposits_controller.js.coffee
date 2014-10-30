@@ -5,14 +5,13 @@ app.controller 'DepositsController', ($scope, $stateParams, $http) ->
   $scope.fsources = FundSource.findAllBy('currency', $scope.currency)
   $scope.account = Account.findBy('currency', $scope.currency)
   $scope.deposit_channel = DepositChannel.findBy('currency', $scope.currency)
-  $scope.predicate = '-id'
 
   @createDeposit = (currency) ->
     depositCtrl = @
     deposit_channel = DepositChannel.findBy('currency', currency)
     account = deposit_channel.account()
 
-    data = { account_id: account.id, member_id: current_user.id, currency: currency, amount: @deposit.sum, fund_source: @deposit.fund_source }
+    data = { account_id: account.id, member_id: current_user.id, currency: currency, amount: @deposit.amount, fund_source: @deposit.fund_source }
 
     $('.form-submit > input').attr('disabled', 'disabled')
 

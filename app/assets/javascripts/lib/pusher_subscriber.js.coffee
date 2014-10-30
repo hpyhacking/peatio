@@ -74,7 +74,6 @@ class WithdrawHandler extends EventHandler
 
   create: (attributes) =>
     Withdraw.create(attributes)
-    $.publish('withdraw:create')
 
   update: (id, attributes) =>
     Withdraw.findBy("id", id).updateAttributes(attributes)
