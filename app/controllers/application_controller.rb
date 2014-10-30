@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
 
   def two_factor_activated!
     if not current_user.two_factors.activated?
-      redirect_to settings_path, alert: t('private.two_factors.auth.please_active_two_factor')
+      redirect_to settings_path, alert: t('two_factors.auth.please_active_two_factor')
     end
   end
 
