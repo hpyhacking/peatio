@@ -6,6 +6,7 @@ module Verify
     before_action :two_factor_required!, only: [:show]
 
     def show
+      @phone_number = Phonelib.parse(current_user.phone_number).national
     end
 
     def update
