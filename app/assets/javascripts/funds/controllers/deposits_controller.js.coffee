@@ -16,8 +16,8 @@ app.controller 'DepositsController', ($scope, $stateParams, $http) ->
     $('.form-submit > input').attr('disabled', 'disabled')
 
     $http.post("/deposits/#{deposit_channel.resources_name}", { deposit: data})
-      .error (data) ->
-        $.publish 'flash', {message: data.responseText }
+      .error (responseText) ->
+        $.publish 'flash', {message: responseText }
       .finally ->
         depositCtrl.deposit = {}
         $('.form-submit > input').removeAttr('disabled')

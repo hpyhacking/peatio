@@ -5,7 +5,7 @@
     <span class="text-danger"><strong>人民币提现服务时间：9:00 - 18:00</strong> (18:00后的提现申请次日处理)</span>
   </div>
 
-  <form id="cny_withdraws" name="withdraw_form" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl", ng-submit="withdrawsCtrl.createWithdraw(currency)">
+  <form id="cny_withdraws" name="withdraw_form" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl" ng-submit="withdrawsCtrl.createWithdraw(currency)">
 
     <div class="form-group">
       <div class="col-sm-6">
@@ -81,10 +81,9 @@
       <td>{{withdraw.amount}}</td>
       <td>{{withdraw.fee}}</td>
       <td>{{withdraw.aasm_state}}
-        <span ng-show="wdCtrl.newRecord(withdraw)">/ <a href="#" data-id={{unbound withdraw.id}} class="cancel_link">取消</a></span>
+        <span ng-if="wdCtrl.newRecord(withdraw)">/ <a href="#" data-id={{unbound withdraw.id}} class="cancel_link">取消</a></span>
       </td>
-
     </tr>
-    <tr ng-show="wdCtrl.noWithdraw()"><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
+    <tr ng-if="wdCtrl.noWithdraw()"><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
   </table>
 

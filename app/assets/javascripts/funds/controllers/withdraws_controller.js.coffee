@@ -22,8 +22,8 @@ app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
     $('.form-submit > input').attr('disabled', 'disabled')
 
     $http.post("/withdraws/#{withdraw_channel.resources_name}", data)
-      .error (response) ->
-        $.publish 'flash', { message: response.responseText }
+      .error (responseText) ->
+        $.publish 'flash', { message: responseText }
       .finally ->
         ctrl.withdraw = {}
         $('.form-submit > input').removeAttr('disabled')

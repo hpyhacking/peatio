@@ -10,7 +10,10 @@ app.controller 'WithdrawHistoryController', ($scope, $stateParams, $http) ->
   @noWithdraw = ->
     @withdraws.length == 0
 
+  @refresh = ->
+    ctrl.withdraws = ctrl.account.withdraws()
+    $scope.$apply()
+
   do @event = ->
     Withdraw.bind "create update destroy", ->
-      ctrl.withdraws = ctrl.account.withdraws()
-      $scope.$apply()
+      ctrl.refresh()

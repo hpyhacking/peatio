@@ -17,5 +17,6 @@ app.config ($stateProvider, $urlRouterProvider) ->
     .state('withdraws.currency', {
       url: "/:currency"
       templateUrl: "/templates/withdraw.html"
+      controller: 'WithdrawsController'
       currentAction: "withdraw"
     })

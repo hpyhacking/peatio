@@ -1,0 +1,72 @@
+<form id="btc_withdraw" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl" ng-submit="withdrawsCtrl.createWithdraw(currency)">
+
+  <div class="form-group">
+    <div class="col-sm-6">
+      <label class="select required control-label" for="withdraw_fund_source">标签</label>
+    </div>
+    <div class="col-sm-12">
+
+      <select id="fund_source" class="select required form-control" name="fund_source" ng-model="withdrawsCtrl.withdraw.fund_source" required>
+        <option value="{{fs.id}}" ng-repeat="fs in fsources">{{fs.label}}</option>
+      </select>
+
+    </div>
+    <span class="col-sm-6 help-block"><a href="/btc_fund_sources">管理提现地址</a></span>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-6">
+      <label class="optional control-label">可用余额</label>
+    </div>
+    <div class="col-sm-12">
+      <p class="form-control-static"><span class="currency-balance" id="withdraw_balance">{{balance}}</span></p>
+    </div>
+  </div>
+
+  <div class="form-group required">
+    <div class="col-sm-6">
+      <label class="decimal required control-label" for="withdraw_sum">提取数量</label>
+    </div>
+    <div class="col-sm-12">
+      <div class="input-group">
+        <input class="numeric decimal required form-control" id="withdraw_sum" min="0" name="withdraw[sum]" placeholder="最低 0.001" step="any" type="number" value="0.0" ng-model="withdrawsCtrl.withdraw.sum">
+        <div class="input-group-btn"><button {{action 'withdrawAll'}} class="btn btn-success" id="withdraw_all_btn" type="button">全部提取</button></div>
+      </div>
+    </div>
+    <span class="col-sm-6 help-block"><a target="_balance" href="/documents/price">资费说明</a></span>
+  </div>
+
+  <ng-include src="'/templates/_two_factor_auth.html'"></ng-include>
+
+  <div class="form-group">
+    <div class="form-submit col-sm-18 col-sm-offset-6">
+      <input  id="withdraw_submit" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="提交">
+    </div>
+  </div>
+
+</form>
+
+<br>
+<h2 class="panel-title">{{ "funds.deposit_history.title" | t }}</h2>
+
+<table class="table withdraw-history" ng-controller="WithdrawHistoryController as wdCtrl">
+  <tr>
+    <th>编号</th>
+    <th>时间</th>
+    <th>提现地址</th>
+    <th>实际到账</th>
+    <th>旷工费</th>
+    <th>状态/操作</th>
+  </tr>
+  <tr ng-repeat="withdraw in wdCtrl.withdraws | orderBy:predicate">
+    <td>{{withdraw.id}}</td>
+    <td>{{withdraw.created_at}}</td>
+    <td>{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}</td>
+    <td>{{withdraw.amount}}</td>
+    <td>{{withdraw.fee}}</td>
+    <td>{{withdraw.aasm_state}}</td>
+  </tr>
+  <tr ng-if="wdCtrl.noWithdraw()"><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
+</table>
+
+

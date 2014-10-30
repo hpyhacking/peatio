@@ -1,1 +1,7 @@
-<ng-include src="'/templates/withdraw_cny.html'"></ng-include>
+<div class="flash-messages" style="display:none;">
+  <div class="alert alert-dismissable alert-warning" id="alert">
+    <p><i class="fa fa-info-circle"></i><span id="flash-content"></span></p>
+  </div>
+</div>
+<ng-include ng-if="currency == 'cny'" src="'/templates/withdraw_cny.html'"></ng-include>
+<ng-include ng-if="currency == 'btc'" src="'/templates/withdraw_btc.html'"></ng-include>
