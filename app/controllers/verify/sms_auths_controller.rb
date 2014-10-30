@@ -63,7 +63,7 @@ module Verify
     end
 
     def token_params
-      params.required(:sms_auth).permit(:phone_number, :otp)
+      params.required(:sms_auth).permit(:country, :phone_number, :otp)
     end
 
     def two_factor_required!

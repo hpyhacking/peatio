@@ -2,7 +2,7 @@ class TwoFactor::Sms < ::TwoFactor
   OTP_LENGTH = 6
 
   attr_accessor :send_code_phase
-  attr_accessor :phone_number
+  attr_accessor :country, :phone_number
 
   validates_presence_of :phone_number, if: :send_code_phase
   validates :phone_number, phone: { possible: true,
@@ -36,7 +36,8 @@ class TwoFactor::Sms < ::TwoFactor
   private
 
   def update_phone_number_to_member
-    phone = Phonelib.parse(phone_number)
+    country_code = ISO3166::Country[country].try :country_code
+    phone = Phonelib.parse([country_code, phone_number].join)
     member.update phone_number: phone.sanitized.to_s
   end
 
