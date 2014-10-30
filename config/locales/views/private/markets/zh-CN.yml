@@ -77,7 +77,6 @@ zh-CN:
         amount: 总价
       header:
         network: 连接状态
-        switch: '[选择交易品种]'
         vol: 二十四小时 成交量
         high: 最高
         low: 最低
@@ -90,8 +89,13 @@ zh-CN:
         title: 总资产约
         amount: 总计
         locked: 冻结
+        funds: '[资金]'
+        signout: '[安全退出]'
+        settings: '[账户设置]'
+        view_all_accounts: '[查看全部账户]'
+        hide_all_accounts: '[隐藏其他账户]'
       market_switch:
-        title: 选择交易品种
+        title: '[选择交易品种]'
         name: 交易对
         ask: 卖出价
         bid: 买入价
@@ -127,5 +131,5 @@ zh-CN:
       global:
         global_orders_title: 十档盘口
         global_trades_title: 成交记录
-      chat: 
+      chat:
         title: 聊天频道

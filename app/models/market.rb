@@ -57,6 +57,18 @@ class Market < ActiveYamlBase
     Currency.find_by_code(bid["currency"])
   end
 
+  def scope?(account_or_currency)
+    code = if account_or_currency.is_a? Account
+             account_or_currency.currency
+           elsif account_or_currency.is_a? Currency
+             account_or_currency.code
+           else
+             account_or_currency
+           end
+
+    base_unit == code || quote_unit == code
+  end
+
   private
 
   def global

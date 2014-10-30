@@ -26,7 +26,7 @@ module Verify
       let(:attrs) {
         {
           format: :js,
-          sms_auth: {phone_number: '123-1234-1234'},
+          sms_auth: {country: 'CN', phone_number: '123-1234-1234'},
           commit: 'send_code'
         }
       }
@@ -45,7 +45,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_auth: {phone_number: ''},
+            sms_auth: {country: '', phone_number: ''},
             commit: 'send_code'
           }
         }
@@ -61,7 +61,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_auth: {phone_number: 'wrong number'},
+            sms_auth: {country: 'CN', phone_number: 'wrong number'},
             commit: 'send_code'
           }
         }
@@ -81,7 +81,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_auth: {phone_number: '123.1234.1234'},
+            sms_auth: {country: 'CN', phone_number: '123.1234.1234'},
             commit: 'send_code'
           }
         }
@@ -90,13 +90,8 @@ module Verify
           put :update, attrs
         end
 
-        it "return status ok" do
-          expect(response).to be_ok
-        end
-
-        it "should update member's phone number" do
-          expect(member.reload.phone_number).not_to be_blank
-        end
+        it { expect(response).to be_ok }
+        it { expect(member.reload.phone_number).to eq('8612312341234') }
       end
     end
 

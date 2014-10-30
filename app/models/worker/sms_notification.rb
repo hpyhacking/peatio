@@ -8,7 +8,7 @@ module Worker
 
       twilio_client.account.sms.messages.create(
         from: ENV["TWILIO_NUMBER"],
-        to:   payload[:phone],
+        to:   Phonelib.parse(payload[:phone]).international,
         body: payload[:message]
       )
     end

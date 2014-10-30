@@ -58,6 +58,7 @@ zh-CN:
         otp_secret: 密文
         otp: 验证器上的密码
       sms_auth:
+        country: 国家
         otp: 短信验证码
       fund_source:
         label: 开户行 / 标签

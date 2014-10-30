@@ -6,6 +6,7 @@ module Verify
     before_action :two_factor_required!, only: [:show]
 
     def show
+      @phone_number = Phonelib.parse(current_user.phone_number).national
     end
 
     def update
@@ -63,7 +64,7 @@ module Verify
     end
 
     def token_params
-      params.required(:sms_auth).permit(:phone_number, :otp)
+      params.required(:sms_auth).permit(:country, :phone_number, :otp)
     end
 
     def two_factor_required!

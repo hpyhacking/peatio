@@ -1,5 +1,14 @@
 @MarketData = flight.component ->
+
   @refresh = (event, data) ->
+    ref = =>
+      @reqK(gon.market.id, data['x'])
+
+    if @.ref_interval?
+      window.clearInterval(@.ref_interval)
+
+    @.ref_interval = window.setInterval(ref, data['x'] * 1000 * 60)
+    
     @trigger 'market::candlestick::request'
     @reqK(gon.market.id, data['x'])
 

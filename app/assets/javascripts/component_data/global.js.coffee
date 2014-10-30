@@ -15,26 +15,17 @@ window.GlobalData = flight.component ->
     bids = _.map data.bids, ([price, volume]) ->
       [parseFloat(price), bids_sum += parseFloat(volume)]
 
-    if _.last(bids) && _.last(asks)
-      low = _.last(bids)[0]
-      high = _.last(asks)[0]
-      mid = (_.first(bids)[0] + _.first(asks)[0]) / 2
-      offset = _.min([mid - low, high - mid])
-
-      @trigger 'market::depth::response', 
-        asks: asks, bids: bids, high: mid + offset, low: mid - offset 
+    mid = if _.last(bids) && _.last(asks)
+      (_.first(bids)[0] + _.first(asks)[0]) / 2
     else if _.last(bids) && !(_.last(asks)?)
-      low = _.last(bids)[0]
-      mid = _.first(bids)[0]
-      offset = mid - low
-      @trigger 'market::depth::response', 
-        asks: asks, bids: bids, high: mid + offset, low: mid - offset 
+      _.first(bids)[0]
     else if !(_.last(bids)?) && _.last(asks)
-      high = _.last(asks)[0]
-      mid = _.first(asks)[0]
-      offset = high - mid
-      @trigger 'market::depth::response', 
-        asks: asks, bids: bids, high: mid + offset, low: mid - offset 
+      _.first(asks)[0]
+
+    offset = mid * 0.1
+
+    @trigger 'market::depth::response', 
+      asks: asks, bids: bids, high: mid + offset, low: mid - offset 
 
   @refreshTicker = (data) ->
     unless @.last_tickers

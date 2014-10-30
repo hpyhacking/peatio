@@ -1,13 +1,10 @@
-#market_swtich.panel.panel-default.panel-table
-  .panel-heading
+li#market_switch.dropdown
+  a.dropdown-toggle href="#" data-toggle="dropdown"
     span = t('.title')
-    a.hand-point.pull-right: i.fa.fa-close
-  .panel-body.panel-body-head
-    table.table
+  .dropdown-menu
+    table.table.table-hover
       thead: tr
         th.name.col-xs-6.text-left #{t('.name')}
         th.bid.col-xs-9.text-right #{t('.bid')}
         th.ask.col-xs-9.text-right #{t('.ask')}
-  .panel-body.panel-body-content
-    table.table.table-hover
       tbody
