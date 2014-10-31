@@ -6,7 +6,7 @@ window.MarketTradesUI = flight.component ->
 
   @refresh = (event, data) ->
     $table = @select('table')
-    $table.prepend(JST['market_trade'](trade)) for trade in data.trades
+    $table.prepend(JST['templates/market_trade'](trade)) for trade in data.trades
 
   @after 'initialize', ->
     @on document, 'market::trades', @refresh

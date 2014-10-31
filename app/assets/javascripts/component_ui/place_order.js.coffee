@@ -57,7 +57,7 @@
 
   @handleSuccess = (event, data) ->
     @cleanMsg()
-    @select('successSel').append(JST["hint_order_success"]({msg: data.message})).show()
+    @select('successSel').append(JST["templates/hint_order_success"]({msg: data.message})).show()
     @resetForm(event)
     window.sfx_success()
     @enableSubmit()
@@ -66,7 +66,7 @@
     @cleanMsg()
     ef_class = 'shake shake-constant hover-stop'
     json = JSON.parse(data.responseText)
-    @select('dangerSel').append(JST["hint_order_warning"]({msg: json.message})).show()
+    @select('dangerSel').append(JST["templates/hint_order_warning"]({msg: json.message})).show()
       .addClass(ef_class).wait(500).removeClass(ef_class)
     window.sfx_warning()
     @enableSubmit()
@@ -92,7 +92,7 @@
     balance = gon.accounts[currency]?.balance || 0
 
     @select('currentBalanceSel').data('balance', balance)
-    @select('currentBalanceSel').text( window.fix(type, balance) )
+    @select('currentBalanceSel').text(formatter.fix(type, balance))
 
     @trigger 'place_order::balance::change', balance: BigNumber(balance)
     @trigger "place_order::max::#{@usedInput}", max: BigNumber(balance)
@@ -102,7 +102,7 @@
     node = @select('currentBalanceSel')
 
     order[@usedInput] = 0 unless order[@usedInput]
-    available = window.fix type, @getBalance().minus(order[@usedInput])
+    available = formatter.fix type, @getBalance().minus(order[@usedInput])
 
     if BigNumber(available).equals(0)
       @select('positionsLabelSel').hide().text(gon.i18n.place_order["full_#{type}"]).fadeIn()

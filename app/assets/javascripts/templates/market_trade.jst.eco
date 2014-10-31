@@ -1,0 +1,17 @@
+<tr>
+  <td class="time text-left col-xs-7">
+    <%- formatter.trade_time @date %>
+  </td>
+  <td class='kind text-left col-xs-2 <%= formatter.trend @type %>'>
+    <%- formatter.short_trade @type %>
+  </td>
+  <td class='price text-right col-xs-5'>
+    <%= formatter.fix_bid @price %>
+  </td>
+  <td class='volume text-right col-xs-5'>
+    <%= formatter.fix_ask @amount %>
+  </td>
+  <td class='amount text-right col-xs-5'>
+    <%- formatter.amount @amount, @price  %>
+  </td>
+</tr>

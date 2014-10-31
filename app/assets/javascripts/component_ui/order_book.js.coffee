@@ -16,7 +16,7 @@
     html = ''
     for i in [0...orders.length]
       data = price: orders[i][0], volume: orders[i][1], index: i
-      html += JST["order_book_#{bid_or_ask}"](data)
+      html += JST["templates/order_book_#{bid_or_ask}"](data)
     book.append(html)
 
   @computeDeep = (event, orders) ->

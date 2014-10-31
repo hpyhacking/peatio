@@ -144,6 +144,11 @@ GEM
       actionpack (~> 4.0)
       activemodel (~> 4.0)
       rubytree (~> 0.8.3)
+    eco (1.0.0)
+      coffee-script
+      eco-source
+      execjs
+    eco-source (1.1.0.rc.1)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -471,6 +476,7 @@ DEPENDENCIES
   datagrid
   dotenv-rails
   easy_table
+  eco
   em-websocket (~> 0.5.1)
   enumerize
   eventmachine (~> 1.0.3)

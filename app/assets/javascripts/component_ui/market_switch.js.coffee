@@ -10,7 +10,7 @@ window.MarketSwitchUI = flight.component ->
 
     for ticker in tickers.reverse()
       ticker['current'] = true if (ticker.market == gon.market.id)
-      $table.prepend(JST['market_switch'](ticker))
+      $table.prepend(JST['templates/market_switch'](ticker))
 
   @after 'initialize', ->
     @on document, 'market::tickers', @refresh

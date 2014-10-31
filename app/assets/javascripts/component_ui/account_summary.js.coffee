@@ -5,8 +5,8 @@
   @updateAccount = (event, data) ->
     for currency, account of data
       amount = (new BigNumber(account.locked)).plus(new BigNumber(account.balance))
-      @$node.find("tr.#{currency} span.amount").text(round(amount, 2))
-      @$node.find("tr.#{currency} span.locked").text(round(account.locked, 2))
+      @$node.find("tr.#{currency} span.amount").text(formatter.round(amount, 2))
+      @$node.find("tr.#{currency} span.locked").text(formatter.round(account.locked, 2))
 
   @updateTotalAssets = (event, data) ->
     fiatCurrency = gon.fiat_currency
@@ -20,7 +20,7 @@
         sum += +account.balance * +ticker.last
         sum += +account.locked * +ticker.last
 
-    @select('total_assets').text " #{symbol} #{round sum, 2}"
+    @select('total_assets').text " #{symbol} #{formatter.round sum, 2}"
 
   @after 'initialize', ->
     @on document, 'account::update', @updateAccount
