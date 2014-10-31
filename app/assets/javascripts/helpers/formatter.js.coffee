@@ -1,4 +1,4 @@
-class Formater
+class Formatter
   round: (str, fixed) ->
     BigNumber(str).round(fixed, BigNumber.ROUND_HALF_UP).toF(fixed)
 
@@ -92,4 +92,4 @@ class Formater
   t: (key) -> 
     gon.i18n[key]
 
-window.formatter = new Formater()
+window.formatter = new Formatter()
