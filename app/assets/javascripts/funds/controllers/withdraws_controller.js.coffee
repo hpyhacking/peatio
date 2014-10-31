@@ -28,6 +28,9 @@ app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
         ctrl.withdraw = {}
         $('.form-submit > input').removeAttr('disabled')
 
+  @withdrawAll = ->
+    @withdraw.sum = Number($scope.account.balance)
+
 
   $scope.sms_and_app_activated = ->
     current_user.app_activated and current_user.sms_activated

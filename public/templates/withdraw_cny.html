@@ -46,7 +46,7 @@
       <div class="col-sm-12">
         <div class="input-group">
           <input class="numeric decimal required form-control" id="withdraw_sum" min="0" name="withdraw[sum]" placeholder="最低 0.001" step="any" type="number" value="0.0" ng-model="withdrawsCtrl.withdraw.sum">
-          <div class="input-group-btn"><button {{action 'withdrawAll'}} class="btn btn-success" id="withdraw_all_btn" type="button">全部提取</button></div>
+          <div class="input-group-btn"><button ng-click="withdrawsCtrl.withdrawAll()" class="btn btn-success" id="withdraw_all_btn" type="button">全部提取</button></div>
         </div>
       </div>
       <span class="col-sm-6 help-block"><a target="_balance" href="/documents/price">资费说明</a></span>

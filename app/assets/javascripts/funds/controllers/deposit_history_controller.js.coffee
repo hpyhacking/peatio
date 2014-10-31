@@ -18,7 +18,7 @@ app.controller 'DepositHistoryController', ($scope, $stateParams, $http) ->
     deposit_channel = DepositChannel.findBy('currency', deposit.currency)
     $http.delete("/deposits/#{deposit_channel.resources_name}/#{deposit.id}")
       .error (data) ->
-        $.publish 'flash', {message: data.responseText }
+        $.publish 'flash', { message: data.responseText }
 
   do @event = ->
     Deposit.bind "create update destroy", ->
