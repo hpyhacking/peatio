@@ -1,5 +1,5 @@
 class Account extends PeatioModel.Model
-  @configure 'Account', 'member_id', 'currency', 'balance', 'locked', 'created_at', 'updated_at', 'in', 'out', 'deposit_address', 'code_text', 'name_text'
+  @configure 'Account', 'member_id', 'currency', 'balance', 'locked', 'created_at', 'updated_at', 'in', 'out', 'deposit_address', 'name_text'
 
   @initData: (records) ->
     PeatioModel.Ajax.disable ->
@@ -26,6 +26,5 @@ class Account extends PeatioModel.Model
 
   topWithdraws: ->
     @withdraws().reverse().slice(0,3)
-
 
 window.Account = Account
