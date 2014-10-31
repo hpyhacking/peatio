@@ -23,7 +23,6 @@
 #= require moment
 #= require ZeroClipboard
 #= require underscore
-#= require handlebars.runtime
 #= require flight.min
 #= require list
 #= require qrcode
