@@ -1,0 +1,14 @@
+<% highlight = if @current then 'highlight' else '' %>
+<tr class='<%= highlight %>' data-market='<%= @market %>'>
+  <td class='market col-xs-6'>
+    <%= formatter.market @data.base_unit, @data.quote_unit %>
+  </td>
+  <td class='price bid col-xs-9 text-right <%= formatter.trend @data.buy_trend %>'>
+    <%= @data.buy %>
+    <%- formatter.trend_icon @data.buy_trend %>
+  </td>
+  <td class='price ask col-xs-9 text-right <%= formatter.trend @data.sell_trend %>'>
+    <%= @data.sell %>
+    <%- formatter.trend_icon @data.sell_trend %>
+  </td>
+</tr>

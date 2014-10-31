@@ -6,7 +6,7 @@
     switchLink: 'a.switch-link'
     switchLinkName: '.switch-link-name'
 
-  @getTemplate = (order_or_trade) -> $(JST["order_done"](order_or_trade))
+  @getTemplate = (order_or_trade) -> $(JST["templates/order_done"](order_or_trade))
 
   @trade = (event, trade) ->
     return if trade.market != gon.market.id

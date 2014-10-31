@@ -12,7 +12,6 @@
 #= require bignumber
 #= require underscore
 #= require cookies.min
-#= require handlebars.runtime
 #= require flight.min
 #= require pusher.min
 
@@ -40,6 +39,7 @@ $ ->
   FloatUI.attachTo('.float')
   KeyBindUI.attachTo(document)
   AutoWindowUI.attachTo(window)
+
   PlaceOrderUI.attachTo('#bid_entry')
   PlaceOrderUI.attachTo('#ask_entry')
   OrderBookUI.attachTo('#order_book')
@@ -50,7 +50,6 @@ $ ->
   MarketTickerUI.attachTo('#ticker')
   MarketSwitchUI.attachTo('#market_switch')
   MarketTradesUI.attachTo('#market_trades')
-  FlashMessageUI.attachTo('.flash-message')
 
   MarketData.attachTo(document)
   GlobalData.attachTo(document, {pusher: window.pusher})
