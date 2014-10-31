@@ -9,11 +9,11 @@ zh-CN:
         reset_password: 重置登录密码
         reauthenticate: 身份验证
         activated: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
-        auth-activated: 请您立即绑定邮箱地址，否则将无法进行任何操作。
-        auth-verified: 请您先提交实名认证，否则将无法进行任何操作。
+        auth-activated: 请您验证邮箱地址，否则将无法进行任何操作。
+        auth-verified: 请您提交实名认证，否则将无法进行任何操作。
 
         email:
-          title: 邮箱绑定
+          title: 邮箱验证
           description: 您的邮箱还未经过验证，点击“发送邮件”按钮，完成验证。
           description-activated: 您的邮箱已验证通过，请牢记并保护好此邮箱地址，这是您作为登录的唯一账户。
           resend: 再次发送
