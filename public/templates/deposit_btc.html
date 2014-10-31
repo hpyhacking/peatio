@@ -1,0 +1,43 @@
+<h2 class="panel-title">比特币充值</h2>
+
+<section class="withdraw-instruction">
+  <div class="row">
+    <div class="col-sm-4">
+      <h4 class="steps">1</h4>
+    </div>
+
+    <div class="col-sm-20">
+      <p> {{"funds.deposit_btc.open-wallet" | t}} </p>
+    </div>
+  </div>
+
+  <hr class="split">
+
+  <div class="row">
+    <div class="col-sm-4">
+      <h4 class="steps">2</h4>
+    </div>
+    <div class="col-sm-20">
+      <ng-include src="'/templates/_qrcode.html'"></ng-include>
+      
+      <p>{{"funds.deposit_btc.detail" | t}}</p>
+
+      <ng-include src="'/templates/_address.html'"></ng-include>
+
+      <br>{{"funds.deposit_btc.scan-qr" | t}}
+      
+    </div>
+  </div>
+
+  <hr class="split">
+
+  <div class="row">
+    <div class="col-sm-4"><h4 class="steps">3</h4></div>
+    <div class="col-sm-20">
+      <p>{{"funds.deposit_btc.after_deposit" | t}}</p>
+    </div>
+  </div>
+
+</section>
+
+<ng-include src="'/templates/_deposit_coin_history.html'"></ng-include>

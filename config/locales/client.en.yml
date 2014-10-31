@@ -1,3 +1,116 @@
-js:
-  en:
+en:
+  js:
     brand: Peatio
+    funds:
+      deposit: Deposit
+      withdraw: Withdraw
+      deposit_cny:
+        title: Chinese Yuan Deposit
+        desc: "Deposit with Bank, please follow step following:"
+        desc_item_1: "1. Submit the form to get the identification code."
+        desc_item_2: "2. Transfer the money to Yunbi's Bank Account. Please make sure fill in the identification code."
+        desc_item_3: "3. Our supporters will confirm your deposit after we receving the money"
+        attention: "Attention: The name info from bank must be the same with your account name in our site."
+        from: From
+        to: To
+        deposit_name: Your Name
+        deposit_account: Deposit Account
+        add: Add
+        manage: Manage
+        amount: Deposit Amount
+        min_amount: At least 10 yuan
+        to_account: Account
+        to_name: Name
+        to_bank_name: Bank Name
+        opening_bank_name: Account where created
+        submit: Submit
+
+      deposit_btc:
+        title: BTC Deposit
+        address: Address
+        new_address: New Address
+        open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
+        detail: Please paste the address blow in your wallet, and fill in the amount you want to deposit, then confirm and send.
+        scan-qr: Scanning QR code to Pay for In the mobile terminal wallet.
+        after_deposit: Once you complete sending, you can check the status of your new deposit below.
+        generate-new: Generate new address
+
+      deposit_history:
+        title: Deposit History
+        identification: Identification Code
+        time: Time
+        txid: Transaction ID
+        confirmations: Confirmations
+        from: From
+        amount: Amount
+        state_and_action: "State/Action"
+        cancel: cancel
+        no_data: There is no history data
+
+        submitting: Submitting
+        cancelled: Cancelled
+        submitted: Submitted
+        accepted: Accepted
+        rejected: Rejected
+        checked: Checked
+        warning: Warning
+        suspect: Suspect
+
+      withdraw_cny:
+        title: Chinese Yuan Withdraw
+        intro: Select the bank to cash withdrawal amount and enter the account number and complete submission.
+        intro_2: Your bank account and name must be consistent with the real-name authentication name.
+        attention: ""
+        account_name: Account Name
+        withdraw_address: Withdraw Address
+        balance: Balance
+        withdraw_amount: Withdraw Amount
+        manage_withdraw: Manage Withdraw
+        fee_explain: About Fee
+        min: At least
+        withdraw_all: Withdraw all
+        submit: Submit
+
+
+      withdraw_history_cny:
+        title: Withdraw History
+        number: Number
+        withdraw_time: Time
+        withdraw_account: Withdraw Account
+        withdraw_amount: Amount
+        fee: Fee
+        state_and_action: "State/Action"
+
+      withdraw_btc:
+        title: BTC Withdraw
+        intro: Please fill in the address and amount,then submit the form. It will be confirmed in 10 minutes
+        label: Label
+        balance: Balance
+        amount: Amount
+        manage_withdraw: Manage Address
+        min: At least
+        withdraw_all: Withdraw all
+        fee_explain: About Fee
+
+      withdraw_history_btc:
+        title: Withdraw History
+        number: Number
+        withdraw_time: Time
+        withdraw_address: Address
+        actual_amount: Actual Amount
+        fee: Fee
+        state_and_action: "State/Action"
+
+
+
+    auth:
+      please_active_two_factor: Please set mobile number or google authenticator first.
+      submit: Submit
+      otp_placeholder: 6-digit password
+      google_app: Google Authenticator
+      sms: SMS Verification Messages
+      send_code: Send Code
+      send_code_alt: Resend in COUNT seconds
+      hints:
+        app: Google Authenticator will re-generate a new password every thirty seconds, please input timely.
+        sms: We'll send a text message to you phone with verify code.

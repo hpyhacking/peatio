@@ -1,0 +1,72 @@
+<form id="btc_withdraw" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl" ng-submit="withdrawsCtrl.createWithdraw(currency)">
+
+  <div class="form-group">
+    <div class="col-sm-6">
+      <label class="select required control-label" for="withdraw_fund_source">{{"funds.withdraw_btc.label" | t}}</label>
+    </div>
+    <div class="col-sm-12">
+
+      <select id="fund_source" class="select required form-control" name="fund_source" ng-model="withdrawsCtrl.withdraw.fund_source" required>
+        <option value="{{fs.id}}" ng-repeat="fs in fsources">{{fs.label}}</option>
+      </select>
+
+    </div>
+    <span class="col-sm-6 help-block"><a href="/btc_fund_sources">{{"funds.withdraw_btc.manage_withdraw" | t}}</a></span>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-6">
+      <label class="optional control-label">{{"funds.withdraw_btc.balance" | t}}</label>
+    </div>
+    <div class="col-sm-12">
+      <p class="form-control-static"><span class="currency-balance" id="withdraw_balance">{{balance}}</span></p>
+    </div>
+  </div>
+
+  <div class="form-group required">
+    <div class="col-sm-6">
+      <label class="decimal required control-label" for="withdraw_sum">{{"funds.withdraw_btc.amount" | t}}</label>
+    </div>
+    <div class="col-sm-12">
+      <div class="input-group">
+        <input class="numeric decimal required form-control" id="withdraw_sum" min="0" name="withdraw[sum]" placeholder="{{'funds.withdraw_btc.min' | t}} 0.001" step="any" type="number" value="0.0" ng-model="withdrawsCtrl.withdraw.sum">
+        <div class="input-group-btn"><button ng-click="withdrawsCtrl.withdrawAll()" class="btn btn-success" id="withdraw_all_btn" type="button">{{"funds.withdraw_btc.withdraw_all" | t}}</button></div>
+      </div>
+    </div>
+    <span class="col-sm-6 help-block"><a target="_balance" href="/documents/price">{{"funds.withdraw_btc.fee_explain" | t}}</span>
+  </div>
+
+  <ng-include src="'/templates/_two_factor_auth.html'"></ng-include>
+
+  <div class="form-group">
+    <div class="form-submit col-sm-18 col-sm-offset-6">
+      <input  id="withdraw_submit" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="{{'funds.withdraw_cny.submit' | t}}">
+    </div>
+  </div>
+
+</form>
+
+<br>
+<h2 class="panel-title">{{ "funds.withdraw_history_btc.title" | t }}</h2>
+
+<table class="table withdraw-history" ng-controller="WithdrawHistoryController as wdCtrl">
+  <tr>
+    <th>{{ "funds.withdraw_history_btc.number" | t }}</th>
+    <th>{{ "funds.withdraw_history_btc.withdraw_time" | t }}</th>
+    <th>{{ "funds.withdraw_history_btc.withdraw_address" | t }}</th>
+    <th>{{ "funds.withdraw_history_btc.actual_amount" | t }}</th>
+    <th>{{ "funds.withdraw_history_btc.fee" | t }}</th>
+    <th>{{ "funds.withdraw_history_btc.state_and_action" | t }}</th>
+  </tr>
+  <tr ng-repeat="withdraw in wdCtrl.withdraws | orderBy:predicate">
+    <td>{{withdraw.id}}</td>
+    <td>{{withdraw.created_at}}</td>
+    <td>{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}</td>
+    <td>{{withdraw.amount}}</td>
+    <td>{{withdraw.fee}}</td>
+    <td>{{withdraw.aasm_state}}</td>
+  </tr>
+  <tr ng-if="wdCtrl.noWithdraw()"><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
+</table>
+
+

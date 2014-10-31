@@ -55,10 +55,6 @@ class AccountHandler extends EventHandler
 
   update: (id, attributes) =>
     account = Account.findBy("id", id).updateAttributes(attributes)
-    for k,v of attributes
-       account.set(k, 'To The Moon') # This line is neccessay due some weird bug.
-       account.set(k, v)
-    $.publish 'account:update', {id: id, attributes: attributes}
 
 
 class DepositHandler extends EventHandler
@@ -70,11 +66,7 @@ class DepositHandler extends EventHandler
     $.publish 'deposit:create'
 
   update: (id, attributes) =>
-    deposit = Deposit.findBy("id", id).updateAttributes(attributes)
-    for k,v of attributes
-       deposit.set(k, 'To The Moon') # This line is neccessay due some weird bug.
-       deposit.set(k, v)
-    $.publish 'deposit:update', {id: id, attributes: attributes}
+    Deposit.findBy("id", id).updateAttributes(attributes)
 
 class WithdrawHandler extends EventHandler
   constructor: (channel) ->
@@ -82,14 +74,9 @@ class WithdrawHandler extends EventHandler
 
   create: (attributes) =>
     Withdraw.create(attributes)
-    $.publish('withdraw:create')
 
   update: (id, attributes) =>
-    withdraw = Withdraw.findBy("id", id).updateAttributes(attributes)
-    for k,v of attributes
-       withdraw.set(k, 'To The Moon') # This line is neccessay due some weird bug.
-       withdraw.set(k, v)
-    $.publish 'withdraw:update', {id: id, attributes: attributes}
+    Withdraw.findBy("id", id).updateAttributes(attributes)
 
   destroy: (id) =>
     Withdraw.destroy(id)
