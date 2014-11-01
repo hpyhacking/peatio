@@ -20,14 +20,17 @@ $(window).load ->
 
   # qrcode
   $.subscribe 'deposit_address:create', (event, data) ->
-    code = $('#deposit_address').html()
+    code = if data then data else $('#deposit_address').html()
+
     $("#qrcode").attr('data-text', code)
     $("#qrcode").attr('title', code)
     $('.qrcode-container').each (index, el) ->
       $el = $(el)
       $("#qrcode img").remove()
+      $("#qrcode canvas").remove()
+
       new QRCode el,
-        text:   $el.data('text')
+        text:   $("#qrcode").attr('data-text')
         width:  $el.data('width')
         height: $el.data('height')
 
