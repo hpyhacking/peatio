@@ -30,7 +30,10 @@ class TwoFactorsController < ApplicationController
 
   def two_factor_required!
     @two_factor ||= two_factor_by_type || first_availabel_two_factor
-    redirect_to settings_path if @two_factor.nil?
+
+    if @two_factor.nil?
+      redirect_to settings_path, alert: t('two_factors.auth.please_active_two_factor')
+    end
   end
 
   def two_factor_by_type
