@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_member!
-    redirect_to root_path, alert: t('.login_required') unless current_user
+    redirect_to root_path, alert: t('activations.new.login_required') unless current_user
   end
 
   def auth_activated!
