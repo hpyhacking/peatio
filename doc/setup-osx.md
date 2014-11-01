@@ -43,13 +43,25 @@ Install bundler
 
     brew install mysql
 
+and then start it with
+
+    mysql.server start
+
 ### 4. Install Redis
 
     brew install redis
 
+and then start it with
+
+    redis-server /usr/local/etc/redis.conf
+
 ### 5. Install RabbitMQ
 
     brew install rabbitmq
+
+and then start it with
+
+    rabbitmq-server
 
 ### 6. Install Bitcoind
 
@@ -77,7 +89,7 @@ Insert the following lines into the bitcoin.conf, and replce with your username 
     # Notify when receiving coins
     walletnotify=/usr/local/sbin/rabbitmqadmin publish routing_key=peatio.deposit.coin payload='{"txid":"%s", "channel_key":"satoshi"}'
 
-**Start Bitcoind**
+and then start Bitcoind with
 
     open /Applications/Bitcoin-Qt.app
 
