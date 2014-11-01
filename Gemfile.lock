@@ -171,8 +171,6 @@ GEM
     figaro (0.7.0)
       bundler (~> 1.0)
       rails (>= 3, < 5)
-    flot-rails (0.0.4)
-      jquery-rails
     font-awesome-sass (4.2.0)
       sass (~> 3.2)
     globalize (4.0.0)
@@ -478,7 +476,6 @@ DEPENDENCIES
   factory_girl_rails
   faker (~> 1.4.3)
   figaro
-  flot-rails
   font-awesome-sass
   globalize (~> 4.0.0)
   gon (~> 5.2.0)
