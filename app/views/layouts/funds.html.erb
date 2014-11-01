@@ -21,7 +21,6 @@
     <%= yield(:scripts) if content_for?(:scripts) %>
     <%= render 'shared/html5' %>
     <%= render 'shared/meta' %>
-    <%= render 'shared/tongji' if Rails.env.production? %>
     <%= csrf_meta_tags %>
   </head>
 
