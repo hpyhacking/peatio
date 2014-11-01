@@ -9,7 +9,6 @@
 #= require moment
 #= require bignumber
 #= require underscore
-#= require introjs
 #= require ZeroClipboard
 #= require flight.min
 #= require pusher.min
