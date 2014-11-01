@@ -1,3 +1,3 @@
 angular.module('translateFilters', []).filter 't', ->
-  (key) ->
-    I18n.t(key)
+  (key, args={}) ->
+    I18n.t(key, args)
