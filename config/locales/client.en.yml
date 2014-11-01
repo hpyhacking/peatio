@@ -100,8 +100,6 @@ en:
         fee: Fee
         state_and_action: "State/Action"
 
-
-
     auth:
       please_active_two_factor: Please set mobile number or google authenticator first.
       submit: Submit
@@ -113,3 +111,22 @@ en:
       hints:
         app: Google Authenticator will re-generate a new password every thirty seconds, please input timely.
         sms: We'll send a text message to you phone with verify code.
+
+    banks:
+      icbc: Industryand Commercial Bank of China
+      cbc:  Construction Bank of China
+      bc:   Bank of China
+      bcm:  Bank of Communications
+      abc:  Agriculture Bank of China
+      cmb:  China Merchants Bank Ltd
+      cmbc: China Minsheng Banking Co., Ltd
+      cncb: China CITIC Bank
+      hxb:  Hua Xia Bank Co., Ltd.
+      cib:  Industrial Bank Co., Ltd
+      spdb: Shanghai Pudong Development Bank
+      bob:  Bank of Beijing
+      ceb:  China Everbright Bank CO.LTD
+      sdb:  Shenzhen Development Bank
+      pab:  Ping An Bank Co., Ltd.
+      gdb:  Guangdong Development Bank
+
