@@ -1,6 +1,7 @@
 en:
   js:
     brand: Peatio
+    submit: Submit
     funds:
       deposit: Deposit
       withdraw: Withdraw
@@ -23,7 +24,6 @@ en:
         to_name: Name
         to_bank_name: Bank Name
         opening_bank_name: Account where created
-        submit: Submit
 
       deposit_btc:
         title: BTC Deposit
@@ -69,7 +69,6 @@ en:
         fee_explain: About Fee
         min: At least
         withdraw_all: Withdraw all
-        submit: Submit
 
 
       withdraw_history_cny:

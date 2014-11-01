@@ -6,6 +6,7 @@
 zh-CN:
   js:
     brand: 貔貅
+    submit: 提交
     funds:
       deposit: 充值
       withdraw: 提现
@@ -28,7 +29,6 @@ zh-CN:
         to_name: 收款账户
         to_bank_name: 收款银行
         opening_bank_name: 开户行
-        submit: 提交
 
       deposit_btc:
         title: 比特币充值
@@ -73,7 +73,6 @@ zh-CN:
         fee_explain: 资费说明
         min: 最低
         withdraw_all: 全部提取
-        submit: 提交
 
       withdraw_history_cny:
         title: 提现历史
