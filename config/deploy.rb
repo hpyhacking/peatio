@@ -7,7 +7,7 @@ require 'mina/slack/tasks'
 set :repository, 'https://github.com/peatio/peatio.git'
 set :user, 'deploy'
 set :deploy_to, '/home/deploy/peatio'
-set :branch, 'stable'
+set :branch, 'master'
 set :domain, 'demo.peatio.com'
 
 set :shared_paths, [
