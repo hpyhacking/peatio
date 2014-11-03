@@ -16,7 +16,7 @@ module Worker
 
     def point_1(from)
       to = from + 1.minute
-      trades = Trade.with_currency(@market.id).where(created_at: from..to).pluck(:ask_member_id, :bid_member_id)
+      trades = Trade.with_currency(@market.id).where(created_at: from...to).pluck(:ask_member_id, :bid_member_id)
       trade_users = trades.flatten.uniq
       [from.to_i, trades.size, trade_users.size]
     end

@@ -11,8 +11,8 @@ module Worker
 
     def point_1(from)
       to = from + 1.minute
-      signup_count = Member.where(created_at: from..to).count
-      activate_count = Member.where(activated: true, created_at: from..to).count
+      signup_count = Member.where(created_at: from...to).count
+      activate_count = Member.where(activated: true, created_at: from...to).count
       [from.to_i, signup_count, activate_count]
     end
 
