@@ -16,4 +16,8 @@ class FundSource < ActiveRecord::Base
       [I18n.t("banks.#{extra}"), "****#{uid[-4..-1]}"].join('#')
     end
   end
+
+  def as_json(options = {})
+    super.merge({label: label})
+  end
 end

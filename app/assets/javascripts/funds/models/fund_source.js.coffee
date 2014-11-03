@@ -3,14 +3,10 @@ class FundSource extends PeatioModel.Model
 
   constructor: ->
     super
-    @label = "#{@uid}(#{@bank_name(@extra)})"
 
   @initData: (records) ->
     PeatioModel.Ajax.disable ->
       $.each records, (idx, record) ->
         FundSource.create(record)
-
-  bank_name: (code) ->
-    I18n.t "banks.#{code}"
 
 window.FundSource = FundSource
