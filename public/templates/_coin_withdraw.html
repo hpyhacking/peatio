@@ -60,8 +60,8 @@
   </tr>
   <tr ng-repeat="withdraw in wdCtrl.withdraws | orderBy:predicate">
     <td>{{withdraw.id}}</td>
-    <td>{{withdraw.created_at}}</td>
-    <td>{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}</td>
+    <td>{{withdraw.created_at | date:'yyyy-MM-dd HH:mm'}}</td>
+    <td title="{{withdraw.fund_uid}}">{{withdraw.fund_extra}} @ {{withdraw.fund_uid | limitTo:15}}...</td>
     <td>{{withdraw.amount}}</td>
     <td>{{withdraw.fee}}</td>
     <td>{{withdraw.aasm_state}}</td>
