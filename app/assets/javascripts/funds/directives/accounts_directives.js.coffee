@@ -1,7 +1,7 @@
 app.directive 'accounts', ->
   return {
     restrict: 'E'
-    templateUrl: '/templates/accounts.html'
+    templateUrl: '/templates/funds/accounts.html'
     scope: { localValue: '=accounts' }
     controller: ($scope, $state) ->
       ctrl = @
