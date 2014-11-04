@@ -2,9 +2,9 @@ en:
   private:
     fund_sources:
       index:
-        manage_coin_address: Manage Bitcoin Address
+        manage_coin_address: Manage %{name} Address
         manage_bank_account: Manage Bank Account
-        guide_intro_coin: You can creat one new bitcoin address, and it can be available for your withdrawal later.
+        guide_intro_coin: You can creat one new %{name} address, and it can be available for your withdrawal later.
         guide_intro_bank: You can creat one new fund source, and it can be available for your deposit or withdrawal later.
         new: New
         currency: Currency

@@ -1,6 +1,6 @@
-- @guide_panel_title = @currency.coin? ? t('.manage_coin_address') : t('.manage_bank_account')
-- @guide_title = @currency.coin? ? t('.manage_coin_address') : t('.manage_bank_account')
-- @guide_intro = @currency.coin? ? t('.guide_intro_coin') : t('.guide_intro_bank')
+- @guide_panel_title = @currency.coin? ? t('.manage_coin_address', name: @currency.code.upcase) : t('.manage_bank_account')
+- @guide_title = @currency.coin? ? t('.manage_coin_address', name: @currency.code.upcase) : t('.manage_bank_account')
+- @guide_intro = @currency.coin? ? t('.guide_intro_coin', name: @currency.code.upcase) : t('.guide_intro_bank')
 
 = table_for(@fund_sources, class: 'table table-condensed table-hover') do |t|
   - t.column :currency, t('.currency'), class: 'col-xs-2' do |x|
