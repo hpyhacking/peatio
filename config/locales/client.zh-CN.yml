@@ -74,15 +74,6 @@ zh-CN:
         min: 最低
         withdraw_all: 全部提取
 
-      withdraw_history_cny:
-        title: 提现历史
-        number: 编号
-        withdraw_time: 提现时间
-        withdraw_account: 提现账户
-        withdraw_amount: 金额
-        fee: 手续费
-        state_and_action: "状态/操作"
-
       withdraw_btc:
         title: 比特币提现
         intro: 指定要提现的比特币地址，输入提取数量，提交即可，10分钟之内到账。
@@ -98,9 +89,11 @@ zh-CN:
         title: 提现历史
         number: 编号
         withdraw_time: 提现时间
+        withdraw_account: 提现账户
         withdraw_address: 提现地址
         actual_amount: 实际到账
-        fee: 矿工费
+        fee: 手续费
+        miner_fee: 矿工费
         state_and_action: "状态/操作"
 
     auth:

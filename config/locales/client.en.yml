@@ -71,15 +71,6 @@ en:
         withdraw_all: Withdraw all
 
 
-      withdraw_history_cny:
-        title: Withdraw History
-        number: Number
-        withdraw_time: Time
-        withdraw_account: Withdraw Account
-        withdraw_amount: Amount
-        fee: Fee
-        state_and_action: "State/Action"
-
       withdraw_btc:
         title: BTC Withdraw
         intro: Please fill in the address and amount,then submit the form. It will be confirmed in 10 minutes
@@ -95,9 +86,11 @@ en:
         title: Withdraw History
         number: Number
         withdraw_time: Time
+        withdraw_account: Withdraw Account
         withdraw_address: Address
         actual_amount: Actual Amount
         fee: Fee
+        miner_fee: Fee
         state_and_action: "State/Action"
 
     auth:
