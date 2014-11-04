@@ -32,6 +32,8 @@ zh-CN:
 
       deposit_btc:
         title: 比特币充值
+
+      deposit_coin:
         address: 地址
         new_address: 生成新地址
         open-wallet: 请使用您常用的钱包服务，本地钱包、在线钱包或移动端的钱包，选择付款或发送。

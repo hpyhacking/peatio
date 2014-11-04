@@ -27,6 +27,8 @@ en:
 
       deposit_btc:
         title: BTC Deposit
+
+      deposit_coin:
         address: Address
         new_address: New Address
         open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
