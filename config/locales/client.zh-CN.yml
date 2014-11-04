@@ -76,7 +76,9 @@ zh-CN:
 
       withdraw_btc:
         title: 比特币提现
-        intro: 指定要提现的比特币地址，输入提取数量，提交即可，10分钟之内到账。
+
+      withdraw_coin:
+        intro: 指定要提现的地址，输入提取数量，提交即可，10分钟之内到账。
         label: 标签
         balance: 可用余额
         amount: 提取数量

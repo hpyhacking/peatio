@@ -70,10 +70,11 @@ en:
         min: At least
         withdraw_all: Withdraw all
 
-
       withdraw_btc:
         title: BTC Withdraw
-        intro: Please fill in the address and amount,then submit the form. It will be confirmed in 10 minutes
+
+      withdraw_coin:
+        intro: Please fill in the address and amount, then submit the form. It will be confirmed in 10 minutes
         label: Label
         balance: Balance
         amount: Amount
