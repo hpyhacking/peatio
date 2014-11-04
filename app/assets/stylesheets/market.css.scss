@@ -562,4 +562,8 @@ table {
   }
 }
 
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
 @import 'custom/market';
