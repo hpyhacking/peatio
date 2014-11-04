@@ -26,7 +26,7 @@ class Formatter
   market: (base, quote) ->
     "#{base.toUpperCase()}/#{quote.toUpperCase()}"
 
-  market_url: (market, order_id = nil) ->
+  market_url: (market, order_id) ->
     if order_id?
       "/markets/#{market}/orders/#{order_id}"
     else

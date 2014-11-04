@@ -15,8 +15,8 @@ window.MarketSwitchUI = flight.component ->
   @after 'initialize', ->
     @on document, 'market::tickers', @refresh
     @select('table').on 'click', 'tr', (e) ->
-      win = window.open("/markets/#{$(@).data('market')}", '_blank')
-      win.focus()
+      unless e.target.nodeName == 'I'
+        window.location.href = window.formatter.market_url($(@).data('market'))
 
     @.hide_accounts = $('tr.hide')
     $('.view_all_accounts').on 'click', (e) =>
