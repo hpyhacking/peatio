@@ -94,7 +94,7 @@ zh-CN:
         withdraw_all: 全部提取
         fee_explain: 资费说明
 
-      withdraw_history_btc:
+      withdraw_history:
         title: 提现历史
         number: 编号
         withdraw_time: 提现时间

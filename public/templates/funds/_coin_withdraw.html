@@ -47,16 +47,16 @@
 </form>
 
 <br>
-<h2 class="panel-title">{{ "funds.withdraw_history_btc.title" | t }}</h2>
+<h2 class="panel-title">{{ "funds.withdraw_history.title" | t }}</h2>
 
 <table class="table withdraw-history" ng-controller="WithdrawHistoryController as wdCtrl">
   <tr>
-    <th>{{ "funds.withdraw_history_btc.number" | t }}</th>
-    <th>{{ "funds.withdraw_history_btc.withdraw_time" | t }}</th>
-    <th>{{ "funds.withdraw_history_btc.withdraw_address" | t }}</th>
-    <th>{{ "funds.withdraw_history_btc.actual_amount" | t }}</th>
-    <th>{{ "funds.withdraw_history_btc.fee" | t }}</th>
-    <th>{{ "funds.withdraw_history_btc.state_and_action" | t }}</th>
+    <th>{{ "funds.withdraw_history.number" | t }}</th>
+    <th>{{ "funds.withdraw_history.withdraw_time" | t }}</th>
+    <th>{{ "funds.withdraw_history.withdraw_address" | t }}</th>
+    <th>{{ "funds.withdraw_history.actual_amount" | t }}</th>
+    <th>{{ "funds.withdraw_history.fee" | t }}</th>
+    <th>{{ "funds.withdraw_history.state_and_action" | t }}</th>
   </tr>
   <tr ng-repeat="withdraw in wdCtrl.withdraws | orderBy:predicate">
     <td>{{withdraw.id}}</td>

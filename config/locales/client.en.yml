@@ -91,7 +91,7 @@ en:
         withdraw_all: Withdraw all
         fee_explain: About Fee
 
-      withdraw_history_btc:
+      withdraw_history:
         title: Withdraw History
         number: Number
         withdraw_time: Time
