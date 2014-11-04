@@ -88,6 +88,7 @@ en:
         withdraw_time: Time
         withdraw_account: Withdraw Account
         withdraw_address: Address
+        withdraw_amount: Amount
         actual_amount: Actual Amount
         fee: Fee
         miner_fee: Fee

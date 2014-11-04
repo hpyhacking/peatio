@@ -91,6 +91,7 @@ zh-CN:
         withdraw_time: 提现时间
         withdraw_account: 提现账户
         withdraw_address: 提现地址
+        withdraw_amount: 金额
         actual_amount: 实际到账
         fee: 手续费
         miner_fee: 矿工费
