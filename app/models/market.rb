@@ -69,6 +69,10 @@ class Market < ActiveYamlBase
     base_unit == code || quote_unit == code
   end
 
+  def unit_info
+    {base_unit: base_unit, quote_unit: quote_unit}
+  end
+
   private
 
   def global

@@ -83,10 +83,8 @@ class Global
     trades.map(&:for_global)
   end
 
-  # TODO: refactor - remove ticker because it's pushed in global_state.rb,
-  #       push asks/bids only
-  def trigger_ticker
-    data = {ticker: ticker, asks: asks, bids: bids}
+  def trigger_orderbook
+    data = {asks: asks, bids: bids}
     Pusher.trigger_async(channel, "update", data)
   end
 

@@ -17,9 +17,8 @@ while($running) do
   all_tickers = {}
   Market.all.each do |market|
     global = Global[market.id]
-    global.trigger_ticker
-    market_unit = {base_unit: market.base_unit, quote_unit: market.quote_unit}
-    all_tickers[market.id] = global.ticker.merge(market_unit)
+    global.trigger_orderbook
+    all_tickers[market.id] = market.unit_info.merge(global.ticker)
   end
   Global.trigger 'tickers', all_tickers
 
