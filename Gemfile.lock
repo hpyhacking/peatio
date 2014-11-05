@@ -128,6 +128,8 @@ GEM
     debugger-linecache (1.2.0)
     descendants_tracker (0.0.3)
     diff-lcs (1.2.5)
+    doorkeeper (1.4.0)
+      railties (>= 3.1)
     dotenv (0.9.0)
     dotenv-rails (0.9.0)
       dotenv (= 0.9.0)
@@ -453,6 +455,7 @@ DEPENDENCIES
   daemons-rails
   database_cleaner
   datagrid
+  doorkeeper (~> 1.4.0)
   dotenv-rails
   easy_table
   eco
@@ -483,9 +486,9 @@ DEPENDENCIES
   mocha
   momentjs-rails
   mysql2
-  omniauth
-  omniauth-identity
-  omniauth-weibo-oauth2
+  omniauth (~> 1.2.1)
+  omniauth-identity (~> 1.1.1)
+  omniauth-weibo-oauth2 (~> 0.3.0)
   paper_trail (~> 3.0.1)
   paranoid2
   phonelib (~> 0.3.5)
