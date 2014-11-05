@@ -94,3 +94,5 @@ Doorkeeper.configure do
   # set to true if you want this to be allowed
   # wildcard_redirect_uri false
 end
+
+require_relative '../../lib/doorkeeper/access_token'
