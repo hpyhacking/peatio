@@ -14,6 +14,10 @@ describe Doorkeeper::AccessToken do
       }.should change(APIToken, :count).by(1)
     end
 
+    it "should set token" do
+      subject.token.should == APIToken.last.to_oauth_token
+    end
+
     it "should setup api token correctly" do
       api_token = APIToken.last
       api_token.label.should == app.name

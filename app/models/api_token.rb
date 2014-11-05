@@ -22,7 +22,7 @@ class APIToken < ActiveRecord::Base
   end
 
   def to_oauth_token
-    {access_key: access_key, secret_key: secret_key}.to_json
+    [access_key, secret_key].join(':')
   end
 
   private
