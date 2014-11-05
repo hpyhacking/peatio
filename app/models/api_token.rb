@@ -20,6 +20,10 @@ class APIToken < ActiveRecord::Base
     trusted_ip_list.try(:join, ',')
   end
 
+  def to_oauth_token
+    {access_key: access_key, secret_key: secret_key}.to_json
+  end
+
   private
 
   def generate_keys

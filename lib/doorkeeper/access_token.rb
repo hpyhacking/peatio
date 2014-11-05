@@ -8,5 +8,13 @@ module Doorkeeper
       'urn:peatio:api:v2:token'
     end
 
+    private
+
+    def generate_token
+      member = Member.find resource_owner_id
+      token  = member.api_tokens.create!
+      self.token = token.to_oauth_token
+    end
+
   end
 end
