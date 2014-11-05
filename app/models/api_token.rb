@@ -1,6 +1,7 @@
 class APIToken < ActiveRecord::Base
 
   belongs_to :member
+  belongs_to :oauth_access_token, class_name: 'Doorkeeper::AccessToken'
 
   serialize :trusted_ip_list
 
