@@ -16,7 +16,7 @@ module Doorkeeper
 
     def generate_token
       member         = Member.find resource_owner_id
-      self.api_token = member.api_tokens.create!(label: application.name)
+      self.api_token = member.api_tokens.create!(label: application.name, scopes: scopes.to_s, expire_at: expires_in.since(Time.now))
       self.token     = api_token.to_oauth_token
     end
 
