@@ -5,4 +5,30 @@
 
 ko:
   js:
-    brand: Peatio
+    brand: PEATIO
+    funds:
+      deposit: 충전
+      withdraw: 출금
+      deposit_cny:
+        title: 한국돈 충전
+        from: 돈보내는자
+        to: 돈받는자
+        deposit_name: 계정이름
+        deposit_account: 충전계정
+        add: 추가
+        manage: 관리
+        amount: 충전금액
+        to_account: 돈받는은행계좌
+        to_name: 돈받는계정
+        to_bank_name: 은행
+        opening_bank_name: 은행
+      deposit_btc:
+        title: BTC충전
+      deposit_coin:
+        address: BTC지갑주소
+        new_address: BTC새지갑주소
+      deposit_history:
+        title: 충전기록
+        time: 시간
+        amount: 충전금액
+        cancel: 취소

@@ -6,3 +6,6 @@
 de:
   js:
     brand: Peatio
+    funds:
+      deposit: Einzahlen
+      withdraw: Auszahlen

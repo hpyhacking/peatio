@@ -3,4 +3,7 @@
 # Never edit this file. It will be overwritten when translations are pulled from Transifex.
 #
 
-ko: {}
+ko:
+  view_on_github: View on Github
+  tags:
+    vip: VIP
