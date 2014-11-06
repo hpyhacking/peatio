@@ -4,7 +4,7 @@ module APIv2
 
     before { authenticate! }
 
-    desc 'Get your orders.'
+    desc 'Get your orders.', scopes: %w(history trade)
     params do
       use :auth, :market
       optional :state,  type: String,  default: 'wait', values: Order.state.values, desc: "Filter order by state, default to 'wait' (active orders)."
@@ -19,7 +19,7 @@ module APIv2
       present orders, with: APIv2::Entities::Order
     end
 
-    desc 'Get information of specified order.'
+    desc 'Get information of specified order.', scopes: %w(history trade)
     params do
       use :auth, :order_id
     end
@@ -29,7 +29,7 @@ module APIv2
       present order, with: APIv2::Entities::Order, type: :full
     end
 
-    desc 'Create multiple sell/buy orders.'
+    desc 'Create multiple sell/buy orders.', scopes: %w(trade)
     params do
       use :auth, :market
       requires :orders, type: Array do
@@ -41,7 +41,7 @@ module APIv2
         present orders, with: APIv2::Entities::Order
     end
 
-    desc 'Create a Sell/Buy order.'
+    desc 'Create a Sell/Buy order.', scopes: %w(trade)
     params do
       use :auth, :market, :order
     end
@@ -50,7 +50,7 @@ module APIv2
       present order, with: APIv2::Entities::Order
     end
 
-    desc 'Cancel an order.'
+    desc 'Cancel an order.', scopes: %w(trade)
     params do
       use :auth, :order_id
     end
@@ -64,7 +64,7 @@ module APIv2
       end
     end
 
-    desc 'Cancel all my orders.'
+    desc 'Cancel all my orders.', scopes: %w(trade)
     params do
       use :auth
     end
