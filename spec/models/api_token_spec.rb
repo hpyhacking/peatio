@@ -35,4 +35,23 @@ describe APIToken do
     token.ip_whitelist = "127.0.0.1, 127.0.0.2,127.0.0.3"
     token.trusted_ip_list = %w(127.0.0.1 127.0.0.2 127.0.0.3)
   end
+
+  it "should return empty array if no scopes given" do
+    token.scopes.should be_empty
+  end
+
+  it "should return scopes array" do
+    token.scopes = 'foo bar'
+    token.scopes.should == %w(foo bar)
+  end
+
+  it "should return false if out of scope" do
+    token.has_scope?('foo').should be_false
+  end
+
+  it "should return true if in scope" do
+    token.scopes = 'foo'
+    token.has_scope?('foo').should be_true
+  end
+
 end

@@ -13,6 +13,10 @@ class APIToken < ActiveRecord::Base
     expire_at && expire_at < Time.now
   end
 
+  def has_scope?(s)
+    scopes.include?(s)
+  end
+
   def allow_ip?(ip)
     trusted_ip_list.blank? || trusted_ip_list.include?(ip)
   end
@@ -23,6 +27,10 @@ class APIToken < ActiveRecord::Base
 
   def ip_whitelist
     trusted_ip_list.try(:join, ',')
+  end
+
+  def scopes
+    self[:scopes] ? self[:scopes].split(/\s+/) : []
   end
 
   def to_oauth_token
