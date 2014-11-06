@@ -1,6 +1,7 @@
 module Private
   class MarketsController < BaseController
     skip_before_action :auth_member!, only: [:show]
+    before_action :visible_market?
     after_action :set_default_market
 
     layout false
@@ -28,6 +29,10 @@ module Private
     end
 
     private
+
+    def visible_market?
+      redirect_to market_path(Market.first) if not current_market.visible?
+    end
 
     def set_default_market
       cookies[:market_id] = @market.id
