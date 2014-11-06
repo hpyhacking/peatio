@@ -65,7 +65,7 @@ describe APIv2::Trades do
     it "should require authentication" do
       get '/api/v2/trades/my', market: 'btccny', access_key: 'test', tonce: time_to_milliseconds, signature: 'test'
       response.code.should == '401'
-      response.body.should == '{"error":{"code":2008,"message":"The access key test is disabled or doesn\'t exist."}}'
+      response.body.should == '{"error":{"code":2008,"message":"The access key test does not exist."}}'
     end
 
     it "should return all my recent trades" do

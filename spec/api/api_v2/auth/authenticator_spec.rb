@@ -24,7 +24,7 @@ describe APIv2::Auth::Authenticator do
 
   its(:authenticate!)          { should_not raise_error }
   its(:check_signature!)       { should_not raise_error }
-  its(:check_freshness!)       { should_not raise_error }
+  its(:check_tonce!)           { should_not raise_error }
   its(:token)                  { should == token }
   its(:canonical_verb)         { should == 'GET' }
   its(:canonical_uri)          { should == '/' }
@@ -63,15 +63,15 @@ describe APIv2::Auth::Authenticator do
   it "should be stale if tonce is older than 5 minutes ago" do
     params[:tonce] = time_to_milliseconds(6.minutes.ago)
     lambda {
-      subject.check_freshness!
+      subject.check_tonce!
     }.should raise_error(APIv2::TonceTooOldError)
   end
 
   it "should be stale if tonce is smaller than last seen" do
-    subject.check_freshness!
+    subject.check_tonce!
     subject.stubs(:tonce).returns(time_to_milliseconds(1.second.ago))
     lambda {
-      subject.check_freshness!
+      subject.check_tonce!
     }.should raise_error(APIv2::TonceUsedError)
   end
 
@@ -85,11 +85,24 @@ describe APIv2::Auth::Authenticator do
 
   it "should be authentic if associated member is disabled" do
     token.member.update_attributes disabled: true
-    subject.token.should_not be_nil
+    lambda {
+      subject.token.should_not be_nil
+      subject.authenticate!
+    }.should_not raise_error
   end
 
   it "should not be authentic if api access is disabled" do
     token.member.update_attributes api_disabled: true
-    subject.token.should be_nil
+    lambda {
+      subject.authenticate!
+    }.should raise_error(APIv2::DisabledAccessKeyError)
   end
+
+  it "should not be authentic if token is expired" do
+    token.update_attributes expire_at: 1.second.ago
+    lambda {
+      subject.authenticate!
+    }.should raise_error(APIv2::ExpiredAccessKeyError)
+  end
+
 end

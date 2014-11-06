@@ -8,18 +8,20 @@ module APIv2
       end
 
       def authenticate!
-        check_access_key!
+        check_token!
+        check_tonce!
         check_signature!
-        check_freshness!
         token
       end
 
       def token
-        @token ||= APIToken.joins(:member).where(access_key: @params[:access_key]).merge(Member.api_enabled).first
+        @token ||= APIToken.joins(:member).where(access_key: @params[:access_key]).first
       end
 
-      def check_access_key!
+      def check_token!
         raise InvalidAccessKeyError, @params[:access_key] unless token
+        raise DisabledAccessKeyError, @params[:access_key] if token.member.api_disabled
+        raise ExpiredAccessKeyError, @params[:access_key] if token.expired?
       end
 
       def check_signature!
@@ -29,7 +31,7 @@ module APIv2
         end
       end
 
-      def check_freshness!
+      def check_tonce!
         key = "api_v2:tonce:#{token.access_key}"
         last_tonce = Utils.cache.read key
 

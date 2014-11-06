@@ -9,6 +9,10 @@ class APIToken < ActiveRecord::Base
 
   before_validation :generate_keys, on: :create
 
+  def expired?
+    expire_at && expire_at < Time.now
+  end
+
   def allow_ip?(ip)
     trusted_ip_list.blank? || trusted_ip_list.include?(ip)
   end

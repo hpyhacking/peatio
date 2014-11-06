@@ -18,7 +18,6 @@ class Member < ActiveRecord::Base
   has_many :authentications, dependent: :destroy
 
   scope :enabled, -> { where(disabled: false) }
-  scope :api_enabled, -> { where(api_disabled: false) }
 
   delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
   delegate :name,       to: :id_document, allow_nil: true

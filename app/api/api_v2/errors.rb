@@ -77,7 +77,19 @@ module APIv2
 
   class InvalidAccessKeyError < Error
     def initialize(access_key)
-      super code: 2008, text: "The access key #{access_key} is disabled or doesn't exist.", status: 401
+      super code: 2008, text: "The access key #{access_key} does not exist.", status: 401
+    end
+  end
+
+  class DisabledAccessKeyError < Error
+    def initialize(access_key)
+      super code: 2009, text: "The access key #{access_key} is disabled.", status: 401
+    end
+  end
+
+  class ExpiredAccessKeyError < Error
+    def initialize(access_key)
+      super code: 2010, text: "The access key #{access_key} has expired.", status: 401
     end
   end
 
