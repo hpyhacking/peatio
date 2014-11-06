@@ -6,10 +6,6 @@ module Withdraws
       before_filter :fetch
     end
 
-    def new
-      @withdraw = model_kls.new currency: channel.currency, account: @account, member: current_user
-    end
-
     def create
       @withdraw = model_kls.new(withdraw_params)
 
@@ -23,10 +19,6 @@ module Withdraws
       else
         render text: I18n.t('private.withdraws.create.two_factors_error'), status: 403
       end
-    end
-
-    def edit
-      @withdraw = current_user.withdraws.find(params[:id])
     end
 
     def update

@@ -6,10 +6,6 @@ module Deposits
       before_filter :fetch
     end
 
-    def new
-      @deposit = model_kls.new currency: channel.currency, account: @account, member: current_user
-    end
-
     def create
       @deposit = model_kls.new(deposit_params)
 
@@ -18,10 +14,6 @@ module Deposits
       else
         render text: @deposit.errors.full_messages.join, status: 403
       end
-    end
-
-    def edit
-      @deposit = current_user.deposits.find(params[:id])
     end
 
     def destroy
