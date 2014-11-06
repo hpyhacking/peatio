@@ -14,7 +14,7 @@ class APIToken < ActiveRecord::Base
   end
 
   def has_scope?(s)
-    scopes.include?(s)
+    self[:scopes] == 'all' || scopes.include?(s)
   end
 
   def allow_ip?(ip)

@@ -54,4 +54,10 @@ describe APIToken do
     token.has_scope?('foo').should be_true
   end
 
+  it "should return true if token has all scopes" do
+    token.scopes = 'all'
+    token.has_scope?('foo').should be_true
+    token.has_scope?('bar').should be_true
+  end
+
 end
