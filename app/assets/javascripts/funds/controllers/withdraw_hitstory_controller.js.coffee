@@ -3,7 +3,7 @@ app.controller 'WithdrawHistoryController', ($scope, $stateParams, $http) ->
   $scope.predicate = '-id'
   @currency = $stateParams.currency
   @account = Account.findBy('currency', @currency)
-  @withdraws = @account.withdraws()
+  @withdraws = @account.withdraws().slice(0, 3)
   @newRecord = (withdraw) ->
     if withdraw.aasm_state ==  "submitting" then true else false
 
@@ -11,7 +11,7 @@ app.controller 'WithdrawHistoryController', ($scope, $stateParams, $http) ->
     @withdraws.length == 0
 
   @refresh = ->
-    ctrl.withdraws = ctrl.account.withdraws()
+    ctrl.withdraws = ctrl.account.withdraws().slice(0, 3)
     $scope.$apply()
 
   do @event = ->
