@@ -2,21 +2,18 @@ require 'spec_helper'
 
 describe APIv2::Auth::Middleware do
 
-  class TestApp
-    def call(env)
-      if user = env['api_v2.token'].try(:member)
-        [200, {}, [user.email]]
-      else
-        [401, {}, ['Unauthorized.']]
-      end
+  class TestApp < Grape::API
+    helpers APIv2::Helpers
+    use APIv2::Auth::Middleware
+
+    get '/' do
+      authenticate!
+      current_user.email
     end
   end
 
   let(:app) do
-    Rack::Builder.app do
-      use APIv2::Auth::Middleware
-      run TestApp.new
-    end
+    TestApp.new
   end
 
   let(:token) { create(:api_token) }
@@ -24,13 +21,13 @@ describe APIv2::Auth::Middleware do
   it "should refuse request without credentials" do
     get '/'
     response.code.should == '401'
-    response.body.should == 'Unauthorized.'
+    response.body.should == "{\"error\":{\"code\":2001,\"message\":\"Authorization failed\"}}"
   end
 
   it "should refuse request with incorrect credentials" do
-    lambda {
-      get '/', access_key: token.access_key, tonce: time_to_milliseconds, signature: 'wrong'
-    }.should raise_error(APIv2::IncorrectSignatureError)
+    get '/', access_key: token.access_key, tonce: time_to_milliseconds, signature: 'wrong'
+    response.code.should == '401'
+    response.body.should == "{\"error\":{\"code\":2005,\"message\":\"Signature wrong is incorrect.\"}}"
   end
 
   it "should authorize request with correct param credentials" do

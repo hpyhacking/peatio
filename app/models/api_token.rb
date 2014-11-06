@@ -14,6 +14,7 @@ class APIToken < ActiveRecord::Base
   end
 
   def in_scopes?(ary)
+    return true if ary.blank?
     return true if self[:scopes] == 'all'
     (ary & scopes).present?
   end

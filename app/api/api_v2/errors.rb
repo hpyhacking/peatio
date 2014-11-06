@@ -93,4 +93,10 @@ module APIv2
     end
   end
 
+  class OutOfScopeError < Error
+    def initialize
+      super code: 2011, text: "Requested API is out of access key scopes.", status: 401
+    end
+  end
+
 end

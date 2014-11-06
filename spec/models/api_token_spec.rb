@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe APIToken do
 
-  let(:token) { create(:api_token) }
+  let(:token) { create(:api_token, scopes: '') }
 
   it "should generate keys before validation on create" do
     token.access_key.size.should == 40
@@ -60,4 +60,8 @@ describe APIToken do
     token.in_scopes?(%w(bar)).should be_true
   end
 
+  it "should return true if api require no scope" do
+    token.in_scopes?(nil).should be_true
+    token.in_scopes?([]).should be_true
+  end
 end

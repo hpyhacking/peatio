@@ -21,7 +21,7 @@ describe Doorkeeper::AccessToken do
     it "should setup api token correctly" do
       api_token = APIToken.last
       api_token.label.should == app.name
-      api_token.scopes.should == subject.scopes.to_s
+      api_token.scopes.should == %w(identity)
       api_token.expire_at.should_not be_nil
     end
 

@@ -22,6 +22,7 @@ module APIv2
         raise InvalidAccessKeyError, @params[:access_key] unless token
         raise DisabledAccessKeyError, @params[:access_key] if token.member.api_disabled
         raise ExpiredAccessKeyError, @params[:access_key] if token.expired?
+        raise OutOfScopeError unless token.in_scopes?(route_scopes)
       end
 
       def check_signature!
@@ -67,6 +68,14 @@ module APIv2
       def canonical_query
         hash = @params.select {|k,v| !%w(route_info signature format).include?(k) }
         URI.unescape(hash.to_param)
+      end
+
+      def endpoint
+        @request.env['api.endpoint']
+      end
+
+      def route_scopes
+        endpoint.options[:route_options][:scopes]
       end
 
     end
