@@ -22,6 +22,19 @@ app.controller 'DepositsController', ($scope, $stateParams, $http) ->
         depositCtrl.deposit = {}
         $('.form-submit > input').removeAttr('disabled')
 
+  $scope.genAddress = (resources_name) ->
+    $("a#new_address").html('...')
+    $("a#new_address").attr('disabled', 'disabled')
+
+    $http.post("/deposits/#{resources_name}/gen_address", {})
+      .error (responseText) ->
+        $.publish 'flash', {message: responseText }
+      .finally ->
+        $("a#new_address").html(I18n.t("funds.deposit_coin.new_address"))
+        $("a#new_address").attr('disabled', 'disabled')
+
+
+
   $scope.$watch (-> $scope.account.deposit_address), ->
     setTimeout(->
       $.publish 'deposit_address:create'

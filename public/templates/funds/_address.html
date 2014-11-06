@@ -3,6 +3,7 @@
     <span>{{'funds.deposit_coin.address' | t}}</span></div><div class="form-control form-control-static" id="deposit_address">{{account.deposit_address}}</div><div class="input-group-addon" id="deposit_address_data">
       <i class="fa fa-copy" data-clipboard-text="{{account.deposit_address}}"></i>
    </div>
-   <div class="input-group-addon"><span class="countdown hint" style="display:none;">...</span><a class="generate-link" data-method="post" data-remote="true" href="/deposits/{{deposit_channel.key}}s/gen_address" rel="nofollow">{{"funds.deposit_coin.new_address" | t}}</a>
+   <div class="input-group-addon"><span class="countdown hint" style="display:none;">...</span>
+     <a id="new_address" ng-click="genAddress(deposit_channel.resources_name); $event.preventDefault()" href="#"> {{"funds.deposit_coin.new_address" | t}}</a>
    </div>
 </div>
