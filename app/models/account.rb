@@ -162,7 +162,7 @@ class Account < ActiveRecord::Base
   class BalanceError < AccountError; end
 
   def as_json(options = {})
-    super.merge({
+    super(options).merge({
       # check if there is a useable address, but don't touch it to create the address now.
       "deposit_address" => payment_addresses.empty? ? "" : payment_address.deposit_address,
       "name_text" => currency_obj.name_text

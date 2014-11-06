@@ -22,11 +22,11 @@ app.controller 'DepositsController', ($scope, $stateParams, $http) ->
         depositCtrl.deposit = {}
         $('.form-submit > input').removeAttr('disabled')
 
-  $scope.genAddress = (resources_name) ->
+  $scope.genAddress = (resource_name) ->
     $("a#new_address").html('...')
     $("a#new_address").attr('disabled', 'disabled')
 
-    $http.post("/deposits/#{resources_name}/gen_address", {})
+    $http.post("/deposits/#{resource_name}/gen_address", {})
       .error (responseText) ->
         $.publish 'flash', {message: responseText }
       .finally ->

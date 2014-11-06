@@ -4,7 +4,6 @@ class WithdrawChannel < ActiveYamlBase
   include International
 
   def as_json(options = {})
-    self.attributes[:resource_name] = key.pluralize
-    super(options)
+    super(options)['attributes'].merge({resource_name: key.pluralize})
   end
 end

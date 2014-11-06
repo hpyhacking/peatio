@@ -18,6 +18,6 @@ class FundSource < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super.merge({label: label})
+    super(options).merge({label: label})
   end
 end

@@ -4,7 +4,7 @@ class DepositChannel extends PeatioModel.Model
   @initData: (records) ->
     PeatioModel.Ajax.disable ->
       $.each records, (idx, record) ->
-        DepositChannel.create(record.attributes)
+        DepositChannel.create(record)
 
   account: ->
     Account.findBy('currency', @currency)

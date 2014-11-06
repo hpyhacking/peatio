@@ -4,7 +4,7 @@ class WithdrawChannel extends PeatioModel.Model
   @initData: (records) ->
     PeatioModel.Ajax.disable ->
       $.each records, (idx, record) ->
-        WithdrawChannel.create(record.attributes)
+        WithdrawChannel.create(record)
 
   account: ->
     Account.findBy('currency', @currency)
