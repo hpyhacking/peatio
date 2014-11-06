@@ -22,7 +22,7 @@ describe APIv2::Members do
     it "should require authentication" do
       get '/api/v2/members/me', access_key: 'test', tonce: time_to_milliseconds, signature: 'test'
       response.code.should == '401'
-      response.body.should == '{"error":{"code":2001,"message":"Authorization failed"}}'
+      response.body.should == '{"error":{"code":2008,"message":"The access key test is disabled or doesn\'t exist."}}'
     end
 
     it "should return current user profile with accounts info" do

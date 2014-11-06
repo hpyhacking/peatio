@@ -7,38 +7,43 @@ module APIv2
         @params  = params
       end
 
-      def authentic?
-        token && signature_match? && fresh?
+      def authenticate!
+        check_access_key!
+        check_signature!
+        check_freshness!
+        token
       end
 
       def token
         @token ||= APIToken.joins(:member).where(access_key: @params[:access_key]).merge(Member.api_enabled).first
       end
 
-      def signature_match?
-        if @params[:signature] != Utils.hmac_signature(token.secret_key, payload)
-          Rails.logger.warn "APIv2 auth failed: signature doesn't match. token: #{token.access_key} payload: #{payload}"
-          return false
-        end
-        true
+      def check_access_key!
+        raise InvalidAccessKeyError, @params[:access_key] unless token
       end
 
-      def fresh?
+      def check_signature!
+        if @params[:signature] != Utils.hmac_signature(token.secret_key, payload)
+          Rails.logger.warn "APIv2 auth failed: signature doesn't match. token: #{token.access_key} payload: #{payload}"
+          raise IncorrectSignatureError, @params[:signature]
+        end
+      end
+
+      def check_freshness!
         key = "api_v2:tonce:#{token.access_key}"
         last_tonce = Utils.cache.read key
+
         if last_tonce && last_tonce >= tonce
           Rails.logger.warn "APIv2 auth failed: used tonce. token: #{token.access_key} payload: #{payload} tonce: #{tonce} last_tonce: #{last_tonce}"
-          return false
+          raise TonceUsedError.new(token.access_key, tonce, last_tonce)
         end
         Utils.cache.write key, tonce, nil
 
         timestamp = Time.at(tonce / 1000.0)
         if timestamp <= 5.minutes.ago
           Rails.logger.warn "APIv2 auth failed: stale tonce. token: #{token.access_key} payload: #{payload} tonce: #{tonce} last_tonce: #{last_tonce}"
-          return false
+          raise TonceTooOldError, tonce
         end
-
-        true
       end
 
       def tonce

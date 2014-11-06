@@ -28,9 +28,9 @@ describe APIv2::Auth::Middleware do
   end
 
   it "should refuse request with incorrect credentials" do
-    get '/', access_key: token.access_key, tonce: time_to_milliseconds, signature: 'wrong'
-    response.code.should == '401'
-    response.body.should == 'Unauthorized.'
+    lambda {
+      get '/', access_key: token.access_key, tonce: time_to_milliseconds, signature: 'wrong'
+    }.should raise_error(APIv2::IncorrectSignatureError)
   end
 
   it "should authorize request with correct param credentials" do
