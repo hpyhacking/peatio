@@ -16,7 +16,7 @@ app.controller 'DepositHistoryController', ($scope, $stateParams, $http) ->
 
   @cancelDeposit = (deposit) ->
     deposit_channel = DepositChannel.findBy('currency', deposit.currency)
-    $http.delete("/deposits/#{deposit_channel.resources_name}/#{deposit.id}")
+    $http.delete("/deposits/#{deposit_channel.resource_name}/#{deposit.id}")
       .error (data) ->
         $.publish 'flash', { message: data.responseText }
 
