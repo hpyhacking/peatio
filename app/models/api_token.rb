@@ -13,8 +13,9 @@ class APIToken < ActiveRecord::Base
     expire_at && expire_at < Time.now
   end
 
-  def has_scope?(s)
-    self[:scopes] == 'all' || scopes.include?(s)
+  def in_scopes?(ary)
+    return true if self[:scopes] == 'all'
+    (ary & scopes).present?
   end
 
   def allow_ip?(ip)
