@@ -30,6 +30,14 @@ describe Doorkeeper::AccessToken do
     end
   end
 
+  context "revoke" do
+    it "should revoke access token and destroy corresponding api token" do
+      subject.revoke
+      subject.should be_revoked
+      APIToken.find_by_id(subject.api_token.id).should be_nil
+    end
+  end
+
   context "deletion" do
     it "should soft delete record" do
       subject.destroy

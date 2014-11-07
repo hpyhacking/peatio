@@ -17,6 +17,13 @@ module Doorkeeper
       'urn:peatio:api:v2:token'
     end
 
+    def revoke(clock = DateTime)
+      super
+
+      self.api_token = APIToken.from_oauth_token(self)
+      api_token.try(:destroy)
+    end
+
     private
 
     def generate_token

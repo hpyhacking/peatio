@@ -13,6 +13,16 @@ class APIToken < ActiveRecord::Base
   scope :user_requested,  -> { where('oauth_access_token_id IS NULL') }
   scope :oauth_requested, -> { where('oauth_access_token_id IS NOT NULL') }
 
+  def self.from_oauth_token(token)
+    return nil unless token && token.token.present?
+    access_key, secret_key = token.token.split(':')
+    find_by_access_key access_key
+  end
+
+  def to_oauth_token
+    [access_key, secret_key].join(':')
+  end
+
   def expired?
     expire_at && expire_at < Time.now
   end
@@ -37,10 +47,6 @@ class APIToken < ActiveRecord::Base
 
   def scopes
     self[:scopes] ? self[:scopes].split(/\s+/) : []
-  end
-
-  def to_oauth_token
-    [access_key, secret_key].join(':')
   end
 
   private
