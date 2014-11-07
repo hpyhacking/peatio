@@ -5,9 +5,9 @@ describe Doorkeeper::AccessToken do
   let(:app) { Doorkeeper::Application.create!(name: 'test', uid: 'foo', secret: 'bar', redirect_uri: 'http://test.host/oauth/callback') }
   let(:member) { create(:member) }
 
-  context "creation" do
-    subject! { Doorkeeper::AccessToken.create!(application_id: app.id, resource_owner_id: member.id, scopes: 'identity', expires_in: 1.week) }
+  subject! { Doorkeeper::AccessToken.create!(application_id: app.id, resource_owner_id: member.id, scopes: 'identity', expires_in: 1.week) }
 
+  context "creation" do
     it "should generate corresponding api token" do
       lambda {
         Doorkeeper::AccessToken.create!(application_id: app.id, resource_owner_id: member.id, scopes: 'identity', expires_in: 1.week)
@@ -30,5 +30,12 @@ describe Doorkeeper::AccessToken do
     end
   end
 
+  context "deletion" do
+    it "should soft delete record" do
+      subject.destroy
+      Doorkeeper::AccessToken.find_by_id(subject.id).should be_nil
+      Doorkeeper::AccessToken.with_deleted.find_by_id(subject.id).should == subject
+    end
+  end
 
 end

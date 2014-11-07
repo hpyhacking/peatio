@@ -1,4 +1,5 @@
 class APIToken < ActiveRecord::Base
+  paranoid
 
   belongs_to :member
   belongs_to :oauth_access_token, class_name: 'Doorkeeper::AccessToken'

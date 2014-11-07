@@ -1,8 +1,13 @@
 # Extend Doorkeeper::AccessToken to add a new access token type:
 #   urn:peatio:api:v2:token
+#
+# This type will return APIv2 token in format "<access_key>:<secret_key>", then
+# users can authenticate themselves using the keys and APIv2 authentication
+# protocol.
 
 module Doorkeeper
   class AccessToken
+    paranoid
 
     attr_accessor :api_token
 
