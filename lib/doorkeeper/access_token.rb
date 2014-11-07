@@ -17,10 +17,6 @@ module Doorkeeper
       'urn:peatio:api:v2:token'
     end
 
-    def expire_at
-      expires_in.since(created_at)
-    end
-
     private
 
     def generate_token
@@ -30,7 +26,7 @@ module Doorkeeper
     end
 
     def link_api_token
-      api_token.update_attributes(oauth_access_token_id: id, expire_at: expire_at)
+      api_token.update_attributes(oauth_access_token_id: id, expire_at: expired_time)
     end
 
   end
