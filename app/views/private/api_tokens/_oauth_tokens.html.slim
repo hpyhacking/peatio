@@ -25,4 +25,4 @@
                   td.oauth-app-expire = token.send(:expired_time)
                   td.oauth-app-scope = token.scopes.to_s
                   td.actions
-                    = link_to t('.unbind'), unbind_api_token_path(token), method: :delete, data: {confirm: t('.unbind-confirm')}
+                    = link_to t('.unbind'), unbind_api_token_path(token.application), method: :delete, data: {confirm: t('.unbind-confirm')}

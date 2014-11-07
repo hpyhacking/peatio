@@ -65,14 +65,8 @@ module Private
     end
 
     def unbind
-      access_token = Doorkeeper::AccessToken.find params[:id]
-      all_access_tokens = Doorkeeper::AccessToken.where(application_id: access_token.application_id)
-      @bindings = current_user.api_tokens.oauth_requested.where(oauth_access_token_id: all_access_tokens.map(&:id))
-      if @bindings.all? {|t| t.destroy }
-        redirect_to url_for(action: :index), notice: t('.success')
-      else
-        redirect_to url_for(action: :index), notice: t('.failed')
-      end
+      Doorkeeper::AccessToken.revoke_all_for(params[:id], current_user)
+      redirect_to url_for(action: :index), notice: t('.success')
     end
 
     private
