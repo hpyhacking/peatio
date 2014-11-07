@@ -64,4 +64,20 @@ describe APIToken do
     token.in_scopes?(nil).should be_true
     token.in_scopes?([]).should be_true
   end
+
+  it "should destroy itself only" do
+    token.destroy
+    APIToken.find_by_id(token).should be_nil
+  end
+
+  it "should destroy dependent oauth access token" do
+    app =Doorkeeper::Application.create!(name: 'test', uid: 'foo', secret: 'bar', redirect_uri: 'http://test.host/oauth/callback')
+    access_token = Doorkeeper::AccessToken.create!(application_id: app.id, resource_owner_id: create(:member).id, scopes: 'profile', expires_in: 1.week)
+
+    token.update_attributes oauth_access_token_id: access_token.id
+    token.destroy
+
+    Doorkeeper::AccessToken.find_by_id(access_token).should be_nil
+  end
+
 end

@@ -5,7 +5,13 @@ module Private
     before_action :two_factor_activated!
 
     def index
-      @tokens = current_user.api_tokens
+      @tokens = current_user.api_tokens.user_requested
+      @oauth_api_tokens = current_user.api_tokens.oauth_requested
+
+      ids = Doorkeeper::AccessToken
+        .where(id: @oauth_api_tokens.map(&:oauth_access_token_id))
+        .group(:application_id).select('max(id) as id')
+      @oauth_access_tokens = Doorkeeper::AccessToken.where(id: ids).includes(:application)
     end
 
     def new
@@ -51,6 +57,15 @@ module Private
 
     def destroy
       @token = current_user.api_tokens.find params[:id]
+      if @token.destroy
+        redirect_to url_for(action: :index), notice: t('.success')
+      else
+        redirect_to url_for(action: :index), notice: t('.failed')
+      end
+    end
+
+    def unbind
+      @token = current_user.api_tokens.oauth_requested.find params[:id]
       if @token.destroy
         redirect_to url_for(action: :index), notice: t('.success')
       else

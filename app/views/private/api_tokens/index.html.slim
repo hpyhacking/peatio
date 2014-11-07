@@ -1,30 +1,5 @@
-.buttons style='margin-bottom: 20px;'
-  = link_to t('.create'), new_api_token_path, class: 'pull-right btn btn-primary'
-  .clearfix
+= content_for :frame do
+  .container
+    = render 'user_tokens'
+    = render 'oauth_tokens'
 
-table.table.table-condensed.table-striped
-  thead: tr
-    th class='token-label' = APIToken.human_attribute_name('label')
-    th class='access_key' = APIToken.human_attribute_name('access_key')
-    th
-  tbody
-    - if @tokens.empty?
-      tr
-        td colspan='3' style='text-align: center;'
-          p.text-ignore = t('.no_token')
-    - else
-      - @tokens.each do |token|
-        tr
-          td.token-label = token.label
-          td.access_key = token.access_key
-          td.actions
-            = link_to t('.edit'), edit_api_token_path(token)
-            | &nbsp;
-            = link_to t('.destroy'), api_token_path(token), method: :delete, data: {confirm: t('.destroy-confirm')}
-
-= content_for :guide do
-  p = link_to t('.http'), '/documents/api_v2', target: '_blank'
-  p = link_to t('.websocket'), '/documents/websocket_api', target: '_blank'
-  p
-    = t('.more')
-    = link_to 'https://github.com/peatio/peatio#api', 'https://github.com/peatio/peatio#api', target: '_blank'

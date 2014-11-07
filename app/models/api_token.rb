@@ -2,13 +2,16 @@ class APIToken < ActiveRecord::Base
   paranoid
 
   belongs_to :member
-  belongs_to :oauth_access_token, class_name: 'Doorkeeper::AccessToken'
+  belongs_to :oauth_access_token, class_name: 'Doorkeeper::AccessToken', dependent: :destroy
 
   serialize :trusted_ip_list
 
   validates_presence_of :access_key, :secret_key
 
   before_validation :generate_keys, on: :create
+
+  scope :user_requested,  -> { where('oauth_access_token_id IS NULL') }
+  scope :oauth_requested, -> { where('oauth_access_token_id IS NOT NULL') }
 
   def expired?
     expire_at && expire_at < Time.now
