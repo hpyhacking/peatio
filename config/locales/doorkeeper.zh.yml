@@ -1,4 +1,4 @@
-en:
+zh-CN:
   activerecord:
     errors:
       models:
@@ -28,16 +28,16 @@ en:
               relative_uri: 'must be an absolute URI.'
   doorkeeper:
     scopes:
-      profile: Read your basic profile (e.g. name, email) and account balances
-      history: Read your trade history
-      trade: Submit and cancel orders
+      profile: 读取您的基本账户信息(如姓名, 邮件地址)和账户余额
+      history: 读取您的挂单和成交记录
+      trade: 代表您在Peatio上进行交易
     authorizations:
       new:
-        title: Peatio Application Authorization
-        authorize_html: "Authorize <strong class='text-info'>%{name}</strong> to use your account?"
-        scopes: "This application will be able to:"
-        authorize: Authorize
-        deny: Deny
+        title: Peatio 第三方应用授权
+        authorize_html: "确定要授权 <strong class='text-info'>%{name}</strong> 使用您的账户吗？"
+        scopes: "该应用将获得如下权限："
+        authorize: 同意
+        deny: 拒绝
     errors:
       messages:
         # Common error messages

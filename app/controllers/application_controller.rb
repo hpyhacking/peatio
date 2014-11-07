@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   helper_method :current_user, :is_admin?, :current_market, :muut_enabled?, :gon
-  before_action :set_language, :set_timezone, :set_gon
+  before_action :set_timezone, :set_gon
   after_action :allow_iframe
   after_action :set_csrf_cookie_for_ng
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
@@ -70,12 +70,6 @@ class ApplicationController < ActionController::Base
 
     two_factor.assign_attributes params.require(:two_factor).permit(:otp, :type)
     two_factor.verify?
-  end
-
-  def set_language
-    cookies[:lang] = params[:lang] unless params[:lang].blank?
-    locale = cookies[:lang] || http_accept_language.compatible_language_from(I18n.available_locales)
-    I18n.locale = locale if locale && I18n.available_locales.include?(locale.to_sym)
   end
 
   def set_timezone
