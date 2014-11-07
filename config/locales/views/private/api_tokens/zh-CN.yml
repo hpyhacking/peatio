@@ -21,6 +21,7 @@ zh-CN:
         oauth_app_name: 应用名称
         oauth_app_expire: 授权自动过期时间
         oauth_app_scope: 授权范围
+      unbind:
         success: 绑定已成功解除。
         failed: 解除绑定失败。
       new:
