@@ -16,11 +16,13 @@ zh-CN:
         title: 已绑定的第三方应用
         intro: 管理所有您绑定过的第三方应用。
         no_token: 没有绑定第三方应用
-        destroy: 删除
-        destroy-confirm: "您确认要解除绑定吗？"
+        unbind: 解除绑定
+        unbind-confirm: "您确认要解除绑定吗？"
         oauth_app_name: 应用名称
         oauth_app_expire: 授权自动过期时间
         oauth_app_scope: 授权范围
+        success: 绑定已成功解除。
+        failed: 解除绑定失败。
       new:
         label_hint: 标签可以帮助记忆密钥的用途，可选
       create:

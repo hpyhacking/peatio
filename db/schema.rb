@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141015034040) do
+ActiveRecord::Schema.define(version: 20141107031140) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -48,13 +48,17 @@ ActiveRecord::Schema.define(version: 20141015034040) do
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
 
   create_table "api_tokens", force: true do |t|
-    t.integer  "member_id",                  null: false
-    t.string   "access_key",      limit: 50, null: false
-    t.string   "secret_key",      limit: 50, null: false
+    t.integer  "member_id",                        null: false
+    t.string   "access_key",            limit: 50, null: false
+    t.string   "secret_key",            limit: 50, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "trusted_ip_list"
     t.string   "label"
+    t.integer  "oauth_access_token_id"
+    t.datetime "expire_at"
+    t.string   "scopes"
+    t.datetime "deleted_at"
   end
 
   add_index "api_tokens", ["access_key"], name: "index_api_tokens_on_access_key", unique: true, using: :btree
@@ -204,6 +208,46 @@ ActiveRecord::Schema.define(version: 20141015034040) do
     t.boolean  "api_disabled", default: false
     t.string   "nickname"
   end
+
+  create_table "oauth_access_grants", force: true do |t|
+    t.integer  "resource_owner_id", null: false
+    t.integer  "application_id",    null: false
+    t.string   "token",             null: false
+    t.integer  "expires_in",        null: false
+    t.text     "redirect_uri",      null: false
+    t.datetime "created_at",        null: false
+    t.datetime "revoked_at"
+    t.string   "scopes"
+  end
+
+  add_index "oauth_access_grants", ["token"], name: "index_oauth_access_grants_on_token", unique: true, using: :btree
+
+  create_table "oauth_access_tokens", force: true do |t|
+    t.integer  "resource_owner_id"
+    t.integer  "application_id"
+    t.string   "token",             null: false
+    t.string   "refresh_token"
+    t.integer  "expires_in"
+    t.datetime "revoked_at"
+    t.datetime "created_at",        null: false
+    t.string   "scopes"
+    t.datetime "deleted_at"
+  end
+
+  add_index "oauth_access_tokens", ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true, using: :btree
+  add_index "oauth_access_tokens", ["resource_owner_id"], name: "index_oauth_access_tokens_on_resource_owner_id", using: :btree
+  add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
+
+  create_table "oauth_applications", force: true do |t|
+    t.string   "name",         null: false
+    t.string   "uid",          null: false
+    t.string   "secret",       null: false
+    t.text     "redirect_uri", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
   create_table "orders", force: true do |t|
     t.integer  "bid"

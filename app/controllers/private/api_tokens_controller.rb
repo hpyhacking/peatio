@@ -35,11 +35,11 @@ module Private
     end
 
     def edit
-      @token = current_user.api_tokens.find params[:id]
+      @token = current_user.api_tokens.user_requested.find params[:id]
     end
 
     def update
-      @token = current_user.api_tokens.find params[:id]
+      @token = current_user.api_tokens.user_requested.find params[:id]
 
       if !two_factor_auth_verified?
         flash.now[:alert] = t('.alert_two_factor')
@@ -56,7 +56,7 @@ module Private
     end
 
     def destroy
-      @token = current_user.api_tokens.find params[:id]
+      @token = current_user.api_tokens.user_requested.find params[:id]
       if @token.destroy
         redirect_to url_for(action: :index), notice: t('.success')
       else
@@ -65,8 +65,10 @@ module Private
     end
 
     def unbind
-      @token = current_user.api_tokens.oauth_requested.find params[:id]
-      if @token.destroy
+      access_token = Doorkeeper::AccessToken.find params[:id]
+      all_access_tokens = Doorkeeper::AccessToken.where(application_id: access_token.application_id)
+      @bindings = current_user.api_tokens.oauth_requested.where(oauth_access_token_id: all_access_tokens.map(&:id))
+      if @bindings.all? {|t| t.destroy }
         redirect_to url_for(action: :index), notice: t('.success')
       else
         redirect_to url_for(action: :index), notice: t('.failed')
