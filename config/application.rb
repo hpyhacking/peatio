@@ -47,5 +47,3 @@ module Peatio
     config.active_record.observers = :transfer_observer
   end
 end
-
-Time::DATE_FORMATS[:default] = "%Y-%m-%d %H:%M:%S"
