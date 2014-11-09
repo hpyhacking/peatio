@@ -18,15 +18,15 @@ feature 'show account info', js: true do
     login identity
     click_on I18n.t('header.market')
 
+    AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: ask_order.to_matching_attributes)
+
     new_window=page.driver.browser.window_handles.last 
     page.within_window new_window do
       click_link page.all('#my_order_tabs_wrapper li').first.text
       expect(page.all('#my_orders .order').count).to eq(1) # can only see his order
       expect(page).to have_selector('#my_orders .fa-trash')
 
-      AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: ask_order.to_matching_attributes)
-      page.first('#my_orders .fa-trash').click
-      sleep 2
+      page.all('#my_orders .fa-trash').first.click
     end
   end
 end
