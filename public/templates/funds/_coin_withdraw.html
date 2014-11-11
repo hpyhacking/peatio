@@ -64,9 +64,9 @@
     <td title="{{withdraw.fund_uid}}">{{withdraw.fund_extra}} @ {{withdraw.fund_uid | limitTo:15}}...</td>
     <td>{{withdraw.amount}}</td>
     <td>{{withdraw.fee}}</td>
-    <td>{{withdraw.aasm_state}}</td>
+    <td>{{"funds.withdraw_history." + withdraw.aasm_state | t}}</td>
   </tr>
-  <tr ng-if="wdCtrl.noWithdraw()"><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
+  <tr ng-if="wdCtrl.noWithdraw()"><td colspan="6"><span class="help-block text-center">{{"funds.withdraw_history.no_data" | t}}</span></td></tr>
 </table>
 
 

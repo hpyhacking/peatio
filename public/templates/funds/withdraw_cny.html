@@ -80,10 +80,10 @@
       <td>{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}</td>
       <td>{{withdraw.amount}}</td>
       <td>{{withdraw.fee}}</td>
-      <td>{{withdraw.aasm_state}}
-        <span ng-if="wdCtrl.newRecord(withdraw)">/ <a href="#" data-id={{unbound withdraw.id}} class="cancel_link">取消</a></span>
+      <td>{{"funds.withdraw_history." + withdraw.aasm_state | t}}
+        <span ng-if="wdCtrl.newRecord(withdraw)">/ <a href="#" data-id={{unbound withdraw.id}} class="cancel_link">{{"funds.withdraw_history.cancel" | t}}</a></span>
       </td>
     </tr>
-    <tr ng-if="wdCtrl.noWithdraw()"><td colspan="6"><span class="help-block text-center">暂无历史数据</span></td></tr>
+    <tr ng-if="wdCtrl.noWithdraw()"><td colspan="6"><span class="help-block text-center">{{"funds.withdraw_history.no_data" | t}}</span></td></tr>
   </table>
 

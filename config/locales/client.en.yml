@@ -96,6 +96,21 @@ en:
         fee: Fee
         miner_fee: Fee
         state_and_action: "State/Action"
+        cancel: Cancel
+        no_data: There is no history data
+
+        submitting: Submitting
+        submitted: Submitted
+        rejected: Rejected
+        accepted: Accepted
+        suspect: Suspect
+        processing: Processing
+        coin_ready: Coin Ready
+        coin_done: Coin Done
+        done: Done
+        almost_done: Almost Done
+        canceled: Canceld
+        failed: Failed
 
     auth:
       please_active_two_factor: Please set mobile number or google authenticator first.
