@@ -15,14 +15,17 @@ window.GlobalData = flight.component ->
     bids = _.map data.bids, ([price, volume]) ->
       [parseFloat(price), bids_sum += parseFloat(volume)]
 
-    mid = if _.last(bids) && _.last(asks)
-      (_.first(bids)[0] + _.first(asks)[0]) / 2
-    else if _.last(bids) && !(_.last(asks)?)
-      _.first(bids)[0]
-    else if !(_.last(bids)?) && _.last(asks)
-      _.first(asks)[0]
-
-    offset = mid * 0.1
+    la = _.last(asks)
+    lb = _.last(bids)
+    if la && lb
+      mid = (_.first(bids)[0] + _.first(asks)[0]) / 2
+      offset = Math.min.apply(Math, [mid*0.1, mid-lb[0], la[0]-mid])
+    else if !la? && lb
+      mid = _.first(bids)[0]
+      offset = Math.min.apply(Math, [mid*0.1, mid-lb[0]])
+    else if la && !lb?
+      mid = _.first(asks)[0]
+      offset = Math.min.apply(Math, [mid*0.1, la[0]-mid])
 
     @trigger 'market::depth::response', 
       asks: asks, bids: bids, high: mid + offset, low: mid - offset 
