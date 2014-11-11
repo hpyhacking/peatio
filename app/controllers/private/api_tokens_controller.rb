@@ -5,7 +5,13 @@ module Private
     before_action :two_factor_activated!
 
     def index
-      @tokens = current_user.api_tokens
+      @tokens = current_user.api_tokens.user_requested
+      @oauth_api_tokens = current_user.api_tokens.oauth_requested
+
+      ids = Doorkeeper::AccessToken
+        .where(id: @oauth_api_tokens.map(&:oauth_access_token_id))
+        .group(:application_id).select('max(id) as id')
+      @oauth_access_tokens = Doorkeeper::AccessToken.where(id: ids).includes(:application)
     end
 
     def new
@@ -29,11 +35,11 @@ module Private
     end
 
     def edit
-      @token = current_user.api_tokens.find params[:id]
+      @token = current_user.api_tokens.user_requested.find params[:id]
     end
 
     def update
-      @token = current_user.api_tokens.find params[:id]
+      @token = current_user.api_tokens.user_requested.find params[:id]
 
       if !two_factor_auth_verified?
         flash.now[:alert] = t('.alert_two_factor')
@@ -50,12 +56,17 @@ module Private
     end
 
     def destroy
-      @token = current_user.api_tokens.find params[:id]
+      @token = current_user.api_tokens.user_requested.find params[:id]
       if @token.destroy
         redirect_to url_for(action: :index), notice: t('.success')
       else
         redirect_to url_for(action: :index), notice: t('.failed')
       end
+    end
+
+    def unbind
+      Doorkeeper::AccessToken.revoke_all_for(params[:id], current_user)
+      redirect_to url_for(action: :index), notice: t('.success')
     end
 
     private

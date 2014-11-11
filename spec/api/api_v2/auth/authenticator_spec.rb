@@ -6,7 +6,8 @@ describe APIv2::Auth::Authenticator do
   let(:token) { create(:api_token) }
   let(:tonce) { time_to_milliseconds }
 
-  let(:request) { stub('request', request_method: 'GET', path_info: '/') }
+  let(:endpoint) { stub('endpoint', options: {route_options: {scopes: ['identity']}})}
+  let(:request) { stub('request', request_method: 'GET', path_info: '/', env: {'api.endpoint' => endpoint}) }
   let(:payload) { "GET|/|access_key=#{token.access_key}&foo=bar&hello=world&tonce=#{tonce}" }
 
   let(:params) do
@@ -22,9 +23,9 @@ describe APIv2::Auth::Authenticator do
 
   subject { Authenticator.new(request, params) }
 
-  its(:authentic?)             { should be_true }
-  its(:signature_match?)       { should be_true }
-  its(:fresh?)                 { should be_true }
+  its(:authenticate!)          { should_not raise_error }
+  its(:check_signature!)       { should_not raise_error }
+  its(:check_tonce!)           { should_not raise_error }
   its(:token)                  { should == token }
   its(:canonical_verb)         { should == 'GET' }
   its(:canonical_uri)          { should == '/' }
@@ -32,53 +33,85 @@ describe APIv2::Auth::Authenticator do
 
   it "should not be authentic without access key" do
     params[:access_key] = ''
-    subject.should_not be_authentic
+    lambda {
+      subject.authenticate!
+    }.should raise_error(APIv2::InvalidAccessKeyError)
   end
 
   it "should not be authentic without signature" do
     subject
     params[:signature] = nil
-    subject.should_not be_authentic
+    lambda {
+      subject.authenticate!
+    }.should raise_error(APIv2::IncorrectSignatureError)
   end
 
   it "should not be authentic without tonce" do
     params[:tonce] = nil
-    subject.should_not be_authentic
+    params[:signature] = APIv2::Auth::Utils.hmac_signature(token.secret_key, "GET|/|access_key=#{token.access_key}&foo=bar&hello=world&tonce=")
+    lambda {
+      subject.authenticate!
+    }.should raise_error(APIv2::TonceTooOldError)
   end
 
   it "should return false on unmatched signature" do
-    subject.signature_match?.should be_true
-
     params[:signature] = 'fake'
-    subject.signature_match?.should be_false
-    subject.should_not be_authentic
+    lambda {
+      subject.authenticate!
+    }.should raise_error(APIv2::IncorrectSignatureError)
   end
 
   it "should be stale if tonce is older than 5 minutes ago" do
     params[:tonce] = time_to_milliseconds(6.minutes.ago)
-    subject.should_not be_fresh
-    subject.should_not be_authentic
+    lambda {
+      subject.check_tonce!
+    }.should raise_error(APIv2::TonceTooOldError)
   end
 
   it "should be stale if tonce is smaller than last seen" do
-    subject.should be_fresh
+    subject.check_tonce!
     subject.stubs(:tonce).returns(time_to_milliseconds(1.second.ago))
-    subject.should_not be_fresh
+    lambda {
+      subject.check_tonce!
+    }.should raise_error(APIv2::TonceUsedError)
   end
 
   it "should not be authentic for invalid token" do
     params[:access_key] = 'fake'
     subject.token.should be_nil
-    subject.should_not be_authentic
+    lambda {
+      subject.authenticate!
+    }.should raise_error(APIv2::InvalidAccessKeyError)
   end
 
   it "should be authentic if associated member is disabled" do
     token.member.update_attributes disabled: true
-    subject.token.should_not be_nil
+    lambda {
+      subject.token.should_not be_nil
+      subject.authenticate!
+    }.should_not raise_error
   end
 
   it "should not be authentic if api access is disabled" do
     token.member.update_attributes api_disabled: true
-    subject.token.should be_nil
+    lambda {
+      subject.authenticate!
+    }.should raise_error(APIv2::DisabledAccessKeyError)
+  end
+
+  it "should not be authentic if token is expired" do
+    token.update_attributes expire_at: 1.second.ago
+    lambda {
+      subject.authenticate!
+    }.should raise_error(APIv2::ExpiredAccessKeyError)
+  end
+
+  it "should not be authentic if token is soft deleted" do
+    token.destroy
+    APIToken.find_by_id(token.id).should be_nil
+    APIToken.with_deleted.find_by_id(token.id).should == token
+    lambda {
+      subject.authenticate!
+    }.should raise_error(APIv2::InvalidAccessKeyError)
   end
 end

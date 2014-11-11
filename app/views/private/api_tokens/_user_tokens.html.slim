@@ -1,0 +1,38 @@
+.panel.panel-default
+  .panel-heading
+    h2.panel-title = guide_panel_title
+  .panel-body
+    .row
+      #guide.col-xs-8
+        h3 = guide_title
+        p.text-ignore = guide_intro
+
+        p = link_to t('.http'), '/documents/api_v2', target: '_blank'
+        p = link_to t('.websocket'), '/documents/websocket_api', target: '_blank'
+        p
+          = t('.more')
+          = link_to 'https://github.com/peatio/peatio#api', 'https://github.com/peatio/peatio#api', target: '_blank'
+      #content.col-xs-16
+        .buttons style='margin-bottom: 20px;'
+          = link_to t('.create'), new_api_token_path, class: 'pull-right btn btn-primary'
+          .clearfix
+
+        table.table.table-condensed.table-striped
+          thead: tr
+            th class='token-label' = APIToken.human_attribute_name('label')
+            th class='access_key' = APIToken.human_attribute_name('access_key')
+            th
+          tbody
+            - if @tokens.empty?
+              tr
+                td colspan='3' style='text-align: center;'
+                  p.text-ignore = t('.no_token')
+            - else
+              - @tokens.each do |token|
+                tr
+                  td.token-label = token.label
+                  td.access_key = token.access_key
+                  td.actions
+                    = link_to t('.edit'), edit_api_token_path(token)
+                    | &nbsp;
+                    = link_to t('.destroy'), api_token_path(token), method: :delete, data: {confirm: t('.destroy-confirm')}

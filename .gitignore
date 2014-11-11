@@ -46,3 +46,4 @@ tags
 .env
 .ruby-version
 .DS_Store
+.agignore

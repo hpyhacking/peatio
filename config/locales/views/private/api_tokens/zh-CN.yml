@@ -2,6 +2,7 @@ zh-CN:
   private:
     api_tokens:
       index:
+      user_tokens:
         no_token: 没有API密钥
         edit: 编辑
         destroy: 删除
@@ -10,6 +11,19 @@ zh-CN:
         http: HTTP API 文档
         websocket: Websocket API 文档
         more: "更多API信息请查看Github上的API章节："
+      oauth_tokens:
+        panel_title: 应用绑定
+        title: 已绑定的第三方应用
+        intro: 管理所有您绑定过的第三方应用。
+        no_token: 没有绑定第三方应用
+        unbind: 解除绑定
+        unbind-confirm: "您确认要解除绑定吗？"
+        oauth_app_name: 应用名称
+        oauth_app_expire: 授权自动过期时间
+        oauth_app_scope: 授权范围
+      unbind:
+        success: 绑定已成功解除。
+        failed: 解除绑定失败。
       new:
         label_hint: 标签可以帮助记忆密钥的用途，可选
       create:

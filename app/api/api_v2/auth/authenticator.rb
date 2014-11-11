@@ -7,38 +7,46 @@ module APIv2
         @params  = params
       end
 
-      def authentic?
-        token && signature_match? && fresh?
+      def authenticate!
+        check_token!
+        check_tonce!
+        check_signature!
+        token
       end
 
       def token
-        @token ||= APIToken.joins(:member).where(access_key: @params[:access_key]).merge(Member.api_enabled).first
+        @token ||= APIToken.joins(:member).where(access_key: @params[:access_key]).first
       end
 
-      def signature_match?
+      def check_token!
+        raise InvalidAccessKeyError, @params[:access_key] unless token
+        raise DisabledAccessKeyError, @params[:access_key] if token.member.api_disabled
+        raise ExpiredAccessKeyError, @params[:access_key] if token.expired?
+        raise OutOfScopeError unless token.in_scopes?(route_scopes)
+      end
+
+      def check_signature!
         if @params[:signature] != Utils.hmac_signature(token.secret_key, payload)
           Rails.logger.warn "APIv2 auth failed: signature doesn't match. token: #{token.access_key} payload: #{payload}"
-          return false
+          raise IncorrectSignatureError, @params[:signature]
         end
-        true
       end
 
-      def fresh?
+      def check_tonce!
         key = "api_v2:tonce:#{token.access_key}"
         last_tonce = Utils.cache.read key
+
         if last_tonce && last_tonce >= tonce
           Rails.logger.warn "APIv2 auth failed: used tonce. token: #{token.access_key} payload: #{payload} tonce: #{tonce} last_tonce: #{last_tonce}"
-          return false
+          raise TonceUsedError.new(token.access_key, tonce, last_tonce)
         end
         Utils.cache.write key, tonce, nil
 
         timestamp = Time.at(tonce / 1000.0)
         if timestamp <= 5.minutes.ago
           Rails.logger.warn "APIv2 auth failed: stale tonce. token: #{token.access_key} payload: #{payload} tonce: #{tonce} last_tonce: #{last_tonce}"
-          return false
+          raise TonceTooOldError, tonce
         end
-
-        true
       end
 
       def tonce
@@ -60,6 +68,14 @@ module APIv2
       def canonical_query
         hash = @params.select {|k,v| !%w(route_info signature format).include?(k) }
         URI.unescape(hash.to_param)
+      end
+
+      def endpoint
+        @request.env['api.endpoint']
+      end
+
+      def route_scopes
+        endpoint.options[:route_options][:scopes]
       end
 
     end

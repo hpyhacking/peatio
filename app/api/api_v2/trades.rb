@@ -11,7 +11,7 @@ module APIv2
       present trades, with: APIv2::Entities::Trade
     end
 
-    desc 'Get your executed trades. Trades are sorted in reverse creation order.'
+    desc 'Get your executed trades. Trades are sorted in reverse creation order.', scopes: %w(history)
     params do
       use :auth, :market, :trade_filters
     end

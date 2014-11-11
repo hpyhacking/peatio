@@ -2,7 +2,7 @@ module APIv2
   class Members < Grape::API
     helpers ::APIv2::NamedParams
 
-    desc 'Get your profile and accounts info.'
+    desc 'Get your profile and accounts info.', scopes: %w(profile)
     params do
       use :auth
     end

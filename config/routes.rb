@@ -7,6 +7,7 @@ class ActionDispatch::Routing::Mapper
 end
 
 Peatio::Application.routes.draw do
+  use_doorkeeper
 
   root 'welcome#index'
 
@@ -48,7 +49,11 @@ Peatio::Application.routes.draw do
     resource  :id_document, only: [:edit, :update]
 
     resources :settings, only: [:index]
-    resources :api_tokens
+    resources :api_tokens do
+      member do
+        delete :unbind
+      end
+    end
 
     Currency.all.each do |c|
       resources "#{c.code}_fund_sources",
