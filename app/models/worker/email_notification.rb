@@ -1,8 +1,10 @@
 module Worker
   class EmailNotification
+    include AMQPQueue::Worker
 
     def process(payload, metadata, delivery_info)
       payload.symbolize_keys!
+      super(payload)
 
       mailer = payload[:mailer_class].constantize
       action = payload[:method]
