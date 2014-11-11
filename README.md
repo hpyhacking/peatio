@@ -42,6 +42,9 @@ Help is greatly appreciated, feel free to submit pull-requests or open issues.
 * [Yes-BTC](http://www.yes-btc.com) - Bitcoin Exchange in Taiwan
 * ecoinz.info (Launch soon) - New Zealand Cryptocurrency Exchange
 
+### Mobile Apps ###
+
+* [Boilr](https://github.com/andrefbsantos/boilr) - Cryptocurrency and bullion price alarms for Android
 
 ### Requirements
 
