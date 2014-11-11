@@ -23,9 +23,7 @@ describe APIv2::Auth::Authenticator do
 
   subject { Authenticator.new(request, params) }
 
-  its(:authenticate!)          { should_not raise_error }
-  its(:check_signature!)       { should_not raise_error }
-  its(:check_tonce!)           { should_not raise_error }
+  its(:authenticate!)          { should == token }
   its(:token)                  { should == token }
   its(:canonical_verb)         { should == 'GET' }
   its(:canonical_uri)          { should == '/' }
