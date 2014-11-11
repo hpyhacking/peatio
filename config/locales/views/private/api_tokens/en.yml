@@ -2,13 +2,28 @@ en:
   private:
     api_tokens:
       index:
+      user_tokens:
         no_token: You have no API token.
         edit: Edit
         destroy: Destroy
+        destroy-confirm: "Are you sure?"
         create: Create New Token
         http: HTTP API Document
         websocket: Websocket API Document
         more: "For more information please check the API section on github:"
+      oauth_tokens:
+        panel_title: Authorizations
+        title: Authorized Applications
+        intro: Manage all your authorized applications.
+        no_token: No Application.
+        unbind: Revoke
+        unbind-confirm: "Are you sure?"
+        oauth_app_name: Name
+        oauth_app_expire: Expire At
+        oauth_app_scope: Scopes
+      unbind:
+        success: Successfully revoked.
+        failed: Revoke failed.
       new:
         label_hint: Label helps you remember token usage, optional.
       create:
