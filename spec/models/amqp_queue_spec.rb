@@ -39,8 +39,26 @@ describe AMQPQueue do
   end
 
   it "should publish message on default exchange" do
-    default_exchange.expects(:publish).with(JSON.dump(data: 'hello'), routing_key: 'testd')
+    default_exchange.expects(:publish).with(JSON.dump(data: 'hello', locale: I18n.locale), routing_key: 'testd')
     AMQPQueue.enqueue(:testd, data: 'hello')
   end
 
+end
+
+describe AMQPQueue::Worker do
+  describe 'switch I18n.locale' do
+    let(:worker) { Class.new{ include AMQPQueue::Worker }.new }
+    subject { worker }
+
+    it { should be_respond_to(:process) }
+
+    it "switch I18n.locale to zh-CN" do
+      worker.process({locale: 'zh-CN'})
+      expect(I18n.locale).to eq(:'zh-CN')
+    end
+
+    after do
+      I18n.locale = I18n.default_locale
+    end
+  end
 end
