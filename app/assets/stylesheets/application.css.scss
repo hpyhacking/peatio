@@ -21,9 +21,10 @@
 @import 'features/id_document';
 @import 'features/history';
 @import 'features/funds';
+@import 'features/documents';
 @import 'features/custom';
 
-/* layouts 
+/* layouts
 -------------------------------------------------------------- */
 html, body {
   height: 100%;
@@ -89,26 +90,26 @@ footer {
   height: $footer-height;
   box-sizing: 'border-box';
   padding-top: 20px;
-  background-color: $footer-bg; 
+  background-color: $footer-bg;
   border-top: 1px solid $footer-border;
 }
 
-/* ticker 
+/* ticker
 ------------------------------------------- */
 .dl-horizontal.dl-ticker {
   margin-bottom: 10px;
   line-height: 40px;
 
-  dt { 
-    width: 38px; 
+  dt {
+    width: 38px;
     cursor: pointer;
-    color: $gray-light; 
+    color: $gray-light;
   }
 
   dd {
     margin-top: -4px;
     font-size: 20px;
-    margin-left: 42px; 
+    margin-left: 42px;
     font-family: monospace;
   }
 }
