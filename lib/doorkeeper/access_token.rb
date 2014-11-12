@@ -27,8 +27,11 @@ module Doorkeeper
     private
 
     def generate_token
+      requsted_scopes = scopes.to_s
+      raise "Invalid scope: #{requsted_scopes}" if requsted_scopes == 'all'
+
       member         = Member.find resource_owner_id
-      self.api_token = member.api_tokens.create!(label: application.name, scopes: scopes.to_s)
+      self.api_token = member.api_tokens.create!(label: application.name, scopes: requsted_scopes)
       self.token     = api_token.to_oauth_token
     end
 
