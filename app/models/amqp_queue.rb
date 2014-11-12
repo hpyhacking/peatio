@@ -33,19 +33,6 @@ class AMQPQueue
     end
   end
 
-  module Worker
-    def process(payload, metadata={}, delivery_info={})
-      set_locale(payload)
-    end
-
-    private
-
-    def set_locale(payload)
-      locale = payload[:locale]
-      I18n.locale = locale if locale
-    end
-  end
-
   module Mailer
     class <<self
       def included(base)
