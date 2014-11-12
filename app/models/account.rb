@@ -26,6 +26,8 @@ class Account < ActiveRecord::Base
   validates :member_id, uniqueness: { scope: :currency }
   validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
 
+  scope :enabled, -> { where("currency in (?)", Currency.ids) }
+
   after_commit :trigger, :sync_update
 
   def payment_address

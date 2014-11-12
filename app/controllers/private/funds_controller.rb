@@ -11,7 +11,7 @@ module Private
       @withdraw_channels = WithdrawChannel.all
       @currencies = Currency.all.sort
       @deposits = current_user.deposits
-      @accounts = current_user.accounts
+      @accounts = current_user.accounts.enabled
       @withdraws = current_user.withdraws
       @fund_sources = current_user.fund_sources
     end
