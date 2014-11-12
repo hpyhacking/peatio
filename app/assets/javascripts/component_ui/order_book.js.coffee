@@ -30,18 +30,7 @@
       row.addClass('updated')
     row.data('order', index)
 
-  @clearMarkers = (book) ->
-    book.find('tr.new').removeClass('new')
-    book.find('tr.updated').removeClass('updated')
-
-    obsolete = book.find('tr.obsolete')
-    obsolete.fadeOut 'slow', ->
-      obsolete.remove()
-
-  @updateOrders = (table, orders, bid_or_ask) ->
-    template = JST["templates/order_book_#{bid_or_ask}"]
-
-    book = @select("#{bid_or_ask}BookSel")
+  @mergeUpdate = (bid_or_ask, book, orders, template) ->
     rows = book.find('tr')
 
     i = j = 0
@@ -56,7 +45,8 @@
         p2 = new BigNumber(order[0])
         v2 = new BigNumber(order[1])
         if (bid_or_ask == 'ask' && p2.lessThan(p1)) || (bid_or_ask == 'bid' && p2.greaterThan(p1))
-          @insertRow(book, $row, template, price: order[0], volume: order[1], index: j)
+          @insertRow(book, $row, template,
+            price: order[0], volume: order[1], index: j)
           j += 1
         else if p1.equals(p2)
           @updateRow($row, order, j, v1, v2)
@@ -69,14 +59,28 @@
         $row.addClass 'obsolete'
         i += 1
       else if order
-        @appendRow(book, template, price: order[0], volume: order[1], index: j)
+        @appendRow(book, template,
+          price: order[0], volume: order[1], index: j)
         j += 1
       else
         break
 
-      setTimeout =>
-        @clearMarkers(book)
-      , 900
+  @clearMarkers = (book) ->
+    book.find('tr.new').removeClass('new')
+    book.find('tr.updated').removeClass('updated')
+
+    obsolete = book.find('tr.obsolete')
+    obsolete.fadeOut 'slow', ->
+      obsolete.remove()
+
+  @updateOrders = (table, orders, bid_or_ask) ->
+    book = @select("#{bid_or_ask}BookSel")
+
+    @mergeUpdate bid_or_ask, book, orders, JST["templates/order_book_#{bid_or_ask}"]
+
+    setTimeout =>
+      @clearMarkers(book)
+    , 900
 
   @computeDeep = (event, orders) ->
     index      = Number $(event.currentTarget).data('order')
