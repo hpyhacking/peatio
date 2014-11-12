@@ -79,7 +79,7 @@ window.GlobalData = flight.component ->
     market_channel.bind 'update', (data) =>
       gon.asks = data.asks
       gon.bids = data.bids
-      @trigger 'market::order_book', asks: data.asks, bids: data.bids
+      @trigger 'market::order_book::update', asks: data.asks, bids: data.bids
       @refreshDepth asks: data.asks, bids: data.bids 
 
     market_channel.bind 'trades', (data) =>
@@ -93,7 +93,7 @@ window.GlobalData = flight.component ->
       @refreshTicker(gon.tickers)
 
     if gon.asks and gon.bids
-      @trigger 'market::order_book', asks: gon.asks, bids: gon.bids
+      @trigger 'market::order_book::initialize', asks: gon.asks, bids: gon.bids
       @refreshDepth asks: gon.asks, bids: gon.bids 
 
     if gon.trades
