@@ -20,9 +20,23 @@
     row.before template(data)
     book.find("tr[data-order=#{data.index}]").fadeIn('slow')
 
-  @remove = (rows) ->
-    rows.fadeOut 'slow', ->
-      rows.remove()
+  @updateRow = (row, order, index, v1, v2) ->
+    if v1.equals(v2)
+      # do nothing
+    else
+      row.data('volume', order[1])
+      row.find('td.volume').html(formatter.mask_fixed_volume(order[1]))
+      row.find('td.amount').html(formatter.amount(order[1], order[0]))
+      row.addClass('updated')
+    row.data('order', index)
+
+  @clearMarkers = (book) ->
+    book.find('tr.new').removeClass('new')
+    book.find('tr.updated').removeClass('updated')
+
+    obsolete = book.find('tr.obsolete')
+    obsolete.fadeOut 'slow', ->
+      obsolete.remove()
 
   @updateOrders = (table, orders, bid_or_ask) ->
     template = JST["templates/order_book_#{bid_or_ask}"]
@@ -42,16 +56,10 @@
         p2 = new BigNumber(order[0])
         v2 = new BigNumber(order[1])
         if (bid_or_ask == 'ask' && p2.lessThan(p1)) || (bid_or_ask == 'bid' && p2.greaterThan(p1))
-          console.log "insert"
           @insertRow(book, $row, template, price: order[0], volume: order[1], index: j)
           j += 1
         else if p1.equals(p2)
-          if v1.equals(v2)
-            # do nothing
-          else
-            $row.data('volume', order[1])
-            $row.find('td.volume').html(formatter.amount(order[1], order[0]))
-          $row.data('order', j)
+          @updateRow($row, order, j, v1, v2)
           i += 1
           j += 1
         else
@@ -66,10 +74,9 @@
       else
         break
 
-    setTimeout =>
-      book.find('tr.new').removeClass('new')
-      @remove book.find('tr.obsolete')
-    , 900
+      setTimeout =>
+        @clearMarkers(book)
+      , 900
 
   @computeDeep = (event, orders) ->
     index      = Number $(event.currentTarget).data('order')
