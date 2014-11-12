@@ -10,6 +10,20 @@
     @updateOrders(@select('bidBookSel'), _.first(data.bids, @.attr.bookLimit), 'bid')
     @updateOrders(@select('askBookSel'), _.first(data.asks, @.attr.bookLimit), 'ask')
 
+  @appendRow = (book, template, data) ->
+    data.classes = 'new'
+    book.append template(data)
+    book.find("tr[data-order=#{data.index}]").fadeIn('slow')
+
+  @insertRow = (book, row, template, data) ->
+    data.classes = 'new'
+    row.before template(data)
+    book.find("tr[data-order=#{data.index}]").fadeIn('slow')
+
+  @remove = (rows) ->
+    rows.fadeOut 'slow', ->
+      rows.remove()
+
   @updateOrders = (table, orders, bid_or_ask) ->
     template = JST["templates/order_book_#{bid_or_ask}"]
 
@@ -27,29 +41,35 @@
         v1 = new BigNumber($row.data('volume'))
         p2 = new BigNumber(order[0])
         v2 = new BigNumber(order[1])
-        if (bid_or_ask == 'ask' && p2 < p1) || (bid_or_ask == 'bid' && p2 > p1)
-          $row.before template(price: order[0], volume: order[1], index: j)
+        if (bid_or_ask == 'ask' && p2.lessThan(p1)) || (bid_or_ask == 'bid' && p2.greaterThan(p1))
+          console.log "insert"
+          @insertRow(book, $row, template, price: order[0], volume: order[1], index: j)
           j += 1
-        else if p1 == p2
-          if v1 != v2
-            $row.data('volume', order[1])
-            $row.find('td.volume').text(formatter.amount(order[1], order[0]))
-          else
+        else if p1.equals(p2)
+          if v1.equals(v2)
             # do nothing
+          else
+            $row.data('volume', order[1])
+            $row.find('td.volume').html(formatter.amount(order[1], order[0]))
           $row.data('order', j)
           i += 1
           j += 1
         else
-          $row.remove()
+          $row.addClass 'obsolete'
           i += 1
       else if row
-        $row.remove()
+        $row.addClass 'obsolete'
         i += 1
       else if order
-        book.append template(price: order[0], volume: order[1], index: j)
+        @appendRow(book, template, price: order[0], volume: order[1], index: j)
         j += 1
       else
         break
+
+    setTimeout =>
+      book.find('tr.new').removeClass('new')
+      @remove book.find('tr.obsolete')
+    , 900
 
   @computeDeep = (event, orders) ->
     index      = Number $(event.currentTarget).data('order')

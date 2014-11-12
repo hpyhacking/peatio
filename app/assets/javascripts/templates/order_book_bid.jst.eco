@@ -1,4 +1,4 @@
-<tr data-order='<%= @index %>' data-price='<%= @price %>' data-volume='<%= @volume %>'>
+<tr data-order='<%= @index %>' data-price='<%= @price %>' data-volume='<%= @volume %>' class='<%= @classes %>'>
   <td class='amount col-xs-10'>
     <%- formatter.amount @volume, @price %>
   </td>
