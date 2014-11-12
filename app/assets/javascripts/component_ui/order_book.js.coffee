@@ -6,19 +6,6 @@
     seperatorSelector: 'table.seperator'
     fade_toggle_depth: '#fade_toggle_depth'
 
-  @refresh = (event, data) ->
-    @buildOrders(@select('bidBookSel'), _.first(data.bids, @.attr.bookLimit), 'bid')
-    @buildOrders(@select('askBookSel'), _.first(data.asks, @.attr.bookLimit), 'ask')
-
-  @buildOrders = (table, orders, bid_or_ask) ->
-    book = @select("#{bid_or_ask}BookSel")
-    book.empty()
-    html = ''
-    for i in [0...orders.length]
-      data = price: orders[i][0], volume: orders[i][1], index: i
-      html += JST["templates/order_book_#{bid_or_ask}"](data)
-    book.append(html)
-
   @update = (event, data) ->
     @updateOrders(@select('bidBookSel'), _.first(data.bids, @.attr.bookLimit), 'bid')
     @updateOrders(@select('askBookSel'), _.first(data.asks, @.attr.bookLimit), 'ask')
@@ -80,7 +67,6 @@
       @trigger target, 'place_order::input::volume', data
 
   @after 'initialize', ->
-    @on document, 'market::order_book::initialize', @refresh
     @on document, 'market::order_book::update', @update
 
     @on @select('fade_toggle_depth'), 'click', =>
