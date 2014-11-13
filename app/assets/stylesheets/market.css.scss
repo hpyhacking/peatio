@@ -353,10 +353,9 @@ header {
   }
 
   table.asks, table.bids {
-    tr { display: none; }
-
     .new {
       background-color: #333;
+      div { display: none; }
     }
 
     .obsolete {

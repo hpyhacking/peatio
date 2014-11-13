@@ -13,12 +13,12 @@
   @appendRow = (book, template, data) ->
     data.classes = 'new'
     book.append template(data)
-    book.find("tr[data-order=#{data.index}]").fadeIn('slow')
+    book.find("tr[data-order=#{data.index}] div").slideDown('slow')
 
   @insertRow = (book, row, template, data) ->
     data.classes = 'new'
     row.before template(data)
-    book.find("tr[data-order=#{data.index}]").fadeIn('slow')
+    book.find("tr[data-order=#{data.index}] div").slideDown('slow')
 
   @updateRow = (row, order, index, v1, v2) ->
     row.data('order', index)
@@ -74,7 +74,8 @@
     book.find('tr.text-down').removeClass('text-down')
 
     obsolete = book.find('tr.obsolete')
-    obsolete.fadeOut 'slow', ->
+    obsolete_divs = book.find('tr.obsolete div')
+    obsolete_divs.slideUp 'slow', ->
       obsolete.remove()
 
   @updateOrders = (table, orders, bid_or_ask) ->
