@@ -95,7 +95,14 @@ end
 
 def fill(market, period = 1)
   ts = next_ts(market, period)
-  while ts <= Time.now
+
+  # 30 seconds is a protect buffer to allow update_point to update the previous
+  # period one last time, after the previous period passed. After the protect
+  # buffer a new point of current period will be created, the previous point
+  # is freezed.
+  #
+  # The protect buffer also allows MySQL slave have enough time to sync data.
+  while (ts + 30.seconds) <= Time.now
     append_point(market, period, ts)
     ts = next_ts(market, period)
   end
