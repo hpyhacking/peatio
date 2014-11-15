@@ -22,10 +22,13 @@ def key(market, period = 1)
   "peatio:#{market}:k:#{period}"
 end
 
-def next_ts(market, period = 1)
+def last_ts(market, period = 1)
   latest = @r.lindex key(market, period), -1
-  if latest
-    ts = Time.at(JSON.parse(latest)[0])
+  latest && Time.at(JSON.parse(latest)[0])
+end
+
+def next_ts(market, period = 1)
+  if ts = last_ts(market, period)
     ts += period.minutes
   else
     if first_trade = Trade.with_currency(market).first
@@ -62,21 +65,42 @@ def kn(market, start, period = 5)
   [start.to_i, arr.first[1], high.max, low.min, arr.last[4], volumes.sum.round(4)]
 end
 
-def fill(market, period = 1)
-  loop do
-    ts = next_ts(market, period)
-    break if ts + period.minutes > Time.now + 1.second
+def get_point(market, period, ts)
+  point = period == 1 ? k1(market, ts) : kn(market, ts, period)
 
-    k = period == 1 ? k1(market, ts) : kn(market, ts, period)
-
-    if k.nil?
-      k = JSON.parse @r.lindex(key(market, period), -1)
-      k = [ts.to_i, k[4], k[4], k[4], k[4], 0]
-    end
-
-    @logger.info "#{key(market, period)}: #{k.to_json}"
-    @r.rpush key(market, period), k.to_json
+  if point.nil?
+    point = JSON.parse @r.lindex(key(market, period), -1)
+    point = [ts.to_i, point[4], point[4], point[4], point[4], 0]
   end
+
+  point
+end
+
+def append_point(market, period, ts)
+  k = key(market, period)
+  point = get_point(market, period, ts)
+
+  @logger.info "append #{k}: #{point.to_json}"
+  @r.rpush k, point.to_json
+end
+
+def update_point(market, period, ts)
+  k = key(market, period)
+  point = get_point(market, period, ts)
+
+  @logger.info "update #{k}: #{point.to_json}"
+  @r.rpop k
+  @r.rpush k, point.to_json
+end
+
+def fill(market, period = 1)
+  ts = next_ts(market, period)
+  while ts <= Time.now
+    append_point(market, period, ts)
+    ts = next_ts(market, period)
+  end
+
+  update_point(market, period, last_ts(market, period))
 end
 
 while($running) do
@@ -84,10 +108,8 @@ while($running) do
     ts = next_ts(market.id, 1)
     next unless ts
 
-    if ts + 1.minute < Time.now - 1.second
-      [1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080].each do |period|
-        fill(market.id, period)
-      end
+    [1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080].each do |period|
+      fill(market.id, period)
     end
   end
   sleep 5
