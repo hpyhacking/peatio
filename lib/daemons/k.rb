@@ -112,5 +112,6 @@ while($running) do
       fill(market.id, period)
     end
   end
-  sleep 5
+
+  sleep 15
 end
