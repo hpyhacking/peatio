@@ -1,10 +1,12 @@
 @MarketData = flight.component ->
 
+  # FIXME: does the load work on switch?
   @load = (event, data) ->
     @trigger 'market::candlestick::request'
     @reqK gon.market.id, gon.trades[gon.trades.length-1], data['x']
 
-  @reqK = (market, trade, minutes, limit = 5000) ->
+  # FIXME: when limit > 500 live update stop working
+  @reqK = (market, trade, minutes, limit = 500) ->
     url = "/api/v2/k_with_pending_trades.json?market=#{market}&limit=#{limit}&period=#{minutes}&trade_id=#{trade.tid}"
     $.getJSON url, (data) =>
       @handleData(data, minutes)
@@ -29,10 +31,12 @@
 
     candlestick: candlestick, volume: volume, orig: k, minutes: minutes, close: close_price
 
-  @create = (result, time, trade) ->
+  # FIXME: MA, volume need new Point too
+  @createPoint = (result, time, trade) ->
     p = parseFloat(trade.price)
     result.candlestick.push [time, p, p, p, p]
 
+  # FIXME: MA, volume need update too
   @updatePoint = (ohlc, trade) ->
     p = parseFloat(trade.price)
 
@@ -62,5 +66,19 @@
 
     @trigger 'market::candlestick::response', result
 
+  @deliverTrades = (event, data) ->
+    minutes = data.minutes
+    @trigger 'market::candlestick::update', trades: @tradesCache, minutes: minutes
+
+    @off document, "market::trades"
+    @on  document, "market::trades", (event, data) ->
+      @trigger 'market::candlestick::update', trades: data.trades, minutes: minutes
+
+  @cacheTrades = (event, data) ->
+    @tradesCache = Array.prototype.concat @tradesCache, data.trades
+
   @after 'initialize', ->
+    @tradesCache = []
+    @on document, 'market::trades', @cacheTrades
     @on document, 'switch::range_switch', @load
+    @on document, 'market::candlestick::created', @deliverTrades

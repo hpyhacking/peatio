@@ -79,10 +79,11 @@ INDICATOR = {MA: false, EMA: false}
   @request = ->
     @mask()
 
-  @refresh = (event, data) ->
+  @create = (event, data) ->
     @$node.find('#candlestick_chart').highcharts()?.destroy()
     @initHighStock(data)
     @initTooltip()
+    @trigger 'market::candlestick::created', data
 
   @switch = (event, data) ->
     INDICATOR[key] = false for key, val of INDICATOR
@@ -243,6 +244,8 @@ INDICATOR = {MA: false, EMA: false}
           type: "candlestick"
           data: data['candlestick']
           showInLegend: false
+          dataGrouping: {
+          }
         }
         {
           name: gon.i18n.chart.volume
@@ -327,7 +330,42 @@ INDICATOR = {MA: false, EMA: false}
         }
       ]
 
+  @createPoint = (chart, x, trade) ->
+    console.log "create"
+    console.log x
+    console.log trade
+    p = parseFloat(trade.price)
+    chart.series[0].addPoint([x, p, p, p, p], false)
+
+  @updatePoint = (point, trade) ->
+    console.log "update"
+    console.log point
+    console.log point.y
+    console.log trade
+    p = parseFloat(trade.price)
+    ohlc = x: point.x, open: point.open, high: point.high, low: point.low, close: p
+    if p > point.high
+      ohlc.high = p
+    else if p < point.low
+      ohlc.low = p
+    point.update(ohlc, false)
+
+  @update = (event, data) ->
+    chart = @$node.find('#candlestick_chart').highcharts()
+
+    $.each data.trades, (i, trade) =>
+      ts = trade.date * 1000
+      points = chart.series[0].points
+      last_point = points[points.length-1]
+      next_ts = last_point.x + data.minutes*60*1000
+      if ts < next_ts
+        @updatePoint(last_point, trade)
+      else
+        @createPoint(chart, next_ts, trade)
+    chart.redraw()
+
   @after 'initialize', ->
     @on document, 'market::candlestick::request', @request
-    @on document, 'market::candlestick::response', @refresh
+    @on document, 'market::candlestick::response', @create
+    @on document, 'market::candlestick::update', @update
     @on document, 'switch::main_indicator_switch', @switch
