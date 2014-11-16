@@ -339,6 +339,7 @@ INDICATOR = {MA: false, EMA: false}
 
   @createCandleStick = (chart, x, p, v) ->
     chart.series[0].addPoint([x, p, p, p, p], false)
+    chart.series[10].addPoint([x, p, p, p, p], false)
 
   @createVolume = (chart, x, p, v) ->
     chart.series[1].addPoint({x: x, y: v, color: @getTrend(chart.series[0].points[chart.series[0].points.length-1].close, p)}, false)
@@ -346,14 +347,15 @@ INDICATOR = {MA: false, EMA: false}
   @createClose = (chart, x, p, v) ->
     chart.series[2].addPoint([x, p], false)
 
-  @update = (chart, i, trade) ->
+  @update = (chart, trade) ->
     p = parseFloat(trade.price)
     v = parseFloat(trade.amount)
-    @updateCandleStick(chart, i, p, v)
-    @updateVolume(chart, i, p, v)
-    @updateClose(chart, i, p, v)
+    trend = @updateCandleStick(chart, p, v)
+    @updateVolume(chart, trend, p, v)
+    @updateClose(chart, p, v)
 
-  @updateCandleStick = (chart, i, p, v) ->
+  @updateCandleStick = (chart, p, v) ->
+    i = chart.series[0].points.length - 1
     point = chart.series[0].points[i]
     ohlc = x: point.x, open: point.open, high: point.high, low: point.low, close: p
     if p > point.high
@@ -362,12 +364,20 @@ INDICATOR = {MA: false, EMA: false}
       ohlc.low = p
     point.update(ohlc, false)
 
-  @updateVolume = (chart, i, p, v) ->
-    point = chart.series[1].points[i]
-    point.update({x: point.x, y: point.y+v, color: @getTrend(chart.series[0].points[i-1].close, p)}, false)
+    navLast = chart.series[10].points.length - 1
+    navPoint = chart.series[10].points[navLast]
+    navPoint.update(ohlc, false)
 
-  @updateClose = (chart, i, p, v) ->
-    point = chart.series[2].points[i+1]
+    @getTrend(chart.series[0].points[i-1].close, point.close)
+
+  @updateVolume = (chart, trend, p, v) ->
+    i = chart.series[1].points.length - 1
+    point = chart.series[1].points[i]
+    point.update({x: point.x, y: point.y+v, color: trend}, false)
+
+  @updateClose = (chart, p, v) ->
+    i = chart.series[2].points.length - 1
+    point = chart.series[2].points[i]
     point.update(p, false)
 
   @getTrend = (p1, p2) ->
@@ -381,7 +391,7 @@ INDICATOR = {MA: false, EMA: false}
       ts = trade.date * 1000
       next_ts = chart.series[0].points[i].x + data.minutes*60*1000
       if ts < next_ts
-        @update(chart, i, trade)
+        @update(chart, trade)
       else
         @create(chart, next_ts, trade)
 
