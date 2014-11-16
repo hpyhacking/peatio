@@ -80,7 +80,9 @@ INDICATOR = {MA: false, EMA: false}
     @mask()
 
   @init = (event, data) ->
+    @dataBuffer = []
     @$node.find('#candlestick_chart').highcharts()?.destroy()
+
     @initHighStock(data)
     @initTooltip()
     @trigger 'market::candlestick::created', data
@@ -116,6 +118,7 @@ INDICATOR = {MA: false, EMA: false}
     if DATETIME_LABEL_FORMAT_FOR_TOOLTIP
         dataGrouping['dateTimeLabelFormats'] = DATETIME_LABEL_FORMAT_FOR_TOOLTIP
 
+    component = @
     @$node.find('#candlestick_chart').highcharts "StockChart",
       chart:
         events:
@@ -196,6 +199,13 @@ INDICATOR = {MA: false, EMA: false}
       rangeSelector:
         enabled: false
 
+      navigator:
+        maskFill: 'rgba(32, 32, 32, 0.6)'
+        outlineColor: '#333'
+        outlineWidth: 1
+        xAxis:
+          dateTimeLabelFormats: DATETIME_LABEL_FORMAT
+
       xAxis:
         type: 'datetime',
         dateTimeLabelFormats: DATETIME_LABEL_FORMAT
@@ -203,13 +213,11 @@ INDICATOR = {MA: false, EMA: false}
         tickColor: '#333'
         tickWidth: 2
         range: range
-
-      navigator:
-        maskFill: 'rgba(32, 32, 32, 0.6)'
-        outlineColor: '#333'
-        outlineWidth: 1
-        xAxis:
-          dateTimeLabelFormats: DATETIME_LABEL_FORMAT
+        events:
+          afterSetExtremes: (e) ->
+            if e.trigger == 'navigator' && e.triggerOp == 'navigator-drag'
+              if component.liveRange(@.chart) && component.dataBuffer.length > 0
+                component.applyBuffer(@.chart)
 
       yAxis: [
         {
@@ -379,22 +387,43 @@ INDICATOR = {MA: false, EMA: false}
   @getTrend = (p1, p2) ->
     if p1 < p2 then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'
 
-  @redraw = (event, data) ->
-    chart = @$node.find('#candlestick_chart').highcharts()
-
+  @process = (chart, data) ->
     $.each data.trades, (_, trade) =>
-      i = chart.series[0].points.length - 1
+      i = chart.series[10].points.length - 1
       ts = trade.date * 1000
-      next_ts = chart.series[0].points[i].x + data.minutes*60*1000
+      next_ts = chart.series[10].points[i].x + data.minutes*60*1000
       if ts < next_ts
         @update(chart, trade)
       else
         @create(chart, next_ts, trade)
 
-    chart.redraw()
+  @buffer = (chart, data) ->
+    @dataBuffer.push data
+
+  @applyBuffer = (chart) ->
+    $.each @dataBuffer, (i, data) =>
+      @process(chart, data)
+      # FIXME: can you move the redraw out of the loop without causing problem?
+      chart.redraw()
+
+    @dataBuffer = []
+
+  @updateChart = (event, data) ->
+    chart = @$node.find('#candlestick_chart').highcharts()
+
+    if @liveRange(chart)
+      @process(chart, data)
+      chart.redraw()
+    else
+      @buffer(chart, data)
+
+  @liveRange = (chart) ->
+    p1 = chart.series[0].points[ chart.series[0].points.length-1 ].x
+    p2 = chart.series[10].points[ chart.series[10].points.length-1 ].x
+    p1 == p2
 
   @after 'initialize', ->
     @on document, 'market::candlestick::request', @request
     @on document, 'market::candlestick::response', @init
-    @on document, 'market::candlestick::update', @redraw
+    @on document, 'market::candlestick::update', @updateChart
     @on document, 'switch::main_indicator_switch', @switch
