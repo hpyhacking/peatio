@@ -31,30 +31,40 @@
 
     candlestick: candlestick, volume: volume, orig: k, minutes: minutes, close: close_price
 
-  # FIXME: MA, volume need new Point too
   @createPoint = (result, time, trade) ->
     p = parseFloat(trade.price)
+    v = parseFloat(trade.amount)
+
+    result.close.push [time, p]
     result.candlestick.push [time, p, p, p, p]
+    result.volume.push {x: time, y: v, color: if p >= result.close[result.close.length-2][1] then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'}
 
-  # FIXME: MA, volume need update too
-  @updatePoint = (ohlc, trade) ->
+  @updatePoint = (result, i, trade) ->
     p = parseFloat(trade.price)
+    v = parseFloat(trade.amount)
 
-    if p > ohlc[2]
-      ohlc[2] = p
-    else if p < ohlc[3]
-      ohlc[3] = p
-    ohlc[4] = p
+    result.close[i][1] = p
+
+    if p > result.candlestick[i][2]
+      result.candlestick[i][2] = p
+    else if p < result.candlestick[i][3]
+      result.candlestick[i][3] = p
+    result.candlestick[i][4] = p
+
+    result.volume[i]['y'] += v
+    result.volume[i]['color'] = if result.close[i][1] >= result.close[i-1][1] then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'
 
   @patch = (result, trades, minutes) ->
-    $.each trades, (i, trade) =>
-      last = result.candlestick[result.candlestick.length-1]
+    $.each trades, (ti, trade) =>
+      i = result.candlestick.length - 1
+      last = result.candlestick[i]
       last_ts = last[0]
       next_ts = last[0] + minutes*60*1000
 
       ts = trade.date * 1000
       if last_ts <= ts && ts < next_ts
-        @updatePoint last, trade
+        result.volume[i]['y'] = 0 if ti == 0 # prevent double calculate volume
+        @updatePoint result, i, trade
       else if ts >= next_ts
         @createPoint result, next_ts, trade
 
@@ -64,12 +74,25 @@
     result = @prepare k, minutes
     @patch result, trades, minutes
 
+    offset = trades[trades.length-1].tid - @tradesCache[0].tid + 1
+    @tradesCache = @tradesCache.slice(offset) if offset > 0
+
     @trigger 'market::candlestick::response', result
 
   @deliverTrades = (event, data) ->
     minutes = data.minutes
     @trigger 'market::candlestick::update', trades: @tradesCache, minutes: minutes
 
+    # FIXME:
+    #
+    # It's possible a few trades will be missed, which caused by a problem in
+    # GlobalData compoenent, not here.
+    #
+    # The first batch of trades come from, then GlobalData just forwards all
+    # trades received from pusher. Trades created after page rendered on server
+    # but before trades channel connected will be missed.
+    #
+    # Since the delay is small, user barely notice this in most cases.
     @off document, "market::trades"
     @on  document, "market::trades", (event, data) ->
       @trigger 'market::candlestick::update', trades: data.trades, minutes: minutes

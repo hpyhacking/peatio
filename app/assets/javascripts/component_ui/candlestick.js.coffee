@@ -79,7 +79,7 @@ INDICATOR = {MA: false, EMA: false}
   @request = ->
     @mask()
 
-  @create = (event, data) ->
+  @init = (event, data) ->
     @$node.find('#candlestick_chart').highcharts()?.destroy()
     @initHighStock(data)
     @initTooltip()
@@ -330,19 +330,26 @@ INDICATOR = {MA: false, EMA: false}
         }
       ]
 
-  @createPoint = (chart, x, trade) ->
-    console.log "create"
-    console.log x
-    console.log trade
+  @create = (chart, x, trade) ->
+    @createCandleStick(chart, x, trade)
+    @createVolume(chart, x, trade)
+
+  @createCandleStick = (chart, x, trade) ->
     p = parseFloat(trade.price)
     chart.series[0].addPoint([x, p, p, p, p], false)
 
-  @updatePoint = (point, trade) ->
-    console.log "update"
-    console.log point
-    console.log point.y
-    console.log trade
+  @createVolume = (chart, x, trade) ->
     p = parseFloat(trade.price)
+    v = parseFloat(trade.amount)
+    chart.series[1].addPoint({x: x, y: v, color: @getTrend(chart.series[0].points[chart.series[0].points.length-1].close, p)}, false)
+
+  @update = (chart, i, trade) ->
+    @updateCandleStick(chart, i, trade)
+    @updateVolume(chart, i, trade)
+
+  @updateCandleStick = (chart, i, trade) ->
+    p = parseFloat(trade.price)
+    point = chart.series[0].points[i]
     ohlc = x: point.x, open: point.open, high: point.high, low: point.low, close: p
     if p > point.high
       ohlc.high = p
@@ -350,22 +357,31 @@ INDICATOR = {MA: false, EMA: false}
       ohlc.low = p
     point.update(ohlc, false)
 
-  @update = (event, data) ->
+  @updateVolume = (chart, i, trade) ->
+    p = parseFloat(trade.price)
+    v = parseFloat(trade.amount)
+    point = chart.series[1].points[i]
+    point.update({x: point.x, y: point.y+v, color: @getTrend(chart.series[0].points[i-1], p)}, false)
+
+  @getTrend = (p1, p2) ->
+    if p1 < p2 then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'
+
+  @redraw = (event, data) ->
     chart = @$node.find('#candlestick_chart').highcharts()
 
-    $.each data.trades, (i, trade) =>
+    $.each data.trades, (_, trade) =>
+      i = chart.series[0].points.length - 1
       ts = trade.date * 1000
-      points = chart.series[0].points
-      last_point = points[points.length-1]
-      next_ts = last_point.x + data.minutes*60*1000
+      next_ts = chart.series[0].points[i].x + data.minutes*60*1000
       if ts < next_ts
-        @updatePoint(last_point, trade)
+        @update(chart, i, trade)
       else
-        @createPoint(chart, next_ts, trade)
+        @create(chart, next_ts, trade)
+
     chart.redraw()
 
   @after 'initialize', ->
     @on document, 'market::candlestick::request', @request
-    @on document, 'market::candlestick::response', @create
-    @on document, 'market::candlestick::update', @update
+    @on document, 'market::candlestick::response', @init
+    @on document, 'market::candlestick::update', @redraw
     @on document, 'switch::main_indicator_switch', @switch
