@@ -72,10 +72,11 @@
     {k: k, trades: trades} = data
 
     result = @prepare k, minutes
-    @patch result, trades, minutes
 
-    offset = trades[trades.length-1].tid - @tradesCache[0].tid + 1
-    @tradesCache = @tradesCache.slice(offset) if offset > 0
+    if trades.length > 0
+      @patch result, trades, minutes
+      offset = trades[trades.length-1].tid - @tradesCache[0].tid + 1
+      @tradesCache = @tradesCache.slice(offset) if offset > 0
 
     @trigger 'market::candlestick::response', result
 
