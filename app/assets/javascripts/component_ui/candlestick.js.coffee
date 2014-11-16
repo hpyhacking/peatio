@@ -340,7 +340,6 @@ INDICATOR = {MA: false, EMA: false}
 
   @createCandleStick = (chart, x, p, v) ->
     chart.series[0].addPoint([x, p, p, p, p], false)
-    chart.series[10].addPoint([x, p, p, p, p], false)
 
   @createVolume = (chart, x, p, v) ->
     chart.series[1].addPoint({x: x, y: v, color: @getTrend(chart.series[0].points[chart.series[0].points.length-1].close, p)}, false)
@@ -364,10 +363,6 @@ INDICATOR = {MA: false, EMA: false}
     else if p < point.low
       ohlc.low = p
     point.update(ohlc, false)
-
-    navLast = chart.series[10].points.length - 1
-    navPoint = chart.series[10].points[navLast]
-    navPoint.update(ohlc, false)
 
     @getTrend(chart.series[0].points[i-1].close, point.close)
 
