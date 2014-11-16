@@ -380,9 +380,10 @@ INDICATOR = {MA: false, EMA: false}
     point.update({x: point.x, y: point.y+v, color: trend}, false)
 
   @updateClose = (chart, p, v) ->
-    i = chart.series[2].points.length - 1
-    point = chart.series[2].points[i]
-    point.update(p, false)
+    if chart.series[2].points
+      i = chart.series[2].points.length - 1
+      point = chart.series[2].points[i]
+      point.update(p, false)
 
   @getTrend = (p1, p2) ->
     if p1 < p2 then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'
