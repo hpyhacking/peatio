@@ -361,7 +361,7 @@ INDICATOR = {MA: false, EMA: false}
     p = parseFloat(trade.price)
     v = parseFloat(trade.amount)
     point = chart.series[1].points[i]
-    point.update({x: point.x, y: point.y+v, color: @getTrend(chart.series[0].points[i-1], p)}, false)
+    point.update({x: point.x, y: point.y+v, color: @getTrend(chart.series[0].points[i-1].close, p)}, false)
 
   @getTrend = (p1, p2) ->
     if p1 < p2 then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'
