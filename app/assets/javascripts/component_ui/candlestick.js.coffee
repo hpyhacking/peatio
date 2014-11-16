@@ -333,6 +333,7 @@ INDICATOR = {MA: false, EMA: false}
   @create = (chart, x, trade) ->
     @createCandleStick(chart, x, trade)
     @createVolume(chart, x, trade)
+    @createClose(chart, x, trade)
 
   @createCandleStick = (chart, x, trade) ->
     p = parseFloat(trade.price)
@@ -343,9 +344,14 @@ INDICATOR = {MA: false, EMA: false}
     v = parseFloat(trade.amount)
     chart.series[1].addPoint({x: x, y: v, color: @getTrend(chart.series[0].points[chart.series[0].points.length-1].close, p)}, false)
 
+  @createClose = (chart, x, trade) ->
+    p = parseFloat(trade.price)
+    chart.series[2].addPoint([x, p], false)
+
   @update = (chart, i, trade) ->
     @updateCandleStick(chart, i, trade)
     @updateVolume(chart, i, trade)
+    @updateClose(chart, i, trade)
 
   @updateCandleStick = (chart, i, trade) ->
     p = parseFloat(trade.price)
@@ -362,6 +368,11 @@ INDICATOR = {MA: false, EMA: false}
     v = parseFloat(trade.amount)
     point = chart.series[1].points[i]
     point.update({x: point.x, y: point.y+v, color: @getTrend(chart.series[0].points[i-1].close, p)}, false)
+
+  @updateClose = (chart, i, trade) ->
+    p = parseFloat(trade.price)
+    point = chart.series[2].points[i+1]
+    point.update(p, false)
 
   @getTrend = (p1, p2) ->
     if p1 < p2 then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'
