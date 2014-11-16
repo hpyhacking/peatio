@@ -110,6 +110,7 @@ INDICATOR = {MA: false, EMA: false}
     title = "#{gon.market.base_unit.toUpperCase()}/#{gon.market.quote_unit.toUpperCase()} - #{unit}"
 
     dataGrouping =
+      enabled: false
       units: DATE_RANGE["min#{data['minutes']}"]['dataGrouping_units']
 
     if DATETIME_LABEL_FORMAT_FOR_TOOLTIP
