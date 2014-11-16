@@ -331,30 +331,29 @@ INDICATOR = {MA: false, EMA: false}
       ]
 
   @create = (chart, x, trade) ->
-    @createCandleStick(chart, x, trade)
-    @createVolume(chart, x, trade)
-    @createClose(chart, x, trade)
-
-  @createCandleStick = (chart, x, trade) ->
-    p = parseFloat(trade.price)
-    chart.series[0].addPoint([x, p, p, p, p], false)
-
-  @createVolume = (chart, x, trade) ->
     p = parseFloat(trade.price)
     v = parseFloat(trade.amount)
+    @createCandleStick(chart, x, p, v)
+    @createVolume(chart, x, p, v)
+    @createClose(chart, x, p, v)
+
+  @createCandleStick = (chart, x, p, v) ->
+    chart.series[0].addPoint([x, p, p, p, p], false)
+
+  @createVolume = (chart, x, p, v) ->
     chart.series[1].addPoint({x: x, y: v, color: @getTrend(chart.series[0].points[chart.series[0].points.length-1].close, p)}, false)
 
-  @createClose = (chart, x, trade) ->
-    p = parseFloat(trade.price)
+  @createClose = (chart, x, p, v) ->
     chart.series[2].addPoint([x, p], false)
 
   @update = (chart, i, trade) ->
-    @updateCandleStick(chart, i, trade)
-    @updateVolume(chart, i, trade)
-    @updateClose(chart, i, trade)
-
-  @updateCandleStick = (chart, i, trade) ->
     p = parseFloat(trade.price)
+    v = parseFloat(trade.amount)
+    @updateCandleStick(chart, i, p, v)
+    @updateVolume(chart, i, p, v)
+    @updateClose(chart, i, p, v)
+
+  @updateCandleStick = (chart, i, p, v) ->
     point = chart.series[0].points[i]
     ohlc = x: point.x, open: point.open, high: point.high, low: point.low, close: p
     if p > point.high
@@ -363,14 +362,11 @@ INDICATOR = {MA: false, EMA: false}
       ohlc.low = p
     point.update(ohlc, false)
 
-  @updateVolume = (chart, i, trade) ->
-    p = parseFloat(trade.price)
-    v = parseFloat(trade.amount)
+  @updateVolume = (chart, i, p, v) ->
     point = chart.series[1].points[i]
     point.update({x: point.x, y: point.y+v, color: @getTrend(chart.series[0].points[i-1].close, p)}, false)
 
-  @updateClose = (chart, i, trade) ->
-    p = parseFloat(trade.price)
+  @updateClose = (chart, i, p, v) ->
     point = chart.series[2].points[i+1]
     point.update(p, false)
 
