@@ -45,7 +45,7 @@ $(window).load ->
     , 10000)
 
   # init the two factor auth
-  TwoFactorAuth.attachTo('.two-factor-auth-container')
+  $.subscribe 'two_factor_init', (event, data) ->
+    TwoFactorAuth.attachTo('.two-factor-auth-container')
 
-
-
+  $.publish 'two_factor_init'

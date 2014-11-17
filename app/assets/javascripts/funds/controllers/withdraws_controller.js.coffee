@@ -41,4 +41,8 @@ app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
   $scope.only_sms_activated = ->
     current_user.sms_activated and !current_user.app_activated
 
-  $.publish "two_factor_init"
+
+  $scope.$watch (-> $scope.currency), ->
+    setTimeout(->
+      $.publish "two_factor_init"
+    , 100)
