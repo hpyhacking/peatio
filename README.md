@@ -74,6 +74,7 @@ You can interact with Peatio through API:
 * [peatio-client-ruby](https://github.com/peatio/peatio-client-ruby) is the official ruby client of both HTTP/Websocket API.
 * [peatio-client-python](https://github.com/JohnnyZhao/peatio-client-python) is a python client written by JohnnyZhao.
 * [peatioJavaClient](https://github.com/classic1999/peatioJavaClient.git) is a java client written by classic1999.
+* [yunbi-client-php](https://github.com/panlilu/yunbi-client-php) is a php client written by panlilu.
 
 ### Custom Style
 
