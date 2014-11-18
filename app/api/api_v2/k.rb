@@ -20,7 +20,8 @@ module APIv2
         JSON.parse('[%s]' % redis.lrange(key, offset, offset + params[:limit] - 1).join(','))
       else
         length = redis.llen(key)
-        JSON.parse('[%s]' % redis.lrange(key, length - params[:limit], -1).join(','))
+        offset = [length - params[:limit], 0].max
+        JSON.parse('[%s]' % redis.lrange(key, offset, -1).join(','))
       end
     end
   end
