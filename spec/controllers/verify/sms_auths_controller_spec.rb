@@ -81,7 +81,7 @@ module Verify
         let(:attrs) {
           {
             format: :js,
-            sms_auth: {country: 'CN', phone_number: '123.1234.1234'},
+            sms_auth: {country: 'CN', phone_number: '133.1234.1234'},
             commit: 'send_code'
           }
         }
@@ -91,7 +91,7 @@ module Verify
         end
 
         it { expect(response).to be_ok }
-        it { expect(member.reload.phone_number).to eq('8612312341234') }
+        it { expect(member.reload.phone_number).to eq('8613312341234') }
       end
     end
 
