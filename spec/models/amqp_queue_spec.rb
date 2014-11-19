@@ -39,7 +39,7 @@ describe AMQPQueue do
   end
 
   it "should publish message on default exchange" do
-    default_exchange.expects(:publish).with(JSON.dump(data: 'hello'), routing_key: 'testd')
+    default_exchange.expects(:publish).with(JSON.dump(data: 'hello', locale: I18n.locale), routing_key: 'testd')
     AMQPQueue.enqueue(:testd, data: 'hello')
   end
 
