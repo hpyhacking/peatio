@@ -5,9 +5,7 @@ class TwoFactor::Sms < ::TwoFactor
   attr_accessor :country, :phone_number
 
   validates_presence_of :phone_number, if: :send_code_phase
-  validates :phone_number, phone: { possible: true,
-                                    allow_blank: true,
-                                    types: [:mobile] }
+  validate :valid_phone_number_for_country
 
   def verify?
     if !expired? && otp_secret == otp
@@ -35,8 +33,19 @@ class TwoFactor::Sms < ::TwoFactor
 
   private
 
+  def valid_phone_number_for_country
+    return if not send_code_phase
+
+    if Phonelib.invalid_for_country?(phone_number, country)
+      errors.add :phone_number, :invalid
+    end
+  end
+
+  def country_code
+    ISO3166::Country[country].try :country_code
+  end
+
   def update_phone_number_to_member
-    country_code = ISO3166::Country[country].try :country_code
     phone = Phonelib.parse([country_code, phone_number].join)
     member.update phone_number: phone.sanitized.to_s
   end
