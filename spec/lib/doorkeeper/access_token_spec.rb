@@ -14,6 +14,12 @@ describe Doorkeeper::AccessToken do
       }.should change(APIToken, :count).by(1)
     end
 
+    it "should prevent app requesting all scopes" do
+      lambda {
+        Doorkeeper::AccessToken.create!(application_id: app.id, resource_owner_id: member.id, scopes: 'all', expires_in: 1.week)
+      }.should raise_error
+    end
+
     it "should set token" do
       subject.token.should == APIToken.last.to_oauth_token
     end

@@ -81,7 +81,9 @@
       <td>{{withdraw.amount}}</td>
       <td>{{withdraw.fee}}</td>
       <td>{{"funds.withdraw_history." + withdraw.aasm_state | t}}
-        <span ng-if="wdCtrl.newRecord(withdraw)">/ <a href="#" data-id={{unbound withdraw.id}} class="cancel_link">{{"funds.withdraw_history.cancel" | t}}</a></span>
+        <span ng-if="wdCtrl.canCancel(withdraw.aasm_state)">/
+          <a ng-click="wdCtrl.cancelWithdraw(withdraw); $event.preventDefault()" href="#" class="cancel_link">{{ "funds.withdraw_history.cancel" | t }}</a>
+        </span>
       </td>
     </tr>
     <tr ng-if="wdCtrl.noWithdraw()"><td colspan="6"><span class="help-block text-center">{{"funds.withdraw_history.no_data" | t}}</span></td></tr>

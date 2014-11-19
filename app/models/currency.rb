@@ -21,6 +21,10 @@ class Currency < ActiveYamlBase
     @keys ||= all.map &:code
   end
 
+  def self.ids
+    @ids ||= all.map &:id
+  end
+
   def self.assets(code)
     find_by_code(code)[:assets]
   end

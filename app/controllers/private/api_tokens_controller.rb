@@ -20,6 +20,7 @@ module Private
 
     def create
       @token = current_user.api_tokens.build api_token_params
+      @token.scopes = 'all'
 
       if !two_factor_auth_verified?
         flash.now[:alert] = t('.alert_two_factor')

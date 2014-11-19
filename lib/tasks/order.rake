@@ -1,11 +1,11 @@
 namespace :order do
   task mock: :environment do
-    m = Member.find_by_email 'crazyflapjack@gmail.com'
+    m = Member.find_by_email 'foo@peatio.dev'
     market = Market.find 'btccny'
 
-    low = 80 
-    high = 500
-    mid = 220
+    low = 2150
+    high = 2250
+    mid = 2200
     (low..high).each do |price|
       klass = price < mid ?  OrderBid : OrderAsk
       volume = rand

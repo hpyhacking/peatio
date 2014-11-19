@@ -343,7 +343,7 @@ header {
   bottom: $gutter_2x + $entry-height; right: $gutter;
 }
 
-#order_book { 
+#order_book {
   width: $order-book-width; height: $order-book-height; 
   min-height: $order-book-height;
   top: $base-top; right: $gutter; 
@@ -351,7 +351,20 @@ header {
   .panel-body-content { 
     min-height: $min-height - $navbar-height - $entry-height - $panel_table_header_high - $ticker-height;
   }
+
+  table.asks, table.bids {
+    .new {
+      background-color: #333;
+      div { display: none; }
+    }
+
+    .obsolete {
+      color: #444;
+      .price, .amount, .volume, g { color: #444; }
+    }
+  }
 }
+
 #candlestick { 
   position: absolute;
   min-width: $candlestick-width; width: $candlestick-width; 

@@ -64,7 +64,7 @@
         positioner: -> {x: 128, y: 28}
 
       series : [{
-        name : '买单'
+        name : gon.i18n.bid
         type : 'area'
         fillColor: 'rgba(77, 215, 16, 0.5)'
         lineColor: 'rgb(77, 215, 16)'
@@ -72,7 +72,7 @@
         animation:
           duration: 1000
       },{
-        name: '卖单'
+        name: gon.i18n.ask
         type: 'area'
         animation:
           duration: 1000

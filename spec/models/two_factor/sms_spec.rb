@@ -15,13 +15,38 @@ describe TwoFactor::Sms do
     }
   end
 
-  describe "#phone_number" do
-    subject {
-      two_factor.phone_number = '123-1234-1234'
-      two_factor
-    }
+  describe "#phone_number and #country" do
+    describe "assigns phone_number and country" do
+      subject {
+        two_factor.phone_number = '123-1234-1234'
+        two_factor.country = 'CN'
+        two_factor
+      }
 
-    its(:phone_number) { should_not be_blank }
+      its(:phone_number) { should_not be_blank }
+      its(:country) { should_not be_blank }
+    end
+
+    describe "invalid phone_number on send code phase" do
+      subject {
+        two_factor.send_code_phase = true
+        two_factor.phone_number = '0412789194'
+        two_factor
+      }
+
+      it { should_not be_valid }
+    end
+
+    describe "valid phone_number with country on send code phase" do
+      subject {
+        two_factor.send_code_phase = true
+        two_factor.phone_number = '0412789194'
+        two_factor.country = 'AU'
+        two_factor
+      }
+
+      it { should be_valid }
+    end
   end
 
   describe "#update member's phone_number when send_otp" do

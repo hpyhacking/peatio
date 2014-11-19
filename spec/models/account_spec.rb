@@ -285,4 +285,18 @@ describe Account do
     end
   end
 
+  describe ".enabled" do
+    let!(:account1) { create(:account, currency: Currency.first.code)}
+    let!(:account2) { create(:account, currency: Currency.last.code)}
+    let!(:account3) { create(:account, currency: Currency.all[1].code)}
+    before do
+      Currency.stubs(:ids).returns([Currency.first.id, Currency.last.id])
+    end
+
+    it "should only return the accoutns with currency enabled" do
+      Account.enabled.all.should == [account1, account2]
+    end
+
+  end
+
 end
