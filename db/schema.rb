@@ -334,8 +334,8 @@ ActiveRecord::Schema.define(version: 20141119155043) do
 
   create_table "running_accounts", force: true do |t|
     t.integer  "category"
-    t.decimal  "income",      precision: 32, scale: 16
-    t.decimal  "expenses",    precision: 32, scale: 16
+    t.decimal  "income",      precision: 32, scale: 16, default: 0.0, null: false
+    t.decimal  "expenses",    precision: 32, scale: 16, default: 0.0, null: false
     t.integer  "currency"
     t.integer  "member_id"
     t.integer  "source_id"
