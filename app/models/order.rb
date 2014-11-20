@@ -1,8 +1,8 @@
 class Order < ActiveRecord::Base
   extend Enumerize
 
-  enumerize :bid, in: Currency.hash_codes
-  enumerize :ask, in: Currency.hash_codes
+  enumerize :bid, in: Currency.enumerize
+  enumerize :ask, in: Currency.enumerize
   enumerize :currency, in: Market.enumerize, scope: true
   enumerize :state, in: {:wait => 100, :done => 200, :cancel => 0}, scope: true
 

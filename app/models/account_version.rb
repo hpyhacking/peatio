@@ -39,7 +39,7 @@ class AccountVersion < ActiveRecord::Base
     attrs[:updated_at] = attrs[:created_at]
     attrs[:fun]        = Account::FUNS[attrs[:fun]]
     attrs[:reason]     = REASON_CODES[attrs[:reason]]
-    attrs[:currency]   = Currency.hash_codes[attrs[:currency]]
+    attrs[:currency]   = Currency.enumerize[attrs[:currency]]
 
     account_id = attrs[:account_id]
     raise ActiveRecord::ActiveRecordError, "account must be specified" unless account_id.present?

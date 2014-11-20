@@ -10,11 +10,7 @@ class Currency < ActiveYamlBase
   end
 
   def self.enumerize
-    all_with_invisible.inject({}) {|hash, i| hash[i.id.to_sym] = i.code; hash }
-  end
-
-  def self.hash_codes
-    @codes ||= all_with_invisible.inject({}) {|memo, i| memo[i.code.to_sym] = i.id; memo}
+    all_with_invisible.inject({}) {|memo, i| memo[i.code.to_sym] = i.id; memo}
   end
 
   def self.codes
