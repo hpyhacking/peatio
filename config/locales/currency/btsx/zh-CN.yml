@@ -1,7 +1,0 @@
-zh-CN:
-  currency:
-    bitsharesx:
-      key: BTS
-      code: BTSX
-      name: 比特股
-      format: '0,0.0000'

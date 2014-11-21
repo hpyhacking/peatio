@@ -4,6 +4,113 @@
 #
 
 ko:
+  private:
+    trade:
+      trades:
+        orders:
+          title: 주문
+      orders:
+        index:
+          done: 제출
+          cancel: 취소
+          confirm: '주문 취소 하시겟습니까#%{id}?'
+    withdraws:
+      update:
+        request_accepted: 출금신청 처리중입니다.
+      destroy:
+        request_canceled: 출금신청 취소 되여습니다.
+      index:
+        fee: 수수료
+        total: 총금액
   view_on_github: View on Github
   tags:
     vip: VIP
+    hero: 히어로 맴버
+    admin: 어더민 (관리자)
+  trade:
+    markets: 시장
+    realtime_price:
+      title: 시세
+    account_balance:
+      title: 밸런스
+  gon:
+    ask: 주문
+    bid: 입찰
+    notification:
+      enabled: 알림 기능 활성화
+  back: 잘못됨 비번
+  invalid_password: 잘못됨 비번
+  all: 올
+  sms:
+    password_changed: Hi %{email}, 고객님 비번 성공적으로 교체 되여습니다.
+    deposit_done: Hi %{email}, 고객님 입금신청 처리 되여습니다.
+    withdraw_done: Hi %{email}, 고객님 출금신청 처리 되여습니다.
+  header:
+    home: 홈
+    dashboard: 계기판
+    admin: 관리자 판넬
+    market: 트레이드
+    settings: 설정
+    signin: 로그인
+    signout: 로그아웃
+    signup: 회원가입
+    funds: 폰드
+    history: 기록
+    order_history: 주문기록
+    trade_history: 트레이드 기록
+    account_history: 계정 기록
+    my_profile: 나의 설정
+    account_balance: 총재산
+    back: 되로
+    total: 총
+    deposit: 입금
+    withdraw: 출금
+  admin_header:
+    deposits: 입금
+    withdraws: 출금
+    statistics: 데이트 통계
+    id_documents: 계정을 확인
+  footer:
+    about: 어바우트
+    contact: '문의 '
+    price: 가격
+    liability_proof: 제출
+  actions:
+    submit: 제출
+    deposit: 입금
+    select: 선택하세요
+    unlock: 안로크
+    confirm: 확인
+    back: 뒤로
+    block: 블럭에서 보기
+    destroy: 삭제
+    destroy_confirm: '이것을 삭제 하시겟습니까? '
+    detail: 상세
+    edit: 편집
+    preview: 미리보기
+    close: 닫기
+    cancel: 취소
+    view: 보기
+    member: 맴바
+    transact: 크릭 코피
+    reject: 거부
+    clipboard:
+      click: 크릭하면 코피 됩니다
+      done: 코피됨
+  chart:
+    open: 열림
+    high: 최고
+    low: 최저
+    close: 닫기
+    price: 가격
+    volume: 볼륨
+    minute: 분
+    hour: 시간
+    day: 일
+    week: 주
+    month: 월
+    year: 년
+    zoom: 축소
+    ask: 주문
+    depth: 갚이
+    depth_title: 시장깊이

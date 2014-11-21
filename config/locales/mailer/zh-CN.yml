@@ -1,6 +1,0 @@
-zh-CN:
-  mailer:
-    dear_user: 您好,
-    signature: 貔貅团队
-    please_contact: '如果此次登录不是您本人操作，请马上<a href="mailto:%{contact_mail}">联系我们</a>。'
-    footer: '此邮件由系统自动发出，请勿直接回复。 有问题请<a href="mailto:%{contact_mail}">联系我们</a>。'

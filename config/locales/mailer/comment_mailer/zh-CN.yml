@@ -1,9 +1,0 @@
-zh-CN:
-  comment_mailer:
-    admin_notification:
-      subject: "[PEATIO] 用户回复了服务单"
-      notification_content: 用户 %{email} 回复了服务单，详情请查看链接：
-    user_notification:
-      subject: "[PEATIO] 你的服务单有了新的回复"
-      notification_content: 你的服务单有一条新的回复, 请在下方链接查看详情：
-

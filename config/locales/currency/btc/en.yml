@@ -1,7 +1,0 @@
-en:
-  currency:
-    satoshi:
-      key: BTC
-      code: BTC
-      name: Bitcoin
-      format: '0,0.0000'

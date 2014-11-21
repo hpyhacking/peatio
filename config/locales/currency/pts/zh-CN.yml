@@ -1,7 +1,0 @@
-zh-CN:
-  currency:
-    protoshare:
-      key: PTS
-      code: PTS
-      name: 原型股
-      format: '0,0.0000'
