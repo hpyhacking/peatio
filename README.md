@@ -36,10 +36,10 @@ Help is greatly appreciated, feel free to submit pull-requests or open issues.
 ### Known Exchanges using Peatio
 
 * [Peatio Exchange](https://peatio.com) - Peatio Cryptocurrency Exchange in China
-* [ACX.IO](https://acx.io) - Australian Cryptocurrency Exchange
-* [coindex.ch](http://coindex.ch) - Swiss Bitcoin Exchange
+* [MarsX.io](https://acx.io) - Australian Cryptocurrency Exchange
 * [Mulcoin.com](http://mulcoin.com)
 * [Yes-BTC](http://www.yes-btc.com) - Bitcoin Exchange in Taiwan
+* [Bitspark](https://bitspark.io) - Bitcoin Exchange in Hong Kong
 * ecoinz.info (Launch soon) - New Zealand Cryptocurrency Exchange
 
 ### Mobile Apps ###
