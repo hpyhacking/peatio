@@ -1,219 +1,238 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
 zh-CN:
   activerecord:
     models:
-      api_token: API密钥
-      trade: "交易"
-      order: "挂单"
-      member: "用户"
-      order_bid: "买入"
-      order_ask: "卖出"
-      document: "文档"
-      payment_transaction: "充值"
-      id_document: "实名认证"
-      withdraw: "提现"
-      deposit: "充值"
-      statistic/orders_grid: "指令统计"
-      statistic/trades_grid: "交易统计"
-      statistic/members_grid: "用户统计"
-      statistic/deposits_grid: "充值统计"
-      statistic/withdraws_grid: "提现统计"
-      admin/deposits_grid: "充值管理"
-      admin/withdraws_grid: "提现管理"
-      deposits/bank: "银行转账"
-      withdraws/bank: "银行转账"
-      withdraws/satoshi: "银行转账"
+      api_tokens: API Token
+      trade: 交易
+      order: 挂单
+      order_bid: 买入
+      order_ask: 卖出
+      document: 文档
+      withdraw: 提现
+      deposit: 充值
+      payment_transaction: 充值
+      id_document: 实名认证
+      statistic/orders_grid: 指令统计
+      statistic/trades_grid: 交易统计
+      statistic/members_grid: 用户统计
+      statistic/deposits_grid: 充值统计
+      statistic/withdraws_grid: 提现统计
+      admin/deposits_grid: 充值管理
+      admin/withdraws_grid: 提现管理
+      deposits/bank: 银行转账
+      withdraws/bank: 银行转账
+      withdraws/satoshi: 银行转账
     attributes:
       api_token:
         access_key: Access Key
         trusted_ip_list: IP白名单
         ip_whitelist: IP白名单
-        label: "标签"
-        actions: "操作"
+        actions: 操作
       identity:
-        email: "邮箱地址"
-        password: "新密码"
-        password_confirmation: "确认密码"
+        email: 邮箱地址
+        password: 新密码
+        password_confirmation: 确认密码
       document:
-        zh_cn_body: "中文内容"
-        zh_cn_title: "中文标题"
-        zh_cn_desc: "中文描述"
-        zh_cn_keywords: "中文关键字"
-        en_body: "英文内容"
-        en_title: "英文标题"
-        en_desc: "英文描述"
-        en_keywords: "英文关键字"
-        key: "索引键"
-        is_auth: "是否登录查阅"
+        zh_cn_body: 中文内容
+        zh_cn_title: 中文标题
+        zh_cn_desc: 中文描述
+        zh_cn_keywords: 中文关键字
+        en_body: 英文内容
+        en_title: 英文标题
+        en_desc: 英文描述
+        en_keywords: 英文关键字
+        key: 索引键
+        is_auth: 是否登录查阅
       fund_source:
-        address: "提现地址"
-        category: "提现方式"
-        label: "标签"
+        address: 提现地址
+        category: 提现方式
+        label: 标签
       account:
-        currency: "币种"
-        currency_text: "币种"
-        balance_and_locked: "余额 / 冻结"
-        balance: "余额"
-        locked: "冻结"
-        amount: "总额"
+        currency: 币种
+        currency_text: 币种
+        balance_and_locked: 余额 / 冻结
+        balance: 余额
+        locked: 冻结
+      deposit:
+        state: 状态
+        tx_id: TxID
+        member_id: 用户 ID
+        created_at: 提交时间
+        address: 地址
+        amount: 充值金额
+        done_at: 完成时间
+        sn: SN
+      withdraw:
+        id: ID
+        sn: SN
+        withdraw_id: ID
+        created_at: 创建时间
+        done_at: 完成时间
+        sum: 总金额
+        fee: 手续费
+        currency: 币种
+        amount: 提现金额
+        address: 地址
+        state: 状态
+        state_text: 状态
+        tx_id: TxID
+        fund_source_id: 提现地址
+        detail: 详情
       account_version:
-        id: "编号"
-        locked: "冻结"
-        amount: "金额"
-        balance: "余额"
-        reason: "原因"
-        reason_text: "原因"
-        modifiable_id: "相关编号"
-        modifiable_type: "关联"
-        created_at: "创建日期"
-        in: "收入"
-        out: "支出"
-        fee: "手续费"
+        id: 编号
+        locked: 冻结
+        amount: 金额
+        balance: 余额
+        reason: 原因
+        modifiable_id: 相关编号
+        modifiable_type: 关联
+        created_at: 创建日期
       token/reset_password:
-        email: "邮箱地址"
-        member: "会员"
+        email: 邮箱地址
       trade:
-        bid: "买入"
-        ask: "卖出"
-        fee: "手续费"
-        price: "成交价"
-        volume: "成交量"
-        category: "买/卖"
-        order: "订单"
+        bid: 买入
+        ask: 卖出
+        fee: 手续费
+        price: 成交价
+        volume: 成交量
+        category: 买/卖
+        order: 订单
       order:
-        bid: "买入"
-        ask: "卖出"
-        price: "价格"
-        total: "总价"
-        volume: "数量"
-        origin_volume: "数量"
-        sum: "总价"
-        category: "买/卖"
-        kind: "类别"
-        at: "时间"
-        id: "编号"
-        state: "状态"
-        operation: "操作"
+        bid: 买入
+        ask: 卖出
+        price: 价格
+        total: 总价
+        volume: 数量
+        origin_volume: 数量
+        sum: 总价
+        category: 买/卖
+        kind: 类别
+        at: 时间
+        id: 编号
+        state: 状态
+        operation: 操作
       payment_transaction:
-        at: "时间"
-        txid: "交易编号"
-        amount: "金额"
-        confirmations: "确认数"
-        state: "状态"
-        state_done: "完成"
-        state_wait: "等待"
+        at: 时间
+        txid: 交易编号
+        amount: 金额
+        confirmations: 确认数
+        state: 状态
+        state_done: 完成
+        state_wait: 等待
       member:
-        id: "编号"
-        name: "真实姓名"
-        display_name: "论坛昵称"
-        email: "邮件地址"
-        created_at: "注册时间"
-        sn: "个人识别码"
-        tag_list: "标签"
-        activated: "激活成功"
-        activated?: "邮件激活"
-        id_document_verified?: "实名认证"
-        two_factor_activated?: "二次验证"
-        phone_number: "手机号码"
-      two_factor/sms:
-        phone_number: "手机号码"
-        otp: "验证码"
-      withdraws/bank:
-        fund_extra: "转账银行"
-        id: "提现编号"
-        member_name: "用户"
-        currency_obj_key_text: "币种"
-        state_and_action: "状态/操作"
-        fund_source: "提现银行"
-        fund_extra_text: "提现银行"
-        fund_uid: "提现银行账户"
-        sum: "提现金额"
-        fee: "手续费"
-        amount: "提现金额"
-        remark: "备注"
-        created_at: "时间"
+        name: 真实姓名
+        display_name: 论坛昵称
+        email: 邮件地址
+        created_at: 注册时间
+        sn: 个人识别码
+        tag_list: 标签
+        activated: 激活成功
       deposits/bank:
-        created_at: "时间"
-        holder: "持卡人姓名"
-        fund_extra: "转账银行"
-        fund_extra_text: "转账银行"
-        fund_uid: "转账账号"
-        member_sn: "个人识别码"
-        member_name: "开户户名"
-        amount: "充值金额"
-        sn: "转账备注（必填）"
-        state_and_action: "状态 / 操作"
-        label: "标签"
-        fund_source: "充值账号"
+        created_at: 时间
+        holder: 持卡人姓名
+        fund_extra: 转账银行
+        fund_uid: 转账账号
+        member_sn: 个人识别码
+        member_name: 开户户名
+        amount: 充值金额
+        sn: 转账备注（必填）
+        state_and_action: 状态 / 操作
+        label: 标签
+        fund_source: 充值账号
       deposits/satoshi:
-        created_at: "时间"
-        txid: "交易哈希"
-        amount: "充值数量"
-        memo: "确认数"
-        aasm_state_text: "状态"
+        created_at: 时间
+        txid: 交易哈希
+        amount: 充值数量
+        memo: 确认数
+        aasm_state_text: 状态
+      withdraws/bank:
+        id: 提现编号
+        member_name: 用户
+        currency_obj_key_text: 币种
+        state_and_actions: 状态/操作
+        fund_source: 提现银行
+        fund_extra_text: 提现银行
+        fund_uid: 提现银行账户
+        sum: 提现金额
+        fee: 手续费
+        amount: 提现金额
+        remark: 备注
+        created_at: 时间
       withdraws/satoshi:
-        id: "提现编号"
-        member_name: "用户"
-        currency_obj_key_text: "币种"
-        state_and_action: "状态/操作"
-        fund_extra_text: "提现标签"
-        fund_extra: "提现标签"
-        fund_source: "提现标签/地址"
-        fund_uid: "提现地址"
-        created_at: "时间"
-        sum: "数量"
-        amount: "金额"
-        remark: "备注"
-        fee: "手续费"
+        id: 提现编号
+        member_name: 用户
+        currency_obj_key_text: 币种
+        state_and_actions: 状态/操作
+        fund_extra_text: 提现标签
+        fund_extrat: Label
+        fund_source: 提现标签/地址
+        fund_uid: 提现地址
+        created_at: 时间
+        sum: 数量
+        amount: 金额
+        remark: 备注
+        fee: 手续费
     errors:
       models:
         order_bid:
           attributes:
             sum:
-              expensive: "账户余额不足"
+              expensive: 账户余额不足
             price:
-              range: "请指定适当的价格"
+              range: 请指定适当的价格
         order_ask:
           attributes:
             origin_volume:
-              expensive: "账户余额不足"
+              expensive: 账户余额不足
             price:
-              range: "请指定适当的价格"
+              range: 请指定适当的价格
         account:
           attributes:
             balance:
-              less: "您的账户余额不足"
+              less: 您的账户余额不足
         identity:
           attributes:
             email:
-              invalid: "无效的邮件地址"
+              invalid: 无效的邮件地址
             password:
-              invalid: "无效的密码格式，请重新输入。"
+              invalid: 无效的密码格式，请重新输入。
             password_confirmation:
-              confirmation: "与您输入的新密码不一致，请重新输入。"
+              confirmation: 与您输入的新密码不一致，请重新输入。
         token/reset_password:
           attributes:
             base:
-              too_soon: "访问过于频繁，请稍后再试。"
+              too_soon: 访问过于频繁，请稍后再试。
             email:
-              not-member: "请输入有效的邮箱地址。"
-              match: "登录邮件地址错误。"
+              not-member: 请输入有效的邮箱地址。
+              match: 登录邮件地址错误。
             password:
-              invalid: "密码格式错误"
+              invalid: 密码格式错误
             member:
-              blank: "不存在"
+              blank: 不存在
         activation:
           attributes:
             base:
-              too_soon: "距离上次给您发送激活邮件还未超过5分钟"
+              too_soon: 距离上次给您发送激活邮件还未超过5分钟
         fund_source:
           attributes:
             address:
-              satoshi_ismine: "为系统所有，请使用您所拥有的提现地址进行绑定。"
-              satoshi_invalid: "格式无效，请填写正确的比特币提现地址。"
+              satoshi_ismine: 为系统所有，请使用您所拥有的提现地址进行绑定。
+              satoshi_invalid: 格式无效，请填写正确的比特币提现地址。
+        withdraw:
+          attributes:
+            password:
+              match: 密码不匹配
+            amount:
+              poor: 热钱包金额不足
+              bank_min: 小于 5000.00
         two_factor:
           attributes:
             otp:
-              invalid: "密码有误，请重新输入。"
+              invalid: 密码有误，请重新输入。
         application:
           attributes:
             redirect_uri:
@@ -223,606 +242,534 @@ zh-CN:
         withdraws/satoshi:
           attributes:
             sum:
-              poor: "账户余额不足，请核对。"
-              greater_than: "小于单笔最低限额。"
+              poor: 账户余额不足，请核对。
+              greater_than: 小于单笔最低限额。
             fund_uid:
-              blank: "请输入您的提现地址。"
-              invalid: "无效的提现地址，请核对。"
-              ismine: "提现地址为系统所有，请更换其他地址。"
+              blank: 请输入您的提现地址。
+              invalid: 无效的提现地址，请核对。
+              ismine: 提现地址为系统所有，请更换其他地址。
       messages:
-        invalid_email: "无效的邮件地址"
-        undef: "未知错误原因"
-        less: "余额不足"
-        verify: "验证失败"
-        strength: "无效的密码强度"
-        password: "请输入至少6位密码, 建议包含大写、小写字母与数字。"
-        blank: "不可为空。"
+        invalid_email: 无效的邮件地址
+        undef: 未知错误原因
+        less: 余额不足
+        verify: 验证失败
+        strength: 无效的密码强度
+        password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
         orders:
-          price: "价格限额 %{l} ~ %{h}"
-          sum: "挂单总限额 %{l} ~ %{h}"
-          precision: "最低精度为 %{p}"
+          price: 价格限额 %{l} ~ %{h}
+          sum: 挂单总限额 %{l} ~ %{h}
+          precision: 最低精度为 %{p}
   banks:
-    icbc: "工商银行"
-    cbc: "建设银行"
-    bc: "中国银行"
-    bcm: "交通银行"
-    abc: "农业银行"
-    cmb: "招商银行"
-    cmbc: "民生银行"
-    cncb: "中信银行"
-    hxb: "华夏银行"
-    cib: "兴业银行"
-    spdb: "浦东发展银行"
-    bob: "北京银行"
-    ceb: "光大银行"
-    sdb: "深圳发展银行"
-    pab: "平安银行"
-    gdb: "广东发展银行"
+    icbc: 工商银行
+    cbc: 建设银行
+    bc: 中国银行
+    bcm: 交通银行
+    abc: 农业银行
+    cmb: 招商银行
+    cmbc: 民生银行
+    cncb: 中信银行
+    hxb: 华夏银行
+    cib: 兴业银行
+    spdb: 浦东发展银行
+    bob: 北京银行
+    ceb: 光大银行
+    sdb: 深圳发展银行
+    pab: 平安银行
+    gdb: 广东发展银行
   breadcrumbs:
-    admin: "后台管理"
-    admin/dashboard: "控制面板"
-    admin/deposits: "充值管理"
-    admin/withdraws: "提现管理"
-    admin/deposits/banks: "银行转账充值"
-    admin/deposits/satoshis: "比特币充值"
-    admin/withdraws/banks: "银行转账提现"
-    admin/withdraws/satoshis: "比特币提现"
-    admin/statistic: "数据统计"
-    admin/statistic/members: "用户统计"
-    admin/members: "用户信息"
+    admin: 后台管理
+    admin/dashboard: 控制面板
+    admin/deposits: 充值管理
+    admin/withdraws: 提现管理
+    admin/deposits/banks: 银行转账充值
+    admin/deposits/satoshis: 比特币充值
+    admin/withdraws/banks: 银行转账提现
+    admin/withdraws/satoshis: 比特币提现
   currency:
     satoshi:
       key: BTC
       code: BTC
-      name: "比特币"
+      name: 比特币
       format: '0,0.0000'
     bitsharesx:
       key: BTS
       code: BTSX
-      name: "比特股"
+      name: 比特股
       format: '0,0.0000'
     renminbi:
       key: CNY
       code: CNY
-      name: "人民币"
+      name: 人民币
       format: '0,0.00'
     dogecoin:
       key: DOG
       code: DOGE
-      name: "狗狗币"
+      name: 狗狗币
       format: '0,0.0000'
     protoshare:
       key: PTS
       code: PTS
-      name: "原型股"
+      name: 原型股
       format: '0,0.0000'
-    name:
-      cny: "人民币"
-      btc: "比特币"
-    code:
-      cny: CNY
-      btc: BTC
-    format:
-      zero: N/A
-      cny: '0.00'
-      btc: '0.0000'
-    icon-large:
-      cny: "<span class='big-currency'>¥</span>"
-      btc: "<span class='big-currency'>฿</span>"
-    icon:
-      cny: "<span class='currency'>¥</span>"
-      btc: "<span class='currency'>฿</span>"
-    sum:
-      bid: "合计 <span class=bid_totle></span>%{bid_icon}"
-      ask: "合计 <span class=ask_totle></span>%{bid_icon}"
   datagrid:
-    empty: "没有任何数据查询结果"
+    empty: 没有任何数据查询结果
     filters:
       date:
         range_separator: " ~ "
       datetime:
         range_separator: " ~ "
     form:
-      submit: "查询"
+      submit: 查询
     admin_deposits_grid:
       columns:
-        sn: "充值编号"
-        created_at: "时间"
-        channel_key_text: "通道"
-        fund_extra_text: "资金来源"
-        fund_uid: "资金账户"
-        txid: "交易"
-        amount: "金额"
-        fee: "手续费"
-        currency_text: "币种"
-        aasm_state_text: "状态"
-        member_name: "会员"
+        sn: 充值编号
+        created_at: 时间
+        channel_key_text: 通道
+        fund_extra_text: 资金来源
+        fund_uid: 资金账户
+        txid: 交易
+        amount: 金额
+        fee: 手续费
+        currency_text: 币种
+        aasm_state_text: 状态
+        member_name: 会员
     bank_deposits_grid:
       columns:
-        sn: "充值编号"
-        created_at: "充值时间"
-        channel_key_text: "充值方式"
-        fund_extra_text: "开户行"
-        fund_uid: "充值账户"
-        amount: "充值金额"
-        fee: "手续费"
-        aasm_state_text: "状态"
+        sn: 充值编号
+        created_at: 充值时间
+        channel_key_text: 充值方式
+        fund_extra_text: 开户行
+        fund_uid: 充值账户
+        amount: 充值金额
+        fee: 手续费
+        aasm_state_text: 状态
     coin_deposits_grid:
       columns:
-        sn: "充值编号"
-        txid: "交易编号"
-        created_at: "提交时间"
-        amount: "充值金额"
-        aasm_state_text: "状态"
-        memo: "确认数"
+        sn: 充值编号
+        txid: 交易编号
+        created_at: 提交时间
+        amount: 充值金额
+        aasm_state_text: 状态
+        memo: 确认数
     withdraws_grid:
       columns:
-        id: "交易编号"
-        name: "姓名"
-        currency_text: "币种"
-        address_label: "标签"
-        address_type_text: "方式"
-        amount: "实到金额"
-        sum: "金额"
-        fee: "手续费"
-        created_at: "提现时间"
-        done_at: "完成时间"
-        aasm_state_text: "状态"
-        channel: "通道"
-    bank_withdraws_grid:
-      columns:
-        id: "交易编号"
-        name: "姓名"
-        currency_text: "币种"
-        address_label: "标签"
-        address_type_text: "方式"
-        amount: "实到金额"
-        sum: "金额"
-        fee: "手续费"
-        created_at: "提现时间"
-        done_at: "完成时间"
-        aasm_state_text: "状态"
-        channel: "通道"
-        fund_extra_text: "开户行"
-        fund_uid: "卡号"
-    coin_withdraws_grid:
-      columns:
-        id: "交易编号"
-        name: "姓名"
-        currency_text: "币种"
-        address_label: "标签"
-        address_type_text: "方式"
-        amount: "实到金额"
-        sum: "数量"
-        fee: "手续费"
-        created_at: "提现时间"
-        done_at: "完成时间"
-        aasm_state_text: "状态"
-        channel: "通道"
-        fund_uid: "地址"
-        fund_extra: "备注"
+        sn: SN
+        name: 姓名
+        currency_text: 币种
+        amount: 实到金额
+        fee: 手续费
+        created_at: 提现时间
+        done_at: 完成时间
+        state_text: 状态
     members_grid:
       columns:
-        sn: "识别码"
-        email: "邮件地址"
-        created_at: "注册时间"
-        actions: "操作"
+        sn: 识别码
+        email: 邮件地址
+        created_at: 注册时间
+        actions: 操作
     account_versions_grid:
       columns:
-        created_at: "时间"
-        currency_text: "账户"
-        balance: "余额变更"
-        in: "收入"
-        out: "支出"
-        amount: "结余"
-        reason_text: "理由"
-        modifiable_type: "业务"
-        fee: "手续费"
+        created_at: 时间
+        currency_text: 账户
+        balance: 余额变更
+        in: 收入
+        out: 支出
+        amount: 结余
+        reason_text: 理由
+        modifiable_type: 业务
+        fee: 手续费
       filters:
-        reason: "分类"
-        currency: "币种"
+        reason: 分类
+        currency: 币种
     statistic_members_grid:
       columns:
-        sn: "识别码"
-        id: "编号"
-        email: "邮件地址"
-        created_at: "注册时间"
-        activated: "激活"
-        detail: "详情"
-        action: "操作"
+        sn: 识别码
+        id: 编号
+        email: 邮件地址
+        created_at: 注册时间
+        activated: 激活
+        detail: 详情
+        action: 操作
       filters:
-        sn: "识别码"
-        activated: "是否激活"
-        created_at: "注册时间"
-        email: "邮件地址"
+        sn: 识别码
+        activated: 是否激活
+        created_at: 注册时间
+        email: 邮件地址
     statistic_orders_grid:
       columns:
-        id: "编号"
-        price: "价格"
-        volume: "成交量/挂单量"
-        created_at: "挂单时间"
-        state_text: "状态"
-        member_id: "用户"
+        id: 编号
+        price: 价格
+        volume: 成交量/挂单量
+        created_at: 挂单时间
+        state_text: 状态
+        member_id: 用户
       filters:
-        state: "状态"
-        currency: "币种对"
-        created_at: "时间"
-        type: "买入/卖出"
+        state: 状态
+        currency: 币种对
+        created_at: 时间
+        type: 买入/卖出
     statistic_trades_grid:
       columns:
-        id: "编号"
-        price: "成交价"
-        volume: "成交量"
-        strike_amount: "合计"
-        created_at: "时间"
+        id: 编号
+        price: 成交价
+        volume: 成交量
+        strike_amount: 合计
+        created_at: 时间
       filters:
-        currency: "币种对"
-        created_at: "时间"
+        currency: 币种对
+        created_at: 时间
     statistic_deposits_grid:
       columns:
-        member: "用户"
-        address_type_text: "支付方式"
-        tx_id: "交易号"
-        amount: "金额"
-        currency: "币种"
-        created_at: "时间"
-        state_text: "状态"
+        member: 用户
+        tx_id: 交易号
+        amount: 金额
+        currency: 币种
+        created_at: 时间
+        state_text: 状态
       filters:
-        currency: "币种"
-        state: "状态"
-        created_at: "时间"
-        address_type: "支付方式"
+        currency: 币种
+        state: 状态
+        created_at: 时间
     statistic_withdraws_grid:
       columns:
-        member: "用户"
-        address_type_text: "支付方式"
-        address: "支付地址"
-        amount: "金额"
-        currency: "币种"
-        created_at: "时间"
-        state_text: "状态"
+        member: 用户
+        address: 支付地址
+        amount: 金额
+        currency: 币种
+        created_at: 时间
+        state_text: 状态
       filters:
-        state: "状态"
-        created_at: "时间"
-        address_type: "支付方式"
+        state: 状态
+        created_at: 时间
   deposit_channel:
     bank:
-      key: "银行转账"
-      title: "银行转账充值"
-      intro: "通过银行转账的方式，从您的银行账户充值人民币到您的貔貅账户。"
+      key: 银行转账
+      title: 银行转账充值
+      intro: 通过银行转账的方式，从您的银行账户充值人民币到您的貔貅账户。
       latency: 10 分钟到账
-      transfer: "人工处理"
-      go: "立即充值"
+      transfer: 人工处理
+      go: 立即充值
     satoshi:
-      key: "块链"
-      title: "比特币充值"
-      intro: "从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。"
+      key: 块链
+      title: 比特币充值
+      intro: 从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。
       latency: 10 分钟到账
-      transfer: "自动"
-      go: "立即充值"
+      transfer: 自动
+      go: 立即充值
   deposits/bank:
     aasm_state:
-      submitting: "已提交"
-      cancelled: "已撤销"
-      submitted: "受理中"
-      accepted: "充值成功"
-      rejected: "已驳回"
-      checked: "充值成功"
-      warning: "异常"
+      submitting: 已提交
+      cancelled: 已撤销
+      submitted: 受理中
+      accepted: 充值成功
+      rejected: 已驳回
+      checked: 充值成功
+      warning: 异常
   private:
     deposits:
       banks:
         destroy:
-          notice: "撤销充值请求成功。"
+          notice: 撤销充值请求成功。
         create:
-          notice: "您的充值订单提交成功，请按照提示继续完成您的转账操作。"
-          submit: "提交"
+          notice: 您的充值订单提交成功，请按照提示继续完成您的转账操作。
+          submit: 提交
         new:
-          fund_source: "充值账号"
-          manage_fund_source: "管理充值账号"
-          submit: "提交"
+          fund_source: 充值账号
+          manage_fund_source: 管理充值账号
+          submit: 提交
         edit:
-          bank: "收款银行"
-          branch: "收款开户行"
-          holder: "收款账户"
-          account: "收款账号"
-      satoshis:
-        new:
-          send-coin: "在您的钱包付款或发款中,复制以下专门为您充值准备的比特币地址,在金额中填入您希望充值到账的数量, 同时别忘记支付一定的矿工费以保证交易尽快被全网确认。您也可以在移动端钱包中扫描二维码来进行支付。
-            您可以重复使用此比特币地址和二维码进行充值。"
-          check-confirm: "完成以上操作后点击发送付款,此交易将被广播到全网,您便可以这里查看到此笔交易的状态, 当交易达到全网1个确认 (约10至60分钟)
-            时,系统将自动充值到账。 您可以到<a href='%{path}'>资产公开</a>中查询。"
-        gen_address:
-          require_transaction: "当前地址没有使用过之前不能生成新地址。"
+          bank: 收款银行
+          branch: 收款开户行
+          hodler: 收款账号
+          account: 收款账号
       shared:
         new:
-          step-1: "第一步"
-          open-wallet: "请使用您常用的钱包服务，本地钱包、在线钱包或移动端的钱包，选择付款或发送。"
-          step-2: "第二步"
-          gen_address_html: "正在为您生成钱包地址，请等待片刻然后点击<a href='javascript:window.location.reload();'>刷新</a>查看生成结果。"
-          or: "您也可以"
-          scan-qr: "在移动端钱包中扫描二维码来进行支付。"
-          step-3: "第三步"
-          step-4: "第四步"
-          history_html: "当您在您的钱包中完成发送付款的操作后,点击<a href='javascript:window.location.reload();'>刷新</a>,就能在⻚面下⽅历史纪录中查看到您当前的充值状态。"
-          generate-new: "生成新地址"
-          countdown: "正在生成地址.."
+          step-1: 第一步
+          open-wallet: 请使用您常用的钱包服务，本地钱包、在线钱包或移动端的钱包，选择付款或发送。
+          step-2: 第二步
+          gen_address_html: 正在为您生成钱包地址，请等待片刻然后点击<a href='javascript:window.location.reload();'>刷新</a>查看生成结果。
+          or: 您也可以
+          scan-qr: 在移动端钱包中扫描二维码来进行支付。
+          step-3: 第三步
+          step-4: 第四步
+          history_html: 当您在您的钱包中完成发送付款的操作后,点击<a href='javascript:window.location.reload();'>刷新</a>,就能在⻚面下⽅历史纪录中查看到您当前的充值状态。
+          generate-new: 生成新地址
+          countdown: 正在生成地址..
         gen_address:
-          require_transaction: "当前地址没有使用过之前不能生成新地址。"
+          require_transaction: 当前地址没有使用过之前不能生成新地址。
+      satoshis:
+        new:
+          send-coin: 在您的钱包付款或发款中,复制以下专门为您充值准备的比特币地址,在金额中填入您希望充值到账的数量, 同时别忘记支付一定的矿工费以保证交易尽快被全网确认。您也可以在移动端钱包中扫描二维码来进行支付。 您可以重复使用此比特币地址和二维码进行充值。
+          check-confirm: 完成以上操作后点击发送付款,此交易将被广播到全网,您便可以这里查看到此笔交易的状态, 当交易达到全网1个确认 (约10至60分钟) 时,系统将自动充值到账。 您可以到<a href='%{path}'>资产公开</a>中查询。
+        gen_address:
+          require_transaction: 当前地址没有使用过之前不能生成新地址。
       index:
-        go: "立即充值"
+        go: 立即充值
     fund_sources:
       index:
-        manage_coin_address: "管理 %{name} 地址"
-        manage_bank_account: "管理银行账号"
-        guide_intro_coin: "通过增加%{name}提现地址，以便每次提现时快速选择。"
-        guide_intro_bank: "通过增加提现银行账号，以便每次提现时快速选择。"
-        new: "新建"
-        currency: "币种"
-        bank: "银行"
-        label: "标签"
-        account: "账号"
-        address: "地址"
-        action: "操作"
-        delete: "移除"
-        are_you_sure: "确定移除以保存的地址?"
+        manage_coin_address: 管理 %{name} 地址
+        manage_bank_account: 管理银行账号
+        guide_intro_coin: 通过增加%{name}提现地址，以便每次提现时快速选择。
+        guide_intro_bank: 通过增加提现银行账号，以便每次提现时快速选择。
+        new: 新建
+        currency: 币种
+        bank: 银行
+        label: 标签
+        account: 账号
+        address: 地址
+        action: 操作
+        delete: 移除
+        are_you_sure: 确定移除以保存的地址?
       new:
-        fund_source_selector: "银行"
-        fund_source_uid: "账号"
-        fund_source_label: "标签"
-        fund_source_address: "地址"
-        extra_hint: "若您的开户银行不再列表中，请联系客服"
+        fund_source_selector: 银行
+        fund_source_uid: 账号
+        fund_source_label: 标签
+        fund_source_address: 地址
+        extra_hint: 若您的开户银行不再列表中，请联系客服
     trade:
       trades:
         orders:
-          title: "挂单记录"
+          title: 挂单记录
         trades:
-          title: "交易记录"
+          title: 交易记录
         charges:
-          title: "充值记录"
+          title: 充值记录
       orders:
         index:
-          done: "已成交"
-          cancel: "撤单"
-          confirm: "确定要进行撤单 #%{id} 吗？"
+          done: 已成交
+          cancel: 撤单
+          confirm: '确定要进行撤单 #%{id} 吗？'
         destroy:
           'true': "#%{id} 撤单成功"
           'false': "#%{id} 撤单失败"
     withdraws:
       update:
-        request_accepted: "提现申请提交成功"
+        request_accepted: 提现申请提交成功
       destroy:
-        request_canceled: "提现申请已撤销"
+        request_canceled: 提现申请已撤销
       index:
-        fee: "手续费"
-        total: "总计"
-        withdraw_history: "提现历史记录"
+        fee: 手续费
+        total: 总计
+        withdraw_history: 提现历史记录
       create:
-        two_factors_error: "两步验证失败"
+        two_factors_error: 两步验证失败
       banks:
         update:
-          notice: "银行转账提现申请已提交，我们将尽快为您处理。"
-          alert_two_factor: "两步验证错误"
+          notice: 银行转账提现申请已提交，我们将尽快为您处理。
+          alert_two_factor: 两步验证错误
         destroy:
-          notice: "银行转账提现申请已撤销，冻结金额已退回到您的账户中。"
+          notice: 银行转账提现申请已撤销，冻结金额已退回到您的账户中。
         new:
-          fund_source: "提现账号"
-          manage_fund_source: "管理提现账号"
-          submit: "提交"
-          allin: "全部提取"
+          fund_source: 提现账号
+          manage_fund_source: 管理提现账号
+          submit: 提交
+          allin: 全部提取
         create:
-          notice: "您的提现请求提交成功，请按照提示继续完成您的转账操作。"
+          notice: 您的提现请求提交成功，请按照提示继续完成您的转账操作。
       satoshis:
         destroy:
-          notice: "提现申请已被撤销，冻结余额已返还到您的账户"
+          notice: 提现申请已被撤销，冻结余额已返还到您的账户
         update:
-          notice: "提现申请成功，我们会尽快处理您的请求"
-          alert_two_factor: "两步验证错误"
+          notice: 提现申请成功，我们会尽快处理您的请求
+          alert_two_factor: 两步验证错误
         new:
-          submit: "提交"
-          allin: "全部提取"
-          fund_source_label: "标签"
-          manage_fund_source: "管理提现地址"
+          submit: 提交
+          allin: 全部提取
+          fund_source_label: 标签
+          manage_fund_source: 管理提现地址
         create:
-          notice: "您的提现请求提交成功，请按照提示继续完成您的转账操作。"
+          notice: 您的提现请求提交成功，请按照提示继续完成您的转账操作。
     tickets:
       index:
-        new_ticket: "新建服务单"
+        new_ticket: 新建服务单
       new:
-        intro: "如果您有任何问题，意见或建议需要和我们沟通，请给我们建立一个服务单，我们会尽快回复您。"
-      ticket_create_succ: "服务单创建成功。"
-      ticket_create_fail: "服务单创建失败, 请稍候再试。"
-      comment_succ: "回复成功。"
-      comment_fail: "回复失败，请稍候再试。"
-      me: "我"
-      supporter: "客服"
-      close: "关闭服务单"
-      close_succ: "服务单已关闭"
-      close_confirm: "您确定要关闭这个服务单吗？"
-      title_content_both_blank: "标题和描述至少要填写一个哦！"
-      from: "来自"
-      view_closed_tickets: "查看已结束的服务单"
-      view_open_tickets: "查看未结束的服务单"
+        intro: 如果您有任何问题，意见或建议需要和我们沟通，请给我们建立一个服务单，我们会尽快回复您。
+      ticket_create_succ: 服务单创建成功。
+      ticket_create_fail: 服务单创建失败, 请稍候再试。
+      comment_succ: 回复成功。
+      cooment_fail: 服务单创建失败, 请稍候再试。
+      me: 我
+      supporter: 客服
+      close: 关闭服务单
+      close_succ: 服务单已关闭
+      close_confirm: 您确定要关闭这个服务单吗？
+      title_content_both_blank: 标题和描述至少要填写一个哦！
+      from: 来自
+      view_closed_tickets: 查看已结束的服务单
+      view_open_tickets: 查看未结束的服务单
     account_versions:
       index:
-        description: "每一笔交易、每一分钱收入都是有据可查，巨细无遗的。"
+        description: 每一笔交易、每一分钱收入都是有据可查，巨细无遗的。
     api_tokens:
       user_tokens:
-        no_token: "没有API密钥"
-        edit: "编辑"
-        destroy: "删除"
-        destroy-confirm: "密钥删除之后无法找回，您确认要继续吗？"
-        create: "创建新密钥"
+        no_token: 没有API密钥
+        edit: 编辑
+        destroy: 删除
+        destroy-confirm: 密钥删除之后无法找回，您确认要继续吗？
+        create: 创建新密钥
         http: HTTP API 文档
         websocket: Websocket API 文档
-        more: "更多API信息请查看Github上的API章节："
+        more: '更多API信息请查看Github上的API章节：'
       oauth_tokens:
-        panel_title: "应用绑定"
-        title: "已绑定的第三方应用"
-        intro: "管理所有您绑定过的第三方应用。"
-        no_token: "没有绑定第三方应用"
-        unbind: "解除绑定"
-        unbind-confirm: "您确认要解除绑定吗？"
-        oauth_app_name: "应用名称"
-        oauth_app_expire: "授权自动过期时间"
-        oauth_app_scope: "授权范围"
+        panel_title: 应用绑定
+        title: 已绑定的第三方应用
+        intro: 管理所有您绑定过的第三方应用。
+        no_token: 没有绑定第三方应用
+        unbind: 解除绑定
+        unbind-confirm: 您确认要解除绑定吗？
+        oauth_app_name: 应用名称
+        oauth_app_expire: 授权自动过期时间
+        oauth_app_scope: 授权范围
       unbind:
-        success: "绑定已成功解除。"
-        failed: "解除绑定失败。"
+        success: 绑定已成功解除。
+        failed: 解除绑定失败。
       new:
-        label_hint: "标签可以帮助记忆密钥的用途，可选"
+        label_hint: 标签可以帮助记忆密钥的用途，可选
       create:
-        alert_two_factor: "两步验证失败。"
-        success: "密钥创建成功。"
-        failed: "很抱歉，密钥创建失败, 请再几分钟后重试或联系管理员。"
-        desc: "请将以下Access Key和Secret Key复制粘贴到安全的地方保存。该页面关闭之后Secret Key不会再显示。"
+        alert_two_factor: 两步验证失败。
+        success: 密钥创建成功。
+        failed: 很抱歉，密钥创建失败, 请再几分钟后重试或联系管理员。
+        desc: 请将以下Access Key和Secret Key复制粘贴到安全的地方保存。该页面关闭之后Secret Key不会再显示。
       edit:
-        access_key_hint: "创建时间 %{created_at}"
-        label_hint: "标签可以帮助记忆密钥的用途，可选"
+        access_key_hint: 创建时间 %{created_at}
+        label_hint: 标签可以帮助记忆密钥的用途，可选
         ip_whitelist_hint: IP地址以逗号分隔，留空表示任何IP都可使用该密钥
       update:
-        alert_two_factor: "两步验证失败。"
-        success: "保存成功。"
-        failed: "保存失败, 请再几分钟后重试或联系管理员。"
+        alert_two_factor: 两步验证失败。
+        success: 保存成功。
+        failed: 保存失败, 请再几分钟后重试或联系管理员。
       destroy:
-        success: "密钥已删除。"
-        failed: "密钥删除失败。"
+        success: 密钥已删除。
+        failed: 密钥删除失败。
     assets:
       index:
-        liability-proof: "资产证明"
+        liability-proof: 资产证明
         btc-assets: BTC资产清单
         cny-assets: CNY资产清单
       liability_tabs:
-        verify-btc: "验证我的BTC资产"
-        verify-cny: "验证我的CNY资产"
-        btc-assets-total: "交易所BTC总资产："
-        cny-assets-total: "交易所CNY总资产："
+        verify-btc: 验证我的BTC资产
+        verify-cny: 验证我的CNY资产
+        btc-assets-total: '交易所BTC总资产：'
+        cny-assets-total: '交易所CNY总资产：'
       liability_proof:
-        title: "资产证明"
-        intro: "我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。"
-        how-to-verify: "如何验证交易所具备偿付能力？"
+        title: 资产证明
+        intro: 我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。
+        how-to-verify: 如何验证交易所具备偿付能力？
         how-to-verify-uri: https://peatio.com/documents/liability_proof
       liability_data:
-        liability-proof-generating: "用户资产证明正在生成中，请30分钟后再来。"
-        root-json: "交易所总资产验证代码"
-        partial-tree: "我的%{currency}资产："
-        get-partial-tree: "获取我的资产验证代码"
-        timestamp: "当前操作仅针对您在%{time}的资产验证。"
-        go-verify: "去验证"
+        liability-proof-generating: 用户资产证明正在生成中，请30分钟后再来。
+        root-json: 交易所总资产验证代码
+        partial-tree: '我的%{currency}资产：'
+        get-partial-tree: 获取我的资产验证代码
+        timestamp: 当前操作仅针对您在%{time}的资产验证。
+        go-verify: 去验证
       btc_assets:
         title: BTC资产清单
-        intro: "查看交易所全部BTC资产清单"
+        intro: 查看交易所全部BTC资产清单
         total: BTC总资产
-        address: "钱包地址"
+        address: 钱包地址
       cny_assets:
         title: CNY资产清单
-        intro: "查看交易所全部CNY资产清单"
+        intro: 查看交易所全部CNY资产清单
         total: CNY总资产
-        description: " <p>每位登录貔貅的用户可通过查询貔貅唯一开户银行余额监督我们的服务。</p> <p>开户银行： %{bank}</p>
-          <p>开户帐号： %{address}</p> <p>查询密码： %{password}</p> <p>查询电话： %{tel}</p>"
+        description: " <p>每位登录貔貅的用户可通过查询貔貅唯一开户银行余额监督我们的服务。</p> <p>开户银行： %{bank}</p> <p>开户帐号： %{address}</p> <p>查询密码： %{password}</p> <p>查询电话： %{tel}</p>"
       partial_tree:
-        success: "获取成功！验证数据生成时间为：%{timestamp}"
+        success: '获取成功！验证数据生成时间为：%{timestamp}'
     funds:
       show:
+        account_history: 账户历史记录
         cny_format: '0.00'
         btc_format: '0.00000000'
-        account_history: "账户历史记录"
         reason:
           cny:
-            strike_add: "成交卖出"
-            strike_sub: "成交买入"
-            deposit: "充值"
-            withdraw: "提现"
-            fix: "系统修正"
+            strike_add: 成交卖出
+            strike_sub: 成交买入
+            deposit: 充值
+            withdraw: 提现
+            fix: 系统修正
           btc:
-            strike_add: "成交买入"
-            strike_sub: "成交卖出"
-            deposit: "充值"
-            withdraw: "提现"
-            fix: "系统修正"
+            strike_add: 成交买入
+            strike_sub: 成交卖出
+            deposit: 充值
+            withdraw: 提现
+            fix: 系统修正
         ref:
-          system: "系统"
-          default: "默认"
+          system: 系统
+          default: 默认
     history:
-      transaction:
-        Deposit: "充值"
-        Withdraw: "提现"
       account:
-        buy: "买入"
-        sell: "卖出"
-        filter_by_type: "查询类型"
-        account_history: "账户记录"
-        type: "类型"
-        txid: Transaction ID
-        timestamp: "时间"
-        currency: "币种"
-        amount: "金额"
-        fee: "手续费"
+        buy: 买入
+        sell: 卖出
+        filter_by_type: 查询类型
+        account_history: 账户记录
+        type: 类型
+        timestamp: 时间
+        fee: 手续费
       orders:
-        order_history: "委托记录"
+        order_history: 委托记录
         id: ID
-        type: "类型"
-        state: "状态"
-        market: "货币对"
-        price: "委托价"
-        volume: "委托数量"
-        average_price: "平均成交价"
-        fullfilled_volume: "成交数量"
-        timestamp: "委托时间"
+        type: 类型
+        state: 状态
+        market: 货币对
+        price: 委托价
+        volume: 委托数量
+        average_price: 平均成交价
+        fullfilled_volume: 成交数量
+        timestamp: 委托时间
       order:
-        ask: "卖出"
-        bid: "买入"
-        wait: "待成交"
-        cancel: "已取消"
-        done: "已成交"
+        ask: 卖出
+        bid: 买入
+        wait: 待成交
+        cancel: 已取消
+        done: 已成交
       trades:
-        trade_history: "成交记录"
-        side: "类型"
-        created_at: "时间"
-        base_currency: "基准货币"
-        base_amount: "数量"
-        quote_currency: "报价货币"
-        quote_amount: "数量"
-        price: "成交价"
+        trade_history: 成交记录
+        side: 类型
+        created_at: 时间
+        base_currency: 基准货币
+        base_amount: 数量
+        quote_currency: 报价货币
+        quote_amount: 数量
+        price: 成交价
       trade:
-        sell: "卖出"
-        buy: "买入"
+        sell: 卖出
+        buy: 买入
     id_documents:
       edit:
-        state: "验证状态"
-        state_unverified: "未验证"
-        state_verifying: "验证中"
-        state_verified: "已验证"
-        name: "真实姓名"
-        birth_date: "生日"
-        address: "地址"
-        city: "城市"
-        country: "国家"
-        zipcode: "邮编"
-        id_document_type: "证件类型"
-        id_document_number: "证件号码"
-        id_document_file: "证件照片"
-        id_bill_type: "账单类型"
-        id_bill_file: "账单照片"
+        state: 验证状态
+        state_unverified: 未验证
+        state_verifying: 验证中
+        state_verified: 已验证
+        name: 真实姓名
+        birth_date: 生日
+        address: 地址
+        city: 城市
+        country: 国家
+        zipcode: 邮编
+        id_document_type: 证件类型
+        id_document_number: 证件号码
+        id_document_file: 证件照片
+        id_bill_type: 账单类型
+        id_bill_file: 账单照片
       update:
-        notice: "实名认证信息已成功提交。"
+        notice: 实名认证信息已成功提交。
     markets:
       show:
-        error: "委托挂单失败"
-        success: "委托挂单成功"
-        analysis_panel: "分析面板"
-        help_panel: "帮助面板"
-        done: "成交"
-        cancel: "撤单"
-        cancel_confirm: "确认撤销此单吗？"
-        confirm: "确认"
-        ask_order: "卖 ##sn#"
-        bid_order: "买 ##sn#"
-        my_active_order: "<v>有</v><v>效</v><v>委</v><v>单</v>"
-        my_done_order: "<v>成</v><v>交</v><v>委</v><v>单</v>"
-        market_switch: "<v>交</v><v>易</v><v>品</v><v>种</v>"
-        trades: "<v>委</v><v>单</v><v>成</v><v>交</v>"
-        chat: "聊天频道"
+        error: 委托挂单失败
+        success: 委托挂单成功
+        analysis_panel: 分析面板
+        help_panel: 帮助面板
+        done: 成交
+        cancel: 撤单
+        cancel_confirm: 确认撤销此单吗？
+        confirm: 确认
+        ask_order: '卖 ##sn#'
+        bid_order: '买 ##sn#'
+        my_active_order: <v>有</v><v>效</v><v>委</v><v>单</v>
+        my_done_order: <v>成</v><v>交</v><v>委</v><v>单</v>
+        trades: <v>委</v><v>单</v><v>成</v><v>交</v>
+        market_switch: <v>交</v><v>易</v><v>品</v><v>种</v>
+        chat: 聊天频道
       range_switch:
         switch_1: 1m
         switch_5: 5m
@@ -835,66 +782,65 @@ zh-CN:
         switch_4320: 3d
         switch_10080: 1w
       depths:
-        price: "价格"
-        amount: "数量"
-        buy: "买入"
-        sell: "卖出"
+        price: 价格
+        amount: 数量
+        buy: 买入
+        sell: 卖出
       ticker:
-        last: "最新成交价"
-        ask: "卖一价"
-        bid: "买一价"
+        last: 最新成交价
+        ask: 卖一价
+        bid: 买一价
       account_balance:
-        title: "账户余额"
-        available: "可用 %{currency}"
-      balance:
-        balance: "余额"
-      bid_entry:
-        title: " [买入] "
-        action: "提交 [买入] 委单"
-        price: "价格"
-        last_price: "最新价格"
-        amount: "数量"
-        total: "金额"
+        title: 账户余额
+        available: 可用 %{currency}
       ask_entry:
         title: " [卖出] "
-        action: "提交 [卖出] 委单"
-        price: "价格"
-        last_price: "最新价格"
-        amount: "数量"
-        total: "金额"
+        action: 提交 [卖出] 委单
+        price: 价格
+        last_price: 最新价格
+        amount: 数量
+        total: 金额
+        balance: 账户余额
+      bid_entry:
+        title: " [买入] "
+        action: 提交 [买入] 委单
+        price: 价格
+        last_price: 最新价格
+        amount: 数量
+        total: 金额
+        balance: 账户余额
       place_order:
-        price_high: "高"
-        price_low: "低"
-        full_bid: "满"
-        full_ask: "空"
+        price_high: 高
+        price_low: 低
+        full_bid: 满
+        full_ask: 空
       order_book:
-        title: "市场实时委单记录"
-        volume: "数量"
-        price: "价格"
-        amount: "总价"
-        ask: "卖出"
-        bid: "买入"
-        fade_toggle_depth: "市场深度"
+        title: 市场实时委单记录
+        volume: 数量
+        price: 价格
+        amount: 总价
+        ask: 卖出
+        bid: 买入
+        fade_toggle_depth: 市场深度
       market_trades:
-        title: "实时委单成交记录"
-        time: "成交时间"
-        price: "成交价"
-        volume: "成交量"
-        amount: "总价"
+        title: 实时委单成交记录
+        time: 成交时间
+        price: 成交价
+        volume: 成交量
+        amount: 总价
       header:
-        network: "连接状态"
-        vol: "二十四小时 成交量"
-        high: "最高"
-        low: "最低"
+        network: 连接状态
+        vol: 二十四小时 成交量
+        high: 最高
+        low: 最低
       settings:
-        sound: "音效"
-        notification: "桌面实时通知"
-        title: "设置"
+        sound: 音效
+        notification: 桌面实时通知
+        title: 设置
       account_summary:
-        account: "账户"
-        title: "总资产约"
-        amount: "总计"
-        locked: "冻结"
+        title: 总资产约
+        amount: 总计
+        locked: 冻结
         funds: "[资金]"
         signout: "[安全退出]"
         settings: "[账户设置]"
@@ -902,299 +848,219 @@ zh-CN:
         hide_all_accounts: "[隐藏其他账户]"
       market_switch:
         title: "[选择交易品种]"
-        name: "交易对"
-        ask: "卖出价"
-        bid: "买入价"
+        name: 交易对
+        ask: 卖出价
+        bid: 买入价
       my_done_orders:
-        title: "我的 [成交委单]"
-        filter: "过滤"
-        all: "查看 [全部委单]"
-        buy: "查看 [买入委单]"
-        sell: "查看 [卖出委单]"
-        price: "成交价"
-        volume: "成交量"
-        time: "创建时间"
-        amount: "总价"
+        title: 我的 [成交委单]
+        filter: 过滤
+        all: 查看 [全部委单]
+        buy: 查看 [买入委单]
+        sell: 查看 [卖出委单]
+        cancel: 已取消订单
+        price: 成交价
+        volume: 成交量
+        time: 创建时间
       my_orders:
-        title: "我的 [有效委单]"
-        orders_cancel: "最新撤销"
-        one_click_clear: "一键撤销"
-        clear_all: "全部 [买卖委托]"
-        clear_bids: "[买入委托]"
-        clear_asks: "[卖出委托]"
-        confirm_clear_all: "确定要撤销全部 [买卖委单] 吗?"
-        confirm_clear_bids: "确定要撤销 [买入委单] 吗?"
-        confirm_clear_asks: "确定要撤销 [卖出委单] 吗?"
-        price: "委单价"
-        volume: "委单量"
-        time: "创建时间"
-        amount: "总价"
-        operation: "撤销"
+        title: 我的 [有效委单]
+        orders_wait: 挂单纪录
+        orders_done: 已完成订单
+        orders_cancel: 最新撤销
+        clear_all: 全部 [买卖委托]
+        clear_bids: '[买入委托]'
+        clear_asks: '[卖出委托]'
+        confirm_clear_all: 确定要撤销全部 [买卖委单] 吗?
+        confirm_clear_bids: 确定要撤销 [买入委单] 吗?
+        confirm_clear_asks: 确定要撤销 [卖出委单] 吗?
+        one_click_clear: 一键撤销
+        price: 委单价
+        volume: 委单量
+        time: 创建时间
+        operation: 撤销
       mask:
-        warning: "请 <a class=text-up href='/'>登录</a> 或 <a class=text-up href='/'>注册</a>
-          后进行操作"
-      kline_chart:
-        title: "行情走势图 - K线"
+        warning: 请 <a class=text-up href='/'>登录</a> 或 <a class=text-up href='/'>注册</a> 后进行操作
+      klime_chart:
+        title: K线图
       global:
-        global_orders_title: "十档盘口"
-        global_trades_title: "成交记录"
+        global_orders_title: 十档盘口
+        global_trades_title: 成交记录
       chat:
-        title: "聊天频道"
+        title: 聊天频道
     settings:
-      success: "设置成功！"
-      failure: "无效动态密码，设置失败。请重试。"
+      success: 设置成功！
+      failure: 无效动态密码，设置失败。请重试。
       index:
-        safety_instruction: "您应启用全部 <b>安全设置</b><i class='fa fa-bolt'></i>，以保障帐户及资金安全。"
-        reset_password: "重置登录密码"
-        reauthenticate: "身份验证"
-        activated: "邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。"
-        auth-activated: "请您验证邮箱地址，否则将无法进行任何操作。"
-        auth-verified: "请您提交实名认证，否则将无法进行任何操作。"
+        safety_instruction: 您应启用全部 <b>安全设置</b><i class='fa fa-bolt'></i>，以保障帐户及资金安全。
+        reset_password: 重置登录密码
+        reauthenticate: 身份验证
+        activated: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
+        auth-activated: 请您验证邮箱地址，否则将无法进行任何操作。
+        auth-verified: 请您提交实名认证，否则将无法进行任何操作。
         email:
-          title: "邮箱验证"
-          description: "您的邮箱还未经过验证，点击“发送邮件”按钮，完成验证。"
-          description-activated: "您的邮箱已验证通过，请牢记并保护好此邮箱地址，这是您作为登录的唯一账户。"
-          resend: "再次发送"
-          activated: "已绑定"
+          title: 邮箱验证
+          description: 您的邮箱还未经过验证，点击“发送邮件”按钮，完成验证。
+          description-activated: 您的邮箱已验证通过，请牢记并保护好此邮箱地址，这是您作为登录的唯一账户。
+          resend: 再次发送
+          activated: 已绑定
+          go: 设置
         phone_number:
-          title: "手机绑定"
-          description: "绑定手机号码，让你在貔貅交易所的资金更安全，您可以即时收到在网站操作的动态提醒并及时监控账号安全。"
-          go: "设置"
-          verified: "已验证"
+          title: 手机绑定
+          description: 绑定手机号码，让你在貔貅交易所的资金更安全，您可以即时收到在网站操作的动态提醒并及时监控账号安全。
+          go: 设置
+          verified: 已验证
         two_factor_auth:
-          title: "两步验证"
-          description: "两步验证为您的帐户额外添加了一层保护。"
-          enable: "设置"
-          disable: "解除"
+          title: 两步验证
+          description: 两步验证为您的帐户额外添加了一层保护。
+          enable: 设置
+          disable: 解除
         verification:
-          title: "实名认证"
-          description: "为配合国家相关法令条例，请您正确输入信息，进行身份认证，身份认证未完成将不能在网站进行任何操作。"
-          go: "设置"
-          verified: "已验证"
+          title: 实名认证
+          description: 为配合国家相关法令条例，请您正确输入信息，进行身份认证，身份认证未完成将不能在网站进行任何操作。
+          go: 设置
+          verified: 已验证
         asset_passwords:
-          title: "资金密码"
-          description: "在您提现时，需要资金密码进行验证，强烈建议您不要使用和登录密码同样的密码！"
-          go: "设置"
+          title: 资金密码
+          description: 在您提现时，需要资金密码进行验证，强烈建议您不要使用和登录密码同样的密码！
+          go: 设置
         passwords:
-          title: "登录密码"
-          description: "此密码仅限作网站登录使用，请您牢记。"
-          go: "修改"
-          set: "设置"
+          title: 登录密码
+          description: 此密码仅限作网站登录使用，请您牢记。
+          go: 修改
+          set: 设置
         api_tokens:
           title: API密钥
-          description: "申请和管理您的API密钥"
-          go: "设置"
+          description: 申请和管理您的API密钥
+          go: 设置
         weibo:
-          title: "绑定微博"
-          description: "绑定微博后你可以通过微博进行登录, 而无需每次都输入账号密码."
-          bound_desc: "此账号已经与 %{nickname} 绑定"
-          bind: "绑定"
-          unbind: "解除绑定"
+          title: 绑定微博
+          description: 绑定微博后你可以通过微博进行登录, 而无需每次都输入账号密码.
+          bound_desc: 此账号已经与 %{nickname} 绑定
+          bind: 绑定
+          unbind: 解除绑定
     otps:
       new:
-        step_1: "第一步"
-        step_2: "第二步"
-        step_3: "第三步"
-        or: "或"
-        download_app: "下载并打开Google Authenticator应用到您的智能手机上。"
-        scan_qr_code: "用手机扫瞄二维码"
-        enter_passphrase: "将以下密文手动输入到手机验证器中"
-        enter_passcode: "填入手机显示的动态密码以激活两步验证"
+        step_1: 第一步
+        step_2: 第二步
+        step_3: 第三步
+        or: 或
+        download_app: 下载并打开Google Authenticator应用到您的智能手机上。
+        scan_qr_code: 用手机扫瞄二维码
+        enter_passphrase: 将以下密文手动输入到手机验证器中
+        enter_passcode: 填入手机显示的动态密码以激活两步验证
     shared:
       balances:
-        locked: "冻结"
-        balance: "余额"
-        available: "可用"
+        locked: 冻结
+        balance: 余额
+        available: 可用
         title: "%{icon} %{c} 账户"
         cny_format: '0.00'
         btc_format: '0.00000000'
-        total: "总额合计"
+        total: 总额合计
   guides:
     private:
-      deposits:
-        banks:
-          panel: "银行转账充值"
-          intro: "通过银行转账的方式，从您的银行账户充值人民币到您的交易账户中。"
-          new:
-            default-panel: "历史记录"
-          create:
-            default-panel: "历史记录"
-          edit:
-            default-panel: "历史记录"
-        satoshis:
-          panel: "比特币充值"
-          intro: "从本地钱包客户端或任意在线钱包客户端转出比特币到我们为您提供的充值地址。"
-          new:
-            default-panel: "充值记录"
-        panel: "资金充值"
-        intro: "选择您充值的种类，比特币和人民币充值均为10分钟到账。"
       settings:
-        panel: "用户设置"
+        panel: 用户设置
         index:
-          intro: "管理并修改您的个人资料及绑定信息。"
+          intro: 管理并修改您的个人资料及绑定信息。
       api_tokens:
         panel: API密钥
         index:
-          title: "我的API密钥"
-          intro: "貔貅交易所为您提供了功能完备,高性能的自动化交易API, 通过API您能够得到当前市场行情, 建立买单卖单, 查询自己的委托及成交记录,
-            查询账户余额及个人信息."
+          title: 我的API密钥
+          intro: 貔貅交易所为您提供了功能完备,高性能的自动化交易API, 通过API您能够得到当前市场行情, 建立买单卖单, 查询自己的委托及成交记录, 查询账户余额及个人信息.
         new:
-          title: "创建新密钥"
+          title: 创建新密钥
         create:
-          title: "创建新密钥"
+          title: 创建新密钥
         edit:
-          title: "设置API密钥"
+          title: 设置API密钥
         update:
-          title: "设置API密钥"
+          title: 设置API密钥
       tickets:
-        panel: "服务单"
-      withdraws:
-        panel: "资金提现"
-        default-panel: "资金提现"
-        index:
-          title: "选择提现种类"
-          intro: "选择您提现的种类，比特币提现10分钟到账，人民币提现24小时到账。"
-        edit:
-          panel: "提现 > 确认提现"
-          bank:
-            intro: "选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。"
-          satoshi:
-            intro: "请您及时确认您的提现申请，如填写有误请您点击“返回”，重新填写。"
-        bank:
-          panel: "银行转账提现"
-          new:
-            panel: "提现 > 银行转账提现"
-            title: "银行转账提现"
-            intro: "选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。"
-            default-panel: "历史记录"
-        satoshi:
-          panel: "比特币提现"
-          new:
-            panel: "提现 > 比特币提现"
-            title: "比特币提现"
-            intro: "您可以输入您的提现地址或者选择之前已保存的提现地址，输入提现金额，提取到您的比特币提现地址。"
-            default-panel: "历史记录"
-        banks:
-          panel: "银行转账提现"
-          new:
-            panel: "银行转账提现"
-            intro: "选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。"
-            default-panel: "历史记录"
-          edit:
-            panel: "银行转账提现"
-            intro: "选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。"
-        satoshis:
-          panel: "比特币提现"
-          new:
-            intro: "选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。"
-            default-panel: "历史记录"
-          create:
-            intro: "选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。"
-            default-panel: "历史记录"
-          edit:
-            intro: "选择提现银行并输入帐号和提取金额，完成提交。您提现的银行账户姓名必须和您实名认证的姓名一致。"
+        panel: 服务单
       fund_sources:
-        panel: "充值提现账号管理"
+        panel: 充值提现账号管理
         index:
-          title: "充值提现账号管理"
-          intro: "通过增加充值提现账号，以便每次充值提现时快速选择。"
+          title: 充值提现账号管理
+          intro: 通过增加充值提现账号，以便每次充值提现时快速选择。
       id_documents:
-        panel: "实名认证"
+        panel: 实名认证
         new:
-          title: "提交实名认证信息"
-          intro: "为配合国家相关法令条例，请您正确输入信息，进行身份认证，身份认证未完成将不能在网站进行任何操作。"
+          title: 提交实名认证信息
+          intro: 为配合国家相关法令条例，请您正确输入信息，进行身份认证，身份认证未完成将不能在网站进行任何操作。
     panels:
-      balance: "用户账户信息"
-    authentications:
-      emails:
-        panel: "设置邮件地址"
-      identities:
-        panel: "密码设置"
-    reset_passwords:
-      panel: "登录密码"
-      new:
-        title: "重置登录密码"
-        intro: "请您输入您创建账户时的邮箱地址，输入验证码提交后，进入邮箱，根据提示重置密码。"
-      create:
-        title: "重置登录密码"
-        intro: "请您输入您创建账户时的邮箱地址，输入验证码提交后，进入邮箱，根据提示重置密码。"
-      edit:
-        title: "设置登录密码"
-      update:
-        title: "设置登录密码"
-    sessions:
-      panel: "登录"
-      new:
-        title: "登录我的账户"
-        intro: "现在登录，以便您开始交易，随时关注交易动态。"
-      failure:
-        title: "登录我的账户"
-        intro: "现在登录，以便您开始交易，随时关注交易动态。"
-    identities:
-      panel: "创建账户"
-      new:
-        title: "创建我的账户"
-        intro: "这将是您在貔貅交易所使用各项服务所需要的用户名，例如交易购买、转账、提币、提现等，为了您的账户安全，尽量避免不安全的因素，请您填写完整。"
-      edit:
-        panel: "我的账户"
-        title: "修改密码"
-    members:
-      panel: "个人资料"
-      edit:
-        title: "修改个人资料"
-    two_factors:
-      panel: "两步验证"
+      balance: 用户账户信息
     verify:
       google_auths:
-        panel: "两步验证"
-        show:
-          title: "设置两步验证"
-          intro: "通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。"
+        panel: 两步验证
         edit:
-          title: "解除两步验证"
-          intro: "若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。"
-        update:
-          title: "设置两步验证"
-          intro: "通过将密码和手机结合使用，可防止别有用心的人侵入您的帐户。在此我们使用谷歌身份验证器。"
-        destroy:
-          title: "解除两步验证"
-          intro: "若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。"
+          title: 解除两步验证
+          intro: 若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。
       sms_auths:
-        panel: "绑定手机号码"
+        panel: 绑定手机号码
+    reset_passwords:
+      panel: 登录密码
+      new:
+        title: 重置登录密码
+        intro: 请您输入您创建账户时的邮箱地址，输入验证码提交后，进入邮箱，根据提示重置密码。
+      create:
+        title: 重置登录密码
+        intro: 请您输入您创建账户时的邮箱地址，输入验证码提交后，进入邮箱，根据提示重置密码。
+      edit:
+        title: 设置登录密码
+      update:
+        title: 设置登录密码
+    sessions:
+      panel: 登录
+      new:
+        title: 登录我的账户
+        intro: 现在登录，以便您开始交易，随时关注交易动态。
+      failure:
+        title: 登录我的账户
+        intro: 现在登录，以便您开始交易，随时关注交易动态。
+    identities:
+      panel: 创建账户
+      new:
+        title: 创建我的账户
+        intro: 这将是您在貔貅交易所使用各项服务所需要的用户名，例如交易购买、转账、提币、提现等，为了您的账户安全，尽量避免不安全的因素，请您填写完整。
+      edit:
+        panel: 我的账户
+        title: 修改密码
+    two_factors:
+      panel: 两步验证
   simple_form:
     placeholders:
       deposit:
         bank:
-          amount: "最低金额100元"
-      defaults:
-        otp: 6位数字密码
+          amount: 最低金额100元
       session:
-        email: "邮箱地址"
-        password: ''
+        email: 邮箱地址
       identity:
-        email: "例如：xiaobai@example.com"
-        password: "请设置登录密码"
-        password_confirmation: "确认密码"
+        email: 例如：xiaobai@example.com
+        password: 请设置登录密码
+        password_confirmation: 确认密码
         edit:
-          password: "请设置新密码"
+          password: 请设置新密码
       document:
-        key: "文章连接URL键值"
-        title: "文章标题"
+        key: 文章连接URL键值
+        title: 文章标题
+      fund_source:
+        label: 真实姓名
+        address: 地址
       order_bid:
-        origin_volume: "买入数量"
-        sum: "总成交金额"
+        origin_volume: 买入数量
+        sum: 总成交金额
       order_ask:
-        origin_volume: "卖出数量"
-        sum: "总成交金额"
+        origin_volume: 卖出数量
+        sum: 总成交金额
       reset_password:
-        email: "例如：xiaobai@example.com"
-        password: "请设置登录密码"
+        email: 例如：xiaobai@example.com
+        password: 请设置登录密码
       withdraw:
         bank:
-          sum: "最低金额100元，单笔限额5万元"
+          sum: 最低金额100元，单笔限额5万元
         satoshi:
-          sum: "最低 0.001"
-          fund_extra: "填写常用标签（可选）"
+          sum: 最低 0.001
+          fund_extra: 填写常用标签（可选）
     hints:
       deposit:
         bank:
@@ -1202,193 +1068,182 @@ zh-CN:
           member_name: "<span class='text-danger'>充值银行账户姓名必须与您的实名认证姓名一致</span>"
           sn: "<span class='text-danger'>请您务必在银行转账操作备注中填写数字: <b>%{sn}</b>，否则我们无法快速处理您的订单。</span>"
       two_factor:
-        otp_secret: "建议您备份好二维码图片或者密文，以免手机意外丢失后给您带来不便。"
-        otp: "您的验证器每三十秒会重新生成新密码，请及时输入。"
+        otp_secret: 建议您备份好二维码图片或者密文，以免手机意外丢失后给您带来不便。
+        otp: 您的验证器每三十秒会重新生成新密码，请及时输入。
       identity:
-        password: "请输入至少6位密码, 建议包含大写、小写字母与数字。"
+        password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
       reset_password:
-        password: "请输入至少6位密码, 建议包含大写、小写字母与数字。"
+        password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
       id_document:
-        name: "请填写与您证件上一致的姓名。"
-      fund_source:
-        name: "提现银行账户姓名必须与您的实名认证姓名一致。"
-      member:
-        name: "提现银行账户姓名必须与您的实名认证姓名一致。"
+        name: 请填写与您证件上一致的姓名。
       withdraw:
         bank:
           member_name: "<span class='text-danger'>提现银行账户姓名必须与您的实名认证姓名一致</span>"
           sum: "<a target='_balance' href='#'>资费说明</a>"
-          fund_extra: "若您的开户银行不再列表中，请联系客服"
+          fund_extra: 若您的开户银行不再列表中，请联系客服
         satoshi:
           sum: "<a target='_balance' href='#'>资费说明</a>"
     creating: Creating...
     updating: Updating...
     buttons:
       or: or
-      cancel: "取消"
-    'yes': "是"
-    'no': "否"
+      cancel: 取消
+    'yes': '是'
+    'no': '否'
     required:
-      text: "必须的"
+      text: 必须的
       mark: "*"
     error_notification:
-      default_message: "请检查以下问题:"
+      default_message: '请检查以下问题:'
     labels:
       defaults:
-        otp: "验证器上的密码"
-        title: "标题"
+        title: 标题
       google_auth:
-        uri: "二维码"
-        otp_secret: "密文"
-        otp: "验证器上的密码"
-      sms_auth:
-        country: "国家"
-        otp: "短信验证码"
+        uri: 二维码
+        otp_secret: 密文
+        otp: 验证器上的密码
       fund_source:
-        label: "开户行 / 标签"
-        address: "银行卡号 / 地址"
-        category: "选择提现种类"
-        name: "账户名"
-      member:
-        name: "账户名"
+        label: 开户行 / 标签
+        address: 银行卡号 / 地址
+        category: 选择提现种类
       session:
-        email: "登录邮箱"
-        password: "登录密码"
-        captcha: "验证码"
+        email: 登录邮箱
+        password: 登录密码
+        captcha: 验证码
       identity:
-        email: "登录邮箱"
-        old_password: "旧密码"
-        password: "新密码"
-        password_confirmation: "确认密码"
+        email: 登录邮箱
+        old_password: 旧密码
+        password: 新密码
+        password_confirmation: 确认密码
       reset_password:
-        password: "新密码"
+        password: 新密码
       ticket:
-        content: "详细描述"
+        content: 详细描述
       withdraw:
         bank:
-          fund_extra: "开户行"
-          sum: "提取金额"
-          account_balance: "可用金额"
-          member_name: "账户名"
+          fund_extra: 开户行
+          sum: 提取金额
+          account_balance: 可用金额
+          member_name: 账户名
         satoshi:
-          fee: "手续费"
-          sum: "提取金额"
-          fund_uid: "提现地址"
-          fund_extra: "提现标签"
-          account_balance: "可用金额"
-          member_name: "账户名"
+          fee: 手续费
+          sum: 提取金额
+          fund_uid: 提现地址
+          fund_extra: 提现标签
+          account_balance: 可用金额
+          member_name: 账户名
   admin:
     deposits:
       banks:
         index:
-          oneday: "二十四小时内充值订单"
-          available: "全部未完成充值订单"
+          oneday: 二十四小时内充值订单
+          available: 全部未完成充值订单
         show:
-          alert: "未发现外部充值账单，无法处理充值。"
-          notice: "此账目已经充值成功，请手工记录。"
-          deposit: "充值请求"
-          accept: "充值"
-          target_deposit: "外部充值"
-          confirm: "确认给用户进行充值吗？"
+          alert: 未发现外部充值账单，无法处理充值。
+          notice: 此账目已经充值成功，请手工记录。
+          deposit: 充值请求
+          accept: 充值
+          target_deposit: 外部充值
+          confirm: 确认给用户进行充值吗？
         update:
           blank_txid: Txid 不能为空
       satoshis:
         update:
-          notice: "此笔充值已经成功到账。"
+          notice: 此笔充值已经成功到账。
         index:
-          accept: "立即充值"
-          accept_confirm: "确定立刻确认此充值？"
+          accept: 立即充值
+          accept_confirm: 确定立刻确认此充值？
     tickets:
-      view: "查看"
-      close: "关闭服务单"
-      comments_count: "回复数量"
-      replies: "回复"
-      open_tickets: "未结束服务单"
-      closed_tickets: "已结束服务单"
+      view: 查看
+      close: 关闭服务单
+      comments_count: 回复数量
+      replies: 回复
+      open_tickets: 未结束服务单
+      closed_tickets: 已结束服务单
     members:
       index:
-        search: "搜索"
-        members: "用户列表"
-        email: "邮箱地址"
-        name: "姓名"
-        phone: "手机号码"
-        wallet_address: "钱包地址"
+        search: 搜索
+        members: 用户列表
+        email: 邮箱地址
+        name: 姓名
+        phone: 手机号码
+        wallet_address: 钱包地址
       show:
-        member_title: "用户信息"
-        actions_title: "操作"
-        accounts_title: "账户信息"
-        account_versions_title: "账户记录"
+        member_title: 用户信息
+        actions_title: 操作
+        accounts_title: 账户信息
+        account_versions_title: 账户记录
     dashboard:
       index:
-        accounts_title: "账户汇总"
-        daemons_title: "系统汇总"
+        accounts_title: 账户汇总
+        daemons_title: 系统汇总
     documents:
       index:
-        new: "新建文档"
+        new: 新建文档
     statistic:
-      filter: "筛选"
-      summary: "总结"
-      click-to-expand: "点击展开"
+      filter: 筛选
+      summary: 总结
+      click-to-expand: 点击展开
       members:
         show:
-          table: "用户数据结果"
+          table: 用户数据结果
       orders:
         show:
-          avg: "挂单均价"
-          sum: "挂单量"
-          sum_strike: "被成交量"
-          count: "挂单数"
+          avg: 挂单均价
+          sum: 挂单量
+          sum_strike: 被成交量
+          count: 挂单数
       trades:
         show:
-          count: "成交数"
-          volume: "总量成交"
-          amount: "总价成交"
-          min_price: "最低成交价"
-          max_price: "最高成交价"
-          avg_price: "平均成交价"
-          amount_fee: "总价手续费"
-          volume_fee: "总量手续费"
+          count: 成交数
+          volume: 总量成交
+          amount: 总价成交
+          min_price: 最低成交价
+          max_price: 最高成交价
+          avg_price: 平均成交价
+          amount_fee: 总价手续费
+          volume_fee: 总量手续费
       deposits:
         show:
-          count: "总数"
-          amount: "金额合计"
+          count: 总数
+          amount: 金额合计
       withdraws:
         show:
-          count: "总数"
-          amount: "金额合计"
-          fee: "手续费"
+          count: 总数
+          amount: 金额合计
+          fee: 手续费
     withdraws:
       banks:
         index:
-          one: "待处理提现订单"
-          all: "二十四小时内订单"
-          empty: "无任何数据"
+          one: 待处理提现订单
+          all: 二十四小时内订单
+          empty: 无任何数据
         show:
-          process: "受理"
-          succeed: "提现"
-          reject: "驳回"
-          succeed_confirm: "确定处理提现？"
-          reject_confirm: "确定驳回提现？"
-          withdraw: "银行卡提现"
-          empty: "无任何数据"
+          process: 受理
+          succeed: 提现
+          reject: 驳回
+          succeed_confirm: 确定处理提现？
+          reject_confirm: 确定驳回提现？
+          withdraw: 银行卡提现
+          empty: 无任何数据
       satoshis:
         index:
-          one: "待处理提现订单"
-          all: "二十四小时内订单"
-          empty: "无任何数据"
+          one: 待处理提现订单
+          all: 二十四小时内订单
+          empty: 无任何数据
         show:
-          process: "受理"
-          succeed: "提现"
-          reject: "驳回"
-          succeed_confirm: "确定处理提现？"
-          reject_confirm: "确定驳回提现？"
-          withdraw: "比特币提现"
+          process: 受理
+          succeed: 提现
+          reject: 驳回
+          succeed_confirm: 确定处理提现？
+          reject_confirm: 确定驳回提现？
+          withdraw: 比特币提现
   deposits/satoshi:
     aasm_state:
-      submitted: "受理中"
-      accepted: "充值成功"
-      checked: "充值成功"
-      warning: "异常"
+      submitted: 受理中
+      accepted: 充值成功
+      checked: 充值成功
+      warning: 异常
   mongoid:
     errors:
       models:
@@ -1409,44 +1264,32 @@ zh-CN:
               relative_uri: must be an absolute URI.
   doorkeeper:
     scopes:
-      profile: "读取您的基本账户信息(如姓名, 邮件地址)和账户余额"
-      history: "读取您的挂单和成交记录"
-      trade: "代表您在Peatio上进行交易"
+      profile: 读取您的基本账户信息(如姓名, 邮件地址)和账户余额
+      history: 读取您的挂单和成交记录
+      trade: 代表您在Peatio上进行交易
     authorizations:
       new:
         title: Peatio 第三方应用授权
-        authorize_html: "确定要授权 <strong class='text-info'>%{name}</strong> 使用您的账户吗？"
-        scopes: "该应用将获得如下权限："
-        authorize: "同意"
-        deny: "拒绝"
+        authorize_html: 确定要授权 <strong class='text-info'>%{name}</strong> 使用您的账户吗？
+        scopes: '该应用将获得如下权限：'
+        authorize: 同意
+        deny: 拒绝
     errors:
       messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
+        invalid_request: The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.
         invalid_redirect_uri: The redirect uri included is not valid.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
+        unauthorized_client: The client is not authorized to perform this request using this method.
         access_denied: The resource owner or authorization server denied the request.
         invalid_scope: The requested scope is invalid, unknown, or malformed.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfiged.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
-        invalid_resource_owner: The provided resource owner credentials are not valid,
-          or resource owner cannot be found
+        server_error: The authorization server encountered an unexpected condition which prevented it from fulfilling the request.
+        temporarily_unavailable: The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.
+        credential_flow_not_configured: Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
+        resource_owner_authenticator_not_configured: Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfiged.
+        unsupported_response_type: The authorization server does not support this response type.
+        invalid_client: Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.
+        invalid_grant: The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.
+        unsupported_grant_type: The authorization grant type is not supported by the authorization server.
+        invalid_resource_owner: The provided resource owner credentials are not valid, or resource owner cannot be found
         invalid_token:
           revoked: The access token was revoked
           expired: The access token expired
@@ -1463,230 +1306,178 @@ zh-CN:
         destroy:
           notice: Application revoked.
   easy_table:
-    statistic:
-      member:
-        id: "编号"
-        email: asdf
+    satoshi:
+      amount: 金额
+      created_at: 创建时间
+      memo: 确认数
+      member_name: 用户
+      state_and_actions: 状态/操作
+      currency_obj_key_text: 币种
+    bank:
+      sn: SN
+      amount: 金额
+      created_at: 创建时间
+      fund_source: 账号
+      memo: Momo
+      member_name: 用户
+      state_and_actions: 状态/操作
+      currency_obj_key_text: 币种
   enumerize:
     account_version:
       reason:
-        fix: "系统修正"
-        unknown: "未知"
-        strike_add: "成交增加"
-        strike_sub: "成交扣除"
-        strike_fee: "手续费"
-        strike_unlock: "成交解除冻结"
-        order_cancel: "撤单"
-        order_submit: "挂单"
-        deposit: "充值"
-        withdraw: "提现"
-        withdraw_lock: "提现冻结"
-        withdraw_unlock: "提现驳回"
+        fix: 系统修正
+        unknown: 未知
+        strike_add: 成交增加
+        strike_sub: 成交扣除
+        strike_fee: 手续费
+        strike_unlock: 成交解除冻结
+        order_cancel: 撤单
+        order_submit: 挂单
+        deposit: 充值
+        withdraw: 提现
+        withdraw_lock: 提现冻结
+        withdraw_unlock: 提现驳回
     state:
-      done: "完成"
-      wait: "等待"
-      cancel: "取消"
+      done: 完成
+      wait: 等待
+      cancel: 取消
     currency:
       cny: CNY
       btc: BTC
     order:
       state:
-        done: "完全成交"
-        wait: "等待成交"
-        cancel: "撤销"
-    deposit:
-      address_type:
-        satoshi: "比特币"
-        bank: "银行转账"
+        done: 完全成交
+        wait: 等待成交
+        cancel: 撤销
+    withdraw:
+      state:
+        submitting: 受理中
+        submitted: 已受理
+        rejected: 已驳回
+        accepted: 已受理
+        suspect: 异常
+        processing: 受理中
+        done: 完成
+        canceled: 已撤销
     fund_source:
       category:
-        satoshi: "比特币 - 网络转账"
-        bank: "人民币 - 银行转账"
+        satoshi: 比特币 - 网络转账
+        bank: 人民币 - 银行转账
     id_document:
       id_document_type:
-        id_card: "身份证"
-        passport: "护照"
-        driver_license: "驾照"
+        id_card: 身份证
+        passport: 护照
+        driver_license: 驾照
       id_bill_type:
-        bank_statement: "银行账单"
-        tax_bill: "税单"
+        bank_statement: 银行账单
+        tax_bill: 税单
   views:
     pagination:
       first: "<<"
-      last: ">>"
+      last: '>>'
       previous: "上一页"
-      next: "下一页"
+      next: 下一页
       truncate: "..."
   comment_mailer:
     admin_notification:
       subject: "[PEATIO] 用户回复了服务单"
-      notification_content: "用户 %{email} 回复了服务单，详情请查看链接："
+      notification_content: 用户 %{email} 回复了服务单，详情请查看链接：
     user_notification:
       subject: "[PEATIO] 你的服务单有了新的回复"
-      notification_content: "你的服务单有一条新的回复, 请在下方链接查看详情："
+      notification_content: '你的服务单有一条新的回复, 请在下方链接查看详情：'
   deposit_mailer:
     accepted:
       subject: "[貔貅] 你的充值已经到账"
-      content: "您的 %{currency} 已经到账."
+      content: 您的 %{currency} 已经到账.
+  mailer:
+    dear_user: 您好,
+    signature: 貔貅团队
+    please_contact: 如果此次登录不是您本人操作，请马上<a href="mailto:%{contact_mail}">联系我们</a>。
+    footer: 此邮件由系统自动发出，请勿直接回复。 有问题请<a href="mailto:%{contact_mail}">联系我们</a>。
   member_mailer:
     notify_signin:
       subject: "[PEATIO] 您刚刚成功登录了貔貅交易所"
-      just_signed_in: "您刚刚成功登录了貔貅交易所。"
+      just_signed_in: 您刚刚成功登录了貔貅交易所。
     google_auth_activated:
       subject: "[PEATIO] 绑定谷歌两步验证"
-      google_auth_activated: "您已绑定谷歌两步验证。"
+      google_auth_activated: 您已绑定谷歌两步验证。
     google_auth_deactivated:
       subject: "[PEATIO] 重置谷歌两步验证"
-      google_auth_deactivated: "您已重置谷歌两步验证。"
+      google_auth_deactivated: 您已重置谷歌两步验证。
     sms_auth_activated:
       subject: "[PEATIO] 绑定短信两步验证"
-      sms_auth_activated: "您已绑定短信两步验证。"
+      sms_auth_activated: 您已绑定短信两步验证。
     sms_auth_deactivated:
       subject: "[PEATIO] 重置短信两步验证"
-      sms_auth_deactivated: "您已重置短信两步验证。"
+      sms_auth_deactivated: 您已重置短信两步验证。
     reset_password_done:
       subject: "[PEATIO] 密码修改成功"
-      successful: "您已成功修改密码。请妥善保管~"
+      successful: 您已成功修改密码。请妥善保管~
     phone_number_verified:
       subject: "[PEATIO] 您已成功绑定手机"
-      verified: "您已成功绑定手机，号码为：%{phone_number}。"
+      verified: '您已成功绑定手机，号码为：%{phone_number}。'
   system_mailer:
     daily_stats:
-      member_stats: "新增用户"
-      signup: "注册"
-      activation: "激活"
-      asset_stats: "资金变动"
-      trade_stats: "交易变动"
-      asset_value_change_total: "数字货币变动总计"
-      trades_change_total: "交易数变动总计"
+      member_stats: 新增用户
+      signup: 注册
+      activation: 激活
+      asset_stats: 资金变动
+      trade_stats: 交易变动
+      asset_value_change_total: 数字货币变动总计
+      trades_change_total: 交易数变动总计
   ticket_mailer:
     admin_notification:
       subject: "[PEATIO] 用户新建了服务单"
-      admin_notification_content: "用户 %{email} 新建了服务单，详情请查看链接："
+      admin_notification_content: 用户 %{email} 新建了服务单，详情请查看链接：
     author_notification:
       subject: "[PEATIO] 您的服务单提交成功"
-      thanks_for_submit_ticket: "感谢您的反馈。我们会尽快处理，并第一时间告知您相关进展。"
+      thanks_for_submit_ticket: 感谢您的反馈。我们会尽快处理，并第一时间告知您相关进展。
   token_mailer:
     activation:
       subject: "[Peatio] 帐号激活"
-      click_to_verify: "感谢您注册 Peatio，赶快点击下面的链接验证你的E-mail吧："
-      unable_to_click: "如果链接无法点击，请完整拷贝到浏览器地址栏里直接访问。"
-      link_expire: "链接30分钟之内有效。"
+      click_to_verify: '感谢您注册 Peatio，赶快点击下面的链接验证你的E-mail吧：'
+      unable_to_click: 如果链接无法点击，请完整拷贝到浏览器地址栏里直接访问。
+      link_expire: 链接30分钟之内有效。
     reset_password:
       subject: "[Peatio] 请重置您的密码"
-      hi: "您好"
-      follow_the_link: "请使用下面的连接，在30分钟之内尝试重置您的登录密码："
+      hi: 您好
+      follow_the_link: '请使用下面的连接，在30分钟之内尝试重置您的登录密码：'
   withdraw_mailer:
     submitted:
       subject: "[貔貅]你的提现状态更新"
-      content: "您的%{currency}提现请求已经被成功提交，我们会尽快处理您的提现请求。谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。"
+      content: 您的%{currency}提现请求已经被成功提交，我们会尽快处理您的提现请求。谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
     processing:
       subject: "[貔貅]你的提现状态更新"
-      content: "您的%{currency}提现请求正在处理中，谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。"
+      content: 您的%{currency}提现请求正在处理中，谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
     done:
       subject: "[貔貅]你的提现状态更新"
-      content: "您的%{currency}提现请求已经处理完毕，请查询您的账户。如果您有任何问题，请及时与我们联系。"
+      content: 您的%{currency}提现请求已经处理完毕，请查询您的账户。如果您有任何问题，请及时与我们联系。
     withdraw_state:
       subject: "[貔貅]你的提现状态更新"
-      your_state: "你的提现状态："
-  mailer:
-    dear_user: "您好,"
-    signature: "貔貅团队"
-    please_contact: 如果此次登录不是您本人操作，请马上<a href="mailto:%{contact_mail}">联系我们</a>。
-    footer: 此邮件由系统自动发出，请勿直接回复。 有问题请<a href="mailto:%{contact_mail}">联系我们</a>。
-  ransack:
-    search: "搜索"
-    predicate: "基于(predicate)"
-    and: "并且"
-    or: "或者"
-    any: "任意"
-    all: "所有"
-    combinator: "条件组合(combinator)"
-    attribute: "属性"
-    value: "数值"
-    condition: "条件"
-    sort: "排序"
-    asc: "升序"
-    desc: "降序"
-    predicates:
-      eq: "等于"
-      eq_any: "等于任意值"
-      eq_all: "等于所有值"
-      not_eq: "不等于"
-      not_eq_any: "不等于任意值"
-      not_eq_all: "不等于所有值"
-      matches: "符合"
-      matches_any: "符合任意条件"
-      matches_all: "符合所有条件"
-      does_not_match: "不符合"
-      does_not_match_any: "符合任意条件"
-      does_not_match_all: "不符合所有条件"
-      lt: "小于"
-      lt_any: "小于任意一个值"
-      lt_all: "小于所有值"
-      lteq: "小于等于"
-      lteq_any: "小于等于任意一个值"
-      lteq_all: "小于等于所有值"
-      gt: "大于"
-      gt_any: "大于任意一个值"
-      gt_all: "大于所有值"
-      gteq: "大于等于"
-      gteq_any: "大于等于任意一个值"
-      gteq_all: "大于等于所有值"
-      in: "被包含"
-      in_any: "被任意值包含"
-      in_all: "被所有值包含"
-      not_in: "不被包含"
-      not_in_any: "不被任意值包含"
-      not_in_all: "不被所有值包含"
-      cont: "包含"
-      cont_any: "包含任意一个值"
-      cont_all: "包含所有值"
-      not_cont: "不包含"
-      not_cont_any: "不包含任意一个值"
-      not_cont_all: "不包含所有值"
-      start: "以改值开始"
-      start_any: "以任意一个值开始"
-      start_all: "以所有值开始"
-      not_start: "不以改值开始"
-      not_start_any: "不以任意一个值开始"
-      not_start_all: "不以所有值开始"
-      end: "以改值结尾"
-      end_any: "以任意一个值结尾"
-      end_all: "以所有值结尾"
-      not_end: "不以改值结尾"
-      not_end_any: "不以任意一个值结尾"
-      not_end_all: "不以所有值结尾"
-      'true': "等于true"
-      'false': "等于false"
-      present: "有值"
-      blank: "为空"
-      'null': "是null"
-      not_null: "不是null"
-  view_on_github: "到 Github 上查看"
-  slogan: "貔貅，将致力于成为世界级的交易软件。"
+      your_state: '你的提现状态：'
+  view_on_github: 到 Github 上查看
+  slogan: 貔貅，将致力于成为世界级的交易软件。
   tags:
     vip: VIP
-    hero: "超级用户"
-    admin: "管理员"
+    hero: 超级用户
+    admin: 管理员
   trade:
-    markets: "市场"
+    markets: 市场
     realtime_price:
-      title: "实时价格"
+      title: 实时价格
     account_balance:
-      title: "账户余额"
+      title: 账户余额
   gon:
-    ask: "卖出"
-    bid: "买入"
-    brand: "貔貅交易所"
+    ask: 卖出
+    bid: 买入
+    brand: 貔貅交易所
     notification:
       title: Peatio交易所
-      enabled: "实时更新已开启。"
-      new_trade: "您的%{kind}委托 #%{id} 以 %{price} %{quote_unit} 价格成交，%{kind} %{volume}
-        %{base_unit}。"
-  back: "返回"
-  invalid_password: "无效的登录密码"
-  all: "全部"
+      enabled: 实时更新已开启。
+      new_trade: "您的%{kind}委托 #%{id} 以 %{price} %{quote_unit} 价格成交，%{kind} %{volume} %{base_unit}。"
+  back: 返回
+  invalid_password: 无效的登录密码
+  all: 全部
   date:
     formats:
       date-short: "%m-%d"
@@ -1698,351 +1489,345 @@ zh-CN:
       short: "%m-%d %H:%M"
       default: "%Y-%m-%d %H:%M"
   sms:
-    verification_code: "验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【貔貅交易所（北京）】"
-    password_changed: "%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！【貔貅交易所（北京）】"
-    deposit_done: "%{email} 您好，您于%{time}进行了（%{currency}）充值操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请及时联系我们！）【貔貅交易所（北京）】"
-    withdraw_done: "%{email} 您好，您于%{time}进行了（%{currency}）提现操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请立即联系客服！）【貔貅交易所（北京）】"
+    verification_code: '验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【貔貅交易所（北京）】'
+    password_changed: '%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！【貔貅交易所（北京）】'
+    deposit_done: '%{email} 您好，您于%{time}进行了（%{currency}）充值操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请及时联系我们！）【貔貅交易所（北京）】'
+    withdraw_done: '%{email} 您好，您于%{time}进行了（%{currency}）提现操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请立即联系客服！）【貔貅交易所（北京）】'
   header:
-    home: "首页"
-    dashboard: "控制面板"
-    admin: "后台管理"
-    market: "交易大厅"
-    settings: "账户"
-    signin: "登录"
-    signout: "安全退出"
-    signup: "创建账户"
-    login_via_weibo: "微博登陆"
-    funds: "我的资产"
-    getstart: "前往交易大厅"
-    assets: "资产公开"
-    history: "历史记录"
-    order_history: "委托记录"
-    trade_history: "成交记录"
-    account_history: "账户记录"
-    my_profile: "用户设置"
-    tickets: "服务单"
-    account_balance: "账户资产"
-    back: "返回"
-    total: "总额"
-    deposit: "充值"
-    withdraw: "提现"
+    home: 首页
+    dashboard: 控制面板
+    admin: 后台管理
+    market: 交易大厅
+    settings: 账户
+    signin: 登录
+    signout: 安全退出
+    signup: 创建账户
+    login_via_weibo: 微博登陆
+    funds: 我的资产
+    getstart: 前往交易大厅
+    assets: 资产公开
+    history: 历史记录
+    order_history: 委托记录
+    trade_history: 成交记录
+    account_history: 账户记录
+    my_profile: 用户设置
+    tickets: 服务单
+    account_balance: 账户资产
+    back: 返回
+    total: 总额
+    deposit: 充值
+    withdraw: 提现
   admin_header:
-    deposits: "充值管理"
-    withdraws: "提现管理"
-    statistics: "数据统计"
-    id_documents: "身份验证"
+    deposits: 充值管理
+    withdraws: 提现管理
+    statistics: 数据统计
+    id_documents: 身份验证
   footer:
-    about: "关于我们"
-    privacy: "隐私条款"
-    price: "资费说明"
-    liability_proof: "偿付能力验证"
-    contact: "联系我们"
+    about: 关于我们
+    privacy: 隐私条款
+    contact: 联系我们
+    price: 资费说明
+    liability_proof: 偿付能力验证
   actions:
-    go: "立刻前往"
-    submit: "提交"
-    deposit: "立刻充值"
-    select: "请选择"
-    unlock: "解锁"
-    confirm: "确认"
-    back: "返回"
-    block: "区块中查看地址"
-    destroy: "删除"
-    destroy_confirm: "您确定要删除此记录吗？"
-    detail: "详情"
-    publish: "发布"
-    edit: "编辑"
-    preview: "预览"
-    close: "退出"
-    cancel: "撤销"
-    view: "查看"
-    member: "查看用户"
-    transact: "处理"
-    reject: "驳回"
+    go: 立刻前往
+    submit: 提交
+    deposit: 立刻充值
+    select: 请选择
+    unlock: 解锁
+    confirm: 确认
+    back: 返回
+    block: 区块中查看地址
+    destroy: 删除
+    destroy_confirm: 您确定要删除此记录吗？
+    detail: 详情
+    publish: 发布
+    edit: 编辑
+    preview: 预览
+    close: 退出
+    cancel: 撤销
+    view: 查看
+    member: 查看用户
+    transact: 处理
+    reject: 驳回
     clipboard:
-      click: "点击复制"
-      done: "复制成功"
+      click: 点击复制
+      done: 复制成功
   chart:
-    open: "开盘价"
-    high: "最高价"
-    low: "最低价"
-    close: "收盘价"
-    price: "价格"
-    volume: "成交量"
+    open: 开盘价
+    high: 最高价
+    low: 最低价
+    close: 收盘价
+    price: 价格
+    volume: 成交量
     candlestick: K线图
-    minute: "分"
-    hour: "小时"
-    day: "日"
-    week: "周"
-    month: "月"
-    year: "年"
-    zoom: "缩放"
-    ask: "买单"
-    bid: "卖单"
-    depth: "累计深度"
-    depth_title: "市场深度"
-  'yes': "是"
-  'no': "否"
+    minute: 分
+    hour: 小时
+    day: 日
+    week: 周
+    month: 月
+    year: 年
+    zoom: 缩放
+    ask: 买单
+    bid: 卖单
+    depth: 累计深度
+    depth_title: 市场深度
+  'yes': '是'
+  'no': '否'
   simple_captcha:
-    label: "不区分大小写，如果看不清请刷新页面"
-    placeholder: "请输入图片中的字符"
+    label: 不区分大小写，如果看不清请刷新页面
+    placeholder: 请输入图片中的字符
   helpers:
     action:
-      view: "查看"
-      customer_service: "联系客服"
+      view: 查看
+      customer_service: 联系客服
     submit:
       order_ask:
-        create: "卖出"
+        create: 卖出
       order_bid:
-        create: "买入"
+        create: 买入
       document:
-        create: "创建文档"
-        update: "更新文档"
-        destroy: "删除文档"
+        create: 创建文档
+        update: 更新文档
+        destroy: 删除文档
       member:
-        update: "开通账户"
+        update: 开通账户
       identity:
-        save: "登录"
-        create: "注册"
-        destroy: "登出"
-        verify: "验证"
-        update: "修改"
+        save: 登录
+        create: 注册
+        destroy: 登出
+        verify: 验证
+        update: 修改
       two_factor:
-        create: "验证"
-        update: "激活"
+        create: 验证
+        update: 激活
       reset_two_factor:
-        create: "重置两步验证"
+        create: 重置两步验证
       reset_password:
-        update: "重置登录密码"
-        create: "发送重置请求"
+        update: 重置登录密码
+        create: 发送重置请求
       fund_source:
-        create: "保存"
+        create: 保存
+      deposit:
+        create: 充值
       id_document:
-        create: "提交"
+        create: 提交
+      withdraw:
+        create: 提交
       ticket:
-        create: "提交"
-      comment:
-        create: "回复"
+        create: 提交
   activations:
     new:
-      notice: "邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。"
-      verified: "您的邮箱已验证通过。"
-      login_required: "本操作需要登录，请先登录"
-      tip: "激活连接已经发送到 <span class='text-primary'>%{email}</span>"
-      spam: "该邮件有可能出现在垃圾邮件中，请注意查看。"
+      notice: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
+      verified: 您的邮箱已验证通过。
+      login_required: 本操作需要登录，请先登录
+      tip: 激活连接已经发送到 <span class='text-primary'>%{email}</span>
+      spam: 该邮件有可能出现在垃圾邮件中，请注意查看。
     edit:
-      notice: "邮箱验证已经通过，请您完成其他安全设置。"
+      notice: 邮箱验证已经通过，请您完成其他安全设置。
   authentications:
     emails:
       new:
-        setup_email: "请设置你的邮箱, 否则将无法进行任何操作。"
-        warning: "设置邮件后, 请查收你的收件箱并进行激活"
-        email_address: "邮箱地址"
-        save: "保存"
+        title: 设置邮箱
+        setup_email: 请设置你的邮箱, 否则将无法进行任何操作。
+        warning: 设置邮件后, 请查收你的收件箱并进行激活
+        email_address: 邮箱地址
+        save: 保存
     weibo:
       destroy:
-        last_auth_alert: "亲, 微博是你最后一种登录方式了, 解除了就没法登录了"
-        unbind_success: "已经解除微博绑定"
+        last_auth_alert: 亲, 微博是你最后一种登录方式了, 解除了就没法登录了
+        unbind_success: 已经解除微博绑定
     identities:
       new:
-        password: "密码"
-        save: "设置"
+        title: 设置密码
+        save: 设置
       create:
-        success: "密码设置成功"
+        success: 密码设置成功
   forum:
     index:
       notice:
-        display_name: "使用论坛前请设置一个昵称"
+        display_name: 使用论坛前请设置一个昵称
   identities:
     new:
-      title: "账户注册"
-      signin: "立即登录"
-      password: "请输入至少6位密码, 建议包含大写、小写字母与数字。"
+      title: 账户注册
+      signin: 立即登录
+      password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
     update:
-      auth-error: "您输入的旧密码错误，请重新输入。"
-      auth-same: "您输入的新密码与旧密码相同，请重新输入。"
-      notice: "登录密码修改成功, 请重新登录。"
+      auth-error: 您输入的旧密码错误，请重新输入。
+      auth-same: 您输入的新密码与旧密码相同，请重新输入。
+      notice: 登录密码修改成功, 请重新登录。
   layouts:
     admin:
       menus:
         sections:
-          members: "用户管理"
-          deposits: "充值通道"
-          sites_statistics: "数据统计"
-          operating: "运营管理"
+          members: 用户管理
+          deposits: 充值通道
+          sites_statistics: 数据统计
+          operating: 运营管理
         items:
           operating:
-            deposits: "充值管理"
-            documents: "文档管理"
-            withdraws: "提现管理"
-            proofs: "资产证明管理"
-            tickets: "服务单管理"
+            deposits: 充值管理
+            documents: 文档管理
+            withdraws: 提现管理
+            tickets: 服务单管理
           deposits:
-            currency: "法币充值"
+            currency: 法币充值
     application:
-      close: "关闭"
+      close: 关闭
     meta:
       page_title: Peatio - The Opensource Cryptocurrency Exchange
       page_description: Peatio - The Opensource Cryptocurrency Exchange
       page_keywords: Peatio,Opensource,Exchange,Cryptocurrency
   members:
     edit:
-      name: "为了保障资金安全，请填写您的真实姓名等信息。"
+      name: 为了保障资金安全，请填写您的真实姓名等信息。
   reset_passwords:
     create:
-      success: "重置密码邮件已经发送至您的邮箱，请根据邮件内容进行操作。如未收到邮件，请到“垃圾邮箱”里找一下哦~ 或重新发送请求。"
+      success: 重置密码邮件已经发送至您的邮箱，请根据邮件内容进行操作。如未收到邮件，请到“垃圾邮箱”里找一下哦~ 或重新发送请求。
     edit:
-      password: "请输入至少6位密码, 建议包含大写、小写字母与数字。"
-      invalid: "无效的请求"
-      submit: "重置登录密码"
+      password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
+      invalid: 无效的请求
+      submit: 重置登录密码
     update:
-      success: "登录密码已经重置，请妥善保管您的新密码。"
-      invalid: "无效的请求"
+      success: 登录密码已经重置，请妥善保管您的新密码。
+      invalid: 无效的请求
   sessions:
     new:
-      reset_password: "忘记密码"
+      reset_password: 忘记密码
     new_with_two_factor_auth:
-      title: "两步验证"
-      reset_two_factor: "遗失两步验证"
+      title: 两步验证
+      reset_two_factor: 遗失两步验证
     create_with_two_factor_auth:
-      session_expired: "操作超时，请重试。"
+      session_expired: 操作超时，请重试。
     create:
-      disabled: "您的账户已冻结,如有问题请联系管理员."
-      error: "您输入的密码和邮箱地址不正确，请重新输入。"
-      weibo_bind_success: "微博绑定成功"
+      error: 您输入的密码和邮箱地址不正确，请重新输入。
     failure:
-      account_locked: "密码错误次数过多，为保证您的帐户安全该帐户已被锁定。重置密码请点击“忘记密码”。"
-      error: "您输入的密码和邮箱地址不正确，请重新输入。"
+      account_locked: 密码错误次数过多，为保证您的帐户安全该帐户已被锁定。重置密码请点击“忘记密码”。
+      error: 您输入的密码和邮箱地址不正确，请重新输入。
   shared:
     admin:
       member:
-        member_info: "用户信息"
-        deactive_sms_two_factor: "短信两步验证"
-        deactive_app_two_factor: "谷歌两步验证"
-        inactive: "未激活"
-        deactive: "取消"
-        are_you_sure: "确认取消二次验证？"
+        member_info: 用户信息
+        deactive_sms_two_factor: 短信两步验证
+        deactive_app_two_factor: 谷歌两步验证
+        inactive: 未激活
+        deactive: 取消
+        are_you_sure: 确认取消二次验证？
       account:
-        account_info: "账户信息"
-        payment_address: "充值地址"
+        account_info: 账户信息
+        payment_address: 充值地址
     alert:
-      modern: "为了不影响交易体验，请使用更流行的浏览器进行交易，我们向您推荐 <a target='_blank' href='http://www.baidu.com/s?wd=Google+Chrome'>Google
-        Chrome 浏览器</a>。"
-      pusher_unavailable: "与服务器通讯异常，<a href='#' class='alert-link'>请刷新页面重试</a>。"
+      modern: 为了不影响交易体验，请使用更流行的浏览器进行交易，我们向您推荐 <a target='_blank' href='http://www.baidu.com/s?wd=Google+Chrome'>Google Chrome 浏览器</a>。
+      pusher_unavailable: 与服务器通讯异常，<a href='#' class='alert-link'>请刷新页面重试</a>。
     header:
-      balance: "余额"
+      balance: 余额
     header_account_balance:
-      locked: "冻结"
+      locked: 冻结
     market:
       ticker:
-        ask_price: "卖一"
-        bid_price: "买一"
-        high_price: "最高"
-        low_price: "最低"
-        volume: "成交量"
-        latest_price: "最新价格"
+        ask_price: 卖一
+        bid_price: 买一
+        high_price: 最高
+        low_price: 最低
+        volume: 成交量
+        latest_price: 最新价格
     frame:
-      deposit_now: "马上去充值"
+      deposit_now: 马上去充值
   two_factors:
     index:
-      verify: "验证"
+      verify: 验证
     update:
-      alert: "您输入的验证码错误，请重新输入!"
+      alert: 您输入的验证码错误，请重新输入!
     auth:
-      please_active_two_factor: "为了您的资金安全, 请先绑定手机或设置两步验证。"
-      submit: "确认"
+      please_active_two_factor: 为了您的资金安全, 请先绑定手机或设置两步验证。
+      submit: 确认
       otp_placeholder: 6位数字密码
-      google_app: "谷歌身份验证器"
-      sms: "手机短信验证"
-      send_code: "获取验证码"
+      google_app: 谷歌身份验证器
+      sms: 手机短信验证
+      send_code: 获取验证码
       send_code_alt: COUNT秒后重新发送
       hints:
-        app: "谷歌验证器每三十秒会重新生成新密码，请及时输入。"
-        sms: "请点击“获取验证码”按纽，我们将会把验证码以短信的方式发到您的手机上。"
+        app: 谷歌验证器每三十秒会重新生成新密码，请及时输入。
+        sms: 请点击“获取验证码”按纽，我们将会把验证码以短信的方式发到您的手机上。
   verify:
     google_auths:
       edit:
-        submit: "确认解除"
-        warning: "注：若您在使用过程中因安装程序丢失，导致无法继续使用两步认证，请您及时联系我们的在线客服。"
+        submit: 确认解除
+        warning: '注：若您在使用过程中因安装程序丢失，导致无法继续使用两步认证，请您及时联系我们的在线客服。'
       show:
-        step-1: "第一步"
-        step-2: "第二步"
-        step-3: "第三步"
-        or: "或"
-        download-app: "根据您使用的手机系统类型，点击左侧快捷入口，下载并打开 Google Authenticator 应用到您的智能手机上。"
-        guide-link: "具体操作方式可<a href='https://support.google.com/accounts/answer/1066447?hl=zh-Hans'
-          target='_blank'>点击这里</a>。"
-        scan-qr-code: "用 Google Authenticator 应用扫瞄二维码或将以下密文手动添加到验证器中。"
-        enter-passcode: "填入手机显示的动态密码以激活两步验证"
-        submit: "启用"
-        ios: "苹果 iOS 系统"
-        android: "谷歌安卓系统"
-        blackbery: "黑莓系统"
+        step-1: 第一步
+        step-2: 第二步
+        step-3: 第三步
+        or: 或
+        download-app: 根据您使用的手机系统类型，点击左侧快捷入口，下载并打开 Google Authenticator 应用到您的智能手机上。
+        guide-link: "具体操作方式可<a href='https://support.google.com/accounts/answer/1066447?hl=zh-Hans' target='_blank'>点击这里</a>。"
+        scan-qr-code: 用 Google Authenticator 应用扫瞄二维码或将以下密文手动添加到验证器中。
+        enter-passcode: 填入手机显示的动态密码以激活两步验证
+        submit: 启用
+        ios: 苹果 iOS 系统
+        android: 谷歌安卓系统
+        blackbery: 黑莓系统
         notice:
-          already_activated: "您已经成功设定了谷歌两部验证。"
-          not_activated_yet: "您还未设定谷歌两部验证。"
+          already_activated: 您已经成功设定了谷歌两部验证。
+          not_activated_yet: 您还未设定谷歌两部验证。
       update:
-        alert: "您输入的验证器上的密码有误，请重新输入。"
-        notice: "两步验证已成功绑定。"
-        sms_two_factor_error: "您输入的短信验证码有误，请重新输入。"
+        alert: 您输入的验证器上的密码有误，请重新输入。
+        notice: 两步验证已成功绑定。
+        sms_two_factor_error: 您输入的短信验证码有误，请重新输入。
       destroy:
-        alert: "您输入的验证器上的密码有误，请重新输入。"
-        notice: "两步验证已成功解除。"
+        alert: 您输入的验证器上的密码有误，请重新输入。
+        notice: 两步验证已成功解除。
     sms_auths:
       show:
-        title: "绑定手机号码"
-        description: "绑定手机号码，让你在貔貅交易所的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。"
-        warning: "手机未绑定时，您将无法在网站操作提现以及账户密码找回。"
-        phone_number: "请输入手机号码"
-        send_code: "获取验证码"
+        title: 绑定手机号码
+        description: 绑定手机号码，让你在貔貅交易所的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。
+        warning: 手机未绑定时，您将无法在网站操作提现以及账户密码找回。
+        phone_number: 请输入手机号码
+        send_code: 获取验证码
         send_code_alt: COUNT秒后重新发送
-        input_otp: "请输入通过短信收到的六位验证码"
-        submit: "绑定手机号码"
+        input_otp: 请输入通过短信收到的六位验证码
+        submit: 绑定手机号码
         notice:
-          send_code_success: "手机短信验证码已发送。"
-          otp_success: "手机短信验证码验证成功。"
-          already_activated: "您的手机号码已绑定成功。"
+          send_code_success: 手机短信验证码已发送。
+          otp_success: 手机短信验证码验证成功。
+          already_activated: 您的手机号码已绑定成功。
         alert:
-          phone_number_error: "手机号码无效或错误"
+          phone_number_error: 手机号码无效或错误
   withdraw_channel:
     bank:
-      key: "银行转账提现"
-      title: "银行转账提现"
-      intro: "银行转账方式提现，推荐大额用户使用"
+      key: 银行转账提现
+      title: 银行转账提现
+      intro: 银行转账方式提现，推荐大额用户使用
       latency: 30 分钟到账
-      transfer: "人工处理"
-      go: "立即提现"
+      transfer: 人工处理
+      go: 立即提现
     satoshi:
-      key: "块链"
-      title: "比特币提现"
-      intro: "将你在貔貅的比特币余额提取到你的钱包账户"
+      key: 块链
+      title: 比特币提现
+      intro: 将你在貔貅的比特币余额提取到你的钱包账户
       latency: 30 分钟到账
-      transfer: "人工处理"
-      go: "立即提现"
+      transfer: 人工处理
+      go: 立即提现
   withdraws/bank:
     aasm_state:
-      submitting: "待确认"
-      submitted: "待校验"
-      rejected: "已驳回"
-      accepted: "已提交"
-      suspect: "异常"
-      processing: "受理中"
-      coin_ready: "准备中"
-      coin_done: "完毕"
-      done: "提现成功"
-      almost_done: "发送中"
-      canceled: "已撤销"
-      failed: "提现出错"
+      submitting: 待确认
+      submitted: 待校验
+      rejected: 已驳回
+      accepted: 已提交
+      suspect: 异常
+      processing: 受理中
+      done: 提现成功
+      almost_done: 发送中
+      canceled: 已撤销
+      failed: 提现出错
   withdraws/satoshi:
     aasm_state:
-      submitting: "待确认"
-      submitted: "待校验"
-      rejected: "已驳回"
-      accepted: "已提交"
-      suspect: "异常"
-      processing: "受理中"
-      coin_ready: "准备中"
-      coin_done: "完毕"
-      done: "提现成功"
-      almost_done: "发送中"
-      canceled: "已撤销"
-      failed: "提现出错"
+      submitting: 待确认
+      submitted: 待校验
+      rejected: 已驳回
+      accepted: 已提交
+      suspect: 异常
+      processing: 受理中
+      done: 提现成功
+      almost_done: 发送中
+      canceled: 已撤销
+      failed: 提现出错

@@ -95,7 +95,6 @@ zh-CN:
         state_and_action: "状态/操作"
         cancel: 取消
         no_data: 暂无历史数据
-
         submitting: 待确认
         submitted: 待校验
         rejected: 已驳回
@@ -108,7 +107,6 @@ zh-CN:
         almost_done: 发送中
         canceled: 已撤销
         failed: 提现出错
-
     auth:
       please_active_two_factor: 为了您的资金安全, 请先绑定手机或设置两步验证。
       submit: 确认

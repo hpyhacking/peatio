@@ -74,14 +74,6 @@ module ApplicationHelper
     type.to_sym == :bid ? :ask : :bid
   end
 
-  def currency_icon(type)
-    t("currency.icon.#{type}")
-  end
-
-  def currency_format(type)
-    t("currency.format.#{type}")
-  end
-
   def orders_json(orders)
     Jbuilder.encode do |json|
       json.array! orders do |order|
