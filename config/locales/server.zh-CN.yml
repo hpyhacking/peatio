@@ -31,6 +31,7 @@ zh-CN:
         access_key: Access Key
         trusted_ip_list: IP白名单
         ip_whitelist: IP白名单
+        label: 标签
         actions: 操作
       identity:
         email: 邮箱地址
@@ -88,11 +89,16 @@ zh-CN:
         amount: 金额
         balance: 余额
         reason: 原因
+        reason_text: 原因
         modifiable_id: 相关编号
         modifiable_type: 关联
         created_at: 创建日期
+        in: 收入
+        out: 支出
+        fee: 手续费
       token/reset_password:
         email: 邮箱地址
+        member: 会员
       trade:
         bid: 买入
         ask: 卖出
@@ -124,13 +130,22 @@ zh-CN:
         state_done: 完成
         state_wait: 等待
       member:
+        id: 编号
         name: 真实姓名
         display_name: 论坛昵称
         email: 邮件地址
         created_at: 注册时间
         sn: 个人识别码
+        id_document_number: 身份证号码
         tag_list: 标签
         activated: 激活成功
+        activated?: "邮件激活"
+        id_document_verified?: "实名认证"
+        two_factor_activated?: "二次验证"
+        phone_number: 手机号码
+      two_factor/sms:
+        phone_number: 手机号码
+        otp: 验证码
       deposits/bank:
         created_at: 时间
         holder: 持卡人姓名
@@ -1308,6 +1323,7 @@ zh-CN:
   easy_table:
     satoshi:
       amount: 金额
+      txid: TxID
       created_at: 创建时间
       memo: 确认数
       member_name: 用户
@@ -1349,6 +1365,15 @@ zh-CN:
         done: 完全成交
         wait: 等待成交
         cancel: 撤销
+    deposit:
+      aasm_state:
+        submitted: 受理中
+        submitting: 待提交
+        accepted: 已到账
+        cancelled: 已撤销
+        rejected: 已驳回
+        checked: 已到账
+        warning: 异常
     withdraw:
       state:
         submitting: 受理中

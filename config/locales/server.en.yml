@@ -26,6 +26,7 @@ en:
         access_key: Access Key
         trusted_ip_list: IP Whitelist
         ip_whitelist: IP Whitelist
+        label: Label
         actions: Actions
       identity:
         email: Email
@@ -53,7 +54,6 @@ en:
         balance: Balance
         locked: Frozen
       deposit:
-        currency-address-type: Currency - Pay type
         state: State
         tx_id: TxID
         member_id: Member ID
@@ -84,11 +84,16 @@ en:
         amount: Amount
         balance: Balance
         reason: Reason
+        reason_text: Reason
         modifiable_id: LINK ID
         modifiable_type: LINK
         created_at: Created At
+        in: Income
+        out: Expenses
+        fee: Fee
       token/reset_password:
         email: Sign in email
+        member: Member
       trade:
         bid: Bid
         ask: Ask
@@ -120,13 +125,22 @@ en:
         state_done: Done
         state_wait: Wait
       member:
+        id: ID
         name: Real Name
         display_name: Display Name
         email: Email
         created_at: Register At
         sn: SN
+        id_document_number: Id Document Number
         tag_list: Tags
         activated: Activated
+        activated?: "Activated?"
+        id_document_verified?: "Id Document Verified?"
+        two_factor_activated?: "Tow Factor Activated?"
+        phone_number: Phone Number
+      two_factor/sms:
+        phone_number: Phone Number
+        otp: Verify Code
       deposits/bank:
         created_at: Created At
         holder: Holder
@@ -274,9 +288,6 @@ en:
     sdb: Shenzhen Development Bank
     pab: Ping An Bank Co., Ltd.
     gdb: Guangdong Development Bank
-    bank_code_1: bank_code_1
-    bank_code_2: bank_code_2
-    bank_code_3: bank_code_3
   breadcrumbs:
     admin: Admin
     admin/dashboard: Dashboard
@@ -1425,22 +1436,14 @@ en:
         wait: WAIT
         cancel: CANCEL
     deposit:
-      admin_aasm_state:
-        submitted: "待处理"
-        submitting: "已提交"
-        cancelled: "已撤销"
-        accepted: "已到账"
-        rejected: "已驳回"
-        checked: "已入账"
-        warning: "异常"
       aasm_state:
-        submitted: "受理中"
-        submitting: "待提交"
-        accepted: "已到账"
-        cancelled: "已撤销"
-        rejected: "已驳回"
-        checked: "已到账"
-        warning: "异常"
+        submitted: Submitted
+        submitting: Submitting
+        accepted: Accepted
+        cancelled: Canceled
+        rejected: Rejected
+        checked: Checked
+        warning: Warning
     withdraw:
       state:
         submitting: Submitting
@@ -1559,12 +1562,6 @@ en:
     withdraw_state:
       subject: "[Peatio] Your withdraw state update"
       your_state: 'Your withdrawal state: '
-      'true': is true
-      'false': is false
-      present: is present
-      blank: is blank
-      'null': is null
-      not_null: is not null
   'true': true
   'false': false
   view_on_github: View on Github
