@@ -70,7 +70,7 @@ en:
         bid: BID
         fade_toggle_depth: Market Depth
       market_trades:
-        title: Market Tradeing
+        title: Market Trading
         time: Trading Time
         price: Price
         volume: Volume
