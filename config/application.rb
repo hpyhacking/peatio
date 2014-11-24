@@ -24,6 +24,7 @@ module Peatio
     config.i18n.enforce_available_locales = false
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
     config.i18n.available_locales = ['en', 'zh-CN']
 
     config.autoload_paths += %W(#{config.root}/lib #{config.root}/lib/extras)
