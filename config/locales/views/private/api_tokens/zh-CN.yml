@@ -15,6 +15,7 @@ zh-CN:
         panel_title: 应用绑定
         title: 已绑定的第三方应用
         intro: 管理所有您绑定过的第三方应用。
+        oauth: OAuth认证接口文档
         no_token: 没有绑定第三方应用
         unbind: 解除绑定
         unbind-confirm: "您确认要解除绑定吗？"

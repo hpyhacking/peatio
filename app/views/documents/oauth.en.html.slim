@@ -1,0 +1,80 @@
+.jumbotron
+  h2 OAuth Integration
+
+.panel.panel-default
+  .panel-heading
+    h3 OAuth Authorization
+
+  .panel-body
+    p This document describes the flow between 3rd-party application and Peatio.
+.panel.panel-default
+  .panel-heading
+    h3 OAuth Client Register
+
+  .panel-body
+    p To get user authorization through OAuth, your app must be registered on Peatio.
+    p Please contact administrator to register.
+
+.panel.panel-default
+  .panel-heading
+    h3 Initiate Authorization Request
+
+  .panel-body
+    pre: code
+      | GET https://peatio.com/oauth/authorize?client_id=&lt;your_client_id&gt;&redirect_uri=&lt;registered_rediret_uri&gt;&response_type=code&scope=&lt;scopes&gt;
+    p 'scope' is the authorizations you want to request. Peatio supports 3 scopes:
+    ul
+      li profile: basic user informations
+      li history: user trades history
+      li trade: buy/sell on markets
+    p e.g. your app want to request for profile and history authorization:
+    pre: code
+      | scope=profile+history+trade
+    p If user grants the authorizations your app requested, Peatio will generate a auth code and pass it back to redirect_uri.
+
+.panel.panel-default
+  .panel-heading
+    h3 Get User Token
+
+  .panel-body
+    p With auth code, your app can get user token (APIv2 access/secret key) by:
+    pre: code
+      | POST https://peatio.com/oauth/token
+    pre: code
+      | Params: client_id=&lt;your_client_id&gt;&client_secret=&lt;your_client_secret&gt;&code=&lt;auth_code&gt;&grant_type=authorization_code&redirect_uri=&lt;registered_rediret_uri&gt;
+    p After validate the request, Peatio will return a user token and a refresh token. User token is a string including APIv2 access/secret key, in the format below:
+    pre: code
+      | &lt;access_key&gt;:&lt;secret_key&gt;
+    p Split user token with colon ':', you get APIv2 access/secret key, with which you can access user authorized resources through APIv2.
+    p Refresh token is used when user token (APIv2 access/secret key) is expired, please keep it in safe place.
+    p For more information about APIv2, please visit <a href='/documents/api_v2'>APIv2 document</a>.
+
+.panel.panel-default
+  .panel-heading
+    h3 Refresh User Token (APIv2 access/secret key)
+
+  .panel-body
+    p The user token you get is valid for 4 hours. When you access user resources with expired user token, Peatio will return a error message with specific error code 2010:
+    pre: code
+      | {"error"=>{"code"=>2010, "message"=>"The access key xxxxx has expired."}}
+    p When you see this error, get a new user token using the refresh token you got in last step:
+    pre: code 
+      | POST https://peatio.com/oauth/token
+    pre: code 
+      | Params: client_id=&lt;client_id&gt;&client_secret=&lt;client_secret&gt;&grant_type=refresh_token&refresh_token=&lt;refresh_token&gt;
+
+.panel.panel-default
+  .panel-heading
+    h3 REMINDER
+
+  .panel-body
+    p Do NOT keep any of client id, client secret, or refresh token on user devices. Keep them safe under your control.
+
+.panel.panel-default
+  .panel-heading
+    h3 References
+
+  .panel-body
+    ul
+      li http://zh.wikipedia.org/wiki/OAuth
+      li http://oauth.net/

@@ -1,0 +1,85 @@
+.jumbotron
+  h2 貔貅OAuth认证接口
+
+.panel.panel-default
+  .panel-heading
+    h3 OAuth认证
+
+  .panel-body
+    p OAuth（开放授权）是一个开放标准。OAuth允许用户让第三方应用访问该用户在貔貅上存储的私密的资源（如照片，视频，联系人列表），而无需将用户名和密码提供给第三方应用。
+    p 貔貅OAuth认证允许用户将一个受限制的令牌(token)授权给第三方应用。第三方应用可以通过令牌访问用户在貔貅上的资源，例如用户资料，交易记录，挂单买卖。
+    p OAuth是一个涉及到资源网站(貔貅交易所), 第三方应用, 以及用户三方的流程。本文档的目标读者是第三方应用的开发人员, 描述了资源网站(貔貅交易所)与第三方应用之间的交互流程。
+
+.panel.panel-default
+  .panel-heading
+    h3 OAuth Client注册
+
+  .panel-body
+    p 第三方应用必须事先在貔貅注册，获取client id/secret之后才能使用貔貅OAuth接口。具体步骤请通过网站下方联系方式联系管理员。
+    p 注册之后您将获得client id/secret, 请妥善保管。
+
+.panel.panel-default
+  .panel-heading
+    h3 发起授权请求
+
+  .panel-body
+    p 当用户想要授权您的应用访问貔貅时，应用生成如下地址交给用户访问(通过外置或者内嵌浏览器):
+    pre: code
+      | GET https://peatio.com/oauth/authorize?client_id=&lt;your_client_id&gt;&redirect_uri=&lt;registered_rediret_uri&gt;&response_type=code&scope=&lt;scopes&gt;
+    p 'response_type'参数必须是'code'. 'redirect_uri'必须和您注册应用时提供的redirect_uri相同. 'scope'参数代表您的应用想要获得的授权。目前貔貅支持三种授权:
+    ul
+      li profile: 用户基本信息
+      li history: 用户交易记录
+      li trade: 买卖挂单
+    p 例如，您的应用想访问用户基本信息和交易记录:
+    pre: code
+      | scope=profile+history+trade
+    p 用户访问该地址会看到一个授权页面，决定是否授权。用户同意授权后貔貅交易所会生成auth code, 并通过redirect_uri传回给您的应用.
+
+.panel.panel-default
+  .panel-heading
+    h3 通过Auth Code获取User Token
+
+  .panel-body
+    p 获得auth code之后，表明用户已经同意了授权。应用通过如下请求获得访问令牌(user token), 也就是APIv2 access/secret key:
+    pre: code
+      | POST https://peatio.com/oauth/token
+    pre: code
+      | Params: client_id=&lt;your_client_id&gt;&client_secret=&lt;your_client_secret&gt;&code=&lt;auth_code&gt;&grant_type=authorization_code&redirect_uri=&lt;registered_rediret_uri&gt;
+    p 'grant_type'参数必须是'authorization_code'.  'redirect_uri'必须和您注册应用时提供的redirect_uri相同。'code'参数传入上一步拿到的auth code.
+    p 貔貅交易所验证请求后，返回user token和refresh token. User token是一个包含APIv2 access/secret key的字符串, 形式如下:
+    pre: code
+      | &lt;access_key&gt;:&lt;secret_key&gt;
+    p 拿到user token后，将其用冒号':'分隔开，就得到了APIv2 access/secret key, 此时您的应用就可以通过APIv2访问用户授权的资源了。
+    p Refresh token用于在user token过期后获取新的user token, 请妥善保管。
+    p 更多关于APIv2的信息，请访问 <a href='/documents/api_v2'>APIv2文档</a>
+
+.panel.panel-default
+  .panel-heading
+    h3 更新User Token (APIv2 access/secret key)
+
+  .panel-body
+    p 通过OAuth授权获得的APIv2密钥有效期为4小时。使用过期密钥访问貔貅交易所会得到一个特定的错误信息, 错误代码2010:
+    pre: code
+      | {"error"=>{"code"=>2010, "message"=>"The access key xxxxx has expired."}}
+    p 此时通过上一步获得refresh token可以获取新的user token:
+    pre: code 
+      | POST https://peatio.com/oauth/token
+    pre: code 
+      | Params: client_id=&lt;client_id&gt;&client_secret=&lt;client_secret&gt;&grant_type=refresh_token&refresh_token=&lt;refresh_token&gt;
+
+.panel.panel-default
+  .panel-heading
+    h3 注意事项
+
+  .panel-body
+    p 请勿将client id, client secret, 或者refresh token保存在用户设备上。
+
+.panel.panel-default
+  .panel-heading
+    h3 相关资料
+
+  .panel-body
+    ul
+      li http://zh.wikipedia.org/wiki/OAuth
+      li http://oauth.net/

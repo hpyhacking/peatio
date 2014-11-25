@@ -6,6 +6,8 @@
       #guide.col-xs-8
         h3 = t('.title')
         p.text-ignore = t('.intro')
+
+        p = link_to t('.oauth'), '/documents/oauth', target: '_blank'
       #content.col-xs-16
         table.table.table-condensed.table-striped
           thead: tr
