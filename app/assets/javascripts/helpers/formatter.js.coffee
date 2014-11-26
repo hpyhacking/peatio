@@ -15,6 +15,13 @@ class Formatter
   fixBid: (str) ->
     @.fix('bid', str)
 
+  fixPriceGroup: (str) ->
+    if gon.market.price_group_fixed
+      str = '0' unless $.isNumeric(str)
+      @.round(str, gon.market.price_group_fixed)
+    else
+      @fixBid(str)
+
   check_trend: (type) ->
     if type == 'up' or type == 'buy' or type == 'bid' or type == true
       true
@@ -52,7 +59,7 @@ class Formatter
     "#{m.format("MM/DD HH:mm")}"
 
   mask_fixed_price: (price) ->
-    @.fixBid(price).replace(/\..*/, "<g>$&</g>")
+    @.fixPriceGroup(price).replace(/\..*/, "<g>$&</g>")
 
   long_time: (timestamp) ->
     m = moment.unix(timestamp)
