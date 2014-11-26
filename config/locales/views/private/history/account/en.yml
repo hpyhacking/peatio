@@ -1,6 +1,9 @@
 en:
   private:
     history:
+      transaction:
+        Deposit: Deposit
+        Withdraw: Withdraw
       account:
         buy: Buy
         sell: Sell
