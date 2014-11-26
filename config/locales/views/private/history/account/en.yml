@@ -1,6 +1,9 @@
 en:
   private:
     history:
+      transaction:
+        Deposit: Deposit
+        Withdraw: Withdraw
       account:
         buy: Buy
         sell: Sell
@@ -14,3 +17,6 @@ en:
         coin_amount: crypto amount
         coin_price: price
         fee: fee
+        currency: Currency
+        amount: Amount
+        txid: Txid
