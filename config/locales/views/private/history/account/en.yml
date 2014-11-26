@@ -14,3 +14,6 @@ en:
         coin_amount: crypto amount
         coin_price: price
         fee: fee
+        currency: Currency
+        amount: Amount
+        txid: Txid
