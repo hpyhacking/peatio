@@ -347,13 +347,13 @@ INDICATOR = {MA: false, EMA: false}
     @createClose(chart, x, p, v)
 
   @createCandleStick = (chart, x, p, v) ->
-    chart.series[0].addPoint([x, p, p, p, p], false, true)
+    chart.series[0].addPoint([x, p, p, p, p], false)
 
   @createVolume = (chart, x, p, v) ->
-    chart.series[1].addPoint({x: x, y: v, color: @getTrend(chart.series[0].points[chart.series[0].points.length-1].close, p)}, false, true)
+    chart.series[1].addPoint({x: x, y: v, color: @getTrend(chart.series[0].points[chart.series[0].points.length-1].close, p)}, false)
 
   @createClose = (chart, x, p, v) ->
-    chart.series[2].addPoint([x, p], false, true)
+    chart.series[2].addPoint([x, p], false)
 
   @update = (chart, trade) ->
     p = parseFloat(trade.price)
