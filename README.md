@@ -35,7 +35,7 @@ Help is greatly appreciated, feel free to submit pull-requests or open issues.
 
 ### Known Exchanges using Peatio
 
-* [Yunbi Exchange](https://peatio.com) - A crypto-currency exchange co-funded by BitFundPE
+* [Yunbi Exchange](https://yunbi.com) - A crypto-currency exchange funded by BitFundPE
 * [One World Coin](https://oneworldcoin.com)
 * [MarsX.io](https://acx.io) - Australian Cryptocurrency Exchange
 * [Bitspark](https://bitspark.io) - Bitcoin Exchange in Hong Kong
