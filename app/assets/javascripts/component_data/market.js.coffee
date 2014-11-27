@@ -1,12 +1,11 @@
 @MarketData = flight.component ->
 
-  # FIXME: does the load work on switch?
   @load = (event, data) ->
     @trigger 'market::candlestick::request'
     @reqK gon.market.id, gon.trades[gon.trades.length-1], data['x']
 
   # FIXME: when limit > 500 live update stop working
-  @reqK = (market, trade, minutes, limit = 500) ->
+  @reqK = (market, trade, minutes, limit = 900) ->
     url = "/api/v2/k_with_pending_trades.json?market=#{market}&limit=#{limit}&period=#{minutes}&trade_id=#{trade.tid}"
     $.getJSON url, (data) =>
       @handleData(data, minutes)
@@ -89,9 +88,9 @@
     # It's possible a few trades will be missed, which caused by a problem in
     # GlobalData compoenent, not here.
     #
-    # The first batch of trades come from, then GlobalData just forwards all
-    # trades received from pusher. Trades created after page rendered on server
-    # but before trades channel connected will be missed.
+    # The first batch of trades come from gon in html, then GlobalData just
+    # forwards all trades received from pusher. Trades created after page
+    # rendered on server but before trades channel connected will lost.
     #
     # Since the delay is small, user barely notice this in most cases.
     @off document, "market::trades"

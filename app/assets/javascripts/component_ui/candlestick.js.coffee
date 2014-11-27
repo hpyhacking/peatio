@@ -80,7 +80,7 @@ INDICATOR = {MA: false, EMA: false}
     @mask()
 
   @init = (event, data) ->
-    @dataBuffer = []
+    @running = true
     @$node.find('#candlestick_chart').highcharts()?.destroy()
 
     @initHighStock(data)
@@ -216,8 +216,8 @@ INDICATOR = {MA: false, EMA: false}
         events:
           afterSetExtremes: (e) ->
             if e.trigger == 'navigator' && e.triggerOp == 'navigator-drag'
-              if component.liveRange(@.chart) && component.dataBuffer.length > 0
-                component.applyBuffer(@.chart)
+              if component.liveRange(@.chart) && !component.running
+                component.trigger "switch::range_switch::init"
 
       yAxis: [
         {
@@ -398,17 +398,6 @@ INDICATOR = {MA: false, EMA: false}
       else
         @create(chart, next_ts, trade)
 
-  @buffer = (chart, data) ->
-    @dataBuffer.push data
-
-  @applyBuffer = (chart) ->
-    $.each @dataBuffer, (i, data) =>
-      @process(chart, data)
-      # FIXME: can you move the redraw out of the loop without causing problem?
-      chart.redraw()
-
-    @dataBuffer = []
-
   @updateChart = (event, data) ->
     chart = @$node.find('#candlestick_chart').highcharts()
 
@@ -416,7 +405,7 @@ INDICATOR = {MA: false, EMA: false}
       @process(chart, data)
       chart.redraw()
     else
-      @buffer(chart, data)
+      @running = false
 
   @liveRange = (chart) ->
     p1 = chart.series[0].points[ chart.series[0].points.length-1 ].x
