@@ -4,8 +4,7 @@
     @trigger 'market::candlestick::request'
     @reqK gon.market.id, gon.trades[gon.trades.length-1], data['x']
 
-  # FIXME: when limit > 500 live update stop working
-  @reqK = (market, trade, minutes, limit = 900) ->
+  @reqK = (market, trade, minutes, limit = 4200) ->
     url = "/api/v2/k_with_pending_trades.json?market=#{market}&limit=#{limit}&period=#{minutes}&trade_id=#{trade.tid}"
     $.getJSON url, (data) =>
       @handleData(data, minutes)
@@ -28,7 +27,7 @@
       candlestick.push [time, open, high, low, close]
       volume.push {x: time, y: vol, color: if trend then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'}
 
-    candlestick: candlestick, volume: volume, orig: k, minutes: minutes, close: close_price
+    candlestick: candlestick, volume: volume, close: close_price, orig: k, minutes: minutes
 
   @createPoint = (result, time, trade) ->
     p = parseFloat(trade.price)
@@ -51,7 +50,7 @@
     result.candlestick[i][4] = p
 
     result.volume[i]['y'] += v
-    result.volume[i]['color'] = if result.close[i][1] >= result.close[i-1][1] then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'
+    result.volume[i]['color'] = if i > 0 && result.close[i][1] >= result.close[i-1][1] then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'
 
   @patch = (result, trades, minutes) ->
     $.each trades, (ti, trade) =>

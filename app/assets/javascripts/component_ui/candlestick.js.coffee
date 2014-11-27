@@ -150,6 +150,7 @@ INDICATOR = {MA: false, EMA: false}
 
       plotOptions:
         candlestick:
+          turboThreshold: 0
           followPointer: true
           color: '#990f0f'
           upColor: '#000000'
@@ -165,7 +166,7 @@ INDICATOR = {MA: false, EMA: false}
               <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.low}</span><span class=t-value>{point.low}</span></div>
               """
         column:
-          turboThreshold: 5000
+          turboThreshold: 0
           dataGrouping: dataGrouping
           tooltip:
             pointFormat:
@@ -253,8 +254,6 @@ INDICATOR = {MA: false, EMA: false}
           type: "candlestick"
           data: data['candlestick']
           showInLegend: false
-          dataGrouping: {
-          }
         }
         {
           name: gon.i18n.chart.volume
