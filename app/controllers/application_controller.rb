@@ -128,6 +128,7 @@ class ApplicationController < ActionController::Base
       },
       place_order: {
         confirm_submit: I18n.t('private.markets.show.confirm'),
+        confirm_cancel: I18n.t('private.markets.show.cancel_confirm'),
         price: I18n.t('private.markets.place_order.price'),
         volume: I18n.t('private.markets.place_order.amount'),
         sum: I18n.t('private.markets.place_order.total'),

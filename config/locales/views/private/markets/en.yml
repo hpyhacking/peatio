@@ -8,7 +8,7 @@ en:
         help_panel: Help
         done: DONE
         cancel: CANCEL
-        cancel_confirm: Are your sure cancel order?
+        cancel_confirm: Are your sure to cancel the order?
         confirm: CONFIRM
         ask_order: 'ASK ##sn#'
         bid_order: 'BID ##sn#'
