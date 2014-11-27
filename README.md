@@ -35,11 +35,12 @@ Help is greatly appreciated, feel free to submit pull-requests or open issues.
 
 ### Known Exchanges using Peatio
 
-* [Peatio Exchange](https://peatio.com) - Peatio Cryptocurrency Exchange in China
+* [Yunbi Exchange](https://peatio.com) - A crypto-currency exchange co-funded by BitFundPE
+* [One World Coin](https://oneworldcoin.com)
 * [MarsX.io](https://acx.io) - Australian Cryptocurrency Exchange
-* [Mulcoin.com](http://mulcoin.com)
-* [Yes-BTC](http://www.yes-btc.com) - Bitcoin Exchange in Taiwan
 * [Bitspark](https://bitspark.io) - Bitcoin Exchange in Hong Kong
+* [Yes-BTC](http://www.yes-btc.com) - Bitcoin Exchange in Taiwan
+* [Mulcoin.com](http://mulcoin.com)
 * ecoinz.info (Launch soon) - New Zealand Cryptocurrency Exchange
 
 ### Mobile Apps ###
