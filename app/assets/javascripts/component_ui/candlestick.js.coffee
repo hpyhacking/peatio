@@ -4,10 +4,10 @@ if gon.local is "zh-CN"
     second:      ['%m月%e日, %H:%M:%S', '%m月%e日, %H:%M:%S', '-%H:%M:%S']
     minute:      ['%m月%e日, %H:%M', '%m月%e日, %H:%M', '-%H:%M']
     hour:        ['%m月%e日, %H:%M', '%m月%e日, %H:%M', '-%H:%M']
-    day:         ['%Y年%m月%e日', '%Y年%m月%e日', '-%m月%e日']
+    day:         ['%m月%e日, %H:%M', '%m月%e日, %H:%M', '-%H:%M']
     week:        ['%Y年%m月%e日', '%Y年%m月%e日', '-%m月%e日']
     month:       ['%Y年%m月', '%Y年%m月', '-%m']
-    year: ['%Y', '%Y', '-%Y']
+    year:        ['%Y', '%Y', '-%Y']
 
 DATETIME_LABEL_FORMAT =
   second: '%H:%M:%S'
@@ -37,9 +37,15 @@ DATE_RANGE =
   min120:
     default_range: 1000 * 3600 * 24 * 10 # 10d
     dataGrouping_units: [['hour', [2]]]
+  min240:
+    default_range: 1000 * 3600 * 24 * 20 # 20d
+    dataGrouping_units: [['hour', [4]]]
   min360:
     default_range: 1000 * 3600 * 24 * 30 * 1 # 1m
     dataGrouping_units: [['hour', [6]]]
+  min720:
+    default_range: 1000 * 3600 * 24 * 30 * 2 # 2m
+    dataGrouping_units: [['hour', [12]]]
   min1440:
     default_range: 1000 * 3600 * 24 * 30 * 3 # 3m
     dataGrouping_units: [['day', [1]]]
