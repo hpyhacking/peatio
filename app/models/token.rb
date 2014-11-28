@@ -51,6 +51,6 @@ class Token < ActiveRecord::Base
 
   def generate_token
     self.token = SecureRandom.hex(16)
-    self.expire_at = 5.minutes.from_now
+    self.expire_at = 30.minutes.from_now
   end
 end
