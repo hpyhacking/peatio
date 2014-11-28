@@ -36,7 +36,8 @@ module Worker
     end
 
     def cache_book
-      @managers.keys.each do |market|
+      @managers.keys.each do |id|
+        market = Market.find id
         Rails.cache.write "peatio:#{market}:depth:asks", get_depth(market, :ask)
         Rails.cache.write "peatio:#{market}:depth:bids", get_depth(market, :bid)
         Rails.logger.debug "SlaveBook (#{market}) updated"
@@ -64,11 +65,15 @@ module Worker
     end
 
     def get_depth(market, side)
-      depth = []
-      @managers[market].send("#{side}_orders").limit_orders.each do |price, orders|
-        depth << [price, orders.map(&:volume).sum]
+      depth = Hash.new {|h, k| h[k] = 0 }
+      price_group_fixed = market[:price_group_fixed]
+      mode  = side == :ask ? BigDecimal::ROUND_UP : BigDecimal::ROUND_DOWN
+      @managers[market.id].send("#{side}_orders").limit_orders.each do |price, orders|
+        price = price.round(price_group_fixed, mode) if price_group_fixed
+        depth[price] += orders.map(&:volume).sum
       end
 
+      depth = depth.to_a
       depth.reverse! if side == :bid
       depth
     end
