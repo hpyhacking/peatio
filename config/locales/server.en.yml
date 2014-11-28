@@ -141,7 +141,8 @@ en:
     close: Close
     price: Price
     volume: Volume
-    candlestick: 'Candle Stick'
+    candlestick: 'Candlestick'
+    line: 'Line'
     minute: m
     hour: Hour
     day: Day

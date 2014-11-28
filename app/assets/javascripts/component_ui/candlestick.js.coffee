@@ -73,6 +73,7 @@ RANGE_DEFAULT =
       style:
         color: '#eee'
 
+TYPE      = {candlestick: false, close: false}
 INDICATOR = {MA: false, EMA: false}
 
 @CandlestickUI = flight.component ->
@@ -93,11 +94,27 @@ INDICATOR = {MA: false, EMA: false}
     @initTooltip()
     @trigger 'market::candlestick::created', data
 
-  @switch = (event, data) ->
+  @switchType = (event, data) ->
+    TYPE[key] = false for key, val of TYPE
+    TYPE[data.x] = true
+
+    if chart = @$node.find('#candlestick_chart').highcharts()
+      for type, visible of TYPE
+        for s in chart.series
+          if !s.userOptions.algorithm? && (s.userOptions.id == type)
+            s.setVisible(visible, false)
+      @trigger "switch::main_indicator_switch::init"
+
+  @switchMainIndicator = (event, data) ->
     INDICATOR[key] = false for key, val of INDICATOR
     INDICATOR[data.x] = true
 
     if chart = @$node.find('#candlestick_chart').highcharts()
+      # reset all series depend on close
+      for s in chart.series
+        if s.userOptions.linkedTo == 'close'
+          s.setVisible(true, false)
+
       for indicator, visible of INDICATOR
         for s in chart.series
           if s.userOptions.algorithm? && (s.userOptions.algorithm == indicator)
@@ -256,10 +273,12 @@ INDICATOR = {MA: false, EMA: false}
 
       series: [
         {
+          id: 'candlestick'
           name: gon.i18n.chart.candlestick
           type: "candlestick"
           data: data['candlestick']
           showInLegend: false
+          visible: TYPE['candlestick']
         }
         {
           name: gon.i18n.chart.volume
@@ -270,11 +289,11 @@ INDICATOR = {MA: false, EMA: false}
           showInLegend: false
         }
         {
+          id: 'close'
           type: 'spline'
           data: data['close']
-          visible: false
-          id: 'close'
           showInLegend: false
+          visible: TYPE['close']
         }
         {
           name: 'MA5',
@@ -421,4 +440,5 @@ INDICATOR = {MA: false, EMA: false}
     @on document, 'market::candlestick::request', @request
     @on document, 'market::candlestick::response', @init
     @on document, 'market::candlestick::update', @updateChart
-    @on document, 'switch::main_indicator_switch', @switch
+    @on document, 'switch::main_indicator_switch', @switchMainIndicator
+    @on document, 'switch::type_switch', @switchType

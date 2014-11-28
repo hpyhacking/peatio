@@ -134,6 +134,7 @@ zh-CN:
     price: 价格
     volume: 成交量
     candlestick: 'K线图'
+    line: '分时图'
     minute: 分
     hour: 小时
     day: 日
