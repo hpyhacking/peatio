@@ -13,12 +13,12 @@ describe Token::ResetPassword do
     it { expect(token).not_to be_is_used }
   end
 
-  describe 're-create token within 5 minutes' do
+  describe 're-create token within 30 minutes' do
     before { token.save }
 
     it {
       expect {
-        Timecop.travel(4.minutes.from_now)
+        Timecop.travel(29.minutes.from_now)
         expect(token.reload).not_to be_expired
 
         new_token = Token::ResetPassword.create email: member.email
@@ -28,12 +28,12 @@ describe Token::ResetPassword do
 
   end
 
-  describe 're-create token after 5 minutes' do
+  describe 're-create token after 30 minutes' do
     before { token.save }
 
     it {
       expect {
-        Timecop.travel(6.minutes.from_now)
+        Timecop.travel(31.minutes.from_now)
         expect(token.reload).to be_expired
 
         new_token = Token::ResetPassword.create email: member.email

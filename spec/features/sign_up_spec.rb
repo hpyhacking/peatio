@@ -51,7 +51,7 @@ describe 'Sign up', js: true do
 
     first_activation_link = email_activation_link
 
-    Timecop.travel(6.minutes.from_now)
+    Timecop.travel(31.minutes.from_now)
 
     click_on t('private.settings.index.email.resend')
 
