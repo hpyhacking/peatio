@@ -6,6 +6,7 @@ en:
       password: Please enter a password at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
       invalid: Invalid request
       submit: Reset Login Password
+      alert: Invalid reset password link.
     update:
       success: Login password has been reset, please keep your new password.
       invalid: Invalid request
