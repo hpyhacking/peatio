@@ -4,10 +4,9 @@ module APIv2
       expose :currency
       expose :amount, format_with: :decimal
       expose :fee
-      expose :fund_uid
       expose :txid
       expose :created_at, format_with: :iso8601
-      expose :memo
+      expose :memo, if: :memo
       expose :done_at, format_with: :iso8601
     end
   end
