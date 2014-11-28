@@ -16,5 +16,15 @@ module APIv2
         present current_user.deposits.one_day.recent, with: APIv2::Entities::Deposit
       end
     end
+
+    desc 'Get single deposit information'
+    params do
+      use :auth
+      requires :tx_id
+    end
+    get "/deposits/:tx_id" do
+      authenticate!
+      present current_user.deposits.find_by(txid: params[:tx_id]), with: APIv2::Entities::Deposit
+    end
   end
 end
