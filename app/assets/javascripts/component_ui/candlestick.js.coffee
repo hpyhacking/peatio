@@ -104,6 +104,7 @@ INDICATOR = {MA: false, EMA: false}
           if !s.userOptions.algorithm? && (s.userOptions.id == type)
             s.setVisible(visible, false)
       @trigger "switch::main_indicator_switch::init"
+      @initTooltip()
 
   @switchMainIndicator = (event, data) ->
     INDICATOR[key] = false for key, val of INDICATOR
@@ -124,9 +125,16 @@ INDICATOR = {MA: false, EMA: false}
   @initTooltip = ->
     chart = @$node.find('#candlestick_chart').highcharts()
     tooltips = []
-    for i in [0..1]
+
+    index = []
+    index.push(0) if TYPE['candlestick']
+    index.push(1) if TYPE['close']
+    index.push(2)
+
+    for i in index
       if chart.series[i].points.length > 0
         tooltips.push chart.series[i].points[chart.series[i].points.length - 1]
+
     chart.tooltip.refresh tooltips if tooltips.length
 
   @initHighStock = (data) ->
@@ -195,6 +203,12 @@ INDICATOR = {MA: false, EMA: false}
             pointFormat:
               """
               <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.volume}</span><span class=t-value>{point.y}</span></div><ul class='list-inline'>
+              """
+        spline:
+          tooltip:
+            pointFormat:
+              """
+              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.close}</span><span class=t-value>{point.y}</span></div>
               """
         trendline:
           lineWidth: 1
@@ -281,19 +295,19 @@ INDICATOR = {MA: false, EMA: false}
           visible: TYPE['candlestick']
         }
         {
+          id: 'close'
+          type: 'spline'
+          data: data['close']
+          showInLegend: false
+          visible: TYPE['close']
+        }
+        {
           name: gon.i18n.chart.volume
           yAxis: 1
           type: "column"
           data: data['volume']
           color: '#777'
           showInLegend: false
-        }
-        {
-          id: 'close'
-          type: 'spline'
-          data: data['close']
-          showInLegend: false
-          visible: TYPE['close']
         }
         {
           name: 'MA5',
@@ -374,10 +388,10 @@ INDICATOR = {MA: false, EMA: false}
     chart.series[0].addPoint([x, p, p, p, p], false)
 
   @createVolume = (chart, x, p, v) ->
-    chart.series[1].addPoint({x: x, y: v, color: @getTrend(chart.series[0].points[chart.series[0].points.length-1].close, p)}, false)
+    chart.series[2].addPoint({x: x, y: v, color: @getTrend(chart.series[0].points[chart.series[0].points.length-1].close, p)}, false)
 
   @createClose = (chart, x, p, v) ->
-    chart.series[2].addPoint([x, p], false)
+    chart.series[1].addPoint([x, p], false)
 
   @update = (chart, trade) ->
     p = parseFloat(trade.price)
@@ -399,14 +413,14 @@ INDICATOR = {MA: false, EMA: false}
     @getTrend(chart.series[0].points[i-1].close, point.close)
 
   @updateVolume = (chart, trend, p, v) ->
-    i = chart.series[1].points.length - 1
-    point = chart.series[1].points[i]
+    i = chart.series[2].points.length - 1
+    point = chart.series[2].points[i]
     point.update({x: point.x, y: point.y+v, color: trend}, false)
 
   @updateClose = (chart, p, v) ->
-    if chart.series[2].points
-      i = chart.series[2].points.length - 1
-      point = chart.series[2].points[i]
+    if chart.series[1].points
+      i = chart.series[1].points.length - 1
+      point = chart.series[1].points[i]
       point.update(p, false)
 
   @getTrend = (p1, p2) ->
