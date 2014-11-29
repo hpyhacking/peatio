@@ -6,8 +6,9 @@ module APIv2
       expose :fee
       expose :txid
       expose :created_at, format_with: :iso8601
-      expose :memo, if: :memo
+      expose :memo
       expose :done_at, format_with: :iso8601
+      expose :aasm_state, as: :state
     end
   end
 end

@@ -99,4 +99,9 @@ module APIv2
     end
   end
 
+  class DepositByTxidNotFoundError < Error
+    def initialize(txid)
+      super code: 2012, text: "Deposit##txid=#{txid} doesn't exist.", status: 404
+    end
+  end
 end
