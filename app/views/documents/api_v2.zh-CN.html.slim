@@ -163,33 +163,44 @@
             p bids: 买单列表
 
         tr
-          td Deposit
+          td Deposits
           td: pre: code
-            | [{currency: "cny",amount: "2000.0",fee: "0.0",txid: "2",created_at: "2014-11-27t09:28:32Z",done_at: "2014-11-27T11:16:46Z"},
-              {currency: "cny",amount: "100.0",fee: "0.0",txid: "3",created_at: "2014-11-28T05:09:53Z",done_at: "2014-11-28T05:12:27Z"}]
+            |
+              [{"currency": "cny","amount": "520.0","fee": "0.0","txid": null,"created_at": "2014-11-29T15:24:26Z","memo": null,"done_at": null,"state": "submitting"},{"currency": "cny","amount": "1000.0","fee": "0.0","txid": "3","created_at": "2014-11-29T13:45:03Z","memo": null,"done_at": "2014-11-29T13:54:37Z","state": "accepted"}]
+
           td
             p Deposits 返回用户最近24小时内的充值信息:
-            p currency: 资产种类
-            p amount: 资产总量
+            p currency: 充值种类
+            p amount: 充值总量
             p fee: 交易费用
             p txid: 交易id
             p created_at: 创建时间
             p done_at: 处理时间
-            p memo: 交易备注（不一定存在）
+            p memo: 交易备注
+            p state: 状态
+            p ----state----
+            p submitting: 已提交
+            p cancelled: 已撤销
+            p submitted: 受理中
+            p accepted: 充值成功
+            p rejected: 已驳回
+            p checked: 充值成功
+            p warning: 异常
+
 
         tr
-          td Deposit/:tx_id
+          td Deposit
           td: pre: code
-            | {currency: "cny",amount: "2000.0",fee: "0.0",txid: "1",created_at: "2014-11-27t09:28:32Z",done_at: "2014-11-27T11:16:46Z"}
+            |
+              {"currency": "cny","amount": "520.0","fee": "0.0","txid": null,"created_at": "2014-11-29T15:24:26Z","memo": null,"done_at": null,"state": "submitting"}
+
           td
             p Deposits 返回用户某条充值信息:
-            p currency: 资产种类
-            p amount: 资产总量
-            p fee: 交易费用
-            p txid: 交易id
-            p created_at: 创建时间
-            p done_at: 处理时间
-            p memo: 交易备注（不一定存在）
+            p 属性 同上
+            p 若txid 查询不到
+            p 返回
+              {error: {code: 2012,message: "Deposit##txid=4 doesn't exist."}}
+
 
 .panel.panel-default
   .panel-heading
