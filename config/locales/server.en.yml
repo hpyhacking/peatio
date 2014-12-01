@@ -141,6 +141,20 @@ en:
       two_factor/sms:
         phone_number: Phone Number
         otp: Verify Code
+      withdraws/bank:
+        id: ID
+        member_name: Member
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_source: Bank
+        fund_extra: Bank
+        fund_extra_text: Bank
+        fund_uid: Bank Account
+        sum: Amount
+        fee: Fee
+        amount: Amount
+        remark: Remark
+        created_at: Created At
       deposits/bank:
         created_at: Created At
         holder: Holder
@@ -159,19 +173,6 @@ en:
         amount: Amount
         memo: Confirmation
         aasm_state_text: State
-      withdraws/bank:
-        id: ID
-        member_name: Member
-        currency_obj_key_text: Currency
-        state_and_actions: State/Action
-        fund_source: Bank
-        fund_extra_text: Bank
-        fund_uid: Bank Account
-        sum: Amount
-        fee: Fee
-        amount: Amount
-        remark: Remark
-        created_at: Created At
       withdraws/satoshi:
         id: ID
         member_name: Account
@@ -288,6 +289,7 @@ en:
     sdb: Shenzhen Development Bank
     pab: Ping An Bank Co., Ltd.
     gdb: Guangdong Development Bank
+    psbc: Postal Savings Bank of China
   breadcrumbs:
     admin: Admin
     admin/dashboard: Dashboard
@@ -516,8 +518,51 @@ en:
         fund_source_uid: Account Number
         fund_source_label: Label
         fund_source_address: Address
-        extra_hint: If your bank is no longer in the list, please contact customer
-          service
+        extra_hint: If your bank is no longer in the list, please contact customer service
+    history:
+      transaction:
+        Deposit: Deposit
+        Withdraw: Withdraw
+      account:
+        buy: Buy
+        sell: Sell
+        filter_by_type: Filter by type
+        account_history: Account History
+        type: type
+        timestamp: date and time
+        fee: fee
+        currency: Currency
+        amount: Amount
+        txid: Txid
+      orders:
+        order_history: Order History
+        id: ID
+        type: Type
+        state: State
+        market: Market
+        price: Price
+        volume: Volume
+        average_price: Avg. Price
+        fullfilled_volume: Fullfilled
+        timestamp: Created At
+      order:
+        ask: Sell
+        bid: Buy
+        wait: Open
+        cancel: Cancelled
+        done: Done
+      trades:
+        trade_history: Trade History
+        side: Side
+        created_at: Time
+        base_currency: Base Currency
+        base_amount: Base Amount
+        quote_currency: Quote Currency
+        quote_amount: Quote Amount
+        price: Price
+      trade:
+        sell: Sell
+        buy: Buy
     trade:
       trades:
         orders:
@@ -630,13 +675,11 @@ en:
         alert_two_factor: Two step authentication failed.
         success: API token created successfully.
         failed: Failed to create API token. Please try again later or contact admin.
-        desc: Please copy and paste keys below to a safe place and save. The secret
-          key will never be displayed again.
+        desc: Please copy and paste keys below to a safe place and save. The secret key will never be displayed again.
       edit:
         access_key_hint: Created at %{created_at}
         label_hint: Label helps you remember token usage, optional.
-        ip_whitelist_hint: Seperate IP by commas, leave this field blank means all
-          IP are allowed.
+        ip_whitelist_hint: Seperate IP by commas, leave this field blank means all IP are allowed.
       update:
         alert_two_factor: Two step authentication failed.
         success: Saved successfully.
@@ -705,50 +748,6 @@ en:
         ref:
           system: System
           default: Default
-    history:
-      transaction:
-        Deposit: Deposit
-        Withdraw: Withdraw
-      account:
-        buy: Buy
-        sell: Sell
-        filter_by_type: Filter by type
-        account_history: Account History
-        type: type
-        timestamp: date and time
-        fee: fee
-        currency: Currency
-        amount: Amount
-        txid: Txid
-      orders:
-        order_history: Order History
-        id: ID
-        type: Type
-        state: State
-        market: Market
-        price: Price
-        volume: Volume
-        average_price: Avg. Price
-        fullfilled_volume: Fullfilled
-        timestamp: Created At
-      order:
-        ask: Sell
-        bid: Buy
-        wait: Open
-        cancel: Cancelled
-        done: Done
-      trades:
-        trade_history: Trade History
-        side: Side
-        created_at: Time
-        base_currency: Base Currency
-        base_amount: Base Amount
-        quote_currency: Quote Currency
-        quote_amount: Quote Amount
-        price: Price
-      trade:
-        sell: Sell
-        buy: Buy
     id_documents:
       edit:
         state: State
@@ -801,6 +800,8 @@ en:
         amount: Amount
         buy: Buy
         sell: Sell
+        ask_orders: Sell
+        bid_orders: Buy
       ticker:
         last: Last Price
         ask: ASK
@@ -808,17 +809,19 @@ en:
       account_balance:
         title: Account Balance
         available: Available %{currency}
-      ask_entry:
-        title: " [SELL] "
-        action: Place [SELL] Order
+      balance:
+        balance: Balance
+      bid_entry:
+        title: " [BUY] "
+        action: Place [BUY] Order
         price: Price
         last_price: Last Price
         amount: Amount
         total: Total
         balance: Balance
-      bid_entry:
-        title: " [BUY] "
-        action: Place [BUY] Order
+      ask_entry:
+        title: " [SELL] "
+        action: Place [SELL] Order
         price: Price
         last_price: Last Price
         amount: Amount
@@ -853,6 +856,7 @@ en:
         notification: Desktop Real Notification
         title: Settings
       account_summary:
+        account: Account
         title: Summary
         amount: Amount
         locked: Freeze
@@ -1289,24 +1293,6 @@ en:
       accepted: Accepted
       checked: Checked
       warning: Warning
-  mongoid:
-    errors:
-      models:
-        application:
-          attributes:
-            redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-  mongo_mapper:
-    errors:
-      models:
-        application:
-          attributes:
-            redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
   doorkeeper:
     scopes:
       profile: Read your basic profile (e.g. name, email) and account balances
