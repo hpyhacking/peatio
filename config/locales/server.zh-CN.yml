@@ -497,29 +497,6 @@ zh-CN:
           branch: 收款开户行
           hodler: 收款账号
           account: 收款账号
-      shared:
-        new:
-          step-1: 第一步
-          open-wallet: 请使用您常用的钱包服务，本地钱包、在线钱包或移动端的钱包，选择付款或发送。
-          step-2: 第二步
-          gen_address_html: 正在为您生成钱包地址，请等待片刻然后点击<a href='javascript:window.location.reload();'>刷新</a>查看生成结果。
-          or: 您也可以
-          scan-qr: 在移动端钱包中扫描二维码来进行支付。
-          step-3: 第三步
-          step-4: 第四步
-          history_html: 当您在您的钱包中完成发送付款的操作后,点击<a href='javascript:window.location.reload();'>刷新</a>,就能在⻚面下⽅历史纪录中查看到您当前的充值状态。
-          generate-new: 生成新地址
-          countdown: 正在生成地址..
-        gen_address:
-          require_transaction: 当前地址没有使用过之前不能生成新地址。
-      satoshis:
-        new:
-          send-coin: 在您的钱包付款或发款中,复制以下专门为您充值准备的比特币地址,在金额中填入您希望充值到账的数量, 同时别忘记支付一定的矿工费以保证交易尽快被全网确认。您也可以在移动端钱包中扫描二维码来进行支付。 您可以重复使用此比特币地址和二维码进行充值。
-          check-confirm: 完成以上操作后点击发送付款,此交易将被广播到全网,您便可以这里查看到此笔交易的状态, 当交易达到全网1个确认 (约10至60分钟) 时,系统将自动充值到账。 您可以到<a href='%{path}'>资产公开</a>中查询。
-        gen_address:
-          require_transaction: 当前地址没有使用过之前不能生成新地址。
-      index:
-        go: 立即充值
     fund_sources:
       index:
         manage_coin_address: 管理 %{name} 地址
@@ -628,6 +605,7 @@ zh-CN:
       oauth_tokens:
         panel_title: 应用绑定
         title: 已绑定的第三方应用
+        oauth: OAuth认证接口文档
         intro: 管理所有您绑定过的第三方应用。
         no_token: 没有绑定第三方应用
         unbind: 解除绑定
@@ -1649,6 +1627,7 @@ zh-CN:
       spam: 该邮件有可能出现在垃圾邮件中，请注意查看。
     edit:
       notice: 邮箱验证已经通过，请您完成其他安全设置。
+      alert: 验证链接已过期或无效。
   authentications:
     emails:
       new:
@@ -1712,6 +1691,7 @@ zh-CN:
       password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
       invalid: 无效的请求
       submit: 重置登录密码
+      alert: 无效的重置链接。
     update:
       success: 登录密码已经重置，请妥善保管您的新密码。
       invalid: 无效的请求

@@ -483,8 +483,7 @@ en:
         destroy:
           notice: Revocation request is successful.
         create:
-          notice: Recharge request successfully submitted. Use the info below to complete
-            the bank transfer.
+          notice: Recharge request successfully submitted. Use the info below to complete the bank transfer.
           submit: Submit
         new:
           fund_source: Select Fund Source
@@ -495,39 +494,6 @@ en:
           branch: Receive Bank Branch
           hodler: Receive holder
           account: Receive Account
-      shared:
-        new:
-          step-1: Step one
-          open-wallet: Please use your common wallet services, local wallet, mobile
-            terminal or online wallet, select a payment and send.
-          step-2: Step Two
-          gen_address_html: Your deposit address is being generated, please wait for
-            a moment then click <a href='javascript:window.location.reload();'>refresh</a>
-            to check result.
-          or: You can also to
-          scan-qr: Scanning QR code to Pay for In the mobile terminal wallet.
-          step-3: Step Three
-          step-4: Step Four
-          history_html: Once you complete sending, click <a href='javascript:window.location.reload();'>refresh</a>
-            to check the status of your new deposit below.
-          generate-new: Generate new address
-          countdown: Generating..
-        gen_address:
-          require_transaction: Cannot generate new address until current address used.
-      satoshis:
-        new:
-          send-coin: Fill in the collection address the following address which is
-            specifically for your bitcoin deposits. Check the bitcoin amount you want
-            to send,  and do not forget to pay a fee to the miner in order to ensure
-            the transaction could be confirmed quickly.
-          check-confirm: Send bitcoin to your Peatio account. When the transaction
-            gets one confirmation by the whole network, the system will automatically
-            recharge your account.(you do not need to refresh this interface, transactions
-            and recharge will be real-time updated).
-        gen_address:
-          require_transaction: Cannot generate new address until current address used.
-      index:
-        go: Deposit Now
     fund_sources:
       index:
         manage_coin_address: Manage %{name} Address
@@ -647,6 +613,7 @@ en:
       oauth_tokens:
         panel_title: Authorizations
         title: Authorized Applications
+        oauth: OAuth Integration
         intro: Manage all your authorized applications.
         no_token: No Application.
         unbind: Revoke
@@ -739,6 +706,9 @@ en:
           system: System
           default: Default
     history:
+      transaction:
+        Deposit: Deposit
+        Withdraw: Withdraw
       account:
         buy: Buy
         sell: Sell
@@ -747,6 +717,9 @@ en:
         type: type
         timestamp: date and time
         fee: fee
+        currency: Currency
+        amount: Amount
+        txid: Txid
       orders:
         order_history: Order History
         id: ID
@@ -1726,15 +1699,14 @@ en:
         create: Submit
   activations:
     new:
-      notice: An email has been sent to your mailbox, please check it for verification
-        as soon as possible. If you do not received it , please click "send it again"
-        button.
+      notice: An email has been sent to your mailbox, please check it for verification as soon as possible. If you do not received it , please click "send it again" button.
       verified: Your email adress has been verified successfully.
       login_required: login required!
       tip: Activation link was sent to %{email}
       spam: Please check your spam folder for the activation link.
     edit:
       notice: Account activated successfully! Please sign in below.
+      alert: Activation link is expired or invalid.
   authentications:
     emails:
       new:
@@ -1795,14 +1767,12 @@ en:
       name: Please fill out the application.
   reset_passwords:
     create:
-      success: E-mail to reset your password with a introduction has been sent to
-        your mailbox. Failure to receive e-mail , go to "junk mail " firstly,or send
-        the request again.
+      success: E-mail to reset your password with a introduction has been sent to your mailbox. Failure to receive e-mail , go to "junk mail " firstly,or send the request again.
     edit:
-      password: Please enter a password at least 6 characters and it's better to contain
-        uppercase and lowercase letters and numbers.
+      password: Please enter a password at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
       invalid: Invalid request
       submit: Reset Login Password
+      alert: Invalid reset password link.
     update:
       success: Login password has been reset, please keep your new password.
       invalid: Invalid request
