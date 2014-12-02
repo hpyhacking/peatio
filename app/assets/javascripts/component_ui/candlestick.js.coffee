@@ -377,71 +377,35 @@ INDICATOR = {MA: false, EMA: false}
         }
       ]
 
-  @create = (chart, x, trade) ->
-    p = parseFloat(trade.price)
-    v = parseFloat(trade.amount)
-    @createCandleStick(chart, x, p, v)
-    @createVolume(chart, x, p, v)
-    @createClose(chart, x, p, v)
+  @createPoint = (chart, data, i) ->
+    chart.series[0].addPoint(data.candlestick[i], false)
+    chart.series[1].addPoint(data.close[i], false)
+    chart.series[2].addPoint(data.volume[i], false)
+    chart.redraw(true)
 
-  @createCandleStick = (chart, x, p, v) ->
-    chart.series[0].addPoint([x, p, p, p, p], false)
-
-  @createVolume = (chart, x, p, v) ->
-    chart.series[2].addPoint({x: x, y: v, color: @getTrend(chart.series[0].points[chart.series[0].points.length-1].close, p)}, false)
-
-  @createClose = (chart, x, p, v) ->
-    chart.series[1].addPoint([x, p], false)
-
-  @update = (chart, trade) ->
-    p = parseFloat(trade.price)
-    v = parseFloat(trade.amount)
-    trend = @updateCandleStick(chart, p, v)
-    @updateVolume(chart, trend, p, v)
-    @updateClose(chart, p, v)
-
-  @updateCandleStick = (chart, p, v) ->
-    i = chart.series[0].points.length - 1
-    point = chart.series[0].points[i]
-    ohlc = x: point.x, open: point.open, high: point.high, low: point.low, close: p
-    if p > point.high
-      ohlc.high = p
-    else if p < point.low
-      ohlc.low = p
-    point.update(ohlc, false)
-
-    @getTrend(chart.series[0].points[i-1].close, point.close)
-
-  @updateVolume = (chart, trend, p, v) ->
-    i = chart.series[2].points.length - 1
-    point = chart.series[2].points[i]
-    point.update({x: point.x, y: point.y+v, color: trend}, false)
-
-  @updateClose = (chart, p, v) ->
-    if chart.series[1].points
-      i = chart.series[1].points.length - 1
-      point = chart.series[1].points[i]
-      point.update(p, false)
-
-  @getTrend = (p1, p2) ->
-    if p1 < p2 then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'
+  @updatePoint = (chart, data, i) ->
+    chart.series[0].points[chart.series[0].points.length-1].update(data.candlestick[i], false)
+    chart.series[1].points[chart.series[1].points.length-1].update(data.close[i][1], false)
+    chart.series[2].points[chart.series[2].points.length-1].update(data.volume[i], false)
+    chart.redraw(true)
 
   @process = (chart, data) ->
-    $.each data.trades, (_, trade) =>
-      i = chart.series[10].points.length - 1
-      ts = trade.date * 1000
-      next_ts = chart.series[10].points[i].x + data.minutes*60*1000
-      if ts < next_ts
-        @update(chart, trade)
-      else
-        @create(chart, next_ts, trade)
+    for i in [0..(data.candlestick.length-1)]
+      current = chart.series[0].points.length - 1
+      current_point = chart.series[0].points[current]
 
-  @updateChart = (event, data) ->
+      if data.candlestick[i][0] > current_point.x
+        @createPoint chart, data, i
+      else if data.candlestick[i][0] == current_point.x
+        @updatePoint chart, data, i
+      else
+        # ignore obsolete point
+
+  @update = (event, data) ->
     chart = @$node.find('#candlestick_chart').highcharts()
 
     if @liveRange(chart)
       @process(chart, data)
-      chart.redraw()
     else
       @running = false
 
@@ -453,6 +417,6 @@ INDICATOR = {MA: false, EMA: false}
   @after 'initialize', ->
     @on document, 'market::candlestick::request', @request
     @on document, 'market::candlestick::response', @init
-    @on document, 'market::candlestick::update', @updateChart
+    @on document, 'market::candlestick::update', @update
     @on document, 'switch::main_indicator_switch', @switchMainIndicator
     @on document, 'switch::type_switch', @switchType
