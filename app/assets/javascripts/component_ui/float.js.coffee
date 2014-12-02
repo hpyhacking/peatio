@@ -8,7 +8,7 @@
       if @select('action').length > 1
         if @$node.hasClass('hover') and $(e.currentTarget).hasClass('active')
           @select('close').click()
-        else 
+        else
           @$node.addClass('hover')
       else
         unless @$node.hasClass('hover')
@@ -16,6 +16,6 @@
         else
           @select('close').click()
 
-    @select('close').click => 
+    @select('close').click =>
       @$node.removeClass('hover')
       @select('action').removeClass('active')
