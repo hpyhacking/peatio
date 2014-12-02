@@ -516,6 +516,7 @@ en:
         Deposit: Deposit
         Withdraw: Withdraw
       account:
+        currency: Currency
         buy: Buy
         sell: Sell
         filter_by_type: Filter by type

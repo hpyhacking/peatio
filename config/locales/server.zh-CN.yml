@@ -152,6 +152,7 @@ zh-CN:
         currency_obj_key_text: 币种
         state_and_actions: 状态/操作
         fund_source: 提现银行
+        fund_extra: 银行
         fund_extra_text: 提现银行
         fund_uid: 提现银行账户
         sum: 提现金额
@@ -511,6 +512,9 @@ zh-CN:
         fund_source_address: 地址
         extra_hint: 若您的开户银行不再列表中，请联系客服
     history:
+      transaction:
+        Deposit: 充值
+        Withdraw: 提现
       account:
         buy: 买入
         sell: 卖出
@@ -519,6 +523,9 @@ zh-CN:
         type: 类型
         timestamp: 时间
         fee: 手续费
+        currency: 货币
+        amount: 金额
+        txid: 交易哈希
       orders:
         order_history: 委托记录
         id: ID
@@ -771,6 +778,8 @@ zh-CN:
         amount: 数量
         buy: 买入
         sell: 卖出
+        ask_orders: 卖出
+        bid_orders: 买入
       ticker:
         last: 最新成交价
         ask: 卖一价
@@ -778,6 +787,8 @@ zh-CN:
       account_balance:
         title: 账户余额
         available: 可用 %{currency}
+      balance:
+        balance: 账户余额
       bid_entry:
         title: " [买入] "
         action: 提交 [买入] 委单
@@ -823,6 +834,7 @@ zh-CN:
         notification: 桌面实时通知
         title: 设置
       account_summary:
+        account: 账号
         title: 总资产约
         amount: 总计
         locked: 冻结
