@@ -41,27 +41,6 @@ module ApplicationHelper
     end
   end
 
-  def breadcrumbs
-    content_tag 'ol', class: 'breadcrumb' do
-      breadcrumb(controller_path.split('/'), []).reverse.join.html_safe
-    end
-  end
-
-  def breadcrumb(paths, result)
-    return result if paths.empty?
-    r = content_tag :li, class: "#{result.empty? ? 'active' : nil}" do
-      if result.empty?
-        I18n.t("breadcrumbs.#{paths.join('/')}", default: 'DEFAULT')
-      else
-        content_tag :a, href: '#' do
-          I18n.t("breadcrumbs.#{paths.join('/')}", default: 'DEFAULT')
-        end
-      end
-    end
-    paths.pop
-    breadcrumb(paths, result << r)
-  end
-
   def qr_tag(text)
     return if text.blank?
     content_tag :div, '', 'class'       => 'qrcode-container img-thumbnail',

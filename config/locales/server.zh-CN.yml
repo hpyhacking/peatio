@@ -146,6 +146,19 @@ zh-CN:
       two_factor/sms:
         phone_number: 手机号码
         otp: 验证码
+      withdraws/bank:
+        id: 提现编号
+        member_name: 用户
+        currency_obj_key_text: 币种
+        state_and_actions: 状态/操作
+        fund_source: 提现银行
+        fund_extra_text: 提现银行
+        fund_uid: 提现银行账户
+        sum: 提现金额
+        fee: 手续费
+        amount: 提现金额
+        remark: 备注
+        created_at: 时间
       deposits/bank:
         created_at: 时间
         holder: 持卡人姓名
@@ -164,19 +177,6 @@ zh-CN:
         amount: 充值数量
         memo: 确认数
         aasm_state_text: 状态
-      withdraws/bank:
-        id: 提现编号
-        member_name: 用户
-        currency_obj_key_text: 币种
-        state_and_actions: 状态/操作
-        fund_source: 提现银行
-        fund_extra_text: 提现银行
-        fund_uid: 提现银行账户
-        sum: 提现金额
-        fee: 手续费
-        amount: 提现金额
-        remark: 备注
-        created_at: 时间
       withdraws/satoshi:
         id: 提现编号
         member_name: 用户
@@ -292,15 +292,6 @@ zh-CN:
     pab: 平安银行
     gdb: 广东发展银行
     psbc: 中国邮政储蓄银行
-  breadcrumbs:
-    admin: 后台管理
-    admin/dashboard: 控制面板
-    admin/deposits: 充值管理
-    admin/withdraws: 提现管理
-    admin/deposits/banks: 银行转账充值
-    admin/deposits/satoshis: 比特币充值
-    admin/withdraws/banks: 银行转账提现
-    admin/withdraws/satoshis: 比特币提现
   currency:
     satoshi:
       key: BTC
@@ -519,6 +510,44 @@ zh-CN:
         fund_source_label: 标签
         fund_source_address: 地址
         extra_hint: 若您的开户银行不再列表中，请联系客服
+    history:
+      account:
+        buy: 买入
+        sell: 卖出
+        filter_by_type: 查询类型
+        account_history: 账户记录
+        type: 类型
+        timestamp: 时间
+        fee: 手续费
+      orders:
+        order_history: 委托记录
+        id: ID
+        type: 类型
+        state: 状态
+        market: 货币对
+        price: 委托价
+        volume: 委托数量
+        average_price: 平均成交价
+        fullfilled_volume: 成交数量
+        timestamp: 委托时间
+      order:
+        ask: 卖出
+        bid: 买入
+        wait: 待成交
+        cancel: 已取消
+        done: 已成交
+      trades:
+        trade_history: 成交记录
+        side: 类型
+        created_at: 时间
+        base_currency: 基准货币
+        base_amount: 数量
+        quote_currency: 报价货币
+        quote_amount: 数量
+        price: 成交价
+      trade:
+        sell: 卖出
+        buy: 买入
     trade:
       trades:
         orders:
@@ -690,44 +719,6 @@ zh-CN:
         ref:
           system: 系统
           default: 默认
-    history:
-      account:
-        buy: 买入
-        sell: 卖出
-        filter_by_type: 查询类型
-        account_history: 账户记录
-        type: 类型
-        timestamp: 时间
-        fee: 手续费
-      orders:
-        order_history: 委托记录
-        id: ID
-        type: 类型
-        state: 状态
-        market: 货币对
-        price: 委托价
-        volume: 委托数量
-        average_price: 平均成交价
-        fullfilled_volume: 成交数量
-        timestamp: 委托时间
-      order:
-        ask: 卖出
-        bid: 买入
-        wait: 待成交
-        cancel: 已取消
-        done: 已成交
-      trades:
-        trade_history: 成交记录
-        side: 类型
-        created_at: 时间
-        base_currency: 基准货币
-        base_amount: 数量
-        quote_currency: 报价货币
-        quote_amount: 数量
-        price: 成交价
-      trade:
-        sell: 卖出
-        buy: 买入
     id_documents:
       edit:
         state: 验证状态
@@ -787,17 +778,17 @@ zh-CN:
       account_balance:
         title: 账户余额
         available: 可用 %{currency}
-      ask_entry:
-        title: " [卖出] "
-        action: 提交 [卖出] 委单
+      bid_entry:
+        title: " [买入] "
+        action: 提交 [买入] 委单
         price: 价格
         last_price: 最新价格
         amount: 数量
         total: 金额
         balance: 账户余额
-      bid_entry:
-        title: " [买入] "
-        action: 提交 [买入] 委单
+      ask_entry:
+        title: " [卖出] "
+        action: 提交 [卖出] 委单
         price: 价格
         last_price: 最新价格
         amount: 数量
@@ -1238,24 +1229,6 @@ zh-CN:
       accepted: 充值成功
       checked: 充值成功
       warning: 异常
-  mongoid:
-    errors:
-      models:
-        application:
-          attributes:
-            redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
-  mongo_mapper:
-    errors:
-      models:
-        application:
-          attributes:
-            redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
   doorkeeper:
     scopes:
       profile: 读取您的基本账户信息(如姓名, 邮件地址)和账户余额
