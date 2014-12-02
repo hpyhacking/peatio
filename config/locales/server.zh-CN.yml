@@ -1643,6 +1643,7 @@ zh-CN:
           operating: 运营管理
         items:
           operating:
+            proofs: 资产证明
             deposits: 充值管理
             documents: 文档管理
             withdraws: 提现管理

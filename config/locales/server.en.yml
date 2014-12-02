@@ -1728,6 +1728,7 @@ en:
           operating: Operations
         items:
           operating:
+            proofs: Proof
             deposits: Deposits
             documents: Documents
             withdraws: Withdraws
