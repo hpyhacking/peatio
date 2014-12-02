@@ -377,6 +377,9 @@ INDICATOR = {MA: false, EMA: false}
         }
       ]
 
+  @formatPointArray = (point) ->
+    x: point[0], open: point[1], high: point[2], low: point[3], close: point[4]
+
   @createPoint = (chart, data, i) ->
     chart.series[0].addPoint(data.candlestick[i], false)
     chart.series[1].addPoint(data.close[i], false)
@@ -384,11 +387,7 @@ INDICATOR = {MA: false, EMA: false}
     chart.redraw(true)
 
   @updatePoint = (chart, data, i) ->
-    point =
-      high:  data.candlestick[i][2]
-      low:   data.candlestick[i][3]
-      close: data.candlestick[i][4]
-    chart.series[0].points[chart.series[0].points.length-1].update(point, false)
+    chart.series[0].points[chart.series[0].points.length-1].update(@formatPointArray(data.candlestick[i]), false)
     chart.series[1].points[chart.series[1].points.length-1].update(data.close[i][1], false) if chart.series[1].points
     chart.series[2].points[chart.series[2].points.length-1].update(data.volume[i], false)
     chart.redraw(true)
