@@ -25,6 +25,9 @@ class Deposit < ActiveRecord::Base
     :member, :currency
   validates_numericality_of :amount, greater_than: 0
 
+  scope :recent, -> { order('created_at DESC')}
+  scope :one_day, -> { where(created_at: 1.day.ago..Time.now) }
+
   after_update :sync_update
   after_create :sync_create
   after_destroy :sync_destroy
