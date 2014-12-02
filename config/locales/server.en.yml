@@ -754,7 +754,7 @@ en:
         state_unverified: UNVERIFIED
         state_verifying: VERIFYING
         state_verified: VERIFIED
-        name: Full Name
+        name: Real Name
         birth_date: Birth Date
         address: Address
         city: City
