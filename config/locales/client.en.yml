@@ -5,6 +5,9 @@ en:
     funds:
       deposit: Deposit
       withdraw: Withdraw
+      currency_name:
+        cny: CNY
+        btc: BTC
       deposit_cny:
         title: Chinese Yuan Deposit
         desc: "Deposit with Bank, please follow step following:"

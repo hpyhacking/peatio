@@ -10,6 +10,9 @@ zh-CN:
     funds:
       deposit: 充值
       withdraw: 提现
+      currency_name:
+        cny: CNY
+        btc: BTC
       deposit_cny:
         title: 人民币充值
         desc: "通过银行转账汇款的方式，经人工审核后充值人民币到您的交易账户中，流程如下："
