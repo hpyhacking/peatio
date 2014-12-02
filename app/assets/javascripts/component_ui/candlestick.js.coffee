@@ -384,7 +384,11 @@ INDICATOR = {MA: false, EMA: false}
     chart.redraw(true)
 
   @updatePoint = (chart, data, i) ->
-    chart.series[0].points[chart.series[0].points.length-1].update(data.candlestick[i], false)
+    point =
+      high:  data.candlestick[i][2]
+      low:   data.candlestick[i][3]
+      close: data.candlestick[i][4]
+    chart.series[0].points[chart.series[0].points.length-1].update(point, false)
     chart.series[1].points[chart.series[1].points.length-1].update(data.close[i][1], false) if chart.series[1].points
     chart.series[2].points[chart.series[2].points.length-1].update(data.volume[i], false)
     chart.redraw(true)
