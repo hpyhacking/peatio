@@ -18,46 +18,33 @@ describe APIv2::Deposits do
 
     it "should require deposits authentication" do
       get '/api/v2/deposits', token: token
-
       response.code.should =='401'
     end
 
     it "login deposits" do
       signed_get '/api/v2/deposits', token: token
-
       response.should be_success
     end
 
-    it " deposits num" do
+    it "deposits num" do
       signed_get '/api/v2/deposits', token: token
       JSON.parse(response.body).size.should == 3
     end
 
     it "deposits currency cny" do
       signed_get '/api/v2/deposits', params: {currency: 'cny'}, token: token
-      JSON.parse(response.body).size.should == 2
-    end
-
-    it "deposits currency btc" do
-      signed_get '/api/v2/deposits', params: {currency: 'btc'}, token: token
-      JSON.parse(response.body).size.should == 1
-    end
-
-    it "should require deposit authentication" do
-      get '/api/v2/deposit', token: token
-
-      response.code.should =='401'
+      result = JSON.parse(response.body)
+      result.should have(2).deposits
+      result.all? {|d| d['currency'] == 'cny' }.should be_true
     end
 
     it "should return 404 if txid not exist" do
       signed_get '/api/v2/deposit', params: {txid: 5}, token: token
-
       response.code.should == '404'
     end
 
     it "should return 404 if txid not belongs_to you " do
       signed_get '/api/v2/deposit', params: {txid: 10}, token: token
-
       response.code.should == '404'
     end
 
