@@ -179,25 +179,17 @@
             p memo: 交易备注
             p state: 状态
             p ----state----
-            p submitting: 已提交
-            p cancelled: 已撤销
-            p submitted: 受理中
-            p accepted: 充值成功
-            p rejected: 已驳回
-            p checked: 充值成功
-            p warning: 异常
-
-
+            p  accepted 表示 充值成功
         tr
           td Deposit
           td: pre: code
             |
-              {"currency": "cny","amount": "520.0","fee": "0.0","txid": null,"created_at": "2014-11-29T15:24:26Z","memo": null,"done_at": null,"state": "submitting"}
+              {"currency": "cny","amount": "520.0","fee": "0.0","txid": "8","created_at": "2014-11-29T15:24:26Z","memo": null,"done_at": "2014-12-02T02:46:24Z","state": "accepted"}
 
           td
             p Deposits 返回用户某条充值信息:
             p 属性 同上
-            p 若txid 查询不到
+            p 若txid 不存在
             p 返回
               {error: {code: 2012,message: "Deposit##txid=4 doesn't exist."}}
 
