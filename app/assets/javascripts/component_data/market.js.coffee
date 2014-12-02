@@ -16,6 +16,15 @@
     cur_close >= pre_close # {true: up, false: down}
 
   @createPoint = (i, trade) ->
+    # if the gap between old and new point is too wide (> 100 points), stop live
+    # load and show hints
+    gap = Math.floor((trade.date-@next_ts) / (@minutes*60))
+    if gap > 100
+      console.log "failed to update, too wide gap."
+      window.clearInterval @interval
+      @trigger 'market::candlestick::request'
+      return i
+
     while trade.date >= @next_ts
       x = @next_ts*1000
 
