@@ -10,9 +10,32 @@ describe Withdraw do
     end
   end
 
-  context 'coin withdraw' do
-    subject(:withdraw) { build(:satoshi_withdraw) }
+  context 'bank withdraw' do
+    describe "#audit!" do
+      subject { create(:bank_withdraw) }
 
+      before { subject.submit! }
+
+      it "should accept withdraw with clean history" do
+        subject.audit!
+        subject.should be_accepted
+      end
+
+      it "should mark withdraw with suspicious history" do
+        subject.account.versions.delete_all
+        subject.audit!
+        subject.should be_suspect
+      end
+
+      it "should approve quick withdraw directly" do
+        subject.update_attributes sum: 5
+        subject.audit!
+        subject.should be_processing
+      end
+    end
+  end
+
+  context 'coin withdraw' do
     describe 'sn' do
       before do
         Timecop.freeze(Time.local(2013,10,7,18,18,18))
