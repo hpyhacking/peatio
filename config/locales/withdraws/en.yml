@@ -1,0 +1,3 @@
+en:
+  withdraws:
+    invalid_address: is not valid. You can not withdraw to this address.

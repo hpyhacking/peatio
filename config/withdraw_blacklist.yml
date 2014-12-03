@@ -1,0 +1,9 @@
+yun:
+  - btsx.chongzhi.yunbi
+  - cny.chongzhi.yunbi
+bitcny:
+  - yun.chongzhi.yunbi
+  - btsx.chongzhi.yunbi
+btsx:
+  - yun.chongzhi.yunbi
+  - cny.chongzhi.yunbi
