@@ -10,16 +10,5 @@ module Withdraws
       alias_attribute :remark, :id
     end
 
-    def audit!
-      with_lock do
-        if account.examine
-          accept!
-          process! if quick?
-        else
-          mark_suspect!
-        end
-      end
-    end
-
   end
 end

@@ -13,8 +13,7 @@ describe Withdraw do
   context 'bank withdraw' do
     describe "#audit!" do
       subject { create(:bank_withdraw) }
-
-      before { subject.submit! }
+      before  { subject.submit! }
 
       it "should accept withdraw with clean history" do
         subject.audit!
@@ -36,6 +35,46 @@ describe Withdraw do
   end
 
   context 'coin withdraw' do
+    describe '#audit!' do
+      subject { create(:satoshi_withdraw) }
+
+      before do
+        subject.submit!
+      end
+
+      it "should be rejected if address is invalid" do
+        CoinRPC.stubs(:[]).returns(mock('rpc', validateaddress: {isvalid: false}))
+        subject.audit!
+        subject.should be_rejected
+      end
+
+      it "should be rejected if address belongs to hot wallet" do
+        CoinRPC.stubs(:[]).returns(mock('rpc', validateaddress: {isvalid: true, ismine: true}))
+        subject.audit!
+        subject.should be_rejected
+      end
+
+      it "should accept withdraw with clean history" do
+        CoinRPC.stubs(:[]).returns(mock('rpc', validateaddress: {isvalid: true}))
+        subject.audit!
+        subject.should be_accepted
+      end
+
+      it "should mark withdraw with suspicious history" do
+        CoinRPC.stubs(:[]).returns(mock('rpc', validateaddress: {isvalid: true}))
+        subject.account.versions.delete_all
+        subject.audit!
+        subject.should be_suspect
+      end
+
+      it "should approve quick withdraw directly" do
+        CoinRPC.stubs(:[]).returns(mock('rpc', validateaddress: {isvalid: true}))
+        subject.update_attributes sum: '0.099'
+        subject.audit!
+        subject.should be_processing
+      end
+    end
+
     describe 'sn' do
       before do
         Timecop.freeze(Time.local(2013,10,7,18,18,18))
