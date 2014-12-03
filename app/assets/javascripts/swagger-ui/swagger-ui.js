@@ -63,6 +63,7 @@ function clippyCopiedCallback(a) {
 
 // Logging function that accounts for browsers that don't have window.console
 log = function(){
+  return;
   log.history = log.history || [];
   log.history.push(arguments);
   if(this.console){
