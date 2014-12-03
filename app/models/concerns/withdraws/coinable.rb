@@ -15,15 +15,14 @@ module Withdraws
 
       if result.nil? || (result[:isvalid] == false)
         Rails.logger.info "#{self.class.name}##{id} uses invalid address: #{fund_uid.inspect}"
-        reject!
+        reject
+        save!
       elsif (result[:ismine] == true) || PaymentAddress.find_by_address(fund_uid)
-        reject!
+        reject
+        save!
       else
         super
       end
-    rescue
-      puts "Error on coin withdraw: #{$!}"
-      puts $!.backtrace.join("\n")
     end
 
   end

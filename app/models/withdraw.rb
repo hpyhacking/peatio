@@ -136,11 +136,13 @@ class Withdraw < ActiveRecord::Base
   def audit!
     with_lock do
       if account.examine
-        accept!
-        process! if quick?
+        accept
+        process if quick?
       else
-        mark_suspect!
+        mark_suspect
       end
+
+      save!
     end
   end
 

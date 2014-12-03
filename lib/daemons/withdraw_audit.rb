@@ -15,7 +15,12 @@ end
 
 while($running) do
   Withdraw.submitted.each do |withdraw|
-    withdraw.audit!
+    begin
+      withdraw.audit!
+    rescue
+      puts "Error on withdraw audit: #{$!}"
+      puts $!.backtrace.join("\n")
+    end
   end
 
   sleep 5
