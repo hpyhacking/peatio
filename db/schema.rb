@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141119155043) do
+ActiveRecord::Schema.define(version: 20141203042029) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 20141119155043) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "done_at"
-    t.string   "memo"
+    t.string   "confirmations"
     t.string   "type"
     t.integer  "payment_transaction_id"
     t.integer  "txout"
@@ -305,6 +305,7 @@ ActiveRecord::Schema.define(version: 20141119155043) do
     t.datetime "dont_at"
     t.integer  "currency"
     t.string   "type",          limit: 60
+    t.string   "blockid"
     t.integer  "txout"
   end
 

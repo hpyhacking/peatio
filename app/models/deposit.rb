@@ -66,6 +66,14 @@ class Deposit < ActiveRecord::Base
     end
   end
 
+  def memo
+    confirmations
+  end
+
+  def txid_desc
+    txid
+  end
+
   class << self
     def channel
       DepositChannel.find_by_key(name.demodulize.underscore)
@@ -88,9 +96,10 @@ class Deposit < ActiveRecord::Base
     self.class.channel
   end
 
-  def update_memo(data)
-    update_column(:memo, data)
+  def update_confirmations(data)
+    update_column(:confirmations, data)
   end
+  alias_method :update_memo, :update_confirmations
 
   def txid_text
     txid && txid.truncate(40)
