@@ -1425,26 +1425,23 @@ en:
       previous: "&lsaquo; Prev"
       next: Next &rsaquo;
       truncate: "..."
+
+  mailer:
+    dear_user: Dear user,
+    signature: Thanks,<br/>The Peatio Team
+    please_contact: If it's not you, please <a href='mailto:%{contact_mail}'>contact us</a> ASAP.
+    footer: This is an automatically generated email, please do not reply, if you have any question, please <a href="mailto:%{contact_mail}">contact us</a>.
   comment_mailer:
     admin_notification:
       subject: "[PEATIO] User reply a ticket"
-      notification_content: User %{email} reply a ticket, please follow the link below
-        to see the detail
+      notification_content: User %{email} reply a ticket, please follow the link below to see the detail
     user_notification:
       subject: "[PEATIO] Your ticket got a new reply"
-      notification_content: 'Your ticket got a new reply, please follow the link below
-        to see the detail:'
+      notification_content: 'Your ticket got a new reply, please follow the link below to see the detail:'
   deposit_mailer:
     accepted:
       subject: "[Peatio] Your deposit has been credited into your account"
       content: Your %{currency} deposit has been credited into your account.
-  mailer:
-    dear_user: Dear user,
-    signature: Thanks,<br/>The Peatio Team
-    please_contact: If it's not you, please <a href='mailto:%{contact_mail}'>contact
-      us</a> ASAP.
-    footer: This is an automatically generated email, please do not reply, if you
-      have any question, please <a href="mailto:%{contact_mail}">contact us</a>.
   member_mailer:
     notify_signin:
       subject: "[PEATIO] You have just signed in"
@@ -1479,19 +1476,15 @@ en:
   ticket_mailer:
     admin_notification:
       subject: "[PEATIO] User created a new ticket"
-      admin_notification_content: User %{email} created a new ticket, please follow
-        the link below to see the detail
+      admin_notification_content: User %{email} created a new ticket, please follow the link below to see the detail
     author_notification:
       subject: "[PEATIO] Thank you for submit ticket"
-      thanks_for_submit_ticket: Thank you for submit ticket to us, we will get back
-        to you as soon as possible.
+      thanks_for_submit_ticket: Thank you for submit ticket to us, we will get back to you as soon as possible.
   token_mailer:
     activation:
       subject: "[Peatio] Account Activation"
-      click_to_verify: 'Thank you for signing up on Peatio, please follow this link
-        to verify your Email:'
-      unable_to_click: Copy and open the link in your browser if you are unable to
-        click and visit it.
+      click_to_verify: 'Thank you for signing up on Peatio, please follow this link to verify your Email:'
+      unable_to_click: Copy and open the link in your browser if you are unable to click and visit it.
       link_expire: The link expires in 30 minutes.
     reset_password:
       subject: "[Peatio] Please Reset Your Password"
@@ -1500,20 +1493,17 @@ en:
   withdraw_mailer:
     submitted:
       subject: "[Peatio] Your withdraw state update"
-      content: The request of your %{currency} withdrawal has been successfully submitted,
-        We will process it as soon as possible. Please be patient with us. Contact
-        us if you have any questions.
+      content: The request of your %{currency} withdrawal has been successfully submitted, We will process it as soon as possible. Please be patient with us. Contact us if you have any questions.
     processing:
       subject: "[Peatio] Your withdraw state update"
-      content: The request of your %{currency} withdrawal is in process. Please be
-        patient with us. Contact us if you have any questions.
+      content: The request of your %{currency} withdrawal is in process. Please be patient with us. Contact us if you have any questions.
     done:
       subject: "[Peatio] Your withdraw state update"
-      content: The request of your %{currency} withdrawal is complete. Please check
-        it out. Contact us if you have any questions.
+      content: The request of your %{currency} withdrawal is complete. Please check it out. Contact us if you have any questions.
     withdraw_state:
       subject: "[Peatio] Your withdraw state update"
       your_state: 'Your withdrawal state: '
+
   'true': true
   'false': false
   view_on_github: View on Github
