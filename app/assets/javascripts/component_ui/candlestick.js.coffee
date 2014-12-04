@@ -124,16 +124,8 @@ INDICATOR = {MA: false, EMA: false}
 
   @initTooltip = (chart) ->
     tooltips = []
-
-    index = []
-    index.push(0) if TYPE['candlestick']
-    index.push(1) if TYPE['close']
-    index = index.concat [2, 3, 4, 7, 8, 9]
-
-    for i in index
-      if chart.series[i].points.length > 0
-        tooltips.push chart.series[i].points[chart.series[i].points.length - 1]
-
+    if chart.series[0].points.length > 0
+      tooltips.push chart.series[0].points[chart.series[0].points.length-1]
     chart.tooltip.refresh tooltips if tooltips.length
 
   @initHighStock = (data) ->
