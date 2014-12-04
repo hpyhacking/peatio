@@ -5,40 +5,40 @@
 
   <div class='tooltip-ticker'>
     <span class=t-title><%= gon.i18n.chart.open %></span>
-    <span class=t-value><%= @format @candlestick.open %></span>
+    <span class=t-value><%= @format @points.candlestick.open %></span>
   </div>
   <div class='tooltip-ticker'>
     <span class=t-title><%= gon.i18n.chart.close %></span>
-    <span class=t-value><%= @format @candlestick.close %></span>
+    <span class=t-value><%= @format @points.candlestick.close %></span>
   </div>
   <div class='tooltip-ticker'>
     <span class=t-title><%= gon.i18n.chart.high %></span>
-    <span class=t-value><%= @format @candlestick.high %></span>
+    <span class=t-value><%= @format @points.candlestick.high %></span>
   </div>
   <div class='tooltip-ticker'>
     <span class=t-title><%= gon.i18n.chart.low %></span>
-    <span class=t-value><%= @format @candlestick.low %></span>
+    <span class=t-value><%= @format @points.candlestick.low %></span>
   </div>
   <div class='tooltip-ticker'>
     <span class=t-title><%= gon.i18n.chart.volume %></span>
-    <span class=t-value><%= @format @volume.y %></span>
+    <span class=t-value><%= @format @points.volume.y %></span>
   </div>
 
   <ul class='list-inline'>
     <li>
-      <span style='color: <%= @ma5.series.color %>;'><%= @ma5.series.name %>: <b><%= @format @ma5.y %></b></span>
+      <span style='color: <%= @points.ma5.series.color %>;'><%= @points.ma5.series.name %>: <b><%= @format @points.ma5.y %></b></span>
     </li>
     <li>
-      <span style='color: <%= @ma10.series.color %>;'><%= @ma10.series.name %>: <b><%= @format @ma10.y %></b></span>
+      <span style='color: <%= @points.ma10.series.color %>;'><%= @points.ma10.series.name %>: <b><%= @format @points.ma10.y %></b></span>
     </li>
     <li>
-      <span style='color: <%= @macd.series.color %>;'><%= @macd.series.name %>: <b><%= @format @macd.y %></b></span>
+      <span style='color: <%= @points.macd.series.color %>;'><%= @points.macd.series.name %>: <b><%= @format @points.macd.y %></b></span>
     </li>
     <li>
-      <span style='color: <%= @sig.series.color %>;'><%= @sig.series.name %>: <b><%= @format @sig.y %></b></span>
+      <span style='color: <%= @points.sig.series.color %>;'><%= @points.sig.series.name %>: <b><%= @format @points.sig.y %></b></span>
     </li>
     <li>
-      <span style='color: <%= @hist.series.color %>;'><%= @hist.series.name %>: <b><%= @format @hist.y %></b></span>
+      <span style='color: <%= @points.hist.series.color %>;'><%= @points.hist.series.name %>: <b><%= @format @points.hist.y %></b></span>
     </li>
   </ul>
 

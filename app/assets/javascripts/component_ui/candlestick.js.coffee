@@ -190,17 +190,13 @@ INDICATOR = {MA: false, EMA: false}
               title = Highcharts.dateFormat DATETIME_LABEL_FORMAT_FOR_TOOLTIP[k][0], key
               break
 
+          fun = (h, s) ->
+            h[s.options.id] = s.data[index]
+            h
           tooltipTemplate
-            title:       title
-            candlestick: chart.series[0].data[index]
-            close:       chart.series[1].data[index]
-            volume:      chart.series[2].data[index]
-            ma5:         chart.series[3].data[index]
-            ma10:        chart.series[4].data[index]
-            macd:        chart.series[7].data[index]
-            sig:         chart.series[8].data[index]
-            hist:        chart.series[9].data[index]
-            format:      (v) -> Highcharts.numberFormat v, 2
+            title:  title
+            format: (v) -> Highcharts.numberFormat v, 2
+            points: _.reduce chart.series, fun, {}
 
       plotOptions:
         candlestick:
@@ -301,6 +297,7 @@ INDICATOR = {MA: false, EMA: false}
           visible: TYPE['close']
         }
         {
+          id: 'volume'
           name: gon.i18n.chart.volume
           yAxis: 1
           type: "column"
@@ -309,6 +306,7 @@ INDICATOR = {MA: false, EMA: false}
           showInLegend: false
         }
         {
+          id: 'ma5'
           name: 'MA5',
           linkedTo: 'close',
           showInLegend: true,
@@ -319,6 +317,7 @@ INDICATOR = {MA: false, EMA: false}
           visible: INDICATOR['MA']
         }
         {
+          id: 'ma10'
           name: 'MA10'
           linkedTo: 'close',
           showInLegend: true,
@@ -329,6 +328,7 @@ INDICATOR = {MA: false, EMA: false}
           visible: INDICATOR['MA']
         }
         {
+          id: 'ema7'
           name: 'EMA7',
           linkedTo: 'close',
           showInLegend: true,
@@ -339,6 +339,7 @@ INDICATOR = {MA: false, EMA: false}
           visible: INDICATOR['EMA']
         }
         {
+          id: 'ema30'
           name: 'EMA30',
           linkedTo: 'close',
           showInLegend: true,
@@ -349,6 +350,7 @@ INDICATOR = {MA: false, EMA: false}
           visible: INDICATOR['EMA']
         }
         {
+          id: 'macd'
           name : 'MACD',
           linkedTo: 'close',
           yAxis: 2,
@@ -358,6 +360,7 @@ INDICATOR = {MA: false, EMA: false}
           color: '#7c9aaa'
         }
         {
+          id: 'sig'
           name : 'SIG',
           linkedTo: 'close',
           yAxis: 2,
@@ -367,6 +370,7 @@ INDICATOR = {MA: false, EMA: false}
           color: '#be8f53'
         }
         {
+          id: 'hist'
           name: 'HIST',
           linkedTo: 'close',
           yAxis: 2,
