@@ -1877,6 +1877,8 @@ en:
       latency: 30 minutes
       transfer: Manual
       go: Withdraw
+  withdraws:
+    invalid_address: is not valid. You can not withdraw to this address.
   withdraws/bank:
     aasm_state:
       submitting: Submitting

@@ -1799,6 +1799,8 @@ zh-CN:
       latency: 30 分钟到账
       transfer: 人工处理
       go: 立即提现
+  withdraws:
+    invalid_address: 不合法. 无法提现到这个地址
   withdraws/bank:
     aasm_state:
       submitting: 待确认
