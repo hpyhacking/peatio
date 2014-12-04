@@ -195,6 +195,7 @@ INDICATOR = {MA: false, EMA: false}
             h
           tooltipTemplate
             title:  title
+            indicator: INDICATOR
             format: (v) -> Highcharts.numberFormat v, 2
             points: _.reduce chart.series, fun, {}
 

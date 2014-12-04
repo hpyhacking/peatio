@@ -25,12 +25,22 @@
   </div>
 
   <ul class='list-inline'>
-    <li>
-      <span style='color: <%= @points.ma5.series.color %>;'><%= @points.ma5.series.name %>: <b><%= @format @points.ma5.y %></b></span>
-    </li>
-    <li>
-      <span style='color: <%= @points.ma10.series.color %>;'><%= @points.ma10.series.name %>: <b><%= @format @points.ma10.y %></b></span>
-    </li>
+    <% if @indicator['MA']: %>
+      <li>
+        <span style='color: <%= @points.ma5.series.color %>;'><%= @points.ma5.series.name %>: <b><%= @format @points.ma5.y %></b></span>
+      </li>
+      <li>
+        <span style='color: <%= @points.ma10.series.color %>;'><%= @points.ma10.series.name %>: <b><%= @format @points.ma10.y %></b></span>
+      </li>
+    <% end %>
+    <% if @indicator['EMA']: %>
+      <li>
+        <span style='color: <%= @points.ema7.series.color %>;'><%= @points.ema7.series.name %>: <b><%= @format @points.ema7.y %></b></span>
+      </li>
+      <li>
+        <span style='color: <%= @points.ema30.series.color %>;'><%= @points.ema30.series.name %>: <b><%= @format @points.ema30.y %></b></span>
+      </li>
+    <% end %>
     <li>
       <span style='color: <%= @points.macd.series.color %>;'><%= @points.macd.series.name %>: <b><%= @format @points.macd.y %></b></span>
     </li>
