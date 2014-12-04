@@ -91,7 +91,7 @@ INDICATOR = {MA: false, EMA: false}
     @$node.find('#candlestick_chart').highcharts()?.destroy()
 
     @initHighStock(data)
-    @initTooltip()
+    @initTooltip @$node.find('#candlestick_chart').highcharts()
     @trigger 'market::candlestick::created', data
 
   @switchType = (event, data) ->
@@ -104,7 +104,7 @@ INDICATOR = {MA: false, EMA: false}
           if !s.userOptions.algorithm? && (s.userOptions.id == type)
             s.setVisible(visible, false)
       @trigger "switch::main_indicator_switch::init"
-      @initTooltip()
+      @initTooltip chart
 
   @switchMainIndicator = (event, data) ->
     INDICATOR[key] = false for key, val of INDICATOR
@@ -122,14 +122,13 @@ INDICATOR = {MA: false, EMA: false}
             s.setVisible(visible, false)
       chart.redraw()
 
-  @initTooltip = ->
-    chart = @$node.find('#candlestick_chart').highcharts()
+  @initTooltip = (chart) ->
     tooltips = []
 
     index = []
     index.push(0) if TYPE['candlestick']
     index.push(1) if TYPE['close']
-    index.push(2)
+    index = index.concat [2, 3, 4, 7, 8, 9]
 
     for i in index
       if chart.series[i].points.length > 0
@@ -138,18 +137,30 @@ INDICATOR = {MA: false, EMA: false}
     chart.tooltip.refresh tooltips if tooltips.length
 
   @initHighStock = (data) ->
+    component = @
     range = DATE_RANGE["min#{data['minutes']}"]['default_range']
     unit = $("[data-unit=#{data['minutes']}]").text()
     title = "#{gon.market.base_unit.toUpperCase()}/#{gon.market.quote_unit.toUpperCase()} - #{unit}"
+
+    timeUnits =
+      millisecond: 1
+      second: 1000
+      minute: 60000
+      hour: 3600000
+      day: 24 * 3600000
+      week: 7 * 24 * 3600000
+      month: 31 * 24 * 3600000
+      year: 31556952000
 
     dataGrouping =
       enabled: false
       units: DATE_RANGE["min#{data['minutes']}"]['dataGrouping_units']
 
+    tooltipTemplate = JST["templates/tooltip"]
+
     if DATETIME_LABEL_FORMAT_FOR_TOOLTIP
         dataGrouping['dateTimeLabelFormats'] = DATETIME_LABEL_FORMAT_FOR_TOOLTIP
 
-    component = @
     @$node.find('#candlestick_chart').highcharts "StockChart",
       chart:
         events:
@@ -173,11 +184,31 @@ INDICATOR = {MA: false, EMA: false}
         backgroundColor: 'rgba(0,0,0,0)'
         borderRadius: 2
         shadow: false
-        useHTML: true
         shared: true
-        headerFormat: "<div class='chart-ticker'><span class='tooltip-title'>{point.key}</span><br />"
-        footerFormat: '<ul></div>'
         positioner: -> {x: 0, y: 0}
+        useHTML: true
+        formatter: ->
+          chart  = @points[0].series.chart
+          series = @points[0].series
+          index  = @points[0].point.index
+          key    = @points[0].key
+
+          for k, v of timeUnits
+            if v >= series.xAxis.closestPointRange || (v <= timeUnits.day && key % v > 0)
+              title = Highcharts.dateFormat DATETIME_LABEL_FORMAT_FOR_TOOLTIP[k][0], key
+              break
+
+          tooltipTemplate
+            title:       title
+            candlestick: chart.series[0].data[index]
+            close:       chart.series[1].data[index]
+            volume:      chart.series[2].data[index]
+            ma5:         chart.series[3].data[index]
+            ma10:        chart.series[4].data[index]
+            macd:        chart.series[7].data[index]
+            sig:         chart.series[8].data[index]
+            hist:        chart.series[9].data[index]
+            format:      (v) -> Highcharts.numberFormat v, 2
 
       plotOptions:
         candlestick:
@@ -188,35 +219,11 @@ INDICATOR = {MA: false, EMA: false}
           lineColor: '#cc1414'
           upLineColor: '#49c043'
           dataGrouping: dataGrouping
-          tooltip:
-            pointFormat:
-              """
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.open}</span><span class=t-value>{point.open}</span></div>
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.close}</span><span class=t-value>{point.close}</span></div>
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.high}</span><span class=t-value>{point.high}</span></div>
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.low}</span><span class=t-value>{point.low}</span></div>
-              """
         column:
           turboThreshold: 0
           dataGrouping: dataGrouping
-          tooltip:
-            pointFormat:
-              """
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.volume}</span><span class=t-value>{point.y}</span></div><ul class='list-inline'>
-              """
-        spline:
-          tooltip:
-            pointFormat:
-              """
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.close}</span><span class=t-value>{point.y}</span></div>
-              """
         trendline:
           lineWidth: 1
-          tooltip:
-            pointFormat:
-              """
-              <li><span style='color: {series.color};'>{series.name}: <b>{point.y}</b></span></li>
-              """
         histogram:
           lineWidth: 1
           tooltip:
