@@ -58,6 +58,7 @@ task deploy: :environment do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
+    invoke :'rails:touch_client_i18n_assets'
     invoke :'rails:assets_precompile'
 
     to :launch do
@@ -75,6 +76,16 @@ namespace :passenger do
       #{echo_cmd %[mkdir -p tmp]}
       #{echo_cmd %[touch tmp/restart.txt]}
     }
+  end
+end
+
+namespace :rails do
+  task :touch_client_i18n_assets do
+    queue "cd #{deploy_to}/current ; bundle exec rake deploy:backup_db"
+    queue %[
+      echo "-----> Touching clint i18n assets
+      #{echo_cmd %[bundle exec rake deploy:touch_client_i18n_assets]}
+    ]
   end
 end
 
