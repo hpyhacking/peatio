@@ -2,8 +2,9 @@ module JsLocaleHelper
 
   def self.load_yaml(locale)
     locale_str = locale.to_s
-    translations = I18n.backend.send :translations
-    {locale_str => translations[locale_str.to_sym][:js]}
+    trans        = YAML::load(File.open("#{Rails.root}/config/locales/client.#{locale_str}.yml"))[locale_str]['js']
+    custom_trans = YAML::load(File.open("#{Rails.root}/config/locales/custom/client.#{locale_str}.yml"))[locale_str]['js']
+    {locale_str => trans.deep_merge(custom_trans)}
   rescue
     {locale_str => {}}
   end
