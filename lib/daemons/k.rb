@@ -50,7 +50,7 @@ def _k1_set(market, start, period)
 end
 
 def k1(market, start)
-  trades = Trade.with_currency(market).where(created_at: start..(start + 1.minutes)).pluck(:price, :volume)
+  trades = Trade.with_currency(market).where('created_at >= ? AND created_at < ?', start, 1.minutes.since(start)).pluck(:price, :volume)
   return nil if trades.count == 0
 
   prices, volumes = trades.transpose

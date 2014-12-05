@@ -18,6 +18,9 @@
   @defaultX = ->
     @$node.data('x')
 
+  @init = (event, data) ->
+    @$node.find("[data-x=#{@getX()}]").click()
+
   @after 'initialize', ->
     @on @select('switch'), 'click', (e) =>
       @select('switch').removeClass('active')
@@ -28,4 +31,5 @@
 
       @trigger "switch::#{@name()}", {x: x}
 
-    @$node.find("[data-x=#{@getX()}]").click()
+    @on document, "switch::#{@name()}::init", @init
+    @init()

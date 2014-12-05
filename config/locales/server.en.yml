@@ -784,7 +784,9 @@ en:
         switch_30: 30m
         switch_60: 1h
         switch_120: 2h
+        switch_240: 4h
         switch_360: 6h
+        switch_720: 12h
         switch_1440: 1d
         switch_4320: 3d
         switch_10080: 1w
@@ -1610,7 +1612,8 @@ en:
     close: Close
     price: Price
     volume: Volume
-    candlestick: Candle Stick
+    candlestick: 'Candlestick'
+    line: 'Line'
     minute: m
     hour: Hour
     day: Day

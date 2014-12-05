@@ -4,10 +4,10 @@ if gon.local is "zh-CN"
     second:      ['%m月%e日, %H:%M:%S', '%m月%e日, %H:%M:%S', '-%H:%M:%S']
     minute:      ['%m月%e日, %H:%M', '%m月%e日, %H:%M', '-%H:%M']
     hour:        ['%m月%e日, %H:%M', '%m月%e日, %H:%M', '-%H:%M']
-    day:         ['%Y年%m月%e日', '%Y年%m月%e日', '-%m月%e日']
+    day:         ['%m月%e日, %H:%M', '%m月%e日, %H:%M', '-%H:%M']
     week:        ['%Y年%m月%e日', '%Y年%m月%e日', '-%m月%e日']
     month:       ['%Y年%m月', '%Y年%m月', '-%m']
-    year: ['%Y', '%Y', '-%Y']
+    year:        ['%Y', '%Y', '-%Y']
 
 DATETIME_LABEL_FORMAT =
   second: '%H:%M:%S'
@@ -37,9 +37,15 @@ DATE_RANGE =
   min120:
     default_range: 1000 * 3600 * 24 * 10 # 10d
     dataGrouping_units: [['hour', [2]]]
+  min240:
+    default_range: 1000 * 3600 * 24 * 20 # 20d
+    dataGrouping_units: [['hour', [4]]]
   min360:
     default_range: 1000 * 3600 * 24 * 30 * 1 # 1m
     dataGrouping_units: [['hour', [6]]]
+  min720:
+    default_range: 1000 * 3600 * 24 * 30 * 2 # 2m
+    dataGrouping_units: [['hour', [12]]]
   min1440:
     default_range: 1000 * 3600 * 24 * 30 * 3 # 3m
     dataGrouping_units: [['day', [1]]]
@@ -67,6 +73,7 @@ RANGE_DEFAULT =
       style:
         color: '#eee'
 
+TYPE      = {candlestick: false, close: false}
 INDICATOR = {MA: false, EMA: false}
 
 @CandlestickUI = flight.component ->
@@ -79,37 +86,69 @@ INDICATOR = {MA: false, EMA: false}
   @request = ->
     @mask()
 
-  @refresh = (event, data) ->
+  @init = (event, data) ->
+    @running = true
     @$node.find('#candlestick_chart').highcharts()?.destroy()
-    @initHighStock(data)
-    @initTooltip()
 
-  @switch = (event, data) ->
+    @initHighStock(data)
+    @initTooltip @$node.find('#candlestick_chart').highcharts()
+    @trigger 'market::candlestick::created', data
+
+  @switchType = (event, data) ->
+    TYPE[key] = false for key, val of TYPE
+    TYPE[data.x] = true
+
+    if chart = @$node.find('#candlestick_chart').highcharts()
+      for type, visible of TYPE
+        for s in chart.series
+          if !s.userOptions.algorithm? && (s.userOptions.id == type)
+            s.setVisible(visible, false)
+      @trigger "switch::main_indicator_switch::init"
+      @initTooltip chart
+
+  @switchMainIndicator = (event, data) ->
     INDICATOR[key] = false for key, val of INDICATOR
     INDICATOR[data.x] = true
 
     if chart = @$node.find('#candlestick_chart').highcharts()
+      # reset all series depend on close
+      for s in chart.series
+        if s.userOptions.linkedTo == 'close'
+          s.setVisible(true, false)
+
       for indicator, visible of INDICATOR
         for s in chart.series
           if s.userOptions.algorithm? && (s.userOptions.algorithm == indicator)
             s.setVisible(visible, false)
       chart.redraw()
 
-  @initTooltip = ->
-    chart = @$node.find('#candlestick_chart').highcharts()
+  @initTooltip = (chart) ->
     tooltips = []
-    for i in [0..1]
-      if chart.series[i].points.length > 0
-        tooltips.push chart.series[i].points[chart.series[i].points.length - 1]
+    if chart.series[0].points.length > 0
+      tooltips.push chart.series[0].points[chart.series[0].points.length-1]
     chart.tooltip.refresh tooltips if tooltips.length
 
   @initHighStock = (data) ->
+    component = @
     range = DATE_RANGE["min#{data['minutes']}"]['default_range']
     unit = $("[data-unit=#{data['minutes']}]").text()
     title = "#{gon.market.base_unit.toUpperCase()}/#{gon.market.quote_unit.toUpperCase()} - #{unit}"
 
+    timeUnits =
+      millisecond: 1
+      second: 1000
+      minute: 60000
+      hour: 3600000
+      day: 24 * 3600000
+      week: 7 * 24 * 3600000
+      month: 31 * 24 * 3600000
+      year: 31556952000
+
     dataGrouping =
+      enabled: false
       units: DATE_RANGE["min#{data['minutes']}"]['dataGrouping_units']
+
+    tooltipTemplate = JST["templates/tooltip"]
 
     if DATETIME_LABEL_FORMAT_FOR_TOOLTIP
         dataGrouping['dateTimeLabelFormats'] = DATETIME_LABEL_FORMAT_FOR_TOOLTIP
@@ -137,43 +176,43 @@ INDICATOR = {MA: false, EMA: false}
         backgroundColor: 'rgba(0,0,0,0)'
         borderRadius: 2
         shadow: false
-        useHTML: true
         shared: true
-        headerFormat: "<div class='chart-ticker'><span class='tooltip-title'>{point.key}</span><br />"
-        footerFormat: '<ul></div>'
         positioner: -> {x: 0, y: 0}
+        useHTML: true
+        formatter: ->
+          chart  = @points[0].series.chart
+          series = @points[0].series
+          index  = @points[0].point.index
+          key    = @points[0].key
+
+          for k, v of timeUnits
+            if v >= series.xAxis.closestPointRange || (v <= timeUnits.day && key % v > 0)
+              title = Highcharts.dateFormat DATETIME_LABEL_FORMAT_FOR_TOOLTIP[k][0], key
+              break
+
+          fun = (h, s) ->
+            h[s.options.id] = s.data[index]
+            h
+          tooltipTemplate
+            title:  title
+            indicator: INDICATOR
+            format: (v) -> Highcharts.numberFormat v, 2
+            points: _.reduce chart.series, fun, {}
 
       plotOptions:
         candlestick:
+          turboThreshold: 0
           followPointer: true
           color: '#990f0f'
           upColor: '#000000'
           lineColor: '#cc1414'
           upLineColor: '#49c043'
           dataGrouping: dataGrouping
-          tooltip:
-            pointFormat:
-              """
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.open}</span><span class=t-value>{point.open}</span></div>
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.close}</span><span class=t-value>{point.close}</span></div>
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.high}</span><span class=t-value>{point.high}</span></div>
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.low}</span><span class=t-value>{point.low}</span></div>
-              """
         column:
-          turboThreshold: 5000
+          turboThreshold: 0
           dataGrouping: dataGrouping
-          tooltip:
-            pointFormat:
-              """
-              <div class='tooltip-ticker'><span class=t-title>#{gon.i18n.chart.volume}</span><span class=t-value>{point.y}</span></div><ul class='list-inline'>
-              """
         trendline:
           lineWidth: 1
-          tooltip:
-            pointFormat:
-              """
-              <li><span style='color: {series.color};'>{series.name}: <b>{point.y}</b></span></li>
-              """
         histogram:
           lineWidth: 1
           tooltip:
@@ -194,6 +233,13 @@ INDICATOR = {MA: false, EMA: false}
       rangeSelector:
         enabled: false
 
+      navigator:
+        maskFill: 'rgba(32, 32, 32, 0.6)'
+        outlineColor: '#333'
+        outlineWidth: 1
+        xAxis:
+          dateTimeLabelFormats: DATETIME_LABEL_FORMAT
+
       xAxis:
         type: 'datetime',
         dateTimeLabelFormats: DATETIME_LABEL_FORMAT
@@ -201,13 +247,11 @@ INDICATOR = {MA: false, EMA: false}
         tickColor: '#333'
         tickWidth: 2
         range: range
-
-      navigator:
-        maskFill: 'rgba(32, 32, 32, 0.6)'
-        outlineColor: '#333'
-        outlineWidth: 1
-        xAxis:
-          dateTimeLabelFormats: DATETIME_LABEL_FORMAT
+        events:
+          afterSetExtremes: (e) ->
+            if e.trigger == 'navigator' && e.triggerOp == 'navigator-drag'
+              if component.liveRange(@.chart) && !component.running
+                component.trigger "switch::range_switch::init"
 
       yAxis: [
         {
@@ -239,12 +283,22 @@ INDICATOR = {MA: false, EMA: false}
 
       series: [
         {
+          id: 'candlestick'
           name: gon.i18n.chart.candlestick
           type: "candlestick"
           data: data['candlestick']
           showInLegend: false
+          visible: TYPE['candlestick']
         }
         {
+          id: 'close'
+          type: 'spline'
+          data: data['close']
+          showInLegend: false
+          visible: TYPE['close']
+        }
+        {
+          id: 'volume'
           name: gon.i18n.chart.volume
           yAxis: 1
           type: "column"
@@ -253,13 +307,7 @@ INDICATOR = {MA: false, EMA: false}
           showInLegend: false
         }
         {
-          type: 'spline'
-          data: data['close']
-          visible: false
-          id: 'close'
-          showInLegend: false
-        }
-        {
+          id: 'ma5'
           name: 'MA5',
           linkedTo: 'close',
           showInLegend: true,
@@ -270,6 +318,7 @@ INDICATOR = {MA: false, EMA: false}
           visible: INDICATOR['MA']
         }
         {
+          id: 'ma10'
           name: 'MA10'
           linkedTo: 'close',
           showInLegend: true,
@@ -280,6 +329,7 @@ INDICATOR = {MA: false, EMA: false}
           visible: INDICATOR['MA']
         }
         {
+          id: 'ema7'
           name: 'EMA7',
           linkedTo: 'close',
           showInLegend: true,
@@ -290,6 +340,7 @@ INDICATOR = {MA: false, EMA: false}
           visible: INDICATOR['EMA']
         }
         {
+          id: 'ema30'
           name: 'EMA30',
           linkedTo: 'close',
           showInLegend: true,
@@ -300,6 +351,7 @@ INDICATOR = {MA: false, EMA: false}
           visible: INDICATOR['EMA']
         }
         {
+          id: 'macd'
           name : 'MACD',
           linkedTo: 'close',
           yAxis: 2,
@@ -309,6 +361,7 @@ INDICATOR = {MA: false, EMA: false}
           color: '#7c9aaa'
         }
         {
+          id: 'sig'
           name : 'SIG',
           linkedTo: 'close',
           yAxis: 2,
@@ -318,6 +371,7 @@ INDICATOR = {MA: false, EMA: false}
           color: '#be8f53'
         }
         {
+          id: 'hist'
           name: 'HIST',
           linkedTo: 'close',
           yAxis: 2,
@@ -327,7 +381,49 @@ INDICATOR = {MA: false, EMA: false}
         }
       ]
 
+  @formatPointArray = (point) ->
+    x: point[0], open: point[1], high: point[2], low: point[3], close: point[4]
+
+  @createPoint = (chart, data, i) ->
+    chart.series[0].addPoint(data.candlestick[i], false)
+    chart.series[1].addPoint(data.close[i], false)
+    chart.series[2].addPoint(data.volume[i], false)
+    chart.redraw(true)
+
+  @updatePoint = (chart, data, i) ->
+    chart.series[0].points[chart.series[0].points.length-1].update(@formatPointArray(data.candlestick[i]), false)
+    chart.series[1].points[chart.series[1].points.length-1].update(data.close[i][1], false) if chart.series[1].points
+    chart.series[2].points[chart.series[2].points.length-1].update(data.volume[i], false)
+    chart.redraw(true)
+
+  @process = (chart, data) ->
+    for i in [0..(data.candlestick.length-1)]
+      current = chart.series[0].points.length - 1
+      current_point = chart.series[0].points[current]
+
+      if data.candlestick[i][0] > current_point.x
+        @createPoint chart, data, i
+      else if data.candlestick[i][0] == current_point.x
+        @updatePoint chart, data, i
+      else
+        # ignore obsolete point
+
+  @updateByTrades = (event, data) ->
+    chart = @$node.find('#candlestick_chart').highcharts()
+
+    if @liveRange(chart)
+      @process(chart, data)
+    else
+      @running = false
+
+  @liveRange = (chart) ->
+    p1 = chart.series[0].points[ chart.series[0].points.length-1 ].x
+    p2 = chart.series[10].points[ chart.series[10].points.length-1 ].x
+    p1 == p2
+
   @after 'initialize', ->
     @on document, 'market::candlestick::request', @request
-    @on document, 'market::candlestick::response', @refresh
-    @on document, 'switch::main_indicator_switch', @switch
+    @on document, 'market::candlestick::response', @init
+    @on document, 'market::candlestick::trades', @updateByTrades
+    @on document, 'switch::main_indicator_switch', @switchMainIndicator
+    @on document, 'switch::type_switch', @switchType

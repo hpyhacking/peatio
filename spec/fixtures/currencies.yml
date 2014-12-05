@@ -2,6 +2,7 @@
   key: dollar
   code: cny
   coin: false
+  quick_withdraw_max: 10
 - id: 2
   key: satoshi
   code: btc
@@ -9,6 +10,7 @@
   rpc: http://bitcoinrpc:5gKAgrJv8CQr2CGUhjVbBFLSj29HnE6YGXvfykHJzS3k@127.0.0.1:18332
   blockchain: http://testnet.btclook.com/txn/#{txid}
   address_url: https://blockchain.info/address/#{address}
+  quick_withdraw_max: 0.1
 - id: 4
   key: protoshare
   code: pts

@@ -134,6 +134,19 @@ class Withdraw < ActiveRecord::Base
     sum <= currency_obj.quick_withdraw_max
   end
 
+  def audit!
+    with_lock do
+      if account.examine
+        accept
+        process if quick?
+      else
+        mark_suspect
+      end
+
+      save!
+    end
+  end
+
   private
 
   def after_cancel
