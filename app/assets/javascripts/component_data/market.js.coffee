@@ -57,17 +57,20 @@
     @points.volume[i].y += v
     @points.volume[i].color = if i > 0 && @points.close[i][1] >= @points.close[i-1][1] then 'rgba(0, 255, 0, 0.5)' else 'rgba(255, 0, 0, 0.5)'
 
+  @refreshUpdatedAt = ->
+    @updated_at = Math.round(new Date().valueOf()/1000)
+
   @processTrades = ->
-    if @tradesCache.length > 0
-      i = @points.candlestick.length - 1
-      $.each @tradesCache, (ti, trade) =>
-        if trade.tid > @last_tid
-          if @last_ts <= trade.date && trade.date < @next_ts
-            @updatePoint i, trade
-          else if @next_ts <= trade.date
-            i = @createPoint i, trade
-          @last_tid = trade.tid
-      @tradesCache = []
+    i = @points.candlestick.length - 1
+    $.each @tradesCache, (ti, trade) =>
+      if trade.tid > @last_tid
+        if @last_ts <= trade.date && trade.date < @next_ts
+          @updatePoint i, trade
+        else if @next_ts <= trade.date
+          i = @createPoint i, trade
+        @last_tid = trade.tid
+        @refreshUpdatedAt()
+    @tradesCache = []
 
   @prepare = (k) ->
     [volume, candlestick, close_price] = [[], [], []]
@@ -93,9 +96,9 @@
     @last_ts  = @points.candlestick[@points.candlestick.length-1][0]/1000
     @next_ts  = @last_ts + 60*minutes
 
-    @deliver 'market::candlestick::response'
+    @deliverTrades 'market::candlestick::response'
 
-  @deliver = (event) ->
+  @deliverTrades = (event) ->
     @processTrades()
     @trigger event, @points
 
@@ -108,9 +111,17 @@
     if @interval?
       window.clearInterval @interval
 
-    @interval = setInterval =>
-      @deliver 'market::candlestick::update'
-    , 999
+    deliver = =>
+      if @tradesCache.length > 0
+        @deliverTrades 'market::candlestick::trades'
+      else
+        ts = Math.round( new Date().valueOf()/1000 )
+        # if there's no trade received in 5 minutes, request server side data
+        if ts > @updated_at + 300
+          @refreshUpdatedAt()
+          @reqK gon.market.id, gon.trades[gon.trades.length-1], @minutes
+
+    @interval = setInterval deliver, 999
 
   @cacheTrades = (event, data) ->
     @tradesCache = Array.prototype.concat @tradesCache, data.trades

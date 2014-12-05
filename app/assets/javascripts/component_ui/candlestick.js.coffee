@@ -408,7 +408,7 @@ INDICATOR = {MA: false, EMA: false}
       else
         # ignore obsolete point
 
-  @update = (event, data) ->
+  @updateByTrades = (event, data) ->
     chart = @$node.find('#candlestick_chart').highcharts()
 
     if @liveRange(chart)
@@ -424,6 +424,6 @@ INDICATOR = {MA: false, EMA: false}
   @after 'initialize', ->
     @on document, 'market::candlestick::request', @request
     @on document, 'market::candlestick::response', @init
-    @on document, 'market::candlestick::update', @update
+    @on document, 'market::candlestick::trades', @updateByTrades
     @on document, 'switch::main_indicator_switch', @switchMainIndicator
     @on document, 'switch::type_switch', @switchType
