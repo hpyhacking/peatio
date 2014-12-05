@@ -1,5 +1,0 @@
-zh-CN:
-  private:
-    account_versions:
-      index:
-        description: 每一笔交易、每一分钱收入都是有据可查，巨细无遗的。

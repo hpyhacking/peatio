@@ -6,6 +6,7 @@
 ko:
   js:
     brand: PEATIO
+    submit: 제출
     funds:
       deposit: 충전
       withdraw: 출금
@@ -18,6 +19,7 @@ ko:
         add: 추가
         manage: 관리
         amount: 충전금액
+        min_amount: 취저충전금액1000원
         to_account: 돈받는은행계좌
         to_name: 돈받는계정
         to_bank_name: 은행
@@ -30,5 +32,57 @@ ko:
       deposit_history:
         title: 충전기록
         time: 시간
+        txid: 하쉬거래ID
+        confirmations: 확인수량
+        from: 충전은행
         amount: 충전금액
+        state_and_action: "상태/활동"
         cancel: 취소
+        no_data: 역사기록 잠시 없음
+        submitting: 이미 제출됨
+        cancelled: 이미 취소됨
+        submitted: 제출
+        accepted: 충전성공
+        rejected: 거부됨
+        checked: 충전성공
+        warning: 경고
+        suspect: '이상 '
+      withdraw_cny:
+        intro: 출금은행선택 및 은행계좌 입력, 출금할 금액 입력한후 제출
+        intro_2: 고객님 출금계좌 이름와 실명인증받는이름과 일치 해야합니다.
+        balance: 사용할수 금액
+        withdraw_amount: 출금수량
+        manage_withdraw: 출금계좌 관리
+        fee_explain: 사용수수료 설명
+        min: 취저금액
+        withdraw_all: 모두 출금
+      withdraw_btc:
+        title: 비트코인 출금
+      withdraw_coin:
+        label: 라별
+        balance: 밸런스
+        amount: 수량
+        manage_withdraw: 주소 관리
+        min: 취소수량
+        withdraw_all: 모두 출금
+        fee_explain: 사용 수수료 설명
+      withdraw_history:
+        title: 출금 기록
+        withdraw_account: 출금 계정
+        withdraw_address: '조소 '
+        withdraw_amount: 수량
+        actual_amount: 실제 수량
+        fee: 수수료
+        miner_fee: 수수료
+        state_and_action: "상태/활성화"
+    auth:
+      please_active_two_factor: 고객님의 재산 안전을 위해 핸드폰인증 아님 구굴OTP인증을 관련 하세요.
+      submit: 확인
+      otp_placeholder: 6자리 수자 비번
+      google_app: 구굴 OTP인증기
+      sms: 핸드폰 SM문자 인증
+      send_code: 인증 코드 보냅니다
+      send_code_alt: COUNT초후에 재 전송합니다.
+      hints:
+        app: 구굴OTP인증기는 30초 마다 새 비번 생성합니다. 시간내로 정확히 신속 입력하세요
+        sms: 인증버턴 크릭하시면, 인증코드는 핸드폰 문자 형식으로 보냅니다.

@@ -1,0 +1,18 @@
+<% if @notice: %>
+<div class="alert alert-dismissable alert-success" id="notice">
+  <button aria-hidden="true" class="close" data-dismiss="alert" type="button">×</button>
+  <h5><i class="fa fa-bullhorn"></i><span><%= @msg %></span></h5>
+</div>
+<% end %>
+<% if @alert: %>
+<div class="alert alert-dismissable alert-warning" id="alert">
+  <button aria-hidden="true" class="close" data-dismiss="alert" type="button">×</button>
+  <h5><i class="fa fa-info-circle"></i><span><%= @msg %></span></h5>
+</div>
+<% end %>
+<% if @info: %>
+<div class="alert alert-dismissable alert-info" id="info">
+  <button aria-hidden="true" class="close" data-dismiss="alert" type="button">×</button>
+  <h5><i class="fa fa-info-circle"></i><span><%= @msg %></span></h5>
+</div>
+<% end %>

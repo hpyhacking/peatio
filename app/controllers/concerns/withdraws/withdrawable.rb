@@ -14,7 +14,7 @@ module Withdraws
           @withdraw.submit!
           render nothing: true
         else
-          render text: @withdraw.errors.full_messages.join, status: 403
+          render text: @withdraw.errors.full_messages.join(', '), status: 403
         end
       else
         render text: I18n.t('private.withdraws.create.two_factors_error'), status: 403

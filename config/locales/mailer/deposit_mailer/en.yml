@@ -1,6 +1,0 @@
-en:
-  deposit_mailer:
-    accepted:
-      subject: "[Peatio] Your deposit has been credited into your account"
-      content: "Your %{currency} deposit has been credited into your account."
-

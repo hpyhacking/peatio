@@ -1,9 +1,0 @@
-en:
-  ticket_mailer:
-    admin_notification:
-      subject: "[PEATIO] User created a new ticket"
-      admin_notification_content: User %{email} created a new ticket, please follow the link below to see the detail
-    author_notification:
-      subject: '[PEATIO] Thank you for submit ticket'
-      thanks_for_submit_ticket: Thank you for submit ticket to us, we will get back to you as soon as possible.
-

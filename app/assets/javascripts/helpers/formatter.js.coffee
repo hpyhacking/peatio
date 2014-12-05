@@ -96,7 +96,7 @@ class Formatter
     else
       @.fixAsk volume
 
-  t: (key) -> 
+  t: (key) ->
     gon.i18n[key]
 
 window.formatter = new Formatter()

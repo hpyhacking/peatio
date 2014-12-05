@@ -48,12 +48,12 @@
     data = JSON.parse(text)
     if data.reload
       window.location.reload()
-    App.showNotice data.text
+    @trigger 'flash:notice', msg: data.text
 
   @handleError = (event, jqXHR, status, error) ->
     data = JSON.parse(jqXHR.responseText)
     @countDown = 0
-    App.showAlert data.text
+    @trigger 'flash:alert', msg: data.text
 
   @after 'initialize', ->
     @on @select('sendCodeButton'), 'click', @verifyPhoneNumber

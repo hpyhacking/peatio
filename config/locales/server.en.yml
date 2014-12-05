@@ -1,50 +1,561 @@
 en:
-  "true": Yes
-  "false": No
+  activerecord:
+    models:
+      api_tokens: API Token
+      trade: Trades
+      order: Orders
+      order_bid: BID
+      order_ask: ASK
+      document: Document
+      withdraw: Withdraw
+      deposit: Deposit
+      payment_transaction: Payment
+      id_document: ID Document
+      statistic/orders_grid: Orders Stat
+      statistic/trades_grid: Trading Stat
+      statistic/members_grid: Members Stat
+      statistic/deposits_grid: Deposits Stat
+      statistic/withdraws_grid: Withdraws Stat
+      admin/deposits_grid: Deposits
+      admin/withdraws_grid: Withdraws
+      deposits/bank: Deposit Bank
+      withdraws/bank: Withdraw Bank
+      withdraws/satoshi: Withdraw
+    attributes:
+      api_token:
+        access_key: Access Key
+        trusted_ip_list: IP Whitelist
+        ip_whitelist: IP Whitelist
+        label: Label
+        actions: Actions
+      identity:
+        email: Email
+        password: New Password
+        password_confirmation: Confirm Password
+      document:
+        zh_cn_body: Chinese content
+        zh_cn_title: Chinese title
+        zh_cn_desc: Chinese description
+        zh_cn_keywords: Chinese keyword
+        en_body: English content
+        en_title: English title
+        en_desc: English description
+        en_keywords: English keyword
+        key: Key
+        is_auth: Is Auth
+      fund_source:
+        address: Address
+        category: Category
+        label: Label
+      account:
+        currency: Currency
+        currency_text: Currency
+        balance_and_locked: Balance / Locked
+        balance: Balance
+        locked: Frozen
+      deposit:
+        state: State
+        tx_id: TxID
+        member_id: Member ID
+        created_at: Submitted at
+        address: Address
+        amount: Amount
+        done_at: Completed at
+        sn: SN
+      withdraw:
+        id: ID
+        sn: SN
+        withdraw_id: ID
+        created_at: Created At
+        done_at: Done At
+        sum: Sum
+        fee: Fee
+        currency: Currency
+        amount: Amount
+        address: Address
+        state: Status
+        state_text: Status
+        tx_id: TxID
+        fund_source_id: Withdraw address
+        detail: Detail
+      account_version:
+        id: ID
+        locked: Forzen
+        amount: Amount
+        balance: Balance
+        reason: Reason
+        reason_text: Reason
+        modifiable_id: LINK ID
+        modifiable_type: LINK
+        created_at: Created At
+        in: Income
+        out: Expenses
+        fee: Fee
+      token/reset_password:
+        email: Sign in email
+        member: Member
+      trade:
+        bid: Bid
+        ask: Ask
+        fee: Fee
+        price: Strike Price
+        volume: Strike Volume
+        category: Bid/Ask
+        order: Order
+      order:
+        bid: Bid
+        ask: Ask
+        price: Price
+        total: Total
+        volume: Volume
+        origin_volume: Volume
+        sum: Sum
+        category: Bid/Ask
+        kind: Kind
+        at: At
+        id: ID
+        state: State
+        operation: Operation
+      payment_transaction:
+        at: Date Time
+        txid: Transaction ID
+        amount: Amount
+        confirmations: Confirmations
+        state: State
+        state_done: Done
+        state_wait: Wait
+      member:
+        id: ID
+        name: Real Name
+        display_name: Display Name
+        email: Email
+        created_at: Register At
+        sn: SN
+        id_document_number: Id Document Number
+        tag_list: Tags
+        activated: Activated
+        activated?: "Activated?"
+        id_document_verified?: "Id Document Verified?"
+        two_factor_activated?: "Tow Factor Activated?"
+        phone_number: Phone Number
+      two_factor/sms:
+        phone_number: Phone Number
+        otp: Verify Code
+      withdraws/bank:
+        id: ID
+        member_name: Member
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_source: Bank
+        fund_extra: Bank
+        fund_extra_text: Bank
+        fund_uid: Bank Account
+        sum: Amount
+        fee: Fee
+        amount: Amount
+        remark: Remark
+        created_at: Created At
+      deposits/bank:
+        created_at: Created At
+        holder: Holder
+        fund_extra: Sender Bank
+        fund_uid: Sender Account
+        member_sn: Member SN
+        member_name: Sender Name
+        amount: Amount
+        sn: SN
+        state_and_action: State/Action
+        label: Label
+        fund_source: Fund Source
+      deposits/satoshi:
+        created_at: Created At
+        txid: Transaction ID
+        amount: Amount
+        memo: Confirmation
+        aasm_state_text: State
+      withdraws/satoshi:
+        id: ID
+        member_name: Account
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_extra_text: Withdraw Label
+        fund_extrat: Withdraw Label
+        fund_source: Bank
+        fund_uid: Account
+        created_at: Created At
+        sum: Amount
+        amount: Amount
+        remark: Remark
+        fee: Fee
+    errors:
+      models:
+        order_bid:
+          attributes:
+            sum:
+              expensive: Expensive Account
+            price:
+              range: Invalid Price Range
+        order_ask:
+          attributes:
+            origin_volume:
+              expensive: Expensive Account
+            price:
+              range: Invalid Price Range
+        account:
+          attributes:
+            balance:
+              less: Blance Less
+        identity:
+          attributes:
+            email:
+              invalid: Invalid Email
+            password:
+              invalid: Invalid Password
+            password_confirmation:
+              confirmation: Inconsistent with the new password you enter, please re-enter.
+        token/reset_password:
+          attributes:
+            base:
+              too_soon: Visit too soon
+            email:
+              not-member: Invalid Email
+              match: Invalid Sign in Email
+            password:
+              invalid: Invalid Password
+            member:
+              blank: Not exist!
+        activation:
+          attributes:
+            base:
+              too_soon: An activation email was sent to your email address less than
+                5 minutes ago.
+        fund_source:
+          attributes:
+            address:
+              satoshi_ismine: Used Address
+              satoshi_invalid: Invalid Address
+        withdraw:
+          attributes:
+            password:
+              match: invalid
+            amount:
+              poor: insufficient
+              bank_min: Less 5000.00
+        two_factor:
+          attributes:
+            otp:
+              invalid: Wrong Password!Please re-enter.
+        application:
+          attributes:
+            redirect_uri:
+              fragment_present: cannot contain a fragment.
+              invalid_uri: must be a valid URI.
+              relative_uri: must be an absolute URI.
+        withdraws/satoshi:
+          attributes:
+            sum:
+              poor: Account balance is insufficient
+              greater_than: Greater than
+            fund_uid:
+              blank: Please enter your withdrawal address
+              invalid: Invalid withdrawals address, please review.
+              ismine: Please use a new address.
+      messages:
+        invalid_email: Invalid Email Address
+        undef: unknown reason
+        less: balance less
+        verify: verify error
+        strength: is invalid password strength
+        password: Please enter a password at least 6 characters and it's better to
+          contain uppercase and lowercase letters and numbers.
+        orders:
+          price: limit price %{l} ~ %{h}
+          sum: limit sum price %{l} ~ %{h}
+          precision: minimum precision %{p}
+  banks:
+    icbc: Industryand Commercial Bank of China
+    cbc: Construction Bank of China
+    bc: Bank of China
+    bcm: Bank of Communications
+    abc: Agriculture Bank of China
+    cmb: China Merchants Bank Ltd
+    cmbc: China Minsheng Banking Co., Ltd
+    cncb: China CITIC Bank
+    hxb: Hua Xia Bank Co., Ltd.
+    cib: Industrial Bank Co., Ltd
+    spdb: Shanghai Pudong Development Bank
+    bob: Bank of Beijing
+    ceb: China Everbright Bank CO.LTD
+    sdb: Shenzhen Development Bank
+    pab: Ping An Bank Co., Ltd.
+    gdb: Guangdong Development Bank
+    psbc: Postal Savings Bank of China
 
-  view_on_github: View on Github
-  slogan: An open-source crypto-currency exchange for world.
-  tags:
-    vip: VIP
-    hero: Hero Member
-    admin: Admin
-  trade:
-    markets: Markets
-    realtime_price:
-      title: Realtime Price
-    account_balance:
-      title: Balance
-
-  gon:
-    ask: Ask
-    bid: Bid
-    brand: Peatio Exchange
-    notification:
-      title: Peatio Exchange
-      enabled: Notification enabled.
-      new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
-  back: Back
-  invalid_password: Invalid password
-  all: All
-
-  date:
-    formats:
-      date-short: '%m-%d'
-      short: '%m-%d %H:%M'
-      default: '%m/%d/%Y %H:%M'
-  time:
-    formats:
-      date-short: '%m-%d'
-      short: '%m-%d %H:%M'
-      default: '%m/%d/%Y %H:%M'
-
-  sms:
-    verification_code: "Your phone number verification code is: %{code}."
-    password_changed: "Hi %{email}, you password has been changed successfully."
-    deposit_done: "Hi %{email}, the request of your deposit is complete."
-    withdraw_done: "Hi %{email}, the request of your withdrawal is complete."
-
+  currency:
+    satoshi:
+      key: BTC
+      code: BTC
+      name: Bitcoin
+      format: '0,0.0000'
+    bitsharesx:
+      key: BTS
+      code: BTSX
+      name: BitsharesX
+      format: '0,0.0000'
+    renminbi:
+      key: CNY
+      code: CNY
+      name: Chinese Yuan
+      format: '0,0.00'
+    dogecoin:
+      key: DOG
+      code: DOGE
+      name: Dogecoin
+      format: '0,0.0000'
+    protoshare:
+      key: PTS
+      code: PTS
+      name: Protoshare
+      format: '0,0.0000'
+  datagrid:
+    empty: no data found
+    filters:
+      date:
+        range_separator: " to "
+      datetime:
+        range_separator: " to "
+    form:
+      submit: Search
+    admin_deposits_grid:
+      columns:
+        sn: SN
+        created_at: At
+        channel_key_text: Channel
+        fund_extra_text: Extra
+        fund_uid: UID
+        txid: TXID
+        amount: Amount
+        fee: Fee
+        currency_text: Currency
+        aasm_state_text: State
+        member_name: Member
+    bank_deposits_grid:
+      columns:
+        sn: SN
+        created_at: At
+        channel_key_text: Category
+        fund_extra_text: Bank
+        fund_uid: Account
+        amount: Amount
+        fee: Fee
+        aasm_state_text: State
+    coin_deposits_grid:
+      columns:
+        sn: SN
+        txid: Transaction ID
+        created_at: At
+        amount: Amount
+        aasm_state_text: State
+        memo: Confirm
+    withdraws_grid:
+      columns:
+        sn: SN
+        name: Name
+        currency_text: Currency
+        amount: Amount
+        fee: Fee
+        created_at: Created at
+        done_at: Completed at
+        state_text: State
+    members_grid:
+      columns:
+        sn: Serial number
+        email: Email
+        created_at: Created at
+        actions: Actions
+    account_versions_grid:
+      columns:
+        created_at: Created at
+        currency_text: Currency
+        balance: Balance
+        in: In
+        out: Out
+        amount: Amount
+        reason_text: Reason
+        modifiable_type: Link
+        fee: Fee
+      filters:
+        reason: Reason
+        currency: Currency
+    statistic_members_grid:
+      columns:
+        sn: Serial number
+        id: ID
+        email: Email
+        created_at: Created at
+        activated: Active
+        detail: Detail
+        action: Action
+      filters:
+        sn: Serial number
+        activated: Active
+        created_at: Created at
+        email: Email
+    statistic_orders_grid:
+      columns:
+        id: Serial number
+        price: Price
+        volume: Volume
+        created_at: Created at
+        state_text: State
+        member_id: Member
+      filters:
+        state: State
+        currency: Currency
+        created_at: Created at
+        type: Ask/Bid
+    statistic_trades_grid:
+      columns:
+        id: ID
+        price: Price
+        volume: Volume
+        strike_amount: Amount
+        created_at: Created at
+      filters:
+        currency: Currency
+        created_at: Created at
+    statistic_deposits_grid:
+      columns:
+        member: Member
+        tx_id: TxID
+        amount: Amount
+        currency: Currency
+        created_at: Created at
+        state_text: State
+      filters:
+        currency: Currency
+        state: State
+        created_at: Created at
+    statistic_withdraws_grid:
+      columns:
+        member: Member
+        address: Adress
+        amount: Amount
+        currency: Currency
+        created_at: Created at
+        state_text: State
+      filters:
+        state: State
+        created_at: Created at
+  deposit_channel:
+    bank:
+      key: Bank transfer
+      title: Bank transfer
+      intro: Bank transfer deposits, recommend for large recharge
+      latency: 10 minutes
+      transfer: Manual
+      go: Deposit
+    satoshi:
+      key: Block Chain
+      title: Bitcoin Deposits
+      intro: Deposit bitcoin from your own wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
+  deposits/bank:
+    aasm_state:
+      submitting: Submitting
+      cancelled: Cancelled
+      submitted: Submitted
+      accepted: Accepted
+      rejected: Rejected
+      checked: Checked
+      warning: Warning
   private:
+    deposits:
+      banks:
+        destroy:
+          notice: Revocation request is successful.
+        create:
+          notice: Recharge request successfully submitted. Use the info below to complete the bank transfer.
+          submit: Submit
+        new:
+          fund_source: Select Fund Source
+          manage_fund_source: Manage Fund Source
+          submit: Submit
+        edit:
+          bank: Receive Bank Name
+          branch: Receive Bank Branch
+          hodler: Receive holder
+          account: Receive Account
+    fund_sources:
+      index:
+        manage_coin_address: Manage %{name} Address
+        manage_bank_account: Manage Bank Account
+        guide_intro_coin: You can creat one new %{name} address, and it can be available
+          for your withdrawal later.
+        guide_intro_bank: You can creat one new fund source, and it can be available
+          for your deposit or withdrawal later.
+        new: New
+        currency: Currency
+        bank: Bank
+        label: Label
+        account: Account
+        address: Address
+        action: Action
+        delete: Delete
+        are_you_sure: Are you sure?
+      new:
+        fund_source_selector: Select Bank
+        fund_source_uid: Account Number
+        fund_source_label: Label
+        fund_source_address: Address
+        extra_hint: If your bank is no longer in the list, please contact customer service
+    history:
+      transaction:
+        Deposit: Deposit
+        Withdraw: Withdraw
+      account:
+        currency: Currency
+        buy: Buy
+        sell: Sell
+        filter_by_type: Filter by type
+        account_history: Account History
+        type: type
+        timestamp: date and time
+        fee: fee
+        currency: Currency
+        amount: Amount
+        txid: Txid
+      orders:
+        order_history: Order History
+        id: ID
+        type: Type
+        state: State
+        market: Market
+        price: Price
+        volume: Volume
+        average_price: Avg. Price
+        fullfilled_volume: Fullfilled
+        timestamp: Created At
+      order:
+        ask: Sell
+        bid: Buy
+        wait: Open
+        cancel: Cancelled
+        done: Done
+      trades:
+        trade_history: Trade History
+        side: Side
+        created_at: Time
+        base_currency: Base Currency
+        base_amount: Base Amount
+        quote_currency: Quote Currency
+        quote_amount: Quote Amount
+        price: Price
+      trade:
+        sell: Sell
+        buy: Buy
     trade:
       trades:
         orders:
@@ -57,10 +568,10 @@ en:
         index:
           done: Done
           cancel: Cancel
-          confirm: "Are you sure cancel order #%{id}?"
+          confirm: 'Are you sure cancel order #%{id}?'
         destroy:
-          :true: "#%{id} Cancel Order Successful"
-          :false: "#%{id} Cancel Order Reject"
+          'true': "#%{id} Cancel Order Successful"
+          'false': "#%{id} Cancel Order Reject"
     withdraws:
       update:
         request_accepted: Withdraw request accepted.
@@ -69,7 +580,972 @@ en:
       index:
         fee: Fee
         total: Total
+        withdraw_history: Withdrawal History
+      create:
+        two_factors_error: Two factor authentication failed.
+      banks:
+        update:
+          notice: Bank Transfer withdrawal application has been submitted, we will
+            process it as soon as possible
+          alert_two_factor: Two-Factor Authentication error
+        destroy:
+          notice: Bank Transfer withdraw has been cancelled, frozen amount has been
+            returned to your account.
+        new:
+          fund_source: Select Fund Source
+          manage_fund_source: Manage Fund Source
+          submit: Submit
+          allin: All-In
+        create:
+          notice: Withdrawal request successfully submitted. Use the info below to
+            complete the bank transfer.
+      satoshis:
+        destroy:
+          notice: Withdraw been canceled, frozen balance has returned to your account
+        update:
+          notice: Withdraw request is submit successful, we will process it as soon
+            as possible
+          alert_two_factor: Two-Factor Authentication error
+        new:
+          submit: Submit
+          allin: All-In
+          fund_source_label: Label
+          manage_fund_source: Manage Fund Source
+        create:
+          notice: Withdrawal request successfully submitted. Use the info below to
+            complete the bank transfer.
+    tickets:
+      index:
+        new_ticket: New Ticket
+      new:
+        intro: If you have any problems, start a new discussion so that our staff
+          can help you out as soon as possible. All discussions are private between
+          you and the support staff.
+      ticket_create_succ: Ticket created successfully.
+      ticket_create_fail: Failed to create ticket, please try again latter.
+      comment_succ: Comment successfully.
+      cooment_fail: Comment failed, please try again latter
+      me: me
+      supporter: Support
+      close: Close Ticket
+      close_succ: Ticket closed successfully
+      close_confirm: Are you sure to close this ticket?
+      title_content_both_blank: Title and content could be both be empty.
+      from: from
+      view_closed_tickets: View closed tickets
+      view_open_tickets: View open tickets
+    account_versions:
+      index:
+        description: Every transaction and every penny of income in Peatio are well
+          documented and exhaustive.
+    api_tokens:
+      user_tokens:
+        no_token: You have no API token.
+        edit: Edit
+        destroy: Destroy
+        destroy-confirm: Are you sure?
+        create: Create New Token
+        http: HTTP API Document
+        websocket: Websocket API Document
+        more: 'For more information please check the API section on github:'
+      oauth_tokens:
+        panel_title: Authorizations
+        title: Authorized Applications
+        oauth: OAuth Integration
+        intro: Manage all your authorized applications.
+        no_token: No Application.
+        unbind: Revoke
+        unbind-confirm: Are you sure?
+        oauth_app_name: Name
+        oauth_app_expire: Expire At
+        oauth_app_scope: Scopes
+      unbind:
+        success: Successfully revoked.
+        failed: Revoke failed.
+      new:
+        label_hint: Label helps you remember token usage, optional.
+      create:
+        alert_two_factor: Two step authentication failed.
+        success: API token created successfully.
+        failed: Failed to create API token. Please try again later or contact admin.
+        desc: Please copy and paste keys below to a safe place and save. The secret key will never be displayed again.
+      edit:
+        access_key_hint: Created at %{created_at}
+        label_hint: Label helps you remember token usage, optional.
+        ip_whitelist_hint: Seperate IP by commas, leave this field blank means all IP are allowed.
+      update:
+        alert_two_factor: Two step authentication failed.
+        success: Saved successfully.
+        failed: Failed to save token. Please try again later or contact admin.
+      destroy:
+        success: The token has been successfully destroyed.
+        failed: Failed to destroy token.
+    assets:
+      index:
+        liability-proof: Proof of Liabilities
+        btc-assets: BTC Assets
+        cny-assets: CNY Assets
+      liability_tabs:
+        verify-btc: Verify My BTC Assets
+        verify-cny: Verify My CNY Assets
+        btc-assets-total: 'Total BTC assets of exchange: '
+        cny-assets-total: 'Total CNY assets of exchange: '
+      liability_proof:
+        title: Proof of Liabilities
+        intro: As an exchange, our liabilities refer to the sum of money (in both
+          crypto currencies and fiat currencies) that our users trust us with. On
+          this page, we present you our liabilities. We also provide you a way to
+          verify that your account balance is indeed part of our liabilities.
+        how-to-verify: How to verify an exchange is solvent?
+        how-to-verify-uri: https://peatio.com/documents/liability_proof
+      liability_data:
+        liability-proof-generating: Proof of Liability generation in process, please
+          come back after 30 minutes.
+        root-json: Root node
+        partial-tree: 'My %{currency} Assets: '
+        get-partial-tree: Get my partial tree data
+        timestamp: The proof data is generated at %{time}.
+        go-verify: Verify
+      btc_assets:
+        title: BTC Assets
+        intro: All of exchange's BTC assets are listed here.
+        total: Total BTC Assets
+        address: Address
+      cny_assets:
+        title: CNY Assets
+        intro: All of exchange's CNY assets are listed here.
+        total: Total CNY Assets
+        description: " <p>For supervision, you can inquiry the balance of our deposit
+          account:</p> <p>Bank: %{bank}</p> <p>Account： %{address}</p> <p>Inquiry
+          Password： %{password}</p> <p>Inquiry Tel.： %{tel}</p>"
+      partial_tree:
+        success: 'Success! Verification data generated at: %{timestamp}'
+    funds:
+      show:
+        account_history: Account History
+        cny_format: '0.00'
+        btc_format: '0.00000000'
+        reason:
+          cny:
+            strike_add: Plus
+            strike_sub: Sub
+            deposit: Deposit
+            withdraw: Withdraw
+            fix: Fix
+          btc:
+            strike_add: Plus
+            strike_sub: Sub
+            deposit: Deposit
+            withdraw: Withdraw
+            fix: Fix
+        ref:
+          system: System
+          default: Default
+    id_documents:
+      edit:
+        state: State
+        state_unverified: UNVERIFIED
+        state_verifying: VERIFYING
+        state_verified: VERIFIED
+        name: Real Name
+        birth_date: Birth Date
+        address: Address
+        city: City
+        country: Country
+        zipcode: Zipcode
+        id_document_type: Document Type
+        id_document_number: Document Number
+        id_document_file: Document Photo
+        id_bill_type: Proof Of Residence
+        id_bill_file: Proof Of Residence Photo
+      update:
+        notice: Your account verification has been submitted.
+    markets:
+      show:
+        error: Place Failed
+        success: Place Success
+        analysis_panel: Analysis
+        help_panel: Help
+        done: DONE
+        cancel: CANCEL
+        cancel_confirm: Are your sure cancel order?
+        confirm: CONFIRM
+        ask_order: 'ASK ##sn#'
+        bid_order: 'BID ##sn#'
+        my_active_order: Active
+        my_done_order: Done
+        trades: Trading
+        market_switch: Markets Switch
+        chat: Chat Channel
+      range_switch:
+        switch_1: 1m
+        switch_5: 5m
+        switch_15: 15m
+        switch_30: 30m
+        switch_60: 1h
+        switch_120: 2h
+        switch_240: 4h
+        switch_360: 6h
+        switch_720: 12h
+        switch_1440: 1d
+        switch_4320: 3d
+        switch_10080: 1w
+      depths:
+        price: Price
+        amount: Amount
+        buy: Buy
+        sell: Sell
+        ask_orders: Sell
+        bid_orders: Buy
+      ticker:
+        last: Last Price
+        ask: ASK
+        bid: BID
+      account_balance:
+        title: Account Balance
+        available: Available %{currency}
+      balance:
+        balance: Balance
+      bid_entry:
+        title: " [BUY] "
+        action: Place [BUY] Order
+        price: Price
+        last_price: Last Price
+        amount: Amount
+        total: Total
+        balance: Balance
+      ask_entry:
+        title: " [SELL] "
+        action: Place [SELL] Order
+        price: Price
+        last_price: Last Price
+        amount: Amount
+        total: Total
+        balance: Balance
+      place_order:
+        price_high: HIGH
+        price_low: LOW
+        full_bid: FULL
+        full_ask: EMPTY
+      order_book:
+        title: Order Book
+        volume: Volume
+        price: Price
+        amount: Amount
+        ask: ASK
+        bid: BID
+        fade_toggle_depth: Market Depth
+      market_trades:
+        title: Market Trading
+        time: Trading Time
+        price: Price
+        volume: Volume
+        amount: Amount
+      header:
+        network: Connection State
+        vol: 24h Volume
+        high: High
+        low: Low
+      settings:
+        sound: Sound
+        notification: Desktop Real Notification
+        title: Settings
+      account_summary:
+        account: Account
+        title: Summary
+        amount: Amount
+        locked: Freeze
+        funds: "[Funds]"
+        signout: "[Sign Out]"
+        settings: "[Member Settings]"
+        view_all_accounts: "[View All]"
+        hide_all_accounts: "[Hide Other]"
+      market_switch:
+        title: "[Switch Market]"
+        name: Market
+        ask: ASK
+        bid: BID
+      my_done_orders:
+        title: My [Done Orders]
+        filter: Filter
+        all: ALL DONE
+        buy: BUY DONE
+        sell: SELL DONE
+        cancel: All cancel trades
+        price: Price
+        volume: Volume
+        time: Place Time
+      my_orders:
+        title: My [Active Orders]
+        orders_wait: Latest Orders
+        orders_done: Completed Orders
+        orders_cancel: Cancel Orders
+        clear_all: Cancel All My Orders
+        clear_bids: Cancel All Bids
+        clear_asks: Cancel All Asks
+        confirm_clear_all: Are you sure to cancel ALL orders?
+        confirm_clear_bids: Are you sure to cancel all BIDS?
+        confirm_clear_asks: Are you sure to cancel all ASKS?
+        one_click_clear: Cancel
+        price: Price
+        volume: Volume
+        time: Place Time
+        operation: Opt.
+      mask:
+        warning: Please <a class=text-up href='/'>Sign up</a> or <a class=text-up
+          href='/'>Sign in</a> for operation
+      klime_chart:
+        title: Candlestick Charts
+      global:
+        global_orders_title: ORDERS
+        global_trades_title: TRADES
+      chat:
+        title: Chat Channel
+    settings:
+      success: Settings updated successfully.
+      failure: Invalid passcode. Please try again.
+      index:
+        safety_instruction: In order to protect your bitcoins and personal information,
+          we strongly suggest that you use  Two-factor Authentication
+        reset_password: Rest your Password
+        reauthenticate: Authentication
+        activated: An  email has been sent to your mailbox, please check it for verification
+          as soon as possible. If you do not received it , please click "send it again"
+          button
+        auth-activated: Please confirm your email address first.
+        auth-verified: Please verify your account first.
+        email:
+          title: E-mail verification
+          description: Your e-mail has not been verified, click the "Send Mail" button
+            to complete the verification
+          description-activated: Your email adress has been verified successfully,
+            remember and protect this e-mail address, it is the single certificate
+            for your  account
+          resend: Send it again
+          activated: Verified
+          go: Set
+        phone_number:
+          title: Phone Number
+          description: Provide a phone number will make your account more secure.
+            You can quickly reset your password and your account operations will be
+            notified.
+          go: Set
+          verified: Verified
+        two_factor_auth:
+          title: Two-Step authentication
+          description: Two-Step authentication provides another layer of security
+            to your account.
+          enable: Enable
+          disable: Disable
+        verification:
+          title: Verify Account
+          description: Help keep the bad guys out of your account by using both your
+            password and your phone
+          go: Submit
+          verified: Verified
+        asset_passwords:
+          title: Asset password
+          description: The asset password will be needed when you withdraw your money.
+            It is strongly recommended that you do not use the same password as your
+            account password!
+          go: Set
+        passwords:
+          title: Password
+          description: This password is required for login, please remember it.
+          go: Change Password
+          set: Set
+        api_tokens:
+          title: API Tokens
+          description: Create and manage your API tokens.
+          go: Set
+        weibo:
+          title: Connect to Weibo
+          description: After you connecting to Weibo, you can login via Weibo account.
+          bound_desc: This has been connected with %{nickname}.
+          bind: Connect
+          unbind: Disconnect
+    otps:
+      new:
+        step_1: Step 1
+        step_2: Step 2
+        step_3: Step 3
+        or: OR
+        download_app: Install Google Authenticator app on your smart phone and open it.
+        scan_qr_code: Scan the QR code below
+        enter_passphrase: Manually enter the following key into the app
+        enter_passcode: Enter and submit the passcode generated by the Google Authenticator app.
+    shared:
+      balances:
+        locked: Frozen
+        balance: Balance
+        available: Available
+        title: "%{icon} %{c} Account"
+        cny_format: '0.00'
+        btc_format: '0.00000000'
+        total: Total
+  guides:
+    private:
+      settings:
+        panel: Settings
+        index:
+          intro: Admin and revise your profile.
+      api_tokens:
+        panel: API Tokens
+        index:
+          title: My Tokens
+          intro: A list of all your API tokens. An empty 'IP Whitelist' means any
+            ip is allowed to use the token.
+        new:
+          title: Create API Token
+        create:
+          title: Create API Token
+        edit:
+          title: Edit API Token
+        update:
+          title: Edit API Token
+      tickets:
+        panel: Tickets
+      fund_sources:
+        panel: Fund source
+        index:
+          title: Create new fund source
+          intro: You can creat one new fund source, and it can be available for your
+            deposit or withdrawal later.
+      id_documents:
+        panel: Real-name Authentication
+        new:
+          title: Submit real-name authentication information
+          intro: In line with the national laws , identity verification is required.
+            please verify your account to proceed.
+    panels:
+      balance: Account
+    verify:
+      google_auths:
+        panel: Two-Factor Authentication
+        edit:
+          title: Disable Two-Factor Authentication
+          intro: If you have a new phone, you can disable Two-Factor Authentication in the old phone, and enable Two-Factor Authentication  with the new one.
+      sms_auths:
+        panel: Verify Phone Number
+    reset_passwords:
+      panel: Password
+      new:
+        title: Reset Password
+        intro: Please enter your e-mail address which is verified by your  account,
+          enter verification code to submit,and login your mailbox, follow the prompts
+          to reset your password.
+      create:
+        title: Reset password
+        intro: Please enter your e-mail address which is verified by your  account,
+          enter verification code to submit,and login your mailbox, follow the prompts
+          to reset your password.
+      edit:
+        title: Set Password
+      update:
+        title: Set Password
+    sessions:
+      panel: Login
+      new:
+        title: Login my account
+        intro: Login Peatio now for you to exchange.
+      failure:
+        title: Login my account
+        intro: Login Peatio now for you to exchange.
+    identities:
+      panel: Create Account
+      new:
+        title: Create My Account
+        intro: This will be your only ID on Peatio which is necessary for your exchange
+          , deposit and withdrawal . please fill it out carefully.
+      edit:
+        panel: My Account
+        title: Reset Password
+    two_factors:
+      panel: Two Factor Authenticator
+  simple_form:
+    placeholders:
+      deposit:
+        bank:
+          amount: Minimum amount 100
+      session:
+        email: E-mail Address
+        password: ''
+      identity:
+        email: Example：xiaobai@example.com
+        password: Please set your login password
+        password_confirmation: Confirm your password
+        edit:
+          password: Please set your account password!
+      document:
+        key: Document link URL key
+        title: Document Title
+      fund_source:
+        label: Real name
+        address: Address
+      order_bid:
+        origin_volume: Buy Volume
+        sum: Sum
+      order_ask:
+        origin_volume: Sell Volume
+        sum: Total Turnover
+      reset_password:
+        email: For example：xiaobai@example.com
+        password: Please set your login password!
+      withdraw:
+        bank:
+          sum: Minimum amount 100
+        satoshi:
+          sum: Minimum amount 0.001
+          fund_extra: Enter a label for this address (optional)
+    hints:
+      deposit:
+        bank:
+          sum: "<a target='_balance' href='#'>Fee structure</a>"
+          member_name: "<span class='text-danger'>Recharge bank account name must
+            match the name with your real name authentication</span>"
+          sn: "<span class='text-danger'>Please copy the SN in your bank transfer's
+            message, otherwise we can not process your order quickly.</span>"
+      two_factor:
+        otp_secret: We recommend that you back up QR code image or ciphertext to avoid
+          that you accidental loss of the phone for the inconvenience.
+        otp: Your validator will re-generate a new password every thirty seconds,
+          please input timely.
+      identity:
+        password: Set a password which has at least 6 characters and it's better to
+          contain uppercase and lowercase letters and numbers.
+      reset_password:
+        password: Set a password which has at least 6 characters and it's better to
+          contain uppercase and lowercase letters and numbers.
+      id_document:
+        name: Please fill in the name which is consistent with your Credentials.
+      withdraw:
+        bank:
+          member_name: "<span class='text-danger'>Withdraw bank account name must
+            match your name used for real-name authentication</span>"
+          sum: "<a target='_balance' href='#'>Fee structure</a>"
+          fund_extra: If your bank is no longer in the list, please contact customer
+            service
+        satoshi:
+          sum: "<a target='_balance' href='#'>Fee structure</a>"
+    creating: Creating...
+    updating: Updating...
+    buttons:
+      or: Or
+      cancel: Cancel
+    'yes': 'Yes'
+    'no': 'No'
+    required:
+      text: required
+      mark: "*"
+    error_notification:
+      default_message: 'Please review the problems below:'
+    labels:
+      defaults:
+        title: Title
+      google_auth:
+        uri: QR code
+        otp_secret: Ciphertext
+        otp: Password on the authenticator
+      fund_source:
+        label: Label
+        address: Address
+        category: Category
+      session:
+        email: Sign In E-mail
+        password: Sign In Password
+        captcha: Captcha
+      identity:
+        email: Sign In E-mail
+        old_password: Original password
+        password: New Password
+        password_confirmation: Confirm new password
+      reset_password:
+        password: New Password
+      ticket:
+        content: More detail
+      withdraw:
+        bank:
+          fund_extra: Bank
+          sum: Amount
+          account_balance: Account Balance
+          member_name: Account Holder Name
+        satoshi:
+          fee: Fee
+          sum: Amount
+          fund_uid: Bitcoin Address
+          fund_extra: Label
+          account_balance: Account Balance
+          member_name: Account
+  admin:
+    deposits:
+      banks:
+        index:
+          oneday: Requests in the last 24 hours
+          available: All Pending Requests
+        show:
+          alert: Recharge cannot be located.
+          notice: The recharge have been successful.
+          deposit: Deposit Request
+          accept: Accept
+          target_deposit: Wire Transfer
+          confirm: Confirm recharge?
+        update:
+          blank_txid: TxID can't be blank
+      satoshis:
+        update:
+          notice: The deposit was successful.
+        index:
+          accept: Accept
+          accept_confirm: Confirm deposit?
+    tickets:
+      view: View
+      close: Close Ticket
+      comments_count: Comments Count
+      replies: Replies
+      open_tickets: Open Tickets
+      closed_tickets: Closed Tickets
+    members:
+      index:
+        search: Search
+        members: Members
+        email: Email
+        name: Name
+        phone: Phone Number
+        wallet_address: Wallet Address
+      show:
+        member_title: User Information
+        actions_title: Action
+        accounts_title: Account Information
+        account_versions_title: Records
+    dashboard:
+      index:
+        accounts_title: Account Summary
+        daemons_title: System Summary
+    documents:
+      index:
+        new: New Document
+    statistic:
+      filter: Filter
+      summary: Summary
+      click-to-expand: Expand
+      members:
+        show:
+          table: Results
+      orders:
+        show:
+          avg: Average
+          sum: Order Volume
+          sum_strike: By Volume
+          count: Count
+      trades:
+        show:
+          count: Transactions
+          volume: Volume
+          amount: Total Amount
+          min_price: Minimum Price
+          max_price: Maximum Price
+          avg_price: Average Price
+          amount_fee: Transaction Fee
+          volume_fee: Total Fee
+      deposits:
+        show:
+          count: Total
+          amount: Total Amount
+      withdraws:
+        show:
+          count: Total
+          amount: Total Amount
+          fee: Fee
+    withdraws:
+      banks:
+        index:
+          one: Pending withdrawal Orders
+          all: Twenty-four hours Orders
+          empty: No Data
+        show:
+          process: Process
+          succeed: Succeed
+          reject: Reject
+          succeed_confirm: Confirm Process?
+          reject_confirm: Confirm Reject?
+          withdraw: Withdraw
+          empty: No Data
+      satoshis:
+        index:
+          one: Pending withdrawals
+          all: Last 24 hours
+          empty: No data
+        show:
+          process: Accepted
+          succeed: Withdraw
+          reject: Reject
+          succeed_confirm: Process withdrawal?
+          reject_confirm: Reject withdrawal?
+          withdraw: Withdrawals
+  deposits/satoshi:
+    aasm_state:
+      submitted: Submitted
+      accepted: Accepted
+      checked: Checked
+      warning: Warning
+  doorkeeper:
+    scopes:
+      profile: Read your basic profile (e.g. name, email) and account balances
+      history: Read your trade history
+      trade: Submit and cancel orders
+    authorizations:
+      new:
+        title: Peatio Application Authorization
+        authorize_html: Authorize <strong class='text-info'>%{name}</strong> to use
+          your account?
+        scopes: 'This application will be able to:'
+        authorize: Authorize
+        deny: Deny
+    errors:
+      messages:
+        invalid_request: The request is missing a required parameter, includes an
+          unsupported parameter value, or is otherwise malformed.
+        invalid_redirect_uri: The redirect uri included is not valid.
+        unauthorized_client: The client is not authorized to perform this request
+          using this method.
+        access_denied: The resource owner or authorization server denied the request.
+        invalid_scope: The requested scope is invalid, unknown, or malformed.
+        server_error: The authorization server encountered an unexpected condition
+          which prevented it from fulfilling the request.
+        temporarily_unavailable: The authorization server is currently unable to handle
+          the request due to a temporary overloading or maintenance of the server.
+        credential_flow_not_configured: Resource Owner Password Credentials flow failed
+          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
+        resource_owner_authenticator_not_configured: Resource Owner find failed due
+          to Doorkeeper.configure.resource_owner_authenticator being unconfiged.
+        unsupported_response_type: The authorization server does not support this
+          response type.
+        invalid_client: Client authentication failed due to unknown client, no client
+          authentication included, or unsupported authentication method.
+        invalid_grant: The provided authorization grant is invalid, expired, revoked,
+          does not match the redirection URI used in the authorization request, or
+          was issued to another client.
+        unsupported_grant_type: The authorization grant type is not supported by the
+          authorization server.
+        invalid_resource_owner: The provided resource owner credentials are not valid,
+          or resource owner cannot be found
+        invalid_token:
+          revoked: The access token was revoked
+          expired: The access token expired
+          unknown: The access token is invalid
+    flash:
+      applications:
+        create:
+          notice: Application created.
+        destroy:
+          notice: Application deleted.
+        update:
+          notice: Application updated.
+      authorized_applications:
+        destroy:
+          notice: Application revoked.
+  easy_table:
+    satoshi:
+      amount: Amount
+      txid: TxId
+      created_at: Created At
+      memo: Confirmations
+      member_name: Member
+      state_and_actions: State/Actions
+      currency_obj_key_text: Currency
+    bank:
+      sn: SN
+      amount: Amount
+      created_at: At
+      fund_source: Fund Source
+      memo: Memo
+      member_name: Member
+      state_and_actions: State/Action
+      currency_obj_key_text: Currency
+  enumerize:
+    account_version:
+      reason:
+        fix: FIX
+        unknown: UNKNOWN
+        strike_add: TRADE PLUS
+        strike_sub: TRADE SUB
+        strike_fee: TRADE FEE
+        strike_unlock: TRADE UNLOCK
+        order_cancel: ORDER CANCEL
+        order_submit: ORDER SUBMIT
+        deposit: DEPOSIT
+        withdraw: WITHDRAW
+        withdraw_lock: WITHDRAW LOCK
+        withdraw_unlock: WITHDRAW UNLOCK
+    state:
+      done: Done
+      wait: Wait
+      cancel: Cancel
+    currency:
+      cny: CNY
+      btc: BTC
+    order:
+      state:
+        done: DONE
+        wait: WAIT
+        cancel: CANCEL
+    deposit:
+      aasm_state:
+        submitted: Submitted
+        submitting: Submitting
+        accepted: Accepted
+        cancelled: Canceled
+        rejected: Rejected
+        checked: Checked
+        warning: Warning
+    withdraw:
+      state:
+        submitting: Submitting
+        submitted: Submitted
+        rejected: Rejected
+        accepted: Accepted
+        suspect: Suspect
+        processing: Processing
+        done: Done
+        canceled: Canceled
+    fund_source:
+      category:
+        satoshi: Bitcoin
+        bank: Bank
+    id_document:
+      id_document_type:
+        id_card: ID Card
+        passport: Passport
+        driver_license: Driver's License
+      id_bill_type:
+        bank_statement: Bank Statement
+        tax_bill: Tax Bill
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: Last &raquo;
+      previous: "&lsaquo; Prev"
+      next: Next &rsaquo;
+      truncate: "..."
 
+  mailer:
+    dear_user: Dear user,
+    signature: Thanks,<br/>The Peatio Team
+    please_contact: If it's not you, please <a href='mailto:%{contact_mail}'>contact us</a> ASAP.
+    footer: This is an automatically generated email, please do not reply, if you have any question, please <a href="mailto:%{contact_mail}">contact us</a>.
+  comment_mailer:
+    admin_notification:
+      subject: "[PEATIO] User reply a ticket"
+      notification_content: User %{email} reply a ticket, please follow the link below to see the detail
+    user_notification:
+      subject: "[PEATIO] Your ticket got a new reply"
+      notification_content: 'Your ticket got a new reply, please follow the link below to see the detail:'
+  deposit_mailer:
+    accepted:
+      subject: "[Peatio] Your deposit has been credited into your account"
+      content: Your %{currency} deposit has been credited into your account.
+  member_mailer:
+    notify_signin:
+      subject: "[PEATIO] You have just signed in"
+      just_signed_in: You have just signed in.
+    google_auth_activated:
+      subject: "[PEATIO] Google authenticator activated"
+      google_auth_activated: You have activated google authenticator successfully
+    google_auth_deactivated:
+      subject: "[PEATIO] Google authenticator deactivated"
+      google_auth_deactivated: You have deactivated google authenticator successfully
+    sms_auth_activated:
+      subject: "[PEATIO] SMS authenticator activated"
+      sms_auth_activated: You have activated SMS authenticator successfully
+    sms_auth_deactivated:
+      subject: "[PEATIO] SMS authenticator deactivated"
+      sms_auth_deactivated: You have deactivated SMS authenticator successfully
+    reset_password_done:
+      subject: "[PEATIO] Your password changed"
+      successful: Your password has been changed successfully.
+    phone_number_verified:
+      subject: "[PEATIO] Your phone number verified"
+      verified: 'Your phone number verified: %{phone_number}'
+  system_mailer:
+    daily_stats:
+      member_stats: Member Stats
+      signup: Signup
+      activation: Activation
+      asset_stats: Assets Changes
+      trade_stats: Trades Changes
+      asset_value_change_total: Digital Assets Changes Total
+      trades_change_total: Trades Changes Total
+  ticket_mailer:
+    admin_notification:
+      subject: "[PEATIO] User created a new ticket"
+      admin_notification_content: User %{email} created a new ticket, please follow the link below to see the detail
+    author_notification:
+      subject: "[PEATIO] Thank you for submit ticket"
+      thanks_for_submit_ticket: Thank you for submit ticket to us, we will get back to you as soon as possible.
+  token_mailer:
+    activation:
+      subject: "[Peatio] Account Activation"
+      click_to_verify: 'Thank you for signing up on Peatio, please follow this link to verify your Email:'
+      unable_to_click: Copy and open the link in your browser if you are unable to click and visit it.
+      link_expire: The link expires in 30 minutes.
+    reset_password:
+      subject: "[Peatio] Please Reset Your Password"
+      hi: Hi,
+      follow_the_link: 'Please follow this link to reset your password within 30 minutes:'
+  withdraw_mailer:
+    submitted:
+      subject: "[Peatio] Your withdraw state update"
+      content: The request of your %{currency} withdrawal has been successfully submitted, We will process it as soon as possible. Please be patient with us. Contact us if you have any questions.
+    processing:
+      subject: "[Peatio] Your withdraw state update"
+      content: The request of your %{currency} withdrawal is in process. Please be patient with us. Contact us if you have any questions.
+    done:
+      subject: "[Peatio] Your withdraw state update"
+      content: The request of your %{currency} withdrawal is complete. Please check it out. Contact us if you have any questions.
+    withdraw_state:
+      subject: "[Peatio] Your withdraw state update"
+      your_state: 'Your withdrawal state: '
+
+  'true': true
+  'false': false
+  view_on_github: View on Github
+  slogan: An open-source crypto-currency exchange for world.
+  tags:
+    vip: VIP
+    hero: Hero Member
+    admin: Admin
+  trade:
+    markets: Markets
+    realtime_price:
+      title: Realtime Price
+    account_balance:
+      title: Balance
+  gon:
+    ask: Ask
+    bid: Bid
+    brand: Peatio Exchange
+    notification:
+      title: Peatio Exchange
+      enabled: Notification enabled.
+      new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
+  back: Back
+  invalid_password: Invalid password
+  all: All
+  date:
+    formats:
+      date-short: "%m-%d"
+      short: "%m-%d %H:%M"
+      default: "%m/%d/%Y %H:%M"
+  time:
+    formats:
+      date-short: "%m-%d"
+      short: "%m-%d %H:%M"
+      default: "%m/%d/%Y %H:%M"
+  sms:
+    verification_code: 'Your phone number verification code is: %{code}.'
+    password_changed: Hi %{email}, you password has been changed successfully.
+    deposit_done: Hi %{email}, the request of your deposit is complete.
+    withdraw_done: Hi %{email}, the request of your withdrawal is complete.
   header:
     home: Home
     dashboard: Dashboard
@@ -94,21 +1570,17 @@ en:
     total: Total
     deposit: Deposit
     withdraw: Withdraw
-
   admin_header:
     deposits: Deposits
     withdraws: Withdraws
     statistics: Data Statistics
     id_documents: Verify Account
-
   footer:
     about: About
     privacy: Privacy
-    contact: Contact
+    contact: Contact Us
     price: Price
     liability_proof: liability proof
-    contact: Contact Us
-
   actions:
     go: Go
     submit: Submit
@@ -133,7 +1605,6 @@ en:
     clipboard:
       click: Click to copy
       done: Copied
-
   chart:
     open: Open
     high: High
@@ -154,7 +1625,284 @@ en:
     bid: BID
     depth: Depth
     depth_title: Market Depth
-
   'yes': 'Yes'
   'no': 'No'
-
+  simple_captcha:
+    label: Refresh page to get new captcha.
+    placeholder: type characters in image
+  helpers:
+    action:
+      view: View
+      customer_service: contact us
+    submit:
+      order_ask:
+        create: ASK
+      order_bid:
+        create: BID
+      document:
+        create: Create Document
+        update: Update Document
+        destroy: Destroy Document
+      member:
+        update: Open Account
+      identity:
+        save: Sign in
+        create: Sign up
+        destroy: Sign out
+        verify: Verify
+        update: Change
+      two_factor:
+        create: Verify
+        update: Activiate
+      reset_two_factor:
+        create: Reset Two-Factor
+      reset_password:
+        update: Reset Sign in Password
+        create: Reset Sign in Password
+      fund_source:
+        create: Save
+      deposit:
+        create: Deposit
+      id_document:
+        create: Submit
+      withdraw:
+        create: Submit
+      ticket:
+        create: Submit
+  activations:
+    new:
+      notice: An email has been sent to your mailbox, please check it for verification as soon as possible. If you do not received it , please click "send it again" button.
+      verified: Your email adress has been verified successfully.
+      login_required: login required!
+      tip: Activation link was sent to %{email}
+      spam: Please check your spam folder for the activation link.
+    edit:
+      notice: Account activated successfully! Please sign in below.
+      alert: Activation link is expired or invalid.
+  authentications:
+    emails:
+      new:
+        title: Setup Email
+        setup_email: Please setup your email address.
+        warning: Please check your inbox after saving the email address.
+        email_address: Email Address
+        save: Save
+    weibo:
+      destroy:
+        last_auth_alert: You couldn't delete the last authentication
+        unbind_success: Unbind from the Weibo
+    identities:
+      new:
+        title: Setup The Password
+        save: Save
+      create:
+        success: Setup password successfully
+  forum:
+    index:
+      notice:
+        display_name: Please set your display name for the forum.
+  identities:
+    new:
+      title: SIGN UP
+      signin: Sign In
+      password: Please enter a password at least 6 characters and it's better to contain
+        uppercase and lowercase letters and numbers.
+    update:
+      auth-error: The original password you entered is incorrect, please re-enter.
+      auth-same: The new password you entered is the same as the old password, please
+        re-enter.
+      notice: Account password updated successfully.
+  layouts:
+    admin:
+      menus:
+        sections:
+          members: Members
+          deposits: Deposits
+          sites_statistics: Analytics
+          operating: Operations
+        items:
+          operating:
+            proofs: Proof
+            deposits: Deposits
+            documents: Documents
+            withdraws: Withdraws
+            tickets: Tickets
+          deposits:
+            currency: Deposit
+    application:
+      close: Close
+    meta:
+      page_title: Peatio - The Opensource Cryptocurrency Exchange
+      page_description: Peatio - The Opensource Cryptocurrency Exchange
+      page_keywords: Peatio,Opensource,Exchange,Cryptocurrency
+  members:
+    edit:
+      name: Please fill out the application.
+  reset_passwords:
+    create:
+      success: E-mail to reset your password with a introduction has been sent to your mailbox. Failure to receive e-mail , go to "junk mail " firstly,or send the request again.
+    edit:
+      password: Please enter a password at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
+      invalid: Invalid request
+      submit: Reset Login Password
+      alert: Invalid reset password link.
+    update:
+      success: Login password has been reset, please keep your new password.
+      invalid: Invalid request
+  sessions:
+    new:
+      reset_password: Forgot Password?
+    new_with_two_factor_auth:
+      title: 2 Step Verification
+      reset_two_factor: Lost 2-step-verification device
+    create_with_two_factor_auth:
+      session_expired: Session expired. Try again.
+    create:
+      error: You account has been disabled, contact admin if you have any problem.
+    failure:
+      account_locked: Too many failed login attempts. To ensure the safety of your
+        account, we have locked your account. To unlock, reset your password by clicking
+        on "Forgot Password".
+      error: Wrong customer ID or password,please try again.
+  shared:
+    admin:
+      member:
+        member_info: Member Info
+        deactive_sms_two_factor: SMS TFA
+        deactive_app_two_factor: Google TFA
+        inactive: Inactive
+        deactive: Deactive
+        are_you_sure: Are you sure deactive two factor authentication?
+      account:
+        account_info: Account Info
+        payment_address: Deposit Address
+    alert:
+      modern: In order not to affect trading experience, please use a more popular
+        browser transaction, we recommend you <a target='_blank' href='https://www.google.com/#q=google+chrome'>Google
+        Chrome</a>。
+      pusher_unavailable: The network connection is temporarily unavailable... <a
+        href='#' class='alert-link'>Please refresh</a>.
+    header:
+      balance: Balance
+    header_account_balance:
+      locked: Locked
+    market:
+      ticker:
+        ask_price: Ask
+        bid_price: Bid
+        high_price: High
+        low_price: Low
+        volume: Volume
+        latest_price: Last
+    frame:
+      deposit_now: Deposit Now
+  two_factors:
+    index:
+      verify: Verify
+    update:
+      alert: Two factor verification code error, please re-enter.
+    auth:
+      please_active_two_factor: Please set mobile number or google authenticator first.
+      submit: Submit
+      otp_placeholder: 6-digit password
+      google_app: Google Authenticator
+      sms: SMS Verification Messages
+      send_code: Send Code
+      send_code_alt: Resend in COUNT seconds
+      hints:
+        app: Google Authenticator will re-generate a new password every thirty seconds,
+          please input timely.
+        sms: We'll send a text message to you phone with verify code.
+  verify:
+    google_auths:
+      edit:
+        submit: Disable
+        warning: 'Tip: If you have lost your two-factor authentication by some reason
+          and can''t login your Peatio account, please contact our online customer
+          service.'
+      show:
+        step-1: Step 1
+        step-2: Step 2
+        step-3: Step 3
+        or: OR
+        download-app: Install Google Authenticator app on your smart phone and open
+          it.
+        guide-link: "<a href='https://support.google.com/accounts/answer/1066447'
+          target='_blank'>Installation Instructions</a>。"
+        scan-qr-code: Scan the following QR code with Google Authenticator APP，or
+          add cipher text to the validator manually.
+        enter-passcode: Fill in the dynamic password  displayed by your phone  to
+          activate two-factor verification.
+        submit: Enable
+        ios: Iphone iOS
+        android: Android
+        blackbery: Blackberry
+        notice:
+          already_activated: The Google Authenticator has already been set.
+          not_activated_yet: The Google Authenticator hasn't been set yet.
+      update:
+        alert: Password for authentication is incorrect, please re-enter.
+        notice: Two-factor authentication has been successfully Enabled.
+        sms_two_factor_error: SMS Verification code is incorrect, please re-enter.
+      destroy:
+        alert: Password for authentication is incorrect, please re-enter.
+        notice: Two-factor authentication has been successfully Disabled.
+    sms_auths:
+      show:
+        title: Verify Phone Number
+        description: Provide a phone number will make your account more secure. you
+          can quickly reset your password and your account operations will be notified.
+        warning: it will not be able to retrieve your account's password if not set
+          the phone number.
+        phone_number: Phone number
+        send_code: Send Code
+        send_code_alt: Resend in COUNT seconds
+        input_otp: Enter the 6-digit code we sent to you
+        submit: Save
+        notice:
+          send_code_success: Send verify code success
+          otp_success: Verify Code success.
+          already_activated: You phone number has been activated.
+        alert:
+          phone_number_error: phone number error
+  withdraw_channel:
+    bank:
+      key: Bank Transfer
+      title: Bank Transfer
+      intro: Bank transfer deposits, Recommend for large recharge
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
+    satoshi:
+      key: Blockchain
+      title: Bitcoin Blockchain
+      intro: Withdraw Bitcoin to your own Bitcoin wallet
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
+  withdraws:
+    invalid_address: is not valid. You can not withdraw to this address.
+  withdraws/bank:
+    aasm_state:
+      submitting: Submitting
+      submitted: Submitted
+      rejected: Rejected
+      accepted: Accepted
+      suspect: Suspect
+      processing: Processing
+      done: Done
+      almost_done: Almost Done
+      canceled: Canceld
+      failed: Failed
+  withdraws/satoshi:
+    aasm_state:
+      submitting: Submitting
+      submitted: Submitted
+      rejected: Rejected
+      accepted: Accepted
+      suspect: Suspect
+      processing: processing
+      done: Done
+      almost_done: Almost Done
+      canceled: Cancelled
+      failed: Failed

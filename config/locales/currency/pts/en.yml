@@ -1,7 +1,0 @@
-en:
-  currency:
-    protoshare:
-      key: PTS
-      code: PTS
-      name: Protoshare
-      format: '0,0.0000'

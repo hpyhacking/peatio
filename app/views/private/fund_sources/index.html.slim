@@ -4,7 +4,7 @@
 
 = table_for(@fund_sources, class: 'table table-condensed table-hover') do |t|
   - t.column :currency, t('.currency'), class: 'col-xs-2' do |x|
-    = t("currency.name.#{x.currency}")
+    = x.currency_obj.code_text
   - if @currency.coin?
     - t.column :extra, t('.label'), class: 'col-xs-3'
   - else

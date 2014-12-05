@@ -26,10 +26,10 @@
       credits:
         enabled: false
 
-      legend: 
+      legend:
         enabled: false
 
-      rangeSelector: 
+      rangeSelector:
         enabled: false
 
       xAxis:
@@ -47,7 +47,7 @@
 
       tooltip:
         valueDecimals: 4
-        headerFormat: 
+        headerFormat:
           """
           <table class=depths-table><tr>
             <th><span>{series.name}</span> #{gon.i18n.chart.price}</th><th>#{gon.i18n.chart.depth}</th>

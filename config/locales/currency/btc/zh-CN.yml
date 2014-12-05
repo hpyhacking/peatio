@@ -1,7 +1,0 @@
-zh-CN:
-  currency:
-    satoshi:
-      key: BTC
-      code: BTC
-      name: 比特币
-      format: '0,0.0000'

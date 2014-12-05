@@ -1,6 +1,6 @@
 class Withdraw < ActiveRecord::Base
   STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
-            :coin_ready, :coin_done, :done, :canceled, :almost_done, :failed]
+            :done, :canceled, :almost_done, :failed]
   COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
 
   extend Enumerize
@@ -31,6 +31,7 @@ class Withdraw < ActiveRecord::Base
   after_create :sync_create
   after_destroy :sync_destroy
 
+  validates_with WithdrawBlacklistValidator
 
   validates :fund_uid, :amount, :fee, :account, :currency, :member, presence: true
 

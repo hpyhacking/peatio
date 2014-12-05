@@ -30,11 +30,6 @@
 #= require_tree ./component_ui
 #= require_tree ./templates
 
-@App =
-  showInfo:   (msg) -> $(document).trigger 'flash-info',   msg: msg
-  showNotice: (msg) -> $(document).trigger 'flash-notice', msg: msg
-  showAlert:  (msg) -> $(document).trigger 'flash-alert',  msg: msg
-
 $ ->
   BigNumber.config(ERRORS: false)
 
@@ -76,5 +71,6 @@ $ ->
       width:  $el.data('width')
       height: $el.data('height')
 
+  FlashMessageUI.attachTo('.flash-message')
   SmsAuthVerifyUI.attachTo('#edit_sms_auth')
   TwoFactorAuth.attachTo('.two-factor-auth-container')

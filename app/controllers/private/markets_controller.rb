@@ -10,9 +10,6 @@ module Private
       @bid = params[:bid]
       @ask = params[:ask]
 
-      @ask_name = I18n.t("currency.name.#{@ask}")
-      @bid_name = I18n.t("currency.name.#{@bid}")
-
       @market = current_market
       @markets_orders = Hash[Market.all.map { |m| [m.id, m.sort_order] }]
 
