@@ -58,7 +58,7 @@ task deploy: :environment do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'rails:force_assets_precompile'
+    invoke :'rails:assets_precompile'
 
     to :launch do
       invoke :'passenger:restart'
@@ -75,17 +75,6 @@ namespace :passenger do
       #{echo_cmd %[mkdir -p tmp]}
       #{echo_cmd %[touch tmp/restart.txt]}
     }
-  end
-end
-
-namespace :rails do
-  desc "Precompiles assets."
-  task :'force_assets_precompile' do
-    queue %[
-      echo "-----> Precompiling asset files"
-      #{echo_cmd %[rm -rf tmp/cache]}
-      #{echo_cmd %[#{rake_assets_precompile}]}
-    ]
   end
 end
 
