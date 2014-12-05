@@ -216,7 +216,7 @@ en:
         token/reset_password:
           attributes:
             base:
-              too_soon: Visit too soon
+              too_soon: Visit too soon, please try it later.
             email:
               not-member: Invalid Email
               match: Invalid Sign in Email
