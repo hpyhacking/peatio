@@ -81,10 +81,9 @@ end
 
 namespace :rails do
   task :touch_client_i18n_assets do
-    queue "cd #{deploy_to}/current ; bundle exec rake deploy:backup_db"
     queue %[
-      echo "-----> Touching clint i18n assets
-      #{echo_cmd %[bundle exec rake deploy:touch_client_i18n_assets]}
+      echo "-----> Touching clint i18n assets"
+      #{echo_cmd %[RAILS_ENV=production bundle exec rake deploy:touch_client_i18n_assets]}
     ]
   end
 end
