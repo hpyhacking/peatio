@@ -5,7 +5,8 @@
     @reqK gon.market.id, gon.trades[gon.trades.length-1], data['x']
 
   @reqK = (market, trade, minutes, limit = 1440) ->
-    url = "/api/v2/k_with_pending_trades.json?market=#{market}&limit=#{limit}&period=#{minutes}&trade_id=#{trade.tid}"
+    tid = if trade then trade.tid else 0
+    url = "/api/v2/k_with_pending_trades.json?market=#{market}&limit=#{limit}&period=#{minutes}&trade_id=#{tid}"
     $.getJSON url, (data) =>
       @handleData(data, minutes)
 
@@ -93,8 +94,11 @@
 
     @points   = @prepare data.k
     @last_tid = 0
-    @last_ts  = @points.candlestick[@points.candlestick.length-1][0]/1000
-    @next_ts  = @last_ts + 60*minutes
+    if @points.candlestick.length > 0
+      @last_ts = @points.candlestick[@points.candlestick.length-1][0]/1000
+    else
+      @last_ts = 0
+    @next_ts = @last_ts + 60*minutes
 
     @deliverTrades 'market::candlestick::response'
 
