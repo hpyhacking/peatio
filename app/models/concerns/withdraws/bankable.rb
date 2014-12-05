@@ -9,5 +9,6 @@ module Withdraws
 
       alias_attribute :remark, :id
     end
+
   end
 end
