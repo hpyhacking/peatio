@@ -8,3 +8,4 @@ en:
       spam: Please check your spam folder for the activation link.
     edit:
       notice: Account activated successfully! Please sign in below.
+      alert: Activation link is expired or invalid.

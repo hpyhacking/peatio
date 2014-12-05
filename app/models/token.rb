@@ -44,13 +44,13 @@ class Token < ActiveRecord::Base
     latest = self.class.available.with_member(self.member_id)
       .order(:created_at).reverse_order.first
 
-    if latest && latest.created_at > 5.minutes.ago
+    if latest && latest.created_at > 30.minutes.ago
       self.errors.add(:base, :too_soon)
     end
   end
 
   def generate_token
     self.token = SecureRandom.hex(16)
-    self.expire_at = 5.minutes.from_now
+    self.expire_at = 30.minutes.from_now
   end
 end

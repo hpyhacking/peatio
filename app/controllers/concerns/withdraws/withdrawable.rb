@@ -33,8 +33,11 @@ module Withdraws
     end
 
     def destroy
-      @withdraw = current_user.withdraws.find(params[:id])
-      @withdraw.cancel!
+      Withdraw.transaction do
+        @withdraw = current_user.withdraws.find(params[:id])
+        @withdraw.cancel
+        @withdraw.save!
+      end
       render nothing: true
     end
 

@@ -70,7 +70,7 @@ class Withdraw < ActiveRecord::Base
   aasm :whiny_transitions => false do
     state :submitting,  initial: true
     state :submitted,   after_commit: :send_email
-    state :canceled,    after_commit: [:after_cancel, :send_email]
+    state :canceled,    after_commit: [:send_email]
     state :accepted
     state :suspect,     after_commit: :send_email
     state :rejected,    after_commit: :send_email
@@ -88,6 +88,9 @@ class Withdraw < ActiveRecord::Base
 
     event :cancel do
       transitions from: [:submitting, :submitted, :accepted], to: :canceled
+      after do
+        after_cancel
+      end
     end
 
     event :mark_suspect do

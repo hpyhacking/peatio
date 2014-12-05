@@ -162,6 +162,38 @@
             p asks: 卖单列表
             p bids: 买单列表
 
+        tr
+          td Deposits
+          td: pre: code
+            |
+              [{"currency": "cny","amount": "520.0","fee": "0.0","txid": null,"created_at": "2014-11-29T15:24:26Z","memo": null,"done_at": null,"state": "submitting"},{"currency": "cny","amount": "1000.0","fee": "0.0","txid": "3","created_at": "2014-11-29T13:45:03Z","memo": null,"done_at": "2014-11-29T13:54:37Z","state": "accepted"}]
+
+          td
+            p Deposits 返回用户最近24小时内的充值信息:
+            p currency: 充值种类
+            p amount: 充值总量
+            p fee: 交易费用
+            p txid: 交易id
+            p created_at: 创建时间
+            p done_at: 处理时间
+            p memo: 交易备注
+            p state: 状态
+            p ----state----
+            p  accepted 表示 充值成功
+        tr
+          td Deposit
+          td: pre: code
+            |
+              {"currency": "cny","amount": "520.0","fee": "0.0","txid": "8","created_at": "2014-11-29T15:24:26Z","memo": null,"done_at": "2014-12-02T02:46:24Z","state": "accepted"}
+
+          td
+            p Deposits 返回用户某条充值信息:
+            p 属性 同上
+            p 若txid 不存在
+            p 返回
+              {error: {code: 2012,message: "Deposit##txid=4 doesn't exist."}}
+
+
 .panel.panel-default
   .panel-heading
     h3 一些例子

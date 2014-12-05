@@ -16,7 +16,7 @@
   </td>
   <td class='col-xs-4 text-center'>
     <a class='wait text-info' href='<%= formatter.market_url @market, @id %>' 
-      data-method='delete' data-remote='true' data-confirm='are you sure?' rel='nofollow'>
+      data-method='delete' data-remote='true' data-confirm='<%= formatter.t('place_order')['confirm_cancel'] %>' rel='nofollow'>
       <i class='fa fa-trash'></i>
     </a>
   </td>
