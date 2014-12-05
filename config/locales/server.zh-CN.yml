@@ -769,7 +769,9 @@ zh-CN:
         switch_30: 30m
         switch_60: 1h
         switch_120: 2h
+        switch_240: 4h
         switch_360: 6h
+        switch_720: 12h
         switch_1440: 1d
         switch_4320: 3d
         switch_10080: 1w
@@ -1548,7 +1550,8 @@ zh-CN:
     close: 收盘价
     price: 价格
     volume: 成交量
-    candlestick: K线图
+    candlestick: 'K线图'
+    line: '分时图'
     minute: 分
     hour: 小时
     day: 日
