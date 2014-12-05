@@ -5,7 +5,10 @@ module JsLocaleHelper
     trans        = YAML::load(File.open("#{Rails.root}/config/locales/client.#{locale_str}.yml"))[locale_str]['js']
     custom_trans = YAML::load(File.open("#{Rails.root}/config/locales/custom/client.#{locale_str}.yml"))[locale_str]['js']
     {locale_str => trans.deep_merge(custom_trans)}
-  rescue
+  rescue => e
+    puts e.message
+    puts e.backtrace.join("\n")
+
     {locale_str => {}}
   end
 
