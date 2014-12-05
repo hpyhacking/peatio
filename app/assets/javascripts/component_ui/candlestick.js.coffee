@@ -187,7 +187,8 @@ INDICATOR = {MA: false, EMA: false}
 
           for k, v of timeUnits
             if v >= series.xAxis.closestPointRange || (v <= timeUnits.day && key % v > 0)
-              title = Highcharts.dateFormat DATETIME_LABEL_FORMAT_FOR_TOOLTIP[k][0], key
+              dateFormat = dateTimeLabelFormats = series.options.dataGrouping.dateTimeLabelFormats[k][0]
+              title = Highcharts.dateFormat dateFormat, key
               break
 
           fun = (h, s) ->
