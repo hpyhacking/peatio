@@ -473,6 +473,9 @@ en:
       warning: Warning
   private:
     deposits:
+      satoshis:
+        gen_address:
+          require_transaction: it can't generate new address if it hasn't been used.
       banks:
         destroy:
           notice: Revocation request is successful.
@@ -606,6 +609,8 @@ en:
           notice: Withdraw request is submit successful, we will process it as soon
             as possible
           alert_two_factor: Two-Factor Authentication error
+        gen_address:
+          require_transaction: xxxx
         new:
           submit: Submit
           allin: All-In

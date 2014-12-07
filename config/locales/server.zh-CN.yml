@@ -475,6 +475,9 @@ zh-CN:
       warning: 异常
   private:
     deposits:
+      satoshis:
+        gen_address:
+          require_transaction: 当前地址没有使用过之前不能生成新地址
       banks:
         destroy:
           notice: 撤销充值请求成功。
