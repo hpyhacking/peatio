@@ -66,14 +66,6 @@ class Deposit < ActiveRecord::Base
     end
   end
 
-  def memo
-    confirmations
-  end
-
-  def memo=(m)
-    self.confirmations = m
-  end
-
   def txid_desc
     txid
   end

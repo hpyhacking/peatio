@@ -23,8 +23,8 @@ module Deposits
     end
 
     def update_confirmations(confirmations)
-      if !self.new_record? && self.memo.to_s != confirmations.to_s
-        self.update_attribute(:memo, confirmations.to_s)
+      if !self.new_record? && self.confirmations.to_s != confirmations.to_s
+        self.update_attribute(:confirmations, confirmations.to_s)
       end
     end
 
