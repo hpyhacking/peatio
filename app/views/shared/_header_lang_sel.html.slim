@@ -4,5 +4,5 @@ li.dropdown
     b.caret
   ul#languages.dropdown-menu
     - I18n.available_locales.each do |lang|
-      li: a href="?lang=#{lang}": img src='#{language_path(lang)}'
+      li: a href="?lang=#{lang}": img src="/languages/#{lang || I18n.locale}.png"
 

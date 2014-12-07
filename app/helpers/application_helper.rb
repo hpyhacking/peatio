@@ -179,7 +179,7 @@ module ApplicationHelper
 
   def language_path(lang=nil)
     lang ||= I18n.locale
-    asset_path("languages/#{lang}.png")
+    asset_path("/languages/#{lang}.png")
   end
 
   def i18n_meta(key)
