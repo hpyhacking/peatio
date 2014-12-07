@@ -5,84 +5,120 @@
 
 ko:
   js:
-    brand: PEATIO
-    submit: 제출
+    brand: COINPLUS
+    submit: Submit
     funds:
-      deposit: 충전
+      deposit: 입금
       withdraw: 출금
+      currency_name:
+        cny: KRW
+        btc: BTC
       deposit_cny:
-        title: 한국돈 충전
-        from: 돈보내는자
-        to: 돈받는자
-        deposit_name: 계정이름
-        deposit_account: 충전계정
+        title: KRW 입금
+        desc: "  은행입금, 아래 절차를 따르 세요."
+        desc_item_1: "1. 식별번호 신청하기"
+        desc_item_2: "2.COINPLUS은행계좌로 송금합니다.  비고창에 꼭 식별번호를 입력하세요."
+        desc_item_3: "3.은행입금 확인되면 바로 회원님이 계정로 충전합니다."
+        attention: "송금자의  계좌 이름과 COINPLUS거래소 회원님의 계정 이름 일치해야합니다"
+        from: From
+        to: TO
+        deposit_name: 이름
+        deposit_account: 입금계정
         add: 추가
         manage: 관리
-        amount: 충전금액
-        min_amount: 취저충전금액1000원
-        to_account: 돈받는은행계좌
-        to_name: 돈받는계정
+        amount: 입금금액
+        min_amount: 최저 입금액은 1000원입니다.
+        to_account: 계정
+        to_name: 이름
         to_bank_name: 은행
         opening_bank_name: 은행
       deposit_btc:
-        title: BTC충전
+        title: BTC입금
       deposit_coin:
         address: BTC지갑주소
-        new_address: BTC새지갑주소
+        new_address: 새 BTC지갑주소
+        open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
+        detail: Please paste the address blow in your wallet, and fill in the amount you want to deposit, then confirm and send.
+        scan-qr: Scanning QR code to Pay for In the mobile terminal wallet.
+        after_deposit: Once you complete sending, you can check the status of your new deposit below.
+        generate-new: 새 주소
       deposit_history:
-        title: 충전기록
+        title: 입금내역
+        number: '#'
+        identification: ' 확인 번호'
         time: 시간
-        txid: 하쉬거래ID
-        confirmations: 확인수량
-        from: 충전은행
-        amount: 충전금액
-        state_and_action: "상태/활동"
+        txid: 전송하쉬
+        confirmations: Confirmation 수량
+        from: 출금주소
+        amount: 출금금액
+        state_and_action: "상태/확인"
         cancel: 취소
-        no_data: 역사기록 잠시 없음
-        submitting: 이미 제출됨
+        no_data: 내역을 없습니다
+        submitting: 확인중
         cancelled: 이미 취소됨
-        submitted: 제출
-        accepted: 충전성공
+        submitted: 완료
+        accepted: 입금완료
         rejected: 거부됨
-        checked: 충전성공
+        checked: 확인된
         warning: 경고
-        suspect: '이상 '
+        suspect: Suspect
       withdraw_cny:
-        intro: 출금은행선택 및 은행계좌 입력, 출금할 금액 입력한후 제출
-        intro_2: 고객님 출금계좌 이름와 실명인증받는이름과 일치 해야합니다.
-        balance: 사용할수 금액
+        title: KRW출금
+        intro: 은행 선택하세요. 출금하신금액 입력하신후 출금신청 하세요.
+        intro_2: 은행계좌이름와 회원님 이름 동일해야합니다
+        attention: "업무시간: 9:00 - 18:00"
+        account_name: 계정이름
+        withdraw_address: 출금 주소
+        balance: 잔액
         withdraw_amount: 출금수량
-        manage_withdraw: 출금계좌 관리
-        fee_explain: 사용수수료 설명
-        min: 취저금액
+        manage_withdraw: 출금관리
+        fee_explain: 이동 수수료 설명
+        min: 최저금액
         withdraw_all: 모두 출금
       withdraw_btc:
         title: 비트코인 출금
       withdraw_coin:
-        label: 라별
-        balance: 밸런스
+        intro: 주소와 수량을 입력하신후 출금신청 하세요, 확인 시간 약 10분입니다.
+        label: 표기
+        balance: 잔액
         amount: 수량
         manage_withdraw: 주소 관리
-        min: 취소수량
+        min: 최소수량
         withdraw_all: 모두 출금
-        fee_explain: 사용 수수료 설명
+        fee_explain: 이동 수수료 설명
       withdraw_history:
-        title: 출금 기록
+        title: 출금내역
+        number: 수량
+        withdraw_time: 시간
         withdraw_account: 출금 계정
         withdraw_address: '조소 '
         withdraw_amount: 수량
-        actual_amount: 실제 수량
-        fee: 수수료
-        miner_fee: 수수료
-        state_and_action: "상태/활성화"
+        actual_amount: 실제 출금수량
+        fee: 이동 수수료
+        miner_fee: 이동 수수료
+        state_and_action: "상태/확인"
+        cancel: 취소
+        no_data: 내역을 없습니다
+        submitting: 확인중
+        submitted: 완료
+        rejected: 거부됨
+        accepted: 확인됨
+        suspect: Suspect
+        processing: 처리중
+        coin_ready: Coin Ready
+        coin_done: Coin Ready
+        done: 완료
+        almost_done: Almost Done
+        canceled: 취소됨
+        failed: 요류
     auth:
-      please_active_two_factor: 고객님의 재산 안전을 위해 핸드폰인증 아님 구굴OTP인증을 관련 하세요.
+      please_active_two_factor: 회원님이 자산 안전을위해 핸드폰 인증 또는 구글 이중인증 받으세요.
       submit: 확인
       otp_placeholder: 6자리 수자 비번
-      google_app: 구굴 OTP인증기
-      sms: 핸드폰 SM문자 인증
-      send_code: 인증 코드 보냅니다
+      google_app: 구굴 이중인증기
+      sms: 핸드폰 인증 메시지
+      send_code: 인증번호 전송하기
       send_code_alt: COUNT초후에 재 전송합니다.
       hints:
-        app: 구굴OTP인증기는 30초 마다 새 비번 생성합니다. 시간내로 정확히 신속 입력하세요
-        sms: 인증버턴 크릭하시면, 인증코드는 핸드폰 문자 형식으로 보냅니다.
+        app: 구글 이중인증번호는 30초 마다 갱신되며, 제한된 시간내에 입력하세요
+        sms: 문자 메시지로 인증번호를 핸드폰으로 전송됩니다.
