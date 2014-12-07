@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   after_action :set_csrf_cookie_for_ng
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
+  private
+
   include TwoFactorHelper
 
   def currency
@@ -17,12 +19,29 @@ class ApplicationController < ActionController::Base
     @current_market ||= Market.find_by_id(params[:market]) || Market.find_by_id(cookies[:market_id]) || Market.first
   end
 
+  def set_redirect_to
+    uri = URI(request.url)
+    cookies[:redirect_to] = "#{uri.path}/#{uri.query}"
+  end
+
+  def redirect_back_or_settings_page
+    if cookies[:redirect_to].present?
+      redirect_to cookies[:redirect_to]
+      cookies[:redirect_to] = nil
+    else
+      redirect_to settings_path
+    end
+  end
+
   def current_user
     @current_user ||= Member.current = Member.enabled.where(id: session[:member_id]).first
   end
 
   def auth_member!
-    redirect_to root_path, alert: t('activations.new.login_required') unless current_user
+    unless current_user
+      set_redirect_to
+      redirect_to root_path, alert: t('activations.new.login_required')
+    end
   end
 
   def auth_activated!
@@ -53,8 +72,6 @@ class ApplicationController < ActionController::Base
   def muut_enabled?
     !!ENV['MUUT_KEY']
   end
-
-  private
 
   def two_factor_activated!
     if not current_user.two_factors.activated?
@@ -187,8 +204,6 @@ class ApplicationController < ActionController::Base
   def allow_iframe
     response.headers.except! 'X-Frame-Options' if Rails.env.development?
   end
-
-  protected
 
   def set_csrf_cookie_for_ng
     cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
