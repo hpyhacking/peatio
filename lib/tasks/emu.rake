@@ -96,7 +96,7 @@ namespace :emu do
           member: tx.member,
           account: tx.account,
           currency: tx.currency,
-          memo: tx.confirmations
+          confirmations: tx.confirmations
         )
 
         deposit.submit!
