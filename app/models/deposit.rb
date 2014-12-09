@@ -95,7 +95,6 @@ class Deposit < ActiveRecord::Base
   def update_confirmations(data)
     update_column(:confirmations, data)
   end
-  alias_method :update_memo, :update_confirmations
 
   def txid_text
     txid && txid.truncate(40)
