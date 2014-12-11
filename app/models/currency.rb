@@ -64,4 +64,13 @@ class Currency < ActiveYamlBase
     @quick_withdraw_max ||= BigDecimal.new self[:quick_withdraw_max].to_s
   end
 
+  def as_json(options = {})
+    {
+      key: key,
+      code: code,
+      coin: coin,
+      blockchain: blockchain
+    }
+  end
+
 end
