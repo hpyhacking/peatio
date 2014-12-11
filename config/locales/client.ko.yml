@@ -5,8 +5,8 @@
 
 ko:
   js:
-    brand: COINPLUS
-    submit: 제출
+    brand: CNY
+    submit: 확인
     funds:
       deposit: 입금
       withdraw: 출금
@@ -23,13 +23,13 @@ ko:
         from: From
         to: TO
         deposit_name: 이름
-        deposit_account: 입금계정
+        deposit_account: 입금계좌
         add: 추가
         manage: 관리
         amount: 입금금액
-        min_amount: 최저 입금액은 1000원입니다.
-        to_account: 계정
-        to_name: 이름
+        min_amount: 최저 입금액은 10,000KRW
+        to_account: 계좌번호
+        to_name: 예금주
         to_bank_name: 은행
         opening_bank_name: 은행
       deposit_btc:
@@ -37,9 +37,9 @@ ko:
       deposit_coin:
         address: BTC지갑주소
         new_address: 새 BTC지갑주소
-        open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
-        detail: Please paste the address blow in your wallet, and fill in the amount you want to deposit, then confirm and send.
-        scan-qr: Scanning QR code to Pay for In the mobile terminal wallet.
+        open-wallet: 회원님이 익숙한 지갑으로 전송 또는 결제서비스를 이용하세요. 예를들면 온라인지갑,오프라인지갑,핸드폰지갑
+        detail: 회원님의 지갑을 이용해서 아래있는 지갑주소를 복사후 원하는 수량만큼 입금할수도있고 핸드폰 지갑을 이용해서  QR코드 스캔후 입금을 할수있습니다.  지갑주소 및 QR코드는 반복적으로 이용가능합니다.
+        scan-qr: 핸드폰지갑에서 QR코드를 스캔하시면 결제서비스를 이용하실수 있습니다.
         after_deposit: Once you complete sending, you can check the status of your new deposit below.
         generate-new: 새 주소
       deposit_history:
@@ -55,7 +55,7 @@ ko:
         cancel: 취소
         no_data: 내역을 없습니다
         submitting: 확인중
-        cancelled: 이미 취소됨
+        cancelled: 취소
         submitted: 완료
         accepted: 입금완료
         rejected: 거부됨
@@ -63,16 +63,16 @@ ko:
         warning: 경고
         suspect: Suspect
       withdraw_cny:
-        title: Chinese Yuan Withdraw
+        title: KRW출금
         intro: 은행 선택하세요. 출금하신금액 입력하신후 출금신청 하세요.
         intro_2: 은행계좌이름와 회원님 이름 동일해야합니다
         attention: "업무시간: 9:00 - 18:00"
-        account_name: 계정이름
-        withdraw_address: 출금 주소
+        account_name: 예금주
+        withdraw_address: 계좌번호
         balance: 잔액
-        withdraw_amount: 출금수량
-        manage_withdraw: 출금관리
-        fee_explain: 이동 수수료 설명
+        withdraw_amount: 출금금액
+        manage_withdraw: 계좌관리
+        fee_explain: 수수료 설명
         min: 최저금액
         withdraw_all: 모두 출금
       withdraw_btc:
@@ -90,26 +90,26 @@ ko:
         title: 출금내역
         number: 수량
         withdraw_time: 시간
-        withdraw_account: 출금 계정
+        withdraw_account: 출금계좌
         withdraw_address: '조소 '
         withdraw_amount: 수량
-        actual_amount: 실제 출금수량
-        fee: 이동 수수료
+        actual_amount: 실 수령액(수수료 제외 금액)
+        fee: 수수료
         miner_fee: 이동 수수료
         state_and_action: "상태/확인"
         cancel: 취소
         no_data: 내역을 없습니다
-        submitting: 확인중
-        submitted: 완료
-        rejected: 거부됨
-        accepted: 확인됨
-        suspect: Suspect
+        submitting: 확인대기
+        submitted: 승인대기
+        rejected: 거부
+        accepted: 확인
+        suspect: 승인보류
         processing: 처리중
-        coin_ready: Coin Ready
-        coin_done: Coin Ready
+        coin_ready: 준비중
+        coin_done: 완료
         done: 완료
-        almost_done: Almost Done
-        canceled: 취소됨
+        almost_done: 전송중
+        canceled: 취소
         failed: 요류
     auth:
       please_active_two_factor: 회원님이 자산 안전을위해 핸드폰 인증 또는 구글 이중인증 받으세요.
