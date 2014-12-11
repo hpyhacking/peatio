@@ -1,8 +1,3 @@
-# encoding: utf-8
-#
-# Never edit this file. It will be overwritten when translations are pulled from Transifex.
-#
-
 ko:
   activerecord:
     models:
@@ -560,7 +555,7 @@ ko:
         orders:
           title: 주문내역
         trades:
-          title: 거래내역
+          title: 최근체결내역
         charges:
           title: 입금내역
       orders:
@@ -826,7 +821,7 @@ ko:
         amount: 합계
       header:
         network: 연결상태
-        vol: 24시간 체결수량
+        vol: 24시간 거래수량
         high: 최고
         low: 최저
       settings:
@@ -1133,7 +1128,7 @@ ko:
     deposits:
       banks:
         index:
-          oneday: 24시간내에 입금 신청
+          oneday: 24시간내에 입금 신청 리스트
           available: 미 완료된 입금신청
         show:
           alert: 입금신청 내역이 없습니다. 입금처리를 하지못했습니다.
@@ -1558,7 +1553,7 @@ ko:
     zoom: 축소
     ask: 매수호가
     bid: 매도호가
-    depth: 깊이
+    depth: 누적수량
     depth_title: 시장깊이
   'yes': '예'
   'no': '아니'
@@ -1735,7 +1730,7 @@ ko:
       otp_placeholder: 6자리 숫자
       google_app: 구글이중인증
       sms: 핸드폰 문자 인증
-      send_code: 인증번호 전송하기
+      send_code: 인증번호 요청하기
       send_code_alt: COUNT 초 후 재전송
       hints:
         app: 구글이중인증번호는 30초 마다 갱신되며, 시간내에 입력하세요.
@@ -1774,7 +1769,7 @@ ko:
         description: 핸드폰인증을 받으면 거래소에 있는 회원님의 자산이 더욱 안전하게 보호되며 실시간 거래소 정보를  문자로 받아볼수 있습니다
         warning: 핸드폰인증을 받지않아 출금신청 및 비밀번호 찾기 작업을 진행할수 없습니다.
         phone_number: 핸드폰번호
-        send_code: 인증번호 얻기
+        send_code: 인증번호 전송하기
         send_code_alt: COUNT초후 재전송 합니다.
         input_otp: 6자리 인증번호를 입력하세요
         submit: 핸드폰번호 저장
