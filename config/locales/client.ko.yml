@@ -37,10 +37,10 @@ ko:
       deposit_coin:
         address: BTC지갑주소
         new_address: 새 BTC지갑주소
-        open-wallet: 회원님이 익숙한 지갑으로 전송 또는 결제서비스를 이용하세요. 예를들면 온라인지갑,오프라인지갑,핸드폰지갑
-        detail: 회원님의 지갑을 이용해서 아래있는 지갑주소를 복사후 원하는 수량만큼 입금할수도있고 핸드폰 지갑을 이용해서  QR코드 스캔후 입금을 할수있습니다.  지갑주소 및 QR코드는 반복적으로 이용가능합니다.
-        scan-qr: 핸드폰지갑에서 QR코드를 스캔하시면 결제서비스를 이용하실수 있습니다.
-        after_deposit: 위에 설명으로 코인을 보낼때, 아래코인예금주소를 통해 전송상태를 확인할수 있습니다.
+        open-wallet: 회원님이 보유하신 지갑(로컬,모바일,온라인)에서 편리한 방법으로 비트코인을 입금하세요
+        detail: '아래 지갑주소로 입금하세요. '
+        scan-qr: 모바일 지갑은  QR코드 스캔을 이용해서 입금하세요.
+        after_deposit: 입금후 아래 입금내역을 통해 입금상태를 확인할수 있습니다.
         generate-new: 새 주소
       deposit_history:
         title: 입금내역
@@ -53,7 +53,7 @@ ko:
         amount: 출금금액
         state_and_action: "상태/확인"
         cancel: 취소
-        no_data: 내역을 없습니다
+        no_data: 내역이 없습니다
         submitting: 확인중
         cancelled: 취소
         submitted: 완료
@@ -76,7 +76,7 @@ ko:
         min: 최소 출금금액
         withdraw_all: 전액 출금
       withdraw_btc:
-        title: 비트코인 출금
+        title: BTC출금
       withdraw_coin:
         intro: 출금주소를 선택하고 출금수량을 입력 후 출금신청하세요. 확인시간은 약 10분정도 소모됩니다.
         label: 표기
@@ -114,7 +114,7 @@ ko:
     auth:
       please_active_two_factor: 회원님의 안전한 자산보호를 위해 핸드폰인증 또는 구글이중인증 받으세요.
       submit: 확인
-      otp_placeholder: 6자리 숫자 비번
+      otp_placeholder: 6자리 숫자 비밀번호
       google_app: 구굴이중인증
       sms: 핸드폰 인증 메시지
       send_code: 인증번호 요청하기
