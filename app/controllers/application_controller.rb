@@ -19,11 +19,6 @@ class ApplicationController < ActionController::Base
     @current_market ||= Market.find_by_id(params[:market]) || Market.find_by_id(cookies[:market_id]) || Market.first
   end
 
-  def set_redirect_to
-    uri = URI(request.url)
-    cookies[:redirect_to] = "#{uri.path}/#{uri.query}"
-  end
-
   def redirect_back_or_settings_page
     if cookies[:redirect_to].present?
       redirect_to cookies[:redirect_to]

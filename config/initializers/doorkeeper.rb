@@ -8,6 +8,7 @@ Doorkeeper.configure do
     if user = Member.enabled.where(id: session[:member_id]).first
       Member.current = user
     else
+      set_redirect_to
       redirect_to signin_path
     end
   end
@@ -18,6 +19,7 @@ Doorkeeper.configure do
     if user && user.admin?
       Member.current = user
     else
+      set_redirect_to
       redirect_to signin_path
     end
   end
