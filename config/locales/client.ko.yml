@@ -6,15 +6,15 @@
 ko:
   js:
     brand: COINPLUS
-    submit: Submit
+    submit: 제출
     funds:
       deposit: 입금
       withdraw: 출금
       currency_name:
-        cny: KRW
+        cny: CNY
         btc: BTC
       deposit_cny:
-        title: KRW 입금
+        title: Chinese Yuan Deposit
         desc: "  은행입금, 아래 절차를 따르 세요."
         desc_item_1: "1. 식별번호 신청하기"
         desc_item_2: "2.COINPLUS은행계좌로 송금합니다.  비고창에 꼭 식별번호를 입력하세요."
@@ -47,7 +47,7 @@ ko:
         number: '#'
         identification: ' 확인 번호'
         time: 시간
-        txid: 전송하쉬
+        txid: 전송해쉬
         confirmations: Confirmation 수량
         from: 출금주소
         amount: 출금금액
@@ -63,7 +63,7 @@ ko:
         warning: 경고
         suspect: Suspect
       withdraw_cny:
-        title: KRW출금
+        title: Chinese Yuan Withdraw
         intro: 은행 선택하세요. 출금하신금액 입력하신후 출금신청 하세요.
         intro_2: 은행계좌이름와 회원님 이름 동일해야합니다
         attention: "업무시간: 9:00 - 18:00"
@@ -114,11 +114,11 @@ ko:
     auth:
       please_active_two_factor: 회원님이 자산 안전을위해 핸드폰 인증 또는 구글 이중인증 받으세요.
       submit: 확인
-      otp_placeholder: 6자리 수자 비번
+      otp_placeholder: 6자리 숫자 비번
       google_app: 구굴 이중인증기
       sms: 핸드폰 인증 메시지
       send_code: 인증번호 전송하기
-      send_code_alt: COUNT초후에 재 전송합니다.
+      send_code_alt: COUNT 초후에 재 전송합니다.
       hints:
         app: 구글 이중인증번호는 30초 마다 갱신되며, 제한된 시간내에 입력하세요
         sms: 문자 메시지로 인증번호를 핸드폰으로 전송됩니다.

@@ -66,10 +66,10 @@ ko:
         address: 주소
         amount: 입금 금액
         done_at: 완료 시간
-        sn: 시리어 번호
+        sn: 일련번호
       withdraw:
         id: 표기
-        sn: 시리어 번호
+        sn: 일련번호
         withdraw_id: 표기
         created_at: 만든 시간
         done_at: 완료 시간
@@ -132,16 +132,16 @@ ko:
       member:
         id: 일련번호
         name: '이름 '
-        display_name: 카폐 네넥임
+        display_name: 카페 닉넥임
         email: 이메일 주소
         created_at: 등록 시간
-        sn: 개인 시리어 번호
-        id_document_number: 주민등록증 번호
+        sn: 개인 일련번호
+        id_document_number: 주민등록증 번호(삭제)
         tag_list: 표기
         activated: 완료
         activated?: "이메일 인증 완료"
         id_document_verified?: "실명 인증"
-        two_factor_activated?: "이중인증?"
+        two_factor_activated?: "이중인증"
         phone_number: 핸드폰 번호
       two_factor/sms:
         phone_number: 핸드폰 번호
@@ -163,18 +163,18 @@ ko:
       deposits/bank:
         created_at: 시간
         holder: 이름
-        fund_extra: 송금은행
-        fund_uid: 송금 계좌번호
+        fund_extra: 출금은행
+        fund_uid: 출금계좌번호
         member_sn: 회원 일련번호
-        member_name: 송금자 이름
+        member_name: 계좌이름
         amount: 입금 금액
-        sn: 송금 비고 (필수)
+        sn: 출금비고 (필수)
         state_and_action: 상태 / 확인
         label: 표기
         fund_source: 입금 계좌
       deposits/satoshi:
         created_at: 시간
-        txid: 거래 하쉬
+        txid: 거래 해쉬
         amount: 입금 수량
         memo: 확인 수량
         aasm_state_text: 상태
@@ -223,32 +223,32 @@ ko:
             base:
               too_soon: 제한된 시간내에 방문 횟수 너무 많아, 잠시후 다시 시도하세요
             email:
-              not-member: 이메일주소 제대로 입력하세요.
+              not-member: 이메일주소를 올바르게 입력하세요.
               match: 이메일주소 오류
             password:
-              invalid: 비밀번호 형식을 틀려습니다.
+              invalid: 비밀번호가 틀렸습니다.
             member:
-              blank: 존재 하지 않습니다.
+              blank: 존재하지 않습니다.
         activation:
           attributes:
             base:
-              too_soon: 인증 이메일 전송된시간 아직 5분 지나지 않아습니다
+              too_soon: 인증 이메일 전송시간이 5분 지나지않았습니다
         fund_source:
           attributes:
             address:
-              satoshi_ismine: 본거래소 주소입니다. 따른 주소 사용하세요
-              satoshi_invalid: 비트코인 주소 오류
+              satoshi_ismine: 코인플러스거래소 지갑주소입니다. 다른 지갑주소를 사용하세요
+              satoshi_invalid: 비트코인 지갑주소 오류
         withdraw:
           attributes:
             password:
-              match: 비밀번호 틀려습니다.
+              match: 비밀번호가 틀렸습니다.
             amount:
-              poor: 금액 부족합니다.
-              bank_min: 입력할수 있는금액 최대 5000.00 입니다
+              poor: 금액이 부족합니다.
+              bank_min: 입력할수 있는 최대금액이 5000.00 입니다
         two_factor:
           attributes:
             otp:
-              invalid: 비밀번호 오류, 재 입력하세요
+              invalid: 비밀번호 오류, 재입력하세요
         application:
           attributes:
             redirect_uri:
@@ -258,23 +258,23 @@ ko:
         withdraws/satoshi:
           attributes:
             sum:
-              poor: 잔액 부족합니다.  재확인 하세요
-              greater_than: '최저 금액 '
+              poor: 잔액이 부족합니다.  재확인 하세요
+              greater_than: '최저금액 '
             fund_uid:
-              blank: 출금 주소 입력하세요
+              blank: 출금주소를 입력하세요
               invalid: 잘못된 출금 주소입니다. 재확인 하세요
-              ismine: 본 거래소 주소입니다, 따른 주소로 입력하세요
+              ismine: 코인플러스거래소 지갑주소입니다, 다른 지갑주소를 입력하세요
       messages:
         invalid_email: 이메일주소 오류
-        undef: 원인 알수 없는 오류
-        less: 잔액 부족
-        verify: 인증 실패
-        strength: 비밀번호 너무 간단합니다.
+        undef: 원인을 알수 없는 오류
+        less: 잔액부족
+        verify: 인증실패
+        strength: 비밀번호가 너무 간단합니다.
         password: 비밀번호는 6자리이상 영문 대/소문자,숫자를 포함해야합니다
         orders:
-          price: 제한 가격%{l} ~ %{h}
-          sum: 주문 금액 제한%{l} ~ %{h}
-          precision: 최저 정밀도는%{p}
+          price: 제한가격%{l} ~ %{h}
+          sum: 주문금액제한%{l} ~ %{h}
+          precision: 최저 정밀도는%{p}(1확인)
   banks:
     icbc: dddd
     cbc: dddd
@@ -305,14 +305,14 @@ ko:
       name: BitsharesX
       format: '0,0.0000'
     renminbi:
-      key: WON
-      code: WON
+      key: CNY
+      code: CNY
       name: WON
       format: '0,0.00'
     dogecoin:
       key: DOG
       code: DOGE
-      name: 도그 코인
+      name: 도기코인
       format: '0,0.0000'
     protoshare:
       key: PTS
@@ -332,7 +332,7 @@ ko:
       columns:
         sn: 입금 일련번호
         created_at: 시간
-        channel_key_text: 체널
+        channel_key_text: 채널
         fund_extra_text: Extra
         fund_uid: UID
         txid: 거래
@@ -460,14 +460,14 @@ ko:
     satoshi:
       key: 블록 첸
       title: 비트코인 입금
-      intro: 고객님 소지한 코인주소에서 COINPLUS거래소 주소으로 입금.
+      intro: 고객님 코인주소에서 COINPLUS거래소 주소로 입금
       latency: 1 confirmation
       transfer: 수동
       go: 바로입금
   deposits/bank:
     aasm_state:
       submitting: 제출 완료
-      cancelled: 최소되었습니다
+      cancelled: 취소되었습니다
       submitted: 처리중
       accepted: 입금 완료
       rejected: 거부 되었습니다.
@@ -479,7 +479,7 @@ ko:
         destroy:
           notice: 입금 취소신청 처리 되었습니다.
         create:
-          notice: 회원님이 입금신청 하셨습니다. 제시에 다라 작업을 완료하세요.
+          notice: 회원님 입금신청을 하셨습니다. 지시에 따라 작업을 완료하세요.
           submit: 확인
         new:
           fund_source: 입금 계정
@@ -494,8 +494,8 @@ ko:
       index:
         manage_coin_address: 주소%{name} 관리
         manage_bank_account: 은행계좌 관리
-        guide_intro_coin: 선택을 더욱 편리하게 위해 출금 주소를 %{name} 추가하세요
-        guide_intro_bank: 선택을 더욱 편리하게 위해 출금 은행계좌를 %{name} 추가하세요
+        guide_intro_coin: 출금을 편리하게 하기위해 출금 주소를 %{name} 추가하세요
+        guide_intro_bank: 출금을 편리하게 하기위해 출금 은행계좌를 %{name} 추가하세요
         new: 새로 만들기
         currency: 화폐 종류
         bank: 은행이름
@@ -504,13 +504,13 @@ ko:
         address: 주소
         action: '확인 '
         delete: 제거
-        are_you_sure: '현재 주소를 제거 하시겟습니까? '
+        are_you_sure: '현재 주소를 제거 하시겠습니까? '
       new:
         fund_source_selector: 은행
         fund_source_uid: 계좌
         fund_source_label: 표기
         fund_source_address: 주소
-        extra_hint: 사용하신 은행이름 리스트에 없는경우, 고객센터로 연락하세요
+        extra_hint: 사용하시는 은행명이 리스트에 없는경우, 고객센터로 연락하세요
     history:
       transaction:
         Deposit: 입금
@@ -525,7 +525,7 @@ ko:
         fee: 수수료
         currency: 화폐 종류
         amount: 금액
-        txid: 거래 하쉬
+        txid: 거래 해쉬
       orders:
         order_history: 주문내역
         id: ID
@@ -567,7 +567,7 @@ ko:
         index:
           done: 완료
           cancel: 취소
-          confirm: '#%{id}주문 취소 하시겟습니까?'
+          confirm: '#%{id}주문을 취소하시겠습니까?'
         destroy:
           'true': "#%{id} 주문 취소 완료"
           'false': "#%{id} 주문 취소 실패"
@@ -575,7 +575,7 @@ ko:
       update:
         request_accepted: 출금 신청 완료
       destroy:
-        request_canceled: 출금신청 취소 되었습니다.
+        request_canceled: 출금신청이 취소되었습니다.
       index:
         fee: 수수료
         total: 합계
@@ -584,7 +584,7 @@ ko:
         two_factors_error: 이종인증 오류
       banks:
         update:
-          notice: 출금 신청 처리 완료 되었습니다, 빠른 시간내에 처리하겠습니다.
+          notice: 출금신청이 완료되었습니다, 빠른 시간내에 처리하겠습니다.
           alert_two_factor: 이종인증 오류
         destroy:
           notice: 출금신청이 취소되었습니다.취소된 금액은 회원님 계정으로 이동 되었습니다.
@@ -592,22 +592,22 @@ ko:
           fund_source: 출금 계좌
           manage_fund_source: 출금 계좌관리
           submit: 확인
-          allin: 전부 출금
+          allin: 전액 출금
         create:
-          notice: 고객님이 출금 신청완료, 제시에 따라 은행송금 작업을 완료 하세요.
+          notice: 회원님 출금 신청완료, 지시에 따라 은행출금 작업을 완료하세요.
       satoshis:
         destroy:
-          notice: 출금신청 취소 되었습니다. 취소된 금액는 회원님 계정으로 이동 되었습니다
+          notice: 출금신청이 취소되었습니다. 취소된 금액는 회원님 계정으로 이동되었습니다
         update:
           notice: 출금신청 완료 , 빠른 시간내에 처리하겠습니다.
-          alert_two_factor: 이종인증 오류
+          alert_two_factor: 이중인증 오류
         new:
           submit: '확인 '
-          allin: 전부 출금
+          allin: 전액 출금
           fund_source_label: 표기
           manage_fund_source: 출금주소 관리
         create:
-          notice: 고객님이 출금신청 완료 되었습니다, 제시에 따라 송금 작업을 완료하세요.
+          notice: 회원님 출금신청이 완료되었습니다, 지시에 따라 출금 작업을 완료하세요.
     tickets:
       index:
         new_ticket: New Ticket
@@ -675,19 +675,19 @@ ko:
       index:
         liability-proof: 자산 증명
         btc-assets: BTC자산
-        cny-assets: KRW자산
+        cny-assets: CNY자산
       liability_tabs:
         verify-btc: 나의 BTC자산 확인
-        verify-cny: 나의 KRW자산 확인
+        verify-cny: 나의 CNY자산 확인
         btc-assets-total: '거래소 BTC 총자산'
-        cny-assets-total: '거래소 KRW 총자산'
+        cny-assets-total: '거래소 CNY총자산'
       liability_proof:
         title: 자산 증명
-        intro: 우리는 은행계좌,코인주소 등 모든 정보를 공개합니다. 회원님들 시실간으로 우리 거래소의 자산 상황을 볼수있습니다.디지털 인증 방식으로 우리가 제공하는 모든 정보 진실성을 증명할수있습니다. 또한 최고위 기술로 고객님이 재산 안전을 보장합니다.
-        how-to-verify: 어던 방법으로 거래소 지불능력을 확인 할수있습니까?
+        intro: 우리는 은행계좌,코인주소 등 모든 자산정보를 100%공개합니다. 회원님들은 실시간으로 우리 거래소의 자산 정보를 볼수있습니다.디지털 인증 방식으로 우리가 제공하는 모든 자산정보를 증명할수있습니다. 최고의 기술로 고객님의 자산을 안전하게 보장합니다.
+        how-to-verify: 어떤 방식으로 거래소 지불능력을 확인 합니까?
         how-to-verify-uri: https://coinplus.kr/documents/liability_proof
       liability_data:
-        liability-proof-generating: 사용자 자산증명 재생중, 30분있다 다시 확인하세요
+        liability-proof-generating: 나의 자산정보 전송중,30분있다 다시 확인하세요
         root-json: 거래소 총 자산 인증코드
         partial-tree: '나의 %{currency} 자산:'
         get-partial-tree: 나의 자산 확인코드 받기
@@ -699,9 +699,9 @@ ko:
         total: BTC 총액
         address: 비트코인 주소
       cny_assets:
-        title: KRW자산 확인
-        intro: 거래소 모든 KRW내역 확인하기
-        total: KRW총액
+        title: CNY자산 확인
+        intro: 거래소 모든 CNY내역 확인하기
+        total: CNY총액
         description: "<p>계좌 잔액을 통해 감시할수있습니다:</p> <p>은행: %{bank}</p> <p>계좌:%{address}</p> <p>문의 비밀번호:%{password}</p> <p>문의 전화:  %{tel}</p>"
       partial_tree:
         success: '완료!데이트 확인 시간은:%{timestamp}'
@@ -750,7 +750,7 @@ ko:
         error: 주문 오류
         success: 주문 완료
         analysis_panel: 분석
-        help_panel: 도운말
+        help_panel: 도움말
         done: 체결
         cancel: 취소
         cancel_confirm: 취소 하시겠습니까?
@@ -758,10 +758,10 @@ ko:
         ask_order: '판매 ##sn#'
         bid_order: '구매 ##sn#'
         my_active_order: 주문내역
-        my_done_order: 채결내역
+        my_done_order: 체결내역
         trades: 거래내역
-        market_switch: 거래풍목
-        chat: 체팅 체널
+        market_switch: 거래품목
+        chat: 채팅 채널
       range_switch:
         switch_1: 1m
         switch_5: 5m
@@ -809,7 +809,7 @@ ko:
         price_high: 높다
         price_low: 낮다
         full_bid: 초과
-        full_ask: 비어다
+        full_ask: 비어있다
       order_book:
         title: 시장 실시간 주문내역
         volume: 수량
@@ -882,21 +882,21 @@ ko:
         global_orders_title: 주문
         global_trades_title: 체결내역
       chat:
-        title: 체팅 체널
+        title: 채팅 채널
     settings:
       success: 설정완료
-      failure: 비밀번호 오료, 설정 실패. 다시 시도하세요
+      failure: 비밀번호 오류, 설정 실패. 다시 시도하세요
       index:
-        safety_instruction: 개인정보 및 자산 보호을 위해 이중인증 꼭 설정하세요.
-        reset_password: 비밀번호 재 설정
+        safety_instruction: 개인정보 및 자산 보호를 위해 이중인증을 꼭 설정하세요.
+        reset_password: 비밀번호 재설정
         reauthenticate: 이중인증
-        activated: 인증 이메일 전송 되었습니다, 이메일 확인한후 인증 받으세요. 이메일 못 받은경우 재전송버턴을 클릭하세요.
+        activated: 인증이메일이 전송 되었습니다, 이메일 확인한후 인증 받으세요. 이메일을 못 받은경우 재전송버턴을 클릭하세요.
         auth-activated: 이메일 인증 받으세요
         auth-verified: 실명인증 받으세요
         email:
           title: 이메일 인증
-          description: 고객님의 이메일 아직 인증 받지 않아 습니다. 이메일인증 버턴을 클릭하신후 이메일 인증 받으십시오
-          description-activated: 이메일 인증 완료 되었습니다. 이메일주소를 안전하게 관리 하세요 . 이것은 유일한 등록 계정 입니다.
+          description: 고객님의 이메일이 아직 인증되지않았습니다. 이메일인증 버튼을 클릭하신후 이메일 인증 받으세요.
+          description-activated: 이메일 인증이 완료 되었습니다. 이메일주소를 안전하게 관리하세요 . 이것은 유일한 등록계정입니다.
           resend: 재전송
           activated: 확인
           go: 설정
@@ -912,12 +912,12 @@ ko:
           disable: 해제
         verification:
           title: 실명인증
-          description: 개인정보를 정확히 입력후 실명인증을 받으세요.실명인증을 받지 않으시면 거래소를 이용하실수 없습니다.
+          description: 개인정보를 정확히 입력후 실명인증을 받으세요.실명인증을 받지 않으면 거래소를 이용하실수 없습니다.
           go: 설정
           verified: 확인
         asset_passwords:
           title: 자산 비밀번호
-          description: 출금 신청시 자산 비밀번호 필요합니다. 그로인 비밀번호랑 동일하게 사용하지 마세요.
+          description: 출금 신청시 자산비밀번호가 필요합니다. 로그인 비밀번호와 동일하게 사용할수없습니다.
           go: 설정
         passwords:
           title: 로그인 비밀번호
@@ -931,7 +931,7 @@ ko:
         weibo:
           title: Weibo 인증
           description: Weibo인증 받은후 Weibo를 통해 방문할수있습니다,.
-          bound_desc: 본계정는 %{nickname}인증 받아습니다
+          bound_desc: 본계정는 %{nickname}인증 받았습니다
           bind: 인증받기
           unbind: 인증 해지
     otps:
@@ -942,7 +942,7 @@ ko:
         or: 또는
         download_app: 구글Authenticator를 핸드폰으로 다운 받으세요.
         scan_qr_code: QR코드 스캔 하거나
-        enter_passphrase: 아래 보이는 문자 수동으로 입력하세요.
+        enter_passphrase: 아래 보이는 문자를 수동으로 입력하세요.
         enter_passcode: 핸드폰에 있는 인증번호를 입력하신후 이중인증 받으세요.
     shared:
       balances:
@@ -963,7 +963,7 @@ ko:
         panel: API Tokens
         index:
           title: My Tokens
-          intro: CoinPlus거래소는 고객님들 한태 기능 완벽한 API를 제공합니다. API를 통해 실시간 시장정보 볼수 있스며 구매및 판매 주문할수 있습니다. 또는 주문내역, 체결내역, 계정 잔액, 개인정보등 유용한 정보를 검색할수 있습니다.
+          intro: CoinPlus거래소는 회원들에게 완벽한기능을 가진  API를 제공합니다. API를 통해 실시간 시장정보를 볼수 있으며 구매 및 판매 주문할수 있습니다. 주문내역, 체결내역, 계정 잔액, 개인정보등 유용한 정보를 검색할수 있습니다.
         new:
           title: Create API Token
         create:
@@ -978,12 +978,12 @@ ko:
         panel: 입출금 계좌 관리
         index:
           title: 입출금 계좌 관리
-          intro: 더욱 빠르고 편리한 입출금 위해 입출금계좌 추가
+          intro: 더욱 빠르고 편리한 입출금을 위해 입출금계좌 추가
       id_documents:
         panel: 실명인증
         new:
           title: 실명인증 확인
-          intro: 개인정보 정확히 입력하신후 실명인증 받으세요. 실명인증 빋지않은 경우 거래소 이용할수 없습니다.
+          intro: 개인정보를 정확히 입력하신후 실명인증 받으세요. 실명인증을 받지않은 경우 거래소를 이용할수 없습니다.
     panels:
       balance: 사용자 계정 정보
     verify:
@@ -991,17 +991,17 @@ ko:
         panel: 이중인증
         edit:
           title: 이중인증 해제
-          intro: 새 핸드폰 교체하려면 꼬 이중인증 해지한후 새 핸드폰으로 다시 인증 받으세요.
+          intro: 새 핸드폰으로 교체하려면 반드시 이중인증 해지 후 새 핸드폰으로 다시 인증 받으세요.
       sms_auths:
         panel: 핸드폰인증
     reset_passwords:
-      panel: 그로인 비밀번호
+      panel: 로그인비밀번호
       new:
         title: 로그인비밀번호 수정
-        intro: 거래소 가입시 이용한 이메일 주소 입력하세요, 인증코드 입력하신후 제시에 따라 비밀번호 재 설정하세요.
+        intro: 회원가입시 사용한 이메일 주소를 입력하세요, 인증코드를 입력 후 안내에 따라 비밀번호 재 설정하세요.
       create:
         title: 로그인 비밀번호 수정
-        intro: 거래소 가입시 이용한 이메일 주소 입력하세요, 인증코드 입력하신후 제시에 따라 비밀번호 재 설정하세요.
+        intro: 회원가입시 사용한 이메일 주소를 입력하세요, 인증코드를 입력 후 안내에 따라 비밀번호 재 설정하세요.
       edit:
         title: 로그인 비밀번호 설정
       update:
@@ -1010,15 +1010,15 @@ ko:
       panel: 로그인
       new:
         title: 로그인
-        intro: '지금 로그인하세요, 거래 시작할수있습니다. '
+        intro: '로그인하세요, 거래를 시작할수있습니다. '
       failure:
         title: 로그인
-        intro: 지금 로그인하세요, 거래 시작할수있습니다
+        intro: 로그인하세요, 거래 를 시작할수있습니다
     identities:
       panel: 계정 만들기
       new:
         title: 나의 계정 만들기
-        intro: 이것은 고객님 COINPLUS거래소 제공하는 모든 서비스 이용할 계정입니다,예 구매/판매,은행송금, 코인 입출금 등, 안전하게 관리하세요.
+        intro: 이것은 회원님이  COINPLUS거래소에서 제공하는 모든 서비스 사용할 계정입니다,예 구매/판매,은행송금, 코인 입출금등, 안전하게 관리하세요.
       edit:
         panel: 나의 계정
         title: 비밀번호 수정
@@ -1028,12 +1028,12 @@ ko:
     placeholders:
       deposit:
         bank:
-          amount: 최적금액1000원
+          amount: 최저금액 1000원
       session:
         email: 이메일주소
       identity:
         email: 예:abcd@example.com
-        password: 로그인 비밀번호 설정하세요
+        password: 로그인 비밀번호를 설정하세요
         password_confirmation: 비밀번호 확인
         edit:
           password: 새 비밀번호 설정
@@ -1045,10 +1045,10 @@ ko:
         address: 주소
       order_bid:
         origin_volume: 구매수량
-        sum: 채결합계
+        sum: 체결합계
       order_ask:
         origin_volume: 판매수량
-        sum: 채결합계
+        sum: 체결합계
       reset_password:
         email: 예:abcd@example.com
         password: 로그인 비밀번호 설정하세요
@@ -1057,27 +1057,27 @@ ko:
           sum: 최저금액1000원, 최고금액 10,000,000원
         satoshi:
           sum: 최저수량0.001
-          fund_extra: 이 주소 대한 표기하세요.
+          fund_extra: 이 주소에 대한 표기하세요.
     hints:
       deposit:
         bank:
           sum: "<a target='_balance' href='#'>수수료 설명</a>"
-          member_name: "<span class='text-danger'>은행송금 계좌이름과 거래소 사용자 이름하고 일치해야합니다<span class='text-danger'>"
-          sn: "<span class='text-danger'>더욱 빠른처리 외해, 은행송금시 비고창에 꼬 숫자정보 입력하세요."
+          member_name: "<span class='text-danger'>은행계좌이름과 회원님 이름이 일치해야합니다<span class='text-danger'>"
+          sn: "<span class='text-danger'>더욱 빠른처리를 위해 은행송금시 비고창에 꼭 숫자정보 입력하세요."
       two_factor:
-        otp_secret: 이중인증QR코드 또는 문자정보 꼬 잘 백업하세요. 핸드폰 이러버린경우에 사용해야합니다.
-        otp: 이중인증기에 인증번호는 30초마다 갱신되며, 시간내에 입력하세요.
+        otp_secret: 이중인증QR코드 또는 문자정보 꼭 백업하세요. 핸드폰 분실시 사용해야합니다.
+        otp: 구글이중인증은 인증번호는 30초마다 갱신되며, 시간내에 입력하세요.
       identity:
         password: 비밀번호는 6자리이상,영문 대/소문자 ,숫자를 포함해야합니다
       reset_password:
         password: 비밀번호는 6자리이상,영문 대/소문자 ,숫자를 포함해야합니다
       id_document:
-        name: 이름 정확히 입력하세요.
+        name: 이름을 정확히 입력하세요.
       withdraw:
         bank:
-          member_name: "<span class='text-danger'>출금신청시, 은행계좌이름과 사용자이름하고 일치해야합니다.</span>"
+          member_name: "<span class='text-danger'>출금신청시, 은행계좌이름과 회원이름이 일치해야합니다.</span>"
           sum: "<a target='_balance' href='#'>수수료설명</a>"
-          fund_extra: 사용하신 은행 리스트에 없으면 고객센터로 연락하세요
+          fund_extra: 사용하시는 은행계좌가 없으면 고객센터로 연락하세요
         satoshi:
           sum: "<a target='_balance' href='#'>수수료설명</a>"
     creating: Creating..
@@ -1098,27 +1098,27 @@ ko:
       google_auth:
         uri: QR코드
         otp_secret: 문자정보
-        otp: 인중인증 비밀번호
+        otp: 이중인증 비밀번호
       fund_source:
-        label: 사용하신은행 / 표기
-        address: 계좌번호 / 주소
+        label: 은행명
+        address: 계좌번호
         category: 출금하신 통화종류 선택하세요
       session:
         email: 이메일 등록
-        password: 등록 비밀번호
+        password: 비밀번호
         captcha: 인증코드
       identity:
         email: 이메일 등록
-        old_password: 구 비밀번호
+        old_password: 현재비밀번호
         password: 새 비밀번호
-        password_confirmation: 비밀번호 재 확인
+        password_confirmation: 비밀번호 재확인
       reset_password:
         password: 새 비밀번호
       ticket:
         content: 더 자세한 내용
       withdraw:
         bank:
-          fund_extra: 은행이름
+          fund_extra: 은행명
           sum: 출금금액
           account_balance: 사용가능한 금액
           member_name: 계정이름
@@ -1136,12 +1136,12 @@ ko:
           oneday: 24시간내에 입금 신청
           available: 미 완료된 입금신청
         show:
-          alert: 입금신청 내역을 없습니다. 입금처리 못 합니다.
-          notice: 입금 완료 되었습니다.
+          alert: 입금신청 내역이 없습니다. 입금처리를 하지못했습니다.
+          notice: 입금이 완료되었습니다.
           deposit: 입금신청
           accept: 입금
           target_deposit: Wire Transfer
-          confirm: 사용자한태 입금 작업 하시겠습니까?
+          confirm: 회원님 입금하시겠습니까?
         update:
           blank_txid: TxID 입력하세요
       satoshis:
@@ -1149,7 +1149,7 @@ ko:
           notice: 입금 완료
         index:
           accept: 바로 입금
-          accept_confirm: 입금신청을 바로 확인하시겠습니까?
+          accept_confirm: 입금신청을 확인하시겠습니까?
     tickets:
       view: 검색
       close: Close Ticket
@@ -1195,9 +1195,9 @@ ko:
           count: 체결수량
           volume: 체결수량 합계
           amount: 체결금액 합계
-          min_price: 최저 채결가
-          max_price: 최고 채결가
-          avg_price: 평균 채결가
+          min_price: 최저 체결가
+          max_price: 최고 체결가
+          avg_price: 평균 체결가
           amount_fee: 수수료 합계
           volume_fee: 수수료 합계
       deposits:
@@ -1219,8 +1219,8 @@ ko:
           process: 처리된
           succeed: 출금
           reject: 거부된
-          succeed_confirm: 출금신청 처리 하시겠습니까?
-          reject_confirm: 출금신청을 거부 하시겠습니까?
+          succeed_confirm: 출금신청을 처리하시겠습니까?
+          reject_confirm: 출금신청을 거부하시겠습니까?
           withdraw: 은행계좌 출금신청
           empty: 데이트가 없습니다.
       satoshis:
@@ -1232,8 +1232,8 @@ ko:
           process: 처리된
           succeed: 출금
           reject: 거부
-          succeed_confirm: 출금신청을 처리 하시겠습니까?
-          reject_confirm: 출금신청을 거부 하시겠습니까?
+          succeed_confirm: 출금신청을 처리하시겠습니까?
+          reject_confirm: 출금신청을 거부하시겠습니까?
           withdraw: 비트코인 출금
   deposits/satoshi:
     aasm_state:
@@ -1243,7 +1243,7 @@ ko:
       warning: 상태 이상
   doorkeeper:
     scopes:
-      profile: 고객님이 기본 정보(예:이름,이메일주소)와 계정잔액을  읽습니다.
+      profile: 고객님 기본정보(예:이름,이메일주소)와 계정잔액을  읽습니다.
       history: 고객님이 주문와 채결기록을 읽습니다.
       trade: COINPLUS 거래소 이용하고있는것을 표시합니다
     authorizations:
@@ -1307,7 +1307,7 @@ ko:
       reason:
         fix: 픽스
         unknown: 알수없는원인
-        strike_add: 채결수량 증가
+        strike_add: 체결수량 증가
         strike_sub: TRADE SUB
         strike_fee: 수수료
         strike_unlock: 거래완료 동결 해지
@@ -1320,9 +1320,9 @@ ko:
     state:
       done: 완료
       wait: 대기
-      cancel: 최소
+      cancel: 취소
     currency:
-      cny: KRW
+      cny: CNY
       btc: BTC
     order:
       state:
@@ -1355,23 +1355,23 @@ ko:
     id_document:
       id_document_type:
         id_card: 신분증
-        passport: 역권
-        driver_license: 면허증
+        passport: 여권
+        driver_license: 운전면허증
       id_bill_type:
-        bank_statement: 은행거래표
-        tax_bill: 세금표
+        bank_statement: 은행명세서
+        tax_bill: 세금명세서
   views:
     pagination:
       first: "&laquo; First"
       last: Last &raquo;
-      previous: "전페이지"
-      next: 뒤페이지
+      previous: "이전페이지"
+      next: 뒷페이지
       truncate: "..."
   mailer:
     dear_user: 안녕하세요
     signature: 감사합니다. The COINPLUS Team
     please_contact: '이번 등록 작업은 본인이 아닌경우 바로 <a href=''mailto:%{contact_mail}''>또는 고객센터로 연락하세요.</a> '
-    footer: 자동으로 전송된 이메일 입니다, 답장 하지마세요.문의사항 있을신 경우<a href="mailto:%{contact_mail}"> 통해 우리랑 연락하세요.
+    footer: 자동으로 전송된 이메일 입니다, 회신하지마세요.문의사항 있을경우<a href="mailto:%{contact_mail}"> 통해 연락하세요.
   comment_mailer:
     admin_notification:
       subject: "[COINPLUS]"
@@ -1381,29 +1381,29 @@ ko:
       notification_content: 'Your ticket got a new reply, please follow the link below to see the detail:'
   deposit_mailer:
     accepted:
-      subject: "[COINPLUS]고객님이 입금신청 되었습니다."
-      content: 회원님이%{currency} 입금신청 처리 되었습니다.
+      subject: "[COINPLUS]고객님 입금신청 되었습니다."
+      content: 회원님%{currency} 입금신청이 처리되었습니다.
   member_mailer:
     notify_signin:
       subject: "[COINPLUS] 거래소를 성공적으로 등록하였습니다."
       just_signed_in: '[COINPLUS]거래소를 성공적으로 등록하였습니다.'
     google_auth_activated:
       subject: "[COINPLUS] 이중인증 받으세요"
-      google_auth_activated: 이중인증 성공적으로 받아습니다.
+      google_auth_activated: 이중인증이 성공적으로 받아습니다.
     google_auth_deactivated:
-      subject: "[COINPLUS] 이중인증 재 설정하세요"
-      google_auth_deactivated: 인중인증 재 설정 완료 되었습니다.
+      subject: "[COINPLUS] 이중인증을 재설정하세요"
+      google_auth_deactivated: 인중인증 재설정이 완료되었습니다.
     sms_auth_activated:
-      subject: "[COINPLUS] 핸드폰인증 받으세요"
-      sms_auth_activated: 핸드폰 인증 완료 되었습니다.
+      subject: "[COINPLUS] 핸드폰인증을 받으세요"
+      sms_auth_activated: 핸드폰인증이 완료되었습니다.
     sms_auth_deactivated:
-      subject: "[COINPLUS] 핸드폰 인증 재 설정하세요"
-      sms_auth_deactivated: 핸드폰 인증 완료 되었습니다.
+      subject: "[COINPLUS] 핸드폰인증을 재설정하세요"
+      sms_auth_deactivated: 핸드폰인증이 완료되었습니다.
     reset_password_done:
       subject: "[COINPLUS] 비밀번호 수정 완료"
-      successful: 비밀번호 성공적으로 수정 되었습니다.
+      successful: 비밀번호가 성공적으로 수정되었습니다.
     phone_number_verified:
-      subject: "[COINPLUS] 핸드폰 확인 되였습니다."
+      subject: "[COINPLUS] 핸드폰이 확인되었습니다."
       verified: '확인된 핸드폰 번호:%{phone_number}'
   system_mailer:
     daily_stats:
@@ -1420,27 +1420,27 @@ ko:
       admin_notification_content: User %{email} created a new ticket, please follow the link below to see the detail
     author_notification:
       subject: "[PEATIO] Thank you for submit ticket"
-      thanks_for_submit_ticket: 소중한 의견을 주셔서 감사합니다. 빠른시간에 처리하고 연락을 드릴겠습니다.
+      thanks_for_submit_ticket: 소중한의견을 주셔서 감사합니다. 빠른시간에 처리하고 연락을 드리겠습니다.
   token_mailer:
     activation:
       subject: "[COINPLUS]계정 활성화"
       click_to_verify: 'COINPLUS가입하신것을 환영합니다. 아래 링크 클릭하신후 이메일 인증 받으세요'
-      unable_to_click: 링크 클릭 안된경우 브라우저 주소창에 복사 해서 방문하세요
+      unable_to_click: 링크가 클릭이 안될경우 브라우저 주소창에 주소를 복사해서 방문하세요.
       link_expire: 링크 유효기간 30분 입니다.
     reset_password:
       subject: "[COINPLUS]비밀번호 재설정하세요"
       hi: 안녕하세요.
-      follow_the_link: '아래 링크 클릭하신후, 30분이내 비밀번호 재설정하세요.'
+      follow_the_link: '아래 링크 클릭하신후, 30분안에 비밀번호를 재설정하세요.'
   withdraw_mailer:
     submitted:
       subject: "[COINPLUS]출금 처리 상태 보기"
-      content: 고객님이  %{currency}출금신청 완료 되었습니다. 잠시만 기다려주세요. 문의상항 있으면 고객센터로 연락하세요.
+      content: 고객님이  %{currency}출금신청 완료 되었습니다. 잠시 기다려주세요. 문의사항 있으면 고객센터로 연락바랍니다.
     processing:
       subject: "[COINPLUS]출금 처리 상태 보기"
-      content: 고객님이  %{currency}출금신청 처리하고 있습니다. 잠시만 기다려주세요. 문의상항 있으면 고객센터로 연락하세요.
+      content: 고객님  %{currency}출금신청을 처리하고 있습니다. 잠시 기다려주세요. 문의사항 있으면 고객센터로 연락하세요.
     done:
       subject: "[COINPLUS]출금 처리 상태 보기"
-      content: 고객님이  %{currency}출금신청 처리완료 되었습니다. 잠시만 기다려주세요. 문의상항 있으면 고객센터로 연락하세요.
+      content: 고객님  %{currency}출금신청을 처리완료하였습니다. 잠시 기다려주세요. 문의사항 있으면 고객센터로 연락하세요.
     withdraw_state:
       subject: "[COINPLUS]출금 처리 상태 보기"
       your_state: '출금 처리 상태 보기'
@@ -1449,7 +1449,7 @@ ko:
   tags:
     vip: VIP
     hero: 히어로 맴버
-    admin: 어더민 (관리자)
+    admin: 관리자
   trade:
     markets: 시장
     realtime_price:
@@ -1457,12 +1457,12 @@ ko:
     account_balance:
       title: 잔액
   gon:
-    ask: 무수호가
+    ask: 매수호가
     bid: 매도호가
     brand: COINPLUS거래소
     notification:
       title: COINPLUS거래소
-      enabled: 알림 기능 활성화
+      enabled: 알림기능
       new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
   back: 뒤로
   invalid_password: 비밀번호 오류
@@ -1478,10 +1478,10 @@ ko:
       short: "%m-%d %H:%M"
       default: "%m/%d/%Y %H:%M"
   sms:
-    verification_code: '인증번호:%{code}.유효 기간 30분 입니다. (팁: 분 거래소 직원은 절대 인증번호를 묻지 않습니다. 안전하게 관리 하세요.)[COINPLUS]'
-    password_changed: Hi %{email}, 회원님이 비밀번호 성공적으로 수정 되여습니다.
+    verification_code: '인증번호:%{code}.유효 기간 30분 입니다. (팁: 거래소에서는 절대 인증번호를 묻지 않습니다. 안전하게 관리하시기 바랍니다.)[COINPLUS]'
+    password_changed: Hi %{email}, 회원님 비밀번호가 성공적으로 수정 되었습니다.
     deposit_done: Hi %{email}, 회원님이 입금신청 처리 되여습니다.
-    withdraw_done: Hi %{email}, 회원님이 출금신청 처리 되여습니다.
+    withdraw_done: Hi %{email}, 회원님 출금신청이 처리되었습니다.
   header:
     home: 홈
     dashboard: 계기판
@@ -1493,7 +1493,7 @@ ko:
     signup: 회원가입
     login_via_weibo: Weibo로그인
     funds: 나의 자산
-    getstart: 거래소으로 가기
+    getstart: 거래하기
     assets: 자산 공개
     history: 내역
     order_history: 주문기록
@@ -1502,7 +1502,7 @@ ko:
     my_profile: 나의 설정
     tickets: Tickets
     account_balance: 총자산
-    back: 되로
+    back: 뒤로
     total: 합계
     deposit: 입금
     withdraw: 출금
@@ -1513,7 +1513,7 @@ ko:
     id_documents: 계정을 확인
   footer:
     about: About
-    privacy: 보안 약관
+    privacy: 개인정보
     contact: '문의 '
     price: 가격
     liability_proof: 제출
@@ -1563,8 +1563,8 @@ ko:
   'yes': '예'
   'no': '아니'
   simple_captcha:
-    label: 대문자 소문자 구분하지 않습니다. 잘 보이지 않으경우 새로고침 클릭하세요
-    placeholder: 그림에 보인 문자를 입력하세요
+    label: 대문자 소문자 구분하지 않습니다. 잘 보이지 않을경우 새로고침 클릭하세요
+    placeholder: 그림에 보이는 문자를 입력하세요
   helpers:
     action:
       view: 보기
@@ -1581,7 +1581,7 @@ ko:
       member:
         update: 계정 만들기
       identity:
-        save: 그로인
+        save: 로그인
         create: 가입하기
         destroy: 로그아웃
         verify: 확인
@@ -1592,8 +1592,8 @@ ko:
       reset_two_factor:
         create: 이중인증 재설정
       reset_password:
-        update: 등록비밀번호 재설정
-        create: 등록 비밀번호 재설정 신청하기
+        update: 비밀번호 재설정
+        create: 비밀번호 재설정 신청하기
       fund_source:
         create: 저장하기
       deposit:
@@ -1606,25 +1606,25 @@ ko:
         create: 확인
   activations:
     new:
-      notice: 인증 이메일 전송 되었습니다. 이메일 확인하신후 인증 받으세요. 이메일 못 받은경우 재전송 버턴을 클릭하세요
-      verified: 이메일 인증 완료 되었습니다.
+      notice: 인증이메일이 전송되었습니다. 이메일을 확인 후 인증받으세요. 이메일 못 받은경우 재전송 버튼을 클릭하세요
+      verified: 이메일인증이 완료되었습니다.
       login_required: 로그인하신후 작업하세요
-      tip: 인증링크 이미 %{email}으로 전송 되었습니다.
-      spam: 본 이메일는 스펜메일로 표시 될수있습니다.
+      tip: 인증링크가 이미 %{email}로 전송되었습니다.
+      spam: 이메일이 오지않은경우 스팸메일확인하세요.
     edit:
-      notice: 이메일 인증 완료 되었습니다. 기타 보안설정을 계속하세요.
-      alert: 인증링크 사용 기간 초과 되었습니다
+      notice: 이메일인증이 완료되었습니다. 기타 보안설정을 계속하세요.
+      alert: 인증링크 사용기간이 초과되었습니다
   authentications:
     emails:
       new:
         title: 이메일 설정
-        setup_email: 이메일주소 입력하세요. 이메일 입력 안하신경우 다음 작업 진행할수 없습니다.
-        warning: 이메일주소 저장  하신후 이메일인증 받으세요.
+        setup_email: 이메일주소를 입력하세요. 이메일을 입력 안하신경우 다음 작업 진행할수없습니다.
+        warning: 이메일주소 저장 후 이메일인증 받으세요.
         email_address: 이메일주소
         save: 저장하기
     weibo:
       destroy:
-        last_auth_alert: 사랑하는 고객님, Weibo는 고객님이 마지막 등록 방식 입니다. 삭제 하시면 다시 등록할수 없습니다
+        last_auth_alert: 친애하는 회원님, Weibo는 고객님이 마지막 등록 방식입니다. 삭제하시면 다시 등록할수 없습니다
         unbind_success: Weibo인증 해지
     identities:
       new:
@@ -1635,16 +1635,16 @@ ko:
   forum:
     index:
       notice:
-        display_name: 가폐사용하기전에 넥네임 만들세요.
+        display_name: 카페에서 사용할 닉네임 만들세요.
   identities:
     new:
       title: 가입하기
       signin: 바로 로그인
       password: 비밀번호는 6자리이상,영문 대/소문자 ,숫자를 포함해야합니다
     update:
-      auth-error: 비밀번호 일치 않습니다, 다시 입력하세요
-      auth-same: 입력하신 새 비밀번호가 원래 비밀번호랑 또같습니다. 다시 입력하새요.
-      notice: 비멀번호 수정 완료, 다시 로그인 하세요
+      auth-error: 비밀번호가 일치하지 않습니다, 다시 입력하세요
+      auth-same: 입력하신 새비밀번호가 이전비밀번호와 같습니다. 다시 입력하새요.
+      notice: 비밀번호 수정 완료, 다시 로그인 하세요
   layouts:
     admin:
       menus:
@@ -1670,17 +1670,17 @@ ko:
       page_keywords: COINPLUS,Opensource,Exchange,Cryptocurrency
   members:
     edit:
-      name: 자산 안전을 위해 . 이름 과 개인정보를 정확히 입력하세요.
+      name: 자산을 안전하게 관리하기위해 이름과 개인정보를 정확히 입력하세요.
   reset_passwords:
     create:
-      success: '이메일  전송 되었습니다. 이메일 확인하신후 제시에 따라 작업하세요.이메일 못 받은경우 고객센터로 연락하세요. 팁: 스펜 이메일두 확인하세요'
+      success: '이메일이  전송 되었습니다. 이메일 확인 후 안내에 따라입력하세요.이메일을 못 받은경우 고객센터로 연락하세요. 팁: 스팸 이메일을 확인하세요'
     edit:
       password: 비밀번호는 6자리이상,영문 대/소문자 ,숫자를 포함해야합니다
       invalid: 신청 오류
       submit: 비밀번호 재설정
       alert: 비밀번호 재설정 링크 오류
     update:
-      success: '비밀번호 재설정 완료 되었습니다. '
+      success: '비밀번호 재설정이 완료되었습니다. '
       invalid: 신청 오류
   sessions:
     new:
@@ -1691,25 +1691,25 @@ ko:
     create_with_two_factor_auth:
       session_expired: 시간 초과, 다시 시도하세요
     create:
-      error: 입력하신 이에일주소 또는 비밀번호 틀려습니다. 다시 입력하세요
+      error: 이메일 또는 비밀번호가 틀렸습니다. 다시 입력하세요
     failure:
-      account_locked: 비밀번호 오류 횟수 너무 많아 , 계정 안전을 위해 계정잠긴상태로 되었습니다. 비밀번호 찾기 클릭하며 비밀번호 재설정하세요.
-      error: 입력하신 이메일주소 또는 비밀번호 틀려습니다. 다시 입력하세요
+      account_locked: 비밀번호 입력오류 횟수가 너무 많아 , 계정 보호를 위해 계정잠긴상태가 되었습니다. 비밀번호찾기 통해 비밀번호를 재설정하세요.
+      error: 이메일 또는 비밀번호 틀렸습니다. 다시 입력하세요
   shared:
     admin:
       member:
         member_info: 사용자 정보
         deactive_sms_two_factor: 핸드폰 문자 인증
-        deactive_app_two_factor: 구글 이중인증
+        deactive_app_two_factor: 구글이중인증
         inactive: 미확인
         deactive: 취소
-        are_you_sure: 이중인증 취소 하시겠습니까?
+        are_you_sure: 이중인증 취소하시겠습니까?
       account:
         account_info: 계정정보
-        payment_address: 입금 주소
+        payment_address: 입금주소
     alert:
       modern: <a target='_blank' href='https://www.google.com/#q=google+chrome'>Google Chrome</a> 추천합니다.
-      pusher_unavailable: 서버와 통신 상태 이상.<a href='#' class='alert-link'>다시 시도하세요
+      pusher_unavailable: 서버통신상태이상.<a href='#' class='alert-link'>다시 시도하세요
     header:
       balance: 잔액
     header_account_balance:
@@ -1728,58 +1728,58 @@ ko:
     index:
       verify: 인증
     update:
-      alert: 이중인즈번호 오류, 다시 입력하세요
+      alert: 이중인증번호 오류, 다시 입력하세요
     auth:
-      please_active_two_factor: 고객님이 잔산 안전을 위해, 핸드폰인증 또는 이중인증 받으세요
+      please_active_two_factor: 회원님의 안전한 자산보호를 위해, 핸드폰인증 또는 구글이중인증을 받으세요
       submit: 확인
       otp_placeholder: 6자리 숫자
-      google_app: 구글 이중인증
+      google_app: 구글이중인증
       sms: 핸드폰 문자 인증
       send_code: 인증번호 전송하기
-      send_code_alt: COUNT초후 재전송
+      send_code_alt: COUNT 초 후 재전송
       hints:
-        app: 구글 이중인증번호 30초 마다 갱신되며, 시간내에 입력하세요.
-        sms: '"인증번호" 번터 크릭하면, 인증 문자 핸드폰으로 전송 됩니다. '
+        app: 구글이중인증번호는 30초 마다 갱신되며, 시간내에 입력하세요.
+        sms: '"인증번호" 버튼을 클릭하면, 인증문자가 핸드폰으로 전송됩니다. '
   verify:
     google_auths:
       edit:
         submit: 해지
-        warning: '그 어던사유로 이중인증을 인증받지 못한경우, 고객센터로 연락하세요.'
+        warning: '특별한 사유로 이중인증을 인증받지 못한경우, 고객센터로 연락하세요.'
       show:
         step-1: Step 1
         step-2: Step 2
         step-3: Step 3
         or: 또는
-        download-app: 사용하신 핸드폰 시세템 선택하신후, Google Authenticator를 다운로드 받고 핸드폰에 설치하세요.
-        guide-link: "구체적인 사용방법는 <a href='https://support.google.com/accounts/answer/1066447' target='_blank'> 클릭한후 참고하세요"
+        download-app: 핸드폰 시스템 선택하신후, Google Authenticator를 다운로드 받고 핸드폰에 설치하세요.
+        guide-link: "구체적인 사용방법은 <a href='https://support.google.com/accounts/answer/1066447' target='_blank'> 클릭 후 참고하세요"
         scan-qr-code: Google Authenticator사용해 QR코드 스캔 또는 수동으로 아래 인증문자 입력하세요.
-        enter-passcode: 핸드폰에 보인 번호 입력하신후 이중인중을 활성화 하세요.
+        enter-passcode: 핸드폰 보안번호 입력하신후 이중인중을 활성화하세요.
         submit: 사용하기
         ios: 애플 IOS
-        android: 안드로이
+        android: 안드로이드
         blackbery: 블랙베리
         notice:
-          already_activated: 구글 이중인증을 성공적으로 설정 되었습니다.
-          not_activated_yet: 거굴 이중인증을 설정하지 못했습니다.
+          already_activated: 구글 이중인증이 성공적으로 설정되었습니다.
+          not_activated_yet: 구글이중인증을 설정하지 못했습니다.
       update:
         alert: 인증번호 오류, 다시 입력하세요
-        notice: 이중인증 성공적으로 받아습니다.
+        notice: 구글이중인증을 성공적입력되었습니다.
         sms_two_factor_error: 인증문자 오류, 다시 입력하세요.
       destroy:
         alert: 인증번호 오류, 다시 입력하세요
-        notice: 이중인증 해지 완료
+        notice: 구글이중인증 해지 완료
     sms_auths:
       show:
         title: 한드폰 인증 받기
-        description: 핸드폰인증을 받으시면 거래소에 있는 회원님의 자산이 더욱 안전하게 보호되며 실시간 거래소 정보를  문자로 받아보실수 있습니다
+        description: 핸드폰인증을 받으면 거래소에 있는 회원님의 자산이 더욱 안전하게 보호되며 실시간 거래소 정보를  문자로 받아볼수 있습니다
         warning: 핸드폰인증을 받지않아 출금신청 및 비밀번호 찾기 작업을 진행할수 없습니다.
         phone_number: 핸드폰번호
         send_code: 인증번호 얻기
         send_code_alt: COUNT초후 재전송 합니다.
-        input_otp: 핸드폰으로 받은 6자리 인증번호를 입력하세요
+        input_otp: 6자리 인증번호를 입력하세요
         submit: 핸드폰번호 저장
         notice:
-          send_code_success: 핸드폰 인증번호 전송 되었습니다.
+          send_code_success: 핸드폰 인증번호가 전송되었습니다.
           otp_success: 핸드폰 인증 완료 되었습니다
           already_activated: 핸드폰 확인 완료
         alert:
@@ -1788,15 +1788,15 @@ ko:
     bank:
       key: 은행 송금
       title: '은행계좌로 출금 '
-      intro: 은행계좌 이용해서 입출금 하세요.
+      intro: 은행계좌 사용해서 입출금 하세요.
       latency: 30분내에 입금 처리 됩니다.
       transfer: 수동처리
       go: 바로 출금
     satoshi:
       key: 블럭 첸
       title: 비트코인 출금
-      intro: 거래소에 있는 비트코인을 회원님이 개인주소로  전송 됩니다.
-      latency: 30분내에 출금신청 처리 됩니다.
+      intro: 거래소에 있는 비트코인을 회원님이 개인지갑주소로  전송됩니다.
+      latency: 30분내에 출금신청 처리됩니다.
       transfer: 수동 처리
       go: 바로 출금
   withdraws/bank:
