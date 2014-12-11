@@ -609,8 +609,6 @@ en:
           notice: Withdraw request is submit successful, we will process it as soon
             as possible
           alert_two_factor: Two-Factor Authentication error
-        gen_address:
-          require_transaction: xxxx
         new:
           submit: Submit
           allin: All-In
