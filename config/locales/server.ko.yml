@@ -1,3 +1,8 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
 ko:
   activerecord:
     models:
@@ -754,7 +759,7 @@ ko:
         bid_order: '구매 ##sn#'
         my_active_order: 주문내역
         my_done_order: 체결내역
-        trades: 거래내역
+        trades: 최근 체결내역
         market_switch: 거래품목
         chat: 채팅 채널
       range_switch:
@@ -1365,7 +1370,7 @@ ko:
   mailer:
     dear_user: 안녕하세요
     signature: 감사합니다. The COINPLUS Team
-    please_contact: '이번 등록 작업은 본인이 아닌경우 바로 <a href=''mailto:%{contact_mail}''>또는 고객센터로 연락하세요.</a> '
+    please_contact: '본인이 직접 등록하시지 않은경우 <a href=''mailto:%{contact_mail}''>바로 고객센터로 연락하세요.</a> '
     footer: 자동으로 전송된 이메일 입니다, 회신하지마세요.문의사항 있을경우<a href="mailto:%{contact_mail}"> 통해 연락하세요.
   comment_mailer:
     admin_notification:
