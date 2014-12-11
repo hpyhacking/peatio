@@ -40,7 +40,7 @@ ko:
         open-wallet: 회원님이 익숙한 지갑으로 전송 또는 결제서비스를 이용하세요. 예를들면 온라인지갑,오프라인지갑,핸드폰지갑
         detail: 회원님의 지갑을 이용해서 아래있는 지갑주소를 복사후 원하는 수량만큼 입금할수도있고 핸드폰 지갑을 이용해서  QR코드 스캔후 입금을 할수있습니다.  지갑주소 및 QR코드는 반복적으로 이용가능합니다.
         scan-qr: 핸드폰지갑에서 QR코드를 스캔하시면 결제서비스를 이용하실수 있습니다.
-        after_deposit: Once you complete sending, you can check the status of your new deposit below.
+        after_deposit: 위에 설명으로 코인을 보낼때, 아래코인예금주소를 통해 전송상태를 확인할수 있습니다.
         generate-new: 새 주소
       deposit_history:
         title: 입금내역
@@ -64,41 +64,41 @@ ko:
         suspect: Suspect
       withdraw_cny:
         title: KRW출금
-        intro: 은행 선택하세요. 출금하신금액 입력하신후 출금신청 하세요.
-        intro_2: 은행계좌이름와 회원님 이름 동일해야합니다
-        attention: "업무시간: 9:00 - 18:00"
+        intro: 계좌정보를 작성후 출금금액을 입력하시고 출금신청하세요
+        intro_2: 예금주와 회원이름이 동일해야합니다.
+        attention: "업무시간: 9:00 - 24:00"
         account_name: 예금주
         withdraw_address: 계좌번호
         balance: 잔액
         withdraw_amount: 출금금액
         manage_withdraw: 계좌관리
         fee_explain: 수수료 설명
-        min: 최저금액
-        withdraw_all: 모두 출금
+        min: 최소 출금금액
+        withdraw_all: 전액 출금
       withdraw_btc:
         title: 비트코인 출금
       withdraw_coin:
-        intro: 주소와 수량을 입력하신후 출금신청 하세요, 확인 시간 약 10분입니다.
+        intro: 출금주소를 선택하고 출금수량을 입력 후 출금신청하세요. 확인시간은 약 10분정도 소모됩니다.
         label: 표기
         balance: 잔액
-        amount: 수량
+        amount: 출금수량
         manage_withdraw: 주소 관리
         min: 최소수량
-        withdraw_all: 모두 출금
-        fee_explain: 이동 수수료 설명
+        withdraw_all: 전액출금
+        fee_explain: 수수료 설명
       withdraw_history:
         title: 출금내역
         number: 수량
         withdraw_time: 시간
         withdraw_account: 출금계좌
-        withdraw_address: '조소 '
+        withdraw_address: 출금주소
         withdraw_amount: 수량
         actual_amount: 실 수령액(수수료 제외 금액)
         fee: 수수료
         miner_fee: 이동 수수료
         state_and_action: "상태/확인"
         cancel: 취소
-        no_data: 내역을 없습니다
+        no_data: 내역이 없습니다
         submitting: 확인대기
         submitted: 승인대기
         rejected: 거부
@@ -110,15 +110,15 @@ ko:
         done: 완료
         almost_done: 전송중
         canceled: 취소
-        failed: 요류
+        failed: 오류
     auth:
-      please_active_two_factor: 회원님이 자산 안전을위해 핸드폰 인증 또는 구글 이중인증 받으세요.
+      please_active_two_factor: 회원님의 안전한 자산보호를 위해 핸드폰인증 또는 구글이중인증 받으세요.
       submit: 확인
       otp_placeholder: 6자리 숫자 비번
-      google_app: 구굴 이중인증기
+      google_app: 구굴이중인증
       sms: 핸드폰 인증 메시지
-      send_code: 인증번호 전송하기
+      send_code: 인증번호 요청하기
       send_code_alt: COUNT 초후에 재 전송합니다.
       hints:
         app: 구글 이중인증번호는 30초 마다 갱신되며, 제한된 시간내에 입력하세요
-        sms: 문자 메시지로 인증번호를 핸드폰으로 전송됩니다.
+        sms: 인증번호 요청하기를 누르시면 핸드폰으로 인증번호가 전송됩니다.
