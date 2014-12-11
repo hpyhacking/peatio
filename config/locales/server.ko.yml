@@ -125,7 +125,7 @@ ko:
         at: 시간
         txid: 거래 일련번호
         amount: 금액
-        confirmations: Confirmation 갯수
+        confirmations: Confirmations
         state: 상태
         state_done: 완료
         state_wait: 대기
@@ -176,7 +176,7 @@ ko:
         created_at: 시간
         txid: 거래 해쉬
         amount: 입금 수량
-        memo: 확인 수량
+        memo: Confirmations
         aasm_state_text: 상태
       withdraws/satoshi:
         id: 출금 일련번호
@@ -215,9 +215,9 @@ ko:
             email:
               invalid: 이메일주소 오류
             password:
-              invalid: 비밀번호가 틀려습니다. 다시 입력하세요
+              invalid: 비밀번호가 틀렸습니다. 다시 입력하세요
             password_confirmation:
-              confirmation: 비밀번호가 일치 않습니다.
+              confirmation: 비밀번호가 일치하지 않습니다.
         token/reset_password:
           attributes:
             base:
@@ -492,9 +492,9 @@ ko:
           account: 계좌
     fund_sources:
       index:
-        manage_coin_address: 주소%{name} 관리
+        manage_coin_address: '%{name}주소 관리'
         manage_bank_account: 은행계좌 관리
-        guide_intro_coin: 출금을 편리하게 하기위해 출금 주소를 %{name} 추가하세요
+        guide_intro_coin: 출금 편리성을 위해  %{name} 출금주소를 추가하세요
         guide_intro_bank: 출금을 편리하게 하기위해 출금 은행계좌를 %{name} 추가하세요
         new: 새로 만들기
         currency: 화폐 종류
@@ -863,7 +863,7 @@ ko:
         orders_wait: 주문내역
         orders_done: 체결내역
         orders_cancel: 최근 취소된 주문
-        clear_all: 전부【주문】
+        clear_all: '[전체주문]'
         clear_bids: 【구매주문】
         clear_asks: 【판매주문】
         confirm_clear_all: 모든 【주문】취소 하시겠습니까?
@@ -977,7 +977,7 @@ ko:
       fund_sources:
         panel: 입출금 계좌 관리
         index:
-          title: 입출금 계좌 관리
+          title: 출금주소 관리1
           intro: 더욱 빠르고 편리한 입출금을 위해 입출금계좌 추가
       id_documents:
         panel: 실명인증
@@ -1001,7 +1001,7 @@ ko:
         intro: 회원가입시 사용한 이메일 주소를 입력하세요, 인증코드를 입력 후 안내에 따라 비밀번호 재 설정하세요.
       create:
         title: 로그인 비밀번호 수정
-        intro: 회원가입시 사용한 이메일 주소를 입력하세요, 인증코드를 입력 후 안내에 따라 비밀번호 재 설정하세요.
+        intro: 회원가입시 사용할 이메일 주소를 입력하세요, 인증코드를 입력 후 안내에 따라 비밀번호를 재설정하세요.
       edit:
         title: 로그인 비밀번호 설정
       update:
@@ -1057,7 +1057,7 @@ ko:
           sum: 최저금액1000원, 최고금액 10,000,000원
         satoshi:
           sum: 최저수량0.001
-          fund_extra: 이 주소에 대한 표기하세요.
+          fund_extra: 지금주소 메모(선택사항)
     hints:
       deposit:
         bank:
@@ -1119,7 +1119,7 @@ ko:
       withdraw:
         bank:
           fund_extra: 은행명
-          sum: 출금금액
+          sum: 출금금액1
           account_balance: 사용가능한 금액
           member_name: 계정이름
         satoshi:
@@ -1244,7 +1244,7 @@ ko:
   doorkeeper:
     scopes:
       profile: 고객님 기본정보(예:이름,이메일주소)와 계정잔액을  읽습니다.
-      history: 고객님이 주문와 채결기록을 읽습니다.
+      history: 거래내역을 보고있습니다.
       trade: COINPLUS 거래소 이용하고있는것을 표시합니다
     authorizations:
       new:
@@ -1289,7 +1289,7 @@ ko:
       amount: 금액
       txid: TxId
       created_at: 만든시간
-      memo: 확인 수량
+      memo: Confirmations
       member_name: 사용자
       state_and_actions: 상태 / 확인
       currency_obj_key_text: 화폐종류
@@ -1371,7 +1371,7 @@ ko:
     dear_user: 안녕하세요
     signature: 감사합니다. The COINPLUS Team
     please_contact: '본인이 직접 등록하시지 않은경우 <a href=''mailto:%{contact_mail}''>바로 고객센터로 연락하세요.</a> '
-    footer: 자동으로 전송된 이메일 입니다, 회신하지마세요.문의사항 있을경우<a href="mailto:%{contact_mail}"> 통해 연락하세요.
+    footer: 자동으로 전송된 이메일 입니다, 회신하지마세요.문의사항 있을경우<a href="mailto:%{contact_mail}"> 연락하세요.
   comment_mailer:
     admin_notification:
       subject: "[COINPLUS]"
@@ -1428,7 +1428,7 @@ ko:
       unable_to_click: 링크가 클릭이 안될경우 브라우저 주소창에 주소를 복사해서 방문하세요.
       link_expire: 링크 유효기간 30분 입니다.
     reset_password:
-      subject: "[COINPLUS]비밀번호 재설정하세요"
+      subject: "[COINPLUS]비밀번호를 재설정하세요"
       hi: 안녕하세요.
       follow_the_link: '아래 링크 클릭하신후, 30분안에 비밀번호를 재설정하세요.'
   withdraw_mailer:
@@ -1478,7 +1478,7 @@ ko:
       short: "%m-%d %H:%M"
       default: "%m/%d/%Y %H:%M"
   sms:
-    verification_code: '인증번호:%{code}.유효 기간 30분 입니다. (팁: 거래소에서는 절대 인증번호를 묻지 않습니다. 안전하게 관리하시기 바랍니다.)[COINPLUS]'
+    verification_code: '인증번호:%{code}.유효 기간 30분 입니다. (인증번호를 안전하게 관리하세요.)[COINPLUS]'
     password_changed: Hi %{email}, 회원님 비밀번호가 성공적으로 수정 되었습니다.
     deposit_done: Hi %{email}, 회원님이 입금신청 처리 되여습니다.
     withdraw_done: Hi %{email}, 회원님 출금신청이 처리되었습니다.
@@ -1496,9 +1496,9 @@ ko:
     getstart: 거래하기
     assets: 자산 공개
     history: 내역
-    order_history: 주문기록
-    trade_history: 트레이드 기록
-    account_history: 계정 기록
+    order_history: 주문내역
+    trade_history: 거래내역
+    account_history: 계정내역
     my_profile: 나의 설정
     tickets: Tickets
     account_balance: 총자산
@@ -1631,7 +1631,7 @@ ko:
         title: 비밀번호 설정
         save: 저장
       create:
-        success: 비밀번호 성공적으로 설정되었습니다.
+        success: 비밀번호가 성공적으로 설정되었습니다.
   forum:
     index:
       notice:
@@ -1643,7 +1643,7 @@ ko:
       password: 비밀번호는 6자리이상,영문 대/소문자 ,숫자를 포함해야합니다
     update:
       auth-error: 비밀번호가 일치하지 않습니다, 다시 입력하세요
-      auth-same: 입력하신 새비밀번호가 이전비밀번호와 같습니다. 다시 입력하새요.
+      auth-same: 입력하신 새비밀번호가 이전비밀번호와 같습니다. 다시 입력하세요.
       notice: 비밀번호 수정 완료, 다시 로그인 하세요
   layouts:
     admin:
@@ -1694,7 +1694,7 @@ ko:
       error: 이메일 또는 비밀번호가 틀렸습니다. 다시 입력하세요
     failure:
       account_locked: 비밀번호 입력오류 횟수가 너무 많아 , 계정 보호를 위해 계정잠긴상태가 되었습니다. 비밀번호찾기 통해 비밀번호를 재설정하세요.
-      error: 이메일 또는 비밀번호 틀렸습니다. 다시 입력하세요
+      error: 이메일 또는 비밀번호가 틀렸습니다. 다시 입력하세요
   shared:
     admin:
       member:
@@ -1754,7 +1754,7 @@ ko:
         guide-link: "구체적인 사용방법은 <a href='https://support.google.com/accounts/answer/1066447' target='_blank'> 클릭 후 참고하세요"
         scan-qr-code: Google Authenticator사용해 QR코드 스캔 또는 수동으로 아래 인증문자 입력하세요.
         enter-passcode: 핸드폰 보안번호 입력하신후 이중인중을 활성화하세요.
-        submit: 사용하기
+        submit: 확인
         ios: 애플 IOS
         android: 안드로이드
         blackbery: 블랙베리
@@ -1770,16 +1770,16 @@ ko:
         notice: 구글이중인증 해지 완료
     sms_auths:
       show:
-        title: 한드폰 인증 받기
+        title: 핸드폰 인증 받기
         description: 핸드폰인증을 받으면 거래소에 있는 회원님의 자산이 더욱 안전하게 보호되며 실시간 거래소 정보를  문자로 받아볼수 있습니다
         warning: 핸드폰인증을 받지않아 출금신청 및 비밀번호 찾기 작업을 진행할수 없습니다.
         phone_number: 핸드폰번호
-        send_code: 인증번호 전송하기
+        send_code: 인증번호 요청하기
         send_code_alt: COUNT초후 재전송 합니다.
         input_otp: 6자리 인증번호를 입력하세요
-        submit: 핸드폰번호 저장
+        submit: 확인
         notice:
-          send_code_success: 핸드폰 인증번호가 전송되었습니다.
+          send_code_success: 핸드폰으로 인증번호가 전송되었습니다.
           otp_success: 핸드폰 인증 완료 되었습니다
           already_activated: 핸드폰 확인 완료
         alert:
@@ -1787,7 +1787,7 @@ ko:
   withdraw_channel:
     bank:
       key: 은행 송금
-      title: '은행계좌로 출금 '
+      title: ' 은행계좌로 출금'
       intro: 은행계좌 사용해서 입출금 하세요.
       latency: 30분내에 입금 처리 됩니다.
       transfer: 수동처리
