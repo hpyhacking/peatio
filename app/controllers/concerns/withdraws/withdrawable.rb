@@ -34,7 +34,7 @@ module Withdraws
 
     def destroy
       Withdraw.transaction do
-        @withdraw = current_user.withdraws.find(params[:id])
+        @withdraw = current_user.withdraws.find(params[:id]).lock!
         @withdraw.cancel
         @withdraw.save!
       end
