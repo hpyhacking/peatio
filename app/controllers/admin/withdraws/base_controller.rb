@@ -14,7 +14,7 @@ module Admin
       def find_withdraw
         w = channel.kls.find(params[:id])
         self.instance_variable_set("@#{self.controller_name.singularize}", w)
-        if w.amount > w.account.locked 
+        if w.may_process? and (w.amount > w.account.locked)
           flash[:alert] = 'TECH ERROR !!!!'
           redirect_to action: :index
         end
