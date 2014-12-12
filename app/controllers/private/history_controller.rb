@@ -1,5 +1,8 @@
 module Private
   class HistoryController < BaseController
+
+    helper_method :tabs
+
     def account
       @market = current_market
 
@@ -18,6 +21,14 @@ module Private
 
     def orders
       @orders = current_user.orders.includes(:trades).order("id desc").page(params[:page]).per(20)
+    end
+
+    private
+
+    def tabs
+      { order: ['header.order_history', order_history_path],
+        trade: ['header.trade_history', trade_history_path],
+        account: ['header.account_history', account_history_path] }
     end
 
   end
