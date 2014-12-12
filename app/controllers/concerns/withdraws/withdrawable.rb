@@ -21,17 +21,6 @@ module Withdraws
       end
     end
 
-    def update
-      @withdraw = current_user.withdraws.find(params[:id])
-
-      if not two_factor_auth_verified?
-        render text: @withdraw.errors.full_messages.join, status: 403
-      end
-
-      @withdraw.submit!
-      render nothing: true
-    end
-
     def destroy
       Withdraw.transaction do
         @withdraw = current_user.withdraws.find(params[:id]).lock!
