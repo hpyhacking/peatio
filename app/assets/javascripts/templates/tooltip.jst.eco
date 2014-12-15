@@ -5,19 +5,19 @@
 
   <div class='tooltip-ticker'>
     <span class=t-title><%= gon.i18n.chart.open %></span>
-    <span class=t-value><%= @format @points.candlestick.open %></span>
+    <span class=t-value><%= @points.candlestick.open %></span>
   </div>
   <div class='tooltip-ticker'>
     <span class=t-title><%= gon.i18n.chart.close %></span>
-    <span class=t-value><%= @format @points.candlestick.close %></span>
+    <span class=t-value><%= @points.candlestick.close %></span>
   </div>
   <div class='tooltip-ticker'>
     <span class=t-title><%= gon.i18n.chart.high %></span>
-    <span class=t-value><%= @format @points.candlestick.high %></span>
+    <span class=t-value><%= @points.candlestick.high %></span>
   </div>
   <div class='tooltip-ticker'>
     <span class=t-title><%= gon.i18n.chart.low %></span>
-    <span class=t-value><%= @format @points.candlestick.low %></span>
+    <span class=t-value><%= @points.candlestick.low %></span>
   </div>
   <div class='tooltip-ticker'>
     <span class=t-title><%= gon.i18n.chart.volume %></span>
