@@ -171,7 +171,7 @@ en:
         created_at: Created At
         txid: Transaction ID
         amount: Amount
-        memo: Confirmation
+        confirmations: Confirmation
         aasm_state_text: State
       withdraws/satoshi:
         id: ID
@@ -356,7 +356,7 @@ en:
         created_at: At
         amount: Amount
         aasm_state_text: State
-        memo: Confirm
+        confirmations: Confirm
     withdraws_grid:
       columns:
         sn: SN
@@ -1352,7 +1352,7 @@ en:
       amount: Amount
       txid: TxId
       created_at: Created At
-      memo: Confirmations
+      confirmations: Confirmations
       member_name: Member
       state_and_actions: State/Actions
       currency_obj_key_text: Currency

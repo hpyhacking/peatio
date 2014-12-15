@@ -176,7 +176,7 @@ zh-CN:
         created_at: 时间
         txid: 交易哈希
         amount: 充值数量
-        memo: 确认数
+        confirmations: 确认数
         aasm_state_text: 状态
       withdraws/satoshi:
         id: 提现编号
@@ -358,7 +358,7 @@ zh-CN:
         created_at: 提交时间
         amount: 充值金额
         aasm_state_text: 状态
-        memo: 确认数
+        confirmations: 确认数
     withdraws_grid:
       columns:
         sn: SN
@@ -1294,7 +1294,7 @@ zh-CN:
       amount: 金额
       txid: TxID
       created_at: 创建时间
-      memo: 确认数
+      confirmations: 确认数
       member_name: 用户
       state_and_actions: 状态/操作
       currency_obj_key_text: 币种

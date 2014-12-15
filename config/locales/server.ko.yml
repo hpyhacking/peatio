@@ -176,7 +176,7 @@ ko:
         created_at: 시간
         txid: 거래 해쉬
         amount: 입금 수량
-        memo: Confirmations
+        confirmations: Confirmations
         aasm_state_text: 상태
       withdraws/satoshi:
         id: 출금 일련번호
@@ -358,7 +358,7 @@ ko:
         created_at: 신청시간
         amount: 입금 금액
         aasm_state_text: 상태
-        memo: 확인수량
+        confirmations: 확인수량
     withdraws_grid:
       columns:
         sn: 일련번호
@@ -1289,7 +1289,7 @@ ko:
       amount: 금액
       txid: TxId
       created_at: 만든시간
-      memo: Confirmations
+      confirmations: Confirmations
       member_name: 사용자
       state_and_actions: 상태 / 확인
       currency_obj_key_text: 화폐종류
