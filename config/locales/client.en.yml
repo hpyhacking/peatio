@@ -27,6 +27,7 @@ en:
         to_name: Name
         to_bank_name: Bank Name
         opening_bank_name: Account where created
+        remark: 'Referral Code (Transfer identification code)'
 
       deposit_btc:
         title: BTC Deposit
