@@ -929,7 +929,7 @@ en:
           go: Set
         phone_number:
           title: Phone Number
-          description: Provide a phone number will make your account more secure.
+          description: Providing a phone number will make your account more secure.
             You can quickly reset your password and your account operations will be
             notified.
           go: Set
@@ -1853,7 +1853,7 @@ en:
     sms_auths:
       show:
         title: Verify Phone Number
-        description: Provide a phone number will make your account more secure. you
+        description: Providing a phone number will make your account more secure. you
           can quickly reset your password and your account operations will be notified.
         warning: it will not be able to retrieve your account's password if not set
           the phone number.
