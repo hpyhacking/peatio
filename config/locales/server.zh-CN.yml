@@ -1303,7 +1303,7 @@ zh-CN:
       amount: 金额
       created_at: 创建时间
       fund_source: 账号
-      memo: Momo
+      memo: Memo
       member_name: 用户
       state_and_actions: 状态/操作
       currency_obj_key_text: 币种
