@@ -294,7 +294,7 @@ describe Account do
     end
 
     it "should only return the accoutns with currency enabled" do
-      Account.enabled.all.should == [account1, account2]
+      Account.enabled.to_a.should == [account1, account2]
     end
 
   end
