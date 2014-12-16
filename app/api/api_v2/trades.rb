@@ -25,7 +25,7 @@ module APIv2
         order: order_param
       )
 
-      present trades, with: APIv2::Entities::Trade
+      present trades, with: APIv2::Entities::Trade, current_user: current_user
     end
 
   end

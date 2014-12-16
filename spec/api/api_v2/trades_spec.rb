@@ -74,7 +74,9 @@ describe APIv2::Trades do
 
       result = JSON.parse(response.body)
       result.find {|t| t['id'] == ask_trade.id }['side'].should == 'ask'
+      result.find {|t| t['id'] == ask_trade.id }['order_id'].should == ask.id
       result.find {|t| t['id'] == bid_trade.id }['side'].should == 'bid'
+      result.find {|t| t['id'] == bid_trade.id }['order_id'].should == bid.id
     end
 
     it "should return 1 trade" do
