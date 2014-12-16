@@ -88,4 +88,19 @@ namespace :migration do
     puts APIToken.where(scopes: nil).update_all(scopes: 'all')
   end
 
+  desc "fix order trades_count"
+  task fix_trades_count: :environment do
+    orders = Order.where('origin_volume != volume AND trades_count = 0')
+    total = orders.count
+    count = 0
+
+    puts "Found #{total} matched orders, start processing:"
+    orders.find_each do |order|
+      count += 1
+      print "#{count}/#{total} processing Order##{order.id} ..."
+      order.update_column :trades_count, order.trades.count
+      puts " #{order.trades_count} trades."
+    end
+  end
+
 end
