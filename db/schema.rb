@@ -48,19 +48,17 @@ ActiveRecord::Schema.define(version: 20141216120736) do
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
 
   create_table "api_tokens", force: true do |t|
-    t.integer  "member_id",                                        null: false
-    t.string   "access_key",            limit: 50,                 null: false
-    t.string   "secret_key",            limit: 50,                 null: false
+    t.integer  "member_id",                        null: false
+    t.string   "access_key",            limit: 50, null: false
+    t.string   "secret_key",            limit: 50, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "trusted_ip_list"
     t.string   "label"
-    t.string   "type"
     t.integer  "oauth_access_token_id"
     t.datetime "expire_at"
     t.string   "scopes"
     t.datetime "deleted_at"
-    t.boolean  "super",                            default: false
   end
 
   add_index "api_tokens", ["access_key"], name: "index_api_tokens_on_access_key", unique: true, using: :btree
@@ -101,18 +99,6 @@ ActiveRecord::Schema.define(version: 20141216120736) do
   add_index "authentications", ["member_id"], name: "index_authentications_on_member_id", using: :btree
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", using: :btree
 
-  create_table "bills", force: true do |t|
-    t.string   "customer"
-    t.string   "cashier"
-    t.decimal  "amount",       precision: 32, scale: 16
-    t.integer  "currency"
-    t.string   "order_number"
-    t.string   "source"
-    t.boolean  "settled"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "comments", force: true do |t|
     t.text     "content"
     t.integer  "author_id"
@@ -137,7 +123,6 @@ ActiveRecord::Schema.define(version: 20141216120736) do
     t.datetime "done_at"
     t.string   "confirmations"
     t.string   "type"
-    t.string   "blockid"
     t.integer  "payment_transaction_id"
     t.integer  "txout"
   end
@@ -167,12 +152,6 @@ ActiveRecord::Schema.define(version: 20141216120736) do
     t.datetime "updated_at"
     t.text     "desc"
     t.text     "keywords"
-  end
-
-  create_table "dogecoin_trades", id: false, force: true do |t|
-    t.datetime "created_at"
-    t.decimal  "volume",     precision: 32, scale: 16
-    t.integer  "member_id"
   end
 
   create_table "fund_sources", force: true do |t|
@@ -214,16 +193,6 @@ ActiveRecord::Schema.define(version: 20141216120736) do
     t.datetime "updated_at"
   end
 
-  create_table "member_snapshots", force: true do |t|
-    t.decimal  "amount",      precision: 32, scale: 16
-    t.text     "inputs"
-    t.integer  "snapshot_id"
-    t.integer  "member_id"
-    t.string   "state",                                 default: "open"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "members", force: true do |t|
     t.string   "sn"
     t.string   "display_name"
@@ -235,11 +204,9 @@ ActiveRecord::Schema.define(version: 20141216120736) do
     t.boolean  "activated"
     t.integer  "country_code"
     t.string   "phone_number"
-    t.boolean  "disabled",              default: false
-    t.boolean  "api_disabled",          default: false
+    t.boolean  "disabled",     default: false
+    t.boolean  "api_disabled", default: false
     t.string   "nickname"
-    t.integer  "phone_number_verified"
-    t.string   "nickname_for_chatroom"
   end
 
   create_table "oauth_access_grants", force: true do |t|
@@ -272,13 +239,12 @@ ActiveRecord::Schema.define(version: 20141216120736) do
   add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
 
   create_table "oauth_applications", force: true do |t|
-    t.string   "name",                         null: false
-    t.string   "uid",                          null: false
-    t.string   "secret",                       null: false
-    t.text     "redirect_uri",                 null: false
+    t.string   "name",         null: false
+    t.string   "uid",          null: false
+    t.string   "secret",       null: false
+    t.text     "redirect_uri", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "super",        default: false
   end
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
@@ -292,12 +258,12 @@ ActiveRecord::Schema.define(version: 20141216120736) do
     t.decimal  "origin_volume",             precision: 32, scale: 16
     t.integer  "state"
     t.datetime "done_at"
+    t.string   "type",           limit: 8
     t.integer  "member_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sn"
     t.string   "source",                                                            null: false
-    t.string   "type",           limit: 8
     t.string   "ord_type",       limit: 10
     t.decimal  "locked",                    precision: 32, scale: 16
     t.decimal  "origin_locked",             precision: 32, scale: 16
@@ -327,10 +293,8 @@ ActiveRecord::Schema.define(version: 20141216120736) do
     t.integer  "currency"
   end
 
-  add_index "payment_addresses", ["address"], name: "index_payment_addresses_on_address", using: :btree
-
   create_table "payment_transactions", force: true do |t|
-    t.string   "txid",                                               null: false
+    t.string   "txid"
     t.decimal  "amount",                   precision: 32, scale: 16
     t.integer  "confirmations"
     t.string   "address"
@@ -342,26 +306,11 @@ ActiveRecord::Schema.define(version: 20141216120736) do
     t.datetime "dont_at"
     t.integer  "currency"
     t.string   "type",          limit: 60
-    t.string   "payer"
-    t.string   "blockid"
     t.integer  "txout"
   end
 
   add_index "payment_transactions", ["txid", "txout"], name: "index_payment_transactions_on_txid_and_txout", using: :btree
   add_index "payment_transactions", ["type"], name: "index_payment_transactions_on_type", using: :btree
-
-  create_table "promotion_codes", force: true do |t|
-    t.integer  "member_id"
-    t.string   "code"
-    t.integer  "code_type"
-    t.integer  "currency"
-    t.decimal  "amount",     precision: 32, scale: 16
-    t.string   "status"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "promotion_codes", ["code"], name: "index_promotion_codes_on_code", unique: true, using: :btree
 
   create_table "proofs", force: true do |t|
     t.string   "root"
@@ -409,17 +358,6 @@ ActiveRecord::Schema.define(version: 20141216120736) do
 
   add_index "simple_captcha_data", ["key"], name: "idx_key", using: :btree
 
-  create_table "snapshots", force: true do |t|
-    t.string   "name"
-    t.text     "description"
-    t.text     "formula"
-    t.decimal  "total",       precision: 32, scale: 16
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "visible",                               default: false
-    t.string   "unit"
-  end
-
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
     t.integer  "taggable_id"
@@ -445,30 +383,6 @@ ActiveRecord::Schema.define(version: 20141216120736) do
     t.integer  "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "tip_quotas", force: true do |t|
-    t.integer  "member_id"
-    t.integer  "currency"
-    t.decimal  "daily_max",  precision: 32, scale: 16
-    t.decimal  "each_max",   precision: 32, scale: 16
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "tips", force: true do |t|
-    t.string   "payer"
-    t.string   "payee"
-    t.decimal  "amount",        precision: 10, scale: 0
-    t.integer  "currency"
-    t.string   "msg"
-    t.string   "source"
-    t.boolean  "payer_settled",                          default: false
-    t.boolean  "payee_settled",                          default: false
-    t.datetime "deleted_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "reason"
   end
 
   create_table "tokens", force: true do |t|
@@ -540,7 +454,6 @@ ActiveRecord::Schema.define(version: 20141216120736) do
     t.string   "aasm_state"
     t.decimal  "sum",        precision: 32, scale: 16, default: 0.0, null: false
     t.string   "type"
-    t.string   "memo"
   end
 
 end
