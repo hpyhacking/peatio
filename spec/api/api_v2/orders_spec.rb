@@ -7,10 +7,10 @@ describe APIv2::Orders do
 
   describe "GET /api/v2/orders" do
     before do
-      create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member)
-      create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
-      create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member)
-      create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
+      create(:order_bid, currency: 'btccny', price: '11'.to_d, volume: '123.123456789', member: member)
+      create(:order_bid, currency: 'btccny', price: '12'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
+      create(:order_ask, currency: 'btccny', price: '13'.to_d, volume: '123.123456789', member: member)
+      create(:order_ask, currency: 'btccny', price: '14'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
     end
 
     it "should require authentication" do
@@ -40,6 +40,16 @@ describe APIv2::Orders do
       signed_get '/api/v2/orders', params: {market: 'btccny', state: Order::DONE}, token: token
       response.should be_success
       JSON.parse(response.body).first['state'].should == Order::DONE
+    end
+
+    it "should return paginated orders" do
+      signed_get '/api/v2/orders', params: {market: 'btccny', limit: 1, page: 1}, token: token
+      response.should be_success
+      JSON.parse(response.body).first['price'].should == '11.0'
+
+      signed_get '/api/v2/orders', params: {market: 'btccny', limit: 1, page: 2}, token: token
+      response.should be_success
+      JSON.parse(response.body).first['price'].should == '13.0'
     end
 
   end

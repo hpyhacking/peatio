@@ -4,17 +4,19 @@ module APIv2
 
     before { authenticate! }
 
-    desc 'Get your orders.', scopes: %w(history trade)
+    desc 'Get your orders, results is paginated.', scopes: %w(history trade)
     params do
       use :auth, :market
-      optional :state,  type: String,  default: 'wait', values: Order.state.values, desc: "Filter order by state, default to 'wait' (active orders)."
-      optional :limit,  type: Integer, default: 10, range: 1..1000, desc: "Limit the number of returned orders, default to 10."
+      optional :state, type: String,  default: 'wait', values: Order.state.values, desc: "Filter order by state, default to 'wait' (active orders)."
+      optional :limit, type: Integer, default: 100, range: 1..1000, desc: "Limit the number of returned orders, default to 100."
+      optional :page,  type: Integer, default: 1, desc: "Specify the page of paginated results."
     end
     get "/orders" do
       orders = current_user.orders
         .with_currency(current_market)
         .with_state(params[:state])
-        .limit(params[:limit])
+        .page(params[:page])
+        .per(params[:limit])
 
       present orders, with: APIv2::Entities::Order
     end
