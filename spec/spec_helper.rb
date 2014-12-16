@@ -17,8 +17,13 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 I18n.available_locales = ['en']
 
 Capybara.register_driver :poltergeist do |app|
-  options = {:js_errors => false, :debug => false, :logger => nil, :phantomjs_logger => nil}
-  Capybara::Poltergeist::Driver.new(app, options)
+  Capybara::Poltergeist::Driver.new(app, {
+    js_errors: false,
+    debug: false,
+    logger: nil,
+    phantomjs_logger: nil,
+    window_size: [1440, 900]
+  })
 end
 
 Capybara.javascript_driver = :poltergeist
