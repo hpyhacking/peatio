@@ -437,6 +437,8 @@ header {
 }
 
 #ask_entry, #bid_entry {
+  z-index: 999;
+
   .panel-body { padding-top: 10px; }
 
   .btn:focus, .btn:active:focus, .btn.active:focus {
