@@ -66,6 +66,12 @@ describe Matching::Executor do
       trade.funds.should == price*volume
     end
 
+    it "should increase order's trades count" do
+      subject.execute!
+      Order.find(ask.id).trades_count.should == 1
+      Order.find(bid.id).trades_count.should == 1
+    end
+
     it "should mark both orders as done" do
       subject.execute!
 

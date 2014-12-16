@@ -126,6 +126,14 @@ describe Order, "#done" do
       end
     end
 
+    describe "#trades_count" do
+      it "should increase trades count" do
+        expect do
+          order.strike(mock_trade("4.0", "1.2"))
+        end.to change{ order.trades_count }.from(0).to(1)
+      end
+    end
+
     describe "#done" do
       context "trade done volume 5.0 with price 0.8" do
         let(:strike_price) { "0.8".to_d }

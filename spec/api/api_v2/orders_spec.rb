@@ -45,7 +45,7 @@ describe APIv2::Orders do
   end
 
   describe "GET /api/v2/order" do
-    let(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member) }
+    let(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member, trades_count: 1) }
     let!(:trade) { create(:trade, bid: order) }
 
     it "should get specified order" do
@@ -61,6 +61,7 @@ describe APIv2::Orders do
       signed_get "/api/v2/order", params: {id: order.id}, token: token
 
       result = JSON.parse(response.body)
+      result['trades_count'].should == 1
       result['trades'].should have(1).trade
       result['trades'].first['id'].should == trade.id
       result['trades'].first['side'].should == 'buy'

@@ -75,6 +75,7 @@ class Order < ActiveRecord::Base
     self.volume         -= trade.volume
     self.locked         -= real_sub
     self.funds_received += add
+    self.trades_count   += 1
 
     if volume.zero?
       self.state = Order::DONE

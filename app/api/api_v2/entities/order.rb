@@ -24,6 +24,7 @@ module APIv2
         order.origin_volume - order.volume
       end
 
+      expose :trades_count
       expose :trades, if: {type: :full} do |order, options|
         ::APIv2::Entities::Trade.represent order.trades, side: side
       end

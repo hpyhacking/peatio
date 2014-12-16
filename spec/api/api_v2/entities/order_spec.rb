@@ -18,6 +18,7 @@ describe APIv2::Entities::Order do
     its(:created_at)       { should == order.created_at.iso8601 }
     its(:side)             { should == 'sell' }
     its(:trades)           { should be_nil }
+    its(:trades_count)     { should == 0 }
   end
 
   context "full exposure" do
