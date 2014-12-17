@@ -10,11 +10,11 @@ en:
         btc: BTC
       deposit_cny:
         title: Chinese Yuan Deposit
-        desc: "Deposit with Bank, please follow step following:"
+        desc: "To deposit via Bank transfer, please follow these steps:"
         desc_item_1: "1. Submit the form to get the identification code."
-        desc_item_2: "2. Transfer the money to Yunbi's Bank Account. Please make sure fill in the identification code."
-        desc_item_3: "3. Our supporters will confirm your deposit after we receving the money"
-        attention: "Attention: The name info from bank must be the same with your account name in our site."
+        desc_item_2: "2. Transfer the money to exchange's bank account. Please make sure your referral code was written on the form you fill in."
+        desc_item_3: "3. Your deposit will be confirmed as soon as the money is received."
+        attention: "Attention: The name of your bank account must be the same as your account name on our site, otherwise your deposit may fail."
         from: From
         to: To
         deposit_name: Your Name
