@@ -176,6 +176,7 @@ cs:
         created_at: Vytvořeno v
         txid: ID transakce
         amount: Částka
+        confirmations: Potvrzení
         aasm_state_text: Stav
       withdraws/satoshi:
         id: ID
@@ -244,6 +245,12 @@ cs:
             amount:
               poor: Nedostatečné
               bank_min: Méně 5000.00
+        withdraws/satoshi:
+          attributes:
+            fund_uid:
+              blank: Prosím zvolte adresu pro výběr
+              invalid: Neplatná adresa pro výběr, zkontrolujte.
+              ismine: Prosím použijte novou adresu.
         two_factor:
           attributes:
             otp:
@@ -254,15 +261,6 @@ cs:
               fragment_present: nesmí obsahovat fragment.
               invalid_uri: musí být validní URI.
               relative_uri: musí být absolutní URI.
-        withdraws/satoshi:
-          attributes:
-            sum:
-              poor: Zůstatek účtu je nedostatečný
-              greater_than: Více než
-            fund_uid:
-              blank: Prosím zvolte adresu pro výběr
-              invalid: Neplatná adresa pro výběr, zkontrolujte.
-              ismine: Prosím použijte novou adresu.
       messages:
         invalid_email: Neplatná emailová adresa.
         undef: neznámý důvod
@@ -357,6 +355,7 @@ cs:
         created_at: V
         amount: Částka
         aasm_state_text: Stav
+        confirmations: Potvrdit
     withdraws_grid:
       columns:
         sn: VS
@@ -905,6 +904,7 @@ cs:
           go: Nastavit
         phone_number:
           title: Telefonní číslo
+          description: Poskytnout telefonní číslo bude pro váš účet bezpečnější. Můžete rychle obnovit heslo a operace na účtu budou oznámovány.
           go: Nastavit
           verified: Ověřeno
         two_factor_auth:
@@ -1291,6 +1291,7 @@ cs:
       amount: Částka
       txid: TxId
       created_at: Vytvořeno v
+      confirmations: Potvrzení
       member_name: Uživatel
       state_and_actions: Stav/Akce
       currency_obj_key_text: Měna
@@ -1773,6 +1774,7 @@ cs:
     sms_auths:
       show:
         title: Ověřit Telefonní číslo
+        description: Poskytnout telefonní číslo bude pro váš účet bezpečnější. Můžete rychle obnovit heslo a operace na účtu budou oznámovány.
         warning: nebudete moci získat vaše heslo k účtu, pokud není nastaveno telefonní číslo.
         phone_number: Telefonní číslo
         send_code: Odeslat kód
