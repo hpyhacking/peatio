@@ -235,12 +235,19 @@ en:
               satoshi_ismine: Used Address
               satoshi_invalid: Invalid Address
         withdraw:
+          account_balance_is_poor: Account balance is insufficient
           attributes:
             password:
               match: invalid
             amount:
               poor: insufficient
               bank_min: Less 5000.00
+        withdraws/satoshi:
+          attributes:
+            fund_uid:
+              blank: Please enter your withdrawal address
+              invalid: Invalid withdrawals address, please review.
+              ismine: Please use a new address.
         two_factor:
           attributes:
             otp:
@@ -251,15 +258,6 @@ en:
               fragment_present: cannot contain a fragment.
               invalid_uri: must be a valid URI.
               relative_uri: must be an absolute URI.
-        withdraws/satoshi:
-          attributes:
-            sum:
-              poor: Account balance is insufficient
-              greater_than: Greater than
-            fund_uid:
-              blank: Please enter your withdrawal address
-              invalid: Invalid withdrawals address, please review.
-              ismine: Please use a new address.
       messages:
         invalid_email: Invalid Email Address
         undef: unknown reason

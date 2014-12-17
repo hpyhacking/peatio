@@ -238,12 +238,19 @@ ko:
               satoshi_ismine: 코인플러스거래소 지갑주소입니다. 다른 지갑주소를 사용하세요
               satoshi_invalid: 비트코인 지갑주소 오류
         withdraw:
+          account_balance_is_poor: 잔액이 부족합니다.  재확인 하세요
           attributes:
             password:
               match: 비밀번호가 틀렸습니다.
             amount:
               poor: 금액이 부족합니다.
               bank_min: 입력할수 있는 최대금액이 5000.00 입니다
+        withdraws/satoshi:
+          attributes:
+            fund_uid:
+              blank: 출금주소를 입력하세요
+              invalid: 잘못된 출금 주소입니다. 재확인 하세요
+              ismine: 코인플러스거래소 지갑주소입니다, 다른 지갑주소를 입력하세요
         two_factor:
           attributes:
             otp:
@@ -254,15 +261,6 @@ ko:
               fragment_present: cannot contain a fragment.
               invalid_uri: must be a valid URI.
               relative_uri: must be an absolute URI.
-        withdraws/satoshi:
-          attributes:
-            sum:
-              poor: 잔액이 부족합니다.  재확인 하세요
-              greater_than: '최저금액 '
-            fund_uid:
-              blank: 출금주소를 입력하세요
-              invalid: 잘못된 출금 주소입니다. 재확인 하세요
-              ismine: 코인플러스거래소 지갑주소입니다, 다른 지갑주소를 입력하세요
       messages:
         invalid_email: 이메일주소 오류
         undef: 원인을 알수 없는 오류

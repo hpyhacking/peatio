@@ -239,12 +239,19 @@ zh-CN:
               satoshi_ismine: 为系统所有，请使用您所拥有的提现地址进行绑定。
               satoshi_invalid: 格式无效，请填写正确的比特币提现地址。
         withdraw:
+          account_balance_is_poor: 账户余额不足，请核对。
           attributes:
             password:
               match: 密码不匹配
             amount:
               poor: 热钱包金额不足
               bank_min: 小于 5000.00
+        withdraws/satoshi:
+          attributes:
+            fund_uid:
+              blank: 请输入您的提现地址。
+              invalid: 无效的提现地址，请核对。
+              ismine: 提现地址为系统所有，请更换其他地址。
         two_factor:
           attributes:
             otp:
@@ -255,15 +262,6 @@ zh-CN:
               fragment_present: cannot contain a fragment.
               invalid_uri: must be a valid URI.
               relative_uri: must be an absolute URI.
-        withdraws/satoshi:
-          attributes:
-            sum:
-              poor: 账户余额不足，请核对。
-              greater_than: 小于单笔最低限额。
-            fund_uid:
-              blank: 请输入您的提现地址。
-              invalid: 无效的提现地址，请核对。
-              ismine: 提现地址为系统所有，请更换其他地址。
       messages:
         invalid_email: 无效的邮件地址
         undef: 未知错误原因
