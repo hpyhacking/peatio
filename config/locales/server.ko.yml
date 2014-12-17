@@ -176,7 +176,6 @@ ko:
         created_at: 시간
         txid: 거래 해쉬
         amount: 입금 수량
-        confirmations: Confirmations
         aasm_state_text: 상태
       withdraws/satoshi:
         id: 출금 일련번호
@@ -221,7 +220,7 @@ ko:
         token/reset_password:
           attributes:
             base:
-              too_soon: 제한된 시간내에 방문 횟수 너무 많아, 잠시후 다시 시도하세요
+              too_soon: 반복된 요청이 너무많습니다. 잠시후 다시 시도해주세요.
             email:
               not-member: 이메일주소를 올바르게 입력하세요.
               match: 이메일주소 오류
@@ -358,7 +357,6 @@ ko:
         created_at: 신청시간
         amount: 입금 금액
         aasm_state_text: 상태
-        confirmations: 확인수량
     withdraws_grid:
       columns:
         sn: 일련번호
@@ -475,6 +473,9 @@ ko:
       warning: 상태 이상
   private:
     deposits:
+      satoshis:
+        gen_address:
+          require_transaction: 현재주소 사용하지 않고 새주소를 받을수 없습니다
       banks:
         destroy:
           notice: 입금 취소신청 처리 되었습니다.
@@ -612,9 +613,9 @@ ko:
       index:
         new_ticket: New Ticket
       new:
-        intro: If you have any problems, start a new discussion so that our staff can help you out as soon as possible. All discussions are private between you and the support staff.
-      ticket_create_succ: Ticket created successfully.
-      ticket_create_fail: Failed to create ticket, please try again latter.
+        intro: 거래소 이용에 불편사항이나 개선할 사항 있으시면 메모를 남기시면 최대한 빠른시간내에 처리해드리며 위에 내용은 회원님과 관리자만 볼수있습니다.
+      ticket_create_succ: Ticket를 성공적으로 만들어졌습니다.
+      ticket_create_fail: Ticket등록실패 하였습니다, 다시 시도하세요.
       comment_succ: Comment successfully.
       cooment_fail: Comment failed, please try again latter
       me: 나
@@ -622,10 +623,10 @@ ko:
       close: Close Ticket
       close_succ: Ticket closed successfully
       close_confirm: Are you sure to close this ticket?
-      title_content_both_blank: Title and content could be both be empty.
+      title_content_both_blank: 제목과 내용은 꼭 기재 해주세요.
       from: from
-      view_closed_tickets: View closed tickets
-      view_open_tickets: View open tickets
+      view_closed_tickets: 완료된  Ticket를 검색하기
+      view_open_tickets: 처리중인 Ticket를 검색하기
     account_versions:
       index:
         description: COINPLUS 거래소의 모든 거래내역와 입출금내역을 검색할수있습니다.
@@ -769,7 +770,9 @@ ko:
         switch_30: 30m
         switch_60: 1h
         switch_120: 2h
+        switch_240: 4h
         switch_360: 6h
+        switch_720: 12h
         switch_1440: 1d
         switch_4320: 3d
         switch_10080: 1w
@@ -902,7 +905,6 @@ ko:
           go: 설정
         phone_number:
           title: 핸드폰 번호
-          description: 핸드폰인증을 받으세요.핸드폰인증을 통해 회원님의 자산을 더 안전하고 편리하게 관리하며 빠르게 비밀번호 변경 및 거래소 정보를 문자메시지로 받아볼수 있습니다.
           go: 설정
           verified: 확인 완료
         two_factor_auth:
@@ -1289,7 +1291,6 @@ ko:
       amount: 금액
       txid: TxId
       created_at: 만든시간
-      confirmations: Confirmations
       member_name: 사용자
       state_and_actions: 상태 / 확인
       currency_obj_key_text: 화폐종류
@@ -1370,7 +1371,7 @@ ko:
   mailer:
     dear_user: 안녕하세요
     signature: 감사합니다. The COINPLUS Team
-    please_contact: '본인이 직접 등록하시지 않은경우 <a href=''mailto:%{contact_mail}''>바로 고객센터로 연락하세요.</a> '
+    please_contact: '본인이 직접 로그인하시지 않은경우 <a href=''mailto:%{contact_mail}''>바로 고객센터로 연락하세요.</a> '
     footer: 자동으로 전송된 이메일 입니다, 회신하지마세요.문의사항 있을경우<a href="mailto:%{contact_mail}"> 연락하세요.
   comment_mailer:
     admin_notification:
@@ -1548,7 +1549,8 @@ ko:
     close: 닫기
     price: 가격
     volume: 볼륨
-    candlestick: 차트
+    candlestick: 'Candlestick'
+    line: 'Line'
     minute: 분
     hour: 시간
     day: 일
@@ -1624,7 +1626,7 @@ ko:
         save: 저장하기
     weibo:
       destroy:
-        last_auth_alert: 친애하는 회원님, Weibo는 고객님이 마지막 등록 방식입니다. 삭제하시면 다시 등록할수 없습니다
+        last_auth_alert: 사랑하는 회원님, Weibo는 고객님이 마지막 등록 방식입니다. 삭제하시면 다시 등록할수 없습니다
         unbind_success: Weibo인증 해지
     identities:
       new:
@@ -1642,7 +1644,7 @@ ko:
       signin: 바로 로그인
       password: 비밀번호는 6자리이상,영문 대/소문자 ,숫자를 포함해야합니다
     update:
-      auth-error: 비밀번호가 일치하지 않습니다, 다시 입력하세요
+      auth-error: 현재비밀번호가 일치하지 않습니다, 다시 입력하세요
       auth-same: 입력하신 새비밀번호가 이전비밀번호와 같습니다. 다시 입력하세요.
       notice: 비밀번호 수정 완료, 다시 로그인 하세요
   layouts:
@@ -1771,7 +1773,6 @@ ko:
     sms_auths:
       show:
         title: 핸드폰 인증 받기
-        description: 핸드폰인증을 받으면 거래소에 있는 회원님의 자산이 더욱 안전하게 보호되며 실시간 거래소 정보를  문자로 받아볼수 있습니다
         warning: 핸드폰인증을 받지않아 출금신청 및 비밀번호 찾기 작업을 진행할수 없습니다.
         phone_number: 핸드폰번호
         send_code: 인증번호 요청하기
@@ -1799,6 +1800,8 @@ ko:
       latency: 30분내에 출금신청 처리됩니다.
       transfer: 수동 처리
       go: 바로 출금
+  withdraws:
+    invalid_address: 오류 발생하였습니다, 출금할수 없습니다.
   withdraws/bank:
     aasm_state:
       submitting: 확인 대기
