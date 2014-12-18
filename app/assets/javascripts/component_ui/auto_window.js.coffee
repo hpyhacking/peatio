@@ -1,4 +1,5 @@
 GUTTER = 2 # linkage to market.css.scss $gutter var
+NAV_STACKED_WIDTH = 50 # linkage to market.css.scss $nav_stacked_width var
 PANEL_TABLE_HEADER_HIGH = 37
 PANEL_PADDING = 8
 BORDER_WIDTH = 1
@@ -14,6 +15,8 @@ BORDER_WIDTH = 1
     gutter_7x = GUTTER * 7
     gutter_8x = GUTTER * 8
     gutter_9x = GUTTER * 9
+    nav_stacked_width = NAV_STACKED_WIDTH
+    nav_stacked_width_2x = NAV_STACKED_WIDTH * 2
     panel_table_header_high = PANEL_TABLE_HEADER_HIGH
 
     @$node.resize ->
@@ -40,6 +43,6 @@ BORDER_WIDTH = 1
 
       # Adjust widths.
       window_w = $(@).width()
-      $('#candlestick').width(window_w - order_book_w - gutter_3x)
+      $('#candlestick').width(window_w - order_book_w - gutter_3x - nav_stacked_width)
 
     @$node.resize()

@@ -4,8 +4,10 @@
 $gutter: 2px;
 $min-width: 1180px;
 $min-height: 620px;
+$nav_stacked_width: 50px;
 
 $navbar-height: $navbar-height + 1px;
+$nav_stacked_width_2x: $nav_stacked_width * 2;
 $panel_table_header_high: 37px;
 $gutter-2x: $gutter * 2;
 $gutter-3x: $gutter * 3;
@@ -29,5 +31,5 @@ $my-orders-tabs-height: 282px;
 $trades-tabs-width: 500px;
 $trades-tabs-height: 282px;
 
-$candlestick-width: $min-width - $order-book-width - $gutter-3x;
+$candlestick-width: $min-width - $order-book-width - $gutter-3x - $nav_stacked_width;
 $candlestick-height: $min-height - $navbar-height - $gutter-2x;
