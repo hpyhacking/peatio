@@ -466,6 +466,9 @@ header {
   .row-tips {
     margin-top: 18px;
     margin-bottom: 13px;
+
+    .current-balance { font-family: $font-family-monospace; }
+    .unit { padding-left: 3px; }
   }
 }
 
