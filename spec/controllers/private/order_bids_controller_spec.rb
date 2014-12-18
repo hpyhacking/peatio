@@ -23,7 +23,7 @@ describe Private::OrderBidsController do
       expect {
         post :create, params, {member_id: member.id}
         response.should be_success
-        response.body.should == '{"result":true,"message":"Place Success"}'
+        response.body.should == '{"result":true,"message":"Success"}'
       }.to change(OrderBid, :count).by(1)
     end
 
