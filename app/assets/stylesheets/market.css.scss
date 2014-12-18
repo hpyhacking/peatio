@@ -310,6 +310,8 @@ header {
 #ticker {
   width: $ticker-width; height: $ticker-height;
   bottom: $gutter_2x + $entry-height; right: $gutter;
+
+  .ask, .last, .bid { font-family: $font-family-monospace; }
 }
 
 #order_book {
