@@ -1,7 +1,4 @@
 #order_book.panel.panel-default
-  .panel-heading
-    span = t('.title')
-    span.pull-right: a#fade_toggle_depth.hand-point = t('.fade_toggle_depth')
   .panel-body.panel-body-head
     #order_book_header.row
       .col-xs-12.col-left: table.table
@@ -18,4 +15,3 @@
     #order_book_body.row
       .col-xs-12.col-left: table.table.table-hover.bids
       .col-xs-12: table.table.table-hover.asks
-    = render partial: 'depths'

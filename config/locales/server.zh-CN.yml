@@ -291,6 +291,13 @@ zh-CN:
     pab: 平安银行
     gdb: 广东发展银行
     psbc: 中国邮政储蓄银行
+  market:
+    currency:
+      btc: BTC
+      cny: CNY
+      doge: DOGE
+      pts: PTS
+      ltc: LTC
   currency:
     satoshi:
       key: BTC
@@ -748,8 +755,8 @@ zh-CN:
         notice: 实名认证信息已成功提交。
     markets:
       show:
-        error: 委托挂单失败
-        success: 委托挂单成功
+        error: 委托失败
+        success: 委托成功
         analysis_panel: 分析面板
         help_panel: 帮助面板
         done: 成交
@@ -790,24 +797,18 @@ zh-CN:
       account_balance:
         title: 账户余额
         available: 可用 %{currency}
-      balance:
-        balance: 账户余额
       bid_entry:
-        title: " [买入] "
-        action: 提交 [买入] 委单
+        action: "买入%{currency}"
         price: 价格
         last_price: 最新价格
         amount: 数量
         total: 金额
-        balance: 账户余额
       ask_entry:
-        title: " [卖出] "
-        action: 提交 [卖出] 委单
+        action: "卖出%{currency}"
         price: 价格
         last_price: 最新价格
         amount: 数量
         total: 金额
-        balance: 账户余额
       place_order:
         price_high: 高
         price_low: 低

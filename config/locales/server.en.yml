@@ -288,7 +288,13 @@ en:
     pab: Ping An Bank Co., Ltd.
     gdb: Guangdong Development Bank
     psbc: Postal Savings Bank of China
-
+  market:
+    currency:
+      btc: BTC
+      cny: CNY
+      doge: DOGE
+      pts: PTS
+      ltc: LTC
   currency:
     satoshi:
       key: BTC
@@ -763,8 +769,8 @@ en:
         notice: Your account verification has been submitted.
     markets:
       show:
-        error: Place Failed
-        success: Place Success
+        error: Failed
+        success: Success
         analysis_panel: Analysis
         help_panel: Help
         done: DONE
@@ -805,24 +811,18 @@ en:
       account_balance:
         title: Account Balance
         available: Available %{currency}
-      balance:
-        balance: Balance
       bid_entry:
-        title: " [BUY] "
-        action: Place [BUY] Order
+        action: "Buy %{currency}"
         price: Price
         last_price: Last Price
         amount: Amount
         total: Total
-        balance: Balance
       ask_entry:
-        title: " [SELL] "
-        action: Place [SELL] Order
+        action: "Sell %{currency}"
         price: Price
         last_price: Last Price
         amount: Amount
         total: Total
-        balance: Balance
       place_order:
         price_high: HIGH
         price_low: LOW

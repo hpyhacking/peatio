@@ -19,7 +19,7 @@ feature 'show account info', js: true do
 
   let!(:ask_order) { create :order_ask, price: '23.6' }
   let!(:bid_order) { create :order_bid, price: '21.3' }
-  let!(:ask_name) { I18n.t('currency.name.btc') }
+  let!(:ask_name)  { 'BTC' }
 
   let(:global) { Global[Market.find('btccny')] }
 

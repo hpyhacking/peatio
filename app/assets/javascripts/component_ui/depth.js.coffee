@@ -1,7 +1,6 @@
 @DepthUI = flight.component ->
   @attributes
     chart: '#depths'
-    close: 'a > i.fa.fa-close'
 
   @refresh = (event, data) ->
     chart = @select('chart').highcharts()
