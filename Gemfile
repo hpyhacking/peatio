@@ -12,7 +12,7 @@ gem 'json'
 gem 'jbuilder'
 gem 'bcrypt-ruby', '~> 3.1.2'
 
-gem 'doorkeeper', '~> 1.4.0'
+gem 'doorkeeper', '~> 1.4.1'
 gem 'omniauth', '~> 1.2.1'
 gem 'omniauth-identity', '~> 1.1.1'
 gem 'omniauth-weibo-oauth2', '~> 0.3.0'

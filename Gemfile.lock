@@ -128,7 +128,7 @@ GEM
     debugger-linecache (1.2.0)
     descendants_tracker (0.0.3)
     diff-lcs (1.2.5)
-    doorkeeper (1.4.0)
+    doorkeeper (1.4.1)
       railties (>= 3.1)
     dotenv (0.9.0)
     dotenv-rails (0.9.0)
@@ -455,7 +455,7 @@ DEPENDENCIES
   daemons-rails
   database_cleaner
   datagrid
-  doorkeeper (~> 1.4.0)
+  doorkeeper (~> 1.4.1)
   dotenv-rails
   easy_table
   eco
