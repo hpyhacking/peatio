@@ -21,17 +21,16 @@ BORDER_WIDTH = 1
 
     @$node.resize ->
       navbar_h       = $('.navbar').height() + BORDER_WIDTH
-      window_w       = $(@).width()
-      window_h       = $(@).height()
       entry_h        = $('#ask_entry').height() + 2*BORDER_WIDTH
       depths_h       = $('#depths_wrapper').height() + 2*BORDER_WIDTH
       ticker_h       = $('#ticker').height() + 2*BORDER_WIDTH
       order_book_w   = $('#order_book').width()
 
-      $('.content').width(window_w)
+      # Adjust heights first. Because scrollbar may be removed after heights
+      # adjustment, window width will be affected.
+      window_h = $(@).height()
       $('.content').height(window_h - navbar_h)
 
-      $('#candlestick').width(window_w - order_book_w - gutter_3x - nav_stacked_width)
       $('#candlestick').height(window_h - navbar_h - gutter_3x)
 
       order_h = window_h - navbar_h - entry_h - depths_h - ticker_h - gutter_5x - 2*BORDER_WIDTH
@@ -41,5 +40,9 @@ BORDER_WIDTH = 1
       unless $('#chat_tabs_wrapper').hasClass('stop-resize')
         switch_h = $('#market_switch_tabs_wrapper').height()
         $('#chat_tabs_wrapper').height(window_h - navbar_h - switch_h - gutter_9x)
+
+      # Adjust widths.
+      window_w = $(@).width()
+      $('#candlestick').width(window_w - order_book_w - gutter_3x - nav_stacked_width)
 
     @$node.resize()
