@@ -51,6 +51,7 @@ html lang="en"
                 = render partial: 'chat'
 
         = render partial: 'order_book'
+        = render partial: 'depths'
         = render partial: 'ticker'
         = render partial: 'ask_entry', locals: {market: @market, order: @order_ask }
         = render partial: 'bid_entry', locals: {market: @market, order: @order_bid }
