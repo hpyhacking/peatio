@@ -2,12 +2,12 @@
 
 @import 'vars/bootstrap';
 @import 'vars/bootstrap_market';
-@import 'vars/market';
 
 @import 'bootstrap';
 @import 'bootstrap-switch.min';
 
 @import 'vars/basic';
+@import 'vars/market';
 @import 'vars/custom';
 
 @import "font-awesome-sprockets";
@@ -356,6 +356,10 @@ header {
   width: $order-book-width; height: $depths-height;
   bottom: $gutter-3x + $entry-height + $ticker-height; right: $gutter;
   background-color: rgba(28, 28, 28, 0.95);
+
+  .panel-body {
+    padding: 0;
+  }
 
   table.depths-table {
     th, td { text-align: right; width: 90px; min-width: 90px; }
