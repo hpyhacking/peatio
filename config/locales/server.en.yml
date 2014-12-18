@@ -808,16 +808,14 @@ en:
       balance:
         balance: Balance
       bid_entry:
-        title: " [BUY] "
-        action: Place [BUY] Order
+        action: "Buy %{currency}"
         price: Price
         last_price: Last Price
         amount: Amount
         total: Total
         balance: Balance
       ask_entry:
-        title: " [SELL] "
-        action: Place [SELL] Order
+        action: "Sell %{currency}"
         price: Price
         last_price: Last Price
         amount: Amount

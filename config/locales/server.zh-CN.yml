@@ -793,16 +793,14 @@ zh-CN:
       balance:
         balance: 账户余额
       bid_entry:
-        title: " [买入] "
-        action: 提交 [买入] 委单
+        action: "买入%{currency}"
         price: 价格
         last_price: 最新价格
         amount: 数量
         total: 金额
         balance: 账户余额
       ask_entry:
-        title: " [卖出] "
-        action: 提交 [卖出] 委单
+        action: "卖出%{currency}"
         price: 价格
         last_price: 最新价格
         amount: 数量
