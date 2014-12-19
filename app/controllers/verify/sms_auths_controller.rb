@@ -3,7 +3,7 @@ module Verify
     before_action :auth_member!
     before_action :find_sms_auth
     before_action :activated?
-    before_action :two_factor_required!, only: [:show]
+    before_action :two_factor_required!
 
     def show
       @phone_number = Phonelib.parse(current_user.phone_number).national
