@@ -1,8 +1,3 @@
-# encoding: utf-8
-#
-# Never edit this file. It will be overwritten when translations are pulled from Transifex.
-#
-
 ko:
   js:
     brand: CNY
@@ -32,6 +27,7 @@ ko:
         to_name: 예금주
         to_bank_name: 은행
         opening_bank_name: 은행
+        remark: 'Referral Code (Transfer identification code)'
       deposit_btc:
         title: BTC입금
       deposit_coin:
@@ -115,7 +111,7 @@ ko:
       please_active_two_factor: 회원님의 안전한 자산보호를 위해 핸드폰인증 또는 구글이중인증 받으세요.
       submit: 확인
       otp_placeholder: 6자리 숫자 비밀번호
-      google_app: 구굴이중인증
+      google_app: 구글이중인증
       sms: 핸드폰 인증 메시지
       send_code: 인증번호 요청하기
       send_code_alt: COUNT 초후에 재 전송합니다.
