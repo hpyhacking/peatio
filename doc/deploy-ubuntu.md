@@ -159,7 +159,7 @@ A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do b
 
 ### 9. Install ImageMagick
 
-    sudo apt-get install imagemagick
+    sudo apt-get -y install imagemagick gsfonts
 
 
 ### 10. Setup production environment variable
