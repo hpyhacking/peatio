@@ -14,8 +14,6 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
-I18n.available_locales = ['en']
-
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, {
     js_errors: false,
@@ -68,6 +66,8 @@ RSpec.configure do |config|
     Rails.cache.clear
     AMQPQueue.stubs(:publish)
     KlineDB.stubs(:kline).returns([])
+
+    I18n.locale = :en
   end
 
   config.after(:each) do
