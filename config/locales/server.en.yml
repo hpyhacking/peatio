@@ -1296,7 +1296,7 @@ en:
       trade: Submit and cancel orders
     authorizations:
       new:
-        title: %{brand} Application Authorization
+        title: "%{brand} Application Authorization"
         authorize_html: Authorize <strong class='text-info'>%{name}</strong> to use
           your account?
         scopes: 'This application will be able to:'
@@ -1524,9 +1524,9 @@ en:
   gon:
     ask: Ask
     bid: Bid
-    brand: %{brand} Exchange
+    brand: "%{brand} Exchange"
     notification:
-      title: %{brand} Exchange
+      title: "%{brand} Exchange"
       enabled: Notification enabled.
       new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
   back: Back
@@ -1733,9 +1733,9 @@ en:
     application:
       close: Close
     meta:
-      page_title: %{brand} - The Opensource Cryptocurrency Exchange
-      page_description: %{brand} - The Opensource Cryptocurrency Exchange
-      page_keywords: %{brand},Opensource,Exchange,Cryptocurrency
+      page_title: '%{brand} - The Opensource Cryptocurrency Exchange'
+      page_description: '%{brand} - The Opensource Cryptocurrency Exchange'
+      page_keywords: '%{brand},Opensource,Exchange,Cryptocurrency'
   members:
     edit:
       name: Please fill out the application.

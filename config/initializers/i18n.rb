@@ -2,7 +2,7 @@ module ActionView::Helpers::TranslationHelper
   def t_with_default_brand(*args)
     brand = I18n.t('brand', default: 'PEATIO')
     if args.last.is_a?(Hash)
-      args.last = args.last ++ {brand: brand}
+      args[-1] = args.last.merge brand: brand
     else
       args << {brand: brand}
     end
