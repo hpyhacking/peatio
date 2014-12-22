@@ -23,6 +23,11 @@ class TwoFactor::App < ::TwoFactor
     ROTP::TOTP.new(otp_secret).now
   end
 
+  def refresh!
+    return if activated?
+    super
+  end
+
   private
 
   def gen_code

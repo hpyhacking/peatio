@@ -4,6 +4,32 @@ describe TwoFactor::App do
   let(:member) { create :member }
   let(:app) { member.app_two_factor  }
 
+  describe "generate code" do
+    subject { app }
+
+    its(:otp_secret) { should_not be_blank }
+  end
+
+  describe '#refresh' do
+    context 'inactivated' do
+      it {
+        orig_otp_secret = app.otp_secret.dup
+        app.refresh!
+        expect(app.otp_secret).not_to eq(orig_otp_secret)
+      }
+    end
+
+    context 'activated' do
+      subject { create :two_factor_app, activated: true }
+
+      it {
+        orig_otp_secret = subject.otp_secret.dup
+        subject.refresh!
+        expect(subject.otp_secret).to eq(orig_otp_secret)
+      }
+    end
+  end
+
   describe 'uniq validate' do
     let(:member) { create :member }
 
@@ -43,6 +69,7 @@ describe TwoFactor::App do
 
     its(:activated?) { should_not be_true }
   end
+
 
   describe '.activated' do
     before { create :member, :app_two_factor_activated }
