@@ -107,13 +107,23 @@ describe Worker::Matching do
   end
 
   context "dryrun" do
-    context "orders matched" do
-      let!(:ask) { create(:order_ask, price: '4000', volume: '3.0', member: alice) }
-      let!(:bid) { create(:order_bid, price: '4001', volume: '8.0', member: bob) }
+    let!(:ask) { create(:order_ask, price: '4000', volume: '3.0', member: alice) }
+    let!(:bid) { create(:order_bid, price: '4001', volume: '8.0', member: bob) }
+
+    context "very old orders matched" do
+      before do
+        ask.update_column :created_at, 1.day.ago
+      end
 
       it "should not start engine" do
         subject.engines['btccny'].mode.should == :dryrun
         subject.engines['btccny'].queue.should have(1).trade
+      end
+    end
+
+    context "buffered orders matched" do
+      it "should start engine" do
+        subject.engines['btccny'].mode.should == :run
       end
     end
   end

@@ -80,7 +80,20 @@ module Worker
         if engine.queue.empty?
           engine.shift_gears :run
         else
-          raise DryrunError, engine
+          accept = ENV['ACCEPT_MINUTES'] ? ENV['ACCEPT_MINUTES'].to_i : 30
+          order_ids = engine.queue
+            .map {|args| [args[1][:ask_id], args[1][:bid_id]] }
+            .flatten.uniq
+
+          orders = Order.where('created_at < ?', accept.minutes.ago).where(id: order_ids)
+          if orders.exists?
+            # there're very old orders matched, need human intervention
+            raise DryrunError, engine
+          else
+            # only buffered orders matched, just publish trades and continue
+            engine.queue.each {|args| AMQPQueue.enqueue(*args) }
+            engine.shift_gears :run
+          end
         end
       else
         Rails.logger.info "#{market.id} engine already started. mode=#{engine.mode}"
