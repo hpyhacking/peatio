@@ -4,6 +4,14 @@ describe TwoFactor::Sms do
   let(:member) { create :member }
   let(:two_factor) { member.sms_two_factor }
 
+  describe "generate code" do
+    subject { two_factor }
+
+    it "should generate 6 random digits" do
+      subject.otp_secret.should =~ /^\d{6}$/
+    end
+  end
+
   describe "#refresh" do
     subject { two_factor }
 

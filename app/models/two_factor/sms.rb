@@ -49,7 +49,7 @@ class TwoFactor::Sms < ::TwoFactor
   end
 
   def gen_code
-    self.otp_secret = '%06d' % Random.new.rand(1000000)
+    self.otp_secret = '%06d' % SecureRandom.random_number(1000000)
     self.refreshed_at = Time.now
   end
 
