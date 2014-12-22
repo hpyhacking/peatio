@@ -68,7 +68,7 @@ gem 'phonelib', '~> 0.3.5'
 gem 'twilio-ruby', '~> 3.11'
 gem 'unread', github: 'poshboytl/unread'
 gem 'carrierwave', '~> 0.10.0'
-gem 'simple_captcha', github: 'galetahub/simple-captcha'
+gem 'simple_captcha2', require: 'simple_captcha'
 gem 'rest-client', '~> 1.6.8'
 
 group :development, :test do

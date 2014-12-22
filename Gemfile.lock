@@ -1,10 +1,4 @@
 GIT
-  remote: git://github.com/galetahub/simple-captcha.git
-  revision: 2602bf19a63df25929960b5a7721a9d265281ec1
-  specs:
-    simple_captcha (0.1.6)
-
-GIT
   remote: git://github.com/poshboytl/unread.git
   revision: b8fa0502e9558c93388a104bcbe20376cf43027d
   specs:
@@ -375,6 +369,8 @@ GEM
     shoulda-matchers (2.5.0)
       activesupport (>= 3.0.0)
     signature (0.1.7)
+    simple_captcha2 (0.2.2)
+      rails (>= 3.1, < 4.1)
     simple_form (3.0.1)
       actionpack (>= 4.0.0, < 4.1)
       activemodel (>= 4.0.0, < 4.1)
@@ -504,7 +500,7 @@ DEPENDENCIES
   selenium-webdriver
   settingslogic
   shoulda-matchers
-  simple_captcha!
+  simple_captcha2
   simple_form (= 3.0.1)
   slim-rails
   timecop
