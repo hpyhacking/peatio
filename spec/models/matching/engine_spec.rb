@@ -9,7 +9,7 @@ describe Matching::Engine do
   let(:bid)    { Matching.mock_limit_order(type: :bid, price: price, volume: volume)}
 
   let(:orderbook) { Matching::OrderBookManager.new('btccny', broadcast: false) }
-  subject         { Matching::Engine.new(market) }
+  subject         { Matching::Engine.new(market, mode: :run) }
   before          { subject.stubs(:orderbook).returns(orderbook) }
 
   context "submit market order" do
@@ -183,6 +183,23 @@ describe Matching::Engine do
       subject.submit ask4
 
       used_funds.should ==  order.compute_locked
+    end
+  end
+
+  context "dryrun" do
+    subject { Matching::Engine.new(market) }
+
+    it "should not publish matched trades" do
+      AMQPQueue.expects(:enqueue).never
+
+      subject.submit(ask)
+      subject.submit(bid)
+
+      subject.ask_orders.limit_orders.should be_empty
+      subject.bid_orders.limit_orders.should be_empty
+
+      subject.queue.should have(1).trade
+      subject.queue.first.should == [:trade_executor, {market_id: market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume, funds: '50.0'.to_d}, {persistent: false}]
     end
   end
 

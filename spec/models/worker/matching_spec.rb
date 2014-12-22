@@ -64,7 +64,7 @@ describe Worker::Matching do
     let!(:bid6) { create(:order_bid, price: '4001', volume: '5.0', member: bob) }
 
     let!(:orderbook) { Matching::OrderBookManager.new('btccny', broadcast: false) }
-    let!(:engine)    { Matching::Engine.new(market) }
+    let!(:engine)    { Matching::Engine.new(market, mode: :run) }
 
     before do
       engine.stubs(:orderbook).returns(orderbook)

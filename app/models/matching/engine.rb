@@ -1,12 +1,18 @@
 module Matching
   class Engine
 
-    attr :orderbook
+    attr :orderbook, :mode, :queue
     delegate :ask_orders, :bid_orders, to: :orderbook
 
-    def initialize(market)
-      @market        = market
-      @orderbook     = OrderBookManager.new(market.id)
+    def initialize(market, options={})
+      @market    = market
+      @orderbook = OrderBookManager.new(market.id)
+
+      # Engine is able to run in different mode:
+      # dryrun: do the match, do not publish the trades (default)
+      # run:    do the match, publish the trades
+      @mode = options[:mode] || :dryrun
+      shift_gears
     end
 
     def submit(order)
@@ -42,6 +48,22 @@ module Matching
 
     private
 
+    def shift_gears
+      case @mode
+      when :dryrun
+        @queue = []
+        class <<@queue
+          def enqueue(*args)
+            push args
+          end
+        end
+      when :run
+        @queue = AMQPQueue
+      else
+        raise "Unrecognized mode: #{@mode}"
+      end
+    end
+
     def match(order, counter_book)
       return if order.filled?
 
@@ -73,7 +95,7 @@ module Matching
 
       Rails.logger.info "[#{@market.id}] new trade - ask: #{ask.label} bid: #{bid.label} price: #{price} volume: #{volume} funds: #{funds}"
 
-      AMQPQueue.enqueue(
+      @queue.enqueue(
         :trade_executor,
         {market_id: @market.id, ask_id: ask.id, bid_id: bid.id, strike_price: price, volume: volume, funds: funds},
         {persistent: false}
@@ -82,7 +104,7 @@ module Matching
 
     def publish_cancel(order, reason)
       Rails.logger.info "[#{@market.id}] cancel order ##{order.id} - reason: #{reason}"
-      AMQPQueue.enqueue(
+      @queue.enqueue(
         :order_processor,
         {action: 'cancel', order: order.attributes},
         {persistent: false}

@@ -48,7 +48,7 @@ module Worker
     end
 
     def create_engine(market)
-      engines[market.id] = ::Matching::Engine.new(market)
+      engines[market.id] = ::Matching::Engine.new(market, mode: :run)
     end
 
     def load_orders(market)
