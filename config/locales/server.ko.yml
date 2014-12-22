@@ -1,7 +1,7 @@
 ko:
   activerecord:
     models:
-      api_tokens: API TOKEN
+      api_tokens: API Token
       trade: 거래
       order: 주문
       order_bid: 매수
@@ -813,7 +813,7 @@ ko:
         volume: 수량
         price: 가격
         amount: 합계
-        ask: 매도호가
+        ask: 매도
         bid: 매수
         fade_toggle_depth: 시장깊이
       market_trades:
@@ -844,8 +844,8 @@ ko:
       market_switch:
         title: "[거래 풍목 선택]"
         name: 거래 시장
-        ask: 매도호가
-        bid: 매수호가
+        ask: 매도
+        bid: 매수
       my_done_orders:
         title: 나의[주문]
         filter: 필터
@@ -900,7 +900,7 @@ ko:
           go: 설정
         phone_number:
           title: 핸드폰 번호
-          description: Providing a phone number will make your account more secure. You can quickly reset your password and your account operations will be notified.
+          description: 계정 및 자산 안전을 위해 해드폰 인증을 받아주시십오 비밀번호 재설정 및 계정의 상황에 대해 보다 빠르고 편리하게 이용하실 수 있습니다.
           go: 설정
           verified: 확인 완료
         two_factor_auth:
@@ -1367,42 +1367,42 @@ ko:
       truncate: "..."
   mailer:
     dear_user: 안녕하세요
-    signature: 감사합니다. The COINPLUS Team
+    signature: 감사합니다. The PEATIO Team
     please_contact: '본인이 직접 로그인하시지 않은경우 <a href=''mailto:%{contact_mail}''>바로 고객센터로 연락하세요.</a> '
     footer: 자동으로 전송된 이메일 입니다, 회신하지마세요.문의사항 있을경우<a href="mailto:%{contact_mail}"> 연락하세요.
   comment_mailer:
     admin_notification:
-      subject: "[COINPLUS]"
+      subject: "[PEATIO] User reply a ticket"
       notification_content: User %{email} reply a ticket, please follow the link below to see the detail
     user_notification:
       subject: "[PEATIO] Your ticket got a new reply"
       notification_content: 'Your ticket got a new reply, please follow the link below to see the detail:'
   deposit_mailer:
     accepted:
-      subject: "[COINPLUS]고객님 입금신청 되었습니다."
-      content: 회원님%{currency} 입금신청이 처리되었습니다.
+      subject: "[PEATIO]회원님 입금 되었습니다."
+      content: 회원님%{currency} 입금 처리 되었습니다.
   member_mailer:
     notify_signin:
-      subject: "[COINPLUS] 거래소를 성공적으로 등록하였습니다."
-      just_signed_in: '[COINPLUS]거래소를 성공적으로 등록하였습니다.'
+      subject: "[PEATIO] 거래소를 성공적으로 로그인 하였습니다"
+      just_signed_in: 거래소를 성공적으로 로그인 하였습니다.
     google_auth_activated:
-      subject: "[COINPLUS] 이중인증 받으세요"
-      google_auth_activated: 이중인증이 성공적으로 받아습니다.
+      subject: "[PEATIO] 구글 이중인증"
+      google_auth_activated: 구글 이중인증이 성공적으로 받아습니다.
     google_auth_deactivated:
-      subject: "[COINPLUS] 이중인증을 재설정하세요"
-      google_auth_deactivated: 인중인증 재설정이 완료되었습니다.
+      subject: "[PEATIO] 구글 인중인증 재설정"
+      google_auth_deactivated: 구글 인중인증 재설정이 완료되었습니다.
     sms_auth_activated:
-      subject: "[COINPLUS] 핸드폰인증을 받으세요"
-      sms_auth_activated: 핸드폰인증이 완료되었습니다.
+      subject: "[PEATIO]핸드폰SMS 인증"
+      sms_auth_activated: 핸드폰SMS인증이 완료되었습니다.
     sms_auth_deactivated:
-      subject: "[COINPLUS] 핸드폰인증을 재설정하세요"
-      sms_auth_deactivated: 핸드폰인증이 완료되었습니다.
+      subject: "[PEATIO] 핸드폰SMS인증을 재설정"
+      sms_auth_deactivated: 핸드폰SMS인증이 완료되었습니다.
     reset_password_done:
-      subject: "[COINPLUS] 비밀번호 수정 완료"
-      successful: 비밀번호가 성공적으로 수정되었습니다.
+      subject: "[PEATIO] 비밀번호 수정 완료"
+      successful: 회원님이 비밀번호가 성공적으로 수정되었습니다.
     phone_number_verified:
-      subject: "[COINPLUS] 핸드폰이 확인되었습니다."
-      verified: '확인된 핸드폰 번호:%{phone_number}'
+      subject: "[PEATIO] 핸드폰 인증 완료"
+      verified: '핸드폰 인증 완료 되었습니다. 핸드폰 번호:%{phone_number}'
   system_mailer:
     daily_stats:
       member_stats: 새 사용자
@@ -1410,7 +1410,7 @@ ko:
       activation: 확인
       asset_stats: 자금변동
       trade_stats: 거래변동
-      asset_value_change_total: 디지털 통화 변동 합계
+      asset_value_change_total: 디지털 화폐 금액 변동 합계
       trades_change_total: 거래수량 변동 합계
   ticket_mailer:
     admin_notification:
@@ -1421,27 +1421,27 @@ ko:
       thanks_for_submit_ticket: 소중한의견을 주셔서 감사합니다. 빠른시간에 처리하고 연락을 드리겠습니다.
   token_mailer:
     activation:
-      subject: "[COINPLUS]계정 활성화"
-      click_to_verify: 'COINPLUS가입하신것을 환영합니다. 아래 링크 클릭하신후 이메일 인증 받으세요'
+      subject: "[PEATIO]계정 활성화"
+      click_to_verify: 'PEATIO가입하신것을 환영합니다. 아래 링크 클릭하신후 이메일 인증 받으세요'
       unable_to_click: 링크가 클릭이 안될경우 브라우저 주소창에 주소를 복사해서 방문하세요.
       link_expire: 링크 유효기간 30분 입니다.
     reset_password:
-      subject: "[COINPLUS]비밀번호를 재설정하세요"
+      subject: "[PEATIO]비밀번호를 재설정"
       hi: 안녕하세요.
       follow_the_link: '아래 링크 클릭하신후, 30분안에 비밀번호를 재설정하세요.'
   withdraw_mailer:
     submitted:
-      subject: "[COINPLUS]출금 처리 상태 보기"
+      subject: "[PEATIO]출금 처리 상태 "
       content: 고객님이  %{currency}출금신청 완료 되었습니다. 잠시 기다려주세요. 문의사항 있으면 고객센터로 연락바랍니다.
     processing:
-      subject: "[COINPLUS]출금 처리 상태 보기"
+      subject: "[PEATIO]출금 처리 상황"
       content: 고객님  %{currency}출금신청을 처리하고 있습니다. 잠시 기다려주세요. 문의사항 있으면 고객센터로 연락하세요.
     done:
-      subject: "[COINPLUS]출금 처리 상태 보기"
+      subject: "[PEATIO]출금 처리 상황"
       content: 고객님  %{currency}출금신청을 처리완료하였습니다. 잠시 기다려주세요. 문의사항 있으면 고객센터로 연락하세요.
     withdraw_state:
-      subject: "[COINPLUS]출금 처리 상태 보기"
-      your_state: '출금 처리 상태 보기'
+      subject: "[PEATIO]출금 처리 상황"
+      your_state: '출금 처리 상황 보기'
   view_on_github: View on Github
   slogan: PEATIO는 세계에서 최고의 안정적인 거래소 기술을 제공합니다.
   tags:
@@ -1456,7 +1456,7 @@ ko:
       title: 잔액
   gon:
     ask: 매도
-    bid: 매도호가
+    bid: 매수
     brand: COINPLUS거래소
     notification:
       title: COINPLUS거래소
@@ -1508,7 +1508,7 @@ ko:
     deposits: 입금
     withdraws: 출금
     statistics: 데이트 통계
-    id_documents: 계정을 확인
+    id_documents: 실명인증 상황
   footer:
     about: About
     privacy: 개인정보
@@ -1555,8 +1555,8 @@ ko:
     month: 월
     year: 년
     zoom: 축소
-    ask: 매수
-    bid: 매도호가
+    ask: 매도
+    bid: 매수
     depth: 누적수량
     depth_title: 시장깊이
   'yes': '예'
@@ -1572,7 +1572,7 @@ ko:
       order_ask:
         create: 매도
       order_bid:
-        create: 매도호가
+        create: 매수
       document:
         create: 문서 만들기
         update: 새문서 업데이트
@@ -1654,7 +1654,7 @@ ko:
           operating: 운영관리
         items:
           operating:
-            proofs: 증거
+            proofs: 자산증명
             deposits: 입금관리
             documents: 문장 관리
             withdraws: 출금 관리
@@ -1715,8 +1715,8 @@ ko:
       locked: 동결
     market:
       ticker:
-        ask_price: 매수호가
-        bid_price: 매도호가
+        ask_price: 매도
+        bid_price: 매수
         high_price: 최고가
         low_price: 최저가
         volume: 체결량
@@ -1770,7 +1770,7 @@ ko:
     sms_auths:
       show:
         title: 핸드폰 인증 받기
-        description: Providing a phone number will make your account more secure. you can quickly reset your password and your account operations will be notified.
+        description: 계정 및 자산 안전을 위해 해드폰 인증을 받아주시십오 비밀번호 재설정 및 계정의 상황에 대해 보다 빠르고 편리하게 이용하실 수 있습니다.
         warning: 핸드폰인증을 받지않아 출금신청 및 비밀번호 찾기 작업을 진행할수 없습니다.
         phone_number: 핸드폰번호
         send_code: 인증번호 요청하기
