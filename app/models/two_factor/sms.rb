@@ -1,6 +1,4 @@
 class TwoFactor::Sms < ::TwoFactor
-  OTP_LENGTH = 6
-
   attr_accessor :send_code_phase
   attr_accessor :country, :phone_number
 
@@ -51,7 +49,7 @@ class TwoFactor::Sms < ::TwoFactor
   end
 
   def gen_code
-    self.otp_secret = OTP_LENGTH.times.map{ Random.rand(9) + 1 }.join
+    self.otp_secret = '%06d' % Random.new.rand(1000000)
     self.refreshed_at = Time.now
   end
 
