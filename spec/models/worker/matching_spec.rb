@@ -12,6 +12,10 @@ describe Worker::Matching do
     it "should get all engines" do
       subject.engines.keys.should == [market.id]
     end
+
+    it "should started all engines" do
+      subject.engines.values.map(&:mode).should == [:run]
+    end
   end
 
   context "partial match" do
@@ -19,6 +23,10 @@ describe Worker::Matching do
 
     before do
       subject.process({action: 'submit', order: existing.to_matching_attributes}, {}, {})
+    end
+
+    it "should started engine" do
+      subject.engines['btccny'].mode.should == :run
     end
 
     it "should match part of existing order" do
@@ -95,6 +103,18 @@ describe Worker::Matching do
     it "should cancel existing order" do
       subject.process({action: 'cancel', order: existing.to_matching_attributes}, {}, {})
       subject.engines[market.id].ask_orders.limit_orders.should be_empty
+    end
+  end
+
+  context "dryrun" do
+    context "orders matched" do
+      let!(:ask) { create(:order_ask, price: '4000', volume: '3.0', member: alice) }
+      let!(:bid) { create(:order_bid, price: '4001', volume: '8.0', member: bob) }
+
+      it "should not start engine" do
+        subject.engines['btccny'].mode.should == :dryrun
+        subject.engines['btccny'].queue.should have(1).trade
+      end
     end
   end
 

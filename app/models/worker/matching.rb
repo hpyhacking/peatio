@@ -1,6 +1,14 @@
 module Worker
   class Matching
 
+    class DryrunError < StandardError
+      attr :engine
+
+      def initialize(engine)
+        @engine = engine
+      end
+    end
+
     def initialize
       reload 'all'
     end
@@ -33,8 +41,16 @@ module Worker
         Market.all.each {|market| initialize_engine market }
         Rails.logger.info "All engines reloaded."
       else
-        initialize_engine market
+        initialize_engine Market.find(market)
         Rails.logger.info "#{market} engine reloaded."
+      end
+    rescue DryrunError => e
+      # stop started engines
+      engines.each {|id, engine| engine.shift_gears(:dryrun) unless engine == e.engine }
+
+      Rails.logger.fatal "#{market} engine failed to start. Matched during dryrun:"
+      e.engine.queue.each do |trade|
+        Rails.logger.info trade[1].inspect
       end
     end
 
@@ -44,16 +60,30 @@ module Worker
 
     def initialize_engine(market)
       create_engine market
-      load_orders market
+      load_orders   market
+      start_engine  market
     end
 
     def create_engine(market)
-      engines[market.id] = ::Matching::Engine.new(market, mode: :run)
+      engines[market.id] = ::Matching::Engine.new(market)
     end
 
     def load_orders(market)
       ::Order.active.with_currency(market.id).order('id asc').each do |order|
         submit build_order(order.to_matching_attributes)
+      end
+    end
+
+    def start_engine(market)
+      engine = engines[market.id]
+      if engine.mode == :dryrun
+        if engine.queue.empty?
+          engine.shift_gears :run
+        else
+          raise DryrunError, engine
+        end
+      else
+        Rails.logger.info "#{market.id} engine already started. mode=#{engine.mode}"
       end
     end
 

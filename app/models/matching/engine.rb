@@ -11,8 +11,7 @@ module Matching
       # Engine is able to run in different mode:
       # dryrun: do the match, do not publish the trades (default)
       # run:    do the match, publish the trades
-      @mode = options[:mode] || :dryrun
-      shift_gears
+      shift_gears(options[:mode] || :dryrun)
     end
 
     def submit(order)
@@ -46,10 +45,8 @@ module Matching
         bid: bid_orders.market_orders }
     end
 
-    private
-
-    def shift_gears
-      case @mode
+    def shift_gears(mode)
+      case mode
       when :dryrun
         @queue = []
         class <<@queue
@@ -60,9 +57,13 @@ module Matching
       when :run
         @queue = AMQPQueue
       else
-        raise "Unrecognized mode: #{@mode}"
+        raise "Unrecognized mode: #{mode}"
       end
+
+      @mode = mode
     end
+
+    private
 
     def match(order, counter_book)
       return if order.filled?
