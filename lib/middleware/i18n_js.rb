@@ -5,7 +5,7 @@ module Middleware
     end
 
     def call(env)
-      update_cache(env['REQUEST_PATH']) if matching?(env['REQUEST_PATH'])
+      update_cache(env['ORIGINAL_FULLPATH']) if matching?(env['ORIGINAL_FULLPATH'])
       @app.call(env)
     end
 
