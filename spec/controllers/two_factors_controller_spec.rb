@@ -2,15 +2,17 @@ require 'spec_helper'
 
 describe TwoFactorsController do
   describe 'GET :show' do
-    let(:member) { create :member, :sms_two_factor_activated }
-    before { session[:member_id] = member.id }
+    context 'send sms verify code' do
+      let(:member) { create :member, :sms_two_factor_activated }
+      before { session[:member_id] = member.id }
 
-    let(:do_request) { get :show, {id: :sms, refresh: true} }
+      let(:do_request) { get :show, {id: :sms, refresh: true} }
 
-    it {
-      AMQPQueue.expects(:enqueue).with(:sms_notification, anything)
-      do_request
-    }
+      it {
+        AMQPQueue.expects(:enqueue).with(:sms_notification, anything)
+        do_request
+      }
+    end
   end
 
   describe 'GET :index' do

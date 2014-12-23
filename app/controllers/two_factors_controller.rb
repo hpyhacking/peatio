@@ -4,12 +4,10 @@ class TwoFactorsController < ApplicationController
 
   def show
     respond_to do |format|
-      if params[:refresh]
-        @two_factor.refresh!
-        @two_factor.send_otp
+      if @two_factor.is_a?(TwoFactor::Sms) && params[:refresh]
+        send_sms_verify_code
+        format.any { render status: :ok, text: {} }
       end
-
-      format.any { render status: :ok, text: {} }
     end
   end
 
@@ -27,6 +25,11 @@ class TwoFactorsController < ApplicationController
   end
 
   private
+
+  def send_sms_verify_code
+    @two_factor.refresh!
+    @two_factor.send_otp
+  end
 
   def two_factor_required!
     @two_factor ||= two_factor_by_type || first_availabel_two_factor
