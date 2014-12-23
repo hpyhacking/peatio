@@ -906,8 +906,7 @@ en:
       success: Settings updated successfully.
       failure: Invalid passcode. Please try again.
       index:
-        safety_instruction: In order to protect your bitcoins and personal information,
-          we strongly suggest that you use  Two-factor Authentication
+        safety_instruction: In order to protect your bitcoins and personal information, we strongly suggest that you use Two-Factor Authentication.
         reset_password: Rest your Password
         reauthenticate: Authentication
         activated: An  email has been sent to your mailbox, please check it for verification
@@ -933,8 +932,8 @@ en:
           go: Set
           verified: Verified
         two_factor_auth:
-          title: Two-Step authentication
-          description: Two-Step authentication provides another layer of security
+          title: Two-Factor Authentication
+          description: Two-Factor Authentication provides another layer of security
             to your account.
           enable: Enable
           disable: Disable
@@ -1656,7 +1655,7 @@ en:
         create: Verify
         update: Activiate
       reset_two_factor:
-        create: Reset Two-Factor
+        create: Reset Two-Factor Authentication
       reset_password:
         update: Reset Sign in Password
         create: Reset Sign in Password
@@ -1818,7 +1817,7 @@ en:
     google_auths:
       edit:
         submit: Disable
-        warning: 'Tip: If you have lost your two-factor authentication by some reason
+        warning: 'Tip: If you have lost your Two-Factor Authentication by some reason
           and can''t login your Peatio account, please contact our online customer
           service.'
       show:
@@ -1832,8 +1831,7 @@ en:
           target='_blank'>Installation Instructions</a>。"
         scan-qr-code: Scan the following QR code with Google Authenticator APP，or
           add cipher text to the validator manually.
-        enter-passcode: Fill in the dynamic password  displayed by your phone  to
-          activate two-factor verification.
+        enter-passcode: Fill in the dynamic password  displayed by your phone to activate Two-Factor Authentication.
         submit: Enable
         ios: Iphone iOS
         android: Android
@@ -1843,11 +1841,11 @@ en:
           not_activated_yet: The Google Authenticator hasn't been set yet.
       update:
         alert: Password for authentication is incorrect, please re-enter.
-        notice: Two-factor authentication has been successfully Enabled.
+        notice: Two-Factor Authentication has been successfully Enabled.
         sms_two_factor_error: SMS Verification code is incorrect, please re-enter.
       destroy:
         alert: Password for authentication is incorrect, please re-enter.
-        notice: Two-factor authentication has been successfully Disabled.
+        notice: Two-Factor Authentication has been successfully Disabled.
     sms_auths:
       show:
         title: Verify Phone Number
