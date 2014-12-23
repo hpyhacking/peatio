@@ -1,3 +1,8 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
 ko:
   activerecord:
     models:
@@ -139,6 +144,7 @@ ko:
         two_factor_activated?: "이중인증"
         phone_number: 핸드폰 번호
       two_factor/sms:
+        country: 국가
         phone_number: 핸드폰 번호
         otp: 인증 번호
       withdraws/bank:
@@ -286,6 +292,13 @@ ko:
     pab: dddd
     gdb: dddd
     psbc: dddd
+  market:
+    currency:
+      btc: BTC
+      cny: CNY
+      doge: DOGE
+      pts: PTS
+      ltc: LTC
   currency:
     satoshi:
       key: BTC
@@ -327,7 +340,7 @@ ko:
         created_at: 시간
         channel_key_text: 채널
         fund_extra_text: Extra
-        fund_uid: UID
+        fund_uid: 사용자 번호
         txid: 거래
         amount: 금액
         fee: 수수료
@@ -453,7 +466,7 @@ ko:
     satoshi:
       key: 블록 첸
       title: 비트코인 입금
-      intro: 고객님 코인주소에서 COINPLUS거래소 주소로 입금
+      intro: 고객님 코인주소에서 PEATIO거래소 주소로 입금
       latency: 1 confirmation
       transfer: 수동
       go: 바로입금
@@ -524,7 +537,7 @@ ko:
         txid: 거래 해쉬
       orders:
         order_history: 주문내역
-        id: ID
+        id: 일력번호
         type: 종류
         state: 상태
         market: 시장
@@ -624,7 +637,7 @@ ko:
       view_open_tickets: 처리중인 Ticket를 검색하기
     account_versions:
       index:
-        description: COINPLUS 거래소의 모든 거래내역와 입출금내역을 검색할수있습니다.
+        description: PEATIO거래소의 모든 거래내역와 입출금내역을 검색할수있습니다.
     api_tokens:
       user_tokens:
         no_token: You have no API token.
@@ -681,7 +694,7 @@ ko:
         title: 자산 증명
         intro: 우리는 은행계좌,코인주소 등 모든 자산정보를 100%공개합니다. 회원님들은 실시간으로 우리 거래소의 자산 정보를 볼수있습니다.디지털 인증 방식으로 우리가 제공하는 모든 자산정보를 증명할수있습니다. 최고의 기술로 고객님의 자산을 안전하게 보장합니다.
         how-to-verify: 어떤 방식으로 거래소 지불능력을 확인 합니까?
-        how-to-verify-uri: https://coinplus.kr/documents/liability_proof
+        how-to-verify-uri: https://peatio.com/documents/liability_proof
       liability_data:
         liability-proof-generating: 나의 자산정보 전송중,30분있다 다시 확인하세요
         root-json: 거래소 총 자산 인증코드
@@ -785,24 +798,18 @@ ko:
       account_balance:
         title: 잔액
         available: 사용가능한 금액 %{currency}
-      balance:
-        balance: 잔액
       bid_entry:
-        title: "[구매]"
-        action: '[구매] 주문'
+        action: "[구매] 주문"
         price: 가격
         last_price: 최근가격
         amount: 수량
         total: 금액
-        balance: 잔액
       ask_entry:
-        title: "[판매]"
-        action: '[판매] 주문'
+        action: "[판매] 주문"
         price: 가격
         last_price: 최근가격
         amount: 수량
         total: 금액
-        balance: 잔액
       place_order:
         price_high: 높다
         price_low: 낮다
@@ -885,7 +892,7 @@ ko:
       success: 설정완료
       failure: 비밀번호 오류, 설정 실패. 다시 시도하세요
       index:
-        safety_instruction: 개인정보 및 자산 보호를 위해 이중인증을 꼭 설정하세요.
+        safety_instruction: 개인정보 및 자산 보호를 위해 구글 이중인증을 꼭 설정하십시오
         reset_password: 비밀번호 재설정
         reauthenticate: 이중인증
         activated: 인증이메일이 전송 되었습니다, 이메일 확인한후 인증 받으세요. 이메일을 못 받은경우 재전송버턴을 클릭하세요.
@@ -924,7 +931,7 @@ ko:
           set: 설정
         api_tokens:
           title: API Tokens
-          description: Create and manage your API tokens.
+          description: 관리 및 새 API Token만들기
           go: 설정
         weibo:
           title: Weibo 인증
@@ -961,7 +968,7 @@ ko:
         panel: API Tokens
         index:
           title: My Tokens
-          intro: CoinPlus거래소는 회원들에게 완벽한기능을 가진  API를 제공합니다. API를 통해 실시간 시장정보를 볼수 있으며 구매 및 판매 주문할수 있습니다. 주문내역, 체결내역, 계정 잔액, 개인정보등 유용한 정보를 검색할수 있습니다.
+          intro: PEATIO거래소는 회원들에게 완벽한기능을 가진  API를 제공합니다. API를 통해 실시간 시장정보를 볼수 있으며 구매 및 판매 주문할수 있습니다. 주문내역, 체결내역, 계정 잔액, 개인정보등 유용한 정보를 검색할수 있습니다.
         new:
           title: Create API Token
         create:
@@ -1008,15 +1015,15 @@ ko:
       panel: 로그인
       new:
         title: 로그인
-        intro: '로그인하세요, 거래를 시작할수있습니다. '
+        intro: 로그인하신후 거래소를 이용하십시오
       failure:
         title: 로그인
-        intro: 로그인하세요, 거래 를 시작할수있습니다
+        intro: 로그인하신후 거래소를 이용하십시오.
     identities:
       panel: 계정 만들기
       new:
         title: 나의 계정 만들기
-        intro: 이것은 회원님이  COINPLUS거래소에서 제공하는 모든 서비스 사용할 계정입니다,예 구매/판매,은행송금, 코인 입출금등, 안전하게 관리하세요.
+        intro: 이것은 회원님이  PEATIO거래소에서 제공하는 모든 서비스 사용할 계정입니다,예 구매/판매,은행송금, 코인 입출금등, 안전하게 관리하세요.
       edit:
         panel: 나의 계정
         title: 비밀번호 수정
@@ -1117,12 +1124,12 @@ ko:
       withdraw:
         bank:
           fund_extra: 은행명
-          sum: 출금금액1
+          sum: 출금금액
           account_balance: 사용가능한 금액
           member_name: 계정이름
         satoshi:
           fee: 수수료
-          sum: 출금금액
+          sum: 출금수량
           fund_uid: 출금주소
           fund_extra: 출금표기
           account_balance: 사용가능한 금액
@@ -1141,7 +1148,7 @@ ko:
           target_deposit: Wire Transfer
           confirm: 회원님 입금하시겠습니까?
         update:
-          blank_txid: TxID 입력하세요
+          blank_txid: 거래번호 입력하세요
       satoshis:
         update:
           notice: 입금 완료
@@ -1243,10 +1250,10 @@ ko:
     scopes:
       profile: 고객님 기본정보(예:이름,이메일주소)와 계정잔액을  읽습니다.
       history: 거래내역을 보고있습니다.
-      trade: COINPLUS 거래소 이용하고있는것을 표시합니다
+      trade: PEATIO거래소 이용하고있는것을 표시합니다
     authorizations:
       new:
-        title: COINPLUS Application Authorization
+        title: PEATIO Application Authorization
         authorize_html: Authorize <strong class='text-info'>%{name}</strong> to use your account?
         scopes: 'This application will be able to:'
         authorize: Authorize
@@ -1285,7 +1292,7 @@ ko:
   easy_table:
     satoshi:
       amount: 금액
-      txid: TxId
+      txid: 거래번호
       created_at: 만든시간
       confirmations: Confirmations
       member_name: 사용자
@@ -1457,9 +1464,9 @@ ko:
   gon:
     ask: 매도
     bid: 매수
-    brand: COINPLUS거래소
+    brand: PEATIO거래소
     notification:
-      title: COINPLUS거래소
+      title: PEATIO거래소
       enabled: 알림기능
       new_trade: "%{kind} order#%{id} executed at %{price} %{quote_unit} for %{volume} %{base_unit}。"
   back: 뒤로
@@ -1476,7 +1483,7 @@ ko:
       short: "%m-%d %H:%M"
       default: "%m/%d/%Y %H:%M"
   sms:
-    verification_code: '인증번호:%{code}.유효 기간 30분 입니다. (인증번호를 안전하게 관리하세요.)[COINPLUS]'
+    verification_code: '인증번호:%{code}.유효 기간 30분 입니다. (인증번호를 안전하게 관리하세요.)[PEATIO]'
     password_changed: Hi %{email}, 회원님 비밀번호가 성공적으로 수정 되었습니다.
     deposit_done: Hi %{email}, 회원님이 입금신청 처리 되여습니다.
     withdraw_done: Hi %{email}, 회원님 출금신청이 처리되었습니다.
@@ -1664,9 +1671,9 @@ ko:
     application:
       close: 닫기
     meta:
-      page_title: COINPLUS - The Opensource Cryptocurrency Exchange
-      page_description: COINPLUS- The Opensource Cryptocurrency Exchange
-      page_keywords: COINPLUS,Opensource,Exchange,Cryptocurrency
+      page_title: Peatio - The Opensource Cryptocurrency Exchange
+      page_description: Peatio- The Opensource Cryptocurrency Exchange
+      page_keywords: Peatio,오펀소스, 거래소 , 암호화 화폐
   members:
     edit:
       name: 자산을 안전하게 관리하기위해 이름과 개인정보를 정확히 입력하세요.
@@ -1743,7 +1750,7 @@ ko:
     google_auths:
       edit:
         submit: 해지
-        warning: '특별한 사유로 이중인증을 인증받지 못한경우, 고객센터로 연락하세요.'
+        warning: '특별한 사유로 이중인증을 인증받지 못한경우, 고객센터로 연락하세요'
       show:
         step-1: Step 1
         step-2: Step 2
@@ -1752,7 +1759,7 @@ ko:
         download-app: 핸드폰 시스템 선택하신후, Google Authenticator를 다운로드 받고 핸드폰에 설치하세요.
         guide-link: "구체적인 사용방법은 <a href='https://support.google.com/accounts/answer/1066447' target='_blank'> 클릭 후 참고하세요"
         scan-qr-code: Google Authenticator사용해 QR코드 스캔 또는 수동으로 아래 인증문자 입력하세요.
-        enter-passcode: 핸드폰 보안번호 입력하신후 이중인중을 활성화하세요.
+        enter-passcode: 구글 Authenticator 인증코드를 입력하세요.
         submit: 확인
         ios: 애플 IOS
         android: 안드로이드
@@ -1766,7 +1773,7 @@ ko:
         sms_two_factor_error: 인증문자 오류, 다시 입력하세요.
       destroy:
         alert: 인증번호 오류, 다시 입력하세요
-        notice: 구글이중인증 해지 완료
+        notice: 구글이중인증 해지완료
     sms_auths:
       show:
         title: 핸드폰 인증 받기

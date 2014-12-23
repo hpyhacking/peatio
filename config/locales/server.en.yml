@@ -139,6 +139,7 @@ en:
         two_factor_activated?: "Tow Factor Activated?"
         phone_number: Phone Number
       two_factor/sms:
+        country: Country
         phone_number: Phone Number
         otp: Verify Code
       withdraws/bank:

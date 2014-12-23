@@ -15,7 +15,11 @@ cs:
         btc: BTC
       deposit_cny:
         title: Vložit Čínský Yuan
+        desc: "Vklad bankovním převodem, prosím postupujte dle těchto kroků:"
         desc_item_1: "1. Odeslat formulář pro získání Variabilního symbolu pro platbu."
+        desc_item_2: "2. Převeďte peníze na náš bankovní účet. Prosím, ujistěte se, že jste vyplnili Variabilní symbol."
+        desc_item_3: "3. Váš vklad bude připsán po obdržení částky na náš účet. "
+        attention: "Upozornění: Jméno uvedené u Vašeho bankovního účtu, by se mělo shodovat se jménem, které jste uvedli při aktivaci."
         from: Od
         to: Komu
         deposit_name: Vaše jméno
@@ -28,6 +32,7 @@ cs:
         to_name: Jméno
         to_bank_name: Jméno banky
         opening_bank_name: Číslo Vašeho bank. účtu
+        remark: 'Variabilní symbol (pro identifikaci platby)'
       deposit_btc:
         title: BTC Vklad
       deposit_coin:

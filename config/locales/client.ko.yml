@@ -1,3 +1,8 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
 ko:
   js:
     brand: CNY
@@ -62,7 +67,7 @@ ko:
         title: KRW출금
         intro: 계좌정보를 작성후 출금금액을 입력하시고 출금신청하세요
         intro_2: 예금주와 회원이름이 동일해야합니다.
-        attention: "업무시간: 9:00 - 24:00"
+        attention: "업무시간: 24시간"
         account_name: 예금주
         withdraw_address: 계좌번호
         balance: 잔액
@@ -112,7 +117,7 @@ ko:
       submit: 확인
       otp_placeholder: 6자리 숫자 비밀번호
       google_app: 구글이중인증
-      sms: 핸드폰 인증 메시지
+      sms: 핸드폰 인증
       send_code: 인증번호 요청하기
       send_code_alt: COUNT 초후에 재 전송합니다.
       hints:
