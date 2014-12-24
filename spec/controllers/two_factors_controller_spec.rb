@@ -20,14 +20,13 @@ describe TwoFactorsController do
       before { do_request }
 
       it { expect(response).to be_ok }
-      it { expect(session[:two_factor_auth_failed]).to eq(0) }
     end
 
     context 'two factor auth locked' do
       let(:do_request) { get :show, {id: :sms} }
 
       before {
-        session[:two_factor_auth_failed] = 10
+        controller.stubs(:two_factor_failed_locked?).returns(true)
         do_request
       }
 
