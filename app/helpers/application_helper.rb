@@ -244,14 +244,6 @@ module ApplicationHelper
     end
   end
 
-  def two_factor_tag(user)
-    locals = {
-      app_activated: user.app_two_factor.activated?,
-      sms_activated: user.sms_two_factor.activated?
-    }
-    render partial: 'shared/two_factor_auth', locals: locals
-  end
-
   def format_currency(number, currency, n: nil)
     currency_obj = Currency.find_by_code(currency.to_s)
     digit = n || currency_obj.decimal_digit
