@@ -25,7 +25,7 @@ app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
       .error (responseText) ->
         $.publish 'flash', { message: responseText }
       .finally ->
-        priorSelectedFundSource = $('#fund_source').val()
+        priorSelectedFundSource = ctrl.withdraw.fund_source
         ctrl.withdraw = {}
         ctrl.withdraw.fund_source = $scope.fsources[priorSelectedFundSource].id
         $('.form-submit > input').removeAttr('disabled')
