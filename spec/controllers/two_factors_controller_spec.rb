@@ -2,16 +2,40 @@ require 'spec_helper'
 
 describe TwoFactorsController do
   describe 'GET :show' do
-    context 'send sms verify code' do
-      let(:member) { create :member, :sms_two_factor_activated }
-      before { session[:member_id] = member.id }
+    let(:member) { create :member, :sms_two_factor_activated }
+    before { session[:member_id] = member.id }
 
+    context 'send sms verify code' do
       let(:do_request) { get :show, {id: :sms, refresh: true} }
 
       it {
         AMQPQueue.expects(:enqueue).with(:sms_notification, anything)
         do_request
       }
+    end
+
+    context 'two factor auth not locked' do
+      let(:do_request) { get :show, {id: :sms} }
+
+      before { do_request }
+
+      it { expect(response).to be_ok }
+      it { expect(session[:two_factor_auth_failed]).to eq(0) }
+    end
+
+    context 'two factor auth locked' do
+      let(:do_request) { get :show, {id: :sms} }
+
+      before {
+        session[:two_factor_auth_failed] = 10
+        do_request
+      }
+
+      render_views
+
+      it { expect(response).not_to be_ok }
+      it { expect(response.status).to eq(423) }
+      it { expect(response.body).not_to be_blank }
     end
   end
 

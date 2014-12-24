@@ -16,8 +16,11 @@ app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
 
     if current_user.app_activated or current_user.sms_activated
       type = $('.two_factor_auth_type').val()
-      otp = $("#two_factor_otp").val()
-      data['two_factor'] = { type: type, otp: otp }
+      otp  = $("#two_factor_otp").val()
+
+      data.two_factor = { type: type, otp: otp }
+      data.captcha = $('#captcha').val()
+      data.captcha_key = $('#captcha_key').val()
 
     $('.form-submit > input').attr('disabled', 'disabled')
 

@@ -4,9 +4,13 @@ class TwoFactorsController < ApplicationController
 
   def show
     respond_to do |format|
-      if @two_factor.is_a?(TwoFactor::Sms) && params[:refresh]
+      if two_factor_failed_locked?
+        format.any { render status: :locked, inline: "<%= show_simple_captcha %>" }
+      elsif require_send_sms_verify_code?
         send_sms_verify_code
-        format.any { render status: :ok, text: {} }
+        format.any { render status: :ok, nothing: true }
+      else
+        format.any { render status: :ok, nothing: true }
       end
     end
   end
@@ -26,11 +30,6 @@ class TwoFactorsController < ApplicationController
 
   private
 
-  def send_sms_verify_code
-    @two_factor.refresh!
-    @two_factor.send_otp
-  end
-
   def two_factor_required!
     @two_factor ||= two_factor_by_type || first_availabel_two_factor
 
@@ -45,5 +44,14 @@ class TwoFactorsController < ApplicationController
 
   def first_availabel_two_factor
     current_user.two_factors.activated.first
+  end
+
+  def require_send_sms_verify_code?
+    @two_factor.is_a?(TwoFactor::Sms) && params[:refresh]
+  end
+
+  def send_sms_verify_code
+    @two_factor.refresh!
+    @two_factor.send_otp
   end
 end
