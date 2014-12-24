@@ -22,8 +22,10 @@
       </div>
       <div class="col-sm-12">
 
-        <select id="fund_source" class="select required form-control" name="fund_source" ng-model="withdrawsCtrl.withdraw.fund_source" required>
-          <option value="{{fs.id}}" ng-repeat="fs in fsources">{{fs.label}}</option>
+        <select id="fund_source" class="select required form-control" name="fund_source"
+          ng-model="withdrawsCtrl.withdraw.fund_source"
+          ng-options="fs.id as fs.label for fs in fsources"
+          ng-init="withdrawsCtrl.withdraw.fund_source=fsources[0].id" required>
         </select>
 
       </div>
