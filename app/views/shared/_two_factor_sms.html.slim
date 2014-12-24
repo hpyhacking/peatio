@@ -1,0 +1,13 @@
+label.string.required.col-xs-8.control-label for="two_factor_otp"
+  abbr == "*&nbsp;"
+  span = t('two_factors.auth.sms')
+
+.col-xs-14
+  .input-group style="width:100%;"
+    input.two_factor_auth_type type="hidden" name="two_factor[type]" value="sms"
+    input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" placeholder=t('two_factors.auth.otp_placeholder')
+
+    .input-group-btn.send-code-button
+      button.btn.btn-primary type='submit' name="commit" value="send_code" data-orig-name=t('two_factors.auth.send_code') data-alt-name=t('two_factors.auth.send_code_alt') = t('two_factors.auth.send_code')
+  span.hint.sms = t('two_factors.auth.hints.sms')
+  .captcha-wrap
