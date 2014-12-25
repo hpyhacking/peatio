@@ -64,7 +64,7 @@
     <td>{{withdraw.id}}</td>
     <td>{{withdraw.created_at | date:'yyyy-MM-dd HH:mm'}}</td>
     <td title="{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}">
-      <a href="{{withdraw.blockchain_url}}" target='_blank'>{{withdraw.fund_uid}}</a>
+      <a href="{{withdraw.blockchain_url}}" target='_blank'>{{withdraw.fund_uid | truncate: 20}}</a>
     </td>
     <td>{{withdraw.amount}}</td>
     <td>{{withdraw.fee}}</td>
