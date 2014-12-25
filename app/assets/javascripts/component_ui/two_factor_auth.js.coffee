@@ -58,6 +58,7 @@
 
   @after 'initialize', ->
     @checkCaptchaRequired()
+    $.subscribe 'withdraw:form:submitted', => @checkCaptchaRequired()
     @on @select('switchItem'), 'click', @setActiveItem
     @on @select('sendCodeButton'), 'click', @sendCode
 

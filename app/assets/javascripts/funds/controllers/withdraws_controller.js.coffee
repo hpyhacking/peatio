@@ -32,6 +32,7 @@ app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
         ctrl.withdraw = {}
         ctrl.withdraw.fund_source = priorSelectedFundSource
         $('.form-submit > input').removeAttr('disabled')
+        $.publish 'withdraw:form:submitted'
 
   @withdrawAll = ->
     @withdraw.sum = Number($scope.account.balance)
