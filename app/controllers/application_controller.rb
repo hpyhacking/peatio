@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   private
 
+  include SimpleCaptcha::ControllerHelpers
   include TwoFactorHelper
 
   def currency
@@ -76,12 +77,39 @@ class ApplicationController < ActionController::Base
 
   def two_factor_auth_verified?
     return false if not current_user.two_factors.activated?
+    return false if two_factor_failed_locked? && !simple_captcha_valid?
 
     two_factor = current_user.two_factors.by_type(params[:two_factor][:type])
     return false if not two_factor
 
     two_factor.assign_attributes params.require(:two_factor).permit(:otp, :type)
-    two_factor.verify?
+    if two_factor.verify?
+      clear_two_factor_auth_failed
+      true
+    else
+      increase_two_factor_auth_failed
+      false
+    end
+  end
+
+  def two_factor_failed_locked?
+    failed_two_factor_auth > 10
+  end
+
+  def failed_two_factor_auth
+    Rails.cache.read(failed_two_factor_auth_key) || 0
+  end
+
+  def failed_two_factor_auth_key
+    "peatio:session:#{request.ip}:failed_two_factor_auths"
+  end
+
+  def increase_two_factor_auth_failed
+    Rails.cache.write(failed_two_factor_auth_key, failed_two_factor_auth+1, expires_in: 1.month)
+  end
+
+  def clear_two_factor_auth_failed
+    Rails.cache.delete failed_two_factor_auth_key
   end
 
   def set_timezone

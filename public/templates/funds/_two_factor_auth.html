@@ -22,6 +22,7 @@
     </div>
     <span class="help-block app col-sm-18 col-sm-offset-6">{{"auth.hints.app" | t}}</span>
     <span class="help-block sms col-sm-18 col-sm-offset-6 hide">{{"auth.hints.sms" | t}}</span>
+    <div class="captcha-wrap col-xs-14 col-xs-offset-6"></div>
     </div>
 
     <div ng-if="only_app_activated()">
@@ -34,20 +35,22 @@
         </div>
       </div>
       <span class="help-block app col-sm-18 col-sm-offset-6">{{"auth.hints.app" | t}}</span>
+      <div class="captcha-wrap col-sm-12 col-sm-offset-6"></div>
     </div>
 
     <div ng-if="only_sms_activated()">
-      <label class="string required col-sm-6 control-label" for="two_factor_otp">{{"auth.sms " | t}}</label>
+      <label class="string required col-sm-6 control-label" for="two_factor_otp">{{"auth.sms" | t}}</label>
       <div class="col-sm-12">
         <div class="input-group" style="width:100%;">
           <input class="two_factor_auth_type" name="two_factor[type]" type="hidden" value="sms" />
           <input class="string required form-control" id="two_factor_otp" name="two_factor[otp]" placeholder='{{"auth.otp_placeholder" | t}}' />
           <div class="input-group-btn send-code-button">
-            <button class="btn btn-primary" data-alt-name='{{"auth.send_code_alt" | t}}' data-orig-name='{{"auth.send_code" | t}}' name="commit" type="submit" value="send_code">'{{"auth.send_code" | t}}'</button>
+            <button class="btn btn-primary" data-alt-name='{{"auth.send_code_alt" | t}}' data-orig-name='{{"auth.send_code" | t}}' name="commit" type="submit" value="send_code">{{"auth.send_code" | t}}</button>
           </div>
         </div>
       </div>
       <span class="help-block sms col-sm-18 col-sm-offset-6">{{"auth.hints.sms" | t}}</span>
+      <div class="captcha-wrap col-sm-12 col-sm-offset-6"></div>
     </div>
 
 </div>

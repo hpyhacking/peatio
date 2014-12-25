@@ -23,7 +23,7 @@ module Verify
     end
 
     def destroy
-      if one_time_password_verified?
+      if two_factor_auth_verified?
         @google_auth.deactive!
         redirect_to settings_path, notice: t('.notice')
       else
