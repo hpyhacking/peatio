@@ -9,11 +9,17 @@ window.GlobalData = flight.component ->
     document.title = "#{symbol}#{price} #{market} - #{brand}"
 
   @refreshDepth = (data) ->
+    asks = []
+    bids = []
     [bids_sum, asks_sum] = [0, 0]
-    asks = _.map data.asks, ([price, volume]) ->
-      [parseFloat(price), asks_sum += parseFloat(volume)]
-    bids = _.map data.bids, ([price, volume]) ->
-      [parseFloat(price), bids_sum += parseFloat(volume)]
+
+    _.each data.asks, ([price, volume]) ->
+      if asks.length == 0 || price < _.last(asks)[0]*100
+        asks.push [parseFloat(price), asks_sum += parseFloat(volume)]
+
+    _.each data.bids, ([price, volume]) ->
+      if bids.length == 0 || price > _.last(bids)[0]/100
+        bids.push [parseFloat(price), bids_sum += parseFloat(volume)]
 
     la = _.last(asks)
     lb = _.last(bids)
