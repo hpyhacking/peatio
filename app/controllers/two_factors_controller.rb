@@ -31,7 +31,7 @@ class TwoFactorsController < ApplicationController
   private
 
   def two_factor_required!
-    @two_factor ||= two_factor_by_type || first_availabel_two_factor
+    @two_factor ||= two_factor_by_type || first_available_two_factor
 
     if @two_factor.nil?
       redirect_to settings_path, alert: t('two_factors.auth.please_active_two_factor')
@@ -42,7 +42,7 @@ class TwoFactorsController < ApplicationController
     current_user.two_factors.by_type(params[:id])
   end
 
-  def first_availabel_two_factor
+  def first_available_two_factor
     current_user.two_factors.activated.first
   end
 
