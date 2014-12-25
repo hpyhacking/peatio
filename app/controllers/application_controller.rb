@@ -93,7 +93,7 @@ class ApplicationController < ActionController::Base
   end
 
   def two_factor_failed_locked?
-    failed_two_factor_auth > 5
+    failed_two_factor_auth > 10
   end
 
   def failed_two_factor_auth
