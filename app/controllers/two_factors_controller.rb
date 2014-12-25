@@ -39,7 +39,7 @@ class TwoFactorsController < ApplicationController
   end
 
   def two_factor_by_type
-    current_user.two_factors.by_type(params[:id])
+    current_user.two_factors.activated.by_type(params[:id])
   end
 
   def first_available_two_factor
