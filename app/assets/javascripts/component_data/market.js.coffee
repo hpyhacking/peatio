@@ -4,7 +4,7 @@
     @trigger 'market::candlestick::request'
     @reqK gon.market.id, gon.trades[gon.trades.length-1], data['x']
 
-  @reqK = (market, trade, minutes, limit = 1440) ->
+  @reqK = (market, trade, minutes, limit = 768) ->
     tid = if trade then trade.tid else 0
     url = "/api/v2/k_with_pending_trades.json?market=#{market}&limit=#{limit}&period=#{minutes}&trade_id=#{tid}"
     $.getJSON url, (data) =>

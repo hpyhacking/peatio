@@ -18,44 +18,6 @@ DATETIME_LABEL_FORMAT =
   month: '%Y-%m'
   year: '%Y'
 
-DATE_RANGE =
-  min1:
-    default_range: 1000 * 3600 * 2 # 2h
-    dataGrouping_units: [['minute', [1]]]
-  min5:
-    default_range: 1000 * 3600 * 10 # 10h
-    dataGrouping_units: [['minute', [5]]]
-  min15:
-    default_range: 1000 * 3600 * 24 * 1 # 1d
-    dataGrouping_units: [['minute', [15]]]
-  min30:
-    default_range: 1000 * 3600 * 24 * 2 # 2d
-    dataGrouping_units: [['minute', [30]]]
-  min60:
-    default_range: 1000 * 3600 * 24 * 5 # 5d
-    dataGrouping_units: [['hour', [1]]]
-  min120:
-    default_range: 1000 * 3600 * 24 * 10 # 10d
-    dataGrouping_units: [['hour', [2]]]
-  min240:
-    default_range: 1000 * 3600 * 24 * 20 # 20d
-    dataGrouping_units: [['hour', [4]]]
-  min360:
-    default_range: 1000 * 3600 * 24 * 30 * 1 # 1m
-    dataGrouping_units: [['hour', [6]]]
-  min720:
-    default_range: 1000 * 3600 * 24 * 30 * 2 # 2m
-    dataGrouping_units: [['hour', [12]]]
-  min1440:
-    default_range: 1000 * 3600 * 24 * 30 * 3 # 3m
-    dataGrouping_units: [['day', [1]]]
-  min4320:
-    default_range: 1000 * 3600 * 24 * 30 * 9 # 9m
-    dataGrouping_units: [['day', [3]]]
-  min10080:
-    default_range: 1000 * 3600 * 24 * 30 * 12 # 12m
-    dataGrouping_units: [['day', [7]]]
-
 RANGE_DEFAULT =
   fill: 'none',
   stroke: 'none',
@@ -128,9 +90,12 @@ INDICATOR = {MA: false, EMA: false}
       tooltips.push chart.series[0].points[chart.series[0].points.length-1]
     chart.tooltip.refresh tooltips if tooltips.length
 
+  @default_range = (unit) ->
+    1000 * 60 * unit * 72
+
   @initHighStock = (data) ->
     component = @
-    range = DATE_RANGE["min#{data['minutes']}"]['default_range']
+    range = @default_range(data['minutes'])
     unit = $("[data-unit=#{data['minutes']}]").text()
     title = "#{gon.market.base_unit.toUpperCase()}/#{gon.market.quote_unit.toUpperCase()} - #{unit}"
 
@@ -146,7 +111,6 @@ INDICATOR = {MA: false, EMA: false}
 
     dataGrouping =
       enabled: false
-      units: DATE_RANGE["min#{data['minutes']}"]['dataGrouping_units']
 
     tooltipTemplate = JST["templates/tooltip"]
 
