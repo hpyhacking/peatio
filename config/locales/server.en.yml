@@ -867,16 +867,6 @@ en:
         name: Market
         ask: ASK
         bid: BID
-      my_done_orders:
-        title: My [Done Orders]
-        filter: Filter
-        all: ALL DONE
-        buy: BUY DONE
-        sell: SELL DONE
-        cancel: All cancel trades
-        price: Price
-        volume: Volume
-        time: Place Time
       my_orders:
         title: My [Active Orders]
         orders_wait: Latest Orders

@@ -183,9 +183,6 @@ header {
   }
 }
 
-#my_orders, #my_done_orders {
-  & > .mask { padding-top: 130px; }
-}
 #ask_entry > .mask { padding-top: 80px; }
 #bid_entry > .mask { padding-top: 80px; }
 
@@ -382,6 +379,8 @@ header {
     left: auto;
     right: 0;
   }
+
+  & > .mask { padding-top: 130px; }
 }
 
 /* order entry
@@ -492,7 +491,7 @@ header {
 .col-left { padding-right: 12px; }
 .panel-body-head { border-bottom: 1px solid #333; }
 
-#ticker, #order_book, #market_trades, #my_orders, #my_done_orders {
+#ticker, #order_book, #market_trades, #my_orders {
   table {
     margin-bottom: 0px;
 

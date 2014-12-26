@@ -852,16 +852,6 @@ zh-CN:
         name: 交易对
         ask: 卖出价
         bid: 买入价
-      my_done_orders:
-        title: 我的 [成交委单]
-        filter: 过滤
-        all: 查看 [全部委单]
-        buy: 查看 [买入委单]
-        sell: 查看 [卖出委单]
-        cancel: 已取消订单
-        price: 成交价
-        volume: 成交量
-        time: 创建时间
       my_orders:
         title: 我的 [有效委单]
         orders_wait: 挂单纪录

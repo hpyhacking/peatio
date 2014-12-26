@@ -850,16 +850,6 @@ cs:
         name: Obchod
         ask: Poptávka
         bid: Nabídka
-      my_done_orders:
-        title: Moje [Ukončené objednávky]
-        filter: Filtr
-        all: VŠE UKONČENÉ
-        buy: KUP UKONČENÉ
-        sell: PRODEJ UKONČENÉ
-        cancel: Ukončit všechny obchody
-        price: Cena
-        volume: Objem
-        time: Čas umístění
       my_orders:
         title: Moje [Aktivní Objednávky]
         orders_wait: Poslední objednávky

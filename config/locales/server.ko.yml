@@ -853,16 +853,6 @@ ko:
         name: 거래 시장
         ask: 매도
         bid: 매수
-      my_done_orders:
-        title: 나의[주문]
-        filter: 필터
-        all: '[모든주문]보기'
-        buy: '[구매주문]보기'
-        sell: '[판매주문]보기'
-        cancel: 취소된 주문
-        price: 체결가
-        volume: 체결량
-        time: 체결시간
       my_orders:
         title: 나의[유효주문]
         orders_wait: 주문내역
