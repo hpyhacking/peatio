@@ -873,11 +873,10 @@ zh-CN:
         confirm_clear_all: 确定要撤销全部 [买卖委单] 吗?
         confirm_clear_bids: 确定要撤销 [买入委单] 吗?
         confirm_clear_asks: 确定要撤销 [卖出委单] 吗?
-        one_click_clear: 一键撤销
         price: 委单价
         volume: 委单量
+        amount: 总价
         time: 创建时间
-        operation: 撤销
       mask:
         warning: 请 <a class=text-up href='/'>登录</a> 或 <a class=text-up href='/'>注册</a> 后进行操作
       klime_chart:

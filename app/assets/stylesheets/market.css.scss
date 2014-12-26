@@ -372,6 +372,18 @@ header {
   .panel-body-content { height: 210px; }
 }
 
+#my_orders {
+  width: $my-orders-width; height: $my-orders-height;
+  bottom: $ticker-height+$entry-height+$gutter-3x; right: $gutter;
+
+  .panel-body-content { height: 210px; }
+  .dropdown-menu {
+    top: $panel_table_header_high;
+    left: auto;
+    right: 0;
+  }
+}
+
 /* order entry
 -----------------------------------------------------*/
 [data-lang=zh-cn] {
@@ -507,10 +519,6 @@ header {
 table {
   thead { cursor: default; th { color: #777; }}
   &.table-hover { tbody > tr:hover { cursor: pointer;} }
-}
-
-#my_orders, #my_done_orders {
-  .panel-body-content { height: 220px; }
 }
 
 .panel-body-content::-webkit-scrollbar { width: 0 !important }

@@ -27,16 +27,6 @@ html lang="en"
         = render partial: 'range_switch'
         = render partial: 'indicator_switch'
 
-        #my_order_tabs_wrapper.float
-          ul.nav.nav-tabs.tabs-left.sideways
-            li: a href='#my_orders_content' data-toggle='tab' == t('.my_active_order')
-            li: a href='#my_done_orders_content' data-toggle='tab' == t('.my_done_order')
-          .tab-content
-            #my_orders_content.tab-pane
-              = render partial: 'my_orders'
-            #my_done_orders_content.tab-pane
-              = render partial: 'my_done_orders'
-
         - if ENV['CHAT_FEATURE']
           #chat_tabs_wrapper.float
             ul.nav.nav-tabs.tabs-right.sideways
@@ -45,6 +35,7 @@ html lang="en"
               #chat_content.tab-pane
                 = render partial: 'chat'
 
+        = render partial: 'my_orders'
         = render partial: 'ticker'
         = render partial: 'ask_entry', locals: {market: @market, order: @order_ask }
         = render partial: 'bid_entry', locals: {market: @market, order: @order_bid }

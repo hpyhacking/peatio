@@ -36,3 +36,6 @@ $candlestick-height: $min-height - $navbar-height - $gutter-2x;
 
 $market-trades-width: $order-book-width;
 $market-trades-height: $entry-height + $ticker-height + $gutter;
+
+$my-orders-width: $order-book-width;
+$my-orders-height: $market-trades-height;
