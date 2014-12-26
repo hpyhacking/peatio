@@ -43,6 +43,6 @@ BORDER_WIDTH = 1
 
       # Adjust widths.
       window_w = $(@).width()
-      $('#candlestick').width(window_w - order_book_w - gutter_3x - nav_stacked_width)
+      $('#candlestick').width(window_w - 2*order_book_w - gutter_3x - nav_stacked_width)
 
     @$node.resize()

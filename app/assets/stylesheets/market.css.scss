@@ -317,7 +317,7 @@ header {
 #order_book {
   width: $order-book-width; height: $order-book-height; 
   min-height: $order-book-height;
-  top: $gutter; right: $gutter; 
+  top: $gutter; left: $gutter; 
 
   .panel-body-content { 
     min-height: $order-book-height - $panel_table_header_high;
@@ -340,7 +340,7 @@ header {
   position: absolute;
   min-width: $candlestick-width; width: $candlestick-width; 
   min-height: $candlestick-height; height: $candlestick-height;
-  top: $gutter; left: $gutter; 
+  top: $gutter-2x; left: $gutter+$order-book-width; 
 }
 
 .switch {
@@ -356,7 +356,7 @@ header {
 
 #depths_wrapper {
   width: $order-book-width; height: $depths-height;
-  bottom: $gutter-3x + $entry-height + $ticker-height; right: $gutter;
+  bottom: $gutter-3x + $entry-height + $ticker-height; left: $gutter;
   background-color: rgba(28, 28, 28, 0.95);
 
   .panel-body {
