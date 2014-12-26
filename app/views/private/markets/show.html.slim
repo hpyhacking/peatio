@@ -19,18 +19,13 @@ html lang="en"
     = render partial: "private/markets/header"
     #wrap
       .content
-        = render partial: 'candlestick'
+        = render partial: 'order_book'
+        = render partial: 'depths'
+        = render partial: 'market_trades'
 
+        = render partial: 'candlestick'
         = render partial: 'range_switch'
         = render partial: 'indicator_switch'
-
-        #market_trades_tabs_wrapper.float
-          ul.nav.nav-tabs.tabs-left.sideways
-            li: a href='#market_trades_content' data-toggle='tab'
-              span == t('.trades')
-          .tab-content
-            #market_trades_content.tab-pane
-              = render partial: 'market_trades'
 
         #my_order_tabs_wrapper.float
           ul.nav.nav-tabs.tabs-left.sideways
@@ -50,8 +45,6 @@ html lang="en"
               #chat_content.tab-pane
                 = render partial: 'chat'
 
-        = render partial: 'order_book'
-        = render partial: 'depths'
         = render partial: 'ticker'
         = render partial: 'ask_entry', locals: {market: @market, order: @order_ask }
         = render partial: 'bid_entry', locals: {market: @market, order: @order_bid }

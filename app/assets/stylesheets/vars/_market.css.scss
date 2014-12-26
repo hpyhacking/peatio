@@ -33,3 +33,6 @@ $trades-tabs-height: 282px;
 
 $candlestick-width: $min-width - $order-book-width - $gutter-3x - $nav_stacked_width;
 $candlestick-height: $min-height - $navbar-height - $gutter-2x;
+
+$market-trades-width: $order-book-width;
+$market-trades-height: $entry-height + $ticker-height + $gutter;

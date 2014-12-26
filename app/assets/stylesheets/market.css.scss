@@ -245,11 +245,6 @@ header {
   }
 }
 
-#market_trades_tabs_wrapper {
-  top: $gutter; right: $gutter_2x + $order-book-width;
-  @include float-wrapper($trades-tabs-width, $trades-tabs-height);
-}
-
 #my_order_tabs_wrapper {
   bottom: $gutter; right: $gutter_2x + $order-book-width;
   @include float-wrapper($trades-tabs-width, $trades-tabs-height);
@@ -370,6 +365,12 @@ header {
   }
 }
 
+#market_trades {
+  width: $market-trades-width; height: $market-trades-height;
+  bottom: $gutter; left: $gutter;
+
+  .panel-body-content { height: 210px; }
+}
 
 /* order entry
 -----------------------------------------------------*/
@@ -508,7 +509,7 @@ table {
   &.table-hover { tbody > tr:hover { cursor: pointer;} }
 }
 
-#market_trades, #my_orders, #my_done_orders {
+#my_orders, #my_done_orders {
   .panel-body-content { height: 220px; }
 }
 
