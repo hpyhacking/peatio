@@ -1,8 +1,3 @@
-# encoding: utf-8
-#
-# Never edit this file. It will be overwritten when translations are pulled from Transifex.
-#
-
 ko:
   js:
     brand: CNY
@@ -38,7 +33,7 @@ ko:
       deposit_coin:
         address: BTC지갑주소
         new_address: 새 BTC지갑주소
-        open-wallet: 회원님이 보유하신 지갑(로컬,모바일,온라인)에서 편리한 방법으로 비트코인을 입금하세요
+        open-wallet: 이숙한 지갑으로 탱해 입출금 서비스를 이용하십시오
         detail: '아래 지갑주소로 입금하세요. '
         scan-qr: 모바일 지갑은  QR코드 스캔을 이용해서 입금하세요.
         after_deposit: 입금후 아래 입금내역을 통해 입금상태를 확인할수 있습니다.
@@ -50,8 +45,8 @@ ko:
         time: 시간
         txid: 전송해쉬
         confirmations: Confirmation 수량
-        from: 출금주소
-        amount: 출금금액
+        from: 입금계좌
+        amount: 입금금액
         state_and_action: "상태/확인"
         cancel: 취소
         no_data: 내역이 없습니다
@@ -64,7 +59,7 @@ ko:
         warning: 경고
         suspect: Suspect
       withdraw_cny:
-        title: KRW출금
+        title: CNY출금
         intro: 계좌정보를 작성후 출금금액을 입력하시고 출금신청하세요
         intro_2: 예금주와 회원이름이 동일해야합니다.
         attention: "업무시간: 24시간"
@@ -79,21 +74,21 @@ ko:
       withdraw_btc:
         title: BTC출금
       withdraw_coin:
-        intro: 출금주소를 선택하고 출금수량을 입력 후 출금신청하세요. 확인시간은 약 10분정도 소모됩니다.
+        intro: 지갑주소를 선택하고 출금수량을 입력 후 출금신청하세요. 출금확인시간은 30분정도 소요됩니다.
         label: 표기
         balance: 잔액
         amount: 출금수량
-        manage_withdraw: 주소 관리
+        manage_withdraw: 지갑관리
         min: 최소수량
         withdraw_all: 전액출금
         fee_explain: 수수료 설명
       withdraw_history:
         title: 출금내역
-        number: 수량
+        number: 일럭번호
         withdraw_time: 시간
         withdraw_account: 출금계좌
         withdraw_address: 출금주소
-        withdraw_amount: 수량
+        withdraw_amount: 출금금액
         actual_amount: 실 수령액(수수료 제외 금액)
         fee: 수수료
         miner_fee: 이동 수수료

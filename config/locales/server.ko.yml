@@ -1,8 +1,3 @@
-# encoding: utf-8
-#
-# Never edit this file. It will be overwritten when translations are pulled from Transifex.
-#
-
 ko:
   activerecord:
     models:
@@ -35,7 +30,7 @@ ko:
         actions: 확인
       identity:
         email: 이메일
-        password: 새 비밀번호
+        password: 비밀번호
         password_confirmation: 비밀번호 재확인
       document:
         zh_cn_body: 한글 내용
@@ -501,9 +496,9 @@ ko:
           account: 계좌
     fund_sources:
       index:
-        manage_coin_address: '%{name}주소 관리'
+        manage_coin_address: '%{name}지갑관리'
         manage_bank_account: 은행계좌 관리
-        guide_intro_coin: 출금 편리성을 위해  %{name} 출금주소를 추가하세요
+        guide_intro_coin: 간편한 출금신청을 위해 %{name} 지갑주소를 추가하세요.
         guide_intro_bank: 출금을 편리하게 하기위해 출금 은행계좌를 %{name} 추가하세요
         new: 새로 만들기
         currency: 화폐 종류
@@ -558,7 +553,7 @@ ko:
         created_at: 시간
         base_currency: 기준 화폐
         base_amount: 수량
-        quote_currency: 사용할 화폐
+        quote_currency: 화폐종류
         quote_amount: 수량
         price: 체결가
       trade:
@@ -769,7 +764,7 @@ ko:
         my_active_order: 주문내역
         my_done_order: 체결내역
         trades: 최근 체결내역
-        market_switch: 거래품목
+        market_switch: 거래코인
         chat: 채팅 채널
       range_switch:
         switch_1: 1m
@@ -849,7 +844,7 @@ ko:
         view_all_accounts: "[모든 계정 보기]"
         hide_all_accounts: "[기타 계정 숨기기]"
       market_switch:
-        title: "[거래 풍목 선택]"
+        title: "[거래코인선택]"
         name: 거래 시장
         ask: 매도
         bid: 매수
@@ -907,7 +902,7 @@ ko:
           go: 설정
         phone_number:
           title: 핸드폰 번호
-          description: 계정 및 자산 안전을 위해 해드폰 인증을 받아주시십오 비밀번호 재설정 및 계정의 상황에 대해 보다 빠르고 편리하게 이용하실 수 있습니다.
+          description: 핸드폰인증을 받으세요.개인정보 보호와 비밀번호 재설정 출금요청시 필요합니다.
           go: 설정
           verified: 확인 완료
         two_factor_auth:
@@ -963,7 +958,7 @@ ko:
       settings:
         panel: 사용자설정
         index:
-          intro: 개인정보와 인증정보를 관리 및 수정
+          intro: 개인정보 수정 및 개인인증 설정
       api_tokens:
         panel: API Tokens
         index:
@@ -1022,8 +1017,8 @@ ko:
     identities:
       panel: 계정 만들기
       new:
-        title: 나의 계정 만들기
-        intro: 이것은 회원님이  PEATIO거래소에서 제공하는 모든 서비스 사용할 계정입니다,예 구매/판매,은행송금, 코인 입출금등, 안전하게 관리하세요.
+        title: 회원가입하기
+        intro: 이 계정는 PEATIO거래소에서 제공하는 모든 서비스 사용할 계정입니다, 안전하게 관리하세요.
       edit:
         panel: 나의 계정
         title: 비밀번호 수정
@@ -1071,7 +1066,7 @@ ko:
           sn: "<span class='text-danger'>더욱 빠른처리를 위해 은행송금시 비고창에 꼭 숫자정보 입력하세요."
       two_factor:
         otp_secret: 이중인증QR코드 또는 문자정보 꼭 백업하세요. 핸드폰 분실시 사용해야합니다.
-        otp: 구글이중인증은 인증번호는 30초마다 갱신되며, 시간내에 입력하세요.
+        otp: 구글이중인증 코드는 30초마다 갱신되며,제한된 시간내에 입력하세요
       identity:
         password: 비밀번호는 6자리이상,영문 대/소문자 ,숫자를 포함해야합니다
       reset_password:
@@ -1109,13 +1104,13 @@ ko:
         address: 계좌번호
         category: 출금하신 통화종류 선택하세요
       session:
-        email: 이메일 등록
+        email: 이메일
         password: 비밀번호
         captcha: 인증코드
       identity:
-        email: 이메일 등록
+        email: 이메일
         old_password: 현재비밀번호
-        password: 새 비밀번호
+        password: 비밀번호
         password_confirmation: 비밀번호 재확인
       reset_password:
         password: 새 비밀번호
@@ -1513,7 +1508,7 @@ ko:
     withdraw: 출금
   admin_header:
     deposits: 입금
-    withdraws: 출금
+    withdraws: 출금관리
     statistics: 데이트 통계
     id_documents: 실명인증 상황
   footer:
@@ -1645,7 +1640,7 @@ ko:
   identities:
     new:
       title: 가입하기
-      signin: 바로 로그인
+      signin: 로그인바로가기
       password: 비밀번호는 6자리이상,영문 대/소문자 ,숫자를 포함해야합니다
     update:
       auth-error: 현재비밀번호가 일치하지 않습니다, 다시 입력하세요
@@ -1756,9 +1751,9 @@ ko:
         step-2: Step 2
         step-3: Step 3
         or: 또는
-        download-app: 핸드폰 시스템 선택하신후, Google Authenticator를 다운로드 받고 핸드폰에 설치하세요.
+        download-app: 핸드폰 운영체계를 선택하신후,Google Authenticator를 다운받으세요
         guide-link: "구체적인 사용방법은 <a href='https://support.google.com/accounts/answer/1066447' target='_blank'> 클릭 후 참고하세요"
-        scan-qr-code: Google Authenticator사용해 QR코드 스캔 또는 수동으로 아래 인증문자 입력하세요.
+        scan-qr-code: Google Authenticator다운받으시고 아래 QR코드를 스캔하세요.스캔이 되지않으면 아래 문자정보를 입력하시기 바랍니다.
         enter-passcode: 구글 Authenticator 인증코드를 입력하세요.
         submit: 확인
         ios: 애플 IOS
@@ -1777,8 +1772,8 @@ ko:
     sms_auths:
       show:
         title: 핸드폰 인증 받기
-        description: 계정 및 자산 안전을 위해 해드폰 인증을 받아주시십오 비밀번호 재설정 및 계정의 상황에 대해 보다 빠르고 편리하게 이용하실 수 있습니다.
-        warning: 핸드폰인증을 받지않아 출금신청 및 비밀번호 찾기 작업을 진행할수 없습니다.
+        description: 핸드폰인증을 받으세요.개인정보 보호와 비밀번호 재설정 출금요청시 필요합니다.
+        warning: 핸드폰인증을 받지않아 출금신청 및 비밀번호 찾기를 할수없습니다.
         phone_number: 핸드폰번호
         send_code: 인증번호 요청하기
         send_code_alt: COUNT초후 재전송 합니다.
@@ -1797,14 +1792,14 @@ ko:
       intro: 은행계좌 사용해서 입출금 하세요.
       latency: 30분내에 입금 처리 됩니다.
       transfer: 수동처리
-      go: 바로 출금
+      go: 출금
     satoshi:
       key: 블럭 첸
       title: 비트코인 출금
       intro: 거래소에 있는 비트코인을 회원님이 개인지갑주소로  전송됩니다.
       latency: 30분내에 출금신청 처리됩니다.
       transfer: 수동 처리
-      go: 바로 출금
+      go: 출금
   withdraws:
     invalid_address: 오류 발생하였습니다, 출금할수 없습니다.
   withdraws/bank:
