@@ -1,3 +1,8 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
 ko:
   js:
     brand: CNY
@@ -33,7 +38,7 @@ ko:
       deposit_coin:
         address: BTC지갑주소
         new_address: 새 BTC지갑주소
-        open-wallet: 이숙한 지갑으로 탱해 입출금 서비스를 이용하십시오
+        open-wallet: 이숙한 지갑으로 통해 입출금 서비스를 이용하십시오
         detail: '아래 지갑주소로 입금하세요. '
         scan-qr: 모바일 지갑은  QR코드 스캔을 이용해서 입금하세요.
         after_deposit: 입금후 아래 입금내역을 통해 입금상태를 확인할수 있습니다.
@@ -41,7 +46,7 @@ ko:
       deposit_history:
         title: 입금내역
         number: '#'
-        identification: ' 확인 번호'
+        identification: '일련번호 '
         time: 시간
         txid: 전송해쉬
         confirmations: Confirmation 수량
@@ -62,7 +67,7 @@ ko:
         title: CNY출금
         intro: 계좌정보를 작성후 출금금액을 입력하시고 출금신청하세요
         intro_2: 예금주와 회원이름이 동일해야합니다.
-        attention: "업무시간: 24시간"
+        attention: "업무시간: 9:00 - 18:00"
         account_name: 예금주
         withdraw_address: 계좌번호
         balance: 잔액
@@ -75,7 +80,7 @@ ko:
         title: BTC출금
       withdraw_coin:
         intro: 지갑주소를 선택하고 출금수량을 입력 후 출금신청하세요. 출금확인시간은 30분정도 소요됩니다.
-        label: 표기
+        label: 출금지갑
         balance: 잔액
         amount: 출금수량
         manage_withdraw: 지갑관리

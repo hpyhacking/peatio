@@ -1,3 +1,8 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
 ko:
   activerecord:
     models:
@@ -170,7 +175,7 @@ ko:
         fund_source: 입금 계좌
       deposits/satoshi:
         created_at: 시간
-        txid: 거래 해쉬
+        txid: 확인시간
         amount: 입금 수량
         confirmations: Confirmation
         aasm_state_text: 상태
@@ -372,7 +377,7 @@ ko:
         state_text: 상태
     members_grid:
       columns:
-        sn: 일력번호
+        sn: 일련번호
         email: 이메일주소
         created_at: 등록시간
         actions: 완료
@@ -499,7 +504,7 @@ ko:
         manage_coin_address: '%{name}지갑관리'
         manage_bank_account: 은행계좌 관리
         guide_intro_coin: 간편한 출금신청을 위해 %{name} 지갑주소를 추가하세요.
-        guide_intro_bank: 출금을 편리하게 하기위해 출금 은행계좌를 %{name} 추가하세요
+        guide_intro_bank: 입출금 편리성을 위해 입출금계좌를 입력하세요
         new: 새로 만들기
         currency: 화폐 종류
         bank: 은행이름
@@ -529,10 +534,10 @@ ko:
         fee: 수수료
         currency: 화폐 종류
         amount: 금액
-        txid: 거래 해쉬
+        txid: 거래번호
       orders:
         order_history: 주문내역
-        id: 일력번호
+        id: 일련번호
         type: 종류
         state: 상태
         market: 시장
@@ -963,7 +968,7 @@ ko:
         panel: API Tokens
         index:
           title: My Tokens
-          intro: PEATIO거래소는 회원들에게 완벽한기능을 가진  API를 제공합니다. API를 통해 실시간 시장정보를 볼수 있으며 구매 및 판매 주문할수 있습니다. 주문내역, 체결내역, 계정 잔액, 개인정보등 유용한 정보를 검색할수 있습니다.
+          intro: 회원들에게 완벽한기능을 가진  API를 제공합니다. API를 통해 실시간 시장정보를 볼수 있으며 구매 및 판매 주문할수 있습니다. 주문내역, 체결내역, 계정 잔액, 개인정보등 유용한 정보를 검색할수 있습니다.
         new:
           title: Create API Token
         create:
@@ -1365,7 +1370,7 @@ ko:
       first: "&laquo; First"
       last: Last &raquo;
       previous: "이전페이지"
-      next: 뒷페이지
+      next: 다음 페이지
       truncate: "..."
   mailer:
     dear_user: 안녕하세요
