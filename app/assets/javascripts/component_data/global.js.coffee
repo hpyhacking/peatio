@@ -70,7 +70,7 @@ window.GlobalData = flight.component ->
 
       market: market, data: ticker
 
-    @trigger 'market::tickers', {tickers: tickers}
+    @trigger 'market::tickers', {tickers: tickers, raw: data}
     @.last_tickers = data
 
   @after 'initialize', ->
