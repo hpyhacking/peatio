@@ -91,7 +91,7 @@ INDICATOR = {MA: false, EMA: false}
     chart.tooltip.refresh tooltips if tooltips.length
 
   @default_range = (unit) ->
-    1000 * 60 * unit * 72
+    1000 * 60 * unit * 120
 
   @initHighStock = (data) ->
     component = @
