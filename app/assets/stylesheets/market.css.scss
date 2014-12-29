@@ -530,16 +530,20 @@ table {
 }
 
 .chart-ticker {
-  border: 0px;
-  background-color: rgba(0,0,0,0) !important;
   color: #777;
-  font-size: 12px;
+  background-color: $navbar-default-bg;
+  border: 1px solid $navbar-default-border;
+  padding: 6px 0 6px 6px;
+  font-size: 11px;
 
   & > div { display: inline-block; width: 70px; }
   & > div.tooltip-ma { width: 76; margin-top: 3px; }
   & > div.tooltip-ticker { margin-top: 5px; }
 
-  ul.list-inline { margin-top: 6px; }
+  ul.list-inline {
+    margin: 6px 0 0 0;
+    li { padding: 0 6px 0 0; }
+  }
 
   span.t-title {
     display: block;

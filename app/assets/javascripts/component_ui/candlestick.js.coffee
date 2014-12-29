@@ -141,7 +141,14 @@ INDICATOR = {MA: false, EMA: false}
         borderRadius: 2
         shadow: false
         shared: true
-        positioner: -> {x: 0, y: 0}
+        positioner: (w, h, point) ->
+          chart_w = $(@chart.renderTo).width()
+          chart_h = $(@chart.renderTo).height()
+          grid_h  = Math.min(20, Math.ceil(chart_h/10))
+          x = Math.max(0, point.plotX-185)
+          x = chart_w - 400 if x + 400 > chart_w
+          y = Math.max(0, Math.floor(point.plotY/grid_h)*grid_h-20)
+          x: x, y: y
         useHTML: true
         formatter: ->
           chart  = @points[0].series.chart
@@ -223,7 +230,8 @@ INDICATOR = {MA: false, EMA: false}
           labels:
             enabled: true
             align: 'left'
-            rotation: -45
+            x: 2
+            y: 3
           gridLineColor: '#222'
           gridLineDashStyle: 'ShortDot'
           top: "0%"
