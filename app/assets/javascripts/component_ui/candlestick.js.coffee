@@ -53,7 +53,6 @@ INDICATOR = {MA: false, EMA: false}
     @$node.find('#candlestick_chart').highcharts()?.destroy()
 
     @initHighStock(data)
-    @initTooltip @$node.find('#candlestick_chart').highcharts()
     @trigger 'market::candlestick::created', data
 
   @switchType = (event, data) ->
@@ -66,7 +65,6 @@ INDICATOR = {MA: false, EMA: false}
           if !s.userOptions.algorithm? && (s.userOptions.id == type)
             s.setVisible(visible, false)
       @trigger "switch::main_indicator_switch::init"
-      @initTooltip chart
 
   @switchMainIndicator = (event, data) ->
     INDICATOR[key] = false for key, val of INDICATOR
@@ -83,12 +81,6 @@ INDICATOR = {MA: false, EMA: false}
           if s.userOptions.algorithm? && (s.userOptions.algorithm == indicator)
             s.setVisible(visible, false)
       chart.redraw()
-
-  @initTooltip = (chart) ->
-    tooltips = []
-    if chart.series[0].points.length > 0
-      tooltips.push chart.series[0].points[chart.series[0].points.length-1]
-    chart.tooltip.refresh tooltips if tooltips.length
 
   @default_range = (unit) ->
     1000 * 60 * unit * 120
@@ -145,7 +137,7 @@ INDICATOR = {MA: false, EMA: false}
           chart_w = $(@chart.renderTo).width()
           chart_h = $(@chart.renderTo).height()
           grid_h  = Math.min(20, Math.ceil(chart_h/10))
-          x = Math.max(486, point.plotX-w/2) # 486 = market_trades.width*2+gutter
+          x = Math.max(256, point.plotX-w/2) # 256 = market_trades.width + gutter
           x = chart_w - w if x + w > chart_w
           y = Math.max(0, Math.floor(point.plotY/grid_h)*grid_h-20)
           x: x, y: y
