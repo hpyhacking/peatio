@@ -89,7 +89,7 @@ ko:
         fee_explain: 수수료 설명
       withdraw_history:
         title: 출금내역
-        number: 일럭번호
+        number: 일련번호
         withdraw_time: 시간
         withdraw_account: 출금계좌
         withdraw_address: 출금주소
