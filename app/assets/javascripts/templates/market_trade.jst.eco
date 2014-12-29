@@ -2,7 +2,7 @@
 
 <tr class='<%= @classes %>'>
   <td class="time text-left col-xs-5"><div>
-    <%- formatter.trade_time @date %>
+    <%- formatter.time @date %>
   </div></td>
   <td class='price text-right col-xs-5 <%= trend %>'><div>
     <%- formatter.mask_fixed_price @price %>

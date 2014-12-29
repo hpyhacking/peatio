@@ -1,6 +1,6 @@
 <tr data-id="<%= @id %>" data-kind="<%= @kind %>" class="order <%= @kind %>">
   <td class='time text-left col-xs-6'>
-    <%- formatter.fulltime @at %>
+    <%- formatter.time @at %>
   </td>
   <td class='kind text-left col-xs-2 <%= formatter.trend @kind %>'>
     <%- formatter.short_trade @kind %>

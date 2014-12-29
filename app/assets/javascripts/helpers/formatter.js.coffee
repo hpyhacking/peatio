@@ -50,13 +50,9 @@ class Formatter
     else
       'n/a'
 
-  trade_time: (timestamp) ->
+  time: (timestamp) ->
     m = moment.unix(timestamp)
     "#{m.format("HH:mm")}#{m.format(":ss")}"
-
-  fulltime: (timestamp) ->
-    m = moment.unix(timestamp)
-    "#{m.format("MM/DD HH:mm")}"
 
   mask_fixed_price: (price) ->
     @.fixPriceGroup(price).replace(/\..*/, "<g>$&</g>")
