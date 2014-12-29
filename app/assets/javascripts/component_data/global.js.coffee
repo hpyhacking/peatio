@@ -25,13 +25,13 @@ window.GlobalData = flight.component ->
     lb = _.last(bids)
     if la && lb
       mid = (_.first(bids)[0] + _.first(asks)[0]) / 2
-      offset = Math.min.apply(Math, [mid*0.3, mid-lb[0], la[0]-mid])
+      offset = Math.min.apply(Math, [Math.max(mid*0.1, 5), mid-lb[0], la[0]-mid])
     else if !la? && lb
       mid = _.first(bids)[0]
-      offset = Math.min.apply(Math, [mid*0.3, mid-lb[0]])
+      offset = Math.min.apply(Math, [Math.max(mid*0.1, 5), mid-lb[0]])
     else if la && !lb?
       mid = _.first(asks)[0]
-      offset = Math.min.apply(Math, [mid*0.3, la[0]-mid])
+      offset = Math.min.apply(Math, [Math.max(mid*0.1, 5), la[0]-mid])
 
     @trigger 'market::depth::response', 
       asks: asks, bids: bids, high: mid + offset, low: mid - offset 
