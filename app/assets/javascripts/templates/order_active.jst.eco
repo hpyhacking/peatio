@@ -1,23 +1,27 @@
+<% trend = formatter.trend @kind %>
+
 <tr data-id="<%= @id %>" data-kind="<%= @kind %>" class="order <%= @kind %>">
-  <td class='time text-left col-xs-6'>
+  <td class='time text-left col-xs-7'>
     <%- formatter.time @at %>
   </td>
-  <td class='kind text-left col-xs-2 <%= formatter.trend @kind %>'>
-    <%- formatter.short_trade @kind %>
-  </td>
-  <td class='price text-right col-xs-4'>
-    <%= formatter.fix_bid @price %>
-  </td>
-  <td class='volume text-right col-xs-4'>
-    <%= formatter.volume @origin_volume, @volume %>
-  </td>
-  <td class='amount text-right col-xs-5'>
-    <%- formatter.amount @volume, @price %>
-  </td>
-  <td class='col-xs-4 text-center'>
+  <!--
+  <td class='col-xs-2 text-center'>
     <a class='wait text-info' href='<%= formatter.market_url @market, @id %>' 
       data-method='delete' data-remote='true' data-confirm='<%= formatter.t('place_order')['confirm_cancel'] %>' rel='nofollow'>
       <i class='fa fa-trash'></i>
     </a>
+  </td>
+  -->
+  <td class='kind text-left col-xs-2 <%= trend %>'>
+    <%- formatter.short_trade @kind %>
+  </td>
+  <td class='price text-right col-xs-4 <%= trend %>'>
+    <%- formatter.mask_fixed_price @price %>
+  </td>
+  <td class='volume text-right col-xs-4'>
+    <%- formatter.mask_fixed_volume @volume %>
+  </td>
+  <td class='amount text-right col-xs-5'>
+    <%- formatter.amount @volume, @price %>
   </td>
 </tr>

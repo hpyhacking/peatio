@@ -1,19 +1,4 @@
 #my_orders.panel.panel-default
-  .panel-body.panel-body-head
-    table.table
-      thead: tr
-        th.time.col-xs-6.text-left = t('.time')
-        th.kind.col-xs-2.text-left
-        th.price.col-xs-4.text-right = t('.price')
-        th.volume.col-xs-4.text-right = t('.volume')
-        th.amount.col-xs-5.text-right = t('.amount')
-        th.operation.col-xs-3.text-center
-          a.dropdown-toggle  data-toggle="dropdown"
-            i.fa.fa-trash
-          ul.dropdown-menu role="menu"
-            li.text-right = link_to t('.clear_bids'), clear_market_order_bids_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_bids')}
-            li.text-right = link_to t('.clear_asks'), clear_market_order_asks_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_asks')}
-            li.text-right = link_to t('.clear_all'),  clear_market_orders_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_all')}
   .panel-body.panel-body-content
     table.table.table-hover
       tbody

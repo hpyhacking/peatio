@@ -296,12 +296,12 @@ header {
 /* layout positon
 ----------------------------------------------- */
 #ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
-.entry-right { bottom: $gutter-2x + $my-orders-height; right: $gutter + $entry-width + $gutter; }
-.entry-left { bottom: $gutter-2x + $my-orders-height; right: $gutter; }
+.entry-right { bottom: $gutter; right: $gutter + $entry-width + $gutter; }
+.entry-left { bottom: $gutter; right: $gutter; }
 
 #ticker {
   width: $ticker-width; height: $ticker-height;
-  bottom: $gutter_3x + $entry-height + $my-orders-height; right: $gutter;
+  bottom: $gutter_4x + $entry-height + $my-orders-height + $depths-height; right: $gutter;
 
   .ask, .last, .bid { font-family: $font-family-monospace; }
 }
@@ -348,7 +348,7 @@ header {
 
 #depths_wrapper {
   width: $order-book-width; height: $depths-height;
-  bottom: $gutter-4x + $my-orders-height + $entry-height + $ticker-height; right: $gutter;
+  bottom: $gutter-3x + $my-orders-height + $entry-height; right: $gutter;
 
   .panel-body {
     padding: 0;
@@ -389,9 +389,9 @@ header {
 
 #my_orders {
   width: $my-orders-width; height: $my-orders-height;
-  bottom: $gutter; right: $gutter;
+  bottom: $gutter-2x + $entry-height; right: $gutter;
 
-  .panel-body-content { height: $my-orders-height - $panel_table_header_high; }
+  .panel-body-content { height: $my-orders-height - $gutter-2x; }
   .dropdown-menu {
     top: $panel_table_header_high;
     left: auto;

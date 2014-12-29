@@ -86,12 +86,6 @@ class Formatter
     else
       "<i class='fa fa-caret-down text-down'></i>"
 
-  volume: (origin, volume) ->
-    if (origin is volume) or (BigNumber(volume).isZero())
-      @.fixAsk origin
-    else
-      @.fixAsk volume
-
   t: (key) ->
     gon.i18n[key]
 
