@@ -137,8 +137,7 @@ INDICATOR = {MA: false, EMA: false}
           chart_w = $(@chart.renderTo).width()
           chart_h = $(@chart.renderTo).height()
           grid_h  = Math.min(20, Math.ceil(chart_h/10))
-          x = Math.max(256, point.plotX-w/2) # 256 = market_trades.width + gutter
-          x = chart_w - w if x + w > chart_w
+          x = Math.max(256, point.plotX-w-20) # 256 = market_trades.width + gutter
           y = Math.max(0, Math.floor(point.plotY/grid_h)*grid_h-20)
           x: x, y: y
         useHTML: true
@@ -262,6 +261,8 @@ INDICATOR = {MA: false, EMA: false}
           data: data['close']
           showInLegend: false
           visible: TYPE['close']
+          marker:
+            radius: 0
         }
         {
           id: 'volume'
@@ -282,6 +283,8 @@ INDICATOR = {MA: false, EMA: false}
           periods: 5
           color: '#7c9aaa'
           visible: INDICATOR['MA']
+          marker:
+            radius: 0
         }
         {
           id: 'ma10'
@@ -293,6 +296,8 @@ INDICATOR = {MA: false, EMA: false}
           periods: 10
           color: '#be8f53'
           visible: INDICATOR['MA']
+          marker:
+            radius: 0
         }
         {
           id: 'ema7'
@@ -304,6 +309,8 @@ INDICATOR = {MA: false, EMA: false}
           periods: 7
           color: '#7c9aaa'
           visible: INDICATOR['EMA']
+          marker:
+            radius: 0
         }
         {
           id: 'ema30'
@@ -315,6 +322,8 @@ INDICATOR = {MA: false, EMA: false}
           periods: 30
           color: '#be8f53'
           visible: INDICATOR['EMA']
+          marker:
+            radius: 0
         }
         {
           id: 'macd'
@@ -325,6 +334,8 @@ INDICATOR = {MA: false, EMA: false}
           type: 'trendline',
           algorithm: 'MACD'
           color: '#7c9aaa'
+          marker:
+            radius: 0
         }
         {
           id: 'sig'
@@ -335,6 +346,8 @@ INDICATOR = {MA: false, EMA: false}
           type: 'trendline',
           algorithm: 'signalLine'
           color: '#be8f53'
+          marker:
+            radius: 0
         }
         {
           id: 'hist'
