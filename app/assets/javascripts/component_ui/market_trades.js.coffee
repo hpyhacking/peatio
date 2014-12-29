@@ -3,11 +3,13 @@ window.MarketTradesUI = flight.component ->
     wrap: '.wrap'
     defaultHeight: 156
     tableSelector: 'tbody'
+    tradeSelector: 'tr'
     newTradeSelector: 'tr.new'
     newTradeContentSelector: 'tr.new div'
 
   @clearMarkers = ->
     @select('newTradeSelector').removeClass('new')
+    @select('tradeSelector').slice(80).remove()
 
   @refresh = (event, data) ->
     table = @select('tableSelector')
