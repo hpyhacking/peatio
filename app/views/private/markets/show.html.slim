@@ -19,8 +19,6 @@ html lang="en"
     = render partial: "private/markets/header"
     #wrap
       .content
-        = render partial: 'order_book'
-        = render partial: 'depths'
         = render partial: 'market_trades'
 
         = render partial: 'candlestick'
@@ -35,7 +33,9 @@ html lang="en"
               #chat_content.tab-pane
                 = render partial: 'chat'
 
-        = render partial: 'my_orders'
+        = render partial: 'order_book'
+        = render partial: 'depths'
         = render partial: 'ticker'
         = render partial: 'ask_entry', locals: {market: @market, order: @order_ask }
         = render partial: 'bid_entry', locals: {market: @market, order: @order_bid }
+        = render partial: 'my_orders'

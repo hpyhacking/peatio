@@ -296,12 +296,12 @@ header {
 /* layout positon
 ----------------------------------------------- */
 #ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
-.entry-right { bottom: $gutter; right: $gutter + $entry-width + $gutter; }
-.entry-left { bottom: $gutter; right: $gutter; }
+.entry-right { bottom: $gutter-2x + $my-orders-height; right: $gutter + $entry-width + $gutter; }
+.entry-left { bottom: $gutter-2x + $my-orders-height; right: $gutter; }
 
 #ticker {
   width: $ticker-width; height: $ticker-height;
-  bottom: $gutter_2x + $entry-height; right: $gutter;
+  bottom: $gutter_3x + $entry-height + $my-orders-height; right: $gutter;
 
   .ask, .last, .bid { font-family: $font-family-monospace; }
 }
@@ -309,7 +309,7 @@ header {
 #order_book {
   width: $order-book-width; height: $order-book-height; 
   min-height: $order-book-height;
-  top: $gutter; left: $gutter; 
+  top: $gutter; right: $gutter;
 
   .panel-body-content { 
     min-height: $order-book-height - $panel_table_header_high;
@@ -332,7 +332,7 @@ header {
   position: absolute;
   min-width: $candlestick-width; width: $candlestick-width; 
   min-height: $candlestick-height; height: $candlestick-height;
-  top: $gutter-2x; left: $gutter+$order-book-width; 
+  top: $gutter; left: $gutter;
 }
 
 .switch {
@@ -348,7 +348,7 @@ header {
 
 #depths_wrapper {
   width: $order-book-width; height: $depths-height;
-  bottom: $gutter-3x + $entry-height + $ticker-height; left: $gutter;
+  bottom: $gutter-4x + $my-orders-height + $entry-height + $ticker-height; right: $gutter;
   background-color: rgba(28, 28, 28, 0.95);
 
   .panel-body {
@@ -371,9 +371,9 @@ header {
 
 #my_orders {
   width: $my-orders-width; height: $my-orders-height;
-  bottom: $ticker-height+$entry-height+$gutter-3x; right: $gutter;
+  bottom: $gutter; right: $gutter;
 
-  .panel-body-content { height: 210px; }
+  .panel-body-content { height: $my-orders-height - $panel_table_header_high; }
   .dropdown-menu {
     top: $panel_table_header_high;
     left: auto;

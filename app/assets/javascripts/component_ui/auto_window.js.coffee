@@ -1,5 +1,4 @@
 GUTTER = 2 # linkage to market.css.scss $gutter var
-NAV_STACKED_WIDTH = 50 # linkage to market.css.scss $nav_stacked_width var
 PANEL_TABLE_HEADER_HIGH = 37
 PANEL_PADDING = 8
 BORDER_WIDTH = 1
@@ -15,14 +14,13 @@ BORDER_WIDTH = 1
     gutter_7x = GUTTER * 7
     gutter_8x = GUTTER * 8
     gutter_9x = GUTTER * 9
-    nav_stacked_width = NAV_STACKED_WIDTH
-    nav_stacked_width_2x = NAV_STACKED_WIDTH * 2
     panel_table_header_high = PANEL_TABLE_HEADER_HIGH
 
     @$node.resize ->
       navbar_h       = $('.navbar').height() + BORDER_WIDTH
       entry_h        = $('#ask_entry').height() + 2*BORDER_WIDTH
       depths_h       = $('#depths_wrapper').height() + 2*BORDER_WIDTH
+      my_orders_h    = $('#my_orders').height() + 2*BORDER_WIDTH
       ticker_h       = $('#ticker').height() + 2*BORDER_WIDTH
       order_book_w   = $('#order_book').width()
 
@@ -33,7 +31,7 @@ BORDER_WIDTH = 1
 
       $('#candlestick').height(window_h - navbar_h - gutter_3x)
 
-      order_h = window_h - navbar_h - entry_h - depths_h - ticker_h - gutter_5x - 2*BORDER_WIDTH
+      order_h = window_h - navbar_h - entry_h - depths_h - my_orders_h - ticker_h - gutter_6x - 2*BORDER_WIDTH
       $('#order_book').height(order_h)
       $('#order_book .panel-body-content').height(order_h - panel_table_header_high - 2*PANEL_PADDING)
 
@@ -43,6 +41,6 @@ BORDER_WIDTH = 1
 
       # Adjust widths.
       window_w = $(@).width()
-      $('#candlestick').width(window_w - 2*order_book_w - gutter_3x - nav_stacked_width)
+      $('#candlestick').width(window_w - order_book_w - gutter_2x)
 
     @$node.resize()
