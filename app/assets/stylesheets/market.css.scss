@@ -378,6 +378,13 @@ header {
   .panel-body-content {
     min-height: $market-trades-height - $panel_table_header_high;
   }
+
+  table {
+    .new {
+      background-color: #333;
+      div { display: none; }
+    }
+  }
 }
 
 #my_orders {
