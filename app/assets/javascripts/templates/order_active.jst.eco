@@ -1,6 +1,8 @@
+<% trade_state = if @origin_volume == @volume then 'new' else 'partial' %>
+
 <tr data-id="<%= @id %>" data-kind="<%= @kind %>" class="order <%= @kind %>">
   <td class='time text-left col-xs-4'>
-    <%- formatter.time @at %>
+    <span><%- formatter.time @at %></span>
   </td>
   <!--
   <td class='col-xs-2 text-center'>
@@ -11,18 +13,15 @@
   </td>
   -->
   <td class='kind text-left col-xs-6'>
-    <span class='label label-<%= @kind %>'><%= formatter.short_trade @kind %></span>
-
-    <% trade_state = if @origin_volume == @volume then 'new' else 'partial' %>
-    <span class='label label-<%= trade_state %>'><%= gon.i18n.trade_state[trade_state] %></span>
+    <span class='label label-<%= @kind %>'><%= formatter.short_trade @kind %></span><span class='label label-<%= trade_state %>'><%= gon.i18n.trade_state[trade_state] %></span>
   </td>
   <td class='price text-right col-xs-4 <%= formatter.trend @kind %>'>
-    <%- formatter.mask_fixed_price @price %>
+    <span><%- formatter.mask_fixed_price @price %></span>
   </td>
   <td class='volume text-right col-xs-4'>
-    <%- formatter.mask_fixed_volume @volume %>
+    <span><%- formatter.mask_fixed_volume @volume %></span>
   </td>
   <td class='amount text-right col-xs-5'>
-    <%- formatter.amount @volume, @price %>
+    <span><%- formatter.amount @volume, @price %></span>
   </td>
 </tr>
