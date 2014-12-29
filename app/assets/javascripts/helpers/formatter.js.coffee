@@ -52,7 +52,7 @@ class Formatter
 
   trade_time: (timestamp) ->
     m = moment.unix(timestamp)
-    "#{m.format("MM/DD")} #{m.format("HH:mm")}#{m.format(":ss")}"
+    "#{m.format("HH:mm")}#{m.format(":ss")}"
 
   fulltime: (timestamp) ->
     m = moment.unix(timestamp)

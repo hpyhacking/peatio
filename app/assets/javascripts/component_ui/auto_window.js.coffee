@@ -35,6 +35,11 @@ BORDER_WIDTH = 1
       $('#order_book').height(order_h)
       $('#order_book .panel-body-content').height(order_h - panel_table_header_high - 2*PANEL_PADDING)
 
+      trades_h = window_h - navbar_h - gutter_2x
+      $('#market_trades').height(trades_h)
+      $('#market_trades .panel').height(trades_h - 2*BORDER_WIDTH)
+      $('#market_trades .panel-body-content').height(trades_h - 2*BORDER_WIDTH - panel_table_header_high - 2*PANEL_PADDING)
+
       unless $('#chat_tabs_wrapper').hasClass('stop-resize')
         switch_h = $('#market_switch_tabs_wrapper').height()
         $('#chat_tabs_wrapper').height(window_h - navbar_h - switch_h - gutter_9x)

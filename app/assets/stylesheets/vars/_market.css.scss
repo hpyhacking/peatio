@@ -37,6 +37,6 @@ $trades-tabs-height: 282px;
 $candlestick-width: $min-width - $order-book-width - $gutter-2x;
 $candlestick-height: $min-height - $navbar-height - $gutter-2x;
 
-$market-trades-width: $order-book-width;
-$market-trades-height: 100%;
+$market-trades-width: 254px;
+$market-trades-height: $min-height - $navbar-height - $gutter-2x;
 
