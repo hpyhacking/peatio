@@ -145,8 +145,8 @@ INDICATOR = {MA: false, EMA: false}
           chart_w = $(@chart.renderTo).width()
           chart_h = $(@chart.renderTo).height()
           grid_h  = Math.min(20, Math.ceil(chart_h/10))
-          x = Math.max(0, point.plotX-185)
-          x = chart_w - 400 if x + 400 > chart_w
+          x = Math.max(486, point.plotX-w/2) # 486 = market_trades.width*2+gutter
+          x = chart_w - w if x + w > chart_w
           y = Math.max(0, Math.floor(point.plotY/grid_h)*grid_h-20)
           x: x, y: y
         useHTML: true

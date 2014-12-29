@@ -363,9 +363,17 @@ header {
 }
 
 #market_trades {
-  width: $market-trades-width; height: $market-trades-height;
+  position: absolute;
   bottom: $gutter; left: $gutter;
+  width: $market-trades-width;
+  height: $market-trades-height;
+  background-color: #000;
+  z-index: 999;
 
+  .panel {
+    width: $market-trades-width;
+    height: $market-trades-height;
+  }
   .panel-body-content { height: 210px; }
 }
 
