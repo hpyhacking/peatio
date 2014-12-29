@@ -837,6 +837,9 @@ en:
         ask: ASK
         bid: BID
         fade_toggle_depth: Market Depth
+      trade_state:
+        new: N
+        partial: P
       market_trades:
         title: Market Trading
         time: Trading Time

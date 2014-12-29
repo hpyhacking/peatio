@@ -822,6 +822,9 @@ zh-CN:
         ask: 卖出
         bid: 买入
         fade_toggle_depth: 市场深度
+      trade_state:
+        new: 未成交
+        partial: 部分成交
       market_trades:
         title: 实时委单成交记录
         time: 成交时间

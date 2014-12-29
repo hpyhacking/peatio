@@ -391,11 +391,16 @@ header {
   width: $my-orders-width; height: $my-orders-height;
   bottom: $gutter-2x + $entry-height; right: $gutter;
 
-  .panel-body-content { height: $my-orders-height - $gutter-2x; }
-  .dropdown-menu {
-    top: $panel_table_header_high;
-    left: auto;
-    right: 0;
+  .panel-body-content {
+    height: $my-orders-height - $gutter-2x;
+
+    .time, .kind { text-align: left; }
+
+    .label { margin: 0; padding: 2px; font-weight: normal; }
+    .label-ask { background-color: $down-text; }
+    .label-bid { background-color: $up-text; }
+    .label-new { background-color: $gray-light; }
+    .label-partial { background-color: #2b90de; }
   }
 
   & > .mask { padding-top: 130px; }

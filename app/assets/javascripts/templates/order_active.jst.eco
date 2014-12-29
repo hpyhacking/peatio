@@ -1,7 +1,5 @@
-<% trend = formatter.trend @kind %>
-
 <tr data-id="<%= @id %>" data-kind="<%= @kind %>" class="order <%= @kind %>">
-  <td class='time text-left col-xs-7'>
+  <td class='time text-left col-xs-4'>
     <%- formatter.time @at %>
   </td>
   <!--
@@ -12,10 +10,13 @@
     </a>
   </td>
   -->
-  <td class='kind text-left col-xs-2 <%= trend %>'>
-    <%- formatter.short_trade @kind %>
+  <td class='kind text-left col-xs-6'>
+    <span class='label label-<%= @kind %>'><%= formatter.short_trade @kind %></span>
+
+    <% trade_state = if @origin_volume == @volume then 'new' else 'partial' %>
+    <span class='label label-<%= trade_state %>'><%= gon.i18n.trade_state[trade_state] %></span>
   </td>
-  <td class='price text-right col-xs-4 <%= trend %>'>
+  <td class='price text-right col-xs-4 <%= formatter.trend @kind %>'>
     <%- formatter.mask_fixed_price @price %>
   </td>
   <td class='volume text-right col-xs-4'>

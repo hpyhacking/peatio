@@ -177,6 +177,10 @@ class ApplicationController < ActionController::Base
         price_low: I18n.t('private.markets.place_order.price_low'),
         full_bid: I18n.t('private.markets.place_order.full_bid'),
         full_ask: I18n.t('private.markets.place_order.full_ask')
+      },
+      trade_state: {
+        new: I18n.t('private.markets.trade_state.new'),
+        partial: I18n.t('private.markets.trade_state.partial')
       }
     }
 
