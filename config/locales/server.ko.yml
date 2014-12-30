@@ -880,7 +880,7 @@ ko:
         time: 주문시간
         operation: 취소
       mask:
-        warning: ' <a class=text-up href=''/''>로그인p</a> 또는  <a class=text-up href=''/''>가입p</a>후 작업을 진행하세요'
+        warning: ' <a class=text-up href=''/signup''>로그인</a> 또는  <a class=text-up href=''/signin''>가입</a>후 작업을 진행하세요'
       klime_chart:
         title: 차트
       global:
