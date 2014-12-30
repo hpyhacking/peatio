@@ -242,12 +242,6 @@ header {
   }
 }
 
-#my_order_tabs_wrapper {
-  bottom: $gutter; right: $gutter_2x + $order-book-width;
-  @include float-wrapper($trades-tabs-width, $trades-tabs-height);
-}
-
-
 /* panel
 ------------------------------------------------ */
 .panel {
