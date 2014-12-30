@@ -14,10 +14,14 @@ window.MarketTradesUI = flight.component ->
     tradesLimit: 80
 
   @showAllTrades = (event) ->
+    @select('mySelector').removeClass('active')
+    @select('allSelector').addClass('active')
     @select('myTableSelector').hide()
     @select('allTableSelector').show()
 
   @showMyTrades = (event) ->
+    @select('allSelector').removeClass('active')
+    @select('mySelector').addClass('active')
     @select('allTableSelector').hide()
     @select('myTableSelector').show()
 

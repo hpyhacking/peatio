@@ -843,6 +843,8 @@ en:
       market_trades:
         all: All
         my: Mine
+        all_html: "<i class='fa fa-check'></i><span>All</span>"
+        my_html: "<i class='fa fa-check'></i><span>Mine</span>"
         time: Time
         price: Price
         volume: Volume

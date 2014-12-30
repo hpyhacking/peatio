@@ -826,8 +826,8 @@ zh-CN:
         new: 未成交
         partial: 部分成交
       market_trades:
-        all: 所有成交
-        my: 我的成交
+        all_html: "<i class='fa fa-check'></i><span>所有成交</span>"
+        my_html: "<i class='fa fa-check'></i><span>我的成交</span>"
         time: 成交时间
         price: 成交价
         volume: 成交量

@@ -349,9 +349,9 @@ header {
       -webkit-transition: margin-left .1s linear;
       transition: margin-left .1s linear;
       min-width: 0;
-      width: 72px;
+      width: 84px;
       padding-left: 6px;
-      margin: 0 0 0 -72px;
+      margin: 0 0 0 -84px;
       font-size: 11px;
       background-color: $panel-bg;
       border: 1px solid $panel-default-border;
@@ -362,6 +362,14 @@ header {
       a {
         padding: 3px 8px;
         background-color: $panel-bg;
+        i { color: $panel-bg; }
+      }
+
+      a.active {
+        i {
+          color: white;
+          text-shadow: white 0 0 2px;
+        }
       }
 
       a:hover {
@@ -369,11 +377,11 @@ header {
         background-color: $panel-bg;
         text-shadow: white 0 0 2px;
         text-decoration: none;
+        i { text-shadow: none; }
       }
 
       a:focus {
         color: $text-color;
-        text-shadow: none;
       }
     }
   }
