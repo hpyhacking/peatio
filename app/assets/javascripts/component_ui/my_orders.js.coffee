@@ -12,6 +12,14 @@
       when 'done'
         @removeItem order.id
 
+  @cancelOrder = (event) ->
+    tr = $(event.target).parents('tr')
+    if confirm(formatter.t('place_order')['confirm_cancel'])
+      $.ajax
+        url: formatter.market_url gon.market.id, tr.data('id')
+        method: 'delete'
+
   @.after 'initialize', ->
     @on document, 'order::wait::populate', @populate
     @on document, 'order::wait order::cancel order::done', @orderHandler
+    @on @select('tbody'), 'click', @cancelOrder

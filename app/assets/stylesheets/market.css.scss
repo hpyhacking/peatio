@@ -451,19 +451,19 @@ header {
   width: $my-orders-width; height: $my-orders-height;
   bottom: $gutter-2x + $entry-height; right: $gutter;
 
-  .empty-row {
-    position: absolute;
-    top: 45%;
-    width: 100%;
-    color: $gray-light;
-    text-align: center;
-  }
-
   .panel-body-content {
     height: $my-orders-height - $gutter-2x;
 
     .time, .price, .volume, .amount {
       & > span { display: block; height: 16px; padding: 2px 0; }
+    }
+
+    .empty-row {
+      position: absolute;
+      top: 45%;
+      width: 100%;
+      color: $gray-light;
+      text-align: center;
     }
 
     .label { margin: 0 1px; padding: 2px; }
