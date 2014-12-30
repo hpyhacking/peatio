@@ -40,7 +40,13 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_activated!
-    redirect_to settings_path, alert: t('private.settings.index.auth-activated') unless current_user.activated?
+    unless current_user.activated?
+      if current_user.email && !current_user.email_activated
+        redirect_to settings_path, alert: t('private.settings.index.auth-activated')
+      else current_user.phone_number && !current_user.phone_number_activated
+        redirect_to verify_sms_auth_path, alert: t('private.settings.index.auth-phone')
+      end
+    end
   end
 
   def auth_verified!

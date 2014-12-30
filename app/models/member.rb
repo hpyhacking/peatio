@@ -89,9 +89,9 @@ class Member < ActiveRecord::Base
 
     def create_from_auth(auth_hash)
       member = create(email: auth_hash['info']['email'], nickname: auth_hash['info']['nickname'],
-                      activated: false)
+                      phone_number: auth_hash['info']['phone_number'])
       member.add_auth(auth_hash)
-      member.send_activation if auth_hash['provider'] == 'identity'
+      member.send_activation if auth_hash['provider'] == 'identity' && member.email
       member
     end
   end
@@ -105,8 +105,26 @@ class Member < ActiveRecord::Base
     Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
   end
 
-  def active!
-    update activated: true
+  def identity_email
+    @identity_email ||= identity('email')
+  end
+
+  def identity_phone_number
+    @identity_phone_number ||= identity('phone_number')
+  end
+
+  def active_email!
+    return if email_activated
+    ActiveRecord::Base.transaction do
+      update_attributes email_activated: true
+      if !identity_email && identity_phone_number
+        i = Identity.new(login: self.email, password_digest: identity_phone_number.password_digest,
+                        login_type: 'email')
+        i.save(validate: false)
+        a = self.authentications.new(provider: 'identity', uid: i.id)
+        a.save!
+      end
+    end
   end
 
   def update_password(password)
@@ -171,9 +189,14 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def identity
-    authentication = authentications.find_by(provider: 'identity')
-    authentication ? Identity.find(authentication.uid) : nil
+  def identity(login_type = 'email')
+    authentications = self.authentications.where(provider: 'identity')
+    if authentications.any?
+      i = Identity.where(id: authentications.collect(&:uid)).where(login_type: login_type).first
+      i ? i : nil
+    else
+      nil
+    end
   end
 
   def auth(name)
@@ -227,6 +250,11 @@ class Member < ActiveRecord::Base
       "memo" => self.id
     })
   end
+
+  def activated
+    email_activated || phone_number_activated
+  end
+  alias activated? activated
 
   private
   def generate_sn
