@@ -293,7 +293,59 @@ header {
   }
 }
 
-/* layout positon
+.has-left-dropdown {
+  .dropdown-wrapper {
+    .dropdown-menu {
+      display: block;
+      z-index: 0;
+      position: relative;
+      top: 0;
+      left: 100%;
+      -webkit-transition: left .1s linear;
+      transition: left .1s linear;
+      min-width: 0;
+      margin: 0;
+      font-size: 11px;
+      background-color: $panel-bg;
+      border: 1px solid $panel-default-border;
+      border-right: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+
+      a {
+        display: none;
+        padding: 3px 8px;
+        background-color: $panel-bg;
+      }
+
+      a:hover {
+        color: white;
+        background-color: $panel-bg;
+        text-shadow: white 0 0 2px;
+        text-decoration: none;
+      }
+
+      a:focus {
+        color: #ccc;
+        text-shadow: none;
+      }
+    }
+  }
+}
+
+.has-left-dropdown:hover {
+  .dropdown-wrapper {
+    .dropdown-menu {
+      left: 1px;
+      -webkit-transition: left .1s linear;
+      transition: left .1s linear;
+
+      a { display: block; }
+    }
+  }
+}
+
+/* layout position
 ----------------------------------------------- */
 #ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
 .entry-right { bottom: $gutter; right: $gutter + $entry-width + $gutter; }
@@ -384,6 +436,14 @@ header {
       background-color: #333;
       div { display: none; }
     }
+  }
+}
+
+#my_orders_wrapper {
+  .dropdown-wrapper {
+    position: absolute;
+    height: $my-orders-height;
+    bottom: $gutter-2x + $entry-height; right: $order-book-width + $gutter;
   }
 }
 

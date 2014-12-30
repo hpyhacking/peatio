@@ -875,9 +875,9 @@ en:
         orders_wait: Latest Orders
         orders_done: Completed Orders
         orders_cancel: Cancel Orders
-        clear_all: Cancel All My Orders
-        clear_bids: Cancel All Bids
-        clear_asks: Cancel All Asks
+        clear_all_html: "<i class='fa fa-trash'>&nbsp;Cancel All</i>"
+        clear_bids_html: "<i class='fa fa-trash'>&nbsp;Cancel Bids</i>"
+        clear_asks_html: "<i class='fa fa-trash'>&nbsp;Cancel Asks</i>"
         confirm_clear_all: Are you sure to cancel ALL orders?
         confirm_clear_bids: Are you sure to cancel all BIDS?
         confirm_clear_asks: Are you sure to cancel all ASKS?
