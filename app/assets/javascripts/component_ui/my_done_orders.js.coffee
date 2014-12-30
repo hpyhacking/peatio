@@ -38,5 +38,4 @@
     # first of all, use user's done order fill the table.
     # add new trade in table when trigger trade event.
     @on document, 'trade', @trade
-    @on document, 'order::done::populate', @populate
     @on @select('switchLink'), 'click', @switch

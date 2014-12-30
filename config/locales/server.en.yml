@@ -838,14 +838,12 @@ en:
         bid: BID
         fade_toggle_depth: Market Depth
       trade_state:
-        new: N
-        partial: P
+        new: New
+        partial: Partial
       market_trades:
-        title: Market Trading
-        time: Trading Time
+        time: Time
         price: Price
         volume: Volume
-        amount: Amount
       header:
         network: Connection State
         vol: 24h Volume

@@ -4,6 +4,11 @@
   <td class="time text-left col-xs-5"><div>
     <%- formatter.trade_time @date %>
   </div></td>
+  <td class="my text-left col-xs-1"><div>
+    <% if @isMine: %>
+    <i class='fa fa-star'></i>
+    <% end %>
+  </div></td>
   <td class='price text-right col-xs-5 <%= trend %>'><div>
     <%- formatter.mask_fixed_price @price %>
   </div></td>

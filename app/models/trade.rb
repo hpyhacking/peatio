@@ -44,10 +44,6 @@ class Trade < ActiveRecord::Base
     end
   end
 
-  def self_trade?
-    ask_member_id == bid_member_id
-  end
-
   def trigger_notify
     ask.member.notify 'trade', for_notify('ask')
     bid.member.notify 'trade', for_notify('bid')
