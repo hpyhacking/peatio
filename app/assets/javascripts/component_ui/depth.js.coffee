@@ -17,10 +17,7 @@
         backgroundColor: 'rgba(0,0,0,0)'
 
       title:
-        text: gon.i18n.chart.depth_title
-        style:
-          color: 'rgba(119, 119, 119, 0.6)'
-          fontSize: 18
+        text: ''
 
       credits:
         enabled: false
