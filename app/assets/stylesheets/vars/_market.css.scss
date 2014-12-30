@@ -28,9 +28,6 @@ $my-orders-height: 92px;
 $order-book-width: $depths-width;
 $order-book-height: $min-height - $navbar-height - $entry-height - $ticker-height - $depths-height - $my-orders-height - $gutter-6x;
 
-$my-orders-tabs-width: 500px;
-$my-orders-tabs-height: 282px;
-
 $candlestick-width: $min-width - $order-book-width - $gutter-2x;
 $candlestick-height: $min-height - $navbar-height - $gutter-2x;
 

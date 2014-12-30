@@ -841,6 +841,8 @@ en:
         new: New
         partial: Partial
       market_trades:
+        all: All
+        my: Mine
         time: Time
         price: Price
         volume: Volume

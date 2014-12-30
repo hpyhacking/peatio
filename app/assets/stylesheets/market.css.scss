@@ -339,6 +339,58 @@ header {
   }
 }
 
+.has-right-dropdown {
+  .dropdown-wrapper {
+    .dropdown-menu {
+      display: block;
+      position: relative;
+      top: 0;
+      left: 0;
+      -webkit-transition: margin-left .1s linear;
+      transition: margin-left .1s linear;
+      min-width: 0;
+      width: 72px;
+      padding-left: 6px;
+      margin: 0 0 0 -72px;
+      font-size: 11px;
+      background-color: $panel-bg;
+      border: 1px solid $panel-default-border;
+      border-left: 0;
+      border-left-right-radius: 0;
+      border-left-right-radius: 0;
+
+      a {
+        padding: 3px 8px;
+        background-color: $panel-bg;
+      }
+
+      a:hover {
+        color: white;
+        background-color: $panel-bg;
+        text-shadow: white 0 0 2px;
+        text-decoration: none;
+      }
+
+      a:focus {
+        color: $text-color;
+        text-shadow: none;
+      }
+    }
+  }
+}
+
+.has-right-dropdown:hover {
+  .dropdown-wrapper {
+    .dropdown-menu {
+      margin-left: -1px;
+      -webkit-transition: margin-left .1s linear;
+      transition: margin-left .1s linear;
+
+      a { display: block; }
+    }
+  }
+}
+
 /* layout position
 ----------------------------------------------- */
 #ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
@@ -407,6 +459,15 @@ header {
   }
 }
 
+#market_trades_wrapper {
+  .dropdown-wrapper {
+    position: absolute;
+    height: 100px;
+    top: $gutter; left: $market-trades-width + $gutter;
+    z-index: 998;
+  }
+}
+
 #market_trades {
   position: absolute;
   bottom: $gutter; left: $gutter;
@@ -430,6 +491,10 @@ header {
       background-color: #333;
       div { display: none; }
     }
+  }
+
+  .my-trades tbody {
+    display: none;
   }
 }
 

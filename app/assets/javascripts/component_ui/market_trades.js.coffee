@@ -1,16 +1,30 @@
 window.MarketTradesUI = flight.component ->
   @attributes
-    wrap: '.wrap'
     defaultHeight: 156
-    tableSelector: 'tbody'
     tradeSelector: 'tr'
     newTradeSelector: 'tr.new'
-    newTradeContentSelector: 'tr.new div'
+    allSelector: 'a.all'
+    mySelector: 'a.my'
+    allTableSelector: 'table.all-trades tbody'
+    myTableSelector: 'table.my-trades tbody'
+    newMarketTradeContent: 'table.all-trades tr.new div'
+    newMyTradeContent: 'table.my-trades tr.new div'
     tradesLimit: 80
 
-  @clearMarkers = ->
-    @select('newTradeSelector').removeClass('new')
-    @select('tradeSelector').slice(@attr.tradesLimit).remove()
+  @showAllTrades = (event) ->
+    @select('myTableSelector').hide()
+    @select('allTableSelector').show()
+
+  @showMyTrades = (event) ->
+    @select('allTableSelector').hide()
+    @select('myTableSelector').show()
+
+  @bufferMarketTrades = (event, data) ->
+    @marketTrades = @marketTrades.concat data.trades
+
+  @clearMarkers = (table) ->
+    table.find('tr.new').removeClass('new')
+    table.find('tr').slice(@attr.tradesLimit).remove()
 
   @isMine = (trade) ->
     if @myTrades.length == 0 || trade.tid > @myTrades[0].id
@@ -18,35 +32,51 @@ window.MarketTradesUI = flight.component ->
     else
       !!(_.find @myTrades, (t) -> t.id == trade.tid)
 
-  @refresh = (event, data) ->
-    table = @select('tableSelector')
+  @handleMarketTrades = (event, data) ->
     for trade in data.trades
+      @marketTrades.unshift trade
       trade.classes = 'new'
       trade.isMine = @isMine(trade)
-      el = table.prepend(JST['templates/market_trade'](trade))
+      el = @select('allTableSelector').prepend(JST['templates/market_trade'](trade))
 
-    @select('newTradeContentSelector').slideDown('slow')
+    @marketTrades = @marketTrades.slice(0, @attr.tradesLimit)
+    @select('newMarketTradeContent').slideDown('slow')
+
     setTimeout =>
-      @clearMarkers()
+      @clearMarkers(@select('allTableSelector'))
     , 900
 
-  @prependMyTrade = (event, trade) ->
-    exist = _.find @myTrades, (t) -> t.id == trade.id
-    unless exist
+  @handleMyTrades = (event, data) ->
+    for trade in data.trades
       @myTrades.unshift trade
-      @myTrades = @myTrades.slice(0, @attr.tradesLimit) if @myTrades.length > @attr.tradesLimit
+      trade.classes = 'new'
+      el = @select('myTableSelector').prepend(JST['templates/my_trade'](trade))
 
-  @populateMyTrades = (event, data) ->
-    @myTrades = data.trades
-    @refresh(event, trades: @marketTrades)
-    @on document, 'market::trades', @refresh
+    @myTrades = @myTrades.slice(0, @attr.tradesLimit) if @myTrades.length > @attr.tradesLimit
+    @select('newMyTradeContent').slideDown('slow')
 
-  @bufferMarketTrades = (event, data) ->
-    @marketTrades = @marketTrades.concat data.trades
+    setTimeout =>
+      @clearMarkers(@select('myTableSelector'))
+    , 900
+
+  @init = (event, data) ->
+    @handleMyTrades(event, trades: data.trades.reverse())
+
+    data = trades: @marketTrades
+    @marketTrades = []
+    @handleMarketTrades(event, data)
+
+    @on document, 'market::trades', @handleMarketTrades
 
   @after 'initialize', ->
     @marketTrades = []
+    @myTrades = []
+
     @on document, 'market::trades', @bufferMarketTrades
 
-    @on document, 'trade::populate', @populateMyTrades
-    @on document, 'trade', @prependMyTrade
+    @on document, 'trade::populate', @init
+    @on document, 'trade', (event, trade) =>
+      @handleMyTrades(event, trades: [trade])
+
+    @on @select('allSelector'), 'click', @showAllTrades
+    @on @select('mySelector'), 'click', @showMyTrades

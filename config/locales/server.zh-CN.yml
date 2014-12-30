@@ -826,11 +826,11 @@ zh-CN:
         new: 未成交
         partial: 部分成交
       market_trades:
-        title: 实时委单成交记录
+        all: 所有成交
+        my: 我的成交
         time: 成交时间
         price: 成交价
         volume: 成交量
-        amount: 总价
       header:
         network: 连接状态
         vol: 二十四小时 成交量
