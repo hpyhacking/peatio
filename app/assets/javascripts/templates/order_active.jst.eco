@@ -1,8 +1,8 @@
 <% trade_state = if @origin_volume == @volume then 'new' else 'partial' %>
 
 <tr data-id="<%= @id %>" data-kind="<%= @kind %>" class="order <%= @kind %>">
-  <td class='time text-left col-xs-4'>
-    <span><%- formatter.time @at %></span>
+  <td class='time text-left col-xs-6'>
+    <span><%- formatter.fulltime @at %></span>
   </td>
   <!--
   <td class='col-xs-2 text-center'>
