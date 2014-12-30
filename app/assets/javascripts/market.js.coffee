@@ -31,6 +31,8 @@
 #= require_self
 
 $ ->
+  window.notifier = new Notifier()
+
   BigNumber.config(ERRORS: false)
 
   HeaderUI.attachTo('header')
@@ -56,5 +58,3 @@ $ ->
 
   CandlestickUI.attachTo('#candlestick')
   SwitchUI.attachTo('#range_switch, #indicator_switch, #main_indicator_switch, #type_switch')
-
-  window.notifier = new Notifier()

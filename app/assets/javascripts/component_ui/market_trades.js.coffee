@@ -1,4 +1,6 @@
 window.MarketTradesUI = flight.component ->
+  flight.compose.mixin @, [NotificationMixin]
+
   @attributes
     defaultHeight: 156
     tradeSelector: 'tr'
@@ -26,6 +28,16 @@ window.MarketTradesUI = flight.component ->
     table.find('tr.new').removeClass('new')
     table.find('tr').slice(@attr.tradesLimit).remove()
 
+  @notifyMyTrade = (trade) ->
+    message = gon.i18n.notification.new_trade
+      .replace(/%{kind}/g, gon.i18n[trade.kind])
+      .replace(/%{id}/g, trade.id)
+      .replace(/%{price}/g, trade.price)
+      .replace(/%{volume}/g, trade.volume)
+      .replace(/%{base_unit}/g, gon.market.base_unit.toUpperCase())
+      .replace(/%{quote_unit}/g, gon.market.quote_unit.toUpperCase())
+    @notify message
+
   @isMine = (trade) ->
     if @myTrades.length == 0 || trade.tid > @myTrades[0].id
       false
@@ -51,6 +63,7 @@ window.MarketTradesUI = flight.component ->
       @myTrades.unshift trade
       trade.classes = 'new'
       el = @select('myTableSelector').prepend(JST['templates/my_trade'](trade))
+      @notifyMyTrade(trade)
 
     @myTrades = @myTrades.slice(0, @attr.tradesLimit) if @myTrades.length > @attr.tradesLimit
     @select('newMyTradeContent').slideDown('slow')
