@@ -878,9 +878,9 @@ en:
         orders_done: Completed Orders
         orders_cancel: Cancel Orders
         no_open_orders: You have no open orders.
-        clear_all_html: "<i class='fa fa-trash'>&nbsp;Cancel All</i>"
-        clear_bids_html: "<i class='fa fa-trash'>&nbsp;Cancel Bids</i>"
-        clear_asks_html: "<i class='fa fa-trash'>&nbsp;Cancel Asks</i>"
+        clear_all_html: "<i class='fa fa-trash'></i><span>Cancel All</span>"
+        clear_bids_html: "<i class='fa fa-trash'></i><span>Cancel Bids</span>"
+        clear_asks_html: "<i class='fa fa-trash'></i><span>Cancel Asks</span>"
         confirm_clear_all: Are you sure to cancel ALL orders?
         confirm_clear_bids: Are you sure to cancel all BIDS?
         confirm_clear_asks: Are you sure to cancel all ASKS?

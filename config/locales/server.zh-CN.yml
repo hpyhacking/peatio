@@ -861,9 +861,9 @@ zh-CN:
         orders_done: 已完成订单
         orders_cancel: 最新撤销
         no_open_orders: "当前没有未完成委托"
-        clear_all_html: "<i class='fa fa-trash'>&nbsp;撤销所有</i>"
-        clear_bids_html: "<i class='fa fa-trash'>&nbsp;撤销买入</i>"
-        clear_asks_html: "<i class='fa fa-trash'>&nbsp;撤销卖出</i>"
+        clear_all_html: "<i class='fa fa-trash'></i><span>撤销所有</span>"
+        clear_bids_html: "<i class='fa fa-trash'></i><span>撤销买入</span>"
+        clear_asks_html: "<i class='fa fa-trash'></i><span>撤销卖出</span>"
         confirm_clear_all: 确定要撤销全部 [买卖委单] 吗?
         confirm_clear_bids: 确定要撤销 [买入委单] 吗?
         confirm_clear_asks: 确定要撤销 [卖出委单] 吗?
