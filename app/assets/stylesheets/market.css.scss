@@ -122,7 +122,7 @@ header {
     p { margin: 8px; }
   }
 
-  i.fa.fa-wifi { color: #ccc; }
+  i.fa.fa-wifi { color: $text-color; }
 
   .navbar-right { 
     .dropdown-menu { 
@@ -326,7 +326,7 @@ header {
       }
 
       a:focus {
-        color: #ccc;
+        color: $text-color;
         text-shadow: none;
       }
     }
@@ -450,6 +450,14 @@ header {
 #my_orders {
   width: $my-orders-width; height: $my-orders-height;
   bottom: $gutter-2x + $entry-height; right: $gutter;
+
+  .empty-row {
+    position: absolute;
+    top: 45%;
+    width: 100%;
+    color: $gray-light;
+    text-align: center;
+  }
 
   .panel-body-content {
     height: $my-orders-height - $gutter-2x;
@@ -636,7 +644,7 @@ table {
   }
 
   span.t-value {
-    color: #ccc !important;
+    color: $text-color !important;
     font-family: $font-family-monospace;
     text-align: right;
     margin-right: 15px;

@@ -6,6 +6,7 @@
       li = link_to t('.clear_all_html'),  clear_market_orders_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_all')}
   #my_orders.panel.panel-default
     .panel-body.panel-body-content
+      .empty-row = t('.no_open_orders')
       table.table.table-hover
         tbody
     = render partial: 'mask'

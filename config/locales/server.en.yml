@@ -875,6 +875,7 @@ en:
         orders_wait: Latest Orders
         orders_done: Completed Orders
         orders_cancel: Cancel Orders
+        no_open_orders: You have no open orders.
         clear_all_html: "<i class='fa fa-trash'>&nbsp;Cancel All</i>"
         clear_bids_html: "<i class='fa fa-trash'>&nbsp;Cancel Bids</i>"
         clear_asks_html: "<i class='fa fa-trash'>&nbsp;Cancel Asks</i>"
