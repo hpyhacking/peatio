@@ -501,6 +501,9 @@ header {
     }
   }
 
+  .all-trades tr td.my i { display: none; }
+  .all-trades tr.mine td.my i { display: inline; }
+
   .my-trades tbody {
     display: none;
   }

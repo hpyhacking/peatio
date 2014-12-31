@@ -43,16 +43,19 @@ window.MarketTradesUI = flight.component ->
     @notify message
 
   @isMine = (trade) ->
-    if @myTrades.length == 0 || trade.tid > @myTrades[0].id
-      false
-    else
-      !!(_.find @myTrades, (t) -> t.id == trade.tid)
+    return false if @myTrades.length == 0
+
+    for t in @myTrades
+      if trade.tid == t.id
+        return true
+      if trade.tid > t.id # @myTrades is sorted reversely
+        return false
 
   @handleMarketTrades = (event, data) ->
     for trade in data.trades
       @marketTrades.unshift trade
       trade.classes = 'new'
-      trade.isMine = @isMine(trade)
+      trade.classes += ' mine' if @isMine(trade)
       el = @select('allTableSelector').prepend(JST['templates/market_trade'](trade))
 
     @marketTrades = @marketTrades.slice(0, @attr.tradesLimit)
@@ -66,7 +69,10 @@ window.MarketTradesUI = flight.component ->
     for trade in data.trades
       @myTrades.unshift trade
       trade.classes = 'new'
+
       el = @select('myTableSelector').prepend(JST['templates/my_trade'](trade))
+      @select('allTableSelector').find("tr#market-trade-#{trade.id}").addClass('mine')
+
       @notifyMyTrade(trade)
 
     @myTrades = @myTrades.slice(0, @attr.tradesLimit) if @myTrades.length > @attr.tradesLimit
@@ -76,24 +82,16 @@ window.MarketTradesUI = flight.component ->
       @clearMarkers(@select('myTableSelector'))
     , 900
 
-  @init = (event, data) ->
-    @handleMyTrades(event, trades: data.trades.reverse())
-
-    data = trades: @marketTrades
-    @marketTrades = []
-    @handleMarketTrades(event, data)
-
-    @on document, 'market::trades', @handleMarketTrades
-
   @after 'initialize', ->
     @marketTrades = []
     @myTrades = []
 
-    @on document, 'market::trades', @bufferMarketTrades
-
-    @on document, 'trade::populate', @init
+    @on document, 'trade::populate', (event, data) =>
+      @handleMyTrades(event, trades: data.trades.reverse())
     @on document, 'trade', (event, trade) =>
       @handleMyTrades(event, trades: [trade])
+
+    @on document, 'market::trades', @handleMarketTrades
 
     @on @select('allSelector'), 'click', @showAllTrades
     @on @select('mySelector'), 'click', @showMyTrades
