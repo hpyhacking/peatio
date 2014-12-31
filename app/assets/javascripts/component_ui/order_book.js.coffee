@@ -13,12 +13,10 @@
   @appendRow = (book, template, data) ->
     data.classes = 'new'
     book.append template(data)
-    book.find("tr[data-order=#{data.index}] div").slideDown('slow')
 
   @insertRow = (book, row, template, data) ->
     data.classes = 'new'
     row.before template(data)
-    book.find("tr[data-order=#{data.index}] div").slideDown('slow')
 
   @updateRow = (row, order, index, v1, v2) ->
     row.data('order', index)
@@ -68,7 +66,7 @@
       else
         break
 
-  @clearMarkers = (book) ->
+  @_clearMarkers = (book) ->
     book.find('tr.new').removeClass('new')
     book.find('tr.text-up').removeClass('text-up')
     book.find('tr.text-down').removeClass('text-down')
@@ -83,9 +81,8 @@
 
     @mergeUpdate bid_or_ask, book, orders, JST["templates/order_book_#{bid_or_ask}"]
 
-    setTimeout =>
-      @clearMarkers(book)
-    , 900
+    book.find("tr.new div").slideDown('slow')
+    @clearMarkers[bid_or_ask]()
 
   @computeDeep = (event, orders) ->
     index      = Number $(event.currentTarget).data('order')
@@ -102,7 +99,16 @@
       @trigger target, 'place_order::input::price', data
       @trigger target, 'place_order::input::volume', data
 
+  @debounce = (f) ->
+    _.debounce f, 900
+
   @after 'initialize', ->
+    @clearMarkers =
+      ask: @debounce =>
+        @_clearMarkers(@select('askBookSel'))
+      bid: @debounce =>
+        @_clearMarkers(@select('bidBookSel'))
+
     @on document, 'market::order_book::update', @update
 
     @on @select('fade_toggle_depth'), 'click', =>
