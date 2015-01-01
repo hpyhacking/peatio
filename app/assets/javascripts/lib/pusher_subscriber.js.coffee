@@ -87,9 +87,9 @@ class DepositAddressHandler extends EventHandler
 
   create: (attributes) =>
     account = Account.findBy('id', attributes['account_id'])
-    account.deposit_address = attributes['address']
+    account.deposit_address = attributes['deposit_address']
     account.save()
-    $.publish "deposit_address:create", attributes['address']
+    $.publish "deposit_address:create", attributes['deposit_address']
 
 
 window.PusherSubscriber = PusherSubscriber
