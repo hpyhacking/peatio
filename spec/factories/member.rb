@@ -4,7 +4,7 @@ FactoryGirl.define do
     phone_number { Faker::Number.number(12).to_s }
 
     trait :activated do
-      activated true
+      email_activated true
     end
 
     trait :app_two_factor_activated do

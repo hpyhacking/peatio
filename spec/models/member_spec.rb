@@ -166,7 +166,7 @@ describe Member do
 
   describe "#create_auth_for_identity" do
     let(:identity) { create(:identity) }
-    let(:member) { create(:member, email: identity.email) }
+    let(:member) { create(:member, email: identity.login) }
 
     it "should create the authentication" do
       expect do
@@ -177,7 +177,7 @@ describe Member do
 
   describe "#remove_auth" do
     let!(:identity) { create(:identity) }
-    let!(:member) { create(:member, email: identity.email) }
+    let!(:member) { create(:member, email: identity.login) }
     let!(:weibo_auth) { create(:authentication, provider: 'weibo', member_id: member.id)}
     let!(:identity_auth) { create(:authentication, provider: 'identity', member_id: member.id, uid: identity.id)}
 

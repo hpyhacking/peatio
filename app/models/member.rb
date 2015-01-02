@@ -19,7 +19,6 @@ class Member < ActiveRecord::Base
 
   scope :enabled, -> { where(disabled: false) }
 
-  delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
   delegate :name,       to: :id_document, allow_nil: true
   delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
@@ -118,6 +117,10 @@ class Member < ActiveRecord::Base
 
   def identity_phone_number
     @identity_phone_number ||= identity('phone_number')
+  end
+
+  def activated=(status)
+    self.email_activated = status
   end
 
   def active_email!

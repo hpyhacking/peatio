@@ -29,10 +29,26 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
 
   def info
     {
-      "email" => self.login_type.email? ? self.login : nil,
-      "phone_number" => self.login_type.phone_number? ? self.login : nil,
+      "email" => email,
+      "phone_number" => phone_number,
       "country" => self.country
     }
+  end
+
+  def email
+    self.login_type.email? ? self.login : nil
+  end
+
+  def phone_number
+    self.login_type.phone_number? ? self.login : nil
+  end
+
+  def email=(e)
+    self.login = e
+  end
+
+  def phone_number=(pn)
+    self.login = ph
   end
 
   private

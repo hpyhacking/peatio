@@ -9,7 +9,8 @@ describe 'Sign up', js: true do
     click_on I18n.t('header.signup')
 
     within('form#new_identity') do
-      fill_in 'email', with: identity.email
+      select 'country', with: 'China'
+      fill_in 'login', with: identity.email
       fill_in 'password', with: identity.password
       fill_in 'password_confirmation', with: identity.password_confirmation
       click_on I18n.t('header.signup')

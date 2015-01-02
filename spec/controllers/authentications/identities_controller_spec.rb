@@ -11,7 +11,7 @@ describe Authentications::IdentitiesController do
     it "should set the identity" do
       do_request
       assigns(:identity).new_record?.should be_true
-      assigns(:identity).email.should == email
+      assigns(:identity).login.should == email
     end
   end
 
