@@ -15,6 +15,9 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
   validates :login_type, presence: true
 
   before_validation :set_login_type
+  before_create :format_phone_number_login
+
+  attr_accessor :country
 
   def increment_retry_count
     self.retry_count = (retry_count || 0) + 1
@@ -27,7 +30,8 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
   def info
     {
       "email" => self.login_type.email? ? self.login : nil,
-      "phone_number" => self.login_type.phone_number? ? self.login : nil
+      "phone_number" => self.login_type.phone_number? ? self.login : nil,
+      "country" => self.country
     }
   end
 
@@ -35,11 +39,19 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
 
   def set_login_type
     if login =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-      self.login_type = :email
+      self.login_type = 'email'
     elsif login =~ /^\d+$/
-      self.login_type = :phone_number
+      self.login_type = 'phone_number'
     else
       self.login_type = nil
+    end
+  end
+
+  def format_phone_number_login
+    if self.login_type == 'phone_number'
+      number = Phonelib.parse self.login
+      login_number = number.country == "CN" ? number.national : number.original
+      self.login = login_number.gsub(/\s+/, "").gsub(/\+/, "") # remove spaces, and the '+' in the front
     end
   end
 end

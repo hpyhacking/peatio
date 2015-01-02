@@ -29,6 +29,11 @@ class TwoFactor::Sms < ::TwoFactor
     AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
   end
 
+  def active!
+    super
+    member.active_phone_number!
+  end
+
   private
 
   def valid_phone_number_for_country
