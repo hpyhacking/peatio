@@ -787,7 +787,7 @@ en:
       market_list:
         name: Market
         price: Price
-        change: "24H %"
+        change: "24h %"
       range_switch:
         switch_1: 1m
         switch_5: 5m
@@ -856,6 +856,7 @@ en:
         vol: 24h Volume
         high: High
         low: Low
+        change: Change
       settings:
         sound: Sound
         notification: Desktop Real Notification

@@ -131,6 +131,10 @@ header {
       left: -1px !important; 
       padding: 0px !important; 
     }
+
+    span.vol, span.high, span.low, span.change {
+      color: gainsboro;
+    }
   }
 }
 

@@ -772,7 +772,7 @@ zh-CN:
       market_list:
         name: 交易对
         price: 最新价
-        change: "24H涨跌"
+        change: "24h涨跌%"
       range_switch:
         switch_1: 1m
         switch_5: 5m
@@ -836,9 +836,10 @@ zh-CN:
         volume: 成交量
       header:
         network: 连接状态
-        vol: 二十四小时 成交量
+        vol: 24小时 成交量
         high: 最高
         low: 最低
+        change: 涨跌
       settings:
         sound: 音效
         notification: 桌面实时通知
