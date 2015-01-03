@@ -481,7 +481,6 @@ header {
   width: $market-trades-width;
   height: $market-trades-height;
   min-height: $market-trades-height;
-  background-color: #000;
   z-index: 999;
 
   .panel {
@@ -710,7 +709,7 @@ table {
 
 .chart-ticker {
   color: #777;
-  background-color: $navbar-default-bg;
+  background-color: $panel-bg-alpha;
   border: 1px solid $navbar-default-border;
   padding: 6px 0 6px 6px;
   font-size: 11px;
