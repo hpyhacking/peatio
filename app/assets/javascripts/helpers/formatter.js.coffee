@@ -58,8 +58,17 @@ class Formatter
     m = moment.unix(timestamp)
     "#{m.format("MM/DD HH:mm")}"
 
+  mask_price: (price) ->
+    price.replace(/\..*/, "<g>$&</g>")
+
   mask_fixed_price: (price) ->
-    @.fixPriceGroup(price).replace(/\..*/, "<g>$&</g>")
+    @mask_price @fixPriceGroup(price)
+
+  ticker_fill: ['', '0', '00', '000', '0000', '00000']
+  ticker_price: (price, fillTo=4) ->
+    [left, right] = price.split('.')
+    fill = @ticker_fill[fillTo-right.length]
+    price = "#{left}.<g>#{right}</g><span class='fill'>#{fill}</span>"
 
   long_time: (timestamp) ->
     m = moment.unix(timestamp)

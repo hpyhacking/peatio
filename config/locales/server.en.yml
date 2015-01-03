@@ -783,8 +783,11 @@ en:
         my_active_order: Active
         my_done_order: Done
         trades: Trading
-        market_switch: Markets Switch
         chat: Chat Channel
+      market_list:
+        name: Market
+        price: Price
+        change: "24H %"
       range_switch:
         switch_1: 1m
         switch_5: 5m
@@ -867,11 +870,6 @@ en:
         settings: "[Member Settings]"
         view_all_accounts: "[View All]"
         hide_all_accounts: "[Hide Other]"
-      market_switch:
-        title: "[Switch Market]"
-        name: Market
-        ask: ASK
-        bid: BID
       my_orders:
         title: My [Active Orders]
         orders_wait: Latest Orders

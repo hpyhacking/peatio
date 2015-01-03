@@ -768,8 +768,11 @@ zh-CN:
         my_active_order: <v>有</v><v>效</v><v>委</v><v>单</v>
         my_done_order: <v>成</v><v>交</v><v>委</v><v>单</v>
         trades: <v>委</v><v>单</v><v>成</v><v>交</v>
-        market_switch: <v>交</v><v>易</v><v>品</v><v>种</v>
         chat: 聊天频道
+      market_list:
+        name: 交易对
+        price: 最新价
+        change: "24H涨跌"
       range_switch:
         switch_1: 1m
         switch_5: 5m
@@ -850,11 +853,6 @@ zh-CN:
         settings: "[账户设置]"
         view_all_accounts: "[查看全部账户]"
         hide_all_accounts: "[隐藏其他账户]"
-      market_switch:
-        title: "[选择交易品种]"
-        name: 交易对
-        ask: 卖出价
-        bid: 买入价
       my_orders:
         title: 我的 [有效委单]
         orders_wait: 挂单纪录

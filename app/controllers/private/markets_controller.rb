@@ -10,7 +10,8 @@ module Private
       @bid = params[:bid]
       @ask = params[:ask]
 
-      @market = current_market
+      @market         = current_market
+      @markets        = Market.all
       @markets_orders = Hash[Market.all.map { |m| [m.id, m.sort_order] }]
 
       @bids   = @market.bids

@@ -2,15 +2,20 @@ window.MarketSwitchUI = flight.component ->
   @attributes
     table: 'tbody'
 
-  @refresh = (event, data) ->
-    $table = @select('table').empty()
+  @updateMarket = (select, ticker) ->
+    trend = formatter.trend ticker.last_trend
+    select.find('td.price').html("<span class='#{trend}'>#{formatter.ticker_price ticker.last}</span>")
+    select.find('td.change').html("<span class='#{trend}'>+11.21</span>")
 
+  @refresh = (event, data) ->
     tickers = _.sortBy data.tickers, (ticker) ->
       gon.market_orders[ticker.market]
 
+    table = @select('table')
     for ticker in tickers.reverse()
-      ticker['current'] = true if (ticker.market == gon.market.id)
-      $table.prepend(JST['templates/market_switch'](ticker))
+      @updateMarket table.find("tr#market-list-#{ticker.market}"), ticker.data
+
+    table.find("tr#market-list-#{gon.market.id}").addClass 'highlight'
 
   @after 'initialize', ->
     @on document, 'market::tickers', @refresh

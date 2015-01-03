@@ -760,7 +760,6 @@ cs:
         my_active_order: Aktivní
         my_done_order: Hotovo
         trades: Obchodování
-        market_switch: Přepnout obchod
         chat: Chat kanál
       range_switch:
         switch_1: 1m
@@ -845,11 +844,6 @@ cs:
         settings: "[Uživatelské nastavení]"
         view_all_accounts: "[Zobraz vše]"
         hide_all_accounts: "[Skryj další]"
-      market_switch:
-        title: "[Přepnout obchod]"
-        name: Obchod
-        ask: Poptávka
-        bid: Nabídka
       my_orders:
         title: Moje [Aktivní Objednávky]
         orders_wait: Poslední objednávky

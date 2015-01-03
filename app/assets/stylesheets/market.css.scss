@@ -107,11 +107,6 @@ header {
     } 
   }
 
-  #market_switch {
-    .dropdown-menu { width: 256px; }
-    table { th { border-bottom: 0px; } }
-  }
-
   #account_summary {
     font-family: $font-family-monospace;
     table {
@@ -471,7 +466,7 @@ header {
   .dropdown-wrapper {
     position: absolute;
     height: 100px;
-    top: $gutter; left: $market-trades-width + $gutter;
+    top: $market-list-height + $gutter-2x; left: $market-trades-width + $gutter;
     z-index: 998;
   }
 }
@@ -506,6 +501,21 @@ header {
 
   .my-trades tbody {
     display: none;
+  }
+}
+
+#market_list {
+  position: absolute;
+  top: $gutter; left: $gutter;
+  width: $market-list-width; height: $market-list-height;
+  z-index: 999;
+
+  .panel-body-content {
+    height: $market-list-height - $panel_table_header_high;
+
+    td.price {
+      .fill { color: #333; }
+    }
   }
 }
 
@@ -656,7 +666,7 @@ header {
 .col-left { padding-right: 12px; }
 .panel-body-head { border-bottom: 1px solid #333; }
 
-#ticker, #order_book, #market_trades, #my_orders {
+#ticker, #order_book, #market_trades, #my_orders, #market_list {
   table {
     margin-bottom: 0px;
 
@@ -673,7 +683,7 @@ header {
     }
 
     td {
-      &.price, &.amount, &.volume {
+      &.price, &.amount, &.volume, &.change {
         text-align: right;
       }
     }
