@@ -11,7 +11,9 @@
         - @markets.each do |market|
           - ticker = Global[market.id].ticker
           tr.market id="market-list-#{market.id}" data-market=market.id
-            td.col-xs-6.name   = market.name
-            td.col-xs-5.price  = ticker[:last]
+            td.col-xs-6.name
+              = link_to market.name, market_path(market)
+            td.col-xs-5.price
+              = ticker[:last]
             td.col-xs-5.change
-              | +12.31
+              | +0.00
