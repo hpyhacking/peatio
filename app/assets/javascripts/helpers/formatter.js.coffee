@@ -70,6 +70,13 @@ class Formatter
     fill = @ticker_fill[fillTo-right.length]
     price = "#{left}.<g>#{right}</g><span class='fill'>#{fill}</span>"
 
+  price_change: (p1, p2) ->
+    percent = if p1
+                @round(100*(p2-p1)/p1, 2)
+              else
+                '0.00'
+    "#{if p1 > p2 then '' else '+'}#{percent}"
+
   long_time: (timestamp) ->
     m = moment.unix(timestamp)
     "#{m.format("YYYY/MM/DD HH:mm")}"

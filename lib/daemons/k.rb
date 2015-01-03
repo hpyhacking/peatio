@@ -82,6 +82,13 @@ def append_point(market, period, ts)
 
   @logger.info "append #{k}: #{point.to_json}"
   @r.rpush k, point.to_json
+
+  if period == 1
+    # 24*60 = 1440
+    if point = @r.lindex(key(market, period), -1441)
+      Rails.cache.write "peatio:#{market}:price_24h_before", JSON.parse(point)[4]
+    end
+  end
 end
 
 def update_point(market, period, ts)
