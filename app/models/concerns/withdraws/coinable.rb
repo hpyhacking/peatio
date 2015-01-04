@@ -26,6 +26,12 @@ module Withdraws
       end
     end
 
+    def as_json(options={})
+      super(options).merge({
+        blockchain_url: blockchain_url
+      })
+    end
+
   end
 end
 

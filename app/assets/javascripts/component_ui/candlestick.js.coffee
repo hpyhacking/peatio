@@ -265,6 +265,7 @@ INDICATOR = {MA: false, EMA: false}
           top: "0%"
           height: "70%"
           lineColor: '#fff'
+          minRange: if gon.ticker.last then parseFloat(gon.ticker.last)/25 else null
         }
         {
           labels:

@@ -52,6 +52,18 @@ describe APIv2::Orders do
       JSON.parse(response.body).first['price'].should == '13.0'
     end
 
+    it "should sort orders" do
+      signed_get '/api/v2/orders', params: {market: 'btccny', order_by: 'asc'}, token: token
+      response.should be_success
+      orders = JSON.parse(response.body)
+      orders[0]['id'].should < orders[1]['id']
+
+      signed_get '/api/v2/orders', params: {market: 'btccny', order_by: 'desc'}, token: token
+      response.should be_success
+      orders = JSON.parse(response.body)
+      orders[0]['id'].should > orders[1]['id']
+    end
+
   end
 
   describe "GET /api/v2/order" do

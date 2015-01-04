@@ -9,6 +9,7 @@
     authType: '.two_factor_auth_type'
     appHint: 'span.hint.app'
     smsHint: 'span.hint.sms'
+    chapterWrap: '.captcha-wrap'
 
   @setActiveItem = (event) ->
     switch $(event.target).data('type')
@@ -52,7 +53,12 @@
     @countDownSendCodeButton()
     $.get('/two_factors/sms?refresh=true')
 
+  @checkCaptchaRequired = ->
+    @select('chapterWrap').load '/two_factors/app', (html) -> $(@).html(html)
+
   @after 'initialize', ->
+    @checkCaptchaRequired()
+    $.subscribe 'withdraw:form:submitted', => @checkCaptchaRequired()
     @on @select('switchItem'), 'click', @setActiveItem
     @on @select('sendCodeButton'), 'click', @sendCode
 

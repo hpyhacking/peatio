@@ -20,6 +20,7 @@
 
 #= require ./lib/notifier
 #= require ./lib/pusher_connection
+#= require ./lib/tiny-pubsub
 
 #= require highstock
 #= require_tree ./highcharts/
