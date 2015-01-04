@@ -1,7 +1,10 @@
 header.navbar.navbar-default.navbar-static-top role = "navigation"
   .container-fluid
     ul#menu.nav.navbar-nav.navbar-left
-      a.navbar-brand = @market.name
+      a.navbar-brand href=root_path
+        | PEATIO
+        | &nbsp;
+        = @market.name
 
       p.navbar-text
         span data-title="#{t('.vol')}"
