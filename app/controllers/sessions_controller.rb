@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
         reset_session rescue nil
         session[:member_id] = @member.id
         save_session_key @member.id, cookies['_peatio_session']
-        MemberMailer.notify_signin(@member.id).deliver if @member.activated?
+        @member.notify!('notify_signin')
         redirect_back_or_settings_page
       end
     else
