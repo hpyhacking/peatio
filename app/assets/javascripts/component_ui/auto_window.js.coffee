@@ -23,7 +23,6 @@ BORDER_WIDTH = 1
       depths_h       = $('#depths_wrapper').height() + 2*BORDER_WIDTH
       my_orders_h    = $('#my_orders').height() + 2*BORDER_WIDTH
       ticker_h       = $('#ticker').height() + 2*BORDER_WIDTH
-      order_book_w   = $('#order_book').width()
 
       # Adjust heights first. Because scrollbar may be removed after heights
       # adjustment, window width will be affected.
@@ -45,7 +44,9 @@ BORDER_WIDTH = 1
         $('#chat_tabs_wrapper').height(window_h - navbar_h - gutter_9x)
 
       # Adjust widths.
-      window_w = $(@).width()
-      $('#candlestick').width(window_w - order_book_w - gutter_2x)
+      window_w     = window.innerWidth
+      markets_w    = $('#market_list').width()
+      order_book_w = $('#order_book').width()
+      $('#candlestick').width(window_w - order_book_w - markets_w - gutter_4x - 5)
 
     @$node.resize()

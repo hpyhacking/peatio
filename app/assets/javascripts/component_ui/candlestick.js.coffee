@@ -83,7 +83,7 @@ INDICATOR = {MA: false, EMA: false}
       chart.redraw()
 
   @default_range = (unit) ->
-    1000 * 60 * unit * 120
+    1000 * 60 * unit * 100
 
   @initHighStock = (data) ->
     component = @
@@ -137,7 +137,7 @@ INDICATOR = {MA: false, EMA: false}
           chart_w = $(@chart.renderTo).width()
           chart_h = $(@chart.renderTo).height()
           grid_h  = Math.min(20, Math.ceil(chart_h/10))
-          x = Math.max(286, point.plotX-w-20) # 286 = market_trades.width + gutter + 10
+          x = Math.max(10, point.plotX-w-20)
           y = Math.max(0, Math.floor(point.plotY/grid_h)*grid_h-20)
           x: x, y: y
         useHTML: true
@@ -220,9 +220,10 @@ INDICATOR = {MA: false, EMA: false}
         {
           labels:
             enabled: true
-            align: 'left'
+            align: 'right'
             x: 2
             y: 3
+            zIndex: -7
           gridLineColor: '#222'
           gridLineDashStyle: 'ShortDot'
           top: "0%"

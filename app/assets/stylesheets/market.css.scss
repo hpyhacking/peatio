@@ -437,7 +437,7 @@ header {
   position: absolute;
   min-width: $candlestick-width; width: $candlestick-width; 
   min-height: $candlestick-height; height: $candlestick-height;
-  top: $gutter; left: $gutter;
+  top: $gutter; left: $market-list-width + $gutter-2x;
 }
 
 .switch {
@@ -448,8 +448,14 @@ header {
   a.active { color: #eee; }
 }
 
-#range_switch { top: 13px; right: 543px; }
-#indicator_switch_wrapper { top: 33px; right: 538px; }
+#range_switch {
+  top: 13px; right: $order-book-width + $gutter-2x + 10;
+  li { padding-left: 10px; padding-right: 0; }
+}
+#indicator_switch_wrapper {
+  top: 33px; right: $order-book-width + $gutter-2x + 10;
+  li { padding-left: 10px; padding-right: 0; }
+}
 
 #depths_wrapper {
   width: $order-book-width; height: $depths-height;

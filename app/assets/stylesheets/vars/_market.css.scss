@@ -28,11 +28,11 @@ $my-orders-height: 92px;
 $order-book-width: $depths-width;
 $order-book-height: $min-height - $navbar-height - $entry-height - $ticker-height - $depths-height - $my-orders-height - $gutter-6x;
 
-$candlestick-width: $min-width - $order-book-width - $gutter-2x;
-$candlestick-height: $min-height - $navbar-height - $gutter-2x;
-
 $market-list-width: 274px;
 $market-list-height: $entry-height;
 
 $market-trades-width: $market-list-width;
 $market-trades-height: $min-height - $navbar-height - $market-list-height - $gutter-3x;
+
+$candlestick-width: $min-width - $order-book-width - $market-list-width - $gutter-4x - 5;
+$candlestick-height: $min-height - $navbar-height - $gutter-2x;
