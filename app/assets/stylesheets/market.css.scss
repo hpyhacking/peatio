@@ -68,22 +68,28 @@ header {
     border-color: $panel-default-border;
   }
 
-  .bootstrap-switch {
+  .bootstrap-switch.bootstrap-switch-mini.bootstrap-switch-animate {
     margin-top: -2px; 
-    border-color: $panel-default-border;
+    border: none;
 
     & .bootstrap-switch-handle-on.bootstrap-switch-success {
+      padding: 6px;
+      font-size: 12px;
       color: $text-color !important;
       background-color: lighten($panel-default-heading-bg, 10%);
     }
 
     & .bootstrap-switch-handle-off.bootstrap-switch-default {
+      padding: 6px;
+      font-size: 12px;
       color: $text-color !important;
-      background-color: $panel-default-heading-bg;
+      background-color: lighten($panel-default-heading-bg, 10%);
     }
 
     .bootstrap-switch-label {
-      background-color: $panel-bg;
+      padding: 6px;
+      font-size: 12px;
+      background-color: gainsboro;
     }
 
   }
@@ -99,12 +105,24 @@ header {
   }
 
   #settings { 
-    table { 
-      min-width: 226px; 
-      tr:first-of-type {
-        td { border-top: 0px; }
+    .dropdown-menu {
+      min-width: 0;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      background-color: $panel-bg;
+      border: 1px solid $panel-default-border;
+      box-shadow: 0px 0px 8px $panel-default-border;
+
+      li:first-child {
+        padding-top: 8px;
       }
-    } 
+      li:nth-child(2) {
+        padding-bottom: 8px;
+      }
+      li:last-child {
+        padding-bottom: 8px;
+      }
+    }
   }
 
   #account_summary {

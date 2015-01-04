@@ -1,12 +1,18 @@
 li#settings.dropdown
   a.dropdown-toggle href="#" data-toggle="dropdown"
-    i.fa.fa-gears
-    span = t('.title')
-  .dropdown-menu
-    table.table: tbody
-      tr
-        td: span = t('.sound')
-        td: span: input type="checkbox" name="sound-checkbox" data-size='mini' data-on-color='success'
-      tr
-        td: span = t('.notification')
-        td: span: input type="checkbox" name="notification-checkbox" data-size='mini' data-on-color='success'
+    i.fa.fa-user
+    span = current_user.email
+  ul.dropdown-menu
+    li: a
+      input type="checkbox" name="sound-checkbox" data-size='mini' data-on-color='success'
+    li: a
+      input type="checkbox" name="notification-checkbox" data-size='mini' data-on-color='success'
+    li: a href=funds_path target='_blank'
+      i.fa.fa-bank
+      span = t('.funds')
+    li: a href=settings_path target='_blank'
+      i.fa.fa-wrench
+      span = t('.settings')
+    li: a href=signout_path
+      i.fa.fa-sign-out
+      span = t('.signout')

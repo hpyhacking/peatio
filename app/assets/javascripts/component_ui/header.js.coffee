@@ -25,6 +25,7 @@
     state = Cookies.get('sound') == 'true' ? true : false
 
     @select('sound').bootstrapSwitch
+      labelText: gon.i18n.switch.sound
       state: state
       onSwitchChange: (event, state) ->
         Cookies.set('sound', state, 30)

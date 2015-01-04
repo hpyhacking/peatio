@@ -141,6 +141,10 @@ class ApplicationController < ActionController::Base
       bid: I18n.t('gon.bid'),
       cancel: I18n.t('actions.cancel'),
       latest_trade: I18n.t('private.markets.order_book.latest_trade'),
+      switch: {
+        notification: I18n.t('private.markets.settings.notification'),
+        sound: I18n.t('private.markets.settings.sound')
+      },
       notification: {
         title: I18n.t('gon.notification.title'),
         enabled: I18n.t('gon.notification.enabled'),

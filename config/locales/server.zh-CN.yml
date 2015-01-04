@@ -842,20 +842,19 @@ zh-CN:
         change: 涨跌
       settings:
         sound: 音效
-        notification: 桌面实时通知
+        notification: 通知
         title: 设置
+        funds: 资金管理
+        signout: 安全退出
+        settings: 账户设置
       account_summary:
         account: 账号
         title: 总资产约
         amount: 总计
         locked: 冻结
-        funds: "[资金]"
-        signout: "[安全退出]"
-        settings: "[账户设置]"
-        view_all_accounts: "[查看全部账户]"
-        hide_all_accounts: "[隐藏其他账户]"
+        view_all_accounts: "查看全部账户"
+        hide_all_accounts: "隐藏其他账户"
       my_orders:
-        title: 我的 [有效委单]
         orders_wait: 挂单纪录
         orders_done: 已完成订单
         orders_cancel: 最新撤销

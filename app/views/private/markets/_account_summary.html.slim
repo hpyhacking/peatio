@@ -2,12 +2,8 @@ li#account_summary.dropdown
   a.dropdown-toggle href="#" data-toggle="dropdown"
     span#total_assets data-title='#{t('.title')}'
   .dropdown-menu.text-right
-    p.text-right: span.text-up = current_user.email
     p.text-right
       ul.list-inline.text-right
-        li: a href='#{funds_path}' target='_blank' #{t('.funds')}
-        li: a href='#{settings_path}' target='_blank' #{t('.settings')}
-        li: a href='#{signout_path}' #{t('.signout')}
     
     table.table: tbody
       - current_user.accounts.each do |account|

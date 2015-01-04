@@ -859,20 +859,18 @@ en:
         change: Change
       settings:
         sound: Sound
-        notification: Desktop Real Notification
-        title: Settings
+        notification: Notify
+        funds: "Funds"
+        signout: "Sign Out"
+        settings: "Profile"
       account_summary:
         account: Account
         title: Summary
         amount: Amount
         locked: Freeze
-        funds: "[Funds]"
-        signout: "[Sign Out]"
-        settings: "[Member Settings]"
-        view_all_accounts: "[View All]"
-        hide_all_accounts: "[Hide Other]"
+        view_all_accounts: "View All"
+        hide_all_accounts: "Hide Other"
       my_orders:
-        title: My [Active Orders]
         orders_wait: Latest Orders
         orders_done: Completed Orders
         orders_cancel: Cancel Orders
