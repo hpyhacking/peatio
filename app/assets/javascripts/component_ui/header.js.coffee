@@ -14,7 +14,7 @@
     @select('high').text(ticker.high)
     @select('low').text(ticker.low)
 
-    p1 = parseFloat ticker.price_24h_before
+    p1 = parseFloat ticker.open
     p2 = parseFloat ticker.last
     trend = formatter.trend(p1 <= p2)
     @select('change').html("<span class='#{trend}'>#{formatter.price_change(p1, p2)}%</span>")
