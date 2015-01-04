@@ -836,7 +836,6 @@ cs:
         title: Nastavení
       account_summary:
         account: Účet
-        title: Souhrn
         amount: Částka
         locked: Blokováno
         funds: "[Finance]"

@@ -75,15 +75,15 @@ header {
     & .bootstrap-switch-handle-on.bootstrap-switch-success {
       padding: 6px;
       font-size: 12px;
-      color: $text-color !important;
-      background-color: lighten($panel-default-heading-bg, 10%);
+      color: white !important;
+      background-color: $up-text;
     }
 
     & .bootstrap-switch-handle-off.bootstrap-switch-default {
       padding: 6px;
       font-size: 12px;
-      color: $text-color !important;
-      background-color: lighten($panel-default-heading-bg, 10%);
+      color: white !important;
+      background-color: $down-text;
     }
 
     .bootstrap-switch-label {
@@ -95,31 +95,48 @@ header {
   }
 
   li.dropdown {
+    a:hover {
+      color: white;
+      text-decoration: none;
+      background: none;
+      text-shadow: white 0 0 2px;
+      text-decoration: none;
+    }
+    a:focus {
+      text-shadow: none;
+      text-decoration: none;
+    }
+
     table {
       margin-bottom: 0px;
       td {
         vertical-align: middle;
-        border-top: 1px solid $navbar-default-border;
+        border-top: none;
+        border-bottom: 1px solid $navbar-default-spliter;
       }
+    }
+  }
+
+  @mixin header-dropdown {
+    min-width: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: $panel-bg;
+    border: 1px solid $panel-default-border;
+    box-shadow: 0px 0px 8px $panel-default-border;
+
+    li:first-child {
+      padding-top: 8px;
+    }
+    li:last-child {
+      padding-bottom: 8px;
     }
   }
 
   #settings { 
     .dropdown-menu {
-      min-width: 0;
-      border-bottom-left-radius: 5px;
-      border-bottom-right-radius: 5px;
-      background-color: $panel-bg;
-      border: 1px solid $panel-default-border;
-      box-shadow: 0px 0px 8px $panel-default-border;
-
-      li:first-child {
-        padding-top: 8px;
-      }
+      @include header-dropdown;
       li:nth-child(2) {
-        padding-bottom: 8px;
-      }
-      li:last-child {
         padding-bottom: 8px;
       }
     }
@@ -127,6 +144,9 @@ header {
 
   #account_summary {
     font-family: $font-family-monospace;
+    .dropdown-menu {
+      @include header-dropdown;
+    }
     table {
       min-width: 280px;
       td.account-symbol { img { max-height: 32px; } }
@@ -613,7 +633,6 @@ header {
       min-width: 260px;
     }
   }
-  
 }
 
 #ask_entry, #bid_entry {

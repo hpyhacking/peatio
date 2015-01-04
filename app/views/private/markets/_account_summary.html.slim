@@ -1,10 +1,9 @@
 li#account_summary.dropdown
   a.dropdown-toggle href="#" data-toggle="dropdown"
-    span#total_assets data-title='#{t('.title')}'
+    span#total_assets
   .dropdown-menu.text-right
     p.text-right
       ul.list-inline.text-right
-    
     table.table: tbody
       - current_user.accounts.each do |account|
         - next if not account.currency
@@ -19,5 +18,5 @@ li#account_summary.dropdown
             span.locked data-title='#{t('.locked')}' = account.locked
       tr
         td.text-center colspan=2
-          a.view_all_accounts.text-up data-hide-text='#{t('.hide_all_accounts')}' data-show-text='#{t('.view_all_accounts')}' href='#' = t('.view_all_accounts')
+          a.view_all_accounts data-hide-text='#{t('.hide_all_accounts')}' data-show-text='#{t('.view_all_accounts')}' href='#' = t('.view_all_accounts')
 

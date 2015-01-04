@@ -849,7 +849,6 @@ zh-CN:
         settings: 账户设置
       account_summary:
         account: 账号
-        title: 总资产约
         amount: 总计
         locked: 冻结
         view_all_accounts: "查看全部账户"

@@ -839,7 +839,6 @@ ko:
         title: 설정
       account_summary:
         account: 계정
-        title: 총자산
         amount: 합계
         locked: 동결
         funds: "[자금]"

@@ -865,7 +865,6 @@ en:
         settings: "Profile"
       account_summary:
         account: Account
-        title: Summary
         amount: Amount
         locked: Freeze
         view_all_accounts: "View All"
