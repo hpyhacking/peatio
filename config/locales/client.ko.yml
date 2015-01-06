@@ -38,7 +38,7 @@ ko:
       deposit_coin:
         address: BTC지갑주소
         new_address: 새 BTC지갑주소
-        open-wallet: 이숙한 지갑으로 통해 입출금 서비스를 이용하십시오
+        open-wallet: 익숙한 지갑을 이용하여 입출금 서비스를 이용하세요
         detail: '아래 지갑주소로 입금하세요. '
         scan-qr: 모바일 지갑은  QR코드 스캔을 이용해서 입금하세요.
         after_deposit: 입금후 아래 입금내역을 통해 입금상태를 확인할수 있습니다.
