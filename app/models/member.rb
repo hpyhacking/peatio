@@ -24,7 +24,7 @@ class Member < ActiveRecord::Base
   delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
 
-  before_validation :generate_sn
+  before_validation :sanitize, :generate_sn
 
   validates :sn, presence: true
   validates :display_name, uniqueness: true, allow_blank: true
@@ -229,6 +229,11 @@ class Member < ActiveRecord::Base
   end
 
   private
+
+  def sanitize
+    self.email.try(:downcase!)
+  end
+
   def generate_sn
     self.sn and return
     begin
