@@ -74,7 +74,7 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
   end
 
   def sanitize
-    self.email.try(:downcase!)
+    self.login.try(:downcase!)
   end
 
 end
