@@ -446,7 +446,15 @@ header {
   width: $ticker-width; height: $ticker-height;
   bottom: $gutter_4x + $entry-height + $my-orders-height + $depths-height; right: $gutter;
 
-  .ask, .last, .bid { font-family: $font-family-monospace; }
+  .ask, .last, .bid {
+    text-align: center;
+    font-family: $font-family-monospace;
+    .hint { cursor: default; color: #777; }
+  }
+
+  .last {
+    font-size: 32px;
+  }
 }
 
 #order_book {
