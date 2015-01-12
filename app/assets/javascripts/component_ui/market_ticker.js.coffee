@@ -3,11 +3,27 @@ window.MarketTickerUI = flight.component ->
     askSelector: '.ask .price'
     bidSelector: '.bid .price'
     lastSelector: '.last .price'
+    priceSelector: '.price'
+
+  @updatePrice = (selector, price, trend) ->
+    selector.removeClass('text-up').removeClass('text-down').addClass(formatter.trend(trend))
+    selector.html(formatter.fixBid(price))
 
   @refresh = (event, ticker) ->
-    @select('askSelector').html(JST['templates/ticker'](trend: ticker.sell_trend, price: ticker.sell))
-    @select('bidSelector').html(JST['templates/ticker'](trend: ticker.buy_trend, price: ticker.buy))
-    @select('lastSelector').html(JST['templates/ticker'](trend: ticker.last_trend, price: ticker.last))
+    @updatePrice @select('askSelector'),  ticker.sell, ticker.sell_trend
+    @updatePrice @select('bidSelector'),  ticker.buy,  ticker.buy_trend
+    @updatePrice @select('lastSelector'), ticker.last, ticker.last_trend
 
   @after 'initialize', ->
     @on document, 'market::ticker', @refresh
+
+    format = "(ddd)."
+    _.times gon.market.bid.fixed, ->
+      format += 'd'
+
+    @select('priceSelector').each (_, el) ->
+      new Odometer
+        el: el
+        duration: 70
+        format: format
+        precision: gon.market.bid.fixed
