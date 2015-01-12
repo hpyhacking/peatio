@@ -17,13 +17,8 @@ window.MarketTickerUI = flight.component ->
   @after 'initialize', ->
     @on document, 'market::ticker', @refresh
 
-    format = "(ddd)."
-    _.times gon.market.bid.fixed, ->
-      format += 'd'
-
     @select('priceSelector').each (_, el) ->
       new Odometer
         el: el
         duration: 70
-        format: format
         precision: gon.market.bid.fixed

@@ -14,7 +14,7 @@ FORMAT_MARK_HTML = '<span class="odometer-formatting-mark"></span>'
 # strings are assumed to already be in the locale's format.
 #
 # This is just the default, it can also be set as options.format.
-DIGIT_FORMAT = '(,ddd).dd'
+DIGIT_FORMAT = '(ddd).dd'
 
 FORMAT_PARSER = /^\(?([^)]*)\)?(?:(.)(d+))?$/
 

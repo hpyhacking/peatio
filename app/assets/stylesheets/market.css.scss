@@ -606,8 +606,8 @@ header {
     }
 
     .label { margin: 0 1px; padding: 2px; }
-    .label-ask { background-color: $down-text; }
-    .label-bid { background-color: $up-text; }
+    .label-ask { background-color: $down-text-fade; }
+    .label-bid { background-color: $up-text-fade; }
     .label-new { background-color: $gray-light; }
     .label-partial { background-color: #2b90de; }
   }
