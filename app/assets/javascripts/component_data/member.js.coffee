@@ -15,7 +15,5 @@
 
     # Initializing at bootstrap
     @trigger 'account::update', gon.accounts
-
-    if gon.orders
-      @trigger 'order::wait::populate', orders: gon.orders.wait
-      @trigger 'order::done::populate', orders: gon.orders.done.reverse()
+    @trigger 'order::wait::populate', orders: gon.my_orders if gon.my_orders
+    @trigger 'trade::populate', trades: gon.my_trades if gon.my_trades

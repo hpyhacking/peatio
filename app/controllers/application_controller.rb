@@ -141,6 +141,10 @@ class ApplicationController < ActionController::Base
       bid: I18n.t('gon.bid'),
       cancel: I18n.t('actions.cancel'),
       latest_trade: I18n.t('private.markets.order_book.latest_trade'),
+      switch: {
+        notification: I18n.t('private.markets.settings.notification'),
+        sound: I18n.t('private.markets.settings.sound')
+      },
       notification: {
         title: I18n.t('gon.notification.title'),
         enabled: I18n.t('gon.notification.enabled'),
@@ -177,6 +181,10 @@ class ApplicationController < ActionController::Base
         price_low: I18n.t('private.markets.place_order.price_low'),
         full_bid: I18n.t('private.markets.place_order.full_bid'),
         full_ask: I18n.t('private.markets.place_order.full_ask')
+      },
+      trade_state: {
+        new: I18n.t('private.markets.trade_state.new'),
+        partial: I18n.t('private.markets.trade_state.partial')
       }
     }
 

@@ -1,25 +1,12 @@
-#my_orders.panel.panel-default
-  .panel-heading
-    span = t('.title')
-    a.hand-point.pull-right: i.fa.fa-close
-    .btn-group.pull-right
-      a.dropdown-toggle  data-toggle="dropdown"
-        b = t('.one_click_clear')
-        span.caret
-      ul.dropdown-menu role="menu"
-        li.text-right = link_to t('.clear_bids'), clear_market_order_bids_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_bids')}
-        li.text-right = link_to t('.clear_asks'), clear_market_order_asks_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_asks')}
-        li.text-right = link_to t('.clear_all'),  clear_market_orders_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_all')}
-  .panel-body.panel-body-head
-    table.table
-      thead: tr
-        th.time.col-xs-6.text-left = t('.time')
-        th.kind.col-xs-2.text-left
-        th.price.col-xs-4.text-right = t('.price')
-        th.volume.col-xs-4.text-right = t('.volume')
-        th.amount.col-xs-5.text-right = t('.amount')
-        th.operation.col-xs-3.text-center = t('.operation')
-  .panel-body.panel-body-content
-    table.table.table-hover
-      tbody
-  = render partial: 'mask'
+#my_orders_wrapper.has-left-dropdown
+  .dropdown-wrapper
+    ul.dropdown-menu
+      li = link_to t('.clear_bids_html'), clear_market_order_bids_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_bids')}
+      li = link_to t('.clear_asks_html'), clear_market_order_asks_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_asks')}
+      li = link_to t('.clear_all_html'),  clear_market_orders_path(market_id: current_market.id), remote: true, method: :post, data: {confirm: t('.confirm_clear_all')}
+  #my_orders.panel.panel-default
+    .panel-body.panel-body-content
+      .empty-row = t('.no_open_orders')
+      table.table.table-hover
+        tbody
+    = render partial: 'mask'

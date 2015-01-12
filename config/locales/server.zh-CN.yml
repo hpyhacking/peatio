@@ -768,8 +768,11 @@ zh-CN:
         my_active_order: <v>有</v><v>效</v><v>委</v><v>单</v>
         my_done_order: <v>成</v><v>交</v><v>委</v><v>单</v>
         trades: <v>委</v><v>单</v><v>成</v><v>交</v>
-        market_switch: <v>交</v><v>易</v><v>品</v><v>种</v>
         chat: 聊天频道
+      market_list:
+        name: 交易对
+        price: 最新价
+        change: "24h涨跌%"
       range_switch:
         switch_1: 1m
         switch_5: 5m
@@ -822,62 +825,49 @@ zh-CN:
         ask: 卖出
         bid: 买入
         fade_toggle_depth: 市场深度
+      trade_state:
+        new: 未成交
+        partial: 部分成交
       market_trades:
-        title: 实时委单成交记录
+        all_html: "<i class='fa fa-check'></i><span>所有成交</span>"
+        my_html: "<i class='fa fa-check'></i><span>我的成交</span>"
         time: 成交时间
         price: 成交价
         volume: 成交量
-        amount: 总价
       header:
         network: 连接状态
-        vol: 二十四小时 成交量
+        vol: 24小时 成交量
         high: 最高
         low: 最低
+        change: 涨跌
       settings:
         sound: 音效
-        notification: 桌面实时通知
+        notification: 通知
         title: 设置
+        funds: 资金管理
+        signout: 安全退出
+        settings: 账户设置
       account_summary:
         account: 账号
-        title: 总资产约
         amount: 总计
         locked: 冻结
-        funds: "[资金]"
-        signout: "[安全退出]"
-        settings: "[账户设置]"
-        view_all_accounts: "[查看全部账户]"
-        hide_all_accounts: "[隐藏其他账户]"
-      market_switch:
-        title: "[选择交易品种]"
-        name: 交易对
-        ask: 卖出价
-        bid: 买入价
-      my_done_orders:
-        title: 我的 [成交委单]
-        filter: 过滤
-        all: 查看 [全部委单]
-        buy: 查看 [买入委单]
-        sell: 查看 [卖出委单]
-        cancel: 已取消订单
-        price: 成交价
-        volume: 成交量
-        time: 创建时间
+        view_all_accounts: "查看全部账户"
+        hide_all_accounts: "隐藏其他账户"
       my_orders:
-        title: 我的 [有效委单]
         orders_wait: 挂单纪录
         orders_done: 已完成订单
         orders_cancel: 最新撤销
-        clear_all: 全部 [买卖委托]
-        clear_bids: '[买入委托]'
-        clear_asks: '[卖出委托]'
+        no_open_orders: "当前没有未完成委托"
+        clear_all_html: "<i class='fa fa-trash'></i><span>撤销所有</span>"
+        clear_bids_html: "<i class='fa fa-trash'></i><span>撤销买入</span>"
+        clear_asks_html: "<i class='fa fa-trash'></i><span>撤销卖出</span>"
         confirm_clear_all: 确定要撤销全部 [买卖委单] 吗?
         confirm_clear_bids: 确定要撤销 [买入委单] 吗?
         confirm_clear_asks: 确定要撤销 [卖出委单] 吗?
-        one_click_clear: 一键撤销
         price: 委单价
         volume: 委单量
+        amount: 总价
         time: 创建时间
-        operation: 撤销
       mask:
         warning: 请 <a class=text-up href='/'>登录</a> 或 <a class=text-up href='/'>注册</a> 后进行操作
       klime_chart:

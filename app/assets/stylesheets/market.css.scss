@@ -13,6 +13,7 @@
 @import "font-awesome-sprockets";
 @import 'font-awesome';
 @import 'csshake.min';
+@import 'features/odometer';
 
 @import 'layouts/basic';
 
@@ -68,52 +69,85 @@ header {
     border-color: $panel-default-border;
   }
 
-  .bootstrap-switch {
+  .bootstrap-switch.bootstrap-switch-mini.bootstrap-switch-animate {
     margin-top: -2px; 
-    border-color: $panel-default-border;
+    border: none;
 
     & .bootstrap-switch-handle-on.bootstrap-switch-success {
-      color: $text-color !important;
-      background-color: lighten($panel-default-heading-bg, 10%);
+      padding: 6px;
+      font-size: 12px;
+      color: white !important;
+      background-color: $up-text;
     }
 
     & .bootstrap-switch-handle-off.bootstrap-switch-default {
-      color: $text-color !important;
-      background-color: $panel-default-heading-bg;
+      padding: 6px;
+      font-size: 12px;
+      color: white !important;
+      background-color: $down-text;
     }
 
     .bootstrap-switch-label {
-      background-color: $panel-bg;
+      padding: 6px;
+      font-size: 12px;
+      background-color: gainsboro;
     }
 
   }
 
   li.dropdown {
+    a:hover {
+      color: white;
+      text-decoration: none;
+      background: none;
+      text-shadow: white 0 0 2px;
+      text-decoration: none;
+    }
+    a:focus {
+      text-shadow: none;
+      text-decoration: none;
+    }
+
     table {
       margin-bottom: 0px;
       td {
         vertical-align: middle;
-        border-top: 1px solid $navbar-default-border;
+        border-top: none;
+        border-bottom: 1px solid $navbar-default-spliter;
       }
     }
   }
 
-  #settings { 
-    table { 
-      min-width: 226px; 
-      tr:first-of-type {
-        td { border-top: 0px; }
-      }
-    } 
+  @mixin header-dropdown {
+    min-width: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: $panel-bg;
+    border: 1px solid $panel-default-border;
+    box-shadow: 0px 0px 8px $panel-default-border;
+
+    li:first-child {
+      padding-top: 8px;
+    }
+    li:last-child {
+      padding-bottom: 8px;
+    }
   }
 
-  #market_switch {
-    .dropdown-menu { width: 256px; }
-    table { th { border-bottom: 0px; } }
+  #settings { 
+    .dropdown-menu {
+      @include header-dropdown;
+      li:nth-child(2) {
+        padding-bottom: 8px;
+      }
+    }
   }
 
   #account_summary {
     font-family: $font-family-monospace;
+    .dropdown-menu {
+      @include header-dropdown;
+    }
     table {
       min-width: 280px;
       td.account-symbol { img { max-height: 32px; } }
@@ -122,7 +156,7 @@ header {
     p { margin: 8px; }
   }
 
-  i.fa.fa-wifi { color: #ccc; }
+  i.fa.fa-wifi { color: $text-color; }
 
   .navbar-right { 
     .dropdown-menu { 
@@ -135,6 +169,10 @@ header {
     .dropdown-menu { 
       left: -1px !important; 
       padding: 0px !important; 
+    }
+
+    span.vol, span.high, span.low, span.change {
+      color: gainsboro;
     }
   }
 }
@@ -183,9 +221,6 @@ header {
   }
 }
 
-#my_orders, #my_done_orders {
-  & > .mask { padding-top: 130px; }
-}
 #ask_entry > .mask { padding-top: 80px; }
 #bid_entry > .mask { padding-top: 80px; }
 
@@ -245,17 +280,6 @@ header {
   }
 }
 
-#market_trades_tabs_wrapper {
-  top: $gutter; right: $gutter_2x + $order-book-width;
-  @include float-wrapper($trades-tabs-width, $trades-tabs-height);
-}
-
-#my_order_tabs_wrapper {
-  bottom: $gutter; right: $gutter_2x + $order-book-width;
-  @include float-wrapper($trades-tabs-width, $trades-tabs-height);
-}
-
-
 /* panel
 ------------------------------------------------ */
 .panel {
@@ -301,7 +325,119 @@ header {
   }
 }
 
-/* layout positon
+.has-left-dropdown {
+  .dropdown-wrapper {
+    .dropdown-menu {
+      display: block;
+      z-index: 0;
+      position: relative;
+      top: 0;
+      left: 100%;
+      -webkit-transition: left .1s linear;
+      transition: left .1s linear;
+      min-width: 0;
+      margin: 0;
+      font-size: 11px;
+      background-color: $panel-bg;
+      border: 1px solid $panel-default-border;
+      border-right: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+
+      a {
+        display: none;
+        padding: 3px 12px 3px 11px;
+        background-color: $panel-bg;
+      }
+
+      a:hover {
+        color: white;
+        background-color: $panel-bg;
+        text-shadow: white 0 0 2px;
+        text-decoration: none;
+      }
+
+      a:focus {
+        color: $text-color;
+        text-shadow: none;
+      }
+    }
+  }
+}
+
+.has-left-dropdown:hover {
+  .dropdown-wrapper {
+    .dropdown-menu {
+      left: 1px;
+      -webkit-transition: left .1s linear;
+      transition: left .1s linear;
+
+      a { display: block; }
+    }
+  }
+}
+
+.has-right-dropdown {
+  .dropdown-wrapper {
+    .dropdown-menu {
+      display: block;
+      position: relative;
+      top: 0;
+      left: 0;
+      -webkit-transition: margin-left .1s linear;
+      transition: margin-left .1s linear;
+      min-width: 0;
+      width: 84px;
+      padding-left: 6px;
+      margin: 0 0 0 -84px;
+      font-size: 11px;
+      background-color: $panel-bg;
+      border: 1px solid $panel-default-border;
+      border-left: 0;
+      border-left-right-radius: 0;
+      border-left-right-radius: 0;
+
+      a {
+        padding: 3px 8px;
+        background-color: $panel-bg;
+        i { color: $panel-bg; }
+      }
+
+      a.active {
+        i {
+          color: white;
+          text-shadow: white 0 0 2px;
+        }
+      }
+
+      a:hover {
+        color: white;
+        background-color: $panel-bg;
+        text-shadow: white 0 0 2px;
+        text-decoration: none;
+        i { text-shadow: none; }
+      }
+
+      a:focus {
+        color: $text-color;
+      }
+    }
+  }
+}
+
+.has-right-dropdown:hover {
+  .dropdown-wrapper {
+    .dropdown-menu {
+      margin-left: -1px;
+      -webkit-transition: margin-left .1s linear;
+      transition: margin-left .1s linear;
+
+      a { display: block; }
+    }
+  }
+}
+
+/* layout position
 ----------------------------------------------- */
 #ask_entry, #bid_entry { width: $entry-width; height: $entry-height; }
 .entry-right { bottom: $gutter; right: $gutter + $entry-width + $gutter; }
@@ -309,15 +445,24 @@ header {
 
 #ticker {
   width: $ticker-width; height: $ticker-height;
-  bottom: $gutter_2x + $entry-height; right: $gutter;
+  bottom: $gutter_4x + $entry-height + $my-orders-height + $depths-height; right: $gutter;
 
-  .ask, .last, .bid { font-family: $font-family-monospace; }
+  .ask, .last, .bid {
+    text-align: center;
+    font-family: $font-family-monospace;
+    .hint { cursor: default; color: #777; }
+  }
+
+  .last {
+    font-size: 34px;
+    line-height: 34px;
+  }
 }
 
 #order_book {
   width: $order-book-width; height: $order-book-height; 
   min-height: $order-book-height;
-  top: $gutter; right: $gutter; 
+  top: $gutter; right: $gutter;
 
   .panel-body-content { 
     min-height: $order-book-height - $panel_table_header_high;
@@ -340,7 +485,7 @@ header {
   position: absolute;
   min-width: $candlestick-width; width: $candlestick-width; 
   min-height: $candlestick-height; height: $candlestick-height;
-  top: $gutter; left: $gutter; 
+  top: $gutter; left: $market-list-width + $gutter-2x;
 }
 
 .switch {
@@ -351,13 +496,18 @@ header {
   a.active { color: #eee; }
 }
 
-#range_switch { top: 13px; right: 543px; }
-#indicator_switch_wrapper { top: 33px; right: 538px; }
+#range_switch {
+  top: 13px; right: $order-book-width + $gutter-2x + 10;
+  li { padding-left: 10px; padding-right: 0; }
+}
+#indicator_switch_wrapper {
+  top: 33px; right: $order-book-width + $gutter-2x + 10;
+  li { padding-left: 10px; padding-right: 0; }
+}
 
 #depths_wrapper {
   width: $order-book-width; height: $depths-height;
-  bottom: $gutter-3x + $entry-height + $ticker-height; right: $gutter;
-  background-color: rgba(28, 28, 28, 0.95);
+  bottom: $gutter-3x + $my-orders-height + $entry-height; right: $gutter;
 
   .panel-body {
     padding: 0;
@@ -370,6 +520,100 @@ header {
   }
 }
 
+#market_trades_wrapper {
+  .dropdown-wrapper {
+    position: absolute;
+    height: 100px;
+    top: $market-list-height + $gutter-2x; left: $market-trades-width + $gutter;
+    z-index: 998;
+  }
+}
+
+#market_trades {
+  position: absolute;
+  bottom: $gutter; left: $gutter;
+  width: $market-trades-width;
+  height: $market-trades-height;
+  min-height: $market-trades-height;
+  z-index: 999;
+
+  .panel {
+    width: $market-trades-width;
+    height: $market-trades-height;
+    min-height: $market-trades-height;
+  }
+  .panel-body-content {
+    min-height: $market-trades-height - $panel_table_header_high;
+  }
+
+  table {
+    .new {
+      background-color: #333;
+      div { display: none; }
+    }
+  }
+
+  .all-trades tr td.my i { display: none; }
+  .all-trades tr.mine td.my i { display: inline; }
+
+  .my-trades tbody {
+    display: none;
+  }
+}
+
+#market_list {
+  position: absolute;
+  top: $gutter; left: $gutter;
+  width: $market-list-width; height: $market-list-height;
+  z-index: 999;
+
+  .panel-body-content {
+    height: $market-list-height - $panel_table_header_high;
+
+    td.price {
+      .fill { color: #333; }
+    }
+  }
+}
+
+#my_orders_wrapper {
+  .dropdown-wrapper {
+    position: absolute;
+    height: $my-orders-height;
+    bottom: $gutter-2x + $entry-height; right: $order-book-width + $gutter;
+  }
+}
+
+#my_orders {
+  width: $my-orders-width; height: $my-orders-height;
+  bottom: $gutter-2x + $entry-height; right: $gutter;
+
+  .panel-body-content {
+    height: $my-orders-height - $gutter-2x;
+
+    .time, .price, .volume, .amount {
+      & > span { display: block; height: 16px; padding: 2px 0; }
+    }
+
+    .empty-row {
+      position: absolute;
+      top: 44%;
+      width: 99%;
+      height: 0;
+      padding: 0;
+      color: $gray-light;
+      text-align: center;
+    }
+
+    .label { margin: 0 1px; padding: 2px; }
+    .label-ask { background-color: $down-text-fade; }
+    .label-bid { background-color: $up-text-fade; }
+    .label-new { background-color: $gray-light; }
+    .label-partial { background-color: #2b90de; }
+  }
+
+  & > .mask { padding-top: 130px; }
+}
 
 /* order entry
 -----------------------------------------------------*/
@@ -399,7 +643,6 @@ header {
       min-width: 260px;
     }
   }
-  
 }
 
 #ask_entry, #bid_entry {
@@ -479,7 +722,7 @@ header {
 .col-left { padding-right: 12px; }
 .panel-body-head { border-bottom: 1px solid #333; }
 
-#ticker, #order_book, #market_trades, #my_orders, #my_done_orders {
+#ticker, #order_book, #market_trades, #my_orders, #market_list {
   table {
     margin-bottom: 0px;
 
@@ -492,11 +735,11 @@ header {
     }
 
     tr.highlight {
-      font-weight: bolder;
+      background-color: #333;
     }
 
     td {
-      &.price, &.amount, &.volume {
+      &.price, &.amount, &.volume, &.change {
         text-align: right;
       }
     }
@@ -506,10 +749,6 @@ header {
 table {
   thead { cursor: default; th { color: #777; }}
   &.table-hover { tbody > tr:hover { cursor: pointer;} }
-}
-
-#market_trades, #my_orders, #my_done_orders {
-  .panel-body-content { height: 220px; }
 }
 
 .panel-body-content::-webkit-scrollbar { width: 0 !important }
@@ -522,16 +761,20 @@ table {
 }
 
 .chart-ticker {
-  border: 0px;
-  background-color: rgba(0,0,0,0) !important;
   color: #777;
-  font-size: 12px;
+  background-color: $panel-bg-alpha;
+  border: 1px solid $navbar-default-border;
+  padding: 6px 0 6px 6px;
+  font-size: 11px;
 
   & > div { display: inline-block; width: 70px; }
   & > div.tooltip-ma { width: 76; margin-top: 3px; }
   & > div.tooltip-ticker { margin-top: 5px; }
 
-  ul.list-inline { margin-top: 6px; }
+  ul.list-inline {
+    margin: 6px 0 0 0;
+    li { padding: 0 6px 0 0; }
+  }
 
   span.t-title {
     display: block;
@@ -539,7 +782,7 @@ table {
   }
 
   span.t-value {
-    color: #ccc !important;
+    color: $text-color !important;
     font-family: $font-family-monospace;
     text-align: right;
     margin-right: 15px;

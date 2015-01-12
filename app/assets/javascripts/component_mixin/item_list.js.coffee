@@ -5,9 +5,9 @@
 
   @checkEmpty = (event, data) ->
     if @select('tbody').find('tr.order').length is 0
-      @select('empty').show()
+      @select('empty').fadeIn()
     else
-      @select('empty').hide()
+      @select('empty').fadeOut()
 
   @addOrUpdateItem = (item) ->
     template = @getTemplate(item)
@@ -22,8 +22,9 @@
 
   @removeItem = (id) ->
     item = @select('tbody').find("tr[data-id=#{id}]")
-    item.hide 'slow', -> item.remove()
-    @checkEmpty()
+    item.hide 'slow', =>
+      item.remove()
+      @checkEmpty()
 
   @populate = (event, data) ->
     if not _.isEmpty(data.orders)

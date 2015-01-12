@@ -769,7 +769,6 @@ ko:
         my_active_order: 주문내역
         my_done_order: 체결내역
         trades: 최근 체결내역
-        market_switch: 거래코인
         chat: 채팅 채널
       range_switch:
         switch_1: 1m
@@ -840,7 +839,6 @@ ko:
         title: 설정
       account_summary:
         account: 계정
-        title: 총자산
         amount: 합계
         locked: 동결
         funds: "[자금]"
@@ -848,21 +846,6 @@ ko:
         settings: "[사용자 설정]"
         view_all_accounts: "[모든 계정 보기]"
         hide_all_accounts: "[기타 계정 숨기기]"
-      market_switch:
-        title: "[거래코인선택]"
-        name: 거래 시장
-        ask: 매도
-        bid: 매수
-      my_done_orders:
-        title: 나의[주문]
-        filter: 필터
-        all: '[모든주문]보기'
-        buy: '[구매주문]보기'
-        sell: '[판매주문]보기'
-        cancel: 취소된 주문
-        price: 체결가
-        volume: 체결량
-        time: 체결시간
       my_orders:
         title: 나의[유효주문]
         orders_wait: 주문내역
