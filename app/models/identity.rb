@@ -14,10 +14,12 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
   validates :password_confirmation, presence: true, length: { minimum: 6, maximum: 64 }
   validates :login_type, presence: true
 
+  before_validation :sanitize
   before_validation :set_login_type
   before_create :format_phone_number_login
 
   attr_accessor :country
+
 
   def increment_retry_count
     self.retry_count = (retry_count || 0) + 1
@@ -70,4 +72,9 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
       self.login = login_number.gsub(/\s+/, "").gsub(/\+/, "") # remove spaces, and the '+' in the front
     end
   end
+
+  def sanitize
+    self.email.try(:downcase!)
+  end
+
 end

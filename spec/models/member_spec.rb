@@ -12,6 +12,11 @@ describe Member do
   end
 
   describe 'before_create' do
+    it "should unify email" do
+      create(:identity, email: 'foo@example.com')
+      build(:identity, email: 'Foo@example.com').should_not be_valid
+    end
+
     it 'creates accounts for the member' do
       expect {
         member.save!

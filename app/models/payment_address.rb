@@ -22,6 +22,13 @@ class PaymentAddress < ActiveRecord::Base
     currency_obj[:deposit_account] || address
   end
 
+  def as_json(options = {})
+    {
+      account_id: account_id,
+      deposit_address: deposit_address
+    }.merge(options)
+  end
+
   def trigger_deposit_address
     ::Pusher["private-#{account.member.sn}"].trigger_async('deposit_address', {type: 'create', attributes: as_json})
   end
