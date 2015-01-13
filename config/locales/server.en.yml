@@ -787,7 +787,7 @@ en:
       market_list:
         name: Market
         price: Price
-        change: "24h %"
+        change: "24h Change"
       range_switch:
         switch_1: 1m
         switch_5: 5m

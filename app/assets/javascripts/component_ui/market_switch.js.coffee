@@ -9,7 +9,7 @@ window.MarketSwitchUI = flight.component ->
     p1 = parseFloat(ticker.open)
     p2 = parseFloat(ticker.last)
     trend = formatter.trend(p1 <= p2)
-    select.find('td.change').html("<span class='#{trend}'>#{formatter.price_change(p1, p2)}</span>")
+    select.find('td.change').html("<span class='#{trend}'>#{formatter.price_change(p1, p2)}%</span>")
 
   @refresh = (event, data) ->
     tickers = _.sortBy data.tickers, (ticker) ->

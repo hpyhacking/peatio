@@ -772,7 +772,7 @@ zh-CN:
       market_list:
         name: 交易对
         price: 最新价
-        change: "24h涨跌%"
+        change: "24h涨跌"
       range_switch:
         switch_1: 1m
         switch_5: 5m
