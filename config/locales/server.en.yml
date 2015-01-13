@@ -30,6 +30,8 @@ en:
         actions: Actions
       identity:
         email: Email
+        login: Email or Phone number
+        country: Country
         password: New Password
         password_confirmation: Confirm Password
       document:

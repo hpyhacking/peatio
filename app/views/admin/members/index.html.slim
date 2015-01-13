@@ -20,8 +20,8 @@
     .panel-body
       = table_for(@members, class: 'table table-condensed table-hover') do |t|
         - t.column :id, class: 'col-xs-1'
-        - t.column :email, class: 'col-xs-2' do |x|
-          code.text-info = x.email
+        - t.column 'Email/Phone', class: 'col-xs-2' do |x|
+          code.text-info = x.email || x.phone_number
         - t.column :created_at, class: 'col-xs-3'
         - t.column :activated?, class: 'col-xs-1' do |x|
           = yesno x.activated?

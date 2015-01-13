@@ -36,6 +36,7 @@ zh-CN:
       identity:
         email: 邮箱地址
         login: 邮箱或手机号
+        country: 所在国家
         password: 新密码
         password_confirmation: 确认密码
       document:
