@@ -134,16 +134,6 @@ class Member < ActiveRecord::Base
     "#{name || email} - #{sn}"
   end
 
-  def to_muut
-    {
-      id: id,
-      displayname: display_name,
-      email: email,
-      avatar: gravatar,
-      is_admin: admin?
-    }
-  end
-
   def gravatar
     "//gravatar.com/avatar/" + Digest::MD5.hexdigest(email.strip.downcase) + "?d=retro"
   end

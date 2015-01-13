@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  helper_method :current_user, :is_admin?, :current_market, :muut_enabled?, :gon
+  helper_method :current_user, :is_admin?, :current_market, :gon
   before_action :set_timezone, :set_gon
   after_action :allow_iframe
   after_action :set_csrf_cookie_for_ng
@@ -63,10 +63,6 @@ class ApplicationController < ActionController::Base
 
   def is_admin?
     current_user && current_user.admin?
-  end
-
-  def muut_enabled?
-    !!ENV['MUUT_KEY']
   end
 
   def two_factor_activated!

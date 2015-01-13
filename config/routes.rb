@@ -138,8 +138,6 @@ Peatio::Application.routes.draw do
     end
   end
 
-  get '/forum' => 'forum#index'
-
   mount APIv2::Mount => '/'
 
 end
