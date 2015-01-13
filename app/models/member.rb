@@ -293,6 +293,14 @@ class Member < ActiveRecord::Base
     self.notification_channels.each { |nc| nc.notify!(notification_type, payload)}
   end
 
+  def email_unverified
+    self.email && !self.email_activated
+  end
+
+  def phone_unverified
+    self.phone_number && !self.phone_number_activated
+  end
+
   private
 
   def setup_email_channel
