@@ -40,9 +40,6 @@ BORDER_WIDTH = 1
       $('#market_trades .panel').height(trades_h - 2*BORDER_WIDTH)
       $('#market_trades .panel-body-content').height(trades_h - 2*BORDER_WIDTH - panel_table_header_high - 2*PANEL_PADDING)
 
-      unless $('#chat_tabs_wrapper').hasClass('stop-resize')
-        $('#chat_tabs_wrapper').height(window_h - navbar_h - gutter_9x)
-
       # Adjust widths.
       window_w     = window.innerWidth
       markets_w    = $('#market_list').width()
