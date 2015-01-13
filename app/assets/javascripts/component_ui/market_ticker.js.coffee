@@ -16,9 +16,3 @@ window.MarketTickerUI = flight.component ->
 
   @after 'initialize', ->
     @on document, 'market::ticker', @refresh
-
-    @select('priceSelector').each (_, el) ->
-      new Odometer
-        el: el
-        duration: 70
-        precision: gon.market.bid.fixed

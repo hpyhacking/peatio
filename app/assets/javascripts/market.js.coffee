@@ -19,7 +19,6 @@
 #= require ./lib/sfx
 #= require ./lib/notifier
 #= require ./lib/pusher_connection
-#= require ./lib/odometer
 
 #= require highstock
 #= require_tree ./highcharts/
