@@ -35,7 +35,7 @@ BORDER_WIDTH = 1
       $('#order_book').height(order_h)
       $('#order_book .panel-body-content').height(order_h - panel_table_header_high - 2*PANEL_PADDING)
 
-      trades_h = window_h - navbar_h - markets_h - gutter_3x
+      trades_h = window_h - navbar_h - markets_h - gutter_3x - BORDER_WIDTH
       $('#market_trades').height(trades_h)
       $('#market_trades .panel').height(trades_h - 2*BORDER_WIDTH)
       $('#market_trades .panel-body-content').height(trades_h - 2*BORDER_WIDTH - panel_table_header_high - 2*PANEL_PADDING)
