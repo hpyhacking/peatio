@@ -9,6 +9,9 @@ class Member < ActiveRecord::Base
   has_many :fund_sources
   has_many :deposits
   has_many :api_tokens
+  has_many :notification_channels
+  has_one :sms_channel
+  has_one :email_channel
   has_many :two_factors
   has_many :tickets, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
@@ -241,7 +244,7 @@ class Member < ActiveRecord::Base
   end
 
   def send_password_changed_notification
-    self.notify!('reset_password_done')
+    notify!('reset_password_done')
 
     if sms_two_factor.activated?
       sms_message = I18n.t('sms.password_changed', email: self.email)
@@ -284,11 +287,21 @@ class Member < ActiveRecord::Base
     email || phone_number || nickname
   end
 
-  def notify!(notification_type)
-    NotificationService.new(self, notification_type).notify!
+  def notify!(notification_type, payload = {})
+    setup_email_channel unless self.email_channel
+    setup_sms_channel unless self.sms_channel
+    self.notification_channels.each { |nc| nc.notify!(notification_type, payload)}
   end
 
   private
+
+  def setup_email_channel
+    EmailChannel.create(member_id: self.id)
+  end
+
+  def setup_sms_channel
+    SmsChannel.create(member_id: self.id)
+  end
 
   def sanitize
     self.email.try(:downcase!)

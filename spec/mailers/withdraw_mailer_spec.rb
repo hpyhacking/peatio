@@ -23,7 +23,7 @@ describe WithdrawMailer do
     let(:withdraw) { create :satoshi_withdraw }
     let(:mail) do
       withdraw.submit!
-      WithdrawMailer.submitted(withdraw.id)
+      WithdrawMailer.withdraw_submitted(withdraw.id)
     end
 
     it "renders the headers" do
@@ -44,7 +44,7 @@ describe WithdrawMailer do
       withdraw.accept!
       withdraw.process!
       withdraw.succeed!
-      WithdrawMailer.done(withdraw.id)
+      WithdrawMailer.withdraw_done(withdraw.id)
     end
 
     it "renders the headers" do

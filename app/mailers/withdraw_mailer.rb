@@ -1,14 +1,14 @@
 class WithdrawMailer < BaseMailer
 
-  def submitted(withdraw_id)
+  def withdraw_submitted(withdraw_id)
     set_mail(withdraw_id)
   end
 
-  def processing(withdraw_id)
+  def withdraw_processing(withdraw_id)
     set_mail(withdraw_id)
   end
 
-  def done(withdraw_id)
+  def withdraw_done(withdraw_id)
     set_mail(withdraw_id)
   end
 

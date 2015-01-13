@@ -1444,7 +1444,7 @@ en:
       subject: "[PEATIO] Your ticket got a new reply"
       notification_content: 'Your ticket got a new reply, please follow the link below to see the detail:'
   deposit_mailer:
-    accepted:
+    deposit_accepted:
       subject: "[Peatio] Your deposit has been credited into your account"
       content: Your %{currency} deposit has been credited into your account.
   member_mailer:
@@ -1496,13 +1496,13 @@ en:
       hi: Hi,
       follow_the_link: 'Please follow this link to reset your password within 30 minutes:'
   withdraw_mailer:
-    submitted:
+    withdraw_submitted:
       subject: "[Peatio] Your withdraw state update"
       content: The request of your %{currency} withdrawal has been successfully submitted, We will process it as soon as possible. Please be patient with us. Contact us if you have any questions.
-    processing:
+    withdraw_processing:
       subject: "[Peatio] Your withdraw state update"
       content: The request of your %{currency} withdrawal is in process. Please be patient with us. Contact us if you have any questions.
-    done:
+    withdraw_done:
       subject: "[Peatio] Your withdraw state update"
       content: The request of your %{currency} withdrawal is complete. Please check it out. Contact us if you have any questions.
     withdraw_state:

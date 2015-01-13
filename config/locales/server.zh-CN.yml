@@ -1388,7 +1388,7 @@ zh-CN:
       subject: "[PEATIO] 你的服务单有了新的回复"
       notification_content: '你的服务单有一条新的回复, 请在下方链接查看详情：'
   deposit_mailer:
-    accepted:
+    deposit_accepted:
       subject: "[貔貅] 你的充值已经到账"
       content: 您的 %{currency} 已经到账.
   member_mailer:
@@ -1440,13 +1440,13 @@ zh-CN:
       hi: 您好
       follow_the_link: '请使用下面的连接，在30分钟之内尝试重置您的登录密码：'
   withdraw_mailer:
-    submitted:
+    withdraw_submitted:
       subject: "[貔貅]你的提现状态更新"
       content: 您的%{currency}提现请求已经被成功提交，我们会尽快处理您的提现请求。谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
-    processing:
+    withdraw_processing:
       subject: "[貔貅]你的提现状态更新"
       content: 您的%{currency}提现请求正在处理中，谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
-    done:
+    withdraw_done:
       subject: "[貔貅]你的提现状态更新"
       content: 您的%{currency}提现请求已经处理完毕，请查询您的账户。如果您有任何问题，请及时与我们联系。
     withdraw_state:
