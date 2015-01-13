@@ -74,23 +74,23 @@ header {
     border: none;
 
     & .bootstrap-switch-handle-on.bootstrap-switch-success {
-      padding: 6px;
+      padding: 6px 2px;
       font-size: 12px;
       color: white !important;
-      background-color: $up-text;
+      background-color: $up-text-fade;
     }
 
     & .bootstrap-switch-handle-off.bootstrap-switch-default {
-      padding: 6px;
+      padding: 6px 2px;
       font-size: 12px;
       color: white !important;
-      background-color: $down-text;
+      background-color: $down-text-fade;
     }
 
     .bootstrap-switch-label {
-      padding: 6px;
+      padding: 6px 2px;
       font-size: 12px;
-      background-color: gainsboro;
+      background-color: $btn-danger-bg;
     }
 
   }
@@ -137,9 +137,16 @@ header {
   #settings { 
     .dropdown-menu {
       @include header-dropdown;
+      li:nth-child(1), li:nth-child(2) {
+        & > a:hover { text-shadow: none; }
+      }
       li:nth-child(2) {
         padding-bottom: 8px;
       }
+
+      .fa { width: 14px; }
+
+      a { padding: 3px 10px; }
     }
   }
 

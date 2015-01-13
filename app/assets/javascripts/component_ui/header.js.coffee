@@ -27,6 +27,8 @@
     @select('sound').bootstrapSwitch
       labelText: gon.i18n.switch.sound
       state: state
+      handleWidth: 40
+      labelWidth: 40
       onSwitchChange: (event, state) ->
         Cookies.set('sound', state, 30)
 
