@@ -848,6 +848,7 @@ zh-CN:
         signout: 安全退出
         settings: 账户设置
       account_summary:
+        title: 总资产约
         account: 账号
         amount: 总计
         locked: 冻结

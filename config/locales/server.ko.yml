@@ -838,6 +838,7 @@ ko:
         notification: 바탕화면 실시간 통지
         title: 설정
       account_summary:
+        title: 총자산
         account: 계정
         amount: 합계
         locked: 동결

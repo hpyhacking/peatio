@@ -835,6 +835,7 @@ cs:
         notification: Reálná notifikace
         title: Nastavení
       account_summary:
+        title: Souhrn
         account: Účet
         amount: Částka
         locked: Blokováno
