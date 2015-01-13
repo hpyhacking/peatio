@@ -364,29 +364,43 @@ INDICATOR = {MA: false, EMA: false}
   @formatPointArray = (point) ->
     x: point[0], open: point[1], high: point[2], low: point[3], close: point[4]
 
-  @createPoint = (chart, data, i) ->
-    chart.series[0].addPoint(data.candlestick[i], false)
-    chart.series[1].addPoint(data.close[i], false)
-    chart.series[2].addPoint(data.volume[i], false)
+  @createPoint = (chart, vchart, vdata) ->
+    chart.series[0].addPoint(vdata[0], false)
+    chart.series[1].addPoint(vdata[1], false)
+    chart.series[2].addPoint(vdata[2], false)
     chart.redraw(true)
 
-  @updatePoint = (chart, data, i) ->
-    chart.series[0].points[chart.series[0].points.length-1].update(@formatPointArray(data.candlestick[i]), false)
-    chart.series[1].points[chart.series[1].points.length-1].update(data.close[i][1], false) if chart.series[1].points
-    chart.series[2].points[chart.series[2].points.length-1].update(data.volume[i], false)
+  @updatePoint = (chart, vchart, vdata) ->
+    vchart[0].update(@formatPointArray(vdata[0]), false)
+    vchart[1].update(vdata[1][1], false)
+    vchart[2].update(vdata[2], false)
     chart.redraw(true)
+
+  @isNewPoint = (vchart, vdata) ->
+    vdata[0][0] > vchart[0].x #&& vdata[1][0] > vchart[1].x && vdata[2].x > vchart[2].x
+
+  @isLastPoint = (vchart, vdata) ->
+    vdata[0][0] == vchart[0].x #&& vdata[1][0] == vchart[1].x && vdata[2].x == vchart[2].x
 
   @process = (chart, data) ->
     for i in [0..(data.candlestick.length-1)]
-      current = chart.series[0].points.length - 1
-      current_point = chart.series[0].points[current]
-
-      if data.candlestick[i][0] > current_point.x
-        @createPoint chart, data, i
-      else if data.candlestick[i][0] == current_point.x
-        @updatePoint chart, data, i
+      vchart = [
+        chart.series[0].points[chart.series[0].points.length-1],
+        chart.series[1].points[chart.series[1].points.length-1],
+        chart.series[2].points[chart.series[2].points.length-1]
+      ]
+      vdata = [
+        data.candlestick[i],
+        data.close[i],
+        data.volume[i]
+      ]
+      if @isNewPoint(vchart, vdata)
+        @createPoint chart, vchart, vdata
+      else if @isLastPoint(vchart, vdata)
+        @updatePoint chart, vchart, vdata
       else
         # ignore obsolete point
+        #console.log "incorrect point: ", vchart[0].x, vdata[0][0], vchart[1].x, vdata[1][0], vchart[2].x, vdata[2].x
 
   @updateByTrades = (event, data) ->
     chart = @$node.find('#candlestick_chart').highcharts()
