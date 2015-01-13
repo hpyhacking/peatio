@@ -4,6 +4,7 @@
 #= require jquery_ujs
 #= require jquery.mousewheel
 #= require jquery-timing.min
+#= require jquery.nicescroll.min
 #
 #= require bootstrap
 #= require bootstrap-switch.min
@@ -59,3 +60,7 @@ $ ->
 
   CandlestickUI.attachTo('#candlestick')
   SwitchUI.attachTo('#range_switch, #indicator_switch, #main_indicator_switch, #type_switch')
+
+  $('.panel-body-content').niceScroll
+    autohidemode: true
+    cursorborder: "none"
