@@ -12,7 +12,7 @@ namespace :admin do
     resources :comments, only: [:create]
   end
 
-  resources :members, only: [:index, :show, :update] do
+  resources :members, only: [:index, :show] do
     member do
       post :active
       post :toggle

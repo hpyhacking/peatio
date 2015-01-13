@@ -364,7 +364,6 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0.4)
-    settingslogic (2.0.9)
     shoulda-matchers (2.5.0)
       activesupport (>= 3.0.0)
     signature (0.1.7)
@@ -497,7 +496,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   selenium-webdriver
-  settingslogic
   shoulda-matchers
   simple_captcha2
   simple_form (= 3.0.1)
