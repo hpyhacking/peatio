@@ -128,6 +128,6 @@ Peatio::Application.routes.draw do
 
   draw :admin
 
-  mount Peatio::API => '/'
+  mount APIv2::Mount => APIv2::Mount::PREFIX
 
 end
