@@ -10,11 +10,12 @@ end
 
 def signed_request(method, uri, opts={})
   token = opts[:token] || create(:api_token)
+  path  = uri.sub(/^\/api/, '')
 
   params = opts[:params] || {}
   params[:access_key] = token.access_key
   params[:tonce]      = time_to_milliseconds
-  params[:signature]  = sign(token.secret_key, method, uri, params)
+  params[:signature]  = sign(token.secret_key, method, path, params)
 
   send method, uri, params
 end

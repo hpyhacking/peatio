@@ -3,7 +3,8 @@ require_relative 'validations'
 
 module APIv2
   class Mount < Grape::API
-    prefix 'api'
+    PREFIX = '/api'
+
     version 'v2', using: :path
 
     cascade false
