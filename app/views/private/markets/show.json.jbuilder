@@ -4,15 +4,6 @@ json.trades @trades
 json.market_orders @markets_orders
 
 if @member
-  json.orders do
-    json.wait *([@orders_wait] + Order::ATTRIBUTES)
-    json.done @trades_done.map {|t|
-      if t.self_trade?
-        [t.for_notify('ask'), t.for_notify('bid')]
-      else
-        t.for_notify
-      end
-    }.flatten
-    json.cancel *([@orders_cancel] + Order::ATTRIBUTES)
-  end
+  json.my_trades @trades_done.map(&:for_notify)
+  json.my_orders *([@orders_wait] + Order::ATTRIBUTES)
 end

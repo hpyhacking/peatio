@@ -223,19 +223,6 @@ module ApplicationHelper
     end
   end
 
-  def muut_api_options
-    key = ENV['MUUT_KEY']
-    secret = ENV['MUUT_SECRET']
-    ts = Time.now.to_i
-    message = Base64.strict_encode64 ({user: current_user.try(:to_muut) || {}}).to_json
-    signature = Digest::SHA1.hexdigest "#{secret} #{message} #{ts}"
-    { key: key,
-      signature: signature,
-      message: message,
-      timestamp: ts
-    }
-  end
-
   def yesno(val)
     if val
       content_tag(:span, 'YES', class: 'label label-success')

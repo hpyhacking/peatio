@@ -10,7 +10,8 @@ module Private
       @bid = params[:bid]
       @ask = params[:ask]
 
-      @market = current_market
+      @market         = current_market
+      @markets        = Market.all
       @markets_orders = Hash[Market.all.map { |m| [m.id, m.sort_order] }]
 
       @bids   = @market.bids
@@ -37,12 +38,7 @@ module Private
 
     def set_member_data
       @member = current_user
-
-      @member.orders.with_currency(@market).tap do |query|
-        @orders_wait = query.with_state(:wait)
-        @orders_cancel = query.with_state(:cancel).last(5)
-      end
-
+      @orders_wait = @member.orders.with_currency(@market).with_state(:wait)
       @trades_done = Trade.for_member(@market.id, current_user, limit: 100, order: 'id desc')
     end
 

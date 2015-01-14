@@ -1,9 +1,6 @@
 @MyOrdersUI = flight.component ->
   flight.compose.mixin @, [ItemListMixin]
 
-  @attributes
-    switchMyDoneOrderLink: 'a.switch_my_done_orders'
-
   @getTemplate = (order) -> $(JST["templates/order_active"](order))
 
   @orderHandler = (event, order) ->
@@ -15,10 +12,14 @@
       when 'done'
         @removeItem order.id
 
+  @cancelOrder = (event) ->
+    tr = $(event.target).parents('tr')
+    if confirm(formatter.t('place_order')['confirm_cancel'])
+      $.ajax
+        url: formatter.market_url gon.market.id, tr.data('id')
+        method: 'delete'
+
   @.after 'initialize', ->
     @on document, 'order::wait::populate', @populate
     @on document, 'order::wait order::cancel order::done', @orderHandler
-
-    @on @select('switchMyDoneOrderLink'), 'click', ->
-      $('#my_orders').hide()
-      $('#my_done_orders').show()
+    @on @select('tbody'), 'click', @cancelOrder

@@ -36,9 +36,11 @@ describe APIv2::Mount do
 
   context "handle exception on request routing" do
     it "should render json error message" do
-      get "/api/v2/non/exist"
-      response.code.should == '404'
-      response.body.should == "Not Found"
+      expect {
+        get "/api/v2/non/exist"
+        response.code.should == '404'
+        response.body.should == "Not Found"
+      }.to raise_error(ActionController::RoutingError)
     end
   end
 

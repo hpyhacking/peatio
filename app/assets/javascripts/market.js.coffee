@@ -4,6 +4,7 @@
 #= require jquery_ujs
 #= require jquery.mousewheel
 #= require jquery-timing.min
+#= require jquery.nicescroll.min
 #
 #= require bootstrap
 #= require bootstrap-switch.min
@@ -31,6 +32,8 @@
 #= require_self
 
 $ ->
+  window.notifier = new Notifier()
+
   BigNumber.config(ERRORS: false)
 
   HeaderUI.attachTo('header')
@@ -46,10 +49,9 @@ $ ->
   DepthUI.attachTo('#depths_wrapper')
 
   MyOrdersUI.attachTo('#my_orders')
-  MyDoneOrdersUI.attachTo('#my_done_orders')
   MarketTickerUI.attachTo('#ticker')
-  MarketSwitchUI.attachTo('#market_switch')
-  MarketTradesUI.attachTo('#market_trades')
+  MarketSwitchUI.attachTo('#market_list')
+  MarketTradesUI.attachTo('#market_trades_wrapper')
 
   MarketData.attachTo(document)
   GlobalData.attachTo(document, {pusher: window.pusher})
@@ -58,4 +60,6 @@ $ ->
   CandlestickUI.attachTo('#candlestick')
   SwitchUI.attachTo('#range_switch, #indicator_switch, #main_indicator_switch, #type_switch')
 
-  window.notifier = new Notifier()
+  $('.panel-body-content').niceScroll
+    autohidemode: true
+    cursorborder: "none"

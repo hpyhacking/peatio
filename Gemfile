@@ -18,7 +18,6 @@ gem 'omniauth-identity', '~> 1.1.1'
 gem 'omniauth-weibo-oauth2', '~> 0.4.0'
 
 gem 'figaro'
-gem 'settingslogic'
 gem 'hashie'
 
 gem 'aasm', '~> 3.4.0'

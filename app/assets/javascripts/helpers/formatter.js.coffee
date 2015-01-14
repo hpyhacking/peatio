@@ -52,14 +52,30 @@ class Formatter
 
   trade_time: (timestamp) ->
     m = moment.unix(timestamp)
-    "#{m.format("MM/DD")} #{m.format("HH:mm")}#{m.format(":ss")}"
+    "#{m.format("HH:mm")}#{m.format(":ss")}"
 
   fulltime: (timestamp) ->
     m = moment.unix(timestamp)
     "#{m.format("MM/DD HH:mm")}"
 
+  mask_price: (price) ->
+    price.replace(/\..*/, "<g>$&</g>")
+
   mask_fixed_price: (price) ->
-    @.fixPriceGroup(price).replace(/\..*/, "<g>$&</g>")
+    @mask_price @fixPriceGroup(price)
+
+  ticker_fill: ['', '0', '00', '000', '0000', '00000']
+  ticker_price: (price, fillTo=4) ->
+    [left, right] = price.split('.')
+    fill = @ticker_fill[fillTo-right.length]
+    price = "#{left}.<g>#{right}</g><span class='fill'>#{fill}</span>"
+
+  price_change: (p1, p2) ->
+    percent = if p1
+                @round(100*(p2-p1)/p1, 2)
+              else
+                '0.00'
+    "#{if p1 > p2 then '' else '+'}#{percent}"
 
   long_time: (timestamp) ->
     m = moment.unix(timestamp)
@@ -89,12 +105,6 @@ class Formatter
       "<i class='fa fa-caret-up text-up'></i>"
     else
       "<i class='fa fa-caret-down text-down'></i>"
-
-  volume: (origin, volume) ->
-    if (origin is volume) or (BigNumber(volume).isZero())
-      @.fixAsk origin
-    else
-      @.fixAsk volume
 
   t: (key) ->
     gon.i18n[key]

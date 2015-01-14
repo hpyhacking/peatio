@@ -18,44 +18,6 @@ DATETIME_LABEL_FORMAT =
   month: '%Y-%m'
   year: '%Y'
 
-DATE_RANGE =
-  min1:
-    default_range: 1000 * 3600 * 2 # 2h
-    dataGrouping_units: [['minute', [1]]]
-  min5:
-    default_range: 1000 * 3600 * 10 # 10h
-    dataGrouping_units: [['minute', [5]]]
-  min15:
-    default_range: 1000 * 3600 * 24 * 1 # 1d
-    dataGrouping_units: [['minute', [15]]]
-  min30:
-    default_range: 1000 * 3600 * 24 * 2 # 2d
-    dataGrouping_units: [['minute', [30]]]
-  min60:
-    default_range: 1000 * 3600 * 24 * 5 # 5d
-    dataGrouping_units: [['hour', [1]]]
-  min120:
-    default_range: 1000 * 3600 * 24 * 10 # 10d
-    dataGrouping_units: [['hour', [2]]]
-  min240:
-    default_range: 1000 * 3600 * 24 * 20 # 20d
-    dataGrouping_units: [['hour', [4]]]
-  min360:
-    default_range: 1000 * 3600 * 24 * 30 * 1 # 1m
-    dataGrouping_units: [['hour', [6]]]
-  min720:
-    default_range: 1000 * 3600 * 24 * 30 * 2 # 2m
-    dataGrouping_units: [['hour', [12]]]
-  min1440:
-    default_range: 1000 * 3600 * 24 * 30 * 3 # 3m
-    dataGrouping_units: [['day', [1]]]
-  min4320:
-    default_range: 1000 * 3600 * 24 * 30 * 9 # 9m
-    dataGrouping_units: [['day', [3]]]
-  min10080:
-    default_range: 1000 * 3600 * 24 * 30 * 12 # 12m
-    dataGrouping_units: [['day', [7]]]
-
 RANGE_DEFAULT =
   fill: 'none',
   stroke: 'none',
@@ -91,7 +53,6 @@ INDICATOR = {MA: false, EMA: false}
     @$node.find('#candlestick_chart').highcharts()?.destroy()
 
     @initHighStock(data)
-    @initTooltip @$node.find('#candlestick_chart').highcharts()
     @trigger 'market::candlestick::created', data
 
   @switchType = (event, data) ->
@@ -104,7 +65,6 @@ INDICATOR = {MA: false, EMA: false}
           if !s.userOptions.algorithm? && (s.userOptions.id == type)
             s.setVisible(visible, false)
       @trigger "switch::main_indicator_switch::init"
-      @initTooltip chart
 
   @switchMainIndicator = (event, data) ->
     INDICATOR[key] = false for key, val of INDICATOR
@@ -122,15 +82,12 @@ INDICATOR = {MA: false, EMA: false}
             s.setVisible(visible, false)
       chart.redraw()
 
-  @initTooltip = (chart) ->
-    tooltips = []
-    if chart.series[0].points.length > 0
-      tooltips.push chart.series[0].points[chart.series[0].points.length-1]
-    chart.tooltip.refresh tooltips if tooltips.length
+  @default_range = (unit) ->
+    1000 * 60 * unit * 100
 
   @initHighStock = (data) ->
     component = @
-    range = DATE_RANGE["min#{data['minutes']}"]['default_range']
+    range = @default_range(data['minutes'])
     unit = $("[data-unit=#{data['minutes']}]").text()
     title = "#{gon.market.base_unit.toUpperCase()}/#{gon.market.quote_unit.toUpperCase()} - #{unit}"
 
@@ -146,7 +103,6 @@ INDICATOR = {MA: false, EMA: false}
 
     dataGrouping =
       enabled: false
-      units: DATE_RANGE["min#{data['minutes']}"]['dataGrouping_units']
 
     tooltipTemplate = JST["templates/tooltip"]
 
@@ -177,7 +133,13 @@ INDICATOR = {MA: false, EMA: false}
         borderRadius: 2
         shadow: false
         shared: true
-        positioner: -> {x: 0, y: 0}
+        positioner: (w, h, point) ->
+          chart_w = $(@chart.renderTo).width()
+          chart_h = $(@chart.renderTo).height()
+          grid_h  = Math.min(20, Math.ceil(chart_h/10))
+          x = Math.max(10, point.plotX-w-20)
+          y = Math.max(0, Math.floor(point.plotY/grid_h)*grid_h-20)
+          x: x, y: y
         useHTML: true
         formatter: ->
           chart  = @points[0].series.chart
@@ -258,8 +220,10 @@ INDICATOR = {MA: false, EMA: false}
         {
           labels:
             enabled: true
-            align: 'left'
-            rotation: -45
+            align: 'right'
+            x: 2
+            y: 3
+            zIndex: -7
           gridLineColor: '#222'
           gridLineDashStyle: 'ShortDot'
           top: "0%"
@@ -298,6 +262,8 @@ INDICATOR = {MA: false, EMA: false}
           data: data['close']
           showInLegend: false
           visible: TYPE['close']
+          marker:
+            radius: 0
         }
         {
           id: 'volume'
@@ -318,6 +284,8 @@ INDICATOR = {MA: false, EMA: false}
           periods: 5
           color: '#7c9aaa'
           visible: INDICATOR['MA']
+          marker:
+            radius: 0
         }
         {
           id: 'ma10'
@@ -329,6 +297,8 @@ INDICATOR = {MA: false, EMA: false}
           periods: 10
           color: '#be8f53'
           visible: INDICATOR['MA']
+          marker:
+            radius: 0
         }
         {
           id: 'ema7'
@@ -340,6 +310,8 @@ INDICATOR = {MA: false, EMA: false}
           periods: 7
           color: '#7c9aaa'
           visible: INDICATOR['EMA']
+          marker:
+            radius: 0
         }
         {
           id: 'ema30'
@@ -351,6 +323,8 @@ INDICATOR = {MA: false, EMA: false}
           periods: 30
           color: '#be8f53'
           visible: INDICATOR['EMA']
+          marker:
+            radius: 0
         }
         {
           id: 'macd'
@@ -361,6 +335,8 @@ INDICATOR = {MA: false, EMA: false}
           type: 'trendline',
           algorithm: 'MACD'
           color: '#7c9aaa'
+          marker:
+            radius: 0
         }
         {
           id: 'sig'
@@ -371,6 +347,8 @@ INDICATOR = {MA: false, EMA: false}
           type: 'trendline',
           algorithm: 'signalLine'
           color: '#be8f53'
+          marker:
+            radius: 0
         }
         {
           id: 'hist'

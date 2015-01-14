@@ -3,7 +3,10 @@ class Notifier
     @removeSwitch() unless window.Notification
     @getState()
     @checkOrRequirePermission()
-    $('input[name="notification-checkbox"]').bootstrapSwitch({state: @switchOn(), onSwitchChange: @switch})
+    $('input[name="notification-checkbox"]').bootstrapSwitch
+      labelText: gon.i18n.switch.notification
+      state: @switchOn()
+      onSwitchChange: @switch
 
   checkOrRequirePermission: =>
     if @switchOn()

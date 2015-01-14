@@ -1,19 +1,20 @@
 header.navbar.navbar-default.navbar-static-top role = "navigation"
   .container-fluid
     ul#menu.nav.navbar-nav.navbar-left
-      a.navbar-brand href='#{root_path}' PEATIO
-      p.navbar-text
-        span.text-up.market
-
-      = render partial: 'market_switch'
+      a.navbar-brand href=root_path
+        | PEATIO
+        | &nbsp;
+        = @market.name
 
       p.navbar-text
         span data-title="#{t('.vol')}"
-          span.vol.text-up
+          span.vol
         span data-title='#{t('.high')}'
-          span.high.text-up
+          span.high
         span data-title='#{t('.low')}'
-          span.low.text-up
+          span.low
+        span data-title='#{t('.change')}'
+          span.change
 
     ul.nav.navbar-nav.navbar-right
       - if current_user
