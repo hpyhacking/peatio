@@ -138,6 +138,6 @@ Peatio::Application.routes.draw do
     end
   end
 
-  mount Peatio::API => '/'
+  mount APIv2::Mount => '/'
 
 end
