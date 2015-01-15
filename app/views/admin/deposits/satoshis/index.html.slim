@@ -8,8 +8,8 @@
     = link_to x.member_name, url_for([:admin, x.member]), target: '_blank'
   - t.column :amount do |x|
     code.text-info = x.amount
-  - t.column :memo do |x|
-    span.badge = x.memo
+  - t.column :confirmations do |x|
+    span.badge = x.confirmations
   - t.column :state_and_actions do |x|
     span = x.aasm_state_text
     - if x.may_accept?
