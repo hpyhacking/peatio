@@ -10,7 +10,7 @@
   <td class='price text-right col-xs-5 <%= trend %>'><div>
     <%- formatter.mask_fixed_price @price %>
   </div></td>
-  <td class='volume text-right col-xs-5'><div>
+  <td class='volume text-right col-xs-5' title='<%= formatter.fix_bid(@price*@amount) %>'><div>
     <%- formatter.mask_fixed_volume @amount %>
   </div></td>
 </tr>
