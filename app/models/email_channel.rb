@@ -1,11 +1,10 @@
 class EmailChannel < NotificationChannel
   attr_reader :mailer, :target
 
-  def notify!(name, payload = {})
-    @name = name
+  def notify!(payload = {})
     @payload = payload
     setup_mailer_and_target
-    @mailer.send(name, target).deliver if notifyable? && notify?(name)
+    @mailer.send(name, target).deliver if notifyable?
   end
 
   def notifyable?

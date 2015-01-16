@@ -10,8 +10,8 @@ class Member < ActiveRecord::Base
   has_many :deposits
   has_many :api_tokens
   has_many :notification_channels
-  has_one :sms_channel
-  has_one :email_channel
+  has_many :sms_channels
+  has_many :email_channels
   has_many :two_factors
   has_many :tickets, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
@@ -34,6 +34,7 @@ class Member < ActiveRecord::Base
   validates :phone_number, uniqueness: true, allow_nil: true
 
   before_create :build_default_id_document
+  after_create :touch_notification_channels
   after_create  :touch_accounts
   after_update :resend_activation
   after_update :sync_update
@@ -206,6 +207,16 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def touch_notification_channels
+    EmailChannel::SUPORT_NOTIFY_TYPE.each do |snt|
+      self.email_channels.create(notify_type: snt)
+    end
+
+    SmsChannel::SUPORT_NOTIFY_TYPE.each do |snt|
+      self.sms_channels.create(notify_type: snt)
+    end
+  end
+
   def identity(login_type = 'email')
     authentications = self.authentications.where(provider: 'identity')
     if authentications.any?
@@ -278,9 +289,9 @@ class Member < ActiveRecord::Base
   end
 
   def notify!(notification_type, payload = {})
-    setup_email_channel unless self.email_channel
-    setup_sms_channel unless self.sms_channel
-    self.notification_channels.each { |nc| nc.notify!(notification_type, payload)}
+    self.notification_channels.with_notify_type(notification_type).each do |nc|
+      nc.notify!(payload)
+    end
   end
 
   def email_unverified
@@ -292,14 +303,6 @@ class Member < ActiveRecord::Base
   end
 
   private
-
-  def setup_email_channel
-    EmailChannel.create(member_id: self.id)
-  end
-
-  def setup_sms_channel
-    SmsChannel.create(member_id: self.id)
-  end
 
   def sanitize
     self.email.try(:downcase!)
