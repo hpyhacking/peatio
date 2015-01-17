@@ -26,6 +26,7 @@ class SessionsController < ApplicationController
         reset_session rescue nil
         session[:member_id] = @member.id
         save_session_key @member.id, cookies['_peatio_session']
+        save_signup_history @member.id
         MemberMailer.notify_signin(@member.id).deliver if @member.activated?
         redirect_back_or_settings_page
       end
@@ -76,6 +77,15 @@ class SessionsController < ApplicationController
     if current_user && ENV['WEIBO_AUTH'] == "true" && auth_hash.try(:[], :provider) == 'weibo'
       redirect_to settings_path, notice: t('.weibo_bind_success') if current_user.add_auth(auth_hash)
     end
+  end
+
+  def save_signup_history(member_id)
+    SignupHistory.create(
+      member_id: member_id,
+      ip: request.ip,
+      accept_language: request.headers["Accept-Language"],
+      ua: request.headers["User-Agent"]
+    )
   end
 
 end

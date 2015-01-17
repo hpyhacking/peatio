@@ -12,6 +12,7 @@ class Member < ActiveRecord::Base
   has_many :two_factors
   has_many :tickets, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
+  has_many :signup_histories
 
   has_one :id_document
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141216120736) do
+ActiveRecord::Schema.define(version: 20150117151634) do
 
   create_table "account_versions", force: true do |t|
     t.integer  "member_id"
@@ -348,6 +348,16 @@ ActiveRecord::Schema.define(version: 20141216120736) do
 
   add_index "running_accounts", ["member_id"], name: "index_running_accounts_on_member_id", using: :btree
   add_index "running_accounts", ["source_id", "source_type"], name: "index_running_accounts_on_source_id_and_source_type", using: :btree
+
+  create_table "signup_histories", force: true do |t|
+    t.integer  "member_id"
+    t.string   "ip"
+    t.string   "accept_language"
+    t.string   "ua"
+    t.datetime "created_at"
+  end
+
+  add_index "signup_histories", ["member_id"], name: "index_signup_histories_on_member_id", using: :btree
 
   create_table "simple_captcha_data", force: true do |t|
     t.string   "key",        limit: 40
