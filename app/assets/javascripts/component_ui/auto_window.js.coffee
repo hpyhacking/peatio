@@ -44,6 +44,6 @@ BORDER_WIDTH = 1
       window_w     = window.innerWidth
       markets_w    = $('#market_list').width()
       order_book_w = $('#order_book').width()
-      $('#candlestick').width(window_w - order_book_w - markets_w - gutter_4x - 5)
+      $('#candlestick').width(window_w - order_book_w - markets_w - gutter_4x - 20)
 
     @$node.resize()

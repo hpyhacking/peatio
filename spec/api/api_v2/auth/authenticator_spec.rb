@@ -8,7 +8,7 @@ describe APIv2::Auth::Authenticator do
 
   let(:endpoint) { stub('endpoint', options: {route_options: {scopes: ['identity']}})}
   let(:request) { stub('request', request_method: 'GET', path_info: '/', env: {'api.endpoint' => endpoint}) }
-  let(:payload) { "GET|/|access_key=#{token.access_key}&foo=bar&hello=world&tonce=#{tonce}" }
+  let(:payload) { "GET|/api/|access_key=#{token.access_key}&foo=bar&hello=world&tonce=#{tonce}" }
 
   let(:params) do
     Hashie::Mash.new({

@@ -371,9 +371,9 @@ INDICATOR = {MA: false, EMA: false}
     chart.redraw(true)
 
   @updatePoint = (chart, data, i) ->
-    chart.series[0].points[chart.series[0].points.length-1].update(@formatPointArray(data.candlestick[i]), false)
+    chart.series[0].points[chart.series[0].points.length-1].update(@formatPointArray(data.candlestick[i]), false) if chart.series[0].points
     chart.series[1].points[chart.series[1].points.length-1].update(data.close[i][1], false) if chart.series[1].points
-    chart.series[2].points[chart.series[2].points.length-1].update(data.volume[i], false)
+    chart.series[2].points[chart.series[2].points.length-1].update(data.volume[i], false) if chart.series[2].points
     chart.redraw(true)
 
   @process = (chart, data) ->

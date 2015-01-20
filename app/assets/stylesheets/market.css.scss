@@ -63,6 +63,11 @@ header {
     font-family: $font-family-monospace;
   }
 
+  .bootstrap-switch {
+    margin-top: -2px;
+    border-color: $panel-default-border;
+  }
+
   .bootstrap-switch.bootstrap-switch-focused {
     @include box-shadow(none);
     border-color: $panel-default-border;
@@ -87,6 +92,7 @@ header {
     }
 
     .bootstrap-switch-label {
+      color: rgba(255,255,255,.5);
       padding: 6px 2px;
       font-size: 12px;
       background-color: $btn-danger-bg;
@@ -504,11 +510,11 @@ header {
 }
 
 #range_switch {
-  top: 13px; right: $order-book-width + $gutter-2x + 10;
+  top: 13px; right: $order-book-width + $gutter-2x + 25;
   li { padding-left: 10px; padding-right: 0; }
 }
 #indicator_switch_wrapper {
-  top: 33px; right: $order-book-width + $gutter-2x + 10;
+  top: 33px; right: $order-book-width + $gutter-2x + 25;
   li { padding-left: 10px; padding-right: 0; }
 }
 
