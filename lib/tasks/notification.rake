@@ -1,4 +1,5 @@
 namespace :notification do
+  desc "Add the default Notification channels to members."
   task init: :environment do
     Member.find_each do |member|
       EmailChannel::SUPORT_NOTIFY_TYPE.each do |snt|
