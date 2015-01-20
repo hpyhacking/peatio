@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
         session[:member_id] = @member.id
         save_session_key @member.id, cookies['_peatio_session']
         save_signup_history @member.id
-        MemberMailer.notify_signin(@member.id).deliver if @member.activated?
+        @member.notify!('notify_signin') if @member.activated?
         redirect_back_or_settings_page
       end
     else

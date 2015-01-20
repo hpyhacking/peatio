@@ -37,7 +37,7 @@ class Deposit < ActiveRecord::Base
     state :cancelled
     state :submitted
     state :rejected
-    state :accepted, after_commit: [:do, :send_mail, :send_sms]
+    state :accepted, after_commit: [:do, :send_notification]
     state :checked
     state :warning
 
@@ -105,20 +105,13 @@ class Deposit < ActiveRecord::Base
     account.lock!.plus_funds amount, reason: Account::DEPOSIT, ref: self
   end
 
-  def send_mail
-    DepositMailer.accepted(self.id).deliver if self.accepted?
-  end
-
-  def send_sms
-    return true if not member.sms_two_factor.activated?
-
-    sms_message = I18n.t('sms.deposit_done', email: member.email,
+  def send_notification
+    content = I18n.t('sms.deposit_done', email: member.email,
                                              currency: currency_text,
                                              time: I18n.l(Time.now),
                                              amount: amount,
                                              balance: account.balance)
-
-    AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
+    member.notify!('deposit_accepted', {deposit_id: self.id, content: content}) if self.accepted?
   end
 
   def set_fee

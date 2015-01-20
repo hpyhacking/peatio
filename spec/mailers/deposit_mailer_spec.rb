@@ -7,7 +7,7 @@ describe DepositMailer do
     let(:mail) {
       deposit.submit!
       deposit.accept!
-      DepositMailer.accepted(deposit.id)
+      DepositMailer.deposit_accepted(deposit.id)
     }
 
     it { expect(mail).not_to be_nil }

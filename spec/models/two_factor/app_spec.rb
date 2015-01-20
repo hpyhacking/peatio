@@ -79,20 +79,18 @@ describe TwoFactor::App do
     end
   end
 
-  describe 'send_notification_mail' do
-    let(:mail) { ActionMailer::Base.deliveries.last }
+  describe 'send_notification' do
 
     describe "activated" do
-      before { app.active! }
+      after { app.active!}
 
-      it { expect(mail.subject).to match('Google authenticator activated') }
+      it { app.member.expects(:notify!).with('google_auth_activated') }
     end
 
     describe "deactived" do
-      let(:member) { create :member, :app_two_factor_activated }
-      before { app.deactive! }
+      after { app.deactive! }
 
-      it { expect(mail.subject).to match('Google authenticator deactivated') }
+      it { app.member.expects(:notify!).with('google_auth_deactivated') }
     end
   end
 

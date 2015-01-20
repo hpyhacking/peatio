@@ -9,7 +9,7 @@ describe 'Sign up', js: true do
     click_on I18n.t('header.signup')
 
     within('form#new_identity') do
-      fill_in 'email', with: identity.email
+      fill_in 'login', with: identity.login
       fill_in 'password', with: identity.password
       fill_in 'password_confirmation', with: identity.password_confirmation
       click_on I18n.t('header.signup')
@@ -19,7 +19,7 @@ describe 'Sign up', js: true do
   def email_activation_link
     mail = ActionMailer::Base.deliveries.last
     expect(mail).to be_present
-    expect(mail.to).to eq([identity.email])
+    expect(mail.to).to eq([identity.login])
     expect(mail.subject).to eq(I18n.t 'token_mailer.activation.subject')
 
     path = "/activations/#{Token::Activation.last.token}/edit"

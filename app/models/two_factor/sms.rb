@@ -29,6 +29,11 @@ class TwoFactor::Sms < ::TwoFactor
     AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
   end
 
+  def active!
+    super
+    member.active_phone_number!
+  end
+
   private
 
   def valid_phone_number_for_country
@@ -57,9 +62,9 @@ class TwoFactor::Sms < ::TwoFactor
     return if not self.activated_changed?
 
     if self.activated
-      MemberMailer.sms_auth_activated(member.id).deliver
+      member.notify!('sms_auth_activated')
     else
-      MemberMailer.sms_auth_deactivated(member.id).deliver
+      member.notify!('sms_auth_deactivated')
     end
   end
 end

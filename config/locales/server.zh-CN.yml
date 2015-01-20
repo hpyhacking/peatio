@@ -35,6 +35,8 @@ zh-CN:
         actions: 操作
       identity:
         email: 邮箱地址
+        login: 邮箱或手机号
+        country: 所在国家
         password: 新密码
         password_confirmation: 确认密码
       document:
@@ -885,11 +887,13 @@ zh-CN:
         safety_instruction: 您应启用全部 <b>安全设置</b><i class='fa fa-bolt'></i>，以保障帐户及资金安全。
         reset_password: 重置登录密码
         reauthenticate: 身份验证
-        activated: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
+        email_activated: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
+        phone_number_activated: 您的手机尚未验证, 请点击手机绑定的"设置"按钮进行绑定.
         auth-activated: 请您验证邮箱地址，否则将无法进行任何操作。
+        auth-phone: 请验证你的手机, 否则无法进行任何操作。
         auth-verified: 请您提交实名认证，否则将无法进行任何操作。
         email:
-          title: 邮箱验证
+          title: 邮箱绑定
           description: 您的邮箱还未经过验证，点击“发送邮件”按钮，完成验证。
           description-activated: 您的邮箱已验证通过，请牢记并保护好此邮箱地址，这是您作为登录的唯一账户。
           resend: 再次发送
@@ -1375,7 +1379,7 @@ zh-CN:
       subject: "[PEATIO] 你的服务单有了新的回复"
       notification_content: '你的服务单有一条新的回复, 请在下方链接查看详情：'
   deposit_mailer:
-    accepted:
+    deposit_accepted:
       subject: "[貔貅] 你的充值已经到账"
       content: 您的 %{currency} 已经到账.
   member_mailer:
@@ -1427,13 +1431,13 @@ zh-CN:
       hi: 您好
       follow_the_link: '请使用下面的连接，在30分钟之内尝试重置您的登录密码：'
   withdraw_mailer:
-    submitted:
+    withdraw_submitted:
       subject: "[貔貅]你的提现状态更新"
       content: 您的%{currency}提现请求已经被成功提交，我们会尽快处理您的提现请求。谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
-    processing:
+    withdraw_processing:
       subject: "[貔貅]你的提现状态更新"
       content: 您的%{currency}提现请求正在处理中，谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
-    done:
+    withdraw_done:
       subject: "[貔貅]你的提现状态更新"
       content: 您的%{currency}提现请求已经处理完毕，请查询您的账户。如果您有任何问题，请及时与我们联系。
     withdraw_state:
@@ -1608,7 +1612,7 @@ zh-CN:
       tip: 激活连接已经发送到 <span class='text-primary'>%{email}</span>
       spam: 该邮件有可能出现在垃圾邮件中，请注意查看。
     edit:
-      notice: 邮箱验证已经通过，请您完成其他安全设置。
+      notice: 邮箱已绑定成功，请您完成其他安全设置。
       alert: 验证链接已过期或无效。
   authentications:
     emails:

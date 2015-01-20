@@ -9,6 +9,9 @@ class Member < ActiveRecord::Base
   has_many :fund_sources
   has_many :deposits
   has_many :api_tokens
+  has_many :notification_channels
+  has_many :sms_channels
+  has_many :email_channels
   has_many :two_factors
   has_many :tickets, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
@@ -20,7 +23,6 @@ class Member < ActiveRecord::Base
 
   scope :enabled, -> { where(disabled: false) }
 
-  delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
   delegate :name,       to: :id_document, allow_nil: true
   delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
@@ -30,8 +32,10 @@ class Member < ActiveRecord::Base
   validates :sn, presence: true
   validates :display_name, uniqueness: true, allow_blank: true
   validates :email, email: true, uniqueness: true, allow_nil: true
+  validates :phone_number, uniqueness: true, allow_nil: true
 
   before_create :build_default_id_document
+  after_create :touch_notification_channels
   after_create  :touch_accounts
   after_update :resend_activation
   after_update :sync_update
@@ -90,10 +94,16 @@ class Member < ActiveRecord::Base
 
     def create_from_auth(auth_hash)
       member = create(email: auth_hash['info']['email'], nickname: auth_hash['info']['nickname'],
-                      activated: false)
+                      phone_number: format_phone_number(auth_hash['info']['phone_number'], auth_hash['info']['country']))
+
       member.add_auth(auth_hash)
-      member.send_activation if auth_hash['provider'] == 'identity'
+      member.send_activation if auth_hash['provider'] == 'identity' && member.email
       member
+    end
+
+    def format_phone_number(number, country)
+      country ||= "CN"
+      Phonelib.parse([ISO3166::Country[country].try(:country_code), number].join).sanitized.to_s
     end
   end
 
@@ -106,8 +116,44 @@ class Member < ActiveRecord::Base
     Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
   end
 
-  def active!
-    update activated: true
+  def identity_email
+    @identity_email ||= identity('email')
+  end
+
+  def identity_phone_number
+    @identity_phone_number ||= identity('phone_number')
+  end
+
+  def activated=(status)
+    self.email_activated = status
+  end
+
+  def active_email!
+    return if email_activated
+    ActiveRecord::Base.transaction do
+      update_attributes email_activated: true
+      if !identity_email && identity_phone_number && !Identity.where(login: self.email).any?
+        i = Identity.new(login: self.email, password_digest: identity_phone_number.password_digest,
+                        login_type: 'email')
+        i.save(validate: false)
+        a = self.authentications.new(provider: 'identity', uid: i.id)
+        a.save!
+      end
+    end
+  end
+
+  def active_phone_number!
+    return if phone_number_activated
+    ActiveRecord::Base.transaction do
+      update_attributes phone_number_activated: true
+      if !identity_phone_number && identity_email && !Identity.where(login: self.phone_number).any?
+        i = Identity.new(login: self.phone_number, password_digest: identity_email.password_digest,
+                         login_type: 'phone_number')
+        i.save(validate: false)
+        a = self.authentications.new(provider: 'identity', uid: i.id)
+        a.save!
+      end
+    end
   end
 
   def update_password(password)
@@ -162,9 +208,24 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def identity
-    authentication = authentications.find_by(provider: 'identity')
-    authentication ? Identity.find(authentication.uid) : nil
+  def touch_notification_channels
+    EmailChannel::SUPORT_NOTIFY_TYPE.each do |snt|
+      self.email_channels.create(notify_type: snt)
+    end
+
+    SmsChannel::SUPORT_NOTIFY_TYPE.each do |snt|
+      self.sms_channels.create(notify_type: snt)
+    end
+  end
+
+  def identity(login_type = 'email')
+    authentications = self.authentications.where(provider: 'identity')
+    if authentications.any?
+      i = Identity.where(id: authentications.collect(&:uid)).where(login_type: login_type).first
+      i ? i : nil
+    else
+      nil
+    end
   end
 
   def auth(name)
@@ -185,7 +246,7 @@ class Member < ActiveRecord::Base
   end
 
   def send_password_changed_notification
-    MemberMailer.reset_password_done(self.id).deliver
+    notify!('reset_password_done')
 
     if sms_two_factor.activated?
       sms_message = I18n.t('sms.password_changed', email: self.email)
@@ -219,6 +280,29 @@ class Member < ActiveRecord::Base
     })
   end
 
+  def activated
+    email_activated || phone_number_activated
+  end
+  alias activated? activated
+
+  def name_for_display
+    email ||  Phonelib.parse(self.phone_number).national || nickname
+  end
+
+  def notify!(notification_type, payload = {})
+    self.notification_channels.with_notify_type(notification_type).each do |nc|
+      nc.notify!(payload)
+    end
+  end
+
+  def email_unverified
+    self.email && !self.email_activated
+  end
+
+  def phone_unverified
+    self.phone_number && !self.phone_number_activated
+  end
+
   private
 
   def sanitize
@@ -244,4 +328,5 @@ class Member < ActiveRecord::Base
   def sync_update
     ::Pusher["private-#{sn}"].trigger_async('members', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
   end
+
 end

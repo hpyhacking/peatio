@@ -70,15 +70,15 @@ class Withdraw < ActiveRecord::Base
 
   aasm :whiny_transitions => false do
     state :submitting,  initial: true
-    state :submitted,   after_commit: :send_email
-    state :canceled,    after_commit: [:send_email]
+    state :submitted,   after_commit: :send_notification
+    state :canceled,    after_commit: [:send_notification]
     state :accepted
-    state :suspect,     after_commit: :send_email
-    state :rejected,    after_commit: :send_email
-    state :processing,  after_commit: [:send_coins!, :send_email]
+    state :suspect,     after_commit: :send_notification
+    state :rejected,    after_commit: :send_notification
+    state :processing,  after_commit: [:send_coins!, :send_notification]
     state :almost_done
-    state :done,        after_commit: [:send_email, :send_sms]
-    state :failed,      after_commit: :send_email
+    state :done,        after_commit: [:send_notification]
+    state :failed,      after_commit: :send_notification
 
     event :submit do
       transitions from: :submitting, to: :submitted
@@ -172,29 +172,22 @@ class Withdraw < ActiveRecord::Base
     self.txid = @sn unless coin?
   end
 
-  def send_email
+  def send_notification
     case aasm_state
     when 'submitted'
-      WithdrawMailer.submitted(self.id).deliver
+      member.notify!('withdraw_submitted', { withdraw_id: self.id })
     when 'processing'
-      WithdrawMailer.processing(self.id).deliver
+      member.notify!('withdraw_processing', { withdraw_id: self.id })
     when 'done'
-      WithdrawMailer.done(self.id).deliver
+      content = I18n.t('sms.withdraw_done', email: member.email,
+                       currency: currency_text,
+                       time: I18n.l(Time.now),
+                       amount: amount,
+                       balance: account.balance)
+      member.notify!('withdraw_done', { withdraw_id: self.id, content: content })
     else
-      WithdrawMailer.withdraw_state(self.id).deliver
+      member.notify!('withdraw_state', { withdraw_id: self.id })
     end
-  end
-
-  def send_sms
-    return true if not member.sms_two_factor.activated?
-
-    sms_message = I18n.t('sms.withdraw_done', email: member.email,
-                                              currency: currency_text,
-                                              time: I18n.l(Time.now),
-                                              amount: amount,
-                                              balance: account.balance)
-
-    AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
   end
 
   def send_coins!

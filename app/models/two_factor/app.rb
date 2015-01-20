@@ -39,9 +39,9 @@ class TwoFactor::App < ::TwoFactor
     return if not self.activated_changed?
 
     if self.activated
-      MemberMailer.google_auth_activated(member.id).deliver
+      member.notify!('google_auth_activated')
     else
-      MemberMailer.google_auth_deactivated(member.id).deliver
+      member.notify!('google_auth_deactivated')
     end
   end
 

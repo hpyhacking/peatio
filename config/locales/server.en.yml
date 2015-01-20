@@ -30,6 +30,8 @@ en:
         actions: Actions
       identity:
         email: Email
+        login: Email or Phone number
+        country: Country
         password: New Password
         password_confirmation: Confirm Password
       document:
@@ -903,10 +905,12 @@ en:
         safety_instruction: In order to protect your bitcoins and personal information, we strongly suggest that you use Two-Factor Authentication.
         reset_password: Rest your Password
         reauthenticate: Authentication
-        activated: An  email has been sent to your mailbox, please check it for verification
+        email_activated: An  email has been sent to your mailbox, please check it for verification
           as soon as possible. If you do not received it , please click "send it again"
           button
+        phone_number_activated: Your phone number hasn't been verified yet. Please verify it as soon as possible.
         auth-activated: Please confirm your email address first.
+        auth-phone: Please confirm your mobile phone number first.
         auth-verified: Please verify your account first.
         email:
           title: E-mail verification
@@ -1435,7 +1439,7 @@ en:
       subject: "[PEATIO] Your ticket got a new reply"
       notification_content: 'Your ticket got a new reply, please follow the link below to see the detail:'
   deposit_mailer:
-    accepted:
+    deposit_accepted:
       subject: "[Peatio] Your deposit has been credited into your account"
       content: Your %{currency} deposit has been credited into your account.
   member_mailer:
@@ -1487,13 +1491,13 @@ en:
       hi: Hi,
       follow_the_link: 'Please follow this link to reset your password within 30 minutes:'
   withdraw_mailer:
-    submitted:
+    withdraw_submitted:
       subject: "[Peatio] Your withdraw state update"
       content: The request of your %{currency} withdrawal has been successfully submitted, We will process it as soon as possible. Please be patient with us. Contact us if you have any questions.
-    processing:
+    withdraw_processing:
       subject: "[Peatio] Your withdraw state update"
       content: The request of your %{currency} withdrawal is in process. Please be patient with us. Contact us if you have any questions.
-    done:
+    withdraw_done:
       subject: "[Peatio] Your withdraw state update"
       content: The request of your %{currency} withdrawal is complete. Please check it out. Contact us if you have any questions.
     withdraw_state:

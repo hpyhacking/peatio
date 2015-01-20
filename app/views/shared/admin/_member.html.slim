@@ -15,7 +15,7 @@
       = item_for member, :created_at
 
       = item_for member, :actions do
-        = link_to 'Activate Email', active_admin_member_path(member), method: :post, confirm: 'Activate ?', class: 'btn btn-danger btn-xs'
+        = link_to 'Activate Member', active_admin_member_path(member), method: :post, confirm: 'Activate ?', class: 'btn btn-danger btn-xs'
 
       hr.split
 

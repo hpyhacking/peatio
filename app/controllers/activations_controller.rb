@@ -23,7 +23,7 @@ class ActivationsController < ApplicationController
   private
 
   def verified?
-    if current_user.activated?
+    if current_user.email_activated?
       redirect_to settings_path, notice: t('.verified')
     end
   end

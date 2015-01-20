@@ -1,7 +1,7 @@
 class Authentication < ActiveRecord::Base
   belongs_to :member
 
-  validates :provider, presence: true, uniqueness: { scope: :member_id }
+  validates :provider, presence: true
   validates :uid,      presence: true, uniqueness: { scope: :provider }
 
   class << self
