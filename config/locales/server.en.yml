@@ -514,10 +514,11 @@ en:
         delete: Delete
         are_you_sure: Are you sure?
       new:
-        fund_source_selector: Select Bank
-        fund_source_uid: Account Number
-        fund_source_label: Label
-        fund_source_address: Address
+        selector: Select Bank
+        uid: Account Number
+        label: Label
+        label_placeholder: Fill any content
+        address: Address
         extra_hint: If your bank is no longer in the list, please contact customer service
     history:
       transaction:

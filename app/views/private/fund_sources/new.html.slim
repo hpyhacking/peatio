@@ -1,15 +1,15 @@
 = simple_form_for @fund_source, url: [@currency.code, :fund_sources] do |f|
   - if @banks
-    = f.input :extra, label: t('.fund_source_selector'),
+    = f.input :extra, label: t('.selector'),
       collection: @banks,
       value_method: :code,
       label_method: -> (i) { t("banks.#{i.code}") },
       prompt: t('actions.select'),
       hint: t('.extra_hint')
-    = f.input :uid, label: t('.fund_source_uid')
+    = f.input :uid, label: t('.uid')
   - else
-    = f.input :extra, label: t('.fund_source_label')
-    = f.input :uid, label: t('.fund_source_address')
+    = f.input :extra, label: t('.label'), placeholder: t('.label_placeholder')
+    = f.input :uid, label: t('.address')
 
   hr.split
 

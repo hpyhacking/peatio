@@ -144,6 +144,7 @@ cs:
         two_factor_activated?: "Dvojí zabezpečení Aktivováno?"
         phone_number: Telefonní číslo
       two_factor/sms:
+        country: Země
         phone_number: Telefonní číslo
         otp: Verifikační kód
       withdraws/bank:
@@ -239,6 +240,7 @@ cs:
               satoshi_ismine: Použitá adresa
               satoshi_invalid: Špatná adresa
         withdraw:
+          account_balance_is_poor: Zůstatek účtu je nedostatečný
           attributes:
             password:
               match: špatné
@@ -290,6 +292,13 @@ cs:
     pab: Ping An Bank Co., Ltd.
     gdb: Guangdong Development Bank
     psbc: Postal Savings Bank of China
+  market:
+    currency:
+      btc: BTC
+      cny: CNY
+      doge: DOGE
+      pts: PTS
+      ltc: LTC
   currency:
     satoshi:
       key: BTC
@@ -506,10 +515,6 @@ cs:
         delete: Smazat
         are_you_sure: Jste si jisti?
       new:
-        fund_source_selector: Vyberte banku
-        fund_source_uid: Číslo účtu
-        fund_source_label: Označení
-        fund_source_address: Adresa
         extra_hint: Pokud Vaše banka není v seznamu, kontaktujte nás
     history:
       transaction:
@@ -788,24 +793,18 @@ cs:
       account_balance:
         title: Zůstatek účtu
         available: K dispozici %{currency}
-      balance:
-        balance: Zůstatek
       bid_entry:
-        title: " [KUP] "
-        action: Zadat [Nákup]
+        action: "Zadat [Nákup]"
         price: Cena
         last_price: Poslední cena
         amount: Částka
         total: Celkem
-        balance: Zůstatek
       ask_entry:
-        title: " [PRODEJ] "
-        action: Zadat [PRODEJ]
+        action: "Zadat [PRODEJ]"
         price: Cena
         last_price: Poslední cena
         amount: Částka
         total: Celkem
-        balance: Zůstatek
       place_order:
         price_high: HIGH
         price_low: LOW
@@ -820,11 +819,9 @@ cs:
         bid: Nabídka
         fade_toggle_depth: Market Depth
       market_trades:
-        title: Market Obchod
         time: Čas obchodu
         price: Cena
         volume: Objem
-        amount: Částka
       header:
         network: Stav připojení
         vol: Objem za 24h
@@ -833,33 +830,23 @@ cs:
       settings:
         sound: Zvuk
         notification: Reálná notifikace
-        title: Nastavení
       account_summary:
         title: Souhrn
         account: Účet
         amount: Částka
         locked: Blokováno
-        funds: "[Finance]"
-        signout: "[Odhlásit]"
-        settings: "[Uživatelské nastavení]"
         view_all_accounts: "[Zobraz vše]"
         hide_all_accounts: "[Skryj další]"
       my_orders:
-        title: Moje [Aktivní Objednávky]
         orders_wait: Poslední objednávky
         orders_done: Kompletní objednávky
         orders_cancel: Stornovat objednávky
-        clear_all: Stornovat všechny moje objednávky
-        clear_bids: Stornovat všechny Nabídky
-        clear_asks: Stornovat všechny poptávky
         confirm_clear_all: Opravdu stornovat všechny?
         confirm_clear_bids: Opravdu stornovat všechny Nabídky?
         confirm_clear_asks: Opravdu stornovat všechny Poptávky?
-        one_click_clear: Storno
         price: Cena
         volume: Objem
         time: Čas umístění
-        operation: Možn.
       mask:
         warning: Prosím <a class=text-up href='/'>Registrujte se</a> nebo <a class=text-up href='/'>se přihlaste</a> !
       klime_chart:

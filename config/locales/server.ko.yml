@@ -515,10 +515,11 @@ ko:
         delete: 제거
         are_you_sure: '현재 주소를 제거 하시겠습니까? '
       new:
-        fund_source_selector: 은행
-        fund_source_uid: 계좌
-        fund_source_label: 표기
-        fund_source_address: 주소
+        selector: 은행
+        uid: 계좌
+        label: 표기
+        label_placeholder: 아무것도
+        address: 주소
         extra_hint: 사용하시는 은행명이 리스트에 없는경우, 고객센터로 연락하세요
     history:
       transaction:
@@ -823,11 +824,9 @@ ko:
         bid: 매수
         fade_toggle_depth: 시장깊이
       market_trades:
-        title: 실시간 체결내역
         time: 체결시간
         price: 체결가격
         volume: 체결수량
-        amount: 합계
       header:
         network: 연결상태
         vol: 24시간 거래수량
@@ -836,33 +835,23 @@ ko:
       settings:
         sound: 소리 효과
         notification: 바탕화면 실시간 통지
-        title: 설정
       account_summary:
         title: 총자산
         account: 계정
         amount: 합계
         locked: 동결
-        funds: "[자금]"
-        signout: "[로그아웃]"
-        settings: "[사용자 설정]"
         view_all_accounts: "[모든 계정 보기]"
         hide_all_accounts: "[기타 계정 숨기기]"
       my_orders:
-        title: 나의[유효주문]
         orders_wait: 주문내역
         orders_done: 체결내역
         orders_cancel: 최근 취소된 주문
-        clear_all: '[전체주문]'
-        clear_bids: 【구매주문】
-        clear_asks: 【판매주문】
         confirm_clear_all: 모든 【주문】취소 하시겠습니까?
         confirm_clear_bids: 【구매주문】취소 하시겠습니까?
         confirm_clear_asks: 【판매주문】취소 하시겠습니까?
-        one_click_clear: 모두 취소
         price: 주문가격
         volume: 주문수량
         time: 주문시간
-        operation: 취소
       mask:
         warning: ' <a class=text-up href=''/signin''>로그인</a> 또는  <a class=text-up href=''/signup''>가입</a>후 작업을 진행하세요'
       klime_chart:

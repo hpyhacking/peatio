@@ -514,10 +514,11 @@ zh-CN:
         delete: 移除
         are_you_sure: 确定移除以保存的地址?
       new:
-        fund_source_selector: 银行
-        fund_source_uid: 账号
-        fund_source_label: 标签
-        fund_source_address: 地址
+        selector: 银行
+        uid: 账号
+        label: 标签
+        label_placeholder: 任意填写
+        address: 地址
         extra_hint: 若您的开户银行不再列表中，请联系客服
     history:
       transaction:
@@ -843,10 +844,9 @@ zh-CN:
       settings:
         sound: 音效
         notification: 通知
-        title: 设置
-        funds: 资金管理
-        signout: 安全退出
-        settings: 账户设置
+        funds: "资金管理"
+        signout: "安全退出"
+        settings: "账户设置"
       account_summary:
         title: 总资产约
         account: 账号
@@ -858,7 +858,7 @@ zh-CN:
         orders_wait: 挂单纪录
         orders_done: 已完成订单
         orders_cancel: 最新撤销
-        no_open_orders: "当前没有未完成委托"
+        no_open_orders: 当前没有未完成委托
         clear_all_html: "<i class='fa fa-trash'></i><span>撤销所有</span>"
         clear_bids_html: "<i class='fa fa-trash'></i><span>撤销买入</span>"
         clear_asks_html: "<i class='fa fa-trash'></i><span>撤销卖出</span>"
@@ -1026,7 +1026,6 @@ zh-CN:
           amount: 最低金额100元
       session:
         email: 邮箱地址
-        password: ''
       identity:
         email: 例如：xiaobai@example.com
         password: 请设置登录密码
