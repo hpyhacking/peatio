@@ -9,4 +9,21 @@ namespace :identity do
       end
     end
   end
+
+  desc "Add the mobile identity"
+  task add_mobile_identity: :environment do
+    Member.find_each do |m|
+      if m.phone_number && m.sms_two_factor.activated? && !m.phone_number_activated
+        ActiveRecord::Base.transaction do
+
+          i = Identity.new(login: m.phone_number, password_digest: m.identity_email.password_digest,
+                           login_type: 'phone_number')
+          i.save(validate: false)
+          a = m.authentications.new(provider: 'identity', uid: i.id)
+          a.save!
+          m.update_attribute(:phone_number_activated, true)
+        end
+      end
+    end
+  end
 end
