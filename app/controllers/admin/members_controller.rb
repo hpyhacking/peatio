@@ -22,7 +22,11 @@ module Admin
     end
 
     def active
-      @member.update_attribute(:activated, true)
+      if @member.email?
+        @member.update_attribute(:email_activated, true)
+      elsif @member.phone_number?
+        @member.update_attribute(:phone_number_activated, true)
+      end
       @member.save
       redirect_to admin_member_path(@member)
     end

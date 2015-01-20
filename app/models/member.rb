@@ -285,7 +285,7 @@ class Member < ActiveRecord::Base
   alias activated? activated
 
   def name_for_display
-    email || phone_number || nickname
+    email ||  Phonelib.parse(self.phone_number).national || nickname
   end
 
   def notify!(notification_type, payload = {})
