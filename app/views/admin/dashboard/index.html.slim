@@ -46,3 +46,10 @@
             - else
               td.text-info = daemon
               td.text-info = state
+  .col-xs-12: .panel.panel-primary
+    .panel-heading Exchange Summary
+    .panel-body
+      table.table.table-condensed
+        tr
+          td Register Count
+          td = @register_count
