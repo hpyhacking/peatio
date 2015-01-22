@@ -4,7 +4,7 @@
       .panel-heading Currencies Summary
       .panel-body
         table.table.table-condensed
-          tr
+          thead: tr
             th Name
             th.text-right Locked
             th.text-right Balance
@@ -12,22 +12,23 @@
             th.text-right Hot-Wallet Balance
             th.text-right Cold-Wallet Balance
 
-          - @currencies_summary.each do |c|
-            tr
-              td: b = c[:name]
-              td.text-right = c[:locked]
-              td.text-right = c[:balance]
-              td.text-right = c[:sum]
+          tbody
+            - @currencies_summary.each do |c|
+              tr
+                td: b = c[:name]
+                td.text-right = c[:locked]
+                td.text-right = c[:balance]
+                td.text-right = c[:sum]
 
-              - if c[:coinable]
-                td.text-right = c[:hot]
-                - if c[:hot] == 'N/A'
+                - if c[:coinable]
                   td.text-right = c[:hot]
+                  - if c[:hot] == 'N/A'
+                    td.text-right = c[:hot]
+                  - else
+                    td.text-right = c[:sum] - c[:hot]
                 - else
-                  td.text-right = c[:sum] - c[:hot]
-              - else
-                td.text-right N/A
-                td.text-right N/A
+                  td.text-right N/A
+                  td.text-right N/A
       .panel-footer
         span Tips: Locked + Balance = Sum | Hot-Wallet + Cold-Wallet = Sum
 .row
@@ -35,21 +36,26 @@
     .panel-heading Daemon Statuses
     .panel-body
       table.table.table-condensed
-        tr
+        thead: tr
           th Name
           th State
-        - @daemon_statuses.each do |daemon, state|
-          tr
-            - if state == :not_exists
-              td.text-danger: b = daemon
-              td.text-danger: b = state
-            - else
-              td.text-info = daemon
-              td.text-info = state
+        tbody
+          - @daemon_statuses.each do |daemon, state|
+            tr
+              - if state == :not_exists
+                td.text-danger: b = daemon
+                td.text-danger: b = state
+              - else
+                td.text-info = daemon
+                td.text-info = state
   .col-xs-12: .panel.panel-primary
     .panel-heading Exchange Summary
     .panel-body
       table.table.table-condensed
-        tr
-          td Register Count
-          td = @register_count
+        thead: tr
+          th Index
+          th Count
+        tbody
+          tr
+            td Register Count
+            td = @register_count
