@@ -182,7 +182,7 @@ ActiveRecord::Schema.define(version: 20150117151634) do
   end
 
   create_table "identities", force: true do |t|
-    t.string   "email"
+    t.string   "login"
     t.string   "password_digest"
     t.boolean  "is_active"
     t.integer  "retry_count"
@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(version: 20150117151634) do
     t.datetime "last_verify_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "login_type"
   end
 
   create_table "members", force: true do |t|
@@ -201,12 +202,19 @@ ActiveRecord::Schema.define(version: 20150117151634) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "state"
-    t.boolean  "activated"
+    t.boolean  "email_activated"
     t.integer  "country_code"
     t.string   "phone_number"
-    t.boolean  "disabled",     default: false
-    t.boolean  "api_disabled", default: false
+    t.boolean  "disabled",               default: false
+    t.boolean  "api_disabled",           default: false
     t.string   "nickname"
+    t.boolean  "phone_number_activated"
+  end
+
+  create_table "notification_channels", force: true do |t|
+    t.integer "member_id"
+    t.string  "notify_type"
+    t.string  "type"
   end
 
   create_table "oauth_access_grants", force: true do |t|
