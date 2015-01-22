@@ -18,4 +18,4 @@ Currency.initData window.currencies
 Withdraw.initData window.withdraws
 FundSource.initData window.fund_sources
 
-window.app = app = angular.module 'funds', ["ui.router", "translateFilters", "textFilters"]
+window.app = app = angular.module 'funds', ["ui.router", "translateFilters", "textFilters", "precisionFilters"]
