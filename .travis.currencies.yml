@@ -1,0 +1,22 @@
+- id: 1
+  key: renminbi
+  code: cny
+  coin: false
+  assets:
+    balance: 92343242.56
+    accounts:
+      -
+        bank: '招商银行'
+        address: '6225 0885 6022 3501'
+        password: '111111'
+        tel: '95555'
+- id: 2
+  key: satoshi
+  code: btc
+  coin: true
+  rpc: http://username:password@127.0.0.1:18332
+  assets:
+    balance: 333333
+    accounts:
+      -
+        address: 1dice8EMZmqKvrGE4Qc9bUFf9PX3xaYDp

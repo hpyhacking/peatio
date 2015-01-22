@@ -1,0 +1,8 @@
+.row
+  .col-xs-12
+    = simple_vertical_form_for [:admin, @proof] do |f|
+      = f.input :id, readonly: true
+      = f.input :created_at, as: :string, readonly: true
+      = f.input :currency, readonly: true
+      = f.input :balance
+      = f.button :submit

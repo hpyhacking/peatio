@@ -1,0 +1,108 @@
+/* auto header dropdown menu active
+------------------------------------------------------ */
+header {
+  .dropdown-menu .sub-menu {
+      left: 100%;
+      position: absolute;
+      top: 0;
+      visibility: hidden;
+      margin-top: -1px;
+  }
+
+  .navbar-brand { width: $brand-width; }
+
+  .dropdown-menu li:hover .sub-menu {
+      visibility: visible;
+  }
+
+  .dropdown:hover .dropdown-menu {
+      display: block;
+  }
+
+  .nav-tabs .dropdown-menu, .nav-pills .dropdown-menu, .navbar .dropdown-menu {
+      margin-top: 0;
+  }
+
+  .navbar .sub-menu:before {
+      border-bottom: 7px solid transparent;
+      border-left: none;
+      border-right: 7px solid rgba(0, 0, 0, 0.2);
+      border-top: 7px solid transparent;
+      left: -7px;
+      top: 10px;
+  }
+  .navbar .sub-menu:after {
+      border-top: 6px solid transparent;
+      border-left: none;
+      border-right: 6px solid #fff;
+      border-bottom: 6px solid transparent;
+      left: 10px;
+      top: 11px;
+      left: -6px;
+  }
+}
+
+/* account balance summary with header
+------------------------------------------------------ */
+header .account-balance {
+  .dropdown-menu {
+    padding-bottom: 0;
+  }
+
+  .account-wrap {
+    width: 360px;
+    padding: 8px;
+    border-bottom: 1px solid $gray-light; 
+  }
+
+  hr {
+    margin-top: 2px;
+    margin-bottom: 0px;
+    border-color: $gray-light;
+    border-style: dashed;
+  }
+
+  i.fa, span.total-title {
+    color: $gray-light;
+  }
+
+  i.fa.fa-plus {
+    margin: 0px 0px;
+  }
+
+  span.account-name {
+    color: $brand-primary;
+    margin-top: -24px;
+    padding-right: 10px;
+    display: block;
+    font-size: 18px;
+    background-color: white;
+    text-align: right;
+  }
+
+  span.balance, span.locked {
+    color: $brand-primary;
+  }
+
+  span.total {
+    font-size: 18px;
+  }
+}
+
+/* account settings summary with header
+------------------------------------------------------ */
+header .account-settings {
+  ul.dropdown-menu {
+    width: 100%;
+    min-width: 0px;
+  }
+}
+
+
+/* languages selector with header
+------------------------------------------------------ */
+header #languages {
+  width: 64px;
+  min-width: 64px;
+  li > a{ padding-top: 8px; }
+}

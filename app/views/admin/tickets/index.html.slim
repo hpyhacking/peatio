@@ -1,0 +1,27 @@
+= link_to t("admin.tickets.open_tickets"), admin_tickets_path
+|&nbsp &nbsp &nbsp
+= link_to t("admin.tickets.closed_tickets"), admin_tickets_path(closed: true)
+
+ul.list-group
+  - @tickets.each do |t|
+    li class = (t.unread?(current_user) || t.comments.unread_by(current_user).any? ? ["unread", "list-group-item"] : ["list-group-item"])
+
+      .row.row-middle
+        .col-xs-24
+          .row.row-middle
+            .col-xs-14
+              h4 = link_to t.title_for_display, admin_ticket_path(t)
+            .col-xs-14
+          .row
+            .col-xs-12
+              p.text-ignore = t.content
+          .row
+            .col-xs-12
+              span = "#{I18n.t("private.tickets.from")}: #{t.author.email}"
+            .col-xs-4
+               span = time_ago_in_words t.created_at
+            .col-xs-4
+              - unless t.closed?
+                = link_to(t('admin.tickets.close'), close_admin_ticket_path(t.id), confirm: t("private.tickets.close_confirm"), method: :patch)
+            .col-xs-4.text-right
+              ="#{t('admin.tickets.comments_count')}(#{t.comments.count})"

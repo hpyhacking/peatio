@@ -1,0 +1,15 @@
+p = t('.desc')
+
+p
+  .input-group
+    .input-group-addon style='width: 160px;' Access Key
+    .form-control.form-control-static style='text-align: center;' = @token.access_key
+    .input-group-addon
+      i.fa.fa-copy data-clipboard-text = @token.access_key
+  .input-group
+    .input-group-addon style='width: 160px;' Secret Key
+    .form-control.form-control-static style='text-align: center;' = @token.secret_key
+    .input-group-addon
+      i.fa.fa-copy data-clipboard-text = @token.secret_key
+
+p = link_to t('actions.back'), api_tokens_path, role: 'button', class: 'btn btn-primary btn-lg pull-right'

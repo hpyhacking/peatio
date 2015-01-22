@@ -1,0 +1,43 @@
+= simple_form_for @withdraw, as: :withdraw, scope: :satoshi do |f|
+
+  = f.input :fund_source,
+    label: t('.fund_source_label'),
+    collection: @fund_sources,
+    label_method: :label,
+    include_blank: false,
+    hint: link_to(t('.manage_fund_source'), url_for([@channel.currency, :fund_sources]))
+
+  = f.input :account_balance, as: :display
+  = f.input :sum do
+    .input-group
+      = f.input_field :sum, as: :decimal
+      .input-group-btn
+        button#withdraw_all_btn.btn.btn-success type='button' = t('.allin')
+
+  hr.split
+  = f.button :wrapped, t('actions.submit'), cancel: withdraws_path
+
+= content_for :after
+  = panel do
+    = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
+      - t.column :id, class: 'col-xs-2'
+      - t.column :created_at, class: 'col-xs-4'
+      - t.column :fund_uid, class: 'col-xs-10' do |x|
+        span = "#{x.fund_extra} @ "
+        code.text-info = x.fund_uid
+      - t.column :amount, class: 'col-xs-2'
+      - t.column :fee, class: 'col-xs-2'
+      - t.column :state_and_action, class: 'col-xs-4' do |x|
+        - if x.cancelable?
+          span = "#{x.aasm_state_text} / "
+          = link_to t('actions.cancel'), url_for([x]), method: :delete
+        - else
+          span = x.aasm_state_text
+
+= content_for :scripts
+  javascript:
+    $(function() {
+      $('button#withdraw_all_btn').on('click', function() {
+        $('input#withdraw_sum').val($('.withdraw_satoshi_account_balance span').text());
+      });
+    });

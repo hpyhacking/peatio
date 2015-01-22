@@ -1,0 +1,4 @@
+- if Market.all.size > 1
+  .market-selector
+    - Market.all.each do |market|
+      = link_to market.name, market_path(market.id), class: (current_market.name == market.name) ? 'btn btn-primary' : 'btn btn-default'

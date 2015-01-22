@@ -21,7 +21,10 @@ class IdentitiesController < ApplicationController
     end
 
     if @identity.update_attributes(identity_params)
-      redirect_to settings_path, notice: t('.notice') and return
+      current_user.send_password_changed_notification
+      clear_all_sessions current_user.id
+      reset_session
+      redirect_to signin_path, notice: t('.notice')
     else
       render :edit
     end

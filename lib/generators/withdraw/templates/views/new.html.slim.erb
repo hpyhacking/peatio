@@ -1,0 +1,40 @@
+= simple_form_for @withdraw, as: :withdraw, scope: :<%= name.underscore %> do |f|
+  = f.input :channel_id, as: :hidden
+  = f.input :fund_uid, collection: @fund_sources, label_method: :extra, value_method: :uid, placeholder: t('.fund_uid')
+  = f.input :fund_extra do
+    = f.input_field :fund_extra, required: false
+
+  = f.input :account_balance, as: :display
+  = f.input :sum do
+    .input-group
+      = f.input_field :sum, as: :decimal
+      .input-group-btn
+        button#withdraw_all_btn.btn.btn-success type='button' = t('.allin')
+
+  hr.split
+  = f.button :wrapped, t('actions.submit'), cancel: withdraws_path
+
+= content_for :after
+  = panel do
+    = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
+      - t.column :id, class: 'col-xs-1'
+      - t.column :created_at, class: 'col-xs-2'
+      - t.column :fund_uid, class: 'col-xs-5' do |x|
+        code.text-info = x.fund_uid
+        span = " @ #{x.fund_extra.truncate(6)}"
+      - t.column :amount, class: 'col-xs-1'
+      - t.column :fee, class: 'col-xs-1'
+      - t.column :state_and_action, class: 'col-xs-2' do |x|
+        - if x.cancelable?
+          span = "#{x.aasm_state_text} / "
+          = link_to t('actions.cancel'), url_for([x]), method: :delete
+        - else
+          span = x.aasm_state_text
+
+= content_for :scripts
+  javascript:
+    $(function() {
+      $('button#withdraw_all_btn').on('click', function() {
+        $('input#withdraw_sum').val($('.withdraw_<%= name.underscore %>_account_balance span').text());
+      });
+    });

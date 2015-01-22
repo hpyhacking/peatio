@@ -1,0 +1,254 @@
+.page-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin: 0 0 15px;
+}
+
+.panel-currencies {
+  padding: 0;
+  .currencies-container {
+    min-height: $funds-panel-height;
+    border-right: 1px solid #ddd;
+  }
+  .details-container {
+    padding: 20px 20px 0;
+    .form {
+      margin: 30px 0;
+      max-width: 640px;
+      .form-submit .btn {
+        padding: 4px 20px;
+        margin-right: 5px;
+      }
+      .currency-balance {
+        color: #449D44;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      &.transfer-form {
+        max-width: inherit;
+      }
+      .control-label {
+        text-align: left;
+      }
+    }
+    .help-block {
+      font-size: 14px;
+    }
+  }
+  .panel-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  .help-block {
+    ul {
+      list-style: none;
+      padding: 10px 0 0 20px;
+    }
+  }
+  .outlined-label {
+    color: #999;
+    font-size: 12px;
+    border: 1px solid #999;
+    padding: 1px 8px;
+    border-radius: 4px;
+    &.new {
+      color: $brand-primary;
+
+      border-color: $brand-primary;
+    }
+  }
+  .table tr.new-row {
+    .outlined-label {
+      color: $brand-primary;
+      border-color: $brand-primary;
+    }
+  }
+}
+
+.table-currencies {
+  border-radius: 5px;
+  right: -1px;
+  margin-bottom: 0;
+  > tbody > tr > td {
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+  }
+}
+.currency-item {
+  margin: 0;
+  .currency-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 3px;
+    background-color: #333;
+    &.label-cny {
+      background-color: #EC6060;
+    }
+    &.label-btc {
+      background-color: #DDCD1B;
+    }
+  }
+  .currency-logo {
+    text-align: center;
+    width: 20%;
+    img {
+      max-height: 32px;
+    }
+    .currency-symbol {
+      display: block;
+      margin-top: 5px;
+      text-transform: uppercase;
+      color: #999;
+      font-size: 12px;
+    }
+  }
+  .currency-balance-col {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .currency-balance {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: monospace;
+    margin: 0;
+    .currency-sign {
+      display: none;
+      font-size: 20px;
+      margin-left: -4px;
+    }
+  }
+  .currency-balance-locked {
+    display: block;
+    color: #999;
+    font-size: 14px;
+    font-weight: normal;
+  }
+  .currency-actions {
+    position: relative;
+    text-align: right;
+    vertical-align: middle;
+    p { 
+      margin: 0;
+      position: relative;
+      &:first-child {
+        margin: 0 0 20px 0;
+      }
+    }
+  }
+  &.selected {
+    background-color: #EFF5F0;
+  }
+  &.selected .currency-actions:after, &.selected .currency-actions:before {
+    right: -2px;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    z-index: 1024;
+  }
+
+  &.selected .currency-actions:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-right-color: #ffffff;
+    border-width: 10px;
+    margin-top: -10px;
+  }
+  &.selected .currency-actions:before {
+    border-color: rgba(221, 221, 221, 0);
+    border-right-color: #dddddd;
+    border-width: 11px;
+    margin-top: -11px;
+  }
+  &.deposit-now .currency-actions:after, 
+  &.deposit-now .currency-actions:before {
+    top: 31px;
+  }
+  &.withdraw-now .currency-actions:after, 
+  &.withdraw-now .currency-actions:before {
+    top: 73px;
+  }
+}
+
+.transfer-form {
+  .table {
+    border: 1px solid #ccc;
+    tbody > tr > td {
+      padding: 10px 15px 0 15px;
+      border-right: 1px solid #ccc;
+      border-top: none;
+    }
+    .v-col {
+      padding: 8px;
+      width: 30px;
+      vertical-align: middle;
+    }
+    label {
+      font-size: 13px;
+      font-weight: normal;
+      padding: 0;
+    }
+    .form-control-static {
+      font-size: 16px;
+      font-weight: bold;
+      padding-bottom: 0;
+    }
+    .col-md-12 {
+      padding: 0;
+    }
+    tbody > tr.last-row td {
+      padding-bottom: 15px;
+    }
+  }
+
+  .form-submit {
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
+#memo {
+  color: red;
+  text-align: center;
+}
+
+#deposit_address{
+  text-align: center;
+}
+
+.withdraw-instruction {
+  color: #777;
+  .col-sm-4 {
+    text-align: center;
+  }
+  .steps {
+    display: inline-block;
+    margin: 0;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #DDD;
+    border-radius: 50%;
+    color: #E0E4E7;
+    font-size: 32px;
+    font-weight: normal;
+    line-height: 50px;
+    text-align: center;
+  }
+  p {
+    color: #777;
+    line-height: 1.6;
+  }
+  .split {
+    margin: 15px 0;
+  }
+  .qrcode-container {
+    float: right;
+    margin-left: 10px;
+  }
+}

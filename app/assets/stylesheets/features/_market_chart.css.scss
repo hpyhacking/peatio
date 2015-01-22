@@ -1,0 +1,51 @@
+#markets-show {
+  .container > .row {
+    margin-bottom: 12px;
+  }
+  .container > .row > .col-xs-13 > .panel {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    margin-bottom: 0px;
+  }
+}
+
+.market-ticker {
+  padding-top: 5px;
+  padding-bottom: 0px;
+
+  .ticker-wrapper {
+    height: 70px;
+    padding-top: 10px;
+
+    .row.ticker {
+      .dl-horizontal.dl-ticker {
+        &:first-of-type {
+          dt { width: 60px; }
+          dd { margin-left: 64px; }
+        }
+      }
+    }
+
+    .market-name {
+      font-size: 35px;
+      font-family: monospace;
+      color: $gray-light;
+      margin: 20px 0px 0px 0px;
+
+      &:hover {
+        cursor: pointer;
+        color: rgba($gray-light, 0.7);
+      }
+    }
+  }
+}
+
+.row.ticker-wrapper {
+  border-bottom: 1px solid $gray-light;
+}
+
+
+.market-chart {
+  padding: 0 5px 0 0;
+}

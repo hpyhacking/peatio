@@ -1,26 +1,18 @@
 window.MarketTickerUI = flight.component ->
-  @.defaultAttrs
-    volumeSelector: '.volume',
-    askPriceSelector: '.sell',
-    bidPriceSelector: '.buy',
-    lowPriceSelector: '.low',
-    highPriceSelector: '.high',
-    latestPriceSelector: '.last',
+  @attributes
+    askSelector: '.ask .price'
+    bidSelector: '.bid .price'
+    lastSelector: '.last .price'
+    priceSelector: '.price'
 
-  @.update = (el, text) ->
-    text = numeral(text).format('0.00');
-    if el.text() isnt text
-      el.fadeOut ->
-        el.text(text).fadeIn()
+  @updatePrice = (selector, price, trend) ->
+    selector.removeClass('text-up').removeClass('text-down').addClass(formatter.trend(trend))
+    selector.html(formatter.fixBid(price))
 
-  @.refresh = (event, data) ->
-    @.update @.select('volumeSelector'), data['volume']
-    @.update @.select('askPriceSelector'), data['sell']
-    @.update @.select('bidPriceSelector'), data['buy']
-    @.update @.select('lowPriceSelector'), data['low']
-    @.update @.select('highPriceSelector'), data['high']
-    @.update @.select('latestPriceSelector'), data['last']
+  @refresh = (event, ticker) ->
+    @updatePrice @select('askSelector'),  ticker.sell, ticker.sell_trend
+    @updatePrice @select('bidSelector'),  ticker.buy,  ticker.buy_trend
+    @updatePrice @select('lastSelector'), ticker.last, ticker.last_trend
 
-  @.after 'initialize', ->
-    @.on document, 'pusher::ticker', @.refresh
-    @.refresh '', gon.ticker
+  @after 'initialize', ->
+    @on document, 'market::ticker', @refresh

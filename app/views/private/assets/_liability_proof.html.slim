@@ -1,0 +1,10 @@
+.panel.panel-default
+  .panel-body
+    .row
+      #guide.col-xs-8
+        h3 = t('.title')
+        p.text-ignore = t('.intro')
+        p
+          = link_to t('.how-to-verify'), t('.how-to-verify-uri'), :target => '_blank'
+      #content.col-xs-16
+        = render 'liability_tabs'

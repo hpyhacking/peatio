@@ -1,5 +1,5 @@
 class Document < ActiveRecord::Base
-  TRANSLATABLE_ATTR = [:title, :body]
+  TRANSLATABLE_ATTR = [:title, :desc, :keywords, :body]
   translates *TRANSLATABLE_ATTR
 
   def to_param
@@ -8,6 +8,7 @@ class Document < ActiveRecord::Base
 
   TRANSLATABLE_ATTR.each do |attr|
     Rails.configuration.i18n.available_locales.each do |locale|
+      locale = locale.to_s
       define_method "#{locale.underscore}_#{attr}=" do |value|
         with_locale locale do
           self.send("#{attr}=", value)
@@ -26,6 +27,7 @@ class Document < ActiveRecord::Base
     params = []
     TRANSLATABLE_ATTR.each do |attr|
       Rails.configuration.i18n.available_locales.each do |locale|
+        locale = locale.to_s
         params << "#{locale.underscore}_#{attr}".to_sym
       end
     end

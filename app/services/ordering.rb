@@ -1,54 +1,59 @@
 class Ordering
-  PRICE_RANGE = ("0.01".to_d.."100".to_d)
-  class LatestPriceError < RuntimeError; end
 
-  def initialize(order)
-    @order = order
-  end
+  class CancelOrderError < StandardError; end
 
-  def member
-    @member ||= Member.find(@order.member_id)
-  end
-
-  def check_latest_price
-    latest = Trade.latest_price(@order.currency)
-    latest.zero? || PRICE_RANGE.cover?(@order.price / latest)
+  def initialize(order_or_orders)
+    @orders = Array(order_or_orders)
   end
 
   def submit
-    unless check_latest_price
-      @order.errors.add(:price, :range)
-      raise LatestPriceError
-    end
-
     ActiveRecord::Base.transaction do
-      @order.save!
-
-      begin
-        account = @order.hold_account.lock!
-        account.lock_funds(@order.sum, reason: Account::ORDER_SUBMIT, ref: @order)
-      rescue Account::BalanceError
-        @order.errors.add(@order.hold_account_attr, :expensive)
-        raise ActiveRecord::Rollback
-      end
+      @orders.each {|order| do_submit order }
     end
 
-    raise unless @order.errors.empty?
-    return true
+    @orders.each do |order|
+      AMQPQueue.enqueue(:matching, action: 'submit', order: order.to_matching_attributes)
+    end
+
+    true
   end
 
   def cancel
-    ActiveRecord::Base.transaction do
-      order = Order.find(@order.id).lock!
-      account = @order.hold_account.lock!
+    @orders.each {|order| do_cancel order }
+  end
 
-      if order.state == Order::WAIT
-        order.state = Order::CANCEL
-        account.unlock_funds(order.sum, reason: Account::ORDER_CANCEL, ref: order)
-        order.save!
-      else
-        false
-      end
+  def cancel!
+    ActiveRecord::Base.transaction do
+      @orders.each {|order| do_cancel! order }
     end
   end
+
+  private
+
+  def do_submit(order)
+    order.fix_number_precision # number must be fixed before computing locked
+    order.locked = order.origin_locked = order.compute_locked
+    order.save!
+
+    account = order.hold_account
+    account.lock_funds(order.locked, reason: Account::ORDER_SUBMIT, ref: order)
+  end
+
+  def do_cancel(order)
+    AMQPQueue.enqueue(:matching, action: 'cancel', order: order.to_matching_attributes)
+  end
+
+  def do_cancel!(order)
+    account = order.hold_account
+    order   = Order.find(order.id).lock!
+
+    if order.state == Order::WAIT
+      order.state = Order::CANCEL
+      account.unlock_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)
+      order.save!
+    else
+      raise CancelOrderError, "Only active order can be cancelled. id: #{order.id}, state: #{order.state}"
+    end
+  end
+
 end

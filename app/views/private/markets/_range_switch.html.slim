@@ -1,0 +1,7 @@
+ul#range_switch.list-inline.switch data-x='60'
+  - %w(1 5 15 30 | 60 120 240 360 720 | 1440 4320 | 10080).each do |x|
+    li.text-center
+      - if x == '|'
+        span |
+      - else
+        a.hand-point.chart-switch href='#' data-x='#{x}' = t(".switch_#{x}")

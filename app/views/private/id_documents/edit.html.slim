@@ -1,0 +1,31 @@
+.state.clearfix
+  .col-xs-8.text-right
+    h2 = t('.state')
+  .col-xs-14
+    h2 = t(".state_#{@id_document.aasm_state}")
+
+hr.split
+
+= simple_form_for @id_document do |f|
+  = f.input :name, label: t('.name')
+  = f.input :birth_date, as: :date, label: t('.birth_date'), \
+    start_year: Date.today.year - 70, \
+    end_year: Date.today.year - 12, \
+    order: [:day, :month, :year]
+  = f.input :address, label: t('.address')
+  = f.input :city, label: t('.city')
+  = f.input :country, as: :country, label: t('.country')
+  = f.input :zipcode, label: t('.zipcode')
+  = f.input :id_document_type, label: t('.id_document_type'), prompt: t('actions.select')
+  = f.input :id_document_number, label: t('.id_document_number')
+  = f.simple_fields_for :id_document_file, @id_document.id_document_file || @id_document.build_id_document_file do |p|
+    = p.input :file, as: :file, label: t('.id_document_file')
+  = f.input :id_bill_type, prompt: t('actions.select'), label: t('.id_bill_type')
+  = f.simple_fields_for :id_bill_file, @id_document.id_bill_file || @id_document.build_id_bill_file do |p|
+    = p.input :file, as: :file, label: t('.id_bill_file')
+  hr.split
+  = f.button :wrapped, cancel: settings_path
+
+= content_for :guide do
+  p.text-warning
+    = t('.warning')

@@ -1,0 +1,125 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
+cs:
+  js:
+    brand: Peatio
+    submit: Odeslat
+    funds:
+      deposit: Vklad
+      withdraw: Výběr
+      currency_name:
+        cny: CNY
+        btc: BTC
+      deposit_cny:
+        title: Vložit Čínský Yuan
+        desc: "Vklad bankovním převodem, prosím postupujte dle těchto kroků:"
+        desc_item_1: "1. Odeslat formulář pro získání Variabilního symbolu pro platbu."
+        desc_item_2: "2. Převeďte peníze na náš bankovní účet. Prosím, ujistěte se, že jste vyplnili Variabilní symbol."
+        desc_item_3: "3. Váš vklad bude připsán po obdržení částky na náš účet. "
+        attention: "Upozornění: Jméno uvedené u Vašeho bankovního účtu, by se mělo shodovat se jménem, které jste uvedli při aktivaci."
+        from: Od
+        to: Komu
+        deposit_name: Vaše jméno
+        deposit_account: Vklad na účet
+        add: Přidat
+        manage: Spravovat
+        amount: Částka vkladu
+        min_amount: Nejméně 10 Yuanů
+        to_account: Účet
+        to_name: Jméno
+        to_bank_name: Jméno banky
+        opening_bank_name: Číslo Vašeho bank. účtu
+        remark: 'Variabilní symbol (pro identifikaci platby)'
+      deposit_btc:
+        title: BTC Vklad
+      deposit_coin:
+        address: Adresa
+        new_address: Nová Adresa
+        open-wallet: Použijte svou běžnou kryptopeněženku, mobilní nebo on-line peněženku a zvolte odeslat platbu.
+        detail: Prosím, vložte tuto adresu ve Vaší peněžence, vyplňte částku, kterou chcete vložit, potvrďte a odešlete.
+        scan-qr: Oscanujte QR kód pro vklad z mobilní peněženky.
+        after_deposit: Po dokončení odeslání, můžete zkontrolovat stav vašeho nového vkladu níže.
+        generate-new: Generovat novou adresu
+      deposit_history:
+        title: Historie vkladů
+        number: '#'
+        identification: Variabilní symbol
+        time: Čas
+        txid: ID transakce
+        confirmations: Potvrzení
+        from: Od
+        amount: Částka
+        state_and_action: "Stav"
+        cancel: Storno
+        no_data: Není žádná historie
+        submitting: Odesíláno
+        cancelled: Stornováno
+        submitted: Odesláno
+        accepted: Akceptováno
+        rejected: Odmítnuto
+        checked: Kontrolováno
+        warning: Upozornění
+        suspect: Nedůvěryhodné
+      withdraw_cny:
+        title: Výběr Čínského Yuanu
+        intro: Zvolte banku, částku a zadejte číslo účtu pro výběr.
+        intro_2: Jméno účtu u Vaší banky by mělo souhlasit s Vaší skutečným, zde ověřeným jménem.
+        attention: "Doba odesílání plateb: 9:00 - 18:00"
+        account_name: Jméno účtu
+        withdraw_address: Vyberte účet pro výběr
+        balance: Zůstatek k výběru
+        withdraw_amount: Částka výběru
+        manage_withdraw: Spravovat účty
+        fee_explain: O poplatcích
+        min: Minimum
+        withdraw_all: Vybrat vše
+      withdraw_btc:
+        title: Výběr BTC
+      withdraw_coin:
+        intro: Prosím vyplňte adresu, částku pro výběr a odešlete formulář. Bude potvrzeno přibližně do 10 minut.
+        label: Název adresy
+        balance: Zůstatek k výběru
+        amount: Částka výběru
+        manage_withdraw: Spravovat adresy
+        min: Minimum
+        withdraw_all: Vybrat vše
+        fee_explain: O poplatcích
+      withdraw_history:
+        title: Historie výběrů
+        number: Číslo
+        withdraw_time: Čas
+        withdraw_account: Účet
+        withdraw_address: Adresa
+        withdraw_amount: Částka
+        actual_amount: Aktuální částka
+        fee: Poplatek
+        miner_fee: Poplatek
+        state_and_action: "Stav"
+        cancel: Storno
+        no_data: Není žádná historie
+        submitting: Odesíláno
+        submitted: Odesláno
+        rejected: Odmítnuto
+        accepted: Akceptováno
+        suspect: Nedůvěryhodné
+        processing: V procesu
+        coin_ready: Připraveno
+        coin_done: Hotovo
+        done: Hotovo
+        almost_done: Hotovo
+        canceled: Stornuji
+        failed: Chyba
+    auth:
+      please_active_two_factor: Prosím nejdříve vyplňte číslo mobilního telefonu nebo aktivujte Google Authenticator.
+      submit: Odeslat
+      otp_placeholder: 6místný kód
+      google_app: Google Authenticator
+      sms: Potrzení pomocí SMS
+      send_code: Odeslat kód
+      send_code_alt: Odeslat znovu COUNT sekund
+      hints:
+        app: Google Authenticator generuje nové heslo každých třicet sekund. Zadejte prosím včas.
+        sms: Odešleme SMS zprávu na váš telefon s ověřovacím kódem.

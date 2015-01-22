@@ -9,19 +9,18 @@ Dir.chdir(root)
 require File.join(root, "config", "environment")
 
 $running = true
-Signal.trap("TERM") do 
+Signal.trap("TERM") do
   $running = false
 end
 
 while($running) do
-  Market.enumerize.each_key do |currency|
-    Global[currency].tap do |global|
-      global.update_asks
-      global.update_bids
-      global.update_trades
-      global.update_ticker
-      global.trigger
-    end
+  all_tickers = {}
+  Market.all.each do |market|
+    global = Global[market.id]
+    global.trigger_orderbook
+    all_tickers[market.id] = market.unit_info.merge(global.ticker)
   end
-  sleep 5
+  Global.trigger 'tickers', all_tickers
+
+  sleep 3
 end

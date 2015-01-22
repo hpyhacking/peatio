@@ -4,7 +4,6 @@ require File.expand_path('../boot', __FILE__)
 require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
-require "active_resource/railtie"
 require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
@@ -25,15 +24,26 @@ module Peatio
     config.i18n.enforce_available_locales = false
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
-    config.i18n.available_locales = ['en', 'zh-CN']
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', 'custom', '*.{yml}')]
+    config.i18n.available_locales = ['en', 'zh-CN', 'ko']
 
-    config.autoload_paths += %W(#{config.root}/lib)
-    config.autoload_paths += %W(#{config.root}/lib/extras)
+    config.autoload_paths += %W(#{config.root}/lib #{config.root}/lib/extras)
 
+    #config.assets.precompile += ['bootstrap-datetimepicker.css']
     config.assets.initialize_on_precompile = true
+
+    # Precompile all available locales
+    Dir.glob("#{config.root}/app/assets/javascripts/locales/*.js.erb").each do |file|
+      config.assets.precompile << "locales/#{file.match(/([a-z\-A-Z]+\.js)\.erb$/)[1]}"
+    end
+
+    config.generators do |g|
+      g.orm             :active_record
+      g.template_engine :erb
+      g.stylesheets     false
+    end
+
+    # Observer configuration
+    config.active_record.observers = :transfer_observer
   end
 end
-
-Time::DATE_FORMATS[:default] = "%Y-%m-%d %H:%M:%S"
-HandlebarsAssets::Config.template_namespace = 'JST'

@@ -1,0 +1,46 @@
+p
+  h4 = t('.step-1')
+  p = t('.open-wallet')
+
+hr.split
+
+p
+  h4 = t('.step-2')
+  p = t('.send-coin')
+  .input-group.col-xs-8
+    .input-group-addon =t('activerecord.attributes.deposit.address')
+    .form-control.form-control-static = @address.address
+    .input-group-addon
+      i.fa.fa-copy data-clipboard-text=@address.address
+
+p
+  div
+    = t('.or')
+    = t('.scan-qr')
+  = qr_tag @address.address
+
+hr.split
+
+p
+  h4 = t('.step-3')
+  p = t('.check-confirm', path: exchange_assets_path).html_safe
+
+hr.split
+
+p
+  h4 = t('.step-4')
+  p = t('.history_html')
+
+= content_for :guide
+  = image_tag('coins/<%= code.underscore %>')
+
+= content_for :after
+  = panel do
+    = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
+      - t.column :created_at, class: 'col-xs-3'
+      - t.column :txid, class: 'col-xs-4' do |x|
+        a href='#{x.blockchain_url}' target='_blank'
+          code.text-info = x.txid.truncate(32)
+      - t.column :amount, class: 'col-xs-2'
+      - t.column :memo, class: 'col-xs-1'
+      - t.column :aasm_state_text, class: 'col-xs-2'

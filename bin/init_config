@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+Dir.glob("config/*.yml.example").each do |example_file|
+  target_file = example_file[0..-9]
+
+  if File.exist? target_file
+    puts "Ignore the #{target_file}"
+  else
+    FileUtils.cp example_file, target_file
+    puts "cp #{example_file} #{target_file}"
+  end
+end
+

@@ -1,0 +1,96 @@
+@import "bourbon";
+
+@import 'vars/bootstrap';
+
+@import 'bootstrap';
+@import 'bootstrap-switch.min';
+
+@import "bootstrap-wysihtml5/core-b3";
+@import "bootstrap-wysihtml5/wysiwyg-color";
+
+@import 'vars/basic';
+@import 'vars/custom';
+
+.dl-horizontal dt {
+  width: 120px;
+}
+
+.dl-horizontal dd {
+  margin-left: 140px;
+}
+
+body { padding-top: 80px; }
+
+b.caret {
+  margin-left: 5px;
+}
+
+.panel {
+  .table td:first-of-type, .table th:first-of-type {
+    padding-left: 14px;
+  }
+}
+
+span.detail-item, span.detail-section { display: block; }
+
+span.detail-item {
+  & > i.fa {
+    &:before {
+      margin-right: 5px;
+    }
+  }
+
+  margin-bottom: 4px;
+  text-align: right;
+
+  &:before {
+    float: left;
+    width: 100px;
+    margin-right: 10px;
+    text-align: right;
+    content: attr(data-title)':';
+    font-size: 16px !important;
+  }
+}
+
+span.detail-section {
+  margin-left: 10px;
+  margin-top: 30px;
+
+  &:first-of-type {
+    margin-top: 0px;
+  }
+
+  & + hr {
+    margin-top: 2px;
+    border-top: 1px solid rgb(50, 150, 146);
+    border-bottom: 1px solid rgb(206, 207, 186);
+  }
+}
+
+.editor {
+  min-height: 300px;
+  padding: 15px;
+  margin-top: 8px;
+  border: 1px solid lightgray;
+}
+
+.panel-footer {
+  ul.pagination {
+    margin: 0px;
+  }
+}
+
+.unread {
+  background: #f2f2f2;
+}
+
+[data-title] {
+  &:before {
+    .text-ignore {
+      font-size: 16px;
+      display: block;
+      content: attr(data-title);
+    }
+  }
+}

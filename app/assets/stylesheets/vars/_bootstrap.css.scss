@@ -1,0 +1,40 @@
+/* bootstrap vars
+-------------------------------------------------------------- */
+$grid-columns: 24;
+$grid-gutter-width: 10px;
+
+
+$body-bg: #f5f5f5;
+
+$brand-primary: #364450;
+
+$up-text: rgb(77, 215, 16);
+$down-text: rgb(208, 0, 23);
+
+$navbar-default-bg: $brand-primary;
+$navbar-default-link-color: #DCDCDC;
+$navbar-default-link-hover-color: #EFEFEF;
+$navbar-default-link-active-color: #EFEFEF;
+
+$btn-default-bg: #428bca;
+$btn-default-color: #fff;
+
+$btn-info-bg: #fff;
+$btn-info-color: #333;
+
+$font-family-sans-serif: 'Helvetica Neue', Arial, 'Hiragino Sans GB', sans-serif;
+
+/* force use large desktop width 1150px
+--------------------------------------------------*/
+$screen-xs:                  1px;
+$screen-xs-min:              $screen-xs;
+$screen-phone:               $screen-xs-min;
+$screen-sm:                  2px;
+$screen-sm-min:              $screen-sm;
+$screen-tablet:              $screen-sm-min;
+$screen-md:                  3px;
+$screen-md-min:              $screen-md;
+$screen-desktop:             $screen-md-min;
+$screen-lg:                  4px;
+$screen-lg-min:              $screen-lg;
+$screen-lg-desktop:          $screen-lg-min;

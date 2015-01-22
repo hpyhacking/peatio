@@ -1,0 +1,22 @@
+- content_for :frame do
+  .container.history-pages
+    = render 'tabs', active: :order
+
+    .panel.panel-default#orders
+      .panel-body
+        .col-xs-24
+          table.table.table-condensed.table-striped
+            thead: tr
+              th = t('.id')
+              th = t('.type')
+              th = t('.state')
+              th = t('.market')
+              th = t('.price')
+              th = t('.volume')
+              th = t('.average_price')
+              th = t('.fullfilled_volume')
+              th = t('.timestamp')
+            tbody.list
+              = render partial: 'order', collection: @orders
+          .pull-right
+            = paginate @orders

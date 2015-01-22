@@ -1,0 +1,26 @@
+/* basic style extend
+------------------------------------------------------- */
+g { color: $gray-light; }
+
+* + i[class^=fa], i[class^=fa] + * { margin-left: $icon-gutter-width; }
+
+span.label { padding-top: $text-gutter-width; }
+span.caret, b.caret { margin-left: $icon-gutter-width; }
+strong + span, span.label + span.label { margin-left: $text-gutter-width; }
+abbr { border-bottom: 0px !important; }
+
+@include text-emphasis-variant('.text-up', $up-text);
+@include text-emphasis-variant('.text-down', $down-text);
+.btn-up { @include button-variant($btn-default-color, $up-bg, $btn-default-border); }
+.btn-down { @include button-variant($btn-default-color, $down-bg, $btn-default-border); }
+
+table.table { td.vertical-center { vertical-align: middle !important; } }
+
+
+/* TODO UNKNDOW CLASS
+------------------------------------------------------ */
+.number { font-family: monospace; }
+.number-label { color: $gray-light; margin-right: 5px; }
+span.hint { margin-top: 6px; }
+.text-ignore { color: $gray-light; }
+

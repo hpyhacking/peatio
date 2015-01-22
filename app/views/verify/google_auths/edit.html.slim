@@ -1,0 +1,10 @@
+= simple_form_for @google_auth, as: 'google_auth', url: verify_google_auth_path, method: :delete do |f|
+
+  .two-factor-auth-container
+    .form-group.string.required
+      = render partial: 'shared/two_factor_app'
+
+  = f.button :wrapped, t('.submit'), cancel: settings_path
+
+= content_for :guide do
+  p.text-warning = t('.warning')

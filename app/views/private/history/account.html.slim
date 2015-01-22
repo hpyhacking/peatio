@@ -1,0 +1,20 @@
+- content_for :frame do
+  .container.history-pages
+    = render 'tabs', active: :account
+
+    .panel.panel-default#transactions
+      .panel-body
+        .col-xs-24
+          table.table.table-condensed.table-striped
+            thead: tr
+              th = t('.type')
+              th = t('.timestamp')
+              th = t('.currency')
+              th = t('.amount')
+              th = t('.fee')
+              th = t('.txid')
+            tbody.list
+              = render partial: 'transaction', collection: @transactions
+          .pull-right
+            = paginate @transactions
+

@@ -1,0 +1,24 @@
+.row.ticker-wrapper
+  .col-xs-7
+    h1.market-name.text-info = current_market.name
+  .col-xs-17
+    .row.ticker
+      dl.dl-horizontal.dl-ticker.col-xs-9
+        dt: span.name.volume = t('.volume')
+        dd: span.value.volume
+      dl.dl-horizontal.dl-ticker.col-xs-7
+        dt: span.name.sell = t('.ask_price')
+        dd: span.value.sell
+      dl.dl-horizontal.dl-ticker.col-xs-8
+        dt: span.name.high = t('.high_price')
+        dd: span.value.high
+    .row.ticker
+      dl.dl-horizontal.dl-ticker.col-xs-9
+        dt: span.name.last = t('.latest_price')
+        dd: span.value.last
+      dl.dl-horizontal.dl-ticker.col-xs-7
+        dt: span.name.buy = t('.bid_price')
+        dd: span.value.buy
+      dl.dl-horizontal.dl-ticker.col-xs-8
+        dt: span.name.low = t('.low_price')
+        dd: span.value.low

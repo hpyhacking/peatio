@@ -1,28 +1,42 @@
-#market.row
-  .col-md-3
-    .orders
-      h3.text-center.title
-        span = t('.orders')
-        i.fa.fa-external-link
-      table.table.asks
-      h3.last
-      table.table.bids
-    .trades
-      h3.text-center.title
-        span = t('.trades')
-        i.fa.fa-external-link
-      .wrap: table.table: tbody
-  .col-md-9
-    .tabbable
-      ul.nav.nav-tabs
-        li.active: a#bid-panel-link.bid-panel href="#bid_panel" data-toggle="tab" == t('.bid_panel', currency: @ask_name)
-        li: a.ask-panel href="#ask_panel" data-toggle="tab" == t('.ask_panel', currency: @ask_name)
-      .tab-content
-        #bid_panel.tab-pane.active: .trade-wrapper
-          = render partial: 'account_wrapper', locals: {order: 'bid', ask: @ask, bid: @bid}
-          = render partial: 'order_wrapper', locals: {market: @market, order: @order_bid}
-          = render partial: 'history_wrapper'
-        #ask_panel.tab-pane: .trade-wrapper
-          = render partial: 'account_wrapper', locals: {order: 'ask', ask: @ask, bid: @bid}
-          = render partial: 'order_wrapper', locals: {market: @market, order: @order_ask}
-          = render partial: 'history_wrapper'
+doctype html
+html lang="en"
+  head
+    link href="/favicon.ico" rel="shortcut icon"
+    = include_gon
+    = stylesheet_link_tag 'market', media: "all"
+    = javascript_include_tag "market"
+    = render 'shared/html5'
+    = render 'shared/meta'
+    = csrf_meta_tags
+
+  body id='#{body_id}' data-lang="#{locale_name}"
+    audio preload='preload' id='success-fx'
+      source src="/sounds/success.mp3"
+
+    audio preload='preload' id='warning-fx'
+      source src="/sounds/warning.mp3"
+
+    = render partial: "private/markets/header"
+    #wrap
+      .content
+        = render partial: 'market_trades'
+        = render partial: 'market_list'
+
+        = render partial: 'candlestick'
+        = render partial: 'range_switch'
+        = render partial: 'indicator_switch'
+
+        - if ENV['CHAT_FEATURE']
+          #chat_tabs_wrapper.float
+            ul.nav.nav-tabs.tabs-right.sideways
+              li: a href='#chat_content' data-toggle='tab' = t('.chat')
+            .tab-content
+              #chat_content.tab-pane
+                = render partial: 'chat'
+
+        = render partial: 'order_book'
+        = render partial: 'depths'
+        = render partial: 'ticker'
+        = render partial: 'ask_entry', locals: {market: @market, order: @order_ask }
+        = render partial: 'bid_entry', locals: {market: @market, order: @order_bid }
+        = render partial: 'my_orders'

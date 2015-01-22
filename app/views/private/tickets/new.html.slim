@@ -1,0 +1,8 @@
+= simple_form_for @ticket do |f|
+  .form-group
+    .col-xs-20.col-xs-offset-4
+      = t('.intro')
+  = f.input :title
+  = f.input :content, input_html: {rows: 10}
+  hr.split
+  = f.button :wrapped, cancel: tickets_path

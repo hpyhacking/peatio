@@ -1,0 +1,22 @@
+<br />
+<h2 class="panel-title">{{ "funds.deposit_history.title" | t }}</h2>
+<table class="table" ng-controller="DepositHistoryController as dhCtrl">
+  <tr>
+    <th>{{ "funds.deposit_history.time" | t }}</th>
+    <th>{{ "funds.deposit_history.txid" | t }}</th>
+    <th>{{ "funds.deposit_history.amount" | t }}</th>
+    <th>{{ "funds.deposit_history.confirmations" | t }}</th>
+    <th>{{ "funds.deposit_history.state_and_action" | t }}</th>
+  </tr>
+  <tr ng-class="{ 'new-row':dhCtrl.newRecord(deposit) }" ng-repeat="deposit in dhCtrl.deposits | orderBy:predicate">
+    <td>{{deposit.created_at | date:'yyyy-MM-dd HH:mm'}}</td>
+    <td>
+      <a href="{{deposit.blockchain_url}}" target='_blank'>{{deposit.txid}}</a>
+    </td>
+    <td>{{deposit.amount}}</td>
+    <td>{{deposit.confirmations}}</td>
+    <td>{{"funds.deposit_history." + deposit.aasm_state | t}}</td>
+  </tr>
+  <tr ng-show="dhCtrl.noDeposit()"><td colspan="6"><span class="help-block text-center">{{ "funds.deposit_history.no_data" | t }}</span></td></tr>
+</table>
+

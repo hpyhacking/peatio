@@ -1,0 +1,17 @@
+#order_book.panel.panel-default
+  .panel-body.panel-body-head
+    #order_book_header.row
+      .col-xs-12.col-left: table.table
+        thead: tr
+          th.amount.text-right.col-xs-10 = t('.amount')
+          th.volume.text-right.col-xs-7 = t('.volume')
+          th.price.text-right.col-xs-7 = t('.bid')
+      .col-xs-12: table.table.table-head
+        thead: tr
+          th.price.text-right.col-xs-7 = t('.ask')
+          th.volume.text-right.col-xs-7 = t('.volume')
+          th.amount.text-right.col-xs-10 = t('.amount')
+  .panel-body.panel-body-content
+    #order_book_body.row
+      .col-xs-12.col-left: table.table.table-hover.bids
+      .col-xs-12: table.table.table-hover.asks

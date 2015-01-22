@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'password', js: true do # need to be js because of recaptcha
+describe 'password' do
   let!(:identity) { create :identity }
   let!(:password) { 'New1Password' }
   let!(:member) { create :member, email: identity.email }
@@ -15,7 +15,6 @@ describe 'password', js: true do # need to be js because of recaptcha
     click_on t('helpers.submit.identity.update')
     expect(page).to have_content(t('identities.update.notice'))
 
-    signout
     signin identity, password: password
     check_signin
   end

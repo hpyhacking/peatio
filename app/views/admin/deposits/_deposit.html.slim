@@ -1,0 +1,33 @@
+= detail_section_tag t('.member_title')
+= detail_tag deposit.member, field: :name
+= detail_tag deposit.member, field: :email
+= detail_tag deposit.account, field: :currency_text
+= detail_tag deposit.account, field: :balance
+= detail_tag deposit.account, field: :locked
+
+= detail_section_tag t('.deposit_title')
+= detail_tag deposit, field: :sn
+= detail_tag deposit, field: :created_at
+= detail_tag deposit, field: :currency_text
+= detail_tag deposit, field: :channel_key_text
+= detail_tag deposit, field: :aasm_state_text
+= detail_tag deposit, field: :admin_aasm_state_text
+
+= detail_tag deposit.member, field: :name
+= detail_tag deposit.member, field: :sn
+= detail_tag deposit, field: :fund_uid
+= detail_tag deposit, field: :fund_extra
+= detail_tag deposit, field: :amount
+= detail_tag deposit, field: :fee
+= detail_tag deposit, field: :txid_text
+
+= detail_section_tag t('.action_title')
+
+.pull-right
+  - if deposit.may_submit?
+    = link_to t('.submit'), admin_deposit_path(deposit), method: :patch, class: 'btn btn-default'
+  - if deposit.may_accept?
+    = link_to t('.accept'), admin_deposit_path(deposit), method: :patch, class: 'btn btn-danger'
+  - if deposit.may_reject?
+    = link_to t('.reject'), admin_deposit_path(deposit), method: :delete, class: 'btn btn-primary'
+  = link_to t('.back'), admin_deposits_path, class: 'btn btn-default'

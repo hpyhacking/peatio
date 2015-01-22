@@ -31,7 +31,9 @@ Peatio::Application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
-  config.action_mailer.default_url_options = { :host => "peatio.dev" }
+  config.action_mailer.default_url_options = { :host => ENV["URL_HOST"] }
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  config.session_store :cookie_store, :key => '_peatio_session', :expire_after => ENV['SESSION_EXPIRE'].to_i.minutes
 end

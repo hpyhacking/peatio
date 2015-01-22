@@ -1,0 +1,21 @@
+.simple_captcha{padding: 5px !important;}
+.simple_captcha,
+.simple_captcha div{display: table;}
+.simple_captcha .simple_captcha_field,
+.simple_captcha .simple_captcha_image{
+  border: 1px solid #ccc;
+  margin: 0px 0px 2px 0px !important;
+  padding: 0px !important;
+}
+.simple_captcha .simple_captcha_image img{
+  margin: 0px !important;
+  padding: 0px !important;
+  width: 110px !important;
+}
+.simple_captcha .simple_captcha_label { font-size: 12px;}
+.simple_captcha .simple_captcha_field input{
+  width: 150px !important;
+  font-size: 16px;
+  border: none;
+  background-color: #efefef;
+}

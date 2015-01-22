@@ -1,0 +1,65 @@
+/* bootstrap for trading tool vars
+-------------------------------------------------------------- */
+$grid-gutter-width: 4px;
+
+/* fixed navbar to same home page 
+-------------------------------------------------------------- */
+$navbar-padding-horizontal: 5px;
+$navbar-margin-bottom: 0px;
+
+$navbar-height: 30px;
+
+$body-bg: #000;
+
+$text-color: #ccc;
+$link-color: #ddd;
+
+$up-text: rgb(77, 215, 16);
+$down-text: rgb(208, 0, 23);
+$up-text-fade: rgba(77, 215, 16, 0.9);
+$down-text-fade: rgba(208, 0, 23, 0.9);
+
+$panel-bg: rgb(21,21,21);
+$panel-bg-alpha: rgba(28,28,28,0.8);
+$panel-default-heading-bg: #2b3434;
+$panel-default-border: #333;
+$panel-border-radius: 2px;
+$panel-body-padding: 8px 8px 8px 8px;
+$panel-heading-padding: 2px 8px 0px 8px;
+$panel-default-text: $text-color;
+
+$font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
+
+$navbar-default-bg: $panel-bg;
+$navbar-default-border: rgba(179, 175, 156, 0.28);
+$navbar-default-spliter: rgb(32,32,32);
+
+$nav-tabs-border-color: #333;
+$nav-tabs-active-link-hover-border-color: #333;
+$nav-tabs-justified-link-border-color: #333;
+$nav-tabs-active-link-hover-bg: $panel-default-heading-bg;
+$nav-tabs-active-link-hover-color: #ccc;
+
+$border-radius-base: 2px;
+
+$dropdown-bg: #333;
+$dropdown-link-color: #ccc;
+$dropdown-link-hover-bg: lighten($dropdown-bg, 40%);
+
+$table-bg-hover: #444;
+
+/* bootstrap form mix 
+------------------------------------------------------------ */
+$input-bg: $panel-bg;
+$input-color: #fff;
+$input-group-addon-bg: #2b3434;
+$input-border: rgb(85, 85, 85);
+$input-height-base: 25px;
+$input-border-focus: $navbar-default-border;
+
+$btn-danger-bg: #333;
+$btn-danger-border: #111;
+
+$label-info-bg: rgba(0,0,0,0);
+$label-success-bg: rgba(0,0,0,0);
+$label-danger-bg: rgba(0,0,0,0);

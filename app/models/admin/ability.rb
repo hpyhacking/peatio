@@ -7,17 +7,21 @@ module Admin
 
       can :read, Order
       can :read, Trade
-      can :read, Member
-      can :update, Member
-      can :manage, Deposit
-      can :manage, Withdraw
+      can :read, Proof
+      can :update, Proof
       can :manage, Document
+      can :manage, Member
+      can :manage, Ticket
+      can :manage, IdDocument
+      can :manage, TwoFactor
 
-      can :read, ::Statistic::DepositsGrid
-      can :read, ::Statistic::WithdrawsGrid
-      can :read, ::Statistic::TradesGrid
-      can :read, ::Statistic::OrdersGrid
-      can :read, ::Statistic::MembersGrid
+      can :menu, Deposit
+      can :manage, ::Deposits::Bank
+      can :manage, ::Deposits::Satoshi
+
+      can :menu, Withdraw
+      can :manage, ::Withdraws::Bank
+      can :manage, ::Withdraws::Satoshi
     end
   end
 end

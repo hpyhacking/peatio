@@ -1,25 +1,9 @@
-json.ask @ask
-json.bid @bid
 json.asks @asks
 json.bids @bids
 json.trades @trades
-json.market @market.attributes
-json.market_config @market.attributes
+json.market_orders @markets_orders
 
-json.i18n do
-  json.ask I18n.t('gon.ask')
-  json.bid I18n.t('gon.bid')
-end
-
-json.accounts do
-  json.set! @ask, 'ask'
-  json.set! @bid, 'bid'
-  json.ask do json.(@member.get_account(@ask), :balance, :locked, :currency) end
-  json.bid do json.(@member.get_account(@bid), :balance, :locked, :currency) end
-end
-
-json.orders do
-  json.wait *([@orders_wait] + Order::ATTRIBUTES)
-  json.done *([@orders_done] + Order::ATTRIBUTES)
-  json.cancel *([@orders_cancel] + Order::ATTRIBUTES)
+if @member
+  json.my_trades @trades_done.map(&:for_notify)
+  json.my_orders *([@orders_wait] + Order::ATTRIBUTES)
 end

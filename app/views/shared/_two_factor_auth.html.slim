@@ -1,0 +1,10 @@
+.two-factor-auth-container
+  .form-group.string.required
+    - if app_activated && sms_activated
+      = render partial: 'shared/two_factor_app_and_sms'
+
+    - elsif app_activated
+      = render partial: 'shared/two_factor_app'
+
+    - elsif sms_activated
+      = render partial: 'shared/two_factor_sms'

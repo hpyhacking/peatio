@@ -1,0 +1,18 @@
+label.string.required.col-xs-2.control-label
+.col-xs-20
+  .input-group style="width:100%;"
+    .input-group-btn
+      button.btn.btn-default.dropdown-toggle href="javascript:;" data-toggle="dropdown" style="cursor:pointer;width:145px;"
+        span.switch-name = t('two_factors.auth.google_app')
+        span.caret style="margin-left:5px;"
+      ul.dropdown-menu
+        li: a data-type="app" href="javascript:;" = t('two_factors.auth.google_app')
+        li: a data-type="sms" href="javascript:;" = t('two_factors.auth.sms')
+
+    input.two_factor_auth_type type="hidden" name="two_factor[type]" value="app"
+    input.string.required.form-control id="two_factor_otp" name="two_factor[otp]" placeholder=t('two_factors.auth.otp_placeholder')
+    .input-group-btn.send-code-button.hide
+      button.btn.btn-primary type='submit' name="commit" value="send_code" data-orig-name=t('two_factors.auth.send_code') data-alt-name=t('two_factors.auth.send_code_alt') = t('two_factors.auth.send_code')
+  span.hint.app.col-xs-14.col-xs-offset-6 = t('two_factors.auth.hints.app')
+  span.hint.sms.col-xs-14.col-xs-offset-6.hide = t('two_factors.auth.hints.sms')
+  .captcha-wrap.col-xs-14.col-xs-offset-6

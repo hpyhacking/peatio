@@ -9,10 +9,15 @@ header.text-center
         h3 = t(:slogan, locale: locale)
     #getstart.row
       - unless current_user
-        .col-md-2.col-md-offset-4
+        .col-xs-4.col-xs-offset-8
           a href="#{signin_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signin")
-        .col-md-2
+        - if ENV['WEIBO_AUTH'] == "true"
+          .col-xs-4
+            a href="/auth/weibo" class="btn btn-primary btn-lg btn-block" role="button" = t("header.login_via_weibo")
+        .col-xs-4
           a href="#{signup_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signup")
       - else
-        .col-md-4.col-md-offset-4
-          a href="#{market_path(latest_market)}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.getstart")
+        .col-xs-6.col-xs-offset-9.text-center
+          a href="#{market_path(current_market)}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.getstart")
+          a href="#{funds_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.funds")
+          a href="#{settings_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.settings")

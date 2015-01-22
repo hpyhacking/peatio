@@ -1,0 +1,14 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
+zh-TW:
+  js:
+    brand: 貔貅
+    submit: 提交
+    funds:
+      deposit: 充值
+      withdraw: 提现
+      deposit_cny:
+        title: 人民币充值

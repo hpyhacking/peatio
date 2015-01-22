@@ -1,9 +1,0 @@
-#market_selector.btn-group
-  button.btn.btn-default.dropdown-toggle.btn-lg type="button" data-toggle="dropdown"
-    | #{I18n.t("markets.#{latest_market}")}
-    span.caret
-  ul.dropdown-menu role="menu"
-    - Market.enumerize.each_key do |key|
-      li class="#{if latest_market.to_s == key.to_s then 'selected' end}"
-        a.text-center href="#{main_app.market_path(key)}"
-          span = I18n.t("markets.#{key}")

@@ -1,0 +1,16 @@
+<% trend = formatter.trend @type %>
+
+<tr id='market-trade-<%= @tid %>' class='<%= @classes %>'>
+  <td class="time text-left col-xs-5"><div>
+    <%- formatter.trade_time @date %>
+  </div></td>
+  <td class="my text-left col-xs-1"><div>
+    <i class='fa fa-star'></i>
+  </div></td>
+  <td class='price text-right col-xs-5 <%= trend %>'><div>
+    <%- formatter.mask_fixed_price @price %>
+  </div></td>
+  <td class='volume text-right col-xs-5' title='<%= formatter.fix_bid(@price*@amount) %>'><div>
+    <%- formatter.mask_fixed_volume @amount %>
+  </div></td>
+</tr>

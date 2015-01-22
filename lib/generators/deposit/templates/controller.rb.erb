@@ -1,0 +1,8 @@
+module Private
+  module Deposits
+    class <%= name.camelize.pluralize %>Controller < ::Private::Deposits::BaseController
+      include ::Deposits::CtrlCoinable
+    end
+  end
+end
+

@@ -1,0 +1,29 @@
+.proof
+  - partial_tree = proof.try(:partial_tree_of, account)
+  - if proof.try(:ready?) && partial_tree.present?
+    - root_target = "#{proof.currency}_root_json"
+    - partial_tree_target = "#{proof.currency}_partial_tree_json"
+
+    .root.json
+      h5
+        = t('.root-json')
+      pre id=root_target = proof.root.to_json
+      .clearfix
+
+    .partial-tree.json
+      .assets
+        span.title = t('.partial-tree', currency: proof.currency.upcase)
+        span.currency
+          == t("currency.icon.#{proof.currency}")
+          = partial_tree.sum
+      pre id=partial_tree_target = partial_tree.json.to_json
+      .clearfix
+
+    .timestamp
+      = t('.timestamp', time: proof.timestamp)
+
+    hr
+    .proof-bottom = verify_link(proof, partial_tree)
+
+  - else
+    p = t('.liability-proof-generating')

@@ -1,10 +1,8 @@
 FactoryGirl.define do
-  factory :reset_password do
+  factory :token do
+    member
   end
 
-  factory :reset_two_factor do
-  end
-
-  factory :activation do
-  end
+  factory :activation,     class: Token::Activation,    parent: :token
+  factory :reset_password, class: Token::ResetPassword, parent: :token
 end

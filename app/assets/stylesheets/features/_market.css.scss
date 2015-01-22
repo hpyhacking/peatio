@@ -1,0 +1,111 @@
+#markets-show > #wrap > .container {
+  //#==========================================
+  // table basic style
+  table {
+    th, td {
+      &.time, &.at, &.kind, &.operation {
+        text-align: left;
+        font-size: 14px;
+        font-family: monospace;
+      }
+
+      &.operation { text-align: right; }
+
+      &.price, &.amount, &.volume {
+        text-align: right;
+        font-family: monospace;
+      }
+    }
+
+    thead { cursor: pointer; }
+    tbody > tr:hover {
+      cursor: pointer;
+      background-color: #eee;
+    }
+
+    td {
+      border: none;
+      padding: 5px 1px 2px 1px;
+      font-size: 16px;
+      line-height: 16px !important;
+    }
+  }
+  //#==========================================
+
+  //#==========================================
+  // order-book and place-order
+
+  @mixin fix-clear-pannel($left-right: right) {
+    margin-#{$left-right}: 0px;
+    padding-#{$left-right}: 0px;
+
+    .panel {
+      padding: 10px;
+      .panel-body {
+        height: 500px;
+        margin-bottom: 0px;
+        padding: 0px;
+      }
+
+      border-top-#{$left-right}-radius: 0px;
+      border-bottom-#{$left-right}-radius: 0px;
+      border-#{$left-right}-width: 0px;
+      margin-bottom: 0px;
+    }
+  }
+
+  .order-book {
+    @include fix-clear-pannel;
+
+    .panel .panel-body {
+      padding-right: 15px;
+      border-right: 1px solid $gray-light;
+    }
+
+    .table.asks { margin-bottom: 0px; }
+    .table.bids { margin-top: 0px; }
+    .table.seperator { 
+      td.price { margin: 0px; padding: 0px; font-size: 20px !important; }
+      margin: 9px 0px 8px 0px; 
+    }
+  }
+
+  .order-book-single {
+    @include fix-clear-pannel;
+
+    .panel .panel-body {
+      padding-right: 15px;
+      border-right: 0px !important;
+    }
+
+    .table.asks { margin-bottom: 0px; }
+    .table.bids { margin-top: 0px; }
+    .table.seperator { margin: 10px 0px; }
+  }
+
+  //#==========================================
+
+  //#==========================================
+  .my-trades {
+    table {
+      &.hidden-buy {
+        tr.bid { display: none; }
+      }
+      &.hidden-sell {
+        tr.ask { display: none; }
+      }
+    }
+  }
+  //#==========================================
+
+  //#==========================================
+  // depths
+
+  //#==========================================
+  .panel-heading {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  //#==========================================
+}

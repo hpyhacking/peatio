@@ -1,0 +1,20 @@
+.panel.panel-primary
+  .panel-heading: span = t('.verify_account')
+  = table_for(@id_documents, class: 'table table-condensed table-hover') do |t|
+    - t.column :id, class: 'col-xs-1' do |x|
+      = link_to x.id, admin_id_document_path(x)
+    - t.column :name, class: 'col-xs-2' do |x|
+      = link_to x.name.to_s, admin_member_path(x.member)
+    - t.column :email, class: 'col-xs-2' do |x|
+      = link_to x.member.email, admin_member_path(x.member)
+    - t.column :id_document_type, t('.id_document_type'), class: 'col-xs-3' do |x|
+      = x.id_document_type.blank? ? t('.unknow') : t("enumerize.id_document_type.#{x.id_document_type}")
+    - t.column :id_bill_type, t('.id_bill_type'), class: 'col-xs-3' do |x|
+      = x.id_bill_type.blank? ? t('.unknow') : t("enumerize.id_document.id_bill_type.#{x.id_bill_type}")
+    - t.column :updated_at, t('.request_at'), class: 'col-xs-4'
+    - t.column :verified, class: 'col-xs-1' do |x|
+      = yesno(x.verified?)
+    - t.column '', class: 'col-xs-1' do |x|
+      = link_to t('actions.view'), admin_id_document_path(x)
+
+  = paginate @id_documents

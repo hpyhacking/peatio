@@ -1,0 +1,57 @@
+en:
+  deposit_channel:
+    <%= name.underscore %>:
+      key: Block Chain
+      title: <%= name %> Deposits
+      intro: Deposit <%= name.underscore %> from your own Wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
+
+  activerecord:
+    attributes:
+      deposits/<%= name.underscore %>:
+        created_at: At
+        txid: TXID
+        amount: Amount
+        confirmations: Confirm
+        aasm_state_text: State
+
+  deposits/<%= name.underscore %>:
+    aasm_state:
+      submitted: Submitted
+      accepted: Accepted
+      checked: Checked
+      warning: Warning
+
+  guides:
+    private:
+      deposits:
+        <%= name.underscore.pluralize %>:
+          panel: Deposits
+          intro: Deposit <%= name.underscore %> from your own Wallet address to Peatio account.
+          new:
+            default-panel: Deposit Transactions
+  admin:
+    deposits:
+      <%= name.underscore.pluralize %>:
+        update:
+          notice: Deposit successful.
+        index:
+          accept: Accept
+          accept_confirm: Accept confirm ?
+
+  private:
+    deposits:
+      <%= name.underscore.pluralize %>:
+        new:
+          step-1: Step one
+          open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
+          step-2: Step Two
+          send-coin: Fill in the collection address the following address which is specifically for your <%= name.underscore %> deposits. Check the <%= name.underscore %> amount you want to send,  and do not forget to pay a fee to the miner in order to ensure the transaction could be confirmed quickly.
+          or: You can also to
+          scan-qr: Scanning QR code to pay for In the mobile terminal wallet.
+          step-3: Step Three
+          check-confirm: Send <%= name.underscore %> to your Peatio account. When the transaction gets one confirmation by the whole network, the system will automatically recharge your account. You do not need to refresh this interface, transactions and recharge will be updated in real-time.
+          step-4: Step Four
+          history_html: Once you complete sending, click <a href='javascript:window.location.reload();'>refresh</a> to check the status of your new deposit below.

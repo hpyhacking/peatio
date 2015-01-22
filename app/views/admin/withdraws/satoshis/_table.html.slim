@@ -1,0 +1,13 @@
+= table_for(satoshis, class: 'table table-condensed table-hover', model: Withdraws::Satoshi) do |t|
+  - t.column :id, class: 'col-xs-2'
+  - t.column :created_at, class: 'col-xs-3'
+  - t.column :currency_obj_key_text, class: 'col-xs-2'
+  - t.column :member_name, class: 'col-xs-3' do |x|
+    = link_to x.member_name, url_for([:admin, x.member]), target: '_blank'
+  - t.column :fund_source, class: 'col-xs-6' do |x|
+    span #{x.fund_extra} # #{x.fund_uid.truncate(22)}
+  - t.column :amount, class: 'col-xs-3' do |x|
+    code.text-info = x.amount
+  - t.column :state_and_action, class: 'col-xs-3' do |x|
+    span = "#{x.aasm_state_text} / "
+    = link_to t("actions.view"), url_for([:admin, x]), target: '_blank'

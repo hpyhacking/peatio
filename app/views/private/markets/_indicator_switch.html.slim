@@ -1,0 +1,12 @@
+#indicator_switch_wrapper.switch
+  ul.list-inline
+    li: ul#type_switch.indicator_switch.list-inline data-x='candlestick'
+      li.text-center: a.hand-point data-x='candlestick' href='#' = t('chart.candlestick')
+      li.text-center: a.hand-point data-x='close' href='#' = t('chart.line')
+    li.text-center: span |
+    li: ul#main_indicator_switch.indicator_switch.list-inline data-x='MA'
+      li.text-center: a.hand-point data-x='MA' href='#' MA
+      li.text-center: a.hand-point data-x='EMA' href='#' EMA
+    li.text-center: span |
+    li: ul#indicator_switch.indicator_switch.list-inline data-x='MACD'
+      li.text-center: a.hand-point data-x='MACD' href='#' MACD

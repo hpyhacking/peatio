@@ -1,0 +1,43 @@
+= link_to t("private.tickets.close"),close_admin_ticket_path(@ticket), method: :patch, confirm: t("private.tickets.close_confirm"), class: "btn btn-default"
+| &nbsp &nbsp &nbsp
+= link_to t("back"), admin_tickets_path, class: "btn btn-default"
+br
+br
+ul.list-group
+  li.list-group-item
+    .row.row-middle
+      .col-xs-12
+        .row.row-middle
+          .col-xs-12
+            h4 = "#{@ticket.title}"
+          .col-xs-6
+        .row
+          .col-xs-12
+            p.text-ignore = @ticket.content
+        .row
+          .col-xs-12
+            span = "#{I18n.t("private.tickets.from")}: #{@ticket.author.email}"
+          .col-xs-5
+            i.fa.fa-clock-o.text-info
+            span = time_ago_in_words @ticket.created_at
+  h3 = t('admin.tickets.replies')
+  - @comments.each do |c|
+    br
+    li.list-group-item
+      .row.row-middle
+        .col-xs-12
+          .row
+            .col-xs-12
+              p.text-ignore = c.content
+          .row
+            .col-xs-12
+              span = "#{I18n.t("private.tickets.from")}: #{c.author.email}"
+            .col-xs-5
+              i.fa.fa-clock-o.text-info
+              span = time_ago_in_words c.created_at
+
+= simple_form_for @comment, url: admin_ticket_comments_path(@ticket.id) do |f|
+  = f.input :content, label: false,  input_html: { style: 'width:160%;', rows: 8 }
+  hr.split
+  = f.button :wrapped
+

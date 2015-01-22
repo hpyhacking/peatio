@@ -1,0 +1,114 @@
+<tr>
+  <td align="center" valign="top" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateBody" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-top-color: #FFFFFF; border-top-width: 1px; border-top-style: solid; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #CCCCCC; margin-bottom: 30px; background: #F4F4F4;" bgcolor="#F4F4F4">
+      <tr>
+        <td valign="top" class="bodyContent" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #505050; font-family: Helvetica; font-size: 16px; line-height: 150%; text-align: left; padding: 20px;" align="left">
+          <h1 style="color: #202020 !important; display: block; font-family: Helvetica; font-size: 26px; font-style: normal; font-weight: bold; line-height: 100%; letter-spacing: normal; text-align: left; margin: 0 0 10px;" align="left">
+            <%= t('.member_stats') %>
+          </h1>
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-radius: 8px; background: #FFF; margin: 20px 0 10px;" bgcolor="#FFF">
+            <tr>
+              <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= t('.signup') %>
+              </td>
+              <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= @stats['member_stats'][1] %>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= t('.activation') %>
+              </td>
+              <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= @stats['member_stats'][2] %>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+
+<tr>
+  <td align="center" valign="top" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateBody" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-top-color: #FFFFFF; border-top-width: 1px; border-top-style: solid; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #CCCCCC; margin-bottom: 30px; background: #F4F4F4;" bgcolor="#F4F4F4">
+      <tr>
+        <td valign="top" class="bodyContent" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #505050; font-family: Helvetica; font-size: 16px; line-height: 150%; text-align: left; padding: 20px;" align="left">
+          <h1 style="color: #202020 !important; display: block; font-family: Helvetica; font-size: 26px; font-style: normal; font-weight: bold; line-height: 100%; letter-spacing: normal; text-align: left; margin: 0 0 10px;" align="left">
+            <%= t('.asset_stats') %>
+          </h1>
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-radius: 8px; background: #FFF; margin: 20px 0 10px;" bgcolor="#FFF">
+            <% @changes[:assets].each do |(currency, amount, value)| %>
+            <tr>
+              <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= currency.code.upcase %><br>
+                <span style='font-size: .7em; font-size: italic; color: #bbb;'>&nbsp;</span>
+              </td>
+              <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= pretty_change pretty_currency(value[0], 'cny'), value[0] %><br>
+                <span style='font-size: .7em; font-size: italic; color: #bbb;'><%= pretty_change pretty_currency(amount[0], currency.code), amount[0] %></span>
+              </td>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= pretty_change pretty_percentage(value[1]), value[1] %><br>
+                <span style='font-size: .7em; font-size: italic; color: #bbb;'><%= pretty_change pretty_percentage(amount[1]), amount[1] %></span>
+              </td>
+            </tr>
+            <% end %>
+            <tr>
+              <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= t('.asset_value_change_total') %><br>
+                <span style='font-size: .7em; font-size: italic; color: #bbb;'>&nbsp;</span>
+              </td>
+              <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= assets_value_change_total(@changes[:assets]) %><br>
+                <span style='font-size: .7em; font-size: italic; color: #bbb;'>&nbsp;</span>
+              </td>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+
+<tr>
+  <td align="center" valign="top" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="templateBody" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-top-color: #FFFFFF; border-top-width: 1px; border-top-style: solid; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #CCCCCC; margin-bottom: 30px; background: #F4F4F4;" bgcolor="#F4F4F4">
+      <tr>
+        <td valign="top" class="bodyContent" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #505050; font-family: Helvetica; font-size: 16px; line-height: 150%; text-align: left; padding: 20px;" align="left">
+          <h1 style="color: #202020 !important; display: block; font-family: Helvetica; font-size: 26px; font-style: normal; font-weight: bold; line-height: 100%; letter-spacing: normal; text-align: left; margin: 0 0 10px;" align="left">
+            <%= t('.trade_stats') %>
+          </h1>
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" class="report" style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse: collapse !important; border-radius: 8px; background: #FFF; margin: 20px 0 10px;" bgcolor="#FFF">
+            <% @changes[:trades].each do |(market, change)| %>
+            <tr>
+              <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= market.name %>
+              </td>
+              <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= pretty_change change[0] %>
+              </td>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= pretty_change pretty_percentage(change[1]), change[1] %>
+              </td>
+            </tr>
+            <% end %>
+            <tr>
+              <td style="width: 40%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= t('.trades_change_total') %>
+              </td>
+              <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+                <%= trades_change_total(@changes[:trades]) %>
+              </td>
+              <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>

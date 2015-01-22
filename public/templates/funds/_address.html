@@ -1,0 +1,9 @@
+<div class="input-group col-sm-16">
+  <div class="input-group-addon">
+    <span>{{'funds.deposit_coin.address' | t}}</span></div><div class="form-control form-control-static" id="deposit_address">{{account.deposit_address}}</div><div class="input-group-addon" id="deposit_address_data">
+      <i class="fa fa-copy" data-clipboard-text="{{account.deposit_address}}"></i>
+   </div>
+   <div class="input-group-addon"><span class="countdown hint" style="display:none;">...</span>
+     <a id="new_address" ng-click="genAddress(deposit_channel.resource_name); $event.preventDefault()" href="#"> {{"funds.deposit_coin.new_address" | t}}</a>
+   </div>
+</div>

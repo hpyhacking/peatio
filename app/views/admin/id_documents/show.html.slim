@@ -1,0 +1,102 @@
+.col-xs-18
+  .panel: .panel-body
+    .row
+      .col-xs-6.text-right
+        label = t('.id')
+      .col-xs-18
+        span = @id_document.id
+    .row
+      .col-xs-6.text-right
+        label = t('.name')
+      .col-xs-18
+        span = link_to @id_document.name, admin_member_path(@id_document.member)
+    .row
+      .col-xs-6.text-right
+        label = t('.email')
+      .col-xs-18
+        span = link_to @id_document.member.email, admin_member_path(@id_document.member)
+    .row
+      .col-xs-6.text-right
+        label = t('.birth_day')
+      .col-xs-18
+        span = @id_document.birth_date
+    .row
+      .col-xs-6.text-right
+        label = t('.address')
+      .col-xs-18
+        span = @id_document.address
+    .row
+      .col-xs-6.text-right
+        label = t('.city')
+      .col-xs-18
+        span = @id_document.city
+    .row
+      .col-xs-6.text-right
+        label = t('.country')
+      .col-xs-18
+        span = @id_document.country
+    .row
+      .col-xs-6.text-right
+        label = t('.zipcode')
+      .col-xs-18
+        span = @id_document.zipcode
+    .row
+      .col-xs-6.text-right
+        label = t('.id_document_type')
+      .col-xs-18
+        span = @id_document.id_document_type
+    .row
+      .col-xs-6.text-right
+        label = t('.id_document_number')
+      .col-xs-18
+        span = @id_document.id_document_number
+    .row
+      .col-xs-6.text-right
+        label = t('.id_document_file')
+      .col-xs-18
+        = admin_asset_tag @id_document.id_document_file
+    .row
+      .col-xs-6.text-right
+        label = t('.id_bill_type')
+      .col-xs-18
+        span = @id_document.id_bill_type.present? ? @id_document.id_bill_type : t('.unknow')
+    .row
+      .col-xs-6.text-right
+        label = t('.id_bill_file')
+      .col-xs-18
+        = admin_asset_tag @id_document.id_bill_file
+    .row
+      .col-xs-6.text-right
+        label = t('.created_at')
+      .col-xs-18
+        span = @id_document.created_at
+    .row
+      .col-xs-6.text-right
+        label = t('.updated_at')
+      .col-xs-18
+        span = @id_document.updated_at
+    .row
+      .col-xs-6.text-right
+        label = t('.state')
+      .col-xs-18
+        span = t(".state_#{@id_document.aasm_state}")
+    .row
+      .col-xs-6.text-right
+        label = t('.verified')
+      .col-xs-18
+        = yesno(@id_document.verified?)
+
+    hr.split
+
+    .row
+      .col-xs-5.text-right
+
+      - if @id_document.may_approve?
+        .col-xs-4
+          = link_to admin_id_document_path(@id_document, approve: 'true'), method: :patch, style: 'color: white;' do
+            button.btn.btn-primary = t('.approve')
+
+      - if @id_document.may_reject?
+        .col-xs-4
+          = link_to admin_id_document_path(@id_document, reject: 'true'), method: :patch, style: 'color: white;'
+            button.btn.btn-danger = t('.reject')

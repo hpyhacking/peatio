@@ -1,26 +1,13 @@
-class DepositChannel < ActiveYaml::Base
-  include Enumerizeable
+class DepositChannel < ActiveYamlBase
+  include Channelable
+  include HashCurrencible
+  include International
 
-  set_root_path "#{Rails.root}/config"
-  set_filename "deposit_channel"
-
-  def self.currency(category)
-    self.find_by_id(category).currency.to_s
+  def accounts
+    bank_accounts.map {|i| OpenStruct.new(i) }
   end
 
-  def transfer_text
-    I18n.t("peatio.deposit_channel.#{id}.transfer")
-  end
-
-  def latency_text
-    I18n.t("peatio.deposit_channel.#{id}.latency") 
-  end
-
-  def name_text
-    I18n.t("peatio.deposit_channel.#{id}.name")
-  end
-
-  def intro_text
-    I18n.t("peatio.deposit_channel.#{id}.intro")
+  def as_json(options = {})
+    super(options)['attributes'].merge({resource_name: key.pluralize})
   end
 end

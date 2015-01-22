@@ -17,6 +17,6 @@ module Statistic
     column(:price)
     column(:volume)
     column(:strike_amount) { price * volume }
-    column_i18n(:created_at)
+    column_localtime :created_at
   end
 end

@@ -1,0 +1,35 @@
+= simple_form_for @google_auth, as: 'google_auth', url: verify_google_auth_path do |f|
+  h4 = t('.step-1')
+  p
+    span = t('.download-app')
+    span == t('.guide-link')
+
+  h4 = t('.step-2')
+  p: span = t('.scan-qr-code')
+
+  = f.input :uri do
+    = qr_tag(@google_auth.uri)
+
+  = f.input :otp_secret do
+    .input-group
+      = f.input_field :otp_secret, class: 'upcase', readonly: true
+      span.input-group-btn
+        a.btn.btn-default href='#{verify_google_auth_path(:app, refresh: true)}'
+          i.fa.fa-refresh
+
+  h4 = t('.step-3')
+  p: span = t('.enter-passcode')
+
+  = f.input :otp
+
+  hr.split
+  = f.button :wrapped, t('.submit'), cancel: settings_path
+
+= content_for :guide do
+  ul.list-unstyled
+    li: a target='_blank' href='https://itunes.apple.com/cn/app/google-authenticator/id388497605?mt=8'
+      i.fa.fa-apple
+      span = t('.ios')
+    li: a target='_blank' href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2'
+      i.fa.fa-android
+      span = t('.android')

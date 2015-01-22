@@ -12,7 +12,12 @@ Peatio::Application.configure do
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
-  config.cache_store = :file_store, "tmp"
+
+  # Use a different cache store in production.
+  # config.cache_store = :file_store, "tmp"
+  config.cache_store = :redis_store, ENV['REDIS_URL']
+
+  config.session_store :redis_store, :key => '_peatio_session', :expire_after => ENV['SESSION_EXPIRE'].to_i.minutes
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
@@ -20,7 +25,7 @@ Peatio::Application.configure do
   config.action_mailer.delivery_method = :file
   config.action_mailer.file_settings = { location: 'tmp/mails' }
 
-  config.action_mailer.default_url_options = { :host => "peatio.dev" }
+  config.action_mailer.default_url_options = { :host => ENV["URL_HOST"] }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -33,5 +38,8 @@ Peatio::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  config.action_controller.perform_caching = true
+  config.active_record.default_timezone = :local
+
+  config.middleware.insert_before ActionDispatch::Static, Middleware::I18nJs
+  config.middleware.insert_before Rack::Runtime, Middleware::Security
 end

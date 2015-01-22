@@ -1,0 +1,18 @@
+<tr data-id='<%= @id %>' data-kind='<%= @kind %>' class='order <%= @kind %>'>
+  <td class='time text-left col-xs-6'>
+    <%- formatter.fulltime @at %>
+  </td>
+  <td class='kind text-left col-xs-2 <%- formatter.trend @kind %>'>
+    <%- formatter.short_trade @kind %>
+  </td>
+  <td class='price text-right col-xs-4'>
+    <%= formatter.fix_bid @price %>
+  </td>
+  <td class='volume text-right col-xs-4'>
+    <%= formatter.fix_ask @volume %>
+  </td>
+  <td class='amount text-right col-xs-5'>
+    <%- formatter.amount @volume, @price %>
+  </td>
+  <td class='col-xs-3'></td>
+</tr>

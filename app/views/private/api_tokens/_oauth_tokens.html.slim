@@ -1,0 +1,30 @@
+.panel.panel-default
+  .panel-heading
+    h2.panel-title = t('.panel_title')
+  .panel-body
+    .row
+      #guide.col-xs-8
+        h3 = t('.title')
+        p.text-ignore = t('.intro')
+
+        p = link_to t('.oauth'), '/documents/oauth', target: '_blank'
+      #content.col-xs-16
+        table.table.table-condensed.table-striped
+          thead: tr
+            th class='oauth-app-name' = t('.oauth_app_name')
+            th class='oauth-app-expire' = t('.oauth_app_expire')
+            th class='oauth-app-scope' = t('.oauth_app_scope')
+            th
+          tbody
+            - if @oauth_access_tokens.empty?
+              tr
+                td colspan='3' style='text-align: center;'
+                  p.text-ignore = t('.no_token')
+            - else
+              - @oauth_access_tokens.each do |token|
+                tr
+                  td.oauth-app-name = token.application.name
+                  td.oauth-app-expire = token.send(:expired_time)
+                  td.oauth-app-scope = token.scopes.to_s
+                  td.actions
+                    = link_to t('.unbind'), unbind_api_token_path(token.application), method: :delete, data: {confirm: t('.unbind-confirm')}

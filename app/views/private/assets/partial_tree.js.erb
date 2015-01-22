@@ -1,0 +1,10 @@
+var scope = '#<%= params[:id] %>-proof .partial-tree';
+$(scope + ' pre').text('<%= @json %>').show();
+
+copy_link = $(scope + ' a.copy');
+copy_link.removeClass('disabled');
+
+get_link = $(scope + ' a.get-partial-tree');
+get_link.addClass('disabled');
+
+$(scope + ' .message').text('<%= t('.success', timestamp: @timestamp.to_s) %>')

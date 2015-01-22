@@ -1,0 +1,4 @@
+ul.nav.nav-pills role='tablist'
+  - tabs.each do |name, args|
+    - css_class = name == active ? 'active' : ''
+    li class=css_class = link_to t(args[0]), args[1]

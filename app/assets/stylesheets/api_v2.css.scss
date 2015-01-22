@@ -1,0 +1,39 @@
+@import "bourbon";
+
+@import 'swagger-ui/highlight.default';
+@import 'swagger-ui/screen';
+
+@import 'vars/bootstrap';
+
+@import 'bootstrap';
+@import 'bootstrap-switch.min';
+
+@import 'vars/basic';
+@import 'vars/custom';
+
+@import "font-awesome-sprockets";
+@import 'font-awesome';
+
+@import 'layouts/basic';
+
+.swagger-ui-wrap {
+  h1, h2 {
+    margin: 0;
+  }
+}
+
+#documents-api_v2 {
+  table.result {
+    th:nth-child(1) { width: 80px; }
+    th:nth-child(3) { width: 300px; }
+
+    p {
+      margin: 0px;
+      padding: 0px;
+    }
+  }
+
+  footer {
+    margin-top: 30px;
+  }
+}

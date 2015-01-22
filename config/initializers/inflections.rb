@@ -13,3 +13,9 @@
 # ActiveSupport::Inflector.inflections do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.acronym 'API'
+  inflect.acronym 'v2'
+  inflect.acronym 'AMQP'
+end

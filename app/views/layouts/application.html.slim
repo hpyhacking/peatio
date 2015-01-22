@@ -1,21 +1,34 @@
 doctype html
 html lang="en"
   head
-    link rel="shortcut icon" href="/favicon.png"
+    link href="/favicon.ico" rel="shortcut icon"
     = include_gon
-    = stylesheet_link_tag "application", :media => "all"
+    - stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : "application"
+    = stylesheet_link_tag stylesheet, media: "all"
     = javascript_include_tag "application"
+    = javascript_include_tag "locales/#{I18n.locale}"
+    = yield(:scripts) if content_for?(:scripts)
     = render 'shared/html5'
+    = render 'shared/meta'
     = csrf_meta_tags
-  body id='#{controller_name}-#{action_name}' data-lang="#{I18n.locale.to_s.downcase}"
+
+  body id='#{body_id}' data-lang="#{locale_name}"
+    = render 'shared/alert'
+
     #wrap
-      = render 'shared/browser'
-      = render 'shared/header'
+      - if content_for?(:header)
+        = yield(:header)
+      - else
+        = render 'shared/header'
 
       - if content_for?(:frame)
         = yield(:frame)
-      - else 
-        = yield
+      - else
+        = render 'shared/frame'
 
       #push
-    = render 'shared/footer'
+
+    - if content_for?(:footer)
+      = yield(:footer)
+    - else
+      = render 'shared/footer'

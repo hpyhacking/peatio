@@ -1,0 +1,47 @@
+#welcome-index {
+  header {
+    overflow: hidden;
+    position: relative;
+    color: rgba(83,102,120, 1.0);
+
+    .container {
+      padding-top: 60px;
+    }
+
+    .ribbon a:hover {
+      background: $btn-primary-bg;
+      text-decoration: none;
+    }
+
+    .ribbon a {
+      -webkit-transform: rotate(45deg);
+      -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+      -o-transform: rotate(45deg);
+      transform: rotate(45deg);
+      background: rgba(83,102,120, 1.0);
+      position: absolute;
+      top: 75px;
+      right: -71px;
+      display: block;
+      font-weight: 100;
+      font-size: 20px;
+      color: white;
+      height: 45px;
+      width: 330px;
+      padding: 8px;
+    }
+
+    section {
+      padding: 30px;
+      padding-top: 14px;
+      margin: 30px;
+      border-top: 1px dashed lighten($brand-primary, 20%);
+      border-bottom: 1px dashed lighten($brand-primary, 20%);
+    }
+
+    #getstart {
+      margin-bottom: 50px;
+    }
+  }
+}

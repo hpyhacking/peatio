@@ -1,10 +1,14 @@
-class WithdrawChannel < ActiveYaml::Base
-  include Enumerizeable
+class WithdrawChannel < ActiveYamlBase
+  include Channelable
+  include HashCurrencible
+  include International
 
-  set_root_path "#{Rails.root}/config"
-  set_filename "withdraw_channel"
-
-  def self.currency(category)
-    self.find_by_id(category).currency.to_s
+  def blacklist
+    self[:blacklist]
   end
+
+  def as_json(options = {})
+    super(options)['attributes'].merge({resource_name: key.pluralize})
+  end
+
 end

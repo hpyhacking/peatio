@@ -1,0 +1,12 @@
+= simple_form_for @token do |f|
+  = f.input :label, hint: t('.label_hint')
+  = f.input :access_key do
+    .input-group
+      .form-control.form-control-static = @token.access_key
+      .input-group-addon
+        i.fa.fa-copy data-clipboard-text = @token.access_key
+  = f.input :ip_whitelist, hint: t('.ip_whitelist_hint')
+  = two_factor_tag(current_user)
+  hr.split
+  = f.button :wrapped, t('actions.confirm') do
+    = link_to t('actions.cancel'), api_tokens_path, role: 'button', class: 'btn btn-danger btn-lg pull-right'

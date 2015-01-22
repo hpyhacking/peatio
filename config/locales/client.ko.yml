@@ -1,0 +1,125 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
+ko:
+  js:
+    brand: CNY
+    submit: 확인
+    funds:
+      deposit: 입금
+      withdraw: 출금
+      currency_name:
+        cny: CNY
+        btc: BTC
+      deposit_cny:
+        title: Chinese Yuan Deposit
+        desc: "  은행입금, 아래 절차를 따르 세요."
+        desc_item_1: "1. 식별번호 신청하기"
+        desc_item_2: "2.COINPLUS은행계좌로 송금합니다.  비고창에 꼭 식별번호를 입력하세요."
+        desc_item_3: "3.은행입금 확인되면 바로 회원님이 계정로 충전합니다."
+        attention: "송금자의  계좌 이름과 COINPLUS거래소 회원님의 계정 이름 일치해야합니다"
+        from: From
+        to: TO
+        deposit_name: 이름
+        deposit_account: 입금계좌
+        add: 추가
+        manage: 관리
+        amount: 입금금액
+        min_amount: 최저 입금액은 10,000KRW
+        to_account: 계좌번호
+        to_name: 예금주
+        to_bank_name: 은행
+        opening_bank_name: 은행
+        remark: 'Referral Code (Transfer identification code)'
+      deposit_btc:
+        title: BTC입금
+      deposit_coin:
+        address: BTC지갑주소
+        new_address: 새 BTC지갑주소
+        open-wallet: 익숙한 지갑을 이용하여 입출금 서비스를 이용하세요
+        detail: '아래 지갑주소로 입금하세요. '
+        scan-qr: 모바일 지갑은  QR코드 스캔을 이용해서 입금하세요.
+        after_deposit: 입금후 아래 입금내역을 통해 입금상태를 확인할수 있습니다.
+        generate-new: 새 주소
+      deposit_history:
+        title: 입금내역
+        number: '#'
+        identification: '일련번호 '
+        time: 시간
+        txid: 전송해쉬
+        confirmations: Confirmation 수량
+        from: 입금계좌
+        amount: 입금금액
+        state_and_action: "상태/확인"
+        cancel: 취소
+        no_data: 내역이 없습니다
+        submitting: 확인중
+        cancelled: 취소
+        submitted: 완료
+        accepted: 입금완료
+        rejected: 거부됨
+        checked: 확인된
+        warning: 경고
+        suspect: Suspect
+      withdraw_cny:
+        title: CNY출금
+        intro: 계좌정보를 작성후 출금금액을 입력하시고 출금신청하세요
+        intro_2: 예금주와 회원이름이 동일해야합니다.
+        attention: "업무시간: 9:00 - 18:00"
+        account_name: 예금주
+        withdraw_address: 계좌번호
+        balance: 잔액
+        withdraw_amount: 출금금액
+        manage_withdraw: 계좌관리
+        fee_explain: 수수료 설명
+        min: 최소 출금금액
+        withdraw_all: 전액 출금
+      withdraw_btc:
+        title: BTC출금
+      withdraw_coin:
+        intro: 지갑주소를 선택하고 출금수량을 입력 후 출금신청하세요. 출금확인시간은 30분정도 소요됩니다.
+        label: 출금지갑
+        balance: 잔액
+        amount: 출금수량
+        manage_withdraw: 지갑관리
+        min: 최소수량
+        withdraw_all: 전액출금
+        fee_explain: 수수료 설명
+      withdraw_history:
+        title: 출금내역
+        number: 일련번호
+        withdraw_time: 시간
+        withdraw_account: 출금계좌
+        withdraw_address: 출금주소
+        withdraw_amount: 출금금액
+        actual_amount: 실 수령액(수수료 제외 금액)
+        fee: 수수료
+        miner_fee: 이동 수수료
+        state_and_action: "상태/확인"
+        cancel: 취소
+        no_data: 내역이 없습니다
+        submitting: 확인대기
+        submitted: 승인대기
+        rejected: 거부
+        accepted: 확인
+        suspect: 승인보류
+        processing: 처리중
+        coin_ready: 준비중
+        coin_done: 완료
+        done: 완료
+        almost_done: 전송중
+        canceled: 취소
+        failed: 오류
+    auth:
+      please_active_two_factor: 회원님의 안전한 자산보호를 위해 핸드폰인증 또는 구글이중인증 받으세요.
+      submit: 확인
+      otp_placeholder: 6자리 숫자 비밀번호
+      google_app: 구글이중인증
+      sms: 핸드폰 인증
+      send_code: 인증번호 요청하기
+      send_code_alt: COUNT 초후에 재 전송합니다.
+      hints:
+        app: 구글 이중인증번호는 30초 마다 갱신되며, 제한된 시간내에 입력하세요
+        sms: 인증번호 요청하기를 누르시면 핸드폰으로 인증번호가 전송됩니다.

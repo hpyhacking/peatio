@@ -1,62 +1,65 @@
 class Withdraw < ActiveRecord::Base
-  include Concerns::Withdraws::Bank
-  include Concerns::Withdraws::Satoshi
+  STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
+            :done, :canceled, :almost_done, :failed]
+  COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
 
   extend Enumerize
-  enumerize :state, in: {
-    :apply => 10, :wait => 100, :reject => 110,
-    :examined => 210, :examined_warning => 220,
-    :transact => 300,
-    :coin_ready => 400, :coin_done => 410,
-    :done => 500, :cancel => 0}, scope: true
-  enumerize :address_type, in: WithdrawChannel.enumerize
-  enumerize :currency, in: Currency.codes, scope: true
 
-  COMPLETED_STATES = [:done, :reject, :cancel]
+  include AASM
+  include AASM::Locking
+  include Currencible
+
+  has_paper_trail on: [:update, :destroy]
+
+  enumerize :aasm_state, in: STATES, scope: true
 
   belongs_to :member
   belongs_to :account
-  has_many :account_versions, :as => :modifiable
-  attr_accessor :withdraw_address_id, :sum
+  has_many :account_versions, as: :modifiable
 
+  delegate :balance, to: :account, prefix: true
+  delegate :key_text, to: :channel, prefix: true
+  delegate :id, to: :channel, prefix: true
+  delegate :name, to: :member, prefix: true
+  delegate :coin?, :fiat?, to: :currency_obj
+
+  before_validation :calc_fee
+  before_validation :set_account
   after_create :generate_sn
-  before_validation :populate_fields_from_address, :fix_fee
-  after_update :bust_last_done_cache, if: :state_changed_to_done
 
-  validates :address_type, :address, :address_label,
-    :amount, :fee, :account, :currency, :member, presence: true
+  after_update :sync_update
+  after_create :sync_create
+  after_destroy :sync_destroy
+
+  validates_with WithdrawBlacklistValidator
+
+  validates :fund_uid, :amount, :fee, :account, :currency, :member, presence: true
 
   validates :fee, numericality: {greater_than_or_equal_to: 0}
   validates :amount, numericality: {greater_than: 0}
 
-  validates :sum, presence: true, on: :create
-  validates :sum, numericality: {greater_than: 0}, on: :create
-  validates :tx_id, presence: true, uniqueness: true, on: :update
+  validates :sum, presence: true, numericality: {greater_than: 0}, on: :create
+  validates :txid, uniqueness: true, allow_nil: true, on: :update
 
   validate :ensure_account_balance, on: :create
 
-  def coin?
-    address_type.try(:satoshi?) or address_type.try(:protoshares?)
+  scope :completed, -> { where aasm_state: COMPLETED_STATES }
+  scope :not_completed, -> { where.not aasm_state: COMPLETED_STATES }
+
+  def self.channel
+    WithdrawChannel.find_by_key(name.demodulize.underscore)
   end
 
-  def examine
-    Resque.enqueue(Job::Examine, self.id) if self.state.wait?
+  def channel
+    self.class.channel
   end
 
-  def position_in_queue
-    last_done = Rails.cache.fetch(last_completed_withdraw_cache_key) do
-      self.class.
-        with_state(*COMPLETED_STATES).
-        where(address_type: address_type.value).
-        maximum(:id)
-    end
-
-    self.class.where("id > ? AND id <= ?", (last_done || 0), id).
-      where(address_type: address_type.value).
-      count
+  def channel_name
+    channel.key
   end
 
   alias_attribute :withdraw_id, :sn
+  alias_attribute :full_name, :member_name
 
   def generate_sn
     id_part = sprintf '%04d', id
@@ -65,62 +68,167 @@ class Withdraw < ActiveRecord::Base
     update_column(:sn, sn)
   end
 
-  def sum
-    @sum || ((self.amount || 0.to_d) + (self.fee || 0.to_d))
+  aasm :whiny_transitions => false do
+    state :submitting,  initial: true
+    state :submitted,   after_commit: :send_notification
+    state :canceled,    after_commit: [:send_notification]
+    state :accepted
+    state :suspect,     after_commit: :send_notification
+    state :rejected,    after_commit: :send_notification
+    state :processing,  after_commit: [:send_coins!, :send_notification]
+    state :almost_done
+    state :done,        after_commit: [:send_notification]
+    state :failed,      after_commit: :send_notification
+
+    event :submit do
+      transitions from: :submitting, to: :submitted
+      after do
+        lock_funds
+      end
+    end
+
+    event :cancel do
+      transitions from: [:submitting, :submitted, :accepted], to: :canceled
+      after do
+        after_cancel
+      end
+    end
+
+    event :mark_suspect do
+      transitions from: :submitted, to: :suspect
+    end
+
+    event :accept do
+      transitions from: :submitted, to: :accepted
+    end
+
+    event :reject do
+      transitions from: [:submitted, :accepted, :processing], to: :rejected
+      after :unlock_funds
+    end
+
+    event :process do
+      transitions from: :accepted, to: :processing
+    end
+
+    event :call_rpc do
+      transitions from: :processing, to: :almost_done
+    end
+
+    event :succeed do
+      transitions from: [:processing, :almost_done], to: :done
+
+      before [:set_txid, :unlock_and_sub_funds]
+    end
+
+    event :fail do
+      transitions from: :processing, to: :failed
+    end
+  end
+
+  def cancelable?
+    submitting? or submitted? or accepted?
+  end
+
+  def quick?
+    sum <= currency_obj.quick_withdraw_max
+  end
+
+  def audit!
+    with_lock do
+      if account.examine
+        accept
+        process if quick?
+      else
+        mark_suspect
+      end
+
+      save!
+    end
   end
 
   private
 
-  def last_completed_withdraw_cache_key
-    "last_completed_withdraw_id_for_#{address_type}"
+  def after_cancel
+    unlock_funds unless aasm.from_state == :submitting
+  end
+
+  def lock_funds
+    account.lock!
+    account.lock_funds sum, reason: Account::WITHDRAW_LOCK, ref: self
+  end
+
+  def unlock_funds
+    account.lock!
+    account.unlock_funds sum, reason: Account::WITHDRAW_UNLOCK, ref: self
+  end
+
+  def unlock_and_sub_funds
+    account.lock!
+    account.unlock_and_sub_funds sum, locked: sum, fee: fee, reason: Account::WITHDRAW, ref: self
+  end
+
+  def set_txid
+    self.txid = @sn unless coin?
+  end
+
+  def send_notification
+    case aasm_state
+    when 'submitted'
+      member.notify!('withdraw_submitted', { withdraw_id: self.id })
+    when 'processing'
+      member.notify!('withdraw_processing', { withdraw_id: self.id })
+    when 'done'
+      content = I18n.t('sms.withdraw_done', email: member.email,
+                       currency: currency_text,
+                       time: I18n.l(Time.now),
+                       amount: amount,
+                       balance: account.balance)
+      member.notify!('withdraw_done', { withdraw_id: self.id, content: content })
+    else
+      member.notify!('withdraw_state', { withdraw_id: self.id })
+    end
+  end
+
+  def send_coins!
+    AMQPQueue.enqueue(:withdraw_coin, id: id) if coin?
   end
 
   def ensure_account_balance
-    unless account
-      errors.add(:withdraw_address_id, :blank) and return
-    end
-
-    if self.sum > account.balance
-      errors.add(:sum, :poor)
+    if sum.nil? or sum > account.balance
+      errors.add :base, -> { I18n.t('activerecord.errors.models.withdraw.account_balance_is_poor') }
     end
   end
 
-  def populate_fields_from_address
-    withdraw_address = WithdrawAddress.where(id: withdraw_address_id).first
-    return if withdraw_address.nil?
-
-    account = withdraw_address.account
-    return if account.nil?
-
-    self.account_id = account.id
-    self.currency = account.currency
-    self.address = withdraw_address.address
-    self.address_type = withdraw_address.category
-    self.address_label = withdraw_address.label
-  end
-
-  def fix_fee
-    self.sum = self.sum.to_d
-
-    if self.respond_to? valid_method = "_valid_#{self.address_type}_sum"
-      error = self.instance_eval(valid_method)
-      self.errors.add('sum', "#{self.address_type}_#{error}".to_sym) if error
+  def calc_fee
+    if respond_to?(:set_fee)
+      set_fee
     end
 
-    if self.respond_to? fee_method = "_fix_#{self.address_type}_fee"
-      self.instance_eval(fee_method)
-    end
-
-    # withdraw fee inner cost
+    self.sum ||= 0.0
     self.fee ||= 0.0
-    self.amount = (self.sum - self.fee)
+    self.amount = sum - fee
   end
 
-  def state_changed_to_done
-    state_changed? && COMPLETED_STATES.include?(state.to_sym)
+  def set_account
+    self.account = member.get_account(currency)
   end
 
-  def bust_last_done_cache
-    Rails.cache.delete(last_completed_withdraw_cache_key)
+  def self.resource_name
+    name.demodulize.underscore.pluralize
   end
+
+  def sync_update
+    ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
+  end
+
+  def sync_create
+    ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'create', attributes: self.as_json })
+  end
+
+  def sync_destroy
+    ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'destroy', id: self.id })
+  end
+
+
 end
