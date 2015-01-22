@@ -6,7 +6,7 @@
 
     <td class="currency-logo"><img ng-src="/icon-{{account.currency}}.png" alt=""><span class="currency-symbol">{{ account.currency | uppercase }}</span></td>
     <td class="currency-balance-col">
-      <p class="currency-balance"><span class="currency-sign"></span>{{account.balance}}</p>
+      <p class="currency-balance"><span class="currency-sign"></span>{{account.balance | round_down }}</p>
       <span class="currency-balance-locked"><i class="fa fa-lock"></i> {{account.locked}}</span>
     </td>
     <td class="currency-actions">
