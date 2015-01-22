@@ -73,4 +73,21 @@ class Currency < ActiveYamlBase
     }
   end
 
+  def summary
+    locked = Account.locked_sum(code)
+    balance = Account.balance_sum(code)
+    sum = locked + balance
+
+    coinable = self.coin?
+    hot = coinable ? self.balance : nil
+
+    {
+      name: self.code.upcase,
+      sum: sum,
+      balance: balance,
+      locked: locked,
+      coinable: coinable,
+      hot: hot
+    }
+  end
 end
