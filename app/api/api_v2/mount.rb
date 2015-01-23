@@ -34,7 +34,7 @@ module APIv2
     mount Trades
     mount K
 
-    base_path = Rails.env.production? ? "#{ENV['URL_SCHEMA']}://#{ENV['URL_HOST']}" : nil
+    base_path = Rails.env.production? ? "#{ENV['URL_SCHEMA']}://#{ENV['URL_HOST']}/#{PREFIX}" : PREFIX
     add_swagger_documentation base_path: base_path,
       mount_path: '/doc/swagger', api_version: 'v2',
       hide_documentation_path: true
