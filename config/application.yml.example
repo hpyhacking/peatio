@@ -28,6 +28,7 @@ defaults: &defaults
   OPERATE_MAIL_TO: support@peatio.dev
 
   # WebSocket Streaming API settings
+  # --------------------------------------------------------------
   WEBSOCKET_HOST: 0.0.0.0
   WEBSOCKET_PORT: 8080
   # Uncomment below to enable secure WebSocket (wss)
