@@ -187,7 +187,7 @@ describe Matching::Engine do
   end
 
   context "dryrun" do
-    subject { Matching::Engine.new(market) }
+    subject { Matching::Engine.new(market, mode: :dryrun) }
 
     it "should not publish matched trades" do
       AMQPQueue.expects(:enqueue).never
