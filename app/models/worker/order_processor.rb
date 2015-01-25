@@ -15,6 +15,9 @@ module Worker
       else
         raise ArgumentError, "Unrecogonized action: #{payload['action']}"
       end
+    rescue
+      SystemMailer.order_processor_error(payload, $!.message, $!.backtrace.join("\n")).deliver
+      raise $!
     end
 
     def check_and_cancel(attrs)
@@ -38,6 +41,8 @@ module Worker
           @cancel_queue << attrs
         end
       end
+
+      Rails.logger.info "Cancel queue size: #{@cancel_queue.size}"
     rescue
       Rails.logger.debug "Failed to process cancel job: #{$!}"
       Rails.logger.debug $!.backtrace.join("\n")
