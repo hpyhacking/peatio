@@ -18,6 +18,13 @@ class SystemMailer < BaseMailer
     mail subject: "Trade execute error: #{@error}"
   end
 
+  def order_processor_error(payload, error, backtrace)
+    @payload   = payload
+    @error     = error
+    @backtrace = backtrace
+    mail subject: "Order processor error: #{@error}"
+  end
+
   def daily_stats(ts, stats, base)
     @stats = stats
     @base  = base
