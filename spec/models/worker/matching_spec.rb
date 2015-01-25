@@ -110,6 +110,8 @@ describe Worker::Matching do
     let!(:ask) { create(:order_ask, price: '4000', volume: '3.0', member: alice) }
     let!(:bid) { create(:order_bid, price: '4001', volume: '8.0', member: bob) }
 
+    subject { Worker::Matching.new(mode: :dryrun) }
+
     context "very old orders matched" do
       before do
         ask.update_column :created_at, 1.day.ago

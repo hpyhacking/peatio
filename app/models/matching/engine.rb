@@ -9,9 +9,9 @@ module Matching
       @orderbook = OrderBookManager.new(market.id)
 
       # Engine is able to run in different mode:
-      # dryrun: do the match, do not publish the trades (default)
-      # run:    do the match, publish the trades
-      shift_gears(options[:mode] || :dryrun)
+      # dryrun: do the match, do not publish the trades
+      # run:    do the match, publish the trades (default)
+      shift_gears(options[:mode] || :run)
     end
 
     def submit(order)

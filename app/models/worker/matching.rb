@@ -9,7 +9,8 @@ module Worker
       end
     end
 
-    def initialize
+    def initialize(options={})
+      @options = options
       reload 'all'
     end
 
@@ -65,7 +66,7 @@ module Worker
     end
 
     def create_engine(market)
-      engines[market.id] = ::Matching::Engine.new(market, mode: :run)
+      engines[market.id] = ::Matching::Engine.new(market, @options)
     end
 
     def load_orders(market)
