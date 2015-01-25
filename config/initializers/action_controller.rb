@@ -13,8 +13,10 @@ class ActionController::Base
   end
 
   def set_redirect_to
-    uri = URI(request.url)
-    cookies[:redirect_to] = "#{uri.path}?#{uri.query}"
+    if request.get?
+      uri = URI(request.url)
+      cookies[:redirect_to] = "#{uri.path}?#{uri.query}"
+    end
   end
 
 end
