@@ -847,6 +847,7 @@ zh-CN:
         funds: "资金管理"
         signout: "安全退出"
         settings: "账户设置"
+        history: "历史记录"
       account_summary:
         title: 总资产约
         account: 账号

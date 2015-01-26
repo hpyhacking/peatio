@@ -864,6 +864,7 @@ en:
         funds: "Funds"
         signout: "Sign Out"
         settings: "Profile"
+        history: "History"
       account_summary:
         title: Summary
         account: Account
