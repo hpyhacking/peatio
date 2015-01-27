@@ -127,7 +127,7 @@ module ApplicationHelper
 
   def simple_vertical_form_for(record, options={}, &block)
     result = simple_form_for(record, options, &block)
-    result = result.gsub(/#{SimpleForm.form_class}/, "simple_form").html_safe
+    result = result.gsub(/#{SimpleForm.default_form_class}/, "simple_form").html_safe
     result.gsub(/col-xs-\d/, "").html_safe
   end
 
