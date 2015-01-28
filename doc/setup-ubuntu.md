@@ -115,10 +115,13 @@ Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to r
 
     sudo apt-get update
     sudo apt-get install build-essential chrpath git-core libssl-dev libfontconfig1-dev
-    git clone git://github.com/ariya/phantomjs.git
-    cd phantomjs
-    git checkout 1.9
-    ./build.sh
+    cd /usr/local/share
+    PHANTOMJS_VERISON=1.9.8
+    sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOMJS_VERISON-linux-x86_64.tar.bz2
+    sudo tar xjf phantomjs-$PHANTOMJS_VERISON-linux-x86_64.tar.bz2
+    sudo ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERISON-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs
+    sudo ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERISON-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
+    sudo ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERISON-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
 
 ### Step 7: Install JavaScript Runtime
 
