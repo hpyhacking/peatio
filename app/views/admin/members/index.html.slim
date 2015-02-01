@@ -23,7 +23,7 @@
         - t.column 'Email/Phone', class: 'col-xs-2' do |x|
           code.text-info = x.email || x.phone_number
         - t.column :created_at, class: 'col-xs-3'
-        - t.column :activated?, class: 'col-xs-1' do |x|
+        - t.column :email_activated?, class: 'col-xs-1' do |x|
           = yesno x.activated?
         - t.column 'Disabled? (Web/API)', class: 'col-xs-1' do |x|
           - text = x.disabled? ? 'Yes' : 'No'
