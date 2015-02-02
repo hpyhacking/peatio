@@ -5,7 +5,7 @@
     @reqK gon.market.id, data['x']
 
   @reqK = (market, minutes, limit = 1024) ->
-    tid = if @last_tid then @last_tid else gon.trades[0].tid
+    tid = if @last_tid then @last_tid+1 else gon.trades[0].tid
     url = "/api/v2/k_with_pending_trades.json?market=#{market}&limit=#{limit}&period=#{minutes}&trade_id=#{tid}"
     $.getJSON url, (data) =>
       @handleData(data, minutes)
