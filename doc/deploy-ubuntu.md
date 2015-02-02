@@ -226,6 +226,8 @@ More details to visit [pusher official website](http://pusher.com)
     # You can do the same when you start all daemons:
     TRADE_EXECUTOR=4 rake daemons:start
 
+When daemons don't work, check `log/#{daemon name}.rb.output` or `log/peatio:amqp:#{daemon name}.output` for more information (suffix is '.output', not '.log').
+
 **SSL Certificate setting**
 
 For security reason, you must setup SSL Certificate for production environment, if your SSL Certificated is been configured, please change the following line at `config/environments/production.rb`
