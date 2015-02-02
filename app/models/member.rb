@@ -103,7 +103,7 @@ class Member < ActiveRecord::Base
 
     def format_phone_number(number, country)
       country ||= "CN"
-      Phonelib.parse([ISO3166::Country[country].try(:country_code), number].join).sanitized.to_s
+      Phonelib.parse([ISO3166::Country[country].try(:country_code), number].join).sanitized.to_s if number
     end
   end
 
