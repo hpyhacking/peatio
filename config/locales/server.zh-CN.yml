@@ -1027,6 +1027,7 @@ zh-CN:
           amount: 最低金额100元
       session:
         email: 邮箱地址
+        password: 密码
       identity:
         email: 例如：xiaobai@example.com
         password: 请设置登录密码

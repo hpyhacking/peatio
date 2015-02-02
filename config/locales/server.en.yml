@@ -1064,7 +1064,7 @@ en:
           amount: Minimum amount 100
       session:
         email: E-mail Address
-        password: ''
+        password: Password
       identity:
         email: Example：xiaobai@example.com
         password: Please set your login password
