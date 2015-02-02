@@ -2,10 +2,10 @@
 
   @load = (event, data) ->
     @trigger 'market::candlestick::request'
-    @reqK gon.market.id, gon.trades[gon.trades.length-1], data['x']
+    @reqK gon.market.id, data['x']
 
-  @reqK = (market, trade, minutes, limit = 1024) ->
-    tid = if trade then trade.tid else 0
+  @reqK = (market, minutes, limit = 1024) ->
+    tid = if @last_tid then @last_tid else gon.trades[0].tid
     url = "/api/v2/k_with_pending_trades.json?market=#{market}&limit=#{limit}&period=#{minutes}&trade_id=#{tid}"
     $.getJSON url, (data) =>
       @handleData(data, minutes)
@@ -123,7 +123,7 @@
         # if there's no trade received in 5 minutes, request server side data
         if ts > @updated_at + 300
           @refreshUpdatedAt()
-          @reqK gon.market.id, gon.trades[gon.trades.length-1], @minutes
+          @reqK gon.market.id, @minutes
 
     @interval = setInterval deliver, 999
 

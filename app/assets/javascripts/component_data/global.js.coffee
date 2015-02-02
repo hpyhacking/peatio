@@ -102,5 +102,7 @@ window.GlobalData = flight.component ->
       @trigger 'market::order_book::update', asks: gon.asks, bids: gon.bids
       @refreshDepth asks: gon.asks, bids: gon.bids 
 
-    if gon.trades
+    if gon.trades # is in desc order initially
+      # .reverse() will modify original array! It makes gon.trades sorted
+      # in asc order afterwards
       @trigger 'market::trades', trades: gon.trades.reverse()
