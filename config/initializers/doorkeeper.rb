@@ -5,7 +5,8 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
-    if user = Member.enabled.where(id: session[:member_id]).first
+    user = Member.enabled.where(id: session[:member_id]).first
+    if user && user.activated?
       Member.current = user
     else
       set_redirect_to
@@ -16,7 +17,7 @@ Doorkeeper.configure do
   # If you want to restrict access to the web interface for adding oauth authorized applications, you need to declare the block below.
   admin_authenticator do
     user = Member.enabled.where(id: session[:member_id]).first
-    if user && user.admin?
+    if user && user.activated? && user.admin?
       Member.current = user
     else
       set_redirect_to
