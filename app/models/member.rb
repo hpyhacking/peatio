@@ -146,7 +146,7 @@ class Member < ActiveRecord::Base
     return unless phone_number.present?
     ActiveRecord::Base.transaction do
       update_attributes phone_number_activated: true
-      touch_sms_channel
+      touch_sms_channels
       if !identity_phone_number && identity_email && !Identity.where(login: self.phone_number).any?
         i = Identity.new(login: self.phone_number, password_digest: identity_email.password_digest,
                          login_type: 'phone_number')
@@ -215,7 +215,7 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def touch_sms_channel
+  def touch_sms_channels
     SmsChannel::SUPORT_NOTIFY_TYPE.each do |snt|
       self.sms_channels.create(notify_type: snt)
     end
