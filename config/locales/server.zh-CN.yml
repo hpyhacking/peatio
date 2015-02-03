@@ -258,6 +258,11 @@ zh-CN:
           attributes:
             otp:
               invalid: 密码有误，请重新输入。
+              taken: 正确, 但此号码已经被其他用户占用.
+        identity:
+          attributes:
+            login:
+              number_taken: 号码已被占用
         application:
           attributes:
             redirect_uri:

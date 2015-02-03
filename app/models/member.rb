@@ -144,6 +144,7 @@ class Member < ActiveRecord::Base
 
   def active_phone_number!
     return if phone_number_activated
+    return unless phone_number.present?
     ActiveRecord::Base.transaction do
       update_attributes phone_number_activated: true
       if !identity_phone_number && identity_email && !Identity.where(login: self.phone_number).any?

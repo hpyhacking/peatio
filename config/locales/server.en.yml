@@ -255,6 +255,11 @@ en:
           attributes:
             otp:
               invalid: Wrong Password!Please re-enter.
+              taken: is right, but the number has been taken by other user.
+        identity:
+          attributes:
+            login:
+              number_taken: Phone number has already been taken.
         application:
           attributes:
             redirect_uri:

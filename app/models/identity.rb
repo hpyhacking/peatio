@@ -16,6 +16,7 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
 
   before_validation :sanitize
   before_validation :set_login_type
+  before_create :check_if_number_has_been_taken
   before_create :format_phone_number_login
 
   attr_accessor :country
@@ -62,6 +63,16 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
       self.login_type = 'phone_number'
     else
       self.login_type = nil
+    end
+  end
+
+  def check_if_number_has_been_taken
+    if self.login_type == 'phone_number'
+      number = Phonelib.parse([ISO3166::Country[self.country].try(:country_code), self.login].join)
+      if Member.where(phone_number: number.original).any?
+        errors.add :login, :number_taken
+        false
+      end
     end
   end
 
