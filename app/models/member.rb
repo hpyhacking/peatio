@@ -210,13 +210,13 @@ class Member < ActiveRecord::Base
   end
 
   def touch_notification_channels
-    if self.email_activated_changed? && self.email_activated == true
+    if self.email_activated_changed? && !!self.email_activated
       EmailChannel::SUPORT_NOTIFY_TYPE.each do |snt|
         self.email_channels.create(notify_type: snt)
       end
     end
 
-    if self.phone_number_activated_changed? && self.phone_number_activated == true
+    if self.phone_number_activated_changed? && !!self.phone_number_activated
       SmsChannel::SUPORT_NOTIFY_TYPE.each do |snt|
         self.sms_channels.create(notify_type: snt)
       end
