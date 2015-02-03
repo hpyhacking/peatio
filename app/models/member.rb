@@ -35,7 +35,7 @@ class Member < ActiveRecord::Base
   validates :phone_number, uniqueness: true, allow_nil: true
 
   before_create :build_default_id_document
-  after_create :touch_notification_channels
+  after_save :touch_notification_channels
   after_create  :touch_accounts
   after_update :resend_activation
   after_update :sync_update
@@ -210,12 +210,16 @@ class Member < ActiveRecord::Base
   end
 
   def touch_notification_channels
-    EmailChannel::SUPORT_NOTIFY_TYPE.each do |snt|
-      self.email_channels.create(notify_type: snt)
+    if self.email_activated_changed? && self.email_activated == true
+      EmailChannel::SUPORT_NOTIFY_TYPE.each do |snt|
+        self.email_channels.create(notify_type: snt)
+      end
     end
 
-    SmsChannel::SUPORT_NOTIFY_TYPE.each do |snt|
-      self.sms_channels.create(notify_type: snt)
+    if self.phone_number_activated_changed? && self.phone_number_activated == true
+      SmsChannel::SUPORT_NOTIFY_TYPE.each do |snt|
+        self.sms_channels.create(notify_type: snt)
+      end
     end
   end
 
