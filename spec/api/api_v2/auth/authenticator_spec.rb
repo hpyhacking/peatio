@@ -62,13 +62,22 @@ describe APIv2::Auth::Authenticator do
   it "should be invalid if tonce is not within 30s" do
     params[:tonce] = time_to_milliseconds(31.seconds.ago)
     lambda {
-      subject.check_tonce!
+      Authenticator.new(request, params).check_tonce!
     }.should raise_error(APIv2::InvalidTonceError)
 
     params[:tonce] = time_to_milliseconds(31.seconds.since)
     lambda {
-      subject.check_tonce!
+      Authenticator.new(request, params).check_tonce!
     }.should raise_error(APIv2::InvalidTonceError)
+  end
+
+  it "should not be authentic on repeated tonce" do
+    params[:tonce] = time_to_milliseconds(Time.now)
+    subject.check_tonce!
+
+    lambda {
+      subject.check_tonce!
+    }.should raise_error(APIv2::TonceUsedError)
   end
 
   it "should not be authentic for invalid token" do
