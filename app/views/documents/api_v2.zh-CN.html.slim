@@ -45,7 +45,7 @@
         td 你的access key
       tr
         td tonce
-        td tonce是一个用正整数表示的时间戳，代表了从<a href='http://en.wikipedia.org/wiki/Unix_epoch'>Unix epoch</a>到当前时间所经过的毫秒(ms)数。tonce必须是递增的, 你的每一个Private API请求的tonce都必须大于前一个请求的tonce。
+        td tonce是一个用正整数表示的时间戳，代表了从<a href='http://en.wikipedia.org/wiki/Unix_epoch'>Unix epoch</a>到当前时间所经过的毫秒(ms)数。tonce与服务器时间不得超过正负30秒。一个tonce只能使用一次。
       tr
         td signature
         td 使用你的secret key生成的签名
