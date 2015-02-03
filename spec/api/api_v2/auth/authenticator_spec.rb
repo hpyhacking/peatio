@@ -49,7 +49,7 @@ describe APIv2::Auth::Authenticator do
     params[:signature] = APIv2::Auth::Utils.hmac_signature(token.secret_key, "GET|/|access_key=#{token.access_key}&foo=bar&hello=world&tonce=")
     lambda {
       subject.authenticate!
-    }.should raise_error(APIv2::TonceTooOldError)
+    }.should raise_error(APIv2::InvalidTonceError)
   end
 
   it "should return false on unmatched signature" do
@@ -59,16 +59,22 @@ describe APIv2::Auth::Authenticator do
     }.should raise_error(APIv2::IncorrectSignatureError)
   end
 
-  it "should be stale if tonce is older than 5 minutes ago" do
-    params[:tonce] = time_to_milliseconds(6.minutes.ago)
+  it "should be invalid if tonce is not within 30s" do
+    params[:tonce] = time_to_milliseconds(31.seconds.ago)
     lambda {
-      subject.check_tonce!
-    }.should raise_error(APIv2::TonceTooOldError)
+      Authenticator.new(request, params).check_tonce!
+    }.should raise_error(APIv2::InvalidTonceError)
+
+    params[:tonce] = time_to_milliseconds(31.seconds.since)
+    lambda {
+      Authenticator.new(request, params).check_tonce!
+    }.should raise_error(APIv2::InvalidTonceError)
   end
 
-  it "should be stale if tonce is smaller than last seen" do
+  it "should not be authentic on repeated tonce" do
+    params[:tonce] = time_to_milliseconds(Time.now)
     subject.check_tonce!
-    subject.stubs(:tonce).returns(time_to_milliseconds(1.second.ago))
+
     lambda {
       subject.check_tonce!
     }.should raise_error(APIv2::TonceUsedError)
