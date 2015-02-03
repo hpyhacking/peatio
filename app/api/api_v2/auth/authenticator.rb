@@ -33,19 +33,10 @@ module APIv2
       end
 
       def check_tonce!
-        key = "api_v2:tonce:#{token.access_key}"
-        last_tonce = Utils.cache.read key
-
-        if last_tonce && last_tonce >= tonce
-          Rails.logger.warn "APIv2 auth failed: used tonce. token: #{token.access_key} payload: #{payload} tonce: #{tonce} last_tonce: #{last_tonce}"
-          raise TonceUsedError.new(token.access_key, tonce, last_tonce)
-        end
-        Utils.cache.write key, tonce, nil
-
-        timestamp = Time.at(tonce / 1000.0)
-        if timestamp <= 5.minutes.ago
-          Rails.logger.warn "APIv2 auth failed: stale tonce. token: #{token.access_key} payload: #{payload} tonce: #{tonce} last_tonce: #{last_tonce}"
-          raise TonceTooOldError, tonce
+        now = Time.now.to_i*1000
+        if tonce < now-30000 || tonce > now+30000
+          Rails.logger.warn "APIv2 auth failed: invalid tonce. token: #{token.access_key} payload: #{payload} tonce: #{tonce} current timestamp: #{now}"
+          raise InvalidTonceError.new(tonce, now)
         end
       end
 
