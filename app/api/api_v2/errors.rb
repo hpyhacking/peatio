@@ -63,6 +63,12 @@ module APIv2
     end
   end
 
+  class TonceUsedError < Error
+    def initialize(access_key, tonce)
+      super code: 2006, text: "The tonce #{tonce} has already been used by access key #{access_key}.", status: 401
+    end
+  end
+
   class InvalidTonceError < Error
     def initialize(tonce, now)
       super code: 2007, text: "The tonce #{tonce} is invalid, current timestamp is #{now}.", status: 401
