@@ -35,7 +35,6 @@ class Member < ActiveRecord::Base
   validates :phone_number, uniqueness: true, allow_nil: true
 
   before_create :build_default_id_document
-  after_save :touch_notification_channels
   after_create  :touch_accounts
   after_update :resend_activation
   after_update :sync_update
@@ -107,7 +106,6 @@ class Member < ActiveRecord::Base
     end
   end
 
-
   def create_auth_for_identity(identity)
     self.authentications.create(provider: 'identity', uid: identity.id)
   end
@@ -132,6 +130,7 @@ class Member < ActiveRecord::Base
     return if email_activated
     ActiveRecord::Base.transaction do
       update_attributes email_activated: true
+      touch_email_channels
       if !identity_email && identity_phone_number && !Identity.where(login: self.email).any?
         i = Identity.new(login: self.email, password_digest: identity_phone_number.password_digest,
                         login_type: 'email')
@@ -147,6 +146,7 @@ class Member < ActiveRecord::Base
     return unless phone_number.present?
     ActiveRecord::Base.transaction do
       update_attributes phone_number_activated: true
+      touch_sms_channel
       if !identity_phone_number && identity_email && !Identity.where(login: self.phone_number).any?
         i = Identity.new(login: self.phone_number, password_digest: identity_email.password_digest,
                          login_type: 'phone_number')
@@ -209,17 +209,15 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def touch_notification_channels
-    if self.email_activated_changed? && !!self.email_activated
-      EmailChannel::SUPORT_NOTIFY_TYPE.each do |snt|
-        self.email_channels.create(notify_type: snt)
-      end
+  def touch_email_channels
+    EmailChannel::SUPORT_NOTIFY_TYPE.each do |snt|
+      self.email_channels.create(notify_type: snt)
     end
+  end
 
-    if self.phone_number_activated_changed? && !!self.phone_number_activated
-      SmsChannel::SUPORT_NOTIFY_TYPE.each do |snt|
-        self.sms_channels.create(notify_type: snt)
-      end
+  def touch_sms_channel
+    SmsChannel::SUPORT_NOTIFY_TYPE.each do |snt|
+      self.sms_channels.create(notify_type: snt)
     end
   end
 
