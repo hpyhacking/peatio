@@ -6,14 +6,16 @@ class TwoFactor::Sms < ::TwoFactor
   validate :valid_phone_number_for_country
 
   def verify?
-    if !expired? && otp_secret == otp && member.phone_number
+    if !expired? && otp_secret == otp
+      if member.phone_number.blank?
+        errors.add :otp, :taken
+        return false
+      end
       touch(:last_verify_at)
       true
     else
       if otp.blank?
         errors.add :otp, :blank
-      elsif member.phone_number.blank?
-        errors.add :otp, :taken
       else
         errors.add :otp, :invalid
       end
@@ -28,7 +30,12 @@ class TwoFactor::Sms < ::TwoFactor
   def send_otp
     refresh! if expired?
     update_phone_number_to_member if send_code_phase
-    AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message) if member.phone_number
+    if member.reload.phone_number
+      AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
+      true
+    else
+      false
+    end
   end
 
   def active!

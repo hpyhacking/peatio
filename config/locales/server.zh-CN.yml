@@ -1787,6 +1787,7 @@ zh-CN:
         submit: 绑定手机号码
         notice:
           send_code_success: 手机短信验证码已发送。
+          already_taken: 此号码已被使用。
           otp_success: 手机短信验证码验证成功。
           already_activated: 您的手机号码已绑定成功。
         alert:

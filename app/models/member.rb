@@ -150,6 +150,7 @@ class Member < ActiveRecord::Base
       if !identity_phone_number && identity_email && !Identity.where(login: self.phone_number).any?
         i = Identity.new(login: self.phone_number, password_digest: identity_email.password_digest,
                          login_type: 'phone_number')
+        i.skip_taken_check = true
         i.save(validate: false)
         a = self.authentications.new(provider: 'identity', uid: i.id)
         a.save!

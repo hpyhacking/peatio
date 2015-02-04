@@ -1864,6 +1864,7 @@ en:
         submit: Save
         notice:
           send_code_success: Send verify code success
+          already_taken: This number has already been taken.
           otp_success: Verify Code success.
           already_activated: You phone number has been activated.
         alert:

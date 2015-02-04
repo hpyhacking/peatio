@@ -35,10 +35,13 @@ module Verify
 
       respond_to do |format|
         if @sms_auth.valid?
-          @sms_auth.send_otp
-
-          text = I18n.t('verify.sms_auths.show.notice.send_code_success')
-          format.any { render status: :ok, text: {text: text}.to_json }
+          if @sms_auth.send_otp
+            text = I18n.t('verify.sms_auths.show.notice.send_code_success')
+            format.any { render status: :ok, text: {text: text}.to_json }
+          else
+            text = I18n.t('verify.sms_auths.show.notice.already_taken')
+            format.any { render status: :bad_request, text: {text: text}.to_json }
+          end
         else
           text = @sms_auth.errors.full_messages.to_sentence
           format.any { render status: :bad_request, text: {text: text}.to_json }
