@@ -52,9 +52,8 @@ You must know what you're doing, there's no shortcut. We highly recommend you ge
 
 * [Yunbi Exchange](https://yunbi.com) - A crypto-currency exchange funded by BitFundPE
 * [One World Coin](https://oneworldcoin.com)
-* [MarsX.io](https://acx.io) - Australian Cryptocurrency Exchange
 * [Bitspark](https://bitspark.io) - Bitcoin Exchange in Hong Kong
-* [Yes-BTC](http://www.yes-btc.com) - Bitcoin Exchange in Taiwan
+* [MarsX.io](https://acx.io) - Australian Cryptocurrency Exchange
 * [Mulcoin.com](http://mulcoin.com)
 * ecoinz.info (Launch soon) - New Zealand Cryptocurrency Exchange
 
