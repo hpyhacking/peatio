@@ -35,7 +35,26 @@ RANGE_DEFAULT =
       style:
         color: '#eee'
 
-TYPE      = {candlestick: false, close: false}
+COLOR_ON =
+  candlestick:
+    color: '#990f0f'
+    upColor: '#000000'
+    lineColor: '#cc1414'
+    upLineColor: '#49c043'
+  close:
+    color: null
+
+# The trick is use invalid color code to make the line transparent
+COLOR_OFF =
+  candlestick:
+    color: 'invalid'
+    upColor: 'invalid'
+    lineColor: 'invalid'
+    upLineColor: 'invalid'
+  close:
+    color: 'invalid'
+
+COLOR = {candlestick: COLOR_OFF.candlestick, close: COLOR_OFF.close}
 INDICATOR = {MA: false, EMA: false}
 
 @CandlestickUI = flight.component ->
@@ -56,14 +75,15 @@ INDICATOR = {MA: false, EMA: false}
     @trigger 'market::candlestick::created', data
 
   @switchType = (event, data) ->
-    TYPE[key] = false for key, val of TYPE
-    TYPE[data.x] = true
+    COLOR[key] = COLOR_OFF[key] for key, val of COLOR
+    COLOR[data.x] = COLOR_ON[data.x]
 
     if chart = @$node.find('#candlestick_chart').highcharts()
-      for type, visible of TYPE
+      for type, colors of COLOR
         for s in chart.series
           if !s.userOptions.algorithm? && (s.userOptions.id == type)
-            s.setVisible(visible, false)
+            _.extend s.options, colors
+            s.update(s.options)
       @trigger "switch::main_indicator_switch::init"
 
   @switchMainIndicator = (event, data) ->
@@ -248,23 +268,21 @@ INDICATOR = {MA: false, EMA: false}
       ]
 
       series: [
-        {
+        _.extend({
           id: 'candlestick'
           name: gon.i18n.chart.candlestick
           type: "candlestick"
           data: data['candlestick']
           showInLegend: false
-          visible: TYPE['candlestick']
-        }
-        {
+        }, COLOR['candlestick']),
+        _.extend({
           id: 'close'
           type: 'spline'
           data: data['close']
           showInLegend: false
-          visible: TYPE['close']
           marker:
             radius: 0
-        }
+        }, COLOR['close']),
         {
           id: 'volume'
           name: gon.i18n.chart.volume
@@ -364,16 +382,29 @@ INDICATOR = {MA: false, EMA: false}
   @formatPointArray = (point) ->
     x: point[0], open: point[1], high: point[2], low: point[3], close: point[4]
 
+  @createPointOnSeries = (chart, i, px, point) ->
+    chart.series[i].addPoint(point, true, true)
+    #last = chart.series[i].points[chart.series[i].points.length-1]
+    #console.log "Add point on #{i}: px=#{px} lastx=#{last.x}"
+
   @createPoint = (chart, data, i) ->
-    chart.series[0].addPoint(data.candlestick[i], false)
-    chart.series[1].addPoint(data.close[i], false)
-    chart.series[2].addPoint(data.volume[i], false)
+    @createPointOnSeries(chart, 0, data.candlestick[i][0], data.candlestick[i])
+    @createPointOnSeries(chart, 1, data.close[i][0], data.close[i])
+    @createPointOnSeries(chart, 2, data.volume[i].x, data.volume[i])
     chart.redraw(true)
 
+  @updatePointOnSeries = (chart, i, px, point) ->
+    if chart.series[i].points
+      last = chart.series[i].points[chart.series[i].points.length-1]
+      if px == last.x
+        last.update(point, false)
+      else
+        console.log "Error update on series #{i}: px=#{px} lastx=#{last.x}"
+
   @updatePoint = (chart, data, i) ->
-    chart.series[0].points[chart.series[0].points.length-1].update(@formatPointArray(data.candlestick[i]), false) if chart.series[0].points
-    chart.series[1].points[chart.series[1].points.length-1].update(data.close[i][1], false) if chart.series[1].points
-    chart.series[2].points[chart.series[2].points.length-1].update(data.volume[i], false) if chart.series[2].points
+    @updatePointOnSeries(chart, 0, data.candlestick[i][0], @formatPointArray(data.candlestick[i]))
+    @updatePointOnSeries(chart, 1, data.close[i][0], data.close[i][1])
+    @updatePointOnSeries(chart, 2, data.volume[i].x, data.volume[i])
     chart.redraw(true)
 
   @process = (chart, data) ->
@@ -383,10 +414,8 @@ INDICATOR = {MA: false, EMA: false}
 
       if data.candlestick[i][0] > current_point.x
         @createPoint chart, data, i
-      else if data.candlestick[i][0] == current_point.x
-        @updatePoint chart, data, i
       else
-        # ignore obsolete point
+        @updatePoint chart, data, i
 
   @updateByTrades = (event, data) ->
     chart = @$node.find('#candlestick_chart').highcharts()

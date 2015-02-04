@@ -105,7 +105,13 @@
 
   @deliverTrades = (event) ->
     @processTrades()
-    @trigger event, @points
+
+    # skip the first point
+    @trigger event,
+      minutes: @points.minutes
+      candlestick: @points.candlestick.slice(1)
+      close: @points.close.slice(1)
+      volume: @points.volume.slice(1)
 
     # we only need to keep the last 2 points for future calculation
     @points.close = @points.close.slice(-2)
