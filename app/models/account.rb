@@ -131,7 +131,7 @@ class Account < ActiveRecord::Base
 
   def examine
     expected = 0
-    versions.order(:id).find_each(batch_size: 100000) do |v|
+    versions.find_each(batch_size: 100000) do |v|
       expected += v.amount_change
       return false if expected != v.amount
     end
