@@ -80,11 +80,6 @@ class Global
     Rails.cache.read("peatio:#{currency}:trades") || []
   end
 
-  def since_trades(id)
-    trades ||= Trade.with_currency(currency).where("id > ?", id).order(:id).limit(LIMIT)
-    trades.map(&:for_global)
-  end
-
   def trigger_orderbook
     data = {asks: asks, bids: bids}
     Pusher.trigger_async(channel, "update", data)

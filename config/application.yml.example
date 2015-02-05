@@ -6,7 +6,6 @@ defaults: &defaults
   URL_HOST: peatio.dev
   URL_SCHEMA: http
   SESSION_EXPIRE: 60
-  API_WHITELIST: []
   ADMIN: 'admin@peatio.dev,admin@example.com'
   TIMEZONE: 'Beijing'
 

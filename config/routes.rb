@@ -128,16 +128,6 @@ Peatio::Application.routes.draw do
 
   draw :admin
 
-  constraints(WhitelistConstraint.new(JSON.parse(Figaro.env.try(:api_whitelist) || '[]'))) do
-    namespace :api, defaults: {format: 'json'}, :constraints => MarketConstraint do
-      scope module: :v1 do
-        resources :deeps, :only => :show
-        resources :trades, :only => :show
-        resources :tickers, :only => :show
-      end
-    end
-  end
-
   mount APIv2::Mount => APIv2::Mount::PREFIX
 
 end
