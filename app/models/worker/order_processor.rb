@@ -21,11 +21,26 @@ module Worker
     end
 
     def check_and_cancel(attrs)
-      order = Order.find attrs['id']
-      if order.volume == attrs['volume'].to_d # all trades has been processed
-        Ordering.new(order).cancel!
-        puts "Order##{order.id} cancelled."
-        true
+      retry_count = 5
+      begin
+        order = Order.find attrs['id']
+        if order.volume == attrs['volume'].to_d # all trades has been processed
+          Ordering.new(order).cancel!
+          puts "Order##{order.id} cancelled."
+          true
+        end
+      rescue ActiveRecord::StatementInvalid
+        # in case: Mysql2::Error: Lock wait timeout exceeded
+        if retry_count > 0
+          sleep 0.5
+          retry_count -= 1
+          puts $!
+          puts "Retry order.cancel! (#{retry_count} retry left) .."
+          retry
+        else
+          puts "Failed to cancel order##{order.id}"
+          raise $!
+        end
       end
     rescue Ordering::CancelOrderError
       puts "Skipped: #{$!}"
