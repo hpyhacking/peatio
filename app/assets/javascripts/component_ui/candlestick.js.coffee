@@ -54,7 +54,10 @@ COLOR_OFF =
   close:
     color: 'invalid'
 
-COLOR = {candlestick: COLOR_OFF.candlestick, close: COLOR_OFF.close}
+COLOR = {
+  candlestick: _.extend({}, COLOR_OFF.candlestick),
+  close: _.extend({}, COLOR_OFF.close)
+}
 INDICATOR = {MA: false, EMA: false}
 
 @CandlestickUI = flight.component ->
@@ -75,15 +78,14 @@ INDICATOR = {MA: false, EMA: false}
     @trigger 'market::candlestick::created', data
 
   @switchType = (event, data) ->
-    COLOR[key] = COLOR_OFF[key] for key, val of COLOR
-    COLOR[data.x] = COLOR_ON[data.x]
+    _.extend(COLOR[key], COLOR_OFF[key]) for key, val of COLOR
+    _.extend(COLOR[data.x], COLOR_ON[data.x])
 
     if chart = @$node.find('#candlestick_chart').highcharts()
       for type, colors of COLOR
         for s in chart.series
           if !s.userOptions.algorithm? && (s.userOptions.id == type)
-            _.extend s.options, colors
-            s.update(s.options)
+            s.update(colors, false)
       @trigger "switch::main_indicator_switch::init"
 
   @switchMainIndicator = (event, data) ->
