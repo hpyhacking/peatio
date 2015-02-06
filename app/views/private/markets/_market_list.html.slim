@@ -2,18 +2,30 @@
   .panel-body.panel-body-head
     table.table
       thead: tr
-        th.col-xs-6.name = t('.name')
-        th.col-xs-5.text-right.price = t('.price')
+        - if @market_groups.size == 1
+          th.col-xs-7
+            span.name = t('.name')
+        - else
+          th.col-xs-7 style="position: relative"
+            a.dropdown-toggle href="javascript:;" data-toggle="dropdown"
+              span.name = t('.all')
+              span.caret
+            ul.dropdown-menu role="menu" style="min-width: initial;"
+              li
+                a data-name='all' href="javascript:;" = t('.all')
+              - @market_groups.each do |name|
+                li
+                  a data-name=name href="javascript:;" = t(".#{name}")
+        th.col-xs-4.text-right.price = t('.price')
         th.col-xs-5.text-right.change = t('.change')
   .panel-body.panel-body-content
-    table.table.table-hover
+    table.table.table-hover.markets.all
       tbody
         - @markets.each do |market|
-          - ticker = Global[market.id].ticker
-          tr.market id="market-list-#{market.id}" data-market=market.id
+          tr.market id="market-list-#{market.id}" class="quote-#{market.quote_unit}" data-market=market.id
             td.col-xs-6.name
               = link_to market.name, market_path(market)
             td.col-xs-5.price
-              = ticker[:last]
+              = Global[market.id].ticker[:last]
             td.col-xs-5.change
               | +0.00%

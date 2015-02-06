@@ -1,10 +1,25 @@
 window.MarketSwitchUI = flight.component ->
   @attributes
     table: 'tbody'
+    marketGroupName: '.panel-body-head thead span.name'
+    marketGroupItem: '.dropdown-menu li a'
+    marketsTable: '.table.markets'
+
+  @switchMarketGroup = (event, item) ->
+    item = $(event.target)
+    name = item.data('name')
+    @select('marketGroupName').text I18n.t("markets.market_list.#{name}")
+    @select('marketsTable').attr("class", "table table-hover markets #{name}")
 
   @updateMarket = (select, ticker) ->
     trend = formatter.trend ticker.last_trend
-    select.find('td.price').html("<span class='#{trend}'>#{formatter.ticker_price ticker.last}</span>")
+
+    fraction = ticker.last.split('.')[1]
+    if fraction and fraction.length > 5
+      decimalPlaces = fraction.length
+    else
+      decimalPlaces = 5
+    select.find('td.price').html("<span class='#{trend}'>#{formatter.ticker_price ticker.last, decimalPlaces}</span>")
 
     p1 = parseFloat(ticker.open)
     p2 = parseFloat(ticker.last)
@@ -20,6 +35,8 @@ window.MarketSwitchUI = flight.component ->
 
   @after 'initialize', ->
     @on document, 'market::tickers', @refresh
+    @on @select('marketGroupItem'), 'click', @switchMarketGroup
+
     @select('table').on 'click', 'tr', (e) ->
       unless e.target.nodeName == 'I'
         window.location.href = window.formatter.market_url($(@).data('market'))
