@@ -787,6 +787,9 @@ en:
         chat: Chat Channel
       market_list:
         name: Market
+        all: All Market
+        cny: CNY Market
+        btc: BTC Market
         price: Price
         change: "24h %"
       range_switch:

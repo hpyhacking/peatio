@@ -144,6 +144,7 @@ zh-CN:
         two_factor_activated?: "二次验证"
         phone_number: 手机号码
       two_factor/sms:
+        country: 国家
         phone_number: 手机号码
         otp: 验证码
       withdraws/bank:
@@ -764,6 +765,9 @@ zh-CN:
         chat: 聊天频道
       market_list:
         name: 交易对
+        all: 全部交易对
+        cny: CNY交易对
+        btc: BTC交易对
         price: 最新价
         change: "24h涨跌"
       range_switch:
@@ -822,6 +826,8 @@ zh-CN:
         new: 未成交
         partial: 部分成交
       market_trades:
+        all: 所有成交
+        my: 我的成交
         all_html: "<i class='fa fa-check'></i><span>所有成交</span>"
         my_html: "<i class='fa fa-check'></i><span>我的成交</span>"
         time: 成交时间

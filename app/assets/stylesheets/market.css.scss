@@ -16,36 +16,36 @@
 
 @import 'layouts/basic';
 
-/* basic layout 
+/* basic layout
 ------------------------------------------------ */
 
 html,
-body, 
-#wrap, 
-.content { 
-  height: 100%; 
+body,
+#wrap,
+.content {
+  height: 100%;
   @include user-select(none);
 }
 
-body { 
+body {
   min-width: $min-width !important;
-  min-height: $min-height !important; 
+  min-height: $min-height !important;
 
-  // fixed icon spin 
+  // fixed icon spin
   -webkit-font-smoothing: antialiased !important;
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
   -webkit-tap-highlight-color: transparent !important;
   -webkit-focus-ring-color: transparent !important;
 
   * {
-    -webkit-font-smoothing: antialiased !important; 
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+    -webkit-font-smoothing: antialiased !important;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important;
     -webkit-tap-highlight-color: transparent !important;
     -webkit-focus-ring-color: transparent !important;
   }
 
-  a.hand-point { 
-    cursor: pointer; 
+  a.hand-point {
+    cursor: pointer;
     text-decoration: none;
   }
 }
@@ -74,7 +74,7 @@ header {
   }
 
   .bootstrap-switch.bootstrap-switch-mini.bootstrap-switch-animate {
-    margin-top: -2px; 
+    margin-top: -2px;
     border: none;
 
     & .bootstrap-switch-handle-on.bootstrap-switch-success {
@@ -139,7 +139,7 @@ header {
     }
   }
 
-  #settings { 
+  #settings {
     .dropdown-menu {
       @include header-dropdown;
       li:nth-child(1), li:nth-child(2) {
@@ -170,17 +170,17 @@ header {
 
   i.fa.fa-wifi { color: $text-color; }
 
-  .navbar-right { 
-    .dropdown-menu { 
-      right: -1px !important; 
-      padding: 0px !important; 
+  .navbar-right {
+    .dropdown-menu {
+      right: -1px !important;
+      padding: 0px !important;
     }
   }
 
-  .navbar-left { 
-    .dropdown-menu { 
-      left: -1px !important; 
-      padding: 0px !important; 
+  .navbar-left {
+    .dropdown-menu {
+      left: -1px !important;
+      padding: 0px !important;
     }
 
     span.vol, span.high, span.low, span.change {
@@ -209,7 +209,7 @@ header {
   min-height: $min-height - $navbar-height;
   width: 100%;
   height: 100%;
-  position: absolute; 
+  position: absolute;
   font-size: 14px !important;
   background-color: #000;
   font-family: $font-family-monospace;
@@ -227,7 +227,7 @@ header {
   height: 100%;
   z-index: 900;
   background-color: rgba(44,44,44,0.8);
-  table { 
+  table {
     width: 100%;
     height: 100%;
   }
@@ -250,14 +250,14 @@ header {
     &.tabs-left {
       left: 3px;
       li { float: right; } // turn tabs
-      @include transform(rotate(-90deg)); 
+      @include transform(rotate(-90deg));
       @include transform-origin(left bottom);
     }
 
     &.tabs-right {
       right: 3px;
-      li { float: left; } // turn tabs 
-      @include transform(rotate(90deg)); 
+      li { float: left; } // turn tabs
+      @include transform(rotate(90deg));
       @include transform-origin(right bottom);
     }
   }
@@ -274,9 +274,9 @@ header {
   width: 0px;
   .tab-content { display: none; }
 
-  &.hover, &.hover-force { 
-    width: $width; 
-    .tab-content { display: block; } 
+  &.hover, &.hover-force {
+    width: $width;
+    .tab-content { display: block; }
     .sideways.tabs-left { left: 1px; }
   }
 }
@@ -285,9 +285,9 @@ header {
   bottom: $gutter; left: $gutter;
   min-height: 300px;
   @include float-wrapper(260px, 300px);
-  &.stop-resize { 
-    height: 100px !important; 
-    min-height: 100px !important; 
+  &.stop-resize {
+    height: 100px !important;
+    min-height: 100px !important;
     & > ul { top: 140px }
   }
 }
@@ -324,7 +324,7 @@ header {
     }
   }
 
-  .panel-heading 
+  .panel-heading
 
   .panel-body.panel-fixed-table-head {
     table { margin-bottom: 0px; }
@@ -473,11 +473,11 @@ header {
 }
 
 #order_book {
-  width: $order-book-width; height: $order-book-height; 
+  width: $order-book-width; height: $order-book-height;
   min-height: $order-book-height;
   top: $gutter; right: $gutter;
 
-  .panel-body-content { 
+  .panel-body-content {
     min-height: $order-book-height - $panel_table_header_high;
   }
 
@@ -494,9 +494,9 @@ header {
   }
 }
 
-#candlestick { 
+#candlestick {
   position: absolute;
-  min-width: $candlestick-width; width: $candlestick-width; 
+  min-width: $candlestick-width; width: $candlestick-width;
   min-height: $candlestick-height; height: $candlestick-height;
   top: $gutter; left: $market-list-width + $gutter-2x;
 }
@@ -586,6 +586,13 @@ header {
     td.price {
       .fill { color: #333; }
     }
+
+    .markets {
+      tr { display: none; }
+      &.all { tr { display: block; } }
+      &.cny { tr.quote-cny { display: block; } }
+      &.btc { tr.quote-btc { display: block; } }
+    }
   }
 }
 
@@ -645,9 +652,9 @@ header {
     }
   }
 
-  .sideways li { 
-    direction: rtl; 
-    unicode-bidi: bidi-override; 
+  .sideways li {
+    direction: rtl;
+    unicode-bidi: bidi-override;
     v { display: inline-block; @include transform(rotate(-270deg)); }
   }
 
@@ -671,19 +678,19 @@ header {
   .row { margin-bottom: 6px; }
 
   .input-group {
-    .input-group-addon { 
-      padding: 1px 4px 0px 4px; 
+    .input-group-addon {
+      padding: 1px 4px 0px 4px;
     }
 
     label.input-group-addon {
-      padding: 3px 6px 0px 6px; 
+      padding: 3px 6px 0px 6px;
       min-width: 70px;
       text-align: right;
       color: #aaa;
     }
 
     span.input-group-addon {
-      padding: 3px 6px 0px 6px; 
+      padding: 3px 6px 0px 6px;
       min-width: 40px;
       text-align: left;
       color: #aaa;
