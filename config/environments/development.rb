@@ -40,6 +40,8 @@ Peatio::Application.configure do
 
   config.active_record.default_timezone = :local
 
+  require 'middleware/i18n_js'
+  require 'middleware/security'
   config.middleware.insert_before ActionDispatch::Static, Middleware::I18nJs
   config.middleware.insert_before Rack::Runtime, Middleware::Security
 end
