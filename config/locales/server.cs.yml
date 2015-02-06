@@ -211,14 +211,6 @@ cs:
           attributes:
             balance:
               less: Malý zůstatek
-        identity:
-          attributes:
-            email:
-              invalid: Špatný email
-            password:
-              invalid: Špatné heslo
-            password_confirmation:
-              confirmation: Nesouhlasí s novým heslem, které jste zadali, zadejte znovu.
         token/reset_password:
           attributes:
             base:
@@ -515,6 +507,11 @@ cs:
         delete: Smazat
         are_you_sure: Jste si jisti?
       new:
+        selector: Vyberte banku
+        uid: Číslo účtu
+        label: Označení
+        label_placeholder: Vyplňte jakékoli obsah
+        address: Adresa
         extra_hint: Pokud Vaše banka není v seznamu, kontaktujte nás
     history:
       transaction:
@@ -766,6 +763,10 @@ cs:
         my_done_order: Hotovo
         trades: Obchodování
         chat: Chat kanál
+      market_list:
+        name: Obchod
+        price: Cena
+        change: "24h %"
       range_switch:
         switch_1: 1m
         switch_5: 5m
@@ -818,7 +819,14 @@ cs:
         ask: Poptávka
         bid: Nabídka
         fade_toggle_depth: Market Depth
+      trade_state:
+        new: Nový
+        partial: Částečně
       market_trades:
+        all: Vše
+        my: Moje
+        all_html: "<i class='fa fa-check'></i><span>Vše</span>"
+        my_html: "<i class='fa fa-check'></i><span>Moje</span>"
         time: Čas obchodu
         price: Cena
         volume: Objem
@@ -827,9 +835,13 @@ cs:
         vol: Objem za 24h
         high: Nejvyšší
         low: Nejnížší
+        change: Změnit
       settings:
         sound: Zvuk
         notification: Reálná notifikace
+        funds: "Finance"
+        signout: "Odhlásit"
+        settings: "Profil"
       account_summary:
         title: Souhrn
         account: Účet
@@ -841,11 +853,16 @@ cs:
         orders_wait: Poslední objednávky
         orders_done: Kompletní objednávky
         orders_cancel: Stornovat objednávky
+        no_open_orders: Nemáte otevřené objednávky
+        clear_all_html: "<i class='fa fa-trash'></i><span>Stornovat vše</span>"
+        clear_bids_html: "<i class='fa fa-trash'></i><span>Stornovat Nabídky</span>"
+        clear_asks_html: "<i class='fa fa-trash'></i><span>Stornovat Poptávky</span>"
         confirm_clear_all: Opravdu stornovat všechny?
         confirm_clear_bids: Opravdu stornovat všechny Nabídky?
         confirm_clear_asks: Opravdu stornovat všechny Poptávky?
         price: Cena
         volume: Objem
+        amount: Částka
         time: Čas umístění
       mask:
         warning: Prosím <a class=text-up href='/'>Registrujte se</a> nebo <a class=text-up href='/'>se přihlaste</a> !
@@ -863,7 +880,6 @@ cs:
         safety_instruction: Za účelem ochrany Vašich bitcoinů a osobních informací, důrazně doporučujeme, abyste používali dvouustupňového ověření.
         reset_password: Resetovat heslo
         reauthenticate: Autentifikace
-        activated: E-mail byl odeslán na Váš mailbox, prosím zkontrolujte, měl by dorazit co nejdříve. Nemáte-li jej, prosím, klikněte na tlačítko "Odeslat znovu"
         auth-activated: Nejdříve musíte ověřit Vaši emailovou adresu.
         auth-verified: Nejdříve musíte zadat ověření účtu.
         email:
@@ -1352,10 +1368,6 @@ cs:
     user_notification:
       subject: "[PEATIO] Váš tiket má novou odpověď"
       notification_content: 'Váš tiket má novou odpověď, prosím zobrazte link níže pro další detaily:'
-  deposit_mailer:
-    accepted:
-      subject: "[Peatio] Váš vklad byl vložen na Váš účet"
-      content: Váš %{currency} vklad byl vložen na Váš účet.
   member_mailer:
     notify_signin:
       subject: "[PEATIO] Byl jste přihlášen"
@@ -1405,15 +1417,6 @@ cs:
       hi: Ahoj,
       follow_the_link: 'Prosím použijte tento link pro resetování hesla během následujících 30 minut:'
   withdraw_mailer:
-    submitted:
-      subject: "[Peatio] Stav vašeho výběru byl aktualizován"
-      content: Žádost o %{currency} výběr byla úspěšně odeslána, Bude zpracována co nejdříve. Prosím, buďte trpěliví. Napište nám, pokud máte nějaké dotazy.
-    processing:
-      subject: "[Peatio] Stav vašeho výběru byl aktualizován"
-      content: Žádost o Váš %{currency} výběr je zpracovávána. Prosím, buďte trpěliví. Napište nám, pokud máte nějaké dotazy.
-    done:
-      subject: "[Peatio] Stav vašeho výběru byl aktualizován"
-      content: Žádost o Váš %{currency} výběr je dokončena. Prosím, zkontrolujte doručení. Napište nám, pokud máte nějaké dotazy.
     withdraw_state:
       subject: "[Peatio] Stav vašeho výběru byl aktualizován"
       your_state: 'Stav Vašeho výběru:'

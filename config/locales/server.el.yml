@@ -1,0 +1,6 @@
+el:
+  activerecord:
+    models:
+      trade: Συναλλαγές
+      order: Εντολές
+      order_bid: Προσφορά

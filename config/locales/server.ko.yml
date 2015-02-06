@@ -211,14 +211,6 @@ ko:
           attributes:
             balance:
               less: 잔액 부족
-        identity:
-          attributes:
-            email:
-              invalid: 이메일주소 오류
-            password:
-              invalid: 비밀번호가 틀렸습니다. 다시 입력하세요
-            password_confirmation:
-              confirmation: 비밀번호가 일치하지 않습니다.
         token/reset_password:
           attributes:
             base:
@@ -868,7 +860,6 @@ ko:
         safety_instruction: 개인정보 및 자산 보호를 위해 구글 이중인증을 꼭 설정하십시오
         reset_password: 비밀번호 재설정
         reauthenticate: 이중인증
-        activated: 인증이메일이 전송 되었습니다, 이메일 확인한후 인증 받으세요. 이메일을 못 받은경우 재전송버턴을 클릭하세요.
         auth-activated: 이메일 인증 받으세요
         auth-verified: 실명인증 받으세요
         email:
@@ -1357,10 +1348,6 @@ ko:
     user_notification:
       subject: "[PEATIO] Your ticket got a new reply"
       notification_content: 'Your ticket got a new reply, please follow the link below to see the detail:'
-  deposit_mailer:
-    accepted:
-      subject: "[PEATIO]회원님 입금 되었습니다."
-      content: 회원님%{currency} 입금 처리 되었습니다.
   member_mailer:
     notify_signin:
       subject: "[PEATIO] 거래소를 성공적으로 로그인 하였습니다"
@@ -1410,15 +1397,6 @@ ko:
       hi: 안녕하세요.
       follow_the_link: '아래 링크 클릭하신후, 30분안에 비밀번호를 재설정하세요.'
   withdraw_mailer:
-    submitted:
-      subject: "[PEATIO]출금 처리 상태 "
-      content: 고객님이  %{currency}출금신청 완료 되었습니다. 잠시 기다려주세요. 문의사항 있으면 고객센터로 연락바랍니다.
-    processing:
-      subject: "[PEATIO]출금 처리 상황"
-      content: 고객님  %{currency}출금신청을 처리하고 있습니다. 잠시 기다려주세요. 문의사항 있으면 고객센터로 연락하세요.
-    done:
-      subject: "[PEATIO]출금 처리 상황"
-      content: 고객님  %{currency}출금신청을 처리완료하였습니다. 잠시 기다려주세요. 문의사항 있으면 고객센터로 연락하세요.
     withdraw_state:
       subject: "[PEATIO]출금 처리 상황"
       your_state: '출금 처리 상황 보기'
