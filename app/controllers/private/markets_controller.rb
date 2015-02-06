@@ -11,8 +11,7 @@ module Private
       @ask = params[:ask]
 
       @market         = current_market
-      @markets        = Market.all
-      @markets_orders = Hash[Market.all.map { |m| [m.id, m.sort_order] }]
+      @markets        = Market.all.sort
 
       @bids   = @market.bids
       @asks   = @market.asks

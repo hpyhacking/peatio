@@ -12,11 +12,8 @@ window.MarketSwitchUI = flight.component ->
     select.find('td.change').html("<span class='#{trend}'>#{formatter.price_change(p1, p2)}%</span>")
 
   @refresh = (event, data) ->
-    tickers = _.sortBy data.tickers, (ticker) ->
-      gon.market_orders[ticker.market]
-
     table = @select('table')
-    for ticker in tickers.reverse()
+    for ticker in data.tickers
       @updateMarket table.find("tr#market-list-#{ticker.market}"), ticker.data
 
     table.find("tr#market-list-#{gon.market.id}").addClass 'highlight'
