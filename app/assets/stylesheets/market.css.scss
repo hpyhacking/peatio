@@ -399,9 +399,8 @@ header {
       -webkit-transition: margin-left .1s linear;
       transition: margin-left .1s linear;
       min-width: 0;
-      width: 84px;
       padding-left: 6px;
-      margin: 0 0 0 -84px;
+      margin: 0 0 0 -100%;
       font-size: 11px;
       background-color: $panel-bg;
       border: 1px solid $panel-default-border;
@@ -537,7 +536,7 @@ header {
   .dropdown-wrapper {
     position: absolute;
     height: 100px;
-    top: $market-list-height + $gutter-2x; left: $market-trades-width + $gutter;
+    top: $market-list-height + $gutter-3x; left: $market-trades-width + $gutter;
     z-index: 998;
   }
 }
@@ -571,6 +570,16 @@ header {
 
   .my-trades tbody {
     display: none;
+  }
+}
+
+#market_list_wrapper {
+  .dropdown-wrapper {
+    position: absolute;
+    width: 200px;
+    height: 100px;
+    top: $gutter; left: $market-list-width + $gutter;
+    z-index: 998;
   }
 }
 

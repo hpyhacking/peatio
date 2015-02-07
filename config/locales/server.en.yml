@@ -786,10 +786,10 @@ en:
         trades: Trading
         chat: Chat Channel
       market_list:
-        name: Market
-        all: All Market
-        cny: CNY Market
-        btc: BTC Market
+        all: All Markets
+        all_html: "<i class='fa fa-check'></i><span>All Markets</span>"
+        cny_html: "<i class='fa fa-check'></i><span>CNY Markets</span>"
+        btc_html: "<i class='fa fa-check'></i><span>BTC Markets</span>"
         price: Price
         change: "24h %"
       range_switch:
