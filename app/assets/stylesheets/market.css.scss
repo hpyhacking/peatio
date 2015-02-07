@@ -596,6 +596,10 @@ header {
       .fill { color: #333; }
     }
 
+    td.change {
+      min-width: 75px;
+    }
+
     .markets {
       tr { display: none; }
       &.all { tr { display: block; } }
