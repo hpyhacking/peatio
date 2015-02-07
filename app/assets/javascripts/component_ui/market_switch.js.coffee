@@ -6,7 +6,7 @@ window.MarketSwitchUI = flight.component ->
     marketsTable: '.table.markets'
 
   @switchMarketGroup = (event, item) ->
-    item = $(event.target).parent('a')
+    item = $(event.target).closest('a')
     name = item.data('name')
 
     @select('marketGroupItem').removeClass('active')
