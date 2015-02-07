@@ -19,10 +19,10 @@ window.MarketSwitchUI = flight.component ->
     trend = formatter.trend ticker.last_trend
 
     fraction = ticker.last.split('.')[1]
-    if fraction and fraction.length > 5
+    if fraction and fraction.length > 6
       decimalPlaces = fraction.length
     else
-      decimalPlaces = 5
+      decimalPlaces = 6
     select.find('td.price').html("<span class='#{trend}'>#{formatter.ticker_price ticker.last, decimalPlaces}</span>")
 
     p1 = parseFloat(ticker.open)
