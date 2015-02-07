@@ -2,13 +2,17 @@ window.MarketSwitchUI = flight.component ->
   @attributes
     table: 'tbody'
     marketGroupName: '.panel-body-head thead span.name'
-    marketGroupItem: '.dropdown-menu li a'
+    marketGroupItem: '.dropdown-wrapper .dropdown-menu li a'
     marketsTable: '.table.markets'
 
   @switchMarketGroup = (event, item) ->
-    item = $(event.target)
+    item = $(event.target).parent('a')
     name = item.data('name')
-    @select('marketGroupName').text I18n.t("markets.market_list.#{name}")
+
+    @select('marketGroupItem').removeClass('active')
+    item.addClass('active')
+
+    @select('marketGroupName').text item.find('span').text()
     @select('marketsTable').attr("class", "table table-hover markets #{name}")
 
   @updateMarket = (select, ticker) ->
