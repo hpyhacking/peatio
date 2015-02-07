@@ -66,8 +66,6 @@ RSpec.configure do |config|
     Rails.cache.clear
     AMQPQueue.stubs(:publish)
     KlineDB.stubs(:kline).returns([])
-
-    I18n.locale = :en
   end
 
   config.after(:each) do

@@ -36,4 +36,6 @@ Peatio::Application.configure do
   config.active_support.deprecation = :stderr
 
   config.session_store :cookie_store, :key => '_peatio_session', :expire_after => ENV['SESSION_EXPIRE'].to_i.minutes
+
+  config.i18n.available_locales = ['en']
 end
