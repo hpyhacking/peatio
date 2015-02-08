@@ -12,6 +12,7 @@ class TwoFactor::Sms < ::TwoFactor
         return false
       end
       touch(:last_verify_at)
+      refresh!
       true
     else
       if otp.blank?
