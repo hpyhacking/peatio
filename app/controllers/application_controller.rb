@@ -206,7 +206,7 @@ class ApplicationController < ActionController::Base
           currency: account.currency,
           balance: account.balance,
           locked: account.locked
-        } if account.currency
+        } if account.currency_obj.try(:visible)
         memo
       end
     end

@@ -6,7 +6,7 @@ li#account_summary.dropdown
       ul.list-inline.text-right
     table.table: tbody
       - current_user.accounts.each do |account|
-        - next if not account.currency
+        - next unless account.currency_obj.try(:visible)
         tr class='#{account.currency} #{@market.scope?(account) ? '' : 'hide'}'
           td.account-symbol.col-xs-6.text-center
             img src="/icon-#{account.currency}.png" alt="#{account.currency_obj.code_text}"
