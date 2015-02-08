@@ -8,6 +8,7 @@ class TwoFactor::Sms < ::TwoFactor
   def verify?
     if !expired? && otp_secret == otp
       touch(:last_verify_at)
+      refresh!
       true
     else
       if otp.blank?
