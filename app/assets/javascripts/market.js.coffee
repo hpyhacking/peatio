@@ -50,7 +50,7 @@ $ ->
 
   MyOrdersUI.attachTo('#my_orders')
   MarketTickerUI.attachTo('#ticker')
-  MarketSwitchUI.attachTo('#market_list')
+  MarketSwitchUI.attachTo('#market_list_wrapper')
   MarketTradesUI.attachTo('#market_trades_wrapper')
 
   MarketData.attachTo(document)
