@@ -62,7 +62,7 @@ Be sure to install the latest stable Redis, as the package in the distro may be 
 
 ### Step 4: Install RabbitMQ
 
-Please follow instructions here: https://www.rabbitmq.com/install-debian.html
+Please follow the instructions at: https://www.rabbitmq.com/install-debian.html
 
     sudo apt-add-repository 'deb http://www.rabbitmq.com/debian/ testing main'
     curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add -
@@ -87,12 +87,12 @@ Please follow instructions here: https://www.rabbitmq.com/install-debian.html
     touch ~/.bitcoin/bitcoin.conf
     vim ~/.bitcoin/bitcoin.conf
 
-Insert the following lines into the bitcoin.conf, and replce with your username and password.
+Insert the following lines into the `bitcoin.conf` file, and replce with your username and password.
 
     server=1
     daemon=1
 
-    # If run on the test network instead of the real bitcoin network
+    # Run the testnet network instead of the real bitcoin network
     testnet=1
 
     # You must set rpcuser and rpcpassword to secure the JSON-RPC api
@@ -111,7 +111,7 @@ Insert the following lines into the bitcoin.conf, and replce with your username 
 
 ### Step 6: Install PhantomJS
 
-Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to run the tests. Install the PhantomJS is neccessary.
+Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to run the tests instaling PhantomJS is neccessary.
 
     sudo apt-get update
     sudo apt-get install build-essential chrpath git-core libssl-dev libfontconfig1-dev
@@ -184,7 +184,7 @@ More details to visit [pusher official website](http://pusher.com)
     TRADE_EXECUTOR=4 rake daemon:trade_executor:start
 
     # You can do the same when you start all daemons:
-    TRADE_EXECUTOR=4 rake daemon:start
+    TRADE_EXECUTOR=4 rake daemons:start
 
 When daemons don't work, check `log/#{daemon name}.rb.output` or `log/peatio:amqp:#{daemon name}.output` for more information (suffix is '.output', not '.log').
 
