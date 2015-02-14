@@ -54,8 +54,6 @@ You must know what you're doing, there's no shortcut. We highly recommend you ge
 * [One World Coin](https://oneworldcoin.com)
 * [Bitspark](https://bitspark.io) - Bitcoin Exchange in Hong Kong
 * [MarsX.io](https://acx.io) - Australian Cryptocurrency Exchange
-* [Mulcoin.com](http://mulcoin.com)
-* ecoinz.info (Launch soon) - New Zealand Cryptocurrency Exchange
 
 ### Mobile Apps ###
 
