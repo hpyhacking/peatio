@@ -19,13 +19,17 @@ Help is greatly appreciated, feel free to submit pull-requests or open issues.
 
 RUNNING A EXCHANGE IS HARD.
 
-Peatio makes it easier, but running a exchange is still harder than a blog, which you can download the source code and following the guide or even a cool installer and boom!!! a fancy site is there to profit. We always prioritize security and speed higher than 1-click setup. We split Peatio to many components (processes) so it's flexible to deploy and scalable.
+Peatio makes it easier, but running an exchange is still harder than a blog, which you can download the source code and following the guide or even a cool installer and boom!!! a fancy site is there to profit. We always prioritize security and speed higher than 1-click setup. We split Peatio to many components (processes) so it's flexible to deploy and scalable.
 
-You must know what you're doing, there's no shortcut. We highly recommend you get prepared before continue:
+SECURITY KNOWLEDGE IS A *REQUIREMENT*.
+
+Peatio cannot protect your customers when you leave your admin password 1234567, or open sensitive ports to public internet. No one can. Running an exchange is a very risky task because you're dealing with money directly. If you don't known how to make your exchange secure, hire an expert.
+
+You must know what you're doing, there's no shortcut. Please get prepared before continue:
 
 * Rails knowledge
-* Security sense
-* Basic knowledge on system administration
+* Security knowledge
+* System administration
 
 
 ### Features
@@ -108,7 +112,8 @@ Want to report a bug, request a feature, contribute or translate Peatio?
 
 * Browse our [issues](https://github.com/peatio/peatio/issues), comment on proposals, report bugs.
 * Clone the peatio repo, make some changes according to our development guidelines and issue a pull-request with your changes.
-* If you want to contact us, drop an email to [community@peatio.com](mailto:community@peatio.com)
+* Anything you want to tell us please send it to [community@peatio.com](mailto:community@peatio.com)
+* If you need technical support or customization service, contact us: [sales@peatio.com](mailto:sales@peatio.com)
 
 
 ### License
