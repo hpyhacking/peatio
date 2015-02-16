@@ -70,7 +70,7 @@ class Formatter
     if fill = @ticker_fill[fillTo-right.length]
       "#{left}.<g>#{right}</g><span class='fill'>#{fill}</span>"
     else
-      "#{left}.<g>#{right}</g>"
+      "#{left}.<g>#{right.slice(0,fillTo)}</g>"
 
   price_change: (p1, p2) ->
     percent = if p1
