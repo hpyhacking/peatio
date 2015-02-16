@@ -139,6 +139,19 @@ header {
     }
   }
 
+  #language {
+    .lang-icon {
+      height: 16px;
+    }
+    .dropdown-menu {
+      @include header-dropdown;
+      min-width: 0;
+      a {
+        padding: 5px 15px;
+      }
+    }
+  }
+
   #settings {
     .dropdown-menu {
       @include header-dropdown;

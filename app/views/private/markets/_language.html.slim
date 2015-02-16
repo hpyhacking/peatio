@@ -1,0 +1,7 @@
+li#language.dropdown
+  a.dropdown-toggle href="#" data-toggle="dropdown"
+    img class="lang-icon" src='#{language_path}'
+    b.caret
+  ul.dropdown-menu
+    - I18n.available_locales.each do |lang|
+      li: a href="?lang=#{lang}": img class="lang-icon" src="/languages/#{lang || I18n.locale}.png"
