@@ -53,12 +53,13 @@
     pre: code
       | # canonical_verb is HTTP verb like GET/POST in upcase.
         # canonical_uri is request path like /api/v2/markets.
-        # canonical_query is the request query sort in alphabetica order, including access_key and tonce, e.g. access_key=xxx&foo=bar&tonce=123456789
+        # canonical_query is the request query sorted in alphabetica order, including access_key and tonce, e.g. access_key=xxx&foo=bar&tonce=123456789
         # The combined string looks like: GET|/api/v2/markets|access_key=xxx&foo=bar&tonce=123456789
         def payload
           "\#{canonical_verb}|\#{canonical_uri}|\#{canonical_query}"
         end
 
+    p Note: query parameters are sorted in payload, so it must be "access_key=xxx&foo=bar" not "foo=bar&&access_key=xxx".
     p Suppose my secret key is 'yyy', then the result of HMAC-SHA256 of above payload is:
     pre: code
       | hash = HMAC-SHA256('GET|/api/v2/markets|access_key=xxx&foo=bar&tonce=123456789', 'yyy').to_hex
