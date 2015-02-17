@@ -49,6 +49,12 @@ html, body {
 
     #setting_list.table {
       tr:first-of-type { td { border-top: 0px; } }
+      .hint {
+        color: #777;
+        font-size: .7em;
+        text-align: center;
+        padding-top: 8px;
+      }
     }
 
     .list-group {

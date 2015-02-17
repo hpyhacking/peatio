@@ -40,6 +40,7 @@ table#setting_list.table
         a href="#" class="btn btn-success btn-block disabled" role="button"
           i.fa.fa-check-circle
           span = t('.phone_number.verified')
+        .hint = t('.phone_number.hint', hint: partial_phone_number(current_user))
       - else
         = link_to t('.phone_number.go'), verify_sms_auth_path, class: 'btn btn-default btn-block'
   tr

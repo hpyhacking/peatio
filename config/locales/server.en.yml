@@ -929,6 +929,7 @@ en:
             notified.
           go: Set
           verified: Verified
+          hint: "Verified number %{hint}"
         two_factor_auth:
           title: Two-Factor Authentication
           description: Two-Factor Authentication provides another layer of security

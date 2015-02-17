@@ -899,6 +899,7 @@ zh-CN:
           description: 绑定手机号码，让你在貔貅交易所的资金更安全，您可以即时收到在网站操作的动态提醒并及时监控账号安全。
           go: 设置
           verified: 已验证
+          hint: "绑定号码 %{hint}"
         two_factor_auth:
           title: 两步验证
           description: 两步验证为您的帐户额外添加了一层保护。
