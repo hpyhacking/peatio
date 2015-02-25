@@ -896,7 +896,7 @@ zh-CN:
           go: 设置
         phone_number:
           title: 手机绑定
-          description: 绑定手机号码，让你在貔貅交易所的资金更安全，您可以即时收到在网站操作的动态提醒并及时监控账号安全。
+          description: 绑定手机号码，让你的资金更安全，您可以即时收到在网站操作的动态提醒并及时监控账号安全。
           go: 设置
           verified: 已验证
           hint: "绑定号码 %{hint}"
@@ -958,7 +958,7 @@ zh-CN:
         panel: API密钥
         index:
           title: 我的API密钥
-          intro: 貔貅交易所为您提供了功能完备,高性能的自动化交易API, 通过API您能够得到当前市场行情, 建立买单卖单, 查询自己的委托及成交记录, 查询账户余额及个人信息.
+          intro: 我们为您提供了功能完备，高性能的自动化交易API，通过API您能够得到当前市场行情，建立买单卖单，查询自己的委托及成交记录，查询账户余额及个人信息。
         new:
           title: 创建新密钥
         create:
@@ -1013,7 +1013,7 @@ zh-CN:
       panel: 创建账户
       new:
         title: 创建我的账户
-        intro: 这将是您在貔貅交易所使用各项服务所需要的用户名，例如交易购买、转账、提币、提现等，为了您的账户安全，尽量避免不安全的因素，请您填写完整。
+        intro: 这将是您的各项服务所需要的用户名，例如交易购买、转账、提币、提现等，为了您的账户安全，尽量避免不安全的因素，请您填写完整。
       edit:
         panel: 我的账户
         title: 修改密码
@@ -1381,8 +1381,8 @@ zh-CN:
       content: 您的 %{currency} 已经到账.
   member_mailer:
     notify_signin:
-      subject: "[PEATIO] 您刚刚成功登录了貔貅交易所"
-      just_signed_in: 您刚刚成功登录了貔貅交易所。
+      subject: "[PEATIO] 您刚刚成功登录"
+      just_signed_in: 您刚刚成功登录了。
     google_auth_activated:
       subject: "[PEATIO] 绑定谷歌两步验证"
       google_auth_activated: 您已绑定谷歌两步验证。
@@ -1455,7 +1455,7 @@ zh-CN:
   gon:
     ask: 卖出
     bid: 买入
-    brand: 貔貅交易所
+    brand: Peatio交易所
     notification:
       title: Peatio交易所
       enabled: 实时更新已开启。
@@ -1474,10 +1474,10 @@ zh-CN:
       short: "%m-%d %H:%M"
       default: "%Y-%m-%d %H:%M"
   sms:
-    verification_code: '验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【貔貅交易所（北京）】'
-    password_changed: '%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！【貔貅交易所（北京）】'
-    deposit_done: '%{email} 您好，您于%{time}进行了（%{currency}）充值操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请及时联系我们！）【貔貅交易所（北京）】'
-    withdraw_done: '%{email} 您好，您于%{time}进行了（%{currency}）提现操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请立即联系客服！）【貔貅交易所（北京）】'
+    verification_code: '验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【PEATIO】'
+    password_changed: '%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！【PEATIO】'
+    deposit_done: '%{email} 您好，您于%{time}进行了（%{currency}）充值操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请及时联系我们！）【PEATIO】'
+    withdraw_done: '%{email} 您好，您于%{time}进行了（%{currency}）提现操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请立即联系客服！）【PEATIO】'
   header:
     home: 首页
     dashboard: 控制面板
@@ -1768,7 +1768,7 @@ zh-CN:
     sms_auths:
       show:
         title: 绑定手机号码
-        description: 绑定手机号码，让你在貔貅交易所的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。
+        description: 绑定手机号码，让你的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。
         warning: 手机未绑定时，您将无法在网站操作提现以及账户密码找回。
         phone_number: 请输入手机号码
         send_code: 获取验证码
