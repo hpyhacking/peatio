@@ -1,0 +1,251 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
+ru_RU:
+  activerecord:
+    models:
+      api_tokens: API токен
+      trade: Торги
+      order: Ордера
+      order_bid: BID
+      order_ask: ASK
+      document: Документ
+      withdraw: Вывести
+      deposit: Пополнить
+      payment_transaction: Платеж
+      id_document: документ, удостоверяющий личность
+      statistic/orders_grid: Статистика ордеров
+      statistic/members_grid: Статистика участников
+      statistic/deposits_grid: Статистика депозитов
+      statistic/withdraws_grid: Статистика вывода
+      admin/deposits_grid: Зачисления
+      admin/withdraws_grid: Снятия
+      withdraws/satoshi: Вывод
+    attributes:
+      api_token:
+        access_key: Ключ доступа
+        trusted_ip_list: белый список IP
+        ip_whitelist: белый список IP
+        actions: Действия
+      identity:
+        email: Электронная почта
+        login: Электронная почта или номер телефона
+        country: Страна
+        password: Новый пароль
+        password_confirmation: Подтвердите пароль
+      document:
+        key: Ключ
+        is_auth: Авторизован
+      fund_source:
+        address: Адрес
+        category: Категория
+      account:
+        currency: Валюта
+        currency_text: Валюта
+        balance: Баланс
+        locked: З
+      deposit:
+        created_at: Подтвержден в
+        address: Адрес
+        amount: Сумма
+        done_at: Завершен
+      withdraw:
+        created_at: Создан
+        done_at: Завершен
+        sum: Сумма
+        fee: Коммиссия
+        currency: Валюта
+        amount: Сумма
+        address: Адрес
+        state: Статус
+        state_text: Статус
+      account_version:
+        amount: Сумма
+        reason: Причина
+        reason_text: Причина
+        in: Доход
+        fee: Комиссия
+      token/reset_password:
+        member: Участник
+      trade:
+        fee: Комиссия
+        order: Ордер
+      order:
+        price: Цена
+        total: Итого
+        volume: Объем
+        origin_volume: Объем
+        sum: Сумма
+        operation: Операция
+      payment_transaction:
+        at: Дата/время
+        txid: Номер перевода
+        amount: Сумма
+        confirmations: Подтверждения
+        state_done: Выполнено
+      member:
+        name: Настоящее имя
+        display_name: Отображаемое имя
+        email: Электронная почта
+        activated: Активирован
+        activated?: "Активирован ?"
+        id_document_verified?: "Удостоверение личности проверено ?"
+        phone_number: Номер телефона
+      two_factor/sms:
+        country: Страна
+        phone_number: Номер телефона
+        otp: Проверочный код
+      withdraws/bank:
+        member_name: Участник
+        currency_obj_key_text: Валюта
+        fund_source: Банк
+        fund_extra: Банк
+        fund_extra_text: Банк
+        fund_uid: Банковский счет
+        sum: Сумма
+        fee: Комиссия
+        amount: Сумма
+        created_at: Создан
+      deposits/bank:
+        created_at: Создан
+        holder: Держатель
+        fund_extra: Банк отправителя
+        fund_uid: Счет отправителя
+        member_name: Имя отправителя
+        amount: Сумма
+      deposits/satoshi:
+        txid: Номер перевода
+        amount: Сумма
+        confirmations: Подтверждение
+      withdraws/satoshi:
+        currency_obj_key_text: Валюта
+        fund_source: Банк
+        sum: Сумма
+        amount: Сумма
+        fee: Комиссия
+  market:
+    currency:
+      btc: BTC
+      cny: CNY
+  currency:
+    satoshi:
+      key: BTC
+      code: BTC
+    renminbi:
+      key: CNY
+      code: CNY
+  datagrid:
+    admin_deposits_grid:
+      columns:
+        amount: Сумма
+        fee: Комиссия
+        member_name: Участник
+    bank_deposits_grid:
+      columns:
+        amount: Сумма
+        fee: Комиссия
+    coin_deposits_grid:
+      columns:
+        amount: Сумма
+    withdraws_grid:
+      columns:
+        amount: Сумма
+        fee: Комиссия
+    account_versions_grid:
+      columns:
+        amount: Сумма
+        fee: Комиссия
+    statistic_orders_grid:
+      columns:
+        member_id: Участник
+    statistic_trades_grid:
+      columns:
+        strike_amount: Сумма
+    statistic_deposits_grid:
+      columns:
+        member: Участник
+        amount: Сумма
+    statistic_withdraws_grid:
+      columns:
+        member: Участник
+        amount: Сумма
+  deposits/bank:
+    aasm_state:
+      accepted: Одобрен
+      rejected: Отклонен
+  private:
+    history:
+      account:
+        fee: комиссия
+        amount: Сумма
+    trade:
+      trades:
+        orders:
+          title: Ордера
+    withdraws:
+      index:
+        fee: Комиссия
+    markets:
+      my_orders:
+        orders_wait: Последние ордера
+        orders_done: Закрытые ордера
+        orders_cancel: Отмененные ордера
+      global:
+        global_orders_title: ОРДЕРА
+  simple_form:
+    labels:
+      withdraw:
+        satoshi:
+          fee: Комиссия
+  admin:
+    members:
+      index:
+        members: Участник
+    statistic:
+      trades:
+        show:
+          volume_fee: Итого комиссия
+      withdraws:
+        show:
+          fee: Комиссия
+    withdraws:
+      satoshis:
+        show:
+          process: Одобрен
+  deposits/satoshi:
+    aasm_state:
+      accepted: Одобрен
+  easy_table:
+    satoshi:
+      member_name: Участник
+    bank:
+      member_name: Участник
+  enumerize:
+    currency:
+      cny: CNY
+      btc: BTC
+    deposit:
+      aasm_state:
+        accepted: Одобрен
+        rejected: Отклонен
+    withdraw:
+      state:
+        rejected: Отклонен
+        accepted: Одобрен
+  actions:
+    member: Участник
+  layouts:
+    admin:
+      menus:
+        sections:
+          members: Участники
+  withdraws/bank:
+    aasm_state:
+      rejected: Отклонен
+      accepted: Одобрен
+  withdraws/satoshi:
+    aasm_state:
+      rejected: Отклонен
+      accepted: Одобрен

@@ -3,4 +3,6 @@
 # Never edit this file. It will be overwritten when translations are pulled from Transifex.
 #
 
-it: {}
+it:
+  gon:
+    brand: Peatio Exchange

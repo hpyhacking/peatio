@@ -1,0 +1,124 @@
+# encoding: utf-8
+#
+# Never edit this file. It will be overwritten when translations are pulled from Transifex.
+#
+
+ru_RU:
+  js:
+    brand: Peatio
+    submit: Подтвердить
+    funds:
+      deposit: Пополнить
+      withdraw: Вывести
+      currency_name:
+        cny: CNY
+        btc: BTC
+      deposit_cny:
+        title: Пополнить в китайских юанях
+        desc: "Чтобы внести средства банковским платежом:"
+        desc_item_1: "1. Для получения идентификационного кода заполните форму."
+        desc_item_2: "2. Перечислите средства на банковский счет биржи. Убедитесь что код авторизации присутствует на заполняемой форме."
+        desc_item_3: "3. Ваш счет будет пополнен как только мы получим деньги."
+        attention: "Внимание: имя владельца банковского счета должно совпадать с именем владельца аккаунта, иначе перевод может быть отклонен."
+        from: Из
+        to: На
+        deposit_name: Ваше имя
+        deposit_account: Счет пополнения
+        add: Добавить
+        manage: Управлять
+        amount: Сумма пополнения
+        min_amount: Как минимум 10 юаней
+        to_account: Счет
+        to_name: Имя
+        to_bank_name: Наименование банка
+        opening_bank_name: Учетная запись была создана
+        remark: 'Код авторизации'
+      deposit_btc:
+        title: Пополнение в BTC
+      deposit_coin:
+        address: Адрес
+        new_address: Новый адрес
+        open-wallet: Используйте Ваш локальный кошелек, мобильное приложение или онлайн сервис для оплаты.
+        detail: Пожалуйста скопируйте адрес в Ваш кошелек, введите сумму, которую Вы хотите зачислить и подтвердите зачисление.
+        scan-qr: Отсканируйте QR код для оплаты из мобильного приложения.
+        after_deposit: Как только Вы закончите отправку, Вы можете проверить статус Вашего нового депозита ниже.
+        generate-new: Сгенерировать новый адрес
+      deposit_history:
+        title: История пополнения
+        number: '#'
+        identification: Идентификационный код
+        time: Время
+        txid: Номер перевода
+        confirmations: Подтверждения
+        from: От
+        amount: Сумма
+        cancel: отменить
+        no_data: Нет исторических данных
+        submitting: В процессе подтверждения
+        cancelled: Отменен
+        submitted: Подтвержден
+        accepted: Принят
+        rejected: Отклонен
+        checked: Проверен
+        warning: Предупреждение
+      withdraw_cny:
+        title: Вывести в китайских юанях
+        intro: Выберите банк для вывода средств и введите номер счета.
+        intro_2: Имя владельца банковского счета должно совпадать с Вашим именем.
+        attention: "Часы работы: с 9:00 до 18:00"
+        account_name: Имя учетной записи
+        withdraw_address: Адрес вывода
+        balance: Баланс
+        withdraw_amount: Сумма вывода
+        manage_withdraw: Управлять выводом
+        fee_explain: О комиссиях
+        min: Как минимум
+        withdraw_all: Вывести все
+      withdraw_btc:
+        title: Вывести BTC
+      withdraw_coin:
+        intro: Пожалуйста введите адрес и сумму, затем нажмите "Отправить". Заявка будет подтверждена в течение 10 минут
+        label: Ярлык
+        balance: Баланс
+        amount: Сумма
+        manage_withdraw: Изменить адрес
+        min: Как минимум
+        withdraw_all: Вывести все
+        fee_explain: О коммиссиях
+      withdraw_history:
+        title: История вывода
+        number: Число
+        withdraw_time: Время
+        withdraw_account: Счет вывода
+        withdraw_address: Адрес
+        withdraw_amount: Сумма
+        actual_amount: Текущий остаток
+        fee: Комиссия
+        miner_fee: Комиссия
+        cancel: Отмена
+        no_data: Нет исторических данных
+        submitting: В процессе подтверждения
+        submitted: Подтверждено
+        rejected: Отклонено
+        accepted: Принято
+        processing: Обрабатывается
+        done: Готово
+        almost_done: Почти готово
+        canceled: Отклонено
+        failed: Не удалось
+    auth:
+      please_active_two_factor: Введите номер мобильного или подключите Google Authentificator сначала
+      submit: Подтвердить
+      otp_placeholder: Шестизначный пароль
+      google_app: Google Authenticator
+      sms: СМС подтверждения
+      send_code: Отправить код
+      send_code_alt: Отправить повторно через COUNT секунд
+      hints:
+        app: Код Google Authenticator действителен в течение 30 секунд. Если  Вы не успели, пожалуйста, попробуйте еще раз.
+        sms: Мы отправим Вам СМС с проверочным кодом
+    markets:
+      market_list:
+        all: Все рынки
+        cny: Рынок CNY
+        btc: Рынок BTC

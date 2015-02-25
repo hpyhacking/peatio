@@ -896,7 +896,7 @@ zh-CN:
           go: 设置
         phone_number:
           title: 手机绑定
-          description: 绑定手机号码，让你的资金更安全，您可以即时收到在网站操作的动态提醒并及时监控账号安全。
+          description: 绑定手机号码，让您的资金更安全，您可以即时收到在网站操作的动态提醒并及时监控账号安全。
           go: 设置
           verified: 已验证
           hint: "绑定号码 %{hint}"
@@ -925,7 +925,7 @@ zh-CN:
           go: 设置
         weibo:
           title: 绑定微博
-          description: 绑定微博后你可以通过微博进行登录, 而无需每次都输入账号密码.
+          description: 绑定微博后您可以通过微博进行登录, 而无需每次都输入账号密码.
           bound_desc: 此账号已经与 %{nickname} 绑定
           bind: 绑定
           unbind: 解除绑定
@@ -1373,11 +1373,11 @@ zh-CN:
       subject: "[PEATIO] 用户回复了服务单"
       notification_content: 用户 %{email} 回复了服务单，详情请查看链接：
     user_notification:
-      subject: "[PEATIO] 你的服务单有了新的回复"
-      notification_content: '你的服务单有一条新的回复, 请在下方链接查看详情：'
+      subject: "[PEATIO] 您的服务单有了新的回复"
+      notification_content: '您的服务单有一条新的回复, 请在下方链接查看详情：'
   deposit_mailer:
     accepted:
-      subject: "[貔貅] 你的充值已经到账"
+      subject: "[貔貅] 您的充值已经到账"
       content: 您的 %{currency} 已经到账.
   member_mailer:
     notify_signin:
@@ -1420,7 +1420,7 @@ zh-CN:
   token_mailer:
     activation:
       subject: "[Peatio] 帐号激活"
-      click_to_verify: '感谢您注册 Peatio，赶快点击下面的链接验证你的E-mail吧：'
+      click_to_verify: '感谢您注册 Peatio，赶快点击下面的链接验证您的E-mail吧：'
       unable_to_click: 如果链接无法点击，请完整拷贝到浏览器地址栏里直接访问。
       link_expire: 链接30分钟之内有效。
     reset_password:
@@ -1429,17 +1429,17 @@ zh-CN:
       follow_the_link: '请使用下面的连接，在30分钟之内尝试重置您的登录密码：'
   withdraw_mailer:
     submitted:
-      subject: "[貔貅]你的提现状态更新"
+      subject: "[貔貅] 您的提现状态更新"
       content: 您的%{currency}提现请求已经被成功提交，我们会尽快处理您的提现请求。谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
     processing:
-      subject: "[貔貅]你的提现状态更新"
+      subject: "[貔貅] 您的提现状态更新"
       content: 您的%{currency}提现请求正在处理中，谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
     done:
-      subject: "[貔貅]你的提现状态更新"
+      subject: "[貔貅] 您的提现状态更新"
       content: 您的%{currency}提现请求已经处理完毕，请查询您的账户。如果您有任何问题，请及时与我们联系。
     withdraw_state:
-      subject: "[貔貅]你的提现状态更新"
-      your_state: '你的提现状态：'
+      subject: "[貔貅] 您的提现状态更新"
+      your_state: '您的提现状态：'
   view_on_github: 到 Github 上查看
   slogan: 貔貅，将致力于成为世界级的交易软件。
   tags:
@@ -1615,13 +1615,13 @@ zh-CN:
     emails:
       new:
         title: 设置邮箱
-        setup_email: 请设置你的邮箱, 否则将无法进行任何操作。
-        warning: 设置邮件后, 请查收你的收件箱并进行激活
+        setup_email: 请设置您的邮箱, 否则将无法进行任何操作。
+        warning: 设置邮件后, 请查收您的收件箱并进行激活
         email_address: 邮箱地址
         save: 保存
     weibo:
       destroy:
-        last_auth_alert: 亲, 微博是你最后一种登录方式了, 解除了就没法登录了
+        last_auth_alert: 亲, 微博是您最后一种登录方式了, 解除了就没法登录了
         unbind_success: 已经解除微博绑定
     identities:
       new:
@@ -1768,7 +1768,7 @@ zh-CN:
     sms_auths:
       show:
         title: 绑定手机号码
-        description: 绑定手机号码，让你的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。
+        description: 绑定手机号码，让您的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。
         warning: 手机未绑定时，您将无法在网站操作提现以及账户密码找回。
         phone_number: 请输入手机号码
         send_code: 获取验证码
@@ -1792,7 +1792,7 @@ zh-CN:
     satoshi:
       key: 块链
       title: 比特币提现
-      intro: 将你在貔貅的比特币余额提取到你的钱包账户
+      intro: 将您在貔貅的比特币余额提取到您的钱包账户
       latency: 30 分钟到账
       transfer: 人工处理
       go: 立即提现

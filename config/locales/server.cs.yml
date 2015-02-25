@@ -35,6 +35,8 @@ cs:
         actions: Akce
       identity:
         email: Email
+        login: Email nebo Telefonní číslo
+        country: Země
         password: Nové heslo
         password_confirmation: Potvrďte heslo
       document:
@@ -249,6 +251,11 @@ cs:
           attributes:
             otp:
               invalid: Špatné heslo! Prosím zadejto znovu.
+              taken: Je v pořádku, ale číslo je již přiděleno jinému uživateli.
+        identity:
+          attributes:
+            login:
+              number_taken: Telefonní číslo je již použito.
         application:
           attributes:
             redirect_uri:
@@ -764,7 +771,6 @@ cs:
         trades: Obchodování
         chat: Chat kanál
       market_list:
-        name: Obchod
         price: Cena
         change: "24h %"
       range_switch:
@@ -842,6 +848,7 @@ cs:
         funds: "Finance"
         signout: "Odhlásit"
         settings: "Profil"
+        history: "Historie"
       account_summary:
         title: Souhrn
         account: Účet
@@ -880,7 +887,10 @@ cs:
         safety_instruction: Za účelem ochrany Vašich bitcoinů a osobních informací, důrazně doporučujeme, abyste používali dvouustupňového ověření.
         reset_password: Resetovat heslo
         reauthenticate: Autentifikace
+        email_activated: E-mail byl odeslán na Váš mailbox, prosím zkontrolujte, měl by dorazit co nejdříve. Nemáte-li jej, prosím, klikněte na tlačítko "Odeslat znovu"
+        phone_number_activated: Vaše telefonní číslo není ověřeno. Prosíme ověřte jej jakmile to bude možné.
         auth-activated: Nejdříve musíte ověřit Vaši emailovou adresu.
+        auth-phone: Prosím ověřte nejdříve Vaše telefonní číslo.
         auth-verified: Nejdříve musíte zadat ověření účtu.
         email:
           title: E-mail verifikace
@@ -1020,6 +1030,7 @@ cs:
           amount: Minimální částka 100
       session:
         email: Emailová adresa.
+        password: Heslo
       identity:
         email: Příklad：xyzxyzxyz@example.com
         password: Prosím nastavte Vaše přihlašovací heslo
@@ -1368,6 +1379,10 @@ cs:
     user_notification:
       subject: "[PEATIO] Váš tiket má novou odpověď"
       notification_content: 'Váš tiket má novou odpověď, prosím zobrazte link níže pro další detaily:'
+  deposit_mailer:
+    deposit_accepted:
+      subject: "[Peatio] Váš vklad byl vložen na Váš účet"
+      content: Váš %{currency} vklad byl vložen na Váš účet.
   member_mailer:
     notify_signin:
       subject: "[PEATIO] Byl jste přihlášen"
@@ -1417,6 +1432,15 @@ cs:
       hi: Ahoj,
       follow_the_link: 'Prosím použijte tento link pro resetování hesla během následujících 30 minut:'
   withdraw_mailer:
+    withdraw_submitted:
+      subject: "[Peatio] Stav vašeho výběru byl aktualizován"
+      content: Žádost o %{currency} výběr byla úspěšně odeslána, Bude zpracována co nejdříve. Prosím, buďte trpěliví. Napište nám, pokud máte nějaké dotazy.
+    withdraw_processing:
+      subject: "[Peatio] Stav vašeho výběru byl aktualizován"
+      content: Žádost o Váš %{currency} výběr je zpracovávána. Prosím, buďte trpěliví. Napište nám, pokud máte nějaké dotazy.
+    withdraw_done:
+      subject: "[Peatio] Stav vašeho výběru byl aktualizován"
+      content: Žádost o Váš %{currency} výběr je dokončena. Prosím, zkontrolujte doručení. Napište nám, pokud máte nějaké dotazy.
     withdraw_state:
       subject: "[Peatio] Stav vašeho výběru byl aktualizován"
       your_state: 'Stav Vašeho výběru:'
@@ -1757,6 +1781,7 @@ cs:
         submit: Uložit
         notice:
           send_code_success: Verifikační kód odeslán.
+          already_taken: Toto číslo je již použito.
           otp_success: Verifikační kód v pořádku.
           already_activated: Vaše telefonní číslo je aktivováno.
         alert:
