@@ -118,6 +118,14 @@
     @points.candlestick = @points.candlestick.slice(-2)
     @points.volume = @points.volume.slice(-2)
 
+  @hardRefresh = (threshold) ->
+    ts = Math.round( new Date().valueOf()/1000 )
+
+    # if there's no trade received in `threshold` seconds, request server side data
+    if ts > @updated_at + threshold
+      @refreshUpdatedAt()
+      @reqK gon.market.id, @minutes
+
   @startDeliver = (event, data) ->
     if @interval?
       window.clearInterval @interval
@@ -126,11 +134,7 @@
       if @tradesCache.length > 0
         @deliverTrades 'market::candlestick::trades'
       else
-        ts = Math.round( new Date().valueOf()/1000 )
-        # if there's no trade received in 5 minutes, request server side data
-        if ts > @updated_at + 300
-          @refreshUpdatedAt()
-          @reqK gon.market.id, @minutes
+        @hardRefresh(300)
 
     @interval = setInterval deliver, 999
 
