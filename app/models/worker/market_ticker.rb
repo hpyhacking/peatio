@@ -29,7 +29,8 @@ module Worker
 
     def update_latest_trades(trade)
       trades = @trades[trade.market.id]
-      trades.unshift(trade.for_global).pop
+      trades.unshift(trade.for_global)
+      trades.pop if trades.size > FRESH_TRADES
 
       Rails.cache.write "peatio:#{trade.market.id}:trades", trades
     end
