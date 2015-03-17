@@ -71,10 +71,15 @@ module APIv2
     desc 'Cancel all my orders.', scopes: %w(trade)
     params do
       use :auth
+      optional :side, type: String, values: %w(sell buy), desc: "If present, only sell orders (asks) or buy orders (bids) will be canncelled."
     end
     post "/orders/clear" do
       begin
         orders = current_user.orders.with_state(:wait)
+        if params[:side].present?
+          type = params[:side] == 'sell' ? 'OrderAsk' : 'OrderBid'
+          orders = orders.where(type: type)
+        end
         orders.each {|o| Ordering.new(o).cancel }
         present orders, with: APIv2::Entities::Order
       rescue

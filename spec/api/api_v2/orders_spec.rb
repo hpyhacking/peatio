@@ -241,5 +241,20 @@ describe APIv2::Orders do
       }.not_to change(Order, :count)
     end
 
+    it "should cancel all my asks" do
+      member.orders.where(type: 'OrderAsk').each do |o|
+        AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: o.to_matching_attributes)
+      end
+
+      expect {
+        signed_post "/api/v2/orders/clear", token: token, params: {side: 'sell'}
+        response.should be_success
+
+        result = JSON.parse(response.body)
+        result.should have(1).orders
+        result.first['id'].should == member.orders.where(type: 'OrderAsk').first.id
+      }.not_to change(Order, :count)
+    end
+
   end
 end
