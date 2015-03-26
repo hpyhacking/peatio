@@ -1,3 +1,14 @@
+## About docker
+
+We just use docker deploy and we don't ensure this `Dockerfile` working for your environment.
+
+```
+cd peatio/doc/docker
+docker build -t peatio/base .
+./bin/base.sh
+./bin/webapp.sh
+```
+
 Operating Systems
 -----------------
 

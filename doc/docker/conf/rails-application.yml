@@ -1,0 +1,74 @@
+production:
+  # sites hosts
+  # session expire seconds
+  # admin role account
+  URL_HOST: 'YOUR_DOMAIN'
+  URL_SCHEMA: https
+  SESSION_EXPIRE: 60
+  API_WHITELIST: []
+  ADMIN: 'ADMIN_EMAIL'
+  TIMEZONE: 'YOUR LOCALE'
+
+  REDIS_URL: <%= ENV['REDIS_PORT'] %>
+
+  # below settings only in production env
+  # system notify mail settings
+  # --------------------------------------------------------------
+  SMTP_PORT: 'SMTP_PORT'
+  SMTP_DOMAIN: 'SMTP_DOMAIN'
+  SMTP_ADDRESS: 'SMTP_ADDRESS'
+  SMTP_USERNAME: 'SMTP_USERNAME'
+  SMTP_PASSWORD: 'SMTP_PASSWORD'
+  SMTP_AUTHENTICATION: 'SMTP_AUTHENTICATION'
+
+  SUPPORT_MAIL: 'SUPPORT_MAIL_ADDRESS'
+  SYSTEM_MAIL_FROM: 'SYSTEM_MAIL_ADDRESS'
+  SYSTEM_MAIL_TO: 'SYSTEM_MAIL_TO'
+  OPERATE_MAIL_TO: 'OPERATE_MAIL_TO'
+
+  # WebSocket Streaming API settings
+  WEBSOCKET_HOST: 0.0.0.0
+  WEBSOCKET_PORT: 8080
+  # Uncomment below to enable secure WebSocket (wss)
+  #WEBSOCKET_SSL_KEY: 'your_server.key'
+  #WEBSOCKET_SSL_CERT: 'your_server.crt'
+
+  # pusher settings
+  # --------------------------------------------------------------
+  # peatio dependence Pusher (http://pusher.com) service
+  # you can change your key for production environment.
+  # we support development key and secret
+  # uncomment below line only development or test
+  #
+  PUSHER_APP: PUSHER_APP_ID
+  PUSHER_KEY: PUSHER_KEY
+  PUSHER_SECRET: PUSHER_SECRET
+
+  # PUSHER_APP: YOUR_PUSHER_APP
+  # PUSHER_KEY: YOUR_PUSHER_KEY
+  # PUSHER_SECRET: YOUR_PUSHER_SECRET
+  PUSHER_HOST: PUSHER_HOST
+  PUSHER_PORT: 80
+  PUSHER_WS_PORT: 80
+  PUSHER_WSS_PORT: 443
+  PUSHER_ENCRYPTED: true
+
+  # twilio setting
+  # --------------------------------------------------------------
+  # https://github.com/twilio/twilio-ruby
+  #
+  TWILIO_NUMBER: YOUR_TWILIO_NUMBER
+  TWILIO_SID: YOUR_TWILIO_SID
+  TWILIO_TOKEN: YOUR_TWILIO_TOKEN
+
+
+  # Third party auth
+
+  # Weibo
+  # --------------------------------------------------------------
+  WEIBO_AUTH: off # on/off
+
+  # chat setting
+  # --------------------------------------------------------------
+  # Do you want chat feature in your exchange ?
+  # send mail to community@peatio.com

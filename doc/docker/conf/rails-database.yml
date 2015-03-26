@@ -1,0 +1,9 @@
+production:
+  adapter: mysql2
+  encoding: utf8
+  host: <%= ENV['DBMASTER_PORT_3306_TCP_ADDR'] %>
+  database: <%= ENV['DBMASTER_ENV_MYSQL_DATABASE'] %>
+  username: <%= ENV['DBMASTER_ENV_MYSQL_USER'] %>
+  password: <%= ENV['DBMASTER_ENV_MYSQL_PASSWORD'] %>
+  pool: 10
+  reconnect: true

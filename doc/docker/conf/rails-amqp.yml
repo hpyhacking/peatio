@@ -1,0 +1,87 @@
+connect:
+  host: rabbitmq
+  port: 5672
+
+exchange:
+  trade:
+    name: peatio.trade
+    type: headers
+  notification:
+    name: peatio.notification
+    type: direct
+  orderbook:
+    name: peatio.orderbook
+    type: fanout
+
+queue:
+  matching:
+    name: peatio.matching
+    durable: true
+  slave_book:
+    name: peatio.orderbook.slave
+    durable: true
+  new_trade:
+    name: peatio.trade.new
+    durable: true
+  order_processor:
+    name: peatio.order.processor
+    durable: true
+  market_ticker:
+    name: peatio.trade.market_ticker
+  pusher_market:
+    name: peatio.pusher.market
+  pusher_member:
+    name: peatio.pusher.member
+  withdraw_coin:
+    name: peatio.withdraw.coin
+  deposit_coin:
+    name: peatio.deposit.coin
+  deposit_coin_address:
+    name: peatio.deposit.coin.address
+    durable: true
+  email:
+    name: peatio.notification.email
+    durable: true
+  sms:
+    name: peatio.notification.sms
+    durable: true
+
+binding:
+  matching:
+    queue: matching
+    clean_start: true
+  slave_book:
+    queue: slave_book
+    exchange: orderbook
+  trade_executor:
+    queue: new_trade
+    manual_ack: true
+  order_processor:
+    queue: order_processor
+    manual_ack: true
+  market_ticker:
+    queue: market_ticker
+    exchange: trade
+  pusher_market:
+    queue: pusher_market
+    exchange: trade
+  pusher_member:
+    queue: pusher_member
+  withdraw_coin:
+    queue: withdraw_coin
+  deposit_coin:
+    queue: deposit_coin
+  deposit_coin_address:
+    queue: deposit_coin_address
+  email_notification:
+    queue: email
+    exchange: notification
+  sms_notification:
+    queue: sms
+    exchange: notification
+
+channel:
+  trade_executor:
+    prefetch: 5
+  order_processor:
+    prefetch: 5
