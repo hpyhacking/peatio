@@ -3,6 +3,7 @@
   code: cny
   symbol: "¥"
   coin: false
+  precision: 2
   assets:
     accounts:
       -

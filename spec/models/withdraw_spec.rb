@@ -2,6 +2,13 @@ require 'spec_helper'
 
 describe Withdraw do
 
+  context '#fix_precision' do
+    it "should round down to max precision" do
+      withdraw = create(:satoshi_withdraw, sum: '0.123456789')
+      withdraw.sum.should == '0.12345678'.to_d
+    end
+  end
+
   context 'fund source' do
     it "should strip trailing spaces in fund_uid" do
       fund_source = create(:btc_fund_source, uid: 'test   ')
