@@ -66,7 +66,7 @@ window.MarketTradesUI = flight.component ->
       @clearMarkers(@select('allTableSelector'))
     , 900
 
-  @handleMyTrades = (event, data) ->
+  @handleMyTrades = (event, data, notify=true) ->
     for trade in data.trades
       @myTrades.unshift trade
       trade.classes = 'new'
@@ -74,7 +74,7 @@ window.MarketTradesUI = flight.component ->
       el = @select('myTableSelector').prepend(JST['templates/my_trade'](trade))
       @select('allTableSelector').find("tr#market-trade-#{trade.id}").addClass('mine')
 
-      @notifyMyTrade(trade)
+      @notifyMyTrade(trade) if notify
 
     @myTrades = @myTrades.slice(0, @attr.tradesLimit) if @myTrades.length > @attr.tradesLimit
     @select('newMyTradeContent').slideDown('slow')
@@ -88,7 +88,7 @@ window.MarketTradesUI = flight.component ->
     @myTrades = []
 
     @on document, 'trade::populate', (event, data) =>
-      @handleMyTrades(event, trades: data.trades.reverse())
+      @handleMyTrades(event, trades: data.trades.reverse(), false)
     @on document, 'trade', (event, trade) =>
       @handleMyTrades(event, trades: [trade])
 
