@@ -25,6 +25,10 @@ class Currency < ActiveYamlBase
     find_by_code(code)[:assets]
   end
 
+  def precision
+    self[:precision]
+  end
+
   def api
     raise unless coin?
     CoinRPC[code]
