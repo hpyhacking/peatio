@@ -78,7 +78,7 @@ class Market < ActiveYamlBase
   end
 
   def unit_info
-    {base_unit: base_unit, quote_unit: quote_unit}
+    {name: name, base_unit: base_unit, quote_unit: quote_unit}
   end
 
   private
