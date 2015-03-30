@@ -68,11 +68,12 @@ window.MarketTradesUI = flight.component ->
 
   @handleMyTrades = (event, data, notify=true) ->
     for trade in data.trades
-      @myTrades.unshift trade
-      trade.classes = 'new'
+      if trade.market == gon.market.id
+        @myTrades.unshift trade
+        trade.classes = 'new'
 
-      el = @select('myTableSelector').prepend(JST['templates/my_trade'](trade))
-      @select('allTableSelector').find("tr#market-trade-#{trade.id}").addClass('mine')
+        el = @select('myTableSelector').prepend(JST['templates/my_trade'](trade))
+        @select('allTableSelector').find("tr#market-trade-#{trade.id}").addClass('mine')
 
       @notifyMyTrade(trade) if notify
 
