@@ -22,6 +22,14 @@ class Market < ActiveYamlBase
     all_with_invisible.inject({}) {|hash, i| hash[i.id.to_sym] = i.code; hash }
   end
 
+  def self.to_hash
+    return @markets_hash if @markets_hash
+
+    @markets_hash = {}
+    all.each {|m| @markets_hash[m.id.to_sym] = m.unit_info }
+    @markets_hash
+  end
+
   def initialize(*args)
     super
 

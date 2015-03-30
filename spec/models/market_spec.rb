@@ -7,6 +7,12 @@ describe Market do
     it { expect(Market.all.count).to eq(1) }
   end
 
+  context 'markets hash' do
+    it "should list all markets info" do
+      Market.to_hash.should == {:btccny=>{:name=>"BTC/CNY", :base_unit=>"btc", :quote_unit=>"cny"}}
+    end
+  end
+
   context 'market attributes' do
     subject { Market.find('btccny') }
 

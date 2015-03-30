@@ -117,6 +117,7 @@ class ApplicationController < ActionController::Base
     gon.local = I18n.locale
     gon.market = current_market.attributes
     gon.ticker = current_market.ticker
+    gon.markets = Market.to_hash
 
     gon.pusher = {
       key:       ENV['PUSHER_KEY'],
