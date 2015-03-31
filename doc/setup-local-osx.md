@@ -1,4 +1,4 @@
-Setup on Mac OS X 10.9 Mavericks for local development
+Setup local development environment on OS X
 -------------------------------------
 
 ### Overview
@@ -26,10 +26,10 @@ Add rbenv to bash so that it loads every time you open a terminal
     echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile
     source ~/.bash_profile
 
-Install Ruby 2.1.2 and set it as the default version
+Install Ruby and set it as the default version
 
-    rbenv install 2.1.2
-    rbenv global 2.1.2
+    rbenv install 2.2.1
+    rbenv global 2.2.1
 
     ruby -v
 

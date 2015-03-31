@@ -1,4 +1,4 @@
-Setup on Ubuntu 14.04 LTS for local development
+Setup local development environment on Ubuntu 14.04
 -------------------------------------
 
 ### Overview
@@ -25,7 +25,8 @@ Installing [rbenv](https://github.com/sstephenson/rbenv) using a Installer
 
     sudo apt-get install git-core curl zlib1g-dev build-essential \
                          libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 \
-                         libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties
+                         libxml2-dev libxslt1-dev libcurl4-openssl-dev \
+                         python-software-properties libffi-dev
 
     cd
     git clone git://github.com/sstephenson/rbenv.git .rbenv
@@ -37,10 +38,10 @@ Installing [rbenv](https://github.com/sstephenson/rbenv) using a Installer
     echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
     exec $SHELL
 
-Install Ruby 2.1.2 through rbenv:
+Install Ruby through rbenv:
 
-    rbenv install 2.1.2
-    rbenv global 2.1.2
+    rbenv install 2.2.1
+    rbenv global 2.2.1
 
 Install bundler
 
@@ -127,6 +128,7 @@ Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to r
 
 A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do but Node.js is recommended.
 
+    curl -sL https://deb.nodesource.com/setup | sudo bash -
     sudo apt-get install nodejs
 
 
