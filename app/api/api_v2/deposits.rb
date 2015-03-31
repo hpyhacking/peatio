@@ -4,7 +4,7 @@ module APIv2
 
     before { authenticate! }
 
-    desc 'Get your deposits information'
+    desc 'Get your deposits history.'
     params do
       use :auth
       optional :currency, type: String, values: Currency.all.map(&:code), desc: "Currency value contains  #{Currency.all.map(&:code).join(',')}"
@@ -16,7 +16,7 @@ module APIv2
       present deposits, with: APIv2::Entities::Deposit
     end
 
-    desc 'Get single deposit information'
+    desc 'Get details of specific deposit.'
     params do
       use :auth
       requires :txid
@@ -28,5 +28,13 @@ module APIv2
       present deposit, with: APIv2::Entities::Deposit
     end
 
+    desc 'Where to deposit. The address field could be empty when a new address is generating (e.g. for bitcoin), you should try again later in that case.'
+    params do
+      use :auth
+      requires :currency, type: String, values: Currency.all.map(&:code), desc: "The account to which you want to deposit. Available values: #{Currency.all.map(&:code).join(', ')}"
+    end
+    get "/deposit_address" do
+      current_user.ac(params[:currency]).payment_address.to_json
+    end
   end
 end

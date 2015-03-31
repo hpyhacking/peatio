@@ -49,4 +49,8 @@ class PaymentAddress < ActiveRecord::Base
     member
   end
 
+  def to_json
+    {address: deposit_address}
+  end
+
 end
