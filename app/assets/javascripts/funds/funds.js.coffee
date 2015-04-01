@@ -2,6 +2,7 @@
 #= require_tree ./filters
 #= require_self
 #= require_tree ./directives
+#= require_tree ./services
 #= require_tree ./controllers
 #= require ./router
 #= require ./events
@@ -9,13 +10,14 @@
 $ ->
   window.pusher_subscriber = new PusherSubscriber()
 
-Member.initData [window.current_user]
-DepositChannel.initData window.deposit_channels
-WithdrawChannel.initData window.withdraw_channels
-Deposit.initData window.deposits
-Account.initData window.accounts
-Currency.initData window.currencies
-Withdraw.initData window.withdraws
-FundSource.initData window.fund_sources
+Member.initData         [gon.current_user]
+DepositChannel.initData  gon.deposit_channels
+WithdrawChannel.initData gon.withdraw_channels
+Deposit.initData         gon.deposits
+Account.initData         gon.accounts
+Currency.initData        gon.currencies
+Withdraw.initData        gon.withdraws
+FundSource.initData      gon.fund_sources
 
 window.app = app = angular.module 'funds', ["ui.router", "translateFilters", "textFilters", "precisionFilters", "ngDialog"]
+

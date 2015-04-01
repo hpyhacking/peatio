@@ -1,6 +1,7 @@
-app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', 'ngDialog', ($scope, $stateParams, $http, ngDialog) ->
+app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon', 'ngDialog', ($scope, $stateParams, $http, $gon, ngDialog) ->
   @withdraw = {}
   $scope.currency = $stateParams.currency
+  $scope.current_user = current_user = $gon.current_user
   $scope.name = current_user.name
   $scope.fsources = FundSource.findAllBy('currency', $scope.currency)
   $scope.account = Account.findBy('currency', $scope.currency)

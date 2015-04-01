@@ -14,6 +14,8 @@ module Private
       @accounts = current_user.accounts.enabled
       @withdraws = current_user.withdraws
       @fund_sources = current_user.fund_sources
+
+      gon.jbuilder
     end
 
     def gen_address

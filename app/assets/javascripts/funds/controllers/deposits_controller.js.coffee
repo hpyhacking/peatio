@@ -1,6 +1,7 @@
-app.controller 'DepositsController', ($scope, $stateParams, $http) ->
+app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$gon', ($scope, $stateParams, $http, $gon) ->
   @deposit = {}
   $scope.currency = $stateParams.currency
+  $scope.current_user = current_user = $gon.current_user
   $scope.name = current_user.name
   $scope.fsources = FundSource.findAllBy('currency', $scope.currency)
   $scope.account = Account.findBy('currency', $scope.currency)
@@ -40,4 +41,4 @@ app.controller 'DepositsController', ($scope, $stateParams, $http) ->
       $.publish 'deposit_address:create'
     , 1000)
 
-
+]
