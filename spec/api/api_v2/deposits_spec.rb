@@ -31,6 +31,11 @@ describe APIv2::Deposits do
       JSON.parse(response.body).size.should == 3
     end
 
+    it "should return limited deposits" do
+      signed_get '/api/v2/deposits', params: {limit: 1}, token: token
+      JSON.parse(response.body).size.should == 1
+    end
+
     it "deposits currency cny" do
       signed_get '/api/v2/deposits', params: {currency: 'cny'}, token: token
       result = JSON.parse(response.body)

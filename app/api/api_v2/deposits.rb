@@ -1,3 +1,5 @@
+require_relative 'validations'
+
 module APIv2
   class Deposits < Grape::API
     helpers ::APIv2::NamedParams
