@@ -1,6 +1,7 @@
 module APIv2
   module Entities
     class Deposit < Base
+      expose :id, documentation: "Unique deposit id."
       expose :currency
       expose :amount, format_with: :decimal
       expose :fee
