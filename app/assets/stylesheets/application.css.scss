@@ -25,6 +25,9 @@
 @import 'features/simple_captcha';
 @import 'features/custom';
 
+@import 'ngDialog/ngDialog';
+@import 'ngDialog/ngDialog-theme-default';
+
 /* layouts
 -------------------------------------------------------------- */
 html, body {

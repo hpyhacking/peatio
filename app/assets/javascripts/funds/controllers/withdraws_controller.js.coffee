@@ -1,4 +1,4 @@
-app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
+app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', 'ngDialog', ($scope, $stateParams, $http, ngDialog) ->
   @withdraw = {}
   $scope.currency = $stateParams.currency
   $scope.name = current_user.name
@@ -37,6 +37,9 @@ app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
   @withdrawAll = ->
     @withdraw.sum = Number($scope.account.balance)
 
+  $scope.openFundSourceManagerPanel = ->
+    ngDialog.open
+      template: '/templates/fund_sources/index.html'
 
   $scope.sms_and_app_activated = ->
     current_user.app_activated and current_user.sms_activated
@@ -52,3 +55,5 @@ app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
     setTimeout(->
       $.publish "two_factor_init"
     , 100)
+
+]
