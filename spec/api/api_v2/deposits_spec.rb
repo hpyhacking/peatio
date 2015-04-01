@@ -36,6 +36,18 @@ describe APIv2::Deposits do
       JSON.parse(response.body).size.should == 1
     end
 
+    it "should filter deposits by state" do
+      signed_get '/api/v2/deposits', params: {state: 'cancelled'}, token: token
+      JSON.parse(response.body).size.should == 0
+
+      d = create(:deposit, member: member, currency: 'btc')
+      d.submit!
+      signed_get '/api/v2/deposits', params: {state: 'submitted'}, token: token
+      json = JSON.parse(response.body)
+      json.size.should == 1
+      json.first['txid'].should == d.txid
+    end
+
     it "deposits currency cny" do
       signed_get '/api/v2/deposits', params: {currency: 'cny'}, token: token
       result = JSON.parse(response.body)
