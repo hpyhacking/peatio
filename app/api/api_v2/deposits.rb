@@ -8,9 +8,10 @@ module APIv2
     params do
       use :auth
       optional :currency, type: String, values: Currency.all.map(&:code), desc: "Currency value contains  #{Currency.all.map(&:code).join(',')}"
+      optional :limit, type: Integer, range: 1..100, default: 3, desc: "Set result limit."
     end
     get "/deposits" do
-      deposits = current_user.deposits.one_day.recent
+      deposits = current_user.deposits.limit(params[:limit]).recent
       deposits = deposits.with_currency(params[:currency]) if params[:currency]
 
       present deposits, with: APIv2::Entities::Deposit
