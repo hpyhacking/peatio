@@ -56,11 +56,7 @@ Peatio::Application.routes.draw do
       end
     end
 
-    Currency.all.each do |c|
-      resources "#{c.code}_fund_sources",
-        controller: :fund_sources,
-        defaults: { currency: c.code }
-    end
+    resources :fund_sources, only: [:create, :destroy]
 
     resources :funds, only: [:index] do
       collection do

@@ -1,29 +1,22 @@
 module Private
   class FundSourcesController < BaseController
 
+    layout false
     before_action :set_variables
-
-    def index
-      @fund_sources = current_user.fund_sources.with_currency(params[:currency])
-    end
-
-    def new
-      @fund_source = current_user.fund_sources.new
-    end
 
     def create
       @fund_source = current_user.fund_sources.new fund_source_params
 
       if @fund_source.save
-        redirect_to [params[:currency], :fund_sources]
+        render json: current_user.fund_sources, status: :ok
       else
-        render :new
+        head :bad_request
       end
     end
 
     def destroy
       current_user.fund_sources.find(params[:id]).destroy
-      redirect_to [params[:currency], :fund_sources]
+      render json: current_user.fund_sources, status: :ok
     end
 
     private

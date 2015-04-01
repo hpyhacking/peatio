@@ -496,30 +496,6 @@ en:
           branch: Receive Bank Branch
           hodler: Receive holder
           account: Receive Account
-    fund_sources:
-      index:
-        manage_coin_address: Manage %{name} Address
-        manage_bank_account: Manage Bank Account
-        guide_intro_coin: You can creat one new %{name} address, and it can be available
-          for your withdrawal later.
-        guide_intro_bank: You can creat one new fund source, and it can be available
-          for your deposit or withdrawal later.
-        new: New
-        currency: Currency
-        bank: Bank
-        label: Label
-        account: Account
-        address: Address
-        action: Action
-        delete: Delete
-        are_you_sure: Are you sure?
-      new:
-        selector: Select Bank
-        uid: Account Number
-        label: Label
-        label_placeholder: Fill any content
-        address: Address
-        extra_hint: If your bank is no longer in the list, please contact customer service
     history:
       transaction:
         Deposit: Deposit
@@ -1004,12 +980,6 @@ en:
           title: Edit API Token
       tickets:
         panel: Tickets
-      fund_sources:
-        panel: Fund source
-        index:
-          title: Create new fund source
-          intro: You can creat one new fund source, and it can be available for your
-            deposit or withdrawal later.
       id_documents:
         panel: Real-name Authentication
         new:
@@ -1078,9 +1048,6 @@ en:
       document:
         key: Document link URL key
         title: Document Title
-      fund_source:
-        label: Real name
-        address: Address
       order_bid:
         origin_volume: Buy Volume
         sum: Sum
