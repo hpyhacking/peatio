@@ -18,6 +18,7 @@ app.controller 'FundSourcesController', ['$scope', '$gon', 'fundSourceService', 
     data = uid: uid, extra: extra
     fundSourceService.add currency, data, (fs) ->
       $scope.uid = ""
+      $scope.extra = "" if currency isnt $gon.fiat_currency
       fund_sources.push fs
 
 ]
