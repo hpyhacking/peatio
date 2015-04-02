@@ -42,6 +42,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     ngDialog.open
       template: '/templates/fund_sources/index.html'
       controller: 'FundSourcesController'
+      className: 'ngdialog-theme-default custom-width'
       data: {currency: $scope.currency}
 
   $scope.sms_and_app_activated = ->

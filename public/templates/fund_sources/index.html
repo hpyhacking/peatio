@@ -9,10 +9,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr id="fundsource-2163">
-      <td class="col-xs-3">招商银行</td>
-      <td class="col-xs-5">6225882118315826</td>
-      <td class="col-xs-2">移除</td>
+    <tr ng-repeat="fs in fund_sources">
+      <td class="col-xs-8" ng-bind=" 'banks.' + fs.extra | t"></td>
+      <td class="col-xs-12" ng-bind="fs.uid"></td>
+      <td class="col-xs-4">移除</td>
     </tr>
   </tbody>
 </table>

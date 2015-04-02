@@ -11,6 +11,9 @@
 @import "font-awesome-sprockets";
 @import 'font-awesome';
 
+@import 'ngDialog/ngDialog';
+@import 'ngDialog/ngDialog-theme-default';
+
 @import 'layouts/basic';
 @import 'layouts/header';
 
@@ -25,8 +28,6 @@
 @import 'features/simple_captcha';
 @import 'features/custom';
 
-@import 'ngDialog/ngDialog';
-@import 'ngDialog/ngDialog-theme-default';
 
 /* layouts
 -------------------------------------------------------------- */
