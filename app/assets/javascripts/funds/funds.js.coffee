@@ -17,7 +17,6 @@ Deposit.initData         gon.deposits
 Account.initData         gon.accounts
 Currency.initData        gon.currencies
 Withdraw.initData        gon.withdraws
-FundSource.initData      gon.fund_sources
 
 window.app = app = angular.module 'funds', ["ui.router", "ngResource", "translateFilters", "textFilters", "precisionFilters", "ngDialog"]
 
