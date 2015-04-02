@@ -1,5 +1,6 @@
-app.controller 'FundSourcesController', ['$scope', ($scope) ->
+app.controller 'FundSourcesController', ['$scope', 'fundSourceService', ($scope, fundSourceService) ->
 
-  console.info 'FundSourcesController'
+  $scope.currency = $scope.ngDialogData.currency
+  $scope.fund_sources = fundSourceService.filterByCurrency($scope.currency)
 
 ]

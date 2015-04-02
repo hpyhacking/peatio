@@ -42,6 +42,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     ngDialog.open
       template: '/templates/fund_sources/index.html'
       controller: 'FundSourcesController'
+      data: {currency: $scope.currency}
 
   $scope.sms_and_app_activated = ->
     current_user.app_activated and current_user.sms_activated
