@@ -2,12 +2,8 @@ app.service 'fundSourceService', ['$resource', ($resource) ->
 
   resource = $resource '/fund_sources/:id', {id: '@id', currency: '@currency'}
 
-  add: (currency, uid, extra, success) ->
-    uid = uid.trim()
-    return if uid is ""
-
+  add: (currency, data, success) ->
     params = currency: currency
-    data = uid: uid, extra: extra
     resource.save params, data, success
 
   remove: (fund_source, success) ->

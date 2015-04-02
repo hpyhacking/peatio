@@ -9,10 +9,14 @@ app.controller 'FundSourcesController', ['$scope', '$gon', 'fundSourceService', 
       fund_sources.splice fund_sources.indexOf(fs), 1
 
   $scope.add = ->
-    currency = $scope.currency
-    uid      = $scope.uid
-    extra    = $scope.extra
-    fundSourceService.add currency, uid, extra, (fs) ->
+    uid   = $scope.uid.trim()   if angular.isString($scope.uid)
+    extra = $scope.extra.trim() if angular.isString($scope.extra)
+
+    return if not uid
+    return if not extra
+
+    data = uid: uid, extra: extra
+    fundSourceService.add currency, data, (fs) ->
       $scope.uid = ""
       fund_sources.push fs
 

@@ -8,12 +8,12 @@
 
       <select id="fund_source" class="select required form-control" name="fund_source"
         ng-model="withdrawsCtrl.withdraw.fund_source"
-        ng-options="fs.id as fs.label for fs in fsources"
-        ng-init="withdrawsCtrl.withdraw.fund_source=fsources[0].id" required>
+        ng-options="fs.id as fs.label for fs in fund_sources | filter:{currency:currency}"
+        ng-init="withdrawsCtrl.withdraw.fund_source=fund_source[0].id" required>
       </select>
 
     </div>
-    <span class="col-sm-6 help-block"><a href="/btc_fund_sources">{{"funds.withdraw_coin.manage_withdraw" | t}}</a></span>
+    <span class="col-sm-6 help-block"><a href="javascript:;" ng-click="openFundSourceManagerPanel()" ng-bind="'funds.withdraw_coin.manage_withdraw' | t"></a></span>
   </div>
 
   <div class="form-group">

@@ -39,8 +39,13 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     @withdraw.sum = Number($scope.account.balance)
 
   $scope.openFundSourceManagerPanel = ->
+    if $scope.currency == 'cny'
+      template = '/templates/fund_sources/bank.html'
+    else
+      template = '/templates/fund_sources/coin.html'
+
     ngDialog.open
-      template: '/templates/fund_sources/index.html'
+      template:template
       controller: 'FundSourcesController'
       className: 'ngdialog-theme-default custom-width'
       data: {currency: $scope.currency}
