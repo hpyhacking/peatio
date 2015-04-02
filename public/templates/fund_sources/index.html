@@ -12,7 +12,24 @@
     <tr ng-repeat="fs in fund_sources">
       <td class="col-xs-8" ng-bind=" 'banks.' + fs.extra | t"></td>
       <td class="col-xs-12" ng-bind="fs.uid"></td>
-      <td class="col-xs-4">移除</td>
+      <td class="col-xs-4">
+        <button class="form-control" ng-click="remove(fs)">移除</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-xs-8">
+        <select class="form-control"
+          ng-options="bank.code as ('banks.' + bank.code | t) for bank in banks"
+          ng-init="extra = banks[0].code"
+          ng-model="extra">
+        </select>
+      </td>
+      <td class="col-xs-12">
+        <input class="string form-control" placeholder="银行账号" ng-model="uid" />
+      </td>
+      <td class="col-xs-4">
+        <button class="form-control" type="submit" ng-click="add()">添加</button>
+      </td>
     </tr>
   </tbody>
 </table>
