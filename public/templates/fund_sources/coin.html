@@ -1,11 +1,11 @@
-<h3>提现地址管理</h3>
-<h5>通过增加提现地址，以便每次提现时快速选择。</h5>
+<h3 ng-bind="'fund_sources.manage_coin_address' | t"></h3>
+<h5 ng-bind="'fund_sources.manage_coin_address_desc' | t"></h5>
 <table class="table table-condensed table-hover">
   <thead>
     <tr>
-      <th>标签</th>
-      <th>地址</th>
-      <th>操作</th>
+      <th ng-bind="'fund_sources.label' | t"></th>
+      <th ng-bind="'fund_sources.address' | t"></th>
+      <th ng-bind="'fund_sources.action' | t"></th>
     </tr>
   </thead>
   <tbody>
@@ -13,18 +13,18 @@
       <td class="col-xs-8" ng-bind="fs.extra"></td>
       <td class="col-xs-12" ng-bind="fs.uid"></td>
       <td class="col-xs-4">
-        <button class="form-control" ng-click="remove(fs)">移除</button>
+        <button class="form-control" ng-click="remove(fs)" ng-bind="'fund_sources.remove' | t"></button>
       </td>
     </tr>
     <tr>
       <td class="col-xs-8">
-        <input class="string form-control" placeholder="标签" ng-model="extra" ng-init="extra = ''" />
+        <input class="string form-control" placeholder="{{'fund_sources.label' | t}}" ng-model="extra" ng-init="extra = ''" />
       </td>
       <td class="col-xs-12">
-        <input class="string form-control" placeholder="地址" ng-model="uid" ng-init="uid = ''" />
+        <input class="string form-control" placeholder="{{'fund_sources.address' | t}}" ng-model="uid" ng-init="uid = ''" />
       </td>
       <td class="col-xs-4">
-        <button class="form-control" type="submit" ng-click="add()">添加</button>
+        <button class="form-control" type="submit" ng-click="add()" ng-bind="'fund_sources.add' | t"></button>
       </td>
     </tr>
   </tbody>

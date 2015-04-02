@@ -26,6 +26,18 @@ zh-CN:
       gdb: 广东发展银行
       psbc: 中国邮政储蓄银行
       bos: 上海银行
+    fund_sources:
+      manage_bank_account: 银行帐号管理
+      manage_bank_account_desc: 通过增加提现银行帐号，以便每次提现时快速选择。
+      manage_coin_address: 提现地址管理
+      manage_coin_address_desc: 通过增加提现地址，以便每次提现时快速选择。
+      bank: 银行
+      account: 银行账号
+      label: 标签
+      address: 地址
+      action: 操作
+      add: 添加
+      remove: 移除
     funds:
       deposit: 充值
       withdraw: 提现

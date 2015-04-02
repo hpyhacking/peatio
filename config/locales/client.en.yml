@@ -21,6 +21,18 @@ en:
       gdb: Guangdong Development Bank
       psbc: Postal Savings Bank of China
       bos: Bank of Shanghai
+    fund_sources:
+      manage_bank_account: Bank Account Management
+      manage_bank_account_desc: To facilitate the choice of bank withdrawals address
+      manage_coin_address: Coin Address Management
+      manage_coin_address_desc: To facilitate the choice of coin withdrawals address
+      bank: Bank
+      account: Bank Account
+      label: Label
+      address: Address
+      action: Action
+      add: Add
+      remove: Remove
     funds:
       deposit: Deposit
       withdraw: Withdraw
