@@ -5,18 +5,18 @@ module Private
     before_action :set_variables
 
     def create
-      @fund_source = current_user.fund_sources.new fund_source_params
+      fund_source = current_user.fund_sources.new fund_source_params
 
-      if @fund_source.save
-        render json: current_user.fund_sources, status: :ok
+      if fund_source.save
+        render json: fund_source, status: :ok
       else
         head :bad_request
       end
     end
 
     def destroy
-      current_user.fund_sources.find(params[:id]).destroy
-      render json: current_user.fund_sources, status: :ok
+      fund_source = current_user.fund_sources.find(params[:id]).destroy
+      render json: fund_source, status: :ok
     end
 
     private

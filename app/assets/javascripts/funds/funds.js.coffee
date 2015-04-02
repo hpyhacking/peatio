@@ -19,5 +19,5 @@ Currency.initData        gon.currencies
 Withdraw.initData        gon.withdraws
 FundSource.initData      gon.fund_sources
 
-window.app = app = angular.module 'funds', ["ui.router", "translateFilters", "textFilters", "precisionFilters", "ngDialog"]
+window.app = app = angular.module 'funds', ["ui.router", "ngResource", "translateFilters", "textFilters", "precisionFilters", "ngDialog"]
 

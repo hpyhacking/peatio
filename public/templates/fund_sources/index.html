@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="fs in fund_sources">
+    <tr ng-repeat="fs in fund_sources | filter:{currency: currency}">
       <td class="col-xs-8" ng-bind=" 'banks.' + fs.extra | t"></td>
       <td class="col-xs-12" ng-bind="fs.uid"></td>
       <td class="col-xs-4">
@@ -25,7 +25,7 @@
         </select>
       </td>
       <td class="col-xs-12">
-        <input class="string form-control" placeholder="银行账号" ng-model="uid" />
+        <input class="string form-control" placeholder="银行账号" ng-model="uid" ng-init="uid = ''" />
       </td>
       <td class="col-xs-4">
         <button class="form-control" type="submit" ng-click="add()">添加</button>

@@ -3,7 +3,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   $scope.currency = $stateParams.currency
   $scope.current_user = current_user = $gon.current_user
   $scope.name = current_user.name
-  $scope.fsources = FundSource.findAllBy('currency', $scope.currency)
+  $scope.fund_sources = $gon.fund_sources
   $scope.account = Account.findBy('currency', $scope.currency)
   $scope.balance = $scope.account.balance
   $scope.withdraw_channel = WithdrawChannel.findBy('currency', $scope.currency)
