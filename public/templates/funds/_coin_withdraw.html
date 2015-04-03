@@ -4,7 +4,7 @@
     <div class="col-sm-6">
       <label class="select required control-label" for="withdraw_fund_source">{{"funds.withdraw_coin.label" | t}}</label>
     </div>
-    <div class="col-sm-12">
+    <div class="col-sm-12" ng-if="(fund_sources | filter:{currency:currency}).length">
 
       <select id="fund_source" class="select required form-control" name="fund_source"
         ng-model="withdrawsCtrl.withdraw.fund_source"
