@@ -1,4 +1,4 @@
-app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$gon', ($scope, $stateParams, $http, $gon) ->
+app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$filter', '$gon', 'ngDialog', ($scope, $stateParams, $http, $filter, $gon, ngDialog) ->
   @deposit = {}
   $scope.currency = $stateParams.currency
   $scope.current_user = current_user = $gon.current_user
@@ -24,16 +24,19 @@ app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$gon',
         $('.form-submit > input').removeAttr('disabled')
 
   $scope.genAddress = (resource_name) ->
-    $("a#new_address").html('...')
-    $("a#new_address").attr('disabled', 'disabled')
+    ngDialog.openConfirm
+      template: '/templates/shared/confirm_dialog.html'
+      data: {content: $filter('t')('funds.deposit_coin.confirm_gen_new_address')}
+    .then ->
+      $("a#new_address").html('...')
+      $("a#new_address").attr('disabled', 'disabled')
 
-    $http.post("/deposits/#{resource_name}/gen_address", {})
-      .error (responseText) ->
-        $.publish 'flash', {message: responseText }
-      .finally ->
-        $("a#new_address").html(I18n.t("funds.deposit_coin.new_address"))
-        $("a#new_address").attr('disabled', 'disabled')
-
+      $http.post("/deposits/#{resource_name}/gen_address", {})
+        .error (responseText) ->
+          $.publish 'flash', {message: responseText }
+        .finally ->
+          $("a#new_address").html(I18n.t("funds.deposit_coin.new_address"))
+          $("a#new_address").attr('disabled', 'disabled')
 
 
   $scope.$watch (-> $scope.account.deposit_address), ->

@@ -5,3 +5,7 @@
   }
 }
 
+// ngDialog Confim Dialog
+.ngdialog.ngdialog-theme-default .dialog-contents {
+  button.cancel { margin-right: 10px; }
+}
