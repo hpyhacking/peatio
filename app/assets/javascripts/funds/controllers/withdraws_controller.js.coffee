@@ -39,7 +39,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     @withdraw.sum = Number($scope.account.balance)
 
   $scope.openFundSourceManagerPanel = ->
-    if $scope.currency == 'cny'
+    if $scope.currency == $gon.fiat_currency
       template = '/templates/fund_sources/bank.html'
     else
       template = '/templates/fund_sources/coin.html'
