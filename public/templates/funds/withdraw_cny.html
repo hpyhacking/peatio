@@ -20,12 +20,12 @@
       <div class="col-sm-6">
         <label class="select required control-label" for="withdraw_fund_source">{{"funds.withdraw_cny.withdraw_address" | t}}</label>
       </div>
-      <div class="col-sm-12" ng-if="(fund_sources | filter:{currency:currency}).length">
+      <div class="col-sm-12" ng-if="fund_sources.length">
 
         <select id="fund_source" class="select required form-control" name="fund_source"
-          ng-model="withdrawsCtrl.withdraw.fund_source"
-          ng-options="fs.id as fs.label for fs in fund_sources | filter:{currency:currency}"
-          ng-init="console.info(1)" required>
+          ng-model="withdrawsCtrl.withdraw.fund_source_id"
+          ng-options="fs.id as fs.label for fs in fund_sources"
+          required>
         </select>
 
       </div>

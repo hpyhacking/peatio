@@ -1,19 +1,24 @@
-app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon', 'ngDialog', ($scope, $stateParams, $http, $gon, ngDialog) ->
+app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon', 'fundSourceService', 'ngDialog', ($scope, $stateParams, $http, $gon, fundSourceService, ngDialog) ->
   @withdraw = {}
-  $scope.currency = $stateParams.currency
+  $scope.currency = currency = $stateParams.currency
   $scope.current_user = current_user = $gon.current_user
   $scope.name = current_user.name
-  $scope.fund_sources = $gon.fund_sources
   $scope.account = Account.findBy('currency', $scope.currency)
   $scope.balance = $scope.account.balance
   $scope.withdraw_channel = WithdrawChannel.findBy('currency', $scope.currency)
+
+  $scope.fund_sources = fund_sources = []
+  fundSourceService.onChange =>
+    fund_sources.splice(0, fund_sources.length) if fund_sources.length
+    fund_sources.push i for i in fundSourceService.filterBy currency:currency
+    @withdraw.fund_source_id = fund_sources[0].id if fund_sources.length
 
   @createWithdraw = (currency) ->
     ctrl = @
     withdraw_channel = WithdrawChannel.findBy('currency', currency)
     account = withdraw_channel.account()
 
-    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source: @withdraw.fund_source } }
+    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source_id: @withdraw.fund_source_id } }
 
     if current_user.app_activated or current_user.sms_activated
       type = $('.two_factor_auth_type').val()
@@ -29,9 +34,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
       .error (responseText) ->
         $.publish 'flash', { message: responseText }
       .finally ->
-        priorSelectedFundSource = ctrl.withdraw.fund_source
-        ctrl.withdraw = {}
-        ctrl.withdraw.fund_source = priorSelectedFundSource
+        ctrl.withdraw = {fund_source_id: ctrl.withdraw.fund_source_id}
         $('.form-submit > input').removeAttr('disabled')
         $.publish 'withdraw:form:submitted'
 
