@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="fs in fund_sources | filter:{currency: currency}">
+    <tr ng-repeat="fs in fund_sources">
       <td class="col-xs-8" ng-bind=" 'banks.' + fs.extra | t"></td>
       <td class="col-xs-12" ng-bind="fs.uid"></td>
       <td class="col-xs-4">

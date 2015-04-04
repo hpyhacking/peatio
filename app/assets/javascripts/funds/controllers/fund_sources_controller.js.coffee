@@ -1,12 +1,12 @@
 app.controller 'FundSourcesController', ['$scope', '$gon', 'fundSourceService', ($scope, $gon, fundSourceService) ->
 
-  $scope.currency = currency = $scope.ngDialogData.currency
-  $scope.fund_sources = fund_sources = $gon.fund_sources
   $scope.banks = $gon.banks
+  $scope.currency = currency = $scope.ngDialogData.currency
+  $scope.fund_sources = fund_sources = []
 
-  $scope.remove = (fs) ->
-    fundSourceService.remove fs, ->
-      fund_sources.splice fund_sources.indexOf(fs), 1
+  fundSourceService.onChange ->
+    fund_sources.splice(0, fund_sources.length) if fund_sources.length
+    fund_sources.push i for i in fundSourceService.filterBy currency:currency
 
   $scope.add = ->
     uid   = $scope.uid.trim()   if angular.isString($scope.uid)
@@ -16,9 +16,11 @@ app.controller 'FundSourcesController', ['$scope', '$gon', 'fundSourceService', 
     return if not extra
 
     data = uid: uid, extra: extra
-    fundSourceService.add currency, data, (fs) ->
+    fundSourceService.add currency, data, ->
       $scope.uid = ""
       $scope.extra = "" if currency isnt $gon.fiat_currency
-      fund_sources.push fs
+
+  $scope.remove = (fund_source) ->
+    fundSourceService.remove fund_source
 
 ]
