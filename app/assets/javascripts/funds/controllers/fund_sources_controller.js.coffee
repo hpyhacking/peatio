@@ -2,14 +2,12 @@ app.controller 'FundSourcesController', ['$scope', '$gon', 'fundSourceService', 
 
   $scope.banks = $gon.banks
   $scope.currency = currency = $scope.ngDialogData.currency
-  $scope.fund_sources = fund_sources = []
-  $scope.selectedId = null
 
-  fundSourceService.onChange ->
-    fund_sources.splice(0, fund_sources.length) if fund_sources.length
-    fund_sources.push i for i in fundSourceService.filterBy currency:currency
-    defaultFundSource = fundSourceService.defaultFundSource currency:currency
-    $scope.selectedId = defaultFundSource.id if defaultFundSource
+  $scope.fund_sources = ->
+    fundSourceService.filterBy currency:currency
+
+  $scope.defaultFundSource = ->
+    fundSourceService.defaultFundSource currency:currency
 
   $scope.add = ->
     uid   = $scope.uid.trim()   if angular.isString($scope.uid)
