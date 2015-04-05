@@ -11,7 +11,22 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   fundSourceService.onChange =>
     fund_sources.splice(0, fund_sources.length) if fund_sources.length
     fund_sources.push i for i in fundSourceService.filterBy currency:currency
-    @withdraw.fund_source_id = fund_sources[0].id if fund_sources.length
+
+    isFundSourceSelected = =>
+      not not @withdraw.fund_source_id
+
+    isFundSourceInList = =>
+      for fs in fund_sources
+        return true if fs.id is @withdraw.fund_source_id
+      return false
+
+    selectFirstFundSource = =>
+      @withdraw.fund_source_id = fund_sources[0].id if fund_sources.length
+
+    if isFundSourceSelected() and not isFundSourceInList()
+      selectFirstFundSource()
+    else
+      selectFirstFundSource()
 
   @createWithdraw = (currency) ->
     ctrl = @
