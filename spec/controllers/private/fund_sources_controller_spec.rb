@@ -6,8 +6,8 @@ describe Private::FundSourcesController do
 
   describe 'POST create' do
     it "should not create fund_source with blank extra" do
-      params = { currency: :cny,
-                 fund_source: { extra: '',
+      params = { fund_source: { extra: '',
+                                currency: :cny,
                                 uid: '1234 1234 1234'} }
 
       expect {
@@ -17,8 +17,8 @@ describe Private::FundSourcesController do
     end
 
     it "should not create fund_source with blank uid" do
-      params = { currency: :cny,
-                 fund_source: { extra: 'bank_code_1',
+      params = { fund_source: { extra: 'bank_code_1',
+                                currency: :cny,
                                 uid: ''} }
 
       expect {
@@ -28,8 +28,8 @@ describe Private::FundSourcesController do
     end
 
     it "should create fund_source successful" do
-      params = { currency: :cny,
-                 fund_source: { extra: 'bank_code_1',
+      params = { fund_source: { extra: 'bank_code_1',
+                                currency: :cny,
                                 uid: '1234 1234 1234'} }
 
       expect {
@@ -39,14 +39,22 @@ describe Private::FundSourcesController do
     end
   end
 
-  describe 'DELETE' do
-    before do
-      @fund_source = create(:fund_source, member: member)
+  describe 'UPDATE' do
+    let!(:fund_source) { create(:fund_source, member: member, currency: :btc) }
+    let(:account) { member.accounts.with_currency(:btc).first }
+
+    it 'update default_withdraw_fund_source_id to account' do
+      put :update, {id: fund_source.id}
+      expect(account.default_withdraw_fund_source_id).to eq(fund_source.id)
     end
+  end
+
+  describe 'DELETE' do
+    let!(:fund_source) { create(:fund_source, member: member) }
 
     it "should delete fund_source" do
       expect {
-        delete :destroy, {currency: @fund_source.currency, id: @fund_source.id}
+        delete :destroy, {id: fund_source.id}
         expect(response).to be_ok
       }.to change(FundSource, :count).by(-1)
     end
@@ -56,5 +64,6 @@ end
 
 describe 'routes for FundSources', type: :routing do
   it { expect(post: '/fund_sources').to be_routable }
+  it { expect(put: '/fund_sources/1').to be_routable }
   it { expect(delete: '/fund_sources/1').to be_routable }
 end

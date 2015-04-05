@@ -1,6 +1,9 @@
 app.service 'fundSourceService', ['$filter', '$gon', '$resource', 'accountService', ($filter, $gon, $resource, accountService) ->
 
-  resource = $resource '/fund_sources/:id', {id: '@id', currency: '@currency'}
+  resource = $resource '/fund_sources/:id',
+    {id: '@id'}
+    {update: { method: 'PUT' }}
+
   callbacks = []
 
   filterBy: (filter) ->
@@ -22,16 +25,19 @@ app.service 'fundSourceService', ['$filter', '$gon', '$resource', 'accountServic
   trigger: ->
     do callback for callback in callbacks
 
-  add: (currency, data, afterAdd) ->
-    params = currency: currency
-    resource.save params, data, (fund_source) =>
+  create: (data, afterCreate) ->
+    resource.save data, (fund_source) =>
       $gon.fund_sources.push fund_source
       do @trigger
-      do afterAdd if afterAdd
+      do afterCreate if afterCreate
+
+  update: (fund_source, afterUpdate) ->
+    resource.update id: fund_source.id, =>
+      do @trigger
+      do afterUpdate if afterUpdate
 
   remove: (fund_source, afterRemove) ->
-    params = id: fund_source.id, currency: fund_source.currency
-    resource.remove params, =>
+    resource.remove id: fund_source.id, =>
       $gon.fund_sources.splice $gon.fund_sources.indexOf(fund_source), 1
       do @trigger
       do afterRemove if afterRemove

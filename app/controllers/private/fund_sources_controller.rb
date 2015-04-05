@@ -1,37 +1,35 @@
 module Private
   class FundSourcesController < BaseController
 
-    layout false
-    before_action :set_variables
-
     def create
-      fund_source = current_user.fund_sources.new fund_source_params
+      new_fund_source = current_user.fund_sources.new fund_source_params
 
-      if fund_source.save
-        render json: fund_source, status: :ok
+      if new_fund_source.save
+        render json: new_fund_source, status: :ok
       else
         head :bad_request
       end
     end
 
+    def update
+      account = current_user.accounts.with_currency(fund_source.currency).first
+      account.update default_withdraw_fund_source_id: params[:id]
+
+      head :ok
+    end
+
     def destroy
-      fund_source = current_user.fund_sources.find(params[:id]).destroy
-      render json: fund_source, status: :ok
+      render json: fund_source.destroy, status: :ok
     end
 
     private
 
-    def set_variables
-      @currency ||= Currency.find_by_code(params[:currency])
-
-      if not @currency.coin?
-        @banks ||= Bank.with_currency(params[:currency])
-      end
+    def fund_source
+      current_user.fund_sources.find(params[:id])
     end
 
     def fund_source_params
-      params[:fund_source][:currency] = params[:currency]
-      params.require(:fund_source).permit(:extra, :uid, :currency)
+      params.require(:fund_source).permit(:currency, :uid, :extra)
     end
   end
 end

@@ -56,7 +56,7 @@ Peatio::Application.routes.draw do
       end
     end
 
-    resources :fund_sources, only: [:create, :destroy]
+    resources :fund_sources, only: [:create, :update, :destroy]
 
     resources :funds, only: [:index] do
       collection do

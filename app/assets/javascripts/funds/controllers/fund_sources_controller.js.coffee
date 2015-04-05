@@ -17,15 +17,15 @@ app.controller 'FundSourcesController', ['$scope', '$gon', 'fundSourceService', 
     return if not uid
     return if not extra
 
-    data = uid: uid, extra: extra
-    fundSourceService.add currency, data, ->
+    data = uid: uid, extra: extra, currency: currency
+    fundSourceService.create data, ->
       $scope.uid = ""
       $scope.extra = "" if currency isnt $gon.fiat_currency
 
   $scope.remove = (fund_source) ->
     fundSourceService.remove fund_source
 
-  $scope.makeDefault = (fs) ->
-    console.info fs
+  $scope.makeDefault = (fund_source) ->
+    fundSourceService.update fund_source
 
 ]
