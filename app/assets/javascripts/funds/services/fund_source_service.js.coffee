@@ -1,10 +1,19 @@
-app.service 'fundSourceService', ['$filter', '$gon', '$resource', ($filter, $gon, $resource) ->
+app.service 'fundSourceService', ['$filter', '$gon', '$resource', 'accountService', ($filter, $gon, $resource, accountService) ->
 
   resource = $resource '/fund_sources/:id', {id: '@id', currency: '@currency'}
   callbacks = []
 
   filterBy: (filter) ->
     $filter('filter')($gon.fund_sources, filter)
+
+  findBy: (filter) ->
+    result = @filterBy filter
+    if result.length then result[0] else null
+
+  defaultSelected: (filter) ->
+    account = accountService.findBy filter
+    return null if not account
+    @findBy id: account.default_withdraw_fund_source_id
 
   onChange: (callback) ->
     callbacks.push callback

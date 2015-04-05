@@ -13,6 +13,7 @@
       <td class="col-xs-8" ng-bind=" 'banks.' + fs.extra | t"></td>
       <td class="col-xs-12" ng-bind="fs.uid"></td>
       <td class="col-xs-4">
+        <button class="form-control" ng-show="fs != defaultSelected" ng-click="makeDefault(fs)" ng-bind="'fund_sources.default' | t"></button>
         <button class="form-control" ng-click="remove(fs)" ng-bind="'fund_sources.remove' | t"></button>
       </td>
     </tr>

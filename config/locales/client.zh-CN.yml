@@ -40,6 +40,7 @@ zh-CN:
       action: 操作
       add: 添加
       remove: 移除
+      default: 默认
     funds:
       deposit: 充值
       withdraw: 提现

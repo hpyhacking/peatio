@@ -35,6 +35,7 @@ en:
       action: Action
       add: Add
       remove: Remove
+      default: Default
     funds:
       deposit: Deposit
       withdraw: Withdraw

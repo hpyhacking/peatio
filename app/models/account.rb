@@ -23,6 +23,10 @@ class Account < ActiveRecord::Base
   has_many :versions, class_name: "::AccountVersion"
   has_many :partial_trees
 
+  # Suppose to use has_one here, but I want to store
+  # relationship at account side. (Daniel)
+  belongs_to :default_withdraw_fund_source, class_name: 'FundSource'
+
   validates :member_id, uniqueness: { scope: :currency }
   validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
 
