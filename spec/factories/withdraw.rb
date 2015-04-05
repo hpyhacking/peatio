@@ -3,7 +3,7 @@ FactoryGirl.define do
     sum { 10.to_d }
     currency :btc
     member { create :member }
-    fund_source { create(:btc_fund_source).id }
+    fund_source_id { create(:btc_fund_source).id }
     type 'Withdraws::Satoshi'
 
     account do
@@ -30,7 +30,7 @@ FactoryGirl.define do
     member { create :member }
     currency :cny
     sum { 1000.to_d }
-    fund_source { create(:cny_fund_source).id }
+    fund_source_id { create(:cny_fund_source).id }
     type 'Withdraws::Bank'
 
     account do
