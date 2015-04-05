@@ -8,25 +8,31 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   $scope.withdraw_channel = WithdrawChannel.findBy('currency', $scope.currency)
 
   $scope.fund_sources = fund_sources = []
-  fundSourceService.onChange =>
+  fundSourceService.onChange (event) =>
     fund_sources.splice(0, fund_sources.length) if fund_sources.length
     fund_sources.push i for i in fundSourceService.filterBy currency:currency
+
+    #########################################
+    # Determine which item should be selected
+    #########################################
+    if event is 'updateDefaultFundSource'
+      @withdraw.fund_source_id = null
 
     isFundSourceSelected = =>
       not not @withdraw.fund_source_id
 
-    isFundSourceInList = =>
+    isFundSourceInList = (id) =>
       for fs in fund_sources
-        return true if fs.id is @withdraw.fund_source_id
+        return true if fs.id is id
       return false
 
-    selectFirstFundSource = =>
-      @withdraw.fund_source_id = fund_sources[0].id if fund_sources.length
+    if not isFundSourceSelected() or (isFundSourceSelected() and not isFundSourceInList(@withdraw.fund_source_id))
+      defaultFundSource = fundSourceService.defaultFundSource currency:currency
+      if defaultFundSource and isFundSourceInList(defaultFundSource.id)
+        @withdraw.fund_source_id = defaultFundSource.id
+      else
+        @withdraw.fund_source_id = fund_sources[0].id if fund_sources.length
 
-    if isFundSourceSelected() and not isFundSourceInList()
-      selectFirstFundSource()
-    else
-      selectFirstFundSource()
 
   @createWithdraw = (currency) ->
     ctrl = @

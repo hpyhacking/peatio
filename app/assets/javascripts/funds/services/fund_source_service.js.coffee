@@ -13,7 +13,7 @@ app.service 'fundSourceService', ['$filter', '$gon', '$resource', 'accountServic
     result = @filterBy filter
     if result.length then result[0] else null
 
-  defaultSelected: (filter) ->
+  defaultFundSource: (filter) ->
     account = accountService.findBy filter
     return null if not account
     @findBy id: account.default_withdraw_fund_source_id
@@ -22,24 +22,27 @@ app.service 'fundSourceService', ['$filter', '$gon', '$resource', 'accountServic
     callbacks.push callback
     do callback
 
-  trigger: ->
-    do callback for callback in callbacks
+  trigger: (event) ->
+    callback(event) for callback in callbacks
 
   create: (data, afterCreate) ->
     resource.save data, (fund_source) =>
       $gon.fund_sources.push fund_source
-      do @trigger
-      do afterCreate if afterCreate
+      @trigger('create')
+      afterCreate() if afterCreate
 
   update: (fund_source, afterUpdate) ->
     resource.update id: fund_source.id, =>
-      do @trigger
-      do afterUpdate if afterUpdate
+      account = accountService.findBy currency:fund_source.currency
+      return null if not account
+      account.default_withdraw_fund_source_id = fund_source.id
+      @trigger('updateDefaultFundSource')
+      afterUpdate() if afterUpdate
 
   remove: (fund_source, afterRemove) ->
     resource.remove id: fund_source.id, =>
       $gon.fund_sources.splice $gon.fund_sources.indexOf(fund_source), 1
-      do @trigger
-      do afterRemove if afterRemove
+      @trigger('remove')
+      afterRemove() if afterRemove
 
 ]
