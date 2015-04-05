@@ -23,6 +23,13 @@ app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$filte
         depositCtrl.deposit = {}
         $('.form-submit > input').removeAttr('disabled')
 
+  $scope.openFundSourceManagerPanel = ->
+    ngDialog.open
+      template: '/templates/fund_sources/bank.html'
+      controller: 'FundSourcesController'
+      className: 'ngdialog-theme-default custom-width'
+      data: {currency: $scope.currency}
+
   $scope.genAddress = (resource_name) ->
     ngDialog.openConfirm
       template: '/templates/shared/confirm_dialog.html'
