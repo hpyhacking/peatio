@@ -1,18 +1,50 @@
-app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
-  @withdraw = {}
-  $scope.currency = $stateParams.currency
+app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon', 'fundSourceService', 'ngDialog', ($scope, $stateParams, $http, $gon, fundSourceService, ngDialog) ->
+
+  _selectedFundSourceId = null
+  _selectedFundSourceIdInList = (list) ->
+    for fs in list
+      return true if fs.id is _selectedFundSourceId
+    return false
+
+  $scope.currency = currency = $stateParams.currency
+  $scope.current_user = current_user = $gon.current_user
   $scope.name = current_user.name
-  $scope.fsources = FundSource.findAllBy('currency', $scope.currency)
   $scope.account = Account.findBy('currency', $scope.currency)
   $scope.balance = $scope.account.balance
   $scope.withdraw_channel = WithdrawChannel.findBy('currency', $scope.currency)
 
+  $scope.selected_fund_source_id = (newId) ->
+    if angular.isDefined(newId)
+      _selectedFundSourceId = newId
+    else
+      _selectedFundSourceId
+
+  $scope.fund_sources = ->
+    fund_sources = fundSourceService.filterBy currency:currency
+    # reset selected fundSource after add new one or remove previous one
+    if not _selectedFundSourceId or not _selectedFundSourceIdInList(fund_sources)
+      $scope.selected_fund_source_id fund_sources[0].id if fund_sources.length
+    fund_sources
+
+  # set defaultFundSource as selected
+  defaultFundSource = fundSourceService.defaultFundSource currency:currency
+  if defaultFundSource
+    _selectedFundSourceId = defaultFundSource.id
+  else
+    fund_sources = $scope.fund_sources()
+    _selectedFundSourceId = fund_sources[0].id if fund_sources.length
+
+  # set current default fundSource as selected
+  $scope.$watch ->
+    fundSourceService.defaultFundSource currency:currency
+  , (defaultFundSource) ->
+    $scope.selected_fund_source_id defaultFundSource.id if defaultFundSource
+
+  @withdraw = {}
   @createWithdraw = (currency) ->
-    ctrl = @
     withdraw_channel = WithdrawChannel.findBy('currency', currency)
     account = withdraw_channel.account()
-
-    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source: @withdraw.fund_source } }
+    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source_id: _selectedFundSourceId } }
 
     if current_user.app_activated or current_user.sms_activated
       type = $('.two_factor_auth_type').val()
@@ -27,16 +59,25 @@ app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
     $http.post("/withdraws/#{withdraw_channel.resource_name}", data)
       .error (responseText) ->
         $.publish 'flash', { message: responseText }
-      .finally ->
-        priorSelectedFundSource = ctrl.withdraw.fund_source
-        ctrl.withdraw = {}
-        ctrl.withdraw.fund_source = priorSelectedFundSource
+      .finally =>
+        @withdraw = {}
         $('.form-submit > input').removeAttr('disabled')
         $.publish 'withdraw:form:submitted'
 
   @withdrawAll = ->
     @withdraw.sum = Number($scope.account.balance)
 
+  $scope.openFundSourceManagerPanel = ->
+    if $scope.currency == $gon.fiat_currency
+      template = '/templates/fund_sources/bank.html'
+    else
+      template = '/templates/fund_sources/coin.html'
+
+    ngDialog.open
+      template:template
+      controller: 'FundSourcesController'
+      className: 'ngdialog-theme-default custom-width'
+      data: {currency: $scope.currency}
 
   $scope.sms_and_app_activated = ->
     current_user.app_activated and current_user.sms_activated
@@ -52,3 +93,5 @@ app.controller 'WithdrawsController', ($scope, $stateParams, $http) ->
     setTimeout(->
       $.publish "two_factor_init"
     , 100)
+
+]

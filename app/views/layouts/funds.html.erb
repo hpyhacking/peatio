@@ -5,16 +5,6 @@
 
     <link href="/favicon.ico" rel="shortcut icon"></link>
     <%= include_gon %>
-    <script type = 'text/javascript'>
-      window.deposits = <%= raw @deposits.to_json %>
-      window.accounts = <%= raw @accounts.to_json %>
-      window.deposit_channels = <%= raw @deposit_channels.to_json %>
-      window.withdraw_channels = <%= raw @withdraw_channels.to_json %>
-      window.current_user = <%= raw current_user.to_json %>
-      window.currencies = <%= raw @currencies.to_json %>
-      window.withdraws = <%= raw @withdraws.to_json %>
-      window.fund_sources= <%= raw @fund_sources.to_json %>
-    </script>
     <%= stylesheet_link_tag stylesheet, media: "all" %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
     <%= javascript_include_tag "funds" %>

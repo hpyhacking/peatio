@@ -1,0 +1,8 @@
+<div class="dialog-contents">
+  <p ng-bind="ngDialogData.content"></p>
+
+  <div class="clearfix">
+    <button class="confirm btn btn-default pull-right" ng-click="confirm()" ng-bind="'confirm' | t"></button>
+    <button class="cancel btn btn-info pull-right" ng-click="closeThisDialog()" ng-bind="'cancel' | t"></button>
+  </div>
+</div>

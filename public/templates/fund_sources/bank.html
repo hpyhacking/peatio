@@ -1,0 +1,39 @@
+<h3 ng-bind="'fund_sources.manage_bank_account' | t"></h3>
+<h5 ng-bind="'fund_sources.manage_bank_account_desc' | t"></h5>
+<table class="table table-condensed table-hover">
+  <thead>
+    <tr>
+      <th ng-bind="'fund_sources.bank' | t"></th>
+      <th ng-bind="'fund_sources.account' | t"></th>
+      <th class="text-center" ng-bind="'fund_sources.default' | t"></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="fs in fund_sources()">
+      <td class="col-xs-8" ng-bind=" 'banks.' + fs.extra | t"></td>
+      <td class="col-xs-10" ng-bind="fs.uid"></td>
+      <td class="col-xs-2 text-center">
+        <input type="radio" value="fs" ng-checked="fs == defaultFundSource()" ng-click="makeDefault(fs)">
+      </td>
+      <td class="col-xs-2">
+        <a href="javascript:;" ng-click="remove(fs)"><i class="fa fa-trash-o">&nbsp;</i></a>
+      </td>
+    </tr>
+    <tr>
+      <td class="col-xs-8">
+        <select class="form-control"
+          ng-options="bank.code as ('banks.' + bank.code | t) for bank in banks"
+          ng-init="extra = banks[0].code"
+          ng-model="extra">
+        </select>
+      </td>
+      <td class="col-xs-12">
+        <input class="string form-control" placeholder="{{'fund_sources.account' | t}}" ng-model="uid" ng-init="uid = ''" />
+      </td>
+      <td class="col-xs-4">
+        <button class="form-control" type="submit" ng-click="add()" ng-bind="'fund_sources.add' | t"></button>
+      </td>
+    </tr>
+  </tbody>
+</table>

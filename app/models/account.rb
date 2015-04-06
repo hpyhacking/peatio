@@ -23,6 +23,10 @@ class Account < ActiveRecord::Base
   has_many :versions, class_name: "::AccountVersion"
   has_many :partial_trees
 
+  # Suppose to use has_one here, but I want to store
+  # relationship at account side. (Daniel)
+  belongs_to :default_withdraw_fund_source, class_name: 'FundSource'
+
   validates :member_id, uniqueness: { scope: :currency }
   validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
 
@@ -167,7 +171,8 @@ class Account < ActiveRecord::Base
     super(options).merge({
       # check if there is a useable address, but don't touch it to create the address now.
       "deposit_address" => payment_addresses.empty? ? "" : payment_address.deposit_address,
-      "name_text" => currency_obj.name_text
+      "name_text" => currency_obj.name_text,
+      "default_withdraw_fund_source_id" => default_withdraw_fund_source_id
     })
   end
 

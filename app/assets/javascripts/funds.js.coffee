@@ -11,6 +11,8 @@
 #= require ./lib/pusher_connection
 #= require ./lib/pusher_subscriber
 
+#= require ngDialog/ngDialog
+
 #= require_self
 #= require ./funds/funds
 

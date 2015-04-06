@@ -2,6 +2,40 @@ en:
   js:
     brand: Peatio
     submit: Submit
+    cancel: Cancel
+    confirm: Confirm
+    banks:
+      icbc: Industryand Commercial Bank of China
+      cbc: Construction Bank of China
+      bc: Bank of China
+      bcm: Bank of Communications
+      abc: Agriculture Bank of China
+      cmb: China Merchants Bank Ltd
+      cmbc: China Minsheng Banking Co., Ltd
+      cncb: China CITIC Bank
+      hxb: Hua Xia Bank Co., Ltd.
+      cib: Industrial Bank Co., Ltd
+      spdb: Shanghai Pudong Development Bank
+      bob: Bank of Beijing
+      ceb: China Everbright Bank CO.LTD
+      sdb: Shenzhen Development Bank
+      pab: Ping An Bank Co., Ltd.
+      gdb: Guangdong Development Bank
+      psbc: Postal Savings Bank of China
+      bos: Bank of Shanghai
+    fund_sources:
+      manage_bank_account: Bank Account Management
+      manage_bank_account_desc: To facilitate the choice of bank withdrawals address
+      manage_coin_address: Coin Address Management
+      manage_coin_address_desc: To facilitate the choice of coin withdrawals address
+      bank: Bank
+      account: Bank Account
+      label: Label
+      address: Address
+      action: Action
+      add: Add
+      remove: Remove
+      default: Default
     funds:
       deposit: Deposit
       withdraw: Withdraw
@@ -35,6 +69,7 @@ en:
       deposit_coin:
         address: Address
         new_address: New Address
+        confirm_gen_new_address: You sure want to generate a new deposit address?
         open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
         detail: Please paste the address blow in your wallet, and fill in the amount you want to deposit, then confirm and send.
         scan-qr: Scanning QR code to Pay for In the mobile terminal wallet.

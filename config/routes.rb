@@ -56,11 +56,7 @@ Peatio::Application.routes.draw do
       end
     end
 
-    Currency.all.each do |c|
-      resources "#{c.code}_fund_sources",
-        controller: :fund_sources,
-        defaults: { currency: c.code }
-    end
+    resources :fund_sources, only: [:create, :update, :destroy]
 
     resources :funds, only: [:index] do
       collection do
@@ -68,7 +64,6 @@ Peatio::Application.routes.draw do
       end
     end
 
-    resources :deposits, only: [:index, :destroy, :update]
     namespace :deposits do
       Deposit.descendants.each do |d|
         resources d.resource_name do
@@ -79,7 +74,6 @@ Peatio::Application.routes.draw do
       end
     end
 
-    resources :withdraws, except: [:new]
     namespace :withdraws do
       Withdraw.descendants.each do |w|
         resources w.resource_name
