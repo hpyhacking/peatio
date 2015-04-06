@@ -34,6 +34,12 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     fund_sources = $scope.fund_sources()
     _selectedFundSourceId = fund_sources[0].id if fund_sources.length
 
+  # set current default fundSource as selected
+  $scope.$watch ->
+    fundSourceService.defaultFundSource currency:currency
+  , (defaultFundSource) ->
+    $scope.selected_fund_source_id defaultFundSource.id if defaultFundSource
+
   @withdraw = {}
   @createWithdraw = (currency) ->
     withdraw_channel = WithdrawChannel.findBy('currency', currency)
