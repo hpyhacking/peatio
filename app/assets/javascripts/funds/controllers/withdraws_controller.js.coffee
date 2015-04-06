@@ -70,13 +70,15 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   $scope.openFundSourceManagerPanel = ->
     if $scope.currency == $gon.fiat_currency
       template = '/templates/fund_sources/bank.html'
+      className = 'ngdialog-theme-default custom-width'
     else
       template = '/templates/fund_sources/coin.html'
+      className = 'ngdialog-theme-default custom-width coin'
 
     ngDialog.open
       template:template
       controller: 'FundSourcesController'
-      className: 'ngdialog-theme-default custom-width'
+      className: className
       data: {currency: $scope.currency}
 
   $scope.sms_and_app_activated = ->

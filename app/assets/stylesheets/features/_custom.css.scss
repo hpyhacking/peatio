@@ -1,7 +1,12 @@
 // FundSource Management Dialog
 #funds-index {
-  .ngdialog.ngdialog-theme-default.custom-width .ngdialog-content {
-    width: 600px;
+  .ngdialog.ngdialog-theme-default.custom-width {
+    .ngdialog-content {
+      width: 600px;
+    }
+    &.coin .ngdialog-content {
+      width: 700px;
+    }
   }
 }
 
