@@ -1,5 +1,11 @@
 app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon', 'fundSourceService', 'ngDialog', ($scope, $stateParams, $http, $gon, fundSourceService, ngDialog) ->
 
+  _selectedFundSourceId = null
+  _selectedFundSourceIdInList = (list) ->
+    for fs in list
+      return true if fs.id is _selectedFundSourceId
+    return false
+
   $scope.currency = currency = $stateParams.currency
   $scope.current_user = current_user = $gon.current_user
   $scope.name = current_user.name
@@ -7,26 +13,32 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   $scope.balance = $scope.account.balance
   $scope.withdraw_channel = WithdrawChannel.findBy('currency', $scope.currency)
 
-  $scope.fund_sources = -> fundSourceService.filterBy currency:currency
-
-  defaultFundSource = fundSourceService.defaultFundSource currency:currency
-  if defaultFundSource
-    _selected_fund_source_id = defaultFundSource.id
-  else
-    fund_sources = $scope.fund_sources()
-    _selected_fund_source_id = fund_sources[0].id if fund_sources.length
-
   $scope.selected_fund_source_id = (newId) ->
     if angular.isDefined(newId)
-      _selected_fund_source_id = newId
+      _selectedFundSourceId = newId
     else
-      _selected_fund_source_id
+      _selectedFundSourceId
+
+  $scope.fund_sources = ->
+    fund_sources = fundSourceService.filterBy currency:currency
+    # reset selected fundSource after add new one or remove previous one
+    if not _selectedFundSourceId or not _selectedFundSourceIdInList(fund_sources)
+      $scope.selected_fund_source_id fund_sources[0].id if fund_sources.length
+    fund_sources
+
+  # set defaultFundSource as selected
+  defaultFundSource = fundSourceService.defaultFundSource currency:currency
+  if defaultFundSource
+    _selectedFundSourceId = defaultFundSource.id
+  else
+    fund_sources = $scope.fund_sources()
+    _selectedFundSourceId = fund_sources[0].id if fund_sources.length
 
   @withdraw = {}
   @createWithdraw = (currency) ->
     withdraw_channel = WithdrawChannel.findBy('currency', currency)
     account = withdraw_channel.account()
-    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source_id: _selected_fund_source_id } }
+    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source_id: _selectedFundSourceId } }
 
     if current_user.app_activated or current_user.sms_activated
       type = $('.two_factor_auth_type').val()
