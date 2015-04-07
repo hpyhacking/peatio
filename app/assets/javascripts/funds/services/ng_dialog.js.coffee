@@ -3,4 +3,5 @@ app.config ['ngDialogProvider', (ngDialogProvider) ->
     closeByDocument: false
     closeByEscape: false
     trapFocus: false
+    cache: false
 ]
