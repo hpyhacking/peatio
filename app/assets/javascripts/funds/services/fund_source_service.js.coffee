@@ -22,10 +22,13 @@ app.service 'fundSourceService', ['$filter', '$gon', '$resource', 'accountServic
       afterCreate(fund_source) if afterCreate
 
   update: (fund_source, afterUpdate) ->
+    # Change default_withdraw_fund_source_id immediately,
+    # Do not wait for server side response
+    account = accountService.findBy currency:fund_source.currency
+    return null if not account
+    account.default_withdraw_fund_source_id = fund_source.id
+
     resource.update id: fund_source.id, =>
-      account = accountService.findBy currency:fund_source.currency
-      return null if not account
-      account.default_withdraw_fund_source_id = fund_source.id
       afterUpdate() if afterUpdate
 
   remove: (fund_source, afterRemove) ->
