@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_gon
-    gon.env = Rails.env
+    gon.enviro = Rails.env
     gon.local = I18n.locale
     gon.market = current_market.attributes
     gon.ticker = current_market.ticker
