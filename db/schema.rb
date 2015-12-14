@@ -101,14 +101,6 @@ ActiveRecord::Schema.define(version: 20150405053726) do
   add_index "authentications", ["member_id"], name: "index_authentications_on_member_id", using: :btree
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", using: :btree
 
-  create_table "comments", force: true do |t|
-    t.text     "content"
-    t.integer  "author_id"
-    t.integer  "ticket_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "deposits", force: true do |t|
     t.integer  "account_id"
     t.integer  "member_id"
@@ -387,15 +379,6 @@ ActiveRecord::Schema.define(version: 20150405053726) do
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
-
-  create_table "tickets", force: true do |t|
-    t.string   "title"
-    t.text     "content"
-    t.string   "aasm_state"
-    t.integer  "author_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "tokens", force: true do |t|
     t.string   "token"

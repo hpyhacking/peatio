@@ -10,8 +10,6 @@ class Member < ActiveRecord::Base
   has_many :deposits
   has_many :api_tokens
   has_many :two_factors
-  has_many :tickets, foreign_key: 'author_id'
-  has_many :comments, foreign_key: 'author_id'
   has_many :signup_histories
 
   has_one :id_document
@@ -190,15 +188,6 @@ class Member < ActiveRecord::Base
     if sms_two_factor.activated?
       sms_message = I18n.t('sms.password_changed', email: self.email)
       AMQPQueue.enqueue(:sms_notification, phone: phone_number, message: sms_message)
-    end
-  end
-
-  def unread_comments
-    ticket_ids = self.tickets.open.collect(&:id)
-    if ticket_ids.any?
-      Comment.where(ticket_id: [ticket_ids]).where("author_id <> ?", self.id).unread_by(self).to_a
-    else
-      []
     end
   end
 
