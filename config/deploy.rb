@@ -2,7 +2,6 @@ require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
-require 'mina/slack/tasks'
 
 set :repository, 'https://github.com/peatio/peatio.git'
 set :user, 'deploy'

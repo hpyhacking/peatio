@@ -19,4 +19,3 @@ after_failure:
   - "echo $RAILS_ENV"
   - "bundle exec rake --version"
 notifications:
-  slack: peatio:F2FWrCANEK3QcjHC16OO541l

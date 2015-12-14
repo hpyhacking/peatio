@@ -66,13 +66,6 @@ ActiveRecord::Schema.define(version: 20150405053726) do
   add_index "api_tokens", ["access_key"], name: "index_api_tokens_on_access_key", unique: true, using: :btree
   add_index "api_tokens", ["secret_key"], name: "index_api_tokens_on_secret_key", unique: true, using: :btree
 
-  create_table "assets", force: true do |t|
-    t.string  "type"
-    t.integer "attachable_id"
-    t.string  "attachable_type"
-    t.string  "file"
-  end
-
   create_table "audit_logs", force: true do |t|
     t.string   "type"
     t.integer  "operator_id"
@@ -317,16 +310,6 @@ ActiveRecord::Schema.define(version: 20150405053726) do
     t.string   "balance",    limit: 30
   end
 
-  create_table "read_marks", force: true do |t|
-    t.integer  "readable_id"
-    t.integer  "member_id",                null: false
-    t.string   "readable_type", limit: 20, null: false
-    t.datetime "timestamp"
-  end
-
-  add_index "read_marks", ["member_id"], name: "index_read_marks_on_member_id", using: :btree
-  add_index "read_marks", ["readable_type", "readable_id"], name: "index_read_marks_on_readable_type_and_readable_id", using: :btree
-
   create_table "running_accounts", force: true do |t|
     t.integer  "category"
     t.decimal  "income",      precision: 32, scale: 16, default: 0.0, null: false
@@ -361,24 +344,6 @@ ActiveRecord::Schema.define(version: 20150405053726) do
   end
 
   add_index "simple_captcha_data", ["key"], name: "idx_key", using: :btree
-
-  create_table "taggings", force: true do |t|
-    t.integer  "tag_id"
-    t.integer  "taggable_id"
-    t.string   "taggable_type"
-    t.integer  "tagger_id"
-    t.string   "tagger_type"
-    t.string   "context",       limit: 128
-    t.datetime "created_at"
-  end
-
-  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
-
-  create_table "tags", force: true do |t|
-    t.string "name"
-  end
-
-  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "tokens", force: true do |t|
     t.string   "token"
