@@ -923,12 +923,6 @@ zh-CN:
           title: API密钥
           description: 申请和管理您的API密钥
           go: 设置
-        weibo:
-          title: 绑定微博
-          description: 绑定微博后您可以通过微博进行登录, 而无需每次都输入账号密码.
-          bound_desc: 此账号已经与 %{nickname} 绑定
-          bind: 绑定
-          unbind: 解除绑定
     otps:
       new:
         step_1: 第一步
@@ -1487,7 +1481,6 @@ zh-CN:
     signin: 登录
     signout: 安全退出
     signup: 创建账户
-    login_via_weibo: 微博登陆
     funds: 我的资产
     getstart: 前往交易大厅
     assets: 资产公开
@@ -1619,10 +1612,6 @@ zh-CN:
         warning: 设置邮件后, 请查收您的收件箱并进行激活
         email_address: 邮箱地址
         save: 保存
-    weibo:
-      destroy:
-        last_auth_alert: 亲, 微博是您最后一种登录方式了, 解除了就没法登录了
-        unbind_success: 已经解除微博绑定
     identities:
       new:
         title: 设置密码

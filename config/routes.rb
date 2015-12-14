@@ -32,7 +32,6 @@ Peatio::Application.routes.draw do
   namespace :authentications do
     resources :emails, only: [:new, :create]
     resources :identities, only: [:new, :create]
-    resource :weibo_accounts, only: [:destroy]
   end
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do

@@ -927,12 +927,6 @@ cs:
           title: API Tokeny
           description: Vytvořit a spravovat Vaše API tokeny.
           go: Nastavit
-        weibo:
-          title: Připojit na Weibo
-          description: Po připojení na Weibo, přihlaste se pomocí Weibo účtu.
-          bound_desc: Je připojeno s %{nickname}.
-          bind: Připojit
-          unbind: Odpojit
     otps:
       new:
         step_1: Krok 1
@@ -1491,7 +1485,6 @@ cs:
     signin: Přihlásit
     signout: Odejít
     signup: Registrovat
-    login_via_weibo: Přihlásit s Weibo
     funds: Finance
     getstart: Začít
     assets: Solventnost
@@ -1623,10 +1616,6 @@ cs:
         warning: Prosím zkontrolujte vaši schránku po uložení emailové adresy.
         email_address: Emailová Adresa
         save: Uložit
-    weibo:
-      destroy:
-        last_auth_alert: Nemůžete smazat poslední ověřování
-        unbind_success: Odpojit z Weibo
     identities:
       new:
         title: Nastavení hesla
