@@ -1,6 +1,6 @@
 - id: 1
   key: renminbi
-  code: cny
+  code: inr
   coin: false
   assets:
     balance: 92343242.56
