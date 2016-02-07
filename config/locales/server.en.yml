@@ -307,10 +307,10 @@ en:
       code: BTSX
       name: BitsharesX
       format: '0,0.0000'
-    renminbi:
+    inr:
       key: inr
       code: inr
-      name: Chinese Yuan
+      name: Indian Rupees
       format: '0,0.00'
     dogecoin:
       key: DOG
