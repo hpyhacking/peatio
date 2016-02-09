@@ -10,10 +10,10 @@ describe APIv2::Deposits do
 
     before do
       create(:deposit, member: member, currency: 'btc')
-      create(:deposit, member: member, currency: 'cny')
-      create(:deposit, member: member, currency: 'cny', txid: 1, amount: 520)
+      create(:deposit, member: member, currency: 'inr')
+      create(:deposit, member: member, currency: 'inr', txid: 1, amount: 520)
       create(:deposit, member: member, currency: 'btc', created_at: 2.day.ago,  txid: 'test', amount: 111)
-      create(:deposit, member: other_member, currency: 'cny', txid: 10)
+      create(:deposit, member: other_member, currency: 'inr', txid: 10)
     end
 
     it "should require deposits authentication" do
@@ -48,11 +48,11 @@ describe APIv2::Deposits do
       json.first['txid'].should == d.txid
     end
 
-    it "deposits currency cny" do
-      signed_get '/api/v2/deposits', params: {currency: 'cny'}, token: token
+    it "deposits currency inr" do
+      signed_get '/api/v2/deposits', params: {currency: 'inr'}, token: token
       result = JSON.parse(response.body)
       result.should have(2).deposits
-      result.all? {|d| d['currency'] == 'cny' }.should be_true
+      result.all? {|d| d['currency'] == 'inr' }.should be_true
     end
 
     it "should return 404 if txid not exist" do

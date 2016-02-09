@@ -1,6 +1,6 @@
-- id: btccny
+- id: btcinr
   code: 3
   base_unit: btc
-  quote_unit: cny
-  bid: {fee: 0, currency: cny, fixed: 2}
+  quote_unit: inr
+  bid: {fee: 0, currency: inr, fixed: 2}
   ask: {fee: 0, currency: btc, fixed: 4}

@@ -76,7 +76,7 @@ class Withdraw < ActiveRecord::Base
     state :accepted
     state :suspect,     after_commit: :send_email
     state :rejected,    after_commit: :send_email
-    state :processing,  after_commit: [:send_coins!, :send_email]
+    state :processing,  after_commit: [ :send_email]
     state :almost_done
     state :done,        after_commit: [:send_email, :send_sms]
     state :failed,      after_commit: :send_email
@@ -139,6 +139,7 @@ class Withdraw < ActiveRecord::Base
     with_lock do
       if account.examine
         accept
+        send_coins! if quick?
         process if quick?
       else
         mark_suspect
