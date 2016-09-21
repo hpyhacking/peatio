@@ -45,4 +45,24 @@ module MailerHelper
     end
   end
 
+  def find_location ip
+
+    require "open-uri"
+    require 'ipaddr'
+    uri = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=json&ip="+ip
+    response = nil
+    open(uri) do |http|
+      response = http.read
+    end
+    @res = JSON::parse(response)
+    p @res.class
+    if @res.class == Hash
+      location = "#{@res["country"]} #{@res["province"]} #{@res["city"]}"
+    else
+      location = "无法获取位置"
+    end
+
+    p location
+  end
+
 end

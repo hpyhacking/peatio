@@ -1,7 +1,24 @@
 <p>
-<%= t('.content', currency: @withdraw.currency_text) %>
+<%= t('.cny_withdraw')%>
 </p>
-
 <p>
-<%= raw t("mailer.please_contact", contact_mail: ENV['SUPPORT_MAIL']) %>
+<%= t('.withdraw_situation')%>
+</p>
+<p>
+<%= t('.trade_type', trade_type: @withdraw.currency_text)%>
+</p>
+<p>
+<%= t('.sum', sum: @withdraw.sum)%>
+</p>
+<p>
+<%= t('.amount', amount: @withdraw.amount)%>
+</p>
+<p>
+<%= t('.fee', fee: @withdraw.fee)%>
+</p>
+<p>
+<%= t('.time', time: @withdraw.done_at)%>
+</p>
+<p>
+<%= t('.state', state: @withdraw.type)%>
 </p>

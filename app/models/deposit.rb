@@ -2,10 +2,10 @@ class Deposit < ActiveRecord::Base
   STATES = [:submitting, :cancelled, :submitted, :rejected, :accepted, :checked, :warning]
 
   extend Enumerize
-
   include AASM
   include AASM::Locking
   include Currencible
+  #include Deposit
 
   has_paper_trail on: [:update, :destroy]
 
@@ -36,7 +36,7 @@ class Deposit < ActiveRecord::Base
     state :cancelled
     state :submitted
     state :rejected
-    state :accepted, after_commit: [:do, :send_mail, :send_sms]
+    state :accepted, after_commit: [:do, :deposit_accept_notification]
     state :checked
     state :warning
 
@@ -100,8 +100,17 @@ class Deposit < ActiveRecord::Base
   end
 
   private
+
+  def push_information
+
+  end
+
   def do
     account.lock!.plus_funds amount, reason: Account::DEPOSIT, ref: self
+  end
+
+  def deposit_accept_notification
+    AMQPQueue.enqueue(:business_notification,message_class: "DepositAcceptMessage",business_id: self.id,mailer_class:"DepositMailer",method_name: "accepted")
   end
 
   def send_mail
@@ -110,13 +119,11 @@ class Deposit < ActiveRecord::Base
 
   def send_sms
     return true if not member.sms_two_factor.activated?
-
     sms_message = I18n.t('sms.deposit_done', email: member.email,
                                              currency: currency_text,
                                              time: I18n.l(Time.now),
                                              amount: amount,
                                              balance: account.balance)
-
     AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
   end
 

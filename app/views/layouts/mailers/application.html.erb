@@ -6,11 +6,11 @@
         <tbody>
         <tr>
           <td>
-            <table width="100%" style="background:#3e4c5a; border-radius: 10px 10px 0 0">
+            <table width="100%" style="background:#007dc5; border-radius: 10px 10px 0 0">
               <tbody>
               <tr>
                 <td width="1%" style=" padding: 10px 10px"></td>
-                <td style="font-size:24px; color:#FFF; padding:10px;">PEATIO</td>
+                <td style="font-size:24px; color:#FFF; padding:10px;"><%= t('yunbi.logo')%></td>
               </tr>
               </tbody>
           </table></td>
@@ -23,10 +23,7 @@
               <tr>
                 <td>
                   <p><%= t('mailer.dear_user') %></p>
-
                   <p><%= yield %></p>
-
-                  <p><%= raw t('mailer.signature') %></p>
                 </td>
               </tr>
               </tbody>
@@ -36,9 +33,27 @@
         </tr>
         </tbody>
         <tfoot>
+          <tr >
+            <td  style="padding: 0 30px 20px;font-size: 13px;color: #999;">
+              <p><%= t('mailer.footer_2') %></p>
+              <p><%= raw t('mailer.footer_1') %></p>
+            </td>
+          </tr>
+          <tr >
+            <td class="footer_info">
+              <p><%= t('mailer.footer_3') %></p>
+              <p><%= t('mailer.footer_4') %></p>
+              <p><%= t('mailer.footer_5') %></p>
+            </td>
+          </tr>
           <tr>
-            <td style="padding:0 30px 20px; font-size: 13px; color: #999">
-              <%= raw t('mailer.footer', contact_mail: ENV['SUPPORT_MAIL']) %>
+            <td class="footer_info">
+              <%=  raw t("mailer.user_agreement") %> |
+              <%=  raw t("mailer.about_us") %> |
+              <%=  raw t("mailer.questions") %> |
+              <%=  raw t("mailer.social_media") %>
+              <p><%= t("mailer.record") %></p>
+              <p><%= t("mailer.company") %></p>
             </td>
           </tr>
         </tfoot>
@@ -48,3 +63,13 @@
   </tbody>
 </table>
 </body></html>
+<style>
+.footer_info{
+
+  padding: 20px 30px 20px;
+  font-size: 13px;
+  color: #999;
+  border-top:1px solid #aaa
+
+}
+</style>

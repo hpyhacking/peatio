@@ -27,6 +27,7 @@ class TwoFactor::Sms < ::TwoFactor
   def send_otp
     refresh! if expired?
     update_phone_number_to_member if send_code_phase
+    #AMQPQueue.enqueue(:business_notification,message_class: "two_factor_sms_message",business_id: otp_secret,mailer_class:"MemberMailer",method_name: "sms_auth_activated")
     AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
   end
 
@@ -58,9 +59,11 @@ class TwoFactor::Sms < ::TwoFactor
     return if not self.activated_changed?
 
     if self.activated
-      MemberMailer.sms_auth_activated(member.id).deliver
+      AMQPQueue.enqueue(:business_notification,message_class: "TwoFactorSmsMessage",business_id: member.id,mailer_class:"MemberMailer",method_name: "sms_auth_activated")
+      #MemberMailer.sms_auth_activated(member.id).deliver
     else
-      MemberMailer.sms_auth_deactivated(member.id).deliver
+      AMQPQueue.enqueue(:business_notification,message_class: "TwoFactorSmsMessage",business_id: member.id,mailer_class:"MemberMailer",method_name: "sms_auth_activated")
+      #MemberMailer.sms_auth_deactivated(member.id).deliver
     end
   end
 end

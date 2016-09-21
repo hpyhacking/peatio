@@ -71,15 +71,15 @@ class Withdraw < ActiveRecord::Base
 
   aasm :whiny_transitions => false do
     state :submitting,  initial: true
-    state :submitted,   after_commit: :send_email
-    state :canceled,    after_commit: [:send_email]
+    state :submitted,   after_commit: :send_withdraw_notification
+    state :canceled,    after_commit: [:send_withdraw_notification]
     state :accepted
-    state :suspect,     after_commit: :send_email
-    state :rejected,    after_commit: :send_email
-    state :processing,  after_commit: [:send_coins!, :send_email]
+    state :suspect,     after_commit: :send_withdraw_notification
+    state :rejected,    after_commit: :send_withdraw_notification
+    state :processing,  after_commit: [:send_coins!, :send_withdraw_notification]
     state :almost_done
-    state :done,        after_commit: [:send_email, :send_sms]
-    state :failed,      after_commit: :send_email
+    state :done,        after_commit: [:send_withdraw_notification]
+    state :failed,      after_commit: :send_withdraw_notification
 
     event :submit do
       transitions from: :submitting, to: :submitted
@@ -171,6 +171,22 @@ class Withdraw < ActiveRecord::Base
 
   def set_txid
     self.txid = @sn unless coin?
+  end
+
+
+  def send_withdraw_notification
+
+    case aasm_state
+    when 'submitted'
+      AMQPQueue.enqueue(:business_notification,message_class: "WithdrawSubmittedMessage",business_id: self.id,mailer_class:"WithdrawMailer",method_name: "submitted")
+    when 'processing'
+      AMQPQueue.enqueue(:business_notification,message_class: "WithdrawProcessingMessage",business_id: self.id,mailer_class:"WithdrawMailer",method_name: "processing")
+    when 'done'
+      AMQPQueue.enqueue(:business_notification,message_class: "WithdrawDoneMessage",business_id: self.id,mailer_class:"WithdrawMailer",method_name: "done")
+    else
+      AMQPQueue.enqueue(:business_notification,message_class: "WithdrawStateMessage",business_id: self.id,mailer_class:"WithdrawMailer",method_name: "state")
+    end
+
   end
 
   def send_email

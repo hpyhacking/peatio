@@ -1,7 +1,18 @@
 <p>
-<%= t('.content', currency: @deposit.currency_text) %>
+<%= t('.cny_deposit')%>
 </p>
-
 <p>
-<%= raw t("mailer.please_contact", contact_mail: ENV['SUPPORT_MAIL']) %>
+<%= t('.deposit_situation')%>
+</p>
+<p>
+<%= t('.type', type: @deposit.currency_text)%>
+</p>
+<p>
+<%= t('.amount', amount: @deposit.amount)%>
+</p>
+<p>
+<%= t('.time', time: @deposit.done_at)%>
+</p>
+<p>
+<%= t('.state', state: @deposit.state)%>
 </p>

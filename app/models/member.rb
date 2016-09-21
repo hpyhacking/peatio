@@ -185,12 +185,13 @@ class Member < ActiveRecord::Base
   end
 
   def send_password_changed_notification
-    MemberMailer.reset_password_done(self.id).deliver
+    AMQPQueue.enqueue(:business_notification,message_class: "PasswordChangedMessage",business_id: self.id,mailer_class:"MemberMailer",method_name: "reset_password_done")
 
-    if sms_two_factor.activated?
-      sms_message = I18n.t('sms.password_changed', email: self.email)
-      AMQPQueue.enqueue(:sms_notification, phone: phone_number, message: sms_message)
-    end
+    #MemberMailer.reset_password_done(self.id).deliver
+    #if sms_two_factor.activated?
+    #  sms_message = I18n.t('sms.password_changed', email: self.email)
+    #  AMQPQueue.enqueue(:sms_notification, phone: phone_number, message: sms_message)
+    #end
   end
 
   def unread_comments
