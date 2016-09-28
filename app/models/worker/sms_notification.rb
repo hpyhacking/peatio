@@ -14,7 +14,7 @@ module Worker
     end
 
     def twilio_client
-      Twilio::REST::Client.new ENV["TWILIO_SID"], ENV["TWILIO_TOKEN"], ssl_verify_peer: false
+      Twilio::REST::Client.new ENV["TWILIO_SID"], ENV["TWILIO_TOKEN"], :ssl_verify_peer => false
     end
 
   end
