@@ -1,6 +1,8 @@
 class Identity < OmniAuth::Identity::Models::ActiveRecord
   auth_key :email
   attr_accessor :old_password
+  
+  has_one :member
 
   MAX_LOGIN_ATTEMPTS = 5
 
