@@ -13,7 +13,6 @@ header.text-center
           a href="#{signin_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signin")
         - if ENV['WEIBO_AUTH'] == "true"
           .col-xs-4
-            a href="/auth/weibo" class="btn btn-primary btn-lg btn-block" role="button" = t("header.login_via_weibo")
         .col-xs-4
           a href="#{signup_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signup")
       - else
