@@ -3,11 +3,11 @@ defaults: &defaults
   # sites hosts
   # session expire seconds
   # admin role account
-  URL_HOST: peatio.dev:3000
+  URL_HOST: localhost:3000
   URL_SCHEMA: http
   SESSION_EXPIRE: 60
   ADMIN: 'admin@peatio.dev,admin@example.com'
-  TIMEZONE: 'Beijing'
+  TIMEZONE: 'cairo'
 
   REDIS_URL: redis://127.0.0.1:6379
 
