@@ -5,7 +5,7 @@
     collection: @fund_sources,
     label_method: :label,
     include_blank: false,
-    hint: link_to(t('.manage_fund_source'), url_for([@channel.currency, :fund_sources]))
+    hint: link_to(t('.manage_fund_source_id'), url_for([@channel.currency, :fund_sources]))
 
   = f.input :account_balance, as: :display
   = f.input :sum do

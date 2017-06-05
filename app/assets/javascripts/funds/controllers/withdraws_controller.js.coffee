@@ -13,7 +13,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   $scope.balance = $scope.account.balance
   $scope.withdraw_channel = WithdrawChannel.findBy('currency', $scope.currency)
 
-  $scope.selected_fund_source_id = (newId) ->
+  $scope.selected_fund_source = (newId) ->
     if angular.isDefined(newId)
       _selectedFundSourceId = newId
     else
@@ -23,7 +23,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     fund_sources = fundSourceService.filterBy currency:currency
     # reset selected fundSource after add new one or remove previous one
     if not _selectedFundSourceId or not _selectedFundSourceIdInList(fund_sources)
-      $scope.selected_fund_source_id fund_sources[0].id if fund_sources.length
+      $scope.selected_fund_source fund_sources[0].id if fund_sources.length
     fund_sources
 
   # set defaultFundSource as selected
@@ -38,13 +38,13 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   $scope.$watch ->
     fundSourceService.defaultFundSource currency:currency
   , (defaultFundSource) ->
-    $scope.selected_fund_source_id defaultFundSource.id if defaultFundSource
+    $scope.selected_fund_source defaultFundSource.id if defaultFundSource
 
   @withdraw = {}
   @createWithdraw = (currency) ->
     withdraw_channel = WithdrawChannel.findBy('currency', currency)
     account = withdraw_channel.account()
-    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source_id: _selectedFundSourceId } }
+    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source: _selectedFundSourceId } }
 
     if current_user.app_activated or current_user.sms_activated
       type = $('.two_factor_auth_type').val()

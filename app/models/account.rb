@@ -172,7 +172,7 @@ class Account < ActiveRecord::Base
       # check if there is a useable address, but don't touch it to create the address now.
       "deposit_address" => payment_addresses.empty? ? "" : payment_address.deposit_address,
       "name_text" => currency_obj.name_text,
-      "default_withdraw_fund_source_id" => default_withdraw_fund_source_id
+      "default_withdraw_fund_source" => default_withdraw_fund_source
     })
   end
 
