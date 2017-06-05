@@ -64,18 +64,17 @@ Install bundler
 
 ### 4. Install Redis
 
-Be sure to install the latest stable Redis, as the package in the distro may be a bit old:
-
-    sudo apt-add-repository -y ppa:rwky/redis
-    sudo apt-get update
-    sudo apt-get install redis-server
+You can follow this tutorial 
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04
 
 ### 5. Install RabbitMQ
 
 Please follow instructions here: https://www.rabbitmq.com/install-debian.html
 
-    curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add -
-    sudo apt-add-repository 'deb http://www.rabbitmq.com/debian/ testing main'
+    echo 'deb http://www.rabbitmq.com/debian/ testing main' |
+    sudo tee /etc/apt/sources.list.d/rabbitmq.list
+    wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc |
+    sudo apt-key add -
     sudo apt-get update
     sudo apt-get install rabbitmq-server
 
@@ -123,7 +122,7 @@ Insert the following lines into the bitcoin.conf, and replce with your username 
 
 Install Phusion's PGP key to verify packages
 
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
 
 Add HTTPS support to APT
 
@@ -131,7 +130,7 @@ Add HTTPS support to APT
 
 Add the passenger repository. Note that this only works for Ubuntu 14.04. For other versions of Ubuntu, you have to add the appropriate repository according to Section 2.3.1 of this [link](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html).
 
-    sudo add-apt-repository 'deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main'
+    sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
     sudo apt-get update
 
 Install nginx and passenger
@@ -140,7 +139,7 @@ Install nginx and passenger
 
 Next, we need to update the Nginx configuration to point Passenger to the version of Ruby that we're using. You'll want to open up /etc/nginx/nginx.conf in your favorite editor,
 
-    sudo vim /etc/nginx/nginx.conf
+    sudo vim /etc/nginx/passenger.conf
 
 find the following lines, and uncomment them:
 
@@ -151,11 +150,19 @@ update the second line to read:
 
     passenger_ruby /home/deploy/.rbenv/shims/ruby;
 
+we will alsp need to enable passenger in nginx config file
+  
+    sudo vim/etc/nginx/nginx.conf 
+
+and uncomment
+
+    include  /etc/nginx/passenger.conf;.
+
 ### 8. Install JavaScript Runtime
 
 A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do but Node.js is recommended.
 
-    curl -sL https://deb.nodesource.com/setup | sudo bash -
+    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
     sudo apt-get install nodejs
 
 
