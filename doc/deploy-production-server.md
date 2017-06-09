@@ -152,7 +152,7 @@ update the second line to read:
 
 we will alsp need to enable passenger in nginx config file
   
-    sudo vim/etc/nginx/nginx.conf 
+    sudo vim /etc/nginx/nginx.conf 
 
 and uncomment
 
