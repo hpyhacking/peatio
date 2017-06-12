@@ -118,6 +118,7 @@ Peatio::Application.routes.draw do
       end
       resources :comments, only: [:create]
     end
+    post '/webhooks/tx' => 'webhooks#tx'
   end
 
   draw :admin
