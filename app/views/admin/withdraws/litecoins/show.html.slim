@@ -1,0 +1,30 @@
+.row
+  .col-xs-12
+    .panel.panel-primary
+      .panel-heading
+        span = t('.withdraw', sn: @litecoin.id)
+      .panel-body
+        = description_for :withdraw do
+          = item_for @litecoin, :id
+          = item_for @litecoin, :created_at
+          = item_for @litecoin, :aasm_state_text
+          hr.split
+          = item_for @litecoin.member, :name
+          = item_for @litecoin, :fund_extra
+          = item_for @litecoin, :fund_uid do
+            span = @litecoin.fund_uid.truncate(22)
+          = item_for @litecoin, :amount
+          hr.split
+          = item_for @litecoin, :remark
+          hr.split
+          ul.list-inline.pull-right
+            - if @litecoin.may_reject?
+              li
+                = link_to t('.reject'), url_for([:admin, @litecoin]), class: 'btn btn-danger', method: 'DELETE', confirm: t('.reject_confirm')
+            - if @litecoin.may_process?
+              li
+                = link_to t('.process'), url_for([:admin, @litecoin]), class: 'btn btn-primary', method: 'PATCH'
+
+  .col-xs-12
+    = render partial: 'shared/admin/member', locals: {member: @litecoin.member}
+    = render partial: 'shared/admin/account', locals: {account: @litecoin.account}
