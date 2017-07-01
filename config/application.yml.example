@@ -7,7 +7,7 @@ defaults: &defaults
   URL_SCHEMA: http
   SESSION_EXPIRE: 60
   ADMIN: 'admin@peatio.dev,admin@example.com'
-  TIMEZONE: 'cairo'
+  TIMEZONE: 'Cairo'
 
   REDIS_URL: redis://127.0.0.1:6379
 
