@@ -1,49 +1,37 @@
-module Withdraws
-  module Withdrawable
-    extend ActiveSupport::Concern
-
-    included do
-      before_filter :fetch
-    end
+module Private
+  class FundSourcesController < BaseController
 
     def create
-      @withdraw = model_kls.new(withdraw_params)
+      new_fund_source = current_user.fund_sources.new fund_source_params
 
-      if two_factor_auth_verified?
-        if @withdraw.save
-          @withdraw.submit!
-          render nothing: true
-        else
-          render text: @withdraw.errors.full_messages.join(', '), status: 403
-        end
+      if new_fund_source.save
+        render json: new_fund_source, status: :ok
       else
-        render text: I18n.t('private.withdraws.create.two_factors_error'), status: 403
+        head :bad_request
       end
+    end
+
+    def update
+      account = 
+current_user.accounts.with_currency(fund_source.currency).first
+      account.update default_withdraw_fund_source: params[:id]
+
+      head :ok
     end
 
     def destroy
-      Withdraw.transaction do
-        @withdraw = current_user.withdraws.find(params[:id]).lock!
-        @withdraw.cancel
-        @withdraw.save!
-      end
-      render nothing: true
+      render json: fund_source.destroy, status: :ok
     end
 
     private
 
-    def fetch
-      @account = current_user.get_account(channel.currency)
-      @model = model_kls
-      @fund_sources = current_user.fund_sources.with_currency(channel.currency)
-      @assets = model_kls.without_aasm_state(:submitting).where(member: current_user).order(:id).reverse_order.limit(10)
+    def fund_source
+      current_user.fund_sources.find(params[:id])
     end
 
-    def withdraw_params
-      params[:withdraw][:currency] = channel.currency
-      params[:withdraw][:member_id] = current_user.id
-      params.require(:withdraw).permit(:fund_source, :member_id, :currency, :sum)
+    def fund_source_params
+      params.require(:fund_source).permit(:currency, :uid, :extra)
     end
-
   end
 end
+
