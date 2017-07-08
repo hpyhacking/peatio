@@ -8,7 +8,7 @@ gem 'daemons-rails'
 gem 'redis-rails'
 
 gem 'rotp'
-gem 'json'
+gem 'json', '~> 1.8.3'
 gem 'jbuilder'
 gem 'bcrypt-ruby', '~> 3.1.2'
 
