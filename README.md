@@ -118,8 +118,8 @@ Want to report a bug, request a feature, contribute or translate Peatio?
 
 * Browse our [issues](https://github.com/peatio/peatio/issues), comment on proposals, report bugs.
 * Clone the peatio repo, make some changes according to our development guidelines and issue a pull-request with your changes.
-* Anything you want to tell us please send it to [community@peatio.com](mailto:community@peatio.com)
-* If you need technical support or customization service, contact us: [sales@peatio.com](mailto:sales@peatio.com)
+* Anything you want to tell us please send it to [community@peatio.com](mailto:me@muhnagy.com)
+* If you need technical support or customization service, contact us: [sales@peatio.com](mailto:me@muhnagy.com)
 
 
 ### License
@@ -129,17 +129,16 @@ Peatio is released under the terms of the MIT license. See [http://peatio.mit-li
 
 ### DONATE
 
-**Every satoshi of your kind donation goes into the ongoing work of making Peatio more awesome.**
+**Every satoshi of your kind donation goes into the rerunning peatio again and making it active and adding support for new features and new 
+currencies.**
 
-**peatio-opensource-donate** address [1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3](https://blockchain.info/address/1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3)
+**peatio-opensource-donate** address [1F3gwApTrT9Z94yDqN6ACcMfxB2BpxMRQT](https://blockchain.info/address/1F3gwApTrT9Z94yDqN6ACcMfxB2BpxMRQT)
 
 
 ### What is Peatio?
 
 [Peatio](http://en.wikipedia.org/wiki/Pixiu) (Chinese: 貔貅) is a Chinese mythical hybrid creature considered to be a very powerful protector to practitioners of Feng Shui.
 
-**[This illustration copyright for Peatio Team]**
 
-![logo](public/peatio.png)
 
 
