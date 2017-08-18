@@ -51,7 +51,7 @@ Insert the following lines into the bitcoin.conf, and replce with your username 
     # Listen for JSON-RPC connections on <port> (default: 8332 or testnet: 18332)
     rpcuser=INVENT_A_UNIQUE_USERNAME
     rpcpassword=INVENT_A_UNIQUE_PASSWORD
-    rpcport=8333
+    rpcport=9333
     rpcallowip=PEATIO_SERVER_IP_HERE              
     # Notify when receiving coins
     ayload='{"txid":"%s", "channel_key":"satoshi"}'
