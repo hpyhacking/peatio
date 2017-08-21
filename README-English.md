@@ -126,7 +126,7 @@ Peatio is released under the terms of the MIT license. See [http://peatio.mit-li
 
 **Every satoshi of your kind donation goes into the ongoing work of making Peatio more awesome.**
 
-**peatio-opensource-donate** address [1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3](https://blockchain.info/address/1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3)
+**ShadowMyst Fork-donate** address [1MFVGu75SP7CvQM7VZCbNeznfxKh2sPUCT](https://blockchain.info/address/1MFVGu75SP7CvQM7VZCbNeznfxKh2sPUCT)
 
 
 ### What is Peatio?
