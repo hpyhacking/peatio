@@ -6,21 +6,21 @@ es:
       order: Orders
       order_bid: BID
       order_ask: ASK
-      document: Document
-      withdraw: Withdraw
-      deposit: Deposit
-      payment_transaction: Payment
-      id_document: ID Document
+      document: Documento
+      withdraw: Retiro
+      deposit: Deposito
+      payment_transaction: Pago
+      id_document: ID Documento
       statistic/orders_grid: Orders Stat
       statistic/trades_grid: Trading Stat
       statistic/members_grid: Members Stat
-      statistic/deposits_grid: Deposits Stat
-      statistic/withdraws_grid: Withdraws Stat
-      admin/deposits_grid: Deposits
-      admin/withdraws_grid: Withdraws
-      deposits/bank: Deposit Bank
-      withdraws/bank: Withdraw Bank
-      withdraws/satoshi: Withdraw
+      statistic/deposits_grid: Deposito Stat
+      statistic/withdraws_grid: Withdraw Stat
+      admin/deposits_grid: Depositos
+      admin/withdraws_grid: retiros
+      deposits/bank: Depositos Bancarios
+      withdraws/bank: Retiros Bancarios
+      withdraws/satoshi: Retiros
     attributes:
       api_token:
         access_key: Access Key
@@ -30,8 +30,8 @@ es:
         actions: Actions
       identity:
         email: Email
-        password: New Password
-        password_confirmation: Confirm Password
+        password: Nueva contraseña
+        password_confirmation: Confirmar contraseña
       document:
         zh_cn_body: Chinese content
         zh_cn_title: Chinese title
@@ -42,58 +42,58 @@ es:
         en_desc: English description
         en_keywords: English keyword
         key: Key
-        is_auth: Is Auth
+        is_auth: Autentificado
       fund_source:
-        address: Address
-        category: Category
+        address: Dirección
+        category: Categoría
         label: Label
       account:
-        currency: Currency
-        currency_text: Currency
-        balance_and_locked: Balance / Locked
+        currency: Divisa
+        currency_text: Dvisa
+        balance_and_locked: Balance / Congelado
         balance: Balance
-        locked: Frozen
+        locked: Congelado
       deposit:
-        state: State
+        state: Estado
         tx_id: TxID
         member_id: Member ID
         created_at: Submitted at
-        address: Address
-        amount: Amount
-        done_at: Completed at
+        address: Direccion
+        amount: Monto
+        done_at: Completado
         sn: SN
       withdraw:
         id: ID
         sn: SN
         withdraw_id: ID
-        created_at: Created At
-        done_at: Done At
+        created_at: Creado en
+        done_at: Hecho
         sum: Sum
         fee: Fee
-        currency: Currency
-        amount: Amount
-        address: Address
-        state: Status
+        currency: Divisa
+        amount: Monto
+        address: Direccion
+        state: Estado
         state_text: Status
         tx_id: TxID
-        fund_source_id: Withdraw address
-        detail: Detail
+        fund_source_id: Direccion de Retiro
+        detail: Detalles
       account_version:
         id: ID
-        locked: Forzen
-        amount: Amount
+        locked: Congelado
+        amount: Monto
         balance: Balance
-        reason: Reason
-        reason_text: Reason
+        reason: Razon
+        reason_text: Razon
         modifiable_id: LINK ID
         modifiable_type: LINK
-        created_at: Created At
-        in: Income
-        out: Expenses
+        created_at: Creado en
+        in: Ingresos
+        out: Gastos
         fee: Fee
       token/reset_password:
-        email: Sign in email
-        member: Member
+        email: Iniciar con email
+        member: Miembro
       trade:
         bid: Bid
         ask: Ask
@@ -101,93 +101,93 @@ es:
         price: Strike Price
         volume: Strike Volume
         category: Bid/Ask
-        order: Order
+        order: Orden
       order:
         bid: Bid
         ask: Ask
-        price: Price
+        price: Precio
         total: Total
-        volume: Volume
-        origin_volume: Volume
+        volume: Volumen
+        origin_volume: Volumen
         sum: Sum
         category: Bid/Ask
         kind: Kind
         at: At
         id: ID
-        state: State
-        operation: Operation
+        state: Estado
+        operation: Operación
       payment_transaction:
-        at: Date Time
-        txid: Transaction ID
-        amount: Amount
-        confirmations: Confirmations
-        state: State
-        state_done: Done
-        state_wait: Wait
+        at: Fecha
+        txid: ID de Transaccion
+        amount: Monto
+        confirmations: Confirmacciones
+        state: Estado
+        state_done: Hecho
+        state_wait: En espera
       member:
         id: ID
-        name: Real Name
-        display_name: Display Name
+        name: Nombre Real
+        display_name: Nombre a mostrar
         email: Email
-        created_at: Register At
+        created_at: Registrarse en
         sn: SN
-        id_document_number: Id Document Number
+        id_document_number: Numero de documento de Identificación
         tag_list: Tags
-        activated: Activated
-        activated?: "Activated?"
-        id_document_verified?: "Id Document Verified?"
-        two_factor_activated?: "Two Factor Activated?"
-        phone_number: Phone Number
+        activated: Activado
+        activated?: "¿Activado?"
+        id_document_verified?: "¿Numero de identificacion verificado?"
+        two_factor_activated?: "¿Doble factor activado?"
+        phone_number: Numero telefonico
       two_factor/sms:
-        country: Country
-        phone_number: Phone Number
-        otp: Verify Code
+        country: País
+        phone_number: Numero telefonico
+        otp: Codigo de verificación
       withdraws/bank:
         id: ID
-        member_name: Member
-        currency_obj_key_text: Currency
-        state_and_actions: State/Action
-        fund_source: Bank
-        fund_extra: Bank
-        fund_extra_text: Bank
-        fund_uid: Bank Account
-        sum: Amount
-        fee: Fee
-        amount: Amount
-        remark: Remark
-        created_at: Created At
+        member_name: Miembro
+        currency_obj_key_text: Divisa
+        state_and_actions: Estado
+        fund_source: Banco
+        fund_extra: Banco
+        fund_extra_text: Banco
+        fund_uid: Cuenta Bancaria
+        sum: Monto
+        fee: Comisión
+        amount: Monto
+        remark: Observación
+        created_at: Creado en
       deposits/bank:
-        created_at: Created At
-        holder: Holder
-        fund_extra: Sender Bank
-        fund_uid: Sender Account
+        created_at: Creado en
+        holder: Poseedor
+        fund_extra: Banco Remitente
+        fund_uid: Cuenta Remitente
         member_sn: Member SN
-        member_name: Sender Name
-        amount: Amount
+        member_name: Nombre del Remitente
+        amount: Monto
         sn: SN
-        state_and_action: State/Action
+        state_and_action: Estado
         label: Label
-        fund_source: Fund Source
+        fund_source: Fuente de los Fondos
       deposits/satoshi:
-        created_at: Created At
-        txid: Transaction ID
-        amount: Amount
-        confirmations: Confirmation
-        aasm_state_text: State
+        created_at: Creado en
+        txid: ID de la Transacción
+        amount: Monto
+        confirmations: Confirmación
+        aasm_state_text: Estado
       withdraws/satoshi:
         id: ID
-        member_name: Account
-        currency_obj_key_text: Currency
-        state_and_actions: State/Action
-        fund_extra_text: Withdraw Label
-        fund_extrat: Withdraw Label
-        fund_source: Bank
-        fund_uid: Account
-        created_at: Created At
-        sum: Amount
-        amount: Amount
-        remark: Remark
-        fee: Fee
+        member_name: Cuenta
+        currency_obj_key_text: Moneda
+        state_and_actions: Estado
+        fund_extra_text: Etiqueta de Retiro
+        fund_extrat: Etiqueta de Retiro
+        fund_source: Banco
+        fund_uid: Cuenta
+        created_at: Creado en
+        sum: Monto
+        amount: Monto
+        remark: Observación
+        fee: Comisión
     errors:
       models:
         order_bid:
@@ -195,78 +195,78 @@ es:
             sum:
               expensive: Expensive Account
             price:
-              range: Invalid Price Range
+              range: Rango de precio invalido
         order_ask:
           attributes:
             origin_volume:
               expensive: Expensive Account
             price:
-              range: Invalid Price Range
+              range: Rango de precio invalido
         account:
           attributes:
             balance:
-              less: Blance Less
+              less: Balance Less
         identity:
           attributes:
             email:
-              invalid: Invalid Email
+              invalid: email invalido
             password:
-              invalid: Invalid Password
+              invalid: Contraseña invalida
             password_confirmation:
-              confirmation: Inconsistent with the new password you enter, please re-enter.
+              confirmation: Inconsistente con la nueva contraseña que ingresa, vuelva a ingresar.
         token/reset_password:
           attributes:
             base:
-              too_soon: Visit too soon, please try it later.
+              too_soon: Visita demasiado pronto, intente más tarde.
             email:
-              not-member: Invalid Email
-              match: Invalid Sign in Email
+              not-member: Email invalido
+              match: Email de inicio invalido
             password:
-              invalid: Invalid Password
+              invalid: Contraseña invalida
             member:
-              blank: Not exist!
+              blank: ¡No existe!
         activation:
           attributes:
             base:
-              too_soon: An activation email was sent to your email address less than
-                5 minutes ago.
+              too_soon: Se ha enviado un correo electrónico de activación a tu dirección de correo electrónico
+                 Hace 5 minutos.
         fund_source:
           attributes:
             address:
-              satoshi_ismine: Used Address
-              satoshi_invalid: Invalid Address
+              satoshi_ismine: Dirección usada
+              satoshi_invalid: Dirección Invalida
         withdraw:
-          account_balance_is_poor: Account balance is insufficient
+          account_balance_is_poor: Su balance es insuficiente
           attributes:
             password:
-              match: invalid
+              match: invalido
             amount:
-              poor: insufficient
-              bank_min: Less 5000.00
+              poor: insuficiente
+              bank_min: Menos 5000.00
         withdraws/satoshi:
           attributes:
             fund_uid:
-              blank: Please enter your withdrawal address
+              blank: Ingrese su dirección de retiro
               invalid: Invalid withdrawals address, please review.
-              ismine: Please use a new address.
+              ismine: La dirección de los retiros no es valida, revisa.
         two_factor:
           attributes:
             otp:
-              invalid: Wrong Password!Please re-enter.
+              invalid: Contraseña incorrecta, vuelva a ingresar.
         application:
           attributes:
             redirect_uri:
-              fragment_present: cannot contain a fragment.
-              invalid_uri: must be a valid URI.
-              relative_uri: must be an absolute URI.
+              fragment_present: No puede contener un fragmento.
+              invalid_uri: Debe ser un URI válido.
+              relative_uri: Debe ser un URI absoluto.
       messages:
-        invalid_email: Invalid Email Address
-        undef: unknown reason
-        less: balance less
-        verify: verify error
+        invalid_email: Dirección de email invalida
+        undef: razon desconocida
+        less: balance menor
+        verify: error en verificación
         strength: is invalid password strength
-        password: Please enter a password at least 6 characters and it's better to
-          contain uppercase and lowercase letters and numbers.
+        password: Introduzca una contraseña de al menos 6 caracteres y es mejor si
+           contienen letras mayúsculas y minúsculas y números.
         orders:
           price: limit price %{l} ~ %{h}
           sum: limit sum price %{l} ~ %{h}
@@ -323,14 +323,14 @@ es:
       name: Protoshare
       format: '0,0.0000'
   datagrid:
-    empty: no data found
+    empty: datos no encontrados
     filters:
       date:
-        range_separator: " to "
+        range_separator: " para "
       datetime:
-        range_separator: " to "
+        range_separator: " para "
     form:
-      submit: Search
+      submit: Buscar
     admin_deposits_grid:
       columns:
         sn: SN
@@ -341,156 +341,156 @@ es:
         txid: TXID
         amount: Amount
         fee: Fee
-        currency_text: Currency
-        aasm_state_text: State
+        currency_text: Divisa
+        aasm_state_text: Estado
         member_name: Member
     bank_deposits_grid:
       columns:
         sn: SN
         created_at: At
-        channel_key_text: Category
-        fund_extra_text: Bank
-        fund_uid: Account
-        amount: Amount
-        fee: Fee
-        aasm_state_text: State
+        channel_key_text: Categoría
+        fund_extra_text: Banco
+        fund_uid: Cuenta
+        amount: Monto
+        fee: Comision
+        aasm_state_text: Estado
     coin_deposits_grid:
       columns:
         sn: SN
         txid: Transaction ID
         created_at: At
-        amount: Amount
-        aasm_state_text: State
-        confirmations: Confirm
+        amount: Monto
+        aasm_state_text: Estado
+        confirmations: Confirmación
     withdraws_grid:
       columns:
         sn: SN
         name: Name
-        currency_text: Currency
+        currency_text: Divisa
         amount: Amount
         fee: Fee
         created_at: Created at
         done_at: Completed at
-        state_text: State
+        state_text: Estado
     members_grid:
       columns:
-        sn: Serial number
+        sn: Numero de Serie
         email: Email
         created_at: Created at
-        actions: Actions
+        actions: Acción
     account_versions_grid:
       columns:
         created_at: Created at
-        currency_text: Currency
+        currency_text: Divisa
         balance: Balance
-        in: In
-        out: Out
-        amount: Amount
-        reason_text: Reason
+        in: Entra
+        out: Sale
+        amount: Monto
+        reason_text: Razon
         modifiable_type: Link
-        fee: Fee
+        fee: Comisión
       filters:
-        reason: Reason
-        currency: Currency
+        reason: Razón
+        currency: Divisa
     statistic_members_grid:
       columns:
-        sn: Serial number
+        sn: Numero de Serie
         id: ID
         email: Email
         created_at: Created at
-        activated: Active
-        detail: Detail
-        action: Action
+        activated: Activo
+        detail: Detalles
+        action: Acción
       filters:
-        sn: Serial number
-        activated: Active
-        created_at: Created at
+        sn: Numero de Serie
+        activated: Acción
+        created_at: Created por
         email: Email
     statistic_orders_grid:
       columns:
-        id: Serial number
-        price: Price
-        volume: Volume
+        id: Numero de Serie
+        price: Precio
+        volume: Volumen
         created_at: Created at
-        state_text: State
-        member_id: Member
+        state_text: Estado
+        member_id: Miembro
       filters:
-        state: State
-        currency: Currency
+        state: Estado
+        currency: Divisa
         created_at: Created at
         type: Ask/Bid
     statistic_trades_grid:
       columns:
         id: ID
-        price: Price
-        volume: Volume
-        strike_amount: Amount
+        price: Precio
+        volume: Volumen
+        strike_amount: Monto
         created_at: Created at
       filters:
-        currency: Currency
+        currency: Divisa
         created_at: Created at
     statistic_deposits_grid:
       columns:
-        member: Member
+        member: Miembro
         tx_id: TxID
-        amount: Amount
-        currency: Currency
+        amount: Monto
+        currency: Divisa
         created_at: Created at
-        state_text: State
+        state_text: Estado
       filters:
-        currency: Currency
-        state: State
+        currency: Divisa
+        state: Estado
         created_at: Created at
     statistic_withdraws_grid:
       columns:
-        member: Member
-        address: Adress
-        amount: Amount
-        currency: Currency
+        member: Miembro
+        address: Direccion
+        amount: Monto
+        currency: Divisa
         created_at: Created at
-        state_text: State
+        state_text: Estado
       filters:
         state: State
         created_at: Created at
   deposit_channel:
     bank:
-      key: Bank transfer
-      title: Bank transfer
-      intro: Bank transfer deposits, recommend for large recharge
-      latency: 10 minutes
+      key: Transferencia Bancaria
+      title: Transferencia Bancaria
+      intro: Depósitos de transferencia bancaria, recomendamos para grandes recargas
+      latency: 10 minutos
       transfer: Manual
-      go: Deposit
+      go: Deposito
     satoshi:
       key: Block Chain
-      title: Bitcoin Deposits
-      intro: Deposit bitcoin from your own wallet address to Peatio account
-      latency: 1 confirmation
+      title: Depositos Bitcoin
+      intro: Deposite Bitcoin de su cartera personal a su cuenta en Lescovex
+      latency: 1 confirmación
       transfer: Manual
-      go: Deposit
+      go: Deposito
   deposits/bank:
     aasm_state:
-      submitting: Submitting
-      cancelled: Cancelled
-      submitted: Submitted
-      accepted: Accepted
-      rejected: Rejected
-      checked: Checked
-      warning: Warning
+      submitting: Enviando
+      cancelled: Cancelado
+      submitted: Enviado
+      accepted: Aceptado
+      rejected: Rechazado
+      checked: Checado
+      warning: Alerta
   private:
     deposits:
       satoshis:
         gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
+          require_transaction: No puede generar nueva dirección si no se ha utilizado.
       banks:
         destroy:
-          notice: Revocation request is successful.
+          notice: La solicitud de revocación ha sido exitosa.
         create:
-          notice: Recharge request successfully submitted. Use the info below to complete the bank transfer.
-          submit: Submit
+          notice: Solicitud de recarga enviada correctamente. Use la información a continuación para completar la transferencia bancaria.
+          submit: Enviar
         new:
-          fund_source: Select Fund Source
-          manage_fund_source: Manage Fund Source
-          submit: Submit
+          fund_source: Seleccionar Fuente del Fondo
+          manage_fund_source: Manejar Fuente de Fondos
+          submit: Enviar
         edit:
           bank: Receive Bank Name
           branch: Receive Bank Branch
