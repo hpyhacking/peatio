@@ -467,6 +467,13 @@ en:
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
+    ether:
+      key: ethereum
+      title: Ethereum Deposits
+      intro: Deposit Ethereum from your own wallet address to Tradealtcoin account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
   deposits/bank:
     aasm_state:
       submitting: Submitting
@@ -1842,6 +1849,13 @@ en:
       key: Blockchain
       title: Bitcoin Blockchain
       intro: Withdraw Bitcoin to your own Bitcoin wallet
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
+    ether:
+      key: Ether
+      title: Ether Blockchain
+      intro: Withdraw Litecoin to your own Ether wallet
       latency: 30 minutes
       transfer: Manual
       go: Withdraw

@@ -1,0 +1,12 @@
+# 2016 September 15
+# https://github.com/bevry/base
+[ignore]
+.*/docs/.*
+<PROJECT_ROOT>/node_modules/caterpillar/source/.*
+
+[options]
+module.ignore_non_literal_requires=true
+unsafe.enable_getters_and_setters=true
+
+[version]
+>=0.23 <1

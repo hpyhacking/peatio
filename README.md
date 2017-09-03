@@ -83,7 +83,7 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * [Setup on Mac OS X](doc/setup-local-osx.md)
 * [Setup on Ubuntu](doc/setup-local-ubuntu.md)
 * [Deploy production server](doc/deploy-production-server.md)
-
+* [Setup Ethereum Server](eth/eth.md)
 ### API
 
 You can interact with Peatio through API:
@@ -132,7 +132,9 @@ Peatio is released under the terms of the MIT license. See [http://peatio.mit-li
 **Every satoshi of your kind donation goes into the rerunning peatio again and making it active and adding support for new features and new 
 currencies.**
 
-**peatio-opensource-donate** address [1F3gwApTrT9Z94yDqN6ACcMfxB2BpxMRQT](https://blockchain.info/address/1F3gwApTrT9Z94yDqN6ACcMfxB2BpxMRQT)
+**Bitcoin** address [38jUu1ksNs9d9aFCK8wMPrZtkqDzJjFe5E](https://blockchain.info/address/38jUu1ksNs9d9aFCK8wMPrZtkqDzJjFe5E)
+
+**Ethereum** address [38jUu1ksNs9d9aFCK8wMPrZtkqDzJjFe5E](https://etherscan.io/address/0x4ba2474e063aec44e23f2bf7fb9e4e2878dbab44)
 
 
 ### What is Peatio?

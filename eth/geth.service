@@ -1,0 +1,9 @@
+[Unit]
+Description=Ethereum go client
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/geth --verbosity 3 --rpc  --rpcaddr=0.0.0.0 --rpcport=8545 --rpcapi eth,personal,net,web3,db  
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "xmlhttprequest": {
+      "version": "1.7.0",
+      "resolved": "https://registry.npmjs.org/xmlhttprequest/-/xmlhttprequest-1.7.0.tgz",
+      "from": "xmlhttprequest@1.7.0"
+    }
+  }
+}
