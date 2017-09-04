@@ -54,7 +54,6 @@ Insert the following lines into the bitcoin.conf, and replce with your username 
     rpcport=9333
     rpcallowip=PEATIO_SERVER_IP_HERE              
     # Notify when receiving coins
-    ayload='{"txid":"%s", "channel_key":"satoshi"}'
     walletnotify=/usr/bin/curl -d '{"type":"transaction", "hash":"%s"}' -H "Content-Type: application/json" -X POST https://yourwebsite.tld/webhooks/tx
 
 
