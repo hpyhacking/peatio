@@ -19,7 +19,7 @@ module Worker
         withdraw = Withdraw.lock.find payload[:id]
 
         return unless withdraw.almost_done?
-        if currency == 'eth'
+        if withdraw.currency == 'eth'
           balance = open('http://your_geth_server_ip/cgi-bin/total.cgi').read.rstrip.to_f
           raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.sum
 
