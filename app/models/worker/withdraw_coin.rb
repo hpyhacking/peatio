@@ -25,7 +25,7 @@ module Worker
 
           fee = [withdraw.fee.to_f || withdraw.channel.try(:fee) || 0.0005, 0.1].min
           CoinRPC[withdraw.currency].personal_unlockAccount("base_account_address", "", 36000)
-          txid = CoinRPC['withdraw.currency'].eth_sendTransaction(from: "base_account_address",to: withdraw.fund_uid, value: '0x ' +((withdraw.amount.to_f ).to_i.to_s(16)))
+          txid = CoinRPC[withdraw.currency].eth_sendTransaction(from: "base_account_address",to: withdraw.fund_uid, value: '0x ' +((withdraw.amount.to_f ).to_i.to_s(16)))
         else
           balance = CoinRPC[withdraw.currency].getbalance.to_d
           raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.sum

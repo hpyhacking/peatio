@@ -62,7 +62,7 @@ copy filter.service file to /etc/systemd/system/filter.service
 
 You need to create at least one account and use it as a base account for withdrawals 
 
-You need to edit app/models/worker/deposit_coin.rb ,deposit_coin_address.rb and withdraw_coin.rb
+You need to edit app/models/worker/deposit_coin_address.rb , withdraw_coin.rb and app/services/coin_rpc.rb
 
 Add your ether server IP and your base account address 
 Allow only peatio server to access ETH server on port 80
