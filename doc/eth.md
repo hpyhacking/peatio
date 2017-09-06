@@ -40,7 +40,7 @@ copy the cgi files to /var/www/html/cgi-bin and update total.cgi with your usern
 ### Install filter service
 copy total.js to /home/ubuntu
 
-    sudo chown www-daya:www-data /home/ubuntu/total.js
+    sudo chown www-data:www-data /home/ubuntu/total.js
 don't forget to edit service.js with your url
 
     curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
