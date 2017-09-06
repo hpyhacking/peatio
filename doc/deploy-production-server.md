@@ -1,4 +1,4 @@
-Deploy production server on Ubuntu 14.04
+Deploy production server on Ubuntu 16.04
 -------------------------------------
 
 ### Overview
@@ -128,7 +128,8 @@ Add HTTPS support to APT
 
     sudo apt-get install apt-transport-https ca-certificates
 
-Add the passenger repository. Note that this only works for Ubuntu 14.04. For other versions of Ubuntu, you have to add the appropriate repository according to Section 2.3.1 of this [link](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html).
+Add the passenger repository. Note that this only works for Ubuntu 16.04. For other versions of Ubuntu, you have to add the appropriate 
+repository according to Section 2.3.1 of this [link](https://www.phusionpassenger.com/documentation/Users%20guide%20Nginx.html).
 
     sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
     sudo apt-get update
