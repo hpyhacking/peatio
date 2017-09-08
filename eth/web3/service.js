@@ -1,5 +1,6 @@
 const Web3 = require('web3')
 const winston = require('winston')
+const axios = require('axios')
 
 
 let web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
