@@ -296,6 +296,11 @@ en:
       doge: DOGE
       pts: PTS
       ltc: LTC
+      bcc: BCC
+      eth: ETH
+      zec: ZEC
+      bts: BTS
+      etc: ETC
   currency:
     satoshi:
       key: BTC
@@ -317,6 +322,11 @@ en:
       code: DOGE
       name: Dogecoin
       format: '0,0.0000'
+    ether:
+      key: ETH
+      code: ETH
+      name: Ethereum
+      format: '0,0.0000'     
     protoshare:
       key: PTS
       code: PTS
