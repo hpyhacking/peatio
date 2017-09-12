@@ -292,6 +292,7 @@ en:
   market:
     currency:
       btc: BTC
+      eth: ETH
       cny: CNY
       doge: DOGE
       pts: PTS
@@ -301,6 +302,11 @@ en:
       key: BTC
       code: BTC
       name: Bitcoin
+      format: '0,0.0000'
+    ether:
+      key: ETH
+      code: ETH
+      name: Ethereum
       format: '0,0.0000'
     bitsharesx:
       key: BTS
@@ -677,11 +683,14 @@ en:
         liability-proof: Proof of Liabilities
         btc-assets: BTC Assets
         cny-assets: CNY Assets
+        eth-assets: ETH Assets
       liability_tabs:
         verify-btc: Verify My BTC Assets
         verify-cny: Verify My CNY Assets
+        verify-eth: Verify My ETH Assets
         btc-assets-total: 'Total BTC assets of exchange: '
         cny-assets-total: 'Total CNY assets of exchange: '
+        eth-assets-total: 'Total ETH assets of exchange: '
       liability_proof:
         title: Proof of Liabilities
         intro: As an exchange, our liabilities refer to the sum of money (in both
@@ -703,6 +712,11 @@ en:
         intro: All of exchange's BTC assets are listed here.
         total: Total BTC Assets
         address: Address
+      eth_assets:
+        title: ETH Assets
+        intro: All of exchange's ETH assets are listed here.
+        total: Total ETH Assets
+        address: Address
       cny_assets:
         title: CNY Assets
         intro: All of exchange's CNY assets are listed here.
@@ -717,6 +731,7 @@ en:
         account_history: Account History
         cny_format: '0.00'
         btc_format: '0.00000000'
+        eth_format: '0.00000000'
         reason:
           cny:
             strike_add: Plus
@@ -725,6 +740,12 @@ en:
             withdraw: Withdraw
             fix: Fix
           btc:
+            strike_add: Plus
+            strike_sub: Sub
+            deposit: Deposit
+            withdraw: Withdraw
+            fix: Fix
+          eth:
             strike_add: Plus
             strike_sub: Sub
             deposit: Deposit
@@ -964,6 +985,7 @@ en:
         title: "%{icon} %{c} Account"
         cny_format: '0.00'
         btc_format: '0.00000000'
+        eth_format: '0.00000000'
         total: Total
   guides:
     private:
@@ -1357,6 +1379,7 @@ en:
     currency:
       cny: CNY
       btc: BTC
+      eth: ETH
     order:
       state:
         done: DONE
