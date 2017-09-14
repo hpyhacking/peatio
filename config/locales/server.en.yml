@@ -332,6 +332,34 @@ en:
       code: PTS
       name: Protoshare
       format: '0,0.0000'
+    etc:
+      key: ETC
+      code: ETC
+      name: ETC
+      format: '0,0.0000'
+    ltc:
+      key: LTC
+      code: LTC
+      name: LTC
+      format: '0,0.0000'
+    bcc:
+      key: BCC
+      code: BCC
+      name: BCC
+      format: '0,0.0000'
+    zec:
+      key: ZEC
+      code: ZEC
+      name: ZEC
+      format: '0,0.0000'
+    bts:
+      key: BTS
+      code: BTS
+      name: BTS
+      format: '0,0.0000'
+
+
+
   datagrid:
     empty: no data found
     filters:
