@@ -124,7 +124,6 @@ Peatio::Application.routes.draw do
   post '/webhooks/eth' => 'webhooks#eth'
 
   draw :admin
-  post '/webhooks/tx' => 'webhooks#tx'
   mount APIv2::Mount => APIv2::Mount::PREFIX
 
 end
