@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe APIv2::Entities::Order do
 
-  let(:order)  { create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13') }
+  let(:order)  { create(:order_ask, currency: 'btceur', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13') }
 
   context "default exposure" do
     subject { OpenStruct.new APIv2::Entities::Order.represent(order, {}).serializable_hash }

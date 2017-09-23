@@ -1,7 +1,7 @@
 .tabbable
   ul.nav.nav-tabs
     li.active: a.btc-proof href="#btc-proof" data-toggle="tab" == t('.verify-btc')
-    li:        a.cny-proof href="#cny-proof" data-toggle="tab" == t('.verify-cny')
+    li:        a.eur-proof href="#cny-proof" data-toggle="tab" == t('.verify-ngn')
 
   .tab-content
     #btc-proof.tab-pane.active: .trade-wrapper
@@ -14,8 +14,8 @@
 
     #cny-proof.tab-pane:        .trade-wrapper
       .assets
-        span.title = t('.cny-assets-total')
+        span.title = t('.eur-assets-total')
         span.currency
-          == t("currency.icon.cny")
-          = @cny_proof.sum
-      = render 'liability_data', account: @cny_account, proof: @cny_proof
+          == t("currency.icon.eur")
+          = @eur_proof.sum
+      = render 'liability_data', account: @eur_account, proof: @eur_proof

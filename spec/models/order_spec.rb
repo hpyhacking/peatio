@@ -9,13 +9,13 @@ describe Order, 'validations' do
 
   context "limit order" do
     it "should make sure price is present" do
-      order = Order.new(currency: 'btccny', price: nil, ord_type: 'limit')
+      order = Order.new(currency: 'btceur', price: nil, ord_type: 'limit')
       order.should_not be_valid
       order.errors[:price].should == ["is not a number"]
     end
 
     it "should make sure price is greater than zero" do
-      order = Order.new(currency: 'btccny', price: '0.0'.to_d, ord_type: 'limit')
+      order = Order.new(currency: 'btceur', price: '0.0'.to_d, ord_type: 'limit')
       order.should_not be_valid
       order.errors[:price].should == ["must be greater than 0"]
     end
@@ -23,7 +23,7 @@ describe Order, 'validations' do
 
   context "market order" do
     it "should make sure price is not present" do
-      order = Order.new(currency: 'btccny', price: '0.0'.to_d, ord_type: 'market')
+      order = Order.new(currency: 'btceur', price: '0.0'.to_d, ord_type: 'market')
       order.should_not be_valid
       order.errors[:price].should == ['must not be present']
     end
@@ -31,8 +31,8 @@ describe Order, 'validations' do
 end
 
 describe Order, "#fix_number_precision" do
-  let(:order_bid) { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789') }
-  let(:order_ask) { create(:order_ask, currency: 'btccny', price: '12.326'.to_d, volume: '123.123456789') }
+  let(:order_bid) { create(:order_bid, currency: 'btceur', price: '12.326'.to_d, volume: '123.123456789') }
+  let(:order_ask) { create(:order_ask, currency: 'btceur', price: '12.326'.to_d, volume: '123.123456789') }
   it { expect(order_bid.price).to be_d '12.32' }
   it { expect(order_bid.volume).to be_d '123.1234' }
   it { expect(order_bid.origin_volume).to be_d '123.1234' }
@@ -174,7 +174,7 @@ describe Order, "#done" do
 end
 
 describe Order, "#head" do
-  let(:currency) { :btccny }
+  let(:currency) { :btceur }
 
   describe OrderAsk do
     it "price priority" do
@@ -220,17 +220,17 @@ describe Order, "related accounts" do
   let(:bob)    { who_is_billionaire }
 
   context OrderAsk do
-    it "should hold btc and expect cny" do
+    it "should hold btc and expect eur" do
       ask = create(:order_ask, member: alice)
       ask.hold_account.should == alice.get_account(:btc)
-      ask.expect_account.should == alice.get_account(:cny)
+      ask.expect_account.should == alice.get_account(:eur)
     end
   end
 
   context OrderBid do
-    it "should hold cny and expect btc" do
+    it "should hold eur and expect btc" do
       bid = create(:order_bid, member: bob)
-      bid.hold_account.should == bob.get_account(:cny)
+      bid.hold_account.should == bob.get_account(:eur)
       bid.expect_account.should == bob.get_account(:btc)
     end
   end
@@ -243,11 +243,11 @@ describe Order, "#avg_price" do
   end
 
   it "should calculate average price of bid order" do
-    OrderBid.new(currency: 'btccny', locked: '10.0', origin_locked: '20.0', volume: '1.0', origin_volume: '3.0', funds_received: '2.0').avg_price.should == '5'.to_d
+    OrderBid.new(currency: 'btceur', locked: '10.0', origin_locked: '20.0', volume: '1.0', origin_volume: '3.0', funds_received: '2.0').avg_price.should == '5'.to_d
   end
 
   it "should calculate average price of ask order" do
-    OrderAsk.new(currency: 'btccny', locked: '1.0', origin_locked: '2.0', volume: '1.0', origin_volume: '2.0', funds_received: '10.0').avg_price.should == '10'.to_d
+    OrderAsk.new(currency: 'btceur', locked: '1.0', origin_locked: '2.0', volume: '1.0', origin_volume: '2.0', funds_received: '10.0').avg_price.should == '10'.to_d
   end
 end
 
@@ -259,7 +259,7 @@ describe Order, "#estimate_required_funds" do
   end
 
   before do
-    global = Global.new('btccny')
+    global = Global.new('btceur')
     global.stubs(:asks).returns(price_levels)
     Global.stubs(:[]).returns(global)
   end

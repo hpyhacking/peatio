@@ -4,7 +4,7 @@ describe Worker::SlaveBook do
 
   subject { Worker::SlaveBook.new(false) }
 
-  let(:market)   { Market.find(:btccny) }
+  let(:market)   { Market.find(:btceur) }
   let(:low_ask)  { Matching.mock_limit_order(type: 'ask', price: '10.0'.to_d) }
   let(:high_ask) { Matching.mock_limit_order(type: 'ask', price: '12.0'.to_d) }
   let(:low_bid)  { Matching.mock_limit_order(type: 'bid', price: '6.0'.to_d) }

@@ -2,9 +2,9 @@ module MailerHelper
 
   def assets_value_change_total(changes)
     total = changes.sum do |(currency, amount, value)|
-      currency.code == 'cny' ? 0 : (value[0] || 0)
+      currency.code == 'eur' ? 0 : (value[0] || 0)
     end
-    pretty_change pretty_currency(total, 'cny'), total
+    pretty_change pretty_currency(total, 'eur'), total
   end
 
   def trades_change_total(changes)

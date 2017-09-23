@@ -10,5 +10,5 @@ zh-TW:
     funds:
       deposit: 充值
       withdraw: 提现
-      deposit_cny:
+      deposit_eur:
         title: 人民币充值

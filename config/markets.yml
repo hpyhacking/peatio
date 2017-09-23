@@ -1,46 +1,46 @@
-- id: btccny
+- id: btceur
   code: 3
-  #name: BTC/CNY      # default name
+  #name: BTC/EUR      # default name
   base_unit: btc
-  quote_unit: cny
+  quote_unit: eur
   #price_group_fixed: 1 # aggregate price levels in orderbook
-  bid: {fee: 0, currency: cny, fixed: 2}
+  bid: {fee: 0, currency: eur, fixed: 2}
   ask: {fee: 0, currency: btc, fixed: 4}
   sort_order: 1
   #visible: false     # default to true
-- id: ltccny
+- id: ltceur
   code: 4
   base_unit: ltc
-  quote_unit: cny
-  bid: {fee: 0, currency: cny, fixed: 8}
+  quote_unit: eur
+  bid: {fee: 0, currency: eur, fixed: 8}
   ask: {fee: 0, currency: ltc, fixed: 8}
-- id: bcccny
+- id: bcceur
   code: 5
   base_unit: bcc
-  quote_unit: cny
-  bid: {fee: 0, currency: cny, fixed: 8}
+  quote_unit: eur
+  bid: {fee: 0, currency: eur, fixed: 8}
   ask: {fee: 0, currency: bcc, fixed: 8}
-- id: ethcny
+- id: etheur
   code: 6
   base_unit: eth
-  quote_unit: cny
-  bid: {fee: 0, currency: cny, fixed: 8}
+  quote_unit: eur
+  bid: {fee: 0, currency: eur, fixed: 8}
   ask: {fee: 0, currency: eth, fixed: 8}
-- id: zeccny
+- id: zeceur
   code: 7
   base_unit: zec
-  quote_unit: cny
-  bid: {fee: 0, currency: cny, fixed: 8}
+  quote_unit: eur
+  bid: {fee: 0, currency: eur, fixed: 8}
   ask: {fee: 0, currency: zec, fixed: 8}
-- id: btscny
+- id: btseur
   code: 8
   base_unit: bts
-  quote_unit: cny
-  bid: {fee: 0, currency: cny, fixed: 8}
+  quote_unit: eur
+  bid: {fee: 0, currency: eur, fixed: 8}
   ask: {fee: 0, currency: bts, fixed: 8}
-- id: etccny
+- id: etceur
   code: 9
   base_unit: etc
-  quote_unit: cny
-  bid: {fee: 0, currency: cny, fixed: 8}
+  quote_unit: eur
+  bid: {fee: 0, currency: eur, fixed: 8}
   ask: {fee: 0, currency: etc, fixed: 8}

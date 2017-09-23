@@ -28,13 +28,13 @@ FactoryGirl.define do
 
   factory :bank_withdraw, class: Withdraws::Bank do
     member { create :member }
-    currency :cny
+    currency :eur
     sum { 1000.to_d }
-    fund_source_id { create(:cny_fund_source).id }
+    fund_source_id { create(:eur_fund_source).id }
     type 'Withdraws::Bank'
 
     account do
-      member.get_account(:cny).tap do |a|
+      member.get_account(:eur).tap do |a|
         a.balance = 50000
         a.save(validate: false)
 
