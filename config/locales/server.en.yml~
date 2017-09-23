@@ -337,28 +337,6 @@ en:
       code: ETC
       name: ETC
       format: '0,0.0000'
-    ltc:
-      key: LTC
-      code: LTC
-      name: LTC
-      format: '0,0.0000'
-    bcc:
-      key: BCC
-      code: BCC
-      name: BCC
-      format: '0,0.0000'
-    zec:
-      key: ZEC
-      code: ZEC
-      name: ZEC
-      format: '0,0.0000'
-    bts:
-      key: BTS
-      code: BTS
-      name: BTS
-      format: '0,0.0000'
-
-
 
   datagrid:
     empty: no data found
@@ -1061,15 +1039,15 @@ en:
       panel: Login
       new:
         title: Login my account
-        intro: Login Cryex24.
+        intro: Login Peatio now for you to exchange.
       failure:
         title: Login my account
-        intro: Login Cryex24.
+        intro: Login Peatio now for you to exchange.
     identities:
       panel: Create Account
       new:
         title: Create My Account
-        intro: This will be your only ID on Cryex24 which is necessary for your exchange
+        intro: This will be your only ID on Peatio which is necessary for your exchange
           , deposit and withdrawal . please fill it out carefully.
       edit:
         panel: My Account
@@ -1085,7 +1063,7 @@ en:
         email: E-mail Address
         password: Password
       identity:
-        email: Example：user@example.com
+        email: Example：xiaobai@example.com
         password: Please set your login password
         password_confirmation: Confirm your password
         edit:

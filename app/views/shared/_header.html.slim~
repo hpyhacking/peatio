@@ -3,8 +3,9 @@ header.navbar.navbar-default.navbar-static-top role = "navigation"
     ul#menu.nav.navbar-nav.navbar-left
       a.text-center.navbar-brand href='#{root_path}' Cryex24
       = top_nav_link(t('header.market'), market_path(current_market.id), 'exchange', target: true)
-      = top_nav_link(t('header.funds'), 'http://www.cryex24.com/funds', 'money', controllers: ['funds']) if current_user
+      = top_nav_link(t('header.funds'), funds_path, 'money', controllers: ['funds']) if current_user
       = top_nav_link(t('header.history'), order_history_path, 'book', controllers: ['history']) if current_user
+      = top_nav_link(t('header.history'), "http://www.cyrex24.com/funds", 'book', controllers: ['history']) if current_user
 
 
     ul.nav.navbar-nav.navbar-right
