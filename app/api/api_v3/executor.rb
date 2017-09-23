@@ -99,19 +99,27 @@ class Application < Quickfix::Application
 		return @execID.to_s
 	end
 end
-
+puts "hello world just for fun"
 begin
-	file = ARGV[0]
+#	file = ARGV[0]
+       file = "/home/deploy/peatio/current/app/api/api_v3/session.conf"
+#	file = "/session.conf"
 	settings = Quickfix::SessionSettings.new( file )
-	application = Application.new
+	application = Application.new()
 	storeFactory = Quickfix::FileStoreFactory.new( settings )
 	logFactory = Quickfix::ScreenLogFactory.new( settings )
-	acceptor = Quickfix::SocketAcceptor.new( application, storeFactory, settings, logFactory )
-        acceptor.start
-
+puts "1"
+ 	acceptor = Quickfix::SocketAcceptor.new( application, storeFactory, settings, logFactory )
+puts "2"
+        acceptor.start()
+puts "3"
 	while( true )
-		sleep(1)
+		sleep(1) #do something ??
 	end
+#       acceptor.stop()
+#puts "4"
 rescue Quickfix::ConfigError, Quickfix::RuntimeError => e
-	print e
+	puts e
+puts "5"
 end
+

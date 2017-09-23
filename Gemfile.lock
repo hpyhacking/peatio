@@ -264,6 +264,7 @@ GEM
       httpclient (~> 2.3.0)
       multi_json (~> 1.0)
       signature (~> 0.1.6)
+    quickfix_ruby (1.14.3.1)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
@@ -471,6 +472,7 @@ DEPENDENCIES
   poltergeist
   pry-rails
   pusher
+  quickfix_ruby
   quiet_assets
   rack-attack (~> 3.0.0)
   rails (~> 4.0.12)
