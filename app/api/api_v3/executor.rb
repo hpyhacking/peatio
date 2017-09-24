@@ -1,125 +1,23 @@
-##needed login (action) and wallet , trades , market levels , orders (objects)
-require 'quickfix_ruby'
+class MyHandler < EM::Connection
 
-class Application < Quickfix::Application
+  include FE::ServerConnection
 
-	def initialize
-		super
-		@orderID = 0
-		@execID = 0
-	end
+  def on_market_data_request
+    # Fetch market data and send the relevant response
+    #  ...
+  end
 
-	def onCreate(sessionID)
-	end
-
-	def onLogon(sessionID)
-        ###
-        ### PEATIO TODO
-        ###
-	end
-
-	def onLogout(sessionID)
-	end
-
-	def toAdmin(sessionID, message)
-	end
-
-	def fromAdmin(sessionID, message)
-	end
-
-	def toApp(sessionID, message)
-	end
-
-	def fromApp(message, sessionID)
-
-		beginString = Quickfix::BeginString.new
-		msgType = Quickfix::MsgType.new
-		message.getHeader().getField( beginString )
-		message.getHeader().getField( msgType )
-
-		symbol = Quickfix::Symbol.new
-		side = Quickfix::Side.new
-		ordType = Quickfix::OrdType.new
-		orderQty = Quickfix::OrderQty.new
-		price = Quickfix::Price.new
-		clOrdID = Quickfix::ClOrdID.new
-		avgPx = Quickfix::AvgPx.new
-
-		message.getField( ordType )
-
-		if( ordType.getValue() != Quickfix.OrdType_LIMIT )
-			raise Quickfix::IncorrectTagValue.new( ordType.getField() )
-		end
-
-		message.getField( symbol )
-		message.getField( side )
-		message.getField( orderQty )
-		message.getField( price )
-		message.getField( clOrdID )
-
-		executionReport = Quickfix::Message.new
-		executionReport.getHeader().setField( beginString )
-		executionReport.getHeader().setField( Quickfix::MsgType.new(Quickfix.MsgType_ExecutionReport) )
-
-		executionReport.setField( Quickfix::OrderID.new(genOrderID()) )
-		executionReport.setField( Quickfix::ExecID.new(genExecID()) )
-		executionReport.setField( Quickfix::OrdStatus.new(Quickfix.OrdStatus_FILLED) )
-		executionReport.setField( symbol )
-		executionReport.setField( side )
-		executionReport.setField( Quickfix::CumQty.new(orderQty.getValue()) )
-		executionReport.setField( Quickfix::AvgPx.new(price.getValue()) )
-		executionReport.setField( Quickfix::LastShares.new(orderQty.getValue()) )
-		executionReport.setField( Quickfix::LastPx.new(price.getValue()) )
-		executionReport.setField( clOrdID )
-		executionReport.setField( orderQty )
-
-		if( beginString.getValue() == Quickfix.BeginString_FIX40 || beginString.getValue() == Quickfix.BeginString_FIX41 || beginString.getValue() == Quickfix.BeginString_FIX42 )
-			executionReport.setField( Quickfix::ExecTransType.new(Quickfix.ExecTransType_NEW) )
-		end
-
-		if( beginString.getValue() >= Quickfix.BeginString_FIX41 )
-			executionReport.setField( Quickfix::ExecType.new(Quickfix.ExecType_FILL) )
-			executionReport.setField( Quickfix::LeavesQty.new(0) )
-		end
-
-		begin
-			Quickfix::Session.sendToTarget( executionReport, sessionID )
-		rescue SessionNotFound
-			return
-		end
-	end
-
-	def genOrderID
-		@orderID = @orderID+1
-		return @orderID.to_s
-	end
-
-	def genExecID
-		@execID = @execID+1
-		return @execID.to_s
-	end
 end
-puts "hello world just for fun"
-begin
-#	file = ARGV[0]
-       file = "/home/deploy/peatio/current/app/api/api_v3/session.conf"
-#	file = "/session.conf"
-	settings = Quickfix::SessionSettings.new( file )
-	application = Application.new()
-	storeFactory = Quickfix::FileStoreFactory.new( settings )
-	logFactory = Quickfix::ScreenLogFactory.new( settings )
-puts "1"
- 	acceptor = Quickfix::SocketAcceptor.new( application, storeFactory, settings, logFactory )
-puts "2"
-        acceptor.start()
-puts "3"
-	while( true )
-		sleep(1) #do something ??
-	end
-#       acceptor.stop()
-#puts "4"
-rescue Quickfix::ConfigError, Quickfix::RuntimeError => e
-	puts e
-puts "5"
+
+server = FE::Server.new('127.0.0.1', 8095, MyHandler) do |conn|
+  conn.comp_id = 'MY_COMP_ID'
+end
+
+# This will also start an EventMachine reactor
+server.run!
+
+# This would be used inside an already-running reactor
+EM.run do
+  server.start_server
 end
 
