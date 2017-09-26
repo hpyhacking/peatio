@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=ubuntu
-ExecStart=/usr/bin/ruby /home/ubuntu/filter.rb
+ExecStart=/usr/bin/ruby /home/ubuntu/service.rb
 Restart=on-failure
 
 [Install]
