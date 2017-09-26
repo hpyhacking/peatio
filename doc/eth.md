@@ -41,16 +41,12 @@ copy the cgi files to /var/www/html/cgi-bin and update total.cgi with your usern
 copy total.js to /home/ubuntu
 
     sudo chown www-data:www-data /home/ubuntu/total.js
-don't forget to edit service.js with your url
+don't forget to edit service.rb with your url
 
-    curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
-    sudo bash nodesource_setup.sh
-    sudo apt-get install -y nodejs
-    cd ~/
-    mkdir web3
-    cd web3
-    npm install axios web3 winston
-copy service.js file to /home/ubuntu/web3
+    sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev nodejs ruby-all-dev ruby
+    sudo gem install web3 -v 0.1.0
+    sudo gem install httparty
+copy service.rb file to /home/ubuntu/
 
 don't forget to update the username in filter.service
 copy filter.service file to /etc/systemd/system/filter.service
