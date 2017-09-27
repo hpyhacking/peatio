@@ -1,0 +1,30 @@
+.row
+  .col-xs-12
+    .panel.panel-primary
+      .panel-heading
+        span = t('.withdraw', sn: @ether.id)
+      .panel-body
+        = description_for :withdraw do
+          = item_for @ether, :id
+          = item_for @ether, :created_at
+          = item_for @ether, :aasm_state_text
+          hr.split
+          = item_for @ether.member, :name
+          = item_for @ether, :fund_extra
+          = item_for @ether, :fund_uid do
+            span = @ether.fund_uid.truncate(22)
+          = item_for @ether, :amount
+          hr.split
+          = item_for @ether, :remark
+          hr.split
+          ul.list-inline.pull-right
+            - if @ether.may_reject?
+              li
+                = link_to t('.reject'), url_for([:admin, @ether]), class: 'btn btn-danger', method: 'DELETE', confirm: t('.reject_confirm')
+            - if @ether.may_process?
+              li
+                = link_to t('.process'), url_for([:admin, @ether]), class: 'btn btn-primary', method: 'PATCH'
+
+  .col-xs-12
+    = render partial: 'shared/admin/member', locals: {member: @ether.member}
+    = render partial: 'shared/admin/account', locals: {account: @ether.account}

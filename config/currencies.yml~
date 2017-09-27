@@ -1,0 +1,54 @@
+- id: 1
+  key: renminbi
+  code: cny
+  symbol: "¥"
+  coin: false
+  precision: 2
+  assets:
+    accounts:
+      -
+        bank: '招商银行'
+        address: '6225 0885 6022 3501'
+        password: '111111'
+        tel: '95555'
+- id: 2
+  key: satoshi
+  code: btc
+  symbol: "฿"
+  coin: true
+  quick_withdraw_max: 0
+  rpc: http://scatterp:0c5u8ZVSK7az@127.0.0.1:18332
+  blockchain: https://blockchain.info/tx/#{txid}
+  address_url: https://blockchain.info/address/#{address}
+  assets:
+    accounts:
+      -
+        address: 1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3
+- id: 3
+  key: ether
+  code: eth
+  symbol: "฿"
+  coin: true
+  precision: 4
+  quick_withdraw_max: 0
+  rpc: http://localhost
+  blockchain: https://etherscan.io/tx/#{txid}
+  address_url: https://etherscan.io/address/#{address}
+  assets:
+    accounts:
+      -
+        address: 0x4bA2474e063Aec44e23F2Bf7Fb9e4e2878dBaB44
+- id: 4
+  key: etc
+  code: etc
+  symbol: "฿"
+  coin: true
+  precision: 4
+  quick_withdraw_max: 0
+  rpc: http://localhost
+  blockchain: https://etherscan.io/tx/#{txid}
+  address_url: https://etherscan.io/address/#{address}
+  assets:
+    accounts:
+      -
+        address: 0x4bA2474e063Aec44e23F2Bf7Fb9e4e2878dBaB44

@@ -296,6 +296,11 @@ en:
       doge: DOGE
       pts: PTS
       ltc: LTC
+      bcc: BCC
+      eth: ETH
+      zec: ZEC
+      bts: BTS
+      etc: ETC
   currency:
     satoshi:
       key: BTC
@@ -317,11 +322,44 @@ en:
       code: DOGE
       name: Dogecoin
       format: '0,0.0000'
+    ether:
+      key: ETH
+      code: ETH
+      name: Ethereum
+      format: '0,0.0000'     
     protoshare:
       key: PTS
       code: PTS
       name: Protoshare
       format: '0,0.0000'
+    etc:
+      key: ETC
+      code: ETC
+      name: ETC
+      format: '0,0.0000'
+    ltc:
+      key: LTC
+      code: LTC
+      name: LTC
+      format: '0,0.0000'
+    bcc:
+      key: BCC
+      code: BCC
+      name: BCC
+      format: '0,0.0000'
+    zec:
+      key: ZEC
+      code: ZEC
+      name: ZEC
+      format: '0,0.0000'
+    bts:
+      key: BTS
+      code: BTS
+      name: BTS
+      format: '0,0.0000'
+
+
+
   datagrid:
     empty: no data found
     filters:
@@ -464,6 +502,13 @@ en:
       key: Block Chain
       title: Bitcoin Deposits
       intro: Deposit bitcoin from your own wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
+    ether:
+      key: ethereum
+      title: Ethereum Deposits
+      intro: Deposit Ethereum from your own wallet address to Tradealtcoin account
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
@@ -1016,15 +1061,15 @@ en:
       panel: Login
       new:
         title: Login my account
-        intro: Login Peatio now for you to exchange.
+        intro: Login Cryex24.
       failure:
         title: Login my account
-        intro: Login Peatio now for you to exchange.
+        intro: Login Cryex24.
     identities:
       panel: Create Account
       new:
         title: Create My Account
-        intro: This will be your only ID on Peatio which is necessary for your exchange
+        intro: This will be your only ID on Cryex24 which is necessary for your exchange
           , deposit and withdrawal . please fill it out carefully.
       edit:
         panel: My Account
@@ -1040,7 +1085,7 @@ en:
         email: E-mail Address
         password: Password
       identity:
-        email: Example：xiaobai@example.com
+        email: Example：user@example.com
         password: Please set your login password
         password_confirmation: Confirm your password
         edit:
@@ -1842,6 +1887,13 @@ en:
       key: Blockchain
       title: Bitcoin Blockchain
       intro: Withdraw Bitcoin to your own Bitcoin wallet
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
+    ether:
+      key: Ether
+      title: Ether Blockchain
+      intro: Withdraw Litecoin to your own Ether wallet
       latency: 30 minutes
       transfer: Manual
       go: Withdraw

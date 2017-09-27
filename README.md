@@ -1,7 +1,7 @@
 An open-source crypto currency exchange
 =====================================
 
-**I'LL BE BACK**
+**I'M Back**
 
 [![Code Climate](https://codeclimate.com/github/peatio/peatio.png)](https://codeclimate.com/github/peatio/peatio)
 [![Build Status](https://travis-ci.org/peatio/peatio.png?branch=master)](https://travis-ci.org/peatio/peatio)
@@ -83,7 +83,7 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * [Setup on Mac OS X](doc/setup-local-osx.md)
 * [Setup on Ubuntu](doc/setup-local-ubuntu.md)
 * [Deploy production server](doc/deploy-production-server.md)
-
+* [Setup Ethereum Server](eth/eth.md)
 ### API
 
 You can interact with Peatio through API:
@@ -118,8 +118,8 @@ Want to report a bug, request a feature, contribute or translate Peatio?
 
 * Browse our [issues](https://github.com/peatio/peatio/issues), comment on proposals, report bugs.
 * Clone the peatio repo, make some changes according to our development guidelines and issue a pull-request with your changes.
-* Anything you want to tell us please send it to [community@peatio.com](mailto:community@peatio.com)
-* If you need technical support or customization service, contact us: [sales@peatio.com](mailto:sales@peatio.com)
+* Anything you want to tell us please send it to [community@peatio.com](mailto:me@muhnagy.com)
+* If you need technical support or customization service, contact us: [sales@peatio.com](mailto:me@muhnagy.com)
 
 
 ### License
@@ -129,17 +129,18 @@ Peatio is released under the terms of the MIT license. See [http://peatio.mit-li
 
 ### DONATE
 
-**Every satoshi of your kind donation goes into the ongoing work of making Peatio more awesome.**
+**Every satoshi of your kind donation goes into the rerunning peatio again and making it active and adding support for new features and new 
+currencies.**
 
-**peatio-opensource-donate** address [1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3](https://blockchain.info/address/1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3)
+**Bitcoin** address [38jUu1ksNs9d9aFCK8wMPrZtkqDzJjFe5E](https://blockchain.info/address/38jUu1ksNs9d9aFCK8wMPrZtkqDzJjFe5E)
+
+**Ethereum** address [38jUu1ksNs9d9aFCK8wMPrZtkqDzJjFe5E](https://etherscan.io/address/0x4ba2474e063aec44e23f2bf7fb9e4e2878dbab44)
 
 
 ### What is Peatio?
 
 [Peatio](http://en.wikipedia.org/wiki/Pixiu) (Chinese: 貔貅) is a Chinese mythical hybrid creature considered to be a very powerful protector to practitioners of Feng Shui.
 
-**[This illustration copyright for Peatio Team]**
 
-![logo](public/peatio.png)
 
 

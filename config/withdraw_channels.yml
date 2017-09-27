@@ -16,3 +16,13 @@
   proportion: true
   inuse: true
   type: WithdrawChannelBank
+- id: 500
+  key: ether
+  currency: eth
+  min_confirm: 1
+  max_confirm: 6
+  inuse: true
+  fixed: 8
+  fee: 0.0005
+  type: WithdrawChannelEthereum
+  

@@ -7,7 +7,7 @@
     <div class="col-sm-12" ng-if="fund_sources().length">
 
       <select id="fund_source" class="select required form-control" name="fund_source"
-        ng-model="selected_fund_source_id"
+        ng-model="selected_fund_source"
         ng-model-options="{ getterSetter: true }"
         ng-options="fs.id as fs.label for fs in fund_sources()"
         required>
@@ -77,5 +77,4 @@
   </tr>
   <tr ng-if="wdCtrl.noWithdraw()"><td colspan="6"><span class="help-block text-center">{{"funds.withdraw_history.no_data" | t}}</span></td></tr>
 </table>
-
 

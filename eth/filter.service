@@ -1,0 +1,13 @@
+[Unit]
+Description=filter
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=/usr/bin/node /home/ubuntu/web3/service.js
+WorkingDirectory=/home/ubuntu/web3
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

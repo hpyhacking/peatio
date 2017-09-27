@@ -1,0 +1,30 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server ;
+    server_name _;
+    location / {
+#        auth_basic "Restricted access to this site";
+#        auth_basic_user_file /etc/nginx/protected.htpasswd;
+
+        # Proxy to geth note that is bind to localhost port                        
+        proxy_pass http://localhost:8545;            
+    
+
+    }       
+   location /cgi-bin/ {
+     # Disable gzip (it makes scripts feel slower since they have to complete
+     # before getting gzipped)
+     gzip off;
+     # Set the root to /usr/lib (inside this location this means that we are
+     # giving access to the files under /usr/lib/cgi-bin)
+    root  /var/www/html;
+     # Fastcgi socket
+     fastcgi_pass  unix:/var/run/fcgiwrap.socket;
+     # Fastcgi parameters, include the standard ones
+     include /etc/nginx/fastcgi_params;
+     # Adjust non standard parameters (SCRIPT_FILENAME)
+     fastcgi_param DOCUMENT_ROOT  $document_root$fastcgi_script_name;
+   }
+
+}
+

@@ -1,0 +1,19 @@
+= table_for(@ethers, class: 'table table-condensed table-hover') do |t|
+  - t.column :txid do |x|
+    a href='#{x.blockchain_url}' target='_blank'
+      code.text-info = x.txid.truncate(36)
+  - t.column :created_at
+  - t.column :currency_obj_key_text
+  - t.column :member_name do |x|
+    = link_to x.member_name, url_for([:admin, x.member]), target: '_blank'
+  - t.column :amount do |x|
+    code.text-info = x.amount
+  - t.column :confirmations do |x|
+    span.badge = x.confirmations
+  - t.column :state_and_actions do |x|
+    span = x.aasm_state_text
+    - if x.may_accept?
+      span = ' / '
+      = link_to t('.accept'), url_for([:admin, x]), method: 'PATCH', confirm: t('.accept_confirm')
+
+.pull-right = paginate @ethers

@@ -1,0 +1,46 @@
+- id: btccny
+  code: 3
+  #name: BTC/CNY      # default name
+  base_unit: btc
+  quote_unit: cny
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: cny, fixed: 2}
+  ask: {fee: 0, currency: btc, fixed: 4}
+  sort_order: 1
+  #visible: false     # default to true
+- id: ltccny
+  code: 4
+  base_unit: ltc
+  quote_unit: cny
+  bid: {fee: 0, currency: cny, fixed: 8}
+  ask: {fee: 0, currency: ltc, fixed: 8}
+- id: bcccny
+  code: 5
+  base_unit: bcc
+  quote_unit: cny
+  bid: {fee: 0, currency: cny, fixed: 8}
+  ask: {fee: 0, currency: bcc, fixed: 8}
+- id: ethcny
+  code: 6
+  base_unit: eth
+  quote_unit: cny
+  bid: {fee: 0, currency: cny, fixed: 8}
+  ask: {fee: 0, currency: eth, fixed: 8}
+- id: zeccny
+  code: 7
+  base_unit: zec
+  quote_unit: cny
+  bid: {fee: 0, currency: cny, fixed: 8}
+  ask: {fee: 0, currency: zec, fixed: 8}
+- id: btscny
+  code: 8
+  base_unit: bts
+  quote_unit: cny
+  bid: {fee: 0, currency: cny, fixed: 8}
+  ask: {fee: 0, currency: bts, fixed: 8}
+- id: etccny
+  code: 9
+  base_unit: etc
+  quote_unit: cny
+  bid: {fee: 0, currency: cny, fixed: 8}
+  ask: {fee: 0, currency: etc, fixed: 8}
