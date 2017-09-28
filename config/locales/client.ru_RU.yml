@@ -11,9 +11,9 @@ ru_RU:
       deposit: Пополнить
       withdraw: Вывести
       currency_name:
-        cny: CNY
+        eur: EUR
         btc: BTC
-      deposit_cny:
+      deposit_eur:
         title: Пополнить в китайских юанях
         desc: "Чтобы внести средства банковским платежом:"
         desc_item_1: "1. Для получения идентификационного кода заполните форму."
@@ -61,7 +61,7 @@ ru_RU:
         rejected: Отклонен
         checked: Проверен
         warning: Предупреждение
-      withdraw_cny:
+      withdraw_eur:
         title: Вывести в китайских юанях
         intro: Выберите банк для вывода средств и введите номер счета.
         intro_2: Имя владельца банковского счета должно совпадать с Вашим именем.
@@ -120,5 +120,5 @@ ru_RU:
     markets:
       market_list:
         all: Все рынки
-        cny: Рынок CNY
+        eur: Рынок EUR
         btc: Рынок BTC

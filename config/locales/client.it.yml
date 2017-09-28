@@ -11,9 +11,9 @@ it:
       deposit: Deposita
       withdraw: Preleva
       currency_name:
-        cny: CNY
+        eur: EUR
         btc: BTC
-      deposit_cny:
+      deposit_eur:
         title: Deposito in Yuan Cinesi
         desc: "Per depositare tramite bonifico bancario, per favore segui questi passaggi:"
         desc_item_1: "1. Invia il modulo per ottenere il codice di identificazione."
@@ -63,7 +63,7 @@ it:
         checked: Verificato
         warning: Avvertenza
         suspect: Sospetto
-      withdraw_cny:
+      withdraw_eur:
         title: Prelievo di Yuan Cinesi
         intro: Seleziona la banca per depositare la somma di denaro, inserisci il numero dell'account e completa la richiesta.
         intro_2: Il tuo conto bancario e il nome devono coincidere con il nome reale di autenticazione.

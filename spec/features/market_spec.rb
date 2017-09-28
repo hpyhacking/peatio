@@ -5,7 +5,7 @@ feature 'show account info', js: true do
   let!(:member) { create :member, :activated, email: identity.email  }
 
   let!(:bid_account) do
-    member.get_account('cny').tap { |a|
+    member.get_account('eur').tap { |a|
       a.plus_funds 1000
       a.save!
     }
@@ -21,7 +21,7 @@ feature 'show account info', js: true do
   let!(:bid_order) { create :order_bid, price: '21.3' }
   let!(:ask_name)  { 'BTC' }
 
-  let(:global) { Global[Market.find('btccny')] }
+  let(:global) { Global[Market.find('btceur')] }
 
   scenario 'user can place a buy order by filling in the order form' do
     login identity
