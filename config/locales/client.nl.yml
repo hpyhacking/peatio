@@ -1,0 +1,176 @@
+nl:
+  js:
+    brand: BTC Crypt
+    submit: Toevoegen
+    cancel: Annuleer
+    confirm: Bevestig
+    banks:
+      icbc: Industryand Commercial Bank of China
+      cbc: Construction Bank of China
+      bc: Bank of China
+      bcm: Bank of Communications
+      abc: Agriculture Bank of China
+      cmb: China Merchants Bank Ltd
+      cmbc: China Minsheng Banking Co., Ltd
+      cncb: China CITIC Bank
+      hxb: Hua Xia Bank Co., Ltd.
+      cib: Industrial Bank Co., Ltd
+      spdb: Shanghai Pudong Development Bank
+      bob: Bank of Beijing
+      ceb: China Everbright Bank CO.LTD
+      sdb: Shenzhen Development Bank
+      pab: Ping An Bank Co., Ltd.
+      gdb: Guangdong Development Bank
+      psbc: Postal Savings Bank of China
+      bos: Bank of Shanghai
+    fund_sources:
+      manage_bank_account: Bankrekeningbeheer
+      manage_bank_account_desc: Om de keuze van het bankontvangst adres te vergemakkelijken
+      manage_coin_address: Coin Adresbeheer
+      manage_coin_address_desc: Om de keuze te maken van de muntontvangstadressen
+      bank: Bank
+      account: Bankrekening
+      label: Label
+      address: Adres
+      action: Actie
+      add: Toevoegen
+      remove: Verwijderen
+      default: Default
+    funds:
+      deposit: Stort
+      withdraw: Opname
+      currency_name:
+        usd: USD
+        btc: BTC
+        eth: ETH
+      deposit_usd:
+        title: US Dollars storten
+        desc: "Om een storting middels bankoverschrijving te verrichten, gelieve onderstaande stappen volgen:"
+        desc_item_1: "1. Verstuur het formulier om de identificatiecode te krijgen."
+        desc_item_2: "2. Schrijf het geld over naar onze bankrekening. Zorg ervoor dat uw verwijzingscode is geschreven op het formulier dat u invult."
+        desc_item_3: "3. Uw storting wordt bevestigd zodra het geld is ontvangen."
+        attention: "Opgelet: De naam van uw bankrekening moet hetzelfde zijn als uw accountnaam op onze site, anders kan uw storting mislukken."
+        from: Van
+        to: Naar
+        deposit_name: Uw Naam
+        deposit_account: Stortingsrekening
+        add: Toevoegen
+        manage: Beheer
+        amount: Stortingsbedrag
+        min_amount: Ten minste 100 USD
+        to_account: Rekening
+        to_name: Naam
+        to_bank_name: Bank Naam
+        opening_bank_name: Account where created
+        remark: 'Referral Code (Transfer identification code)'
+
+      deposit_btc:
+        title: BTC Storting
+
+      deposit_coin:
+        address: Adres
+        new_address: Nieuw Adres
+        confirm_gen_new_address: Weet u zeker dat u een nieuw stortingsadres wilt genereren?
+        open-wallet: Gebruik alstublieft uw gewone Wallet diensten zoals, lokale Wallet, mobiele terminal of online Wallet, selecteer een betaling en stuur.
+        detail: Plak het adresblok in uw Wallet en vul het bedrag in dat u wilt storten, bevestig en verzend.
+        scan-qr: Scan QR code om te betalen in de mobiele terminal Wallet.
+        after_deposit: Nadat u de storting hebt verzonden kunt u de status van uw nieuwe storting hieronder controleren.
+        generate-new: Nieuw adres genereren
+        
+      deposit_eth:
+        title: ETH Storting
+        
+      deposit_history:
+        title: Storting geschiedenis
+        number: '#'
+        identification: Identificatiecode
+        time: Tijd
+        txid: Transactie ID
+        confirmations: Bevestigingen
+        from: Van
+        amount: Aantal
+        state_and_action: "Status/Actie"
+        cancel: Annuleer
+        no_data: Er is geen historische data
+
+        submitting: Toevoegen
+        cancelled: Geannuleerd
+        submitted: Toegevoegd
+        accepted: Geaccepteerd
+        rejected: Geweigerd
+        checked: Gecontroleerd
+        warning: Waarschuwing
+        suspect: Suspect
+
+      withdraw_usd:
+        title: US Dollars opnemen
+        intro: Selecteer het bedrag en vul uw rekeningnummer in. Volg onderstaande stappen
+        intro_2: Uw bankrekening en naam moeten consistent zijn met uw officiële naam.
+        attention: "Werkuren: 9:00 - 18:00"
+        account_name: Naam account
+        withdraw_address: Opnameadres
+        balance: Balans
+        withdraw_amount: Opnamebedrag
+        manage_withdraw: Beheer opname
+        fee_explain: Kostenoverzicht
+        min: Ten minste
+        withdraw_all: Alles opnemen
+
+      withdraw_btc:
+        title: BTC Opname
+
+      withdraw_coin:
+        intro: Vul alstublieft het adres in en vul het formulier in. Het wordt in 10 minuten bevestigd
+        label: Label
+        balance: Balans
+        amount: Aantal
+        manage_withdraw: Beheer adres
+        min: Ten minste
+        withdraw_all: Alles opnemen
+        fee_explain: Over kosten
+
+      withdraw_history:
+        title: Opnamegeschiedenis
+        number: Nummer
+        withdraw_time: Tijd
+        withdraw_account: Opname aantal
+        withdraw_address: Adres
+        withdraw_amount: Aantal
+        actual_amount: Eigenlijk aantal
+        fee: Kost
+        miner_fee: Kost
+        state_and_action: "Status/Actie"
+        cancel: Annuleer
+        no_data: Er is geen historische data
+
+        submitting: Toevoegen
+        submitted: Toegevoegd
+        rejected: Geweigerd
+        accepted: Geaccepteerd
+        suspect: Suspect
+        processing: Verwerken
+        coin_ready: Munt gereed
+        coin_done: Munt voltooid
+        done: Voltooid
+        almost_done: Bijna voltooid
+        canceled: Geannuleerd
+        failed: Mislukt
+
+    auth:
+      please_active_two_factor: Stel alsjeblieft mobiel nummer of google authenticator in.
+      submit: Bevestig
+      otp_placeholder: 6-cijferig wachtwoord
+      google_app: Google Authenticator
+      sms: SMS Verificatieberichten
+      send_code: Stuur code
+      send_code_alt: Opnieuw verzenden in COUNT seconden
+      hints:
+        app: Google Authenticator zal elke dertig seconden een nieuw wachtwoord genereren, alsjeblieft tijdig invoeren.
+        sms: We sturen een sms-bericht naar uw telefoon met verificatiecode.
+
+    markets:
+      market_list:
+        all: Alle Markten
+        usd: USD Markten
+        btc: BTC Markten
+        eth: ETH Markten
