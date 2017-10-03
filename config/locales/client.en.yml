@@ -65,6 +65,12 @@ en:
 
       deposit_btc:
         title: BTC Deposit
+        
+      deposit_ltc:
+        title: LTC Deposit
+        
+      deposit_eth:
+        title: ETH Deposit
 
       deposit_coin:
         address: Address
