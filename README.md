@@ -83,7 +83,7 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * [Setup on Mac OS X](doc/setup-local-osx.md)
 * [Setup on Ubuntu](doc/setup-local-ubuntu.md)
 * [Deploy production server](doc/deploy-production-server.md)
-* [Setup Ethereum Server](eth/eth.md)
+* [Setup Ethereum Server](doc/eth.md)
 ### API
 
 You can interact with Peatio through API:
