@@ -200,7 +200,7 @@ GEM
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    json (1.8.1)
+    json (1.8.6)
     jwt (1.2.0)
     kaminari (0.15.1)
       actionpack (>= 3.0.0)
@@ -235,7 +235,7 @@ GEM
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    mysql2 (0.3.15)
+    mysql2 (0.3.21)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     oauth2 (1.0.0)
@@ -469,7 +469,7 @@ DEPENDENCIES
   http_accept_language
   jbuilder
   jquery-rails
-  json
+  json (~> 1.8.3)
   kaminari
   launchy
   liability-proof (= 0.0.9)
@@ -479,7 +479,7 @@ DEPENDENCIES
   mina-slack!
   mocha
   momentjs-rails
-  mysql2
+  mysql2 (~> 0.3.21)
   omniauth (~> 1.2.1)
   omniauth-identity (~> 1.1.1)
   omniauth-weibo-oauth2 (~> 0.4.0)
@@ -513,4 +513,4 @@ DEPENDENCIES
   whenever (~> 0.9.2)
 
 BUNDLED WITH
-   1.10.6
+   1.15.4
