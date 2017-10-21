@@ -1,5 +1,6 @@
 en:
   js:
+    version: "0.0.1"
     brand: Peatio
     submit: Submit
     cancel: Cancel
@@ -40,10 +41,10 @@ en:
       deposit: Deposit
       withdraw: Withdraw
       currency_name:
-        cny: CNY
+        eur: EUR
         btc: BTC
-      deposit_cny:
-        title: Chinese Yuan Deposit
+      deposit_eur:
+        title: European Euro Deposit
         desc: "To deposit via Bank transfer, please follow these steps:"
         desc_item_1: "1. Submit the form to get the identification code."
         desc_item_2: "2. Transfer the money to exchange's bank account. Please make sure your referral code was written on the form you fill in."
@@ -61,10 +62,15 @@ en:
         to_name: Name
         to_bank_name: Bank Name
         opening_bank_name: Account where created
-        remark: 'Referral Code (Transfer identification code)'
-
+        remark: 'Referral Code (Transfer identification code)
       deposit_btc:
         title: BTC Deposit
+        
+      deposit_ltc:
+        title: LTC Deposit
+        
+      deposit_eth:
+        title: ETH Deposit
 
       deposit_coin:
         address: Address
@@ -98,8 +104,8 @@ en:
         warning: Warning
         suspect: Suspect
 
-      withdraw_cny:
-        title: Chinese Yuan Withdraw
+      withdraw_eur:
+        title: European Euro Withdraw
         intro: Select the bank to cash withdrawal amount and enter the account number and complete submission.
         intro_2: Your bank account and name must be consistent with the real-name authentication name.
         attention: "Working Hours: 9:00 - 18:00"
@@ -167,6 +173,6 @@ en:
     markets:
       market_list:
         all: All Market
-        cny: CNY Market
+        eur: EUR Market
         btc: BTC Market
 

@@ -7,7 +7,7 @@ describe 'withdraw' do
   let!(:identity) { create :identity, email: Member.admins.first }
 
   let!(:account) do
-    member.get_account(:cny).tap { |a| a.update_attributes locked: 8000, balance: 10000 }
+    member.get_account(:eur).tap { |a| a.update_attributes locked: 8000, balance: 10000 }
   end
 
   let!(:withdraw) { create :bank_withdraw, member: member, sum: 5000, aasm_state: :accepted, account: account}

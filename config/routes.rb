@@ -11,10 +11,6 @@ Peatio::Application.routes.draw do
 
   root 'welcome#index'
 
-  if Rails.env.development?
-    mount MailsViewer::Engine => '/mails'
-  end
-
   get '/signin' => 'sessions#new', :as => :signin
   get '/signup' => 'identities#new', :as => :signup
   get '/signout' => 'sessions#destroy', :as => :signout

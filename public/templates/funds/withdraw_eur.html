@@ -1,0 +1,94 @@
+<h2 class="panel-title">{{"funds.withdraw_eur.title" | t}}</h2>
+  <div class="help-block">
+    {{"funds.withdraw_eur.intro" | t}} <br />
+    {{"funds.withdraw_eur.intro_2" | t}} <br />
+    <span class="text-danger"><strong>{{"funds.withdraw_eur.attention" | t}}</strong> </span>
+  </div>
+
+  <form id="eur_withdraws" name="withdraw_form" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl" ng-submit="withdrawsCtrl.createWithdraw(currency)">
+
+    <div class="form-group">
+      <div class="col-sm-6">
+        <label class="optional control-label">{{"funds.withdraw_eur.account_name" | t}}</label>
+      </div>
+      <div class="col-sm-12">
+        <p class="form-control-static">{{name}}</p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-6">
+        <label class="select required control-label" for="withdraw_fund_source">{{"funds.withdraw_eur.withdraw_address" | t}}</label>
+      </div>
+      <div class="col-sm-12" ng-if="fund_sources().length">
+
+        <select id="fund_source" class="select required form-control" name="fund_source"
+          ng-model="selected_fund_source_id"
+          ng-model-options="{ getterSetter: true }"
+          ng-options="fs.id as fs.label for fs in fund_sources()"
+          required>
+        </select>
+
+      </div>
+      <span class="col-sm-6 help-block"><a href="javascript:;" ng-click="openFundSourceManagerPanel()" ng-bind="'funds.withdraw_eur.manage_withdraw' | t"></a></span>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-6">
+        <label class="optional control-label">{{"funds.withdraw_eur.balance" | t}}</label>
+      </div>
+      <div class="col-sm-12">
+        <p class="form-control-static"><span class="currency-balance" id="withdraw_balance">{{balance}}</span></p>
+      </div>
+    </div>
+
+    <div class="form-group required">
+      <div class="col-sm-6">
+        <label class="decimal required control-label" for="withdraw_sum">{{"funds.withdraw_eur.withdraw_amount" | t}}</label>
+      </div>
+      <div class="col-sm-12">
+        <div class="input-group">
+          <input class="numeric decimal required form-control" id="withdraw_sum" min="100" name="withdraw[sum]" placeholder="{{'funds.withdraw_eur.min' | t}} 100" step="any" type="number" value="0.0" ng-model="withdrawsCtrl.withdraw.sum">
+          <div class="input-group-btn"><button ng-click="withdrawsCtrl.withdrawAll()" class="btn btn-success" id="withdraw_all_btn" type="button">{{"funds.withdraw_eur.withdraw_all" | t}}</button></div>
+        </div>
+      </div>
+      <span class="col-sm-6 help-block"><a target="_balance" href="/documents/price">{{"funds.withdraw_eur.fee_explain" | t}}</a></span>
+    </div>
+
+    <ng-include src="'/templates/funds/_two_factor_auth.html'"></ng-include>
+
+    <div class="form-group">
+      <div class="form-submit col-sm-18 col-sm-offset-6">
+        <input  id="withdraw_submit" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value='{{ "submit" | t }}'>
+      </div>
+    </div>
+
+  </form>
+
+  <br>
+  <h2 class="panel-title">{{ "funds.withdraw_history.title" | t }}</h2>
+
+  <table class="table withdraw-history" ng-controller="WithdrawHistoryController as wdCtrl">
+    <tr>
+      <th>{{ "funds.withdraw_history.number" | t }}</th>
+      <th>{{ "funds.withdraw_history.withdraw_time" | t }}</th>
+      <th>{{ "funds.withdraw_history.withdraw_account" | t }}</th>
+      <th>{{ "funds.withdraw_history.withdraw_amount" | t }}</th>
+      <th>{{ "funds.withdraw_history.fee" | t }}</th>
+      <th>{{ "funds.withdraw_history.state_and_action" | t }}</th>
+    </tr>
+    <tr ng-repeat="withdraw in wdCtrl.withdraws | orderBy:predicate">
+      <td>{{withdraw.id}}</td>
+      <td>{{withdraw.created_at | date:'yyyy-MM-dd HH:mm'}}</td>
+      <td>{{withdraw.fund_extra}} @ {{withdraw.fund_uid}}</td>
+      <td>{{withdraw.amount}}</td>
+      <td>{{withdraw.fee}}</td>
+      <td>{{"funds.withdraw_history." + withdraw.aasm_state | t}}
+        <span ng-if="wdCtrl.canCancel(withdraw.aasm_state)">/
+          <a ng-click="wdCtrl.cancelWithdraw(withdraw); $event.preventDefault()" href="#" class="cancel_link">{{ "funds.withdraw_history.cancel" | t }}</a>
+        </span>
+      </td>
+    </tr>
+    <tr ng-if="wdCtrl.noWithdraw()"><td colspan="6"><span class="help-block text-center">{{"funds.withdraw_history.no_data" | t}}</span></td></tr>
+  </table>
+

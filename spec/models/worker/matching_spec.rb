@@ -4,7 +4,7 @@ describe Worker::Matching do
 
   let(:alice)  { who_is_billionaire }
   let(:bob)    { who_is_billionaire }
-  let(:market) { Market.find('btccny') }
+  let(:market) { Market.find('btceur') }
 
   subject { Worker::Matching.new }
 
@@ -26,14 +26,14 @@ describe Worker::Matching do
     end
 
     it "should started engine" do
-      subject.engines['btccny'].mode.should == :run
+      subject.engines['btceur'].mode.should == :run
     end
 
     it "should match part of existing order" do
       order = create(:order_bid, price: '4001', volume: '8.0', member: bob)
 
       AMQPQueue.expects(:enqueue)
-        .with(:slave_book, {action: 'update', order: {id: existing.id, timestamp: existing.at, type: :ask, volume: '2.0'.to_d, price: existing.price, market: 'btccny', ord_type: 'limit'}}, anything)
+        .with(:slave_book, {action: 'update', order: {id: existing.id, timestamp: existing.at, type: :ask, volume: '2.0'.to_d, price: existing.price, market: 'btceur', ord_type: 'limit'}}, anything)
       AMQPQueue.expects(:enqueue)
         .with(:trade_executor, {market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '8.0'.to_d, funds: '32008'.to_d}, anything)
       subject.process({action: 'submit', order: order.to_matching_attributes}, {}, {})
@@ -71,7 +71,7 @@ describe Worker::Matching do
     let!(:bid5) { create(:order_bid, price: '4003', volume: '3.0', member: bob) }
     let!(:bid6) { create(:order_bid, price: '4001', volume: '5.0', member: bob) }
 
-    let!(:orderbook) { Matching::OrderBookManager.new('btccny', broadcast: false) }
+    let!(:orderbook) { Matching::OrderBookManager.new('btceur', broadcast: false) }
     let!(:engine)    { Matching::Engine.new(market, mode: :run) }
 
     before do
@@ -118,14 +118,14 @@ describe Worker::Matching do
       end
 
       it "should not start engine" do
-        subject.engines['btccny'].mode.should == :dryrun
-        subject.engines['btccny'].queue.should have(1).trade
+        subject.engines['btceur'].mode.should == :dryrun
+        subject.engines['btceur'].queue.should have(1).trade
       end
     end
 
     context "buffered orders matched" do
       it "should start engine" do
-        subject.engines['btccny'].mode.should == :run
+        subject.engines['btceur'].mode.should == :run
       end
     end
   end

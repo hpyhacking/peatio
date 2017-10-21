@@ -11,9 +11,9 @@ cs:
       deposit: Vklad
       withdraw: Výběr
       currency_name:
-        cny: CNY
+        eur: EUR
         btc: BTC
-      deposit_cny:
+      deposit_eur:
         title: Vložit Čínský Yuan
         desc: "Vklad bankovním převodem, prosím postupujte dle těchto kroků:"
         desc_item_1: "1. Odeslat formulář pro získání Variabilního symbolu pro platbu."
@@ -63,7 +63,7 @@ cs:
         checked: Kontrolováno
         warning: Upozornění
         suspect: Nedůvěryhodné
-      withdraw_cny:
+      withdraw_eur:
         title: Výběr Čínského Yuanu
         intro: Zvolte banku, částku a zadejte číslo účtu pro výběr.
         intro_2: Jméno účtu u Vaší banky by mělo souhlasit s Vaší skutečným, zde ověřeným jménem.

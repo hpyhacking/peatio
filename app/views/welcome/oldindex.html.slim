@@ -1,0 +1,23 @@
+header.text-center
+  .ribbon
+    a href="https://github.com/peatio/peatio" View on GitHub
+  .container
+    a href='http://github.com/peatio/peatio'
+      img src='#{image_path 'logo.png'}' width='336px'
+    section
+      - Rails.configuration.i18n.available_locales.each do |locale|
+        h3 = t(:slogan, locale: locale)
+    #getstart.row
+      - unless current_user
+        .col-xs-4.col-xs-offset-8
+          a href="#{signin_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signin")
+        - if ENV['WEIBO_AUTH'] == "true"
+          .col-xs-4
+            a href="/auth/weibo" class="btn btn-primary btn-lg btn-block" role="button" = t("header.login_via_weibo")
+        .col-xs-4
+          a href="#{signup_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.signup")
+      - else
+        .col-xs-6.col-xs-offset-9.text-center
+          a href="#{market_path(current_market)}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.getstart")
+          a href="#{funds_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.funds")
+          a href="#{settings_path}" class="btn btn-primary btn-lg btn-block" role="button" = t("header.settings")

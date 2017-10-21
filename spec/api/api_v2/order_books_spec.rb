@@ -9,7 +9,7 @@ describe APIv2::OrderBooks do
     end
 
     it "should return ask and bid orders on specified market" do
-      get '/api/v2/order_book', market: 'btccny'
+      get '/api/v2/order_book', market: 'btceur'
       response.should be_success
 
       result = JSON.parse(response.body)
@@ -18,7 +18,7 @@ describe APIv2::OrderBooks do
     end
 
     it "should return limited asks and bids" do
-      get '/api/v2/order_book', market: 'btccny', asks_limit: 1, bids_limit: 1
+      get '/api/v2/order_book', market: 'btceur', asks_limit: 1, bids_limit: 1
       response.should be_success
 
       result = JSON.parse(response.body)
@@ -37,7 +37,7 @@ describe APIv2::OrderBooks do
     end
 
     it "should sort asks and bids from highest to lowest" do
-      get '/api/v2/depth', market: 'btccny'
+      get '/api/v2/depth', market: 'btceur'
       response.should be_success
 
       result = JSON.parse(response.body)

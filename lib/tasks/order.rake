@@ -1,7 +1,13 @@
 namespace :order do
   task mock: :environment do
     m = Member.find_by_email 'foo@peatio.dev'
-    market = Market.find 'btccny'
+    market = Market.find 'etheur'
+    market = Market.find 'btceur'
+    market = Market.find 'bcceur'
+    market = Market.find 'etceur'
+    market = Market.find 'zeceur'
+    market = Market.find 'ltceur'
+    market = Market.find 'btseur'
 
     low = 2150
     high = 2250

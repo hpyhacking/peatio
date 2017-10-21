@@ -1,8 +1,8 @@
-- id: btccny
+- id: btceur
   code: 3
   base_unit: btc
-  quote_unit: cny
-  bid: {fee: 0, currency: cny, fixed: 2}
+  quote_unit: eur
+  bid: {fee: 0, currency: eur, fixed: 2}
   ask: {fee: 0, currency: btc, fixed: 4}
 - id: ptsbtc
   code: 6

@@ -2,7 +2,7 @@ def who_is_billionaire
   member = create(:member)
   member.get_account(:btc).update_attributes(
     locked: '1000000000.0'.to_d, balance: '1000000000.0'.to_d)
-  member.get_account(:cny).update_attributes(
+  member.get_account(:eur).update_attributes(
     locked: '1000000000.0'.to_d, balance: '1000000000.0'.to_d)
   member
 end
@@ -24,7 +24,7 @@ module Matching
         timestamp: Time.now.to_i,
         volume: 1+rand(10),
         price:  3000+rand(3000),
-        market: 'btccny'
+        market: 'btceur'
       }.merge(attrs))
     end
 
@@ -35,7 +35,7 @@ module Matching
         timestamp: Time.now.to_i,
         volume: 1+rand(10),
         locked: 15000+rand(15000),
-        market: 'btccny'
+        market: 'btceur'
       }.merge(attrs))
     end
   end
