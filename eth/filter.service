@@ -5,8 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=ubuntu
-ExecStart=/usr/bin/node /home/ubuntu/web3/service.js
-WorkingDirectory=/home/ubuntu/web3
+ExecStart=/usr/bin/ruby /home/ubuntu/service.rb
 Restart=on-failure
 
 [Install]

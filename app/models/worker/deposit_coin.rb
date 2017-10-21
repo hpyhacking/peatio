@@ -25,18 +25,19 @@ module Worker
 
     def deposit_eth!(channel, txid, txout, raw)
       ActiveRecord::Base.transaction do
-        unless PaymentAddress.where(currency: channel.currency_obj.id, address: ('0x' + raw[:addresses][0])).first
-          Rails.logger.info "Deposit address not found, skip. txid: #{txid}, txout: #{txout}, address: #{('0x' + raw[:addresses][0])}, amount: #{((raw[:total].to_d - raw[:fees].to_d) / 1e18)}"
+        unless PaymentAddress.where(currency: channel.currency_obj.id, address: raw[:to]).first
+          Rails.logger.info "Deposit address not found, skip. txid: #{txid}, txout: #{txout}, address: #{raw[:to]}, amount: #{raw[:value].to_i(16) / 1e18}"
           return
         end
         return if PaymentTransaction::Normal.where(txid: txid, txout: txout).first
+        confirmations = CoinRPC["eth"].eth_blockNumber.to_i(16) - raw[:blockNumber].to_i(16)
         tx = PaymentTransaction::Normal.create! \
         txid: txid,
         txout: txout,
-        address: ('0x' + raw[:addresses][0]),
-        amount: (raw[:total].to_d / 1e18).to_d,
-        confirmations: raw[:confirmations],
-        receive_at: Time.parse(raw[:received]).to_datetime,
+        address: raw[:to],
+        amount: (raw[:value].to_i(16) / 1e18).to_d,
+        confirmations: confirmations,
+        receive_at: Time.now.to_datetime,
         currency: channel.currency
 
         deposit = channel.kls.create! \
@@ -50,7 +51,7 @@ module Worker
         confirmations: tx.confirmations
 
         deposit.submit!
-        deposit.accept! # because the filter only sends the confirmed TXs
+        deposit.accept! 
       end
     rescue
       Rails.logger.error "Failed to deposit: #{$!}"
@@ -101,10 +102,7 @@ module Worker
     end
 
     def get_raw_eth(txid)
-      url = "https://api.blockcypher.com/v1/eth/main/txs/#{txid}"
-      uri = URI(url)
-      response = Net::HTTP.get(uri)
-      JSON.parse(response)
+      CoinRPC["eth"].eth_getTransactionByHash(txid)
     end
   end
 end

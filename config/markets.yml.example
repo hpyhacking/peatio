@@ -8,3 +8,23 @@
   ask: {fee: 0, currency: btc, fixed: 4}
   sort_order: 1
   #visible: false     # default to true
+- id: ethcny
+  code: 4
+  name: ETH/CNY     
+  base_unit: eth
+  quote_unit: cny
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: cny, fixed: 2}
+  ask: {fee: 0, currency: eth, fixed: 4}
+  sort_order: 1
+  #visible: false     # default to true
+- id: ethbtc
+  code: 5
+  name: ETH/BTC      
+  base_unit: eth
+  quote_unit: btc
+  #price_group_fixed: 1 # aggregate price levels in orderbook
+  bid: {fee: 0, currency: btc, fixed: 4}
+  ask: {fee: 0, currency: eth, fixed: 4}
+  sort_order: 1
+  #visible: false     # default to true

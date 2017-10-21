@@ -114,13 +114,12 @@ Peatio::Application.routes.draw do
       end
       resources :comments, only: [:create]
     end
-    post '/webhooks/tx' => 'webhooks#tx'
-    post '/webhooks/eth' => 'webhooks#eth'
 
   end
+  post '/webhooks/tx' => 'webhooks#tx'
+  post '/webhooks/eth' => 'webhooks#eth'
 
   draw :admin
-  post '/webhooks/tx' => 'webhooks#tx'
   mount APIv2::Mount => APIv2::Mount::PREFIX
 
 end
