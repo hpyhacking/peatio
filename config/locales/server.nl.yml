@@ -1,0 +1,1840 @@
+nl:
+  activerecord:
+    models:
+      api_tokens: API Token
+      trade: Trades
+      order: Orders
+      order_bid: AANBOD
+      order_ask: VRAAG
+      document: Document
+      withdraw: Opname
+      deposit: Storting
+      payment_transaction: Betaling
+      id_document: ID Document
+      statistic/orders_grid: Orders Stat
+      statistic/trades_grid: Handel Stat
+      statistic/members_grid: Leden Stat
+      statistic/deposits_grid: Stortingen Stat
+      statistic/withdraws_grid: Opnames Stat
+      admin/deposits_grid: Stortingen
+      admin/withdraws_grid: Opnames
+      deposits/bank: Storting Bank
+      withdraws/bank: Opname Bank
+      withdraws/satoshi: Opname
+    attributes:
+      api_token:
+        access_key: Access Key
+        trusted_ip_list: IP Whitelist
+        ip_whitelist: IP Whitelist
+        label: Label
+        actions: Acties
+      identity:
+        email: Email
+        password: Nieuw Wachtwoord
+        password_confirmation: Bevestig Wachtwoord
+      document:
+        zh_cn_body: Chinese content
+        zh_cn_title: Chinese title
+        zh_cn_desc: Chinese description
+        zh_cn_keywords: Chinese keyword
+        en_body: English content
+        en_title: English title
+        en_desc: English description
+        en_keywords: English keyword
+        key: Key
+        is_auth: Is Auth
+      fund_source:
+        address: Adres
+        category: Categorie
+        label: Label
+      account:
+        currency: Valuta
+        currency_text: Valuta
+        balance_and_locked: Balans / Bevroren
+        balance: Balans
+        locked: Bevroren
+      deposit:
+        state: Stutus
+        tx_id: TxID
+        member_id: Lid ID
+        created_at: Toegevoegd op
+        address: Adres
+        amount: Aantal
+        done_at: Voltooid op
+        sn: SN
+      withdraw:
+        id: ID
+        sn: SN
+        withdraw_id: ID
+        created_at: Toegevoegd op
+        done_at: Gedaan op
+        sum: Som
+        fee: Kost
+        currency: Valuta
+        amount: Aantal
+        address: Adres
+        state: Status
+        state_text: Status
+        tx_id: TxID
+        fund_source_id: Opname Adres
+        detail: Detail
+      account_version:
+        id: ID
+        locked: Bevroren
+        amount: Aantal
+        balance: Balans
+        reason: Reden
+        reason_text: reden
+        modifiable_id: LINK ID
+        modifiable_type: LINK
+        created_at: Toegevoegd op
+        in: Inkomen
+        out: Uitgaven
+        fee: Kost
+      token/reset_password:
+        email: Login e-mail
+        member: Lid
+      trade:
+        bid: Aanbod
+        ask: Vraag
+        fee: Kost
+        price: Doelprijs
+        volume: Doelvolume
+        category: Aanbod/Vraag
+        order: Order
+      order:
+        bid: Aanbod
+        ask: Vraag
+        price: Prijs
+        total: Totaal
+        volume: Volume
+        origin_volume: Volume
+        sum: Som
+        category: Aanbod/Vraag
+        kind: Type
+        at: Op
+        id: ID
+        state: Status
+        operation: Operatie
+      payment_transaction:
+        at: Datum Tijd
+        txid: Transactie ID
+        amount: Aantal
+        confirmations: Bevestigingen
+        state: Status
+        state_done: Klaar
+        state_wait: Wacht
+      member:
+        id: ID
+        name: Officiële naam
+        display_name: Weergave naam
+        email: E-mail
+        created_at: Geregistreerd op
+        sn: SN
+        id_document_number: Id Document Nummer
+        tag_list: Tags
+        activated: Geactiveerd
+        activated?: "Geactiveerd?"
+        id_document_verified?: "Id Document geverifieerd??"
+        two_factor_activated?: "Tow Factor Geactiveerd?"
+        phone_number: Telefoonnummer
+      two_factor/sms:
+        country: Land
+        phone_number: Telefoonnummer
+        otp: Verificatie Code
+      withdraws/bank:
+        id: ID
+        member_name: Lid
+        currency_obj_key_text: Valuta
+        state_and_actions: Status/Actie
+        fund_source: Bank
+        fund_extra: Bank
+        fund_extra_text: Bank
+        fund_uid: Bankrekeningen
+        sum: Bedrag
+        fee: Kost
+        amount: Bedrag
+        remark: Commentaar
+        created_at: Gemaakt op
+      deposits/bank:
+        created_at: Gemaakt op
+        holder: Houder
+        fund_extra: Zender bank
+        fund_uid: Zender Account
+        member_sn: Lid SN
+        member_name: Zender Name
+        amount: Bedrag
+        sn: SN
+        state_and_action: Status/Actie
+        label: Label
+        fund_source: Stortingsbron
+      deposits/satoshi:
+        created_at: Gemaakt op
+        txid: Transactie ID
+        amount: Aantal
+        confirmations: Bevestiging
+        aasm_state_text: Status
+      withdraws/satoshi:
+        id: ID
+        member_name: Account
+        currency_obj_key_text: Valuta
+        state_and_actions: Status/Actie
+        fund_extra_text: Opname Label
+        fund_extrat: Opname Label
+        fund_source: Bank
+        fund_uid: Rekening
+        created_at: Gemaakt op
+        sum: Aantal
+        amount: Aantal
+        remark: Commentaar
+        fee: Kost
+    errors:
+      models:
+        order_bid:
+          attributes:
+            sum:
+              expensive: Expensive Account
+            price:
+              range: Ongeldige prijsklasse
+        order_ask:
+          attributes:
+            origin_volume:
+              expensive: Expensive Account
+            price:
+              range: Ongeldige prijsklasse
+        account:
+          attributes:
+            balance:
+              less: Balans lager
+        identity:
+          attributes:
+            email:
+              invalid: Ongeldig E-mail
+            password:
+              invalid: Ongeldig wachtwoord
+            password_confirmation:
+              confirmation: Wachtwoorden komen niet overeen, gelieve opnieuw in te voeren
+        token/reset_password:
+          attributes:
+            base:
+              too_soon: Te spoedig bezocht, probeer later nog eens
+            email:
+              not-member: Ongeldig E-mail
+              match: Ongeldige login e-mail
+            password:
+              invalid: Ongeldig wachtwoord
+            member:
+              blank: Bestaat niet!
+        activation:
+          attributes:
+            base:
+              too_soon: Een activatie e-mail is minder dan 5 minuten geleden naar uw e-mailadres verzonden
+        fund_source:
+          attributes:
+            address:
+              satoshi_ismine: Gebruikt adres
+              satoshi_invalid: Ongeldig adres
+        withdraw:
+          account_balance_is_poor: Balans rekening onvoldoende
+          attributes:
+            password:
+              match: Ongeldig
+            amount:
+              poor: Onvoldoende
+              bank_min: Minder dan 5000.00
+        withdraws/satoshi:
+          attributes:
+            fund_uid:
+              blank: Gelieve uw opnameadres in te geven
+              invalid: Ongeldig opnameadres, gelieve te controleren
+              ismine: Gelieve een nieuw adres gebruiken.
+        two_factor:
+          attributes:
+            otp:
+              invalid: Ongeldig wachtwoord! Voer opnieuw in.
+        application:
+          attributes:
+            redirect_uri:
+              fragment_present: Kan geen fragment bevatten.
+              invalid_uri: Moet een geldige URI zijn.
+              relative_uri: Moet een absolute URI zijn.
+      messages:
+        invalid_email: Ongeldig e-mailadres
+        undef: Onbekende reden
+        less: Balans lager
+        verify: Verificatiefout
+        strength: Wachtwoord sterkte onvoldoende
+        password: Gelieve een nieuw wachtwoord met meer dan 6 karakters in te voeren, het beste is om letters en nummers te gebruiken
+        orders:
+          price: Prijslimiet %{l} ~ %{h}
+          sum: Limiet aantal prijs %{l} ~ %{h}
+          precision: Minimale precisie %{p}
+  banks:
+    icbc: Industryand Commercial Bank of China
+    cbc: Construction Bank of China
+    bc: Bank of China
+    bcm: Bank of Communications
+    abc: Agriculture Bank of China
+    cmb: China Merchants Bank Ltd
+    cmbc: China Minsheng Banking Co., Ltd
+    cncb: China CITIC Bank
+    hxb: Hua Xia Bank Co., Ltd.
+    cib: Industrial Bank Co., Ltd
+    spdb: Shanghai Pudong Development Bank
+    bob: Bank of Beijing
+    ceb: China Everbright Bank CO.LTD
+    sdb: Shenzhen Development Bank
+    pab: Ping An Bank Co., Ltd.
+    gdb: Guangdong Development Bank
+    psbc: Postal Savings Bank of China
+  market:
+    currency:
+      btc: BTC
+      eth: ETH
+      usd: USD
+      doge: DOGE
+      pts: PTS
+      ltc: LTC
+  currency:
+    satoshi:
+      key: BTC
+      code: BTC
+      name: Bitcoin
+      format: '0,0.0000'
+    ether:
+      key: ETH
+      code: ETH
+      name: Ethereum
+      format: '0,0.0000'
+    bitsharesx:
+      key: BTS
+      code: BTSX
+      name: BitsharesX
+      format: '0,0.0000'
+    dollar:
+      key: USD
+      code: USD
+      name: US Dollar
+      format: '0,0.00'
+    dogecoin:
+      key: DOG
+      code: DOGE
+      name: Dogecoin
+      format: '0,0.0000'
+    protoshare:
+      key: PTS
+      code: PTS
+      name: Protoshare
+      format: '0,0.0000'
+  datagrid:
+    empty: Geen data gevonden
+    filters:
+      date:
+        range_separator: " to "
+      datetime:
+        range_separator: " to "
+    form:
+      submit: Zoek
+    admin_deposits_grid:
+      columns:
+        sn: SN
+        created_at: op
+        channel_key_text: Kanaal
+        fund_extra_text: Extra
+        fund_uid: UID
+        txid: TXID
+        amount: Bedrag
+        fee: Kost
+        currency_text: Valuta
+        aasm_state_text: Status
+        member_name: Lid
+    bank_deposits_grid:
+      columns:
+        sn: SN
+        created_at: Op
+        channel_key_text: Categorie
+        fund_extra_text: Bank
+        fund_uid: Rekening
+        amount: Bedrag
+        fee: Kost
+        aasm_state_text: Status
+    coin_deposits_grid:
+      columns:
+        sn: SN
+        txid: Transactie ID
+        created_at: op
+        amount: Bedrag
+        aasm_state_text: Status
+        confirmations: Bevestig
+    withdraws_grid:
+      columns:
+        sn: SN
+        name: Naam
+        currency_text: Valuta
+        amount: Bedrag
+        fee: Kost
+        created_at: Gemaakt op
+        done_at: Voltooid op
+        state_text: Status
+    members_grid:
+      columns:
+        sn: Serienummer
+        email: E-mail
+        created_at: Gemaakt op
+        actions: Acties
+    account_versions_grid:
+      columns:
+        created_at: Gemaakt op
+        currency_text: Valuta
+        balance: Balans
+        in: In
+        out: Uit
+        amount: Bedrag
+        reason_text: Reden
+        modifiable_type: Link
+        fee: Kost
+      filters:
+        reason: Reden
+        currency: Valuta
+    statistic_members_grid:
+      columns:
+        sn: Serienummer
+        id: ID
+        email: E-mail
+        created_at: Gemaakt op
+        activated: Actief
+        detail: Detail
+        action: Actie
+      filters:
+        sn: Serienummer
+        activated: Actief
+        created_at: Gemaakt op
+        email: E-mail
+    statistic_orders_grid:
+      columns:
+        id: Serienummer
+        price: Prijs
+        volume: Volume
+        created_at: Gemaakt op
+        state_text: Status
+        member_id: Lid
+      filters:
+        state: Status
+        currency: Valuta
+        created_at: Gemaakt op
+        type: Vraag/Aanbod
+    statistic_trades_grid:
+      columns:
+        id: ID
+        price: Prijs
+        volume: Volume
+        strike_amount: Bedrag
+        created_at: Gemaakt op
+      filters:
+        currency: Valuta
+        created_at: Gemaakt op
+    statistic_deposits_grid:
+      columns:
+        member: Lid
+        tx_id: TxID
+        amount: Bedrag
+        currency: Valuta
+        created_at: Gemaakt op
+        state_text: Status
+      filters:
+        currency: Valuta
+        state: Status
+        created_at: Gemaakt op
+    statistic_withdraws_grid:
+      columns:
+        member: Lid
+        address: Adress
+        amount: Amount
+        currency: Currency
+        created_at: Gemaakt op
+        state_text: State
+      filters:
+        state: State
+        created_at: Gemaakt op
+  deposit_channel:
+    bank:
+      key: Bankoverschrijving
+      title: Bankoverschrijving
+      intro: Bankoverschrijving storting, geadviseerd voor grotere bedragen
+      latency: 10 minuten
+      transfer: Manueel
+      go: Stort
+    satoshi:
+      key: Block Chain
+      title: Bitcoin Stortingen
+      intro: Stort Bitcoin vanaf uw persoonlijke wallet naar uw BTC Crypt account
+      latency: 1 Bevestiging
+      transfer: Manueel
+      go: Stort
+    ether:
+      key: ethereum
+      title: Ethereum Deposits
+      intro: Stort Ethereum vanaf uw persoonlijke wallet naar uw BTC Crypt account
+      latency: 1 Bevestiging
+      transfer: Manueel
+      go: Stort
+  deposits/bank:
+    aasm_state:
+      submitting: Toevoegen
+      cancelled: Geannuleerd 
+      submitted: Toegevoegd
+      accepted: Geaccepteerd
+      rejected: Geweigerd
+      checked: Gecontroleerd
+      warning: Waarschuwing
+  private:
+    deposits:
+      satoshis:
+        gen_address:
+          require_transaction: Nieuw adres kan niet aangemaakt worden indien vorige niet gebruikt is
+      banks:
+        destroy:
+          notice: Herroepingsverzoek is succesvol
+        create:
+          notice: Stortingsverzoek succesvol ingediend. Gebruik de onderstaande informatie om de overschrijving te voltooien
+          submit: Bevestig
+        new:
+          fund_source: Selecteer bron fondsen
+          manage_fund_source: Beheer fondsen
+          submit: Toevoegen
+        edit:
+          bank: Ontvanger bank naam
+          branch: Ontvanger bank Filliaal
+          hodler: Ontvanger naam
+          account: Ontvanger account
+    history:
+      transaction:
+        Deposit: Stort
+        Withdraw: Opname
+      account:
+        currency: Valuta
+        buy: Koop
+        sell: Verkoop
+        filter_by_type: Filter bij type
+        account_history: Account Geschiedenis
+        type: type
+        timestamp: Datum en tijd
+        fee: Kost
+        currency: Valuta
+        amount: Bedrag
+        txid: Txid
+      orders:
+        order_history: Bestelgeschiedenis
+        id: ID
+        type: Type
+        state: Status
+        market: Markt
+        price: Prijs
+        volume: Volume
+        average_price: Gem. Prijs
+        fullfilled_volume: Voltooid
+        timestamp: Gemaakt op
+      order:
+        ask: Verkoop
+        bid: Koop
+        wait: Open
+        cancel: Geannuleerd
+        done: Voltooid
+      trades:
+        trade_history: Handelsgeschiedenis
+        side: Side
+        created_at: Tijs
+        base_currency: Basisvaluta
+        base_amount: Basisbedrag
+        quote_currency: Quote Valuta
+        quote_amount: Quote Bedrag
+        price: Prijs
+      trade:
+        sell: Verkoop
+        buy: Koop
+    trade:
+      trades:
+        orders:
+          title: Bestellingen
+        trades:
+          title: Transacties
+        charges:
+          title: Kosten
+      orders:
+        index:
+          done: Klaar
+          cancel: Geannuleerd
+          confirm: 'Weet u zeker dat u #%{id} wilt annuleren?'
+        destroy:
+          'true': "#%{id} Annuleer bestelling succesvol"
+          'false': "#%{id} Annuleer bestelling geweigerd"
+    withdraws:
+      update:
+        request_accepted: Opnameverzoek geaccepteerd.
+      destroy:
+        request_canceled: Opnameverzoek geannuleerd
+      index:
+        fee: Kost
+        total: Totaal
+        withdraw_history: Opnamegeschiedenis
+      create:
+        two_factors_error: Two factor authenticatie mislukt
+      banks:
+        update:
+          notice: Opnameverzoek per bankoverschrijving ontvangen, we zullen deze zo spoedig mogelijk verwerken
+          alert_two_factor: Two-Factor authenticatie fout
+        destroy:
+          notice: Opnameverzoek per bankoverschrijving geannuleerd, bevroren bedrag is weer terug in uw handelsaccount
+        new:
+          fund_source: Selecteer bron fondsen
+          manage_fund_source: Beheer bron fondsen
+          submit: Toevoegen
+          allin: All-In
+        create:
+          notice: Opnameverzoek ingediend. Gebruik onderstaande informatie om te vervolledigen
+      satoshis:
+        destroy:
+          notice: Opnameverzoek geannuleerd, bevroren bedrag is weer terug in uw handelsaccount
+        update:
+          notice: Opnameverzoek per ontvangen, we zullen deze zo spoedig mogelijk verwerken
+          alert_two_factor: Two-Factor Authenticatie fout
+        new:
+          submit: Toevoegen
+          allin: All-In
+          fund_source_label: Label
+          manage_fund_source: Beheer bron fondsen
+        create:
+          notice: Opnameverzoek ingediend. Gebruik onderstaande informatie om te vervolledigen.
+    tickets:
+      index:
+        new_ticket: Nieuw Ticket
+      new:
+        intro: Als u problemen hebt, start een nieuwe discussie, zodat onze medewerkers u zo snel mogelijk kunnen helpen. Alle discussies zijn privé tussen u en het ondersteunend personeel.
+      ticket_create_succ: Ticket succesvol ingediend.
+      ticket_create_fail: Ticket mislukt, probeert u het later nogmaals.
+      comment_succ: Commentaar succesvol.
+      cooment_fail: Commentaar mislukt, probeer het later nog eens
+      me: Ik
+      supporter: Support
+      close: Sluit Ticket
+      close_succ: Ticket gesloten
+      close_confirm: Weet u zeker dat u dit ticket wilt sluiten?
+      title_content_both_blank: Onderwerp en content kunnen niet leeg zijn
+      from: Van
+      view_closed_tickets: Bekijk gesloten tickets
+      view_open_tickets: Bekijk open tickets
+    account_versions:
+      index:
+        description: Iedere transactie op BTC Crypt wordt uitvoerig gedocumenteerd
+    api_tokens:
+      user_tokens:
+        no_token: U heeft geen API token.
+        edit: Wijzig
+        destroy: Vernietig
+        destroy-confirm: Bent u zeker?
+        create: Maak nieuw Token
+        http: HTTP API Document
+        websocket: Websocket API Document
+        more: 'Voor verdere informatie bekijke de API section on github:'
+      oauth_tokens:
+        panel_title: Autorisaties
+        title: Geautoriseerde applicaties
+        oauth: OAuth Integratie
+        intro: Beheer uw geautoriseerde applicaties.
+        no_token: Geen applicatie.
+        unbind: Revoke
+        unbind-confirm: Bent u zeker?
+        oauth_app_name: Naam
+        oauth_app_expire: Verloopt op
+        oauth_app_scope: Scopes
+      unbind:
+        success: Successfully revoked.
+        failed: Revoke failed.
+      new:
+        label_hint: Label helps you remember token usage, optional.
+      create:
+        alert_two_factor: Two step authentication failed.
+        success: API token created successfully.
+        failed: Failed to create API token. Please try again later or contact admin.
+        desc: Please copy and paste keys below to a safe place and save. The secret key will never be displayed again.
+      edit:
+        access_key_hint: Gemaakt op %{created_at}
+        label_hint: Label helps you remember token usage, optional.
+        ip_whitelist_hint: Seperate IP by commas, leave this field blank means all IP are allowed.
+      update:
+        alert_two_factor: Two step authentication failed.
+        success: Saved successfully.
+        failed: Failed to save token. Please try again later or contact admin.
+      destroy:
+        success: The token has been successfully destroyed.
+        failed: Failed to destroy token.
+    assets:
+      index:
+        liability-proof: Proof of Liabilities
+        btc-assets: BTC Assets
+        usd-assets: USD Assets
+        eth-assets: ETH Assets
+      liability_tabs:
+        verify-btc: Verify My BTC Assets
+        verify-usd: Verify My USD Assets
+        verify-eth: Verify My ETH Assets
+        btc-assets-total: 'Total BTC assets of exchange: '
+        usd-assets-total: 'Total USD assets of exchange: '
+        eth-assets-total: 'Total ETH assets of exchange: '
+      liability_proof:
+        title: Proof of Liabilities
+        intro: As an exchange, our liabilities refer to the sum of money (in both crypto currencies and fiat currencies) that our users trust us with. On this page, we present you our liabilities. We also provide you a way to verify that your account balance is indeed part of our liabilities.
+        how-to-verify: How to verify an exchange is solvent?
+        how-to-verify-uri: https://btc-crypt.com
+      liability_data:
+        liability-proof-generating: Proof of Liability generation in process, please come back after 30 minutes.
+        root-json: Root node
+        partial-tree: 'My %{currency} Assets: '
+        get-partial-tree: Get my partial tree data
+        timestamp: The proof data is generated at %{time}.
+        go-verify: Verify
+      btc_assets:
+        title: BTC Assets
+        intro: All of exchange's BTC assets are listed here.
+        total: Total BTC Assets
+        address: Address
+      eth_assets:
+        title: ETH Assets
+        intro: All of exchange's ETH assets are listed here.
+        total: Total ETH Assets
+        address: Address
+      usd_assets:
+        title: USD Assets
+        intro: All of exchange's USD assets are listed here.
+        total: Total USD Assets
+        description: " <p>For supervision, you can inquiry the balance of our deposit
+          account:</p> <p>Bank: %{bank}</p> <p>Account： %{address}</p> <p>Inquiry Password： %{password}</p> <p>Inquiry Tel.： %{tel}</p>"
+      partial_tree:
+        success: 'Success! Verification data generated at: %{timestamp}'
+    funds:
+      show:
+        account_history: Accountgeschiedenis
+        usd_format: '0.00'
+        btc_format: '0.00000000'
+        eth_format: '0.00000000'
+        reason:
+          usd:
+            strike_add: Plus
+            strike_sub: Sub
+            deposit: Stort
+            withdraw: Opnemen
+            fix: Fix
+          btc:
+            strike_add: Plus
+            strike_sub: Sub
+            deposit: Stort
+            withdraw: Opnemen
+            fix: Fix
+          eth:
+            strike_add: Plus
+            strike_sub: Sub
+            deposit: Stort
+            withdraw: Opnemen
+            fix: Fix
+        ref:
+          system: Systeem
+          default: Default
+    id_documents:
+      edit:
+        state: Status
+        state_unverified: Niet geverifieerd
+        state_verifying: Verifiëren
+        state_verified: Geverifieerd
+        name: Officiële naam
+        birth_date: Geboortedatum
+        address: Adres
+        city: Stad
+        country: Land
+        zipcode: Postcode
+        id_document_type: Document Type
+        id_document_number: Document Nummer
+        id_document_file: Document foto
+        id_bill_type: Adresverificatie
+        id_bill_file: Adresverificatie foto
+      update:
+        notice: Verificatieverzoek is ingediend
+    markets:
+      show:
+        error: Mislukt
+        success: Succes
+        analysis_panel: Analyse
+        help_panel: Help
+        done: KLAAR
+        cancel: ANNULEER
+        cancel_confirm: Bent u zeker?
+        confirm: BEVESTIG
+        ask_order: 'VRAAG ##sn#'
+        bid_order: 'AANBOD ##sn#'
+        my_active_order: Actief
+        my_done_order: Klaar
+        trades: Handelen
+        chat: Chat
+      market_list:
+        all: Alle Markten
+        all_html: "<i class='fa fa-check'></i><span>Alle Markten</span>"
+        usd_html: "<i class='fa fa-check'></i><span>USD Markten</span>"
+        btc_html: "<i class='fa fa-check'></i><span>BTC Markten</span>"
+        price: Prijs
+        change: "24h %"
+      range_switch:
+        switch_1: 1m
+        switch_5: 5m
+        switch_15: 15m
+        switch_30: 30m
+        switch_60: 1u
+        switch_120: 2u
+        switch_240: 4u
+        switch_360: 6u
+        switch_720: 12u
+        switch_1440: 1d
+        switch_4320: 3d
+        switch_10080: 1w
+      depths:
+        price: Prijs
+        amount: Aantal
+        buy: Koop
+        sell: Verkoop
+        ask_orders: Verkoop
+        bid_orders: Koop
+      ticker:
+        last: Laatste Prijs
+        ask: VRAAG
+        bid: AANBOD
+      account_balance:
+        title: Account Balans
+        available: Beschikbaar %{currency}
+      bid_entry:
+        action: "Koop %{currency}"
+        price: Prijs
+        last_price: Laatste Prijs
+        amount: Aantal
+        total: Totaal
+      ask_entry:
+        action: "Verkoop %{currency}"
+        price: Prijs
+        last_price: Laatste Prijs
+        amount: Aantal
+        total: Totaal
+      place_order:
+        price_high: HOOG
+        price_low: LAAG
+        full_bid: VOL
+        full_ask: LEEG
+      order_book:
+        title: Order Boek
+        volume: Volume
+        price: Prijs
+        amount: Aantal
+        ask: VRAAG
+        bid: AANBOD
+        fade_toggle_depth: Marktdiepte
+      trade_state:
+        new: Nieuw
+        partial: Partieel
+      market_trades:
+        all: Alle
+        my: Mijn
+        all_html: "<i class='fa fa-check'></i><span>Alle</span>"
+        my_html: "<i class='fa fa-check'></i><span>Mijn</span>"
+        time: Tijd
+        price: Prijs
+        volume: Volume
+      header:
+        network: Connectiestatus
+        vol: 24u Volume
+        high: Hoog
+        low: Laag
+        change: Verandering
+      settings:
+        sound: Geluid
+        notification: Notificatie
+        funds: "Fondsen"
+        signout: "Afmelden"
+        settings: "Profiel"
+        history: "Geschiedenis"
+      account_summary:
+        title: Overzicht
+        account: Account
+        amount: Aantal
+        locked: Bevroren
+        view_all_accounts: "Bekijk Alles"
+        hide_all_accounts: "Verberg Andere"
+      my_orders:
+        orders_wait: Laatste Orders
+        orders_done: Voltooide Orders
+        orders_cancel: Geannuleerde Orders
+        no_open_orders: U heeft geen open Orders.
+        clear_all_html: "<i class='fa fa-trash'></i><span>Annuleer Alle</span>"
+        clear_bids_html: "<i class='fa fa-trash'></i><span>Annuleer Aanbod</span>"
+        clear_asks_html: "<i class='fa fa-trash'></i><span>Annuleer Vraag</span>"
+        confirm_clear_all: Bent u zeker?
+        confirm_clear_bids: Bent u zeker?
+        confirm_clear_asks: Bent u zeker?
+        price: Prijs
+        volume: Volume
+        amount: Aantal
+        time: Plaats Tijd
+      mask:
+        warning: <a class=text-up href='/'>Registreer</a> of <a class=text-up href='/'>Log in</a> voor operatie
+      klime_chart:
+        title: Candlestick Grafiek
+      global:
+        global_orders_title: ORDERS
+        global_trades_title: TRANSACTIES
+      chat:
+        title: Chat
+    settings:
+      success: Instelling aangepast.
+      failure: Ongeldig wachtwoord, gelieve opnieuw proberen
+      index:
+        safety_instruction: Om uw fondsen en persoonlijke informatie te beschermen, adviseren wij u ten zeerste om Two-Fac Autenticatie te gebruiken
+        reset_password: Wachtwoord aanvragen
+        reauthenticate: Autenticatie
+        activated: Er is een email gestuurd naar uw mailbox, controleer het zo snel mogelijk voor verificatie. Als u het niet hebt ontvangen, klik dan op de knop 'Stuur het opnieuw'
+        auth-activated: Bevestig alstublieft uw e-mailadres eerst
+        auth-verified: Verifieer eerst uw account
+        email:
+          title: E-mail verificatie
+          description: Uw e-mail is niet geverifieerd, klik op de knop 'Mail verzenden' om de verificatie te voltooien
+          description-activated: Uw e-mailadres is succesvol geverifieerd, onthoud en bescherm dit e-mailadres, het is het enig certificaat voor uw account
+          resend: Stuur het opniew
+          activated: Geverifieerd
+          go: Registreer
+        phone_number:
+          title: Telefoonnummer
+          description: Het verstrekken van een telefoonnummer zal uw account veiliger maken. U kunt uw wachtwoord snel resetten en uw accountactiviteiten worden naar u verzonden
+          go: Registreer
+          verified: Geverifieerd
+          hint: "Geverifieerd nummer %{hint}"
+        two_factor_auth:
+          title: Two-Factor Autenticatie
+          description: Two-Factor Autenticatie biedt een tweede laag beveiliging voor uw account
+          enable: Activeer
+          disable: Deactiveer
+        verification:
+          title: Account Verifieren
+          description: Beveilig uw account nog beter door zowel uw wachtwoord als uw telefoon te gebruiken
+          go: Instellen
+          verified: Geverifieerd
+        asset_passwords:
+          title: Activa Wachtwoord
+          description: Het wachtwoord van het activa is nodig wanneer u uw geld terugtrekt. Het is sterk aan te bevelen dat u niet hetzelfde wachtwoord gebruikt als uw wachtwoord voor uw account!
+          go: Instellen
+        passwords:
+          title: Wachtwoord
+          description: Dit wachtwoord is vereist voor inloggen, vergeet het alstublieft niet
+          go: Verander Wachtwoord
+          set: Instellen
+        api_tokens:
+          title: API Tokens
+          description: Creëer en beheer uw API tokens.
+          go: Instellen
+        weibo:
+          title: Connect to Weibo
+          description: After you connecting to Weibo, you can login via Weibo account.
+          bound_desc: This has been connected with %{nickname}.
+          bind: Connect
+          unbind: Disconnect
+    otps:
+      new:
+        step_1: Stap 1
+        step_2: Stap 2
+        step_3: Stap 3
+        or: OF
+        download_app: Installeer de Google Authenticator-app op je smartphone en open het
+        scan_qr_code: Scan de QR code hieronder
+        enter_passphrase: Voer de volgende sleutel handmatig in de app in
+        enter_passcode: Voer de code in die door de Google Authenticator-app is gegenereerd.
+    shared:
+      balances:
+        locked: Bevroren
+        balance: Balans
+        available: Beschikbaar
+        title: "%{icon} %{c} Account"
+        usd_format: '0.00'
+        btc_format: '0.00000000'
+        eth_format: '0.00000000'
+        total: Total
+  guides:
+    private:
+      settings:
+        panel: Instellingen
+        index:
+          intro: Beheer en herzie uw profiel.
+      api_tokens:
+        panel: API Tokens
+        index:
+          title: Mijn Tokens
+          intro: A list of all your API tokens. An empty 'IP Whitelist' means any ip is allowed to use the token.
+        new:
+          title: Creëer API Token
+        create:
+          title: Creëer API Token
+        edit:
+          title: Wijzig API Token
+        update:
+          title: Wijzig API Token
+      tickets:
+        panel: Tickets
+      id_documents:
+        panel: Officiële naam verificatie
+        new:
+          title: Verstuur Officiële naam authenticatie informatie
+          intro: In overeenstemming met de KYC- en AML-wetgeving is identiteitsverificatie nodig. Verifieer alstublieft uw account om verder te gaan.
+    panels:
+      balance: Account
+    verify:
+      google_auths:
+        panel: Two-Factor Autenticatie
+        edit:
+          title: Deactiveer Two-Factor Autenticatie
+          intro: Als u een nieuwe telefoon hebt, kunt u Two-Factor Autenticatie uit de oude telefoon uitschakelen en Two-Factor Autenticatie inschakelen met de nieuwe telefoon.
+      sms_auths:
+        panel: Verifieer telefoonnummer
+    reset_passwords:
+      panel: Wachtwoord
+      new:
+        title: Wachtwoord opnieuw instellen
+        intro: Vult u alstublieft uw e-mailadres in geassocieerd met uw handelsaccount en vul de code in die u per e-mail ontvangen hebt. (Controleer Spam)
+      create:
+        title: Wachtwoord opnieuw instellen
+        intro: Vult u alstublieft uw e-mailadres in geassocieerd met uw handelsaccount en vul de code in die u per e-mail ontvangen hebt. (Controleer Spam)
+      edit:
+        title: Wachtwoord instellen
+      update:
+        title: Wachtwoord instellen
+    sessions:
+      panel: Inloggen
+      new:
+        title: Log in op mijn account
+        intro: Login uw BTC Crypt account om te handelen
+      failure:
+        title: Log in op mijn account
+        intro: Login uw BTC Crypt account om te handelen
+    identities:
+      panel: Creëer Account
+      new:
+        title: Creëer mijn Account
+        intro: Dit is uw enige ID op BTC Crypt die nodig is voor het handelen, storten en opnemen. Vul het alstublieft zorgvuldig in.
+      edit:
+        panel: Mijn Account
+        title: Wachtwoord opnieuw instellen
+    two_factors:
+      panel: Two-Factor Autenticatie
+  simple_form:
+    placeholders:
+      deposit:
+        bank:
+          amount: Minimaal bedrag 100
+      session:
+        email: E-mailadres
+        password: Wachtwoord
+      identity:
+        email: Voorbeeld：johndoe@example.com
+        password: Stel alstublieft uw login wachtwoord in
+        password_confirmation: Bevestig uw wachtwoord
+        edit:
+          password: Stel alstublieft uw login wachtwoord in
+      document:
+        key: Document link URL
+        title: Document Titel
+      order_bid:
+        origin_volume: Koop Volume
+        sum: Som
+      order_ask:
+        origin_volume: Verkoop Volume
+        sum: Totale Omzet
+      reset_password:
+        email: Voorbeeld：johndoe@example.com
+        password: Stel alstublieft uw login wachtwoord in
+      withdraw:
+        bank:
+          sum: Minimaal bedrag 100
+        satoshi:
+          sum: Minimaal aantal 0.001
+          fund_extra: Vul een label in voor dit adres (optioneel)
+    hints:
+      deposit:
+        bank:
+          sum: "<a target='_balance' href='#'>Kost structuur</a>"
+          member_name: "<span class='text-danger'>Naam bankrekeninghouder moet overeenkomen met uw officieel geregistreerde naam</span>"
+          sn: "<span class='text-danger'>Gelieve de SN in uw overboekingsbericht te kopiëren, anders kunnen we uw bestelling niet tijdig verwerken.</span>"
+      two_factor:
+        otp_secret: We raden u aan om uw QR-codeafbeelding of ciphertext op slaan om te voorkomen dat u per ongeluk de toegang tot uw account kwijtraakt.
+        otp: Uw validator zal elke dertig seconden een nieuw wachtwoord genereren, alstublieft tijdig invoeren.
+      identity:
+        password: Stel een wachtwoord in dat tenminste 6 karakters bevat en het is beter om hoofdletters en kleine letters en cijfers te bevatten.
+      reset_password:
+        password: Stel een wachtwoord in dat tenminste 6 karakters bevat en het is beter om hoofdletters en kleine letters en cijfers te bevatten.
+      id_document:
+        name: Vul alstublieft de naam in die overeenkomt met uw identificatiedocument.
+      withdraw:
+        bank:
+          member_name: "<span class='text-danger'>De naam op uw bankrekening moet overeenkomen met uw geregistreerde naam</span>"
+          sum: "<a target='_balance' href='#'>Kostenstructuur</a>"
+          fund_extra: Als uw bank niet meer in de lijst staat, neem dan contact op met de klantenservice
+        satoshi:
+          sum: "<a target='_balance' href='#'>Kostenstructuur</a>"
+    creating: Creëren...
+    updating: Updaten...
+    buttons:
+      or: Of
+      cancel: Annuleer
+    'yes': 'Ja'
+    'no': 'Nee'
+    required:
+      text: vereist
+      mark: "*"
+    error_notification:
+      default_message: 'Controleer de onderstaande problemen:'
+    labels:
+      defaults:
+        title: Titel
+      google_auth:
+        uri: QR code
+        otp_secret: Cyphertext
+        otp: Wachtwoord op de authenticator
+      fund_source:
+        label: Label
+        address: Adres
+        category: Categorie
+      session:
+        email: Log in E-mail
+        password: Log in Wachtwoord
+        captcha: Captcha
+      identity:
+        email: Log in E-mail
+        old_password: Origineel Wachtwoord
+        password: Nieuw Wachtwoord
+        password_confirmation: Bevestig nieuw wachtwoord
+      reset_password:
+        password: Nieuw wachtwoord
+      ticket:
+        content: Meer details
+      withdraw:
+        bank:
+          fund_extra: Bank
+          sum: Bedrag
+          account_balance: Account Balans
+          member_name: Naam rekeninghouder
+        satoshi:
+          fee: Kost
+          sum: Aantal
+          fund_uid: Bitcoin Adres
+          fund_extra: Label
+          account_balance: Account Balans
+          member_name: Account
+  admin:
+    deposits:
+      banks:
+        index:
+          oneday: Verzoeken in de laatste 24 uur
+          available: Alle hangende verzoeken
+        show:
+          alert: Storting kan niet gevonden worden.
+          notice: Storting was succesvol.
+          deposit: Stortingsverzoek
+          accept: Accepteer
+          target_deposit: Bankoverschrijving
+          confirm: Bevestig storting?
+        update:
+          blank_txid: TxID ckan niet leeg zijn
+      satoshis:
+        update:
+          notice: De storting was succesvol.
+        index:
+          accept: Accepteer
+          accept_confirm: Bevestig storting?
+    tickets:
+      view: Bekijk
+      close: Ticket sluiten
+      comments_count: Aantal commentaren
+      replies: Antwoorden
+      open_tickets: Open Tickets
+      closed_tickets: Gesloten Tickets
+    members:
+      index:
+        search: Zoeken
+        members: Leden
+        email: E-mail
+        name: Naam
+        phone: Telefoonnummer
+        wallet_address: Wallet Adres
+      show:
+        member_title: Gebruikersinformatie
+        actions_title: Actie
+        accounts_title: Account Informatie
+        account_versions_title: Archief
+    dashboard:
+      index:
+        accounts_title: Accountoverzicht
+        daemons_title: Systeemoverzicht
+    documents:
+      index:
+        new: Nieuw Document
+    statistic:
+      filter: Filter
+      summary: Overzicht
+      click-to-expand: Uitbreiden
+      members:
+        show:
+          table: Resultaten
+      orders:
+        show:
+          avg: Gemiddelde
+          sum: Order Volume
+          sum_strike: Bij Volume
+          count: Aantal
+      trades:
+        show:
+          count: Transacties
+          volume: Volume
+          amount: Totaal aantal
+          min_price: Minimum Prijs
+          max_price: Maximum Prijs
+          avg_price: Gemiddelde Prijs
+          amount_fee: Transactiekostem
+          volume_fee: Totaalkosten
+      deposits:
+        show:
+          count: Totaal
+          amount: Totaal aantal
+      withdraws:
+        show:
+          count: Totaal
+          amount: Totaal aantal
+          fee: Kost
+    withdraws:
+      banks:
+        index:
+          one: Wachtende opnameverzoeken
+          all: Vierentintiguurs orders
+          empty: Geen Data
+        show:
+          process: Proces
+          succeed: Succes
+          reject: Afwijzen
+          succeed_confirm: Bevestig Proces?
+          reject_confirm: Bevestig Afwijzen?
+          withdraw: Opnemen
+          empty: Geen Data
+      satoshis:
+        index:
+          one: Wachtende opnameverzoeken
+          all: Laatste 24 uur
+          empty: Geen data
+        show:
+          process: Geaccepteerd
+          succeed: Opname
+          reject: Afgewezen
+          succeed_confirm: Verwerk Opname?
+          reject_confirm: Opname afwijzen?
+          withdraw: Opnames
+  deposits/satoshi:
+    aasm_state:
+      submitted: Toegevoegd
+      accepted: Geaccepteerd
+      checked: Nagekeken
+      warning: Waarschuwing
+  doorkeeper:
+    scopes:
+      profile: Lees uw basisprofiel (bijvoorbeeld naam, email) en accountbalansen
+      history: Lees uw handelsgeschiedenis
+      trade: Bestellingen versturen en annuleren
+    authorizations:
+      new:
+        title: BTC Crypt Applicatie Autorisatie
+        authorize_html: Autoriseer <strong class='text-info'>%{name}</strong> om uw account te gebruiken?
+        scopes: 'Deze applicatie zal kunnen:'
+        authorize: Autoriseer
+        deny: Weiger
+    errors:
+      messages:
+        invalid_request: Het verzoek ontbreekt een vereiste parameter, bevat een niet-ondersteunde parameterwaarde of is anders misvormd.
+        invalid_redirect_uri: De doorgeleide uri is niet geldig.
+        unauthorized_client: De opdrachtgever is niet bevoegd om dit verzoek uit te voeren met deze methode.
+        access_denied: De bron eigenaar of autorisatie server ontkent het verzoek.
+        invalid_scope: De gevraagde omvang is ongeldig, onbekend of misvormd.
+        server_error: De autorisatieserver heeft een onverwachte voorwaarde geconstateerd die het verhinderde dat het verzoek niet is vervuld.
+        temporarily_unavailable: De autorisatie server kan op dit moment het verzoek niet verwerken door een tijdelijke overbelasting of onderhoud van de server.
+        credential_flow_not_configured: Resource Owner Password Password Credentials stroom mislukt door Doorkeeper.configure.resource_owner_from_credentials niet geconfigureerd.
+        resource_owner_authenticator_not_configured: Resource Owner Find vond mislukt door Doorkeeper.configure.resource_owner_authenticator niet geconfigureerd.
+        unsupported_response_type: De autorisatieserver ondersteunt dit antwoordtype niet.
+        invalid_client: Client-verificatie mislukt door onbekende client, geen client authenticatie of niet-ondersteunde verificatie methode.
+        invalid_grant: De verstrekte machtigingstoekenning is ongeldig, verlopen, ingetrokken, komt niet overeen met de door URI gebruikte omleidingsverzoek, of is uitgegeven aan een andere client.
+        unsupported_grant_type: Het machtigingstype wordt niet ondersteund door de autorisatieserver.
+        invalid_resource_owner: De opgegeven gebruikersgegevens van de bron eigenaar zijn niet geldig, of de eigenaar van de bron kan niet worden gevonden
+        invalid_token:
+          revoked: Het toegangstoken is ingetrokken
+          expired: Het toegangstoken is verlopen
+          unknown: Het toegangstoken is ongeldig
+    flash:
+      applications:
+        create:
+          notice: Applicatie gecreëerd.
+        destroy:
+          notice: Applicatie verwijderd.
+        update:
+          notice: Applicatie updated.
+      authorized_applications:
+        destroy:
+          notice: Applicatie herroepen.
+  easy_table:
+    satoshi:
+      amount: Aantal
+      txid: TxId
+      created_at: Gemaakt op
+      confirmations: Bevestigingen
+      member_name: Lid
+      state_and_actions: Status/Acties
+      currency_obj_key_text: Valuta
+    bank:
+      sn: SN
+      amount: Bedrag
+      created_at: Op
+      fund_source: Bron Fondsen
+      memo: Memo
+      member_name: Lid
+      state_and_actions: Status/Actie
+      currency_obj_key_text: Valuta
+  enumerize:
+    account_version:
+      reason:
+        fix: FIX
+        unknown: ONBEKEND
+        strike_add: HANDEL PLUS
+        strike_sub: HANDEL SUB
+        strike_fee: HANDEL FEE
+        strike_unlock: HANDEL OPEN
+        order_cancel: ORDER ANNULEER
+        order_submit: ORDER TOEVOEGEN
+        deposit: STORTING
+        withdraw: OPNAME
+        withdraw_lock: OPNAME OPEN
+        withdraw_unlock: OPNAME UNLOCK
+    state:
+      done: Klaar
+      wait: Wacht
+      cancel: Annuleer
+    currency:
+      usd: USD
+      btc: BTC
+      eth: ETH
+    order:
+      state:
+        done: KLAAR
+        wait: WACHT
+        cancel: ANNULEER
+    deposit:
+      aasm_state:
+        submitted: Ingezonden
+        submitting: Inzenden
+        accepted: Geaccepteerd
+        cancelled: Geannuleerd
+        rejected: Afgewezen
+        checked: Nagekeken
+        warning: Waarschuwing
+    withdraw:
+      state:
+        submitting: Inzenden
+        submitted: Ingezonden
+        rejected: Afgewezen
+        accepted: Geaccepteerd
+        suspect: Verdacht
+        processing: Verwerken
+        done: Klaar
+        canceled: Geannuleerd
+    fund_source:
+      category:
+        satoshi: Bitcoin
+        bank: Bank
+    id_document:
+      id_document_type:
+        id_card: ID Kaart
+        passport: Paspoort
+        driver_license: Rijbewijs
+      id_bill_type:
+        bank_statement: Bankafschrift of telefoonfactuur
+        tax_bill: Overheidsbrief of utiliteitsfactuur
+  views:
+    pagination:
+      first: "&laquo; Eerste"
+      last: Laatste &raquo;
+      previous: "&lsaquo; Vorig"
+      next: Volgend &rsaquo;
+      truncate: "..."
+
+  mailer:
+    dear_user: Beste handelaar,
+    signature: Bedankt,<br/>Het BTC Crypt Team
+    please_contact: Indien u dit niet was, <a href='mailto:%{contact_mail}'>contacteer ons</a> ASAP.
+    footer: Dit is een automatisch gegenereerde email, alstublieft niet antwoorden. Indien u verdere vragen hebt, <a href="mailto:%{contact_mail}">contacteer ons</a>.
+  comment_mailer:
+    admin_notification:
+      subject: "[BTC Crypt] User reply a ticket"
+      notification_content: User %{email} reply a ticket, please follow the link below to see the detail
+    user_notification:
+      subject: "[BTC Crypt] Uw ticket heeft een nieuw antwoord"
+      notification_content: 'Uw ticket heeft een nieuw antwoord ontvangen, volg de onderstaande link om het antwoord te zien:'
+  deposit_mailer:
+    accepted:
+      subject: "[BTC Crypt] Uw storting is gecrediteerd in uw account"
+      content: Uw %{currency} storting is gecrediteerd in uw account.
+  member_mailer:
+    notify_signin:
+      subject: "[BTC Crypt] U bent net ingelogd"
+      just_signed_in: U bent net ingelogd.
+    google_auth_activated:
+      subject: "[BTC Crypt] Google authenticator geactiveerd"
+      google_auth_activated: U heeft Google Google Authenticator succesvol geactiveerd
+    google_auth_deactivated:
+      subject: "[BTC Crypt] Google authenticator gedeactiveerd"
+      google_auth_deactivated: U heeft Google Google Authenticator succesvol gedeactiveerd
+    sms_auth_activated:
+      subject: "[BTC Crypt] SMS autenticatie geactiveerd"
+      sms_auth_activated: U heeft SMS autenticatie succesvol geactiveerd
+    sms_auth_deactivated:
+      subject: "[BTC Crypt] SMS autenticatie gedeactiveerd"
+      sms_auth_deactivated: U heeft SMS autenticatie succesvol gedeactiveerd
+    reset_password_done:
+      subject: "[BTC Crypt] Uw wachtwoord is gewijzigd"
+      successful: Je wachtwoord is met succes veranderd.
+    phone_number_verified:
+      subject: "[BTC Crypt] Uw telefoonnummer is geverifieerd"
+      verified: 'Uw telefoonnummer is geverifieerd: %{phone_number}'
+  system_mailer:
+    daily_stats:
+      member_stats: Leden statistieken
+      signup: Aanmeldingen
+      activation: Activaties
+      asset_stats: Wijzigingen in activa
+      trade_stats: Transactie wijzigingen
+      asset_value_change_total: Wijzigingen in digitale activa Totaal
+      trades_change_total: Transactie wijzigingen totaal
+  ticket_mailer:
+    admin_notification:
+      subject: "[BTC Crypt] Nieuw ticket van klant"
+      admin_notification_content: Klant %{email} heeft een nieuw ticket aangemaakt. Volg onderstaande link
+    author_notification:
+      subject: "[BTC Crypt] Bedankt voor het indienen van een ticket"
+      thanks_for_submit_ticket: Bedankt voor het indienen van een ticket, u hoort zo spoedig mogelijk van ons.
+  token_mailer:
+    activation:
+      subject: "[BTC Crypt] Account activatie"
+      click_to_verify: 'Bedankt voor het inschrijven op BTC Crypt, volg deze link om uw e-mail te verifiëren:'
+      unable_to_click: Kopieer en open de link in uw browser indien deze niet automatisch opent.
+      link_expire: De link vervalt over 30 minuten.
+    reset_password:
+      subject: "[BTC Crypt] Stel alstublieft uw wachtwoord opnieuw in"
+      hi: Haallo,
+      follow_the_link: 'Volg deze link binnen 30 minuten indien u uw wachtwoord opnieuw wilt instellen:'
+  withdraw_mailer:
+    submitted:
+      subject: "[BTC Crypt] Uw opnameverzoek status"
+      content: Het verzoek van uw % {currency} opname is succesvol ingediend, we verwerken het zo snel mogelijk. Wij verzoeken u vriendelijk om even geduld te hebben. Contacteer ons indien u vragen hebt.
+    processing:
+      subject: "[BTC Crypt] Uw opnameverzoek status update"
+      content: Het verzoek van uw %{currency} opname wordt verwerkt. Wij verzoeken u vriendelijk om even geduld te hebben. Contacteer ons indien u vragen hebt.
+    done:
+      subject: "[BTC Crypt] Uw opnameverzoek status update"
+      content: Het verzoek van uw %{currency} is compleet. Controleert u het alstublieft. Contacteer ons indien u vragen hebt.
+    withdraw_state:
+      subject: "[BTC Crypt] Uw opnameverzoek status update"
+      your_state: 'Uw opnameverzoek status: '
+
+  'true': true
+  'false': false
+  view_on_github: View on Github
+  slogan: Creëer alstublieft een nieuw handelsaccount of meld u aan op uw bestaande handelsaccount
+  tags:
+    vip: VIP
+    hero: Hero Member
+    admin: Admin
+  trade:
+    markets: Markten
+    realtime_price:
+      title: Realtime Prijs
+    account_balance:
+      title: Balans
+  gon:
+    ask: Vraag
+    bid: Aanbod
+    brand: BTC Crypt Beurs
+    notification:
+      title: BTC Crypt Beurs
+      enabled: Notificatie ingeschakeld
+      new_trade: "%{kind} order#%{id} uitgevoerd op %{price} %{quote_unit} voor %{volume} %{base_unit}。"
+  back: Terug
+  invalid_password: Ongeldig wachtwoord
+  all: Alle
+  date:
+    formats:
+      date-short: "%m-%d"
+      short: "%m-%d %H:%M"
+      default: "%m/%d/%Y %H:%M"
+  time:
+    formats:
+      date-short: "%m-%d"
+      short: "%m-%d %H:%M"
+      default: "%m/%d/%Y %H:%M"
+  sms:
+    verification_code: 'Uw telefoonnummer verificatiecode is: %{code}.'
+    password_changed: Hallo %{email}, Uw wachtwoord is succesvol gewijzigd.
+    deposit_done: Hallo %{email}, uw stortingsverzoek is voltooid.
+    withdraw_done: Hallo %{email}, uw opnameverzoek is voltooid.
+  header:
+    home: Home
+    dashboard: Dashboard
+    admin: Admin Panel
+    market: Handelen
+    settings: Profiel
+    signin: Inloggen
+    signout: Uitloggen
+    signup: Registreren
+    login_via_weibo: Login via Weibo
+    funds: Fondsen
+    getstart: Starten
+    assets: Solvency
+    history: Geschiedenis
+    order_history: Order Geschiedenis
+    trade_history: Handelsgeschiedenis
+    account_history: Account geschiedenis
+    my_profile: Mijn Profiel
+    tickets: Tickets
+    account_balance: Totale Active
+    back: Terug
+    total: Totaal
+    deposit: Storten
+    withdraw: Opnemen
+  admin_header:
+    deposits: Stortingen
+    withdraws: Opnames
+    statistics: Data Statistieken
+    id_documents: Verifieer account
+  footer:
+    about: Over
+    privacy: Privacy
+    contact: Contacteer ons
+    price: Prijs
+    liability_proof: liability proof
+  actions:
+    go: Naar
+    submit: Indienen
+    deposit: Storting
+    select: Selecteer
+    unlock: Ontgrendelen
+    confirm: Bevestig
+    back: Terug
+    block: view in block
+    destroy: Verwijder
+    destroy_confirm: Bent u zeker?
+    detail: Detail
+    publish: Publiceer
+    edit: Wijzig
+    preview: Bekijk
+    close: Sluiten
+    cancel: Annuleren
+    view: Bekijk
+    member: Lid
+    transact: Transact
+    reject: Weiger
+    clipboard:
+      click: Klik om te kopieëren
+      done: Gekopieerd
+  chart:
+    open: Open
+    high: Hoog
+    low: Laag
+    close: Sluit
+    price: Prijs
+    volume: Volume
+    candlestick: 'Candlestick'
+    line: 'Lijn'
+    minute: m
+    hour: Uur
+    day: Dag
+    week: Week
+    month: Maand
+    year: Jaar
+    zoom: Zoom
+    ask: VRAAG
+    bid: AANBOD
+    depth: Diepte
+    depth_title: Marktdiepte
+  'yes': 'Ja'
+  'no': 'Nee'
+  simple_captcha:
+    label: Vernieuw pagina voor nieuwe captcha.
+    placeholder: Typ karakters in afbeelding
+  helpers:
+    action:
+      view: Bekijk
+      customer_service: contacteer ons
+    submit:
+      order_ask:
+        create: VRAAG
+      order_bid:
+        create: AANBOD
+      document:
+        create: Creëer Document
+        update: Update Document
+        destroy: Vernietig Document
+      member:
+        update: Open Account
+      identity:
+        save: Inloggen
+        create: Registreren
+        destroy: Uitloggen
+        verify: Verifieer
+        update: Verander
+      two_factor:
+        create: Verifieer
+        update: Activeer
+      reset_two_factor:
+        create: Reset Two-Factor Autenticatie
+      reset_password:
+        update: Reset Login Wachtwoord
+        create: Reset Login Wachtwoord
+      fund_source:
+        create: Opslaan
+      deposit:
+        create: Storting
+      id_document:
+        create: Indienen
+      withdraw:
+        create: Indienen
+      ticket:
+        create: Indienen
+  activations:
+    new:
+      notice: Er is een email gestuurd naar uw mailbox, controleer het zo snel mogelijk ter verificatie. Indien u het niet hebt ontvangen, klik dan op de knop 'Stuur het opnieuw'.
+      verified: Uw e-mailadres is succesvol geverifieerd.
+      login_required: Aanmelden vereist!
+      tip: Activeringslink is verzonden naar %{email}
+      spam: Controleer alstublieft uw spamfolder voor de activeringslink.
+    edit:
+      notice: Account succesvol geactiveerd! Gelieve hieronder inloggen.
+      alert: Activeringslink is verlopen of ongeldig.
+  authentications:
+    emails:
+      new:
+        title: Setup Email
+        setup_email: Stel alstublieft uw e-mailadres in.
+        warning: Controleer alstublieft uw inbox nadat u het e-mailadres hebt opgeslagen.
+        email_address: E-mailadres
+        save: Opslaan
+    weibo:
+      destroy:
+        last_auth_alert: You couldn't delete the last authentication
+        unbind_success: Unbind from the Weibo
+    identities:
+      new:
+        title: Stel een wachtwoord in
+        save: Opslaan
+      create:
+        success: Wachtwoord ingesteld!
+  forum:
+    index:
+      notice:
+        display_name: Stel alstublieft uw schermnaam in voor het forum.
+  identities:
+    new:
+      title: REGISTREREN
+      signin: Inloggen
+      password: Vul alstublieft een wachtwoord in van minstens 6 tekens en het is beter om hoofdletters en kleine letters en cijfers te bevatten.
+    update:
+      auth-error: Het originele wachtwoord dat u hebt ingevoerd is onjuist. Voer alstublieft opnieuw in
+      auth-same: Het nieuwe wachtwoord dat u hebt ingevoerd is hetzelfde als het oude wachtwoord. Voer alstublieft opnieuw in.
+      notice: Account wachtwoord is succesvol bijgewerkt.
+  layouts:
+    admin:
+      menus:
+        sections:
+          members: Leden
+          deposits: Stortingen
+          sites_statistics: Analytics
+          operating: Operaties
+        items:
+          operating:
+            proofs: Proof
+            deposits: Stortingen
+            documents: Documenten
+            withdraws: Opnames
+            tickets: Tickets
+          deposits:
+            currency: Storting
+    application:
+      close: Sluit
+    meta:
+      page_title: BTC Crypt - De wereldwijde Cryptovaluta Beurs
+      page_description: BTC Crypt - De wereldwijde Cryptovaluta Beurs
+      page_keywords: BTC Crypt, crypto, Exchange, Cryptocurrency, bitcoin exchange, litecoin exchange, ripple coin exchange, monero exchange, dash, nem
+  members:
+    edit:
+      name: Vul alstublieft de applicatie in
+  reset_passwords:
+    create:
+      success: E-mail om uw wachtwoord opnieuw te resetten met een introductie is verzonden naar uw mailbox. Als u geen e-mail ontvangt, gaat u eerst naar "junk/spam mail" of stuur het verzoek opnieuw.
+    edit:
+      password: Please enter a password at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
+      invalid: Ongeldig verzoek
+      submit: Reset Login Wachtwoord
+      alert: Ongeldige reset wachtwoord link.
+    update:
+      success: Login wachtwoord is opnieuw ingesteld, onthoud alstublieft uw nieuw wachtwoord.
+      invalid: Ongeldig verzoek
+  sessions:
+    new:
+      reset_password: Wachtwoord Vergeten?
+    new_with_two_factor_auth:
+      title: 2 Staps Verificatie
+      reset_two_factor: Verloren 2-step-verificatie toestel
+    create_with_two_factor_auth:
+      session_expired: Sessie verlopen, probeer het opnieuw
+    create:
+      error: Uw handelsaccount is gedeactiveerd, contacteer support indien u vragen hebt.
+    failure:
+      account_locked: Te veel mislukte loginpogingen. Om de veiligheid van uw account te waarborgen hebben we uw account vergrendeld. Om te ontgrendelen, reset je wachtwoord door op "Wachtwoord vergeten" te klikken.
+      error: Verkeerde klant-id of wachtwoord, probeer het opnieuw.
+  shared:
+    admin:
+      member:
+        member_info: Leden Info
+        deactive_sms_two_factor: SMS TFA
+        deactive_app_two_factor: Google TFA
+        inactive: Inactief
+        deactive: Deactiveer
+        are_you_sure: Weet u zeker dat u Two-Factor uit wenst te schakelen?
+      account:
+        account_info: Account Info
+        payment_address: Stortingsadres
+    alert:
+      modern: Om de handelservaring niet te beïnvloeden, gebruik een modernere browser. Wij adviseren <a target='_blank' href='https://www.google.com/#q=google+chrome'>Google Chrome</a>。
+      pusher_unavailable: De netwerkverbinding is tijdelijk niet beschikbaar... <a href='#' class='alert-link'>Gelieve verversen</a>.
+    header:
+      balance: Balans
+    header_account_balance:
+      locked: Bevroren
+    market:
+      ticker:
+        ask_price: Vraag
+        bid_price: Aanbod
+        high_price: Hoog
+        low_price: Laag
+        volume: Volume
+        latest_price: Laatste
+    frame:
+      deposit_now: Storting maken
+  two_factors:
+    index:
+      verify: Verifieer
+    update:
+      alert: Two factor verificatie code fout, gelieve opnieuw invoeren.
+    auth:
+      please_active_two_factor: Stel mobiel nummer of google authenticator eerst in.
+      submit: Invoeren
+      otp_placeholder: 6-karakter wachtwoord
+      google_app: Google Authenticator
+      sms: SMS Verificatie berichten
+      send_code: Stuur Code
+      send_code_alt: Opnieuw zenden in COUNT seconden
+      hints:
+        app: Google Authenticator zal elke dertig seconden een nieuw wachtwoord opnieuw genereren, alstublieft tijdig invoeren.
+        sms: We sturen een sms-bericht naar uw telefoon met verificatiecode.
+  verify:
+    google_auths:
+      edit:
+        submit: Uitschakelen
+        warning: 'Tip: Als u uw Two Factor Authentication om een of andere reden hebt verloren en niet kunt inloggen op uw BTC Crypt account, kunt u contact opnemen met onze online klantenservice.'
+      show:
+        step-1: Stap 1
+        step-2: Stap 2
+        step-3: Stap 3
+        or: OF
+        download-app: Installeer de Google Authenticator-app op je smartphone en open het.
+        guide-link: "<a href='https://support.google.com/accounts/answer/1066447' target='_blank'>Installatie Instructies</a>。"
+        scan-qr-code: Scan de volgende QR-code met Google Authenticator APP, of voeg handmatig tekst aan de validator toe.
+        enter-passcode: Vul het dynamische wachtwoord in dat door uw telefoon wordt weergegeven om Two-Factor Authentication te activeren.
+        submit: Inschakelen
+        ios: Iphone iOS
+        android: Android
+        blackbery: Blackberry
+        notice:
+          already_activated: De Google Authenticator is al ingesteld.
+          not_activated_yet: De Google Authenticator is nog niet ingesteld.
+      update:
+        alert: Wachtwoord voor verificatie is onjuist, alsjeblieft opnieuw invoeren.
+        notice: Two Factor Authentication is succesvol ingeschakeld.
+        sms_two_factor_error: SMS Verificatiecode is onjuist, alsjeblieft opnieuw invoeren.
+      destroy:
+        alert: Wachtwoord voor verificatie is onjuist, alsjeblieft opnieuw invoeren.
+        notice: Two-Factor Authentication is succesvol uitgeschakeld.
+    sms_auths:
+      show:
+        title: Verifieer telefoonnummer
+        description: Het verstrekken van een telefoonnummer zal uw account veiliger maken. U kunt uw wachtwoord snel resetten en uw accountactiviteiten worden gemeld.
+        warning: Het wachtwoord van uw account kan niet worden opgevraagd als het telefoonnummer niet is ingesteld.
+        phone_number: Telefoonnummer
+        send_code: Stuur Code
+        send_code_alt: Opnieuw verzenden in COUNT seconden
+        input_otp: Voer de 6-cijferige code in die we naar u hebben verzonden
+        submit: Opslaan
+        notice:
+          send_code_success: Versturen verificatiecode succesvol
+          otp_success: Verificatiecode succesvol.
+          already_activated: Uw telefoonnummer is geactiveerd.
+        alert:
+          phone_number_error: Telefoonnummer fout
+  withdraw_channel:
+    bank:
+      key: Bankoverschrijving
+      title: Bankoverschrijving
+      intro: Bankoverschrijving stortingen, geadviseerd voor grotere bedragen
+      latency: 30 minuten
+      transfer: Handmatig
+      go: Opnemen
+    satoshi:
+      key: Blockchain
+      title: Bitcoin Blockchain
+      intro: Bitcoins opnemen naar uw eigen wallet
+      latency: 30 minuten
+      transfer: Handmatig
+      go: Opnemen
+    ether:
+      key: Ether
+      title: Ether Blockchain
+      intro: Ethereum opnemen naar uw eigen wallet
+      latency: 30 minutes
+      transfer: Handmatig
+      go: Opnemen
+  withdraws:
+    invalid_address: is niet geldig. U kunt niet opnemen naar dit adres.
+  withdraws/bank:
+    aasm_state:
+      submitting: Toevoegen
+      submitted: Toegevoegd
+      rejected: Geweigerd
+      accepted: Geaccepteerd
+      suspect: Suspect
+      processing: Verwerken
+      done: Klaar
+      almost_done: Bijna gereed
+      canceled: Geannuleerd
+      failed: Mislukt
+  withdraws/satoshi:
+    aasm_state:
+      submitting: Toevoegen
+      submitted: Toegevoegd
+      rejected: Geweigerd
+      accepted: Geaccepteerd
+      suspect: Suspect
+      processing: Verwerken
+      done: Klaar
+      almost_done: Bijna gereed
+      canceled: Geannuleerd
+      failed: Mislukt

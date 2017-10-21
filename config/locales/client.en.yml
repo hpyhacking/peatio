@@ -1,5 +1,6 @@
 en:
   js:
+    version: "0.0.1"
     brand: Peatio
     submit: Submit
     cancel: Cancel
@@ -61,10 +62,15 @@ en:
         to_name: Name
         to_bank_name: Bank Name
         opening_bank_name: Account where created
-        remark: 'Referral Code (Transfer identification code)'
-
+        remark: 'Referral Code (Transfer identification code)
       deposit_btc:
         title: BTC Deposit
+        
+      deposit_ltc:
+        title: LTC Deposit
+        
+      deposit_eth:
+        title: ETH Deposit
 
       deposit_coin:
         address: Address
