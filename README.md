@@ -1,7 +1,7 @@
 An open-source crypto currency exchange
 =====================================
 
-**I'LL BE BACK**
+**Peatio.tech fork**
 
 [![Code Climate](https://codeclimate.com/github/peatio/peatio.png)](https://codeclimate.com/github/peatio/peatio)
 [![Build Status](https://travis-ci.org/peatio/peatio.png?branch=master)](https://travis-ci.org/peatio/peatio)
@@ -51,7 +51,7 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * Industry standard security out of box.
 * Active community behind.
 * Free and open-source.
-* Created and maintained by [Peatio open-source group](http://peat.io).
+* Maintained by [Peatio tech](https://peatio.tech).
 
 
 ### Known Exchanges using Peatio
@@ -116,11 +116,13 @@ Peatio front-end based Bootstrap 3.0 version and Sass, and you can custom exchan
 
 Want to report a bug, request a feature, contribute or translate Peatio?
 
-* Browse our [issues](https://github.com/peatio/peatio/issues), comment on proposals, report bugs.
+* Browse our [issues](https://github.com/rubykube/peatio/issues), comment on proposals, report bugs.
 * Clone the peatio repo, make some changes according to our development guidelines and issue a pull-request with your changes.
-* Anything you want to tell us please send it to [community@peatio.com](mailto:community@peatio.com)
-* If you need technical support or customization service, contact us: [sales@peatio.com](mailto:sales@peatio.com)
+* If you need technical support or customization service, contact us: [hello@peatio.tech](mailto:hello@peatio.tech)
 
+### Getting Support and customization
+
+If you need help with running Peatio, you can contact us on [Peatio.tech](https://peatio.tech).
 
 ### License
 
