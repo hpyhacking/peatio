@@ -1,0 +1,13 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: alpine/git
+run:
+  path: sh
+  args: ['-xc', 'cd pull-requests && git rev-parse --short=8 HEAD > ../tag/name']
+inputs:
+  - name: pull-requests
+outputs:
+  - name: tag

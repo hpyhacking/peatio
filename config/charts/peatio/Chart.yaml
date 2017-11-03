@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Peatio chart
+name: peatio
+version: 0.1.0
