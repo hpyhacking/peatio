@@ -1,26 +1,44 @@
 FROM ruby:2.2.1
+MAINTAINER lbellet@heliostech.fr
 
-RUN apt-get update && apt-get install -y nodejs libmysqlclient-dev
-
-## RUN curl -sL https://kaigara.org/get | bash
+ENV APP_HOME=/home/app
 
 RUN groupadd -r app --gid=1000
 RUN useradd -r -m -g app -d /home/app --uid=1000 app
 
-WORKDIR /home/app
+# Install apt based dependencies required to run Rails as
+# well as RubyGems. As the Ruby image itself is based on a
+# Debian image, we use apt-get to install those.
+RUN curl -sL https://deb.nodesource.com/setup | bash
 
-ENV BUNDLE_PATH=/bundle
+RUN apt-get update && apt-get install -y \
+  nodejs \
+  libmysqlclient-dev \
+  imagemagick \
+  gsfonts
 
-ADD Gemfile /home/app/Gemfile
-ADD Gemfile.lock /home/app/Gemfile.lock
+WORKDIR $APP_HOME
 
-RUN bundle install
+COPY Gemfile Gemfile.lock $APP_HOME/
 
-ADD . /home/app
+# Install dependencies
+RUN mkdir -p $APP_HOME/vendor/bundle
+RUN bundle install --path vendor/bundle
 
-RUN chown -R app:app /home/app /bundle
+# Copy the main application.
+COPY . $APP_HOME
+
+RUN chown -R app:app /home/app
 USER app
 
-EXPOSE 8080
+RUN ./bin/init_config
 
-CMD ["bundle", "exec", "rails", "server", "-p", "8080", "-b", "0.0.0.0"]
+# Expose port 8080 to the Docker host, so we can access it
+# from the outside.
+EXPOSE 8080
+ENTRYPOINT ["bundle", "exec"]
+
+# The main command to run when the container starts. Also
+# tell the Rails dev server to bind to all interfaces by
+# default.
+CMD ["rails", "s", "-p", "8080", "-b", "0.0.0.0"]

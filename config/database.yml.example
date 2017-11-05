@@ -1,16 +1,21 @@
-development: &defaults
+default: &default
   adapter: mysql2
   encoding: utf8
+  pool: 5
+  host: <%= ENV['DATABASE_HOST'] %>
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASS'] %>
+
+development:
+  <<: *default
   database: peatio_development
-  username: root
-  password:
-  pool: 10
-  reconnect: true
 
 test:
-  <<: *defaults
+  <<: *default
   database: peatio_test
 
 production:
-  <<: *defaults
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: 10
   database: peatio_production
