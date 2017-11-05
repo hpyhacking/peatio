@@ -3,13 +3,13 @@ defaults: &defaults
   # sites hosts
   # session expire seconds
   # admin role account
-  URL_HOST: peatio.dev:3000
+  URL_HOST: localhost:8080
   URL_SCHEMA: http
   SESSION_EXPIRE: 60
   ADMIN: 'admin@peatio.dev,admin@example.com'
   TIMEZONE: 'Beijing'
 
-  REDIS_URL: redis://127.0.0.1:6379
+  REDIS_URL: redis://redis:6379
 
   # below settings only in production env
   # system notify mail settings
@@ -41,13 +41,13 @@ defaults: &defaults
   # we support development key and secret
   # uncomment below line only development or test
   #
-  # PUSHER_APP: 65910
-  # PUSHER_KEY: 50d404c35db92d736a57
-  # PUSHER_SECRET: 75d6e6685209cc60cc4d
+  PUSHER_APP: 65910
+  PUSHER_KEY: 50d404c35db92d736a57
+  PUSHER_SECRET: 75d6e6685209cc60cc4d
 
-  PUSHER_APP: YOUR_PUSHER_APP
-  PUSHER_KEY: YOUR_PUSHER_KEY
-  PUSHER_SECRET: YOUR_PUSHER_SECRET
+  # PUSHER_APP: YOUR_PUSHER_APP
+  # PUSHER_KEY: YOUR_PUSHER_KEY
+  # PUSHER_SECRET: YOUR_PUSHER_SECRET
   PUSHER_HOST: api.pusherapp.com
   PUSHER_PORT: 80
   PUSHER_WS_PORT: 80
