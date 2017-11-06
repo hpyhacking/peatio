@@ -9,7 +9,7 @@ RUN useradd -r -m -g app -d /home/app --uid=1000 app
 # Install apt based dependencies required to run Rails as
 # well as RubyGems. As the Ruby image itself is based on a
 # Debian image, we use apt-get to install those.
-RUN curl -sL https://deb.nodesource.com/setup | bash
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 
 RUN apt-get update && apt-get install -y \
   nodejs \
