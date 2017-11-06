@@ -2,6 +2,7 @@
 ENV["RAILS_ENV"] ||= 'test'
 ENV["ADMIN"] ||= 'admin@peatio.dev'
 require File.expand_path("../../config/environment", __FILE__)
+require 'database_cleaner'
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/poltergeist'
