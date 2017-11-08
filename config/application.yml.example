@@ -1,7 +1,7 @@
 defaults: &defaults
   TIMEZONE: 'Paris'
 
-  REDIS_URL: redis://0.0.0.0:6379
+  REDIS_URL: redis://redis:6379
 
   # admin role account
   ADMIN: 'admin@peatio.dev,admin@example.com'

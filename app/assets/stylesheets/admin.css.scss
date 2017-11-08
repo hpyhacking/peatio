@@ -19,8 +19,6 @@
   margin-left: 140px;
 }
 
-body { padding-top: 80px; }
-
 b.caret {
   margin-left: 5px;
 }
@@ -93,4 +91,8 @@ span.detail-section {
       content: attr(data-title);
     }
   }
+}
+
+header {
+  width: 100vw;
 }

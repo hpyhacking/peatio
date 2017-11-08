@@ -11,6 +11,11 @@ header {
 
   .navbar-brand { width: $brand-width; }
 
+  .nav-img {
+    width: 120px;
+    filter: invert(100%);
+  }
+
   .dropdown-menu li:hover .sub-menu {
       visibility: visible;
   }
@@ -52,7 +57,7 @@ header .account-balance {
   .account-wrap {
     width: 360px;
     padding: 8px;
-    border-bottom: 1px solid $gray-light; 
+    border-bottom: 1px solid $gray-light;
   }
 
   hr {

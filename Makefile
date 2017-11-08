@@ -14,7 +14,7 @@ push: build
 
 run:
 	@echo '> Starting "peatio" container...'
-	@docker run -it --rm $(IMAGE) bash
+	@docker run -it -p 3000:3000 --rm $(IMAGE) bash
 
 ci:
 	@fly -t ci set-pipeline -p peatio -c config/pipelines/review.yml -n
