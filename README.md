@@ -60,6 +60,8 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * [One World Coin](https://oneworldcoin.com)
 * [Bitspark](https://bitspark.io) - Bitcoin Exchange in Hong Kong
 * [MarsX.io](https://acx.io) - Australian Cryptocurrency Exchange
+* [NLexch.com](https://www.nlexch.com) - Dutch Cryptocurrency Exchange
+
 
 ### Mobile Apps ###
 
