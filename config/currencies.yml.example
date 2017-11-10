@@ -6,11 +6,10 @@
   precision: 2
   assets:
     accounts:
-      -
-        bank: '招商银行'
-        address: '6225 0885 6022 3501'
-        password: '111111'
-        tel: '95555'
+      - bank: "Demo Bank"
+        address: "6225 0885 6022 3501"
+        password: "111111"
+        tel: "95555"
 - id: 2
   key: satoshi
   code: btc
@@ -22,5 +21,4 @@
   address_url: https://blockchain.info/address/#{address}
   assets:
     accounts:
-      -
-        address: 1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3
+      - address: 1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3

@@ -1,19 +1,19 @@
 defaults: &defaults
+  TIMEZONE: 'Paris'
 
-  # sites hosts
-  # session expire seconds
+  REDIS_URL: redis://0.0.0.0:6379
+
   # admin role account
-  URL_HOST: localhost:8080
-  URL_SCHEMA: http
-  SESSION_EXPIRE: 60
   ADMIN: 'admin@peatio.dev,admin@example.com'
-  TIMEZONE: 'Beijing'
 
-  REDIS_URL: redis://redis:6379
+  # site host
+  URL_HOST: localhost:3000
+  URL_SCHEMA: http
 
-  # below settings only in production env
-  # system notify mail settings
-  # --------------------------------------------------------------
+  # session expire time (seconds)
+  SESSION_EXPIRE: 60
+
+  # email notifications settings (only for production)
   SMTP_PORT: YOUR_SMTP_PORT
   SMTP_DOMAIN: YOUR_SMTP_DOMAIN
   SMTP_ADDRESS: YOUR_SMTP_ADDRESS
@@ -21,60 +21,34 @@ defaults: &defaults
   SMTP_PASSWORD: YOUR_SMTP_PASSWORD
   SMTP_AUTHENTICATION: plain # could be plain, login or cram_md5
 
+  # email accounts
   SUPPORT_MAIL: support@peatio.dev
   SYSTEM_MAIL_FROM: system@peatio.dev
   SYSTEM_MAIL_TO: group@peatio.dev
   OPERATE_MAIL_TO: support@peatio.dev
 
   # WebSocket Streaming API settings
-  # --------------------------------------------------------------
   WEBSOCKET_HOST: 0.0.0.0
   WEBSOCKET_PORT: 8080
-  # Uncomment below to enable secure WebSocket (wss)
-  #WEBSOCKET_SSL_KEY: 'your_server.key'
-  #WEBSOCKET_SSL_CERT: 'your_server.crt'
+
+  # Uncomment following lines to enable secure WebSocket (wss)
+  # WEBSOCKET_SSL_KEY: 'your_server.key'
+  # WEBSOCKET_SSL_CERT: 'your_server.crt'
 
   # pusher settings
-  # --------------------------------------------------------------
-  # peatio dependence Pusher (http://pusher.com) service
-  # you can change your key for production environment.
-  # we support development key and secret
-  # uncomment below line only development or test
-  #
   PUSHER_APP: 65910
   PUSHER_KEY: 50d404c35db92d736a57
   PUSHER_SECRET: 75d6e6685209cc60cc4d
-
-  # PUSHER_APP: YOUR_PUSHER_APP
-  # PUSHER_KEY: YOUR_PUSHER_KEY
-  # PUSHER_SECRET: YOUR_PUSHER_SECRET
   PUSHER_HOST: api.pusherapp.com
   PUSHER_PORT: 80
   PUSHER_WS_PORT: 80
   PUSHER_WSS_PORT: 443
   PUSHER_ENCRYPTED: true
 
-  # twilio setting
-  # --------------------------------------------------------------
-  # https://github.com/twilio/twilio-ruby
-  #
+  # twilio setting (https://github.com/twilio/twilio-ruby)
   TWILIO_NUMBER: YOUR_TWILIO_NUMBER
   TWILIO_SID: YOUR_TWILIO_SID
   TWILIO_TOKEN: YOUR_TWILIO_TOKEN
-
-
-  # Third party auth
-
-  # Weibo
-  # --------------------------------------------------------------
-  WEIBO_AUTH: on # on/off
-  WEIBO_KEY: 3820920586
-  WEIBO_SECRET: 2d6174dc698e86860c75d75b1e8a01c8
-
-  # chat setting
-  # --------------------------------------------------------------
-  # Do you want chat feature in your exchange ?
-  # send mail to community@peatio.com
 
 development:
   <<: *defaults

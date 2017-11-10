@@ -2,14 +2,12 @@
 
 require 'fileutils'
 
-Dir.glob("config/*.yml.example").each do |example_file|
+Dir['config/*.yml.example'].each do |example_file|
   target_file = example_file[0..-9]
 
-  if File.exist? target_file
-    puts "Ignore the #{target_file}"
-  else
-    FileUtils.cp example_file, target_file
-    puts "cp #{example_file} #{target_file}"
-  end
+  puts "[INFO] #{target_file} exist. Replacing..." if File.exist?(target_file)
+
+  puts "> cp #{example_file} #{target_file}"
+  FileUtils.copy(example_file, target_file)
 end
 

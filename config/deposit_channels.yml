@@ -9,8 +9,7 @@
   currency: cny
   sort_order: 2
   bank_accounts:
-    -
-      bank: 'Your Bank Name'
+    - bank: 'Your Bank Name'
       branch: 'Your Bank Branch'
       holder: 'Your Account Holder'
       account: 'Your Account Number'
