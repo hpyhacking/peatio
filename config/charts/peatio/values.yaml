@@ -21,6 +21,8 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   tls:
     # Secrets must be manually created in the namespace.
+    # You can also install kube-lego to create them for you:
+    # https://github.com/jetstack/kube-lego
     # - secretName: peatio-tls
     #   hosts:
     #     - peatio.local
@@ -35,3 +37,42 @@ resources: {}
   #requests:
   #  cpu: 100m
   #  memory: 128Mi
+
+peatio:
+  # peatio configuration
+  env:
+    - name: URL_SCHEMA
+      value: https
+    - name: URL_HOST
+      value: peatio.local
+    - name: PUSHER_APP
+      value: "000000"
+    - name: PUSHER_KEY
+      value: "00000000000000000000"
+    - name: PUSHER_SECRET
+      value: "00000000000000000000"
+    - name: PUSHER_HOST
+      value: api.pusherapp.com
+    - name: PUSHER_PORT
+      value: "80"
+    - name: PUSHER_WS_PORT
+      value: "80"
+    - name: PUSHER_WSS_PORT
+      value: "443"
+    - name: PUSHER_ENCRYPTED
+      value: "true"
+    - name: PUSHER_CLUSTER
+      value: eu
+
+mariadb:
+  # set mysql root password
+  mariadbRootPassword: changeme
+  # enable/disable persistant volumes
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    size: 8Gi
+
+redis:
+  # redis password
+  redisPassword: changeme

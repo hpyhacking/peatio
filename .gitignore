@@ -47,3 +47,4 @@ tags
 .ruby-version
 .DS_Store
 .agignore
+**/*.tgz
