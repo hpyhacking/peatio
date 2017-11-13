@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe 'google_auths' do
+describe 'google_auths', type: :routing do
   describe 'get /verify/google_auth' do
-    it { expect(get('/verify/google_auth')).to be_routable }
+    it { expect(get: '/verify/google_auth').to be_routable }
   end
 
   describe 'get /verify/google_auth/edit' do

@@ -1,4 +1,3 @@
-require 'spec_helper'
 
 describe '2-step verification' do
   let!(:identity) { create :identity }
@@ -11,13 +10,13 @@ describe '2-step verification' do
 
     # enable
     within '#two_factor_auth' do
-      click_on t('private.settings.index.two_factor_auth.enable')
+      click_on I18n.t('private.settings.index.two_factor_auth.enable')
     end
 
     secret = page.find('#two_factor_otp_secret').value
     fill_in 'two_factor_otp', with: ROTP::TOTP.new(secret).now
-    click_on t('private.two_factors.new.submit')
-    expect(page).to have_content t('private.two_factors.create.notice')
+    click_on I18n.t('private.two_factors.new.submit')
+    expect(page).to have_content I18n.t('private.two_factors.create.notice')
 
     # signin again
     signout
@@ -25,12 +24,12 @@ describe '2-step verification' do
 
     # disable
     within '#two_factor_auth' do
-      click_link t('private.settings.index.two_factor_auth.disable')
+      click_link I18n.t('private.settings.index.two_factor_auth.disable')
     end
 
     fill_in 'two_factor_otp', with: ROTP::TOTP.new(secret).now
-    click_on t('private.two_factors.edit.submit')
-    expect(page).to have_content t('private.two_factors.destroy.notice')
+    click_on I18n.t('private.two_factors.edit.submit')
+    expect(page).to have_content I18n.t('private.two_factors.destroy.notice')
 
     signout
     signin identity

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Member do
   let(:member) { build(:member) }
   subject { member }
@@ -12,15 +10,15 @@ describe Member do
   end
 
   describe 'before_create' do
-    it "should unify email" do
+    it 'should unify email' do
       create(:identity, email: 'foo@example.com')
-      build(:identity, email: 'Foo@example.com').should_not be_valid
+      expect(build(:identity, email: 'Foo@example.com')).to_not be_valid
     end
 
     it 'creates accounts for the member' do
-      expect {
+      expect do
         member.save!
-      }.to change(member.accounts, :count).by(Currency.codes.size)
+      end.to change(member.accounts, :count).by(Currency.codes.size)
 
       Currency.codes.each do |code|
         expect(Account.with_currency(code).where(member_id: member.id).count).to eq 1
@@ -36,17 +34,17 @@ describe Member do
   end
 
   describe 'send activation after create' do
-    let(:auth_hash) {
+    let(:auth_hash) do
       {
         'provider' => 'identity',
         'info' => { 'email' => 'foobar@peatio.dev' }
       }
-    }
+    end
 
     it 'create activation' do
-      expect {
+      expect do
         Member.from_auth(auth_hash)
-      }.to change(Token::Activation, :count).by(1)
+      end.to change(Token::Activation, :count).by(1)
     end
   end
 
@@ -59,22 +57,22 @@ describe Member do
     end
 
     it { expect(ActionMailer::Base.deliveries).not_to be_empty }
-    it { expect(@mail.subject).to match "Your password changed" }
+    it { expect(@mail.subject).to match 'Your password changed' }
   end
 
   describe '#trades' do
     subject { create(:member) }
 
-    it "should find all trades belong to user" do
+    it 'should find all trades belong to user' do
       ask = create(:order_ask, member: member)
       bid = create(:order_bid, member: member)
       t1 = create(:trade, ask: ask)
       t2 = create(:trade, bid: bid)
-      member.trades.order('id').should == [t1, t2]
+      expect(member.trades.order('id')).to eq [t1, t2]
     end
   end
 
-  describe ".current" do
+  describe '.current' do
     let(:member) { create(:member) }
     before do
       Thread.current[:user] = member
@@ -84,17 +82,17 @@ describe Member do
       Thread.current[:user] = nil
     end
 
-    specify { Member.current.should == member }
+    specify { expect(Member.current).to eq member }
   end
 
-  describe ".current=" do
+  describe '.current=' do
     let(:member) { create(:member) }
     before { Member.current = member }
     after { Member.current = nil }
-    specify { Thread.current[:user].should == member }
+    specify { expect(Thread.current[:user]).to eq member }
   end
 
-  describe "#unread_messages" do
+  describe '#unread_messages' do
     let!(:user) { create(:member) }
 
     let!(:ticket) { create(:ticket, author: user) }
@@ -102,12 +100,11 @@ describe Member do
 
     before { ReadMark.delete_all }
 
-    specify { user.unread_comments.count.should == 1 }
-
+    specify { expect(user.unread_comments.count).to eq 1 }
   end
 
-  describe "#identity" do
-    it "should not raise but return nil when authentication is not found" do
+  describe '#identity' do
+    it 'should not raise but return nil when authentication is not found' do
       member = create(:member)
       expect(member.identity).to be_nil
     end
@@ -169,18 +166,18 @@ describe Member do
     end
   end
 
-  describe "#create_auth_for_identity" do
+  describe '#create_auth_for_identity' do
     let(:identity) { create(:identity) }
     let(:member) { create(:member, email: identity.email) }
 
-    it "should create the authentication" do
+    it 'should create the authentication' do
       expect do
         member.create_auth_for_identity(identity)
       end.to change(Identity, :count).by(1)
     end
   end
 
-  describe "#remove_auth" do
+  describe '#remove_auth' do
     let!(:identity) { create(:identity) }
     let!(:member) { create(:member, email: identity.email) }
     let!(:identity_auth) { create(:authentication, provider: 'identity', member_id: member.id, uid: identity.id)}
@@ -192,22 +189,23 @@ describe Member do
             member.remove_auth('identity')
           end.to change(Identity, :count).by(-1)
         end.to change(Authentication, :count).by(-1)
-        member.auth('identity').should be_nil
+        expect(member.auth('identity')).to be_nil
       end
     end
   end
 
-  describe "#locate_email" do
-    context "Email is blank" do
+  describe '#locate_email' do
+    context 'Email is blank' do
       let!(:member) { create(:member, email: nil) }
-      let(:auth) {
-        {'info' => { 'email' => nil}}
-      }
+      let(:auth) do
+        { 'info' => { 'email' => nil } }
+      end
 
-      it "should return nil" do
-        Member.count.should == 1
-        Member.send(:locate_email, auth).should be_nil
+      it 'should return nil' do
+        expect(Member.count).to eq 1
+        expect(Member.send(:locate_email, auth)).to be_nil
       end
     end
+
   end
 end

@@ -1,7 +1,4 @@
-require 'spec_helper'
-
-describe APIv2::Auth::Middleware do
-
+describe APIv2::Auth::Middleware, type: :request do
   class TestApp < Grape::API
     helpers APIv2::Helpers
     use APIv2::Auth::Middleware
@@ -12,28 +9,24 @@ describe APIv2::Auth::Middleware do
     end
   end
 
-  let(:app) do
-    TestApp.new
-  end
-
+  let(:app) { TestApp.new }
   let(:token) { create(:api_token) }
 
-  it "should refuse request without credentials" do
+  it 'should refuse request without credentials' do
     get '/'
-    response.code.should == '401'
-    response.body.should == "{\"error\":{\"code\":2001,\"message\":\"Authorization failed\"}}"
+    expect(response.code).to eq '401'
+    expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
   end
 
-  it "should refuse request with incorrect credentials" do
+  it 'should refuse request with incorrect credentials' do
     get '/', access_key: token.access_key, tonce: time_to_milliseconds, signature: 'wrong'
-    response.code.should == '401'
-    response.body.should == "{\"error\":{\"code\":2005,\"message\":\"Signature wrong is incorrect.\"}}"
+    expect(response.code).to eq '401'
+    expect(response.body).to eq '{"error":{"code":2005,"message":"Signature wrong is incorrect."}}'
   end
 
-  it "should authorize request with correct param credentials" do
+  it 'should authorize request with correct param credentials' do
     signed_get '/', token: token
-    response.should be_success
-    response.body.should == token.member.email
+    expect(response).to be_success
+    expect(response.body).to eq token.member.email
   end
-
 end

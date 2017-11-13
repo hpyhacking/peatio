@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :member, aliases: [:author] do
     email { Faker::Internet.email }
     phone_number { Faker::Number.number(12).to_s }
@@ -35,7 +35,7 @@ FactoryGirl.define do
     end
 
     factory :activated_member, traits: [:activated]
-    factory :verified_member, traits: [:activated, :verified]
+    factory :verified_member, traits: %i[activated verified]
     factory :admin_member, traits: [:admin]
   end
 end

@@ -1,8 +1,5 @@
-require 'spec_helper'
-
 module Verify
-  describe SmsAuthsController do
-
+  describe SmsAuthsController, type: :controller do
     describe 'GET verify/sms_auth' do
       let(:member) { create :verified_member }
       before { session[:member_id] = member.id }
@@ -17,74 +14,77 @@ module Verify
       context 'already verified' do
         let(:member) { create :member, :sms_two_factor_activated }
 
-        it { should redirect_to(settings_path) }
+        it { is_expected.to redirect_to(settings_path) }
       end
     end
 
     describe 'PUT verify/sms_auth in send code phase' do
       let(:member) { create :member }
-      let(:attrs) {
+      let(:attrs) do
         {
           format: :js,
-          sms_auth: {country: 'CN', phone_number: '123-1234-1234'},
+          sms_auth: { country: 'CN', phone_number: '123-1234-1234' },
           commit: 'send_code'
         }
-      }
+      end
 
       subject { assigns(:sms_auth) }
 
-      before {
+      before do
         session[:member_id] = member.id
         put :update, attrs
-      }
+      end
 
-      it { should_not be_nil }
-      its(:otp_secret) { should_not be_blank }
+      it { is_expected.not_to be_nil }
 
-      context "with empty number" do
-        let(:attrs) {
+      it 'otp_secret' do
+        expect(subject.otp_secret).not_to be_blank
+      end
+
+      context 'with empty number' do
+        let(:attrs) do
           {
             format: :js,
-            sms_auth: {country: '', phone_number: ''},
+            sms_auth: { country: '', phone_number: '' },
             commit: 'send_code'
           }
-        }
+        end
 
         before { put :update, attrs }
 
-        it "should not be ok" do
+        it 'should not be ok' do
           expect(response).not_to be_ok
         end
       end
 
-      context "with wrong number" do
-        let(:attrs) {
+      context 'with wrong number' do
+        let(:attrs) do
           {
             format: :js,
-            sms_auth: {country: 'CN', phone_number: 'wrong number'},
+            sms_auth: { country: 'CN', phone_number: 'wrong number' },
             commit: 'send_code'
           }
-        }
+        end
 
         before { put :update, attrs }
 
-        it "should not be ok" do
+        it 'should not be ok' do
           expect(response).not_to be_ok
         end
 
-        it "should has error message" do
+        it 'should has error message' do
           expect(response.body).not_to be_blank
         end
       end
 
-      context "with right number" do
-        let(:attrs) {
+      context 'with right number' do
+        let(:attrs) do
           {
             format: :js,
-            sms_auth: {country: 'CN', phone_number: '133.1234.1234'},
+            sms_auth: { country: 'CN', phone_number: '133.1234.1234' },
             commit: 'send_code'
           }
-        }
+        end
 
         before do
           put :update, attrs
@@ -100,51 +100,51 @@ module Verify
       let(:sms_auth) { member.sms_two_factor }
       before { session[:member_id] = member.id }
 
-      context "with empty code" do
-        let(:attrs) {
+      context 'with empty code' do
+        let(:attrs) do
           {
             format: :js,
-            sms_auth: {otp: ''}
+            sms_auth: { otp: '' }
           }
-        }
+        end
 
         before do
           put :update, attrs
         end
 
-        it "not return ok status" do
+        it 'not return ok status' do
           expect(response).not_to be_ok
         end
       end
 
-      context "with wrong code" do
-        let(:attrs) {
+      context 'with wrong code' do
+        let(:attrs) do
           {
             format: :js,
-            sms_auth: {otp: 'foobar'}
+            sms_auth: { otp: 'foobar' }
           }
-        }
+        end
 
         before do
           put :update, attrs
         end
 
-        it "not return ok status" do
+        it 'not return ok status' do
           expect(response).not_to be_ok
         end
 
-        it "has error message" do
+        it 'has error message' do
           expect(response.body).not_to be_blank
         end
       end
 
-      context "with right code" do
-        let(:attrs) {
+      context 'with right code' do
+        let(:attrs) do
           {
             format: :js,
-            sms_auth: {otp: sms_auth.otp_secret}
+            sms_auth: { otp: sms_auth.otp_secret }
           }
-        }
+        end
 
         before do
           put :update, attrs
@@ -155,6 +155,5 @@ module Verify
         it { expect(member.sms_two_factor).to be_activated }
       end
     end
-
   end
 end

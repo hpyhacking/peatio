@@ -1,7 +1,7 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :account do
-    locked { "0.0".to_d }
-    balance { "100.0".to_d }
+    locked { '0.0'.to_d }
+    balance { '100.0'.to_d }
     currency :cny
 
     factory :account_btc do
@@ -9,4 +9,3 @@ FactoryGirl.define do
     end
   end
 end
-

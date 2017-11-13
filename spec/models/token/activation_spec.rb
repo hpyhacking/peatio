@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Token::Activation do
   let(:member) { create :member }
   let(:activation) { create :activation, member: member }
@@ -17,5 +15,4 @@ describe Token::Activation do
 
     it { expect(mail.subject).to match('Account Activation') }
   end
-
 end

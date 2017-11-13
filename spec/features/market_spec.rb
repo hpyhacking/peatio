@@ -1,20 +1,19 @@
-require 'spec_helper'
-
-feature 'show account info', js: true do
+feature 'show account info', js: true, type: :feature do
   let!(:identity) { create :identity }
-  let!(:member) { create :member, :activated, email: identity.email  }
+  let!(:member) { create :member, :activated, email: identity.email }
 
   let!(:bid_account) do
-    member.get_account('cny').tap { |a|
+    member.get_account('cny').tap do |a|
       a.plus_funds 1000
       a.save!
-    }
+    end
   end
+
   let!(:ask_account) do
-    member.get_account('btc').tap { |a|
+    member.get_account('btc').tap do |a|
       a.plus_funds 2000
       a.save!
-    }
+    end
   end
 
   let!(:ask_order) { create :order_ask, price: '23.6' }
@@ -27,17 +26,16 @@ feature 'show account info', js: true do
     login identity
     click_on I18n.t('header.market')
 
-    new_window=page.driver.browser.window_handles.last 
-    page.within_window new_window do
+    page.within_window(windows.last) do
       expect do
-        fill_in 'order_bid_price', :with => 22.2
-        fill_in 'order_bid_origin_volume', :with => 45
+        fill_in 'order_bid_price', with: 22.2
+        fill_in 'order_bid_origin_volume', with: 45
         expect(page.find('#order_bid_total').value).to be_d (45 * 22.2).to_d
 
         click_button I18n.t('private.markets.bid_entry.action', currency: ask_name)
         sleep 0.1 # sucks :(
         expect(page.find('#bid_entry span.label-success').text).to eq I18n.t('private.markets.show.success')
-      end.to change{ OrderBid.all.count }.by(1)
+      end.to change { OrderBid.all.count }.by(1)
     end
   end
 
@@ -45,17 +43,16 @@ feature 'show account info', js: true do
     login identity
     click_on I18n.t('header.market')
 
-    new_window=page.driver.browser.window_handles.last 
-    page.within_window new_window do
+    page.within_window(windows.last) do
       expect do
-        fill_in 'order_ask_price', :with => 22.2
-        fill_in 'order_ask_origin_volume', :with => 45
+        fill_in 'order_ask_price', with: 22.2
+        fill_in 'order_ask_origin_volume', with: 45
         expect(page.find('#order_ask_total').value).to be_d (45 * 22.2).to_d
 
         click_button I18n.t('private.markets.ask_entry.action', currency: ask_name)
         sleep 0.1 # sucks :(
         expect(page.find('#ask_entry span.label-success').text).to eq I18n.t('private.markets.show.success')
-      end.to change{ OrderAsk.all.count }.by(1)
+      end.to change { OrderAsk.all.count }.by(1)
     end
   end
 
@@ -67,8 +64,7 @@ feature 'show account info', js: true do
     login identity
     click_on I18n.t('header.market')
 
-    new_window=page.driver.browser.window_handles.last 
-    page.within_window new_window do
+    page.within_window(windows.last) do
       page.find('.asks tr[data-order="0"]').trigger 'click'
       expect(find('#order_bid_price').value).to be_d ask_order.price
       expect(find('#order_bid_origin_volume').value).to be_d ask_order.volume
@@ -87,8 +83,7 @@ feature 'show account info', js: true do
     login identity
     click_on I18n.t('header.market')
 
-    new_window=page.driver.browser.window_handles.last 
-    page.within_window new_window do
+    page.within_window(windows.last) do
       # account balance at place order panel
       expect(page.find('#bid_entry .current-balance').text).to be_d bid_account.balance
       expect(page.find('#ask_entry .current-balance').text).to be_d ask_account.balance

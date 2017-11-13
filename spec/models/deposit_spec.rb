@@ -1,7 +1,5 @@
-require 'spec_helper'
-
 describe Deposit do
-  let(:deposit ) { create(:deposit, amount: 100.to_d) }
+  let(:deposit) { create(:deposit, amount: 100.to_d) }
 
   it 'should compute fee' do
     expect(deposit.fee).to eql 0.to_d

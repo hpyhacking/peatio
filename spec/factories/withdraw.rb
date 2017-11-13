@@ -1,9 +1,9 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :satoshi_withdraw, class: Withdraws::Satoshi do
     sum { 10.to_d }
     currency :btc
     member { create :member }
-    fund_source_id { create(:btc_fund_source).id }
+    fund_source { create(:btc_fund_source) }
     type 'Withdraws::Satoshi'
 
     account do
@@ -30,12 +30,12 @@ FactoryGirl.define do
     member { create :member }
     currency :cny
     sum { 1000.to_d }
-    fund_source_id { create(:cny_fund_source).id }
+    fund_source { create(:cny_fund_source) }
     type 'Withdraws::Bank'
 
     account do
       member.get_account(:cny).tap do |a|
-        a.balance = 50000
+        a.balance = 50_000
         a.save(validate: false)
 
         a.versions.create \

@@ -1,23 +1,20 @@
-require 'spec_helper'
-
 describe 'withdraw' do
   let!(:member) { create :member, email: identity_normal.email }
-  let!(:admin_member) { create :member, email: identity.email}
+  let!(:admin_member) { create :member, email: identity.email }
   let!(:identity_normal) { create :identity }
   let!(:identity) { create :identity, email: Member.admins.first }
 
   let!(:account) do
-    member.get_account(:cny).tap { |a| a.update_attributes locked: 8000, balance: 10000 }
+    member.get_account(:cny).tap { |a| a.update_attributes locked: 8000, balance: 10_000 }
   end
 
-  let!(:withdraw) { create :bank_withdraw, member: member, sum: 5000, aasm_state: :accepted, account: account}
+  let!(:withdraw) { create :bank_withdraw, member: member, sum: 5000, aasm_state: :accepted, account: account }
 
-  before do
-    Withdraw.any_instance.stubs(:validate_password).returns(true)
-  end
+  before { Withdraw.any_instance.stubs(:validate_password).returns(true) }
 
   def visit_admin_withdraw_page
     pending 'skip withdraw dashboard'
+
     login identity
     click_on I18n.t('header.admin')
 
@@ -29,6 +26,7 @@ describe 'withdraw' do
 
   it 'admin view withdraws' do
     pending 'skip withdraw dashboard'
+
     visit_admin_withdraw_page
 
     expect(page).to have_content(withdraw.sn)
@@ -44,6 +42,7 @@ describe 'withdraw' do
 
   it 'admin approve withdraw' do
     pending 'skip withdraw dashboard'
+
     visit_admin_withdraw_page
 
     click_on I18n.t('actions.view')
@@ -62,6 +61,7 @@ describe 'withdraw' do
 
   it 'admin reject withdraw' do
     pending 'skip withdraw dashboard'
+
     visit_admin_withdraw_page
 
     click_on I18n.t('actions.view')

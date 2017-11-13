@@ -1,106 +1,96 @@
-require 'spec_helper'
-
 describe TwoFactor::Sms do
-  let(:member) { create :member }
-  let(:two_factor) { member.sms_two_factor }
-
-  describe "generate code" do
-    subject { two_factor }
-
-    it "should generate 6 random digits" do
-      subject.otp_secret.should =~ /^\d{6}$/
-    end
+  subject(:two_factor) do
+    member = create :member
+    member.sms_two_factor
   end
 
-  describe "#refresh" do
-    subject { two_factor }
+  context 'when send code phase with empty country code' do
+    let(:phone_number) { '0412789194' }
 
-    its(:otp_secret) { should_not be_blank }
-    it {
-      orig_otp_secret = two_factor.otp_secret.dup
-      two_factor.refresh!
-      expect(two_factor.otp_secret).not_to eq(orig_otp_secret)
-    }
+    before do
+      two_factor.send_code_phase = true
+      two_factor.phone_number = phone_number
+    end
+
+    it { is_expected.not_to be_valid }
   end
 
-  describe "#phone_number and #country" do
-    describe "assigns phone_number and country" do
-      subject {
-        two_factor.phone_number = '123-1234-1234'
-        two_factor.country = 'CN'
-        two_factor
-      }
+  context 'when send code phase with valid country code' do
+    let(:phone_number) { '0412789194' }
+    let(:country) { 'AU' }
 
-      its(:phone_number) { should_not be_blank }
-      its(:country) { should_not be_blank }
+    before do
+      two_factor.send_code_phase = true
+      two_factor.phone_number = phone_number
+      two_factor.country = country
     end
 
-    describe "invalid phone_number on send code phase" do
-      subject {
-        two_factor.send_code_phase = true
-        two_factor.phone_number = '0412789194'
-        two_factor
-      }
-
-      it { should_not be_valid }
-    end
-
-    describe "valid phone_number with country on send code phase" do
-      subject {
-        two_factor.send_code_phase = true
-        two_factor.phone_number = '0412789194'
-        two_factor.country = 'AU'
-        two_factor
-      }
-
-      it { should be_valid }
-    end
-  end
-
-  describe "#update member's phone_number when send_otp" do
-    subject {
-      two_factor.phone_number = '123-1234-1234'
-      two_factor.send_otp
-      two_factor
-    }
-
-    it { expect(member.phone_number).not_to be_blank }
-  end
-
-  describe '#verify?' do
-    describe 'invalid code' do
-      subject {
-        two_factor.otp = 'foobar'
-        two_factor
-      }
-
-      it { should_not be_verify }
-    end
-
-    describe 'verify succeed' do
-      subject {
-        two_factor.otp = two_factor.otp_secret
-        two_factor
-      }
-
-      it { should be_verify }
-    end
+    it { should be_valid }
   end
 
   describe '#sms_message' do
-    its(:sms_message) { should_not be_blank }
+    subject { two_factor.sms_message }
+    it { is_expected.not_to be_blank }
   end
 
-  describe '#activated' do
-    let(:member) { create :member }
-    subject {
-      two_factor = member.sms_two_factor
-      two_factor.deactive!
-      two_factor
-    }
+  describe '#phone_number' do
+    let(:phone_number) { '123-1234-1234' }
+    subject { two_factor.member.phone_number }
 
-    it { expect(subject).not_to be_activated }
-    it { expect(member.sms_two_factor).not_to be_activated }
+    context 'after sending otp' do
+      before { two_factor.send_otp }
+      it { is_expected.not_to be_blank }
+    end
+
+    context 'when assigned' do
+      before { two_factor.member.update(phone_number: phone_number) }
+
+      it 'is assigned' do
+        expect(two_factor.member.phone_number).to eq(phone_number)
+      end
+    end
+  end
+
+  describe '#verify?' do
+    subject { two_factor.verify? }
+
+    context 'when invalid code' do
+      before { two_factor.update(otp: 'foobar') }
+      it { is_expected.to be false }
+    end
+
+    context 'when verify succeed' do
+      before { two_factor.update(otp: two_factor.otp_secret) }
+      it { is_expected.to be true }
+    end
+  end
+
+  describe '#otp_secret' do
+    subject { two_factor.otp_secret }
+
+    it { is_expected.to match /^\d{6}$/ }
+
+    context 'after refreshing' do
+      let!(:orig_otp_secret) { two_factor.otp_secret.clone }
+      before { two_factor.refresh! }
+
+      it 'differs from previous secret' do
+        expect(subject).not_to eq(orig_otp_secret)
+      end
+    end
+  end
+
+  describe '#activated?' do
+    subject { two_factor.activated? }
+
+    context 'when two factor is active' do
+      before { two_factor.active! }
+      it { is_expected.to be true }
+    end
+
+    context 'when two factor is not active' do
+      before { two_factor.deactive! }
+      it { is_expected.to be false }
+    end
   end
 end
-

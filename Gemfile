@@ -70,7 +70,7 @@ gem 'simple_captcha2', require: 'simple_captcha'
 gem 'rest-client', '~> 1.6.8'
 
 group :development, :test do
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker', '~> 1.4.3'
   gem 'meta_request'
   gem 'better_errors'
@@ -85,13 +85,13 @@ group :development, :test do
 end
 
 group :test do
-  gem 'database_cleaner'
-  gem 'mocha', :require => false
-  gem 'shoulda-matchers'
   gem 'capybara'
+  gem 'database_cleaner'
   gem 'launchy'
-  gem 'selenium-webdriver'
+  gem 'mocha', require: false
   gem 'poltergeist'
+  gem 'selenium-webdriver'
+  gem 'shoulda-matchers'
 
   # rspec-rails rely on test-unit if rails version less then 4.1.0
   # but test-unit has been removed from ruby core since 2.2.0

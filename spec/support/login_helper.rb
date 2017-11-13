@@ -16,11 +16,11 @@ def login(identity, otp: nil, password: nil)
 end
 
 def signout
-  click_link t('header.signout')
+  click_link I18n.t('header.signout')
 end
 
 def check_signin
   expect(page).not_to have_content(I18n.t('header.signin'))
 end
 
-alias :signin :login
+alias signin login

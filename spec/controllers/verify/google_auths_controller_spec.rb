@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe Verify::GoogleAuthsController do
+describe Verify::GoogleAuthsController, type: :controller do
   let(:member) { create :member }
   before { session[:member_id] = member.id }
 
@@ -8,9 +6,9 @@ describe Verify::GoogleAuthsController do
     before { get :show }
 
     context 'not activated yet' do
-      it { should respond_with :ok }
-      it { should render_template(:show) }
-      it "member should have two_factor prepared" do
+      it { expect(response.status).to eq 200 }
+      it { is_expected.to render_template(:show) }
+      it 'member should have two_factor prepared' do
         expect(member.two_factors).not_to be_empty
       end
     end
@@ -18,7 +16,7 @@ describe Verify::GoogleAuthsController do
     context 'already activated' do
       let(:member) { create :member, :app_two_factor_activated }
 
-      it { should redirect_to(settings_path) }
+      it { is_expected.to redirect_to(settings_path) }
     end
   end
 
@@ -27,7 +25,7 @@ describe Verify::GoogleAuthsController do
       before { get :edit }
 
       it { expect(member.app_two_factor).not_to be_activated }
-      it { should redirect_to(settings_path) }
+      it { is_expected.to redirect_to(settings_path) }
     end
 
     context 'activated' do
@@ -36,8 +34,8 @@ describe Verify::GoogleAuthsController do
 
       before { get :edit }
 
-      it { should respond_with :ok }
-      it { should render_template(:edit) }
+      it { expect(response.status).to eq 200 }
+      it { is_expected.to render_template(:edit) }
     end
   end
 end

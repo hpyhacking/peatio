@@ -1,5 +1,5 @@
-def time_to_milliseconds(t=Time.now)
-  (t.to_f*1000).to_i
+def time_to_milliseconds(t = Time.now)
+  (t.to_f * 1000).to_i
 end
 
 def sign(secret_key, method, uri, params)
@@ -8,7 +8,7 @@ def sign(secret_key, method, uri, params)
   APIv2::Auth::Utils.hmac_signature(secret_key, auth.payload)
 end
 
-def signed_request(method, uri, opts={})
+def signed_request(method, uri, opts = {})
   token = opts[:token] || create(:api_token)
   path  = uri.sub(/^\/api/, '')
 
@@ -20,14 +20,14 @@ def signed_request(method, uri, opts={})
   send method, uri, params
 end
 
-def signed_get(uri, opts={})
+def signed_get(uri, opts = {})
   signed_request :get, uri, opts
 end
 
-def signed_post(uri, opts={})
+def signed_post(uri, opts = {})
   signed_request :post, uri, opts
 end
 
-def signed_delete(uri, opts={})
+def signed_delete(uri, opts = {})
   signed_request :delete, uri, opts
 end

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :id_document do
     name { Faker::Name.name }
     id_document_type :id_card

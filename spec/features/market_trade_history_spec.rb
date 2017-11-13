@@ -1,9 +1,7 @@
-require 'spec_helper'
-
 feature 'show account info', js: true do
   let(:identity) { create :identity }
   let(:other_member) { create :member }
-  let(:member) { create :member, email: identity.email}
+  let(:member) { create :member, email: identity.email }
   let!(:bid_account) do
     member.get_account('cny').tap { |a| a.update_attributes locked: 400, balance: 1000 }
   end
@@ -22,8 +20,7 @@ feature 'show account info', js: true do
 
     AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: ask_order.to_matching_attributes)
 
-    new_window=page.driver.browser.window_handles.last 
-    page.within_window new_window do
+    page.within_window(windows.last) do
       click_link page.all('#my_order_tabs_wrapper li').first.text
       expect(page.all('#my_orders .order').count).to eq(1) # can only see his order
       expect(page).to have_selector('#my_orders .fa-trash')

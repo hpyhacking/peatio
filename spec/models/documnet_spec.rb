@@ -1,7 +1,5 @@
-require 'spec_helper'
-
 describe Document do
-  describe "locale specific title setters & getters" do
+  describe 'locale specific title setters & getters' do
     it 'sets the title in respective locales' do
       I18n.locale = :en
       d = Document.new
@@ -16,7 +14,7 @@ describe Document do
     end
   end
 
-  describe "locale specific body setters" do
+  describe 'locale specific body setters' do
     it 'sets the body in respective locales' do
       d = Document.new
       d.en_body = 'Good morning!'

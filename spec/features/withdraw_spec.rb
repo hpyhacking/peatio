@@ -1,8 +1,6 @@
-require 'spec_helper'
-
 describe 'withdraw' do
   let!(:identity) { create :identity }
-  let!(:member) { create :verified_member, email: identity.email}
+  let!(:member) { create :verified_member, email: identity.email }
 
   let(:radio_label) do
     "#{member.name} @ #{identity.email}"
@@ -10,12 +8,12 @@ describe 'withdraw' do
 
   before do
     Withdraw.any_instance.stubs(:examine).returns(true)
-    CoinRPC.any_instance.stubs(:validateaddress).returns({isvalid: true, ismine: false})
+    CoinRPC.any_instance.stubs(:validateaddress).returns(isvalid: true, ismine: false)
 
     btc_account = member.get_account(:btc)
     btc_account.update_attributes balance: 1000
     cny_account = member.get_account(:cny)
-    #cny_account.update_attributes balance: 0
+    # cny_account.update_attributes balance: 0
 
     @label = 'common address'
     @bank = 'bc'
@@ -31,7 +29,7 @@ describe 'withdraw' do
     expect(page).to have_content identity.email
 
     visit new_withdraws_satoshi_path
-    expect(page).to have_text("1000.0")
+    expect(page).to have_text('1000.0')
 
     # submit withdraw request
     submit_satoshi_withdraw_request 600
@@ -40,11 +38,11 @@ describe 'withdraw' do
     expect(form).to have_text('600.0')
     expect(form).to have_text('0.0')
 
-    click_on t('actions.confirm')
+    click_on I18n.t('actions.confirm')
 
     expect(current_path).to eq(new_withdraws_satoshi_path)
     expect(page).to have_text(I18n.t('private.withdraws.satoshis.update.notice'))
-    expect(page).to have_text("400.0")
+    expect(page).to have_text('400.0')
   end
 
   it 'prevents withdraws that the account has no sufficient balance' do
@@ -63,17 +61,17 @@ describe 'withdraw' do
 
   private
 
-  def submit_bank_withdraw_request amount
+  def submit_bank_withdraw_request(amount)
     select 'Bank of China', from: 'withdraw_fund_extra'
     select @bank, from: 'withdraw_fund_uid'
     fill_in 'withdraw_sum', with: amount
     click_on I18n.t 'actions.submit'
   end
 
-  def submit_satoshi_withdraw_request amount
+  def submit_satoshi_withdraw_request(amount)
     select @label, from: 'withdraw_fund_uid'
     fill_in 'withdraw_fund_extra', with: @label
     fill_in 'withdraw_sum', with: amount
-    click_on I18n.t 'actions.submit'
+    click_on I18n.t('actions.submit')
   end
 end
