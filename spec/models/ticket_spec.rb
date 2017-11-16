@@ -31,7 +31,7 @@ describe Ticket do
     let(:mail) { TicketMailer.admin_notification(ticket.id) }
 
     it 'should notify the admin' do
-      expect(mail.from).to include('system@peatio.dev')
+      expect(mail.from).to include('system@peatio.tech')
       expect(mail.subject).to eq '[PEATIO] User created a new ticket'
     end
   end

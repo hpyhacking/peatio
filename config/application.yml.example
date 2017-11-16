@@ -4,7 +4,7 @@ defaults: &defaults
   REDIS_URL: redis://redis:6379
 
   # admin role account
-  ADMIN: 'admin@peatio.dev,admin@example.com'
+  ADMIN: 'admin@peatio.tech'
 
   # site host
   URL_HOST: localhost:3000
@@ -22,10 +22,10 @@ defaults: &defaults
   SMTP_AUTHENTICATION: plain # could be plain, login or cram_md5
 
   # email accounts
-  SUPPORT_MAIL: support@peatio.dev
-  SYSTEM_MAIL_FROM: system@peatio.dev
-  SYSTEM_MAIL_TO: group@peatio.dev
-  OPERATE_MAIL_TO: support@peatio.dev
+  SUPPORT_MAIL: support@peatio.tech
+  SYSTEM_MAIL_FROM: system@peatio.tech
+  SYSTEM_MAIL_TO: group@peatio.tech
+  OPERATE_MAIL_TO: support@peatio.tech
 
   # WebSocket Streaming API settings
   WEBSOCKET_HOST: 0.0.0.0
