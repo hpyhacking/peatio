@@ -897,12 +897,6 @@ ko:
           title: API Tokens
           description: 관리 및 새 API Token만들기
           go: 설정
-        weibo:
-          title: Weibo 인증
-          description: Weibo인증 받은후 Weibo를 통해 방문할수있습니다,.
-          bound_desc: 본계정는 %{nickname}인증 받았습니다
-          bind: 인증받기
-          unbind: 인증 해지
     otps:
       new:
         step_1: Step 1
@@ -1447,7 +1441,6 @@ ko:
     signin: 로그인
     signout: 로그아웃
     signup: 회원가입
-    login_via_weibo: Weibo로그인
     funds: 나의 자산
     getstart: 거래하기
     assets: 자산 공개
@@ -1579,10 +1572,6 @@ ko:
         warning: 이메일주소 저장 후 이메일인증 받으세요.
         email_address: 이메일주소
         save: 저장하기
-    weibo:
-      destroy:
-        last_auth_alert: 사랑하는 회원님, Weibo는 고객님이 마지막 등록 방식입니다. 삭제하시면 다시 등록할수 없습니다
-        unbind_success: Weibo인증 해지
     identities:
       new:
         title: 비밀번호 설정

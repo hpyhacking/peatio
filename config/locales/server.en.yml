@@ -933,12 +933,6 @@ en:
           title: API Tokens
           description: Create and manage your API tokens.
           go: Set
-        weibo:
-          title: Connect to Weibo
-          description: After you connecting to Weibo, you can login via Weibo account.
-          bound_desc: This has been connected with %{nickname}.
-          bind: Connect
-          unbind: Disconnect
     otps:
       new:
         step_1: Step 1
@@ -1524,7 +1518,6 @@ en:
     signin: Sign In
     signout: Exit
     signup: Sign Up
-    login_via_weibo: Login via Weibo
     funds: Funds
     getstart: Markets
     assets: Solvency
@@ -1656,10 +1649,6 @@ en:
         warning: Please check your inbox after saving the email address.
         email_address: Email Address
         save: Save
-    weibo:
-      destroy:
-        last_auth_alert: You couldn't delete the last authentication
-        unbind_success: Unbind from the Weibo
     identities:
       new:
         title: Setup The Password

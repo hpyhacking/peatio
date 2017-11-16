@@ -183,19 +183,7 @@ describe Member do
   describe "#remove_auth" do
     let!(:identity) { create(:identity) }
     let!(:member) { create(:member, email: identity.email) }
-    let!(:weibo_auth) { create(:authentication, provider: 'weibo', member_id: member.id)}
     let!(:identity_auth) { create(:authentication, provider: 'identity', member_id: member.id, uid: identity.id)}
-
-    context "third party" do
-      it "should delete the weibo auth" do
-        expect do
-          expect do
-            member.remove_auth('weibo')
-          end.not_to change(Identity, :count)
-        end.to change(Authentication, :count).by(-1)
-        member.auth('weibo').should be_nil
-      end
-    end
 
     context "identity" do
       it "should delete the ideneity auth and the identity" do
@@ -221,36 +209,5 @@ describe Member do
         Member.send(:locate_email, auth).should be_nil
       end
     end
-
-    context "Emails is exist and can find member" do
-      let(:email) { 'fuck@chinese.gov' }
-      let!(:member) { create(:member, email: email) }
-      let(:auth) {
-        { 'provider' => 'weibo', 'uid' => 'hehe', 'info' => { 'email' => email} }
-      }
-
-      it "should return the user and create the auth" do
-        expect do
-          Member.send(:locate_email, auth).should == member
-        end.to change(Authentication, :count).by(1)
-      end
-    end
-
-    context "Email is exist but can not find member" do
-      let(:email) { 'fuck@chinese.gov' }
-      let!(:member) { create(:member, email: email) }
-
-      let(:auth) {
-        { 'provider' => 'weibo', 'uid' => 'hehe', 'info' => { 'email' => email + 'veryhard'} }
-      }
-
-      it "should not create auth and return nil" do
-        expect do
-          Member.send(:locate_email, auth).should be_nil
-        end.not_to change(Authentication, :count)
-      end
-    end
   end
-
-
 end
