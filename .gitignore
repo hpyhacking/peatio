@@ -42,7 +42,6 @@ tags
 
 /vendor/bundle
 .env
-.ruby-version
 .DS_Store
 .agignore
 **/*.tgz
