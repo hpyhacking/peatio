@@ -143,12 +143,7 @@ cs:
         activated: Aktivován
         activated?: "Aktivovat?"
         id_document_verified?: "Číslo průkazu totožnosti ověřeno?"
-        two_factor_activated?: "Dvojí zabezpečení Aktivováno?"
         phone_number: Telefonní číslo
-      two_factor/sms:
-        country: Země
-        phone_number: Telefonní číslo
-        otp: Verifikační kód
       withdraws/bank:
         id: ID
         member_name: Uživatel
@@ -247,11 +242,6 @@ cs:
               blank: Prosím zvolte adresu pro výběr
               invalid: Neplatná adresa pro výběr, zkontrolujte.
               ismine: Prosím použijte novou adresu.
-        two_factor:
-          attributes:
-            otp:
-              invalid: Špatné heslo! Prosím zadejto znovu.
-              taken: Je v pořádku, ale číslo je již přiděleno jinému uživateli.
         identity:
           attributes:
             login:
@@ -589,12 +579,9 @@ cs:
         fee: Poplatek
         total: Celkem
         withdraw_history: Historie výběrů
-      create:
-        two_factors_error: Dvoustupňové ověření selhalo.
       banks:
         update:
           notice: Výběr bankovní převodem byl zadán, bude zpracován co nejdříve.
-          alert_two_factor: Dvoustupňové ověření selhalo.
         destroy:
           notice: Výběr bankovním převodem byl zrušen, blokovaná částka byla vrácena na Váš účet.
         new:
@@ -609,7 +596,6 @@ cs:
           notice: Výběr byl zrušen, blokovaná částka byla vrácena na Váš účet.
         update:
           notice: Výběr byl zadán, bude zpracován co nejdříve.
-          alert_two_factor: Dvoustupňové ověření selhalo.
         new:
           submit: Odeslat
           allin: Vše v
@@ -665,7 +651,6 @@ cs:
       new:
         label_hint: Označení vám pomůže si zapamatovat token, volitelné.
       create:
-        alert_two_factor: Dvoustupňové ověření selhalo.
         success: API token úspěšně vytvořen.
         failed: Nelze vytvořit API token. zkuste to prosím později nebo kontaktujte podporu.
         desc: Prosím zkopírujte Váš klíč a bezpečně uložte. Klíč již nebude znovu zobrazen.
@@ -674,7 +659,6 @@ cs:
         label_hint: Označení vám pomůže si zapamatovat token, volitelné.
         ip_whitelist_hint: Oddělte IP čárkami, ponecháte-li toto pole prázdné, všechny IP budou povoleny.
       update:
-        alert_two_factor: Dvoustupňové ověření selhalo.
         success: Úspěšně uloženo.
         failed: Token se nepodařilo uložit. Zkuste to prosím později nebo kontaktujte podporu.
       destroy:
@@ -904,11 +888,6 @@ cs:
           description: Poskytnout telefonní číslo bude pro váš účet bezpečnější. Můžete rychle obnovit heslo a operace na účtu budou oznámovány.
           go: Nastavit
           verified: Ověřeno
-        two_factor_auth:
-          title: Dvoustupňové ověření
-          description: Dvoustupňové ověření poskytuje další vrstvu zabezpečení k vašemu účtu.
-          enable: Aktivovat
-          disable: Deaktivovat
         verification:
           title: Ověřit účet
           description: Pomozte udržet padouchy od vašeho účtu pomocí vašeho hesla a telefonu
@@ -927,16 +906,6 @@ cs:
           title: API Tokeny
           description: Vytvořit a spravovat Vaše API tokeny.
           go: Nastavit
-    otps:
-      new:
-        step_1: Krok 1
-        step_2: Krok 2
-        step_3: Krok 3
-        or: NEBO
-        download_app: Instalujte Google Authenticator aplikaci na Váš mobilní telefon a otevřete ji.
-        scan_qr_code: Skenujte QR kód níže
-        enter_passphrase: Manuálně zapiště tento klíč do aplikace
-        enter_passcode: Potvrďte a odešlete passcode generovaný v Google Authenticator aplikaci.
     shared:
       balances:
         locked: Blokováno
@@ -979,14 +948,6 @@ cs:
           intro: V souladu s vnitrostátními právními předpisy, je zapotřebí ověření identity. Prosím ověřte svůj účet.
     panels:
       balance: Účet
-    verify:
-      google_auths:
-        panel: Dvoustupňové ověření
-        edit:
-          title: Deaktivovat Dvoustupňové ověření
-          intro: Pokud máte nový telefon, můžete zakázat dvoustupňovou autentizaci ve starém telefonu, a umožnit dvoustupňové ověřování s novým.
-      sms_auths:
-        panel: Ověřit Telefonní číslo
     reset_passwords:
       panel: Heslo
       new:
@@ -1015,8 +976,6 @@ cs:
       edit:
         panel: Můj účet
         title: Resetovat heslo
-    two_factors:
-      panel: Dvoustupňové ověření
   simple_form:
     placeholders:
       deposit:
@@ -1058,9 +1017,6 @@ cs:
           sum: "<a target='_balance' href='#'>Poplatky</a>"
           member_name: "<span class='text-danger'>Jméno účtu u Vaší banky by mělo souhlasit s Vaší skutečným, zde ověřeným jménem.</span>"
           sn: "<span class='text-danger'>Prosíme zkopírujte Variabilní symbol při zadání platby, bez zadání nelze platbu zpárovat a dojde ke zpoždění platby</span>"
-      two_factor:
-        otp_secret: Doporučujeme zálohovat QR kód nebo textový kód, aby se zabránilo, nepříjemnostem při ztrátě telefonu.
-        otp: Váš validátor generuje nové heslo každých třicet sekund. Zadejte prosím včas.
       identity:
         password: Vložte heslo s minimálně 6 znaky s kombinací malých, velkých písmen a čísel.
       reset_password:
@@ -1089,10 +1045,6 @@ cs:
     labels:
       defaults:
         title: Název
-      google_auth:
-        uri: QR kód
-        otp_secret: Textový kód
-        otp: Heslo z Authentifikátoru
       fund_source:
         label: Označení
         address: Adresa
@@ -1381,18 +1333,6 @@ cs:
     notify_signin:
       subject: "[PEATIO] Byl jste přihlášen"
       just_signed_in: Byl jste přihlášen.
-    google_auth_activated:
-      subject: "[PEATIO] Google Authentifikátor aktivován"
-      google_auth_activated: Aktivoval jste úspěšně Google Autentifikátor.
-    google_auth_deactivated:
-      subject: "[PEATIO] Google Authentifikátor deaktivován"
-      google_auth_deactivated: Deaktivoval jste úspěšně Google Autentifikátor.
-    sms_auth_activated:
-      subject: "[PEATIO] SMS autentifikace aktivována"
-      sms_auth_activated: Aktivoval jste úspěšně SMS Autentifikátor.
-    sms_auth_deactivated:
-      subject: "[PEATIO] SMS autentifikace deaktivována"
-      sms_auth_deactivated: Deaktivoval jste úspěšně SMS Autentifikátor.
     reset_password_done:
       subject: "[PEATIO] Vaše heslo bylo změněno"
       successful: Vaše heslo bylo úspěšně změněno.
@@ -1471,11 +1411,6 @@ cs:
       date-short: "%m-%d"
       short: "%m-%d %H:%M"
       default: "%m/%d/%Y %H:%M"
-  sms:
-    verification_code: 'Verifikační kód pro Vaše telefonní číslo je: %{code}.'
-    password_changed: Ahoj %{email}, Vaše heslo bylo úspěšně změněno.
-    deposit_done: Ahoj %{email}, žádost o vklad je dokončena.
-    withdraw_done: Ahoj %{email}, žádost o výběr je dokončena.
   header:
     home: Home
     dashboard: Dashboard
@@ -1580,11 +1515,6 @@ cs:
         destroy: Odhlásit
         verify: Ověřit
         update: Změnit
-      two_factor:
-        create: Ověřit
-        update: Aktivovat
-      reset_two_factor:
-        create: Resetovat Dvoustipňové ověření
       reset_password:
         update: Resetovat Přihlášení heslem
         create: Resetovat Přihlášení heslem
@@ -1675,11 +1605,6 @@ cs:
   sessions:
     new:
       reset_password: Zapomenuté heslo?
-    new_with_two_factor_auth:
-      title: 2 stupňové ověření
-      reset_two_factor: Ztracené 2 stupňové zařízení pro ověření
-    create_with_two_factor_auth:
-      session_expired: Sezení expirovalo. Zkuste znovu.
     create:
       error: Váš účet je deaktivován, kontaktujte správce pokud máte problém.
     failure:
@@ -1689,8 +1614,6 @@ cs:
     admin:
       member:
         member_info: Uživatelské info
-        deactive_sms_two_factor: SMS Ověřování
-        deactive_app_two_factor: Google ověřování
         inactive: Neaktivní
         deactive: Deaktivováno
         are_you_sure: Opravdu deaktivovat Dvoustupňové ověření?
@@ -1714,67 +1637,6 @@ cs:
         latest_price: Poslední
     frame:
       deposit_now: Vložit nyní
-  two_factors:
-    index:
-      verify: Ověřit
-    update:
-      alert: Dvoustupňové ověření selhalo, zadejte znovu.
-    auth:
-      please_active_two_factor: Prosím vyplňte číslo mobilního telefonu nebo aktivujte Google Authenticator.
-      submit: Odeslat
-      otp_placeholder: 6místný kód
-      google_app: Google Authenticator
-      sms: Potrzení pomocí SMS
-      send_code: Odeslat kód
-      send_code_alt: Odeslat znovu COUNT sekund
-      hints:
-        app: Google Authenticator generuje nové heslo každých třicet sekund. Zadejte prosím včas.
-        sms: Odešleme SMS zprávu na váš telefon s ověřovacím kódem.
-  verify:
-    google_auths:
-      edit:
-        submit: Deaktivovat
-        warning: 'Tip: Pokud jste ztratili dvoustupňové ověření z nějakého důvodu a nemůžete se přihlásit na svůj účet, kontaktujte prosím náši podporu.'
-      show:
-        step-1: Krok 1
-        step-2: Krok 2
-        step-3: Krok 3
-        or: NEBO
-        download-app: Instalujte Google Authenticator aplikaci na Váš mobilní telefon a otevřete ji.
-        guide-link: "<a href='https://support.google.com/accounts/answer/1066447' target='_blank'>Instalační instrukce</a>。"
-        scan-qr-code: Skenujte QR kód pomocí Google Authenticator aplikace nebo zadejte textový kód do aplikace manuálně.
-        enter-passcode: Vyplňte dynamické heslo zobrazené telefonem pro aktivaci dvoustupňového ověření.
-        submit: Aktivovat
-        ios: Iphone iOS
-        android: Android
-        blackbery: Blackberry
-        notice:
-          already_activated: Google Authentifikace již nastavena.
-          not_activated_yet: Google Authentifikace nebyla dosud nastavena.
-      update:
-        alert: Heslo které jste zadali je neplatné, zadejte znovu.
-        notice: Dvoustupňového ověření je úspěšně aktivováno.
-        sms_two_factor_error: SMS verifikačníkód je neplatný, prosím zadejte znovu.
-      destroy:
-        alert: Heslo které jste zadali je neplatné, zadejte znovu.
-        notice: Dvoustupňového ověření je úspěšně deaktivováno.
-    sms_auths:
-      show:
-        title: Ověřit Telefonní číslo
-        description: Poskytnout telefonní číslo bude pro váš účet bezpečnější. Můžete rychle obnovit heslo a operace na účtu budou oznámovány.
-        warning: nebudete moci získat vaše heslo k účtu, pokud není nastaveno telefonní číslo.
-        phone_number: Telefonní číslo
-        send_code: Odeslat kód
-        send_code_alt: Odeslat znovu COUNT sekund
-        input_otp: Zadejte 6místný kód, který jsme Vám zaslali
-        submit: Uložit
-        notice:
-          send_code_success: Verifikační kód odeslán.
-          already_taken: Toto číslo je již použito.
-          otp_success: Verifikační kód v pořádku.
-          already_activated: Vaše telefonní číslo je aktivováno.
-        alert:
-          phone_number_error: Telefonní číslo - Chyba
   withdraw_channel:
     bank:
       key: Bankovní převod

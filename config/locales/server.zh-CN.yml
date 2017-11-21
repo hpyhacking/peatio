@@ -141,12 +141,7 @@ zh-CN:
         activated: 激活成功
         activated?: "邮件激活"
         id_document_verified?: "实名认证"
-        two_factor_activated?: "二次验证"
         phone_number: 手机号码
-      two_factor/sms:
-        country: 国家
-        phone_number: 手机号码
-        otp: 验证码
       withdraws/bank:
         id: 提现编号
         member_name: 用户
@@ -245,10 +240,6 @@ zh-CN:
               blank: 请输入您的提现地址。
               invalid: 无效的提现地址，请核对。
               ismine: 提现地址为系统所有，请更换其他地址。
-        two_factor:
-          attributes:
-            otp:
-              invalid: 密码有误，请重新输入。
         application:
           attributes:
             redirect_uri:
@@ -582,12 +573,9 @@ zh-CN:
         fee: 手续费
         total: 总计
         withdraw_history: 提现历史记录
-      create:
-        two_factors_error: 两步验证失败
       banks:
         update:
           notice: 银行转账提现申请已提交，我们将尽快为您处理。
-          alert_two_factor: 两步验证错误
         destroy:
           notice: 银行转账提现申请已撤销，冻结金额已退回到您的账户中。
         new:
@@ -602,7 +590,6 @@ zh-CN:
           notice: 提现申请已被撤销，冻结余额已返还到您的账户
         update:
           notice: 提现申请成功，我们会尽快处理您的请求
-          alert_two_factor: 两步验证错误
         new:
           submit: 提交
           allin: 全部提取
@@ -658,7 +645,6 @@ zh-CN:
       new:
         label_hint: 标签可以帮助记忆密钥的用途，可选
       create:
-        alert_two_factor: 两步验证失败。
         success: 密钥创建成功。
         failed: 很抱歉，密钥创建失败, 请再几分钟后重试或联系管理员。
         desc: 请将以下Access Key和Secret Key复制粘贴到安全的地方保存。该页面关闭之后Secret Key不会再显示。
@@ -667,7 +653,6 @@ zh-CN:
         label_hint: 标签可以帮助记忆密钥的用途，可选
         ip_whitelist_hint: IP地址以逗号分隔，留空表示任何IP都可使用该密钥
       update:
-        alert_two_factor: 两步验证失败。
         success: 保存成功。
         failed: 保存失败, 请再几分钟后重试或联系管理员。
       destroy:
@@ -900,11 +885,6 @@ zh-CN:
           go: 设置
           verified: 已验证
           hint: "绑定号码 %{hint}"
-        two_factor_auth:
-          title: 两步验证
-          description: 两步验证为您的帐户额外添加了一层保护。
-          enable: 设置
-          disable: 解除
         verification:
           title: 实名认证
           description: 为配合国家相关法令条例，请您正确输入信息，进行身份认证，身份认证未完成将不能在网站进行任何操作。
@@ -923,16 +903,6 @@ zh-CN:
           title: API密钥
           description: 申请和管理您的API密钥
           go: 设置
-    otps:
-      new:
-        step_1: 第一步
-        step_2: 第二步
-        step_3: 第三步
-        or: 或
-        download_app: 下载并打开Google Authenticator应用到您的智能手机上。
-        scan_qr_code: 用手机扫瞄二维码
-        enter_passphrase: 将以下密文手动输入到手机验证器中
-        enter_passcode: 填入手机显示的动态密码以激活两步验证
     shared:
       balances:
         locked: 冻结
@@ -975,14 +945,6 @@ zh-CN:
           intro: 为配合国家相关法令条例，请您正确输入信息，进行身份认证，身份认证未完成将不能在网站进行任何操作。
     panels:
       balance: 用户账户信息
-    verify:
-      google_auths:
-        panel: 两步验证
-        edit:
-          title: 解除两步验证
-          intro: 若您换了新手机，您可以先解除旧手机的两步验证，接触后再用新手机进行两步验证的设置。
-      sms_auths:
-        panel: 绑定手机号码
     reset_passwords:
       panel: 登录密码
       new:
@@ -1011,8 +973,6 @@ zh-CN:
       edit:
         panel: 我的账户
         title: 修改密码
-    two_factors:
-      panel: 两步验证
   simple_form:
     placeholders:
       deposit:
@@ -1054,9 +1014,6 @@ zh-CN:
           sum: "<a target='_balance' href='#'>资费说明</a>"
           member_name: "<span class='text-danger'>充值银行账户姓名必须与您的实名认证姓名一致</span>"
           sn: "<span class='text-danger'>请您务必在银行转账操作备注中填写数字: <b>%{sn}</b>，否则我们无法快速处理您的订单。</span>"
-      two_factor:
-        otp_secret: 建议您备份好二维码图片或者密文，以免手机意外丢失后给您带来不便。
-        otp: 您的验证器每三十秒会重新生成新密码，请及时输入。
       identity:
         password: 请输入至少6位密码, 建议包含大写、小写字母与数字。
       reset_password:
@@ -1085,10 +1042,6 @@ zh-CN:
     labels:
       defaults:
         title: 标题
-      google_auth:
-        uri: 二维码
-        otp_secret: 密文
-        otp: 验证器上的密码
       fund_source:
         label: 开户行 / 标签
         address: 银行卡号 / 地址
@@ -1377,18 +1330,6 @@ zh-CN:
     notify_signin:
       subject: "[PEATIO] 您刚刚成功登录"
       just_signed_in: 您刚刚成功登录了。
-    google_auth_activated:
-      subject: "[PEATIO] 绑定谷歌两步验证"
-      google_auth_activated: 您已绑定谷歌两步验证。
-    google_auth_deactivated:
-      subject: "[PEATIO] 重置谷歌两步验证"
-      google_auth_deactivated: 您已重置谷歌两步验证。
-    sms_auth_activated:
-      subject: "[PEATIO] 绑定短信两步验证"
-      sms_auth_activated: 您已绑定短信两步验证。
-    sms_auth_deactivated:
-      subject: "[PEATIO] 重置短信两步验证"
-      sms_auth_deactivated: 您已重置短信两步验证。
     reset_password_done:
       subject: "[PEATIO] 密码修改成功"
       successful: 您已成功修改密码。请妥善保管~
@@ -1467,11 +1408,6 @@ zh-CN:
       date-short: "%m-%d"
       short: "%m-%d %H:%M"
       default: "%Y-%m-%d %H:%M"
-  sms:
-    verification_code: '验证码为：%{code}，30分钟内有效。（提示：工作人员不会索要，切勿泄露！）【PEATIO】'
-    password_changed: '%{email} 您好，您已成功修改账户密码，若非本人操作，您的账户可能存在被盗风险，请立即联系客服！【PEATIO】'
-    deposit_done: '%{email} 您好，您于%{time}进行了（%{currency}）充值操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请及时联系我们！）【PEATIO】'
-    withdraw_done: '%{email} 您好，您于%{time}进行了（%{currency}）提现操作，金额为%{amount}。最新余额为：%{balance}。（若非本人操作，请立即联系客服！）【PEATIO】'
   header:
     home: 首页
     dashboard: 控制面板
@@ -1576,11 +1512,6 @@ zh-CN:
         destroy: 登出
         verify: 验证
         update: 修改
-      two_factor:
-        create: 验证
-        update: 激活
-      reset_two_factor:
-        create: 重置两步验证
       reset_password:
         update: 重置登录密码
         create: 发送重置请求
@@ -1671,11 +1602,6 @@ zh-CN:
   sessions:
     new:
       reset_password: 忘记密码
-    new_with_two_factor_auth:
-      title: 两步验证
-      reset_two_factor: 遗失两步验证
-    create_with_two_factor_auth:
-      session_expired: 操作超时，请重试。
     create:
       error: 您输入的密码和邮箱地址不正确，请重新输入。
     failure:
@@ -1685,8 +1611,6 @@ zh-CN:
     admin:
       member:
         member_info: 用户信息
-        deactive_sms_two_factor: 短信两步验证
-        deactive_app_two_factor: 谷歌两步验证
         inactive: 未激活
         deactive: 取消
         are_you_sure: 确认取消二次验证？
@@ -1710,66 +1634,6 @@ zh-CN:
         latest_price: 最新价格
     frame:
       deposit_now: 马上去充值
-  two_factors:
-    index:
-      verify: 验证
-    update:
-      alert: 您输入的验证码错误，请重新输入!
-    auth:
-      please_active_two_factor: 为了您的资金安全, 请先绑定手机或设置两步验证。
-      submit: 确认
-      otp_placeholder: 6位数字密码
-      google_app: 谷歌身份验证器
-      sms: 手机短信验证
-      send_code: 获取验证码
-      send_code_alt: COUNT秒后重新发送
-      hints:
-        app: 谷歌验证器每三十秒会重新生成新密码，请及时输入。
-        sms: 请点击“获取验证码”按纽，我们将会把验证码以短信的方式发到您的手机上。
-  verify:
-    google_auths:
-      edit:
-        submit: 确认解除
-        warning: '注：若您在使用过程中因安装程序丢失，导致无法继续使用两步认证，请您及时联系我们的在线客服。'
-      show:
-        step-1: 第一步
-        step-2: 第二步
-        step-3: 第三步
-        or: 或
-        download-app: 根据您使用的手机系统类型，点击左侧快捷入口，下载并打开 Google Authenticator 应用到您的智能手机上。
-        guide-link: "具体操作方式可<a href='https://support.google.com/accounts/answer/1066447?hl=zh-Hans' target='_blank'>点击这里</a>。"
-        scan-qr-code: 用 Google Authenticator 应用扫瞄二维码或将以下密文手动添加到验证器中。
-        enter-passcode: 填入手机显示的动态密码以激活两步验证
-        submit: 启用
-        ios: 苹果 iOS 系统
-        android: 谷歌安卓系统
-        blackbery: 黑莓系统
-        notice:
-          already_activated: 您已经成功设定了谷歌两部验证。
-          not_activated_yet: 您还未设定谷歌两部验证。
-      update:
-        alert: 您输入的验证器上的密码有误，请重新输入。
-        notice: 两步验证已成功绑定。
-        sms_two_factor_error: 您输入的短信验证码有误，请重新输入。
-      destroy:
-        alert: 您输入的验证器上的密码有误，请重新输入。
-        notice: 两步验证已成功解除。
-    sms_auths:
-      show:
-        title: 绑定手机号码
-        description: 绑定手机号码，让您的资金更安全，还可以快速找回密码，并即时收到您在网站操作的动态提醒和监控账号安全。
-        warning: 手机未绑定时，您将无法在网站操作提现以及账户密码找回。
-        phone_number: 请输入手机号码
-        send_code: 获取验证码
-        send_code_alt: COUNT秒后重新发送
-        input_otp: 请输入通过短信收到的六位验证码
-        submit: 绑定手机号码
-        notice:
-          send_code_success: 手机短信验证码已发送。
-          otp_success: 手机短信验证码验证成功。
-          already_activated: 您的手机号码已绑定成功。
-        alert:
-          phone_number_error: 手机号码无效或错误
   withdraw_channel:
     bank:
       key: 银行转账提现

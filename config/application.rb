@@ -35,6 +35,7 @@ module Peatio
     # Precompile all available locales
     Dir.glob("#{config.root}/app/assets/javascripts/locales/*.js.erb").each do |file|
       config.assets.precompile << "locales/#{file.match(/([a-z\-A-Z]+\.js)\.erb$/)[1]}"
+      config.assets.precompile += %w[admin.css admin.js html5.js market.js market.css]
     end
 
     config.generators do |g|

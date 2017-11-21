@@ -10,11 +10,5 @@ class CreateIdentities < ActiveRecord::Migration
       t.datetime :last_verify_at
       t.timestamps
     end
-
-    create_table :two_factors do |t|
-      t.integer :identity_id
-      t.string :otp_secret
-      t.datetime :last_verify_at
-    end
   end
 end

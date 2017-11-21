@@ -65,13 +65,13 @@ feature 'show account info', js: true, type: :feature do
     click_on I18n.t('header.market')
 
     page.within_window(windows.last) do
-      page.find('.asks tr[data-order="0"]').trigger 'click'
+      page.find('.asks tr[data-order="0"]').click
       expect(find('#order_bid_price').value).to be_d ask_order.price
       expect(find('#order_bid_origin_volume').value).to be_d ask_order.volume
       expect(find('#order_ask_price').value).to be_d ask_order.price
       expect(find('#order_ask_origin_volume').value).to be_d ask_order.volume
 
-      page.find('.bids tr[data-order="0"]').trigger 'click'
+      page.find('.bids tr[data-order="0"]').click
       expect(find('#order_ask_price').value).to be_d bid_order.price
       expect(find('#order_ask_origin_volume').value).to be_d bid_order.volume
       expect(find('#order_bid_price').value).to be_d bid_order.price

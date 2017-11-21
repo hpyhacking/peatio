@@ -106,17 +106,6 @@ ru_RU:
         almost_done: Почти готово
         canceled: Отклонено
         failed: Не удалось
-    auth:
-      please_active_two_factor: Введите номер мобильного или подключите Google Authentificator сначала
-      submit: Подтвердить
-      otp_placeholder: Шестизначный пароль
-      google_app: Google Authenticator
-      sms: СМС подтверждения
-      send_code: Отправить код
-      send_code_alt: Отправить повторно через COUNT секунд
-      hints:
-        app: Код Google Authenticator действителен в течение 30 секунд. Если  Вы не успели, пожалуйста, попробуйте еще раз.
-        sms: Мы отправим Вам СМС с проверочным кодом
     markets:
       market_list:
         all: Все рынки

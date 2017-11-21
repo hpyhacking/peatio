@@ -1,4 +1,4 @@
-FROM ruby:2.2.8
+FROM ruby:2.4.2
 MAINTAINER lbellet@heliostech.fr
 
 ENV APP_HOME=/home/app

@@ -11,7 +11,7 @@ module CoinRPC
   class BaseRPC
     def initialize(c)
       @uri = URI.parse(c.rpc)
-      @rest_uri = URI.parse(c[:rest_api])
+      @rest_uri = URI.parse(c[:rest_api]) if c[:rest_api]
     end
 
     def handle

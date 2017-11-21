@@ -2,7 +2,6 @@ module Private
   class APITokensController < BaseController
     before_action :auth_activated!
     before_action :auth_verified!
-    before_action :two_factor_activated!
 
     def index
       @tokens = current_user.api_tokens.user_requested
@@ -22,11 +21,6 @@ module Private
       @token = current_user.api_tokens.build api_token_params
       @token.scopes = 'all'
 
-      if !two_factor_auth_verified?
-        flash.now[:alert] = t('.alert_two_factor')
-        render :new and return
-      end
-
       if @token.save
         flash.now[:notice] = t('.success')
       else
@@ -41,11 +35,6 @@ module Private
 
     def update
       @token = current_user.api_tokens.user_requested.find params[:id]
-
-      if !two_factor_auth_verified?
-        flash.now[:alert] = t('.alert_two_factor')
-        render :edit and return
-      end
 
       if @token.update_attributes(api_token_params)
         flash.now[:notice] = t('.success')

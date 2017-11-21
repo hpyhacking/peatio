@@ -8,12 +8,14 @@ describe 'withdraw' do
 
   before do
     Withdraw.any_instance.stubs(:examine).returns(true)
-    CoinRPC.any_instance.stubs(:validateaddress).returns(isvalid: true, ismine: false)
+    CoinRPC::BTC.any_instance
+                 .stubs(:validateaddress)
+                 .returns(isvalid: true, ismine: false)
 
     btc_account = member.get_account(:btc)
     btc_account.update_attributes balance: 1000
     cny_account = member.get_account(:cny)
-    # cny_account.update_attributes balance: 0
+    cny_account.update_attributes balance: 0
 
     @label = 'common address'
     @bank = 'bc'
@@ -48,7 +50,6 @@ describe 'withdraw' do
   it 'prevents withdraws that the account has no sufficient balance' do
     pending
     current_user = Member.find_by_email identity.email
-    create :two_factor_sms, member: current_user
 
     login identity
 

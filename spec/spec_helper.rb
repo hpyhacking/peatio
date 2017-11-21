@@ -1,10 +1,9 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
-ENV['ADMIN'] ||= 'admin@peatio.dev'
+ENV['ADMIN'] ||= 'admin@peatio.tech'
 require File.expand_path('../../config/environment', __FILE__)
 require 'database_cleaner'
 require 'rspec/rails'
-require 'capybara/poltergeist'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -14,28 +13,25 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
-if ENV['CHROME_HOSTNAME'].present?
+if ENV['SELENIUM_HOST'].present?
   Capybara.register_driver :chrome do |app|
     Capybara::Selenium::Driver.new(
       app,
-      url: "http://#{ENV['CHROME_HOSTNAME']}:4444/wd/hub",
+      url: "http://#{ENV['SELENIUM_HOST']}:#{ENV['SELENIUM_PORT']}/wd/hub",
       browser: :remote,
       desired_capabilities: :chrome
     )
   end
 
-  host = `hostname -s`.strip
-  Rails.logger.warn host
-  Capybara.server_port = Capybara::Server.new(Rails.application).send(:find_available_port, host)
-  Capybara.app_host = "http://#{host}.local:#{Capybara.server_port}"
+  Capybara.app_host = "http://#{ENV['TEST_APP_HOST']}:#{ENV['TEST_APP_PORT']}"
+  Capybara.javascript_driver = :chrome
+  Capybara.run_server = false
 else
-  Capybara.register_driver :chrome do |app|
-    Capybara::Selenium::Driver.new(app, browser: :chrome)
-  end
+  Capybara.default_driver    = :selenium_chrome_headless
+  Capybara.javascript_driver = :selenium_chrome_headless
 end
 
-Capybara.default_max_wait_time = 15
-Capybara.javascript_driver = :chrome
+Capybara.default_max_wait_time = 25
 
 %i[ google_oauth2 auth0 ].each do |provider|
   { 'provider' => provider.to_s,
@@ -84,7 +80,7 @@ RSpec.configure do |config|
   config.before(:each) do
     DatabaseCleaner.start
 
-    Rails.cache.clear
+    FileUtils.rm_rf(File.join(__dir__, 'tmp', 'cache'))
     AMQPQueue.stubs(:publish)
     KlineDB.stubs(:kline).returns([])
 

@@ -112,14 +112,3 @@ ko:
         almost_done: 전송중
         canceled: 취소
         failed: 오류
-    auth:
-      please_active_two_factor: 회원님의 안전한 자산보호를 위해 핸드폰인증 또는 구글이중인증 받으세요.
-      submit: 확인
-      otp_placeholder: 6자리 숫자 비밀번호
-      google_app: 구글이중인증
-      sms: 핸드폰 인증
-      send_code: 인증번호 요청하기
-      send_code_alt: COUNT 초후에 재 전송합니다.
-      hints:
-        app: 구글 이중인증번호는 30초 마다 갱신되며, 제한된 시간내에 입력하세요
-        sms: 인증번호 요청하기를 누르시면 핸드폰으로 인증번호가 전송됩니다.

@@ -9,7 +9,6 @@ class Member < ActiveRecord::Base
   has_many :fund_sources
   has_many :deposits
   has_many :api_tokens
-  has_many :two_factors
   has_many :tickets, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
   has_many :signup_histories
@@ -20,7 +19,6 @@ class Member < ActiveRecord::Base
 
   scope :enabled, -> { where(disabled: false) }
 
-  delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
   delegate :name,       to: :id_document, allow_nil: true
   delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
@@ -189,10 +187,6 @@ class Member < ActiveRecord::Base
   def send_password_changed_notification
     MemberMailer.reset_password_done(self.id).deliver
 
-    if sms_two_factor.activated?
-      sms_message = I18n.t('sms.password_changed', email: self.email)
-      AMQPQueue.enqueue(:sms_notification, phone: phone_number, message: sms_message)
-    end
   end
 
   def unread_comments
@@ -204,19 +198,9 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def app_two_factor
-    two_factors.by_type(:app)
-  end
-
-  def sms_two_factor
-    two_factors.by_type(:sms)
-  end
-
   def as_json(options = {})
     super(options).merge({
       "name" => self.name,
-      "app_activated" => self.app_two_factor.activated?,
-      "sms_activated" => self.sms_two_factor.activated?,
       "memo" => self.id
     })
   end

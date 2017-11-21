@@ -22,26 +22,6 @@ describe 'Sign in', type: :feature do
     expect(mail.subject).to eq(I18n.t('member_mailer.notify_signin.subject'))
   end
 
-  context 'when a user has 2-step verification setup and after signing in with email, password' do
-    let!(:member) { create :member, email: identity.email }
-    let!(:two_factor) { member.app_two_factor }
-
-    before { two_factor.refresh! }
-
-    it 'if he tries to perform 2-step verification after session expires, should redirect user back to login step with error message', js: true do
-      pending
-
-      signin identity
-      clear_cookie
-
-      fill_in 'two_factor_otp', with: two_factor.now
-      click_on I18n.t('helpers.submit.two_factor.create')
-
-      expect(current_path).to eq(signin_path)
-      expect(page).to have_content(I18n.t('verify.two_factors.create.timeout'))
-    end
-  end
-
   it 'display captcha after too many failed attempts' do
     3.times { signin identity, password: 'wrong' }
     expect(page).not_to have_content(I18n.t('simple_form.labels.session.captcha'))

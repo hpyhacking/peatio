@@ -93,10 +93,6 @@ ru_RU:
         activated?: "Активирован ?"
         id_document_verified?: "Удостоверение личности проверено ?"
         phone_number: Номер телефона
-      two_factor/sms:
-        country: Страна
-        phone_number: Номер телефона
-        otp: Проверочный код
       withdraws/bank:
         member_name: Участник
         currency_obj_key_text: Валюта
@@ -196,7 +192,6 @@ ru_RU:
         global_orders_title: ОРДЕРА
   simple_form:
     labels:
-      withdraw:
         satoshi:
           fee: Комиссия
   admin:

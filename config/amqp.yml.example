@@ -42,9 +42,6 @@ queue:
   email:
     name: peatio.notification.email
     durable: true
-  sms:
-    name: peatio.notification.sms
-    durable: true
 
 binding:
   matching:
@@ -75,9 +72,6 @@ binding:
     queue: deposit_coin_address
   email_notification:
     queue: email
-    exchange: notification
-  sms_notification:
-    queue: sms
     exchange: notification
 
 channel:

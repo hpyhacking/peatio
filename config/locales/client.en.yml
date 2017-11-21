@@ -159,18 +159,6 @@ en:
         canceled: Canceld
         failed: Failed
 
-    auth:
-      please_active_two_factor: Please set mobile number or google authenticator first.
-      submit: Submit
-      otp_placeholder: 6-digit password
-      google_app: Google Authenticator
-      sms: SMS Verification Messages
-      send_code: Send Code
-      send_code_alt: Resend in COUNT seconds
-      hints:
-        app: Google Authenticator will re-generate a new password every thirty seconds, please input timely.
-        sms: We'll send a text message to you phone with verify code.
-
     markets:
       market_list:
         all: All Market

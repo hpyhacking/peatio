@@ -112,14 +112,3 @@ cs:
         almost_done: Hotovo
         canceled: Stornuji
         failed: Chyba
-    auth:
-      please_active_two_factor: Prosím nejdříve vyplňte číslo mobilního telefonu nebo aktivujte Google Authenticator.
-      submit: Odeslat
-      otp_placeholder: 6místný kód
-      google_app: Google Authenticator
-      sms: Potrzení pomocí SMS
-      send_code: Odeslat kód
-      send_code_alt: Odeslat znovu COUNT sekund
-      hints:
-        app: Google Authenticator generuje nové heslo každých třicet sekund. Zadejte prosím včas.
-        sms: Odešleme SMS zprávu na váš telefon s ověřovacím kódem.

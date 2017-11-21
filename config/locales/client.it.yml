@@ -112,14 +112,3 @@ it:
         almost_done: Quasi Pronto
         canceled: Cancellato
         failed: Non riuscito
-    auth:
-      please_active_two_factor: Per favore in primo luogo inserisci un numero o il google authenticator.
-      submit: Immetti
-      otp_placeholder: Password a 6 cifre
-      google_app: Google Authenticator
-      sms: Messaggi di Verifica SMS
-      send_code: Invia Codice
-      send_code_alt: Reinvia in COUNT secondi
-      hints:
-        app: Google Authenticator genererà una nuova password ogni 30 secondi, per favore inseriscila in tempo.
-        sms: Invieremo un messaggio di testo sul tuo telefono con il codice di verifica.

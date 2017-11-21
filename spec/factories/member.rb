@@ -7,18 +7,6 @@ FactoryBot.define do
       activated true
     end
 
-    trait :app_two_factor_activated do
-      after :create do |member|
-        member.app_two_factor.active!
-      end
-    end
-
-    trait :sms_two_factor_activated do
-      after :create do |member|
-        member.sms_two_factor.active!
-      end
-    end
-
     trait :verified do
       after :create do |member|
         id_doc = member.id_document

@@ -2,7 +2,6 @@ describe Admin::IdDocumentsController, type: :controller do
   let(:member) { create(:admin_member) }
   before do
     session[:member_id] = member.id
-    two_factor_unlocked
   end
 
   describe 'GET index' do

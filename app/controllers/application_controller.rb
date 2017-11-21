@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
   private
 
   include SimpleCaptcha::ControllerHelpers
-  include TwoFactorHelper
 
   def currency
     "#{params[:ask]}#{params[:bid]}".to_sym
@@ -65,55 +64,12 @@ class ApplicationController < ActionController::Base
     current_user && current_user.admin?
   end
 
-  def two_factor_activated!
-    if not current_user.two_factors.activated?
-      redirect_to settings_path, alert: t('two_factors.auth.please_active_two_factor')
-    end
-  end
-
-  def two_factor_auth_verified?
-    return false if not current_user.two_factors.activated?
-    return false if two_factor_failed_locked? && !simple_captcha_valid?
-
-    two_factor = current_user.two_factors.by_type(params[:two_factor][:type])
-    return false if not two_factor
-
-    two_factor.assign_attributes params.require(:two_factor).permit(:otp)
-    if two_factor.verify?
-      clear_two_factor_auth_failed
-      true
-    else
-      increase_two_factor_auth_failed
-      false
-    end
-  end
-
-  def two_factor_failed_locked?
-    failed_two_factor_auth > 10
-  end
-
-  def failed_two_factor_auth
-    Rails.cache.read(failed_two_factor_auth_key) || 0
-  end
-
-  def failed_two_factor_auth_key
-    "peatio:session:#{request.ip}:failed_two_factor_auths"
-  end
-
-  def increase_two_factor_auth_failed
-    Rails.cache.write(failed_two_factor_auth_key, failed_two_factor_auth+1, expires_in: 1.month)
-  end
-
-  def clear_two_factor_auth_failed
-    Rails.cache.delete failed_two_factor_auth_key
-  end
-
   def set_timezone
     Time.zone = ENV['TIMEZONE'] if ENV['TIMEZONE']
   end
 
   def set_gon
-    gon.env = Rails.env
+    gon.environment = Rails.env
     gon.local = I18n.locale
     gon.market = current_market.attributes
     gon.ticker = current_market.ticker
@@ -202,7 +158,7 @@ class ApplicationController < ActionController::Base
     end
 
     if current_user
-      gon.current_user = { sn: current_user.sn }
+      gon.user = { sn: current_user.sn }
       gon.accounts = current_user.accounts.inject({}) do |memo, account|
         memo[account.currency] = {
           currency: account.currency,

@@ -19,14 +19,4 @@
 
       hr.split
 
-      = item_for t('.deactive_sms_two_factor') do
-        - if member.sms_two_factor.activated?
-          = link_to t('.deactive'), admin_member_two_factor_path(member, member.sms_two_factor), method: :delete, confirm: t('.are_you_sure'), class: 'btn btn-danger btn-xs'
-        - else
-          span = t('.inactive')
-
-      = item_for t('.deactive_app_two_factor') do
-        - if member.app_two_factor.activated?
-          = link_to t('.deactive'), admin_member_two_factor_path(member, member.app_two_factor), method: :delete, confirm: t('.are_you_sure'), class: 'btn btn-danger btn-xs'
-        - else
-          span = t('.inactive')
+      

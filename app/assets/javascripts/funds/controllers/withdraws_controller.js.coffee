@@ -7,7 +7,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     return false
 
   $scope.currency = currency = $stateParams.currency
-  $scope.current_user = current_user = $gon.current_user
+  $scope.current_user = current_user = $gon.user
   $scope.name = current_user.name
   $scope.account = Account.findBy('currency', $scope.currency)
   $scope.balance = $scope.account.balance
@@ -46,13 +46,8 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     account = withdraw_channel.account()
     data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source_id: _selectedFundSourceId } }
 
-    if current_user.app_activated or current_user.sms_activated
-      type = $('.two_factor_auth_type').val()
-      otp  = $("#two_factor_otp").val()
-
-      data.two_factor = { type: type, otp: otp }
-      data.captcha = $('#captcha').val()
-      data.captcha_key = $('#captcha_key').val()
+    data.captcha = $('#captcha').val()
+    data.captcha_key = $('#captcha_key').val()
 
     $('.form-submit > input').attr('disabled', 'disabled')
 
@@ -80,20 +75,4 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
       controller: 'FundSourcesController'
       className: className
       data: {currency: $scope.currency}
-
-  $scope.sms_and_app_activated = ->
-    current_user.app_activated and current_user.sms_activated
-
-  $scope.only_app_activated = ->
-    current_user.app_activated and !current_user.sms_activated
-
-  $scope.only_sms_activated = ->
-    current_user.sms_activated and !current_user.app_activated
-
-
-  $scope.$watch (-> $scope.currency), ->
-    setTimeout(->
-      $.publish "two_factor_init"
-    , 100)
-
 ]

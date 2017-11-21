@@ -17,8 +17,6 @@ namespace :admin do
       post :active
       post :toggle
     end
-
-    resources :two_factors, only: [:destroy]
   end
 
   namespace :deposits do
