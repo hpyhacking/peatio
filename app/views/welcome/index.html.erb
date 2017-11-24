@@ -14,16 +14,21 @@
 
   <div class="row" id="getstart">
     <% unless current_user %>
-      <div class="col-xs-4 col-xs-offset-8">
+      <div class="col-xs-4 col-xs-offset-<%= ENV['AUTH0_OAUTH2_SIGN_IN'] ? 6 : 8 %>">
         <%= link_to t('header.signin'), signin_path, class: %w(btn btn-primary btn-lg btn-block), html: { role: 'button' } %>
       </div>
+      <% if ENV['AUTH0_OAUTH2_SIGN_IN'] %>
+        <div class="col-xs-4">
+          <a class="btn btn-primary btn-lg btn-block" href="/auth/auth0" role="button"><%= t('header.sign_in_with_auth0') %></a>
+        </div>
+      <% end %>
       <div class="col-xs-4">
-        <a class="btn btn-primary btn-lg btn-block" href="<%= signup_path %>" role="button"><%= t("header.signup") %></a>
+        <a class="btn btn-primary btn-lg btn-block" href="<%= signup_path %>" role="button"><%= t('header.signup') %></a>
       </div>
     <% else %>
       <div class="col-xs-6 col-xs-offset-9 text-center">
-        <a class="btn btn-primary btn-lg btn-block" href="<%= market_path(current_market) %>" role="button"><%= t("header.getstart") %></a>
-        <a class="btn btn-primary btn-lg btn-block" href="<%= settings_path %>" role="button"><%= t("header.settings") %></a>
+        <a class="btn btn-primary btn-lg btn-block" href="<%= market_path(current_market) %>" role="button"><%= t('header.getstart') %></a>
+        <a class="btn btn-primary btn-lg btn-block" href="<%= settings_path %>" role="button"><%= t('header.settings') %></a>
       </div>
     <% end %>
   </div>
