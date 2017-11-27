@@ -1,6 +1,5 @@
 module Worker
   class DepositCoinAddress
-
     def process(payload, metadata, delivery_info)
       payload.symbolize_keys!
 
@@ -8,12 +7,15 @@ module Worker
       return if payment_address.address.present?
 
       currency = payload[:currency]
-      address  = CoinRPC[currency].getnewaddress("payment")
+      address  = CoinRPC[currency].getnewaddress('payment')
 
-      if payment_address.update address: address
-        ::Pusher["private-#{payment_address.account.member.sn}"].trigger_async('deposit_address', { type: 'create', attributes: payment_address.as_json})
-      end
+      return unless payment_address.update(currency == 'xrp' ? address : { address: address })
+
+      ::Pusher["private-#{payment_address.account.member.sn}"].trigger_async(
+        'deposit_address',
+        type: 'create',
+        attributes: payment_address.as_json
+      )
     end
-
   end
 end

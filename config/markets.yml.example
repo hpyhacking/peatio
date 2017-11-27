@@ -14,3 +14,19 @@
 
   # default is true
   # visible: false
+
+- id: xrpcny
+  code: 4
+  base_unit: btc
+  quote_unit: cny
+  sort_order: 1
+  bid: { fee: 0.1, currency: cny, fixed: 2 }
+  ask: { fee: 0.5, currency: xrp, fixed: 3 }
+
+- id: btcxrp
+  code: 5
+  base_unit: btc
+  quote_unit: cny
+  sort_order: 1
+  bid: { fee: 0.5, currency: xrp, fixed: 3 }
+  ask: { fee: 0.001, currency: btc, fixed: 4 }

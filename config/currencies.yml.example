@@ -22,3 +22,17 @@
   assets:
     accounts:
       - address: 1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3
+
+- id: 3
+  key: ripple
+  code: xrp
+  symbol: "ꭆ"
+  coin: true
+  quick_withdraw_max: 0
+  rpc: "https://s1.ripple.com:51234"
+  blockchain: "https://bithomp.com/explorer/#{txid}"
+  address_url: "https://bithomp.com/explorer/#{address}"
+  assets:
+    accounts:
+      - address: r1234567890abcdefghijklmnopqrstuvw
+        secret: sp1234567890abcdefghijklmnopq

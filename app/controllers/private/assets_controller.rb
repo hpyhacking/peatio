@@ -6,10 +6,12 @@ module Private
       @cny_assets  = Currency.assets('cny')
       @btc_proof   = Proof.current :btc
       @cny_proof   = Proof.current :cny
+      @xrp_proof   = Proof.current :xrp
 
       if current_user
         @btc_account = current_user.accounts.with_currency(:btc).first
         @cny_account = current_user.accounts.with_currency(:cny).first
+        @xrp_account = current_user.accounts.with_currency(:xrp).first
       end
     end
 

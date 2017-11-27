@@ -16,3 +16,10 @@
   proportion: true
   inuse: true
   type: WithdrawChannelBank
+- id: 600
+  key: ripple
+  currency: xrp
+  fixed: 3
+  fee: 0.0009
+  inuse: true
+  type: WithdrawChannelRipple

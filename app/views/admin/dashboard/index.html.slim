@@ -22,8 +22,10 @@
 
                 - if c[:coinable]
                   td.text-right = c[:hot]
-                  - if c[:hot] == 'N/A'
-                    td.text-right = c[:hot]
+                  - if c[:hot] == 'N/A' || c[:hot].is_a?(Hash)
+                    td.text-right = 'N/A'
+                  - elsif c[:sum] - c[:hot] < 0
+                    td.text-right = '0.0'
                   - else
                     td.text-right = c[:sum] - c[:hot]
                 - else

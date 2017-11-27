@@ -13,3 +13,9 @@
       branch: 'Your Bank Branch'
       holder: 'Your Account Holder'
       account: 'Your Account Number'
+- id: 600
+  key: ripple
+  currency: xrp
+  sort_order: 3
+  min_confirm: 1
+  max_confirm: 3
