@@ -41,7 +41,7 @@ resources: {}
 peatio:
   # peatio configuration
   env:
-    - name: URL_SCHEMA
+    - name: URL_SCHEME
       value: https
     - name: URL_HOST
       value: peatio.local

@@ -1,6 +1,6 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :identity, fields: [:email], on_failed_registration: IdentitiesController.action(:new)
-  
+
   if ENV['AUTH0_OAUTH2_SIGN_IN']
     provider :auth0,
              ENV.fetch('AUTH0_OAUTH2_CLIENT_ID'),
@@ -10,6 +10,10 @@ Rails.application.config.middleware.use OmniAuth::Builder do
                  scope: ENV.fetch('AUTH0_OAUTH2_SCOPE', 'openid profile email')
                }
              }
+  end
+
+  if ENV['GOOGLE_OAUTH2_SIGN_IN']
+    provider :google_oauth2, ENV.fetch('GOOGLE_CLIENT_ID'), ENV.fetch('GOOGLE_CLIENT_SECRET')
   end
 end
 

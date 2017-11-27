@@ -88,7 +88,7 @@ class Member < ActiveRecord::Base
       member
     end
 
-   def create_from_auth(auth_hash)
+    def create_from_auth(auth_hash)
       new(email:     auth_hash['info']['email'],
           nickname:  auth_hash['info']['nickname'],
           activated: auth_hash['provider'] != 'identity'
@@ -99,7 +99,6 @@ class Member < ActiveRecord::Base
       end
     end
   end
-
 
   def create_auth_for_identity(identity)
     self.authentications.create(provider: 'identity', uid: identity.id)

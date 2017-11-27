@@ -14,14 +14,26 @@
 
   <div class="row" id="getstart">
     <% unless current_user %>
-      <div class="col-xs-4 col-xs-offset-<%= ENV['AUTH0_OAUTH2_SIGN_IN'] ? 6 : 8 %>">
+      <% offset = 8 %>
+      <% offset -= 2 if ENV['GOOGLE_OAUTH2_SIGN_IN'] %>
+      <% offset -= 2 if ENV['AUTH0_OAUTH2_SIGN_IN'] %>
+
+      <div class="col-xs-4 col-xs-offset-<%= offset %>">
         <%= link_to t('header.signin'), signin_path, class: %w(btn btn-primary btn-lg btn-block), html: { role: 'button' } %>
       </div>
+
+      <% if ENV['GOOGLE_OAUTH2_SIGN_IN'] %>
+        <div class="col-xs-5">
+          <a class="btn btn-primary btn-lg btn-block" href="/auth/google_oauth2" role="button"><%= t('header.sign_in_with_google') %></a>
+        </div>
+      <% end %>
+
       <% if ENV['AUTH0_OAUTH2_SIGN_IN'] %>
         <div class="col-xs-4">
           <a class="btn btn-primary btn-lg btn-block" href="/auth/auth0" role="button"><%= t('header.sign_in_with_auth0') %></a>
         </div>
       <% end %>
+
       <div class="col-xs-4">
         <a class="btn btn-primary btn-lg btn-block" href="<%= signup_path %>" role="button"><%= t('header.signup') %></a>
       </div>

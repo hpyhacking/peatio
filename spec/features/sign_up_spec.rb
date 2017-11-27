@@ -20,7 +20,7 @@ describe 'Sign up', js: true, type: :feature do
     expect(mail.subject).to eq(I18n.t('token_mailer.activation.subject'))
 
     path = "/activations/#{Token::Activation.last.token}/edit"
-    link = "#{ENV['URL_SCHEMA']}://#{ENV['URL_HOST']}#{path}"
+    link = "#{ENV['URL_SCHEME']}://#{ENV['URL_HOST']}#{path}"
 
     expect(mail.body.to_s).to have_link(link)
 

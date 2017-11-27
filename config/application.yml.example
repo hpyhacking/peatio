@@ -8,7 +8,7 @@ defaults: &defaults
 
   # site host
   URL_HOST: localhost:3000
-  URL_SCHEMA: http
+  URL_SCHEME: http
 
   # session expire time (seconds)
   SESSION_EXPIRE: 60
@@ -49,6 +49,19 @@ defaults: &defaults
   TWILIO_NUMBER: YOUR_TWILIO_NUMBER
   TWILIO_SID: YOUR_TWILIO_SID
   TWILIO_TOKEN: YOUR_TWILIO_TOKEN
+
+  # Configuration variables for sign in with Google.
+  # See https://github.com/zquestz/omniauth-google-oauth2
+  GOOGLE_OAUTH2_SIGN_IN: ~ # Set to "on" to enable.
+  GOOGLE_CLIENT_ID:
+  GOOGLE_CLIENT_SECRET:
+
+  # Configuration variables for sign in with Auth0.
+  # See https://github.com/auth0/omniauth-auth0
+  AUTH0_OAUTH2_SIGN_IN:       ~ # Set to "on" to enable.
+  AUTH0_OAUTH2_DOMAIN:
+  AUTH0_OAUTH2_CLIENT_ID:
+  AUTH0_OAUTH2_CLIENT_SECRET:
 
 development:
   <<: *defaults
