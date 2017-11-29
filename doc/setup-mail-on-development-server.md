@@ -3,9 +3,9 @@ Setup mail(SMTP) for peatio on development server
 ## Prerequisite
 * SMTP Server details (To setup new SMTP server on Mailgun, Follow this steps: https://support.cloudways.com/configure-mailgun-smtp/)
 
-### Update smto and email config to `config/application.yml`
+### Update smtp and email config to `config/application.yml`
     
-    SMTP_PORT: 465 # could be 456, 587
+    SMTP_PORT: 465 # could be 465, 587
     SMTP_DOMAIN: <DOMAIN_NAME>
     SMTP_ADDRESS: <SMTP_ADDRESS>
     SMTP_USERNAME: <SMTP_USERNAME>
@@ -16,6 +16,14 @@ Setup mail(SMTP) for peatio on development server
     SYSTEM_MAIL_FROM: <FROM_EMAIL_ID>
     SYSTEM_MAIL_TO: <SYSTEM_EMAIL_ID>
     OPERATE_MAIL_TO: <OPERATE_EMAIL_ID>
+    
+#### Want to send mail using your Gmail account 
+    SMTP_PORT: 587 # could be 456, 587
+    SMTP_DOMAIN: gmail.com
+    SMTP_ADDRESS: smtp.gmail.com
+    SMTP_USERNAME: <GMAIL_USERNAME>
+    SMTP_PASSWORD: <GMAIL_PASSWORD>
+    SMTP_AUTHENTICATION: plain
     
 ### Delete following lines from `config/environments/development.rb` to remove action mailer file config
 
