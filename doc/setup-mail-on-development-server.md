@@ -17,7 +17,7 @@ Setup mail(SMTP) for peatio on development server
     SYSTEM_MAIL_TO: <SYSTEM_EMAIL_ID>
     OPERATE_MAIL_TO: <OPERATE_EMAIL_ID>
     
-### Delete following from `config/environments/development.rb` 
+### Delete following lines from `config/environments/development.rb` to remove action mailer file config
 
     config.action_mailer.raise_delivery_errors = false
     config.action_mailer.delivery_method = :file
