@@ -18,7 +18,7 @@ Setup mail(SMTP) for peatio on development server
     OPERATE_MAIL_TO: <OPERATE_EMAIL_ID>
     
 #### Want to send mail using your Gmail account 
-    SMTP_PORT: 587 # could be 456, 587
+    SMTP_PORT: 587 
     SMTP_DOMAIN: gmail.com
     SMTP_ADDRESS: smtp.gmail.com
     SMTP_USERNAME: <GMAIL_USERNAME>
