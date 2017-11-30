@@ -14,18 +14,28 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(
-    app,
-    js_errors: false,
-    debug: false,
-    logger: nil,
-    phantomjs_logger: nil,
-    window_size: [1440, 900]
-  )
+if ENV['CHROME_HOSTNAME'].present?
+  Capybara.register_driver :chrome do |app|
+    Capybara::Selenium::Driver.new(
+      app,
+      url: "http://#{ENV['CHROME_HOSTNAME']}:4444/wd/hub",
+      browser: :remote,
+      desired_capabilities: :chrome
+    )
+  end
+
+  host = `hostname -s`.strip
+  Rails.logger.warn host
+  Capybara.server_port = Capybara::Server.new(Rails.application).send(:find_available_port, host)
+  Capybara.app_host = "http://#{host}.local:#{Capybara.server_port}"
+else
+  Capybara.register_driver :chrome do |app|
+    Capybara::Selenium::Driver.new(app, browser: :chrome)
+  end
 end
 
-Capybara.javascript_driver = :poltergeist
+Capybara.default_max_wait_time = 15
+Capybara.javascript_driver = :chrome
 
 %i[ google_oauth2 auth0 ].each do |provider|
   { 'provider' => provider.to_s,
