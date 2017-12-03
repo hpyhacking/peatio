@@ -1,4 +1,17 @@
 # Check `docs/pipeline.md` to get info about this file
+groups:
+  - name: master
+    jobs:
+      - build-master
+      - test-master
+  - name: pull-requests
+    jobs:
+      - build-pull-request
+      - test-pull-request
+  - name: deploy
+    jobs:
+      - deploy-master
+
 resource_types:
   - name: slack-notification
     type: docker-image
@@ -12,14 +25,14 @@ resource_types:
       repository: jtarchie/pr
 
 resources:
-  - name: peatio-repository
+  - name: repository
     type: git
     source:
       uri: git@github.com:rubykube/peatio.git
       branch: master
       private_key: ((git_private_key))
 
-  - name: pull-requests
+  - name: pull-request
     type: pull-request
     source:
       access_token: ((github_token))
@@ -28,10 +41,10 @@ resources:
       repo: rubykube/peatio
       uri: git@github.com:rubykube/peatio.git
 
-  - name: peatio-image
+  - name: image
     type: docker-image
     source:
-      repository: gcr.io/hc-public/peatio
+      repository: gcr.io/helios-devel/peatio
       username: _json_key
       password: ((gcr_password))
 
@@ -41,100 +54,160 @@ resources:
       url: https://hooks.slack.com/services/((slack_webhook))
 
 jobs:
-  - name: pr-build
+  - name: build-pull-request
     plan:
-      - get: pull-requests
+      - get: pull-request
         trigger: true
-      - task: tag
-        file: pull-requests/config/pipelines/tasks/create-pull-requests-tag.yml
-      - put: peatio-image
-        params:
-          build: pull-requests
-          tag: tag/name
-
-  - name: pr-unit
-    serial: true
-    plan:
-      - get: pull-requests
-        passed: [pr-build]
-        trigger: true
-      - get: peatio-image
-        passed: [pr-build]
-        trigger: true
-      - put: pull-requests
-        params:
-          path: pull-requests
-          status: pending
-      - task: run-tests
-        file: pull-requests/config/pipelines/tasks/run-pr-tests.yml
-        on_success:
-          do:
-          - put: pull-requests
-            params:
-              path: pull-requests
-              status: success
-          - put: slack-alert
-            params:
-              channel: '#ci-alerts'
-              text: |
-                peatio PR tests have passed! :thumbsup_all:
-                Check it out at:
-                $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-                or at:
-                $ATC_EXTERNAL_URL/builds/$BUILD_ID
-                see on github:
-                `cat pull-requests/.git/url`
-
-        on_failure:
-          do:
-          - put: pull-requests
-            params:
-              path: pull-requests
-              status: failure
-          - put: slack-alert
-            params:
-              channel: '#ci-alerts'
-              text: |
-                peatio PR tests have failed! :thumbsdown_all:
-                Check it out at:
-                $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-                or at:
-                $ATC_EXTERNAL_URL/builds/$BUILD_ID
-                see on github:
-                `cat pull-requests/.git/url`
-
-  - name: master-build
-    serial: true
-    plan:
-      - get: peatio-repository
-        trigger: true
-      - task: tag
-        file: peatio-repository/config/pipelines/tasks/create-repository-tag.yml
-      - put: peatio-image
-        params:
-          build: peatio-repository
-          tag: tag/name
       - put: slack-alert
         params:
           channel: '#ci-alerts'
           text: |
-            peatio master branch was built and pushed!
+            New PR was created! :thumbsup_all:
+            Now building image to run tests.
             Check it out at:
-            $ATC_EXTERNAL_URL/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+            $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
             or at:
             $ATC_EXTERNAL_URL/builds/$BUILD_ID
+            see on github:
+            `cat pull-request/.git/url`
+      - task: tag
+        file: pull-request/config/pipelines/tasks/create-tag.yml
+        params: { type: pull }
+        input_mapping: { repo: pull-request }
+      - aggregate:
+        - put: image
+          params:
+            cache: true
+            cache_tag: latest
+            build: pull-request
+            tag: tag/name
+        - put: pull-request
+          params:
+            path: pull-request
+            status: pending
+        - put: slack-alert
+          params:
+            channel: '#ci-alerts'
+            text: |
+              peatio PR image was built! :thumbsup_all:
+              Check it out at:
+              $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+              or at:
+              $ATC_EXTERNAL_URL/builds/$BUILD_ID
+              see on github:
+              `cat pull-request/.git/url`
 
-  - name: master-unit
+  - name: test-pull-request
     serial: true
     plan:
-      - get: peatio-repository
-        passed: [master-build]
-        trigger: true
-      - get: peatio-image
-        passed: [master-build]
-        trigger: true
+      - aggregate:
+        - get: pull-request
+          passed: [build-pull-request]
+          trigger: true
+        - get: image
+          passed: [build-pull-request]
+          trigger: true
+        - get: repository # use tasks from master branch
       - task: run-tests
-        file: peatio-repository/config/pipelines/tasks/run-master-tests.yml
+        image: image
+        params:
+          DATABASE_HOST: localhost
+          DATABASE_USER: root
+          DATABASE_PASS: changeme
+          REDIS_URL: redis://user:password@redis:6379
+          CHROME_HOSTNAME: localhost
+        file: repository/config/pipelines/tasks/run-tests.yml
+        on_success:
+          aggregate:
+            - put: pull-request
+              params:
+                path: pull-request
+                status: success
+            - put: slack-alert
+              params:
+                channel: '#ci-alerts'
+                text: |
+                  peatio PR tests have passed! :thumbsup_all:
+                  Check it out at:
+                  $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+                  or at:
+                  $ATC_EXTERNAL_URL/builds/$BUILD_ID
+                  see on github:
+                  `cat pull-request/.git/url`
+        on_failure:
+          aggregate:
+            - put: pull-request
+              params:
+                path: pull-request
+                status: failure
+            - put: slack-alert
+              params:
+                channel: '#ci-alerts'
+                text: |
+                  peatio PR tests have failed! :thumbsdown_all:
+                  Check it out at:
+                  $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+                  or at:
+                  $ATC_EXTERNAL_URL/builds/$BUILD_ID
+                  see on github:
+                  `cat pull-request/.git/url`
+
+  - name: build-master
+    serial: true
+    plan:
+      - get: repository
+        trigger: true
+      - task: tag
+        file: repository/config/pipelines/tasks/create-tag.yml
+        params: { type: master }
+        input_mapping: { repo: repository }
+      - put: image
+        params:
+          build: repository
+          cache: true
+          cache_tag: latest
+          tag: tag/name
+          tag_as_latest: true # to use as cache for the next build
+        on_success:
+          put: slack-alert
+          params:
+            channel: '#ci-alerts'
+            text: |
+              Peatio master branch was built and pushed.
+              Check it out at:
+              $ATC_EXTERNAL_URL/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+              or at:
+              $ATC_EXTERNAL_URL/builds/$BUILD_ID
+        on_failure:
+          put: slack-alert
+          params:
+            channel: '#ci-alerts'
+            text: |
+              Peatio master branch build failed!
+              Check it out at:
+              $ATC_EXTERNAL_URL/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+              or at:
+              $ATC_EXTERNAL_URL/builds/$BUILD_ID
+
+  - name: test-master
+    serial: true
+    plan:
+      - aggregate:
+        - get: repository
+          passed: [build-master]
+          trigger: true
+        - get: image
+          passed: [build-master]
+          trigger: true
+      - task: run-tests
+        image: image
+        params:
+          DATABASE_HOST: localhost
+          DATABASE_USER: root
+          DATABASE_PASS: changeme
+          REDIS_URL: redis://user:password@redis:6379
+          CHROME_HOSTNAME: localhost
+        file: repository/config/pipelines/tasks/run-tests.yml
         on_success:
           put: slack-alert
           params:
@@ -145,7 +218,6 @@ jobs:
               $ATC_EXTERNAL_URL/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
               or at:
               $ATC_EXTERNAL_URL/builds/$BUILD_ID
-
         on_failure:
           put: slack-alert
           params:
@@ -157,12 +229,14 @@ jobs:
               or at:
               $ATC_EXTERNAL_URL/builds/$BUILD_ID
 
-  - name: helm-deploy
+  - name: deploy-master
     serial: true
     plan:
-      - get: peatio-repository
+      - aggregate:
+        - get: repository
+        - get: image
       - task: helm-deploy
-        file: peatio-repository/config/pipelines/tasks/helm-deploy.yml
+        file: repository/config/pipelines/tasks/helm-deploy.yml
         params:
           GOOGLE_APPLICATION_JSON: ((gcr_password))
           KUBECONFIG_FILE: ((kubeconfig))

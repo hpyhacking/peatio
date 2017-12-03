@@ -9,21 +9,22 @@ RUN useradd -r -m -g app -d /home/app --uid=1000 app
 # Install apt based dependencies required to run Rails as
 # well as RubyGems. As the Ruby image itself is based on a
 # Debian image, we use apt-get to install those.
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
 RUN apt-get update && apt-get install -y \
   nodejs \
   libmysqlclient-dev \
   imagemagick \
-  gsfonts
+  gsfonts \
+  chromedriver
 
 WORKDIR $APP_HOME
 
 COPY Gemfile Gemfile.lock $APP_HOME/
 
 # Install dependencies
-RUN mkdir -p $APP_HOME/vendor/bundle
-RUN bundle install --path vendor/bundle
+RUN mkdir -p /opt/vendor/bundle && chown -R app:app /opt/vendor
+RUN su app -s /bin/bash -c "bundle install --path /opt/vendor/bundle"
 
 # Copy the main application.
 COPY . $APP_HOME

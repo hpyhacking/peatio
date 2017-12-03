@@ -1,5 +1,7 @@
 # Peatio - an open-source crypto currency exchange
 
+[![Build Status](https://ci.helioscloud.com/api/v1/teams/heliostech/pipelines/peatio/jobs/test-master/badge)](https://ci.helioscloud.com/teams/heliostech/pipelines/peatio/jobs/test-master)
+
 ### [peatio.tech](https://www.peatio.tech) fork
 
 Peatio is a free and open-source crypto currency exchange implementation with the Rails framework and other cutting-edge technology.
