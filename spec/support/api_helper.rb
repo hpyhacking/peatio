@@ -4,7 +4,7 @@ end
 
 def sign(secret_key, method, uri, params)
   req = mock('request', request_method: method.to_s.upcase, path_info: uri)
-  auth = APIv2::Auth::Authenticator.new(req, params)
+  auth = APIv2::Auth::KeypairAuthenticator.new(req, params)
   APIv2::Auth::Utils.hmac_signature(secret_key, auth.payload)
 end
 

@@ -1,5 +1,5 @@
-describe APIv2::Auth::Authenticator do
-  Authenticator = APIv2::Auth::Authenticator
+describe APIv2::Auth::KeypairAuthenticator do
+  Authenticator = APIv2::Auth::KeypairAuthenticator
 
   let(:token) { create(:api_token) }
   let(:tonce) { time_to_milliseconds }

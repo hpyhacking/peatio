@@ -1,6 +1,6 @@
 module APIv2
   module Auth
-    class Authenticator
+    class KeypairAuthenticator
 
       def initialize(request, params)
         @request = request
