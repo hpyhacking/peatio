@@ -9,7 +9,8 @@ module APIv2
 
     cascade false
 
-    format :json
+    format         :json
+    content_type   :json, 'application/json'
     default_format :json
 
     helpers ::APIv2::Helpers
