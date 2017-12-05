@@ -123,7 +123,7 @@ describe APIv2::Trades, type: :request do
       signed_get '/api/v2/trades/my', params: { market: 'btccny', limit: 1024 }, token: token
 
       expect(response.code).to eq '400'
-      expect(response.body).to eq '{"error":{"code":1001,"message":"limit must be in range: 1..1000"}}'
+      expect(response.body).to eq '{"error":{"code":1001,"message":"limit must be in range: 1..1000."}}'
     end
   end
 end
