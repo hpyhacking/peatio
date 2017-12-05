@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: gcr.io/hc-public/peatio
-  tag: 0.1.0
+  repository: rubykube/peatio
+  tag: 0.2.2
   pullPolicy: IfNotPresent
 service:
   name: peatio
