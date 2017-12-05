@@ -9,9 +9,9 @@ gem 'daemons-rails'
 gem 'redis-rails'
 
 gem 'rotp'
-gem 'json', '~> 1.8.3'
+gem 'json'
 gem 'jbuilder'
-gem 'bcrypt-ruby', '~> 3.1.2'
+gem 'bcrypt'
 
 gem 'doorkeeper', '~> 1.4.1'
 
