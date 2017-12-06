@@ -7,7 +7,7 @@ end
 
 describe APIv2::Mount, type: :request do
   it 'should use auth and attack middleware' do
-    expect(APIv2::Mount.middleware).to eq [[APIv2::Auth::Middleware], [Rack::Attack]]
+    expect(APIv2::Mount.middleware).to eq [[:use, APIv2::Auth::Middleware], [:use, Rack::Attack]]
   end
 
   it 'should allow 3rd party ajax call' do
@@ -28,7 +28,7 @@ describe APIv2::Mount, type: :request do
     it 'should render json error message' do
       get '/api/v2/non/exist'
       expect(response.code).to eq '404'
-      expect(response.body).to eq 'Not Found'
+      expect(response.body).to eq '404 Not Found'
     end
   end
 end

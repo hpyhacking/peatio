@@ -25,7 +25,6 @@ describe APIv2::Auth::KeypairAuthenticator do
       tonce:      tonce,
       foo:        'bar',
       hello:      'world',
-      route_info: Grape::Route.new,
       signature:  APIv2::Auth::Utils.hmac_signature(token.secret_key, payload)
     )
   end
