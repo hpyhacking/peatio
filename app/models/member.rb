@@ -192,7 +192,7 @@ class Member < ActiveRecord::Base
   def unread_comments
     ticket_ids = self.tickets.open.collect(&:id)
     if ticket_ids.any?
-      Comment.where(ticket_id: [ticket_ids]).where("author_id <> ?", self.id).unread_by(self).to_a
+      Comment.where(ticket_id: ticket_ids).where('author_id <> ?', id).unread_by(self).to_a
     else
       []
     end

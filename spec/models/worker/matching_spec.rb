@@ -115,7 +115,7 @@ describe Worker::Matching do
       end
 
       it 'should not start engine' do
-        subject.engines['btccny'].mode.should == :dryrun
+        expect(subject.engines['btccny'].mode).to eq :dryrun
         expect(subject.engines['btccny'].queue.size).to eq 1
       end
     end

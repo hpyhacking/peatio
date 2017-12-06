@@ -2,7 +2,7 @@ describe Withdraw do
   describe '#fix_precision' do
     it 'should round down to max precision' do
       withdraw = create(:satoshi_withdraw, sum: '0.123456789')
-      withdraw.sum.should == '0.12345678'.to_d
+      expect(withdraw.sum).to eq('0.12345678'.to_d)
     end
   end
 
@@ -10,7 +10,7 @@ describe Withdraw do
     it 'should strip trailing spaces in fund_uid' do
       fund_source = create(:btc_fund_source, uid: 'test')
       @withdraw = create(:satoshi_withdraw, fund_source: fund_source)
-      @withdraw.fund_uid.should == 'test'
+      expect(@withdraw.fund_uid).to eq('test')
     end
   end
 
@@ -21,19 +21,19 @@ describe Withdraw do
 
       it 'should accept withdraw with clean history' do
         subject.audit!
-        subject.should be_accepted
+        expect(subject).to be_accepted
       end
 
       it 'should mark withdraw with suspicious history' do
         subject.account.versions.delete_all
         subject.audit!
-        subject.should be_suspect
+        expect(subject).to be_suspect
       end
 
       it 'should approve quick withdraw directly' do
         subject.update_attributes sum: 5
         subject.audit!
-        subject.should be_processing
+        expect(subject).to be_processing
       end
     end
   end
@@ -49,33 +49,33 @@ describe Withdraw do
       it 'should be rejected if address is invalid' do
         CoinRPC.stubs(:[]).returns(mock('rpc', validateaddress: { isvalid: false }))
         subject.audit!
-        subject.should be_rejected
+        expect(subject).to be_rejected
       end
 
       it 'should be rejected if address belongs to hot wallet' do
         CoinRPC.stubs(:[]).returns(mock('rpc', validateaddress: { isvalid: true, ismine: true }))
         subject.audit!
-        subject.should be_rejected
+        expect(subject).to be_rejected
       end
 
       it 'should accept withdraw with clean history' do
         CoinRPC.stubs(:[]).returns(mock('rpc', validateaddress: { isvalid: true }))
         subject.audit!
-        subject.should be_accepted
+        expect(subject).to be_accepted
       end
 
       it 'should mark withdraw with suspicious history' do
         CoinRPC.stubs(:[]).returns(mock('rpc', validateaddress: { isvalid: true }))
         subject.account.versions.delete_all
         subject.audit!
-        subject.should be_suspect
+        expect(subject).to be_suspect
       end
 
       it 'should approve quick withdraw directly' do
         CoinRPC.stubs(:[]).returns(mock('rpc', validateaddress: { isvalid: true }))
         subject.update_attributes sum: '0.099'
         subject.audit!
-        subject.should be_processing
+        expect(subject).to be_processing
       end
     end
 
@@ -125,7 +125,9 @@ describe Withdraw do
     it 'transitions to :almost_done after calling rpc but getting Exception' do
       CoinRPC.stubs(:[]).returns(@broken_rpc)
 
-      -> { Worker::WithdrawCoin.new.process({ id: subject.id }, {}, {}) }.should raise_error(Account::BalanceError)
+      expect {
+        Worker::WithdrawCoin.new.process({ id: subject.id }, {}, {})
+      }.to raise_error(Account::BalanceError)
 
       expect(subject.reload.almost_done?).to be true
     end
@@ -241,17 +243,17 @@ describe Withdraw do
     subject(:withdraw) { build(:satoshi_withdraw) }
 
     it 'returns false if currency doesn\'t set quick withdraw max' do
-      withdraw.should_not be_quick
+      expect(withdraw).to_not be_quick
     end
 
     it 'returns false if exceeds quick withdraw amount' do
       withdraw.currency_obj.stubs(:quick_withdraw_max).returns(withdraw.sum - 1)
-      withdraw.should_not be_quick
+      expect(withdraw).to_not be_quick
     end
 
     it 'returns true' do
       withdraw.currency_obj.stubs(:quick_withdraw_max).returns(withdraw.sum + 1)
-      withdraw.should be_quick
+      expect(withdraw).to be_quick
     end
   end
 end

@@ -1,4 +1,4 @@
-@import "bourbon";
+@import 'bourbon';
 
 @import 'vars/bootstrap';
 @import 'vars/bootstrap_market';
@@ -10,7 +10,7 @@
 @import 'vars/market';
 @import 'vars/custom';
 
-@import "font-awesome-sprockets";
+@import 'font-awesome-sprockets';
 @import 'font-awesome';
 @import 'csshake.min';
 
@@ -263,14 +263,14 @@ header {
     &.tabs-left {
       left: 3px;
       li { float: right; } // turn tabs
-      @include transform(rotate(-90deg));
+      transform: rotate(-90deg);
       @include transform-origin(left bottom);
     }
 
     &.tabs-right {
       right: 3px;
       li { float: left; } // turn tabs
-      @include transform(rotate(90deg));
+      transform: rotate(90deg);
       @include transform-origin(right bottom);
     }
   }
@@ -681,7 +681,7 @@ header {
   .sideways li {
     direction: rtl;
     unicode-bidi: bidi-override;
-    v { display: inline-block; @include transform(rotate(-270deg)); }
+    v { display: inline-block; transform: rotate(-270deg); }
   }
 
   #account_summary {

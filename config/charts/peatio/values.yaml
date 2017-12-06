@@ -60,7 +60,7 @@ peatio:
     - name: PUSHER_WSS_PORT
       value: "443"
     - name: PUSHER_ENCRYPTED
-      value: "true"
+      value: "on"
     - name: PUSHER_CLUSTER
       value: eu
 

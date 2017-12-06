@@ -49,7 +49,7 @@ describe APIv2::Deposits, type: :request do
       signed_get '/api/v2/deposits', params: { currency: 'cny' }, token: token
       result = JSON.parse(response.body)
       expect(result.size).to eq 2
-      result.all? { |d| d['currency'] == 'cny' }.should be true
+      expect(result.all? { |d| d['currency'] == 'cny' }).to be_truthy
     end
 
     it 'return 404 if txid not exist' do

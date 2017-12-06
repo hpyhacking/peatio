@@ -40,91 +40,72 @@ describe APIv2::Auth::KeypairAuthenticator do
 
   it 'should not be authentic without access key' do
     params[:access_key] = ''
-    lambda {
-      subject.authenticate!
-    }.should raise_error(APIv2::InvalidAccessKeyError)
+    expect { subject.authenticate! }.to raise_error(APIv2::InvalidAccessKeyError)
   end
 
   it 'should not be authentic without signature' do
     subject
     params[:signature] = nil
-    lambda {
-      subject.authenticate!
-    }.should raise_error(APIv2::IncorrectSignatureError)
+    expect { subject.authenticate! }.to raise_error(APIv2::IncorrectSignatureError)
   end
 
   it 'should not be authentic without tonce' do
     params[:tonce] = nil
     params[:signature] = APIv2::Auth::Utils.hmac_signature(token.secret_key, "GET|/|access_key=#{token.access_key}&foo=bar&hello=world&tonce=")
-    lambda {
-      subject.authenticate!
-    }.should raise_error(APIv2::InvalidTonceError)
+    expect { subject.authenticate! }.to raise_error(APIv2::InvalidTonceError)
   end
 
   it 'should return false on unmatched signature' do
     params[:signature] = 'fake'
-    lambda {
-      subject.authenticate!
-    }.should raise_error(APIv2::IncorrectSignatureError)
+    expect { subject.authenticate! }.to raise_error(APIv2::IncorrectSignatureError)
   end
 
   it 'should be invalid if tonce is not within 30s' do
     params[:tonce] = time_to_milliseconds(31.seconds.ago)
-    lambda {
+    expect {
       Authenticator.new(request, params).check_tonce!
-    }.should raise_error(APIv2::InvalidTonceError)
+    }.to raise_error(APIv2::InvalidTonceError)
 
     params[:tonce] = time_to_milliseconds(31.seconds.since)
-    lambda {
+    expect {
       Authenticator.new(request, params).check_tonce!
-    }.should raise_error(APIv2::InvalidTonceError)
+    }.to raise_error(APIv2::InvalidTonceError)
   end
 
   it 'should not be authentic on repeated tonce' do
     params[:tonce] = time_to_milliseconds(Time.now)
     subject.check_tonce!
-
-    lambda {
-      subject.check_tonce!
-    }.should raise_error(APIv2::TonceUsedError)
+    expect { subject.check_tonce! }.to raise_error(APIv2::TonceUsedError)
   end
 
   it 'should not be authentic for invalid token' do
     params[:access_key] = 'fake'
-    subject.token.should be_nil
-    lambda {
-      subject.authenticate!
-    }.should raise_error(APIv2::InvalidAccessKeyError)
+    expect(subject.token).to be_nil
+    expect { subject.authenticate! }.to raise_error(APIv2::InvalidAccessKeyError)
   end
 
   it 'should be authentic if associated member is disabled' do
     token.member.update_attributes disabled: true
-    lambda {
-      subject.token.should_not be_nil
+    expect {
+      expect(subject.token).to_not be_nil
       subject.authenticate!
-    }.should_not raise_error
+    }.to_not raise_error
   end
 
   it 'should not be authentic if api access is disabled' do
     token.member.update_attributes api_disabled: true
-    lambda {
-      subject.authenticate!
-    }.should raise_error(APIv2::DisabledAccessKeyError)
+    expect { subject.authenticate! }.to raise_error(APIv2::DisabledAccessKeyError)
   end
 
   it 'should not be authentic if token is expired' do
     token.update_attributes expire_at: 1.second.ago
-    lambda {
-      subject.authenticate!
-    }.should raise_error(APIv2::ExpiredAccessKeyError)
+    expect { subject.authenticate! }.to raise_error(APIv2::ExpiredAccessKeyError)
   end
 
   it 'should not be authentic if token is soft deleted' do
     token.destroy
-    APIToken.find_by_id(token.id).should be_nil
-    APIToken.with_deleted.find_by_id(token.id).should eq token
-    lambda {
-      subject.authenticate!
-    }.should raise_error(APIv2::InvalidAccessKeyError)
+    expect(APIToken.find_by_id(token.id)).to be_nil
+    expect(APIToken.with_deleted.find_by_id(token.id)).to eq(token)
+    expect { subject.authenticate! }.to raise_error(APIv2::InvalidAccessKeyError)
   end
 end

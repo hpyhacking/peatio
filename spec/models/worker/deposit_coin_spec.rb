@@ -35,9 +35,9 @@ describe Worker::DepositCoin do
     end
 
     it 'should deposit many accounts' do
-      lambda {
+      expect {
         subject.process payload, {}, {}
-      }.should change(Deposit, :count).by(2)
+      }.to change(Deposit, :count).by(2)
     end
   end
 end

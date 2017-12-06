@@ -81,7 +81,6 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'pry-rails'
   gem 'quiet_assets'
-  gem 'mails_viewer'
   gem 'timecop'
   gem 'dotenv-rails'
   gem 'rspec-rails'
@@ -94,7 +93,6 @@ group :test do
   gem 'launchy'
   gem 'mocha', require: false
   gem 'selenium-webdriver'
-  gem 'shoulda-matchers'
 
   # rspec-rails rely on test-unit if rails version less then 4.1.0
   # but test-unit has been removed from ruby core since 2.2.0

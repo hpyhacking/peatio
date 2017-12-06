@@ -179,7 +179,12 @@ class Account < ActiveRecord::Base
   private
 
   def sync_update
-    ::Pusher["private-#{member.sn}"].trigger_async('accounts', { type: 'update', id: self.id, attributes: {balance: balance, locked: locked} })
+    return unless member
+    Pusher["private-#{member.sn}"].trigger_async 'accounts', {
+      id:         id,
+      type:       'update',
+      attributes: { balance: balance, locked: locked }
+    }
   end
 
 end

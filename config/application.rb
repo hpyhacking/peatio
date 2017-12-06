@@ -46,5 +46,8 @@ module Peatio
 
     # Observer configuration
     config.active_record.observers = :transfer_observer
+
+    # Don't suppress exceptions in before_commit & after_commit callbacks.
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end

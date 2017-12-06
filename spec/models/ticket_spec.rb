@@ -2,17 +2,17 @@ describe Ticket do
   describe 'Validation' do
     context 'Both title and content is empty' do
       subject { Ticket.new }
-      it { should_not be_valid }
+      it { expect(subject).to_not be_valid }
     end
 
     context 'Title is empty' do
       subject { Ticket.new(content: 'xman is here') }
-      it { should be_valid }
+      it { expect(subject).to be_valid }
     end
 
     context 'Content is empty' do
       subject { Ticket.new(title: 'xman is here') }
-      it { should be_valid }
+      it { expect(subject).to be_valid }
     end
   end
 
