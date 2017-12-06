@@ -13,6 +13,11 @@ defaults: &defaults
   # session expire time (seconds)
   SESSION_EXPIRE: 60
 
+  # This secret key is used for verifying digital signatures of cookies.
+  # You can generate one by running: "bundle exec rake secret".
+  # Development and test environments already include sample secret keys.
+  COOKIES_SECRET_KEY: ~
+
   # email notifications settings (only for production)
   SMTP_PORT: YOUR_SMTP_PORT
   SMTP_DOMAIN: YOUR_SMTP_DOMAIN
@@ -65,9 +70,11 @@ defaults: &defaults
 
 development:
   <<: *defaults
+  COOKIES_SECRET_KEY: ec7ffa7f1e53b586f2ad072518776a153b14f40ea77e5aa17b9b3ab5145ac29f018c2da13c626102b2d7c749b60f8fc81798579a7e820b96821d431b5fc144c3
 
 test:
   <<: *defaults
+  COOKIES_SECRET_KEY: 2c3cdc3e0bc14d5260250570be0961de2f974c4f3e15b6004734d9e587ce9f47da248f20dc1707a5bb555d879a5494641f4b1a01ca6066df2b783943914ebcd7
 
 production:
   <<: *defaults
