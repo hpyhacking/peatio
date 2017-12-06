@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171129143332) do
+ActiveRecord::Schema.define(version: 20171206151009) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20171129143332) do
     t.string   "trusted_ip_list",       limit: 255
     t.string   "label",                 limit: 255
     t.integer  "oauth_access_token_id", limit: 4
-    t.datetime "expire_at"
+    t.datetime "expires_at"
     t.string   "scopes",                limit: 255
     t.datetime "deleted_at"
   end
@@ -409,7 +409,7 @@ ActiveRecord::Schema.define(version: 20171129143332) do
 
   create_table "tokens", force: :cascade do |t|
     t.string   "token",      limit: 255
-    t.datetime "expire_at"
+    t.datetime "expires_at"
     t.integer  "member_id",  limit: 4
     t.boolean  "is_used",                default: false
     t.string   "type",       limit: 255
@@ -417,7 +417,7 @@ ActiveRecord::Schema.define(version: 20171129143332) do
     t.datetime "updated_at"
   end
 
-  add_index "tokens", ["type", "token", "expire_at", "is_used"], name: "index_tokens_on_type_and_token_and_expire_at_and_is_used", using: :btree
+  add_index "tokens", ["type", "token", "expires_at", "is_used"], name: "index_tokens_on_type_and_token_and_expires_at_and_is_used", using: :btree
 
   create_table "trades", force: :cascade do |t|
     t.decimal  "price",                   precision: 32, scale: 16

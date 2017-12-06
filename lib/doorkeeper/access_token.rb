@@ -36,7 +36,7 @@ module Doorkeeper
     end
 
     def link_api_token
-      api_token.update_attributes(oauth_access_token_id: id, expire_at: expired_time)
+      api_token.update_attributes(oauth_access_token_id: id, expires_at: expired_time)
     end
 
   end

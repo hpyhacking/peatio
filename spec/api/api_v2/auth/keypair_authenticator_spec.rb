@@ -98,7 +98,7 @@ describe APIv2::Auth::KeypairAuthenticator do
   end
 
   it 'should not be authentic if token is expired' do
-    token.update_attributes expire_at: 1.second.ago
+    token.update_attributes expires_at: 1.second.ago
     expect { subject.authenticate! }.to raise_error(APIv2::ExpiredAccessKeyError)
   end
 

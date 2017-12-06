@@ -49,7 +49,7 @@ describe Doorkeeper::AccessToken do
       api_token = APIToken.last
       expect(api_token.label).to eq app.name
       expect(api_token.scopes).to eq %w[identity]
-      expect(api_token.expire_at).not_to be_nil
+      expect(api_token.expires_at).not_to be_nil
     end
 
     it 'should link api token' do

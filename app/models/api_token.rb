@@ -24,7 +24,7 @@ class APIToken < ActiveRecord::Base
   end
 
   def expired?
-    expire_at && expire_at < Time.now
+    expires_at && expires_at < Time.now
   end
 
   def in_scopes?(ary)
