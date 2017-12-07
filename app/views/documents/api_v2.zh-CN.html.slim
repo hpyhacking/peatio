@@ -62,7 +62,7 @@
         # 最后再把这三个字符串通过'|'字符连接起来，看起来就像这样:
         # GET|/api/v2/markets|access_key=xxx&foo=bar&tonce=123456789
         def payload
-          "\#{canonical_verb}|\#{canonical_uri}|\#{canonical_query}"
+          "\#{canonical_verb}|\#{canonical_uri}|\#{canonical_params}"
         end
 
     p 假设我的secret key是"yyy", 那么使用SHA256算法对上面例子中的payload计算HMAC的结果是(以hex表示)：

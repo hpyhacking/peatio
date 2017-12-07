@@ -56,7 +56,7 @@
         # canonical_query is the request query sorted in alphabetica order, including access_key and tonce, e.g. access_key=xxx&foo=bar&tonce=123456789
         # The combined string looks like: GET|/api/v2/markets|access_key=xxx&foo=bar&tonce=123456789
         def payload
-          "\#{canonical_verb}|\#{canonical_uri}|\#{canonical_query}"
+          "\#{canonical_verb}|\#{canonical_uri}|\#{canonical_params}"
         end
 
     p Note: query parameters are sorted in payload, so it must be "access_key=xxx&foo=bar" not "foo=bar&&access_key=xxx".

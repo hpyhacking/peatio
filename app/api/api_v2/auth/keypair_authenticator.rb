@@ -52,7 +52,7 @@ module APIv2
       end
 
       def payload
-        "#{canonical_verb}|#{APIv2::Mount::PREFIX}#{canonical_uri}|#{canonical_query}"
+        "#{canonical_verb}|#{APIv2::Mount::PREFIX}#{canonical_uri}|#{canonical_params}"
       end
 
       def canonical_verb
@@ -63,9 +63,15 @@ module APIv2
         @request.path_info
       end
 
-      def canonical_query
-        hash = @params.select {|k,v| !%w(route_info signature format).include?(k) }
-        URI.unescape(hash.to_param)
+      def canonical_params
+        denied = %w[ route_info format signature ].to_set
+        URI.unescape \
+          @params.reject { |k| denied.include?(k) }
+                 .keys
+                 .sort
+                 .map { |k| [k, @params[k]] }
+                 .to_h
+                 .to_param
       end
 
       def endpoint
