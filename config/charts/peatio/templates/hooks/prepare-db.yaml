@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-prepare-db"
+  labels:
+    app: {{ template "fullname" . }}
+    component: peatio
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app: {{ template "fullname" . }}
+        component: peatio
+    spec:
+      restartPolicy: OnFailure
+      volumes:
+      - name: peatio-jobs
+        configMap:
+          name: {{ .Release.Name }}-peatio-jobs
+      containers:
+        - name: post-install-job
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ["rake", "db:create", "db:migrate"]
+          env:
+{{ include "env" . | indent 12 }}
+

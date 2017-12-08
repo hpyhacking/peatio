@@ -1,13 +1,16 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-require 'fileutils'
+require 'logger'
+require 'erb'
 
-Dir['config/*.yml.example'].each do |example_file|
-  target_file = example_file[0..-9]
+logger = Logger.new(STDOUT)
 
-  puts "[INFO] #{target_file} exist. Replacing..." if File.exist?(target_file)
+target_dir = File.expand_path('../../lib/generators/config/templates', __FILE__)
+dest_dir   = File.expand_path('../../config', __FILE__)
 
-  puts "> cp #{example_file} #{target_file}"
-  FileUtils.copy(example_file, target_file)
+Dir.glob(File.join(target_dir, '*')) do |tpl|
+  dest = File.join(dest_dir, File.basename(tpl, '.erb'))
+  logger.info("Copying #{tpl} -> #{dest}")
+  File.write(dest, ERB.new(File.read(tpl)).result.strip)
 end
-

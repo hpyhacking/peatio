@@ -11,6 +11,7 @@ service:
   type: ClusterIP
   externalPort: 8080
   internalPort: 8080
+
 ingress:
   enabled: false
   # Used to create Ingress record (should used with service.type: ClusterIP).
@@ -27,52 +28,53 @@ ingress:
     #   hosts:
     #     - peatio.local
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious 
-  # choice for the user. This also increases chances charts run on environments with little 
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following 
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  #requests:
-  #  cpu: 100m
-  #  memory: 128Mi
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 peatio:
-  # peatio configuration
-  env:
-    - name: URL_SCHEME
-      value: https
-    - name: URL_HOST
-      value: peatio.local
-    - name: PUSHER_APP
-      value: "000000"
-    - name: PUSHER_KEY
-      value: "00000000000000000000"
-    - name: PUSHER_SECRET
-      value: "00000000000000000000"
-    - name: PUSHER_HOST
-      value: api.pusherapp.com
-    - name: PUSHER_PORT
-      value: "80"
-    - name: PUSHER_WS_PORT
-      value: "80"
-    - name: PUSHER_WSS_PORT
-      value: "443"
-    - name: PUSHER_ENCRYPTED
-      value: "on"
-    - name: PUSHER_CLUSTER
-      value: eu
+  env: {}
+    # TIMEZONE: 'Paris'
+    # ADMIN: 'admin1@peatio.tech,admin2@peatio.tech'
+    # PUSHER_APP: "000000"
+    # ...
+    # For other configuration options, see `config/application.yml`
+    # or `lib/generators/config/templates/application.yml.erb`
 
-mariadb:
-  # set mysql root password
-  mariadbRootPassword: changeme
-  # enable/disable persistant volumes
-  persistence:
-    enabled: true
-    accessMode: ReadWriteOnce
-    size: 8Gi
+# Mysql
+#
+# Defaults:
+# root user with no password and host "%current-release%-db"
+# %current-release%  here is name of the helm release you are
+# installing/upgrading (same for redis and rabbitmq)
+db: {}
+  # host: db
+  # user: root
+  # password: changeme
 
-redis:
-  # redis password
-  redisPassword: changeme
+# Redis
+#
+# Defaults:
+# host "%current-release%-redis" and no password
+redis: {}
+  # host: redis
+  # password: changeme
+
+# RabbitMQ
+#
+# Defaults:
+# host "%current-release%-rabbitmq"
+# port 5672
+# no user and password (by default peatio sets both as "guest")
+rabbitmq: {}
+  # host: rabbitmq
+  # port: 5672
+  # username: user
+  # password: changeme

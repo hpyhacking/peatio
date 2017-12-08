@@ -15,34 +15,12 @@ spec:
         app: {{ template "name" . }}
         release: {{ .Release.Name }}
     spec:
-      initContainers:
-        - name: "init-db"
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: "{{ .Values.imagePullPolicy }}"
-          env:
-            - name: DATABASE_HOST
-              value: "{{ .Release.Name }}-mariadb"
-            - name: DATABASE_USER
-              value: root
-            - name: DATABASE_PASS
-              value: "{{ .Values.mariadb.mariadbRootPassword }}"
-            - name: REDIS_URL
-              value: "redis://:{{ .Values.redis.redisPassword }}@{{ .Release.Name }}-redis:6379"
-          command: ["rake", "db:create", "db:migrate"]
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: DATABASE_HOST
-              value: "{{ .Release.Name }}-mariadb"
-            - name: DATABASE_USER
-              value: root
-            - name: DATABASE_PASS
-              value: {{ .Values.mariadb.mariadbRootPassword }}
-            - name: REDIS_URL
-              value: "redis://:{{ .Values.redis.redisPassword }}@{{ .Release.Name }}-redis:6379"
-{{ toYaml .Values.peatio.env | indent 12 }}
+{{ include "env" . | indent 12 }}
           ports:
             - containerPort: {{ .Values.service.internalPort }}
           livenessProbe:
