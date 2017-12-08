@@ -29,7 +29,10 @@ module APIv2
   end
 
   class AuthorizationError < Error
-    def initialize
+    attr_reader :reason
+
+    def initialize(reason = nil)
+      @reason = reason
       super code: 2001, text: 'Authorization failed', status: 401
     end
   end

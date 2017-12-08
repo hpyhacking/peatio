@@ -11,20 +11,6 @@ describe APIv2::Members, type: :request do
   describe 'GET /members/me' do
     before { Currency.stubs(:codes).returns(%w[cny btc]) }
 
-    it 'should require auth params' do
-      get '/api/v2/members/me'
-
-      expect(response.code).to eq '400'
-      expect(response.body).to eq '{"error":{"code":1001,"message":"access_key is missing, tonce is missing, signature is missing"}}'
-    end
-
-    it 'should require authentication' do
-      get '/api/v2/members/me', access_key: 'test', tonce: time_to_milliseconds, signature: 'test'
-
-      expect(response.code).to eq '401'
-      expect(response.body).to eq '{"error":{"code":2008,"message":"The access key test does not exist."}}'
-    end
-
     it 'should return current user profile with accounts info' do
       signed_get '/api/v2/members/me', token: token
       expect(response).to be_success

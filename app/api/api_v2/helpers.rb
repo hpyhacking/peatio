@@ -9,7 +9,14 @@ module APIv2
     end
 
     def current_user
-      env['api_v2.member']
+      # Keypair authentication provides member ID.
+      if env.key?('api_v2.authentic_member_id')
+        Member.find_by_id(env['api_v2.authentic_member_id'])
+
+      # JWT authentication provides member email.
+      elsif env.key?('api_v2.authentic_member_email')
+        Member.find_by_email(env['api_v2.authentic_member_email'])
+      end
     end
 
     def current_market

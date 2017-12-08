@@ -7,6 +7,11 @@ module APIv2
         @params  = params
       end
 
+      #
+      # Verifies provided access token, signature against payload and tonce.
+      # Returns instance of verified token or raises an exception.
+      #
+      # @return [APIToken]
       def authenticate!
         check_token!
         check_tonce!

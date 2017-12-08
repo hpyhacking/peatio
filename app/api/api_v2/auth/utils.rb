@@ -1,8 +1,7 @@
 module APIv2
   module Auth
     module Utils
-      class <<self
-
+      class << self
         def cache
           # Simply use rack-attack cache wrapper
           @cache ||= Rack::Attack::Cache.new
@@ -20,6 +19,9 @@ module APIv2
           OpenSSL::HMAC.hexdigest 'SHA256', secret_key, payload
         end
 
+        def jwt_shared_secret_key
+          OpenSSL::PKey::RSA.new(Base64.urlsafe_decode64(ENV.fetch('JWT_SHARED_SECRET_KEY')))
+        end
       end
     end
   end

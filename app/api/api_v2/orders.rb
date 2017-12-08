@@ -6,7 +6,7 @@ module APIv2
 
     desc 'Get your orders, results is paginated.', scopes: %w(history trade)
     params do
-      use :auth, :market
+      use :market
       optional :state, type: String,  default: 'wait', values: Order.state.values, desc: "Filter order by state, default to 'wait' (active orders)."
       optional :limit, type: Integer, default: 100, range: 1..1000, desc: "Limit the number of returned orders, default to 100."
       optional :page,  type: Integer, default: 1, desc: "Specify the page of paginated results."
@@ -25,7 +25,7 @@ module APIv2
 
     desc 'Get information of specified order.', scopes: %w(history trade)
     params do
-      use :auth, :order_id
+      use :order_id
     end
     get "/order" do
       order = current_user.orders.where(id: params[:id]).first
@@ -35,7 +35,7 @@ module APIv2
 
     desc 'Create multiple sell/buy orders.', scopes: %w(trade)
     params do
-      use :auth, :market
+      use :market
       requires :orders, type: Array do
         use :order
       end
@@ -47,7 +47,7 @@ module APIv2
 
     desc 'Create a Sell/Buy order.', scopes: %w(trade)
     params do
-      use :auth, :market, :order
+      use :market, :order
     end
     post "/orders" do
       order = create_order params
@@ -56,7 +56,7 @@ module APIv2
 
     desc 'Cancel an order.', scopes: %w(trade)
     params do
-      use :auth, :order_id
+      use :order_id
     end
     post "/order/delete" do
       begin
@@ -70,7 +70,6 @@ module APIv2
 
     desc 'Cancel all my orders.', scopes: %w(trade)
     params do
-      use :auth
       optional :side, type: String, values: %w(sell buy), desc: "If present, only sell orders (asks) or buy orders (bids) will be canncelled."
     end
     post "/orders/clear" do
