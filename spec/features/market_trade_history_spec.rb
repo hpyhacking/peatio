@@ -21,11 +21,12 @@ feature 'show account info', js: true do
     AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: ask_order.to_matching_attributes)
 
     page.within_window(windows.last) do
-      click_link page.all('#my_order_tabs_wrapper li').first.text
+      click_link page.all('#my_orders_wrapper li').first.text
       expect(page.all('#my_orders .order').count).to eq(1) # can only see his order
-      expect(page).to have_selector('#my_orders .fa-trash')
+      page.all('#my_orders .order').first.click
+      expect(page).to have_selector('#my_orders_wrapper .fa-trash')
 
-      page.all('#my_orders .fa-trash').first.click
+      page.all('#my_orders_wrapper .fa-trash').first.click
     end
   end
 end
