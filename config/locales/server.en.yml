@@ -495,8 +495,8 @@ en:
       go: Deposit
     ripple:
       key: Block Chain
-      title: Bitcoin Deposits
-      intro: Deposit bitcoin from your own wallet address to Peatio account
+      title: Ripple Deposits
+      intro: Deposit ripple from your own wallet address to Peatio account
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
