@@ -29,12 +29,12 @@ table#setting_list.table
       - else
         = link_to t('.verification.go'), edit_id_document_path, class: 'btn btn-default btn-block'
   tr
-    td.col-xs-2.text-center.vertical-center: i.fa.fa-mobile.fa-4x
+    td.col-xs-2.text-center.vertical-center: i.fa.fa-key.fa-2x
     td.col-xs-15
       h4
-        span = t('.phone_number.title')
+        span = t('.passwords.title')
         i.fa.fa-bolt.text-warning
-      p.text-ignore = t('.phone_number.description')
+      p.text-ignore = t('.passwords.description')
     td.col-xs-7.vertical-center
       - if current_user.identity
         = link_to t('.passwords.go'), edit_identity_path, class: 'btn btn-default btn-block'
