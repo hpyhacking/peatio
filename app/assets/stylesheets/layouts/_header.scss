@@ -1,5 +1,6 @@
 /* auto header dropdown menu active
 ------------------------------------------------------ */
+
 header {
   .dropdown-menu .sub-menu {
       left: 100%;
@@ -8,6 +9,7 @@ header {
       visibility: hidden;
       margin-top: -1px;
   }
+
 
   .navbar-brand { width: $brand-width; }
 
@@ -103,11 +105,16 @@ header .account-settings {
   }
 }
 
-
 /* languages selector with header
 ------------------------------------------------------ */
 header #languages {
   width: 64px;
   min-width: 64px;
   li > a{ padding-top: 8px; }
+}
+
+/* fix background for small screen
+-------------------------------------------------------*/
+header.navbar-default {
+  min-width: 1150px
 }
