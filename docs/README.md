@@ -55,4 +55,4 @@ If you run bitcoind at local, the necessary hard drive space largely depends on 
 
 ## Support
 
-Any Questions: [community@peatio.com](mailto:community@peatio.com)
+Any Questions: [hello@peatio.tech](mailto:hello@peatio.tech)
