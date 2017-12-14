@@ -27,11 +27,11 @@ class SessionsController < ApplicationController
         save_session_key @member.id, cookies['_peatio_session']
         save_signup_history @member.id
         MemberMailer.notify_signin(@member.id).deliver if @member.activated?
-        redirect_back_or_settings_page
+        redirect_on_successful_sign_in
       end
     else
       increase_failed_logins
-      redirect_to signin_path, alert: t('.error')
+      redirect_on_unsuccessful_sign_in
     end
   end
 
@@ -46,7 +46,7 @@ class SessionsController < ApplicationController
     redirect_to root_path
   end
 
-  private
+private
 
   def require_captcha?
     failed_logins > 3
@@ -81,4 +81,17 @@ class SessionsController < ApplicationController
     )
   end
 
+  def redirect_on_successful_sign_in
+    "#{params[:provider].to_s.upcase}_OAUTH2_REDIRECT_URL".tap do |key|
+      if ENV[key]
+        redirect_to ENV[key]
+      else
+        redirect_back_or_settings_page
+      end
+    end
+  end
+
+  def redirect_on_unsuccessful_sign_in
+    redirect_to signin_path, alert: t('.error')
+  end
 end

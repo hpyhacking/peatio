@@ -84,9 +84,10 @@ defaults: &defaults
 
   # Configuration variables for sign in with Google.
   # See https://github.com/zquestz/omniauth-google-oauth2
-  GOOGLE_OAUTH2_SIGN_IN: ~ # Set to "on" to enable.
+  GOOGLE_OAUTH2_SIGN_IN:      ~ # Set to "on" to enable.
   GOOGLE_CLIENT_ID:
   GOOGLE_CLIENT_SECRET:
+  GOOGLE_OAUTH2_REDIRECT_URL: ~ # Specify URL address to which user will be redirected after successful sign in.
 
   # Configuration variables for sign in with Auth0.
   # See https://github.com/auth0/omniauth-auth0
@@ -94,6 +95,7 @@ defaults: &defaults
   AUTH0_OAUTH2_DOMAIN:
   AUTH0_OAUTH2_CLIENT_ID:
   AUTH0_OAUTH2_CLIENT_SECRET:
+  AUTH0_OAUTH2_REDIRECT_URL:  ~ # Specify URL address to which user will be redirected after successful sign in.
 
 development:
   <<: *defaults

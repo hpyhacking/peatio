@@ -21,9 +21,23 @@ describe SessionsController, type: :controller do
         expect(session[:member_id]).to_not be_nil
       end
 
-      it 'should redirect the member to the settings url' do
-        post :create, provider: provider
-        expect(response).to redirect_to settings_url
+      context 'when no redirect URL is specified' do
+        before { ENV.delete("#{provider.upcase}_OAUTH2_REDIRECT_URL") }
+
+        it 'should redirect the member to the settings URL' do
+          post :create, provider: provider
+          expect(response).to redirect_to settings_url
+        end
+      end
+
+      context 'when redirect URL is specified in environment' do
+        let(:redirect_url) { 'https://foo.bar' }
+        before { ENV["#{provider.upcase}_OAUTH2_REDIRECT_URL"] = redirect_url }
+
+        it 'should redirect the member to the specified URL' do
+          post :create, provider: provider
+          expect(response).to redirect_to redirect_url
+        end
       end
 
       it 'should successfully destroy a session' do
