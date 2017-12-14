@@ -654,9 +654,9 @@ en:
           can help you out as soon as possible. All discussions are private between
           you and the support staff.
       ticket_create_succ: Ticket created successfully.
-      ticket_create_fail: Failed to create ticket, please try again latter.
+      ticket_create_fail: Failed to create ticket, please try again later.
       comment_succ: Comment successfully.
-      cooment_fail: Comment failed, please try again latter
+      comment_fail: Comment failed, please try again latter
       me: me
       supporter: Support
       close: Close Ticket
