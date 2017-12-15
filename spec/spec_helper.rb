@@ -73,6 +73,10 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
   config.include Capybara::DSL
 
+  config.before(:each, type: :feature) do
+    Capybara.current_session.driver.browser.manage.window.resize_to(1024, 768)
+  end
+
   config.before(:suite) do
     DatabaseCleaner.strategy = :deletion
   end
