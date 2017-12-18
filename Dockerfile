@@ -33,6 +33,7 @@ RUN chown -R app:app /home/app
 USER app
 
 RUN ./bin/init_config
+RUN bundle exec rake tmp:create assets:precompile
 
 # Expose port 8080 to the Docker host, so we can access it
 # from the outside.
