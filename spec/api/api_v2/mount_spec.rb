@@ -7,10 +7,11 @@ end
 
 describe APIv2::Mount, type: :request do
   it 'should use auth and attack middleware' do
-    expect(APIv2::Mount.middleware).to eq [[:use, APIv2::Auth::Middleware], [:use, Rack::Attack]]
+    expect(APIv2::Mount.middleware).to eq [[:use, APIv2::Auth::Middleware], [:use, Rack::Attack], [:use, APIv2::CORS::Middleware]]
   end
 
   it 'should allow 3rd party ajax call' do
+    ENV['API_CORS_ORIGINS'] = '*'
     get '/api/v2/null'
     expect(response).to be_success
     expect(response.headers['Access-Control-Allow-Origin']).to eq '*'

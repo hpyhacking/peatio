@@ -13,7 +13,7 @@ module APIv2
     content_type   :json, 'application/json'
     default_format :json
 
-    helpers ::APIv2::Helpers
+    helpers APIv2::Helpers
 
     do_not_route_options!
 
@@ -22,9 +22,7 @@ module APIv2
     include Constraints
     include ExceptionHandlers
 
-    before do
-      header 'Access-Control-Allow-Origin', '*'
-    end
+    use APIv2::CORS::Middleware
 
     mount Markets
     mount Tickers

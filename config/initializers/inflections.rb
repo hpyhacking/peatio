@@ -18,4 +18,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'API'
   inflect.acronym 'v2'
   inflect.acronym 'AMQP'
+  inflect.acronym 'CORS'
 end

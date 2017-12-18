@@ -97,6 +97,13 @@ defaults: &defaults
   AUTH0_OAUTH2_CLIENT_SECRET:
   AUTH0_OAUTH2_REDIRECT_URL:  ~ # Specify URL address to which user will be redirected after successful sign in.
 
+  # Configuration variables for API CORS.
+  #
+  # Set list of allowed origins using the variable below.
+  # By default it allows access to API from all origins.
+  # See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
+  API_CORS_ORIGINS: '*'
+
 development:
   <<: *defaults
   COOKIES_SECRET_KEY:    ec7ffa7f1e53b586f2ad072518776a153b14f40ea77e5aa17b9b3ab5145ac29f018c2da13c626102b2d7c749b60f8fc81798579a7e820b96821d431b5fc144c3
