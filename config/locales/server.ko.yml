@@ -1337,6 +1337,11 @@ ko:
       your_state: '출금 처리 상황 보기'
   view_on_github: View on Github
   slogan: PEATIO는 세계에서 최고의 안정적인 거래소 기술을 제공합니다.
+  slogan:
+    heading: Peatio 오픈 소스 교환
+    subheading: 간단하고 안전한 클라우드 배포
+    text1: Peatio - 디지털 통화 관리를위한 암호 교환.
+    text2: Peatio 설치 및 구성 서비스 제공
   tags:
     vip: VIP
     hero: 히어로 맴버

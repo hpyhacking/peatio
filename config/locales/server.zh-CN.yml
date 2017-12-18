@@ -1377,6 +1377,11 @@ zh-CN:
       your_state: '您的提现状态：'
   view_on_github: 到 Github 上查看
   slogan: 貔貅，将致力于成为世界级的交易软件。
+  slogan:
+    heading: 貔貅開放源代碼交換
+    subheading: 雲部署變得簡單和安全
+    text1: 貔貅管理數字貨幣的加密货币交換。
+    text2: 我們提供貔貅安裝和配置服務
   tags:
     vip: VIP
     hero: 超级用户
