@@ -202,24 +202,9 @@ More details to visit [pusher official website](http://pusher.com)
 
     bundle exec rake assets:precompile
 
-**Run Daemons**
+**Run daemons**
 
-    # start all daemons
-    bundle exec rake daemons:start
-
-    # or start daemon one by one
-    bundle exec rake daemon:matching:start
-    ...
-
-    # Daemon trade_executor can be run concurrently, e.g. below
-    # line will start four trade executors, each with its own logfile.
-    # Default to 1.
-    TRADE_EXECUTOR=4 rake daemon:trade_executor:start
-
-    # You can do the same when you start all daemons:
-    TRADE_EXECUTOR=4 rake daemons:start
-
-When daemons don't work, check `log/#{daemon name}.rb.output` or `log/peatio:amqp:#{daemon name}.output` for more information (suffix is '.output', not '.log').
+Read how to deal with Peatio daemons at [Peatio daemons](https://github.com/rubykube/peatio/blob/master/docs/peatio/daemons.md).
 
 **SSL Certificate setting**
 

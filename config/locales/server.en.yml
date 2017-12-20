@@ -1222,7 +1222,6 @@ en:
     dashboard:
       index:
         accounts_title: Account Summary
-        daemons_title: System Summary
     documents:
       index:
         new: New Document

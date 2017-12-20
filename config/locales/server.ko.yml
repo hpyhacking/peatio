@@ -1089,7 +1089,6 @@ ko:
     dashboard:
       index:
         accounts_title: 계정통계
-        daemons_title: 시스템 통계
     documents:
       index:
         new: 새문장 만들기

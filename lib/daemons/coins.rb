@@ -1,11 +1,4 @@
-#!/usr/bin/env ruby
-
-ENV['RAILS_ENV'] ||= 'development'
-
-root = File.dirname(__dir__) until File.exist?(File.join(__dir__, 'config'))
-Dir.chdir(root)
-
-require File.join(root, 'config', 'environment')
+require File.join(ENV.fetch('RAILS_ROOT'), 'config', 'environment')
 
 @running = true
 

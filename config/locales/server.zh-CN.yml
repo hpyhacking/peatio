@@ -1116,7 +1116,6 @@ zh-CN:
     dashboard:
       index:
         accounts_title: 账户汇总
-        daemons_title: 系统汇总
     documents:
       index:
         new: 新建文档

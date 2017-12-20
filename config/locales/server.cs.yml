@@ -1119,7 +1119,6 @@ cs:
     dashboard:
       index:
         accounts_title: Souhrn účtu
-        daemons_title: Souhrn systému
     documents:
       index:
         new: Nový dokument

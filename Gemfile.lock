@@ -116,10 +116,6 @@ GEM
       countries (>= 0.9.3, < 0.10.0)
     crass (1.0.3)
     currencies (0.4.2)
-    daemons (1.2.5)
-    daemons-rails (1.2.1)
-      daemons
-      multi_json (~> 1.0)
     database_cleaner (1.6.2)
     datagrid (1.5.7)
       rails (>= 4.0)
@@ -173,6 +169,7 @@ GEM
     globalize (5.0.1)
       activemodel (>= 4.2.0, < 4.3)
       activerecord (>= 4.2.0, < 4.3)
+    god (0.13.7)
     gon (5.2.3)
       actionpack (>= 2.3.0)
       json
@@ -461,7 +458,6 @@ DEPENDENCIES
   clipboard-rails (~> 1.7)
   coffee-rails
   country_select (~> 2.1.0)
-  daemons-rails
   database_cleaner
   datagrid
   doorkeeper (~> 1.4.1)
@@ -477,6 +473,7 @@ DEPENDENCIES
   figaro
   font-awesome-sass
   globalize (~> 5.0)
+  god (~> 0.13.7)
   gon (~> 5.2.0)
   grape (~> 1.0.1)
   grape-entity (~> 0.5.2)
