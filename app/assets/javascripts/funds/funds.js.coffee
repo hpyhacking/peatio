@@ -1,3 +1,4 @@
+#= require clipboard
 #= require_tree ./models
 #= require_tree ./filters
 #= require_self

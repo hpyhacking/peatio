@@ -98,6 +98,7 @@ GEM
     childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
+    clipboard-rails (1.7.1)
     coderay (1.1.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
@@ -457,6 +458,7 @@ DEPENDENCIES
   cancancan
   capybara
   carrierwave (~> 0.10.0)
+  clipboard-rails (~> 1.7)
   coffee-rails
   country_select (~> 2.1.0)
   daemons-rails
