@@ -1,8 +1,6 @@
 describe Matching::LimitOrder do
   context 'initialize' do
     it 'should throw invalid order error for empty attributes' do
-      pending
-
       expect do
         Matching::LimitOrder.new(type: '', price: '', volume: '')
       end.to raise_error(Matching::InvalidOrderError)

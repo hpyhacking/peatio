@@ -13,7 +13,7 @@ module Matching
       @price      = attrs[:price].to_d
       @market     = Market.find attrs[:market]
 
-      raise InvalidOrderError.new(attrs) unless valid?(attrs)
+      raise InvalidOrderError.new(attrs) unless valid?
     end
 
     def trade_with(counter_order, counter_book)
@@ -52,7 +52,7 @@ module Matching
       "%d/$%s/%s" % [id, price.to_s('F'), volume.to_s('F')]
     end
 
-    def valid?(attrs)
+    def valid?
       return false unless [:ask, :bid].include?(type)
       id && timestamp && market && price > ZERO
     end
