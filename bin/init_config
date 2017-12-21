@@ -1,16 +1,14 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'logger'
 require 'erb'
 
-logger = Logger.new(STDOUT)
-
+app_root   = File.expand_path('../..', __FILE__)
 target_dir = File.expand_path('../../lib/generators/config/templates', __FILE__)
 dest_dir   = File.expand_path('../../config', __FILE__)
 
 Dir.glob(File.join(target_dir, '*')) do |tpl|
   dest = File.join(dest_dir, File.basename(tpl, '.erb'))
-  logger.info("Copying #{tpl} -> #{dest}")
+  puts "Copying #{tpl.gsub(%r{#{app_root}/}, '')} -> #{dest.gsub(%r{#{app_root}/}, '')}"
   File.write(dest, ERB.new(File.read(tpl)).result.strip)
 end

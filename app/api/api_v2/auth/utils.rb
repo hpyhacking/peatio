@@ -20,7 +20,7 @@ module APIv2
         end
 
         def jwt_shared_secret_key
-          OpenSSL::PKey::RSA.new(Base64.urlsafe_decode64(ENV.fetch('JWT_SHARED_SECRET_KEY')))
+          OpenSSL::PKey::RSA.new(Base64.urlsafe_decode64(Rails.application.secrets.jwt_shared_secret_key))
         end
       end
     end
