@@ -43,4 +43,4 @@ ENTRYPOINT ["bundle", "exec"]
 # The main command to run when the container starts. Also
 # tell the Rails dev server to bind to all interfaces by
 # default.
-CMD ["rails", "s", "-p", "8080", "-b", "0.0.0.0"]
+CMD ["puma", "--config", "config/puma.rb"]
