@@ -33,19 +33,32 @@ module CoinRPC
     end
 
     def listtransactions(account, number = 100)
-      post_body = {
-        method: 'account_tx',
-        params: [{
-          account: account,
-          ledger_index_max: -1,
-          ledger_index_min: -1,
-          limit: number
-        }]
-      }.to_json
+      txs = PaymentAddress.where(currency: 'xrp').map do |pa|
+        post_body = {
+          method: 'account_tx',
+          params: [{
+            account: pa.address,
+            ledger_index_max: -1,
+            ledger_index_min: -1,
+            limit: number
+          }]
+        }.to_json
 
-      resp = JSON.parse(http_post_request(post_body))
-      raise JSONRPCError, resp['error'] if resp['error']
-      resp['result']['transactions'].map { |t| t['tx'] }
+        resp = JSON.parse(http_post_request(post_body))
+        raise JSONRPCError, resp['error'] if resp['error']
+
+        resp['result']['transactions'].map do |t|
+          {
+            'txid'     => t['tx']['hash'],
+            'address'  => t['tx']['Destination'],
+            'amount'   => t['tx']['Amount'],
+            'category' => 'receive',
+            'walletconflicts' => []
+          }
+        end
+      end
+
+      txs.flatten
     end
 
     def gettransaction(txid)

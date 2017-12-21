@@ -12,49 +12,23 @@ namespace :coin do
     end
 
     missed = []
-    transactions(code, account, number).each do |tx|
+    CoinRPC[code].listtransactions(account, number).each do |tx|
       next if tx['category'] != 'receive'
 
-      unless PaymentTransaction::Normal.where(txid: tx['txid'], address: tx['address']).first
-        puts "Missed txid:#{tx['txid']} address:#{tx['address']} (#{tx['amount']})"
+      unless PaymentTransaction::Normal.find_by(txid: tx['txid'])
+        puts "#{code} --- Missed txid:#{tx['txid']} address:#{tx['address']} (#{tx['amount']})"
         missed << tx
       end
     end
 
-    puts "#{missed.size} missed transactions found."
+    puts "#{code} --- #{missed.size} missed transactions found."
 
-    if ENV['reprocess'] == '1' && missed.size > 0
-      puts "Reprocessing .."
-      missed.each do |tx|
-        p tx
-        AMQPQueue.enqueue :deposit_coin, { txid: tx['txid'], channel_key: channel.key }
-      end
-      puts "Done."
+    next if missed.empty? || ENV['reprocess'].nil?
+
+    puts "#{code} --- Reprocessing .."
+    missed.each do |tx|
+      AMQPQueue.enqueue :deposit_coin, { txid: tx['txid'], channel_key: channel.key }
     end
-  end
-end
-
-def transactions(code, account, number)
-  case code
-  when :btc
-    CoinRPC[code].listtransactions(account, number)
-  when :xrp
-    txs = []
-
-    PaymentAddress.where(currency: Currency.find_by_code('xrp').id).each do |a|
-      txs.concat(CoinRPC[code].listtransactions(a.address))
-    end
-
-    txs.map do |tx|
-      {
-        'address'  => tx['Account'],
-        'amount'   => tx['Amount'],
-        'category' => 'receive',
-        'txid'     => tx['hash'],
-        'walletconflicts' => []
-      }
-    end
-  else
-    []
+    puts "#{code} --- Done."
   end
 end
