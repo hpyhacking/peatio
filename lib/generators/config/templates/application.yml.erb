@@ -1,8 +1,9 @@
 defaults: &defaults
   TIMEZONE: 'Paris'
 
-  REDIS_URL: redis://redis:6379
-  REDIS_PASSWORD: changeme
+  # Configuration variables for Redis.
+  REDIS_URL:      redis://localhost:6379
+  REDIS_PASSWORD: ~ # By default no password is sent to Redis server. Change this if you want to connect using password.
 
   # admin role account
   ADMIN: 'admin@peatio.tech'
