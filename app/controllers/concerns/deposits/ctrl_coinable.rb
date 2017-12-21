@@ -3,16 +3,11 @@ module Deposits
     extend ActiveSupport::Concern
 
     def gen_address
-      account = current_user.get_account(channel.currency)
-      if !account.payment_address.transactions.empty?
-        @address = account.payment_addresses.create currency: account.currency
-        @address.gen_address if @address.address.blank?
-        render nothing: true
-      else
-        render text: t('.require_transaction'), status: 403
+      current_user.get_account(channel.currency).tap do |acc|
+        acc.payment_addresses.create!(currency: acc.currency)
+        acc.payment_addresses.each { |addr| addr.gen_address if addr.address.blank? }
       end
-
+      render nothing: true
     end
-
   end
 end

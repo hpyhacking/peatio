@@ -35,7 +35,7 @@ class Account < ActiveRecord::Base
   after_commit :trigger, :sync_update
 
   def payment_address
-    payment_addresses.last || payment_addresses.create(currency: self.currency)
+    payment_addresses.last || payment_addresses.create!(currency: self.currency)
   end
 
   def self.after(*names)
