@@ -1,11 +1,11 @@
 describe Trade, '.latest_price' do
   context 'no trade' do
-    it { expect(Trade.latest_price(:btccny)).to be_d '0.0' }
+    it { expect(Trade.latest_price(:btcusd)).to be_d '0.0' }
   end
 
   context 'add one trade' do
-    let!(:trade) { create(:trade, currency: :btccny) }
-    it { expect(Trade.latest_price(:btccny)).to eq(trade.price) }
+    let!(:trade) { create(:trade, currency: :btcusd) }
+    it { expect(Trade.latest_price(:btcusd)).to eq(trade.price) }
   end
 end
 

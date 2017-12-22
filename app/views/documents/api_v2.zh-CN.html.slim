@@ -97,7 +97,7 @@
           td: pre: code
             | {"at":1398410899, "ticker":{"buy":"3000.0","sell":"3100.0","low":"3000.0","high":"3000.0","last":"3000.0","vol":"0.11"}}
           td
-            p Market包含了某一个市场(例如btccny)的所有信息:
+            p Market包含了某一个市场(例如btcusd)的所有信息:
             p at: 以秒为单位的时间戳
             p buy/sell: 当前买入/卖出价
             p low/high: 过去24小时之内的最低/最高成交价
@@ -106,7 +106,7 @@
         tr
           td Member
           td: pre: code
-            | {"sn":"PEA5TFFOGQHTIO","name":"foo","email":"foo@peatio.dev","activated":true,"accounts":[{"currency":"cny","balance":"100243840.0","locked":"0.0"},{"currency":"btc","balance":"99999708.26","locked":"210.8"}]}
+            | {"sn":"PEA5TFFOGQHTIO","name":"foo","email":"foo@peatio.dev","activated":true,"accounts":[{"currency":"usd","balance":"100243840.0","locked":"0.0"},{"currency":"btc","balance":"99999708.26","locked":"210.8"}]}
           td
             p Member包含了某一个用户的所有信息:
             p sn: 用户的唯一编号
@@ -117,16 +117,16 @@
         tr
           td Account
           td: pre: code
-            | {"currency":"cny","balance":"100243840.0","locked":"0.0"}
+            | {"currency":"usd","balance":"100243840.0","locked":"0.0"}
           td
             p Account包含了用户某一个币种账户的信息:
-            p currency: 账户的币种, 如cny, btc
+            p currency: 账户的币种, 如usd, btc
             p balance: 账户余额, 不包括冻结资金
             p locked: 冻结资金
         tr
           td Order
           td: pre: code
-            | {"id":7,"side":"sell","price":"3100.0","avg_price":"3101.2","state":"wait","market":"btccny","created_at":"2014-04-18T02:02:33Z","volume":"100.0","remaining_volume":"89.8","executed_volume":"10.2","trades_count": 1, "trades":[{"id":2,"price":"3100.0","volume":"10.2","market":"btccny","created_at":"2014-04-18T02:04:49Z","side":"sell"}]}
+            | {"id":7,"side":"sell","price":"3100.0","avg_price":"3101.2","state":"wait","market":"btcusd","created_at":"2014-04-18T02:02:33Z","volume":"100.0","remaining_volume":"89.8","executed_volume":"10.2","trades_count": 1, "trades":[{"id":2,"price":"3100.0","volume":"10.2","market":"btcusd","created_at":"2014-04-18T02:04:49Z","side":"sell"}]}
           td
             p Order包含了某一个订单的所有信息:
             p id: 唯一的Order ID
@@ -144,7 +144,7 @@
         tr
           td Trade
           td: pre: code
-            | {"id":2,"price":"3100.0","volume":"10.2","market":"btccny","created_at":"2014-04-18T02:04:49Z","order_id":101,"side":"sell"}
+            | {"id":2,"price":"3100.0","volume":"10.2","market":"btcusd","created_at":"2014-04-18T02:04:49Z","order_id":101,"side":"sell"}
           td
             p Trade代表订单撮合后形成的一笔交易:
             p id: 交易的唯一ID
@@ -167,7 +167,7 @@
           td Deposits
           td: pre: code
             |
-              [{"currency": "cny","amount": "520.0","fee": "0.0","txid": null,"created_at": "2014-11-29T15:24:26Z","memo": null,"done_at": null,"state": "submitting"},{"currency": "cny","amount": "1000.0","fee": "0.0","txid": "3","created_at": "2014-11-29T13:45:03Z","memo": null,"done_at": "2014-11-29T13:54:37Z","state": "accepted"}]
+              [{"currency": "usd","amount": "520.0","fee": "0.0","txid": null,"created_at": "2014-11-29T15:24:26Z","memo": null,"done_at": null,"state": "submitting"},{"currency": "usd","amount": "1000.0","fee": "0.0","txid": "3","created_at": "2014-11-29T13:45:03Z","memo": null,"done_at": "2014-11-29T13:54:37Z","state": "accepted"}]
 
           td
             p Deposits 返回用户最近24小时内的充值信息:
@@ -185,7 +185,7 @@
           td Deposit
           td: pre: code
             |
-              {"currency": "cny","amount": "520.0","fee": "0.0","txid": "8","created_at": "2014-11-29T15:24:26Z","memo": null,"done_at": "2014-12-02T02:46:24Z","state": "accepted"}
+              {"currency": "usd","amount": "520.0","fee": "0.0","txid": "8","created_at": "2014-11-29T15:24:26Z","memo": null,"done_at": "2014-12-02T02:46:24Z","state": "accepted"}
 
           td
             p Deposits 返回用户某条充值信息:
@@ -200,13 +200,13 @@
     h3 一些例子
 
   .panel-body
-    p 以4000CNY的价格买入1BTC:
+    p 以4000USD的价格买入1BTC:
     pre: code
-      | curl -X POST 'https://demo.peatio.tech/api/v2/orders' -d 'access_key=your_access_key&tonce=1234567&signature=computed_signature&market=btccny&price=4000&side=buy&volume=1'
+      | curl -X POST 'https://demo.peatio.tech/api/v2/orders' -d 'access_key=your_access_key&tonce=1234567&signature=computed_signature&market=btcusd&price=4000&side=buy&volume=1'
 
     p 同时创建多个委托:
     pre: code
-      | curl -X POST 'https://demo.peatio.tech/api/v2/orders/multi' -d 'access_key=your_access_key&tonce=123456789&signature=computed_signature&market=btccny&orders[][price]=4000&orders[][side]=sell&orders[][volume]=0.5&orders[][price]=3999&orders[][side]=sell&orders[][volume]=0.99'
+      | curl -X POST 'https://demo.peatio.tech/api/v2/orders/multi' -d 'access_key=your_access_key&tonce=123456789&signature=computed_signature&market=btcusd&orders[][price]=4000&orders[][side]=sell&orders[][volume]=0.5&orders[][price]=3999&orders[][side]=sell&orders[][volume]=0.99'
 
 .panel.panel-default
   .panel-heading

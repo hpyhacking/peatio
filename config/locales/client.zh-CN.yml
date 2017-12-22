@@ -42,9 +42,9 @@ zh-CN:
       deposit: 充值
       withdraw: 提现
       currency_name:
-        cny: CNY
+        usd: USD
         btc: BTC
-      deposit_cny:
+      deposit_usd:
         title: 人民币充值
         desc: "通过银行转账汇款的方式，经人工审核后充值人民币到您的交易账户中，流程如下："
         desc_item_1: "1. 提交以下表单，获得转账识别码；"
@@ -93,7 +93,7 @@ zh-CN:
         checked: 充值成功
         warning: 异常
         suspect: 异常
-      withdraw_cny:
+      withdraw_usd:
         title: 人民币提现
         intro: 选择提现银行并输入帐号和提取金额，完成提交。
         intro_2: 您提现的银行账户姓名必须和您实名认证的姓名一致。
@@ -145,5 +145,5 @@ zh-CN:
     markets:
       market_list:
         all: 全部交易对
-        cny: CNY交易对
+        usd: USD交易对
         btc: BTC交易对

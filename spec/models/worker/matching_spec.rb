@@ -1,7 +1,7 @@
 describe Worker::Matching do
   let(:alice)  { who_is_billionaire }
   let(:bob)    { who_is_billionaire }
-  let(:market) { Market.find('btccny') }
+  let(:market) { Market.find('btcusd') }
 
   subject { Worker::Matching.new }
 
@@ -23,14 +23,14 @@ describe Worker::Matching do
     end
 
     it 'should started engine' do
-      expect(subject.engines['btccny'].mode).to eq :run
+      expect(subject.engines['btcusd'].mode).to eq :run
     end
 
     it 'should match part of existing order' do
       order = create(:order_bid, price: '4001', volume: '8.0', member: bob)
 
       AMQPQueue.expects(:enqueue)
-               .with(:slave_book, { action: 'update', order: { id: existing.id, timestamp: existing.at, type: :ask, volume: '2.0'.to_d, price: existing.price, market: 'btccny', ord_type: 'limit' } }, anything)
+               .with(:slave_book, { action: 'update', order: { id: existing.id, timestamp: existing.at, type: :ask, volume: '2.0'.to_d, price: existing.price, market: 'btcusd', ord_type: 'limit' } }, anything)
       AMQPQueue.expects(:enqueue)
                .with(:trade_executor, { market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '8.0'.to_d, funds: '32008'.to_d }, anything)
       subject.process({ action: 'submit', order: order.to_matching_attributes }, {}, {})
@@ -68,7 +68,7 @@ describe Worker::Matching do
     let!(:bid5) { create(:order_bid, price: '4003', volume: '3.0', member: bob) }
     let!(:bid6) { create(:order_bid, price: '4001', volume: '5.0', member: bob) }
 
-    let!(:orderbook) { Matching::OrderBookManager.new('btccny', broadcast: false) }
+    let!(:orderbook) { Matching::OrderBookManager.new('btcusd', broadcast: false) }
     let!(:engine)    { Matching::Engine.new(market, mode: :run) }
 
     before do
@@ -115,14 +115,14 @@ describe Worker::Matching do
       end
 
       it 'should not start engine' do
-        expect(subject.engines['btccny'].mode).to eq :dryrun
-        expect(subject.engines['btccny'].queue.size).to eq 1
+        expect(subject.engines['btcusd'].mode).to eq :dryrun
+        expect(subject.engines['btcusd'].queue.size).to eq 1
       end
     end
 
     context 'buffered orders matched' do
       it 'should start engine' do
-        expect(subject.engines['btccny'].mode).to eq :run
+        expect(subject.engines['btcusd'].mode).to eq :run
       end
     end
   end

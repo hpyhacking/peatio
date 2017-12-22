@@ -10,8 +10,8 @@
             .col-xs-offset-4.col-xs-16
               span.pull-left = t('.total')
               span.pull-right
-                == t("currency.icon.cny")
-                = @cny_proof.balance
+                == t("currency.icon.usd")
+                = @usd_proof.balance
           .clearfix
 
-        == t('.description', @cny_assets['accounts'].first.symbolize_keys)
+        == t('.description', @usd_assets['accounts'].first.symbolize_keys)

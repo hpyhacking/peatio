@@ -18,7 +18,7 @@ describe Private::AssetsController, type: :controller do
 
       it { expect(response.status).to eq 200 }
       it { expect(assigns(:btc_account)).to be_nil }
-      it { expect(assigns(:cny_account)).to be_nil }
+      it { expect(assigns(:usd_account)).to be_nil }
     end
   end
 end

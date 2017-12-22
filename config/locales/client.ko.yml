@@ -2,16 +2,16 @@
 
 ko:
   js:
-    brand: CNY
+    brand: USD
     submit: 확인
     funds:
       deposit: 입금
       withdraw: 출금
       currency_name:
-        cny: CNY
+        usd: USD
         btc: BTC
-      deposit_cny:
-        title: Chinese Yuan Deposit
+      deposit_usd:
+        title: USD Deposit
         desc: "  은행입금, 아래 절차를 따르 세요."
         desc_item_1: "1. 식별번호 신청하기"
         desc_item_2: "2.COINPLUS은행계좌로 송금합니다.  비고창에 꼭 식별번호를 입력하세요."
@@ -60,8 +60,8 @@ ko:
         checked: 확인된
         warning: 경고
         suspect: Suspect
-      withdraw_cny:
-        title: CNY출금
+      withdraw_usd:
+        title: usd출금
         intro: 계좌정보를 작성후 출금금액을 입력하시고 출금신청하세요
         intro_2: 예금주와 회원이름이 동일해야합니다.
         attention: "업무시간: 9:00 - 18:00"

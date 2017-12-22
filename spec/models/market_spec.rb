@@ -6,19 +6,19 @@ describe Market do
 
   context 'markets hash' do
     it 'should list all markets info' do
-      expect(Market.to_hash).to eq ({ btccny: { name: 'BTC/CNY', base_unit: 'btc', quote_unit: 'cny' } })
+      expect(Market.to_hash).to eq ({ btcusd: { name: 'BTC/USD', base_unit: 'btc', quote_unit: 'usd' } })
     end
   end
 
   context 'market attributes' do
-    let(:log) { Market.find('btccny') }
+    let(:log) { Market.find('btcusd') }
 
     it 'id' do
-      expect(log.id).to eq 'btccny'
+      expect(log.id).to eq 'btcusd'
     end
 
     it 'name' do
-      expect(log.name).to eq 'BTC/CNY'
+      expect(log.name).to eq 'BTC/USD'
     end
 
     it 'base_unit' do
@@ -26,7 +26,7 @@ describe Market do
     end
 
     it 'quote_unit' do
-      expect(log.quote_unit).to eq 'cny'
+      expect(log.quote_unit).to eq 'usd'
     end
 
     it 'visible' do
@@ -37,12 +37,12 @@ describe Market do
   context 'enumerize' do
     subject { Market.enumerize }
 
-    it { is_expected.to be_has_key :btccny }
+    it { is_expected.to be_has_key :btcusd }
     it { is_expected.to be_has_key :ptsbtc }
   end
 
   context 'shortcut of global access' do
-    let(:log) { Market.find('btccny') }
+    let(:log) { Market.find('btcusd') }
 
     it 'bids' do
       expect(log.bids).to be

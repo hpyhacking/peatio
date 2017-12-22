@@ -14,10 +14,10 @@ module Benchmark
 
       def make_order(klass, attrs={})
         klass.new({
-          bid: :cny,
+          bid: :usd,
           ask: :btc,
           state: Order::WAIT,
-          currency: :btccny,
+          currency: :btcusd,
           origin_volume: attrs[:volume],
           source: 'Web'
         }.merge(attrs))

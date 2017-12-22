@@ -1,6 +1,6 @@
 - id: 1
   key: dollar
-  code: cny
+  code: usd
   coin: false
   quick_withdraw_max: 10
 - id: 2

@@ -275,7 +275,7 @@ zh-CN:
   market:
     currency:
       btc: BTC
-      cny: CNY
+      usd: USD
       doge: DOGE
       pts: PTS
       ltc: LTC
@@ -291,8 +291,8 @@ zh-CN:
       name: 比特股
       format: '0,0.0000'
     renminbi:
-      key: CNY
-      code: CNY
+      key: USD
+      code: USD
       name: 人民币
       format: '0,0.00'
     dogecoin:
@@ -648,12 +648,12 @@ zh-CN:
       index:
         liability-proof: 资产证明
         btc-assets: BTC资产清单
-        cny-assets: CNY资产清单
+        usd-assets: USD资产清单
       liability_tabs:
         verify-btc: 验证我的BTC资产
-        verify-cny: 验证我的CNY资产
+        verify-usd: 验证我的USD资产
         btc-assets-total: '交易所BTC总资产：'
-        cny-assets-total: '交易所CNY总资产：'
+        usd-assets-total: '交易所USD总资产：'
       liability_proof:
         title: 资产证明
         intro: 我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。
@@ -671,20 +671,20 @@ zh-CN:
         intro: 查看交易所全部BTC资产清单
         total: BTC总资产
         address: 钱包地址
-      cny_assets:
-        title: CNY资产清单
-        intro: 查看交易所全部CNY资产清单
-        total: CNY总资产
+      usd_assets:
+        title: USD资产清单
+        intro: 查看交易所全部USD资产清单
+        total: USD总资产
         description: " <p>每位登录貔貅的用户可通过查询貔貅唯一开户银行余额监督我们的服务。</p> <p>开户银行： %{bank}</p> <p>开户帐号： %{address}</p> <p>查询密码： %{password}</p> <p>查询电话： %{tel}</p>"
       partial_tree:
         success: '获取成功！验证数据生成时间为：%{timestamp}'
     funds:
       show:
         account_history: 账户历史记录
-        cny_format: '0.00'
+        usd_format: '0.00'
         btc_format: '0.00000000'
         reason:
-          cny:
+          usd:
             strike_add: 成交卖出
             strike_sub: 成交买入
             deposit: 充值
@@ -737,7 +737,7 @@ zh-CN:
       market_list:
         all: 全部交易对
         all_html: "<i class='fa fa-check'></i><span>全部交易对</span>"
-        cny_html: "<i class='fa fa-check'></i><span>CNY交易对</span>"
+        usd_html: "<i class='fa fa-check'></i><span>USD交易对</span>"
         btc_html: "<i class='fa fa-check'></i><span>BTC交易对</span>"
         price: 最新价
         change: "24h涨跌"
@@ -895,7 +895,7 @@ zh-CN:
         balance: 余额
         available: 可用
         title: "%{icon} %{c} 账户"
-        cny_format: '0.00'
+        usd_format: '0.00'
         btc_format: '0.00000000'
         total: 总额合计
   guides:
@@ -1207,7 +1207,7 @@ zh-CN:
       wait: 等待
       cancel: 取消
     currency:
-      cny: CNY
+      usd: USD
       btc: BTC
     order:
       state:

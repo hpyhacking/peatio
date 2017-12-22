@@ -281,7 +281,7 @@ cs:
   market:
     currency:
       btc: BTC
-      cny: CNY
+      usd: USD
       doge: DOGE
       pts: PTS
       ltc: LTC
@@ -297,9 +297,9 @@ cs:
       name: BitsharesX
       format: '0,0.0000'
     renminbi:
-      key: CNY
-      code: CNY
-      name: Čínský Yuan
+      key: USD
+      code: USD
+      name: USD
       format: '0,0.00'
     dogecoin:
       key: DOG
@@ -654,12 +654,12 @@ cs:
       index:
         liability-proof: Důkaz závazků
         btc-assets: BTC Aktiva
-        cny-assets: CNY Aktiva
+        usd-assets: USD Aktiva
       liability_tabs:
         verify-btc: Ověřit moje BTC Aktiva
-        verify-cny: Ověřit moje CNY Aktiva
+        verify-usd: Ověřit moje USD Aktiva
         btc-assets-total: 'BTC aktiva ve směnárně: '
-        cny-assets-total: 'CNY aktiva ve směnárně:'
+        usd-assets-total: 'USD aktiva ve směnárně:'
       liability_proof:
         title: Důkaz aktiv
         intro: Ve směnárně, naše závazky jsou celkovým množství peněz (v kryptoměnách a Fiat měnách), které jsou našich uživatelů kterým děkujeme za důvěru. Na této stránce vám předkládáme naše závazky. Poskytujeme také vám způsob, jak ověřit, že zůstatek účtu je skutečně součástí našich závazků.
@@ -677,20 +677,20 @@ cs:
         intro: Všechny BTC aktiva ze směnárny jsou zde.
         total: Všechna BTC aktiva
         address: Adresa
-      cny_assets:
-        title: CNY aktiva
-        intro: Všechny CNY aktiva ze směnárny jsou zde.
-        total: Všechna CNY aktiva
+      usd_assets:
+        title: USD aktiva
+        intro: Všechny USD aktiva ze směnárny jsou zde.
+        total: Všechna USD aktiva
         description: " <p>Pro dohled, můžete podat dotaz na bilance našeho vkladového účtu:</p> <p>Banka: %{bank}</p> <p>Účet： %{address}</p> <p>Heslo： %{password}</p> <p>Tel.： %{tel}</p>"
       partial_tree:
         success: 'Uspěšné! Verifikační data generovány: %{timestamp}'
     funds:
       show:
         account_history: Historie účtu
-        cny_format: '0.00'
+        usd_format: '0.00'
         btc_format: '0.00000000'
         reason:
-          cny:
+          usd:
             strike_add: Plus
             strike_sub: Sub
             deposit: Vklad
@@ -851,7 +851,7 @@ cs:
       chat:
         title: Chat kanál
     settings:
-      success: Nastavení uloženo.
+      success: Nastavení uloUSDženo.
       failure: Špatný passcode. Prosím zkuste znovu.
       index:
         safety_instruction: Za účelem ochrany Vašich bitcoinů a osobních informací, důrazně doporučujeme, abyste používali dvouustupňového ověření.
@@ -898,7 +898,7 @@ cs:
         balance: Zůstatek
         available: K dispozici
         title: "%{icon} %{c} účet"
-        cny_format: '0.00'
+        usd_format: '0.00'
         btc_format: '0.00000000'
         total: Celkem
   guides:
@@ -1210,7 +1210,7 @@ cs:
       wait: Čeká
       cancel: Storno
     currency:
-      cny: CNY
+      usd: USD
       btc: BTC
     order:
       state:

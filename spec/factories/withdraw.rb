@@ -28,13 +28,13 @@ FactoryBot.define do
 
   factory :bank_withdraw, class: Withdraws::Bank do
     member { create :member }
-    currency :cny
+    currency :usd
     sum { 1000.to_d }
-    fund_source { create(:cny_fund_source) }
+    fund_source { create(:usd_fund_source) }
     type 'Withdraws::Bank'
 
     account do
-      member.get_account(:cny).tap do |a|
+      member.get_account(:usd).tap do |a|
         a.balance = 50_000
         a.save(validate: false)
 

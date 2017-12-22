@@ -3,7 +3,7 @@ describe APIv2::Markets, type: :request do
     it 'should all available markets' do
       get '/api/v2/markets'
       expect(response).to be_success
-      expect(response.body).to eq '[{"id":"btccny","name":"BTC/CNY"}]'
+      expect(response.body).to eq '[{"id":"btcusd","name":"BTC/USD"}]'
     end
   end
 end

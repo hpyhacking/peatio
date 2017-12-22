@@ -7,10 +7,10 @@ describe APIv2::Deposits, type: :request do
   describe 'GET /api/v2/deposits' do
     before do
       create(:deposit, member: member, currency: 'btc')
-      create(:deposit, member: member, currency: 'cny')
-      create(:deposit, member: member, currency: 'cny', txid: 1, amount: 520)
+      create(:deposit, member: member, currency: 'usd')
+      create(:deposit, member: member, currency: 'usd', txid: 1, amount: 520)
       create(:deposit, member: member, currency: 'btc', created_at: 2.day.ago, txid: 'test', amount: 111)
-      create(:deposit, member: other_member, currency: 'cny', txid: 10)
+      create(:deposit, member: other_member, currency: 'usd', txid: 10)
     end
 
     it 'require deposits authentication' do
@@ -45,11 +45,11 @@ describe APIv2::Deposits, type: :request do
       expect(json.first['txid']).to eq d.txid
     end
 
-    it 'deposits currency cny' do
-      signed_get '/api/v2/deposits', params: { currency: 'cny' }, token: token
+    it 'deposits currency usd' do
+      signed_get '/api/v2/deposits', params: { currency: 'usd' }, token: token
       result = JSON.parse(response.body)
       expect(result.size).to eq 2
-      expect(result.all? { |d| d['currency'] == 'cny' }).to be_truthy
+      expect(result.all? { |d| d['currency'] == 'usd' }).to be_truthy
     end
 
     it 'return 404 if txid not exist' do

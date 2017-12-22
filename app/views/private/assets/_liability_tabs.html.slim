@@ -2,7 +2,7 @@
   ul.nav.nav-tabs
     li.active: a.btc-proof href="#btc-proof" data-toggle="tab" == t('.verify-btc')
     li:        a.xrp-proof href="#xrp-proof" data-toggle="tab" == t('.verify-xrp')
-    li:        a.cny-proof href="#cny-proof" data-toggle="tab" == t('.verify-cny')
+    li:        a.usd-proof href="#usd-proof" data-toggle="tab" == t('.verify-usd')
 
   .tab-content
     #btc-proof.tab-pane.active: .trade-wrapper
@@ -21,10 +21,10 @@
           = @xrp_proof.sum
       = render 'liability_data', account: @xrp_account, proof: @xrp_proof
 
-    #cny-proof.tab-pane:        .trade-wrapper
+    #usd-proof.tab-pane:        .trade-wrapper
       .assets
-        span.title = t('.cny-assets-total')
+        span.title = t('.usd-assets-total')
         span.currency
-          == t("currency.icon.cny")
-          = @cny_proof.sum
-      = render 'liability_data', account: @cny_account, proof: @cny_proof
+          == t("currency.icon.usd")
+          = @usd_proof.sum
+      = render 'liability_data', account: @usd_account, proof: @usd_proof

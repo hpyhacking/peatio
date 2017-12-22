@@ -275,7 +275,7 @@ ko:
   market:
     currency:
       btc: BTC
-      cny: CNY
+      usd: USD
       doge: DOGE
       pts: PTS
       ltc: LTC
@@ -291,8 +291,8 @@ ko:
       name: BitsharesX
       format: '0,0.0000'
     renminbi:
-      key: CNY
-      code: CNY
+      key: USD
+      code: USD
       name: WON
       format: '0,0.00'
     dogecoin:
@@ -648,12 +648,12 @@ ko:
       index:
         liability-proof: 자산 증명
         btc-assets: BTC자산
-        cny-assets: CNY자산
+        usd-assets: USD자산
       liability_tabs:
         verify-btc: 나의 BTC자산 확인
-        verify-cny: 나의 CNY자산 확인
+        verify-usd: 나의 USD자산 확인
         btc-assets-total: '거래소 BTC 총자산'
-        cny-assets-total: '거래소 CNY총자산'
+        usd-assets-total: '거래소 USD총자산'
       liability_proof:
         title: 자산 증명
         intro: 우리는 은행계좌,코인주소 등 모든 자산정보를 100%공개합니다. 회원님들은 실시간으로 우리 거래소의 자산 정보를 볼수있습니다.디지털 인증 방식으로 우리가 제공하는 모든 자산정보를 증명할수있습니다. 최고의 기술로 고객님의 자산을 안전하게 보장합니다.
@@ -671,20 +671,20 @@ ko:
         intro: 거래소 모든 BTC 내역 확인하기
         total: BTC 총액
         address: 비트코인 주소
-      cny_assets:
-        title: CNY자산 확인
-        intro: 거래소 모든 CNY내역 확인하기
-        total: CNY총액
+      usd_assets:
+        title: USD자산 확인
+        intro: 거래소 모든 USD내역 확인하기
+        total: USD총액
         description: "<p>계좌 잔액을 통해 감시할수있습니다:</p> <p>은행: %{bank}</p> <p>계좌:%{address}</p> <p>문의 비밀번호:%{password}</p> <p>문의 전화:  %{tel}</p>"
       partial_tree:
         success: '완료!데이트 확인 시간은:%{timestamp}'
     funds:
       show:
         account_history: 계좌 내역
-        cny_format: '0.00'
+        usd_format: '0.00'
         btc_format: '0.00000000'
         reason:
-          cny:
+          usd:
             strike_add: 판매완료
             strike_sub: 구매완료
             deposit: 입금
@@ -869,7 +869,7 @@ ko:
         balance: 잔액
         available: 사용가능한
         title: "%{icon} %{c}계정"
-        cny_format: '0.00'
+        usd_format: '0.00'
         btc_format: '0.00000000'
         total: 합계
   guides:
@@ -1180,7 +1180,7 @@ ko:
       wait: 대기
       cancel: 취소
     currency:
-      cny: CNY
+      usd: USD
       btc: BTC
     order:
       state:

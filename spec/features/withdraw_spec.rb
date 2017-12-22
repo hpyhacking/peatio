@@ -14,13 +14,13 @@ describe 'withdraw' do
 
     btc_account = member.get_account(:btc)
     btc_account.update_attributes balance: 1000
-    cny_account = member.get_account(:cny)
-    cny_account.update_attributes balance: 0
+    usd_account = member.get_account(:usd)
+    usd_account.update_attributes balance: 0
 
     @label = 'common address'
     @bank = 'bc'
     @btc_addr = create :btc_fund_source, extra: @label, uid: '1btcaddress', member: member
-    @cny_addr = create :cny_fund_source, extra: @bank, uid: '1234566890', member: member
+    @usd_addr = create :usd_fund_source, extra: @bank, uid: '1234566890', member: member
   end
 
   it 'allows user to add a BTC withdraw address, withdraw BTC' do

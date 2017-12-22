@@ -616,7 +616,7 @@ header {
     .markets {
       tr { display: none; }
       &.all { tr { display: block; } }
-      &.cny { tr.quote-cny { display: block; } }
+      &.usd { tr.quote-usd { display: block; } }
       &.btc { tr.quote-btc { display: block; } }
       &.xrp { tr.quote-xrp { display: block; } }
     }

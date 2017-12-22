@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :order_bid do
-    bid :cny
+    bid :usd
     ask :btc
-    currency :btccny
+    currency :btcusd
     state :wait
     source 'Web'
     ord_type 'limit'
@@ -14,9 +14,9 @@ FactoryBot.define do
   end
 
   factory :order_ask do
-    bid :cny
+    bid :usd
     ask :btc
-    currency :btccny
+    currency :btcusd
     state :wait
     source 'Web'
     ord_type 'limit'

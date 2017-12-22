@@ -4,14 +4,14 @@ describe APIv2::Orders, type: :request do
 
   describe 'GET /api/v2/orders' do
     before do
-      create(:order_bid, currency: 'btccny', price: '11'.to_d, volume: '123.123456789', member: member)
-      create(:order_bid, currency: 'btccny', price: '12'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
-      create(:order_ask, currency: 'btccny', price: '13'.to_d, volume: '123.123456789', member: member)
-      create(:order_ask, currency: 'btccny', price: '14'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
+      create(:order_bid, currency: 'btcusd', price: '11'.to_d, volume: '123.123456789', member: member)
+      create(:order_bid, currency: 'btcusd', price: '12'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
+      create(:order_ask, currency: 'btcusd', price: '13'.to_d, volume: '123.123456789', member: member)
+      create(:order_ask, currency: 'btcusd', price: '14'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
     end
 
     it 'should require authentication' do
-      get '/api/v2/orders', market: 'btccny'
+      get '/api/v2/orders', market: 'btcusd'
       expect(response.code).to eq '401'
     end
 
@@ -23,45 +23,45 @@ describe APIv2::Orders, type: :request do
     end
 
     it 'should validate state param' do
-      signed_get '/api/v2/orders', params: { market: 'btccny', state: 'test' }, token: token
+      signed_get '/api/v2/orders', params: { market: 'btcusd', state: 'test' }, token: token
 
       expect(response.code).to eq '400'
       expect(JSON.parse(response.body)).to eq ({ 'error' => { 'code' => 1001, 'message' => 'state does not have a valid value' } })
     end
 
     it 'should return active orders by default' do
-      signed_get '/api/v2/orders', params: { market: 'btccny' }, token: token
+      signed_get '/api/v2/orders', params: { market: 'btcusd' }, token: token
 
       expect(response).to be_success
       expect(JSON.parse(response.body).size).to eq 2
     end
 
     it 'should return complete orders' do
-      signed_get '/api/v2/orders', params: { market: 'btccny', state: Order::DONE }, token: token
+      signed_get '/api/v2/orders', params: { market: 'btcusd', state: Order::DONE }, token: token
 
       expect(response).to be_success
       expect(JSON.parse(response.body).first['state']).to eq Order::DONE
     end
 
     it 'should return paginated orders' do
-      signed_get '/api/v2/orders', params: { market: 'btccny', limit: 1, page: 1 }, token: token
+      signed_get '/api/v2/orders', params: { market: 'btcusd', limit: 1, page: 1 }, token: token
 
       expect(response).to be_success
       expect(JSON.parse(response.body).first['price']).to eq '11.0'
 
-      signed_get '/api/v2/orders', params: { market: 'btccny', limit: 1, page: 2 }, token: token
+      signed_get '/api/v2/orders', params: { market: 'btcusd', limit: 1, page: 2 }, token: token
 
       expect(response).to be_success
       expect(JSON.parse(response.body).first['price']).to eq '13.0'
     end
 
     it 'should sort orders' do
-      signed_get '/api/v2/orders', params: { market: 'btccny', order_by: 'asc' }, token: token
+      signed_get '/api/v2/orders', params: { market: 'btcusd', order_by: 'asc' }, token: token
       expect(response).to be_success
       orders = JSON.parse(response.body)
       expect(orders[0]['id']).to be < orders[1]['id']
 
-      signed_get '/api/v2/orders', params: { market: 'btccny', order_by: 'desc' }, token: token
+      signed_get '/api/v2/orders', params: { market: 'btcusd', order_by: 'desc' }, token: token
       expect(response).to be_success
       orders = JSON.parse(response.body)
       expect(orders[0]['id']).to be > orders[1]['id']
@@ -69,7 +69,7 @@ describe APIv2::Orders, type: :request do
   end
 
   describe 'GET /api/v2/order' do
-    let(:order)  { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member, trades_count: 1) }
+    let(:order)  { create(:order_bid, currency: 'btcusd', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member, trades_count: 1) }
     let!(:trade) { create(:trade, bid: order) }
 
     it 'should get specified order' do
@@ -100,12 +100,12 @@ describe APIv2::Orders, type: :request do
   describe 'POST /api/v2/orders/multi' do
     before do
       member.get_account(:btc).update_attributes(balance: 100)
-      member.get_account(:cny).update_attributes(balance: 100_000)
+      member.get_account(:usd).update_attributes(balance: 100_000)
     end
 
     it 'should create a sell order and a buy order' do
       params = {
-        market: 'btccny',
+        market: 'btcusd',
         orders: [
           { side: 'sell', volume: '12.13', price: '2014' },
           { side: 'buy',  volume: '17.31', price: '2005' }
@@ -127,7 +127,7 @@ describe APIv2::Orders, type: :request do
 
     it 'should create nothing on error' do
       params = {
-        market: 'btccny',
+        market: 'btcusd',
         orders: [
           { side: 'sell', volume: '12.13', price: '2014' },
           { side: 'buy',  volume: '17.31', price: 'test' } # <- invalid price
@@ -148,55 +148,55 @@ describe APIv2::Orders, type: :request do
       member.get_account(:btc).update_attributes(balance: 100)
 
       expect do
-        signed_post '/api/v2/orders', token: token, params: { market: 'btccny', side: 'sell', volume: '12.13', price: '2014' }
+        signed_post '/api/v2/orders', token: token, params: { market: 'btcusd', side: 'sell', volume: '12.13', price: '2014' }
         expect(response).to be_success
         expect(JSON.parse(response.body)['id']).to eq OrderAsk.last.id
       end.to change(OrderAsk, :count).by(1)
     end
 
     it 'should create a buy order' do
-      member.get_account(:cny).update_attributes(balance: 100_000)
+      member.get_account(:usd).update_attributes(balance: 100_000)
 
       expect do
-        signed_post '/api/v2/orders', token: token, params: { market: 'btccny', side: 'buy', volume: '12.13', price: '2014' }
+        signed_post '/api/v2/orders', token: token, params: { market: 'btcusd', side: 'buy', volume: '12.13', price: '2014' }
         expect(response).to be_success
         expect(JSON.parse(response.body)['id']).to eq OrderBid.last.id
       end.to change(OrderBid, :count).by(1)
     end
 
     it 'should set order source to APIv2' do
-      member.get_account(:cny).update_attributes(balance: 100_000)
-      signed_post '/api/v2/orders', token: token, params: { market: 'btccny', side: 'buy', volume: '12.13', price: '2014' }
+      member.get_account(:usd).update_attributes(balance: 100_000)
+      signed_post '/api/v2/orders', token: token, params: { market: 'btcusd', side: 'buy', volume: '12.13', price: '2014' }
       expect(OrderBid.last.source).to eq 'APIv2'
     end
 
     it 'should return cannot lock funds error' do
       old_count = OrderAsk.count
-      signed_post '/api/v2/orders', params: { market: 'btccny', side: 'sell', volume: '12.13', price: '2014' }
+      signed_post '/api/v2/orders', params: { market: 'btcusd', side: 'sell', volume: '12.13', price: '2014' }
       expect(response.code).to eq '400'
       expect(response.body).to eq '{"error":{"code":2002,"message":"Failed to create order. Reason: cannot lock funds (amount: 12.13)"}}'
       expect(OrderAsk.count).to eq old_count
     end
 
     it 'should give a number as volume parameter' do
-      signed_post '/api/v2/orders', params: { market: 'btccny', side: 'sell', volume: 'test', price: '2014' }
+      signed_post '/api/v2/orders', params: { market: 'btcusd', side: 'sell', volume: 'test', price: '2014' }
       expect(response.code).to eq '400'
       expect(response.body).to eq '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Volume must be greater than 0"}}'
     end
 
     it 'should give a number as price parameter' do
-      signed_post '/api/v2/orders', params: { market: 'btccny', side: 'sell', volume: '12.13', price: 'test' }
+      signed_post '/api/v2/orders', params: { market: 'btcusd', side: 'sell', volume: '12.13', price: 'test' }
       expect(response.code).to eq '400'
       expect(response.body).to eq '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Price must be greater than 0"}}'
     end
   end
 
   describe 'POST /api/v2/order/delete' do
-    let!(:order) { create(:order_bid, currency: 'btccny', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', locked: '20.1082', origin_locked: '38.0882', member: member) }
+    let!(:order) { create(:order_bid, currency: 'btcusd', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', locked: '20.1082', origin_locked: '38.0882', member: member) }
 
     context 'succesful' do
       before do
-        member.get_account(:cny).update_attributes(locked: order.price * order.volume)
+        member.get_account(:usd).update_attributes(locked: order.price * order.volume)
       end
 
       it 'should cancel specified order' do
@@ -220,11 +220,11 @@ describe APIv2::Orders, type: :request do
 
   describe 'POST /api/v2/orders/clear' do
     before do
-      create(:order_ask, currency: 'btccny', price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
-      create(:order_bid, currency: 'btccny', price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
+      create(:order_ask, currency: 'btcusd', price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
+      create(:order_bid, currency: 'btcusd', price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
 
       member.get_account(:btc).update_attributes(locked: '5')
-      member.get_account(:cny).update_attributes(locked: '50')
+      member.get_account(:usd).update_attributes(locked: '50')
     end
 
     it 'should cancel all my orders' do

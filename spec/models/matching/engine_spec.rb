@@ -1,11 +1,11 @@
 describe Matching::Engine do
-  let(:market) { Market.find('btccny') }
+  let(:market) { Market.find('btcusd') }
   let(:price)  { 10.to_d }
   let(:volume) { 5.to_d }
   let(:ask)    { Matching.mock_limit_order(type: :ask, price: price, volume: volume) }
   let(:bid)    { Matching.mock_limit_order(type: :bid, price: price, volume: volume) }
 
-  let(:orderbook) { Matching::OrderBookManager.new('btccny', broadcast: false) }
+  let(:orderbook) { Matching::OrderBookManager.new('btcusd', broadcast: false) }
   subject         { Matching::Engine.new(market, mode: :run) }
   before          { subject.stubs(:orderbook).returns(orderbook) }
 

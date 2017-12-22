@@ -8,10 +8,10 @@ it:
       deposit: Deposita
       withdraw: Preleva
       currency_name:
-        cny: CNY
+        usd: USD
         btc: BTC
-      deposit_cny:
-        title: Deposito in Yuan Cinesi
+      deposit_usd:
+        title: Deposito in USD
         desc: "Per depositare tramite bonifico bancario, per favore segui questi passaggi:"
         desc_item_1: "1. Invia il modulo per ottenere il codice di identificazione."
         desc_item_2: "2. Trasferisci il denaro sul conto corrente bancario dell'exchange. Per favore assicurati che il tuo codice di riferimento sia stato inserito nel modulo che hai compilato."
@@ -24,7 +24,7 @@ it:
         add: Aggiungi
         manage: Gestisci
         amount: Importo del Deposito
-        min_amount: Almeno 10 yuan
+        min_amount: Almeno 10 USD
         to_account: Account
         to_name: Nome
         to_bank_name: Nome Bancario
@@ -60,8 +60,8 @@ it:
         checked: Verificato
         warning: Avvertenza
         suspect: Sospetto
-      withdraw_cny:
-        title: Prelievo di Yuan Cinesi
+      withdraw_usd:
+        title: Prelievo di USD
         intro: Seleziona la banca per depositare la somma di denaro, inserisci il numero dell'account e completa la richiesta.
         intro_2: Il tuo conto bancario e il nome devono coincidere con il nome reale di autenticazione.
         attention: "Orario di Lavoro: 9:00 - 18:00"

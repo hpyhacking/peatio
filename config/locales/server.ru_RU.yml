@@ -121,14 +121,14 @@ ru_RU:
   market:
     currency:
       btc: BTC
-      cny: CNY
+      usd: USD
   currency:
     satoshi:
       key: BTC
       code: BTC
     renminbi:
-      key: CNY
-      code: CNY
+      key: USD
+      code: USD
   datagrid:
     admin_deposits_grid:
       columns:
@@ -216,7 +216,7 @@ ru_RU:
       member_name: Участник
   enumerize:
     currency:
-      cny: CNY
+      usd: USD
       btc: BTC
     deposit:
       aasm_state:

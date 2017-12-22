@@ -1,15 +1,15 @@
-<h2 class="panel-title">{{"funds.withdraw_cny.title" | t}}</h2>
+<h2 class="panel-title">{{"funds.withdraw_usd.title" | t}}</h2>
   <div class="help-block">
-    {{"funds.withdraw_cny.intro" | t}} <br />
-    {{"funds.withdraw_cny.intro_2" | t}} <br />
-    <span class="text-danger"><strong>{{"funds.withdraw_cny.attention" | t}}</strong> </span>
+    {{"funds.withdraw_usd.intro" | t}} <br />
+    {{"funds.withdraw_usd.intro_2" | t}} <br />
+    <span class="text-danger"><strong>{{"funds.withdraw_usd.attention" | t}}</strong> </span>
   </div>
 
-  <form id="cny_withdraws" name="withdraw_form" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl" ng-submit="withdrawsCtrl.createWithdraw(currency)">
+  <form id="usd_withdraws" name="withdraw_form" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl" ng-submit="withdrawsCtrl.createWithdraw(currency)">
 
     <div class="form-group">
       <div class="col-sm-6">
-        <label class="optional control-label">{{"funds.withdraw_cny.account_name" | t}}</label>
+        <label class="optional control-label">{{"funds.withdraw_usd.account_name" | t}}</label>
       </div>
       <div class="col-sm-12">
         <p class="form-control-static">{{name}}</p>
@@ -18,7 +18,7 @@
 
     <div class="form-group">
       <div class="col-sm-6">
-        <label class="select required control-label" for="withdraw_fund_source">{{"funds.withdraw_cny.withdraw_address" | t}}</label>
+        <label class="select required control-label" for="withdraw_fund_source">{{"funds.withdraw_usd.withdraw_address" | t}}</label>
       </div>
       <div class="col-sm-12" ng-if="fund_sources().length">
 
@@ -30,12 +30,12 @@
         </select>
 
       </div>
-      <span class="col-sm-6 help-block"><a href="javascript:;" ng-click="openFundSourceManagerPanel()" ng-bind="'funds.withdraw_cny.manage_withdraw' | t"></a></span>
+      <span class="col-sm-6 help-block"><a href="javascript:;" ng-click="openFundSourceManagerPanel()" ng-bind="'funds.withdraw_usd.manage_withdraw' | t"></a></span>
     </div>
 
     <div class="form-group">
       <div class="col-sm-6">
-        <label class="optional control-label">{{"funds.withdraw_cny.balance" | t}}</label>
+        <label class="optional control-label">{{"funds.withdraw_usd.balance" | t}}</label>
       </div>
       <div class="col-sm-12">
         <p class="form-control-static"><span class="currency-balance" id="withdraw_balance">{{balance}}</span></p>
@@ -44,15 +44,15 @@
 
     <div class="form-group required">
       <div class="col-sm-6">
-        <label class="decimal required control-label" for="withdraw_sum">{{"funds.withdraw_cny.withdraw_amount" | t}}</label>
+        <label class="decimal required control-label" for="withdraw_sum">{{"funds.withdraw_usd.withdraw_amount" | t}}</label>
       </div>
       <div class="col-sm-12">
         <div class="input-group">
-          <input class="numeric decimal required form-control" id="withdraw_sum" min="100" name="withdraw[sum]" placeholder="{{'funds.withdraw_cny.min' | t}} 100" step="any" type="number" value="0.0" ng-model="withdrawsCtrl.withdraw.sum">
-          <div class="input-group-btn"><button ng-click="withdrawsCtrl.withdrawAll()" class="btn btn-success" id="withdraw_all_btn" type="button">{{"funds.withdraw_cny.withdraw_all" | t}}</button></div>
+          <input class="numeric decimal required form-control" id="withdraw_sum" min="100" name="withdraw[sum]" placeholder="{{'funds.withdraw_usd.min' | t}} 100" step="any" type="number" value="0.0" ng-model="withdrawsCtrl.withdraw.sum">
+          <div class="input-group-btn"><button ng-click="withdrawsCtrl.withdrawAll()" class="btn btn-success" id="withdraw_all_btn" type="button">{{"funds.withdraw_usd.withdraw_all" | t}}</button></div>
         </div>
       </div>
-      <span class="col-sm-6 help-block"><a target="_balance" href="/documents/price">{{"funds.withdraw_cny.fee_explain" | t}}</a></span>
+      <span class="col-sm-6 help-block"><a target="_balance" href="/documents/price">{{"funds.withdraw_usd.fee_explain" | t}}</a></span>
     </div>
 
     <div class="form-group">

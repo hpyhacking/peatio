@@ -1,3 +1,3 @@
 describe Global do
-  let(:global) { Global['btccny'] }
+  let(:global) { Global['btcusd'] }
 end
