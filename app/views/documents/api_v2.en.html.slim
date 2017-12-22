@@ -67,7 +67,7 @@
 
     p Now we hav a signed request which can be used like this:
     pre: code
-      | curl -X GET 'https://peatio.com/api/v2/markets?access_key=xxx&foo=bar&tonce=123456789&signature=e324059be4491ed8e528aa7b8735af1e96547fbec96db962d51feb7bf1b64dee'
+      | curl -X GET 'https://demo.peatio.tech/api/v2/markets?access_key=xxx&foo=bar&tonce=123456789&signature=e324059be4491ed8e528aa7b8735af1e96547fbec96db962d51feb7bf1b64dee'
 
 .panel.panel-default
   .panel-heading
@@ -156,11 +156,11 @@
   .panel-body
     p Buy 1BTC at price 4000CNY:
     pre: code
-      | curl -X POST 'https://peatio.com/api/v2/orders' -d 'access_key=your_access_key&tonce=1234567&signature=computed_signature&market=btccny&price=4000&side=buy&volume=1'
+      | curl -X POST 'https://demo.peatio.tech/api/v2/orders' -d 'access_key=your_access_key&tonce=1234567&signature=computed_signature&market=btccny&price=4000&side=buy&volume=1'
 
     p Create multiple orders with a single request:
     pre: code
-      | curl -X POST 'https://peatio.com/api/v2/orders/multi' -d 'access_key=your_access_key&tonce=123456789&signature=computed_signature&market=btccny&orders[][price]=4000&orders[][side]=sell&orders[][volume]=0.5&orders[][price]=3999&orders[][side]=sell&orders[][volume]=0.99'
+      | curl -X POST 'https://demo.peatio.tech/api/v2/orders/multi' -d 'access_key=your_access_key&tonce=123456789&signature=computed_signature&market=btccny&orders[][price]=4000&orders[][side]=sell&orders[][volume]=0.5&orders[][price]=3999&orders[][side]=sell&orders[][volume]=0.99'
 
 .panel.panel-default
   .panel-heading
