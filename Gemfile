@@ -11,7 +11,6 @@ gem 'redis-rails'
 gem 'rotp'
 gem 'json'
 gem 'jbuilder'
-gem 'bcrypt'
 
 gem 'omniauth',               '~> 1.2.1'
 gem 'omniauth-identity',      '~> 1.1.1'
