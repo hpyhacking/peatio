@@ -262,7 +262,6 @@ GEM
     paranoid2 (1.1.5)
       activerecord (>= 4.1.0)
     phonelib (0.3.6)
-    power_assert (1.1.1)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -399,8 +398,6 @@ GEM
       sprockets (>= 3.0.0)
     structured_warnings (0.3.0)
     temple (0.8.0)
-    test-unit (3.2.6)
-      power_assert
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
@@ -496,7 +493,6 @@ DEPENDENCIES
   simple_captcha2
   simple_form (~> 3.1.0)
   slim-rails
-  test-unit
   timecop
   uglifier
   unread!
