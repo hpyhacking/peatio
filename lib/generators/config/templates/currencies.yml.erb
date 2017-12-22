@@ -1,3 +1,6 @@
+<% if ENV['CURRENCIES_CONFIG'] %>
+<%= File.read(ENV['CURRENCIES_CONFIG']) %>
+<% else %>
 - id: 1
   key: renminbi
   code: cny
@@ -36,3 +39,4 @@
     accounts:
       - address: r1234567890abcdefghijklmnopqrstuvw
         secret: sp1234567890abcdefghijklmnopq
+<% end %>

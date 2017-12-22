@@ -1,3 +1,6 @@
+<% if ENV['MARKETS_CONFIG'] %>
+<%= File.read(ENV['MARKETS_CONFIG']) %>
+<% else %>
 - id: btccny
   code: 3
   base_unit: btc
@@ -30,3 +33,4 @@
   sort_order: 1
   bid: { fee: 0.5, currency: xrp, fixed: 3 }
   ask: { fee: 0.001, currency: btc, fixed: 4 }
+<% end %>
