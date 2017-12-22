@@ -2,7 +2,6 @@ class APIToken < ActiveRecord::Base
   paranoid
 
   belongs_to :member
-  belongs_to :oauth_access_token, class_name: 'Doorkeeper::AccessToken', dependent: :destroy
 
   serialize :trusted_ip_list
 
@@ -10,16 +9,13 @@ class APIToken < ActiveRecord::Base
 
   before_validation :generate_keys, on: :create
 
-  scope :user_requested,  -> { where('oauth_access_token_id IS NULL') }
-  scope :oauth_requested, -> { where('oauth_access_token_id IS NOT NULL') }
-
-  def self.from_oauth_token(token)
+  def self.from_token(token)
     return nil unless token && token.token.present?
     access_key, secret_key = token.token.split(':')
     find_by_access_key access_key
   end
 
-  def to_oauth_token
+  def to_token
     [access_key, secret_key].join(':')
   end
 

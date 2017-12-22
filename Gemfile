@@ -13,8 +13,6 @@ gem 'json'
 gem 'jbuilder'
 gem 'bcrypt'
 
-gem 'doorkeeper', '~> 1.4.1'
-
 gem 'omniauth',               '~> 1.2.1'
 gem 'omniauth-identity',      '~> 1.1.1'
 gem 'omniauth-auth0',         '~> 2.0.0'

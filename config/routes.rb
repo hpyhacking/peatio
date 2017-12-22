@@ -7,7 +7,6 @@ class ActionDispatch::Routing::Mapper
 end
 
 Peatio::Application.routes.draw do
-  use_doorkeeper
 
   root 'welcome#index'
 
@@ -32,7 +31,7 @@ Peatio::Application.routes.draw do
 
   get '/documents/api_v2'
   get '/documents/websocket_api'
-  get '/documents/oauth'
+
   resources :documents, only: [:show]
   scope module: :private do
     resource  :id_document, only: [:edit, :update]

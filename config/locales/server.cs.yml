@@ -631,17 +631,6 @@ cs:
         http: HTTP API Dokument
         websocket: Websocket API Dokument
         more: 'Pro více informací zobrazte API sekci na github:'
-      oauth_tokens:
-        panel_title: Autorizace
-        title: Autorizované aplikace
-        oauth: OAuth Integrace
-        intro: Spravovat všechny Vaše autorizované aplikace.
-        no_token: Není aplikace.
-        unbind: Odvolat
-        unbind-confirm: Jste si jisti?
-        oauth_app_name: Jméno
-        oauth_app_expire: Expiruje v
-        oauth_app_scope: Rozsahy
       unbind:
         success: Úspěšně odvoláno.
         failed: Odvolání selhalo.
@@ -1183,49 +1172,6 @@ cs:
       accepted: Akceptováno
       checked: Kontrolováno
       warning: Upozornění
-  doorkeeper:
-    scopes:
-      profile: Zobrazit si základní profil (např jméno, e-mail) a zůstatek na účtu
-      history: Zobrazit historii Vašich obchodů
-      trade: Odeslat a stornovat objednávky
-    authorizations:
-      new:
-        title: Peatio Applikace Autorizace
-        authorize_html: Autorizovat <strong class='text-info'>%{name}</strong> pro Váš účet?
-        scopes: 'Tato aplikace je zde:'
-        authorize: Autorizovat
-        deny: Odmítnout
-    errors:
-      messages:
-        invalid_request: Žádosti chybí požadovaný parametr, obsahuje nepodporovaný parametr, nebo je jinak chybná.
-        invalid_redirect_uri: Přesměrování vloženého URI není platné.
-        unauthorized_client: Klient není autorizován pro žádosti touto metodou.
-        access_denied: Majitel zdroje nebo autorizační server odmítl žádost.
-        invalid_scope: Požadovaný rozsah je neplatný, neznámý, nebo chybný.
-        server_error: Při autorizaci na serveru došlo k neočekávané situaci, která brání splnění požadavku.
-        temporarily_unavailable: Autorizační server v současné době nemůže zpracovat požadavek kvůli dočasnému přetížení nebo údržbě serveru.
-        credential_flow_not_configured: nezsdařilo se protože Doorkeeper.configure.resource_owner_from_credentials není nakonfigurováno.
-        resource_owner_authenticator_not_configured: Majitel prostředků nenalezen protože Doorkeeper.configure.resource_owner_authenticator není nakonfigurováno.
-        unsupported_response_type: Autorizační server nepodporuje tento typ odpovědi.
-        invalid_client: Autentizace klienta se nezdařila z důvodu neznámého klienta, ověření klienta nepřiloženo nebo metoda ověření nepodporována.
-        invalid_grant: Pokud je autorizace neplatná, vypršela, zrušená, neodpovídá přesměrování URI použité v žádosti o autorizaci, nebo byla vydána jinému klientovi.
-        unsupported_grant_type: Typ oprávnění není podporován autorizačním serverem.
-        invalid_resource_owner: Poskytnuté pověření majitele zdroje není platné, nebo vlastníka zdroje nelze nalézt
-        invalid_token:
-          revoked: Token přístupu byl zrušen
-          expired: Token přístupu expiroval
-          unknown: Token přístupu je neplatný
-    flash:
-      applications:
-        create:
-          notice: Aplikace vytvořena
-        destroy:
-          notice: Aplikace vymazána
-        update:
-          notice: Aplikace aktualizována
-      authorized_applications:
-        destroy:
-          notice: Aplikace zrušena.
   easy_table:
     satoshi:
       amount: Částka

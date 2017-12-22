@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171206151009) do
+ActiveRecord::Schema.define(version: 20171221131530) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -50,16 +50,15 @@ ActiveRecord::Schema.define(version: 20171206151009) do
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
 
   create_table "api_tokens", force: :cascade do |t|
-    t.integer  "member_id",             limit: 4,   null: false
-    t.string   "access_key",            limit: 50,  null: false
-    t.string   "secret_key",            limit: 50,  null: false
+    t.integer  "member_id",       limit: 4,   null: false
+    t.string   "access_key",      limit: 50,  null: false
+    t.string   "secret_key",      limit: 50,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "trusted_ip_list",       limit: 255
-    t.string   "label",                 limit: 255
-    t.integer  "oauth_access_token_id", limit: 4
+    t.string   "trusted_ip_list", limit: 255
+    t.string   "label",           limit: 255
     t.datetime "expires_at"
-    t.string   "scopes",                limit: 255
+    t.string   "scopes",          limit: 255
     t.datetime "deleted_at"
   end
 
@@ -210,46 +209,6 @@ ActiveRecord::Schema.define(version: 20171206151009) do
     t.boolean  "api_disabled",             default: false
     t.string   "nickname",     limit: 255
   end
-
-  create_table "oauth_access_grants", force: :cascade do |t|
-    t.integer  "resource_owner_id", limit: 4,     null: false
-    t.integer  "application_id",    limit: 4,     null: false
-    t.string   "token",             limit: 255,   null: false
-    t.integer  "expires_in",        limit: 4,     null: false
-    t.text     "redirect_uri",      limit: 65535, null: false
-    t.datetime "created_at",                      null: false
-    t.datetime "revoked_at"
-    t.string   "scopes",            limit: 255
-  end
-
-  add_index "oauth_access_grants", ["token"], name: "index_oauth_access_grants_on_token", unique: true, using: :btree
-
-  create_table "oauth_access_tokens", force: :cascade do |t|
-    t.integer  "resource_owner_id", limit: 4
-    t.integer  "application_id",    limit: 4
-    t.string   "token",             limit: 255, null: false
-    t.string   "refresh_token",     limit: 255
-    t.integer  "expires_in",        limit: 4
-    t.datetime "revoked_at"
-    t.datetime "created_at",                    null: false
-    t.string   "scopes",            limit: 255
-    t.datetime "deleted_at"
-  end
-
-  add_index "oauth_access_tokens", ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true, using: :btree
-  add_index "oauth_access_tokens", ["resource_owner_id"], name: "index_oauth_access_tokens_on_resource_owner_id", using: :btree
-  add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
-
-  create_table "oauth_applications", force: :cascade do |t|
-    t.string   "name",         limit: 255,   null: false
-    t.string   "uid",          limit: 255,   null: false
-    t.string   "secret",       limit: 255,   null: false
-    t.text     "redirect_uri", limit: 65535, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.integer  "bid",            limit: 4

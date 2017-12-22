@@ -4,13 +4,10 @@ module Private
     before_action :auth_verified!
 
     def index
-      @tokens = current_user.api_tokens.user_requested
-      @oauth_api_tokens = current_user.api_tokens.oauth_requested
+      @tokens = current_user.api_tokens
 
-      ids = Doorkeeper::AccessToken
-        .where(id: @oauth_api_tokens.map(&:oauth_access_token_id))
-        .group(:application_id).select('max(id) as id')
-      @oauth_access_tokens = Doorkeeper::AccessToken.where(id: ids).includes(:application)
+      ids = APIToken.select('max(id) as id')
+      @access_tokens = APIToken.where(id: ids)
     end
 
     def new
@@ -30,11 +27,11 @@ module Private
     end
 
     def edit
-      @token = current_user.api_tokens.user_requested.find params[:id]
+      @token = current_user.api_tokens.find params[:id]
     end
 
     def update
-      @token = current_user.api_tokens.user_requested.find params[:id]
+      @token = current_user.api_tokens.find params[:id]
 
       if @token.update_attributes(api_token_params)
         flash.now[:notice] = t('.success')
@@ -46,17 +43,12 @@ module Private
     end
 
     def destroy
-      @token = current_user.api_tokens.user_requested.find params[:id]
+      @token = current_user.api_tokens.find params[:id]
       if @token.destroy
         redirect_to url_for(action: :index), notice: t('.success')
       else
         redirect_to url_for(action: :index), notice: t('.failed')
       end
-    end
-
-    def unbind
-      Doorkeeper::AccessToken.revoke_all_for(params[:id], current_user)
-      redirect_to url_for(action: :index), notice: t('.success')
     end
 
     private

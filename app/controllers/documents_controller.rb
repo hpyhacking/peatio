@@ -17,8 +17,4 @@ class DocumentsController < ApplicationController
     render 'websocket_api', layout: 'api_v2'
   end
 
-  def oauth
-    render 'oauth', layout: 'api_v2'
-  end
-
 end
