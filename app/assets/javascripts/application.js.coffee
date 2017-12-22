@@ -34,6 +34,9 @@
 $ ->
   BigNumber.config(ERRORS: false)
 
+  $('[data-clipboard-text], [data-clipboard-target]').each ->
+      clipboard = new Clipboard(this)
+
   if $('#assets-index').length
     $.scrollIt
       topOffset: -180

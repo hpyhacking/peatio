@@ -23,7 +23,6 @@
 #
 #= require bignumber
 #= require moment
-#= require ZeroClipboard
 #= require underscore
 #= require flight.min
 #= require list
@@ -33,3 +32,9 @@
 #= require_tree ./component_mixin
 #= require_tree ./component_data
 #= require_tree ./component_ui
+
+$ ->
+  BigNumber.config(ERRORS: false)
+
+  $('[data-clipboard-text], [data-clipboard-target]').each ->
+      clipboard = new Clipboard(this)

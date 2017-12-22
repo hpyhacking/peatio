@@ -1,9 +1,5 @@
 $(window).load ->
 
-  $.subscribe 'deposit_address:create', (event, data) ->
-    $('[data-clipboard-text], [data-clipboard-target]').each ->
-      clipboard = new Clipboard (this)
-
   # qrcode
   $.subscribe 'deposit_address:create', (event, data) ->
     code = if data then data else $('#deposit_address').html()
