@@ -4,7 +4,7 @@
 replicaCount: 1
 image:
   repository: rubykube/peatio
-  tag: 0.2.2
+  tag: 0.2.4
   pullPolicy: IfNotPresent
 service:
   name: peatio
