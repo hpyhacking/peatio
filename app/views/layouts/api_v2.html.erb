@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= include_gon %>
+    <%= stylesheet_link_tag 'api_v2', media: 'all' %>
+    <%= javascript_include_tag 'api_v2' %>
+    <%= render 'shared/html5' %>
+    <%= render 'shared/meta' %>
+  </head>
+
+  <body id="<%= body_id %>" data-lang="<%= locale_name %>">
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Peatio API Document</a>
+        </div>
+        <ul class="nav navbar-nav pull-right">
+          <% if current_user %>
+            <%= top_nav_link(current_user.email, settings_path, 'user', controllers: ['identities', 'id_documents']) %>
+            <% if is_admin? %>
+              <%= top_nav_link(t('header.dashboard'), admin_dashboard_path, 'dashboard') %>
+            <% end %>
+            <li>
+              <a id="sign_out" href="<%= main_app.signout_path %>">
+                <i class="fa fa-sign-out"></i>
+                <span><%= t('header.signout') %></span>
+              </a>
+            </li>
+          <% else %>
+            <%= top_nav_link(t('header.signin'), signin_path, '') %>
+            <%= top_nav_link(t('header.signup'), signup_path, '') %>
+          <% end %>
+
+          <li class="dropdown">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+              <img src="<%= language_path %>"/>
+              <b class="caret"></b>
+            </a>
+            <ul id="languages" class="dropdown-menu">
+              <% I18n.available_locales.each do |lang| %>
+                <li>
+                  <a href="?lang<%= lang %>">
+                    <img src="<% language_path(lang) %>"/>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <%= render 'shared/footer' %>
+  </body>
+</html>
