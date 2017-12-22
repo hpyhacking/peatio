@@ -81,18 +81,15 @@ group :development, :test do
   gem 'faker', '~> 1.4.3'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'pry-rails'
   gem 'quiet_assets'
   gem 'timecop'
-  gem 'dotenv-rails'
   gem 'rspec-rails'
-  gem 'byebug'
+  gem 'pry-byebug'
 end
 
 group :test do
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'launchy'
   gem 'mocha', require: false
   gem 'selenium-webdriver'
 

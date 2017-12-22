@@ -123,10 +123,6 @@ GEM
     diff-lcs (1.3)
     doorkeeper (1.4.2)
       railties (>= 3.1)
-    dotenv (2.2.1)
-    dotenv-rails (2.2.1)
-      dotenv (= 2.2.1)
-      railties (>= 3.2, < 5.2)
     easy_table (0.0.8)
       actionpack (> 4.2)
       activemodel (> 4.2)
@@ -214,8 +210,6 @@ GEM
       activerecord
       kaminari-core (= 1.1.1)
     kaminari-core (1.1.1)
-    launchy (2.4.3)
-      addressable (~> 2.3)
     liability-proof (0.0.9)
       awesome_print
     loofah (2.1.1)
@@ -274,8 +268,9 @@ GEM
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    pry-rails (0.3.6)
-      pry (>= 0.10.4)
+    pry-byebug (3.5.1)
+      byebug (~> 9.1)
+      pry (~> 0.10)
     public_suffix (3.0.1)
     puma (3.11.0)
     pusher (1.3.1)
@@ -441,7 +436,6 @@ DEPENDENCIES
   bourbon
   browser (~> 0.8.0)
   bunny (~> 1.2.1)
-  byebug
   cancancan
   capybara
   carrierwave (~> 0.10.0)
@@ -451,7 +445,6 @@ DEPENDENCIES
   database_cleaner
   datagrid
   doorkeeper (~> 1.4.1)
-  dotenv-rails
   easy_table
   eco
   em-websocket (~> 0.5.1)
@@ -476,7 +469,6 @@ DEPENDENCIES
   json
   jwt (~> 1.5)
   kaminari
-  launchy
   liability-proof (= 0.0.9)
   mocha
   momentjs-rails
@@ -488,7 +480,7 @@ DEPENDENCIES
   paper_trail (~> 3.0.1)
   paranoid2
   phonelib (~> 0.3.5)
-  pry-rails
+  pry-byebug
   puma
   pusher
   quiet_assets
