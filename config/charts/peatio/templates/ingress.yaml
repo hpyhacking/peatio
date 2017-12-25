@@ -1,6 +1,4 @@
 {{- if .Values.ingress.enabled -}}
-{{- $serviceName := include "fullname" . -}}
-{{- $servicePort := .Values.service.externalPort -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -16,17 +14,17 @@ metadata:
     {{- end }}
 spec:
   rules:
-    {{- range $host := .Values.ingress.hosts }}
-    - host: {{ $host }}
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           - path: /
             backend:
-              serviceName: {{ $serviceName }}
-              servicePort: {{ $servicePort }}
-    {{- end -}}
+              serviceName: {{ template "fullname" . }}
+              servicePort: {{ .Values.service.externalPort }}
   {{- if .Values.ingress.tls }}
   tls:
-{{ toYaml .Values.ingress.tls | indent 4 }}
+    - secretName: {{ .Values.ingress.host | replace "." "-" }}-tls
+      hosts:
+        - {{ .Values.ingress.host }}
   {{- end -}}
 {{- end -}}

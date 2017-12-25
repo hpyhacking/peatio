@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+data:
+  currencies.yml: |-
+    - id: 1
+      key: renminbi
+      code: usd
+      symbol: "$"
+      coin: false
+      precision: 2
+      assets:
+        accounts:
+          - bank: "Demo Bank"
+            address: "6225 0885 6022 3501"
+            password: "111111"
+            tel: "95555"
+    - id: 2
+      key: satoshi
+      code: btc
+      symbol: "฿"
+      coin: true
+      quick_withdraw_max: 0
+      rpc: {{ template "rpc" . }}
+      blockchain: https://blockchain.info/tx/#{txid}
+      address_url: https://blockchain.info/address/#{address}
+      assets:
+        accounts:
+          - address: {{ .Values.bitcoind.account.address }}
+    - id: 3
+      key: ripple
+      code: xrp
+      symbol: "ꭆ"
+      coin: true
+      quick_withdraw_max: 0
+      rpc: https://api.altnet.rippletest.net:51234
+      rest_api: "https://api.altnet.rippletest.net:5990"
+      blockchain: "https://bithomp.com/explorer/#{txid}"
+      address_url: "https://bithomp.com/explorer/#{address}"
+      assets:
+        accounts:
+          - address: {{ .Values.rippled.account.address }}
+            secret: {{ .Values.rippled.account.secret }}

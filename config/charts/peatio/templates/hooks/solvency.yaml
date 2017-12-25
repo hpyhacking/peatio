@@ -1,12 +1,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-prepare-db-{{ randNumeric 5 }}"
+  name: "{{ .Release.Name }}-solvency-{{ randNumeric 5 }}"
   labels:
     app: {{ template "fullname" . }}
     component: peatio
   annotations:
-    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook": post-install,post-upgrade
 spec:
   template:
     metadata:
@@ -17,8 +17,8 @@ spec:
     spec:
       restartPolicy: OnFailure
       containers:
-        - name: prepare-db
+        - name: solvency
           image: {{ template "image" . }}
-          command: ["rake", "db:create", "db:migrate"]
+          command: ["rake", "solvency:liability_proof"]
           env:
-{{ include "prepare-db-env" . | indent 12 }}
+{{ include "env" . | indent 12 }}
