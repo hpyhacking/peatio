@@ -9,7 +9,7 @@ module CoinRPC
     def handle(name, *args)
       post_body = { method: name, params: args }.to_json
       resp = JSON.parse(http_post_request(post_body))
-      raise JSONRPCError, resp['error'] if resp['error']
+      raise_if_unsuccessful!(resp)
       result = resp['result']
       result.symbolize_keys! if result.is_a? Hash
       result
@@ -28,7 +28,7 @@ module CoinRPC
 
     def getnewaddress(args = nil)
       resp = JSON.parse(RestClient.get("#{@rest_uri}/v1/wallet/new").body)
-      raise JSONRPCError, resp['error'] if resp['error']
+      raise_if_unsuccessful!(resp)
       resp['wallet']
     end
 
@@ -45,7 +45,7 @@ module CoinRPC
         }.to_json
 
         resp = JSON.parse(http_post_request(post_body))
-        raise JSONRPCError, resp['error'] if resp['error']
+        raise_if_unsuccessful!(resp)
 
         resp['result']['transactions'].map do |t|
           {
@@ -71,7 +71,7 @@ module CoinRPC
       }.to_json
 
       resp = JSON.parse(http_post_request(post_body))
-      raise JSONRPCError, resp['error'] if resp['error']
+      raise_if_unsuccessful!(resp)
 
       {
         amount: resp['result']['Amount'].to_d / 1_000_000,
@@ -100,7 +100,7 @@ module CoinRPC
       }.to_json
 
       resp = JSON.parse(http_post_request(post_body))
-      raise JSONRPCError, resp['error'] if resp['error']
+      raise_if_unsuccessful!(resp)
 
       {
         isvalid: resp['result']['status'] == 'success',
@@ -157,13 +157,20 @@ module CoinRPC
       }.to_json
 
       resp = JSON.parse(http_post_request(post_body))
-      raise JSONRPCError, resp['error'] if resp['error']
-      result = resp['result']['account_data']['Balance'].to_f / 1_000_000
-      result
+      raise_if_unsuccessful!(resp)
+      resp['result']['account_data']['Balance'].to_f / 1_000_000
     end
 
     def safe_getbalance
       getbalance || 'N/A'
+    end
+
+  private
+
+    def raise_if_unsuccessful!(response)
+      (response['error'] || response.dig('result', 'error')).tap do |error|
+        raise JSONRPCError, error if error
+      end
     end
   end
 end
