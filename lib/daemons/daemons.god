@@ -37,11 +37,19 @@ end
 
 daemon 'amqp:deposit_coin',
        script:   'amqp_daemon.rb',
-       arguments: %w[ deposit_coin deposit_coin_address ]
+       arguments: %w[ deposit_coin ]
 
-daemon 'amqp:market_data',
+daemon 'amqp:deposit_coin_address',
        script:   'amqp_daemon.rb',
-       arguments: %w[ slave_book market_ticker ]
+       arguments: %w[ deposit_coin_address ]
+
+daemon 'amqp:slave_book',
+       script:   'amqp_daemon.rb',
+       arguments: %w[ slave_book  ]
+
+daemon 'amqp:market_ticker',
+       script:   'amqp_daemon.rb',
+       arguments: %w[ market_ticker ]
 
 daemon 'amqp:matching',
        script:   'amqp_daemon.rb',
@@ -55,9 +63,13 @@ daemon 'amqp:order_processor',
        script:   'amqp_daemon.rb',
        arguments: %w[ order_processor ]
 
-daemon 'amqp:pusher',
+daemon 'amqp:pusher_market',
        script:   'amqp_daemon.rb',
-       arguments: %w[ pusher_market pusher_member ]
+       arguments: %w[ pusher_market ]
+
+daemon 'amqp:pusher_member',
+       script:   'amqp_daemon.rb',
+       arguments: %w[ pusher_member ]
 
 daemon 'amqp:trade_executor',
        script:   'amqp_daemon.rb',
