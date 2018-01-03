@@ -4,4 +4,11 @@
 
 require File.expand_path('../config/application', __FILE__)
 
+logger       = Logger.new(STDOUT)
+logger.level = Logger::DEBUG
+Rails.logger = logger
+
 Peatio::Application.load_tasks
+
+# Load additional tasks from "support/tasks".
+Dir.glob('lib/peatio/tasks/**/*') { |f| load(f) }

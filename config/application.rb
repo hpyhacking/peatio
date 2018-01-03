@@ -33,5 +33,8 @@ module Peatio
     config.active_record.raise_in_transactional_callbacks = true
 
     config.assets.initialize_on_precompile = true
+
+    # Automatically load and reload constants from "lib/peatio".
+    config.paths.add 'lib/peatio', eager_load: true, glob: '*'
   end
 end
