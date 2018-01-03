@@ -1,0 +1,25 @@
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <span><%= t('.member_info') %></span>
+    <%= link_to 'View', url_for([:admin, member]), class: 'pull-right', target: '_blank' %>
+  </div>
+  <div class="panel-body">
+    <%= description_for :member do %>
+      <%= item_for member, :name %>
+      <%= item_for member, :email %>
+      <%= item_for member, :phone_number do %>
+        <% if member.phone_number %>
+          <span><%= member.phone_number %></span>
+        <% else %>
+          <span>-</span>
+        <% end %>
+      <% end %>
+      <%= item_for member, :activated %>
+      <%= item_for member, :created_at %>
+      <%= item_for member, :actions do %>
+        <%= link_to 'Activate Email', active_admin_member_path(member), method: :post, confirm: 'Activate ?', class: 'btn btn-danger btn-xs' %>
+      <% end %>
+      <hr class="split">
+    <% end %>
+  </div>
+</div>
