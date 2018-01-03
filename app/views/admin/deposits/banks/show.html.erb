@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-xs-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <span><%= t('.deposit') %></span>
+      </div>
+      <div class="panel-body">
+        <%= description_for :member do %>
+          <%= item_for @bank, :sn %>
+          <%= item_for @bank.member, :name %>
+          <%= item_for @bank, :amount %>
+          <%= item_for @bank, :created_at %>
+          <hr class="split">
+          <%= item_for @bank, :fund_extra, bank_code_to_name(@bank.fund_extra) %>
+          <%= item_for @bank, :fund_uid %>
+          <%= item_for @bank, :aasm_state_text %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-8">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <span><%= t('.target_deposit') %></span>
+      </div>
+      <div class="panel-body">
+        <%= form_for [:admin, @bank] do |f| %>
+          <dl class="dl-horizontal dl-member">
+            <%= item_for @bank, :sn %>
+            <%= item_for @bank, :amount %>
+            <%= item_for @bank, :done_at %>
+            <% if @bank.may_submit? or @bank.may_accept? %>
+              <dt><%= t('.txid') %></dt>
+              <dd><%= f.text_field :txid, class: 'col-xs-24' %></dd>
+              <hr class="split">
+              <%= f.submit t('.accept'), class: 'btn btn-primary pull-right', confirm: t('.confirm') %>
+            <% else %>
+              <%= item_for @bank, :txid %>
+            <% end %>
+          </dl>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-8">
+    <%= render partial: 'shared/admin/member', locals: {member: @bank.member} %>
+  </div>
+</div>

@@ -1,0 +1,167 @@
+<div class="col-xs-18">
+  <div class="panel">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.id') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= @id_document.id %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.name') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= link_to @id_document.name, admin_member_path(@id_document.member) %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.email') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= link_to @id_document.member.email, admin_member_path(@id_document.member) %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.birth_day') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= @id_document.birth_date %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.address') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= @id_document.address %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.city') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= @id_document.city %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.country') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= @id_document.country %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.zipcode') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= @id_document.zipcode %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.id_document_type') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= @id_document.id_document_type %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.id_document_number') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= @id_document.id_document_number %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.id_document_file') %></label>
+        </div>
+        <div class="col-xs-18">
+          <%= admin_asset_tag @id_document.id_document_file %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.id_bill_type') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= @id_document.id_bill_type.present? ? @id_document.id_bill_type : t('.unknow') %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.id_bill_file') %></label>
+        </div>
+        <div class="col-xs-18">
+          <%= admin_asset_tag @id_document.id_bill_file %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.created_at') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= @id_document.created_at %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.updated_at') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= @id_document.updated_at %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.state') %></label>
+        </div>
+        <div class="col-xs-18">
+          <span><%= t(".state_#{@id_document.aasm_state}") %></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 text-right">
+          <label><%= t('.verified') %></label>
+        </div>
+        <div class="col-xs-18">
+          <%= yesno(@id_document.verified?) %>
+        </div>
+      </div>
+
+      <hr class="split">
+
+      <div class="row">
+        <div class="col-xs-5 text-right"></div>
+
+        <% if @id_document.may_approve? %>
+          <div class="col-xs-4">
+            <%= link_to admin_id_document_path(@id_document, approve: 'true'), method: :patch, style: 'color: white;' do %>
+              <button class="btn btn-primary">
+                <%= t('.approve') %>
+              </button>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if @id_document.may_reject? %>
+          <div class="col-xs-4">
+            <%= link_to admin_id_document_path(@id_document, reject: 'true'), method: :patch, style: 'color: white;' %>
+            <button class="btn btn-danger">
+              <%= t('.reject') %>
+            </button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

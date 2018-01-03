@@ -1,0 +1,20 @@
+<% unless @one_ripples.empty? %>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <span><%= t('.one') %></span>
+    </div>
+    <%= render partial: 'table', locals: {ripples: @one_ripples} %>
+  </div>
+<% end %>
+<% unless @all_ripples.empty? %>
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <span><%= t('.all') %></span>
+    </div>
+    <%= render partial: 'table', locals: {ripples: @all_ripples} %>
+  </div>
+<% end %>
+
+<% if @all_ripples.empty? and @one_ripples.empty? %>
+  <h3 class="text-info text-center"><%= t('.empty') %></h3>
+<% end %>

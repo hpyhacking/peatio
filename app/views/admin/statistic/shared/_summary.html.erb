@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title row">
+      <a data-parent="#filter-accordion" data-toggle="collapse" href="#summary">
+        <span class="col-xs-8">
+          <%= t('admin.statistic.summary') %>
+        </span>
+        <span class="col-xs-4 text-right text-muted">
+          <%= t('admin.statistic.click-to-expand') %>
+        </span>
+      </a>
+    </h4>
+  </div>
+  <div id="summary" class="panel-collapse collapse">
+    <div class="panel-body">
+      <div class="datagrid-groups">
+        <% if groups %>
+          <% groups.each do |key, val| %>
+            <div class="datagrid group row">
+              <span class="col-xs-2 title">
+                <%= t("admin.statistic.#{controller_name}.#{controller.action_name}.#{key}") %>
+              </span>
+              <span class="col-xs-10 value">
+                <%= val %>
+              </span>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
