@@ -210,6 +210,7 @@ GEM
     kaminari-core (1.1.1)
     liability-proof (0.0.9)
       awesome_print
+    libv8 (6.3.292.48.1)
     loofah (2.1.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -220,6 +221,8 @@ GEM
     mime-types (1.25.1)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
+    mini_racer (0.1.15)
+      libv8 (~> 6.3)
     minitest (5.10.3)
     mocha (1.3.0)
       metaclass (~> 0.0.1)
@@ -463,6 +466,7 @@ DEPENDENCIES
   jwt (~> 1.5)
   kaminari
   liability-proof (= 0.0.9)
+  mini_racer (~> 0.1)
   mocha
   momentjs-rails
   mysql2 (~> 0.3.21)
