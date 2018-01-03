@@ -10,7 +10,7 @@ metadata:
 data:
   currencies.yml: |-
     - id: 1
-      key: renminbi
+      key: dollar
       code: usd
       symbol: "$"
       coin: false

@@ -126,7 +126,7 @@ ru_RU:
     satoshi:
       key: BTC
       code: BTC
-    renminbi:
+    dollar:
       key: USD
       code: USD
   datagrid:

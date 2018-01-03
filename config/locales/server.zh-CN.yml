@@ -290,7 +290,7 @@ zh-CN:
       code: BTSX
       name: 比特股
       format: '0,0.0000'
-    renminbi:
+    dollar:
       key: USD
       code: USD
       name: 人民币

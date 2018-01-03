@@ -290,7 +290,7 @@ ko:
       code: BTSX
       name: BitsharesX
       format: '0,0.0000'
-    renminbi:
+    dollar:
       key: USD
       code: USD
       name: WON

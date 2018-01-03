@@ -333,7 +333,7 @@ en:
       code: BTSX
       name: BitsharesX
       format: '0,0.0000'
-    renminbi:
+    dollar:
       key: usd
       code: usd
       name: USD
