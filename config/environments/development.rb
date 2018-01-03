@@ -1,3 +1,5 @@
+require File.expand_path('../shared', __FILE__)
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -23,9 +25,6 @@ Rails.application.configure do
   config.action_mailer.file_settings = { location: 'tmp/mails' }
 
   config.action_mailer.default_url_options = { host: ENV["URL_HOST"] }
-
-  # Print deprecation notices to the Rails logger.
-  config.active_support.deprecation = :log
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
