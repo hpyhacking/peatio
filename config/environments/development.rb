@@ -21,10 +21,9 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
-  config.action_mailer.delivery_method = :file
-  config.action_mailer.file_settings = { location: 'tmp/mails' }
-
-  config.action_mailer.default_url_options = { host: ENV["URL_HOST"] }
+  config.action_mailer.delivery_method     = :smtp
+  config.action_mailer.smtp_settings       = { address: 'localhost', port: 1025 }
+  config.action_mailer.default_url_options = { host: ENV.fetch('URL_HOST') }
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
