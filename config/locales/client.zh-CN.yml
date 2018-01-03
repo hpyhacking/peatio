@@ -1,7 +1,4 @@
 # encoding: utf-8
-#
-# Never edit this file. It will be overwritten when translations are pulled from Transifex.
-#
 
 zh-CN:
   js:
@@ -45,9 +42,9 @@ zh-CN:
       deposit: 充值
       withdraw: 提现
       currency_name:
-        cny: CNY
+        usd: USD
         btc: BTC
-      deposit_cny:
+      deposit_usd:
         title: 人民币充值
         desc: "通过银行转账汇款的方式，经人工审核后充值人民币到您的交易账户中，流程如下："
         desc_item_1: "1. 提交以下表单，获得转账识别码；"
@@ -96,7 +93,7 @@ zh-CN:
         checked: 充值成功
         warning: 异常
         suspect: 异常
-      withdraw_cny:
+      withdraw_usd:
         title: 人民币提现
         intro: 选择提现银行并输入帐号和提取金额，完成提交。
         intro_2: 您提现的银行账户姓名必须和您实名认证的姓名一致。
@@ -145,19 +142,8 @@ zh-CN:
         almost_done: 发送中
         canceled: 已撤销
         failed: 提现出错
-    auth:
-      please_active_two_factor: 为了您的资金安全, 请先绑定手机或设置两步验证。
-      submit: 确认
-      otp_placeholder: 6位数字密码
-      google_app: 谷歌身份验证器
-      sms: 手机短信验证
-      send_code: 获取验证码
-      send_code_alt: COUNT秒后重新发送
-      hints:
-        app: 谷歌验证器每三十秒会重新生成新密码，请及时输入。
-        sms: 请点击“获取验证码”按纽，我们将会把验证码以短信的方式发到您的手机上。
     markets:
       market_list:
         all: 全部交易对
-        cny: CNY交易对
+        usd: USD交易对
         btc: BTC交易对

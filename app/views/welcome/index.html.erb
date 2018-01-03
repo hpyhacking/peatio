@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="logo">
+    <a href="https://peatio.tech" target="blank">
+      <img src="<%= image_path 'logo.svg' %>" width="500px" />
+    </a>
+  </div>
+
+  <section class="text-center" style="line-height: 1">
+    <h2><%= t('slogan.heading') %></h2>
+    <h3><%= t('slogan.subheading') %></h3>
+    <p><%= t('slogan.text1') %></p>
+    <p><%= t('slogan.text2') %></p>
+  </section>
+
+  <div class="row" id="getstart">
+    <% unless current_user %>
+      <% offset = 8 %>
+      <% offset -= 2 if ENV['GOOGLE_OAUTH2_SIGN_IN'] %>
+      <% offset -= 2 if ENV['AUTH0_OAUTH2_SIGN_IN'] %>
+
+      <div class="col-xs-4 col-xs-offset-<%= offset %>">
+        <%= link_to t('header.signin'), signin_path, class: %w(btn btn-primary btn-lg btn-block), html: { role: 'button' } %>
+      </div>
+
+      <% if ENV['GOOGLE_OAUTH2_SIGN_IN'] %>
+        <div class="col-xs-5">
+          <a class="btn btn-primary btn-lg btn-block" href="/auth/google_oauth2" role="button"><%= t('header.sign_in_with_google') %></a>
+        </div>
+      <% end %>
+
+      <% if ENV['AUTH0_OAUTH2_SIGN_IN'] %>
+        <div class="col-xs-4">
+          <a class="btn btn-primary btn-lg btn-block" href="/auth/auth0" role="button"><%= t('header.sign_in_with_auth0') %></a>
+        </div>
+      <% end %>
+
+      <div class="col-xs-4">
+        <a class="btn btn-primary btn-lg btn-block" href="<%= signup_path %>" role="button"><%= t('header.signup') %></a>
+      </div>
+    <% else %>
+      <div class="col-xs-6 col-xs-offset-9 text-center">
+        <a class="btn btn-primary btn-lg btn-block" href="<%= market_path(current_market) %>" role="button"><%= t('header.getstart') %></a>
+        <a class="btn btn-primary btn-lg btn-block" href="<%= settings_path %>" role="button"><%= t('header.settings') %></a>
+      </div>
+    <% end %>
+  </div>
+</div>

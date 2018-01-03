@@ -7,13 +7,8 @@ class ActionDispatch::Routing::Mapper
 end
 
 Peatio::Application.routes.draw do
-  use_doorkeeper
 
   root 'welcome#index'
-
-  if Rails.env.development?
-    mount MailsViewer::Engine => '/mails'
-  end
 
   get '/signin' => 'sessions#new', :as => :signin
   get '/signup' => 'identities#new', :as => :signup
@@ -24,15 +19,9 @@ Peatio::Application.routes.draw do
   resource :member, :only => [:edit, :update]
   resource :identity, :only => [:edit, :update]
 
-  namespace :verify do
-    resource :sms_auth,    only: [:show, :update]
-    resource :google_auth, only: [:show, :update, :edit, :destroy]
-  end
-
   namespace :authentications do
     resources :emails, only: [:new, :create]
     resources :identities, only: [:new, :create]
-    resource :weibo_accounts, only: [:destroy]
   end
 
   scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do
@@ -42,13 +31,10 @@ Peatio::Application.routes.draw do
 
   get '/documents/api_v2'
   get '/documents/websocket_api'
-  get '/documents/oauth'
-  resources :documents, only: [:show]
-  resources :two_factors, only: [:show, :index, :update]
 
+  resources :documents, only: [:show]
   scope module: :private do
     resource  :id_document, only: [:edit, :update]
-
     resources :settings, only: [:index]
     resources :api_tokens do
       member do
@@ -110,7 +96,7 @@ Peatio::Application.routes.draw do
       end
     end
 
-    post '/pusher/auth', to: 'pusher#auth'
+   post '/pusher/auth', to: 'pusher#auth'
 
     resources :tickets, only: [:index, :new, :create, :show] do
       member do

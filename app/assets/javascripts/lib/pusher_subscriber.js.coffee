@@ -3,7 +3,7 @@ class PusherSubscriber
     pusher_key = $("meta[name=pusher]").attr("content")
     @socket = window.pusher
     @channels = []
-    @subscribeChannels(gon.current_user.sn)
+    @subscribeChannels(gon.user.sn)
 
   release: ->
     @socket.disconnect()

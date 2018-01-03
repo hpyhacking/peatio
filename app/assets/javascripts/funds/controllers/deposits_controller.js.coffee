@@ -1,7 +1,7 @@
 app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$filter', '$gon', 'ngDialog', ($scope, $stateParams, $http, $filter, $gon, ngDialog) ->
   @deposit = {}
   $scope.currency = $stateParams.currency
-  $scope.current_user = current_user = $gon.current_user
+  $scope.current_user = current_user = $gon.user
   $scope.name = current_user.name
   $scope.fund_sources = $gon.fund_sources
   $scope.account = Account.findBy('currency', $scope.currency)
@@ -38,7 +38,7 @@ app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$filte
       $("a#new_address").html('...')
       $("a#new_address").attr('disabled', 'disabled')
 
-      $http.post("/deposits/#{resource_name}/gen_address", {})
+      $http.post("/deposits/#{resource_name}/gen_address", authenticity_token: $('meta[name="csrf-token"]').attr('content'))
         .error (responseText) ->
           $.publish 'flash', {message: responseText }
         .finally ->

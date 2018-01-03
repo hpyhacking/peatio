@@ -21,6 +21,7 @@ en:
       deposits/bank: Deposit Bank
       withdraws/bank: Withdraw Bank
       withdraws/satoshi: Withdraw
+      withdraws/ripple: Withdraw
     attributes:
       api_token:
         access_key: Access Key
@@ -136,12 +137,7 @@ en:
         activated: Activated
         activated?: "Activated?"
         id_document_verified?: "Id Document Verified?"
-        two_factor_activated?: "Tow Factor Activated?"
         phone_number: Phone Number
-      two_factor/sms:
-        country: Country
-        phone_number: Phone Number
-        otp: Verify Code
       withdraws/bank:
         id: ID
         member_name: Member
@@ -174,7 +170,27 @@ en:
         amount: Amount
         confirmations: Confirmation
         aasm_state_text: State
+      deposits/ripple:
+        created_at: Created At
+        txid: Transaction ID
+        amount: Amount
+        confirmations: Confirmation
+        aasm_state_text: State
       withdraws/satoshi:
+        id: ID
+        member_name: Account
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_extra_text: Withdraw Label
+        fund_extrat: Withdraw Label
+        fund_source: Bank
+        fund_uid: Account
+        created_at: Created At
+        sum: Amount
+        amount: Amount
+        remark: Remark
+        fee: Fee
+      withdraws/ripple:
         id: ID
         member_name: Account
         currency_obj_key_text: Currency
@@ -235,6 +251,8 @@ en:
             address:
               satoshi_ismine: Used Address
               satoshi_invalid: Invalid Address
+              ripple_ismine: Used Address
+              ripple_invalid: Invalid Address
         withdraw:
           account_balance_is_poor: Account balance is insufficient
           attributes:
@@ -249,10 +267,12 @@ en:
               blank: Please enter your withdrawal address
               invalid: Invalid withdrawals address, please review.
               ismine: Please use a new address.
-        two_factor:
+        withdraws/ripple:
           attributes:
-            otp:
-              invalid: Wrong Password!Please re-enter.
+            fund_uid:
+              blank: Please enter your withdrawal address
+              invalid: Invalid withdrawals address, please review.
+              ismine: Please use a new address.
         application:
           attributes:
             redirect_uri:
@@ -292,7 +312,8 @@ en:
   market:
     currency:
       btc: BTC
-      cny: CNY
+      xrp: XRP
+      usd: USD
       doge: DOGE
       pts: PTS
       ltc: LTC
@@ -302,15 +323,20 @@ en:
       code: BTC
       name: Bitcoin
       format: '0,0.0000'
+    ripple:
+      key: XRP
+      code: XRP
+      name: Ripple
+      format: '0,0.0000'
     bitsharesx:
       key: BTS
       code: BTSX
       name: BitsharesX
       format: '0,0.0000'
     renminbi:
-      key: CNY
-      code: CNY
-      name: Chinese Yuan
+      key: usd
+      code: usd
+      name: USD
       format: '0,0.00'
     dogecoin:
       key: DOG
@@ -467,6 +493,13 @@ en:
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
+    ripple:
+      key: Block Chain
+      title: Ripple Deposits
+      intro: Deposit ripple from your own wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
   deposits/bank:
     aasm_state:
       submitting: Submitting
@@ -479,6 +512,9 @@ en:
   private:
     deposits:
       satoshis:
+        gen_address:
+          require_transaction: it can't generate new address if it hasn't been used.
+      ripples:
         gen_address:
           require_transaction: it can't generate new address if it hasn't been used.
       banks:
@@ -566,13 +602,10 @@ en:
         fee: Fee
         total: Total
         withdraw_history: Withdrawal History
-      create:
-        two_factors_error: Two factor authentication failed.
       banks:
         update:
           notice: Bank Transfer withdrawal application has been submitted, we will
             process it as soon as possible
-          alert_two_factor: Two-Factor Authentication error
         destroy:
           notice: Bank Transfer withdraw has been cancelled, frozen amount has been
             returned to your account.
@@ -585,6 +618,20 @@ en:
           notice: Withdrawal request successfully submitted. Use the info below to
             complete the bank transfer.
       satoshis:
+        destroy:
+          notice: Withdraw been canceled, frozen balance has returned to your account
+        update:
+          notice: Withdraw request is submit successful, we will process it as soon
+            as possible
+        new:
+          submit: Submit
+          allin: All-In
+          fund_source_label: Label
+          manage_fund_source: Manage Fund Source
+        create:
+          notice: Withdrawal request successfully submitted. Use the info below to
+            complete the bank transfer.
+      ripples:
         destroy:
           notice: Withdraw been canceled, frozen balance has returned to your account
         update:
@@ -607,9 +654,9 @@ en:
           can help you out as soon as possible. All discussions are private between
           you and the support staff.
       ticket_create_succ: Ticket created successfully.
-      ticket_create_fail: Failed to create ticket, please try again latter.
+      ticket_create_fail: Failed to create ticket, please try again later.
       comment_succ: Comment successfully.
-      cooment_fail: Comment failed, please try again latter
+      comment_fail: Comment failed, please try again latter
       me: me
       supporter: Support
       close: Close Ticket
@@ -633,24 +680,12 @@ en:
         http: HTTP API Document
         websocket: Websocket API Document
         more: 'For more information please check the API section on github:'
-      oauth_tokens:
-        panel_title: Authorizations
-        title: Authorized Applications
-        oauth: OAuth Integration
-        intro: Manage all your authorized applications.
-        no_token: No Application.
-        unbind: Revoke
-        unbind-confirm: Are you sure?
-        oauth_app_name: Name
-        oauth_app_expire: Expire At
-        oauth_app_scope: Scopes
       unbind:
         success: Successfully revoked.
         failed: Revoke failed.
       new:
         label_hint: Label helps you remember token usage, optional.
       create:
-        alert_two_factor: Two step authentication failed.
         success: API token created successfully.
         failed: Failed to create API token. Please try again later or contact admin.
         desc: Please copy and paste keys below to a safe place and save. The secret key will never be displayed again.
@@ -659,7 +694,6 @@ en:
         label_hint: Label helps you remember token usage, optional.
         ip_whitelist_hint: Seperate IP by commas, leave this field blank means all IP are allowed.
       update:
-        alert_two_factor: Two step authentication failed.
         success: Saved successfully.
         failed: Failed to save token. Please try again later or contact admin.
       destroy:
@@ -669,12 +703,15 @@ en:
       index:
         liability-proof: Proof of Liabilities
         btc-assets: BTC Assets
-        cny-assets: CNY Assets
+        xrp-assets: XRP Assets
+        usd-assets: USD Assets
       liability_tabs:
         verify-btc: Verify My BTC Assets
-        verify-cny: Verify My CNY Assets
+        verify-xrp: Verify My XRP Assets
+        verify-usd: Verify My USD Assets
         btc-assets-total: 'Total BTC assets of exchange: '
-        cny-assets-total: 'Total CNY assets of exchange: '
+        xrp-assets-total: 'Total XRP assets of exchange: '
+        usd-assets-total: 'Total USD assets of exchange: '
       liability_proof:
         title: Proof of Liabilities
         intro: As an exchange, our liabilities refer to the sum of money (in both
@@ -682,7 +719,7 @@ en:
           this page, we present you our liabilities. We also provide you a way to
           verify that your account balance is indeed part of our liabilities.
         how-to-verify: How to verify an exchange is solvent?
-        how-to-verify-uri: https://peatio.com/documents/liability_proof
+        how-to-verify-uri: https://demo.peatio.tech/documents/liability_proof
       liability_data:
         liability-proof-generating: Proof of Liability generation in process, please
           come back after 30 minutes.
@@ -696,10 +733,15 @@ en:
         intro: All of exchange's BTC assets are listed here.
         total: Total BTC Assets
         address: Address
-      cny_assets:
-        title: CNY Assets
-        intro: All of exchange's CNY assets are listed here.
-        total: Total CNY Assets
+      xrp_assets:
+        title: XRP Assets
+        intro: All of exchange's XRP assets are listed here.
+        total: Total XRP Assets
+        address: Address
+      usd_assets:
+        title: USD Assets
+        intro: All of exchange's USD assets are listed here.
+        total: Total USD Assets
         description: " <p>For supervision, you can inquiry the balance of our deposit
           account:</p> <p>Bank: %{bank}</p> <p>Account： %{address}</p> <p>Inquiry
           Password： %{password}</p> <p>Inquiry Tel.： %{tel}</p>"
@@ -708,16 +750,22 @@ en:
     funds:
       show:
         account_history: Account History
-        cny_format: '0.00'
+        usd_format: '0.00'
         btc_format: '0.00000000'
         reason:
-          cny:
+          usd:
             strike_add: Plus
             strike_sub: Sub
             deposit: Deposit
             withdraw: Withdraw
             fix: Fix
           btc:
+            strike_add: Plus
+            strike_sub: Sub
+            deposit: Deposit
+            withdraw: Withdraw
+            fix: Fix
+          xrp:
             strike_add: Plus
             strike_sub: Sub
             deposit: Deposit
@@ -764,8 +812,9 @@ en:
       market_list:
         all: All Markets
         all_html: "<i class='fa fa-check'></i><span>All Markets</span>"
-        cny_html: "<i class='fa fa-check'></i><span>CNY Markets</span>"
+        usd_html: "<i class='fa fa-check'></i><span>USD Markets</span>"
         btc_html: "<i class='fa fa-check'></i><span>BTC Markets</span>"
+        xrp_html: "<i class='fa fa-check'></i><span>XRP Markets</span>"
         price: Price
         change: "24h %"
       range_switch:
@@ -880,7 +929,6 @@ en:
       success: Settings updated successfully.
       failure: Invalid passcode. Please try again.
       index:
-        safety_instruction: In order to protect your bitcoins and personal information, we strongly suggest that you use Two-Factor Authentication.
         reset_password: Rest your Password
         reauthenticate: Authentication
         activated: An  email has been sent to your mailbox, please check it for verification
@@ -906,12 +954,6 @@ en:
           go: Set
           verified: Verified
           hint: "Verified number %{hint}"
-        two_factor_auth:
-          title: Two-Factor Authentication
-          description: Two-Factor Authentication provides another layer of security
-            to your account.
-          enable: Enable
-          disable: Disable
         verification:
           title: Verify Account
           description: Help keep the bad guys out of your account by using both your
@@ -933,30 +975,15 @@ en:
           title: API Tokens
           description: Create and manage your API tokens.
           go: Set
-        weibo:
-          title: Connect to Weibo
-          description: After you connecting to Weibo, you can login via Weibo account.
-          bound_desc: This has been connected with %{nickname}.
-          bind: Connect
-          unbind: Disconnect
-    otps:
-      new:
-        step_1: Step 1
-        step_2: Step 2
-        step_3: Step 3
-        or: OR
-        download_app: Install Google Authenticator app on your smart phone and open it.
-        scan_qr_code: Scan the QR code below
-        enter_passphrase: Manually enter the following key into the app
-        enter_passcode: Enter and submit the passcode generated by the Google Authenticator app.
     shared:
       balances:
         locked: Frozen
         balance: Balance
         available: Available
         title: "%{icon} %{c} Account"
-        cny_format: '0.00'
+        usd_format: '0.00'
         btc_format: '0.00000000'
+        xrp_format: '0.000000'
         total: Total
   guides:
     private:
@@ -988,14 +1015,6 @@ en:
             please verify your account to proceed.
     panels:
       balance: Account
-    verify:
-      google_auths:
-        panel: Two-Factor Authentication
-        edit:
-          title: Disable Two-Factor Authentication
-          intro: If you have a new phone, you can disable Two-Factor Authentication in the old phone, and enable Two-Factor Authentication  with the new one.
-      sms_auths:
-        panel: Verify Phone Number
     reset_passwords:
       panel: Password
       new:
@@ -1021,16 +1040,13 @@ en:
         title: Login my account
         intro: Login Peatio now for you to exchange.
     identities:
-      panel: Create Account
+      panel: DEMO.Peatio.tech
       new:
-        title: Create My Account
-        intro: This will be your only ID on Peatio which is necessary for your exchange
-          , deposit and withdrawal . please fill it out carefully.
+        title: Create Account
+        intro: Register for you demo account or login using demo login information provided by your Peatio.tech Project Manager.
       edit:
         panel: My Account
         title: Reset Password
-    two_factors:
-      panel: Two Factor Authenticator
   simple_form:
     placeholders:
       deposit:
@@ -1063,6 +1079,9 @@ en:
         satoshi:
           sum: Minimum amount 0.001
           fund_extra: Enter a label for this address (optional)
+        ripple:
+          sum: Minimum amount 0.001
+          fund_extra: Enter a label for this address (optional)
     hints:
       deposit:
         bank:
@@ -1071,11 +1090,6 @@ en:
             match the name with your real name authentication</span>"
           sn: "<span class='text-danger'>Please copy the SN in your bank transfer's
             message, otherwise we can not process your order quickly.</span>"
-      two_factor:
-        otp_secret: We recommend that you back up QR code image or ciphertext to avoid
-          that you accidental loss of the phone for the inconvenience.
-        otp: Your validator will re-generate a new password every thirty seconds,
-          please input timely.
       identity:
         password: Set a password which has at least 6 characters and it's better to
           contain uppercase and lowercase letters and numbers.
@@ -1093,6 +1107,8 @@ en:
             service
         satoshi:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
+        ripple:
+          sum: "<a target='_balance' href='#'>Fee structure</a>"
     creating: Creating...
     updating: Updating...
     buttons:
@@ -1108,10 +1124,6 @@ en:
     labels:
       defaults:
         title: Title
-      google_auth:
-        uri: QR code
-        otp_secret: Ciphertext
-        otp: Password on the authenticator
       fund_source:
         label: Label
         address: Address
@@ -1142,6 +1154,13 @@ en:
           fund_extra: Label
           account_balance: Account Balance
           member_name: Account
+        ripple:
+          fee: Fee
+          sum: Amount
+          fund_uid: Bitcoin Address
+          fund_extra: Label
+          account_balance: Account Balance
+          member_name: Account
   admin:
     deposits:
       banks:
@@ -1158,6 +1177,12 @@ en:
         update:
           blank_txid: TxID can't be blank
       satoshis:
+        update:
+          notice: The deposit was successful.
+        index:
+          accept: Accept
+          accept_confirm: Confirm deposit?
+      ripples:
         update:
           notice: The deposit was successful.
         index:
@@ -1186,7 +1211,6 @@ en:
     dashboard:
       index:
         accounts_title: Account Summary
-        daemons_title: System Summary
     documents:
       index:
         new: New Document
@@ -1248,70 +1272,40 @@ en:
           succeed_confirm: Process withdrawal?
           reject_confirm: Reject withdrawal?
           withdraw: Withdrawals
+      ripples:
+        index:
+          one: Pending withdrawals
+          all: Last 24 hours
+          empty: No data
+        show:
+          process: Accepted
+          succeed: Withdraw
+          reject: Reject
+          succeed_confirm: Process withdrawal?
+          reject_confirm: Reject withdrawal?
+          withdraw: Withdrawals
   deposits/satoshi:
     aasm_state:
       submitted: Submitted
       accepted: Accepted
       checked: Checked
       warning: Warning
-  doorkeeper:
-    scopes:
-      profile: Read your basic profile (e.g. name, email) and account balances
-      history: Read your trade history
-      trade: Submit and cancel orders
-    authorizations:
-      new:
-        title: Peatio Application Authorization
-        authorize_html: Authorize <strong class='text-info'>%{name}</strong> to use
-          your account?
-        scopes: 'This application will be able to:'
-        authorize: Authorize
-        deny: Deny
-    errors:
-      messages:
-        invalid_request: The request is missing a required parameter, includes an
-          unsupported parameter value, or is otherwise malformed.
-        invalid_redirect_uri: The redirect uri included is not valid.
-        unauthorized_client: The client is not authorized to perform this request
-          using this method.
-        access_denied: The resource owner or authorization server denied the request.
-        invalid_scope: The requested scope is invalid, unknown, or malformed.
-        server_error: The authorization server encountered an unexpected condition
-          which prevented it from fulfilling the request.
-        temporarily_unavailable: The authorization server is currently unable to handle
-          the request due to a temporary overloading or maintenance of the server.
-        credential_flow_not_configured: Resource Owner Password Credentials flow failed
-          due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.
-        resource_owner_authenticator_not_configured: Resource Owner find failed due
-          to Doorkeeper.configure.resource_owner_authenticator being unconfiged.
-        unsupported_response_type: The authorization server does not support this
-          response type.
-        invalid_client: Client authentication failed due to unknown client, no client
-          authentication included, or unsupported authentication method.
-        invalid_grant: The provided authorization grant is invalid, expired, revoked,
-          does not match the redirection URI used in the authorization request, or
-          was issued to another client.
-        unsupported_grant_type: The authorization grant type is not supported by the
-          authorization server.
-        invalid_resource_owner: The provided resource owner credentials are not valid,
-          or resource owner cannot be found
-        invalid_token:
-          revoked: The access token was revoked
-          expired: The access token expired
-          unknown: The access token is invalid
-    flash:
-      applications:
-        create:
-          notice: Application created.
-        destroy:
-          notice: Application deleted.
-        update:
-          notice: Application updated.
-      authorized_applications:
-        destroy:
-          notice: Application revoked.
+  deposits/ripple:
+    aasm_state:
+      submitted: Submitted
+      accepted: Accepted
+      checked: Checked
+      warning: Warning
   easy_table:
     satoshi:
+      amount: Amount
+      txid: TxId
+      created_at: Created At
+      confirmations: Confirmations
+      member_name: Member
+      state_and_actions: State/Actions
+      currency_obj_key_text: Currency
+    ripple:
       amount: Amount
       txid: TxId
       created_at: Created At
@@ -1348,8 +1342,9 @@ en:
       wait: Wait
       cancel: Cancel
     currency:
-      cny: CNY
+      usd: USD
       btc: BTC
+      xrp: XRP
     order:
       state:
         done: DONE
@@ -1414,18 +1409,6 @@ en:
     notify_signin:
       subject: "[PEATIO] You have just signed in"
       just_signed_in: You have just signed in.
-    google_auth_activated:
-      subject: "[PEATIO] Google authenticator activated"
-      google_auth_activated: You have activated google authenticator successfully
-    google_auth_deactivated:
-      subject: "[PEATIO] Google authenticator deactivated"
-      google_auth_deactivated: You have deactivated google authenticator successfully
-    sms_auth_activated:
-      subject: "[PEATIO] SMS authenticator activated"
-      sms_auth_activated: You have activated SMS authenticator successfully
-    sms_auth_deactivated:
-      subject: "[PEATIO] SMS authenticator deactivated"
-      sms_auth_deactivated: You have deactivated SMS authenticator successfully
     reset_password_done:
       subject: "[PEATIO] Your password changed"
       successful: Your password has been changed successfully.
@@ -1475,7 +1458,11 @@ en:
   'true': true
   'false': false
   view_on_github: View on Github
-  slogan: An open-source crypto-currency exchange for world.
+  slogan:
+    heading: Peatio Open-Source Exchange
+    subheading: Cloud deployment made simple and secure
+    text1: Peatio - Cryptocurrency exchange for managing digital currency.
+    text2: We provide Peatio installation and configuration services.
   tags:
     vip: VIP
     hero: Hero Member
@@ -1507,11 +1494,6 @@ en:
       date-short: "%m-%d"
       short: "%m-%d %H:%M"
       default: "%m/%d/%Y %H:%M"
-  sms:
-    verification_code: 'Your phone number verification code is: %{code}.'
-    password_changed: Hi %{email}, you password has been changed successfully.
-    deposit_done: Hi %{email}, the request of your deposit is complete.
-    withdraw_done: Hi %{email}, the request of your withdrawal is complete.
   header:
     home: Home
     dashboard: Dashboard
@@ -1521,9 +1503,8 @@ en:
     signin: Sign In
     signout: Exit
     signup: Sign Up
-    login_via_weibo: Login via Weibo
     funds: Funds
-    getstart: Get Start
+    getstart: Markets
     assets: Solvency
     history: History
     order_history: Order History
@@ -1617,11 +1598,6 @@ en:
         destroy: Sign out
         verify: Verify
         update: Change
-      two_factor:
-        create: Verify
-        update: Activiate
-      reset_two_factor:
-        create: Reset Two-Factor Authentication
       reset_password:
         update: Reset Sign in Password
         create: Reset Sign in Password
@@ -1653,10 +1629,6 @@ en:
         warning: Please check your inbox after saving the email address.
         email_address: Email Address
         save: Save
-    weibo:
-      destroy:
-        last_auth_alert: You couldn't delete the last authentication
-        unbind_success: Unbind from the Weibo
     identities:
       new:
         title: Setup The Password
@@ -1718,13 +1690,8 @@ en:
   sessions:
     new:
       reset_password: Forgot Password?
-    new_with_two_factor_auth:
-      title: 2 Step Verification
-      reset_two_factor: Lost 2-step-verification device
-    create_with_two_factor_auth:
-      session_expired: Session expired. Try again.
     create:
-      error: You account has been disabled, contact admin if you have any problem.
+      disabled: Your account has been disabled, contact admin if you have any problem.
     failure:
       account_locked: Too many failed login attempts. To ensure the safety of your
         account, we have locked your account. To unlock, reset your password by clicking
@@ -1734,11 +1701,8 @@ en:
     admin:
       member:
         member_info: Member Info
-        deactive_sms_two_factor: SMS TFA
-        deactive_app_two_factor: Google TFA
         inactive: Inactive
         deactive: Deactive
-        are_you_sure: Are you sure deactive two factor authentication?
       account:
         account_info: Account Info
         payment_address: Deposit Address
@@ -1762,74 +1726,6 @@ en:
         latest_price: Last
     frame:
       deposit_now: Deposit Now
-  two_factors:
-    index:
-      verify: Verify
-    update:
-      alert: Two factor verification code error, please re-enter.
-    auth:
-      please_active_two_factor: Please set mobile number or google authenticator first.
-      submit: Submit
-      otp_placeholder: 6-digit password
-      google_app: Google Authenticator
-      sms: SMS Verification Messages
-      send_code: Send Code
-      send_code_alt: Resend in COUNT seconds
-      hints:
-        app: Google Authenticator will re-generate a new password every thirty seconds,
-          please input timely.
-        sms: We'll send a text message to you phone with verify code.
-  verify:
-    google_auths:
-      edit:
-        submit: Disable
-        warning: 'Tip: If you have lost your Two-Factor Authentication by some reason
-          and can''t login your Peatio account, please contact our online customer
-          service.'
-      show:
-        step-1: Step 1
-        step-2: Step 2
-        step-3: Step 3
-        or: OR
-        download-app: Install Google Authenticator app on your smart phone and open
-          it.
-        guide-link: "<a href='https://support.google.com/accounts/answer/1066447'
-          target='_blank'>Installation Instructions</a>。"
-        scan-qr-code: Scan the following QR code with Google Authenticator APP，or
-          add cipher text to the validator manually.
-        enter-passcode: Fill in the dynamic password  displayed by your phone to activate Two-Factor Authentication.
-        submit: Enable
-        ios: Iphone iOS
-        android: Android
-        blackbery: Blackberry
-        notice:
-          already_activated: The Google Authenticator has already been set.
-          not_activated_yet: The Google Authenticator hasn't been set yet.
-      update:
-        alert: Password for authentication is incorrect, please re-enter.
-        notice: Two-Factor Authentication has been successfully Enabled.
-        sms_two_factor_error: SMS Verification code is incorrect, please re-enter.
-      destroy:
-        alert: Password for authentication is incorrect, please re-enter.
-        notice: Two-Factor Authentication has been successfully Disabled.
-    sms_auths:
-      show:
-        title: Verify Phone Number
-        description: Providing a phone number will make your account more secure. you
-          can quickly reset your password and your account operations will be notified.
-        warning: it will not be able to retrieve your account's password if not set
-          the phone number.
-        phone_number: Phone number
-        send_code: Send Code
-        send_code_alt: Resend in COUNT seconds
-        input_otp: Enter the 6-digit code we sent to you
-        submit: Save
-        notice:
-          send_code_success: Send verify code success
-          otp_success: Verify Code success.
-          already_activated: You phone number has been activated.
-        alert:
-          phone_number_error: phone number error
   withdraw_channel:
     bank:
       key: Bank Transfer
@@ -1842,6 +1738,13 @@ en:
       key: Blockchain
       title: Bitcoin Blockchain
       intro: Withdraw Bitcoin to your own Bitcoin wallet
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
+    ripple:
+      key: Blockchain
+      title: Ripple Blockchain
+      intro: Withdraw XRP to your own Ripple wallet
       latency: 30 minutes
       transfer: Manual
       go: Withdraw
@@ -1860,6 +1763,18 @@ en:
       canceled: Canceld
       failed: Failed
   withdraws/satoshi:
+    aasm_state:
+      submitting: Submitting
+      submitted: Submitted
+      rejected: Rejected
+      accepted: Accepted
+      suspect: Suspect
+      processing: processing
+      done: Done
+      almost_done: Almost Done
+      canceled: Cancelled
+      failed: Failed
+  withdraws/ripple:
     aasm_state:
       submitting: Submitting
       submitted: Submitted

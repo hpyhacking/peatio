@@ -1,6 +1,5 @@
 module Worker
   class WithdrawCoin
-
     def process(payload, metadata, delivery_info)
       payload.symbolize_keys!
 
@@ -20,13 +19,21 @@ module Worker
 
         return unless withdraw.almost_done?
 
-        balance = CoinRPC[withdraw.currency].getbalance.to_d
-        raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.sum
+        if withdraw.currency.to_sym == :xrp
+          txid = CoinRPC[withdraw.currency.to_sym].sendtoaddress(
+            withdraw.fund_uid,
+            withdraw.amount.to_f,
+            fee
+          )
+        else
+          balance = CoinRPC[withdraw.currency.to_sym].getbalance.to_d
+          raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.sum
 
-        fee = [withdraw.fee.to_f || withdraw.channel.try(:fee) || 0.0005, 0.1].min
+          fee = [withdraw.fee.to_f || withdraw.channel.try(:fee) || 0.0005, 0.1].min
 
-        CoinRPC[withdraw.currency].settxfee fee
-        txid = CoinRPC[withdraw.currency].sendtoaddress withdraw.fund_uid, withdraw.amount.to_f
+          CoinRPC[withdraw.currency.to_sym].settxfee(fee)
+          txid = CoinRPC[withdraw.currency.to_sym].sendtoaddress(withdraw.fund_uid, withdraw.amount.to_f)
+        end
 
         withdraw.whodunnit('Worker::WithdrawCoin') do
           withdraw.update_column :txid, txid
@@ -38,6 +45,5 @@ module Worker
         end
       end
     end
-
   end
 end

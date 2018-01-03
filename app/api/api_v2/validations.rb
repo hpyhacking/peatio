@@ -1,19 +1,18 @@
 module APIv2
   module Validations
-    class Range < ::Grape::Validations::Validator
-
-      def initialize(attrs, options, required, scope)
-        @range    = options
-        @required = required
+    class Range < Grape::Validations::Base
+      def initialize(*)
         super
+        @range = @option
       end
 
-      def validate_param!(attr_name, params)
-        if (params[attr_name] || @required) && !@range.cover?(params[attr_name])
-          raise Grape::Exceptions::Validation, param: @scope.full_name(attr_name), message: "must be in range: #{@range}"
+      def validate_param!(attr, params)
+        if (params[attr] || @required) && !@range.cover?(params[attr])
+          raise Grape::Exceptions::Validation, \
+            params:  [@scope.full_name(attr)],
+            message: "must be in range: #{@range}."
         end
       end
-
     end
   end
 end

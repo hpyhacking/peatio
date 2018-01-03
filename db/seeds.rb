@@ -1,4 +1,4 @@
-ADMIN_EMAIL = 'admin@peatio.dev'
+ADMIN_EMAIL = 'admin@peatio.tech'
 ADMIN_PASSWORD = 'Pass@word8'
 
 admin_identity = Identity.find_or_create_by(email: ADMIN_EMAIL)

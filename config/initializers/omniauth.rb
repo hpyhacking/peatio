@@ -1,7 +1,19 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :identity, fields: [:email], on_failed_registration: IdentitiesController.action(:new)
-  if ENV['WEIBO_AUTH'] == "true"
-    provider :weibo, ENV['WEIBO_KEY'], ENV['WEIBO_SECRET']
+
+  if ENV['AUTH0_OAUTH2_SIGN_IN']
+    provider :auth0,
+             ENV.fetch('AUTH0_OAUTH2_CLIENT_ID'),
+             ENV.fetch('AUTH0_OAUTH2_CLIENT_SECRET'),
+             ENV.fetch('AUTH0_OAUTH2_DOMAIN'),
+             { authorize_params: {
+                 scope: ENV.fetch('AUTH0_OAUTH2_SCOPE', 'openid profile email')
+               }
+             }
+  end
+
+  if ENV['GOOGLE_OAUTH2_SIGN_IN']
+    provider :google_oauth2, ENV.fetch('GOOGLE_CLIENT_ID'), ENV.fetch('GOOGLE_CLIENT_SECRET')
   end
 end
 

@@ -1,14 +1,4 @@
-//= require swagger-ui/lib/shred.bundle
-//= require swagger-ui/lib/jquery-1.8.0.min
-//= require swagger-ui/lib/jquery.slideto.min
-//= require swagger-ui/lib/jquery.wiggle.min
-//= require swagger-ui/lib/jquery.ba-bbq.min
-//= require swagger-ui/lib/handlebars-1.0.0
-//= require swagger-ui/lib/underscore-min
-//= require swagger-ui/lib/backbone-min
-//= require swagger-ui/lib/swagger
-//= require swagger-ui/swagger-ui
-//= require swagger-ui/lib/highlight.7.3.pack
+//= require swagger_ui
 //= require bootstrap/dropdown
 
 $(function() {

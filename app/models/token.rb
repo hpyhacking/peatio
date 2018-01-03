@@ -8,7 +8,7 @@ class Token < ActiveRecord::Base
 
   scope :with_member, -> (id) { where(member_id: id) }
   scope :with_token, -> (token) { where(token: token) }
-  scope :available, -> { where("expire_at > ? and is_used = ?", DateTime.now, false) }
+  scope :available, -> { where("expires_at > ? and is_used = ?", DateTime.now, false) }
 
   class << self
     def verify(token)
@@ -31,7 +31,7 @@ class Token < ActiveRecord::Base
   end
 
   def expired?
-    expire_at <= Time.now
+    expires_at <= Time.now
   end
 
   def confirm!
@@ -51,6 +51,6 @@ class Token < ActiveRecord::Base
 
   def generate_token
     self.token = SecureRandom.hex(16)
-    self.expire_at = 30.minutes.from_now
+    self.expires_at = 30.minutes.from_now
   end
 end

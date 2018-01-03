@@ -1,6 +1,6 @@
 .jumbotron
   h2 貔貅WebSocket数据接口 (WebSocket API)
-  small 接口URI: wss://peatio.com:8080
+  small 接口URI: wss://demo.peatio.tech:8080
   br
   small 返回结果格式: JSON
 
@@ -24,7 +24,7 @@
     p WebSocket是应用广泛的标准，各种语言都有自己的支持库。以Javascript为例:
     p Javascript:
     pre: code
-      | var host = 'wss://peatio.com:8080';
+      | var host = 'wss://demo.peatio.tech:8080';
         var socket = new WebSocket(host);
         socket.onopen = function() {
           console.log("opened");
@@ -92,12 +92,12 @@
                     "price"=>"3500.0",
                     "volume"=>"0.0331",
                     "funds"=>"115.85",
-                    "market"=>"btccny",
+                    "market"=>"btcusd",
                     "created_at"=>"2014-06-16T05:02:37Z",
                     "side"=>"bid",
                     "bid"=>{
                       "id"=>3248, "side"=>"buy", "price"=>nil,
-                      "avg_price"=>"3500.0", "state"=>"done", "market"=>"btccny",
+                      "avg_price"=>"3500.0", "state"=>"done", "market"=>"btcusd",
                       "created_at"=>"2014-06-16T05:02:37Z", "volume"=>"0.0331",
                       "remaining_volume"=>"0.0", "executed_volume"=>"0.0331"
                     }
@@ -121,7 +121,7 @@
                     "type"=>"ask",
                     "volume"=>"1.0",
                     "price"=>"3500.0",
-                    "market"=>"btccny",
+                    "market"=>"btcusd",
                     "ord_type"=>"limit"}
                 }
               }

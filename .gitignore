@@ -21,11 +21,8 @@ tmp
 
 # Ignore all config files
 /config/application.yml
-/config/database.yml
-/config/slack.yml
 /config/currencies.yml
 /config/markets.yml
-/config/amqp.yml
 /config/banks.yml
 
 # Ignore translations.js
@@ -44,6 +41,6 @@ tags
 
 /vendor/bundle
 .env
-.ruby-version
 .DS_Store
 .agignore
+**/*.tgz

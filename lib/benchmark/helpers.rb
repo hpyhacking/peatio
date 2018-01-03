@@ -15,7 +15,7 @@ module Benchmark
         m.get_account(:btc).update_attributes(locked: 100)
       end
       @members[:bid].each do |m|
-        m.get_account(:cny).update_attributes(locked: 1000000)
+        m.get_account(:usd).update_attributes(locked: 1000000)
       end
     end
 

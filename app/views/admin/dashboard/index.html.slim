@@ -22,8 +22,10 @@
 
                 - if c[:coinable]
                   td.text-right = c[:hot]
-                  - if c[:hot] == 'N/A'
-                    td.text-right = c[:hot]
+                  - if c[:hot] == 'N/A' || c[:hot].is_a?(Hash)
+                    td.text-right = 'N/A'
+                  - elsif c[:sum] - c[:hot] < 0
+                    td.text-right = '0.0'
                   - else
                     td.text-right = c[:sum] - c[:hot]
                 - else
@@ -32,22 +34,6 @@
       .panel-footer
         span Tips: Locked + Balance = Sum | Hot-Wallet + Cold-Wallet = Sum
 .row
-  .col-xs-12: .panel.panel-primary
-    .panel-heading Daemon Statuses
-    .panel-body
-      table.table.table-condensed
-        thead: tr
-          th Name
-          th State
-        tbody
-          - @daemon_statuses.each do |daemon, state|
-            tr
-              - if state == :not_exists
-                td.text-danger: b = daemon
-                td.text-danger: b = state
-              - else
-                td.text-info = daemon
-                td.text-info = state
   .col-xs-12: .panel.panel-primary
     .panel-heading Exchange Summary
     .panel-body

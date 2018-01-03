@@ -9,7 +9,6 @@ class Member < ActiveRecord::Base
   has_many :fund_sources
   has_many :deposits
   has_many :api_tokens
-  has_many :two_factors
   has_many :tickets, foreign_key: 'author_id'
   has_many :comments, foreign_key: 'author_id'
   has_many :signup_histories
@@ -20,7 +19,6 @@ class Member < ActiveRecord::Base
 
   scope :enabled, -> { where(disabled: false) }
 
-  delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
   delegate :name,       to: :id_document, allow_nil: true
   delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
@@ -89,14 +87,16 @@ class Member < ActiveRecord::Base
     end
 
     def create_from_auth(auth_hash)
-      member = create(email: auth_hash['info']['email'], nickname: auth_hash['info']['nickname'],
-                      activated: false)
-      member.add_auth(auth_hash)
-      member.send_activation if auth_hash['provider'] == 'identity'
-      member
+      new(email:     auth_hash['info']['email'],
+          nickname:  auth_hash['info']['nickname'],
+          activated: auth_hash['provider'] != 'identity'
+      ).tap do |member|
+        member.save!
+        member.add_auth(auth_hash)
+        member.send_activation if auth_hash['provider'] == 'identity'
+      end
     end
   end
-
 
   def create_auth_for_identity(identity)
     self.authentications.create(provider: 'identity', uid: identity.id)
@@ -187,34 +187,20 @@ class Member < ActiveRecord::Base
   def send_password_changed_notification
     MemberMailer.reset_password_done(self.id).deliver
 
-    if sms_two_factor.activated?
-      sms_message = I18n.t('sms.password_changed', email: self.email)
-      AMQPQueue.enqueue(:sms_notification, phone: phone_number, message: sms_message)
-    end
   end
 
   def unread_comments
     ticket_ids = self.tickets.open.collect(&:id)
     if ticket_ids.any?
-      Comment.where(ticket_id: [ticket_ids]).where("author_id <> ?", self.id).unread_by(self).to_a
+      Comment.where(ticket_id: ticket_ids).where('author_id <> ?', id).unread_by(self).to_a
     else
       []
     end
   end
 
-  def app_two_factor
-    two_factors.by_type(:app)
-  end
-
-  def sms_two_factor
-    two_factors.by_type(:sms)
-  end
-
   def as_json(options = {})
     super(options).merge({
       "name" => self.name,
-      "app_activated" => self.app_two_factor.activated?,
-      "sms_activated" => self.sms_two_factor.activated?,
       "memo" => self.id
     })
   end

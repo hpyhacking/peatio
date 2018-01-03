@@ -1,7 +1,4 @@
 # encoding: utf-8
-#
-# Never edit this file. It will be overwritten when translations are pulled from Transifex.
-#
 
 zh-TW:
   js:
@@ -10,5 +7,5 @@ zh-TW:
     funds:
       deposit: 充值
       withdraw: 提现
-      deposit_cny:
+      deposit_usd:
         title: 人民币充值

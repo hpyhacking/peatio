@@ -1,0 +1,84 @@
+defaults: &defaults
+  TIMEZONE: 'Paris'
+
+  # Configuration variables for Redis.
+  REDIS_URL:      redis://localhost:6379
+  REDIS_PASSWORD: ~ # By default no password is sent to Redis server. Change this if you want to connect using password.
+
+  # admin role account
+  ADMIN: 'admin@peatio.tech'
+
+  # site host
+  URL_HOST: localhost:3000
+  URL_SCHEME: http
+
+  # session expire time (seconds)
+  SESSION_EXPIRE: '60'
+
+  # email notifications settings (only for production)
+  SMTP_PORT: YOUR_SMTP_PORT
+  SMTP_DOMAIN: YOUR_SMTP_DOMAIN
+  SMTP_ADDRESS: YOUR_SMTP_ADDRESS
+  SMTP_USERNAME: YOUR_SMTP_USERNAME
+  SMTP_PASSWORD: YOUR_SMTP_PASSWORD
+  SMTP_AUTHENTICATION: plain # could be plain, login or cram_md5
+
+  # email accounts
+  SUPPORT_MAIL: support@peatio.tech
+  SYSTEM_MAIL_FROM: system@peatio.tech
+  SYSTEM_MAIL_TO: group@peatio.tech
+  OPERATE_MAIL_TO: support@peatio.tech
+
+  # WebSocket Streaming API settings
+  WEBSOCKET_HOST: 0.0.0.0
+  WEBSOCKET_PORT: '8080'
+
+  # Uncomment following lines to enable secure WebSocket (wss)
+  # WEBSOCKET_SSL_KEY: 'your_server.key'
+  # WEBSOCKET_SSL_CERT: 'your_server.crt'
+
+  # pusher settings
+  PUSHER_APP: '65910'
+  PUSHER_KEY: 50d404c35db92d736a57
+  PUSHER_SECRET: 75d6e6685209cc60cc4d
+  PUSHER_HOST: api.pusherapp.com
+  PUSHER_PORT: '80'
+  PUSHER_WS_PORT: '80'
+  PUSHER_WSS_PORT: '443'
+  PUSHER_ENCRYPTED: 'on'
+
+  # twilio setting (https://github.com/twilio/twilio-ruby)
+  TWILIO_NUMBER: YOUR_TWILIO_NUMBER
+  TWILIO_SID: YOUR_TWILIO_SID
+  TWILIO_TOKEN: YOUR_TWILIO_TOKEN
+
+  # Configuration variables for sign in with Google.
+  # See https://github.com/zquestz/omniauth-google-oauth2
+  GOOGLE_OAUTH2_SIGN_IN:      ~ # Set to "on" to enable.
+  GOOGLE_CLIENT_ID:
+  GOOGLE_CLIENT_SECRET:
+  GOOGLE_OAUTH2_REDIRECT_URL: ~ # Specify URL address to which user will be redirected after successful sign in.
+
+  # Configuration variables for sign in with Auth0.
+  # See https://github.com/auth0/omniauth-auth0
+  AUTH0_OAUTH2_SIGN_IN:       ~ # Set to "on" to enable.
+  AUTH0_OAUTH2_DOMAIN:
+  AUTH0_OAUTH2_CLIENT_ID:
+  AUTH0_OAUTH2_CLIENT_SECRET:
+  AUTH0_OAUTH2_REDIRECT_URL:  ~ # Specify URL address to which user will be redirected after successful sign in.
+
+  # Configuration variables for API CORS.
+  #
+  # Set list of allowed origins using the variable below.
+  # By default it allows access to API from all origins.
+  # See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
+  API_CORS_ORIGINS: '*'
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

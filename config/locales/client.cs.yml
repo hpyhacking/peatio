@@ -1,7 +1,4 @@
 # encoding: utf-8
-#
-# Never edit this file. It will be overwritten when translations are pulled from Transifex.
-#
 
 cs:
   js:
@@ -11,10 +8,10 @@ cs:
       deposit: Vklad
       withdraw: Výběr
       currency_name:
-        cny: CNY
+        usd: usd
         btc: BTC
-      deposit_cny:
-        title: Vložit Čínský Yuan
+      deposit_usd:
+        title: Vložit USD
         desc: "Vklad bankovním převodem, prosím postupujte dle těchto kroků:"
         desc_item_1: "1. Odeslat formulář pro získání Variabilního symbolu pro platbu."
         desc_item_2: "2. Převeďte peníze na náš bankovní účet. Prosím, ujistěte se, že jste vyplnili Variabilní symbol."
@@ -27,7 +24,7 @@ cs:
         add: Přidat
         manage: Spravovat
         amount: Částka vkladu
-        min_amount: Nejméně 10 Yuanů
+        min_amount: Nejméně 10 USD
         to_account: Účet
         to_name: Jméno
         to_bank_name: Jméno banky
@@ -63,8 +60,8 @@ cs:
         checked: Kontrolováno
         warning: Upozornění
         suspect: Nedůvěryhodné
-      withdraw_cny:
-        title: Výběr Čínského Yuanu
+      withdraw_usd:
+        title: Výběr USD
         intro: Zvolte banku, částku a zadejte číslo účtu pro výběr.
         intro_2: Jméno účtu u Vaší banky by mělo souhlasit s Vaší skutečným, zde ověřeným jménem.
         attention: "Doba odesílání plateb: 9:00 - 18:00"
@@ -112,14 +109,3 @@ cs:
         almost_done: Hotovo
         canceled: Stornuji
         failed: Chyba
-    auth:
-      please_active_two_factor: Prosím nejdříve vyplňte číslo mobilního telefonu nebo aktivujte Google Authenticator.
-      submit: Odeslat
-      otp_placeholder: 6místný kód
-      google_app: Google Authenticator
-      sms: Potrzení pomocí SMS
-      send_code: Odeslat kód
-      send_code_alt: Odeslat znovu COUNT sekund
-      hints:
-        app: Google Authenticator generuje nové heslo každých třicet sekund. Zadejte prosím včas.
-        sms: Odešleme SMS zprávu na váš telefon s ověřovacím kódem.

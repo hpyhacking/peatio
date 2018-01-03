@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :payment_transaction do
     txid { Faker::Lorem.characters(16) }
     txout 0

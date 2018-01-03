@@ -1,7 +1,4 @@
 # encoding: utf-8
-#
-# Never edit this file. It will be overwritten when translations are pulled from Transifex.
-#
 
 ru_RU:
   js:
@@ -11,10 +8,10 @@ ru_RU:
       deposit: Пополнить
       withdraw: Вывести
       currency_name:
-        cny: CNY
+        usd: USD
         btc: BTC
-      deposit_cny:
-        title: Пополнить в китайских юанях
+      deposit_usd:
+        title: Пополнить в USD
         desc: "Чтобы внести средства банковским платежом:"
         desc_item_1: "1. Для получения идентификационного кода заполните форму."
         desc_item_2: "2. Перечислите средства на банковский счет биржи. Убедитесь что код авторизации присутствует на заполняемой форме."
@@ -27,7 +24,7 @@ ru_RU:
         add: Добавить
         manage: Управлять
         amount: Сумма пополнения
-        min_amount: Как минимум 10 юаней
+        min_amount: Как минимум 10 USD
         to_account: Счет
         to_name: Имя
         to_bank_name: Наименование банка
@@ -61,8 +58,8 @@ ru_RU:
         rejected: Отклонен
         checked: Проверен
         warning: Предупреждение
-      withdraw_cny:
-        title: Вывести в китайских юанях
+      withdraw_usd:
+        title: Вывести в USD
         intro: Выберите банк для вывода средств и введите номер счета.
         intro_2: Имя владельца банковского счета должно совпадать с Вашим именем.
         attention: "Часы работы: с 9:00 до 18:00"
@@ -106,19 +103,8 @@ ru_RU:
         almost_done: Почти готово
         canceled: Отклонено
         failed: Не удалось
-    auth:
-      please_active_two_factor: Введите номер мобильного или подключите Google Authentificator сначала
-      submit: Подтвердить
-      otp_placeholder: Шестизначный пароль
-      google_app: Google Authenticator
-      sms: СМС подтверждения
-      send_code: Отправить код
-      send_code_alt: Отправить повторно через COUNT секунд
-      hints:
-        app: Код Google Authenticator действителен в течение 30 секунд. Если  Вы не успели, пожалуйста, попробуйте еще раз.
-        sms: Мы отправим Вам СМС с проверочным кодом
     markets:
       market_list:
         all: Все рынки
-        cny: Рынок CNY
+        usd: Рынок USD
         btc: Рынок BTC

@@ -1,12 +1,4 @@
-#!/usr/bin/env ruby
-
-ENV["RAILS_ENV"] ||= "development"
-
-root = File.expand_path(File.dirname(__FILE__))
-root = File.dirname(root) until File.exists?(File.join(root, 'config'))
-Dir.chdir(root)
-
-require File.join(root, "config", "environment")
+require File.join(ENV.fetch('RAILS_ROOT'), 'config', 'environment')
 
 Rails.logger = @logger = Logger.new STDOUT
 

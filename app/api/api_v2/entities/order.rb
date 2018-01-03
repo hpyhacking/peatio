@@ -6,13 +6,13 @@ module APIv2
       expose :side, documentation: "Either 'sell' or 'buy'."
       expose :ord_type, documentation: "Type of order, either 'limit' or 'market'."
 
-      expose :price, documentation: "Price for each unit. e.g. If you want to sell/buy 1 btc at 3000 CNY, the price is '3000.0'"
+      expose :price, documentation: "Price for each unit. e.g. If you want to sell/buy 1 btc at 3000 USD, the price is '3000.0'"
 
       expose :avg_price, documentation: "Average execution price, average of price in trades."
 
       expose :state, documentation: "One of 'wait', 'done', or 'cancel'. An order in 'wait' is an active order, waiting fullfillment; a 'done' order is an order fullfilled; 'cancel' means the order has been cancelled."
 
-      expose :currency, as: :market, documentation: "The market in which the order is placed, e.g. 'btccny'. All available markets can be found at /api/v2/markets."
+      expose :currency, as: :market, documentation: "The market in which the order is placed, e.g. 'btcusd'. All available markets can be found at /api/v2/markets."
 
       expose :created_at, format_with: :iso8601, documentation: "Order create time in iso8601 format."
 

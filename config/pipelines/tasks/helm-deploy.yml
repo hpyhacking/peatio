@@ -1,0 +1,22 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: heliostech/kite
+
+inputs:
+  - name: peatio-repository
+
+run:
+  path: "sh"
+  args:
+    - "-exc"
+    - |
+      helm init --client-only
+      echo ${GOOGLE_APPLICATION_JSON} > gcr_credentials.json
+      export GOOGLE_APPLICATION_CREDENTIALS="${PWD}/gcr_credentials.json"
+      echo ${KUBECONFIG_FILE} | tr -d ' ' | base64 -d > kubeconfig
+      export KUBECONFIG="${PWD}/kubeconfig"
+      helm install peatio-repository/.kite/charts/peatio

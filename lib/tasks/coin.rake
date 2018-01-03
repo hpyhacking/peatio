@@ -1,7 +1,7 @@
 namespace :coin do
   desc "Sync coin deposit transactions"
   task sync_deposit: :environment do
-    code    = ENV['code']
+    code    = ENV['code'].to_sym
     account = 'payment'
     number  = ENV['number'] ? ENV['number'].to_i : 100
     channel = DepositChannel.find_by_currency(code)
@@ -15,19 +15,20 @@ namespace :coin do
     CoinRPC[code].listtransactions(account, number).each do |tx|
       next if tx['category'] != 'receive'
 
-      unless PaymentTransaction::Normal.where(txid: tx['txid'], address: tx['address']).first
-        puts "Missed txid:#{tx['txid']} address:#{tx['address']} (#{tx['amount']})"
+      unless PaymentTransaction::Normal.find_by(txid: tx['txid'])
+        puts "#{code} --- Missed txid:#{tx['txid']} address:#{tx['address']} (#{tx['amount']})"
         missed << tx
       end
     end
-    puts "#{missed.size} missed transactions found."
 
-    if ENV['reprocess'] == '1' && missed.size > 0
-      puts "Reprocessing .."
-      missed.each do |tx|
-        AMQPQueue.enqueue :deposit_coin, { txid: tx['txid'], channel_key: channel.key }
-      end
-      puts "Done."
+    puts "#{code} --- #{missed.size} missed transactions found."
+
+    next if missed.empty? || ENV['reprocess'].nil?
+
+    puts "#{code} --- Reprocessing .."
+    missed.each do |tx|
+      AMQPQueue.enqueue :deposit_coin, { txid: tx['txid'], channel_key: channel.key }
     end
+    puts "#{code} --- Done."
   end
 end

@@ -1,15 +1,16 @@
-require 'spec_helper'
+describe Identity, type: :model do
+  it 'accepts right passwords' do
+    %w[password p@ssword PaSsworD].each do |pass|
+      expect(create(:identity, password: pass, password_confirmation: pass)).to be_valid
+    end
 
-describe Identity do
-  it { should allow_value("pas1Word").for(:password) }
-  it { should allow_value("pas1Wo@d").for(:password) }
-  it { should allow_value("pas1Wo_d").for(:password) }
-  it { should allow_value("123456").for(:password) }
-  it { should_not allow_value("pwd").for(:password) }
-
-  it "should unify email" do
-    create(:identity, email: 'foo@example.com')
-    build(:identity, email: 'Foo@example.com').should_not be_valid
+    %w[some wrong pass].each do |pass|
+      expect { create(:identity, password: pass, password_confirmation: pass) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
   end
 
+  it 'should unify email' do
+    create(:identity, email: 'foo@example.com')
+    expect(build(:identity, email: 'Foo@example.com')).not_to be_valid
+  end
 end

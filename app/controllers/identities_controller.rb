@@ -2,7 +2,7 @@ class IdentitiesController < ApplicationController
   before_filter :auth_anybody!, only: :new
 
   def new
-    @identity = env['omniauth.identity'] || Identity.new
+    @identity = request.env['omniauth.identity'] || Identity.new
   end
 
   def edit

@@ -1,6 +1,5 @@
 module APIv2
   module Helpers
-
     def authenticate!
       current_user or raise AuthorizationError
     end
@@ -10,11 +9,14 @@ module APIv2
     end
 
     def current_user
-      @current_user ||= current_token.try(:member)
-    end
+      # Keypair authentication provides member ID.
+      if env.key?('api_v2.authentic_member_id')
+        Member.find_by_id(env['api_v2.authentic_member_id'])
 
-    def current_token
-      @current_token ||= env['api_v2.token']
+      # JWT authentication provides member email.
+      elsif env.key?('api_v2.authentic_member_email')
+        Member.find_by_email(env['api_v2.authentic_member_email'])
+      end
     end
 
     def current_market

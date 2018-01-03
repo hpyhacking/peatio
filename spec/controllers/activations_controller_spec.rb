@@ -1,9 +1,6 @@
-require 'spec_helper'
-
 module Private
-  describe ActivationsController do
-
-    describe "GET /activations/new" do
+  describe ActivationsController, type: :controller do
+    describe 'GET /activations/new' do
       describe 'non-login user' do
         before { get :new }
 
@@ -14,10 +11,10 @@ module Private
       describe 'logged-in user but not activated yet' do
         let(:member) { create :member }
         let(:mail) { ActionMailer::Base.deliveries.last }
-        before {
+        before do
           session[:member_id] = member.id
           get :new
-        }
+        end
 
         it { expect(member).not_to be_activated }
         it { expect(response).to redirect_to(settings_path) }
@@ -26,15 +23,14 @@ module Private
 
       describe 'logged-in user and verified already' do
         let(:member) { create :member, :activated }
-        before {
+        before do
           session[:member_id] = member.id
           get :new
-        }
+        end
 
         it { expect(response).to redirect_to(settings_path) }
         it { expect(flash[:notice]).to match('has been verified successfully') }
       end
     end
-
   end
 end

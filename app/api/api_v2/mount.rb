@@ -9,10 +9,11 @@ module APIv2
 
     cascade false
 
-    format :json
+    format         :json
+    content_type   :json, 'application/json'
     default_format :json
 
-    helpers ::APIv2::Helpers
+    helpers APIv2::Helpers
 
     do_not_route_options!
 
@@ -21,9 +22,7 @@ module APIv2
     include Constraints
     include ExceptionHandlers
 
-    before do
-      header 'Access-Control-Allow-Origin', '*'
-    end
+    use APIv2::CORS::Middleware
 
     mount Markets
     mount Tickers
@@ -35,7 +34,7 @@ module APIv2
     mount K
     mount Tools
 
-    base_path = Rails.env.production? ? "#{ENV['URL_SCHEMA']}://#{ENV['URL_HOST']}/#{PREFIX}" : PREFIX
+    base_path = Rails.env.production? ? "#{ENV['URL_SCHEME']}://#{ENV['URL_HOST']}/#{PREFIX}" : PREFIX
     add_swagger_documentation base_path: base_path,
       mount_path: '/doc/swagger', api_version: 'v2',
       hide_documentation_path: true

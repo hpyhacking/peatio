@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link href="/favicon.ico" rel="shortcut icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+
+    <%= include_gon %>
+    <%= javascript_include_tag "locales/#{I18n.locale}" %>
+    <%= javascript_include_tag 'application' %>
+
+    <%= render 'shared/html5' %>
+    <%= render 'shared/meta' %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body id="<%= body_id %>" data-lang="<%= locale_name %>">
+    <div id="wrap">
+      <%= render 'shared/alert' %>
+      <%= yield %>
+      ￼
+      <div id="push"></div>
+    </div>
+    <%= render 'shared/footer' %>
+  </body>
+</html>

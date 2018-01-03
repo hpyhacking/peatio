@@ -1,0 +1,36 @@
+<% if ENV['MARKETS_CONFIG'] %>
+<%= File.read(ENV['MARKETS_CONFIG']) %>
+<% else %>
+- id: btcusd
+  code: 3
+  base_unit: btc
+  quote_unit: usd
+  sort_order: 1
+  bid: { fee: 0, currency: usd, fixed: 2 }
+  ask: { fee: 0, currency: btc, fixed: 4 }
+
+  # default name
+  # name: BTC/USD
+
+  # aggregate price levels in orderbook
+  # price_group_fixed: 1
+
+  # default is true
+  # visible: false
+
+- id: xrpusd
+  code: 4
+  base_unit: xrp
+  quote_unit: usd
+  sort_order: 1
+  bid: { fee: 0.1, currency: usd, fixed: 2 }
+  ask: { fee: 0.5, currency: xrp, fixed: 3 }
+
+- id: btcxrp
+  code: 5
+  base_unit: btc
+  quote_unit: xrp
+  sort_order: 1
+  bid: { fee: 0.5, currency: xrp, fixed: 3 }
+  ask: { fee: 0.001, currency: btc, fixed: 4 }
+<% end %>

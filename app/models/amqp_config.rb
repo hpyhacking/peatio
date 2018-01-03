@@ -1,7 +1,11 @@
 class AMQPConfig
   class <<self
     def data
-      @data ||= Hashie::Mash.new YAML.load_file(Rails.root.join('config', 'amqp.yml'))
+      @data ||= Hashie::Mash.new(
+        YAML.safe_load(
+          ERB.new(File.read(Rails.root.join('config', 'amqp.yml'))).result
+        )
+      )
     end
 
     def connect
