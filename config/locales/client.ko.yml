@@ -70,7 +70,6 @@ ko:
         balance: 잔액
         withdraw_amount: 출금금액
         manage_withdraw: 계좌관리
-        fee_explain: 수수료 설명
         min: 최소 출금금액
         withdraw_all: 전액 출금
       withdraw_btc:
@@ -83,7 +82,6 @@ ko:
         manage_withdraw: 지갑관리
         min: 최소수량
         withdraw_all: 전액출금
-        fee_explain: 수수료 설명
       withdraw_history:
         title: 출금내역
         number: 일련번호

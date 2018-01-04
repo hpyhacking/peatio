@@ -103,7 +103,6 @@ zh-CN:
         balance: 可用余额
         withdraw_amount: 提取数量
         manage_withdraw: 管理提现账号
-        fee_explain: 资费说明
         min: 最低
         withdraw_all: 全部提取
       withdraw_btc:
@@ -116,7 +115,6 @@ zh-CN:
         manage_withdraw: 管理提现地址
         min: 最低
         withdraw_all: 全部提取
-        fee_explain: 资费说明
       withdraw_history:
         title: 提现历史
         number: 编号

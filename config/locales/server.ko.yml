@@ -8,7 +8,6 @@ ko:
       order: 주문
       order_bid: 매수
       order_ask: 매도
-      document: 문서
       withdraw: 출금
       deposit: 입금
       payment_transaction: 입금
@@ -34,17 +33,6 @@ ko:
         email: 이메일
         password: 비밀번호
         password_confirmation: 비밀번호 재확인
-      document:
-        zh_cn_body: 한글 내용
-        zh_cn_title: 한글 제목
-        zh_cn_desc: 한글 소개
-        zh_cn_keywords: 한글 키워드
-        en_body: 영문 내용
-        en_title: 영문 제목
-        en_desc: 영문 소개
-        en_keywords: 영문 키워드
-        key: 검색키
-        is_auth: 등록 검색 하시겠습니까?
       fund_source:
         address: 출금 주소
         category: 출금 방식
@@ -657,8 +645,6 @@ ko:
       liability_proof:
         title: 자산 증명
         intro: 우리는 은행계좌,코인주소 등 모든 자산정보를 100%공개합니다. 회원님들은 실시간으로 우리 거래소의 자산 정보를 볼수있습니다.디지털 인증 방식으로 우리가 제공하는 모든 자산정보를 증명할수있습니다. 최고의 기술로 고객님의 자산을 안전하게 보장합니다.
-        how-to-verify: 어떤 방식으로 거래소 지불능력을 확인 합니까?
-        how-to-verify-uri: https://demo.peatio.tech/documents/liability_proof
       liability_data:
         liability-proof-generating: 나의 자산정보 전송중,30분있다 다시 확인하세요
         root-json: 거래소 총 자산 인증코드
@@ -946,9 +932,6 @@ ko:
         password_confirmation: 비밀번호 확인
         edit:
           password: 새 비밀번호 설정
-      document:
-        key: 문장 링크 URL key
-        title: 문장 제목
       fund_source:
         label: 이름
         address: 주소
@@ -1075,9 +1058,6 @@ ko:
     dashboard:
       index:
         accounts_title: 계정통계
-    documents:
-      index:
-        new: 새문장 만들기
     statistic:
       filter: 필터
       summary: 통계
@@ -1407,10 +1387,6 @@ ko:
         create: 매도
       order_bid:
         create: 매수
-      document:
-        create: 문서 만들기
-        update: 새문서 업데이트
-        destroy: 문서 삭제
       member:
         update: 계정 만들기
       identity:
@@ -1481,7 +1457,6 @@ ko:
           operating:
             proofs: 자산증명
             deposits: 입금관리
-            documents: 문장 관리
             withdraws: 출금 관리
             tickets: Tickets
           deposits:

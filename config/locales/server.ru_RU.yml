@@ -8,7 +8,6 @@ ru_RU:
       order: Ордера
       order_bid: BID
       order_ask: ASK
-      document: Документ
       withdraw: Вывести
       deposit: Пополнить
       payment_transaction: Платеж
@@ -32,9 +31,6 @@ ru_RU:
         country: Страна
         password: Новый пароль
         password_confirmation: Подтвердите пароль
-      document:
-        key: Ключ
-        is_auth: Авторизован
       fund_source:
         address: Адрес
         category: Категория

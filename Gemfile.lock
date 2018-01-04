@@ -71,8 +71,6 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.2.0.2)
       sass (~> 3.2)
-    bootstrap-wysihtml5-rails (0.3.3.8)
-      railties (>= 3.0)
     bourbon (4.3.4)
       sass (~> 3.4)
       thor (~> 0.19)
@@ -158,9 +156,6 @@ GEM
       sass (>= 3.2)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
-    globalize (5.0.1)
-      activemodel (>= 4.2.0, < 4.3)
-      activerecord (>= 4.2.0, < 4.3)
     god (0.13.7)
     gon (5.2.3)
       actionpack (>= 2.3.0)
@@ -429,7 +424,6 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass (~> 3.2.0.2)
-  bootstrap-wysihtml5-rails
   bourbon
   browser (~> 0.8.0)
   bunny (~> 1.2.1)
@@ -451,7 +445,6 @@ DEPENDENCIES
   faker (~> 1.4.3)
   figaro
   font-awesome-sass
-  globalize (~> 5.0)
   god (~> 0.13.7)
   gon (~> 5.2.0)
   grape (~> 1.0.1)

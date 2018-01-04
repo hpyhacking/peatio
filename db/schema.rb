@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171226152249) do
+ActiveRecord::Schema.define(version: 20180103185615) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -129,31 +129,6 @@ ActiveRecord::Schema.define(version: 20171226152249) do
   end
 
   add_index "deposits", ["txid", "txout"], name: "index_deposits_on_txid_and_txout", using: :btree
-
-  create_table "document_translations", force: :cascade do |t|
-    t.integer  "document_id", limit: 4,     null: false
-    t.string   "locale",      limit: 255,   null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.string   "title",       limit: 255
-    t.text     "body",        limit: 65535
-    t.text     "desc",        limit: 65535
-    t.text     "keywords",    limit: 65535
-  end
-
-  add_index "document_translations", ["document_id"], name: "index_document_translations_on_document_id", using: :btree
-  add_index "document_translations", ["locale"], name: "index_document_translations_on_locale", using: :btree
-
-  create_table "documents", force: :cascade do |t|
-    t.string   "key",        limit: 255
-    t.string   "title",      limit: 255
-    t.text     "body",       limit: 65535
-    t.boolean  "is_auth"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "desc",       limit: 65535
-    t.text     "keywords",   limit: 65535
-  end
 
   create_table "fund_sources", force: :cascade do |t|
     t.integer  "member_id",  limit: 4
@@ -309,7 +284,7 @@ ActiveRecord::Schema.define(version: 20171226152249) do
   end
 
   add_index "running_accounts", ["member_id"], name: "index_running_accounts_on_member_id", using: :btree
-  add_index "running_accounts", ["source_type", "source_id"], name: "index_running_accounts_on_source_type_and_source_id", using: :btree
+  add_index "running_accounts", ["source_id", "source_type"], name: "index_running_accounts_on_source_id_and_source_type", using: :btree
 
   create_table "signup_histories", force: :cascade do |t|
     t.integer  "member_id",       limit: 4

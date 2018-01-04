@@ -9,7 +9,6 @@ module Admin
       can :read, Trade
       can :read, Proof
       can :update, Proof
-      can :manage, Document
       can :manage, Member
       can :manage, Ticket
       can :manage, IdDocument

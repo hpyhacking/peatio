@@ -6,7 +6,6 @@ en:
       order: Orders
       order_bid: BID
       order_ask: ASK
-      document: Document
       withdraw: Withdraw
       deposit: Deposit
       payment_transaction: Payment
@@ -33,17 +32,6 @@ en:
         email: Email
         password: New Password
         password_confirmation: Confirm Password
-      document:
-        zh_cn_body: Chinese content
-        zh_cn_title: Chinese title
-        zh_cn_desc: Chinese description
-        zh_cn_keywords: Chinese keyword
-        en_body: English content
-        en_title: English title
-        en_desc: English description
-        en_keywords: English keyword
-        key: Key
-        is_auth: Is Auth
       fund_source:
         address: Address
         category: Category
@@ -718,8 +706,6 @@ en:
           crypto currencies and fiat currencies) that our users trust us with. On
           this page, we present you our liabilities. We also provide you a way to
           verify that your account balance is indeed part of our liabilities.
-        how-to-verify: How to verify an exchange is solvent?
-        how-to-verify-uri: https://demo.peatio.tech/documents/liability_proof
       liability_data:
         liability-proof-generating: Proof of Liability generation in process, please
           come back after 30 minutes.
@@ -1061,9 +1047,6 @@ en:
         password_confirmation: Confirm your password
         edit:
           password: Please set your account password!
-      document:
-        key: Document link URL key
-        title: Document Title
       order_bid:
         origin_volume: Buy Volume
         sum: Sum
@@ -1211,9 +1194,6 @@ en:
     dashboard:
       index:
         accounts_title: Account Summary
-    documents:
-      index:
-        new: New Document
     statistic:
       filter: Filter
       summary: Summary
@@ -1586,10 +1566,6 @@ en:
         create: ASK
       order_bid:
         create: BID
-      document:
-        create: Create Document
-        update: Update Document
-        destroy: Destroy Document
       member:
         update: Open Account
       identity:
@@ -1662,7 +1638,6 @@ en:
           operating:
             proofs: Proof
             deposits: Deposits
-            documents: Documents
             withdraws: Withdraws
             tickets: Tickets
           deposits:

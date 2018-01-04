@@ -68,7 +68,6 @@ ru_RU:
         balance: Баланс
         withdraw_amount: Сумма вывода
         manage_withdraw: Управлять выводом
-        fee_explain: О комиссиях
         min: Как минимум
         withdraw_all: Вывести все
       withdraw_btc:
@@ -81,7 +80,6 @@ ru_RU:
         manage_withdraw: Изменить адрес
         min: Как минимум
         withdraw_all: Вывести все
-        fee_explain: О коммиссиях
       withdraw_history:
         title: История вывода
         number: Число

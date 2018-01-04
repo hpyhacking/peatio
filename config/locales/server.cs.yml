@@ -8,7 +8,6 @@ cs:
       order: Objednávky
       order_bid: Nabídka
       order_ask: Poptávka
-      document: Dokument
       withdraw: Výběr
       deposit: Vklad
       payment_transaction: Platba
@@ -36,17 +35,6 @@ cs:
         country: Země
         password: Nové heslo
         password_confirmation: Potvrďte heslo
-      document:
-        zh_cn_body: Čínský obsah
-        zh_cn_title: Čínský název
-        zh_cn_desc: Čínský popis
-        zh_cn_keywords: Čínská klíčové slovo
-        en_body: Anglický obsah
-        en_title: Anglický název
-        en_desc: Anglický popis
-        en_keywords: Anglické klíčové slovo
-        key: Klíč
-        is_auth: je authorizován
       fund_source:
         address: Adresa
         category: Kategorie
@@ -663,8 +651,6 @@ cs:
       liability_proof:
         title: Důkaz aktiv
         intro: Ve směnárně, naše závazky jsou celkovým množství peněz (v kryptoměnách a Fiat měnách), které jsou našich uživatelů kterým děkujeme za důvěru. Na této stránce vám předkládáme naše závazky. Poskytujeme také vám způsob, jak ověřit, že zůstatek účtu je skutečně součástí našich závazků.
-        how-to-verify: Jak ověřit je-li směnárna solventní?
-        how-to-verify-uri: https://demo.peatio.tech/documents/liability_proof
       liability_data:
         liability-proof-generating: Důkaz závazků se generuje, prosím vraťte se po 30 minutách.
         root-json: Root node
@@ -976,9 +962,6 @@ cs:
         password_confirmation: Potvrďte Vaše heslo
         edit:
           password: Prosím nastavte Vaše heslo k účtu!
-      document:
-        key: Document link URL key
-        title: Dokument Název
       fund_source:
         label: Skutečné jméno
         address: Adresa
@@ -1105,9 +1088,6 @@ cs:
     dashboard:
       index:
         accounts_title: Souhrn účtu
-    documents:
-      index:
-        new: Nový dokument
     statistic:
       filter: Filtr
       summary: Souhrn
@@ -1445,10 +1425,6 @@ cs:
         create: Poptávka
       order_bid:
         create: Nabídka
-      document:
-        create: Vytvořit Dokument
-        update: Aktualizovat dokument
-        destroy: Smazat dokument
       member:
         update: Otevřít účet
       identity:
@@ -1519,7 +1495,6 @@ cs:
           operating:
             proofs: Dokázaný
             deposits: Vklady
-            documents: Dokumenty
             withdraws: Výběry
             tickets: Tikety
           deposits:

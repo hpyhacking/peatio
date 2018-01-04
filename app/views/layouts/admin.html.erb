@@ -15,12 +15,6 @@
             <%= link_to t('header.dashboard'), main_app.admin_dashboard_path %>
           </li>
 
-          <% if can? :manage, Document %>
-            <li class="<%= check_active(Document) %>">
-              <%= link_to t('.menus.items.operating.documents'), admin_documents_path %>
-            </li>
-          <% end %>
-
           <% if can? :manage, IdDocument %>
             <li class="<%= check_active('id_documents') %>">
               <%= link_to t('admin_header.id_documents'), admin_id_documents_path %>

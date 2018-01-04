@@ -112,7 +112,6 @@ en:
         balance: Balance
         withdraw_amount: Withdraw Amount
         manage_withdraw: Manage Withdraw
-        fee_explain: About Fee
         min: At least
         withdraw_all: Withdraw all
 
@@ -130,7 +129,6 @@ en:
         manage_withdraw: Manage Address
         min: At least
         withdraw_all: Withdraw all
-        fee_explain: About Fee
 
       withdraw_history:
         title: Withdraw History

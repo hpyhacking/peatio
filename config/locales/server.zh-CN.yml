@@ -8,7 +8,6 @@ zh-CN:
       order: 挂单
       order_bid: 买入
       order_ask: 卖出
-      document: 文档
       withdraw: 提现
       deposit: 充值
       payment_transaction: 充值
@@ -34,17 +33,6 @@ zh-CN:
         email: 邮箱地址
         password: 新密码
         password_confirmation: 确认密码
-      document:
-        zh_cn_body: 中文内容
-        zh_cn_title: 中文标题
-        zh_cn_desc: 中文描述
-        zh_cn_keywords: 中文关键字
-        en_body: 英文内容
-        en_title: 英文标题
-        en_desc: 英文描述
-        en_keywords: 英文关键字
-        key: 索引键
-        is_auth: 是否登录查阅
       fund_source:
         address: 提现地址
         category: 提现方式
@@ -657,8 +645,6 @@ zh-CN:
       liability_proof:
         title: 资产证明
         intro: 我们将银行账户，比特币钱包地址，以及用户存款总额公开以便用户时刻了解我们的资产状况；我们提供的数字证明能证明我们提供的存款总额数据是真实的。我们通过技术手段来保证您的资金处于随时能够提取的状态。
-        how-to-verify: 如何验证交易所具备偿付能力？
-        how-to-verify-uri: https://demo.peatio.tech/documents/liability_proof
       liability_data:
         liability-proof-generating: 用户资产证明正在生成中，请30分钟后再来。
         root-json: 交易所总资产验证代码
@@ -973,9 +959,6 @@ zh-CN:
         password_confirmation: 确认密码
         edit:
           password: 请设置新密码
-      document:
-        key: 文章连接URL键值
-        title: 文章标题
       fund_source:
         label: 真实姓名
         address: 地址
@@ -1102,9 +1085,6 @@ zh-CN:
     dashboard:
       index:
         accounts_title: 账户汇总
-    documents:
-      index:
-        new: 新建文档
     statistic:
       filter: 筛选
       summary: 总结
@@ -1447,10 +1427,6 @@ zh-CN:
         create: 卖出
       order_bid:
         create: 买入
-      document:
-        create: 创建文档
-        update: 更新文档
-        destroy: 删除文档
       member:
         update: 开通账户
       identity:
@@ -1521,7 +1497,6 @@ zh-CN:
           operating:
             proofs: 资产证明
             deposits: 充值管理
-            documents: 文档管理
             withdraws: 提现管理
             tickets: 服务单管理
           deposits:
