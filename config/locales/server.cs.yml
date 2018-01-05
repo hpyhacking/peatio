@@ -124,7 +124,6 @@ cs:
         created_at: Rogistrován v
         sn: SN
         id_document_number: Číslo dokladu totožnosti
-        tag_list: Štítky
         activated: Aktivován
         activated?: "Aktivovat?"
         id_document_verified?: "Číslo průkazu totožnosti ověřeno?"
@@ -1266,10 +1265,7 @@ cs:
       your_state: 'Stav Vašeho výběru:'
   view_on_github: Zobrazit na Github
   slogan: An open-source crypto-currency exchange for world.
-  tags:
-    vip: VIP
-    hero: Hero Member
-    admin: Admin
+
   trade:
     markets: Obchody
     realtime_price:

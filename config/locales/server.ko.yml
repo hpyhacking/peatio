@@ -122,7 +122,6 @@ ko:
         created_at: 등록 시간
         sn: 개인 일련번호
         id_document_number: 주민등록증 번호(삭제)
-        tag_list: 표기
         activated: 완료
         activated?: "이메일 인증 완료"
         id_document_verified?: "실명 인증"
@@ -1220,10 +1219,6 @@ ko:
     subheading: 간단하고 안전한 클라우드 배포
     text1: Peatio - 디지털 통화 관리를위한 암호 교환.
     text2: Peatio 설치 및 구성 서비스 제공
-  tags:
-    vip: VIP
-    hero: 히어로 맴버
-    admin: 관리자
   trade:
     markets: 시장
     realtime_price:

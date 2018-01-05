@@ -121,7 +121,6 @@ en:
         created_at: Register At
         sn: SN
         id_document_number: Id Document Number
-        tag_list: Tags
         activated: Activated
         activated?: "Activated?"
         id_document_verified?: "Id Document Verified?"
@@ -1398,10 +1397,6 @@ en:
     subheading: Cloud deployment made simple and secure
     text1: Peatio - Cryptocurrency exchange for managing digital currency.
     text2: We provide Peatio installation and configuration services.
-  tags:
-    vip: VIP
-    hero: Hero Member
-    admin: Admin
   trade:
     markets: Markets
     realtime_price:
