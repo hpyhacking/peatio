@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180103185615) do
+ActiveRecord::Schema.define(version: 20251226171150) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -269,22 +269,6 @@ ActiveRecord::Schema.define(version: 20180103185615) do
 
   add_index "read_marks", ["member_id"], name: "index_read_marks_on_member_id", using: :btree
   add_index "read_marks", ["readable_type", "readable_id"], name: "index_read_marks_on_readable_type_and_readable_id", using: :btree
-
-  create_table "running_accounts", force: :cascade do |t|
-    t.integer  "category",    limit: 4
-    t.decimal  "income",                  precision: 32, scale: 16, default: 0.0, null: false
-    t.decimal  "expenses",                precision: 32, scale: 16, default: 0.0, null: false
-    t.integer  "currency",    limit: 4
-    t.integer  "member_id",   limit: 4
-    t.integer  "source_id",   limit: 4
-    t.string   "source_type", limit: 255
-    t.string   "note",        limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "running_accounts", ["member_id"], name: "index_running_accounts_on_member_id", using: :btree
-  add_index "running_accounts", ["source_id", "source_type"], name: "index_running_accounts_on_source_id_and_source_type", using: :btree
 
   create_table "signup_histories", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
