@@ -7,4 +7,4 @@ run:
     - |
       cd $APP_HOME
       RAILS_ENV=test bundle exec rake tmp:create db:drop db:create db:migrate
-      bundle exec rspec --exclude-pattern='spec/features/**/*' spec
+      RAILS_ENV=test bundle exec rspec --exclude-pattern='spec/features/**/*' spec

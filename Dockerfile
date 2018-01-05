@@ -1,6 +1,16 @@
 FROM ruby:2.4.2
 MAINTAINER lbellet@heliostech.fr
 
+# By default image is built using RAILS_ENV=production.
+# You may want to customize it:
+#
+#   --build-arg RAILS_ENV=development
+#
+# See https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables-build-arg
+#
+ARG RAILS_ENV=production
+ENV RAILS_ENV ${RAILS_ENV}
+
 ENV APP_HOME=/home/app
 
 RUN groupadd -r app --gid=1000

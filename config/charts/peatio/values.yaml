@@ -34,7 +34,7 @@ resources: {}
   #   memory: 128Mi
 
 peatio:
-  env: {}
+  env:
     # TIMEZONE: 'Paris'
     # ADMIN: 'admin1@peatio.tech,admin2@peatio.tech'
     # PUSHER_APP: "000000"
