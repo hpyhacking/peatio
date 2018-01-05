@@ -33,8 +33,22 @@
 #= require_tree ./component_data
 #= require_tree ./component_ui
 
-$ ->
-  BigNumber.config(ERRORS: false)
+$(document).on 'click', '[data-clipboard-text], [data-clipboard-target]', (e) ->
+  $action = $(this)
 
-  $('[data-clipboard-text], [data-clipboard-target]').each ->
-      clipboard = new Clipboard(this)
+  # clipboard.js is initialized so it already listens for clicks.
+  return if $action.data('clipboard')
+
+  # Skip click.
+  e.preventDefault()
+  e.stopPropagation()
+
+  $action.data('clipboard', true)
+
+  # Lazy initialize clipboard.js.
+  new Clipboard($action[0])
+
+  # Emulate click.
+  $action.click()
+
+setTimeout -> BigNumber.config(ERRORS: false)

@@ -25,4 +25,3 @@ $(window).load ->
     setTimeout(->
       $('.flash-messages').hide(1000)
     , 10000)
-
