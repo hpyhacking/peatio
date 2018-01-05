@@ -33,7 +33,6 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * Designed as high performance crypto currency exchange
 * Built-in high performance matching-engine
 * Built-in [Proof of Solvency](https://iwilcox.me.uk/2014/proving-bitcoin-reserves) Audit
-* Built-in ticket system for customer support
 * Usability and scalibility
 * Websocket API and high frequency trading support
 * Support multiple digital currencies (eg. Bitcoin, Litecoin, Dogecoin etc.)

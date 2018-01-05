@@ -65,12 +65,6 @@
             </li>
           <% end %>
 
-          <% if can? :manage, Ticket %>
-            <li class="<% check_active(Proof) %>">
-              <%= link_to t('.menus.items.operating.tickets'), admin_tickets_path %>
-            </li>
-          <% end %>
-
           <li class="dropdown <%= check_active('statistic') %>">
             <%= link_to 'javascript:;', class: 'dropdown-toggle', 'data-toggle': 'dropdown' do %>
               <span><%= t('admin_header.statistics') %></span>

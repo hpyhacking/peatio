@@ -96,13 +96,6 @@ Peatio::Application.routes.draw do
     end
 
    post '/pusher/auth', to: 'pusher#auth'
-
-    resources :tickets, only: [:index, :new, :create, :show] do
-      member do
-        patch :close
-      end
-      resources :comments, only: [:create]
-    end
   end
 
   draw :admin

@@ -92,17 +92,6 @@ describe Member do
     specify { expect(Thread.current[:user]).to eq member }
   end
 
-  describe '#unread_messages' do
-    let!(:user) { create(:member) }
-
-    let!(:ticket) { create(:ticket, author: user) }
-    let!(:comment) { create(:comment, ticket: ticket) }
-
-    before { ReadMark.delete_all }
-
-    specify { expect(user.unread_comments.count).to eq 1 }
-  end
-
   describe '#identity' do
     it 'should not raise but return nil when authentication is not found' do
       member = create(:member)

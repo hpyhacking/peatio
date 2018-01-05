@@ -634,26 +634,6 @@ en:
         create:
           notice: Withdrawal request successfully submitted. Use the info below to
             complete the bank transfer.
-    tickets:
-      index:
-        new_ticket: New Ticket
-      new:
-        intro: If you have any problems, start a new discussion so that our staff
-          can help you out as soon as possible. All discussions are private between
-          you and the support staff.
-      ticket_create_succ: Ticket created successfully.
-      ticket_create_fail: Failed to create ticket, please try again later.
-      comment_succ: Comment successfully.
-      comment_fail: Comment failed, please try again latter
-      me: me
-      supporter: Support
-      close: Close Ticket
-      close_succ: Ticket closed successfully
-      close_confirm: Are you sure to close this ticket?
-      title_content_both_blank: Title and content could be both be empty.
-      from: from
-      view_closed_tickets: View closed tickets
-      view_open_tickets: View open tickets
     account_versions:
       index:
         description: Every transaction and every penny of income in Peatio are well
@@ -991,8 +971,6 @@ en:
           title: Edit API Token
         update:
           title: Edit API Token
-      tickets:
-        panel: Tickets
       id_documents:
         panel: Real-name Authentication
         new:
@@ -1122,8 +1100,6 @@ en:
         password_confirmation: Confirm new password
       reset_password:
         password: New Password
-      ticket:
-        content: More detail
       withdraw:
         bank:
           fund_extra: Bank
@@ -1171,13 +1147,6 @@ en:
         index:
           accept: Accept
           accept_confirm: Confirm deposit?
-    tickets:
-      view: View
-      close: Close Ticket
-      comments_count: Comments Count
-      replies: Replies
-      open_tickets: Open Tickets
-      closed_tickets: Closed Tickets
     members:
       index:
         search: Search
@@ -1374,13 +1343,6 @@ en:
     signature: Thanks,<br/>The Peatio Team
     please_contact: If it's not you, please <a href='mailto:%{contact_mail}'>contact us</a> ASAP.
     footer: This is an automatically generated email, please do not reply, if you have any question, please <a href="mailto:%{contact_mail}">contact us</a>.
-  comment_mailer:
-    admin_notification:
-      subject: "[PEATIO] User reply a ticket"
-      notification_content: User %{email} reply a ticket, please follow the link below to see the detail
-    user_notification:
-      subject: "[PEATIO] Your ticket got a new reply"
-      notification_content: 'Your ticket got a new reply, please follow the link below to see the detail:'
   deposit_mailer:
     accepted:
       subject: "[Peatio] Your deposit has been credited into your account"
@@ -1404,13 +1366,6 @@ en:
       trade_stats: Trades Changes
       asset_value_change_total: Digital Assets Changes Total
       trades_change_total: Trades Changes Total
-  ticket_mailer:
-    admin_notification:
-      subject: "[PEATIO] User created a new ticket"
-      admin_notification_content: User %{email} created a new ticket, please follow the link below to see the detail
-    author_notification:
-      subject: "[PEATIO] Thank you for submit ticket"
-      thanks_for_submit_ticket: Thank you for submit ticket to us, we will get back to you as soon as possible.
   token_mailer:
     activation:
       subject: "[Peatio] Account Activation"
@@ -1491,7 +1446,6 @@ en:
     trade_history: Trade History
     account_history: Account History
     my_profile: My Profile
-    tickets: Tickets
     account_balance: Total Assets
     back: Back
     total: Total
@@ -1585,8 +1539,6 @@ en:
         create: Submit
       withdraw:
         create: Submit
-      ticket:
-        create: Submit
   activations:
     new:
       notice: An email has been sent to your mailbox, please check it for verification as soon as possible. If you do not received it , please click "send it again" button.
@@ -1639,7 +1591,6 @@ en:
             proofs: Proof
             deposits: Deposits
             withdraws: Withdraws
-            tickets: Tickets
           deposits:
             currency: Deposit
     application:

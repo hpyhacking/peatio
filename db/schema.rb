@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20251226171150) do
+ActiveRecord::Schema.define(version: 20180105103910) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -99,14 +99,6 @@ ActiveRecord::Schema.define(version: 20251226171150) do
 
   add_index "authentications", ["member_id"], name: "index_authentications_on_member_id", using: :btree
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", using: :btree
-
-  create_table "comments", force: :cascade do |t|
-    t.text     "content",    limit: 65535
-    t.integer  "author_id",  limit: 4
-    t.integer  "ticket_id",  limit: 4
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "deposits", force: :cascade do |t|
     t.integer  "account_id",             limit: 4
@@ -260,16 +252,6 @@ ActiveRecord::Schema.define(version: 20251226171150) do
     t.string   "balance",    limit: 30
   end
 
-  create_table "read_marks", force: :cascade do |t|
-    t.integer  "readable_id",   limit: 4
-    t.integer  "member_id",     limit: 4,  null: false
-    t.string   "readable_type", limit: 20, null: false
-    t.datetime "timestamp"
-  end
-
-  add_index "read_marks", ["member_id"], name: "index_read_marks_on_member_id", using: :btree
-  add_index "read_marks", ["readable_type", "readable_id"], name: "index_read_marks_on_readable_type_and_readable_id", using: :btree
-
   create_table "signup_histories", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
     t.string   "ip",              limit: 255
@@ -315,15 +297,6 @@ ActiveRecord::Schema.define(version: 20251226171150) do
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
-
-  create_table "tickets", force: :cascade do |t|
-    t.string   "title",      limit: 255
-    t.text     "content",    limit: 65535
-    t.string   "aasm_state", limit: 255
-    t.integer  "author_id",  limit: 4
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "tokens", force: :cascade do |t|
     t.string   "token",      limit: 255

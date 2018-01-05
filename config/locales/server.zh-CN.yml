@@ -122,7 +122,6 @@ zh-CN:
         created_at: 注册时间
         sn: 个人识别码
         id_document_number: 身份证号码
-        tag_list: 标签
         activated: 激活成功
         activated?: "邮件激活"
         id_document_verified?: "实名认证"
@@ -582,24 +581,6 @@ zh-CN:
           manage_fund_source: 管理提现地址
         create:
           notice: 您的提现请求提交成功，请按照提示继续完成您的转账操作。
-    tickets:
-      index:
-        new_ticket: 新建服务单
-      new:
-        intro: 如果您有任何问题，意见或建议需要和我们沟通，请给我们建立一个服务单，我们会尽快回复您。
-      ticket_create_succ: 服务单创建成功。
-      ticket_create_fail: 服务单创建失败, 请稍候再试。
-      comment_succ: 回复成功。
-      cooment_fail: 服务单创建失败, 请稍候再试。
-      me: 我
-      supporter: 客服
-      close: 关闭服务单
-      close_succ: 服务单已关闭
-      close_confirm: 您确定要关闭这个服务单吗？
-      title_content_both_blank: 标题和描述至少要填写一个哦！
-      from: 来自
-      view_closed_tickets: 查看已结束的服务单
-      view_open_tickets: 查看未结束的服务单
     account_versions:
       index:
         description: 每一笔交易、每一分钱收入都是有据可查，巨细无遗的。
@@ -903,8 +884,6 @@ zh-CN:
           title: 设置API密钥
         update:
           title: 设置API密钥
-      tickets:
-        panel: 服务单
       fund_sources:
         panel: 充值提现账号管理
         index:
@@ -1026,8 +1005,6 @@ zh-CN:
         password_confirmation: 确认密码
       reset_password:
         password: 新密码
-      ticket:
-        content: 详细描述
       withdraw:
         bank:
           fund_extra: 开户行
@@ -1062,13 +1039,6 @@ zh-CN:
         index:
           accept: 立即充值
           accept_confirm: 确定立刻确认此充值？
-    tickets:
-      view: 查看
-      close: 关闭服务单
-      comments_count: 回复数量
-      replies: 回复
-      open_tickets: 未结束服务单
-      closed_tickets: 已结束服务单
     members:
       index:
         search: 搜索
@@ -1267,13 +1237,6 @@ zh-CN:
       trade_stats: 交易变动
       asset_value_change_total: 数字货币变动总计
       trades_change_total: 交易数变动总计
-  ticket_mailer:
-    admin_notification:
-      subject: "[PEATIO] 用户新建了服务单"
-      admin_notification_content: 用户 %{email} 新建了服务单，详情请查看链接：
-    author_notification:
-      subject: "[PEATIO] 您的服务单提交成功"
-      thanks_for_submit_ticket: 感谢您的反馈。我们会尽快处理，并第一时间告知您相关进展。
   token_mailer:
     activation:
       subject: "[Peatio] 帐号激活"
@@ -1304,10 +1267,6 @@ zh-CN:
     subheading: 雲部署變得簡單和安全
     text1: 貔貅管理數字貨幣的加密货币交換。
     text2: 我們提供貔貅安裝和配置服務
-  tags:
-    vip: VIP
-    hero: 超级用户
-    admin: 管理员
   trade:
     markets: 市场
     realtime_price:
@@ -1352,7 +1311,6 @@ zh-CN:
     trade_history: 成交记录
     account_history: 账户记录
     my_profile: 用户设置
-    tickets: 服务单
     account_balance: 账户资产
     back: 返回
     total: 总额
@@ -1446,8 +1404,6 @@ zh-CN:
         create: 提交
       withdraw:
         create: 提交
-      ticket:
-        create: 提交
   activations:
     new:
       notice: 邮件已经发送至您的邮箱，请您尽快进入您的邮箱进行验证，如未收到请点击再次发送。
@@ -1498,7 +1454,6 @@ zh-CN:
             proofs: 资产证明
             deposits: 充值管理
             withdraws: 提现管理
-            tickets: 服务单管理
           deposits:
             currency: 法币充值
     application:

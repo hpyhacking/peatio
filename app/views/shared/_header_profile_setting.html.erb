@@ -1,11 +1,8 @@
-<% controllers = ['settings', 'identities', 'id_documents', 'dashboard', 'tickets'] %>
+<% controllers = ['settings', 'identities', 'id_documents', 'dashboard'] %>
 <% dropdown_class = (controllers & controller_path.split('/')).empty? ? '' : 'active' %>
 <li class="dropdown account-settings <%= dropdown_class %>">
   <a class="dropdown-toggle" href="#" data-toggle="dropdown">
     <span><%= current_user.email || current_user.nickname %></span>
-    <% if current_user.unread_comments.count > 0 %>&nbsp;
-      <span class="badge"><%= current_user.unread_comments.count %></span>
-    <% end %>
     <b class="caret"></b>
   </a>
   <ul class="dropdown-menu">
@@ -13,13 +10,6 @@
       <a href="<%= settings_path %>">
         <i class="fa fa-user"></i>
         <span><%= t('header.my_profile') %></span>
-      </a>
-    </li>
-    <li>
-      <a href="<%= tickets_path %>">
-        <i class="fa fa-comments"></i>
-        <span><%= t('header.tickets') %></span>
-        <span class="badge"><%= current_user.unread_comments.count %></span>
       </a>
     </li>
     <% if is_admin? %>

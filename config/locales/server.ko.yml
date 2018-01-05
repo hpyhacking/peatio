@@ -582,24 +582,6 @@ ko:
           manage_fund_source: 출금주소 관리
         create:
           notice: 회원님 출금신청이 완료되었습니다, 지시에 따라 출금 작업을 완료하세요.
-    tickets:
-      index:
-        new_ticket: New Ticket
-      new:
-        intro: 거래소 이용에 불편사항이나 개선할 사항 있으시면 메모를 남기시면 최대한 빠른시간내에 처리해드리며 위에 내용은 회원님과 관리자만 볼수있습니다.
-      ticket_create_succ: Ticket를 성공적으로 만들어졌습니다.
-      ticket_create_fail: Ticket등록실패 하였습니다, 다시 시도하세요.
-      comment_succ: Comment successfully.
-      cooment_fail: Comment failed, please try again latter
-      me: 나
-      supporter: 고객센터
-      close: Close Ticket
-      close_succ: Ticket closed successfully
-      close_confirm: Are you sure to close this ticket?
-      title_content_both_blank: 제목과 내용은 꼭 기재 해주세요.
-      from: from
-      view_closed_tickets: 완료된  Ticket를 검색하기
-      view_open_tickets: 처리중인 Ticket를 검색하기
     account_versions:
       index:
         description: PEATIO거래소의 모든 거래내역와 입출금내역을 검색할수있습니다.
@@ -877,8 +859,6 @@ ko:
           title: Edit API Token
         update:
           title: Edit API Token
-      tickets:
-        panel: Tickets
       fund_sources:
         panel: 입출금 계좌 관리
         index:
@@ -999,8 +979,6 @@ ko:
         password_confirmation: 비밀번호 재확인
       reset_password:
         password: 새 비밀번호
-      ticket:
-        content: 더 자세한 내용
       withdraw:
         bank:
           fund_extra: 은행명
@@ -1035,13 +1013,6 @@ ko:
         index:
           accept: 바로 입금
           accept_confirm: 입금신청을 확인하시겠습니까?
-    tickets:
-      view: 검색
-      close: Close Ticket
-      comments_count: 답장수량
-      replies: 답장하기
-      open_tickets: Open Tickets
-      closed_tickets: Closed Tickets
     members:
       index:
         search: 검색
@@ -1210,14 +1181,6 @@ ko:
     signature: 감사합니다. The PEATIO Team
     please_contact: '본인이 직접 로그인하시지 않은경우 <a href=''mailto:%{contact_mail}''>바로 고객센터로 연락하세요.</a> '
     footer: 자동으로 전송된 이메일 입니다, 회신하지마세요.문의사항 있을경우<a href="mailto:%{contact_mail}"> 연락하세요.
-  comment_mailer:
-    admin_notification:
-      subject: "[PEATIO] User reply a ticket"
-      notification_content: User %{email} reply a ticket, please follow the link below to see the detail
-    user_notification:
-      subject: "[PEATIO] Your ticket got a new reply"
-      notification_content: 'Your ticket got a new reply, please follow the link below to see the detail:'
-  member_mailer:
     notify_signin:
       subject: "[PEATIO] 거래소를 성공적으로 로그인 하였습니다"
       just_signed_in: 거래소를 성공적으로 로그인 하였습니다.
@@ -1236,13 +1199,6 @@ ko:
       trade_stats: 거래변동
       asset_value_change_total: 디지털 화폐 금액 변동 합계
       trades_change_total: 거래수량 변동 합계
-  ticket_mailer:
-    admin_notification:
-      subject: "[PEATIO] User created a new ticket"
-      admin_notification_content: User %{email} created a new ticket, please follow the link below to see the detail
-    author_notification:
-      subject: "[PEATIO] Thank you for submit ticket"
-      thanks_for_submit_ticket: 소중한의견을 주셔서 감사합니다. 빠른시간에 처리하고 연락을 드리겠습니다.
   token_mailer:
     activation:
       subject: "[PEATIO]계정 활성화"
@@ -1312,7 +1268,6 @@ ko:
     trade_history: 거래내역
     account_history: 계정내역
     my_profile: 나의 설정
-    tickets: Tickets
     account_balance: 총자산
     back: 뒤로
     total: 합계
@@ -1406,8 +1361,6 @@ ko:
         create: 확인
       withdraw:
         create: 확인
-      ticket:
-        create: 확인
   activations:
     new:
       notice: 인증이메일이 전송되었습니다. 이메일을 확인 후 인증받으세요. 이메일 못 받은경우 재전송 버튼을 클릭하세요
@@ -1458,7 +1411,6 @@ ko:
             proofs: 자산증명
             deposits: 입금관리
             withdraws: 출금 관리
-            tickets: Tickets
           deposits:
             currency: 입금
     application:

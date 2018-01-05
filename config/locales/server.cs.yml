@@ -588,24 +588,6 @@ cs:
           manage_fund_source: Editujte zdroje vkladu
         create:
           notice: Žádost o výběr úspěšně odeslána. Budete informováni po dokončení bankovního převodu.
-    tickets:
-      index:
-        new_ticket: Nový tiket
-      new:
-        intro: Pokud máte nějaké problémy, začněte novou diskusi a náš personál vám pomůže, jakmile to bude možné. Všechny diskuse jsou soukromé mezi vámi a podpůrným personálem.
-      ticket_create_succ: Tiket úspěšně vytvořen.
-      ticket_create_fail: Nelze vytvořit tiket, zkuste to prosím později.
-      comment_succ: Komentář vytvořen.
-      cooment_fail: Chyba komentáře, prosím zkuste to znovu později.
-      me: já
-      supporter: Podpora
-      close: Ukončit tiket
-      close_succ: Tiket úspěšně uzavřen
-      close_confirm: Opravdu ukončit tiket?
-      title_content_both_blank: Tiket a obsah je pravděpodobně prázdný.
-      from: od
-      view_closed_tickets: Zobrazit ukončené tikety
-      view_open_tickets: Zobrazit otevřené tikety
     account_versions:
       index:
         description: Každá transakce a každý coin příjem jsou dobře zdokumentovány a uloženy.
@@ -906,8 +888,6 @@ cs:
           title: Editovat API Token
         update:
           title: Editovat API Token
-      tickets:
-        panel: Tikety
       fund_sources:
         panel: Zdroj vkladu
         index:
@@ -1029,8 +1009,6 @@ cs:
         password_confirmation: Potvrďte nové heslo
       reset_password:
         password: Nové heslo
-      ticket:
-        content: Více detailů
       withdraw:
         bank:
           fund_extra: Banka
@@ -1065,13 +1043,6 @@ cs:
         index:
           accept: Akceptovat
           accept_confirm: Potvrdit vklad?
-    tickets:
-      view: Zobraz
-      close: Ukončit tiket
-      comments_count: Počet komentářů
-      replies: Odpovědi
-      open_tickets: Otevřené tikety
-      closed_tickets: Ukončené tikety
     members:
       index:
         search: Hledat
@@ -1270,13 +1241,6 @@ cs:
       trade_stats: Obchody změněny
       asset_value_change_total: Digitální aktiva změněny Celkem
       trades_change_total: Obchody změněny Celkem
-  ticket_mailer:
-    admin_notification:
-      subject: "[PEATIO] Uživatel vytvořil nový tiket"
-      admin_notification_content: Uživatel %{email} vytvořil nový tiket, prosím zobrazte link níže pro další dataily
-    author_notification:
-      subject: "[PEATIO] Děkujeme Vám za odeslání tiketu"
-      thanks_for_submit_ticket: Děkujeme Vám za odeslání tiketu, budeme Vás kontaktovat co nejdříve.
   token_mailer:
     activation:
       subject: "[Peatio] Aktivace účtu"
@@ -1350,7 +1314,6 @@ cs:
     trade_history: Historie obchodů
     account_history: Historie účtu
     my_profile: Můj profil
-    tickets: Tikety
     account_balance: Všechna aktiva
     back: Zpět
     total: Celkem
@@ -1444,8 +1407,6 @@ cs:
         create: Odeslat
       withdraw:
         create: Odeslat
-      ticket:
-        create: Odeslat
   activations:
     new:
       notice: E-mail byl odeslán na Váš mailbox, prosím zkontrolujte, měl by dorazit co nejdříve. Nemáte-li jej, prosím, klikněte na tlačítko "Odeslat znovu"
@@ -1496,7 +1457,6 @@ cs:
             proofs: Dokázaný
             deposits: Vklady
             withdraws: Výběry
-            tickets: Tikety
           deposits:
             currency: Vklad
     application:

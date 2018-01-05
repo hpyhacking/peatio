@@ -57,8 +57,5 @@ table#setting_list.table
   ul.list-group
     - if current_user.admin?
       span.label.label-warning ADMIN
-    - current_user.tag_list.each do |key|
-      span.label.label-info
-        = member_tag(key)
   p.text-warning
     == t('.safety_instruction')
