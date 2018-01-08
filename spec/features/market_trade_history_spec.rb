@@ -23,10 +23,8 @@ feature 'show account info', js: true do
     page.within_window(windows.last) do
       click_link page.all('#my_orders_wrapper li').first.text
       expect(page.all('#my_orders .order').count).to eq(1) # can only see his order
-      page.all('#my_orders .order').first.click
-      expect(page).to have_selector('#my_orders_wrapper .fa-trash')
-
-      page.all('#my_orders_wrapper .fa-trash').first.click
+      accept_confirm { page.all('#my_orders .order').first.click }
+      expect(page).not_to have_selector('#my_orders .order')
     end
   end
 end

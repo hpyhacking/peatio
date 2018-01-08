@@ -1,4 +1,4 @@
-feature 'show account info', js: true, type: :feature do
+feature 'show account info', js: true do
   let!(:identity) { create :identity }
   let!(:member) { create :member, :activated, email: identity.email }
 

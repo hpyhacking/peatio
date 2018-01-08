@@ -2,7 +2,6 @@
 ENV['RAILS_ENV'] ||= 'test'
 ENV['ADMIN'] ||= 'admin@peatio.tech'
 require File.expand_path('../../config/environment', __FILE__)
-require 'database_cleaner'
 require 'rspec/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -12,26 +11,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
-
-if ENV['SELENIUM_HOST'].present?
-  Capybara.register_driver :chrome do |app|
-    Capybara::Selenium::Driver.new(
-      app,
-      url: "http://#{ENV['SELENIUM_HOST']}:#{ENV['SELENIUM_PORT']}/wd/hub",
-      browser: :remote,
-      desired_capabilities: :chrome
-    )
-  end
-
-  Capybara.app_host = "http://#{ENV['TEST_APP_HOST']}:#{ENV['TEST_APP_PORT']}"
-  Capybara.javascript_driver = :chrome
-  Capybara.run_server = false
-else
-  Capybara.default_driver    = :selenium_chrome_headless
-  Capybara.javascript_driver = :selenium_chrome_headless
-end
-
-Capybara.default_max_wait_time = 25
 
 %i[ google_oauth2 auth0 ].each do |provider|
   { 'provider' => provider.to_s,
@@ -72,10 +51,6 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Rails.application.routes.url_helpers
   config.include Capybara::DSL
-
-  config.before(:each, type: :feature) do
-    Capybara.current_session.driver.browser.manage.window.resize_to(1024, 768)
-  end
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :deletion

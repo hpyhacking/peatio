@@ -82,9 +82,10 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara'
   gem 'database_cleaner'
   gem 'mocha', require: false
-  gem 'selenium-webdriver'
 
+  gem 'capybara',            '~> 2.17'
+  gem 'selenium-webdriver',  '~> 3.8'
+  gem 'chromedriver-helper', '~> 1.1'
 end
