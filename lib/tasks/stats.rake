@@ -34,11 +34,8 @@ namespace :stats do
       asset_stats[currency.code] = asset_value(ts, currency, stat[3])
     end
 
-    member_stats = Worker::MemberStats.new.get_point(ts, 1440)
-
     { trade_users:  trade_users,
-      asset_stats:  asset_stats,
-      member_stats: member_stats }
+      asset_stats:  asset_stats }
   end
 
   desc "send stats summary email"

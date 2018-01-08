@@ -25,7 +25,6 @@ class SessionsController < ApplicationController
         reset_session rescue nil
         session[:member_id] = @member.id
         save_session_key @member.id, cookies['_peatio_session']
-        save_signup_history @member.id
         MemberMailer.notify_signin(@member.id).deliver if @member.activated?
         redirect_on_successful_sign_in
       end
@@ -70,15 +69,6 @@ private
 
   def auth_hash
     @auth_hash ||= request.env["omniauth.auth"]
-  end
-
-  def save_signup_history(member_id)
-    SignupHistory.create(
-      member_id: member_id,
-      ip: request.ip,
-      accept_language: request.headers["Accept-Language"],
-      ua: request.headers["User-Agent"]
-    )
   end
 
   def redirect_on_successful_sign_in

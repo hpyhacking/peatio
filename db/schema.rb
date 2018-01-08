@@ -251,16 +251,6 @@ ActiveRecord::Schema.define(version: 20180108151134) do
     t.string   "balance",    limit: 30
   end
 
-  create_table "signup_histories", force: :cascade do |t|
-    t.integer  "member_id",       limit: 4
-    t.string   "ip",              limit: 255
-    t.string   "accept_language", limit: 255
-    t.string   "ua",              limit: 255
-    t.datetime "created_at"
-  end
-
-  add_index "signup_histories", ["member_id"], name: "index_signup_histories_on_member_id", using: :btree
-
   create_table "simple_captcha_data", force: :cascade do |t|
     t.string   "key",        limit: 40
     t.string   "value",      limit: 6
