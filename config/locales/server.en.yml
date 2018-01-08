@@ -124,7 +124,6 @@ en:
         activated: Activated
         activated?: "Activated?"
         id_document_verified?: "Id Document Verified?"
-        phone_number: Phone Number
       withdraws/bank:
         id: ID
         member_name: Member
@@ -911,18 +910,10 @@ en:
           resend: Send it again
           activated: Verified
           go: Set
-        phone_number:
-          title: Phone Number
-          description: Providing a phone number will make your account more secure.
-            You can quickly reset your password and your account operations will be
-            notified.
-          go: Set
-          verified: Verified
-          hint: "Verified number %{hint}"
         verification:
           title: Verify Account
-          description: Help keep the bad guys out of your account by using both your
-            password and your phone
+          description: Help keep the bad guys out of your account by using your
+            password
           go: Submit
           verified: Verified
         asset_passwords:
@@ -1152,7 +1143,6 @@ en:
         members: Members
         email: Email
         name: Name
-        phone: Phone Number
         wallet_address: Wallet Address
       show:
         member_title: User Information
@@ -1353,9 +1343,6 @@ en:
     reset_password_done:
       subject: "[PEATIO] Your password changed"
       successful: Your password has been changed successfully.
-    phone_number_verified:
-      subject: "[PEATIO] Your phone number verified"
-      verified: 'Your phone number verified: %{phone_number}'
   system_mailer:
     daily_stats:
       member_stats: Member Stats

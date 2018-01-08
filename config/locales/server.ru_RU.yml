@@ -85,7 +85,6 @@ ru_RU:
         activated: Активирован
         activated?: "Активирован ?"
         id_document_verified?: "Удостоверение личности проверено ?"
-        phone_number: Номер телефона
       withdraws/bank:
         member_name: Участник
         currency_obj_key_text: Валюта

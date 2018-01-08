@@ -127,7 +127,6 @@ cs:
         activated: Aktivován
         activated?: "Aktivovat?"
         id_document_verified?: "Číslo průkazu totožnosti ověřeno?"
-        phone_number: Telefonní číslo
       withdraws/bank:
         id: ID
         member_name: Uživatel
@@ -825,9 +824,7 @@ cs:
         reset_password: Resetovat heslo
         reauthenticate: Autentifikace
         email_activated: E-mail byl odeslán na Váš mailbox, prosím zkontrolujte, měl by dorazit co nejdříve. Nemáte-li jej, prosím, klikněte na tlačítko "Odeslat znovu"
-        phone_number_activated: Vaše telefonní číslo není ověřeno. Prosíme ověřte jej jakmile to bude možné.
         auth-activated: Nejdříve musíte ověřit Vaši emailovou adresu.
-        auth-phone: Prosím ověřte nejdříve Vaše telefonní číslo.
         auth-verified: Nejdříve musíte zadat ověření účtu.
         email:
           title: E-mail verifikace
@@ -836,11 +833,6 @@ cs:
           resend: Odeslat znovu
           activated: Ověřeno
           go: Nastavit
-        phone_number:
-          title: Telefonní číslo
-          description: Poskytnout telefonní číslo bude pro váš účet bezpečnější. Můžete rychle obnovit heslo a operace na účtu budou oznámovány.
-          go: Nastavit
-          verified: Ověřeno
         verification:
           title: Ověřit účet
           description: Pomozte udržet padouchy od vašeho účtu pomocí vašeho hesla a telefonu
@@ -1048,7 +1040,6 @@ cs:
         members: Uživatelé
         email: Email
         name: Jméno
-        phone: Telefonní číslo
         wallet_address: Adresa peněženky
       show:
         member_title: Uživatelské informace
@@ -1228,9 +1219,6 @@ cs:
     reset_password_done:
       subject: "[PEATIO] Vaše heslo bylo změněno"
       successful: Vaše heslo bylo úspěšně změněno.
-    phone_number_verified:
-      subject: "[PEATIO] Vaše telefonní číslo ověřeno."
-      verified: 'Vaše ověřené telefonní číslo: %{phone_number}'
   system_mailer:
     daily_stats:
       member_stats: Statistika uživatele

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180105164805) do
+ActiveRecord::Schema.define(version: 20180108151134) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -171,7 +171,6 @@ ActiveRecord::Schema.define(version: 20180105164805) do
     t.integer  "state",        limit: 4
     t.boolean  "activated"
     t.integer  "country_code", limit: 4
-    t.string   "phone_number", limit: 255
     t.boolean  "disabled",                 default: false
     t.boolean  "api_disabled",             default: false
     t.string   "nickname",     limit: 255

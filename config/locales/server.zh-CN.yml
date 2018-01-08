@@ -125,7 +125,6 @@ zh-CN:
         activated: 激活成功
         activated?: "邮件激活"
         id_document_verified?: "实名认证"
-        phone_number: 手机号码
       withdraws/bank:
         id: 提现编号
         member_name: 用户
@@ -832,12 +831,6 @@ zh-CN:
           resend: 再次发送
           activated: 已绑定
           go: 设置
-        phone_number:
-          title: 手机绑定
-          description: 绑定手机号码，让您的资金更安全，您可以即时收到在网站操作的动态提醒并及时监控账号安全。
-          go: 设置
-          verified: 已验证
-          hint: "绑定号码 %{hint}"
         verification:
           title: 实名认证
           description: 为配合国家相关法令条例，请您正确输入信息，进行身份认证，身份认证未完成将不能在网站进行任何操作。
@@ -1045,7 +1038,6 @@ zh-CN:
         members: 用户列表
         email: 邮箱地址
         name: 姓名
-        phone: 手机号码
         wallet_address: 钱包地址
       show:
         member_title: 用户信息
@@ -1225,9 +1217,6 @@ zh-CN:
     reset_password_done:
       subject: "[PEATIO] 密码修改成功"
       successful: 您已成功修改密码。请妥善保管~
-    phone_number_verified:
-      subject: "[PEATIO] 您已成功绑定手机"
-      verified: '您已成功绑定手机，号码为：%{phone_number}。'
   system_mailer:
     daily_stats:
       member_stats: 新增用户

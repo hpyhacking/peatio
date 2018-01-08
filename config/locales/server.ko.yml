@@ -125,7 +125,6 @@ ko:
         activated: 완료
         activated?: "이메일 인증 완료"
         id_document_verified?: "실명 인증"
-        phone_number: 핸드폰 번호
       withdraws/bank:
         id: 출금 일련번호
         member_name: 사용자
@@ -807,11 +806,6 @@ ko:
           resend: 재전송
           activated: 확인
           go: 설정
-        phone_number:
-          title: 핸드폰 번호
-          description: 핸드폰인증을 받으세요.개인정보 보호와 비밀번호 재설정 출금요청시 필요합니다.
-          go: 설정
-          verified: 확인 완료
         verification:
           title: 실명인증
           description: 개인정보를 정확히 입력후 실명인증을 받으세요.실명인증을 받지 않으면 거래소를 이용하실수 없습니다.
@@ -1018,7 +1012,6 @@ ko:
         members: 사용자 리스트
         email: 이메일주소
         name: 이름
-        phone: 핸드폰번호
         wallet_address: 지갑주소
       show:
         member_title: 사용자정보
@@ -1186,9 +1179,6 @@ ko:
     reset_password_done:
       subject: "[PEATIO] 비밀번호 수정 완료"
       successful: 회원님이 비밀번호가 성공적으로 수정되었습니다.
-    phone_number_verified:
-      subject: "[PEATIO] 핸드폰 인증 완료"
-      verified: '핸드폰 인증 완료 되었습니다. 핸드폰 번호:%{phone_number}'
   system_mailer:
     daily_stats:
       member_stats: 새 사용자

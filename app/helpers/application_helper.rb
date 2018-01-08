@@ -239,11 +239,5 @@ module ApplicationHelper
     "<span class='decimal'><small>#{currency_obj.symbol}</small>#{decimal}</span>"
   end
 
-  def partial_phone_number(member)
-    number = Phonelib.parse(member.phone_number).national
-    mask = number.gsub(/\d/, '*')
-    "#{number.first(3)}#{mask[3,number.size-7]}#{number.last(4)}"
-  end
-
   alias_method :d, :format_currency
 end

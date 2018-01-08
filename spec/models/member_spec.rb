@@ -120,14 +120,6 @@ describe Member do
       it { expect(subject).to be_include(member) }
     end
 
-    describe 'search by phone number' do
-      let(:member) { create(:member) }
-      subject { Member.search(field: 'phone_number', term: member.phone_number) }
-
-      it { expect(subject.count).to eq(1) }
-      it { expect(subject).to be_include(member) }
-    end
-
     describe 'search by name' do
       let(:member) { create(:verified_member) }
       subject { Member.search(field: 'name', term: member.name) }

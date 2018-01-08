@@ -8,9 +8,8 @@ class MemberFeeder < AbstractFeeder
 
     member = Member.find_or_initialize_by(email: email)
     member.assign_attributes \
-      activated:    true,
-      nickname:     Faker::Internet.user_name,
-      phone_number: Faker::PhoneNumber.cell_phone
+      activated: true,
+      nickname:  Faker::Internet.user_name
     member.authentications = [Authentication.new(provider: 'identity', uid: identity.id)]
     member.save!
 

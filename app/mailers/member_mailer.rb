@@ -8,10 +8,6 @@ class MemberMailer < BaseMailer
     set_mail(member_id)
   end
 
-  def phone_number_verified(member_id)
-    set_mail(member_id)
-  end
-
   private
 
   def set_mail(member_id)
