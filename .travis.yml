@@ -1,0 +1,40 @@
+dist: trusty
+
+sudo: required
+
+language: ruby
+
+cache: bundler
+
+env:
+  - RAILS_ENV=test RAKE_ENV=test DISPLAY=:0.0 REDIS_PASSWORD=guest
+
+services:
+  - mysql
+  - redis-server
+  - rabbitmq
+
+# Execute all of the commands which need to be executed before installing dependencies.
+before_install:
+ - gem install bundler
+
+# Execute all of the commands which should install application dependencies.
+install:
+ - bundle install --deployment --without production development --jobs=$(nproc) --retry=3
+ - wget https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
+ - sudo unzip chromedriver_linux64.zip -d /usr/local/bin/
+
+# Execute all of the commands which need to be executed before running actual tests.
+before_script:
+  - ./bin/init_config
+  - bundle exec rake db:create db:migrate
+
+# Execute all of the commands which should make the build pass or fail.
+script:
+  - xvfb-run --auto-servernum --server-args="-screen 0 1280x800x16" bundle exec rspec
+
+# Execute all of the commands which need to be executed after the build passed.
+after_success:
+
+# Execute all of the commands which need to be executed after the build failed.
+after_failure:
