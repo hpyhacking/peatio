@@ -188,6 +188,10 @@ class Member < ActiveRecord::Base
     })
   end
 
+  def jwt
+    JWT.encode({ email: email }, APIv2::Auth::Utils.jwt_shared_secret_key, 'RS256')
+  end
+
   private
 
   def sanitize

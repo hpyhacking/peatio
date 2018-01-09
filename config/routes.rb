@@ -102,4 +102,7 @@ Peatio::Application.routes.draw do
 
   mount APIv2::Mount => APIv2::Mount::PREFIX
 
+  namespace :test do
+    resources :members, only: :index
+  end unless Rails.env.production?
 end
