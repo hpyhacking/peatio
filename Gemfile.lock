@@ -69,8 +69,8 @@ GEM
       thor (~> 0.19)
     browser (0.8.0)
     builder (3.2.3)
-    bunny (1.2.2)
-      amq-protocol (>= 1.9.2)
+    bunny (2.9.0)
+      amq-protocol (>= 2.2.0)
     byebug (9.1.0)
     cancancan (2.1.2)
     capybara (2.17.0)
@@ -421,7 +421,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.2.0.2)
   bourbon
   browser (~> 0.8.0)
-  bunny (~> 1.2.1)
+  bunny (~> 2.9.0)
   cancancan
   capybara (~> 2.17)
   carrierwave (~> 0.10.0)
