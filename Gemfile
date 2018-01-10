@@ -12,10 +12,10 @@ gem 'rotp'
 gem 'json'
 gem 'jbuilder'
 
-gem 'omniauth',               '~> 1.2.1'
+gem 'omniauth',               '~> 1.8.1'
 gem 'omniauth-identity',      '~> 1.1.1'
 gem 'omniauth-auth0',         '~> 2.0.0'
-gem 'omniauth-google-oauth2', '~> 0.3.1'
+gem 'omniauth-google-oauth2', '~> 0.5.2'
 
 gem 'figaro'
 gem 'hashie', '~> 3.0'
