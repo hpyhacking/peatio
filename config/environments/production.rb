@@ -26,8 +26,11 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.serve_static_files = true
 
-  # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  # Compress JavaScripts.
+  # FIXME: Disable mangler due to issues with Angular module definition at «Funds».
+  config.assets.js_compressor = Uglifier.new(mangle: false)
+
+  # Compress CSS.
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
