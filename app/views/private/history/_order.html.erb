@@ -1,0 +1,11 @@
+<tr>
+  <td><%= order.id %></td>
+  <td><%= t(".#{order.kind}") %></td>
+  <td><%= t(".#{order.state}") %></td>
+  <td><%= order.currency.upcase %></td>
+  <td><%= order.price %></td>
+  <td><%= order.origin_volume %></td>
+  <td><%= order.avg_price %></td>
+  <td><%= order.origin_volume - order.volume %></td>
+  <td><%= order.created_at %></td>
+</tr>

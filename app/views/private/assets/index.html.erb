@@ -1,0 +1,27 @@
+<% content_for :frame do %>
+  <div class="container">
+    <ul class="nav nav-justified assets-nav">
+      <li class="active" data-scroll-nav="0">
+        <a><%= t('.liability-proof') %></a>
+      </li>
+      <li data-scroll-nav="1">
+        <a><%= t('.btc-assets') %></a>
+      </li>
+      <li data-scroll-nav="2">
+        <a><%= t('.xrp-assets') %></a>
+      </li>
+      <li data-scroll-nav="3">
+        <a><%= t('.usd-assets') %></a>
+      </li>
+    </ul>
+
+    <% if current_user %>
+      <div data-scroll-index=0><%= render 'liability_proof' %></div>
+    <% end %>
+
+    <div data-scroll-index=1><%= render 'btc_assets' %></div>
+    <div data-scroll-index=2><%= render 'xrp_assets' %></div>
+    <div data-scroll-index=3><%= render 'usd_assets' %></div>
+  </div>
+
+<% end %>

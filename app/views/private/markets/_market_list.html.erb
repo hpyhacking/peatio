@@ -1,0 +1,60 @@
+<div id="market_list_wrapper" class="has-right-dropdown">
+  <% if @market_groups.size > 1 %>
+    <div class="dropdown-wrapper">
+      <ul class="dropdown-menu">
+        <li>
+          <a class="active" data-name="all" href="javascript:;">
+            <%= t('.all_html') %>
+          </a>
+        </li>
+        <% @market_groups.each do |name| %>
+          <li>
+            <a data-name="<%= name %>" href="javascript:;">
+              <%= t(".#{name}_html") %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div id="market_list">
+    <div class="panel panel-default">
+      <div class="panel-body panel-body-head">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="col-xs-7">
+                <span class="name"><%= t('.all') %></span>
+              </th>
+              <th class="col-xs-4 text-right price">
+                <%= t('.price') %>
+              </th>
+              <th class="col-xs-5 text-right change">
+                <%= t('.change') %>
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="panel-body panel-body-content">
+        <table class="table table-hover markets all">
+          <tbody>
+            <% @markets.each do |market| %>
+              <tr class="market" id="market-list-<%= market.id %>" class="quote-<%= market.quote_unit%>" data-market="<%= market.id %>">
+                <td class="col-xs-4 name">
+                  <%= link_to market.name, market_path(market) %>
+                </td>
+                <td class="col-xs-15 price">
+                  <%= Global[market.id].ticker[:last] %>
+                </td>
+                <td class="col-xs-5 change">
+                  | +0.00%
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

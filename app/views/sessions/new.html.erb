@@ -10,7 +10,7 @@
   <%= f.button :wrapped, t('header.signin'), cancel: root_path %>
 <% end %>
 
-<%= content_for :guide do %>
+<% content_for :guide do %>
   <ul class="list-unstyled">
     <li>
       <a href="<%= new_reset_password_path %>"><%= t('.reset_password') %></a>

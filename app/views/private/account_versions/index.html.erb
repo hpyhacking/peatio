@@ -1,0 +1,14 @@
+<div class="content row">
+  <div class="profile">
+    <div class="picture">
+      <i class="fa fa-list"></i>
+    </div>
+    <div class="summary">
+      <p><%= t('.description') %></p>
+      <%= datagrid_form_for @account_versions_grid, url: account_versions_path %>
+    </div>
+  </div>
+  <div class="versions">
+    <%= datagrid_table(@account_versions_grid, @assets, html: {class: 'datagrid table-striped table-hover account_versions_grid'}) %>
+  </div>
+</div>

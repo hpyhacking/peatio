@@ -1,0 +1,13 @@
+<ul id="range_switch" class="list-inline switch" data-x="60">
+  <% %w(1 5 15 30 | 60 120 240 360 720 | 1440 4320 | 10080).each do |x| %>
+    <li class="text-center">
+      <% if x == '|' %>
+        <span> | </span>
+      <% else %>
+        <a class="hand-point chart-switch" href="#" data-x="<%= x %>">
+          <%= t(".switch_#{x}") %>
+        </a>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

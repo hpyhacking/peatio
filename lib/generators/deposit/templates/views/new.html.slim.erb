@@ -31,10 +31,10 @@ p
   h4 = t('.step-4')
   p = t('.history_html')
 
-= content_for :guide
+= content_for :guide do
   = image_tag('coins/<%= code.underscore %>')
 
-= content_for :after
+= content_for :after do
   = panel do
     = table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t|
       - t.column :created_at, class: 'col-xs-3'

@@ -1,0 +1,69 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title">
+      <%= guide_panel_title %>
+    </h2>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div id="guide" class="col-xs-8">
+        <h3><%= guide_title %></h3>
+        <p class="text-ignore"><%= guide_intro %></p>
+
+        <p><%= link_to t('.http'), '/documents/api_v2', target: '_blank' %></p>
+        <p><%= link_to t('.websocket'), '/documents/websocket_api', target: '_blank' %></p>
+        <p>
+          <%= t('.more') %>
+          <%= link_to 'https://github.com/rubykube/peatio#api', 'https://github.com/rubykube/peatio#api', target: '_blank' %>
+        </p>
+      </div>
+      <div id="content" class="col-xs-16">
+        <div class="buttons" style="margin-bottom: 20px;">
+          <%= link_to t('.create'), new_api_token_path, class: 'pull-right btn btn-primary' %>
+          <div class="clearfix"></div>
+        </div>
+
+        <table class="table table-condensed table-striped">
+          <thead>
+            <tr>
+              <th class="token-label">
+                <%= APIToken.human_attribute_name('label') %>
+              </th>
+              <th class="access_key">
+                <%= APIToken.human_attribute_name('access_key') %>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @tokens.empty? %>
+              <tr>
+                <td colspan="3" style="text-align: center;">
+                  <p class="text-ignore">
+                    <%= t('.no_token') %>
+                  </p>
+                </td>
+              </tr>
+            <% else %>
+              <% @tokens.each do |token| %>
+                <tr>
+                  <td class="token-label">
+                    <%= token.label %>
+                  </td>
+                  <td class="access_key">
+                    <%= token.access_key %>
+                  </td>
+                  <td class="actions">
+                    <%= link_to t('.edit'), edit_api_token_path(token) %>
+                    &nbsp;
+                    <%= link_to t('.destroy'), api_token_path(token), method: :delete, data: {confirm: t('.destroy-confirm')} %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

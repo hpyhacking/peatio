@@ -1,0 +1,38 @@
+<header class="navbar navbar-default navbar-static-top" role = "navigation">
+  <div class="container-fluid">
+    <ul id="menu" class="nav navbar-nav navbar-left">
+      <a class="navbar-brand" href="<%= root_path %>">
+         PEATIO
+         &nbsp;
+        <%= @market.name %>
+      </a>
+
+      <p class="navbar-text">
+        <span data-title="<%= t('.vol') %>">
+          <span class="vol"></span>
+        </span>
+        <span data-title="<%= t('.high') %>">
+          <span class="high"></span>
+        </span>
+        <span data-title="<%= t('.low') %>">
+          <span class="low"></span>
+        </span>
+        <span data-title="<%= t('.change') %>">
+          <span class="change"></span>
+        </span>
+      </p>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right">
+      <% if current_user %>
+        <%= render partial: 'account_summary' %>
+        <%= render partial: 'settings' %>
+      <% else %>
+        <p class="navbar-text">
+          <%= t('private.markets.mask.warning').html_safe %>
+        </p>
+      <% end %>
+      <%= render partial: 'language' %>
+    </ul>
+  </div>
+</header>

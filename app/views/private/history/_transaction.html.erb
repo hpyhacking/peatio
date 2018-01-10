@@ -1,0 +1,8 @@
+<tr>
+  <td><%= transaction_type transaction %></td>
+  <td><%= transaction.created_at %></td>
+  <td><%= transaction.currency_obj.code_text %></td>
+  <td><%= transaction.amount %></td>
+  <td><%= transaction.fee %></td>
+  <td><%= transaction_txid_link transaction %></td>
+</tr>

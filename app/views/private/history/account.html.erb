@@ -1,0 +1,30 @@
+<% content_for :frame do %>
+  <div class="container history-pages">
+    <%= render 'tabs', active: :account %>
+
+    <div class="panel panel-default" id="transactions">
+      <div class="panel-body">
+        <div class="col-xs-24">
+          <table class="table table-condensed table-striped">
+            <thead>
+              <tr>
+                <th><%= t('.type') %></th>
+                <th><%= t('.timestamp') %></th>
+                <th><%= t('.currency') %></th>
+                <th><%= t('.amount') %></th>
+                <th><%= t('.fee') %></th>
+                <th><%= t('.txid') %></th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              <%= render partial: 'transaction', collection: @transactions %>
+            </tbody>
+          </table>
+          <div class="pull-right">
+            <%= paginate @transactions %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

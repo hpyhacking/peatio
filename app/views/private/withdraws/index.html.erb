@@ -1,0 +1,36 @@
+<ul class="list-group">
+  <% @channels.each do |c| %>
+    <li class="list-group-item withdraws-channel-<%= c.id %>">
+      <div class="row row-middle">
+        <div class="col-xs-18">
+          <div class="row row-middle">
+            <div class="col-xs-12">
+              <h4><%= c.title_text %></h4>
+            </div>
+            <div class="col-xs-12"></div>
+          </div>
+          <div class="row">
+            <div class="col-xs-24">
+              <p class="text-ignore"><%= c.intro_text %></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-6">
+              <i class="fa fa-cogs text-info"></i>
+              <span><%= c.transfer_text %></span>
+            </div>
+            <div class="col-xs-10">
+              <i class="fa fa-clock-o text-info"></i>
+              <span><%= c.latency_text %></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <a class="btn btn-default btn-block" href="<%= send("new_withdraws_#{c.key}_path") %>">
+            <%= c.go_text%>
+          </a>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>

@@ -1,0 +1,18 @@
+<%= simple_form_for @token do |f| %>
+  <%= f.input :label, hint: t('.label_hint') %>
+  <%= f.input :access_key do %>
+    <div class="input-group">
+      <div class="form-control form-control-static">
+        <%= @token.access_key %>
+      </div>
+      <div class="input-group-addon">
+        <i class="fa fa-copy" data-clipboard-text="<%= @token.access_key %>"></i>
+      </div>
+    </div>
+  <% end %>
+  <%= f.input :ip_whitelist, hint: t('.ip_whitelist_hint') %>
+  <hr class="split">
+  <%= f.button :wrapped, t('actions.confirm') do %>
+    <%= link_to t('actions.cancel'), api_tokens_path, role: 'button', class: 'btn btn-danger btn-lg pull-right' %>
+  <% end %>
+<% end %>

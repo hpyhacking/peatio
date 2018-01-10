@@ -3,14 +3,14 @@
   <%= f.button :submit, t('.save'), class: 'btn btn-default btn-lg pull-right btn' %>
 <% end %>
 
-<%= content_for :guide_title do %>
+<% content_for :guide_title do %>
   <h3>
     <i class="fa fa-envelope fa-2x"></i>
     <span><%= t('.title') %></span>
   </h3>
 <% end %>
 
-<%= content_for :guide do %>
+<% content_for :guide do %>
   <p class="text-warning">
     <%= t('.warning') %>
   </p>

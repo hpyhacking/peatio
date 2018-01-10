@@ -1,0 +1,92 @@
+<table id="setting_list" class="table">
+  <tr>
+    <td class="col-xs-2 text-center vertical-center">
+      <i class="fa fa-envelope-o fa-2x"></i>
+    </td>
+    <td class="col-xs-15">
+      <h4><%= t('.email.title') %></h4>
+      <% if current_user.activated? %>
+        <p class="text-ignore"><%= t('.email.description-activated') %></p>
+      <% else %>
+        <p class="text-ignore"><%= t('.email.description') %></p>
+      <% end %>
+    </td>
+    <td class="col-xs-7 vertical-center">
+      <% if current_user.activated? %>
+        <a href="#" class="btn btn-success btn-block disabled" role="button">
+          <i class="fa fa-check-circle"></i>
+          <span><%= t('.email.activated') %></span>
+        </a>
+      <% else %>
+        <%= link_to t('.email.resend'), new_activation_path, class: 'btn btn-default btn-block' %>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-xs-2 text-center vertical-center">
+      <i class="fa fa-thumbs-o-up fa-2x"></i>
+    </td>
+    <td class="col-xs-15">
+      <h4>
+        <span><%= t('.verification.title') %></span>
+        <i class="fa fa-bolt text-warning"></i>
+      </h4>
+      <p class="text-ignore"><%= t('.verification.description') %></p>
+    <td class="col-xs-7 vertical-center">
+      <% if current_user.id_document_verified? %>
+        <a href="#" class="btn btn-success btn-block disabled" role="button">
+          <i class="fa fa-check-circle"></i>
+          <span><%= t('.verification.verified') %></span>
+        </a>
+      <% else %>
+        <%= link_to t('.verification.go'), edit_id_document_path, class: 'btn btn-default btn-block' %>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-xs-2 text-center vertical-center">
+      <i class="fa fa-key fa-2x"></i>
+    </td>
+    <td class="col-xs-15">
+      <h4><%= t('.passwords.title') %></h4>
+      <p class="text-ignore"><%= t('.passwords.description') %></p>
+    </td>
+    <td class="col-xs-7 vertical-center">
+      <% if current_user.identity %>
+        <%= link_to t('.passwords.go'), edit_identity_path, class: 'btn btn-default btn-block' %>
+      <% else %>
+        <%= link_to t('.passwords.set'), new_authentications_identity_path, class: 'btn btn-default btn-block' %>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td class="col-xs-2 text-center vertical-center">
+      <i class="fa fa-code fa-2x"></i>
+    </td>
+    <td class="col-xs-15">
+      <h4><%= t('.api_tokens.title') %></h4>
+      <p class="text-ignore"><%= t('.api_tokens.description') %></p>
+    </td>
+    <td class="col-xs-7 vertical-center">
+      <%= link_to t('.api_tokens.go'), api_tokens_path, class: 'btn btn-default btn-block' %>
+    </td>
+  </tr>
+</table>
+
+<% content_for :guide_title do %>
+  <h3>
+    <i class="fa fa-user"></i>
+    <span><%= current_user.email %></span>
+  </h3>
+<% end %>
+
+<% content_for :guide do %>
+  <ul class="list-group">
+    <% if current_user.admin? %>
+      <span class="label label-warning">ADMIN</span>
+    <% end %>
+  </ul>
+  <p class="text-warning">
+    <%= t('.safety_instruction').html_safe %>
+  </p>
+<% end %>
