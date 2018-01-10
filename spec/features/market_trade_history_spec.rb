@@ -13,7 +13,6 @@ feature 'show account info', js: true do
   let!(:ask_name) { I18n.t('currency.name.btc') }
 
   scenario 'user can cancel his own order' do
-    pending
 
     login identity
     click_on I18n.t('header.market')
@@ -24,6 +23,7 @@ feature 'show account info', js: true do
       click_link page.all('#my_orders_wrapper li').first.text
       expect(page.all('#my_orders .order').count).to eq(1) # can only see his order
       accept_confirm { page.all('#my_orders .order').first.click }
+      page.reset!
       expect(page).not_to have_selector('#my_orders .order')
     end
   end
