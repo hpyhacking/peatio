@@ -1,5 +1,5 @@
 <div class="col-xs-18">
-  <div class="panel">
+  <div class="panel panel-default">
     <div class="panel-body">
       <div class="row">
         <div class="col-xs-6 text-right">
@@ -155,10 +155,11 @@
 
         <% if @id_document.may_reject? %>
           <div class="col-xs-4">
-            <%= link_to admin_id_document_path(@id_document, reject: 'true'), method: :patch, style: 'color: white;' %>
-            <button class="btn btn-danger">
-              <%= t('.reject') %>
-            </button>
+            <%= link_to admin_id_document_path(@id_document, reject: 'true'), method: :patch, style: 'color: white;' do %>
+              <button class="btn btn-danger">
+                <%= t('.reject') %>
+              </button>
+            <% end %>
           </div>
         <% end %>
       </div>
