@@ -67,11 +67,11 @@ Rails.application.configure do
   }
 
   config.action_mailer.smtp_settings = {
-    address:              ENV.fetch('SMTP_ADDRESS'),
-    port:                 ENV.fetch('SMTP_PORT'),
-    user_name:            ENV.fetch('SMTP_USERNAME'),
-    password:             ENV.fetch('SMTP_PASSWORD'),
-    authentication:       ENV.fetch('SMTP_AUTHENTICATION_TYPE'),
+    address:              ENV['SMTP_ADDRESS'],
+    port:                 ENV['SMTP_PORT'],
+    user_name:            ENV['SMTP_USERNAME'],
+    password:             ENV['SMTP_PASSWORD'],
+    authentication:       ENV['SMTP_AUTHENTICATION_TYPE'],
     domain:               ENV['SMTP_DOMAIN'],
     ssl:                  ENV['SMTP_USE_SSL'],
     tls:                  ENV['SMTP_USE_TLS'],
@@ -81,6 +81,7 @@ Rails.application.configure do
     open_timeout:         ENV['SMTP_OPEN_TIMEOUT'],
     read_timeout:         ENV['SMTP_READ_TIMEOUT']
   }.compact.tap do |options|
+
     # Typecast several options to integers.
     %i[ port open_timeout read_timeout ].each do |option|
       options[option] = options[option].to_i if options.key?(option)
@@ -90,7 +91,9 @@ Rails.application.configure do
     %i[ ssl tls enable_starttls enable_starttls_auto ].each do |option|
       options[option] = !!options[option] if options.key?(option)
     end
-  end
+
+    # Enable mailer only if variables are defined in environment.
+  end if ENV.key?('SMTP_ADDRESS') && ENV.key?('SMTP_PORT')
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
