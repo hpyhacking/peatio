@@ -16,13 +16,13 @@ services:
 
 # Execute all of the commands which need to be executed before installing dependencies.
 before_install:
- - gem install bundler
+  - gem install bundler
 
 # Execute all of the commands which should install application dependencies.
 install:
- - bundle install --deployment --without production development --jobs=$(nproc) --retry=3
- - wget https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
- - sudo unzip chromedriver_linux64.zip -d /usr/local/bin/
+  - bundle install --deployment --without production development --jobs=$(nproc) --retry=3
+  - wget https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
+  - sudo unzip chromedriver_linux64.zip -d /usr/local/bin/
 
 # Execute all of the commands which need to be executed before running actual tests.
 before_script:
@@ -38,3 +38,9 @@ after_success:
 
 # Execute all of the commands which need to be executed after the build failed.
 after_failure:
+
+notifications:
+  slack:
+    rooms:
+      - secure: a63rTqa7fAt6JM1R2hUakd3cLYZzLHl4oACE2kLzZ3//Q0DkmgITJwB1JuVpnHsaiSCw0jdpAomZaFIBJdl+C44g0uU/hACZehk6K16QXaH4SYo+KKe/1hbwHJH/w2FXoWB1dnHpYAUZyaMHEaFSwnOIrRZBM8bQNA5GFSsGqMSkd+fuUXUA+2tVrTcSWgnVTEqTzSPl6tdW3Ea2C6MGhyDHlZvh27+/awF04XdH+HiejSReah13qz3UZdjp38Rg4vG+tGlUAFqTPhf6NBKQb5glMxHCrZCZk8abPwmdnxTBKNxyqGaklEdoRpRv8UFM7YiiBhe3rGZb5GikQbQt9B1xLqK389NPckt+T1w4k5bJQcTMd1V4at1z9fsN7oFLKLZ/PsDW+K1laIe0rox5q6JQR60ZzKMc+7BwMDWBI9p9tWUky5WGWC9s4u5Y0euA3PJQaUzaI8QZ3LhC0zLIqIVxj6Eemr1trjQg12C6+sRJOXgTzncnRcWkmZh14HIHfmAD44XSswOvrPssGntrr0Gqru4C5HGLb7aUvIIthGTfkCi7cfJzt0dg9FC7RgWQsEou1mxHS0DA6lpmRraw/mAATq1bVAzCAjXuUvYgLgX+9kfwsNswXF6EzHQtazRMDy09MWWK3Z1CbsmZQDXQRlwnT+cdLGKP0SwRpcQL4Uc=
+    on_pull_requests: true
