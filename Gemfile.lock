@@ -371,8 +371,6 @@ GEM
     selenium-webdriver (3.8.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
-    simple_captcha2 (0.4.3)
-      rails (>= 4.1)
     simple_form (3.1.1)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
@@ -481,7 +479,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   selenium-webdriver (~> 3.8)
-  simple_captcha2
   simple_form (~> 3.1.0)
   slim-rails
   timecop

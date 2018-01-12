@@ -46,9 +46,6 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     account = withdraw_channel.account()
     data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source_id: _selectedFundSourceId } }
 
-    data.captcha = $('#captcha').val()
-    data.captcha_key = $('#captcha_key').val()
-
     $('.form-submit > input').attr('disabled', 'disabled')
 
     $http.post("/withdraws/#{withdraw_channel.resource_name}", { authenticity_token: $('meta[name="csrf-token"]').attr('content'), data})

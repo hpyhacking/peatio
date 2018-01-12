@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180108151134) do
+ActiveRecord::Schema.define(version: 20180110172110) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -250,15 +250,6 @@ ActiveRecord::Schema.define(version: 20180108151134) do
     t.text     "addresses",  limit: 65535
     t.string   "balance",    limit: 30
   end
-
-  create_table "simple_captcha_data", force: :cascade do |t|
-    t.string   "key",        limit: 40
-    t.string   "value",      limit: 6
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "simple_captcha_data", ["key"], name: "idx_key", using: :btree
 
   create_table "tokens", force: :cascade do |t|
     t.string   "token",      limit: 255

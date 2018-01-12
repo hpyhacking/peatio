@@ -1082,7 +1082,6 @@ en:
       session:
         email: Sign In E-mail
         password: Sign In Password
-        captcha: Captcha
       identity:
         email: Sign In E-mail
         old_password: Original password
@@ -1490,9 +1489,6 @@ en:
     depth_title: Market Depth
   'yes': 'Yes'
   'no': 'No'
-  simple_captcha:
-    label: Refresh page to get new captcha.
-    placeholder: type characters in image
   helpers:
     action:
       view: View

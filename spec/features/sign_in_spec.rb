@@ -22,21 +22,4 @@ describe 'Sign in', type: :feature do
     expect(mail.subject).to eq(I18n.t('member_mailer.notify_signin.subject'))
   end
 
-  it 'display captcha after too many failed attempts' do
-    # Reset the counter of invalid password attempts.
-    signin identity
-    signout
-
-    3.times { signin identity, password: 'wrong' }
-    expect(page).not_to have_content(I18n.t('simple_form.labels.session.captcha'))
-
-    signin identity, password: 'wrong'
-    expect(page).to have_content(I18n.t('simple_form.labels.session.captcha'))
-
-    signin identity
-    signout
-
-    signin identity, password: 'wrong'
-    expect(page).not_to have_content(I18n.t('simple_form.labels.session.captcha'))
-  end
 end

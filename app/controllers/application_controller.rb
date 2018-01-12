@@ -9,8 +9,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  include SimpleCaptcha::ControllerHelpers
-
   def currency
     "#{params[:ask]}#{params[:bid]}".to_sym
   end
@@ -197,5 +195,4 @@ class ApplicationController < ActionController::Base
   def verified_request?
     super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
   end
-
 end
