@@ -13,6 +13,7 @@ services:
   - mysql
   - redis-server
   - rabbitmq
+  - docker
 
 # Execute all of the commands which need to be executed before installing dependencies.
 before_install:
@@ -31,7 +32,8 @@ before_script:
 
 # Execute all of the commands which should make the build pass or fail.
 script:
-  - xvfb-run --auto-servernum --server-args="-screen 0 1280x800x16" bundle exec rspec
+  xvfb-run --auto-servernum --server-args="-screen 0 1280x800x16" bundle exec rspec &&
+  docker build --tag peatio .
 
 # Execute all of the commands which need to be executed after the build passed.
 after_success:
