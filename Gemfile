@@ -13,7 +13,6 @@ gem 'json'
 gem 'jbuilder'
 
 gem 'omniauth',               '~> 1.8.1'
-gem 'omniauth-identity',      '~> 1.1.1'
 gem 'omniauth-auth0',         '~> 2.0.0'
 gem 'omniauth-google-oauth2', '~> 0.5.2'
 
@@ -86,4 +85,5 @@ group :test do
   gem 'capybara',            '~> 2.17'
   gem 'selenium-webdriver',  '~> 3.8'
   gem 'chromedriver-helper', '~> 1.1'
+  gem 'rack_session_access', '~> 0.1'
 end

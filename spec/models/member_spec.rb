@@ -11,8 +11,8 @@ describe Member do
 
   describe 'before_create' do
     it 'should unify email' do
-      create(:identity, email: 'foo@example.com')
-      expect(build(:identity, email: 'Foo@example.com')).to_not be_valid
+      create(:member, email: 'foo@example.com')
+      expect(build(:member, email: 'Foo@example.com')).to_not be_valid
     end
 
     it 'creates accounts for the member' do
@@ -31,33 +31,6 @@ describe Member do
       member.save
       expect(member.reload.id_document).to_not be_blank
     end
-  end
-
-  describe 'send activation after create' do
-    let(:auth_hash) do
-      {
-        'provider' => 'identity',
-        'info' => { 'email' => 'foobar@peatio.dev' }
-      }
-    end
-
-    it 'create activation' do
-      expect do
-        Member.from_auth(auth_hash)
-      end.to change(Token::Activation, :count).by(1)
-    end
-  end
-
-  describe '#send_password_changed_notification' do
-    let(:member) { create :member }
-
-    before do
-      member.send_password_changed_notification
-      @mail = ActionMailer::Base.deliveries.last
-    end
-
-    it { expect(ActionMailer::Base.deliveries).not_to be_empty }
-    it { expect(@mail.subject).to match 'Your password changed' }
   end
 
   describe '#trades' do
@@ -90,13 +63,6 @@ describe Member do
     before { Member.current = member }
     after { Member.current = nil }
     specify { expect(Thread.current[:user]).to eq member }
-  end
-
-  describe '#identity' do
-    it 'should not raise but return nil when authentication is not found' do
-      member = create(:member)
-      expect(member.identity).to be_nil
-    end
   end
 
   describe 'Member.search' do
@@ -147,46 +113,15 @@ describe Member do
     end
   end
 
-  describe '#create_auth_for_identity' do
-    let(:identity) { create(:identity) }
-    let(:member) { create(:member, email: identity.email) }
-
-    it 'should create the authentication' do
-      expect do
-        member.create_auth_for_identity(identity)
-      end.to change(Identity, :count).by(1)
-    end
-  end
-
   describe '#remove_auth' do
-    let!(:identity) { create(:identity) }
-    let!(:member) { create(:member, email: identity.email) }
-    let!(:identity_auth) { create(:authentication, provider: 'identity', member_id: member.id, uid: identity.id)}
+    let!(:member) { create(:member) }
+    let!(:authentication) { create(:authentication, provider: 'OAuth2', member_id: member.id, uid: member.id)}
 
-    context "identity" do
-      it "should delete the ideneity auth and the identity" do
-        expect do
-          expect do
-            member.remove_auth('identity')
-          end.to change(Identity, :count).by(-1)
-        end.to change(Authentication, :count).by(-1)
-        expect(member.auth('identity')).to be_nil
-      end
+    it 'should delete authentication' do
+      expect do
+        member.remove_auth('OAuth2')
+      end.to change(Authentication, :count).by(-1)
+      expect(member.auth('OAuth2')).to be_nil
     end
-  end
-
-  describe '#locate_email' do
-    context 'Email is blank' do
-      let!(:member) { create(:member, email: nil) }
-      let(:auth) do
-        { 'info' => { 'email' => nil } }
-      end
-
-      it 'should return nil' do
-        expect(Member.count).to eq 1
-        expect(Member.send(:locate_email, auth)).to be_nil
-      end
-    end
-
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180110172110) do
+ActiveRecord::Schema.define(version: 20180112151205) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -89,7 +89,6 @@ ActiveRecord::Schema.define(version: 20180110172110) do
   create_table "authentications", force: :cascade do |t|
     t.string   "provider",   limit: 255
     t.string   "uid",        limit: 255
-    t.string   "token",      limit: 255
     t.string   "secret",     limit: 255
     t.integer  "member_id",  limit: 4
     t.datetime "created_at"
@@ -149,28 +148,11 @@ ActiveRecord::Schema.define(version: 20180110172110) do
     t.string   "aasm_state",         limit: 255
   end
 
-  create_table "identities", force: :cascade do |t|
-    t.string   "email",           limit: 255
-    t.string   "password_digest", limit: 255
-    t.boolean  "is_active"
-    t.integer  "retry_count",     limit: 4
-    t.boolean  "is_locked"
-    t.datetime "locked_at"
-    t.datetime "last_verify_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "members", force: :cascade do |t|
     t.string   "sn",           limit: 255
-    t.string   "display_name", limit: 255
     t.string   "email",        limit: 255
-    t.integer  "identity_id",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "state",        limit: 4
-    t.boolean  "activated"
-    t.integer  "country_code", limit: 4
     t.boolean  "disabled",                 default: false
     t.boolean  "api_disabled",             default: false
     t.string   "nickname",     limit: 255
@@ -250,18 +232,6 @@ ActiveRecord::Schema.define(version: 20180110172110) do
     t.text     "addresses",  limit: 65535
     t.string   "balance",    limit: 30
   end
-
-  create_table "tokens", force: :cascade do |t|
-    t.string   "token",      limit: 255
-    t.datetime "expires_at"
-    t.integer  "member_id",  limit: 4
-    t.boolean  "is_used",                default: false
-    t.string   "type",       limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "tokens", ["type", "token", "expires_at", "is_used"], name: "index_tokens_on_type_and_token_and_expires_at_and_is_used", using: :btree
 
   create_table "trades", force: :cascade do |t|
     t.decimal  "price",                   precision: 32, scale: 16

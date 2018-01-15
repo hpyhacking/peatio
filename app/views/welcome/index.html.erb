@@ -7,35 +7,29 @@
 
   <section class="text-center" style="line-height: 1">
     <h2><%= t('slogan.heading') %></h2>
-    <h3><%= t('slogan.subheading') %></h3>
-    <p><%= t('slogan.text1') %></p>
-    <p><%= t('slogan.text2') %></p>
+    <% if flash[:notice] || flash[:info] || flash[:alert] %>
+      <div class="row">
+        <div class="col-xs-12 col-xs-offset-6">
+          <%= render 'shared/flash' %>
+        </div>
+      </div>
+    <% else %>
+      <h3><%= t('slogan.subheading') %></h3>
+      <p><%= t('slogan.text1') %></p>
+      <p><%= t('slogan.text2') %></p>
+    <% end %>
   </section>
 
   <div class="row" id="getstart">
     <% unless current_user %>
-      <% offset = 8 %>
-      <% offset -= 2 if ENV['GOOGLE_OAUTH2_SIGN_IN'] %>
-      <% offset -= 2 if ENV['AUTH0_OAUTH2_SIGN_IN'] %>
-
-      <div class="col-xs-4 col-xs-offset-<%= offset %>">
-        <%= link_to t('header.signin'), signin_path, class: %w(btn btn-primary btn-lg btn-block), html: { role: 'button' } %>
-      </div>
-
-      <% if ENV['GOOGLE_OAUTH2_SIGN_IN'] %>
-        <div class="col-xs-5">
+      <div class="col-xs-6 col-xs-offset-9 text-center">
+        <% if ENV['GOOGLE_OAUTH2_SIGN_IN'] %>
           <a class="btn btn-primary btn-lg btn-block" href="/auth/google_oauth2" role="button"><%= t('header.sign_in_with_google') %></a>
-        </div>
-      <% end %>
+        <% end %>
 
-      <% if ENV['AUTH0_OAUTH2_SIGN_IN'] %>
-        <div class="col-xs-4">
+        <% if ENV['AUTH0_OAUTH2_SIGN_IN'] %>
           <a class="btn btn-primary btn-lg btn-block" href="/auth/auth0" role="button"><%= t('header.sign_in_with_auth0') %></a>
-        </div>
-      <% end %>
-
-      <div class="col-xs-4">
-        <a class="btn btn-primary btn-lg btn-block" href="<%= signup_path %>" role="button"><%= t('header.signup') %></a>
+        <% end %>
       </div>
     <% else %>
       <div class="col-xs-6 col-xs-offset-9 text-center">

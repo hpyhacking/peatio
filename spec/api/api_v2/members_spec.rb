@@ -17,7 +17,6 @@ describe APIv2::Members, type: :request do
 
       result = JSON.parse(response.body)
       expect(result['sn']).to eq member.sn
-      expect(result['activated']).to be true
       expect(result['accounts']).to match [
         { 'currency' => 'usd', 'balance' => '2014.47', 'locked' => '0.0' },
         { 'currency' => 'btc', 'balance' => '12.13', 'locked' => '3.14' }

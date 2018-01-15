@@ -16,7 +16,7 @@
         </div>
         <ul class="nav navbar-nav pull-right">
           <% if current_user %>
-            <%= top_nav_link(current_user.email, settings_path, 'user', controllers: ['identities', 'id_documents']) %>
+            <%= top_nav_link(current_user.email, settings_path, 'user', controllers: ['id_documents']) %>
             <% if is_admin? %>
               <%= top_nav_link(t('header.dashboard'), admin_dashboard_path, 'dashboard') %>
             <% end %>
@@ -26,9 +26,6 @@
                 <span><%= t('header.signout') %></span>
               </a>
             </li>
-          <% else %>
-            <%= top_nav_link(t('header.signin'), signin_path, '') %>
-            <%= top_nav_link(t('header.signup'), signup_path, '') %>
           <% end %>
 
           <li class="dropdown">

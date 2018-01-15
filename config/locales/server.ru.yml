@@ -25,12 +25,6 @@ ru:
         trusted_ip_list: белый список IP
         ip_whitelist: белый список IP
         actions: Действия
-      identity:
-        email: Электронная почта
-        login: Электронная почта или номер телефона
-        country: Страна
-        password: Новый пароль
-        password_confirmation: Подтвердите пароль
       fund_source:
         address: Адрес
         category: Категория
@@ -60,8 +54,6 @@ ru:
         reason_text: Причина
         in: Доход
         fee: Комиссия
-      token/reset_password:
-        member: Участник
       trade:
         fee: Комиссия
         order: Ордер
@@ -79,11 +71,6 @@ ru:
         confirmations: Подтверждения
         state_done: Выполнено
       member:
-        name: Настоящее имя
-        display_name: Отображаемое имя
-        email: Электронная почта
-        activated: Активирован
-        activated?: "Активирован ?"
         id_document_verified?: "Удостоверение личности проверено ?"
       withdraws/bank:
         member_name: Участник

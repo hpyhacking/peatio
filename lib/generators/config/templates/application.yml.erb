@@ -83,6 +83,16 @@ defaults: &defaults
 
 development:
   <<: *defaults
+  # Development configuration variables for sign in with Google.
+  GOOGLE_OAUTH2_SIGN_IN:      on
+  GOOGLE_CLIENT_ID:           1044454023387-emhp5vmfnp5cf1n9juk09g8gcckrova7.apps.googleusercontent.com
+  GOOGLE_CLIENT_SECRET:       tAFZvO200-0z3MpCyOpkPH0G
+
+  # Development configuration variables for sign in with Auth0.
+  AUTH0_OAUTH2_SIGN_IN:       on
+  AUTH0_OAUTH2_DOMAIN:        peatio-playground.auth0.com
+  AUTH0_OAUTH2_CLIENT_ID:     lGKS9ADpknQr415RNZrrQTf3Jh8k2Fvc
+  AUTH0_OAUTH2_CLIENT_SECRET: LxUPnrrrpRHSB-vVgWU3TwmakQ8acY5mYVTaVgkREQL3i9avjpOnWTXSSEsrbLzK
 
 test:
   <<: *defaults

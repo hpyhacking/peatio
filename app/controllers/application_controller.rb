@@ -37,17 +37,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def auth_activated!
-    redirect_to settings_path, alert: t('private.settings.index.auth-activated') unless current_user.activated?
-  end
-
   def auth_verified!
-    unless current_user and current_user.id_document and current_user.id_document_verified?
+    unless current_user&.id_document&.verified?
       redirect_to settings_path, alert: t('private.settings.index.auth-verified')
     end
-  end
-
-  def auth_no_initial!
   end
 
   def auth_anybody!
@@ -59,7 +52,7 @@ class ApplicationController < ActionController::Base
   end
 
   def is_admin?
-    current_user && current_user.admin?
+    current_user&.admin?
   end
 
   def set_timezone

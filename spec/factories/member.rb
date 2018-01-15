@@ -1,15 +1,11 @@
 FactoryBot.define do
-  factory :member, aliases: [:author] do
+  factory :member do
     email { Faker::Internet.email }
-
-    trait :activated do
-      activated true
-    end
 
     trait :verified do
       after :create do |member|
         id_doc = member.id_document
-        id_doc.update attributes_for(:id_document)
+        id_doc.update!(attributes_for(:id_document))
         id_doc.submit!
         id_doc.approve!
       end
@@ -21,8 +17,7 @@ FactoryBot.define do
       end
     end
 
-    factory :activated_member, traits: [:activated]
-    factory :verified_member, traits: %i[activated verified]
-    factory :admin_member, traits: [:admin]
+    factory :verified_member, traits: %i[ verified ]
+    factory :admin_member, traits: %i[ admin ]
   end
 end

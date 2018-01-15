@@ -14,18 +14,14 @@
         <% t.column :date, 'Date', class: 'col-xs-8' do |x| %>
           <span><%= x.date.to_formatted_s(:short) %></span>
         <% end %>
-        <% t.column :reg, 'Act / Reg', class: 'col-xs-10' do |x| %>
-          <code class="text-success">
-            <%= x.total_activated %>
-          </code>
-          <span>/</span>
+        <% t.column :reg, 'Reg', class: 'col-xs-10' do |x| %>
           <code class="text-info">
             <%= x.total %>
           </code>
         <% end %>
         <% t.column :rate, 'Rate', class: 'col-xs-6' do |x| %>
           <code>
-            <%= number_to_percentage(x.total_activated.fdiv(x.total) * 100, precision: 0) %>
+            <%= number_to_percentage(@members_count.fdiv(x.total) * 100, precision: 0) %>
           </code>
         <% end %>
       <% end %>

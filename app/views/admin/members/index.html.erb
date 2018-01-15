@@ -37,9 +37,6 @@
           </code>
         <% end %>
         <% t.column :created_at, class: 'col-xs-3' %>
-        <% t.column :activated?, class: 'col-xs-1' do |x| %>
-          <%= yesno x.activated? %>
-        <% end %>
         <% t.column 'Disabled? (Web/API)', class: 'col-xs-1' do |x| %>
           <% text = x.disabled? ? 'Yes' : 'No' %>
           <%= link_to text, toggle_admin_member_path(x), remote: true, method: :post, class: 'toggle-web' %>

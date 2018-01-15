@@ -1,8 +1,6 @@
-describe 'withdraw' do
-  let!(:member) { create :member, email: identity_normal.email }
-  let!(:admin_member) { create :member, email: identity.email }
-  let!(:identity_normal) { create :identity }
-  let!(:identity) { create :identity, email: Member.admins.first }
+feature 'withdraw', js: true do
+  let!(:member) { create :member }
+  let!(:admin_member) { create :member, email: Member.admins.first }
 
   let!(:account) do
     member.get_account(:usd).tap { |a| a.update_attributes locked: 8000, balance: 10_000 }
@@ -15,7 +13,7 @@ describe 'withdraw' do
   def visit_admin_withdraw_page
     pending 'skip withdraw dashboard'
 
-    login identity
+    sign_in admin_member
     click_on I18n.t('header.admin')
 
     within '.ops' do

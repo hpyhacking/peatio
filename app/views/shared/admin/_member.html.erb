@@ -5,13 +5,8 @@
   </div>
   <div class="panel-body">
     <%= description_for :member do %>
-      <%= item_for member, :name %>
       <%= item_for member, :email %>
-      <%= item_for member, :activated %>
       <%= item_for member, :created_at %>
-      <%= item_for member, :actions do %>
-        <%= link_to 'Activate Email', active_admin_member_path(member), method: :post, confirm: 'Activate ?', class: 'btn btn-danger btn-xs' %>
-      <% end %>
       <hr class="split">
     <% end %>
   </div>

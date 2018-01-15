@@ -1,6 +1,5 @@
 feature 'show account info', js: true do
-  let!(:identity) { create :identity }
-  let!(:member) { create :member, :activated, email: identity.email }
+  let!(:member) { create :member }
 
   let!(:bid_account) do
     member.get_account('usd').tap do |a|
@@ -23,7 +22,7 @@ feature 'show account info', js: true do
   let(:global) { Global[Market.find('btcusd')] }
 
   scenario 'user can place a buy order by filling in the order form' do
-    login identity
+    sign_in member
     click_on I18n.t('header.market')
 
     page.within_window(windows.last) do
@@ -40,7 +39,7 @@ feature 'show account info', js: true do
   end
 
   scenario 'user can place a sell order by filling in the order form' do
-    login identity
+    sign_in member
     click_on I18n.t('header.market')
 
     page.within_window(windows.last) do
@@ -61,7 +60,7 @@ feature 'show account info', js: true do
     global.stubs(:bids).returns([[bid_order.price, bid_order.volume]])
     Global.stubs(:[]).returns(global)
 
-    login identity
+    sign_in member
     click_on I18n.t('header.market')
 
     page.within_window(windows.last) do
@@ -80,7 +79,7 @@ feature 'show account info', js: true do
   end
 
   scenario 'user can view his account balance' do
-    login identity
+    sign_in member
     click_on I18n.t('header.market')
 
     page.within_window(windows.last) do

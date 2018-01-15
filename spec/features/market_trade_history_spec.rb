@@ -1,7 +1,6 @@
 feature 'show account info', js: true do
-  let(:identity) { create :identity }
   let(:other_member) { create :member }
-  let(:member) { create :member, email: identity.email }
+  let(:member) { create :member }
   let!(:bid_account) do
     member.get_account('usd').tap { |a| a.update_attributes locked: 400, balance: 1000 }
   end
@@ -13,8 +12,7 @@ feature 'show account info', js: true do
   let!(:ask_name) { I18n.t('currency.name.btc') }
 
   scenario 'user can cancel his own order' do
-
-    login identity
+    sign_in member
     click_on I18n.t('header.market')
 
     AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: ask_order.to_matching_attributes)

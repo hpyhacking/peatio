@@ -2,7 +2,6 @@ module Private
   module Withdraws
     class BaseController < ::Private::BaseController
       before_action :channel
-      before_action :auth_activated!
       before_action :auth_verified!
 
       def channel

@@ -1,9 +1,8 @@
-describe 'withdraw' do
-  let!(:identity) { create :identity }
-  let!(:member) { create :verified_member, email: identity.email }
+feature 'withdraw', js: true do
+  let!(:member) { create :verified_member }
 
   let(:radio_label) do
-    "#{member.name} @ #{identity.email}"
+    "#{member.name} @ #{member.email}"
   end
 
   before do
@@ -26,9 +25,9 @@ describe 'withdraw' do
   it 'allows user to add a BTC withdraw address, withdraw BTC' do
     pending
 
-    login identity
+    sign_in member
 
-    expect(page).to have_content identity.email
+    expect(page).to have_content member.email
 
     visit new_withdraws_satoshi_path
     expect(page).to have_text('1000.0')
@@ -49,9 +48,8 @@ describe 'withdraw' do
 
   it 'prevents withdraws that the account has no sufficient balance' do
     pending
-    current_user = Member.find_by_email identity.email
 
-    login identity
+    sign_in member
 
     visit new_withdraws_bank_path
 

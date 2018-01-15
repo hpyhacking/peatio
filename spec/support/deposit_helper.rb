@@ -1,5 +1,5 @@
 def deposit(admin_identity, member, amount)
-  login admin_identity
+  sign_in admin_identity
   click_on 'admin'
 
   # this part is handled by a google extension

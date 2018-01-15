@@ -1,17 +1,8 @@
 class MemberFeeder < AbstractFeeder
-  def feed(email, password)
+  def feed(email)
     Member.transaction do
-      identity = Identity.find_or_initialize_by(email: email)
-      identity.update! \
-        password:              password,
-        password_confirmation: password,
-        is_active:             true
-
       member = Member.find_or_initialize_by(email: email)
-      member.assign_attributes \
-        activated: true,
-        nickname:  Faker::Internet.user_name
-      member.authentications = [Authentication.new(provider: 'identity', uid: identity.id)]
+      member.assign_attributes(nickname: Faker::Internet.user_name)
       member.save!
 
       member.id_document.update! \

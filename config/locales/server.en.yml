@@ -28,10 +28,6 @@ en:
         ip_whitelist: IP Whitelist
         label: Label
         actions: Actions
-      identity:
-        email: Email
-        password: New Password
-        password_confirmation: Confirm Password
       fund_source:
         address: Address
         category: Category
@@ -80,9 +76,6 @@ en:
         in: Income
         out: Expenses
         fee: Fee
-      token/reset_password:
-        email: Sign in email
-        member: Member
       trade:
         bid: Bid
         ask: Ask
@@ -116,13 +109,9 @@ en:
       member:
         id: ID
         name: Real Name
-        display_name: Display Name
-        email: Email
         created_at: Register At
         sn: SN
         id_document_number: Id Document Number
-        activated: Activated
-        activated?: "Activated?"
         id_document_verified?: "Id Document Verified?"
       withdraws/bank:
         id: ID
@@ -208,30 +197,6 @@ en:
           attributes:
             balance:
               less: Blance Less
-        identity:
-          attributes:
-            email:
-              invalid: Invalid Email
-            password:
-              invalid: Invalid Password
-            password_confirmation:
-              confirmation: Inconsistent with the new password you enter, please re-enter.
-        token/reset_password:
-          attributes:
-            base:
-              too_soon: Visit too soon, please try it later.
-            email:
-              not-member: Invalid Email
-              match: Invalid Sign in Email
-            password:
-              invalid: Invalid Password
-            member:
-              blank: Not exist!
-        activation:
-          attributes:
-            base:
-              too_soon: An activation email was sent to your email address less than
-                5 minutes ago.
         fund_source:
           attributes:
             address:
@@ -266,13 +231,9 @@ en:
               invalid_uri: must be a valid URI.
               relative_uri: must be an absolute URI.
       messages:
-        invalid_email: Invalid Email Address
         undef: unknown reason
         less: balance less
         verify: verify error
-        strength: is invalid password strength
-        password: Please enter a password at least 6 characters and it's better to
-          contain uppercase and lowercase letters and numbers.
         orders:
           price: limit price %{l} ~ %{h}
           sum: limit sum price %{l} ~ %{h}
@@ -387,7 +348,6 @@ en:
     members_grid:
       columns:
         sn: Serial number
-        email: Email
         created_at: Created at
         actions: Actions
     account_versions_grid:
@@ -410,14 +370,11 @@ en:
         id: ID
         email: Email
         created_at: Created at
-        activated: Active
         detail: Detail
         action: Action
       filters:
         sn: Serial number
-        activated: Active
         created_at: Created at
-        email: Email
     statistic_orders_grid:
       columns:
         id: Serial number
@@ -893,40 +850,14 @@ en:
       success: Settings updated successfully.
       failure: Invalid passcode. Please try again.
       index:
-        reset_password: Rest your Password
         reauthenticate: Authentication
-        activated: An  email has been sent to your mailbox, please check it for verification
-          as soon as possible. If you do not received it , please click "send it again"
-          button
-        auth-activated: Please confirm your email address first.
         auth-verified: Please verify your account first.
-        email:
-          title: E-mail verification
-          description: Your e-mail has not been verified, click the "Send Mail" button
-            to complete the verification
-          description-activated: Your email adress has been verified successfully,
-            remember and protect this e-mail address, it is the single certificate
-            for your  account
-          resend: Send it again
-          activated: Verified
-          go: Set
         verification:
           title: Verify Account
           description: Help keep the bad guys out of your account by using your
             password
           go: Submit
           verified: Verified
-        asset_passwords:
-          title: Asset password
-          description: The asset password will be needed when you withdraw your money.
-            It is strongly recommended that you do not use the same password as your
-            account password!
-          go: Set
-        passwords:
-          title: Password
-          description: This password is required for login, please remember it.
-          go: Change Password
-          set: Set
         api_tokens:
           title: API Tokens
           description: Create and manage your API tokens.
@@ -969,22 +900,6 @@ en:
             please verify your account to proceed.
     panels:
       balance: Account
-    reset_passwords:
-      panel: Password
-      new:
-        title: Reset Password
-        intro: Please enter your e-mail address which is verified by your  account,
-          enter verification code to submit,and login your mailbox, follow the prompts
-          to reset your password.
-      create:
-        title: Reset password
-        intro: Please enter your e-mail address which is verified by your  account,
-          enter verification code to submit,and login your mailbox, follow the prompts
-          to reset your password.
-      edit:
-        title: Set Password
-      update:
-        title: Set Password
     sessions:
       panel: Login
       new:
@@ -993,14 +908,6 @@ en:
       failure:
         title: Login my account
         intro: Login Peatio now for you to exchange.
-    identities:
-      panel: DEMO.Peatio.tech
-      new:
-        title: Create Account
-        intro: Register for you demo account or login using demo login information provided by your Peatio.tech Project Manager.
-      edit:
-        panel: My Account
-        title: Reset Password
   simple_form:
     placeholders:
       deposit:
@@ -1009,21 +916,12 @@ en:
       session:
         email: E-mail Address
         password: Password
-      identity:
-        email: Example：xiaobai@example.com
-        password: Please set your login password
-        password_confirmation: Confirm your password
-        edit:
-          password: Please set your account password!
       order_bid:
         origin_volume: Buy Volume
         sum: Sum
       order_ask:
         origin_volume: Sell Volume
         sum: Total Turnover
-      reset_password:
-        email: For example：xiaobai@example.com
-        password: Please set your login password!
       withdraw:
         bank:
           sum: Minimum amount 100
@@ -1041,12 +939,6 @@ en:
             match the name with your real name authentication</span>"
           sn: "<span class='text-danger'>Please copy the SN in your bank transfer's
             message, otherwise we can not process your order quickly.</span>"
-      identity:
-        password: Set a password which has at least 6 characters and it's better to
-          contain uppercase and lowercase letters and numbers.
-      reset_password:
-        password: Set a password which has at least 6 characters and it's better to
-          contain uppercase and lowercase letters and numbers.
       id_document:
         name: Please fill in the name which is consistent with your Credentials.
       withdraw:
@@ -1079,16 +971,6 @@ en:
         label: Label
         address: Address
         category: Category
-      session:
-        email: Sign In E-mail
-        password: Sign In Password
-      identity:
-        email: Sign In E-mail
-        old_password: Original password
-        password: New Password
-        password_confirmation: Confirm new password
-      reset_password:
-        password: New Password
       withdraw:
         bank:
           fund_extra: Bank
@@ -1335,13 +1217,6 @@ en:
     accepted:
       subject: "[Peatio] Your deposit has been credited into your account"
       content: Your %{currency} deposit has been credited into your account.
-  member_mailer:
-    notify_signin:
-      subject: "[PEATIO] You have just signed in"
-      just_signed_in: You have just signed in.
-    reset_password_done:
-      subject: "[PEATIO] Your password changed"
-      successful: Your password has been changed successfully.
   system_mailer:
     daily_stats:
       member_stats: Member Stats
@@ -1351,16 +1226,6 @@ en:
       trade_stats: Trades Changes
       asset_value_change_total: Digital Assets Changes Total
       trades_change_total: Trades Changes Total
-  token_mailer:
-    activation:
-      subject: "[Peatio] Account Activation"
-      click_to_verify: 'Thank you for signing up on Peatio, please follow this link to verify your Email:'
-      unable_to_click: Copy and open the link in your browser if you are unable to click and visit it.
-      link_expire: The link expires in 30 minutes.
-    reset_password:
-      subject: "[Peatio] Please Reset Your Password"
-      hi: Hi,
-      follow_the_link: 'Please follow this link to reset your password within 30 minutes:'
   withdraw_mailer:
     submitted:
       subject: "[Peatio] Your withdraw state update"
@@ -1416,9 +1281,7 @@ en:
     admin: Admin Panel
     market: Trade
     settings: Profile
-    signin: Sign In
     signout: Exit
-    signup: Sign Up
     funds: Funds
     getstart: Markets
     assets: Solvency
@@ -1500,15 +1363,6 @@ en:
         create: BID
       member:
         update: Open Account
-      identity:
-        save: Sign in
-        create: Sign up
-        destroy: Sign out
-        verify: Verify
-        update: Change
-      reset_password:
-        update: Reset Sign in Password
-        create: Reset Sign in Password
       fund_source:
         create: Save
       deposit:
@@ -1519,43 +1373,7 @@ en:
         create: Submit
   activations:
     new:
-      notice: An email has been sent to your mailbox, please check it for verification as soon as possible. If you do not received it , please click "send it again" button.
-      verified: Your email adress has been verified successfully.
-      login_required: login required!
-      tip: Activation link was sent to %{email}
-      spam: Please check your spam folder for the activation link.
-    edit:
-      notice: Account activated successfully! Please sign in below.
-      alert: Activation link is expired or invalid.
-  authentications:
-    emails:
-      new:
-        title: Setup Email
-        setup_email: Please setup your email address.
-        warning: Please check your inbox after saving the email address.
-        email_address: Email Address
-        save: Save
-    identities:
-      new:
-        title: Setup The Password
-        save: Save
-      create:
-        success: Setup password successfully
-  forum:
-    index:
-      notice:
-        display_name: Please set your display name for the forum.
-  identities:
-    new:
-      title: SIGN UP
-      signin: Sign In
-      password: Please enter a password at least 6 characters and it's better to contain
-        uppercase and lowercase letters and numbers.
-    update:
-      auth-error: The original password you entered is incorrect, please re-enter.
-      auth-same: The new password you entered is the same as the old password, please
-        re-enter.
-      notice: Account password updated successfully.
+      login_required: Please, sign in.
   layouts:
     admin:
       menus:
@@ -1580,20 +1398,8 @@ en:
   members:
     edit:
       name: Please fill out the application.
-  reset_passwords:
-    create:
-      success: E-mail to reset your password with a introduction has been sent to your mailbox. Failure to receive e-mail , go to "junk mail " firstly,or send the request again.
-    edit:
-      password: Please enter a password at least 6 characters and it's better to contain uppercase and lowercase letters and numbers.
-      invalid: Invalid request
-      submit: Reset Login Password
-      alert: Invalid reset password link.
-    update:
-      success: Login password has been reset, please keep your new password.
-      invalid: Invalid request
   sessions:
     new:
-      reset_password: Forgot Password?
     create:
       disabled: Your account has been disabled, contact admin if you have any problem.
     failure:

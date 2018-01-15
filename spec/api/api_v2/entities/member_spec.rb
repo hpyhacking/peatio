@@ -8,7 +8,6 @@ describe APIv2::Entities::Member do
   it { expect(subject.sn).to eq member.sn }
   it { expect(subject.name).to eq member.name }
   it { expect(subject.email).to eq member.email }
-  it { expect(subject.activated).to be true }
 
   it 'accounts' do
     expect(subject.accounts).to match [
