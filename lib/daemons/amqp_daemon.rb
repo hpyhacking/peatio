@@ -45,16 +45,27 @@ ARGV.each do |id|
   clean_start = AMQPConfig.data[:binding][id][:clean_start]
   queue.purge if clean_start
 
-  manual_ack  = AMQPConfig.data[:binding][id][:manual_ack]
-  queue.subscribe(manual_ack: manual_ack) do |delivery_info, metadata, payload|
+  # Enable manual acknowledge mode by setting manual_ack: true.
+  queue.subscribe manual_ack: true do |delivery_info, metadata, payload|
     logger.info "Received: #{payload}"
     begin
-      worker.process JSON.parse(payload), metadata, delivery_info
+
+      # Invoke Worker#process with floating number of arguments.
+      args          = [JSON.parse(payload), metadata, delivery_info]
+      arity         = worker.method(:process).arity
+      resized_args  = arity < 0 ? args : args[0...arity]
+      worker.method(:process).call(*resized_args)
+
+      # Send confirmation to RabbitMQ that message has been successfully processed.
+      # See http://rubybunny.info/articles/queues.html
+      ch.ack(delivery_info.delivery_tag)
+
     rescue Exception => e
-      logger.fatal e
-      logger.fatal e.backtrace.join("\n")
-    ensure
-      ch.ack(delivery_info.delivery_tag) if manual_ack
+      Kernel.print e.inspect, "\b", e.backtrace.join("\n"), "\n\n"
+
+      # Ask RabbitMQ to deliver message once again later.
+      # See http://rubybunny.info/articles/queues.html
+      ch.nack(delivery_info.delivery_tag, false, true)
     end
   end
 

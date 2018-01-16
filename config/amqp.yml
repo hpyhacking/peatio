@@ -54,10 +54,8 @@ binding:
     exchange: orderbook
   trade_executor:
     queue: new_trade
-    manual_ack: true
   order_processor:
     queue: order_processor
-    manual_ack: true
   market_ticker:
     queue: market_ticker
     exchange: trade

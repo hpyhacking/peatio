@@ -1,10 +1,8 @@
 module Worker
   class DepositCoin
 
-    def process(payload, metadata, delivery_info)
+    def process(payload)
       payload.symbolize_keys!
-
-      sleep 0.5 # nothing result without sleep by query gettransaction api
 
       channel_key = payload[:channel_key]
       txid = payload[:txid]
@@ -19,15 +17,11 @@ module Worker
     end
 
     def deposit!(channel, txid, txout, raw, detail)
-      return if detail[:account] != "payment" || detail[:category] != "receive"
+      return if detail[:account] != 'payment' || detail[:category] != 'receive'
+      return unless PaymentAddress.where(currency: channel.currency_obj.id, address: detail[:address]).exists?
+      return if PaymentTransaction::Normal.where(txid: txid, txout: txout).exists?
 
       ActiveRecord::Base.transaction do
-        unless PaymentAddress.where(currency: channel.currency_obj.id, address: detail[:address]).first
-          Rails.logger.info "Deposit address not found, skip. txid: #{txid}, txout: #{txout}, address: #{detail[:address]}, amount: #{detail[:amount]}"
-          return
-        end
-
-        return if PaymentTransaction::Normal.where(txid: txid, txout: txout).first
 
         tx = PaymentTransaction::Normal.create! \
           txid: txid,

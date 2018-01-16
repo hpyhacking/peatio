@@ -1,6 +1,6 @@
 module Worker
   class DepositCoinAddress
-    def process(payload, metadata, delivery_info)
+    def process(payload)
       payload.symbolize_keys!
 
       payment_address = PaymentAddress.find payload[:payment_address_id]

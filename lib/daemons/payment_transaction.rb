@@ -1,22 +1,16 @@
 require File.join(ENV.fetch('RAILS_ROOT'), 'config', 'environment')
 
-$running = true
-Signal.trap("TERM") do
-  $running = false
-end
+running = true
+Signal.trap(:TERM) { running = false }
 
-while($running) do
-  PaymentTransaction::Normal.with_aasm_state(:unconfirm, :confirming).each do |tx|
+while running do
+  PaymentTransaction::Normal.with_aasm_state(:unconfirm, :confirming).find_each do |tx|
     begin
-      tx.with_lock do
-        tx.check!
-      end
-    rescue
-      puts "Error on PaymentTransaction::Normal: #{$!}"
-      puts $!.backtrace.join("\n")
-      next
+      tx.with_lock { tx.check! }
+    rescue => e
+      Kernel.print e.inspect, "\b", e.backtrace.join("\n"), "\n\n"
     end
   end
 
-  sleep 5
+  Kernel.sleep 5
 end

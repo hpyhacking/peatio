@@ -13,7 +13,7 @@ rescue CoinRPC::JSONRPCError => e
   # Currency#refresh_balance may fail with JSONRPCError.
   # We are silencing these errors to prevent script from
   # always failing processing the same currency and leaving all the rest unprocessed.
-  Kernel.print e.inspect, "\n\n"
+  Kernel.print e.inspect, "\b", e.backtrace.join("\n"), "\n\n"
 end
 
 Currency.all.tap do |currencies|

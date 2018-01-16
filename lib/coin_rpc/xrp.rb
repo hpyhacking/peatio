@@ -32,33 +32,33 @@ module CoinRPC
       resp['wallet']
     end
 
-    def listtransactions(account, number = 100)
-      txs = PaymentAddress.where(currency: 'xrp').map do |pa|
-        post_body = {
+    def listtransactions(_ = nil, maximum_transactions_per_address = 100)
+      query = PaymentAddress.where(currency: 'xrp')
+                            .where(PaymentAddress.arel_table[:address].is_not_blank)
+      query.map do |pa|
+        data = {
           method: 'account_tx',
           params: [{
-            account: pa.address,
+            account:          pa.address,
             ledger_index_max: -1,
             ledger_index_min: -1,
-            limit: number
+            limit:            maximum_transactions_per_address
           }]
-        }.to_json
+        }
 
-        resp = JSON.parse(http_post_request(post_body))
-        raise_if_unsuccessful!(resp)
-
-        resp['result']['transactions'].map do |t|
-          {
-            'txid'     => t['tx']['hash'],
-            'address'  => t['tx']['Destination'],
-            'amount'   => t['tx']['Amount'],
-            'category' => 'receive',
-            'walletconflicts' => []
-          }
+        perform_request data do |error, response|
+          next if error
+          response['result']['transactions'].map do |tx|
+            {
+              'txid'            => tx['tx']['hash'],
+              'address'         => tx['tx']['Destination'],
+              'amount'          => tx['tx']['Amount'],
+              'category'        => 'receive',
+              'walletconflicts' => []
+            }
+          end
         end
-      end
-
-      txs.flatten
+      end.compact.flatten
     end
 
     def gettransaction(txid)
@@ -167,10 +167,28 @@ module CoinRPC
 
   private
 
+    #
+    # Performs JSON RPC call, yields error and parsed response.
+    # It also prints error message and backtrace in case of error.
+    # If raise: true is passed it will raise caught errors.
+    #
+    def perform_request(data, options = {})
+      response = JSON.parse(http_post_request(Hash === data ? data.to_json : data))
+      error    = retrieve_error(response)
+      raise JSONRPCError, error if error && options.fetch(:raise, false)
+      yield error, response
+    rescue => e
+      Kernel.print e.inspect, "\n", e.backtrace.join("\n"), "\n\n"
+      raise e if JSONRPCError === e
+      raise JSONRPCError, e.inspect if options.fetch(:raise, false)
+    end
+
+    def retrieve_error(response)
+      response['error'] || response.dig('result', 'error')
+    end
+
     def raise_if_unsuccessful!(response)
-      (response['error'] || response.dig('result', 'error')).tap do |error|
-        raise JSONRPCError, error if error
-      end
+      retrieve_error(response).tap { |error| raise JSONRPCError, error if error }
     end
   end
 end

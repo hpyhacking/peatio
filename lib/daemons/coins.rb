@@ -1,45 +1,46 @@
 require File.join(ENV.fetch('RAILS_ROOT'), 'config', 'environment')
 
-@running = true
+running = true
+Signal.trap(:TERM) { running = false }
 
-Signal.trap('TERM') do
-  @running = false
+def load_transactions(coin)
+  # Download more transactions which is safer in case daemon haven't been active long time.
+  # NOTE: The second argument of CoinRPC#listtransactions has different meaning for XRP. Check the sources.
+  CoinRPC[coin.code.to_sym].listtransactions('payment', coin.code.xrp? ? 100 : 1000)
+rescue => e
+  Kernel.print e.inspect, "\n", e.backtrace.join("\n"), "\n\n"
+  [] # Fallback with empty transaction list.
 end
 
-@coins = Currency.where(coin: true)
-@coins.reject! { |coin| DepositChannel.find_by_currency(coin.code).blank? }
+def process_transaction(coin, channel, tx)
+  return if tx['category'] != 'receive'
 
-while @running
-  @coins.each do |coin|
-    account = 'payment'
-    number  = 100
-    channel = DepositChannel.find_by_currency(coin.code)
-    missed  = []
+  # Skip if transaction exists.
+  return if PaymentTransaction::Normal.where(txid: tx['txid']).exists?
 
-    if channel.blank?
-      puts "Can not find the deposit channel by code: #{code}"
-      next
+  # Skip zombie transactions (for which addresses don't exist).
+  return unless PaymentAddress.where(currency: coin.code, address: tx['address']).exists?
+
+  Kernel.puts "Missed #{coin.code.upcase} transaction: #{tx['txid']}."
+
+  # Immediately enqueue job.
+  AMQPQueue.enqueue :deposit_coin, { txid: tx['txid'], channel_key: channel.key }
+rescue => e
+  Kernel.print e.inspect, "\n", e.backtrace.join("\n"), "\n\n"
+end
+
+while running
+  channels = DepositChannel.all.each_with_object({}) { |ch, memo| memo[ch.currency] = ch }
+  coins    = Currency.where(coin: true)
+
+  coins.each do |coin|
+    next unless (channel = channels[coin.code])
+
+    load_transactions(coin).each do |tx|
+      break unless running
+      process_transaction(coin, channel, tx)
     end
-
-    CoinRPC[coin.code.to_sym].listtransactions(account, number).each do |tx|
-      next if tx['category'] != 'receive'
-
-      unless PaymentTransaction::Normal.find_by(txid: tx['txid'])
-        puts "#{coin.code} --- Missed txid:#{tx['txid']} address:#{tx['address']} (#{tx['amount']})"
-        missed << tx
-      end
-    end
-
-    puts "#{coin.code} --- #{missed.size} missed transactions found."
-
-    next if missed.empty?
-
-    puts "#{coin.code} --- Reprocessing .."
-    missed.each do |tx|
-      AMQPQueue.enqueue :deposit_coin, { txid: tx['txid'], channel_key: channel.key }
-    end
-    puts "#{coin.code} --- Done."
   end
 
-  sleep 5
+  Kernel.sleep 5
 end
