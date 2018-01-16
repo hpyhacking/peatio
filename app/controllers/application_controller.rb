@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :is_admin?, :current_market, :gon
   before_action :set_timezone, :set_gon
   after_action :allow_iframe
-  after_action :set_csrf_cookie_for_ng
   rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
   private
@@ -179,13 +178,5 @@ class ApplicationController < ActionController::Base
 
   def allow_iframe
     response.headers.except! 'X-Frame-Options' if Rails.env.development?
-  end
-
-  def set_csrf_cookie_for_ng
-    cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
-  end
-
-  def verified_request?
-    super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
   end
 end

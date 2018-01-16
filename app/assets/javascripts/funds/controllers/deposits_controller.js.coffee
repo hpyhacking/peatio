@@ -38,7 +38,7 @@ app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$filte
       $("a#new_address").html('...')
       $("a#new_address").attr('disabled', 'disabled')
 
-      $http.post("/deposits/#{resource_name}/gen_address", authenticity_token: $('meta[name="csrf-token"]').attr('content'))
+      $http.post("/deposits/#{resource_name}/gen_address")
         .error (responseText) ->
           $.publish 'flash', {message: responseText }
         .finally ->

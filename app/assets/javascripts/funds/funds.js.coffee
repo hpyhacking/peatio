@@ -2,6 +2,7 @@
 #= require_tree ./models
 #= require_tree ./filters
 #= require_self
+#= require_tree ./config
 #= require_tree ./services
 #= require_tree ./directives
 #= require_tree ./controllers

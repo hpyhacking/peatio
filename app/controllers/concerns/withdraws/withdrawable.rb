@@ -9,6 +9,12 @@ module Withdraws
     def create
       @withdraw = model_kls.new(withdraw_params)
 
+      if @withdraw.save
+        @withdraw.submit!
+        render nothing: true
+      else
+        render text: @withdraw.errors.full_messages.join(', '), status: 403
+      end
     end
 
     def destroy
@@ -32,7 +38,7 @@ module Withdraws
     def withdraw_params
       params[:withdraw][:currency] = channel.currency
       params[:withdraw][:member_id] = current_user.id
-      params.require(:withdraw).permit(:fund_source_id, :member_id, :currency, :sum)
+      params.require(:withdraw).permit(:fund_source, :member_id, :currency, :sum)
     end
 
   end

@@ -44,17 +44,18 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   @createWithdraw = (currency) ->
     withdraw_channel = WithdrawChannel.findBy('currency', currency)
     account = withdraw_channel.account()
-    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source_id: _selectedFundSourceId } }
+    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source: _selectedFundSourceId } }
 
     $('.form-submit > input').attr('disabled', 'disabled')
 
-    $http.post("/withdraws/#{withdraw_channel.resource_name}", { authenticity_token: $('meta[name="csrf-token"]').attr('content'), data})
+    $http.post("/withdraws/#{withdraw_channel.resource_name}", data)
       .error (responseText) ->
         $.publish 'flash', { message: responseText }
       .finally =>
         @withdraw = {}
         $('.form-submit > input').removeAttr('disabled')
         $.publish 'withdraw:form:submitted'
+        location.reload()
 
   @withdrawAll = ->
     @withdraw.sum = Number($scope.account.balance)
