@@ -89,7 +89,9 @@ Rails.application.configure do
 
     # Typecast several options to booleans.
     %i[ ssl tls enable_starttls enable_starttls_auto ].each do |option|
-      options[option] = !!options[option] if options.key?(option)
+      if options.key?(option)
+        options[option] = options[option] == 'true' ? true : false
+      end
     end
 
     # Enable mailer only if variables are defined in environment.
