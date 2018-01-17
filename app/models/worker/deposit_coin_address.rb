@@ -9,7 +9,7 @@ module Worker
       currency = payload[:currency]
       address  = CoinRPC[currency].getnewaddress('payment')
 
-      return unless payment_address.update(currency == 'xrp' ? address : { address: address })
+      payment_address.update!(currency == 'xrp' ? address : { address: address })
 
       ::Pusher["private-#{payment_address.account.member.sn}"].trigger_async(
         'deposit_address',

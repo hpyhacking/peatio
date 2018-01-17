@@ -22,7 +22,7 @@ module Private
         next if not account.currency_obj.coin?
 
         if account.payment_addresses.blank?
-          account.payment_addresses.create(currency: account.currency)
+          account.payment_addresses.create!(currency: account.currency)
         else
           address = account.payment_addresses.last
           address.gen_address if address.address.blank?

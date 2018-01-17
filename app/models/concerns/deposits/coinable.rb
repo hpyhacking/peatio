@@ -24,7 +24,7 @@ module Deposits
 
     def update_confirmations(confirmations)
       if !self.new_record? && self.confirmations.to_s != confirmations.to_s
-        self.update_attribute(:confirmations, confirmations.to_s)
+        self.update!(confirmations: confirmations.to_s)
       end
     end
 
