@@ -1,9 +1,11 @@
 namespace :peatio do
   namespace :test do
+    desc 'Fill database with fake data'
     task tearup: :environment do
       [MembersFeeder.new, AdminsFeeder.new].each(&:feed)
     end
 
+    desc 'Cleanup database from fake data'
     task teardown: :environment do
       Rails.application.eager_load!
 

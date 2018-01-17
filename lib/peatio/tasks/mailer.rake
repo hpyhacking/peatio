@@ -4,6 +4,7 @@ namespace :peatio do
     # Usage:
     #   RECIPIENT=eahome00@gmail.com bundle exec rake peatio:mailer:testshot
     #
+    desc 'Send test email'
     task testshot: :environment do
       Mailer = Class.new ActionMailer::Base do
         default from: 'admin@peatio.tech'
