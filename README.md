@@ -1,6 +1,7 @@
 # Peatio - an open-source crypto currency exchange
 
 [![Build Status](https://ci.helioscloud.com/api/v1/pipelines/peatio/jobs/test-master/badge)](https://ci.helioscloud.com/pipelines/peatio/jobs/test-master)
+[![Telegram Chat](https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg)](https://t.me/peatio)
 
 ### [peatio.tech](https://www.peatio.tech) fork
 
