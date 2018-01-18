@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <%= render 'shared/meta' %>
+    <%= render 'shared/sentry' %>
+    <%= csrf_meta_tags %>
     <%= include_gon %>
     <%= stylesheet_link_tag 'api_v2', media: 'all' %>
-    <%= javascript_include_tag 'api_v2' %>
     <%= render 'shared/html5' %>
-    <%= render 'shared/meta' %>
+    <%= javascript_include_tag 'api_v2' %>
   </head>
 
   <body id="<%= body_id %>" data-lang="<%= locale_name %>">

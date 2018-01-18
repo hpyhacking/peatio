@@ -1,3 +1,6 @@
+//= require yarn_components/raven-js/dist/raven
+//= require ./lib/sentry
+
 //= require swagger_ui
 //= require bootstrap/dropdown
 

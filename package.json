@@ -1,0 +1,7 @@
+{
+  "name": "peatio",
+  "license": "MIT",
+  "dependencies": {
+    "raven-js": "^3.22.1"
+  }
+}

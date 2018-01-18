@@ -3,19 +3,18 @@
   <head>
     <link href="/favicon.ico" rel="shortcut icon" />
 
-    <% style = content_for?(:stylesheet) ? yield(:stylesheet) : 'application' %>
-    <%= stylesheet_link_tag style, media: 'all' %>
+    <%= render 'shared/meta' %>
+    <%= render 'shared/sentry' %>
+    <%= csrf_meta_tags %>
+
+    <% stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : 'application' %>
+    <%= stylesheet_link_tag stylesheet, media: 'all' %>
 
     <%= include_gon %>
+    <%= render 'shared/html5' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
     <%= javascript_include_tag 'application' %>
-
     <%= yield(:scripts) if content_for?(:scripts) %>
-
-    <%= render 'shared/html5' %>
-    <%= render 'shared/meta' %>
-
-    <%= csrf_meta_tags %>
   </head>
 
   <body data-lang="<%= locale_name %>" id="<%= body_id %>">

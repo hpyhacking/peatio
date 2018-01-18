@@ -8,6 +8,13 @@ Bundler.require(*Rails.groups)
 
 module Peatio
   class Application < Rails::Application
+
+    # Configure Sentry as early as possible.
+    if ENV['SENTRY_DSN_BACKEND'].present? && ENV['SENTRY_ENV'].to_s.split(',').include?(Rails.env)
+      require 'sentry-raven'
+      Raven.configure { |config| config.dsn = ENV['SENTRY_DSN_BACKEND'] }
+    end
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

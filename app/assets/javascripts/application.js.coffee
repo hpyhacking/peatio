@@ -1,3 +1,6 @@
+#= require yarn_components/raven-js/dist/raven
+#= require ./lib/sentry
+
 #= require es5-shim.min
 #= require es5-sham.min
 #= require jquery

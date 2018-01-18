@@ -7,7 +7,7 @@ language: ruby
 cache: bundler
 
 env:
-  - RAILS_ENV=test RAKE_ENV=test DISPLAY=:0.0 REDIS_PASSWORD=guest
+  - RAILS_ENV=test RAKE_ENV=test DISPLAY=:0.0
 
 services:
   - mysql
@@ -18,10 +18,15 @@ services:
 # Execute all of the commands which need to be executed before installing dependencies.
 before_install:
   - gem install bundler
+  - . $HOME/.nvm/nvm.sh
+  - nvm install 8
+  - nvm use 8
+  - npm i -g yarn
 
 # Execute all of the commands which should install application dependencies.
 install:
   - bundle install --deployment --without production development --jobs=$(nproc) --retry=3
+  - bundle exec rake yarn:install
   - wget https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
   - sudo unzip chromedriver_linux64.zip -d /usr/local/bin/
 

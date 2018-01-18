@@ -16,12 +16,17 @@ ENV APP_HOME=/home/app
 RUN groupadd -r app --gid=1000
 RUN useradd -r -m -g app -d /home/app --uid=1000 app
 
-RUN apt-get update \
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+ && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+ && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+ && apt-get update \
  && apt-get install -y \
       libmysqlclient-dev \
       imagemagick \
       gsfonts \
-      chromedriver
+      chromedriver \
+      nodejs \
+      yarn
 
 WORKDIR $APP_HOME
 
@@ -38,7 +43,7 @@ RUN chown -R app:app /home/app
 USER app
 
 RUN ./bin/init_config
-RUN bundle exec rake tmp:create assets:precompile
+RUN bundle exec rake tmp:create yarn:install assets:precompile
 
 # Expose port 8080 to the Docker host, so we can access it
 # from the outside.
