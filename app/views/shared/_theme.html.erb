@@ -1,0 +1,6 @@
+<style>
+  <% cache do %>
+    <% style = File.read(File.expand_path('../_theme.scss.erb', __FILE__)) %>
+    <%= Sass.compile(ERB.new(style).result, syntax: :scss).html_safe %>
+  <% end %>
+</style>

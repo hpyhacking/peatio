@@ -1,0 +1,52 @@
+.nav-img {
+  <% unless ENV['LOGO_URL'] %>
+    // Needed for default Peatio logo.
+    filter: invert(100%);
+  <% end %>
+}
+
+#welcome-index .logo img {
+  <% unless ENV['LOGO_URL'] %>
+    // Needed for default Peatio logo.
+    width: 500px;
+  <% end %>
+}
+
+.navbar-default {
+  <% if ENV['HEADER_BACKGROUND_COLOR'] %>
+    background-color: <%= ENV['HEADER_BACKGROUND_COLOR'] %>;
+    border-color:     darken(<%= ENV['HEADER_BACKGROUND_COLOR'] %>, 5%);
+  <% end %>
+
+  <% if ENV['HEADER_BORDER_COLOR'] %>
+    border-color: <%= ENV['HEADER_BORDER_COLOR'] %>;
+  <% end %>
+
+  .navbar-nav > li > a {
+    <% if ENV['HEADER_LINK_COLOR'] %>
+      color: <%= ENV['HEADER_LINK_COLOR'] %>;
+    <% end %>
+    &:hover, &:focus {
+      <% if ENV['HEADER_LINK_HOVER_COLOR'] %>
+        color: <%= ENV['HEADER_LINK_HOVER_COLOR'] %>;
+      <% elsif ENV['HEADER_LINK_COLOR'] %>
+        color: darken(<%= ENV['HEADER_LINK_COLOR'] %>, 10%);
+      <% end %>
+    }
+  }
+
+  .navbar-nav > .active > a {
+    &, &:hover, &:focus {
+      <% rubric_active_color = ENV['HEADER_RUBRIC_ACTIVE_COLOR'] || ENV['HEADER_LINK_COLOR'] %>
+      <% if rubric_active_color %>
+        color: <%= rubric_active_color %>;
+      <% end %>
+
+      <% if ENV['HEADER_RUBRIC_BACKGROUND_COLOR'] %>
+        background-color: <%= ENV['HEADER_RUBRIC_BACKGROUND_COLOR'] %>;
+      <% elsif ENV['HEADER_BACKGROUND_COLOR'] %>
+        background-color: darken(<%= ENV['HEADER_BACKGROUND_COLOR'] %>, 10%);
+      <% end %>
+    }
+  }
+}

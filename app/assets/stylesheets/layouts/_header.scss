@@ -11,11 +11,23 @@ header {
   }
 
 
-  .navbar-brand { width: $brand-width; }
+  .navbar-brand {
+    width:    $brand-width;
+    padding:  0;
+    position: relative;
+  }
 
   .nav-img {
-    width: 120px;
-    filter: invert(100%);
+    display:    block;
+    margin:     0 auto;
+    width:      auto;
+    height:     auto;
+    max-width:  120px;
+    max-height: 50px;
+    transform:  translateY(-50%);
+    position:   absolute;
+    top:        50%;
+    left:       5px;
   }
 
   .dropdown-menu li:hover .sub-menu {

@@ -16,6 +16,14 @@
       display: flex;
       justify-content: center;
       align-content: center;
+      img {
+        display:    block;
+        margin:     0 auto;
+        width:      auto;
+        height:     auto;
+        max-width:  500px;
+        max-height: 200px;
+      }
     }
 
     section {

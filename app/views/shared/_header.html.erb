@@ -2,7 +2,7 @@
   <div class="container">
     <ul id="menu" class="nav navbar-nav navbar-left">
       <a class="text-center navbar-brand" href="<%= root_path %>">
-        <img class="nav-img" src="<%= image_path 'logo.svg' %>"/>
+        <img class="nav-img" src="<%= ENV['LOGO_URL'] || image_path('logo.svg') %>">
       </a>
       <%= top_nav_link(t('header.market'), market_path(current_market.id), 'exchange', target: '_blank') if current_user %>
       <%= top_nav_link(t('header.funds'), funds_path, 'money', controllers: ['funds']) if current_user %>

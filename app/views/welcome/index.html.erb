@@ -1,7 +1,7 @@
 <div class="container">
   <div class="logo">
     <a href="https://peatio.tech" target="blank">
-      <img src="<%= image_path 'logo.svg' %>" width="500px" />
+      <img src="<%= ENV['LOGO_URL'] || image_path('logo.svg') %>">
     </a>
   </div>
 
