@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+app_root   = File.expand_path('../..', __FILE__)
+target_dir = File.expand_path('../../lib/generators/config/templates', __FILE__)
+dest_dir   = File.expand_path('../../config', __FILE__)
+
+Dir.glob(File.join(target_dir, '*')) do |tpl|
+  config_file = File.basename(tpl, '.erb')
+  dest = File.join(dest_dir, config_file)
+
+  src = "/opt/peatio/config/#{config_file}"
+  if File.exists?(dest) or File.symlink?(dest)
+    File.unlink(dest)
+    puts "Remove #{dest}"
+  end
+  puts "Linking #{src} -> #{dest}"
+  File.symlink(src, dest)
+end
