@@ -146,6 +146,15 @@ class Withdraw < ActiveRecord::Base
 
       save!
     end
+
+    # FIXME: Unfortunately AASM doesn't fire after_commit
+    # callback (don't be confused with ActiveRecord's after_commit).
+    # This probably was broken after upgrade of Rails & gems.
+    # The fix is to manually invoke #send_coins! and #send_email.
+    # NOTE: These calls should be out of transaction so fast workers
+    # would not start processing data before it was committed to DB.
+    send_coins! if processing?
+    send_email
   end
 
   private
