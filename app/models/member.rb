@@ -132,7 +132,7 @@ class Member < ActiveRecord::Base
   alias :ac :get_account
 
   def touch_accounts
-    less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
+    less = Currency.codes.map(&:to_s) - self.accounts.map(&:currency).map(&:to_s)
     less.each do |code|
       self.accounts.create!(currency: code, balance: 0, locked: 0)
     end
