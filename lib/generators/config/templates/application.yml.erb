@@ -96,6 +96,12 @@ defaults: &defaults
   HEADER_RUBRIC_BACKGROUND_COLOR: ~
   MAIL_HEADER_BACKGROUND_COLOR:   ~
 
+  # Configuration variables for webhooks.
+  WEBHOOKS_SECURE_URL_COMPONENT: ~ # Optional. Set value if you want to secure URL to webhooks.
+  # Example:
+  #   When WEBHOOKS_SECURE_URL_COMPONENT is set to "B6p2csgf2h" the URL to webhooks becomes /webhooks/B6p2csgf2h/btc/hook.
+  #   The default URL is /webhooks/btc/hook.
+
 development:
   <<: *defaults
   # Development configuration variables for sign in with Google.

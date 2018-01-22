@@ -25,6 +25,10 @@ class Currency < ActiveYamlBase
     find_by_code(code)[:assets]
   end
 
+  def self.coins
+    @coins ||= Currency.where(coin: true)
+  end
+
   def precision
     self[:precision]
   end

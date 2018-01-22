@@ -83,6 +83,10 @@ Peatio::Application.routes.draw do
    post '/pusher/auth', to: 'pusher#auth'
   end
 
+  scope ['', 'webhooks', ENV['WEBHOOKS_SECURE_URL_COMPONENT'].presence, ':ccy'].compact.join('/'), as: 'webhooks' do
+    post 'tx_created', to: 'webhooks#tx_created'
+  end
+
   draw :admin
 
   mount APIv2::Mount => APIv2::Mount::PREFIX
