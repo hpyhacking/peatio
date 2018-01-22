@@ -5,9 +5,7 @@ module JsLocaleHelper
     trans        = YAML::load(File.open("#{Rails.root}/config/locales/client.#{locale_str}.yml"))[locale_str]['js']
     {locale_str => trans}
   rescue => e
-    puts e.message
-    puts e.backtrace.join("\n")
-
+    report_exception(e)
     {locale_str => {}}
   end
 

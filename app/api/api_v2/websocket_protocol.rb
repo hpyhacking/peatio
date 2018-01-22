@@ -34,9 +34,9 @@ module APIv2
         end
       else
       end
-    rescue
-      @logger.error "Error on handling message: #{$!}"
-      @logger.error $!.backtrace.join("\n")
+    rescue => e
+      Rails.logger.error 'Error on handling message.'
+      report_exception(e)
     end
 
     private
@@ -59,9 +59,9 @@ module APIv2
         begin
           payload = JSON.parse payload
           send :orderbook, payload
-        rescue
-          @logger.error "Error on receiving orders: #{$!}"
-          @logger.error $!.backtrace.join("\n")
+        rescue => e
+          Rails.logger.error 'Error on receiving orders.'
+          report_exception(e)
         end
       end
     end
@@ -76,9 +76,9 @@ module APIv2
           trade   = Trade.find payload['id']
 
           send :trade, serialize_trade(trade, member, metadata)
-        rescue
-          @logger.error "Error on receiving trades: #{$!}"
-          @logger.error $!.backtrace.join("\n")
+        rescue => e
+          Rails.logger.error 'Error on receiving trades.'
+          report_exception(e)
         ensure
           metadata.ack
         end

@@ -8,11 +8,12 @@ def load_transactions(coin)
   # NOTE: The second argument of CoinRPC#listtransactions has different meaning for XRP. Check the sources.
   CoinRPC[coin.code.to_sym].listtransactions('payment', coin.code.xrp? ? 100 : 1000)
 rescue => e
-  Kernel.print e.inspect, "\n", e.backtrace.join("\n"), "\n\n"
+  report_exception(e)
   [] # Fallback with empty transaction list.
 end
 
 def process_transaction(coin, channel, tx)
+
   return if tx['category'] != 'receive'
 
   # Skip if transaction exists.
@@ -21,12 +22,12 @@ def process_transaction(coin, channel, tx)
   # Skip zombie transactions (for which addresses don't exist).
   return unless PaymentAddress.where(currency: coin.code, address: tx['address']).exists?
 
-  Kernel.puts "Missed #{coin.code.upcase} transaction: #{tx['txid']}."
+  Rails.logger.info "Missed #{coin.code.upcase} transaction: #{tx['txid']}."
 
   # Immediately enqueue job.
   AMQPQueue.enqueue :deposit_coin, { txid: tx['txid'], channel_key: channel.key }
 rescue => e
-  Kernel.print e.inspect, "\n", e.backtrace.join("\n"), "\n\n"
+  report_exception(e)
 end
 
 while running

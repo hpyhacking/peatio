@@ -178,7 +178,7 @@ module CoinRPC
       raise JSONRPCError, error if error && options.fetch(:raise, false)
       yield error, response
     rescue => e
-      Kernel.print e.inspect, "\n", e.backtrace.join("\n"), "\n\n"
+      report_exception_to_screen(e)
       raise e if JSONRPCError === e
       raise JSONRPCError, e.inspect if options.fetch(:raise, false)
     end

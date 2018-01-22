@@ -60,8 +60,8 @@ ARGV.each do |id|
       # See http://rubybunny.info/articles/queues.html
       ch.ack(delivery_info.delivery_tag)
 
-    rescue Exception => e
-      Kernel.print e.inspect, "\b", e.backtrace.join("\n"), "\n\n"
+    rescue => e
+      report_exception(e)
 
       # Ask RabbitMQ to deliver message once again later.
       # See http://rubybunny.info/articles/queues.html

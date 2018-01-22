@@ -44,10 +44,10 @@ module Worker
 
         deposit.submit!
       end
-    rescue
-      Rails.logger.error "Failed to deposit: #{$!}"
-      Rails.logger.error "txid: #{txid}, txout: #{txout}, detail: #{detail.inspect}"
-      Rails.logger.error $!.backtrace.join("\n")
+    rescue => e
+      Rails.logger.error 'Failed to deposit.'
+      Rails.logger.error "txid: #{txid}, txout: #{txout}, detail: #{detail.inspect}."
+      report_exception(e)
     end
 
     def get_raw(channel, txid)

@@ -8,7 +8,7 @@ while running do
     begin
       tx.with_lock { tx.check! }
     rescue => e
-      Kernel.print e.inspect, "\b", e.backtrace.join("\n"), "\n\n"
+      report_exception(e)
     end
   end
 

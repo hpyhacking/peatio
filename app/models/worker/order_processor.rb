@@ -57,10 +57,10 @@ module Worker
         end
       end
 
-      Rails.logger.info "Cancel queue size: #{@cancel_queue.size}"
-    rescue
-      Rails.logger.debug "Failed to process cancel job: #{$!}"
-      Rails.logger.debug $!.backtrace.join("\n")
+      Rails.logger.info "Cancel queue size: #{@cancel_queue.size}."
+    rescue => e
+      Rails.logger.error 'Failed to process cancel job.'
+      report_exception(e)
     end
 
     def create_cancel_thread
