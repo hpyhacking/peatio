@@ -23,3 +23,10 @@
   fee: 0.0009
   inuse: true
   type: WithdrawChannelRipple
+- id: 800
+  key: bitcoin_cash
+  currency: bch
+  fixed: 8
+  fee: 0.0005
+  inuse: true
+  type: WithdrawChannelBitcoinCash

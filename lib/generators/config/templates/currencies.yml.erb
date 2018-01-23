@@ -40,4 +40,14 @@
     accounts:
       - address: r1234567890abcdefghijklmnopqrstuvw
         secret: sp1234567890abcdefghijklmnopq
+- id: 4
+  key: bitcoin_cash
+  code: bch
+  symbol: "฿"
+  coin: true
+  precision: 8
+  quick_withdraw_max: 1
+  rpc: http://username:password@127.0.0.1:18332
+  blockchain: https://www.blocktrail.com/BCC/tx/#{txid}
+  address_url: https://www.blocktrail.com/BCC/address/#{address}
 <% end %>
