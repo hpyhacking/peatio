@@ -1,4 +1,4 @@
-FROM ruby:2.4.2
+FROM ruby:2.5.0
 MAINTAINER lbellet@heliostech.fr
 
 # By default image is built using RAILS_ENV=production.
@@ -21,7 +21,7 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
  && apt-get update \
  && apt-get install -y \
-      libmysqlclient-dev \
+      default-libmysqlclient-dev \
       imagemagick \
       gsfonts \
       chromedriver \
