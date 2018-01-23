@@ -1,5 +1,6 @@
-require_relative 'errors'
-require_relative 'validations'
+require_dependency 'api_v2/errors'
+require_dependency 'api_v2/validations'
+require_dependency 'api_v2/withdraws'
 
 module APIv2
   class Mount < Grape::API
@@ -33,6 +34,7 @@ module APIv2
     mount Trades
     mount K
     mount Tools
+    mount Withdraws
 
     base_path = Rails.env.production? ? "#{ENV['URL_SCHEME']}://#{ENV['URL_HOST']}/#{PREFIX}" : PREFIX
     add_swagger_documentation base_path: base_path,

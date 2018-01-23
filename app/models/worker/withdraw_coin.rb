@@ -36,7 +36,7 @@ module Worker
         end
 
         withdraw.whodunnit('Worker::WithdrawCoin') do
-          withdraw.update_column :txid, txid
+          withdraw.update_columns(txid: txid, done_at: Time.current)
 
           # withdraw.succeed! will start another transaction, cause
           # Account after_commit callbacks not to fire

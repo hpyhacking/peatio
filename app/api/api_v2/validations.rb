@@ -14,5 +14,16 @@ module APIv2
         end
       end
     end
+
+    class IntegerGTZero < Grape::Validations::Base
+      def validate_param!(name, params)
+        return unless params.key?(name)
+        return if params[name].to_s.to_i > 0
+
+        fail Grape::Exceptions::Validation,
+             params:  [@scope.full_name(name)],
+             message: "#{name} must be greater than zero."
+      end
+    end
   end
 end
