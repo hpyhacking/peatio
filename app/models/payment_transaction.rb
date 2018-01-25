@@ -19,10 +19,10 @@ class PaymentTransaction < ActiveRecord::Base
 
   aasm :whiny_transitions => false do
     state :unconfirm, initial: true
-    state :confirming, after_commit: :deposit_accept
-    state :confirmed, after_commit: :deposit_accept
+    state :confirming
+    state :confirmed
 
-    event :check do |e|
+    event :check, after_commit: :deposit_accept do |e|
       before :refresh_confirmations
 
       transitions :from => [:unconfirm, :confirming], :to => :confirming, :guard => :min_confirm?

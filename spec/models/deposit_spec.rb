@@ -10,12 +10,12 @@ describe Deposit do
     let(:deposit) { create(:deposit, amount: 100.to_d) }
 
     before do
-      Deposit.any_instance.stubs(:calc_fee).returns([90, 10])
+      Deposit.any_instance.expects(:calc_fee).once.returns([90, 10])
     end
 
     it 'should compute fee' do
       expect(deposit.fee).to eql 10.to_d
-      expect(deposit.amount).to eql 90.to_d
+      expect(deposit.amount).to eql 100.to_d
     end
   end
 end

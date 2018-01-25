@@ -36,7 +36,7 @@ class Deposit < ActiveRecord::Base
     state :cancelled
     state :submitted
     state :rejected
-    state :accepted, after_commit: [:do, :send_mail]
+    state :accepted
     state :checked
     state :warning
 
@@ -52,7 +52,7 @@ class Deposit < ActiveRecord::Base
       transitions from: :submitted, to: :rejected
     end
 
-    event :accept do
+    event :accept, after_commit: %i[ do send_mail ] do
       transitions from: :submitted, to: :accepted
     end
 
