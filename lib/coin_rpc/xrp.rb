@@ -27,7 +27,7 @@ module CoinRPC
     end
 
     def getnewaddress(args = nil)
-      resp = JSON.parse(RestClient.get("#{@rest_uri}/v1/wallet/new").body)
+      resp = JSON.parse(Faraday.get("#{@rest_uri}/v1/wallet/new").body)
       raise_if_unsuccessful!(resp)
       resp['wallet']
     end
@@ -116,34 +116,32 @@ module CoinRPC
     def sendtoaddress(address, amount, fee)
       fs = FundSource.find_by(uid: address)
       issuer = fs.member.payment_addresses.find_by(currency: fs.currency_value)
-
       resp = JSON.parse(
-        RestClient.get(
+        Faraday.get(
           "#{@rest_uri}/v1/accounts/#{issuer.address}/payments/paths/#{address}/#{amount}+XRP"
         ).body
       )
 
       uuid = JSON.parse(
-        RestClient.get("#{@rest_uri}/v1/uuid").body
+        Faraday.get("#{@rest_uri}/v1/uuid").body
       )['uuid']
 
       resp = JSON.parse(
-        RestClient.post(
+        Faraday.post(
           "#{@rest_uri}/v1/accounts/#{issuer.address}/payments",
           {
             secret: issuer.secret,
             payment: resp['payments'].last,
-            client_resource_id: uuid
-          }.to_json,
-          content_type: :json,
-          accept: :json
+            client_resource_id: uuid }.to_json,
+          { 'Content-Type' => 'application/json',
+            'Accept'       => 'application/json' }
         ).body
       )
 
       Rails.logger.info("\n#{resp}")
       Rails.logger.info 'OK'
 
-      Rails.logger.info(RestClient.get(resp['status_url']).body)
+      Rails.logger.info(Faraday.get(resp['status_url']).body)
     end
 
     def getbalance(account = nil)
