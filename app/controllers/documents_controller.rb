@@ -1,5 +1,5 @@
 class DocumentsController < ApplicationController
-  layout :api_v2
+  layout 'api_v2'
 
   def api_v2
 
