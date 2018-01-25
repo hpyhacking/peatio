@@ -18,7 +18,8 @@ module Private
       @token.scopes = 'all'
 
       if @token.save
-        flash.now[:notice] = t('.success')
+        flash[:notice] = t('.success')
+        redirect_to api_token_path(@token)
       else
         flash.now[:alert] = t('.failed')
         render :new
@@ -48,6 +49,10 @@ module Private
       else
         redirect_to url_for(action: :index), notice: t('.failed')
       end
+    end
+
+    def show
+      @token = current_user.api_tokens.find params[:id]
     end
 
     private
