@@ -20,7 +20,7 @@ gem 'omniauth-barong',        '~> 0.1.0'
 gem 'figaro'
 gem 'hashie', '~> 3.0'
 
-gem 'aasm', '~> 3.4.0'
+gem 'aasm', '~> 4.12'
 gem 'bunny', '~> 2.9.0'
 gem 'cancancan'
 gem 'enumerize'
@@ -77,7 +77,7 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'quiet_assets'
   gem 'timecop'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.7'
   gem 'pry-byebug'
 end
 

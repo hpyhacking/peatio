@@ -71,31 +71,31 @@ class Withdraw < ActiveRecord::Base
 
   aasm :whiny_transitions => false do
     state :submitting,  initial: true
-    state :submitted,   after_commit: :send_email
-    state :canceled,    after_commit: [:send_email]
+    state :submitted
+    state :canceled
     state :accepted
-    state :suspect,     after_commit: :send_email
-    state :rejected,    after_commit: :send_email
-    state :processing,  after_commit: [:send_coins!, :send_email]
+    state :suspect
+    state :rejected
+    state :processing
     state :almost_done
-    state :done,        after_commit: [:send_email]
-    state :failed,      after_commit: :send_email
+    state :done
+    state :failed
 
-    event :submit do
+    event :submit, after_commit: :send_email do
       transitions from: :submitting, to: :submitted
       after do
         lock_funds
       end
     end
 
-    event :cancel do
+    event :cancel, after_commit: :send_email do
       transitions from: [:submitting, :submitted, :accepted], to: :canceled
       after do
         after_cancel
       end
     end
 
-    event :mark_suspect do
+    event :mark_suspect, after_commit: :send_email do
       transitions from: :submitted, to: :suspect
     end
 
@@ -103,12 +103,12 @@ class Withdraw < ActiveRecord::Base
       transitions from: :submitted, to: :accepted
     end
 
-    event :reject do
+    event :reject, after_commit: :send_email do
       transitions from: [:submitted, :accepted, :processing], to: :rejected
       after :unlock_funds
     end
 
-    event :process do
+    event :process, after_commit: %i[ send_coins! send_email ] do
       transitions from: :accepted, to: :processing
     end
 
@@ -116,13 +116,13 @@ class Withdraw < ActiveRecord::Base
       transitions from: :processing, to: :almost_done
     end
 
-    event :succeed do
+    event :succeed, after_commit: :send_email do
       transitions from: [:processing, :almost_done], to: :done
 
       before [:set_txid, :unlock_and_sub_funds]
     end
 
-    event :fail do
+    event :fail, after_commit: :send_email do
       transitions from: :processing, to: :failed
     end
   end
