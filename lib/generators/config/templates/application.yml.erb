@@ -11,6 +11,7 @@ defaults: &defaults
   # site host
   URL_HOST: localhost:3000
   URL_SCHEME: http
+  FORCE_SECURE_CONNECTION: false # Set to "true" to disable access via unsecured HTTP, send HSTS headers and use secure cookies.
 
   # session expire time (seconds)
   SESSION_EXPIRE: '60'
