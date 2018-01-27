@@ -60,20 +60,22 @@ defaults: &defaults
   TWILIO_SID: YOUR_TWILIO_SID
   TWILIO_TOKEN: YOUR_TWILIO_TOKEN
 
+  # Enabled OAuth2 provider.
+  # Don't forget to check out configuration at config/initializers/omniauth.rb.
+  OAUTH2_SIGN_IN_PROVIDER: ~
+
   # Configuration variables for sign in with Google.
   # See https://github.com/zquestz/omniauth-google-oauth2
-  GOOGLE_OAUTH2_SIGN_IN:      ~ # Set to "on" to enable.
   GOOGLE_CLIENT_ID:
   GOOGLE_CLIENT_SECRET:
   GOOGLE_OAUTH2_REDIRECT_URL: ~ # Specify URL address to which user will be redirected after successful sign in.
 
   # Configuration variables for sign in with Auth0.
   # See https://github.com/auth0/omniauth-auth0
-  AUTH0_OAUTH2_SIGN_IN:       ~ # Set to "on" to enable.
   AUTH0_OAUTH2_DOMAIN:
   AUTH0_OAUTH2_CLIENT_ID:
   AUTH0_OAUTH2_CLIENT_SECRET:
-  AUTH0_OAUTH2_REDIRECT_URL:  ~ # Specify URL address to which user will be redirected after successful sign in.
+  AUTH0_OAUTH2_REDIRECT_URL: ~ # Specify URL address to which user will be redirected after successful sign in.
 
   # Configuration variables for API CORS.
   #
@@ -105,13 +107,15 @@ defaults: &defaults
 
 development:
   <<: *defaults
+
+  # Development OAuth2 provider.
+  OAUTH2_SIGN_IN_PROVIDER:    google
+
   # Development configuration variables for sign in with Google.
-  GOOGLE_OAUTH2_SIGN_IN:      on
   GOOGLE_CLIENT_ID:           1044454023387-emhp5vmfnp5cf1n9juk09g8gcckrova7.apps.googleusercontent.com
   GOOGLE_CLIENT_SECRET:       tAFZvO200-0z3MpCyOpkPH0G
 
   # Development configuration variables for sign in with Auth0.
-  AUTH0_OAUTH2_SIGN_IN:       on
   AUTH0_OAUTH2_DOMAIN:        peatio-playground.auth0.com
   AUTH0_OAUTH2_CLIENT_ID:     lGKS9ADpknQr415RNZrrQTf3Jh8k2Fvc
   AUTH0_OAUTH2_CLIENT_SECRET: LxUPnrrrpRHSB-vVgWU3TwmakQ8acY5mYVTaVgkREQL3i9avjpOnWTXSSEsrbLzK
