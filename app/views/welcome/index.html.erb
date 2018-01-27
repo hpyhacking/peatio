@@ -23,12 +23,10 @@
   <div class="row" id="getstart">
     <% unless current_user %>
       <div class="col-xs-6 col-xs-offset-9 text-center">
-        <% if ENV['GOOGLE_OAUTH2_SIGN_IN'] %>
-          <a class="btn btn-primary btn-lg btn-block" href="/auth/google_oauth2" role="button"><%= t('header.sign_in_with_google') %></a>
-        <% end %>
-
-        <% if ENV['AUTH0_OAUTH2_SIGN_IN'] %>
-          <a class="btn btn-primary btn-lg btn-block" href="/auth/auth0" role="button"><%= t('header.sign_in_with_auth0') %></a>
+        <% # Output button for enabled OAuth2 provider. %>
+        <% provider = ENV['OAUTH2_SIGN_IN_PROVIDER'] %>
+        <% unless provider.blank? %>
+          <a class="btn btn-primary btn-lg btn-block" href="/auth/<%= provider == 'google' ? 'google_oauth2' : provider %>" role="button"><%= t("header.sign_in_with_#{provider}") %></a>
         <% end %>
       </div>
     <% else %>

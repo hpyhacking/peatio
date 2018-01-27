@@ -1,5 +1,7 @@
 describe SessionsController, type: :controller do
   %i[ google_oauth2 auth0 ].each do |provider|
+    normalized_provider = provider.to_s.gsub(/(?:_|oauth2)+\z/i, '')
+
     describe "sign in using #{provider} provider" do
       before do
         request.env['omniauth.auth'] = OmniAuth.config.mock_auth[provider]
@@ -22,7 +24,7 @@ describe SessionsController, type: :controller do
       end
 
       context 'when no redirect URL is specified' do
-        before { ENV.delete("#{provider.upcase}_OAUTH2_REDIRECT_URL") }
+        before { ENV.delete("#{normalized_provider.upcase}_OAUTH2_REDIRECT_URL") }
 
         it 'should redirect the member to the settings URL' do
           post :create, provider: provider
@@ -32,7 +34,7 @@ describe SessionsController, type: :controller do
 
       context 'when redirect URL is specified in environment' do
         let(:redirect_url) { 'https://foo.bar' }
-        before { ENV["#{provider.upcase}_OAUTH2_REDIRECT_URL"] = redirect_url }
+        before { ENV["#{normalized_provider.upcase}_OAUTH2_REDIRECT_URL"] = redirect_url }
 
         it 'should redirect the member to the specified URL' do
           post :create, provider: provider
