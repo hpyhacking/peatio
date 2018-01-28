@@ -15,6 +15,7 @@ gem 'jbuilder'
 gem 'omniauth',               '~> 1.8.1'
 gem 'omniauth-auth0',         '~> 2.0.0'
 gem 'omniauth-google-oauth2', '~> 0.5.2'
+gem 'omniauth-barong',        '~> 0.1.0'
 
 gem 'figaro'
 gem 'hashie', '~> 3.0'

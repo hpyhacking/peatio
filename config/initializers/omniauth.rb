@@ -11,6 +11,12 @@ Rails.application.config.middleware.use OmniAuth::Builder do
                }
     when 'google'
       provider :google_oauth2, ENV.fetch('GOOGLE_CLIENT_ID'), ENV.fetch('GOOGLE_CLIENT_SECRET')
+
+    when 'barong'
+      provider :barong,
+               ENV.fetch('BARONG_CLIENT_ID'),
+               ENV.fetch('BARONG_CLIENT_SECRET'),
+                domain: ENV.fetch('BARONG_DOMAIN')
   end
 end
 
