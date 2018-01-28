@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <span><%= t('.target_deposit') %></span>
+      </div>
+      <div class="panel-body">
+        <%= form_for [:admin, @account], url: { action: 'update' } do |f| %>
+          <dl class="dl-horizontal dl-member">
+            <dt><%= t('.balance') %></dt>
+            <dd><%= f.text_field :balance, class: 'col-xs-24' %></dd>
+            <hr class="split">
+            <%= f.submit 'Update', class: 'btn btn-primary pull-right', confirm: t('.confirm') %>
+          </dl>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12">
+    <%= render partial: 'shared/admin/member', locals: {member: @account.member} %>
+  </div>
+</div>
