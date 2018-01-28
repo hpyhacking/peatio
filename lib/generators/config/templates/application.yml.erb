@@ -75,7 +75,18 @@ defaults: &defaults
   AUTH0_OAUTH2_DOMAIN:
   AUTH0_OAUTH2_CLIENT_ID:
   AUTH0_OAUTH2_CLIENT_SECRET:
-  AUTH0_OAUTH2_REDIRECT_URL: ~ # Specify URL address to which user will be redirected after successful sign in.
+  AUTH0_OAUTH2_REDIRECT_URL:  ~ # Specify URL address to which user will be redirected after successful sign in.
+
+  # Configuration variables for sign in with Auth0.
+  # See https://github.com/rubykube/omniauth-barong
+  # To test application with barong see.
+  # https://github.com/doorkeeper-gem/doorkeeper/wiki/Testing-your-provider-with-OAuth2-gem
+  # Or you can run barong localy see.
+  # https://github.com/rubykube/barong
+  BARONG_CLIENT_ID:           ~
+  BARONG_CLIENT_SECRET:       ~
+  BARONG_DOMAIN:              ~
+  BARONG_OAUTH2_REDIRECT_URL: ~ # Specify URL address to which user will be redirected after successful sign in.
 
   # Configuration variables for API CORS.
   #
@@ -124,4 +135,11 @@ test:
   <<: *defaults
 
 production:
+  # Default production sign in provider.
+  OAUTH2_SIGN_IN_PROVIDER:    barong
+
+  # Production configuration variables for sign in with Barong.
+  BARONG_CLIENT_ID:           ~
+  BARONG_CLIENT_SECRET:       ~
+  BARONG_DOMAIN:              ~
   <<: *defaults
