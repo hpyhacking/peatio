@@ -20,7 +20,7 @@
     </tr>
     <tr>
       <td>
-        <label class="select required control-label" for="deposit_fund_source">{{"funds.deposit_usd.deposit_account" | t}} (<a href="javascripts:;" ng-click="openFundSourceManagerPanel()">{{ "funds.deposit_usd.manage" | t }}</a>)</label>
+        <label class="select required control-label" for="deposit_fund_source">{{"funds.deposit_usd.deposit_account" | t}} (<a href="javascript:;" ng-click="openFundSourceManagerPanel()">{{ "funds.deposit_usd.manage" | t }}</a>)</label>
         <select id="fund_source" class="select required form-control" name="fund_source"
           ng-model="depositsCtrl.deposit.fund_source"
           ng-options="fs.id as fs.label for fs in fund_sources | filter:{currency:currency}"
