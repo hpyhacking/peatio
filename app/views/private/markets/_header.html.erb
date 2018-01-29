@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <ul id="menu" class="nav navbar-nav navbar-left">
       <a class="navbar-brand" href="<%= root_path %>">
-         PEATIO
+         <%= ENV.fetch('TITLE_MARKETS') %>
          &nbsp;
         <%= @market.name %>
       </a>
