@@ -8,7 +8,7 @@ module Worker
 
         return unless withdraw.processing?
 
-        withdraw.whodunnit('Worker::WithdrawCoin') do
+        withdraw.whodunnit 'Worker::WithdrawCoin' do
           withdraw.call_rpc
           withdraw.save!
         end
@@ -19,23 +19,21 @@ module Worker
 
         return unless withdraw.almost_done?
 
-        if withdraw.currency.to_sym == :xrp
-          txid = CoinRPC[withdraw.currency.to_sym].sendtoaddress(
-            withdraw.fund_uid,
-            withdraw.amount.to_f,
-            fee
-          )
-        else
-          balance = CoinRPC[withdraw.currency.to_sym].getbalance.to_d
-          raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.sum
+        balance = CoinAPI[withdraw.currency.to_sym].load_balance!
+        raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.sum
 
-          fee = [withdraw.fee.to_f || withdraw.channel.try(:fee) || 0.0005, 0.1].min
+        fee = [withdraw.fee.to_f || withdraw.channel.try(:fee) || 0.0005, 0.1].min
 
-          CoinRPC[withdraw.currency.to_sym].settxfee(fee)
-          txid = CoinRPC[withdraw.currency.to_sym].sendtoaddress(withdraw.fund_uid, withdraw.amount.to_f)
-        end
+        pa = withdraw.account.payment_address
 
-        withdraw.whodunnit('Worker::WithdrawCoin') do
+        txid = CoinAPI[withdraw.currency.to_sym].create_withdrawal!(
+          { address: pa.address, secret: pa.secret },
+          { address: withdraw.fund_uid },
+          withdraw.amount.to_d,
+          fee.to_d
+        )
+
+        withdraw.whodunnit 'Worker::WithdrawCoin' do
           withdraw.update_columns(txid: txid, done_at: Time.current)
 
           # withdraw.succeed! will start another transaction, cause
