@@ -9,8 +9,8 @@ def process(currency)
     currency.refresh_balance
     Rails.logger.info 'OK'
   end
-rescue CoinRPC::JSONRPCError => e
-  # Currency#refresh_balance may fail with JSONRPCError.
+rescue CoinAPI::Error => e
+  # Currency#refresh_balance may fail with Error.
   # We are silencing these errors to prevent script from
   # always failing processing the same currency and leaving all the rest unprocessed.
   report_exception(e)

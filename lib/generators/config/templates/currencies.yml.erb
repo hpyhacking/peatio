@@ -4,40 +4,67 @@
 - id: 1
   key: dollar
   code: usd
-  symbol: "$"
+  symbol: '$'
   coin: false
   precision: 2
   assets:
     accounts:
-      - bank: "Demo Bank"
-        address: "6225 0885 6022 3501"
-        password: "111111"
-        tel: "95555"
+      - bank: 'Demo Bank'
+        address: '6225 0885 6022 3501'
+        password: '111111'
+        tel: '95555'
+
 - id: 2
   key: satoshi
   code: btc
-  symbol: "฿"
+  symbol: '฿'
   coin: true
   precision: 8
+  base_factor: 100_000_000
+  #
+  # API client configuration.
+  api_client: BTC
+  #
+  # Bitcoind specific configuration.
+  json_rpc_endpoint: http://user:password@127.0.0.1:18332
+  #
+  # BitGo specific configuration.
+  bitgo_test_net:              on
+  bitgo_wallet_id:             ~
+  bitgo_wallet_address:        ~
+  bitgo_wallet_passphrase:     ~
+  bitgo_rest_api_root:         https://test.bitgo.com/api/v2
+  bitgo_rest_api_access_token: ~
+  #
+  # The rest of configuration.
   quick_withdraw_max: 1
-  rpc: http://username:password@127.0.0.1:18332
   blockchain: https://blockchain.info/tx/#{txid}
   address_url: https://blockchain.info/address/#{address}
-  assets:
-    accounts:
-      - address: 1HjfnJpQmANtuW7yr1ggeDfyfe1kDK7rm3
+
 - id: 3
   key: ripple
   code: xrp
-  symbol: "ꭆ"
+  symbol: 'ꭆ'
   coin: true
+  base_factor: 1_000_000
+  #
+  # API client configuration.
+  api_client: XRP
+  #
+  # Rippled specific configuration.
+  json_rpc_endpoint: https://api.altnet.rippletest.net:51234
+  rest_api_endpoint: https://api.altnet.rippletest.net:5990
+  #
+  # BitGo specific configuration.
+  bitgo_test_net:              on
+  bitgo_wallet_id:             ~
+  bitgo_wallet_address:        ~
+  bitgo_wallet_passphrase:     ~
+  bitgo_rest_api_root:         https://test.bitgo.com/api/v2
+  bitgo_rest_api_access_token: ~
+  #
+  # The rest of configuration.
   quick_withdraw_max: 10000
-  rpc: https://api.altnet.rippletest.net:51234
-  rest_api: "https://api.altnet.rippletest.net:5990"
-  blockchain: "https://bithomp.com/explorer/#{txid}"
-  address_url: "https://bithomp.com/explorer/#{address}"
-  assets:
-    accounts:
-      - address: r1234567890abcdefghijklmnopqrstuvw
-        secret: sp1234567890abcdefghijklmnopq
+  blockchain: https://bithomp.com/explorer/#{txid}
+  address_url: https://bithomp.com/explorer/#{address}
 <% end %>

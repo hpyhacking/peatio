@@ -11,13 +11,13 @@ module Withdraws
     end
 
     def audit!
-      result = CoinRPC[currency].validateaddress(fund_uid)
+      inspection = CoinAPI[currency].inspect_address!(fund_uid)
 
-      if result.nil? || (result[:isvalid] == false)
+      if inspection[:is_valid] == false
         Rails.logger.info "#{self.class.name}##{id} uses invalid address: #{fund_uid.inspect}"
         reject
         save!
-      elsif (result[:ismine] == true) || PaymentAddress.find_by_address(fund_uid)
+      elsif inspection[:is_mine] == true
         Rails.logger.info "#{self.class.name}##{id} uses hot wallet address: #{fund_uid.inspect}"
         reject
         save!

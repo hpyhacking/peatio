@@ -1,35 +1,32 @@
+# TODO: Replace txout with composite TXID.
 module Worker
   class DepositCoin
 
     def process(payload)
       payload.symbolize_keys!
-
-      channel_key = payload[:channel_key]
-      txid = payload[:txid]
-
-      channel = DepositChannel.find_by_key(channel_key)
-      raw     = get_raw channel, txid
-
-      raw[:details].each_with_index do |detail, i|
-        detail.symbolize_keys!
-        deposit!(channel, txid, i, raw, detail)
-      end
+      channel = DepositChannel.find_by_key(payload.fetch(:channel_key))
+      Rails.logger.info "Processing #{channel.currency_obj.code.upcase} deposit: #{payload.fetch(:txid)}."
+      tx = channel.currency_obj.api.load_deposit(payload.fetch(:txid))
+      tx.fetch(:entries).each_with_index do |entry, index|
+        deposit!(channel, tx, entry, index)
+      end if tx
     end
 
-    def deposit!(channel, txid, txout, raw, detail)
-      return if detail[:account] != 'payment' || detail[:category] != 'receive'
-      return unless PaymentAddress.where(currency: channel.currency_obj.id, address: detail[:address]).exists?
-      return if PaymentTransaction::Normal.where(txid: txid, txout: txout).exists?
+  private
+
+    def deposit!(channel, tx, entry, index)
+      unless processable?(channel, tx, entry, index)
+        return Rails.logger.info "Skipped #{tx.fetch(:id)}."
+      end
 
       ActiveRecord::Base.transaction do
-
         tx = PaymentTransaction::Normal.create! \
-          txid: txid,
-          txout: txout,
-          address: detail[:address],
-          amount: detail[:amount].to_s.to_d,
-          confirmations: raw[:confirmations],
-          receive_at: Time.at(raw[:timereceived]).to_datetime,
+          txid: tx[:id],
+          txout: index,
+          address: entry[:address],
+          amount: entry[:amount],
+          confirmations: tx[:confirmations],
+          receive_at: tx[:received_at],
           currency: channel.currency
 
         deposit = channel.kls.create! \
@@ -44,15 +41,16 @@ module Worker
 
         deposit.submit!
       end
+      Rails.logger.info "Successfully processed #{tx.txid}."
     rescue => e
-      Rails.logger.error 'Failed to deposit.'
-      Rails.logger.error "txid: #{txid}, txout: #{txout}, detail: #{detail.inspect}."
+      Rails.logger.error 'Failed to process deposit.'
+      Rails.logger.debug { tx.inspect }
       report_exception(e)
     end
 
-    def get_raw(channel, txid)
-      channel.currency_obj.api.gettransaction(txid)
+    def processable?(channel, tx, entry, index)
+      PaymentAddress.where(currency: channel.currency_obj.id, address: entry[:address]).exists? &&
+        !PaymentTransaction::Normal.where(txid: tx[:id], txout: index).exists?
     end
-
   end
 end

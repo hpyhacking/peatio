@@ -12,7 +12,7 @@ namespace :coin do
     end
 
     missed = []
-    CoinRPC[code].listtransactions(account, number).each do |tx|
+    CoinAPI[code].listtransactions(account, number).each do |tx|
       next if tx['category'] != 'receive'
 
       unless PaymentTransaction::Normal.find_by(txid: tx['txid'])

@@ -3,29 +3,17 @@ require File.join(ENV.fetch('RAILS_ROOT'), 'config', 'environment')
 running = true
 Signal.trap(:TERM) { running = false }
 
-def load_transactions(coin)
-  # Download more transactions which is safer in case daemon haven't been active long time.
-  # NOTE: The second argument of CoinRPC#listtransactions has different meaning for XRP. Check the sources.
-  CoinRPC[coin.code.to_sym].listtransactions('payment', coin.code.xrp? ? 100 : 1000)
-rescue => e
-  report_exception(e)
-  [] # Fallback with empty transaction list.
-end
+def process_deposits(coin, channel, deposit)
+  # Skip if transaction is fully processed.
+  fully_processed = !deposit[:entries].find.with_index do |e, i|
+    !PaymentTransaction::Normal.where(txid: deposit[:id], txout: i).exists?
+  end
+  return if fully_processed
 
-def process_transaction(coin, channel, tx)
-
-  return if tx['category'] != 'receive'
-
-  # Skip if transaction exists.
-  return if PaymentTransaction::Normal.where(txid: tx['txid']).exists?
-
-  # Skip zombie transactions (for which addresses don't exist).
-  return unless PaymentAddress.where(currency: coin.code, address: tx['address']).exists?
-
-  Rails.logger.info "Missed #{coin.code.upcase} transaction: #{tx['txid']}."
+  Rails.logger.info "Missed #{coin.code.upcase} transaction: #{deposit[:id]}."
 
   # Immediately enqueue job.
-  AMQPQueue.enqueue :deposit_coin, { txid: tx['txid'], channel_key: channel.key }
+  AMQPQueue.enqueue :deposit_coin, { txid: deposit[:id], channel_key: channel.key }
 rescue => e
   report_exception(e)
 end
@@ -37,9 +25,11 @@ while running
   coins.each do |coin|
     next unless (channel = channels[coin.code])
 
-    load_transactions(coin).each do |tx|
+    processed = 0
+    CoinAPI[coin.code.to_sym].each_deposit do |deposit|
       break unless running
-      process_transaction(coin, channel, tx)
+      process_deposits(coin, channel, deposit)
+      break if (processed += 1) >= 100
     end
   end
 

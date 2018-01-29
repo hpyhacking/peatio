@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :is_admin?, :current_market, :gon
   before_action :set_timezone, :set_gon
   after_action :allow_iframe
-  rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
+  rescue_from CoinAPI::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
   private
 
