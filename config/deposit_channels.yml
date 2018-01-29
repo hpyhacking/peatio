@@ -19,3 +19,15 @@
   sort_order: 3
   min_confirm: 1
   max_confirm: 3
+- id: 800
+  key: bitcoin_cash
+  currency: bch
+  sort_order: 3
+  min_confirm: 1
+  max_confirm: 3
+- id: 1000
+  key: litoshi
+  currency: ltc
+  sort_order: 3
+  min_confirm: 1
+  max_confirm: 3

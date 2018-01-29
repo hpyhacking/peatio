@@ -1,11 +1,11 @@
 <% if ENV['CURRENCIES_CONFIG'] %>
 <%= File.read(ENV['CURRENCIES_CONFIG']) %>
 <% else %>
-- id: 1
-  key: dollar
-  code: usd
-  symbol: '$'
-  coin: false
+- id:        1
+  key:       dollar
+  code:      usd
+  symbol:    '$'
+  coin:      false
   precision: 2
   assets:
     accounts:
@@ -14,12 +14,12 @@
         password: '111111'
         tel: '95555'
 
-- id: 2
-  key: satoshi
-  code: btc
-  symbol: '฿'
-  coin: true
-  precision: 8
+- id:          2
+  key:         satoshi
+  code:        btc
+  symbol:      '฿'
+  coin:        true
+  precision:   8
   base_factor: 100_000_000
   #
   # API client configuration.
@@ -38,14 +38,14 @@
   #
   # The rest of configuration.
   quick_withdraw_max: 1
-  blockchain: https://blockchain.info/tx/#{txid}
-  address_url: https://blockchain.info/address/#{address}
+  blockchain:         https://blockchain.info/tx/#{txid}
+  address_url:        https://blockchain.info/address/#{address}
 
-- id: 3
-  key: ripple
-  code: xrp
-  symbol: 'ꭆ'
-  coin: true
+- id:          3
+  key:         ripple
+  code:        xrp
+  symbol:      'ꭆ'
+  coin:        true
   base_factor: 1_000_000
   #
   # API client configuration.
@@ -65,6 +65,60 @@
   #
   # The rest of configuration.
   quick_withdraw_max: 10000
-  blockchain: https://bithomp.com/explorer/#{txid}
-  address_url: https://bithomp.com/explorer/#{address}
+  blockchain:         https://bithomp.com/explorer/#{txid}
+  address_url:        https://bithomp.com/explorer/#{address}
+
+- id:          4
+  key:         bitcoin_cash
+  code:        bch
+  symbol:      '฿'
+  coin:        true
+  precision:   8
+  base_factor: 100_000_000
+  #
+  # API client configuration.
+  api_client: BCH
+  #
+  # Bitcoind specific configuration.
+  json_rpc_endpoint: http://user:password@127.0.0.1:18332
+  #
+  # BitGo specific configuration.
+  bitgo_test_net:              on
+  bitgo_wallet_id:             ~
+  bitgo_wallet_address:        ~
+  bitgo_wallet_passphrase:     ~
+  bitgo_rest_api_root:         https://test.bitgo.com/api/v2
+  bitgo_rest_api_access_token: ~
+  #
+  # The rest of configuration.
+  quick_withdraw_max: 10
+  blockchain:         https://www.blocktrail.com/BCC/tx/#{txid}
+  address_url:        https://www.blocktrail.com/BCC/address/#{address}
+
+- id:          5
+  key:         litoshi
+  code:        ltc
+  symbol:      'Ł'
+  coin:        true
+  precision:   8
+  base_factor: 100_000_000
+  #
+  # API client configuration.
+  api_client: LTC
+  #
+  # Bitcoind specific configuration.
+  json_rpc_endpoint: http://user:password@127.0.0.1:18332
+  #
+  # BitGo specific configuration.
+  bitgo_test_net:              on
+  bitgo_wallet_id:             ~
+  bitgo_wallet_address:        ~
+  bitgo_wallet_passphrase:     ~
+  bitgo_rest_api_root:         https://test.bitgo.com/api/v2
+  bitgo_rest_api_access_token: ~
+  #
+  # The rest of configuration.
+  quick_withdraw_max: 100
+  blockchain:         https://www.blocktrail.com/LTC/tx/#{txid}
+  address_url:        https://www.blocktrail.com/LTC/address/#{address}
 <% end %>

@@ -67,6 +67,12 @@ en:
       deposit_btc:
         title: BTC Deposit
 
+      deposit_bch:
+        title: BCH Deposit
+
+      deposit_ltc:
+        title: LTC Deposit
+
       deposit_xrp:
         title: XRP Deposit
 
@@ -118,6 +124,12 @@ en:
       withdraw_btc:
         title: BTC Withdraw
 
+      withdraw_bch:
+        title: BCH Withdraw
+
+      withdraw_ltc:
+        title: LTC Withdraw
+
       withdraw_xrp:
         title: XRP Withdraw
 
@@ -162,5 +174,6 @@ en:
         all: All Market
         usd: USD Market
         btc: BTC Market
+        bch: BCH Market
+        ltc: LTC Market
         xrp: XRP Market
-

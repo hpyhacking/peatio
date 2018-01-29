@@ -7,6 +7,12 @@
       <li data-scroll-nav="1">
         <a><%= t('.btc-assets') %></a>
       </li>
+      <li data-scroll-nav="1">
+        <a><%= t('.bch-assets') %></a>
+      </li>
+       <li data-scroll-nav="1">
+        <a><%= t('.ltc-assets') %></a>
+      </li>
       <li data-scroll-nav="2">
         <a><%= t('.xrp-assets') %></a>
       </li>
@@ -20,6 +26,8 @@
     <% end %>
 
     <div data-scroll-index=1><%= render 'btc_assets' %></div>
+    <div data-scroll-index=1><%= render 'bch_assets' %></div>
+    <div data-scroll-index=1><%= render 'ltc_assets' %></div>
     <div data-scroll-index=2><%= render 'xrp_assets' %></div>
     <div data-scroll-index=3><%= render 'usd_assets' %></div>
   </div>

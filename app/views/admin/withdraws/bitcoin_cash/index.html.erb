@@ -1,0 +1,20 @@
+<% unless @one_bitcoin_cash.empty? %>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <span><%= t('.one') %></span>
+    </div>
+    <%= render partial: 'table', locals: {bitcoin_cash: @one_bitcoin_cash} %>
+  </div>
+<% end %>
+<% unless @all_bitcoin_cash.empty? %>
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <span><%= t('.all') %></span>
+    </div>
+    <%= render partial: 'table', locals: {satoshis: @all_bitcoin_cash} %>
+  </div>
+<% end %>
+
+<% if @all_bitcoin_cash.empty? and @one_bitcoin_cash.empty? %>
+  <h3 class="text-info text-center"><%= t('.empty') %></h3>
+<% end %>

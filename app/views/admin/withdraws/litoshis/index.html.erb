@@ -1,0 +1,20 @@
+<% unless @one_litoshis.empty? %>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <span><%= t('.one') %></span>
+    </div>
+    <%= render partial: 'table', locals: {litoshis: @one_litoshis} %>
+  </div>
+<% end %>
+<% unless @all_litoshis.empty? %>
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <span><%= t('.all') %></span>
+    </div>
+    <%= render partial: 'table', locals: {litoshis: @all_litoshis} %>
+  </div>
+<% end %>
+
+<% if @all_litoshis.empty? and @one_litoshis.empty? %>
+  <h3 class="text-info text-center"><%= t('.empty') %></h3>
+<% end %>
