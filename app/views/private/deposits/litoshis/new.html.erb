@@ -1,0 +1,66 @@
+<p>
+  <h4><%= t('.step-1') %></h4>
+  <p><%= t('.open-wallet') %></p>
+</p>
+
+<hr class="split">
+
+<p>
+  <h4><%= t('.step-2') %></h4>
+  <p><%= t('.send-coin') %></p>
+  <div class="input-group col-xs-8">
+    <div class="input-group-addon">
+      <%= t('activerecord.attributes.deposit.address') %>
+    </div>
+    <div class="form-control form-control-static">
+      <%= @address.address %>
+    </div>
+    <div class="input-group-addon">
+      <i class="fa fa-copy" data-clipboard-text="<%= @address.address %>"></i>
+    </div>
+  </div>
+</p>
+
+<p>
+  <div>
+    <%= t('.or') %>
+    <%= t('.scan-qr') %>
+  </div>
+  <%= qr_tag @address.address %>
+</p>
+
+<hr class="split">
+
+<p>
+  <h4><%= t('.step-3') %></h4>
+  <p><%= t('.check-confirm', path: exchange_assets_path).html_safe %></p>
+</p>
+
+<hr class="split">
+
+<p>
+  <h4><%= t('.step-4') %></h4>
+  <p><%= t('.history_html') %></p>
+</p>
+
+<% content_for :guide do %>
+  <%= image_tag('coins/xrp') %>
+<% end %>
+
+<% content_for :after do %>
+  <%= panel do %>
+    <%= table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t| %>
+      <% t.column :created_at, class: 'col-xs-3' %>
+      <% t.column :txid, class: 'col-xs-4' do |x| %>
+        <a href="<%= x.blockchain_url %>" target="_blank">
+          <code class="text-info">
+            <%= x.txid.truncate(32) %>
+          </code>
+        </a>
+      <% end %>
+      <% t.column :amount, class: 'col-xs-2' %>
+      <% t.column :memo, class: 'col-xs-1' %>
+      <% t.column :aasm_state_text, class: 'col-xs-2' %>
+    <% end %>
+  <% end %>
+<% end %>

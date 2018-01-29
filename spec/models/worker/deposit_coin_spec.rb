@@ -2,7 +2,6 @@ describe Worker::DepositCoin do
   subject { Worker::DepositCoin.new }
 
   context 'sendmany transaction' do
-    pending # TODO: Fix this spec (Yaroslav).
     let(:raw) do
       { amount: 0.2,
         confirmations: 39,
@@ -36,6 +35,7 @@ describe Worker::DepositCoin do
     end
 
     it 'should deposit many accounts' do
+      pending # TODO: Fix this spec (Yaroslav).
       expect {
         subject.process(payload)
       }.to change(Deposit, :count).by(2)

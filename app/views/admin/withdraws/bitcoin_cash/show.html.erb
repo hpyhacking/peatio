@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <span><%= t('.withdraw', sn: @bitcoin_cash.id) %></span>
+      </div>
+      <div class="panel-body">
+        <%= description_for :withdraw do %>
+          <%= item_for @bitcoin_cash, :id %>
+          <%= item_for @bitcoin_cash, :created_at %>
+          <%= item_for @bitcoin_cash, :aasm_state_text %>
+          <hr class="split">
+          <%= item_for @bitcoin_cash.member, :name %>
+          <%= item_for @bitcoin_cash, :fund_extra %>
+          <%= item_for @bitcoin_cash, :fund_uid do %>
+            <span><%= @bitcoin_cash.fund_uid.truncate(22) %></span>
+          <% end %>
+          <%= item_for @bitcoin_cash, :amount %>
+          <hr class="split">
+          <%= item_for @bitcoin_cash, :remark %>
+          <hr class="split">
+          <ul class="list-inline pull-right">
+            <% if @bitcoin_cash.may_reject? %>
+              <li>
+                <%= link_to t('.reject'), url_for([:admin, @bitcoin_cash]), class: 'btn btn-danger', method: 'DELETE', confirm: t('.reject_confirm') %>
+              </li>
+            <% end %>
+            <% if @bitcoin_cash.may_process? %>
+              <li>
+                <%= link_to t('.process'), url_for([:admin, @bitcoin_cash]), class: 'btn btn-primary', method: 'PATCH' %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12">
+    <%= render partial: 'shared/admin/member', locals: {member: @bitcoin_cash.member} %>
+    <%= render partial: 'shared/admin/account', locals: {account: @bitcoin_cash.account} %>
+  </div>
+</div>
