@@ -62,7 +62,7 @@ class Currency < ActiveYamlBase
   end
 
   def refresh_balance
-    Rails.cache.write(balance_cache_key, api.balance || 'N/A') if coin?
+    Rails.cache.write(balance_cache_key, api.load_balance || 'N/A') if coin?
   end
 
   def blockchain_url(txid)
