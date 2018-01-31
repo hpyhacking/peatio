@@ -64,6 +64,28 @@ describe APIv2::Withdraws, type: :request do
     end
   end
 
+  describe 'POST /api/v2/withdraws' do
+    it 'should validate withdraw amount' do
+      signed_post '/api/v2/withdraws', params: { currency: 'btc', address_id: btc_withdraw_addresses.first.id, amount: 'invalid' }, token: token
+      expect(response.code).to eq '400'
+    end
+
+    it 'should validate currency code' do
+      signed_post '/api/v2/withdraws', params: { currency: 'invalid', address_id: btc_withdraw_addresses.first.id, amount: '1' }, token: token
+      expect(response.code).to eq '400'
+    end
+
+    it 'should create withdraw using downcase currency code' do
+      signed_post '/api/v2/withdraws', params: { currency: 'btc', address_id: btc_withdraw_addresses.first.id, amount: '1' }, token: token
+      expect(response.code).to eq '201'
+    end
+
+    it 'should create withdraw using upcase currency code' do
+      signed_post '/api/v2/withdraws', params: { currency: 'BTC', address_id: btc_withdraw_addresses.first.id, amount: '1' }, token: token
+      expect(response.code).to eq '201'
+    end
+  end
+
   describe 'GET /api/v2/withdraws/addresses' do
     it 'should require authentication' do
       get '/api/v2/withdraws/addresses'
