@@ -240,4 +240,17 @@ module ApplicationHelper
   end
 
   alias_method :d, :format_currency
+
+  def root_url_with_port_from_request
+    port  = request.env['SERVER_PORT']
+    parts = [request.protocol, request.domain]
+    unless port.blank?
+      parts << if request.ssl?
+         port == '443' ? '' : ":#{port}"
+      else
+        port == '80' ? '' : ":#{port}"
+      end
+    end
+    parts.join('')
+  end
 end
