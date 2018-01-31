@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+while IFS= read -r line; do
+  echo "[$1 at $(date -u "+%Y-%m-%d %H:%M:%S")] ${line}" >> /proc/1/fd/1
+done < /dev/stdin

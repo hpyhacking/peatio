@@ -1,6 +1,8 @@
 RAILS_ENV  = ENV.fetch('RAILS_ENV', 'development')
 RAILS_ROOT = File.expand_path('../../..', __FILE__)
 
+require 'shellwords'
+
 # Create non-default log/daemons directory.
 require 'fileutils'
 FileUtils.mkdir_p "#{RAILS_ROOT}/log/daemons"
@@ -13,7 +15,6 @@ def daemon(name, options = {})
 
     w.name  = name
     w.start = command
-    w.log   = "#{RAILS_ROOT}/log/daemons/#{filesafe_name}.log"
     w.dir   = RAILS_ROOT
     w.env   = { 'RAILS_ENV' => RAILS_ENV, 'RAILS_ROOT' => RAILS_ROOT }
 
@@ -29,6 +30,15 @@ def daemon(name, options = {})
 
     # God will always keep process running unless it was manually terminated.
     w.keepalive
+
+    # In production Docker environment logs go to /dev/stdout.
+    if RAILS_ENV == 'production'
+      w.log_cmd = "#{RAILS_ROOT}/bin/logger #{name.shellescape}"
+    #
+    # In non-production environment logs go to files.
+    else
+      w.log = "#{RAILS_ROOT}/log/daemons/#{filesafe_name}.log"
+    end
 
     # Allow customizations.
     yield(w) if block_given?
