@@ -1,4 +1,4 @@
-module CoinRPC
+module CoinAPI
   class LTC < BTC
 
   end
