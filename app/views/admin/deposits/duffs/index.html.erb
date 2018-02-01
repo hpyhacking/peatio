@@ -1,0 +1,37 @@
+<%= table_for(@duffs, class: 'table table-condensed table-hover') do |t| %>
+  <% t.column :txid do |x| %>
+    <a href="<%= x.blockchain_url %>" target="_blank">
+      <code class="text-info">
+        <%= x.txid.truncate(36) %>
+      </code>
+    </a>
+  <% end %>
+  <% t.column :created_at %>
+  <% t.column :currency_obj_key_text %>
+  <% t.column :member_name do |x| %>
+    <%= link_to x.member_name, url_for([:admin, x.member]), target: '_blank' %>
+  <% end %>
+  <% t.column :amount do |x| %>
+    <code class="text-info">
+      <%= x.amount %>
+    </code>
+  <% end %>
+  <% t.column :confirmations do |x| %>
+    <span class="badge">
+      <%= x.confirmations %>
+    </span>
+  <% end %>
+  <% t.column :state_and_actions do |x| %>
+    <span>
+      <%= x.aasm_state_text %>
+    </span>
+    <% if x.may_accept? %>
+      <span> / </span>
+      <%= link_to t('.accept'), url_for([:admin, x]), method: 'PATCH', confirm: t('.accept_confirm') %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="pull-right">
+  <%= paginate @duffs %>
+</div>

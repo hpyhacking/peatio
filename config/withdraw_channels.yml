@@ -37,3 +37,10 @@
   fee: 0.0005
   inuse: true
   type: WithdrawChannelLitoshi
+- id: 1200
+  key: duff
+  currency: dash
+  fixed: 8
+  fee: 0.0005
+  inuse: true
+  type: WithdrawChannelDuff

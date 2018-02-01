@@ -163,6 +163,12 @@ en:
         amount: Amount
         confirmations: Confirmation
         aasm_state_text: State
+      deposits/duff:
+        created_at: Created At
+        txid: Transaction ID
+        amount: Amount
+        confirmations: Confirmation
+        aasm_state_text: State
       withdraws/satoshi:
         id: ID
         member_name: Account
@@ -219,6 +225,20 @@ en:
         amount: Amount
         remark: Remark
         fee: Fee
+      withdraws/duff:
+        id: ID
+        member_name: Account
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_extra_text: Withdraw Label
+        fund_extrat: Withdraw Label
+        fund_source: Bank
+        fund_uid: Account
+        created_at: Created At
+        sum: Amount
+        amount: Amount
+        remark: Remark
+        fee: Fee
     errors:
       models:
         order_bid:
@@ -248,6 +268,8 @@ en:
               litoshi_invalid: Invalid Address
               ripple_ismine: Used Address
               ripple_invalid: Invalid Address
+              duff_ismine: Used Address
+              duff_invalid: Invalid Address
         withdraw:
           account_balance_is_poor: Account balance is insufficient
           attributes:
@@ -275,6 +297,12 @@ en:
               invalid: Invalid withdrawals address, please review.
               ismine: Please use a new address.
         withdraws/ripple:
+          attributes:
+            fund_uid:
+              blank: Please enter your withdrawal address
+              invalid: Invalid withdrawals address, please review.
+              ismine: Please use a new address.
+        withdraws/duff:
           attributes:
             fund_uid:
               blank: Please enter your withdrawal address
@@ -321,6 +349,7 @@ en:
       doge: DOGE
       pts: PTS
       ltc: LTC
+      dash: Dash
   currency:
     satoshi:
       key: BTC
@@ -348,8 +377,8 @@ en:
       name: BitsharesX
       format: '0,0.0000'
     dollar:
-      key: usd
-      code: usd
+      key: USD
+      code: USD
       name: USD
       format: '0,0.00'
     dogecoin:
@@ -361,6 +390,11 @@ en:
       key: PTS
       code: PTS
       name: Protoshare
+      format: '0,0.0000'
+    duff:
+      key: DASH
+      code: DASH
+      name: Dash
       format: '0,0.0000'
   datagrid:
     empty: no data found
@@ -524,6 +558,13 @@ en:
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
+    duff:
+      key: Block Chain
+      title: Dash Deposits
+      intro: Deposit Dash from your own wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
   deposits/bank:
     aasm_state:
       submitting: Submitting
@@ -545,6 +586,9 @@ en:
         gen_address:
           require_transaction: it can't generate new address if it hasn't been used.
       ripples:
+        gen_address:
+          require_transaction: it can't generate new address if it hasn't been used.
+      duffs:
         gen_address:
           require_transaction: it can't generate new address if it hasn't been used.
       banks:
@@ -702,6 +746,20 @@ en:
         create:
           notice: Withdrawal request successfully submitted. Use the info below to
             complete the bank transfer.
+      duffs:
+        destroy:
+          notice: Withdraw been canceled, frozen balance has returned to your account
+        update:
+          notice: Withdraw request is submit successful, we will process it as soon
+            as possible
+        new:
+          submit: Submit
+          allin: All-In
+          fund_source_label: Label
+          manage_fund_source: Manage Fund Source
+        create:
+          notice: Withdrawal request successfully submitted. Use the info below to
+            complete the bank transfer.
     account_versions:
       index:
         description: Every transaction and every penny of income in Peatio are well
@@ -743,17 +801,20 @@ en:
         ltc-assets: LTC Assets
         xrp-assets: XRP Assets
         usd-assets: USD Assets
+        dash-assets: Dash Assets
       liability_tabs:
         verify-btc: Verify My BTC Assets
         verify-bch: Verify My BCH Assets
         verify-ltc: Verify My LTC Assets
         verify-xrp: Verify My XRP Assets
         verify-usd: Verify My USD Assets
+        verify-dash: Verify My Dash Assets
         btc-assets-total: 'Total BTC assets of exchange: '
         bch-assets-total: 'Total BCH assets of exchange: '
         ltc-assets-total: 'Total LTC assets of exchange: '
         xrp-assets-total: 'Total XRP assets of exchange: '
         usd-assets-total: 'Total USD assets of exchange: '
+        dash-assets-total: 'Total Dash assets of exchange: '
       liability_proof:
         title: Proof of Liabilities
         intro: As an exchange, our liabilities refer to the sum of money (in both
@@ -787,6 +848,11 @@ en:
         title: XRP Assets
         intro: All of exchange's XRP assets are listed here.
         total: Total XRP Assets
+        address: Address
+      dash_assets:
+        title: Dash Assets
+        intro: All of exchange's Dash assets are listed here.
+        total: Total Dash Assets
         address: Address
       usd_assets:
         title: USD Assets
@@ -828,6 +894,12 @@ en:
             withdraw: Withdraw
             fix: Fix
           xrp:
+            strike_add: Plus
+            strike_sub: Sub
+            deposit: Deposit
+            withdraw: Withdraw
+            fix: Fix
+          dash:
             strike_add: Plus
             strike_sub: Sub
             deposit: Deposit
@@ -879,6 +951,7 @@ en:
         bch_html: "<i class='fa fa-check'></i><span>BCH Markets</span>"
         ltc_html: "<i class='fa fa-check'></i><span>LTC Markets</span>"
         xrp_html: "<i class='fa fa-check'></i><span>XRP Markets</span>"
+        dash_html: "<i class='fa fa-check'></i><span>Dash Markets</span>"
         price: Price
         change: "24h %"
       range_switch:
@@ -1099,6 +1172,8 @@ en:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
         ripple:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
+        duff:
+          sum: "<a target='_balance' href='#'>Fee structure</a>"
     creating: Creating...
     updating: Updating...
     buttons:
@@ -1152,6 +1227,13 @@ en:
           fund_extra: Label
           account_balance: Account Balance
           member_name: Account
+        duff:
+          fee: Fee
+          sum: Amount
+          fund_uid: Bitcoin Address
+          fund_extra: Label
+          account_balance: Account Balance
+          member_name: Account
   admin:
     deposits:
       banks:
@@ -1186,6 +1268,12 @@ en:
           accept: Accept
           accept_confirm: Confirm deposit?
       ripples:
+        update:
+          notice: The deposit was successful.
+        index:
+          accept: Accept
+          accept_confirm: Confirm deposit?
+      duffs:
         update:
           notice: The deposit was successful.
         index:
@@ -1300,6 +1388,18 @@ en:
           succeed_confirm: Process withdrawal?
           reject_confirm: Reject withdrawal?
           withdraw: Withdrawals
+      duffs:
+        index:
+          one: Pending withdrawals
+          all: Last 24 hours
+          empty: No data
+        show:
+          process: Accepted
+          succeed: Withdraw
+          reject: Reject
+          succeed_confirm: Process withdrawal?
+          reject_confirm: Reject withdrawal?
+          withdraw: Withdrawals
   deposits/satoshi:
     aasm_state:
       submitted: Submitted
@@ -1319,6 +1419,12 @@ en:
       checked: Checked
       warning: Warning
   deposits/ripple:
+    aasm_state:
+      submitted: Submitted
+      accepted: Accepted
+      checked: Checked
+      warning: Warning
+  deposits/duff:
     aasm_state:
       submitted: Submitted
       accepted: Accepted
@@ -1350,6 +1456,14 @@ en:
       state_and_actions: State/Actions
       currency_obj_key_text: Currency
     ripple:
+      amount: Amount
+      txid: TxId
+      created_at: Created At
+      confirmations: Confirmations
+      member_name: Member
+      state_and_actions: State/Actions
+      currency_obj_key_text: Currency
+    duff:
       amount: Amount
       txid: TxId
       created_at: Created At
@@ -1391,6 +1505,7 @@ en:
       bch: BCH
       ltc: LTC
       xrp: XRP
+      dash: Dash
     order:
       state:
         done: DONE
@@ -1699,6 +1814,13 @@ en:
       latency: 30 minutes
       transfer: Manual
       go: Withdraw
+    duff:
+      key: Blockchain
+      title: Dash Blockchain
+      intro: Withdraw Dash to your own Dash wallet
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
   withdraws:
     invalid_address: is not valid. You can not withdraw to this address.
   withdraws/bank:
@@ -1738,6 +1860,18 @@ en:
       canceled: Cancelled
       failed: Failed
   withdraws/litoshi:
+    aasm_state:
+      submitting: Submitting
+      submitted: Submitted
+      rejected: Rejected
+      accepted: Accepted
+      suspect: Suspect
+      processing: processing
+      done: Done
+      almost_done: Almost Done
+      canceled: Cancelled
+      failed: Failed
+  withdraws/duff:
     aasm_state:
       submitting: Submitting
       submitted: Submitted
