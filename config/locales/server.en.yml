@@ -740,6 +740,7 @@ en:
         liability-proof: Proof of Liabilities
         btc-assets: BTC Assets
         bch-assets: BCH Assets
+        ltc-assets: LTC Assets
         xrp-assets: XRP Assets
         usd-assets: USD Assets
       liability_tabs:

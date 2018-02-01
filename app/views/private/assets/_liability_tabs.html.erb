@@ -46,6 +46,32 @@
       </div>
     </div>
 
+    <div id="bch-proof" class="tab-pane active">
+      <div class="trade-wrapper">
+        <div class="assets">
+          <span class="title"><%= t('.bch-assets-total').html_safe %></span>
+          <span class="currency">
+            <%= t('currency.icon.bch').html_safe %>
+            <%= @bch_proof.sum %>
+          </span>
+        </div>
+        <%= render 'liability_data', account: @bch_account, proof: @bch_proof %>
+      </div>
+    </div>
+
+    <div id="ltc-proof" class="tab-pane active">
+      <div class="trade-wrapper">
+        <div class="assets">
+          <span class="title"><%= t('.ltc-assets-total').html_safe %></span>
+          <span class="currency">
+            <%= t('currency.icon.ltc').html_safe %>
+            <%= @ltc_proof.sum %>
+          </span>
+        </div>
+        <%= render 'liability_data', account: @ltc_account, proof: @ltc_proof %>
+      </div>
+    </div>
+
     <div id="usd-proof" class="tab-pane">
       <div class="trade-wrapper">
         <div class="assets">
