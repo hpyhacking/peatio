@@ -4,11 +4,12 @@ running = true
 Signal.trap(:TERM) { running = false }
 
 def process_deposits(coin, channel, deposit)
-  # Skip if transaction is fully processed.
-  fully_processed = !deposit[:entries].find.with_index do |e, i|
-    !PaymentTransaction::Normal.where(txid: deposit[:id], txout: i).exists?
-  end
-  return if fully_processed
+  # Skip if transaction is processed.
+  return if PaymentTransaction::Normal.where(txid: deposit[:id]).exists?
+
+  # Skip zombie transactions (for which addresses don't exist).
+  recipients = deposit[:entries].map { |entry| entry[:address] }
+  return unless recipients.all? { |address| PaymentAddress.where(currency: coin.code, address: address).exists? }
 
   Rails.logger.info "Missed #{coin.code.upcase} transaction: #{deposit[:id]}."
 
