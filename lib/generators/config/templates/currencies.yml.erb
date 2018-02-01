@@ -121,4 +121,23 @@
   quick_withdraw_max: 100
   blockchain:         https://www.blocktrail.com/LTC/tx/#{txid}
   address_url:        https://www.blocktrail.com/LTC/address/#{address}
+
+- id:          6
+  key:         duff
+  code:        dash
+  symbol:      'Đ'
+  coin:        true
+  precision:   8
+  base_factor: 100_000_000
+  #
+  # API client configuration.
+  api_client: DASH
+  #
+  # Dashd configuration.
+  json_rpc_endpoint: http://user:password@127.0.0.1:19998
+  #
+  # The rest of configuration.
+  quick_withdraw_max: 25
+  blockchain:         https://live.blockcypher.com/dash/tx/#{txid}
+  address_url:        https://live.blockcypher.com/dash/address/#{address}
 <% end %>

@@ -13,6 +13,9 @@
       <a class="xrp-proof" href="#xrp-proof" data-toggle="tab"><%= t('.verify-xrp').html_safe %></a>
     </li>
     <li>
+      <a class="dash-proof" href="#dash-proof" data-toggle="tab"><%= t('.verify-dash').html_safe %></a>
+    </li>
+    <li>
       <a class="usd-proof" href="#usd-proof" data-toggle="tab"><%= t('.verify-usd').html_safe %></a>
     </li>
   </ul>
@@ -28,7 +31,6 @@
           </span>
         </div>
         <%= render 'liability_data', account: @btc_account, proof: @btc_proof %>
-
       </div>
     </div>
 
@@ -42,7 +44,19 @@
           </span>
         </div>
         <%= render 'liability_data', account: @xrp_account, proof: @xrp_proof %>
+      </div>
+    </div>
 
+    <div id="dash-proof" class="tab-pane active">
+      <div class="trade-wrapper">
+        <div class="assets">
+          <span class="title"><%= t('.dash-assets-total').html_safe %></span>
+          <span class="currency">
+            <%= t('currency.icon.dash').html_safe %>
+            <%= @dash_proof.sum %>
+          </span>
+        </div>
+        <%= render 'liability_data', account: @dash_account, proof: @dash_proof %>
       </div>
     </div>
 
@@ -82,7 +96,6 @@
           </span>
         </div>
         <%= render 'liability_data', account: @usd_account, proof: @usd_proof %>
-
       </div>
     </div>
   </div>

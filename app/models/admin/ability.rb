@@ -18,6 +18,7 @@ module Admin
       can :manage, ::Deposits::Ripple
       can :manage, ::Deposits::BitcoinCash
       can :manage, ::Deposits::Litoshi
+      can :manage, ::Deposits::Duff
 
       can :menu, Withdraw
       can :manage, ::Withdraws::Bank
@@ -25,6 +26,7 @@ module Admin
       can :manage, ::Withdraws::Ripple
       can :manage, ::Withdraws::BitcoinCash
       can :manage, ::Withdraws::Litoshi
+      can :manage, ::Withdraws::Duff
     end
   end
 end
