@@ -3,7 +3,7 @@ FactoryBot.define do
     sum { 10.to_d }
     currency :btc
     member { create :member }
-    fund_source { create(:btc_fund_source) }
+    fund_source_id { create(:btc_fund_source).id }
     type 'Withdraws::Satoshi'
 
     account do
@@ -30,7 +30,7 @@ FactoryBot.define do
     member { create :member }
     currency :usd
     sum { 1000.to_d }
-    fund_source { create(:usd_fund_source) }
+    fund_source_id { create(:usd_fund_source).id }
     type 'Withdraws::Bank'
 
     account do
