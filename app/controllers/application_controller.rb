@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_settings_page
     if cookies[:redirect_to].present?
-      redirect_to cookies[:redirect_to]
+      redirect_to URI.parse(cookies[:redirect_to]).path
       cookies[:redirect_to] = nil
     else
       redirect_to settings_path
