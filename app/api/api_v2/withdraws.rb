@@ -61,10 +61,10 @@ module APIv2
     post '/withdraws' do
       currency = Currency.find_by_code(params[:currency].downcase)
       withdraw = "withdraws/#{currency.key}".camelize.constantize.new \
-        fund_source: params[:address_id],
-        sum:         params[:amount],
-        member_id:   current_user.id,
-        currency:    currency.code
+        fund_source_id: params[:address_id],
+        sum:            params[:amount],
+        member_id:      current_user.id,
+        currency:       currency.code
 
       if withdraw.save
         withdraw.submit!

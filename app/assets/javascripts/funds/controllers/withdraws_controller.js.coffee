@@ -44,7 +44,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   @createWithdraw = (currency) ->
     withdraw_channel = WithdrawChannel.findBy('currency', currency)
     account = withdraw_channel.account()
-    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source: _selectedFundSourceId } }
+    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source_id: _selectedFundSourceId } }
 
     $('.form-submit > input').attr('disabled', 'disabled')
 
