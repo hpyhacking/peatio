@@ -212,12 +212,9 @@ class Withdraw < ActiveRecord::Base
   end
 
   def calc_fee
-    if respond_to?(:set_fee)
-      set_fee
-    end
-
     self.sum ||= 0.0
-    self.fee ||= 0.0
+    # You can set fee for each currency in withdraw_channels.yml.
+    self.fee ||= WithdrawChannel.find_by_currency(currency).fee
     self.amount = sum - fee
   end
 
