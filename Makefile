@@ -1,4 +1,4 @@
-VERSION := $(shell cat VERSION)
+VERSION ?= $(shell cat VERSION)
 IMAGE   := gcr.io/hc-public/peatio:$(VERSION)
 
 .PHONY: default build push run ci deploy
