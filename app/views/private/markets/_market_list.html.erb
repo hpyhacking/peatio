@@ -10,7 +10,7 @@
         <% @market_groups.each do |name| %>
           <li>
             <a data-name="<%= name %>" href="javascript:;">
-              <%= t(".#{name}_html") %>
+              <%= t('.ccy_html', currency: name.upcase) %>
             </a>
           </li>
         <% end %>

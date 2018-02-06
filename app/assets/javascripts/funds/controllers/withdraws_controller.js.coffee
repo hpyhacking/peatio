@@ -12,6 +12,8 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   $scope.account = Account.findBy('currency', $scope.currency)
   $scope.balance = $scope.account.balance
   $scope.withdraw_channel = WithdrawChannel.findBy('currency', $scope.currency)
+  $scope.fiatCurrency = gon.fiat_currency
+  $scope.fiatCurrencyTranslationLocals = currency: gon.fiat_currency
 
   $scope.selected_fund_source_id = (newId) ->
     if angular.isDefined(newId)
@@ -61,7 +63,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     @withdraw.sum = Number($scope.account.balance)
 
   $scope.openFundSourceManagerPanel = ->
-    if $scope.currency == $gon.fiat_currency
+    if $scope.currency.toUpperCase() is $gon.fiat_currency
       template = '/templates/fund_sources/bank.html'
       className = 'ngdialog-theme-default custom-width'
     else

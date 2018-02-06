@@ -2,26 +2,25 @@
   <div class="panel-body">
     <div class="row">
       <div id="guide" class="col-xs-8">
-        <h3><%= t('.title') %></h3>
-        <p class="text-ignore"><%= t('.intro') %></p>
+        <h3><%= t('.title', currency: Peatio.base_fiat_ccy) %></h3>
+        <p class="text-ignore"><%= t('.intro', currency: Peatio.base_fiat_ccy) %></p>
       </div>
       <div id="content" class="col-xs-16">
         <div class="jumbotron">
           <div class="row">
             <div class="col-xs-offset-4 col-xs-16">
               <span class="pull-left">
-                <%= t('.total') %>
+                <%= t('.total', currency: Peatio.base_fiat_ccy) %>
               </span>
               <span class="pull-right">
-                <%= t('currency.icon.usd').html_safe %>
-                <%= @usd_proof.balance %>
+                <%= @fiat_proof.balance %>
               </span>
             </div>
           </div>
           <div class="clearfix"></div>
         </div>
 
-        <%= t('.description', @usd_assets['accounts'].first.symbolize_keys).html_safe %>
+        <%= t('.description', @fiat_assets['accounts'].first.symbolize_keys).html_safe %>
       </div>
     </div>
   </div>

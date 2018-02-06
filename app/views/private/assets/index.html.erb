@@ -20,7 +20,7 @@
         <a><%= t('.dash-assets') %></a>
       </li>
       <li data-scroll-nav="3">
-        <a><%= t('.usd-assets') %></a>
+        <a><%= t('.fiat-assets', currency: Peatio.base_fiat_ccy) %></a>
       </li>
     </ul>
 
@@ -33,7 +33,7 @@
     <div data-scroll-index=1><%= render 'ltc_assets' %></div>
     <div data-scroll-index=2><%= render 'xrp_assets' %></div>
     <div data-scroll-index=2><%= render 'dash_assets' %></div>
-    <div data-scroll-index=3><%= render 'usd_assets' %></div>
+    <div data-scroll-index=3><%= render 'fiat_assets' %></div>
   </div>
 
 <% end %>

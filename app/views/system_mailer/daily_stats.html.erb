@@ -38,7 +38,7 @@
                 <span style='font-size: .7em; font-size: italic; color: #bbb;'>&nbsp;</span>
               </td>
               <td style="width: 30%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
-                <%= pretty_change pretty_currency(value[0], 'usd'), value[0] %><br>
+                <%= pretty_change pretty_currency(value[0], Peatio.base_fiat_ccy.downcase), value[0] %><br>
                 <span style='font-size: .7em; font-size: italic; color: #bbb;'><%= pretty_change pretty_currency(amount[0], currency.code), amount[0] %></span>
               </td>
               <td style="-webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-bottom-style: solid; border-bottom-color: #F4F4F4; border-bottom-width: 1px; padding: 10px;">
