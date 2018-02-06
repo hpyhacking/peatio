@@ -25,3 +25,9 @@ Rails.application.config.assets.precompile.concat(
   Dir.glob(Rails.root.join('app/assets/javascripts/locales/*.js.erb'))
      .map { |f| File.join('locales', File.basename(f, '.erb')) }
 )
+
+Dir.chdir 'vendor/assets/yarn_components' do
+  Dir['yarn_components/**/*.{jpg,jpeg,png,gif,svg}'].each do |path|
+    Rails.application.config.assets.precompile << path
+  end
+end

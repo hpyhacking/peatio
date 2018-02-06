@@ -340,62 +340,6 @@ en:
     pab: Ping An Bank Co., Ltd.
     gdb: Guangdong Development Bank
     psbc: Postal Savings Bank of China
-  market:
-    currency:
-      btc: BTC
-      bch: BCH
-      xrp: XRP
-      usd: USD
-      doge: DOGE
-      pts: PTS
-      ltc: LTC
-      dash: Dash
-  currency:
-    satoshi:
-      key: BTC
-      code: BTC
-      name: Bitcoin
-      format: '0,0.0000'
-    bitcoin_cash:
-      key: BCH
-      code: BCH
-      name: Bitcoin Cash
-      format: '0,0.0000'
-    litoshi:
-      key: LTC
-      code: LTC
-      name: Litoshi
-      format: '0,0.0000'
-    ripple:
-      key: XRP
-      code: XRP
-      name: Ripple
-      format: '0,0.0000'
-    bitsharesx:
-      key: BTS
-      code: BTSX
-      name: BitsharesX
-      format: '0,0.0000'
-    dollar:
-      key: USD
-      code: USD
-      name: USD
-      format: '0,0.00'
-    dogecoin:
-      key: DOG
-      code: DOGE
-      name: Dogecoin
-      format: '0,0.0000'
-    protoshare:
-      key: PTS
-      code: PTS
-      name: Protoshare
-      format: '0,0.0000'
-    duff:
-      key: DASH
-      code: DASH
-      name: Dash
-      format: '0,0.0000'
   datagrid:
     empty: no data found
     filters:
@@ -800,20 +744,20 @@ en:
         bch-assets: BCH Assets
         ltc-assets: LTC Assets
         xrp-assets: XRP Assets
-        usd-assets: USD Assets
+        fiat-assets: '%{currency} Assets'
         dash-assets: Dash Assets
       liability_tabs:
         verify-btc: Verify My BTC Assets
         verify-bch: Verify My BCH Assets
         verify-ltc: Verify My LTC Assets
         verify-xrp: Verify My XRP Assets
-        verify-usd: Verify My USD Assets
+        verify-fiat: Verify My %{currency} Assets
         verify-dash: Verify My Dash Assets
         btc-assets-total: 'Total BTC assets of exchange: '
         bch-assets-total: 'Total BCH assets of exchange: '
         ltc-assets-total: 'Total LTC assets of exchange: '
         xrp-assets-total: 'Total XRP assets of exchange: '
-        usd-assets-total: 'Total USD assets of exchange: '
+        fiat-assets-total: 'Total %{currency} assets of exchange: '
         dash-assets-total: 'Total Dash assets of exchange: '
       liability_proof:
         title: Proof of Liabilities
@@ -854,60 +798,15 @@ en:
         intro: All of exchange's Dash assets are listed here.
         total: Total Dash Assets
         address: Address
-      usd_assets:
-        title: USD Assets
-        intro: All of exchange's USD assets are listed here.
-        total: Total USD Assets
+      fiat_assets:
+        title: '%{currency} Assets'
+        intro: "All of exchange's %{currency} assets are listed here."
+        total: 'Total %{currency} Assets'
         description: " <p>For supervision, you can inquiry the balance of our deposit
           account:</p> <p>Bank: %{bank}</p> <p>Account： %{address}</p> <p>Inquiry
           Password： %{password}</p> <p>Inquiry Tel.： %{tel}</p>"
       partial_tree:
         success: 'Success! Verification data generated at: %{timestamp}'
-    funds:
-      show:
-        account_history: Account History
-        usd_format: '0.00'
-        btc_format: '0.00000000'
-        reason:
-          usd:
-            strike_add: Plus
-            strike_sub: Sub
-            deposit: Deposit
-            withdraw: Withdraw
-            fix: Fix
-          btc:
-            strike_add: Plus
-            strike_sub: Sub
-            deposit: Deposit
-            withdraw: Withdraw
-            fix: Fix
-          bch:
-            strike_add: Plus
-            strike_sub: Sub
-            deposit: Deposit
-            withdraw: Withdraw
-            fix: Fix
-          ltc:
-            strike_add: Plus
-            strike_sub: Sub
-            deposit: Deposit
-            withdraw: Withdraw
-            fix: Fix
-          xrp:
-            strike_add: Plus
-            strike_sub: Sub
-            deposit: Deposit
-            withdraw: Withdraw
-            fix: Fix
-          dash:
-            strike_add: Plus
-            strike_sub: Sub
-            deposit: Deposit
-            withdraw: Withdraw
-            fix: Fix
-        ref:
-          system: System
-          default: Default
     id_documents:
       edit:
         state: State
@@ -946,12 +845,7 @@ en:
       market_list:
         all: All Markets
         all_html: "<i class='fa fa-check'></i><span>All Markets</span>"
-        usd_html: "<i class='fa fa-check'></i><span>USD Markets</span>"
-        btc_html: "<i class='fa fa-check'></i><span>BTC Markets</span>"
-        bch_html: "<i class='fa fa-check'></i><span>BCH Markets</span>"
-        ltc_html: "<i class='fa fa-check'></i><span>LTC Markets</span>"
-        xrp_html: "<i class='fa fa-check'></i><span>XRP Markets</span>"
-        dash_html: "<i class='fa fa-check'></i><span>Dash Markets</span>"
+        ccy_html: "<i class='fa fa-check'></i><span>%{currency} Markets</span>"
         price: Price
         change: "24h %"
       range_switch:
@@ -1078,16 +972,6 @@ en:
           title: API Tokens
           description: Create and manage your API tokens.
           go: Set
-    shared:
-      balances:
-        locked: Frozen
-        balance: Balance
-        available: Available
-        title: "%{icon} %{c} Account"
-        usd_format: '0.00'
-        btc_format: '0.00000000'
-        xrp_format: '0.000000'
-        total: Total
   guides:
     private:
       settings:
@@ -1500,7 +1384,6 @@ en:
       wait: Wait
       cancel: Cancel
     currency:
-      usd: USD
       btc: BTC
       bch: BCH
       ltc: LTC

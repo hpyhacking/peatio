@@ -6,23 +6,23 @@
         <label class="input-group-addon"><%= t('.price') %></label>
         <span class="label label-danger hint-price-disadvantage"></span>
         <%= f.text_field :price, class: 'form-control' %>
-        <span class="input-group-addon"><%= t(market.bid['currency'], scope: 'market.currency') %></span>
+        <span class="input-group-addon"><%= market.bid['currency'].upcase %></span>
       </div>
       <div class="input-group amount">
         <label class="input-group-addon"><%= t('.amount') %></label>
         <%= f.text_field :origin_volume, class: 'form-control' %>
-        <span class="input-group-addon"><%= t(market.ask['currency'], scope: 'market.currency') %></span>
+        <span class="input-group-addon"><%= market.ask['currency'].upcase %></span>
       </div>
       <div class="input-group total">
         <label class="input-group-addon"><%= t('.total') %></label>
         <span class="label label-info hint-positions"></span>
         <%= f.text_field :total, class: 'form-control' %>
-        <span class="input-group-addon"><%= t(market.bid['currency'], scope: 'market.currency') %></span>
+        <span class="input-group-addon"><%= market.bid['currency'].upcase %></span>
       </div>
-      <%= render partial: 'balance', locals: {currency: t(market.bid['currency'], scope: 'market.currency')} %>
+      <%= render partial: 'balance', locals: {currency: market.bid['currency'].upcase} %>
 
       <button class="btn btn-danger btn-block text-up" type="submit">
-        <%= t('.action', currency: t(market.ask['currency'], scope: 'market.currency')) %>
+        <%= t('.action', currency: market.ask['currency'].upcase) %>
       </button>
     <% end %>
   </div>

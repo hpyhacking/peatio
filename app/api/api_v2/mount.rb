@@ -25,16 +25,16 @@ module APIv2
 
     use APIv2::CORS::Middleware
 
-    mount Markets
-    mount Tickers
-    mount Members
-    mount Deposits
-    mount Orders
-    mount OrderBooks
-    mount Trades
-    mount K
-    mount Tools
-    mount Withdraws
+    mount APIv2::Markets
+    mount APIv2::Tickers
+    mount APIv2::Members
+    mount APIv2::Deposits
+    mount APIv2::Orders
+    mount APIv2::OrderBooks
+    mount APIv2::Trades
+    mount APIv2::K
+    mount APIv2::Tools
+    mount APIv2::Withdraws
 
     base_path = Rails.env.production? ? "#{ENV['URL_SCHEME']}://#{ENV['URL_HOST']}/#{PREFIX}" : PREFIX
     add_swagger_documentation base_path: base_path,

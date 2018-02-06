@@ -85,21 +85,24 @@
     padding: 3px 10px;
     border-radius: 3px;
     background-color: #333;
-    &.label-usd {
+    &.label-fiat {
       background-color: #EC6060;
     }
     &.label-btc {
       background-color: #DDCD1B;
     }
   }
-  .currency-logo {
+  .currency-left {
     text-align: center;
     width: 20%;
-    img {
-      max-height: 32px;
+    .currency-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 100%;
+      background: center center no-repeat no-repeat;
+      background-size: cover;
     }
     .currency-symbol {
-      display: block;
       margin-top: 5px;
       text-transform: uppercase;
       color: #999;

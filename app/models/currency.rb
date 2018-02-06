@@ -1,5 +1,4 @@
 class Currency < ActiveYamlBase
-  include International
   include ActiveHash::Associations
 
   field :visible, default: true
@@ -113,5 +112,17 @@ class Currency < ActiveYamlBase
       coinable: coinable,
       hot: hot
     }
+  end
+
+  def key_text
+    code.upcase
+  end
+
+  def code_text
+    code.upcase
+  end
+
+  def name_text
+    code.upcase
   end
 end

@@ -175,7 +175,14 @@ header {
     }
     table {
       min-width: 280px;
-      td.account-symbol { img { max-height: 32px; } }
+      .currency-logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 100%;
+        background: center center no-repeat no-repeat;
+        background-size: cover;
+        margin: 0 auto;
+      }
       span.locked { color: #777; }
     }
     p { margin: 8px; }
@@ -616,7 +623,7 @@ header {
     .markets {
       tr { display: none; }
       &.all { tr { display: block; } }
-      &.usd { tr.quote-usd { display: block; } }
+      &.fiat { tr.quote-fiat { display: block; } }
       &.btc { tr.quote-btc { display: block; } }
       &.xrp { tr.quote-xrp { display: block; } }
       &.bch { tr.quote-bch { display: block; } }

@@ -7,11 +7,8 @@ ru:
     funds:
       deposit: Пополнить
       withdraw: Вывести
-      currency_name:
-        usd: USD
-        btc: BTC
-      deposit_usd:
-        title: Пополнить в USD
+      deposit_fiat:
+        title: 'Пополнить в {{currency}}'
         desc: "Чтобы внести средства банковским платежом:"
         desc_item_1: "1. Для получения идентификационного кода заполните форму."
         desc_item_2: "2. Перечислите средства на банковский счет биржи. Убедитесь что код авторизации присутствует на заполняемой форме."
@@ -24,7 +21,7 @@ ru:
         add: Добавить
         manage: Управлять
         amount: Сумма пополнения
-        min_amount: Как минимум 10 USD
+        min_amount: 'Как минимум 10 {{currency}}'
         to_account: Счет
         to_name: Имя
         to_bank_name: Наименование банка
@@ -58,8 +55,8 @@ ru:
         rejected: Отклонен
         checked: Проверен
         warning: Предупреждение
-      withdraw_usd:
-        title: Вывести в USD
+      withdraw_fiat:
+        title: 'Вывести в {{currency}}'
         intro: Выберите банк для вывода средств и введите номер счета.
         intro_2: Имя владельца банковского счета должно совпадать с Вашим именем.
         attention: "Часы работы: с 9:00 до 18:00"
@@ -101,8 +98,3 @@ ru:
         almost_done: Почти готово
         canceled: Отклонено
         failed: Не удалось
-    markets:
-      market_list:
-        all: Все рынки
-        usd: Рынок USD
-        btc: Рынок BTC
