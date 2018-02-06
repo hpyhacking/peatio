@@ -55,7 +55,7 @@ module APIv2
     params do
       currencies = Currency.all.map(&:code).map(&:upcase)
       requires :currency,   type: String,  values: currencies + currencies.map(&:downcase), desc: "Any supported currency: #{currencies.join(',')}."
-      requires :amount,     type: Integer, desc: 'Withdraw amount without fees.'
+      requires :amount,     type: BigDecimal, desc: 'Withdraw amount without fees.'
       requires :address_id, type: Integer, desc: 'Stored withdraw address ID. You should create withdraw address before.'
     end
     post '/withdraws' do
