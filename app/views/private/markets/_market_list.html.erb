@@ -40,7 +40,7 @@
         <table class="table table-hover markets all">
           <tbody>
             <% @markets.each do |market| %>
-              <tr class="market quote-<%= market.quote_unit%>" id="market-list-<%= market.id %>" data-market="<%= market.id %>">
+              <tr class="market quote-<%= market.quote_unit == Peatio.base_fiat_ccy.downcase ? 'fiat' : market.quote_unit %>" id="market-list-<%= market.id %>" data-market="<%= market.id %>">
                 <td class="col-xs-4 name">
                   <%= link_to market.name, market_path(market) %>
                 </td>
