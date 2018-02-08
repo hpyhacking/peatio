@@ -7,7 +7,7 @@ window.MarketSwitchUI = flight.component ->
 
   @switchMarketGroup = (event, item) ->
     item = $(event.target).closest('a')
-    name = item.data('name')
+    name = if item.data('name') == gon.fiat_currency.toLowerCase() then 'fiat' else  item.data('name')
 
     @select('marketGroupItem').removeClass('active')
     item.addClass('active')
