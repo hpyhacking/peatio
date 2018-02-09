@@ -1,3 +1,6 @@
+<% if ENV['DEPOSIT_CHANNELS_CONFIG'] %>
+<%= File.read(ENV['DEPOSIT_CHANNELS_CONFIG']) %>
+<% else %>
 - id: 200
   key: satoshi
   currency: btc
@@ -37,3 +40,4 @@
   sort_order: 3
   min_confirm: 1
   max_confirm: 3
+<% end %>

@@ -25,6 +25,8 @@ tmp
 /config/currencies.yml
 /config/markets.yml
 /config/banks.yml
+/config/withdraw_channels.yml
+/config/deposit_channels.yml
 
 # Ignore translations.js
 /public/javascripts/translations.js
