@@ -1,3 +1,6 @@
+<% if ENV['WITHDRAW_CHANNELS_CONFIG'] %>
+<%= File.read(ENV['WITHDRAW_CHANNELS_CONFIG']) %>
+<% else %>
 - id: 200
   key: satoshi
   currency: btc
@@ -44,3 +47,4 @@
   fee: 0.0005
   inuse: true
   type: WithdrawChannelDuff
+<% end %>
