@@ -1,4 +1,4 @@
-<%= table_for(satoshis, class: 'table table-condensed table-hover', model: Withdraws::Satoshi) do |t| %>
+<%= table_for(withdraws, class: 'table table-condensed table-hover', model: withdraw_model) do |t| %>
   <% t.column :id, class: 'col-xs-2' %>
   <% t.column :created_at, class: 'col-xs-3' %>
   <% t.column :currency_obj_key_text, class: 'col-xs-2' %>

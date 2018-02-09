@@ -1,101 +1,31 @@
 <div class="tabbable">
   <ul class="nav nav-tabs">
-    <li class="active">
-      <a class="btc-proof" href="#btc-proof" data-toggle="tab"><%= t('.verify-btc').html_safe %></a>
-    </li>
-    <li>
-      <a class="btc-proof" href="#bch-proof" data-toggle="tab"><%= t('.verify-bch').html_safe %></a>
-    </li>
-    <li>
-      <a class="ltc-proof" href="#ltc-proof" data-toggle="tab"><%= t('.verify-ltc').html_safe %></a>
-    </li>
-    <li>
-      <a class="xrp-proof" href="#xrp-proof" data-toggle="tab"><%= t('.verify-xrp').html_safe %></a>
-    </li>
-    <li>
-      <a class="dash-proof" href="#dash-proof" data-toggle="tab"><%= t('.verify-dash').html_safe %></a>
-    </li>
-    <li>
-      <a class="fiat-proof" href="#fiat-proof" data-toggle="tab"><%= t('.verify-fiat', currency: Peatio.base_fiat_ccy).html_safe %></a>
-    </li>
+    <% Currency.all.each_with_index do |ccy, i| %>
+      <li class="<%= 'active' if i.zero? %>">
+        <% name = ccy.fiat? ? :fiat : ccy.code.downcase %>
+        <a class="<%= name %>-proof" href="#<%= name %>-proof" data-toggle="tab">
+          <%= t(".verify-#{ccy.type}", currency: ccy.code.upcase).html_safe %>
+        </a>
+      </li>
+    <% end %>
   </ul>
 
   <div class="tab-content">
-    <div id="btc-proof" class="tab-pane active">
-      <div class="trade-wrapper">
-        <div class="assets">
-          <span class="title"><%= t('.btc-assets-total').html_safe %></span>
-          <span class="currency">
-            <%= t('currency.icon.btc').html_safe %>
-            <%= @btc_proof.sum %>
-          </span>
+    <% Currency.all.each_with_index do |ccy, i| %>
+      <% name    = ccy.fiat? ? 'fiat' : ccy.code.downcase %>
+      <% proof   = instance_variable_get(:"@#{name}_proof") %>
+      <% account = instance_variable_get(:"@#{name}_account") %>
+      <div id="<%= name %>-proof" class="tab-pane<%= ' active' if i.zero? %>">
+        <div class="trade-wrapper">
+          <div class="assets">
+            <span class="title"><%= t(".#{ccy.type}-assets-total", currency: ccy.code.upcase).html_safe %></span>
+            <span class="currency">
+              <%= proof.sum %>
+            </span>
+          </div>
+          <%= render 'liability_data', account: account, proof: proof %>
         </div>
-        <%= render 'liability_data', account: @btc_account, proof: @btc_proof %>
       </div>
-    </div>
-
-    <div id="xrp-proof" class="tab-pane active">
-      <div class="trade-wrapper">
-        <div class="assets">
-          <span class="title"><%= t('.xrp-assets-total').html_safe %></span>
-          <span class="currency">
-            <%= t('currency.icon.xrp').html_safe %>
-            <%= @xrp_proof.sum %>
-          </span>
-        </div>
-        <%= render 'liability_data', account: @xrp_account, proof: @xrp_proof %>
-      </div>
-    </div>
-
-    <div id="dash-proof" class="tab-pane active">
-      <div class="trade-wrapper">
-        <div class="assets">
-          <span class="title"><%= t('.dash-assets-total').html_safe %></span>
-          <span class="currency">
-            <%= t('currency.icon.dash').html_safe %>
-            <%= @dash_proof.sum %>
-          </span>
-        </div>
-        <%= render 'liability_data', account: @dash_account, proof: @dash_proof %>
-      </div>
-    </div>
-
-    <div id="bch-proof" class="tab-pane active">
-      <div class="trade-wrapper">
-        <div class="assets">
-          <span class="title"><%= t('.bch-assets-total').html_safe %></span>
-          <span class="currency">
-            <%= t('currency.icon.bch').html_safe %>
-            <%= @bch_proof.sum %>
-          </span>
-        </div>
-        <%= render 'liability_data', account: @bch_account, proof: @bch_proof %>
-      </div>
-    </div>
-
-    <div id="ltc-proof" class="tab-pane active">
-      <div class="trade-wrapper">
-        <div class="assets">
-          <span class="title"><%= t('.ltc-assets-total').html_safe %></span>
-          <span class="currency">
-            <%= t('currency.icon.ltc').html_safe %>
-            <%= @ltc_proof.sum %>
-          </span>
-        </div>
-        <%= render 'liability_data', account: @ltc_account, proof: @ltc_proof %>
-      </div>
-    </div>
-
-    <div id="fiat-proof" class="tab-pane">
-      <div class="trade-wrapper">
-        <div class="assets">
-          <span class="title"><%= t('.fiat-assets-total', currency: Peatio.base_fiat_ccy).html_safe %></span>
-          <span class="currency">
-            <%= @fiat_proof.sum %>
-          </span>
-        </div>
-        <%= render 'liability_data', account: @fiat_account, proof: @fiat_proof %>
-      </div>
-    </div>
+    <% end %>
   </div>
 </div>

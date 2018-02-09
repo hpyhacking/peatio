@@ -4,36 +4,19 @@
       <li class="active" data-scroll-nav="0">
         <a><%= t('.liability-proof') %></a>
       </li>
-      <li data-scroll-nav="1">
-        <a><%= t('.btc-assets') %></a>
-      </li>
-      <li data-scroll-nav="1">
-        <a><%= t('.bch-assets') %></a>
-      </li>
-       <li data-scroll-nav="1">
-        <a><%= t('.ltc-assets') %></a>
-      </li>
-      <li data-scroll-nav="2">
-        <a><%= t('.xrp-assets') %></a>
-      </li>
-      <li data-scroll-nav="2">
-        <a><%= t('.dash-assets') %></a>
-      </li>
-      <li data-scroll-nav="3">
-        <a><%= t('.fiat-assets', currency: Peatio.base_fiat_ccy) %></a>
-      </li>
+      <% Currency.all.each_with_index do |ccy, i| %>
+        <li data-scroll-nav="<%= i + 1 %>">
+          <a><%= t(".#{ccy.type}-assets", currency: ccy.code.upcase) %></a>
+        </li>
+      <% end %>
     </ul>
 
     <% if current_user %>
-      <div data-scroll-index=0><%= render 'liability_proof' %></div>
+      <div data-scroll-index="0"><%= render 'liability_proof' %></div>
     <% end %>
 
-    <div data-scroll-index=1><%= render 'btc_assets' %></div>
-    <div data-scroll-index=1><%= render 'bch_assets' %></div>
-    <div data-scroll-index=1><%= render 'ltc_assets' %></div>
-    <div data-scroll-index=2><%= render 'xrp_assets' %></div>
-    <div data-scroll-index=2><%= render 'dash_assets' %></div>
-    <div data-scroll-index=3><%= render 'fiat_assets' %></div>
+    <% Currency.all.each_with_index do |ccy, i| %>
+      <div data-scroll-index="<%= i + 1 %>"><%= render "#{ccy.type}_assets", currency: ccy %></div>
+    <% end %>
   </div>
-
 <% end %>

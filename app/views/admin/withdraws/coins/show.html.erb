@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <span><%= t('admin.withdraws.coins.show.withdraw', sn: @withdraw.id) %></span>
+      </div>
+      <div class="panel-body">
+        <%= description_for :withdraw do %>
+          <%= item_for @withdraw, :id %>
+          <%= item_for @withdraw, :created_at %>
+          <%= item_for @withdraw, :aasm_state_text %>
+          <hr class="split">
+          <%= item_for @withdraw.member, :name %>
+          <%= item_for @withdraw, :fund_extra %>
+          <%= item_for @withdraw, :fund_uid do %>
+            <span><%= @withdraw.fund_uid.truncate(22) %></span>
+          <% end %>
+          <%= item_for @withdraw, :amount %>
+          <hr class="split">
+          <%= item_for @withdraw, :remark %>
+          <hr class="split">
+          <ul class="list-inline pull-right">
+            <% if @withdraw.may_reject? %>
+              <li>
+                <%= link_to t('admin.withdraws.coins.show.reject'),
+                            url_for([:admin, @withdraw]),
+                            class:   'btn btn-danger',
+                            method:  'DELETE',
+                            confirm: t('admin.withdraws.coins.show.reject_confirm') %>
+              </li>
+            <% end %>
+            <% if @withdraw.may_process? %>
+              <li>
+                <%= link_to t('admin.withdraws.coins.show.process'),
+                            url_for([:admin, @withdraw]),
+                            class: 'btn btn-primary',
+                            method: 'PATCH' %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12">
+    <%= render partial: 'shared/admin/member', locals: {member: @withdraw.member} %>
+    <%= render partial: 'shared/admin/account', locals: {account: @withdraw.account} %>
+  </div>
+</div>

@@ -740,25 +740,13 @@ en:
     assets:
       index:
         liability-proof: Proof of Liabilities
-        btc-assets: BTC Assets
-        bch-assets: BCH Assets
-        ltc-assets: LTC Assets
-        xrp-assets: XRP Assets
+        coin-assets: '%{currency} Assets'
         fiat-assets: '%{currency} Assets'
-        dash-assets: Dash Assets
       liability_tabs:
-        verify-btc: Verify My BTC Assets
-        verify-bch: Verify My BCH Assets
-        verify-ltc: Verify My LTC Assets
-        verify-xrp: Verify My XRP Assets
-        verify-fiat: Verify My %{currency} Assets
-        verify-dash: Verify My Dash Assets
-        btc-assets-total: 'Total BTC assets of exchange: '
-        bch-assets-total: 'Total BCH assets of exchange: '
-        ltc-assets-total: 'Total LTC assets of exchange: '
-        xrp-assets-total: 'Total XRP assets of exchange: '
+        verify-coin: 'Verify My %{currency} Assets'
+        verify-fiat: 'Verify My %{currency} Assets'
+        coin-assets-total: 'Total %{currency} assets of exchange: '
         fiat-assets-total: 'Total %{currency} assets of exchange: '
-        dash-assets-total: 'Total Dash assets of exchange: '
       liability_proof:
         title: Proof of Liabilities
         intro: As an exchange, our liabilities refer to the sum of money (in both
@@ -773,30 +761,10 @@ en:
         get-partial-tree: Get my partial tree data
         timestamp: The proof data is generated at %{time}.
         go-verify: Verify
-      btc_assets:
-        title: BTC Assets
-        intro: All of exchange's BTC assets are listed here.
-        total: Total BTC Assets
-        address: Address
-      bch_assets:
-        title: BCH Assets
-        intro: All of exchange's BCH assets are listed here.
-        total: Total BCH Assets
-        address: Address
-      ltc_assets:
-        title: LTC Assets
-        intro: All of exchange's LTC assets are listed here.
-        total: Total LTC Assets
-        address: Address
-      xrp_assets:
-        title: XRP Assets
-        intro: All of exchange's XRP assets are listed here.
-        total: Total XRP Assets
-        address: Address
-      dash_assets:
-        title: Dash Assets
-        intro: All of exchange's Dash assets are listed here.
-        total: Total Dash Assets
+      coin_assets:
+        title: '%{currency} Assets'
+        intro: "All of exchange's %{currency} assets are listed here."
+        total: 'Total Dash Assets'
         address: Address
       fiat_assets:
         title: '%{currency} Assets'
@@ -1133,31 +1101,7 @@ en:
           confirm: Confirm recharge?
         update:
           blank_txid: TxID can't be blank
-      satoshis:
-        update:
-          notice: The deposit was successful.
-        index:
-          accept: Accept
-          accept_confirm: Confirm deposit?
-      bitcoin_cash:
-        update:
-          notice: The deposit was successful.
-        index:
-          accept: Accept
-          accept_confirm: Confirm deposit?
-      litoshis:
-        update:
-          notice: The deposit was successful.
-        index:
-          accept: Accept
-          accept_confirm: Confirm deposit?
-      ripples:
-        update:
-          notice: The deposit was successful.
-        index:
-          accept: Accept
-          accept_confirm: Confirm deposit?
-      duffs:
+      coins:
         update:
           notice: The deposit was successful.
         index:
@@ -1224,7 +1168,7 @@ en:
           reject_confirm: Confirm Reject?
           withdraw: Withdraw
           empty: No Data
-      satoshis:
+      coins:
         index:
           one: Pending withdrawals
           all: Last 24 hours
@@ -1236,54 +1180,10 @@ en:
           succeed_confirm: Process withdrawal?
           reject_confirm: Reject withdrawal?
           withdraw: Withdrawals
-      bitcoin_cash:
-        index:
-          one: Pending withdrawals
-          all: Last 24 hours
-          empty: No data
-        show:
-          process: Accepted
-          succeed: Withdraw
-          reject: Reject
-          succeed_confirm: Process withdrawal?
-          reject_confirm: Reject withdrawal?
-          withdraw: Withdrawals
-      litoshis:
-        index:
-          one: Pending withdrawals
-          all: Last 24 hours
-          empty: No data
-        show:
-          process: Accepted
-          succeed: Withdraw
-          reject: Reject
-          succeed_confirm: Process withdrawal?
-          reject_confirm: Reject withdrawal?
-          withdraw: Withdrawals
-      ripples:
-        index:
-          one: Pending withdrawals
-          all: Last 24 hours
-          empty: No data
-        show:
-          process: Accepted
-          succeed: Withdraw
-          reject: Reject
-          succeed_confirm: Process withdrawal?
-          reject_confirm: Reject withdrawal?
-          withdraw: Withdrawals
-      duffs:
-        index:
-          one: Pending withdrawals
-          all: Last 24 hours
-          empty: No data
-        show:
-          process: Accepted
-          succeed: Withdraw
-          reject: Reject
-          succeed_confirm: Process withdrawal?
-          reject_confirm: Reject withdrawal?
-          withdraw: Withdrawals
+        update:
+          notice: Succesfully updated.
+        destroy:
+          notice: Succesfully destroyed.
   deposits/satoshi:
     aasm_state:
       submitted: Submitted

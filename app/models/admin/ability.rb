@@ -13,20 +13,10 @@ module Admin
       can :manage, IdDocument
 
       can :menu, Deposit
-      can :manage, ::Deposits::Bank
-      can :manage, ::Deposits::Satoshi
-      can :manage, ::Deposits::Ripple
-      can :manage, ::Deposits::BitcoinCash
-      can :manage, ::Deposits::Litoshi
-      can :manage, ::Deposits::Duff
+      Deposit.descendants.each { |d| can :manage, d }
 
       can :menu, Withdraw
-      can :manage, ::Withdraws::Bank
-      can :manage, ::Withdraws::Satoshi
-      can :manage, ::Withdraws::Ripple
-      can :manage, ::Withdraws::BitcoinCash
-      can :manage, ::Withdraws::Litoshi
-      can :manage, ::Withdraws::Duff
+      Withdraw.descendants.each { |w| can :manage, w }
     end
   end
 end

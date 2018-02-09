@@ -1,20 +1,20 @@
-<% unless @one_litoshis.empty? %>
+<% unless @accepted_withdraws.empty? %>
   <div class="panel panel-primary">
     <div class="panel-heading">
       <span><%= t('.one') %></span>
     </div>
-    <%= render partial: 'table', locals: {litoshis: @one_litoshis} %>
+    <%= render partial: 'table', locals: {withdraws: @accepted_withdraws} %>
   </div>
 <% end %>
-<% unless @all_litoshis.empty? %>
+<% unless @unaccepted_withdraws.empty? %>
   <div class="panel panel-success">
     <div class="panel-heading">
       <span><%= t('.all') %></span>
     </div>
-    <%= render partial: 'table', locals: {litoshis: @all_litoshis} %>
+    <%= render partial: 'table', locals: {withdraws: @unaccepted_withdraws} %>
   </div>
 <% end %>
 
-<% if @all_litoshis.empty? and @one_litoshis.empty? %>
+<% if @unaccepted_withdraws.empty? and @accepted_withdraws.empty? %>
   <h3 class="text-info text-center"><%= t('.empty') %></h3>
 <% end %>

@@ -125,4 +125,8 @@ class Currency < ActiveYamlBase
   def name_text
     code.upcase
   end
+
+  def type
+    fiat? ? :fiat : :coin
+  end
 end
