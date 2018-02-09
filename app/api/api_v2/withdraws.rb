@@ -51,6 +51,17 @@ module APIv2
       present order, with: APIv2::Entities::WithdrawAddress
     end
 
+    desc 'Delete withdraw address.', scopes: %w[ withdraw ]
+    delete '/withdraws/addresses/:id' do
+      withdraw_address = FundSource.find(params[:id])
+
+      if withdraw_address.destroy
+        status 200
+      else
+        status 422
+      end
+    end
+
     desc 'Create withdraw.', scopes: %w[ withdraw ]
     params do
       currencies = Currency.all.map(&:code).map(&:upcase)
