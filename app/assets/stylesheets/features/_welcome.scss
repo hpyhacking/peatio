@@ -1,0 +1,40 @@
+#welcome-index {
+    color: rgb(83, 102, 120);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    overflow: hidden;
+    position: relative;
+
+    .container {
+      padding-top: 60px;
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      img {
+        display:    block;
+        margin:     0 auto;
+        width:      auto;
+        height:     auto;
+        max-width:  500px;
+        max-height: 200px;
+      }
+    }
+
+    section {
+      border-bottom: 1px dashed lighten($brand-primary, 20%);
+      border-top: 1px dashed lighten($brand-primary, 20%);
+      margin: 30px;
+      padding: 30px;
+      padding-top: 14px;
+    }
+
+    #getstart {
+      margin-bottom: 50px;
+    }
+}

@@ -1,3 +1,6 @@
+#= require yarn_components/raven-js/dist/raven
+#= require ./lib/sentry
+
 #= require es5-shim.min
 #= require es5-sham.min
 #= require jquery
@@ -9,7 +12,7 @@
 #= require moment
 #= require bignumber
 #= require underscore
-#= require ZeroClipboard
+#= require clipboard
 #= require flight.min
 #= require pusher.min
 #= require list
@@ -34,6 +37,9 @@
 $ ->
   BigNumber.config(ERRORS: false)
 
+  $('[data-clipboard-text], [data-clipboard-target]').each ->
+      clipboard = new Clipboard(this)
+
   if $('#assets-index').length
     $.scrollIt
       topOffset: -180
@@ -49,22 +55,6 @@ $ ->
         uri = 'http://syskall.com/proof-of-liabilities/#verify?partial_tree=' + partial_tree + '&expected_root=' + root
         window.open(encodeURI(uri), '_blank')
 
-  $('[data-clipboard-text], [data-clipboard-target]').each ->
-    zero = new ZeroClipboard $(@), forceHandCursor: true
-
-    zero.on 'complete', ->
-      $(zero.htmlBridge)
-        .attr('title', gon.clipboard.done)
-        .tooltip('fixTitle')
-        .tooltip('show')
-    zero.on 'mouseout', ->
-      $(zero.htmlBridge)
-        .attr('title', gon.clipboard.click)
-        .tooltip('fixTitle')
-
-    placement = $(@).data('placement') || 'bottom'
-    $(zero.htmlBridge).tooltip({title: gon.clipboard.click, placement: placement})
-
   $('.qrcode-container').each (index, el) ->
     $el = $(el)
     new QRCode el,
@@ -73,5 +63,3 @@ $ ->
       height: $el.data('height')
 
   FlashMessageUI.attachTo('.flash-message')
-  SmsAuthVerifyUI.attachTo('#edit_sms_auth')
-  TwoFactorAuth.attachTo('.two-factor-auth-container')

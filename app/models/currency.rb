@@ -1,28 +1,38 @@
 class Currency < ActiveYamlBase
-  include International
   include ActiveHash::Associations
 
   field :visible, default: true
 
   self.singleton_class.send :alias_method, :all_with_invisible, :all
-  def self.all
-    all_with_invisible.select &:visible
-  end
 
-  def self.enumerize
-    all_with_invisible.inject({}) {|memo, i| memo[i.code.to_sym] = i.id; memo}
-  end
+  class << self
+    def all
+      all_with_invisible.select &:visible
+    end
 
-  def self.codes
-    @keys ||= all.map &:code
-  end
+    def enumerize
+      all_with_invisible.each_with_object({}) { |i, memo| memo[i.code.to_sym] = i.id }
+    end
 
-  def self.ids
-    @ids ||= all.map &:id
-  end
+    def codes
+      @keys ||= all.map &:code
+    end
 
-  def self.assets(code)
-    find_by_code(code)[:assets]
+    def ids
+      @ids ||= all.map &:id
+    end
+
+    def assets(code)
+      find_by_code(code)[:assets]
+    end
+
+    def coins
+      @coins ||= Currency.where(coin: true)
+    end
+
+    def coin_codes
+      @coin_codes ||= self.coins.map(&:code)
+    end
   end
 
   def precision
@@ -31,7 +41,7 @@ class Currency < ActiveYamlBase
 
   def api
     raise unless coin?
-    CoinRPC[code]
+    CoinAPI[code]
   end
 
   def fiat?
@@ -51,7 +61,7 @@ class Currency < ActiveYamlBase
   end
 
   def refresh_balance
-    Rails.cache.write(balance_cache_key, api.safe_getbalance) if coin?
+    Rails.cache.write(balance_cache_key, api.load_balance || 'N/A') if coin?
   end
 
   def blockchain_url(txid)
@@ -66,6 +76,15 @@ class Currency < ActiveYamlBase
 
   def quick_withdraw_max
     @quick_withdraw_max ||= BigDecimal.new self[:quick_withdraw_max].to_s
+  end
+
+  # Allows to dynamically check value of code:
+  #
+  #   code.btc? # true if code equals to "btc".
+  #   code.xrp? # true if code equals to "xrp".
+  #
+  def code
+    self[:code]&.inquiry
   end
 
   def as_json(options = {})
@@ -93,5 +112,21 @@ class Currency < ActiveYamlBase
       coinable: coinable,
       hot: hot
     }
+  end
+
+  def key_text
+    code.upcase
+  end
+
+  def code_text
+    code.upcase
+  end
+
+  def name_text
+    code.upcase
+  end
+
+  def type
+    fiat? ? :fiat : :coin
   end
 end

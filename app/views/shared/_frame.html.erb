@@ -1,0 +1,35 @@
+<div class="container">
+  <% if content_for?(:before) %>
+    <%= yield(:before) %>
+  <% end %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title"><%= guide_panel_title %></h2>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div id="guide" class="col-xs-8">
+          <% if content_for?(:guide_title) %>
+            <%= yield(:guide_title) %>
+          <% else %>
+            <h3><%= guide_title %></h3>
+          <% end %>
+          <p class="text-ignore"><%= guide_intro %></p>
+          <% if content_for?(:guide) %>
+            <%= yield(:guide) %>
+          <% end %>
+        </div>
+        <div id="content" class="col-xs-16">
+          <%= render 'shared/flash' %>
+          <%= yield %>
+        </div>
+      </div>
+      <% if content_for?(:secondary) %>
+        <%= yield(:secondary) %>
+      <% end %>
+    </div>
+  </div>
+  <% if content_for?(:after) %>
+    <%= yield(:after) %>
+  <% end %>
+</div>

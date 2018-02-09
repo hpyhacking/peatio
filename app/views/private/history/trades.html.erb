@@ -1,0 +1,31 @@
+<% content_for :frame do %>
+  <div class="container history-pages">
+    <%= render 'tabs', active: :trade %>
+
+    <div class="panel panel-default" id="trades">
+      <div class="panel-body">
+        <div class="col-xs-24">
+          <table class="table table-condensed table-striped">
+            <thead>
+              <tr>
+                <th><%= t('.side') %></th>
+                <th><%= t('.created_at') %></th>
+                <th><%= t('.base_currency') %></th>
+                <th><%= t('.base_amount') %></th>
+                <th><%= t('.quote_currency') %></th>
+                <th><%= t('.quote_amount') %></th>
+                <th><%= t('.price') %></th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              <%= render partial: 'trade', collection: @trades %>
+            </tbody>
+          </table>
+          <div class="pull-right">
+            <%= paginate @trades %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

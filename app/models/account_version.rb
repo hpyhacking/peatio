@@ -46,10 +46,11 @@ class AccountVersion < ActiveRecord::Base
 
     qmarks       = (['?']*attrs.size).join(',')
     values_array = [qmarks, *attrs.values]
-    values       = ActiveRecord::Base.send :sanitize_sql_array, values_array
+    values       = sanitize_sql_array(values_array)
 
-    select = Account.unscoped.select(values).where(id: account_id, balance: balance, locked: locked).to_sql
-    stmt   = "INSERT INTO account_versions (#{attrs.keys.join(',')}) #{select}"
+    columns = attrs.keys.map { |k| connection.quote_column_name(k) }.join(', ')
+    select  = Account.unscoped.select(values).where(id: account_id, balance: balance, locked: locked).to_sql
+    stmt    = "INSERT INTO account_versions (#{columns}) #{select}"
 
     connection.insert(stmt).tap do |id|
       if id == 0

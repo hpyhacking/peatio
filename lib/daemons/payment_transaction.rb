@@ -1,31 +1,16 @@
-#!/usr/bin/env ruby
+require File.join(ENV.fetch('RAILS_ROOT'), 'config', 'environment')
 
-# You might want to change this
-ENV["RAILS_ENV"] ||= "development"
+running = true
+Signal.trap(:TERM) { running = false }
 
-root = File.expand_path(File.dirname(__FILE__))
-root = File.dirname(root) until File.exists?(File.join(root, 'config'))
-Dir.chdir(root)
-
-require File.join(root, "config", "environment")
-
-$running = true
-Signal.trap("TERM") do
-  $running = false
-end
-
-while($running) do
-  PaymentTransaction::Normal.with_aasm_state(:unconfirm, :confirming).each do |tx|
+while running do
+  PaymentTransaction::Normal.with_aasm_state(:unconfirm, :confirming).find_each do |tx|
     begin
-      tx.with_lock do
-        tx.check!
-      end
-    rescue
-      puts "Error on PaymentTransaction::Normal: #{$!}"
-      puts $!.backtrace.join("\n")
-      next
+      tx.with_lock { tx.check! }
+    rescue => e
+      report_exception(e)
     end
   end
 
-  sleep 5
+  Kernel.sleep 5
 end

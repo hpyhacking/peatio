@@ -18,9 +18,9 @@ module Matching
       book, counter_book = orderbook.get_books order.type
       match order, counter_book
       add_or_cancel order, book
-    rescue
-      Rails.logger.fatal "Failed to submit order #{order.label}: #{$!}"
-      Rails.logger.fatal $!.backtrace.join("\n")
+    rescue => e
+      Rails.logger.error "Failed to submit order #{order.label}."
+      report_exception(e)
     end
 
     def cancel(order)
@@ -30,9 +30,9 @@ module Matching
       else
         Rails.logger.warn "Cannot find order##{order.id} to cancel, skip."
       end
-    rescue
-      Rails.logger.fatal "Failed to cancel order #{order.label}: #{$!}"
-      Rails.logger.fatal $!.backtrace.join("\n")
+    rescue => e
+      Rails.logger.error "Failed to cancel order #{order.label}."
+      report_exception(e)
     end
 
     def limit_orders

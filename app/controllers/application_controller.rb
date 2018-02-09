@@ -4,13 +4,9 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :is_admin?, :current_market, :gon
   before_action :set_timezone, :set_gon
   after_action :allow_iframe
-  after_action :set_csrf_cookie_for_ng
-  rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
+  rescue_from CoinAPI::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
   private
-
-  include SimpleCaptcha::ControllerHelpers
-  include TwoFactorHelper
 
   def currency
     "#{params[:ask]}#{params[:bid]}".to_sym
@@ -22,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_settings_page
     if cookies[:redirect_to].present?
-      redirect_to cookies[:redirect_to]
+      redirect_to URI.parse(cookies[:redirect_to]).path
       cookies[:redirect_to] = nil
     else
       redirect_to settings_path
@@ -40,17 +36,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def auth_activated!
-    redirect_to settings_path, alert: t('private.settings.index.auth-activated') unless current_user.activated?
-  end
-
   def auth_verified!
-    unless current_user and current_user.id_document and current_user.id_document_verified?
+    unless current_user&.id_document&.verified?
       redirect_to settings_path, alert: t('private.settings.index.auth-verified')
     end
-  end
-
-  def auth_no_initial!
   end
 
   def auth_anybody!
@@ -62,50 +51,7 @@ class ApplicationController < ActionController::Base
   end
 
   def is_admin?
-    current_user && current_user.admin?
-  end
-
-  def two_factor_activated!
-    if not current_user.two_factors.activated?
-      redirect_to settings_path, alert: t('two_factors.auth.please_active_two_factor')
-    end
-  end
-
-  def two_factor_auth_verified?
-    return false if not current_user.two_factors.activated?
-    return false if two_factor_failed_locked? && !simple_captcha_valid?
-
-    two_factor = current_user.two_factors.by_type(params[:two_factor][:type])
-    return false if not two_factor
-
-    two_factor.assign_attributes params.require(:two_factor).permit(:otp)
-    if two_factor.verify?
-      clear_two_factor_auth_failed
-      true
-    else
-      increase_two_factor_auth_failed
-      false
-    end
-  end
-
-  def two_factor_failed_locked?
-    failed_two_factor_auth > 10
-  end
-
-  def failed_two_factor_auth
-    Rails.cache.read(failed_two_factor_auth_key) || 0
-  end
-
-  def failed_two_factor_auth_key
-    "peatio:session:#{request.ip}:failed_two_factor_auths"
-  end
-
-  def increase_two_factor_auth_failed
-    Rails.cache.write(failed_two_factor_auth_key, failed_two_factor_auth+1, expires_in: 1.month)
-  end
-
-  def clear_two_factor_auth_failed
-    Rails.cache.delete failed_two_factor_auth_key
+    current_user&.admin?
   end
 
   def set_timezone
@@ -113,18 +59,19 @@ class ApplicationController < ActionController::Base
   end
 
   def set_gon
-    gon.env = Rails.env
+    gon.environment = Rails.env
     gon.local = I18n.locale
     gon.market = current_market.attributes
     gon.ticker = current_market.ticker
     gon.markets = Market.to_hash
 
     gon.pusher = {
-      key:       ENV['PUSHER_KEY'],
-      wsHost:    ENV['PUSHER_HOST']      || 'ws.pusherapp.com',
-      wsPort:    ENV['PUSHER_WS_PORT']   || '80',
-      wssPort:   ENV['PUSHER_WSS_PORT']  || '443',
-      encrypted: ENV['PUSHER_ENCRYPTED'] == 'true'
+      key:       ENV.fetch('PUSHER_KEY', nil),
+      cluster:   ENV.fetch('PUSHER_CLUSTER', 'eu'),
+      wsHost:    ENV.fetch('PUSHER_HOST', 'ws.pusherapp.com'),
+      wsPort:    ENV.fetch('PUSHER_WS_PORT', 80).to_i,
+      wssPort:   ENV.fetch('PUSHER_WSS_PORT', 443).to_i,
+      encrypted: ENV.fetch('PUSHER_ENCRYPTED', true)
     }
 
     gon.clipboard = {
@@ -193,7 +140,7 @@ class ApplicationController < ActionController::Base
       }
       memo
     end
-    gon.fiat_currency = Currency.first.code
+    gon.fiat_currency = Peatio.base_fiat_ccy
 
     gon.tickers = {}
     Market.all.each do |market|
@@ -201,7 +148,7 @@ class ApplicationController < ActionController::Base
     end
 
     if current_user
-      gon.current_user = { sn: current_user.sn }
+      gon.user = { sn: current_user.sn }
       gon.accounts = current_user.accounts.inject({}) do |memo, account|
         memo[account.currency] = {
           currency: account.currency,
@@ -232,13 +179,4 @@ class ApplicationController < ActionController::Base
   def allow_iframe
     response.headers.except! 'X-Frame-Options' if Rails.env.development?
   end
-
-  def set_csrf_cookie_for_ng
-    cookies['XSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
-  end
-
-  def verified_request?
-    super || form_authenticity_token == request.headers['X-XSRF-TOKEN']
-  end
-
 end

@@ -1,0 +1,3 @@
+<% if defined?(Raven) && ENV['SENTRY_DSN_FRONTEND'].present? %>
+    <meta name="sentry-dsn" content="<%= ENV['SENTRY_DSN_FRONTEND'] %>">
+<% end %>

@@ -1,64 +1,57 @@
+# TODO: Replace txout with composite TXID.
 module Worker
   class DepositCoin
 
-    def process(payload, metadata, delivery_info)
+    def process(payload)
       payload.symbolize_keys!
 
-      sleep 0.5 # nothing result without sleep by query gettransaction api
+      channel = DepositChannel.find_by_key(payload.fetch(:channel_key))
+      tx      = channel.currency_obj.api.load_deposit(payload.fetch(:txid))
 
-      channel_key = payload[:channel_key]
-      txid = payload[:txid]
-
-      channel = DepositChannel.find_by_key(channel_key)
-      raw     = get_raw channel, txid
-
-      raw[:details].each_with_index do |detail, i|
-        detail.symbolize_keys!
-        deposit!(channel, txid, i, raw, detail)
-      end
-    end
-
-    def deposit!(channel, txid, txout, raw, detail)
-      return if detail[:account] != "payment" || detail[:category] != "receive"
+      Rails.logger.info "Processing #{channel.currency_obj.code.upcase} deposit: #{payload.fetch(:txid)}."
+      Rails.logger.info "Could not load #{channel.currency_obj.code.upcase} deposit #{payload.fetch(:txid)}." unless tx
 
       ActiveRecord::Base.transaction do
-        unless PaymentAddress.where(currency: channel.currency_obj.id, address: detail[:address]).first
-          Rails.logger.info "Deposit address not found, skip. txid: #{txid}, txout: #{txout}, address: #{detail[:address]}, amount: #{detail[:amount]}"
-          return
-        end
-
-        return if PaymentTransaction::Normal.where(txid: txid, txout: txout).first
-
-        tx = PaymentTransaction::Normal.create! \
-          txid: txid,
-          txout: txout,
-          address: detail[:address],
-          amount: detail[:amount].to_s.to_d,
-          confirmations: raw[:confirmations],
-          receive_at: Time.at(raw[:timereceived]).to_datetime,
-          currency: channel.currency
-
-        deposit = channel.kls.create! \
-          payment_transaction_id: tx.id,
-          txid: tx.txid,
-          txout: tx.txout,
-          amount: tx.amount,
-          member: tx.member,
-          account: tx.account,
-          currency: tx.currency,
-          confirmations: tx.confirmations
-
-        deposit.submit!
+        tx.fetch(:entries).each_with_index { |entry, index| deposit!(channel, tx, entry, index) }
       end
-    rescue
-      Rails.logger.error "Failed to deposit: #{$!}"
-      Rails.logger.error "txid: #{txid}, txout: #{txout}, detail: #{detail.inspect}"
-      Rails.logger.error $!.backtrace.join("\n")
     end
 
-    def get_raw(channel, txid)
-      channel.currency_obj.api.gettransaction(txid)
+  private
+
+    def deposit!(channel, tx, entry, index)
+      return Rails.logger.info "Skipped #{tx.fetch(:id)}:#{index}." unless deposit_entry_processable?(channel, tx, entry, index)
+
+      pt = PaymentTransaction::Normal.create! \
+        txid:          tx[:id],
+        txout:         index,
+        address:       entry[:address],
+        amount:        entry[:amount],
+        confirmations: tx[:confirmations],
+        receive_at:    tx[:received_at],
+        currency:      channel.currency
+
+      deposit = channel.kls.create! \
+        payment_transaction_id: pt.id,
+        txid:                   pt.txid,
+        txout:                  pt.txout,
+        amount:                 pt.amount,
+        member:                 pt.member,
+        account:                pt.account,
+        currency:               pt.currency,
+        confirmations:          pt.confirmations
+
+      deposit.submit!
+
+      Rails.logger.info "Successfully processed #{tx.fetch(:id)}:#{index}."
+    rescue => e
+      Rails.logger.error { "Failed to process #{tx.fetch(:id)}:#{index}." }
+      Rails.logger.debug { tx.inspect }
+      report_exception(e)
     end
 
+    def deposit_entry_processable?(channel, tx, entry, index)
+      PaymentAddress.where(currency: channel.currency_obj.id, address: entry[:address]).exists? &&
+        !PaymentTransaction::Normal.where(txid: tx[:id], txout: index).exists?
+    end
   end
 end

@@ -1,5 +1,4 @@
-# ActionController::Base are used by both Peatio controllers and
-# Doorkeeper controllers.
+# ActionController::Base are used by Peatio controllers.
 class ActionController::Base
 
   before_action :set_language

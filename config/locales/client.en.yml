@@ -39,11 +39,8 @@ en:
     funds:
       deposit: Deposit
       withdraw: Withdraw
-      currency_name:
-        cny: CNY
-        btc: BTC
-      deposit_cny:
-        title: Chinese Yuan Deposit
+      deposit_fiat:
+        title: '{{currency}} Deposit'
         desc: "To deposit via Bank transfer, please follow these steps:"
         desc_item_1: "1. Submit the form to get the identification code."
         desc_item_2: "2. Transfer the money to exchange's bank account. Please make sure your referral code was written on the form you fill in."
@@ -56,7 +53,7 @@ en:
         add: Add
         manage: Manage
         amount: Deposit Amount
-        min_amount: At least 10 yuan
+        min_amount: 'At least 10 {{currency}}'
         to_account: Account
         to_name: Name
         to_bank_name: Bank Name
@@ -65,6 +62,18 @@ en:
 
       deposit_btc:
         title: BTC Deposit
+
+      deposit_bch:
+        title: BCH Deposit
+
+      deposit_ltc:
+        title: LTC Deposit
+
+      deposit_xrp:
+        title: XRP Deposit
+
+      deposit_dash:
+        title: Dash Deposit
 
       deposit_coin:
         address: Address
@@ -98,8 +107,8 @@ en:
         warning: Warning
         suspect: Suspect
 
-      withdraw_cny:
-        title: Chinese Yuan Withdraw
+      withdraw_fiat:
+        title: '{{currency}} Withdraw'
         intro: Select the bank to cash withdrawal amount and enter the account number and complete submission.
         intro_2: Your bank account and name must be consistent with the real-name authentication name.
         attention: "Working Hours: 9:00 - 18:00"
@@ -108,12 +117,23 @@ en:
         balance: Balance
         withdraw_amount: Withdraw Amount
         manage_withdraw: Manage Withdraw
-        fee_explain: About Fee
         min: At least
         withdraw_all: Withdraw all
 
       withdraw_btc:
         title: BTC Withdraw
+
+      withdraw_bch:
+        title: BCH Withdraw
+
+      withdraw_ltc:
+        title: LTC Withdraw
+
+      withdraw_xrp:
+        title: XRP Withdraw
+
+      withdraw_dash:
+        title: Dash Withdraw
 
       withdraw_coin:
         intro: Please fill in the address and amount, then submit the form. It will be confirmed in 10 minutes
@@ -123,7 +143,6 @@ en:
         manage_withdraw: Manage Address
         min: At least
         withdraw_all: Withdraw all
-        fee_explain: About Fee
 
       withdraw_history:
         title: Withdraw History
@@ -148,25 +167,5 @@ en:
         coin_ready: Coin Ready
         coin_done: Coin Done
         done: Done
-        almost_done: Almost Done
         canceled: Canceld
         failed: Failed
-
-    auth:
-      please_active_two_factor: Please set mobile number or google authenticator first.
-      submit: Submit
-      otp_placeholder: 6-digit password
-      google_app: Google Authenticator
-      sms: SMS Verification Messages
-      send_code: Send Code
-      send_code_alt: Resend in COUNT seconds
-      hints:
-        app: Google Authenticator will re-generate a new password every thirty seconds, please input timely.
-        sms: We'll send a text message to you phone with verify code.
-
-    markets:
-      market_list:
-        all: All Market
-        cny: CNY Market
-        btc: BTC Market
-

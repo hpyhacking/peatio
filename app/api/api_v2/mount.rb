@@ -1,5 +1,6 @@
-require_relative 'errors'
-require_relative 'validations'
+require_dependency 'api_v2/errors'
+require_dependency 'api_v2/validations'
+require_dependency 'api_v2/withdraws'
 
 module APIv2
   class Mount < Grape::API
@@ -9,10 +10,11 @@ module APIv2
 
     cascade false
 
-    format :json
+    format         :json
+    content_type   :json, 'application/json'
     default_format :json
 
-    helpers ::APIv2::Helpers
+    helpers APIv2::Helpers
 
     do_not_route_options!
 
@@ -21,21 +23,20 @@ module APIv2
     include Constraints
     include ExceptionHandlers
 
-    before do
-      header 'Access-Control-Allow-Origin', '*'
-    end
+    use APIv2::CORS::Middleware
 
-    mount Markets
-    mount Tickers
-    mount Members
-    mount Deposits
-    mount Orders
-    mount OrderBooks
-    mount Trades
-    mount K
-    mount Tools
+    mount APIv2::Markets
+    mount APIv2::Tickers
+    mount APIv2::Members
+    mount APIv2::Deposits
+    mount APIv2::Orders
+    mount APIv2::OrderBooks
+    mount APIv2::Trades
+    mount APIv2::K
+    mount APIv2::Tools
+    mount APIv2::Withdraws
 
-    base_path = Rails.env.production? ? "#{ENV['URL_SCHEMA']}://#{ENV['URL_HOST']}/#{PREFIX}" : PREFIX
+    base_path = Rails.env.production? ? "#{ENV['URL_SCHEME']}://#{ENV['URL_HOST']}/#{PREFIX}" : PREFIX
     add_swagger_documentation base_path: base_path,
       mount_path: '/doc/swagger', api_version: 'v2',
       hide_documentation_path: true

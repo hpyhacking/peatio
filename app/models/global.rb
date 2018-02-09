@@ -11,12 +11,6 @@ class Global
     def trigger(event, data)
       Pusher.trigger_async(channel, event, data)
     end
-
-    def daemon_statuses
-      Rails.cache.fetch('peatio:daemons:statuses', expires_in: 3.minute) do
-        Daemons::Rails::Monitoring.statuses
-      end
-    end
   end
 
   def initialize(currency)

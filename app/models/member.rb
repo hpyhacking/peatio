@@ -1,7 +1,4 @@
 class Member < ActiveRecord::Base
-  acts_as_taggable
-  acts_as_reader
-
   has_many :orders
   has_many :accounts
   has_many :payment_addresses, through: :accounts
@@ -9,10 +6,6 @@ class Member < ActiveRecord::Base
   has_many :fund_sources
   has_many :deposits
   has_many :api_tokens
-  has_many :two_factors
-  has_many :tickets, foreign_key: 'author_id'
-  has_many :comments, foreign_key: 'author_id'
-  has_many :signup_histories
 
   has_one :id_document
 
@@ -20,7 +13,6 @@ class Member < ActiveRecord::Base
 
   scope :enabled, -> { where(disabled: false) }
 
-  delegate :activated?, to: :two_factors, prefix: true, allow_nil: true
   delegate :name,       to: :id_document, allow_nil: true
   delegate :full_name,  to: :id_document, allow_nil: true
   delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
@@ -28,13 +20,11 @@ class Member < ActiveRecord::Base
   before_validation :sanitize, :generate_sn
 
   validates :sn, presence: true
-  validates :display_name, uniqueness: true, allow_blank: true
-  validates :email, email: true, uniqueness: true, allow_nil: true
+  validates :email, presence: true, uniqueness: true, email: true
 
   before_create :build_default_id_document
   after_create  :touch_accounts
-  after_update :resend_activation
-  after_update :sync_update
+  after_update  :sync_update
 
   class << self
     def from_auth(auth_hash)
@@ -57,8 +47,6 @@ class Member < ActiveRecord::Base
       result = case field
                when 'email'
                  where('members.email LIKE ?', "%#{term}%")
-               when 'phone_number'
-                 where('members.phone_number LIKE ?', "%#{term}%")
                when 'name'
                  joins(:id_document).where('id_documents.name LIKE ?', "%#{term}%")
                when 'wallet_address'
@@ -81,38 +69,26 @@ class Member < ActiveRecord::Base
     end
 
     def locate_email(auth_hash)
-      return nil if auth_hash['info']['email'].blank?
-      member = find_by_email(auth_hash['info']['email'])
-      return nil unless member
-      member.add_auth(auth_hash)
-      member
+      email = auth_hash.dig('info', 'email')
+      return if email.blank?
+
+      find_by_email(email).tap do |member|
+        member&.add_auth(auth_hash)
+      end
     end
 
     def create_from_auth(auth_hash)
-      member = create(email: auth_hash['info']['email'], nickname: auth_hash['info']['nickname'],
-                      activated: false)
-      member.add_auth(auth_hash)
-      member.send_activation if auth_hash['provider'] == 'identity'
-      member
+      new(email:    auth_hash['info']['email'],
+          nickname: auth_hash['info']['nickname']
+      ).tap do |member|
+        member.save!
+        member.add_auth(auth_hash)
+      end
     end
-  end
-
-
-  def create_auth_for_identity(identity)
-    self.authentications.create(provider: 'identity', uid: identity.id)
   end
 
   def trades
     Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
-  end
-
-  def active!
-    update activated: true
-  end
-
-  def update_password(password)
-    identity.update password: password, password_confirmation: password
-    send_password_changed_notification
   end
 
   def admin?
@@ -120,7 +96,7 @@ class Member < ActiveRecord::Base
   end
 
   def add_auth(auth_hash)
-    authentications.build_auth(auth_hash).save
+    authentications.build_auth(auth_hash).save!
   end
 
   def trigger(event, data)
@@ -156,15 +132,10 @@ class Member < ActiveRecord::Base
   alias :ac :get_account
 
   def touch_accounts
-    less = Currency.codes - self.accounts.map(&:currency).map(&:to_sym)
+    less = Currency.codes.map(&:to_s) - self.accounts.map(&:currency).map(&:to_s)
     less.each do |code|
-      self.accounts.create(currency: code, balance: 0, locked: 0)
+      self.accounts.create!(currency: code, balance: 0, locked: 0)
     end
-  end
-
-  def identity
-    authentication = authentications.find_by(provider: 'identity')
-    authentication ? Identity.find(authentication.uid) : nil
   end
 
   def auth(name)
@@ -176,47 +147,18 @@ class Member < ActiveRecord::Base
   end
 
   def remove_auth(name)
-    identity.destroy if name == 'identity'
     auth(name).destroy
-  end
-
-  def send_activation
-    Token::Activation.create(member: self)
-  end
-
-  def send_password_changed_notification
-    MemberMailer.reset_password_done(self.id).deliver
-
-    if sms_two_factor.activated?
-      sms_message = I18n.t('sms.password_changed', email: self.email)
-      AMQPQueue.enqueue(:sms_notification, phone: phone_number, message: sms_message)
-    end
-  end
-
-  def unread_comments
-    ticket_ids = self.tickets.open.collect(&:id)
-    if ticket_ids.any?
-      Comment.where(ticket_id: [ticket_ids]).where("author_id <> ?", self.id).unread_by(self).to_a
-    else
-      []
-    end
-  end
-
-  def app_two_factor
-    two_factors.by_type(:app)
-  end
-
-  def sms_two_factor
-    two_factors.by_type(:sms)
   end
 
   def as_json(options = {})
     super(options).merge({
       "name" => self.name,
-      "app_activated" => self.app_two_factor.activated?,
-      "sms_activated" => self.sms_two_factor.activated?,
       "memo" => self.id
     })
+  end
+
+  def jwt
+    JWT.encode({ email: email }, APIv2::Auth::Utils.jwt_shared_secret_key, 'RS256')
   end
 
   private
@@ -235,10 +177,6 @@ class Member < ActiveRecord::Base
   def build_default_id_document
     build_id_document
     true
-  end
-
-  def resend_activation
-    self.send_activation if self.email_changed?
   end
 
   def sync_update

@@ -6,7 +6,7 @@ window.GlobalData = flight.component ->
     market = [gon.market.ask.currency, gon.market.bid.currency].join("/").toUpperCase()
     brand  = "Peatio Exchange"
 
-    document.title = "#{symbol}#{price} #{market} - #{brand}"
+    document.title = "#{price} #{market} - #{brand}"
 
   @refreshDepth = (data) ->
     asks = []
@@ -33,8 +33,8 @@ window.GlobalData = flight.component ->
       mid = _.first(asks)[0]
       offset = Math.min.apply(Math, [Math.max(mid*0.1, 1), (la[0]-mid)*0.8])
 
-    @trigger 'market::depth::response', 
-      asks: asks, bids: bids, high: mid + offset, low: mid - offset 
+    @trigger 'market::depth::response',
+      asks: asks, bids: bids, high: mid + offset, low: mid - offset
 
   @refreshTicker = (data) ->
     unless @.last_tickers
@@ -86,7 +86,7 @@ window.GlobalData = flight.component ->
       gon.asks = data.asks
       gon.bids = data.bids
       @trigger 'market::order_book::update', asks: data.asks, bids: data.bids
-      @refreshDepth asks: data.asks, bids: data.bids 
+      @refreshDepth asks: data.asks, bids: data.bids
 
     market_channel.bind 'trades', (data) =>
       @trigger 'market::trades', {trades: data.trades}
@@ -100,7 +100,7 @@ window.GlobalData = flight.component ->
 
     if gon.asks and gon.bids
       @trigger 'market::order_book::update', asks: gon.asks, bids: gon.bids
-      @refreshDepth asks: gon.asks, bids: gon.bids 
+      @refreshDepth asks: gon.asks, bids: gon.bids
 
     if gon.trades # is in desc order initially
       # .reverse() will modify original array! It makes gon.trades sorted

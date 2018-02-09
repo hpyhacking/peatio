@@ -1,10 +1,8 @@
-require 'spec_helper'
-
-describe ApplicationController do
-  describe "CoinRPC::ConnectionRefusedError handling" do
+describe ApplicationController, type: :controller do
+  describe 'CoinAPI::ConnectionRefusedError handling' do
     controller do
       def index
-        raise CoinRPC::ConnectionRefusedError
+        raise CoinAPI::ConnectionRefusedError
       end
     end
 

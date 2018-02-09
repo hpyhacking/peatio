@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-xs-12">
+    <%= render partial: 'shared/admin/member', locals: {member: @member} %>
+  </div>
+  <div class="col-xs-12">
+    <%= render partial: 'shared/admin/member_accounts', locals: {member: @member} %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-24">
+    <div class="panel panel-info">
+      <div class="panel-heading">Accounts Log</div>
+      <div class="panel-body">
+        <%= table_for(@account_versions, class: 'table table-condensed table-hover', model: AccountVersion) do |t| %>
+          <% t.column :created_at, class: 'col-xs-6' %>
+          <% t.column :currency_text, class: 'col-xs-1' %>
+          <% t.column :modifiable_type, class: 'col-xs-2' do |x| %>
+            <% if x.modifiable_type %>
+              <span><%= x.modifiable_type.constantize.model_name.human %></span>
+            <% else %>
+              <span>N/A</span>
+            <% end %>
+          <% end %>
+          <% t.column :reason_text, class: 'col-xs-3' %>
+          <% t.column :amount, class: 'col-xs-4' do |x| %>
+            <code class="text-info">
+              <%= x.amount %>
+            </code>
+          <% end %>
+          <% t.column :in, class: 'col-xs-3' do |x| %>
+            <% if x.in %>
+              <code class="text-info">
+                <%= x.in %>
+              </code>
+            <% else %>
+              <span>-</span>
+            <% end %>
+          <% end %>
+          <% t.column :out, class: 'col-xs-3' do |x| %>
+            <% if x.out %>
+              <code class="text-info">
+                <%= x.out %>
+              </code>
+            <% else %>
+              <span>-</span>
+            <% end %>
+          <% end %>
+          <% t.column :fee, class: 'col-xs-2' do |x| %>
+            <code class="text-info">
+              <%= x.fee %>
+            </code>
+          <% end %>
+        <% end %>
+      </div>
+      <%= paginate @account_versions %>
+    </div>
+  </div>
+</div>

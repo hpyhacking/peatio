@@ -35,7 +35,7 @@ class Account < ActiveRecord::Base
   after_commit :trigger, :sync_update
 
   def payment_address
-    payment_addresses.last || payment_addresses.create(currency: self.currency)
+    payment_addresses.last || payment_addresses.create!(currency: self.currency)
   end
 
   def self.after(*names)
@@ -179,7 +179,12 @@ class Account < ActiveRecord::Base
   private
 
   def sync_update
-    ::Pusher["private-#{member.sn}"].trigger_async('accounts', { type: 'update', id: self.id, attributes: {balance: balance, locked: locked} })
+    return unless member
+    Pusher["private-#{member.sn}"].trigger_async 'accounts', {
+      id:         id,
+      type:       'update',
+      attributes: { balance: balance, locked: locked }
+    }
   end
 
 end

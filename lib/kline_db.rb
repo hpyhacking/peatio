@@ -2,7 +2,11 @@ module KlineDB
   class << self
 
     def redis
-      @redis ||= Redis.new url: ENV["REDIS_URL"], db: 1
+      @redis ||= Redis.new(
+        url: ENV["REDIS_URL"],
+        password: ENV["REDIS_PASSWORD"],
+        db: 1
+      )
     end
 
     def kline(market, period)

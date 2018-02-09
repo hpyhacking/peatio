@@ -1,0 +1,3 @@
+class AdminFeeder < MemberFeeder
+
+end

@@ -1,4 +1,4 @@
-require 'simple_form_extensions'
+require 'extras/simple_form_extensions'
 
 # Use this setup block to configure all options available in SimpleForm.
 SimpleForm.setup do |config|
@@ -7,8 +7,7 @@ SimpleForm.setup do |config|
   # wrapper, change the order or even add your own to the
   # stack. The options given below are used to wrap the
   # whole input.
-  config.wrappers :default, class: 'form-group',
-    hint_class: :field_with_hint, error_class: :field_with_errors do |b|
+  config.wrappers :default, class: 'form-group', hint_class: :field_with_hint, error_class: :field_with_errors do |b|
     ## Extensions enabled by default
     # Any of these extensions can be disabled for a
     # given input by passing: `f.input EXTENSION_NAME => false`.
@@ -49,8 +48,7 @@ SimpleForm.setup do |config|
     b.use :hint,  wrap_with: { tag: :span, class: 'hint col-xs-14 col-xs-offset-8' }
   end
 
-  config.wrappers :search, class: 'form-group',
-    hint_class: :field_with_hint, error_class: :field_with_errors do |b|
+  config.wrappers :search, class: 'form-group', hint_class: :field_with_hint, error_class: :field_with_errors do |b|
     b.use :placeholder
     b.optional :maxlength
     b.optional :pattern

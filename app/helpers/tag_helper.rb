@@ -1,9 +1,4 @@
 module TagHelper
-  def member_tag(key)
-    raise unless MemberTag.find_by_key(key)
-    content_tag('span', I18n.t("tags.#{key}"), :class => "member-tag #{key}")
-  end
-
   def admin_asset_tag(asset)
     return if asset.blank?
 

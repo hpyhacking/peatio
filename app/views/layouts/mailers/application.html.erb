@@ -6,7 +6,7 @@
         <tbody>
         <tr>
           <td>
-            <table width="100%" style="background:#3e4c5a; border-radius: 10px 10px 0 0">
+            <table width="100%" style="background:<%= ENV.fetch('MAIL_HEADER_BACKGROUND_COLOR', '#3e4c5a') %>; border-radius: 10px 10px 0 0">
               <tbody>
               <tr>
                 <td width="1%" style=" padding: 10px 10px"></td>

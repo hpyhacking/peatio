@@ -1,0 +1,132 @@
+<% if ENV['MARKETS_CONFIG'] %>
+<%= File.read(ENV['MARKETS_CONFIG']) %>
+<% else %>
+- id: btcusd
+  code: 3
+  base_unit: btc
+  quote_unit: usd
+  sort_order: 1
+  bid: { fee: 0.0015, currency: usd, fixed: 2 }
+  ask: { fee: 0.0015, currency: btc, fixed: 4 }
+
+  # default name
+  # name: BTC/USD
+
+  # aggregate price levels in orderbook
+  # price_group_fixed: 1
+
+  # default is true
+  # visible: false
+
+- id: xrpusd
+  code: 4
+  base_unit: xrp
+  quote_unit: usd
+  sort_order: 1
+  bid: { fee: 0.0015, currency: usd, fixed: 2 }
+  ask: { fee: 0.0015, currency: xrp, fixed: 3 }
+
+- id: btcxrp
+  code: 5
+  base_unit: btc
+  quote_unit: xrp
+  sort_order: 1
+  bid: { fee: 0.0015, currency: xrp, fixed: 3 }
+  ask: { fee: 0.0015, currency: btc, fixed: 4 }
+
+- id: bchusd
+  code: 6
+  base_unit: bch
+  quote_unit: usd
+  sort_order: 1
+  bid: { fee: 0.0015, currency: usd, fixed: 2 }
+  ask: { fee: 0.0015, currency: bch, fixed: 4 }
+
+- id: bchxrp
+  code: 7
+  base_unit: bch
+  quote_unit: xrp
+  sort_order: 1
+  bid: { fee: 0.0015, currency: xrp, fixed: 2 }
+  ask: { fee: 0.0015, currency: bch, fixed: 4 }
+
+- id: bchbtc
+  code: 8
+  base_unit: bch
+  quote_unit: btc
+  sort_order: 1
+  bid: { fee: 0.0015, currency: btc, fixed: 2 }
+  ask: { fee: 0.0015, currency: bch, fixed: 4 }
+
+- id: ltcusd
+  code: 9
+  base_unit: ltc
+  quote_unit: usd
+  sort_order: 1
+  bid: { fee: 0.0015, currency: usd, fixed: 2 }
+  ask: { fee: 0.0015, currency: ltc, fixed: 4 }
+
+- id: ltcxrp
+  code: 10
+  base_unit: ltc
+  quote_unit: xrp
+  sort_order: 1
+  bid: { fee: 0.0015, currency: xrp, fixed: 2 }
+  ask: { fee: 0.0015, currency: ltc, fixed: 4 }
+
+- id: ltcbtc
+  code: 11
+  base_unit: ltc
+  quote_unit: btc
+  sort_order: 1
+  bid: { fee: 0.0015, currency: btc, fixed: 2 }
+  ask: { fee: 0.0015, currency: ltc, fixed: 4 }
+
+- id: ltcbch
+  code: 12
+  base_unit: ltc
+  quote_unit: bch
+  sort_order: 1
+  bid: { fee: 0.0015, currency: bch, fixed: 2 }
+  ask: { fee: 0.0015, currency: ltc, fixed: 4 }
+
+- id: dashusd
+  code: 13
+  base_unit: dash
+  quote_unit: usd
+  sort_order: 1
+  bid: { fee: 0.0015, currency: usd, fixed: 2 }
+  ask: { fee: 0.0015, currency: dash, fixed: 4 }
+
+- id: dashbtc
+  code: 14
+  base_unit: dash
+  quote_unit: btc
+  sort_order: 1
+  bid: { fee: 0.0015, currency: btc, fixed: 2 }
+  ask: { fee: 0.0015, currency: dash, fixed: 4 }
+
+- id: dashxrp
+  code: 15
+  base_unit: dash
+  quote_unit: xrp
+  sort_order: 1
+  bid: { fee: 0.0015, currency: xrp, fixed: 2 }
+  ask: { fee: 0.0015, currency: dash, fixed: 4 }
+
+- id: dashbch
+  code: 16
+  base_unit: dash
+  quote_unit: bch
+  sort_order: 1
+  bid: { fee: 0.0015, currency: bch, fixed: 2 }
+  ask: { fee: 0.0015, currency: dash, fixed: 4 }
+
+- id: dashltc
+  code: 17
+  base_unit: dash
+  quote_unit: ltc
+  sort_order: 1
+  bid: { fee: 0.0015, currency: ltc, fixed: 2 }
+  ask: { fee: 0.0015, currency: dash, fixed: 4 }
+<% end %>

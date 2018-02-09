@@ -1,7 +1,7 @@
 class Withdraw < ActiveRecord::Base
   STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
-            :done, :canceled, :almost_done, :failed]
-  COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
+            :done, :canceled, :failed]
+  COMPLETED_STATES = [:done, :rejected, :canceled, :failed]
 
   extend Enumerize
 
@@ -71,31 +71,30 @@ class Withdraw < ActiveRecord::Base
 
   aasm :whiny_transitions => false do
     state :submitting,  initial: true
-    state :submitted,   after_commit: :send_email
-    state :canceled,    after_commit: [:send_email]
+    state :submitted
+    state :canceled
     state :accepted
-    state :suspect,     after_commit: :send_email
-    state :rejected,    after_commit: :send_email
-    state :processing,  after_commit: [:send_coins!, :send_email]
-    state :almost_done
-    state :done,        after_commit: [:send_email, :send_sms]
-    state :failed,      after_commit: :send_email
+    state :suspect
+    state :rejected
+    state :processing
+    state :done
+    state :failed
 
-    event :submit do
+    event :submit, after_commit: :send_email do
       transitions from: :submitting, to: :submitted
       after do
         lock_funds
       end
     end
 
-    event :cancel do
+    event :cancel, after_commit: :send_email do
       transitions from: [:submitting, :submitted, :accepted], to: :canceled
       after do
         after_cancel
       end
     end
 
-    event :mark_suspect do
+    event :mark_suspect, after_commit: :send_email do
       transitions from: :submitted, to: :suspect
     end
 
@@ -103,26 +102,22 @@ class Withdraw < ActiveRecord::Base
       transitions from: :submitted, to: :accepted
     end
 
-    event :reject do
+    event :reject, after_commit: :send_email do
       transitions from: [:submitted, :accepted, :processing], to: :rejected
       after :unlock_funds
     end
 
-    event :process do
+    event :process, after_commit: %i[ send_coins! send_email ] do
       transitions from: :accepted, to: :processing
     end
 
-    event :call_rpc do
-      transitions from: :processing, to: :almost_done
-    end
-
-    event :succeed do
-      transitions from: [:processing, :almost_done], to: :done
+    event :succeed, after_commit: :send_email do
+      transitions from: :processing, to: :done
 
       before [:set_txid, :unlock_and_sub_funds]
     end
 
-    event :fail do
+    event :fail, after_commit: :send_email do
       transitions from: :processing, to: :failed
     end
   end
@@ -146,6 +141,15 @@ class Withdraw < ActiveRecord::Base
 
       save!
     end
+
+    # FIXME: Unfortunately AASM doesn't fire after_commit
+    # callback (don't be confused with ActiveRecord's after_commit).
+    # This probably was broken after upgrade of Rails & gems.
+    # The fix is to manually invoke #send_coins! and #send_email.
+    # NOTE: These calls should be out of transaction so fast workers
+    # would not start processing data before it was committed to DB.
+    send_coins! if processing?
+    send_email
   end
 
   private
@@ -186,18 +190,6 @@ class Withdraw < ActiveRecord::Base
     end
   end
 
-  def send_sms
-    return true if not member.sms_two_factor.activated?
-
-    sms_message = I18n.t('sms.withdraw_done', email: member.email,
-                                              currency: currency_text,
-                                              time: I18n.l(Time.now),
-                                              amount: amount,
-                                              balance: account.balance)
-
-    AMQPQueue.enqueue(:sms_notification, phone: member.phone_number, message: sms_message)
-  end
-
   def send_coins!
     AMQPQueue.enqueue(:withdraw_coin, id: id) if coin?
   end
@@ -215,12 +207,9 @@ class Withdraw < ActiveRecord::Base
   end
 
   def calc_fee
-    if respond_to?(:set_fee)
-      set_fee
-    end
-
     self.sum ||= 0.0
-    self.fee ||= 0.0
+    # You can set fee for each currency in withdraw_channels.yml.
+    self.fee ||= WithdrawChannel.find_by_currency(currency).fee
     self.amount = sum - fee
   end
 

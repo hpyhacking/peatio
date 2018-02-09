@@ -1,4 +1,13 @@
-Rails.application.eager_load! if Rails.env.development?
+# Explicitly require "lib/peatio.rb".
+# You may be surprised why this line also sits in config/application.rb.
+# The same line sits in config/application.rb to allows early access to lib/peatio.rb.
+# We duplicate line in config/routes.rb since routes.rb is reloaded when code is changed.
+# The implementation of ActiveSupport's require_dependency makes sense to use it only in reloadable files.
+# That's why it is here.
+require_dependency 'peatio'
+
+Dir['app/models/deposits/**/*.rb'].each { |x| require_dependency x.split('/')[2..-1].join('/') }
+Dir['app/models/withdraws/**/*.rb'].each { |x| require_dependency x.split('/')[2..-1].join('/') }
 
 class ActionDispatch::Routing::Mapper
   def draw(routes_name)
@@ -7,48 +16,18 @@ class ActionDispatch::Routing::Mapper
 end
 
 Peatio::Application.routes.draw do
-  use_doorkeeper
 
   root 'welcome#index'
 
-  if Rails.env.development?
-    mount MailsViewer::Engine => '/mails'
-  end
-
-  get '/signin' => 'sessions#new', :as => :signin
-  get '/signup' => 'identities#new', :as => :signup
   get '/signout' => 'sessions#destroy', :as => :signout
   get '/auth/failure' => 'sessions#failure', :as => :failure
   match '/auth/:provider/callback' => 'sessions#create', via: [:get, :post]
 
-  resource :member, :only => [:edit, :update]
-  resource :identity, :only => [:edit, :update]
-
-  namespace :verify do
-    resource :sms_auth,    only: [:show, :update]
-    resource :google_auth, only: [:show, :update, :edit, :destroy]
-  end
-
-  namespace :authentications do
-    resources :emails, only: [:new, :create]
-    resources :identities, only: [:new, :create]
-    resource :weibo_accounts, only: [:destroy]
-  end
-
-  scope :constraints => { id: /[a-zA-Z0-9]{32}/ } do
-    resources :reset_passwords
-    resources :activations, only: [:new, :edit, :update]
-  end
-
   get '/documents/api_v2'
   get '/documents/websocket_api'
-  get '/documents/oauth'
-  resources :documents, only: [:show]
-  resources :two_factors, only: [:show, :index, :update]
 
   scope module: :private do
     resource  :id_document, only: [:edit, :update]
-
     resources :settings, only: [:index]
     resources :api_tokens do
       member do
@@ -111,17 +90,17 @@ Peatio::Application.routes.draw do
     end
 
     post '/pusher/auth', to: 'pusher#auth'
+  end
 
-    resources :tickets, only: [:index, :new, :create, :show] do
-      member do
-        patch :close
-      end
-      resources :comments, only: [:create]
-    end
+  scope ['', 'webhooks', ENV['WEBHOOKS_SECURE_URL_COMPONENT'].presence, ':ccy'].compact.join('/'), as: 'webhooks' do
+    post 'tx_created', to: 'webhooks#tx_created'
   end
 
   draw :admin
 
   mount APIv2::Mount => APIv2::Mount::PREFIX
 
+  namespace :test do
+    resources :members, only: :index
+  end unless Rails.env.production?
 end

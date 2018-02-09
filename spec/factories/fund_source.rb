@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :fund_source do
     extra 'bitcoin'
     uid { Faker::Bitcoin.address }
@@ -7,14 +7,13 @@ FactoryGirl.define do
 
     member { create(:member) }
 
-    trait :cny do
+    trait :usd do
       extra 'bc'
       uid '123412341234'
-      currency 'cny'
+      currency 'usd'
     end
 
-    factory :cny_fund_source, traits: [:cny]
+    factory :usd_fund_source, traits: [:usd]
     factory :btc_fund_source
   end
 end
-

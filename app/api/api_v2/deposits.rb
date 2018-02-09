@@ -8,7 +8,6 @@ module APIv2
 
     desc 'Get your deposits history.'
     params do
-      use :auth
       optional :currency, type: String, values: Currency.all.map(&:code), desc: "Currency value contains  #{Currency.all.map(&:code).join(',')}"
       optional :limit, type: Integer, range: 1..100, default: 3, desc: "Set result limit."
       optional :state, type: String, values: Deposit::STATES.map(&:to_s)
@@ -23,7 +22,6 @@ module APIv2
 
     desc 'Get details of specific deposit.'
     params do
-      use :auth
       requires :txid
     end
     get "/deposit" do
@@ -35,7 +33,6 @@ module APIv2
 
     desc 'Where to deposit. The address field could be empty when a new address is generating (e.g. for bitcoin), you should try again later in that case.'
     params do
-      use :auth
       requires :currency, type: String, values: Currency.all.map(&:code), desc: "The account to which you want to deposit. Available values: #{Currency.all.map(&:code).join(', ')}"
     end
     get "/deposit_address" do

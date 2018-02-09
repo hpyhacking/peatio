@@ -3,7 +3,7 @@ namespace :emu do
     if Account.exists?(id)
       id
     else
-      Account.create \
+      Account.create! \
         id: id, email: "user#{id}@emu.com",
         pin: '1234', pin_confirmation: '1234'
       id
@@ -19,8 +19,8 @@ namespace :emu do
   end
 
   def order(id, price, volume, type)
-    Order.create \
-      ask: 'btc', bid: 'cny',
+    Order.create! \
+      ask: 'btc', bid: Peatio.base_fiat_ccy.downcase,
       type: type, account: create_account(id),
       price: price, volume: volume, pin: '1234'
   end

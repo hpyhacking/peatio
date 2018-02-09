@@ -1,3 +1,2 @@
 <ng-include src="'/templates/funds/_flash.html'"></ng-include>
-<ng-include ng-if="currency == 'cny'" src="'/templates/funds/deposit_cny.html'"></ng-include>
-<ng-include ng-if="currency == 'btc'" src="'/templates/funds/deposit_btc.html'"></ng-include>
+<ng-include src="'/templates/funds/deposit_' + (currency.toUpperCase() === fiatCurrency ? 'fiat' : currency) + '.html'"></ng-include>

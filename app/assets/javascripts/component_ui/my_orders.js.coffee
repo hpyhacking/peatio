@@ -1,5 +1,5 @@
 @MyOrdersUI = flight.component ->
-  flight.compose.mixin @, [ItemListMixin]
+  flight.compose.mixin this, [ItemListMixin]
 
   @getTemplate = (order) -> $(JST["templates/order_active"](order))
 
@@ -18,10 +18,12 @@
     tr = $(event.target).parents('tr')
     if confirm(formatter.t('place_order')['confirm_cancel'])
       $.ajax
-        url: formatter.market_url gon.market.id, tr.data('id')
-        method: 'delete'
+        url:     formatter.market_url gon.market.id, tr.data('id')
+        method:  'delete'
+        success: =>
+          location.reload()
 
-  @.after 'initialize', ->
+  @after 'initialize', ->
     @on document, 'order::wait::populate', @populate
     @on document, 'order::wait order::cancel order::done', @orderHandler
     @on @select('tbody'), 'click', @cancelOrder

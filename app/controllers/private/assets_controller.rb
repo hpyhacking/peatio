@@ -3,13 +3,15 @@ module Private
     skip_before_action :auth_member!, only: [:index]
 
     def index
-      @cny_assets  = Currency.assets('cny')
-      @btc_proof   = Proof.current :btc
-      @cny_proof   = Proof.current :cny
+      @fiat_assets = Currency.assets(Peatio.base_fiat_ccy.downcase)
 
-      if current_user
-        @btc_account = current_user.accounts.with_currency(:btc).first
-        @cny_account = current_user.accounts.with_currency(:cny).first
+      Currency.all.each do |ccy|
+        name = ccy.fiat? ? :fiat : ccy.code.downcase.to_sym
+        instance_variable_set :"@#{name}_proof", Proof.current(ccy.code.downcase.to_sym)
+        if current_user
+          instance_variable_set :"@#{name}_account", \
+            current_user.accounts.with_currency(ccy.code.downcase.to_sym).first
+        end
       end
     end
 
@@ -21,6 +23,5 @@ module Private
         format.js
       end
     end
-
   end
 end

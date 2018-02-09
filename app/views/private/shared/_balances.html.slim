@@ -1,7 +1,0 @@
-.row
-  - member.accounts.each do |account|
-    .col-xs-6
-      .row class='account-#{account.currency}'
-        .col-xs-4: h5.amount data-title='#{account.currency_text}' = account.amount
-        .col-xs-3: h5.locked.text-right data-title='#{t('.locked')}' = account.locked
-        .col-xs-3: h5.available.text-right data-title='#{t('.available')}' = account.balance
