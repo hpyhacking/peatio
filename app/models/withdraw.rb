@@ -1,7 +1,7 @@
 class Withdraw < ActiveRecord::Base
   STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
-            :done, :canceled, :almost_done, :failed]
-  COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
+            :done, :canceled, :failed]
+  COMPLETED_STATES = [:done, :rejected, :canceled, :failed]
 
   extend Enumerize
 
@@ -77,7 +77,6 @@ class Withdraw < ActiveRecord::Base
     state :suspect
     state :rejected
     state :processing
-    state :almost_done
     state :done
     state :failed
 
@@ -112,12 +111,8 @@ class Withdraw < ActiveRecord::Base
       transitions from: :accepted, to: :processing
     end
 
-    event :call_rpc do
-      transitions from: :processing, to: :almost_done
-    end
-
     event :succeed, after_commit: :send_email do
-      transitions from: [:processing, :almost_done], to: :done
+      transitions from: :processing, to: :done
 
       before [:set_txid, :unlock_and_sub_funds]
     end
