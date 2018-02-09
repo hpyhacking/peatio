@@ -1,18 +1,20 @@
+<% translation_data = { currency: currency.code.upcase } %>
+<% coin_proof       = instance_variable_get(:"@#{currency.code.downcase}_proof") %>
+<% coin_account     = instance_variable_get(:"@#{currency.code.downcase}_account") %>
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="row">
       <div id="guide" class="col-xs-8">
-        <h3><%= t('.title') %></h3>
-        <p class="text-ignore"><%= t('.intro') %></p>
+        <h3><%= t('.title', translation_data) %></h3>
+        <p class="text-ignore"><%= t('.intro', translation_data) %></p>
       </div>
       <div id="content" class="col-xs-16">
         <div class="jumbotron">
           <div class="row">
             <div class="col-xs-offset-4 col-xs-16">
-              <span class="pull-left"><%= t('.total') %></span>
+              <span class="pull-left"><%= t('.total', translation_data) %></span>
               <span class="pull-right">
-                <%= t('currency.icon.btc').html_safe %>
-                <%= @btc_proof.asset_sum %>
+                <%= coin_proof.asset_sum %>
               </span>
             </div>
           </div>
@@ -22,18 +24,18 @@
               <thead>
                 <tr>
                   <td>
-                    <%= t('.address') %>
+                    <%= t('.address', translation_data) %>
                   </td>
                   <td>
-                    <%= t('.balance') %>
+                    <%= t('.balance', translation_data) %>
                   </td>
                 </tr>
               </thead>
               <tbody>
-                <% @btc_proof.addresses.each do |entry| %>
+                <% coin_proof.addresses.each do |entry| %>
                   <tr>
                     <td>
-                      <%= link_to entry['address'], @btc_proof.address_url(entry['address']) %>
+                      <%= link_to entry['address'], coin_proof.address_url(entry['address']) %>
                     </td>
                     <td>
                       <%= entry['balance'] %>
