@@ -1,27 +1,14 @@
 module Worker
   class WithdrawCoin
-    def process(payload, metadata, delivery_info)
+    def process(payload)
       payload.symbolize_keys!
 
+      withdraw = Withdraw.lock.find_by_id(payload[:id])
+      return if withdraw.blank? || !withdraw.processing?
 
-      Withdraw.transaction do
-        withdraw = Withdraw.lock.find payload[:id]
-
-        return unless withdraw.processing?
-
-        withdraw.whodunnit 'Worker::WithdrawCoin' do
-          withdraw.call_rpc
-          withdraw.save!
-        end
-      end
-
-      Withdraw.transaction do
-        withdraw = Withdraw.lock.find payload[:id]
-
-        return unless withdraw.almost_done?
-
+      withdraw.transaction do
         balance = CoinAPI[withdraw.currency.to_sym].load_balance!
-        raise Account::BalanceError, 'Insufficient coins' if balance < withdraw.sum
+        withdraw.mark_suspect if balance < withdraw.sum
 
         fee = [withdraw.fee.to_f || withdraw.channel.try(:fee) || 0.0005, 0.1].min
 
@@ -43,6 +30,11 @@ module Worker
           withdraw.save!
         end
       end
+
+    rescue Exception => e
+      Rails.logger.error { 'Error during withdraw processing.' }
+      Rails.logger.debug { "Failed to process #{withdraw.currency.upcase} withdraw with ID #{withdraw.id}: #{e.inspect}." }
+      withdraw.fail!
     end
   end
 end

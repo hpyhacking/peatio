@@ -113,7 +113,7 @@ describe Withdraw do
     before do
       @rpc = mock
       @rpc.stubs(load_balance!: 50_000, create_withdrawal!: '12345')
-      @broken_rpc = mock
+      @broken_rpc = CoinAPI
       @broken_rpc.stubs(load_balance!: 5)
 
       subject.submit
@@ -122,20 +122,18 @@ describe Withdraw do
       subject.save!
     end
 
-    it 'transitions to :almost_done after calling rpc but getting Exception' do
-      CoinAPI.stubs(:[]).returns(@broken_rpc)
+    it 'transitions to :failed after calling rpc but getting Exception' do
+      CoinAPI.stubs(:[]).raises(CoinAPI::Error)
 
-      expect {
-        Worker::WithdrawCoin.new.process({ id: subject.id }, {}, {})
-      }.to raise_error(Account::BalanceError)
+      Worker::WithdrawCoin.new.process({ id: subject.id })
 
-      expect(subject.reload.almost_done?).to be true
+      expect(subject.reload.failed?).to be true
     end
 
     it 'transitions to :done after calling rpc' do
       CoinAPI.stubs(:[]).returns(@rpc)
 
-      expect { Worker::WithdrawCoin.new.process({ id: subject.id }, {}, {}) }.to change { subject.account.reload.amount }.by(-subject.sum)
+      expect { Worker::WithdrawCoin.new.process({ id: subject.id }) }.to change { subject.account.reload.amount }.by(-subject.sum)
 
       subject.reload
       expect(subject.done?).to be true
@@ -143,12 +141,12 @@ describe Withdraw do
     end
 
     it 'does not send coins again if previous attempt failed' do
-      CoinAPI.stubs(:[]).returns(@broken_rpc)
-      begin Worker::WithdrawCoin.new.process({ id: subject.id }, {}, {}); rescue; end
-      CoinAPI.stubs(:[]).returns(mock)
+      CoinAPI.stubs(:[]).raises(CoinAPI::Error)
+      begin Worker::WithdrawCoin.new.process({ id: subject.id }); rescue; end
+      CoinAPI.stubs(:[]).returns(CoinAPI::BTC)
 
-      expect { Worker::WithdrawCoin.new.process({ id: subject.id }, {}, {}) }.to_not change { subject.account.reload.amount }
-      expect(subject.reload.almost_done?).to be true
+      expect { Worker::WithdrawCoin.new.process({ id: subject.id }) }.to_not change { subject.account.reload.amount }
+      expect(subject.reload.failed?).to be true
     end
   end
 

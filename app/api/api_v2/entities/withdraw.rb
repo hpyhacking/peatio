@@ -12,7 +12,7 @@ module APIv2
           when :canceled                            then :cancelled
           when :suspect                             then :suspected
           when :rejected, :accepted, :done, :failed then withdraw.aasm_state
-          when :processing, :almost_done            then :processing
+          when :processing                          then :processing
           else :submitted
         end
       end
