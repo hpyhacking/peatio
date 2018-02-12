@@ -166,6 +166,12 @@ en:
         amount: Amount
         confirmations: Confirmation
         aasm_state_text: State
+      deposits/ethereum:
+        created_at: Created At
+        txid: Transaction ID
+        amount: Amount
+        confirmations: Confirmation
+        aasm_state_text: State
       withdraws/satoshi:
         id: ID
         member_name: Account
@@ -236,6 +242,20 @@ en:
         amount: Amount
         remark: Remark
         fee: Fee
+      withdraws/ethereum:
+        id: ID
+        member_name: Account
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_extra_text: Withdraw Label
+        fund_extrat: Withdraw Label
+        fund_source: Bank
+        fund_uid: Account
+        created_at: Created At
+        sum: Amount
+        amount: Amount
+        remark: Remark
+        fee: Fee
     errors:
       models:
         order_bid:
@@ -267,6 +287,8 @@ en:
               ripple_invalid: Invalid Address
               duff_ismine: Used Address
               duff_invalid: Invalid Address
+              ethereum_ismine: Used Address
+              ethereum_invalid: Invalid Address
         withdraw:
           account_balance_is_poor: Account balance is insufficient
           attributes:
@@ -300,6 +322,12 @@ en:
               invalid: Invalid withdrawals address, please review.
               ismine: Please use a new address.
         withdraws/duff:
+          attributes:
+            fund_uid:
+              blank: Please enter your withdrawal address
+              invalid: Invalid withdrawals address, please review.
+              ismine: Please use a new address.
+        withdraws/ethereum:
           attributes:
             fund_uid:
               blank: Please enter your withdrawal address
@@ -495,7 +523,7 @@ en:
     ripple:
       key: Block Chain
       title: Ripple Deposits
-      intro: Deposit ripple from your own wallet address to Peatio account
+      intro: Deposit Ripple from your own wallet address to Peatio account
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
@@ -503,6 +531,13 @@ en:
       key: Block Chain
       title: Dash Deposits
       intro: Deposit Dash from your own wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
+    ethereum:
+      key: Block Chain
+      title: Ethereum Deposits
+      intro: Deposit Ethereum from your own wallet address to Peatio account
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
@@ -530,6 +565,9 @@ en:
         gen_address:
           require_transaction: it can't generate new address if it hasn't been used.
       duffs:
+        gen_address:
+          require_transaction: it can't generate new address if it hasn't been used.
+      ethereums:
         gen_address:
           require_transaction: it can't generate new address if it hasn't been used.
       banks:
@@ -701,6 +739,20 @@ en:
         create:
           notice: Withdrawal request successfully submitted. Use the info below to
             complete the bank transfer.
+      ethereums:
+        destroy:
+          notice: Withdraw been canceled, frozen balance has returned to your account
+        update:
+          notice: Withdraw request is submit successful, we will process it as soon
+            as possible
+        new:
+          submit: Submit
+          allin: All-In
+          fund_source_label: Label
+          manage_fund_source: Manage Fund Source
+        create:
+          notice: Withdrawal request successfully submitted. Use the info below to
+            complete the bank transfer.
     account_versions:
       index:
         description: Every transaction and every penny of income in Peatio are well
@@ -761,7 +813,7 @@ en:
       coin_assets:
         title: '%{currency} Assets'
         intro: "All of exchange's %{currency} assets are listed here."
-        total: 'Total Dash Assets'
+        total: 'Total %{currency} Assets'
         address: Address
       fiat_assets:
         title: '%{currency} Assets'
@@ -1253,6 +1305,7 @@ en:
       ltc: LTC
       xrp: XRP
       dash: Dash
+      eth: ETH
     order:
       state:
         done: DONE
@@ -1549,6 +1602,13 @@ en:
       key: Blockchain
       title: Dash Blockchain
       intro: Withdraw Dash to your own Dash wallet
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
+    ethereum:
+      key: Blockchain
+      title: Ethereum Blockchain
+      intro: Withdraw Ethereum to your own Ethereum wallet
       latency: 30 minutes
       transfer: Manual
       go: Withdraw

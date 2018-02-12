@@ -65,6 +65,9 @@ en:
       deposit_dash:
         title: Dash Deposit
 
+      deposit_eth:
+        title: ETH Deposit
+
       deposit_coin:
         address: Address
         new_address: New Address
@@ -124,6 +127,9 @@ en:
 
       withdraw_dash:
         title: Dash Withdraw
+
+      withdraw_eth:
+        title: ETH Withdraw
 
       withdraw_coin:
         intro: Please fill in the address and amount, then submit the form. It will be confirmed in 10 minutes

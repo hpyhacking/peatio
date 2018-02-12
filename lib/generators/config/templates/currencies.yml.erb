@@ -79,7 +79,7 @@
   # API client configuration.
   api_client: BCH
   #
-  # Bitcoind specific configuration.
+  # Bitcoin Cash daemon specific configuration.
   json_rpc_endpoint: http://user:password@127.0.0.1:18332
   #
   # BitGo specific configuration.
@@ -106,7 +106,7 @@
   # API client configuration.
   api_client: LTC
   #
-  # Bitcoind specific configuration.
+  # Litecoind specific configuration.
   json_rpc_endpoint: http://user:password@127.0.0.1:18332
   #
   # BitGo specific configuration.
@@ -140,4 +140,31 @@
   quick_withdraw_max: 25
   blockchain:         https://live.blockcypher.com/dash/tx/#{txid}
   address_url:        https://live.blockcypher.com/dash/address/#{address}
+
+- id:          7
+  key:         ethereum
+  code:        eth
+  symbol:      'Ξ'
+  coin:        true
+  precision:   8
+  base_factor: 1_000_000_000_000_000_000
+  #
+  # API client configuration.
+  api_client: ETH
+  #
+  # Ethereum node specific configuration.
+  json_rpc_endpoint: http://user:password@127.0.0.1:8545
+  #
+  # BitGo specific configuration.
+  bitgo_test_net:              on
+  bitgo_wallet_id:             ~
+  bitgo_wallet_address:        ~
+  bitgo_wallet_passphrase:     ~
+  bitgo_rest_api_root:         https://test.bitgo.com/api/v2
+  bitgo_rest_api_access_token: ~
+  #
+  # The rest of configuration.
+  quick_withdraw_max: 100
+  blockchain:         https://etherscan.io/tx/#{txid}
+  address_url:        https://etherscan.io/address/#{address}
 <% end %>
