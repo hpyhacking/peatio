@@ -148,6 +148,14 @@ describe Withdraw do
       expect { Worker::WithdrawCoin.new.process({ id: subject.id }) }.to_not change { subject.account.reload.amount }
       expect(subject.reload.failed?).to be true
     end
+
+    it 'unlocks coins after calling rpc but getting Exception' do
+      CoinAPI.stubs(:[]).raises(CoinAPI::Error)
+
+      expect { Worker::WithdrawCoin.new.process({ id: subject.id }) }
+          .to change { subject.account.reload.locked }.by(-subject.sum)
+          .and change { subject.account.reload.balance }.by(subject.sum)
+    end
   end
 
   context 'aasm_state' do

@@ -119,6 +119,7 @@ class Withdraw < ActiveRecord::Base
 
     event :fail, after_commit: :send_email do
       transitions from: :processing, to: :failed
+      after :unlock_funds
     end
   end
 
