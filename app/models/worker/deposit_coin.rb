@@ -8,11 +8,13 @@ module Worker
       channel = DepositChannel.find_by_key(payload.fetch(:channel_key))
       tx      = channel.currency_obj.api.load_deposit(payload.fetch(:txid))
 
-      Rails.logger.info "Processing #{channel.currency_obj.code.upcase} deposit: #{payload.fetch(:txid)}."
-      Rails.logger.info "Could not load #{channel.currency_obj.code.upcase} deposit #{payload.fetch(:txid)}." unless tx
-
-      ActiveRecord::Base.transaction do
-        tx.fetch(:entries).each_with_index { |entry, index| deposit!(channel, tx, entry, index) }
+      if tx
+        Rails.logger.info "Processing #{channel.currency_obj.code.upcase} deposit: #{payload.fetch(:txid)}."
+        ActiveRecord::Base.transaction do
+          tx.fetch(:entries).each_with_index { |entry, index| deposit!(channel, tx, entry, index) }
+        end
+      else
+        Rails.logger.info "Could not load #{channel.currency_obj.code.upcase} deposit #{payload.fetch(:txid)}."
       end
     end
 
