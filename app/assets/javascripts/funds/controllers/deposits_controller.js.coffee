@@ -14,7 +14,7 @@ app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$filte
     deposit_channel = DepositChannel.findBy('currency', currency)
     account = deposit_channel.account()
 
-    data = { account_id: account.id, member_id: current_user.id, currency: currency, amount: @deposit.amount, fund_source: @deposit.fund_source }
+    data = { account_id: account.id, member_id: current_user.id, currency: currency, amount: @deposit.amount, fund_source_id: @deposit.fund_source }
 
     $('.form-submit > input').attr('disabled', 'disabled')
 
