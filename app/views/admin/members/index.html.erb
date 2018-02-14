@@ -49,8 +49,6 @@
         <% end %>
         <% t.column :actions, class: 'col-xs-1' do |x| %>
           <%= link_to t('actions.view'), url_for([:admin, x]), target: '_blank' %>
-          /
-          <%= link_to t('actions.edit'), admin_member_accounts_path(x), target: '_blank' %>
         <% end %>
       <% end %>
 

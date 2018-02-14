@@ -10,7 +10,6 @@ namespace :admin do
       post :active
       post :toggle
     end
-    resources :accounts, only: [:index, :edit, :update]
   end
 
   namespace :deposits do
