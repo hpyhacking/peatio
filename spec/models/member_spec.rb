@@ -1,9 +1,9 @@
 describe Member do
-  let(:member) { build(:member) }
+  let(:member) { build(:member, :verified_identity) }
   subject { member }
 
   describe 'sn' do
-    subject(:member) { create(:member) }
+    subject(:member) { create(:member, :verified_identity) }
     it { expect(member.sn).to_not be_nil }
     it { expect(member.sn).to_not be_empty }
     it { expect(member.sn).to match /^PEA.*TIO$/ }
@@ -26,15 +26,8 @@ describe Member do
     end
   end
 
-  describe 'build id_document before create' do
-    it 'create id_document for the member' do
-      member.save
-      expect(member.reload.id_document).to_not be_blank
-    end
-  end
-
   describe '#trades' do
-    subject { create(:member) }
+    subject { create(:member, :verified_identity) }
 
     it 'should find all trades belong to user' do
       ask = create(:order_ask, member: member)
@@ -46,7 +39,7 @@ describe Member do
   end
 
   describe '.current' do
-    let(:member) { create(:member) }
+    let(:member) { create(:member, :verified_identity) }
     before do
       Thread.current[:user] = member
     end
@@ -59,7 +52,7 @@ describe Member do
   end
 
   describe '.current=' do
-    let(:member) { create(:member) }
+    let(:member) { create(:member, :verified_identity) }
     before { Member.current = member }
     after { Member.current = nil }
     specify { expect(Thread.current[:user]).to eq member }
@@ -67,9 +60,9 @@ describe Member do
 
   describe 'Member.search' do
     before do
-      create(:member)
-      create(:member)
-      create(:member)
+      create(:member, :verified_identity)
+      create(:member, :verified_identity)
+      create(:member, :verified_identity)
     end
 
     describe 'search without any condition' do
@@ -79,7 +72,7 @@ describe Member do
     end
 
     describe 'search by email' do
-      let(:member) { create(:member) }
+      let(:member) { create(:member, :verified_identity) }
       subject { Member.search(field: 'email', term: member.email) }
 
       it { expect(subject.count).to eq(1) }
@@ -87,7 +80,7 @@ describe Member do
     end
 
     describe 'search by name' do
-      let(:member) { create(:verified_member) }
+      let(:member) { create(:member, :verified_identity) }
       subject { Member.search(field: 'name', term: member.name) }
 
       it { expect(subject.count).to eq(1) }
@@ -114,7 +107,7 @@ describe Member do
   end
 
   describe '#remove_auth' do
-    let!(:member) { create(:member) }
+    let!(:member) { create(:member, :verified_identity) }
     let!(:authentication) { create(:authentication, provider: 'OAuth2', member_id: member.id, uid: member.id)}
 
     it 'should delete authentication' do

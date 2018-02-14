@@ -10,7 +10,6 @@ module Admin
       can :read, Proof
       can :update, Proof
       can :manage, Member
-      can :manage, IdDocument
 
       can :menu, Deposit
       Deposit.descendants.each { |d| can :manage, d }

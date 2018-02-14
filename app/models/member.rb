@@ -7,28 +7,23 @@ class Member < ActiveRecord::Base
   has_many :deposits
   has_many :api_tokens
 
-  has_one :id_document
-
   has_many :authentications, dependent: :destroy
 
   scope :enabled, -> { where(disabled: false) }
-
-  delegate :name,       to: :id_document, allow_nil: true
-  delegate :full_name,  to: :id_document, allow_nil: true
-  delegate :verified?,  to: :id_document, prefix: true, allow_nil: true
 
   before_validation :sanitize, :generate_sn
 
   validates :sn, presence: true
   validates :email, presence: true, uniqueness: true, email: true
 
-  before_create :build_default_id_document
   after_create  :touch_accounts
   after_update  :sync_update
 
   class << self
     def from_auth(auth_hash)
-      locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)
+      (locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)).tap do |member|
+        member.update!(level: Member::Levels.get(auth_hash['info']['level']))
+      end
     end
 
     def current
@@ -48,7 +43,7 @@ class Member < ActiveRecord::Base
                when 'email'
                  where('members.email LIKE ?', "%#{term}%")
                when 'name'
-                 joins(:id_document).where('id_documents.name LIKE ?', "%#{term}%")
+                 where('members.name LIKE ?', "%#{term}%")
                when 'wallet_address'
                  members = joins(:fund_sources).where('fund_sources.uid' => term)
                  if members.empty?
@@ -79,7 +74,8 @@ class Member < ActiveRecord::Base
 
     def create_from_auth(auth_hash)
       new(email:    auth_hash['info']['email'],
-          nickname: auth_hash['info']['nickname']
+          nickname: auth_hash['info']['nickname'],
+          level:    Member::Levels.get(auth_hash['info']['level'])
       ).tap do |member|
         member.save!
         member.add_auth(auth_hash)
@@ -161,6 +157,10 @@ class Member < ActiveRecord::Base
     JWT.encode({ email: email }, APIv2::Auth::Utils.jwt_shared_secret_key, 'RS256')
   end
 
+  def level
+    self[:level].to_s.inquiry
+  end
+
   private
 
   def sanitize
@@ -172,11 +172,6 @@ class Member < ActiveRecord::Base
     begin
       self.sn = "PEA#{ROTP::Base32.random_base32(8).upcase}TIO"
     end while Member.where(:sn => self.sn).any?
-  end
-
-  def build_default_id_document
-    build_id_document
-    true
   end
 
   def sync_update

@@ -1,6 +1,6 @@
 feature 'withdraw', js: true do
-  let!(:member) { create :member }
-  let!(:admin_member) { create :member, email: Member.admins.first }
+  let!(:member) { create :member, :verified_identity }
+  let!(:admin_member) { create :member, :verified_identity, email: Member.admins.first }
 
   let!(:account) do
     member.get_account(:usd).tap { |a| a.update_attributes locked: 8000, balance: 10_000 }

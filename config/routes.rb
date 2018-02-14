@@ -27,7 +27,6 @@ Peatio::Application.routes.draw do
   get '/documents/websocket_api'
 
   scope module: :private do
-    resource  :id_document, only: [:edit, :update]
     resources :settings, only: [:index]
     resources :api_tokens do
       member do

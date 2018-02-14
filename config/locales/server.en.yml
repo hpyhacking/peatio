@@ -9,7 +9,6 @@ en:
       withdraw: Withdraw
       deposit: Deposit
       payment_transaction: Payment
-      id_document: ID Document
       statistic/orders_grid: Orders Stat
       statistic/trades_grid: Trading Stat
       statistic/members_grid: Members Stat
@@ -111,8 +110,6 @@ en:
         name: Real Name
         created_at: Register At
         sn: SN
-        id_document_number: Id Document Number
-        id_document_verified?: "Id Document Verified?"
       withdraws/bank:
         id: ID
         member_name: Member
@@ -775,25 +772,6 @@ en:
           Password： %{password}</p> <p>Inquiry Tel.： %{tel}</p>"
       partial_tree:
         success: 'Success! Verification data generated at: %{timestamp}'
-    id_documents:
-      edit:
-        state: State
-        state_unverified: UNVERIFIED
-        state_verifying: VERIFYING
-        state_verified: VERIFIED
-        name: Real Name
-        birth_date: Birth Date
-        address: Address
-        city: City
-        country: Country
-        zipcode: Zipcode
-        id_document_type: Document Type
-        id_document_number: Document Number
-        id_document_file: Document Photo
-        id_bill_type: Proof Of Residence
-        id_bill_file: Proof Of Residence Photo
-      update:
-        notice: Your account verification has been submitted.
     markets:
       show:
         error: Failed
@@ -929,13 +907,7 @@ en:
       failure: Invalid passcode. Please try again.
       index:
         reauthenticate: Authentication
-        auth-verified: Please verify your account first.
-        verification:
-          title: Verify Account
-          description: Help keep the bad guys out of your account by using your
-            password
-          go: Submit
-          verified: Verified
+        auth-verified: Please confirm your identity first.
         api_tokens:
           title: API Tokens
           description: Create and manage your API tokens.
@@ -960,12 +932,6 @@ en:
           title: Edit API Token
         update:
           title: Edit API Token
-      id_documents:
-        panel: Real-name Authentication
-        new:
-          title: Submit real-name authentication information
-          intro: In line with the national laws , identity verification is required.
-            please verify your account to proceed.
     panels:
       balance: Account
     sessions:
@@ -1007,8 +973,6 @@ en:
             match the name with your real name authentication</span>"
           sn: "<span class='text-danger'>Please copy the SN in your bank transfer's
             message, otherwise we can not process your order quickly.</span>"
-      id_document:
-        name: Please fill in the name which is consistent with your Credentials.
       withdraw:
         bank:
           member_name: "<span class='text-danger'>Withdraw bank account name must
@@ -1317,14 +1281,6 @@ en:
       category:
         satoshi: Bitcoin
         bank: Bank
-    id_document:
-      id_document_type:
-        id_card: ID Card
-        passport: Passport
-        driver_license: Driver's License
-      id_bill_type:
-        bank_statement: Bank Statement
-        tax_bill: Tax Bill
   views:
     pagination:
       first: "&laquo; First"
@@ -1424,7 +1380,6 @@ en:
     deposits: Deposits
     withdraws: Withdraws
     statistics: Data Statistics
-    id_documents: Verify Account
   footer:
     about: About
     privacy: Privacy
@@ -1492,8 +1447,6 @@ en:
         create: Save
       deposit:
         create: Deposit
-      id_document:
-        create: Submit
       withdraw:
         create: Submit
   activations:

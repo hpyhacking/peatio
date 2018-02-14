@@ -29,7 +29,7 @@ describe APIv2::Auth::Middleware, type: :request do
 
   context 'when using JWT authentication' do
     let(:token)   { 'Bearer ' + JWT.encode(payload, APIv2::Auth::Utils.jwt_shared_secret_key, 'RS256') }
-    let(:member)  { create(:member) }
+    let(:member)  { create(:member, :verified_identity) }
     let(:payload) { {x: 'x', y: 'y', z: 'z', email: member.email} }
 
     it 'should deny access when token is not given' do

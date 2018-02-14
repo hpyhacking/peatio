@@ -1,27 +1,6 @@
 <table id="setting_list" class="table">
   <tr>
     <td class="col-xs-2 text-center vertical-center">
-      <i class="fa fa-thumbs-o-up fa-2x"></i>
-    </td>
-    <td class="col-xs-15">
-      <h4>
-        <span><%= t('.verification.title') %></span>
-        <i class="fa fa-bolt text-warning"></i>
-      </h4>
-      <p class="text-ignore"><%= t('.verification.description') %></p>
-    <td class="col-xs-7 vertical-center">
-      <% if current_user.id_document_verified? %>
-        <a href="#" class="btn btn-success btn-block disabled" role="button">
-          <i class="fa fa-check-circle"></i>
-          <span><%= t('.verification.verified') %></span>
-        </a>
-      <% else %>
-        <%= link_to t('.verification.go'), edit_id_document_path, class: 'btn btn-default btn-block' %>
-      <% end %>
-    </td>
-  </tr>
-  <tr>
-    <td class="col-xs-2 text-center vertical-center">
       <i class="fa fa-code fa-2x"></i>
     </td>
     <td class="col-xs-15">

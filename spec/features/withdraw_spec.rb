@@ -1,5 +1,5 @@
 feature 'withdraw', js: true do
-  let!(:member) { create :verified_member }
+  let!(:member) { create :member, :verified_identity }
 
   let(:radio_label) do
     "#{member.name} @ #{member.email}"

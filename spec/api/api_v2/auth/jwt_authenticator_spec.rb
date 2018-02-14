@@ -16,7 +16,7 @@ describe APIv2::Auth::JWTAuthenticator do
   end
 
   let :member do
-    create(:member)
+    create(:member, :verified_identity)
   end
 
   let :payload do

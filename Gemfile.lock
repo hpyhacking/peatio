@@ -76,11 +76,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
-    carrierwave (0.10.0)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
-      json (>= 1.7)
-      mime-types (>= 1.16)
     childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
     chromedriver-helper (1.1.0)
@@ -207,7 +202,6 @@ GEM
     metaclass (0.0.4)
     method-not-implemented (1.0.1)
     method_source (0.9.0)
-    mime-types (1.25.1)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     mini_racer (0.1.15)
@@ -420,7 +414,6 @@ DEPENDENCIES
   bunny (~> 2.9.0)
   cancancan
   capybara (~> 2.17)
-  carrierwave (~> 0.10.0)
   chromedriver-helper (~> 1.1)
   clipboard-rails (~> 1.7)
   coffee-rails

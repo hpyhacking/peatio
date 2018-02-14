@@ -5,7 +5,7 @@ FactoryBot.define do
     is_locked false
     currency 'btc'
 
-    member { create(:member) }
+    member { create(:member, :verified_identity) }
 
     trait :usd do
       extra 'bc'

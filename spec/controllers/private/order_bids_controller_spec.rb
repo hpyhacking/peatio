@@ -1,6 +1,6 @@
 describe Private::OrderBidsController, type: :controller do
   let(:member) do
-    create(:member).tap do |m|
+    create(:member, :verified_identity).tap do |m|
       m.get_account('usd').update_attributes(balance: '30000')
     end
   end

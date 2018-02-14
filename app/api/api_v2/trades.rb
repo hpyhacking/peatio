@@ -17,6 +17,7 @@ module APIv2
     end
     get "/trades/my" do
       authenticate!
+      identity_must_be_verified!
 
       trades = Trade.for_member(
         params[:market], current_user,

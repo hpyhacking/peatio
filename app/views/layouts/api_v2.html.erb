@@ -18,7 +18,7 @@
         </div>
         <ul class="nav navbar-nav pull-right">
           <% if current_user %>
-            <%= top_nav_link(current_user.email, settings_path, 'user', controllers: ['id_documents']) %>
+            <%= top_nav_link(current_user.email, settings_path, 'user') %>
             <% if is_admin? %>
               <%= top_nav_link(t('header.dashboard'), admin_dashboard_path, 'dashboard') %>
             <% end %>

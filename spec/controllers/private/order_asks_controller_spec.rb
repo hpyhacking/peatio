@@ -1,6 +1,6 @@
 describe Private::OrderAsksController, type: :controller do
   let(:member) do
-    create(:member).tap do |m|
+    create(:member, :verified_identity).tap do |m|
       m.get_account('btc').update_attributes(balance: '20')
     end
   end

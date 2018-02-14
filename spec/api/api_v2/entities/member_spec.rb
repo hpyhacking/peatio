@@ -1,5 +1,5 @@
 describe APIv2::Entities::Member do
-  let(:member) { create(:verified_member) }
+  let(:member) { create(:member, :verified_identity) }
 
   subject { OpenStruct.new APIv2::Entities::Member.represent(member).serializable_hash }
 

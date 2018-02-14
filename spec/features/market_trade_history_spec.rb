@@ -1,6 +1,6 @@
 feature 'show account info', js: true do
-  let(:other_member) { create :member }
-  let(:member) { create :member }
+  let(:other_member) { create :member, :verified_identity }
+  let(:member) { create :member, :verified_identity }
   let!(:bid_account) do
     member.get_account('usd').tap { |a| a.update_attributes locked: 400, balance: 1000 }
   end

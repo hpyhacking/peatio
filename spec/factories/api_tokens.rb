@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :api_token do
-    member
+    member { create :member, :verified_identity }
     scopes 'all'
   end
 end

@@ -1,7 +1,6 @@
 namespace :admin do
   get '/', to: 'dashboard#index', as: :dashboard
 
-  resources :id_documents,     only: [:index, :show, :update]
   resource  :currency_deposit, only: [:new, :create]
   resources :proofs
 

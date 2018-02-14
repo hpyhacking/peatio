@@ -10,7 +10,7 @@ describe Trade, '.latest_price' do
 end
 
 describe Trade, '.collect_side' do
-  let(:member) { create(:member) }
+  let(:member) { create(:member, :verified_identity) }
   let(:ask)    { create(:order_ask, member: member) }
   let(:bid)    { create(:order_bid, member: member) }
 

@@ -2,7 +2,7 @@ module Audit
   describe TransferAuditLog do
     describe '.audit!' do
       let(:deposit) { create(:deposit) }
-      let(:member) { create(:member) }
+      let(:member) { create(:member, :verified_identity) }
       let(:log) { TransferAuditLog.audit!(deposit, member) }
 
       before do

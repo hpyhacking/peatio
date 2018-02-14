@@ -1,10 +1,13 @@
 describe APIv2::Withdraws, type: :request do
-  let(:member)         { create(:member) }
+  let(:member)         { create(:member, :verified_identity) }
   let(:token)          { create(:api_token, member: member) }
   let!(:btc_withdraws) { create_list(:satoshi_withdraw, 20, member: member) }
   let!(:usd_withdraws) { create_list(:bank_withdraw, 20, member: member) }
   let!(:btc_withdraw_addresses) { create_list(:btc_fund_source, 20, member: member) }
   let!(:usd_withdraw_addresses) { create_list(:usd_fund_source, 20, member: member) }
+
+  let(:unverified_member) { create(:member, :unverified) }
+  let(:unverified_member_token) { create(:api_token, member: unverified_member) }
 
   describe 'GET /api/v2/withdraws' do
     it 'should require authentication' do
@@ -188,6 +191,11 @@ describe APIv2::Withdraws, type: :request do
     it 'should create withdraw address' do
       signed_post '/api/v2/withdraws/addresses', params: { label: 'btc address', currency: 'btc', address: '123456' }, token: token
       expect(response.code).to eq '201'
+    end
+
+    it 'denies access to unverified member' do
+      signed_get '/api/v2/deposits', token: unverified_member_token
+      expect(response.code).to eq '401'
     end
   end
 end

@@ -1,5 +1,5 @@
 describe APIv2::Members, type: :request do
-  let(:member) { create :verified_member }
+  let(:member) { create :member, :verified_identity }
   let(:token)  { create :api_token, member: member }
 
   def check_cors(response)

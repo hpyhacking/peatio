@@ -1,5 +1,5 @@
 describe Private::FundSourcesController, type: :controller do
-  let(:member) { create(:member) }
+  let(:member) { create(:member, :verified_identity) }
   before { session[:member_id] = member.id }
 
   describe 'POST create' do

@@ -1,5 +1,5 @@
 feature 'show account info', js: true do
-  let!(:member) { create :member }
+  let!(:member) { create :member, :verified_identity }
 
   let!(:bid_account) do
     member.get_account('usd').tap do |a|

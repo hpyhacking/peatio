@@ -168,7 +168,7 @@ describe Account do
   end
 
   describe '#examine' do
-    let(:member) { create(:member) }
+    let(:member) { create(:member, :verified_identity) }
     let(:account) { create(:account, locked: '0.0'.to_d, balance: '0.0') }
 
     context 'account without any account versions' do

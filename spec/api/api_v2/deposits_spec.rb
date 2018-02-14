@@ -1,8 +1,9 @@
 describe APIv2::Deposits, type: :request do
-  let(:member)       { create(:member) }
-  let(:other_member) { create(:member) }
-
+  let(:member)       { create(:member, :verified_identity) }
+  let(:other_member) { create(:member, :verified_identity) }
   let(:token) { create(:api_token, member: member) }
+  let(:unverified_member) { create(:member, :unverified) }
+  let(:unverified_member_token) { create(:api_token, member: unverified_member) }
 
   describe 'GET /api/v2/deposits' do
     before do
@@ -74,6 +75,11 @@ describe APIv2::Deposits, type: :request do
 
       expect(response.code).to eq '200'
       expect(JSON.parse(response.body)['amount']).to eq '111.0'
+    end
+
+    it 'denies access to unverified member' do
+      signed_get '/api/v2/deposits', token: unverified_member_token
+      expect(response.code).to eq '401'
     end
   end
 end

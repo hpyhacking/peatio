@@ -1,12 +1,15 @@
 describe APIv2::Trades, type: :request do
   let(:member) do
-    create(:verified_member).tap do |m|
+    create(:member, :verified_identity).tap do |m|
       m.get_account(:btc).update_attributes(balance: 12.13,   locked: 3.14)
       m.get_account(:usd).update_attributes(balance: 2014.47, locked: 0)
     end
   end
 
   let(:token) { create(:api_token, member: member) }
+
+  let(:unverified_member) { create(:member, :unverified) }
+  let(:unverified_member_token) { create(:api_token, member: unverified_member) }
 
   let(:ask) do
     create(
@@ -82,6 +85,11 @@ describe APIv2::Trades, type: :request do
 
       expect(response).to be_success
       expect(JSON.parse(response.body).first['id']).to eq bid_trade.id
+    end
+
+    it 'denies access to unverified member' do
+      signed_get '/api/v2/orders', token: unverified_member_token
+      expect(response.code).to eq '401'
     end
   end
 

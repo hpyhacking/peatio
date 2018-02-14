@@ -1,6 +1,6 @@
 describe APIv2::Members, type: :request do
   let(:member) do
-    create(:verified_member).tap do |m|
+    create(:member, :verified_identity).tap do |m|
       m.get_account(:btc).update_attributes(balance: 12.13,   locked: 3.14)
       m.get_account(:usd).update_attributes(balance: 2014.47, locked: 0)
     end

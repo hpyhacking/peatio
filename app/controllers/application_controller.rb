@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_verified!
-    unless current_user&.id_document&.verified?
+    if current_user.level.present? && !current_user.level.identity_verified?
       redirect_to settings_path, alert: t('private.settings.index.auth-verified')
     end
   end

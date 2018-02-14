@@ -44,9 +44,6 @@
           <% text = x.api_disabled? ? 'Yes' : 'No' %>
           <%= link_to text, toggle_admin_member_path(x, api: true), remote: true, method: :post, class: 'toggle-api' %>
         <% end %>
-        <% t.column :id_document_verified?, class: 'col-xs-2' do |x| %>
-          <%= x.id_document_verified? ? x.name : yesno(x.id_document_verified?) %>
-        <% end %>
         <% t.column :actions, class: 'col-xs-1' do |x| %>
           <%= link_to t('actions.view'), url_for([:admin, x]), target: '_blank' %>
         <% end %>

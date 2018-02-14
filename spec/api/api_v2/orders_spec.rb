@@ -1,6 +1,8 @@
 describe APIv2::Orders, type: :request do
-  let(:member) { create(:member) }
-  let(:token)  { create(:api_token, member: member) }
+  let(:member) { create(:member, :verified_identity) }
+  let(:token) { create(:api_token, member: member) }
+  let(:unverified_member) { create(:member, :unverified) }
+  let(:unverified_member_token) { create(:api_token, member: unverified_member) }
 
   describe 'GET /api/v2/orders' do
     before do
@@ -65,6 +67,11 @@ describe APIv2::Orders, type: :request do
       expect(response).to be_success
       orders = JSON.parse(response.body)
       expect(orders[0]['id']).to be > orders[1]['id']
+    end
+
+    it 'denies access to unverified member' do
+      signed_get '/api/v2/orders', token: unverified_member_token
+      expect(response.code).to eq '401'
     end
   end
 

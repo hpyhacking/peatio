@@ -1,12 +1,4 @@
 module ApplicationHelper
-  def document_to(key: nil, title: nil, &block)
-    if title
-      link_to(title, '', :data => {:remote => "#{main_app.document_path(key)}", :toggle => "modal", :target => '#document_modal'})
-    elsif block
-      link_to('', :data => {:remote => "#{main_app.document_path(key)}", :toggle => "modal", :target => '#document_modal'}, &block)
-    end
-  end
-
   def detail_section_tag(title)
     content_tag('span', title, :class => 'detail-section') + \
     tag('hr')

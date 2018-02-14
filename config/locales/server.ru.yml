@@ -11,7 +11,6 @@ ru:
       withdraw: Вывести
       deposit: Пополнить
       payment_transaction: Платеж
-      id_document: документ, удостоверяющий личность
       statistic/orders_grid: Статистика ордеров
       statistic/members_grid: Статистика участников
       statistic/deposits_grid: Статистика депозитов
@@ -70,8 +69,6 @@ ru:
         amount: Сумма
         confirmations: Подтверждения
         state_done: Выполнено
-      member:
-        id_document_verified?: "Удостоверение личности проверено ?"
       withdraws/bank:
         member_name: Участник
         currency_obj_key_text: Валюта
