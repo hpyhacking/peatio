@@ -326,7 +326,6 @@ GEM
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
-    rotp (3.3.0)
     rspec-core (3.7.0)
       rspec-support (~> 3.7.0)
     rspec-expectations (3.7.0)
@@ -469,7 +468,6 @@ DEPENDENCIES
   rbtree
   redis-rails
   responders (~> 2.0)
-  rotp
   rspec-rails (~> 3.7)
   sass-rails
   selenium-webdriver (~> 3.8)

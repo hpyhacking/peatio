@@ -6,7 +6,7 @@ describe Member do
     subject(:member) { create(:member, :verified_identity) }
     it { expect(member.sn).to_not be_nil }
     it { expect(member.sn).to_not be_empty }
-    it { expect(member.sn).to match /^PEA.*TIO$/ }
+    it { expect(member.sn).to match /\ASN[A-Z0-9]{10}$/ }
   end
 
   describe 'before_create' do

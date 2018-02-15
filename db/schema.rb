@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180213160501) do
+ActiveRecord::Schema.define(version: 20180215131129) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -127,7 +127,7 @@ ActiveRecord::Schema.define(version: 20180213160501) do
 
   create_table "members", force: :cascade do |t|
     t.string   "level",        limit: 20,  default: ""
-    t.string   "sn",           limit: 14,                  null: false
+    t.string   "sn",           limit: 12,                  null: false
     t.string   "email",        limit: 255,                 null: false
     t.boolean  "disabled",                 default: false, null: false
     t.boolean  "api_disabled",             default: false, null: false
@@ -136,6 +136,8 @@ ActiveRecord::Schema.define(version: 20180213160501) do
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
   end
+
+  add_index "members", ["sn"], name: "index_members_on_sn", unique: true, using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.integer  "bid",            limit: 4

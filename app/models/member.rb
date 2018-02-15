@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class Member < ActiveRecord::Base
   has_many :orders
   has_many :accounts
@@ -11,9 +13,9 @@ class Member < ActiveRecord::Base
 
   scope :enabled, -> { where(disabled: false) }
 
-  before_validation :sanitize, :generate_sn
+  before_validation :sanitize, :assign_sn
 
-  validates :sn, presence: true
+  validates :sn, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true, email: true
 
   after_create  :touch_accounts
@@ -167,13 +169,17 @@ class Member < ActiveRecord::Base
     self.email.try(:downcase!)
   end
 
-  def generate_sn
-    self.sn and return
+  def assign_sn
+    return unless sn.blank?
     begin
-      self.sn = "PEA#{ROTP::Base32.random_base32(8).upcase}TIO"
-    end while Member.where(:sn => self.sn).any?
+      self.sn = random_sn
+    end while Member.where(sn: self.sn).any?
   end
-
+  
+  def random_sn
+    "SN#{SecureRandom.hex(5).upcase}"
+  end
+  
   def sync_update
     ::Pusher["private-#{sn}"].trigger_async('members', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
   end
