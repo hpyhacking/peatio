@@ -3,27 +3,12 @@ app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$filte
   $scope.currency = $stateParams.currency
   $scope.current_user = current_user = $gon.user
   $scope.name = current_user.name
+  $scope.bank_details_html = $gon.bank_details_html
   $scope.fund_sources = $gon.fund_sources
   $scope.account = Account.findBy('currency', $scope.currency)
   $scope.deposit_channel = DepositChannel.findBy('currency', $scope.currency)
   $scope.fiatCurrency = gon.fiat_currency
   $scope.fiatCurrencyTranslationLocals = currency: gon.fiat_currency
-
-  @createDeposit = (currency) ->
-    depositCtrl = @
-    deposit_channel = DepositChannel.findBy('currency', currency)
-    account = deposit_channel.account()
-
-    data = { account_id: account.id, member_id: current_user.id, currency: currency, amount: @deposit.amount, fund_source_id: @deposit.fund_source }
-
-    $('.form-submit > input').attr('disabled', 'disabled')
-
-    $http.post("/deposits/#{deposit_channel.resource_name}", { deposit: data})
-      .error (responseText) ->
-        $.publish 'flash', {message: responseText }
-      .finally ->
-        depositCtrl.deposit = {}
-        $('.form-submit > input').removeAttr('disabled')
 
   $scope.openFundSourceManagerPanel = ->
     ngDialog.open
@@ -46,7 +31,6 @@ app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$filte
         .finally ->
           $("a#new_address").html(I18n.t("funds.deposit_coin.new_address"))
           $("a#new_address").attr('disabled', 'disabled')
-
 
   $scope.$watch (-> $scope.account.deposit_address), ->
     setTimeout(->

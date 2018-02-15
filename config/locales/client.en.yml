@@ -41,24 +41,14 @@ en:
       withdraw: Withdraw
       deposit_fiat:
         title: '{{currency}} Deposit'
-        desc: "To deposit via Bank transfer, please follow these steps:"
-        desc_item_1: "1. Submit the form to get the identification code."
-        desc_item_2: "2. Transfer the money to exchange's bank account. Please make sure your referral code was written on the form you fill in."
-        desc_item_3: "3. Your deposit will be confirmed as soon as the money is received."
-        attention: "Attention: The name of your bank account must be the same as your account name on our site, otherwise your deposit may fail."
-        from: From
-        to: To
-        deposit_name: Your Name
-        deposit_account: Deposit Account
-        add: Add
-        manage: Manage
-        amount: Deposit Amount
-        min_amount: 'At least 10 {{currency}}'
-        to_account: Account
-        to_name: Name
-        to_bank_name: Bank Name
-        opening_bank_name: Account where created
-        remark: 'Referral Code (Transfer identification code)'
+        description: |
+          <div>Deposit to your account using the information below. You'll need to contact you bank for specific instructions.</div>
+          <ol>
+            <li>Be sure to include the «REFERENCE» code given below - this code identifies the deposit with your account.</li>
+            <li>Don't exceed your daily or monthly funding limits. If you exceed the limits, your account will be frozen until you get verified to higher limits, or until the funds are returned tou you.</li>
+            <li>Multiple deposits of the same amount within a few days of each other may become broken or delayed. If you must make multiple deposits, consider sending different amounts.</li>
+            <li>IMPORTANT: The name of the bank account you are depositing from must match the name entered for verification of your account you are depositing into.</li>
+          </ol>
 
       deposit_btc:
         title: BTC Deposit

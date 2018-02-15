@@ -39,6 +39,9 @@
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 15px;
+    &:not(:first-child) {
+      margin-top: 15px;
+    }
   }
   .help-block {
     ul {

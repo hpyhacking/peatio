@@ -113,6 +113,12 @@ defaults: &defaults
   # Customize title of markers page using the variable below:
   TITLE_MARKETS: PEATIO
 
+  # Customize bank details which is shown at fiat deposit page. You are free to supply HTML here.
+  BANK_DETAILS_HTML: |
+    <div><strong>Use this bank to make a deposit:</strong></div>
+    <div>Bank: National Bank of World</div>
+    <div>Account: 1234567890</div>
+
 development:
   <<: *defaults
 

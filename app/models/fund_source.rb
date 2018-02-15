@@ -13,7 +13,7 @@ class FundSource < ActiveRecord::Base
     if currency_obj.try :coin?
       "#{uid} (#{extra})"
     else
-      [I18n.t("banks.#{extra}"), "****#{uid[-4..-1]}"].join('#')
+      [extra, "****#{uid[-4..-1]}"].join('#')
     end
   end
 

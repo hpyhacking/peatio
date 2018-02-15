@@ -12,7 +12,6 @@ module Private
       @accounts = current_user.accounts.enabled
       @withdraws = current_user.withdraws
       @fund_sources = current_user.fund_sources
-      @banks = Bank.all
 
       gon.jbuilder
     end

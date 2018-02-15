@@ -4,7 +4,7 @@ app_root   = File.expand_path('../..', __FILE__)
 source_dir = File.path('/opt/peatio/config/')
 dest_dir   = File.expand_path('../../config', __FILE__)
 
-config_files = %w(application banks currencies markets deposit_channels withdraw_channels).map {|s| s << '.yml'}
+config_files = %w(application currencies markets deposit_channels withdraw_channels).map {|s| s << '.yml'}
 
 config_files.each do |config_file|
   dest = File.join(dest_dir, config_file)

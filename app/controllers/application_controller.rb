@@ -158,6 +158,8 @@ class ApplicationController < ActionController::Base
         memo
       end
     end
+
+    gon.bank_details_html = ENV['BANK_DETAILS_HTML']
   end
 
   def coin_rpc_connection_refused

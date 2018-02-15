@@ -11,7 +11,7 @@ describe FundSource do
       let(:fund_source) { build(:usd_fund_source) }
       subject { fund_source.label }
 
-      it { is_expected.to eq 'Bank of China#****1234' }
+      it { is_expected.to eq 'bc#****1234' }
     end
   end
 end

@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="fs in fund_sources()">
-      <td class="col-xs-8" ng-bind=" 'banks.' + fs.extra | t"></td>
+      <td class="col-xs-8" ng-bind="fs.extra"></td>
       <td class="col-xs-10" ng-bind="fs.uid"></td>
       <td class="col-xs-2 text-center">
         <input type="radio" value="fs" ng-checked="fs == defaultFundSource()" ng-click="makeDefault(fs)">
@@ -22,10 +22,7 @@
     </tr>
     <tr>
       <td class="col-xs-8">
-        <select class="form-control"
-          ng-options="bank.code as ('banks.' + bank.code | t) for bank in banks"
-          ng-init="extra = banks[0].code"
-          ng-model="extra">
+          <input class="string form-control" placeholder="{{'fund_sources.bank' | t}}" ng-model="extra" ng-init="extra = ''" />
         </select>
       </td>
       <td class="col-xs-12">
