@@ -2,14 +2,18 @@
 <html lang="en">
   <head>
     <link href="/favicon.ico" rel="shortcut icon" />
-    <%= include_gon %>
+    <%= render 'shared/meta' %>
+    <%= render 'shared/sentry' %>
+    <%= csrf_meta_tags %>
+
     <%= stylesheet_link_tag 'market', media: 'all' %>
     <%= custom_stylesheet_link_tag_for :markets %>
+
+    <%= include_gon %>
+    <%= render 'shared/html5' %>
+
     <%= javascript_include_tag 'market' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
-    <%= render 'shared/html5' %>
-    <%= render 'shared/meta' %>
-    <%= csrf_meta_tags %>
   </head>
 
   <body id="<%= body_id %>" data-lang="<%= locale_name %>">
