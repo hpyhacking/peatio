@@ -231,7 +231,7 @@ GEM
       rack (>= 1.6.2, < 3)
     omniauth-auth0 (2.0.0)
       omniauth-oauth2 (~> 1.4)
-    omniauth-barong (0.1.1)
+    omniauth-barong (0.1.2)
       omniauth-oauth2 (~> 1.5)
     omniauth-google-oauth2 (0.5.2)
       jwt (~> 1.5)
@@ -452,7 +452,7 @@ DEPENDENCIES
   mysql2 (~> 0.3.21)
   omniauth (~> 1.8.1)
   omniauth-auth0 (~> 2.0.0)
-  omniauth-barong (~> 0.1.0)
+  omniauth-barong (~> 0.1.2)
   omniauth-google-oauth2 (~> 0.5.2)
   paper_trail (~> 3.0.1)
   paranoid2
