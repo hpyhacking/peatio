@@ -13,18 +13,19 @@ module Admin
       end
 
       def update
-        if @bank.may_process?
+        if @bank.may_accept?
+          @bank.accept!
+        elsif @bank.may_process?
           @bank.process!
         elsif @bank.may_succeed?
           @bank.succeed!
         end
-
-        redirect_to :back, notice: t('.notice')
+        redirect_to :back, notice: 'Withdraw successfully updated!'
       end
 
       def destroy
         @bank.reject!
-        redirect_to :back, notice: t('.notice')
+        redirect_to :back, notice: 'Withdraw successfully destroyed!'
       end
     end
   end

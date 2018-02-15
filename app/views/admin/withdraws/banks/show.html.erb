@@ -41,6 +41,11 @@
           <% end %>
           <hr class="split">
           <ul class="list-inline pull-right">
+            <% if @bank.may_accept? %>
+              <li>
+                <%= link_to 'Accept', url_for([:admin, @bank]), class: 'btn btn-primary', method: 'PATCH' %>
+              </li>
+            <% end %>
             <% if @bank.may_reject? %>
               <li>
                 <%= link_to t('.reject'), url_for([:admin, @bank]), class: 'btn btn-danger', method: 'DELETE', confirm: t('.reject_confirm') %>
