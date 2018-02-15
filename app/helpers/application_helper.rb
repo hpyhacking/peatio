@@ -245,4 +245,13 @@ module ApplicationHelper
     end
     parts.join('')
   end
+
+  def custom_stylesheet_link_tag_for(layout)
+    if File.file?(Rails.root.join('public/custom-stylesheets', "#{layout}.css"))
+      tag :link, \
+        rel:   'stylesheet',
+        media: 'screen',
+        href:  "/custom-stylesheets/#{layout}.css"
+    end
+  end
 end

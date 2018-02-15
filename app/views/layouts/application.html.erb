@@ -10,6 +10,7 @@
     <% stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : 'application' %>
     <%= stylesheet_link_tag stylesheet, media: 'all' %>
     <%= render 'shared/theme' %>
+    <%= custom_stylesheet_link_tag_for :main %>
 
     <%= include_gon %>
     <%= render 'shared/html5' %>

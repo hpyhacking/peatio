@@ -6,6 +6,7 @@
     <%= csrf_meta_tags %>
     <%= include_gon %>
     <%= stylesheet_link_tag 'api_v2', media: 'all' %>
+    <%= custom_stylesheet_link_tag_for :api_v2 %>
     <%= render 'shared/html5' %>
     <%= javascript_include_tag 'api_v2' %>
   </head>
