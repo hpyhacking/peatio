@@ -3,7 +3,10 @@
   <head>
     <link href="/favicon.ico" rel="shortcut icon" />
     <%= include_gon %>
-    <%= stylesheet_link_tag 'market', media: "all" %>
+    <%= stylesheet_link_tag 'market', media: 'all' %>
+    <% if File.file?(Rails.root.join('public/custom-stylesheets/markets.css')) %>
+      <link rel="stylesheet" media="all" href="/custom-stylesheets/markets.css" />
+    <% end %>
     <%= javascript_include_tag 'market' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
     <%= render 'shared/html5' %>
