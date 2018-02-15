@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :authentication do
     provider 'MyString'
     uid 'MyString'
-    secret 'MyString'
+    token 'MyString'
     member_id 1
   end
 end

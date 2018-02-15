@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180215131129) do
+ActiveRecord::Schema.define(version: 20180215144645) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20180215131129) do
   create_table "authentications", force: :cascade do |t|
     t.string   "provider",   limit: 255
     t.string   "uid",        limit: 255
-    t.string   "secret",     limit: 255
+    t.text     "token",      limit: 65535
     t.integer  "member_id",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"

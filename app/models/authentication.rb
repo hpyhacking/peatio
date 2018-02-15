@@ -15,8 +15,8 @@ class Authentication < ActiveRecord::Base
       new \
         uid:      auth['uid'],
         provider: auth['provider'],
-        secret:   auth&.dig('credentials', 'secret'),
-        nickname: auth&.dig('info', 'nickname')
+        token:    auth.dig('credentials', 'token'),
+        nickname: auth.dig('info', 'nickname')
     end
   end
 end
