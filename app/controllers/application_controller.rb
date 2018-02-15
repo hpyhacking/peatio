@@ -80,7 +80,6 @@ class ApplicationController < ActionController::Base
     }
 
     gon.i18n = {
-      brand: I18n.t('gon.brand'),
       ask: I18n.t('gon.ask'),
       bid: I18n.t('gon.bid'),
       cancel: I18n.t('actions.cancel'),
@@ -130,6 +129,10 @@ class ApplicationController < ActionController::Base
         new: I18n.t('private.markets.trade_state.new'),
         partial: I18n.t('private.markets.trade_state.partial')
       }
+    }
+
+    gon.markets_metadata = {
+      title: ENV.fetch('MARKETS_METADATA_TITLE')
     }
 
     gon.currencies = Currency.all.inject({}) do |memo, currency|

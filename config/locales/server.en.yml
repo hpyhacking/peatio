@@ -1338,7 +1338,6 @@ en:
   gon:
     ask: Ask
     bid: Bid
-    brand: Peatio Exchange
     notification:
       title: Peatio Exchange
       enabled: Notification enabled.
@@ -1469,10 +1468,6 @@ en:
             currency: Deposit
     application:
       close: Close
-    meta:
-      page_title: Peatio - The Opensource Cryptocurrency Exchange
-      page_description: Peatio - The Opensource Cryptocurrency Exchange
-      page_keywords: Peatio,Opensource,Exchange,Cryptocurrency
   members:
     edit:
       name: Please fill out the application.

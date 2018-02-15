@@ -174,10 +174,6 @@ module ApplicationHelper
     asset_path("/languages/#{lang}.png")
   end
 
-  def i18n_meta(key)
-    t("#{i18n_controller_path}.#{action_name}.#{key}", default: :"layouts.meta.#{key}")
-  end
-
   def description_for(name, &block)
     content_tag :dl, class: "dl-horizontal dl-#{name}" do
       capture(&block)
