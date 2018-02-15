@@ -30,6 +30,10 @@ class Currency < ActiveYamlBase
       @coins ||= Currency.where(coin: true)
     end
 
+    def fiats
+      @fiats ||= Currency.where(coin: false)
+    end
+
     def coin_codes
       @coin_codes ||= self.coins.map(&:code)
     end

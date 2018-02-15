@@ -13,5 +13,13 @@ module Deposits
       end
     end
 
+    def sn=(new_sn)
+      self.member = Member.find_by_sn(new_sn)
+    end
+
+    def currency=(ccy)
+      super(ccy)
+      self.account = member&.accounts&.find_by_currency(ccy)
+    end
   end
 end

@@ -1,0 +1,42 @@
+<div class="row">
+
+  <%= form_for [:admin, @bank] do |f| %>
+    <div class="col-xs-10 col-xs-offset-2">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <span>Deposit details</span>
+        </div>
+        <div class="panel-body">
+            <dl class="dl-horizontal dl-member">
+              <dt>Bank</dt>
+              <dd><%= f.text_field :fund_extra, class: 'col-xs-24' %></dd>
+              <dt>Account</dt>
+              <dd><%= f.text_field :fund_uid, class: 'col-xs-24' %></dd>
+              <hr class="split">
+              <dt>Amount</dt>
+              <dd><%= f.number_field :amount, class: 'col-xs-24' %></dd>
+              <dt>Currency</dt>
+              <dd><%= f.select :currency, Currency.fiats.map { |ccy| [ccy.code.upcase, ccy.code] } %></dd>
+            </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-10">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <span>User info</span>
+        </div>
+        <div class="panel-body">
+            <dl class="dl-horizontal dl-member">
+              <dt>SN</dt>
+              <dd><%= f.text_field :sn%></dd>
+              <hr class="split">
+              <%= f.submit 'Accept', class: 'btn btn-primary pull-right' %>
+            </dl>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+</div>

@@ -1,50 +1,42 @@
 <div class="row">
-  <div class="col-xs-8">
+  <div class="col-xs-10">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <span><%= t('.deposit') %></span>
+        <span>Deposit details</span>
       </div>
       <div class="panel-body">
         <%= description_for :member do %>
-          <%= item_for @bank, :sn %>
-          <%= item_for @bank.member, :name %>
-          <%= item_for @bank, :amount %>
-          <%= item_for @bank, :created_at %>
-          <hr class="split">
-          <%= item_for @bank, :fund_extra, bank_code_to_name(@bank.fund_extra) %>
-          <%= item_for @bank, :fund_uid %>
-          <%= item_for @bank, :aasm_state_text %>
+          <dt>ID</dt><dd><%= @bank.sn %></dd>
+          <dt>Member</dt><dd><%= @bank.member_name %> / <%= @bank.member.email %></dd>
+          <dt>Amount</dt><dd><%= number_with_precision(@bank.amount, precision: 2) %></dd>
+          <dt>Created at</dt><dd><%= t(@bank.created_at, format: :long) %></dd>
+          <dt>State</dt><dd><%= @bank.aasm_state_text %></dd>
+          <dt>Bank name</dt><dd><%= @bank.fund_extra %></dd>
+          <dt>Bank account</dt><dd><%= @bank.fund_uid %></dd>
         <% end %>
       </div>
     </div>
   </div>
 
-  <div class="col-xs-8">
+  <div class="col-xs-10">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <span><%= t('.target_deposit') %></span>
+        <span>Wire transfer</span>
       </div>
       <div class="panel-body">
         <%= form_for [:admin, @bank] do |f| %>
           <dl class="dl-horizontal dl-member">
-            <%= item_for @bank, :sn %>
-            <%= item_for @bank, :amount %>
-            <%= item_for @bank, :done_at %>
-            <% if @bank.may_submit? or @bank.may_accept? %>
-              <dt><%= t('.txid') %></dt>
+            <% if @bank.may_submit? || @bank.may_accept? %>
+              <dt>Transfer ID</dt>
               <dd><%= f.text_field :txid, class: 'col-xs-24' %></dd>
               <hr class="split">
-              <%= f.submit t('.accept'), class: 'btn btn-primary pull-right', confirm: t('.confirm') %>
+              <%= f.submit 'Accept', class: 'btn btn-primary pull-right' %>
             <% else %>
-              <%= item_for @bank, :txid %>
+              <dt>Transfer ID</dt><dd><%= @bank.txid %></dd>
             <% end %>
           </dl>
         <% end %>
       </div>
     </div>
-  </div>
-
-  <div class="col-xs-8">
-    <%= render partial: 'shared/admin/member', locals: {member: @bank.member} %>
   </div>
 </div>

@@ -1,6 +1,7 @@
 module Admin
   module Deposits
     class BanksController < ::Admin::Deposits::BaseController
+
       load_and_authorize_resource :class => '::Deposits::Bank'
 
       def index
@@ -20,6 +21,16 @@ module Admin
         flash.now[:notice] = t('.notice') if @bank.aasm_state.accepted?
       end
 
+      def create
+        @bank = ::Deposits::Bank.new(deposit_params)
+        if @bank.save
+          redirect_to action: :index
+        else
+          flash[:alert] = @bank.errors.full_messages.first
+          render :new
+        end
+      end
+
       def update
         if target_params[:txid].blank?
           flash[:alert] = t('.blank_txid')
@@ -33,7 +44,11 @@ module Admin
 
       private
       def target_params
-        params.require(:deposits_bank).permit(:sn, :holder, :amount, :created_at, :txid)
+        params.require(:deposits_bank).permit(:txid)
+      end
+
+      def deposit_params
+        params.require(:deposits_bank).permit(:sn, :amount, :fund_uid, :fund_extra, :currency)
       end
     end
   end
