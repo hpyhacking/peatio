@@ -127,6 +127,12 @@ defaults: &defaults
     <div>Bank: National Bank of World</div>
     <div>Account: 1234567890</div>
 
+  # Set to "true" to disable markets UI (admins still have access).
+  DISABLE_MARKETS_UI: ~
+
+  # Set to "true" to disable cabinet UI (admins still have access).
+  DISABLE_CABINET_UI: ~
+
 development:
   <<: *defaults
 
