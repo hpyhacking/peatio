@@ -1,23 +1,56 @@
 # Peatio - an open-source crypto currency exchange
 
-[![Build Status](https://ci.helioscloud.com/api/v1/pipelines/peatio/jobs/test-master/badge)](https://ci.helioscloud.com/pipelines/peatio/jobs/test-master)
+[![Build Status](https://travis-ci.org/rubykube/peatio.svg?branch=master)](https://travis-ci.org/rubykube/peatio)
 [![Telegram Chat](https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg)](https://t.me/peatio)
 
-### [peatio.tech](https://www.peatio.tech) fork
+## [Peatio.tech](https://www.peatio.tech) Introduction
 
-Peatio is a free and open-source crypto currency exchange implementation with the Rails framework and other cutting-edge technology.
+Peatio is a free and open-source crypto currency exchange implementation with the Rails framework.
+Peatio.tech is a fork of Peatio designed for micro-services architecture, we have simplified the code
+in order to use only Peatio API with external frontend and server components.
+
+To build your own exchange you should now run Peatio as a backend instead of forking the repository,
+and extend it using other microservices such as [Barong](https://www.github.com/rubykube/barong).
 
 ## Mission
 
-Our mission is to build the world best open-source crypto currency exchange with a high performance trading engine and safety which can be trusted and enjoyed by users. Additionally we want to move the crypto currency exchange technology forward by providing support and add new features. We are helping people to build easy their own exchange around the world.
+Our mission is to build an open-source crypto currency exchange with a high performance trading engine and safety which can be trusted and enjoyed by users. We moving toward dev/ops best practices of running an enterprise grade exchange.
+
+We provide webminar or on site training for installing, configuring and administation best practices of Peatio.
+Feel free to contact us for joining the next training session: [Peatio.tech](https://www.peatio.tech)
 
 Help is greatly appreciated, feel free to submit pull-requests or open issues.
+
+## Requirements
+
+* Linux / Mac OSX
+* Docker / Kubernetes
+* Ruby 2.5.0
+* Rails 4.2+
+* Redis 2.0+
+* MySQL 5.7
+* RabbitMQ
+
+Find more details in the [docs directory](docs).
+
+## Getting Started
+
+Local development setup:
+
+* [Docker compose](https://github.com/rubykube/peatio-workbench)
+* [on Mac OS X](docs/dev/setup/osx.md)
+* [on Ubuntu](docs/dev/setup/ubuntu.md)
+
+Production setup:
+
+* [Deploy production cluster with kite](https://github.com/rubykube/kite/README.md)
+* [Kubernetes deployment architecture](docs/architecture.md)
 
 ## Things You Should Know
 
 **RUNNING A EXCHANGE IS HARD.**
 
-Peatio makes it easier, but running an exchange is still harder than a blog, which you can download the source code and following the guide or even a cool installer and boom!!! a fancy site is there to profit. We always prioritize security and speed higher than 1-click setup. We split Peatio to many components (processes) so it's flexible to deploy and scalable.
+This repository is not a turn key solution and would require engineering and design of security process by your company, with or without our assistance. This repository is one component among many we recommand using for composing an enterprise grade exchange. It's is highly recommanded to deploy a UAT environment and build automated test for your needs, Functional tests, Smoke tests, Security vulnerability scans. You may not need to have active developer on peatio source code and we recommand the following team setup: 1 dev/ops, 3 frontend developers (react / angular), 2 QA engineers, 1 Security Officer.
 
 **SECURITY KNOWLEDGE IS A REQUIREMENT.**
 
@@ -27,7 +60,9 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 
 * Rails knowledge
 * Security knowledge
-* System administration
+* Cloud and Linux administration
+* Docker and Kubernetes administration
+* Micro-services and OAuth 2.0
 
 ## Features
 
@@ -37,50 +72,12 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * Usability and scalibility
 * Websocket API and high frequency trading support
 * Support multiple digital currencies (eg. Bitcoin, Litecoin, Dogecoin etc.)
-* Easy customization of payment processing for both fiat and digital currencies
-* [KYC Verification](http://en.wikipedia.org/wiki/Know_your_customer)
+* API end point for FIAT deposits or payment gateways.
 * Powerful admin dashboard and management tools
 * Highly configurable and extendable
 * Industry standard security out of box
-* Active community behind
-* Free and open-source
 * Maintained by [peatio.tech](https://www.peatio.tech)
-
-## Known Exchanges using Peatio
-
-* **[peatio.tech](https://www.peatio.tech)** - provides Peatio support (add custom features, deploy to the cloud, etc)
-* [Yunbi Exchange](https://yunbi.com) - a crypto-currency exchange funded by BitFundPE
-* [Bitspark](https://bitspark.io) - bitcoin exchange in Hong Kong
-* [MarsX.io](https://acx.io) - australian cryptocurrency rxchange
-* [One World Coin](https://oneworldcoin.com)
-
-## Mobile Apps
-
-* [Boilr](https://github.com/andrefbsantos/boilr) - cryptocurrency and bullion price alarms for Android
-
-## Requirements
-
-* Linux / Mac OSX
-* Ruby 2.2.8
-* Rails 4.0+
-* Git 1.7.10+
-* Redis 2.0+
-* MySQL
-* RabbitMQ
-
-Find more details in the [docs directory](docs).
-
-## Getting Started
-
-Local development setup:
-
-* [on Mac OS X](docs/dev/setup/osx.md)
-* [on Ubuntu](docs/dev/setup/ubuntu.md)
-
-Production setup:
-
-* [Deploy production server on Ubuntu](docs/ops/deploy/ubuntu.md)
-* [Using Peatio docker image](docs/ops/deploy/docker.md)
+* [KYC Verification](http://en.wikipedia.org/wiki/Know_your_customer) provided by [Barong](https://www.github.com/rubykube/peatio)
 
 ## API
 
@@ -125,6 +122,8 @@ Want to report a bug, request a feature, contribute or translate Peatio?
 
 If you need help with running/deploying/customizing Peatio,
 you can contact us on [peatio.tech](https://www.peatio.tech).
+
+Contact us by email: [hello@peatio.tech](mailto:hello@peatio.tech)
 
 ## License
 
