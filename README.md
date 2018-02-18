@@ -38,8 +38,8 @@ Find more details in the [docs directory](docs).
 Local development setup:
 
 * [Docker compose](https://github.com/rubykube/peatio-workbench)
-* [on Mac OS X](docs/dev/setup/osx.md)
-* [on Ubuntu](docs/dev/setup/ubuntu.md)
+* [on Mac OS X](docs/setup-osx.md)
+* [on Ubuntu](docs/setup-ubuntu.md)
 
 Production setup:
 
