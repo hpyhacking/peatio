@@ -185,3 +185,24 @@ class Member < ActiveRecord::Base
     ::Pusher["private-#{sn}"].trigger_async('members', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
   end
 end
+
+# == Schema Information
+# Schema version: 20180215144645
+#
+# Table name: members
+#
+#  id           :integer          not null, primary key
+#  level        :string(20)       default("")
+#  sn           :string(12)       not null
+#  email        :string(255)      not null
+#  disabled     :boolean          default(FALSE), not null
+#  api_disabled :boolean          default(FALSE), not null
+#  name         :string(45)
+#  nickname     :string(32)
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+# Indexes
+#
+#  index_members_on_sn  (sn) UNIQUE
+#

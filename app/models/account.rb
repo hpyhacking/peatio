@@ -188,3 +188,25 @@ class Account < ActiveRecord::Base
   end
 
 end
+
+# == Schema Information
+# Schema version: 20180215144645
+#
+# Table name: accounts
+#
+#  id                              :integer          not null, primary key
+#  member_id                       :integer
+#  currency                        :integer
+#  balance                         :decimal(32, 16)
+#  locked                          :decimal(32, 16)
+#  created_at                      :datetime
+#  updated_at                      :datetime
+#  in                              :decimal(32, 16)
+#  out                             :decimal(32, 16)
+#  default_withdraw_fund_source_id :integer
+#
+# Indexes
+#
+#  index_accounts_on_member_id               (member_id)
+#  index_accounts_on_member_id_and_currency  (member_id,currency)
+#

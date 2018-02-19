@@ -58,3 +58,26 @@ class APIToken < ActiveRecord::Base
   end
 
 end
+
+# == Schema Information
+# Schema version: 20180215144645
+#
+# Table name: api_tokens
+#
+#  id              :integer          not null, primary key
+#  member_id       :integer          not null
+#  access_key      :string(50)       not null
+#  secret_key      :string(50)       not null
+#  created_at      :datetime
+#  updated_at      :datetime
+#  trusted_ip_list :string(255)
+#  label           :string(255)
+#  expires_at      :datetime
+#  scopes          :string(255)
+#  deleted_at      :datetime
+#
+# Indexes
+#
+#  index_api_tokens_on_access_key  (access_key) UNIQUE
+#  index_api_tokens_on_secret_key  (secret_key) UNIQUE
+#

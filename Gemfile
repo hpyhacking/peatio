@@ -79,6 +79,10 @@ group :development, :test do
   gem 'pry-byebug'
 end
 
+group :development do
+  gem 'annotate', '~> 2.7'
+end
+
 group :test do
   gem 'database_cleaner'
   gem 'mocha', require: false

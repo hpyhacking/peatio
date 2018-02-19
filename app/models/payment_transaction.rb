@@ -56,3 +56,29 @@ class PaymentTransaction < ActiveRecord::Base
     end
   end
 end
+
+# == Schema Information
+# Schema version: 20180215144645
+#
+# Table name: payment_transactions
+#
+#  id            :integer          not null, primary key
+#  txid          :string(255)
+#  amount        :decimal(32, 16)
+#  confirmations :integer
+#  address       :string(255)
+#  state         :integer
+#  aasm_state    :string
+#  created_at    :datetime
+#  updated_at    :datetime
+#  receive_at    :datetime
+#  dont_at       :datetime
+#  currency      :integer
+#  type          :string(60)
+#  txout         :integer
+#
+# Indexes
+#
+#  index_payment_transactions_on_txid_and_txout  (txid,txout)
+#  index_payment_transactions_on_type            (type)
+#

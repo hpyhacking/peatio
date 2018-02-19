@@ -21,3 +21,19 @@ class FundSource < ActiveRecord::Base
     super(options).merge({label: label})
   end
 end
+
+# == Schema Information
+# Schema version: 20180215144645
+#
+# Table name: fund_sources
+#
+#  id         :integer          not null, primary key
+#  member_id  :integer
+#  currency   :integer
+#  extra      :string(255)
+#  uid        :string(255)
+#  is_locked  :boolean          default(FALSE)
+#  created_at :datetime
+#  updated_at :datetime
+#  deleted_at :datetime
+#
