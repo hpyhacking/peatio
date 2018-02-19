@@ -42,22 +42,18 @@ class Member < ActiveRecord::Base
     end
 
     def search(field: nil, term: nil)
-      result = case field
-               when 'email'
-                 where('members.email LIKE ?', "%#{term}%")
-               when 'name'
-                 where('members.name LIKE ?', "%#{term}%")
-               when 'wallet_address'
-                 members = joins(:fund_sources).where('fund_sources.uid' => term)
-                 if members.empty?
-                  members = joins(:payment_addresses).where('payment_addresses.address' => term)
-                 end
-                 members
-               else
-                 all
-               end
-
-      result.order(:id).reverse_order
+      case field
+        when 'email', 'name', 'sn'
+          where("members.#{field} LIKE ?", "%#{term}%")
+        when 'wallet_address'
+          members = joins(:fund_sources).where('fund_sources.uid' => term)
+          if members.empty?
+            members = joins(:payment_addresses).where('payment_addresses.address' => term)
+          end
+          members
+        else
+          all
+      end.order(:id).reverse_order
     end
 
     private

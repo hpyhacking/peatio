@@ -6,6 +6,7 @@
   <div class="panel-body">
     <%= description_for :member do %>
       <%= item_for member, :email %>
+      <%= item_for member, :sn %>
       <%= item_for member, :created_at %>
       <hr class="split">
     <% end %>

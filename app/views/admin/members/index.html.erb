@@ -6,10 +6,11 @@
     <div class="panel-body">
       <%= form_tag admin_members_path, method: :get do |f| %>
         <div class="col-xs-3">
-          <%= select_tag :search_field, options_for_select([ \
-            [t('.email'), 'email'],                                \
-            [t('.name'),  'name'],                                 \
-            [t('.wallet_address'), 'wallet_address'],              \
+          <%= select_tag :search_field, options_for_select([  \
+            ['E-Mail', 'email'],                               \
+            ['Name',  'name'],                                \
+            ['Wallet address', 'wallet_address'],             \
+            ['SN', 'sn']
           ], @search_field) %>
         </div>
         <div class="col-xs-4">
@@ -35,6 +36,9 @@
           <code class="text-info">
             <%= x.email %>
           </code>
+        <% end %>
+        <% t.column 'SN', class: 'col-xs-2' do |x| %>
+            <%= x.sn %>
         <% end %>
         <% t.column :created_at, class: 'col-xs-3' %>
         <% t.column 'Disabled? (Web/API)', class: 'col-xs-1' do |x| %>
