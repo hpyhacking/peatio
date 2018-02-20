@@ -7,7 +7,7 @@ language: ruby
 cache: bundler
 
 env:
-  - RAILS_ENV=test RAKE_ENV=test DISPLAY=:0.0
+  - RAILS_ENV=test RAKE_ENV=test DISPLAY=:0.0 BOT_USERNAME=kite-bot BOT_NAME="Kite Bot" BOT_EMAIL=kite-bot@heliostech.fr
 
 services:
   - mysql
@@ -41,7 +41,7 @@ script:
   docker build --tag peatio .
 
 # Execute all of the commands which need to be executed after the build passed.
-after_success:
+after_success: ruby ci/bump.rb
 
 # Execute all of the commands which need to be executed after the build failed.
 after_failure:
