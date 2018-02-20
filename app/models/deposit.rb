@@ -13,7 +13,6 @@ class Deposit < ActiveRecord::Base
 
   alias_attribute :sn, :id
 
-  delegate :name, to: :member, prefix: true
   delegate :id, to: :channel, prefix: true
   delegate :coin?, :fiat?, to: :currency_obj
 

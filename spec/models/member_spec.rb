@@ -79,14 +79,6 @@ describe Member do
       it { expect(subject).to be_include(member) }
     end
 
-    describe 'search by name' do
-      let(:member) { create(:member, :verified_identity) }
-      subject { Member.search(field: 'name', term: member.name) }
-
-      it { expect(subject.count).to eq(1) }
-      it { expect(subject).to be_include(member) }
-    end
-
     describe 'search by wallet address' do
       let(:fund_source) { create(:btc_fund_source) }
       let(:member) { fund_source.member }

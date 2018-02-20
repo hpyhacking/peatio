@@ -112,7 +112,6 @@ en:
         sn: SN
       withdraws/bank:
         id: ID
-        member_name: Member
         currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_source: Bank
@@ -130,7 +129,6 @@ en:
         fund_extra: Sender Bank
         fund_uid: Sender Account
         member_sn: Member SN
-        member_name: Sender Name
         amount: Amount
         sn: SN
         state_and_action: State/Action
@@ -174,7 +172,6 @@ en:
         aasm_state_text: State
       withdraws/satoshi:
         id: ID
-        member_name: Account
         currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_extra_text: Withdraw Label
@@ -188,7 +185,6 @@ en:
         fee: Fee
       withdraws/bitcoin_cash:
         id: ID
-        member_name: Account
         currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_extra_text: Withdraw Label
@@ -202,7 +198,6 @@ en:
         fee: Fee
       withdraws/litoshi:
         id: ID
-        member_name: Account
         currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_extra_text: Withdraw Label
@@ -216,7 +211,6 @@ en:
         fee: Fee
       withdraws/ripple:
         id: ID
-        member_name: Account
         currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_extra_text: Withdraw Label
@@ -230,7 +224,6 @@ en:
         fee: Fee
       withdraws/duff:
         id: ID
-        member_name: Account
         currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_extra_text: Withdraw Label
@@ -386,7 +379,6 @@ en:
         fee: Fee
         currency_text: Currency
         aasm_state_text: State
-        member_name: Member
     bank_deposits_grid:
       columns:
         sn: SN
@@ -1021,14 +1013,10 @@ en:
       deposit:
         bank:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
-          member_name: "<span class='text-danger'>Recharge bank account name must
-            match the name with your real name authentication</span>"
           sn: "<span class='text-danger'>Please copy the SN in your bank transfer's
             message, otherwise we can not process your order quickly.</span>"
       withdraw:
         bank:
-          member_name: "<span class='text-danger'>Withdraw bank account name must
-            match your name used for real-name authentication</span>"
           sum: "<a target='_balance' href='#'>Fee structure</a>"
           fund_extra: If your bank is no longer in the list, please contact customer
             service
@@ -1066,42 +1054,36 @@ en:
           fund_extra: Bank
           sum: Amount
           account_balance: Account Balance
-          member_name: Account Holder Name
         satoshi:
           fee: Fee
           sum: Amount
           fund_uid: Bitcoin Address
           fund_extra: Label
           account_balance: Account Balance
-          member_name: Account
         bitcoin_cash:
           fee: Fee
           sum: Amount
           fund_uid: Bitcoin Address
           fund_extra: Label
           account_balance: Account Balance
-          member_name: Account
         litoshi:
           fee: Fee
           sum: Amount
           fund_uid: Litoshi Address
           fund_extra: Label
           account_balance: Account Balance
-          member_name: Account
         ripple:
           fee: Fee
           sum: Amount
           fund_uid: Bitcoin Address
           fund_extra: Label
           account_balance: Account Balance
-          member_name: Account
         duff:
           fee: Fee
           sum: Amount
           fund_uid: Bitcoin Address
           fund_extra: Label
           account_balance: Account Balance
-          member_name: Account
   admin:
     deposits:
       banks:
@@ -1236,7 +1218,6 @@ en:
       txid: TxId
       created_at: Created At
       confirmations: Confirmations
-      member_name: Member
       state_and_actions: State/Actions
       currency_obj_key_text: Currency
     bitcoin_cash:
@@ -1244,7 +1225,6 @@ en:
       txid: TxId
       created_at: Created At
       confirmations: Confirmations
-      member_name: Member
       state_and_actions: State/Actions
       currency_obj_key_text: Currency
     litoshi:
@@ -1252,7 +1232,6 @@ en:
       txid: TxId
       created_at: Created At
       confirmations: Confirmations
-      member_name: Member
       state_and_actions: State/Actions
       currency_obj_key_text: Currency
     ripple:
@@ -1260,7 +1239,6 @@ en:
       txid: TxId
       created_at: Created At
       confirmations: Confirmations
-      member_name: Member
       state_and_actions: State/Actions
       currency_obj_key_text: Currency
     duff:
@@ -1268,7 +1246,6 @@ en:
       txid: TxId
       created_at: Created At
       confirmations: Confirmations
-      member_name: Member
       state_and_actions: State/Actions
       currency_obj_key_text: Currency
     bank:
@@ -1277,7 +1254,6 @@ en:
       created_at: At
       fund_source: Fund Source
       memo: Memo
-      member_name: Member
       state_and_actions: State/Action
       currency_obj_key_text: Currency
   enumerize:

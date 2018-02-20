@@ -2,7 +2,7 @@
 <% dropdown_class = (controllers & controller_path.split('/')).empty? ? '' : 'active' %>
 <li class="dropdown account-settings <%= dropdown_class %>">
   <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-    <span><%= current_user.email || current_user.nickname %></span>
+    <span><%= current_user.email %></span>
     <b class="caret"></b>
   </a>
   <ul class="dropdown-menu">

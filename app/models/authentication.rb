@@ -15,14 +15,13 @@ class Authentication < ActiveRecord::Base
       new \
         uid:      auth['uid'],
         provider: auth['provider'],
-        token:    auth.dig('credentials', 'token'),
-        nickname: auth.dig('info', 'nickname')
+        token:    auth.dig('credentials', 'token')
     end
   end
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180216145412
 #
 # Table name: authentications
 #
@@ -33,7 +32,6 @@ end
 #  member_id  :integer
 #  created_at :datetime
 #  updated_at :datetime
-#  nickname   :string(255)
 #
 # Indexes
 #

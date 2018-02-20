@@ -6,8 +6,8 @@
   <% end %>
   <% t.column :created_at %>
   <% t.column :currency_obj_key_text %>
-  <% t.column :member_name do |x| %>
-    <%= link_to x.member_name, url_for([:admin, x.member]), target: '_blank' %>
+  <% t.column 'Member email' do |x| %>
+    <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
   <% end %>
   <% t.column :amount do |x| %>
     <code class="text-info"><%= x.amount %></code>

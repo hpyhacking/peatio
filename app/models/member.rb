@@ -43,7 +43,7 @@ class Member < ActiveRecord::Base
 
     def search(field: nil, term: nil)
       case field
-        when 'email', 'name', 'sn'
+        when 'email', 'sn'
           where("members.#{field} LIKE ?", "%#{term}%")
         when 'wallet_address'
           members = joins(:fund_sources).where('fund_sources.uid' => term)
@@ -73,7 +73,6 @@ class Member < ActiveRecord::Base
 
     def create_from_auth(auth_hash)
       new(email:    auth_hash.dig('info', 'email'),
-          nickname: auth_hash.dig('info', 'nickname'),
           level:    Member::Levels.get(auth_hash.dig('info', 'level'))
       ).tap do |member|
         member.save!
@@ -103,15 +102,11 @@ class Member < ActiveRecord::Base
   end
 
   def to_s
-    "#{name || email} - #{sn}"
+    "#{email} - #{sn}"
   end
 
   def gravatar
     "//gravatar.com/avatar/" + Digest::MD5.hexdigest(email.strip.downcase) + "?d=retro"
-  end
-
-  def initial?
-    name? and !name.empty?
   end
 
   def get_account(currency)
@@ -147,7 +142,6 @@ class Member < ActiveRecord::Base
 
   def as_json(options = {})
     super(options).merge({
-      "name" => self.name,
       "memo" => self.id
     })
   end
@@ -183,7 +177,7 @@ class Member < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180216145412
 #
 # Table name: members
 #
@@ -193,8 +187,6 @@ end
 #  email        :string(255)      not null
 #  disabled     :boolean          default(FALSE), not null
 #  api_disabled :boolean          default(FALSE), not null
-#  name         :string(45)
-#  nickname     :string(32)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #

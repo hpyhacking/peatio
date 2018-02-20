@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :member do
     email { Faker::Internet.email }
-    name { Faker::Name.name }
-    nickname { Faker::Internet.user_name }
     level { :unverified }
 
     trait :verified_identity do

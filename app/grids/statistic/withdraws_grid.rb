@@ -14,7 +14,7 @@ module Statistic
 
     column(:member) do |model|
       format(model) do
-        link_to model.account.member.name, member_path(model.member_id)
+        link_to model.account.member.email, member_path(model.member_id)
       end
     end
 

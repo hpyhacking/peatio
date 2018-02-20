@@ -70,7 +70,6 @@ ru:
         confirmations: Подтверждения
         state_done: Выполнено
       withdraws/bank:
-        member_name: Участник
         currency_obj_key_text: Валюта
         fund_source: Банк
         fund_extra: Банк
@@ -85,7 +84,6 @@ ru:
         holder: Держатель
         fund_extra: Банк отправителя
         fund_uid: Счет отправителя
-        member_name: Имя отправителя
         amount: Сумма
       deposits/satoshi:
         txid: Номер перевода
@@ -102,7 +100,6 @@ ru:
       columns:
         amount: Сумма
         fee: Комиссия
-        member_name: Участник
     bank_deposits_grid:
       columns:
         amount: Сумма
@@ -177,11 +174,6 @@ ru:
   deposits/satoshi:
     aasm_state:
       accepted: Одобрен
-  easy_table:
-    satoshi:
-      member_name: Участник
-    bank:
-      member_name: Участник
   enumerize:
     deposit:
       aasm_state:

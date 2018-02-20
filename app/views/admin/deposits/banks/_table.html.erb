@@ -5,10 +5,10 @@
     <% t.column 'Currency', class: 'col-xs-2' do |x| %>
       <%= x.currency.upcase %>
     <% end %>
-    <% t.column 'Member', class: 'col-xs-3' do |x| %>
-      <%= link_to x.member_name, url_for([:admin, x.member]), target: '_blank' %>
+    <% t.column 'Member email', class: 'col-xs-5' do |x| %>
+      <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
     <% end %>
-    <% t.column 'Bank account', class: 'col-xs-5' do |x| %>
+    <% t.column 'Bank account', class: 'col-xs-4' do |x| %>
       <span><%= x.fund_uid %> (<%= x.fund_extra.presence || '<unavailable>' %>)</span>
     <% end %>
     <% t.column :amount, class: 'col-xs-3' do |x| %>

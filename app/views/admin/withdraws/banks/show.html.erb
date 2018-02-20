@@ -12,9 +12,9 @@
           <%= item_for @bank, :created_at %>
           <%= item_for @bank, :aasm_state_text %>
           <hr class="split">
-          <%= item_for @bank.member, :name do %>
-            <span class="fa fa-copy" data-clipboard-text="<%= @bank.member.name %>">
-              <%= @bank.member.name %>
+          <%= item_for @bank.member, :email do %>
+            <span class="fa fa-copy" data-clipboard-text="<%= @bank.member.email %>">
+              <%= @bank.member.email %>
             </span>
           <% end %>
           <%= item_for @bank, :fund_extra do %>

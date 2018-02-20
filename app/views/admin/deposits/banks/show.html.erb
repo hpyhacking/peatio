@@ -7,7 +7,7 @@
       <div class="panel-body">
         <%= description_for :member do %>
           <dt>ID</dt><dd><%= @bank.sn %></dd>
-          <dt>Member</dt><dd><%= @bank.member_name %> / <%= @bank.member.email %></dd>
+          <dt>Member</dt><dd><%= @bank.member.email %></dd>
           <dt>Amount</dt><dd><%= number_with_precision(@bank.amount, precision: 2) %></dd>
           <dt>Created at</dt><dd><%= t(@bank.created_at, format: :long) %></dd>
           <dt>State</dt><dd><%= @bank.aasm_state_text %></dd>

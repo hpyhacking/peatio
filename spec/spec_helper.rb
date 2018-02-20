@@ -15,8 +15,7 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 %i[ google_oauth2 auth0 ].each do |provider|
   { 'provider' => provider.to_s,
     'uid'      => '1234567890',
-    'info'     => { 'name' => 'John Smith',
-                    'email' => "johnsmith@#{provider.to_s.gsub(/_/, '-')}-provider.com" }
+    'info'     => { 'email' => "johnsmith@#{provider.to_s.gsub(/_/, '-')}-provider.com" }
   }.tap { |hash| OmniAuth.config.add_mock(provider, hash) }
 end
 

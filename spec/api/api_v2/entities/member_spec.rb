@@ -6,7 +6,6 @@ describe APIv2::Entities::Member do
   before { Currency.stubs(:codes).returns(%w[usd btc]) }
 
   it { expect(subject.sn).to eq member.sn }
-  it { expect(subject.name).to eq member.name }
   it { expect(subject.email).to eq member.email }
 
   it 'accounts' do

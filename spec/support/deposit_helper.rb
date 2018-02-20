@@ -6,7 +6,7 @@ def deposit(admin_identity, member, amount)
   query = { deposit: { txid: "deposit_#{Time.now.to_i}",
                        sn: member.sn,
                        fund_uid: identity.email,
-                       fund_extra: member.name,
+                       fund_extra: member.email,
                        amount: amount } }
 
   visit(new_admin_currency_deposit_path(query))

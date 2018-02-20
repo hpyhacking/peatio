@@ -20,7 +20,6 @@ class Withdraw < ActiveRecord::Base
   delegate :balance, to: :account, prefix: true
   delegate :key_text, to: :channel, prefix: true
   delegate :id, to: :channel, prefix: true
-  delegate :name, to: :member, prefix: true
   delegate :coin?, :fiat?, to: :currency_obj
 
   before_validation :fix_precision
@@ -60,7 +59,6 @@ class Withdraw < ActiveRecord::Base
   end
 
   alias_attribute :withdraw_id, :sn
-  alias_attribute :full_name, :member_name
 
   def generate_sn
     id_part = sprintf '%04d', id

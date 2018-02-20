@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180215144645) do
+ActiveRecord::Schema.define(version: 20180216145412) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -86,7 +86,6 @@ ActiveRecord::Schema.define(version: 20180215144645) do
     t.integer  "member_id",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "nickname",   limit: 255
   end
 
   add_index "authentications", ["member_id"], name: "index_authentications_on_member_id", using: :btree
@@ -131,8 +130,6 @@ ActiveRecord::Schema.define(version: 20180215144645) do
     t.string   "email",        limit: 255,                 null: false
     t.boolean  "disabled",                 default: false, null: false
     t.boolean  "api_disabled",             default: false, null: false
-    t.string   "name",         limit: 45
-    t.string   "nickname",     limit: 32
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
   end
