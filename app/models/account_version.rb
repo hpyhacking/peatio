@@ -53,7 +53,7 @@ class AccountVersion < ActiveRecord::Base
     stmt    = "INSERT INTO account_versions (#{columns}) #{select}"
 
     connection.insert(stmt).tap do |id|
-      if id == 0
+      if id == 0 || id.blank? # if record not inserted mysql returns id = 0 and mssql returns id = nil
         record = new attrs
         raise ActiveRecord::StaleObjectError.new(record, "create")
       end
