@@ -43,7 +43,7 @@ Local development setup:
 
 Production setup:
 
-* [Deploy production cluster with kite](https://github.com/rubykube/kite/README.md)
+* [Deploy production cluster with kite](https://github.com/rubykube/kite/blob/master/README.md)
 * [Kubernetes deployment architecture](docs/architecture.md)
 
 ## Things You Should Know
