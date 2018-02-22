@@ -746,7 +746,7 @@ header {
 
   .hint-price-disadvantage, .hint-positions  {
     top: 3px;
-    left: 60px;
+    left: 65px;
     margin-left: 0px;
     position: absolute;
     z-index: 10;
@@ -848,6 +848,10 @@ table {
 
 .dropdown:hover .dropdown-menu {
     display: block;
+}
+
+.panel-width {
+  width: 100%
 }
 
 @import 'custom/market';
