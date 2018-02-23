@@ -95,7 +95,7 @@ Here're some API clients and/or wrappers:
 
 * [peatio-client-ruby](https://github.com/peatio/peatio-client-ruby) is the official ruby client of both HTTP/Websocket API.
 * [peatio-client-python by JohnnyZhao](https://github.com/JohnnyZhao/peatio-client-python) is a python client written by JohnnyZhao.
-* [peatio-client-python by czheo](https://github.com/JohnnyZhao/peatio-client-python) is a python wrapper similar to peatio-client-ruby written by czheo.
+* [peatio-client-python by czheo](https://github.com/czheo/peatio-client-python) is a python wrapper similar to peatio-client-ruby written by czheo.
 * [peatioJavaClient](https://github.com/classic1999/peatioJavaClient.git) is a java client written by classic1999.
 * [yunbi-client-php](https://github.com/panlilu/yunbi-client-php) is a php client written by panlilu.
 
