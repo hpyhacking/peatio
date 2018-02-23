@@ -13,8 +13,13 @@
       padding: 0;
       display: inline-table;
     }
-      a {
-        width: auto !important;
-      }
+    a {
+      width: auto !important;
+    }
   }
+}
+
+header .account-settings {
+   min-width: 140px;
+   text-align: center;
 }
