@@ -6,3 +6,15 @@
   display: flex;
   word-break: break-all;
 }
+
+#assets-index {
+  ul.assets-nav {
+    li {
+      padding: 0;
+      display: inline-table;
+    }
+      a {
+        width: auto !important;
+      }
+  }
+}
