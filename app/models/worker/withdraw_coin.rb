@@ -10,15 +10,12 @@ module Worker
         balance = CoinAPI[withdraw.currency.to_sym].load_balance!
         withdraw.mark_suspect if balance < withdraw.sum
 
-        fee = [withdraw.fee.to_f || withdraw.channel.try(:fee) || 0.0005, 0.1].min
-
         pa = withdraw.account.payment_address
 
         txid = CoinAPI[withdraw.currency.to_sym].create_withdrawal!(
           { address: pa.address, secret: pa.secret },
           { address: withdraw.fund_uid },
-          withdraw.amount.to_d,
-          fee.to_d
+          withdraw.amount.to_d
         )
 
         withdraw.whodunnit 'Worker::WithdrawCoin' do

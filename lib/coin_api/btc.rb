@@ -29,8 +29,8 @@ module CoinAPI
       { address: json_rpc(:getnewaddress).fetch('result') }
     end
 
-    def create_withdrawal!(issuer, recipient, amount, fee)
-      json_rpc(:settxfee, [fee])
+    def create_withdrawal!(issuer, recipient, amount, options = {})
+      json_rpc(:settxfee, [options[:fee]]) if options.key?(:fee)
       json_rpc(:sendtoaddress, [recipient.fetch(:address), amount]).fetch('result')
     end
 

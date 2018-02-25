@@ -34,13 +34,14 @@ module CoinAPI
         .yield_self { |tx| build_deposit(tx) }
     end
 
-    def create_withdrawal!(issuer, recipient, amount, fee)
+    def create_withdrawal!(issuer, recipient, amount, options = {})
+      fee = options.key?(:fee) ? convert_to_base_unit!(options[:fee]) : nil
       rest_api(:post, '/wallet/' + urlsafe_wallet_id + '/sendcoins', {
         address:          recipient.fetch(:address),
-        amount:           (amount.to_d * currency.base_factor).round.to_s,
-        feeRate:          (fee.to_d * currency.base_factor).round.to_s,
+        amount:           convert_to_base_unit!(amount).to_s,
+        feeRate:          fee,
         walletPassphrase: currency.bitgo_wallet_passphrase
-      }).fetch('txid')
+      }.compact).fetch('txid')
     end
 
     def inspect_address!(address)

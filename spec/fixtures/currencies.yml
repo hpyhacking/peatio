@@ -1,18 +1,44 @@
-- id: 1
-  key: dollar
-  code: usd
-  coin: false
+- id:                 1
+  key:                dollar
+  code:               usd
+  symbol:             '$'
+  coin:               false
+  precision:          2
   quick_withdraw_max: 10
-- id: 2
-  key: satoshi
-  code: btc
-  coin: true
-  precision: 8
-  json_rpc_endpoint: http://bitcoinrpc:5gKAgrJv8CQr2CGUhjVbBFLSj29HnE6YGXvfykHJzS3k@127.0.0.1:18332
-  blockchain: http://testnet.btclook.com/txn/#{txid}
-  address_url: https://blockchain.info/address/#{address}
+
+- id:                 2
+  key:                satoshi
+  code:               btc
+  symbol:             '฿'
+  coin:               true
+  precision:          8
+  base_factor:        100_000_000
+  api_client:         BTC
+  json_rpc_endpoint:  http://127.0.0.1:18332
   quick_withdraw_max: 0.1
-- id: 4
-  key: protoshare
-  code: pts
-  coin: true
+  blockchain:         https://testnet.blockchain.info/tx/#{txid}
+  address_url:        https://testnet.blockchain.info/address/#{address}
+
+- id:                 3
+  key:                protoshare
+  code:               pts
+  symbol:             'ρ'
+  coin:               true
+  precision:          8
+  base_factor:        100_000_000
+  api_client:         BTC
+  json_rpc_endpoint:  http://127.0.0.1:11010
+  quick_withdraw_max: 1000
+
+- id:                 4
+  key:                ethereum
+  code:               eth
+  symbol:             'Ξ'
+  coin:               true
+  precision:          8
+  base_factor:        1_000_000_000_000_000_000
+  api_client:         ETH
+  json_rpc_endpoint:  http://127.0.0.1:8545
+  quick_withdraw_max: 1
+  blockchain:         https://rinkeby.etherscan.io/tx/#{txid}
+  address_url:        https://rinkeby.etherscan.io/address/#{address}

@@ -26,11 +26,11 @@ while running
   coins.each do |coin|
     next unless (channel = channels[coin.code])
 
-    processed = 0
+    twelve_hours_ago = 12.hours.ago
     CoinAPI[coin.code.to_sym].each_deposit do |deposit|
       break unless running
+      break if deposit[:received_at] < twelve_hours_ago
       process_deposits(coin, channel, deposit)
-      break if (processed += 1) >= 100
     end
   end
 

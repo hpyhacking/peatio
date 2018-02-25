@@ -1,6 +1,6 @@
 module CoinAPI
-  Error                  = Class.new(StandardError)
-  ConnectionRefusedError = Class.new(StandardError)
+  Error                  = Class.new(StandardError) # TODO: Rename to Exception.
+  ConnectionRefusedError = Class.new(StandardError) # TODO: Remove this.
 
   class << self
     #
@@ -93,13 +93,22 @@ module CoinAPI
     #
     # TODO: Doc.
     #
-    def create_withdrawal!(issuer, recipient, amount, fee)
+    def create_withdrawal!(issuer, recipient, amount, options = {})
       method_not_implemented
     end
 
     # TODO: Doc.
     def inspect_address!(address)
       method_not_implemented
+    end
+
+    def convert_to_base_unit!(value)
+      x = value.to_d * currency.base_factor
+      unless (x % 1).zero?
+        raise CoinAPI::Error, "Failed to convert value to base (smallest) unit because it exceeds the maximum precision: " +
+                              "#{value.to_d} - #{x.to_d} must be equal to zero."
+      end
+      x.to_i
     end
 
     %i[ load_balance load_deposit create_address create_withdrawal inspect_address ].each do |method|
