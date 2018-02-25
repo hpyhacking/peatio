@@ -51,13 +51,14 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     $('.form-submit > input').attr('disabled', 'disabled')
 
     $http.post("/withdraws/#{withdraw_channel.resource_name}", data)
+      .success ->
+        location.reload()
       .error (responseText) ->
         $.publish 'flash', { message: responseText }
       .finally =>
         @withdraw = {}
         $('.form-submit > input').removeAttr('disabled')
         $.publish 'withdraw:form:submitted'
-        location.reload()
 
   @withdrawAll = ->
     @withdraw.sum = Number($scope.account.balance)
