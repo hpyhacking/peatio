@@ -10,7 +10,7 @@ module CoinAPI
     end
 
     def load_balance!
-      wallet_details(true).fetch('balanceString').to_d / currency.base_factor
+      convert_from_base_unit(wallet_details(true).fetch('balanceString'))
     end
 
     def create_address!
@@ -112,7 +112,7 @@ module CoinAPI
         end
         .compact
         .map do |entry|
-          { amount:  entry.fetch('valueString').to_d / currency.base_factor,
+          { amount:  convert_from_base_unit(entry.fetch('valueString')),
             address: entry.fetch('address') }
         end
     end

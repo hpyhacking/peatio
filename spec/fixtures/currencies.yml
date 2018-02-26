@@ -42,3 +42,16 @@
   quick_withdraw_max: 1
   blockchain:         https://rinkeby.etherscan.io/tx/#{txid}
   address_url:        https://rinkeby.etherscan.io/address/#{address}
+
+- id:                 5
+  key:                ripple
+  code:               xrp
+  symbol:             'ꭆ'
+  coin:               true
+  precision:          8
+  base_factor:        1_000_000
+  api_client:         XRP
+  json_rpc_endpoint:  http://127.0.0.1:5005
+  quick_withdraw_max: 1000
+  blockchain:         https://bithomp.com/explorer/#{txid}
+  address_url:        https://bithomp.com/explorer/#{address}

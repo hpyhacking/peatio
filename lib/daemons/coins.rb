@@ -26,11 +26,12 @@ while running
   coins.each do |coin|
     next unless (channel = channels[coin.code])
 
-    twelve_hours_ago = 12.hours.ago
+    # TODO: Find a better way for limiting amount of transactions to process (Yaroslav Konoplov).
+    processed = 0
     CoinAPI[coin.code.to_sym].each_deposit do |deposit|
       break unless running
-      break if deposit[:received_at] < twelve_hours_ago
       process_deposits(coin, channel, deposit)
+      break if (processed += 1) >= 1000
     end
   end
 

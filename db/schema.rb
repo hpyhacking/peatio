@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180216145412) do
+ActiveRecord::Schema.define(version: 20180303121013) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(version: 20180216145412) do
     t.datetime "updated_at"
     t.integer  "currency",   limit: 4
     t.string   "secret",     limit: 255
+    t.string   "details",    limit: 1024, default: "{}", null: false
   end
 
   create_table "payment_transactions", force: :cascade do |t|

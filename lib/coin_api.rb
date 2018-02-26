@@ -30,12 +30,6 @@ module CoinAPI
     # @return [Currency]
     attr_reader :currency
 
-    #
-    # Returns hot wallet address.
-    #
-    # @return [String]
-    delegate :hot_wallet_address, to: :currency
-
     def initialize(currency)
       @currency = currency
     end
@@ -109,6 +103,10 @@ module CoinAPI
                               "#{value.to_d} - #{x.to_d} must be equal to zero."
       end
       x.to_i
+    end
+
+    def convert_from_base_unit(value)
+      value.to_d / currency.base_factor
     end
 
     %i[ load_balance load_deposit create_address create_withdrawal inspect_address ].each do |method|

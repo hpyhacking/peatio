@@ -23,7 +23,7 @@ module CoinAPI
         rescue => e
           report_exception_to_screen(e)
           0.0
-        end.reduce(&:+).yield_self { |total| total ? total / currency.base_factor : 0.to_d }
+        end.reduce(&:+).yield_self { |total| total ? convert_from_base_unit(total) : 0.to_d }
     end
 
     def inspect_address!(address)
@@ -71,7 +71,7 @@ module CoinAPI
         { id:            tx.fetch('hash'),
           confirmations: latest_block_number - tx.fetch('blockNumber').hex,
           received_at:   Time.at(block.fetch('timestamp').hex),
-          entries:       [{ amount:  tx.fetch('value').hex.to_d / currency.base_factor,
+          entries:       [{ amount:  convert_from_base_unit(tx.fetch('value').hex),
                             address: tx.fetch('to') }] }
       end
     end
@@ -134,7 +134,7 @@ module CoinAPI
         { id:            tx.fetch('hash'),
           confirmations: latest_block.fetch('number').hex - current_block.fetch('number').hex,
           received_at:   Time.at(current_block.fetch('timestamp').hex),
-          entries:       [{ amount:  tx.fetch('value').hex.to_d / currency.base_factor,
+          entries:       [{ amount:  convert_from_base_unit(tx.fetch('value').hex),
                             address: tx.fetch('to') }] }
       end.compact
     end

@@ -8,6 +8,8 @@ class PaymentAddress < ActiveRecord::Base
 
   validates_uniqueness_of :address, allow_nil: true
 
+  serialize :details, JSON
+
   def enqueue_address_generation
     AMQPQueue.enqueue(:deposit_coin_address, { account_id: account.id }, { persistent: true })
   end
@@ -54,7 +56,7 @@ class PaymentAddress < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180303121013
 #
 # Table name: payment_addresses
 #
@@ -65,4 +67,5 @@ end
 #  updated_at :datetime
 #  currency   :integer
 #  secret     :string(255)
+#  details    :string(1024)     default({}), not null
 #

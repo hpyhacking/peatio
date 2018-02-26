@@ -10,7 +10,9 @@ module Worker
         pa.with_lock do
           next if pa.address.present?
 
-          pa.update!(CoinAPI[acc.currency].create_address!.slice(:address, :secret))
+          result = CoinAPI[acc.currency].create_address!
+          pa.update! \
+            result.extract!(:address, :secret).merge(details: result)
 
           Pusher["private-#{acc.member.sn}"].trigger_async \
             :deposit_address,
