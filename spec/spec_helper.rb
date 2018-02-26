@@ -15,10 +15,11 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
-%i[ google_oauth2 auth0 ].each do |provider|
-  { 'provider' => provider.to_s,
-    'uid'      => '1234567890',
-    'info'     => { 'email' => "johnsmith@#{provider.to_s.gsub(/_/, '-')}-provider.com" }
+%i[ google_oauth2 auth0 barong ].each do |provider|
+  { provider:     provider.to_s,
+    uid:          '1234567890',
+    info:         { email: "johnsmith@#{provider.to_s.gsub(/_/, '-')}-provider.com" },
+    credentials:  {}
   }.tap { |hash| OmniAuth.config.add_mock(provider, hash) }
 end
 

@@ -1,5 +1,5 @@
 describe SessionsController, type: :controller do
-  %i[ google_oauth2 auth0 ].each do |provider|
+  %i[ google_oauth2 auth0 barong ].each do |provider|
     normalized_provider = provider.to_s.gsub(/(?:_|oauth2)+\z/i, '')
 
     describe "sign in using #{provider} provider" do
@@ -38,7 +38,12 @@ describe SessionsController, type: :controller do
 
         it 'should redirect the member to the specified URL' do
           post :create, provider: provider
-          expect(response).to redirect_to redirect_url
+          if provider == :barong
+            expect(response).to redirect_to "#{redirect_url}?#{request.env['omniauth.auth']['credentials'].to_query}"
+          else
+            expect(response).to redirect_to redirect_url
+          end
+
         end
       end
 
