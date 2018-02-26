@@ -1,8 +1,6 @@
 module Admin
   module Withdraws
     class BaseController < ::Admin::BaseController
-      before_action :find_withdraw, only: [:show, :update, :destroy]
-
       def channel
         @channel ||= WithdrawChannel.find_by_key(self.controller_name.singularize)
       end
@@ -11,12 +9,10 @@ module Admin
         channel.kls
       end
 
+    protected
+
       def find_withdraw
-        @withdraw = w = channel.kls.find(params[:id])
-        if w.may_process? and (w.amount > w.account.locked)
-          flash[:alert] = 'TECH ERROR !!!!'
-          redirect_to action: :index
-        end
+        @withdraw = channel.kls.find(params[:id])
       end
     end
   end

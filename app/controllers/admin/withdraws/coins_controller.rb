@@ -1,6 +1,8 @@
 module Admin
   module Withdraws
     class CoinsController < BaseController
+      before_action :find_withdraw, only: [:show, :update, :destroy]
+
       def index
         @accepted_withdraws   = withdraw_model.with_aasm_state(:accepted).order(id: :desc)
         @unaccepted_withdraws = withdraw_model.without_aasm_state(:accepted).where('created_at > ?', 1.day.ago).order(id: :desc)

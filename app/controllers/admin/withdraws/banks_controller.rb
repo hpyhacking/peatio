@@ -2,6 +2,7 @@ module Admin
   module Withdraws
     class BanksController < ::Admin::Withdraws::BaseController
       load_and_authorize_resource :class => '::Withdraws::Bank'
+      before_action :find_withdraw, only: [:show, :update, :destroy]
 
       def index
         start_at = DateTime.now.ago(60 * 60 * 24)
