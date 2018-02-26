@@ -20,16 +20,12 @@ module Private
       current_user.accounts.each do |account|
         next unless account.currency_obj&.coin?
 
-        if account.payment_addresses.blank?
+        if account.payment_addresses.empty?
           account.payment_addresses.create!(currency: account.currency)
-        else
-          address = account.payment_addresses.last
-          address.gen_address if address.address.blank?
         end
       end
       render nothing: true
     end
-
   end
 end
 

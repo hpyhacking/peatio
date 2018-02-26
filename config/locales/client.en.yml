@@ -51,8 +51,6 @@ en:
 
       deposit_coin:
         address: Address
-        new_address: New Address
-        confirm_gen_new_address: You sure want to generate a new deposit address?
         open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
         detail: Please paste the address blow in your wallet, and fill in the amount you want to deposit, then confirm and send.
         scan-qr: Scanning QR code to Pay for In the mobile terminal wallet.

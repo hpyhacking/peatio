@@ -526,24 +526,6 @@ en:
       warning: Warning
   private:
     deposits:
-      satoshis:
-        gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
-      bitcoin_cash:
-        gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
-      litoshis:
-        gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
-      ripples:
-        gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
-      duffs:
-        gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
-      ethereums:
-        gen_address:
-          require_transaction: it can't generate new address if it hasn't been used.
       banks:
         destroy:
           notice: Revocation request is successful.

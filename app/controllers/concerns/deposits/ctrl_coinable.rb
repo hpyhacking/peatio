@@ -3,9 +3,10 @@ module Deposits
     extend ActiveSupport::Concern
 
     def gen_address
-      current_user.get_account(channel.currency).tap do |acc|
-        acc.payment_addresses.create!(currency: acc.currency)
-        acc.payment_addresses.each { |addr| addr.gen_address if addr.address.blank? }
+      current_user.get_account(channel.currency).tap do |account|
+        if account.payment_addresses.empty?
+          account.payment_addresses.create!(currency: account.currency)
+        end
       end
       render nothing: true
     end
