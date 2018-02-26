@@ -25,7 +25,7 @@ class Member < ActiveRecord::Base
     def from_auth(auth_hash)
       (locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)).tap do |member|
         member.update!(level: Member::Levels.get(auth_hash.dig('info', 'level')))
-        Authentication.locate(auth_hash).update!(token: auth_hash.dig('credentials', 'level'))
+        Authentication.locate(auth_hash).update!(token: auth_hash.dig('credentials', 'token'))
       end
     end
 
