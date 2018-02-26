@@ -18,8 +18,8 @@
             </span>
           <% end %>
           <%= item_for @bank, :fund_extra do %>
-            <span class="fa fa-copy" data-clipboard-text="<%= bank_code_to_name @bank.fund_extra %>">
-              <%= bank_code_to_name @bank.fund_extra %>
+            <span class="fa fa-copy" data-clipboard-text="<%= @bank.fund_extra %>">
+              <%= @bank.fund_extra %>
             </span>
           <% end %>
           <%= item_for @bank, :fund_uid do %>

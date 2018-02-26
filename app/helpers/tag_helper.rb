@@ -8,8 +8,4 @@ module TagHelper
       link_to asset['file'], asset.file.url
     end
   end
-
-  def bank_code_to_name(code)
-    I18n.t("banks.#{code}")
-  end
 end
