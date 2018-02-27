@@ -23,3 +23,9 @@ header .account-settings {
    min-width: 140px;
    text-align: center;
 }
+
+#deposit_address{
+  overflow: hidden;
+  max-width: 450px;
+  white-space: nowrap;
+}
