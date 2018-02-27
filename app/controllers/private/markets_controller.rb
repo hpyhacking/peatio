@@ -1,6 +1,6 @@
 module Private
   class MarketsController < BaseController
-    include Concerns::DisableCabinetUI
+    include Concerns::DisableMarketsUI
 
     skip_before_action :auth_member!, only: [:show]
     before_action :visible_market?

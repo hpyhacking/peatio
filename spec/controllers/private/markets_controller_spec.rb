@@ -21,6 +21,27 @@ describe Private::MarketsController, type: :controller do
     end
   end
 
+  describe 'ability to disable markets UI' do
+
+    before { ENV['DISABLE_MARKETS_UI'] = nil }
+
+    context 'when market UI is enabled' do
+      it 'should return HTTP 200' do
+        get :show, data
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context 'when market UI is disabled' do
+      before { ENV['DISABLE_MARKETS_UI'] = 'true'}
+      it 'should return HTTP 204' do
+        get :show, data
+        expect(response).to have_http_status(204)
+      end
+    end
+  end
+
+
   private
 
   def data
