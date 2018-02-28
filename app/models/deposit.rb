@@ -98,7 +98,18 @@ class Deposit < ActiveRecord::Base
     txid && txid.truncate(40)
   end
 
-  private
+  def transaction_url
+    if txid? && currency.transaction_url_template?
+      currency.transaction_url_template.gsub('#{txid}', txid)
+    end
+  end
+
+  def as_json(*)
+    super.merge(transaction_url: transaction_url)
+  end
+
+private
+
   def do
     account.lock!.plus_funds amount, reason: Account::DEPOSIT, ref: self
   end

@@ -35,7 +35,7 @@
                 <% coin_proof.addresses.each do |entry| %>
                   <tr>
                     <td>
-                      <%= link_to entry['address'], coin_proof.address_url(entry['address']) %>
+                      <%= entry['address'] %>
                     </td>
                     <td>
                       <%= entry['balance'] %>

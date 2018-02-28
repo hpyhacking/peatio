@@ -2,6 +2,12 @@ module Withdraws
   module Coinable
     extend ActiveSupport::Concern
 
+    def wallet_url
+      if fund_uid? && currency.wallet_url_template?
+        currency.wallet_url_template.gsub('#{address}', fund_uid)
+      end
+    end
+
     def transaction_url
       if txid? && currency.transaction_url_template?
         currency.transaction_url_template.gsub('#{txid}', txid)
@@ -24,8 +30,10 @@ module Withdraws
       end
     end
 
-    def as_json(options={})
-      super(options).merge(transaction_url: transaction_url)
+    def as_json(*)
+      super.merge \
+        wallet_url:      wallet_url,
+        transaction_url: transaction_url
     end
   end
 end

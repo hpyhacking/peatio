@@ -34,11 +34,6 @@ class Proof < ActiveRecord::Base
       memo + address["balance"]
     end
   end
-
-  def address_url(address)
-    currency.address_url(address)
-  end
-
 end
 
 # == Schema Information

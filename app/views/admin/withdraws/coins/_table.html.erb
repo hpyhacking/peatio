@@ -7,8 +7,8 @@
   <% t.column 'Member email', class: 'col-xs-5' do |x| %>
     <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
   <% end %>
-  <% t.column :fund_source, class: 'col-xs-4' do |x| %>
-    <span><%= x.fund_extra %> # <%= x.fund_uid.truncate(22) %></span>
+  <% t.column 'Withdraw address', class: 'col-xs-4' do |x| %>
+    <a href="<%= x.wallet_url %>"><%= x.fund_uid.truncate(22) %></a>
   <% end %>
   <% t.column :amount, class: 'col-xs-3' do |x| %>
     <code class="text-info"><%= x.amount %></code>

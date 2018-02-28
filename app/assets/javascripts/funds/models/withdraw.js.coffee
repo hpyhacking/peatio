@@ -1,6 +1,6 @@
 class Withdraw extends PeatioModel.Model
   @configure 'Withdraw', 'sn', 'account_id', 'member_id', 'currency', 'amount', 'fee', 'fund_uid', 'fund_extra',
-    'created_at', 'updated_at', 'done_at', 'txid', 'transaction_url', 'aasm_state', 'sum', 'type', 'is_submitting'
+    'created_at', 'updated_at', 'done_at', 'txid', 'wallet_url', 'transaction_url', 'aasm_state', 'sum', 'type', 'is_submitting'
 
   constructor: ->
     super
