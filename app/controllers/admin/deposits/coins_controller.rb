@@ -1,3 +1,5 @@
+require_dependency 'admin/deposits/base_controller'
+
 module Admin
   module Deposits
     class CoinsController < BaseController

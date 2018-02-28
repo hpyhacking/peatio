@@ -1,3 +1,5 @@
+require_dependency 'admin/withdraws/base_controller'
+
 module Admin
   module Withdraws
     class CoinsController < BaseController

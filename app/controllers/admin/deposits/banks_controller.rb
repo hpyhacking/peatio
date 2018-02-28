@@ -1,6 +1,8 @@
+require_dependency 'admin/deposits/base_controller'
+
 module Admin
   module Deposits
-    class BanksController < ::Admin::Deposits::BaseController
+    class BanksController < BaseController
 
       load_and_authorize_resource :class => '::Deposits::Bank'
 
