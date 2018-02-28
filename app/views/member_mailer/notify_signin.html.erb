@@ -1,7 +1,18 @@
 <p>
-<%= t(".just_signed_in") %>
+<%= t(".login_at" , login_datetime:  @member.signup_histories.last.created_at) %>
 </p>
-
+<div style="margin:30px 0 0;">
+<p >
+<%= t(".login_title") %>
+</p>
 <p>
-<%= raw t("mailer.please_contact", contact_mail: ENV['SUPPORT_MAIL']) %>
+<%= t(".login_member",member: @member.email) %>
 </p>
+<p>
+<%= t(".login_location",location: find_location(@member.signup_histories.last.ip)) %>
+</p>
+<p>
+<%= t(".login_ip",ip: @member.signup_histories.last.ip) %>
+</p>
+</div>
+

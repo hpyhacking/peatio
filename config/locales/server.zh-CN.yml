@@ -1364,10 +1364,20 @@ zh-CN:
       next: 下一页
       truncate: "..."
   mailer:
-    dear_user: 您好,
+    dear_user: "尊敬的用户,您好："
     signature: 貔貅团队
-    please_contact: 如果此次登录不是您本人操作，请马上<a href="mailto:%{contact_mail}">联系我们</a>。
-    footer: 此邮件由系统自动发出，请勿直接回复。 有问题请<a href="mailto:%{contact_mail}">联系我们</a>。
+    #please_contact: 如果此次登录不是您本人操作，请马上<a href="mailto:%{contact_mail}">联系我们</a>。
+    footer_1: 若非您本人操作，请尽快联系云币网 <a href="#">在线客服 </a>
+    footer_2: 感谢您选择云币科技有限公司。
+    footer_3: "*本邮件由系统自动生成，无需授权签名。请勿直接回复本邮件。"
+    footer_4: "*具体交易详情请登录云币网进行查询。"
+    footer_5: "*请注意云币网绝不会询问您的账户密码。"
+    user_agreement: <a href="#">用户协议</a>
+    about_us: <a href="#">关于我们</a>
+    questions: <a href="#">常见问题</a>
+    social_media: <a href="#">社交媒体</a>
+    record: 京ICP备 13047168号-3 京公网安备 11010802020441号
+    company: ©2016 北京云币科技有限公司 All Right Reserved
   comment_mailer:
     admin_notification:
       subject: "[PEATIO] 用户回复了服务单"
@@ -1377,12 +1387,24 @@ zh-CN:
       notification_content: '您的服务单有一条新的回复, 请在下方链接查看详情：'
   deposit_mailer:
     accepted:
+      cny_deposit: 您刚刚在云币网完成人民币充值操作：
+      deposit_situation: 特此通知您的充值情况如下：
+      type: "交易类型：%{type}"
+      info: 充值信息
+      amount: "充值金额：%{amount}"
+      time: "转账时间：%{time}"
+      state: "处理状态：%{state}"
       subject: "[貔貅] 您的充值已经到账"
       content: 您的 %{currency} 已经到账.
   member_mailer:
     notify_signin:
       subject: "[PEATIO] 您刚刚成功登录"
       just_signed_in: 您刚刚成功登录了。
+      login_at: 您于 %{login_datetime} 登录云币网
+      login_title: 登录信息如下
+      login_member: 登录账号：%{member}
+      login_ip: 登录IP：%{ip}
+      login_location: 登录地点：%{location}
     google_auth_activated:
       subject: "[PEATIO] 绑定谷歌两步验证"
       google_auth_activated: 您已绑定谷歌两步验证。
@@ -1420,7 +1442,7 @@ zh-CN:
   token_mailer:
     activation:
       subject: "[Peatio] 帐号激活"
-      click_to_verify: '感谢您注册 Peatio，赶快点击下面的链接验证您的E-mail吧：'
+      click_to_verify: '感谢您注册云币网，请点击以下按钮完成注册：'
       unable_to_click: 如果链接无法点击，请完整拷贝到浏览器地址栏里直接访问。
       link_expire: 链接30分钟之内有效。
     reset_password:
@@ -1435,8 +1457,17 @@ zh-CN:
       subject: "[貔貅] 您的提现状态更新"
       content: 您的%{currency}提现请求正在处理中，谢谢您的耐心等待，如果您有任何问题，请及时与我们联系。
     done:
-      subject: "[貔貅] 您的提现状态更新"
-      content: 您的%{currency}提现请求已经处理完毕，请查询您的账户。如果您有任何问题，请及时与我们联系。
+      cny_withdraw: 您刚刚在云币网完成人民币提现操作：
+      withdraw_situation: 特此通知您的提现情况如下：
+      trade_type: "交易类型：%{trade_type}"
+      info: 提现信息
+      sum: "总金额：%{sum}"
+      amount: "提现金额：%{amount}"
+      fee: "手续费：%{fee}"
+      time: "转账时间：%{time}"
+      state: "处理状态：%{state}"
+      #subject: "[貔貅] 您的提现状态更新"
+      #content: 您的%{currency}提现请求已经处理完毕，请查询您的账户。如果您有任何问题，请及时与我们联系。
     withdraw_state:
       subject: "[貔貅] 您的提现状态更新"
       your_state: '您的提现状态：'

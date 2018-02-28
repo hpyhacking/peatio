@@ -27,6 +27,7 @@ class SessionsController < ApplicationController
         session[:member_id] = @member.id
         save_session_key @member.id, cookies['_peatio_session']
         save_signup_history @member.id
+        #AMQPQueue.enqueue(:business_notification,message_class: "SessionMessage",business_id: @member.id,mailer_class:"MemberMailer",method_name: "notify_signin") if @member.activated?
         MemberMailer.notify_signin(@member.id).deliver if @member.activated?
         redirect_back_or_settings_page
       end

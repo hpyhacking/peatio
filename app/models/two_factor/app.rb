@@ -39,9 +39,11 @@ class TwoFactor::App < ::TwoFactor
     return if not self.activated_changed?
 
     if self.activated
-      MemberMailer.google_auth_activated(member.id).deliver
+      AMQPQueue.enqueue(:business_notification,message_class: "TwoFactorAppMessage",business_id: member.id,mailer_class:"MemberMailer",method_name: "google_auth_activated")
+      #MemberMailer.google_auth_activated(member.id).deliver
     else
-      MemberMailer.google_auth_deactivated(member.id).deliver
+      AMQPQueue.enqueue(:business_notification,message_class: "TwoFactorAppMessage",business_id: member.id,mailer_class:"MemberMailer",method_name: "google_auth_deactivated")
+      #MemberMailer.google_auth_deactivated(member.id).deliver
     end
   end
 
