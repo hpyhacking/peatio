@@ -69,6 +69,7 @@ gem 'sentry-raven', '~> 2.7', require: false
 gem 'memoist', '~> 0.16'
 gem 'method-not-implemented', '~> 1.0'
 gem 'passgen', '~> 1.0'
+gem 'validates_lengths_from_database', '~> 0.7.0'
 
 group :development, :test do
   gem 'factory_bot_rails'
