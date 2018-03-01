@@ -412,7 +412,7 @@ header {
 .has-right-dropdown {
   .dropdown-wrapper {
     .dropdown-menu {
-      display: block;
+      display: none;
       position: relative;
       top: 0;
       left: 0;
@@ -459,6 +459,7 @@ header {
 .has-right-dropdown:hover {
   .dropdown-wrapper {
     .dropdown-menu {
+      display: block;
       margin-left: -1px;
       -webkit-transition: margin-left .1s linear;
       transition: margin-left .1s linear;
@@ -596,7 +597,6 @@ header {
 #market_list_wrapper {
   .dropdown-wrapper {
     position: absolute;
-    width: 200px;
     height: 100px;
     top: $gutter; left: $market-list-width + $gutter;
     z-index: 998;
