@@ -26,7 +26,7 @@ class AccountVersion < ActiveRecord::Base
 
   scope :history, -> { with_reason(*HISTORY).reverse_order }
 
-  # Use account balance and locked columes as optimistic lock column. If the
+  # Use account balance and locked columns as optimistic lock column. If the
   # passed in balance and locked doesn't match associated account's data in
   # database, exception raise. Otherwise the AccountVersion record will be
   # created.
@@ -52,8 +52,19 @@ class AccountVersion < ActiveRecord::Base
     select  = Account.unscoped.select(values).where(id: account_id, balance: balance, locked: locked).to_sql
     stmt    = "INSERT INTO account_versions (#{columns}) #{select}"
 
-    connection.insert(stmt).tap do |id|
-      if id == 0 || id.blank? # if record not inserted mysql returns id = 0 and mssql returns id = nil
+    # Dmytro LitsLink notes on PostgreSQL 10.2:
+    #
+    # 1. ActiveRecord::ConnectionAdapters::DatabaseStatements#insert 
+    #    returns nil if account version can't be created.
+    # 2. Need to specify primary key column name explicitly 
+    #    to produce sql with `RETURNING "id"` at the end of the `INSERT` SQL statement.
+    #
+    # MSSQL notes:
+    #
+    # 1. ActiveRecord::ConnectionAdapters::DatabaseStatements#insert returns nil too.
+    #
+    connection.insert(stmt, nil, 'id').tap do |id|
+      if id == 0 || id.nil?
         record = new attrs
         raise ActiveRecord::StaleObjectError.new(record, "create")
       end
