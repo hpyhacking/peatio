@@ -15,6 +15,9 @@ services:
   - rabbitmq
   - docker
 
+addons:
+  chrome: stable
+
 # Execute all of the commands which need to be executed before installing dependencies.
 before_install:
   - gem install bundler
@@ -27,8 +30,6 @@ before_install:
 install:
   - bundle install --deployment --without production development --jobs=$(nproc) --retry=3
   - bundle exec rake yarn:install
-  - wget https://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip
-  - sudo unzip chromedriver_linux64.zip -d /usr/local/bin/
 
 # Execute all of the commands which need to be executed before running actual tests.
 before_script:
