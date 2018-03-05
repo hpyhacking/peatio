@@ -1,4 +1,5 @@
 class AccountVersion < ActiveRecord::Base
+  extend Enumerize
   include Currencible
 
   HISTORY = [Account::STRIKE_ADD, Account::STRIKE_SUB, Account::STRIKE_FEE, Account::DEPOSIT, Account::WITHDRAW, Account::FIX]
@@ -34,12 +35,11 @@ class AccountVersion < ActiveRecord::Base
   # TODO: find a more generic way to construct the sql
   def self.optimistically_lock_account_and_create!(balance, locked, attrs)
     attrs = attrs.symbolize_keys
-
-    attrs[:created_at] = Time.now
-    attrs[:updated_at] = attrs[:created_at]
-    attrs[:fun]        = Account::FUNS[attrs[:fun]]
-    attrs[:reason]     = REASON_CODES[attrs[:reason]]
-    attrs[:currency]   = Currency.enumerize[attrs[:currency]]
+    attrs[:created_at]  = Time.now
+    attrs[:updated_at]  = attrs[:created_at]
+    attrs[:fun]         = Account::FUNS[attrs[:fun]]
+    attrs[:reason]      = REASON_CODES[attrs[:reason]]
+    attrs[:currency_id] = attrs.delete(:currency).id
 
     account_id = attrs[:account_id]
     raise ActiveRecord::ActiveRecordError, "account must be specified" unless account_id.present?
@@ -95,7 +95,7 @@ class AccountVersion < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180227163417
 #
 # Table name: account_versions
 #
@@ -111,13 +111,14 @@ end
 #  modifiable_type :string(255)
 #  created_at      :datetime
 #  updated_at      :datetime
-#  currency        :integer
+#  currency_id     :integer
 #  fun             :integer
 #
 # Indexes
 #
 #  index_account_versions_on_account_id                         (account_id)
 #  index_account_versions_on_account_id_and_reason              (account_id,reason)
+#  index_account_versions_on_currency_id                        (currency_id)
 #  index_account_versions_on_member_id_and_reason               (member_id,reason)
 #  index_account_versions_on_modifiable_id_and_modifiable_type  (modifiable_id,modifiable_type)
 #

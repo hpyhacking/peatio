@@ -19,7 +19,7 @@ app.controller 'FundSourcesController', ['$scope', '$gon', 'fundSourceService', 
     data = uid: uid, extra: extra, currency: currency
     fundSourceService.create data, ->
       $scope.uid = ""
-      $scope.extra = "" if currency.toUpperCase() isnt $gon.fiat_currency
+      $scope.extra = "" if currency isnt $gon.fiat_currency
 
   $scope.remove = (fund_source) ->
     fundSourceService.remove fund_source

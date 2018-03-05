@@ -101,7 +101,7 @@
         tr
           td Member
           td: pre: code
-            | {"sn":"PEA5TFFOGQHTIO","email":"foo@peatio.dev","activated":true,"accounts":[{"currency":"#{Peatio.base_fiat_ccy.downcase}","balance":"100243840.0","locked":"0.0"},{"currency":"btc","balance":"99999708.26","locked":"210.8"}]}
+            | {"sn":"PEA5TFFOGQHTIO","email":"foo@peatio.dev","activated":true,"accounts":[{"currency":"#{Peatio.base_fiat_ccy}","balance":"100243840.0","locked":"0.0"},{"currency":"btc","balance":"99999708.26","locked":"210.8"}]}
           td
             p sn: Unique identifier of user
             p email: User email
@@ -109,15 +109,15 @@
         tr
           td Account
           td: pre: code
-            | {"currency":"#{Peatio.base_fiat_ccy.downcase}","balance":"100243840.0","locked":"0.0"}
+            | {"currency":"#{Peatio.base_fiat_ccy}","balance":"100243840.0","locked":"0.0"}
           td
-            p currency: Account type, like 'btc' or '#{Peatio.base_fiat_ccy.downcase}'
+            p currency: Account type, like 'btc' or '#{Peatio.base_fiat_ccy}'
             p balance: Account balance, exclude locked funds
             p locked: locked funds
         tr
           td Order
           td: pre: code
-            | {"id":7,"side":"sell","price":"3100.0","avg_price":"3101.2","state":"wait","market":"btc#{Peatio.base_fiat_ccy.downcase}","created_at":"2014-04-18T02:02:33Z","volume":"100.0","remaining_volume":"89.8","executed_volume":"10.2","trades":[{"id":2,"price":"3100.0","volume":"10.2","market":"btc#{Peatio.base_fiat_ccy.downcase}","created_at":"2014-04-18T02:04:49Z","side":"sell"}]}
+            | {"id":7,"side":"sell","price":"3100.0","avg_price":"3101.2","state":"wait","market":"btc#{Peatio.base_fiat_ccy}","created_at":"2014-04-18T02:02:33Z","volume":"100.0","remaining_volume":"89.8","executed_volume":"10.2","trades":[{"id":2,"price":"3100.0","volume":"10.2","market":"btc#{Peatio.base_fiat_ccy}","created_at":"2014-04-18T02:04:49Z","side":"sell"}]}
           td
             p id: Unique order ID
             p side: Buy/Sell
@@ -133,12 +133,12 @@
         tr
           td Trade
           td: pre: code
-            | {"id":2,"price":"3100.0","volume":"10.2","market":"btc#{Peatio.base_fiat_ccy.downcase}","created_at":"2014-04-18T02:04:49Z","side":"sell"}
+            | {"id":2,"price":"3100.0","volume":"10.2","market":"btc#{Peatio.base_fiat_ccy}","created_at":"2014-04-18T02:04:49Z","side":"sell"}
           td
             p id: Unique ID
             p price: trade price
             p volume: trade volume
-            p market: the market trade belongs to, like 'btc#{Peatio.base_fiat_ccy.downcase}'
+            p market: the market trade belongs to, like 'btc#{Peatio.base_fiat_ccy}'
             p created_at: trade time
         tr
           td OrderBook
@@ -154,11 +154,11 @@
   .panel-body
     p Buy 1BTC at price 4000 #{Peatio.base_fiat_ccy}:
     pre: code
-      | curl -X POST '#{root_url_with_port_from_request}/api/v2/orders' -d 'access_key=your_access_key&tonce=1234567&signature=computed_signature&market=btc#{Peatio.base_fiat_ccy.downcase}&price=4000&side=buy&volume=1'
+      | curl -X POST '#{root_url_with_port_from_request}/api/v2/orders' -d 'access_key=your_access_key&tonce=1234567&signature=computed_signature&market=btc#{Peatio.base_fiat_ccy}&price=4000&side=buy&volume=1'
 
     p Create multiple orders with a single request:
     pre: code
-      | curl -X POST '#{root_url_with_port_from_request}/api/v2/orders/multi' -d 'access_key=your_access_key&tonce=123456789&signature=computed_signature&market=btc#{Peatio.base_fiat_ccy.downcase}&orders[][price]=4000&orders[][side]=sell&orders[][volume]=0.5&orders[][price]=3999&orders[][side]=sell&orders[][volume]=0.99'
+      | curl -X POST '#{root_url_with_port_from_request}/api/v2/orders/multi' -d 'access_key=your_access_key&tonce=123456789&signature=computed_signature&market=btc#{Peatio.base_fiat_ccy}&orders[][price]=4000&orders[][side]=sell&orders[][volume]=0.5&orders[][price]=3999&orders[][side]=sell&orders[][volume]=0.99'
 
 .panel.panel-default
   .panel-heading

@@ -8,7 +8,7 @@
       @$node.find(".account.#{currency} span.total").text "#{symbol}#{formatter.round total, 2}"
 
   @updateTotalAssets = (event, data) ->
-    fiatCurrency = gon.fiat_currency.toLowerCase()
+    fiatCurrency = gon.fiat_currency
     symbol = gon.currencies[fiatCurrency].symbol
     sum = 0
     for currency, account of data

@@ -8,8 +8,12 @@ module Statistic
       Deposit.includes(:account).order('created_at DESC')
     end
 
-    filter(:currency, :enum, :select => Deposit.currency.value_options, :default => 1)
-    filter(:created_at, :datetime, :range => true, :default => proc { [1.day.ago, Time.now]})
+    filter :currency,
+           :enum,
+           select:  -> { Currency.order(id: :asc).map { |ccy| [ccy.code.upcase, ccy.id] } },
+           default: -> { Currency.order(id: :asc).first.id }
+
+    filter :created_at, :datetime, range: true, default: -> { [1.day.ago, Time.now] }
 
     column :member do |model|
       format(model) do 
@@ -17,7 +21,7 @@ module Statistic
       end
     end
     column :currency do
-      self.account.currency_text
+      self.account.currency.code.upcase
     end
     column(:amount)
     column(:txid) do |deposit|

@@ -28,15 +28,17 @@ module Deposits
       end
     end
 
-    def blockchain_url
-      currency_obj.blockchain_url(txid)
+    def transaction_url
+      if currency.transaction_url_template?
+        currency.transaction_url_template.gsub('#{txid}', txid)
+      end
     end
 
     def as_json(options = {})
       super(options).merge({
-        txid: txid.blank? ? "" : txid[0..29],
+        txid: txid.to_s,
         confirmations: payment_transaction.nil? ? 0 : payment_transaction.confirmations,
-        blockchain_url: blockchain_url
+        transaction_url: transaction_url
       })
     end
   end

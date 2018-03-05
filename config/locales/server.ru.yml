@@ -29,7 +29,6 @@ ru:
         category: Категория
       account:
         currency: Валюта
-        currency_text: Валюта
         balance: Баланс
         locked: З
       deposit:
@@ -70,7 +69,6 @@ ru:
         confirmations: Подтверждения
         state_done: Выполнено
       withdraws/bank:
-        currency_obj_key_text: Валюта
         fund_source: Банк
         fund_extra: Банк
         fund_extra_text: Банк
@@ -90,7 +88,6 @@ ru:
         amount: Сумма
         confirmations: Подтверждение
       withdraws/satoshi:
-        currency_obj_key_text: Валюта
         fund_source: Банк
         sum: Сумма
         amount: Сумма

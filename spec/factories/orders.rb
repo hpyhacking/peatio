@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :order_bid do
-    bid :usd
-    ask :btc
+    bid { Currency.find_by!(code: :usd).id }
+    ask { Currency.find_by!(code: :btc).id }
     currency :btcusd
     state :wait
     source 'Web'
@@ -14,8 +14,8 @@ FactoryBot.define do
   end
 
   factory :order_ask do
-    bid :usd
-    ask :btc
+    bid { Currency.find_by!(code: :usd).id }
+    ask { Currency.find_by!(code: :btc).id }
     currency :btcusd
     state :wait
     source 'Web'

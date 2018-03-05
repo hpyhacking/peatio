@@ -9,14 +9,14 @@
     <table class="table">
       <tbody>
         <% current_user.accounts.each do |account|
-          next unless account.currency_obj.try(:visible) %>
+          next unless account.currency.try(:visible) %>
           <tr class="<%= account.currency %> <%= @market.scope?(account) ? '' : 'hide' %>">
             <td class="account-symbol col-xs-6 text-center">
-              <% image = account.currency_obj.coin ?
-                         "/icon-#{account.currency.downcase}.png" :
-                         "yarn_components/currency-flags/src/flags/#{account.currency.downcase}.png" %>
+              <% image = account.currency.coin? ?
+                         "/icon-#{account.currency.code}.png" :
+                         "yarn_components/currency-flags/src/flags/#{account.currency.code}.png" %>
               <div class="currency-logo" style="background-image: url('<%= image_url(image) %>');"></div>
-              <div><%= account.currency.upcase %></div>
+              <div><%= account.currency.code.upcase %></div>
             </td>
             <td class="account-balance col-xs-18 text-right">
               <span class="amount" data-title="<%= t('.amount') %>"><%= account.amount %></span>

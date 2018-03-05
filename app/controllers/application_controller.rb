@@ -135,11 +135,11 @@ class ApplicationController < ActionController::Base
       title: ENV.fetch('MARKETS_METADATA_TITLE')
     }
 
-    gon.currencies = Currency.all.inject({}) do |memo, currency|
+    gon.currencies = Currency.visible.inject({}) do |memo, currency|
       memo[currency.code] = {
-        code: currency[:code],
-        symbol: currency[:symbol],
-        isCoin: currency[:coin]
+        code: currency.code,
+        symbol: currency.symbol,
+        isCoin: currency.coin?
       }
       memo
     end
@@ -153,11 +153,11 @@ class ApplicationController < ActionController::Base
     if current_user
       gon.user = { sn: current_user.sn }
       gon.accounts = current_user.accounts.inject({}) do |memo, account|
-        memo[account.currency] = {
-          currency: account.currency,
+        memo[account.currency.code] = {
+          currency: account.currency.code,
           balance: account.balance,
           locked: account.locked
-        } if account.currency_obj.try(:visible)
+        } if account.currency.try(:visible)
         memo
       end
     end

@@ -4,9 +4,7 @@ describe Private::FundSourcesController, type: :controller do
 
   describe 'POST create' do
     it 'should not create fund_source with blank extra' do
-      params = { fund_source: { extra: '',
-                                currency: :usd,
-                                uid: '1234 1234 1234' } }
+      params = { extra: '', currency: :usd, uid: '1234 1234 1234' }
 
       expect do
         post :create, params
@@ -15,9 +13,7 @@ describe Private::FundSourcesController, type: :controller do
     end
 
     it 'should not create fund_source with blank uid' do
-      params = { fund_source: { extra: 'bank_code_1',
-                                currency: :usd,
-                                uid: '' } }
+      params = { extra: 'bank_code_1', currency: :usd, uid: '' }
 
       expect do
         post :create, params
@@ -26,9 +22,7 @@ describe Private::FundSourcesController, type: :controller do
     end
 
     it 'should create fund_source successful' do
-      params = { fund_source: { extra: 'bank_code_1',
-                                currency: :usd,
-                                uid: '1234 1234 1234' } }
+      params = { extra: 'bank_code_1', currency: :usd, uid: '1234 1234 1234' }
 
       expect do
         post :create, params
@@ -38,12 +32,12 @@ describe Private::FundSourcesController, type: :controller do
   end
 
   describe 'UPDATE' do
-    let!(:fund_source) { create(:fund_source, member: member, currency: :btc) }
-    let(:account) { member.accounts.with_currency(:btc).first }
+    let!(:fund_source) { create(:fund_source, member: member) }
+    let!(:account) { member.get_account(:btc) }
 
     it 'update default_withdraw_fund_source_id to account' do
       put :update, id: fund_source.id
-      expect(account.default_withdraw_fund_source_id).to eq(fund_source.id)
+      expect(account.reload.default_withdraw_fund_source_id).to eq(fund_source.id)
     end
   end
 

@@ -2,7 +2,7 @@ module APIv2
   module Entities
     class Withdraw < Base
       expose :id
-      expose(:currency) { |w| w.currency.upcase }
+      expose(:currency) { |w| w.currency.code }
       expose :sum, as: :amount
       expose :fee
       expose :txid

@@ -2,7 +2,7 @@ module APIv2
   module Entities
     class Deposit < Base
       expose :id, documentation: "Unique deposit id."
-      expose :currency
+      expose(:currency) { |deposit| deposit.currency.code }
       expose :amount, format_with: :decimal
       expose :fee
       expose :txid

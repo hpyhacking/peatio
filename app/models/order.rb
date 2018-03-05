@@ -1,8 +1,6 @@
 class Order < ActiveRecord::Base
   extend Enumerize
 
-  enumerize :bid, in: Currency.enumerize
-  enumerize :ask, in: Currency.enumerize
   enumerize :currency, in: Market.enumerize, scope: true
   enumerize :state, in: {:wait => 100, :done => 200, :cancel => 0}, scope: true
 
@@ -96,7 +94,7 @@ class Order < ActiveRecord::Base
   end
 
   def self.head(currency)
-    active.with_currency(currency.downcase).matching_rule.first
+    active.with_currency(currency).matching_rule.first
   end
 
   def at
@@ -159,7 +157,7 @@ class Order < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180227163417
 #
 # Table name: orders
 #

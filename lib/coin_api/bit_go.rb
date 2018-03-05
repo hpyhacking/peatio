@@ -5,8 +5,8 @@ module CoinAPI
     def initialize(*)
       super
       currency_code_prefix = currency.bitgo_test_net? ? 't' : ''
-      @endpoint            = currency.bitgo_rest_api_root.gsub(/\/+\z/, '') + '/' + currency_code_prefix + currency.code.downcase
-      @access_token        = currency.bitgo_rest_api_access_token
+      @endpoint            = currency.bitgo_rest_api_root!.gsub(/\/+\z/, '') + '/' + currency_code_prefix + currency.code
+      @access_token        = currency.bitgo_rest_api_access_token!
     end
 
     def load_balance!
@@ -47,7 +47,7 @@ module CoinAPI
     def inspect_address!(address)
       { address:  address,
         is_valid: :unsupported,
-        is_mine:  PaymentAddress.where(currency: currency.id, address: address).exists? }
+        is_mine:  PaymentAddress.where(currency: currency, address: address).exists? }
     end
 
   private
@@ -134,6 +134,7 @@ module CoinAPI
           raise e if raise
         end
         yield batch_deposits if batch_deposits
+        collected += batch_deposits
         break if next_batch_ref.blank?
       end
       collected

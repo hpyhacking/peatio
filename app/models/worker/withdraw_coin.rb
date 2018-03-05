@@ -7,12 +7,12 @@ module Worker
       return if withdraw.blank? || !withdraw.processing?
 
       withdraw.transaction do
-        balance = CoinAPI[withdraw.currency.to_sym].load_balance!
+        balance = CoinAPI[withdraw.currency.code.to_sym].load_balance!
         withdraw.mark_suspect if balance < withdraw.sum
 
         pa = withdraw.account.payment_address
 
-        txid = CoinAPI[withdraw.currency.to_sym].create_withdrawal!(
+        txid = CoinAPI[withdraw.currency.code.to_sym].create_withdrawal!(
           { address: pa.address, secret: pa.secret },
           { address: withdraw.fund_uid },
           withdraw.amount.to_d
@@ -30,7 +30,7 @@ module Worker
 
     rescue Exception => e
       Rails.logger.error { 'Error during withdraw processing.' }
-      Rails.logger.debug { "Failed to process #{withdraw.currency.upcase} withdraw with ID #{withdraw.id}: #{e.inspect}." }
+      Rails.logger.debug { "Failed to process #{withdraw.currency.code} withdraw with ID #{withdraw.id}: #{e.inspect}." }
       withdraw.fail!
     end
   end

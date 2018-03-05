@@ -14,7 +14,7 @@ class Deposit < ActiveRecord::Base
   alias_attribute :sn, :id
 
   delegate :id, to: :channel, prefix: true
-  delegate :coin?, :fiat?, to: :currency_obj
+  delegate :coin?, :fiat?, to: :currency
 
   belongs_to :member
   belongs_to :account
@@ -131,14 +131,14 @@ class Deposit < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180227163417
 #
 # Table name: deposits
 #
 #  id                     :integer          not null, primary key
 #  account_id             :integer
 #  member_id              :integer
-#  currency               :integer
+#  currency_id            :integer
 #  amount                 :decimal(32, 16)
 #  fee                    :decimal(32, 16)
 #  fund_uid               :string(255)
@@ -156,5 +156,6 @@ end
 #
 # Indexes
 #
+#  index_deposits_on_currency_id     (currency_id)
 #  index_deposits_on_txid_and_txout  (txid,txout)
 #

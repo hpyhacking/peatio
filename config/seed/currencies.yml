@@ -1,0 +1,183 @@
+- id:                   1
+  code:                 usd
+  key:                  dollar
+  symbol:               '$'
+  type:                 fiat
+  precision:            2
+  base_factor:          1
+  visible:              true
+  quick_withdraw_limit: 1000
+
+- id:                   2
+  code:                 btc
+  key:                  satoshi
+  symbol:               '฿'
+  type:                 coin
+  precision:            8
+  base_factor:          100_000_000
+  visible:              true
+  quick_withdraw_limit: 0.1
+  options:
+    #
+    # API client configuration.
+    api_client: BTC
+    #
+    # Bitcoind specific configuration.
+    json_rpc_endpoint: http://user:password@127.0.0.1:18332
+    #
+    # BitGo specific configuration.
+    bitgo_test_net:              on
+    bitgo_wallet_id:             ~
+    bitgo_wallet_address:        ~
+    bitgo_wallet_passphrase:     ~
+    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
+    bitgo_rest_api_access_token: ~
+    #
+    # Block explorer configuration.
+    wallet_url_template:      https://blockchain.info/address/#{address}
+    transaction_url_template: https://blockchain.info/tx/#{txid}
+
+- id:                   3
+  code:                 xrp
+  key:                  ripple
+  symbol:               'ꭆ'
+  type:                 coin
+  precision:            8
+  base_factor:          1_000_000
+  visible:              true
+  quick_withdraw_limit: 1000
+  options:
+    #
+    # API client configuration.
+    api_client: XRP
+    #
+    # Rippled specific configuration.
+    json_rpc_endpoint: http://user:password@127.0.0.1:5005
+    #
+    # BitGo specific configuration.
+    bitgo_test_net:              on
+    bitgo_wallet_id:             ~
+    bitgo_wallet_address:        ~
+    bitgo_wallet_passphrase:     ~
+    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
+    bitgo_rest_api_access_token: ~
+    #
+    # Block explorer configuration.
+    wallet_url_template:      https://bithomp.com/explorer/#{address}
+    transaction_url_template: https://bithomp.com/explorer/#{txid}
+
+- id:                   4
+  code:                 bch
+  key:                  bitcoin_cash
+  symbol:               '฿'
+  type:                 coin
+  precision:            8
+  base_factor:          100_000_000
+  visible:              true
+  quick_withdraw_limit: 1
+  options:
+    #
+    # API client configuration.
+    api_client: BCH
+    #
+    # Bitcoin Cash daemon specific configuration.
+    json_rpc_endpoint: http://user:password@127.0.0.1:18332
+    #
+    # BitGo specific configuration.
+    bitgo_test_net:              on
+    bitgo_wallet_id:             ~
+    bitgo_wallet_address:        ~
+    bitgo_wallet_passphrase:     ~
+    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
+    bitgo_rest_api_access_token: ~
+    #
+    # Block explorer configuration.
+    wallet_url_template:      https://www.blocktrail.com/BCC/address/#{address}
+    transaction_url_template: https://www.blocktrail.com/BCC/tx/#{txid}
+
+- id:                   5
+  code:                 ltc
+  key:                  litoshi
+  symbol:               'Ł'
+  type:                 coin
+  precision:            8
+  base_factor:          100_000_000
+  visible:              true
+  quick_withdraw_limit: 5
+  options:
+    #
+    # API client configuration.
+    api_client: LTC
+    #
+    # Bitcoind specific configuration.
+    json_rpc_endpoint: http://user:password@127.0.0.1:18332
+    #
+    # BitGo specific configuration.
+    bitgo_test_net:              on
+    bitgo_wallet_id:             ~
+    bitgo_wallet_address:        ~
+    bitgo_wallet_passphrase:     ~
+    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
+    bitgo_rest_api_access_token: ~
+    #
+    # Block explorer configuration.
+    wallet_url_template:      https://www.blocktrail.com/LTC/address/#{address}
+    transaction_url_template: https://www.blocktrail.com/LTC/tx/#{txid}
+
+- id:                   6
+  code:                 dash
+  key:                  duff
+  symbol:               'Đ'
+  type:                 coin
+  precision:            8
+  base_factor:          100_000_000
+  visible:              true
+  quick_withdraw_limit: 2
+  options:
+    #
+    # API client configuration.
+    api_client: DASH
+    #
+    # Dashd specific configuration.
+    json_rpc_endpoint: http://user:password@127.0.0.1:19998
+    #
+    # BitGo specific configuration.
+    bitgo_test_net:              on
+    bitgo_wallet_id:             ~
+    bitgo_wallet_address:        ~
+    bitgo_wallet_passphrase:     ~
+    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
+    bitgo_rest_api_access_token: ~
+    #
+    # Block explorer configuration.
+    wallet_url_template:      https://live.blockcypher.com/dash/address/#{address}
+    transaction_url_template: https://live.blockcypher.com/dash/tx/#{txid}
+
+- id:                   7
+  code:                 eth
+  key:                  ethereum
+  symbol:               'Ξ'
+  type:                 coin
+  precision:            8
+  base_factor:          1_000_000_000_000_000_000
+  visible:              true
+  quick_withdraw_limit: 2
+  options:
+    #
+    # API client configuration.
+    api_client: ETH
+    #
+    # Ethereum node specific configuration.
+    json_rpc_endpoint: http://user:password@127.0.0.1:8545
+    #
+    # BitGo specific configuration.
+    bitgo_test_net:              on
+    bitgo_wallet_id:             ~
+    bitgo_wallet_address:        ~
+    bitgo_wallet_passphrase:     ~
+    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
+    bitgo_rest_api_access_token: ~
+    #
+    # Block explorer configuration.
+    wallet_url_template:      https://etherscan.io/address/#{address}
+    transaction_url_template: https://etherscan.io/tx/#{txid}

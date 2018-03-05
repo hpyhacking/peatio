@@ -1,55 +1,56 @@
-class Currency < ActiveYamlBase
-  include ActiveHash::Associations
+class Currency < ActiveRecord::Base
+  serialize :options, JSON
 
-  field :visible, default: true
+  # NOTE: type column reserved for STI
+  self.inheritance_column = nil
 
-  self.singleton_class.send :alias_method, :all_with_invisible, :all
+  validates :type, inclusion: { in: %w[fiat coin token] }
+  validates :key, :code, presence: true, length: { maximum: 30 }
+  validates :code, presence: true, uniqueness: true
+  validates :symbol, presence: true, length: { maximum: 1 }
+  validates :json_rpc_endpoint, :rest_api_endpoint, length: { maximum: 200 }, url: { allow_blank: true }
+  validates :options, length: { maximum: 1000 }
+  validates :wallet_url_template, :transaction_url_template, length: { maximum: 200 }, url: { allow_blank: true }
+  validates :quick_withdraw_limit, numericality: { greater_than_or_equal_to: 0 }
+  validates :base_factor, numericality: { greater_than_or_equal_to: 1, only_integer: true }
+  validate { errors.add(:options, :invalid) unless Hash === options }
+
+  scope :visible, -> { where(visible: true) }
+  scope :all_with_invisible, -> { all }
+
+  scope :coins, -> { where(type: :coin) }
+  scope :fiats, -> { where(type: :fiat) }
 
   class << self
-    def all
-      all_with_invisible.select &:visible
+    def base_fiat
+      fiats.order(id: :asc).first
     end
 
-    def enumerize
-      all_with_invisible.each_with_object({}) { |i, memo| memo[i.code.to_sym] = i.id }
+    def codes(options = {})
+      visible.pluck(:code).yield_self do |downcase_codes|
+        case
+          when options.fetch(:bothcase, false)
+            downcase_codes + downcase_codes.map(&:upcase)
+          when options.fetch(:upcase, false)
+            downcase_codes.map(&:upcase)
+          else
+            downcase_codes
+        end
+      end
     end
 
-    def codes
-      @keys ||= all.map &:code
+    def coin_codes(options = {})
+      coins.codes(options)
     end
 
-    def ids
-      @ids ||= all.map &:id
+    def fiat_codes(options = {})
+      fiats.codes(options)
     end
-
-    def assets(code)
-      find_by_code(code)[:assets]
-    end
-
-    def coins
-      @coins ||= Currency.where(coin: true)
-    end
-
-    def fiats
-      @fiats ||= Currency.where(coin: false)
-    end
-
-    def coin_codes
-      @coin_codes ||= self.coins.map(&:code)
-    end
-  end
-
-  def precision
-    self[:precision]
   end
 
   def api
     raise unless coin?
     CoinAPI[code]
-  end
-
-  def fiat?
-    not coin?
   end
 
   def balance_cache_key
@@ -60,26 +61,12 @@ class Currency < ActiveYamlBase
     Rails.cache.read(balance_cache_key) || 0
   end
 
-  def decimal_digit
-    self.try(:default_decimal_digit) || (fiat? ? 2 : 4)
-  end
-
   def refresh_balance
     Rails.cache.write(balance_cache_key, api.load_balance || 'N/A') if coin?
   end
 
-  def blockchain_url(txid)
-    raise unless coin?
-    blockchain.gsub('#{txid}', txid.to_s)
-  end
-
-  def address_url(address)
-    raise unless coin?
-    self[:address_url].try :gsub, '#{address}', address
-  end
-
-  def quick_withdraw_max
-    @quick_withdraw_max ||= BigDecimal.new self[:quick_withdraw_max].to_s
+  def quick_withdraw_limit
+    self[:quick_withdraw_limit] ||= BigDecimal.new(super.to_s)
   end
 
   # Allows to dynamically check value of code:
@@ -88,16 +75,19 @@ class Currency < ActiveYamlBase
   #   code.xrp? # true if code equals to "xrp".
   #
   def code
-    self[:code]&.inquiry
+    super&.inquiry
   end
 
-  def as_json(options = {})
-    {
-      key: key,
-      code: code,
-      coin: coin,
-      blockchain: blockchain
-    }
+  def code=(code)
+    super(code.to_s.downcase)
+  end
+
+  def as_json(*)
+    { key:                      key,
+      code:                     code,
+      coin:                     coin?,
+      fiat:                     fiat?,
+      transaction_url_template: transaction_url_template }
   end
 
   def summary
@@ -105,11 +95,11 @@ class Currency < ActiveYamlBase
     balance = Account.balance_sum(code)
     sum = locked + balance
 
-    coinable = self.coin?
-    hot = coinable ? self.balance : nil
+    coinable = coin?
+    hot = coinable ? balance : nil
 
     {
-      name: self.code.upcase,
+      name: code.upcase,
       sum: sum,
       balance: balance,
       locked: locked,
@@ -118,19 +108,60 @@ class Currency < ActiveYamlBase
     }
   end
 
-  def key_text
-    code.upcase
+  def coin?
+    type == 'coin'
   end
 
-  def code_text
-    code.upcase
+  def fiat?
+    type == 'fiat'
   end
 
-  def name_text
-    code.upcase
+  class << self
+    def nested_attr(*names)
+      names.each do |name|
+        name_string = name.to_s
+        define_method(name)              { options[name_string] }
+        define_method(name_string + '?') { options[name_string].present? }
+        define_method(name_string + '=') { |value| options[name_string] = value }
+        define_method(name_string + '!') { options.fetch!(name_string) }
+      end
+    end
   end
 
-  def type
-    fiat? ? :fiat : :coin
-  end
+  nested_attr \
+    :api_client,
+    :json_rpc_endpoint,
+    :rest_api_endpoint,
+    :bitgo_test_net,
+    :bitgo_wallet_id,
+    :bitgo_wallet_address,
+    :bitgo_wallet_passphrase,
+    :bitgo_rest_api_root,
+    :bitgo_rest_api_access_token,
+    :wallet_url_template,
+    :transaction_url_template
 end
+
+# == Schema Information
+# Schema version: 20180216145412
+#
+# Table name: currencies
+#
+#  id                   :integer          not null, primary key
+#  key                  :string(30)       not null
+#  code                 :string(30)       not null
+#  symbol               :string(1)        not null
+#  type                 :string(30)       default("coin"), not null
+#  quick_withdraw_limit :decimal(32, 16)  default(0.0), not null
+#  options              :string(1000)     default({}), not null
+#  visible              :boolean          default(TRUE), not null
+#  base_factor          :integer          default(1), not null
+#  precision            :integer          default(8), not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#
+# Indexes
+#
+#  index_currencies_on_code     (code) UNIQUE
+#  index_currencies_on_visible  (visible)
+#

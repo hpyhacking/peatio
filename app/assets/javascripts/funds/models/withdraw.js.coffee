@@ -1,6 +1,6 @@
 class Withdraw extends PeatioModel.Model
   @configure 'Withdraw', 'sn', 'account_id', 'member_id', 'currency', 'amount', 'fee', 'fund_uid', 'fund_extra',
-    'created_at', 'updated_at', 'done_at', 'txid', 'blockchain_url', 'aasm_state', 'sum', 'type', 'is_submitting'
+    'created_at', 'updated_at', 'done_at', 'txid', 'transaction_url', 'aasm_state', 'sum', 'type', 'is_submitting'
 
   constructor: ->
     super
@@ -15,12 +15,12 @@ class Withdraw extends PeatioModel.Model
     "#{@pathName()}"
 
   pathName: ->
-    switch @currency.toUpperCase()
+    switch @currency
       when gon.fiat_currency then 'banks'
-      when 'BTC'  then 'satoshis'
-      when 'XRP'  then 'ripples'
-      when 'LTC'  then 'litoshis'
-      when 'BCH'  then 'bitcoin_cash'
-      when 'DASH' then 'duffs'
+      when 'btc'  then 'satoshis'
+      when 'xrp'  then 'ripples'
+      when 'ltc'  then 'litoshis'
+      when 'bch'  then 'bitcoin_cash'
+      when 'dash' then 'duffs'
 
 window.Withdraw = Withdraw

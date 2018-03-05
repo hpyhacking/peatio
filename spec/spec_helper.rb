@@ -57,21 +57,20 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
   config.include Capybara::DSL
 
-  config.before(:suite) do
+  config.before :suite do
     DatabaseCleaner.strategy = :deletion
   end
 
-  config.before(:each) do
+  config.before :each do
     DatabaseCleaner.start
-
     FileUtils.rm_rf(File.join(__dir__, 'tmp', 'cache'))
     AMQPQueue.stubs(:publish)
     KlineDB.stubs(:kline).returns([])
-
     I18n.locale = :en
+    %i[ usd btc pts eth xrp ].each { |ccy| FactoryBot.create(:currency, ccy) }
   end
 
-  config.after(:each) do
+  config.after :each do
     DatabaseCleaner.clean
   end
 end

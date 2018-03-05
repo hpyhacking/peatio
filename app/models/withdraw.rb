@@ -18,9 +18,8 @@ class Withdraw < ActiveRecord::Base
   has_many :account_versions, as: :modifiable
 
   delegate :balance, to: :account, prefix: true
-  delegate :key_text, to: :channel, prefix: true
   delegate :id, to: :channel, prefix: true
-  delegate :coin?, :fiat?, to: :currency_obj
+  delegate :coin?, :fiat?, to: :currency
 
   before_validation :fix_precision
   before_validation :calc_fee
@@ -126,7 +125,7 @@ class Withdraw < ActiveRecord::Base
   end
 
   def quick?
-    sum <= currency_obj.quick_withdraw_max
+    sum <= currency.quick_withdraw_limit
   end
 
   def audit!
@@ -200,20 +199,20 @@ class Withdraw < ActiveRecord::Base
   end
 
   def fix_precision
-    if sum && currency_obj.precision
-      self.sum = sum.round(currency_obj.precision, BigDecimal::ROUND_DOWN)
+    if sum && currency.precision
+      self.sum = sum.round(currency.precision, BigDecimal::ROUND_DOWN)
     end
   end
 
   def calc_fee
     self.sum ||= 0.0
     # You can set fee for each currency in withdraw_channels.yml.
-    self.fee ||= WithdrawChannel.find_by_currency(currency).fee
+    self.fee ||= WithdrawChannel.find_by!(currency: currency.code).fee
     self.amount = sum - fee
   end
 
   def set_account
-    self.account = member.get_account(currency)
+    self.account = member.get_account(currency.code)
   end
 
   def self.resource_name
@@ -231,29 +230,31 @@ class Withdraw < ActiveRecord::Base
   def sync_destroy
     ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'destroy', id: self.id })
   end
-
-
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180227163417
 #
 # Table name: withdraws
 #
-#  id         :integer          not null, primary key
-#  sn         :string(255)
-#  account_id :integer
-#  member_id  :integer
-#  currency   :integer
-#  amount     :decimal(32, 16)
-#  fee        :decimal(32, 16)
-#  fund_uid   :string(255)
-#  fund_extra :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  done_at    :datetime
-#  txid       :string(255)
-#  aasm_state :string
-#  sum        :decimal(32, 16)  default(0.0), not null
-#  type       :string(255)
+#  id          :integer          not null, primary key
+#  sn          :string(255)
+#  account_id  :integer
+#  member_id   :integer
+#  currency_id :integer
+#  amount      :decimal(32, 16)
+#  fee         :decimal(32, 16)
+#  fund_uid    :string(255)
+#  fund_extra  :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  done_at     :datetime
+#  txid        :string(255)
+#  aasm_state  :string
+#  sum         :decimal(32, 16)  default(0.0), not null
+#  type        :string(255)
+#
+# Indexes
+#
+#  index_withdraws_on_currency_id  (currency_id)
 #

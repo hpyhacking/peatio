@@ -1,5 +1,4 @@
 module Private::HistoryHelper
-
   def trade_side(trade)
     trade.ask_member == current_user ? 'sell' : 'buy'
   end
@@ -9,10 +8,7 @@ module Private::HistoryHelper
   end
 
   def transaction_txid_link(t)
-    return t.txid unless t.currency_obj.coin?
-
-    txid = t.txid || ''
-    link_to txid, t.blockchain_url
+    return t.txid if t.txid.blank? || !t.currency.coin?
+    link_to t.txid, t.transaction_url
   end
-
 end

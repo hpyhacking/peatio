@@ -52,7 +52,7 @@
     <%= table_for(@assets, class: 'table table-condensed table-hover', model: @model) do |t| %>
       <% t.column :created_at, class: 'col-xs-3' %>
       <% t.column :txid, class: 'col-xs-4' do |x| %>
-        <a href="<%= x.blockchain_url %>" target="_blank">
+        <a href="<%= x.transaction_url %>" target="_blank">
           <code class="text-info">
             <%= x.txid.truncate(32) %>
           </code>

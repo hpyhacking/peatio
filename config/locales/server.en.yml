@@ -33,7 +33,6 @@ en:
         label: Label
       account:
         currency: Currency
-        currency_text: Currency
         balance_and_locked: Balance / Locked
         balance: Balance
         locked: Frozen
@@ -112,7 +111,6 @@ en:
         sn: SN
       withdraws/bank:
         id: ID
-        currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_source: Bank
         fund_extra: Bank
@@ -172,7 +170,6 @@ en:
         aasm_state_text: State
       withdraws/satoshi:
         id: ID
-        currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_extra_text: Withdraw Label
         fund_extrat: Withdraw Label
@@ -185,7 +182,6 @@ en:
         fee: Fee
       withdraws/bitcoin_cash:
         id: ID
-        currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_extra_text: Withdraw Label
         fund_extrat: Withdraw Label
@@ -198,7 +194,6 @@ en:
         fee: Fee
       withdraws/litoshi:
         id: ID
-        currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_extra_text: Withdraw Label
         fund_extrat: Withdraw Label
@@ -211,7 +206,6 @@ en:
         fee: Fee
       withdraws/ripple:
         id: ID
-        currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_extra_text: Withdraw Label
         fund_extrat: Withdraw Label
@@ -224,7 +218,6 @@ en:
         fee: Fee
       withdraws/duff:
         id: ID
-        currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_extra_text: Withdraw Label
         fund_extrat: Withdraw Label
@@ -238,7 +231,6 @@ en:
       withdraws/ethereum:
         id: ID
         member_name: Account
-        currency_obj_key_text: Currency
         state_and_actions: State/Action
         fund_extra_text: Withdraw Label
         fund_extrat: Withdraw Label
@@ -353,19 +345,16 @@ en:
       columns:
         sn: SN
         created_at: At
-        channel_key_text: Channel
         fund_extra_text: Extra
         fund_uid: UID
         txid: TXID
         amount: Amount
         fee: Fee
-        currency_text: Currency
         aasm_state_text: State
     bank_deposits_grid:
       columns:
         sn: SN
         created_at: At
-        channel_key_text: Category
         fund_extra_text: Bank
         fund_uid: Account
         amount: Amount
@@ -383,7 +372,6 @@ en:
       columns:
         sn: SN
         name: Name
-        currency_text: Currency
         amount: Amount
         fee: Fee
         created_at: Created at
@@ -397,7 +385,6 @@ en:
     account_versions_grid:
       columns:
         created_at: Created at
-        currency_text: Currency
         balance: Balance
         in: In
         out: Out
@@ -775,9 +762,6 @@ en:
         title: '%{currency} Assets'
         intro: "All of exchange's %{currency} assets are listed here."
         total: 'Total %{currency} Assets'
-        description: " <p>For supervision, you can inquiry the balance of our deposit
-          account:</p> <p>Bank: %{bank}</p> <p>Account： %{address}</p> <p>Inquiry
-          Password： %{password}</p> <p>Inquiry Tel.： %{tel}</p>"
       partial_tree:
         success: 'Success! Verification data generated at: %{timestamp}'
     markets:
@@ -1183,35 +1167,30 @@ en:
       created_at: Created At
       confirmations: Confirmations
       state_and_actions: State/Actions
-      currency_obj_key_text: Currency
     bitcoin_cash:
       amount: Amount
       txid: TxId
       created_at: Created At
       confirmations: Confirmations
       state_and_actions: State/Actions
-      currency_obj_key_text: Currency
     litoshi:
       amount: Amount
       txid: TxId
       created_at: Created At
       confirmations: Confirmations
       state_and_actions: State/Actions
-      currency_obj_key_text: Currency
     ripple:
       amount: Amount
       txid: TxId
       created_at: Created At
       confirmations: Confirmations
       state_and_actions: State/Actions
-      currency_obj_key_text: Currency
     duff:
       amount: Amount
       txid: TxId
       created_at: Created At
       confirmations: Confirmations
       state_and_actions: State/Actions
-      currency_obj_key_text: Currency
     bank:
       sn: SN
       amount: Amount
@@ -1219,7 +1198,6 @@ en:
       fund_source: Fund Source
       memo: Memo
       state_and_actions: State/Action
-      currency_obj_key_text: Currency
   enumerize:
     account_version:
       reason:

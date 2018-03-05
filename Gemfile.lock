@@ -398,6 +398,9 @@ GEM
       thread_safe (~> 0.1)
     uglifier (4.1.3)
       execjs (>= 0.3.0, < 3)
+    validate_url (1.0.2)
+      activemodel (>= 3.0.0)
+      addressable
     validates_lengths_from_database (0.7.0)
       activerecord (>= 3)
     virtus (1.0.5)
@@ -492,6 +495,7 @@ DEPENDENCIES
   slim-rails
   timecop
   uglifier (~> 4.1)
+  validate_url (~> 1.0.2)
   validates_lengths_from_database (~> 0.7.0)
   webmock (~> 3.3)
 

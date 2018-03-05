@@ -1,11 +1,13 @@
 <%= table_for @deposits, class: 'table table-condensed table-hover' do |t| %>
   <% t.column :txid do |x| %>
-    <a href="<%= x.blockchain_url %>" target="_blank">
+    <a href="<%= x.transaction_url %>" target="_blank">
       <code class="text-info"><%= x.txid.truncate(36) %></code>
     </a>
   <% end %>
   <% t.column :created_at %>
-  <% t.column :currency_obj_key_text %>
+  <% t.column 'Currency' do |x| %>
+    <% x.currency.code.upcase %>
+  <% end %>
   <% t.column 'Member email' do |x| %>
     <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
   <% end %>

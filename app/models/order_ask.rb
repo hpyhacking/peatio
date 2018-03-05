@@ -9,11 +9,13 @@ class OrderAsk < Order
   end
 
   def hold_account
-    member.get_account(ask)
+    currency = Currency.find(ask)
+    member.get_account(currency.code)
   end
 
   def expect_account
-    member.get_account(bid)
+    currency = Currency.find(bid)
+    member.get_account(currency.code)
   end
 
   def avg_price
@@ -33,7 +35,7 @@ class OrderAsk < Order
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180227163417
 #
 # Table name: orders
 #

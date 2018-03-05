@@ -2,12 +2,14 @@ module Withdraws
   module Coinable
     extend ActiveSupport::Concern
 
-    def blockchain_url
-      currency_obj.blockchain_url(txid)
+    def transaction_url
+      if txid? && currency.transaction_url_template?
+        currency.transaction_url_template.gsub('#{txid}', txid)
+      end
     end
 
     def audit!
-      inspection = CoinAPI[currency].inspect_address!(fund_uid)
+      inspection = currency.api.inspect_address!(fund_uid)
 
       if inspection[:is_valid] == false
         Rails.logger.info "#{self.class.name}##{id} uses invalid address: #{fund_uid.inspect}"
@@ -23,11 +25,8 @@ module Withdraws
     end
 
     def as_json(options={})
-      super(options).merge({
-        blockchain_url: blockchain_url
-      })
+      super(options).merge(transaction_url: transaction_url)
     end
-
   end
 end
 

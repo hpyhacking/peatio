@@ -1,0 +1,1 @@
+Rake::Task['currencies:seed'].invoke

@@ -1,7 +1,9 @@
 <%= table_for banks, class: 'table table-condensed table-hover', model: Withdraws::Bank do |t| %>
   <% t.column :id, class: 'col-xs-2' %>
   <% t.column :created_at, class: 'col-xs-3' %>
-  <% t.column :currency_obj_key_text, class: 'col-xs-2' %>
+  <% t.column 'Currency', class: 'col-xs-2' do |x| %>
+    <% x.currency.code.upcase %>
+  <% end %>
   <% t.column 'Member email', class: 'col-xs-5' do |x| %>
     <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
   <% end %>

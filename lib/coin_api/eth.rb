@@ -3,7 +3,7 @@ module CoinAPI
     def initialize(*)
       super
       @json_rpc_call_id  = 0
-      @json_rpc_endpoint = URI.parse(currency.json_rpc_endpoint)
+      @json_rpc_endpoint = URI.parse(currency.json_rpc_endpoint!)
     end
 
     def create_address!
@@ -14,7 +14,7 @@ module CoinAPI
 
     def load_balance!
       PaymentAddress
-        .where(currency: currency.code.downcase)
+        .where(currency: currency)
         .where(PaymentAddress.arel_table[:address].is_not_blank)
         .pluck(:address)
         .reject(&:blank?)

@@ -109,22 +109,18 @@ class Member < ActiveRecord::Base
     "//gravatar.com/avatar/" + Digest::MD5.hexdigest(email.strip.downcase) + "?d=retro"
   end
 
-  def get_account(currency)
-    account = accounts.with_currency(currency.to_sym).first
-
-    if account.nil?
-      touch_accounts
-      account = accounts.with_currency(currency.to_sym).first
+  def get_account(model_or_code)
+    accounts.with_currency(model_or_code).first.yield_self do |account|
+      touch_accounts unless account
+      accounts.with_currency(model_or_code).first
     end
-
-    account
   end
   alias :ac :get_account
 
   def touch_accounts
-    less = Currency.codes.map(&:to_s) - self.accounts.map(&:currency).map(&:to_s)
-    less.each do |code|
-      self.accounts.create!(currency: code, balance: 0, locked: 0)
+    Currency.find_each do |currency|
+      next if accounts.where(currency: currency).exists?
+      accounts.create!(currency: currency, balance: 0, locked: 0)
     end
   end
 

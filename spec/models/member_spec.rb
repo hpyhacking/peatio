@@ -89,8 +89,9 @@ describe Member do
     end
 
     describe 'search by deposit address' do
-      let(:payment_address) { create(:btc_payment_address) }
-      let(:member) { payment_address.account.member }
+      let!(:payment_address) { create(:btc_payment_address) }
+      let!(:member) { payment_address.account.member }
+
       subject { Member.search(field: 'wallet_address', term: payment_address.address) }
 
       it { expect(subject.count).to eq(1) }

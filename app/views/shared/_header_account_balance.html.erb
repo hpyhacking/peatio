@@ -22,13 +22,13 @@
           </div>
         </div>
         <hr>
-        <div class="account <%= account.currency %>">
+        <div class="account <%= account.currency.code %>">
           <div class="row">
             <div class="col-xs-6">
               <span class="account-name">
-                <b><%= account.currency_obj.code_text %></b>
+                <b><%= account.currency.code.upcase %></b>
                 <br>
-                <b><%= account.currency_obj.name_text %></b>
+                <b><%= account.currency.code.upcase %></b>
               </span>
             </div>
             <div class="col-xs-18 text-right">

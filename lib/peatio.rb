@@ -1,7 +1,10 @@
 module Peatio
   class << self
     def base_fiat_ccy
-      Currency.first.code.upcase
+      Currency.base_fiat.yield_self do |ccy|
+        raise ArgumentError, 'Base fiat currency is not specified.' unless ccy
+        ccy.code
+      end
     end
 
     def base_fiat_ccy_sym

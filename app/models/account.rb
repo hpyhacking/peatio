@@ -30,7 +30,7 @@ class Account < ActiveRecord::Base
   validates :member_id, uniqueness: { scope: :currency }
   validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
 
-  scope :enabled, -> { where("currency in (?)", Currency.ids) }
+  scope :enabled, -> { joins(:currency).merge(Currency.where(visible: true)) }
 
   after_commit :trigger, :sync_update
 
@@ -86,7 +86,7 @@ class Account < ActiveRecord::Base
                      fee: fee,
                      reason: reason,
                      amount: account.amount,
-                     currency: account.currency.to_sym,
+                     currency: account.currency,
                      member_id: account.member_id,
                      account_id: account.id }
 
@@ -99,7 +99,6 @@ class Account < ActiveRecord::Base
 
       locked, balance = compute_locked_and_balance(fun, changed, opts)
       attributes.merge! locked: locked, balance: balance
-
       AccountVersion.optimistically_lock_account_and_create!(account.balance, account.locked, attributes)
     rescue ActiveRecord::StaleObjectError
       Rails.logger.info "Stale account##{account.id} found when create associated account version, retry."
@@ -170,8 +169,8 @@ class Account < ActiveRecord::Base
   def as_json(options = {})
     super(options).merge({
       # check if there is a useable address, but don't touch it to create the address now.
+      currency: currency.code,
       "deposit_address" => payment_addresses.empty? ? "" : payment_address.deposit_address,
-      "name_text" => currency_obj.name_text,
       "default_withdraw_fund_source_id" => default_withdraw_fund_source_id
     })
   end
@@ -190,13 +189,13 @@ class Account < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180227163417
 #
 # Table name: accounts
 #
 #  id                              :integer          not null, primary key
 #  member_id                       :integer
-#  currency                        :integer
+#  currency_id                     :integer
 #  balance                         :decimal(32, 16)
 #  locked                          :decimal(32, 16)
 #  created_at                      :datetime
@@ -207,6 +206,7 @@ end
 #
 # Indexes
 #
-#  index_accounts_on_member_id               (member_id)
-#  index_accounts_on_member_id_and_currency  (member_id,currency)
+#  index_accounts_on_currency_id                (currency_id)
+#  index_accounts_on_member_id                  (member_id)
+#  index_accounts_on_member_id_and_currency_id  (member_id,currency_id)
 #

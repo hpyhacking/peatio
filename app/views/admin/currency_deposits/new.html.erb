@@ -16,8 +16,8 @@
   </div>
   <div class="col-xs-6">
     <% @member && @member.accounts.each do |a| %>
-      <%= detail_section_tag "#{a.currency_text} #{t('.accounts_title')}" %>
-      <%= detail_tag a, field: :currency_text %>
+      <%= detail_section_tag "#{a.currency.code.upcase} #{t('.accounts_title')}" %>
+      <%= detail_tag a.currency.code.upcase %>
       <%= detail_tag a, field: :balance %>
       <%= detail_tag a, field: :locked %>
     <% end %>

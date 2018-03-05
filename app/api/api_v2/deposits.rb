@@ -9,7 +9,7 @@ module APIv2
 
     desc 'Get your deposits history.'
     params do
-      optional :currency, type: String, values: Currency.all.map(&:code), desc: "Currency value contains  #{Currency.all.map(&:code).join(',')}"
+      optional :currency, type: String, values: -> { Currency.codes(bothcase: true) }, desc: -> { "Currency value contains #{Currency.codes(bothcase: true).join(',')}" }
       optional :limit, type: Integer, range: 1..100, default: 3, desc: "Set result limit."
       optional :state, type: String, values: Deposit::STATES.map(&:to_s)
     end
@@ -17,7 +17,6 @@ module APIv2
       deposits = current_user.deposits.limit(params[:limit]).recent
       deposits = deposits.with_currency(params[:currency]) if params[:currency]
       deposits = deposits.with_aasm_state(params[:state]) if params[:state].present?
-
       present deposits, with: APIv2::Entities::Deposit
     end
 
@@ -34,7 +33,7 @@ module APIv2
 
     desc 'Where to deposit. The address field could be empty when a new address is generating (e.g. for bitcoin), you should try again later in that case.'
     params do
-      requires :currency, type: String, values: Currency.all.map(&:code), desc: "The account to which you want to deposit. Available values: #{Currency.all.map(&:code).join(', ')}"
+      requires :currency, type: String, values: -> { Currency.codes(bothcase: true) }, desc: -> { "The account to which you want to deposit. Available values: #{Currency.codes(bothcase: true).join(', ')}" }
     end
     get "/deposit_address" do
       current_user.ac(params[:currency]).payment_address.to_json

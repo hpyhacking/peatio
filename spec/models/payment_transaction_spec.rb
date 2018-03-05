@@ -1,6 +1,6 @@
 describe PaymentTransaction do
   it 'expect state transfer' do
-    tx = create(:payment_transaction, deposit: create(:deposit))
+    tx = create(:payment_transaction, deposit: create(:deposit_btc))
     tx.stubs(:refresh_confirmations)
 
     tx.stubs(:min_confirm?).returns(false)

@@ -7,16 +7,19 @@ module APIv2
 
     desc 'List your withdraws as paginated collection.', scopes: %w[ history ]
     params do
-      currencies = Currency.all.map(&:code).map(&:upcase)
-      optional :currency, type: String,  values: currencies + currencies.map(&:downcase), desc: "Any supported currencies: #{currencies.join(',')}."
+      optional :currency, type: String,  values: -> { Currency.codes(bothcase: true) }, desc: -> { "Any supported currencies: #{Currency.codes(bothcase: true).join(',')}." }
       optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'Page number (defaults to 1).'
       optional :limit,    type: Integer, default: 100, range: 1..1000, desc: 'Number of withdraws per page (defaults to 100, maximum is 1000).'
     end
     get '/withdraws' do
+      if params[:currency].present?
+        currency = Currency.find_by!(code: params[:currency])
+      end
+
       current_user
         .withdraws
         .order(id: :desc)
-        .tap { |q| q.where!(currency: params[:currency].downcase) if params[:currency] }
+        .tap { |q| q.where!(currency: currency) if currency }
         .page(params[:page])
         .per(params[:limit])
         .tap { |q| present q, with: APIv2::Entities::Withdraw }
@@ -24,8 +27,7 @@ module APIv2
 
     desc 'List your withdraw addresses as paginated collection.', scopes: %w[ history ]
     params do
-      currencies = Currency.all.map(&:code).map(&:upcase)
-      optional :currency, type: String,  values: currencies + currencies.map(&:downcase), desc: "Any supported currency: #{currencies.join(',')}."
+      optional :currency, type: String,  values: -> { Currency.codes(bothcase: true) }, desc: -> { "Any supported currency: #{Currency.codes(bothcase: true).join(',')}." }
       optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'Page number (defaults to 1).'
       optional :limit,    type: Integer, default: 100, range: 1..1000, desc: 'Number of withdraws per page (defaults to 100, maximum is 1000).'
     end
@@ -33,7 +35,7 @@ module APIv2
       current_user
         .fund_sources
         .order(id: :desc)
-        .tap { |q| q.where!(currency: params[:currency].downcase) if params[:currency] }
+        .tap { |q| q.where!(currency: Currency.find_by!(code: params[:currency])) if params[:currency].present? }
         .page(params[:page])
         .per(params[:limit])
         .tap { |q| present q, with: APIv2::Entities::WithdrawAddress }
@@ -41,12 +43,15 @@ module APIv2
 
     desc 'Create withdraw address.', scopes: %w[ withdraw ]
     params do
-      use :withdraw_address
+      requires :currency, type: String, values: -> { Currency.codes(bothcase: true) }, desc: 'Currency code. Both upcase (BTC) and downcase (btc) are supported.'
+      requires :label,    type: String, desc: 'The label associated with wallet.'
+      requires :address,  type: String, desc: 'The destination wallet address.'
     end
     post '/withdraws/addresses' do
+      currency = Currency.find_by!(code: params[:currency])
       order = FundSource.create! \
         member_id:  current_user.id,
-        currency:   params[:currency],
+        currency:   currency,
         extra:      params[:label],
         uid:        params[:address]
       present order, with: APIv2::Entities::WithdrawAddress
@@ -65,18 +70,17 @@ module APIv2
 
     desc 'Create withdraw.', scopes: %w[ withdraw ]
     params do
-      currencies = Currency.all.map(&:code).map(&:upcase)
-      requires :currency,   type: String,  values: currencies + currencies.map(&:downcase), desc: "Any supported currency: #{currencies.join(',')}."
+      requires :currency,   type: String,  values: -> { Currency.codes(bothcase: true) }, desc: -> { "Any supported currency: #{Currency.codes(bothcase: true).join(',')}." }
       requires :amount,     type: BigDecimal, desc: 'Withdraw amount without fees.'
       requires :address_id, type: Integer, desc: 'Stored withdraw address ID. You should create withdraw address before.'
     end
     post '/withdraws' do
-      currency = Currency.find_by_code(params[:currency].downcase)
+      currency = Currency.find_by!(code: params[:currency])
       withdraw = "withdraws/#{currency.key}".camelize.constantize.new \
         fund_source_id: params[:address_id],
         sum:            params[:amount],
         member_id:      current_user.id,
-        currency:       currency.code
+        currency:       currency
 
       if withdraw.save
         withdraw.submit!

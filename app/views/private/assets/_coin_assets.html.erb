@@ -1,6 +1,6 @@
 <% translation_data = { currency: currency.code.upcase } %>
-<% coin_proof       = instance_variable_get(:"@#{currency.code.downcase}_proof") %>
-<% coin_account     = instance_variable_get(:"@#{currency.code.downcase}_account") %>
+<% coin_proof       = instance_variable_get(:"@#{currency.code}_proof") %>
+<% coin_account     = instance_variable_get(:"@#{currency.code}_account") %>
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="row">

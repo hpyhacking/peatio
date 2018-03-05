@@ -253,12 +253,12 @@ describe Withdraw do
     end
 
     it 'returns false if exceeds quick withdraw amount' do
-      withdraw.currency_obj.stubs(:quick_withdraw_max).returns(withdraw.sum - 1)
+      withdraw.currency.stubs(:quick_withdraw_limit).returns(withdraw.sum - 1)
       expect(withdraw).to_not be_quick
     end
 
     it 'returns true' do
-      withdraw.currency_obj.stubs(:quick_withdraw_max).returns(withdraw.sum + 1)
+      withdraw.currency.stubs(:quick_withdraw_limit).returns(withdraw.sum + 1)
       expect(withdraw).to be_quick
     end
   end

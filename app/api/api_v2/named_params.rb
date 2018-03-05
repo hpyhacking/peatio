@@ -9,18 +9,18 @@ module APIv2
     end
 
     params :market do
-      requires :market, type: String, values: ::Market.all.map(&:id), desc: ::APIv2::Entities::Market.documentation[:id]
+      requires :market, type: String, values: ::Market.all.map(&:id), desc: -> { APIv2::Entities::Market.documentation[:id] }
     end
 
     params :order do
-      requires :side,   type: String, values: %w(sell buy), desc: ::APIv2::Entities::Order.documentation[:side]
-      requires :volume, type: String, desc: ::APIv2::Entities::Order.documentation[:volume]
-      optional :price,  type: String, desc: ::APIv2::Entities::Order.documentation[:price]
-      optional :ord_type, type: String, values: %w(limit market), desc: ::APIv2::Entities::Order.documentation[:type]
+      requires :side,   type: String, values: %w(sell buy), desc: -> { APIv2::Entities::Order.documentation[:side] }
+      requires :volume, type: String, desc: -> { APIv2::Entities::Order.documentation[:volume] }
+      optional :price,  type: String, desc: -> { APIv2::Entities::Order.documentation[:price] }
+      optional :ord_type, type: String, values: %w(limit market), desc: -> { APIv2::Entities::Order.documentation[:type] }
     end
 
     params :order_id do
-      requires :id, type: Integer, desc: ::APIv2::Entities::Order.documentation[:id]
+      requires :id, type: Integer, desc: -> { APIv2::Entities::Order.documentation[:id] }
     end
 
     params :trade_filters do
@@ -29,13 +29,6 @@ module APIv2
       optional :from,      type: Integer, desc: "Trade id. If set, only trades created after the trade will be returned."
       optional :to,        type: Integer, desc: "Trade id. If set, only trades created before the trade will be returned."
       optional :order_by,     type: String, values: %w(asc desc), default: 'desc', desc: "If set, returned trades will be sorted in specific order, default to 'desc'."
-    end
-
-    params :withdraw_address do
-      codes = Currency.all.map(&:code).map(&:upcase)
-      requires :currency,   type: String, values: codes + codes.map(&:downcase), desc: 'Currency code. Both upcase (BTC) and downcase (btc) are supported.'
-      requires :label,      type: String, desc: 'The label associated with wallet.'
-      requires :address,    type: String, desc: 'The destination wallet address.'
     end
   end
 end

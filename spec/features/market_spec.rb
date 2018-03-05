@@ -2,21 +2,21 @@ feature 'show account info', js: true do
   let!(:member) { create :member, :verified_identity }
 
   let!(:bid_account) do
-    member.get_account('usd').tap do |a|
+    member.get_account(:usd).tap do |a|
       a.plus_funds 1000
       a.save!
     end
   end
 
   let!(:ask_account) do
-    member.get_account('btc').tap do |a|
+    member.get_account(:btc).tap do |a|
       a.plus_funds 2000
       a.save!
     end
   end
 
-  let!(:ask_order) { create :order_ask, price: '23.6' }
-  let!(:bid_order) { create :order_bid, price: '21.3' }
+  let!(:ask_order) { create :order_ask, price: '23.6', member: member }
+  let!(:bid_order) { create :order_bid, price: '21.3', member: member }
   let!(:ask_name)  { 'BTC' }
 
   let(:global) { Global[Market.find('btcusd')] }

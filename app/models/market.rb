@@ -58,11 +58,11 @@ class Market < ActiveYamlBase
   end
 
   def ask_currency
-    Currency.find_by_code(ask["currency"])
+    Currency.find_by!(code: ask["currency"])
   end
 
   def bid_currency
-    Currency.find_by_code(bid["currency"])
+    Currency.find_by!(code: bid["currency"])
   end
 
   def scope?(account_or_currency)

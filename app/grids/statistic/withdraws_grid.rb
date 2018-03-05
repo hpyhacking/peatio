@@ -19,7 +19,7 @@ module Statistic
     end
 
     column :currency do
-      self.account.currency_text
+      account.currency.code.upcase
     end
 
     column(:channel)

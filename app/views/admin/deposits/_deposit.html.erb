@@ -1,14 +1,13 @@
 <%= detail_section_tag t('.member_title') %>
 <%= detail_tag deposit.member, field: :email %>
-<%= detail_tag deposit.account, field: :currency_text %>
+<%= detail_tag deposit.account.currency.code.upcase %>
 <%= detail_tag deposit.account, field: :balance %>
 <%= detail_tag deposit.account, field: :locked %>
 
 <%= detail_section_tag t('.deposit_title') %>
 <%= detail_tag deposit, field: :sn %>
 <%= detail_tag deposit, field: :created_at %>
-<%= detail_tag deposit, field: :currency_text %>
-<%= detail_tag deposit, field: :channel_key_text %>
+<%= detail_tag deposit.currency.code.upcase %>
 <%= detail_tag deposit, field: :aasm_state_text %>
 <%= detail_tag deposit, field: :admin_aasm_state_text %>
 

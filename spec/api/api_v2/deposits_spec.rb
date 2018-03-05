@@ -7,11 +7,11 @@ describe APIv2::Deposits, type: :request do
 
   describe 'GET /api/v2/deposits' do
     before do
-      create(:deposit, member: member, currency: 'btc')
-      create(:deposit, member: member, currency: 'usd')
-      create(:deposit, member: member, currency: 'usd', txid: 1, amount: 520)
-      create(:deposit, member: member, currency: 'btc', created_at: 2.day.ago, txid: 'test', amount: 111)
-      create(:deposit, member: other_member, currency: 'usd', txid: 10)
+      create(:deposit_btc, member: member)
+      create(:deposit_usd, member: member)
+      create(:deposit_usd, member: member, txid: 1, amount: 520)
+      create(:deposit_btc, member: member, created_at: 2.day.ago, txid: 'test', amount: 111)
+      create(:deposit_usd, member: other_member, txid: 10)
     end
 
     it 'require deposits authentication' do
@@ -38,7 +38,7 @@ describe APIv2::Deposits, type: :request do
       signed_get '/api/v2/deposits', params: { state: 'cancelled' }, token: token
       expect(JSON.parse(response.body).size).to eq 0
 
-      d = create(:deposit, member: member, currency: 'btc')
+      d = create(:deposit_btc, member: member)
       d.submit!
       signed_get '/api/v2/deposits', params: { state: 'submitted' }, token: token
       json = JSON.parse(response.body)

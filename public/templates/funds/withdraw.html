@@ -1,2 +1,2 @@
 <ng-include src="'/templates/funds/_flash.html'"></ng-include>
-<ng-include src="'/templates/funds/withdraw_' + (currency.toUpperCase() === fiatCurrency ? 'fiat' : currency) + '.html'"></ng-include>
+<ng-include src="'/templates/funds/withdraw_' + (currency === fiatCurrency ? 'fiat' : currency) + '.html'"></ng-include>

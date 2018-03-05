@@ -1,8 +1,8 @@
 module Audit
   describe TransferAuditLog do
     describe '.audit!' do
-      let(:deposit) { create(:deposit) }
       let(:member) { create(:member, :verified_identity) }
+      let(:deposit) { create(:deposit_btc, member: member, currency: Currency.find_by!(code: :btc)) }
       let(:log) { TransferAuditLog.audit!(deposit, member) }
 
       before do

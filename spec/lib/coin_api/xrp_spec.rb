@@ -56,7 +56,7 @@ describe CoinAPI::XRP do
     end
 
     before do
-      create(:payment_address, currency: client.currency.id, address: 'rwHGuJBDgLdh63SuBwos7vYmc8J2PptPLL')
+      create(:payment_address, currency: client.currency, address: 'rwHGuJBDgLdh63SuBwos7vYmc8J2PptPLL')
       stub_request(:post, 'http://127.0.0.1:5005/').with(body: request_body).to_return(body: response_body)
     end
 

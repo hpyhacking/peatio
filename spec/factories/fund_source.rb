@@ -3,14 +3,14 @@ FactoryBot.define do
     extra 'bitcoin'
     uid { Faker::Bitcoin.address }
     is_locked false
-    currency 'btc'
+    currency { Currency.find_by!(code: :btc) }
 
     member { create(:member, :verified_identity) }
 
     trait :usd do
       extra 'bc'
       uid '123412341234'
-      currency 'usd'
+      currency { Currency.find_by!(code: :usd) }
     end
 
     factory :usd_fund_source, traits: [:usd]

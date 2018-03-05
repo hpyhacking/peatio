@@ -39,7 +39,7 @@ class PaymentTransaction < ActiveRecord::Base
   end
 
   def refresh_confirmations
-    update! confirmations: CoinAPI[deposit.currency].load_deposit!(txid).fetch(:confirmations)
+    update!(confirmations: deposit.currency.api.load_deposit!(txid).fetch(:confirmations))
   end
 
   def deposit_accept
@@ -58,7 +58,7 @@ class PaymentTransaction < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180227163417
 #
 # Table name: payment_transactions
 #
@@ -73,12 +73,13 @@ end
 #  updated_at    :datetime
 #  receive_at    :datetime
 #  dont_at       :datetime
-#  currency      :integer
+#  currency_id   :integer
 #  type          :string(60)
 #  txout         :integer
 #
 # Indexes
 #
+#  index_payment_transactions_on_currency_id     (currency_id)
 #  index_payment_transactions_on_txid_and_txout  (txid,txout)
 #  index_payment_transactions_on_type            (type)
 #

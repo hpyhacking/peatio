@@ -2,9 +2,10 @@ module Currencible
   extend ActiveSupport::Concern
 
   included do
-    extend Enumerize
-    enumerize :currency, in: Currency.enumerize, scope: true
-    belongs_to_active_hash :currency_obj, class_name: 'Currency', foreign_key: 'currency_value'
-    delegate :key_text, to: :currency_obj, prefix: true
+    belongs_to :currency
+    scope :with_currency, -> (model_or_code) do
+      model = Currency === model_or_code ? model_or_code : Currency.find_by!(code: model_or_code)
+      where(currency: model)
+    end
   end
 end

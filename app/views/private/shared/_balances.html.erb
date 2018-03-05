@@ -3,7 +3,7 @@
     <div class="col-xs-6">
       <div class="row account-<%= account.currency %>">
         <div class="col-xs-4">
-          <h5 class="amount" data-title="<%= account.currency_text %>"><%= account.amount %></h5>
+          <h5 class="amount" data-title="<%= account.currency.code.upcase %>"><%= account.amount %></h5>
         </div>
         <div class="col-xs-3">
           <h5 class="locked text-right" data-title="<%= t('.locked') %>"><%= account.locked %></h5>

@@ -11,7 +11,7 @@
   <tr ng-class="{ 'new-row':dhCtrl.newRecord(deposit) }" ng-repeat="deposit in dhCtrl.deposits | orderBy:predicate">
     <td>{{deposit.created_at | date:'yyyy-MM-dd HH:mm'}}</td>
     <td>
-      <a href="{{deposit.blockchain_url}}" target='_blank'>{{deposit.txid}}</a>
+      <a href="{{deposit.transaction_url_template}}" target='_blank'>{{deposit.txid.slice(0, 20)}}</a>
     </td>
     <td>{{deposit.amount}}</td>
     <td>{{deposit.confirmations}}</td>

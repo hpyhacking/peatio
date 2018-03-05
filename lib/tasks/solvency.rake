@@ -9,9 +9,9 @@ namespace :solvency do
   task liability_proof: :environment do
     logger = Logger.new(STDOUT)
 
-    Currency.codes.each do |type|
-      logger.info "*** Starting #{type} liability proof generation ***"
-      accounts = Account.with_currency(type).includes(:member)
+    Currency.find_each do |ccy|
+      logger.info "*** Starting #{ccy.code.upcase} liability proof generation ***"
+      accounts = Account.with_currency(ccy).includes(:member)
       formatted_accounts = accounts.map do |account|
         {
           'user' => account.member.email,
@@ -20,18 +20,18 @@ namespace :solvency do
       end
 
       if formatted_accounts.empty?
-        logger.warn("No accounts using #{type}. Skipping")
+        logger.warn("No accounts using #{ccy.code.upcase}. Skipping")
         next
       end
 
-      tree = LiabilityProof::Tree.new(formatted_accounts, currency: type.upcase)
+      tree = LiabilityProof::Tree.new(formatted_accounts, currency: ccy.code.upcase)
 
       logger.info 'Generating root node...'
       sum = tree.root_json['root']['sum']
       proof = Proof.create!(
         sum: sum,
         root: tree.root_json,
-        currency: type
+        currency: ccy
       )
       logger.info 'Root node generated.'
 
@@ -48,7 +48,7 @@ namespace :solvency do
       logger.info "#{accounts.size} partial trees generated."
 
       if proof.coin?
-        logger.info "Fetching #{type} total assets..."
+        logger.info "Fetching #{ccy.code.upcase} total assets..."
         # addresses = Currency.assets(type)['accounts']
         #                     .map { |a| a['address'] }.join(',')
 

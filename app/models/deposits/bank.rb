@@ -17,22 +17,21 @@ module Deposits
       self.member = Member.find_by_sn(new_sn)
     end
 
-    def currency=(ccy)
-      super(ccy)
-      self.account = member&.accounts&.find_by_currency(ccy)
+    before_validation do
+      self.account ||= member.ac(currency)
     end
   end
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180227163417
 #
 # Table name: deposits
 #
 #  id                     :integer          not null, primary key
 #  account_id             :integer
 #  member_id              :integer
-#  currency               :integer
+#  currency_id            :integer
 #  amount                 :decimal(32, 16)
 #  fee                    :decimal(32, 16)
 #  fund_uid               :string(255)
@@ -50,5 +49,6 @@ end
 #
 # Indexes
 #
+#  index_deposits_on_currency_id     (currency_id)
 #  index_deposits_on_txid_and_txout  (txid,txout)
 #

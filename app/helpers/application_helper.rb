@@ -219,12 +219,11 @@ module ApplicationHelper
     end
   end
 
-  def format_currency(number, currency, n: nil)
-    currency_obj = Currency.find_by_code(currency.to_s)
-    digit = n || currency_obj.decimal_digit
+  def format_currency(number, currency, digit: 4)
+    currency = Currency.find_by_code!(currency)
     decimal = (number || 0).to_d.round(0, digit)
     decimal = number_with_precision(decimal, precision: digit, delimiter: ',')
-    "<span class='decimal'><small>#{currency_obj.symbol}</small>#{decimal}</span>"
+    "<span class='decimal'><small>#{currency.symbol}</small>#{decimal}</span>"
   end
 
   alias_method :d, :format_currency

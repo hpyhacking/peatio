@@ -8,7 +8,7 @@ module CoinAPI
 
     def load_balance!
       PaymentAddress
-        .where(currency: currency.code.downcase)
+        .where(currency: currency)
         .where(PaymentAddress.arel_table[:address].is_not_blank)
         .pluck(:address)
         .reject(&:blank?)

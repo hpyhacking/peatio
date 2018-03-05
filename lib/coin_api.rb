@@ -10,7 +10,7 @@ module CoinAPI
     #   The currency code. May be uppercase or lowercase.
     # @return [BaseAPI]
     def [](code)
-      currency = Currency.find_by_code(code.to_s.downcase)
+      currency = Currency.find_by!(code: code.to_s)
       raise Error, "Couldn't find currency with code #{code.inspect}." unless currency
 
       if currency.try(:api_client).present?

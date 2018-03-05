@@ -25,18 +25,19 @@ ActiveRecord::Schema.define(version: 20180303121013) do
     t.string   "modifiable_type", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "currency",        limit: 4
+    t.integer  "currency_id",     limit: 4
     t.integer  "fun",             limit: 4
   end
 
   add_index "account_versions", ["account_id", "reason"], name: "index_account_versions_on_account_id_and_reason", using: :btree
   add_index "account_versions", ["account_id"], name: "index_account_versions_on_account_id", using: :btree
+  add_index "account_versions", ["currency_id"], name: "index_account_versions_on_currency_id", using: :btree
   add_index "account_versions", ["member_id", "reason"], name: "index_account_versions_on_member_id_and_reason", using: :btree
   add_index "account_versions", ["modifiable_id", "modifiable_type"], name: "index_account_versions_on_modifiable_id_and_modifiable_type", using: :btree
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",                       limit: 4
-    t.integer  "currency",                        limit: 4
+    t.integer  "currency_id",                     limit: 4
     t.decimal  "balance",                                   precision: 32, scale: 16
     t.decimal  "locked",                                    precision: 32, scale: 16
     t.datetime "created_at"
@@ -46,7 +47,8 @@ ActiveRecord::Schema.define(version: 20180303121013) do
     t.integer  "default_withdraw_fund_source_id", limit: 4
   end
 
-  add_index "accounts", ["member_id", "currency"], name: "index_accounts_on_member_id_and_currency", using: :btree
+  add_index "accounts", ["currency_id"], name: "index_accounts_on_currency_id", using: :btree
+  add_index "accounts", ["member_id", "currency_id"], name: "index_accounts_on_member_id_and_currency_id", using: :btree
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
 
   create_table "api_tokens", force: :cascade do |t|
@@ -91,10 +93,27 @@ ActiveRecord::Schema.define(version: 20180303121013) do
   add_index "authentications", ["member_id"], name: "index_authentications_on_member_id", using: :btree
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", using: :btree
 
+  create_table "currencies", force: :cascade do |t|
+    t.string   "key",                  limit: 30,                                              null: false
+    t.string   "code",                 limit: 30,                                              null: false
+    t.string   "symbol",               limit: 1,                                               null: false
+    t.string   "type",                 limit: 30,                             default: "coin", null: false
+    t.decimal  "quick_withdraw_limit",              precision: 32, scale: 16, default: 0.0,    null: false
+    t.string   "options",              limit: 1000,                           default: "{}",   null: false
+    t.boolean  "visible",                                                     default: true,   null: false
+    t.integer  "base_factor",          limit: 8,                              default: 1,      null: false
+    t.integer  "precision",            limit: 1,                              default: 8,      null: false
+    t.datetime "created_at",                                                                   null: false
+    t.datetime "updated_at",                                                                   null: false
+  end
+
+  add_index "currencies", ["code"], name: "index_currencies_on_code", unique: true, using: :btree
+  add_index "currencies", ["visible"], name: "index_currencies_on_visible", using: :btree
+
   create_table "deposits", force: :cascade do |t|
     t.integer  "account_id",             limit: 4
     t.integer  "member_id",              limit: 4
-    t.integer  "currency",               limit: 4
+    t.integer  "currency_id",            limit: 4
     t.decimal  "amount",                             precision: 32, scale: 16
     t.decimal  "fee",                                precision: 32, scale: 16
     t.string   "fund_uid",               limit: 255
@@ -111,18 +130,21 @@ ActiveRecord::Schema.define(version: 20180303121013) do
     t.integer  "txout",                  limit: 4
   end
 
+  add_index "deposits", ["currency_id"], name: "index_deposits_on_currency_id", using: :btree
   add_index "deposits", ["txid", "txout"], name: "index_deposits_on_txid_and_txout", using: :btree
 
   create_table "fund_sources", force: :cascade do |t|
-    t.integer  "member_id",  limit: 4
-    t.integer  "currency",   limit: 4
-    t.string   "extra",      limit: 255
-    t.string   "uid",        limit: 255
-    t.boolean  "is_locked",              default: false
+    t.integer  "member_id",   limit: 4
+    t.integer  "currency_id", limit: 4
+    t.string   "extra",       limit: 255
+    t.string   "uid",         limit: 255
+    t.boolean  "is_locked",               default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
   end
+
+  add_index "fund_sources", ["currency_id"], name: "index_fund_sources_on_currency_id", using: :btree
 
   create_table "members", force: :cascade do |t|
     t.string   "level",        limit: 20,  default: ""
@@ -173,14 +195,16 @@ ActiveRecord::Schema.define(version: 20180303121013) do
   end
 
   create_table "payment_addresses", force: :cascade do |t|
-    t.integer  "account_id", limit: 4
-    t.string   "address",    limit: 255
+    t.integer  "account_id",  limit: 4
+    t.string   "address",     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "currency",   limit: 4
-    t.string   "secret",     limit: 255
-    t.string   "details",    limit: 1024, default: "{}", null: false
+    t.integer  "currency_id", limit: 4
+    t.string   "secret",      limit: 255
+    t.string   "details",     limit: 1024, default: "{}", null: false
   end
+
+  add_index "payment_addresses", ["currency_id"], name: "index_payment_addresses_on_currency_id", using: :btree
 
   create_table "payment_transactions", force: :cascade do |t|
     t.string   "txid",          limit: 255
@@ -193,24 +217,27 @@ ActiveRecord::Schema.define(version: 20180303121013) do
     t.datetime "updated_at"
     t.datetime "receive_at"
     t.datetime "dont_at"
-    t.integer  "currency",      limit: 4
+    t.integer  "currency_id",   limit: 4
     t.string   "type",          limit: 60
     t.integer  "txout",         limit: 4
   end
 
+  add_index "payment_transactions", ["currency_id"], name: "index_payment_transactions_on_currency_id", using: :btree
   add_index "payment_transactions", ["txid", "txout"], name: "index_payment_transactions_on_txid_and_txout", using: :btree
   add_index "payment_transactions", ["type"], name: "index_payment_transactions_on_type", using: :btree
 
   create_table "proofs", force: :cascade do |t|
-    t.string   "root",       limit: 255
-    t.integer  "currency",   limit: 4
-    t.boolean  "ready",                    default: false
+    t.string   "root",        limit: 255
+    t.integer  "currency_id", limit: 4
+    t.boolean  "ready",                     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "sum",        limit: 255
-    t.text     "addresses",  limit: 65535
-    t.string   "balance",    limit: 30
+    t.string   "sum",         limit: 255
+    t.text     "addresses",   limit: 65535
+    t.string   "balance",     limit: 30
   end
+
+  add_index "proofs", ["currency_id"], name: "index_proofs_on_currency_id", using: :btree
 
   create_table "trades", force: :cascade do |t|
     t.decimal  "price",                   precision: 32, scale: 16
@@ -245,21 +272,23 @@ ActiveRecord::Schema.define(version: 20180303121013) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   create_table "withdraws", force: :cascade do |t|
-    t.string   "sn",         limit: 255
-    t.integer  "account_id", limit: 4
-    t.integer  "member_id",  limit: 4
-    t.integer  "currency",   limit: 4
-    t.decimal  "amount",                 precision: 32, scale: 16
-    t.decimal  "fee",                    precision: 32, scale: 16
-    t.string   "fund_uid",   limit: 255
-    t.string   "fund_extra", limit: 255
+    t.string   "sn",          limit: 255
+    t.integer  "account_id",  limit: 4
+    t.integer  "member_id",   limit: 4
+    t.integer  "currency_id", limit: 4
+    t.decimal  "amount",                  precision: 32, scale: 16
+    t.decimal  "fee",                     precision: 32, scale: 16
+    t.string   "fund_uid",    limit: 255
+    t.string   "fund_extra",  limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "done_at"
-    t.string   "txid",       limit: 255
-    t.string   "aasm_state", limit: 255
-    t.decimal  "sum",                    precision: 32, scale: 16, default: 0.0, null: false
-    t.string   "type",       limit: 255
+    t.string   "txid",        limit: 255
+    t.string   "aasm_state",  limit: 255
+    t.decimal  "sum",                     precision: 32, scale: 16, default: 0.0, null: false
+    t.string   "type",        limit: 255
   end
+
+  add_index "withdraws", ["currency_id"], name: "index_withdraws_on_currency_id", using: :btree
 
 end

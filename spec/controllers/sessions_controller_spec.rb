@@ -43,7 +43,6 @@ describe SessionsController, type: :controller do
           else
             expect(response).to redirect_to redirect_url
           end
-
         end
       end
 

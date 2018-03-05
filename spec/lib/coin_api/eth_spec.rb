@@ -52,7 +52,7 @@ describe CoinAPI::ETH do
     end
 
     before do
-      create(:payment_address, currency: client.currency.id, address: '0xb3b89717c0cbbce35972d8a8f75bc9cd20748a91')
+      create(:payment_address, currency: client.currency, address: '0xb3b89717c0cbbce35972d8a8f75bc9cd20748a91')
       stub_request(:post, 'http://127.0.0.1:8545/').with(body: request_body).to_return(body: response_body)
     end
 

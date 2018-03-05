@@ -9,7 +9,7 @@ def process_deposits(coin, channel, deposit)
 
   # Skip zombie transactions (for which addresses don't exist).
   recipients = deposit[:entries].map { |entry| entry[:address] }
-  return unless recipients.all? { |address| PaymentAddress.where(currency: coin.code, address: address).exists? }
+  return unless recipients.all? { |address| PaymentAddress.where(currency: coin, address: address).exists? }
 
   Rails.logger.info "Missed #{coin.code.upcase} transaction: #{deposit[:id]}."
 
@@ -20,17 +20,14 @@ rescue => e
 end
 
 while running
-  channels = DepositChannel.all.each_with_object({}) { |ch, memo| memo[ch.currency] = ch }
-  coins    = Currency.where(coin: true)
-
-  coins.each do |coin|
-    next unless (channel = channels[coin.code])
+  DepositChannel.all.each do |ch|
+    next unless ch.currency.coin?
 
     # TODO: Find a better way for limiting amount of transactions to process (Yaroslav Konoplov).
     processed = 0
-    CoinAPI[coin.code.to_sym].each_deposit do |deposit|
+    ch.currency.api.each_deposit do |deposit|
       break unless running
-      process_deposits(coin, channel, deposit)
+      process_deposits(ch.currency, ch, deposit)
       break if (processed += 1) >= 1000
     end
   end

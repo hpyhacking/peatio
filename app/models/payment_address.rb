@@ -19,7 +19,7 @@ class PaymentAddress < ActiveRecord::Base
   end
 
   def deposit_address
-    currency_obj[:deposit_account] || address
+    currency[:deposit_account] || address
   end
 
   def as_json(options = {})
@@ -52,7 +52,6 @@ class PaymentAddress < ActiveRecord::Base
   def to_json
     {address: deposit_address}
   end
-
 end
 
 # == Schema Information
@@ -60,12 +59,16 @@ end
 #
 # Table name: payment_addresses
 #
-#  id         :integer          not null, primary key
-#  account_id :integer
-#  address    :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  currency   :integer
-#  secret     :string(255)
-#  details    :string(1024)     default({}), not null
+#  id          :integer          not null, primary key
+#  account_id  :integer
+#  address     :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  currency_id :integer
+#  secret      :string(255)
+#  details     :string(1024)     default({}), not null
+#
+# Indexes
+#
+#  index_payment_addresses_on_currency_id  (currency_id)
 #

@@ -10,7 +10,7 @@ module Worker
         pa.with_lock do
           next if pa.address.present?
 
-          result = CoinAPI[acc.currency].create_address!
+          result = acc.currency.api.create_address!
           pa.update! \
             result.extract!(:address, :secret).merge(details: result)
 

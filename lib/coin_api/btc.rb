@@ -2,7 +2,7 @@ module CoinAPI
   class BTC < BaseAPI
     def initialize(*)
       super
-      @json_rpc_endpoint = URI.parse(currency.json_rpc_endpoint)
+      @json_rpc_endpoint = URI.parse(currency.json_rpc_endpoint!)
     end
 
     def load_balance!
@@ -11,13 +11,13 @@ module CoinAPI
 
     def each_deposit!
       each_batch_of_deposits do |deposits|
-        deposits.each { |deposit| yield deposit }
+        deposits.each { |deposit| yield deposit if block_given? }
       end
     end
 
     def each_deposit
       each_batch_of_deposits false do |deposits|
-        deposits.each { |deposit| yield deposit }
+        deposits.each { |deposit| yield deposit if block_given? }
       end
     end
 
@@ -38,7 +38,7 @@ module CoinAPI
       json_rpc(:validateaddress, [address]).fetch('result').yield_self do |x|
         { address:  address,
           is_valid: !!x['isvalid'],
-          is_mine:  !!x['ismine'] || PaymentAddress.where(currency: currency.id, address: address).exists? }
+          is_mine:  !!x['ismine'] || PaymentAddress.where(currency: currency, address: address).exists? }
       end
     end
 
@@ -79,6 +79,7 @@ module CoinAPI
           raise e if raise
         end
         yield batch_deposits if batch_deposits
+        collected += batch_deposits
         break if batch_deposits.empty?
       end
       collected
@@ -102,7 +103,7 @@ module CoinAPI
           confirmations: tx.fetch('confirmations').to_i,
           received_at:   Time.at(tx.fetch('timereceived')),
           entries:       [{ amount: tx.fetch('amount').to_d, address: tx.fetch('address') }] }
-      end.compact
+      end.compact.reverse
     end
   end
 end

@@ -18,7 +18,7 @@ module Private
 
     def gen_address
       current_user.accounts.each do |account|
-        next unless account.currency_obj&.coin?
+        next unless account.currency&.coin?
         next unless account.payment_address.address.blank?
         account.payment_address.enqueue_address_generation
       end

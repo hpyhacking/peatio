@@ -34,7 +34,6 @@ class Ordering
     order.fix_number_precision # number must be fixed before computing locked
     order.locked = order.origin_locked = order.compute_locked
     order.save!
-
     account = order.hold_account
     account.lock_funds(order.locked, reason: Account::ORDER_SUBMIT, ref: order)
   end

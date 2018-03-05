@@ -6,15 +6,15 @@ module Worker
       payload.symbolize_keys!
 
       channel = DepositChannel.find_by_key(payload.fetch(:channel_key))
-      tx      = channel.currency_obj.api.load_deposit(payload.fetch(:txid))
+      tx      = channel.currency.api.load_deposit(payload.fetch(:txid))
 
       if tx
-        Rails.logger.info "Processing #{channel.currency_obj.code.upcase} deposit: #{payload.fetch(:txid)}."
+        Rails.logger.info "Processing #{channel.currency.code.upcase} deposit: #{payload.fetch(:txid)}."
         ActiveRecord::Base.transaction do
           tx.fetch(:entries).each_with_index { |entry, index| deposit!(channel, tx, entry, index) }
         end
       else
-        Rails.logger.info "Could not load #{channel.currency_obj.code.upcase} deposit #{payload.fetch(:txid)}."
+        Rails.logger.info "Could not load #{channel.currency.code.upcase} deposit #{payload.fetch(:txid)}."
       end
     end
 
@@ -52,7 +52,7 @@ module Worker
     end
 
     def deposit_entry_processable?(channel, tx, entry, index)
-      PaymentAddress.where(currency: channel.currency_obj.id, address: entry[:address]).exists? &&
+      PaymentAddress.where(currency: channel.currency, address: entry[:address]).exists? &&
         !PaymentTransaction::Normal.where(txid: tx[:id], txout: index).exists?
     end
   end

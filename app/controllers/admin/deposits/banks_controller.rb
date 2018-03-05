@@ -50,7 +50,9 @@ module Admin
       end
 
       def deposit_params
-        params.require(:deposits_bank).permit(:sn, :amount, :fund_uid, :fund_extra, :currency)
+        params.require(:deposits_bank).slice(:sn, :amount, :fund_uid, :fund_extra, :currency).tap do |params|
+          params[:currency] = Currency.find_by(code: params[:currency])
+        end.permit!
       end
     end
   end

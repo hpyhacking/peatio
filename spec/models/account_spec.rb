@@ -284,15 +284,17 @@ describe Account do
   end
 
   describe '.enabled' do
-    let!(:account1) { create(:account, currency: Currency.first.code) }
-    let!(:account2) { create(:account, currency: Currency.last.code) }
-    let!(:account3) { create(:account, currency: Currency.all[1].code) }
-    before do
-      Currency.stubs(:ids).returns([Currency.first.id, Currency.last.id])
-    end
+    let!(:account1) { create(:account_usd) }
+    let!(:account2) { create(:account_btc) }
+    let!(:account3) { create(:account_pts) }
 
     it 'should only return the accoutns with currency enabled' do
-      expect(Account.enabled.to_a).to eq [account1, account2]
+      currency = Currency.find_by_code!(:pts)
+      currency.transaction do
+        currency.update_columns(visible: false)
+        expect(Account.enabled.to_a).to eq [account1, account2]
+        currency.update_columns(visible: true)
+      end
     end
   end
 end
