@@ -19,10 +19,8 @@ module Private
     def gen_address
       current_user.accounts.each do |account|
         next unless account.currency_obj&.coin?
-
-        if account.payment_addresses.empty?
-          account.payment_addresses.create!(currency: account.currency)
-        end
+        next unless account.payment_address.address.blank?
+        account.payment_address.enqueue_address_generation
       end
       render nothing: true
     end

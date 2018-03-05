@@ -2,16 +2,14 @@ class PaymentAddress < ActiveRecord::Base
   include Currencible
   belongs_to :account
 
-  after_commit :gen_address, on: :create
+  after_commit :enqueue_address_generation
 
   has_many :transactions, class_name: 'PaymentTransaction', foreign_key: 'address', primary_key: 'address'
 
   validates_uniqueness_of :address, allow_nil: true
 
-  def gen_address
-    payload = { payment_address_id: id, currency: currency }
-    attrs   = { persistent: true }
-    AMQPQueue.enqueue(:deposit_coin_address, payload, attrs)
+  def enqueue_address_generation
+    AMQPQueue.enqueue(:deposit_coin_address, { account_id: account.id }, { persistent: true })
   end
 
   def memo

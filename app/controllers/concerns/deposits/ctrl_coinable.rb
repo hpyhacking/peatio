@@ -4,9 +4,8 @@ module Deposits
 
     def gen_address
       current_user.get_account(channel.currency).tap do |account|
-        if account.payment_addresses.empty?
-          account.payment_addresses.create!(currency: account.currency)
-        end
+        next unless account.payment_address.address.blank?
+        account.payment_address.enqueue_address_generation
       end
       render nothing: true
     end
