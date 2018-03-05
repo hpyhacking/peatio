@@ -2,9 +2,9 @@
 
 ## Docker & peatio-workbench
 
-#### We advice you to use power of [docker](https://www.docker.com) and [peatio-workbench](https://github.com/rubykube/peatio-workbench) as local development environment
+#### We advise you to use [docker](https://www.docker.com) and [peatio-workbench](https://github.com/rubykube/peatio-workbench) as your local development environment
 
-#### Follow [this](setup-with-docker.md) guide for container-based development environmetnt setup
+#### Follow [this](setup-with-docker.md) guide for container-based development environment setup
 
 ## Overview
 
@@ -42,8 +42,8 @@ source ~/.bash_profile
 Install Ruby and set it as the default version:
 
 ```shell
-rbenv install 2.2.8
-rbenv global 2.2.8
+rbenv install 2.5.0
+rbenv global 2.5.0
 
 ruby -v
 ```
@@ -81,7 +81,7 @@ brew install redis
 Start the redis server:
 
 ```shell
-redis-server /usr/local/etc/redis.conf
+brew services start redis
 ```
 
 ## 5. Install RabbitMQ
@@ -95,7 +95,7 @@ brew install rabbitmq
 Start the rabbitmq server:
 
 ```shell
-rabbitmq-server
+brew services start rabbitmq
 ```
 
 ## 6. Install Bitcoind
@@ -166,6 +166,16 @@ bundle install
 bin/init_config
 ```
 
+#### Configure assets
+
+```shell
+npm install -g yarn
+```
+
+```shell
+bundle exec rake yarn:install
+```
+
 #### Setup Pusher
 
 Peatio depends on [pusher](http://pusher.com).
@@ -195,7 +205,7 @@ bundle exec rake db:setup
 
 Read how to deal with Peatio daemons at [Peatio daemons](https://github.com/rubykube/peatio/blob/master/docs/peatio/daemons.md).
 
-#### Genetare liability proof
+#### Generate liability proof
 
 To generate liability proof run:
 
