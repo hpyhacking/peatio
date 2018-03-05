@@ -11,14 +11,14 @@ $(function() {
     dom_id: "swagger-ui-container",
     supportedSubmitMethods: ['get', 'post', 'put', 'delete'],
     onComplete: function(swaggerApi, swaggerUi){
-      log("Loaded SwaggerUI");
+      console.log("Loaded SwaggerUI");
 
       $('pre code').each(function(i, e) {
         hljs.highlightBlock(e)
       });
     },
     onFailure: function(data) {
-      log("Unable to Load SwaggerUI");
+      console.log("Unable to Load SwaggerUI");
     },
     docExpansion: "none"
   });
