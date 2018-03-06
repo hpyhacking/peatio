@@ -109,7 +109,7 @@ end
     %( git config --global user.name "#{bot_name}" ),
     %( git remote add authenticated-origin https://#{bot_username}:#{ENV.fetch("GITHUB_API_KEY")}@github.com/#{repository_slug} ),
     %( git add lib/peatio/version.rb ),
-    %( git commit -m "Bump #{tag}." ),
+    %( git commit -m "[ci skip] Bump #{tag}." ),
     %( git push authenticated-origin #{branch.fetch(:name)} ),
     %( git tag #{tag} -a -m "Automatically generated tag from TravisCI build #{ENV.fetch("TRAVIS_BUILD_NUMBER")}." ),
     %( git push authenticated-origin #{tag} )
