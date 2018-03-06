@@ -20,6 +20,8 @@ app.controller 'WithdrawHistoryController', ($scope, $stateParams, $http) ->
   @cancelWithdraw = (withdraw) ->
     withdraw_channel = WithdrawChannel.findBy('currency', withdraw.currency)
     $http.delete("/withdraws/#{withdraw_channel.resource_name}/#{withdraw.id}")
+      .success ->
+        location.reload()
       .error (responseText) ->
         $.publish 'flash', { message: responseText }
 
