@@ -62,7 +62,7 @@ def bump_from_master_branch
 
   # Increment patch version number, tag, and push.
   candidate_version = Gem::Version.new(latest_version.segments.dup.tap { |s| s[2] += 1 }.join("."))
-  tag_n_push(candidate_version.to_s) unless versions.include?(candidate_version)
+  tag_n_push(candidate_version.to_s, name: 'master') unless versions.include?(candidate_version)
 end
 
 #
@@ -86,18 +86,41 @@ def bump_from_version_specific_branch(name)
 
   # Increment patch version number, tag, and push.
   candidate_version = Gem::Version.new(latest_version.segments.dup.tap { |s| s[2] += 1 }.join("."))
-  tag_n_push(candidate_version.to_s) unless versions.include?(candidate_version)
+  tag_n_push(candidate_version.to_s, branch) unless versions.include?(candidate_version)
 end
 
 #
-# Configures Git user name & email, creates Git tag, and pushes the tag to repository.
+# Configures Git user name & email,
+# updates version at lib/peatio/version.rb,
+# creates Git tag, and pushes all the changes made to repository.
 #
 # @param tag [String]
-def tag_n_push(tag)
-  %x( git config --global user.email "#{bot_email}" )
-  %x( git config --global user.name "#{bot_name}" )
-  %x( git tag #{tag} -a -m "Automatically generated tag from TravisCI build #{ENV.fetch("TRAVIS_BUILD_NUMBER")}." )
-  %x( git push https://#{bot_username}:#{ENV.fetch("GITHUB_API_KEY")}@github.com/#{repository_slug} #{tag} )
+def tag_n_push(tag, branch)
+  File.open "lib/peatio/version.rb", "w" do |f|
+    f.write <<-RUBY
+module Peatio
+  VERSION = '#{tag}'
+end
+    RUBY
+  end
+
+  [
+    %( git config --global user.email "#{bot_email}" ),
+    %( git config --global user.name "#{bot_name}" ),
+    %( git remote add authenticated-origin https://#{bot_username}:#{ENV.fetch("GITHUB_API_KEY")}@github.com/#{repository_slug} ),
+    %( git add lib/peatio/version.rb ),
+    %( git commit -m "Bump #{tag}." ),
+    %( git push authenticated-origin #{branch.fetch(:name)} ),
+    %( git tag #{tag} -a -m "Automatically generated tag from TravisCI build #{ENV.fetch("TRAVIS_BUILD_NUMBER")}." ),
+    %( git push authenticated-origin #{tag} )
+  ].each do |command|
+    command.strip!
+    unless Kernel.system(command)
+      # Prevent GitHub API key from being published.
+      command.gsub!(ENV["GITHUB_API_KEY"], "(secret)")
+      raise %(Command "#{command}" exited with status #{$?.exitstatus || "(unavailable)"}.)
+    end
+  end
 end
 
 #
