@@ -1,0 +1,55 @@
+<div class="chart-ticker">
+  <span class="tooltip-title"><%= title %></span>
+
+  <br />
+
+  <div class="tooltip-ticker">
+    <span class="t-title"><%= gon.i18n.chart.open %></span>
+    <span class="t-value"><%= format(points.candlestick.open, gon.market.bid.fixed) %></span>
+  </div>
+  <div class="tooltip-ticker">
+    <span class="t-title"><%= gon.i18n.chart.close %></span>
+    <span class="t-value"><%= format(points.candlestick.close, gon.market.bid.fixed) %></span>
+  </div>
+  <div class="tooltip-ticker">
+    <span class="t-title"><%= gon.i18n.chart.high %></span>
+    <span class="t-value"><%= format(points.candlestick.high, gon.market.bid.fixed) %></span>
+  </div>
+  <div class="tooltip-ticker">
+    <span class="t-title"><%= gon.i18n.chart.low %></span>
+    <span class="t-value"><%= format(points.candlestick.low, gon.market.bid.fixed) %></span>
+  </div>
+  <div class="tooltip-ticker">
+    <span class="t-title"><%= gon.i18n.chart.volume %></span>
+    <span class="t-value"><%= format(points.volume.y, gon.market.ask.fixed) %></span>
+  </div>
+
+  <ul class="list-inline">
+    <% if (indicator['MA']) { %>
+      <li>
+        <span style="color: <%= points.ma5.series.color %>;"><%= points.ma5.series.name %>: <b><%= format(points.ma5.y, gon.market.bid.fixed) %></b></span>
+      </li>
+      <li>
+        <span style="color: <%= points.ma10.series.color %>;"><%= points.ma10.series.name %>: <b><%= format(points.ma10.y, gon.market.bid.fixed) %></b></span>
+      </li>
+    <% } %>
+    <% if (indicator['EMA']) { %>
+      <li>
+        <span style="color: <%= points.ema7.series.color %>;"><%= points.ema7.series.name %>: <b><%= format(points.ema7.y, gon.market.bid.fixed) %></b></span>
+      </li>
+      <li>
+        <span style="color: <%= points.ema30.series.color %>;"><%= points.ema30.series.name %>: <b><%= format(points.ema30.y, gon.market.bid.fixed) %></b></span>
+      </li>
+    <% } %>
+    <li>
+      <span style="color: <%= points.macd.series.color %>;"><%= points.macd.series.name %>: <b><%= format(points.macd.y) %></b></span>
+    </li>
+    <li>
+      <span style="color: <%= points.sig.series.color %>;"><%= points.sig.series.name %>: <b><%= format(points.sig.y) %></b></span>
+    </li>
+    <li>
+      <span style="color: <%= points.hist.series.color %>;"><%= points.hist.series.name %>: <b><%= format(points.hist.y) %></b></span>
+    </li>
+  </ul>
+
+</div>

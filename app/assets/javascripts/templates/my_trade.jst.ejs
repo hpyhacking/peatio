@@ -1,0 +1,13 @@
+<% trend = formatter.trend(kind) %>
+
+<tr class="<%= classes %>">
+  <td colspan=2 class="time text-left col-xs-8"><div>
+    <%= formatter.fulltime(at) %>
+  </div></td>
+  <td class="price text-right col-xs-4 <%= trend %>"><div>
+    <%= formatter.mask_fixed_price(price) %>
+  </div></td>
+  <td class="volume text-right col-xs-4"><div>
+    <%= formatter.mask_fixed_volume(volume) %>
+  </div></td>
+</tr>

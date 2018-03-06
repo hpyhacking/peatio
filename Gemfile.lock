@@ -115,11 +115,7 @@ GEM
       actionpack (> 4.2)
       activemodel (> 4.2)
       rubytree (~> 0.8.3)
-    eco (1.0.0)
-      coffee-script
-      eco-source
-      execjs
-    eco-source (1.1.0.rc.1)
+    ejs (1.1.1)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -438,7 +434,7 @@ DEPENDENCIES
   database_cleaner
   datagrid
   easy_table
-  eco
+  ejs (~> 1.1)
   em-websocket (~> 0.5.1)
   email_validator (~> 1.6)
   enumerize
