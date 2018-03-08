@@ -1,10 +1,9 @@
 module APIv2
   class WebSocketProtocol
-
     def initialize(socket, channel, logger)
-      @socket = socket
-      @channel = channel #FIXME: amqp should not be mixed into this class
-      @logger = logger
+      @socket  = socket
+      @channel = channel
+      @logger  = logger
     end
 
     def challenge
@@ -12,44 +11,40 @@ module APIv2
       send :challenge, @challenge
     end
 
-    def handle(message)
-      @logger.debug message
+    def handle(msg)
+      @logger.debug(msg)
+      msg   = JSON.parse(msg)
+      key   = msg.keys.first
+      token = msg.headers['Authorization']
 
-      message = JSON.parse(message)
-      key     = message.keys.first
-      data    = message[key]
+      return unless key.casecmp('auth')
 
-      case key.downcase
-      when 'auth'
-        access_key = data['access_key']
-        token = APIToken.where(access_key: access_key).includes(:member).first
-        result = verify_answer data['answer'], token
+      payload, header = decode_and_verify_jwt(token.to_s.split(' ').last)
+      member          = Member.find_by_email(payload['email'].to_s.squish)
 
-        if result
-          subscribe_orders
-          subscribe_trades token.member
-          send :success, {message: "Authenticated."}
-        else
-          send :error, {message: "Authentication failed."}
-        end
+      if member
+        subscribe_orders
+        subscribe_trades(member)
+        send :success, message: 'Authenticated.'
       else
+        send :error, message: 'Authentication failed.'
       end
+
     rescue => e
-      Rails.logger.error 'Error on handling message.'
+      @logger.error 'Error while handling message.'
       report_exception(e)
     end
 
-    private
+  private
 
     def send(method, data)
-      payload = JSON.dump({method => data})
+      payload = JSON.dump(method => data)
       @logger.debug payload
       @socket.send payload
     end
 
-    def verify_answer(answer, token)
-      str = "#{token.access_key}#{@challenge}"
-      answer == OpenSSL::HMAC.hexdigest('SHA256', token.secret_key, str)
+    def decode_and_verify_jwt(token)
+      JWT.decode(token, Utils.jwt_shared_secret_key, true)
     end
 
     def subscribe_orders
@@ -89,11 +84,11 @@ module APIv2
       side = trade_side(member, metadata.headers)
       hash = ::APIv2::Entities::Trade.represent(trade, side: side).serializable_hash
 
-      if [:both, :ask].include?(side)
+      if %i[both ask].include?(side)
         hash[:ask] = ::APIv2::Entities::Order.represent trade.ask
       end
 
-      if [:both, :bid].include?(side)
+      if %i[both bid].include?(side)
         hash[:bid] = ::APIv2::Entities::Order.represent trade.bid
       end
 
@@ -109,6 +104,5 @@ module APIv2
         :bid
       end
     end
-
   end
 end

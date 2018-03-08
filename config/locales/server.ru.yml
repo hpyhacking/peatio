@@ -3,7 +3,6 @@
 ru:
   activerecord:
     models:
-      api_tokens: API токен
       trade: Торги
       order: Ордера
       order_bid: BID
@@ -19,11 +18,6 @@ ru:
       admin/withdraws_grid: Снятия
       withdraws/satoshi: Вывод
     attributes:
-      api_token:
-        access_key: Ключ доступа
-        trusted_ip_list: белый список IP
-        ip_whitelist: белый список IP
-        actions: Действия
       fund_source:
         address: Адрес
         category: Категория

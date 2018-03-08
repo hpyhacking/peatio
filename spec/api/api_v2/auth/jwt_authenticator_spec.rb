@@ -1,6 +1,6 @@
 describe APIv2::Auth::JWTAuthenticator do
   let :token do
-    'Bearer ' + JWT.encode(payload, APIv2::Auth::Utils.jwt_shared_secret_key, 'RS256')
+    'Bearer ' + jwt_encode(payload)
   end
 
   let :endpoint do
@@ -11,7 +11,7 @@ describe APIv2::Auth::JWTAuthenticator do
     stub 'request', \
       request_method: 'GET',
       path_info:      '/members/me',
-      env:            { 'api.endpoint' => endpoint },
+      env:            { 'api.endpoint'  => endpoint },
       headers:        { 'Authorization' => token }
   end
 

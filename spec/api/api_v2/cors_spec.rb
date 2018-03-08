@@ -1,6 +1,6 @@
 describe APIv2::Members, type: :request do
   let(:member) { create :member, :verified_identity }
-  let(:token)  { create :api_token, member: member }
+  let(:token) { jwt_for(member) }
 
   def check_cors(response)
     expect(response.headers['Access-Control-Allow-Origin']).to eq('https://peatio.tech')
@@ -18,7 +18,7 @@ describe APIv2::Members, type: :request do
   end
 
   it 'sends CORS headers when requesting using GET' do
-    signed_get '/api/v2/members/me', token: token
+    api_get '/api/v2/members/me', token: token
     expect(response).to be_success
     check_cors(response)
   end

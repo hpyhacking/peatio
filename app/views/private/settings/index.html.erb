@@ -1,18 +1,3 @@
-<table id="setting_list" class="table">
-  <tr>
-    <td class="col-xs-2 text-center vertical-center">
-      <i class="fa fa-code fa-2x"></i>
-    </td>
-    <td class="col-xs-15">
-      <h4><%= t('.api_tokens.title') %></h4>
-      <p class="text-ignore"><%= t('.api_tokens.description') %></p>
-    </td>
-    <td class="col-xs-7 vertical-center">
-      <%= link_to t('.api_tokens.go'), api_tokens_path, class: 'btn btn-default btn-block' %>
-    </td>
-  </tr>
-</table>
-
 <% content_for :guide_title do %>
   <h3 class="profile-email">
     <i class="fa fa-user"></i><span><%= current_user.email %></span>

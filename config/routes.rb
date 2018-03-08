@@ -28,11 +28,6 @@ Peatio::Application.routes.draw do
 
   scope module: :private do
     resources :settings, only: [:index]
-    resources :api_tokens do
-      member do
-        delete :unbind
-      end
-    end
 
     resources :fund_sources, only: [:create, :update, :destroy]
 

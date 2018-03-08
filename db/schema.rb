@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180303121013) do
+ActiveRecord::Schema.define(version: 20180303211737) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -50,22 +50,6 @@ ActiveRecord::Schema.define(version: 20180303121013) do
   add_index "accounts", ["currency_id"], name: "index_accounts_on_currency_id", using: :btree
   add_index "accounts", ["member_id", "currency_id"], name: "index_accounts_on_member_id_and_currency_id", using: :btree
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
-
-  create_table "api_tokens", force: :cascade do |t|
-    t.integer  "member_id",       limit: 4,   null: false
-    t.string   "access_key",      limit: 50,  null: false
-    t.string   "secret_key",      limit: 50,  null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "trusted_ip_list", limit: 255
-    t.string   "label",           limit: 255
-    t.datetime "expires_at"
-    t.string   "scopes",          limit: 255
-    t.datetime "deleted_at"
-  end
-
-  add_index "api_tokens", ["access_key"], name: "index_api_tokens_on_access_key", unique: true, using: :btree
-  add_index "api_tokens", ["secret_key"], name: "index_api_tokens_on_secret_key", unique: true, using: :btree
 
   create_table "audit_logs", force: :cascade do |t|
     t.string   "type",           limit: 255

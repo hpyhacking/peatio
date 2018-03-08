@@ -55,48 +55,6 @@ module APIv2
     end
   end
 
-  class IncorrectSignatureError < Error
-    def initialize(signature)
-      super code: 2005, text: "Signature #{signature} is incorrect.", status: 401
-    end
-  end
-
-  class TonceUsedError < Error
-    def initialize(access_key, tonce)
-      super code: 2006, text: "The tonce #{tonce} has already been used by access key #{access_key}.", status: 401
-    end
-  end
-
-  class InvalidTonceError < Error
-    def initialize(tonce, now)
-      super code: 2007, text: "The tonce #{tonce} is invalid, current timestamp is #{now}.", status: 401
-    end
-  end
-
-  class InvalidAccessKeyError < Error
-    def initialize(access_key)
-      super code: 2008, text: "The access key #{access_key} does not exist.", status: 401
-    end
-  end
-
-  class DisabledAccessKeyError < Error
-    def initialize(access_key)
-      super code: 2009, text: "The access key #{access_key} is disabled.", status: 401
-    end
-  end
-
-  class ExpiredAccessKeyError < Error
-    def initialize(access_key)
-      super code: 2010, text: "The access key #{access_key} has expired.", status: 401
-    end
-  end
-
-  class OutOfScopeError < Error
-    def initialize
-      super code: 2011, text: "Requested API is out of access key scopes.", status: 401
-    end
-  end
-
   class DepositByTxidNotFoundError < Error
     def initialize(txid)
       super code: 2012, text: "Deposit##txid=#{txid} doesn't exist.", status: 404

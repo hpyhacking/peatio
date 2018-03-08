@@ -1,33 +1,22 @@
-def time_to_milliseconds(t = Time.now)
-  (t.to_f * 1000).to_i
+def api_request(method, url, options = {})
+  headers = options.fetch(:headers, {})
+  params  = options.fetch(:params, {})
+  options[:token].tap { |t| headers['Authorization'] = 'Bearer ' + t if t }
+  send(method, url, params, headers)
 end
 
-def sign(secret_key, method, uri, params)
-  req = mock('request', request_method: method.to_s.upcase, path_info: uri)
-  auth = APIv2::Auth::KeypairAuthenticator.new(req, params)
-  APIv2::Auth::Utils.hmac_signature(secret_key, auth.payload)
+def api_get(*args)
+  api_request(:get, *args)
 end
 
-def signed_request(method, uri, opts = {})
-  token = opts[:token] || create(:api_token)
-  path  = uri.sub(/^\/api/, '')
-
-  params = opts[:params] || {}
-  params[:access_key] = token.access_key
-  params[:tonce]      = time_to_milliseconds
-  params[:signature]  = sign(token.secret_key, method, path, params)
-
-  send method, uri, params
+def api_post(*args)
+  api_request(:post, *args)
 end
 
-def signed_get(uri, opts = {})
-  signed_request :get, uri, opts
+def jwt_for(member, payload = { x: 'x', y: 'y', z: 'z' })
+  jwt_encode(payload.merge(email: member.email))
 end
 
-def signed_post(uri, opts = {})
-  signed_request :post, uri, opts
-end
-
-def signed_delete(uri, opts = {})
-  signed_request :delete, uri, opts
+def jwt_encode(payload)
+  JWT.encode(payload, APIv2::Auth::Utils.jwt_shared_secret_key, 'RS256')
 end

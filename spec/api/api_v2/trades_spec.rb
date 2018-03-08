@@ -6,10 +6,7 @@ describe APIv2::Trades, type: :request do
     end
   end
 
-  let(:token) { create(:api_token, member: member) }
-
-  let(:unverified_member) { create(:member, :unverified) }
-  let(:unverified_member_token) { create(:api_token, member: unverified_member) }
+  let(:token) { jwt_for(member) }
 
   let(:ask) do
     create(
@@ -86,23 +83,18 @@ describe APIv2::Trades, type: :request do
       expect(response).to be_success
       expect(JSON.parse(response.body).first['id']).to eq bid_trade.id
     end
-
-    it 'denies access to unverified member' do
-      signed_get '/api/v2/orders', token: unverified_member_token
-      expect(response.code).to eq '401'
-    end
   end
 
   describe 'GET /api/v2/trades/my' do
     it 'should require authentication' do
-      get '/api/v2/trades/my', market: 'btcusd', access_key: 'test', tonce: time_to_milliseconds, signature: 'test'
+      get '/api/v2/trades/my', market: 'btcusd'
 
       expect(response.code).to eq '401'
-      expect(response.body).to eq '{"error":{"code":2008,"message":"The access key test does not exist."}}'
+      expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
     end
 
     it 'should return all my recent trades' do
-      signed_get '/api/v2/trades/my', params: { market: 'btcusd' }, token: token
+      api_get '/api/v2/trades/my', params: { market: 'btcusd' }, token: token
       expect(response).to be_success
 
       result = JSON.parse(response.body)
@@ -114,21 +106,21 @@ describe APIv2::Trades, type: :request do
     end
 
     it 'should return 1 trade' do
-      signed_get '/api/v2/trades/my', params: { market: 'btcusd', limit: 1 }, token: token
+      api_get '/api/v2/trades/my', params: { market: 'btcusd', limit: 1 }, token: token
 
       expect(response).to be_success
       expect(JSON.parse(response.body).size).to eq 1
     end
 
     it 'should return trades before timestamp' do
-      signed_get '/api/v2/trades/my', params: { market: 'btcusd', timestamp: 30.hours.ago.to_i }, token: token
+      api_get '/api/v2/trades/my', params: { market: 'btcusd', timestamp: 30.hours.ago.to_i }, token: token
 
       expect(response).to be_success
       expect(JSON.parse(response.body).size).to eq 1
     end
 
     it 'should return limit out of range error' do
-      signed_get '/api/v2/trades/my', params: { market: 'btcusd', limit: 1024 }, token: token
+      api_get '/api/v2/trades/my', params: { market: 'btcusd', limit: 1024 }, token: token
 
       expect(response.code).to eq '400'
       expect(response.body).to eq '{"error":{"code":1001,"message":"limit must be in range: 1..1000."}}'

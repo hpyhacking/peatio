@@ -1,7 +1,6 @@
 en:
   activerecord:
     models:
-      api_tokens: API Token
       trade: Trades
       order: Orders
       order_bid: BID
@@ -21,12 +20,6 @@ en:
       withdraws/satoshi: Withdraw
       withdraws/ripple: Withdraw
     attributes:
-      api_token:
-        access_key: Access Key
-        trusted_ip_list: IP Whitelist
-        ip_whitelist: IP Whitelist
-        label: Label
-        actions: Actions
       fund_source:
         address: Address
         category: Category
@@ -700,35 +693,6 @@ en:
       index:
         description: Every transaction and every penny of income in Peatio are well
           documented and exhaustive.
-    api_tokens:
-      user_tokens:
-        no_token: You have no API token.
-        edit: Edit
-        destroy: Destroy
-        destroy-confirm: Are you sure?
-        create: Create New Token
-        http: HTTP API Document
-        websocket: Websocket API Document
-        more: 'For more information please check the API section on github:'
-      unbind:
-        success: Successfully revoked.
-        failed: Revoke failed.
-      new:
-        label_hint: Label helps you remember token usage, optional.
-      create:
-        success: API token created successfully.
-        failed: Failed to create API token. Please try again later or contact admin.
-        desc: Please copy and paste keys below to a safe place and save. The secret key will never be displayed again.
-      edit:
-        access_key_hint: Created at %{created_at}
-        label_hint: Label helps you remember token usage, optional.
-        ip_whitelist_hint: Seperate IP by commas, leave this field blank means all IP are allowed.
-      update:
-        success: Saved successfully.
-        failed: Failed to save token. Please try again later or contact admin.
-      destroy:
-        success: The token has been successfully destroyed.
-        failed: Failed to destroy token.
     assets:
       index:
         liability-proof: Proof of Liabilities
@@ -900,30 +864,12 @@ en:
       index:
         reauthenticate: Authentication
         auth-verified: Please confirm your identity first.
-        api_tokens:
-          title: API Tokens
-          description: Create and manage your API tokens.
-          go: Set
   guides:
     private:
       settings:
         panel: Settings
         index:
           intro: Admin and revise your profile.
-      api_tokens:
-        panel: API Tokens
-        index:
-          title: My Tokens
-          intro: A list of all your API tokens. An empty 'IP Whitelist' means any
-            ip is allowed to use the token.
-        new:
-          title: Create API Token
-        create:
-          title: Create API Token
-        edit:
-          title: Edit API Token
-        update:
-          title: Edit API Token
     panels:
       balance: Account
     sessions:

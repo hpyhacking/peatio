@@ -6,11 +6,11 @@ describe APIv2::Members, type: :request do
     end
   end
 
-  let(:token) { create(:api_token, member: member) }
+  let(:token) { jwt_for(member) }
 
   describe 'GET /members/me' do
     it 'should return current user profile with accounts info' do
-      signed_get '/api/v2/members/me', token: token
+      api_get '/api/v2/members/me', token: token
       expect(response).to be_success
 
       result = JSON.parse(response.body)
