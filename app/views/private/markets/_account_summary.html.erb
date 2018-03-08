@@ -10,7 +10,7 @@
       <tbody>
         <% current_user.accounts.each do |account|
           next unless account.currency.try(:visible) %>
-          <tr class="<%= account.currency %> <%= @market.scope?(account) ? '' : 'hide' %>">
+          <tr class="<%= account.currency.code %> <%= @market.scope?(account) ? '' : 'hide' %>">
             <td class="account-symbol col-xs-6 text-center">
               <% image = account.currency.coin? ?
                          "/icon-#{account.currency.code}.png" :
