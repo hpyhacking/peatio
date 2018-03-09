@@ -44,7 +44,7 @@ module APIv2
     end
 
     def decode_and_verify_jwt(token)
-      JWT.decode(token, Utils.jwt_shared_secret_key, true)
+      JWT.decode(token, Utils.jwt_shared_secret_key, true, algorithms: ['RS256'])
     end
 
     def subscribe_orders

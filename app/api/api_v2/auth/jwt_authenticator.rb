@@ -23,7 +23,7 @@ module APIv2
     private
 
       def decode_and_verify_token(token)
-        JWT.decode(token, Utils.jwt_shared_secret_key, true)
+        JWT.decode token, Utils.jwt_shared_secret_key, true, algorithms: ['RS256']
       rescue JWT::DecodeError => e
         report_exception(e)
         raise AuthorizationError, 'Token is invalid or expired.'
