@@ -1,6 +1,6 @@
 describe APIv2::Auth::JWTAuthenticator do
   let :token do
-    'Bearer ' + jwt_encode(payload)
+    'Bearer ' + jwt_build(payload)
   end
 
   let :endpoint do
