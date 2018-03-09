@@ -133,6 +133,16 @@ defaults: &defaults
   # Set to "true" to disable cabinet UI (admins still have access).
   DISABLE_CABINET_UI: ~
 
+  # Configuration variables for JWT verification.
+  # Get explanation at https://en.wikipedia.org/wiki/JSON_Web_Token.
+  JWT_ALGORITHM:         RS256  # JWT signing algorithm (mandatory).
+  JWT_ISSUER:            ~      # JWT issuer name (optional).
+  JWT_AUDIENCE:          peatio # Could be comma-separated value (optional).
+  JWT_DEFAULT_LEEWAY:    ~      # Seconds (optional).
+  JWT_ISSUED_AT_LEEWAY:  180    # Seconds (optional).
+  JWT_EXPIRATION_LEEWAY: ~      # Seconds (optional).
+  JWT_NOT_BEFORE_LEEWAY: ~      # Seconds (optional).
+
 development:
   <<: *defaults
 

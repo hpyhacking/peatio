@@ -37,5 +37,5 @@ end
 # Generates JWT token based on payload. Doesn't add any extra fields to payload.
 #
 def jwt_encode(payload)
-  JWT.encode(payload, APIv2::Auth::Utils.jwt_shared_secret_key, 'RS256')
+  JWT.encode(payload, APIv2::Auth::Utils.jwt_shared_secret_key, ENV.fetch('JWT_ALGORITHM'))
 end

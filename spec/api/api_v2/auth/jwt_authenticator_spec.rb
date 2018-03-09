@@ -53,4 +53,55 @@ describe APIv2::Auth::JWTAuthenticator do
     subject.instance_variable_set(:@token_type, 'Foo')
     expect { subject.authenticate! }.to raise_error(APIv2::AuthorizationError) { |e| expect(e.reason).to match /invalid/ }
   end
+
+  context 'valid issuer' do
+    before { ENV['JWT_ISSUER'] = 'barong' }
+    before { payload[:iss] = 'barong' }
+    after  { ENV.delete('JWT_ISSUER') }
+    it('should validate issuer') { expect(subject.authenticate!).to eq member.email }
+  end
+
+  context 'invalid issuer' do
+    before { ENV['JWT_ISSUER'] = 'barong' }
+    before { payload[:iss] = 'hacker' }
+    after  { ENV.delete('JWT_ISSUER') }
+    it 'should validate issuer' do
+      expect { subject.authenticate! }.to raise_error(APIv2::AuthorizationError) { |e| expect(e.reason).to match /issuer/ }
+    end
+  end
+
+  context 'valid audience' do
+    before { ENV['JWT_AUDIENCE'] = 'foo,bar' }
+    before { payload[:aud] = ['bar'] }
+    after  { ENV.delete('JWT_AUDIENCE') }
+    it('should validate audience') { expect(subject.authenticate!).to eq member.email }
+  end
+
+  context 'invalid audience' do
+    before { ENV['JWT_AUDIENCE'] = 'foo,bar' }
+    before { payload[:aud] = ['baz'] }
+    after  { ENV.delete('JWT_AUDIENCE') }
+    it 'should validate audience' do
+      expect { subject.authenticate! }.to raise_error(APIv2::AuthorizationError) { |e| expect(e.reason).to match /audience/ }
+    end
+  end
+
+  context 'missing JWT ID' do
+    before { payload[:jti] = nil }
+    it 'should require JTI' do
+      expect { subject.authenticate! }.to raise_error(APIv2::AuthorizationError) { |e| expect(e.reason).to match /jti/ }
+    end
+  end
+
+  context 'issued at in future' do
+    before { payload[:iat] = 200.seconds.from_now.to_i }
+    it 'should not allow JWT' do
+      expect { subject.authenticate! }.to raise_error(APIv2::AuthorizationError) { |e| expect(e.reason).to match /iat/ }
+    end
+  end
+
+  context 'issued at before future' do
+    before { payload[:iat] = 3.seconds.ago.to_i }
+    it('should allow JWT') { expect(subject.authenticate!).to eq member.email }
+  end
 end
