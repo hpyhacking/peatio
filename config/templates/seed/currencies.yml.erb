@@ -1,3 +1,6 @@
+<% if ENV['CURRENCIES_CONFIG'] %>
+<%= File.read(ENV['CURRENCIES_CONFIG']) %>
+<% else %>
 - id:                   1
   code:                 usd
   key:                  dollar
@@ -181,3 +184,4 @@
     # Block explorer configuration.
     wallet_url_template:      https://etherscan.io/address/#{address}
     transaction_url_template: https://etherscan.io/tx/#{txid}
+<% end %>

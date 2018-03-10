@@ -1,18 +1,13 @@
 #!/usr/bin/env ruby
 
-app_root   = File.expand_path('../..', __FILE__)
-source_dir = File.path('/opt/peatio/config/')
-dest_dir   = File.expand_path('../../config', __FILE__)
+require 'pathname'
+require 'fileutils'
 
-config_files = %w(application currencies markets deposit_channels withdraw_channels).map {|s| s << '.yml'}
+src_root  = Pathname.new('/opt/peatio/config')
+dest_root = Pathname.new(File.expand_path('../../config', __FILE__))
 
-config_files.each do |config_file|
-  dest = File.join(dest_dir, config_file)
-  src = File.join(source_dir, config_file)
-  if File.exists?(dest) or File.symlink?(dest)
-    File.unlink(dest)
-    puts "Remove #{dest}"
-  end
-  puts "Linking #{src} -> #{dest}"
-  File.symlink(src, dest)
+Dir[src_root.join('**/*.yml').to_s].each do |f|
+  dest = dest_root.join(Pathname.new(f).relative_path_from(src_root))
+  Kernel.puts "Link #{f} -> #{dest}"
+  FileUtils.ln_s(f, dest, force: true)
 end
