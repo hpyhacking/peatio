@@ -29,7 +29,7 @@ Peatio::Application.routes.draw do
   scope module: :private do
     resources :settings, only: [:index]
 
-    resources :fund_sources, only: [:create, :update, :destroy]
+    resources :withdraw_destinations, only: %i[ create update ]
 
     resources :funds, only: [:index] do
       collection do

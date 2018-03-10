@@ -25,7 +25,7 @@ class Account < ActiveRecord::Base
 
   # Suppose to use has_one here, but I want to store
   # relationship at account side. (Daniel)
-  belongs_to :default_withdraw_fund_source, class_name: 'FundSource'
+  belongs_to :default_withdraw_destination, class_name: 'WithdrawDestination'
 
   validates :member_id, uniqueness: { scope: :currency }
   validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
@@ -169,9 +169,9 @@ class Account < ActiveRecord::Base
   def as_json(options = {})
     super(options).merge({
       # check if there is a useable address, but don't touch it to create the address now.
+      deposit_address: payment_addresses.empty? ? "" : payment_address.deposit_address,
       currency: currency.code,
-      "deposit_address" => payment_addresses.empty? ? "" : payment_address.deposit_address,
-      "default_withdraw_fund_source_id" => default_withdraw_fund_source_id
+      default_withdraw_destination_id: default_withdraw_destination_id
     })
   end
 
@@ -189,7 +189,7 @@ class Account < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180227163417
+# Schema version: 20180305113434
 #
 # Table name: accounts
 #
@@ -202,7 +202,7 @@ end
 #  updated_at                      :datetime
 #  in                              :decimal(32, 16)
 #  out                             :decimal(32, 16)
-#  default_withdraw_fund_source_id :integer
+#  default_withdraw_destination_id :integer
 #
 # Indexes
 #

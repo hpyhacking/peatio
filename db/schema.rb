@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180303211737) do
+ActiveRecord::Schema.define(version: 20180305111648) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20180303211737) do
     t.datetime "updated_at"
     t.decimal  "in",                                        precision: 32, scale: 16
     t.decimal  "out",                                       precision: 32, scale: 16
-    t.integer  "default_withdraw_fund_source_id", limit: 4
+    t.integer  "default_withdraw_destination_id", limit: 4
   end
 
   add_index "accounts", ["currency_id"], name: "index_accounts_on_currency_id", using: :btree
@@ -116,19 +116,6 @@ ActiveRecord::Schema.define(version: 20180303211737) do
 
   add_index "deposits", ["currency_id"], name: "index_deposits_on_currency_id", using: :btree
   add_index "deposits", ["txid", "txout"], name: "index_deposits_on_txid_and_txout", using: :btree
-
-  create_table "fund_sources", force: :cascade do |t|
-    t.integer  "member_id",   limit: 4
-    t.integer  "currency_id", limit: 4
-    t.string   "extra",       limit: 255
-    t.string   "uid",         limit: 255
-    t.boolean  "is_locked",               default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "deleted_at"
-  end
-
-  add_index "fund_sources", ["currency_id"], name: "index_fund_sources_on_currency_id", using: :btree
 
   create_table "members", force: :cascade do |t|
     t.string   "level",        limit: 20,  default: ""
@@ -255,22 +242,34 @@ ActiveRecord::Schema.define(version: 20180303211737) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
+  create_table "withdraw_destinations", force: :cascade do |t|
+    t.string   "type",        limit: 30,                  null: false
+    t.integer  "member_id",   limit: 4,                   null: false
+    t.integer  "currency_id", limit: 4,                   null: false
+    t.string   "details",     limit: 4096, default: "{}", null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+  end
+
+  add_index "withdraw_destinations", ["currency_id"], name: "index_withdraw_destinations_on_currency_id", using: :btree
+  add_index "withdraw_destinations", ["member_id"], name: "index_withdraw_destinations_on_member_id", using: :btree
+  add_index "withdraw_destinations", ["type"], name: "index_withdraw_destinations_on_type", using: :btree
+
   create_table "withdraws", force: :cascade do |t|
-    t.string   "sn",          limit: 255
-    t.integer  "account_id",  limit: 4
-    t.integer  "member_id",   limit: 4
-    t.integer  "currency_id", limit: 4
-    t.decimal  "amount",                  precision: 32, scale: 16
-    t.decimal  "fee",                     precision: 32, scale: 16
-    t.string   "fund_uid",    limit: 255
-    t.string   "fund_extra",  limit: 255
+    t.integer  "destination_id", limit: 4
+    t.string   "sn",             limit: 255
+    t.integer  "account_id",     limit: 4
+    t.integer  "member_id",      limit: 4
+    t.integer  "currency_id",    limit: 4
+    t.decimal  "amount",                     precision: 32, scale: 16
+    t.decimal  "fee",                        precision: 32, scale: 16
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "done_at"
-    t.string   "txid",        limit: 255
-    t.string   "aasm_state",  limit: 255
-    t.decimal  "sum",                     precision: 32, scale: 16, default: 0.0, null: false
-    t.string   "type",        limit: 255
+    t.string   "txid",           limit: 255
+    t.string   "aasm_state",     limit: 255
+    t.decimal  "sum",                        precision: 32, scale: 16, default: 0.0, null: false
+    t.string   "type",           limit: 255
   end
 
   add_index "withdraws", ["currency_id"], name: "index_withdraws_on_currency_id", using: :btree

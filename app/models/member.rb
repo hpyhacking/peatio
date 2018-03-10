@@ -4,8 +4,8 @@ class Member < ActiveRecord::Base
   has_many :orders
   has_many :accounts
   has_many :payment_addresses, through: :accounts
-  has_many :withdraws
-  has_many :fund_sources
+  has_many :withdraws, -> { order(id: :desc) }
+  has_many :withdraw_destinations, -> { order(id: :desc) }
   has_many :deposits
 
   has_many :authentications, dependent: :destroy
@@ -45,11 +45,7 @@ class Member < ActiveRecord::Base
         when 'email', 'sn'
           where("members.#{field} LIKE ?", "%#{term}%")
         when 'wallet_address'
-          members = joins(:fund_sources).where('fund_sources.uid' => term)
-          if members.empty?
-            members = joins(:payment_addresses).where('payment_addresses.address' => term)
-          end
-          members
+          joins(:payment_addresses).where('payment_addresses.address LIKE ?', "%#{term}%")
         else
           all
       end.order(:id).reverse_order
@@ -102,10 +98,6 @@ class Member < ActiveRecord::Base
 
   def to_s
     "#{email} - #{sn}"
-  end
-
-  def gravatar
-    "//gravatar.com/avatar/" + Digest::MD5.hexdigest(email.strip.downcase) + "?d=retro"
   end
 
   def get_account(model_or_code)

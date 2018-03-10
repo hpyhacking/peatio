@@ -1,4 +1,5 @@
 class Withdraw < ActiveRecord::Base
+
   STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
             :done, :canceled, :failed]
   COMPLETED_STATES = [:done, :rejected, :canceled, :failed]
@@ -15,6 +16,7 @@ class Withdraw < ActiveRecord::Base
 
   belongs_to :member
   belongs_to :account
+  belongs_to :destination, class_name: 'WithdrawDestination', required: true
   has_many :account_versions, as: :modifiable
 
   delegate :balance, to: :account, prefix: true
@@ -30,9 +32,7 @@ class Withdraw < ActiveRecord::Base
   after_create :sync_create
   after_destroy :sync_destroy
 
-  validates_with WithdrawBlacklistValidator
-
-  validates :fund_uid, :amount, :fee, :account, :currency, :member, presence: true
+  validates :amount, :fee, :account, :currency, :member, presence: true
 
   validates :fee, numericality: {greater_than_or_equal_to: 0}
   validates :amount, numericality: {greater_than: 0}
@@ -230,29 +230,42 @@ class Withdraw < ActiveRecord::Base
   def sync_destroy
     ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'destroy', id: self.id })
   end
+
+public
+
+  def fiat?
+    Withdraws::Bank === self
+  end
+
+  def coin?
+    !fiat?
+  end
+
+  def as_json(*)
+    super.merge(destination: destination.as_json)
+  end
 end
 
 # == Schema Information
-# Schema version: 20180227163417
+# Schema version: 20180305113434
 #
 # Table name: withdraws
 #
-#  id          :integer          not null, primary key
-#  sn          :string(255)
-#  account_id  :integer
-#  member_id   :integer
-#  currency_id :integer
-#  amount      :decimal(32, 16)
-#  fee         :decimal(32, 16)
-#  fund_uid    :string(255)
-#  fund_extra  :string(255)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  done_at     :datetime
-#  txid        :string(255)
-#  aasm_state  :string
-#  sum         :decimal(32, 16)  default(0.0), not null
-#  type        :string(255)
+#  id             :integer          not null, primary key
+#  destination_id :integer
+#  sn             :string(255)
+#  account_id     :integer
+#  member_id      :integer
+#  currency_id    :integer
+#  amount         :decimal(32, 16)
+#  fee            :decimal(32, 16)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  done_at        :datetime
+#  txid           :string(255)
+#  aasm_state     :string
+#  sum            :decimal(32, 16)  default(0.0), not null
+#  type           :string(255)
 #
 # Indexes
 #

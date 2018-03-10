@@ -8,7 +8,6 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
 
   $scope.currency = currency = $stateParams.currency
   $scope.current_user = current_user = $gon.user
-  $scope.name = current_user.name
   $scope.account = Account.findBy('currency', $scope.currency)
   $scope.balance = $scope.account.balance
   $scope.withdraw_channel = WithdrawChannel.findBy('currency', $scope.currency)
@@ -46,7 +45,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   @createWithdraw = (currency) ->
     withdraw_channel = WithdrawChannel.findBy('currency', currency)
     account = withdraw_channel.account()
-    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, fund_source_id: _selectedFundSourceId } }
+    data = { withdraw: { member_id: current_user.id, currency: currency, sum: @withdraw.sum, destination_id: _selectedFundSourceId } }
 
     $('.form-submit > input').attr('disabled', 'disabled')
 

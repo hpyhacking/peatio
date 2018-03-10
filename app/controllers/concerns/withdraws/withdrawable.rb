@@ -29,17 +29,16 @@ module Withdraws
     private
 
     def fetch
-      @account      = current_user.get_account(channel.currency)
-      @model        = model_kls
-      @fund_sources = current_user.fund_sources.with_currency(channel.currency)
-      @assets       = model_kls.without_aasm_state(:submitting).where(member: current_user).order(:id).reverse_order.limit(10)
+      @account                = current_user.get_account(channel.currency)
+      @model                  = model_kls
+      @withdraw_destinations  = current_user.withdraw_destinations.with_currency(channel.currency)
+      @assets                 = model_kls.without_aasm_state(:submitting).where(member: current_user).order(:id).reverse_order.limit(10)
     end
 
     def withdraw_params
       params[:withdraw][:currency_id] = channel.currency.id
       params[:withdraw][:member_id]   = current_user.id
-      params.require(:withdraw).permit(:fund_source_id, :member_id, :currency_id, :sum)
+      params.require(:withdraw).permit(:destination_id, :member_id, :currency_id, :sum)
     end
-
   end
 end

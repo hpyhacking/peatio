@@ -6,11 +6,11 @@ describe Withdraw do
     end
   end
 
-  context 'fund source' do
-    it 'should strip trailing spaces in fund_uid' do
-      fund_source = create(:btc_fund_source, uid: 'test')
-      @withdraw   = create(:satoshi_withdraw, fund_source_id: fund_source.id)
-      expect(@withdraw.fund_uid).to eq('test')
+  context 'withdraw destination' do
+    it 'should strip trailing spaces in address' do
+      withdraw_destination = create(:btc_withdraw_destination, address: 'test')
+      @withdraw   = create(:satoshi_withdraw, destination_id: withdraw_destination.id)
+      expect(@withdraw.destination.address).to eq('test')
     end
   end
 

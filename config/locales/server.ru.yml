@@ -18,9 +18,6 @@ ru:
       admin/withdraws_grid: Снятия
       withdraws/satoshi: Вывод
     attributes:
-      fund_source:
-        address: Адрес
-        category: Категория
       account:
         currency: Валюта
         balance: Баланс
@@ -64,9 +61,7 @@ ru:
         state_done: Выполнено
       withdraws/bank:
         fund_source: Банк
-        fund_extra: Банк
-        fund_extra_text: Банк
-        fund_uid: Банковский счет
+        currency_obj_key_text: Валюта
         sum: Сумма
         fee: Комиссия
         amount: Сумма
@@ -74,8 +69,6 @@ ru:
       deposits/bank:
         created_at: Создан
         holder: Держатель
-        fund_extra: Банк отправителя
-        fund_uid: Счет отправителя
         amount: Сумма
       deposits/satoshi:
         txid: Номер перевода
@@ -83,6 +76,7 @@ ru:
         confirmations: Подтверждение
       withdraws/satoshi:
         fund_source: Банк
+        currency_obj_key_text: Валюта
         sum: Сумма
         amount: Сумма
         fee: Комиссия

@@ -5,7 +5,7 @@ module APIv2
     def self.included(base)
       base.instance_eval do
         rescue_from Grape::Exceptions::ValidationErrors do |e|
-          error!({ error: { code: 1001, message: e.message } }, e.status)
+          error!({ error: { code: 1001, message: e.message } }, 422)
         end
       end
     end
@@ -39,13 +39,13 @@ module APIv2
 
   class CreateOrderError < Error
     def initialize(e)
-      super code: 2002, text: "Failed to create order. Reason: #{e}", status: 400
+      super code: 2002, text: "Failed to create order. Reason: #{e}", status: 422
     end
   end
 
   class CancelOrderError < Error
     def initialize(e)
-      super code: 2003, text: "Failed to cancel order. Reason: #{e}", status: 400
+      super code: 2003, text: "Failed to cancel order. Reason: #{e}", status: 422
     end
   end
 

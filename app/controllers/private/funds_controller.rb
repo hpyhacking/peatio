@@ -5,13 +5,13 @@ module Private
     before_action :auth_verified!
 
     def index
-      @deposit_channels = DepositChannel.all
-      @withdraw_channels = WithdrawChannel.all
-      @currencies = Currency.all.sort
-      @deposits = current_user.deposits
-      @accounts = current_user.accounts.enabled
-      @withdraws = current_user.withdraws
-      @fund_sources = current_user.fund_sources
+      @deposit_channels       = DepositChannel.all
+      @withdraw_channels      = WithdrawChannel.all
+      @currencies             = Currency.all.sort
+      @deposits               = current_user.deposits
+      @accounts               = current_user.accounts.enabled
+      @withdraws              = current_user.withdraws
+      @withdraw_destinations  = current_user.withdraw_destinations
 
       gon.jbuilder
     end

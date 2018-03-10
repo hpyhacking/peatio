@@ -14,7 +14,7 @@ module Worker
 
         txid = CoinAPI[withdraw.currency.code.to_sym].create_withdrawal!(
           { address: pa.address, secret: pa.secret },
-          { address: withdraw.fund_uid },
+          { address: withdraw.destination.address },
           withdraw.amount.to_d
         )
 

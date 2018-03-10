@@ -3,10 +3,11 @@ module APIv2
     class Withdraw < Base
       expose :id
       expose(:currency) { |w| w.currency.code }
+      expose(:type) { |w| w.fiat? ? :fiat : :coin }
       expose :sum, as: :amount
       expose :fee
       expose :txid
-      expose :fund_uid, as: :address
+      expose(:destination) { |w| w.destination.as_json }
       expose :state do |withdraw|
         case withdraw.aasm_state
           when :canceled                            then :cancelled

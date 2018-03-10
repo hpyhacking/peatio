@@ -10,14 +10,12 @@
           <%= item_for @withdraw, :created_at %>
           <%= item_for @withdraw, :aasm_state_text %>
           <hr class="split">
-          <%= item_for @withdraw.member, :name %>
-          <%= item_for @withdraw, :fund_extra %>
-          <%= item_for @withdraw, :fund_uid do %>
-            <span><%= @withdraw.fund_uid.truncate(22) %></span>
+          <%= item_for @withdraw.member, :email %>
+          <%= item_for @withdraw.destination, :label %>
+          <%= item_for @withdraw.destination, :address do %>
+            <span><%= @withdraw.destination.address.truncate(22) %></span>
           <% end %>
           <%= item_for @withdraw, :amount %>
-          <hr class="split">
-          <%= item_for @withdraw, :remark %>
           <hr class="split">
           <ul class="list-inline pull-right">
             <% if @withdraw.may_reject? %>

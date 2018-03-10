@@ -62,8 +62,8 @@
     <td>{{withdraw.id}}</td>
     <td>{{withdraw.created_at | date:'yyyy-MM-dd HH:mm'}}</td>
     <td>
-      <a ng-if="withdraw.wallet_url" href="{{withdraw.wallet_url}}" target='_blank'>{{withdraw.fund_uid | truncate: 20}}</a>
-      <span ng-if="!withdraw.wallet_url">{{withdraw.fund_uid | truncate: 20}}</span>
+      <a ng-if="withdraw.wallet_url" href="{{withdraw.wallet_url}}" target='_blank'>{{withdraw.destination.address | truncate: 20}}</a>
+      <span ng-if="!withdraw.wallet_url">{{withdraw.destination.address | truncate: 20}}</span>
     </td>
     <td>{{withdraw.amount}}</td>
     <td>{{withdraw.fee}}</td>

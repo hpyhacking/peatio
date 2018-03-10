@@ -3,8 +3,8 @@ module Withdraws
     extend ActiveSupport::Concern
 
     def wallet_url
-      if fund_uid? && currency.wallet_url_template?
-        currency.wallet_url_template.gsub('#{address}', fund_uid)
+      if destination.address? && currency.wallet_url_template?
+        currency.wallet_url_template.gsub('#{address}', destination.address)
       end
     end
 
@@ -15,14 +15,14 @@ module Withdraws
     end
 
     def audit!
-      inspection = currency.api.inspect_address!(fund_uid)
+      inspection = currency.api.inspect_address!(destination.address)
 
       if inspection[:is_valid] == false
-        Rails.logger.info "#{self.class.name}##{id} uses invalid address: #{fund_uid.inspect}"
+        Rails.logger.info "#{self.class.name}##{id} uses invalid address: #{destination.address.inspect}"
         reject
         save!
       elsif inspection[:is_mine] == true
-        Rails.logger.info "#{self.class.name}##{id} uses hot wallet address: #{fund_uid.inspect}"
+        Rails.logger.info "#{self.class.name}##{id} uses hot wallet address: #{destination.address.inspect}"
         reject
         save!
       else
