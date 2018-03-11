@@ -7,12 +7,18 @@ Dir.chdir APP_ROOT do
   puts "\n=== Copying config files ==="
   system 'bin/init_config'
 
+  puts "\n=== Install yarn packages ==="
+  system 'bin/rake yarn:install'
+
   puts "\n=== Removing old logs and tempfiles ==="
   system 'rm -f log/* log/daemons/*'
   system 'bin/rake tmp:clear tmp:create'
 
   # in production we run db:setup and solvency:liability_proof tasks as k8s jobs
   if ENV['RAILS_ENV'] == 'production'
+    puts "\n=== Compiling assets ==="
+    system 'bin/rake assets:clobber assets:precompile'
+
     puts "\n=== Preparing database schema ==="
     system 'bin/rake db:schema:dump'
   else
@@ -22,7 +28,4 @@ Dir.chdir APP_ROOT do
     puts "\n=== Creating liability proofs ==="
     system 'bin/rake solvency:liability_proof'
   end
-
-  puts "\n=== Preparing assets ==="
-  system 'bin/rake assets:clobber assets:precompile'
 end
