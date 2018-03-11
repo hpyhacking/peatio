@@ -44,7 +44,7 @@ module APIv2
     end
 
     def decode_and_verify_jwt(token)
-      JWT.decode(token, Utils.jwt_shared_secret_key, true, algorithms: [ENV.fetch('JWT_ALGORITHM')])
+      JWT.decode(token, Utils.jwt_public_key, true, algorithms: [ENV.fetch('JWT_ALGORITHM')])
     end
 
     def subscribe_orders

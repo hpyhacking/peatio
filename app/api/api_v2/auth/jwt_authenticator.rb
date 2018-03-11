@@ -23,7 +23,7 @@ module APIv2
     private
 
       def decode_and_verify_token(token)
-        JWT.decode(token, Utils.jwt_shared_secret_key, true, token_verification_options)
+        JWT.decode(token, Utils.jwt_public_key, true, token_verification_options)
       rescue JWT::DecodeError => e
         report_exception(e)
         raise AuthorizationError, "Failed to decode and verify JWT: #{e.inspect}."

@@ -135,6 +135,43 @@ defaults: &defaults
 
   # Configuration variables for JWT verification.
   # Get explanation at https://en.wikipedia.org/wiki/JSON_Web_Token.
+  #
+  # JWT_PUBLIC_KEY
+  #
+  # JWT provider uses private key for encoding JSON Web Tokens
+  # while public key is used for decoding by resources.
+  #
+  # For example, Barong is JWT provider, Peatio is resource accepting JWT.
+  # Barong must have private key installed, Peatio must have public key installed.
+  #
+  # You can generate keypair by running:
+  #
+  #   ruby -e "require 'openssl'; require 'base64'; OpenSSL::PKey::RSA.generate(2048).tap { |p| puts '', 'PRIVATE RSA KEY (URL-safe Base64 encoded, PEM):', '', Base64.urlsafe_encode64(p.to_pem), '', 'PUBLIC RSA KEY (URL-safe Base64 encoded, PEM):', '', Base64.urlsafe_encode64(p.public_key.to_pem) }"
+  #
+  # Copy the generated private key and put it's value to appropriate variable at JWT provider (for example, at Barong it will be JWT_SHARED_SECRET_KEY).
+  # Copy the generated public key and put it's value to variable JWT_PUBLIC_KEY (at Peatio).
+  #
+  # Peatio and JWT provider should have the same keypair installed, or they would not understand each other.
+  #
+  # You may want to adjust key length or cipher.
+  #
+  # Development and test environments already don't include sample keys.
+  #
+  # You can generate valid JWT by running:
+  #
+  #   JWT.encode(payload, OpenSSL::PKey.read(Base64.urlsafe_decode64(ENCODED_PRIVATE_KEY)), ENV.fetch('JWT_ALGORITHM'))
+  #
+  # Replace ENCODED_PRIVATE_KEY with private key printed by previous command.
+  #
+  # You can decode JWT by running:
+  #
+  #   JWT.decode(token, OpenSSL::PKey.read(Base64.urlsafe_decode64(ENCODED_PUBLIC_KEY)), true, algorithms: [ENV.fetch('JWT_ALGORITHM')])
+  #
+  # To authenticate using JWT send it's value in "Authorization" header:
+  #
+  #   curl -H "Authorization: Bearer TOKEN" http://localhost:3000/api/v2/members/me
+  #
+  JWT_PUBLIC_KEY:        ~
   JWT_ALGORITHM:         RS256  # JWT signing algorithm (mandatory).
   JWT_ISSUER:            ~      # JWT issuer name (optional).
   JWT_AUDIENCE:          peatio # Could be comma-separated value (optional).

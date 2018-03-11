@@ -7,8 +7,8 @@ module APIv2
           @cache ||= Rack::Attack::Cache.new
         end
 
-        def jwt_shared_secret_key
-          OpenSSL::PKey::RSA.new(Base64.urlsafe_decode64(Rails.application.secrets.jwt_shared_secret_key))
+        def jwt_public_key
+          OpenSSL::PKey.read(Base64.urlsafe_decode64(ENV.fetch('JWT_PUBLIC_KEY')))
         end
       end
     end
