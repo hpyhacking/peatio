@@ -4,6 +4,7 @@ module APIv2
       expose :id
       expose(:currency) { |w| w.currency.code }
       expose :label
+      expose (:type) { |w| w.class.name.demodulize.underscore }
 
       %w[ fiat coin ].each do |type|
         "withdraw_destination/#{type}".camelize.constantize.fields.each do |field, desc|

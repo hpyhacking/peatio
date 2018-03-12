@@ -171,6 +171,22 @@ describe APIv2::Withdraws, type: :request do
       expect(results.map { |x| x['label'] }).to eq ordered_withdraw_destinations.map(&:label)
       expect(results.map { |x| x['address'] }).to eq ordered_withdraw_destinations.map(&:address)
     end
+
+    it 'should return correct withdraw destination type for coins' do
+      api_get '/api/v2/withdraws/destinations', params: { currency: 'BTC', limit: 100 }, token: token
+      expect(response).to be_success
+
+      results = JSON.parse(response.body)
+      expect(results.map { |x| x['type'] }).to all(eq 'coin')
+    end
+
+    it 'should return correct withdraw destination type for fiat' do
+      api_get '/api/v2/withdraws/destinations', params: { currency: 'USD', limit: 100 }, token: token
+      expect(response).to be_success
+
+      results = JSON.parse(response.body)
+      expect(results.map { |x| x['type'] }).to all(eq 'fiat')
+    end
   end
 
   describe 'POST /api/v2/withdraws/destinations' do
