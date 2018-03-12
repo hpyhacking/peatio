@@ -1,14 +1,7 @@
-#require 'em-synchrony'
-#require 'em-synchrony/mysql2'
-#require 'em-synchrony/activerecord'
+# frozen_string_literal: true
 
-require 'socket'
-require File.join(ENV.fetch('RAILS_ROOT'), 'config', 'environment')
-
-#db_config = Rails.configuration.database_configuration[Rails.env].merge(
-  #'adapter' => 'em_mysql2'
-#)
-#ActiveRecord::Base.establish_connection(db_config)
+require File.expand_path('../../config/environment', __dir__)
+require_dependency 'api_v2/websocket_protocol'
 
 Rails.logger = logger = Logger.new STDOUT
 
@@ -18,10 +11,10 @@ EM.error_handler do |e|
 end
 
 EM.run do
-  conn = AMQP.connect AMQPConfig.connect
-  logger.info "Connected to AMQP broker."
+  conn = Bunny.new AMQPConfig.connect
+  conn.start
 
-  ch = AMQP::Channel.new conn
+  ch = conn.create_channel
   ch.prefetch(1)
 
   config = {host: ENV['WEBSOCKET_HOST'], port: ENV['WEBSOCKET_PORT']}
