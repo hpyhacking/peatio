@@ -7,7 +7,7 @@ module APIv2
       expose :sum, as: :amount
       expose :fee
       expose :txid
-      expose(:destination) { |w| w.destination.as_json }
+      expose :destination, using: APIv2::Entities::WithdrawDestination
       expose :state do |withdraw|
         case withdraw.aasm_state
           when :canceled                            then :cancelled
