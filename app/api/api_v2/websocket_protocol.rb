@@ -13,14 +13,14 @@ module APIv2
 
     def handle(msg)
       @logger.debug(msg)
-      msg   = JSON.parse(msg)
-      key   = msg.keys.first
-      token = msg.headers['Authorization']
+      msg = JSON.parse(msg)
+      key = msg.keys.first
 
       return unless key.casecmp('auth')
 
-      payload, header = decode_and_verify_jwt(token.to_s.split(' ').last)
-      member          = Member.find_by_email(payload['email'].to_s.squish)
+      token   = msg.headers['Authorization']
+      service = APIv2::Auth::JWTAuthenticator.new(token)
+      member  = service.authenticate(return: :member)
 
       if member
         subscribe_orders
@@ -41,10 +41,6 @@ module APIv2
       payload = JSON.dump(method => data)
       @logger.debug payload
       @socket.send payload
-    end
-
-    def decode_and_verify_jwt(token)
-      JWT.decode(token, Utils.jwt_public_key, true, algorithms: [ENV.fetch('JWT_ALGORITHM')])
     end
 
     def subscribe_orders
