@@ -7,7 +7,7 @@ class WithdrawDestination
                 :bank_account_number,
                 :bank_account_holder_name
 
-    validates :bank_name, :bank_account_number, presence: true
+    validates :bank_name, :bank_account_number, :bank_branch_name, :bank_identifier_code, :bank_branch_address, :bank_account_holder_name, presence: true
 
     class << self
       def fields

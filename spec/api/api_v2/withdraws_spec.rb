@@ -204,12 +204,16 @@ describe APIv2::Withdraws, type: :request do
     end
 
     it 'should create fiat withdraw destination' do
-      api_post '/api/v2/withdraws/destinations', params: { label: 'My USD Bank Account', currency: 'USD', bank_name: 'FOO', bank_account_number: 'BAZ' }, token: token
+      api_post '/api/v2/withdraws/destinations', params: { label: 'My USD Bank Account', currency: 'USD', bank_name: 'FOO', bank_account_number: 'BAZ', bank_branch_name: 'BRANCH NAME', bank_identifier_code: 'BANK CODE', bank_branch_address: 'BRANCH ADDRESS', bank_account_holder_name: 'ACCOUNT HOLDER NAME' }, token: token
       expect(response.code).to eq '201'
       record = WithdrawDestination::Fiat.find(JSON.load(response.body).fetch('id'))
       expect(record.label).to eq 'My USD Bank Account'
       expect(record.bank_name).to eq 'FOO'
       expect(record.bank_account_number).to eq 'BAZ'
+      expect(record.bank_branch_name).to eq 'BRANCH NAME'
+      expect(record.bank_identifier_code).to eq 'BANK CODE'
+      expect(record.bank_branch_address).to eq 'BRANCH ADDRESS'
+      expect(record.bank_account_holder_name).to eq 'ACCOUNT HOLDER NAME'
     end
 
     it 'denies access to unverified member' do
