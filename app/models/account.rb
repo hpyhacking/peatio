@@ -189,7 +189,7 @@ class Account < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180305113434
+# Schema version: 20180315145436
 #
 # Table name: accounts
 #
@@ -200,8 +200,6 @@ end
 #  locked                          :decimal(32, 16)
 #  created_at                      :datetime
 #  updated_at                      :datetime
-#  in                              :decimal(32, 16)
-#  out                             :decimal(32, 16)
 #  default_withdraw_destination_id :integer
 #
 # Indexes

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305111648) do
+ActiveRecord::Schema.define(version: 20180315145436) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -42,8 +42,6 @@ ActiveRecord::Schema.define(version: 20180305111648) do
     t.decimal  "locked",                                    precision: 32, scale: 16
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal  "in",                                        precision: 32, scale: 16
-    t.decimal  "out",                                       precision: 32, scale: 16
     t.integer  "default_withdraw_destination_id", limit: 4
   end
 
