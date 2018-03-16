@@ -2,7 +2,7 @@
   "name": "peatio",
   "license": "MIT",
   "dependencies": {
-    "currency-flags": "https://github.com/transferwise/currency-flags.git",
+    "currency-flags": "^1.2.1",
     "raven-js": "^3.22.1"
   }
 }

@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"currency-flags@https://github.com/transferwise/currency-flags.git":
+currency-flags@^1.2.1:
   version "1.2.1"
-  resolved "https://github.com/transferwise/currency-flags.git#49868469160852b34e2b7d30351b50ec3ae77d86"
+  resolved "https://registry.yarnpkg.com/currency-flags/-/currency-flags-1.2.1.tgz#a96e026af89f0760e6cedb4f4424e774f2f73b86"
 
 raven-js@^3.22.1:
   version "3.22.1"
