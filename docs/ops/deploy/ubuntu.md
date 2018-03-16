@@ -66,7 +66,7 @@ Be sure to install the latest stable Redis, as the package in the distro may be 
 Please follow instructions here: https://www.rabbitmq.com/install-debian.html
 
     curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add -
-    sudo apt-add-repository 'deb http://www.rabbitmq.com/debian/ testing main'
+    sudo apt-add-repository 'deb http://www.rabbitmq.com/debian/ trusty main'
     sudo apt-get update
     sudo apt-get install rabbitmq-server
 
@@ -134,9 +134,12 @@ Next, we need to update the Nginx configuration to point Passenger to the versio
     sudo vim /etc/nginx/nginx.conf
 
 find the following lines, and uncomment them:
+     
+    include /etc/nginx/passenger.conf;
+    
+open the passenger.conf file:
 
-    passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
-    passenger_ruby /usr/bin/ruby;
+    sudo vim /etc/nginx/passenger.conf
 
 update the second line to read:
 
