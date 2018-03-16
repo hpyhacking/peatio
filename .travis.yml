@@ -7,7 +7,12 @@ language: ruby
 cache: bundler
 
 env:
-  - RAILS_ENV=test RAKE_ENV=test DISPLAY=:0.0 BOT_USERNAME=kite-bot BOT_NAME="Kite Bot" BOT_EMAIL=kite-bot@heliostech.fr
+  - RAILS_ENV=test
+    RAKE_ENV=test
+    DISPLAY=:0.0
+    BOT_USERNAME=kite-bot
+    BOT_NAME="Kite Bot"
+    BOT_EMAIL=kite-bot@heliostech.fr
 
 services:
   - mysql
@@ -17,6 +22,11 @@ services:
 
 addons:
   chrome: stable
+  apt:
+    packages:
+      - nginx
+  hosts:
+    - peatio.local
 
 # Execute all of the commands which need to be executed before installing dependencies.
 before_install:
@@ -30,15 +40,19 @@ before_install:
 install:
   - bundle install --deployment --without production development --jobs=$(nproc) --retry=3
   - bundle exec rake yarn:install
+  - docker pull rubykube/peatio-trading-ui:latest
+  - docker run -d -p 4000:3000 -e "RAILS_ENV=production" -e "SECRET_KEY_BASE=secret" -e "PLATFORM_ROOT_URL=http://peatio.local" -e "RAILS_SERVE_STATIC_FILES=1" --add-host=peatio.local:$(ip addr show eth0 | grep -Po 'inet \K[\d.]+') --name=peatio-trading-ui rubykube/peatio-trading-ui:latest
 
 # Execute all of the commands which need to be executed before running actual tests.
 before_script:
   - ./bin/init_config
   - bundle exec rake db:create db:migrate
+  - sudo cp ./ci/nginx/server.conf /etc/nginx/sites-enabled/default
+  - sudo nginx -s stop && sudo nginx
 
 # Execute all of the commands which should make the build pass or fail.
 script:
-  xvfb-run --auto-servernum --server-args="-screen 0 1280x800x16" bundle exec rspec &&
+  URL_HOST=peatio.local xvfb-run --auto-servernum --server-args="-screen 0 1280x800x16" bundle exec rspec &&
   docker build --tag peatio .
 
 # Execute all of the commands which need to be executed after the build passed.

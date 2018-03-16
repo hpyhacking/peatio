@@ -61,7 +61,6 @@ ru:
         state_done: Выполнено
       withdraws/bank:
         fund_source: Банк
-        currency_obj_key_text: Валюта
         sum: Сумма
         fee: Комиссия
         amount: Сумма
@@ -76,7 +75,6 @@ ru:
         confirmations: Подтверждение
       withdraws/satoshi:
         fund_source: Банк
-        currency_obj_key_text: Валюта
         sum: Сумма
         amount: Сумма
         fee: Комиссия

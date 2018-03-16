@@ -39,6 +39,10 @@ else
       options:     browser_options,
       driver_opts: driver_options
   end
+
+  Capybara.server_host = ENV.fetch('TEST_SERVER_HOST')
+  Capybara.server_port = ENV.fetch('TEST_SERVER_PORT')
+  Capybara.app_host    = "http://#{ENV.fetch('TEST_APP_HOST')}:#{ENV.fetch('TEST_APP_PORT')}"
 end
 
 Capybara.default_driver        = :chrome

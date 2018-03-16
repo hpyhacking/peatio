@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     gon.market = current_market.attributes
     gon.ticker = current_market.ticker
     gon.markets = Market.to_hash
-
+    gon.host = request.base_url
     gon.pusher = {
       key:       ENV.fetch('PUSHER_KEY', nil),
       cluster:   ENV.fetch('PUSHER_CLUSTER', 'eu'),
@@ -129,10 +129,6 @@ class ApplicationController < ActionController::Base
         new: I18n.t('private.markets.trade_state.new'),
         partial: I18n.t('private.markets.trade_state.partial')
       }
-    }
-
-    gon.markets_metadata = {
-      title: ENV.fetch('MARKETS_METADATA_TITLE')
     }
 
     gon.currencies = Currency.visible.inject({}) do |memo, currency|
