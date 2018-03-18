@@ -18,7 +18,7 @@ module APIv2
 
       return unless key.casecmp('auth')
 
-      token   = msg.headers['Authorization']
+      token   = msg['jwt']
       service = APIv2::Auth::JWTAuthenticator.new(token)
       member  = service.authenticate(return: :member)
 
