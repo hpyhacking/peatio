@@ -16,6 +16,10 @@ module APITestHelpers
     api_request(:post, *args)
   end
 
+  def api_delete(*args)
+    api_request(:delete, *args)
+  end
+
   #
   # Generates valid JWT for member, allows to pass additional payload.
   #

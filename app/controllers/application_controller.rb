@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include SessionUtils
   protect_from_forgery with: :exception
 
   helper_method :current_user, :is_admin?, :current_market, :gon
@@ -163,18 +164,6 @@ class ApplicationController < ActionController::Base
 
   def coin_rpc_connection_refused
     render 'errors/connection'
-  end
-
-  def save_session_key(member_id, key)
-    Rails.cache.write "peatio:sessions:#{member_id}:#{key}", 1, expire_after: ENV['SESSION_EXPIRE'].to_i.minutes
-  end
-
-  def clear_all_sessions(member_id)
-    if redis = Rails.cache.instance_variable_get(:@data)
-      redis.keys("peatio:sessions:#{member_id}:*").each {|k| Rails.cache.delete k.split(':').last }
-    end
-
-    Rails.cache.delete_matched "peatio:sessions:#{member_id}:*"
   end
 
   def allow_iframe

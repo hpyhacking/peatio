@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
 
     reset_session rescue nil
     session[:member_id] = @member.id
-    save_session_key @member.id, cookies['_peatio_session']
+    memoize_member_session_id @member.id, session.id
     redirect_on_successful_sign_in
   end
 
@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    clear_all_sessions current_user.id
+    destroy_member_sessions(current_user.id)
     reset_session
     redirect_to root_path
   end

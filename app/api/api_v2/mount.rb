@@ -35,6 +35,7 @@ module APIv2
     mount APIv2::K
     mount APIv2::Tools
     mount APIv2::Withdraws
+    mount APIv2::Sessions
 
     base_path = Rails.env.production? ? "#{ENV['URL_SCHEME']}://#{ENV['URL_HOST']}/#{PREFIX}" : PREFIX
     add_swagger_documentation base_path: base_path,
