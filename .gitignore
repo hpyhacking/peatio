@@ -25,6 +25,7 @@ tmp
 /config/markets.yml
 /config/withdraw_channels.yml
 /config/deposit_channels.yml
+/config/plugins.yml
 /config/seed/*
 
 # Ignore translations.js
@@ -43,6 +44,7 @@ tags
 
 /vendor/bundle
 /vendor/assets/yarn_components
+/vendor/plugins
 .env
 .DS_Store
 .agignore

@@ -46,6 +46,7 @@ install:
 # Execute all of the commands which need to be executed before running actual tests.
 before_script:
   - ./bin/init_config
+  - ./bin/install_plugins
   - bundle exec rake db:create db:migrate
   - sudo cp ./ci/nginx/server.conf /etc/nginx/sites-enabled/default
   - sudo nginx -s stop && sudo nginx
