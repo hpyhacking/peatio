@@ -1,5 +1,5 @@
 class WithdrawChannel extends PeatioModel.Model
-  @configure 'WithdrawChannel', 'key', 'currency', 'resource_name'
+  @configure 'WithdrawChannel', 'currency'
 
   @initData: (records) ->
     PeatioModel.Ajax.disable ->

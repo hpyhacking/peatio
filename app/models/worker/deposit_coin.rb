@@ -5,23 +5,23 @@ module Worker
     def process(payload)
       payload.symbolize_keys!
 
-      channel = DepositChannel.find_by_key(payload.fetch(:channel_key))
-      tx      = channel.currency.api.load_deposit(payload.fetch(:txid))
+      ccy = Currency.find_by_code!(payload.fetch(:currency))
+      tx  = ccy.api.load_deposit(payload.fetch(:txid))
 
       if tx
-        Rails.logger.info "Processing #{channel.currency.code.upcase} deposit: #{payload.fetch(:txid)}."
+        Rails.logger.info "Processing #{ccy.code.upcase} deposit: #{payload.fetch(:txid)}."
         ActiveRecord::Base.transaction do
-          tx.fetch(:entries).each_with_index { |entry, index| deposit!(channel, tx, entry, index) }
+          tx.fetch(:entries).each_with_index { |entry, index| deposit!(ccy, tx, entry, index) }
         end
       else
-        Rails.logger.info "Could not load #{channel.currency.code.upcase} deposit #{payload.fetch(:txid)}."
+        Rails.logger.info "Could not load #{ccy.code.upcase} deposit #{payload.fetch(:txid)}."
       end
     end
 
   private
 
-    def deposit!(channel, tx, entry, index)
-      return Rails.logger.info "Skipped #{tx.fetch(:id)}:#{index}." unless deposit_entry_processable?(channel, tx, entry, index)
+    def deposit!(currency, tx, entry, index)
+      return Rails.logger.info "Skipped #{tx.fetch(:id)}:#{index}." unless deposit_entry_processable?(currency, tx, entry, index)
 
       pt = PaymentTransaction::Normal.create! \
         txid:          tx[:id],
@@ -30,9 +30,9 @@ module Worker
         amount:        entry[:amount],
         confirmations: tx[:confirmations],
         receive_at:    tx[:received_at],
-        currency:      channel.currency
+        currency:      currency
 
-      deposit = channel.kls.create! \
+      deposit = "deposits/#{currency.type}".camelize.constantize.create! \
         payment_transaction_id: pt.id,
         txid:                   pt.txid,
         txout:                  pt.txout,
@@ -51,8 +51,8 @@ module Worker
       report_exception(e)
     end
 
-    def deposit_entry_processable?(channel, tx, entry, index)
-      PaymentAddress.where(currency: channel.currency, address: entry[:address]).exists? &&
+    def deposit_entry_processable?(currency, tx, entry, index)
+      PaymentAddress.where(currency: currency, address: entry[:address]).exists? &&
         !PaymentTransaction::Normal.where(txid: tx[:id], txout: index).exists?
     end
   end

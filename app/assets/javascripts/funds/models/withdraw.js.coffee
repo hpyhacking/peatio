@@ -14,13 +14,6 @@ class Withdraw extends PeatioModel.Model
   afterScope: ->
     "#{@pathName()}"
 
-  pathName: ->
-    switch @currency
-      when gon.fiat_currency then 'banks'
-      when 'btc'  then 'satoshis'
-      when 'xrp'  then 'ripples'
-      when 'ltc'  then 'litoshis'
-      when 'bch'  then 'bitcoin_cash'
-      when 'dash' then 'duffs'
+  pathName: -> @currency
 
 window.Withdraw = Withdraw

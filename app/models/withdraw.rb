@@ -45,16 +45,8 @@ class Withdraw < ActiveRecord::Base
   scope :completed, -> { where aasm_state: COMPLETED_STATES }
   scope :not_completed, -> { where.not aasm_state: COMPLETED_STATES }
 
-  def self.channel
-    WithdrawChannel.find_by_key(name.demodulize.underscore)
-  end
-
   def channel
-    self.class.channel
-  end
-
-  def channel_name
-    channel.key
+    WithdrawChannel.find_by!(currency: currency.code)
   end
 
   alias_attribute :withdraw_id, :sn
@@ -215,10 +207,6 @@ class Withdraw < ActiveRecord::Base
     self.account = member.get_account(currency.code)
   end
 
-  def self.resource_name
-    name.demodulize.underscore.pluralize
-  end
-
   def sync_update
     ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
   end
@@ -234,7 +222,7 @@ class Withdraw < ActiveRecord::Base
 public
 
   def fiat?
-    Withdraws::Bank === self
+    Withdraws::Fiat === self
   end
 
   def coin?

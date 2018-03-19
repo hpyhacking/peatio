@@ -1,5 +1,7 @@
 module Private
   class FundsController < BaseController
+    include CurrencyHelper
+
     layout 'funds'
 
     before_action :auth_verified!
@@ -15,6 +17,8 @@ module Private
 
       gon.jbuilder
     end
+
+    helper_method :currency_icon_url
 
     def gen_address
       current_user.accounts.each do |account|

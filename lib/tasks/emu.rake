@@ -74,7 +74,7 @@ namespace :emu do
       amount = rand(100000)
       confirmations = 100
       receive_at = Time.now
-      channel = DepositChannel.find_by_key a.currency.key
+      channel = DepositChannel.find_by! currency: a.currency.code
       #pt_class = "PaymentTransaction::#{channel.currency.camelize}".constantize
 
       ActiveRecord::Base.transaction do

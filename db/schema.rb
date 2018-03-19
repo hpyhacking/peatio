@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180315145436) do
+ActiveRecord::Schema.define(version: 20180315185255) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -76,7 +76,6 @@ ActiveRecord::Schema.define(version: 20180315145436) do
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", using: :btree
 
   create_table "currencies", force: :cascade do |t|
-    t.string   "key",                  limit: 30,                                              null: false
     t.string   "code",                 limit: 30,                                              null: false
     t.string   "symbol",               limit: 1,                                               null: false
     t.string   "type",                 limit: 30,                             default: "coin", null: false

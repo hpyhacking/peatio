@@ -6,8 +6,12 @@ module Admin
       before_action :find_withdraw, only: [:show, :update, :destroy]
 
       def index
-        @accepted_withdraws   = withdraw_model.with_aasm_state(:accepted).order(id: :desc)
-        @unaccepted_withdraws = withdraw_model.without_aasm_state(:accepted).where('created_at > ?', 1.day.ago).order(id: :desc)
+        @latest_withdraws  = ::Withdraws::Coin.where(currency: currency)
+                                              .where('created_at <= ?', 1.day.ago)
+                                              .order(id: :desc)
+        @all_withdraws     = ::Withdraws::Coin.where(currency: currency)
+                                              .where('created_at > ?', 1.day.ago)
+                                              .order(id: :desc)
       end
 
       def show
@@ -23,13 +27,6 @@ module Admin
         @withdraw.reject!
         redirect_to :back, notice: t('admin.withdraws.coins.update.notice')
       end
-
-    private
-
-      def withdraw_model
-        "::Withdraws::#{self.class.name.demodulize.gsub(/Controller\z/, '').singularize}".constantize
-      end
-      helper_method :withdraw_model
     end
   end
 end

@@ -27,7 +27,7 @@ namespace :coin do
 
     puts "#{code} --- Reprocessing .."
     missed.each do |tx|
-      AMQPQueue.enqueue :deposit_coin, { txid: tx['txid'], channel_key: channel.key }
+      AMQPQueue.enqueue :deposit_coin, { txid: tx['txid'], currency: channel.currency.code }
     end
     puts "#{code} --- Done."
   end

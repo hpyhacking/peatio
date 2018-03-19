@@ -16,7 +16,7 @@ ru:
       statistic/withdraws_grid: Статистика вывода
       admin/deposits_grid: Зачисления
       admin/withdraws_grid: Снятия
-      withdraws/satoshi: Вывод
+      withdraws/coin: Вывод
     attributes:
       account:
         currency: Валюта
@@ -59,21 +59,21 @@ ru:
         amount: Сумма
         confirmations: Подтверждения
         state_done: Выполнено
-      withdraws/bank:
+      withdraws/fiat:
         fund_source: Банк
         sum: Сумма
         fee: Комиссия
         amount: Сумма
         created_at: Создан
-      deposits/bank:
+      deposits/fiat:
         created_at: Создан
         holder: Держатель
         amount: Сумма
-      deposits/satoshi:
+      deposits/coin:
         txid: Номер перевода
         amount: Сумма
         confirmations: Подтверждение
-      withdraws/satoshi:
+      withdraws/coin:
         fund_source: Банк
         sum: Сумма
         amount: Сумма
@@ -137,7 +137,7 @@ ru:
         global_orders_title: ОРДЕРА
   simple_form:
     labels:
-        satoshi:
+        coin:
           fee: Комиссия
   admin:
     members:
@@ -151,10 +151,10 @@ ru:
         show:
           fee: Комиссия
     withdraws:
-      satoshis:
+      coin:
         show:
           process: Одобрен
-  deposits/satoshi:
+  deposits/coin:
     aasm_state:
       accepted: Одобрен
   enumerize:
@@ -173,11 +173,11 @@ ru:
       menus:
         sections:
           members: Участники
-  withdraws/bank:
+  withdraws/fiat:
     aasm_state:
       rejected: Отклонен
       accepted: Одобрен
-  withdraws/satoshi:
+  withdraws/coin:
     aasm_state:
       rejected: Отклонен
       accepted: Одобрен

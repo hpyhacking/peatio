@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-xs-10">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <span>Deposit details</span>
+      </div>
+      <div class="panel-body">
+        <%= description_for :member do %>
+          <dt>ID</dt><dd><%= @deposit.sn %></dd>
+          <dt>Member</dt><dd><%= @deposit.member.email %></dd>
+          <dt>Amount</dt><dd><%= number_with_precision(@deposit.amount, precision: 2) %></dd>
+          <dt>Created at</dt><dd><%= t(@deposit.created_at, format: :long) %></dd>
+          <dt>State</dt><dd><%= @deposit.aasm_state_text %></dd>
+          <dt>Bank name</dt><dd><%= @deposit.fund_extra %></dd>
+          <dt>Bank account</dt><dd><%= @deposit.fund_uid %></dd>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-10">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <span>Wire transfer</span>
+      </div>
+      <div class="panel-body">
+        <%= form_for @deposit, url: admin_deposit_url(@deposit.currency.code, @deposit) do |f| %>
+          <dl class="dl-horizontal dl-member">
+            <% if @deposit.may_submit? || @deposit.may_accept? %>
+              <dt>Transfer ID</dt>
+              <dd><%= f.text_field :txid, class: 'col-xs-24' %></dd>
+              <hr class="split">
+              <%= f.submit 'Accept', class: 'btn btn-primary pull-right' %>
+            <% else %>
+              <dt>Transfer ID</dt><dd><%= @deposit.txid %></dd>
+            <% end %>
+          </dl>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

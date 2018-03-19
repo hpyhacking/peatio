@@ -31,25 +31,8 @@ en:
             <li>IMPORTANT: The name of the bank account you are depositing from must match the name entered for verification of your account you are depositing into.</li>
           </ol>
 
-      deposit_btc:
-        title: BTC Deposit
-
-      deposit_bch:
-        title: BCH Deposit
-
-      deposit_ltc:
-        title: LTC Deposit
-
-      deposit_xrp:
-        title: XRP Deposit
-
-      deposit_dash:
-        title: Dash Deposit
-
-      deposit_eth:
-        title: ETH Deposit
-
       deposit_coin:
+        title: '{{currency}} Deposit'
         address: Address
         open-wallet: Please use your common wallet services, local wallet, mobile terminal or online wallet, select a payment and send.
         detail: Please paste the address blow in your wallet, and fill in the amount you want to deposit, then confirm and send.
@@ -91,25 +74,8 @@ en:
         min: At least
         withdraw_all: Withdraw all
 
-      withdraw_btc:
-        title: BTC Withdraw
-
-      withdraw_bch:
-        title: BCH Withdraw
-
-      withdraw_ltc:
-        title: LTC Withdraw
-
-      withdraw_xrp:
-        title: XRP Withdraw
-
-      withdraw_dash:
-        title: Dash Withdraw
-
-      withdraw_eth:
-        title: ETH Withdraw
-
       withdraw_coin:
+        title: '{{currency}} Withdraw'
         intro: Please fill in the address and amount, then submit the form. It will be confirmed in 10 minutes
         label: Label
         balance: Balance

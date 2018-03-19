@@ -67,9 +67,10 @@ module CoinAPI
         next unless tx['TransactionType'].to_s == 'Payment'
         next unless tx.dig('meta', 'TransactionResult').to_s == 'tesSUCCESS'
         next if tx['DestinationTag'].present?
+        next unless String === tx['Amount']
 
         { id:            tx.fetch('hash'),
-          confirmations: tx.fetch('LastLedgerSequence') - tx.fetch('inLedger'),
+          confirmations: calculate_confirmations(tx),
           entries:       [{ amount:  convert_from_base_unit(tx.fetch('Amount')),
                             address: tx['Destination'] }] }
       end
@@ -126,7 +127,7 @@ module CoinAPI
           'Content-Type' => 'application/json' }
       response.assert_success!
       response = JSON.parse(response.body)
-      response['error'].tap { |error| raise Error, error.inspect if error }
+      response.dig('result', 'error').tap { |error| raise Error, error.inspect if error.present? }
       response
     end
 
@@ -162,9 +163,10 @@ module CoinAPI
         next unless tx['TransactionType'].to_s == 'Payment'
         next unless address?(tx['Destination'].to_s)
         next if tx['DestinationTag'].present?
+        next unless String === tx['Amount']
 
         { id:            tx.fetch('hash'),
-          confirmations: tx.fetch('LastLedgerSequence') - tx.fetch('inLedger'),
+          confirmations: calculate_confirmations(tx),
           entries:       [{ amount:  convert_from_base_unit(tx.fetch('Amount')),
                             address: tx['Destination'] }] }
       end.compact
@@ -172,6 +174,10 @@ module CoinAPI
 
     def more_deposits_available?(response)
       response.fetch('result').fetch('txs').present?
+    end
+
+    def calculate_confirmations(tx)
+      tx.fetch('LastLedgerSequence') { tx.fetch('ledger_index') } - tx.fetch('inLedger')
     end
   end
 end

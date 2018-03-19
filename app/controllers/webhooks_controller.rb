@@ -11,7 +11,7 @@ class WebhooksController < ApplicationController
   #   * Webhook validates incoming data and enqueues async processing of transaction.
   def tx_created
     if params[:type] == 'transaction' && params[:hash].present?
-      AMQPQueue.enqueue(:deposit_coin, txid: params[:hash], channel_key: params[:ccy])
+      AMQPQueue.enqueue(:deposit_coin, txid: params[:hash], currency: params[:ccy])
       head :no_content
     else
       head :unprocessable_entity

@@ -1,6 +1,7 @@
 module Private
   class MarketsController < BaseController
     include Concerns::DisableMarketsUI
+    include CurrencyHelper
 
     skip_before_action :auth_member!, only: [:show]
     before_action :visible_market?
@@ -62,11 +63,7 @@ module Private
             code:     x.currency.code,
             symbol:   x.currency.symbol,
             type:     x.currency.type,
-            icon_url: if x.currency.coin?
-                        ActionController::Base.helpers.image_url "/icon-#{x.currency.code}.png"
-                      else
-                        ActionController::Base.helpers.image_url "yarn_components/currency-flags/src/flags/#{x.currency.code}.png"
-                      end } }
+            icon_url: currency_icon_url(x.currency) } }
       end
 
       { current_market: @market.as_json.tap { |data| data.merge!(data.delete('attributes')) },

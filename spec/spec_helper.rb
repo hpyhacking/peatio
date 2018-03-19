@@ -67,7 +67,7 @@ RSpec.configure do |config|
     AMQPQueue.stubs(:publish)
     KlineDB.stubs(:kline).returns([])
     I18n.locale = :en
-    %i[ usd btc pts eth xrp ].each { |ccy| FactoryBot.create(:currency, ccy) }
+    %i[ usd btc dash eth xrp ].each { |ccy| FactoryBot.create(:currency, ccy) }
   end
 
   config.after :each do

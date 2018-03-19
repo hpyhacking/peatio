@@ -12,8 +12,8 @@ FactoryBot.define do
       currency { Currency.find_by!(code: :btc) }
     end
 
-    factory :account_pts do
-      currency { Currency.find_by!(code: :pts) }
+    factory :account_dash do
+      currency { Currency.find_by!(code: :dash) }
     end
   end
 end

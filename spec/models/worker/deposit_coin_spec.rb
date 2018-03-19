@@ -9,8 +9,8 @@ describe Worker::DepositCoin do
     let(:worker) { Worker::DepositCoin.new }
 
     let :payload do
-      { 'txid'        => '1a33b61174e5c52c189af4169b6919d059a0024ee6526326961fe6dd8af2e260',
-        'channel_key' => 'satoshi' }
+      { 'txid'     => '1a33b61174e5c52c189af4169b6919d059a0024ee6526326961fe6dd8af2e260',
+        'currency' => 'btc' }
     end
 
     let :request_body do

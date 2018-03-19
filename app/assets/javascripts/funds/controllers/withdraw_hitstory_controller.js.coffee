@@ -18,8 +18,7 @@ app.controller 'WithdrawHistoryController', ($scope, $stateParams, $http) ->
     ['submitting', 'submitted', 'accepted'].indexOf(state) > -1
 
   @cancelWithdraw = (withdraw) ->
-    withdraw_channel = WithdrawChannel.findBy('currency', withdraw.currency)
-    $http.delete("/withdraws/#{withdraw_channel.resource_name}/#{withdraw.id}")
+    $http.delete("/withdraws/#{$stateParams.currency}/#{withdraw.id}")
       .success ->
         location.reload()
       .error (responseText) ->

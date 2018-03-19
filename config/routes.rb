@@ -37,21 +37,11 @@ Peatio::Application.routes.draw do
       end
     end
 
-    namespace :deposits do
-      Deposit.descendants.each do |d|
-        resources d.resource_name do
-          collection do
-            post :gen_address
-          end
-        end
-      end
+    resources 'deposits/:currency', controller: 'deposits', as: 'deposit', only: [] do
+      collection { post 'gen_address' }
     end
 
-    namespace :withdraws do
-      Withdraw.descendants.each do |w|
-        resources w.resource_name
-      end
-    end
+    resources 'withdraws/:currency', controller: 'withdraws', as: 'withdraw', only: %i[ create destroy ]
 
     resources :account_versions, :only => :index
 

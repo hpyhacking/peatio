@@ -4,10 +4,10 @@
   quote_unit: usd
   bid: {fee: 0, currency: usd, fixed: 2}
   ask: {fee: 0, currency: btc, fixed: 4}
-- id: ptsbtc
+- id: dashbtc
   code: 6
-  base_unit: pts
+  base_unit: dash
   quote_unit: btc
   bid: {fee: 0, currency: btc, fixed: 4}
-  ask: {fee: 0, currency: pts, fixed: 4}
+  ask: {fee: 0, currency: dash, fixed: 4}
   visible: false

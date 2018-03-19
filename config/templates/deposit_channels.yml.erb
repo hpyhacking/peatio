@@ -2,46 +2,34 @@
 <%= File.read(ENV['DEPOSIT_CHANNELS_CONFIG']) %>
 <% else %>
 - id: 200
-  key: satoshi
   currency: btc
   sort_order: 1
   min_confirm: 1
   max_confirm: 3
 - id: 400
-  key: bank
   currency: usd
   sort_order: 2
-  bank_accounts:
-    - bank: 'Your Bank Name'
-      branch: 'Your Bank Branch'
-      holder: 'Your Account Holder'
-      account: 'Your Account Number'
 - id: 600
-  key: ripple
   currency: xrp
   sort_order: 3
   min_confirm: 1
   max_confirm: 3
 - id: 800
-  key: bitcoin_cash
   currency: bch
   sort_order: 3
   min_confirm: 1
   max_confirm: 3
 - id: 1000
-  key: litoshi
   currency: ltc
   sort_order: 3
   min_confirm: 1
   max_confirm: 3
 - id: 1200
-  key: duff
   currency: dash
   sort_order: 3
   min_confirm: 1
   max_confirm: 3
 - id: 1400
-  key: ethereum
   currency: eth
   sort_order: 3
   min_confirm: 1

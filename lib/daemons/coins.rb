@@ -14,7 +14,7 @@ def process_deposits(coin, channel, deposit)
   Rails.logger.info "Missed #{coin.code.upcase} transaction: #{deposit[:id]}."
 
   # Immediately enqueue job.
-  AMQPQueue.enqueue :deposit_coin, { txid: deposit[:id], channel_key: channel.key }
+  AMQPQueue.enqueue :deposit_coin, { txid: deposit[:id], currency: channel.currency.code }
 rescue => e
   report_exception(e)
 end

@@ -3,11 +3,7 @@ class DepositChannel < ActiveYamlBase
   include HashCurrencible
   include International
 
-  def accounts
-    bank_accounts.map {|i| OpenStruct.new(i) }
-  end
-
-  def as_json(options = {})
-    super(options)['attributes'].merge({resource_name: key.pluralize})
+  def as_json(*)
+    super.fetch('attributes')
   end
 end

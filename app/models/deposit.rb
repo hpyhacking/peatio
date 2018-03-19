@@ -68,26 +68,8 @@ class Deposit < ActiveRecord::Base
     txid
   end
 
-  class << self
-    def channel
-      DepositChannel.find_by_key(name.demodulize.underscore)
-    end
-
-    def resource_name
-      name.demodulize.underscore.pluralize
-    end
-
-    def params_name
-      name.underscore.gsub('/', '_')
-    end
-
-    def new_path
-      "new_#{params_name}_path"
-    end
-  end
-
   def channel
-    self.class.channel
+    DepositChannel.find_by!(currency: currency.code)
   end
 
   def update_confirmations(data)

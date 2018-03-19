@@ -1,10 +1,10 @@
 FactoryBot.define do
-  factory :satoshi_withdraw, class: Withdraws::Satoshi do
+  factory :satoshi_withdraw, class: Withdraws::Coin do
     currency { Currency.find_by!(code: :btc) }
     member { create(:member, :verified_identity) }
     destination_id { create(:btc_withdraw_destination).id }
     sum { 10.to_d }
-    type 'Withdraws::Satoshi'
+    type 'Withdraws::Coin'
 
     account do
       member.get_account(:btc).tap do |a|
@@ -26,12 +26,12 @@ FactoryBot.define do
     end
   end
 
-  factory :bank_withdraw, class: Withdraws::Bank do
+  factory :bank_withdraw, class: Withdraws::Fiat do
     member { create(:member, :verified_identity) }
     currency { Currency.find_by!(code: :usd) }
     destination_id { create(:usd_withdraw_destination).id }
     sum { 1000.to_d }
-    type 'Withdraws::Bank'
+    type 'Withdraws::Fiat'
 
     account do
       member.get_account(:usd).tap do |a|

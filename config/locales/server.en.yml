@@ -15,10 +15,8 @@ en:
       statistic/withdraws_grid: Withdraws Stat
       admin/deposits_grid: Deposits
       admin/withdraws_grid: Withdraws
-      deposits/bank: Deposit Bank
-      withdraws/bank: Withdraw Bank
-      withdraws/satoshi: Withdraw
-      withdraws/ripple: Withdraw
+      deposits/fiat: Deposit Bank
+      withdraws/coin: Withdraw Bank
     attributes:
       fund_source:
         address: Address
@@ -100,14 +98,14 @@ en:
         name: Real Name
         created_at: Register At
         sn: SN
-      withdraws/bank:
+      withdraws/fiat:
         id: ID
         state_and_actions: State/Action
         sum: Amount
         fee: Fee
         amount: Amount
         created_at: Created At
-      deposits/bank:
+      deposits/fiat:
         created_at: Created At
         holder: Holder
         member_sn: Member SN
@@ -115,80 +113,14 @@ en:
         sn: SN
         state_and_action: State/Action
         label: Label
-      deposits/satoshi:
+      deposits/coin:
         created_at: Created At
         txid: Transaction ID
         amount: Amount
         confirmations: Confirmation
         aasm_state_text: State
-      deposits/bitcoin_cash:
-        created_at: Created At
-        txid: Transaction ID
-        amount: Amount
-        confirmations: Confirmation
-        aasm_state_text: State
-      deposits/litoshi:
-        created_at: Created At
-        txid: Transaction ID
-        amount: Amount
-        confirmations: Confirmation
-        aasm_state_text: State
-      deposits/ripple:
-        created_at: Created At
-        txid: Transaction ID
-        amount: Amount
-        confirmations: Confirmation
-        aasm_state_text: State
-      deposits/duff:
-        created_at: Created At
-        txid: Transaction ID
-        amount: Amount
-        confirmations: Confirmation
-        aasm_state_text: State
-      deposits/ethereum:
-        created_at: Created At
-        txid: Transaction ID
-        amount: Amount
-        confirmations: Confirmation
-        aasm_state_text: State
-      withdraws/satoshi:
+      withdraws/coin:
         id: ID
-        state_and_actions: State/Action
-        created_at: Created At
-        sum: Amount
-        amount: Amount
-        fee: Fee
-      withdraws/bitcoin_cash:
-        id: ID
-        state_and_actions: State/Action
-        created_at: Created At
-        sum: Amount
-        amount: Amount
-        fee: Fee
-      withdraws/litoshi:
-        id: ID
-        state_and_actions: State/Action
-        created_at: Created At
-        sum: Amount
-        amount: Amount
-        fee: Fee
-      withdraws/ripple:
-        id: ID
-        state_and_actions: State/Action
-        created_at: Created At
-        sum: Amount
-        amount: Amount
-        fee: Fee
-      withdraws/duff:
-        id: ID
-        state_and_actions: State/Action
-        created_at: Created At
-        sum: Amount
-        amount: Amount
-        fee: Fee
-      withdraws/ethereum:
-        id: ID
-        member_name: Account
         state_and_actions: State/Action
         created_at: Created At
         sum: Amount
@@ -353,56 +285,21 @@ en:
         state: State
         created_at: Created at
   deposit_channel:
-    bank:
+    fiat:
       key: Bank transfer
       title: Bank transfer
       intro: Bank transfer deposits, recommend for large recharge
       latency: 10 minutes
       transfer: Manual
       go: Deposit
-    satoshi:
+    coin:
       key: Block Chain
       title: Bitcoin Deposits
       intro: Deposit bitcoin from your own wallet address to Peatio account
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
-    bitcoin_cash:
-      key: Block Chain
-      title: Bitcoin Cash Deposits
-      intro: Deposit Bitcoin Cash from your own wallet address to Peatio account
-      latency: 1 confirmation
-      transfer: Manual
-      go: Deposit
-    litoshi:
-      key: Block Chain
-      title: Litoshi Deposits
-      intro: Deposit Litoshi from your own wallet address to Peatio account
-      latency: 1 confirmation
-      transfer: Manual
-      go: Deposit
-    ripple:
-      key: Block Chain
-      title: Ripple Deposits
-      intro: Deposit Ripple from your own wallet address to Peatio account
-      latency: 1 confirmation
-      transfer: Manual
-      go: Deposit
-    duff:
-      key: Block Chain
-      title: Dash Deposits
-      intro: Deposit Dash from your own wallet address to Peatio account
-      latency: 1 confirmation
-      transfer: Manual
-      go: Deposit
-    ethereum:
-      key: Block Chain
-      title: Ethereum Deposits
-      intro: Deposit Ethereum from your own wallet address to Peatio account
-      latency: 1 confirmation
-      transfer: Manual
-      go: Deposit
-  deposits/bank:
+  deposits/fiat:
     aasm_state:
       submitting: Submitting
       cancelled: Cancelled
@@ -413,7 +310,7 @@ en:
       warning: Warning
   private:
     deposits:
-      banks:
+      fiats:
         destroy:
           notice: Revocation request is successful.
         create:
@@ -496,7 +393,7 @@ en:
         fee: Fee
         total: Total
         withdraw_history: Withdrawal History
-      banks:
+      fiats:
         update:
           notice: Bank Transfer withdrawal application has been submitted, we will
             process it as soon as possible
@@ -509,66 +406,7 @@ en:
         create:
           notice: Withdrawal request successfully submitted. Use the info below to
             complete the bank transfer.
-      satoshis:
-        destroy:
-          notice: Withdraw been canceled, frozen balance has returned to your account
-        update:
-          notice: Withdraw request is submit successful, we will process it as soon
-            as possible
-        new:
-          submit: Submit
-          allin: All-In
-        create:
-          notice: Withdrawal request successfully submitted. Use the info below to
-            complete the bank transfer.
-      bitcoin_cash:
-        destroy:
-          notice: Withdraw been canceled, frozen balance has returned to your account
-        update:
-          notice: Withdraw request is submit successful, we will process it as soon
-            as possible
-        new:
-          submit: Submit
-          allin: All-In
-        create:
-          notice: Withdrawal request successfully submitted. Use the info below to
-            complete the bank transfer.
-      litoshis:
-        destroy:
-          notice: Withdraw been canceled, frozen balance has returned to your account
-        update:
-          notice: Withdraw request is submit successful, we will process it as soon as possible
-        new:
-          submit: Submit
-          allin: All-In
-        create:
-          notice: Withdrawal request successfully submitted. Use the info below to complete the bank transfer.
-      ripples:
-        destroy:
-          notice: Withdraw been canceled, frozen balance has returned to your account
-        update:
-          notice: Withdraw request is submit successful, we will process it as soon
-            as possible
-          alert_two_factor: Two-Factor Authentication error
-        new:
-          submit: Submit
-          allin: All-In
-        create:
-          notice: Withdrawal request successfully submitted. Use the info below to
-            complete the bank transfer.
-      duffs:
-        destroy:
-          notice: Withdraw been canceled, frozen balance has returned to your account
-        update:
-          notice: Withdraw request is submit successful, we will process it as soon
-            as possible
-        new:
-          submit: Submit
-          allin: All-In
-        create:
-          notice: Withdrawal request successfully submitted. Use the info below to
-            complete the bank transfer.
-      ethereums:
+      coins:
         destroy:
           notice: Withdraw been canceled, frozen balance has returned to your account
         update:
@@ -786,11 +624,9 @@ en:
         origin_volume: Sell Volume
         sum: Total Turnover
       withdraw:
-        bank:
+        fiat:
           sum: Minimum amount 100
-        satoshi:
-          sum: Minimum amount 0.001
-        ripple:
+        coin:
           sum: Minimum amount 0.001
     hints:
       deposit:
@@ -799,17 +635,9 @@ en:
           sn: "<span class='text-danger'>Please copy the SN in your bank transfer's
             message, otherwise we can not process your order quickly.</span>"
       withdraw:
-        bank:
+        fiat:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
-        satoshi:
-          sum: "<a target='_balance' href='#'>Fee structure</a>"
-        bitcoin_cash:
-          sum: "<a target='_balance' href='#'>Fee structure</a>"
-        litoshi:
-          sum: "<a target='_balance' href='#'>Fee structure</a>"
-        ripple:
-          sum: "<a target='_balance' href='#'>Fee structure</a>"
-        duff:
+        coin:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
     creating: Creating...
     updating: Updating...
@@ -831,35 +659,16 @@ en:
         address: Address
         category: Category
       withdraw:
-        bank:
+        fiat:
           sum: Amount
           account_balance: Account Balance
-        satoshi:
-          fee: Fee
-          sum: Amount
-          account_balance: Account Balance
-        bitcoin_cash:
-          fee: Fee
-          sum: Amount
-          account_balance: Account Balance
-        litoshi:
-          fee: Fee
-          sum: Amount
-          account_balance: Account Balance
-        ripple:
-          fee: Fee
-          sum: Amount
-          account_balance: Account Balance
-        duff:
+        coin:
           fee: Fee
           sum: Amount
           account_balance: Account Balance
   admin:
     deposits:
-      banks:
-        index:
-          oneday: Requests in the last 24 hours
-          available: All Pending Requests
+      fiats:
         show:
           alert: Recharge cannot be located.
           notice: The recharge have been successful.
@@ -867,8 +676,6 @@ en:
           accept: Accept
           target_deposit: Wire Transfer
           confirm: Confirm recharge?
-        update:
-          blank_txid: TxID can't be blank
       coins:
         update:
           notice: The deposit was successful.
@@ -923,10 +730,8 @@ en:
           amount: Total Amount
           fee: Fee
     withdraws:
-      banks:
+      fiats:
         index:
-          one: Pending withdrawal Orders
-          all: Twenty-four hours Orders
           empty: No Data
         show:
           process: Process
@@ -937,10 +742,6 @@ en:
           withdraw: Withdraw
           empty: No Data
       coins:
-        index:
-          one: Pending withdrawals
-          all: Last 24 hours
-          empty: No data
         show:
           process: Accepted
           succeed: Withdraw
@@ -952,68 +753,20 @@ en:
           notice: Succesfully updated.
         destroy:
           notice: Succesfully destroyed.
-  deposits/satoshi:
-    aasm_state:
-      submitted: Submitted
-      accepted: Accepted
-      checked: Checked
-      warning: Warning
-  deposits/bitcoin_cash:
-    aasm_state:
-      submitted: Submitted
-      accepted: Accepted
-      checked: Checked
-      warning: Warning
-  deposits/litoshi:
-    aasm_state:
-      submitted: Submitted
-      accepted: Accepted
-      checked: Checked
-      warning: Warning
-  deposits/ripple:
-    aasm_state:
-      submitted: Submitted
-      accepted: Accepted
-      checked: Checked
-      warning: Warning
-  deposits/duff:
+  deposits/coin:
     aasm_state:
       submitted: Submitted
       accepted: Accepted
       checked: Checked
       warning: Warning
   easy_table:
-    satoshi:
+    coin:
       amount: Amount
       txid: TxId
       created_at: Created At
       confirmations: Confirmations
       state_and_actions: State/Actions
-    bitcoin_cash:
-      amount: Amount
-      txid: TxId
-      created_at: Created At
-      confirmations: Confirmations
-      state_and_actions: State/Actions
-    litoshi:
-      amount: Amount
-      txid: TxId
-      created_at: Created At
-      confirmations: Confirmations
-      state_and_actions: State/Actions
-    ripple:
-      amount: Amount
-      txid: TxId
-      created_at: Created At
-      confirmations: Confirmations
-      state_and_actions: State/Actions
-    duff:
-      amount: Amount
-      txid: TxId
-      created_at: Created At
-      confirmations: Confirmations
-      state_and_actions: State/Actions
-    bank:
+    fiat:
       sn: SN
       amount: Amount
       created_at: At
@@ -1038,13 +791,6 @@ en:
       done: Done
       wait: Wait
       cancel: Cancel
-    currency:
-      btc: BTC
-      bch: BCH
-      ltc: LTC
-      xrp: XRP
-      dash: Dash
-      eth: ETH
     order:
       state:
         done: DONE
@@ -1296,58 +1042,23 @@ en:
     frame:
       deposit_now: Deposit Now
   withdraw_channel:
-    bank:
+    fiat:
       key: Bank Transfer
       title: Bank Transfer
       intro: Bank transfer deposits, Recommend for large recharge
       latency: 30 minutes
       transfer: Manual
       go: Withdraw
-    satoshi:
+    coin:
       key: Blockchain
-      title: Bitcoin Blockchain
-      intro: Withdraw Bitcoin to your own Bitcoin wallet
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
-    bitcoin_cash:
-      key: Blockchain
-      title: Bitcoin Cash Blockchain
-      intro: Withdraw Bitcoin Cash to your own Bitcoin Cash wallet
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
-    litoshi:
-      key: Blockchain
-      title: Litoshi Blockchain
-      intro: Withdraw Litoshi to your own Litoshi wallet
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
-    ripple:
-      key: Blockchain
-      title: Ripple Blockchain
-      intro: Withdraw XRP to your own Ripple wallet
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
-    duff:
-      key: Blockchain
-      title: Dash Blockchain
-      intro: Withdraw Dash to your own Dash wallet
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
-    ethereum:
-      key: Blockchain
-      title: Ethereum Blockchain
-      intro: Withdraw Ethereum to your own Ethereum wallet
+      title: Blockchain
+      intro: Withdraw currency to your own wallet
       latency: 30 minutes
       transfer: Manual
       go: Withdraw
   withdraws:
     invalid_address: is not valid. You can not withdraw to this address.
-  withdraws/bank:
+  withdraws/fiat:
     aasm_state:
       submitting: Submitting
       submitted: Submitted
@@ -1358,51 +1069,7 @@ en:
       done: Done
       canceled: Canceld
       failed: Failed
-  withdraws/satoshi:
-    aasm_state:
-      submitting: Submitting
-      submitted: Submitted
-      rejected: Rejected
-      accepted: Accepted
-      suspect: Suspect
-      processing: processing
-      done: Done
-      canceled: Cancelled
-      failed: Failed
-  withdraws/bitcoin_cash:
-    aasm_state:
-      submitting: Submitting
-      submitted: Submitted
-      rejected: Rejected
-      accepted: Accepted
-      suspect: Suspect
-      processing: processing
-      done: Done
-      canceled: Cancelled
-      failed: Failed
-  withdraws/litoshi:
-    aasm_state:
-      submitting: Submitting
-      submitted: Submitted
-      rejected: Rejected
-      accepted: Accepted
-      suspect: Suspect
-      processing: processing
-      done: Done
-      canceled: Cancelled
-      failed: Failed
-  withdraws/duff:
-    aasm_state:
-      submitting: Submitting
-      submitted: Submitted
-      rejected: Rejected
-      accepted: Accepted
-      suspect: Suspect
-      processing: processing
-      done: Done
-      canceled: Cancelled
-      failed: Failed
-  withdraws/ripple:
+  withdraws/coin:
     aasm_state:
       submitting: Submitting
       submitted: Submitted

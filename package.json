@@ -3,6 +3,7 @@
   "license": "MIT",
   "dependencies": {
     "currency-flags": "https://github.com/transferwise/currency-flags.git",
+    "cryptocurrency-icons": "https://github.com/cjdowner/cryptocurrency-icons.git",
     "raven-js": "^3.22.1"
   }
 }

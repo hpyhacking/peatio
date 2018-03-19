@@ -82,7 +82,7 @@ module APIv2
     end
     post '/withdraws' do
       currency = Currency.find_by!(code: params[:currency])
-      withdraw = "withdraws/#{currency.key}".camelize.constantize.new \
+      withdraw = "withdraws/#{currency.type}".camelize.constantize.new \
         destination_id: params[:destination_id],
         sum:            params[:amount],
         member_id:      current_user.id,

@@ -3,11 +3,7 @@ class WithdrawChannel < ActiveYamlBase
   include HashCurrencible
   include International
 
-  def blacklist
-    self[:blacklist]
-  end
-
-  def as_json(options = {})
-    super(options)['attributes'].merge(resource_name: key.pluralize)
+  def as_json(*)
+    super.fetch('attributes')
   end
 end

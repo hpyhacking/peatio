@@ -33,7 +33,7 @@
               <ul class="dropdown-menu">
                 <% DepositChannel.all.sort.each do |c| %>
                   <% if can? :manage, c.kls %>
-                    <li><%= link_to c.title_text, [:admin, c.kls] %></li>
+                    <li><%= link_to c.currency.code.upcase, admin_deposit_index_path(c.currency.code) %></li>
                   <% end %>
                 <% end %>
               </ul>
@@ -49,7 +49,7 @@
               <ul class="dropdown-menu">
                 <% WithdrawChannel.all.each do |c| %>
                   <% if can? :manage, c.kls %>
-                    <li><%= link_to c.title_text, [:admin, c.kls] %></li>
+                    <li><%= link_to c.currency.code.upcase, admin_withdraw_index_path(c.currency.code) %></li>
                   <% end %>
                 <% end %>
               </ul>

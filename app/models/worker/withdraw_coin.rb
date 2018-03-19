@@ -31,6 +31,7 @@ module Worker
     rescue Exception => e
       Rails.logger.error { 'Error during withdraw processing.' }
       Rails.logger.debug { "Failed to process #{withdraw.currency.code} withdraw with ID #{withdraw.id}: #{e.inspect}." }
+    ensure
       withdraw.fail!
     end
   end

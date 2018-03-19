@@ -1,6 +1,7 @@
 app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$filter', '$gon', 'ngDialog', ($scope, $stateParams, $http, $filter, $gon, ngDialog) ->
   @deposit = {}
   $scope.currency = $stateParams.currency
+  $scope.currencyTranslationLocals = currency: $stateParams.currency.toUpperCase()
   $scope.current_user = current_user = $gon.user
   $scope.name = current_user.name
   $scope.bank_details_html = $gon.bank_details_html

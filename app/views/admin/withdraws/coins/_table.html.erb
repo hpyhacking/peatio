@@ -1,4 +1,4 @@
-<%= table_for(withdraws, class: 'table table-condensed table-hover', model: withdraw_model) do |t| %>
+<%= table_for withdraws, class: 'table table-condensed table-hover', model: Withdraws::Coin do |t| %>
   <% t.column :id, class: 'col-xs-2' %>
   <% t.column :created_at, class: 'col-xs-3' %>
   <% t.column 'Currency', class: 'col-xs-2' do |x| %>
@@ -15,6 +15,6 @@
   <% end %>
   <% t.column :state_and_action, class: 'col-xs-3' do |x| %>
     <span><%= x.aasm_state_text %> / </span>
-    <%= link_to t('actions.view'), url_for([:admin, x]), target: '_blank' %>
+    <%= link_to t('actions.view'), admin_withdraw_path(currency: x.currency.code, id: x), target: '_blank' %>
   <% end %>
 <% end %>

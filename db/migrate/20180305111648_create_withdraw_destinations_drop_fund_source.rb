@@ -25,7 +25,7 @@ private
     return unless defined?(Withdraw) && defined?(WithdrawDestination)
     Withdraw.transaction do
       Withdraw.find_each do |withdraw|
-        if Withdraws::Bank === withdraw
+        if Withdraws::Fiat === withdraw
           WithdrawDestination::Fiat.create! \
             label:               withdraw.fund_extra,
             member:              withdraw.member,

@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :currency do
     trait :usd do
-      key                  'dollar'
       code                 'usd'
       symbol               '$'
       type                 'fiat'
@@ -10,7 +9,6 @@ FactoryBot.define do
     end
 
     trait :btc do
-      key                  'satoshi'
       code                 'btc'
       symbol               '฿'
       type                 'coin'
@@ -23,20 +21,18 @@ FactoryBot.define do
         transaction_url_template: 'https://testnet.blockchain.info/tx/#{txid}'
     end
 
-    trait :pts do
-      key                  'protoshare'
-      code                 'pts'
-      symbol               'Ρ'
+    trait :dash do
+      code                 'dash'
+      symbol               'Đ'
       type                 'coin'
       base_factor          100_000_000
       quick_withdraw_limit 1000
       options \
-        api_client:        'BTC',
-        json_rpc_endpoint: 'http://127.0.0.1:11010'
+        api_client:        'DASH',
+        json_rpc_endpoint: 'http://127.0.0.1:19999'
     end
 
     trait :eth do
-      key                  'ethereum'
       code                 'eth'
       symbol               'Ξ'
       type                 'coin'
@@ -50,7 +46,6 @@ FactoryBot.define do
     end
 
     trait :xrp do
-      key                  'ripple'
       code                 'xrp'
       symbol               'ꭆ'
       type                 'coin'

@@ -38,7 +38,7 @@ describe Market do
     subject { Market.enumerize }
 
     it { is_expected.to be_has_key :btcusd }
-    it { is_expected.to be_has_key :ptsbtc }
+    it { is_expected.to be_has_key :dashbtc }
   end
 
   context 'shortcut of global access' do

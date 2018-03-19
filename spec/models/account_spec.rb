@@ -286,10 +286,10 @@ describe Account do
   describe '.enabled' do
     let!(:account1) { create(:account_usd) }
     let!(:account2) { create(:account_btc) }
-    let!(:account3) { create(:account_pts) }
+    let!(:account3) { create(:account_dash) }
 
     it 'should only return the accoutns with currency enabled' do
-      currency = Currency.find_by_code!(:pts)
+      currency = Currency.find_by_code!(:dash)
       currency.transaction do
         currency.update_columns(visible: false)
         expect(Account.enabled.to_a).to eq [account1, account2]

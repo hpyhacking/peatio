@@ -1,5 +1,4 @@
 - id: 200
-  key: satoshi
   currency: btc
   sort_order: 1
   min_confirm: 1
@@ -8,9 +7,3 @@
   key: bank
   currency: usd
   sort_order: 2
-  bank_accounts:
-    -
-      bank: 'Your Bank Name'
-      branch: 'Your Bank Branch'
-      holder: 'Your Account Holder'
-      account: 'Your Account Number'

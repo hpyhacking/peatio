@@ -32,7 +32,7 @@ describe Private::OrderAsksController, type: :controller do
   context 'POST :clear' do
     it 'should cancel all my asks in current market' do
       o1 = create(:order_ask, member: member, currency: market)
-      o2 = create(:order_ask, member: member, currency: Market.find(:ptsbtc))
+      o2 = create(:order_ask, member: member, currency: Market.find(:dashbtc))
       expect(member.orders.size).to eq 2
 
       post :clear, { market_id: market.id }, member_id: member.id

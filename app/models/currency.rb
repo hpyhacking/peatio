@@ -5,7 +5,6 @@ class Currency < ActiveRecord::Base
   self.inheritance_column = nil
 
   validates :type, inclusion: { in: %w[fiat coin token] }
-  validates :key, :code, presence: true, length: { maximum: 30 }
   validates :code, presence: true, uniqueness: true
   validates :symbol, presence: true, length: { maximum: 1 }
   validates :json_rpc_endpoint, :rest_api_endpoint, length: { maximum: 200 }, url: { allow_blank: true }
@@ -83,8 +82,7 @@ class Currency < ActiveRecord::Base
   end
 
   def as_json(*)
-    { key:                      key,
-      code:                     code,
+    { code:                     code,
       coin:                     coin?,
       fiat:                     fiat?,
       transaction_url_template: transaction_url_template }
@@ -143,12 +141,11 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180216145412
+# Schema version: 20180315185255
 #
 # Table name: currencies
 #
 #  id                   :integer          not null, primary key
-#  key                  :string(30)       not null
 #  code                 :string(30)       not null
 #  symbol               :string(1)        not null
 #  type                 :string(30)       default("coin"), not null

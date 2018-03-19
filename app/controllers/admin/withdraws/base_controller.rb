@@ -1,18 +1,19 @@
+require_dependency 'admin/base_controller'
+
 module Admin
   module Withdraws
-    class BaseController < ::Admin::BaseController
-      def channel
-        @channel ||= WithdrawChannel.find_by_key(self.controller_name.singularize)
-      end
-
-      def kls
-        channel.kls
-      end
+    class BaseController < BaseController
 
     protected
 
+      def currency
+        Currency.where(type: self.class.name.demodulize.underscore.gsub(/_controller\z/, '').singularize)
+                .find_by_code!(params[:currency])
+      end
+
       def find_withdraw
-        @withdraw = channel.kls.find(params[:id])
+        model     = "::Withdraws::#{self.class.name.demodulize.gsub(/Controller\z/, '').singularize}".constantize
+        @withdraw = model.where(currency: currency).find(params[:id])
       end
     end
   end

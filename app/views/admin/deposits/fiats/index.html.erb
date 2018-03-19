@@ -1,0 +1,9 @@
+<%= link_to 'New Deposit', new_admin_deposit_path(currency: currency.code) %>
+<div class="panel panel-primary">
+  <div class="panel-heading">Deposits for the last 24 hours</div>
+  <%= render partial: 'table', locals: {deposits: @latest_deposits} %>
+</div>
+<div class="panel panel-success">
+  <div class="panel-heading">All deposits</div>
+  <%= render partial: 'table', locals: {deposits: @all_deposits} %>
+</div>

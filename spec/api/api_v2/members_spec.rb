@@ -18,7 +18,7 @@ describe APIv2::Members, type: :request do
       expect(result['accounts']).to match [
         { 'currency' => 'usd', 'balance' => '2014.47', 'locked' => '0.0' },
         { 'currency' => 'btc', 'balance' => '12.13', 'locked' => '3.14' },
-        { 'currency' => 'pts', 'balance' => '0.0', 'locked' => '0.0' },
+        { 'currency' => 'dash', 'balance' => '0.0', 'locked' => '0.0' },
         { 'currency' => 'eth', 'balance' => '0.0', 'locked' => '0.0' },
         { 'currency' => 'xrp', 'balance' => '0.0', 'locked' => '0.0' }
       ]

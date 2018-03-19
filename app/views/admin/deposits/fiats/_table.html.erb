@@ -1,0 +1,24 @@
+<% unless deposits.empty? %>
+  <%= table_for deposits, class: 'table table-condensed table-hover' do |t| %>
+    <% t.column :sn, 'Deposit ID', class: 'col-xs-2' %>
+    <% t.column :created_at, 'Created at', class: 'col-xs-4' %>
+    <% t.column 'Currency', class: 'col-xs-2' do |x| %>
+      <%= x.currency.code.upcase %>
+    <% end %>
+    <% t.column 'Member email', class: 'col-xs-5' do |x| %>
+      <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
+    <% end %>
+    <% t.column 'Bank account', class: 'col-xs-4' do |x| %>
+      <span><%= x.fund_uid %> (<%= x.fund_extra.presence || '<unavailable>' %>)</span>
+    <% end %>
+    <% t.column :amount, class: 'col-xs-3' do |x| %>
+      <code class="text-info"><%= number_with_precision(x.amount, precision: 2) %></code>
+    <% end %>
+    <% t.column 'State', class: 'col-xs-2' do |x| %>
+      <%= x.aasm_state_text %>
+    <% end %>
+    <% t.column 'Actions', class: 'col-xs-3' do |x| %>
+      <%= link_to 'View', admin_deposit_path(x.currency.code, x) %>
+    <% end %>
+  <% end %>
+<% end %>

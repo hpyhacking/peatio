@@ -8,3 +8,18 @@ Kaminari.configure do |config|
   # config.page_method_name = :page
   # config.param_name = :page
 end
+
+module KaminariCustomRoute
+  def page_url_for(page)
+    params = params_for(page).symbolize_keys
+    route  = params.delete(:route)
+
+    if route
+      @template.send("#{route}_url", params)
+    else
+      @template.url_for(params)
+    end
+  end
+end
+
+Kaminari::Helpers::Tag.prepend KaminariCustomRoute
