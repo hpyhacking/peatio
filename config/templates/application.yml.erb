@@ -45,16 +45,19 @@ defaults: &defaults
   # WEBSOCKET_SSL_KEY: 'your_server.key'
   # WEBSOCKET_SSL_CERT: 'your_server.crt'
 
-  # pusher settings
-  PUSHER_APP: '65910'
-  PUSHER_KEY: 50d404c35db92d736a57
-  PUSHER_SECRET: 75d6e6685209cc60cc4d
-  PUSHER_HOST: api.pusherapp.com
-  PUSHER_PORT: '80'
-  PUSHER_WS_PORT: '80'
-  PUSHER_WSS_PORT: '443'
-  PUSHER_ENCRYPTED: 'on'
-  
+  # Configuration variables for Pusher.
+  PUSHER_APP:              '468163'
+  PUSHER_SECRET:           671b8d34f5ed60160172
+  PUSHER_HOST:             api-eu.pusher.com
+  PUSHER_PORT:             '443'
+  PUSHER_SCHEME:           https
+  PUSHER_CLIENT_KEY:       995279a074b2cd777cf0
+  PUSHER_CLIENT_HTTP_HOST: sockjs-eu.pusher.com
+  PUSHER_CLIENT_WS_HOST:   ws-eu.pusher.com
+  PUSHER_CLIENT_WS_PORT:   '80'
+  PUSHER_CLIENT_WSS_PORT:  '443'
+  PUSHER_CLIENT_ENCRYPTED: 'on'
+
   # Enabled OAuth2 provider.
   # Don't forget to check out configuration at config/initializers/omniauth.rb.
   OAUTH2_SIGN_IN_PROVIDER: ~
