@@ -1,6 +1,7 @@
 default: &default
   adapter: mysql2
   encoding: utf8
+  collation: utf8_general_ci
   pool: 5
   host: <%= ENV['DATABASE_HOST'] %>
   username: <%= ENV['DATABASE_USER'] %>
