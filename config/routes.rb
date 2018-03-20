@@ -21,7 +21,7 @@ Peatio::Application.routes.draw do
 
   get '/signout' => 'sessions#destroy', :as => :signout
   get '/auth/failure' => 'sessions#failure', :as => :failure
-  match '/auth/:provider/callback' => 'sessions#create', via: [:get, :post]
+  match '/auth/:provider/callback' => 'sessions#create', via: %i[get post]
 
   get '/documents/api_v2'
   get '/documents/websocket_api'
@@ -43,9 +43,9 @@ Peatio::Application.routes.draw do
 
     resources 'withdraws/:currency', controller: 'withdraws', as: 'withdraw', only: %i[ create destroy ]
 
-    resources :account_versions, :only => :index
+    resources :account_versions, only: :index
 
-    resources :exchange_assets, :controller => 'assets' do
+    resources :exchange_assets, controller: 'assets' do
       member do
         get :partial_tree
       end
@@ -55,18 +55,18 @@ Peatio::Application.routes.draw do
     get '/history/trades' => 'history#trades', as: :trade_history
     get '/history/account' => 'history#account', as: :account_history
 
-    resources :markets, :only => :show, :constraints => MarketConstraint do
-      resources :orders, :only => [:index, :destroy] do
+    resources :markets, only: [:show], constraints: MarketConstraint do
+      resources :orders, only: %i[ index destroy ] do
         collection do
           post :clear
         end
       end
-      resources :order_bids, :only => [:create] do
+      resources :order_bids, only: [:create] do
         collection do
           post :clear
         end
       end
-      resources :order_asks, :only => [:create] do
+      resources :order_asks, only: [:create] do
         collection do
           post :clear
         end
@@ -75,6 +75,8 @@ Peatio::Application.routes.draw do
 
     post '/pusher/auth', to: 'pusher#auth'
   end
+
+  get 'trading/:market_id', to: BlackHoleRouter.new, as: :trading
 
   scope ['', 'webhooks', ENV['WEBHOOKS_SECURE_URL_COMPONENT'].presence, ':ccy'].compact.join('/'), as: 'webhooks' do
     post 'tx_created', to: 'webhooks#tx_created'
