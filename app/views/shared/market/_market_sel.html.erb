@@ -1,7 +1,7 @@
 <% if Market.all.size > 1 %>
   <div class="market-selector">
     <% Market.all.each do |market| %>
-      <%= link_to market.name, market_path(market.id), class: (current_market.name == market.name) ? 'btn btn-primary' : 'btn btn-default' %>
+      <%= link_to market.name, trading_path(market.id), class: (current_market.name == market.name) ? 'btn btn-primary' : 'btn btn-default' %>
     <% end %>
   </div>
 <% end %>

@@ -72,7 +72,7 @@ module ApplicationHelper
     class_name = ((market.id == current_market.id) ? 'active' : nil)
 
     content_tag(:li, :class => class_name) do
-      link_to market_path(market.id)  do
+      link_to trading_path(market.id)  do
         content_tag(:span, market.name)
       end
     end

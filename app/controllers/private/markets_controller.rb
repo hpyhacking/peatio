@@ -33,7 +33,7 @@ module Private
     private
 
     def visible_market?
-      redirect_to market_path(Market.first) if not current_market.visible?
+      redirect_to trading_path(Market.first) if not current_market.visible?
     end
 
     def set_default_market
