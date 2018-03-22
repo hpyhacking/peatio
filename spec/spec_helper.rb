@@ -20,7 +20,10 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
     uid:          '1234567890',
     info:         { email: "johnsmith@#{provider.to_s.gsub(/_/, '-')}-provider.com" },
     credentials:  {}
-  }.tap { |hash| OmniAuth.config.add_mock(provider, hash) }
+  }.tap do |hash|
+    hash.merge!(level: rand(1..3), state: %w[ pending active ].sample) if provider == :barong
+    OmniAuth.config.add_mock(provider, hash)
+  end
 end
 
 RSpec.configure do |config|

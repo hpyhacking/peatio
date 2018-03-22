@@ -20,11 +20,21 @@ class Member < ActiveRecord::Base
   after_create  :touch_accounts
   after_update  :sync_update
 
+  attr_readonly :email
+
   class << self
     def from_auth(auth_hash)
-      (locate_auth(auth_hash) || locate_email(auth_hash) || create_from_auth(auth_hash)).tap do |member|
-        member.update!(level: Member::Levels.get(auth_hash.dig('info', 'level')))
-        Authentication.locate(auth_hash).update!(token: auth_hash.dig('credentials', 'token'))
+      (locate_auth(auth_hash) || locate_email(auth_hash) || Member.new).tap do |member|
+        member.transaction do
+          info_hash       = auth_hash.fetch('info')
+          member.email    = info_hash.fetch('email')
+          member.level    = Member::Levels.get(info_hash['level']) if info_hash.key?('level')
+          member.disabled = info_hash.key?('state') && info_hash['state'] != 'active'
+          member.save!
+          auth = Authentication.locate(auth_hash) || member.authentications.build_auth(auth_hash)
+          auth.token = auth_hash.dig('credentials', 'token')
+          auth.save!
+        end
       end
     end
 
@@ -58,21 +68,7 @@ class Member < ActiveRecord::Base
     end
 
     def locate_email(auth_hash)
-      email = auth_hash.dig('info', 'email')
-      return if email.blank?
-
-      find_by_email(email).tap do |member|
-        member&.add_auth(auth_hash)
-      end
-    end
-
-    def create_from_auth(auth_hash)
-      new(email:    auth_hash.dig('info', 'email'),
-          level:    Member::Levels.get(auth_hash.dig('info', 'level'))
-      ).tap do |member|
-        member.save!
-        member.add_auth(auth_hash)
-      end
+      find_by_email(auth_hash.dig('info', 'email'))
     end
   end
 
@@ -82,10 +78,6 @@ class Member < ActiveRecord::Base
 
   def admin?
     @is_admin ||= self.class.admins.include?(self.email)
-  end
-
-  def add_auth(auth_hash)
-    authentications.build_auth(auth_hash).save!
   end
 
   def trigger(event, data)

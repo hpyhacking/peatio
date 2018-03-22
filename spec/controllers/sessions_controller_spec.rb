@@ -3,8 +3,10 @@ describe SessionsController, type: :controller do
     normalized_provider = provider.to_s.gsub(/(?:_|oauth2)+\z/i, '')
 
     describe "sign in using #{provider} provider" do
+      let(:auth_json) { OmniAuth.config.mock_auth[provider] }
+
       before do
-        request.env['omniauth.auth'] = OmniAuth.config.mock_auth[provider]
+        request.env['omniauth.auth'] = auth_json
       end
 
       after do
@@ -15,6 +17,19 @@ describe SessionsController, type: :controller do
         expect {
           post :create, provider: provider
         }.to change { Member.count }.by(1)
+
+        m = Member.last
+        expect(m.email).to eq auth_json[:info][:email]
+        if auth_json[:info].key?(:state)
+          expect(m.disabled).to eq(auth_json[:info][:state] != 'active')
+        end
+        if auth_json[:info].key?(:level)
+          expect(m.level).to eq(Member::Levels.get(auth_json[:info][:level]))
+        end
+        expect(m.authentications.count).to eq 1
+        expect(m.authentications.first.uid).to eq auth_json[:uid]
+        expect(m.authentications.first.provider).to eq auth_json[:provider]
+        expect(m.authentications.first.token).to eq auth_json[:credentials][:token]
       end
 
       it 'should successfully create a session' do
