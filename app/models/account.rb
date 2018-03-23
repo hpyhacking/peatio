@@ -21,7 +21,7 @@ class Account < ActiveRecord::Base
   belongs_to :member
   has_many :payment_addresses, -> { order(id: :asc) }
   has_many :versions, class_name: "::AccountVersion"
-  has_many :partial_trees
+  has_many :partial_trees, -> { order(id: :desc) }
 
   # Suppose to use has_one here, but I want to store
   # relationship at account side. (Daniel)

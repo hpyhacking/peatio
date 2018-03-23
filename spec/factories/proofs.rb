@@ -1,8 +1,7 @@
-# Read about factories at https://github.com/thoughtbot/factory_bot
-
 FactoryBot.define do
   factory :proof do
-    root 'MyString'
-    state 'MyString'
+    root 'root: {}'
+    ready true
+    currency_id { Currency.find_by_code(:btc).id }
   end
 end

@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :partial_tree do
-    json 'MyText'
+    json 'partial_tree: {}'
     proof_id 1
     account_id 1
   end

@@ -24,7 +24,7 @@ namespace :solvency do
         next
       end
 
-      tree = LiabilityProof::Tree.new(formatted_accounts, currency: ccy.code.upcase)
+      tree = LiabilityProof::Tree.new(formatted_accounts, currency: ccy.code)
 
       logger.info 'Generating root node...'
       sum = tree.root_json['root']['sum']
