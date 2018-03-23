@@ -64,10 +64,6 @@ class Currency < ActiveRecord::Base
     Rails.cache.write(balance_cache_key, api.load_balance || 'N/A') if coin?
   end
 
-  def quick_withdraw_limit
-    self[:quick_withdraw_limit] ||= BigDecimal.new(super.to_s)
-  end
-
   # Allows to dynamically check value of code:
   #
   #   code.btc? # true if code equals to "btc".
