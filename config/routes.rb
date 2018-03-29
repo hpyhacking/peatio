@@ -45,11 +45,7 @@ Peatio::Application.routes.draw do
 
     resources :account_versions, only: :index
 
-    resources :exchange_assets, controller: 'assets' do
-      member do
-        get :partial_tree
-      end
-    end
+    resources :exchange_assets, controller: 'assets'
 
     get '/history/orders' => 'history#orders', as: :order_history
     get '/history/trades' => 'history#trades', as: :trade_history

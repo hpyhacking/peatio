@@ -439,8 +439,7 @@ en:
           this page, we present you our liabilities. We also provide you a way to
           verify that your account balance is indeed part of our liabilities.
       liability_data:
-        liability-proof-generating: Proof of Liability generation in process, please
-          come back after 30 minutes.
+        liability_proof_generation: Proof of Liability generation is in progress, please come back after 30 minutes.
         root-json: Root node
         partial-tree: 'My %{currency} Assets: '
         get-partial-tree: Get my partial tree data
@@ -457,6 +456,7 @@ en:
         total: 'Total %{currency} Assets'
       partial_tree:
         success: 'Success! Verification data generated at: %{timestamp}'
+      liability_proof_generation: Proof of Liability generation is in progress.
     markets:
       show:
         error: Failed

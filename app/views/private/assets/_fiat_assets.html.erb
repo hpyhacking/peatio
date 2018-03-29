@@ -13,7 +13,7 @@
                 <%= t('.total', currency: Peatio.base_fiat_ccy) %>
               </span>
               <span class="pull-right">
-                <%= @fiat_proof.balance %>
+                <%= @fiat_proof.present? ? @fiat_proof.sum : t('private.assets.liability_proof_generation') %>
               </span>
             </div>
           </div>

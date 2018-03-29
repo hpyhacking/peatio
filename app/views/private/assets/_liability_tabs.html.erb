@@ -20,7 +20,7 @@
           <div class="assets">
             <span class="title"><%= t(".#{ccy.type}-assets-total", currency: ccy.code.upcase).html_safe %></span>
             <span class="currency">
-              <%= proof.sum %>
+              <%= proof.present? ? proof.sum : t('private.assets.liability_proof_generation') %>
             </span>
           </div>
           <%= render 'liability_data', account: account, proof: proof %>

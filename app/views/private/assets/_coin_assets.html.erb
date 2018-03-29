@@ -14,14 +14,15 @@
             <div class="col-xs-offset-4 col-xs-16">
               <span class="pull-left"><%= t('.total', translation_data) %></span>
               <span class="pull-right">
-                <%= coin_proof.asset_sum %>
+                <%= coin_proof ? coin_proof.sum : t('private.assets.liability_proof_generation') %>
               </span>
             </div>
           </div>
-          <div class="clearfix"></div>
-          <div class="row">
-            <table class="table">
-              <thead>
+          <% unless coin_proof&.addresses.blank? %>
+            <div class="clearfix"></div>
+            <div class="row">
+              <table class="table">
+                <thead>
                 <tr>
                   <td>
                     <%= t('.address', translation_data) %>
@@ -30,8 +31,8 @@
                     <%= t('.balance', translation_data) %>
                   </td>
                 </tr>
-              </thead>
-              <tbody>
+                </thead>
+                <tbody>
                 <% coin_proof.addresses.each do |entry| %>
                   <tr>
                     <td>
@@ -42,9 +43,10 @@
                     </td>
                   </tr>
                 <% end %>
-              </tbody>
-            </table>
-          </div>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
