@@ -473,120 +473,23 @@ en:
         my_done_order: Done
         trades: Trading
         chat: Chat Channel
-      market_list:
-        all: All Markets
-        all_html: "<i class='fa fa-check'></i><span>All Markets</span>"
-        ccy_html: "<i class='fa fa-check'></i><span>%{currency} Markets</span>"
-        price: Price
-        change: "24h %"
-      range_switch:
-        switch_1: 1m
-        switch_5: 5m
-        switch_15: 15m
-        switch_30: 30m
-        switch_60: 1h
-        switch_120: 2h
-        switch_240: 4h
-        switch_360: 6h
-        switch_720: 12h
-        switch_1440: 1d
-        switch_4320: 3d
-        switch_10080: 1w
-      depths:
-        price: Price
-        amount: Amount
-        buy: Buy
-        sell: Sell
-        ask_orders: Sell
-        bid_orders: Buy
-      ticker:
-        last: Last Price
-        ask: ASK
-        bid: BID
-      account_balance:
-        title: Account Balance
-        available: Available %{currency}
       bid_entry:
         action: "Buy %{currency}"
-        price: Price
-        last_price: Last Price
-        amount: Amount
-        total: Total
       ask_entry:
         action: "Sell %{currency}"
-        price: Price
-        last_price: Last Price
-        amount: Amount
-        total: Total
       place_order:
         price_high: HIGH
         price_low: LOW
         full_bid: FULL
         full_ask: EMPTY
       order_book:
-        title: Order Book
-        volume: Volume
-        price: Price
-        amount: Amount
-        ask: ASK
-        bid: BID
-        fade_toggle_depth: Market Depth
+        latest_trade: Latest Trade
       trade_state:
         new: New
         partial: Partial
-      market_trades:
-        all: All
-        my: Mine
-        all_html: "<i class='fa fa-check'></i><span>All</span>"
-        my_html: "<i class='fa fa-check'></i><span>Mine</span>"
-        time: Time
-        price: Price
-        volume: Volume
-      header:
-        network: Connection State
-        vol: 24h Volume
-        high: High
-        low: Low
-        change: Change
       settings:
         sound: Sound
         notification: Notify
-        funds: "Funds"
-        signout: "Sign Out"
-        settings: "Profile"
-        history: "History"
-      account_summary:
-        title: Summary
-        account: Account
-        amount: Amount
-        locked: Freeze
-        view_all_accounts: "View All"
-        hide_all_accounts: "Hide Other"
-      my_orders:
-        orders_wait: Latest Orders
-        orders_done: Completed Orders
-        orders_cancel: Cancel Orders
-        no_open_orders: You have no open orders.
-        clear_all_html: "<i class='fa fa-trash'></i><span>Cancel All</span>"
-        clear_bids_html: "<i class='fa fa-trash'></i><span>Cancel Bids</span>"
-        clear_asks_html: "<i class='fa fa-trash'></i><span>Cancel Asks</span>"
-        confirm_clear_all: Are you sure to cancel ALL orders?
-        confirm_clear_bids: Are you sure to cancel all BIDS?
-        confirm_clear_asks: Are you sure to cancel all ASKS?
-        price: Price
-        volume: Volume
-        amount: Amount
-        time: Place Time
-      mask:
-        warning: Please <a class=text-up href='/'>Sign up</a> or <a class=text-up
-          href='/'>Sign in</a> for operation
-      klime_chart:
-        title: Candlestick Charts
-      global:
-        global_orders_title: ORDERS
-        global_trades_title: TRADES
-      chat:
-        title: Chat Channel
     settings:
       success: Settings updated successfully.
       failure: Invalid passcode. Please try again.
