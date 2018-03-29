@@ -62,7 +62,7 @@ def bump_from_master_branch
 
   # Increment patch version number, tag, and push.
   candidate_version = Gem::Version.new(latest_version.segments.dup.tap { |s| s[2] += 1 }.join("."))
-  tag_n_push(candidate_version.to_s, name: 'master') unless versions.include?(candidate_version)
+  tag_n_push(candidate_version.to_s, name: "master") unless versions.include?(candidate_version)
 end
 
 #
@@ -199,7 +199,7 @@ bump &&= !tagged_commits_mapping.key?(ENV["TRAVIS_COMMIT"])
 
 if bump
   if ENV["TRAVIS_BRANCH"] == "master"
-    bump_from_master_branch
+    bump_from_master_branch if ENV["INCREMENT_PATCH_LEVEL_ON_MASTER"]
   else
     bump_from_version_specific_branch(ENV["TRAVIS_BRANCH"])
   end
