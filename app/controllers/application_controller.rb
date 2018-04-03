@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_market
-    @current_market ||= Market.find_by_id(params[:market]) || Market.find_by_id(cookies[:market_id]) || Market.first
+    @current_market ||= Market.find_by(id: params[:market]) || Market.find_by(id: cookies[:market_id]) || Market.first
   end
 
   def redirect_back_or_settings_page
@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     gon.local = I18n.locale
     gon.market = current_market.attributes
     gon.ticker = current_market.ticker
-    gon.markets = Market.to_hash
+    gon.markets = Market.find_each.each_with_object({}) { |market, memo| memo[market.id] = market.as_json }
     gon.host = request.base_url
     gon.pusher = {
       key:       ENV.fetch('PUSHER_CLIENT_KEY'),

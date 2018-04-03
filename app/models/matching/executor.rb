@@ -55,7 +55,7 @@ module Matching
         @trade = Trade.create!(ask_id: @ask.id, ask_member_id: @ask.member_id,
                                bid_id: @bid.id, bid_member_id: @bid.member_id,
                                price: @price, volume: @volume, funds: @funds,
-                               currency: @market.id.to_sym, trend: trend)
+                               market_id: @market.id, trend: trend)
 
         @bid.strike @trade
         @ask.strike @trade

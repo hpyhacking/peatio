@@ -1,7 +1,7 @@
 describe Worker::Matching do
   let(:alice)  { who_is_billionaire }
   let(:bob)    { who_is_billionaire }
-  let(:market) { Market.find('btcusd') }
+  let(:market) { Market.find(:btcusd) }
 
   subject { Worker::Matching.new }
 

@@ -3,7 +3,10 @@ module APIv2
     extend ::Grape::API::Helpers
 
     params :market do
-      requires :market, type: String, values: ::Market.all.map(&:id), desc: -> { APIv2::Entities::Market.documentation[:id] }
+      requires :market,
+               type:   String,
+               values: -> { Market.pluck(:id) },
+               desc:   -> { APIv2::Entities::Market.documentation[:id] }
     end
 
     params :order do

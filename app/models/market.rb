@@ -7,44 +7,56 @@
 # market, the commodity pair is `{btc, usd}`. Sellers sell out _btc_ for
 # _usd_, buyers buy in _btc_ with _usd_. _btc_ is the `base_unit`, while
 # _usd_ is the `quote_unit`.
+#
+# Given market BTCUSD.
+# Ask unit = USD.
+# Bid unit = BTC.
+#
 
-class Market < ActiveYamlBase
-  field :visible, default: true
+class Market < ActiveRecord::Base
 
-  attr :name
+  # TODO: Don't use default_scope. Refactor to scopes!
+  default_scope { order(position: :asc) }
 
-  self.singleton_class.send :alias_method, :all_with_invisible, :all
-  def self.all
-    all_with_invisible.select &:visible
+  scope :visible, -> { where(visible: true) }
+
+  # @deprecated
+  def base_unit
+    ask_unit
   end
 
-  def self.enumerize
-    all_with_invisible.inject({}) {|hash, i| hash[i.id.to_sym] = i.code; hash }
+  # @deprecated
+  def quote_unit
+    bid_unit
   end
 
-  def self.to_hash
-    return @markets_hash if @markets_hash
-
-    @markets_hash = {}
-    all.each {|m| @markets_hash[m.id.to_sym] = m.unit_info }
-    @markets_hash
+  # @deprecated
+  def bid
+    { fee: bid_fee, currency: bid_unit, fixed: bid_precision }
   end
 
-  def initialize(*args)
-    super
-
-    raise "missing base_unit or quote_unit: #{args}" unless base_unit.present? && quote_unit.present?
-    @name = self[:name] || "#{base_unit}/#{quote_unit}".upcase
+  # @deprecated
+  def ask
+    { fee: ask_fee, currency: ask_unit, fixed: ask_precision }
   end
+
+  def name
+    "#{ask_unit}/#{bid_unit}".upcase
+  end
+
+  def as_json(*)
+    super.merge!(name: name)
+  end
+
+  alias to_s name
 
   def latest_price
-    Trade.latest_price(id.to_sym)
+    Trade.latest_price(self)
   end
 
   # type is :ask or :bid
   def fix_number_precision(type, d)
-    digits = send(type)['fixed']
-    d.round digits, 2
+    d.round send("#{type}_precision"), BigDecimal::ROUND_DOWN
   end
 
   # shortcut of global access
@@ -52,18 +64,6 @@ class Market < ActiveYamlBase
   def asks;   global.asks   end
   def trades; global.trades end
   def ticker; global.ticker end
-
-  def to_s
-    id
-  end
-
-  def ask_currency
-    Currency.find_by!(code: ask["currency"])
-  end
-
-  def bid_currency
-    Currency.find_by!(code: bid["currency"])
-  end
 
   def scope?(account_or_currency)
     code = if account_or_currency.is_a? Account
@@ -74,17 +74,40 @@ class Market < ActiveYamlBase
              account_or_currency
            end
 
-    base_unit == code || quote_unit == code
+    ask_unit == code || bid_unit == code
   end
 
   def unit_info
-    {name: name, base_unit: base_unit, quote_unit: quote_unit}
+    {name: name, base_unit: ask_unit, quote_unit: bid_unit}
   end
-
-  private
 
   def global
-    @global || Global[self.id]
+    Global[id]
   end
-
 end
+
+# == Schema Information
+# Schema version: 20180329154130
+#
+# Table name: markets
+#
+#  id            :string(10)       not null, primary key
+#  ask_unit      :string(5)        not null
+#  bid_unit      :string(5)        not null
+#  ask_fee       :decimal(7, 6)    default(0.0), not null
+#  bid_fee       :decimal(7, 6)    default(0.0), not null
+#  ask_precision :integer          default(4), not null
+#  bid_precision :integer          default(4), not null
+#  position      :integer          default(0), not null
+#  visible       :boolean          default(TRUE), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+# Indexes
+#
+#  index_markets_on_ask_unit               (ask_unit)
+#  index_markets_on_ask_unit_and_bid_unit  (ask_unit,bid_unit) UNIQUE
+#  index_markets_on_bid_unit               (bid_unit)
+#  index_markets_on_position               (position)
+#  index_markets_on_visible                (visible)
+#

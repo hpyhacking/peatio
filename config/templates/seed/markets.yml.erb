@@ -1,0 +1,424 @@
+<% if ENV['MARKETS_CONFIG'] %>
+<%= File.read(ENV['MARKETS_CONFIG']) %>
+<% else %>
+- id:            usdbtc
+  ask_unit:      usd
+  bid_unit:      btc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      100
+  visible:       true
+
+- id:            usdxrp
+  ask_unit:      usd
+  bid_unit:      xrp
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      101
+  visible:       true
+
+- id:            usdbch
+  ask_unit:      usd
+  bid_unit:      bch
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      102
+  visible:       true
+
+- id:            usdltc
+  ask_unit:      usd
+  bid_unit:      ltc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      103
+  visible:       true
+
+- id:            usddash
+  ask_unit:      usd
+  bid_unit:      dash
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      104
+  visible:       true
+
+- id:            usdeth
+  ask_unit:      usd
+  bid_unit:      eth
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      105
+  visible:       true
+
+- id:            btcusd
+  ask_unit:      btc
+  bid_unit:      usd
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      200
+  visible:       true
+
+- id:            btcxrp
+  ask_unit:      btc
+  bid_unit:      xrp
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      201
+  visible:       true
+
+- id:            btcbch
+  ask_unit:      btc
+  bid_unit:      bch
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      202
+  visible:       true
+
+- id:            btcltc
+  ask_unit:      btc
+  bid_unit:      ltc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      203
+  visible:       true
+
+- id:            btcdash
+  ask_unit:      btc
+  bid_unit:      dash
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      204
+  visible:       true
+
+- id:            btceth
+  ask_unit:      btc
+  bid_unit:      eth
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      205
+  visible:       true
+
+- id:            xrpusd
+  ask_unit:      xrp
+  bid_unit:      usd
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      300
+  visible:       true
+
+- id:            xrpbtc
+  ask_unit:      xrp
+  bid_unit:      btc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      301
+  visible:       true
+
+- id:            xrpbch
+  ask_unit:      xrp
+  bid_unit:      bch
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      302
+  visible:       true
+
+- id:            xrpltc
+  ask_unit:      xrp
+  bid_unit:      ltc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      303
+  visible:       true
+
+- id:            xrpdash
+  ask_unit:      xrp
+  bid_unit:      dash
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      304
+  visible:       true
+
+- id:            xrpeth
+  ask_unit:      xrp
+  bid_unit:      eth
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      305
+  visible:       true
+
+- id:            bchusd
+  ask_unit:      bch
+  bid_unit:      usd
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      400
+  visible:       true
+
+- id:            bchbtc
+  ask_unit:      bch
+  bid_unit:      btc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      401
+  visible:       true
+
+- id:            bchxrp
+  ask_unit:      bch
+  bid_unit:      xrp
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      402
+  visible:       true
+
+- id:            bchltc
+  ask_unit:      bch
+  bid_unit:      ltc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      403
+  visible:       true
+
+- id:            bchdash
+  ask_unit:      bch
+  bid_unit:      dash
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      404
+  visible:       true
+
+- id:            bcheth
+  ask_unit:      bch
+  bid_unit:      eth
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      405
+  visible:       true
+
+- id:            ltcusd
+  ask_unit:      ltc
+  bid_unit:      usd
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      500
+  visible:       true
+
+- id:            ltcbtc
+  ask_unit:      ltc
+  bid_unit:      btc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      501
+  visible:       true
+
+- id:            ltcxrp
+  ask_unit:      ltc
+  bid_unit:      xrp
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      502
+  visible:       true
+
+- id:            ltcbch
+  ask_unit:      ltc
+  bid_unit:      bch
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      503
+  visible:       true
+
+- id:            ltcdash
+  ask_unit:      ltc
+  bid_unit:      dash
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      504
+  visible:       true
+
+- id:            ltceth
+  ask_unit:      ltc
+  bid_unit:      eth
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      505
+  visible:       true
+
+- id:            dashusd
+  ask_unit:      dash
+  bid_unit:      usd
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      600
+  visible:       true
+
+- id:            dashbtc
+  ask_unit:      dash
+  bid_unit:      btc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      601
+  visible:       true
+
+- id:            dashxrp
+  ask_unit:      dash
+  bid_unit:      xrp
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      602
+  visible:       true
+
+- id:            dashbch
+  ask_unit:      dash
+  bid_unit:      bch
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      603
+  visible:       true
+
+- id:            dashltc
+  ask_unit:      dash
+  bid_unit:      ltc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      604
+  visible:       true
+
+- id:            dasheth
+  ask_unit:      dash
+  bid_unit:      eth
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      605
+  visible:       true
+
+- id:            ethusd
+  ask_unit:      eth
+  bid_unit:      usd
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      700
+  visible:       true
+
+- id:            ethbtc
+  ask_unit:      eth
+  bid_unit:      btc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      701
+  visible:       true
+
+- id:            ethxrp
+  ask_unit:      eth
+  bid_unit:      xrp
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      702
+  visible:       true
+
+- id:            ethbch
+  ask_unit:      eth
+  bid_unit:      bch
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      703
+  visible:       true
+
+- id:            ethltc
+  ask_unit:      eth
+  bid_unit:      ltc
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      704
+  visible:       true
+
+- id:            ethdash
+  ask_unit:      eth
+  bid_unit:      dash
+  ask_fee:       0.0015
+  bid_fee:       0.0015
+  ask_precision: 4
+  bid_precision: 4
+  position:      705
+  visible:       true
+
+<% end %>

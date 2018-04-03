@@ -4,7 +4,7 @@ describe Trade, '.latest_price' do
   end
 
   context 'add one trade' do
-    let!(:trade) { create(:trade, currency: :btcusd) }
+    let!(:trade) { create(:trade, market_id: :btcusd) }
     it { expect(Trade.latest_price(:btcusd)).to eq(trade.price) }
   end
 end
@@ -22,23 +22,23 @@ describe Trade, '.collect_side' do
   end
 
   it 'should add side attribute on trades' do
-    results = Trade.for_member(ask.currency, member)
+    results = Trade.for_member(ask.market_id, member)
     expect(results.size).to eq 2
     expect(results.find { |t| t.id == trades.first.id }.side).to eq 'ask'
     expect(results.find { |t| t.id == trades.last.id  }.side).to eq 'bid'
   end
 
   it 'should sort trades in reverse creation order' do
-    expect(Trade.for_member(ask.currency, member, order: 'id desc').first).to eq trades.last
+    expect(Trade.for_member(ask.market_id, member, order: 'id desc').first).to eq trades.last
   end
 
   it 'should return 1 trade' do
-    results = Trade.for_member(ask.currency, member, limit: 1)
+    results = Trade.for_member(ask.market_id, member, limit: 1)
     expect(results.size).to eq 1
   end
 
   it 'should return trades from specified time' do
-    results = Trade.for_member(ask.currency, member, time_to: 30.hours.ago)
+    results = Trade.for_member(ask.market_id, member, time_to: 30.hours.ago)
     expect(results.size).to eq 1
     expect(results.first).to eq trades.first
   end

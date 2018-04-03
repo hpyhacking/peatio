@@ -6,12 +6,12 @@ module Concerns
       params[order][:bid] = Currency.find_by(code: params[:bid])&.id
       params[order][:ask] = Currency.find_by(code: params[:ask])&.id
       params[order][:state] = Order::WAIT
-      params[order][:currency] = params[:market]
+      params[order][:market_id] = params[:market]
       params[order][:member_id] = current_user.id
       params[order][:volume] = params[order][:origin_volume]
       params[order][:source] = 'Web'
       params.require(order).permit(
-        :bid, :ask, :currency, :price, :source,
+        :bid, :ask, :market_id, :price, :source,
         :state, :origin_volume, :volume, :member_id, :ord_type)
     end
 

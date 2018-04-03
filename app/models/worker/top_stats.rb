@@ -26,7 +26,7 @@ module Worker
         [from.to_i, [], []]
       else
         to = from + period.minutes
-        trades = Trade.with_currency(@market.id).where(created_at: from..to).pluck(:ask_member_id, :bid_member_id, :volume)
+        trades = Trade.with_market(@market.id).where(created_at: from..to).pluck(:ask_member_id, :bid_member_id, :volume)
 
         user_trades = Hash.new {|h, k| h[k] = 0 }
         user_volume = Hash.new {|h, k| h[k] = 0 }

@@ -5,7 +5,7 @@ describe Private::OrderAsksController, type: :controller do
     end
   end
 
-  let(:market) { Market.find('btcusd') }
+  let(:market) { Market.find(:btcusd) }
   let(:params) do
     { market_id: market.id,
       market:    market.id,
@@ -31,8 +31,8 @@ describe Private::OrderAsksController, type: :controller do
 
   context 'POST :clear' do
     it 'should cancel all my asks in current market' do
-      o1 = create(:order_ask, member: member, currency: market)
-      o2 = create(:order_ask, member: member, currency: Market.find(:dashbtc))
+      o1 = create(:order_ask, member: member, market: market)
+      o2 = create(:order_ask, member: member, market: Market.find(:dashbtc))
       expect(member.orders.size).to eq 2
 
       post :clear, { market_id: market.id }, member_id: member.id

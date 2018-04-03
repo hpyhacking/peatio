@@ -19,7 +19,7 @@ feature 'show account info', js: true do
   let!(:bid_order) { create :order_bid, price: '21.3', member: member }
   let!(:ask_name)  { 'BTC' }
 
-  let(:global) { Global[Market.find('btcusd')] }
+  let(:global) { Global[:btcusd] }
 
   scenario 'user can place a buy order by filling in the order form' do
     sign_in member

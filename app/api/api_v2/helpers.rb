@@ -50,7 +50,7 @@ module APIv2
         member_id:     current_user.id,
         ask:           Currency.find_by!(code: current_market.base_unit).id,
         bid:           Currency.find_by!(code: current_market.quote_unit).id,
-        currency:      current_market.id,
+        market_id:     current_market.id,
         ord_type:      attrs[:ord_type] || 'limit',
         price:         attrs[:price],
         volume:        attrs[:volume],

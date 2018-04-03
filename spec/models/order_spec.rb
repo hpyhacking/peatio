@@ -16,13 +16,13 @@ describe Order, 'validations', type: :model do
 
   context 'limit order' do
     it 'should make sure price is present' do
-      order = Order.new(currency: 'btcusd', price: nil, ord_type: 'limit')
+      order = Order.new(market_id: 'btcusd', price: nil, ord_type: 'limit')
       expect(order).not_to be_valid
       expect(order.errors[:price]).to eq ['is not a number']
     end
 
     it 'should make sure price is greater than zero' do
-      order = Order.new(currency: 'btcusd', price: '0.0'.to_d, ord_type: 'limit')
+      order = Order.new(market_id: 'btcusd', price: '0.0'.to_d, ord_type: 'limit')
       expect(order).not_to be_valid
       expect(order.errors[:price]).to eq ['must be greater than 0']
     end
@@ -30,7 +30,7 @@ describe Order, 'validations', type: :model do
 
   context 'market order' do
     it 'should make sure price is not present' do
-      order = Order.new(currency: 'btcusd', price: '0.0'.to_d, ord_type: 'market')
+      order = Order.new(market_id: 'btcusd', price: '0.0'.to_d, ord_type: 'market')
       expect(order).not_to be_valid
       expect(order.errors[:price]).to eq ['must not be present']
     end
@@ -38,8 +38,8 @@ describe Order, 'validations', type: :model do
 end
 
 describe Order, '#fix_number_precision', type: :model do
-  let(:order_bid) { create(:order_bid, currency: 'btcusd', price: '12.326'.to_d, volume: '123.123456789') }
-  let(:order_ask) { create(:order_ask, currency: 'btcusd', price: '12.326'.to_d, volume: '123.123456789') }
+  let(:order_bid) { create(:order_bid, market_id: 'btcusd', price: '12.326'.to_d, volume: '123.123456789') }
+  let(:order_ask) { create(:order_ask, market_id: 'btcusd', price: '12.326'.to_d, volume: '123.123456789') }
 
   it { expect(order_bid.price).to be_d '12.32' }
   it { expect(order_bid.volume).to be_d '123.1234' }
@@ -287,7 +287,7 @@ describe Order, '#avg_price' do
   it 'should calculate average price of bid order' do
     expect(
       OrderBid.new(
-        currency: 'btcusd',
+        market_id: 'btcusd',
         locked: '10.0',
         origin_locked: '20.0',
         volume: '1.0',
@@ -300,7 +300,7 @@ describe Order, '#avg_price' do
   it 'should calculate average price of ask order' do
     expect(
       OrderAsk.new(
-        currency: 'btcusd',
+        market_id: 'btcusd',
         locked: '1.0',
         origin_locked: '2.0',
         volume: '1.0',

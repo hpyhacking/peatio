@@ -15,7 +15,7 @@ module Private
     end
 
     def clear
-      @orders = current_user.orders.with_currency(current_market).with_state(:wait)
+      @orders = current_user.orders.with_market(current_market).with_state(:wait)
       Ordering.new(@orders).cancel
       render status: 200, nothing: true
     end

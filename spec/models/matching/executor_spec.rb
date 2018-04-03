@@ -51,14 +51,13 @@ describe Matching::Executor do
     end
 
     it 'should set trend to down' do
-      market.expects(:latest_price).returns(11.to_d)
+      Market.any_instance.expects(:latest_price).returns(11.to_d)
       trade = subject.execute!
-
       expect(trade.trend).to eq 'down'
     end
 
     it 'should set trade used funds' do
-      market.expects(:latest_price).returns(11.to_d)
+      Market.any_instance.expects(:latest_price).returns(11.to_d)
       trade = subject.execute!
       expect(trade.funds).to eq price * volume
     end
@@ -71,7 +70,6 @@ describe Matching::Executor do
 
     it 'should mark both orders as done' do
       subject.execute!
-
       expect(Order.find(ask.id).state).to eq Order::DONE
       expect(Order.find(bid.id).state).to eq Order::DONE
     end

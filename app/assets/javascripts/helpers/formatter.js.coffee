@@ -5,9 +5,9 @@ class Formatter
   fix: (type, str) ->
     str = '0' unless $.isNumeric(str)
     if type is 'ask'
-      @.round(str, gon.market.ask.fixed)
+      @.round(str, gon.market.ask_precision)
     else if type is 'bid'
-      @.round(str, gon.market.bid.fixed)
+      @.round(str, gon.market.bid_precision)
 
   fixAsk: (str) ->
     @.fix('ask', str)

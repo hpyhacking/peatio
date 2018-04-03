@@ -2,7 +2,7 @@ describe APIv2::Entities::Order do
   let(:order) do
     create(
       :order_ask,
-      currency: 'btcusd',
+      market_id: 'btcusd',
       price: '12.326'.to_d,
       volume: '3.14',
       origin_volume: '12.13'
@@ -22,7 +22,7 @@ describe APIv2::Entities::Order do
     it { expect(subject.executed_volume).to eq(order.origin_volume - order.volume) }
 
     it { expect(subject.state).to eq order.state }
-    it { expect(subject.market).to eq order.market }
+    it { expect(subject.market).to eq order.market_id }
 
     it { expect(subject.side).to eq 'sell' }
 

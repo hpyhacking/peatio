@@ -14,8 +14,8 @@ module Private
       @ask = params[:ask]
 
       @market        = current_market
-      @markets       = Market.all.sort
-      @market_groups = @markets.map(&:quote_unit).uniq
+      @markets       = Market.all
+      @market_groups = @markets.map(&:ask_unit).uniq
 
       @bids   = @market.bids
       @asks   = @market.asks
@@ -33,7 +33,7 @@ module Private
     private
 
     def visible_market?
-      redirect_to trading_path(Market.first) if not current_market.visible?
+      redirect_to trading_path(Market.first) unless current_market.visible?
     end
 
     def set_default_market
@@ -42,19 +42,11 @@ module Private
 
     def set_member_data
       @member = current_user
-      @orders_wait = @member.orders.with_currency(@market).with_state(:wait)
+      @orders_wait = @member.orders.where(market_id: @market).with_state(:wait)
       @trades_done = Trade.for_member(@market.id, current_user, limit: 100, order: 'id desc')
     end
 
     def trading_ui_variables
-      markets = @markets.map do |m|
-        { id:         m.id,
-          name:       m.name,
-          quote_unit: m.quote_unit,
-          base_unit:  m.base_unit,
-          ticker:     Global[m].ticker }
-      end
-
       accounts = @member&.accounts&.map do |x|
         { id:         x.id,
           locked:     x.locked,
@@ -66,12 +58,12 @@ module Private
             icon_url: currency_icon_url(x.currency) } }
       end
 
-      { current_market: @market.as_json.tap { |data| data.merge!(data.delete('attributes')) },
+      { current_market: @market.as_json,
         gon_variables:  gon.all_variables,
         market_groups:  @market_groups,
         currencies:     Currency.order(id: :asc).map { |c| { code: c.code, type: c.type } },
         current_member: @member,
-        markets:        markets,
+        markets:        @markets.map { |m| m.as_json.merge!(ticker: Global[m].ticker) },
         my_accounts:    accounts,
         csrf_token:     form_authenticity_token
       }

@@ -29,7 +29,7 @@ class OrderBid < Order
     when 'limit'
       price*volume
     when 'market'
-      funds = estimate_required_funds(Global[currency].asks) {|p, v| p*v }
+      funds = estimate_required_funds(Global[market_id].asks) {|p, v| p*v }
       funds*LOCKING_BUFFER_FACTOR
     end
   end
@@ -37,14 +37,14 @@ class OrderBid < Order
 end
 
 # == Schema Information
-# Schema version: 20180227163417
+# Schema version: 20180329154130
 #
 # Table name: orders
 #
 #  id             :integer          not null, primary key
 #  bid            :integer
 #  ask            :integer
-#  currency       :integer
+#  market_id      :string(10)
 #  price          :decimal(32, 16)
 #  volume         :decimal(32, 16)
 #  origin_volume  :decimal(32, 16)
@@ -64,7 +64,7 @@ end
 #
 # Indexes
 #
-#  index_orders_on_currency_and_state   (currency,state)
+#  index_orders_on_market_id_and_state  (market_id,state)
 #  index_orders_on_member_id            (member_id)
 #  index_orders_on_member_id_and_state  (member_id,state)
 #  index_orders_on_state                (state)

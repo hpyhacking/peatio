@@ -12,7 +12,7 @@ describe APIv2::Entities::Trade do
   it { expect(subject.volume).to eq trade.volume }
 
   it { expect(subject.funds).to eq trade.funds }
-  it { expect(subject.market).to eq trade.currency }
+  it { expect(subject.market).to eq trade.market_id }
 
   it { expect(subject.side).to eq 'sell' }
 

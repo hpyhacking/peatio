@@ -38,9 +38,9 @@ module Worker
     def cache_book
       @managers.keys.each do |id|
         market = Market.find id
-        Rails.cache.write "peatio:#{market}:depth:asks", get_depth(market, :ask)
-        Rails.cache.write "peatio:#{market}:depth:bids", get_depth(market, :bid)
-        Rails.logger.debug "SlaveBook (#{market}) updated"
+        Rails.cache.write "peatio:#{market.id}:depth:asks", get_depth(market, :ask)
+        Rails.cache.write "peatio:#{market.id}:depth:bids", get_depth(market, :bid)
+        Rails.logger.debug "SlaveBook (#{market.id}) updated"
       end
     rescue
       Rails.logger.error "Failed to cache book: #{$!}"

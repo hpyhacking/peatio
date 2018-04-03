@@ -13,36 +13,36 @@ class Global
     end
   end
 
-  def initialize(currency)
-    @currency = currency
+  def initialize(market_id)
+    @market_id = market_id
   end
 
   def channel
-    "market-#{@currency}-global"
+    "market-#{@market_id}-global"
   end
 
-  attr_accessor :currency
+  attr_accessor :market_id
 
   def self.[](market)
     if market.is_a? Market
       self.new(market.id)
     else
-      self.new(market)
+      self.new(market.to_s)
     end
   end
 
   def key(key, interval=5)
     seconds  = Time.now.to_i
     time_key = seconds - (seconds % interval)
-    "peatio:#{@currency}:#{key}:#{time_key}"
+    "peatio:#{@market_id}:#{key}:#{time_key}"
   end
 
   def asks
-    Rails.cache.read("peatio:#{currency}:depth:asks") || []
+    Rails.cache.read("peatio:#{market_id}:depth:asks") || []
   end
 
   def bids
-    Rails.cache.read("peatio:#{currency}:depth:bids") || []
+    Rails.cache.read("peatio:#{market_id}:depth:bids") || []
   end
 
   def default_ticker
@@ -50,8 +50,8 @@ class Global
   end
 
   def ticker
-    ticker           = Rails.cache.read("peatio:#{currency}:ticker") || default_ticker
-    open = Rails.cache.read("peatio:#{currency}:ticker:open") || ticker[:last]
+    ticker           = Rails.cache.read("peatio:#{market_id}:ticker") || default_ticker
+    open = Rails.cache.read("peatio:#{market_id}:ticker:open") || ticker[:last]
     best_buy_price   = bids.first && bids.first[0] || ZERO
     best_sell_price  = asks.first && asks.first[0] || ZERO
 
@@ -66,12 +66,12 @@ class Global
 
   def h24_volume
     Rails.cache.fetch key('h24_volume', 5), expires_in: 24.hours do
-      Trade.with_currency(currency).h24.sum(:volume) || ZERO
+      Trade.where(market_id: market_id).h24.sum(:volume) || ZERO
     end
   end
 
   def trades
-    Rails.cache.read("peatio:#{currency}:trades") || []
+    Rails.cache.read("peatio:#{market_id}:trades") || []
   end
 
   def trigger_orderbook

@@ -11,7 +11,7 @@ module Matching
       @type       = attrs[:type].to_sym
       @volume     = attrs[:volume].to_d
       @price      = attrs[:price].to_d
-      @market     = Market.find attrs[:market]
+      @market     = Market.find_by_id(attrs[:market])
 
       raise InvalidOrderError.new(attrs) unless valid?
     end

@@ -5,19 +5,19 @@
 
   <div class="tooltip-ticker">
     <span class="t-title"><%= gon.i18n.chart.open %></span>
-    <span class="t-value"><%= format(points.candlestick.open, gon.market.bid.fixed) %></span>
+    <span class="t-value"><%= format(points.candlestick.open, gon.market.bid_precision) %></span>
   </div>
   <div class="tooltip-ticker">
     <span class="t-title"><%= gon.i18n.chart.close %></span>
-    <span class="t-value"><%= format(points.candlestick.close, gon.market.bid.fixed) %></span>
+    <span class="t-value"><%= format(points.candlestick.close, gon.market.bid_precision) %></span>
   </div>
   <div class="tooltip-ticker">
     <span class="t-title"><%= gon.i18n.chart.high %></span>
-    <span class="t-value"><%= format(points.candlestick.high, gon.market.bid.fixed) %></span>
+    <span class="t-value"><%= format(points.candlestick.high, gon.market.bid_precision) %></span>
   </div>
   <div class="tooltip-ticker">
     <span class="t-title"><%= gon.i18n.chart.low %></span>
-    <span class="t-value"><%= format(points.candlestick.low, gon.market.bid.fixed) %></span>
+    <span class="t-value"><%= format(points.candlestick.low, gon.market.bid_precision) %></span>
   </div>
   <div class="tooltip-ticker">
     <span class="t-title"><%= gon.i18n.chart.volume %></span>
@@ -27,18 +27,18 @@
   <ul class="list-inline">
     <% if (indicator['MA']) { %>
       <li>
-        <span style="color: <%= points.ma5.series.color %>;"><%= points.ma5.series.name %>: <b><%= format(points.ma5.y, gon.market.bid.fixed) %></b></span>
+        <span style="color: <%= points.ma5.series.color %>;"><%= points.ma5.series.name %>: <b><%= format(points.ma5.y, gon.market.bid_precision) %></b></span>
       </li>
       <li>
-        <span style="color: <%= points.ma10.series.color %>;"><%= points.ma10.series.name %>: <b><%= format(points.ma10.y, gon.market.bid.fixed) %></b></span>
+        <span style="color: <%= points.ma10.series.color %>;"><%= points.ma10.series.name %>: <b><%= format(points.ma10.y, gon.market.bid_precision) %></b></span>
       </li>
     <% } %>
     <% if (indicator['EMA']) { %>
       <li>
-        <span style="color: <%= points.ema7.series.color %>;"><%= points.ema7.series.name %>: <b><%= format(points.ema7.y, gon.market.bid.fixed) %></b></span>
+        <span style="color: <%= points.ema7.series.color %>;"><%= points.ema7.series.name %>: <b><%= format(points.ema7.y, gon.market.bid_precision) %></b></span>
       </li>
       <li>
-        <span style="color: <%= points.ema30.series.color %>;"><%= points.ema30.series.name %>: <b><%= format(points.ema30.y, gon.market.bid.fixed) %></b></span>
+        <span style="color: <%= points.ema30.series.color %>;"><%= points.ema30.series.name %>: <b><%= format(points.ema30.y, gon.market.bid_precision) %></b></span>
       </li>
     <% } %>
     <li>

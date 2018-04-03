@@ -36,7 +36,7 @@ module Worker
     end
 
     def initialize_market_data(market)
-      trades = Trade.with_currency(market)
+      trades = Trade.with_market(market)
 
       @trades[market.id] = trades.order('id desc').limit(FRESH_TRADES).map(&:for_global)
       Rails.cache.write "peatio:#{market.id}:trades", @trades[market.id]
@@ -85,7 +85,7 @@ module Worker
     end
 
     def initialize_market_low(market)
-      if low_trade = Trade.with_currency(market).h24.order('price asc').first
+      if low_trade = Trade.with_market(market).h24.order('price asc').first
         ttl = low_trade.created_at.to_i + 24.hours - Time.now.to_i
         write_h24_key "peatio:#{market}:h24:low", low_trade.price, ttl
         low_trade
@@ -93,7 +93,7 @@ module Worker
     end
 
     def initialize_market_high(market)
-      if high_trade = Trade.with_currency(market).h24.order('price desc').first
+      if high_trade = Trade.with_market(market).h24.order('price desc').first
         ttl = high_trade.created_at.to_i + 24.hours - Time.now.to_i
         write_h24_key "peatio:#{market}:h24:high", high_trade.price, ttl
         high_trade

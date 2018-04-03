@@ -11,7 +11,7 @@ module APIv2
     params do
       optional :currency, type: String, values: -> { Currency.codes(bothcase: true) }, desc: -> { "Currency value contains #{Currency.codes(bothcase: true).join(',')}" }
       optional :limit, type: Integer, range: 1..100, default: 3, desc: "Set result limit."
-      optional :state, type: String, values: Deposit::STATES.map(&:to_s)
+      optional :state, type: String, values: -> { Deposit::STATES.map(&:to_s) }
     end
     get "/deposits" do
       deposits = current_user.deposits.limit(params[:limit]).recent

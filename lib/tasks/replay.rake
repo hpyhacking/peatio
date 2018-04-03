@@ -55,7 +55,7 @@ namespace :replay do
     end
 
     (bln_arr.size...arr_size).each do |i|
-      price = Trade.with_currency("btc#{Peatio.base_fiat_ccy}").where('created_at <= ?', Time.at(start.to_i + period * i)).last.price
+      price = Trade.with_market("btc#{Peatio.base_fiat_ccy}").where('created_at <= ?', Time.at(start.to_i + period * i)).last.price
       bln_arr[i] = (balances[Peatio.base_fiat_ccy][i] + (balances['btc'][i] - 1) * price).to_f.round(2).to_s
     end
 
@@ -94,7 +94,7 @@ namespace :replay do
     end
 
     (bln_arr.size...arr_size).each do |i|
-      price = Trade.with_currency("btc#{Peatio.base_fiat_ccy}").where('created_at <= ?', Time.at(start.to_i + period * i)).last.price
+      price = Trade.with_market("btc#{Peatio.base_fiat_ccy}").where('created_at <= ?', Time.at(start.to_i + period * i)).last.price
       bln_arr[i] = ((balances[Peatio.base_fiat_ccy][i] + (balances['btc'][i] - 0.1) * price) * 10).to_f.round(2).to_s
     end
 

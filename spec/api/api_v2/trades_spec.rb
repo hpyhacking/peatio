@@ -11,7 +11,7 @@ describe APIv2::Trades, type: :request do
   let(:ask) do
     create(
       :order_ask,
-      currency: 'btcusd',
+      market_id: 'btcusd',
       price: '12.326'.to_d,
       volume: '123.123456789',
       member: member
@@ -21,7 +21,7 @@ describe APIv2::Trades, type: :request do
   let(:bid) do
     create(
       :order_bid,
-      currency: 'btcusd',
+      market_id: 'btcusd',
       price: '12.326'.to_d,
       volume: '123.123456789',
       member: member
