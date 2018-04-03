@@ -14,7 +14,13 @@ module CoinAPI
     end
 
     def create_address!
-      rest_api(:post, '/wallet/' + urlsafe_wallet_id + '/address').slice('address').symbolize_keys
+      response = rest_api(:post, '/wallet/' + urlsafe_wallet_id + '/address')
+      # Specific case for ETH.
+      if response.key?('id')
+        { address: rest_api(:get, '/wallet/' + urlsafe_wallet_id).fetch('coinSpecific').fetch('baseAddress') }
+      else
+        { address: response.fetch('address') }
+      end
     end
 
     def each_deposit!
@@ -89,7 +95,11 @@ module CoinAPI
     end
 
     def urlsafe_wallet_id
-      CGI.escape(wallet_id)
+      escape_wallet_id(wallet_id)
+    end
+
+    def escape_wallet_id(id)
+      CGI.escape(id)
     end
 
     def build_deposit(tx)
