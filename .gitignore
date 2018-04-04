@@ -27,6 +27,7 @@ tmp
 /config/withdraw_channels.yml
 /config/deposit_channels.yml
 /config/plugins.yml
+/config/management_api_v1.yml
 /config/seed/*
 
 # Ignore translations.js

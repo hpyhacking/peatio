@@ -4,6 +4,8 @@ class Authentication < ActiveRecord::Base
   validates :provider, presence: true, uniqueness: { scope: :member_id }
   validates :uid,      presence: true, uniqueness: { scope: :provider }
 
+  scope :barong, -> { where(provider: :barong) }
+
   class << self
     def locate(auth)
       uid      = auth['uid'].to_s

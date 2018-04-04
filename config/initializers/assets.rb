@@ -7,7 +7,7 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.paths << Emoji.images_path
 
 # Precompile additional assets.
-Rails.application.config.assets.precompile.concat(
+Rails.application.config.assets.precompile.concat \
   %w[
     admin.css
     api_v2.css
@@ -17,8 +17,11 @@ Rails.application.config.assets.precompile.concat(
     funds.js
     html5.js
     market.js
+    swagger_ui.js
+    swagger_ui.css
+    swagger_ui_print.css
+    swagger_ui_screen.css
   ]
-)
 
 # Precompile all available locales
 Rails.application.config.assets.precompile.concat(

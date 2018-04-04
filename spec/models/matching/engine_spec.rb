@@ -133,7 +133,7 @@ describe Matching::Engine do
       it 'should match bid with high ask' do
         subject.submit(low_ask) # low ask enters first
         subject.submit(high_ask)
-        subject.cancel(low_ask) # but it's cancelled
+        subject.cancel(low_ask) # but it's canceled
 
         AMQPQueue.expects(:enqueue)
                  .with(:trade_executor, { market_id: market.id, ask_id: high_ask.id, bid_id: bid.id, strike_price: high_ask.price, volume: high_ask.volume, funds: '30.0'.to_d }, anything)

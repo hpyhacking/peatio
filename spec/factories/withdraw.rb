@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :satoshi_withdraw, class: Withdraws::Coin do
+  factory :btc_withdraw, class: Withdraws::Coin do
     currency { Currency.find_by!(code: :btc) }
     member { create(:member, :verified_identity) }
     destination_id { create(:btc_withdraw_destination).id }
@@ -20,13 +20,9 @@ FactoryBot.define do
           fun: Account::FUNS[:plus_funds]
       end
     end
-
-    after(:build) do |x|
-      x.stubs(:validate_address).returns(true)
-    end
   end
 
-  factory :bank_withdraw, class: Withdraws::Fiat do
+  factory :usd_withdraw, class: Withdraws::Fiat do
     member { create(:member, :verified_identity) }
     currency { Currency.find_by!(code: :usd) }
     destination_id { create(:usd_withdraw_destination).id }

@@ -42,8 +42,6 @@ module Worker
         currency:               pt.currency,
         confirmations:          pt.confirmations
 
-      deposit.submit!
-
       Rails.logger.info "Successfully processed #{tx.fetch(:id)}:#{index}."
     rescue => e
       Rails.logger.error { "Failed to process #{tx.fetch(:id)}:#{index}." }

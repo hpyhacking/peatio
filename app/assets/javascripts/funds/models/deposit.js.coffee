@@ -1,10 +1,6 @@
 class Deposit extends PeatioModel.Model
   @configure 'Deposit', 'account_id', 'member_id', 'currency', 'amount', 'fee', 'fund_uid', 'fund_extra',
-    'txid', 'state', 'aasm_state', 'created_at', 'updated_at', 'done_at', 'type', 'confirmations', 'is_submitting', 'transaction_url', 'txid_desc'
-
-  constructor: ->
-    super
-    @is_submitting = @aasm_state == "submitting"
+    'txid', 'state', 'aasm_state', 'created_at', 'updated_at', 'done_at', 'type', 'confirmations', 'transaction_url', 'txid_desc'
 
   @initData: (records) ->
     PeatioModel.Ajax.disable ->

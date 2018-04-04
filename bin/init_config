@@ -11,5 +11,5 @@ Dir[src_root.join('**/*.erb').to_s].each do |f|
   dest = dest_root.join(Pathname.new(f).relative_path_from(src_root)).sub(/\.erb\z/, '')
   FileUtils.mkpath(dest.dirname)
   puts "Copy #{f} -> #{dest}"
-  File.write(dest, ERB.new(File.read(f)).result)
+  File.write(dest, ERB.new(File.read(f)).result.strip)
 end

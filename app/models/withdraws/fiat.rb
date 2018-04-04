@@ -1,11 +1,11 @@
 module Withdraws
   class Fiat < Withdraw
-    include ::AasmAbsolutely
+    belongs_to :destination, class_name: 'WithdrawDestination::Fiat', required: true
   end
 end
 
 # == Schema Information
-# Schema version: 20180305113434
+# Schema version: 20180403231931
 #
 # Table name: withdraws
 #
@@ -24,6 +24,8 @@ end
 #  aasm_state     :string
 #  sum            :decimal(32, 16)  default(0.0), not null
 #  type           :string(255)
+#  tid            :string(64)       not null
+#  rid            :string(64)
 #
 # Indexes
 #

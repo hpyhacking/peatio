@@ -28,13 +28,10 @@ ru:
         amount: Сумма
         cancel: отменить
         no_data: Нет исторических данных
-        submitting: В процессе подтверждения
-        cancelled: Отменен
+        canceled: Отменен
         submitted: Подтвержден
         accepted: Принят
         rejected: Отклонен
-        checked: Проверен
-        warning: Предупреждение
       withdraw_fiat:
         title: 'Вывести в {{currency}}'
         intro: Выберите банк для вывода средств и введите номер счета.
@@ -67,11 +64,11 @@ ru:
         miner_fee: Комиссия
         cancel: Отмена
         no_data: Нет исторических данных
-        submitting: В процессе подтверждения
+        submitted: Подгтовлено
         submitted: Подтверждено
         rejected: Отклонено
         accepted: Принято
         processing: Обрабатывается
-        done: Готово
+        succeed: Готово
         canceled: Отклонено
         failed: Не удалось

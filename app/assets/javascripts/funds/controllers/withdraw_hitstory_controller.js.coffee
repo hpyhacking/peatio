@@ -4,8 +4,7 @@ app.controller 'WithdrawHistoryController', ($scope, $stateParams, $http) ->
   @currency = $stateParams.currency
   @account = Account.findBy('currency', @currency)
   @withdraws = @account.withdraws()
-  @newRecord = (withdraw) ->
-    if withdraw.aasm_state ==  "submitting" then true else false
+  @newRecord = (withdraw) -> withdraw.aasm_state is 'created'
 
   @noWithdraw = ->
     @withdraws.length == 0
@@ -15,7 +14,7 @@ app.controller 'WithdrawHistoryController', ($scope, $stateParams, $http) ->
     $scope.$apply()
 
   @canCancel = (state) ->
-    ['submitting', 'submitted', 'accepted'].indexOf(state) > -1
+    ['created', 'submitted', 'accepted'].indexOf(state) > -1
 
   @cancelWithdraw = (withdraw) ->
     $http.delete("/withdraws/#{$stateParams.currency}/#{withdraw.id}")

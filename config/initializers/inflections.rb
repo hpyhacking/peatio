@@ -17,10 +17,12 @@
 
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'API'
+  inflect.acronym 'v1'
   inflect.acronym 'v2'
   inflect.acronym 'AMQP'
   inflect.acronym 'CORS'
   inflect.acronym 'UI'
   inflect.acronym 'CRUD'
+  inflect.acronym 'TID'
   inflect.irregular 'cash', 'cash'
 end

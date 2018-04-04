@@ -5,8 +5,8 @@ describe APIv2::Withdraws, type: :request do
   let(:unverified_member) { create(:member, :unverified) }
   let(:unverified_member_token) { jwt_for(unverified_member) }
 
-  let(:btc_withdraws) { btc_withdraw_destinations.map { |address| create(:satoshi_withdraw, member: member, destination_id: address.id) } }
-  let(:usd_withdraws) { usd_withdraw_destinations.map { |address| create(:bank_withdraw, member: member, destination_id: address.id) } }
+  let(:btc_withdraws) { btc_withdraw_destinations.map { |address| create(:btc_withdraw, member: member, destination_id: address.id) } }
+  let(:usd_withdraws) { usd_withdraw_destinations.map { |address| create(:usd_withdraw, member: member, destination_id: address.id) } }
   let!(:btc_withdraw_destinations) { create_list(:btc_withdraw_destination, 20, member: member) }
   let!(:usd_withdraw_destinations) { create_list(:usd_withdraw_destination, 20, member: member) }
 

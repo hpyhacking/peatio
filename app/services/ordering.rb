@@ -51,7 +51,7 @@ class Ordering
       account.unlock_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)
       order.save!
     else
-      raise CancelOrderError, "Only active order can be cancelled. id: #{order.id}, state: #{order.state}"
+      raise CancelOrderError, "Only active order can be canceled. id: #{order.id}, state: #{order.state}"
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180329154130) do
+ActiveRecord::Schema.define(version: 20180403231931) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -109,22 +109,23 @@ ActiveRecord::Schema.define(version: 20180329154130) do
     t.string   "type",                   limit: 255
     t.integer  "payment_transaction_id", limit: 4
     t.integer  "txout",                  limit: 4
+    t.string   "tid",                    limit: 64,                            null: false
   end
 
   add_index "deposits", ["currency_id"], name: "index_deposits_on_currency_id", using: :btree
   add_index "deposits", ["txid", "txout"], name: "index_deposits_on_txid_and_txout", using: :btree
 
   create_table "markets", force: :cascade do |t|
-    t.string   "ask_unit",      limit: 5,                                        null: false
-    t.string   "bid_unit",      limit: 5,                                        null: false
-    t.decimal  "ask_fee",                 precision: 7, scale: 6, default: 0.0,  null: false
-    t.decimal  "bid_fee",                 precision: 7, scale: 6, default: 0.0,  null: false
-    t.integer  "ask_precision", limit: 1,                         default: 4,    null: false
-    t.integer  "bid_precision", limit: 1,                         default: 4,    null: false
-    t.integer  "position",      limit: 4,                         default: 0,    null: false
-    t.boolean  "visible",                                         default: true, null: false
-    t.datetime "created_at",                                                     null: false
-    t.datetime "updated_at",                                                     null: false
+    t.string   "ask_unit",      limit: 5,                                       null: false
+    t.string   "bid_unit",      limit: 5,                                       null: false
+    t.decimal  "ask_fee",                 precision: 7, scale: 6, default: 0.0, null: false
+    t.decimal  "bid_fee",                 precision: 7, scale: 6, default: 0.0, null: false
+    t.integer  "ask_precision", limit: 1,                         default: 4,   null: false
+    t.integer  "bid_precision", limit: 1,                         default: 4,   null: false
+    t.integer  "position",      limit: 4,                         default: 0,   null: false
+    t.integer  "visible",       limit: 1,                         default: 1,   null: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
   end
 
   add_index "markets", ["ask_unit", "bid_unit"], name: "index_markets_on_ask_unit_and_bid_unit", unique: true, using: :btree
@@ -286,6 +287,8 @@ ActiveRecord::Schema.define(version: 20180329154130) do
     t.string   "aasm_state",     limit: 255
     t.decimal  "sum",                        precision: 32, scale: 16, default: 0.0, null: false
     t.string   "type",           limit: 255
+    t.string   "tid",            limit: 64,                                          null: false
+    t.string   "rid",            limit: 64
   end
 
   add_index "withdraws", ["currency_id"], name: "index_withdraws_on_currency_id", using: :btree

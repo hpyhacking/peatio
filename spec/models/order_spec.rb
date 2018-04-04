@@ -328,7 +328,7 @@ describe Order, '#estimate_required_funds' do
 end
 
 describe Order, '#strike' do
-  it 'should raise error if order has been cancelled' do
+  it 'should raise error if order has been canceled' do
     order = Order.new(state: Order::CANCEL)
     expect { order.strike(mock('trade')) }.to raise_error(RuntimeError)
   end

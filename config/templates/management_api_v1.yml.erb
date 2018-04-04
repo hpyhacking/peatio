@@ -1,0 +1,65 @@
+<% if ENV['MANAGEMENT_API_V1_CONFIG'] %>
+<%= File.read(ENV['MANAGEMENT_API_V1_CONFIG']) %>
+<% else %>
+
+# Be sure to restart your server when you modify this file.
+#
+# This file keeps all the security configuration variables for «Management API v1».
+#
+# Keeps all the public keys used to validate signatures.
+# All values must be presented in PEM format and be URL-safe Base64 encoded.
+#
+# Example:
+#
+#   keychain:
+#     backend-1.mycompany.example:
+#       algorithm: RS256
+#       value:     LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUF3UjNPT1RQbzZvZE8wM3hXVDRNawp6TXJuM2pQS2pVdW0rVkc5dUZWODZNejVnMm1ueXdSRDc4MEY4aXVaZm41SGtROFpTUlFHYlRHNnB1dlVWWDFCClA0MWIrUW52VHFtWFhHcE9aSklzV3V2cHA4dHpZenFOejUvcTRRdUZQWDlrczdtaVV2dkNzbmo5S21Wb08yMU4KUVgyOWZUNkRJYldkUnJvWU1IOHloVmRrSjRVQnhYeHlSWmZ4VnN4UFVwckNodEgxN1JwNnQvYVRTR0VZNndQNwpKbEVCZi9Gb0djQk15OU5BOWhqZFMyMWxGcmVYeXdaUzZYdmhrN3dydGJWT2didU5EajdVeWhjS0RCaHA4c2VjCkV4TlB6d2p4ckhGTzhZaitFejBCMmZKQ1FDWW9SVG1kTzVEQS9kRTFHQmtqeXRCZjhDdGVIdExXcmZIU2g5em0KNlFJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==
+#     backend-2.mycompany.example:
+#       algorithm: HS384
+#       value:     LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUFyZm53OXpGMDRCaFlZTk5mblVKawppK2YwWUE2RitDdlZtMGozOEV1c2E2ZHdkRnBaMEFhK0dzRjlEWGpuOXgzTjdpZzlxNnFmbTN5TzdJbmxqZmdZCmp4eU12MmdXcTNTZmhySmZpUWd3dmh2NHJiMzJiTmc3ckxPTVJmenVDeUQ2aFBQU2FueTM3ZnhSNmxKR3E5SUcKUTRJa3JPNmZIOGozUllQVDBGUVlJcXg1a2pNbU9wczFlV2xTR1RYbDZWSDNtVWxxTWVMSjJjL1NMZ3Y3dUxDagpmMVpDTXFELzB4VERWZ0ZxbzJSSlRucEcvUzlXRHdpZ3U0aTdyY1VkeDcrQUMvK2lNSGpNL1VZekRtWHJDQkpaCjBnSUVPV1ZwM2dMMzNocmRZci9uNU11SFRiMXpJUHdJQW1ySHpmWFpwOEQxNVVUdGtENktXU1FINWQ5SnAvVncKN3dJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==
+#     backend-3.mycompany.example:
+#       algorithm: RS512
+#       value:     LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUEzL2VIUUd1V2NFUHhwY2pxaVN5SQpLYmFlTFhnNHhrTFcwMU12eHlPVENMeHNrbVk5T0ViVTBQa2ptaFk1bWhiOXpmVjJqMVBmbXdXQmp5bXJ2alJJCmlWMDdxczA1OUx3UGhyL0JZc0lnYk13bWVEZUp5VHlxTmFvckNkVklhamxMVHhGSklNOGtXTUg1TUcrR2U0b2wKc1VWblEwRDNZdURvNCtPSzJiSDBOY3M5ZEFTWGx4T0lsenpZTlFkUTNCSUxZbFE3MW9CRDNmTWRyaXQwSktVYwphb25jTXJ0RlB2WlRuZjZROUhVM2VpR3NxTHhWczVZRTBGUlVsd0Z4TjZzbnZNQW9rNEpRT3A5cUExUi96WHMwCnRWdUVpeEJ1Sm5jSjZSYlp5UVp5YWg3YzAxd1NLcks1UTRudVh3VlhXUkhvd0gxOTZHMU9TODhoYmVZNHNneTkKdForZ3NsdlZIYWJmK1JqK0JtZmNOYmx2T1lQWlI4K3dVQ2pOWW43L1BWRjQ0NDRzUCtTZkEyejdvaU1OVStrVwpGVHM5dVdRNGxzQ0RIQnd6ZXNFMDc0dmZLMHF4c0NNN0hWeHhVc2gvNGx3aGppZTgrTFNqdzliWTlrcjJxWWFmClRMRnpoVWl2clJMaEpWdnZkQmRRYlBIUFVybnJ2TnFqblRYOWtFcWR4bktrbWluWmhtbU1pakpKa1dGREgwbmgKNmR4ZlZwZ2puYXUzWmoyZkNSNFV6aXNXK25MaExUc1Fadzd0b0NaVUo2aWV6N0psOEpJYWdBVWJ5OW8ycUN4ZgpWcTBwK3pwRlZKUFZzelVQNkZMTzh3Tjd5aThVT3l4T3VmdmEvOHgySmRJTzJ4emlPc2ZLVnhIZTFZRkZtWVdtCnZKaWZ1ZGUrdCtBbS9EM1FMSjlpK2JNQ0F3RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=
+#
+#
+keychain: {}
+
+#
+# Keeps all the JWT verification options.
+# The documentation is available at https://github.com/jwt/ruby-jwt#support-for-reserved-claim-names.
+# Check lib/jwt/default_options.rb for the default options.
+#
+jwt: {}
+
+#
+# Keep all the API security scopes.
+#
+# The API security scope consists of scope name, list of permitted and mandatory signers.
+# The scope name is associated with API actions. For example, write_deposits is associated with
+# ability to create deposits and accept them. The scopes which have «write» in the name are supposed
+# to be dangerous so they must require more signatures then read-only scopes
+#
+# Each scope must include list of permitted and mandatory signers.
+# Peatio validates JWT signatures against permitted keys and doesn't trust
+# JWTs which don't include signatures from all mandatory signers.
+#
+# Example:
+#
+#  scopes:
+#    read_deposits:
+#      permitted_signers: ['backend-1.mycompany.example', 'backend-2.mycompany.example']
+#      mandatory_signers: ['backend-1.mycompany.example']
+#    write_deposits:
+#      permitted_signers: ['backend-1.mycompany.example', 'backend-2.mycompany.example']
+#      mandatory_signers: ['backend-1.mycompany.example', 'backend-2.mycompany.example']
+#
+# The available scopes include:
+#   – read_deposits
+#   – write_deposits
+#   – read_withdraws
+#   – write_withdraws
+#   – tools
+#
+scopes: {}
+<% end %>

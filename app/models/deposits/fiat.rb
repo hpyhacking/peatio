@@ -2,13 +2,12 @@ module Deposits
   class Fiat < Deposit
     include ::AasmAbsolutely
 
-    validates :fund_extra, :fund_uid, :amount, presence: true
+    validates :amount, presence: true
     validate  { errors.add(:currency, :invalid) if currency && !currency.fiat? }
     delegate :accounts, to: :channel
 
     def charge!(txid)
       with_lock do
-        submit!
         accept!
         touch(:done_at)
         update_attribute(:txid, txid)
@@ -19,14 +18,12 @@ module Deposits
       self.member = Member.find_by_sn(new_sn)
     end
 
-    before_validation do
-      self.account ||= member.ac(currency)
-    end
+    before_validation { self.account ||= member&.ac(currency) }
   end
 end
 
 # == Schema Information
-# Schema version: 20180227163417
+# Schema version: 20180403115050
 #
 # Table name: deposits
 #
@@ -48,6 +45,7 @@ end
 #  type                   :string(255)
 #  payment_transaction_id :integer
 #  txout                  :integer
+#  tid                    :string(64)       not null
 #
 # Indexes
 #

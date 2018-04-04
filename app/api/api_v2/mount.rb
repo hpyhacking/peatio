@@ -38,9 +38,15 @@ module APIv2
     mount APIv2::Sessions
     mount APIv2::Solvency
 
-    base_path = Rails.env.production? ? "#{ENV['URL_SCHEME']}://#{ENV['URL_HOST']}/#{PREFIX}" : PREFIX
-    add_swagger_documentation base_path: base_path,
-      mount_path: '/doc/swagger', api_version: 'v2',
-      hide_documentation_path: true
+    # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/swagger
+    add_swagger_documentation base_path:   PREFIX,
+                              mount_path:  '/swagger',
+                              api_version: 'v2',
+                              doc_version: '0.0.1',
+                              info: {
+                                title:       'Member API v2',
+                                description: 'Member API is API which can be used by client application like SPA.',
+                                licence:     'MIT',
+                                license_url: 'https://github.com/rubykube/peatio/blob/master/LICENSE.md' }
   end
 end

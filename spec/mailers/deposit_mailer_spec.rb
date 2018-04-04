@@ -2,7 +2,6 @@ describe DepositMailer do
   describe 'accepted' do
     let(:deposit) { create :deposit_btc }
     let(:mail) do
-      deposit.submit!
       deposit.accept!
       DepositMailer.accepted(deposit.id)
     end

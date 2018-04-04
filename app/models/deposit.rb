@@ -1,11 +1,14 @@
+require 'securerandom'
+
 class Deposit < ActiveRecord::Base
-  STATES = [:submitting, :cancelled, :submitted, :rejected, :accepted, :checked, :warning]
+  STATES = %i[submitted canceled rejected accepted].freeze
 
   extend Enumerize
 
   include AASM
   include AASM::Locking
   include Currencible
+  include TIDIdentifiable
 
   has_paper_trail on: [:update, :destroy]
 
@@ -19,10 +22,8 @@ class Deposit < ActiveRecord::Base
   belongs_to :member
   belongs_to :account
 
-  validates_presence_of \
-    :amount, :account, \
-    :member, :currency
-  validates_numericality_of :amount, greater_than: 0
+  validates :amount, :account, :member, :currency, :tid, presence: true
+  validates :amount, numericality: { greater_than: 0.0 }
 
   scope :recent, -> { order('id DESC')}
 
@@ -30,38 +31,14 @@ class Deposit < ActiveRecord::Base
   after_create :sync_create
   after_destroy :sync_destroy
 
-  aasm :whiny_transitions => false do
-    state :submitting, initial: true, before_enter: :set_fee
-    state :cancelled
-    state :submitted
+  aasm whiny_transitions: false do
+    state :submitted, initial: true, before_enter: :set_fee
+    state :canceled
     state :rejected
     state :accepted
-    state :checked
-    state :warning
-
-    event :submit do
-      transitions from: :submitting, to: :submitted
-    end
-
-    event :cancel do
-      transitions from: :submitting, to: :cancelled
-    end
-
-    event :reject do
-      transitions from: :submitted, to: :rejected
-    end
-
-    event :accept, after_commit: %i[ do send_mail ] do
-      transitions from: :submitted, to: :accepted
-    end
-
-    event :check do
-      transitions from: :accepted, to: :checked
-    end
-
-    event :warn do
-      transitions from: :accepted, to: :warning
-    end
+    event(:cancel) { transitions from: :submitted, to: :canceled }
+    event(:reject) { transitions from: :submitted, to: :rejected }
+    event(:accept, after_commit: %i[do send_mail]) { transitions from: :submitted, to: :accepted }
   end
 
   def txid_desc
@@ -124,7 +101,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20180227163417
+# Schema version: 20180403115050
 #
 # Table name: deposits
 #
@@ -146,6 +123,7 @@ end
 #  type                   :string(255)
 #  payment_transaction_id :integer
 #  txout                  :integer
+#  tid                    :string(64)       not null
 #
 # Indexes
 #

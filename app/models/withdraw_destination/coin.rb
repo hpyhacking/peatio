@@ -6,7 +6,7 @@ class WithdrawDestination
 
     class << self
       def fields
-        super.merge!(address: 'Wallet address in blockchain.' )
+        super.merge!(address: 'Wallet address in blockchain.')
       end
     end
   end

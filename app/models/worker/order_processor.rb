@@ -26,7 +26,7 @@ module Worker
         order = Order.find attrs['id']
         if order.volume == attrs['volume'].to_d # all trades has been processed
           Ordering.new(order).cancel!
-          puts "Order##{order.id} cancelled."
+          puts "Order##{order.id} canceled."
           true
         end
       rescue ActiveRecord::StatementInvalid

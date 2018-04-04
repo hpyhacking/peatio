@@ -6,7 +6,7 @@ feature 'withdraw', js: true do
     member.get_account(:usd).tap { |a| a.update_attributes locked: 8000, balance: 10_000 }
   end
 
-  let!(:withdraw) { create :bank_withdraw, member: member, sum: 5000, aasm_state: :accepted, account: account }
+  let!(:withdraw) { create :usd_withdraw, member: member, sum: 5000, aasm_state: :accepted, account: account }
 
   before { Withdraw.any_instance.stubs(:validate_password).returns(true) }
 

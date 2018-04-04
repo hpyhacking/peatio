@@ -24,7 +24,7 @@ module Admin
         elsif @withdraw.may_process?
           @withdraw.process!
         elsif @withdraw.may_succeed?
-          @withdraw.succeed!
+          @withdraw.success!
         end
         redirect_to :back, notice: 'Withdraw successfully updated!'
       end

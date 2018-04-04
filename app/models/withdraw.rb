@@ -1,22 +1,21 @@
 class Withdraw < ActiveRecord::Base
 
-  STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
-            :done, :canceled, :failed]
-  COMPLETED_STATES = [:done, :rejected, :canceled, :failed]
+  STATES           = %i[prepared submitted rejected accepted suspected processing succeed canceled failed].freeze
+  COMPLETED_STATES = %i[succeed rejected canceled failed].freeze
 
   extend Enumerize
 
   include AASM
   include AASM::Locking
   include Currencible
+  include TIDIdentifiable
 
-  has_paper_trail on: [:update, :destroy]
+  has_paper_trail on: %i[update destroy]
 
   enumerize :aasm_state, in: STATES, scope: true
 
   belongs_to :member
   belongs_to :account
-  belongs_to :destination, class_name: 'WithdrawDestination', required: true
   has_many :account_versions, as: :modifiable
 
   delegate :balance, to: :account, prefix: true
@@ -34,10 +33,10 @@ class Withdraw < ActiveRecord::Base
 
   validates :amount, :fee, :account, :currency, :member, presence: true
 
-  validates :fee, numericality: {greater_than_or_equal_to: 0}
-  validates :amount, numericality: {greater_than: 0}
+  validates :fee, numericality: { greater_than_or_equal_to: 0 }
+  validates :amount, numericality: { greater_than: 0 }
 
-  validates :sum, presence: true, numericality: {greater_than: 0}, on: :create
+  validates :sum, presence: true, numericality: { greater_than: 0 }, on: :create
   validates :txid, uniqueness: true, allow_nil: true, on: :update
 
   validate :ensure_account_balance, on: :create
@@ -58,62 +57,66 @@ class Withdraw < ActiveRecord::Base
     update_column(:sn, sn)
   end
 
-  aasm :whiny_transitions => false do
-    state :submitting,  initial: true
+  aasm whiny_transitions: false do
+    state :prepared, initial: true
     state :submitted
     state :canceled
     state :accepted
-    state :suspect
+    state :suspected
     state :rejected
     state :processing
-    state :done
+    state :succeed
     state :failed
 
-    event :submit, after_commit: :send_email do
-      transitions from: :submitting, to: :submitted
-      after do
-        lock_funds
-      end
+    event :submit do
+      transitions from: :prepared, to: :submitted
+      after :lock_funds
+      after_commit { WithdrawMailer.submitted(id).deliver }
     end
 
-    event :cancel, after_commit: :send_email do
-      transitions from: [:submitting, :submitted, :accepted], to: :canceled
-      after do
-        after_cancel
-      end
+    event :cancel do
+      transitions from: %i[prepared submitted accepted], to: :canceled
+      after { unlock_funds unless aasm.from_state == :prepared }
+      after_commit { WithdrawMailer.withdraw_state(id).deliver }
     end
 
-    event :mark_suspect, after_commit: :send_email do
-      transitions from: :submitted, to: :suspect
+    event :suspect do
+      transitions from: :submitted, to: :suspected
+      after :unlock_funds
+      after_commit { WithdrawMailer.withdraw_state(id).deliver }
     end
 
     event :accept do
       transitions from: :submitted, to: :accepted
     end
 
-    event :reject, after_commit: :send_email do
-      transitions from: [:submitted, :accepted, :processing], to: :rejected
+    event :reject do
+      transitions from: :submitted, to: :rejected
       after :unlock_funds
+      after_commit { WithdrawMailer.withdraw_state(id).deliver }
     end
 
-    event :process, after_commit: %i[ send_coins! send_email ] do
+    event :process do
       transitions from: :accepted, to: :processing
+      after :send_coins!
+      after_commit { WithdrawMailer.processing(id).deliver }
     end
 
-    event :succeed, after_commit: :send_email do
-      transitions from: :processing, to: :done
-
-      before [:set_txid, :unlock_and_sub_funds]
+    event :success do
+      transitions from: :processing, to: :succeed
+      before %i[set_txid unlock_and_sub_funds]
+      after_commit { WithdrawMailer.succeed(id).deliver }
     end
 
-    event :fail, after_commit: :send_email do
+    event :fail do
       transitions from: :processing, to: :failed
       after :unlock_funds
+      after_commit { WithdrawMailer.withdraw_state(id).deliver }
     end
   end
 
   def cancelable?
-    submitting? or submitted? or accepted?
+    submitted? || accepted?
   end
 
   def quick?
@@ -123,30 +126,15 @@ class Withdraw < ActiveRecord::Base
   def audit!
     with_lock do
       if account.examine
-        accept
-        process if quick?
+        accept!
+        process! if quick?
       else
-        mark_suspect
+        suspect!
       end
-
-      save!
     end
-
-    # FIXME: Unfortunately AASM doesn't fire after_commit
-    # callback (don't be confused with ActiveRecord's after_commit).
-    # This probably was broken after upgrade of Rails & gems.
-    # The fix is to manually invoke #send_coins! and #send_email.
-    # NOTE: These calls should be out of transaction so fast workers
-    # would not start processing data before it was committed to DB.
-    send_coins! if processing?
-    send_email
   end
 
-  private
-
-  def after_cancel
-    unlock_funds unless aasm.from_state == :submitting
-  end
+private
 
   def lock_funds
     account.lock!
@@ -165,19 +153,6 @@ class Withdraw < ActiveRecord::Base
 
   def set_txid
     self.txid = @sn unless coin?
-  end
-
-  def send_email
-    case aasm_state
-    when 'submitted'
-      WithdrawMailer.submitted(self.id).deliver
-    when 'processing'
-      WithdrawMailer.processing(self.id).deliver
-    when 'done'
-      WithdrawMailer.done(self.id).deliver
-    else
-      WithdrawMailer.withdraw_state(self.id).deliver
-    end
   end
 
   def send_coins!
@@ -235,7 +210,7 @@ public
 end
 
 # == Schema Information
-# Schema version: 20180305113434
+# Schema version: 20180403231931
 #
 # Table name: withdraws
 #
@@ -254,6 +229,8 @@ end
 #  aasm_state     :string
 #  sum            :decimal(32, 16)  default(0.0), not null
 #  type           :string(255)
+#  tid            :string(64)       not null
+#  rid            :string(64)
 #
 # Indexes
 #

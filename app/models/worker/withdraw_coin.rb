@@ -8,7 +8,7 @@ module Worker
 
       withdraw.transaction do
         balance = CoinAPI[withdraw.currency.code.to_sym].load_balance!
-        withdraw.mark_suspect if balance < withdraw.sum
+        return withdraw.suspect! if balance < withdraw.sum
 
         pa = withdraw.account.payment_address
 
@@ -23,7 +23,7 @@ module Worker
 
           # withdraw.succeed! will start another transaction, cause
           # Account after_commit callbacks not to fire
-          withdraw.succeed
+          withdraw.success
           withdraw.save!
         end
       end

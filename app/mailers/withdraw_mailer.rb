@@ -8,7 +8,7 @@ class WithdrawMailer < BaseMailer
     set_mail(withdraw_id)
   end
 
-  def done(withdraw_id)
+  def succeed(withdraw_id)
     set_mail(withdraw_id)
   end
 

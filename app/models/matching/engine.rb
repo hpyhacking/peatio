@@ -26,7 +26,7 @@ module Matching
     def cancel(order)
       book, counter_book = orderbook.get_books order.type
       if removed_order = book.remove(order)
-        publish_cancel removed_order, "cancelled by user"
+        publish_cancel removed_order, "canceled by user"
       else
         Rails.logger.warn "Cannot find order##{order.id} to cancel, skip."
       end

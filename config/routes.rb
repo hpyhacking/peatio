@@ -23,7 +23,6 @@ Peatio::Application.routes.draw do
   get '/auth/failure' => 'sessions#failure', :as => :failure
   match '/auth/:provider/callback' => 'sessions#create', via: %i[get post]
 
-  get '/documents/api_v2'
   get '/documents/websocket_api'
 
   scope module: :private do
@@ -80,5 +79,8 @@ Peatio::Application.routes.draw do
 
   draw :admin
 
+  get '/swagger', to: 'swagger#index'
+
   mount APIv2::Mount => APIv2::Mount::PREFIX
+  mount ManagementAPIv1::Mount => ManagementAPIv1::Mount::PREFIX
 end

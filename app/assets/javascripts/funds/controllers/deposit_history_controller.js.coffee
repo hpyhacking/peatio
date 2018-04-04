@@ -5,7 +5,7 @@ app.controller 'DepositHistoryController', ($scope, $stateParams, $http) ->
   @account = Account.findBy('currency', @currency)
   @deposits = @account.deposits()
   @newRecord = (deposit) ->
-    if deposit.aasm_state == "submitting" then true else false
+    deposit.aasm_state is 'submitted'
 
   @noDeposit = ->
     @deposits.length == 0
@@ -20,7 +20,7 @@ app.controller 'DepositHistoryController', ($scope, $stateParams, $http) ->
         $.publish 'flash', { message: responseText }
 
   @canCancel = (state) ->
-    ['submitting'].indexOf(state) > -1
+    ['submitted'].indexOf(state) > -1
 
   do @event = ->
     Deposit.bind "create update destroy", ->

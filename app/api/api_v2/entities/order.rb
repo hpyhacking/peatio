@@ -10,7 +10,7 @@ module APIv2
 
       expose :avg_price, documentation: "Average execution price, average of price in trades."
 
-      expose :state, documentation: "One of 'wait', 'done', or 'cancel'. An order in 'wait' is an active order, waiting fullfillment; a 'done' order is an order fullfilled; 'cancel' means the order has been cancelled."
+      expose :state, documentation: "One of 'wait', 'done', or 'cancel'. An order in 'wait' is an active order, waiting fullfillment; a 'done' order is an order fullfilled; 'cancel' means the order has been canceled."
 
       expose :market_id, as: :market, documentation: "The market in which the order is placed, e.g. 'btcusd'. All available markets can be found at /api/v2/markets."
 

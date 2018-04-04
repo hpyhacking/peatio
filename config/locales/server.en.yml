@@ -301,13 +301,10 @@ en:
       go: Deposit
   deposits/fiat:
     aasm_state:
-      submitting: Submitting
-      cancelled: Cancelled
+      canceled: canceled
       submitted: Submitted
       accepted: Accepted
       rejected: Rejected
-      checked: Checked
-      warning: Warning
   private:
     deposits:
       fiats:
@@ -354,7 +351,7 @@ en:
         ask: Sell
         bid: Buy
         wait: Open
-        cancel: Cancelled
+        cancel: canceled
         done: Done
       trades:
         trade_history: Trade History
@@ -398,7 +395,7 @@ en:
           notice: Bank Transfer withdrawal application has been submitted, we will
             process it as soon as possible
         destroy:
-          notice: Bank Transfer withdraw has been cancelled, frozen amount has been
+          notice: Bank Transfer withdraw has been canceled, frozen amount has been
             returned to your account.
         new:
           submit: Submit
@@ -702,19 +699,15 @@ en:
     deposit:
       aasm_state:
         submitted: Submitted
-        submitting: Submitting
         accepted: Accepted
-        cancelled: Canceled
+        canceled: Canceled
         rejected: Rejected
-        checked: Checked
-        warning: Warning
     withdraw:
       state:
-        submitting: Submitting
         submitted: Submitted
         rejected: Rejected
         accepted: Accepted
-        suspect: Suspect
+        suspected: Suspected
         processing: Processing
         done: Done
         canceled: Canceled
@@ -751,7 +744,7 @@ en:
     processing:
       subject: "[Peatio] Your withdraw state update"
       content: The request of your %{currency} withdrawal is in process. Please be patient with us. Contact us if you have any questions.
-    done:
+    succeed:
       subject: "[Peatio] Your withdraw state update"
       content: The request of your %{currency} withdrawal is complete. Please check it out. Contact us if you have any questions.
     withdraw_state:
@@ -963,23 +956,21 @@ en:
     invalid_address: is not valid. You can not withdraw to this address.
   withdraws/fiat:
     aasm_state:
-      submitting: Submitting
       submitted: Submitted
       rejected: Rejected
       accepted: Accepted
-      suspect: Suspect
+      suspected: Suspected
       processing: Processing
       done: Done
       canceled: Canceld
       failed: Failed
   withdraws/coin:
     aasm_state:
-      submitting: Submitting
       submitted: Submitted
       rejected: Rejected
       accepted: Accepted
-      suspect: Suspect
+      suspected: Suspected
       processing: processing
       done: Done
-      canceled: Cancelled
+      canceled: canceled
       failed: Failed

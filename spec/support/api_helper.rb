@@ -1,6 +1,18 @@
 module APITestHelpers
   extend Memoist
 
+  def post_json(destination, body, headers = {})
+    post destination,
+         String === body ? body : body.to_json,
+         headers.reverse_merge('Content-Type' => 'application/json')
+  end
+
+  def put_json(destination, body, headers = {})
+    put destination,
+        String === body ? body : body.to_json,
+        headers.reverse_merge('Content-Type' => 'application/json')
+  end
+
   def api_request(method, url, options = {})
     headers = options.fetch(:headers, {})
     params  = options.fetch(:params, {})
@@ -58,6 +70,43 @@ module APITestHelpers
     end.tap { |p| ENV['JWT_PUBLIC_KEY'] = p[:public] }
   end
   memoize :jwt_keypair_encoded
+
+  def multisig_jwt(payload, keychain, signers, algorithms)
+    JWT::Multisig.generate_jwt(payload, keychain.slice(*signers), algorithms)
+  end
+
+  def multisig_jwt_management_api_v1(payload, *signers)
+    multisig_jwt(payload, management_api_v1_keychain, signers, management_api_v1_algorithms)
+  end
+
+  def management_api_v1_keychain
+    require 'openssl'
+    { james:  OpenSSL::PKey::RSA.generate(2048),
+      john:   OpenSSL::PKey::RSA.generate(2048 ),
+      david:  OpenSSL::PKey::RSA.generate(2048 ),
+      robert: OpenSSL::PKey::RSA.generate(2048 ),
+      alex:   OpenSSL::PKey::RSA.generate(2048 ),
+      jeff:   OpenSSL::PKey::RSA.generate(2048 ) }
+  end
+  memoize :management_api_v1_keychain
+
+  def management_api_v1_algorithms
+    management_api_v1_keychain.each_with_object({}) { |(k, v), memo| memo[k] = 'RS256' }
+  end
+  memoize :management_api_v1_algorithms
+
+  def management_api_v1_security_configuration
+    ManagementAPIv1::JWTAuthenticationMiddleware.security_configuration
+  end
+
+  def defaults_for_management_api_v1_security_configuration!
+    config = { jwt: {} }
+    config[:keychain] = management_api_v1_keychain.each_with_object({}) do |(signer, key), memo|
+      memo[signer] = { algorithm: management_api_v1_algorithms.fetch(signer), value: key.public_key }
+    end
+
+    ManagementAPIv1::JWTAuthenticationMiddleware.security_configuration = config
+  end
 end
 
 RSpec.configure { |config| config.include APITestHelpers }
