@@ -6,7 +6,7 @@
 ## [Peatio.tech](https://www.peatio.tech) Introduction
 
 Peatio is a free and open-source crypto currency exchange implementation with the Rails framework.
-Peatio.tech is a fork of Peatio designed for micro-services architecture, we have simplified the code
+Peatio.tech is a fork of Peatio designed for micro-services architecture. We have simplified the code
 in order to use only Peatio API with external frontend and server components.
 
 To build your own exchange you should now run Peatio as a backend instead of forking the repository,
@@ -14,9 +14,9 @@ and extend it using other microservices such as [Barong](https://www.github.com/
 
 ## Mission
 
-Our mission is to build an open-source crypto currency exchange with a high performance trading engine and safety which can be trusted and enjoyed by users. We moving toward dev/ops best practices of running an enterprise grade exchange.
+Our mission is to build an open-source crypto currency exchange with a high performance trading engine and incomperable security. We are moving toward dev/ops best practices of running an enterprise grade exchange.
 
-We provide webminar or on site training for installing, configuring and administation best practices of Peatio.
+We provide webinar or on site training for installing, configuring and administation best practices of Peatio.
 Feel free to contact us for joining the next training session: [Peatio.tech](https://www.peatio.tech)
 
 Help is greatly appreciated, feel free to submit pull-requests or open issues.
@@ -48,15 +48,15 @@ Production setup:
 
 ## Things You Should Know
 
-**RUNNING A EXCHANGE IS HARD.**
+**RUNNING AN EXCHANGE IS HARD.**
 
-This repository is not a turn key solution and would require engineering and design of security process by your company, with or without our assistance. This repository is one component among many we recommand using for composing an enterprise grade exchange. It's is highly recommanded to deploy a UAT environment and build automated test for your needs, Functional tests, Smoke tests, Security vulnerability scans. You may not need to have active developer on peatio source code and we recommand the following team setup: 1 dev/ops, 3 frontend developers (react / angular), 2 QA engineers, 1 Security Officer.
+This repository is not a turn key solution and will require engineering and design of security process by your company, with or without our assistance. This repository is one component among many we recommand using for composing an enterprise grade exchange. It's is highly recommended to deploy a UAT environment and build automated test for your needs, Functional tests, Smoke tests, Security vulnerability scans. You may not need to have an active developer on peatio source code, however, we recommand the following team setup: 1 dev/ops, 3 frontend developers (react / angular), 2 QA engineers, 1 Security Officer.
 
 **SECURITY KNOWLEDGE IS A REQUIREMENT.**
 
-Peatio cannot protect your customers when you leave your admin password 1234567, or open sensitive ports to public internet. No one can. Running an exchange is a very risky task because you're dealing with money directly. If you don't known how to make your exchange secure, hire an expert.
+Peatio cannot protect your customers if you leave your admin password 1234567, or open sensitive ports to public internet. No one can. Running an exchange is a very risky task because you're dealing with money directly. If you don't know how to make your exchange secure, hire an expert.
 
-You must know what you're doing, there's no shortcut. Please get prepared before continue:
+You must know what you're doing, there's no shortcut. Please get prepared before you continue:
 
 * Rails knowledge
 * Security knowledge
@@ -86,7 +86,7 @@ You can interact with Peatio through API:
 * [API v2 docs](https://demo.peatio.tech/documents/api_v2?lang=en)
 * [Websocket API docs](https://demo.peatio.tech/documents/websocket_api)
 
-Here're some API clients/wrappers:
+Here are some API clients/wrappers:
 
 * [peatio-client-ruby](https://github.com/peatio/peatio-client-ruby) is the official ruby client of both HTTP/Websocket API.
 * [peatio-client-python by JohnnyZhao](https://github.com/JohnnyZhao/peatio-client-python) is a python client written by JohnnyZhao.
@@ -96,7 +96,7 @@ Here're some API clients/wrappers:
 
 ## Custom Styles
 
-Peatio front-end based Bootstrap 3.0 version and Sass, and you can custom exchange style for your mind.
+Peatio front-end is based Bootstrap 3.0 and Sass, so you can customize the style of your exchange.
 
 * change bootstrap default variables in `vars/_bootstrap.css.scss`
 * change peatio custom default variables in `vars/_basic.css.scss`

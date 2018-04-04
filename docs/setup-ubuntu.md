@@ -2,7 +2,7 @@
 
 ## Docker & peatio-workbench
 
-#### We advice you to use power of [docker](https://www.docker.com) and [peatio-workbench](https://github.com/rubykube/peatio-workbench) as local development environment
+#### We advise you to use power of [docker](https://www.docker.com) and [peatio-workbench](https://github.com/rubykube/peatio-workbench) as local development environment
 
 #### Follow [this](setup-with-docker.md) guide for container-based development environmetnt setup
 
