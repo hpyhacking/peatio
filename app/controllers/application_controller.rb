@@ -72,8 +72,8 @@ class ApplicationController < ActionController::Base
       httpHost:  ENV['PUSHER_CLIENT_HTTP_HOST'],
       wsPort:    ENV.fetch('PUSHER_CLIENT_WS_PORT'),
       wssPort:   ENV.fetch('PUSHER_CLIENT_WSS_PORT'),
-      encrypted: ENV.fetch('PUSHER_CLIENT_ENCRYPTED').present?
     }.reject { |k, v| v.blank? }
+     .merge(encrypted: ENV.fetch('PUSHER_CLIENT_ENCRYPTED').present?)
 
     gon.clipboard = {
       :click => I18n.t('actions.clipboard.click'),
