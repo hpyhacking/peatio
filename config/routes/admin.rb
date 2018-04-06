@@ -2,6 +2,7 @@ namespace :admin do
   get '/', to: 'dashboard#index', as: :dashboard
 
   resources :proofs
+  resources :markets, except: %i[edit destroy]
 
   resources :members, only: %i[index show] do
     member do

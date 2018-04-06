@@ -15,10 +15,21 @@
 
 class Market < ActiveRecord::Base
 
+  attr_readonly :ask_unit, :bid_unit
+
   # TODO: Don't use default_scope. Refactor to scopes!
   default_scope { order(position: :asc) }
 
   scope :visible, -> { where(visible: true) }
+
+  validate { errors.add(:ask_unit, :invalid) if ask_unit == bid_unit }
+  validates :id, uniqueness: { case_sensitive: false }, presence: true
+  validates :ask_unit, :bid_unit, presence: true
+  validates :ask_fee, :bid_fee, numericality: { greater_than_or_equal_to: 0 }
+  validates :ask_precision, :bid_precision, :position, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :ask_unit, :bid_unit, inclusion: { in: -> (_) { Currency.codes } }
+
+  before_validation(on: :create) { self.id = "#{ask_unit}#{bid_unit}" }
 
   # @deprecated
   def base_unit
@@ -87,7 +98,7 @@ class Market < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180403115050
+# Schema version: 20180406080444
 #
 # Table name: markets
 #
@@ -99,7 +110,7 @@ end
 #  ask_precision :integer          default(4), not null
 #  bid_precision :integer          default(4), not null
 #  position      :integer          default(0), not null
-#  visible       :integer          default(1), not null
+#  visible       :boolean          default(TRUE), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
