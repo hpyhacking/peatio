@@ -3,14 +3,13 @@ module Deposits
     include ::AasmAbsolutely
 
     validates :amount, presence: true
-    validate  { errors.add(:currency, :invalid) if currency && !currency.fiat? }
+    validate { errors.add(:currency, :invalid) if currency && !currency.fiat? }
     delegate :accounts, to: :channel
 
-    def charge!(txid)
+    def charge!
       with_lock do
-        accept!
         touch(:done_at)
-        update_attribute(:txid, txid)
+        accept!
       end
     end
 

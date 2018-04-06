@@ -91,7 +91,7 @@ class Withdraw < ActiveRecord::Base
     end
 
     event :reject do
-      transitions from: :submitted, to: :rejected
+      transitions from: %i[submitted accepted], to: :rejected
       after :unlock_funds
       after_commit { WithdrawMailer.withdraw_state(id).deliver }
     end

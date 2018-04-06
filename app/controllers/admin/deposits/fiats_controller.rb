@@ -29,15 +29,7 @@ module Admin
       end
 
       def update
-        @deposit = ::Deposits::Fiat.where(currency: currency).find(params[:id])
-        params   = self.params.require(:deposits_fiat).permit(:txid)
-
-        if params[:txid].blank?
-          flash[:alert] = 'Transaction ID is blank!'
-          return redirect_to :back
-        end
-
-        @deposit.charge!(params[:txid])
+        ::Deposits::Fiat.where(currency: currency).find(params[:id]).charge!
         redirect_to :back
       end
 

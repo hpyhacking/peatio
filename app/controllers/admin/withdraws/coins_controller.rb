@@ -19,7 +19,10 @@ module Admin
       end
 
       def update
-        @withdraw.process!
+        @withdraw.transaction do
+          @withdraw.accept!
+          @withdraw.process!
+        end
         redirect_to :back, notice: t('admin.withdraws.coins.update.notice')
       end
 
