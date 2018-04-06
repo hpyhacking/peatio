@@ -57,4 +57,16 @@ describe AccountVersion do
       end.to change(AccountVersion, :count).by(1)
     end
   end
+
+
+  describe '#reason' do
+
+    it 'should have value options as specified in I18n yml' do
+      expect(
+        I18n.t('enumerize.account_version.reason').values.sort
+      ).to eql (AccountVersion.reason.value_options.map(&:first).sort)
+    end
+
+  end
+
 end

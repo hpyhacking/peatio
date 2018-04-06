@@ -9,7 +9,7 @@ class Account < ActiveRecord::Base
   STRIKE_UNLOCK = :strike_unlock
   ORDER_CANCEL = :order_cancel
   ORDER_SUBMIT = :order_submit
-  ORDER_FULLFILLED = :order_fullfilled
+  ORDER_FULFILLED = :order_fulfilled
   WITHDRAW_LOCK = :withdraw_lock
   WITHDRAW_UNLOCK = :withdraw_unlock
   DEPOSIT = :deposit

@@ -345,7 +345,7 @@ en:
         price: Price
         volume: Volume
         average_price: Avg. Price
-        fullfilled_volume: Fullfilled
+        fulfilled_volume: Fulfilled
         timestamp: Created At
       order:
         ask: Sell
@@ -683,6 +683,7 @@ en:
         strike_unlock: TRADE UNLOCK
         order_cancel: ORDER CANCEL
         order_submit: ORDER SUBMIT
+        order_fulfilled: ORDER FULFILLED
         deposit: DEPOSIT
         withdraw: WITHDRAW
         withdraw_lock: WITHDRAW LOCK

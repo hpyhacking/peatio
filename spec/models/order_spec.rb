@@ -187,7 +187,7 @@ describe Order, '#done', type: :model do
 
           hold_account.expects(:unlock_funds).with(
             strike_volume * (order.price - strike_price),
-            reason: Account::ORDER_FULLFILLED,
+            reason: Account::ORDER_FULFILLED,
             ref: trade
           )
 
