@@ -1,6 +1,6 @@
 GIT
-  remote: git://github.com/oauth-xx/oauth2.git
-  revision: 49ab9a3c0d021e8d954396f33d102079588279d6
+  remote: https://github.com/oauth-xx/oauth2
+  revision: a934b65872f2141aca56bf1f8bba0960ff50e248
   specs:
     oauth2 (1.4.0)
       faraday (>= 0.8, < 0.15.0)
