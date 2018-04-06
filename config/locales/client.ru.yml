@@ -40,7 +40,6 @@ ru:
         withdraw_address: Адрес вывода
         balance: Баланс
         withdraw_amount: Сумма вывода
-        manage_withdraw: Управлять выводом
         min: Как минимум
         withdraw_all: Вывести все
       withdraw_coin:
@@ -49,7 +48,6 @@ ru:
         label: Ярлык
         balance: Баланс
         amount: Сумма
-        manage_withdraw: Изменить адрес
         min: Как минимум
         withdraw_all: Вывести все
       withdraw_history:

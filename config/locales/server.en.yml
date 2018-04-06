@@ -18,9 +18,6 @@ en:
       deposits/fiat: Deposit Bank
       withdraws/coin: Withdraw Bank
     attributes:
-      fund_source:
-        address: Address
-        label: Label
       account:
         currency: Currency
         balance_and_locked: Balance / Locked
@@ -554,10 +551,6 @@ en:
     labels:
       defaults:
         title: Title
-      fund_source:
-        label: Label
-        address: Address
-        category: Category
       withdraw:
         fiat:
           sum: Amount

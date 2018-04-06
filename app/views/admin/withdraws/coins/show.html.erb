@@ -11,9 +11,8 @@
           <%= item_for @withdraw, :aasm_state_text %>
           <hr class="split">
           <%= item_for @withdraw.member, :email %>
-          <%= item_for @withdraw.destination, :label %>
-          <%= item_for @withdraw.destination, :address do %>
-            <span><%= @withdraw.destination.address.truncate(22) %></span>
+          <%= item_for @withdraw, 'Recipient ID' do %>
+            <span><%= @withdraw.rid %></span>
           <% end %>
           <%= item_for @withdraw, :amount %>
           <hr class="split">

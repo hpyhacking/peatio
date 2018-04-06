@@ -60,23 +60,11 @@ module ManagementAPIv1
       currency = Currency.find_by!(code: params[:currency])
       member   = Authentication.find_by(provider: :barong, uid: params[:uid])&.member
       withdraw = "withdraws/#{currency.type}".camelize.constantize.new \
-        destination_id: params[:destination_id],
         sum:            params[:amount],
         member:         member,
         currency:       currency,
         tid:            params[:tid],
         rid:            params[:rid]
-
-      if withdraw.coin? && member
-        member.coin_withdraw_destinations
-              .build(currency: currency, address: params[:rid], label: params[:rid])
-      else
-        member.fiat_withdraw_destinations
-              .build(currency: currency)
-              .dummy
-      end
-        .tap(&:save)
-        .tap { |record| withdraw.destination = record }
 
       if withdraw.save
         withdraw.submit! if params[:state] == 'submitted'

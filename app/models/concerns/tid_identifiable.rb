@@ -2,7 +2,7 @@ module TIDIdentifiable
   extend ActiveSupport::Concern
 
   included do
-    validates :tid, uniqueness: { case_sensitive: false }
+    validates :tid, presence: true, uniqueness: { case_sensitive: false }
 
     before_validation do
       next unless tid.blank?

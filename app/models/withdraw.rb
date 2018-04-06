@@ -31,7 +31,7 @@ class Withdraw < ActiveRecord::Base
   after_create :sync_create
   after_destroy :sync_destroy
 
-  validates :amount, :fee, :account, :currency, :member, presence: true
+  validates :amount, :fee, :account, :currency, :member, :rid, presence: true
 
   validates :fee, numericality: { greater_than_or_equal_to: 0 }
   validates :amount, numericality: { greater_than: 0 }
@@ -203,34 +203,29 @@ public
   def coin?
     !fiat?
   end
-
-  def as_json(*)
-    super.merge(destination: destination.as_json)
-  end
 end
 
 # == Schema Information
-# Schema version: 20180403231931
+# Schema version: 20180406080444
 #
 # Table name: withdraws
 #
-#  id             :integer          not null, primary key
-#  destination_id :integer
-#  sn             :string(255)
-#  account_id     :integer
-#  member_id      :integer
-#  currency_id    :integer
-#  amount         :decimal(32, 16)
-#  fee            :decimal(32, 16)
-#  created_at     :datetime
-#  updated_at     :datetime
-#  done_at        :datetime
-#  txid           :string(255)
-#  aasm_state     :string
-#  sum            :decimal(32, 16)  default(0.0), not null
-#  type           :string(255)
-#  tid            :string(64)       not null
-#  rid            :string(64)
+#  id          :integer          not null, primary key
+#  sn          :string(255)
+#  account_id  :integer
+#  member_id   :integer
+#  currency_id :integer
+#  amount      :decimal(32, 16)
+#  fee         :decimal(32, 16)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  done_at     :datetime
+#  txid        :string(255)
+#  aasm_state  :string
+#  sum         :decimal(32, 16)  default(0.0), not null
+#  type        :string(255)
+#  tid         :string(64)       not null
+#  rid         :string(64)       not null
 #
 # Indexes
 #

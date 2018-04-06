@@ -6,8 +6,8 @@ module APIv2
       expose(:type) { |w| w.fiat? ? :fiat : :coin }
       expose :sum, as: :amount
       expose :fee
-      expose :txid
-      expose :destination, using: APIv2::Entities::WithdrawDestination
+      expose :txid, as: :blockchain_txid
+      expose :rid
       expose :aasm_state, as: :state
       expose :created_at, :updated_at, :done_at, format_with: :iso8601
     end

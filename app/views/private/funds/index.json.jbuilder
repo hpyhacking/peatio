@@ -9,4 +9,3 @@ json.accounts do
   end.tap { |collection| json.merge!(collection) }
 end
 json.withdraws @withdraws
-json.fund_sources @withdraw_destinations

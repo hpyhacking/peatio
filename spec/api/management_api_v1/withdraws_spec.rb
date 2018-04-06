@@ -20,13 +20,8 @@ describe ManagementAPIv1::Withdraws, type: :request do
     before do
       Withdraw::STATES.tap do |states|
         (states.count * 2).times do
-          member      = members.sample
-          destination = create(:coin_withdraw_destination, member: member)
-          create(:btc_withdraw, member: member, aasm_state: states.sample, destination: destination)
-
-          member      = members.sample
-          destination = create(:fiat_withdraw_destination, member: member)
-          create(:usd_withdraw, member: member, aasm_state: states.sample, destination: destination)
+          create(:btc_withdraw, member: members.sample, aasm_state: states.sample, rid: Faker::Bitcoin.address)
+          create(:usd_withdraw, member: members.sample, aasm_state: states.sample, rid: Faker::Bank.iban)
         end
       end
     end
@@ -112,27 +107,6 @@ describe ManagementAPIv1::Withdraws, type: :request do
       expect(account.reload.balance).to eq(1.2 - amount)
       expect(account.reload.locked).to eq amount
     end
-
-    context 'when creating coin withdraw' do
-      it 'creates destination' do
-        expect { request }.to change { WithdrawDestination::Coin.count }.by(1)
-        expect(response).to have_http_status(201)
-        record = Withdraw.find_by_tid!(JSON.parse(response.body).fetch('tid'))
-        expect(record.destination.address).to eq record.rid
-      end
-    end
-
-    context 'when creating fiat withdraw' do
-      let(:currency) { Currency.find_by!(code: :usd) }
-      let(:klass) { WithdrawDestination::Fiat }
-      it 'creates dummy destination' do
-        expect { request }.to change { klass.count }.by(1)
-        expect(response).to have_http_status(201)
-        record = Withdraw.find_by_tid!(JSON.parse(response.body).fetch('tid'))
-        keys = klass.fields.keys.map(&:to_s) + ['label']
-        expect(record.destination.as_json.slice(*keys).values.uniq).to eq ['dummy']
-      end
-    end
   end
 
   describe 'get withdraw' do
@@ -158,12 +132,11 @@ describe ManagementAPIv1::Withdraws, type: :request do
 
     let(:currency) { Currency.find_by!(code: :usd) }
     let(:member) { create(:member, :barong) }
-    let(:destination) { create(:fiat_withdraw_destination, currency: currency, member: member) }
     let(:amount) { 160.79 }
     let(:signers) { %i[alex jeff] }
     let(:data) { { tid: record.tid } }
     let(:account) { member.accounts.with_currency(currency).first }
-    let(:record) { Withdraws::Fiat.create!(member: member, account: account, sum: amount, destination: destination, currency: currency) }
+    let(:record) { Withdraws::Fiat.create!(member: member, account: account, sum: amount, rid: Faker::Bank.iban, currency: currency) }
     let(:balance) { 800.77 }
     before { account.update!(balance: balance) }
 

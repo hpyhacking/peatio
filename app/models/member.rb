@@ -5,9 +5,6 @@ class Member < ActiveRecord::Base
   has_many :accounts
   has_many :payment_addresses, through: :accounts
   has_many :withdraws, -> { order(id: :desc) }
-  has_many :withdraw_destinations, -> { order(id: :desc) }
-  has_many :coin_withdraw_destinations, -> { order(id: :desc) }, class_name: 'WithdrawDestination::Coin'
-  has_many :fiat_withdraw_destinations, -> { order(id: :desc) }, class_name: 'WithdrawDestination::Fiat'
   has_many :deposits
 
   has_many :authentications, dependent: :destroy

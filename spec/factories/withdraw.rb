@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :btc_withdraw, class: Withdraws::Coin do
     currency { Currency.find_by!(code: :btc) }
     member { create(:member, :verified_identity) }
-    destination_id { create(:btc_withdraw_destination).id }
+    rid { Faker::Bitcoin.address }
     sum { 10.to_d }
     type 'Withdraws::Coin'
 
@@ -25,7 +25,7 @@ FactoryBot.define do
   factory :usd_withdraw, class: Withdraws::Fiat do
     member { create(:member, :verified_identity) }
     currency { Currency.find_by!(code: :usd) }
-    destination_id { create(:usd_withdraw_destination).id }
+    rid { Faker::Bank.iban }
     sum { 1000.to_d }
     type 'Withdraws::Fiat'
 

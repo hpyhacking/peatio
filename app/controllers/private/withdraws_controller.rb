@@ -34,7 +34,7 @@ module Private
 
     def withdraw_params
       params.require(:withdraw)
-            .permit(:destination_id, :member_id, :currency_id, :sum)
+            .permit(:rid, :member_id, :currency_id, :sum)
             .merge(currency_id: currency.id, member_id: current_user.id)
             .permit!
     end

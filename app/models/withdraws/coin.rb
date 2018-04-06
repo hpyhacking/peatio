@@ -1,10 +1,8 @@
 module Withdraws
   class Coin < Withdraw
-    belongs_to :destination, class_name: 'WithdrawDestination::Coin', required: true
-
     def wallet_url
-      if destination.address? && currency.wallet_url_template?
-        currency.wallet_url_template.gsub('#{address}', destination.address)
+      if currency.wallet_url_template?
+        currency.wallet_url_template.gsub('#{address}', rid)
       end
     end
 
@@ -15,13 +13,13 @@ module Withdraws
     end
 
     def audit!
-      inspection = currency.api.inspect_address!(destination.address)
+      inspection = currency.api.inspect_address!(rid)
 
       if inspection[:is_valid] == false
-        Rails.logger.info "#{self.class.name}##{id} uses invalid address: #{destination.address.inspect}"
+        Rails.logger.info "#{self.class.name}##{id} uses invalid address: #{rid.inspect}"
         reject!
       elsif inspection[:is_mine] == true
-        Rails.logger.info "#{self.class.name}##{id} uses hot wallet address: #{destination.address.inspect}"
+        Rails.logger.info "#{self.class.name}##{id} uses hot wallet address: #{rid.inspect}"
         reject!
       else
         super
@@ -37,27 +35,26 @@ module Withdraws
 end
 
 # == Schema Information
-# Schema version: 20180403231931
+# Schema version: 20180406080444
 #
 # Table name: withdraws
 #
-#  id             :integer          not null, primary key
-#  destination_id :integer
-#  sn             :string(255)
-#  account_id     :integer
-#  member_id      :integer
-#  currency_id    :integer
-#  amount         :decimal(32, 16)
-#  fee            :decimal(32, 16)
-#  created_at     :datetime
-#  updated_at     :datetime
-#  done_at        :datetime
-#  txid           :string(255)
-#  aasm_state     :string
-#  sum            :decimal(32, 16)  default(0.0), not null
-#  type           :string(255)
-#  tid            :string(64)       not null
-#  rid            :string(64)
+#  id          :integer          not null, primary key
+#  sn          :string(255)
+#  account_id  :integer
+#  member_id   :integer
+#  currency_id :integer
+#  amount      :decimal(32, 16)
+#  fee         :decimal(32, 16)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  done_at     :datetime
+#  txid        :string(255)
+#  aasm_state  :string
+#  sum         :decimal(32, 16)  default(0.0), not null
+#  type        :string(255)
+#  tid         :string(64)       not null
+#  rid         :string(64)       not null
 #
 # Indexes
 #

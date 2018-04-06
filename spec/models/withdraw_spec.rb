@@ -6,14 +6,6 @@ describe Withdraw do
     end
   end
 
-  context 'withdraw destination' do
-    it 'should strip trailing spaces in address' do
-      withdraw_destination = create(:btc_withdraw_destination, address: 'test')
-      @withdraw   = create(:btc_withdraw, destination_id: withdraw_destination.id)
-      expect(@withdraw.destination.address).to eq('test')
-    end
-  end
-
   context 'bank withdraw' do
     describe '#audit!' do
       subject { create(:usd_withdraw) }

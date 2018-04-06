@@ -60,7 +60,6 @@ ru:
         confirmations: Подтверждения
         state_done: Выполнено
       withdraws/fiat:
-        fund_source: Банк
         sum: Сумма
         fee: Комиссия
         amount: Сумма
@@ -74,7 +73,6 @@ ru:
         amount: Сумма
         confirmations: Подтверждение
       withdraws/coin:
-        fund_source: Банк
         sum: Сумма
         amount: Сумма
         fee: Комиссия

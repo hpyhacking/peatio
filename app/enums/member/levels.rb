@@ -1,3 +1,5 @@
+require_dependency 'member'
+
 class Member
   module Levels
     class << self

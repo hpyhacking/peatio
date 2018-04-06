@@ -1,11 +1,8 @@
 describe ManagementAPIv1::Entities::Withdraw do
   context 'fiat' do
-    let(:rid) { Faker::Internet.password(10, 20) }
-    let :record do
-      member      = create(:member, :barong)
-      destination = create(:fiat_withdraw_destination, member: member)
-      create(:usd_withdraw, member: member, destination: destination, rid: rid)
-    end
+    let(:rid) { Faker::Bank.iban }
+    let(:member) { create(:member, :barong) }
+    let(:record) { create(:usd_withdraw, member: member, rid: rid) }
 
     subject { OpenStruct.new ManagementAPIv1::Entities::Withdraw.represent(record).serializable_hash }
 
@@ -22,10 +19,9 @@ describe ManagementAPIv1::Entities::Withdraw do
   end
 
   context 'coin' do
-    let(:rid) { Faker::Internet.password(10, 20) }
-    let(:destination) { create(:coin_withdraw_destination, member: member) }
+    let(:rid) { Faker::Bitcoin.address }
     let(:member) { create(:member, :barong) }
-    let(:record) { create(:btc_withdraw, member: member, destination: destination, rid: rid) }
+    let(:record) { create(:btc_withdraw, member: member, rid: rid) }
 
     subject { OpenStruct.new ManagementAPIv1::Entities::Withdraw.represent(record).serializable_hash }
 

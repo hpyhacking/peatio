@@ -17,23 +17,15 @@
               <%= @withdraw.member.email %>
             </span>
           <% end %>
-          <%= item_for @withdraw.destination, :label do %>
-            <span class="fa fa-copy" data-clipboard-text="<%= @withdraw.destination.label %>">
-              <%= @withdraw.destination.label %>
+          <%= item_for @withdraw, 'Recipient ID' do %>
+            <span class="fa fa-copy" data-clipboard-text="<%= @withdraw.rid %>">
+              <%= @withdraw.rid %>
             </span>
           <% end %>
           <%= item_for @withdraw, :amount do %>
             <span class="fa fa-copy" data-clipboard-text="<%= @withdraw.amount %>">
               <%= @withdraw.amount %>
             </span>
-          <% end %>
-          <hr class="split">
-          <% @withdraw.destination.details.each do |name, value| %>
-            <%= item_for @withdraw, name.titleize do %>
-              <span class="fa fa-copy" data-clipboard-text="<%= value %>">
-                <%= value %>
-              </span>
-            <% end %>
           <% end %>
           <hr class="split">
           <ul class="list-inline pull-right">

@@ -1,5 +1,5 @@
 class Withdraw extends PeatioModel.Model
-  @configure 'Withdraw', 'sn', 'account_id', 'member_id', 'currency', 'amount', 'fee', 'destination',
+  @configure 'Withdraw', 'sn', 'account_id', 'member_id', 'currency', 'amount', 'fee', 'rid',
     'created_at', 'updated_at', 'done_at', 'txid', 'wallet_url', 'transaction_url', 'aasm_state', 'sum', 'type'
 
   @initData: (records) ->
