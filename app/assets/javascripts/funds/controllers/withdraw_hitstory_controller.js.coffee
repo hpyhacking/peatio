@@ -18,8 +18,6 @@ app.controller 'WithdrawHistoryController', ($scope, $stateParams, $http) ->
 
   @cancelWithdraw = (withdraw) ->
     $http.delete("/withdraws/#{$stateParams.currency}/#{withdraw.id}")
-      .success ->
-        location.reload()
       .error (responseText) ->
         $.publish 'flash', { message: responseText }
 

@@ -21,8 +21,6 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
     $('.form-submit > input').attr('disabled', 'disabled')
 
     $http.post("/withdraws/#{currency}", data)
-      .success ->
-        location.reload()
       .error (responseText) ->
         $.publish 'flash', { message: responseText }
       .finally =>
