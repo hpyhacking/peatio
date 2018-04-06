@@ -14,7 +14,7 @@ require 'openssl'
       raise ArgumentError, 'keychain.' + id.to_s + ' was set to private key, ' \
                            'however it should be public (in config/management_api_v1.yml).'
     end
-    x[:keychain][id] = key
+    x[:keychain][id][:value] = key
   end
 
   x.fetch(:scopes).values.each do |scope|
