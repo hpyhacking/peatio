@@ -29,11 +29,6 @@
 #= require list
 #= require qrcode
 
-#= require_tree ./helpers
-#= require_tree ./component_mixin
-#= require_tree ./component_data
-#= require_tree ./component_ui
-
 $(document).on 'click', '[data-clipboard-text], [data-clipboard-target]', (e) ->
   $action = $(this)
 

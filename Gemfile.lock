@@ -126,7 +126,6 @@ GEM
       actionpack (> 4.2)
       activemodel (> 4.2)
       rubytree (~> 0.8.3)
-    ejs (1.1.1)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -445,7 +444,6 @@ DEPENDENCIES
   database_cleaner (~> 1.6)
   datagrid
   easy_table
-  ejs (~> 1.1)
   em-websocket (~> 0.5.1)
   email_validator (~> 1.6)
   enumerize

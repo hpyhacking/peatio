@@ -11,7 +11,6 @@
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
-      <%= render partial: 'shared/header_account_balance' if current_user && controller_name == 'markets' %>
       <%= render partial: 'shared/header_profile_setting' if current_user %>
       <%= render partial: 'shared/header_lang_sel' %>
     </ul>

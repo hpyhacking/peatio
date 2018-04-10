@@ -7,7 +7,6 @@
 #= require jquery_ujs
 #= require jquery-timing.min
 #= require bootstrap
-#= require bootstrap-switch.min
 #= require scrollIt
 #= require moment
 #= require bignumber
@@ -21,18 +20,10 @@
 #= require qrcode
 #= require cookies.min
 
-#= require ./lib/notifier
 #= require ./lib/pusher_connection
 #= require ./lib/tiny-pubsub
 
 #= require highstock
-#= require_tree ./highcharts/
-
-#= require_tree ./helpers
-#= require_tree ./component_mixin
-#= require_tree ./component_data
-#= require_tree ./component_ui
-#= require_tree ./templates
 
 $ ->
   BigNumber.config(ERRORS: false)
@@ -61,5 +52,3 @@ $ ->
       text:   $el.data('text')
       width:  $el.data('width')
       height: $el.data('height')
-
-  FlashMessageUI.attachTo('.flash-message')
