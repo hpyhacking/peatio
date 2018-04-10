@@ -15,12 +15,12 @@ module CoinAPI
 
     def create_address!
       response = rest_api(:post, '/wallet/' + urlsafe_wallet_id + '/address')
+      address  = response['address']
+
       # Specific case for ETH.
-      if response.key?('id')
-        { address: rest_api(:get, '/wallet/' + urlsafe_wallet_id).fetch('coinSpecific').fetch('baseAddress') }
-      else
-        { address: response.fetch('address') }
-      end
+      # See https://www.bitgo.com/api/v2/#ethereum
+      raise CoinAPI::Error, 'BitGo hasn\'t returned an address.' if address.blank?
+      { address: address }
     end
 
     def each_deposit!
@@ -62,10 +62,9 @@ module CoinAPI
       args = [@endpoint + path]
 
       if data
-        if verb.in?(%i[ post put patch  ])
+        if verb.in?(%i[ post put patch ])
           args << data.compact.to_json
-          args << { 'Accept'       => 'application/json',
-                    'Content-Type' => 'application/json' }
+          args << { 'Content-Type' => 'application/json' }
         else
           args << data.compact
           args << {}
@@ -75,9 +74,12 @@ module CoinAPI
         args << {}
       end
 
+      args.last['Accept']        = 'application/json'
       args.last['Authorization'] = 'Bearer ' + @access_token
 
-      response = Faraday.send(verb, *args).assert_success!
+      response = Faraday.send(verb, *args)
+      Rails.logger.debug { response.describe }
+      response.assert_success!
       JSON.parse(response.body)
     end
 
