@@ -12,8 +12,14 @@ MAINTAINER lbellet@heliostech.fr
 ARG RAILS_ENV=production
 ENV RAILS_ENV=${RAILS_ENV} APP_HOME=/home/app
 
+# Allow customization of user ID and group ID (it's useful when you use Docker bind mounts)
+ARG UID=1000
+ARG GID=1000
+
  # Create group "app" and user "app".
-RUN useradd --system --create-home --home ${APP_HOME} --shell /sbin/nologin --no-log-init --user-group app \
+RUN groupadd -r --gid ${GID} app \
+ && useradd --system --create-home --home ${APP_HOME} --shell /sbin/nologin --no-log-init \
+      --gid ${GID} --uid ${UID} app \
  # Install system dependencies.
  && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
