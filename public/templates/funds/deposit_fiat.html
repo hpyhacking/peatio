@@ -11,14 +11,12 @@
   <tr>
     <th>{{ "funds.deposit_history.identification" | t }}</th>
     <th>{{ "funds.deposit_history.time" | t }}</th>
-    <th>{{ "funds.deposit_history.from" | t }}</th>
     <th>{{ "funds.deposit_history.amount" | t }}</th>
     <th>{{ "funds.deposit_history.state_and_action" | t }}</th>
   </tr>
   <tr class="deposit_item" ng-class="{ 'new-row':dhCtrl.newRecord(deposit) }" ng-repeat="deposit in dhCtrl.deposits | orderBy:predicate">
     <td><span class="outlined-label">{{ deposit.id }}</span></td>
     <td>{{ deposit.created_at | date:'yyyy-MM-dd HH:mm' }}</td>
-    <td>{{ deposit.fund_extra }} @ {{ deposit.fund_uid }}</td>
     <td>{{ deposit.amount}}</td>
     <td>{{ 'funds.deposit_history.' + deposit.aasm_state | t }}
       <span ng-if="dhCtrl.canCancel(deposit.aasm_state)">/

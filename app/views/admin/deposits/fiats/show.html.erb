@@ -11,8 +11,6 @@
           <dt>Amount</dt><dd><%= number_with_precision(@deposit.amount, precision: 2) %></dd>
           <dt>Created at</dt><dd><%= t(@deposit.created_at, format: :long) %></dd>
           <dt>State</dt><dd><%= @deposit.aasm_state_text %></dd>
-          <dt>Bank name</dt><dd><%= @deposit.fund_extra %></dd>
-          <dt>Bank account</dt><dd><%= @deposit.fund_uid %></dd>
         <% end %>
       </div>
       <% if @deposit.may_accept? %>

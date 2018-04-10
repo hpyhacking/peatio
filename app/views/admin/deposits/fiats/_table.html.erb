@@ -8,9 +8,6 @@
     <% t.column 'Member email', class: 'col-xs-5' do |x| %>
       <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
     <% end %>
-    <% t.column 'Bank account', class: 'col-xs-4' do |x| %>
-      <span><%= x.fund_uid %> (<%= x.fund_extra.presence || '<unavailable>' %>)</span>
-    <% end %>
     <% t.column :amount, class: 'col-xs-3' do |x| %>
       <code class="text-info"><%= number_with_precision(x.amount, precision: 2) %></code>
     <% end %>

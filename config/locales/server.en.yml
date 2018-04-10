@@ -176,7 +176,6 @@ en:
       columns:
         sn: SN
         created_at: At
-        fund_extra_text: Extra
         txid: TXID
         amount: Amount
         fee: Fee
@@ -185,7 +184,6 @@ en:
       columns:
         sn: SN
         created_at: At
-        fund_extra_text: Bank
         amount: Amount
         fee: Fee
         aasm_state_text: State

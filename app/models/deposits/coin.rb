@@ -43,7 +43,7 @@ module Deposits
 end
 
 # == Schema Information
-# Schema version: 20180403115050
+# Schema version: 20180407082641
 #
 # Table name: deposits
 #
@@ -53,8 +53,6 @@ end
 #  currency_id            :integer
 #  amount                 :decimal(32, 16)
 #  fee                    :decimal(32, 16)
-#  fund_uid               :string(255)
-#  fund_extra             :string(255)
 #  txid                   :string(255)
 #  state                  :integer
 #  aasm_state             :string

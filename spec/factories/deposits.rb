@@ -1,8 +1,6 @@
 FactoryBot.define do
   factory :deposit do
     member { create(:member, :verified_identity) }
-    fund_uid { Faker::Lorem.characters }
-    fund_extra { Faker::Lorem.characters }
     amount { (100..10_000).to_a.sample.to_d }
     txid { Faker::Lorem.characters(16) }
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180406080444) do
+ActiveRecord::Schema.define(version: 20180407082641) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -96,8 +96,6 @@ ActiveRecord::Schema.define(version: 20180406080444) do
     t.integer  "currency_id",            limit: 4
     t.decimal  "amount",                             precision: 32, scale: 16
     t.decimal  "fee",                                precision: 32, scale: 16
-    t.string   "fund_uid",               limit: 255
-    t.string   "fund_extra",             limit: 255
     t.string   "txid",                   limit: 255
     t.integer  "state",                  limit: 4
     t.string   "aasm_state",             limit: 255
