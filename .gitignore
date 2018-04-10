@@ -51,3 +51,7 @@ tags
 .DS_Store
 .agignore
 **/*.tgz
+
+# Ignore useless yarn files and cache
+.cache
+.yarnrc
