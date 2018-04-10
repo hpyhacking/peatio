@@ -257,7 +257,6 @@ ActiveRecord::Schema.define(version: 20180407082641) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   create_table "withdraws", force: :cascade do |t|
-    t.string   "sn",          limit: 255
     t.integer  "account_id",  limit: 4
     t.integer  "member_id",   limit: 4
     t.integer  "currency_id", limit: 4

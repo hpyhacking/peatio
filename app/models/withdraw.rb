@@ -25,7 +25,6 @@ class Withdraw < ActiveRecord::Base
   before_validation :fix_precision
   before_validation :calc_fee
   before_validation :set_account
-  after_create :generate_sn
 
   after_update :sync_update
   after_create :sync_create
@@ -46,15 +45,6 @@ class Withdraw < ActiveRecord::Base
 
   def channel
     WithdrawChannel.find_by!(currency: currency.code)
-  end
-
-  alias_attribute :withdraw_id, :sn
-
-  def generate_sn
-    id_part = sprintf '%04d', id
-    date_part = created_at.localtime.strftime('%y%m%d%H%M')
-    self.sn = "#{date_part}#{id_part}"
-    update_column(:sn, sn)
   end
 
   aasm whiny_transitions: false do
@@ -104,7 +94,7 @@ class Withdraw < ActiveRecord::Base
 
     event :success do
       transitions from: :processing, to: :succeed
-      before %i[set_txid unlock_and_sub_funds]
+      before %i[unlock_and_sub_funds]
       after_commit { WithdrawMailer.succeed(id).deliver }
     end
 
@@ -149,10 +139,6 @@ private
   def unlock_and_sub_funds
     account.lock!
     account.unlock_and_sub_funds sum, locked: sum, fee: fee, reason: Account::WITHDRAW, ref: self
-  end
-
-  def set_txid
-    self.txid = @sn unless coin?
   end
 
   def send_coins!
@@ -206,12 +192,11 @@ public
 end
 
 # == Schema Information
-# Schema version: 20180406080444
+# Schema version: 20180406185130
 #
 # Table name: withdraws
 #
 #  id          :integer          not null, primary key
-#  sn          :string(255)
 #  account_id  :integer
 #  member_id   :integer
 #  currency_id :integer

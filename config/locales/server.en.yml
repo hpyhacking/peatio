@@ -34,8 +34,6 @@ en:
         sn: SN
       withdraw:
         id: ID
-        sn: SN
-        withdraw_id: ID
         created_at: Created At
         done_at: Done At
         sum: Sum
@@ -197,7 +195,6 @@ en:
         confirmations: Confirm
     withdraws_grid:
       columns:
-        sn: SN
         name: Name
         amount: Amount
         fee: Fee

@@ -35,12 +35,11 @@ module Withdraws
 end
 
 # == Schema Information
-# Schema version: 20180406080444
+# Schema version: 20180406185130
 #
 # Table name: withdraws
 #
 #  id          :integer          not null, primary key
-#  sn          :string(255)
 #  account_id  :integer
 #  member_id   :integer
 #  currency_id :integer

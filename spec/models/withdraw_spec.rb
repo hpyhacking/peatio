@@ -68,25 +68,6 @@ describe Withdraw do
       end
     end
 
-    describe 'sn' do
-      before do
-        Timecop.freeze(Time.local(2013, 10, 7, 18, 18, 18))
-        @withdraw = create(:btc_withdraw, id: 1)
-      end
-
-      after do
-        Timecop.return
-      end
-
-      it 'generate right sn' do
-        expect(@withdraw.sn).to eq('13100718180001')
-      end
-
-      it 'alias withdraw_id to sn' do
-        expect(@withdraw.withdraw_id).to eq('13100718180001')
-      end
-    end
-
     describe 'account id assignment' do
       subject { build :btc_withdraw, account_id: 999 }
 
