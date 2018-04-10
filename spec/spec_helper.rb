@@ -60,14 +60,25 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers
   config.include Capybara::DSL
 
+  # See https://github.com/DatabaseCleaner/database_cleaner#rspec-with-capybara-example
   config.before :suite do
-    DatabaseCleaner.strategy = :deletion
+    FileUtils.rm_rf(File.join(__dir__, 'tmp', 'cache'))
     DatabaseCleaner.clean_with(:truncation)
   end
 
   config.before :each do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before :each, type: :feature do
+    driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
+    unless driver_shares_db_connection_with_specs
+      DatabaseCleaner.strategy = :truncation
+    end
+  end
+
+  config.before :each do
     DatabaseCleaner.start
-    FileUtils.rm_rf(File.join(__dir__, 'tmp', 'cache'))
     AMQPQueue.stubs(:publish)
     KlineDB.stubs(:kline).returns([])
     I18n.locale = :en
@@ -75,16 +86,20 @@ RSpec.configure do |config|
     %i[ btcusd dashbtc ].each { |market| FactoryBot.create(:market, market) }
   end
 
-  config.after :each do
+  config.after :each, type: :feature do
+    page.driver.quit
+  end
+
+  config.append_after :each do
     DatabaseCleaner.clean
   end
 
   if Bullet.enable?
-    config.before(:each) do
+    config.before :each do
       Bullet.start_request
     end
 
-    config.after(:each) do
+    config.after :each do
       Bullet.perform_out_of_channel_notifications if Bullet.notification?
       Bullet.end_request
     end

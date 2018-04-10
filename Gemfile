@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
+git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 
 gem 'rails', '~> 4.2'
 gem 'rails-i18n'
@@ -77,14 +77,10 @@ gem 'ejs','~> 1.1'
 gem 'jwt-multisig', '~> 1.0'
 
 group :development, :test do
-  gem 'bullet', '~> 5.7'
-  gem 'factory_bot_rails'
-  gem 'faker', '~> 1.8'
-  gem 'binding_of_caller'
-  gem 'quiet_assets'
-  gem 'timecop'
-  gem 'rspec-rails', '~> 3.7'
-  gem 'pry-byebug'
+  gem 'faker',        '~> 1.8'
+  gem 'pry-byebug',   '~> 3.6'
+  gem 'quiet_assets', '~> 1.1'
+  gem 'bullet',       '~> 5.7'
 end
 
 group :development do
@@ -92,12 +88,14 @@ group :development do
 end
 
 group :test do
-  gem 'database_cleaner'
-  gem 'mocha', require: false
-
+  gem 'rspec-rails',         '~> 3.7'
   gem 'capybara',            '~> 2.17'
   gem 'selenium-webdriver',  '~> 3.8'
   gem 'chromedriver-helper', '~> 1.1'
   gem 'rack_session_access', '~> 0.1'
   gem 'webmock',             '~> 3.3'
+  gem 'database_cleaner',    '~> 1.6'
+  gem 'mocha',               '~> 1.4', require: false
+  gem 'factory_bot_rails',   '~> 4.8'
+  gem 'timecop',             '~> 0.9'
 end
