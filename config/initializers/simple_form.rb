@@ -42,10 +42,10 @@ SimpleForm.setup do |config|
 
     ## Inputs
     #
-    b.use :label, wrap_with: { tag: :div, class: 'col-xs-8 text-right'}
-    b.use :input, wrap_with: { tag: :div, class: 'col-xs-14'}
-    b.use :error, wrap_with: { tag: :span, class: 'error text-danger col-xs-14 col-xs-offset-8' }
-    b.use :hint,  wrap_with: { tag: :span, class: 'hint col-xs-14 col-xs-offset-8' }
+    b.use :label, wrap_with: { tag: :div }
+    b.use :input, wrap_with: { tag: :div }
+    b.use :error, wrap_with: { tag: :span }
+    b.use :hint,  wrap_with: { tag: :span }
   end
 
   config.wrappers :search, class: 'form-group', hint_class: :field_with_hint, error_class: :field_with_errors do |b|

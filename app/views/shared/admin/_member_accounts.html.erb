@@ -1,3 +1,5 @@
 <% member.accounts.each do |account| %>
-  <%= render partial: 'shared/admin/account', locals: {account: account} %>
+  <div class="col-8">
+    <%= render partial: 'shared/admin/account', locals: {account: account} %>
+  </div>
 <% end %>

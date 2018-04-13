@@ -1,43 +1,62 @@
-<div class="col-xs-10">
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <span>Market info</span>
-    </div>
-    <div class="panel-body">
-      <dl class="dl-horizontal dl-member">
-        <%= form_for @market,
-                     as:  :trading_pair,
-                     url: @market.new_record? ? admin_markets_url : admin_market_url(@market.id) do |f| %>
-          <dt>Bid unit</dt>
+<h3>Market info</h3>
+
+<%= form_for @market,
+    as:  :trading_pair,
+    url: @market.new_record? ? admin_markets_url : admin_market_url(@market.id) do |f| %>
+
+  <div class="card-deck">
+
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <label>Bid unit</label>
           <% if @market.new_record? %>
-            <dd><%= f.select :bid_unit, Currency.codes.map { |code| [code.upcase, code] } %></dd>
+            <%= f.select :bid_unit, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
           <% else %>
-            <dd><%= @market.bid_unit.upcase %></dd>
+            <div class="mb-3"><%= @market.bid_unit.upcase %></div>
           <% end %>
-          <dt>Bid fee</dt>
-          <dd><%= f.text_field :bid_fee, class: 'col-xs-24' %></dd>
-          <dt>Bid precision</dt>
-          <dd><%= f.number_field :bid_precision, class: 'col-xs-24' %></dd>
-          <hr class="split">
-          <dt>Ask unit</dt>
-          <% if @market.new_record? %>
-            <dd><%= f.select :ask_unit, Currency.codes.map { |code| [code.upcase, code] } %></dd>
-          <% else %>
-            <dd><%= @market.ask_unit.upcase %></dd>
-          <% end %>
-          <dt>Ask fee</dt>
-          <dd><%= f.text_field :ask_fee, class: 'col-xs-24' %></dd>
-          <dt>Ask precision</dt>
-          <dd><%= f.number_field :ask_precision, class: 'col-xs-24' %></dd>
-          <hr class="split">
-          <dt>Visible</dt>
-          <dd><%= f.check_box :visible, class: 'col-xs-24' %></dd>
-          <dt>Position</dt>
-          <dd><%= f.number_field :position, class: 'col-xs-24' %></dd>
-          <hr class="split">
-          <%= f.submit 'Submit', class: 'btn btn-primary pull-right' %>
-        <% end %>
-      </dl>
+
+          <label>Bid fee</label>
+          <%= f.text_field :bid_fee, class: 'form-control mb-3' %>
+
+          <label>Bid precision</label>
+          <%= f.number_field :bid_precision, class: 'form-control mb-3' %>
+        </div>
+      </div>
     </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <label>Ask unit</label>
+          <% if @market.new_record? %>
+            <%= f.select :ask_unit, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
+          <% else %>
+            <%= @market.ask_unit.upcase %>
+          <% end %>
+          <label>Ask fee</label>
+          <%= f.text_field :ask_fee, class: 'form-control mb-3' %>
+          <label>Ask precision</label>
+          <%= f.number_field :ask_precision, class: 'form-control' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group form-check">
+          <%= f.check_box :visible, class: 'form-check-input' %>
+          <label class="form-check-label" for="trading_pair_visible">Visible</label>
+        </div>
+        <div class="form-group">
+          <label>Position</label>
+          <%= f.number_field :position, class: 'form-control' %>
+        </div>
+      </div>
+    </div>
+
   </div>
-</div>
+
+  <%= f.submit 'Submit', class: 'btn btn-primary btn-lg mt-3' %>
+
+<% end %>

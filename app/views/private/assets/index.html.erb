@@ -1,12 +1,12 @@
 <% content_for :frame do %>
   <div class="container">
     <ul class="nav nav-justified assets-nav">
-      <li class="active" data-scroll-nav="0">
-        <a><%= t('.liability-proof') %></a>
+      <li class="nav-item position-relative" data-scroll-nav="0">
+        <a class="nav-link active"><%= t('.liability-proof') %></a>
       </li>
       <% Currency.all.each_with_index do |ccy, i| %>
-        <li data-scroll-nav="<%= i + 1 %>">
-          <a><%= t(".#{ccy.type}-assets", currency: ccy.code.upcase) %></a>
+        <li class="nav-item position-relative" data-scroll-nav="<%= i + 1 %>">
+          <a class="nav-link"><%= t(".#{ccy.type}-assets", currency: ccy.code.upcase) %></a>
         </li>
       <% end %>
     </ul>

@@ -1,4 +1,4 @@
-<div class="order">
+<span class="order">
   <%= link_to(
       I18n.t("datagrid.table.order.asc", :default => "&uarr;".html_safe).html_safe,
       url_for(grid.param_name => grid.as_query.merge(:order => column.name, :descending => false)),
@@ -7,4 +7,4 @@
       I18n.t("datagrid.table.order.desc", :default => "&darr;".html_safe).html_safe,
       url_for(grid.param_name => grid.as_query.merge(:order => column.name, :descending => true )),
       :class => "desc") %>
-</div>
+</span>

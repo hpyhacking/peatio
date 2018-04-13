@@ -1,18 +1,18 @@
 <h1 class="page-title"><%= t('header.funds') %></h1>
 
-<div class="panel panel-default">
-  <div class="panel-body panel-currencies">
+<div class="card card-default">
+  <div class="card-currencies">
 
     <div class="row">
-      <div class="col-xs-8">
+      <div class="col-4 pr-0">
 
         <div class="currencies-container">
           <accounts></accounts>
         </div>
       </div>
 
-      <div class="col-xs-16">
-        <div class="details-container">
+      <div class="col-8 border-left">
+        <div class="card-body">
           <!-- {{template 'flash'}} -->
           <ui-view></ui-view>
         </div>

@@ -1,6 +1,6 @@
 /* basic style extend
 ------------------------------------------------------- */
-g { color: $gray-light; }
+g { color: $gray-400; }
 
 * + i[class^=fa], i[class^=fa] + * { margin-left: $icon-gutter-width; }
 
@@ -11,8 +11,8 @@ abbr { border-bottom: 0px !important; }
 
 @include text-emphasis-variant('.text-up', $up-text);
 @include text-emphasis-variant('.text-down', $down-text);
-.btn-up { @include button-variant($btn-default-color, $up-bg, $btn-default-border); }
-.btn-down { @include button-variant($btn-default-color, $down-bg, $btn-default-border); }
+.btn-up { @include button-variant($btn-default-color, $up-bg, $input-border-color); }
+.btn-down { @include button-variant($btn-default-color, $down-bg, $input-border-color); }
 
 table.table { td.vertical-center { vertical-align: middle !important; } }
 
@@ -20,7 +20,7 @@ table.table { td.vertical-center { vertical-align: middle !important; } }
 /* TODO UNKNDOW CLASS
 ------------------------------------------------------ */
 .number { font-family: monospace; }
-.number-label { color: $gray-light; margin-right: 5px; }
+.number-label { color: $gray-400; margin-right: 5px; }
 span.hint { margin-top: 6px; }
-.text-ignore { color: $gray-light; }
+.text-ignore { color: $gray-400; }
 

@@ -1,6 +1,7 @@
-<div class="panel panel-primary">
-  <div class="panel-heading"><%= currency.code.upcase %> deposits</div>
-  <%= table_for @deposits, class: 'table table-condensed table-hover' do |t| %>
+<h3><%= currency.code.upcase %> deposits</h3>
+<div class="card">
+
+  <%= table_for @deposits, class: 'table table-bordered table-striped' do |t| %>
     <% t.column :txid do |x| %>
       <a href="<%= x.transaction_url %>" target="_blank">
         <code class="text-info"><%= x.txid.truncate(36) %></code>

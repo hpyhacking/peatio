@@ -1,20 +1,20 @@
 <% unless deposits.empty? %>
-  <%= table_for deposits, class: 'table table-condensed table-hover' do |t| %>
-    <% t.column :id, 'Deposit ID', class: 'col-xs-2' %>
-    <% t.column :created_at, 'Created at', class: 'col-xs-4' %>
-    <% t.column 'Currency', class: 'col-xs-2' do |x| %>
+  <%= table_for deposits, class: 'table table-bordered table-striped' do |t| %>
+    <% t.column :id, 'Deposit ID' %>
+    <% t.column :created_at, 'Created at' %>
+    <% t.column 'Currency' do |x| %>
       <%= x.currency.code.upcase %>
     <% end %>
-    <% t.column 'Member email', class: 'col-xs-5' do |x| %>
+    <% t.column 'Member email' do |x| %>
       <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
     <% end %>
-    <% t.column :amount, class: 'col-xs-3' do |x| %>
+    <% t.column :amount, class: 'col-3' do |x| %>
       <code class="text-info"><%= number_with_precision(x.amount, precision: 2) %></code>
     <% end %>
-    <% t.column 'State', class: 'col-xs-2' do |x| %>
+    <% t.column 'State' do |x| %>
       <%= x.aasm_state_text %>
     <% end %>
-    <% t.column 'Actions', class: 'col-xs-3' do |x| %>
+    <% t.column 'Actions' do |x| %>
       <%= link_to 'View', admin_deposit_path(x.currency.code, x) %>
     <% end %>
   <% end %>

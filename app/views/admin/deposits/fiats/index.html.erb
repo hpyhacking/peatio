@@ -1,9 +1,19 @@
-<%= link_to 'New Deposit', new_admin_deposit_path(currency: currency.code) %>
-<div class="panel panel-primary">
-  <div class="panel-heading">Deposits for the last 24 hours</div>
+<div class="row">
+  <div class="col-6">
+    <h3>Deposits for the last 24 hours</h3>
+  </div>
+  <div class="col-6">
+    <%= link_to raw("<i class='fa fa-plus mr-2'></i> New Deposit"), new_admin_deposit_path(currency: currency.code), class: "btn btn-primary pull-right mb-3" %>
+  </div>
+</div>
+
+<div class="card">
   <%= render partial: 'table', locals: {deposits: @latest_deposits} %>
 </div>
-<div class="panel panel-success">
-  <div class="panel-heading">All deposits</div>
+
+<hr>
+
+<h3>All deposits</h3>
+<div class="card">
   <%= render partial: 'table', locals: {deposits: @all_deposits} %>
 </div>

@@ -2,17 +2,16 @@
     color: rgb(83, 102, 120);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     height: 80vh;
     overflow: hidden;
     position: relative;
 
     .container {
-      padding-top: 60px;
+      padding-top: 20px;
     }
 
-    .logo {
+    .welcome-logo {
       display: flex;
       justify-content: center;
       align-content: center;

@@ -1,12 +1,12 @@
 <% unless @latest_withdraws.empty? %>
-  <div class="panel panel-primary">
-    <div class="panel-heading">Withdraws for the last 24 hours</div>
+  <h3>Withdraws for the last 24 hours</h3>
+  <div class="card">
     <%= render partial: 'table', locals: {withdraws: @latest_withdraws} %>
   </div>
 <% end %>
 <% unless @all_withdraws.empty? %>
-  <div class="panel panel-success">
-    <div class="panel-heading">All withdraws</div>
+  <h3>All withdraws</h3>
+  <div class="card">
     <%= render partial: 'table', locals: {withdraws: @all_withdraws} %>
   </div>
 <% end %>

@@ -80,11 +80,11 @@ module ApplicationHelper
 
   def top_nav_link(link_text, link_path, link_icon, controllers: [], counter: 0, target: '')
     merged = (controllers & controller_path.split('/'))
-    class_name = current_page?(link_path) ? 'active' : nil
-    class_name ||= merged.empty? ? nil : 'active'
+    class_name = current_page?(link_path) ? 'nav-item active' : nil
+    class_name ||= merged.empty? ? nil : 'nav-item active'
 
     content_tag(:li, :class => class_name) do
-      link_to link_path, target: target do
+      link_to link_path, target: target, class: "nav-link" do
         content_tag(:i, :class => "fa fa-#{link_icon}") do
           content_tag(:span, counter,class: "counter") if counter != 0
         end +
@@ -175,7 +175,7 @@ module ApplicationHelper
   end
 
   def description_for(name, &block)
-    content_tag :dl, class: "dl-horizontal dl-#{name}" do
+    content_tag :dl, class: "dl-#{name}" do
       capture(&block)
     end
   end
@@ -213,9 +213,9 @@ module ApplicationHelper
 
   def yesno(val)
     if val
-      content_tag(:span, 'YES', class: 'label label-success')
+      content_tag(:span, 'YES', class: 'badge badge-success')
     else
-      content_tag(:span, 'NO', class: 'label label-danger')
+      content_tag(:span, 'NO', class: 'badge badge-danger')
     end
   end
 

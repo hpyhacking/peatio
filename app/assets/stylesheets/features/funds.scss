@@ -69,7 +69,7 @@
   }
 }
 
-.table-currencies {
+table.table-currencies {
   border-radius: 5px;
   right: -1px;
   margin-bottom: 0;
@@ -131,7 +131,7 @@
     position: relative;
     text-align: right;
     vertical-align: middle;
-    p { 
+    p {
       margin: 0;
       position: relative;
       &:first-child {
@@ -166,11 +166,11 @@
     border-width: 11px;
     margin-top: -11px;
   }
-  &.deposit-now .currency-actions:after, 
+  &.deposit-now .currency-actions:after,
   &.deposit-now .currency-actions:before {
     top: 31px;
   }
-  &.withdraw-now .currency-actions:after, 
+  &.withdraw-now .currency-actions:after,
   &.withdraw-now .currency-actions:before {
     top: 73px;
   }

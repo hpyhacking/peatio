@@ -1,11 +1,11 @@
-<div class="panel panel-info">
-  <div class="panel-heading">
+<div class="card card-info">
+  <div class="card-header">
     <span><%= t('.account_info') %></span>
     <span> : </span>
     <span><%= account.currency.code.upcase %></span>
   </div>
-  <div class="panel-body">
-    <dl class="dl-horizontal">
+  <div class="card-body">
+    <dl>
       <%= item_for account, :amount %>
       <%= item_for account, :locked %>
       <%= item_for account, :balance %>

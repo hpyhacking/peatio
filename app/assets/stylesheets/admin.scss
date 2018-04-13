@@ -2,10 +2,16 @@
 
 @import 'vars/bootstrap';
 
-@import 'bootstrap-sprockets';
 @import 'bootstrap';
 
 @import 'vars/basic';
+
+@import 'font-awesome-sprockets';
+@import 'font-awesome';
+
+@import 'admin/theme';
+@import 'admin/layout';
+@import 'admin/sidebar';
 
 .dl-horizontal dt {
   width: 180px;
@@ -91,4 +97,8 @@ span.detail-section {
 
 header {
   width: 100vw;
+}
+
+table.table {
+  margin-bottom: 0;
 }

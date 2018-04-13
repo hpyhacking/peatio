@@ -1,44 +1,45 @@
-<form id="withdraw" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl" ng-submit="withdrawsCtrl.createWithdraw(currency)">
-  <div class="form-group">
-    <div class="col-sm-6">
-      <label class="optional control-label">{{"funds.withdraw_coin.balance" | t}}</label>
-    </div>
-    <div class="col-sm-12">
-      <p class="form-control-static"><span class="currency-balance" id="withdraw_balance">{{balance}}</span></p>
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <div class="col-sm-6">
-      <label class="required control-label" for="withdraw_rid">Withdraw address</label>
-    </div>
-    <div class="col-sm-12">
-      <input class="required form-control" id="withdraw_rid" name="withdraw[rid]" placeholder="Recipient wallet address" type="text" ng-model="withdrawsCtrl.withdraw.rid">
-    </div>
-  </div>
-
-  <div class="form-group required">
-    <div class="col-sm-6">
-      <label class="decimal required control-label" for="withdraw_sum">Withdraw amount</label>
-    </div>
-    <div class="col-sm-12">
-      <div class="input-group">
-        <input class="numeric decimal required form-control" id="withdraw_sum" min="0" name="withdraw[sum]" placeholder="{{'funds.withdraw_coin.min' | t}} 0.001" step="any" type="number" value="0.0" ng-model="withdrawsCtrl.withdraw.sum">
-        <div class="input-group-btn"><button ng-click="withdrawsCtrl.withdrawAll()" class="btn btn-success" id="withdraw_all_btn" type="button">{{"funds.withdraw_coin.withdraw_all" | t}}</button></div>
+<div class="border mt-3 p-3">
+  <form id="withdraw" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl" ng-submit="withdrawsCtrl.createWithdraw(currency)">
+    <div class="form-group row">
+      <div class="col-sm-4">
+        <label class="optional control-label">{{"funds.withdraw_coin.balance" | t}}</label>
+      </div>
+      <div class="col-sm-8">
+        <p class="form-control-static"><span class="currency-balance" id="withdraw_balance">{{balance}}</span></p>
       </div>
     </div>
-  </div>
 
-  <div class="form-group">
-    <div class="form-submit col-sm-18 col-sm-offset-6">
-      <input  id="withdraw_submit" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="{{'submit' | t}}">
+    <div class="form-group row required">
+      <div class="col-sm-4">
+        <label class="required control-label" for="withdraw_rid">Withdraw address</label>
+      </div>
+      <div class="col-sm-8">
+        <input class="required form-control" id="withdraw_rid" name="withdraw[rid]" placeholder="Recipient wallet address" type="text" ng-model="withdrawsCtrl.withdraw.rid">
+      </div>
     </div>
-  </div>
 
-</form>
+    <div class="form-group row required">
+      <div class="col-sm-4">
+        <label class="decimal required control-label" for="withdraw_sum">Withdraw amount</label>
+      </div>
+      <div class="col-sm-8">
+        <div class="input-group">
+          <input class="numeric decimal required form-control" id="withdraw_sum" min="0" name="withdraw[sum]" placeholder="{{'funds.withdraw_coin.min' | t}} 0.001" step="any" type="number" value="0.0" ng-model="withdrawsCtrl.withdraw.sum">
+          <div class="input-group-btn"><button ng-click="withdrawsCtrl.withdrawAll()" class="btn btn-success" id="withdraw_all_btn" type="button">{{"funds.withdraw_coin.withdraw_all" | t}}</button></div>
+        </div>
+      </div>
+    </div>
 
-<br>
-<h2 class="panel-title">{{ "funds.withdraw_history.title" | t }}</h2>
+    <div class="">
+      <div class="form-submit col-sm-18 col-sm-offset-6">
+        <input  id="withdraw_submit" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value="{{'submit' | t}}">
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<h2 class="panel-title mt-5">{{ "funds.withdraw_history.title" | t }}</h2>
 
 <table class="table withdraw-history" ng-controller="WithdrawHistoryController as wdCtrl">
   <tr>

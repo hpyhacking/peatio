@@ -1,15 +1,13 @@
-<li class="dropdown">
-  <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
     <img src="<%= language_path %>"/>
     <b class="caret"></b>
   </a>
-  <ul id="languages" class="dropdown-menu">
+  <div id="languages" class="dropdown-menu">
     <% I18n.available_locales.each do |lang| %>
-      <li>
-        <a href="?lang=<%= lang %>">
-          <img src="/languages/<%= lang || I18n.locale %>.png"/>
-        </a>
-      </li>
+      <a class="dropdown-item" href="?lang=<%= lang %>">
+        <img src="/languages/<%= lang || I18n.locale %>.png"/>
+      </a>
     <% end %>
-  </ul>
+  </div>
 </li>

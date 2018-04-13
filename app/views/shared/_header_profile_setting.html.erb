@@ -1,29 +1,23 @@
 <% controllers = ['settings', 'dashboard'] %>
 <% dropdown_class = (controllers & controller_path.split('/')).empty? ? '' : 'active' %>
-<li class="dropdown account-settings <%= dropdown_class %>">
-  <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+<li class="nav-item dropdown account-settings <%= dropdown_class %>">
+  <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
     <span><%= current_user.email %></span>
     <b class="caret"></b>
   </a>
-  <ul class="dropdown-menu">
-    <li>
-      <a href="<%= settings_path %>">
-        <i class="fa fa-user"></i><span><%= t('header.my_profile') %></span>
-      </a>
-    </li>
+  <div class="dropdown-menu">
+    <a class="dropdown-item" href="<%= settings_path %>">
+      <i class="fa fa-user"></i><span><%= t('header.my_profile') %></span>
+    </a>
     <% if is_admin? %>
-      <li>
-        <a href="<%= admin_dashboard_path %>">
-          <i class="fa fa-dashboard"></i>
-          <span><%= t('header.admin') %></span>
-        </a>
-      </li>
-    <% end %>
-    <li>
-      <a href="<%= main_app.signout_path %>">
-        <i class="fa fa-sign-out"></i>
-        <span><%= t('header.signout') %></span>
+      <a class="dropdown-item" href="<%= admin_dashboard_path %>">
+        <i class="fa fa-dashboard"></i>
+        <span><%= t('header.admin') %></span>
       </a>
-    </li>
-  </ul>
+    <% end %>
+    <a class="dropdown-item" href="<%= main_app.signout_path %>">
+      <i class="fa fa-sign-out"></i>
+      <span><%= t('header.signout') %></span>
+    </a>
+  </div>
 </li>

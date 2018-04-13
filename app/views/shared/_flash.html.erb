@@ -1,31 +1,31 @@
 <div class="flash-message">
   <% if flash[:notice] %>
-    <div class="alert alert-dismissable alert-success">
+    <div class="alert alert-dismissable alert-custom-success alert-success">
       <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <p>
-        <i class="fa fa-bullhorn"></i>
+      <i class="icon fa fa-check"></i>
+      <h2 class="h5 mb-0">
         <span><%= flash[:notice] %></span>
-      </p>
+      </h2>
     </div>
   <% end %>
 
   <% if flash[:alert] %>
-    <div class="alert alert-dismissable alert-danger">
+    <div class="alert alert-dismissable alert-custom-danger alert-danger">
       <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <p>
-        <i class="fa fa-info-circle"></i>
+      <i class="icon fa fa-times"></i>
+      <h2 class="h5 mb-0">
         <span><%= flash[:alert] %></span>
-      </p>
+      </h2>
     </div>
   <% end %>
 
   <% if flash[:info] %>
-    <div class="alert alert-dismissable alert-info">
+    <div class="alert alert-dismissable alert-custom-info alert-info">
       <button class="close" type="button" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <p>
-        <i class="fa fa-info-circle"></i>
+      <i class="icon fa fa-info"></i>
+      <h2 class="h5 mb-0">
         <span><%= flash[:info] %></span>
-      </p>
+      </h2>
     </div>
   <% end %>
 </div>

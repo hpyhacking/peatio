@@ -1,9 +1,9 @@
-<div class="panel panel-info">
-  <div class="panel-heading">
+<div class="card card-info">
+  <div class="card-header">
     <span><%= t('.member_info') %></span>
     <%= link_to 'View', url_for([:admin, member]), class: 'pull-right', target: '_blank' %>
   </div>
-  <div class="panel-body">
+  <div class="card-body">
     <%= description_for :member do %>
       <%= item_for member, :email %>
       <%= item_for member, :sn %>

@@ -1,18 +1,19 @@
-<header class="navbar navbar-default navbar-static-top" role="navigation">
-  <div class="container">
-    <ul id="menu" class="nav navbar-nav navbar-left">
-      <a class="text-center navbar-brand" href="<%= root_path %>">
-        <img class="nav-img" src="<%= ENV['LOGO_URL'] || image_path('logo.svg') %>">
-      </a>
-      <%= top_nav_link(t('header.market'), trading_path(current_market.id), 'exchange', target: '_blank') if current_user %>
-      <%= top_nav_link(t('header.funds'), funds_path, 'money', controllers: ['funds']) if current_user %>
-      <%= top_nav_link(t('header.assets'), exchange_assets_path, 'bar-chart-o') if current_user %>
-      <%= top_nav_link(t('header.history'), order_history_path, 'book', controllers: ['history']) if current_user %>
-    </ul>
-
-    <ul class="nav navbar-nav navbar-right">
-      <%= render partial: 'shared/header_profile_setting' if current_user %>
-      <%= render partial: 'shared/header_lang_sel' %>
-    </ul>
-  </div>
+<header class="mb-4">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <ul id="menu" class="navbar-nav mr-auto">
+        <a class="text-center navbar-brand" href="<%= root_path %>">
+          <img class="nav-img" src="<%= ENV['LOGO_URL'] || image_path('logo.svg') %>">
+        </a>
+        <%= top_nav_link(t('header.market'), trading_path(current_market.id), 'exchange', target: '_blank') if current_user %>
+        <%= top_nav_link(t('header.funds'), funds_path, 'money', controllers: ['funds']) if current_user %>
+        <%= top_nav_link(t('header.assets'), exchange_assets_path, 'bar-chart-o') if current_user %>
+        <%= top_nav_link(t('header.history'), order_history_path, 'book', controllers: ['history']) if current_user %>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <%= render partial: 'shared/header_profile_setting' if current_user %>
+        <%= render partial: 'shared/header_lang_sel' %>
+      </ul>
+    </div>
+  </nav>
 </header>

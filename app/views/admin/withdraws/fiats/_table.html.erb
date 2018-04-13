@@ -1,21 +1,21 @@
-<%= table_for withdraws, class: 'table table-condensed table-hover', model: Withdraws::Fiat do |t| %>
-  <% t.column :id, class: 'col-xs-2' %>
-  <% t.column :created_at, class: 'col-xs-3' %>
-  <% t.column 'Currency', class: 'col-xs-2' do |x| %>
+<%= table_for withdraws, class: 'table table-bordered table-striped', model: Withdraws::Fiat do |t| %>
+  <% t.column :id %>
+  <% t.column :created_at %>
+  <% t.column 'Currency' do |x| %>
     <% x.currency.code.upcase %>
   <% end %>
-  <% t.column 'Member email', class: 'col-xs-5' do |x| %>
+  <% t.column 'Member email' do |x| %>
     <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
   <% end %>
-  <% t.column 'Recipient ID', class: 'col-xs-4' do |x| %>
+  <% t.column 'Recipient ID' do |x| %>
     <span><%= x.rid %></span>
   <% end %>
-  <% t.column :amount, class: 'col-xs-3' do |x| %>
+  <% t.column :amount do |x| %>
     <code class="text-info">
       <%= x.amount %>
     </code>
   <% end %>
-  <% t.column :state_and_action, class: 'col-xs-3' do |x| %>
+  <% t.column :state_and_action do |x| %>
     <span><%= x.aasm_state_text %> / </span>
     <%= link_to t('actions.view'), admin_withdraw_path(currency: x.currency.code, id: x), target: '_blank' %>
   <% end %>

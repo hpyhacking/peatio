@@ -1,4 +1,4 @@
-<h2 class="panel-title">{{"funds.deposit_fiat.title" | t:fiatCurrencyTranslationLocals}}</h2>
+<h2 class="panel-title mb-3">{{"funds.deposit_fiat.title" | t:fiatCurrencyTranslationLocals}}</h2>
 <div class="help-block" ng-bind-html="'funds.deposit_fiat.description' | t | unsafe"></div>
 
 <div ng-bind-html="bank_details_html | unsafe"></div>
@@ -6,7 +6,7 @@
 <div><span>Your reference: </span><strong ng-bind="current_user.sn"></strong>.</div>
 <div class="text-muted">IMPORTANT: This code identifies your deposit with your account. Include this code when submitting wire transfer.</div>
 
-<h2 class="panel-title">{{ "funds.deposit_history.title" | t }}</h2>
+<h2 class="panel-title mt-5 mb-3">{{ "funds.deposit_history.title" | t }}</h2>
 <table class="table" ng-controller="DepositHistoryController as dhCtrl">
   <tr>
     <th>{{ "funds.deposit_history.identification" | t }}</th>

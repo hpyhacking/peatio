@@ -1,13 +1,15 @@
-<div class="input-group col-sm-16">
-  <div class="input-group-addon">
-    <span>{{'funds.deposit_coin.address' | t}}</span>
+<div class="input-group w-100">
+  <div class="input-group-prepend">
+    <span class="input-group-text">{{'funds.deposit_coin.address' | t}}</span>
   </div>
   <div class="form-control form-control-static" id="deposit_address">
     {{account.deposit_address}}
   </div>
-  <div class="input-group-addon" id="deposit_address_data">
-    <a href="javascript:void(0);">
-      <i data-clipboard-action="copy" data-clipboard-target="#deposit_address" class="fa fa-copy"></i>
-    </a>
+  <div class="input-group-append" id="deposit_address_data">
+    <span class="input-group-text">
+      <a href="javascript:void(0);" class="text-dark">
+        <i data-clipboard-action="copy" data-clipboard-target="#deposit_address" class="fa fa-copy"></i>
+      </a>
+    </span>
    </div>
 </div>

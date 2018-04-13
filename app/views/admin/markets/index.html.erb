@@ -1,38 +1,42 @@
-<%= link_to 'New market', new_admin_market_path %>
 <div class="row">
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <span>Markets</span>
-    </div>
-    <div class="panel-body">
-      <%= table_for @markets, class: 'table table-condensed table-hover' do |t| %>
-        <% t.column 'Name', class: 'col-xs-2' do |x| %>
-          <%= x.name %>
-        <% end %>
-
-        <% t.column 'Bid fee', class: 'col-xs-2' do |x| %>
-          <%= x.bid_fee %>
-        <% end %>
-
-        <% t.column 'Ask fee', class: 'col-xs-2' do |x| %>
-          <%= x.ask_fee %>
-        <% end %>
-
-        <% t.column 'Created at', class: 'col-xs-3' do |x| %>
-          <%= l(x.created_at, format: :long) %>
-        <% end %>
-
-        <% t.column 'Visible', class: 'col-xs-2' do |x| %>
-          <%= x.visible? ? 'Yes' : 'No' %>
-        <% end %>
-
-        <% t.column 'Actions', class: 'col-xs-1' do |x| %>
-          <%= link_to 'View', admin_market_path(x), target: '_blank' %>
-        <% end %>
-      <% end %>
-
-      <%= paginate @markets %>
-    </div>
+  <div class="col-6">
+    <h3>Markets</h3>
+  </div>
+  <div class="col-6">
+    <%= link_to raw("<i class='fa fa-plus mr-2'></i> New market"), new_admin_market_path, class: "btn btn-primary pull-right mb-3" %>
   </div>
 </div>
 
+<div class="card">
+  <%= table_for @markets, class: 'table table-bordered table-striped' do |t| %>
+    <% t.column 'Name', class: 'col-xs-2' do |x| %>
+      <%= x.name %>
+    <% end %>
+
+    <% t.column 'Bid fee', class: 'col-xs-2' do |x| %>
+      <%= x.bid_fee %>
+    <% end %>
+
+    <% t.column 'Ask fee', class: 'col-xs-2' do |x| %>
+      <%= x.ask_fee %>
+    <% end %>
+
+    <% t.column 'Created at', class: 'col-xs-3' do |x| %>
+      <%= l(x.created_at, format: :long) %>
+    <% end %>
+
+    <% t.column 'Visible', class: 'col-xs-2' do |x| %>
+      <% if x.visible? %>
+        <span class="text-success">Yes</span>
+      <% else %>
+        <span class="text-danger">No</span>
+      <% end %>
+    <% end %>
+
+    <% t.column 'Actions', class: 'col-xs-1' do |x| %>
+      <%= link_to 'View', admin_market_path(x), target: '_blank' %>
+    <% end %>
+  <% end %>
+</div>
+
+<%= paginate @markets %>

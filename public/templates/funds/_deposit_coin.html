@@ -1,10 +1,10 @@
-<section class="withdraw-instruction">
+<section class="withdraw-instruction my-5">
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-2 text-center">
       <h4 class="steps">1</h4>
     </div>
 
-    <div class="col-sm-20">
+    <div class="col-10">
       <p> {{"funds.deposit_coin.open-wallet" | t}} </p>
     </div>
   </div>
@@ -12,21 +12,21 @@
   <hr class="split">
 
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-2 text-center">
       <h4 class="steps">2</h4>
     </div>
-    <div class="col-sm-20">
+    <div class="col-10">
       <div class="row">
-        <div class="col-md-16">
+        <div class="col-md-7">
           <p class="clearfix">{{"funds.deposit_coin.detail" | t}}</p>
         </div>
-        <div class="col-md-8" style="padding-bottom: 15px;">
-          <div id="qrcode" class="qrcode-container img-thumbnail" style="height: 190px; width: 200px;" data-width="180" data-height="180" data-text="{{account.deposit_address}}" title="{{account.deposit_address}}"></div>
+        <div class="col-md-5 pb-3">
+          <div id="qrcode" class="qrcode-container img-thumbnail" style="height: 190px; width: 190px;" data-width="180" data-height="180" data-text="{{account.deposit_address}}" title="{{account.deposit_address}}"></div>
         </div>
-      </div>
-      <div class="row">
-        <ng-include src="'/templates/funds/_address.html'"></ng-include>
-        <br>{{"funds.deposit_coin.scan-qr" | t}}
+        <div class="col-12" style="padding-bottom: 15px;">
+          <ng-include src="'/templates/funds/_address.html'"></ng-include>
+          <br>{{"funds.deposit_coin.scan-qr" | t}}
+        </div>
       </div>
     </div>
   </div>
@@ -34,8 +34,8 @@
   <hr class="split">
 
   <div class="row">
-    <div class="col-sm-4"><h4 class="steps">3</h4></div>
-    <div class="col-sm-20">
+    <div class="col-2 text-center"><h4 class="steps">3</h4></div>
+    <div class="col-10">
       <p>{{"funds.deposit_coin.after_deposit" | t}}</p>
     </div>
   </div>

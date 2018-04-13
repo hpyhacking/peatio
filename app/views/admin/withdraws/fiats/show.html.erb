@@ -1,10 +1,11 @@
 <div class="row">
-  <div class="col-xs-12">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
+
+  <div class="col-12">
+    <div class="card card-primary">
+      <div class="card-header">
         <span>Withdraw</span>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         <%= description_for :withdraw do %>
           <%= item_for @withdraw, :id %>
           <%= item_for @withdraw, :created_at %>
@@ -43,7 +44,7 @@
     </div>
   </div>
 
-  <div class="col-xs-12">
+  <div class="col-12">
     <%= render partial: 'shared/admin/member', locals: {member: @withdraw.member} %>
     <%= render partial: 'shared/admin/account', locals: {account: @withdraw.account} %>
   </div>

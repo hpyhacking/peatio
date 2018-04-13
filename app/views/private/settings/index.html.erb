@@ -5,9 +5,7 @@
 <% end %>
 
 <% content_for :guide do %>
-  <ul class="list-group">
-    <% if current_user.admin? %>
-      <span class="label label-warning">ADMIN</span>
-    <% end %>
-  </ul>
+  <% if current_user.admin? %>
+    <span class="badge badge-warning">ADMIN</span>
+  <% end %>
 <% end %>

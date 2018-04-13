@@ -1,0 +1,77 @@
+// GENERAL
+
+body {
+  height: 100vh;
+}
+footer.sticky-bottom-footer {
+  height: 60px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 999;
+}
+.admin-header, .sidebar-header {
+  height: 75px;
+}
+.sidebar-header {
+  margin-top: -1px;
+  img {
+    margin-top: -3px;
+  }
+}
+
+.wrapper {
+  padding-bottom: 80px; // footer + 20
+  display: flex;
+  align-items: stretch;
+  margin-left: 250px;
+  .top-logo, .user-name {
+    display: block;
+  }
+  .top-logo-icon {
+    display: none;
+  }
+
+  // closed sidebar
+  &.sidebar-closed {
+    margin-left: 80px;
+    .top-logo, .user-name {
+      display: none;
+    }
+    .top-logo-icon {
+      display: block;
+    }
+    .sidebar-menu li.active a {
+      border-left: 0;
+    }
+  }
+}
+
+// SIDEBAR
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+}
+
+#sidebar.active {
+  min-width: 80px;
+  max-width: 80px;
+}
+
+.sidebar-menu .sub-menu {
+  list-style-type: none;
+  li a {
+    padding: 5px 15px;
+    font-size: 90%;
+    &::before {
+      content: "\f105";
+      font-family: FontAwesome;
+      margin-right: 8px;
+      opacity: .5;
+    }
+  }
+}

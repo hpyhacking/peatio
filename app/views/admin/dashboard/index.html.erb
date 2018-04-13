@@ -1,73 +1,69 @@
-<div class="row">
-  <div class="col-xs-24">
-    <div class="panel panel-primary">
-      <div class="panel-heading">Currencies Summary</div>
-      <div class="panel-body">
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th class="text-right">Locked</th>
-              <th class="text-right">Balance</th>
-              <th class="text-right">Sum</th>
-              <th class="text-right">Hot-Wallet Balance</th>
-              <th class="text-right">Cold-Wallet Balance</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @currencies_summary.each do |c| %>
-              <tr>
-                <td>
-                  <b><%= c[:name] %></b>
-                </td>
-                <td class="text-right"><%= c[:locked] %></td>
-                <td class="text-right"><%= c[:balance] %></td>
-                <td class="text-right"><%= c[:sum] %></td>
-                <% if c[:coinable] %>
-                  <td class="text-right"><%= c[:hot] %></td>
-                  <% if c[:hot] == 'N/A' || c[:hot].is_a?(Hash) %>
-                      <td class="text-right">N/A</td>
-                  <% elsif c[:sum] - c[:hot] < 0 %>
-                      <td class="text-right">0.0</td>
-                  <% else %>
-                      <td class="text-right"><%= c[:sum] - c[:hot] %></td>
-                  <% end %>
-                <% else %>
-                  <td class="text-right">N/A</td>
-                  <td class="text-right">N/A</td>
-                <% end %>
-              </tr>
+<h3>Currencies Summary</h3>
+<div class="card">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th class="text-right">Locked</th>
+        <th class="text-right">Balance</th>
+        <th class="text-right">Sum</th>
+        <th class="text-right">Hot-Wallet Balance</th>
+        <th class="text-right">Cold-Wallet Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @currencies_summary.each do |c| %>
+        <tr>
+          <td>
+            <b><%= c[:name] %></b>
+          </td>
+          <td class="text-right"><%= c[:locked] %></td>
+          <td class="text-right"><%= c[:balance] %></td>
+          <td class="text-right"><%= c[:sum] %></td>
+          <% if c[:coinable] %>
+            <td class="text-right"><%= c[:hot] %></td>
+            <% if c[:hot] == 'N/A' || c[:hot].is_a?(Hash) %>
+              <td class="text-right">N/A</td>
+            <% elsif c[:sum] - c[:hot] < 0 %>
+              <td class="text-right">0.0</td>
+            <% else %>
+              <td class="text-right"><%= c[:sum] - c[:hot] %></td>
             <% end %>
-          </tbody>
-        </table>
-      </div>
-      <div class="panel-footer">
-        <span>Tips: Locked + Balance = Sum | Hot-Wallet + Cold-Wallet = Sum</span>
-      </div>
+          <% else %>
+            <td class="text-right">N/A</td>
+            <td class="text-right">N/A</td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <div class="alert alert-boxed-primary alert-primary">
+      <i class="icon fa fa-info"></i>
+      <h3 class="h6 mb-0"><b>Tips:</b> Locked + Balance = Sum | Hot-Wallet + Cold-Wallet = Summary</h3>
     </div>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-xs-12">
-    <div class="panel panel-primary">
-      <div class="panel-heading">Exchange Summary</div>
-      <div class="panel-body">
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th>Index</th>
-              <th>Count</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Register Count</td>
-              <td><%= @register_count %></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<hr>
+
+<h3>Exchange Summary</h3>
+
+<div class="card">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Index</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Register Count</td>
+        <td><%= @register_count %></td>
+      </tr>
+    </tbody>
+  </table>
 </div>

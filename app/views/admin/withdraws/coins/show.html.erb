@@ -1,46 +1,41 @@
-<div class="row">
-  <div class="col-xs-12">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <span>Withdraw</span>
-      </div>
-      <div class="panel-body">
-        <%= description_for :withdraw do %>
-          <%= item_for @withdraw, :id %>
-          <%= item_for @withdraw, :created_at %>
-          <%= item_for @withdraw, :aasm_state_text %>
-          <hr class="split">
-          <%= item_for @withdraw.member, :email %>
-          <%= item_for @withdraw, 'Recipient ID' do %>
-            <span><%= @withdraw.rid %></span>
-          <% end %>
-          <%= item_for @withdraw, :amount %>
-          <hr class="split">
-          <ul class="list-inline pull-right">
-            <% if @withdraw.may_reject? %>
-              <li>
-                <%= link_to 'Reject',
-                            admin_withdraw_path(@withdraw.currency.code, @withdraw),
-                            class:   'btn btn-danger',
-                            method:  'DELETE' %>
-              </li>
-            <% end %>
-            <% if @withdraw.may_accept? || @withdraw.may_process? %>
-              <li>
-                <%= link_to 'Process',
-                            admin_withdraw_path(@withdraw.currency.code, @withdraw),
-                            class: 'btn btn-primary',
-                            method: 'PATCH' %>
-              </li>
-            <% end %>
-          </ul>
-        <% end %>
-      </div>
-    </div>
-  </div>
+<h3>Withdraw</h3>
 
-  <div class="col-xs-12">
-    <%= render partial: 'shared/admin/member', locals: {member: @withdraw.member} %>
-    <%= render partial: 'shared/admin/account', locals: {account: @withdraw.account} %>
+<div class="card">
+  <div class="card-body">
+    <%= description_for :withdraw do %>
+      <%= item_for @withdraw, :id %>
+      <%= item_for @withdraw, :created_at %>
+      <%= item_for @withdraw, :aasm_state_text %>
+      <hr class="split">
+      <%= item_for @withdraw.member, :email %>
+      <%= item_for @withdraw, 'Recipient ID' do %>
+        <span><%= @withdraw.rid %></span>
+      <% end %>
+      <%= item_for @withdraw, :amount %>
+      <hr class="split">
+      <ul class="list-inline pull-right">
+        <% if @withdraw.may_reject? %>
+          <li>
+            <%= link_to 'Reject',
+                        admin_withdraw_path(@withdraw.currency.code, @withdraw),
+                        class:   'btn btn-danger',
+                        method:  'DELETE' %>
+          </li>
+        <% end %>
+        <% if @withdraw.may_accept? || @withdraw.may_process? %>
+          <li>
+            <%= link_to 'Process',
+                        admin_withdraw_path(@withdraw.currency.code, @withdraw),
+                        class: 'btn btn-primary',
+                        method: 'PATCH' %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
   </div>
+</div>
+
+<div class="mt-4">
+  <%= render partial: 'shared/admin/member', locals: {member: @withdraw.member} %>
+  <%= render partial: 'shared/admin/account', locals: {account: @withdraw.account} %>
 </div>

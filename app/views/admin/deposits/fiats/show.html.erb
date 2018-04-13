@@ -1,20 +1,20 @@
 <div class="row">
-  <div class="col-xs-10">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <span>Deposit details</span>
+  <div class="col-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Deposit details</h3>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         <%= description_for :member do %>
-          <dt>ID</dt><dd><%= @deposit.sn %></dd>
-          <dt>Member</dt><dd><%= @deposit.member.email %></dd>
-          <dt>Amount</dt><dd><%= number_with_precision(@deposit.amount, precision: 2) %></dd>
-          <dt>Created at</dt><dd><%= t(@deposit.created_at, format: :long) %></dd>
-          <dt>State</dt><dd><%= @deposit.aasm_state_text %></dd>
+          <b>ID</b>: <%= @deposit.sn %><br>
+          <b>Member</b>: <%= @deposit.member.email %><br>
+          <b>Amount</b>: <%= number_with_precision(@deposit.amount, precision: 2) %><br>
+          <b>Created at</b>: <%= t(@deposit.created_at, format: :long) %><br>
+          <b>State</b>: <%= @deposit.aasm_state_text %>
         <% end %>
       </div>
       <% if @deposit.may_accept? %>
-        <div class="panel-footer clearfix">
+        <div class="card-footer clearfix">
           <%= form_for @deposit, url: admin_deposit_url(@deposit.currency.code, @deposit) do |f| %>
             <%= f.submit 'Accept', class: 'btn btn-primary pull-right' %>
           <% end %>

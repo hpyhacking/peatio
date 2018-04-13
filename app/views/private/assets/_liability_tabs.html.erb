@@ -1,9 +1,9 @@
 <div class="tabbable">
   <ul class="nav nav-tabs">
     <% Currency.all.each_with_index do |ccy, i| %>
-      <li class="<%= 'active' if i.zero? %>">
+      <li class="nav-item">
         <% name = ccy.fiat? ? :fiat : ccy.code %>
-        <a class="<%= name %>-proof" href="#<%= name %>-proof" data-toggle="tab">
+        <a class="nav-link <%= 'active' if i.zero? %> <%= name %>-proof" href="#<%= name %>-proof" data-toggle="tab">
           <%= t(".verify-#{ccy.type}", currency: ccy.code.upcase).html_safe %>
         </a>
       </li>

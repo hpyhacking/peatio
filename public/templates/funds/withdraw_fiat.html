@@ -5,30 +5,31 @@
     <span class="text-danger"><strong>{{"funds.withdraw_fiat.attention" | t}}</strong> </span>
   </div>
 
+  <div class="border p-3 my-3">
   <form id="base_fiat_ccy_withdraws" name="withdraw_form" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl" ng-submit="withdrawsCtrl.createWithdraw(currency)">
-    <div class="form-group">
-      <div class="col-sm-6">
+    <div class="form-group row">
+      <div class="col-sm-3">
         <label class="optional control-label">{{"funds.withdraw_fiat.balance" | t}}</label>
       </div>
-      <div class="col-sm-12">
+      <div class="col-sm-9">
         <p class="form-control-static"><span class="currency-balance" id="withdraw_balance">{{balance}}</span></p>
       </div>
     </div>
 
-    <div class="form-group required">
-      <div class="col-sm-6">
+    <div class="form-group row required">
+      <div class="col-sm-3">
         <label class="required control-label" for="withdraw_rid">Withdraw RID</label>
       </div>
-      <div class="col-sm-12">
+      <div class="col-sm-9">
         <input class="required form-control" id="withdraw_rid" name="withdraw[rid]" placeholder="Recipient ID" type="text" ng-model="withdrawsCtrl.withdraw.rid">
       </div>
     </div>
 
-    <div class="form-group required">
-      <div class="col-sm-6">
+    <div class="form-group row required">
+      <div class="col-sm-3">
         <label class="decimal required control-label" for="withdraw_sum">Withdraw amount</label>
       </div>
-      <div class="col-sm-12">
+      <div class="col-sm-9">
         <div class="input-group">
           <input class="numeric decimal required form-control" id="withdraw_sum" min="100" name="withdraw[sum]" placeholder="{{'funds.withdraw_fiat.min' | t}} 100" step="any" type="number" value="0.0" ng-model="withdrawsCtrl.withdraw.sum">
           <div class="input-group-btn"><button ng-click="withdrawsCtrl.withdrawAll()" class="btn btn-success" id="withdraw_all_btn" type="button">{{"funds.withdraw_fiat.withdraw_all" | t}}</button></div>
@@ -37,12 +38,12 @@
     </div>
 
     <div class="form-group">
-      <div class="form-submit col-sm-18 col-sm-offset-6">
+      <div class="form-submit">
         <input  id="withdraw_submit" class="btn btn-primary" data-loading-text="Creating..." name="commit" type="submit" value='{{ "submit" | t }}'>
       </div>
     </div>
-
   </form>
+  </div>
 
   <br>
   <h2 class="panel-title">{{ "funds.withdraw_history.title" | t }}</h2>

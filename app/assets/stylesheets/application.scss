@@ -17,6 +17,8 @@
 @import 'features/history';
 @import 'features/funds';
 
+@import 'admin/theme';
+
 
 /* layouts
 -------------------------------------------------------------- */
@@ -25,8 +27,6 @@ html, body {
 }
 
 #wrap {
-  height: auto !important;
-  min-height: 100%;
   margin: 0 auto 0 - $footer-height;
 
   & + iframe { display: none; }
@@ -36,7 +36,6 @@ html, body {
   }
 
   #content {
-    border-left: 1px solid $content-split;
     padding-top: 15px;
 
     .list-group {
@@ -67,22 +66,22 @@ html, body {
       }
     }
   }
+  footer {
+    color: $footer-color;
+    height: $footer-height;
+    box-sizing: 'border-box';
+    padding-top: 20px;
+    width: 100%;
+    background-color: $footer-bg;
+    border-top: 1px solid $footer-border;
+  }
 }
 
-#push, footer {
+#push {
   height: $footer-height;
   box-sizing: 'border-box';
 }
 
-footer {
-  color: $footer-color;
-  height: $footer-height;
-  box-sizing: 'border-box';
-  padding-top: 20px;
-  width: 100%;
-  background-color: $footer-bg;
-  border-top: 1px solid $footer-border;
-}
 
 /* ticker
 ------------------------------------------- */
@@ -93,7 +92,7 @@ footer {
   dt {
     width: 38px;
     cursor: pointer;
-    color: $gray-light;
+    color: $gray-400;
   }
 
   dd {

@@ -1,25 +1,36 @@
-<div class="row">
-  <%= form_for @deposit, url: admin_deposit_index_url(currency.code) do |f| %>
-    <div class="col-xs-10 col-xs-offset-2">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <span>Deposit details</span>
-        </div>
-        <div class="panel-body">
-          <dl class="dl-horizontal dl-member">
-            <dt>Amount</dt>
-            <dd><%= f.number_field :amount, class: 'col-xs-24' %></dd>
-            <hr class="split">
-            <dt>Currency</dt>
-            <dd><%= f.select :currency, Currency.fiats.map { |ccy| [ccy.code.upcase, ccy.code] } %></dd>
-            <hr class="split">
-            <dt>SN</dt>
-            <dd><%= f.text_field :sn %></dd>
-            <hr class="split">
-            <%= f.submit 'Accept', class: 'btn btn-primary pull-right' %>
-          </dl>
+<h3>Deposit details</h3>
+
+<%= form_for @deposit, url: admin_deposit_index_url(currency.code) do |f| %>
+
+  <div class="card-deck">
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <label>Amount</label>
+          <%= f.number_field :amount, class: 'form-control' %>
         </div>
       </div>
     </div>
-  <% end %>
-</div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <label>Currency</label>
+          <%= f.select :currency, Currency.fiats.map { |ccy| [ccy.code.upcase, ccy.code] }, {}, { class: "form-control" } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <label>SN</label>
+          <%= f.text_field :sn, class: "form-control" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= f.submit 'Accept', class: 'btn btn-primary btn-lg mt-3' %>
+
+<% end %>

@@ -1,30 +1,24 @@
-<div class="row">
-  <div class="col-xs-12">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <span>Member Register Stats</span>
-      </div>
-      <div class="panel-body">
-        <dl id="stat" class="dl-horizontal">
-          <dt>All Count</dt>
-          <dd><%= @members_count %></dd>
-        </dl>
-      </div>
-      <%= table_for(@register_group, class: 'table table-condensed table-hover') do |t| %>
-        <% t.column :date, 'Date', class: 'col-xs-8' do |x| %>
-          <span><%= x.date.to_formatted_s(:short) %></span>
-        <% end %>
-        <% t.column :reg, 'Reg', class: 'col-xs-10' do |x| %>
-          <code class="text-info">
-            <%= x.total %>
-          </code>
-        <% end %>
-        <% t.column :rate, 'Rate', class: 'col-xs-6' do |x| %>
-          <code>
-            <%= number_to_percentage(@members_count.fdiv(x.total) * 100, precision: 0) %>
-          </code>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
+<h3>Member Register Stats</h3>
+
+<dl id="stat">
+  <dt>All Count</dt>
+  <dd><%= @members_count %></dd>
+</dl>
+
+<div class="card">
+  <%= table_for(@register_group, class: 'table table-bordered table-striped') do |t| %>
+    <% t.column :date, 'Date', class: 'col-8' do |x| %>
+      <span><%= x.date.to_formatted_s(:short) %></span>
+    <% end %>
+    <% t.column :reg, 'Reg', class: 'col-10' do |x| %>
+      <code class="text-info">
+        <%= x.total %>
+      </code>
+    <% end %>
+    <% t.column :rate, 'Rate', class: 'col-6' do |x| %>
+      <code>
+        <%= number_to_percentage(@members_count.fdiv(x.total) * 100, precision: 0) %>
+      </code>
+    <% end %>
+  <% end %>
 </div>

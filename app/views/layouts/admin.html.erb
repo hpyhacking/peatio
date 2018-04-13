@@ -1,97 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <%= render 'shared/meta' %>
-    <%= render 'shared/sentry' %>
-    <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag 'admin', media: 'all' %>
-    <%= custom_stylesheet_link_tag_for :admin %>
-    <%= javascript_include_tag 'admin' %>
-  </head>
 
-  <body id="<%= body_id %>">
-    <nav id="top-menu" class="navbar navbar-inverse" role="navigation">
-      <div class="container">
-        <ul class="nav navbar-nav navbar-left">
-          <li class="<%= check_active('dashboard') %>">
-            <%= link_to t('header.dashboard'), main_app.admin_dashboard_path %>
-          </li>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-          <% if can? :manage, Market %>
-            <li class="<% check_active('markets') %>">
-              <%= link_to 'Markets', admin_markets_path %>
-            </li>
-          <% end %>
+  <title>Peatio Admin</title>
 
-          <% if can? :read, Proof %>
-            <li class="<%= check_active(Proof) %>">
-              <%= link_to t('.menus.items.operating.proofs'), admin_proofs_path %>
-            </li>
-          <% end %>
+  <%= render 'shared/meta' %>
+  <%= render 'shared/sentry' %>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag 'admin', media: 'all' %>
+  <%= custom_stylesheet_link_tag_for :admin %>
+  <%= javascript_include_tag 'admin' %>
+</head>
 
-          <% if can? :menu, Deposit %>
-            <li class="dropdown <%= check_active('deposits') %>">
-              <%= link_to 'javascript:;', class: 'dropdown-toggle', 'data-toggle': 'dropdown' do %>
-                <span><%= t('admin_header.deposits') %></span>
-                <span class="caret"></span>
-              <% end %>
-              <ul class="dropdown-menu">
-                <% DepositChannel.all.sort.each do |c| %>
-                  <% if can? :manage, c.kls %>
-                    <li><%= link_to c.currency.code.upcase, admin_deposit_index_path(c.currency.code) %></li>
-                  <% end %>
-                <% end %>
-              </ul>
-            </li>
-          <% end %>
+<body id="<%= body_id %>">
 
-          <% if can? :menu, Withdraw %>
-            <li class="dropdown <%= check_active('withdraws') %>">
-              <%= link_to 'javascript:;', class: 'dropdown-toggle', 'data-toggle': 'dropdown' do %>
-                <span><%= t('admin_header.withdraws') %></span>
-                <span class="caret"></span>
-              <% end %>
-              <ul class="dropdown-menu">
-                <% WithdrawChannel.all.each do |c| %>
-                  <% if can? :manage, c.kls %>
-                    <li><%= link_to c.currency.code.upcase, admin_withdraw_index_path(c.currency.code) %></li>
-                  <% end %>
-                <% end %>
-              </ul>
-            </li>
-          <% end %>
 
-          <% if can? :manage, Member %>
-            <li class="<% check_active('members') %>">
-              <%= link_to t('.menus.sections.members'), admin_members_path %>
-            </li>
-          <% end %>
+  <div class="wrapper">
 
-          <li class="dropdown <%= check_active('statistic') %>">
-            <%= link_to 'javascript:;', class: 'dropdown-toggle', 'data-toggle': 'dropdown' do %>
-              <span><%= t('admin_header.statistics') %></span>
-              <span class="caret"></span>
-            <% end %>
-            <ul class="dropdown-menu">
-              <% if can? :stat, Member %>
-                <li class="<% check_active(Member) %>">
-                  <%= link_to Member.model_name.human, admin_statistic_members_path %>
-                </li>
-              <% end %>
-            </ul>
-          </li>
-        </ul>
+    <!-- SIDEBAR -->
+      <nav id="sidebar">
+        <%= render "layouts/admin_sidebar" %>
+      </nav>
 
-        <ul class="nav navbar-nav navbar-right">
-          <li><%= link_to t('actions.back'), main_app.root_path %></li>
-        </ul>
+    <!-- RIGHT PART -->
+    <div class="w-100">
+      <div class="bg-body">
+        <!-- HEADER -->
+        <%= render "layouts/admin_header" %>
+
+        <!-- CONTENT -->
+        <div class="p-4">
+          <%= render 'shared/flash' %>
+          <%= yield %>
+        </div>
       </div>
-    </nav>
 
-    <div class="container">
-      <%= render 'shared/flash' %>
-      <%= yield %>
+      <!-- FOOTER -->
     </div>
-  </body>
+
+    <footer class="footer sticky-bottom-footer section-white border-top p-4">
+      © <%= Time.now.year %> Peatio.tech
+    </footer>
+  </div>
+
+
+</body>
 </html>

@@ -13,16 +13,18 @@ Local variables:
   </thead>
   <tbody>
     <% if assets.empty? %>
-      <tr><td class='datagrid-empty' colspan="99"><%= t('datagrid.empty') %><td></tr> 
+      <tr><td class='datagrid-empty' colspan="99"><%= t('datagrid.empty') %><td></tr>
     <% else %>
-    <%= datagrid_rows(grid, assets, options) %>
+      <%= datagrid_rows(grid, assets, options) %>
     <% end %>
   </tbody>
   <% if assets && assets.respond_to?('current_page') %>
-  <tfoot>
+  <tfoot class="bg-body">
     <tr>
-      <td colspan=100>
-        <%= paginate(assets) %>
+      <td colspan="100">
+        <div class="pt-3">
+          <%= paginate(assets) %>
+        </div>
       <td>
     </tr>
   </tfoot>
