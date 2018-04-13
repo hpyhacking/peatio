@@ -23,8 +23,6 @@ Peatio::Application.routes.draw do
   get '/auth/failure' => 'sessions#failure', :as => :failure
   match '/auth/:provider/callback' => 'sessions#create', via: %i[get post]
 
-  get '/documents/websocket_api'
-
   scope module: :private do
     resources :settings, only: [:index]
 

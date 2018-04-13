@@ -10,10 +10,8 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile.concat \
   %w[
     admin.css
-    api_v2.css
     market.css
     admin.js
-    api_v2.js
     funds.js
     html5.js
     market.js
