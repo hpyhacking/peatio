@@ -37,9 +37,9 @@ en:
         from: From
         amount: Amount
         state_and_action: "State/Action"
-        cancel: cancel
+        cancel: Cancel
         no_data: There is no history data
-        canceled: canceled
+        canceled: Canceled
         submitted: Submitted
         accepted: Accepted
         rejected: Rejected

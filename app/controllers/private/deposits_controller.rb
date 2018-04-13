@@ -12,6 +12,15 @@ module Private
       head 204
     end
 
+    def destroy
+      record = current_user.deposits.find(params[:id]).lock!
+      if record.cancel!
+        head 204
+      else
+        head 422
+      end
+    end
+
   private
 
     def currency
