@@ -1,5 +1,3 @@
-require 'securerandom'
-
 class Deposit < ActiveRecord::Base
   STATES = %i[submitted canceled rejected accepted].freeze
 
@@ -14,22 +12,23 @@ class Deposit < ActiveRecord::Base
 
   enumerize :aasm_state, in: STATES, scope: true
 
-  alias_attribute :sn, :id
-
   delegate :id, to: :channel, prefix: true
   delegate :coin?, :fiat?, to: :currency
 
-  belongs_to :member
-  belongs_to :account
+  belongs_to :member, required: true
 
-  validates :amount, :account, :member, :currency, :tid, presence: true
+  validates :amount, :fee, :tid, :aasm_state, :type, presence: true
   validates :amount, numericality: { greater_than: 0.0 }
+  validates :fee, numericality: { greater_than_or_equal_to: 0.0 }
+  validates :completed_at, presence: { if: :completed? }
 
-  scope :recent, -> { order('id DESC')}
+  scope :recent, -> { order(id: :desc) }
 
-  after_update :sync_update
   after_create :sync_create
+  after_update :sync_update
   after_destroy :sync_destroy
+
+  before_validation { self.completed_at ||= Time.current if completed? }
 
   aasm whiny_transitions: false do
     state :submitted, initial: true, before_enter: :set_fee
@@ -38,43 +37,33 @@ class Deposit < ActiveRecord::Base
     state :accepted
     event(:cancel) { transitions from: :submitted, to: :canceled }
     event(:reject) { transitions from: :submitted, to: :rejected }
-    event(:accept, after_commit: %i[do send_mail]) { transitions from: :submitted, to: :accepted }
-  end
-
-  def txid_desc
-    txid
-  end
-
-  def channel
-    DepositChannel.find_by!(currency: currency.code)
-  end
-
-  def update_confirmations(data)
-    update_column(:confirmations, data)
-  end
-
-  def txid_text
-    txid && txid.truncate(40)
-  end
-
-  def transaction_url
-    if txid? && currency.transaction_url_template?
-      currency.transaction_url_template.gsub('#{txid}', txid)
+    event :accept do
+      transitions from: :submitted, to: :accepted
+      after { account.lock!.plus_funds(amount, reason: Account::DEPOSIT, ref: self) }
+      after { DepositMailer.accepted(id).deliver }
     end
   end
 
-  def as_json(*)
-    super.merge(transaction_url: transaction_url)
+  def channel
+    @channel ||= DepositChannel.find_by!(currency: currency.code)
+  end
+
+  def account
+    member&.ac(currency)
+  end
+
+  def sn
+    member&.sn
+  end
+
+  def sn=(sn)
+    self.member = Member.find_by_sn(sn)
   end
 
 private
 
-  def do
-    account.lock!.plus_funds amount, reason: Account::DEPOSIT, ref: self
-  end
-
-  def send_mail
-    DepositMailer.accepted(self.id).deliver if self.accepted?
+  def completed?
+    !submitted?
   end
 
   def set_fee
@@ -88,43 +77,42 @@ private
   end
 
   def sync_update
-    ::Pusher["private-#{member.sn}"].trigger_async('deposits', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
+    Pusher["private-#{member.sn}"].trigger_async('deposits', type: 'update', id: id, attributes: as_json.merge(currency: currency.code))
   end
 
   def sync_create
-    ::Pusher["private-#{member.sn}"].trigger_async('deposits', { type: 'create', attributes: self.as_json })
+    Pusher["private-#{member.sn}"].trigger_async('deposits', type: 'create', attributes: as_json.merge(currency: currency.code))
   end
 
   def sync_destroy
-    ::Pusher["private-#{member.sn}"].trigger_async('deposits', { type: 'destroy', id: self.id })
+    Pusher["private-#{member.sn}"].trigger_async('deposits', type: 'destroy', id: id)
   end
 end
 
 # == Schema Information
-# Schema version: 20180407082641
+# Schema version: 20180409115902
 #
 # Table name: deposits
 #
-#  id                     :integer          not null, primary key
-#  account_id             :integer
-#  member_id              :integer
-#  currency_id            :integer
-#  amount                 :decimal(32, 16)
-#  fee                    :decimal(32, 16)
-#  txid                   :string(255)
-#  state                  :integer
-#  aasm_state             :string
-#  created_at             :datetime
-#  updated_at             :datetime
-#  done_at                :datetime
-#  confirmations          :string(255)
-#  type                   :string(255)
-#  payment_transaction_id :integer
-#  txout                  :integer
-#  tid                    :string(64)       not null
+#  id            :integer          not null, primary key
+#  member_id     :integer          not null
+#  currency_id   :integer          not null
+#  amount        :decimal(32, 16)  not null
+#  fee           :decimal(32, 16)  not null
+#  address       :string(64)
+#  txid          :string(128)
+#  txout         :integer
+#  aasm_state    :string           not null
+#  confirmations :integer          default(0), not null
+#  type          :string(30)       not null
+#  tid           :string(64)       not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  completed_at  :datetime
 #
 # Indexes
 #
-#  index_deposits_on_currency_id     (currency_id)
-#  index_deposits_on_txid_and_txout  (txid,txout)
+#  index_deposits_on_currency_id                     (currency_id)
+#  index_deposits_on_currency_id_and_txid_and_txout  (currency_id,txid,txout) UNIQUE
+#  index_deposits_on_type                            (type)
 #

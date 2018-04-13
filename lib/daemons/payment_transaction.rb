@@ -4,9 +4,14 @@ running = true
 Signal.trap(:TERM) { running = false }
 
 while running do
-  PaymentTransaction::Normal.with_aasm_state(:unconfirm, :confirming).find_each do |tx|
+  Deposits::Coin.recent.where(aasm_state: :submitted).limit(100).each do |deposit|
+    break unless running
     begin
-      tx.with_lock { tx.check! }
+      confirmations = deposit.currency.api.load_deposit!(deposit.txid).fetch(:confirmations)
+      deposit.with_lock do
+        deposit.update!(confirmations: confirmations)
+        deposit.accept! if confirmations >= deposit.channel.min_confirm
+      end
     rescue => e
       report_exception(e)
     end

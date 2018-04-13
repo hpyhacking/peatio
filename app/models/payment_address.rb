@@ -4,7 +4,7 @@ class PaymentAddress < ActiveRecord::Base
 
   after_commit :enqueue_address_generation
 
-  has_many :transactions, class_name: 'PaymentTransaction', foreign_key: 'address', primary_key: 'address'
+  has_many :transactions, class_name: 'Deposits::Coin', foreign_key: :address, primary_key: :address
 
   validates_uniqueness_of :address, allow_nil: true
 

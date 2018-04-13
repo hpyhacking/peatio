@@ -5,7 +5,7 @@ Signal.trap(:TERM) { running = false }
 
 def process_deposits(coin, channel, deposit)
   # Skip if transaction is processed.
-  return if PaymentTransaction::Normal.where(txid: deposit[:id]).exists?
+  return if Deposits::Coin.where(currency: coin, txid: deposit[:id]).exists?
 
   # Skip zombie transactions (for which addresses don't exist).
   recipients = deposit[:entries].map { |entry| entry[:address] }

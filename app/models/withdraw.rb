@@ -169,7 +169,7 @@ private
   end
 
   def sync_update
-    ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
+    ::Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'update', id: self.id, attributes: changed_attributes })
   end
 
   def sync_create

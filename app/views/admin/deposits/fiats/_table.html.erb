@@ -1,6 +1,6 @@
 <% unless deposits.empty? %>
   <%= table_for deposits, class: 'table table-condensed table-hover' do |t| %>
-    <% t.column :sn, 'Deposit ID', class: 'col-xs-2' %>
+    <% t.column :id, 'Deposit ID', class: 'col-xs-2' %>
     <% t.column :created_at, 'Created at', class: 'col-xs-4' %>
     <% t.column 'Currency', class: 'col-xs-2' do |x| %>
       <%= x.currency.code.upcase %>

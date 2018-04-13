@@ -5,7 +5,7 @@ class Member < ActiveRecord::Base
   has_many :accounts
   has_many :payment_addresses, through: :accounts
   has_many :withdraws, -> { order(id: :desc) }
-  has_many :deposits
+  has_many :deposits, -> { order(id: :desc) }
 
   has_many :authentications, dependent: :destroy
 
@@ -146,7 +146,7 @@ class Member < ActiveRecord::Base
   end
   
   def sync_update
-    ::Pusher["private-#{sn}"].trigger_async('members', { type: 'update', id: self.id, attributes: self.changes_attributes_as_json })
+    ::Pusher["private-#{sn}"].trigger_async('members', { type: 'update', id: self.id, attributes: changed_attributes })
   end
 end
 

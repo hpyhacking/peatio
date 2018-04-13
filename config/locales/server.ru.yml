@@ -9,7 +9,6 @@ ru:
       order_ask: ASK
       withdraw: Вывести
       deposit: Пополнить
-      payment_transaction: Платеж
       statistic/orders_grid: Статистика ордеров
       statistic/members_grid: Статистика участников
       statistic/deposits_grid: Статистика депозитов
@@ -26,7 +25,7 @@ ru:
         created_at: Подтвержден в
         address: Адрес
         amount: Сумма
-        done_at: Завершен
+        completed_at: Завершен
       withdraw:
         created_at: Создан
         done_at: Завершен
@@ -53,12 +52,6 @@ ru:
         origin_volume: Объем
         sum: Сумма
         operation: Операция
-      payment_transaction:
-        at: Дата/время
-        txid: Номер перевода
-        amount: Сумма
-        confirmations: Подтверждения
-        state_done: Выполнено
       withdraws/fiat:
         sum: Сумма
         fee: Комиссия

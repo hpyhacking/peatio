@@ -11,8 +11,8 @@ describe ManagementAPIv1::Entities::Deposit do
     it { expect(subject.amount).to eq record.amount.to_s }
     it { expect(subject.state).to eq record.aasm_state }
     it { expect(subject.created_at).to eq record.created_at.iso8601 }
-    it { expect(subject.completed_at).to eq record.done_at&.iso8601 }
-    it { expect(subject.respond_to?(:txid)).to be_falsey }
+    it { expect(subject.completed_at).to eq record.completed_at&.iso8601 }
+    it { expect(subject.respond_to?(:blockchain_txid)).to be_falsey }
     it { expect(subject.respond_to?(:confirmations)).to be_falsey }
   end
 
@@ -28,8 +28,8 @@ describe ManagementAPIv1::Entities::Deposit do
     it { expect(subject.amount).to eq record.amount.to_s }
     it { expect(subject.state).to eq record.aasm_state }
     it { expect(subject.created_at).to eq record.created_at.iso8601 }
-    it { expect(subject.completed_at).to eq record.done_at&.iso8601 }
+    it { expect(subject.completed_at).to eq record.completed_at&.iso8601 }
     it { expect(subject.blockchain_txid).to eq record.txid }
-    it { expect(subject.confirmations).to eq record.confirmations }
+    it { expect(subject.blockchain_confirmations).to eq record.confirmations }
   end
 end

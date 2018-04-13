@@ -14,8 +14,9 @@ module ManagementAPIv1
       ]
       expose :aasm_state, as: :state, documentation: { type: String, desc: 'The deposit state. ' + states.join(' ') }
       expose :created_at, format_with: :iso8601, documentation: { type: String, desc: 'The datetime when deposit was created.' }
-      expose :done_at, as: :completed_at, format_with: :iso8601, documentation: { type: String, desc: 'The datetime when deposit was completed.' }
+      expose :completed_at, format_with: :iso8601, documentation: { type: String, desc: 'The datetime when deposit was completed.' }
       expose :txid, as: :blockchain_txid, if: -> (d, _) { d.coin? }, documentation: { type: String, desc: 'The transaction ID on the Blockchain (coin only).' }
+      expose :confirmations, as: :blockchain_confirmations, if: -> (d, _) { d.coin? }, documentation: { type: String, desc: 'The number of transaction confirmations on the Blockchain (coin only).' }
     end
   end
 end

@@ -7,7 +7,6 @@ en:
       order_ask: ASK
       withdraw: Withdraw
       deposit: Deposit
-      payment_transaction: Payment
       statistic/orders_grid: Orders Stat
       statistic/trades_grid: Trading Stat
       statistic/members_grid: Members Stat
@@ -30,8 +29,7 @@ en:
         created_at: Submitted at
         address: Address
         amount: Amount
-        done_at: Completed at
-        sn: SN
+        completed_at: Completed at
       withdraw:
         id: ID
         created_at: Created At
@@ -80,14 +78,6 @@ en:
         id: ID
         state: State
         operation: Operation
-      payment_transaction:
-        at: Date Time
-        txid: Transaction ID
-        amount: Amount
-        confirmations: Confirmations
-        state: State
-        state_done: Done
-        state_wait: Wait
       member:
         id: ID
         name: Real Name

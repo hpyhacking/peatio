@@ -1,6 +1,5 @@
 class Deposit extends PeatioModel.Model
-  @configure 'Deposit', 'account_id', 'member_id', 'currency', 'amount', 'fee',
-    'txid', 'state', 'aasm_state', 'created_at', 'updated_at', 'done_at', 'type', 'confirmations', 'transaction_url', 'txid_desc'
+  @configure 'Deposit', 'member_id', 'currency', 'amount', 'fee', 'address', 'txid', 'aasm_state', 'created_at', 'updated_at', 'completed_at', 'type', 'confirmations', 'transaction_url'
 
   @initData: (records) ->
     PeatioModel.Ajax.disable ->

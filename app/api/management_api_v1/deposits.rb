@@ -59,14 +59,10 @@ module ManagementAPIv1
     post '/deposits/new' do
       member   = Authentication.find_by(provider: :barong, uid: params[:uid])&.member
       currency = Currency.find_by(code: params[:currency])
-      account  = member&.ac(currency)
-      data     = { member: member, currency: currency, account: account }.merge!(params.slice(:amount, :tid))
+      data     = { member: member, currency: currency }.merge!(params.slice(:amount, :tid))
       deposit  = ::Deposits::Fiat.new(data)
       if deposit.save
-        deposit.with_lock do
-          deposit.accept!
-          deposit.touch(:done_at)
-        end if params[:state] == 'accepted'
+        deposit.charge! if params[:state] == 'accepted'
         present deposit, with: ManagementAPIv1::Entities::Deposit
       else
         body errors: deposit.errors.full_messages
@@ -87,7 +83,6 @@ module ManagementAPIv1
       if deposit.submitted?
         deposit.with_lock do
           params[:state] == 'canceled' ? deposit.cancel! : deposit.accept!
-          deposit.touch(:done_at)
         end
         present deposit, with: ManagementAPIv1::Entities::Deposit
         status 200

@@ -174,7 +174,7 @@ describe ManagementAPIv1::Deposits, type: :request do
     let(:signers) { %i[alex jeff] }
     let(:data) { { tid: record.tid } }
     let(:account) { member.accounts.with_currency(currency).first }
-    let(:record) { Deposits::Fiat.create!(member: member, account: account, amount: amount, currency: currency) }
+    let(:record) { Deposits::Fiat.create!(member: member, amount: amount, currency: currency) }
 
     context 'coin deposit' do
       let(:record) { create(:deposit_btc) }

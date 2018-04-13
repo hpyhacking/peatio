@@ -8,7 +8,7 @@ module APIv2
       expose :txid
       expose :created_at, format_with: :iso8601
       expose :confirmations
-      expose :done_at, format_with: :iso8601
+      expose :completed_at, format_with: :iso8601
       expose :aasm_state, as: :state
     end
   end

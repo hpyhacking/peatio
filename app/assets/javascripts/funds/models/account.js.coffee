@@ -16,10 +16,10 @@ class Account extends PeatioModel.Model
     DepositChannel.findBy 'currency', @currency
 
   deposits: ->
-    _.sortBy(Deposit.findAllBy('account_id', @id), (d) -> d.id).reverse()
+    Deposit.findAllBy('currency', @currency)
 
   withdraws: ->
-    _.sortBy(Withdraw.findAllBy('account_id', @id), (d) -> d.id).reverse()
+    Withdraw.findAllBy('account_id', @id)
 
   topDeposits: ->
     @deposits().reverse().slice(0,3)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180407082641) do
+ActiveRecord::Schema.define(version: 20180409115902) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -91,38 +91,37 @@ ActiveRecord::Schema.define(version: 20180407082641) do
   add_index "currencies", ["visible"], name: "index_currencies_on_visible", using: :btree
 
   create_table "deposits", force: :cascade do |t|
-    t.integer  "account_id",             limit: 4
-    t.integer  "member_id",              limit: 4
-    t.integer  "currency_id",            limit: 4
-    t.decimal  "amount",                             precision: 32, scale: 16
-    t.decimal  "fee",                                precision: 32, scale: 16
-    t.string   "txid",                   limit: 255
-    t.integer  "state",                  limit: 4
-    t.string   "aasm_state",             limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "done_at"
-    t.string   "confirmations",          limit: 255
-    t.string   "type",                   limit: 255
-    t.integer  "payment_transaction_id", limit: 4
-    t.integer  "txout",                  limit: 4
-    t.string   "tid",                    limit: 64,                            null: false
+    t.integer  "member_id",     limit: 4,                                         null: false
+    t.integer  "currency_id",   limit: 4,                                         null: false
+    t.decimal  "amount",                    precision: 32, scale: 16,             null: false
+    t.decimal  "fee",                       precision: 32, scale: 16,             null: false
+    t.string   "address",       limit: 64
+    t.string   "txid",          limit: 128
+    t.integer  "txout",         limit: 4
+    t.string   "aasm_state",    limit: 255,                                       null: false
+    t.integer  "confirmations", limit: 4,                             default: 0, null: false
+    t.string   "type",          limit: 30,                                        null: false
+    t.string   "tid",           limit: 64,                                        null: false
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
+    t.datetime "completed_at"
   end
 
+  add_index "deposits", ["currency_id", "txid", "txout"], name: "index_deposits_on_currency_id_and_txid_and_txout", unique: true, using: :btree
   add_index "deposits", ["currency_id"], name: "index_deposits_on_currency_id", using: :btree
-  add_index "deposits", ["txid", "txout"], name: "index_deposits_on_txid_and_txout", using: :btree
+  add_index "deposits", ["type"], name: "index_deposits_on_type", using: :btree
 
   create_table "markets", force: :cascade do |t|
-    t.string   "ask_unit",      limit: 5,                                        null: false
-    t.string   "bid_unit",      limit: 5,                                        null: false
-    t.decimal  "ask_fee",                 precision: 7, scale: 6, default: 0.0,  null: false
-    t.decimal  "bid_fee",                 precision: 7, scale: 6, default: 0.0,  null: false
-    t.integer  "ask_precision", limit: 1,                         default: 4,    null: false
-    t.integer  "bid_precision", limit: 1,                         default: 4,    null: false
-    t.integer  "position",      limit: 4,                         default: 0,    null: false
-    t.boolean  "visible",                                         default: true, null: false
-    t.datetime "created_at",                                                     null: false
-    t.datetime "updated_at",                                                     null: false
+    t.string   "ask_unit",      limit: 5,                                       null: false
+    t.string   "bid_unit",      limit: 5,                                       null: false
+    t.decimal  "ask_fee",                 precision: 7, scale: 6, default: 0.0, null: false
+    t.decimal  "bid_fee",                 precision: 7, scale: 6, default: 0.0, null: false
+    t.integer  "ask_precision", limit: 1,                         default: 4,   null: false
+    t.integer  "bid_precision", limit: 1,                         default: 4,   null: false
+    t.integer  "position",      limit: 4,                         default: 0,   null: false
+    t.integer  "visible",       limit: 1,                         default: 1,   null: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
   end
 
   add_index "markets", ["ask_unit", "bid_unit"], name: "index_markets_on_ask_unit_and_bid_unit", unique: true, using: :btree
@@ -190,26 +189,6 @@ ActiveRecord::Schema.define(version: 20180407082641) do
   end
 
   add_index "payment_addresses", ["currency_id"], name: "index_payment_addresses_on_currency_id", using: :btree
-
-  create_table "payment_transactions", force: :cascade do |t|
-    t.string   "txid",          limit: 255
-    t.decimal  "amount",                    precision: 32, scale: 16
-    t.integer  "confirmations", limit: 4
-    t.string   "address",       limit: 255
-    t.integer  "state",         limit: 4
-    t.string   "aasm_state",    limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "receive_at"
-    t.datetime "dont_at"
-    t.integer  "currency_id",   limit: 4
-    t.string   "type",          limit: 60
-    t.integer  "txout",         limit: 4
-  end
-
-  add_index "payment_transactions", ["currency_id"], name: "index_payment_transactions_on_currency_id", using: :btree
-  add_index "payment_transactions", ["txid", "txout"], name: "index_payment_transactions_on_txid_and_txout", using: :btree
-  add_index "payment_transactions", ["type"], name: "index_payment_transactions_on_type", using: :btree
 
   create_table "proofs", force: :cascade do |t|
     t.string   "root",        limit: 255
