@@ -24,6 +24,8 @@ module Worker
         cancel build_order(payload[:order])
       when 'reload'
         reload payload[:market]
+      when 'new'
+        initialize_engine Market.find(payload[:market])
       else
         Rails.logger.fatal "Unknown action: #{payload[:action]}"
       end

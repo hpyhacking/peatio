@@ -31,6 +31,8 @@ class Market < ActiveRecord::Base
 
   before_validation(on: :create) { self.id = "#{ask_unit}#{bid_unit}" }
 
+  after_commit { AMQPQueue.enqueue(:matching, action: 'new', market: id) }
+
   # @deprecated
   def base_unit
     ask_unit
