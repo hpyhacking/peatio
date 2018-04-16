@@ -65,10 +65,6 @@ daemon 'amqp:matching',
        script:   'amqp_daemon.rb',
        arguments: %w[ matching ]
 
-daemon 'amqp:notification',
-       script:   'amqp_daemon.rb',
-       arguments: %w[ email_notification ]
-
 daemon 'amqp:order_processor',
        script:   'amqp_daemon.rb',
        arguments: %w[ order_processor ]

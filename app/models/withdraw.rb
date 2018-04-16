@@ -61,19 +61,16 @@ class Withdraw < ActiveRecord::Base
     event :submit do
       transitions from: :prepared, to: :submitted
       after :lock_funds
-      after_commit { WithdrawMailer.submitted(id).deliver }
     end
 
     event :cancel do
       transitions from: %i[prepared submitted accepted], to: :canceled
       after { unlock_funds unless aasm.from_state == :prepared }
-      after_commit { WithdrawMailer.withdraw_state(id).deliver }
     end
 
     event :suspect do
       transitions from: :submitted, to: :suspected
       after :unlock_funds
-      after_commit { WithdrawMailer.withdraw_state(id).deliver }
     end
 
     event :accept do
@@ -83,25 +80,21 @@ class Withdraw < ActiveRecord::Base
     event :reject do
       transitions from: %i[submitted accepted], to: :rejected
       after :unlock_funds
-      after_commit { WithdrawMailer.withdraw_state(id).deliver }
     end
 
     event :process do
       transitions from: :accepted, to: :processing
       after :send_coins!
-      after_commit { WithdrawMailer.processing(id).deliver }
     end
 
     event :success do
       transitions from: :processing, to: :succeed
       before %i[unlock_and_sub_funds]
-      after_commit { WithdrawMailer.succeed(id).deliver }
     end
 
     event :fail do
       transitions from: :processing, to: :failed
       after :unlock_funds
-      after_commit { WithdrawMailer.withdraw_state(id).deliver }
     end
   end
 

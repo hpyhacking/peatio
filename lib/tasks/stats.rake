@@ -37,16 +37,4 @@ namespace :stats do
     { trade_users:  trade_users,
       asset_stats:  asset_stats }
   end
-
-  desc "send stats summary email"
-  task email: :environment do
-    yesterday = 1.day.ago(Time.now.beginning_of_day)
-    base      = 1.day.ago(yesterday)
-
-    yesterday_stats = collect_stats yesterday.to_i
-    base_stats      = collect_stats base.to_i
-
-    SystemMailer.daily_stats(yesterday.to_i, yesterday_stats, base_stats).deliver
-  end
-
 end

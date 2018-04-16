@@ -41,9 +41,6 @@ queue:
   deposit_coin_address:
     name: peatio.deposit.coin.address
     durable: true
-  email:
-    name: peatio.notification.email
-    durable: true
 
 binding:
   matching:
@@ -70,9 +67,6 @@ binding:
     queue: deposit_coin
   deposit_coin_address:
     queue: deposit_coin_address
-  email_notification:
-    queue: email
-    exchange: notification
 
 channel:
   trade_executor:

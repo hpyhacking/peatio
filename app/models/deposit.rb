@@ -40,7 +40,6 @@ class Deposit < ActiveRecord::Base
     event :accept do
       transitions from: :submitted, to: :accepted
       after { account.lock!.plus_funds(amount, reason: Account::DEPOSIT, ref: self) }
-      after { DepositMailer.accepted(id).deliver }
     end
   end
 

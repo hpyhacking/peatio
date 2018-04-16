@@ -52,48 +52,6 @@ Rails.application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
-
-  config.action_mailer.delivery_method = :smtp
-
-  config.action_mailer.default_url_options = {
-    host: ENV['URL_HOST'],
-    protocol: ENV['URL_SCHEME']
-  }
-
-  config.action_mailer.smtp_settings = {
-    address:              ENV['SMTP_ADDRESS'],
-    port:                 ENV['SMTP_PORT'],
-    user_name:            ENV['SMTP_USERNAME'],
-    password:             ENV['SMTP_PASSWORD'],
-    authentication:       ENV['SMTP_AUTHENTICATION_TYPE'],
-    domain:               ENV['SMTP_DOMAIN'],
-    ssl:                  ENV['SMTP_USE_SSL'],
-    tls:                  ENV['SMTP_USE_TLS'],
-    openssl_verify_mode:  ENV['SMTP_OPENSSL_VERIFY_MODE'],
-    enable_starttls:      ENV['SMTP_ENABLE_STARTTLS'],
-    enable_starttls_auto: ENV['SMTP_ENABLE_STARTTLS_AUTO'],
-    open_timeout:         ENV['SMTP_OPEN_TIMEOUT'],
-    read_timeout:         ENV['SMTP_READ_TIMEOUT']
-  }.compact.tap do |options|
-
-    # Typecast several options to integers.
-    %i[ port open_timeout read_timeout ].each do |option|
-      options[option] = options[option].to_i if options.key?(option)
-    end
-
-    # Typecast several options to booleans.
-    %i[ ssl tls enable_starttls enable_starttls_auto ].each do |option|
-      if options.key?(option)
-        options[option] = options[option] == 'true' ? true : false
-      end
-    end
-
-    # Enable mailer only if variables are defined in environment.
-  end if ENV.key?('SMTP_ADDRESS') && ENV.key?('SMTP_PORT')
-
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true

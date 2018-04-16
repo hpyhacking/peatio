@@ -16,27 +16,6 @@ defaults: &defaults
   # session expire time (seconds)
   SESSION_EXPIRE: '60'
 
-  # Configuration variables for mailer (production only).
-  #
-  # The variables below are the minimal set of configuration required for mailer to work.
-  #
-  # More variables are available at:
-  # – https://github.com/mikel/mail
-  # – http://api.rubyonrails.org/v4.2/classes/ActionMailer/Base.html
-  # – config/environments/production.rb at config.action_mailer.smtp_settings
-  #
-  SMTP_ADDRESS:             ~
-  SMTP_PORT:                ~
-  SMTP_USERNAME:            ~
-  SMTP_PASSWORD:            ~
-  SMTP_AUTHENTICATION_TYPE: plain # Can be plain, login or cram_md5.
-
-  # email accounts
-  SUPPORT_MAIL: support@peatio.tech
-  SYSTEM_MAIL_FROM: system@peatio.tech
-  SYSTEM_MAIL_TO: group@peatio.tech
-  OPERATE_MAIL_TO: support@peatio.tech
-
   # WebSocket Streaming API settings
   WEBSOCKET_HOST: 0.0.0.0
   WEBSOCKET_PORT: '8080'

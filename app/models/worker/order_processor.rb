@@ -16,7 +16,6 @@ module Worker
         raise ArgumentError, "Unrecogonized action: #{payload['action']}"
       end
     rescue
-      SystemMailer.order_processor_error(payload, $!.message, $!.backtrace.join("\n")).deliver
       raise $!
     end
 

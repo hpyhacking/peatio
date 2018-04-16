@@ -5,9 +5,7 @@ module Worker
       payload.symbolize_keys!
       ::Matching::Executor.new(payload).execute!
     rescue
-      SystemMailer.trade_execute_error(payload, $!.message, $!.backtrace.join("\n")).deliver
       raise $!
     end
-
   end
 end
