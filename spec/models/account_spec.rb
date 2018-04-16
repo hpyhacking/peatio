@@ -1,5 +1,5 @@
 describe Account do
-  subject { create(:account, locked: '10.0'.to_d, balance: '10.0') }
+  subject { create(:account_btc, locked: '10.0'.to_d, balance: '10.0') }
 
   it { expect(subject.amount).to be_d '20' }
   it { expect(subject.sub_funds('1.0'.to_d).balance).to eql '9.0'.to_d }
@@ -80,6 +80,10 @@ describe Account do
   describe '#payment_address' do
     it { expect(subject.payment_address).not_to be_nil }
     it { expect(subject.payment_address).to be_is_a(PaymentAddress) }
+    context 'fiat currency' do
+      subject { create(:account_usd).payment_address }
+      it { is_expected.to be_nil }
+    end
   end
 
   describe '#versions' do

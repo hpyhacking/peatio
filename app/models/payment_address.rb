@@ -11,7 +11,9 @@ class PaymentAddress < ActiveRecord::Base
   serialize :details, JSON
 
   def enqueue_address_generation
-    AMQPQueue.enqueue(:deposit_coin_address, { account_id: account.id }, { persistent: true })
+    if address.blank? && currency.coin?
+      AMQPQueue.enqueue(:deposit_coin_address, { account_id: account.id }, { persistent: true })
+    end
   end
 
   def memo

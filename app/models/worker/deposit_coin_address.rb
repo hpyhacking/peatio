@@ -5,6 +5,7 @@ module Worker
 
       acc = Account.find_by_id(payload[:account_id])
       return unless acc
+      return unless acc.currency.coin?
 
       acc.payment_address.tap do |pa|
         pa.with_lock do
