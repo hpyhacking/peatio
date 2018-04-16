@@ -814,6 +814,7 @@ en:
     view: View
     member: Member
     transact: Transact
+    process: Process
     reject: Reject
     clipboard:
       click: Click to copy
