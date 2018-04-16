@@ -14,9 +14,9 @@ and extend it using other microservices such as [Barong](https://www.github.com/
 
 ## Mission
 
-Our mission is to build an open-source crypto currency exchange with a high performance trading engine and incomperable security. We are moving toward dev/ops best practices of running an enterprise grade exchange.
+Our mission is to build an open-source crypto currency exchange with a high performance trading engine and incomparable security. We are moving toward dev/ops best practices of running an enterprise grade exchange.
 
-We provide webinar or on site training for installing, configuring and administation best practices of Peatio.
+We provide webinar or on site training for installing, configuring and administration best practices of Peatio.
 Feel free to contact us for joining the next training session: [Peatio.tech](https://www.peatio.tech)
 
 Help is greatly appreciated, feel free to submit pull-requests or open issues.
@@ -50,7 +50,7 @@ Production setup:
 
 **RUNNING AN EXCHANGE IS HARD.**
 
-This repository is not a turn key solution and will require engineering and design of security process by your company, with or without our assistance. This repository is one component among many we recommand using for composing an enterprise grade exchange. It's is highly recommended to deploy a UAT environment and build automated test for your needs, Functional tests, Smoke tests, Security vulnerability scans. You may not need to have an active developer on peatio source code, however, we recommand the following team setup: 1 dev/ops, 3 frontend developers (react / angular), 2 QA engineers, 1 Security Officer.
+This repository is not a turn key solution and will require engineering and design of security process by your company, with or without our assistance. This repository is one component among many we recommend using for composing an enterprise grade exchange. It is highly recommended to deploy a UAT environment and build automated tests for your needs, including Functional tests, Smoke tests and Security vulnerability scans. You may not need to have an active developer on Peatio source code, however, we recommend the following team setup: 1 dev/ops, 3 frontend developers (react / angular), 2 QA engineers, 1 Security Officer.
 
 **SECURITY KNOWLEDGE IS A REQUIREMENT.**
 
@@ -69,7 +69,7 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * Designed as high performance crypto currency exchange
 * Built-in high performance matching-engine
 * Built-in [Proof of Solvency](https://iwilcox.me.uk/2014/proving-bitcoin-reserves) Audit
-* Usability and scalibility
+* Usability and scalability
 * Websocket API and high frequency trading support
 * Support multiple digital currencies (eg. Bitcoin, Litecoin, Dogecoin etc.)
 * API end point for FIAT deposits or payment gateways.
