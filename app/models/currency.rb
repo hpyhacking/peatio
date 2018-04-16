@@ -1,10 +1,12 @@
 class Currency < ActiveRecord::Base
   serialize :options, JSON
 
+  attr_readonly :code, :type
+
   # NOTE: type column reserved for STI
   self.inheritance_column = nil
 
-  validates :type, inclusion: { in: %w[fiat coin token] }
+  validates :type, inclusion: { in: -> (_) { Currency.types.map(&:to_s) } }
   validates :code, presence: true, uniqueness: true
   validates :symbol, presence: true, length: { maximum: 1 }
   validates :json_rpc_endpoint, :rest_api_endpoint, length: { maximum: 200 }, url: { allow_blank: true }
@@ -45,6 +47,10 @@ class Currency < ActiveRecord::Base
     def fiat_codes(options = {})
       fiats.codes(options)
     end
+
+    def types
+      %i[fiat coin].freeze
+    end
   end
 
   def api
@@ -77,6 +83,8 @@ class Currency < ActiveRecord::Base
     super(code.to_s.downcase)
   end
 
+  types.each { |t| define_method("#{t}?") { type == t.to_s } }
+
   def as_json(*)
     { code:                     code,
       coin:                     coin?,
@@ -100,14 +108,6 @@ class Currency < ActiveRecord::Base
       coinable: coinable,
       hot: hot
     }
-  end
-
-  def coin?
-    type == 'coin'
-  end
-
-  def fiat?
-    type == 'fiat'
   end
 
   class << self

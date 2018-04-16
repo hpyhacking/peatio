@@ -18,6 +18,7 @@ module Admin
       Withdraw.descendants.each { |w| can :manage, w }
 
       can :manage, Market
+      can :manage, Currency
     end
   end
 end

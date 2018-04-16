@@ -3,6 +3,7 @@ namespace :admin do
 
   resources :proofs
   resources :markets, except: %i[edit destroy]
+  resources :currencies, except: %i[edit destroy]
 
   resources :members, only: %i[index show] do
     member do

@@ -1,0 +1,37 @@
+<%= link_to 'New currency', new_admin_currency_path %>
+<div class="row">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <span>Currencies</span>
+    </div>
+    <div class="panel-body">
+      <%= table_for @currencies, class: 'table table-condensed table-hover' do |t| %>
+        <% t.column 'Code', class: 'col-xs-2' do |x| %>
+          <%= x.code.upcase %>
+        <% end %>
+
+        <% t.column 'Symbol', class: 'col-xs-1' do |x| %>
+          <%= x.symbol %>
+        <% end %>
+
+        <% t.column 'Type', class: 'col-xs-2' do |x| %>
+          <%= x.type.capitalize %>
+        <% end %>
+
+        <% t.column 'Created at', class: 'col-xs-3' do |x| %>
+          <%= l(x.created_at, format: :long) %>
+        <% end %>
+
+        <% t.column 'Visible', class: 'col-xs-2' do |x| %>
+          <%= x.visible? ? 'Yes' : 'No' %>
+        <% end %>
+
+        <% t.column 'Actions', class: 'col-xs-1' do |x| %>
+          <%= link_to 'View', admin_currency_path(x), target: '_blank' %>
+        <% end %>
+      <% end %>
+
+      <%= paginate @currencies %>
+    </div>
+  </div>
+</div>
