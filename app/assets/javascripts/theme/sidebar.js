@@ -20,7 +20,7 @@ function setSidebarHeight() {
 };
 
 function initPerfectScrollbar() {
-    const ps = new PerfectScrollbar('.has-scrollbar', {
+    new PerfectScrollbar('.has-scrollbar', {
       wheelSpeed: 2,
       wheelPropagation: true,
       minScrollbarLength: 20
