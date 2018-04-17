@@ -23,6 +23,10 @@
             <% end %>
             <dt>Quick withdraw limit</dt>
             <dd><%= f.text_field :quick_withdraw_limit, class: 'col-xs-24' %></dd>
+            <% if @currency.new_record? || @currency.coin? %>
+              <dt>Number of required confirmations for deposit</dt>
+              <dd><%= f.number_field :deposit_confirmations, class: 'col-xs-24' %></dd>
+            <% end %>
             <dt>Visible?</dt>
             <dd><%= f.check_box :visible, class: 'col-xs-24' %></dd>
             <dt>Base factor</dt>
@@ -38,7 +42,6 @@
             <% end %>
             <%= f.submit 'Submit', class: 'btn btn-primary pull-right' %>
           </dl>
-        </div>
       </div>
     </div>
     <% unless @currency.fiat? %>
@@ -91,10 +94,10 @@
               <dd><%= f.url_field :bitgo_rest_api_root, class: 'col-xs-24' %></dd>
               <dt>BitGo REST API access token</dt>
               <dd><%= f.text_field :bitgo_rest_api_access_token, class: 'col-xs-24' %></dd>
-              </dl>
+            </dl>
           </div>
         </div>
       </div>
     <% end %>
-<% end %>
+  <% end %>
 </div>

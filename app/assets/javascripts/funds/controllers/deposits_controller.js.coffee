@@ -6,7 +6,6 @@ app.controller 'DepositsController', ['$scope', '$stateParams', '$http', '$filte
   $scope.name = current_user.name
   $scope.bank_details_html = $gon.bank_details_html
   $scope.account = Account.findBy('currency', $scope.currency)
-  $scope.deposit_channel = DepositChannel.findBy('currency', $scope.currency)
   $scope.currencyType = if _.include(gon.fiat_currencies, $scope.currency) then 'fiat' else 'coin'
 
   $scope.$watch (-> $scope.account.deposit_address), ->

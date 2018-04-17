@@ -12,7 +12,6 @@ class Deposit < ActiveRecord::Base
 
   enumerize :aasm_state, in: STATES, scope: true
 
-  delegate :id, to: :channel, prefix: true
   delegate :coin?, :fiat?, to: :currency
 
   belongs_to :member, required: true
@@ -41,10 +40,6 @@ class Deposit < ActiveRecord::Base
       transitions from: :submitted, to: :accepted
       after { account.lock!.plus_funds(amount, reason: Account::DEPOSIT, ref: self) }
     end
-  end
-
-  def channel
-    @channel ||= DepositChannel.find_by!(currency: currency.code)
   end
 
   def account

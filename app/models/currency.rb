@@ -14,6 +14,7 @@ class Currency < ActiveRecord::Base
   validates :wallet_url_template, :transaction_url_template, length: { maximum: 200 }, url: { allow_blank: true }
   validates :quick_withdraw_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :base_factor, numericality: { greater_than_or_equal_to: 1, only_integer: true }
+  validates :deposit_confirmations, numericality: { greater_than_or_equal_to: 0, only_integer: true }, if: :coin?
   validate { errors.add(:options, :invalid) unless Hash === options }
 
   scope :visible, -> { where(visible: true) }
@@ -122,6 +123,7 @@ class Currency < ActiveRecord::Base
     :api_client,
     :json_rpc_endpoint,
     :rest_api_endpoint,
+    :deposit_confirmations,
     :bitgo_test_net,
     :bitgo_wallet_id,
     :bitgo_wallet_address,
@@ -130,6 +132,14 @@ class Currency < ActiveRecord::Base
     :bitgo_rest_api_access_token,
     :wallet_url_template,
     :transaction_url_template
+
+  def deposit_confirmations
+    options['deposit_confirmations'].to_i
+  end
+
+  def deposit_confirmations=(n)
+    options['deposit_confirmations'] = n.to_i
+  end
 end
 
 # == Schema Information

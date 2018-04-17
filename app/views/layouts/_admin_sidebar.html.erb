@@ -63,10 +63,8 @@
           <span><%= t('admin_header.deposits') %></span>
         <% end %>
         <ul id="collapse-deposit" class="collapse sub-menu">
-          <% DepositChannel.all.sort.each do |c| %>
-            <% if can? :manage, c.kls %>
-              <li><%= link_to c.currency.code.upcase, admin_deposit_index_path(c.currency.code) %></li>
-            <% end %>
+          <% Currency.order(id: :asc).pluck(:code).each do |c| %>
+            <li><%= link_to c.upcase, admin_deposit_index_path(c) %></li>
           <% end %>
         </ul>
       </li>

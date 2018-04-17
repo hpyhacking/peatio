@@ -7,7 +7,6 @@ module Private
     before_action :auth_verified!
 
     def index
-      @deposit_channels  = DepositChannel.all
       @withdraw_channels = WithdrawChannel.all
       @currencies        = Currency.all.sort
       @deposits          = current_user.deposits

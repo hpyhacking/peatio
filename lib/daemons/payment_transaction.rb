@@ -10,7 +10,7 @@ while running do
       confirmations = deposit.currency.api.load_deposit!(deposit.txid).fetch(:confirmations)
       deposit.with_lock do
         deposit.update!(confirmations: confirmations)
-        deposit.accept! if confirmations >= deposit.channel.min_confirm
+        deposit.accept! if confirmations >= deposit.currency.deposit_confirmations
       end
     rescue => e
       report_exception(e)

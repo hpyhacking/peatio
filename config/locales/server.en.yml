@@ -266,21 +266,6 @@ en:
       filters:
         state: State
         created_at: Created at
-  deposit_channel:
-    fiat:
-      key: Bank transfer
-      title: Bank transfer
-      intro: Bank transfer deposits, recommend for large recharge
-      latency: 10 minutes
-      transfer: Manual
-      go: Deposit
-    coin:
-      key: Block Chain
-      title: Bitcoin Deposits
-      intro: Deposit bitcoin from your own wallet address to Peatio account
-      latency: 1 confirmation
-      transfer: Manual
-      go: Deposit
   deposits/fiat:
     aasm_state:
       canceled: canceled

@@ -36,7 +36,7 @@ module Worker
         confirmations: tx[:confirmations]
 
       deposit.with_lock do
-        deposit.accept! if deposit.confirmations >= deposit.channel.min_confirm
+        deposit.accept! if deposit.confirmations >= currency.deposit_confirmations
       end
 
       Rails.logger.info { "Successfully processed #{tx.fetch(:id)}:#{index}." }
