@@ -3,13 +3,6 @@
 body {
   height: 100vh;
 }
-footer.sticky-bottom-footer {
-  height: 60px;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  z-index: 999;
-}
 .admin-header, .sidebar-header {
   height: 75px;
 }
@@ -20,7 +13,11 @@ footer.sticky-bottom-footer {
   }
 }
 
-.wrapper {
+.dashboard-footer {
+  margin-left: 250px;
+}
+
+.dashboard-wrapper {
   padding-bottom: 80px; // footer + 20
   display: flex;
   align-items: stretch;
@@ -49,7 +46,7 @@ footer.sticky-bottom-footer {
 
 // SIDEBAR
 
-#sidebar {
+nav.dashboard-sidebar {
   min-width: 250px;
   max-width: 250px;
   height: 100vh;
@@ -57,7 +54,7 @@ footer.sticky-bottom-footer {
   left: 0;
 }
 
-#sidebar.active {
+.dashboard-sidebar.active {
   min-width: 80px;
   max-width: 80px;
 }

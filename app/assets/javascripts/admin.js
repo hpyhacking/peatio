@@ -1,4 +1,5 @@
 //= require yarn_components/raven-js/dist/raven
+//= require yarn_components/perfect-scrollbar/dist/perfect-scrollbar
 //= require ./lib/sentry
 
 //= require jquery3
@@ -7,4 +8,4 @@
 //= require bootstrap
 //= require bootstrap-datetimepicker
 //= require admin/app
-//= require sidebar
+//= require theme/sidebar

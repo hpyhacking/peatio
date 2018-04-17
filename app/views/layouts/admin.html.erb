@@ -16,13 +16,13 @@
   <%= javascript_include_tag 'admin' %>
 </head>
 
-<body id="<%= body_id %>">
+<body class="ui-radius" id="<%= body_id %>">
 
 
-  <div class="wrapper">
+  <div class="dashboard-wrapper">
 
     <!-- SIDEBAR -->
-      <nav id="sidebar">
+      <nav class="dashboard-sidebar bg-dark h-100">
         <%= render "layouts/admin_sidebar" %>
       </nav>
 
@@ -41,11 +41,11 @@
 
       <!-- FOOTER -->
     </div>
-
-    <footer class="footer sticky-bottom-footer section-white border-top p-4">
-      © <%= Time.now.year %> Peatio.tech
-    </footer>
   </div>
+
+  <footer class="dashboard-footer section-white border-top p-4">
+    © <%= Time.now.year %> Peatio.tech
+  </footer>
 
 
 </body>

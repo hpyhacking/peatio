@@ -19,7 +19,7 @@
     <%= yield(:scripts) if content_for?(:scripts) %>
   </head>
 
-  <body data-lang="<%= locale_name %>" id="<%= body_id %>">
+  <body class="ui-radius" data-lang="<%= locale_name %>" id="<%= body_id %>">
 
     <div id="wrap">
       <%= content_for?(:header) ? yield(:header) : render('shared/header') %>

@@ -1,3 +1,4 @@
+
 @import 'bourbon';
 
 @import 'vars/bootstrap';
@@ -9,9 +10,9 @@
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
 
-@import 'admin/theme';
-@import 'admin/layout';
-@import 'admin/sidebar';
+@import 'theme/layout';
+@import 'theme/theme';
+@import 'yarn_components/perfect-scrollbar/css/perfect-scrollbar';
 
 .dl-horizontal dt {
   width: 180px;

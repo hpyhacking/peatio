@@ -1,32 +1,26 @@
 <!-- LOGO -->
 <div class="sidebar-header bg-primary">
-  <div class="row">
-    <div class="col-12">
-      <div class="p-4">
-        <!-- <h1 class="h4 m-0 brand">Peatio <span class="font-weight-light">UI Kit</span></h1> -->
-        <%= link_to image_tag("logo-icon-white.svg"), main_app.admin_dashboard_path, class: "top-logo-icon" %>
-        <%= link_to image_tag("logo-white.png"), main_app.admin_dashboard_path, class: "top-logo" %>
-
-      </div>
-    </div>
+  <div class="p-4">
+    <%= link_to image_tag("logo-icon-white.svg"), main_app.admin_dashboard_path, class: "top-logo-icon" %>
+    <%= link_to image_tag("logo-white.png"), main_app.admin_dashboard_path, class: "top-logo" %>
   </div>
 </div>
 
+<div class="sidebar-content has-scrollbar position-relative">
+
 <!--  PROFILE -->
 <div class="bg-dark">
-  <div class="row">
-    <div class="col-12 user-name">
-      <div class="p-4 row">
-        <div class="col-4 d-flex align-items-center">
-          <%= image_tag "default-profile.png", class: "img-fluid rounded-circle" %>
-        </div>
-        <div class="col d-flex align-items-center">
-          <div>
-            <h2 class="h5 m-0"><%= current_user.email.truncate(12) %></h2>
-            <% if is_admin? %>
-            <h3 class="h6 text-secondary mt-1 mb-0">Administrator</h3>
-            <% end %>
-          </div>
+  <div class="user-name">
+    <div class="d-flex justify-content-between p-4">
+      <div class="col-3 d-flex align-items-center pr-1 pl-0">
+        <%= image_tag "default-profile.png", class: "img-fluid rounded-circle" %>
+      </div>
+      <div class="col d-flex align-items-center">
+        <div>
+          <h2 class="h5 m-0"><%= current_user.email.truncate(12) %></h2>
+          <% if is_admin? %>
+          <h3 class="h6 text-muted mt-1 mb-0">Administrator</h3>
+          <% end %>
         </div>
       </div>
     </div>
@@ -34,99 +28,97 @@
 </div>
 
 <!-- NAVIGATION -->
-<div class="bg-dark h-100">
-  <div class="row">
-    <div class="col-12">
-      <ul class="list-icon sidebar-menu">
+<div>
+  <ul class="list-icon sidebar-menu">
 
-        <li class="list-icon-item <%= check_active('dashboard') %>">
-          <%= link_to main_app.admin_dashboard_path do %>
-          <i class="icon fa fa-tachometer"></i>
-          <%= t('header.dashboard') %>
+    <li class="list-icon-item <%= check_active('dashboard') %>">
+      <%= link_to main_app.admin_dashboard_path do %>
+      <i class="icon fa fa-tachometer"></i>
+      <%= t('header.dashboard') %>
+      <% end %>
+    </li>
+
+    <% if can? :manage, Market %>
+      <li class="list-icon-item <%= check_active('markets') %>">
+        <%= link_to admin_markets_path do %>
+          <i class="icon fa fa-line-chart"></i>
+          Markets
+        <% end %>
+      </li>
+    <% end %>
+
+    <% if can? :read, Proof %>
+      <li class="list-icon-item <%= check_active(Proof) %>">
+        <%= link_to admin_proofs_path do %>
+          <i class="icon fa fa-check"></i>
+          <%= t('.menus.items.operating.proofs') %>
+        <% end %>
+      </li>
+    <% end %>
+
+    <% if can? :menu, Deposit %>
+      <li class="list-icon-item <%= check_active('deposits') %>">
+        <%= link_to "#collapse-deposit", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': 'false', data: {toggle: 'collapse'} do %>
+          <i class="icon fa fa-level-up"></i>
+          <span><%= t('admin_header.deposits') %></span>
+        <% end %>
+        <ul id="collapse-deposit" class="collapse sub-menu">
+          <% DepositChannel.all.sort.each do |c| %>
+            <% if can? :manage, c.kls %>
+              <li><%= link_to c.currency.code.upcase, admin_deposit_index_path(c.currency.code) %></li>
+            <% end %>
           <% end %>
-        </li>
+        </ul>
+      </li>
+    <% end %>
 
-        <% if can? :manage, Market %>
-          <li class="list-icon-item <%= check_active('markets') %>">
-            <%= link_to admin_markets_path do %>
-              <i class="icon fa fa-line-chart"></i>
-              Markets
-            <% end %>
-          </li>
+    <% if can? :menu, Withdraw %>
+      <li class="list-icon-item <%= check_active('withdraws') %>">
+        <%= link_to "#collapse-withdraw", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': "false", data: { toggle: 'collapse' } do %>
+          <i class="icon fa fa-level-down"></i>
+          <span><%= t('admin_header.withdraws') %></span>
         <% end %>
-
-        <% if can? :read, Proof %>
-          <li class="list-icon-item <%= check_active(Proof) %>">
-            <%= link_to admin_proofs_path do %>
-              <i class="icon fa fa-check"></i>
-              <%= t('.menus.items.operating.proofs') %>
+        <ul id="collapse-withdraw" class="collapse sub-menu" aria-expanded="false">
+          <% WithdrawChannel.all.each do |c| %>
+            <% if can? :manage, c.kls %>
+              <li><%= link_to c.currency.code.upcase, admin_withdraw_index_path(c.currency.code) %></li>
             <% end %>
-          </li>
-        <% end %>
-
-        <% if can? :menu, Deposit %>
-          <li class="list-icon-item <%= check_active('deposits') %>">
-            <%= link_to "#collapse-deposit", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': 'false', data: {toggle: 'collapse'} do %>
-              <i class="icon fa fa-level-up"></i>
-              <span><%= t('admin_header.deposits') %></span>
-            <% end %>
-            <ul id="collapse-deposit" class="collapse sub-menu">
-              <% DepositChannel.all.sort.each do |c| %>
-                <% if can? :manage, c.kls %>
-                  <li><%= link_to c.currency.code.upcase, admin_deposit_index_path(c.currency.code) %></li>
-                <% end %>
-              <% end %>
-            </ul>
-          </li>
-        <% end %>
-
-        <% if can? :menu, Withdraw %>
-          <li class="list-icon-item <%= check_active('withdraws') %>">
-            <%= link_to "#collapse-withdraw", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': "false", data: { toggle: 'collapse' } do %>
-              <i class="icon fa fa-level-down"></i>
-              <span><%= t('admin_header.withdraws') %></span>
-            <% end %>
-            <ul id="collapse-withdraw" class="collapse sub-menu" aria-expanded="false">
-              <% WithdrawChannel.all.each do |c| %>
-                <% if can? :manage, c.kls %>
-                  <li><%= link_to c.currency.code.upcase, admin_withdraw_index_path(c.currency.code) %></li>
-                <% end %>
-              <% end %>
-            </ul>
-          </li>
-        <% end %>
-
-        <% if can? :manage, Member %>
-          <li class="list-icon-item <% check_active('members') %>">
-            <%= link_to admin_members_path do %>
-              <i class="icon fa fa-users"></i>
-              <%= t('.menus.sections.members') %>
-            <% end %>
-          </li>
-        <% end %>
-
-        <li class="list-icon-item <%= check_active('statistic') %>">
-          <%= link_to "#collapse-statistic", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': "false", data: { toggle: 'collapse' } do %>
-            <i class="icon fa fa-bar-chart"></i>
-            <span><%= t('admin_header.statistics') %></span>
           <% end %>
+        </ul>
+      </li>
+    <% end %>
 
-          <ul id="collapse-statistic" class="collapse sub-menu" aria-expanded="false">
-            <% if can? :stat, Member %>
-              <li class="list-icon-item <% check_active(Member) %>">
-                <%= link_to Member.model_name.human, admin_statistic_members_path %>
-              </li>
-            <% end %>
-          </ul>
-        </li>
+    <% if can? :manage, Member %>
+      <li class="list-icon-item <% check_active('members') %>">
+        <%= link_to admin_members_path do %>
+          <i class="icon fa fa-users"></i>
+          <%= t('.menus.sections.members') %>
+        <% end %>
+      </li>
+    <% end %>
+
+    <li class="list-icon-item <%= check_active('statistic') %>">
+      <%= link_to "#collapse-statistic", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': "false", data: { toggle: 'collapse' } do %>
+        <i class="icon fa fa-bar-chart"></i>
+        <span><%= t('admin_header.statistics') %></span>
+      <% end %>
+
+      <ul id="collapse-statistic" class="collapse sub-menu" aria-expanded="false">
+        <% if can? :stat, Member %>
+          <li class="list-icon-item <% check_active(Member) %>">
+            <%= link_to Member.model_name.human, admin_statistic_members_path %>
+          </li>
+        <% end %>
       </ul>
+    </li>
+  </ul>
 
-      <hr class="mx-4">
+  <hr class="mx-4">
 
-      <ul class="list-unstyled sidebar-menu">
-        <li><%= link_to "Back to Peatio", root_path %></li>
-        <li><a href="<%= main_app.signout_path %>">Log out</a></li>
-      </ul>
-    </div>
-  </div>
+  <ul class="list-unstyled sidebar-menu">
+    <li><%= link_to "Back to Peatio", root_path %></li>
+    <li><a href="<%= main_app.signout_path %>">Log out</a></li>
+  </ul>
+
+</div>
 </div>
