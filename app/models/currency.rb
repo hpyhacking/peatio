@@ -23,10 +23,6 @@ class Currency < ActiveRecord::Base
   scope :fiats, -> { where(type: :fiat) }
 
   class << self
-    def base_fiat
-      fiats.order(id: :asc).first
-    end
-
     def codes(options = {})
       visible.pluck(:code).yield_self do |downcase_codes|
         case

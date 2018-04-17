@@ -6,8 +6,7 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
   $scope.account = Account.findBy('currency', $scope.currency)
   $scope.balance = $scope.account.balance
   $scope.withdraw_channel = WithdrawChannel.findBy('currency', $scope.currency)
-  $scope.fiatCurrency = gon.fiat_currency
-  $scope.fiatCurrencyTranslationLocals = currency: gon.fiat_currency.toUpperCase()
+  $scope.currencyType = if _.include(gon.fiat_currencies, $scope.currency) then 'fiat' else 'coin'
 
   @withdraw = {}
   @createWithdraw = (currency) ->

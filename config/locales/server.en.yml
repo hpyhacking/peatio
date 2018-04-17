@@ -339,7 +339,7 @@ en:
         trade_history: Trade History
         side: Side
         created_at: Time
-        base_currency: Base Currency
+        display_currency: Base Currency
         base_amount: Base Amount
         quote_currency: Quote Currency
         quote_amount: Quote Amount

@@ -20,7 +20,7 @@ namespace :emu do
 
   def order(id, price, volume, type)
     Order.create! \
-      ask: 'btc', bid: Peatio.base_fiat_ccy,
+      ask: 'btc', bid: Currency.fiats.first.code_ccy,
       type: type, account: create_account(id),
       price: price, volume: volume, pin: '1234'
   end

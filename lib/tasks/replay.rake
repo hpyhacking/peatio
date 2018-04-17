@@ -35,7 +35,7 @@ namespace :replay do
 
     puts "#{bln_arr.size} -> "
 
-    balances = {'btc' => [], Peatio.base_fiat_ccy => []}
+    balances = {'btc' => [], Currency.fiats.first.code_ccy => []}
     m.accounts.each do |acc|
       next unless balances.keys.include?(acc.currency)
       v0 = acc.versions.order(:id).where('created_at < ?', start).last
@@ -55,8 +55,8 @@ namespace :replay do
     end
 
     (bln_arr.size...arr_size).each do |i|
-      price = Trade.with_market("btc#{Peatio.base_fiat_ccy}").where('created_at <= ?', Time.at(start.to_i + period * i)).last.price
-      bln_arr[i] = (balances[Peatio.base_fiat_ccy][i] + (balances['btc'][i] - 1) * price).to_f.round(2).to_s
+      price = Trade.with_market("btc#{Currency.fiats.first.code_ccy}").where('created_at <= ?', Time.at(start.to_i + period * i)).last.price
+      bln_arr[i] = (balances[Currency.fiats.first.code_ccy][i] + (balances['btc'][i] - 1) * price).to_f.round(2).to_s
     end
 
     puts "#{bln_arr.size}"
@@ -74,7 +74,7 @@ namespace :replay do
 
     puts "#{bln_arr.size} -> "
 
-    balances = {'btc' => [], Peatio.base_fiat_ccy => []}
+    balances = {'btc' => [], Currency.fiats.first.code_ccy => []}
     m.accounts.each do |acc|
       next unless balances.keys.include?(acc.currency)
       v0 = acc.versions.order(:id).where('created_at < ?', start).last
@@ -94,8 +94,8 @@ namespace :replay do
     end
 
     (bln_arr.size...arr_size).each do |i|
-      price = Trade.with_market("btc#{Peatio.base_fiat_ccy}").where('created_at <= ?', Time.at(start.to_i + period * i)).last.price
-      bln_arr[i] = ((balances[Peatio.base_fiat_ccy][i] + (balances['btc'][i] - 0.1) * price) * 10).to_f.round(2).to_s
+      price = Trade.with_market("btc#{Currency.fiats.first.code}").where('created_at <= ?', Time.at(start.to_i + period * i)).last.price
+      bln_arr[i] = ((balances[Currency.fiats.first.code][i] + (balances['btc'][i] - 0.1) * price) * 10).to_f.round(2).to_s
     end
 
     puts "#{bln_arr.size}"

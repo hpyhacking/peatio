@@ -162,6 +162,10 @@ defaults: &defaults
   TEST_APP_HOST:    peatio.local
   TEST_APP_PORT:    '80'
 
+  # Specify the code of currency which is used to display the equivalent of the amounts of other currencies.
+  # The specified currency should exist in database.
+  DISPLAY_CURRENCY: usd
+
 development:
   <<: *defaults
 

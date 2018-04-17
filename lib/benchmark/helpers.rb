@@ -15,7 +15,7 @@ module Benchmark
         m.get_account(:btc).update!(locked: 100)
       end
       @members[:bid].each do |m|
-        m.get_account(Peatio.base_fiat_ccy_sym).update!(locked: 1000000)
+        m.get_account(Currency.fiats.first.code_ccy_sym).update!(locked: 1000000)
       end
     end
 

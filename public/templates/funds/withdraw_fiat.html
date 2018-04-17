@@ -1,4 +1,4 @@
-<h2 class="panel-title">{{"funds.withdraw_fiat.title" | t:fiatCurrencyTranslationLocals}}</h2>
+<h2 class="panel-title">{{"funds.withdraw_fiat.title" | t:currencyTranslationLocals}}</h2>
   <div class="help-block">
     {{"funds.withdraw_fiat.intro" | t}} <br />
     {{"funds.withdraw_fiat.intro_2" | t}} <br />
@@ -6,7 +6,7 @@
   </div>
 
   <div class="border p-3 my-3">
-  <form id="base_fiat_ccy_withdraws" name="withdraw_form" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl" ng-submit="withdrawsCtrl.createWithdraw(currency)">
+  <form name="withdraw_form" class="form form-horizontal" ng-controller="WithdrawsController as withdrawsCtrl" ng-submit="withdrawsCtrl.createWithdraw(currency)">
     <div class="form-group row">
       <div class="col-sm-3">
         <label class="optional control-label">{{"funds.withdraw_fiat.balance" | t}}</label>
