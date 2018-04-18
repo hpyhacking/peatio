@@ -359,6 +359,8 @@ GEM
       rspec-expectations (~> 3.7.0)
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
+    rspec-retry (0.5.7)
+      rspec-core (> 3.3)
     rspec-support (3.7.1)
     rubytree (0.8.3)
       json (>= 1.7.5)
@@ -493,6 +495,7 @@ DEPENDENCIES
   redis-rails
   responders (~> 2.0)
   rspec-rails (~> 3.7)
+  rspec-retry (~> 0.5)
   sass-rails
   selenium-webdriver (~> 3.8)
   sentry-raven (~> 2.7)

@@ -5,6 +5,7 @@ ENV['PUSHER_SECRET'] = 'fake'
 ENV['PUSHER_CLIENT_KEY'] = 'fake'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
+require 'rspec/retry'
 require 'webmock/rspec'
 
 WebMock.allow_net_connect!
@@ -106,4 +107,9 @@ RSpec.configure do |config|
       Bullet.end_request
     end
   end
+
+  config.verbose_retry = true
+  config.default_retry_count = 2
+  config.display_try_failure_messages = true
+  config.exceptions_to_retry = [Net::ReadTimeout]
 end
