@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'em-websocket'
+
 require File.expand_path('../../config/environment', __dir__)
 require_dependency 'api_v2/websocket_protocol'
 

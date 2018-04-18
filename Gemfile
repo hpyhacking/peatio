@@ -36,8 +36,8 @@ gem 'country_select', '~> 2.1.0'
 
 gem 'gon', '~> 5.2.0'
 gem 'pusher'
-gem 'eventmachine', '~> 1.0.4'
-gem 'em-websocket', '~> 0.5.1'
+gem 'eventmachine', '~> 1.0.4', require: false
+gem 'em-websocket', '~> 0.5.1', require: false
 
 gem 'simple_form', '~> 3.1.0'
 gem 'sass-rails'
