@@ -150,6 +150,7 @@ ActiveRecord::Schema.define(version: 20180417111305) do
     t.decimal  "price",                      precision: 32, scale: 16
     t.decimal  "volume",                     precision: 32, scale: 16
     t.decimal  "origin_volume",              precision: 32, scale: 16
+    t.decimal  "fee",                        precision: 7,  scale: 6,  default: 0.0, null: false
     t.integer  "state",          limit: 4
     t.datetime "done_at"
     t.string   "type",           limit: 8

@@ -35,12 +35,10 @@ class Order < ActiveRecord::Base
   scope :best_price, ->(currency) { where(ord_type: 'limit').active.with_market(currency).matching_rule.position }
   scope :with_market, -> (market) { where(market: Market === market ? market : Market.find(market)) }
 
+  before_validation(on: :create) { self.fee = config.public_send("#{kind}_fee") }
+
   def funds_used
     origin_locked - locked
-  end
-
-  def fee
-    config.public_send("#{kind}_fee")
   end
 
   def config
@@ -91,7 +89,7 @@ class Order < ActiveRecord::Base
   end
 
   def kind
-    type.underscore[-3, 3]
+    self.class.name.underscore[-3, 3]
   end
 
   def self.head(currency)
@@ -154,7 +152,7 @@ class Order < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180329154130
+# Schema version: 20180417111305
 #
 # Table name: orders
 #
@@ -165,6 +163,7 @@ end
 #  price          :decimal(32, 16)
 #  volume         :decimal(32, 16)
 #  origin_volume  :decimal(32, 16)
+#  fee            :decimal(7, 6)    default(0.0), not null
 #  state          :integer
 #  done_at        :datetime
 #  type           :string(8)

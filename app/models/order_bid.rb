@@ -37,7 +37,7 @@ class OrderBid < Order
 end
 
 # == Schema Information
-# Schema version: 20180329154130
+# Schema version: 20180416160438
 #
 # Table name: orders
 #
@@ -61,6 +61,7 @@ end
 #  origin_locked  :decimal(32, 16)
 #  funds_received :decimal(32, 16)  default(0.0)
 #  trades_count   :integer          default(0)
+#  fee            :decimal(7, 6)    default(0.0), not null
 #
 # Indexes
 #

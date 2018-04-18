@@ -16,13 +16,13 @@ describe Order, 'validations', type: :model do
 
   context 'limit order' do
     it 'should make sure price is present' do
-      order = Order.new(market_id: 'btcusd', price: nil, ord_type: 'limit')
+      order = OrderAsk.new(market_id: 'btcusd', price: nil, ord_type: 'limit')
       expect(order).not_to be_valid
       expect(order.errors[:price]).to eq ['is not a number']
     end
 
     it 'should make sure price is greater than zero' do
-      order = Order.new(market_id: 'btcusd', price: '0.0'.to_d, ord_type: 'limit')
+      order = OrderAsk.new(market_id: 'btcusd', price: '0.0'.to_d, ord_type: 'limit')
       expect(order).not_to be_valid
       expect(order.errors[:price]).to eq ['must be greater than 0']
     end
@@ -30,7 +30,7 @@ describe Order, 'validations', type: :model do
 
   context 'market order' do
     it 'should make sure price is not present' do
-      order = Order.new(market_id: 'btcusd', price: '0.0'.to_d, ord_type: 'market')
+      order = OrderAsk.new(market_id: 'btcusd', price: '0.0'.to_d, ord_type: 'market')
       expect(order).not_to be_valid
       expect(order.errors[:price]).to eq ['must not be present']
     end
@@ -329,7 +329,7 @@ end
 
 describe Order, '#strike' do
   it 'should raise error if order has been canceled' do
-    order = Order.new(state: Order::CANCEL)
+    order = OrderAsk.new(state: Order::CANCEL)
     expect { order.strike(mock('trade')) }.to raise_error(RuntimeError)
   end
 end
