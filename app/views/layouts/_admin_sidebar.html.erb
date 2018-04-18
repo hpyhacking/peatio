@@ -38,6 +38,13 @@
       <% end %>
     </li>
 
+    <li class="list-icon-item <%= check_active('currencies') %>">
+      <%= link_to admin_currencies_path do %>
+        <i class="icon fa fa-usd"></i>
+        Currencies
+      <% end %>
+    </li>
+
     <% if can? :manage, Market %>
       <li class="list-icon-item <%= check_active('markets') %>">
         <%= link_to admin_markets_path do %>
