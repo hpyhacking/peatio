@@ -6,6 +6,7 @@ FactoryBot.define do
       type                 'fiat'
       precision            2
       quick_withdraw_limit 10
+      withdraw_fee         0.1
     end
 
     trait :btc do
@@ -14,6 +15,7 @@ FactoryBot.define do
       type                 'coin'
       base_factor          100_000_000
       quick_withdraw_limit 0.1
+      withdraw_fee         0.01
       options \
         api_client:               'BTC',
         json_rpc_endpoint:        'http://127.0.0.1:18332',
@@ -28,6 +30,7 @@ FactoryBot.define do
       type                 'coin'
       base_factor          100_000_000
       quick_withdraw_limit 1000
+      withdraw_fee         0.02
       options \
         api_client:            'DASH',
         json_rpc_endpoint:     'http://127.0.0.1:19999',
@@ -40,6 +43,7 @@ FactoryBot.define do
       type                 'coin'
       base_factor          1_000_000_000_000_000_000
       quick_withdraw_limit 1
+      withdraw_fee         0.025
       options \
         api_client:               'ETH',
         json_rpc_endpoint:        'http://127.0.0.1:8545',
@@ -54,6 +58,7 @@ FactoryBot.define do
       type                 'coin'
       base_factor          1_000_000
       quick_withdraw_limit 1000
+      withdraw_fee         0.015
       options \
         api_client:               'XRP',
         json_rpc_endpoint:        'http://127.0.0.1:5005',

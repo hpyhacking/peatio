@@ -23,6 +23,8 @@
             <% end %>
             <dt>Quick withdraw limit</dt>
             <dd><%= f.text_field :quick_withdraw_limit, class: 'col-xs-24' %></dd>
+            <dt>Withdraw fee</dt>
+            <dd><%= f.text_field :withdraw_fee, class: 'col-xs-24' %></dd>
             <% if @currency.new_record? || @currency.coin? %>
               <dt>Number of required confirmations for deposit</dt>
               <dd><%= f.number_field :deposit_confirmations, class: 'col-xs-24' %></dd>

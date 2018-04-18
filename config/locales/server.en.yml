@@ -870,21 +870,6 @@ en:
         latest_price: Last
     frame:
       deposit_now: Deposit Now
-  withdraw_channel:
-    fiat:
-      key: Bank Transfer
-      title: Bank Transfer
-      intro: Bank transfer deposits, Recommend for large recharge
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
-    coin:
-      key: Blockchain
-      title: Blockchain
-      intro: Withdraw currency to your own wallet
-      latency: 30 minutes
-      transfer: Manual
-      go: Withdraw
   withdraws:
     invalid_address: is not valid. You can not withdraw to this address.
   withdraws/fiat:

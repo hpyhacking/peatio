@@ -42,6 +42,7 @@ module Admin
                     :symbol,
                     :type,
                     :quick_withdraw_limit,
+                    :withdraw_fee,
                     :deposit_confirmations,
                     :visible,
                     :base_factor,

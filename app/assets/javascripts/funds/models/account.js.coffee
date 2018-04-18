@@ -6,9 +6,6 @@ class Account extends PeatioModel.Model
       $.each records, (idx, record) ->
         Account.create(record)
 
-  withdraw_channels: ->
-    WithdrawChannel.findAllBy 'currency', @currency
-
   deposits: ->
     Deposit.findAllBy('currency', @currency)
 

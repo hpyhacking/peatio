@@ -13,7 +13,6 @@ $ ->
   window.pusher_subscriber = new PusherSubscriber()
 
 Member.initData         [gon.user]
-WithdrawChannel.initData gon.withdraw_channels
 Deposit.initData         gon.deposits
 Account.initData         gon.accounts
 Currency.initData        gon.currencies

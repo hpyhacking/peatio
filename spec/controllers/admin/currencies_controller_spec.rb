@@ -24,6 +24,7 @@ describe Admin::CurrenciesController, type: :controller do
         .except!(:code, :type)
         .merge! \
           quick_withdraw_limit:         1000,
+          withdraw_fee:                 0.01,
           visible:                      true,
           base_factor:                  10**6,
           precision:                    6,

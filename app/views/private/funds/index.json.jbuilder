@@ -1,5 +1,4 @@
 json.current_user @current_user
-json.withdraw_channels @withdraw_channels
 json.currencies @currencies
 json.deposits do
   @deposits.map do |deposit|

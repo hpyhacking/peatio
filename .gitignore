@@ -24,8 +24,8 @@ tmp
 /config/application.yml
 /config/markets.yml
 /config/markets.old.yml
-/config/withdraw_channels.yml
 /config/deposit_channels.old.yml
+/config/withdraw_channels.old.yml
 /config/plugins.yml
 /config/management_api_v1.yml
 /config/seed/*
