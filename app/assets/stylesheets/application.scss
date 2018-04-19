@@ -1,7 +1,6 @@
 @import 'bourbon';
 
 @import 'vars/bootstrap';
-
 @import 'bootstrap';
 
 @import 'vars/basic';
@@ -24,6 +23,11 @@
 -------------------------------------------------------------- */
 html, body {
   height: 100vh;
+}
+
+// disabling responsive
+.container {
+  min-width: 960px;
 }
 
 #wrap {

@@ -17,24 +17,24 @@
 <h3><%= t('.members') %></h3>
 <div class="card">
   <%= table_for @members, class: 'table table-bordered table-striped table-condensed' do |t| %>
-    <% t.column :id, class: 'col-1' %>
-    <% t.column :email, class: 'col-2' do |x| %>
+    <% t.column :id %>
+    <% t.column :email do |x| %>
       <code class="text-info">
         <%= x.email %>
       </code>
     <% end %>
-    <% t.column 'SN', class: 'col-2' do |x| %>
+    <% t.column 'SN' do |x| %>
         <%= x.sn %>
     <% end %>
-    <% t.column :created_at, class: 'col-3' %>
-    <% t.column 'Disabled? (Web/API)', class: 'col-1' do |x| %>
+    <% t.column :created_at %>
+    <% t.column 'Disabled? (Web/API)' do |x| %>
       <% text = x.disabled? ? 'Yes' : 'No' %>
       <%= link_to text, toggle_admin_member_path(x), remote: true, method: :post, class: 'toggle-web' %>
       &nbsp;/&nbsp;
       <% text = x.api_disabled? ? 'Yes' : 'No' %>
       <%= link_to text, toggle_admin_member_path(x, api: true), remote: true, method: :post, class: 'toggle-api' %>
     <% end %>
-    <% t.column :actions, class: 'col-1' do |x| %>
+    <% t.column :actions do |x| %>
       <%= link_to t('actions.view'), url_for([:admin, x]), target: '_blank' %>
     <% end %>
   <% end %>

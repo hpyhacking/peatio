@@ -1,37 +1,38 @@
-<%= link_to 'New currency', new_admin_currency_path %>
 <div class="row">
-  <div class="panel panel-primary">
-    <div class="panel-heading">
-      <span>Currencies</span>
-    </div>
-    <div class="panel-body">
-      <%= table_for @currencies, class: 'table table-condensed table-hover' do |t| %>
-        <% t.column 'Code', class: 'col-xs-2' do |x| %>
-          <%= x.code.upcase %>
-        <% end %>
-
-        <% t.column 'Symbol', class: 'col-xs-1' do |x| %>
-          <%= x.symbol %>
-        <% end %>
-
-        <% t.column 'Type', class: 'col-xs-2' do |x| %>
-          <%= x.type.capitalize %>
-        <% end %>
-
-        <% t.column 'Created at', class: 'col-xs-3' do |x| %>
-          <%= l(x.created_at, format: :long) %>
-        <% end %>
-
-        <% t.column 'Visible', class: 'col-xs-2' do |x| %>
-          <%= x.visible? ? 'Yes' : 'No' %>
-        <% end %>
-
-        <% t.column 'Actions', class: 'col-xs-1' do |x| %>
-          <%= link_to 'View', admin_currency_path(x), target: '_blank' %>
-        <% end %>
-      <% end %>
-
-      <%= paginate @currencies %>
-    </div>
+  <div class="col-6">
+    <h3>Currencies</h3>
   </div>
+  <div class="col-6">
+    <%= link_to 'New currency', new_admin_currency_path, class: "btn btn-primary pull-right mb-3" %>
+  </div>
+</div>
+
+<div class="card">
+  <%= table_for @currencies, class: 'table table-condensed table-striped' do |t| %>
+    <% t.column 'Code' do |x| %>
+      <%= x.code.upcase %>
+    <% end %>
+
+    <% t.column 'Symbol' do |x| %>
+      <span class="h5"><%= x.symbol %></span>
+    <% end %>
+
+    <% t.column 'Type' do |x| %>
+      <%= x.type.capitalize %>
+    <% end %>
+
+    <% t.column 'Created at' do |x| %>
+      <%= l(x.created_at, format: :long) %>
+    <% end %>
+
+    <% t.column 'Visible' do |x| %>
+      <%= x.visible? ? 'Yes' : 'No' %>
+    <% end %>
+
+    <% t.column 'Actions' do |x| %>
+      <%= link_to 'View', admin_currency_path(x), target: '_blank' %>
+    <% end %>
+  <% end %>
+
+  <%= paginate @currencies %>
 </div>

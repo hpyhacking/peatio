@@ -1,6 +1,6 @@
 <% controllers = ['settings', 'dashboard'] %>
 <% dropdown_class = (controllers & controller_path.split('/')).empty? ? '' : 'active' %>
-<li class="nav-item dropdown account-settings <%= dropdown_class %>">
+<li class="nav-item dropdown account-settings text-left <%= dropdown_class %>">
   <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
     <span><%= current_user.email %></span>
     <b class="caret"></b>

@@ -1,8 +1,8 @@
 
 @import 'bourbon';
 
-@import 'vars/bootstrap';
 
+@import 'vars/bootstrap';
 @import 'bootstrap';
 
 @import 'vars/basic';
@@ -14,13 +14,21 @@
 @import 'theme/theme';
 @import 'yarn_components/perfect-scrollbar/css/perfect-scrollbar';
 
-.dl-horizontal dt {
-  width: 180px;
+.dl-horizontal {
+  @extend .row;
+  dt, dd {
+    @extend .col-6;
+    display: flex;
+    align-items: center;
+    min-height: 45px;
+  }
+  dt {
+    flex-direction: row-reverse;
+    text-align: right;
+    font-weight: bold;
+  }
 }
 
-.dl-horizontal dd {
-  margin-left: 200px;
-}
 
 b.caret {
   margin-left: 5px;
@@ -102,4 +110,12 @@ header {
 
 table.table {
   margin-bottom: 0;
+}
+
+.card.card-primary {
+  .card-header {
+    &, a {
+      color: white;
+    }
+  }
 }

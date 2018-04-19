@@ -1,20 +1,20 @@
-<div class="row">
-  <%= form_for @currency, url: @currency.new_record? ? admin_currencies_url : admin_currency_url(@currency.id) do |f| %>
-    <div class="col-xs-12">
-      <div class="panel panel-info">
-        <div class="panel-heading">
+<%= form_for @currency, url: @currency.new_record? ? admin_currencies_url : admin_currency_url(@currency.id) do |f| %>
+  <div class="row row-eq-height">
+    <div class="col-lg-6 col-md-12 mb-4">
+      <div class="card h-100">
+        <div class="card-header">
           <span>Currency info</span>
         </div>
-        <dd class="panel-body">
+        <dd class="card-body">
           <dl class="dl-horizontal dl-member">
             <dt>Code</dt>
             <% if @currency.new_record? %>
-              <dd><%= f.text_field :code, class: 'col-xs-24' %></dd>
+              <dd><%= f.text_field :code, class: 'form-control' %></dd>
             <% else %>
               <dd><%= @currency.code.upcase %></dd>
             <% end %>
             <dt>Symbol</dt>
-            <dd><%= f.text_field :symbol, maxlength: 1, class: 'col-xs-24' %></dd>
+            <dd><%= f.text_field :symbol, maxlength: 1, class: 'form-control' %></dd>
             <dt>Type</dt>
             <% if @currency.new_record? %>
               <dd><%= f.select :type, Currency.types %></dd>
@@ -22,84 +22,91 @@
               <dd><%= @currency.type %></dd>
             <% end %>
             <dt>Quick withdraw limit</dt>
-            <dd><%= f.text_field :quick_withdraw_limit, class: 'col-xs-24' %></dd>
+            <dd><%= f.text_field :quick_withdraw_limit, class: 'form-control' %></dd>
             <dt>Withdraw fee</dt>
-            <dd><%= f.text_field :withdraw_fee, class: 'col-xs-24' %></dd>
+            <dd><%= f.text_field :withdraw_fee, class: 'form-control' %></dd>
             <% if @currency.new_record? || @currency.coin? %>
               <dt>Number of required confirmations for deposit</dt>
-              <dd><%= f.number_field :deposit_confirmations, class: 'col-xs-24' %></dd>
+              <dd><%= f.number_field :deposit_confirmations, class: 'form-control' %></dd>
             <% end %>
             <dt>Visible?</dt>
-            <dd><%= f.check_box :visible, class: 'col-xs-24' %></dd>
+            <dd><%= f.check_box :visible %></dd>
             <dt>Base factor</dt>
-            <dd><%= f.number_field :base_factor, class: 'col-xs-24' %></dd>
+            <dd><%= f.number_field :base_factor, class: 'form-control' %></dd>
             <dt>Precision</dt>
-            <dd><%= f.number_field :precision, class: 'col-xs-24' %></dd>
+            <dd><%= f.number_field :precision, class: 'form-control' %></dd>
             <hr class="split">
             <% unless @currency.fiat? %>
               <dt>Wallet URL template (use #{address} as placeholder)</dt>
-              <dd><%= f.text_field :wallet_url_template, class: 'col-xs-24' %></dd>
+              <dd><%= f.text_field :wallet_url_template, class: 'form-control' %></dd>
               <dt>Transaction URL template (use #{txid} as placeholder)</dt>
-              <dd><%= f.text_field :transaction_url_template, class: 'col-xs-24' %></dd>
+              <dd><%= f.text_field :transaction_url_template, class: 'form-control' %></dd>
             <% end %>
-            <%= f.submit 'Submit', class: 'btn btn-primary pull-right' %>
           </dl>
       </div>
     </div>
-    <% unless @currency.fiat? %>
-      <div class="col-xs-12">
-        <div class="panel panel-info">
-          <div class="panel-heading">
-            <span>Currency API client settings</span>
-          </div>
-          <div class="panel-body">
-            <dl class="dl-horizontal dl-member">
-              <dt>API client</dt>
-              <dd><%= f.text_field :api_client, class: 'col-xs-24' %></dd>
-            </dl>
-          </div>
-        </div>
-      </div>
 
-      <div class="col-xs-12">
-        <div class="panel panel-info">
-          <div class="panel-heading">
-            <span>Currency wallet settings</span>
-          </div>
-          <div class="panel-body">
-            <dl class="dl-horizontal dl-member">
-              <dt>JSON RPC endpoint</dt>
-              <dd><%= f.url_field :json_rpc_endpoint, class: 'col-xs-24' %></dd>
-              <dt>REST API endpoint</dt>
-              <dd><%= f.url_field :rest_api_endpoint, class: 'col-xs-24' %></dd>
-            </dl>
+    <div class="col-lg-6 col-md-12 d-flex flex-wrap align-content-stretch mb-4">
+      <% unless @currency.fiat? %>
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <span>Currency API client settings</span>
+            </div>
+            <div class="card-body">
+              <dl class="dl-horizontal dl-member">
+                <dt>API client</dt>
+                <dd><%= f.text_field :api_client, class: 'form-control' %></dd>
+              </dl>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="col-xs-12">
-        <div class="panel panel-info">
-          <div class="panel-heading">
-            <span>BitGo settings</span>
-          </div>
-          <div class="panel-body">
-            <dl class="dl-horizontal dl-member">
-              <dt>BitGo test net enabled?</dt>
-              <dd><%= f.check_box :bitgo_test_net, class: 'col-xs-24' %></dd>
-              <dt>BitGo wallet ID</dt>
-              <dd><%= f.text_field :bitgo_wallet_id, class: 'col-xs-24' %></dd>
-              <dt>BitGo wallet address</dt>
-              <dd><%= f.text_field :bitgo_wallet_address, class: 'col-xs-24' %></dd>
-              <dt>BitGo wallet passphrase</dt>
-              <dd><%= f.text_field :bitgo_wallet_passphrase, class: 'col-xs-24' %></dd>
-              <dt>BitGo REST API root URL</dt>
-              <dd><%= f.url_field :bitgo_rest_api_root, class: 'col-xs-24' %></dd>
-              <dt>BitGo REST API access token</dt>
-              <dd><%= f.text_field :bitgo_rest_api_access_token, class: 'col-xs-24' %></dd>
-            </dl>
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <span>Currency wallet settings</span>
+            </div>
+            <div class="card-body">
+              <dl class="dl-horizontal dl-member">
+                <dt>JSON RPC endpoint</dt>
+                <dd><%= f.url_field :json_rpc_endpoint, class: 'form-control' %></dd>
+                <dt>REST API endpoint</dt>
+                <dd><%= f.url_field :rest_api_endpoint, class: 'form-control' %></dd>
+              </dl>
+            </div>
           </div>
         </div>
-      </div>
-    <% end %>
-  <% end %>
-</div>
+
+        <div>
+          <div class="card h-100">
+            <div class="card-header">
+              <span>BitGo settings</span>
+            </div>
+            <div class="card-body">
+              <dl class="dl-horizontal dl-member">
+                <dt>BitGo test net enabled?</dt>
+                <dd><%= f.check_box :bitgo_test_net %></dd>
+                <dt>BitGo wallet ID</dt>
+                <dd><%= f.text_field :bitgo_wallet_id, class: 'form-control' %></dd>
+                <dt>BitGo wallet address</dt>
+                <dd><%= f.text_field :bitgo_wallet_address, class: 'form-control' %></dd>
+                <dt>BitGo wallet passphrase</dt>
+                <dd><%= f.text_field :bitgo_wallet_passphrase, class: 'form-control' %></dd>
+                <dt>BitGo REST API root URL</dt>
+                <dd><%= f.url_field :bitgo_rest_api_root, class: 'form-control' %></dd>
+                <dt>BitGo REST API access token</dt>
+                <dd><%= f.text_field :bitgo_rest_api_access_token, class: 'form-control' %></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <%= f.submit 'Submit', class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

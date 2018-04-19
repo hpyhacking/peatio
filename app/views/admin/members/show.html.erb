@@ -1,14 +1,14 @@
-<div class="row">
-  <div class="col-8">
+<div class="row row-eq-height">
+  <div class="col-6">
     <%= render partial: 'shared/admin/member', locals: {member: @member} %>
   </div>
 </div>
-<div class="row">
+<div class="row row-eq-height">
   <%= render partial: 'shared/admin/member_accounts', locals: {member: @member} %>
 </div>
 
 <div class="row">
-  <div class="col-24">
+  <div class="col-12">
     <div class="card card-primary">
       <div class="card-header">Accounts Log</div>
 
