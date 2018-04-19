@@ -100,15 +100,15 @@ class Market < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180409115902
+# Schema version: 20180417175453
 #
 # Table name: markets
 #
 #  id            :string(10)       not null, primary key
 #  ask_unit      :string(5)        not null
 #  bid_unit      :string(5)        not null
-#  ask_fee       :decimal(7, 6)    default(0.0), not null
-#  bid_fee       :decimal(7, 6)    default(0.0), not null
+#  ask_fee       :decimal(32, 16)  default(0.0), not null
+#  bid_fee       :decimal(32, 16)  default(0.0), not null
 #  ask_precision :integer          default(4), not null
 #  bid_precision :integer          default(4), not null
 #  position      :integer          default(0), not null

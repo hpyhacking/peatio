@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180417111305) do
+ActiveRecord::Schema.define(version: 20180417175453) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20180417111305) do
     t.string   "symbol",               limit: 1,                                               null: false
     t.string   "type",                 limit: 30,                             default: "coin", null: false
     t.decimal  "quick_withdraw_limit",              precision: 32, scale: 16, default: 0.0,    null: false
-    t.decimal  "withdraw_fee",                      precision: 7,  scale: 6,  default: 0.0,    null: false
+    t.decimal  "withdraw_fee",                      precision: 32, scale: 16, default: 0.0,    null: false
     t.string   "options",              limit: 1000,                           default: "{}",   null: false
     t.boolean  "visible",                                                     default: true,   null: false
     t.integer  "base_factor",          limit: 8,                              default: 1,      null: false
@@ -113,16 +113,16 @@ ActiveRecord::Schema.define(version: 20180417111305) do
   add_index "deposits", ["type"], name: "index_deposits_on_type", using: :btree
 
   create_table "markets", force: :cascade do |t|
-    t.string   "ask_unit",      limit: 5,                                        null: false
-    t.string   "bid_unit",      limit: 5,                                        null: false
-    t.decimal  "ask_fee",                 precision: 7, scale: 6, default: 0.0,  null: false
-    t.decimal  "bid_fee",                 precision: 7, scale: 6, default: 0.0,  null: false
-    t.integer  "ask_precision", limit: 1,                         default: 4,    null: false
-    t.integer  "bid_precision", limit: 1,                         default: 4,    null: false
-    t.integer  "position",      limit: 4,                         default: 0,    null: false
-    t.boolean  "visible",                                         default: true, null: false
-    t.datetime "created_at",                                                     null: false
-    t.datetime "updated_at",                                                     null: false
+    t.string   "ask_unit",      limit: 5,                                          null: false
+    t.string   "bid_unit",      limit: 5,                                          null: false
+    t.decimal  "ask_fee",                 precision: 32, scale: 16, default: 0.0,  null: false
+    t.decimal  "bid_fee",                 precision: 32, scale: 16, default: 0.0,  null: false
+    t.integer  "ask_precision", limit: 1,                           default: 4,    null: false
+    t.integer  "bid_precision", limit: 1,                           default: 4,    null: false
+    t.integer  "position",      limit: 4,                           default: 0,    null: false
+    t.boolean  "visible",                                           default: true, null: false
+    t.datetime "created_at",                                                       null: false
+    t.datetime "updated_at",                                                       null: false
   end
 
   add_index "markets", ["ask_unit", "bid_unit"], name: "index_markets_on_ask_unit_and_bid_unit", unique: true, using: :btree
@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(version: 20180417111305) do
     t.decimal  "price",                      precision: 32, scale: 16
     t.decimal  "volume",                     precision: 32, scale: 16
     t.decimal  "origin_volume",              precision: 32, scale: 16
-    t.decimal  "fee",                        precision: 7,  scale: 6,  default: 0.0, null: false
+    t.decimal  "fee",                        precision: 32, scale: 16, default: 0.0, null: false
     t.integer  "state",          limit: 4
     t.datetime "done_at"
     t.string   "type",           limit: 8

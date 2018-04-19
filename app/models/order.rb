@@ -152,7 +152,7 @@ class Order < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180417111305
+# Schema version: 20180417175453
 #
 # Table name: orders
 #
@@ -163,7 +163,7 @@ end
 #  price          :decimal(32, 16)
 #  volume         :decimal(32, 16)
 #  origin_volume  :decimal(32, 16)
-#  fee            :decimal(7, 6)    default(0.0), not null
+#  fee            :decimal(32, 16)  default(0.0), not null
 #  state          :integer
 #  done_at        :datetime
 #  type           :string(8)
