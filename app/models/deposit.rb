@@ -10,6 +10,8 @@ class Deposit < ActiveRecord::Base
 
   has_paper_trail on: [:update, :destroy]
 
+  acts_as_eventable prefix: 'deposit', on: %i[create update]
+
   enumerize :aasm_state, in: STATES, scope: true
 
   delegate :coin?, :fiat?, to: :currency
@@ -52,6 +54,20 @@ class Deposit < ActiveRecord::Base
 
   def sn=(sn)
     self.member = Member.find_by_sn(sn)
+  end
+
+  def as_json_for_event_api
+    { tid:                      tid,
+      uid:                      member.uid,
+      currency:                 currency.code,
+      amount:                   amount.to_s('F'),
+      state:                    aasm_state,
+      created_at:               created_at.iso8601,
+      updated_at:               updated_at.iso8601,
+      completed_at:             completed_at&.iso8601,
+      blockchain_address:       address,
+      blockchain_txid:          txid,
+      blockchain_confirmations: confirmations }
   end
 
 private

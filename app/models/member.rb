@@ -128,6 +128,10 @@ class Member < ActiveRecord::Base
     self[:level].to_s.inquiry
   end
 
+  def uid
+    authentications.barong.first&.uid || email
+  end
+
   private
 
   def sanitize

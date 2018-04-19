@@ -12,6 +12,8 @@ class Withdraw < ActiveRecord::Base
 
   has_paper_trail on: %i[update destroy]
 
+  acts_as_eventable prefix: 'withdraw', on: %i[create update]
+
   enumerize :aasm_state, in: STATES, scope: true
 
   belongs_to :member
@@ -110,6 +112,20 @@ class Withdraw < ActiveRecord::Base
         suspect!
       end
     end
+  end
+
+  def as_json_for_event_api
+    { tid:             tid,
+      uid:             member.uid,
+      rid:             rid,
+      currency:        currency.code,
+      amount:          amount.to_s('F'),
+      fee:             fee.to_s('F'),
+      state:           aasm_state,
+      created_at:      created_at.iso8601,
+      updated_at:      updated_at.iso8601,
+      completed_at:    done_at&.iso8601,
+      blockchain_txid: txid }
   end
 
 private
