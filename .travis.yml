@@ -43,8 +43,8 @@ install:
   - bundle exec rake yarn:install
   # Pull existing layers from Docker Hub to skip building them. The speeds up Travis build a lot.
   - docker pull peatioexchange/peatio:latest || true # In case image doesn't exist.
-  - docker pull rubykube/peatio-trading-ui:latest
-  - docker run -d -p 4000:3000 -e "RAILS_ENV=production" -e "SECRET_KEY_BASE=secret" -e "PLATFORM_ROOT_URL=http://peatio.local" -e "RAILS_SERVE_STATIC_FILES=1" --add-host=peatio.local:$(ip addr show eth0 | grep -Po 'inet \K[\d.]+') --name=peatio-trading-ui rubykube/peatio-trading-ui:latest
+  - docker pull rubykube/peatio-trading-ui:1.7.0
+  - docker run -d -p 4000:3000 -e "RAILS_ENV=production" -e "SECRET_KEY_BASE=secret" -e "PLATFORM_ROOT_URL=http://peatio.local" -e "RAILS_SERVE_STATIC_FILES=1" --add-host=peatio.local:$(ip addr show eth0 | grep -Po 'inet \K[\d.]+') --name=peatio-trading-ui rubykube/peatio-trading-ui:1.7.0
 
 # Execute all of the commands which need to be executed before running actual tests.
 before_script:
