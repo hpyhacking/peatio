@@ -16,7 +16,7 @@ gem 'oauth2', github: 'oauth-xx/oauth2'
 gem 'omniauth',               '~> 1.8.1'
 gem 'omniauth-auth0',         '~> 2.0.0'
 gem 'omniauth-google-oauth2', '~> 0.5.3'
-gem 'omniauth-barong',        '~> 0.1.2'
+gem 'omniauth-barong',        '~> 0.1.3'
 
 gem 'figaro'
 gem 'hashie', '~> 3.0'
