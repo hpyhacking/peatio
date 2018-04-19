@@ -8,120 +8,113 @@
 
 <div class="sidebar-content has-scrollbar position-relative">
 
-<!--  PROFILE -->
-<div class="bg-dark">
-  <div class="user-name">
-    <div class="d-flex justify-content-between p-4">
-      <div class="col-3 d-flex align-items-center pr-1 pl-0">
-        <%= image_tag "default-profile.png", class: "img-fluid rounded-circle" %>
-      </div>
-      <div class="col d-flex align-items-center">
-        <div>
-          <h2 class="h5 m-0"><%= current_user.email.truncate(12) %></h2>
-          <% if is_admin? %>
-          <h3 class="h6 text-muted mt-1 mb-0">Administrator</h3>
-          <% end %>
+  <!--  PROFILE -->
+  <div class="bg-dark">
+    <div class="user-name">
+      <div class="d-flex justify-content-between p-4">
+        <div class="col-3 d-flex align-items-center pr-1 pl-0">
+          <%= image_tag "default-profile.png", class: "img-fluid rounded-circle" %>
+        </div>
+        <div class="col d-flex align-items-center">
+          <div>
+            <h2 class="h5 m-0"><%= current_user.email.truncate(12) %></h2>
+            <% if is_admin? %>
+            <h3 class="h6 text-muted mt-1 mb-0">Administrator</h3>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- NAVIGATION -->
-<div>
-  <ul class="list-icon sidebar-menu">
+  <!-- NAVIGATION -->
+  <div>
+    <ul class="list-icon sidebar-menu">
 
-    <li class="list-icon-item <%= check_active('dashboard') %>">
-      <%= link_to main_app.admin_dashboard_path do %>
-      <i class="icon fa fa-tachometer"></i>
-      <%= t('header.dashboard') %>
-      <% end %>
-    </li>
-
-    <li class="list-icon-item <%= check_active('currencies') %>">
-      <%= link_to admin_currencies_path do %>
-        <i class="icon fa fa-usd"></i>
-        Currencies
-      <% end %>
-    </li>
-
-    <% if can? :manage, Market %>
-      <li class="list-icon-item <%= check_active('markets') %>">
-        <%= link_to admin_markets_path do %>
-          <i class="icon fa fa-line-chart"></i>
-          Markets
+      <li class="list-icon-item <%= check_active('dashboard') %>">
+        <%= link_to main_app.admin_dashboard_path do %>
+        <i class="icon fa fa-tachometer"></i>
+        <span class="menu-text"><%= t('header.dashboard') %></span>
         <% end %>
       </li>
-    <% end %>
 
-    <% if can? :read, Proof %>
-      <li class="list-icon-item <%= check_active(Proof) %>">
-        <%= link_to admin_proofs_path do %>
-          <i class="icon fa fa-check"></i>
-          <%= t('.menus.items.operating.proofs') %>
+      <li class="list-icon-item <%= check_active('currencies') %>">
+        <%= link_to admin_currencies_path do %>
+          <i class="icon fa fa-usd"></i>
+          <span class="menu-text">Currencies</span>
         <% end %>
       </li>
-    <% end %>
 
-    <% if can? :menu, Deposit %>
-      <li class="list-icon-item <%= check_active('deposits') %>">
-        <%= link_to "#collapse-deposit", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': 'false', data: {toggle: 'collapse'} do %>
-          <i class="icon fa fa-level-up"></i>
-          <span><%= t('admin_header.deposits') %></span>
+      <% if can? :manage, Market %>
+        <li class="list-icon-item <%= check_active('markets') %>">
+          <%= link_to admin_markets_path do %>
+            <i class="icon fa fa-line-chart"></i>
+            <span class="menu-text">Markets</span>
+          <% end %>
+        </li>
+      <% end %>
+
+      <% if can? :read, Proof %>
+        <li class="list-icon-item <%= check_active(Proof) %>">
+          <%= link_to admin_proofs_path do %>
+            <i class="icon fa fa-check"></i>
+            <span class="menu-text"><%= t('.menus.items.operating.proofs') %></span>
+          <% end %>
+        </li>
+      <% end %>
+
+      <% if can? :menu, Deposit %>
+        <li class="list-icon-item <%= check_active('deposits') %>">
+          <%= link_to "#collapse-deposit", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': 'false', data: {toggle: 'collapse'} do %>
+            <i class="icon fa fa-level-up"></i>
+            <span class="menu-text"><%= t('admin_header.deposits') %></span>
+          <% end %>
+          <ul id="collapse-deposit" class="collapse sub-menu">
+            <% Currency.order(id: :asc).pluck(:code).each do |c| %>
+              <li><%= link_to c.upcase, admin_deposit_index_path(c) %></li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+      <% if can? :menu, Withdraw %>
+        <li class="list-icon-item <%= check_active('withdraws') %>">
+          <%= link_to "#collapse-withdraw", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': "false", data: { toggle: 'collapse' } do %>
+            <i class="icon fa fa-level-down"></i>
+            <span class="menu-text"><%= t('admin_header.withdraws') %></span>
+          <% end %>
+          <ul id="collapse-withdraw" class="collapse sub-menu" aria-expanded="false">
+            <% Currency.order(id: :asc).pluck(:code).each do |c| %>
+              <li><%= link_to c.upcase, admin_withdraw_index_path(c) %></li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+      <% if can? :manage, Member %>
+        <li class="list-icon-item <% check_active('members') %>">
+          <%= link_to admin_members_path do %>
+            <i class="icon fa fa-users"></i>
+            <span class="menu-text"><%= t('.menus.sections.members') %></span>
+          <% end %>
+        </li>
+      <% end %>
+
+      <li class="list-icon-item <%= check_active('statistic') %>">
+        <%= link_to "#collapse-statistic", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': "false", data: { toggle: 'collapse' } do %>
+          <i class="icon fa fa-bar-chart"></i>
+          <span class="menu-text"><%= t('admin_header.statistics') %></span>
         <% end %>
-        <ul id="collapse-deposit" class="collapse sub-menu">
-          <% Currency.order(id: :asc).pluck(:code).each do |c| %>
-            <li><%= link_to c.upcase, admin_deposit_index_path(c) %></li>
+
+        <ul id="collapse-statistic" class="collapse sub-menu" aria-expanded="false">
+          <% if can? :stat, Member %>
+            <li class="list-icon-item <% check_active(Member) %>">
+              <%= link_to Member.model_name.human, admin_statistic_members_path %>
+            </li>
           <% end %>
         </ul>
       </li>
-    <% end %>
+    </ul>
 
-    <% if can? :menu, Withdraw %>
-      <li class="list-icon-item <%= check_active('withdraws') %>">
-        <%= link_to "#collapse-withdraw", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': "false", data: { toggle: 'collapse' } do %>
-          <i class="icon fa fa-level-down"></i>
-          <span><%= t('admin_header.withdraws') %></span>
-        <% end %>
-        <ul id="collapse-withdraw" class="collapse sub-menu" aria-expanded="false">
-          <% Currency.order(id: :asc).pluck(:code).each do |c| %>
-            <li><%= link_to c.upcase, admin_withdraw_index_path(c) %></li>
-          <% end %>
-        </ul>
-      </li>
-    <% end %>
-
-    <% if can? :manage, Member %>
-      <li class="list-icon-item <% check_active('members') %>">
-        <%= link_to admin_members_path do %>
-          <i class="icon fa fa-users"></i>
-          <%= t('.menus.sections.members') %>
-        <% end %>
-      </li>
-    <% end %>
-
-    <li class="list-icon-item <%= check_active('statistic') %>">
-      <%= link_to "#collapse-statistic", class: 'has-arrow waves-effect waves-dark', 'aria-expanded': "false", data: { toggle: 'collapse' } do %>
-        <i class="icon fa fa-bar-chart"></i>
-        <span><%= t('admin_header.statistics') %></span>
-      <% end %>
-
-      <ul id="collapse-statistic" class="collapse sub-menu" aria-expanded="false">
-        <% if can? :stat, Member %>
-          <li class="list-icon-item <% check_active(Member) %>">
-            <%= link_to Member.model_name.human, admin_statistic_members_path %>
-          </li>
-        <% end %>
-      </ul>
-    </li>
-  </ul>
-
-  <hr class="mx-4">
-
-  <ul class="list-unstyled sidebar-menu">
-    <li><%= link_to "Back to Peatio", root_path %></li>
-    <li><a href="<%= main_app.signout_path %>">Log out</a></li>
-  </ul>
-
-</div>
+  </div>
 </div>

@@ -12,7 +12,6 @@ body {
     margin-top: -3px;
   }
 }
-
 .dashboard-footer {
   margin-left: 250px;
 }
@@ -30,7 +29,7 @@ body {
   }
 
   // closed sidebar
-  &.sidebar-closed {
+  body.sidebar-closed & {
     margin-left: 80px;
     .top-logo, .user-name {
       display: none;
@@ -40,6 +39,24 @@ body {
     }
     .sidebar-menu li.active a {
       border-left: 0;
+    }
+    .sidebar-menu {
+      li {
+        display: flex;
+        justify-content: center;
+        a {
+          .menu-text {
+            display: none;
+          }
+          .icon {
+            margin: 0;
+            font-size: 24px;
+            text-align: center;
+            opacity: .8;
+            color: white;
+          }
+        }
+      }
     }
   }
 }
@@ -52,11 +69,17 @@ nav.dashboard-sidebar {
   height: 100vh;
   position: fixed;
   left: 0;
+  z-index: 1030;
 }
 
-.dashboard-sidebar.active {
-  min-width: 80px;
-  max-width: 80px;
+body.sidebar-closed {
+  .dashboard-sidebar {
+    min-width: 80px;
+    max-width: 80px;
+  }
+  .dashboard-footer {
+    margin-left: 80px;
+  }
 }
 
 .sidebar-menu .sub-menu {
@@ -72,3 +95,15 @@ nav.dashboard-sidebar {
     }
   }
 }
+
+// RESPONSIVE
+@include media-breakpoint-down(md) {
+  table.table {
+    font-size: 80%;
+    td, th {
+      padding-left: 0.5rem 0.25rem;
+    }
+  }
+}
+
+
