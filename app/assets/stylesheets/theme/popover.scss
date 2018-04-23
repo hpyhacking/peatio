@@ -1,0 +1,16 @@
+.popover .popover-body{
+  background-color: #2C2F33;
+  color: white;
+  a {
+    color: white;
+  }
+  .list-menu li a {
+    padding: 5px 15px;
+    &:hover {
+      background-color: #1b1d20;
+    }
+  }
+}
+.bs-popover-right .arrow::after, .bs-popover-auto[x-placement^="right"] .arrow::after, .bs-popover-auto[x-placement^="right"] .arrow::after {
+  border-right-color: #2C2F33;
+}

@@ -52,9 +52,26 @@ function closeSidebarOnSmallScreen() {
 function closeSidebar() {
   $('body').addClass('sidebar-closed');
   $('.admin-header .toggle-sidebar-icon').addClass('fa-caret-right');
+  $('.has-sub-menu').popover('hide');
 }
 
 function openSidebar() {
   $('body').removeClass('sidebar-closed');
   $('.admin-header .toggle-sidebar-icon').removeClass('fa-caret-right');
+  $('.has-sub-menu').popover('hide');
 }
+
+// Show/Hide popovers
+$(function () {
+  $(".dashboard-sidebar .has-sub-menu").each(function(i, obj) {
+    $(this).popover({
+      html: true,
+      content: function() { return $(this).next('.sub-menu').html(); }
+    });
+  });
+
+  $(".has-sub-menu").on('click', function(e) {
+    $('.has-sub-menu').not(this).popover('hide');
+  });
+});
+

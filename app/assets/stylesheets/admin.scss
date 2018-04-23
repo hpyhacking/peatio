@@ -10,8 +10,9 @@
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
 
-@import 'theme/layout';
+@import 'theme/custom';
 @import 'theme/theme';
+@import 'theme/popover';
 @import 'yarn_components/perfect-scrollbar/css/perfect-scrollbar';
 
 .dl-horizontal {

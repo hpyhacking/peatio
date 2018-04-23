@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row row-eq-height">
 
-  <div class="col-12">
+  <div class="col-md-6">
     <div class="card card-primary">
       <div class="card-header">
         <span>Withdraw</span>
@@ -26,16 +26,15 @@
               <%= @withdraw.amount %>
             </span>
           <% end %>
-          <hr class="split">
-          <ul class="list-inline pull-right">
+          <ul class="list-inline w-100 px-3 mt-3 pt-3 border-top">
             <% if @withdraw.may_accept? || @withdraw.may_process? %>
               <li>
-                <%= link_to 'Process', admin_withdraw_path(@withdraw.currency.code, @withdraw), class: 'btn btn-primary', method: 'PATCH' %>
+                <%= link_to 'Process', admin_withdraw_path(@withdraw.currency.code, @withdraw), class: 'btn btn-primary pull-left', method: 'PATCH' %>
               </li>
             <% end %>
             <% if @withdraw.may_reject? %>
               <li>
-                <%= link_to 'Reject', admin_withdraw_path(@withdraw.currency.code, @withdraw), class: 'btn btn-danger', method: 'DELETE' %>
+                <%= link_to 'Reject', admin_withdraw_path(@withdraw.currency.code, @withdraw), class: 'btn btn-danger pull-right', method: 'DELETE' %>
               </li>
             <% end %>
           </ul>
@@ -44,8 +43,9 @@
     </div>
   </div>
 
-  <div class="col-12">
+  <div class="col-md-6">
     <%= render partial: 'shared/admin/member', locals: {member: @withdraw.member} %>
     <%= render partial: 'shared/admin/account', locals: {account: @withdraw.account} %>
   </div>
 </div>
+

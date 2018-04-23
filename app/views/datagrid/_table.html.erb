@@ -7,26 +7,22 @@ Local variables:
 <%
   options[:html][:class] += " table"
 %>
-<%= content_tag :table, options[:html] do %>
-  <thead>
-    <%= datagrid_header(grid, options) %>
-  </thead>
-  <tbody>
-    <% if assets.empty? %>
-      <tr><td class='datagrid-empty' colspan="99"><%= t('datagrid.empty') %><td></tr>
-    <% else %>
-      <%= datagrid_rows(grid, assets, options) %>
-    <% end %>
-  </tbody>
+<%= content_tag :div do %>
+  <table class="<%= options[:html][:class] %>">
+    <thead>
+      <%= datagrid_header(grid, options) %>
+    </thead>
+    <tbody>
+      <% if assets.empty? %>
+        <tr><td class='datagrid-empty' colspan="99"><%= t('datagrid.empty') %><td></tr>
+      <% else %>
+        <%= datagrid_rows(grid, assets, options) %>
+      <% end %>
+    </tbody>
+  </table>
   <% if assets && assets.respond_to?('current_page') %>
-  <tfoot class="bg-body">
-    <tr>
-      <td colspan="100">
-        <div class="pt-3">
-          <%= paginate(assets) %>
-        </div>
-      <td>
-    </tr>
-  </tfoot>
+    <div class="pt-4 bg-body w-100">
+      <%= paginate(assets) %>
+    </div>
   <% end %>
 <% end %>

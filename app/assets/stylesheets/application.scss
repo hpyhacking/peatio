@@ -32,6 +32,7 @@ html, body {
 
 #wrap {
   margin: 0 auto 0 - $footer-height;
+  min-height: 100%;
 
   & + iframe { display: none; }
 
@@ -70,15 +71,16 @@ html, body {
       }
     }
   }
-  footer {
-    color: $footer-color;
-    height: $footer-height;
-    box-sizing: 'border-box';
-    padding-top: 20px;
-    width: 100%;
-    background-color: $footer-bg;
-    border-top: 1px solid $footer-border;
-  }
+}
+footer.footer {
+  color: $footer-color;
+  height: $footer-height;
+  margin-top: -$footer-height;
+  box-sizing: 'border-box';
+  padding-top: 20px;
+  width: 100%;
+  background-color: $footer-bg;
+  border-top: 1px solid $footer-border;
 }
 
 #push {

@@ -27,8 +27,8 @@
       <%= content_for?(:frame) ? yield(:frame) : render('shared/frame') %>
 
       <div id="push"></div>
-      <%= content_for?(:footer) ? yield(:footer) : render('shared/footer') %>
     </div>
+    <%= content_for?(:footer) ? yield(:footer) : render('shared/footer') %>
 
   </body>
 </html>

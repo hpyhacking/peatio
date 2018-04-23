@@ -14,9 +14,12 @@ body {
 }
 .dashboard-footer {
   margin-left: 250px;
+  margin-top: -70px;
+  height: 70px;
 }
 
 .dashboard-wrapper {
+  min-height: 100%;
   padding-bottom: 80px; // footer + 20
   display: flex;
   align-items: stretch;
@@ -106,4 +109,16 @@ body.sidebar-closed {
   }
 }
 
-
+// BADGES
+.badge-succeed, .badge-accepted {
+  @extend .badge-success;
+}
+.badge-submitted {
+  @extend .badge-info;
+}
+.badge-suspected {
+  @extend .badge-warning;
+}
+.badge-rejected, .badge-canceled, .badge-failed {
+  @extend .badge-danger;
+}
