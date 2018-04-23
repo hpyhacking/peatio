@@ -131,7 +131,7 @@ rpcpassword=PASSWORD
 rpcport=18332
 
 # Notify when receiving coins
-walletnotify=/usr/local/sbin/rabbitmqadmin publish routing_key=peatio.deposit.coin payload='{"txid":"%s", "channel_key":"satoshi"}'
+walletnotify=/usr/local/sbin/rabbitmqadmin publish routing_key=peatio.deposit.coin payload='{"txid":"%s", "currency":"btc"}'
 ```
 
 Start bitcoin daemon:
