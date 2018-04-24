@@ -184,7 +184,7 @@ describe APIv2::Auth::JWTAuthenticator do
       it 'should register new member and return instance' do
         payload.merge!(email: 'guyfrombarong@email.com', uid: 'BARONG1234', state: '', level: 100)
         expect(subject.authenticate!(return: :member)).to eq Member.last
-        expect(Member.last.level).to eq 'unverified'
+        expect(Member.last.level).to eq 'identity_verified'
       end
     end
   end
