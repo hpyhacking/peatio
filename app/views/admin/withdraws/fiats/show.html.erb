@@ -27,7 +27,7 @@
             </span>
           <% end %>
           <ul class="list-inline w-100 px-3 mt-3 pt-3 border-top">
-            <% if @withdraw.may_accept? || @withdraw.may_process? %>
+            <% if @withdraw.may_accept? || @withdraw.may_process? || @withdraw.may_success? %>
               <li>
                 <%= link_to 'Process', admin_withdraw_path(@withdraw.currency.code, @withdraw), class: 'btn btn-primary pull-left', method: 'PATCH' %>
               </li>
