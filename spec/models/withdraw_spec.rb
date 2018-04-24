@@ -22,10 +22,10 @@ describe Withdraw do
         expect(subject).to be_suspected
       end
 
-      it 'should approve quick withdraw directly' do
+      it 'should accept quick withdraw directly' do
         subject.update_attributes sum: 5
         subject.audit!
-        expect(subject).to be_processing
+        expect(subject).to be_accepted
       end
     end
   end

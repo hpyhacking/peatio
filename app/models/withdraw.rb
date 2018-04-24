@@ -107,7 +107,7 @@ class Withdraw < ActiveRecord::Base
     with_lock do
       if account.examine
         accept!
-        process! if quick?
+        process! if quick? && currency.coin?
       else
         suspect!
       end
