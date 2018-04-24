@@ -5,7 +5,7 @@
     <span><%= account.currency.code.upcase %></span>
   </div>
   <div class="card-body">
-    <dl>
+    <dl class="dl-horizontal">
       <%= item_for account, :amount %>
       <%= item_for account, :locked %>
       <%= item_for account, :balance %>

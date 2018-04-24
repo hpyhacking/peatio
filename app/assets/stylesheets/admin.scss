@@ -27,6 +27,14 @@
     flex-direction: row-reverse;
     text-align: right;
     font-weight: bold;
+    max-width: 30%;
+  }
+  dd {
+    margin-bottom: 0;
+    span {
+      width: 100%;
+      word-wrap: break-word;
+    }
   }
 }
 

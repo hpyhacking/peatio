@@ -175,7 +175,7 @@ module ApplicationHelper
   end
 
   def description_for(name, &block)
-    content_tag :div, class: "dl-#{name} dl-horizontal" do
+    content_tag :dl, class: "dl-#{name} dl-horizontal" do
       capture(&block)
     end
   end

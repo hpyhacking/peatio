@@ -12,19 +12,13 @@
           <%= item_for @withdraw, :aasm_state_text %>
           <hr class="split">
           <%= item_for @withdraw.member, :email do %>
-            <span class="fa fa-copy" data-clipboard-text="<%= @withdraw.member.email %>">
-              <%= @withdraw.member.email %>
-            </span>
+            <%= @withdraw.member.email %>
           <% end %>
           <%= item_for @withdraw, 'Recipient ID' do %>
-            <span class="fa fa-copy" data-clipboard-text="<%= @withdraw.rid %>">
-              <%= @withdraw.rid %>
-            </span>
+            <%= @withdraw.rid %>
           <% end %>
           <%= item_for @withdraw, :amount do %>
-            <span class="fa fa-copy" data-clipboard-text="<%= @withdraw.amount %>">
-              <%= @withdraw.amount %>
-            </span>
+            <%= @withdraw.amount %>
           <% end %>
           <ul class="list-inline w-100 px-3 mt-3 pt-3 border-top">
             <% if @withdraw.may_accept? || @withdraw.may_process? || @withdraw.may_success? %>
