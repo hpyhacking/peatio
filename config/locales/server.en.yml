@@ -669,6 +669,7 @@ en:
     withdraw:
       state:
         submitted: Submitted
+        prepared: Prepared
         rejected: Rejected
         accepted: Accepted
         suspected: Suspected
@@ -869,6 +870,7 @@ en:
   withdraws/fiat:
     aasm_state:
       submitted: Submitted
+      prepared: Prepared
       rejected: Rejected
       accepted: Accepted
       suspected: Suspected
@@ -879,6 +881,7 @@ en:
   withdraws/coin:
     aasm_state:
       submitted: Submitted
+      prepared: Prepared
       rejected: Rejected
       accepted: Accepted
       suspected: Suspected

@@ -77,10 +77,12 @@ en:
         cancel: Cancel
         no_data: There is no history data
         created: Created
+        prepared: Prepared
         submitted: Submitted
         rejected: Rejected
         accepted: Accepted
         suspected: Suspected
+        prepared: Prepared
         processing: Processing
         coin_ready: Coin Ready
         coin_done: Coin Done
