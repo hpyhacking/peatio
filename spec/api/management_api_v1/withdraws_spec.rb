@@ -107,6 +107,18 @@ describe ManagementAPIv1::Withdraws, type: :request do
       expect(account.reload.balance).to eq(1.2 - amount)
       expect(account.reload.locked).to eq amount
     end
+
+    context 'extremely precise values' do
+      before { Currency.any_instance.stubs(:withdraw_fee).returns(BigDecimal(0)) }
+      before { Currency.any_instance.stubs(:precision).returns(16) }
+      it 'keeps precision for amount' do
+        currency.update!(precision: 16)
+        data.merge!(amount: '0.0000000123456789')
+        request
+        expect(response).to have_http_status(201)
+        expect(Withdraw.last.sum.to_s).to eq data[:amount]
+      end
+    end
   end
 
   describe 'get withdraw' do

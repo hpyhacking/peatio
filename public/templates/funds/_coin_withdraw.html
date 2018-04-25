@@ -24,7 +24,7 @@
       </div>
       <div class="col-sm-8">
         <div class="input-group">
-          <input class="numeric decimal required form-control" id="withdraw_sum" min="0" name="withdraw[sum]" placeholder="{{'funds.withdraw_coin.min' | t}} 0.001" step="any" type="number" value="0.0" ng-model="withdrawsCtrl.withdraw.sum">
+          <input class="numeric decimal required form-control" id="withdraw_sum" name="withdraw[sum]" placeholder="{{'funds.withdraw_coin.min' | t}} 0.001" type="text" value="0.0" ng-model="withdrawsCtrl.withdraw.sum">
           <div class="input-group-btn"><button ng-click="withdrawsCtrl.withdrawAll()" class="btn btn-success" id="withdraw_all_btn" type="button">{{"funds.withdraw_coin.withdraw_all" | t}}</button></div>
         </div>
       </div>

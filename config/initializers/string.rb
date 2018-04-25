@@ -1,5 +1,8 @@
 class String
+  # Similar to how ActiveRecord does. See lib/active_record/type/decimal.rb
   def to_d
-    blank? ? 0.0.to_d : BigDecimal.new(self)
+    BigDecimal(self)
+  rescue ArgumentError
+    BigDecimal(0)
   end
 end

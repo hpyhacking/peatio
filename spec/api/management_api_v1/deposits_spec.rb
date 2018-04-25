@@ -145,6 +145,15 @@ describe ManagementAPIv1::Deposits, type: :request do
         expect(response.body).to match(/currency does not have a valid value/i)
       end
     end
+
+    context 'extremely precise values' do
+      it 'keeps precision for amount' do
+        data.merge!(amount: '0.0000000123456789')
+        request
+        expect(response).to have_http_status(201)
+        expect(Deposit.last.amount.to_s).to eq data[:amount]
+      end
+    end
   end
 
   describe 'get deposit' do
