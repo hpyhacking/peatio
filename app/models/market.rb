@@ -25,7 +25,7 @@ class Market < ActiveRecord::Base
   validate { errors.add(:ask_unit, :invalid) if ask_unit == bid_unit }
   validates :id, uniqueness: { case_sensitive: false }, presence: true
   validates :ask_unit, :bid_unit, presence: true
-  validates :ask_fee, :bid_fee, numericality: { greater_than_or_equal_to: 0 }
+  validates :ask_fee, :bid_fee, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 0.5 }
   validates :ask_precision, :bid_precision, :position, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :ask_unit, :bid_unit, inclusion: { in: -> (_) { Currency.codes } }
 
@@ -100,15 +100,15 @@ class Market < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180417175453
+# Schema version: 20180425094920
 #
 # Table name: markets
 #
 #  id            :string(10)       not null, primary key
 #  ask_unit      :string(5)        not null
 #  bid_unit      :string(5)        not null
-#  ask_fee       :decimal(32, 16)  default(0.0), not null
-#  bid_fee       :decimal(32, 16)  default(0.0), not null
+#  ask_fee       :decimal(17, 16)  default(0.0), not null
+#  bid_fee       :decimal(17, 16)  default(0.0), not null
 #  ask_precision :integer          default(4), not null
 #  bid_precision :integer          default(4), not null
 #  position      :integer          default(0), not null

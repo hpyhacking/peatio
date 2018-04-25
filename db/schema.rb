@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180417175453) do
+ActiveRecord::Schema.define(version: 20180425094920) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -115,8 +115,8 @@ ActiveRecord::Schema.define(version: 20180417175453) do
   create_table "markets", force: :cascade do |t|
     t.string   "ask_unit",      limit: 5,                                          null: false
     t.string   "bid_unit",      limit: 5,                                          null: false
-    t.decimal  "ask_fee",                 precision: 32, scale: 16, default: 0.0,  null: false
-    t.decimal  "bid_fee",                 precision: 32, scale: 16, default: 0.0,  null: false
+    t.decimal  "ask_fee",                 precision: 17, scale: 16, default: 0.0,  null: false
+    t.decimal  "bid_fee",                 precision: 17, scale: 16, default: 0.0,  null: false
     t.integer  "ask_precision", limit: 1,                           default: 4,    null: false
     t.integer  "bid_precision", limit: 1,                           default: 4,    null: false
     t.integer  "position",      limit: 4,                           default: 0,    null: false
