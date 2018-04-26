@@ -26,19 +26,21 @@ module CoinAPI
     end
 
     def create_address!
-      { address: json_rpc(:getnewaddress).fetch('result') }
+      { address: normalize_address(json_rpc(:getnewaddress).fetch('result')) }
     end
 
     def create_withdrawal!(issuer, recipient, amount, options = {})
       json_rpc(:settxfee, [options[:fee]]) if options.key?(:fee)
-      json_rpc(:sendtoaddress, [recipient.fetch(:address), amount]).fetch('result')
+      json_rpc(:sendtoaddress, [normalize_address(recipient.fetch(:address)), amount]).fetch('result')
     end
 
     def inspect_address!(address)
-      json_rpc(:validateaddress, [address]).fetch('result').yield_self do |x|
-        { address:  address,
+      json_rpc(:validateaddress, [normalize_address(address)]).fetch('result').yield_self do |x|
+        { address:  normalize_address(address),
           is_valid: !!x['isvalid'],
-          is_mine:  !!x['ismine'] || PaymentAddress.where(currency: currency, address: address).exists? }
+          is_mine:  !!x['ismine'] ||
+                      PaymentAddress.where(currency: currency, address: address).exists? ||
+                      PaymentAddress.where(currency: currency, address: normalize_address(address)).exists? }
       end
     end
 
@@ -88,7 +90,7 @@ module CoinAPI
     def build_standalone_deposit(tx)
       entries = tx.fetch('details').map do |item|
         next unless item.fetch('category') == 'receive'
-        { amount: item.fetch('amount').to_d, address: item.fetch('address') }
+        { amount: item.fetch('amount').to_d, address: normalize_address(item.fetch('address')) }
       end.compact
       { id:            tx.fetch('txid'),
         confirmations: tx.fetch('confirmations').to_i,
@@ -102,8 +104,12 @@ module CoinAPI
         { id:            tx.fetch('txid'),
           confirmations: tx.fetch('confirmations').to_i,
           received_at:   Time.at(tx.fetch('timereceived')),
-          entries:       [{ amount: tx.fetch('amount').to_d, address: tx.fetch('address') }] }
+          entries:       [{ amount: tx.fetch('amount').to_d, address: normalize_address(tx.fetch('address')) }] }
       end.compact.reverse
+    end
+
+    def normalize_address(address)
+      address
     end
   end
 end
