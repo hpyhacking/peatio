@@ -6,7 +6,7 @@ require 'yaml'
 Dir['vendor/plugins/*'].each { |d| FileUtils.rm_rf(d) }
 
 plugins = YAML.load_file('config/plugins.yml').yield_self { |ary| ary || [] }.map do |plugin|
-  [ %[git clone --depth=1 #{plugin.fetch('git')} vendor/plugins/#{plugin.fetch('name')}],
+  [ %[git clone #{plugin.fetch('git')} vendor/plugins/#{plugin.fetch('name')}],
     %[cd vendor/plugins/#{plugin.fetch('name')} && git checkout #{plugin.fetch('commit')}],
   ].each do |command|
     Kernel.system(command)
