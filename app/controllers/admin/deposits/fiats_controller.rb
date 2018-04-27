@@ -36,7 +36,7 @@ module Admin
     private
 
       def deposit_params
-        params.require(:deposits_fiat).slice(:sn, :amount, :currency)
+        params.require(:deposits_fiat).slice(:sn, :amount)
               .merge(currency: currency)
               .permit!
       end

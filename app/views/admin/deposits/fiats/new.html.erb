@@ -15,15 +15,6 @@
     <div class="card">
       <div class="card-body">
         <div class="form-group">
-          <label>Currency</label>
-          <%= f.select :currency, Currency.fiats.map { |ccy| [ccy.code.upcase, ccy.code] }, {}, { class: "form-control" } %>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-body">
-        <div class="form-group">
           <label>SN</label>
           <%= f.text_field :sn, class: "form-control" %>
         </div>
