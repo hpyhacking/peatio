@@ -1,4 +1,4 @@
-# `DRAFT` RabbitMQ Peatio Event API
+# `EXPERIMENT` RabbitMQ Peatio Event API
 
 ## Overview of RabbitMQ details
 
@@ -69,7 +69,7 @@ event: {
 The field `event[:name]` contains event name (same as routing key).
 The fields `foo`, `bar`, `qux` (just for example) are fields which carry useful information.
 
-## Format of `deposit.created` event
+## Format of `model.deposit.created` event
 
 ```ruby
 event: {
