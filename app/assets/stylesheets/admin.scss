@@ -24,13 +24,14 @@
     min-height: 45px;
   }
   dt {
-    flex-direction: row-reverse;
     text-align: right;
     font-weight: bold;
     max-width: 30%;
+    display: inline-block;
   }
   dd {
     margin-bottom: 0;
+    display: inline-block;
     span {
       width: 100%;
       word-wrap: break-word;

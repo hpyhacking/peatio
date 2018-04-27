@@ -32,7 +32,7 @@
           <% if @market.new_record? %>
             <%= f.select :ask_unit, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
           <% else %>
-            <%= @market.ask_unit.upcase %>
+            <div class="mb-3"><%= @market.ask_unit.upcase %></div>
           <% end %>
           <label>Ask fee</label>
           <%= f.text_field :ask_fee, class: 'form-control mb-3' %>
