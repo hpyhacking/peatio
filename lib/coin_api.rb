@@ -78,7 +78,7 @@ module CoinAPI
     #
     # TODO: Doc.
     #
-    def create_address!
+    def create_address!(options = {})
       method_not_implemented
     end
 

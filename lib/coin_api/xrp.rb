@@ -45,8 +45,8 @@ module CoinAPI
         end.reduce(&:+).yield_self { |total| total ? convert_from_base_unit(total) : 0.to_d }
     end
 
-    def create_address!
-      secret = Passgen.generate(length: 64, symbols: true)
+    def create_address!(options = {})
+      secret = options.fetch(:secret) { Passgen.generate(length: 64, symbols: true) }
       json_rpc(:wallet_propose, [{ passphrase: secret }]).fetch('result').yield_self do |result|
         { address: result.fetch('account_id'), secret: secret }.merge! \
           result.slice('key_type', 'master_seed', 'master_seed_hex', 'master_key', 'public_key', 'public_key_hex')

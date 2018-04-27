@@ -13,14 +13,23 @@ module CoinAPI
       convert_from_base_unit(wallet_details(true).fetch('balanceString'))
     end
 
-    def create_address!
-      response = rest_api(:post, '/wallet/' + urlsafe_wallet_id + '/address')
-      address  = response['address']
-
-      # Specific case for ETH.
-      # See https://www.bitgo.com/api/v2/#ethereum
-      raise CoinAPI::Error, 'BitGo hasn\'t returned an address.' if address.blank?
-      { address: address }
+    # The implementation doesn't return address immediately for ETH.
+    # See https://www.bitgo.com/api/v2/#ethereum
+    #
+    # In this case you should first issue POST for generating new address.
+    # See https://www.bitgo.com/api/v2/#create-wallet-address
+    #
+    # Then you should save BitGo address ID and issue GET request for retrieving new address.
+    # See https://www.bitgo.com/api/v2/#get-wallet-address
+    #
+    def create_address!(options = {})
+      if options[:address_id].present?
+        path = '/wallet/' + urlsafe_wallet_id + '/address/' + escape_path_component(options[:address_id])
+        rest_api(:get, path).slice('address').symbolize_keys
+      else
+        response = rest_api(:post, '/wallet/' + urlsafe_wallet_id + '/address')
+        { address: response['address'], bitgo_address_id: response['id'] }
+      end
     end
 
     def each_deposit!
@@ -97,10 +106,10 @@ module CoinAPI
     end
 
     def urlsafe_wallet_id
-      escape_wallet_id(wallet_id)
+      escape_path_component(wallet_id)
     end
 
-    def escape_wallet_id(id)
+    def escape_path_component(id)
       CGI.escape(id)
     end
 
