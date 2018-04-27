@@ -9,6 +9,7 @@ class Withdraw < ActiveRecord::Base
   include AASM::Locking
   include Currencible
   include TIDIdentifiable
+  include FeeChargeable
 
   has_paper_trail on: %i[update destroy]
 
@@ -24,16 +25,14 @@ class Withdraw < ActiveRecord::Base
   delegate :coin?, :fiat?, to: :currency
 
   before_validation :fix_precision
-  before_validation :calc_fee
   before_validation :set_account
 
   after_update :sync_update
   after_create :sync_create
   after_destroy :sync_destroy
 
-  validates :amount, :fee, :account, :currency, :member, :rid, presence: true
+  validates :amount, :account, :currency, :member, :rid, presence: true
 
-  validates :fee, numericality: { greater_than_or_equal_to: 0 }
   validates :amount, numericality: { greater_than: 0 }
 
   validates :sum, presence: true, numericality: { greater_than: 0 }, on: :create

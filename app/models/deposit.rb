@@ -7,6 +7,7 @@ class Deposit < ActiveRecord::Base
   include AASM::Locking
   include Currencible
   include TIDIdentifiable
+  include FeeChargeable
 
   has_paper_trail on: [:update, :destroy]
 
@@ -18,9 +19,8 @@ class Deposit < ActiveRecord::Base
 
   belongs_to :member, required: true
 
-  validates :amount, :fee, :tid, :aasm_state, :type, presence: true
-  validates :amount, numericality: { greater_than: 0.0 }
-  validates :fee, numericality: { greater_than_or_equal_to: 0.0 }
+  validates :amount, :tid, :aasm_state, :type, presence: true
+  validates :amount, numericality: { greater_than: 0 }
   validates :completed_at, presence: { if: :completed? }
 
   scope :recent, -> { order(id: :desc) }
@@ -32,7 +32,7 @@ class Deposit < ActiveRecord::Base
   before_validation { self.completed_at ||= Time.current if completed? }
 
   aasm whiny_transitions: false do
-    state :submitted, initial: true, before_enter: :set_fee
+    state :submitted, initial: true
     state :canceled
     state :rejected
     state :accepted
@@ -76,14 +76,9 @@ private
     !submitted?
   end
 
-  def set_fee
-    amount, fee = calc_fee
-    self.amount = amount
-    self.fee = fee
-  end
-
   def calc_fee
-    [amount, 0]
+    self.fee ||= currency.deposit_fee
+    self.amount -= fee
   end
 
   def sync_update

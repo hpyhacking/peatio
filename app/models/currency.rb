@@ -15,8 +15,9 @@ class Currency < ActiveRecord::Base
   validates :quick_withdraw_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :base_factor, numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :deposit_confirmations, numericality: { greater_than_or_equal_to: 0, only_integer: true }, if: :coin?
-  validates :withdraw_fee, numericality: { greater_than_or_equal_to: 0 }
+  validates :withdraw_fee, :deposit_fee, numericality: { greater_than_or_equal_to: 0 }
   validate { errors.add(:options, :invalid) unless Hash === options }
+  before_validation { self.deposit_fee = 0 unless fiat? }
 
   scope :visible, -> { where(visible: true) }
   scope :all_with_invisible, -> { all }
@@ -144,7 +145,7 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180417175453
+# Schema version: 20180425224307
 #
 # Table name: currencies
 #
@@ -152,6 +153,7 @@ end
 #  code                 :string(30)       not null
 #  symbol               :string(1)        not null
 #  type                 :string(30)       default("coin"), not null
+#  deposit_fee          :decimal(32, 16)  default(0.0), not null
 #  quick_withdraw_limit :decimal(32, 16)  default(0.0), not null
 #  withdraw_fee         :decimal(32, 16)  default(0.0), not null
 #  options              :string(1000)     default({}), not null

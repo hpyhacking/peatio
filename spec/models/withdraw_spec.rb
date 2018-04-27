@@ -230,6 +230,24 @@ describe Withdraw do
     end
   end
 
+  context 'fee is set to fixed value of 10' do
+    let(:withdraw) { create(:usd_withdraw, sum: 200) }
+    before { Currency.any_instance.expects(:withdraw_fee).once.returns(10) }
+    it 'computes fee' do
+      expect(withdraw.fee).to eql 10.to_d
+      expect(withdraw.amount).to eql 190.to_d
+    end
+  end
+
+  context 'fee exceeds amount' do
+    let(:withdraw) { build(:usd_withdraw, sum: 200) }
+    before { Currency.any_instance.expects(:withdraw_fee).once.returns(200) }
+    it 'fails validation' do
+      expect(withdraw.save).to eq false
+      expect(withdraw.errors.full_messages).to eq ['Amount must be greater than 0']
+    end
+  end
+
   it 'automatically generates TID if it is blank' do
     expect(create(:btc_withdraw).tid).not_to be_blank
   end

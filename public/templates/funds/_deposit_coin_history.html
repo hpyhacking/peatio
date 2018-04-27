@@ -5,6 +5,7 @@
     <th>{{ "funds.deposit_history.time" | t }}</th>
     <th>{{ "funds.deposit_history.txid" | t }}</th>
     <th>{{ "funds.deposit_history.amount" | t }}</th>
+    <th>Fee</th>
     <th>{{ "funds.deposit_history.confirmations" | t }}</th>
     <th>{{ "funds.deposit_history.state_and_action" | t }}</th>
   </tr>
@@ -15,6 +16,7 @@
       <span ng-if="!deposit.transaction_url">{{deposit.txid | truncate: 20}}</span>
     </td>
     <td>{{deposit.amount}}</td>
+    <td>{{deposit.fee}}</td>
     <td>{{deposit.confirmations}}</td>
     <td>{{"funds.deposit_history." + deposit.aasm_state | t}}</td>
   </tr>
