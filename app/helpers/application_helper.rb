@@ -9,7 +9,7 @@ module ApplicationHelper
       field = field.to_s
       val = obj.instance_eval(field)
       display = val || 'N/A'
-      content_tag('span', :class => "#{field} detail-item #{val ? nil : 'empty'}" + cls, :data => {:title => obj.class.han(field)}) do
+      content_tag('span', :class => "#{field} detail-item #{val ? nil : 'empty'}" + cls, :data => {:title => obj.class.human_attribute_name(field)}) do
         if clip and val
           content_tag('i', display, :class => 'fa fa-copy', :data => {:'clipboard-text' => display})
         else

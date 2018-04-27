@@ -1,5 +1,4 @@
 class Trade < ActiveRecord::Base
-  extend ActiveHash::Associations::ActiveRecordExtensions
   ZERO = '0.0'.to_d
 
   extend Enumerize
