@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 0.0.1
+**Version:** 1.8.0.alpha
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -426,7 +426,7 @@ Member API is API which can be used by client application like SPA.
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | formData | [object Object] | Yes | string |
 | amount | formData | Withdraw amount without fees. | Yes | double |
-| destination_id | formData | Stored withdraw destination ID. You should create withdraw destination before. | Yes | integer |
+| rid | formData | The shared recipient ID. | Yes | string |
 
 **Responses**
 
@@ -434,73 +434,19 @@ Member API is API which can be used by client application like SPA.
 | ---- | ----------- |
 | 201 | [DEPRECATED] Create withdraw. |
 
-### /v2/withdraws/destinations
----
-##### ***GET***
-**Summary:** List your withdraw destinations as paginated collection.
-
-**Description:** List your withdraw destinations as paginated collection.
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | [object Object] | No | string |
-| page | query | Page number (defaults to 1). | No | integer |
-| limit | query | Number of withdraws per page (defaults to 100, maximum is 1000). | No | integer |
-
-**Responses**
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | List your withdraw destinations as paginated collection. |
-
-##### ***POST***
-**Summary:** Create withdraw destination.
-
-**Description:** Create withdraw destination.
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| currency | formData | Currency code. Both upcase (BTC) and downcase (btc) are supported. | Yes | string |
-| label | formData | The label associated with withdraw destination. | Yes | string |
-| bank_name | formData | The bank name. | No | string |
-| bank_branch_name | formData | The bank branch name. | No | string |
-| bank_branch_address | formData | The place where the bank branch is located. | No | string |
-| bank_identifier_code | formData | Financial institution's unique SWIFT/BIC code. | No | string |
-| bank_account_number | formData | International or SWIFT bank account number. | No | string |
-| bank_account_holder_name | formData | The name on your bank account. | No | string |
-| address | formData | Wallet address in blockchain. | No | string |
-
-**Responses**
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | Create withdraw destination. |
-
-### /v2/withdraws/destinations/{id}
----
-##### ***DELETE***
-**Summary:** Delete withdraw destination.
-
-**Description:** Delete withdraw destination.
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| id | path |  | Yes | integer |
-
-**Responses**
-
-| Code | Description |
-| ---- | ----------- |
-| 204 | Delete withdraw destination. |
-
 ### /v2/sessions
 ---
+##### ***POST***
+**Summary:** Create new user session.
+
+**Description:** Create new user session.
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Create new user session. |
+
 ##### ***DELETE***
 **Summary:** Delete all user sessions.
 

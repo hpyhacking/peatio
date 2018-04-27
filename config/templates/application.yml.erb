@@ -13,8 +13,8 @@ defaults: &defaults
   URL_SCHEME: http
   FORCE_SECURE_CONNECTION: 'false' # Set to "true" to disable access via unsecured HTTP, send HSTS headers and use secure cookies.
 
-  # session expire time (seconds)
-  SESSION_EXPIRE: '60'
+  # Session lifetime in seconds.
+  SESSION_LIFETIME: '3600'
 
   # WebSocket Streaming API settings
   WEBSOCKET_HOST: 0.0.0.0
@@ -69,7 +69,8 @@ defaults: &defaults
   # Set list of allowed origins using the variable below.
   # By default it allows access to API from all origins.
   # See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
-  API_CORS_ORIGINS: '*'
+  API_CORS_ORIGINS:           '*'
+  API_CORS_ALLOW_CREDENTIALS: ~
 
   # Configuration variables for Sentry.
   SENTRY_ENV:          production # Specify environments separated by comma for which Sentry should be initialized.

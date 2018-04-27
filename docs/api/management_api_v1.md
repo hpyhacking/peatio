@@ -2,7 +2,7 @@ Management API v1
 =================
 Management API is server-to-server API with high privileges.
 
-**Version:** 1.6.0.alpha
+**Version:** 1.8.0.alpha
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -206,6 +206,7 @@ Management API is server-to-server API with high privileges.
 | created_at | string | The datetime when deposit was created. | No |
 | completed_at | string | The datetime when deposit was completed. | No |
 | blockchain_txid | string | The transaction ID on the Blockchain (coin only). | No |
+| blockchain_confirmations | string | The number of transaction confirmations on the Blockchain (coin only). | No |
 
 ### Withdraw  
 
