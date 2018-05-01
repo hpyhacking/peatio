@@ -37,6 +37,7 @@ module APIv2
     mount APIv2::Withdraws
     mount APIv2::Sessions
     mount APIv2::Solvency
+    mount APIv2::Fees
 
     # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/swagger
     add_swagger_documentation base_path:   PREFIX,
