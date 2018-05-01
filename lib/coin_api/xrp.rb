@@ -55,8 +55,7 @@ module CoinAPI
 
     def inspect_address!(address)
       { address:  address,
-        is_valid: address?(address),
-        is_mine:  :unsupported }
+        is_valid: address?(address) }
     end
 
     def load_deposit!(txid)

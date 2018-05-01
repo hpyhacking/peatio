@@ -18,9 +18,6 @@ module Withdraws
       if inspection[:is_valid] == false
         Rails.logger.info "#{self.class.name}##{id} uses invalid address: #{rid.inspect}"
         reject!
-      elsif inspection[:is_mine] == true
-        Rails.logger.info "#{self.class.name}##{id} uses hot wallet address: #{rid.inspect}"
-        reject!
       else
         super
       end

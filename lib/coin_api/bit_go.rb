@@ -60,9 +60,7 @@ module CoinAPI
     end
 
     def inspect_address!(address)
-      { address:  address,
-        is_valid: :unsupported,
-        is_mine:  PaymentAddress.where(currency: currency, address: address).exists? }
+      { address: address, is_valid: :unsupported }
     end
 
   private

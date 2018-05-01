@@ -69,13 +69,13 @@ describe CoinAPI::XRP do
     context 'valid address' do
       let(:address) { 'rwHGuJBDgLdh63SuBwos7vYmc8J2PptPLL' }
       subject { client.inspect_address!(address) }
-      it { is_expected.to eq({ address: address, is_valid: true, is_mine: :unsupported }) }
+      it { is_expected.to eq({ address: address, is_valid: true }) }
     end
 
     context 'invalid address' do
       let(:address) { '0x42eb768f2244c8811c63729a21a3569731535f06' }
       subject { client.inspect_address!(address) }
-      it { is_expected.to eq({ address: address, is_valid: false, is_mine: :unsupported }) }
+      it { is_expected.to eq({ address: address, is_valid: false }) }
     end
   end
 

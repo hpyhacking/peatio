@@ -29,8 +29,7 @@ module CoinAPI
 
     def inspect_address!(address)
       { address:  address,
-        is_valid: /\A0x[A-F0-9]{40}\z/i.match?(address),
-        is_mine:  :unsupported }
+        is_valid: /\A0x[A-F0-9]{40}\z/i.match?(address) }
     end
 
     def create_withdrawal!(issuer, recipient, amount, options = {})
