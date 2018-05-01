@@ -3,7 +3,6 @@ require 'stringio'
 module ManagementAPIv1
   class JWTAuthenticationMiddleware < Grape::Middleware::Base
     extend Memoist
-    mattr_accessor :security_configuration
 
     def before
       return if request.path == '/management_api/v1/swagger'
@@ -56,6 +55,7 @@ module ManagementAPIv1
     end
 
     def check_jwt!(jwt)
+      security_configuration = Rails.configuration.x.security_configuration
       begin
         scope    = security_configuration.fetch(:scopes).fetch(security_scope)
         keychain = security_configuration

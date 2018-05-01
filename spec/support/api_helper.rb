@@ -96,7 +96,7 @@ module APITestHelpers
   memoize :management_api_v1_algorithms
 
   def management_api_v1_security_configuration
-    ManagementAPIv1::JWTAuthenticationMiddleware.security_configuration
+    Rails.configuration.x.security_configuration
   end
 
   def defaults_for_management_api_v1_security_configuration!
@@ -105,7 +105,7 @@ module APITestHelpers
       memo[signer] = { algorithm: management_api_v1_algorithms.fetch(signer), value: key.public_key }
     end
 
-    ManagementAPIv1::JWTAuthenticationMiddleware.security_configuration = config
+    Rails.configuration.x.security_configuration = config
   end
 end
 

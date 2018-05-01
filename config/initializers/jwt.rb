@@ -28,5 +28,5 @@ require 'openssl'
     end
   end
 
-  ManagementAPIv1::JWTAuthenticationMiddleware.security_configuration = x
+  Rails.configuration.x.security_configuration = x
 end
