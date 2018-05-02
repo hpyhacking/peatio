@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -e
+
+RAILS_ENV=development
+
+if [ -f tmp/pids/server.pid ]; then
+  kill $(cat tmp/pids/server.pid)
+fi
+
+if [ -n "${V}" ]; then
+cat > lib/peatio/version.rb << EOF
+module Peatio
+  VERSION = '${V}'
+end
+EOF
+fi
+
+bundle install
+bin/init_config
+bin/install_plugins
+bundle exec rake yarn:install db:drop db:create db:migrate db:seed
+npm i -g swagger-markdown
+bundle exec rails s -d
+while [ ! -f tmp/pids/server.pid ]
+do
+  sleep 1
+done
+curl http://localhost:3000/api/v2/swagger > tmp/api_v2_swagger.json
+curl http://localhost:3000/management_api/v1/swagger > tmp/management_api_v1_swagger.json
+swagger-markdown -i tmp/api_v2_swagger.json -o ./docs/api/member_api_v2.md
+swagger-markdown -i tmp/management_api_v1_swagger.json -o docs/api/management_api_v1.md
+kill $(cat tmp/pids/server.pid)

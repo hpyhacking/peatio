@@ -96,15 +96,7 @@ end
 #
 # @param tag [String]
 def tag_n_push(tag, branch)
-  File.open "lib/peatio/version.rb", "w" do |f|
-    f.write <<-RUBY
-module Peatio
-  VERSION = '#{tag}'
-end
-    RUBY
-  end
-
-  [
+  [ %( V="#{tag}" bin/bump ),
     %( git config --global user.email "#{bot_email}" ),
     %( git config --global user.name "#{bot_name}" ),
     %( git remote add authenticated-origin https://#{bot_username}:#{ENV.fetch("GITHUB_API_KEY")}@github.com/#{repository_slug} ),
