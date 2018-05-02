@@ -9,7 +9,7 @@ module Deposits
 end
 
 # == Schema Information
-# Schema version: 20180409115902
+# Schema version: 20180501141718
 #
 # Table name: deposits
 #

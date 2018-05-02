@@ -25,6 +25,7 @@
   options:
     #
     # Generic configuration variables.
+    case_sensitive:        true # IMPORTANT: Be sure to set the correct value!
     deposit_confirmations: 1 # Set to zero to stop processing all incoming deposits.
     #
     # API client configuration.
@@ -58,6 +59,7 @@
   options:
     #
     # Generic configuration variables.
+    case_sensitive:        true # IMPORTANT: Be sure to set the correct value!
     deposit_confirmations: 1 # Set to zero to stop processing all incoming deposits.
     #
     # API client configuration.
@@ -91,6 +93,7 @@
   options:
     #
     # Generic configuration variables.
+    case_sensitive:        true # IMPORTANT: Be sure to set the correct value!
     deposit_confirmations: 1 # Set to zero to stop processing all incoming deposits.
     #
     # API client configuration.
@@ -124,6 +127,7 @@
   options:
     #
     # Generic configuration variables.
+    case_sensitive:        true # IMPORTANT: Be sure to set the correct value!
     deposit_confirmations: 1 # Set to zero to stop processing all incoming deposits.
     #
     # API client configuration.
@@ -157,6 +161,7 @@
   options:
     #
     # Generic configuration variables.
+    case_sensitive:        true # IMPORTANT: Be sure to set the correct value!
     deposit_confirmations: 1 # Set to zero to stop processing all incoming deposits.
     #
     # API client configuration.
@@ -190,6 +195,7 @@
   options:
     #
     # Generic configuration variables.
+    case_sensitive:        false # IMPORTANT: Be sure to set the correct value!
     deposit_confirmations: 1 # Set to zero to stop processing all incoming deposits.
     #
     # API client configuration.
@@ -205,6 +211,33 @@
     bitgo_wallet_passphrase:     ~
     bitgo_rest_api_root:         https://test.bitgo.com/api/v2
     bitgo_rest_api_access_token: ~
+    #
+    # Block explorer configuration.
+    wallet_url_template:      https://etherscan.io/address/#{address}
+    transaction_url_template: https://etherscan.io/tx/#{txid}
+
+- id:                   8
+  code:                 trst
+  symbol:               'Ξ'
+  type:                 coin
+  precision:            8
+  base_factor:          1_000_000 # IMPORTANT: Don't forget to update this variable according
+  visible:              true      #            to your ERC20-based currency requirements
+  quick_withdraw_limit: 3000      #            (usually can be found on the official website).
+  options:
+    #
+    # Generic configuration variables.
+    case_sensitive:        false # IMPORTANT: Be sure to set the correct value!
+    deposit_confirmations: 1 # Set to zero to stop processing all incoming deposits.
+    #
+    # API client configuration (BitGo is not currently supported).
+    api_client: ERC20
+    #
+    # Ethereum node specific configuration.
+    json_rpc_endpoint: http://127.0.0.1:8545
+    #
+    # ERC20 configuration.
+    erc20_contract_address: '0x0000000000000000000000000000000000000000' # Always wrap this value in quotes!
     #
     # Block explorer configuration.
     wallet_url_template:      https://etherscan.io/address/#{address}

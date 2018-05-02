@@ -73,6 +73,7 @@ gem 'passgen', '~> 1.0'
 gem 'validates_lengths_from_database', '~> 0.7.0'
 gem 'jwt-multisig', '~> 1.0'
 gem 'cash-addr', '~> 0.1', require: 'cash_addr'
+gem 'digest-sha3', '~> 1.1'
 
 group :development, :test do
   gem 'faker',        '~> 1.8'

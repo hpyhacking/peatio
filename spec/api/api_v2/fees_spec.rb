@@ -5,7 +5,7 @@ describe APIv2::Fees, type: :request do
       expect(response).to be_success
 
       result = JSON.parse(response.body)
-      expect(result.size).to eq 5
+      expect(result.size).to eq 6
     end
 
     it 'returns correct currency withdraw fee' do
@@ -30,7 +30,7 @@ describe APIv2::Fees, type: :request do
       expect(response).to be_success
 
       result = JSON.parse(response.body)
-      expect(result.size).to eq 5
+      expect(result.size).to eq 6
     end
 
     it 'returns correct currency deposit fee' do

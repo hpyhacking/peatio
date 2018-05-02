@@ -100,7 +100,7 @@ class Market < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180425094920
+# Schema version: 20180501141718
 #
 # Table name: markets
 #
@@ -112,7 +112,7 @@ end
 #  ask_precision :integer          default(4), not null
 #  bid_precision :integer          default(4), not null
 #  position      :integer          default(0), not null
-#  visible       :boolean          default(TRUE), not null
+#  visible       :integer          default(1), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #

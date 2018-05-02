@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180425224307) do
+ActiveRecord::Schema.define(version: 20180501141718) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -114,16 +114,16 @@ ActiveRecord::Schema.define(version: 20180425224307) do
   add_index "deposits", ["type"], name: "index_deposits_on_type", using: :btree
 
   create_table "markets", force: :cascade do |t|
-    t.string   "ask_unit",      limit: 5,                                          null: false
-    t.string   "bid_unit",      limit: 5,                                          null: false
-    t.decimal  "ask_fee",                 precision: 17, scale: 16, default: 0.0,  null: false
-    t.decimal  "bid_fee",                 precision: 17, scale: 16, default: 0.0,  null: false
-    t.integer  "ask_precision", limit: 1,                           default: 4,    null: false
-    t.integer  "bid_precision", limit: 1,                           default: 4,    null: false
-    t.integer  "position",      limit: 4,                           default: 0,    null: false
-    t.boolean  "visible",                                           default: true, null: false
-    t.datetime "created_at",                                                       null: false
-    t.datetime "updated_at",                                                       null: false
+    t.string   "ask_unit",      limit: 5,                                         null: false
+    t.string   "bid_unit",      limit: 5,                                         null: false
+    t.decimal  "ask_fee",                 precision: 17, scale: 16, default: 0.0, null: false
+    t.decimal  "bid_fee",                 precision: 17, scale: 16, default: 0.0, null: false
+    t.integer  "ask_precision", limit: 1,                           default: 4,   null: false
+    t.integer  "bid_precision", limit: 1,                           default: 4,   null: false
+    t.integer  "position",      limit: 4,                           default: 0,   null: false
+    t.integer  "visible",       limit: 1,                           default: 1,   null: false
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
   end
 
   add_index "markets", ["ask_unit", "bid_unit"], name: "index_markets_on_ask_unit_and_bid_unit", unique: true, using: :btree
@@ -183,7 +183,7 @@ ActiveRecord::Schema.define(version: 20180425224307) do
 
   create_table "payment_addresses", force: :cascade do |t|
     t.integer  "account_id",  limit: 4
-    t.string   "address",     limit: 255
+    t.string   "address",     limit: 64
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "currency_id", limit: 4
@@ -247,7 +247,7 @@ ActiveRecord::Schema.define(version: 20180425224307) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "done_at"
-    t.string   "txid",        limit: 255
+    t.string   "txid",        limit: 128
     t.string   "aasm_state",  limit: 255
     t.decimal  "sum",                     precision: 32, scale: 16, default: 0.0, null: false
     t.string   "type",        limit: 255

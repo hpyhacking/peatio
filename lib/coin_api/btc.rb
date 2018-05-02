@@ -22,7 +22,7 @@ module CoinAPI
     end
 
     def load_deposit!(txid)
-      json_rpc(:gettransaction, [txid]).fetch('result').yield_self { |tx| build_standalone_deposit(tx) }
+      json_rpc(:gettransaction, [normalize_txid(txid)]).fetch('result').yield_self { |tx| build_standalone_deposit(tx) }
     end
 
     def create_address!(options = {})
@@ -31,13 +31,14 @@ module CoinAPI
 
     def create_withdrawal!(issuer, recipient, amount, options = {})
       json_rpc(:settxfee, [options[:fee]]) if options.key?(:fee)
-      json_rpc(:sendtoaddress, [normalize_address(recipient.fetch(:address)), amount]).fetch('result')
+      json_rpc(:sendtoaddress, [normalize_address(recipient.fetch(:address)), amount])
+        .fetch('result')
+        .yield_self(&method(:normalize_txid))
     end
 
     def inspect_address!(address)
       json_rpc(:validateaddress, [normalize_address(address)]).fetch('result').yield_self do |x|
-        { address:  normalize_address(address),
-          is_valid: !!x['isvalid'] }
+        { address: normalize_address(address), is_valid: !!x['isvalid'] }
       end
     end
 
@@ -89,7 +90,7 @@ module CoinAPI
         next unless item.fetch('category') == 'receive'
         { amount: item.fetch('amount').to_d, address: normalize_address(item.fetch('address')) }
       end.compact
-      { id:            tx.fetch('txid'),
+      { id:            normalize_txid(tx.fetch('txid')),
         confirmations: tx.fetch('confirmations').to_i,
         received_at:   Time.at(tx.fetch('timereceived')),
         entries:       entries }
@@ -98,15 +99,11 @@ module CoinAPI
     def build_deposit_collection(txs)
       txs.map do |tx|
         next unless tx.fetch('category') == 'receive'
-        { id:            tx.fetch('txid'),
+        { id:            normalize_txid(tx.fetch('txid')),
           confirmations: tx.fetch('confirmations').to_i,
           received_at:   Time.at(tx.fetch('timereceived')),
           entries:       [{ amount: tx.fetch('amount').to_d, address: normalize_address(tx.fetch('address')) }] }
       end.compact.reverse
-    end
-
-    def normalize_address(address)
-      address
     end
   end
 end

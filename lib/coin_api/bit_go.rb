@@ -28,7 +28,8 @@ module CoinAPI
         rest_api(:get, path).slice('address').symbolize_keys
       else
         response = rest_api(:post, '/wallet/' + urlsafe_wallet_id + '/address')
-        { address: response['address'], bitgo_address_id: response['id'] }
+        address  = response['address']
+        { address: address.present? ? normalize_address(address) : nil, bitgo_address_id: response['id'] }
       end
     end
 
@@ -45,22 +46,22 @@ module CoinAPI
     end
 
     def load_deposit!(txid)
-      rest_api(:get, '/wallet/' + urlsafe_wallet_id + '/tx/' + txid)
+      rest_api(:get, '/wallet/' + urlsafe_wallet_id + '/tx/' + normalize_txid(txid))
         .yield_self { |tx| build_deposit(tx) }
     end
 
     def create_withdrawal!(issuer, recipient, amount, options = {})
       fee = options.key?(:fee) ? convert_to_base_unit!(options[:fee]) : nil
       rest_api(:post, '/wallet/' + urlsafe_wallet_id + '/sendcoins', {
-        address:          recipient.fetch(:address),
+        address:          normalize_address(recipient.fetch(:address)),
         amount:           convert_to_base_unit!(amount).to_s,
         feeRate:          fee,
         walletPassphrase: currency.bitgo_wallet_passphrase
-      }.compact).fetch('txid')
+      }.compact).fetch('txid').yield_self(&method(:normalize_txid))
     end
 
     def inspect_address!(address)
-      { address: address, is_valid: :unsupported }
+      { address: normalize_address(address), is_valid: :unsupported }
     end
 
   private
@@ -96,7 +97,7 @@ module CoinAPI
     memoize :wallet_details
 
     def urlsafe_wallet_address
-      CGI.escape(currency.bitgo_wallet_address)
+      CGI.escape(normalize_address(currency.bitgo_wallet_address))
     end
 
     def wallet_id
@@ -114,7 +115,7 @@ module CoinAPI
     def build_deposit(tx)
       entries = build_deposit_entries(tx)
       return if entries.blank?
-      { id:            tx.fetch('id'),
+      { id:            normalize_txid(tx.fetch('id')),
         confirmations: tx.fetch('confirmations').to_i,
         entries:       entries,
         received_at:   Time.parse(tx.fetch('date')) }
@@ -132,7 +133,7 @@ module CoinAPI
         .compact
         .map do |entry|
           { amount:  convert_from_base_unit(entry.fetch('valueString')),
-            address: entry.fetch('address') }
+            address: normalize_address(entry.fetch('address')) }
         end
     end
 

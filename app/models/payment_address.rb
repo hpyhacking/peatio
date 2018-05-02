@@ -10,6 +10,16 @@ class PaymentAddress < ActiveRecord::Base
 
   serialize :details, JSON
 
+  before_validation do
+    next unless currency&.code&.bch? && address?
+    self.address = CashAddr::Converter.to_legacy_address(address)
+  end
+
+  before_validation do
+    next unless currency&.case_insensitive?
+    self.address = address.try(:downcase)
+  end
+
   def enqueue_address_generation
     if address.blank? && currency.coin?
       AMQPQueue.enqueue(:deposit_coin_address, { account_id: account.id }, { persistent: true })
@@ -57,13 +67,13 @@ class PaymentAddress < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180303121013
+# Schema version: 20180501141718
 #
 # Table name: payment_addresses
 #
 #  id          :integer          not null, primary key
 #  account_id  :integer
-#  address     :string(255)
+#  address     :string(64)
 #  created_at  :datetime
 #  updated_at  :datetime
 #  currency_id :integer
