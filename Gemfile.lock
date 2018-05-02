@@ -179,6 +179,9 @@ GEM
       grape-swagger (>= 0.20.4)
     grape-swagger-ui (2.2.8)
       railties (>= 3.1)
+    grape_logging (1.8.0)
+      grape
+      rack
     hashdiff (0.3.7)
     hashie (3.5.7)
     http_accept_language (2.1.1)
@@ -458,6 +461,7 @@ DEPENDENCIES
   grape-swagger (~> 0.27.3)
   grape-swagger-entity (~> 0.2)
   grape-swagger-ui (~> 2.2.8)
+  grape_logging (~> 1.8)
   hashie (~> 3.0)
   http_accept_language
   jbuilder

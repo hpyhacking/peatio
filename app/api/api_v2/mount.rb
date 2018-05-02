@@ -18,6 +18,16 @@ module APIv2
 
     do_not_route_options!
 
+    logger Rails.logger.dup
+    logger.formatter = GrapeLogging::Formatters::Rails.new
+    use GrapeLogging::Middleware::RequestLogger,
+        logger:    logger,
+        log_level: :debug,
+        include:   [GrapeLogging::Loggers::Response.new,
+                    GrapeLogging::Loggers::FilterParameters.new,
+                    GrapeLogging::Loggers::ClientEnv.new,
+                    GrapeLogging::Loggers::RequestHeaders.new]
+
     use APIv2::Auth::Middleware
 
     include Constraints

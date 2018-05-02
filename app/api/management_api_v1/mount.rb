@@ -14,9 +14,32 @@ module ManagementAPIv1
 
     helpers ManagementAPIv1::Helpers
 
-    rescue_from(ManagementAPIv1::Exceptions::Base) { |e| error!(e.message, e.status, e.headers) }
-    rescue_from(Grape::Exceptions::ValidationErrors) { |e| error!(e.message, 422) }
-    rescue_from(ActiveRecord::RecordNotFound) { |e| error!('Couldn\'t find record.', 404) }
+    rescue_from ManagementAPIv1::Exceptions::Base do |e|
+      ManagementAPIv1::Mount.logger.error { e.inspect }
+      ManagementAPIv1::Mount.logger.debug { e.debug_message } unless e.debug_message.blank?
+      error!(e.message, e.status, e.headers)
+    end
+
+    rescue_from Grape::Exceptions::ValidationErrors do |e|
+      ManagementAPIv1::Mount.logger.error { e.inspect }
+      ManagementAPIv1::Mount.logger.debug { e.full_messages }
+      error!(e.message, 422)
+    end
+
+    rescue_from ActiveRecord::RecordNotFound do |e|
+      ManagementAPIv1::Mount.logger.error { e.inspect }
+      error!('Couldn\'t find record.', 404)
+    end
+
+    logger Rails.logger.dup
+    logger.formatter = GrapeLogging::Formatters::Rails.new
+    use GrapeLogging::Middleware::RequestLogger,
+        logger:    logger,
+        log_level: :debug,
+        include:   [GrapeLogging::Loggers::Response.new,
+                    GrapeLogging::Loggers::FilterParameters.new,
+                    GrapeLogging::Loggers::ClientEnv.new,
+                    GrapeLogging::Loggers::RequestHeaders.new]
 
     use ManagementAPIv1::JWTAuthenticationMiddleware
 

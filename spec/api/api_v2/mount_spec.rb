@@ -6,8 +6,9 @@ module APIv2
 end
 
 describe APIv2::Mount, type: :request do
+  let(:middlewares) { APIv2::Mount.middleware }
   it 'should use auth and attack middleware' do
-    expect(APIv2::Mount.middleware).to eq [[:use, APIv2::Auth::Middleware], [:use, Rack::Attack], [:use, APIv2::CORS::Middleware]]
+    expect(middlewares.drop(1)).to eq [[:use, APIv2::Auth::Middleware], [:use, Rack::Attack], [:use, APIv2::CORS::Middleware]]
   end
 
   it 'should allow 3rd party ajax call' do

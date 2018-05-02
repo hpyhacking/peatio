@@ -6,6 +6,10 @@ module ManagementAPIv1
         super(message)
       end
 
+      def debug_message
+        @options[:debug_message]
+      end
+
       def headers
         @options.fetch(:headers, {})
       end
