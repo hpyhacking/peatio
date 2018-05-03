@@ -33,13 +33,13 @@ module CoinAPI
       end
     end
 
-    def each_deposit!
+    def each_deposit!(options = {})
       each_batch_of_deposits do |deposits|
         deposits.each { |deposit| yield deposit }
       end
     end
 
-    def each_deposit
+    def each_deposit(options = {})
       each_batch_of_deposits false do |deposits|
         deposits.each { |deposit| yield deposit }
       end

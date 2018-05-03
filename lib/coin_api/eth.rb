@@ -47,14 +47,14 @@ module CoinAPI
       end
     end
 
-    def each_deposit!
-      each_batch_of_deposits do |deposits|
+    def each_deposit!(options = {})
+      each_batch_of_deposits raise: true, **options do |deposits|
         deposits.each { |deposit| yield deposit if block_given? }
       end
     end
 
-    def each_deposit
-      each_batch_of_deposits false do |deposits|
+    def each_deposit(options = {})
+      each_batch_of_deposits raise: false, **options do |deposits|
         deposits.each { |deposit| yield deposit if block_given? }
       end
     end
@@ -94,29 +94,36 @@ module CoinAPI
       response
     end
 
-    # https://ethereum.stackexchange.com/questions/25389/getting-transaction-history-for-a-particular-account
-    # https://github.com/ethereum/go-ethereum/issues/2104#issuecomment-168748944
-    # https://github.com/ethereum/web3.js/issues/580
-    def each_batch_of_deposits(raise = true)
-      collected       = []
-      latest_block_n  = latest_block_number
-      current_block_n = latest_block_n
-      latest_block    = nil
-      current_block   = nil
+    # See important links:
+    #   – https://ethereum.stackexchange.com/questions/25389/getting-transaction-history-for-a-particular-account
+    #   – https://github.com/ethereum/go-ethereum/issues/2104#issuecomment-168748944
+    #   – https://github.com/ethereum/web3.js/issues/580
+    def each_batch_of_deposits(raise:, **options)
+      blocks_limit       = options.fetch(:blocks_limit) { 0 }
+      transactions_limit = options.fetch(:transactions_limit) { 0 }
+      collected          = []
+      latest_block_n     = latest_block_number
+      current_block_n    = latest_block_n
+      latest_block_json  = nil
+      current_block_json = nil
+      transactions_n     = 0
 
       while current_block_n > 0
+        break unless blocks_limit.zero? || (latest_block_n - current_block_n) <= blocks_limit
+        break unless transactions_limit.zero? || transactions_n < transactions_limit
         begin
-          batch_deposits = nil
-          block          = json_rpc(:eth_getBlockByNumber, ["0x#{current_block_n.to_s(16)}", true]).fetch('result')
-          current_block  = block
-          latest_block   = block if latest_block_n == current_block_n
-          batch_deposits = build_deposit_collection(block.fetch('transactions'), current_block, latest_block)
+          deposits            = nil
+          block_json          = json_rpc(:eth_getBlockByNumber, ["0x#{current_block_n.to_s(16)}", true]).fetch('result')
+          current_block_json  = block_json
+          latest_block_json   = block_json if latest_block_n == current_block_n
+          transactions_n     += block_json.fetch('transactions').count
+          deposits            = build_deposit_collection(block_json['transactions'], current_block_json, latest_block_json)
         rescue => e
           report_exception(e)
           raise e if raise
         end
-        yield batch_deposits if batch_deposits && block_given?
-        collected       += batch_deposits
+        yield deposits if deposits && block_given?
+        collected       += deposits
         current_block_n -= 1
       end
 
@@ -140,7 +147,9 @@ module CoinAPI
     end
 
     def latest_block_number
-      json_rpc(:eth_blockNumber).fetch('result').hex
+      Rails.cache.fetch :latest_ethereum_block_number, expires_in: 5.seconds do
+        json_rpc(:eth_blockNumber).fetch('result').hex
+      end
     end
 
     def block_information(number)
