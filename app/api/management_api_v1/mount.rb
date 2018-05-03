@@ -43,6 +43,7 @@ module ManagementAPIv1
 
     use ManagementAPIv1::JWTAuthenticationMiddleware
 
+    mount ManagementAPIv1::Accounts
     mount ManagementAPIv1::Deposits
     mount ManagementAPIv1::Withdraws
     mount ManagementAPIv1::Tools
