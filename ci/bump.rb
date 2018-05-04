@@ -101,7 +101,7 @@ def tag_n_push(tag, branch)
     %( git config --global user.name "#{bot_name}" ),
     %( git remote add authenticated-origin https://#{bot_username}:#{ENV.fetch("GITHUB_API_KEY")}@github.com/#{repository_slug} ),
     %( git checkout -b release ),
-    %( git add lib/peatio/version.rb ),
+    %( git add -A ),
     %( git commit -m "[ci skip] Bump #{tag}." ),
     %( git push authenticated-origin release:#{branch.fetch(:name)} ),
     %( git tag #{tag} -a -m "Automatically generated tag from TravisCI build #{ENV.fetch("TRAVIS_BUILD_NUMBER")}." ),

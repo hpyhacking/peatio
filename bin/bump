@@ -26,6 +26,7 @@ while [ ! -f tmp/pids/server.pid ]
 do
   sleep 1
 done
+sleep 5 # Wait additional time until Rails starts listen port.
 curl http://localhost:3000/api/v2/swagger > tmp/api_v2_swagger.json
 curl http://localhost:3000/management_api/v1/swagger > tmp/management_api_v1_swagger.json
 swagger-markdown -i tmp/api_v2_swagger.json -o ./docs/api/member_api_v2.md

@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.8.0.alpha
+**Version:** 1.8.0
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -43,7 +43,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | path | [object Object] | Yes | string |
+| market | path | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 
 **Responses**
 
@@ -75,7 +75,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | [object Object] | No | string |
+| currency | query | Currency value contains usd,btc,xrp,bch,ltc,dash,eth,trst,USD,BTC,XRP,BCH,LTC,DASH,ETH,TRST | No | string |
 | limit | query | Set result limit. | No | integer |
 | state | query |  | No | string |
 
@@ -115,7 +115,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | [object Object] | Yes | string |
+| currency | query | The account to which you want to deposit. Available values: usd, btc, xrp, bch, ltc, dash, eth, trst, USD, BTC, XRP, BCH, LTC, DASH, ETH, TRST | Yes | string |
 
 **Responses**
 
@@ -134,7 +134,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | [object Object] | Yes | string |
+| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 | state | query | Filter order by state, default to 'wait' (active orders). | No | string |
 | limit | query | Limit the number of returned orders, default to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
@@ -155,11 +155,11 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | formData | [object Object] | Yes | string |
-| side | formData | [object Object] | Yes | string |
-| volume | formData | [object Object] | Yes | string |
-| price | formData | [object Object] | No | string |
-| ord_type | formData | [object Object] | No | string |
+| market | formData | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| side | formData | Either 'sell' or 'buy'. | Yes | string |
+| volume | formData | The amount user want to sell/buy. An order could be partially executed, e.g. an order sell 5 btc can be matched with a buy 3 btc order, left 2 btc to be sold; in this case the order's volume would be '5.0', its remaining_volume would be '2.0', its executed volume is '3.0'. | Yes | string |
+| price | formData | Price for each unit. e.g. If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | No | string |
+| ord_type | formData |  | No | string |
 
 **Responses**
 
@@ -178,11 +178,11 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | formData | [object Object] | Yes | string |
-| orders[side] | formData | [object Object] | Yes | [ string ] |
-| orders[volume] | formData | [object Object] | Yes | [ string ] |
-| orders[price] | formData | [object Object] | No | [ string ] |
-| orders[ord_type] | formData | [object Object] | No | [ string ] |
+| market | formData | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| orders[side] | formData | Either 'sell' or 'buy'. | Yes | [ string ] |
+| orders[volume] | formData | The amount user want to sell/buy. An order could be partially executed, e.g. an order sell 5 btc can be matched with a buy 3 btc order, left 2 btc to be sold; in this case the order's volume would be '5.0', its remaining_volume would be '2.0', its executed volume is '3.0'. | Yes | [ string ] |
+| orders[price] | formData | Price for each unit. e.g. If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | No | [ string ] |
+| orders[ord_type] | formData |  | No | [ string ] |
 
 **Responses**
 
@@ -220,7 +220,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| id | query | [object Object] | Yes | integer |
+| id | query | Unique order id. | Yes | integer |
 
 **Responses**
 
@@ -239,7 +239,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| id | formData | [object Object] | Yes | integer |
+| id | formData | Unique order id. | Yes | integer |
 
 **Responses**
 
@@ -258,7 +258,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | [object Object] | Yes | string |
+| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 | asks_limit | query | Limit the number of returned sell orders. Default to 20. | No | integer |
 | bids_limit | query | Limit the number of returned buy orders. Default to 20. | No | integer |
 
@@ -279,7 +279,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | [object Object] | Yes | string |
+| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 | limit | query | Limit the number of returned price levels. Default to 300. | No | integer |
 
 **Responses**
@@ -299,7 +299,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | [object Object] | Yes | string |
+| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 | limit | query | Limit the number of returned trades. Default to 50. | No | integer |
 | timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned. | No | integer |
 | from | query | Trade id. If set, only trades created after the trade will be returned. | No | integer |
@@ -323,7 +323,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | [object Object] | Yes | string |
+| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 | limit | query | Limit the number of returned trades. Default to 50. | No | integer |
 | timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned. | No | integer |
 | from | query | Trade id. If set, only trades created after the trade will be returned. | No | integer |
@@ -347,7 +347,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | [object Object] | Yes | string |
+| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 | limit | query | Limit the number of returned data points, default to 30. | No | integer |
 | period | query | Time period of K line, default to 1. You can choose between 1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080 | No | integer |
 | timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data after that time will be returned. | No | integer |
@@ -369,7 +369,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | [object Object] | Yes | string |
+| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 | trade_id | query | The trade id of the first trade you received. | Yes | integer |
 | limit | query | Limit the number of returned data points, default to 30. | No | integer |
 | period | query | Time period of K line, default to 1. You can choose between 1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080 | No | integer |
@@ -405,7 +405,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | [object Object] | No | string |
+| currency | query | Any supported currencies: usd,btc,xrp,bch,ltc,dash,eth,trst,USD,BTC,XRP,BCH,LTC,DASH,ETH,TRST. | No | string |
 | page | query | Page number (defaults to 1). | No | integer |
 | limit | query | Number of withdraws per page (defaults to 100, maximum is 1000). | No | integer |
 
@@ -424,7 +424,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | formData | [object Object] | Yes | string |
+| currency | formData | Any supported currency: usd,btc,xrp,bch,ltc,dash,eth,trst,USD,BTC,XRP,BCH,LTC,DASH,ETH,TRST. | Yes | string |
 | amount | formData | Withdraw amount without fees. | Yes | double |
 | rid | formData | The shared recipient ID. | Yes | string |
 
@@ -495,3 +495,42 @@ Member API is API which can be used by client application like SPA.
 | Code | Description |
 | ---- | ----------- |
 | 200 | Returns newest partial tree record for member account of specified currency. |
+
+### /v2/fees/withdraw
+---
+##### ***GET***
+**Summary:** Returns withdraw fees for currencies.
+
+**Description:** Returns withdraw fees for currencies.
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Returns withdraw fees for currencies. |
+
+### /v2/fees/deposit
+---
+##### ***GET***
+**Summary:** Returns deposit fees for currencies.
+
+**Description:** Returns deposit fees for currencies.
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Returns deposit fees for currencies. |
+
+### /v2/fees/trading
+---
+##### ***GET***
+**Summary:** Returns trading fees for markets.
+
+**Description:** Returns trading fees for markets.
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Returns trading fees for markets. |

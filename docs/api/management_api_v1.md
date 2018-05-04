@@ -2,9 +2,29 @@ Management API v1
 =================
 Management API is server-to-server API with high privileges.
 
-**Version:** 1.8.0.alpha
+**Version:** 1.8.0
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
+
+### /v1/accounts/balance
+---
+##### ***POST***
+**Summary:** Queries the account balance for the given UID and currency.
+
+**Description:** Queries the account balance for the given UID and currency.
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | formData | The shared user ID. | Yes | string |
+| currency | formData | The currency code. | Yes | string |
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Queries the account balance for the given UID and currency. | [Balance](#balance) |
 
 ### /v1/deposits
 ---
@@ -138,7 +158,7 @@ Management API is server-to-server API with high privileges.
 ##### ***POST***
 **Summary:** Creates new withdraw.
 
-**Description:** You can pass «state» set to «submitted» if you want to start processing withdraw.
+**Description:** Creates new withdraw. The behaviours for fiat and crypto withdraws are different. Fiat: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, and assign state to «rejected» or «accepted». The processing will not begin automatically. The processing may be initiated manually from admin panel or by PUT /management_api/v1/withdraws/action. Coin: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, validate withdraw address and 
 
 **Parameters**
 
@@ -149,7 +169,7 @@ Management API is server-to-server API with high privileges.
 | rid | formData | The beneficiary ID or wallet address on the Blockchain. | Yes | string |
 | currency | formData | The currency code. | Yes | string |
 | amount | formData | The amount to withdraw. | Yes | double |
-| state | formData | The withdraw state to apply. | No | string |
+| action | formData | The action to perform. | No | string |
 
 **Responses**
 
@@ -157,25 +177,25 @@ Management API is server-to-server API with high privileges.
 | ---- | ----------- | ------ |
 | 201 | Creates new withdraw. | [Withdraw](#withdraw) |
 
-### /v1/withdraws/state
+### /v1/withdraws/action
 ---
 ##### ***PUT***
-**Summary:** Updates withdraw state.
+**Summary:** Performs action on withdraw.
 
-**Description:** «submitted» – system will check for suspected activity, lock the money, and process the withdraw. «canceled» – system will mark withdraw as «canceled», and unlock the money.
+**Description:** «process» – system will lock the money, check for suspected activity, validate recipient address, and initiate the processing of the withdraw. «cancel»  – system will mark withdraw as «canceled», and unlock the money.
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | tid | formData | The shared transaction ID. | Yes | string |
-| state | formData |  | Yes | string |
+| action | formData | The action to perform. | Yes | string |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Updates withdraw state. | [Withdraw](#withdraw) |
+| 200 | Performs action on withdraw. | [Withdraw](#withdraw) |
 
 ### /v1/timestamp
 ---
@@ -192,6 +212,14 @@ Management API is server-to-server API with high privileges.
 
 ### Models
 ---
+
+### Balance  
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| uid | string | The shared user ID. | No |
+| balance | string | The account balance. | No |
+| locked | string | The locked account balance. | No |
 
 ### Deposit  
 
