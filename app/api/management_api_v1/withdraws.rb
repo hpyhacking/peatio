@@ -1,6 +1,31 @@
 module ManagementAPIv1
   class Withdraws < Grape::API
 
+    helpers do
+      def perform_action(withdraw, action)
+        withdraw.with_lock do
+          case action
+            when 'process'
+              withdraw.submit!
+              # Process fiat withdraw immediately. Crypto withdraws will be processed by workers.
+              if withdraw.fiat?
+                if withdraw.account.examine
+                  withdraw.accept!
+                  if withdraw.quick?
+                    withdraw.process!
+                    withdraw.success!
+                  end
+                else
+                  withdraw.suspect!
+                end
+              end
+            when 'cancel'
+              withdraw.cancel!
+          end
+        end
+      end
+    end
+
     desc 'Returns withdraws as paginated collection.' do
       @settings[:scope] = :read_withdraws
       success ManagementAPIv1::Entities::Withdraw
@@ -45,7 +70,15 @@ module ManagementAPIv1
 
     desc 'Creates new withdraw.' do
       @settings[:scope] = :write_withdraws
-      detail 'You can pass «state» set to «submitted» if you want to start processing withdraw.'
+      detail 'Creates new withdraw. The behaviours for fiat and crypto withdraws are different. ' \
+             'Fiat: money are immediately locked, withdraw state is set to «submitted», system workers ' \
+                   'will validate withdraw later against suspected activity, and assign state to «rejected» or «accepted». ' \
+                   'The processing will not begin automatically. The processing may be initiated manually from admin panel or by PUT /management_api/v1/withdraws/action. ' \
+             'Coin: money are immediately locked, withdraw state is set to «submitted», system workers ' \
+                   'will validate withdraw later against suspected activity, validate withdraw address and '
+                   'set state to «rejected» or «accepted». ' \
+                   'Then in case state is «accepted» withdraw workers will perform interactions with blockchain. ' \
+                   'The withdraw receives new state «processing». Then withdraw receives state either «succeed» or «failed».'
       success ManagementAPIv1::Entities::Withdraw
     end
     params do
@@ -54,7 +87,7 @@ module ManagementAPIv1
       requires :rid,      type: String, desc: 'The beneficiary ID or wallet address on the Blockchain.'
       requires :currency, type: String, values: -> { Currency.codes(bothcase: true) }, desc: 'The currency code.'
       requires :amount,   type: BigDecimal, desc: 'The amount to withdraw.'
-      optional :state,    type: String, values: %w[prepared submitted], desc: 'The withdraw state to apply.'
+      optional :action,   type: String, values: %w[process], desc: 'The action to perform.'
     end
     post '/withdraws/new' do
       currency = Currency.find_by!(code: params[:currency])
@@ -67,7 +100,8 @@ module ManagementAPIv1
         rid:            params[:rid]
 
       if withdraw.save
-        withdraw.submit! if params[:state] == 'submitted'
+        withdraw.with_lock { withdraw.submit! }
+        perform_action(withdraw, params[:action]) if params[:action]
         present withdraw, with: ManagementAPIv1::Entities::Withdraw
       else
         body errors: withdraw.errors.full_messages
@@ -75,32 +109,20 @@ module ManagementAPIv1
       end
     end
 
-    desc 'Updates withdraw state.' do
+    desc 'Performs action on withdraw.' do
       @settings[:scope] = :write_withdraws
-      detail '«submitted» – system will check for suspected activity, lock the money, and process the withdraw. ' \
-             '«canceled» – system will mark withdraw as «canceled», and unlock the money.'
+      detail '«process» – system will lock the money, check for suspected activity, validate recipient address, and initiate the processing of the withdraw. ' \
+             '«cancel»  – system will mark withdraw as «canceled», and unlock the money.'
       success ManagementAPIv1::Entities::Withdraw
     end
     params do
-      requires :tid,   type: String, desc: 'The shared transaction ID.'
-      requires :state, type: String, values: %w[submitted canceled]
+      requires :tid,    type: String, desc: 'The shared transaction ID.'
+      requires :action, type: String, values: %w[process cancel], desc: 'The action to perform.'
     end
-    put '/withdraws/state' do
+    put '/withdraws/action' do
       record = Withdraw.find_by!(params.slice(:tid))
-      record.with_lock do
-        { submitted: :submit,
-          cancelled: :cancel
-        }.each do |state, event|
-          next unless params[:state] == state.to_s
-          if record.aasm.may_fire_event?(event)
-            record.aasm.fire!(event)
-            present record, with: ManagementAPIv1::Entities::Withdraw
-            break status 200
-          else
-            break status 422
-          end
-        end
-      end
+      perform_action(record, params[:action])
+      present record, with: ManagementAPIv1::Entities::Withdraw
     end
   end
 end
