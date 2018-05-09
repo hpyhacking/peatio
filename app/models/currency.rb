@@ -31,6 +31,8 @@ class Currency < ActiveRecord::Base
     self.erc20_contract_address = erc20_contract_address.try(:downcase)
   end
 
+  after_create { Member.find_each(&:touch_accounts) }
+
   scope :visible, -> { where(visible: true) }
   scope :all_with_invisible, -> { all }
 
