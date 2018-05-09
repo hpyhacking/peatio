@@ -276,7 +276,7 @@ describe Withdraw do
   end
 
   it 'doesn\'t generate TID if it is not blank' do
-    expect(create(:btc_withdraw, tid: 'TID1234567890').tid).to eq 'TID1234567890'
+    expect(create(:btc_withdraw, tid: 'TID1234567890xyz').tid).to eq 'TID1234567890xyz'
   end
 
   it 'validates uniqueness of TID' do
@@ -287,6 +287,7 @@ describe Withdraw do
   end
 
   it 'uppercases TID' do
-    expect(create(:btc_withdraw, tid: 'tid').tid).to eq 'TID'
+    record = create(:btc_withdraw)
+    expect(record.tid).to eq record.tid.upcase
   end
 end

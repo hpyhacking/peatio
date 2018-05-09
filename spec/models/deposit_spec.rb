@@ -33,7 +33,7 @@ describe Deposit do
   end
 
   it 'doesn\'t generate TID if it is not blank' do
-    expect(create(:deposit_btc, tid: 'TID1234567890').tid).to eq 'TID1234567890'
+    expect(create(:deposit_btc, tid: 'TID1234567890xyz').tid).to eq 'TID1234567890xyz'
   end
 
   it 'validates uniqueness of TID' do
@@ -43,7 +43,8 @@ describe Deposit do
     expect(record2.errors.full_messages.first).to match(/tid has already been taken/i)
   end
 
-  it 'uppercases TID' do
-    expect(create(:deposit_btc, tid: 'tid').tid).to eq 'TID'
+  it 'uppercases automatically generated TID' do
+    record = create(:deposit_btc)
+    expect(record.tid).to eq record.tid.upcase
   end
 end
