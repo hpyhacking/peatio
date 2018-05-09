@@ -28,8 +28,12 @@
             <dt>Deposit fee (fiat only)</dt>
             <dd><%= f.text_field :deposit_fee, class: 'form-control' %></dd>
             <% if @currency.new_record? || @currency.coin? %>
+              <dt>Case sensitive?</dt>
+              <dd><%= f.check_box :case_sensitive %></dd>
               <dt>Number of required confirmations for deposit</dt>
               <dd><%= f.number_field :deposit_confirmations, class: 'form-control' %></dd>
+              <dt>ERC20 contract address</dt>
+              <dd><%= f.text_field :erc20_contract_address, class: 'form-control' %></dd>
             <% end %>
             <dt>Visible?</dt>
             <dd><%= f.check_box :visible %></dd>

@@ -58,7 +58,9 @@ module Admin
                     :bitgo_rest_api_root,
                     :bitgo_rest_api_access_token,
                     :wallet_url_template,
-                    :transaction_url_template
+                    :transaction_url_template,
+                    :case_sensitive,
+                    :erc20_contract_address
     end
   end
 end
