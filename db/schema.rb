@@ -114,16 +114,16 @@ ActiveRecord::Schema.define(version: 20180501141718) do
   add_index "deposits", ["type"], name: "index_deposits_on_type", using: :btree
 
   create_table "markets", force: :cascade do |t|
-    t.string   "ask_unit",      limit: 5,                                         null: false
-    t.string   "bid_unit",      limit: 5,                                         null: false
-    t.decimal  "ask_fee",                 precision: 17, scale: 16, default: 0.0, null: false
-    t.decimal  "bid_fee",                 precision: 17, scale: 16, default: 0.0, null: false
-    t.integer  "ask_precision", limit: 1,                           default: 4,   null: false
-    t.integer  "bid_precision", limit: 1,                           default: 4,   null: false
-    t.integer  "position",      limit: 4,                           default: 0,   null: false
-    t.integer  "visible",       limit: 1,                           default: 1,   null: false
-    t.datetime "created_at",                                                      null: false
-    t.datetime "updated_at",                                                      null: false
+    t.string   "ask_unit",      limit: 5,                                          null: false
+    t.string   "bid_unit",      limit: 5,                                          null: false
+    t.decimal  "ask_fee",                 precision: 17, scale: 16, default: 0.0,  null: false
+    t.decimal  "bid_fee",                 precision: 17, scale: 16, default: 0.0,  null: false
+    t.integer  "ask_precision", limit: 1,                           default: 4,    null: false
+    t.integer  "bid_precision", limit: 1,                           default: 4,    null: false
+    t.integer  "position",      limit: 4,                           default: 0,    null: false
+    t.boolean  "visible",                                           default: true, null: false
+    t.datetime "created_at",                                                       null: false
+    t.datetime "updated_at",                                                       null: false
   end
 
   add_index "markets", ["ask_unit", "bid_unit"], name: "index_markets_on_ask_unit_and_bid_unit", unique: true, using: :btree
