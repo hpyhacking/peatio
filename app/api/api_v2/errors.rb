@@ -39,13 +39,13 @@ module APIv2
 
   class CreateOrderError < Error
     def initialize(e)
-      super code: 2002, text: "Failed to create order. Reason: #{e}", status: 422
+      super code: 2002, text: 'Failed to create order.', status: 422
     end
   end
 
   class CancelOrderError < Error
     def initialize(e)
-      super code: 2003, text: "Failed to cancel order. Reason: #{e}", status: 422
+      super code: 2003, text: 'Failed to cancel order.', status: 422
     end
   end
 

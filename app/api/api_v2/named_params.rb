@@ -10,10 +10,10 @@ module APIv2
     end
 
     params :order do
-      requires :side,   type: String, values: %w(sell buy), desc: -> { APIv2::Entities::Order.documentation[:side] }
-      requires :volume, type: String, desc: -> { APIv2::Entities::Order.documentation[:volume] }
-      optional :price,  type: String, desc: -> { APIv2::Entities::Order.documentation[:price] }
-      optional :ord_type, type: String, values: %w(limit market), desc: -> { APIv2::Entities::Order.documentation[:type] }
+      requires :side,     type: String, values: %w(sell buy), desc: -> { APIv2::Entities::Order.documentation[:side] }
+      requires :volume,   type: String, desc: -> { APIv2::Entities::Order.documentation[:volume] }
+      requires :price,    type: String, desc: -> { APIv2::Entities::Order.documentation[:price] }
+      optional :ord_type, type: String, values: %w[limit], default: 'limit', desc: -> { APIv2::Entities::Order.documentation[:type] }
     end
 
     params :order_id do

@@ -182,20 +182,20 @@ describe APIv2::Orders, type: :request do
       old_count = OrderAsk.count
       api_post '/api/v2/orders', token: token, params: { market: 'btcusd', side: 'sell', volume: '12.13', price: '2014' }
       expect(response.code).to eq '422'
-      expect(response.body).to eq '{"error":{"code":2002,"message":"Failed to create order. Reason: cannot lock funds (amount: 12.13)"}}'
+      expect(response.body).to eq '{"error":{"code":2002,"message":"Failed to create order."}}'
       expect(OrderAsk.count).to eq old_count
     end
 
     it 'should give a number as volume parameter' do
       api_post '/api/v2/orders', token: token, params: { market: 'btcusd', side: 'sell', volume: 'test', price: '2014' }
       expect(response.code).to eq '422'
-      expect(response.body).to eq '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Volume must be greater than 0"}}'
+      expect(response.body).to eq '{"error":{"code":2002,"message":"Failed to create order."}}'
     end
 
     it 'should give a number as price parameter' do
       api_post '/api/v2/orders', token: token, params: { market: 'btcusd', side: 'sell', volume: '12.13', price: 'test' }
       expect(response.code).to eq '422'
-      expect(response.body).to eq '{"error":{"code":2002,"message":"Failed to create order. Reason: Validation failed: Price must be greater than 0"}}'
+      expect(response.body).to eq '{"error":{"code":2002,"message":"Failed to create order."}}'
     end
   end
 
