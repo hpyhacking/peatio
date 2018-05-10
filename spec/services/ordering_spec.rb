@@ -1,11 +1,12 @@
 describe Ordering do
   let(:order) { create(:order_bid, volume: '1.23456789', price: '1.23456789') }
-  let(:account) { create(:account, balance: 100.to_d, locked: 100.to_d) }
+  let(:account) { create_account(:usd, balance: 100.to_d, locked: 100.to_d) }
 
   describe 'ordering service can submit order' do
     before do
       order.stubs(:hold_account).returns(account)
-      AMQPQueue.expects(:enqueue).with(:matching, anything)
+      AMQPQueue.expects(:enqueue).with(:matching, anything).once
+      AMQPQueue.expects(:enqueue).with(:pusher_member, anything).at_least_once
     end
 
     it 'should return true on success' do

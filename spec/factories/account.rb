@@ -1,19 +1,11 @@
-FactoryBot.define do
-  factory :account do
-    locked { '0.0'.to_d }
-    balance { '100.0'.to_d }
-    currency { Currency.find_by!(code: :usd) }
-
-    factory :account_usd do
-      currency { Currency.find_by!(code: :usd) }
-    end
-    
-    factory :account_btc do
-      currency { Currency.find_by!(code: :btc) }
-    end
-
-    factory :account_dash do
-      currency { Currency.find_by!(code: :dash) }
+module AccountFactory
+  def create_account(*arguments)
+    currency   = Symbol === arguments.first ? arguments.first : :usd
+    attributes = arguments.extract_options!
+    attributes.delete(:member) { create(:member) }.ac(currency).tap do |account|
+      account.update!(attributes)
     end
   end
 end
+
+RSpec.configure { |config| config.include AccountFactory }

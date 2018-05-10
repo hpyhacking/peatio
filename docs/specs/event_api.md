@@ -198,25 +198,149 @@ event: {
 | `currency` | The currency code.      |
 | `balance`  | The up-to-date balance. |
 
-## Format of `market.btcusd.new_order` event
+## Format of `market.btcusd.order_created` event
 
-IMPORTANT: This payload is far far from final state since order model in Peatio is pretty complicated.
+Buy 14 BTC for 0.42 USD (0.03 USD per BTC).
 
 ```ruby
 event: {
-  name:      "market.btcusd.new_order",
-  market_id: "btcusd",
-  amount:    "0.5",
-  price:     "8000",
-  type:      "bid",
-  bid_unit:  "btc",
-  ask_unit:  "usd"
+  name:                   "market.btcusd.order_created",
+  market:                 "btcusd",
+  type:                   "buy",
+  trader_uid:             "ID022H2NF6E87",
+  income_unit:            "btc",
+  income_fee_type:        "relative",
+  income_fee_value:       "0.0015",
+  outcome_unit:           "usd",
+  outcome_fee_type:       "relative",
+  outcome_fee_value:      "0.0",
+  initial_income_amount:  "14.0",
+  current_income_amount:  "14.0",
+  initial_outcome_amount: "0.42",
+  current_outcome_amount: "0.42",
+  strategy:               "limit",
+  price:                  "0.03",
+  state:                  "open",
+  trades_count:           0,
+  created_at:             "2018-05-07T02:12:28Z"  
 }
 ```
 
-| Field    | Description             |
-| -------- | ----------------------- |
-| `market` | The market pair ID.     |
+## Format of `market.btcusd.order_updated` event
+
+Sell 100 BTC for 3 USD (0.03 USD per BTC).
+
+```ruby
+event: {
+  name:                    "market.btcusd.order_updated",
+  market:                  "btcusd",
+  type:                    "sell",
+  trader_uid:              "ID092B2AF8E87",
+  income_unit:             "usd",
+  income_fee_type:         "relative",
+  income_fee_value:        "0.0015",
+  outcome_unit:            "btc",
+  outcome_fee_type:        "relative",
+  outcome_fee_value:       "0.0",
+  initial_income_amount:   "3.0",
+  current_income_amount:   "2.4",
+  previous_income_amount:  "3.0",
+  initial_outcome_amount:  "100.0",
+  current_outcome_amount:  "80.0",
+  previous_outcome_amount: "100.0",
+  strategy:                "limit",
+  price:                   "0.03",
+  state:                   "open",
+  trades_count:            1,
+  created_at:              "2018-05-07T02:12:28Z",
+  updated_at:              "2018-05-08T10:13:13Z"
+}
+```
+
+## Format of `market.btcusd.order_canceled` event
+
+Sell 100 BTC for 3 USD (0.03 USD per BTC).
+
+```ruby
+event: {
+  name:                    "market.btcusd.order_canceled",
+  market:                  "btcusd",
+  type:                    "sell",
+  trader_uid:              "ID092B2AF8E87",
+  income_unit:             "usd",
+  income_fee_type:         "relative",
+  income_fee_value:        "0.0015",
+  outcome_unit:            "btc",
+  outcome_fee_type:        "relative",
+  outcome_fee_value:       "0.0",
+  initial_income_amount:   "3.0",
+  current_income_amount:   "3.0",
+  initial_outcome_amount:  "100.0",
+  current_outcome_amount:  "100.0",
+  strategy:                "limit",
+  price:                   "0.03",
+  state:                   "canceled",
+  trades_count:            0,
+  created_at:              "2018-05-07T02:12:28Z",
+  canceled_at:             "2018-05-08T10:13:13Z"  
+}
+```
+
+## Format of `market.btcusd.order_completed` event
+
+Sell 100 BTC for 3 USD (0.03 USD per BTC).
+
+```ruby
+event: {
+  name:                    "market.btcusd.order_completed",
+  market:                  "btcusd",
+  type:                    "sell",
+  trader_uid:              "ID092B2AF8E87",
+  income_unit:             "usd",
+  income_fee_type:         "relative",
+  income_fee_value:        "0.0015",
+  outcome_unit:            "btc",
+  outcome_fee_type:        "relative",
+  outcome_fee_value:       "0.0",
+  initial_income_amount:   "3.0",
+  current_income_amount:   "0.0",
+  previous_income_amount:  "3.0",
+  initial_outcome_amount:  "100.0",
+  current_outcome_amount:  "0.0",
+  previous_outcome_amount: "100.0",
+  strategy:                "limit",
+  price:                   "0.03",
+  state:                   "completed",
+  trades_count:            1,
+  created_at:              "2018-05-07T02:12:28Z",
+  completed_at:            "2018-05-07T17:32:09Z"  
+}
+```
+
+## Format of `market.btcusd.trade_completed` event
+
+```ruby
+event: {
+  name:                  "market.btcusd.trade_completed",
+  market:                "btcusd",
+  price:                 "0.03",
+  buyer_uid:             "ID022H2NF6E87",
+  buyer_income_unit:     "btc",
+  buyer_income_amount:   "14",
+  buyer_income_fee:      "0.021",
+  buyer_outcome_unit:    "usd",
+  buyer_outcome_amount:  "0.42",
+  buyer_outcome_fee:     "0.0",
+  seller_uid:            "ID092B2AF8E87",
+  seller_income_unit:    "usd",
+  seller_income_amount:  "0.42",
+  seller_income_fee:     "0.00063",
+  seller_outcome_unit:   "btc",
+  seller_outcome_amount: "14.0",
+  seller_outcome_fee:    "0.0",
+  completed_at:          "2018-05-07T17:32:09Z"
+}
+```
 
 ## Producing events using Ruby
 

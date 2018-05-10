@@ -11,7 +11,7 @@ class Trade < ActiveRecord::Base
   belongs_to :ask_member, class_name: 'Member', foreign_key: 'ask_member_id'
   belongs_to :bid_member, class_name: 'Member', foreign_key: 'bid_member_id'
 
-  validates_presence_of :price, :volume, :funds
+  validates_presence_of :price, :volume, :funds, :bid_member, :ask_member
 
   scope :h24, -> { where("created_at > ?", 24.hours.ago) }
 
@@ -20,6 +20,11 @@ class Trade < ActiveRecord::Base
   alias_method :sn, :id
 
   scope :with_market, -> (market) { where(market: Market === market ? market : Market.find(market)) }
+
+  after_commit on: :create do
+    EventAPI.notify ['market', market_id, 'trade_completed'].join('.'), \
+      Serializers::EventAPI::TradeCompleted.call(self)
+  end
 
   class << self
     def latest_price(market)

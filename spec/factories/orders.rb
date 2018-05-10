@@ -11,6 +11,7 @@ FactoryBot.define do
     origin_volume { volume }
     locked { price.to_d * volume.to_d }
     origin_locked { locked }
+    member { create(:member) }
   end
 
   factory :order_ask do
@@ -25,5 +26,6 @@ FactoryBot.define do
     origin_volume { volume }
     locked { volume }
     origin_locked { locked }
+    member { create(:member) }
   end
 end

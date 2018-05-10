@@ -55,8 +55,8 @@ describe Order, '#done', type: :model do
   let(:order) { order_bid }
   let(:order_bid) { create(:order_bid, price: '1.2'.to_d, volume: '10.0'.to_d) }
   let(:order_ask) { create(:order_ask, price: '1.2'.to_d, volume: '10.0'.to_d) }
-  let(:hold_account) { create(:account, member_id: 1, locked: '100.0'.to_d, balance: '0.0'.to_d) }
-  let(:expect_account) { create(:account, member_id: 2, locked: '0.0'.to_d, balance: '0.0'.to_d) }
+  let(:hold_account) { create_account(:usd, locked: '100.0'.to_d) }
+  let(:expect_account) { create_account(:btc) }
 
   before do
     order_bid.stubs(:hold_account).returns(hold_account)

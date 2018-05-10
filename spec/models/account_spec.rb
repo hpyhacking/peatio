@@ -1,5 +1,5 @@
 describe Account do
-  subject { create(:account_btc, locked: '10.0'.to_d, balance: '10.0') }
+  subject { create_account(:btc, locked: '10.0'.to_d, balance: '10.0') }
 
   it { expect(subject.amount).to be_d '20' }
   it { expect(subject.sub_funds('1.0'.to_d).balance).to eql '9.0'.to_d }
@@ -60,7 +60,7 @@ describe Account do
 
   describe 'double operation' do
     let(:strike_volume) { '10.0'.to_d }
-    let(:account) { create(:account) }
+    let(:account) { create_account }
 
     it 'expect double operation funds' do
       expect do
@@ -81,13 +81,13 @@ describe Account do
     it { expect(subject.payment_address).not_to be_nil }
     it { expect(subject.payment_address).to be_is_a(PaymentAddress) }
     context 'fiat currency' do
-      subject { create(:account_usd).payment_address }
+      subject { create_account(:usd).payment_address }
       it { is_expected.to be_nil }
     end
   end
 
   describe '#versions' do
-    let(:account) { create(:account) }
+    let(:account) { create_account(:usd, balance: 100) }
 
     context 'when account add funds' do
       subject { account.plus_funds('10'.to_d, reason: Account::WITHDRAW).last_version }
@@ -140,7 +140,7 @@ describe Account do
     end
 
     context 'when account unlock funds' do
-      let(:account) { create(:account, locked: '10'.to_d) }
+      let(:account) { create_account(balance: '100'.to_d, locked: '10'.to_d) }
       subject { account.unlock_funds('10'.to_d, reason: Account::WITHDRAW).last_version }
       it { expect(subject.reason.withdraw?).to be true }
       it { expect(subject.locked).to be_d '-10' }
@@ -149,7 +149,7 @@ describe Account do
     end
 
     context 'when account unlock and sub funds' do
-      let(:account) { create(:account, balance: '10'.to_d, locked: '10'.to_d) }
+      let(:account) { create_account(balance: '10'.to_d, locked: '10'.to_d) }
       subject { account.unlock_and_sub_funds('10'.to_d, locked: '10'.to_d, reason: Account::WITHDRAW).last_version }
       it { expect(subject.reason.withdraw?).to be true }
       it { expect(subject.locked).to be_d '-10' }
@@ -160,7 +160,7 @@ describe Account do
     end
 
     context 'when account unlock and sub funds with fee' do
-      let(:account) { create(:account, balance: '10'.to_d, locked: '10'.to_d) }
+      let(:account) { create_account(balance: '10'.to_d, locked: '10'.to_d) }
       subject { account.unlock_and_sub_funds('10'.to_d, fee: '1'.to_d, locked: '10'.to_d, reason: Account::WITHDRAW).last_version }
       it { expect(subject.reason.withdraw?).to be true }
       it { expect(subject.locked).to be_d '-10' }
@@ -173,7 +173,7 @@ describe Account do
 
   describe '#examine' do
     let(:member) { create(:member, :verified_identity) }
-    let(:account) { create(:account, locked: '0.0'.to_d, balance: '0.0') }
+    let(:account) { create_account(locked: '0.0'.to_d, balance: '0.0') }
 
     context 'account without any account versions' do
       it 'returns true' do
@@ -288,15 +288,17 @@ describe Account do
   end
 
   describe '.enabled' do
-    let!(:account1) { create(:account_usd) }
-    let!(:account2) { create(:account_btc) }
-    let!(:account3) { create(:account_dash) }
+    before do
+      create_account(:usd)
+      create_account(:btc)
+      create_account(:dash)
+    end
 
-    it 'should only return the accoutns with currency enabled' do
+    it 'returns the accounts with currency enabled' do
       currency = Currency.find_by_code!(:dash)
       currency.transaction do
         currency.update_columns(visible: false)
-        expect(Account.enabled.to_a).to eq [account1, account2]
+        expect(Account.enabled.count).to eq 15
         currency.update_columns(visible: true)
       end
     end
