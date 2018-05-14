@@ -1,6 +1,7 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
   case ENV['OAUTH2_SIGN_IN_PROVIDER']
     when 'auth0'
+      require 'omniauth-auth0'
       provider :auth0,
                ENV.fetch('AUTH0_OAUTH2_CLIENT_ID'),
                ENV.fetch('AUTH0_OAUTH2_CLIENT_SECRET'),
@@ -10,9 +11,11 @@ Rails.application.config.middleware.use OmniAuth::Builder do
                  }
                }
     when 'google'
+      require 'omniauth-google-oauth2'
       provider :google_oauth2, ENV.fetch('GOOGLE_CLIENT_ID'), ENV.fetch('GOOGLE_CLIENT_SECRET')
 
     when 'barong'
+      require 'omniauth-barong'
       provider :barong,
                ENV.fetch('BARONG_CLIENT_ID'),
                ENV.fetch('BARONG_CLIENT_SECRET'),

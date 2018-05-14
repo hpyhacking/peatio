@@ -7,7 +7,8 @@ namespace :solvency do
 
   desc 'Generate liability proof'
   task liability_proof: :environment do
-    logger = Logger.new(STDOUT)
+    require 'liability-proof'
+    logger = Rails.logger
 
     Currency.find_each do |ccy|
       logger.info { "*** Starting #{ccy.code.upcase} liability proof generation ***" }
