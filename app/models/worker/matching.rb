@@ -27,7 +27,7 @@ module Worker
       when 'new'
         initialize_engine Market.find(payload[:market])
       else
-        Rails.logger.fatal "Unknown action: #{payload[:action]}"
+        Rails.logger.fatal { "Unknown action: #{payload[:action]}" }
       end
     end
 
@@ -42,18 +42,18 @@ module Worker
     def reload(market)
       if market == 'all'
         Market.visible.find_each(&method(:initialize_engine))
-        Rails.logger.info "All engines reloaded."
+        Rails.logger.info { "All engines reloaded." }
       else
         initialize_engine Market.find(market)
-        Rails.logger.info "#{market} engine reloaded."
+        Rails.logger.info { "#{market} engine reloaded." }
       end
     rescue DryrunError => e
       # stop started engines
       engines.each {|id, engine| engine.shift_gears(:dryrun) unless engine == e.engine }
 
-      Rails.logger.fatal "#{market} engine failed to start. Matched during dryrun:"
+      Rails.logger.fatal { "#{market} engine failed to start. Matched during dryrun:" }
       e.engine.queue.each do |trade|
-        Rails.logger.info trade[1].inspect
+        Rails.logger.info { trade[1].inspect }
       end
     end
 
@@ -99,7 +99,7 @@ module Worker
           end
         end
       else
-        Rails.logger.info "#{market.id} engine already started. mode=#{engine.mode}"
+        Rails.logger.info { "#{market.id} engine already started. mode=#{engine.mode}" }
       end
     end
 

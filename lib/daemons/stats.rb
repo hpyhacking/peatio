@@ -1,7 +1,6 @@
 require File.join(ENV.fetch('RAILS_ROOT'), 'config', 'environment')
 
-Rails.logger = @logger = Logger.new STDOUT
-
+@logger = Rails.logger
 
 $running = true
 Signal.trap("TERM") do
@@ -23,8 +22,8 @@ while($running) do
     begin
       worker.run
     rescue
-      Rails.logger.error "#{worker.class.name} failed to run: #{$!}"
-      Rails.logger.error $!.backtrace[0,20].join("\n")
+      Rails.logger.error { "#{worker.class.name} failed to run: #{$!}" }
+      Rails.logger.error { $!.backtrace[0,20].join("\n") }
     end
   end
 

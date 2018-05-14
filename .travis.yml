@@ -56,7 +56,7 @@ before_script:
 
 # Execute all of the commands which should make the build pass or fail.
 script:
-  URL_HOST=peatio.local xvfb-run --auto-servernum --server-args="-screen 0 1280x800x16" bundle exec rspec &&
+  URL_HOST=peatio.local LOG_LEVEL=warn xvfb-run --auto-servernum --server-args="-screen 0 1280x800x16" bundle exec rspec &&
   docker build --tag peatioexchange/peatio:latest --cache-from peatioexchange/peatio:latest .
 
 # Execute all of the commands which need to be executed after the build passed.

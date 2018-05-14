@@ -63,9 +63,9 @@ module APIv2
       Ordering.new(order).submit
       order
     rescue
-      Rails.logger.info "Failed to create order: #{$!}"
-      Rails.logger.debug order.inspect
-      Rails.logger.debug $!.backtrace.join("\n")
+      Rails.logger.info { "Failed to create order: #{$!}" }
+      Rails.logger.debug { order.inspect }
+      Rails.logger.debug { $!.backtrace.join("\n") }
       raise CreateOrderError, $!
     end
 
@@ -74,8 +74,8 @@ module APIv2
       Ordering.new(orders).submit
       orders
     rescue
-      Rails.logger.info "Failed to create order: #{$!}"
-      Rails.logger.debug $!.backtrace.join("\n")
+      Rails.logger.info { "Failed to create order: #{$!}" }
+      Rails.logger.debug { $!.backtrace.join("\n") }
       raise CreateOrderError, $!
     end
 

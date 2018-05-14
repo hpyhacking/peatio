@@ -56,9 +56,9 @@ module Worker
         end
       end
 
-      Rails.logger.info "Cancel queue size: #{@cancel_queue.size}."
+      Rails.logger.info { "Cancel queue size: #{@cancel_queue.size}." }
     rescue => e
-      Rails.logger.error 'Failed to process cancel job.'
+      Rails.logger.error { 'Failed to process cancel job.' }
       report_exception(e)
     end
 

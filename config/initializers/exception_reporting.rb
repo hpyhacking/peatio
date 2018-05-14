@@ -14,8 +14,8 @@ def report_exception(exception, report_to_ets = true)
 end
 
 def report_exception_to_screen(exception)
-  Rails.logger.unknown exception.inspect
-  Rails.logger.unknown exception.backtrace.join("\n") if exception.respond_to?(:backtrace)
+  Rails.logger.unknown { exception.inspect }
+  Rails.logger.unknown { exception.backtrace.join("\n") if exception.respond_to?(:backtrace) }
 end
 
 def report_exception_to_ets(exception)

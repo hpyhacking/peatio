@@ -35,7 +35,7 @@ module ManagementAPIv1
     logger.formatter = GrapeLogging::Formatters::Rails.new
     use GrapeLogging::Middleware::RequestLogger,
         logger:    logger,
-        log_level: :debug,
+        log_level: :info,
         include:   [GrapeLogging::Loggers::Response.new,
                     GrapeLogging::Loggers::FilterParameters.new,
                     GrapeLogging::Loggers::ClientEnv.new,

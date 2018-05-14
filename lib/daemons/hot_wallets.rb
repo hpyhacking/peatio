@@ -5,9 +5,9 @@ Signal.trap(:TERM) { $running = false }
 
 def process(currency)
   if currency.coin?
-    Rails.logger.info "Processing #{currency.code.upcase}."
+    Rails.logger.info { "Processing #{currency.code.upcase}." }
     currency.refresh_balance
-    Rails.logger.info 'OK'
+    Rails.logger.info { 'OK' }
   end
 rescue CoinAPI::Error => e
   # Currency#refresh_balance may fail with Error.

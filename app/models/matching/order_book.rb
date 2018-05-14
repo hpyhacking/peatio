@@ -122,7 +122,7 @@ module Matching
 
     def broadcast(data)
       return unless @broadcast
-      Rails.logger.debug "orderbook broadcast: #{data.inspect}"
+      Rails.logger.debug { "orderbook broadcast: #{data.inspect}" }
       AMQPQueue.enqueue(:slave_book, data, {persistent: false})
     end
 

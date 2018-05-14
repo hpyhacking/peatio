@@ -10,7 +10,7 @@ module Worker
       [60, 1440, 10080].each do |period|
         collect period
       end
-      Rails.logger.info "#{self.to_s} collected."
+      Rails.logger.info { "#{self.to_s} collected." }
     end
 
     def to_s

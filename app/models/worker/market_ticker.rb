@@ -23,7 +23,7 @@ module Worker
       ticker[:low]  = get_market_low trade.market.id, trade
       ticker[:high] = get_market_high trade.market.id, trade
       ticker[:last] = trade.price
-      Rails.logger.info ticker.inspect
+      Rails.logger.info { ticker.inspect }
       Rails.cache.write "peatio:#{trade.market.id}:ticker", ticker
     end
 

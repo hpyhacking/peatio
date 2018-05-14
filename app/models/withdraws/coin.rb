@@ -27,7 +27,7 @@ module Withdraws
       inspection = currency.api.inspect_address!(rid)
 
       if inspection[:is_valid] == false
-        Rails.logger.info "#{self.class.name}##{id} uses invalid address: #{rid.inspect}"
+        Rails.logger.info { "#{self.class.name}##{id} uses invalid address: #{rid.inspect}" }
         reject!
       else
         super

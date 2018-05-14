@@ -10,12 +10,12 @@ module Worker
       tx  = ccy.api.load_deposit(payload.fetch(:txid))
 
       if tx
-        Rails.logger.info "Processing #{ccy.code.upcase} deposit: #{payload.fetch(:txid)}."
+        Rails.logger.info { "Processing #{ccy.code.upcase} deposit: #{payload.fetch(:txid)}." }
         ActiveRecord::Base.transaction do
           tx.fetch(:entries).each_with_index { |entry, index| deposit!(ccy, tx, entry, index) }
         end
       else
-        Rails.logger.info "Could not load #{ccy.code.upcase} deposit: #{payload.fetch(:txid)}."
+        Rails.logger.info { "Could not load #{ccy.code.upcase} deposit: #{payload.fetch(:txid)}." }
       end
     end
 

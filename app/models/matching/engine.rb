@@ -19,7 +19,7 @@ module Matching
       match order, counter_book
       add_or_cancel order, book
     rescue => e
-      Rails.logger.error "Failed to submit order #{order.label}."
+      Rails.logger.error { "Failed to submit order #{order.label}." }
       report_exception(e)
     end
 
@@ -28,10 +28,10 @@ module Matching
       if removed_order = book.remove(order)
         publish_cancel removed_order, "canceled by user"
       else
-        Rails.logger.warn "Cannot find order##{order.id} to cancel, skip."
+        Rails.logger.warn { "Cannot find order##{order.id} to cancel, skip." }
       end
     rescue => e
-      Rails.logger.error "Failed to cancel order #{order.label}."
+      Rails.logger.error { "Failed to cancel order #{order.label}." }
       report_exception(e)
     end
 
@@ -94,7 +94,7 @@ module Matching
       volume = @market.fix_number_precision :ask, trade[1]
       funds  = trade[2]
 
-      Rails.logger.info "[#{@market.id}] new trade - ask: #{ask.label} bid: #{bid.label} price: #{price} volume: #{volume} funds: #{funds}"
+      Rails.logger.info { "[#{@market.id}] new trade - ask: #{ask.label} bid: #{bid.label} price: #{price} volume: #{volume} funds: #{funds}" }
 
       @queue.enqueue(
         :trade_executor,
@@ -104,7 +104,7 @@ module Matching
     end
 
     def publish_cancel(order, reason)
-      Rails.logger.info "[#{@market.id}] cancel order ##{order.id} - reason: #{reason}"
+      Rails.logger.info { "[#{@market.id}] cancel order ##{order.id} - reason: #{reason}" }
       @queue.enqueue(
         :order_processor,
         {action: 'cancel', order: order.attributes},
