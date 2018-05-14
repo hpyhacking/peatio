@@ -4,7 +4,7 @@ running = true
 Signal.trap(:TERM) { running = false }
 
 while running do
-  Deposits::Coin.recent.where(aasm_state: :submitted).limit(100).each do |deposit|
+  Deposits::Coin.recent.where(aasm_state: :submitted).find_each batch_size: 100 do |deposit|
     break unless running
     begin
       confirmations = deposit.currency.api.load_deposit!(deposit.txid).fetch(:confirmations)
