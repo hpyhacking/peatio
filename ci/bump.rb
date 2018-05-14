@@ -2,6 +2,7 @@ require "rubygems/version"
 require "net/http"
 require "json"
 require "uri"
+require "cgi"
 
 #
 # Returns bot's username in GitHub.
@@ -121,7 +122,7 @@ end
 #
 # @return [Array<Gem::Version>]
 def versions
-  @versions ||= github_api_authenticated_get("/repos/#{repository_slug}/tags").map do |x|
+  @versions ||= github_api_load_collection("/repos/#{repository_slug}/tags").map do |x|
     Gem::Version.new(x.fetch("name"))
   end.sort
 end
@@ -132,7 +133,7 @@ end
 # @return [Hash]
 #   Key is commit's SHA-1 hash, value is instance of Gem::Version.
 def tagged_commits_mapping
-  @commits ||= github_api_authenticated_get("/repos/#{repository_slug}/tags").each_with_object({}) do |x, memo|
+  @commits ||= github_api_load_collection("/repos/#{repository_slug}/tags").each_with_object({}) do |x, memo|
     memo[x.fetch("commit").fetch("sha")] = Gem::Version.new(x.fetch("name"))
   end
 end
@@ -143,7 +144,7 @@ end
 # @return [Array<Hash>]
 #   Array of hashes each containing "name" & "version" keys.
 def version_specific_branches
-  @branches ||= github_api_authenticated_get("/repos/#{repository_slug}/branches").map do |x|
+  @branches ||= github_api_load_collection("/repos/#{repository_slug}/branches").map do |x|
     if x.fetch("name") =~ /\A(\d)-(\d)-\w+\z/
       { name: x["name"], version: Gem::Version.new($1 + "." + $2) }
     end
@@ -155,16 +156,36 @@ end
 #
 # @param path [String]
 #   Request path.
-# @return [Hash]
-def github_api_authenticated_get(path)
+# @param query [Hash]
+#   Query parameters.
+# @return [Hash, Array]
+def github_api_authenticated_get(path, query = {})
   http         = Net::HTTP.new("api.github.com", 443)
   http.use_ssl = true
-  response     = http.get path, "Authorization" => %[token #{ENV.fetch("GITHUB_API_KEY")}]
+  query_string = query.map { |(k, v)| "#{CGI.escape(k.to_s)}=#{CGI.escape(v.to_s)}" }.join("&")
+  response     = http.get "#{path}?#{query_string}", "Authorization" => %[token #{ENV.fetch("GITHUB_API_KEY")}]
   if response.code.to_i == 200
     JSON.load(response.body)
   else
     raise StandardError, %[HTTP #{response.code}: "#{response.body}".]
   end
+end
+
+#
+# Fetches full collection using GitHub API (performs pagination under the hood).
+#
+# @param path [String]
+#   The collection request path.
+# @return [Array]
+def github_api_load_collection(path)
+  objects = []
+  page    = 0
+  loop do
+    loaded   = github_api_authenticated_get(path, page: page += 1, per_page: 100)
+    objects += loaded
+    break if loaded.empty?
+  end
+  objects
 end
 
 #
@@ -176,23 +197,36 @@ def generic_semver?(version)
   version.segments.count == 3 && version.segments.all? { |segment| segment.match?(/\A[0-9]+\z/) }
 end
 
-# Build must not run on a fork.
-bump   = ENV["TRAVIS_REPO_SLUG"] == repository_slug
-# Skip PRs.
-bump &&= ENV["TRAVIS_PULL_REQUEST"] == "false"
-# Build must run on branch.
-bump &&= !ENV["TRAVIS_BRANCH"].to_s.empty?
-# GitHub API key must be available.
-bump &&= !ENV["GITHUB_API_KEY"].to_s.empty?
-# Build must not run on tag.
-bump &&= ENV["TRAVIS_TAG"].to_s.empty?
-# Ensure this commit is not tagged.
-bump &&= !tagged_commits_mapping.key?(ENV["TRAVIS_COMMIT"])
+unless ENV["TRAVIS_REPO_SLUG"] == repository_slug
+  Kernel.abort "Bumping version aborted: invalid repository (expected #{repository_slug}, got #{ENV["TRAVIS_REPO_SLUG"]})."
+end
 
-if bump
-  if ENV["TRAVIS_BRANCH"] == "master"
-    bump_from_master_branch if ENV["INCREMENT_PATCH_LEVEL_ON_MASTER"]
+unless ENV["TRAVIS_PULL_REQUEST"] == "false"
+  Kernel.abort "Bumping version aborted: GitHub pull request detected."
+end
+
+if ENV["TRAVIS_BRANCH"].to_s.empty?
+  Kernel.abort "Bumping version aborted: could not detect Git branch."
+end
+
+if ENV["GITHUB_API_KEY"].to_s.empty?
+  Kernel.abort "Bumping version aborted: GitHub API key is missing."
+end
+
+unless ENV["TRAVIS_TAG"].to_s.empty?
+  Kernel.abort "Bumping version aborted: the build has been triggered by Git tag."
+end
+
+if tagged_commits_mapping.key?(ENV["TRAVIS_COMMIT"])
+  Kernel.abort "Bumping version aborted: commit #{ENV["TRAVIS_COMMIT"]} is already tagged."
+end
+
+if ENV["TRAVIS_BRANCH"] == "master"
+  if ENV["INCREMENT_PATCH_LEVEL_ON_MASTER"]
+    bump_from_master_branch
   else
-    bump_from_version_specific_branch(ENV["TRAVIS_BRANCH"])
+    Kernel.abort "Bumping version aborted: bumping disabled for master branch."
   end
+else
+  bump_from_version_specific_branch(ENV["TRAVIS_BRANCH"])
 end
