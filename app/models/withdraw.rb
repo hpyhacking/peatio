@@ -149,14 +149,18 @@ private
   end
 
   def ensure_account_balance
-    if sum.nil? or sum > account.balance
+    return if sum.blank? || amount.blank? || fee.blank?
+    if sum > account.balance || (amount + fee) > sum
       errors.add :base, -> { I18n.t('activerecord.errors.models.withdraw.account_balance_is_poor') }
     end
   end
 
   def fix_precision
-    if sum && currency.precision
-      self.sum = sum.round(currency.precision, BigDecimal::ROUND_DOWN)
+    unless currency.precision.blank?
+      %i[sum amount fee].each do |value|
+        next if send(value).blank?
+        send("#{value}=", send(value).round(currency.precision, BigDecimal::ROUND_DOWN))
+      end
     end
   end
 

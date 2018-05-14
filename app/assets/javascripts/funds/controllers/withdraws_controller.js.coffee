@@ -27,5 +27,5 @@ app.controller 'WithdrawsController', ['$scope', '$stateParams', '$http', '$gon'
         $.publish 'withdraw:form:submitted'
 
   @withdrawAll = ->
-    @withdraw.sum = Number($scope.account.balance)
+    @withdraw.sum = '' + $scope.account.balance
 ]
