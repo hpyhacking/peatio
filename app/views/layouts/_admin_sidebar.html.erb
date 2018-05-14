@@ -103,24 +103,6 @@
           <% end %>
         </li>
       <% end %>
-
-      <li class="list-icon-item <%= check_active('statistic') %>">
-        <%= link_to "javascript:void(0);", class: 'has-arrow waves-effect waves-dark has-sub-menu', 'aria-expanded': "false", data: { toggle: 'popover' } do %>
-          <i class="icon fa fa-bar-chart"></i>
-          <span class="menu-text"><%= t('admin_header.statistics') %></span>
-        <% end %>
-
-        <div class="sub-menu hidden">
-          <ul class="list-unstyled list-menu mb-0">
-            <% if can? :stat, Member %>
-              <li class="list-icon-item <% check_active(Member) %>">
-                <%= link_to Member.model_name.human, admin_statistic_members_path %>
-              </li>
-            </div>
-          <% end %>
-        </ul>
-      </li>
     </ul>
-
   </div>
 </div>

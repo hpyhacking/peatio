@@ -1,12 +1,20 @@
 <div class="col-md-6">
   <div class="card">
     <div class="card-body">
-      <%= simple_form_for [:admin, @proof] do |f| %>
-        <%= f.input :id, readonly: true %>
-        <%= f.input :created_at, as: :string, readonly: true %>
-        <%= f.input(:currency, readonly: true) { @proof.currency.code.upcase } %>
-        <%= f.input :balance %>
-        <%= f.button :submit, class: "btn btn-primary" %>
+      <%= form_for [:admin, @proof] do |f| %>
+        <dt>ID</dt>
+        <dd><%= f.text_field :id, readonly: true, class: 'form-control' %></dd>
+
+        <dt>Created at</dt>
+        <dd><%= f.text_field :created_at, readonly: true, class: 'form-control' %></dd>
+
+        <dt>Currency</dt>
+        <dd><%= f.text_field :currency, readonly: true, class: 'form-control', value: @proof.currency.code.upcase %></dd>
+
+        <dt>Balance</dt>
+        <dd><%= f.text_field :balance, class: 'form-control' %></dd>
+
+        <%= f.submit 'Submit', class: 'btn btn-primary' %>
       <% end %>
     </div>
   </div>

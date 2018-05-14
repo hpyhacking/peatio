@@ -1,5 +1,3 @@
-@import 'bourbon';
-
 @import 'vars/bootstrap';
 @import 'bootstrap';
 
@@ -109,21 +107,6 @@ footer.footer {
   }
 }
 
-/* simple_form mix
-------------------------------------------------------- */
-form.simple_form {
-  .form-submit, .form-group {
-    input[type=submit] + a, a + a {
-      margin-right: $btn-gutter-width;
-    }
-  }
-
-  hr.split {
-    border-top-color: #DDD;
-    margin-left: 10px;
-    margin-right: 54px;
-  }
-}
 /* flash message element
 
 ------------------------------------------------------- */

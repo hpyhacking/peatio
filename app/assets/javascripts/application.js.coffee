@@ -1,29 +1,18 @@
 #= require yarn_components/raven-js/dist/raven
 #= require ./lib/sentry
 
-#= require es5-shim.min
-#= require es5-sham.min
 #= require jquery
 #= require jquery_ujs
-#= require jquery-timing.min
 #= require bootstrap
 #= require scrollIt
-#= require moment
 #= require bignumber
 #= require underscore
 #= require clipboard
-#= require flight.min
 #= require pusher.min
-#= require list
-#= require jquery.mousewheel
-#= require jquery-timing.min
 #= require qrcode
-#= require cookies.min
 
 #= require ./lib/pusher_connection
 #= require ./lib/tiny-pubsub
-
-#= require highstock
 
 $ ->
   BigNumber.config(ERRORS: false)

@@ -3,13 +3,11 @@ git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 
 gem 'rails', '~> 4.2'
 gem 'rails-i18n'
-gem 'responders', '~> 2.0'
 
 gem 'puma'
 gem 'mysql2', '~> 0.3.21'
 gem 'redis-rails'
 
-gem 'json'
 gem 'jbuilder'
 
 gem 'oauth2', github: 'oauth-xx/oauth2'
@@ -27,18 +25,14 @@ gem 'cancancan'
 gem 'enumerize'
 gem 'datagrid'
 gem 'kaminari'
-gem 'paranoid2'
-gem 'http_accept_language'
 gem 'paper_trail', '~> 3.0.1'
 gem 'rails-observers'
-gem 'country_select', '~> 2.1.0'
 
 gem 'gon', '~> 5.2.0'
 gem 'pusher'
 gem 'eventmachine', '~> 1.0.4', require: false
 gem 'em-websocket', '~> 0.5.1', require: false
 
-gem 'simple_form', '~> 3.1.0'
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier', '~> 4.1'
@@ -46,8 +40,6 @@ gem 'jquery-rails'
 gem 'angularjs-rails', '~> 1.3.15'
 gem 'bootstrap', '~> 4.0.0'
 gem 'font-awesome-sass'
-gem 'bourbon'
-gem 'momentjs-rails'
 gem 'rbtree'
 gem 'liability-proof', '0.0.9'
 gem 'grape', '~> 1.0.1'

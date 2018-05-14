@@ -17,16 +17,11 @@
 #= require_self
 #= require ./funds/funds
 
-#= require es5-shim.min
-#= require es5-sham.min
 #= require jquery_ujs
 #= require bootstrap
 #
 #= require bignumber
-#= require moment
 #= require underscore
-#= require flight.min
-#= require list
 #= require qrcode
 
 $(document).on 'click', '[data-clipboard-text], [data-clipboard-target]', (e) ->

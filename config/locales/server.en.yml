@@ -476,25 +476,6 @@ en:
       failure:
         title: Login my account
         intro: Login Peatio now for you to exchange.
-  simple_form:
-    placeholders:
-      deposit:
-        bank:
-          amount: Minimum amount 100
-      session:
-        email: E-mail Address
-        password: Password
-      order_bid:
-        origin_volume: Buy Volume
-        sum: Sum
-      order_ask:
-        origin_volume: Sell Volume
-        sum: Total Turnover
-      withdraw:
-        fiat:
-          sum: Minimum amount 100
-        coin:
-          sum: Minimum amount 0.001
     hints:
       deposit:
         bank:
@@ -741,7 +722,6 @@ en:
   admin_header:
     deposits: Deposits
     withdraws: Withdraws
-    statistics: Data Statistics
   footer:
     about: About
     privacy: Privacy

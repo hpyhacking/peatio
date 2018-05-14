@@ -28,6 +28,7 @@ header {
     position:   absolute;
     top:        50%;
     left:       5px;
+    filter:     invert(100%);
   }
 
   .dropdown-menu li:hover .sub-menu {

@@ -8,11 +8,9 @@
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= render 'shared/theme' %>
     <%= custom_stylesheet_link_tag_for :main %>
 
     <%= include_gon %>
-    <%= render 'shared/html5' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
     <%= javascript_include_tag 'application' %>
   </head>

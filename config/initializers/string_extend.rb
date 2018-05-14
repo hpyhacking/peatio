@@ -1,18 +1,3 @@
-class String
-  def ellipsisize(len = 10)
-    len = 10 unless len > 10 # assumes minimum chars at each end = 3
-    gsub(%r{(....).{#{len-5},}(....)}, '\1...\2')
-  end
-
-  def mask(before: 5, after: 5)
-    gsub(%r{(#{'.' * before}).*(#{'.' * after})}, '\1***\2')
-  end
-
-  def mask_address
-    gsub(%r{(......).*(......)}, '\1***\2')
-  end
-end
-
 module Enumerize
   class Attribute
     def value_options(options = {})

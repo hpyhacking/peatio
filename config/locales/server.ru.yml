@@ -126,10 +126,6 @@ ru:
         orders_cancel: Отмененные ордера
       global:
         global_orders_title: ОРДЕРА
-  simple_form:
-    labels:
-        coin:
-          fee: Комиссия
   admin:
     members:
       index:

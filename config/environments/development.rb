@@ -25,11 +25,6 @@ Rails.application.configure do
 
   config.active_record.default_timezone = :local
 
-  require 'middleware/i18n_js'
-  require 'middleware/security'
-  config.middleware.insert_before ActionDispatch::Static, Middleware::I18nJs
-  config.middleware.insert_before Rack::Runtime, Middleware::Security
-
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
