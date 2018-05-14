@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.8.6
+**Version:** 1.8.7
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -18,19 +18,6 @@ Member API is API which can be used by client application like SPA.
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get all available markets. |
-
-### /v2/tickers
----
-##### ***GET***
-**Summary:** Get ticker of all markets.
-
-**Description:** Get ticker of all markets.
-
-**Responses**
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get ticker of all markets. |
 
 ### /v2/tickers/{market}
 ---
@@ -50,6 +37,19 @@ Member API is API which can be used by client application like SPA.
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get ticker of specific market. |
+
+### /v2/tickers
+---
+##### ***GET***
+**Summary:** Get ticker of all markets.
+
+**Description:** Get ticker of all markets.
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get ticker of all markets. |
 
 ### /v2/members/me
 ---
@@ -123,29 +123,27 @@ Member API is API which can be used by client application like SPA.
 | ---- | ----------- |
 | 200 | Where to deposit. The address field could be empty when a new address is generating (e.g. for bitcoin), you should try again later in that case. |
 
-### /v2/orders
+### /v2/orders/clear
 ---
-##### ***GET***
-**Summary:** Get your orders, results is paginated.
+##### ***POST***
+**Summary:** Cancel all my orders.
 
-**Description:** Get your orders, results is paginated.
+**Description:** Cancel all my orders.
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
-| state | query | Filter order by state, default to 'wait' (active orders). | No | string |
-| limit | query | Limit the number of returned orders, default to 100. | No | integer |
-| page | query | Specify the page of paginated results. | No | integer |
-| order_by | query | If set, returned orders will be sorted in specific order, default to 'asc'. | No | string |
+| side | formData | If present, only sell orders (asks) or buy orders (bids) will be canncelled. | No | string |
 
 **Responses**
 
 | Code | Description |
 | ---- | ----------- |
-| 200 | Get your orders, results is paginated. |
+| 201 | Cancel all my orders. |
 
+### /v2/orders
+---
 ##### ***POST***
 **Summary:** Create a Sell/Buy order.
 
@@ -166,6 +164,27 @@ Member API is API which can be used by client application like SPA.
 | Code | Description |
 | ---- | ----------- |
 | 201 | Create a Sell/Buy order. |
+
+##### ***GET***
+**Summary:** Get your orders, results is paginated.
+
+**Description:** Get your orders, results is paginated.
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| state | query | Filter order by state, default to 'wait' (active orders). | No | string |
+| limit | query | Limit the number of returned orders, default to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+| order_by | query | If set, returned orders will be sorted in specific order, default to 'asc'. | No | string |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get your orders, results is paginated. |
 
 ### /v2/orders/multi
 ---
@@ -190,24 +209,24 @@ Member API is API which can be used by client application like SPA.
 | ---- | ----------- |
 | 201 | Create multiple sell/buy orders. |
 
-### /v2/orders/clear
+### /v2/order/delete
 ---
 ##### ***POST***
-**Summary:** Cancel all my orders.
+**Summary:** Cancel an order.
 
-**Description:** Cancel all my orders.
+**Description:** Cancel an order.
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| side | formData | If present, only sell orders (asks) or buy orders (bids) will be canncelled. | No | string |
+| id | formData | Unique order id. | Yes | integer |
 
 **Responses**
 
 | Code | Description |
 | ---- | ----------- |
-| 201 | Cancel all my orders. |
+| 201 | Cancel an order. |
 
 ### /v2/order
 ---
@@ -227,25 +246,6 @@ Member API is API which can be used by client application like SPA.
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get information of specified order. |
-
-### /v2/order/delete
----
-##### ***POST***
-**Summary:** Cancel an order.
-
-**Description:** Cancel an order.
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| id | formData | Unique order id. | Yes | integer |
-
-**Responses**
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | Cancel an order. |
 
 ### /v2/order_book
 ---
@@ -288,30 +288,6 @@ Member API is API which can be used by client application like SPA.
 | ---- | ----------- |
 | 200 | Get depth or specified market. Both asks and bids are sorted from highest price to lowest. |
 
-### /v2/trades
----
-##### ***GET***
-**Summary:** Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.
-
-**Description:** Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
-| limit | query | Limit the number of returned trades. Default to 50. | No | integer |
-| timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned. | No | integer |
-| from | query | Trade id. If set, only trades created after the trade will be returned. | No | integer |
-| to | query | Trade id. If set, only trades created before the trade will be returned. | No | integer |
-| order_by | query | If set, returned trades will be sorted in specific order, default to 'desc'. | No | string |
-
-**Responses**
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order. |
-
 ### /v2/trades/my
 ---
 ##### ***GET***
@@ -335,6 +311,30 @@ Member API is API which can be used by client application like SPA.
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get your executed trades. Trades are sorted in reverse creation order. |
+
+### /v2/trades
+---
+##### ***GET***
+**Summary:** Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.
+
+**Description:** Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| limit | query | Limit the number of returned trades. Default to 50. | No | integer |
+| timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned. | No | integer |
+| from | query | Trade id. If set, only trades created after the trade will be returned. | No | integer |
+| to | query | Trade id. If set, only trades created before the trade will be returned. | No | integer |
+| order_by | query | If set, returned trades will be sorted in specific order, default to 'desc'. | No | string |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order. |
 
 ### /v2/k
 ---
@@ -396,25 +396,6 @@ Member API is API which can be used by client application like SPA.
 
 ### /v2/withdraws
 ---
-##### ***GET***
-**Summary:** List your withdraws as paginated collection.
-
-**Description:** List your withdraws as paginated collection.
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | Any supported currencies: usd,btc,xrp,bch,ltc,dash,eth,trst,USD,BTC,XRP,BCH,LTC,DASH,ETH,TRST. | No | string |
-| page | query | Page number (defaults to 1). | No | integer |
-| limit | query | Number of withdraws per page (defaults to 100, maximum is 1000). | No | integer |
-
-**Responses**
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | List your withdraws as paginated collection. |
-
 ##### ***POST***
 **Summary:** [DEPRECATED] Create withdraw.
 
@@ -434,19 +415,27 @@ Member API is API which can be used by client application like SPA.
 | ---- | ----------- |
 | 201 | [DEPRECATED] Create withdraw. |
 
-### /v2/sessions
----
-##### ***POST***
-**Summary:** Create new user session.
+##### ***GET***
+**Summary:** List your withdraws as paginated collection.
 
-**Description:** Create new user session.
+**Description:** List your withdraws as paginated collection.
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | query | Any supported currencies: usd,btc,xrp,bch,ltc,dash,eth,trst,USD,BTC,XRP,BCH,LTC,DASH,ETH,TRST. | No | string |
+| page | query | Page number (defaults to 1). | No | integer |
+| limit | query | Number of withdraws per page (defaults to 100, maximum is 1000). | No | integer |
 
 **Responses**
 
 | Code | Description |
 | ---- | ----------- |
-| 201 | Create new user session. |
+| 200 | List your withdraws as paginated collection. |
 
+### /v2/sessions
+---
 ##### ***DELETE***
 **Summary:** Delete all user sessions.
 
@@ -458,24 +447,16 @@ Member API is API which can be used by client application like SPA.
 | ---- | ----------- |
 | 204 | Delete all user sessions. |
 
-### /v2/solvency/liability_proofs/latest
----
-##### ***GET***
-**Summary:** Returns newest liability proof record for given currency.
+##### ***POST***
+**Summary:** Create new user session.
 
-**Description:** Returns newest liability proof record for given currency.
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | The code of any currency with type 'coin'. | Yes | string |
+**Description:** Create new user session.
 
 **Responses**
 
 | Code | Description |
 | ---- | ----------- |
-| 200 | Returns newest liability proof record for given currency. |
+| 201 | Create new user session. |
 
 ### /v2/solvency/liability_proofs/partial_tree/mine
 ---
@@ -496,18 +477,37 @@ Member API is API which can be used by client application like SPA.
 | ---- | ----------- |
 | 200 | Returns newest partial tree record for member account of specified currency. |
 
-### /v2/fees/withdraw
+### /v2/solvency/liability_proofs/latest
 ---
 ##### ***GET***
-**Summary:** Returns withdraw fees for currencies.
+**Summary:** Returns newest liability proof record for given currency.
 
-**Description:** Returns withdraw fees for currencies.
+**Description:** Returns newest liability proof record for given currency.
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | query | The code of any currency with type 'coin'. | Yes | string |
 
 **Responses**
 
 | Code | Description |
 | ---- | ----------- |
-| 200 | Returns withdraw fees for currencies. |
+| 200 | Returns newest liability proof record for given currency. |
+
+### /v2/fees/trading
+---
+##### ***GET***
+**Summary:** Returns trading fees for markets.
+
+**Description:** Returns trading fees for markets.
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Returns trading fees for markets. |
 
 ### /v2/fees/deposit
 ---
@@ -522,15 +522,15 @@ Member API is API which can be used by client application like SPA.
 | ---- | ----------- |
 | 200 | Returns deposit fees for currencies. |
 
-### /v2/fees/trading
+### /v2/fees/withdraw
 ---
 ##### ***GET***
-**Summary:** Returns trading fees for markets.
+**Summary:** Returns withdraw fees for currencies.
 
-**Description:** Returns trading fees for markets.
+**Description:** Returns withdraw fees for currencies.
 
 **Responses**
 
 | Code | Description |
 | ---- | ----------- |
-| 200 | Returns trading fees for markets. |
+| 200 | Returns withdraw fees for currencies. |

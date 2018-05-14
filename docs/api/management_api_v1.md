@@ -2,7 +2,7 @@ Management API v1
 =================
 Management API is server-to-server API with high privileges.
 
-**Version:** 1.8.6
+**Version:** 1.8.7
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -26,47 +26,25 @@ Management API is server-to-server API with high privileges.
 | ---- | ----------- | ------ |
 | 201 | Queries the account balance for the given UID and currency. | [Balance](#balance) |
 
-### /v1/deposits
+### /v1/deposits/state
 ---
-##### ***POST***
-**Summary:** Returns deposits as paginated collection.
+##### ***PUT***
+**Summary:** Allows to load money or cancel deposit.
 
-**Description:** Returns deposits as paginated collection.
+**Description:** Allows to load money or cancel deposit.
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| uid | formData | The shared user ID. | No | string |
-| currency | formData | The currency code. | No | string |
-| page | formData | The page number (defaults to 1). | No | integer |
-| limit | formData | The number of deposits per page (defaults to 100, maximum is 1000). | No | integer |
-| state | formData | The state to filter by. | No | string |
+| tid | formData | The shared transaction ID. | Yes | string |
+| state | formData | The new state to apply. | Yes | string |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 201 | Returns deposits as paginated collection. | [Deposit](#deposit) |
-
-### /v1/deposits/get
----
-##### ***POST***
-**Summary:** Returns deposit by TID.
-
-**Description:** Returns deposit by TID.
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| tid | formData | The transaction ID. | Yes | string |
-
-**Responses**
-
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 201 | Returns deposit by TID. | [Deposit](#deposit) |
+| 200 | Allows to load money or cancel deposit. | [Deposit](#deposit) |
 
 ### /v1/deposits/new
 ---
@@ -91,32 +69,31 @@ Management API is server-to-server API with high privileges.
 | ---- | ----------- | ------ |
 | 201 | Creates new fiat deposit with state set to «submitted». Optionally pass field «state» set to «accepted» if want to load money instantly. You can also use PUT /fiat_deposits/:id later to load money or cancel deposit. | [Deposit](#deposit) |
 
-### /v1/deposits/state
+### /v1/deposits/get
 ---
-##### ***PUT***
-**Summary:** Allows to load money or cancel deposit.
+##### ***POST***
+**Summary:** Returns deposit by TID.
 
-**Description:** Allows to load money or cancel deposit.
+**Description:** Returns deposit by TID.
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| tid | formData | The shared transaction ID. | Yes | string |
-| state | formData | The new state to apply. | Yes | string |
+| tid | formData | The transaction ID. | Yes | string |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Allows to load money or cancel deposit. | [Deposit](#deposit) |
+| 201 | Returns deposit by TID. | [Deposit](#deposit) |
 
-### /v1/withdraws
+### /v1/deposits
 ---
 ##### ***POST***
-**Summary:** Returns withdraws as paginated collection.
+**Summary:** Returns deposits as paginated collection.
 
-**Description:** Returns withdraws as paginated collection.
+**Description:** Returns deposits as paginated collection.
 
 **Parameters**
 
@@ -125,33 +102,34 @@ Management API is server-to-server API with high privileges.
 | uid | formData | The shared user ID. | No | string |
 | currency | formData | The currency code. | No | string |
 | page | formData | The page number (defaults to 1). | No | integer |
-| limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
+| limit | formData | The number of deposits per page (defaults to 100, maximum is 1000). | No | integer |
 | state | formData | The state to filter by. | No | string |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 201 | Returns withdraws as paginated collection. | [Withdraw](#withdraw) |
+| 201 | Returns deposits as paginated collection. | [Deposit](#deposit) |
 
-### /v1/withdraws/get
+### /v1/withdraws/action
 ---
-##### ***POST***
-**Summary:** Returns withdraw by ID.
+##### ***PUT***
+**Summary:** Performs action on withdraw.
 
-**Description:** Returns withdraw by ID.
+**Description:** «process» – system will lock the money, check for suspected activity, validate recipient address, and initiate the processing of the withdraw. «cancel»  – system will mark withdraw as «canceled», and unlock the money.
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | tid | formData | The shared transaction ID. | Yes | string |
+| action | formData | The action to perform. | Yes | string |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 201 | Returns withdraw by ID. | [Withdraw](#withdraw) |
+| 200 | Performs action on withdraw. | [Withdraw](#withdraw) |
 
 ### /v1/withdraws/new
 ---
@@ -177,25 +155,47 @@ Management API is server-to-server API with high privileges.
 | ---- | ----------- | ------ |
 | 201 | Creates new withdraw. | [Withdraw](#withdraw) |
 
-### /v1/withdraws/action
+### /v1/withdraws/get
 ---
-##### ***PUT***
-**Summary:** Performs action on withdraw.
+##### ***POST***
+**Summary:** Returns withdraw by ID.
 
-**Description:** «process» – system will lock the money, check for suspected activity, validate recipient address, and initiate the processing of the withdraw. «cancel»  – system will mark withdraw as «canceled», and unlock the money.
+**Description:** Returns withdraw by ID.
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | tid | formData | The shared transaction ID. | Yes | string |
-| action | formData | The action to perform. | Yes | string |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Performs action on withdraw. | [Withdraw](#withdraw) |
+| 201 | Returns withdraw by ID. | [Withdraw](#withdraw) |
+
+### /v1/withdraws
+---
+##### ***POST***
+**Summary:** Returns withdraws as paginated collection.
+
+**Description:** Returns withdraws as paginated collection.
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | formData | The shared user ID. | No | string |
+| currency | formData | The currency code. | No | string |
+| page | formData | The page number (defaults to 1). | No | integer |
+| limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
+| state | formData | The state to filter by. | No | string |
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Returns withdraws as paginated collection. | [Withdraw](#withdraw) |
 
 ### /v1/timestamp
 ---
