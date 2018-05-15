@@ -168,13 +168,10 @@ bin/init_config
 
 #### Configure assets
 
-```shell
-npm install -g yarn
-```
+Then install and run yarn:
 
-```shell
-bundle exec rake yarn:install
-```
+    $ npm install -g yarn
+    $ bundle exec rake tmp:create yarn:install
 
 #### Setup Pusher
 
@@ -198,7 +195,10 @@ Replace `username:password` and `port`.
 #### Setup database:
 
 ```shell
-bundle exec rake db:setup
+bundle exec rake db:create
+bundle exec rake db:migrate
+bundle exec rake currencies:seed
+bundle exec rake markets:seed
 ```
 
 #### Run daemons
@@ -214,17 +214,99 @@ bundle exec rake solvency:liability_proof
 ```
 Otherwise you will get an exception at the "Solvency" page.
 
+#### Setup the Google Authentication
+
+- By default, it ask for Google Authentication. This parameter can be changed in `/config/application.yml` -> `OAUTH2_SIGN_IN_PROVIDER:    google`
+- Setup a new Web application on https://console.developers.google.com
+- Configure the Google Id, Secret and callback in `/config/application.yml`
+- Note: Make sure your host ISN'T an IP in the callback config.  Looks like Google auth expect a callback to a DNS only
+
+```
+  GOOGLE_CLIENT_ID: <Google id>
+  GOOGLE_CLIENT_SECRET: <Google secret>
+  GOOGLE_OAUTH2_REDIRECT_URL: http://ec2-xx-xx-xx-xx.compute-1.amazonaws.com:3000/auth/google_oauth2/callback
+```
+
 #### Run Peatio
+
+Finalize the config; open `/config/application.yml`
+Set the DNS of your host (IP won't work if you use Google Authentication) 
+
+```shell
+URL_HOST: ec2-34-xxx-xxx-xx.compute-1.amazonaws.com:3000
+```
 
 Start the server:
 
 ```shell
-bundle exec rails server
+bundle exec rails server -p 3000
 ```
 
-Once server is up and running, **visit [http://localhost:3000](http://localhost:3000)**
+Validate the server is working:
 
-Sign in:
+**visit [http://localhost:3000](http://localhost:3000)** or the public DNS of your server
 
-* user: admin@peatio.dev
-* pass: Pass@word8
+Sign in with Google SSO
+
+NOTE: At this point, the "trade" screen isn't working as you need to setup the trading server.  See next step.
+
+### Step 10. Run Peatio Trading UI
+
+Clone the repo and setup the Trading UI
+
+```shell
+cd ~/code
+git clone https://github.com/rubykube/peatio-trading-ui.git
+cd peatio-trading-ui
+bundle install
+```
+
+Prepare configure files:
+
+```shell
+bin/init_config
+```
+
+Edit the `/config/application.yml` and set your app DNS.  Ex: 
+
+```shell
+PLATFORM_ROOT_URL: http://ec2-xx-xx-xxx-xxx.compute-1.amazonaws.com
+```
+Start the server
+
+```shell
+bundle exec rails server -p 4000
+```
+
+Refer to the release note here : https://github.com/rubykube/peatio/blob/master/docs/releases/1.5.0.md
+
+### Step 11. Install nginx to setup a reverse proxy
+
+```
+brew install nginx
+```
+At this point you should see nginx running
+
+But you need to edit the default config to setup the reverse proxy.
+Open `/usr/local/etc/nginx/nginx.conf` in your favorite editor
+
+Replace the content of the file by the following
+
+```
+    server {
+        listen      80;
+        server_name  http://peatio.local;
+
+       location / {
+         proxy_pass http://127.0.0.1:3000;
+       }
+
+      location ~ ^/(?:trading|trading-ui-assets)\/ {
+        proxy_pass http://127.0.0.1:4000;
+       }
+```
+
+Make sure to replace `http://peatio.local` with your actual server DNS
+
+Start nginx by running `sudo nginx`
+

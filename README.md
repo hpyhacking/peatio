@@ -71,7 +71,8 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * Built-in [Proof of Solvency](https://iwilcox.me.uk/2014/proving-bitcoin-reserves) Audit
 * Usability and scalability
 * Websocket API and high frequency trading support
-* Support multiple digital currencies (eg. Bitcoin, Litecoin, Dogecoin etc.)
+* Support multiple digital currencies (eg. Bitcoin, Litecoin, Ethereum, Ripple etc.)
+* Support ERC20 Tokens
 * API end point for FIAT deposits or payment gateways.
 * Powerful admin dashboard and management tools
 * Highly configurable and extendable
@@ -93,19 +94,6 @@ Here are some API clients/wrappers:
 * [peatio-client-python by czheo](https://github.com/JohnnyZhao/peatio-client-python) is a python wrapper similar to peatio-client-ruby written by czheo.
 * [peatioJavaClient](https://github.com/classic1999/peatioJavaClient.git) is a java client written by classic1999.
 * [yunbi-client-php](https://github.com/panlilu/yunbi-client-php) is a php client written by panlilu.
-
-## Custom Styles
-
-Peatio front-end is based Bootstrap 3.0 and Sass, so you can customize the style of your exchange.
-
-* change bootstrap default variables in `vars/_bootstrap.css.scss`
-* change peatio custom default variables in `vars/_basic.css.scss`
-* add your custom variables in `vars/_custom.css.scss`
-* add your custom css style in `layouts/_custom.css.scss`
-* add or change features style in `features/_xyz.css.scss`
-
-`vars/_custom.css.scss` can overwrite `vars/_basic.css.scss` defined variables
-`layout/_custom.css.scss` can overwrite `layout/_basic.css.scss` and `layoputs/_header.css.scss` style
 
 ## Getting Involved
 
