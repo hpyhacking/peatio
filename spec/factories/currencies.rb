@@ -87,5 +87,21 @@ FactoryBot.define do
         deposit_confirmations:    1,
         case_sensitive:           false
     end
+
+    trait :bch do
+      code                 'bch'
+      symbol               '฿'
+      type                 'coin'
+      base_factor          100_000_000
+      quick_withdraw_limit 1
+      withdraw_fee         0
+      options \
+        api_client:               'BCH',
+        json_rpc_endpoint:        'http://127.0.0.1:48977',
+        wallet_url_template:      'https://www.blocktrail.com/tBCC/address/#{address}',
+        transaction_url_template: 'https://www.blocktrail.com/tBCC/tx/#{txid}',
+        deposit_confirmations:    1,
+        case_sensitive:           true
+    end
   end
 end

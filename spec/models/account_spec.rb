@@ -298,7 +298,7 @@ describe Account do
       currency = Currency.find_by_code!(:dash)
       currency.transaction do
         currency.update_columns(visible: false)
-        expect(Account.enabled.count).to eq 15
+        expect(Account.enabled.count).to eq 18
         currency.update_columns(visible: true)
       end
     end

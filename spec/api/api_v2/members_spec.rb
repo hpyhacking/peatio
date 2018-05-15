@@ -21,7 +21,8 @@ describe APIv2::Members, type: :request do
         { 'currency' => 'dash', 'balance' => '0.0', 'locked' => '0.0' },
         { 'currency' => 'eth', 'balance' => '0.0', 'locked' => '0.0' },
         { 'currency' => 'xrp', 'balance' => '0.0', 'locked' => '0.0' },
-        { 'currency' => 'trst', 'balance' => '0.0', 'locked' => '0.0' }
+        { 'currency' => 'trst', 'balance' => '0.0', 'locked' => '0.0' },
+        { 'currency' => 'bch', 'balance' => '0.0', 'locked' => '0.0' }
       ]
     end
   end
