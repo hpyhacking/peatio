@@ -110,8 +110,7 @@ def tag_n_push(tag, branch)
     %( git push authenticated-origin release:#{branch.fetch(:name)} ),
     %( git tag #{tag} -a -m "Automatically generated tag from TravisCI build #{ENV.fetch("TRAVIS_BUILD_NUMBER")}." ),
     %( git push authenticated-origin #{tag} )
-  ].each do |command|
-    command.strip!
+  ].map(&:strip).each do |command|
     unless Kernel.system(command)
       # Prevent GitHub API key from being published.
       command.gsub!(ENV["GITHUB_API_KEY"], "(secret)")
