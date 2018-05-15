@@ -83,7 +83,7 @@ module CoinAPI
         end
         yield batch_deposits if batch_deposits
         collected += batch_deposits
-        break if batch_deposits.empty?
+        break unless more_deposits_available?(batch_deposits)
       end
       collected
     end
@@ -107,6 +107,10 @@ module CoinAPI
           received_at:   Time.at(tx.fetch('timereceived')),
           entries:       [{ amount: tx.fetch('amount').to_d, address: normalize_address(tx.fetch('address')) }] }
       end.compact.reverse
+    end
+
+    def more_deposits_available?(batch_deposits)
+      batch_deposits.present?
     end
   end
 end
