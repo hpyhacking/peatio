@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class AddTIDToWithdraw < ActiveRecord::Migration
   def change
     add_column :withdraws, :tid, :string, limit: 64

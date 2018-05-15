@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class ChangeWalletIdToAddressId < ActiveRecord::Migration
   def change
     return unless defined?(PaymentAddress)

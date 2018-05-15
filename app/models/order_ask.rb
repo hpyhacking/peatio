@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class OrderAsk < Order
 
   has_many :trades, foreign_key: 'ask_id'

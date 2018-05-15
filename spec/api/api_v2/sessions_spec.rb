@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe APIv2::Sessions, type: :request do
   let(:member) { create(:member, :verified_identity) }
   let(:token) { jwt_for(member) }

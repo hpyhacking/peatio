@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class CreateWithdrawDestinationsDropFundSource < ActiveRecord::Migration
   def change
     create_table :withdraw_destinations do |t|

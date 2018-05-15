@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Concerns
   module DisableMarketsUI
     extend ActiveSupport::Concern

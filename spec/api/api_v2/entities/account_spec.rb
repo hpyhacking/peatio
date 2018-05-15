@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe APIv2::Entities::Account do
   let(:account) { create_account(:btc, balance: 100) }
 

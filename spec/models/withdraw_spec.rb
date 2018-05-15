@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Withdraw do
   describe '#fix_precision' do
     it 'should round down to max precision' do

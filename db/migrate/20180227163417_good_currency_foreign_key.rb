@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class GoodCurrencyForeignKey < ActiveRecord::Migration
   def change
     %i[ account_versions accounts deposits fund_sources payment_addresses payment_transactions proofs withdraws ].each do |t|

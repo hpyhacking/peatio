@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Private
   class AssetsController < BaseController
     skip_before_action :auth_member!, only: [:index]

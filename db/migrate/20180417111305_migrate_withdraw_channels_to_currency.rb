@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class MigrateWithdrawChannelsToCurrency < ActiveRecord::Migration
   def change
     add_column :currencies, :withdraw_fee, :decimal, after: :quick_withdraw_limit, null: false, default: 0, precision: 7, scale: 6

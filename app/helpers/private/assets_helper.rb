@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Private::AssetsHelper
 
   def verify_link(proof, partial_tree)

@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 feature 'show account info', js: true do
   let!(:member) { create :member, :verified_identity }
 

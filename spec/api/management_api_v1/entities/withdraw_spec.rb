@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe ManagementAPIv1::Entities::Withdraw do
   context 'fiat' do
     let(:rid) { Faker::Bank.iban }

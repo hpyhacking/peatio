@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class Withdraw < ActiveRecord::Base
 
   STATES           = %i[prepared submitted rejected accepted suspected processing succeed canceled failed].freeze

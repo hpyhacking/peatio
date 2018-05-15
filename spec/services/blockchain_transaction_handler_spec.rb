@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Services::BlockchainTransactionHandler do
   subject { Services::BlockchainTransactionHandler.new(currency) }
 

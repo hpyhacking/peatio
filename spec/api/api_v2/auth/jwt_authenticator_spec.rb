@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe APIv2::Auth::JWTAuthenticator do
   let :token do
     'Bearer ' + jwt_build(payload)

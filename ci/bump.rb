@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 require "rubygems/version"
 require "net/http"
 require "json"

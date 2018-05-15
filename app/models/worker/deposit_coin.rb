@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 # TODO: Replace TXOUT with composite TXID.
 
 module Worker

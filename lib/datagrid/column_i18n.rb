@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Datagrid
   module ColumnI18n
     extend ActiveSupport::Concern

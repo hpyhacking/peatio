@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe OrderBid do
   subject { create(:order_bid) }
 

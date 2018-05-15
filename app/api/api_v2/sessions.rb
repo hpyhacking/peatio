@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module APIv2
   class Sessions < Grape::API
     helpers { include SessionUtils }

@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module APIv2
   class Fees < Grape::API
     Fee         = Struct.new(:type, :value)

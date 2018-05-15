@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class MigrateStates < ActiveRecord::Migration
   def change
     execute %{UPDATE deposits SET aasm_state = 'submitted' WHERE aasm_state = 'submitting'}

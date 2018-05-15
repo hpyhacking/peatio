@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 namespace :peatio do
   desc 'Fill database with demo members'
   task feed: :environment do

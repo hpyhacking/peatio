@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module CurrencyHelper
   # Yaroslav Konoplov: I don't use #image_path & #image_url here
   # since Gon::Jbuilder attaches ActionView::Helpers which behave differently

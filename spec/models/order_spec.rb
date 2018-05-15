@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Order, 'validations', type: :model do
   context 'validations' do
     subject do

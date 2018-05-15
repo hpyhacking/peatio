@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Worker::DepositCoin do
   around do |example|
     WebMock.disable_net_connect!

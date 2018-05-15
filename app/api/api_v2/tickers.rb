@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module APIv2
   class Tickers < Grape::API
     helpers ::APIv2::NamedParams

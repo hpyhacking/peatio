@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe APIv2::Tickers, type: :request do
   describe 'GET /api/v2/tickers' do
     it 'returns ticker of all markets' do

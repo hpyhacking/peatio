@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 require_dependency 'api_v2/errors'
 require_dependency 'api_v2/validations'
 require_dependency 'api_v2/withdraws'

@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class MigrateDepositChannelsToCurrency < ActiveRecord::Migration
   def change
     if defined?(Currency) && File.file?('config/deposit_channels.old.yml')

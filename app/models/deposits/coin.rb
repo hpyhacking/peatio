@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Deposits
   class Coin < Deposit
     validate { errors.add(:currency, :invalid) if currency && !currency.coin? }

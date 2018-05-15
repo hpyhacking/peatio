@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class UpdateDeprecatedCurrencyIds < ActiveRecord::Migration
   def change
     # Migrate deprecated market codes to new.

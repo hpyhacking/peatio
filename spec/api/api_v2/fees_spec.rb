@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe APIv2::Fees, type: :request do
   describe 'GET /api/v2/fees/withdraw' do
     it 'returns withdraw fees for every visible currency' do

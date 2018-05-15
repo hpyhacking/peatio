@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 Rails.application.configure do
 
   # Available levels (verbosity goes from high to less): debug, info, warn, error, fatal.

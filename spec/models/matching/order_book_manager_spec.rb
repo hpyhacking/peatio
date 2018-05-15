@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Matching::OrderBookManager do
   context '.build_order' do
     it 'should build limit order' do

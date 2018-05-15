@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module CoinAPI
   Error                  = Class.new(StandardError) # TODO: Rename to Exception.
   ConnectionRefusedError = Class.new(StandardError) # TODO: Remove this.

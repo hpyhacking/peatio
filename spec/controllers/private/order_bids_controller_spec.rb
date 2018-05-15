@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Private::OrderBidsController, type: :controller do
   let(:member) do
     create(:member, :verified_identity).tap do |m|

@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Market do
   context 'visible market' do
     it { expect(Market.visible.count).to eq(1) }

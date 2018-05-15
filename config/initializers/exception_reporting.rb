@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 def catch_and_report_exception(options = {})
   begin
     yield

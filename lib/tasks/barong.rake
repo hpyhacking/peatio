@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 namespace :barong do
   desc 'Refresh access level for Barong members.'
   task levels: :environment do

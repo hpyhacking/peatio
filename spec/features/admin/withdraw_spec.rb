@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 feature 'Withdraw', js: true do
   let!(:member) { create(:member, :verified_identity) }
   let!(:admin_member) { create(:member, :verified_identity, email: Member.admins.first) }

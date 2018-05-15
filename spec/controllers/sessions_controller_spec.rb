@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe SessionsController, type: :controller do
   %i[ google_oauth2 auth0 barong ].each do |provider|
     normalized_provider = provider.to_s.gsub(/(?:_|oauth2)+\z/i, '')

@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Matching::MarketOrder do
   context 'initialize' do
     it 'should not allow price attribute' do

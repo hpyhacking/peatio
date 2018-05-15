@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class AddTIDToDeposit < ActiveRecord::Migration
   def change
     add_column :deposits, :tid, :string, limit: 64

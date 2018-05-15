@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Admin
   class MembersController < BaseController
     load_and_authorize_resource

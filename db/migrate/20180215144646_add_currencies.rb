@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class AddCurrencies < ActiveRecord::Migration
   def change
     create_table :currencies do |t|

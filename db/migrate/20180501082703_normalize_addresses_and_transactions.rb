@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class NormalizeAddressesAndTransactions < ActiveRecord::Migration
   class Ccy < ActiveRecord::Base
     serialize :options, JSON

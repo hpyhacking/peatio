@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Withdraws
   class Coin < Withdraw
     before_validation do

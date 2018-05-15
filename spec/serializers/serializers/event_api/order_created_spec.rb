@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Serializers::EventAPI::OrderCreated do
   let(:buyer) { create(:member, :verified_identity, :barong) }
 

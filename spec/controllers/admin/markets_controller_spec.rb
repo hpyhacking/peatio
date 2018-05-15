@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Admin::MarketsController, type: :controller do
   let(:member) { create(:admin_member) }
   let(:valid_market_attributes) do

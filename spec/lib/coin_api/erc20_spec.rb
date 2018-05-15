@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe CoinAPI::ERC20 do
   let(:client) { CoinAPI[:trst] }
 

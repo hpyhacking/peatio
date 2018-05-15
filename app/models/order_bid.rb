@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class OrderBid < Order
 
   has_many :trades, foreign_key: 'bid_id'

@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 # People exchange commodities in markets. Each market focuses on certain
 # commodity pair `{A, B}`. By convention, we call people exchange A for B
 # *sellers* who submit *ask* orders, and people exchange B for A *buyers*

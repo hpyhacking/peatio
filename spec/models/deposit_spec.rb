@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Deposit do
   let(:member) { create(:member) }
   let(:amount) { 100.to_d }

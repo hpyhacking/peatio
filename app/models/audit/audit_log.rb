@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Audit
   class AuditLog < ActiveRecord::Base
     belongs_to :operator, class_name: 'Member', foreign_key: 'operator_id'

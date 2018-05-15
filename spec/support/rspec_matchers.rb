@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 RSpec::Matchers.define :be_d do |expected|
   match do |actual|
     if expected.is_a? BigDecimal

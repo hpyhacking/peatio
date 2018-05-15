@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Account do
   subject { create_account(:btc, locked: '10.0'.to_d, balance: '10.0') }
 

@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe AccountVersion do
   let(:member)  { create(:member, :verified_identity) }
   let(:account) { member.get_account(:btc) }

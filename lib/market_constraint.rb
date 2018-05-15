@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class MarketConstraint
   def self.matches?(request)
     id = request.path_parameters[:market_id] || request.path_parameters[:id]

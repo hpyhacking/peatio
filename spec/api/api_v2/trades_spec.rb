@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe APIv2::Trades, type: :request do
   let(:member) do
     create(:member, :verified_identity).tap do |m|

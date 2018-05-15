@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module CoinAPI
   class BCH < BTC
     def normalize_address(address)

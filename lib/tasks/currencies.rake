@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 namespace :currencies do
   desc 'Adds missing currencies to database defined at config/seed/currencies.yml.'
   task seed: :environment do

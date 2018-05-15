@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Currency do
   let!(:deposit_fee) { currency.deposit_fee }
   after { currency.update_columns(deposit_fee: deposit_fee) }

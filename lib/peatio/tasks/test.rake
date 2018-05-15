@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 namespace :peatio do
   namespace :test do
     desc 'Fill database with fake data'

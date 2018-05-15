@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 RAILS_ENV  = ENV.fetch('RAILS_ENV', 'development')
 RAILS_ROOT = File.expand_path('../../..', __FILE__)
 

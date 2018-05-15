@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Trade, '.latest_price' do
   context 'no trade' do
     it { expect(Trade.latest_price(:btcusd)).to be_d '0.0' }

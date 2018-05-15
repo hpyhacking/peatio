@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Member do
   let(:member) { build(:member, :verified_identity) }
   subject { member }

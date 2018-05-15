@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe ManagementAPIv1::Entities::Balance do
   let(:member) { create(:member, :barong) }
   let(:record) { member.ac(:usd) }

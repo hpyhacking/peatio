@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Private::WithdrawsController, type: :controller do
   describe '#create' do
     let(:params) { { withdraw: { currency: :btc, sum: 90.1, rid: 'rfUKVVX5KJQ2FsWYrjS6JMedz3jdjPhRPZ' } } }

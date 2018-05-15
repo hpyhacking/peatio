@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Private
   class BaseController < ::ApplicationController
     before_filter :no_cache, :auth_member!

@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class Rack::Session::Redis
   def set_session(env, session_id, new_session, options)
     with_lock env, false do

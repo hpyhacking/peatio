@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 unless ENV['JWT_PUBLIC_KEY'].blank?
   if APIv2::Auth::Utils.jwt_public_key.private?
     raise ArgumentError, 'JWT_PUBLIC_KEY was set to private key, however it should be public.'

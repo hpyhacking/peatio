@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class Global
   ZERO = '0.0'.to_d
   NOTHING_ARRAY = YAML::dump([])

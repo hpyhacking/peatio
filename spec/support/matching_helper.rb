@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 def who_is_billionaire
   member = create(:member, :verified_identity)
   member.get_account(:btc).update_attributes(

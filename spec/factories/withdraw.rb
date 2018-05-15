@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :btc_withdraw, class: Withdraws::Coin do
     currency { Currency.find_by!(code: :btc) }

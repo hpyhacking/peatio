@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe WelcomeController, type: :controller do
   describe 'ability to disable cabinet UI' do
 

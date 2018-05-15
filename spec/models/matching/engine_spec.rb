@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Matching::Engine do
   let(:market) { Market.find('btcusd') }
   let(:price)  { 10.to_d }

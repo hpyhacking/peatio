@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Private
   class DepositsController < BaseController
     before_action :auth_verified!

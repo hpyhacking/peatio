@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Private::AssetsController, type: :controller do
   let(:member) { create :member, :verified_identity }
   before { session[:member_id] = member.id }

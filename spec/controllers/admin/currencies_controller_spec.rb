@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Admin::CurrenciesController, type: :controller do
   let(:member) { create(:admin_member) }
   let :valid_currency_attributes  do

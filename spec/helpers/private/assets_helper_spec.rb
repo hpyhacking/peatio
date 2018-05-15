@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 # Specs in this file have access to a helper object that includes
 # the Private::AssetsHelper. For example:
 #

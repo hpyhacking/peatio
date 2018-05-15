@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe APIv2::Entities::Trade do
   let(:trade) do
     create :trade, ask: create(:order_ask), bid: create(:order_bid)

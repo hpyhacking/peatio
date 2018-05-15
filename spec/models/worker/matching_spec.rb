@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Worker::Matching do
   let(:alice)  { who_is_billionaire }
   let(:bob)    { who_is_billionaire }

@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class PartialTree < ActiveRecord::Base
 
   belongs_to :account

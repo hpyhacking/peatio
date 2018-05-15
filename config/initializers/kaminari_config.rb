@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 Kaminari.configure do |config|
   config.default_per_page = 10
   # config.max_per_page = nil

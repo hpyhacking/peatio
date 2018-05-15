@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe TransferObserver do
   describe '#after_update' do
     let!(:member) { create(:member, :verified_identity) }

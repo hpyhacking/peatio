@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 require File.join(ENV.fetch('RAILS_ROOT'), 'config', 'environment')
 
 $running = true

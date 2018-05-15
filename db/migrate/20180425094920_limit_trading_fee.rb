@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class LimitTradingFee < ActiveRecord::Migration
   def change
     execute %{UPDATE markets SET ask_fee = 0.5 WHERE ask_fee > 0.5}

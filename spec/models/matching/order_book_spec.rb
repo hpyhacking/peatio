@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Matching::OrderBook do
   context '#find' do
     subject { Matching::OrderBook.new('btcusd', :ask) }

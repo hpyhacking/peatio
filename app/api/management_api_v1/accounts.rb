@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module ManagementAPIv1
   class Accounts < Grape::API
     desc 'Queries the account balance for the given UID and currency.' do

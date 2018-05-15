@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class AdminWithdrawsRouter < CRUDRouter
   def call(env)
     currency   = Currency.find_by_code!(params(env)[:currency])

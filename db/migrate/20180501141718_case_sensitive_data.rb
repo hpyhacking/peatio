@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class CaseSensitiveData < ActiveRecord::Migration
   def change
     execute %[ALTER TABLE deposits MODIFY address VARCHAR(64) BINARY;]

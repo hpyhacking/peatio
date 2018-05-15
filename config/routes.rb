@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 # Explicitly require "lib/peatio.rb".
 # You may be surprised why this line also sits in config/application.rb.
 # The same line sits in config/application.rb to allows early access to lib/peatio.rb.

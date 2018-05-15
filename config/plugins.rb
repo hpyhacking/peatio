@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 YAML.load_file('config/plugins.yml').yield_self { |ary| ary || [] }.each do |plugin|
   relative_path_from_root = plugin.fetch('require') { File.join(plugin.fetch('name'), 'index.rb') }
   next unless relative_path_from_root

@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class SessionsController < ApplicationController
   before_action :auth_member!, only: :destroy
   before_action :auth_anybody!, only: :failure

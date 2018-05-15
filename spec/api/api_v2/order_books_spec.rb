@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe APIv2::OrderBooks, type: :request do
   describe 'GET /api/v2/order_book' do
     before do

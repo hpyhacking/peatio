@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe AMQPQueue do
   let(:config) do
     Hashie::Mash.new(connect:   { host: '127.0.0.1' },

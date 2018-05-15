@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe APIv2::Auth::Middleware, type: :request do
   class TestApp < Grape::API
     helpers APIv2::Helpers

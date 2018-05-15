@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 Pusher.app_id = ENV.fetch('PUSHER_APP')
 Pusher.key    = ENV.fetch('PUSHER_CLIENT_KEY')
 Pusher.secret = ENV.fetch('PUSHER_SECRET')

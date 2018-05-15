@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class Deposit < ActiveRecord::Base
   STATES = %i[submitted canceled rejected accepted].freeze
 

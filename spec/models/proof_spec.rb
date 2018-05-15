@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Proof do
   describe '#asset_sum' do
     it 'aggregates address balances' do

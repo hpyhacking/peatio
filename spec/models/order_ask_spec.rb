@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe OrderAsk do
   subject { create(:order_ask) }
 

@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 namespace :markets do
   desc 'Adds missing markets to database defined at config/seed/markets.yml.'
   task seed: :environment do

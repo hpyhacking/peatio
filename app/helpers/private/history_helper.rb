@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Private::HistoryHelper
   def trade_side(trade)
     trade.ask_member == current_user ? 'sell' : 'buy'

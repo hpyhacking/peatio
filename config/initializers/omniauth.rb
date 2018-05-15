@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   case ENV['OAUTH2_SIGN_IN_PROVIDER']
     when 'auth0'

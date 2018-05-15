@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module SessionUtils
   def memoize_member_session_id(member_id, session_id, options = {})
     options[:expire_after] ||= ENV.fetch('SESSION_LIFETIME').to_i

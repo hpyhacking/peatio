@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module AccountFactory
   def create_account(*arguments)
     currency   = Symbol === arguments.first ? arguments.first : :usd

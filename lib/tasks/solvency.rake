@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 namespace :solvency do
   desc 'Clear old liability proofs'
   task clean: :environment do

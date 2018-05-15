@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe ManagementAPIv1::Deposits, type: :request do
   before do
     defaults_for_management_api_v1_security_configuration!

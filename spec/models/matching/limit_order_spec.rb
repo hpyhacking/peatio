@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe Matching::LimitOrder do
   context 'initialize' do
     it 'should throw invalid order error for empty attributes' do

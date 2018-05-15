@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module TagHelper
   def admin_asset_tag(asset)
     return if asset.blank?

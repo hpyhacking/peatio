@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module ApplicationHelper
   def check_active(klass)
     if klass.is_a? String

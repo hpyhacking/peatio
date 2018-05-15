@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe ManagementAPIv1::Entities::Deposit do
   context 'fiat' do
     let(:record) { create(:deposit_usd, member: create(:member, :barong)) }

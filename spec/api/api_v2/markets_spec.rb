@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 describe APIv2::Markets, type: :request do
   describe 'GET /api/v2/markets' do
     it 'should all available markets' do

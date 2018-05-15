@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class DropWithdrawDestinations < ActiveRecord::Migration
   class WithdrawDestination < ActiveRecord::Base
     serialize :details, JSON

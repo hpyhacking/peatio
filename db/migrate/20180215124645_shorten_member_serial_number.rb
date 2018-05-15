@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 class ShortenMemberSerialNumber < ActiveRecord::Migration
   def change
     if defined?(Member)
