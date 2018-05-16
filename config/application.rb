@@ -18,7 +18,7 @@ module Peatio
   class Application < Rails::Application
 
     # Configure Sentry as early as possible.
-    if ENV['SENTRY_DSN_BACKEND'].present? && ENV['SENTRY_ENV'].to_s.split(',').include?(Rails.env)
+    if ENV['SENTRY_DSN_BACKEND'].present?
       require 'sentry-raven'
       Raven.configure { |config| config.dsn = ENV['SENTRY_DSN_BACKEND'] }
     end
