@@ -7,12 +7,9 @@ module Worker
     FRESH_TRADES = 80
 
     def initialize
-      @tickers = {}
-      @trades  = {}
-
-      Market.all.each do |market|
-        initialize_market_data market
-      end
+      @tickers = Hash.new { |hash, market_id| initialize_market_data(market_id) }
+      @trades  = Hash.new { |hash, market_id| initialize_market_data(market_id) }
+      Market.find_each { |market| initialize_market_data(market) }
     end
 
     def process(payload, metadata, delivery_info)
