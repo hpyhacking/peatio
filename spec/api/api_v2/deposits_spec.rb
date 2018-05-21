@@ -84,4 +84,13 @@ describe APIv2::Deposits, type: :request do
       expect(response.code).to eq '401'
     end
   end
+
+  describe 'GET /api/v2/deposit_address' do
+    before { member.ac(:btc).payment_address.update!(address: '1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX') }
+
+    it 'doesn\'t expose sensitive data' do
+      api_get '/api/v2/deposit_address', params: { currency: :btc }, token: token
+      expect(response.body).to eq '{"currency":"btc","address":"1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX"}'
+    end
+  end
 end
