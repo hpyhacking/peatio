@@ -36,7 +36,7 @@ module APIv2
 
     desc 'Where to deposit. The address field could be empty when a new address is generating (e.g. for bitcoin), you should try again later in that case.'
     params do
-      requires :currency, type: String, values: -> { Currency.codes(bothcase: true) }, desc: -> { "The account to which you want to deposit. Available values: #{Currency.codes(bothcase: true).join(', ')}" }
+      requires :currency, type: String, values: -> { Currency.coins.codes(bothcase: true) }, desc: -> { "The account to which you want to deposit. Available values: #{Currency.coins.codes(bothcase: true).join(', ')}" }
     end
     get "/deposit_address" do
       current_user.ac(params[:currency]).payment_address.yield_self do |pa|

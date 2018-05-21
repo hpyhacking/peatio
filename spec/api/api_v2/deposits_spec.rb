@@ -83,6 +83,14 @@ describe APIv2::Deposits, type: :request do
       api_get '/api/v2/deposits', token: unverified_member_token
       expect(response.code).to eq '401'
     end
+
+    describe 'GET /api/v2/deposit_address' do
+      it 'validates currency' do
+        api_get '/api/v2/deposit_address', params: { currency: :usd }, token: token
+        expect(response).to have_http_status 422
+        expect(response.body).to eq '{"error":{"code":1001,"message":"currency does not have a valid value"}}'
+      end
+    end
   end
 
   describe 'GET /api/v2/deposit_address' do
