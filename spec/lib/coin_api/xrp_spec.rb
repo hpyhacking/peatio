@@ -159,4 +159,28 @@ describe CoinAPI::XRP do
 
     it { is_expected.to eq('116AFBD721EE1C2E628AA801ACFBD40A7C21F7B125248127690A1CAA09D86C91') }
   end
+
+  describe 'address?' do
+    subject { client.send(:address?, address) }
+
+    context 'valid address' do
+      let(:address) { 'rKM5oQ2NdaS3o8ran4PKsESnhfxzfUqCJm' }
+      it { is_expected.to be_truthy }
+    end
+
+    context 'invalid address' do
+      let(:address) { '0x42eb768f2244c8811c63729a21a3569731535f06' }
+      it { is_expected.to be_falsey }
+    end
+
+    context 'valid address with destination tag' do
+      let(:address) { 'rKM5oQ2NdaS3o8ran4PKsESnhfxzfUqCJm?dt=33722' }
+      it { is_expected.to be_truthy }
+    end
+
+    context 'invalid address with destination tag' do
+      let(:address) { 'rKM5oQ2NdaS3o8ran4PKsESnhfxzfUqCJm?dt=033722' }
+      it { is_expected.to be_falsey }
+    end
+  end
 end

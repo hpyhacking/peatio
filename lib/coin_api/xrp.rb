@@ -134,7 +134,7 @@ module CoinAPI
     end
 
     def address?(address)
-      /\Ar[0-9a-zA-Z]{33}\z/.match?(address)
+      /\Ar[0-9a-zA-Z]{33}(:?\?dt=[1-9]\d*)?\z/.match?(address)
     end
 
     def each_batch_of_deposits(raise = true)
