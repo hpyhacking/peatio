@@ -27,6 +27,12 @@ module Worker
           pusher_event(acc, pa) unless pa.address.blank?
         end
       end
+
+    # Don't re-enqueue this job in case of error.
+    # The system is designed in such way that when user will
+    # request list of accounts system will ask to generate address again (if it is not generated of course).
+    rescue => e
+      report_exception(e)
     end
 
   private
