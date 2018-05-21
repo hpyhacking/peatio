@@ -3,7 +3,8 @@
 
 class AccountVersion < ActiveRecord::Base
   extend Enumerize
-  include Currencible
+  include BelongsToCurrency
+  include BelongsToAccount
 
   HISTORY = [Account::STRIKE_ADD, Account::STRIKE_SUB, Account::STRIKE_FEE, Account::DEPOSIT, Account::WITHDRAW, Account::FIX]
 
@@ -25,7 +26,6 @@ class AccountVersion < ActiveRecord::Base
     Account::WITHDRAW => 2000 }
   enumerize :reason, in: REASON_CODES, scope: true
 
-  belongs_to :account
   belongs_to :modifiable, polymorphic: true
 
   scope :history, -> { with_reason(*HISTORY).reverse_order }
@@ -74,14 +74,6 @@ class AccountVersion < ActiveRecord::Base
     end
   end
 
-  def detail_template
-    if self.detail.nil? || self.detail.empty?
-      return ["system", {}]
-    end
-
-    [self.detail.delete(:tmp) || "default", self.detail || {}]
-  end
-
   def amount_change
     balance + locked
   end
@@ -93,8 +85,6 @@ class AccountVersion < ActiveRecord::Base
    def out
     amount_change < 0 ? amount_change : nil
   end
-
-  alias :template :detail_template
 end
 
 # == Schema Information

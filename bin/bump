@@ -10,6 +10,9 @@ fi
 
 if [ -n "${V}" ]; then
 cat > lib/peatio/version.rb << EOF
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module Peatio
   VERSION = '${V}'
 end

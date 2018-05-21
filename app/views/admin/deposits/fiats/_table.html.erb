@@ -12,7 +12,7 @@
       <code class="text-info"><%= number_with_precision(x.amount, precision: 2) %></code>
     <% end %>
     <% t.column 'State' do |x| %>
-      <%= x.aasm_state_text %>
+      <%= x.aasm_state.humanize %>
     <% end %>
     <% t.column 'Actions' do |x| %>
       <%= link_to 'View', admin_deposit_path(x.currency.code, x) %>

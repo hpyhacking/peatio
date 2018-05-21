@@ -33,7 +33,7 @@ en:
       withdraw:
         id: ID
         created_at: Created At
-        done_at: Done At
+        completed_at: Done At
         sum: Sum
         fee: Fee
         currency: Currency
@@ -103,7 +103,7 @@ en:
         txid: Transaction ID
         amount: Amount
         confirmations: Confirmation
-        aasm_state_text: State
+        aasm_state: State
       withdraws/coin:
         id: ID
         state_and_actions: State/Action
@@ -167,21 +167,21 @@ en:
         txid: TXID
         amount: Amount
         fee: Fee
-        aasm_state_text: State
+        aasm_state: State
     bank_deposits_grid:
       columns:
         sn: SN
         created_at: At
         amount: Amount
         fee: Fee
-        aasm_state_text: State
+        aasm_state: State
     coin_deposits_grid:
       columns:
         sn: SN
         txid: Transaction ID
         created_at: At
         amount: Amount
-        aasm_state_text: State
+        aasm_state: State
         confirmations: Confirm
     withdraws_grid:
       columns:
@@ -189,7 +189,7 @@ en:
         amount: Amount
         fee: Fee
         created_at: Created at
-        done_at: Completed at
+        completed_at: Completed at
         state_text: State
     members_grid:
       columns:

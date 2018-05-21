@@ -7,13 +7,12 @@ FactoryBot.define do
     ask { Currency.find_by!(code: :btc).id }
     market { Market.find(:btcusd) }
     state :wait
-    source 'Web'
     ord_type 'limit'
     price { '1'.to_d }
     volume { '1'.to_d }
-    origin_volume { volume }
+    origin_volume { volume.to_d }
     locked { price.to_d * volume.to_d }
-    origin_locked { locked }
+    origin_locked { locked.to_d }
     member { create(:member) }
   end
 
@@ -22,13 +21,12 @@ FactoryBot.define do
     ask { Currency.find_by!(code: :btc).id }
     market { Market.find(:btcusd) }
     state :wait
-    source 'Web'
     ord_type 'limit'
     price { '1'.to_d }
     volume { '1'.to_d }
-    origin_volume { volume }
-    locked { volume }
-    origin_locked { locked }
+    origin_volume { volume.to_d }
+    locked { volume.to_d }
+    origin_locked { locked.to_d }
     member { create(:member) }
   end
 end

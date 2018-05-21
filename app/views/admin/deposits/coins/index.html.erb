@@ -21,7 +21,7 @@
       <span class="badge"><%= x.confirmations %></span>
     <% end %>
     <% t.column :state_and_actions do |x| %>
-      <span><%= x.aasm_state_text %></span>
+      <span><%= x.aasm_state.humanize %></span>
       <% if x.may_accept? %>
         <span> / </span>
         <%= link_to t('admin.deposits.coins.index.accept'),

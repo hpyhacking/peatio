@@ -174,13 +174,6 @@ describe APIv2::Orders, type: :request do
       end.to change(OrderBid, :count).by(1)
     end
 
-    it 'should set order source to APIv2' do
-      member.get_account(:usd).update_attributes(balance: 100_000)
-      api_post '/api/v2/orders', token: token, params: { market: 'btcusd', side: 'buy', volume: '12.13', price: '2014' }
-      expect(response).to be_success
-      expect(OrderBid.last.source).to eq 'APIv2'
-    end
-
     it 'should return cannot lock funds error' do
       old_count = OrderAsk.count
       api_post '/api/v2/orders', token: token, params: { market: 'btcusd', side: 'sell', volume: '12.13', price: '2014' }

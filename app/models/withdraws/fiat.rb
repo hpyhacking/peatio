@@ -8,27 +8,33 @@ module Withdraws
 end
 
 # == Schema Information
-# Schema version: 20180501141718
+# Schema version: 20180517101842
 #
 # Table name: withdraws
 #
-#  id          :integer          not null, primary key
-#  account_id  :integer
-#  member_id   :integer
-#  currency_id :integer
-#  amount      :decimal(32, 16)
-#  fee         :decimal(32, 16)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  done_at     :datetime
-#  txid        :string(128)
-#  aasm_state  :string
-#  sum         :decimal(32, 16)  default(0.0), not null
-#  type        :string(255)
-#  tid         :string(64)       not null
-#  rid         :string(64)       not null
+#  id           :integer          not null, primary key
+#  account_id   :integer          not null
+#  member_id    :integer          not null
+#  currency_id  :integer          not null
+#  amount       :decimal(32, 16)  not null
+#  fee          :decimal(32, 16)  not null
+#  txid         :string(128)
+#  aasm_state   :string(30)       not null
+#  sum          :decimal(32, 16)  not null
+#  type         :string(30)       not null
+#  tid          :string(64)       not null
+#  rid          :string(64)       not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  completed_at :datetime
 #
 # Indexes
 #
-#  index_withdraws_on_currency_id  (currency_id)
+#  index_withdraws_on_aasm_state            (aasm_state)
+#  index_withdraws_on_account_id            (account_id)
+#  index_withdraws_on_currency_id           (currency_id)
+#  index_withdraws_on_currency_id_and_txid  (currency_id,txid) UNIQUE
+#  index_withdraws_on_member_id             (member_id)
+#  index_withdraws_on_tid                   (tid)
+#  index_withdraws_on_type                  (type)
 #

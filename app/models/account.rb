@@ -2,7 +2,8 @@
 # frozen_string_literal: true
 
 class Account < ActiveRecord::Base
-  include Currencible
+  include BelongsToCurrency
+  include BelongsToMember
 
   FIX = :fix
   UNKNOWN = :unknown
@@ -21,13 +22,12 @@ class Account < ActiveRecord::Base
 
   FUNS = {:unlock_funds => 1, :lock_funds => 2, :plus_funds => 3, :sub_funds => 4, :unlock_and_sub_funds => 5}
 
-  belongs_to :member
   has_many :payment_addresses, -> { order(id: :asc) }
-  has_many :versions, class_name: "::AccountVersion"
+  has_many :versions, -> { order(id: :asc) }, class_name: 'AccountVersion'
   has_many :partial_trees, -> { order(id: :desc) }
 
-  validates :member_id, uniqueness: { scope: :currency }
-  validates_numericality_of :balance, :locked, greater_than_or_equal_to: ZERO
+  validates :member_id, uniqueness: { scope: :currency_id }
+  validates :balance, :locked, numericality: { greater_than_or_equal_to: 0.to_d }
 
   scope :enabled, -> { joins(:currency).merge(Currency.where(visible: true)) }
 
@@ -144,12 +144,11 @@ class Account < ActiveRecord::Base
   end
 
   def trigger
-    return unless member
-
-    json = Jbuilder.encode do |json|
-      json.(self, :balance, :locked, :currency)
-    end
-    member.trigger('account', json)
+    AMQPQueue.enqueue(:pusher_member, member_id: member.id, event: 'account', data: {
+      balance:  balance.to_s('F'),
+      locked:   locked.to_s('F'),
+      currency: currency
+    })
   end
 
   def change_balance_and_locked(delta_b, delta_l)
@@ -160,16 +159,12 @@ class Account < ActiveRecord::Base
     self
   end
 
-  scope :locked_sum, -> (currency) { with_currency(currency).sum(:locked) }
-  scope :balance_sum, -> (currency) { with_currency(currency).sum(:balance) }
-
   class AccountError < RuntimeError; end
   class LockedError < AccountError; end
-  class BalanceError < AccountError; end
 
   def as_json(*)
     super.merge! \
-      deposit_address: payment_address&.deposit_address,
+      deposit_address: payment_address&.address,
       currency:        currency.code
   end
 
@@ -187,21 +182,21 @@ class Account < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180406080444
+# Schema version: 20180516110336
 #
 # Table name: accounts
 #
 #  id          :integer          not null, primary key
-#  member_id   :integer
-#  currency_id :integer
-#  balance     :decimal(32, 16)
-#  locked      :decimal(32, 16)
-#  created_at  :datetime
-#  updated_at  :datetime
+#  member_id   :integer          not null
+#  currency_id :integer          not null
+#  balance     :decimal(32, 16)  default(0.0), not null
+#  locked      :decimal(32, 16)  default(0.0), not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 # Indexes
 #
 #  index_accounts_on_currency_id                (currency_id)
+#  index_accounts_on_currency_id_and_member_id  (currency_id,member_id) UNIQUE
 #  index_accounts_on_member_id                  (member_id)
-#  index_accounts_on_member_id_and_currency_id  (member_id,currency_id)
 #

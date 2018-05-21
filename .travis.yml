@@ -36,6 +36,7 @@ before_install:
   - nvm use 8
   - npm i -g yarn
   - docker login -u peatioexchange -p $DOCKERHUB_PASSWORD || true # Don't let the build fail in case of broken authentication in Docker Hub.
+  - ./bin/init_config
 
 # Execute all of the commands which should install application dependencies.
 install:
@@ -45,11 +46,10 @@ install:
   - docker pull peatioexchange/peatio:latest || true # In case image doesn't exist.
   - docker pull rubykube/peatio-trading-ui:1.7.0
   - docker run -d -p 4000:3000 -e "RAILS_ENV=production" -e "SECRET_KEY_BASE=secret" -e "PLATFORM_ROOT_URL=http://peatio.local" -e "RAILS_SERVE_STATIC_FILES=1" --add-host=peatio.local:$(ip addr show eth0 | grep -Po 'inet \K[\d.]+') --name=peatio-trading-ui rubykube/peatio-trading-ui:1.7.0
+  - ./bin/install_plugins
 
 # Execute all of the commands which need to be executed before running actual tests.
 before_script:
-  - ./bin/init_config
-  - ./bin/install_plugins
   - bundle exec rake db:create db:migrate
   - sudo cp ./ci/nginx/server.conf /etc/nginx/sites-enabled/default
   - sudo nginx -s stop && sudo nginx

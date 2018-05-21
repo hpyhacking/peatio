@@ -48,7 +48,6 @@ module APIv2
       klass = attrs[:side] == 'sell' ? OrderAsk : OrderBid
 
       order = klass.new(
-        source:        'APIv2',
         state:         ::Order::WAIT,
         member_id:     current_user.id,
         ask:           Currency.find_by!(code: current_market.base_unit).id,

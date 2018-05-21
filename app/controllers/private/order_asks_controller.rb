@@ -16,5 +16,9 @@ module Private
       render status: 200, nothing: true
     end
 
+    def currency
+      "#{params[:ask]}#{params[:bid]}".to_sym
+    end
+
   end
 end

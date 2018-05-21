@@ -2,27 +2,22 @@
 # frozen_string_literal: true
 
 class Trade < ActiveRecord::Base
+  include BelongsToMarket
+  extend Enumerize
   ZERO = '0.0'.to_d
 
-  extend Enumerize
-  enumerize :trend, in: {:up => 1, :down => 0}
+  enumerize :trend, in: { up: 1, down: 0 }
 
-  belongs_to :market, class_name: 'Market'
-  belongs_to :ask, class_name: 'OrderAsk', foreign_key: 'ask_id'
-  belongs_to :bid, class_name: 'OrderBid', foreign_key: 'bid_id'
+  belongs_to :ask, class_name: 'OrderAsk', foreign_key: :ask_id, required: true
+  belongs_to :bid, class_name: 'OrderBid', foreign_key: :bid_id, required: true
+  belongs_to :ask_member, class_name: 'Member', foreign_key: :ask_member_id, required: true
+  belongs_to :bid_member, class_name: 'Member', foreign_key: :bid_member_id, required: true
 
-  belongs_to :ask_member, class_name: 'Member', foreign_key: 'ask_member_id'
-  belongs_to :bid_member, class_name: 'Member', foreign_key: 'bid_member_id'
+  validates :price, :volume, :funds, numericality: { greater_than_or_equal_to: 0.to_d }
 
-  validates_presence_of :price, :volume, :funds, :bid_member, :ask_member
-
-  scope :h24, -> { where("created_at > ?", 24.hours.ago) }
+  scope :h24, -> { where('created_at > ?', 24.hours.ago) }
 
   attr_accessor :side
-
-  alias_method :sn, :id
-
-  scope :with_market, -> (market) { where(market: Market === market ? market : Market.find(market)) }
 
   after_commit on: :create do
     EventAPI.notify ['market', market_id, 'trade_completed'].join('.'), \
@@ -31,8 +26,7 @@ class Trade < ActiveRecord::Base
 
   class << self
     def latest_price(market)
-      with_market(market).order(:id).reverse_order
-        .limit(1).first.try(:price) || "0.0".to_d
+      with_market(market).order(id: :desc).select(:price).first.try(:price) || 0.to_d
     end
 
     def filter(market, timestamp, from, to, limit, order)
@@ -44,8 +38,8 @@ class Trade < ActiveRecord::Base
       trades
     end
 
-    def for_member(currency, member, options={})
-      trades = filter(currency, options[:time_to], options[:from], options[:to], options[:limit], options[:order]).where("ask_member_id = ? or bid_member_id = ?", member.id, member.id)
+    def for_member(market, member, options={})
+      trades = filter(market, options[:time_to], options[:from], options[:to], options[:limit], options[:order]).where("ask_member_id = ? or bid_member_id = ?", member.id, member.id)
       trades.each do |trade|
         trade.side = trade.ask_member_id == member.id ? 'ask' : 'bid'
       end
@@ -53,56 +47,51 @@ class Trade < ActiveRecord::Base
   end
 
   def trigger_notify
-    ask.member.notify 'trade', for_notify('ask')
-    bid.member.notify 'trade', for_notify('bid')
+    Pusher["private-#{ask.member.sn}"].trigger_async('trade', for_notify('ask'))
+    Pusher["private-#{bid.member.sn}"].trigger_async('trade', for_notify('bid'))
   end
 
   def for_notify(kind=nil)
-    {
-      id:     id,
+    { id:     id,
       kind:   kind || side,
       at:     created_at.to_i,
       price:  price.to_s  || ZERO,
       volume: volume.to_s || ZERO,
-      market: market
-    }
+      market: market }
   end
 
   def for_global
-    {
-      tid:    id,
+    { tid:    id,
       type:   trend == 'down' ? 'sell' : 'buy',
       date:   created_at.to_i,
       price:  price.to_s || ZERO,
-      amount: volume.to_s || ZERO
-    }
+      amount: volume.to_s || ZERO }
   end
 end
 
 # == Schema Information
-# Schema version: 20180329154130
+# Schema version: 20180516133138
 #
 # Table name: trades
 #
 #  id            :integer          not null, primary key
-#  price         :decimal(32, 16)
-#  volume        :decimal(32, 16)
-#  ask_id        :integer
-#  bid_id        :integer
-#  trend         :integer
-#  market_id     :string(10)
-#  created_at    :datetime
-#  updated_at    :datetime
-#  ask_member_id :integer
-#  bid_member_id :integer
-#  funds         :decimal(32, 16)
+#  price         :decimal(32, 16)  not null
+#  volume        :decimal(32, 16)  not null
+#  ask_id        :integer          not null
+#  bid_id        :integer          not null
+#  trend         :integer          not null
+#  market_id     :string(10)       not null
+#  ask_member_id :integer          not null
+#  bid_member_id :integer          not null
+#  funds         :decimal(32, 16)  not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 # Indexes
 #
-#  index_trades_on_ask_id         (ask_id)
-#  index_trades_on_ask_member_id  (ask_member_id)
-#  index_trades_on_bid_id         (bid_id)
-#  index_trades_on_bid_member_id  (bid_member_id)
-#  index_trades_on_created_at     (created_at)
-#  index_trades_on_market_id      (market_id)
+#  index_trades_on_ask_id                           (ask_id)
+#  index_trades_on_ask_member_id_and_bid_member_id  (ask_member_id,bid_member_id)
+#  index_trades_on_bid_id                           (bid_id)
+#  index_trades_on_market_id                        (market_id)
+#  index_trades_on_market_id_and_created_at         (market_id,created_at)
 #

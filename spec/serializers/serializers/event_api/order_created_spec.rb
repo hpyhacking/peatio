@@ -11,7 +11,6 @@ describe Serializers::EventAPI::OrderCreated do
       ask:           Currency.find_by!(code: :btc).id,
       market:        Market.find(:btcusd),
       state:         :wait,
-      source:        'Web',
       ord_type:      :limit,
       price:         '0.03'.to_d,
       volume:        '14.0',

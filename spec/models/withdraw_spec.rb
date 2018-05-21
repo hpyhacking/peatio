@@ -35,7 +35,8 @@ describe Withdraw do
 
   context 'coin withdraw' do
     describe '#audit!' do
-      subject { create(:btc_withdraw) }
+      subject { create(:btc_withdraw, sum: sum) }
+      let(:sum) { 10.to_d }
       before { subject.submit! }
 
       it 'should be rejected if address is invalid' do
@@ -86,11 +87,13 @@ describe Withdraw do
         expect(subject).to be_suspected
       end
 
-      it 'should approve quick withdraw directly' do
-        CoinAPI.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: true }))
-        subject.update_attributes sum: '0.099'
-        subject.audit!
-        expect(subject).to be_processing
+      context 'sum less than quick withdraw limit' do
+        let(:sum) { '0.099'.to_d }
+        it 'should approve quick withdraw directly' do
+          CoinAPI.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: true }))
+          subject.audit!
+          expect(subject).to be_processing
+        end
       end
     end
 
@@ -270,7 +273,7 @@ describe Withdraw do
     before { Currency.any_instance.expects(:withdraw_fee).once.returns(200) }
     it 'fails validation' do
       expect(withdraw.save).to eq false
-      expect(withdraw.errors.full_messages).to eq ['Amount must be greater than 0']
+      expect(withdraw.errors.full_messages).to eq ['Amount must be greater than 0.0']
     end
   end
 

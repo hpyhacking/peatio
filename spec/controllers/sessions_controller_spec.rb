@@ -66,6 +66,9 @@ describe SessionsController, type: :controller do
 
       it 'should successfully destroy a session' do
         post :create, provider: provider
+        # Since in specs controller instance remains the same we need to unmemoize all cached values.
+        # See https://github.com/matthewrudy/memoist#reload
+        controller.flush_cache
         post :destroy
         expect(session[:member_id]).to be_nil
       end

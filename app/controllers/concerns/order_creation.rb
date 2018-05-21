@@ -12,9 +12,8 @@ module Concerns
       params[order][:market_id] = params[:market]
       params[order][:member_id] = current_user.id
       params[order][:volume] = params[order][:origin_volume]
-      params[order][:source] = 'Web'
       params.require(order).permit(
-        :bid, :ask, :market_id, :price, :source,
+        :bid, :ask, :market_id, :price,
         :state, :origin_volume, :volume, :member_id, :ord_type)
     end
 

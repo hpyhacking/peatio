@@ -57,7 +57,7 @@ describe CoinAPI::ERC20 do
     end
 
     before do
-      create(:payment_address, currency: client.currency, address: '0x42eb768f2244c8811c63729a21a3569731535f06')
+      create(:payment_address, currency: client.currency, account: create_account(:trst), address: '0x42eb768f2244c8811c63729a21a3569731535f06')
       stub_request(:post, 'http://127.0.0.1:8545/').with(body: request_body).to_return(body: response_body)
     end
     it 'returns balance' do

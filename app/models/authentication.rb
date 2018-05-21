@@ -2,44 +2,44 @@
 # frozen_string_literal: true
 
 class Authentication < ActiveRecord::Base
-  belongs_to :member, required: true
+  include BelongsToMember
 
-  validates :provider, presence: true, uniqueness: { scope: :member_id }
-  validates :uid,      presence: true, uniqueness: { scope: :provider }
+  validates :provider, :uid, presence: true
+  validates :member_id, uniqueness: { scope: :provider }
+  validates :uid,       uniqueness: { scope: :provider }
 
   scope :barong, -> { where(provider: :barong) }
 
   class << self
     def locate(auth)
-      uid      = auth['uid'].to_s
-      provider = auth['provider']
-      find_by_provider_and_uid(provider, uid)
+      find_by_provider_and_uid(auth['provider'], auth['uid'])
     end
 
-    def build_auth(auth)
+    def from_omniauth_data(data)
       new \
-        uid:      auth['uid'],
-        provider: auth['provider'],
-        token:    auth.dig('credentials', 'token')
+        uid:      data['uid'],
+        provider: data['provider'],
+        token:    data.dig('credentials', 'token')
     end
   end
 end
 
 # == Schema Information
-# Schema version: 20180216145412
+# Schema version: 20180516105035
 #
 # Table name: authentications
 #
 #  id         :integer          not null, primary key
-#  provider   :string(255)
-#  uid        :string(255)
-#  token      :text(65535)
-#  member_id  :integer
-#  created_at :datetime
-#  updated_at :datetime
+#  provider   :string(30)       not null
+#  uid        :string(255)      not null
+#  token      :string(1024)
+#  member_id  :integer          not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 # Indexes
 #
-#  index_authentications_on_member_id         (member_id)
-#  index_authentications_on_provider_and_uid  (provider,uid)
+#  index_authentications_on_member_id               (member_id)
+#  index_authentications_on_provider_and_member_id  (provider,member_id) UNIQUE
+#  index_authentications_on_provider_and_uid        (provider,uid) UNIQUE
 #

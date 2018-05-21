@@ -109,21 +109,14 @@ class Currency < ActiveRecord::Base
   end
 
   def summary
-    locked = Account.locked_sum(code)
-    balance = Account.balance_sum(code)
-    sum = locked + balance
-
-    coinable = coin?
-    hot = coinable ? balance : nil
-
-    {
-      name: code.upcase,
-      sum: sum,
-      balance: balance,
-      locked: locked,
-      coinable: coinable,
-      hot: hot
-    }
+    locked  = Account.with_currency(code).sum(:locked)
+    balance = Account.with_currency(code).sum(:balance)
+    { name:     code.upcase,
+      sum:      locked + balance,
+      balance:  balance,
+      locked:   locked,
+      coinable: coin?,
+      hot:      coin? ? balance : nil }
   end
 
   class << self

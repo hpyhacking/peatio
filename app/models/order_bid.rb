@@ -2,23 +2,19 @@
 # frozen_string_literal: true
 
 class OrderBid < Order
-
-  has_many :trades, foreign_key: 'bid_id'
-
-  scope :matching_rule, -> { order('price DESC, created_at ASC') }
+  has_many :trades, foreign_key: :bid_id
+  scope :matching_rule, -> { order(price: :desc, created_at: :asc) }
 
   def get_account_changes(trade)
     [trade.funds, trade.volume]
   end
 
   def hold_account
-    currency = Currency.find(bid)
-    member.get_account(currency.code)
+    member.get_account(bid)
   end
 
   def expect_account
-    currency = Currency.find(ask)
-    member.get_account(currency.code)
+    member.get_account(ask)
   end
 
   def avg_price
@@ -40,36 +36,35 @@ class OrderBid < Order
 end
 
 # == Schema Information
-# Schema version: 20180417175453
+# Schema version: 20180516133138
 #
 # Table name: orders
 #
 #  id             :integer          not null, primary key
-#  bid            :integer
-#  ask            :integer
-#  market_id      :string(10)
+#  bid            :integer          not null
+#  ask            :integer          not null
+#  market_id      :string(10)       not null
 #  price          :decimal(32, 16)
-#  volume         :decimal(32, 16)
-#  origin_volume  :decimal(32, 16)
+#  volume         :decimal(32, 16)  not null
+#  origin_volume  :decimal(32, 16)  not null
 #  fee            :decimal(32, 16)  default(0.0), not null
-#  state          :integer
-#  done_at        :datetime
-#  type           :string(8)
-#  member_id      :integer
-#  created_at     :datetime
-#  updated_at     :datetime
-#  sn             :string(255)
-#  source         :string           not null
-#  ord_type       :string
-#  locked         :decimal(32, 16)
-#  origin_locked  :decimal(32, 16)
+#  state          :integer          not null
+#  type           :string(8)        not null
+#  member_id      :integer          not null
+#  ord_type       :string           not null
+#  locked         :decimal(32, 16)  default(0.0), not null
+#  origin_locked  :decimal(32, 16)  default(0.0), not null
 #  funds_received :decimal(32, 16)  default(0.0)
-#  trades_count   :integer          default(0)
+#  trades_count   :integer          default(0), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 # Indexes
 #
-#  index_orders_on_market_id_and_state  (market_id,state)
-#  index_orders_on_member_id            (member_id)
-#  index_orders_on_member_id_and_state  (member_id,state)
-#  index_orders_on_state                (state)
+#  index_orders_on_member_id                     (member_id)
+#  index_orders_on_state                         (state)
+#  index_orders_on_type_and_market_id            (type,market_id)
+#  index_orders_on_type_and_member_id            (type,member_id)
+#  index_orders_on_type_and_state_and_market_id  (type,state,market_id)
+#  index_orders_on_type_and_state_and_member_id  (type,state,member_id)
 #

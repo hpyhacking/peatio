@@ -9,5 +9,4 @@ class TransferObserver < AuditObserver
       Audit::TransferAuditLog.audit!(record, current_user)
     end
   end
-
 end

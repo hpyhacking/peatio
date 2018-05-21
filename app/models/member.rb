@@ -9,14 +9,13 @@ class Member < ActiveRecord::Base
   has_many :payment_addresses, through: :accounts
   has_many :withdraws, -> { order(id: :desc) }
   has_many :deposits, -> { order(id: :desc) }
-
-  has_many :authentications, dependent: :destroy
+  has_many :authentications, dependent: :delete_all
 
   scope :enabled, -> { where(disabled: false) }
 
-  before_validation :sanitize, :assign_sn
+  before_validation :downcase_email, :assign_sn
 
-  validates :sn, presence: true, uniqueness: true
+  validates :sn,    presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true, email: true
 
   after_create  :touch_accounts
@@ -33,7 +32,7 @@ class Member < ActiveRecord::Base
           member.level    = Member::Levels.get(info_hash['level']) if info_hash.key?('level')
           member.disabled = info_hash.key?('state') && info_hash['state'] != 'active'
           member.save!
-          auth = Authentication.locate(auth_hash) || member.authentications.build_auth(auth_hash)
+          auth = Authentication.locate(auth_hash) || member.authentications.from_omniauth_data(auth_hash)
           auth.token = auth_hash.dig('credentials', 'token')
           auth.save!
         end
@@ -82,22 +81,10 @@ class Member < ActiveRecord::Base
     @is_admin ||= self.class.admins.include?(self.email)
   end
 
-  def trigger(event, data)
-    AMQPQueue.enqueue(:pusher_member, {member_id: id, event: event, data: data})
-  end
-
-  def notify(event, data)
-    ::Pusher["private-#{sn}"].trigger_async event, data
-  end
-
-  def to_s
-    "#{email} - #{sn}"
-  end
-
-  def get_account(model_or_code)
-    accounts.with_currency(model_or_code).first.yield_self do |account|
+  def get_account(model_or_id_or_code)
+    accounts.with_currency(model_or_id_or_code).first.yield_self do |account|
       touch_accounts unless account
-      accounts.with_currency(model_or_code).first
+      accounts.with_currency(model_or_id_or_code).first
     end
   end
   alias :ac :get_account
@@ -105,7 +92,7 @@ class Member < ActiveRecord::Base
   def touch_accounts
     Currency.find_each do |currency|
       next if accounts.where(currency: currency).exists?
-      accounts.create!(currency: currency, balance: 0, locked: 0)
+      accounts.create!(currency: currency)
     end
   end
 
@@ -121,12 +108,6 @@ class Member < ActiveRecord::Base
     auth(name).destroy
   end
 
-  def as_json(options = {})
-    super(options).merge({
-      "memo" => self.id
-    })
-  end
-
   def level
     self[:level].to_s.inquiry
   end
@@ -135,10 +116,10 @@ class Member < ActiveRecord::Base
     authentications.barong.first&.uid || email
   end
 
-  private
+private
 
-  def sanitize
-    self.email.try(:downcase!)
+  def downcase_email
+    self.email = email.try(:downcase)
   end
 
   def assign_sn
@@ -153,12 +134,12 @@ class Member < ActiveRecord::Base
   end
   
   def sync_update
-    ::Pusher["private-#{sn}"].trigger_async('members', { type: 'update', id: self.id, attributes: changed_attributes })
+    Pusher["private-#{sn}"].trigger_async('members', type: 'update', id: id, attributes: changed_attributes)
   end
 end
 
 # == Schema Information
-# Schema version: 20180216145412
+# Schema version: 20180516104042
 #
 # Table name: members
 #
@@ -173,5 +154,7 @@ end
 #
 # Indexes
 #
-#  index_members_on_sn  (sn) UNIQUE
+#  index_members_on_disabled  (disabled)
+#  index_members_on_email     (email) UNIQUE
+#  index_members_on_sn        (sn) UNIQUE
 #

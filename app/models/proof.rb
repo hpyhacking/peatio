@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class Proof < ActiveRecord::Base
-  include Currencible
+  include BelongsToCurrency
 
   has_many :partial_trees
 
@@ -11,8 +11,6 @@ class Proof < ActiveRecord::Base
 
   validates_presence_of :root, :currency
   validates_numericality_of :balance, allow_nil: true, greater_than_or_equal_to: 0
-
-  delegate :coin?, to: :currency
 
   def self.current(code)
     proofs = with_currency(code)

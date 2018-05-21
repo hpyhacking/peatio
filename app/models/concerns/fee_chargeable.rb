@@ -5,8 +5,41 @@ module FeeChargeable
   extend ActiveSupport::Concern
 
   included do
-    before_validation(on: :create) { calc_fee }
+    attr_readonly :amount, :fee
 
-    validates :fee, presence: true, numericality: { greater_than_or_equal_to: 0 }
+    validates :amount, presence: true, numericality: { greater_than: 0.to_d }
+    validates :fee,    presence: true, numericality: { greater_than_or_equal_to: 0.to_d }
+
+    if self <= Deposit
+      before_validation on: :create do
+        self.fee  ||= currency.deposit_fee
+        self.amount = amount.to_d - fee
+      end
+
+      validates :fee, numericality: { less_than: :amount }, if: -> (record) { record.amount.to_d > 0.to_d }
+    end
+
+    if self <= Withdraw
+      attr_readonly :sum
+
+      before_validation on: :create do
+        if currency && sum.present?
+          self.sum = sum.round(currency.precision, BigDecimal::ROUND_DOWN)
+        end
+
+        self.sum  ||= 0.to_d
+        self.fee  ||= currency.withdraw_fee
+        self.amount = sum - fee
+      end
+
+      validates :sum, presence: true, numericality: { greater_than: 0.to_d }
+
+      validate on: :create do
+        break if [sum, amount, fee].any?(&:blank?)
+        if sum > account.balance || (amount + fee) > sum
+          errors.add :base, -> { I18n.t('activerecord.errors.models.withdraw.account_balance_is_poor') }
+        end
+      end
+    end
   end
 end

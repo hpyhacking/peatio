@@ -3,25 +3,25 @@
 
 module Audit
   class AuditLog < ActiveRecord::Base
-    belongs_to :operator, class_name: 'Member', foreign_key: 'operator_id'
-    belongs_to :auditable, polymorphic: true
+    belongs_to :operator, class_name: 'Member'
+    belongs_to :auditable, polymorphic: true, required: true
   end
 end
 
 # == Schema Information
-# Schema version: 20180215144645
+# Schema version: 20180516105035
 #
 # Table name: audit_logs
 #
 #  id             :integer          not null, primary key
-#  type           :string(255)
+#  type           :string(30)       not null
 #  operator_id    :integer
-#  created_at     :datetime
-#  updated_at     :datetime
-#  auditable_id   :integer
-#  auditable_type :string(255)
-#  source_state   :string(255)
-#  target_state   :string(255)
+#  auditable_id   :integer          not null
+#  auditable_type :string(30)       not null
+#  source_state   :string(30)
+#  target_state   :string(30)       not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 # Indexes
 #

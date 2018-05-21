@@ -40,7 +40,7 @@ private
       elsif ENV[key]
         redirect_to ENV[key]
       else
-        redirect_back_or_settings_page
+        redirect_to settings_url
       end
     end
   end

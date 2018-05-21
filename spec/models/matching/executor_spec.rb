@@ -116,9 +116,9 @@ describe Matching::Executor do
         market_id:    market.id,
         ask_id:       ask.id,
         bid_id:       bid.id,
-        strike_price: '2.0',
-        volume:       '1.5',
-        funds:        '3.0'
+        strike_price: '2.0'.to_d,
+        volume:       '1.5'.to_d,
+        funds:        '3.0'.to_d
       )
       executor.execute!
 

@@ -28,7 +28,7 @@ ru:
         completed_at: Завершен
       withdraw:
         created_at: Создан
-        done_at: Завершен
+        completed_at: Завершен
         sum: Сумма
         fee: Коммиссия
         currency: Валюта

@@ -2,13 +2,9 @@
 # frozen_string_literal: true
 
 class PartialTree < ActiveRecord::Base
-
-  belongs_to :account
-  belongs_to :proof
-
+  include BelongsToAccount
+  belongs_to :proof, required: true
   serialize :json, JSON
-  validates_presence_of :proof_id, :account_id, :json
-
 end
 
 # == Schema Information

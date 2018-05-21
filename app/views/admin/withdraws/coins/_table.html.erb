@@ -14,7 +14,7 @@
     <code class="text-info"><%= x.amount %></code>
   <% end %>
   <% t.column :state_and_action do |x| %>
-    <span><%= x.aasm_state_text %> / </span>
+    <span><%= x.aasm_state.humanize %> / </span>
     <%= link_to t('actions.view'), admin_withdraw_path(currency: x.currency.code, id: x), target: '_blank' %>
   <% end %>
 <% end %>

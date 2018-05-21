@@ -27,7 +27,7 @@ describe Deposit do
     let(:deposit) { build(:deposit_usd, member: member, amount: amount, currency: currency) }
     it 'fails validation' do
       expect(deposit.save).to eq false
-      expect(deposit.errors.full_messages).to eq ['Amount must be greater than 0']
+      expect(deposit.errors.full_messages).to eq ['Amount must be greater than 0.0']
     end
   end
 

@@ -19,7 +19,7 @@ module APIv2
     get "/deposits" do
       deposits = current_user.deposits.limit(params[:limit]).recent
       deposits = deposits.with_currency(params[:currency]) if params[:currency]
-      deposits = deposits.with_aasm_state(params[:state]) if params[:state].present?
+      deposits = deposits.where(aasm_state: params[:state]) if params[:state].present?
       present deposits, with: APIv2::Entities::Deposit
     end
 

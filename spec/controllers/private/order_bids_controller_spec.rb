@@ -25,11 +25,6 @@ describe Private::OrderBidsController, type: :controller do
         expect(response.body).to eq '{"result":true,"message":"Success"}'
       end.to change(OrderBid, :count).by(1)
     end
-
-    it 'should set order source to Web' do
-      post :create, params, member_id: member.id
-      expect(assigns(:order).source).to eq 'Web'
-    end
   end
 
   context 'POST :clear' do

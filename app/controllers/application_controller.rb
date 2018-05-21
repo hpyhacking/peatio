@@ -3,38 +3,31 @@
 
 class ApplicationController < ActionController::Base
   include SessionUtils
+  extend Memoist
+
   protect_from_forgery with: :exception
 
   helper_method :current_user, :is_admin?, :current_market, :gon
-  before_action :set_language, :set_timezone, :set_gon
-  after_action :allow_iframe
+  before_action :set_language, :set_gon
+  around_action :share_user
 
-  private
-
-  def currency
-    "#{params[:ask]}#{params[:bid]}".to_sym
-  end
+private
 
   def current_market
-    @current_market ||= Market.find_by(id: params[:market]) || Market.find_by(id: cookies[:market_id]) || Market.first
+    unless params[:market].blank?
+      Market.find_by_id(params[:market])
+    end || Market.first
   end
-
-  def redirect_back_or_settings_page
-    if cookies[:redirect_to].present?
-      redirect_to URI.parse(cookies[:redirect_to]).path
-      cookies[:redirect_to] = nil
-    else
-      redirect_to settings_path
-    end
-  end
+  memoize :current_market
 
   def current_user
-    @current_user ||= Member.current = Member.enabled.where(id: session[:member_id]).first
+    return if session[:member_id].blank?
+    Member.enabled.find_by_id(session[:member_id])
   end
+  memoize :current_user
 
   def auth_member!
     unless current_user
-      set_redirect_to
       redirect_to root_path, alert: t('activations.new.login_required')
     end
   end
@@ -50,15 +43,11 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_admin!
-    redirect_to main_app.root_path unless is_admin?
+    redirect_to root_path unless is_admin?
   end
 
   def is_admin?
     current_user&.admin?
-  end
-
-  def set_timezone
-    Time.zone = ENV['TIMEZONE'] if ENV['TIMEZONE']
   end
 
   def set_gon
@@ -165,10 +154,6 @@ class ApplicationController < ActionController::Base
     gon.bank_details_html = ENV['BANK_DETAILS_HTML']
   end
 
-  def allow_iframe
-    response.headers.except! 'X-Frame-Options' if Rails.env.development?
-  end
-
   def set_language
     cookies[:lang] = params[:lang] unless params[:lang].blank?
     cookies[:lang].tap do |locale|
@@ -176,10 +161,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_redirect_to
-    if request.get?
-      uri = URI(request.url)
-      cookies[:redirect_to] = "#{uri.path}?#{uri.query}"
-    end
+  def share_user
+    Member.current = current_user
+    yield
+  ensure
+    # http://stackoverflow.com/questions/2513383/access-current-user-in-model
+    # To address the thread variable leak issues in Puma/Thin webserver
+    Member.current = nil
   end
 end

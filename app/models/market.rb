@@ -103,7 +103,7 @@ class Market < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180501141718
+# Schema version: 20180517101842
 #
 # Table name: markets
 #

@@ -9,7 +9,9 @@
         <%= description_for :withdraw do %>
           <%= item_for @withdraw, :id %>
           <%= item_for @withdraw, :created_at %>
-          <%= item_for @withdraw, :aasm_state_text %>
+          <%= item_for @withdraw, 'State' do %>
+            <%= @withdraw.aasm_state.humanize %>
+          <% end %>
           <hr class="split">
           <%= item_for @withdraw.member, :email %>
           <%= item_for @withdraw, 'Recipient ID' do %>
