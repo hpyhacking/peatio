@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.8.10
+**Version:** 1.8.11
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -115,7 +115,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | The account to which you want to deposit. Available values: usd, btc, xrp, bch, ltc, dash, eth, trst, USD, BTC, XRP, BCH, LTC, DASH, ETH, TRST | Yes | string |
+| currency | query | The account to which you want to deposit. Available values: btc, xrp, bch, ltc, dash, eth, trst, BTC, XRP, BCH, LTC, DASH, ETH, TRST | Yes | string |
 
 **Responses**
 
