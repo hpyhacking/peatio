@@ -21,9 +21,7 @@ module Private
     helper_method :currency_icon_url
 
     def gen_address
-      current_user.accounts.each do |account|
-        account.payment_address&.enqueue_address_generation
-      end
+      current_user.accounts.each(&:payment_address)
       render nothing: true
     end
   end

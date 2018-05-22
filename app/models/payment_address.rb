@@ -26,6 +26,7 @@ class PaymentAddress < ActiveRecord::Base
     if address.blank? && currency.coin?
       AMQPQueue.enqueue(:deposit_coin_address, { account_id: account.id }, { persistent: true })
     end
+    self
   end
 end
 

@@ -6,9 +6,7 @@ module Private
     before_action :auth_verified!
 
     def gen_address
-      current_user.get_account(currency).tap do |account|
-        account.payment_address&.enqueue_address_generation
-      end
+      current_user.ac(currency).payment_address
       head 204
     end
 

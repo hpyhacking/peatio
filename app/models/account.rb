@@ -34,9 +34,8 @@ class Account < ActiveRecord::Base
   after_commit :trigger, :sync_update
 
   def payment_address
-    if currency.coin?
-      payment_addresses.last || payment_addresses.create!(currency: currency)
-    end
+    return unless currency.coin?
+    payment_addresses.last&.enqueue_address_generation || payment_addresses.create!(currency: currency)
   end
 
   def self.after(*names)
