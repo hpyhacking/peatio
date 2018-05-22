@@ -19,7 +19,6 @@ module ManagementAPIv1
 
     rescue_from ManagementAPIv1::Exceptions::Base do |e|
       ManagementAPIv1::Mount.logger.error { e.inspect }
-      ManagementAPIv1::Mount.logger.debug { e.debug_message } unless e.debug_message.blank?
       error!(e.message, e.status, e.headers)
     end
 

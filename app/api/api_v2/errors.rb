@@ -29,6 +29,12 @@ module APIv2
       @status  = opts[:status] || 400
       @message = {error: {code: @code, message: @text}}
     end
+
+    def inspect
+      message  = @text
+      message += " (#{@reason})" if @reason.present?
+      %[#<#{self.class.name}: #{message}>]
+    end
   end
 
   class AuthorizationError < Error
