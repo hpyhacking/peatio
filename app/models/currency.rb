@@ -24,7 +24,7 @@ class Currency < ActiveRecord::Base
   before_validation { self.deposit_fee = 0 unless fiat? }
 
   before_validation do
-    next unless code&.bch? && bitgo_wallet_address?
+    next unless supports_cash_addr_format? && bitgo_wallet_address?
     self.bitgo_wallet_address = CashAddr::Converter.to_legacy_address(bitgo_wallet_address)
   end
 
@@ -145,7 +145,8 @@ class Currency < ActiveRecord::Base
     :wallet_url_template,
     :transaction_url_template,
     :erc20_contract_address,
-    :case_sensitive
+    :case_sensitive,
+    :supports_cash_addr_format
 
   def deposit_confirmations
     options['deposit_confirmations'].to_i

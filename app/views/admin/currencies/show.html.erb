@@ -37,6 +37,8 @@
             <% end %>
             <dt>Visible?</dt>
             <dd><%= f.check_box :visible %></dd>
+            <dt>Supports CashAddr format?</dt>
+            <dd><%= f.check_box :supports_cash_addr_format %></dd>
             <dt>Base factor</dt>
             <dd><%= f.number_field :base_factor, class: 'form-control' %></dd>
             <dt>Precision</dt>

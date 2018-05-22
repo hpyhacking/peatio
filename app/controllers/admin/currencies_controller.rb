@@ -63,7 +63,8 @@ module Admin
                     :wallet_url_template,
                     :transaction_url_template,
                     :case_sensitive,
-                    :erc20_contract_address
+                    :erc20_contract_address,
+                    :supports_cash_addr_format
     end
   end
 end

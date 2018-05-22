@@ -296,4 +296,43 @@ describe Withdraw do
     record = create(:btc_withdraw)
     expect(record.tid).to eq record.tid.upcase
   end
+
+  context 'CashAddr' do
+    let(:member) { create(:member) }
+    let(:account) { member.ac(:bch).tap { |x| x.update!(balance: 1.0.to_d) } }
+    let :record do
+      Withdraws::Coin.new \
+        currency: Currency.find_by_code!(:bch),
+        member:   member,
+        rid:      address,
+        sum:      1.0.to_d,
+        account:  account
+    end
+
+    context 'valid CashAddr address' do
+      let(:address) { 'bitcoincash:qqkv9wr69ry2p9l53lxp635va4h86wv435995w8p2h' }
+      it { expect(record.save).to eq true }
+    end
+
+    context 'invalid CashAddr address' do
+      let(:address) { 'bitcoincash::qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a' }
+      it do
+        expect(record.save).to eq false
+        expect(record.errors.full_messages).to include 'Rid is invalid'
+      end
+    end
+
+    context 'valid legacy address' do
+      let(:address) { '155fzsEBHy9Ri2bMQ8uuuR3tv1YzcDywd4' }
+      it { expect(record.save).to eq true }
+    end
+
+    context 'invalid legacy address' do
+      let(:address) { '155fzsEBHy9Ri2bMQ8uuuR3tv1YzcDywd400' }
+      it do
+        expect(record.save).to eq false
+        expect(record.errors.full_messages).to include 'Rid is invalid'
+      end
+    end
+  end
 end

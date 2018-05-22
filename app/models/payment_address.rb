@@ -13,7 +13,7 @@ class PaymentAddress < ActiveRecord::Base
   serialize :details, JSON
 
   before_validation do
-    next unless currency&.code&.bch? && address?
+    next unless currency&.supports_cash_addr_format? && address?
     self.address = CashAddr::Converter.to_legacy_address(address)
   end
 
