@@ -38,33 +38,49 @@ module Admin
       end
     end
 
-    private
+  private
+
     def currency_params
-      params.require(:currency)
-            .permit :code,
-                    :symbol,
-                    :type,
-                    :quick_withdraw_limit,
-                    :withdraw_fee,
-                    :deposit_fee,
-                    :deposit_confirmations,
-                    :visible,
-                    :base_factor,
-                    :precision,
-                    :api_client,
-                    :json_rpc_endpoint,
-                    :rest_api_endpoint,
-                    :bitgo_test_net,
-                    :bitgo_wallet_id,
-                    :bitgo_wallet_address,
-                    :bitgo_wallet_passphrase,
-                    :bitgo_rest_api_root,
-                    :bitgo_rest_api_access_token,
-                    :wallet_url_template,
-                    :transaction_url_template,
-                    :case_sensitive,
-                    :erc20_contract_address,
-                    :supports_cash_addr_format
+      params.require(:currency).permit(permitted_currency_attributes).tap do |params|
+        boolean_currency_attributes.each do |param|
+          next unless params.key?(param)
+          params[param] = params[param].in?(['1', 'true', true])
+        end
+      end
+    end
+
+    def permitted_currency_attributes
+      [ :code,
+        :symbol,
+        :type,
+        :quick_withdraw_limit,
+        :withdraw_fee,
+        :deposit_fee,
+        :deposit_confirmations,
+        :visible,
+        :base_factor,
+        :precision,
+        :api_client,
+        :json_rpc_endpoint,
+        :rest_api_endpoint,
+        :bitgo_test_net,
+        :bitgo_wallet_id,
+        :bitgo_wallet_address,
+        :bitgo_wallet_passphrase,
+        :bitgo_rest_api_root,
+        :bitgo_rest_api_access_token,
+        :wallet_url_template,
+        :transaction_url_template,
+        :case_sensitive,
+        :erc20_contract_address,
+        :supports_cash_addr_format ]
+    end
+
+    def boolean_currency_attributes
+      %i[ visible
+          case_sensitive
+          supports_cash_addr_format
+          bitgo_test_net ]
     end
   end
 end

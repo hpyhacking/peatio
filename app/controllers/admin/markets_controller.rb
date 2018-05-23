@@ -39,10 +39,29 @@ module Admin
     end
 
   private
+
     def market_params
-      params.require(:trading_pair)
-            .except(:id)
-            .permit(:bid_unit, :bid_fee, :bid_precision, :ask_unit, :ask_fee, :ask_precision, :visible, :position)
+      params.require(:trading_pair).except(:id).permit(permitted_market_attributes).tap do |params|
+        boolean_market_attributes.each do |param|
+          next unless params.key?(param)
+          params[param] = params[param].in?(['1', 'true', true])
+        end
+      end
+    end
+
+    def permitted_market_attributes
+      [ :bid_unit,
+        :bid_fee,
+        :bid_precision,
+        :ask_unit,
+        :ask_fee,
+        :ask_precision,
+        :visible,
+        :position ]
+    end
+
+    def boolean_market_attributes
+      %i[ visible ]
     end
   end
 end
