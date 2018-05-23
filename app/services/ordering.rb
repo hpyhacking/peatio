@@ -38,7 +38,7 @@ class Ordering
     order.locked = order.origin_locked = order.compute_locked
     order.save!
     account = order.hold_account
-    account.lock_funds(order.locked, reason: Account::ORDER_SUBMIT, ref: order)
+    account.lock_funds(order.locked)
   end
 
   def do_cancel(order)
@@ -51,7 +51,7 @@ class Ordering
 
     if order.state == Order::WAIT
       order.state = Order::CANCEL
-      account.unlock_funds(order.locked, reason: Account::ORDER_CANCEL, ref: order)
+      account.unlock_funds(order.locked)
       order.save!
     else
       raise CancelOrderError, "Only active order can be canceled. id: #{order.id}, state: #{order.state}"

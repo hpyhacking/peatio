@@ -43,19 +43,6 @@ en:
         state_text: Status
         tx_id: TxID
         detail: Detail
-      account_version:
-        id: ID
-        locked: Forzen
-        amount: Amount
-        balance: Balance
-        reason: Reason
-        reason_text: Reason
-        modifiable_id: LINK ID
-        modifiable_type: LINK
-        created_at: Created At
-        in: Income
-        out: Expenses
-        fee: Fee
       trade:
         bid: Bid
         ask: Ask
@@ -196,76 +183,6 @@ en:
         sn: Serial number
         created_at: Created at
         actions: Actions
-    account_versions_grid:
-      columns:
-        created_at: Created at
-        balance: Balance
-        in: In
-        out: Out
-        amount: Amount
-        reason_text: Reason
-        modifiable_type: Link
-        fee: Fee
-      filters:
-        reason: Reason
-        currency: Currency
-    statistic_members_grid:
-      columns:
-        sn: Serial number
-        id: ID
-        email: Email
-        created_at: Created at
-        detail: Detail
-        action: Action
-      filters:
-        sn: Serial number
-        created_at: Created at
-    statistic_orders_grid:
-      columns:
-        id: Serial number
-        price: Price
-        volume: Volume
-        created_at: Created at
-        state_text: State
-        member_id: Member
-      filters:
-        state: State
-        currency: Currency
-        created_at: Created at
-        type: Ask/Bid
-    statistic_trades_grid:
-      columns:
-        id: ID
-        price: Price
-        volume: Volume
-        strike_amount: Amount
-        created_at: Created at
-      filters:
-        currency: Currency
-        created_at: Created at
-    statistic_deposits_grid:
-      columns:
-        member: Member
-        tx_id: TxID
-        amount: Amount
-        currency: Currency
-        created_at: Created at
-        state_text: State
-      filters:
-        currency: Currency
-        state: State
-        created_at: Created at
-    statistic_withdraws_grid:
-      columns:
-        member: Member
-        address: Adress
-        amount: Amount
-        currency: Currency
-        created_at: Created at
-        state_text: State
-      filters:
-        state: State
-        created_at: Created at
   deposits/fiat:
     aasm_state:
       canceled: canceled
@@ -382,10 +299,6 @@ en:
         create:
           notice: Withdrawal request successfully submitted. Use the info below to
             complete the bank transfer.
-    account_versions:
-      index:
-        description: Every transaction and every penny of income in Peatio are well
-          documented and exhaustive.
     assets:
       index:
         liability-proof: Proof of Liabilities
@@ -537,7 +450,6 @@ en:
         member_title: User Information
         actions_title: Action
         accounts_title: Account Information
-        account_versions_title: Records
     dashboard:
       index:
         accounts_title: Account Summary
@@ -617,21 +529,6 @@ en:
       memo: Memo
       state_and_actions: State/Action
   enumerize:
-    account_version:
-      reason:
-        fix: FIX
-        unknown: UNKNOWN
-        strike_add: TRADE PLUS
-        strike_sub: TRADE SUB
-        strike_fee: TRADE FEE
-        strike_unlock: TRADE UNLOCK
-        order_cancel: ORDER CANCEL
-        order_submit: ORDER SUBMIT
-        order_fulfilled: ORDER FULFILLED
-        deposit: DEPOSIT
-        withdraw: WITHDRAW
-        withdraw_lock: WITHDRAW LOCK
-        withdraw_unlock: WITHDRAW UNLOCK
     state:
       done: Done
       wait: Wait

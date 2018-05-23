@@ -12,14 +12,10 @@ module ManagementAPIv1
               withdraw.submit!
               # Process fiat withdraw immediately. Crypto withdraws will be processed by workers.
               if withdraw.fiat?
-                if withdraw.account.examine
-                  withdraw.accept!
-                  if withdraw.quick?
-                    withdraw.process!
-                    withdraw.success!
-                  end
-                else
-                  withdraw.suspect!
+                withdraw.accept!
+                if withdraw.quick?
+                  withdraw.process!
+                  withdraw.success!
                 end
               end
             when 'cancel'

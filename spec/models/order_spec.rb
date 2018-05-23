@@ -82,37 +82,15 @@ describe Order, '#done', type: :model do
 
     it 'order_bid done' do
       trade = mock_trade(strike_volume, strike_price)
-
-      hold_account.expects(:unlock_and_sub_funds).with(
-        strike_volume * strike_price,
-        locked: strike_volume * strike_price,
-        reason: Account::STRIKE_SUB,
-        ref: trade
-      )
-
-      expect_account.expects(:plus_funds).with(
-        strike_volume - strike_volume * bid_fee,
-        has_entries(reason: Account::STRIKE_ADD, ref: trade)
-      )
-
+      hold_account.expects(:unlock_and_sub_funds).with(strike_volume * strike_price)
+      expect_account.expects(:plus_funds).with(strike_volume - strike_volume * bid_fee)
       order_bid.strike(trade)
     end
 
     it 'order_ask done' do
       trade = mock_trade(strike_volume, strike_price)
-
-      hold_account.expects(:unlock_and_sub_funds).with(
-        strike_volume,
-        locked: strike_volume,
-        reason: Account::STRIKE_SUB,
-        ref: trade
-      )
-
-      expect_account.expects(:plus_funds).with(
-        strike_volume * strike_price - strike_volume * strike_price * ask_fee,
-        has_entries(reason: Account::STRIKE_ADD, ref: trade)
-      )
-
+      hold_account.expects(:unlock_and_sub_funds).with(strike_volume)
+      expect_account.expects(:plus_funds).with(strike_volume * strike_price - strike_volume * strike_price * ask_fee)
       order_ask.strike(trade)
     end
   end
@@ -175,25 +153,9 @@ describe Order, '#done', type: :model do
 
         it 'should unlock not used funds' do
           trade = mock_trade(strike_volume, strike_price)
-
-          hold_account.expects(:unlock_and_sub_funds).with(
-            strike_volume * strike_price,
-            locked: strike_volume * strike_price,
-            reason: Account::STRIKE_SUB,
-            ref: trade
-          )
-
-          expect_account.expects(:plus_funds).with(
-            strike_volume - strike_volume * bid_fee,
-            has_entries(reason: Account::STRIKE_ADD, ref: trade)
-          )
-
-          hold_account.expects(:unlock_funds).with(
-            strike_volume * (order.price - strike_price),
-            reason: Account::ORDER_FULFILLED,
-            ref: trade
-          )
-
+          hold_account.expects(:unlock_and_sub_funds).with(strike_volume * strike_price)
+          expect_account.expects(:plus_funds).with(strike_volume - strike_volume * bid_fee)
+          hold_account.expects(:unlock_funds).with(strike_volume * (order.price - strike_price))
           order_bid.strike(trade)
         end
       end

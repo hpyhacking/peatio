@@ -1,60 +1,8 @@
 <div class="row row-eq-height">
   <div class="col-6">
-    <%= render partial: 'shared/admin/member', locals: {member: @member} %>
+    <%= render partial: 'shared/admin/member', locals: { member: @member } %>
   </div>
 </div>
 <div class="row row-eq-height">
-  <%= render partial: 'shared/admin/member_accounts', locals: {member: @member} %>
-</div>
-
-<div class="row">
-  <div class="col-12">
-    <div class="card card-primary">
-      <div class="card-header">Accounts Log</div>
-
-      <%= table_for(@account_versions, class: 'table table-bordered table-striped', model: AccountVersion) do |t| %>
-        <% t.column :created_at, class: 'col-6' %>
-        <% t.column 'Currency', class: 'col-1' do |x| %>
-          <%= x.currency.code.upcase %>
-        <% end %>
-        <% t.column :modifiable_type, class: 'col-2' do |x| %>
-          <% if x.modifiable_type %>
-            <span><%= x.modifiable_type.constantize.model_name.human %></span>
-          <% else %>
-            <span>N/A</span>
-          <% end %>
-        <% end %>
-        <% t.column :reason_text, class: 'col-3' %>
-        <% t.column :amount, class: 'col-4' do |x| %>
-          <code class="text-info">
-            <%= x.amount %>
-          </code>
-        <% end %>
-        <% t.column :in, class: 'col-3' do |x| %>
-          <% if x.in %>
-            <code class="text-info">
-              <%= x.in %>
-            </code>
-          <% else %>
-            <span>-</span>
-          <% end %>
-        <% end %>
-        <% t.column :out, class: 'col-3' do |x| %>
-          <% if x.out %>
-            <code class="text-info">
-              <%= x.out %>
-            </code>
-          <% else %>
-            <span>-</span>
-          <% end %>
-        <% end %>
-        <% t.column :fee, class: 'col-2' do |x| %>
-          <code class="text-info">
-            <%= x.fee %>
-          </code>
-        <% end %>
-      <% end %>
-    </div>
-      <%= paginate @account_versions %>
-  </div>
+  <%= render partial: 'shared/admin/member_accounts', locals: { member: @member } %>
 </div>

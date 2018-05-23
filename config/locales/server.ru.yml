@@ -36,12 +36,6 @@ ru:
         address: Адрес
         state: Статус
         state_text: Статус
-      account_version:
-        amount: Сумма
-        reason: Причина
-        reason_text: Причина
-        in: Доход
-        fee: Комиссия
       trade:
         fee: Комиссия
         order: Ордер
@@ -85,24 +79,6 @@ ru:
       columns:
         amount: Сумма
         fee: Комиссия
-    account_versions_grid:
-      columns:
-        amount: Сумма
-        fee: Комиссия
-    statistic_orders_grid:
-      columns:
-        member_id: Участник
-    statistic_trades_grid:
-      columns:
-        strike_amount: Сумма
-    statistic_deposits_grid:
-      columns:
-        member: Участник
-        amount: Сумма
-    statistic_withdraws_grid:
-      columns:
-        member: Участник
-        amount: Сумма
   deposits/bank:
     aasm_state:
       accepted: Одобрен

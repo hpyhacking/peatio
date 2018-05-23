@@ -17,8 +17,6 @@ class Withdraw < ActiveRecord::Base
 
   acts_as_eventable prefix: 'withdraw', on: %i[create update]
 
-  has_many :account_versions, as: :modifiable
-
   before_validation(on: :create) { self.account ||= member.ac(currency) }
   before_validation { self.completed_at ||= Time.current if completed? }
 
@@ -88,12 +86,8 @@ class Withdraw < ActiveRecord::Base
 
   def audit!
     with_lock do
-      if account.examine
-        accept!
-        process! if quick? && currency.coin?
-      else
-        suspect!
-      end
+      accept!
+      process! if quick? && currency.coin?
     end
   end
 
@@ -126,18 +120,15 @@ class Withdraw < ActiveRecord::Base
 private
 
   def lock_funds
-    account.lock!
-    account.lock_funds(sum, reason: Account::WITHDRAW_LOCK, ref: self)
+    account.lock_funds(sum)
   end
 
   def unlock_funds
-    account.lock!
-    account.unlock_funds(sum, reason: Account::WITHDRAW_UNLOCK, ref: self)
+    account.unlock_funds(sum)
   end
 
   def unlock_and_sub_funds
-    account.lock!
-    account.unlock_and_sub_funds(sum, locked: sum, fee: fee, reason: Account::WITHDRAW, ref: self)
+    account.unlock_and_sub_funds(sum)
   end
 
   def send_coins!

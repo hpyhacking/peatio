@@ -19,12 +19,6 @@ describe Withdraw do
         expect(subject).to be_accepted
       end
 
-      it 'should mark withdraw with suspicious history' do
-        subject.account.versions.delete_all
-        subject.audit!
-        expect(subject).to be_suspected
-      end
-
       it 'should accept quick withdraw directly' do
         subject.update_attributes sum: 5
         subject.audit!
@@ -78,13 +72,6 @@ describe Withdraw do
         CoinAPI.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: true }))
         subject.audit!
         expect(subject).to be_accepted
-      end
-
-      it 'should mark withdraw with suspicious history' do
-        CoinAPI.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: true }))
-        subject.account.versions.delete_all
-        subject.audit!
-        expect(subject).to be_suspected
       end
 
       context 'sum less than quick withdraw limit' do
@@ -173,7 +160,6 @@ describe Withdraw do
       subject.submit!
       expect(subject.submitted?).to be true
       expect(subject.sum).to eq subject.account.locked
-      expect(subject.sum).to eq subject.account_versions.last.locked
     end
 
     it 'transitions to :rejected after calling #reject!' do

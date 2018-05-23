@@ -165,7 +165,7 @@ describe Matching::Executor do
       alice.get_account(:btc).update_attributes(locked: ::Trade::ZERO)
 
       expect do
-        expect { subject.execute! }.to raise_error(Account::LockedError)
+        expect { subject.execute! }.to raise_error(Account::AccountError)
       end.not_to change(Trade, :count)
     end
   end
