@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.8.14
+**Version:** 1.8.15
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -534,3 +534,23 @@ Member API is API which can be used by client application like SPA.
 | Code | Description |
 | ---- | ----------- |
 | 200 | Returns withdraw fees for currencies. |
+
+### /v2/pusher/auth
+---
+##### ***POST***
+**Summary:** Returns the credentials used to subscribe to private Pusher channel. IMPORTANT: Pusher events are not part of Peatio public interface. The events may be changed or removed in further releases. Use this on your own risk.
+
+**Description:** Returns the credentials used to subscribe to private Pusher channel. IMPORTANT: Pusher events are not part of Peatio public interface. The events may be changed or removed in further releases. Use this on your own risk.
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| channel_name | formData | The name of the channel being subscribed to. Example: private-SN362ECB6F7D. | Yes | string |
+| socket_id | formData | An unique identifier for the connected client. | Yes | string |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Returns the credentials used to subscribe to private Pusher channel. IMPORTANT: Pusher events are not part of Peatio public interface. The events may be changed or removed in further releases. Use this on your own risk. |
