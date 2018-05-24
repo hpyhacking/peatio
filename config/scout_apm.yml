@@ -1,0 +1,31 @@
+# This configuration file is used for Scout APM.
+# Environment variables can also be used to configure Scout.
+# See our help docs at http://help.apm.scoutapp.com#environment-variables for more information.
+# See http://help.apm.scoutapp.com/#ruby-configuration-options
+common: &defaults
+
+  # key: Your organization key for Scout APM. Found on the settings screen.
+  # - Default: none
+  key: <%= ENV['SCOUT_KEY'] %>
+
+  # Verboseness of logs.
+  # - Default: 'info'
+  # - Valid Options: debug, info, warn, error
+  log_level: <%= ENV.fetch('SCOUT_LOG_LEVEL', 'info') %>
+
+  log_file_path: stdout
+
+  # Application name in APM Web UI.
+  name: <%= ENV['SCOUT_APP_NAME'].presence || "#{ENV.fetch('URL_HOST')} (#{Rails.env})" %>
+
+  # Enable Scout APM or not.
+  monitor: <%= Rails.env.in?(ENV['SCOUT_ENV'].to_s.split(',').map(&:squish)) %>
+
+production:
+  <<: *defaults
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults

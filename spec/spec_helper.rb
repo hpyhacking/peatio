@@ -100,17 +100,6 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  if Bullet.enable?
-    config.before :each do
-      Bullet.start_request
-    end
-
-    config.after :each do
-      Bullet.perform_out_of_channel_notifications if Bullet.notification?
-      Bullet.end_request
-    end
-  end
-
   config.verbose_retry = true
   config.default_retry_count = 3
   config.display_try_failure_messages = true

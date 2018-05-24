@@ -62,12 +62,12 @@ gem 'validates_lengths_from_database', '~> 0.7.0'
 gem 'jwt-multisig', '~> 1.0.0'
 gem 'cash-addr', '~> 0.1.1', require: 'cash_addr'
 gem 'digest-sha3', '~> 1.1.0'
+gem 'scout_apm', '~> 2.4', require: false
 
 group :development, :test do
   gem 'faker',        '~> 1.8'
   gem 'pry-byebug',   '~> 3.6'
   gem 'quiet_assets', '~> 1.1'
-  gem 'bullet',       '~> 5.7'
 end
 
 group :development do
