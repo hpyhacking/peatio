@@ -17,7 +17,7 @@ class Account < ActiveRecord::Base
   validates :member_id, uniqueness: { scope: :currency_id }
   validates :balance, :locked, numericality: { greater_than_or_equal_to: 0.to_d }
 
-  scope :enabled, -> { joins(:currency).merge(Currency.where(visible: true)) }
+  scope :enabled, -> { joins(:currency).merge(Currency.where(enabled: true)) }
 
   after_commit :trigger, :sync_update
 

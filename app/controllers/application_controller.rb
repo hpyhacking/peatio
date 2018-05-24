@@ -123,7 +123,7 @@ private
       }
     }
 
-    gon.currencies = Currency.visible.inject({}) do |memo, currency|
+    gon.currencies = Currency.enabled.inject({}) do |memo, currency|
       memo[currency.code] = {
         code: currency.code,
         symbol: currency.symbol,
@@ -132,7 +132,7 @@ private
       memo
     end
     gon.display_currency = ENV.fetch('DISPLAY_CURRENCY')
-    gon.fiat_currencies = Currency.fiats.pluck(:code)
+    gon.fiat_currencies = Currency.enabled.fiats.pluck(:code)
 
     gon.tickers = {}
     Market.all.each do |market|
@@ -141,12 +141,12 @@ private
 
     if current_user
       gon.user = { sn: current_user.sn }
-      gon.accounts = current_user.accounts.inject({}) do |memo, account|
+      gon.accounts = current_user.accounts.enabled.inject({}) do |memo, account|
         memo[account.currency.code] = {
           currency: account.currency.code,
           balance: account.balance,
           locked: account.locked
-        } if account.currency.try(:visible)
+        } if account.currency.try(:enabled)
         memo
       end
     end

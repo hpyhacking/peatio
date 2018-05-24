@@ -36,15 +36,14 @@ class Currency < ActiveRecord::Base
 
   after_create { Member.find_each(&:touch_accounts) }
 
-  scope :visible, -> { where(visible: true) }
-  scope :all_with_invisible, -> { all }
+  scope :enabled, -> { where(enabled: true) }
 
   scope :coins, -> { where(type: :coin) }
   scope :fiats, -> { where(type: :fiat) }
 
   class << self
     def codes(options = {})
-      visible.pluck(:code).yield_self do |downcase_codes|
+      pluck(:code).yield_self do |downcase_codes|
         case
           when options.fetch(:bothcase, false)
             downcase_codes + downcase_codes.map(&:upcase)
@@ -166,7 +165,7 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180425224307
+# Schema version: 20180517084245
 #
 # Table name: currencies
 #
@@ -178,7 +177,7 @@ end
 #  quick_withdraw_limit :decimal(32, 16)  default(0.0), not null
 #  withdraw_fee         :decimal(32, 16)  default(0.0), not null
 #  options              :string(1000)     default({}), not null
-#  visible              :boolean          default(TRUE), not null
+#  enabled              :boolean          default(TRUE), not null
 #  base_factor          :integer          default(1), not null
 #  precision            :integer          default(8), not null
 #  created_at           :datetime         not null
@@ -187,5 +186,5 @@ end
 # Indexes
 #
 #  index_currencies_on_code     (code) UNIQUE
-#  index_currencies_on_visible  (visible)
+#  index_currencies_on_enabled  (enabled)
 #

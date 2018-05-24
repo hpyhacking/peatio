@@ -10,7 +10,7 @@ module APIv2
 
     desc 'List your withdraws as paginated collection.', scopes: %w[ history ]
     params do
-      optional :currency, type: String,  values: -> { Currency.codes(bothcase: true) }, desc: -> { "Any supported currencies: #{Currency.codes(bothcase: true).join(',')}." }
+      optional :currency, type: String,  values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { "Any supported currencies: #{Currency.enabled.codes(bothcase: true).join(',')}." }
       optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'Page number (defaults to 1).'
       optional :limit,    type: Integer, default: 100, range: 1..1000, desc: 'Number of withdraws per page (defaults to 100, maximum is 1000).'
     end
@@ -30,7 +30,7 @@ module APIv2
 
     desc '[DEPRECATED] Create withdraw.', scopes: %w[ withdraw ]
     params do
-      requires :currency, type: String,  values: -> { Currency.codes(bothcase: true) }, desc: -> { "Any supported currency: #{Currency.codes(bothcase: true).join(',')}." }
+      requires :currency, type: String,  values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { "Any supported currency: #{Currency.enabled.codes(bothcase: true).join(',')}." }
       requires :amount,   type: BigDecimal, desc: 'Withdraw amount without fees.'
       requires :rid,      type: String, desc: 'The shared recipient ID.'
     end

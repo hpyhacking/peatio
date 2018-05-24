@@ -10,7 +10,7 @@ module Private
     before_action :auth_verified!
 
     def index
-      @currencies        = Currency.all.sort
+      @currencies        = Currency.enabled.sort
       @deposits          = current_user.deposits
       @accounts          = current_user.accounts.enabled
       @withdraws         = current_user.withdraws
@@ -21,7 +21,7 @@ module Private
     helper_method :currency_icon_url
 
     def gen_address
-      current_user.accounts.each(&:payment_address)
+      current_user.accounts.enabled.each(&:payment_address)
       render nothing: true
     end
   end

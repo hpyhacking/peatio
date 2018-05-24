@@ -6,7 +6,7 @@ module APIv2
 
     desc 'Get all available markets.'
     get "/markets" do
-      present Market.visible, with: APIv2::Entities::Market
+      present Market.enabled, with: APIv2::Entities::Market
     end
 
   end

@@ -6,7 +6,7 @@ module APIv2
     class Member < Base
       expose :sn
       expose :email
-      expose :accounts, using: ::APIv2::Entities::Account
+      expose(:accounts, using: ::APIv2::Entities::Account) { |m| m.accounts.enabled }
     end
   end
 end

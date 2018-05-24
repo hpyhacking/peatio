@@ -82,5 +82,15 @@ describe APIv2::Solvency, type: :request do
         expect(partial_tree['id']).to eq partial_trees.last.id
       end
     end
+
+    context 'disabled currency' do
+      before { Currency.first.update!(enabled: false) }
+      after { Currency.first.update!(enabled: true) }
+      it 'ensures currency is enabled' do
+        api_get '/api/v2/solvency/liability_proofs/latest', params: { currency: Currency.first.code }, token: token
+        expect(response.code).to eq '422'
+        expect(response.body).to eq '{"error":{"code":1001,"message":"currency does not have a valid value"}}'
+      end
+    end
   end
 end

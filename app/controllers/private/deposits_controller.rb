@@ -22,7 +22,7 @@ module Private
   private
 
     def currency
-      @currency ||= Currency.find_by_code!(params[:currency])
+      @currency ||= Currency.enabled.find_by_code!(params[:currency])
     end
   end
 end

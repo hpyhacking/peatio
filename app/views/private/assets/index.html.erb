@@ -4,7 +4,7 @@
       <li class="nav-item position-relative" data-scroll-nav="0">
         <a class="nav-link active"><%= t('.liability-proof') %></a>
       </li>
-      <% Currency.all.each_with_index do |ccy, i| %>
+      <% Currency.enabled.each_with_index do |ccy, i| %>
         <li class="nav-item position-relative" data-scroll-nav="<%= i + 1 %>">
           <a class="nav-link"><%= t(".#{ccy.type}-assets", currency: ccy.code.upcase) %></a>
         </li>
@@ -15,7 +15,7 @@
       <div data-scroll-index="0"><%= render 'liability_proof' %></div>
     <% end %>
 
-    <% Currency.all.each_with_index do |ccy, i| %>
+    <% Currency.enabled.each_with_index do |ccy, i| %>
       <div data-scroll-index="<%= i + 1 %>"><%= render "#{ccy.type}_assets", currency: ccy %></div>
     <% end %>
   </div>

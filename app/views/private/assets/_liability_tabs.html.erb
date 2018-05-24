@@ -1,6 +1,6 @@
 <div class="tabbable">
   <ul class="nav nav-tabs">
-    <% Currency.all.each_with_index do |ccy, i| %>
+    <% Currency.enabled.each_with_index do |ccy, i| %>
       <li class="nav-item">
         <% name = ccy.fiat? ? :fiat : ccy.code %>
         <a class="nav-link <%= 'active' if i.zero? %> <%= name %>-proof" href="#<%= name %>-proof" data-toggle="tab">
@@ -11,7 +11,7 @@
   </ul>
 
   <div class="tab-content">
-    <% Currency.all.each_with_index do |ccy, i| %>
+    <% Currency.enabled.each_with_index do |ccy, i| %>
       <% name    = ccy.fiat? ? 'fiat' : ccy.code %>
       <% proof   = instance_variable_get(:"@#{name}_proof") %>
       <% account = instance_variable_get(:"@#{name}_account") %>

@@ -2,8 +2,8 @@
 # frozen_string_literal: true
 
 describe Market do
-  context 'visible market' do
-    it { expect(Market.visible.count).to eq(1) }
+  context 'enabled market' do
+    it { expect(Market.enabled.count).to eq(1) }
   end
 
   context 'market attributes' do
@@ -25,8 +25,8 @@ describe Market do
       expect(subject.quote_unit).to eq 'usd'
     end
 
-    it 'visible' do
-      expect(subject.visible).to be true
+    it 'enabled' do
+      expect(subject.enabled).to be true
     end
   end
 

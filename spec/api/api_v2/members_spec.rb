@@ -15,7 +15,6 @@ describe APIv2::Members, type: :request do
     it 'should return current user profile with accounts info' do
       api_get '/api/v2/members/me', token: token
       expect(response).to be_success
-
       result = JSON.parse(response.body)
       expect(result['sn']).to eq member.sn
       expect(result['accounts']).to match [

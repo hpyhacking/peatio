@@ -10,7 +10,7 @@ describe Admin::MarketsController, type: :controller do
       ask_unit: :eth,
       ask_fee: 0.2,
       ask_precision: 4,
-      visible: true,
+      enabled: true,
       position: 100 }
   end
   let(:existing_market) { Market.first }

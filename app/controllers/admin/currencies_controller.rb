@@ -57,7 +57,7 @@ module Admin
         :withdraw_fee,
         :deposit_fee,
         :deposit_confirmations,
-        :visible,
+        :enabled,
         :base_factor,
         :precision,
         :api_client,
@@ -77,7 +77,7 @@ module Admin
     end
 
     def boolean_currency_attributes
-      %i[ visible
+      %i[ enabled
           case_sensitive
           supports_cash_addr_format
           bitgo_test_net ]

@@ -23,7 +23,7 @@ class Market < ActiveRecord::Base
   # TODO: Don't use default_scope. Refactor to scopes!
   default_scope { order(position: :asc) }
 
-  scope :visible, -> { where(visible: true) }
+  scope :enabled, -> { where(enabled: true) }
 
   validate { errors.add(:ask_unit, :invalid) if ask_unit == bid_unit }
   validates :id, uniqueness: { case_sensitive: false }, presence: true
@@ -103,7 +103,7 @@ class Market < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180522165830
+# Schema version: 20180522121046
 #
 # Table name: markets
 #
@@ -115,7 +115,7 @@ end
 #  ask_precision :integer          default(4), not null
 #  bid_precision :integer          default(4), not null
 #  position      :integer          default(0), not null
-#  visible       :boolean          default(TRUE), not null
+#  enabled       :boolean          default(TRUE), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
@@ -124,6 +124,6 @@ end
 #  index_markets_on_ask_unit               (ask_unit)
 #  index_markets_on_ask_unit_and_bid_unit  (ask_unit,bid_unit) UNIQUE
 #  index_markets_on_bid_unit               (bid_unit)
+#  index_markets_on_enabled                (enabled)
 #  index_markets_on_position               (position)
-#  index_markets_on_visible                (visible)
 #

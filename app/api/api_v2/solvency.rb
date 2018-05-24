@@ -8,7 +8,7 @@ module APIv2
 
     desc 'Returns newest liability proof record for given currency.'
     params do
-      requires :currency, type: String, values: -> { Currency.coin_codes(bothcase: true) }, desc: "The code of any currency with type 'coin'."
+      requires :currency, type: String, values: -> { Currency.enabled.coin_codes(bothcase: true) }, desc: "The code of any currency with type 'coin'."
     end
     get '/solvency/liability_proofs/latest' do
       Proof
@@ -18,7 +18,7 @@ module APIv2
 
     desc 'Returns newest partial tree record for member account of specified currency.'
     params do
-      requires :currency, type: String, values: -> { Currency.coin_codes(bothcase: true) }, desc: "The code of any currency with type 'coin'."
+      requires :currency, type: String, values: -> { Currency.enabled.coin_codes(bothcase: true) }, desc: "The code of any currency with type 'coin'."
     end
     get '/solvency/liability_proofs/partial_tree/mine' do
       current_user

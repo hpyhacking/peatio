@@ -12,7 +12,7 @@ FactoryBot.define do
       ask_precision 4
       bid_precision 2
       position      1
-      visible       true
+      enabled       true
     end
 
     trait :dashbtc do
@@ -24,7 +24,7 @@ FactoryBot.define do
       ask_precision 4
       bid_precision 4
       position      2
-      visible       false
+      enabled       false
     end
   end
 end

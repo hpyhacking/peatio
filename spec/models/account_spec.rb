@@ -93,9 +93,9 @@ describe Account do
     it 'returns the accounts with currency enabled' do
       currency = Currency.find_by_code!(:dash)
       currency.transaction do
-        currency.update_columns(visible: false)
+        currency.update_columns(enabled: false)
         expect(Account.enabled.count).to eq 18
-        currency.update_columns(visible: true)
+        currency.update_columns(enabled: true)
       end
     end
   end

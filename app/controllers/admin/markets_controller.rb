@@ -56,12 +56,12 @@ module Admin
         :ask_unit,
         :ask_fee,
         :ask_precision,
-        :visible,
+        :enabled,
         :position ]
     end
 
     def boolean_market_attributes
-      %i[ visible ]
+      %i[ enabled ]
     end
   end
 end

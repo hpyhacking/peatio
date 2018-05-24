@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180522165830) do
+ActiveRecord::Schema.define(version: 20180522121046) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                         null: false
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20180522165830) do
     t.decimal  "quick_withdraw_limit",              precision: 32, scale: 16, default: 0.0,    null: false
     t.decimal  "withdraw_fee",                      precision: 32, scale: 16, default: 0.0,    null: false
     t.string   "options",              limit: 1000,                           default: "{}",   null: false
-    t.boolean  "visible",                                                     default: true,   null: false
+    t.boolean  "enabled",                                                     default: true,   null: false
     t.integer  "base_factor",          limit: 8,                              default: 1,      null: false
     t.integer  "precision",            limit: 1,                              default: 8,      null: false
     t.datetime "created_at",                                                                   null: false
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 20180522165830) do
   end
 
   add_index "currencies", ["code"], name: "index_currencies_on_code", unique: true, using: :btree
-  add_index "currencies", ["visible"], name: "index_currencies_on_visible", using: :btree
+  add_index "currencies", ["enabled"], name: "index_currencies_on_enabled", using: :btree
 
   create_table "deposits", force: :cascade do |t|
     t.integer  "member_id",     limit: 4,                                         null: false
@@ -103,7 +103,7 @@ ActiveRecord::Schema.define(version: 20180522165830) do
     t.integer  "ask_precision", limit: 1,                           default: 4,    null: false
     t.integer  "bid_precision", limit: 1,                           default: 4,    null: false
     t.integer  "position",      limit: 4,                           default: 0,    null: false
-    t.boolean  "visible",                                           default: true, null: false
+    t.boolean  "enabled",                                           default: true, null: false
     t.datetime "created_at",                                                       null: false
     t.datetime "updated_at",                                                       null: false
   end
@@ -111,8 +111,8 @@ ActiveRecord::Schema.define(version: 20180522165830) do
   add_index "markets", ["ask_unit", "bid_unit"], name: "index_markets_on_ask_unit_and_bid_unit", unique: true, using: :btree
   add_index "markets", ["ask_unit"], name: "index_markets_on_ask_unit", using: :btree
   add_index "markets", ["bid_unit"], name: "index_markets_on_bid_unit", using: :btree
+  add_index "markets", ["enabled"], name: "index_markets_on_enabled", using: :btree
   add_index "markets", ["position"], name: "index_markets_on_position", using: :btree
-  add_index "markets", ["visible"], name: "index_markets_on_visible", using: :btree
 
   create_table "members", force: :cascade do |t|
     t.string   "level",        limit: 20,  default: ""

@@ -3,7 +3,7 @@
 
 describe APIv2::Fees, type: :request do
   describe 'GET /api/v2/fees/withdraw' do
-    it 'returns withdraw fees for every visible currency' do
+    it 'returns withdraw fees for every enabled currency' do
       get '/api/v2/fees/withdraw'
       expect(response).to be_success
 
@@ -28,7 +28,7 @@ describe APIv2::Fees, type: :request do
   end
 
   describe 'GET /api/v2/fees/deposit' do
-    it 'returns deposit fees for every visible currency' do
+    it 'returns deposit fees for every enabled currency' do
       get '/api/v2/fees/deposit'
       expect(response).to be_success
 

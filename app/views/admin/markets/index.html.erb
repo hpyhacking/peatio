@@ -25,8 +25,8 @@
       <%= l(x.created_at, format: :long) %>
     <% end %>
 
-    <% t.column 'Visible', class: 'col-xs-2' do |x| %>
-      <% if x.visible? %>
+    <% t.column 'Enabled', class: 'col-xs-2' do |x| %>
+      <% if x.enabled? %>
         <span class="text-success">Yes</span>
       <% else %>
         <span class="text-danger">No</span>

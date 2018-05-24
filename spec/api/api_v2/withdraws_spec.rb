@@ -106,5 +106,20 @@ describe APIv2::Withdraws, type: :request do
       withdraw = Withdraw.find_by_id(JSON.parse(response.body)['id'])
       expect(withdraw.aasm_state).to eq 'submitted'
     end
-  end
+
+    context 'disabled currency' do
+      before { Currency.first.update!(enabled: false) }
+      after { Currency.first.update!(enabled: true) }
+      it 'ensures currency is enabled' do
+        params = {
+          currency: Currency.first.code,
+          rid: Faker::Bitcoin.address,
+          amount: 0.1
+        }
+        api_post '/api/v2/withdraws', params: params, token: token
+        expect(response.code).to eq '422'
+        expect(response.body).to eq '{"error":{"code":1001,"message":"currency does not have a valid value"}}'
+      end
+    end
+    end
 end
