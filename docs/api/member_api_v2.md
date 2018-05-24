@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.8.20
+**Version:** 1.8.21
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -75,7 +75,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | Currency value contains usd,btc,xrp,bch,ltc,dash,eth,trst,USD,BTC,XRP,BCH,LTC,DASH,ETH,TRST | No | string |
+| currency | query | Currency value contains bch,btc,dash,eth,ltc,trst,usd,xrp,BCH,BTC,DASH,ETH,LTC,TRST,USD,XRP | No | string |
 | limit | query | Set result limit. | No | integer |
 | state | query |  | No | string |
 
@@ -405,7 +405,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | formData | Any supported currency: usd,btc,xrp,bch,ltc,dash,eth,trst,USD,BTC,XRP,BCH,LTC,DASH,ETH,TRST. | Yes | string |
+| currency | formData | Any supported currency: bch,btc,dash,eth,ltc,trst,usd,xrp,BCH,BTC,DASH,ETH,LTC,TRST,USD,XRP. | Yes | string |
 | amount | formData | Withdraw amount without fees. | Yes | double |
 | rid | formData | The shared recipient ID. | Yes | string |
 
@@ -424,7 +424,7 @@ Member API is API which can be used by client application like SPA.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | Any supported currencies: usd,btc,xrp,bch,ltc,dash,eth,trst,USD,BTC,XRP,BCH,LTC,DASH,ETH,TRST. | No | string |
+| currency | query | Any supported currencies: bch,btc,dash,eth,ltc,trst,usd,xrp,BCH,BTC,DASH,ETH,LTC,TRST,USD,XRP. | No | string |
 | page | query | Page number (defaults to 1). | No | integer |
 | limit | query | Number of withdraws per page (defaults to 100, maximum is 1000). | No | integer |
 
