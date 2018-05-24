@@ -98,7 +98,7 @@ class Account < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180516110336
+# Schema version: 20180524170927
 #
 # Table name: accounts
 #
@@ -112,7 +112,6 @@ end
 #
 # Indexes
 #
-#  index_accounts_on_currency_id                (currency_id)
 #  index_accounts_on_currency_id_and_member_id  (currency_id,member_id) UNIQUE
 #  index_accounts_on_member_id                  (member_id)
 #

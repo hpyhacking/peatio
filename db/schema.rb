@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180522165830) do
+ActiveRecord::Schema.define(version: 20180524170927) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                         null: false
@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 20180522165830) do
   end
 
   add_index "accounts", ["currency_id", "member_id"], name: "index_accounts_on_currency_id_and_member_id", unique: true, using: :btree
-  add_index "accounts", ["currency_id"], name: "index_accounts_on_currency_id", using: :btree
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
 
   create_table "audit_logs", force: :cascade do |t|
@@ -69,7 +68,7 @@ ActiveRecord::Schema.define(version: 20180522165830) do
   end
 
   add_index "currencies", ["code"], name: "index_currencies_on_code", unique: true, using: :btree
-  add_index "currencies", ["enabled"], name: "index_currencies_on_enabled", using: :btree
+  add_index "currencies", ["enabled", "code"], name: "index_currencies_on_enabled_and_code", using: :btree
 
   create_table "deposits", force: :cascade do |t|
     t.integer  "member_id",     limit: 4,                                         null: false
@@ -209,7 +208,6 @@ ActiveRecord::Schema.define(version: 20180522165830) do
   add_index "trades", ["ask_member_id", "bid_member_id"], name: "index_trades_on_ask_member_id_and_bid_member_id", using: :btree
   add_index "trades", ["bid_id"], name: "index_trades_on_bid_id", using: :btree
   add_index "trades", ["market_id", "created_at"], name: "index_trades_on_market_id_and_created_at", using: :btree
-  add_index "trades", ["market_id"], name: "index_trades_on_market_id", using: :btree
 
   create_table "versions", force: :cascade do |t|
     t.string   "item_type",  limit: 255,   null: false

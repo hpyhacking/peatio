@@ -45,40 +45,34 @@ module APIv2
     end
 
     def build_order(attrs)
-      klass = attrs[:side] == 'sell' ? OrderAsk : OrderBid
-
-      order = klass.new(
+      (attrs[:side] == 'sell' ? OrderAsk : OrderBid).new \
         state:         ::Order::WAIT,
-        member_id:     current_user.id,
+        member:        current_user,
         ask:           Currency.enabled.find_by!(code: current_market.base_unit).id,
         bid:           Currency.enabled.find_by!(code: current_market.quote_unit).id,
-        market_id:     current_market.id,
+        market:        current_market,
         ord_type:      attrs[:ord_type] || 'limit',
         price:         attrs[:price],
         volume:        attrs[:volume],
         origin_volume: attrs[:volume]
-      )
     end
 
     def create_order(attrs)
-      order = build_order attrs
+      order = build_order(attrs)
       Ordering.new(order).submit
       order
-    rescue
-      Rails.logger.info { "Failed to create order: #{$!}" }
-      Rails.logger.debug { order.inspect }
-      Rails.logger.debug { $!.backtrace.join("\n") }
-      raise CreateOrderError, $!
+    rescue => e
+      report_exception_to_screen(e)
+      raise CreateOrderError, e.inspect
     end
 
     def create_orders(multi_attrs)
-      orders = multi_attrs.map {|attrs| build_order attrs }
+      orders = multi_attrs.map(&method(:build_order))
       Ordering.new(orders).submit
       orders
-    rescue
-      Rails.logger.info { "Failed to create order: #{$!}" }
-      Rails.logger.debug { $!.backtrace.join("\n") }
-      raise CreateOrderError, $!
+    rescue => e
+      report_exception_to_screen(e)
+      raise CreateOrderError, e.inspect
     end
 
     def order_param

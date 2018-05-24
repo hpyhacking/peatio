@@ -70,7 +70,7 @@ class Trade < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180516133138
+# Schema version: 20180524170927
 #
 # Table name: trades
 #
@@ -92,6 +92,5 @@ end
 #  index_trades_on_ask_id                           (ask_id)
 #  index_trades_on_ask_member_id_and_bid_member_id  (ask_member_id,bid_member_id)
 #  index_trades_on_bid_id                           (bid_id)
-#  index_trades_on_market_id                        (market_id)
 #  index_trades_on_market_id_and_created_at         (market_id,created_at)
 #

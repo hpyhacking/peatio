@@ -4,28 +4,24 @@
 class Order < ActiveRecord::Base
   include BelongsToMarket
   include BelongsToMember
+
   extend Enumerize
+  enumerize :state, in: { wait: 100, done: 200, cancel: 0 }, scope: true
 
-  enumerize :state, in: {:wait => 100, :done => 200, :cancel => 0}, scope: true
-
-  ORD_TYPES = %w(market limit)
-  enumerize :ord_type, in: ORD_TYPES, scope: true
+  TYPES = %w[ market limit ]
+  enumerize :ord_type, in: TYPES, scope: true
 
   after_commit :trigger
   before_validation :fix_number_precision, on: :create
 
-  validates_presence_of :ord_type, :volume, :origin_volume, :locked, :origin_locked
-  validates_numericality_of :origin_volume, :greater_than => 0
+  validates :ord_type, :volume, :origin_volume, :locked, :origin_locked, presence: true
+  validates :origin_volume, numericality: { greater_than: 0.to_d }
+  validates :price, numericality: { greater_than: 0, allow_nil: false }, if: -> (order) { order.ord_type == 'limit' }
+  validate  :market_order_validations, if: -> (order) { order.ord_type == 'market' }
 
-  validates_numericality_of :price, greater_than: 0, allow_nil: false,
-    if: "ord_type == 'limit'"
-  validate :market_order_validations, if: "ord_type == 'market'"
-
-  WAIT = 'wait'
-  DONE = 'done'
+  WAIT   = 'wait'
+  DONE   = 'done'
   CANCEL = 'cancel'
-
-  attr_accessor :total
 
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }

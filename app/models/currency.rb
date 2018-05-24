@@ -165,7 +165,7 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180517084245
+# Schema version: 20180524170927
 #
 # Table name: currencies
 #
@@ -185,6 +185,6 @@ end
 #
 # Indexes
 #
-#  index_currencies_on_code     (code) UNIQUE
-#  index_currencies_on_enabled  (enabled)
+#  index_currencies_on_code              (code) UNIQUE
+#  index_currencies_on_enabled_and_code  (enabled,code)
 #
