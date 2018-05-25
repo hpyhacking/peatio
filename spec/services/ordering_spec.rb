@@ -24,7 +24,7 @@ describe Ordering do
 
     it 'should compute locked after number precision fixed' do
       Ordering.new(order).submit
-      expect(order.reload.locked).to eq '1.23'.to_d * '1.2345'.to_d
+      expect(order.reload.locked).to eq '1.52399025'.to_d
     end
   end
 

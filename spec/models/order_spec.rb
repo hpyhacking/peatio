@@ -44,10 +44,10 @@ describe Order, '#fix_number_precision', type: :model do
   let(:order_bid) { create(:order_bid, market_id: 'btcusd', price: '12.326'.to_d, volume: '123.123456789') }
   let(:order_ask) { create(:order_ask, market_id: 'btcusd', price: '12.326'.to_d, volume: '123.123456789') }
 
-  it { expect(order_bid.price).to be_d '12.32' }
+  it { expect(order_bid.price).to be_d '12.326' }
   it { expect(order_bid.volume).to be_d '123.1234' }
   it { expect(order_bid.origin_volume).to be_d '123.1234' }
-  it { expect(order_ask.price).to be_d '12.32' }
+  it { expect(order_ask.price).to be_d '12.326' }
   it { expect(order_ask.volume).to be_d '123.1234' }
   it { expect(order_ask.origin_volume).to be_d '123.1234' }
 end

@@ -3,15 +3,15 @@
 
 describe Admin::MarketsController, type: :controller do
   let(:member) { create(:admin_member) }
-  let(:valid_market_attributes) do
-    { bid_unit: :usd,
-      bid_fee: 0.1,
-      bid_precision: 4,
-      ask_unit: :eth,
-      ask_fee: 0.2,
-      ask_precision: 4,
-      enabled: true,
-      position: 100 }
+  let :attributes do
+    { bid_unit:      'usd',
+      bid_fee:       '0.003'.to_d,
+      bid_precision: 8,
+      ask_unit:      'eth',
+      ask_fee:       '0.02'.to_d,
+      ask_precision: 8,
+      enabled:       true,
+      position:      100 }
   end
   let(:existing_market) { Market.first }
 
@@ -20,14 +20,16 @@ describe Admin::MarketsController, type: :controller do
   describe '#create' do
     it 'creates market with valid attributes' do
       expect do
-        post :create, trading_pair: valid_market_attributes
+        post :create, trading_pair: attributes
         expect(response).to redirect_to admin_markets_path
       end.to change(Market, :count)
+      market = Market.last
+      attributes.each { |k, v| expect(market.method(k).call).to eq v }
     end
 
     it 'doesn\'t create market if commodity pair already exists' do
       existing = Market.first
-      params   = valid_market_attributes.merge(bid_unit: existing.bid_unit, ask_unit: existing.ask_unit)
+      params   = attributes.merge(bid_unit: existing.bid_unit, ask_unit: existing.ask_unit)
       expect do
         post :create, trading_pair: params
         expect(response).not_to redirect_to admin_markets_path
@@ -36,23 +38,36 @@ describe Admin::MarketsController, type: :controller do
   end
 
   describe '#update' do
-    before { valid_market_attributes.except!(:bid_unit, :ask_unit) }
+    let :new_attributes do
+      { bid_unit:      'btc',
+        bid_fee:       '0.002'.to_d,
+        bid_precision: 7,
+        ask_unit:      'xrp',
+        ask_fee:       '0.05'.to_d,
+        ask_precision: 7,
+        enabled:       false,
+        position:      200 }
+    end
+
+    let :final_attributes do
+      new_attributes.merge \
+        attributes.slice \
+          :bid_unit,
+          :ask_unit,
+          :ask_precision,
+          :bid_precision
+    end
+
     before { request.env['HTTP_REFERER'] = '/admin/markets' }
 
     it 'updates market attributes' do
-      post :update, trading_pair: valid_market_attributes, id: existing_market.id
+      post :create, trading_pair: attributes
+      market = Market.last
+      attributes.each { |k, v| expect(market.method(k).call).to eq v }
+      post :update, trading_pair: new_attributes, id: market.id
       expect(response).to redirect_to admin_markets_path
-      valid_market_attributes.each do |k, v|
-        expect(existing_market.reload.method(k).call).to eq v
-      end
-    end
-
-    it 'doesn\'t update units and ID' do
-      post :update, trading_pair: { bid_unit: :btc }, id: existing_market.id
-      old_id = existing_market.id
-      expect(response).to redirect_to '/admin/markets'
-      expect(existing_market.reload.bid_unit).not_to eq :btc
-      expect(existing_market.reload.id).to eq old_id
+      market.reload
+      final_attributes.each { |k, v| expect(market.method(k).call).to eq v }
     end
   end
 

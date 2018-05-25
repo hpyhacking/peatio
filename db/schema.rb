@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180524170927) do
+ActiveRecord::Schema.define(version: 20180525101406) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                         null: false
@@ -99,8 +99,8 @@ ActiveRecord::Schema.define(version: 20180524170927) do
     t.string   "bid_unit",      limit: 5,                                          null: false
     t.decimal  "ask_fee",                 precision: 17, scale: 16, default: 0.0,  null: false
     t.decimal  "bid_fee",                 precision: 17, scale: 16, default: 0.0,  null: false
-    t.integer  "ask_precision", limit: 1,                           default: 4,    null: false
-    t.integer  "bid_precision", limit: 1,                           default: 4,    null: false
+    t.integer  "ask_precision", limit: 1,                           default: 8,    null: false
+    t.integer  "bid_precision", limit: 1,                           default: 8,    null: false
     t.integer  "position",      limit: 4,                           default: 0,    null: false
     t.boolean  "enabled",                                           default: true, null: false
     t.datetime "created_at",                                                       null: false

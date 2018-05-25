@@ -4,8 +4,6 @@
 class Currency < ActiveRecord::Base
   serialize :options, JSON
 
-  attr_readonly :code, :type, :case_sensitive, :erc20_contract_address
-
   # NOTE: type column reserved for STI
   self.inheritance_column = nil
 
@@ -155,13 +153,22 @@ class Currency < ActiveRecord::Base
     options['deposit_confirmations'] = n.to_i
   end
 
-  def case_sensitive?
-    !!case_sensitive
-  end
-
   def case_insensitive?
     !case_sensitive?
   end
+
+  attr_readonly :code,
+                :type,
+                :case_sensitive,
+                :erc20_contract_address,
+                :api_client,
+                :bitgo_test_net,
+                :bitgo_wallet_id,
+                :bitgo_wallet_address,
+                :bitgo_wallet_passphrase,
+                :bitgo_rest_api_root,
+                :bitgo_rest_api_access_token,
+                :supports_cash_addr_format
 end
 
 # == Schema Information

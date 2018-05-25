@@ -18,7 +18,7 @@
 
 class Market < ActiveRecord::Base
 
-  attr_readonly :ask_unit, :bid_unit
+  attr_readonly :ask_unit, :bid_unit, :ask_precision, :bid_precision
 
   # TODO: Don't use default_scope. Refactor to scopes!
   default_scope { order(position: :asc) }
@@ -31,6 +31,7 @@ class Market < ActiveRecord::Base
   validates :ask_fee, :bid_fee, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 0.5 }
   validates :ask_precision, :bid_precision, :position, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :ask_unit, :bid_unit, inclusion: { in: -> (_) { Currency.codes } }
+  validate  :precisions_must_be_same
 
   before_validation(on: :create) { self.id = "#{ask_unit}#{bid_unit}" }
 
@@ -100,10 +101,19 @@ class Market < ActiveRecord::Base
   def global
     Global[id]
   end
+
+private
+
+  def precisions_must_be_same
+    if ask_precision? && bid_precision? && ask_precision != bid_precision
+      errors.add(:ask_precision, :invalid)
+      errors.add(:bid_precision, :invalid)
+    end
+  end
 end
 
 # == Schema Information
-# Schema version: 20180522121046
+# Schema version: 20180525101406
 #
 # Table name: markets
 #
@@ -112,8 +122,8 @@ end
 #  bid_unit      :string(5)        not null
 #  ask_fee       :decimal(17, 16)  default(0.0), not null
 #  bid_fee       :decimal(17, 16)  default(0.0), not null
-#  ask_precision :integer          default(4), not null
-#  bid_precision :integer          default(4), not null
+#  ask_precision :integer          default(8), not null
+#  bid_precision :integer          default(8), not null
 #  position      :integer          default(0), not null
 #  enabled       :boolean          default(TRUE), not null
 #  created_at    :datetime         not null

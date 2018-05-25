@@ -3,8 +3,6 @@
 
 module Admin
   class MarketsController < BaseController
-    load_and_authorize_resource
-
     def index
       @markets = Market.page(params[:page]).per(100)
     end
@@ -15,7 +13,8 @@ module Admin
     end
 
     def create
-      @market = Market.new(market_params)
+      @market = Market.new
+      @market.assign_attributes(market_params)
       if @market.save
         redirect_to admin_markets_path
       else
@@ -50,14 +49,23 @@ module Admin
     end
 
     def permitted_market_attributes
-      [ :bid_unit,
+      attributes = [
+        :bid_unit,
         :bid_fee,
-        :bid_precision,
         :ask_unit,
         :ask_fee,
-        :ask_precision,
         :enabled,
-        :position ]
+        :position
+      ]
+
+      if @market.new_record?
+        attributes += [
+          :bid_precision,
+          :ask_precision
+        ]
+      end
+
+      attributes
     end
 
     def boolean_market_attributes

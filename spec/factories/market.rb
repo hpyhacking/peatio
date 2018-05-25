@@ -10,7 +10,7 @@ FactoryBot.define do
       ask_fee       0.0015
       bid_fee       0.0015
       ask_precision 4
-      bid_precision 2
+      bid_precision 4
       position      1
       enabled       true
     end

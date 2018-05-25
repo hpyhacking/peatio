@@ -3,8 +3,6 @@
 
 module Admin
   class CurrenciesController < BaseController
-    load_and_authorize_resource
-
     def index
       @currencies = Currency.page(params[:page]).per(100)
     end
@@ -15,7 +13,8 @@ module Admin
     end
 
     def create
-      @currency = Currency.new(currency_params)
+      @currency = Currency.new
+      @currency.assign_attributes(currency_params)
       if @currency.save
         redirect_to admin_currencies_path
       else
@@ -50,30 +49,38 @@ module Admin
     end
 
     def permitted_currency_attributes
-      [ :code,
+      attributes = [
         :symbol,
-        :type,
         :quick_withdraw_limit,
         :withdraw_fee,
         :deposit_fee,
         :deposit_confirmations,
         :enabled,
-        :base_factor,
-        :precision,
-        :api_client,
-        :json_rpc_endpoint,
-        :rest_api_endpoint,
-        :bitgo_test_net,
-        :bitgo_wallet_id,
-        :bitgo_wallet_address,
-        :bitgo_wallet_passphrase,
-        :bitgo_rest_api_root,
-        :bitgo_rest_api_access_token,
         :wallet_url_template,
-        :transaction_url_template,
-        :case_sensitive,
-        :erc20_contract_address,
-        :supports_cash_addr_format ]
+        :transaction_url_template
+      ]
+
+      if @currency.new_record?
+        attributes +=[
+          :code,
+          :type,
+          :base_factor,
+          :precision,
+          :api_client,
+          :json_rpc_endpoint,
+          :rest_api_endpoint,
+          :bitgo_test_net,
+          :bitgo_wallet_id,
+          :bitgo_wallet_address,
+          :bitgo_wallet_passphrase,
+          :bitgo_rest_api_root,
+          :bitgo_rest_api_access_token,
+          :case_sensitive,
+          :erc20_contract_address,
+          :supports_cash_addr_format ]
+      end
+
+      attributes
     end
 
     def boolean_currency_attributes

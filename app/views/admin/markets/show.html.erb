@@ -20,7 +20,11 @@
           <%= f.text_field :bid_fee, class: 'form-control mb-3' %>
 
           <label>Bid precision</label>
-          <%= f.number_field :bid_precision, class: 'form-control mb-3' %>
+          <% if @market.new_record? %>
+            <%= f.number_field :bid_precision, class: 'form-control mb-3' %>
+          <% else %>
+            <div><%= @market.bid_precision %></div>
+          <% end %>
         </div>
       </div>
     </div>
@@ -37,7 +41,11 @@
           <label>Ask fee</label>
           <%= f.text_field :ask_fee, class: 'form-control mb-3' %>
           <label>Ask precision</label>
-          <%= f.number_field :ask_precision, class: 'form-control' %>
+          <% if @market.new_record? %>
+            <%= f.number_field :ask_precision, class: 'form-control' %>
+          <% else %>
+            <div><%= @market.ask_precision %></div>
+          <% end %>
         </div>
       </div>
     </div>

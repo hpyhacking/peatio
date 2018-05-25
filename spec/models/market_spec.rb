@@ -56,7 +56,7 @@ describe Market do
         bid_unit:      :xrp,
         bid_fee:       0.1,
         ask_fee:       0.2,
-        ask_precision: 3,
+        ask_precision: 4,
         bid_precision: 4,
         position:      100 }
     end
