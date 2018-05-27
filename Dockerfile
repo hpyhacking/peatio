@@ -16,6 +16,9 @@ ENV RAILS_ENV=${RAILS_ENV} APP_HOME=/home/app
 ARG UID=1000
 ARG GID=1000
 
+# Set the TZ variable to avoid perpetual system calls to stat(/etc/localtime)
+ENV TZ=UTC
+
  # Create group "app" and user "app".
 RUN groupadd -r --gid ${GID} app \
  && useradd --system --create-home --home ${APP_HOME} --shell /sbin/nologin --no-log-init \
