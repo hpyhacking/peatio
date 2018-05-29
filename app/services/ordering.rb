@@ -10,9 +10,7 @@ class Ordering
   end
 
   def submit
-    ActiveRecord::Base.transaction do
-      @orders.each {|order| do_submit order }
-    end
+    ActiveRecord::Base.transaction { @orders.each(&method(:do_submit)) }
 
     @orders.each do |order|
       AMQPQueue.enqueue(:matching, action: 'submit', order: order.to_matching_attributes)
@@ -22,23 +20,20 @@ class Ordering
   end
 
   def cancel
-    @orders.each {|order| do_cancel order }
+    @orders.each(&method(:do_cancel))
   end
 
   def cancel!
-    ActiveRecord::Base.transaction do
-      @orders.each {|order| do_cancel! order }
-    end
+    ActiveRecord::Base.transaction { @orders.each(&method(:do_cancel!)) }
   end
 
-  private
+private
 
   def do_submit(order)
     order.fix_number_precision # number must be fixed before computing locked
     order.locked = order.origin_locked = order.compute_locked
     order.save!
-    account = order.hold_account
-    account.lock_funds(order.locked)
+    order.hold_account!.lock_funds!(order.locked)
   end
 
   def do_cancel(order)
@@ -46,16 +41,10 @@ class Ordering
   end
 
   def do_cancel!(order)
-    account = order.hold_account
-    order   = Order.find(order.id).lock!
-
-    if order.state == Order::WAIT
-      order.state = Order::CANCEL
-      account.unlock_funds(order.locked)
-      order.save!
-    else
-      raise CancelOrderError, "Only active order can be canceled. id: #{order.id}, state: #{order.state}"
+    order.with_lock do
+      return unless order.state == Order::WAIT
+      order.hold_account!.unlock_funds!(order.locked)
+      order.update!(state: Order::CANCEL)
     end
   end
-
 end

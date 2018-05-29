@@ -18,8 +18,7 @@ class Member < ActiveRecord::Base
   validates :sn,    presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true, email: true
 
-  after_create  :touch_accounts
-  after_update  :sync_update
+  after_create :touch_accounts
 
   attr_readonly :email
 
@@ -116,6 +115,10 @@ class Member < ActiveRecord::Base
     authentications.barong.first&.uid || email
   end
 
+  def trigger_pusher_event(event, data)
+    self.class.trigger_pusher_event(self, event, data)
+  end
+
 private
 
   def downcase_email
@@ -132,9 +135,14 @@ private
   def random_sn
     "SN#{SecureRandom.hex(5).upcase}"
   end
-  
-  def sync_update
-    Pusher["private-#{sn}"].trigger_async('members', type: 'update', id: id, attributes: changed_attributes)
+
+  class << self
+    def trigger_pusher_event(member_or_id, event, data)
+      AMQPQueue.enqueue :pusher_member, \
+        member_id: self === member_or_id ? member_or_id.id : member_or_id,
+        event:     event,
+        data:      data
+    end
   end
 end
 

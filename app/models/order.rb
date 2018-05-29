@@ -11,7 +11,7 @@ class Order < ActiveRecord::Base
   TYPES = %w[ market limit ]
   enumerize :ord_type, in: TYPES, scope: true
 
-  after_commit :trigger
+  after_commit(on: :create) { trigger_pusher_event }
   before_validation :fix_number_precision, on: :create
 
   validates :ord_type, :volume, :origin_volume, :locked, :origin_locked, presence: true
@@ -54,28 +54,29 @@ class Order < ActiveRecord::Base
     @config ||= Market.find(market_id)
   end
 
-  def trigger
-    AMQPQueue.enqueue(:pusher_member, member_id: member.id, event: 'order', data: {
+  def trigger_pusher_event
+    Member.trigger_pusher_event member_id, :order, \
       id:            id,
       at:            at,
-      market:        market.as_json,
+      market:        market_id,
       kind:          kind,
       price:         price&.to_s('F'),
       state:         state,
       volume:        volume.to_s('F'),
       origin_volume: origin_volume.to_s('F')
-    })
   end
 
   def strike(trade)
     raise "Cannot strike on canceled or done order. id: #{id}, state: #{state}" unless state == Order::WAIT
 
-    real_sub, add = get_account_changes trade
-    real_fee      = add * fee
-    real_add      = add - real_fee
+    real_sub, add  = get_account_changes(trade)
+    real_fee       = add * fee
+    real_add       = add - real_fee
+    hold_account   = hold_account!
+    expect_account = expect_account!
 
-    hold_account.unlock_and_sub_funds(real_sub)
-    expect_account.plus_funds(real_add)
+    hold_account.unlock_and_sub_funds!(real_sub)
+    expect_account.plus_funds!(real_add)
 
     self.volume         -= trade.volume
     self.locked         -= real_sub
@@ -86,7 +87,7 @@ class Order < ActiveRecord::Base
       self.state = Order::DONE
 
       # unlock not used funds
-      hold_account.unlock_funds(locked) unless locked.zero?
+      hold_account.unlock_funds!(locked) unless locked.zero?
     elsif ord_type == 'market' && locked.zero?
       # partially filled market order has run out its locked fund
       self.state = Order::CANCEL
@@ -108,13 +109,13 @@ class Order < ActiveRecord::Base
   end
 
   def to_matching_attributes
-    { id: id,
-      market: market.id,
-      type: type[-3, 3].downcase.to_sym,
-      ord_type: ord_type,
-      volume: volume,
-      price: price,
-      locked: locked,
+    { id:        id,
+      market:    market_id,
+      type:      type[-3, 3].downcase.to_sym,
+      ord_type:  ord_type,
+      volume:    volume,
+      price:     price,
+      locked:    locked,
       timestamp: created_at.to_i }
   end
 

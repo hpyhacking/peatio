@@ -20,12 +20,12 @@ module Worker
           # Save all the details including address ID from BitGo to use it later.
           pa.update! \
             result.extract!(:address, :secret).merge!(details: pa.details.merge(result))
-
-          # Enqueue address generation again if address is not provided.
-          pa.enqueue_address_generation if pa.address.blank?
-
-          pusher_event(acc, pa) unless pa.address.blank?
         end
+
+        # Enqueue address generation again if address is not provided.
+        pa.enqueue_address_generation if pa.address.blank?
+
+        trigger_pusher_event(acc, pa) unless pa.address.blank?
       end
 
     # Don't re-enqueue this job in case of error.
@@ -37,11 +37,11 @@ module Worker
 
   private
 
-    def pusher_event(acc, pa)
-      Pusher["private-#{acc.member.sn}"].trigger_async \
-        :deposit_address,
-        type:       'create',
-        attributes: pa.as_json
+    def trigger_pusher_event(acc, pa)
+      Member.trigger_pusher_event acc.member_id, :deposit_address, type: :create, attributes: {
+        currency: pa.currency.code,
+        address:  pa.address
+      }
     end
   end
 end

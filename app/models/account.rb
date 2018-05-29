@@ -19,50 +19,58 @@ class Account < ActiveRecord::Base
 
   scope :enabled, -> { joins(:currency).merge(Currency.where(enabled: true)) }
 
-  after_commit :trigger, :sync_update
-
   def payment_address
     return unless currency.coin?
     payment_addresses.last&.enqueue_address_generation || payment_addresses.create!(currency: currency)
   end
 
+  def plus_funds!(amount)
+    raise AccountError, "Cannot add funds (amount: #{amount})." if amount <= ZERO
+    update_columns(balance: balance + amount)
+  end
+
   def plus_funds(amount)
-    with_lock do
-      raise AccountError, "Cannot add funds (amount: #{amount})." if amount <= ZERO
-      update_columns(balance: balance + amount)
-    end
+    with_lock { plus_funds!(amount) }
     self
+  end
+
+  def sub_funds!(amount)
+    raise AccountError, "Cannot subtract funds (amount: #{amount})." if amount <= ZERO || amount > balance
+    update_columns(balance: balance - amount)
   end
 
   def sub_funds(amount)
-    with_lock do
-      raise AccountError, "Cannot subtract funds (amount: #{amount})." if amount <= ZERO || amount > balance
-      update_columns(balance: balance - amount)
-    end
+    with_lock { sub_funds!(amount) }
     self
+  end
+
+  def lock_funds!(amount)
+    raise AccountError, "Cannot lock funds (amount: #{amount})." if amount <= ZERO || amount > balance
+    update_columns(balance: balance - amount, locked: locked + amount)
   end
 
   def lock_funds(amount)
-    with_lock do
-      raise AccountError, "Cannot lock funds (amount: #{amount})." if amount <= ZERO || amount > balance
-      update_columns(balance: balance - amount, locked: locked + amount)
-    end
+    with_lock { lock_funds!(amount) }
     self
+  end
+
+  def unlock_funds!(amount)
+    raise AccountError, "Cannot unlock funds (amount: #{amount})." if amount <= ZERO || amount > locked
+    update_columns(balance: balance + amount, locked: locked - amount)
   end
 
   def unlock_funds(amount)
-    with_lock do
-      raise AccountError, "Cannot unlock funds (amount: #{amount})." if amount <= ZERO || amount > locked
-      update_columns(balance: balance + amount, locked: locked - amount)
-    end
+    with_lock { unlock_funds!(amount) }
     self
   end
 
+  def unlock_and_sub_funds!(amount)
+    raise AccountError, "Cannot unlock funds (amount: #{amount})." if amount <= ZERO || amount > locked
+    update_columns(locked: locked - amount)
+  end
+
   def unlock_and_sub_funds(amount)
-    with_lock do
-      raise AccountError, "Cannot unlock funds (amount: #{amount})." if amount <= ZERO || amount > locked
-      update_columns(locked: locked - amount)
-    end
+    with_lock { unlock_and_sub_funds!(amount) }
     self
   end
 
@@ -70,31 +78,11 @@ class Account < ActiveRecord::Base
     balance + locked
   end
 
-  def trigger
-    AMQPQueue.enqueue(:pusher_member, member_id: member.id, event: 'account', data: {
-      balance:  balance.to_s('F'),
-      locked:   locked.to_s('F'),
-      currency: currency
-    })
-  end
-
   def as_json(*)
     super.merge! \
       deposit_address: payment_address&.address,
       currency:        currency.code
   end
-
-  private
-
-  def sync_update
-    return unless member
-    Pusher["private-#{member.sn}"].trigger_async 'accounts', {
-      id:         id,
-      type:       'update',
-      attributes: { balance: balance, locked: locked }
-    }
-  end
-
 end
 
 # == Schema Information

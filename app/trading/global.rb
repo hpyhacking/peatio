@@ -6,22 +6,8 @@ class Global
   NOTHING_ARRAY = YAML::dump([])
   LIMIT = 80
 
-  class << self
-    def channel
-      "market-global"
-    end
-
-    def trigger(event, data)
-      Pusher.trigger_async(channel, event, data)
-    end
-  end
-
   def initialize(market_id)
     @market_id = market_id
-  end
-
-  def channel
-    "market-#{@market_id}-global"
   end
 
   attr_accessor :market_id
@@ -75,15 +61,6 @@ class Global
 
   def trades
     Rails.cache.read("peatio:#{market_id}:trades") || []
-  end
-
-  def trigger_orderbook
-    data = {asks: asks, bids: bids}
-    Pusher.trigger_async(channel, "update", data)
-  end
-
-  def trigger_trades(trades)
-    Pusher.trigger_async(channel, "trades", trades: trades)
   end
 
   def at

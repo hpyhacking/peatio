@@ -20,10 +20,6 @@ class Withdraw < ActiveRecord::Base
   before_validation(on: :create) { self.account ||= member.ac(currency) }
   before_validation { self.completed_at ||= Time.current if completed? }
 
-  after_update :sync_update
-  after_create :sync_create
-  after_destroy :sync_destroy
-
   validates :rid, :aasm_state, presence: true
   validates :txid, uniqueness: { scope: :currency_id }, if: :txid?
 
@@ -133,18 +129,6 @@ private
 
   def send_coins!
     AMQPQueue.enqueue(:withdraw_coin, id: id) if coin?
-  end
-
-  def sync_update
-    Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'update', id: id, attributes: changed_attributes })
-  end
-
-  def sync_create
-    Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'create', attributes: as_json })
-  end
-
-  def sync_destroy
-    Pusher["private-#{member.sn}"].trigger_async('withdraws', { type: 'destroy', id: id })
   end
 end
 

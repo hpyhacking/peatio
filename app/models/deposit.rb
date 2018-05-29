@@ -20,10 +20,6 @@ class Deposit < ActiveRecord::Base
 
   scope :recent, -> { order(id: :desc) }
 
-  after_create :sync_create
-  after_update :sync_update
-  after_destroy :sync_destroy
-
   before_validation { self.completed_at ||= Time.current if completed? }
 
   aasm whiny_transitions: false do
@@ -67,20 +63,6 @@ class Deposit < ActiveRecord::Base
 
   def completed?
     !submitted?
-  end
-
-private
-
-  def sync_update
-    Pusher["private-#{member.sn}"].trigger_async('deposits', type: 'update', id: id, attributes: as_json.merge(currency: currency.code))
-  end
-
-  def sync_create
-    Pusher["private-#{member.sn}"].trigger_async('deposits', type: 'create', attributes: as_json.merge(currency: currency.code))
-  end
-
-  def sync_destroy
-    Pusher["private-#{member.sn}"].trigger_async('deposits', type: 'destroy', id: id)
   end
 end
 

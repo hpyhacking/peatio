@@ -13,8 +13,16 @@ class OrderBid < Order
     member.get_account(bid)
   end
 
+  def hold_account!
+    Account.lock.find_by!(member_id: member_id, currency_id: bid)
+  end
+
   def expect_account
     member.get_account(ask)
+  end
+
+  def expect_account!
+    Account.lock.find_by!(member_id: member_id, currency_id: ask)
   end
 
   def avg_price

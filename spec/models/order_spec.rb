@@ -62,10 +62,10 @@ describe Order, '#done', type: :model do
   let(:expect_account) { create_account(:btc) }
 
   before do
-    order_bid.stubs(:hold_account).returns(hold_account)
-    order_bid.stubs(:expect_account).returns(expect_account)
-    order_ask.stubs(:hold_account).returns(hold_account)
-    order_ask.stubs(:expect_account).returns(expect_account)
+    order_bid.stubs(:hold_account!).returns(hold_account.lock!)
+    order_bid.stubs(:expect_account!).returns(expect_account.lock!)
+    order_ask.stubs(:hold_account!).returns(hold_account.lock!)
+    order_ask.stubs(:expect_account!).returns(expect_account.lock!)
     OrderBid.any_instance.stubs(:fee).returns(bid_fee)
     OrderAsk.any_instance.stubs(:fee).returns(ask_fee)
   end
@@ -82,15 +82,15 @@ describe Order, '#done', type: :model do
 
     it 'order_bid done' do
       trade = mock_trade(strike_volume, strike_price)
-      hold_account.expects(:unlock_and_sub_funds).with(strike_volume * strike_price)
-      expect_account.expects(:plus_funds).with(strike_volume - strike_volume * bid_fee)
+      hold_account.expects(:unlock_and_sub_funds!).with(strike_volume * strike_price)
+      expect_account.expects(:plus_funds!).with(strike_volume - strike_volume * bid_fee)
       order_bid.strike(trade)
     end
 
     it 'order_ask done' do
       trade = mock_trade(strike_volume, strike_price)
-      hold_account.expects(:unlock_and_sub_funds).with(strike_volume)
-      expect_account.expects(:plus_funds).with(strike_volume * strike_price - strike_volume * strike_price * ask_fee)
+      hold_account.expects(:unlock_and_sub_funds!).with(strike_volume)
+      expect_account.expects(:plus_funds!).with(strike_volume * strike_price - strike_volume * strike_price * ask_fee)
       order_ask.strike(trade)
     end
   end
@@ -153,9 +153,9 @@ describe Order, '#done', type: :model do
 
         it 'should unlock not used funds' do
           trade = mock_trade(strike_volume, strike_price)
-          hold_account.expects(:unlock_and_sub_funds).with(strike_volume * strike_price)
-          expect_account.expects(:plus_funds).with(strike_volume - strike_volume * bid_fee)
-          hold_account.expects(:unlock_funds).with(strike_volume * (order.price - strike_price))
+          hold_account.expects(:unlock_and_sub_funds!).with(strike_volume * strike_price)
+          expect_account.expects(:plus_funds!).with(strike_volume - strike_volume * bid_fee)
+          hold_account.expects(:unlock_funds!).with(strike_volume * (order.price - strike_price))
           order_bid.strike(trade)
         end
       end

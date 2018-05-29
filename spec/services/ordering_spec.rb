@@ -8,8 +8,8 @@ describe Ordering do
   describe 'ordering service can submit order' do
     before do
       order.stubs(:hold_account).returns(account)
+      order.stubs(:hold_account!).returns(account.lock!)
       AMQPQueue.expects(:enqueue).with(:matching, anything).once
-      AMQPQueue.expects(:enqueue).with(:pusher_member, anything).at_least_once
     end
 
     it 'should return true on success' do
@@ -30,7 +30,7 @@ describe Ordering do
 
   describe 'ordering service can cancel order' do
     before do
-      order.stubs(:hold_account).returns(account)
+      order.stubs(:hold_account!).returns(account.lock!)
     end
 
     it 'should soft cancel order' do

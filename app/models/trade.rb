@@ -46,12 +46,7 @@ class Trade < ActiveRecord::Base
     end
   end
 
-  def trigger_notify
-    Pusher["private-#{ask.member.sn}"].trigger_async('trade', for_notify('ask'))
-    Pusher["private-#{bid.member.sn}"].trigger_async('trade', for_notify('bid'))
-  end
-
-  def for_notify(kind=nil)
+  def for_notify(kind = nil)
     { id:     id,
       kind:   kind || side,
       at:     created_at.to_i,

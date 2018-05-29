@@ -42,8 +42,8 @@ module Matching
 
     def create_trade_and_strike_orders
       ActiveRecord::Base.transaction do
-        @ask = OrderAsk.lock(true).find(@payload[:ask_id])
-        @bid = OrderBid.lock(true).find(@payload[:bid_id])
+        @ask = OrderAsk.lock.find(@payload[:ask_id])
+        @bid = OrderBid.lock.find(@payload[:bid_id])
 
         unless valid?
           raise TradeExecutionError.new \
@@ -51,15 +51,15 @@ module Matching
         end
 
         @trade = Trade.create! \
-          ask_id:        @ask.id,
-          ask_member_id: @ask.member_id,
-          bid_id:        @bid.id,
-          bid_member_id: @bid.member_id,
-          price:         @price,
-          volume:        @volume,
-          funds:         @funds,
-          market_id:     @market.id,
-          trend:         trend
+          ask:        @ask,
+          ask_member: @ask.member,
+          bid:        @bid,
+          bid_member: @bid.member,
+          price:      @price,
+          volume:     @volume,
+          funds:      @funds,
+          market:     @market,
+          trend:      trend
 
         @bid.strike @trade
         @ask.strike @trade
@@ -67,15 +67,13 @@ module Matching
     end
 
     def publish_trade
-      @ask.hold_account.reload.trigger
-      @bid.hold_account.reload.trigger
       AMQPQueue.publish :trade, @trade.as_json, {
         headers: {
-            market:       @market.id,
-            ask_member_id: @ask.member_id,
-            bid_member_id: @bid.member_id
-          }
+          market:        @market.id,
+          ask_member_id: @ask.member_id,
+          bid_member_id: @bid.member_id
         }
+      }
     end
   end
 end
