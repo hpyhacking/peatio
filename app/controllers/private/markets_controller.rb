@@ -25,8 +25,8 @@ module Private
       @trades = @market.trades
 
       # default to limit order
-      @order_bid = OrderBid.new ord_type: 'limit'
-      @order_ask = OrderAsk.new ord_type: 'limit'
+      @order_bid = OrderBid.new(ord_type: 'limit')
+      @order_ask = OrderAsk.new(ord_type: 'limit')
 
       set_member_data if current_user
       gon.jbuilder
@@ -45,12 +45,12 @@ module Private
 
     def set_member_data
       @member = current_user
-      @orders_wait = @member.orders.where(market_id: @market).with_state(:wait)
-      @trades_done = Trade.for_member(@market.id, current_user, limit: 100, order: 'id desc')
+      @orders_wait = @member.orders.includes(:market).where(market_id: @market).with_state(:wait)
+      @trades_done = Trade.includes(:market).for_member(@market.id, current_user, limit: 100, order: 'id desc')
     end
 
     def trading_ui_variables
-      accounts = @member&.accounts&.enabled&.map do |x|
+      accounts = @member&.accounts&.enabled&.includes(:currency)&.map do |x|
         { id:         x.id,
           locked:     x.locked,
           amount:     x.amount,

@@ -11,8 +11,8 @@ module Private
 
     def index
       @currencies        = Currency.enabled.sort
-      @deposits          = current_user.deposits
-      @accounts          = current_user.accounts.enabled
+      @deposits          = current_user.deposits.includes(:currency)
+      @accounts          = current_user.accounts.enabled.includes(:currency)
       @withdraws         = current_user.withdraws
 
       gon.jbuilder

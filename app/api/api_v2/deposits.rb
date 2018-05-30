@@ -17,7 +17,7 @@ module APIv2
       optional :state, type: String, values: -> { Deposit::STATES.map(&:to_s) }
     end
     get "/deposits" do
-      deposits = current_user.deposits.limit(params[:limit]).recent
+      deposits = current_user.deposits.includes(:currency).limit(params[:limit]).recent
       deposits = deposits.with_currency(params[:currency]) if params[:currency]
       deposits = deposits.where(aasm_state: params[:state]) if params[:state].present?
       present deposits, with: APIv2::Entities::Deposit

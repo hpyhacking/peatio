@@ -12,9 +12,13 @@ module Admin
         @latest_withdraws  = ::Withdraws::Coin.where(currency: currency)
                                               .where('created_at <= ?', 1.day.ago)
                                               .order(id: :desc)
+                                              .includes(:member)
+                                              .includes(:currency)
         @all_withdraws     = ::Withdraws::Coin.where(currency: currency)
                                               .where('created_at > ?', 1.day.ago)
                                               .order(id: :desc)
+                                              .includes(:member)
+                                              .includes(:currency)
       end
 
       def show

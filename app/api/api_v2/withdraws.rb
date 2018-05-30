@@ -23,6 +23,7 @@ module APIv2
         .withdraws
         .order(id: :desc)
         .tap { |q| q.where!(currency: currency) if currency }
+        .includes(:currency)
         .page(params[:page])
         .per(params[:limit])
         .tap { |q| present q, with: APIv2::Entities::Withdraw }

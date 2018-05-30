@@ -7,7 +7,7 @@ module Admin
 
     def index
       @grid = ProofsGrid.new(params[:proofs_grid])
-      @assets = @grid.assets.page(params[:page])
+      @assets = @grid.assets.includes(:currency).page(params[:page])
     end
 
     def edit

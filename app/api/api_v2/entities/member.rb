@@ -6,7 +6,9 @@ module APIv2
     class Member < Base
       expose :sn
       expose :email
-      expose(:accounts, using: ::APIv2::Entities::Account) { |m| m.accounts.enabled }
+      expose(:accounts, using: ::APIv2::Entities::Account) do |m|
+        m.accounts.enabled.includes(:currency)
+      end
     end
   end
 end

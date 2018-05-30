@@ -9,8 +9,8 @@ module Private
     def account
       @market = current_market
 
-      @deposits = Deposit.where(member: current_user, aasm_state: :accepted)
-      @withdraws = Withdraw.where(member: current_user, aasm_state: :succeed)
+      @deposits = Deposit.where(member: current_user, aasm_state: :accepted).includes(:currency)
+      @withdraws = Withdraw.where(member: current_user, aasm_state: :succeed).includes(:currency)
 
       @transactions = (@deposits + @withdraws).sort_by {|t| -t.created_at.to_i }
       @transactions = Kaminari.paginate_array(@transactions).page(params[:page]).per(20)
@@ -18,12 +18,12 @@ module Private
 
     def trades
       @trades = current_user.trades
-        .includes(:ask_member).includes(:bid_member)
+        .includes(:market)
         .order('id desc').page(params[:page]).per(20)
     end
 
     def orders
-      @orders = current_user.orders.includes(:trades).order("id desc").page(params[:page]).per(20)
+      @orders = current_user.orders.order("id desc").page(params[:page]).per(20)
     end
 
     private
