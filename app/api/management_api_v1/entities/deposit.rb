@@ -6,7 +6,7 @@ module ManagementAPIv1
     class Deposit < Base
       expose :tid, documentation: { type: Integer, desc: 'The shared transaction ID.' }
       expose(:currency, documentation: { type: String, desc: 'The currency code.' }) { |d| d.currency.code }
-      expose(:uid, documentation: { type: String, desc: 'The shared user ID.' }) { |w| w.member.authentications.barong.first.uid }
+      expose(:uid, documentation: { type: String, desc: 'The shared user ID.' }) { |w| w.member.uid }
       expose(:type, documentation: { type: String, desc: 'The deposit type (fiat or coin).' }) { |d| d.class.name.demodulize.underscore }
       expose :amount, documentation: { type: String, desc: 'The deposit amount.' }, format_with: :decimal
       states = [

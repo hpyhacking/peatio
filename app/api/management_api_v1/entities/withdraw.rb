@@ -5,7 +5,7 @@ module ManagementAPIv1
   module Entities
     class Withdraw < Base
       expose :tid, documentation: { type: Integer, desc: 'The shared transaction ID.' }
-      expose(:uid, documentation: { type: String, desc: 'The shared user ID.' }) { |w| w.member.authentications.barong.first.uid }
+      expose(:uid, documentation: { type: String, desc: 'The shared user ID.' }) { |w| w.member.uid }
       expose(:currency, documentation: { type: String, desc: 'The currency code.' }) { |w| w.currency.code }
       expose(:type, documentation: { type: String, desc: 'The withdraw type (fiat or coin).' }) { |w| w.class.name.demodulize.underscore }
       expose :amount, documentation: { type: String, desc: 'The withdraw amount excluding fee.' }, format_with: :decimal

@@ -12,7 +12,7 @@ describe ManagementAPIv1::Entities::Withdraw do
     it { expect(subject.tid).to eq record.tid }
     it { expect(subject.rid).to eq rid }
     it { expect(subject.currency).to eq 'usd' }
-    it { expect(subject.uid).to eq record.member.authentications.barong.first.uid }
+    it { expect(subject.uid).to eq record.member.uid }
     it { expect(subject.type).to eq 'fiat' }
     it { expect(subject.amount).to eq record.amount.to_s }
     it { expect(subject.fee).to eq record.fee.to_s }
@@ -31,7 +31,7 @@ describe ManagementAPIv1::Entities::Withdraw do
     it { expect(subject.tid).to eq record.tid }
     it { expect(subject.rid).to eq rid }
     it { expect(subject.currency).to eq 'btc' }
-    it { expect(subject.uid).to eq record.member.authentications.barong.first.uid }
+    it { expect(subject.uid).to eq record.member.uid }
     it { expect(subject.type).to eq 'coin' }
     it { expect(subject.amount).to eq record.amount.to_s }
     it { expect(subject.fee).to eq record.fee.to_s }
