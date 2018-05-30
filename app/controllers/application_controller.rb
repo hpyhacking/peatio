@@ -16,7 +16,7 @@ private
   def current_market
     unless params[:market].blank?
       Market.find_by_id(params[:market])
-    end || Market.first
+    end || Market.ordered.first
   end
   memoize :current_market
 
@@ -55,7 +55,7 @@ private
     gon.local = I18n.locale
     gon.market = current_market.attributes
     gon.ticker = current_market.ticker
-    gon.markets = Market.find_each.each_with_object({}) { |market, memo| memo[market.id] = market.as_json }
+    gon.markets = Market.ordered.each_with_object({}) { |market, memo| memo[market.id] = market.as_json }
     gon.host = request.base_url
     gon.pusher = {
       key:       ENV.fetch('PUSHER_CLIENT_KEY'),
@@ -135,7 +135,7 @@ private
     gon.fiat_currencies = Currency.enabled.order(id: :asc).fiats.pluck(:code)
 
     gon.tickers = {}
-    Market.all.each do |market|
+    Market.ordered.each do |market|
       gon.tickers[market.id] = market.unit_info.merge(Global[market.id].ticker)
     end
 

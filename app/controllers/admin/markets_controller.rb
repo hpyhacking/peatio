@@ -4,7 +4,7 @@
 module Admin
   class MarketsController < BaseController
     def index
-      @markets = Market.page(params[:page]).per(100)
+      @markets = Market.ordered.page(params[:page]).per(100)
     end
 
     def new

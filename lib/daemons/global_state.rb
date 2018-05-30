@@ -8,8 +8,7 @@ Signal.trap(:TERM) { $running = false }
 
 while $running do
   tickers = {}
-
-  Market.find_each do |market|
+  Market.all.each do |market|
     global = Global[market.id]
     Pusher.trigger("market-#{market.id}-global", :update, asks: global.asks, bids: global.bids)
     tickers[market.id] = market.unit_info.merge(global.ticker)

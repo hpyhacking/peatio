@@ -13,7 +13,7 @@ describe Admin::MarketsController, type: :controller do
       enabled:       true,
       position:      100 }
   end
-  let(:existing_market) { Market.first }
+  let(:existing_market) { Market.ordered.first }
 
   before { session[:member_id] = member.id }
 
@@ -23,12 +23,12 @@ describe Admin::MarketsController, type: :controller do
         post :create, trading_pair: attributes
         expect(response).to redirect_to admin_markets_path
       end.to change(Market, :count)
-      market = Market.last
+      market = Market.ordered.last
       attributes.each { |k, v| expect(market.method(k).call).to eq v }
     end
 
     it 'doesn\'t create market if commodity pair already exists' do
-      existing = Market.first
+      existing = Market.ordered.first
       params   = attributes.merge(bid_unit: existing.bid_unit, ask_unit: existing.ask_unit)
       expect do
         post :create, trading_pair: params
@@ -62,7 +62,7 @@ describe Admin::MarketsController, type: :controller do
 
     it 'updates market attributes' do
       post :create, trading_pair: attributes
-      market = Market.last
+      market = Market.ordered.last
       attributes.each { |k, v| expect(market.method(k).call).to eq v }
       post :update, trading_pair: new_attributes, id: market.id
       expect(response).to redirect_to admin_markets_path
@@ -83,8 +83,8 @@ describe Admin::MarketsController, type: :controller do
       expect(get: base_route).to be_routable
       expect(post: base_route).to be_routable
       expect(get: "#{base_route}/new").to be_routable
-      expect(get: "#{base_route}/#{Market.first.id}").to be_routable
-      expect(put: "#{base_route}/#{Market.first.id}").to be_routable
+      expect(get: "#{base_route}/#{Market.ordered.first.id}").to be_routable
+      expect(put: "#{base_route}/#{Market.ordered.first.id}").to be_routable
     end
 
     it 'doesn\'t routes to CurrenciesController' do

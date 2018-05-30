@@ -20,9 +20,7 @@ class Market < ActiveRecord::Base
 
   attr_readonly :ask_unit, :bid_unit, :ask_precision, :bid_precision
 
-  # TODO: Don't use default_scope. Refactor to scopes!
-  default_scope { order(position: :asc) }
-
+  scope :ordered, -> { order(position: :asc) }
   scope :enabled, -> { where(enabled: true) }
 
   validate { errors.add(:ask_unit, :invalid) if ask_unit == bid_unit }
