@@ -1,6 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+
 # People exchange commodities in markets. Each market focuses on certain
 # commodity pair `{A, B}`. By convention, we call people exchange A for B
 # *sellers* who submit *ask* orders, and people exchange B for A *buyers*
@@ -80,18 +81,6 @@ class Market < ActiveRecord::Base
   def trades; global.trades end
   def ticker; global.ticker end
 
-  def scope?(account_or_currency)
-    code = if account_or_currency.is_a? Account
-             account_or_currency.currency
-           elsif account_or_currency.is_a? Currency
-             account_or_currency.code
-           else
-             account_or_currency
-           end
-
-    ask_unit == code || bid_unit == code
-  end
-
   def unit_info
     {name: name, base_unit: ask_unit, quote_unit: bid_unit}
   end
@@ -111,7 +100,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20180525101406
+# Schema version: 20180529125011
 #
 # Table name: markets
 #

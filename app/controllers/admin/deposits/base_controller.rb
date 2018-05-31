@@ -11,7 +11,7 @@ module Admin
 
       def currency
         Currency.where(type: self.class.name.demodulize.underscore.gsub(/_controller\z/, '').singularize)
-                .find_by_code!(params[:currency])
+                .find(params[:currency])
       end
       helper_method :currency
     end

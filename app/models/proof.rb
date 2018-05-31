@@ -38,13 +38,13 @@ class Proof < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180227163417
+# Schema version: 20180529125011
 #
 # Table name: proofs
 #
 #  id          :integer          not null, primary key
 #  root        :string(255)
-#  currency_id :integer
+#  currency_id :string(10)
 #  ready       :boolean          default(FALSE)
 #  created_at  :datetime
 #  updated_at  :datetime

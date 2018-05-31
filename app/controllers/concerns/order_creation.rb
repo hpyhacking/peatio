@@ -6,8 +6,8 @@ module Concerns
     extend ActiveSupport::Concern
 
     def order_params(order)
-      params[order][:bid] = Currency.enabled.find_by(code: params[:bid])&.id
-      params[order][:ask] = Currency.enabled.find_by(code: params[:ask])&.id
+      params[order][:bid] = Currency.enabled.find(params[:bid])&.id
+      params[order][:ask] = Currency.enabled.find(params[:ask])&.id
       params[order][:state] = Order::WAIT
       params[order][:market_id] = params[:market]
       params[order][:member_id] = current_user.id

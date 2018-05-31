@@ -37,7 +37,7 @@ feature 'Withdraw', js: true do
     click_link I18n.t('actions.view')
     page.within_window windows.last do
       click_on I18n.t('actions.process')
-      expect(current_path).to eq(admin_withdraw_path(currency: usd_account.currency.code, id: usd_account.id))
+      expect(current_path).to eq(admin_withdraw_path(currency: usd_account.currency.code, id: usd_withdraw.id))
     end
     expect(usd_account.reload.locked).to be_d '3000'
     expect(usd_account.reload.balance).to be_d '10000'
@@ -49,7 +49,7 @@ feature 'Withdraw', js: true do
     click_on I18n.t('actions.view')
     page.within_window windows.last do
       click_on I18n.t('actions.reject')
-      expect(current_path).to eq(admin_withdraw_path(currency: usd_account.currency.code, id: usd_account.id))
+      expect(current_path).to eq(admin_withdraw_path(currency: usd_account.currency.code, id: usd_withdraw.id))
     end
     expect(usd_account.reload.locked).to be_d '3000'
     expect(usd_account.reload.balance).to be_d '15000.0000'
@@ -73,7 +73,7 @@ feature 'Withdraw', js: true do
     click_link I18n.t('actions.view')
     page.within_window windows.last do
       click_on I18n.t('actions.process')
-      expect(current_path).to eq(admin_withdraw_path(currency: btc_account.currency.code, id: btc_account.id))
+      expect(current_path).to eq(admin_withdraw_path(currency: btc_account.currency.code, id: btc_withdraw.id))
     end
     expect(btc_account.reload.locked).to be_d '10'
     expect(btc_account.reload.balance).to be_d '50'

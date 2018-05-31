@@ -112,7 +112,7 @@ class Member < ActiveRecord::Base
   end
 
   def uid
-    authentications.barong.first&.uid || email
+    self.class.uid(self)
   end
 
   def trigger_pusher_event(event, data)
@@ -137,6 +137,16 @@ private
   end
 
   class << self
+    def uid(member_or_id)
+      id  = self === member_or_id ? member_or_id.id : member_or_id
+      uid = Authentication.barong.where(member_id: id).limit(1).pluck(:uid).first
+      if uid.blank?
+        self === member_or_id ? member_or_id.email : Member.where(id: id).limit(1).pluck(:email).first
+      else
+        uid
+      end
+    end
+
     def trigger_pusher_event(member_or_id, event, data)
       AMQPQueue.enqueue :pusher_member, \
         member_id: self === member_or_id ? member_or_id.id : member_or_id,

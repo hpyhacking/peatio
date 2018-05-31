@@ -5,7 +5,7 @@ describe Deposit do
   let(:member) { create(:member) }
   let(:amount) { 100.to_d }
   let(:deposit) { create(:deposit_usd, member: member, amount: amount, currency: currency) }
-  let(:currency) { Currency.find_by!(code: :usd) }
+  let(:currency) { Currency.find(:usd) }
 
   it 'computes fee' do
     expect(deposit.fee).to eql 0.to_d

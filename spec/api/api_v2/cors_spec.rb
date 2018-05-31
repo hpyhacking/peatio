@@ -34,7 +34,7 @@ describe APIv2::Members, type: :request do
   end
 
   it 'sends CORS headers when invalid parameter supplied' do
-    api_get '/api/v2/orders', token: token, params: { market: 'usdusd' }
+    api_get '/api/v2/deposits', token: token, params: { currency: 'uah' }
     expect(response).to have_http_status 422
     check_cors(response)
   end

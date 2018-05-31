@@ -7,9 +7,8 @@ module APIv2
 
     params :market do
       requires :market,
-               type:   String,
-               values: -> { Market.ordered.pluck(:id) },
-               desc:   -> { APIv2::Entities::Market.documentation[:id] }
+               type: String,
+               desc: -> { APIv2::Entities::Market.documentation[:id] }
     end
 
     params :order do

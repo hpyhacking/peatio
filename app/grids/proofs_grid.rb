@@ -10,7 +10,7 @@ class ProofsGrid
   filter(:created_at, :date, range: true)
 
   column(:id)
-  column(:currency) { |p| p.currency.code.upcase }
+  column(:currency) { |p| p.currency_id.upcase }
   column(:balance)
   column(:sum)
   column(:created_at) { |p| p.created_at.to_date }

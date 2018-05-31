@@ -20,11 +20,10 @@ describe APIv2::Orders, type: :request do
       expect(response.code).to eq '401'
     end
 
-    it 'should validate market param' do
-      api_get '/api/v2/orders', params: { market: 'mtgox' }, token: token
-
-      expect(response.code).to eq '422'
-      expect(JSON.parse(response.body)).to eq ({ 'error' => { 'code' => 1001, 'message' => 'market does not have a valid value' } })
+    it 'return empty set for non-existing market' do
+      api_get '/api/v2/orders', params: { market: 'usdusd' }, token: token
+      expect(response).to have_http_status 200
+      expect(JSON.parse(response.body)).to be_empty
     end
 
     it 'should validate state param' do

@@ -15,9 +15,7 @@ module APIv2
       optional :limit,    type: Integer, default: 100, range: 1..1000, desc: 'Number of withdraws per page (defaults to 100, maximum is 1000).'
     end
     get '/withdraws' do
-      if params[:currency].present?
-        currency = Currency.find_by!(code: params[:currency])
-      end
+      currency = Currency.find(params[:currency]) if params[:currency].present?
 
       current_user
         .withdraws
@@ -36,7 +34,7 @@ module APIv2
       requires :rid,      type: String, desc: 'The shared recipient ID.'
     end
     post '/withdraws' do
-      currency = Currency.find_by!(code: params[:currency])
+      currency = Currency.find(params[:currency])
       withdraw = "withdraws/#{currency.type}".camelize.constantize.new \
         rid:       params[:rid],
         sum:       params[:amount],

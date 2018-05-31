@@ -50,7 +50,7 @@ class Deposit < ActiveRecord::Base
   def as_json_for_event_api
     { tid:                      tid,
       uid:                      member.uid,
-      currency:                 currency.code,
+      currency:                 currency_id,
       amount:                   amount.to_s('F'),
       state:                    aasm_state,
       created_at:               created_at.iso8601,
@@ -67,13 +67,13 @@ class Deposit < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180517110003
+# Schema version: 20180529125011
 #
 # Table name: deposits
 #
 #  id            :integer          not null, primary key
 #  member_id     :integer          not null
-#  currency_id   :integer          not null
+#  currency_id   :string(10)       not null
 #  amount        :decimal(32, 16)  not null
 #  fee           :decimal(32, 16)  not null
 #  address       :string(64)

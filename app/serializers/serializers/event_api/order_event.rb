@@ -5,13 +5,13 @@ module Serializers
   module EventAPI
     class OrderEvent
       def call(order)
-        { market:                 order.market.id,
+        { market:                 order.market_id,
           type:                   type(order),
-          trader_uid:             order.member.uid,
-          income_unit:            Currency.find(buy?(order) ? order.ask : order.bid).code,
+          trader_uid:             Member.uid(order.member_id),
+          income_unit:            buy?(order) ? order.ask : order.bid,
           income_fee_type:        'relative',
           income_fee_value:       order.fee.to_s('F'),
-          outcome_unit:           Currency.find(buy?(order) ? order.bid : order.ask).code,
+          outcome_unit:           buy?(order) ? order.bid : order.ask,
           outcome_fee_type:       'relative',
           outcome_fee_value:      '0.0',
           initial_income_amount:  initial_income_amount(order),

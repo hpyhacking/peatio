@@ -7,8 +7,8 @@ describe Serializers::EventAPI::OrderCompleted do
   let :order_ask do
     # Sell 100 BTC for 3 USD (0.03 USD per BTC).
     create :order_ask, \
-      bid:           Currency.find_by!(code: :usd).id,
-      ask:           Currency.find_by!(code: :btc).id,
+      bid:           :usd,
+      ask:           :btc,
       market:        Market.find(:btcusd),
       state:         :wait,
       ord_type:      :limit,

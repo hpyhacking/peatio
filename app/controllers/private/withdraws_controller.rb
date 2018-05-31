@@ -28,7 +28,7 @@ module Private
   private
 
     def currency
-      @currency ||= Currency.enabled.find_by_code!(params[:currency])
+      @currency ||= Currency.enabled.find(params[:currency])
     end
 
     def withdraw_class

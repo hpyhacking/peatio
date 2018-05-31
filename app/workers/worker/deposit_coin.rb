@@ -9,7 +9,7 @@ module Worker
     def process(payload)
       payload.symbolize_keys!
 
-      ccy = Currency.find_by_code!(payload.fetch(:currency))
+      ccy = Currency.find(payload.fetch(:currency))
       tx  = ccy.api.load_deposit(payload.fetch(:txid))
 
       if tx

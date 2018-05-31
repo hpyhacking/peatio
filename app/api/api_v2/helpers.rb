@@ -3,6 +3,8 @@
 
 module APIv2
   module Helpers
+    extend Memoist
+
     def authenticate!
       current_user or raise AuthorizationError
     end
@@ -26,8 +28,9 @@ module APIv2
     end
 
     def redis
-      @r ||= KlineDB.redis
+      KlineDB.redis
     end
+    memoize :redis
 
     def current_user
       # JWT authentication provides member email.
@@ -35,10 +38,12 @@ module APIv2
         Member.find_by_email(env['api_v2.authentic_member_email'])
       end
     end
+    memoize :current_user
 
     def current_market
-      @current_market ||= Market.find params[:market]
+      Market.find_by_id(params[:market])
     end
+    memoize :current_market
 
     def time_to
       params[:timestamp].present? ? Time.at(params[:timestamp]) : nil
@@ -48,8 +53,8 @@ module APIv2
       (attrs[:side] == 'sell' ? OrderAsk : OrderBid).new \
         state:         ::Order::WAIT,
         member:        current_user,
-        ask:           Currency.enabled.find_by!(code: current_market.base_unit).id,
-        bid:           Currency.enabled.find_by!(code: current_market.quote_unit).id,
+        ask:           current_market&.base_unit,
+        bid:           current_market&.quote_unit,
         market:        current_market,
         ord_type:      attrs[:ord_type] || 'limit',
         price:         attrs[:price],

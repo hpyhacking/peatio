@@ -123,7 +123,7 @@ private
       }
     }
 
-    gon.currencies = Currency.enabled.order(id: :asc).inject({}) do |memo, currency|
+    gon.currencies = Currency.enabled.ordered.inject({}) do |memo, currency|
       memo[currency.code] = {
         code: currency.code,
         symbol: currency.symbol,
@@ -132,7 +132,7 @@ private
       memo
     end
     gon.display_currency = ENV.fetch('DISPLAY_CURRENCY')
-    gon.fiat_currencies = Currency.enabled.order(id: :asc).fiats.pluck(:code)
+    gon.fiat_currencies = Currency.enabled.ordered.fiats.codes
 
     gon.tickers = {}
     Market.ordered.each do |market|

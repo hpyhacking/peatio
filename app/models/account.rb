@@ -81,18 +81,18 @@ class Account < ActiveRecord::Base
   def as_json(*)
     super.merge! \
       deposit_address: payment_address&.address,
-      currency:        currency.code
+      currency:        currency_id
   end
 end
 
 # == Schema Information
-# Schema version: 20180524170927
+# Schema version: 20180529125011
 #
 # Table name: accounts
 #
 #  id          :integer          not null, primary key
 #  member_id   :integer          not null
-#  currency_id :integer          not null
+#  currency_id :string(10)       not null
 #  balance     :decimal(32, 16)  default(0.0), not null
 #  locked      :decimal(32, 16)  default(0.0), not null
 #  created_at  :datetime         not null

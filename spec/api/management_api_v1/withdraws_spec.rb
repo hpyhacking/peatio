@@ -78,7 +78,7 @@ describe ManagementAPIv1::Withdraws, type: :request do
     end
 
     let(:member) { create(:member, :barong) }
-    let(:currency) { Currency.find_by!(code: :btc) }
+    let(:currency) { Currency.find(:btc) }
     let(:amount) { 0.1575 }
     let(:signers) { %i[alex jeff] }
     let :data do
@@ -133,7 +133,7 @@ describe ManagementAPIv1::Withdraws, type: :request do
     end
 
     context 'fiat withdraw' do
-      let(:currency) { Currency.find_by!(code: :usd) }
+      let(:currency) { Currency.find(:usd) }
       let(:amount) { 5 }
       let(:balance) { 20 }
 
@@ -179,7 +179,7 @@ describe ManagementAPIv1::Withdraws, type: :request do
       put_json '/management_api/v1/withdraws/action', multisig_jwt_management_api_v1({ data: data }, *signers)
     end
 
-    let(:currency) { Currency.find_by!(code: :usd) }
+    let(:currency) { Currency.find(:usd) }
     let(:member) { create(:member, :barong) }
     let(:amount) { 160.79 }
     let(:signers) { %i[alex jeff] }
@@ -190,7 +190,7 @@ describe ManagementAPIv1::Withdraws, type: :request do
     before { account.plus_funds(balance) }
 
     context 'crypto withdraws' do
-      let(:currency) { Currency.find_by!(code: :btc) }
+      let(:currency) { Currency.find(:btc) }
 
       context 'action: :process' do
         before { data[:action] = :process }

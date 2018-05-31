@@ -6,7 +6,7 @@ describe Currency do
   after { currency.update_columns(deposit_fee: deposit_fee) }
 
   context 'fiat' do
-    let(:currency) { Currency.find_by_code!(:usd) }
+    let(:currency) { Currency.find(:usd) }
     it 'allows to change deposit fee' do
       currency.update!(deposit_fee: 0.25)
       expect(currency.deposit_fee).to eq 0.25
@@ -14,7 +14,7 @@ describe Currency do
   end
 
   context 'coin' do
-    let(:currency) { Currency.find_by_code!(:btc) }
+    let(:currency) { Currency.find(:btc) }
     it 'doesn\'t allow to change deposit fee' do
       currency.update!(deposit_fee: 0.25)
       expect(currency.deposit_fee).to eq 0

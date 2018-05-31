@@ -42,13 +42,13 @@ class OrderAsk < Order
 end
 
 # == Schema Information
-# Schema version: 20180516133138
+# Schema version: 20180529125011
 #
 # Table name: orders
 #
 #  id             :integer          not null, primary key
-#  bid            :integer          not null
-#  ask            :integer          not null
+#  bid            :string(10)       not null
+#  ask            :string(10)       not null
 #  market_id      :string(10)       not null
 #  price          :decimal(32, 16)
 #  volume         :decimal(32, 16)  not null

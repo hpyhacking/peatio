@@ -11,15 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180525101406) do
+ActiveRecord::Schema.define(version: 20180529125011) do
 
   create_table "accounts", force: :cascade do |t|
-    t.integer  "member_id",   limit: 4,                                         null: false
-    t.integer  "currency_id", limit: 4,                                         null: false
-    t.decimal  "balance",               precision: 32, scale: 16, default: 0.0, null: false
-    t.decimal  "locked",                precision: 32, scale: 16, default: 0.0, null: false
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
+    t.integer  "member_id",   limit: 4,                                          null: false
+    t.string   "currency_id", limit: 10,                                         null: false
+    t.decimal  "balance",                precision: 32, scale: 16, default: 0.0, null: false
+    t.decimal  "locked",                 precision: 32, scale: 16, default: 0.0, null: false
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
   end
 
   add_index "accounts", ["currency_id", "member_id"], name: "index_accounts_on_currency_id_and_member_id", unique: true, using: :btree
@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(version: 20180525101406) do
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", unique: true, using: :btree
 
   create_table "currencies", force: :cascade do |t|
-    t.string   "code",                 limit: 30,                                              null: false
     t.string   "symbol",               limit: 1,                                               null: false
     t.string   "type",                 limit: 30,                             default: "coin", null: false
     t.decimal  "deposit_fee",                       precision: 32, scale: 16, default: 0.0,    null: false
@@ -67,12 +66,11 @@ ActiveRecord::Schema.define(version: 20180525101406) do
     t.datetime "updated_at",                                                                   null: false
   end
 
-  add_index "currencies", ["code"], name: "index_currencies_on_code", unique: true, using: :btree
-  add_index "currencies", ["enabled", "code"], name: "index_currencies_on_enabled_and_code", using: :btree
+  add_index "currencies", ["enabled"], name: "index_currencies_on_enabled", using: :btree
 
   create_table "deposits", force: :cascade do |t|
     t.integer  "member_id",     limit: 4,                                         null: false
-    t.integer  "currency_id",   limit: 4,                                         null: false
+    t.string   "currency_id",   limit: 10,                                        null: false
     t.decimal  "amount",                    precision: 32, scale: 16,             null: false
     t.decimal  "fee",                       precision: 32, scale: 16,             null: false
     t.string   "address",       limit: 64
@@ -128,8 +126,8 @@ ActiveRecord::Schema.define(version: 20180525101406) do
   add_index "members", ["sn"], name: "index_members_on_sn", unique: true, using: :btree
 
   create_table "orders", force: :cascade do |t|
-    t.integer  "bid",            limit: 4,                                          null: false
-    t.integer  "ask",            limit: 4,                                          null: false
+    t.string   "bid",            limit: 10,                                         null: false
+    t.string   "ask",            limit: 10,                                         null: false
     t.string   "market_id",      limit: 10,                                         null: false
     t.decimal  "price",                     precision: 32, scale: 16
     t.decimal  "volume",                    precision: 32, scale: 16,               null: false
@@ -164,7 +162,7 @@ ActiveRecord::Schema.define(version: 20180525101406) do
   end
 
   create_table "payment_addresses", force: :cascade do |t|
-    t.integer  "currency_id", limit: 4,                   null: false
+    t.string   "currency_id", limit: 10,                  null: false
     t.integer  "account_id",  limit: 4,                   null: false
     t.string   "address",     limit: 64
     t.string   "secret",      limit: 128
@@ -179,7 +177,7 @@ ActiveRecord::Schema.define(version: 20180525101406) do
 
   create_table "proofs", force: :cascade do |t|
     t.string   "root",        limit: 255
-    t.integer  "currency_id", limit: 4
+    t.string   "currency_id", limit: 10
     t.boolean  "ready",                     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -223,7 +221,7 @@ ActiveRecord::Schema.define(version: 20180525101406) do
   create_table "withdraws", force: :cascade do |t|
     t.integer  "account_id",   limit: 4,                             null: false
     t.integer  "member_id",    limit: 4,                             null: false
-    t.integer  "currency_id",  limit: 4,                             null: false
+    t.string   "currency_id",  limit: 10,                            null: false
     t.decimal  "amount",                   precision: 32, scale: 16, null: false
     t.decimal  "fee",                      precision: 32, scale: 16, null: false
     t.string   "txid",         limit: 128

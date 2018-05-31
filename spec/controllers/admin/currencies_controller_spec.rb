@@ -40,7 +40,7 @@ describe Admin::CurrenciesController, type: :controller do
         post :create, currency: attributes
         expect(response).to redirect_to admin_currencies_path
       end.to change(Currency, :count)
-      currency = Currency.last
+      currency = Currency.find(:nbn)
       attributes.each { |k, v| expect(currency.method(k).call).to eq v }
     end
   end
@@ -98,7 +98,7 @@ describe Admin::CurrenciesController, type: :controller do
 
     it 'updates currency attributes' do
       post :create, currency: attributes
-      currency = Currency.last
+      currency = Currency.find(:nbn)
       attributes.each { |k, v| expect(currency.method(k).call).to eq v }
       post :update, currency: new_attributes, id: currency.id
       expect(response).to redirect_to admin_currencies_path

@@ -18,7 +18,7 @@ describe APIv2::Fees, type: :request do
 
       result = JSON.parse(response.body)
       currency = result.find { |c| c['currency'] == 'usd' }
-      withdraw_fee = Currency.find_by_code(:usd).withdraw_fee.to_s
+      withdraw_fee = Currency.find(:usd).withdraw_fee.to_s
 
       expect(currency.dig('currency')).to eq 'usd'
       expect(currency.dig('type')).to eq 'fiat'
@@ -43,7 +43,7 @@ describe APIv2::Fees, type: :request do
 
       result = JSON.parse(response.body)
       currency = result.find { |c| c['currency'] == 'usd' }
-      deposit_fee = Currency.find_by_code(:usd).deposit_fee.to_s
+      deposit_fee = Currency.find(:usd).deposit_fee.to_s
 
       expect(currency.dig('currency')).to eq 'usd'
       expect(currency.dig('type')).to eq 'fiat'

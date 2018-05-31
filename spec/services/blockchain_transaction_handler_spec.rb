@@ -5,7 +5,7 @@ describe Services::BlockchainTransactionHandler do
   subject { Services::BlockchainTransactionHandler.new(currency) }
 
   context 'sendmany Bitcoin transaction' do
-    let(:currency) { Currency.find_by_code!(:btc) }
+    let(:currency) { Currency.find(:btc) }
     let(:account) { create_account(:btc, balance: 0, locked: 0) }
     let!(:address) { create(:payment_address, account: account, currency: currency, address: '2N5hGKgd4HvXEpUCvMqwgZNSAFU5BQhpZSw') }
     let :tx do

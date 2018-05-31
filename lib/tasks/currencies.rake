@@ -7,7 +7,7 @@ namespace :currencies do
     require 'yaml'
     Currency.transaction do
       YAML.load_file(Rails.root.join('config/seed/currencies.yml')).each do |hash|
-        next if Currency.exists?(code: hash.fetch('code'))
+        next if Currency.exists?(id: hash.fetch('id'))
         Currency.create!(hash)
       end
     end

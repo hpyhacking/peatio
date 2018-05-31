@@ -1,8 +1,7 @@
 <% if ENV['CURRENCIES_CONFIG'] %>
 <%= File.read(ENV['CURRENCIES_CONFIG']) %>
 <% else %>
-- id:                   1
-  code:                 usd
+- id:                   usd
   symbol:               '$'
   type:                 fiat
   precision:            2
@@ -12,8 +11,7 @@
   deposit_fee:          0
   withdraw_fee:         0
 
-- id:                   2
-  code:                 btc
+- id:                   btc
   symbol:               '฿'
   type:                 coin
   precision:            8
@@ -47,8 +45,7 @@
     wallet_url_template:      https://blockchain.info/address/#{address}
     transaction_url_template: https://blockchain.info/tx/#{txid}
 
-- id:                   3
-  code:                 xrp
+- id:                   xrp
   symbol:               'ꭆ'
   type:                 coin
   precision:            8
@@ -82,8 +79,7 @@
     wallet_url_template:      https://bithomp.com/explorer/#{address}
     transaction_url_template: https://bithomp.com/explorer/#{txid}
 
-- id:                   4
-  code:                 bch
+- id:                   bch
   symbol:               '฿'
   type:                 coin
   precision:            8
@@ -117,8 +113,7 @@
     wallet_url_template:      https://www.blocktrail.com/BCC/address/#{address}
     transaction_url_template: https://www.blocktrail.com/BCC/tx/#{txid}
 
-- id:                   5
-  code:                 ltc
+- id:                   ltc
   symbol:               'Ł'
   type:                 coin
   precision:            8
@@ -152,8 +147,7 @@
     wallet_url_template:      https://www.blocktrail.com/LTC/address/#{address}
     transaction_url_template: https://www.blocktrail.com/LTC/tx/#{txid}
 
-- id:                   6
-  code:                 dash
+- id:                   dash
   symbol:               'Đ'
   type:                 coin
   precision:            8
@@ -187,8 +181,7 @@
     wallet_url_template:      https://live.blockcypher.com/dash/address/#{address}
     transaction_url_template: https://live.blockcypher.com/dash/tx/#{txid}
 
-- id:                   7
-  code:                 eth
+- id:                   eth
   symbol:               'Ξ'
   type:                 coin
   precision:            8
@@ -222,8 +215,7 @@
     wallet_url_template:      https://etherscan.io/address/#{address}
     transaction_url_template: https://etherscan.io/tx/#{txid}
 
-- id:                   8
-  code:                 trst
+- id:                   trst
   symbol:               'Ξ'
   type:                 coin
   precision:            8

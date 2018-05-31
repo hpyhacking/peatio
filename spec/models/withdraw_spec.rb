@@ -288,7 +288,7 @@ describe Withdraw do
     let(:account) { member.ac(:bch).tap { |x| x.update!(balance: 1.0.to_d) } }
     let :record do
       Withdraws::Coin.new \
-        currency: Currency.find_by_code!(:bch),
+        currency: Currency.find(:bch),
         member:   member,
         rid:      address,
         sum:      1.0.to_d,

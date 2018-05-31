@@ -71,7 +71,7 @@
           <% end %>
           <div class="sub-menu hidden">
             <ul class="list-unstyled list-menu mb-0">
-              <% Currency.order(id: :asc).pluck(:code).each do |c| %>
+              <% Currency.ordered.codes.each do |c| %>
                 <li><%= link_to c.upcase, admin_deposit_index_path(c) %></li>
               <% end %>
             </ul>
@@ -87,7 +87,7 @@
           <% end %>
           <div class="sub-menu hidden">
             <ul class="list-unstyled list-menu mb-0">
-              <% Currency.order(id: :asc).pluck(:code).each do |c| %>
+              <% Currency.ordered.codes.each do |c| %>
                 <li><%= link_to c.upcase, admin_withdraw_index_path(c) %></li>
               <% end %>
             </ul>

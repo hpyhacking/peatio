@@ -32,13 +32,13 @@ module Deposits
 end
 
 # == Schema Information
-# Schema version: 20180517110003
+# Schema version: 20180529125011
 #
 # Table name: deposits
 #
 #  id            :integer          not null, primary key
 #  member_id     :integer          not null
-#  currency_id   :integer          not null
+#  currency_id   :string(10)       not null
 #  amount        :decimal(32, 16)  not null
 #  fee           :decimal(32, 16)  not null
 #  address       :string(64)

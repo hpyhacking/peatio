@@ -103,7 +103,7 @@ class Withdraw < ActiveRecord::Base
     { tid:             tid,
       uid:             member.uid,
       rid:             rid,
-      currency:        currency.code,
+      currency:        currency_id,
       amount:          amount.to_s('F'),
       fee:             fee.to_s('F'),
       state:           aasm_state,
@@ -133,14 +133,14 @@ private
 end
 
 # == Schema Information
-# Schema version: 20180517101842
+# Schema version: 20180529125011
 #
 # Table name: withdraws
 #
 #  id           :integer          not null, primary key
 #  account_id   :integer          not null
 #  member_id    :integer          not null
-#  currency_id  :integer          not null
+#  currency_id  :string(10)       not null
 #  amount       :decimal(32, 16)  not null
 #  fee          :decimal(32, 16)  not null
 #  txid         :string(128)

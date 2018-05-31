@@ -7,8 +7,8 @@ class Currency < ActiveRecord::Base
   # NOTE: type column reserved for STI
   self.inheritance_column = nil
 
+  validates :id, presence: true, uniqueness: true
   validates :type, inclusion: { in: -> (_) { Currency.types.map(&:to_s) } }
-  validates :code, presence: true, uniqueness: true
   validates :symbol, presence: true, length: { maximum: 1 }
   validates :json_rpc_endpoint, :rest_api_endpoint, length: { maximum: 200 }, url: { allow_blank: true }
   validates :options, length: { maximum: 1000 }
@@ -35,13 +35,13 @@ class Currency < ActiveRecord::Base
   after_create { Member.find_each(&:touch_accounts) }
 
   scope :enabled, -> { where(enabled: true) }
-
-  scope :coins, -> { where(type: :coin) }
-  scope :fiats, -> { where(type: :fiat) }
+  scope :ordered, -> { order(id: :asc) }
+  scope :coins,   -> { where(type: :coin) }
+  scope :fiats,   -> { where(type: :fiat) }
 
   class << self
     def codes(options = {})
-      pluck(:code).yield_self do |downcase_codes|
+      pluck(:id).yield_self do |downcase_codes|
         case
           when options.fetch(:bothcase, false)
             downcase_codes + downcase_codes.map(&:upcase)
@@ -67,7 +67,6 @@ class Currency < ActiveRecord::Base
   end
 
   def api
-    raise unless coin?
     CoinAPI[code]
   end
 
@@ -89,11 +88,11 @@ class Currency < ActiveRecord::Base
   #   code.xrp? # true if code equals to "xrp".
   #
   def code
-    super&.inquiry
+    id&.inquiry
   end
 
   def code=(code)
-    super(code.to_s.downcase)
+    self.id = code.to_s.downcase
   end
 
   types.each { |t| define_method("#{t}?") { type == t.to_s } }
@@ -108,7 +107,7 @@ class Currency < ActiveRecord::Base
   def summary
     locked  = Account.with_currency(code).sum(:locked)
     balance = Account.with_currency(code).sum(:balance)
-    { name:     code.upcase,
+    { name:     id.upcase,
       sum:      locked + balance,
       balance:  balance,
       locked:   locked,
@@ -157,7 +156,8 @@ class Currency < ActiveRecord::Base
     !case_sensitive?
   end
 
-  attr_readonly :code,
+  attr_readonly :id,
+                :code,
                 :type,
                 :case_sensitive,
                 :erc20_contract_address,
@@ -172,12 +172,11 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180524170927
+# Schema version: 20180529125011
 #
 # Table name: currencies
 #
-#  id                   :integer          not null, primary key
-#  code                 :string(30)       not null
+#  id                   :string(10)       not null, primary key
 #  symbol               :string(1)        not null
 #  type                 :string(30)       default("coin"), not null
 #  deposit_fee          :decimal(32, 16)  default(0.0), not null
@@ -192,6 +191,5 @@ end
 #
 # Indexes
 #
-#  index_currencies_on_code              (code) UNIQUE
-#  index_currencies_on_enabled_and_code  (enabled,code)
+#  index_currencies_on_enabled  (enabled)
 #

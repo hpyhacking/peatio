@@ -18,11 +18,10 @@ module BelongsToCurrency
 
     delegate :coin?, :fiat?, to: :currency
 
-    scope :with_currency, -> (model_or_id_or_code) do
-      id = case model_or_id_or_code
-        when Currency then model_or_id_or_code.id
-        when String, Symbol then Currency.where(code: model_or_id_or_code).pluck(:id).first
-        else model_or_id_or_code
+    scope :with_currency, -> (model_or_id) do
+      id = case model_or_id
+        when Currency then model_or_id.code
+        else model_or_id
       end
       where(currency_id: id)
     end

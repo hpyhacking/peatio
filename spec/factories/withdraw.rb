@@ -3,7 +3,7 @@
 
 FactoryBot.define do
   factory :btc_withdraw, class: Withdraws::Coin do
-    currency { Currency.find_by!(code: :btc) }
+    currency { Currency.find(:btc) }
     member { create(:member, :verified_identity) }
     rid { Faker::Bitcoin.address }
     sum { 10.to_d }
@@ -19,7 +19,7 @@ FactoryBot.define do
 
   factory :usd_withdraw, class: Withdraws::Fiat do
     member { create(:member, :verified_identity) }
-    currency { Currency.find_by!(code: :usd) }
+    currency { Currency.find(:usd) }
     rid { Faker::Bank.iban }
     sum { 1000.to_d }
     type 'Withdraws::Fiat'

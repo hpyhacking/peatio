@@ -1,5 +1,5 @@
 class Currency extends PeatioModel.Model
-  @configure 'Currency', 'key', 'code', 'coin', 'transaction_url_template'
+  @configure 'Currency', 'id', 'coin', 'transaction_url_template'
 
   @initData: (records) ->
     PeatioModel.Ajax.disable ->
