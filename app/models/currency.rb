@@ -33,6 +33,7 @@ class Currency < ActiveRecord::Base
   end
 
   after_create { Member.find_each(&:touch_accounts) }
+  after_update :disable_markets
 
   scope :enabled, -> { where(enabled: true) }
   scope :ordered, -> { order(id: :asc) }
@@ -113,6 +114,12 @@ class Currency < ActiveRecord::Base
       locked:   locked,
       coinable: coin?,
       hot:      coin? ? balance : nil }
+  end
+
+  def disable_markets
+    unless enabled?
+      Market.where('ask_unit = ? OR bid_unit = ?', id, id).update_all(enabled: false)
+    end
   end
 
   class << self

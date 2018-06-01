@@ -58,7 +58,7 @@ describe APIv2::Fees, type: :request do
       expect(response).to be_success
 
       result = JSON.parse(response.body)
-      expect(result.size).to eq 1
+      expect(result.size).to eq 2
     end
 
     it 'returns correct trading fees' do

@@ -24,7 +24,7 @@ FactoryBot.define do
       ask_precision 4
       bid_precision 4
       position      2
-      enabled       false
+      enabled       true
     end
   end
 end
