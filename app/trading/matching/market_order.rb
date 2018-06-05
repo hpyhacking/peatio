@@ -14,6 +14,7 @@ module Matching
       @type       = attrs[:type].to_sym
       @locked     = attrs[:locked].to_d
       @volume     = attrs[:volume].to_d
+      # NOTE: Leave all markets here.
       @market     = Market.find attrs[:market]
 
       raise ::Matching::InvalidOrderError.new(attrs) unless valid?(attrs)

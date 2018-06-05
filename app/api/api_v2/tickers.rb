@@ -7,7 +7,7 @@ module APIv2
 
     desc 'Get ticker of all markets.'
     get "/tickers" do
-      Market.ordered.inject({}) do |h, m|
+      Market.enabled.ordered.inject({}) do |h, m|
         h[m.id] = format_ticker Global[m.id].ticker
         h
       end

@@ -7,6 +7,7 @@ module Matching
   class Executor
     def initialize(payload)
       @payload = payload
+      # NOTE: Run matching engine for disabled markets.
       @market  = Market.find(payload[:market_id])
       @price   = payload[:strike_price].to_d
       @volume  = payload[:volume].to_d

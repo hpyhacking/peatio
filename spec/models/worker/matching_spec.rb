@@ -10,11 +10,11 @@ describe Worker::Matching do
 
   context 'engines' do
     it 'should get all engines' do
-      expect(subject.engines.keys).to eq [market.id, 'dashbtc']
+      expect(subject.engines.keys.sort).to eq Market.pluck(:id).sort
     end
 
     it 'should started all engines' do
-      expect(subject.engines.values.map(&:mode)).to eq [:run, :run]
+      expect(subject.engines.values.map(&:mode)).to eq Array.new(Market.count, :run)
     end
   end
 

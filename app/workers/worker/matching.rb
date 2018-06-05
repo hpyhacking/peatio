@@ -44,7 +44,8 @@ module Worker
 
     def reload(market)
       if market == 'all'
-        Market.enabled.find_each(&method(:initialize_engine))
+        # NOTE: Run matching engine for disabled markets.
+        Market.find_each(&method(:initialize_engine))
         Rails.logger.info { "All engines reloaded." }
       else
         initialize_engine Market.find(market)

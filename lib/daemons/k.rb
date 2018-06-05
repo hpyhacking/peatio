@@ -113,7 +113,8 @@ def fill(market, period = 1)
 end
 
 while($running) do
-  Market.find_each do |market|
+  # NOTE: Turn off ticker updates for disabled markets.
+  Market.enabled.each do |market|
     ts = next_ts(market.id, 1)
     next unless ts
 

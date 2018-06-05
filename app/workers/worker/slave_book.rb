@@ -40,6 +40,7 @@ module Worker
 
     def cache_book
       @managers.keys.each do |id|
+        # NOTE: Use all markets here.
         market = Market.find id
         Rails.cache.write "peatio:#{market.id}:depth:asks", get_depth(market, :ask)
         Rails.cache.write "peatio:#{market.id}:depth:bids", get_depth(market, :bid)

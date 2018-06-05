@@ -4,7 +4,7 @@
 class MarketConstraint
   def self.matches?(request)
     id = request.path_parameters[:market_id] || request.path_parameters[:id]
-    market = Market.find_by_id(id)
+    market = Market.enabled.find_by_id(id)
     if market
       request.path_parameters[:market] = id
       request.path_parameters[:ask] = market.base_unit

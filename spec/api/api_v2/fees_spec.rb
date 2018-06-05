@@ -53,12 +53,12 @@ describe APIv2::Fees, type: :request do
   end
 
   describe 'GET /api/v2/fees/trading' do
-    it 'returns trading fees' do
+    it 'returns trading fees for enabled markets' do
       get '/api/v2/fees/trading'
       expect(response).to be_success
 
       result = JSON.parse(response.body)
-      expect(result.size).to eq 2
+      expect(result.size).to eq Market.enabled.count
     end
 
     it 'returns correct trading fees' do

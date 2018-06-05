@@ -17,7 +17,7 @@ module Private
       @ask = params[:ask]
 
       @market        = current_market
-      @markets       = Market.ordered
+      @markets       = Market.enabled.ordered
       @market_groups = @markets.map(&:ask_unit).uniq
 
       @bids   = @market.bids
@@ -36,7 +36,7 @@ module Private
     private
 
     def enabled_market?
-      redirect_to trading_path(Market.ordered.first) unless current_market.enabled?
+      redirect_to trading_path(Market.enabled.ordered.first) unless current_market.enabled?
     end
 
     def set_default_market
