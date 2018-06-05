@@ -25,7 +25,7 @@ class Authentication < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180516105035
+# Schema version: 20180605104154
 #
 # Table name: authentications
 #
@@ -39,7 +39,8 @@ end
 #
 # Indexes
 #
-#  index_authentications_on_member_id               (member_id)
-#  index_authentications_on_provider_and_member_id  (provider,member_id) UNIQUE
-#  index_authentications_on_provider_and_uid        (provider,uid) UNIQUE
+#  index_authentications_on_member_id                       (member_id)
+#  index_authentications_on_provider_and_member_id          (provider,member_id) UNIQUE
+#  index_authentications_on_provider_and_member_id_and_uid  (provider,member_id,uid) UNIQUE
+#  index_authentications_on_provider_and_uid                (provider,uid) UNIQUE
 #

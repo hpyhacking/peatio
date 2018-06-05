@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180529125011) do
+ActiveRecord::Schema.define(version: 20180605104154) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20180529125011) do
   end
 
   add_index "authentications", ["member_id"], name: "index_authentications_on_member_id", using: :btree
+  add_index "authentications", ["provider", "member_id", "uid"], name: "index_authentications_on_provider_and_member_id_and_uid", unique: true, using: :btree
   add_index "authentications", ["provider", "member_id"], name: "index_authentications_on_provider_and_member_id", unique: true, using: :btree
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", unique: true, using: :btree
 
@@ -93,16 +94,16 @@ ActiveRecord::Schema.define(version: 20180529125011) do
   add_index "deposits", ["type"], name: "index_deposits_on_type", using: :btree
 
   create_table "markets", force: :cascade do |t|
-    t.string   "ask_unit",      limit: 5,                                          null: false
-    t.string   "bid_unit",      limit: 5,                                          null: false
-    t.decimal  "ask_fee",                 precision: 17, scale: 16, default: 0.0,  null: false
-    t.decimal  "bid_fee",                 precision: 17, scale: 16, default: 0.0,  null: false
-    t.integer  "ask_precision", limit: 1,                           default: 8,    null: false
-    t.integer  "bid_precision", limit: 1,                           default: 8,    null: false
-    t.integer  "position",      limit: 4,                           default: 0,    null: false
-    t.boolean  "enabled",                                           default: true, null: false
-    t.datetime "created_at",                                                       null: false
-    t.datetime "updated_at",                                                       null: false
+    t.string   "ask_unit",      limit: 5,                                         null: false
+    t.string   "bid_unit",      limit: 5,                                         null: false
+    t.decimal  "ask_fee",                 precision: 17, scale: 16, default: 0.0, null: false
+    t.decimal  "bid_fee",                 precision: 17, scale: 16, default: 0.0, null: false
+    t.integer  "ask_precision", limit: 1,                           default: 8,   null: false
+    t.integer  "bid_precision", limit: 1,                           default: 8,   null: false
+    t.integer  "position",      limit: 4,                           default: 0,   null: false
+    t.integer  "enabled",       limit: 1,                           default: 1,   null: false
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
   end
 
   add_index "markets", ["ask_unit", "bid_unit"], name: "index_markets_on_ask_unit_and_bid_unit", unique: true, using: :btree
@@ -112,7 +113,8 @@ ActiveRecord::Schema.define(version: 20180529125011) do
   add_index "markets", ["position"], name: "index_markets_on_position", using: :btree
 
   create_table "members", force: :cascade do |t|
-    t.string   "level",        limit: 20,  default: ""
+    t.integer  "level_int",    limit: 1,   default: 0,     null: false
+    t.integer  "level",        limit: 1,   default: 0,     null: false
     t.string   "sn",           limit: 12,                  null: false
     t.string   "email",        limit: 255,                 null: false
     t.boolean  "disabled",                 default: false, null: false
@@ -175,6 +177,26 @@ ActiveRecord::Schema.define(version: 20180529125011) do
   add_index "payment_addresses", ["currency_id", "address"], name: "index_payment_addresses_on_currency_id_and_address", unique: true, using: :btree
   add_index "payment_addresses", ["currency_id"], name: "index_payment_addresses_on_currency_id", using: :btree
 
+  create_table "payment_transactions", force: :cascade do |t|
+    t.string   "txid",          limit: 255
+    t.decimal  "amount",                    precision: 32, scale: 16
+    t.integer  "confirmations", limit: 4
+    t.string   "address",       limit: 255
+    t.integer  "state",         limit: 4
+    t.string   "aasm_state",    limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "receive_at"
+    t.datetime "dont_at"
+    t.integer  "currency_id",   limit: 4
+    t.string   "type",          limit: 60
+    t.integer  "txout",         limit: 4
+  end
+
+  add_index "payment_transactions", ["currency_id"], name: "index_payment_transactions_on_currency_id", using: :btree
+  add_index "payment_transactions", ["txid", "txout"], name: "index_payment_transactions_on_txid_and_txout", using: :btree
+  add_index "payment_transactions", ["type"], name: "index_payment_transactions_on_type", using: :btree
+
   create_table "proofs", force: :cascade do |t|
     t.string   "root",        limit: 255
     t.string   "currency_id", limit: 10
@@ -217,6 +239,19 @@ ActiveRecord::Schema.define(version: 20180529125011) do
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+
+  create_table "withdraw_destinations", force: :cascade do |t|
+    t.string   "type",        limit: 30,                  null: false
+    t.integer  "member_id",   limit: 4,                   null: false
+    t.integer  "currency_id", limit: 4,                   null: false
+    t.string   "details",     limit: 4096, default: "{}", null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+  end
+
+  add_index "withdraw_destinations", ["currency_id"], name: "index_withdraw_destinations_on_currency_id", using: :btree
+  add_index "withdraw_destinations", ["member_id"], name: "index_withdraw_destinations_on_member_id", using: :btree
+  add_index "withdraw_destinations", ["type"], name: "index_withdraw_destinations_on_type", using: :btree
 
   create_table "withdraws", force: :cascade do |t|
     t.integer  "account_id",   limit: 4,                             null: false
