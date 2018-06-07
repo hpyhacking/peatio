@@ -61,6 +61,8 @@ describe Market do
         position:      100 }
     end
 
+    let(:disabled_currency) { Currency.find_by_id(:eur) }
+
     it 'creates valid record' do
       record = Market.new(valid_attributes)
       expect(record.save).to eq true
@@ -107,6 +109,21 @@ describe Market do
         record = Market.new(valid_attributes.merge(field => :bad))
         record.save
         expect(record.errors.full_messages).to include(/#{to_readable(field)} is not included in the list/i)
+      end
+    end
+
+    it 'validates if both currencies enabled on enabled market creation' do
+      %i[bid_unit ask_unit].each do |field|
+        record = Market.new(valid_attributes.merge(field => disabled_currency.code))
+        record.save
+        expect(record.errors.full_messages).to include(/#{to_readable(field)} is not enabled/i)
+      end
+    end
+
+    it 'doesn\'t validate if both currencies enabled on disabled market creation' do
+      %i[bid_unit ask_unit].each do |field|
+        record = Market.new(valid_attributes.merge(field => disabled_currency.code, enabled: false))
+        expect(record.save).to eq true
       end
     end
 

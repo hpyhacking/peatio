@@ -163,6 +163,10 @@ class Currency < ActiveRecord::Base
     !case_sensitive?
   end
 
+  def disabled?
+    !enabled
+  end
+
   attr_readonly :id,
                 :code,
                 :type,
