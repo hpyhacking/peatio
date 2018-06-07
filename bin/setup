@@ -26,7 +26,7 @@ Dir.chdir APP_ROOT do
     system 'bin/rake db:schema:dump'
   else
     puts "\n=== Setup database ==="
-    system 'bin/rake db:setup'
+    system 'bin/rake db:create db:migrate db:seed'
 
     puts "\n=== Creating liability proofs ==="
     system 'bin/rake solvency:liability_proof'
