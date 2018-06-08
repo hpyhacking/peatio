@@ -32,7 +32,7 @@ module Faraday
        env.method.to_s.upcase,
        "",
        "-- Request headers --",
-       env.request_headers.to_json,
+       env.request_headers.tap { |x| x['Authorization'] = 'SECRET' if x['Authorization'].present? }.to_json,
        "",
        "-- Request body --",
        env.request_body.to_s,
