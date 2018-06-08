@@ -17,6 +17,7 @@ class Member < ActiveRecord::Base
 
   validates :sn,    presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true, email: true
+  validates :level, numericality: { greater_than_or_equal_to: 0 }
 
   after_create :touch_accounts
 
@@ -28,7 +29,7 @@ class Member < ActiveRecord::Base
         member.transaction do
           info_hash       = auth_hash.fetch('info')
           member.email    = info_hash.fetch('email')
-          member.level    = Member::Levels.get(info_hash['level']) if info_hash.key?('level')
+          member.level    = info_hash['level'] if info_hash.key?('level')
           member.disabled = info_hash.key?('state') && info_hash['state'] != 'active'
           member.save!
           auth = Authentication.locate(auth_hash) || member.authentications.from_omniauth_data(auth_hash)
@@ -107,10 +108,6 @@ class Member < ActiveRecord::Base
     auth(name).destroy
   end
 
-  def level
-    self[:level].to_s.inquiry
-  end
-
   def uid
     self.class.uid(self)
   end
@@ -131,7 +128,7 @@ private
       self.sn = random_sn
     end while Member.where(sn: self.sn).any?
   end
-  
+
   def random_sn
     "SN#{SecureRandom.hex(5).upcase}"
   end
@@ -157,12 +154,12 @@ private
 end
 
 # == Schema Information
-# Schema version: 20180516104042
+# Schema version: 20180530122201
 #
 # Table name: members
 #
 #  id           :integer          not null, primary key
-#  level        :string(20)       default("")
+#  level        :integer          default(0), not null
 #  sn           :string(12)       not null
 #  email        :string(255)      not null
 #  disabled     :boolean          default(FALSE), not null

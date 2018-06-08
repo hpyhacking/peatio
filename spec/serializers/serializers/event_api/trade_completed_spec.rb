@@ -2,9 +2,9 @@
 # frozen_string_literal: true
 
 describe Serializers::EventAPI::TradeCompleted, 'Event API' do
-  let(:seller) { create(:member, :verified_identity, :barong) }
+  let(:seller) { create(:member, :level_3, :barong) }
 
-  let(:buyer) { create(:member, :verified_identity, :barong) }
+  let(:buyer) { create(:member, :level_3, :barong) }
 
   let :order_ask do
     create :order_ask, \

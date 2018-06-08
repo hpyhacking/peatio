@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 describe Serializers::EventAPI::OrderCanceled do
-  let(:seller) { create(:member, :verified_identity, :barong) }
+  let(:seller) { create(:member, :level_3, :barong) }
 
   let :order_ask do
     # Sell 100 BTC for 3 USD (0.03 USD per BTC).

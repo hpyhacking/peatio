@@ -3,7 +3,7 @@
 
 FactoryBot.define do
   factory :deposit do
-    member { create(:member, :verified_identity) }
+    member { create(:member, :level_3) }
     amount { Kernel.rand(100..10_000).to_d }
 
     factory :deposit_btc, class: 'Deposits::Coin' do

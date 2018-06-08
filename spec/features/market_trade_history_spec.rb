@@ -2,8 +2,8 @@
 # frozen_string_literal: true
 
 feature 'show account info', js: true do
-  let(:other_member) { create :member, :verified_identity }
-  let(:member) { create :member, :verified_identity }
+  let(:other_member) { create :member, :level_3 }
+  let(:member) { create :member, :level_3 }
   let!(:bid_account) do
     member.get_account(:usd).tap { |a| a.update_attributes locked: 400, balance: 1000 }
   end

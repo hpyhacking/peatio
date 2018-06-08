@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 describe Serializers::EventAPI::OrderCreated do
-  let(:buyer) { create(:member, :verified_identity, :barong) }
+  let(:buyer) { create(:member, :level_3, :barong) }
 
   let :order_bid do
     # Buy 14 BTC for 0.42 USD (0.03 USD per BTC).

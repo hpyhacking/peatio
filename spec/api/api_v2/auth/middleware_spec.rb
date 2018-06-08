@@ -15,7 +15,7 @@ describe APIv2::Auth::Middleware, type: :request do
   let(:app) { TestApp.new }
 
   context 'when using JWT authentication' do
-    let(:member) { create(:member, :verified_identity) }
+    let(:member) { create(:member, :level_3) }
     let(:payload) { { x: 'x', y: 'y', z: 'z', email: member.email } }
     let(:token) { jwt_build(payload) }
 

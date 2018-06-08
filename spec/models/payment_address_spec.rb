@@ -3,7 +3,7 @@
 
 describe PaymentAddress do
   context '.create' do
-    let(:member)  { create(:member, :verified_identity) }
+    let(:member)  { create(:member, :level_3) }
     let!(:account) { member.get_account(:btc) }
 
     it 'generate address after commit' do

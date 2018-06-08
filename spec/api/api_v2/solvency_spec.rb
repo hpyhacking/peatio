@@ -3,7 +3,7 @@
 
 describe APIv2::Solvency, type: :request do
 
-  let!(:member) { create(:member, :verified_identity) }
+  let!(:member) { create(:member, :level_3) }
   let(:token) { jwt_for(member) }
 
   describe 'GET api/v2/solvency/liability_proofs/latest' do

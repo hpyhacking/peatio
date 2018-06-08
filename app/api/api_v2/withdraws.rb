@@ -6,7 +6,7 @@ module APIv2
     helpers APIv2::NamedParams
 
     before { authenticate! }
-    before { identity_must_be_verified! }
+    before { withdraws_must_be_permitted! }
 
     desc 'List your withdraws as paginated collection.', scopes: %w[ history ]
     params do

@@ -27,7 +27,7 @@ describe SessionsController, type: :controller do
           expect(m.disabled).to eq(auth_json[:info][:state] != 'active')
         end
         if auth_json[:info].key?(:level)
-          expect(m.level).to eq(Member::Levels.get(auth_json[:info][:level]))
+          expect(m.level).to eq(auth_json[:info][:level])
         end
         expect(m.authentications.count).to eq 1
         expect(m.authentications.first.uid).to eq auth_json[:uid]

@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 describe APIv2::Pusher, type: :request do
-  let(:member) { create(:member, :verified_identity) }
+  let(:member) { create(:member, :level_3) }
   let(:token) { jwt_for(member) }
 
   describe 'POST /pusher/auth' do

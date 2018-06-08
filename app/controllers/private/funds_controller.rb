@@ -7,7 +7,7 @@ module Private
 
     layout 'funds'
 
-    before_action :auth_verified!
+    before_action :trading_must_be_permitted!
 
     def index
       @currencies        = Currency.enabled.sort

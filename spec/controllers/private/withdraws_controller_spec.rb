@@ -7,7 +7,7 @@ describe Private::WithdrawsController, type: :controller do
     let(:request) { post :create, params.merge(currency: params[:withdraw][:currency]), session }
     let(:session) { { member_id: member.id } }
     let :member do
-      create(:member, :verified_identity).tap { |m| m.get_account(:btc).plus_funds(100) }
+      create(:member, :level_3).tap { |m| m.get_account(:btc).plus_funds(100) }
     end
 
     it 'creates withdraw' do

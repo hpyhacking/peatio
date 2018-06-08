@@ -2,11 +2,11 @@
 # frozen_string_literal: true
 
 describe Member do
-  let(:member) { build(:member, :verified_identity) }
+  let(:member) { build(:member, :level_3) }
   subject { member }
 
   describe 'sn' do
-    subject(:member) { create(:member, :verified_identity) }
+    subject(:member) { create(:member, :level_3) }
     it { expect(member.sn).to_not be_nil }
     it { expect(member.sn).to_not be_empty }
     it { expect(member.sn).to match /\ASN[A-Z0-9]{10}$/ }
@@ -30,7 +30,7 @@ describe Member do
   end
 
   describe '#trades' do
-    subject { create(:member, :verified_identity) }
+    subject { create(:member, :level_3) }
 
     it 'should find all trades belong to user' do
       ask = create(:order_ask, member: member)
@@ -42,7 +42,7 @@ describe Member do
   end
 
   describe '.current' do
-    let(:member) { create(:member, :verified_identity) }
+    let(:member) { create(:member, :level_3) }
     before do
       Thread.current[:user] = member
     end
@@ -55,14 +55,14 @@ describe Member do
   end
 
   describe '.current=' do
-    let(:member) { create(:member, :verified_identity) }
+    let(:member) { create(:member, :level_3) }
     before { Member.current = member }
     after { Member.current = nil }
     specify { expect(Thread.current[:user]).to eq member }
   end
 
   describe '#remove_auth' do
-    let!(:member) { create(:member, :verified_identity) }
+    let!(:member) { create(:member, :level_3) }
     let!(:authentication) { create(:authentication, provider: 'OAuth2', member_id: member.id, uid: member.id)}
 
     it 'should delete authentication' do

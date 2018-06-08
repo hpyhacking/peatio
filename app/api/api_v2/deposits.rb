@@ -8,7 +8,7 @@ module APIv2
     helpers ::APIv2::NamedParams
 
     before { authenticate! }
-    before { identity_must_be_verified! }
+    before { deposits_must_be_permitted! }
 
     desc 'Get your deposits history.'
     params do

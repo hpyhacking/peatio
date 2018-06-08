@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 describe APIv2::Sessions, type: :request do
-  let(:member) { create(:member, :verified_identity) }
+  let(:member) { create(:member, :level_3) }
   let(:token) { jwt_for(member) }
   let(:session_utils) { Class.new { include SessionUtils }.new }
   after { session_utils.destroy_member_sessions(member.id) }

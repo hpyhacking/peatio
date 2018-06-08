@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 describe Private::MarketsController, type: :controller do
-  let(:member) { create :member, :verified_identity }
+  let(:member) { create :member, :level_3 }
   before { session[:member_id] = member.id }
 
   context 'logged in user' do

@@ -2,8 +2,8 @@
 # frozen_string_literal: true
 
 feature 'Withdraw', js: true do
-  let!(:member) { create(:member, :verified_identity) }
-  let!(:admin_member) { create(:member, :verified_identity, email: Member.admins.first) }
+  let!(:member) { create(:member, :level_3) }
+  let!(:admin_member) { create(:member, :level_3, email: Member.admins.first) }
   let!(:usd_account) { member.get_account(:usd).tap { |a| a.update!(locked: 8000, balance: 10_000) } }
   let!(:btc_account) { member.get_account(:btc).tap { |a| a.update!(locked: 10, balance: 50) } }
   let!(:usd_withdraw) { create(:usd_withdraw, member: member, sum: 5000, aasm_state: :accepted, account: usd_account) }

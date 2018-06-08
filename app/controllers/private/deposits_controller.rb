@@ -3,7 +3,7 @@
 
 module Private
   class DepositsController < BaseController
-    before_action :auth_verified!
+    before_action :deposits_must_be_permitted!
 
     def gen_address
       current_user.ac(currency).payment_address

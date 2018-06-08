@@ -3,7 +3,7 @@
 
 module Private
   class WithdrawsController < BaseController
-    before_action :auth_verified!
+    before_action :withdraws_must_be_permitted!
 
     def create
       @withdraw = withdraw_class.new(withdraw_params)

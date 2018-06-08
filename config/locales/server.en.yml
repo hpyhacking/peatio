@@ -373,6 +373,9 @@ en:
       index:
         reauthenticate: Authentication
         auth-verified: Please confirm your identity first.
+        deposits_must_be_permitted: Please, pass the corresponding verification steps to deposit funds.
+        withdraws_must_be_permitted: Please, pass the corresponding verification steps to withdraw funds.
+        trading_must_be_permitted: Please, pass the corresponding verification steps to enable trading.
   guides:
     private:
       settings:

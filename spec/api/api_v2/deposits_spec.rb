@@ -2,11 +2,11 @@
 # frozen_string_literal: true
 
 describe APIv2::Deposits, type: :request do
-  let(:member) { create(:member, :verified_identity) }
-  let(:other_member) { create(:member, :verified_identity) }
+  let(:member) { create(:member, :level_3) }
+  let(:other_member) { create(:member, :level_3) }
   let(:token) { jwt_for(member) }
-  let(:unverified_member) { create(:member, :unverified) }
-  let(:unverified_member_token) { jwt_for(unverified_member) }
+  let(:level_0_member) { create(:member, :level_0) }
+  let(:level_0_member_token) { jwt_for(level_0_member) }
 
   describe 'GET /api/v2/deposits' do
     before do
@@ -80,7 +80,7 @@ describe APIv2::Deposits, type: :request do
     end
 
     it 'denies access to unverified member' do
-      api_get '/api/v2/deposits', token: unverified_member_token
+      api_get '/api/v2/deposits', token: level_0_member_token
       expect(response.code).to eq '401'
     end
 

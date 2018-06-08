@@ -113,7 +113,7 @@ ActiveRecord::Schema.define(version: 20180605104154) do
   add_index "markets", ["position"], name: "index_markets_on_position", using: :btree
 
   create_table "members", force: :cascade do |t|
-    t.string   "level",        limit: 20,  default: ""
+    t.integer  "level",        limit: 1,   default: 0,     null: false
     t.string   "sn",           limit: 12,                  null: false
     t.string   "email",        limit: 255,                 null: false
     t.boolean  "disabled",                 default: false, null: false

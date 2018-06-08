@@ -80,7 +80,7 @@ module APIv2
         Member.find_or_initialize_by(email: fetch_email(payload)).tap do |member|
           member.transaction do
             attributes = {
-              level:    Member::Levels.from_numerical_barong_level(payload.fetch(:level).to_i),
+              level:    payload.fetch(:level).to_i,
               disabled: payload.fetch(:state).to_s != 'active' }
 
             # Prevent overheat validations.

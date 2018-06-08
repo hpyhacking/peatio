@@ -3,7 +3,7 @@
 
 describe Private::OrderAsksController, type: :controller do
   let(:member) do
-    create(:member, :verified_identity).tap do |m|
+    create(:member, :level_3).tap do |m|
       m.get_account(:btc).update_attributes(balance: '20')
     end
   end

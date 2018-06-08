@@ -6,7 +6,7 @@ module APIv2
     helpers ::APIv2::NamedParams
 
     before { authenticate! }
-    before { identity_must_be_verified! }
+    before { trading_must_be_permitted! }
 
     desc 'Get your orders, results is paginated.', scopes: %w(history trade)
     params do

@@ -2,10 +2,10 @@
 # frozen_string_literal: true
 
 describe APIv2::Orders, type: :request do
-  let(:member) { create(:member, :verified_identity) }
-  let(:unverified_member) { create(:member, :unverified) }
+  let(:member) { create(:member, :level_3) }
+  let(:level_0_member) { create(:member, :level_0) }
   let(:token) { jwt_for(member) }
-  let(:unverified_member_token) { jwt_for(unverified_member) }
+  let(:level_0_member_token) { jwt_for(level_0_member) }
 
   describe 'GET /api/v2/orders' do
     before do
@@ -72,7 +72,7 @@ describe APIv2::Orders, type: :request do
     end
 
     it 'denies access to unverified member' do
-      api_get '/api/v2/orders', token: unverified_member_token
+      api_get '/api/v2/orders', token: level_0_member_token
       expect(response.code).to eq '401'
     end
   end
