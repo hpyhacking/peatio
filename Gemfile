@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+#3 git repository needed i had forked
 gem 'rails', '~> 4.0.12'
 gem 'rails-i18n'
 
@@ -65,16 +65,23 @@ gem 'rack-attack', '~> 3.0.0'
 gem 'easy_table'
 gem 'phonelib', '~> 0.3.5'
 gem 'twilio-ruby', '~> 3.11'
-gem 'unread', github: 'peatio/unread'
+# peatio/unread not exists any more, replace with itering/unread
+#old gem 'unread', github: 'peatio/unread'
+gem 'unread', github: 'itering/unread'
 gem 'carrierwave', '~> 0.10.0'
 gem 'simple_captcha2', require: 'simple_captcha'
 gem 'rest-client', '~> 1.6.8'
 
 group :development, :test do
+# factory_girl has updated to factory_bot, so need change
+#old gem 'factory_bot_rails'
+  gem 'factory_bot_rails'
   gem 'factory_girl_rails'
   gem 'faker', '~> 1.4.3'
   gem 'mina'
-  gem 'mina-slack', github: 'peatio/mina-slack'
+#peatio/mina-slack not exists any longer,replaced with blockchaintech-au/mina-slack.
+#old  gem 'mina-slack', github: 'peatio/mina-slack'
+  gem 'mina-slack', github: 'blockchaintech-au/mina-slack'
   gem 'meta_request'
   gem 'better_errors'
   gem 'binding_of_caller'
