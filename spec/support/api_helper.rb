@@ -68,9 +68,10 @@ module APITestHelpers
     require 'openssl'
     require 'base64'
     OpenSSL::PKey::RSA.generate(2048).yield_self do |p|
+      Rails.configuration.x.jwt_public_key = p.public_key
       { public:  Base64.urlsafe_encode64(p.public_key.to_pem),
         private: Base64.urlsafe_encode64(p.to_pem) }
-    end.tap { |p| ENV['JWT_PUBLIC_KEY'] = p[:public] }
+    end
   end
   memoize :jwt_keypair_encoded
 
