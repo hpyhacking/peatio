@@ -10,7 +10,7 @@ describe Matching::LimitOrder do
     end
 
     it 'should initialize market' do
-      expect(Matching.mock_limit_order(type: :bid).market).to be_instance_of(Market)
+      expect(Matching.mock_limit_order(type: :bid).market).to eq 'btcusd'
     end
   end
 

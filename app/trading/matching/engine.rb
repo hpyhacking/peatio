@@ -19,20 +19,17 @@ module Matching
 
     def submit(order)
       book, counter_book = orderbook.get_books order.type
-      match order, counter_book
-      add_or_cancel order, book
+      match(order, counter_book)
+      add_or_cancel(order, book)
     rescue => e
       Rails.logger.error { "Failed to submit order #{order.label}." }
       report_exception(e)
     end
 
     def cancel(order)
-      book, counter_book = orderbook.get_books order.type
-      if removed_order = book.remove(order)
-        publish_cancel removed_order, "canceled by user"
-      else
-        Rails.logger.warn { "Cannot find order##{order.id} to cancel, skip." }
-      end
+      book, counter_book = orderbook.get_books(order.type)
+      book.remove(order)
+      publish_cancel(order)
     rescue => e
       Rails.logger.error { "Failed to cancel order #{order.label}." }
       report_exception(e)
@@ -68,26 +65,29 @@ module Matching
 
     private
 
-    def match(order, counter_book)
-      return if order.filled?
+    def match(order, counter_book, attempt_number = 1, maximum_attempts = 3)
+      return if attempt_number >= maximum_attempts
+      match_implementation(order, counter_book)
+    rescue StandardError => e
+      report_exception(e) if attempt_number == 1
+      match(order, counter_book, attempt_number + 1, maximum_attempts)
+    end
 
-      counter_order = counter_book.top
-      return unless counter_order
+    def match_implementation(order, counter_book)
+      return if order.filled?
+      return unless (counter_order = counter_book.top)
 
       if trade = order.trade_with(counter_order, counter_book)
-        counter_book.fill_top *trade
-        order.fill *trade
-
-        publish order, counter_order, trade
-
-        match order, counter_book
+        counter_book.fill_top(*trade)
+        order.fill(*trade)
+        publish(order, counter_order, trade)
+        match_implementation(order, counter_book)
       end
     end
 
     def add_or_cancel(order, book)
       return if order.filled?
-      order.is_a?(LimitOrder) ?
-        book.add(order) : publish_cancel(order, "fill or kill market order")
+      order.is_a?(LimitOrder) ? book.add(order) : publish_cancel(order)
     end
 
     def publish(order, counter_order, trade)
@@ -106,14 +106,11 @@ module Matching
       )
     end
 
-    def publish_cancel(order, reason)
-      Rails.logger.info { "[#{@market.id}] cancel order ##{order.id} - reason: #{reason}" }
-      @queue.enqueue(
+    def publish_cancel(order)
+      @queue.enqueue \
         :order_processor,
-        {action: 'cancel', order: order.attributes},
-        {persistent: false}
-      )
+        { action: 'cancel', order: order.attributes },
+        { persistent: false }
     end
-
   end
 end

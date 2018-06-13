@@ -39,12 +39,10 @@ module Worker
     end
 
     def cache_book
-      @managers.keys.each do |id|
-        # NOTE: Use all markets here.
-        market = Market.find id
-        Rails.cache.write "peatio:#{market.id}:depth:asks", get_depth(market, :ask)
-        Rails.cache.write "peatio:#{market.id}:depth:bids", get_depth(market, :bid)
-        Rails.logger.debug { "SlaveBook (#{market.id}) updated" }
+      @managers.keys.each do |market_id|
+        Rails.cache.write "peatio:#{market_id}:depth:asks", get_depth(market_id, :ask)
+        Rails.cache.write "peatio:#{market_id}:depth:bids", get_depth(market_id, :bid)
+        Rails.logger.debug { "SlaveBook (#{market_id}) updated" }
       end
     rescue
       Rails.logger.error { "Failed to cache book: #{$!}" }
@@ -69,11 +67,8 @@ module Worker
     end
 
     def get_depth(market, side)
-      depth = Hash.new {|h, k| h[k] = 0 }
-      price_group_fixed = market[:price_group_fixed]
-      mode  = side == :ask ? BigDecimal::ROUND_UP : BigDecimal::ROUND_DOWN
-      @managers[market.id].send("#{side}_orders").limit_orders.each do |price, orders|
-        price = price.round(price_group_fixed, mode) if price_group_fixed
+      depth = Hash.new { |h, k| h[k] = 0 }
+      @managers[Market === market ? market.id : market].send("#{side}_orders").limit_orders.each do |price, orders|
         depth[price] += orders.map(&:volume).sum
       end
 

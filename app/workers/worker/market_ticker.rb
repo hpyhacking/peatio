@@ -7,10 +7,10 @@ module Worker
     FRESH_TRADES = 80
 
     def initialize
-      @tickers = Hash.new { |hash, market_id| initialize_market_data(market_id) }
-      @trades  = Hash.new { |hash, market_id| initialize_market_data(market_id) }
+      @tickers = Hash.new { |hash, market_id| initialize_market_data(Market.find(market_id)) }
+      @trades  = Hash.new { |hash, market_id| initialize_market_data(Market.find(market_id)) }
       # NOTE: Update ticker only for enabled markets.
-      Market.enabled { |market| initialize_market_data(market) }
+      Market.enabled.each(&method(:initialize_market_data))
     end
 
     def process(payload, metadata, delivery_info)

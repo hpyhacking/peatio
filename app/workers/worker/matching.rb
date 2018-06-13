@@ -35,11 +35,11 @@ module Worker
     end
 
     def submit(order)
-      engines[order.market.id].submit(order)
+      engines[order.market].submit(order)
     end
 
     def cancel(order)
-      engines[order.market.id].cancel(order)
+      engines[order.market].cancel(order)
     end
 
     def reload(market)

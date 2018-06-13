@@ -16,8 +16,14 @@ module Matching
 
     def execute
       execute!
-    rescue TradeExecutionError => e
-      report_exception(e)
+    rescue StandardError => e
+      [@ask, @bid].each do |order|
+        order.with_lock do
+          next unless order.state == Order::WAIT
+          AMQPQueue.enqueue(:matching, action: 'submit', order: order.to_matching_attributes)
+        end
+      end
+      report_exception_to_screen(e)
       false
     end
 
