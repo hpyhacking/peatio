@@ -2,7 +2,7 @@ Management API v1
 =================
 Management API is server-to-server API with high privileges.
 
-**Version:** 1.8.32
+**Version:** 1.8.33
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -215,6 +215,8 @@ Management API is server-to-server API with high privileges.
 
 ### Balance  
 
+Queries the account balance for the given UID and currency.
+
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | uid | string | The shared user ID. | No |
@@ -222,6 +224,8 @@ Management API is server-to-server API with high privileges.
 | locked | string | The locked account balance. | No |
 
 ### Deposit  
+
+Returns deposits as paginated collection.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -237,6 +241,8 @@ Management API is server-to-server API with high privileges.
 | blockchain_confirmations | string | The number of transaction confirmations on the Blockchain (coin only). | No |
 
 ### Withdraw  
+
+Returns withdraws as paginated collection.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
