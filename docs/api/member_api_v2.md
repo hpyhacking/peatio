@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.8.34
+**Version:** 1.8.35
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -396,25 +396,6 @@ Member API is API which can be used by client application like SPA.
 
 ### /v2/withdraws
 ---
-##### ***POST***
-**Summary:** [DEPRECATED] Create withdraw.
-
-**Description:** [DEPRECATED] Create withdraw.
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| currency | formData | Any supported currency: bch,btc,dash,eth,ltc,trst,usd,xrp,BCH,BTC,DASH,ETH,LTC,TRST,USD,XRP. | Yes | string |
-| amount | formData | Withdraw amount without fees. | Yes | double |
-| rid | formData | The shared recipient ID. | Yes | string |
-
-**Responses**
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | [DEPRECATED] Create withdraw. |
-
 ##### ***GET***
 **Summary:** List your withdraws as paginated collection.
 
