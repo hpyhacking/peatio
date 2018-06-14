@@ -26,27 +26,5 @@ module APIv2
         .per(params[:limit])
         .tap { |q| present q, with: APIv2::Entities::Withdraw }
     end
-
-    desc '[DEPRECATED] Create withdraw.', scopes: %w[ withdraw ]
-    params do
-      requires :currency, type: String,  values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { "Any supported currency: #{Currency.enabled.codes(bothcase: true).join(',')}." }
-      requires :amount,   type: BigDecimal, desc: 'Withdraw amount without fees.'
-      requires :rid,      type: String, desc: 'The shared recipient ID.'
-    end
-    post '/withdraws' do
-      currency = Currency.find(params[:currency])
-      withdraw = "withdraws/#{currency.type}".camelize.constantize.new \
-        rid:       params[:rid],
-        sum:       params[:amount],
-        member_id: current_user.id,
-        currency:  currency
-      if withdraw.save
-        withdraw.submit!
-        present withdraw, with: APIv2::Entities::Withdraw
-      else
-        body errors: withdraw.errors.full_messages
-        status 422
-      end
-    end
   end
 end
