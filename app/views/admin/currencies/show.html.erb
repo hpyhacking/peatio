@@ -44,7 +44,7 @@
               <dt>Number of required confirmations for deposit</dt>
               <dd><%= f.number_field :deposit_confirmations, class: 'form-control' %></dd>
 
-              <% if @currency.erc20_contract_address? %>
+              <% if @currency.new_record? || @currency.erc20_contract_address? %>
                 <dt>ERC20 contract address</dt>
                 <% if @currency.new_record? %>
                   <dd><%= f.text_field :erc20_contract_address, class: 'form-control' %></dd>
