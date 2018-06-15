@@ -101,10 +101,11 @@ module APIv2
       key = "peatio:#{params[:market]}:k:#{params[:period]}"
 
       if params[:timestamp]
-        ts = JSON.parse(redis.lindex(key, 0)).first
+        ts_json = redis.lindex(key, 0)
+        return [] if ts_json.blank?
+        ts = JSON.parse(ts_json).first
         offset = (params[:timestamp] - ts) / 60 / params[:period]
         offset = 0 if offset < 0
-
         JSON.parse('[%s]' % redis.lrange(key, offset, offset + params[:limit] - 1).join(','))
       else
         length = redis.llen(key)
