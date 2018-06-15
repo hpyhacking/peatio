@@ -25,7 +25,8 @@ class Member < ActiveRecord::Base
 
   class << self
     def from_auth(auth_hash)
-      (locate_auth(auth_hash) || locate_email(auth_hash) || Member.new).tap do |member|
+      member = locate_auth(auth_hash) || locate_email(auth_hash) || Member.new
+      member.tap do |member|
         member.transaction do
           info_hash       = auth_hash.fetch('info')
           member.email    = info_hash.fetch('email')
@@ -37,6 +38,11 @@ class Member < ActiveRecord::Base
           auth.save!
         end
       end
+    rescue => e
+      report_exception(e)
+      Rails.logger.debug { "OmniAuth data: #{auth_hash.to_json}." }
+      Rails.logger.debug { "Member: #{member.to_json}." } if member
+      raise e
     end
 
     def current

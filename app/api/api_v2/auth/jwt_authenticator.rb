@@ -70,7 +70,14 @@ module APIv2
 
       def fetch_member(payload)
         if payload[:iss] == 'barong'
-          from_barong_payload(payload)
+          begin
+            from_barong_payload(payload)
+          # Handle race conditions when creating member & authentication records.
+          # We do not handle race condition for update operations.
+          # http://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-find_or_create_by
+          rescue ActiveRecord::RecordNotUnique
+            retry
+          end
         else
           Member.find_by_email(fetch_email(payload))
         end
