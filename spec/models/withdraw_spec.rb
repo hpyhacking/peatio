@@ -321,4 +321,12 @@ describe Withdraw do
       end
     end
   end
+
+  it 'doesn\'t raise exceptions in before_validation callbacks if member doesn\'t exist' do
+    expect { Withdraw.new.validate }.not_to raise_error
+  end
+
+  it 'doesn\'t raise exceptions in before_validation callbacks if currency doesn\'t exist' do
+    expect { Withdraw.new(member: create(:member)).validate }.not_to raise_error
+  end
 end

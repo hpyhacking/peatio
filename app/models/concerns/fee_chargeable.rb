@@ -12,6 +12,7 @@ module FeeChargeable
 
     if self <= Deposit
       before_validation on: :create do
+        next unless currency
         self.fee  ||= currency.deposit_fee
         self.amount = amount.to_d - fee
       end
@@ -23,7 +24,9 @@ module FeeChargeable
       attr_readonly :sum
 
       before_validation on: :create do
-        if currency && sum.present?
+        next unless currency
+        
+        if sum.present?
           self.sum = sum.round(currency.precision, BigDecimal::ROUND_DOWN)
         end
 
@@ -35,7 +38,7 @@ module FeeChargeable
       validates :sum, presence: true, numericality: { greater_than: 0.to_d }
 
       validate on: :create do
-        break if [sum, amount, fee].any?(&:blank?)
+        next if !account || [sum, amount, fee].any?(&:blank?)
         if sum > account.balance || (amount + fee) > sum
           errors.add :base, -> { I18n.t('activerecord.errors.models.withdraw.account_balance_is_poor') }
         end

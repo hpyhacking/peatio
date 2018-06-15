@@ -17,7 +17,7 @@ class Withdraw < ActiveRecord::Base
 
   acts_as_eventable prefix: 'withdraw', on: %i[create update]
 
-  before_validation(on: :create) { self.account ||= member.ac(currency) }
+  before_validation(on: :create) { self.account ||= member&.ac(currency) }
   before_validation { self.completed_at ||= Time.current if completed? }
 
   validates :rid, :aasm_state, presence: true
