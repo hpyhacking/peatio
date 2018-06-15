@@ -339,20 +339,30 @@ Open `/etc/nginx/sites-available/default` in your favorite editor
 Replace the content of the file by the following
 
 ```
-    server {
-        listen      80;
-        server_name  http://peatio.local;             
+#
+# ATTENTION!
+#
+# Make sure to add the next line to /etc/hosts.
+#
+#   127.0.0.1 peatio.io
+#
 
-       location / {
-         proxy_pass http://127.0.0.1:3000;
-       }
+server {
+  server_name      peatio.io;
+  listen           80;
+  proxy_set_header Host peatio.io;
 
-      location ~ ^/(?:trading|trading-ui-assets)\/ {
-        proxy_pass http://127.0.0.1:4000;
-       }
+  location ~ ^/(?:trading|trading-ui-assets)\/ {
+    proxy_pass http://127.0.0.1:4000;
+  }
+
+  location / {
+    proxy_pass http://127.0.0.1:3000;
+  }
+}
 ```
 
-Make sure to replace `http://peatio.local` with your actual server DNS
+Make sure to replace `http://peatio.io` with your actual server DNS
 
 Verify that the syntax of the config file is valid : `$ sudo nginx -t`
 
