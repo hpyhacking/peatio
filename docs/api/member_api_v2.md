@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.8.38
+**Version:** 1.8.39
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -535,3 +535,16 @@ Member API is API which can be used by client application like SPA.
 | Code | Description |
 | ---- | ----------- |
 | 201 | Returns the credentials used to subscribe to private Pusher channel. IMPORTANT: Pusher events are not part of Peatio public interface. The events may be changed or removed in further releases. Use this on your own risk. |
+
+### /v2/member_levels
+---
+##### ***GET***
+**Summary:** Returns list of member levels and the privileges they provide.
+
+**Description:** Returns list of member levels and the privileges they provide.
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Returns list of member levels and the privileges they provide. |
