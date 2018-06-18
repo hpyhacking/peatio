@@ -52,6 +52,7 @@ module APIv2
     mount APIv2::Solvency
     mount APIv2::Fees
     mount APIv2::Pusher
+    mount APIv2::MemberLevels
 
     # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/swagger
     add_swagger_documentation base_path:   PREFIX,
