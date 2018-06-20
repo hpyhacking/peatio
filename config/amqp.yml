@@ -41,6 +41,8 @@ queue:
   deposit_coin_address:
     name: peatio.deposit.coin.address
     durable: true
+  trade_error:
+    name: peatio.trades.errors
 
 binding:
   matching:
@@ -67,6 +69,8 @@ binding:
     queue: deposit_coin
   deposit_coin_address:
     queue: deposit_coin_address
+  trade_error:
+    queue: trade_error
 
 channel:
   trade_executor:

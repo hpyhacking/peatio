@@ -16,7 +16,8 @@ module Matching
 
     def execute
       execute!
-    rescue StandardError => e
+    rescue TradeExecutionError => e
+      AMQPQueue.enqueue(:trade_error, JSON.parse(e.options)) #send to failure queue
       [@ask, @bid].each do |order|
         order.with_lock do
           next unless order.state == Order::WAIT
@@ -35,12 +36,12 @@ module Matching
 
   private
 
-    def valid?
-      return false if @ask.ord_type == 'limit' && @ask.price > @price
-      return false if @bid.ord_type == 'limit' && @bid.price < @price
-      return false unless @ask.state == Order::WAIT
-      return false unless @bid.state == Order::WAIT
-      @funds > ZERO && [@ask.volume, @bid.volume].min >= @volume
+    def validate
+      raise_error(3001,"Ask price exceeds strike price") if @ask.ord_type == 'limit' && @ask.price > @price
+      raise_error(3002, "Bid price less than strike price") if @bid.ord_type == 'limit' && @bid.price < @price
+      raise_error(3003, "Ask state is not wait") unless @ask.state == Order::WAIT
+      raise_error(3004,"Bid state is not wait") unless @bid.state == Order::WAIT
+      @funds > ZERO && [@ask.volume, @bid.volume].min >= @volume ? true : raise_error(3005,"Funds not enough")
     end
 
     def trend
@@ -52,10 +53,7 @@ module Matching
         @ask = OrderAsk.lock.find(@payload[:ask_id])
         @bid = OrderBid.lock.find(@payload[:bid_id])
 
-        unless valid?
-          raise TradeExecutionError.new \
-            ask: @ask, bid: @bid, price: @price, volume: @volume, funds: @funds
-        end
+        validate
 
         @trade = Trade.create! \
           ask:        @ask,
@@ -81,6 +79,11 @@ module Matching
           bid_member_id: @bid.member_id
         }
       }
+    end
+
+    def raise_error code, msg
+      raise TradeExecutionError.new \
+        ask: @ask.attributes, bid: @bid.attributes, price: @price, volume: @volume, funds: @funds, error: {code: code , message: msg}
     end
   end
 end

@@ -8,6 +8,11 @@ module Matching
   class InvalidOrderError   < StandardError; end
   class NotEnoughVolume     < StandardError; end
   class ExceedSumLimit      < StandardError; end
-  class TradeExecutionError < StandardError; end
+  class TradeExecutionError < StandardError
+    attr_accessor :options
 
+    def initialize(options = {})
+      self.options = options.to_json
+    end
+  end
 end
