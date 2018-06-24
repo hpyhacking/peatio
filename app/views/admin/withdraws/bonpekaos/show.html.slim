@@ -1,0 +1,31 @@
+.row
+  .col-xs-12
+    .panel.panel-primary
+      .panel-heading
+        span = t('.withdraw', sn: @bonpekao.id)
+      .panel-body
+        = description_for :withdraw do
+          = item_for @bonpekao, :id
+          = item_for @bonpekao, :created_at
+          = item_for @bonpekao, :aasm_state_text
+          hr.split
+          = item_for @bonpekao.member, :name
+          = item_for @bonpekao, :fund_extra
+          = item_for @bonpekao, :fund_uid do
+            span = @bonpekao.fund_uid.truncate(22)
+          = item_for @bonpekao, :amount
+          hr.split
+          = item_for @bonpekao, :remark
+          hr.split
+          ul.list-inline.pull-right
+            - if @bonpekao.may_reject?
+              li
+                = link_to t('.reject'), url_for([:admin, @bonpekao]), class: 'btn btn-danger', method: 'DELETE', confirm: t('.reject_confirm')
+            - if @bonpekao.may_process?
+              li
+                = link_to t('.process'), url_for([:admin, @bonpekao]), class: 'btn btn-primary', method: 'PATCH'
+
+  .col-xs-12
+    = render partial: 'shared/admin/member', locals: {member: @bonpekao.member}
+    = render partial: 'shared/admin/account', locals: {account: @bonpekao.account}
+

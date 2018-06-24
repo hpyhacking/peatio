@@ -5,6 +5,13 @@
   fee: 0.0005
   inuse: true
   type: WithdrawChannelSatoshi
+- id: 300
+  key: bonpekao
+  currency: bon
+  fixed: 8
+  fee: 0.0005
+  inuse: true
+  type: WithdrawChannelBonpekao
 - id: 400
   key: bank
   currency: cny
