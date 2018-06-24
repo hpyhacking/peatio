@@ -5,10 +5,12 @@ module Private
     def index
       @cny_assets  = Currency.assets('cny')
       @btc_proof   = Proof.current :btc
+      @bon_proof   = Proof.current :bon
       @cny_proof   = Proof.current :cny
 
       if current_user
         @btc_account = current_user.accounts.with_currency(:btc).first
+        @bon_account = current_user.accounts.with_currency(:bon).first
         @cny_account = current_user.accounts.with_currency(:cny).first
       end
     end

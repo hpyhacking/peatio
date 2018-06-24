@@ -1248,6 +1248,8 @@ en:
           succeed_confirm: Process withdrawal?
           reject_confirm: Reject withdrawal?
           withdraw: Withdrawals
+        update:
+          notice: The withdrawal was successful.
   deposits/satoshi:
     aasm_state:
       submitted: Submitted
