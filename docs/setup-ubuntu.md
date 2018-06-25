@@ -47,6 +47,15 @@ do the following:
 echo "gem: --no-ri --no-rdoc" > ~/.gemrc
 ```
 
+## Running backend services
+
+You can install manually all services like mysql, redis and rabbitmq
+or you docker compose file
+
+```shell
+docker-compose -f config/backend.yml up -d
+```
+
 ### Step 2: Install MySQL
 
 ```shell
