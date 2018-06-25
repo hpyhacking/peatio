@@ -12,10 +12,10 @@ module Benchmark
 
     def lock_funds
       @members[:ask].each do |m|
-        m.get_account(:btc).update!(locked: 100)
+        m.get_account(SweatFactory.coin_currency.code).update!(locked: 100)
       end
       @members[:bid].each do |m|
-        m.get_account(Currency.fiats.first.code).update!(locked: 1000000)
+        m.get_account(SweatFactory.fiat_currency.code).update!(locked: 1000000)
       end
     end
 
@@ -33,12 +33,16 @@ module Benchmark
       @members[:ask].each_with_index do |m, i|
         price, volume = price_and_volume[i]
         o = SweatFactory.make_order(OrderAsk, volume: volume, price: price, member: m)
+        o.fix_number_precision # number must be fixed before computing locked
+        o.locked = o.origin_locked = o.compute_locked
         o.save!
         @orders << o
       end
       @members[:bid].each_with_index do |m, i|
         price, volume = price_and_volume[i]
         o = SweatFactory.make_order(OrderBid, volume: volume, price: price, member: m)
+        o.fix_number_precision # number must be fixed before computing locked
+        o.locked = o.origin_locked = o.compute_locked
         o.save!
         @orders << o
       end

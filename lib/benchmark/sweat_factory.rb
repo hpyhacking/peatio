@@ -14,13 +14,11 @@ module Benchmark
           bid: fiat_currency.id,
           ask: coin_currency.id,
           state: Order::WAIT,
-          market_id: "btc#{fiat_currency.code}".to_sym,
+          market_id: "#{coin_currency.code}#{fiat_currency.code}".to_sym,
           origin_volume: attrs[:volume],
           ord_type: "limit"
         }.merge(attrs))
       end
-
-      private
 
       def fiat_currency
         @fiat_currency ||= Currency.fiats.first
