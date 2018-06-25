@@ -20,4 +20,4 @@ production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
   pool: 10
-  database: peatio_production
+  database: <%= ENV.fetch('DATABASE_NAME', 'peatio_production') %>
