@@ -74,6 +74,7 @@ describe APIv2::Orders, type: :request do
     it 'denies access to unverified member' do
       api_get '/api/v2/orders', token: level_0_member_token
       expect(response.code).to eq '401'
+      expect(JSON.parse(response.body)['error']).to eq( {'code' => 2000, 'message' => 'Please, pass the corresponding verification steps to enable trading.'} )
     end
   end
 

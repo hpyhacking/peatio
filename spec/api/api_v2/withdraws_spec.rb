@@ -5,7 +5,7 @@ describe APIv2::Withdraws, type: :request do
   let(:member) { create(:member, :level_3) }
   let(:token) { jwt_for(member) }
   let(:level_0_member) { create(:member, :level_0) }
-  let(:level_0_member_token) { jwt_for(unverified_member) }
+  let(:level_0_member_token) { jwt_for(level_0_member) }
   let(:btc_withdraws) { create_list(:btc_withdraw, 20, member: member) }
   let(:usd_withdraws) { create_list(:usd_withdraw, 20, member: member) }
 
@@ -70,6 +70,12 @@ describe APIv2::Withdraws, type: :request do
       expect(response).to be_success
       results = JSON.parse(response.body)
       expect(results.map { |x| x['id'] }).to eq ordered_withdraws.map(&:id)
+    end
+
+    it 'denies access to unverified member' do
+      api_get '/api/v2/withdraws', token: level_0_member_token
+      expect(response.code).to eq '401'
+      expect(JSON.parse(response.body)['error']).to eq( {'code' => 2000, 'message' => 'Please, pass the corresponding verification steps to withdraw funds.'} )
     end
   end
 end
