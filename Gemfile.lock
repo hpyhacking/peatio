@@ -78,6 +78,8 @@ GEM
     builder (3.2.3)
     bunny (2.9.2)
       amq-protocol (~> 2.3.0)
+    bunny-mock (1.7.0)
+      bunny (>= 1.7)
     byebug (10.0.2)
     cancancan (2.2.0)
     capybara (2.18.0)
@@ -120,9 +122,14 @@ GEM
       actionpack (> 4.2)
       activemodel (> 4.2)
       rubytree (~> 1.0)
+    em-spec (0.2.7)
+      eventmachine
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
+    em-websocket-client (0.1.2)
+      eventmachine
+      websocket
     email_validator (1.6.0)
       activemodel
     enumerize (2.2.2)
@@ -402,6 +409,7 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
+    websocket (1.2.8)
     xpath (3.0.0)
       nokogiri (~> 1.8)
 
@@ -415,6 +423,7 @@ DEPENDENCIES
   arel-is-blank (~> 1.0.0)
   bootstrap (~> 4.1.1)
   bunny (~> 2.9.2)
+  bunny-mock (~> 1.7.0)
   cancancan (~> 2.2.0)
   capybara (~> 2.17)
   cash-addr (~> 0.1.1)
@@ -425,7 +434,9 @@ DEPENDENCIES
   datagrid (~> 1.5.8)
   digest-sha3 (~> 1.1.0)
   easy_table (~> 0.0.9)
+  em-spec (~> 0.2.7)
   em-websocket (~> 0.5.1)
+  em-websocket-client (~> 0.1.2)
   email_validator (~> 1.6.0)
   enumerize (~> 2.2.2)
   eventmachine (~> 1.0.9)

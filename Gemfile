@@ -87,4 +87,7 @@ group :test do
   gem 'mocha',               '~> 1.4', require: false
   gem 'factory_bot_rails',   '~> 4.8'
   gem 'timecop',             '~> 0.9'
+  gem 'bunny-mock', '~> 1.7.0'
+  gem 'em-spec', '~> 0.2.7', require: false
+  gem 'em-websocket-client', '~> 0.1.2', require: false
 end
