@@ -99,6 +99,7 @@ module CoinAPI
           tx_json:      { Account:         normalize_address(issuer.fetch(:address)),
                           Amount:          convert_to_base_unit!(amount),
                           Destination:     normalize_address(recipient.fetch(:address)),
+                          DestinationTag:  destination_tag_from(recipient.fetch(:address)),
                           TransactionType: 'Payment' }
         }]
       ).fetch('result').yield_self do |result|
@@ -180,6 +181,15 @@ module CoinAPI
 
     def calculate_confirmations(tx)
       tx.fetch('LastLedgerSequence') { tx.fetch('ledger_index') } - tx.fetch('inLedger')
+    end
+
+    def normalize_address(address)
+      super(address.gsub(/\?dt=\d*\Z/, ''))
+    end
+
+    def destination_tag_from(address)
+      address =~ /\?dt=(\d*)\Z/
+      $1.to_i
     end
   end
 end
