@@ -25,8 +25,7 @@ class Account < ActiveRecord::Base
   end
 
   def plus_funds!(amount)
-    raise AccountError, "Cannot add funds (amount: #{amount})." if amount <= ZERO
-    update_columns(balance: balance + amount)
+    update_columns((attributes_after_plus_funds!(amount)))
   end
 
   def plus_funds(amount)
@@ -34,9 +33,13 @@ class Account < ActiveRecord::Base
     self
   end
 
+  def attributes_after_plus_funds!(amount)
+    raise AccountError, "Cannot add funds (amount: #{amount})." if amount <= ZERO
+    { balance: balance + amount }
+  end
+
   def sub_funds!(amount)
-    raise AccountError, "Cannot subtract funds (amount: #{amount})." if amount <= ZERO || amount > balance
-    update_columns(balance: balance - amount)
+    update_columns(attributes_after_sub_funds!(amount))
   end
 
   def sub_funds(amount)
@@ -44,9 +47,13 @@ class Account < ActiveRecord::Base
     self
   end
 
+  def attributes_after_sub_funds!(amount)
+    raise AccountError, "Cannot subtract funds (amount: #{amount})." if amount <= ZERO || amount > balance
+    { balance: balance - amount }
+  end
+
   def lock_funds!(amount)
-    raise AccountError, "Cannot lock funds (amount: #{amount})." if amount <= ZERO || amount > balance
-    update_columns(balance: balance - amount, locked: locked + amount)
+    update_columns(attributes_after_lock_funds!(amount))
   end
 
   def lock_funds(amount)
@@ -54,9 +61,13 @@ class Account < ActiveRecord::Base
     self
   end
 
+  def attributes_after_lock_funds!(amount)
+    raise AccountError, "Cannot lock funds (amount: #{amount})." if amount <= ZERO || amount > balance
+    { balance: balance - amount, locked: locked + amount }
+  end
+
   def unlock_funds!(amount)
-    raise AccountError, "Cannot unlock funds (amount: #{amount})." if amount <= ZERO || amount > locked
-    update_columns(balance: balance + amount, locked: locked - amount)
+    update_columns(attributes_after_unlock_funds!(amount))
   end
 
   def unlock_funds(amount)
@@ -64,14 +75,23 @@ class Account < ActiveRecord::Base
     self
   end
 
-  def unlock_and_sub_funds!(amount)
+  def attributes_after_unlock_funds!(amount)
     raise AccountError, "Cannot unlock funds (amount: #{amount})." if amount <= ZERO || amount > locked
-    update_columns(locked: locked - amount)
+    { balance: balance + amount, locked: locked - amount }
+  end
+
+  def unlock_and_sub_funds!(amount)
+    update_columns(attributes_after_unlock_and_sub_funds!(amount))
   end
 
   def unlock_and_sub_funds(amount)
     with_lock { unlock_and_sub_funds!(amount) }
     self
+  end
+
+  def attributes_after_unlock_and_sub_funds!(amount)
+    raise AccountError, "Cannot unlock funds (amount: #{amount})." if amount <= ZERO || amount > locked
+    { locked: locked - amount }
   end
 
   def amount

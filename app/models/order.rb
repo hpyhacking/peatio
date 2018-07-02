@@ -66,36 +66,6 @@ class Order < ActiveRecord::Base
       origin_volume: origin_volume.to_s('F')
   end
 
-  def strike(trade)
-    raise "Cannot strike on canceled or done order. id: #{id}, state: #{state}" unless state == Order::WAIT
-
-    real_sub, add  = get_account_changes(trade)
-    real_fee       = add * fee
-    real_add       = add - real_fee
-    hold_account   = hold_account!
-    expect_account = expect_account!
-
-    hold_account.unlock_and_sub_funds!(real_sub)
-    expect_account.plus_funds!(real_add)
-
-    self.volume         -= trade.volume
-    self.locked         -= real_sub
-    self.funds_received += add
-    self.trades_count   += 1
-
-    if volume.zero?
-      self.state = Order::DONE
-
-      # unlock not used funds
-      hold_account.unlock_funds!(locked) unless locked.zero?
-    elsif ord_type == 'market' && locked.zero?
-      # partially filled market order has run out its locked fund
-      self.state = Order::CANCEL
-    end
-
-    save!
-  end
-
   def kind
     self.class.name.underscore[-3, 3]
   end

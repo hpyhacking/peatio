@@ -79,87 +79,6 @@ describe Order, '#done', type: :model do
       hold_account.reload
       expect_account.reload
     end
-
-    it 'order_bid done' do
-      trade = mock_trade(strike_volume, strike_price)
-      hold_account.expects(:unlock_and_sub_funds!).with(strike_volume * strike_price)
-      expect_account.expects(:plus_funds!).with(strike_volume - strike_volume * bid_fee)
-      order_bid.strike(trade)
-    end
-
-    it 'order_ask done' do
-      trade = mock_trade(strike_volume, strike_price)
-      hold_account.expects(:unlock_and_sub_funds!).with(strike_volume)
-      expect_account.expects(:plus_funds!).with(strike_volume * strike_price - strike_volume * strike_price * ask_fee)
-      order_ask.strike(trade)
-    end
-  end
-
-  describe Order, type: :model do
-    describe '#state' do
-      it 'should be keep wait state' do
-        expect do
-          order.strike(mock_trade('5.0', '0.8'))
-        end.not_to(change { order.state })
-      end
-
-      it 'should be change to done state' do
-        expect do
-          order.strike(mock_trade('10.0', '1.2'))
-        end.to change { order.state }.from(Order::WAIT).to(Order::DONE)
-      end
-    end
-
-    describe '#volume' do
-      it 'should be change volume' do
-        expect do
-          order.strike(mock_trade('4.0', '1.2'))
-        end.to change { order.volume }.from('10.0'.to_d).to('6.0'.to_d)
-      end
-
-      it 'should be don\'t change origin volume' do
-        expect do
-          order.strike(mock_trade('4.0', '1.2'))
-        end.to_not(change { order.origin_volume })
-      end
-    end
-
-    describe '#trades_count' do
-      it 'should increase trades count' do
-        expect do
-          order.strike(mock_trade('4.0', '1.2'))
-        end.to change { order.trades_count }.from(0).to(1)
-      end
-    end
-
-    describe '#done' do
-      context 'trade done volume 5.0 with price 0.8' do
-        let(:strike_price) { '0.8'.to_d }
-        let(:strike_volume) { '5.0'.to_d }
-
-        it_behaves_like 'trade done'
-      end
-
-      context 'trade done volume 3.1 with price 0.7' do
-        let(:strike_price) { '0.7'.to_d }
-        let(:strike_volume) { '3.1'.to_d }
-
-        it_behaves_like 'trade done'
-      end
-
-      context 'trade done volume 10.0 with price 0.8' do
-        let(:strike_price)  { '0.8'.to_d }
-        let(:strike_volume) { '10.0'.to_d }
-
-        it 'should unlock not used funds' do
-          trade = mock_trade(strike_volume, strike_price)
-          hold_account.expects(:unlock_and_sub_funds!).with(strike_volume * strike_price)
-          expect_account.expects(:plus_funds!).with(strike_volume - strike_volume * bid_fee)
-          hold_account.expects(:unlock_funds!).with(strike_volume * (order.price - strike_price))
-          order_bid.strike(trade)
-        end
-      end
-    end
   end
 end
 
@@ -289,12 +208,5 @@ describe Order, '#estimate_required_funds' do
     global = Global.new('btcusd')
     global.stubs(:asks).returns(price_levels)
     Global.stubs(:[]).returns(global)
-  end
-end
-
-describe Order, '#strike' do
-  it 'should raise error if order has been canceled' do
-    order = OrderAsk.new(state: Order::CANCEL)
-    expect { order.strike(mock('trade')) }.to raise_error(RuntimeError)
   end
 end

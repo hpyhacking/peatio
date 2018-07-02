@@ -5,10 +5,6 @@ class OrderBid < Order
   has_many :trades, foreign_key: :bid_id
   scope :matching_rule, -> { order(price: :desc, created_at: :asc) }
 
-  def get_account_changes(trade)
-    [trade.funds, trade.volume]
-  end
-
   def hold_account
     member.get_account(bid)
   end

@@ -12,7 +12,7 @@ module Matching
     attr_accessor :options
 
     def initialize(options = {})
-      self.options = options.to_json
+      self.options = options
     end
   end
 end
