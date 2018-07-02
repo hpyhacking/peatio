@@ -2,5 +2,5 @@
 # frozen_string_literal: true
 
 module Peatio
-  VERSION = '1.8.44'
+  VERSION = '1.8.45'
 end
