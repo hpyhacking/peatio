@@ -8,7 +8,8 @@ module APIv2
     params :market do
       requires :market,
                type: String,
-               desc: -> { APIv2::Entities::Market.documentation[:id] }
+               desc: -> { APIv2::Entities::Market.documentation[:id] },
+               values: -> { Market.enabled.ids }
     end
 
     params :order do

@@ -89,6 +89,12 @@ describe APIv2::Trades, type: :request do
       expect(response).to be_success
       expect(JSON.parse(response.body).first['id']).to eq bid_trade.id
     end
+
+    it 'should validate market param' do
+      api_get '/api/v2/trades', params: { market: 'usdusd'}
+      expect(response).to have_http_status 422
+      expect(JSON.parse(response.body)).to eq ({ 'error' => { 'code' => 1001, 'message' => 'market does not have a valid value' } })
+    end
   end
 
   describe 'GET /api/v2/trades/my' do
@@ -138,6 +144,11 @@ describe APIv2::Trades, type: :request do
       expect(JSON.parse(response.body)['error']).to eq( {'code' => 2000, 'message' => 'Please, pass the corresponding verification steps to enable trading.'} )
     end
 
+    it 'should validate market param' do
+      api_get '/api/v2/trades', params: { market: 'usdusd'}, token: token
+      expect(response).to have_http_status 422
+      expect(JSON.parse(response.body)).to eq ({ 'error' => { 'code' => 1001, 'message' => 'market does not have a valid value' } })
+    end
 
   end
 end
