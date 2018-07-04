@@ -9,7 +9,6 @@
         <ul id="menu" class="navbar-nav mr-auto">
           <%= top_nav_link(t('header.market'), trading_path(current_market.id), 'exchange', target: '_blank') if current_user %>
           <%= top_nav_link(t('header.funds'), funds_path, 'money', controllers: ['funds']) if current_user %>
-          <%= top_nav_link(t('header.assets'), exchange_assets_path, 'bar-chart-o') if current_user %>
           <%= top_nav_link(t('header.history'), order_history_path, 'book', controllers: ['history']) if current_user %>
         </ul>
         <ul class="navbar-nav ml-auto">

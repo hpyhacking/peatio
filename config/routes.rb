@@ -43,8 +43,6 @@ Peatio::Application.routes.draw do
 
     resources 'withdraws/:currency', controller: 'withdraws', as: 'withdraw', only: %i[ create destroy ]
 
-    resources :exchange_assets, controller: 'assets'
-
     get '/history/orders' => 'history#orders', as: :order_history
     get '/history/trades' => 'history#trades', as: :trade_history
     get '/history/account' => 'history#account', as: :account_history

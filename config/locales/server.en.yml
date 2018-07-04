@@ -299,41 +299,6 @@ en:
         create:
           notice: Withdrawal request successfully submitted. Use the info below to
             complete the bank transfer.
-    assets:
-      index:
-        liability-proof: Proof of Liabilities
-        coin-assets: '%{currency} Assets'
-        fiat-assets: '%{currency} Assets'
-      liability_tabs:
-        verify-coin: 'Verify My %{currency} Assets'
-        verify-fiat: 'Verify My %{currency} Assets'
-        coin-assets-total: 'Total %{currency} assets of exchange: '
-        fiat-assets-total: 'Total %{currency} assets of exchange: '
-      liability_proof:
-        title: Proof of Liabilities
-        intro: As an exchange, our liabilities refer to the sum of money (in both
-          crypto currencies and fiat currencies) that our users trust us with. On
-          this page, we present you our liabilities. We also provide you a way to
-          verify that your account balance is indeed part of our liabilities.
-      liability_data:
-        liability_proof_generation: Proof of Liability generation is in progress, please come back after 30 minutes.
-        root-json: Root node
-        partial-tree: 'My %{currency} Assets: '
-        get-partial-tree: Get my partial tree data
-        timestamp: The proof data is generated at %{time}.
-        go-verify: Verify
-      coin_assets:
-        title: '%{currency} Assets'
-        intro: "All of exchange's %{currency} assets are listed here."
-        total: 'Total %{currency} Assets'
-        address: Address
-      fiat_assets:
-        title: '%{currency} Assets'
-        intro: "All of exchange's %{currency} assets are listed here."
-        total: 'Total %{currency} Assets'
-      partial_tree:
-        success: 'Success! Verification data generated at: %{timestamp}'
-      liability_proof_generation: Proof of Liability generation is in progress.
     markets:
       show:
         error: Failed
@@ -608,13 +573,11 @@ en:
     signout: Exit
     funds: Funds
     getstart: Markets
-    assets: Solvency
     history: History
     order_history: Order History
     trade_history: Trade History
     account_history: Account History
     my_profile: My Profile
-    account_balance: Total Assets
     back: Back
     total: Total
     deposit: Deposit
@@ -627,7 +590,6 @@ en:
     privacy: Privacy
     contact: Contact Us
     price: Price
-    liability_proof: liability proof
   actions:
     go: Go
     submit: Submit
@@ -703,7 +665,6 @@ en:
           operating: Operations
         items:
           operating:
-            proofs: Proof
             deposits: Deposits
             withdraws: Withdraws
           deposits:

@@ -12,7 +12,6 @@ class Account < ActiveRecord::Base
   ZERO = 0.to_d
 
   has_many :payment_addresses, -> { order(id: :asc) }
-  has_many :partial_trees, -> { order(id: :desc) }
 
   validates :member_id, uniqueness: { scope: :currency_id }
   validates :balance, :locked, numericality: { greater_than_or_equal_to: 0.to_d }

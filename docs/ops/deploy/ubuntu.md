@@ -220,9 +220,3 @@ For security reason, you must setup SSL Certificate for production environment, 
     sudo rm /etc/nginx/sites-enabled/default
     sudo ln -s /home/deploy/peatio/current/config/nginx.conf /etc/nginx/conf.d/peatio.conf
     sudo service nginx restart
-
-**Liability Proof**
-
-    # Add this rake task to your crontab so it runs regularly
-    RAILS_ENV=production rake solvency:liability_proof
-

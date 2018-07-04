@@ -205,15 +205,6 @@ bundle exec rake markets:seed
 
 Read how to deal with Peatio daemons at [Peatio daemons](https://github.com/rubykube/peatio/blob/master/docs/peatio/daemons.md).
 
-#### Generate liability proof
-
-To generate liability proof run:
-
-```shell
-bundle exec rake solvency:liability_proof
-```
-Otherwise you will get an exception at the "Solvency" page.
-
 #### Setup the Google Authentication
 
 - By default, it ask for Google Authentication. This parameter can be changed in `/config/application.yml` -> `OAUTH2_SIGN_IN_PROVIDER:    google`

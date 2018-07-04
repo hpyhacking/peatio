@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180605104154) do
+ActiveRecord::Schema.define(version: 20180704103131) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -153,15 +153,6 @@ ActiveRecord::Schema.define(version: 20180605104154) do
   add_index "orders", ["type", "state", "market_id"], name: "index_orders_on_type_and_state_and_market_id", using: :btree
   add_index "orders", ["type", "state", "member_id"], name: "index_orders_on_type_and_state_and_member_id", using: :btree
 
-  create_table "partial_trees", force: :cascade do |t|
-    t.integer  "proof_id",   limit: 4,     null: false
-    t.integer  "account_id", limit: 4,     null: false
-    t.text     "json",       limit: 65535, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "sum",        limit: 255
-  end
-
   create_table "payment_addresses", force: :cascade do |t|
     t.string   "currency_id", limit: 10,                  null: false
     t.integer  "account_id",  limit: 4,                   null: false
@@ -175,19 +166,6 @@ ActiveRecord::Schema.define(version: 20180605104154) do
   add_index "payment_addresses", ["account_id"], name: "index_payment_addresses_on_account_id", unique: true, using: :btree
   add_index "payment_addresses", ["currency_id", "address"], name: "index_payment_addresses_on_currency_id_and_address", unique: true, using: :btree
   add_index "payment_addresses", ["currency_id"], name: "index_payment_addresses_on_currency_id", using: :btree
-
-  create_table "proofs", force: :cascade do |t|
-    t.string   "root",        limit: 255
-    t.string   "currency_id", limit: 10
-    t.boolean  "ready",                     default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "sum",         limit: 255
-    t.text     "addresses",   limit: 65535
-    t.string   "balance",     limit: 30
-  end
-
-  add_index "proofs", ["currency_id"], name: "index_proofs_on_currency_id", using: :btree
 
   create_table "trades", force: :cascade do |t|
     t.decimal  "price",                    precision: 32, scale: 16, null: false

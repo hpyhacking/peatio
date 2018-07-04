@@ -17,7 +17,7 @@ Dir.chdir APP_ROOT do
   system 'rm -f log/* log/daemons/*'
   system 'bin/rake tmp:clear tmp:create'
 
-  # in production we run db:setup and solvency:liability_proof tasks as k8s jobs
+  # in production we run db:setup as k8s jobs
   if ENV['RAILS_ENV'] == 'production'
     puts "\n=== Compiling assets ==="
     system 'bin/rake assets:clobber assets:precompile'
@@ -27,8 +27,5 @@ Dir.chdir APP_ROOT do
   else
     puts "\n=== Setup database ==="
     system 'bin/rake db:create db:migrate db:seed'
-
-    puts "\n=== Creating liability proofs ==="
-    system 'bin/rake solvency:liability_proof'
   end
 end
