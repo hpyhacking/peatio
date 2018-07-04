@@ -144,7 +144,7 @@ GEM
       i18n (>= 0.7)
     faraday (0.14.0)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.23)
+    ffi (1.9.25)
     figaro (1.1.1)
       thor (~> 0.14)
     font-awesome-sass (4.7.0)
