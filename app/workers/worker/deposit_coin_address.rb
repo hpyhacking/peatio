@@ -15,8 +15,9 @@ module Worker
           next if pa.address.present?
 
           # Supply address ID in case of BitGo address generation if it exists.
-          result = acc.currency.api.create_address!(address_id: pa.details['bitgo_address_id'])
-
+          result = acc.currency.api.create_address! \
+            address_id: pa.details['bitgo_address_id'],
+            label:      acc.member.uid
           # Save all the details including address ID from BitGo to use it later.
           pa.update! \
             result.extract!(:address, :secret).merge!(details: pa.details.merge(result))

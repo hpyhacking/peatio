@@ -67,5 +67,11 @@ describe CoinAPI::BitGo do
         it { is_expected.to eq({}) }
       end
     end
+
+    context 'when label is provided' do
+      let(:options) { {label: 'ID123456789012'} }
+      let(:request_body) { '{"label":"ID123456789012"}' }
+      it('sends label to BitGo') { subject }
+    end
   end
 end

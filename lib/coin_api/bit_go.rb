@@ -30,7 +30,7 @@ module CoinAPI
         path = '/wallet/' + urlsafe_wallet_id + '/address/' + escape_path_component(options[:address_id])
         rest_api(:get, path).slice('address').symbolize_keys
       else
-        response = rest_api(:post, '/wallet/' + urlsafe_wallet_id + '/address')
+        response = rest_api(:post, '/wallet/' + urlsafe_wallet_id + '/address', options.slice(:label))
         address  = response['address']
         { address: address.present? ? normalize_address(address) : nil, bitgo_address_id: response['id'] }
       end
