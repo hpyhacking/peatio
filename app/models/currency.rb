@@ -149,7 +149,9 @@ class Currency < ActiveRecord::Base
     :transaction_url_template,
     :erc20_contract_address,
     :case_sensitive,
-    :supports_cash_addr_format
+    :supports_cash_addr_format,
+    :supports_hd_protocol,
+    :allow_multiple_deposit_addresses
 
   def deposit_confirmations
     options['deposit_confirmations'].to_i
@@ -179,7 +181,8 @@ class Currency < ActiveRecord::Base
                 :bitgo_wallet_passphrase,
                 :bitgo_rest_api_root,
                 :bitgo_rest_api_access_token,
-                :supports_cash_addr_format
+                :supports_cash_addr_format,
+                :supports_hd_protocol
 end
 
 # == Schema Information

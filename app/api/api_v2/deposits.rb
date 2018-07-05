@@ -34,12 +34,28 @@ module APIv2
       present deposit, with: APIv2::Entities::Deposit
     end
 
-    desc 'Where to deposit. The address field could be empty when a new address is generating (e.g. for bitcoin), you should try again later in that case.'
+    desc 'Returns deposit address for account you want to deposit to. ' \
+         'The address may be blank because address generation process is still in progress. ' \
+         'If this case you should try again later.'
     params do
-      requires :currency, type: String, values: -> { Currency.coins.enabled.codes(bothcase: true) }, desc: -> { "The account to which you want to deposit. Available values: #{Currency.coins.enabled.codes(bothcase: true).join(', ')}" }
+      requires :currency, type: String, values: -> { Currency.coins.enabled.codes }, desc: 'The account you want to deposit to.'
     end
-    get "/deposit_address" do
+    get '/deposit_address' do
       current_user.ac(params[:currency]).payment_address.yield_self do |pa|
+        { currency: params[:currency], address: pa.address }
+      end
+    end
+
+    desc 'Returns new deposit address for account you want to deposit to. ' \
+         'The address may be blank because address generation process is still in progress. ' \
+         'If this case you should try again later. ' \
+         'IMPORTANT: The system may return the same response as GET /api/v2/deposit_address returns in case ' \
+         'the currency doesn\'t support HD protocol or administrator doesn\'t allow users to have multiple deposit addresses.'
+    params do
+      requires :currency, type: String, values: -> { Currency.coins.enabled.codes }, desc: 'The account you want to deposit to.'
+    end
+    post '/deposit_address' do
+      current_user.ac(params[:currency]).payment_address!.yield_self do |pa|
         { currency: params[:currency], address: pa.address }
       end
     end

@@ -1,8 +1,7 @@
+# encoding: UTF-8
 # frozen_string_literal: true
 
 class ChangeMembersLevelType < ActiveRecord::Migration
-  class Member < ActiveRecord::Base; end
-
   def change
     reversible do |direction|
       direction.up do

@@ -7,8 +7,7 @@ class PaymentAddress < ActiveRecord::Base
 
   after_commit :enqueue_address_generation
 
-  validates :address,    uniqueness: { scope: :currency_id }, if: :address?
-  validates :account_id, uniqueness: true
+  validates :address, uniqueness: { scope: :currency_id }, if: :address?
 
   serialize :details, JSON
 
@@ -31,7 +30,7 @@ class PaymentAddress < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180529125011
+# Schema version: 20180613144712
 #
 # Table name: payment_addresses
 #
@@ -46,7 +45,5 @@ end
 #
 # Indexes
 #
-#  index_payment_addresses_on_account_id               (account_id) UNIQUE
-#  index_payment_addresses_on_currency_id              (currency_id)
 #  index_payment_addresses_on_currency_id_and_address  (currency_id,address) UNIQUE
 #

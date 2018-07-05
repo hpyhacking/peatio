@@ -23,9 +23,11 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:            true # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:     1 # Set to zero to stop processing all incoming deposits.
-    supports_cash_addr_format: false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
+    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    supports_hd_protocol:             true # Both BitGo and Bitcoind can generate HD wallets.
+    allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
     #
     # API client configuration.
     api_client: BTC
@@ -57,9 +59,11 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:            true # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:     1 # Set to zero to stop processing all incoming deposits.
-    supports_cash_addr_format: false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
+    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    supports_hd_protocol:             false # If you use BitGo you have to turn this on, otherwise turn this off.
+    allow_multiple_deposit_addresses: false # If you use BitGo you may want to turn this on allowing your users to have multiple deposit addresses. You may configure this later in admin panel.
     #
     # API client configuration.
     api_client: XRP
@@ -91,9 +95,11 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:            true # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:     1 # Set to zero to stop processing all incoming deposits.
-    supports_cash_addr_format: true # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
+    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    supports_cash_addr_format:        true # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    supports_hd_protocol:             true # Both BitGo and Bitcoin Cash node can generate HD wallets.
+    allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
     #
     # API client configuration.
     api_client: BCH
@@ -125,14 +131,16 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:            true # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:     1 # Set to zero to stop processing all incoming deposits.
-    supports_cash_addr_format: false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
+    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    supports_hd_protocol:             true # Both BitGo and Litecoind can generate HD wallets.
+    allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
     #
     # API client configuration.
     api_client: LTC
     #
-    # Bitcoind specific configuration.
+    # Litecoind specific configuration.
     json_rpc_endpoint: http://user:password@127.0.0.1:18332
     #
     # BitGo specific configuration.
@@ -159,23 +167,17 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:            true # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:     1 # Set to zero to stop processing all incoming deposits.
-    supports_cash_addr_format: false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
+    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    supports_hd_protocol:             true # Dashd can generate HD wallets.
+    allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
     #
-    # API client configuration.
+    # API client configuration (DASH is not supported by BitGo).
     api_client: DASH
     #
     # Dashd specific configuration.
     json_rpc_endpoint: http://user:password@127.0.0.1:19998
-    #
-    # BitGo specific configuration.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_address:        ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
     #
     # Block explorer configuration.
     wallet_url_template:      https://live.blockcypher.com/dash/address/#{address}
@@ -193,9 +195,11 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:            false # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:     1 # Set to zero to stop processing all incoming deposits.
-    supports_cash_addr_format: false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    case_sensitive:                   false # IMPORTANT: Be sure to set the correct value!
+    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    supports_hd_protocol:             false # You have to turn this on if you use BitGo, otherwise turn this off.
+    allow_multiple_deposit_addresses: false # You may turn this on if you use BitGo allowing users to have multiple deposit addresses. You may configure this later in admin panel.
     #
     # API client configuration.
     api_client: ETH
@@ -225,9 +229,11 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:            false # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:     1 # Set to zero to stop processing all incoming deposits.
-    supports_cash_addr_format: false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    case_sensitive:                   false # IMPORTANT: Be sure to set the correct value!
+    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
+    supports_hd_protocol:             false # Not supported.
+    allow_multiple_deposit_addresses: false # Not supported.
     #
     # API client configuration (BitGo is not currently supported).
     api_client: ERC20

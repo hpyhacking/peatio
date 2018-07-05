@@ -57,7 +57,8 @@ module Admin
         :deposit_confirmations,
         :enabled,
         :wallet_url_template,
-        :transaction_url_template
+        :transaction_url_template,
+        :allow_multiple_deposit_addresses
       ]
 
       if @currency.new_record?
@@ -77,7 +78,8 @@ module Admin
           :bitgo_rest_api_access_token,
           :case_sensitive,
           :erc20_contract_address,
-          :supports_cash_addr_format ]
+          :supports_cash_addr_format,
+          :supports_hd_protocol ]
       end
 
       attributes
@@ -87,7 +89,9 @@ module Admin
       %i[ enabled
           case_sensitive
           supports_cash_addr_format
-          bitgo_test_net ]
+          bitgo_test_net
+          supports_hd_protocol
+          allow_multiple_deposit_addresses ]
     end
   end
 end

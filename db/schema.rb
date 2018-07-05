@@ -163,9 +163,7 @@ ActiveRecord::Schema.define(version: 20180704103131) do
     t.datetime "updated_at",                              null: false
   end
 
-  add_index "payment_addresses", ["account_id"], name: "index_payment_addresses_on_account_id", unique: true, using: :btree
   add_index "payment_addresses", ["currency_id", "address"], name: "index_payment_addresses_on_currency_id_and_address", unique: true, using: :btree
-  add_index "payment_addresses", ["currency_id"], name: "index_payment_addresses_on_currency_id", using: :btree
 
   create_table "trades", force: :cascade do |t|
     t.decimal  "price",                    precision: 32, scale: 16, null: false
