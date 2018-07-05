@@ -44,6 +44,10 @@ class Trade < ActiveRecord::Base
         trade.side = trade.ask_member_id == member.id ? 'ask' : 'bid'
       end
     end
+
+    def avg_h24_price(market)
+      with_market(market).h24.select(:price).average(:price).to_d
+    end
   end
 
   def for_notify(kind = nil)

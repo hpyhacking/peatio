@@ -22,6 +22,7 @@ class Market < ActiveRecord::Base
 
   scope :ordered, -> { order(position: :asc) }
   scope :enabled, -> { where(enabled: true) }
+  scope :with_base_unit, -> (base_unit){ where(ask_unit: base_unit) }
 
   validate { errors.add(:ask_unit, :invalid) if ask_unit == bid_unit }
   validates :id, uniqueness: { case_sensitive: false }, presence: true
@@ -87,6 +88,17 @@ class Market < ActiveRecord::Base
 
   def global
     Global[id]
+  end
+
+  def change_ratio
+    open = ticker[:open].to_f
+    last = ticker[:last].to_f
+    percent = if open
+                (100*(last-open)/open).nan? ? 0.0 : (100*(last-open)/open).round(2)
+              else
+                '0.00'
+              end
+    "#{open > last ? '' : '+'}#{percent}%"
   end
 
 private
