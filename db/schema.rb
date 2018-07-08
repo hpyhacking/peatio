@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180704103131) do
+ActiveRecord::Schema.define(version: 20180708171446) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -194,6 +194,18 @@ ActiveRecord::Schema.define(version: 20180704103131) do
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+
+  create_table "wallets", force: :cascade do |t|
+    t.string   "name",       limit: 64
+    t.string   "currency",   limit: 5
+    t.string   "address",    limit: 255
+    t.string   "type",       limit: 32
+    t.integer  "nsig",       limit: 4
+    t.integer  "parent",     limit: 4
+    t.string   "status",     limit: 32
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "withdraws", force: :cascade do |t|
     t.integer  "account_id",   limit: 4,                             null: false
