@@ -214,7 +214,7 @@ ActiveRecord::Schema.define(version: 20180708171446) do
     t.string   "name",       limit: 64
     t.string   "currency",   limit: 5
     t.string   "address",    limit: 255
-    t.string   "type",       limit: 32
+    t.string   "kind",       limit: 32
     t.integer  "nsig",       limit: 4
     t.integer  "parent",     limit: 4
     t.string   "status",     limit: 32

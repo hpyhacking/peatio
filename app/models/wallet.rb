@@ -10,7 +10,7 @@ end
 #  name       :string(64)
 #  currency   :string(5)
 #  address    :string(255)
-#  type       :string(32)
+#  kind       :string(32)
 #  nsig       :integer
 #  parent     :integer
 #  status     :string(32)
