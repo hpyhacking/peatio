@@ -11,3 +11,4 @@ Peatio::Application.load_tasks
 
 # Load additional tasks from "support/tasks".
 Dir.glob('lib/peatio/tasks/**/*') { |f| load(f) }
+Dir.glob('lib/tasks/**/*') { |f| load(f) }
