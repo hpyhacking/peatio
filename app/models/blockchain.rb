@@ -1,9 +1,13 @@
 class Blockchain < ActiveRecord::Base
 
-    def explorer=(hash)
-        write_attribute(:explorer_address, hash.fetch('address'))
-        write_attribute(:explorer_transaction, hash.fetch('transaction'))
-    end
+  def explorer=(hash)
+      write_attribute(:explorer_address, hash.fetch('address'))
+      write_attribute(:explorer_transaction, hash.fetch('transaction'))
+  end
+
+  def status
+    super&.inquiry
+  end
 end
 
 # == Schema Information
