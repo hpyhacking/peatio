@@ -54,19 +54,20 @@ ActiveRecord::Schema.define(version: 20180708171446) do
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", unique: true, using: :btree
 
   create_table "blockchains", force: :cascade do |t|
-    t.string   "key",                  limit: 255
+    t.string   "key",                  limit: 255, null: false
+    t.string   "status",               limit: 255
     t.string   "name",                 limit: 255
     t.string   "client",               limit: 255
     t.string   "server",               limit: 255
     t.integer  "height",               limit: 4
     t.string   "explorer_address",     limit: 255
     t.string   "explorer_transaction", limit: 255
-    t.string   "status",               limit: 255
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
   end
 
   add_index "blockchains", ["key"], name: "index_blockchains_on_key", unique: true, using: :btree
+  add_index "blockchains", ["status"], name: "index_blockchains_on_status", using: :btree
 
   create_table "currencies", force: :cascade do |t|
     t.string   "symbol",               limit: 1,                                               null: false
@@ -80,6 +81,7 @@ ActiveRecord::Schema.define(version: 20180708171446) do
     t.integer  "precision",            limit: 1,                              default: 8,      null: false
     t.datetime "created_at",                                                                   null: false
     t.datetime "updated_at",                                                                   null: false
+    t.string   "blockchain_key",       limit: 32
   end
 
   add_index "currencies", ["enabled"], name: "index_currencies_on_enabled", using: :btree
@@ -211,15 +213,15 @@ ActiveRecord::Schema.define(version: 20180708171446) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   create_table "wallets", force: :cascade do |t|
-    t.string   "name",       limit: 64
-    t.string   "currency",   limit: 5
-    t.string   "address",    limit: 255
-    t.string   "kind",       limit: 32
-    t.integer  "nsig",       limit: 4
-    t.integer  "parent",     limit: 4
-    t.string   "status",     limit: 32
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name",        limit: 64
+    t.string   "currency_id", limit: 5
+    t.string   "address",     limit: 255
+    t.string   "kind",        limit: 32
+    t.integer  "nsig",        limit: 4
+    t.integer  "parent",      limit: 4
+    t.string   "status",      limit: 32
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "withdraws", force: :cascade do |t|

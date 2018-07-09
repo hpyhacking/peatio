@@ -4,6 +4,7 @@
 class Currency < ActiveRecord::Base
   serialize :options, JSON
 
+  belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
   # NOTE: type column reserved for STI
   self.inheritance_column = nil
 
@@ -186,7 +187,7 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180529125011
+# Schema version: 20180708171446
 #
 # Table name: currencies
 #
@@ -202,6 +203,7 @@ end
 #  precision            :integer          default(8), not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  blockchain_key       :string(32)
 #
 # Indexes
 #

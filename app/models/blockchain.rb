@@ -1,4 +1,5 @@
 class Blockchain < ActiveRecord::Base
+  has_many :currencies, foreign_key: :blockchain_key, primary_key: :key
 
   def explorer=(hash)
       write_attribute(:explorer_address, hash.fetch('address'))
@@ -11,12 +12,12 @@ class Blockchain < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180708014826
+# Schema version: 20180708171446
 #
 # Table name: blockchains
 #
 #  id                   :integer          not null, primary key
-#  key                  :string(255)
+#  key                  :string(255)      not null
 #  name                 :string(255)
 #  client               :string(255)
 #  server               :string(255)
@@ -29,5 +30,6 @@ end
 #
 # Indexes
 #
-#  index_blockchains_on_key  (key) UNIQUE
+#  index_blockchains_on_key     (key) UNIQUE
+#  index_blockchains_on_status  (status)
 #
