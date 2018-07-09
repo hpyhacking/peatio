@@ -191,6 +191,7 @@ end
 #
 # Table name: currencies
 #
+#  blockchain_key       :string(32)
 #  id                   :string(10)       not null, primary key
 #  symbol               :string(1)        not null
 #  type                 :string(30)       default("coin"), not null
@@ -203,7 +204,6 @@ end
 #  precision            :integer          default(8), not null
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
-#  blockchain_key       :string(32)
 #
 # Indexes
 #

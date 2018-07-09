@@ -8,8 +8,8 @@ end
 # Table name: wallets
 #
 #  id          :integer          not null, primary key
-#  name        :string(64)
 #  currency_id :string(5)
+#  name        :string(64)
 #  address     :string(255)
 #  kind        :string(32)
 #  nsig        :integer

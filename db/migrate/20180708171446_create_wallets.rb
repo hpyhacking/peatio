@@ -1,8 +1,8 @@
 class CreateWallets < ActiveRecord::Migration
   def change
     create_table :wallets do |t|
-      t.string  :name, limit: 64
       t.string  :currency_id, limit: 5
+      t.string  :name, limit: 64
       t.string  :address
       t.string  :kind, limit: 32
       t.integer :nsig
