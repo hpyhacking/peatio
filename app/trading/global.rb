@@ -21,9 +21,12 @@ class Global
   end
 
   def key(key, interval=5)
+    "peatio:#{@market_id}:#{key}:#{time_key(interval)}"
+  end
+
+  def time_key(interval)
     seconds  = Time.now.to_i
-    time_key = seconds - (seconds % interval)
-    "peatio:#{@market_id}:#{key}:#{time_key}"
+    seconds - (seconds % interval)
   end
 
   def asks
