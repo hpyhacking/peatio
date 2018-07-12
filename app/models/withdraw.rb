@@ -13,8 +13,6 @@ class Withdraw < ActiveRecord::Base
   include TIDIdentifiable
   include FeeChargeable
 
-  has_paper_trail on: %i[update destroy]
-
   acts_as_eventable prefix: 'withdraw', on: %i[create update]
 
   before_validation(on: :create) { self.account ||= member&.ac(currency) }

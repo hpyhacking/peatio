@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180704103131) do
+ActiveRecord::Schema.define(version: 20180704115110) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -24,20 +24,6 @@ ActiveRecord::Schema.define(version: 20180704103131) do
 
   add_index "accounts", ["currency_id", "member_id"], name: "index_accounts_on_currency_id_and_member_id", unique: true, using: :btree
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
-
-  create_table "audit_logs", force: :cascade do |t|
-    t.string   "type",           limit: 30, null: false
-    t.integer  "operator_id",    limit: 4
-    t.integer  "auditable_id",   limit: 4,  null: false
-    t.string   "auditable_type", limit: 30, null: false
-    t.string   "source_state",   limit: 30
-    t.string   "target_state",   limit: 30, null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-  end
-
-  add_index "audit_logs", ["auditable_id", "auditable_type"], name: "index_audit_logs_on_auditable_id_and_auditable_type", using: :btree
-  add_index "audit_logs", ["operator_id"], name: "index_audit_logs_on_operator_id", using: :btree
 
   create_table "authentications", force: :cascade do |t|
     t.string   "provider",   limit: 30,   null: false
@@ -183,17 +169,6 @@ ActiveRecord::Schema.define(version: 20180704103131) do
   add_index "trades", ["ask_member_id", "bid_member_id"], name: "index_trades_on_ask_member_id_and_bid_member_id", using: :btree
   add_index "trades", ["bid_id"], name: "index_trades_on_bid_id", using: :btree
   add_index "trades", ["market_id", "created_at"], name: "index_trades_on_market_id_and_created_at", using: :btree
-
-  create_table "versions", force: :cascade do |t|
-    t.string   "item_type",  limit: 255,   null: false
-    t.integer  "item_id",    limit: 4,     null: false
-    t.string   "event",      limit: 255,   null: false
-    t.string   "whodunnit",  limit: 255
-    t.text     "object",     limit: 65535
-    t.datetime "created_at"
-  end
-
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   create_table "withdraws", force: :cascade do |t|
     t.integer  "account_id",   limit: 4,                             null: false

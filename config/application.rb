@@ -42,9 +42,6 @@ module Peatio
     config.i18n.load_path += Dir[root.join('config', 'locales', '*.{yml}')]
     config.i18n.available_locales = ['en']
 
-    # Observer configuration
-    config.active_record.observers = :transfer_observer
-
     # Don't suppress exceptions in before_commit & after_commit callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 

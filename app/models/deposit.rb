@@ -11,8 +11,6 @@ class Deposit < ActiveRecord::Base
   include TIDIdentifiable
   include FeeChargeable
 
-  has_paper_trail on: [:update, :destroy]
-
   acts_as_eventable prefix: 'deposit', on: %i[create update]
 
   validates :tid, :aasm_state, :type, presence: true

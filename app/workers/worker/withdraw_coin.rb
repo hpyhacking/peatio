@@ -51,11 +51,9 @@ module Worker
 
         Rails.logger.warn { "Updating withdraw state in database." }
 
-        withdraw.whodunnit self.class.name do
-          withdraw.txid = txid
-          withdraw.success
-          withdraw.save!
-        end
+        withdraw.txid = txid
+        withdraw.success
+        withdraw.save!
 
         Rails.logger.warn { "OK." }
 

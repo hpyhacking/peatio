@@ -22,8 +22,6 @@ gem 'bunny', '~> 2.9.2'
 gem 'cancancan', '~> 2.2.0'
 gem 'enumerize', '~> 2.2.2'
 gem 'kaminari', '~> 1.1.1'
-gem 'paper_trail', '~> 3.0.9'
-gem 'rails-observers', '~> 0.1.5'
 gem 'gon', '~> 5.2.3'
 gem 'pusher', '~> 1.3.1'
 gem 'eventmachine', '~> 1.0.9', require: false
