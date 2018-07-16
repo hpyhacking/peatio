@@ -56,7 +56,8 @@ class Currency < ActiveYamlBase
 
   def blockchain_url(txid)
     raise unless coin?
-    blockchain.gsub('#{txid}', txid.to_s)
+    locale = I18n.locale.to_s.downcase
+    blockchain.gsub('#{txid}', txid.to_s).gsub('#{locale}', locale)
   end
 
   def address_url(address)
