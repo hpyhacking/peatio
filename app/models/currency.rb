@@ -62,7 +62,8 @@ class Currency < ActiveYamlBase
 
   def address_url(address)
     raise unless coin?
-    self[:address_url].try :gsub, '#{address}', address
+    locale = I18n.locale.to_s.downcase
+    self[:address_url].try(:gsub, '#{address}', address).try(:gsub, '#{locale}', locale)
   end
 
   def quick_withdraw_max
