@@ -19,7 +19,7 @@
   quick_withdraw_max: 0
   rpc: http://username:password@127.0.0.1:18332
   blockchain: https://blockchain.com/#{locale}/btc/tx/#{txid}
-  address_url: https://blockchain.info/address/#{address}
+  address_url: https://blockchain.com/#{locale}/btc/address/#{address}
   assets:
     accounts:
       -
