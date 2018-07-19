@@ -289,13 +289,13 @@ Replace the content of the file by the following
 #
 # Make sure to add the next line to /etc/hosts.
 #
-#   127.0.0.1 peatio.io
+#   127.0.0.1 peatio.tech
 #
 
 server {
-  server_name      peatio.io;
+  server_name      peatio.tech;
   listen           80;
-  proxy_set_header Host peatio.io;
+  proxy_set_header Host peatio.tech;
 
   location ~ ^/(?:trading|trading-ui-assets)\/ {
     proxy_pass http://127.0.0.1:4000;
@@ -307,7 +307,7 @@ server {
 }
 ```
 
-Make sure to replace `http://peatio.io` with your actual server DNS
+Make sure to replace `http://peatio.tech` with your actual server DNS
 
 Start nginx by running `sudo nginx`
 

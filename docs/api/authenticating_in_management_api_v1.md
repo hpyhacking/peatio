@@ -78,7 +78,7 @@ The example JWT is available at [jwt-multisig source code](https://github.com/ru
 ## Step 6: Make requests to API.
 
 ```
-curl -v -H "Accept: application/json" -H "Content-Type: application/json" -d "JWT" http://peatio.io/management_api/v1/deposits
+curl -v -H "Accept: application/json" -H "Content-Type: application/json" -d "JWT" http://peatio.tech/management_api/v1/deposits
 ```
 
 Where `JWT` is the result from previous step (serialized JWT).
