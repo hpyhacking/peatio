@@ -8,6 +8,11 @@
       <div class="card-body">
         <%= description_for :withdraw do %>
           <%= item_for @withdraw, :id %>
+          <%= item_for @withdraw, 'Txid' do %>
+            <a href="<%= @withdraw.transaction_url %>" target="_blank">
+              <code class="text-info"><%= @withdraw.txid %></code>
+            </a>
+          <% end %>
           <%= item_for @withdraw, :created_at %>
           <%= item_for @withdraw, 'State' do %>
             <%= @withdraw.aasm_state.humanize %>

@@ -1,5 +1,10 @@
 <%= table_for withdraws, class: 'table table-bordered table-striped', model: Withdraws::Coin do |t| %>
   <% t.column :id %>
+  <% t.column :txid do |x| %>
+    <a href="<%= x.transaction_url %>" target="_blank">
+      <code class="text-info"><%= x.txid%></code>
+    </a>
+  <% end %>
   <% t.column :created_at %>
   <% t.column 'Currency' do |x| %>
     <%= x.currency.code.upcase %>

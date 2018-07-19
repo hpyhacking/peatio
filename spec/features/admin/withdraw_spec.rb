@@ -60,10 +60,12 @@ feature 'Withdraw', js: true do
     click_link btc_withdraw.currency.code.upcase
     expect(page).to have_content(btc_withdraw.rid.truncate(22))
     expect(page).to have_content(btc_withdraw.amount)
+    expect(page).to have_content('Txid')
     click_link I18n.t('actions.view')
     page.within_window windows.last do
       expect(page).to have_content(I18n.t('actions.process'))
       expect(page).to have_content(I18n.t('actions.reject'))
+      expect(page).to have_content('Txid')
     end
   end
 
