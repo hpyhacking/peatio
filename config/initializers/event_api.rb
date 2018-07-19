@@ -110,6 +110,17 @@ module EventAPI
   # To continue processing by further middlewares return array with event name and payload.
   # To stop processing event return any value which isn't an array.
   module Middlewares
+
+    class << self
+      def application_name
+        Rails.application.class.name.split('::').first.underscore
+      end
+
+      def application_version
+        "#{application_name.camelize}::VERSION".constantize
+      end
+    end
+
     class IncludeEventMetadata
       def call(event_name, event_payload)
         event_payload[:name] = event_name
@@ -119,7 +130,21 @@ module EventAPI
 
     class GenerateJWT
       def call(event_name, event_payload)
-        [event_name, event_payload]
+        jwt_payload = {
+            iss:   Middlewares.application_name,
+            jti:   SecureRandom.uuid,
+            iat:   Time.now.to_i,
+            exp:   Time.now.to_i + 60,
+            event: event_payload
+        }
+
+        private_key = OpenSSL::PKey.read(Base64.urlsafe_decode64(ENV.fetch('EVENT_API_JWT_PRIVATE_KEY')))
+        algorithm   = ENV.fetch('EVENT_API_JWT_ALGORITHM')
+        jwt         = JWT::Multisig.generate_jwt jwt_payload, \
+                                                   { Middlewares.application_name.to_sym => private_key },
+                                                 { Middlewares.application_name.to_sym => algorithm }
+
+        [event_name, jwt]
       end
     end
 
@@ -136,25 +161,49 @@ module EventAPI
       end
     end
 
-    class PublishToAbstractRabbitMQ
+    class PublishToRabbitMQ
+      extend Memoist
+
       def call(event_name, event_payload)
         Rails.logger.debug do
-          ['',
-           'Published new message to RabbitMQ (abstractly):',
-           'exchange    = ' + exchange_name(event_name),
-           'routing key = ' + routing_key(event_name),
-           'payload     = ' + event_payload.to_json,
-           ''
-          ].join("\n")
+          "\nPublishing #{routing_key(event_name)} (routing key) to #{exchange_name(event_name)} (exchange name).\n"
         end
+        exchange = bunny_exchange(exchange_name(event_name))
+        exchange.publish(event_payload.to_json, routing_key: routing_key(event_name))
         [event_name, event_payload]
       end
 
     private
 
-      # TODO: Validate that key include event category.
+      def bunny_session
+        Bunny::Session.new(rabbitmq_credentials).tap do |session|
+          session.start
+          Kernel.at_exit { session.stop }
+        end
+      end
+      memoize :bunny_session
+
+      def bunny_channel
+        bunny_session.channel
+      end
+      memoize :bunny_channel
+
+      def bunny_exchange(name)
+        bunny_channel.direct(name)
+      end
+      memoize :bunny_exchange
+
+      def rabbitmq_credentials
+        return ENV['EVENT_API_RABBITMQ_URL'] if ENV['EVENT_API_RABBITMQ_URL'].present?
+
+        { host:     ENV.fetch('EVENT_API_RABBITMQ_HOST'),
+          port:     ENV.fetch('EVENT_API_RABBITMQ_PORT'),
+          username: ENV.fetch('EVENT_API_RABBITMQ_USERNAME'),
+          password: ENV.fetch('EVENT_API_RABBITMQ_PASSWORD') }
+      end
+
       def exchange_name(event_name)
-        "peatio.events.#{event_name.split('.').first}"
+        "#{Middlewares.application_name}.events.#{event_name.split('.').first}"
       end
 
       def routing_key(event_name)
@@ -166,7 +215,7 @@ module EventAPI
   middlewares << Middlewares::IncludeEventMetadata.new
   middlewares << Middlewares::GenerateJWT.new
   middlewares << Middlewares::PrintToScreen.new
-  middlewares << Middlewares::PublishToAbstractRabbitMQ.new
+  middlewares << Middlewares::PublishToRabbitMQ.new
 end
 
 ActiveSupport.on_load(:active_record) { ActiveRecord::Base.include EventAPI::ActiveRecord::Extension }

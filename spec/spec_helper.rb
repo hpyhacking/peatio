@@ -1,11 +1,15 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+require 'base64'
+require 'openssl'
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 ENV['ADMIN'] ||= 'admin@peatio.tech'
 ENV['PUSHER_SECRET'] = 'fake'
 ENV['PUSHER_CLIENT_KEY'] = 'fake'
+ENV['EVENT_API_JWT_PRIVATE_KEY'] ||= Base64.urlsafe_encode64(OpenSSL::PKey::RSA.generate(2048).to_pem)
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'rspec/retry'
