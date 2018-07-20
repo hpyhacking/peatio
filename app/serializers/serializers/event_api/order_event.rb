@@ -5,7 +5,9 @@ module Serializers
   module EventAPI
     class OrderEvent
       def call(order)
-        { market:                 order.market_id,
+        {
+          id:                     order.id,
+          market:                 order.market_id,
           type:                   type(order),
           trader_uid:             Member.uid(order.member_id),
           income_unit:            buy?(order) ? order.ask : order.bid,
@@ -22,7 +24,8 @@ module Serializers
           price:                  order.price.to_s('F'),
           state:                  state(order),
           trades_count:           order.trades_count,
-          created_at:             order.created_at.iso8601 }
+          created_at:             order.created_at.iso8601
+        }
       end
 
       class << self

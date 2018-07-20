@@ -183,6 +183,53 @@ event: {
 | `record`   | The up-to-date withdraw attributes.               |
 | `changes`  | The changed withdraw attributes and their values. |
 
+## Format of `model.account.created` event
+
+```ruby
+event: {
+  name: "model.account.created",
+  record: {
+    id:                      "1",
+    member_id:               "2",
+    currency_id:             "btc",
+    balance:                 "0",
+    locked:                  "0",
+    created_at:               "2018-04-12T17:16:06+03:00",
+    updated_at:               "2018-04-12T17:16:06+03:00",
+  }
+}
+```
+
+| Field      | Description                         |
+| ---------- | ----------------------------------- |
+| `record`   | The up-to-date account attributes.  |
+
+## Format of `model.account.updated` event
+
+```ruby
+event: {
+  name: "model.account.updated",
+  record: {
+    id:                      "1",
+    member_id:               "2",
+    currency_id:             "btc",
+    balance:                 "1",
+    locked:                  "0",
+    created_at:               "2018-04-12T17:16:06+03:00",
+    updated_at:               "2018-04-12T17:17:06+03:00",
+  },
+  changes: {
+    balance:                  "0",
+    updated_at:               "2018-04-12T17:16:06+03:00"
+  }
+}
+```
+
+| Field      | Description                                      |
+| ---------- | ------------------------------------------------ |
+| `record`   | The up-to-date account attributes.               |
+| `changes`  | The changed account attributes and their values. |
+
 ## Format of `system.low_hot_wallet_balance` event
 
 ```ruby

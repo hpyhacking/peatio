@@ -69,6 +69,7 @@ describe Serializers::EventAPI::TradeCompleted, 'Event API' do
     EventAPI.expects(:notify).with('market.btcusd.order_updated', anything).once
     EventAPI.expects(:notify).with('market.btcusd.order_completed', anything).once
     EventAPI.expects(:notify).with('market.btcusd.trade_completed', {
+      id:                    1,
       market:                'btcusd',
       price:                 '0.03',
       buyer_uid:             buyer.uid,

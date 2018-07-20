@@ -18,7 +18,7 @@ describe Serializers::EventAPI::OrderCreated do
       locked:        '0.42',
       origin_locked: '0.42',
       member:        buyer
-  end  
+  end
 
   subject { order_bid }
 
@@ -33,6 +33,7 @@ describe Serializers::EventAPI::OrderCreated do
 
   before do
     EventAPI.expects(:notify).with('market.btcusd.order_created', {
+      id:                     1,
       market:                 'btcusd',
       type:                   'buy',
       trader_uid:             buyer.uid,
