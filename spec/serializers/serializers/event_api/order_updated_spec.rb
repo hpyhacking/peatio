@@ -36,6 +36,7 @@ describe Serializers::EventAPI::OrderUpdated, OrderAsk do
   before do
     EventAPI.expects(:notify).with('market.btcusd.order_created', anything)
     EventAPI.expects(:notify).with('market.btcusd.order_updated', {
+      id:                      1,
       market:                  'btcusd',
       type:                    'sell',
       trader_uid:              seller.uid,
@@ -106,6 +107,7 @@ describe Serializers::EventAPI::OrderUpdated, OrderBid do
   before do
     EventAPI.expects(:notify).with('market.btcusd.order_created', anything)
     EventAPI.expects(:notify).with('market.btcusd.order_updated', {
+      id:                      1,
       market:                  'btcusd',
       type:                    'buy',
       trader_uid:              buyer.uid,

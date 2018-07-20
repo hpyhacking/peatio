@@ -2,12 +2,12 @@
 # frozen_string_literal: true
 
 class Account < ActiveRecord::Base
-  class AccountError < StandardError
-
-  end
+  AccountError = Class.new(StandardError)
 
   include BelongsToCurrency
   include BelongsToMember
+
+  acts_as_eventable prefix: 'account', on: %i[create update]
 
   ZERO = 0.to_d
 
@@ -17,6 +17,18 @@ class Account < ActiveRecord::Base
   validates :balance, :locked, numericality: { greater_than_or_equal_to: 0.to_d }
 
   scope :enabled, -> { joins(:currency).merge(Currency.where(enabled: true)) }
+
+  def as_json_for_event_api
+    {
+      id: id,
+      member_id: member_id,
+      currency_id: currency_id,
+      balance: balance,
+      locked: locked,
+      created_at: created_at&.iso8601,
+      updated_at: updated_at&.iso8601
+    }
+  end
 
   # Returns active deposit address for account or creates new if any exists.
   def payment_address
