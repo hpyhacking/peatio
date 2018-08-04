@@ -717,7 +717,7 @@ en:
       suspected: Suspected
       processing: Processing
       done: Done
-      canceled: Canceld
+      canceled: Canceled
       failed: Failed
   withdraws/coin:
     aasm_state:
