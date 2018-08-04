@@ -155,7 +155,7 @@ brew install imagemagick
 #### Clone the project:
 
 ```shell
-git clone git@github.com/rubykube/peatio.git
+git clone git@github.com:rubykube/peatio.git
 cd peatio
 bundle install
 ```
