@@ -7,9 +7,11 @@ module APIv2
 
     TradeStruct = Struct.new(:price, :volume, :change)
 
-    desc 'Get currency trades at last 24h'
+    desc 'Get currency trades at last 24h', tags: %w[currencies]
     params do
-      requires :currency, type: String, values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { "Available values: #{Currency.coins.enabled.codes(bothcase: true).join(', ')}" }
+      requires :currency, type: String,
+                          values: -> { Currency.enabled.codes },
+                          desc: -> { APIv2::Entities::Currency.documentation[:id] }
     end
     get '/currency/trades' do
       currency = params[:currency]
@@ -23,18 +25,24 @@ module APIv2
       end
     end
 
-    desc 'Get currency by id'
+    desc 'Get a currency', tags: %w[currencies], success: Entities::Currency
     params do
-      requires :id, type: String, values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { APIv2::Entities::Currency.documentation[:id] }
+      requires :id, type: String,
+                    values: -> { Currency.enabled.codes },
+                    desc: -> { APIv2::Entities::Currency.documentation[:id][:desc] }
     end
     get '/currencies/:id' do
-      id = params[:id]
-      present Currency.find_by_id(id), with: APIv2::Entities::Currency
+      present Currency.find(params[:id]), with: APIv2::Entities::Currency
     end
 
-    desc 'Get list of currencies'
+    desc 'Get list of currencies', is_array: true,
+                                   success: Entities::Currency,
+                                   tags: %w[currencies],
+                                   security: []
     params do
-      optional :type, type: String, values: %w[fiat coin], desc: -> { APIv2::Entities::Currency.documentation[:type] }
+      optional :type, type: String,
+                      values: %w[fiat coin],
+                      desc: -> { APIv2::Entities::Currency.documentation[:type][:desc] }
     end
     get '/currencies' do
       if params[:type].blank?

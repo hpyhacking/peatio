@@ -4,21 +4,91 @@
 module APIv2
   module Entities
     class Currency < Base
-      expose :id, documentation: 'Currency code'
-      expose :symbol, documentation: 'Currency symbol'
-      expose :type, documentation: 'Currency type. Available values: coin or fiat'
+      expose(
+        :id,
+        documentation: {
+          desc: 'Currency code.',
+          type: String,
+          values: -> { ::Currency.enabled.codes },
+          example: -> { ::Currency.enabled.first.id }
+        }
+      )
 
-      expose :deposit_fee, documentation: 'Currency deposit fee'
-      expose :withdraw_fee, documentation: 'Currency withdraw fee'
+      expose(
+        :symbol,
+        documentation: {
+          type: String,
+          desc: 'Currency symbol',
+          example: -> { ::Currency.enabled.first.symbol }
+        }
+      )
 
-      expose :quick_withdraw_limit, documentation: 'Currency quick withdraw limit'
-      expose :deposit_confirmations, if: -> (currency){ currency.type == 'coin' },
-             documentation: 'Number of deposit confirmations for currency'
+      expose(
+        :type,
+        documentation: {
+          type: String,
+          values: %w[coin fiat],
+          desc: 'Currency type',
+          example: -> { ::Currency.enabled.first.type }
+        }
+      )
 
-      expose :allow_multiple_deposit_addresses, if: -> (currency){ currency.type == 'coin' }
+      expose(
+        :deposit_fee,
+        documentation: {
+          desc: 'Currency deposit fee',
+          example: -> { ::Currency.enabled.first.deposit_fee }
+        }
+      )
 
-      expose :base_factor, documentation: 'Currency base factor'
-      expose :precision, documentation: 'Currency precision'
+      expose(
+        :withdraw_fee,
+        documentation: {
+          desc: 'Currency withdraw fee',
+          example: -> { ::Currency.enabled.first.withdraw_fee }
+        }
+      )
+
+      expose(
+        :quick_withdraw_limit,
+        documentation: {
+          desc: 'Currency quick withdraw limit',
+          example: -> { ::Currency.enabled.first.quick_withdraw_limit }
+        }
+      )
+
+      expose(
+        :deposit_confirmations,
+        documentation: {
+          desc: 'Number of deposit confirmations for currency',
+          example: -> { ::Currency.enabled.first.deposit_confirmations }
+        },
+        if: ->(currency) { currency.type == 'coin' }
+      )
+
+      expose(
+        :allow_multiple_deposit_addresses,
+        documentation: {
+          example: -> { ::Currency.enabled.first.allow_multiple_deposit_addresses }
+        },
+        if: ->(currency) { currency.type == 'coin' }
+      )
+
+      expose(
+        :base_factor,
+        documentation: {
+          desc: 'Currency base factor',
+          example: -> { ::Currency.enabled.first.base_factor }
+        }
+      )
+
+      expose(
+        :precision,
+        documentation: {
+          desc: 'Currency precision',
+          example: -> { ::Currency.enabled.first.precision }
+        }
+      )
     end
   end
 end

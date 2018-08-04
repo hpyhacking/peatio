@@ -8,8 +8,9 @@ require_dependency 'api_v2/withdraws'
 module APIv2
   class Mount < Grape::API
     PREFIX = '/api'
+    API_VERSION = 'v2'
 
-    version 'v2', using: :path
+    version API_VERSION, using: :path
 
     cascade false
 
@@ -57,12 +58,26 @@ module APIv2
     # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/swagger
     add_swagger_documentation base_path:   PREFIX,
                               mount_path:  '/swagger',
-                              api_version: 'v2',
+                              api_version: API_VERSION,
                               doc_version: Peatio::VERSION,
                               info: {
-                                title:       'Member API v2',
-                                description: 'Member API is API which can be used by client application like SPA.',
-                                licence:     'MIT',
-                                license_url: 'https://github.com/rubykube/peatio/blob/master/LICENSE.md' }
+                                title:         "Member API #{API_VERSION}",
+                                description:   'Member API is API which can be used by client application like SPA.',
+                                contact_name:  'peatio.tech',
+                                contact_email: 'hello@peatio.tech',
+                                contact_url:   'https://www.peatio.tech',
+                                licence:       'MIT',
+                                license_url:   'https://github.com/rubykube/peatio/blob/master/LICENSE.md'
+                              },
+                              models: [
+                                Entities::Currency,
+                              ],
+                              security_definitions: {
+                                Bearer: {
+                                  type: "apiKey",
+                                  name: "JWT",
+                                  in: "header"
+                                }
+                              }
   end
 end
