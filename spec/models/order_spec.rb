@@ -21,13 +21,7 @@ describe Order, 'validations', type: :model do
     it 'should make sure price is present' do
       order = OrderAsk.new(market_id: 'btcusd', price: nil, ord_type: 'limit')
       expect(order).not_to be_valid
-      expect(order.errors[:price]).to eq ['is not a number']
-    end
-
-    it 'should make sure price is greater than zero' do
-      order = OrderAsk.new(market_id: 'btcusd', price: '0.0'.to_d, ord_type: 'limit')
-      expect(order).not_to be_valid
-      expect(order.errors[:price]).to eq ['must be greater than 0']
+      expect(order.errors[:price]).to include 'is not a number'
     end
   end
 
@@ -35,7 +29,7 @@ describe Order, 'validations', type: :model do
     it 'should make sure price is not present' do
       order = OrderAsk.new(market_id: 'btcusd', price: '0.0'.to_d, ord_type: 'market')
       expect(order).not_to be_valid
-      expect(order.errors[:price]).to eq ['must not be present']
+      expect(order.errors[:price]).to include 'must not be present'
     end
   end
 end

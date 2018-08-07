@@ -33,6 +33,9 @@ class Market < ActiveRecord::Base
   validate  :precisions_must_be_same
   validate  :units_must_be_enabled, if: :enabled?
 
+  validates :min_ask, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :max_bid, numericality: { allow_blank: true, greater_than_or_equal_to: ->(market){ market.min_ask }}
+
   before_validation(on: :create) { self.id = "#{ask_unit}#{bid_unit}" }
 
   after_commit { AMQPQueue.enqueue(:matching, action: 'new', market: id) }
@@ -118,7 +121,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20180529125011
+# Schema version: 20180719172203
 #
 # Table name: markets
 #
@@ -127,6 +130,8 @@ end
 #  bid_unit      :string(5)        not null
 #  ask_fee       :decimal(17, 16)  default(0.0), not null
 #  bid_fee       :decimal(17, 16)  default(0.0), not null
+#  max_bid       :decimal(17, 16)
+#  min_ask       :decimal(17, 16)  default(0.0), not null
 #  ask_precision :integer          default(8), not null
 #  bid_precision :integer          default(8), not null
 #  position      :integer          default(0), not null

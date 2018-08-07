@@ -5,6 +5,11 @@ class OrderAsk < Order
   has_many :trades, -> { order(id: :asc) }, foreign_key: :ask_id
   scope :matching_rule, -> { order(price: :asc, created_at: :asc) }
 
+  validates :price,
+            presence: true,
+            numericality: { greater_than_or_equal_to: ->(order){ order.market.min_ask }},
+            if: :is_limit_order?
+
   def hold_account
     member.get_account(ask)
   end

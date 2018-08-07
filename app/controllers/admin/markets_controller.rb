@@ -55,6 +55,8 @@ module Admin
         :ask_unit,
         :ask_fee,
         :enabled,
+        :max_bid,
+        :min_ask,
         :position
       ]
 

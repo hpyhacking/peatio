@@ -16,7 +16,6 @@ class Order < ActiveRecord::Base
 
   validates :ord_type, :volume, :origin_volume, :locked, :origin_locked, presence: true
   validates :origin_volume, numericality: { greater_than: 0.to_d }
-  validates :price, numericality: { greater_than: 0, allow_nil: false }, if: -> (order) { order.ord_type == 'limit' }
   validate  :market_order_validations, if: -> (order) { order.ord_type == 'market' }
 
   WAIT   = 'wait'
@@ -99,6 +98,10 @@ class Order < ActiveRecord::Base
   end
 
   private
+
+  def is_limit_order?
+    ord_type == 'limit'
+  end
 
   def market_order_validations
     errors.add(:price, 'must not be present') if price.present?
