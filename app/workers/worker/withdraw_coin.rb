@@ -29,30 +29,36 @@ module Worker
 
         Rails.logger.warn { "Information: sending #{withdraw.amount.to_s("F")} (exchange fee is #{withdraw.fee.to_s("F")}) #{withdraw.currency.code.upcase} to #{withdraw.rid}." }
 
-        api     = withdraw.currency.api
-        balance = api.load_balance!
-
-        if balance < withdraw.sum
-          Rails.logger.warn { "The withdraw failed because wallet balance is not sufficient (wallet balance is #{balance.to_s("F")})." }
-          withdraw.suspect!
+        wallet = Wallet.active.withdraw.find_by(currency_id: withdraw.currency_id, kind: :hot)
+        unless wallet
+          Rails.logger.warn { "Can't find active hot wallet for currency with code: #{withdraw.currency_id}."}
           return
         end
 
-        pa = withdraw.account.payment_address
+        currency = withdraw.currency
 
-        Rails.logger.warn { "Sending request to currency API." }
+        wallet_service = WalletService[wallet]
+        # TODO: we load balance of hot, warm and cold wallets
+        # balance = wallet_service.load_balance(currency)
 
-        txid = api.create_withdrawal!(
-          { address: pa.address, secret: pa.secret },
-          { address: withdraw.rid },
-          withdraw.amount.to_d
-        )
+        # if balance < withdraw.sum
+        #   Rails.logger.warn { "The withdraw failed because wallet balance is not sufficient (wallet balance is #{balance.to_s("F")})." }
+        #   withdraw.suspect!
+        #   return
+        # end
+
+        # pa = withdraw.account.payment_address
+
+        Rails.logger.warn { "Sending request to Wallet Service." }
+
+        txid = wallet_service.build_withdrawal!(withdraw)
+
         Rails.logger.warn { "The currency API accepted withdraw and assigned transaction ID: #{txid}." }
 
         Rails.logger.warn { "Updating withdraw state in database." }
 
         withdraw.txid = txid
-        withdraw.success
+        withdraw.dispatch
         withdraw.save!
 
         Rails.logger.warn { "OK." }

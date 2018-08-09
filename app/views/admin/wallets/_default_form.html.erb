@@ -1,0 +1,7 @@
+<%= fields_for wallet do |f| %>
+  <label>URI</label>
+  <%= f.text_field :uri, class: 'form-control mb-3' %>
+
+  <label>Secret</label>
+  <%= f.password_field :secret, class: 'form-control mb-3' %>
+<% end %>

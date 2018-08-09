@@ -20,11 +20,12 @@
   quick_withdraw_limit: 0.1
   deposit_fee:          0
   withdraw_fee:         0
+  blockchain_key:       btc-testnet
   options:
     #
     # Generic configuration variables.
     case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             true # Both BitGo and Bitcoind can generate HD wallets.
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
@@ -56,11 +57,12 @@
   quick_withdraw_limit: 1000
   deposit_fee:          0
   withdraw_fee:         0
+  blockchain_key:       ~
   options:
     #
     # Generic configuration variables.
     case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             false # If you use BitGo you have to turn this on, otherwise turn this off.
     allow_multiple_deposit_addresses: false # If you use BitGo you may want to turn this on allowing your users to have multiple deposit addresses. You may configure this later in admin panel.
@@ -92,11 +94,12 @@
   quick_withdraw_limit: 1
   deposit_fee:          0
   withdraw_fee:         0
+  blockchain_key:       bch-testnet
   options:
     #
     # Generic configuration variables.
     case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    min_confirmations:                1
     supports_cash_addr_format:        true # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             true # Both BitGo and Bitcoin Cash node can generate HD wallets.
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
@@ -128,11 +131,12 @@
   quick_withdraw_limit: 5
   deposit_fee:          0
   withdraw_fee:         0
+  blockchain_key:       ltc-testnet
   options:
     #
     # Generic configuration variables.
     case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             true # Both BitGo and Litecoind can generate HD wallets.
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
@@ -164,11 +168,12 @@
   quick_withdraw_limit: 2
   deposit_fee:          0
   withdraw_fee:         0
+  blockchain_key:       dash-testnet
   options:
     #
     # Generic configuration variables.
     case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             true # Dashd can generate HD wallets.
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
@@ -192,11 +197,12 @@
   quick_withdraw_limit: 2
   deposit_fee:          0
   withdraw_fee:         0
+  blockchain_key:       eth-rinkeby
   options:
     #
     # Generic configuration variables.
     case_sensitive:                   false # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             false # You have to turn this on if you use BitGo, otherwise turn this off.
     allow_multiple_deposit_addresses: false # You may turn this on if you use BitGo allowing users to have multiple deposit addresses. You may configure this later in admin panel.
@@ -226,11 +232,12 @@
   base_factor:          1_000_000 # IMPORTANT: Don't forget to update this variable according
   enabled:              true      #            to your ERC20-based currency requirements
   quick_withdraw_limit: 3000      #            (usually can be found on the official website).
+  blockchain_key:       eth-rinkeby
   options:
     #
     # Generic configuration variables.
     case_sensitive:                   false # IMPORTANT: Be sure to set the correct value!
-    deposit_confirmations:            1 # Set to zero to stop processing all incoming deposits.
+    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             false # Not supported.
     allow_multiple_deposit_addresses: false # Not supported.

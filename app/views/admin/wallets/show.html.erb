@@ -1,0 +1,70 @@
+<h3>Wallet info</h3>
+
+<%= form_for @wallet, url: @wallet.new_record? ? admin_wallets_url : admin_wallet_url(@wallet.id) do |f| %>
+
+  <div class="card-deck">
+
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <%= f.hidden_field :id %>
+
+          <label>Blockchain Key</label>
+          <%= f.select :blockchain_key, Blockchain.all.map { |bc| [bc.key.upcase, bc.key] }, {selected: @wallet.blockchain_key}, {class: "form-control mb-3"} %>
+
+          <label>Currency Id</label>
+          <%= f.select :currency_id, Currency.codes.map { |code| [code.upcase, code] }, {selected: @wallet.currency_id}, {class: "form-control mb-3"} %>
+
+          <label>Gateway Client</label>
+          <%= f.select :gateway, options_for_select(Wallet::GATEWAYS, selected: @wallet.gateway), {}, class: "form-control mb-3" %>
+
+          <label>Name</label>
+          <%= f.text_field :name, class: 'form-control mb-3' %>
+
+          <label>Address</label>
+          <%= f.text_field :address, class: 'form-control mb-3' %>
+
+          <label>Kind</label>
+          <%= f.select :kind, Wallet::KIND.map { |k| [k.capitalize, k] }, {selected: @wallet.kind}, {class: "form-control mb-3"} %>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <label>Maximum Balance</label>
+          <%= f.number_field :max_balance, min: 0, class: 'form-control mb-3' %>
+
+          <label>Number of signatures</label>
+          <%= f.text_field :nsig, class: 'form-control mb-3' %>
+
+          <label>Parent</label>
+          <%= f.text_field :parent, class: 'form-control mb-3' %>
+
+          <label>Status</label>
+          <%= f.select :status, options_for_select([['Active', 'active'], ['Disabled', 'disabled']], selected: @wallet.status), {}, {class: "form-control mb-3"} %>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group" id="dynamic_form">
+
+          <% if @wallet.new_record? || @wallet.gateway != 'bitgo' %>
+            <%=  render partial: 'default_form', locals: { wallet: @wallet } %>
+          <% else %>
+            <%=  render partial: 'bitgo_form', locals: { wallet: @wallet } %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <%= f.submit 'Submit', class: 'btn btn-primary btn-lg mt-3' %>
+
+<% end %>

@@ -1,0 +1,16 @@
+<%= fields_for wallet do |f| %>
+  <label>Bitgo Test Net</label>
+  <%= f.check_box :bitgo_test_net %><br>
+
+  <label>Bitgo Wallet Address</label>
+  <%= f.text_field :bitgo_wallet_address, class: 'form-control mb-3' %>
+
+  <label>Bitgo Wallet Passphrase</label>
+  <%= f.text_field :bitgo_wallet_passphrase, class: 'form-control mb-3' %>
+
+  <label>Bitgo Rest Api Root</label>
+  <%= f.text_field :bitgo_rest_api_root, class: 'form-control mb-3' %>
+
+  <label>Bitgo Rest Api Access Token</label>
+  <%= f.text_field :bitgo_rest_api_access_token, class: 'form-control mb-3' %>
+<% end %>

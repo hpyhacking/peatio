@@ -1,0 +1,2 @@
+<% form_name  = @gateway == 'bitgo' ? 'bitgo_form' : 'default_form'  %>
+$('#dynamic_form').html("<%= j render(partial: form_name, locals: { wallet: @wallet } ) %>")

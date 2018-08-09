@@ -7,8 +7,8 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#top-navbar" aria-controls="top-navbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
       <div class="collapse navbar-collapse" id="top-navbar">
         <ul id="menu" class="navbar-nav mr-auto">
-          <%= top_nav_link(t('header.market'), trading_path(current_market.id), 'exchange', target: '_blank') if current_user %>
-          <%= top_nav_link(t('header.funds'), funds_path, 'money', controllers: ['funds']) if current_user %>
+          <%= top_nav_link(t('header.market'), trading_path(current_market.id), 'exchange-alt', target: '_blank') if current_user %>
+          <%= top_nav_link(t('header.funds'), funds_path, 'money-bill-wave', controllers: ['funds']) if current_user %>
           <%= top_nav_link(t('header.history'), order_history_path, 'book', controllers: ['history']) if current_user %>
         </ul>
         <ul class="navbar-nav ml-auto">

@@ -19,7 +19,7 @@
 
             <dt>Type</dt>
             <% if @currency.new_record? %>
-              <dd><%= f.select :type, Currency.types %></dd>
+              <dd><%= f.select :type, Currency.types, {}, {class: 'form-control'} %></dd>
             <% else %>
               <dd><%= @currency.type.titleize %></dd>
             <% end %>
@@ -40,9 +40,6 @@
               <% else %>
                 <dd><%= @currency.case_sensitive?.to_s.titleize %></dd>
               <% end %>
-
-              <dt>Number of required confirmations for deposit</dt>
-              <dd><%= f.number_field :deposit_confirmations, class: 'form-control' %></dd>
 
               <% if @currency.new_record? || @currency.erc20_contract_address? %>
                 <dt>ERC20 contract address</dt>
@@ -84,12 +81,8 @@
               <dd><%= @currency.precision %></dd>
             <% end %>
 
-            <% unless @currency.fiat? %>
-              <dt>Wallet URL template (use #{address} as placeholder)</dt>
-              <dd><%= f.text_field :wallet_url_template, class: 'form-control' %></dd>
-              <dt>Transaction URL template (use #{txid} as placeholder)</dt>
-              <dd><%= f.text_field :transaction_url_template, class: 'form-control' %></dd>
-            <% end %>
+            <dt>Blockchain Key</dt>
+            <dd><%= f.select :blockchain_key, Blockchain.all.map(&:key), {prompt: "Select Blockchain Key"}, {class: 'form-control'} %></dd>
           </dl>
       </div>
     </div>

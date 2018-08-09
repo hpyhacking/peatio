@@ -9,15 +9,15 @@
     <div class="card">
       <div class="card-body">
         <div class="form-group">
-          <label>Bid unit</label>
+          <label>Quote currency</label>
           <% if @market.new_record? %>
             <%= f.select :bid_unit, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
           <% else %>
             <div class="mb-3"><%= @market.bid_unit.upcase %></div>
           <% end %>
 
-          <label>Bid fee</label>
-          <%= f.text_field :bid_fee, class: 'form-control mb-3' %>
+          <label>Quote currency fee</label>
+          <%= f.text_field :ask_fee, class: 'form-control mb-3' %>
 
           <label>Maximum Bid</label>
           <%= f.text_field :max_bid, class: 'form-control mb-3' %>
@@ -35,15 +35,15 @@
     <div class="card">
       <div class="card-body">
         <div class="form-group">
-          <label>Ask unit</label>
+          <label>Base currency</label>
           <% if @market.new_record? %>
             <%= f.select :ask_unit, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
           <% else %>
             <div class="mb-3"><%= @market.ask_unit.upcase %></div>
           <% end %>
 
-          <label>Ask fee</label>
-          <%= f.text_field :ask_fee, class: 'form-control mb-3' %>
+          <label>Base currency fee</label>
+          <%= f.text_field :bid_fee, class: 'form-control mb-3' %>
 
           <label>Minimum Ask</label>
           <%= f.text_field :min_ask, class: 'form-control mb-3' %>

@@ -71,7 +71,7 @@ module Admin
     end
 
     def boolean_market_attributes
-      %i[ enabled ]
+      %i[enabled]
     end
   end
 end

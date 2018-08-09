@@ -1,0 +1,75 @@
+[
+  {
+    "result": {
+      "hash": "000000000405534bd808437716679407970520e42f48473bc622898fc64c3b07",
+      "confirmations": 137,
+      "size": 603,
+      "height": 193265,
+      "version": 536870912,
+      "versionHex": "20000000",
+      "merkleroot": "5c2577a58f6804652bbbf33548e2938a63fcc192eaf11b7e81206cfc6ba95545",
+      "tx": [
+        "ee7fa4ad8b7209ca8b5237dfeb49d66305bf125a0e33443dfbbf6700a4834c7c",
+        "f974214f2bfc6e601dc070970ec4bdbf2ed552bd5ec7fa9f5f8a56d3efbd0ec0"
+      ],
+      "time": 1532414475,
+      "mediantime": 1532413356,
+      "nonce": 3615949244,
+      "bits": "1c0c4284",
+      "difficulty": 20.88089015010081,
+      "chainwork": "0000000000000000000000000000000000000000000000000042619d3863372f",
+      "previousblockhash": "0000000009d70acf3bd072cd5e316f9b77ab59f41c1d48ffdb39959b6e3d2940",
+      "nextblockhash": "000000000511a9e5e43e384ca21afe3afdffc134dd469dcaa933a175f8e9b7d7"
+    },
+    "error": null,
+    "id": null
+  },
+  {
+    "result": {
+      "hash": "000000000511a9e5e43e384ca21afe3afdffc134dd469dcaa933a175f8e9b7d7",
+      "confirmations": 137,
+      "size": 378,
+      "height": 193266,
+      "version": 536870912,
+      "versionHex": "20000000",
+      "merkleroot": "d3cdd5ea4717ebc3e5b871f21952cbb23325b3e1c648fb73fd3bdde2ed1e3044",
+      "tx": [
+        "d3cdd5ea4717ebc3e5b871f21952cbb23325b3e1c648fb73fd3bdde2ed1e3044"
+      ],
+      "time": 1532414540,
+      "mediantime": 1532413873,
+      "nonce": 2326881354,
+      "bits": "1c0c6a62",
+      "difficulty": 20.61897633672785,
+      "chainwork": "000000000000000000000000000000000000000000000000004261b1d6ed116c",
+      "previousblockhash": "000000000405534bd808437716679407970520e42f48473bc622898fc64c3b07",
+      "nextblockhash": "00000000027dfd1edcce368a1ec92caae203c4768559665ee72025089146e076"
+    },
+    "error": null,
+    "id": null
+  },
+  {
+    "result": {
+      "hash": "00000000027dfd1edcce368a1ec92caae203c4768559665ee72025089146e076",
+      "confirmations": 137,
+      "size": 378,
+      "height": 193267,
+      "version": 536870912,
+      "versionHex": "20000000",
+      "merkleroot": "5c840e38f6559e727f17e3c5ca6338bd0a271abb3c80358d900f56ddfe90ab94",
+      "tx": [
+        "5c840e38f6559e727f17e3c5ca6338bd0a271abb3c80358d900f56ddfe90ab94"
+      ],
+      "time": 1532414617,
+      "mediantime": 1532414186,
+      "nonce": 3748577804,
+      "bits": "1c0c581c",
+      "difficulty": 20.73820625275035,
+      "chainwork": "000000000000000000000000000000000000000000000000004261c693fce43d",
+      "previousblockhash": "000000000511a9e5e43e384ca21afe3afdffc134dd469dcaa933a175f8e9b7d7",
+      "nextblockhash": "00000000480422e24486f6067d05197faf86062078fc33cde4e0678e7b37fdbe"
+    },
+    "error": null,
+    "id": null
+  }
+]

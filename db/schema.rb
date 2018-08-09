@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180720165705) do
+ActiveRecord::Schema.define(version: 20180808144704) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -39,7 +39,25 @@ ActiveRecord::Schema.define(version: 20180720165705) do
   add_index "authentications", ["provider", "member_id"], name: "index_authentications_on_provider_and_member_id", unique: true, using: :btree
   add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", unique: true, using: :btree
 
+  create_table "blockchains", force: :cascade do |t|
+    t.string   "key",                  limit: 255,             null: false
+    t.string   "name",                 limit: 255
+    t.string   "client",               limit: 255,             null: false
+    t.string   "server",               limit: 255
+    t.integer  "height",               limit: 4,               null: false
+    t.string   "explorer_address",     limit: 255
+    t.string   "explorer_transaction", limit: 255
+    t.integer  "min_confirmations",    limit: 4,   default: 6, null: false
+    t.string   "status",               limit: 255,             null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+  end
+
+  add_index "blockchains", ["key"], name: "index_blockchains_on_key", unique: true, using: :btree
+  add_index "blockchains", ["status"], name: "index_blockchains_on_status", using: :btree
+
   create_table "currencies", force: :cascade do |t|
+    t.string   "blockchain_key",       limit: 32
     t.string   "symbol",               limit: 1,                                               null: false
     t.string   "type",                 limit: 30,                             default: "coin", null: false
     t.decimal  "deposit_fee",                       precision: 32, scale: 16, default: 0.0,    null: false
@@ -57,19 +75,19 @@ ActiveRecord::Schema.define(version: 20180720165705) do
   add_index "currencies", ["enabled"], name: "index_currencies_on_enabled", using: :btree
 
   create_table "deposits", force: :cascade do |t|
-    t.integer  "member_id",     limit: 4,                                         null: false
-    t.string   "currency_id",   limit: 10,                                        null: false
-    t.decimal  "amount",                    precision: 32, scale: 16,             null: false
-    t.decimal  "fee",                       precision: 32, scale: 16,             null: false
-    t.string   "address",       limit: 64
-    t.string   "txid",          limit: 128
-    t.integer  "txout",         limit: 4
-    t.string   "aasm_state",    limit: 30,                                        null: false
-    t.integer  "confirmations", limit: 4,                             default: 0, null: false
-    t.string   "type",          limit: 30,                                        null: false
-    t.string   "tid",           limit: 64,                                        null: false
-    t.datetime "created_at",                                                      null: false
-    t.datetime "updated_at",                                                      null: false
+    t.integer  "member_id",    limit: 4,                             null: false
+    t.string   "currency_id",  limit: 10,                            null: false
+    t.decimal  "amount",                   precision: 32, scale: 16, null: false
+    t.decimal  "fee",                      precision: 32, scale: 16, null: false
+    t.string   "address",      limit: 64
+    t.string   "txid",         limit: 128
+    t.integer  "txout",        limit: 4
+    t.string   "aasm_state",   limit: 30,                            null: false
+    t.integer  "block_number", limit: 4
+    t.string   "type",         limit: 30,                            null: false
+    t.string   "tid",          limit: 64,                            null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
     t.datetime "completed_at"
   end
 
@@ -173,6 +191,22 @@ ActiveRecord::Schema.define(version: 20180720165705) do
   add_index "trades", ["bid_id"], name: "index_trades_on_bid_id", using: :btree
   add_index "trades", ["market_id", "created_at"], name: "index_trades_on_market_id_and_created_at", using: :btree
 
+  create_table "wallets", force: :cascade do |t|
+    t.string   "blockchain_key", limit: 32
+    t.string   "currency_id",    limit: 5
+    t.string   "name",           limit: 64
+    t.string   "address",        limit: 255,                                           null: false
+    t.string   "kind",           limit: 32,                                            null: false
+    t.integer  "nsig",           limit: 4
+    t.string   "gateway",        limit: 20,                             default: "",   null: false
+    t.string   "settings",       limit: 1000,                           default: "{}", null: false
+    t.decimal  "max_balance",                 precision: 32, scale: 16, default: 0.0,  null: false
+    t.integer  "parent",         limit: 4
+    t.string   "status",         limit: 32
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
+  end
+
   create_table "withdraws", force: :cascade do |t|
     t.integer  "account_id",   limit: 4,                             null: false
     t.integer  "member_id",    limit: 4,                             null: false
@@ -181,6 +215,7 @@ ActiveRecord::Schema.define(version: 20180720165705) do
     t.decimal  "fee",                      precision: 32, scale: 16, null: false
     t.string   "txid",         limit: 128
     t.string   "aasm_state",   limit: 30,                            null: false
+    t.integer  "block_number", limit: 4
     t.decimal  "sum",                      precision: 32, scale: 16, null: false
     t.string   "type",         limit: 30,                            null: false
     t.string   "tid",          limit: 64,                            null: false

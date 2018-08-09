@@ -15,6 +15,7 @@ class Deposit < ActiveRecord::Base
 
   validates :tid, :aasm_state, :type, presence: true
   validates :completed_at, presence: { if: :completed? }
+  validates :block_number, allow_blank: true, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   scope :recent, -> { order(id: :desc) }
 
@@ -29,7 +30,7 @@ class Deposit < ActiveRecord::Base
     event(:reject) { transitions from: :submitted, to: :rejected }
     event :accept do
       transitions from: :submitted, to: :accepted
-      after { account.plus_funds(amount) }
+      after %i[plus_funds collect!]
     end
   end
 
@@ -55,12 +56,25 @@ class Deposit < ActiveRecord::Base
       updated_at:               updated_at.iso8601,
       completed_at:             completed_at&.iso8601,
       blockchain_address:       address,
-      blockchain_txid:          txid,
-      blockchain_confirmations: confirmations }
+      blockchain_txid:          txid }
   end
 
   def completed?
     !submitted?
+  end
+
+  def plus_funds
+    account.plus_funds(amount)
+  end
+
+  def collect!
+    if coin?
+      if currency.is_erc20?
+        AMQPQueue.enqueue(:deposit_collection_fees, id: id)
+      else
+        AMQPQueue.enqueue(:deposit_collection, id: id)
+      end
+    end
   end
 end
 
@@ -69,21 +83,21 @@ end
 #
 # Table name: deposits
 #
-#  id            :integer          not null, primary key
-#  member_id     :integer          not null
-#  currency_id   :string(10)       not null
-#  amount        :decimal(32, 16)  not null
-#  fee           :decimal(32, 16)  not null
-#  address       :string(64)
-#  txid          :string(128)
-#  txout         :integer
-#  aasm_state    :string(30)       not null
-#  confirmations :integer          default(0), not null
-#  type          :string(30)       not null
-#  tid           :string(64)       not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  completed_at  :datetime
+#  id           :integer          not null, primary key
+#  member_id    :integer          not null
+#  currency_id  :string(10)       not null
+#  amount       :decimal(32, 16)  not null
+#  fee          :decimal(32, 16)  not null
+#  address      :string(64)
+#  txid         :string(128)
+#  txout        :integer
+#  aasm_state   :string(30)       not null
+#  block_number :integer
+#  type         :string(30)       not null
+#  tid          :string(64)       not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  completed_at :datetime
 #
 # Indexes
 #

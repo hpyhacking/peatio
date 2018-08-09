@@ -20,6 +20,8 @@ module Admin
 
       can :manage, Market
       can :manage, Currency
+      can :manage, Blockchain
+      can :manage, Wallet
     end
   end
 end

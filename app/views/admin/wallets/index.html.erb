@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-6">
+    <h3>Wallets</h3>
+  </div>
+  <% if can? :create, Wallet %>
+    <div class="col-6">
+      <%= link_to 'New Wallet', new_admin_wallet_path, class: "btn btn-primary pull-right mb-3" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="card">
+  <%= table_for @wallets, class: 'table table-condensed table-striped' do |t| %>
+    <% t.column 'ID' do |x| %>
+      <%= x.id %>
+    <% end %>
+
+    <% t.column 'Currency Id' do |x| %>
+      <%= x.currency_id.upcase %>
+    <% end %>
+
+    <% t.column 'Name' do |x| %>
+      <%= x.name %>
+    <% end %>
+
+    <% t.column 'Address' do |x| %>
+      <a href="<%= x.wallet_url %>" target="_blank">
+        <code class="text-info"><%= x.address%></code>
+      </a>
+    <% end %>
+
+    <% t.column 'Kind' do |x| %>
+      <%= x.kind.titleize %>
+    <% end %>
+
+    <% t.column 'Status' do |x| %>
+      <%= x.status.titleize %>
+    <% end %>
+
+    <% t.column 'Created At' do |x| %>
+      <%= l(x.created_at, format: :long) %>
+    <% end %>
+
+
+    <% t.column 'Actions' do |x| %>
+      <%= link_to 'View', admin_wallet_path(x), target: '_blank' %>
+    <% end %>
+  <% end %>
+
+</div>
+<%= paginate @wallets %>

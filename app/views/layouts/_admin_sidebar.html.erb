@@ -33,14 +33,23 @@
 
       <li class="list-icon-item <%= check_active('dashboard') %>">
         <%= link_to main_app.admin_dashboard_path do %>
-        <i class="icon fa fa-tachometer"></i>
+        <i class="icon fa fa-tachometer-alt"></i>
         <span class="menu-text"><%= t('header.dashboard') %></span>
         <% end %>
       </li>
 
+      <% if can? :manage, Blockchain %>
+        <li class="list-icon-item <%= check_active('blockchains') %>">
+          <%= link_to admin_blockchains_path do %>
+            <i class="icon fa fa-link"></i>
+            <span class="menu-text">Blockchains</span>
+          <% end %>
+        </li>
+      <% end %>
+
       <li class="list-icon-item <%= check_active('currencies') %>">
         <%= link_to admin_currencies_path do %>
-          <i class="icon fa fa-usd"></i>
+          <i class="icon fa fa-dollar-sign"></i>
           <span class="menu-text">Currencies</span>
         <% end %>
       </li>
@@ -48,8 +57,17 @@
       <% if can? :manage, Market %>
         <li class="list-icon-item <%= check_active('markets') %>">
           <%= link_to admin_markets_path do %>
-            <i class="icon fa fa-line-chart"></i>
+            <i class="icon fa fa-chart-line"></i>
             <span class="menu-text">Markets</span>
+          <% end %>
+        </li>
+      <% end %>
+
+      <% if can? :manage, Wallet %>
+        <li class="list-icon-item <%= check_active('wallets') %>">
+          <%= link_to admin_wallets_path do %>
+            <i class="icon fa fa-money-bill-wave"></i>
+            <span class="menu-text">Wallets</span>
           <% end %>
         </li>
       <% end %>
@@ -57,7 +75,7 @@
       <% if can? :menu, Deposit %>
         <li class="list-icon-item <%= check_active('deposits') %>">
           <%= link_to "javascript:void(0);", class: 'has-arrow waves-effect waves-dark has-sub-menu', 'aria-expanded': 'false', data: {toggle: 'popover'} do %>
-            <i class="icon fa fa-level-up"></i>
+            <i class="icon fa fa-level-up-alt"></i>
             <span class="menu-text"><%= t('admin_header.deposits') %></span>
           <% end %>
           <div class="sub-menu hidden">
@@ -73,7 +91,7 @@
       <% if can? :menu, Withdraw %>
         <li class="list-icon-item <%= check_active('withdraws') %>">
           <%= link_to "javascript:void(0);", class: 'has-arrow waves-effect waves-dark has-sub-menu', 'aria-expanded': "false", data: { toggle: 'popover' } do %>
-            <i class="icon fa fa-level-down"></i>
+            <i class="icon fa fa-level-down-alt"></i>
             <span class="menu-text"><%= t('admin_header.withdraws') %></span>
           <% end %>
           <div class="sub-menu hidden">
@@ -87,13 +105,14 @@
       <% end %>
 
       <% if can? :manage, Member %>
-        <li class="list-icon-item <% check_active('members') %>">
+        <li class="list-icon-item <%= check_active('members') %>">
           <%= link_to admin_members_path do %>
             <i class="icon fa fa-users"></i>
             <span class="menu-text"><%= t('.menus.sections.members') %></span>
           <% end %>
         </li>
       <% end %>
+
     </ul>
   </div>
 </div>

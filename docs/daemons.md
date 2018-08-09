@@ -1,8 +1,12 @@
 # Peatio daemons
 
-## amqp:deposit_coin
+## amqp:deposit_collection
 
-This daemon receives request for processing and validating deposit.
+This daemon transfer incoming deposits from deposit wallet to withdraw wallets (hot, warm, cold).
+
+## amqp:deposit_collection_fees
+
+This daemon transfer fees for deposit collection paying and send deposit_collection request to amqp:deposit_collection.
 
 ## amqp:deposit_coin_address
 
@@ -36,9 +40,9 @@ This daemon keeps copy of in-memory orderbook from amqp:matching and updates var
 
 This daemon performs withdraw.
 
-## coins
+## blockchain
 
-This daemon monitors blockchain for incoming deposits and forwards them to amqp:deposit_coin.
+This daemon monitors blockchain for incoming deposits and withdrawal and updates their state on the database.
 
 ## global_state
 

@@ -520,6 +520,7 @@ en:
         accepted: Accepted
         suspected: Suspected
         processing: Processing
+        confirming: Confirming
         done: Done
         canceled: Canceled
   views:
@@ -716,6 +717,7 @@ en:
       accepted: Accepted
       suspected: Suspected
       processing: Processing
+      confirming: Confirming
       done: Done
       canceled: Canceled
       failed: Failed
@@ -726,7 +728,8 @@ en:
       rejected: Rejected
       accepted: Accepted
       suspected: Suspected
-      processing: processing
+      processing: Processing
+      confirming: Confirming
       done: Done
       canceled: canceled
       failed: Failed

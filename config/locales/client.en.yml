@@ -73,6 +73,7 @@ en:
         actual_amount: Actual Amount
         fee: Fee
         miner_fee: Fee
+        confirmations: Confirmations
         state_and_action: "State/Action"
         cancel: Cancel
         no_data: There is no history data
@@ -86,6 +87,7 @@ en:
         processing: Processing
         coin_ready: Coin Ready
         coin_done: Coin Done
+        confirming: Confirming
         succeed: Done
         canceled: Canceled
         failed: Failed

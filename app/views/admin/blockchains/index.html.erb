@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-6">
+    <h3>Blockchains</h3>
+  </div>
+  <% if can? :create, Blockchain %>
+    <div class="col-6">
+      <%= link_to 'New Blockchain', new_admin_blockchain_path, class: "btn btn-primary pull-right mb-3" %>
+    </div>
+  <% end  %>
+</div>
+
+<div class="card">
+  <%= table_for @blockchains, class: 'table table-condensed table-striped' do |t| %>
+    <% t.column 'ID' do |x| %>
+      <%= x.id %>
+    <% end %>
+
+    <% t.column 'Key' do |x| %>
+      <%= x.key %>
+    <% end %>
+
+    <% t.column 'Name' do |x| %>
+      <%= x.name %>
+    <% end %>
+
+    <% t.column 'Client' do |x| %>
+      <%= x.client.upcase %>
+    <% end %>
+
+    <% t.column 'Height' do |x| %>
+      <%= x.height %>
+    <% end %>
+
+    <% t.column 'Status' do |x| %>
+      <%= x.status.titleize %>
+    <% end %>
+
+    <% t.column 'Created At' do |x| %>
+      <%= l(x.created_at, format: :long) %>
+    <% end %>
+
+
+    <% t.column 'Actions' do |x| %>
+      <%= link_to 'View', admin_blockchain_path(x), target: '_blank' %>
+    <% end %>
+  <% end %>
+
+</div>
+<%= paginate @blockchains %>

@@ -48,9 +48,13 @@ def daemon(name, options = {})
   end
 end
 
-daemon 'amqp:deposit_coin',
+daemon 'amqp:deposit_collection',
        script:   'amqp_daemon.rb',
-       arguments: %w[ deposit_coin ]
+       arguments: %w[ deposit_collection ]
+
+daemon 'amqp:deposit_collection_fees',
+       script:   'amqp_daemon.rb',
+       arguments: %w[ deposit_collection_fees ]
 
 daemon 'amqp:deposit_coin_address',
        script:   'amqp_daemon.rb',

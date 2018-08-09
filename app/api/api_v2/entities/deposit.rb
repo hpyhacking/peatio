@@ -10,7 +10,7 @@ module APIv2
       expose :fee
       expose :txid
       expose :created_at, format_with: :iso8601
-      expose :confirmations
+      expose :confirmations, if: ->(deposit) { deposit.currency.type == 'coin' }
       expose :completed_at, format_with: :iso8601
       expose :aasm_state, as: :state
     end

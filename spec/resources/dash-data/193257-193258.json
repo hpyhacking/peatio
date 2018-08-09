@@ -1,0 +1,53 @@
+[
+  {
+    "result": {
+      "hash": "0000000006a6ea89e74e9fa46eb505daa3265fc4e8892e5e2fc6da7baf0ae259",
+      "confirmations": 118,
+      "size": 378,
+      "height": 193257,
+      "version": 536870912,
+      "versionHex": "20000000",
+      "merkleroot": "c9b338b1b20d3edd68f67ce12c00f061e53009536ff15a3e7fdc15f18d51fa32",
+      "tx": [
+        "c9b338b1b20d3edd68f67ce12c00f061e53009536ff15a3e7fdc15f18d51fa32"
+      ],
+      "time": 1532412630,
+      "mediantime": 1532411443,
+      "nonce": 1787667924,
+      "bits": "1c0b9f4a",
+      "difficulty": 22.02643125536647,
+      "chainwork": "000000000000000000000000000000000000000000000000004260f912ffb50f",
+      "previousblockhash": "0000000006e0b7b6ad5caa88b5bbbdf20105c2cfe8893a3eafed89936fad27c5",
+      "nextblockhash": "00000000051409da42d311fd30c26d1bc56967f490285e1ab7b70cd8b1826b2e"
+    },
+    "error": null,
+    "id": null
+  },
+  {
+    "result": {
+      "hash": "00000000051409da42d311fd30c26d1bc56967f490285e1ab7b70cd8b1826b2e",
+      "confirmations": 117,
+      "size": 1020,
+      "height": 193258,
+      "version": 536870912,
+      "versionHex": "20000000",
+      "merkleroot": "43f7ef058d9ab05d1c17abcca028dcb41c32d0b46dabc9b66dd6358e6235be45",
+      "tx": [
+        "d63c1ffed55c96808c861e79a5aa58dbff7114bd230c4a0669ef91d1d87da397",
+        "d14317728566e012f18bc9e691639cbe425b181c4339eae2773e0e0c0bc83afd",
+        "6e2b300074b784a8f3d5fa1deee9427a1d818b9d153baa4aef85e48d52c5387b",
+        "e292880ffbd907868615a12aa0668f33fe66c86654b04521b0da027ee4ff9a00"
+      ],
+      "time": 1532413102,
+      "mediantime": 1532411939,
+      "nonce": 989667795,
+      "bits": "1c0ba140",
+      "difficulty": 22.01192375514317,
+      "chainwork": "0000000000000000000000000000000000000000000000000042610f1623279c",
+      "previousblockhash": "0000000006a6ea89e74e9fa46eb505daa3265fc4e8892e5e2fc6da7baf0ae259",
+      "nextblockhash": "000000000225386efc64f6b1c0c200576bbe56f7fccf8ec2d2b4bd734bed5c25"
+    },
+    "error": null,
+    "id": null
+  }
+]

@@ -1,0 +1,69 @@
+<h3>Blockchain info</h3>
+
+<% @blockchain_clients = [['Bitcoin', 'bitcoin'], ['Bitcoin Cash', 'bitcoincash'], ['Dash', 'dash'], ['Ethereum', 'ethereum'], ['Litecoin', 'litecoin']] %>
+
+<%= form_for @blockchain, url: @blockchain.new_record? ? admin_blockchains_url : admin_blockchain_url(@blockchain.id) do |f| %>
+  <div class="card-deck float-left col-lg-<%= @blockchain.new_record? ? '12' : '10' %>">
+    <div class="card col-lg-6">
+      <div class="card-body">
+        <div class="form-group">
+          <label>Name</label>
+          <%= f.text_field :name, class: 'form-control mb-3' %>
+
+          <label>Client</label>
+          <%= f.select :client, options_for_select(@blockchain_clients, selected: @blockchain.client), {}, class: "form-control mb-3" %>
+
+          <label>Server</label>
+          <%= f.text_field :server, class: 'form-control mb-3' %>
+
+          <% if @blockchain.new_record? %>
+            <label>Height</label>
+            <%= f.number_field :height, class: 'form-control mb-3' %>
+          <% end %>
+
+          <label>Min Confirmations</label>
+          <%= f.number_field :min_confirmations, class: 'form-control mb-3' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="card col-lg-6">
+      <div class="card-body">
+        <div class="form-group">
+          <label>Key</label>
+          <%= f.text_field :key, class: 'form-control mb-3' %>
+
+          <label>Explorer Address</label>
+          <%= f.text_field :explorer_address, class: 'form-control mb-3' %>
+
+          <label>Explorer Transaction</label>
+          <%= f.text_field :explorer_transaction, class: 'form-control mb-3' %>
+
+          <label>Status</label>
+          <%= f.select :status, options_for_select([['Active', 'active'], ['Disabled', 'disabled']], selected: @blockchain.status), {}, {class: "form-control mb-3"} %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row col-12 float-left">
+      <%= f.submit 'Submit', class: 'btn btn-primary btn-lg mt-3' %>
+    </div>
+  </div>
+
+<% end %>
+
+<% unless @blockchain.new_record? %>
+  <div class="card-deck col-lg-2 float-left">
+    <%= form_for @blockchain, url: admin_blockchain_url(@blockchain.id), html: {id: 'blockchain_height_form'} do |f| %>
+      <div class="card border-danger">
+        <div class="card-body">
+          <div class="form-group">
+            <label>Height</label>
+            <%= f.number_field :height, class: 'form-control mb-3' %>
+          </div>
+          <%= f.submit 'Reset', class: 'btn btn-danger btn-lg mt-3' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

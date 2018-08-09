@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class Withdraw < ActiveRecord::Base
-  STATES           = %i[prepared submitted rejected accepted suspected processing succeed canceled failed].freeze
+  STATES           = %i[prepared submitted rejected accepted suspected processing succeed canceled failed confirming].freeze
   COMPLETED_STATES = %i[succeed rejected canceled failed].freeze
 
   include AASM
@@ -20,6 +20,7 @@ class Withdraw < ActiveRecord::Base
 
   validates :rid, :aasm_state, presence: true
   validates :txid, uniqueness: { scope: :currency_id }, if: :txid?
+  validates :block_number, allow_blank: true, numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   scope :completed, -> { where(aasm_state: COMPLETED_STATES) }
 
@@ -33,6 +34,7 @@ class Withdraw < ActiveRecord::Base
     state :processing
     state :succeed
     state :failed
+    state :confirming
 
     event :submit do
       transitions from: :prepared, to: :submitted
@@ -63,13 +65,18 @@ class Withdraw < ActiveRecord::Base
       after :send_coins!
     end
 
+    event :dispatch do
+      # TODO: add validations that txid and block_number are not blank.
+      transitions from: :processing, to: :confirming
+    end
+
     event :success do
-      transitions from: :processing, to: :succeed
-      before %i[unlock_and_sub_funds]
+      transitions from: :confirming, to: :succeed
+      before :unlock_and_sub_funds
     end
 
     event :fail do
-      transitions from: :processing, to: :failed
+      transitions from: %i[processing confirming], to: :failed
       after :unlock_funds
     end
   end
@@ -143,6 +150,7 @@ end
 #  fee          :decimal(32, 16)  not null
 #  txid         :string(128)
 #  aasm_state   :string(30)       not null
+#  block_number :integer
 #  sum          :decimal(32, 16)  not null
 #  type         :string(30)       not null
 #  tid          :string(64)       not null

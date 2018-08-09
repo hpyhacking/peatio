@@ -15,6 +15,7 @@ describe APIv2::Entities::Member do
       { currency: 'btc', balance: '0.0', locked: '0.0' },
       { currency: 'dash', balance: '0.0', locked: '0.0' },
       { currency: 'eth', balance: '0.0', locked: '0.0' },
+      { currency: 'ltc', balance: '0.0', locked: '0.0'},
       { currency: 'trst', balance: '0.0', locked: '0.0' },
       { currency: 'usd', balance: '0.0', locked: '0.0' },
       { currency: 'xrp', balance: '0.0', locked: '0.0' }

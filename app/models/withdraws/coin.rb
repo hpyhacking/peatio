@@ -21,32 +21,51 @@ module Withdraws
     end
 
     def wallet_url
-      if currency.wallet_url_template?
-        currency.wallet_url_template.gsub('#{address}', rid)
+      if currency.blockchain.explorer_address?
+        currency.blockchain.explorer_address.gsub('#{address}', rid)
       end
     end
 
     def transaction_url
-      if txid? && currency.transaction_url_template?
-        currency.transaction_url_template.gsub('#{txid}', txid)
+      if txid? && currency.blockchain.explorer_transaction?
+        currency.blockchain.explorer_transaction.gsub('#{txid}', txid)
       end
     end
 
-    def audit!
-      inspection = currency.api.inspect_address!(rid)
+    def latest_block_number
+      currency.blockchain_api.latest_block_number
+    end
 
-      if inspection[:is_valid] == false
-        Rails.logger.info { "#{self.class.name}##{id} uses invalid address: #{rid.inspect}" }
-        reject!
-      else
-        super
-      end
+    def confirmations
+      return 0 if block_number.blank?
+      latest_block_number - block_number
+    rescue Faraday::ConnectionFailed => e
+      report_exception(e)
+      'N/A'
+    end
+
+    # TODO: backport audit!
+    def audit!
+      # inspection = currency.api.inspect_address!(rid)
+      #
+      # if inspection[:is_valid] == false
+      #   Rails.logger.info { "#{self.class.name}##{id} uses invalid address: #{rid.inspect}" }
+      #   reject!
+      # else
+      #   super
+      # end
+      super
     end
 
     def as_json(*)
       super.merge \
-        wallet_url:      wallet_url,
-        transaction_url: transaction_url
+        wallet_url:       wallet_url,
+        transaction_url:  transaction_url,
+        confirmations:    confirmations
+    end
+
+    def as_json_for_event_api
+      super.merge blockchain_confirmations: confirmations
     end
   end
 end
@@ -64,6 +83,7 @@ end
 #  fee          :decimal(32, 16)  not null
 #  txid         :string(128)
 #  aasm_state   :string(30)       not null
+#  block_number :integer
 #  sum          :decimal(32, 16)  not null
 #  type         :string(30)       not null
 #  tid          :string(64)       not null

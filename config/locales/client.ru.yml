@@ -60,6 +60,7 @@ ru:
         actual_amount: Текущий остаток
         fee: Комиссия
         miner_fee: Комиссия
+        confirmations: Подтверждения
         cancel: Отмена
         no_data: Нет исторических данных
         submitted: Подготовлено
@@ -68,6 +69,7 @@ ru:
         accepted: Принято
         prepared: Подготовлено
         processing: Обрабатывается
+        confirming: Подтверждение
         succeed: Готово
         canceled: Отклонено
         failed: Не удалось

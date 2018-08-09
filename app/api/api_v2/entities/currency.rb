@@ -58,10 +58,10 @@ module APIv2
       )
 
       expose(
-        :deposit_confirmations,
+        :min_confirmations,
         documentation: {
           desc: 'Number of deposit confirmations for currency',
-          example: -> { ::Currency.enabled.first.deposit_confirmations }
+          example: -> { ::Currency.enabled.first.min_confirmations }
         },
         if: ->(currency) { currency.type == 'coin' }
       )

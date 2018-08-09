@@ -4,7 +4,7 @@
 module ApplicationHelper
   def check_active(klass)
     if klass.is_a? String
-      return 'active' unless (controller.controller_path.exclude?(klass.singularize))
+      return 'active' unless (controller.controller_path.exclude?(klass))
     else
       return 'active' if (klass.model_name.singular == controller.controller_name.singularize)
     end
@@ -112,10 +112,6 @@ module ApplicationHelper
   # since Gon::Jbuilder attaches ActionView::Helpers which behave differently
   # compared to what ActionController does.
   def currency_icon_url(currency)
-    if currency.coin?
-      ActionController::Base.helpers.image_url "yarn_components/cryptocurrency-icons/svg/color/#{currency.code}.png"
-    else
-      ActionController::Base.helpers.image_url "yarn_components/currency-flags/src/flags/#{currency.code}.png"
-    end
+    ActionController::Base.helpers.image_url "assets/#{currency.code}.svg"
   end
 end

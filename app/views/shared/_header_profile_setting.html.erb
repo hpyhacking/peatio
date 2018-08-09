@@ -11,12 +11,12 @@
     </a>
     <% if is_admin? %>
       <a class="dropdown-item" href="<%= admin_dashboard_path %>">
-        <i class="fa fa-dashboard"></i>
+        <i class="fa fa-tachometer-alt"></i>
         <span><%= t('header.admin') %></span>
       </a>
     <% end %>
     <a class="dropdown-item" href="<%= main_app.signout_path %>">
-      <i class="fa fa-sign-out"></i>
+      <i class="fa fa-sign-out-alt"></i>
       <span><%= t('header.signout') %></span>
     </a>
   </div>

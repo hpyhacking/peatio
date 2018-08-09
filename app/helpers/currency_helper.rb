@@ -13,11 +13,7 @@ module CurrencyHelper
 
   def currency_icon_url(currency)
     if currency.icon_url.blank?
-      if currency.coin?
-        "yarn_components/cryptocurrency-icons/svg/color/#{currency.code}.svg"
-      else
-        "yarn_components/currency-flags/src/flags/#{currency.code}.png"
-      end
+      "assets/#{currency.code}.svg"
     else
       currency.icon_url
     end
