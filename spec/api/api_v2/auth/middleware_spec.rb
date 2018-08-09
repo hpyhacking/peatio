@@ -1,7 +1,6 @@
 # encoding: UTF-8
 # frozen_string_literal: true
-
-describe APIv2::Auth::Middleware, type: :request do
+module APIv2
   class TestApp < Grape::API
     helpers APIv2::Helpers
     use APIv2::Auth::Middleware
@@ -12,7 +11,12 @@ describe APIv2::Auth::Middleware, type: :request do
     end
   end
 
-  let(:app) { TestApp.new }
+  class Mount
+    mount TestApp
+  end
+end
+
+describe APIv2::Auth::Middleware, type: :request do
 
   context 'when using JWT authentication' do
     let(:member) { create(:member, :level_3) }
@@ -20,34 +24,34 @@ describe APIv2::Auth::Middleware, type: :request do
     let(:token) { jwt_build(payload) }
 
     it 'should deny access when token is not given' do
-      api_get '/'
+      api_get '/api/v2/'
       expect(response.code).to eq '401'
       expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
     end
 
     it 'should deny access when invalid token is given' do
-      api_get '/', token: '123.456.789'
+      api_get '/api/v2/', token: '123.456.789'
       expect(response.code).to eq '401'
       expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
     end
 
     it 'should deny access when member doesn\'t exist' do
       payload[:email] = 'foo@bar.baz'
-      api_get '/', token: token
+      api_get '/api/v2/', token: token
       expect(response.code).to eq '401'
       expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
     end
 
     it 'should allow access when valid token is given' do
-      api_get '/', token: token
+      api_get '/api/v2/', token: token
       expect(response).to be_success
-      expect(response.body).to eq member.email
+      expect(JSON.parse(response.body)).to eq member.email
     end
   end
 
   context 'when not using authentication' do
     it 'should deny access' do
-      api_get '/'
+      api_get '/api/v2/'
       expect(response.code).to eq '401'
       expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
     end
