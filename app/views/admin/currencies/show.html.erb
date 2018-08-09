@@ -74,6 +74,9 @@
               <dd><%= @currency.base_factor %></dd>
             <% end %>
 
+            <dt>Icon URL</dt>
+            <dd><%= f.text_field :icon_url, class: 'form-control' %></dd>
+
             <dt>Precision</dt>
             <% if @currency.new_record? %>
               <dd><%= f.number_field :precision, class: 'form-control' %></dd>

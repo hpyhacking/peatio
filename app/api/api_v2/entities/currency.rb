@@ -89,6 +89,7 @@ module APIv2
           example: -> { ::Currency.enabled.first.precision }
         }
       )
+      expose :icon_url, if: -> (currency){ currency.icon_url.present? }, documentation: 'Currency icon'
     end
   end
 end

@@ -51,6 +51,7 @@ module Admin
     def permitted_currency_attributes
       attributes = [
         :symbol,
+        :icon_url,
         :quick_withdraw_limit,
         :withdraw_fee,
         :deposit_fee,

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180719172203) do
+ActiveRecord::Schema.define(version: 20180720165705) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20180719172203) do
     t.boolean  "enabled",                                                     default: true,   null: false
     t.integer  "base_factor",          limit: 8,                              default: 1,      null: false
     t.integer  "precision",            limit: 1,                              default: 8,      null: false
+    t.string   "icon_url",             limit: 255
     t.datetime "created_at",                                                                   null: false
     t.datetime "updated_at",                                                                   null: false
   end
