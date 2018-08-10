@@ -4,7 +4,7 @@
 
 <%= form_for @blockchain, url: @blockchain.new_record? ? admin_blockchains_url : admin_blockchain_url(@blockchain.id) do |f| %>
   <div class="card-deck float-left col-lg-<%= @blockchain.new_record? ? '12' : '10' %>">
-    <div class="card col-lg-6">
+    <div class="card col-lg-6 ml-0">
       <div class="card-body">
         <div class="form-group">
           <label>Name</label>

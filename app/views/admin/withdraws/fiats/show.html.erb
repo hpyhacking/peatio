@@ -25,12 +25,12 @@
           <ul class="list-inline w-100 px-3 mt-3 pt-3 border-top">
             <% if @withdraw.may_accept? || @withdraw.may_process? || @withdraw.may_success? %>
               <li>
-                <%= link_to 'Process', admin_withdraw_path(@withdraw.currency.code, @withdraw), class: 'btn btn-primary pull-left', method: 'PATCH' %>
+                <%= link_to 'Process', admin_withdraw_path(@withdraw.currency.code, @withdraw), class: 'btn btn-primary float-left', method: 'PATCH' %>
               </li>
             <% end %>
             <% if @withdraw.may_reject? %>
               <li>
-                <%= link_to 'Reject', admin_withdraw_path(@withdraw.currency.code, @withdraw), class: 'btn btn-danger pull-right', method: 'DELETE' %>
+                <%= link_to 'Reject', admin_withdraw_path(@withdraw.currency.code, @withdraw), class: 'btn btn-danger float-right', method: 'DELETE' %>
               </li>
             <% end %>
           </ul>

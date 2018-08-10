@@ -122,3 +122,7 @@ body.sidebar-closed {
 .badge-rejected, .badge-canceled, .badge-failed {
   @extend .badge-danger;
 }
+
+.form-control {
+  height: 45px;
+}
