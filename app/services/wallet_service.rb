@@ -34,12 +34,25 @@ module WalletService
       method_not_implemented
     end
 
-    def create_withdraw!(withdraw)
+    # TODO: Rename this method.
+    def build_withdrawal!(withdraw)
       method_not_implemented
     end
 
-    def create_wallet!()
+    # TODO: Rename this method.
+    def create_address!
       method_not_implemented
+    end
+
+    protected
+
+    def destination_wallet(deposit)
+      # TODO: Dynamicly check wallet balance and select destination wallet.
+      # For keeping it simple we will collect all deposits to hot wallet.
+      Wallet
+        .active
+        .withdraw
+        .find_by(currency_id: deposit.currency_id, kind: :hot)
     end
   end
 end

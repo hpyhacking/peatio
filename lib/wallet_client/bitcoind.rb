@@ -1,3 +1,6 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module WalletClient
   class Bitcoind < Base
 
@@ -21,10 +24,6 @@ module WalletClient
       json_rpc(:sendtoaddress, [normalize_address(recipient.fetch(:address)), amount, '', '', options[:subtract_fee]])
           .fetch('result')
           .yield_self(&method(:normalize_txid))
-    end
-
-    def load_balance!
-      json_rpc(:getbalance).fetch('result').to_d
     end
 
     protected

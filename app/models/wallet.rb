@@ -2,31 +2,31 @@
 # frozen_string_literal: true
 
 class Wallet < ActiveRecord::Base
-  serialize :settings, JSON
-  store :settings, accessors: %i[
-                     uri
-                     secret
-                     bitgo_test_net
-                     bitgo_wallet_id
-                     bitgo_wallet_address
-                     bitgo_wallet_passphrase
-                     bitgo_rest_api_root
-                     bitgo_rest_api_access_token
-                   ], coder: JSON
-
   KIND = %w[hot warm cold deposit].freeze
   GATEWAYS = %w[bitcoind bitcoincashd litecoind geth dashd rippled bitgo].freeze
+  SETTING_ATTRIBUTES = %i[ uri
+                           secret
+                           bitgo_test_net
+                           bitgo_wallet_id
+                           bitgo_wallet_address
+                           bitgo_wallet_passphrase
+                           bitgo_rest_api_root
+                           bitgo_rest_api_access_token ].freeze
 
   include BelongsToCurrency
+
+  store :settings, accessors: SETTING_ATTRIBUTES, coder: JSON
+
   belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
 
-  validates :name, :address, presence: true
+  validates :name,    presence: true, uniqueness: true
+  validates :address, presence: true
 
-  validates :status, inclusion: { in: %w[active disabled] }
-  validates :kind,   inclusion: { in: KIND }
+  validates :status,  inclusion: { in: %w[active disabled] }
+  validates :kind,    inclusion: { in: KIND }
   validates :gateway, inclusion: { in: GATEWAYS }
 
-  validates :nsig, numericality: { greater_than_or_equal_to: 1, only_integer: true }
+  validates :nsig,        numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :max_balance, numericality: { greater_than_or_equal_to: 0 }
 
   scope :active,   -> { where(status: :active) }
@@ -35,19 +35,6 @@ class Wallet < ActiveRecord::Base
 
   def wallet_url
     blockchain.explorer_address.gsub('#{address}', address) if blockchain
-  end
-
-  def settings_attr
-    %i[
-      uri
-      secret
-      bitgo_test_net
-      bitgo_wallet_id
-      bitgo_wallet_address
-      bitgo_wallet_passphrase
-      bitgo_rest_api_root
-      bitgo_rest_api_access_token
-    ]
   end
 end
 

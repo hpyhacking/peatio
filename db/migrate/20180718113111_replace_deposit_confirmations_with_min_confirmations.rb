@@ -15,6 +15,3 @@ class ReplaceDepositConfirmationsWithMinConfirmations < ActiveRecord::Migration
     end
   end
 end
-
-# YAML.load_file(Rails.root.join('config/seed/currencies.yml')).each do |hash|
-#   next if Currency.exists?(id: hash.fetch('id'))

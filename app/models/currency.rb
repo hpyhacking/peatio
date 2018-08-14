@@ -178,12 +178,12 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180720165705
+# Schema version: 20180808144704
 #
 # Table name: currencies
 #
-#  blockchain_key       :string(32)
 #  id                   :string(10)       not null, primary key
+#  blockchain_key       :string(32)
 #  symbol               :string(1)        not null
 #  type                 :string(30)       default("coin"), not null
 #  deposit_fee          :decimal(32, 16)  default(0.0), not null

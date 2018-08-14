@@ -37,6 +37,7 @@ namespace :seed do
   task wallets: :environment do
     Wallet.transaction do
       YAML.load_file(Rails.root.join('config/seed/wallets.yml')).each do |hash|
+        next if Wallet.exist?(name: hash.fetch('name'))
         Wallet.create!(hash)
       end
     end

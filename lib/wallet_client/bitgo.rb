@@ -11,10 +11,6 @@ module WalletClient
       @access_token        = wallet.bitgo_rest_api_access_token
     end
 
-    def load_balance!
-      convert_from_base_unit(wallet_details(true).fetch('balanceString'))
-    end
-
     def create_address!(options = {})
       if options[:address_id].present?
         path = '/wallet/' + urlsafe_wallet_id + '/address/' + escape_path_component(options[:address_id])

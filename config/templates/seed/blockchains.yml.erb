@@ -1,9 +1,12 @@
+<% if ENV['BLOCKCHAINS_CONFIG'] %>
+<%= File.read(ENV['BLOCKCHAINS_CONFIG']) %>
+<% else %>
 - key:               eth-rinkeby
   name:              Ethereum Rinkeby
-  client:            ethereum
-  server:            http://127.0.0.1:8545
-  height:            2500000
-  min_confirmations: 6
+  client:            ethereum               # API client name.
+  server:            http://127.0.0.1:8545  # Public Ethereum node endpoint. IMPORTANT: full syncmode.
+  height:            2500000                # Initial block number from which sync will be started.
+  min_confirmations: 6                      # Minimal confirmations needed for withdraw and deposit confirmation.
   explorer:
     address:         https://rinkeby.etherscan.io/address/#{address}
     transaction:     https://rinkeby.etherscan.io/tx/#{txid}
@@ -11,10 +14,10 @@
 
 - key:               eth-mainet
   name:              Ethereum Mainet
-  client:            ethereum
-  server:            http://127.0.0.1:8545
-  height:            5000000
-  min_confirmations: 6
+  client:            ethereum               # API client name.
+  server:            http://127.0.0.1:8545  # Public Ethereum node endpoint. IMPORTANT: full syncmode.
+  height:            5000000                # Initial block number from which sync will be started.
+  min_confirmations: 6                      # Minimal confirmations needed for withdraw and deposit confirmation.
   explorer:
     address:         https://etherscan.io/address/#{address}
     transaction:     https://etherscan.io/tx/#{txid}
@@ -22,10 +25,10 @@
 
 - key:               btc-testnet
   name:              Bitcoin Testnet
-  client:            bitcoin
-  server:            http://user:password@127.0.0.1:18332
-  height:            1350000
-  min_confirmations: 6
+  client:            bitcoin                              # API client name.
+  server:            http://user:password@127.0.0.1:18332 # Public Bitcoin node endpoint.
+  height:            1350000                              # Initial block number from which sync will be started.
+  min_confirmations: 6                                    # Minimal confirmations needed for withdraw and deposit confirmation.
   explorer:
     address:         https://testnet.blockchain.info/address/#{address}
     transaction:     https://testnet.blockchain.info/tx/#{txid}
@@ -33,10 +36,10 @@
 
 - key:               bch-testnet
   name:              BitcoinCash Testnet
-  client:            bitcoincash
-  server:            http://user:password@127.0.0.1:18332
-  height:            1249826
-  min_confirmations: 6
+  client:            bitcoincash                          # API client name.
+  server:            http://user:password@127.0.0.1:18332 # Public Bitcoin Cash node endpoint.
+  height:            1249826                              # Initial block number from which sync will be started.
+  min_confirmations: 6                                    # Minimal confirmations needed for withdraw and deposit confirmation.
   explorer:
     address:         https://www.blocktrail.com/tBCC/address/#{address}
     transaction:     https://www.blocktrail.com/tBCC/tx/#{txid}
@@ -44,10 +47,10 @@
 
 - key:               ltc-testnet
   name:              Litecoin Testnet
-  client:            litecoin
-  server:            http://user:password@127.0.0.1:18332
-  height:            678183
-  min_confirmations: 6
+  client:            litecoin                             # API client name.
+  server:            http://user:password@127.0.0.1:18332 # Public Litecoin node endpoint.
+  height:            678183                               # Initial block number from which sync will be started.
+  min_confirmations: 6                                    # Minimal confirmations needed for withdraw and deposit confirmation.
   explorer:
     address:         https://chain.so/address/LTCTEST/#{address}
     transaction:     https://chain.so/tx/LTCTEST/#{txid}
@@ -55,11 +58,12 @@
 
 - key:               dash-testnet
   name:              Dash Testnet
-  client:            dash
-  server:            http://user:password@127.0.0.1:19998
-  height:            199136
-  min_confirmations: 6
+  client:            dash                                 # API client name.
+  server:            http://user:password@127.0.0.1:19998 # Public Dash node endpoint.
+  height:            199136                               # Initial block number from which sync will be started.
+  min_confirmations: 6                                    # Minimal confirmations needed for withdraw and deposit confirmation.
   explorer:
     address:         https://test.insight.dash.siampm.com/dash/address/#{address}
     transaction:     https://test.insight.dash.siampm.com/dash/tx/#{txid}
   status:            active
+<% end %>

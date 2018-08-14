@@ -13,10 +13,6 @@ module BlockchainClient
       @json_rpc_endpoint
     end
 
-    def load_balance!
-      json_rpc(:getbalance).fetch('result').to_d
-    end
-
     def load_deposit!(txid)
       json_rpc(:gettransaction, [normalize_txid(txid)]).fetch('result').yield_self { |tx| build_standalone_deposit(tx) }
     end

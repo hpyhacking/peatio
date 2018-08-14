@@ -2,7 +2,16 @@
 # frozen_string_literal: true
 
 class Withdraw < ActiveRecord::Base
-  STATES           = %i[prepared submitted rejected accepted suspected processing succeed canceled failed confirming].freeze
+  STATES = %i[ prepared
+               submitted
+               rejected
+               accepted
+               suspected
+               processing
+               succeed
+               canceled
+               failed
+               confirming].freeze
   COMPLETED_STATES = %i[succeed rejected canceled failed].freeze
 
   include AASM

@@ -6,7 +6,7 @@ describe Admin::WalletsController, type: :controller do
   let(:existing_currency) { Currency.find('eth') }
   let :attributes do
     { currency_id:        existing_currency.id,
-      name:               'Ethereum Hot Wallet',
+      name:               'New Ethereum Hot Wallet',
       address:            '249048804499541338815845805798634312140346616732',
       kind:               'hot',
       nsig:               2,

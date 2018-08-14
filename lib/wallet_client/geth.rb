@@ -1,7 +1,8 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
 module WalletClient
   class Geth < Base
-
-    TOKEN_METHOD_ID = '0xa9059cbb'
 
     def initialize(*)
       super
@@ -66,21 +67,6 @@ module WalletClient
             "#{wallet.name} withdrawal from #{normalize_address(issuer[:address])} to #{normalize_address(recipient[:address])} is not permitted."
         end
       end
-    end
-
-    def load_balance_of_eth_address(address)
-      json_rpc(:eth_getBalance, [normalize_address(address), 'latest']).fetch('result').hex.to_d
-    rescue => e
-      report_exception_to_screen(e)
-      0.0
-    end
-
-    def load_balance_of_erc20_address(address, contract_address)
-      data = abi_encode('balanceOf(address)', normalize_address(address))
-      json_rpc(:eth_call, [{ to: contract_address, data: data }, 'latest']).fetch('result').hex.to_d
-    rescue => e
-      report_exception_to_screen(e)
-      0.0
     end
 
     protected

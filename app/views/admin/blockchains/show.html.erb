@@ -11,7 +11,7 @@
           <%= f.text_field :name, class: 'form-control mb-3' %>
 
           <label>Client</label>
-          <%= f.select :client, options_for_select(@blockchain_clients, selected: @blockchain.client), {}, class: "form-control mb-3" %>
+          <%= f.select :client, options_for_select(@blockchain_clients, selected: @blockchain.client), {}, class: 'form-control mb-3' %>
 
           <label>Server</label>
           <%= f.text_field :server, class: 'form-control mb-3' %>

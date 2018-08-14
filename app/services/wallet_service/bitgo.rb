@@ -46,10 +46,5 @@ module WalletService
           options
       )
     end
-
-    def load_balance(currency = nil)
-      client.load_balance!
-    end
-
   end
 end

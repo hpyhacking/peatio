@@ -35,14 +35,21 @@ module WalletService
       options = DEFAULT_ETH_FEE.merge options
 
       client.create_eth_withdrawal!(
-          { address: fees_wallet.address, secret: fees_wallet.secret },
-          { address: destination_address },
-          value,
-          options
+        { address: fees_wallet.address, secret: fees_wallet.secret },
+        { address: destination_address },
+        value,
+        options
       )
     end
 
     private
+
+    def eth_fees_wallet
+      Wallet
+        .active
+        .withdraw
+        .find_by(currency_id: :eth, kind: :hot)
+    end
 
     def collect_eth_deposit!(deposit, destination_address, options={})
       # Default values for Ethereum tx fees.
@@ -63,10 +70,10 @@ module WalletService
       pa = deposit.account.payment_address
 
       client.create_erc20_withdrawal!(
-          { address: pa.address, secret: pa.secret },
-          { address: destination_address },
-          deposit.amount_to_base_unit!,
-          options.merge(contract_address: deposit.currency.erc20_contract_address )
+        { address: pa.address, secret: pa.secret },
+        { address: destination_address },
+        deposit.amount_to_base_unit!,
+        options.merge(contract_address: deposit.currency.erc20_contract_address )
       )
 
     end
@@ -81,27 +88,11 @@ module WalletService
 
     def build_erc20_withdrawal!(withdraw)
       client.create_erc20_withdrawal!(
-          { address: wallet.address, secret: wallet.secret },
-          { address: withdraw.rid },
-          withdraw.amount_to_base_unit!,
-          {contract_address: withdraw.currency.erc20_contract_address}
+        { address: wallet.address, secret: wallet.secret },
+        { address: withdraw.rid },
+        withdraw.amount_to_base_unit!,
+        {contract_address: withdraw.currency.erc20_contract_address}
       )
-    end
-
-    def destination_wallet(deposit)
-      # TODO: Dynamicly check wallet balance and select where to send funds.
-      # For keeping it simple we will collect all funds to hot wallet.
-      Wallet
-        .active
-        .withdraw
-        .find_by(currency_id: deposit.currency_id, kind: :hot)
-    end
-
-    def eth_fees_wallet
-      Wallet
-        .active
-        .withdraw
-        .find_by(currency_id: :eth, kind: :hot)
     end
   end
 end

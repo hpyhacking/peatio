@@ -10,13 +10,13 @@
           <%= f.hidden_field :id %>
 
           <label>Blockchain Key</label>
-          <%= f.select :blockchain_key, Blockchain.all.map { |bc| [bc.key.upcase, bc.key] }, {selected: @wallet.blockchain_key}, {class: "form-control mb-3"} %>
+          <%= f.select :blockchain_key, Blockchain.all.map { |bc| [bc.key.upcase, bc.key] }, {selected: @wallet.blockchain_key}, {class: 'form-control mb-3'} %>
 
           <label>Currency Id</label>
-          <%= f.select :currency_id, Currency.codes.map { |code| [code.upcase, code] }, {selected: @wallet.currency_id}, {class: "form-control mb-3"} %>
+          <%= f.select :currency_id, Currency.codes.map { |code| [code.upcase, code] }, {selected: @wallet.currency_id}, {class: 'form-control mb-3'} %>
 
           <label>Gateway Client</label>
-          <%= f.select :gateway, options_for_select(Wallet::GATEWAYS, selected: @wallet.gateway), {}, class: "form-control mb-3" %>
+          <%= f.select :gateway, options_for_select(Wallet::GATEWAYS, selected: @wallet.gateway), {}, class: 'form-control mb-3' %>
 
           <label>Name</label>
           <%= f.text_field :name, class: 'form-control mb-3' %>
@@ -25,7 +25,7 @@
           <%= f.text_field :address, class: 'form-control mb-3' %>
 
           <label>Kind</label>
-          <%= f.select :kind, Wallet::KIND.map { |k| [k.capitalize, k] }, {selected: @wallet.kind}, {class: "form-control mb-3"} %>
+          <%= f.select :kind, Wallet::KIND.map { |k| [k.capitalize, k] }, {selected: @wallet.kind}, {class: 'form-control mb-3'} %>
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@
           <%= f.text_field :parent, class: 'form-control mb-3' %>
 
           <label>Status</label>
-          <%= f.select :status, options_for_select([['Active', 'active'], ['Disabled', 'disabled']], selected: @wallet.status), {}, {class: "form-control mb-3"} %>
+          <%= f.select :status, options_for_select([['Active', 'active'], ['Disabled', 'disabled']], selected: @wallet.status), {}, {class: 'form-control mb-3'} %>
 
         </div>
       </div>

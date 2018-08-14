@@ -12,7 +12,7 @@ module APIv2
       expose :txid, as: :blockchain_txid
       expose :rid
       expose :aasm_state, as: :state
-      expose :confirmations, if: ->(withdraw) { withdraw.currency.type == 'coin' }
+      expose :confirmations, if: ->(withdraw) { withdraw.coin? }
       expose :created_at, :updated_at, :completed_at, format_with: :iso8601
       expose :completed_at, as: :done_at, format_with: :iso8601
     end

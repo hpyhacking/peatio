@@ -224,10 +224,6 @@ describe BlockchainService::Ethereum do
 
       let(:currency) { Currency.find_by_id(:eth) }
 
-      let!(:wallet) do
-        create(:wallet, :eth_hot, address: '0x52cdba517843388838b9ba1b57fde23f493a17a1')
-      end
-
       before do
         # Mock requests and methods.
         client.class.any_instance.stubs(:latest_block_number).returns(latest_block)
@@ -314,10 +310,6 @@ describe BlockchainService::Ethereum do
             currency: currency
 
         create(:trst_withdraw, withdraw_hash)
-      end
-
-      let!(:wallet) do
-        create(:wallet, :eth_hot, address: '0x52cdba517843388838b9ba1b57fde23f493a17a1')
       end
 
       before do

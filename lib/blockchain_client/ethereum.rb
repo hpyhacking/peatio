@@ -17,24 +17,6 @@ module BlockchainClient
       @json_rpc_endpoint
     end
 
-    def create_address!(options = {})
-      secret = options.fetch(:secret) { Passgen.generate(length: 64, symbols: true) }
-      secret.yield_self do |password|
-        { address: normalize_address(json_rpc(:personal_newAccount, [password]).fetch('result')),
-          secret:  password }
-      end
-    end
-
-    def load_balance!(currency)
-      PaymentAddress
-        .where(currency: currency)
-        .where(PaymentAddress.arel_table[:address].is_not_blank)
-        .pluck(:address)
-        .reject(&:blank?)
-        .map(&method(currency.code.eth? ? :load_balance_of_eth_address : :load_balance_of_erc20_address))
-        .reduce(&:+).yield_self { |total| total ? convert_from_base_unit(total, currency) : 0.to_d }
-    end
-
     def inspect_address!(address)
       { address:  normalize_address(address),
         is_valid: valid_address?(normalize_address(address)) }
@@ -54,7 +36,7 @@ module BlockchainClient
     end
 
     def get_erc20_addresses(tx)
-      entries = tx.fetch('logs').map do |log|
+      tx.fetch('logs').map do |log|
         next if log.fetch('topics').blank? || log.fetch('topics')[0] != TOKEN_EVENT_IDENTIFIER
         normalize_address('0x' + log.fetch('topics').last[-40..-1])
       end
@@ -132,21 +114,6 @@ module BlockchainClient
             "#{currency.code.upcase} withdrawal from #{normalize_address(issuer[:address])} to #{normalize_address(recipient[:address])} is not permitted."
         end
       end
-    end
-
-    def load_balance_of_eth_address(address)
-      json_rpc(:eth_getBalance, [normalize_address(address), 'latest']).fetch('result').hex.to_d
-    rescue => e
-      report_exception_to_screen(e)
-      0.0
-    end
-
-    def load_balance_of_erc20_address(address)
-      data = abi_encode('balanceOf(address)', normalize_address(address))
-      json_rpc(:eth_call, [{ to: contract_address, data: data }, 'latest']).fetch('result').hex.to_d
-    rescue => e
-      report_exception_to_screen(e)
-      0.0
     end
 
     def abi_encode(method, *args)

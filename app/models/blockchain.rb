@@ -1,7 +1,6 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-# TODO: Add specs.
 class Blockchain < ActiveRecord::Base
   has_many :currencies, foreign_key: :blockchain_key, primary_key: :key
   has_many :wallets, foreign_key: :blockchain_key, primary_key: :key
