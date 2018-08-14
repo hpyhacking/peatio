@@ -121,13 +121,13 @@ private
 end
 
 # == Schema Information
-# Schema version: 20180719172203
+# Schema version: 20180813105100
 #
 # Table name: markets
 #
-#  id            :string(10)       not null, primary key
-#  ask_unit      :string(5)        not null
-#  bid_unit      :string(5)        not null
+#  id            :string(20)       not null, primary key
+#  ask_unit      :string(10)       not null
+#  bid_unit      :string(10)       not null
 #  ask_fee       :decimal(17, 16)  default(0.0), not null
 #  bid_fee       :decimal(17, 16)  default(0.0), not null
 #  max_bid       :decimal(17, 16)

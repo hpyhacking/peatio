@@ -69,7 +69,7 @@ class Trade < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180524170927
+# Schema version: 20180813105100
 #
 # Table name: trades
 #
@@ -79,7 +79,7 @@ end
 #  ask_id        :integer          not null
 #  bid_id        :integer          not null
 #  trend         :integer          not null
-#  market_id     :string(10)       not null
+#  market_id     :string(20)       not null
 #  ask_member_id :integer          not null
 #  bid_member_id :integer          not null
 #  funds         :decimal(32, 16)  not null

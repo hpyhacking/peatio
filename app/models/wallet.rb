@@ -52,13 +52,13 @@ class Wallet < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180808144704
+# Schema version: 20180813105100
 #
 # Table name: wallets
 #
 #  id             :integer          not null, primary key
 #  blockchain_key :string(32)
-#  currency_id    :string(5)
+#  currency_id    :string(10)
 #  name           :string(64)
 #  address        :string(255)      not null
 #  kind           :string(32)       not null
