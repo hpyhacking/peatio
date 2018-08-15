@@ -74,5 +74,17 @@ FactoryBot.define do
       explorer_transaction    'https://live.blockcypher.com/bch/tx/#{txid}'
       status                  'active'
     end
+
+    trait 'xrp-testnet' do
+      key                     'xrp-testnet'
+      name                    'Ripple Testnet'
+      client                  'ripple'
+      server                  'http://127.0.0.1:5005'
+      height                  1350000
+      min_confirmations       1
+      explorer_address        'https://bithomp.com/explorer/#{address}'
+      explorer_transaction    'https://bithomp.com/explorer/#{txid}'
+      status                  'active'
+    end
   end
 end

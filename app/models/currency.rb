@@ -10,26 +10,26 @@ class Currency < ActiveRecord::Base
   self.inheritance_column = nil
 
   validates :id, presence: true, uniqueness: true
+  # TODO: Add specs to this validation.
+  validates :blockchain_key,
+            inclusion: { in: -> (_) { Blockchain.pluck(:key).map(&:to_s) } },
+            if: :coin?
+
   validates :type, inclusion: { in: -> (_) { Currency.types.map(&:to_s) } }
   validates :symbol, presence: true, length: { maximum: 1 }
-  validates :json_rpc_endpoint, :rest_api_endpoint, length: { maximum: 200 }, url: { allow_blank: true }
   validates :options, length: { maximum: 1000 }
-  validates :quick_withdraw_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :base_factor, numericality: { greater_than_or_equal_to: 1, only_integer: true }
-  validates :min_confirmations, numericality: { greater_than_or_equal_to: 0, only_integer: true }, if: :coin?
-  validates :withdraw_fee, :deposit_fee, numericality: { greater_than_or_equal_to: 0 }
+
+  validates :quick_withdraw_limit,
+            :withdraw_fee,
+            :deposit_fee,
+            numericality: { greater_than_or_equal_to: 0 }
+
   validate { errors.add(:options, :invalid) unless Hash === options }
 
   before_validation { self.deposit_fee = 0 unless fiat? }
 
   before_validation do
-    next unless supports_cash_addr_format? && bitgo_wallet_address?
-    self.bitgo_wallet_address = CashAddr::Converter.to_legacy_address(bitgo_wallet_address)
-  end
-
-  before_validation do
-    next if case_sensitive?
-    self.bitgo_wallet_address   = bitgo_wallet_address.try(:downcase)
     self.erc20_contract_address = erc20_contract_address.try(:downcase)
   end
 
@@ -121,33 +121,10 @@ class Currency < ActiveRecord::Base
   end
 
   nested_attr \
-    :api_client,
-    :json_rpc_endpoint,
-    :rest_api_endpoint,
-    :min_confirmations,
-    :bitgo_test_net,
-    :bitgo_wallet_id,
-    :bitgo_wallet_address,
-    :bitgo_wallet_passphrase,
-    :bitgo_rest_api_root,
-    :bitgo_rest_api_access_token,
     :erc20_contract_address,
-    :case_sensitive,
     :supports_cash_addr_format,
     :supports_hd_protocol,
     :allow_multiple_deposit_addresses
-
-  def min_confirmations
-    options['min_confirmations'].to_i
-  end
-
-  def min_confirmations=(n)
-    options['min_confirmations'] = n.to_i
-  end
-
-  def case_insensitive?
-    !case_sensitive?
-  end
 
   def disabled?
     !enabled
@@ -164,15 +141,7 @@ class Currency < ActiveRecord::Base
   attr_readonly :id,
                 :code,
                 :type,
-                :case_sensitive,
                 :erc20_contract_address,
-                :api_client,
-                :bitgo_test_net,
-                :bitgo_wallet_id,
-                :bitgo_wallet_address,
-                :bitgo_wallet_passphrase,
-                :bitgo_rest_api_root,
-                :bitgo_rest_api_access_token,
                 :supports_cash_addr_format,
                 :supports_hd_protocol
 end

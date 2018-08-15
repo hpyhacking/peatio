@@ -16,7 +16,7 @@ module BelongsToCurrency
       end
     end
 
-    delegate :coin?, :fiat?, to: :currency
+    delegate :coin?, :fiat?, :blockchain_api, to: :currency
 
     scope :with_currency, -> (model_or_id) do
       id = case model_or_id

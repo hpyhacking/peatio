@@ -24,29 +24,9 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
-    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             true # Both BitGo and Bitcoind can generate HD wallets.
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
-    #
-    # API client configuration.
-    api_client: BTC
-    #
-    # Bitcoind specific configuration.
-    json_rpc_endpoint: http://user:password@127.0.0.1:18332
-    #
-    # BitGo specific configuration.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_address:        ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-    #
-    # Block explorer configuration.
-    wallet_url_template:      https://blockchain.info/address/#{address}
-    transaction_url_template: https://blockchain.info/tx/#{txid}
 
 - id:                   xrp
   symbol:               'ꭆ'
@@ -61,29 +41,9 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
-    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             false # If you use BitGo you have to turn this on, otherwise turn this off.
     allow_multiple_deposit_addresses: false # If you use BitGo you may want to turn this on allowing your users to have multiple deposit addresses. You may configure this later in admin panel.
-    #
-    # API client configuration.
-    api_client: XRP
-    #
-    # Rippled specific configuration.
-    json_rpc_endpoint: http://user:password@127.0.0.1:5005
-    #
-    # BitGo specific configuration.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_address:        ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-    #
-    # Block explorer configuration.
-    wallet_url_template:      https://bithomp.com/explorer/#{address}
-    transaction_url_template: https://bithomp.com/explorer/#{txid}
 
 - id:                   bch
   symbol:               '฿'
@@ -98,29 +58,9 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
-    min_confirmations:                1
     supports_cash_addr_format:        true # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             true # Both BitGo and Bitcoin Cash node can generate HD wallets.
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
-    #
-    # API client configuration.
-    api_client: BCH
-    #
-    # Bitcoin Cash daemon specific configuration.
-    json_rpc_endpoint: http://user:password@127.0.0.1:18332
-    #
-    # BitGo specific configuration.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_address:        ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-    #
-    # Block explorer configuration.
-    wallet_url_template:      https://www.blocktrail.com/BCC/address/#{address}
-    transaction_url_template: https://www.blocktrail.com/BCC/tx/#{txid}
 
 - id:                   ltc
   symbol:               'Ł'
@@ -135,29 +75,9 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
-    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             true # Both BitGo and Litecoind can generate HD wallets.
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
-    #
-    # API client configuration.
-    api_client: LTC
-    #
-    # Litecoind specific configuration.
-    json_rpc_endpoint: http://user:password@127.0.0.1:18332
-    #
-    # BitGo specific configuration.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_address:        ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-    #
-    # Block explorer configuration.
-    wallet_url_template:      https://www.blocktrail.com/LTC/address/#{address}
-    transaction_url_template: https://www.blocktrail.com/LTC/tx/#{txid}
 
 - id:                   dash
   symbol:               'Đ'
@@ -172,21 +92,9 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:                   true # IMPORTANT: Be sure to set the correct value!
-    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             true # Dashd can generate HD wallets.
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
-    #
-    # API client configuration (DASH is not supported by BitGo).
-    api_client: DASH
-    #
-    # Dashd specific configuration.
-    json_rpc_endpoint: http://user:password@127.0.0.1:19998
-    #
-    # Block explorer configuration.
-    wallet_url_template:      https://live.blockcypher.com/dash/address/#{address}
-    transaction_url_template: https://live.blockcypher.com/dash/tx/#{txid}
 
 - id:                   eth
   symbol:               'Ξ'
@@ -201,29 +109,9 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:                   false # IMPORTANT: Be sure to set the correct value!
-    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             false # You have to turn this on if you use BitGo, otherwise turn this off.
     allow_multiple_deposit_addresses: false # You may turn this on if you use BitGo allowing users to have multiple deposit addresses. You may configure this later in admin panel.
-    #
-    # API client configuration.
-    api_client: ETH
-    #
-    # Ethereum node specific configuration.
-    json_rpc_endpoint: http://user:password@127.0.0.1:8545
-    #
-    # BitGo specific configuration.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_address:        ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-    #
-    # Block explorer configuration.
-    wallet_url_template:      https://etherscan.io/address/#{address}
-    transaction_url_template: https://etherscan.io/tx/#{txid}
 
 - id:                   trst
   symbol:               'Ξ'
@@ -236,22 +124,10 @@
   options:
     #
     # Generic configuration variables.
-    case_sensitive:                   false # IMPORTANT: Be sure to set the correct value!
-    min_confirmations:                1
     supports_cash_addr_format:        false # Set to «true» for Bitcoin Cash or any other currency which supports CashAddr format.
     supports_hd_protocol:             false # Not supported.
     allow_multiple_deposit_addresses: false # Not supported.
     #
-    # API client configuration (BitGo is not currently supported).
-    api_client: ERC20
-    #
-    # Ethereum node specific configuration.
-    json_rpc_endpoint: http://127.0.0.1:8545
-    #
     # ERC20 configuration.
     erc20_contract_address: '0x0000000000000000000000000000000000000000' # Always wrap this value in quotes!
-    #
-    # Block explorer configuration.
-    wallet_url_template:      https://etherscan.io/address/#{address}
-    transaction_url_template: https://etherscan.io/tx/#{txid}
 <% end %>

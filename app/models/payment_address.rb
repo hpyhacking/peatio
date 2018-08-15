@@ -17,7 +17,7 @@ class PaymentAddress < ActiveRecord::Base
   end
 
   before_validation do
-    next unless currency&.case_insensitive?
+    next if blockchain_api&.case_sensitive?
     self.address = address.try(:downcase)
   end
 

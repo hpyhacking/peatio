@@ -33,11 +33,11 @@ namespace :seed do
     end
   end
 
-  desc 'Seed wallets to database defined at config/seed/wallets.yml.'
+  desc 'Adds missing wallets to database defined at config/seed/wallets.yml.'
   task wallets: :environment do
     Wallet.transaction do
       YAML.load_file(Rails.root.join('config/seed/wallets.yml')).each do |hash|
-        next if Wallet.exist?(name: hash.fetch('name'))
+        next if Wallet.exists?(name: hash.fetch('name'))
         Wallet.create!(hash)
       end
     end

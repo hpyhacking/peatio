@@ -89,7 +89,7 @@ describe APIv2::Currencies, type: :request do
       %w[id symbol type deposit_fee withdraw_fee quick_withdraw_limit base_factor precision]
     end
     let(:expected_for_coin) do
-      expected_for_fiat + %w[min_confirmations allow_multiple_deposit_addresses]
+      expected_for_fiat + %w[allow_multiple_deposit_addresses]
     end
 
     it 'returns information about specified currency' do

@@ -34,13 +34,6 @@
             <dd><%= f.text_field :deposit_fee, class: 'form-control' %></dd>
 
             <% if @currency.coin? || @currency.new_record? %>
-              <dt>Case sensitive?</dt>
-              <% if @currency.new_record? %>
-                <dd><%= f.check_box :case_sensitive %></dd>
-              <% else %>
-                <dd><%= @currency.case_sensitive?.to_s.titleize %></dd>
-              <% end %>
-
               <% if @currency.new_record? || @currency.erc20_contract_address? %>
                 <dt>ERC20 contract address</dt>
                 <% if @currency.new_record? %>
@@ -86,106 +79,6 @@
           </dl>
       </div>
     </div>
-
-    <% if @currency.coin? || @currency.new_record? %>
-      <div class="col-lg-6 col-md-12 d-flex flex-wrap align-content-stretch mb-4">
-        <div>
-          <div class="card">
-            <div class="card-header">
-              <span>Currency API client settings</span>
-            </div>
-            <div class="card-body">
-              <dl class="dl-horizontal dl-member">
-                <dt>API client</dt>
-                <% if @currency.new_record? %>
-                  <dd><%= f.text_field :api_client, class: 'form-control' %></dd>
-                <% else %>
-                  <dd><%= @currency.api_client %></dd>
-                <% end %>
-              </dl>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="card">
-            <div class="card-header">
-              <span>Currency wallet settings</span>
-            </div>
-            <div class="card-body">
-              <dl class="dl-horizontal dl-member">
-                <dt>JSON RPC endpoint</dt>
-                <% if @currency.new_record? %>
-                  <dd><%= f.text_field :json_rpc_endpoint, class: 'form-control' %></dd>
-                <% else %>
-                  <dd>SECRET</dd>
-                <% end %>
-
-                <dt>REST API endpoint</dt>
-                <% if @currency.new_record? %>
-                  <dd><%= f.text_field :rest_api_endpoint, class: 'form-control' %></dd>
-                <% else %>
-                  <dd>SECRET</dd>
-                <% end %>
-              </dl>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="card h-100">
-            <div class="card-header">
-              <span>BitGo settings</span>
-            </div>
-            <div class="card-body">
-              <dl class="dl-horizontal dl-member">
-                <dt>BitGo test net enabled?</dt>
-                <% if @currency.new_record? %>
-                  <dd><%= f.check_box :bitgo_test_net %></dd>
-                <% else %>
-                  <dd><%= @currency.bitgo_test_net?.to_s.titleize %></dd>
-                <% end %>
-
-                <dt>BitGo wallet ID</dt>
-                <% if @currency.new_record? %>
-                  <dd><%= f.text_field :bitgo_wallet_id, class: 'form-control' %></dd>
-                <% else %>
-                  <dd>SECRET</dd>
-                <% end %>
-
-                <dt>BitGo wallet address</dt>
-                <% if @currency.new_record? %>
-                  <dd><%= f.text_field :bitgo_wallet_address, class: 'form-control' %></dd>
-                <% else %>
-                  <dd>SECRET</dd>
-                <% end %>
-
-                <dt>BitGo wallet passphrase</dt>
-                <% if @currency.new_record? %>
-                  <dd><%= f.text_field :bitgo_wallet_passphrase, class: 'form-control' %></dd>
-                <% else %>
-                  <dd>SECRET</dd>
-                <% end %>
-
-                <dt>BitGo REST API root URL</dt>
-                <% if @currency.new_record? %>
-                  <dd><%= f.text_field :bitgo_rest_api_root, class: 'form-control' %></dd>
-                <% else %>
-                  <dd>SECRET</dd>
-                <% end %>
-
-                <dt>BitGo REST API access token</dt>
-                <% if @currency.new_record? %>
-                  <dd><%= f.text_field :bitgo_rest_api_access_token, class: 'form-control' %></dd>
-                <% else %>
-                  <dd>SECRET</dd>
-                <% end %>
-              </dl>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
   </div>
   <div class="row">
     <div class="col-12">

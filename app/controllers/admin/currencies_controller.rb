@@ -55,7 +55,6 @@ module Admin
         quick_withdraw_limit
         withdraw_fee
         deposit_fee
-        min_confirmations
         enabled
         allow_multiple_deposit_addresses
         blockchain_key
@@ -67,16 +66,6 @@ module Admin
           type
           base_factor
           precision
-          api_client
-          json_rpc_endpoint
-          rest_api_endpoint
-          bitgo_test_net
-          bitgo_wallet_id
-          bitgo_wallet_address
-          bitgo_wallet_passphrase
-          bitgo_rest_api_root
-          bitgo_rest_api_access_token
-          case_sensitive
           erc20_contract_address
           supports_cash_addr_format
           supports_hd_protocol ]
@@ -87,9 +76,7 @@ module Admin
 
     def boolean_currency_attributes
       %i[ enabled
-          case_sensitive
           supports_cash_addr_format
-          bitgo_test_net
           supports_hd_protocol
           allow_multiple_deposit_addresses ]
     end

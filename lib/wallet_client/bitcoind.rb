@@ -18,7 +18,7 @@ module WalletClient
     end
 
     def create_withdrawal!(issuer, recipient, amount, options = {})
-      options.merge(subtract_fee: false) unless options.has_key?(:subtract_fee)
+      options.merge!(subtract_fee: false) unless options.has_key?(:subtract_fee)
 
       json_rpc(:settxfee, [options[:fee]]) if options.key?(:fee)
       json_rpc(:sendtoaddress, [normalize_address(recipient.fetch(:address)), amount, '', '', options[:subtract_fee]])
