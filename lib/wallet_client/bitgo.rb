@@ -70,7 +70,7 @@ module WalletClient
     end
 
     def urlsafe_wallet_address
-      CGI.escape(normalize_address(wallet.bitgo_wallet_address))
+      CGI.escape(normalize_address(wallet.address))
     end
 
     def wallet_id

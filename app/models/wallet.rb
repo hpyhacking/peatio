@@ -8,7 +8,6 @@ class Wallet < ActiveRecord::Base
                            secret
                            bitgo_test_net
                            bitgo_wallet_id
-                           bitgo_wallet_address
                            bitgo_wallet_passphrase
                            bitgo_rest_api_root
                            bitgo_rest_api_access_token ].freeze
