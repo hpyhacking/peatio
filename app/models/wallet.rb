@@ -32,6 +32,11 @@ class Wallet < ActiveRecord::Base
   scope :deposit,  -> { where(kind: :deposit) }
   scope :withdraw, -> { where.not(kind: :deposit) }
 
+  before_validation do
+    next unless currency&.supports_cash_addr_format? && address?
+    self.address = CashAddr::Converter.to_legacy_address(address)
+  end
+
   def wallet_url
     blockchain.explorer_address.gsub('#{address}', address) if blockchain
   end
