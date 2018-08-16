@@ -45,17 +45,15 @@ module Withdraws
       'N/A'
     end
 
-    # TODO: backport audit!
     def audit!
-      # inspection = currency.api.inspect_address!(rid)
-      #
-      # if inspection[:is_valid] == false
-      #   Rails.logger.info { "#{self.class.name}##{id} uses invalid address: #{rid.inspect}" }
-      #   reject!
-      # else
-      #   super
-      # end
-      super
+      inspection = blockchain_api.inspect_address!(rid)
+
+      if inspection[:is_valid] == false
+        Rails.logger.info { "#{self.class.name}##{id} uses invalid address: #{rid.inspect}" }
+        reject!
+      else
+        super
+      end
     end
 
     def as_json(*)

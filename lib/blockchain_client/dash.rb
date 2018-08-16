@@ -4,7 +4,6 @@
 module BlockchainClient
   class Dash < Bitcoin
 
-
     def get_block(block_hash)
       json_rpc(:getblock, [block_hash, true]).fetch('result')
     end
