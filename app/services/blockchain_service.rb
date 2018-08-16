@@ -39,8 +39,6 @@ module BlockchainService
                     .find_or_create_by!(deposit_hash)
 
         deposit.accept! if deposit.confirmations >= blockchain.min_confirmations
-      rescue => e
-        report_exception(e)
       end
     end
 
@@ -60,13 +58,12 @@ module BlockchainService
 
         withdrawal.update(block_number: withdrawal_hash.fetch(:block_number)) if withdrawal.block_number.blank?
         withdrawal.success! if withdrawal.confirmations >= blockchain.min_confirmations
-      rescue => e
-        report_exception(e)
       end
     end
 
-    def current_height
-      blockchain.height
+    def update_height(block_id, latest_block)
+      raise Error, "#{blockchain.name} height was reset." if blockchain.height != blockchain.reload.height
+      blockchain.update(height: block_id) if latest_block - block_id >= blockchain.min_confirmations
     end
 
     def currencies

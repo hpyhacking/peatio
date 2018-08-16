@@ -33,16 +33,16 @@ module BlockchainService
         withdrawals.map { |w| w[:txid] }.join(',').tap do |txids|
           Rails.logger.info { "Withdraw trancations in block #{block_id}: #{txids}" }
         end
+
         update_or_create_deposits!(deposits)
         update_withdrawals!(withdrawals)
-
-        # Mark block as processed if both deposits and withdrawals were confirmed.
-        blockchain.update(height: block_id) if latest_block - block_id >= blockchain.min_confirmations
+        update_height(block_id, latest_block)
 
         Rails.logger.info { "Finished processing #{blockchain.key} block number #{block_id}." }
-      rescue => e
-        report_exception(e)
       end
+    rescue => e
+      report_exception(e)
+      Rails.logger.info { "Exception was raised during block processing." }
     end
 
     private
