@@ -30,7 +30,7 @@ services:
     volumes:
       - eth_data:/root
     entrypoint: geth
-    command: "--rinkeby --syncmode light --rpc --rpcaddr 0.0.0.0"
+    command: "--rinkeby --rpcapi \"personal,eth\" --syncmode light --rpc --rpcaddr 0.0.0.0"
     ports:
       - "30303:30303"
       - "8545:8545"
