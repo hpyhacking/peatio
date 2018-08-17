@@ -12,6 +12,7 @@
   withdraw_fee:         0
 
 - id:                   btc
+  blockchain_key:       btc-testnet
   symbol:               '฿'
   type:                 coin
   precision:            8
@@ -20,7 +21,6 @@
   quick_withdraw_limit: 0.1
   deposit_fee:          0
   withdraw_fee:         0
-  blockchain_key:       btc-testnet
   options:
     #
     # Generic configuration variables.
@@ -29,6 +29,7 @@
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
 
 - id:                   xrp
+  blockchain_key:       xrp-testnet
   symbol:               'ꭆ'
   type:                 coin
   precision:            8
@@ -37,7 +38,6 @@
   quick_withdraw_limit: 1000
   deposit_fee:          0
   withdraw_fee:         0
-  blockchain_key:       xrp-testnet
   options:
     #
     # Generic configuration variables.
@@ -46,6 +46,7 @@
     allow_multiple_deposit_addresses: false # If you use BitGo you may want to turn this on allowing your users to have multiple deposit addresses. You may configure this later in admin panel.
 
 - id:                   bch
+  blockchain_key:       bch-testnet
   symbol:               '฿'
   type:                 coin
   precision:            8
@@ -54,7 +55,6 @@
   quick_withdraw_limit: 1
   deposit_fee:          0
   withdraw_fee:         0
-  blockchain_key:       bch-testnet
   options:
     #
     # Generic configuration variables.
@@ -63,6 +63,7 @@
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
 
 - id:                   ltc
+  blockchain_key:       ltc-testnet
   symbol:               'Ł'
   type:                 coin
   precision:            8
@@ -71,7 +72,6 @@
   quick_withdraw_limit: 5
   deposit_fee:          0
   withdraw_fee:         0
-  blockchain_key:       ltc-testnet
   options:
     #
     # Generic configuration variables.
@@ -80,6 +80,7 @@
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
 
 - id:                   dash
+  blockchain_key:       dash-testnet
   symbol:               'Đ'
   type:                 coin
   precision:            8
@@ -88,7 +89,6 @@
   quick_withdraw_limit: 2
   deposit_fee:          0
   withdraw_fee:         0
-  blockchain_key:       dash-testnet
   options:
     #
     # Generic configuration variables.
@@ -97,6 +97,7 @@
     allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
 
 - id:                   eth
+  blockchain_key:       eth-rinkeby
   symbol:               'Ξ'
   type:                 coin
   precision:            8
@@ -105,7 +106,6 @@
   quick_withdraw_limit: 2
   deposit_fee:          0
   withdraw_fee:         0
-  blockchain_key:       eth-rinkeby
   options:
     #
     # Generic configuration variables.
@@ -114,13 +114,15 @@
     allow_multiple_deposit_addresses: false # You may turn this on if you use BitGo allowing users to have multiple deposit addresses. You may configure this later in admin panel.
 
 - id:                   trst
+  blockchain_key:       eth-rinkeby
   symbol:               'Ξ'
   type:                 coin
   precision:            8
   base_factor:          1_000_000 # IMPORTANT: Don't forget to update this variable according
   enabled:              true      #            to your ERC20-based currency requirements
   quick_withdraw_limit: 3000      #            (usually can be found on the official website).
-  blockchain_key:       eth-rinkeby
+  deposit_fee:          0
+  withdraw_fee:         0
   options:
     #
     # Generic configuration variables.

@@ -31,4 +31,12 @@ describe Currency do
     expect(Market.find(:btcusd).enabled?).to be_falsey
     expect(Market.find(:dashbtc).enabled?).to be_truthy
   end
+
+  it 'doesn\'t allow to disable all dependent markets' do
+    Market.where.not(ask_unit: 'btc').update_all(enabled: false)
+    currency = Currency.find(:btc)
+    currency.update(enabled: false)
+    currency.valid?
+    expect(currency.errors[:currency].size).to eq(1)
+  end
 end

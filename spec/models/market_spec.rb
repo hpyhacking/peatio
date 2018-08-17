@@ -127,6 +127,14 @@ describe Market do
       end
     end
 
+    it 'doesn\'t allow to disable all markets' do
+      Market.where.not(id: :btcusd).update_all(enabled: false)
+      market = Market.find(:btcusd)
+      market.update(enabled: false)
+      market.valid?
+      expect(market.errors[:market].size).to eq(1)
+    end
+
     def to_readable(field)
       field.to_s.humanize.downcase
     end
