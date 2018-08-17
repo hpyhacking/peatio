@@ -67,6 +67,7 @@ en:
         title: Withdraw History
         number: Number
         withdraw_time: Time
+        txid: Transaction ID
         withdraw_account: Withdraw Account
         withdraw_address: Address
         withdraw_amount: Amount

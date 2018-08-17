@@ -45,7 +45,7 @@
   <tr>
     <th>{{ "funds.withdraw_history.number" | t }}</th>
     <th>{{ "funds.withdraw_history.withdraw_time" | t }}</th>
-    <th>{{ "funds.withdraw_history.withdraw_address" | t }}</th>
+    <th>{{ "funds.withdraw_history.txid" | t }}</th>
     <th>{{ "funds.withdraw_history.actual_amount" | t }}</th>
     <th>{{ "funds.withdraw_history.miner_fee" | t }}</th>
     <th>{{ "funds.withdraw_history.state_and_action" | t }}</th>
@@ -54,8 +54,9 @@
     <td>{{withdraw.id}}</td>
     <td>{{withdraw.created_at | date:'yyyy-MM-dd HH:mm'}}</td>
     <td>
-      <a ng-if="withdraw.wallet_url" href="{{withdraw.wallet_url}}" target='_blank'>{{withdraw.rid | truncate: 20}}</a>
-      <span ng-if="!withdraw.wallet_url">{{withdraw.rid | truncate: 20}}</span>
+      <span ng-if="!withdraw.txid">pending</span>
+      <a ng-if="withdraw.transaction_url && withdraw.txid" href="{{withdraw.transaction_url}}" target='_blank'>{{withdraw.txid | truncate: 20}}</a>
+      <span ng-if="!withdraw.transaction_url && withdraw.txid">{{withdraw.txid | truncate: 20}}</span>
     </td>
     <td>{{withdraw.amount}}</td>
     <td>{{withdraw.fee}}</td>
