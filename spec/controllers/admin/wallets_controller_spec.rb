@@ -48,13 +48,12 @@ describe Admin::WalletsController, type: :controller do
 
     before { request.env['HTTP_REFERER'] = '/admin/wallets' }
 
-    xit 'updates wallet attributes' do
-      post :create, wallet: attributes
+    it 'updates wallet attributes' do
       wallet = Wallet.last
       post :update, wallet: new_attributes, id: wallet.id
       expect(response).to redirect_to admin_wallets_path
       wallet.reload
-      expect(wallet.attributes.symbolize_keys.except(:id, :parent, :created_at, :updated_at)).to eq new_attributes
+      new_attributes.each { |k, v| expect(wallet.method(k).call).to eq v }
     end
   end
 

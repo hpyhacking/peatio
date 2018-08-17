@@ -33,13 +33,6 @@ describe Withdraw do
       let(:sum) { 10.to_d }
       before { subject.submit! }
 
-      xit 'should be rejected if address is invalid' do
-
-        CoinAPI.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: false }))
-        subject.audit!
-        expect(subject).to be_rejected
-      end
-
       context 'internal recipient' do
         let(:payment_address) { create(:btc_payment_address) }
         subject { create(:btc_withdraw, rid: payment_address.address) }
@@ -69,16 +62,14 @@ describe Withdraw do
         end
       end
 
-      xit 'should accept withdraw with clean history' do
-        CoinAPI.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: true }))
+      it 'should accept withdraw with clean history' do
         subject.audit!
         expect(subject).to be_accepted
       end
 
       context 'sum less than quick withdraw limit' do
         let(:sum) { '0.099'.to_d }
-        xit 'should approve quick withdraw directly' do
-          CoinAPI.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: true }))
+        it 'should approve quick withdraw directly' do
           subject.audit!
           expect(subject).to be_processing
         end
@@ -99,9 +90,7 @@ describe Withdraw do
     subject { create(:btc_withdraw) }
     before do
       @rpc = mock
-      @rpc.stubs(load_balance!: 50_000, create_withdrawal!: '12345')
-      @broken_rpc = CoinAPI
-      @broken_rpc.stubs(load_balance!: 5)
+      @rpc.stubs(load_balance!: 50_000, build_withdrawal!: '12345')
 
       subject.submit
       subject.accept
@@ -110,35 +99,34 @@ describe Withdraw do
 
     end
 
-    xit 'transitions to :failed after calling rpc but getting Exception' do
-      CoinAPI.stubs(:[]).raises(CoinAPI::Error)
-
+    it 'transitions to :failed after calling WalletService but getting Exception' do
+      WalletService.stubs(:[]).raises(WalletService::Error)
       Worker::WithdrawCoin.new.process({ id: subject.id })
 
       expect(subject.reload.failed?).to be true
     end
 
-    xit 'transitions to :succeed after calling rpc' do
-      CoinAPI.stubs(:[]).returns(@rpc)
+    it 'transitions to :confirming after calling WalletService' do
+      WalletService.stubs(:[]).returns(@rpc)
 
-      expect { Worker::WithdrawCoin.new.process({ id: subject.id }) }.to change { subject.account.reload.amount }
+      Worker::WithdrawCoin.new.process({ id: subject.id })
 
       subject.reload
-      expect(subject.succeed?).to be true
+      expect(subject.confirming?).to be true
       expect(subject.txid).to eq('12345')
     end
 
-    xit 'does not send coins again if previous attempt failed' do
-      CoinAPI.stubs(:[]).raises(CoinAPI::Error)
+    it 'does not send coins again if previous attempt failed' do
+      WalletService.stubs(:[]).raises(NameError)
       begin Worker::WithdrawCoin.new.process({ id: subject.id }); rescue; end
-      CoinAPI.stubs(:[]).returns(CoinAPI::BTC)
+      WalletService.stubs(:[]).returns(WalletService::Bitcoind)
 
       expect { Worker::WithdrawCoin.new.process({ id: subject.id }) }.to_not change { subject.account.reload.amount }
       expect(subject.reload.failed?).to be true
     end
 
-    xit 'unlocks coins after calling rpc but getting Exception' do
-      CoinAPI.stubs(:[]).raises(CoinAPI::Error)
+    it 'unlocks coins after calling rpc but getting Exception' do
+      WalletService.stubs(:[]).raises(NameError)
 
       expect { Worker::WithdrawCoin.new.process({ id: subject.id }) }
           .to change { subject.account.reload.locked }.by(-subject.sum)
