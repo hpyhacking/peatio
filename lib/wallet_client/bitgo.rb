@@ -38,6 +38,10 @@ module WalletClient
       }.compact, false).fetch('feeInfo').fetch('fee').yield_self(&method(:convert_from_base_unit))
     end
 
+    def inspect_address!(address)
+      { address: normalize_address(address), is_valid: :unsupported }
+    end
+
     protected
 
     def rest_api(verb, path, data = nil, raise_error = true)

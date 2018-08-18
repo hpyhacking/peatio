@@ -13,10 +13,6 @@ module WalletClient
       { address: normalize_address(json_rpc(:getnewaddress).fetch('result')) }
     end
 
-    def normalize_address(address)
-      address
-    end
-
     def create_withdrawal!(issuer, recipient, amount, options = {})
       options.merge!(subtract_fee: false) unless options.has_key?(:subtract_fee)
 
@@ -24,6 +20,12 @@ module WalletClient
       json_rpc(:sendtoaddress, [normalize_address(recipient.fetch(:address)), amount, '', '', options[:subtract_fee]])
           .fetch('result')
           .yield_self(&method(:normalize_txid))
+    end
+
+    def inspect_address!(address)
+      json_rpc(:validateaddress, [normalize_address(address)]).fetch('result').yield_self do |x|
+        { address: normalize_address(address), is_valid: !!x['isvalid'] }
+      end
     end
 
     protected

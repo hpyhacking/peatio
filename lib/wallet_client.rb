@@ -33,11 +33,11 @@ module WalletClient
     end
 
     def normalize_address(address)
-      address
+      wallet.blockchain_api&.case_sensitive? ? address : address.try(:downcase)
     end
 
     def normalize_txid(txid)
-      txid
+      wallet.blockchain_api&.case_sensitive? ? txid : txid.try(:downcase)
     end
 
     def convert_from_base_unit(value)

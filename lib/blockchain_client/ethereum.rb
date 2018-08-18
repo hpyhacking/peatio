@@ -17,11 +17,6 @@ module BlockchainClient
       @json_rpc_endpoint
     end
 
-    def inspect_address!(address)
-      { address:  normalize_address(address),
-        is_valid: valid_address?(normalize_address(address)) }
-    end
-
     def get_block(height)
       current_block   = height || 0
       json_rpc(:eth_getBlockByNumber, ["0x#{current_block.to_s(16)}", true]).fetch('result')

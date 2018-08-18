@@ -28,12 +28,6 @@ module BlockchainClient
         .yield_self(&method(:normalize_txid))
     end
 
-    def inspect_address!(address)
-      json_rpc(:validateaddress, [normalize_address(address)]).fetch('result').yield_self do |x|
-        { address: normalize_address(address), is_valid: !!x['isvalid'] }
-      end
-    end
-
     def latest_block_number
       Rails.cache.fetch :latest_bitcoin_block_number, expires_in: 5.seconds do
         json_rpc(:getblockcount).fetch('result')

@@ -69,6 +69,11 @@ module WalletClient
       end
     end
 
+    def inspect_address!(address)
+      { address:  normalize_address(address),
+        is_valid: valid_address?(normalize_address(address)) }
+    end
+
     protected
 
     def abi_encode(method, *args)

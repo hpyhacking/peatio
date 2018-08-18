@@ -2,11 +2,6 @@
 # frozen_string_literal: true
 
 describe Withdraw do
-  before do
-    @rpc = mock
-    @rpc.stubs(case_sensitive?: true)
-  end
-
   describe '#fix_precision' do
     it 'should round down to max precision' do
       withdraw = create(:btc_withdraw, sum: '0.123456789')
@@ -39,8 +34,7 @@ describe Withdraw do
       before { subject.submit! }
 
       it 'should be rejected if address is invalid' do
-        @rpc.stubs(inspect_address!: { is_valid: false })
-        BlockchainClient.stubs(:[]).returns(@rpc)
+        WalletClient.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: false }))
         subject.audit!
         expect(subject).to be_rejected
       end
@@ -74,18 +68,16 @@ describe Withdraw do
         end
       end
 
-      before { @rpc.stubs(inspect_address!: { is_valid: true }) }
       it 'should accept withdraw with clean history' do
-        BlockchainClient.stubs(:[]).returns(@rpc)
+        WalletClient.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: true }))
         subject.audit!
         expect(subject).to be_accepted
       end
 
-      before { @rpc.stubs(inspect_address!: { is_valid: true }) }
       context 'sum less than quick withdraw limit' do
         let(:sum) { '0.099'.to_d }
         it 'should approve quick withdraw directly' do
-          BlockchainClient.stubs(:[]).returns(@rpc)
+          WalletClient.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: true }))
           subject.audit!
           expect(subject).to be_processing
         end
