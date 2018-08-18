@@ -3,5 +3,5 @@
   <%= f.text_field :uri, class: 'form-control mb-3' %>
 
   <label>Secret</label>
-  <%= f.password_field :secret, class: 'form-control mb-3' %>
+  <%= f.password_field :secret, class: 'form-control mb-3', value: wallet.secret || '' %>
 <% end %>
