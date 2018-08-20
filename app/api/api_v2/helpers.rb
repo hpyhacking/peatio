@@ -6,7 +6,7 @@ module APIv2
     extend Memoist
 
     def authenticate!
-      current_user or raise AuthorizationError
+      current_user or raise Peatio::Auth::Error
     end
 
     def deposits_must_be_permitted!

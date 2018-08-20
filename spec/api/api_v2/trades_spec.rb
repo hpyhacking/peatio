@@ -162,7 +162,7 @@ describe APIv2::Trades, type: :request do
       get '/api/v2/trades/my', market: 'btcusd'
 
       expect(response.code).to eq '401'
-      expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
+      expect(response.body).to eq '{"error":{"code":2001,"message":"2001: Authorization failed"}}'
     end
 
     it 'should return all my recent trades' do

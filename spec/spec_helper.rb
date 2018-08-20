@@ -10,6 +10,12 @@ ENV['ADMIN'] ||= 'admin@peatio.tech'
 ENV['PUSHER_SECRET'] = 'fake'
 ENV['PUSHER_CLIENT_KEY'] = 'fake'
 ENV['EVENT_API_JWT_PRIVATE_KEY'] ||= Base64.urlsafe_encode64(OpenSSL::PKey::RSA.generate(2048).to_pem)
+
+# We remove lib/peatio.rb from LOAD_PATH because of conflict with peatio gem.
+# lib/peatio.rb is added to LOAD_PATH later after requiring gems.
+# https://relishapp.com/rspec/rspec-core/v/2-6/docs/command-line
+$LOAD_PATH.delete_if { |p| File.expand_path(p) == File.expand_path('./lib') }
+
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'rspec/retry'

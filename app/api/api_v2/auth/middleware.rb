@@ -10,7 +10,6 @@ module APIv2
         env['api_v2.authentic_member_email'] = \
           JWTAuthenticator.new(headers['Authorization']).authenticate!(return: :email)
       end
-
     private
 
       def auth_by_jwt?

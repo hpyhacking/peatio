@@ -10,9 +10,12 @@ module APIv2
         rescue_from Grape::Exceptions::ValidationErrors do |e|
           error!({ error: { code: 1001, message: e.message } }, 422)
         end
+
+        rescue_from Peatio::Auth::Error do |e|
+          error!({ error: { code: e.code, message: e.message } }, 401)
+        end
       end
     end
-
   end
 
   class Error < Grape::Exceptions::Base
@@ -34,15 +37,6 @@ module APIv2
       message  = @text
       message += " (#{@reason})" if @reason.present?
       %[#<#{self.class.name}: #{message}>]
-    end
-  end
-
-  class AuthorizationError < Error
-    attr_reader :reason
-
-    def initialize(reason = nil)
-      @reason = reason
-      super code: 2001, text: 'Authorization failed', status: 401
     end
   end
 
