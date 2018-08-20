@@ -55,6 +55,18 @@ FactoryBot.define do
       uri                'http://127.0.0.1:18332'
       secret             'changeme'
     end
-  end
 
+    trait :xrp_hot do
+      currency_id        'xrp'
+      blockchain_key     'xrp-testnet'
+      name               'Ripple Hot Wallet'
+      address            'r4kpJtnx4goLYXoRdi7mbkRpZ9Xpx2RyPN'
+      kind               'hot'
+      nsig               2
+      status             'active'
+      gateway            'rippled'
+      uri                'http://127.0.0.1:5005'
+      secret             'changeme'
+    end
+  end
 end

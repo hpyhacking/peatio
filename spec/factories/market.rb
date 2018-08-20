@@ -41,5 +41,17 @@ FactoryBot.define do
       position      3
       enabled       true
     end
+
+    trait :btcxrp do
+      id            'btcxrp'
+      ask_unit      'btc'
+      bid_unit      'xrp'
+      ask_fee       0.0015
+      bid_fee       0.0015
+      ask_precision 4
+      bid_precision 4
+      position      3
+      enabled       true
+    end
   end
 end

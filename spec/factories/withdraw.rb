@@ -106,4 +106,19 @@ FactoryBot.define do
       end
     end
   end
+
+  factory :xrp_withdraw, class: Withdraws::Coin do
+    currency { Currency.find(:xrp) }
+    member { create(:member, :level_3) }
+    rid 'r4kpJtnx4goLYXoRdi7mbkRpZ9Xpx2RyPN'
+    sum { 10.to_d }
+    type 'Withdraws::Coin'
+
+    account do
+      member.get_account(:xrp).tap do |a|
+        a.balance = 50
+        a.save(validate: false)
+      end
+    end
+  end
 end

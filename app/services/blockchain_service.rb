@@ -48,15 +48,12 @@ module BlockchainService
 
     def update_or_create_deposits!(deposits)
       deposits.each do |deposit_hash|
-
         # If deposit doesn't exist create it.
         deposit = Deposits::Coin
                     .where(currency: currencies)
                     .find_or_create_by!(deposit_hash.slice(:txid)) do |deposit|
                       deposit.assign_attributes(deposit_hash)
                     end
-
-
         deposit.accept! if deposit.confirmations >= blockchain.min_confirmations
       end
     end

@@ -3,7 +3,7 @@
 
 describe Market do
   context 'enabled market' do
-    it { expect(Market.enabled.count).to eq(3) }
+    it { expect(Market.enabled.count).to eq(4) }
   end
 
   context 'market attributes' do
@@ -53,7 +53,7 @@ describe Market do
   context 'validations' do
     let(:valid_attributes) do
       { ask_unit:      :btc,
-        bid_unit:      :xrp,
+        bid_unit:      :trst,
         bid_fee:       0.1,
         ask_fee:       0.2,
         ask_precision: 4,

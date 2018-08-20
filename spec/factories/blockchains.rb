@@ -3,6 +3,18 @@
 
 FactoryBot.define do
   factory :blockchain do
+    trait 'xrp-testnet' do
+      key                     'xrp-testnet'
+      name                    'Ripple Testnet'
+      client                  'ripple'
+      server                  'https://s.altnet.rippletest.net:51234'
+      height                  40280751
+      min_confirmations       1
+      explorer_address        ''
+      explorer_transaction    ''
+      status                  'active'
+    end
+
     trait 'eth-rinkeby' do
       key                     'eth-rinkeby'
       name                    'Ethereum Rinkeby'

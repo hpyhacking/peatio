@@ -1,6 +1,6 @@
 <h3>Blockchain info</h3>
 
-<% @blockchain_clients = [['Bitcoin', 'bitcoin'], ['Bitcoin Cash', 'bitcoincash'], ['Dash', 'dash'], ['Ethereum', 'ethereum'], ['Litecoin', 'litecoin']] %>
+<% @blockchain_clients = [['Bitcoin', 'bitcoin'], ['Bitcoin Cash', 'bitcoincash'], ['Dash', 'dash'], ['Ethereum', 'ethereum'], ['Litecoin', 'litecoin'], ['Ripple', 'ripple']] %>
 
 <%= form_for @blockchain, url: @blockchain.new_record? ? admin_blockchains_url : admin_blockchain_url(@blockchain.id) do |f| %>
   <div class="card-deck float-left col-lg-<%= @blockchain.new_record? ? '12' : '10' %>">
