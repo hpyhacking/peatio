@@ -14,7 +14,10 @@ The variable `keychain` in `config/management_api_v1.yml` should look like:
 keychain:
   backend-1.mycompany.example:
     algorithm: RS256
-    value:     LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUF3UjNPT1RQbzZvZE8wM3hXVDRNawp6TXJuM2pQS2pVdW0rVkc5dUZWODZNejVnMm1ueXdSRDc4MEY4aXVaZm41SGtROFpTUlFHYlRHNnB1dlVWWDFCClA0MWIrUW52VHFtWFhHcE9aSklzV3V2cHA4dHpZenFOejUvcTRRdUZQWDlrczdtaVV2dkNzbmo5S21Wb08yMU4KUVgyOWZUNkRJYldkUnJvWU1IOHloVmRrSjRVQnhYeHlSWmZ4VnN4UFVwckNodEgxN1JwNnQvYVRTR0VZNndQNwpKbEVCZi9Gb0djQk15OU5BOWhqZFMyMWxGcmVYeXdaUzZYdmhrN3dydGJWT2didU5EajdVeWhjS0RCaHA4c2VjCkV4TlB6d2p4ckhGTzhZaitFejBCMmZKQ1FDWW9SVG1kTzVEQS9kRTFHQmtqeXRCZjhDdGVIdExXcmZIU2g5em0KNlFJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==
+    value: 'BACKEND_1_PUBLIC_KEY_IN_PEM_FORMAT_BASE64_URLSAFE_ENCODED'  
+  backend-2.mycompany.example:
+    algorithm: RS256
+    value: 'BACKEND_2_PUBLIC_KEY_IN_PEM_FORMAT_BASE64_URLSAFE_ENCODED'
 ```
 
 The `value` is public key from URL-safe Base64 encoded PEM from the first step.
@@ -45,11 +48,17 @@ You should store private keys (ID, value, algorithm) somewhere in your applicati
 
 To generate JWS use the `JWT::Multisig.generate_jwt(payload, private_keychain, algorithms)`.
 
+In `private_keychain` you need to put private key from URL-safe Base64 encoded PEM from the first step.
+
+The output from this example with serialized JWT will be save in data.json.
+
 Example:
 
 ```ruby
 require 'openssl'
 require 'jwt-multisig'
+require 'base64'
+require 'json'
 
 payload = { 
   exp:  1922830281, # Put here all the JWT claims.
@@ -61,14 +70,20 @@ private_keychain = {
   :'backend-1.mycompany.example' => OpenSSL::PKey.read(Base64.urlsafe_decode64('BACKEND_1_PRIVATE_KEY_IN_PEM_FORMAT_BASE64_URLSAFE_ENCODED')),
   :'backend-2.mycompany.example' => OpenSSL::PKey.read(Base64.urlsafe_decode64('BACKEND_2_PRIVATE_KEY_IN_PEM_FORMAT_BASE64_URLSAFE_ENCODED'))
 }
+
 algorithms = {
-  :'backend-2.mycompany.example' => 'RS256',
-  :'backend-.mycompany.example' => 'RS256'
+  :'backend-1.mycompany.example' => 'RS256',
+  :'backend-2.mycompany.example' => 'RS256'
 }
 
 jwt = JWT::Multisig.generate_jwt(payload, private_keychain, algorithms)
 
 Kernel.puts JSON.dump(jwt) # The output will include serialized JWT.
+
+# Save your JWT in data.json
+File.open('./data.json','w') do |f|
+  f.write(jwt.to_json)
+end
 ```
 
 The documentation for this method is available at [rubydoc.info](http://www.rubydoc.info/gems/jwt-multisig/JWT/Multisig#generate_jwt-class_method).
@@ -77,8 +92,46 @@ The example JWT is available at [jwt-multisig source code](https://github.com/ru
 
 ## Step 6: Make requests to API.
 
-```
-curl -v -H "Accept: application/json" -H "Content-Type: application/json" -d "JWT" http://peatio.tech/management_api/v1/deposits
+With next example you can make request with ruby Faraday client library or make request with curl. This request will return empty array if you don't have any deposits on the platform.
+
+Example:
+
+```ruby
+require 'json'
+require 'faraday'
+require 'faraday_middleware'
+
+# Read and save your JWT from data.json
+data = File.read('./data.json')
+
+# Create HTTP request with ruby Faraday client library 
+module Faraday
+  class Connection
+    alias original_run_request run_request
+    def run_request(method, url, body, headers, &block)
+      original_run_request(method, url, body, headers, &block).tap do |response|
+        response.env.instance_variable_set :@request_body, body if body
+      end
+    end
+  end
+end
+
+def http_client
+  Faraday.new(url: @root_api_url) do |conn|
+    conn.request :json
+    conn.response :json
+    conn.adapter Faraday.default_adapter
+  end
+end
+
+# The output will include request response
+Kernel.puts http_client
+  .public_send(:post,'http://localhost:3000/management_api/v1/deposits', data)
+  .body
 ```
 
-Where `JWT` is the result from previous step (serialized JWT).
+Make request with curl.
+
+```
+curl -v -H "Accept: application/json" -H "Content-Type: application/json" -d @jwt.json http://localhost:3000/management_api/v1/deposits
+```
