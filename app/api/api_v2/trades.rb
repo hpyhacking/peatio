@@ -10,6 +10,7 @@ module APIv2
       use :market, :trade_filters
     end
     get "/trades" do
+      validate_trade_params(params[:from], params[:to]) if params[:from].present? && params[:to].present?
       trades = Trade.filter(params[:market], time_to, params[:from], params[:to], params[:limit], order_param)
       present trades, with: APIv2::Entities::Trade
     end

@@ -95,6 +95,14 @@ describe APIv2::Trades, type: :request do
       expect(response).to have_http_status 422
       expect(JSON.parse(response.body)).to eq ({ 'error' => { 'code' => 1001, 'message' => 'market does not have a valid value' } })
     end
+
+    it 'should validate from and to param' do
+      another = create(:trade, bid: bid)
+
+      get '/api/v2/trades', market: 'btcusd', from: another.id, to: ask_trade.id
+      expect(response.code).to eq '422'
+      expect(response.body).to eq '{"error":{"code":2000,"message":"from should be less than to"}}'
+    end
   end
 
   describe 'GET /api/v2/trades/my' do

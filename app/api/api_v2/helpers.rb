@@ -119,5 +119,9 @@ module APIv2
         JSON.parse('[%s]' % redis.lrange(key, offset, -1).join(','))
       end
     end
+
+    def validate_trade_params(from, to)
+      raise Error.new(text: "from should be less than to", status: 422) if from > to
+    end
   end
 end
