@@ -174,7 +174,9 @@ A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do b
     mkdir -p ~/peatio
     git clone git://github.com/peatio/peatio.git ~/peatio/current
     cd peatio/current
-#if those git have problem, use https://github.com/InfraexDev/peatio
+#if those git have problem, use
+https://github.com/InfraexDev/peatio
+
     ＃ Install dependency gems
     bundle install --without development test --path vendor/bundle
 
