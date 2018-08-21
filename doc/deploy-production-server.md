@@ -49,9 +49,9 @@ Installing [rbenv](https://github.com/sstephenson/rbenv) using a Installer
 
 Install Ruby through rbenv:
 
-    rbenv install 2.2.1
+    rbenv install 2.2.1 
     rbenv global 2.2.1
-
+//better use 2.5.1
 Install bundler
 
     echo "gem: --no-ri --no-rdoc" > ~/.gemrc
@@ -174,7 +174,7 @@ A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do b
     mkdir -p ~/peatio
     git clone git://github.com/peatio/peatio.git ~/peatio/current
     cd peatio/current
-
+#if those git have problem, use https://github.com/InfraexDev/peatio
     ＃ Install dependency gems
     bundle install --without development test --path vendor/bundle
 
