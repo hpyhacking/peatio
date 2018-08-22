@@ -27,6 +27,8 @@ class Currency < ActiveRecord::Base
 
   validate { errors.add(:options, :invalid) unless Hash === options }
 
+  validate { errors.add(:base, 'Cannot disable display currency!') if disabled? && code == ENV.fetch('DISPLAY_CURRENCY').downcase }
+
   # TODO: Add specs to this validation.
   validate :must_not_disable_all_markets, on: :update
 

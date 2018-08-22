@@ -19,17 +19,17 @@ describe Currency do
   end
 
   it 'disables markets when currency is set to disabled' do
-    currency = Currency.find(:usd)
+    currency = Currency.find(:dash)
     expect(Market.find(:btcusd).enabled?).to be_truthy
     expect(Market.find(:dashbtc).enabled?).to be_truthy
 
     currency.update!(enabled: false)
-    expect(Market.find(:btcusd).enabled?).to be_falsey
-    expect(Market.find(:dashbtc).enabled?).to be_truthy
+    expect(Market.find(:btcusd).enabled?).to be_truthy
+    expect(Market.find(:dashbtc).enabled?).to be_falsey
 
     currency.update!(enabled: true)
-    expect(Market.find(:btcusd).enabled?).to be_falsey
-    expect(Market.find(:dashbtc).enabled?).to be_truthy
+    expect(Market.find(:btcusd).enabled?).to be_truthy
+    expect(Market.find(:dashbtc).enabled?).to be_falsey
   end
 
   it 'doesn\'t allow to disable all dependent markets' do
@@ -38,5 +38,11 @@ describe Currency do
     currency.update(enabled: false)
     currency.valid?
     expect(currency.errors[:currency].size).to eq(1)
+  end
+
+  it 'doesn\'t allow to disable display currency' do
+    currency = Currency.find(:usd)
+    currency.update(enabled: false)
+    expect(currency.errors.full_messages).to eq ['Cannot disable display currency!']
   end
 end
