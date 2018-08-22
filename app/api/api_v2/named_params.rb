@@ -14,9 +14,11 @@ module APIv2
 
     params :order do
       requires :side,     type: String, values: %w(sell buy), desc: -> { APIv2::Entities::Order.documentation[:side] }
-      requires :volume,   type: String, desc: -> { APIv2::Entities::Order.documentation[:volume] }
-      optional :price,    type: String, desc: -> { APIv2::Entities::Order.documentation[:price] }
+      requires :volume,   type: Float, desc: -> { APIv2::Entities::Order.documentation[:volume] }
       optional :ord_type, type: String, values: -> { Order::TYPES }, default: 'limit', desc: -> { APIv2::Entities::Order.documentation[:type] }
+      given ord_type: ->(val) { val == 'limit' } do
+        requires :price, type: Float, desc: -> { APIv2::Entities::Order.documentation[:price] }
+      end
     end
 
     params :order_id do

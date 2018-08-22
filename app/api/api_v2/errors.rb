@@ -64,6 +64,12 @@ module APIv2
     end
   end
 
+  class CreateOrderAccountError < Error
+    def initialize(e)
+      super code: 2005, text: 'Not enough funds to create order.', status: 422
+    end
+  end
+
   class DepositByTxidNotFoundError < Error
     def initialize(txid)
       super code: 2012, text: "Deposit##txid=#{txid} doesn't exist.", status: 404
