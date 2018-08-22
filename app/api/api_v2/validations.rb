@@ -28,5 +28,17 @@ module APIv2
              message: "#{name} must be greater than zero."
       end
     end
+
+    class ValidateFromTo < Grape::Validations::Base
+      def validate_param!(name, params)
+        return unless params.key?(name)
+        return unless params.key?(:to)
+        return if params[name].to_i < params[:to].to_i
+
+        fail Grape::Exceptions::Validation,
+             params:  [@scope.full_name(name)],
+             message: 'should be less than to.'
+      end
+    end
   end
 end

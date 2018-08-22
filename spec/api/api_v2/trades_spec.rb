@@ -101,7 +101,7 @@ describe APIv2::Trades, type: :request do
 
       get '/api/v2/trades', market: 'btcusd', from: another.id, to: ask_trade.id
       expect(response.code).to eq '422'
-      expect(response.body).to eq '{"error":{"code":2000,"message":"from should be less than to"}}'
+      expect(response.body).to eq '{"error":{"code":1001,"message":"from should be less than to."}}'
     end
   end
 
