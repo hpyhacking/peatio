@@ -232,7 +232,7 @@ GEM
       oauth2 (~> 1.1)
       omniauth (~> 1.2)
     passgen (1.0.2)
-    peatio (0.4.0)
+    peatio (0.4.2)
       amqp
       bunny
       clamp
@@ -439,7 +439,7 @@ DEPENDENCIES
   omniauth-barong (~> 0.1.4)
   omniauth-google-oauth2 (~> 0.5.3)
   passgen (~> 1.0.2)
-  peatio (~> 0.4)
+  peatio (~> 0.4.2)
   pry-byebug (~> 3.6)
   puma (~> 3.11.4)
   pusher (~> 1.3.1)
