@@ -42,6 +42,19 @@ FactoryBot.define do
       uri                'http://127.0.0.1:18332'
       secret             'changeme'
     end
+
+    trait :btc_deposit do
+      currency_id        'btc'
+      blockchain_key     'btc-testnet'
+      name               'Bitcoin Deposit Wallet'
+      address            '0x2b9fBC10EbAeEc28a8Fc10069C0BC29E45eBEB9C'
+      kind               'deposit'
+      nsig               2
+      status             'active'
+      gateway            'bitcoind'
+      uri                'http://127.0.0.1:18332'
+      secret             'changeme'
+    end
   end
 
 end
