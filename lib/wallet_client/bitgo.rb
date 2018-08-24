@@ -42,6 +42,11 @@ module WalletClient
       { address: normalize_address(address), is_valid: :unsupported }
     end
 
+    # Note: bitgo doesn't accept cash address format
+    def normalize_address(address)
+      wallet.blockchain_api&.supports_cash_addr_format? ? CashAddr::Converter.to_legacy_address(super) : super
+    end
+
     protected
 
     def rest_api(verb, path, data = nil, raise_error = true)

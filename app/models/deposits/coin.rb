@@ -8,8 +8,8 @@ module Deposits
     validates :txid, uniqueness: { scope: %i[currency_id txout] }
 
     before_validation do
-      next unless currency&.supports_cash_addr_format? && address?
-      self.address = CashAddr::Converter.to_legacy_address(address)
+      next unless blockchain_api&.supports_cash_addr_format? && address?
+      self.address = CashAddr::Converter.to_cash_address(address)
     end
 
     before_validation do

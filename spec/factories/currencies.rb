@@ -97,7 +97,6 @@ FactoryBot.define do
       quick_withdraw_limit 1
       withdraw_fee         0
       options \
-        supports_cash_addr_format:        true,
         supports_hd_protocol:             true,
         allow_multiple_deposit_addresses: true
     end

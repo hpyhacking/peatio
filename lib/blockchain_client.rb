@@ -13,7 +13,7 @@ module BlockchainClient
     #   The blockchain key.
     # @return [BaseAPI]
     def [](key)
-      blockchain = Blockchain.find_by_key(key)
+      blockchain = Blockchain.find_by(key: key)
       if blockchain.try(:client).present?
         "BlockchainClient::#{blockchain.client.capitalize}"
       end.constantize.new(blockchain)
@@ -103,6 +103,11 @@ module BlockchainClient
     # IMPORTANT: Be sure to set the correct value!
     def case_sensitive?
       true
+    end
+
+    # IMPORTANT: Be sure to set the correct value!
+    def supports_cash_addr_format?
+      false
     end
 
     %i[ load_balance load_deposit create_address create_withdrawal inspect_address ].each do |method|

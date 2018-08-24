@@ -114,7 +114,6 @@ class Currency < ActiveRecord::Base
 
   nested_attr \
     :erc20_contract_address,
-    :supports_cash_addr_format,
     :supports_hd_protocol,
     :allow_multiple_deposit_addresses
 
@@ -150,7 +149,6 @@ class Currency < ActiveRecord::Base
                 :code,
                 :type,
                 :erc20_contract_address,
-                :supports_cash_addr_format,
                 :supports_hd_protocol
 end
 

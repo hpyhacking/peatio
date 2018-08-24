@@ -62,12 +62,12 @@ describe BlockchainService::Bitcoincash do
         [
           {
             amount:   2.00000000,
-            address:  'mjo3Kw4kFYx9gQ5wWXcRdK9773brderLJv',
+            address:  'bchtest:qqhwkkl7c9lsenyp3wz82mh3cnsvx4xppy08e2m9ta',
             txid:     '5d1037991225ab4c9759dbde71c2450f5c19b18c1715b895197475ba9a986e1e'
           },
           {
             amount:   3.00000000,
-            address:  'mjo3Kw4kFYx9gQ5wWXcRdK9773brderLJv',
+            address:  'bchtest:qqhwkkl7c9lsenyp3wz82mh3cnsvx4xppy08e2m9ta',
             txid:     'd64e5e50bcb6d9ec7ecb709ed65819b1768a9029cd0e2b57ff37dd2f81d27855'
           }
         ]

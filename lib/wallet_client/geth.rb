@@ -74,6 +74,14 @@ module WalletClient
         is_valid: valid_address?(normalize_address(address)) }
     end
 
+    def normalize_address(address)
+      address.downcase
+    end
+
+    def normalize_txid(txid)
+      txid.downcase
+    end
+
     protected
 
     def abi_encode(method, *args)
@@ -107,14 +115,6 @@ module WalletClient
       response = JSON.parse(response.body)
       response['error'].tap { |error| raise Error, error.inspect if error }
       response
-    end
-
-    def normalize_address(address)
-      address.downcase
-    end
-
-    def normalize_txid(txid)
-      txid.downcase
     end
 
     def valid_address?(address)

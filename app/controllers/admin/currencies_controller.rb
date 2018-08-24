@@ -67,7 +67,6 @@ module Admin
           base_factor
           precision
           erc20_contract_address
-          supports_cash_addr_format
           supports_hd_protocol ]
       end
 
@@ -76,7 +75,6 @@ module Admin
 
     def boolean_currency_attributes
       %i[ enabled
-          supports_cash_addr_format
           supports_hd_protocol
           allow_multiple_deposit_addresses ]
     end

@@ -4,8 +4,8 @@
 module Withdraws
   class Coin < Withdraw
     before_validation do
-      next unless currency&.supports_cash_addr_format? && rid?
-      self.rid = CashAddr::Converter.to_legacy_address(rid) if CashAddr::Converter.is_valid?(rid)
+      next unless blockchain_api&.supports_cash_addr_format? && rid?
+      self.rid = CashAddr::Converter.to_cash_address(rid) if CashAddr::Converter.is_valid?(rid)
     end
 
     before_validation do
@@ -15,7 +15,7 @@ module Withdraws
     end
 
     validate do
-      if currency&.supports_cash_addr_format? && rid?
+      if blockchain_api&.supports_cash_addr_format? && rid?
         errors.add(:rid, :invalid) unless CashAddr::Converter.is_valid?(rid)
       end
     end
