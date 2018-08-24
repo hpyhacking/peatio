@@ -100,8 +100,45 @@ describe APIv2::Trades, type: :request do
       another = create(:trade, bid: bid)
 
       get '/api/v2/trades', market: 'btcusd', from: another.id, to: ask_trade.id
-      expect(response.code).to eq '422'
+      expect(response).to have_http_status 422
       expect(response.body).to eq '{"error":{"code":1001,"message":"from should be less than to."}}'
+    end
+
+    it 'should validate from and to params without market' do
+      another = create(:trade, bid: bid)
+
+      get '/api/v2/trades', from: ask_trade.id, to: another.id
+      expect(response).to have_http_status 422
+      expect(response.body).to eq '{"error":{"code":1001,"message":"market is missing, market does not have a valid value"}}'
+    end
+
+    it 'should validate from and to params with negative value' do
+      another = create(:trade, bid: bid)
+
+      get '/api/v2/trades', market: 'btcusd', from: -(ask_trade.id), to: -(another.id)
+      expect(response).to have_http_status 422
+      expect(response.body).to eq '{"error":{"code":1001,"message":"from is invalid, from should be less than to., to is invalid"}}'
+    end
+
+    it 'should validate missing value of from' do
+      get '/api/v2/trades', market: 'btcusd', from: ''
+
+      expect(response).to have_http_status 422
+      expect(response.body).to eq '{"error":{"code":1001,"message":"from is empty"}}'
+    end
+
+    it 'should validate missing value of to' do
+      get '/api/v2/trades', market: 'btcusd', to: ''
+
+      expect(response).to have_http_status 422
+      expect(response.body).to eq '{"error":{"code":1001,"message":"to is empty"}}'
+    end
+
+    it 'should validate missing value of from and to' do
+      get '/api/v2/trades', market: 'btcusd', from: '', to: ''
+
+      expect(response).to have_http_status 422
+      expect(response.body).to eq '{"error":{"code":1001,"message":"from should be less than to., from is empty, to is empty"}}'
     end
   end
 
