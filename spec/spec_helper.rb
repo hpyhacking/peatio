@@ -68,7 +68,6 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include Rails.application.routes.url_helpers
-  config.include Capybara::DSL
 
   # See https://github.com/DatabaseCleaner/database_cleaner#rspec-with-capybara-example
   config.before :suite do
@@ -78,13 +77,6 @@ RSpec.configure do |config|
 
   config.before :each do
     DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before :each, type: :feature do
-    driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
-    unless driver_shares_db_connection_with_specs
-      DatabaseCleaner.strategy = :truncation
-    end
   end
 
   config.before :each do
@@ -98,10 +90,6 @@ RSpec.configure do |config|
     %i[ btcusd dashbtc btceth ].each { |market| FactoryBot.create(:market, market) }
   end
 
-  config.after :each, type: :feature do
-    page.driver.quit
-  end
-
   config.append_after :each do
     DatabaseCleaner.clean
   end
@@ -109,5 +97,5 @@ RSpec.configure do |config|
   config.verbose_retry = true
   config.default_retry_count = 3
   config.display_try_failure_messages = true
-  config.exceptions_to_retry = [Net::ReadTimeout, Capybara::CapybaraError]
+  config.exceptions_to_retry = [Net::ReadTimeout]
 end
