@@ -73,10 +73,6 @@ Peatio::Application.routes.draw do
 
   get 'trading/:market_id', to: BlackHoleRouter.new, as: :trading
 
-  scope ['', 'webhooks', ENV['WEBHOOKS_SECURE_URL_COMPONENT'].presence, ':ccy'].compact.join('/'), as: 'webhooks' do
-    post 'tx_created', to: 'webhooks#tx_created'
-  end
-
   draw :admin
 
   get '/swagger', to: 'swagger#index'
