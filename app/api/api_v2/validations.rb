@@ -29,7 +29,7 @@ module APIv2
       end
     end
 
-    class ValidateFromTo < Grape::Validations::Base
+    class ValidateTradeFromTo < Grape::Validations::Base
       def validate_param!(name, params)
         return unless params.key?(name)
         return unless params.key?(:to)
