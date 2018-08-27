@@ -24,8 +24,6 @@ gem 'enumerize', '~> 2.2.2'
 gem 'kaminari', '~> 1.1.1'
 gem 'gon', '~> 5.2.3'
 gem 'pusher', '~> 1.3.1'
-gem 'eventmachine', '~> 1.2.7', require: false
-gem 'em-websocket', '~> 0.5.1', require: false
 gem 'sassc-rails', '~> 1.3.0'
 gem 'coffee-rails', '~> 4.2.2'
 gem 'uglifier', '~> 4.1.17'
@@ -81,7 +79,4 @@ group :test do
   gem 'mocha',               '~> 1.4', require: false
   gem 'factory_bot_rails',   '~> 4.8'
   gem 'timecop',             '~> 0.9'
-  gem 'bunny-mock', '~> 1.7.0'
-  gem 'em-spec', '~> 0.2.7', require: false
-  gem 'em-websocket-client', '~> 0.1.2', require: false
 end
