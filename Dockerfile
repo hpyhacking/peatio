@@ -19,18 +19,18 @@ ARG GID=1000
 # Set the TZ variable to avoid perpetual system calls to stat(/etc/localtime)
 ENV TZ=UTC
 
- # Create group "app" and user "app".
+# Create group "app" and user "app".
 RUN groupadd -r --gid ${GID} app \
  && useradd --system --create-home --home ${APP_HOME} --shell /sbin/nologin --no-log-init \
-      --gid ${GID} --uid ${UID} app \
- # Install system dependencies.
- && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+      --gid ${GID} --uid ${UID} app
+
+# Install system dependencies.
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
  && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
  && apt-get update \
  && apt-get install -y \
       default-libmysqlclient-dev \
-      chromedriver \
       nodejs \
       yarn
 
