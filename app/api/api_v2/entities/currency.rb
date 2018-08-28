@@ -80,7 +80,14 @@ module APIv2
           example: -> { ::Currency.enabled.first.precision }
         }
       )
-      expose :icon_url, if: -> (currency){ currency.icon_url.present? }, documentation: 'Currency icon'
+      expose(
+        :icon_url,
+        documentation: {
+          desc: 'Currency icon',
+          example: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg'
+        },
+        if: -> (currency){ currency.icon_url.present? }
+      )
     end
   end
 end
