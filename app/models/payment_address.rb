@@ -27,6 +27,18 @@ class PaymentAddress < ActiveRecord::Base
     end
     self
   end
+
+  def format_address(format)
+    format == 'legacy' ? to_legacy_address : to_cash_address
+  end
+
+  def to_legacy_address
+    CashAddr::Converter.to_legacy_address(address)
+  end
+
+  def to_cash_address
+    CashAddr::Converter.to_cash_address(address)
+  end
 end
 
 # == Schema Information

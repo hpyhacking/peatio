@@ -95,11 +95,22 @@ describe APIv2::Deposits, type: :request do
   end
 
   describe 'GET /api/v2/deposit_address' do
-    before { member.ac(:btc).payment_address.update!(address: '1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX') }
+    before { member.ac(:bch).payment_address.update!(address: '2N2wNXrdo4oEngp498XGnGCbru29MycHogR') }
 
     it 'doesn\'t expose sensitive data' do
-      api_get '/api/v2/deposit_address', params: { currency: :btc }, token: token
-      expect(response.body).to eq '{"currency":"btc","address":"1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX"}'
+      api_get '/api/v2/deposit_address', params: { currency: :bch }, token: token
+      expect(response.body).to eq '{"currency":"bch","address":"2N2wNXrdo4oEngp498XGnGCbru29MycHogR"}'
     end
+
+    it 'return cash address' do
+      api_get '/api/v2/deposit_address', params: { currency: :bch, address_format: 'cash'}, token: token
+      expect(response.body).to eq '{"currency":"bch","address":"bchtest:pp49pee25hv4esy7ercslnvnvxqvk5gjdv5a06mg35"}'
+    end
+
+    it 'return legacy address' do
+      api_get '/api/v2/deposit_address', params: { currency: :bch, address_format: 'legacy'}, token: token
+      expect(response.body).to eq '{"currency":"bch","address":"2N2wNXrdo4oEngp498XGnGCbru29MycHogR"}'
+    end
+
   end
 end
