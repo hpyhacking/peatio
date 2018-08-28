@@ -3,6 +3,8 @@
 
 module Withdraws
   class Coin < Withdraw
+    include HasOneBlockchainThroughCurrency
+
     before_validation do
       next unless blockchain_api&.supports_cash_addr_format? && rid?
       self.rid = CashAddr::Converter.to_cash_address(rid) if CashAddr::Converter.is_valid?(rid)
@@ -18,31 +20,6 @@ module Withdraws
       if blockchain_api&.supports_cash_addr_format? && rid?
         errors.add(:rid, :invalid) unless CashAddr::Converter.is_valid?(rid)
       end
-    end
-
-    def wallet_url
-      if currency.blockchain.explorer_address?
-        currency.blockchain.explorer_address.gsub('#{address}', rid)
-      end
-    end
-
-    def transaction_url
-      if txid? && currency.blockchain.explorer_transaction?
-        currency.blockchain.explorer_transaction.gsub('#{txid}', txid)
-      end
-    end
-
-    def latest_block_number
-      currency.blockchain_api.latest_block_number
-    end
-
-    def confirmations
-      return 0 if block_number.blank?
-      return latest_block_number - block_number if (latest_block_number - block_number) >= 0
-      'N/A'
-    rescue Faraday::ConnectionFailed => e
-      report_exception(e)
-      'N/A'
     end
 
     def audit!

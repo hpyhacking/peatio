@@ -18,6 +18,10 @@ class Blockchain < ActiveRecord::Base
   def status
     super&.inquiry
   end
+
+  def blockchain_api
+    BlockchainClient[key]
+  end
 end
 
 # == Schema Information

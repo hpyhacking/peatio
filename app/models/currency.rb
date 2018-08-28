@@ -47,7 +47,7 @@ class Currency < ActiveRecord::Base
   scope :coins,   -> { where(type: :coin) }
   scope :fiats,   -> { where(type: :fiat) }
 
-  delegate :explorer_transaction, :explorer_address, to: :blockchain
+  delegate :blockchain_api, to: :blockchain
 
   class << self
     def codes(options = {})
@@ -121,10 +121,6 @@ class Currency < ActiveRecord::Base
 
   def is_erc20?
     erc20_contract_address.present?
-  end
-
-  def blockchain_api
-    BlockchainClient[blockchain.key]
   end
 
   def dependent_markets
