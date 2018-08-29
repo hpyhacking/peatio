@@ -62,13 +62,19 @@ def bump_from_master_branch
   # Find a branch which is specific the version.
   # Comparision is based only on major and minor version numbers since
   # these type of branches are named with a convention like: "1-0-stable", "2-4-stable", and so on.
-  linked_branch = version_specific_branches.find { |b| b[:version].segments == latest_version.segments[0...2] }
+  stable_branchs = version_specific_branches.select { |b| b[:name].include?("stable") }
+  linked_branch = stable_branchs.find { |b| b[:version].segments == latest_version.segments[0...2] }
   # If branch exists it means that version has been already released.
   return if linked_branch
 
   # Increment patch version number, tag, and push.
-  candidate_version = Gem::Version.new(latest_version.segments.dup.tap { |s| s[5] += 1 }.join("."))
-  tag_n_push(candidate_version.to_s.sub ".pre.rc","-rc", name: "master") unless versions.include?(candidate_version)
+  if latest_version.to_s.include?("rc")
+    candidate_version = Gem::Version.new(latest_version.segments.dup.tap { |s| s[5] += 1 }.join("."))
+    tag_n_push(candidate_version.to_s.sub(".pre.rc","-rc"), name: "master") unless versions.include?(candidate_version)
+  else
+    candidate_version = Gem::Version.new(latest_version.segments.dup.tap { |s| s[2] += 1 }.join("."))
+    tag_n_push(candidate_version.to_s, name: "master") unless versions.include?(candidate_version)
+  end
 end
 
 #
