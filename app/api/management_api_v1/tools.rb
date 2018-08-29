@@ -7,7 +7,7 @@ module ManagementAPIv1
       @settings[:scope] = :tools
     end
     post '/timestamp' do
-      body timestamp: Time.now.to_i
+      body timestamp: Time.now.iso8601
       status 200
     end
   end

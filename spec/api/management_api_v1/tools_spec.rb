@@ -20,10 +20,10 @@ describe ManagementAPIv1::Tools, type: :request do
     end
 
     it 'returns current time in seconds' do
-      now = Time.now.to_i
+      now = Time.now
       request
       expect(response).to be_success
-      expect(JSON.parse(response.body).fetch('timestamp')).to be_between(now, now + 1)
+      expect(JSON.parse(response.body).fetch('timestamp')).to be_between(now.iso8601, (now + 1).iso8601)
     end
   end
 end
