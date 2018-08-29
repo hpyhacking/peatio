@@ -40,7 +40,7 @@ module APIv2
     params do
       requires :currency, type: String, values: -> { Currency.coins.enabled.codes }, desc: 'The account you want to deposit to.'
       given :currency do
-        optional :address_format, type: String, values: -> { %w[legacy cash] }, currency_address_format: true, desc: 'Address format legacy/cash'
+        optional :address_format, type: String, values: -> { %w[legacy cash] }, validate_currency_address_format: true, desc: 'Address format legacy/cash'
       end
     end
     get '/deposit_address' do

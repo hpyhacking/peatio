@@ -41,7 +41,7 @@ module APIv2
       end
     end
 
-    class CurrencyAddressFormat < Grape::Validations::Base
+    class ValidateCurrencyAddressFormat < Grape::Validations::Base
       def validate_param!(name, params)
         return unless params.key?(name)
         return if Currency.find_by(id: params[:currency])&.supports_cash_addr_format?
