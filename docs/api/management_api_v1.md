@@ -2,15 +2,13 @@ Management API v1
 =================
 Management API is server-to-server API with high privileges.
 
-**Version:** 1.9.0.alpha
+**Version:** 0.4.0
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
 ### /v1/accounts/balance
 ---
 ##### ***POST***
-**Summary:** Queries the account balance for the given UID and currency.
-
 **Description:** Queries the account balance for the given UID and currency.
 
 **Parameters**
@@ -29,8 +27,6 @@ Management API is server-to-server API with high privileges.
 ### /v1/deposits/state
 ---
 ##### ***PUT***
-**Summary:** Allows to load money or cancel deposit.
-
 **Description:** Allows to load money or cancel deposit.
 
 **Parameters**
@@ -49,8 +45,6 @@ Management API is server-to-server API with high privileges.
 ### /v1/deposits/new
 ---
 ##### ***POST***
-**Summary:** Creates new fiat deposit with state set to «submitted». Optionally pass field «state» set to «accepted» if want to load money instantly. You can also use PUT /fiat_deposits/:id later to load money or cancel deposit.
-
 **Description:** Creates new fiat deposit with state set to «submitted». Optionally pass field «state» set to «accepted» if want to load money instantly. You can also use PUT /fiat_deposits/:id later to load money or cancel deposit.
 
 **Parameters**
@@ -72,8 +66,6 @@ Management API is server-to-server API with high privileges.
 ### /v1/deposits/get
 ---
 ##### ***POST***
-**Summary:** Returns deposit by TID.
-
 **Description:** Returns deposit by TID.
 
 **Parameters**
@@ -91,8 +83,6 @@ Management API is server-to-server API with high privileges.
 ### /v1/deposits
 ---
 ##### ***POST***
-**Summary:** Returns deposits as paginated collection.
-
 **Description:** Returns deposits as paginated collection.
 
 **Parameters**
@@ -158,8 +148,6 @@ Management API is server-to-server API with high privileges.
 ### /v1/withdraws/get
 ---
 ##### ***POST***
-**Summary:** Returns withdraw by ID.
-
 **Description:** Returns withdraw by ID.
 
 **Parameters**
@@ -177,8 +165,6 @@ Management API is server-to-server API with high privileges.
 ### /v1/withdraws
 ---
 ##### ***POST***
-**Summary:** Returns withdraws as paginated collection.
-
 **Description:** Returns withdraws as paginated collection.
 
 **Parameters**
@@ -200,8 +186,6 @@ Management API is server-to-server API with high privileges.
 ### /v1/timestamp
 ---
 ##### ***POST***
-**Summary:** Returns server time in seconds since Unix epoch.
-
 **Description:** Returns server time in seconds since Unix epoch.
 
 **Responses**
