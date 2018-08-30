@@ -2,15 +2,27 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.9.0.alpha
+**Version:** 0.4.2
+
+**Contact information:**  
+peatio.tech  
+https://www.peatio.tech  
+hello@peatio.tech  
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
+
+### Security
+---
+**Bearer**  
+
+|apiKey|*API Key*|
+|---|---|
+|Name|JWT|
+|In|header|
 
 ### /v2/markets
 ---
 ##### ***GET***
-**Summary:** Get all available markets.
-
 **Description:** Get all available markets.
 
 **Responses**
@@ -22,8 +34,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/tickers/{market}
 ---
 ##### ***GET***
-**Summary:** Get ticker of specific market.
-
 **Description:** Get ticker of specific market.
 
 **Parameters**
@@ -41,8 +51,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/tickers
 ---
 ##### ***GET***
-**Summary:** Get ticker of all markets.
-
 **Description:** Get ticker of all markets.
 
 **Responses**
@@ -54,8 +62,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/members/me
 ---
 ##### ***GET***
-**Summary:** Get your profile and accounts info.
-
 **Description:** Get your profile and accounts info.
 
 **Responses**
@@ -67,8 +73,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/deposits
 ---
 ##### ***GET***
-**Summary:** Get your deposits history.
-
 **Description:** Get your deposits history.
 
 **Parameters**
@@ -88,8 +92,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/deposit
 ---
 ##### ***GET***
-**Summary:** Get details of specific deposit.
-
 **Description:** Get details of specific deposit.
 
 **Parameters**
@@ -106,28 +108,40 @@ Member API is API which can be used by client application like SPA.
 
 ### /v2/deposit_address
 ---
-##### ***GET***
-**Summary:** Where to deposit. The address field could be empty when a new address is generating (e.g. for bitcoin), you should try again later in that case.
-
-**Description:** Where to deposit. The address field could be empty when a new address is generating (e.g. for bitcoin), you should try again later in that case.
+##### ***POST***
+**Description:** Returns new deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later. IMPORTANT: The system may return the same response as GET /api/v2/deposit_address returns in case the currency doesn't support HD protocol or administrator doesn't allow users to have multiple deposit addresses.
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | The account to which you want to deposit. Available values: bch, btc, dash, eth, ltc, trst, xrp, BCH, BTC, DASH, ETH, LTC, TRST, XRP | Yes | string |
+| currency | formData | The account you want to deposit to. | Yes | string |
 
 **Responses**
 
 | Code | Description |
 | ---- | ----------- |
-| 200 | Where to deposit. The address field could be empty when a new address is generating (e.g. for bitcoin), you should try again later in that case. |
+| 201 | Returns new deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later. IMPORTANT: The system may return the same response as GET /api/v2/deposit_address returns in case the currency doesn't support HD protocol or administrator doesn't allow users to have multiple deposit addresses. |
+
+##### ***GET***
+**Description:** Returns deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later.
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | query | The account you want to deposit to. | Yes | string |
+| address_format | query | Address format legacy/cash | No | string |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Returns deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later. |
 
 ### /v2/orders/clear
 ---
 ##### ***POST***
-**Summary:** Cancel all my orders.
-
 **Description:** Cancel all my orders.
 
 **Parameters**
@@ -145,8 +159,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/orders
 ---
 ##### ***POST***
-**Summary:** Create a Sell/Buy order.
-
 **Description:** Create a Sell/Buy order.
 
 **Parameters**
@@ -155,9 +167,9 @@ Member API is API which can be used by client application like SPA.
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | formData | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 | side | formData | Either 'sell' or 'buy'. | Yes | string |
-| volume | formData | The amount user want to sell/buy. An order could be partially executed, e.g. an order sell 5 btc can be matched with a buy 3 btc order, left 2 btc to be sold; in this case the order's volume would be '5.0', its remaining_volume would be '2.0', its executed volume is '3.0'. | Yes | string |
-| price | formData | Price for each unit. e.g. If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | No | string |
+| volume | formData | The amount user want to sell/buy. An order could be partially executed, e.g. an order sell 5 btc can be matched with a buy 3 btc order, left 2 btc to be sold; in this case the order's volume would be '5.0', its remaining_volume would be '2.0', its executed volume is '3.0'. | Yes | float |
 | ord_type | formData |  | No | string |
+| price | formData | Price for each unit. e.g. If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | Yes | float |
 
 **Responses**
 
@@ -166,8 +178,6 @@ Member API is API which can be used by client application like SPA.
 | 201 | Create a Sell/Buy order. |
 
 ##### ***GET***
-**Summary:** Get your orders, results is paginated.
-
 **Description:** Get your orders, results is paginated.
 
 **Parameters**
@@ -189,8 +199,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/orders/multi
 ---
 ##### ***POST***
-**Summary:** Create multiple sell/buy orders.
-
 **Description:** Create multiple sell/buy orders.
 
 **Parameters**
@@ -199,9 +207,9 @@ Member API is API which can be used by client application like SPA.
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | formData | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 | orders[side] | formData | Either 'sell' or 'buy'. | Yes | [ string ] |
-| orders[volume] | formData | The amount user want to sell/buy. An order could be partially executed, e.g. an order sell 5 btc can be matched with a buy 3 btc order, left 2 btc to be sold; in this case the order's volume would be '5.0', its remaining_volume would be '2.0', its executed volume is '3.0'. | Yes | [ string ] |
-| orders[price] | formData | Price for each unit. e.g. If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | No | [ string ] |
+| orders[volume] | formData | The amount user want to sell/buy. An order could be partially executed, e.g. an order sell 5 btc can be matched with a buy 3 btc order, left 2 btc to be sold; in this case the order's volume would be '5.0', its remaining_volume would be '2.0', its executed volume is '3.0'. | Yes | [ float ] |
 | orders[ord_type] | formData |  | No | [ string ] |
+| orders[price] | formData | Price for each unit. e.g. If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | Yes | [ float ] |
 
 **Responses**
 
@@ -212,8 +220,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/order/delete
 ---
 ##### ***POST***
-**Summary:** Cancel an order.
-
 **Description:** Cancel an order.
 
 **Parameters**
@@ -231,8 +237,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/order
 ---
 ##### ***GET***
-**Summary:** Get information of specified order.
-
 **Description:** Get information of specified order.
 
 **Parameters**
@@ -250,8 +254,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/order_book
 ---
 ##### ***GET***
-**Summary:** Get the order book of specified market.
-
 **Description:** Get the order book of specified market.
 
 **Parameters**
@@ -271,8 +273,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/depth
 ---
 ##### ***GET***
-**Summary:** Get depth or specified market. Both asks and bids are sorted from highest price to lowest.
-
 **Description:** Get depth or specified market. Both asks and bids are sorted from highest price to lowest.
 
 **Parameters**
@@ -291,8 +291,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/trades/my
 ---
 ##### ***GET***
-**Summary:** Get your executed trades. Trades are sorted in reverse creation order.
-
 **Description:** Get your executed trades. Trades are sorted in reverse creation order.
 
 **Parameters**
@@ -315,8 +313,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/trades
 ---
 ##### ***GET***
-**Summary:** Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.
-
 **Description:** Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.
 
 **Parameters**
@@ -339,8 +335,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/k
 ---
 ##### ***GET***
-**Summary:** Get OHLC(k line) of specific market.
-
 **Description:** Get OHLC(k line) of specific market.
 
 **Parameters**
@@ -350,7 +344,8 @@ Member API is API which can be used by client application like SPA.
 | market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 | limit | query | Limit the number of returned data points, default to 30. | No | integer |
 | period | query | Time period of K line, default to 1. You can choose between 1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080 | No | integer |
-| timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data after that time will be returned. | No | integer |
+| time_from | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data after that time will be returned. | No | integer |
+| time_to | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data till that time will be returned. | No | integer |
 
 **Responses**
 
@@ -361,8 +356,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/k_with_pending_trades
 ---
 ##### ***GET***
-**Summary:** Get K data with pending trades, which are the trades not included in K data yet, because there's delay between trade generated and processed by K data generator.
-
 **Description:** Get K data with pending trades, which are the trades not included in K data yet, because there's delay between trade generated and processed by K data generator.
 
 **Parameters**
@@ -373,7 +366,8 @@ Member API is API which can be used by client application like SPA.
 | trade_id | query | The trade id of the first trade you received. | Yes | integer |
 | limit | query | Limit the number of returned data points, default to 30. | No | integer |
 | period | query | Time period of K line, default to 1. You can choose between 1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080 | No | integer |
-| timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data after that time will be returned. | No | integer |
+| time_from | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data after that time will be returned. | No | integer |
+| time_to | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data till that time will be returned. | No | integer |
 
 **Responses**
 
@@ -384,8 +378,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/timestamp
 ---
 ##### ***GET***
-**Summary:** Get server current time, in seconds since Unix epoch.
-
 **Description:** Get server current time, in seconds since Unix epoch.
 
 **Responses**
@@ -397,8 +389,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/withdraws
 ---
 ##### ***GET***
-**Summary:** List your withdraws as paginated collection.
-
 **Description:** List your withdraws as paginated collection.
 
 **Parameters**
@@ -418,8 +408,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/sessions
 ---
 ##### ***DELETE***
-**Summary:** Delete all user sessions.
-
 **Description:** Delete all user sessions.
 
 **Responses**
@@ -429,8 +417,6 @@ Member API is API which can be used by client application like SPA.
 | 204 | Delete all user sessions. |
 
 ##### ***POST***
-**Summary:** Create new user session.
-
 **Description:** Create new user session.
 
 **Responses**
@@ -439,49 +425,9 @@ Member API is API which can be used by client application like SPA.
 | ---- | ----------- |
 | 201 | Create new user session. |
 
-### /v2/solvency/liability_proofs/partial_tree/mine
----
-##### ***GET***
-**Summary:** Returns newest partial tree record for member account of specified currency.
-
-**Description:** Returns newest partial tree record for member account of specified currency.
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | The code of any currency with type 'coin'. | Yes | string |
-
-**Responses**
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Returns newest partial tree record for member account of specified currency. |
-
-### /v2/solvency/liability_proofs/latest
----
-##### ***GET***
-**Summary:** Returns newest liability proof record for given currency.
-
-**Description:** Returns newest liability proof record for given currency.
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | The code of any currency with type 'coin'. | Yes | string |
-
-**Responses**
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Returns newest liability proof record for given currency. |
-
 ### /v2/fees/trading
 ---
 ##### ***GET***
-**Summary:** Returns trading fees for markets.
-
 **Description:** Returns trading fees for markets.
 
 **Responses**
@@ -493,8 +439,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/fees/deposit
 ---
 ##### ***GET***
-**Summary:** Returns deposit fees for currencies.
-
 **Description:** Returns deposit fees for currencies.
 
 **Responses**
@@ -506,8 +450,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/fees/withdraw
 ---
 ##### ***GET***
-**Summary:** Returns withdraw fees for currencies.
-
 **Description:** Returns withdraw fees for currencies.
 
 **Responses**
@@ -519,8 +461,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/pusher/auth
 ---
 ##### ***POST***
-**Summary:** Returns the credentials used to subscribe to private Pusher channel. IMPORTANT: Pusher events are not part of Peatio public interface. The events may be changed or removed in further releases. Use this on your own risk.
-
 **Description:** Returns the credentials used to subscribe to private Pusher channel. IMPORTANT: Pusher events are not part of Peatio public interface. The events may be changed or removed in further releases. Use this on your own risk.
 
 **Parameters**
@@ -539,8 +479,6 @@ Member API is API which can be used by client application like SPA.
 ### /v2/member_levels
 ---
 ##### ***GET***
-**Summary:** Returns list of member levels and the privileges they provide.
-
 **Description:** Returns list of member levels and the privileges they provide.
 
 **Responses**
@@ -552,15 +490,13 @@ Member API is API which can be used by client application like SPA.
 ### /v2/currency/trades
 ---
 ##### ***GET***
-**Summary:** Get currency trades at last 24h
-
 **Description:** Get currency trades at last 24h
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | Available values:  | Yes | string |
+| currency | query |  | Yes | string |
 
 **Responses**
 
@@ -571,37 +507,53 @@ Member API is API which can be used by client application like SPA.
 ### /v2/currencies
 ---
 ##### ***GET***
-**Summary:** Get list of currencies
-
 **Description:** Get list of currencies
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| type | query | Currency type. Available values: coin or fiat | No | string |
+| type | query | Currency type | No | string |
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get list of currencies |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get list of currencies | [ [Currency](#currency) ] |
 
 ### /v2/currencies/{id}
 ---
 ##### ***GET***
-**Summary:** Get currency by id
-
-**Description:** Get currency by id
+**Description:** Get a currency
 
 **Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| id | path | Currency code | Yes | string |
+| id | path | Currency code. | Yes | string |
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get currency by id |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get a currency | [Currency](#currency) |
+
+### Models
+---
+
+### Currency  
+
+Get a currency
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | string | Currency code. | No |
+| symbol | string | Currency symbol | No |
+| type | string | Currency type | No |
+| deposit_fee | string | Currency deposit fee | No |
+| withdraw_fee | string | Currency withdraw fee | No |
+| quick_withdraw_limit | string | Currency quick withdraw limit | No |
+| allow_multiple_deposit_addresses | string |  | No |
+| base_factor | string | Currency base factor | No |
+| precision | string | Currency precision | No |
+| icon_url | string | Currency icon | No |
