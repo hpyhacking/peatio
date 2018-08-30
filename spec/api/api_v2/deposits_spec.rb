@@ -113,7 +113,7 @@ describe APIv2::Deposits, type: :request do
 
       it 'doesn\'t expose sensitive data' do
         api_get '/api/v2/deposit_address', params: { currency: :bch }, token: token
-        expect(response.body).to eq '{"currency":"bch","address":"2N2wNXrdo4oEngp498XGnGCbru29MycHogR"}'
+        expect(response.body).to eq '{"currency":"bch","address":"bchtest:pp49pee25hv4esy7ercslnvnvxqvk5gjdv5a06mg35"}'
       end
 
       it 'return cash address' do

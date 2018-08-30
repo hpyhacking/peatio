@@ -44,7 +44,8 @@ module APIv2
     class ValidateCurrencyAddressFormat < Grape::Validations::Base
       def validate_param!(name, params)
         return unless params.key?(name)
-        return if Currency.find_by(id: params[:currency])&.supports_cash_addr_format?
+        currency = Currency.find_by(id: params[:currency])
+        return if currency && currency.blockchain_api.supports_cash_addr_format?
 
         fail Grape::Exceptions::Validation,
              params:  [@scope.full_name('currency')],
