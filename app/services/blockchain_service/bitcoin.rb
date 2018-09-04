@@ -25,20 +25,11 @@ module BlockchainService
         block_json = client.get_block(block_hash)
         next if block_json.blank? || block_json['tx'].blank?
 
-        deposits    = build_deposits(block_json, block_id)
-        withdrawals = build_withdrawals(block_json, block_id)
+        block_data = { id: block_id }
+        block_data[:deposits]    = build_deposits(block_json, block_id)
+        block_data[:withdrawals] = build_withdrawals(block_json, block_id)
 
-        deposits.map { |d| d[:txid] }.join(',').tap do |txids|
-          Rails.logger.info { "Deposit trancations in block #{block_id}: #{txids}" }
-        end
-
-        withdrawals.map { |d| d[:txid] }.join(',').tap do |txids|
-          Rails.logger.info { "Withdraw trancations in block #{block_id}: #{txids}" }
-        end
-
-        update_or_create_deposits!(deposits)
-        update_withdrawals!(withdrawals)
-        update_height(block_id, latest_block)
+        save_block(block_data, latest_block)
 
         Rails.logger.info { "Finished processing #{blockchain.key} block number #{block_id}." }
       end
