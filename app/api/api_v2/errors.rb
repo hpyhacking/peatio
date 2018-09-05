@@ -14,6 +14,10 @@ module APIv2
         rescue_from Peatio::Auth::Error do |e|
           error!({ error: { code: e.code, message: e.message } }, 401)
         end
+
+        rescue_from ActiveRecord::RecordNotFound do |e|
+          error!('Couldn\'t find record.', 404)
+        end
       end
     end
   end

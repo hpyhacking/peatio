@@ -15,21 +15,6 @@ module APIv2
       # @param [Hash] options
       # @return [String, Member, NilClass]
       def authenticate!(options = {})
-        Peatio::Auth::JWTAuthenticator
-          .new(Utils.jwt_public_key)
-          .authenticate!(@token)
-          .yield_self { |payload| fetch_member(payload) }
-          .yield_self { |member| options[:return] == :member ? member : fetch_email(payload) }
-      rescue => e
-        report_exception(e)
-        if Peatio::Auth::Error === e
-          raise e
-        else
-          raise Peatio::Auth::Error, e.inspect
-        end
-      end
-
-      def authenticate!(options = {})
         payload, header = Peatio::Auth::JWTAuthenticator
                               .new(Utils.jwt_public_key)
                               .authenticate!(@token)
