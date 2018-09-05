@@ -4,32 +4,24 @@
   </div>
   <% if can? :create, Blockchain %>
     <div class="col-6">
-      <%= link_to 'New Blockchain', new_admin_blockchain_path, class: 'btn btn-primary float-right mb-3' %>
+      <%= link_to raw("<i class='fa fa-plus mr-2'></i> New Blockchain"), new_admin_blockchain_path, class: 'btn btn-primary float-right mb-3' %>
     </div>
   <% end  %>
 </div>
 
 <div class="card">
   <%= table_for @blockchains, class: 'table table-condensed table-striped' do |t| %>
-    <% t.column 'ID' do |x| %>
-      <%= x.id %>
-    <% end %>
+    <% t.column :id, 'ID' %>
 
-    <% t.column 'Key' do |x| %>
-      <%= x.key %>
-    <% end %>
+    <% t.column :key, 'Key' %>
 
-    <% t.column 'Name' do |x| %>
-      <%= x.name %>
-    <% end %>
+    <% t.column :name, 'Name' %>
 
     <% t.column 'Client' do |x| %>
       <%= x.client.upcase %>
     <% end %>
 
-    <% t.column 'Height' do |x| %>
-      <%= x.height %>
-    <% end %>
+    <% t.column :height, 'Height' %>
 
     <% t.column 'Status' do |x| %>
       <%= x.status.titleize %>
@@ -39,9 +31,8 @@
       <%= l(x.created_at, format: :long) %>
     <% end %>
 
-
     <% t.column 'Actions' do |x| %>
-      <%= link_to 'View', admin_blockchain_path(x), target: '_blank' %>
+      <%= link_to 'View', admin_blockchain_path(x) %>
     <% end %>
   <% end %>
 

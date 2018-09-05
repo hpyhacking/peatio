@@ -4,24 +4,20 @@
   </div>
   <% if can? :create, Wallet %>
     <div class="col-6">
-      <%= link_to 'New Wallet', new_admin_wallet_path, class: 'btn btn-primary float-right mb-3' %>
+      <%= link_to raw("<i class='fa fa-plus mr-2'></i> New Wallet"), new_admin_wallet_path, class: 'btn btn-primary float-right mb-3' %>
     </div>
   <% end %>
 </div>
 
 <div class="card">
   <%= table_for @wallets, class: 'table table-condensed table-striped' do |t| %>
-    <% t.column 'ID' do |x| %>
-      <%= x.id %>
-    <% end %>
+    <% t.column :id, 'ID' %>
 
     <% t.column 'Currency Id' do |x| %>
       <%= x.currency_id.upcase %>
     <% end %>
 
-    <% t.column 'Name' do |x| %>
-      <%= x.name %>
-    <% end %>
+    <% t.column :name, 'Name' %>
 
     <% t.column 'Address' do |x| %>
       <a href="<%= x.wallet_url %>" target="_blank">
@@ -41,9 +37,8 @@
       <%= l(x.created_at, format: :long) %>
     <% end %>
 
-
     <% t.column 'Actions' do |x| %>
-      <%= link_to 'View', admin_wallet_path(x), target: '_blank' %>
+      <%= link_to 'View', admin_wallet_path(x) %>
     <% end %>
   <% end %>
 

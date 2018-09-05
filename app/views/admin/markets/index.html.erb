@@ -9,17 +9,11 @@
 
 <div class="card">
   <%= table_for @markets, class: 'table table-bordered table-striped' do |t| %>
-    <% t.column 'Name', class: 'col-xs-2' do |x| %>
-      <%= x.name %>
-    <% end %>
+    <% t.column :name, 'Name', class: 'col-xs-2' %>
 
-    <% t.column 'Bid fee', class: 'col-xs-2' do |x| %>
-      <%= x.bid_fee %>
-    <% end %>
+    <% t.column :bid_fee, 'Bid fee', class: 'col-xs-2' %>
 
-    <% t.column 'Ask fee', class: 'col-xs-2' do |x| %>
-      <%= x.ask_fee %>
-    <% end %>
+    <% t.column :ask_fee, 'Ask fee', class: 'col-xs-2' %>
 
     <% t.column 'Created at', class: 'col-xs-3' do |x| %>
       <%= l(x.created_at, format: :long) %>
@@ -34,7 +28,7 @@
     <% end %>
 
     <% t.column 'Actions', class: 'col-xs-1' do |x| %>
-      <%= link_to 'View', admin_market_path(x), target: '_blank' %>
+      <%= link_to 'View', admin_market_path(x) %>
     <% end %>
   <% end %>
 </div>

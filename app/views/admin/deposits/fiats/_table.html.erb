@@ -6,9 +6,9 @@
       <%= x.currency.code.upcase %>
     <% end %>
     <% t.column 'Member email' do |x| %>
-      <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
+      <%= link_to x.member.email, url_for([:admin, x.member]) %>
     <% end %>
-    <% t.column :amount, class: 'col-3' do |x| %>
+    <% t.column :amount do |x| %>
       <code class="text-info"><%= number_with_precision(x.amount, precision: 2) %></code>
     <% end %>
     <% t.column 'State' do |x| %>

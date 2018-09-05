@@ -5,7 +5,7 @@
     <% x.currency.code.upcase %>
   <% end %>
   <% t.column 'Member email' do |x| %>
-    <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
+    <%= link_to x.member.email, url_for([:admin, x.member]) %>
   <% end %>
   <% t.column 'Recipient ID' do |x| %>
     <span><%= x.rid %></span>
@@ -17,6 +17,6 @@
   <% end %>
   <% t.column :state_and_action do |x| %>
     <span><%= x.aasm_state.humanize %> / </span>
-    <%= link_to t('actions.view'), admin_withdraw_path(currency: x.currency.code, id: x), target: '_blank' %>
+    <%= link_to t('actions.view'), admin_withdraw_path(currency: x.currency.code, id: x) %>
   <% end %>
 <% end %>

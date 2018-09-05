@@ -3,7 +3,7 @@
     <h3>Currencies</h3>
   </div>
   <div class="col-6">
-    <%= link_to 'New currency', new_admin_currency_path, class: "btn btn-primary float-right mb-3" %>
+    <%= link_to raw("<i class='fa fa-plus mr-2'></i> New currency"), new_admin_currency_path, class: "btn btn-primary float-right mb-3" %>
   </div>
 </div>
 
@@ -30,7 +30,7 @@
     <% end %>
 
     <% t.column 'Actions' do |x| %>
-      <%= link_to 'View', admin_currency_path(x), target: '_blank' %>
+      <%= link_to 'View', admin_currency_path(x) %>
     <% end %>
   <% end %>
 
