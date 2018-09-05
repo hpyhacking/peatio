@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 0.4.2
+**Version:** 1.9.1-rc.6
 
 **Contact information:**  
 peatio.tech  
@@ -109,7 +109,7 @@ hello@peatio.tech
 ### /v2/deposit_address
 ---
 ##### ***POST***
-**Description:** Returns new deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later. IMPORTANT: The system may return the same response as GET /api/v2/deposit_address returns in case the currency doesn't support HD protocol or administrator doesn't allow users to have multiple deposit addresses.
+**Description:** Returns new deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later. 
 
 **Parameters**
 
@@ -121,7 +121,7 @@ hello@peatio.tech
 
 | Code | Description |
 | ---- | ----------- |
-| 201 | Returns new deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later. IMPORTANT: The system may return the same response as GET /api/v2/deposit_address returns in case the currency doesn't support HD protocol or administrator doesn't allow users to have multiple deposit addresses. |
+| 201 | Returns new deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later.  |
 
 ##### ***GET***
 **Description:** Returns deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later.
@@ -553,7 +553,6 @@ Get a currency
 | deposit_fee | string | Currency deposit fee | No |
 | withdraw_fee | string | Currency withdraw fee | No |
 | quick_withdraw_limit | string | Currency quick withdraw limit | No |
-| allow_multiple_deposit_addresses | string |  | No |
 | base_factor | string | Currency base factor | No |
 | precision | string | Currency precision | No |
 | icon_url | string | Currency icon | No |
