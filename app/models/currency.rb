@@ -113,9 +113,7 @@ class Currency < ActiveRecord::Base
   end
 
   nested_attr \
-    :erc20_contract_address,
-    :supports_hd_protocol,
-    :allow_multiple_deposit_addresses
+    :erc20_contract_address
 
   def disabled?
     !enabled
@@ -148,8 +146,7 @@ class Currency < ActiveRecord::Base
   attr_readonly :id,
                 :code,
                 :type,
-                :erc20_contract_address,
-                :supports_hd_protocol
+                :erc20_contract_address
 end
 
 # == Schema Information

@@ -32,11 +32,9 @@ class Account < ActiveRecord::Base
     # The address generation process is in progress.
     if record.address.blank?
       record
-    # Currency supports HD protocol and administrator allows user to have multiple addresses.
-    elsif currency.supports_hd_protocol? && currency.allow_multiple_deposit_addresses?
-      payment_addresses.create!(currency: currency)
     else
-      record
+      # allows user to have multiple addresses.
+      payment_addresses.create!(currency: currency)
     end
   end
 

@@ -21,11 +21,7 @@
   quick_withdraw_limit: 0.1
   deposit_fee:          0
   withdraw_fee:         0
-  options:
-    #
-    # Generic configuration variables.
-    supports_hd_protocol:             true # Both BitGo and Bitcoind can generate HD wallets.
-    allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
+  options:              {}
 
 - id:                   xrp
   blockchain_key:       xrp-testnet
@@ -37,11 +33,7 @@
   quick_withdraw_limit: 1000
   deposit_fee:          0
   withdraw_fee:         0
-  options:
-    #
-    # Generic configuration variables.
-    supports_hd_protocol:             false # If you use BitGo you have to turn this on, otherwise turn this off.
-    allow_multiple_deposit_addresses: false # If you use BitGo you may want to turn this on allowing your users to have multiple deposit addresses. You may configure this later in admin panel.
+  options:              {}
 
 - id:                   bch
   blockchain_key:       bch-testnet
@@ -53,11 +45,7 @@
   quick_withdraw_limit: 1
   deposit_fee:          0
   withdraw_fee:         0
-  options:
-    #
-    # Generic configuration variables.
-    supports_hd_protocol:             true # Both BitGo and Bitcoin Cash node can generate HD wallets.
-    allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
+  options:              {}
 
 - id:                   ltc
   blockchain_key:       ltc-testnet
@@ -69,11 +57,7 @@
   quick_withdraw_limit: 5
   deposit_fee:          0
   withdraw_fee:         0
-  options:
-    #
-    # Generic configuration variables.
-    supports_hd_protocol:             true # Both BitGo and Litecoind can generate HD wallets.
-    allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
+  options:              {}
 
 - id:                   dash
   blockchain_key:       dash-testnet
@@ -85,11 +69,7 @@
   quick_withdraw_limit: 2
   deposit_fee:          0
   withdraw_fee:         0
-  options:
-    #
-    # Generic configuration variables.
-    supports_hd_protocol:             true # Dashd can generate HD wallets.
-    allow_multiple_deposit_addresses: false # Allow users to generate unlimited number of deposit addresses. You may configure this later in admin panel.
+  options:              {}
 
 - id:                   eth
   blockchain_key:       eth-rinkeby
@@ -101,11 +81,7 @@
   quick_withdraw_limit: 2
   deposit_fee:          0
   withdraw_fee:         0
-  options:
-    #
-    # Generic configuration variables.
-    supports_hd_protocol:             false # You have to turn this on if you use BitGo, otherwise turn this off.
-    allow_multiple_deposit_addresses: false # You may turn this on if you use BitGo allowing users to have multiple deposit addresses. You may configure this later in admin panel.
+  options:              {}
 
 - id:                   trst
   blockchain_key:       eth-rinkeby
@@ -118,10 +94,6 @@
   deposit_fee:          0
   withdraw_fee:         0
   options:
-    #
-    # Generic configuration variables.
-    supports_hd_protocol:             false # Not supported.
-    allow_multiple_deposit_addresses: false # Not supported.
     #
     # ERC20 configuration.
     erc20_contract_address: '0x0000000000000000000000000000000000000000' # Always wrap this value in quotes!

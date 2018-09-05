@@ -14,9 +14,8 @@ describe Admin::CurrenciesController, type: :controller do
       enabled:                          true,
       base_factor:                      1000000,
       precision:                        8,
-      erc20_contract_address:           '1fmiowizbqnrkhzrn4vvsmqacc5gvk9sf3',
-      supports_hd_protocol:             true,
-      allow_multiple_deposit_addresses: true }
+      erc20_contract_address:           '1fmiowizbqnrkhzrn4vvsmqacc5gvk9sf3' }
+
   end
 
   let(:existing_currency) { Currency.first }
@@ -45,9 +44,8 @@ describe Admin::CurrenciesController, type: :controller do
         enabled:                          false,
         base_factor:                      100000,
         precision:                        9,
-        erc20_contract_address:           '12kAmv8QXvQyosGzitFYm6YzxK2SgovhQ9',
-        supports_hd_protocol:             false,
-        allow_multiple_deposit_addresses: false }
+        erc20_contract_address:           '12kAmv8QXvQyosGzitFYm6YzxK2SgovhQ9' }
+
     end
 
     let :final_attributes do
@@ -57,8 +55,7 @@ describe Admin::CurrenciesController, type: :controller do
           :type,
           :base_factor,
           :precision,
-          :erc20_contract_address,
-          :supports_hd_protocol
+          :erc20_contract_address
     end
 
     before { request.env['HTTP_REFERER'] = '/admin/currencies' }

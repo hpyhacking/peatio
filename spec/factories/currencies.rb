@@ -30,9 +30,6 @@ FactoryBot.define do
       base_factor          100_000_000
       quick_withdraw_limit 0.1
       withdraw_fee         0.01
-      options \
-        supports_hd_protocol:             true,
-        allow_multiple_deposit_addresses: true
     end
 
     trait :dash do
@@ -43,9 +40,6 @@ FactoryBot.define do
       base_factor          100_000_000
       quick_withdraw_limit 1000
       withdraw_fee         0.02
-      options \
-        supports_hd_protocol:             true,
-        allow_multiple_deposit_addresses: true
     end
 
     trait :eth do
@@ -56,9 +50,6 @@ FactoryBot.define do
       base_factor          1_000_000_000_000_000_000
       quick_withdraw_limit 1
       withdraw_fee         0.025
-      options \
-        supports_hd_protocol:             false,
-        allow_multiple_deposit_addresses: false
     end
 
     trait :xrp do
@@ -69,9 +60,6 @@ FactoryBot.define do
       base_factor          1_000_000
       quick_withdraw_limit 1000
       withdraw_fee         0.015
-      options \
-        supports_hd_protocol:             false,
-        allow_multiple_deposit_addresses: false
     end
 
     trait :trst do
@@ -83,9 +71,7 @@ FactoryBot.define do
       quick_withdraw_limit 1000
       withdraw_fee         0.025
       options \
-        erc20_contract_address:           '0x87099adD3bCC0821B5b151307c147215F839a110',
-        supports_hd_protocol:             false,
-        allow_multiple_deposit_addresses: false
+        erc20_contract_address:           '0x87099adD3bCC0821B5b151307c147215F839a110'
     end
 
     trait :bch do
@@ -96,9 +82,6 @@ FactoryBot.define do
       base_factor          100_000_000
       quick_withdraw_limit 1
       withdraw_fee         0
-      options \
-        supports_hd_protocol:             true,
-        allow_multiple_deposit_addresses: true
     end
 
     trait :ltc do
@@ -109,9 +92,6 @@ FactoryBot.define do
       base_factor          100_000_000
       quick_withdraw_limit 1000
       withdraw_fee         0.02
-      options \
-        supports_hd_protocol:             true,
-        allow_multiple_deposit_addresses: true
     end
   end
 end

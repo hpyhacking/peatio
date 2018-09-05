@@ -51,9 +51,7 @@ module APIv2
 
     desc 'Returns new deposit address for account you want to deposit to. ' \
          'The address may be blank because address generation process is still in progress. ' \
-         'If this case you should try again later. ' \
-         'IMPORTANT: The system may return the same response as GET /api/v2/deposit_address returns in case ' \
-         'the currency doesn\'t support HD protocol or administrator doesn\'t allow users to have multiple deposit addresses.'
+         'If this case you should try again later. '
     params do
       requires :currency, type: String, values: -> { Currency.coins.enabled.codes }, desc: 'The account you want to deposit to.'
     end

@@ -58,14 +58,6 @@ module APIv2
       )
 
       expose(
-        :allow_multiple_deposit_addresses,
-        documentation: {
-          example: -> { ::Currency.enabled.first.allow_multiple_deposit_addresses }
-        },
-        if: ->(currency) { currency.type == 'coin' }
-      )
-
-      expose(
         :base_factor,
         documentation: {
           desc: 'Currency base factor',

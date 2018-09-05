@@ -56,7 +56,6 @@ module Admin
         withdraw_fee
         deposit_fee
         enabled
-        allow_multiple_deposit_addresses
         blockchain_key
       ]
 
@@ -66,17 +65,14 @@ module Admin
           type
           base_factor
           precision
-          erc20_contract_address
-          supports_hd_protocol ]
+          erc20_contract_address ]
       end
 
       attributes
     end
 
     def boolean_currency_attributes
-      %i[ enabled
-          supports_hd_protocol
-          allow_multiple_deposit_addresses ]
+      %i[ enabled ]
     end
   end
 end

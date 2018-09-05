@@ -111,23 +111,5 @@ describe Account do
         expect(subject.payment_address!).not_to eq previous
       end
     end
-
-    context 'HD protocol unsupported' do
-      before { subject.currency.update!(supports_hd_protocol: false) }
-      it 'always returns the same payment address' do
-        expect(subject.payment_address!).to eq subject.payment_address
-        subject.payment_address.update!(address: '1JSmYcCjBGm7RbjPppjZ1gGTDpBEmTGgGA')
-        expect(subject.payment_address!).to eq subject.payment_address
-      end
-    end
-
-    context 'multiple deposit address generation is not allowed' do
-      before { subject.currency.update!(allow_multiple_deposit_addresses: false) }
-      it 'always returns the same payment address' do
-        expect(subject.payment_address!).to eq subject.payment_address
-        subject.payment_address.update!(address: '1JSmYcCjBGm7RbjPppjZ1gGTDpBEmTGgGA')
-        expect(subject.payment_address!).to eq subject.payment_address
-      end
-    end
   end
 end

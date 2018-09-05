@@ -42,20 +42,10 @@
                   <dd><%= @currency.erc20_contract_address %></dd>
                 <% end %>
               <% end %>
-
-              <dt>Supports HD protocol?</dt>
-              <% if @currency.new_record? %>
-                <dd><%= f.check_box :supports_hd_protocol %></dd>
-              <% else %>
-                <dd><%= @currency.supports_hd_protocol?.to_s.titleize %></dd>
-              <% end %>
             <% end %>
 
             <dt>Enabled?</dt>
             <dd><%= f.check_box :enabled %></dd>
-
-            <dt>Allow generating multiple deposit addresses?</dt>
-            <dd><%= f.check_box :allow_multiple_deposit_addresses %></dd>
 
             <dt>Base factor</dt>
             <% if @currency.new_record? %>
