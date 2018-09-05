@@ -59,7 +59,7 @@ module APIv2
     add_swagger_documentation base_path:   PREFIX,
                               mount_path:  '/swagger',
                               api_version: API_VERSION,
-                              doc_version: Peatio::VERSION,
+                              doc_version: Peatio::Application::VERSION,
                               info: {
                                 title:         "Member API #{API_VERSION}",
                                 description:   'Member API is API which can be used by client application like SPA.',

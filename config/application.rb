@@ -51,13 +51,5 @@ module Peatio
     #   lib/aasm/locking.rb => AASM::Locking
     # We disable eager load here since lib contains lot of stuff which is not required for typical app functions.
     config.paths.add 'lib', eager_load: false, autoload: true
-
-    # Automatically load and reload constants from "lib/peatio/*":
-    #   lib/peatio/foo/bar/baz.rb => Bar::Baz
-    # We disable eager load here since lib/peatio contains lot of stuff which is not required for typical app functions.
-    config.paths.add 'lib/peatio', eager_load: false, autoload: true, glob: '*'
-
-    # Explicitly require "lib/peatio.rb".
-    require_dependency 'peatio'
   end
 end

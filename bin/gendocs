@@ -9,12 +9,19 @@ if [ -f tmp/pids/server.pid ]; then
 fi
 
 if [ -n "${V}" ]; then
-cat > lib/peatio/version.rb << EOF
+cat > config/initializers/versioning.rb << EOF
 # encoding: UTF-8
 # frozen_string_literal: true
+# This file is auto-generated from the current state of VCS.
+# Instead of editing this file, please use bin/gendocs.
 
 module Peatio
-  VERSION = '${V}'
+  class Application
+    GIT_TAG =    '${V}'
+    GIT_SHA =    '$(git rev-parse --short HEAD)'
+    BUILD_DATE = '$(date)'
+    VERSION =    GIT_TAG
+  end
 end
 EOF
 fi
