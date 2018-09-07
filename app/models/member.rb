@@ -54,7 +54,7 @@ class Member < ActiveRecord::Base
     end
 
     def admins
-      Figaro.env.admin.split(',')
+      Figaro.env.admin.split(',').map(&:squish)
     end
 
     def search(field: nil, term: nil)
