@@ -75,8 +75,8 @@ Otherwise we advice to use [workbench based environment](#local-development-envi
 
 1. Copy initial configurations `./bin/init_config`
 2. Install yarn dependencies `rake yarn:install`
-3. Setup database `rake db:create db:migrate db:seed`
-4. Start backend services `docker-compose -f config/backend.yml up -d`
+3. Start backend services (RabbitMQ, Redis, MySQL) `docker-compose -f config/backend.yml up -d`
+4. Setup database `rake db:create db:migrate db:seed`
 5. Start peatio daemons `god -c lib/daemons/daemons.god`
 6. Start rails server `rails server`
 
@@ -112,7 +112,7 @@ You should add those hosts to your `/etc/hosts` file:
 ```
 Now you have peatio up and running.
 
-##### [Barong](https://github.com/rubykube/barong)
+#### [Barong](https://github.com/rubykube/barong)
 
 Barong is an essential part of Rubykube Peatio. It is a KYC OAuth 2.0 provider. Barong replace the KYC, 2FA, Phone verification from legacy Peatio.
 Barong manage roles and kyc level across all applications from the RKCP. It's easy to extend by using the EventAPI or Rest API.
@@ -135,7 +135,7 @@ $> docker-compose up -d barong
 
 This will output password for **admin@barong.io**. Default password is **`Qwerty123`**
 
-##### Peatio
+#### Peatio
 
 Start peatio server
 
