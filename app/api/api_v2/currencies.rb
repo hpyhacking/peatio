@@ -10,7 +10,7 @@ module APIv2
     desc 'Get currency trades at last 24h', tags: %w[currencies]
     params do
       requires :currency, type: String,
-                          values: -> { Currency.enabled.codes },
+                          values: -> { Currency.enabled.codes(bothcase: true) },
                           desc: -> { APIv2::Entities::Currency.documentation[:id] }
     end
     get '/currency/trades' do
@@ -28,7 +28,7 @@ module APIv2
     desc 'Get a currency', tags: %w[currencies], success: Entities::Currency
     params do
       requires :id, type: String,
-                    values: -> { Currency.enabled.codes },
+                    values: -> { Currency.enabled.codes(bothcase: true) },
                     desc: -> { APIv2::Entities::Currency.documentation[:id][:desc] }
     end
     get '/currencies/:id' do

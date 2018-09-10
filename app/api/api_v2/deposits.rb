@@ -38,7 +38,7 @@ module APIv2
          'The address may be blank because address generation process is still in progress. ' \
          'If this case you should try again later.'
     params do
-      requires :currency, type: String, values: -> { Currency.coins.enabled.codes }, desc: 'The account you want to deposit to.'
+      requires :currency, type: String, values: -> { Currency.coins.enabled.codes(bothcase: true) }, desc: 'The account you want to deposit to.'
       given :currency do
         optional :address_format, type: String, values: -> { %w[legacy cash] }, validate_currency_address_format: true, desc: 'Address format legacy/cash'
       end
@@ -53,7 +53,7 @@ module APIv2
          'The address may be blank because address generation process is still in progress. ' \
          'If this case you should try again later. '
     params do
-      requires :currency, type: String, values: -> { Currency.coins.enabled.codes }, desc: 'The account you want to deposit to.'
+      requires :currency, type: String, values: -> { Currency.coins.enabled.codes(bothcase: true) }, desc: 'The account you want to deposit to.'
     end
     post '/deposit_address' do
       current_user.ac(params[:currency]).payment_address!.yield_self do |pa|

@@ -27,7 +27,7 @@ module APIv2
         :type,
         documentation: {
           type: String,
-          values: %w[coin fiat],
+          values: -> { ::Currency.types },
           desc: 'Currency type',
           example: -> { ::Currency.enabled.first.type }
         }
