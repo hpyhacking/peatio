@@ -47,7 +47,7 @@ class Currency < ActiveRecord::Base
   scope :coins,   -> { where(type: :coin) }
   scope :fiats,   -> { where(type: :fiat) }
 
-  delegate :blockchain_api, to: :blockchain
+  delegate :explorer_transaction, :blockchain_api, :explorer_address, to: :blockchain
 
   class << self
     def codes(options = {})

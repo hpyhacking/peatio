@@ -24,6 +24,24 @@ module APIv2
       )
 
       expose(
+        :explorer_transaction,
+        documentation: {
+          desc: 'Currency transaction exprorer url template',
+          example: 'https://testnet.blockchain.info/tx/'
+        },
+        if: -> (currency){ currency.coin? }
+      )
+
+      expose(
+        :explorer_address,
+        documentation: {
+          desc: 'Currency address exprorer url template',
+          example: 'https://testnet.blockchain.info/address/'
+        },
+        if: -> (currency){ currency.coin? }
+      )
+
+      expose(
         :type,
         documentation: {
           type: String,
