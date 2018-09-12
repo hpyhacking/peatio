@@ -27,6 +27,8 @@ Installing [rbenv](https://github.com/sstephenson/rbenv) using a Installer
                          libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 \
                          libxml2-dev libxslt1-dev libcurl4-openssl-dev \
                          python-software-properties libffi-dev
+                         
+Ps. Use software-propertieis-common instead of python-software-properties for newer releases of ubuntu.                        
 
     cd
     git clone git://github.com/sstephenson/rbenv.git .rbenv
