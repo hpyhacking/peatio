@@ -39,6 +39,7 @@ module APIv2
 
     use APIv2::CORS::Middleware
 
+    mount APIv2::Accounts
     mount APIv2::Markets
     mount APIv2::Tickers
     mount APIv2::Members
@@ -70,7 +71,7 @@ module APIv2
                                 license_url:   'https://github.com/rubykube/peatio/blob/master/LICENSE.md'
                               },
                               models: [
-                                Entities::Currency,
+                                Entities::Currency, Entities::Account
                               ],
                               security_definitions: {
                                 Bearer: {

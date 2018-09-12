@@ -5,6 +5,13 @@ module APIv2
   module NamedParams
     extend ::Grape::API::Helpers
 
+    params :currency do
+      requires :currency,
+               type: String,
+               values: -> { Currency.enabled.pluck(:id) },
+               desc: 'The currency code.'
+    end
+
     params :market do
       requires :market,
                type: String,
