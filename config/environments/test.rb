@@ -44,4 +44,10 @@ Rails.application.configure do
 
   # Allows to set session in functional specs.
   config.middleware.use RackSessionAccess::Middleware
+  
+  # Bullet gem config.
+  config.after_initialize do
+    Bullet.enable = ENV['BULLET'].present?
+    Bullet.bullet_logger = true
+  end  
 end
