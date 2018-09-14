@@ -76,6 +76,12 @@ describe APIv2::Orders, type: :request do
       expect(response.code).to eq '401'
       expect(JSON.parse(response.body)['error']).to eq( {'code' => 2000, 'message' => 'Please, pass the corresponding verification steps to enable trading.'} )
     end
+
+    it 'allows removes whitespace from query params' do
+      api_get '/api/v2/orders', token: token, params: { market: ' btcusd ' }
+      expect(response).to have_http_status 200
+      expect(JSON.parse(response.body).length).to eq 2
+    end
   end
 
   describe 'GET /api/v2/order' do
@@ -257,6 +263,17 @@ describe APIv2::Orders, type: :request do
         result = JSON.parse(response.body)
         expect(result.size).to eq 1
         expect(result.first['id']).to eq member.orders.where(type: 'OrderAsk').first.id
+      end.not_to change(Order, :count)
+    end
+
+    it 'strips leading and trailing whitespace from params' do
+      member.orders.where(type: 'OrderAsk').each do |o|
+        AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: o.to_matching_attributes)
+      end
+
+      expect do
+        api_post '/api/v2/orders/clear', token: token, params: { side: 'sell ' }
+        expect(response).to be_success
       end.not_to change(Order, :count)
     end
   end
