@@ -50,12 +50,12 @@ class Deposit < ActiveRecord::Base
     member&.ac(currency)
   end
 
-  def sn
-    member&.sn
+  def uid
+    member&.uid
   end
 
-  def sn=(sn)
-    self.member = Member.find_by_sn(sn)
+  def uid=(uid)
+    self.member = Member.find_by_uid(uid)
   end
 
   def as_json_for_event_api

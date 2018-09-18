@@ -1,30 +1,9 @@
 <footer class="footer">
   <div class="container">
-    <div class="small text-center">
-      <p>
-        Maintained by the
-        <a href="https://github.com/orgs/helios-technologies/people" target="_blank">Helios team</a>
-        with the help of
-        <a href="https://github.com/rubykube/peatio/graphs/contributors" target="_blank">our contributors</a>.
-      </p>
-
-      <p>
-        Code licensed under
-        <a href="http://peatio.mit-license.org/" target="_blank">MIT</a>, documentation under
-        <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a>.
-      </p>
-
-      <p>
-        <ul class="list-inline">
-          <li><span>Currently v<%= Peatio::Application::VERSION %></span></li>
-          <li class="list-inline-item"><a href="https://github.com/rubykube/peatio" target="_blank">GitHub</a></li>
-          <li class="list-inline-item"><a href="https://github.com/rubykube/peatio/tree/master/docs" target="_blank">Documents</a></li>
-          <li class="list-inline-item"><a href="https://peatio.tech/" target="_blank">About</a></li>
-          <li class="list-inline-item"><a href="https://github.com/rubykube/peatio/issues?state=open" target="_blank">Issues</a></li>
-          <li class="list-inline-item"><a href="https://github.com/rubykube/peatio/releases" target="_blank">Releases</a></li>
-        </ul>
-      </p>
+    <div class="text-center">
+      <span>Version: v<%= Peatio::Application::VERSION %></span>
+      <span> | Build date: <%= Peatio::Application::BUILD_DATE %></span>
+      <span> | Commit: <%= Peatio::Application::GIT_SHA %></span>
     </div>
-    <div class="clear-fix"></div>
   </div>
 </footer>

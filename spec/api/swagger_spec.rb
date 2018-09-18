@@ -12,7 +12,7 @@ describe 'Swagger', type: :request do
 
   it "returns ManagementAPIv1 swagger docs" do
     expect do
-      get "/management_api/v1/swagger"
+      get "/api/v2/management/swagger"
       expect(response).to have_http_status 200
     end.not_to raise_error
   end

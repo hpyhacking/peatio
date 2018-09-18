@@ -2,20 +2,18 @@
 # frozen_string_literal: true
 
 describe Private::MarketsController, type: :controller do
-  let(:member) { create :member, :level_3 }
-  before { session[:member_id] = member.id }
+  let(:member) { create(:member, level: 3) }
+  let(:token) { jwt_for(member) }
 
   context 'logged in user' do
     describe 'GET /markets/btcusd' do
-      before { get :show, data }
+      before { auth_get :show, data, token }
 
       it { expect(response.status).to eq 200 }
     end
   end
 
   context 'non-login user' do
-    before { session[:member_id] = nil }
-
     describe 'GET /markets/btcusd' do
       before { get :show, data }
 
@@ -25,11 +23,10 @@ describe Private::MarketsController, type: :controller do
   end
 
   describe 'ability to disable markets UI' do
-
     context 'when market UI is enabled' do
       before { ENV['DISABLE_MARKETS_UI'] = nil }
       it 'should return HTTP 200' do
-        get :show, data
+        auth_get :show, data, token
         expect(response).to have_http_status(200)
       end
     end
@@ -38,7 +35,7 @@ describe Private::MarketsController, type: :controller do
       before { ENV['DISABLE_MARKETS_UI'] = 'true'}
       after  { ENV['DISABLE_MARKETS_UI'] = nil }
       it 'should return HTTP 204' do
-        get :show, data
+        auth_get :show, data, token
         expect(response).to have_http_status(204)
       end
     end
@@ -52,7 +49,7 @@ describe Private::MarketsController, type: :controller do
       id: 'btcusd',
       market: 'btcusd',
       ask: 'btc',
-      bid: 'usd'
+      bid: 'usd',
     }
   end
 end

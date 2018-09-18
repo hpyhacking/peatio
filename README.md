@@ -71,14 +71,19 @@ Otherwise we advice to use [workbench based environment](#local-development-envi
 * Ruby 2.5.1
 * Rails 4.2+
 
-#### Installation
+## Installation
 
-1. Copy initial configurations `./bin/init_config`
-2. Install yarn dependencies `bundle exec rake yarn:install`
-3. Start backend services (RabbitMQ, Redis, MySQL) `docker-compose -f config/backend.yml up -d`
-4. Setup database `bundle exec rake db:create db:migrate db:seed`
-5. Start peatio daemons `god -c lib/daemons/daemons.god`
-6. Start rails server `bundle exec rails server`
+### Local development without workbench
+
+1. Set up initial configuration `./bin/setup`
+2. Start peatio daemons `god -c lib/daemons/daemons.god`
+3. Add this to your `/etc/hosts`:
+```
+127.0.0.1 www.app.local
+127.0.0.1 peatio.app.local
+127.0.0.1 barong.app.local
+```
+4. Start rails server `JWT_PUBLIC_KEY=$(cat config/secrets/rsa-key.pub| base64 -w0) rails s -b0.0.0.0`
 
 ### Local development environment with workbench:
 

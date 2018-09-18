@@ -1,0 +1,8 @@
+---
+apiVersion: ambassador/v0
+kind: AuthService
+name: authentication
+auth_service: auth:8005
+path_prefix: /auth
+allowed_headers:
+  - "Authorization"

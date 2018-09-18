@@ -7,6 +7,7 @@ describe Private::OrderAsksController, type: :controller do
       m.get_account(:btc).update_attributes(balance: '20')
     end
   end
+  before(:each) { inject_authorization!(member) }
 
   let(:market) { Market.find(:btcusd) }
   let(:params) do

@@ -15,8 +15,5 @@ module Admin
 
     end
 
-    def toggle
-      @member.toggle!(params[:api] ? :api_disabled : :disabled)
-    end
   end
 end

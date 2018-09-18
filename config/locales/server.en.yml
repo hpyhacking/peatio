@@ -69,7 +69,7 @@ en:
         id: ID
         name: Real Name
         created_at: Register At
-        sn: SN
+        uid: UID
       withdraws/fiat:
         id: ID
         state_and_actions: State/Action
@@ -80,9 +80,9 @@ en:
       deposits/fiat:
         created_at: Created At
         holder: Holder
-        member_sn: Member SN
+        member_uid: Member UID
         amount: Amount
-        sn: SN
+        uid: UID
         state_and_action: State/Action
         label: Label
       deposits/coin:
@@ -149,7 +149,7 @@ en:
       submit: Search
     admin_deposits_grid:
       columns:
-        sn: SN
+        uid: UID
         created_at: At
         txid: TXID
         amount: Amount
@@ -157,14 +157,14 @@ en:
         aasm_state: State
     bank_deposits_grid:
       columns:
-        sn: SN
+        uid: UID
         created_at: At
         amount: Amount
         fee: Fee
         aasm_state: State
     coin_deposits_grid:
       columns:
-        sn: SN
+        uid: UID
         txid: Transaction ID
         created_at: At
         amount: Amount
@@ -180,7 +180,7 @@ en:
         state_text: State
     members_grid:
       columns:
-        sn: Serial number
+        uid: Serial number
         created_at: Created at
         actions: Actions
   deposits/fiat:
@@ -309,8 +309,8 @@ en:
         cancel: CANCEL
         cancel_confirm: Are your sure cancel order?
         confirm: CONFIRM
-        ask_order: 'ASK ##sn#'
-        bid_order: 'BID ##sn#'
+        ask_order: 'ASK ##uid#'
+        bid_order: 'BID ##uid#'
         my_active_order: Active
         my_done_order: Done
         trades: Trading
@@ -361,7 +361,7 @@ en:
       deposit:
         bank:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
-          sn: "<span class='text-danger'>Please copy the SN in your bank transfer's
+          uid: "<span class='text-danger'>Please copy the UID in your bank transfer's
             message, otherwise we can not process your order quickly.</span>"
       withdraw:
         fiat:
@@ -491,7 +491,7 @@ en:
       confirmations: Confirmations
       state_and_actions: State/Actions
     fiat:
-      sn: SN
+      uid: SN
       amount: Amount
       created_at: At
       memo: Memo
@@ -535,7 +535,7 @@ en:
   'false': false
   view_on_github: View on Github
   slogan:
-    heading: Peatio Open-Source Exchange
+    heading: RubyKube Open-Source Exchange
     subheading: Cloud deployment made simple and secure
     text1: Peatio - Cryptocurrency exchange for managing digital currency.
     text2: We provide Peatio installation and configuration services.
@@ -578,7 +578,6 @@ en:
     order_history: Order History
     trade_history: Trade History
     account_history: Account History
-    my_profile: My Profile
     back: Back
     total: Total
     deposit: Deposit

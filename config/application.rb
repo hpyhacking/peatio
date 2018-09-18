@@ -17,11 +17,15 @@ require_relative 'plugins'
 module Peatio
   class Application < Rails::Application
 
+    # Eager loading app dir
+    config.eager_load_paths += Dir[Rails.root.join('app')]
+
     # Configure Sentry as early as possible.
     if ENV['SENTRY_DSN_BACKEND'].present?
       require 'sentry-raven'
       Raven.configure { |config| config.dsn = ENV['SENTRY_DSN_BACKEND'] }
     end
+
 
     # Require Scout.
     require 'scout_apm' if Rails.env.in?(ENV['SCOUT_ENV'].to_s.split(',').map(&:squish))
@@ -44,6 +48,10 @@ module Peatio
 
     # Don't suppress exceptions in before_commit & after_commit callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # Configure relative url root by setting URL_ROOT_PATH environment variable.
+    # Used by workbench with API Gateway.
+    config.relative_url_root = ENV.fetch('URL_ROOT_PATH', '/')
 
     config.assets.initialize_on_precompile = true
 

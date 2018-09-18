@@ -1,0 +1,25 @@
+<div class="container mt-15">
+  <div class="d-flex justify-content-center">
+    <div class="welcome-logo">
+      <a href="https://rubykube.io" target="blank">
+        <img src="<%= ENV['LOGO_URL'] || image_path('logo.svg') %>">
+      </a>
+    </div>
+  </div>
+
+  <section class="text-center" style="line-height: 1">
+    <h2><%= t('slogan.heading') %></h2>
+    <% if flash[:notice] || flash[:info] || flash[:alert] %>
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <%= render 'shared/flash' %>
+        </div>
+      </div>
+    <% else %>
+      <h3><%= t('slogan.subheading') %></h3>
+      <p><%= t('slogan.text1') %></p>
+      <p><%= t('slogan.text2') %></p>
+    <% end %>
+  </section>
+  </div>
+</div>

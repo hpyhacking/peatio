@@ -7,6 +7,7 @@ describe Private::OrderBidsController, type: :controller do
       m.get_account(:usd).update_attributes(balance: '30000')
     end
   end
+  before(:each) { inject_authorization!(member) }
 
   let(:market) { Market.find(:btcusd) }
   let(:params) do

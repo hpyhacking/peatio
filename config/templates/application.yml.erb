@@ -6,54 +6,14 @@ defaults: &defaults
   # (password, port and database are optional).
   REDIS_URL:      redis://localhost:6379
 
-  # Comma-separated list of administrators.
-  ADMIN: 'admin@peatio.tech'
-
   # Application URL configuration variables.
   URL_HOST:                peatio.tech
+  URL_ROOT_PATH:           '/'
   URL_SCHEME:              http
   FORCE_SECURE_CONNECTION: 'false' # Set to "true" to disable access via unsecured HTTP, send HSTS headers and use secure cookies.
 
-  # Session lifetime in seconds.
-  SESSION_LIFETIME: '3600'
-
   # Configuration variables for logger.
   LOG_LEVEL: ~ # Default level for production is warn, otherwise – debug.
-
-  # Enabled OAuth2 provider.
-  # Don't forget to check out configuration at config/initializers/omniauth.rb.
-  OAUTH2_SIGN_IN_PROVIDER: ~
-
-  # Configuration variables for sign in with Google.
-  # See https://github.com/zquestz/omniauth-google-oauth2
-  GOOGLE_CLIENT_ID:
-  GOOGLE_CLIENT_SECRET:
-  GOOGLE_OAUTH2_REDIRECT_URL: ~ # Specify URL address to which user will be redirected after successful sign in.
-
-  # Configuration variables for sign in with Auth0.
-  # See https://github.com/auth0/omniauth-auth0
-  AUTH0_OAUTH2_DOMAIN:
-  AUTH0_OAUTH2_CLIENT_ID:
-  AUTH0_OAUTH2_CLIENT_SECRET:
-  AUTH0_OAUTH2_REDIRECT_URL:  ~ # Specify URL address to which user will be redirected after successful sign in.
-
-  # Configuration variables for sign in with Barong OAuth2 server.
-  # See https://github.com/rubykube/omniauth-barong
-  #
-  # Barong uses Doorkeeper under the hood so you can refer to it's docs any time.
-  # See more information at https://github.com/doorkeeper-gem/doorkeeper/wiki/Testing-your-provider-with-OAuth2-gem
-  BARONG_CLIENT_ID:           ~
-  BARONG_CLIENT_SECRET:       ~
-  BARONG_DOMAIN:              ~
-  BARONG_OAUTH2_REDIRECT_URL: ~ # Specify URL address to which user will be redirected after successful sign in.
-
-  # Configuration variables for API CORS.
-  #
-  # Set list of allowed origins using the variable below.
-  # By default it allows access to API from all origins.
-  # See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
-  API_CORS_ORIGINS:           '*'
-  API_CORS_ALLOW_CREDENTIALS: ~
 
   # Configuration variables for Sentry.
   SENTRY_DSN_BACKEND:  ~          # Specify Sentry DSN used for Rails application.
@@ -123,12 +83,6 @@ defaults: &defaults
   JWT_EXPIRATION_LEEWAY: ~      # Seconds (optional).
   JWT_NOT_BEFORE_LEEWAY: ~      # Seconds (optional).
 
-  # Capybara configuration variables.
-  TEST_SERVER_HOST: 127.0.0.1
-  TEST_SERVER_PORT: '3000'
-  TEST_APP_HOST:    peatio.tech
-  TEST_APP_PORT:    '80'
-
   # Scout APM configuration variables.
   SCOUT_KEY:       ~          # Your organization key for Scout APM. Found on the settings screen.
   SCOUT_APP_NAME:  ~          # Application name in APM Web UI.
@@ -170,18 +124,6 @@ defaults: &defaults
 
 development:
   <<: *defaults
-
-  # Development OAuth2 provider.
-  OAUTH2_SIGN_IN_PROVIDER:    google
-
-  # Development configuration variables for sign in with Google.
-  GOOGLE_CLIENT_ID:           1044454023387-emhp5vmfnp5cf1n9juk09g8gcckrova7.apps.googleusercontent.com
-  GOOGLE_CLIENT_SECRET:       tAFZvO200-0z3MpCyOpkPH0G
-
-  # Development configuration variables for sign in with Auth0.
-  AUTH0_OAUTH2_DOMAIN:        peatio-playground.auth0.com
-  AUTH0_OAUTH2_CLIENT_ID:     lGKS9ADpknQr415RNZrrQTf3Jh8k2Fvc
-  AUTH0_OAUTH2_CLIENT_SECRET: LxUPnrrrpRHSB-vVgWU3TwmakQ8acY5mYVTaVgkREQL3i9avjpOnWTXSSEsrbLzK
 
   # Development configuration variables for Event API JWT.
   EVENT_API_JWT_PRIVATE_KEY:  LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBb3VLVHh2SFVJVDJENmdXaWJRcS9kbW9BUUwyeWJ6SGFiUXRlc1AyL2o1VjkvUExaCmhHNWtLVkpPWjcxVVdMQ3BjZTQxeHZzQ0lKd0Q5MnVDNW5Lak5wblRDTWpwTUJNMGg0aFF4a2VOeHdNeU41N1gKM1QzbWFCVmZzUTNCblErSm84L0tzdUxhODlvY0dDeDgvYlUyOGNld2FxRk8ydUVMWWJiaUZadGFCenFJd0ZCdQpTM3hGQmt6NE16MGgvWEIxTjl5ZDg5d25OMm1oWVBsU0xrTGVUdFoyeWswK2krZHhZd2V4MEozOXJDS0hnRWRKCko1NTZHNmdtZWpJZ3dtcHNVeHJpdkVJRU5jR09POHdmQVBUVy92SFZmc2ROTExHejRtZE9CWmxsa2orcFFQODYKTnFSUjRKSnFDdEg3dHYyaXVBSGI4NnB5anVlZkVGU3ljMmxZRXdJREFRQUJBb0lCQUJrUlViamVZczB5MEdobApzWmVpZmREVmczQnpRVkRIbFZ3TzBlWGZSMm5ya2RZcDhidmwyVmhhcUdKaXl1WlRXZUNFenBYdTcyYmhXK0xxCkV0MHdhMW50MW9LVm1QMmpGd1I4d0NHanhYZ0pUK01yZVFFOWs0WVZOQUxsb1JSdzNiZnVOTDNQRis5TGMrTnMKaFZmdVdhUmdIUkJyL3R6RW9hSEtLWVUxd1djM0poSitNRklNVkZBT0RvaGp6bXNlV2lzTDNnbzVrUC9KYUpVZwprNm13Wnd0QzRvQ3pPQ3FoRGF0WVI3cktJbXMyS1lCNVBwaTRDTThkRzJGTzBwWGxXUU9XT0t2N01TUjlVeEtzCmd4YWFRRlhjajBQM2lSRFVQMDRkSWtqblNtemZmR0F2L3lBTHovZjk0V1lIK3gvd01DWms4ejJ4bnRJclllM3UKN0NOd045RUNnWUVBMEplcThCaXlKczF6YlBpcTlWWnR5L3R0M1dhaXJDbUl4cXRwU2syVU9UNmh2TldiMTUxVwpBMGRWYWEvSVBhdDV4ZkNWdGhkNlB3UGpJbWVPVXQ4Mlhib2JYeE8zREJUcmVzTlRNWUhiMGVUK09sSG04SU5uCnVwOGFxZWpWejc1ME5VYUxGWWpxWk1wVVR1Z2FVREIzNWZ1bXg0SXliNm5LRGMvSStrN25qUlVDZ1lFQXgrZVAKcE4vR1dqYjJUOU1CUm1xdkVtSGxKOXBZSEZpWGZlWnJHdzg3Q2E5WjVDYVp1VzBrSVAwSlhWSDZOOThqL2RvbApDTHZPdE5oZVFoaGUrTU91VXJMT0ttaytpckM5SEk2cW9aT3Nkc0lCc0pXSHdPanB1UW00OWNvdXc0K2ZKOWRxCjN2cTE2bG5EQlNoRU5HTEFhdVBzWDhLRUlYVzhRRnBDM3ppbXFvY0NnWUI2bTh2VVdRL09reEQzeXFyaWpxejMKSzVFR2hKKzF4cXdvNnZSMndtY1B4dXJXemxCT1NxTVdSa1hFVzVpOTl4OGE1REY3MlF6NElWYlBFRU91SHBvYwpPWnFCSmx0LzlJUDlvdll4c1h6K1FUWFdIZkk3Q1dKZFpjd01kMW5HUk5LVnhpTld3eVhUbk1JMXAyUmdJajAzCnA5WCtpMThPRjZVMnZSNExVM256aVFLQmdBVVZzOGFxMW4zRzloN3pyQTJoZXhDSm91MlBsVHdyV0xjZ0hFdFUKNk5pSE9FOGdXRHFxTndnTHg2Z3pCSjFWTkxJcFVWWFdpUng2Z0hOSDhXcDhkN3VzeHFlM2c1cTlnaUh1MHhKSApFbFQyL0ZvRWc2NTVmakJ4dWQydXBkL2RrRnZRRSt6V0RiaUhUZm1jbTVlRmg0VndoTHV1MC9PUjdoYm85TmgrCnRXYVRBb0dCQUwxVjFUTWZZRFhwYjFwaFBaV2pQL29iV1NqK2VyUXlYdit3TTIxVzRYWFI4YTBkV2hOVXdVeDAKdU9WZ2s1ZlN1OExtNG0zWGNYZ09wV0VJVkZJTzFodDFNN0xxZ0VGNGhFOHl6Y0Vldy9HWXR4VkpCTWEyODVpVQpaVUtkeCt6QWd5VFlnYk50VkVseTVobGRuT2orVmNzanVEL3krWEhXWVl5OVpLa2pNdDhECi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==

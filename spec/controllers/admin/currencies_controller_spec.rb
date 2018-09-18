@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 describe Admin::CurrenciesController, type: :controller do
+  before(:each) { inject_authorization!(member) }
   let(:member) { create(:admin_member) }
   let :attributes do
     { code:                             'nbn',

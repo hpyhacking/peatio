@@ -12,7 +12,7 @@ services:
       - "3306:3306"
 
   redis:
-    image: redis:4.0.10
+    image: redis:4.0
     volumes:
       - redis_data:/data
     ports:
@@ -24,6 +24,38 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
     ports:
       - "5672:5672"
+
+  auth:
+    image: quay.io/openware/authz-dummy:0.1.1
+    ports:
+      - "8005:8005"
+    environment:
+      DUMMY_USER_EMAIL: "admin@barong.io"
+      DUMMY_USER_UID: "U123456789"
+      DUMMY_USER_ROLE: "admin"
+      DUMMY_USER_LEVEL: 3
+      DUMMY_USER_STATE: "active"
+      DUMMY_JWT_PRIVKEY_FILE: "/secrets/rsa-key"
+    volumes:
+      - ./secrets:/secrets:ro
+
+  gateway:
+    image: quay.io/datawire/ambassador:0.40.0
+    ports:
+      - "8080:80"
+    depends_on:
+      - auth
+    volumes:
+      - ./gateway:/ambassador/ambassador-config/:ro
+    entrypoint:
+      - sh
+      - -exc
+      - |
+        # Allow accessing host's 0.0.0.0 so we can connect to a local peatio
+        # from the gateway container
+        ip -4 route list match 0/0 | awk '{print $$3" peatio.local"}' >> /etc/hosts
+        # Continue with the default entrypoint
+        ./entrypoint.sh
 
 volumes:
   db_data:

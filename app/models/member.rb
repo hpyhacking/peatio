@@ -9,82 +9,25 @@ class Member < ActiveRecord::Base
   has_many :payment_addresses, through: :accounts
   has_many :withdraws, -> { order(id: :desc) }
   has_many :deposits, -> { order(id: :desc) }
-  has_many :authentications, dependent: :delete_all
 
-  scope :enabled, -> { where(disabled: false) }
+  scope :enabled, -> { where(state: 'active') }
 
-  before_validation :downcase_email, :assign_sn
+  before_validation :downcase_email
 
-  validates :sn,    presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true, email: true
   validates :level, numericality: { greater_than_or_equal_to: 0 }
+  validates :role, inclusion: { in: %w[member admin] }
 
   after_create :touch_accounts
 
   attr_readonly :email
-
-  class << self
-    def from_auth(auth_hash)
-      member = locate_auth(auth_hash) || locate_email(auth_hash) || Member.new
-      member.tap do |member|
-        member.transaction do
-          info_hash       = auth_hash.fetch('info')
-          member.email    = info_hash.fetch('email')
-          member.level    = info_hash['level'] if info_hash.key?('level')
-          member.disabled = info_hash.key?('state') && info_hash['state'] != 'active'
-          member.save!
-          auth = Authentication.locate(auth_hash) || member.authentications.from_omniauth_data(auth_hash)
-          auth.token = auth_hash.dig('credentials', 'token')
-          auth.save!
-        end
-      end
-    rescue => e
-      report_exception(e)
-      Rails.logger.debug { "OmniAuth data: #{auth_hash.to_json}." }
-      Rails.logger.debug { "Member: #{member.to_json}." } if member
-      raise e
-    end
-
-    def current
-      Thread.current[:user]
-    end
-
-    def current=(user)
-      Thread.current[:user] = user
-    end
-
-    def admins
-      Figaro.env.admin.split(',').map(&:squish)
-    end
-
-    def search(field: nil, term: nil)
-      case field
-        when 'email', 'sn'
-          where("members.#{field} LIKE ?", "%#{term}%")
-        when 'wallet_address'
-          joins(:payment_addresses).where('payment_addresses.address LIKE ?', "%#{term}%")
-        else
-          all
-      end.order(:id).reverse_order
-    end
-
-    private
-
-    def locate_auth(auth_hash)
-      Authentication.locate(auth_hash).try(:member)
-    end
-
-    def locate_email(auth_hash)
-      find_by_email(auth_hash.dig('info', 'email'))
-    end
-  end
 
   def trades
     Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
   end
 
   def admin?
-    @is_admin ||= self.class.admins.include?(self.email)
+    role == "admin"
   end
 
   def get_account(model_or_id_or_code)
@@ -100,22 +43,6 @@ class Member < ActiveRecord::Base
       next if accounts.where(currency: currency).exists?
       accounts.create!(currency: currency)
     end
-  end
-
-  def auth(name)
-    authentications.where(provider: name).first
-  end
-
-  def auth_with?(name)
-    auth(name).present?
-  end
-
-  def remove_auth(name)
-    auth(name).destroy
-  end
-
-  def uid
-    self.class.uid(self)
   end
 
   def trigger_pusher_event(event, data)
@@ -148,26 +75,72 @@ private
     self.email = email.try(:downcase)
   end
 
-  def assign_sn
-    return unless sn.blank?
-    begin
-      self.sn = random_sn
-    end while Member.where(sn: self.sn).any?
-  end
-
-  def random_sn
-    "SN#{SecureRandom.hex(5).upcase}"
-  end
-
   class << self
-    def uid(member_or_id)
-      id  = self === member_or_id ? member_or_id.id : member_or_id
-      uid = Authentication.barong.where(member_id: id).limit(1).pluck(:uid).first
-      if uid.blank?
-        self === member_or_id ? member_or_id.email : Member.where(id: id).limit(1).pluck(:email).first
-      else
-        uid
+    def uid(member_id)
+      Member.find_by(id: member_id).uid
+    end
+
+    # Create Member object from payload
+    # == Example payload
+    # {
+    #   :iss=>"barong",
+    #   :sub=>"session",
+    #   :aud=>["peatio"],
+    #   :email=>"admin@barong.io",
+    #   :uid=>"U123456789",
+    #   :role=>"admin",
+    #   :state=>"active",
+    #   :level=>"3",
+    #   :iat=>1540824073,
+    #   :exp=>1540824078,
+    #   :jti=>"4f3226e554fa513a"
+    # }
+
+    def from_payload(p)
+      params = filter_payload(p)
+      validate_payload(params)
+      member = Member.find_or_create_by(uid: p[:uid], email: p[:email]) do |m|
+        m.role = params[:role]
+        m.state = params[:state]
+        m.level = params[:level]
       end
+      member.assign_attributes(params)
+      member.save if member.changed?
+      member
+    end
+
+    # Filter and validate payload params
+    def filter_payload(payload)
+      payload.slice(:email, :uid, :role, :state, :level)
+    end
+
+    def validate_payload(p)
+      fetch_email(p)
+      p.fetch(:uid).tap { |uid| raise(Peatio::Auth::Error, 'UID is blank.') if uid.blank? }
+      p.fetch(:role).tap { |role| raise(Peatio::Auth::Error, 'Role is blank.') if role.blank? }
+      p.fetch(:level).tap { |level| raise(Peatio::Auth::Error, 'Level is blank.') if level.blank? }
+      p.fetch(:state).tap do |state|
+        raise(Peatio::Auth::Error, 'State is blank.') if state.blank?
+        raise(Peatio::Auth::Error, 'State is not active.') unless state == 'active'
+      end
+    end
+
+    def fetch_email(payload)
+      payload[:email].to_s.tap do |email|
+        raise(Peatio::Auth::Error, 'E-Mail is blank.') if email.blank?
+        raise(Peatio::Auth::Error, 'E-Mail is invalid.') unless EmailValidator.valid?(email)
+      end
+    end
+
+    def search(field: nil, term: nil)
+      case field
+      when 'email', 'uid'
+        where("members.#{field} LIKE ?", "%#{term}%")
+      when 'wallet_address'
+        joins(:payment_addresses).where('payment_addresses.address LIKE ?', "%#{term}%")
+      else
+        all
+      end.order(:id).reverse_order
     end
 
     def trigger_pusher_event(member_or_id, event, data)
@@ -180,22 +153,20 @@ private
 end
 
 # == Schema Information
-# Schema version: 20180530122201
+# Schema version: 20181027192001
 #
 # Table name: members
 #
-#  id           :integer          not null, primary key
-#  level        :integer          default(0), not null
-#  sn           :string(12)       not null
-#  email        :string(255)      not null
-#  disabled     :boolean          default(FALSE), not null
-#  api_disabled :boolean          default(FALSE), not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id         :integer          not null, primary key
+#  uid        :string(12)       not null
+#  email      :string(255)      not null
+#  level      :integer          not null
+#  role       :string(16)       not null
+#  state      :string(16)       not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 # Indexes
 #
-#  index_members_on_disabled  (disabled)
-#  index_members_on_email     (email) UNIQUE
-#  index_members_on_sn        (sn) UNIQUE
+#  index_members_on_email  (email) UNIQUE
 #

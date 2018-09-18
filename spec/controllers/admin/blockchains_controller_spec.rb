@@ -2,7 +2,9 @@
 # frozen_string_literal: true
 
 describe Admin::BlockchainsController, type: :controller do
-  let(:member) { create(:admin_member) }
+  let(:member) { create :admin_member }
+  before(:each) { inject_authorization!(member) }
+
   let :attributes do
     { key:                              'eth-rinkeby-new',
       name:                             'Ethereum Rinkeby',
@@ -17,8 +19,6 @@ describe Admin::BlockchainsController, type: :controller do
   end
 
   let(:existing_blockchain) { Blockchain.first }
-
-  before { session[:member_id] = member.id }
 
   describe '#create' do
     it 'creates blockchain with valid attributes' do
@@ -61,5 +61,4 @@ describe Admin::BlockchainsController, type: :controller do
       expect { delete :destroy, id: existing_blockchain.id }.to raise_error(ActionController::UrlGenerationError)
     end
   end
-
 end

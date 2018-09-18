@@ -39,20 +39,6 @@ ActiveRecord::Schema.define(version: 20181126101312) do
   add_index "assets", ["currency_id"], name: "index_assets_on_currency_id", using: :btree
   add_index "assets", ["reference_type", "reference_id"], name: "index_assets_on_reference_type_and_reference_id", using: :btree
 
-  create_table "authentications", force: :cascade do |t|
-    t.string   "provider",   limit: 30,   null: false
-    t.string   "uid",        limit: 255,  null: false
-    t.string   "token",      limit: 1024
-    t.integer  "member_id",  limit: 4,    null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  add_index "authentications", ["member_id"], name: "index_authentications_on_member_id", using: :btree
-  add_index "authentications", ["provider", "member_id", "uid"], name: "index_authentications_on_provider_and_member_id_and_uid", unique: true, using: :btree
-  add_index "authentications", ["provider", "member_id"], name: "index_authentications_on_provider_and_member_id", unique: true, using: :btree
-  add_index "authentications", ["provider", "uid"], name: "index_authentications_on_provider_and_uid", unique: true, using: :btree
-
   create_table "blockchains", force: :cascade do |t|
     t.string   "key",                  limit: 255,             null: false
     t.string   "name",                 limit: 255
@@ -167,18 +153,16 @@ ActiveRecord::Schema.define(version: 20181126101312) do
   add_index "markets", ["position"], name: "index_markets_on_position", using: :btree
 
   create_table "members", force: :cascade do |t|
-    t.integer  "level",        limit: 1,   default: 0,     null: false
-    t.string   "sn",           limit: 12,                  null: false
-    t.string   "email",        limit: 255,                 null: false
-    t.boolean  "disabled",                 default: false, null: false
-    t.boolean  "api_disabled",             default: false, null: false
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.string   "uid",        limit: 12,  null: false
+    t.string   "email",      limit: 255, null: false
+    t.integer  "level",      limit: 4,   null: false
+    t.string   "role",       limit: 16,  null: false
+    t.string   "state",      limit: 16,  null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "members", ["disabled"], name: "index_members_on_disabled", using: :btree
   add_index "members", ["email"], name: "index_members_on_email", unique: true, using: :btree
-  add_index "members", ["sn"], name: "index_members_on_sn", unique: true, using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.string   "bid",            limit: 10,                                         null: false

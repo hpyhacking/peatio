@@ -44,7 +44,9 @@
   </div>
 
   <footer class="dashboard-footer section-white border-top p-4">
-    © <%= Time.now.year %> Peatio.tech
+    <span>Version: v<%= Peatio::Application::VERSION %></span>
+    <span> | Build date: <%= Peatio::Application::BUILD_DATE %></span>
+    <span> | Commit: <%= Peatio::Application::GIT_SHA %></span>
   </footer>
 
 

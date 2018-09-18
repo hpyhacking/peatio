@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 
+
 class Currency < ActiveRecord::Base
   serialize :options, JSON
 

@@ -39,7 +39,8 @@ module APITestHelpers
   # Generates valid JWT for member, allows to pass additional payload.
   #
   def jwt_for(member, payload = { x: 'x', y: 'y', z: 'z' })
-    jwt_build(payload.merge(email: member.email))
+    jwt_build(payload.merge(email: member.email, uid: member.uid, \
+              role: member.role, state: member.state, level: member.level))
   end
 
   #

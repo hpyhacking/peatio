@@ -6,7 +6,7 @@
       </div>
       <div class="card-body">
         <%= description_for :member do %>
-          <dt>ID</dt> <dd><%= @deposit.sn %></dd>
+          <dt>ID</dt> <dd><%= @deposit.uid %></dd>
           <dt>Member</dt> <dd><%= @deposit.member.email %></dd>
           <dt>Amount</dt> <dd><%= number_with_precision(@deposit.amount, precision: 2) %></dd>
           <dt>Created at</dt> <dd><%= t(@deposit.created_at, format: :long) %></dd>

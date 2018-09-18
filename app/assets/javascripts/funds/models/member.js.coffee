@@ -1,5 +1,5 @@
 class Member extends PeatioModel.Model
-  @configure 'Member', 'sn', 'created_at', 'updated_at'
+  @configure 'Member', 'uid', 'created_at', 'updated_at'
 
   @initData: (records) ->
     PeatioModel.Ajax.disable ->

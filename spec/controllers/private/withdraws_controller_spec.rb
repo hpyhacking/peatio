@@ -9,6 +9,7 @@ describe Private::WithdrawsController, type: :controller do
     let :member do
       create(:member, :level_3).tap { |m| m.get_account(:btc).plus_funds(100) }
     end
+    before(:each) { inject_authorization!(member) }
 
     it 'creates withdraw' do
       request

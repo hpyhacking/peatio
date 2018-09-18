@@ -5,7 +5,7 @@
         <%= select_tag :search_field, options_for_select([ \
           ['E-Mail', 'email'],                             \
           ['Wallet address', 'wallet_address'],            \
-          ['SN', 'sn']
+          ['UID', 'uid']
         ], @search_field), class: "form-control" %>
 
         <%= text_field_tag :search_term, @search_term, class: "form-control" %>
@@ -23,17 +23,10 @@
         <%= x.email %>
       </code>
     <% end %>
-    <% t.column 'SN' do |x| %>
-        <%= x.sn %>
+    <% t.column 'UID' do |x| %>
+        <%= x.uid %>
     <% end %>
     <% t.column :created_at, 'Created At' %>
-    <% t.column 'Disabled? (Web/API)' do |x| %>
-      <% text = x.disabled? ? 'Yes' : 'No' %>
-      <%= link_to text, toggle_admin_member_path(x), remote: true, method: :post, class: 'toggle-web' %>
-      &nbsp;/&nbsp;
-      <% text = x.api_disabled? ? 'Yes' : 'No' %>
-      <%= link_to text, toggle_admin_member_path(x, api: true), remote: true, method: :post, class: 'toggle-api' %>
-    <% end %>
     <% t.column :actions, 'Actions' do |x| %>
       <%= link_to t('actions.view'), url_for([:admin, x]) %>
     <% end %>

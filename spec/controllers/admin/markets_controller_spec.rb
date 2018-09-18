@@ -3,6 +3,7 @@
 
 describe Admin::MarketsController, type: :controller do
   let(:member) { create(:admin_member) }
+  before(:each) { inject_authorization!(member) }
   let :attributes do
     { bid_unit:      'usd',
       bid_fee:       '0.003'.to_d,

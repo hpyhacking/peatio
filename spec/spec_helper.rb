@@ -6,7 +6,6 @@ require 'openssl'
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
-ENV['ADMIN'] ||= 'admin@peatio.tech'
 ENV['EVENT_API_JWT_PRIVATE_KEY'] ||= Base64.urlsafe_encode64(OpenSSL::PKey::RSA.generate(2048).to_pem)
 
 # We remove lib/peatio.rb from LOAD_PATH because of conflict with peatio gem.
@@ -28,17 +27,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
-
-%i[ google_oauth2 auth0 barong ].each do |provider|
-  { provider:     provider.to_s,
-    uid:          '1234567890',
-    info:         { email: "johnsmith@#{provider.to_s.gsub(/_/, '-')}-provider.com" },
-    credentials:  {}
-  }.tap do |hash|
-    hash.merge!(level: rand(1..3), state: %w[ pending active ].sample) if provider == :barong
-    OmniAuth.config.add_mock(provider, hash)
-  end
-end
 
 RSpec.configure do |config|
   # ## Mock Framework

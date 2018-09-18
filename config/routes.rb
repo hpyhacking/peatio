@@ -1,14 +1,6 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-# Explicitly require "lib/peatio.rb".
-# You may be surprised why this line also sits in config/application.rb.
-# The same line sits in config/application.rb to allows early access to lib/peatio.rb.
-# We duplicate line in config/routes.rb since routes.rb is reloaded when code is changed.
-# The implementation of ActiveSupport's require_dependency makes sense to use it only in reloadable files.
-# That's why it is here.
-require_dependency 'peatio'
-
 Dir['app/models/deposits/**/*.rb'].each { |x| require_dependency x.split('/')[2..-1].join('/') }
 Dir['app/models/withdraws/**/*.rb'].each { |x| require_dependency x.split('/')[2..-1].join('/') }
 
@@ -19,16 +11,13 @@ class ActionDispatch::Routing::Mapper
 end
 
 Peatio::Application.routes.draw do
-
-  root 'welcome#index'
+  root 'main#index'
 
   get '/signout' => 'sessions#destroy', :as => :signout
   get '/auth/failure' => 'sessions#failure', :as => :failure
   match '/auth/:provider/callback' => 'sessions#create', via: %i[get post]
 
   scope module: :private do
-    resources :settings, only: [:index]
-
     resources :withdraw_destinations, only: %i[ create update ]
 
     resources :funds, only: [:index] do
@@ -75,6 +64,7 @@ Peatio::Application.routes.draw do
 
   get '/swagger', to: 'swagger#index'
 
-  mount APIv2::Mount => APIv2::Mount::PREFIX
-  mount ManagementAPIv1::Mount => ManagementAPIv1::Mount::PREFIX
+  mount API::Mount => '/api'
+  #mount APIv2::Mount => APIv2::Mount::PREFIX
+  #mount ManagementAPIv1::Mount => ManagementAPIv1::Mount::PREFIX
 end

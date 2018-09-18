@@ -1,17 +1,18 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+require_dependency 'authorization/bearer'
+
 class ApplicationController < ActionController::Base
-  include SessionUtils
+  include Authorization::Bearer
   extend Memoist
 
   protect_from_forgery with: :exception
 
   helper_method :current_user, :is_admin?, :current_market, :gon
   before_action :set_language, :set_gon
-  around_action :share_user
 
-private
+  private
 
   def current_market
     unless params[:market].blank?
@@ -21,10 +22,14 @@ private
   memoize :current_market
 
   def current_user
-    return if session[:member_id].blank?
-    Member.enabled.find_by_id(session[:member_id])
+    if request.headers['Authorization']
+      token = request.headers['Authorization']
+      payload = authenticate!(token)
+      Member.from_payload(payload)
+    else
+      nil
+    end
   end
-  memoize :current_user
 
   def auth_member!
     unless current_user
@@ -127,7 +132,7 @@ private
 
     if current_user
       gon.user = {
-        sn: current_user.sn
+        sn: current_user&.uid
       }
       gon.accounts = current_user.accounts.enabled.includes(:currency).inject({}) do |memo, account|
         memo[account.currency.code] = {
@@ -141,8 +146,6 @@ private
 
     gon.bank_details_html = ENV['BANK_DETAILS_HTML']
 
-    gon.barong_domain = ENV["BARONG_DOMAIN"]
-
     gon.ranger_host = ENV["RANGER_HOST"] || '0.0.0.0'
     gon.ranger_port = ENV["RANGER_PORT"] || '8081'
     gon.ranger_connect_secure = ENV["RANGER_CONNECT_SECURE"] || false
@@ -153,14 +156,5 @@ private
     cookies[:lang].tap do |locale|
       I18n.locale = locale if locale.present? && I18n.available_locales.include?(locale.to_sym)
     end
-  end
-
-  def share_user
-    Member.current = current_user
-    yield
-  ensure
-    # http://stackoverflow.com/questions/2513383/access-current-user-in-model
-    # To address the thread variable leak issues in Puma/Thin webserver
-    Member.current = nil
   end
 end

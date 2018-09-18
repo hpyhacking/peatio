@@ -3,6 +3,7 @@
 
 describe Admin::WalletsController, type: :controller do
   let(:member) { create(:admin_member) }
+  before(:each) { inject_authorization!(member) }
   let(:existing_currency) { Currency.find('eth') }
   let :attributes do
     { currency_id:        existing_currency.id,
