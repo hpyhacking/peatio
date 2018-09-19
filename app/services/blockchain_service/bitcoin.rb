@@ -10,6 +10,7 @@ module BlockchainService
       # Don't start process if we didn't receive new blocks.
       if blockchain.height + blockchain.min_confirmations >= latest_block && !force
         Rails.logger.info { "Skip synchronization. No new blocks detected height: #{blockchain.height}, latest_block: #{latest_block}" }
+        fetch_unconfirmed_deposits
         return
       end
 
@@ -83,6 +84,22 @@ module BlockchainService
           end
         end
       end
+    end
+
+    def fetch_unconfirmed_deposits(block_json = {})
+      Rails.logger.info { "Processing unconfirmed deposits." }
+      txns = client.get_unconfirmed_txns
+
+      # Read processed mempool tx ids because we can skip them.
+      processed = Rails.cache.read("processed_#{self.class.name.underscore}_mempool_txids") || []
+
+      # Skip processed txs.
+      block_json.merge!('tx' => txns - processed)
+      deposits = build_deposits(block_json, nil)
+      update_or_create_deposits!(deposits)
+
+      # Store processed tx ids from mempool.
+      Rails.cache.write("processed_#{self.class.name.underscore}_mempool_txids", txns)
     end
   end
 end

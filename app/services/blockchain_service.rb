@@ -54,6 +54,8 @@ module BlockchainService
                     .find_or_create_by!(deposit_hash.slice(:txid)) do |deposit|
                       deposit.assign_attributes(deposit_hash)
                     end
+
+        deposit.update_column(:block_number, deposit_hash.fetch(:block_number))
         deposit.accept! if deposit.confirmations >= blockchain.min_confirmations
       end
     end
@@ -74,7 +76,7 @@ module BlockchainService
           next
         end
 
-        withdrawal.update(block_number: withdrawal_hash.fetch(:block_number)) if withdrawal.block_number.blank?
+        withdrawal.update_column(:block_number, withdrawal_hash.fetch(:block_number))
         withdrawal.success! if withdrawal.confirmations >= blockchain.min_confirmations
       end
     end
