@@ -36,8 +36,8 @@ Kite uses terraform modules for initial configuration of the cloud account. We r
 
 BOSH is a project that unifies release engineering, deployment, and lifecycle management of small and large-scale cloud software. BOSH can provision and deploy software over hundreds of VMs. It also performs monitoring, failure recovery, and software updates with zero-to-minimal downtime.
 
-Kite and RKCP uses Bosh for deploying blockchain nodes as a service.
-Components managed by bosh are :
+Kite and RKCP use Bosh for deploying blockchain nodes as a service.
+Components managed by bosh are:
  * Vault
  * Bitcoin / Dash blockchain nodes
  * Concourse CI
@@ -58,7 +58,7 @@ RKCP rely mainly on vault for keeping secrets, wallets secrets, certificates and
 
 Kubernetes is a portable, extensible open-source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.
 
-Google open-sourced the Kubernetes project in 2014. Kubernetes builds upon a decade and a half of experience that Google has with running production workloads at scale, combined with best-of-breed ideas and practices from the community.
+Google open-sourced the Kubernetes project in 2014. Kubernetes is built upon a decade and a half of experience that Google has with running production workloads at scale, combined with best-of-breed ideas and practices from the community.
 
 Kubernetes is the foundation of the RK Crypto-Platform (RKCP), we levarage all the features for auto-healing, scaling design and fail over.
 We only recommend Kubernetes for production environments.
@@ -69,16 +69,16 @@ We only recommend Kubernetes for production environments.
 
 Peatio act as the main Accounting gateway between Fiat and Crypto-Currencies, Peatio is in charge of maintaining the Member balance for engaging trading activities.
 
-We only use peatio as an API, we only configure it per deployments but continue using the vanilla opensource peatio.
+We only use peatio as an API, we only configure it per deployments but continue using the vanilla open-source Peatio.
 We build a docker container from sources available on docker hub rubykube/peatio.
 
 We ship weekly improvements on Peatio container, by using a fork you won't be able to upgrade your deployments with newest features.
 
-Our goal and roadmap is to provide advanced API's endpoint in order to be able to customize all behaviors around peatio such as:
+Our goal and roadmap is to provide advanced API endpoints in order to be able to customize all behaviors around Peatio such as:
  * Plug in payment gateways
  * Plug in liquidity providers
  * Replace Trade matching worker
- * Consume Peatio events API
+ * Consume Peatio events using Event API
 
 [Peatio project](https://github.com/rubykube/peatio)
 
@@ -90,36 +90,36 @@ Peatio workbench is the recommended development, test and integration environmen
 
 #### Peatio SDK
 
-Peatio SDK is a javascript SDK we maintain for running QA Test scenario
-Use Peatio SDK to interact with the server side backengs such as Peatio and Barong.
+Peatio SDK is a javascript SDK we maintain for running QA Test scenarios.
+Use Peatio SDK to interact with the server side backends such as Peatio and Barong.
 
 [Peatio SDK](https://github.com/rubykube/peatio-workbench)
 
 #### Coinhub
 
-Blockchain gateway from kubernetes to external Blockchain API's
+Blockchain gateway from Kubernetes to external Blockchain APIs.
 
 [Coinhub project](https://github.com/rubykube/coinhub)
 
 ### Barong
 
-Barong is a KYC OAuth 2.0 provider
-Barong replace the KYC, 2FA, Phone verification from legacy Peatio.
+Barong is a KYC OAuth 2.0 provider.
+Barong replace the KyC, 2FA, phone verification from legacy Peatio.
 
-Barong manage roles and kyc level across all applications from the RKCP.
-It's easy to extend by using the EventAPI or Rest API.
+Barong manage roles and KyC level across all applications from the RKCP.
+It's easy to extend by using the EventAPI or REST API.
 
 [Barong project](https://github.com/rubykube/barong)
 
 ### Cryptobase
 
-Cryptobase is a base boilerplate Angular/React/Vue.js implementation of the Peatio frontend
-Unfortunately we don't have an open-source implementation yet.
+Cryptobase is a base boilerplate Angular/React/Vue.js implementation of the Peatio frontend.
+Unfortunately, we don't have an open-source implementation yet.
 
 ### Arke
 
-Arke is the missing tool for connecting a liquidity network on your exchange
-Arke is an Open-Source Crypto-Currency Arbitrage platform
+Arke is the missing tool for connecting a liquidity network on your exchange.
+Arke is an Open-Source Crypto-Currency Arbitrage platform.
 
 ## Stage and QA Environment
 
@@ -133,8 +133,7 @@ We recommend using the following namespaces:
 
 ## Production Environment
 
-In production environment it is recommended that Vault deployment is hardened in an isolated VM,
-And make sure most dev/ops cannot access nor administer Vault.
+In production environment it is recommended that Vault deployment is hardened in an isolated VM, and make sure most dev/ops cannot access nor administer Vault.
 
 Make sure all wallets have multi-signature and offload regularly on cold wallets.
 Do not leave seeds, private keys or passphrase at the reach of developers, system administrators and eventuals hackers.

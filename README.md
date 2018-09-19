@@ -74,11 +74,11 @@ Otherwise we advice to use [workbench based environment](#local-development-envi
 #### Installation
 
 1. Copy initial configurations `./bin/init_config`
-2. Install yarn dependencies `rake yarn:install`
+2. Install yarn dependencies `bundle exec rake yarn:install`
 3. Start backend services (RabbitMQ, Redis, MySQL) `docker-compose -f config/backend.yml up -d`
-4. Setup database `rake db:create db:migrate db:seed`
+4. Setup database `bundle exec rake db:create db:migrate db:seed`
 5. Start peatio daemons `god -c lib/daemons/daemons.god`
-6. Start rails server `rails server`
+6. Start rails server `bundle exec rails server`
 
 ### Local development environment with workbench:
 
@@ -159,6 +159,7 @@ You can interact with Peatio through API:
 * API v2
 * Management API v1
 * Websocket API
+* Event API (AMQP)
 
 ## Getting Involved
 We want to make it super-easy for Peatio users and contributors to talk to us and connect with each other, to share ideas, solve problems and help make Peatio awesome. Here are the main channels we're running currently, we'd love to hear from you on one of them:

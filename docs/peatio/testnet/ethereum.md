@@ -16,3 +16,7 @@ Useful links:
 * [Rinkeby homepage](https://www.rinkeby.io/)
 * [Rinkeby network block explorer](https://rinkeby.etherscan.io/)
 * [Rinkeby faucet](https://www.rinkeby.io/#faucet)
+
+# Getting Ethers in Kovan Testnet
+
+To get ETH in Kovan network you will need GitHub account. Go to https://gitter.im/kovan-testnet/faucet, sign in and post message with your ETH address. In few minutes you will get money automatically. Don't post too often or you can be banned.

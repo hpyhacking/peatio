@@ -46,7 +46,7 @@ This daemon monitors blockchain for incoming deposits and withdrawal and updates
 
 ## global_state
 
-This daemon send orderbook to Pusher every 5 seconds.
+This daemon sends orderbook to Pusher every 5 seconds.
 
 ## k
 
@@ -58,8 +58,8 @@ This daemon updates number of incoming deposits confirmations and updates the ba
 
 ## withdraw_audit
 
-This daemon validates withdraws and sends them to amqp:withdraw_coin.
+This daemon validates withdrawals and sends them to amqp:withdraw_coin.
 
 ## amqp:trade_executor
 
-This daemon performs partial or full fullfilment or two orders.
+This daemon performs partial or full fullfilment of two orders.
