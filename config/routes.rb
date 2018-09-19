@@ -64,8 +64,6 @@ Peatio::Application.routes.draw do
         end
       end
     end
-
-    post '/pusher/auth', to: 'pusher#auth'
   end
 
   get 'health/alive', to: 'public/health#alive'

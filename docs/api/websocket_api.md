@@ -1,10 +1,39 @@
 # Peatio WebSocket API
 
-## API Documentation
+Peatio WebSocket API connections are handled by Ranger service provided by
+[peatio gem](https://github.com/rubykube/peatio-core).
 
-On websocket connection client get `challenge`.
+### API
 
-At first websocket client have to authenticate.
+There are two types of channels:
+ * Public: accessible by anyone
+ * Private: accessible only by given member
+
+GET request parameters:
+
+| Field    | Description                         | Multiple allowed |
+|----------|-------------------------------------|------------------|
+| `stream` | List of streams to be subscribed on | Yes              |
+
+List of supported public streams:
+* `<market>.update` (global state updates)
+* `<market>.trades` 
+
+List of supported private streams (requires authentication):
+* `order`
+* `trade` 
+* `deposit_address` 
+
+You can find a format of these events below in the doc.
+
+
+## Public channels architecture
+
+![scheme](assets/scheme_ranger_public_channels.png)
+
+## Private channels architecture
+
+![scheme](assets/scheme_ranger_private_channels.png)
 
 ### Authentication
 
@@ -66,18 +95,13 @@ If other error occured during the message handling server throws an error
 }
 ```
 
-### After authentication
 
-When user successfully authenticated servers subsribes client to orders and trades of authenticated user.
+When user successfully authenticated server subsribes client to given streams
+passed as GET request parameter `?stream=` (can be specified multiple times)
 
 When order or trade done, websocket server send message to client with object details.
 
 Depending on what trade happend server will send the `ask` and `bid` details.
-
-List of subscription channels:
-
-- Order objects send to `orderbook` AMQP channel.
-- Trade objects send to `trade` AMQP channel.
 
 #### Order
 
@@ -114,96 +138,35 @@ Here is structure of `Trade` object:
 | `bid`        | Bid order object.                        |
 | `ask`        | Ask order object.                        |
 
-## Start websocket API
-
-You can start websocket API locally using peatio git repository.
-
-You should have `redis` and `rabbitmq` servers up and running
-By default peatio websocket API running on the host `0.0.0.0` and port `8080`
-
-Change host and port by setting environment variables
-
-```yaml
-WEBSOCKET_HOST: 0.0.0.0
-WEBSOCKET_PORT: 8080
-```
-
 ### Development
 
-Start websocket server using following command:
+Start websocket server using following command in peatio-core git repository:
 
-```sh
-$ bundle exec ruby lib/daemons/websocket_api.rb
+```bash
+$ ./bin/peatio service start ranger
 ```
 
-### Client code sample
-
-Here is base example of **Websocket Client**
-
-- JWT authentication.
-- Listeting server messages.
-
+In peatio git repository call `./bin/rails c` and get a jwt token:
 ```ruby
-# frozen_string_literal: true
-
-require 'rubygems'
-require 'websocket-client-simple'
-require 'active_support/all'
-require 'jwt'
-
-# Create valid JWT
-def jwt(email, uid, level, state)
-  key     = OpenSSL::PKey.read(Base64.urlsafe_decode64(ENV.fetch('JWT_PRIVATE_KEY')))
-  payload = {
-    iat:   Time.now.to_i,
-    exp:   10.minutes.from_now.to_i,
-    jti:   SecureRandom.uuid,
-    sub:   'session',
-    iss:   'barong',
-    aud:   ['peatio'],
-    email: email,
-    uid:   uid,
-    level: level,
-    state: state
-  }
-  JWT.encode(payload, key, ENV.fetch('JWT_ALGORITHM'))
-end
-
-# Host and port of the websocket server.
-host = ENV.fetch('WS_HOST', 'localhost')
-port = ENV.fetch('WS_PORT', '8080')
-payload = {
-  x: 'x', y: 'y', z: 'z',
-  email: 'test@gmail.com'
-}
-
-# Create websocket connection.
-ws = WebSocket::Client::Simple.connect("ws://#{host}:#{port}")
-
-# Called on messaged from websocket server.
-ws.on(:message) do |msg|
-  puts msg.data
-end
-
-# Called if connection to server has been opened.
-ws.on(:open) do
-  # Authenticate.
-  auth = jwt('test@gmail.com', 'test@gmail.com', 3, 'active')
-  msg = "{ \"jwt\": \"Bearer #{auth}\"}"
-
-  ws.send msg
-end
-
-# Called if connection to server has been closed.
-ws.on(:close) do |err|
-  p err
-  exit 1
-end
-
-# Called if any server error occured.
-ws.on(:error) do |err|
-  p err
-end
-
-loop {}
+irb(main):001:0> Member.first.authentications.first.token
 ```
+
+Or you can obtain a JWT token after authentication in Baron.
+
+Now we can test authentication with [wscat](https://github.com/websockets/wscat):
+
+Connect to public usdeth channel:
+
+```bash
+$ wscat -n -c 'ws://ws.ranger.wb.local?stream=usdeth'
+```
+
+Send a JWT authentication payload:
+```
+{ "jwt": "Bearer <token>" }
+```
+
+### Examples
+
+There is also [example of working with Ranger service using
+NodeJS.](https://github.com/rubykube/ranger-example-nodejs)

@@ -56,7 +56,7 @@ class Trade < ActiveRecord::Base
       at:     created_at.to_i,
       price:  price.to_s  || ZERO,
       volume: volume.to_s || ZERO,
-      market: market }
+      market: market.id }
   end
 
   def for_global

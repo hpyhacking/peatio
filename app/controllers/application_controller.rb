@@ -51,14 +51,6 @@ private
     gon.ticker = current_market.ticker
     gon.markets = Market.enabled.each_with_object({}) { |market, memo| memo[market.id] = market.as_json }
     gon.host = request.base_url
-    gon.pusher = {
-      key:       ENV.fetch('PUSHER_CLIENT_KEY'),
-      wsHost:    ENV.fetch('PUSHER_CLIENT_WS_HOST'),
-      httpHost:  ENV['PUSHER_CLIENT_HTTP_HOST'],
-      wsPort:    ENV.fetch('PUSHER_CLIENT_WS_PORT'),
-      wssPort:   ENV.fetch('PUSHER_CLIENT_WSS_PORT'),
-    }.reject { |k, v| v.blank? }
-     .merge(encrypted: ENV.fetch('PUSHER_CLIENT_ENCRYPTED').present?)
 
     gon.clipboard = {
       :click => I18n.t('actions.clipboard.click'),
@@ -134,7 +126,9 @@ private
     end
 
     if current_user
-      gon.user = { sn: current_user.sn }
+      gon.user = {
+        sn: current_user.sn
+      }
       gon.accounts = current_user.accounts.enabled.includes(:currency).inject({}) do |memo, account|
         memo[account.currency.code] = {
           currency: account.currency.code,
@@ -146,6 +140,11 @@ private
     end
 
     gon.bank_details_html = ENV['BANK_DETAILS_HTML']
+
+    gon.barong_domain = ENV["BARONG_DOMAIN"]
+
+    gon.ranger_host = ENV["RANGER_HOST"] || '0.0.0.0'
+    gon.ranger_port = ENV["RANGER_PORT"] || '8081'
   end
 
   def set_language

@@ -6,12 +6,12 @@ require "peatio/mq/events"
 module Worker
   class PusherMember
     def process(payload)
-      return unless (sn = Member.where(id: payload["member_id"]).pluck(:sn).first)
+      return unless (uid = Member.where(id: payload["member_id"]).first.uid)
 
       event = payload["event"]
       data = payload["data"]
 
-      Peatio::MQ::Events.publish("private", sn, event, data)
+      Peatio::MQ::Events.publish("private", uid, event, data)
     end
   end
 end

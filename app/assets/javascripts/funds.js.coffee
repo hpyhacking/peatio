@@ -2,7 +2,6 @@
 #= require ./lib/sentry
 
 #= require jquery
-#= require pusher.min
 
 #= require ./lib/tiny-pubsub
 #= require angular
@@ -10,9 +9,6 @@
 #= require ./lib/angular-ui-router
 #= require ./lib/peatio_model
 #= require ./lib/ajax
-
-#= require ./lib/pusher_connection
-#= require ./lib/pusher_subscriber
 
 #= require_self
 #= require ./funds/funds

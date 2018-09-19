@@ -26,11 +26,11 @@ This daemon processes cancelation of orders.
 
 ## amqp:pusher_market
 
-This daemon delivers new trade to Pusher.
+This daemon delivers new trade to Ranger.
 
 ## amqp:pusher_member
 
-This daemon delivers events to private member Pusher channel.
+This daemon delivers events to private member Ranger channel.
 
 ## amqp:slave_book
 
@@ -46,7 +46,7 @@ This daemon monitors blockchain for incoming deposits and withdrawal and updates
 
 ## global_state
 
-This daemon sends orderbook to Pusher every 5 seconds.
+This daemon send orderbook to Ranger every 5 seconds.
 
 ## k
 

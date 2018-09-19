@@ -178,15 +178,6 @@ A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do b
 
     bin/init_config
 
-**Setup Pusher**
-
-* Peatio depends on [Pusher](http://pusher.com). A development key/secret pair for development/test is provided in `config/application.yml` (uncomment to use). PLEASE USE IT IN DEVELOPMENT/TEST ENVIRONMENT ONLY!
-
-More details to visit [pusher official website](http://pusher.com)
-
-    # uncomment Pusher related settings
-    vim config/application.yml
-
 **Setup bitcoind rpc endpoint**
 
     # replace username:password and port with the one you set in

@@ -8,10 +8,8 @@
 #= require bignumber
 #= require underscore
 #= require clipboard
-#= require pusher.min
 #= require qrcode
 
-#= require ./lib/pusher_connection
 #= require ./lib/tiny-pubsub
 
 $ ->
