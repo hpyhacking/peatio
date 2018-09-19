@@ -27,6 +27,7 @@ class Wallet < ActiveRecord::Base
 
   validates :nsig,        numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :max_balance, numericality: { greater_than_or_equal_to: 0 }
+  validates :uri, url: { allow_blank: true }
 
   scope :active,   -> { where(status: :active) }
   scope :deposit,  -> { where(kind: :deposit) }

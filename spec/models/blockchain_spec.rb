@@ -45,5 +45,11 @@ describe Blockchain do
       expect(subject).to_not be_valid
       expect(subject.errors.full_messages).to eq ["Min confirmations must be greater than or equal to 1"]
     end
+
+    it 'validates structure of server' do
+      subject.server = 'Wrong URL'
+      expect(subject).to_not be_valid
+      expect(subject.errors.full_messages).to eq ["Server is not a valid URL"]
+    end
   end
 end

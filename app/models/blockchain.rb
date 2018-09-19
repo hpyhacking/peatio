@@ -9,6 +9,7 @@ class Blockchain < ActiveRecord::Base
   validates :status, inclusion: { in: %w[active disabled] }
   validates :height, numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :min_confirmations, numericality: { greater_than_or_equal_to: 1, only_integer: true }
+  validates :server, url: { allow_blank: true }
 
   def explorer=(hash)
     write_attribute(:explorer_address, hash.fetch('address'))
