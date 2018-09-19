@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.9.1-rc.7
+**Version:** 1.9.1-rc.8
 
 **Contact information:**  
 peatio.tech  
@@ -19,6 +19,34 @@ hello@peatio.tech
 |---|---|
 |Name|JWT|
 |In|header|
+
+### /v2/accounts/{currency}
+---
+##### ***GET***
+**Description:** Get user account by currency
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | path | The currency code. | Yes | string |
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get user account by currency | [Account](#account) |
+
+### /v2/accounts
+---
+##### ***GET***
+**Description:** Get list of user accounts
+
+**Responses**
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get list of user accounts | [ [Account](#account) ] |
 
 ### /v2/markets
 ---
@@ -541,6 +569,16 @@ hello@peatio.tech
 ### Models
 ---
 
+### Account  
+
+Get list of user accounts
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| currency | string | Currency code. | No |
+| balance | double | Account balance. | No |
+| locked | double | Account locked funds. | No |
+
 ### Currency  
 
 Get a currency
@@ -549,6 +587,8 @@ Get a currency
 | ---- | ---- | ----------- | -------- |
 | id | string | Currency code. | No |
 | symbol | string | Currency symbol | No |
+| explorer_transaction | string | Currency transaction exprorer url template | No |
+| explorer_address | string | Currency address exprorer url template | No |
 | type | string | Currency type | No |
 | deposit_fee | string | Currency deposit fee | No |
 | withdraw_fee | string | Currency withdraw fee | No |
