@@ -11,7 +11,7 @@ module Private
 
     def index
       @currencies        = Currency.enabled.sort
-      @deposits          = current_user.deposits.includes(:currency)
+      @deposits          = current_user.deposits.includes(:currency).includes(:blockchain)
       @accounts          = current_user.accounts.enabled.includes(:currency)
       @withdraws         = current_user.withdraws
 

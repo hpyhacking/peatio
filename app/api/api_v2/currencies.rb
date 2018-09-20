@@ -45,13 +45,9 @@ module APIv2
                       desc: -> { APIv2::Entities::Currency.documentation[:type][:desc] }
     end
     get '/currencies' do
-      if params[:type].blank?
-        currencies = Currency.enabled
-      else
-        type = params[:type]
-        currencies = Currency.enabled.where(type: type)
-      end
-
+        currencies = Currency.enabled.includes(:blockchain) if params[:type].blank?
+        currencies = Currency.enabled.where(type: params[:type]).includes(:blockchain) if params[:type] == 'coin'
+        currencies = Currency.enabled.where(type: params[:type]) if params[:type] == 'fiat'
       present currencies, with: APIv2::Entities::Currency
     end
   end

@@ -4,7 +4,10 @@
 module Admin
   class WalletsController < BaseController
     def index
-      @wallets = Wallet.all.page(params[:page]).per(100)
+      @wallets = Wallet.all
+                     .includes(:blockchain)
+                     .page(params[:page])
+                     .per(100)
     end
 
     def show

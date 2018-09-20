@@ -14,11 +14,13 @@ module Admin
                                               .order(id: :desc)
                                               .includes(:member)
                                               .includes(:currency)
+                                              .includes(:blockchain)
         @all_withdraws     = ::Withdraws::Coin.where(currency: currency)
                                               .where('created_at > ?', 1.day.ago)
                                               .order(id: :desc)
                                               .includes(:member)
                                               .includes(:currency)
+                                              .includes(:blockchain)
       end
 
       def show

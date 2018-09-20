@@ -10,6 +10,7 @@ module Admin
         @deposits = ::Deposits::Coin.where(currency: currency)
                                     .includes(:member)
                                     .includes(:currency)
+                                    .includes(:blockchain)
                                     .where('created_at > ?', 1.year.ago)
                                     .order(id: :desc)
                                     .page(params[:page])
