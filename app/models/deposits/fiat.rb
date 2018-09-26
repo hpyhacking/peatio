@@ -12,7 +12,7 @@ module Deposits
 end
 
 # == Schema Information
-# Schema version: 20180719172203
+# Schema version: 20180925123806
 #
 # Table name: deposits
 #
@@ -21,7 +21,7 @@ end
 #  currency_id  :string(10)       not null
 #  amount       :decimal(32, 16)  not null
 #  fee          :decimal(32, 16)  not null
-#  address      :string(64)
+#  address      :string(95)
 #  txid         :string(128)
 #  txout        :integer
 #  aasm_state   :string(30)       not null

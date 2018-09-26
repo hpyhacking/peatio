@@ -42,14 +42,14 @@ class PaymentAddress < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180613144712
+# Schema version: 20180925123806
 #
 # Table name: payment_addresses
 #
 #  id          :integer          not null, primary key
 #  currency_id :string(10)       not null
 #  account_id  :integer          not null
-#  address     :string(64)
+#  address     :string(95)
 #  secret      :string(128)
 #  details     :string(1024)     default({}), not null
 #  created_at  :datetime         not null

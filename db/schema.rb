@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180905112301) do
+ActiveRecord::Schema.define(version: 20180925123806) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20180905112301) do
     t.string   "currency_id",  limit: 10,                            null: false
     t.decimal  "amount",                   precision: 32, scale: 16, null: false
     t.decimal  "fee",                      precision: 32, scale: 16, null: false
-    t.string   "address",      limit: 64
+    t.string   "address",      limit: 95
     t.string   "txid",         limit: 128
     t.integer  "txout",        limit: 4
     t.string   "aasm_state",   limit: 30,                            null: false
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 20180905112301) do
   create_table "payment_addresses", force: :cascade do |t|
     t.string   "currency_id", limit: 10,                  null: false
     t.integer  "account_id",  limit: 4,                   null: false
-    t.string   "address",     limit: 64
+    t.string   "address",     limit: 95
     t.string   "secret",      limit: 128
     t.string   "details",     limit: 1024, default: "{}", null: false
     t.datetime "created_at",                              null: false
@@ -219,7 +219,7 @@ ActiveRecord::Schema.define(version: 20180905112301) do
     t.decimal  "sum",                      precision: 32, scale: 16, null: false
     t.string   "type",         limit: 30,                            null: false
     t.string   "tid",          limit: 64,                            null: false
-    t.string   "rid",          limit: 64,                            null: false
+    t.string   "rid",          limit: 95,                            null: false
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
     t.datetime "completed_at"
