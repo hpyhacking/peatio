@@ -52,10 +52,6 @@ This daemon send orderbook to Ranger every 5 seconds.
 
 This daemon updates k-lines every 15 seconds.
 
-## payment_transaction
-
-This daemon updates number of incoming deposits confirmations and updates the balance.
-
 ## withdraw_audit
 
 This daemon validates withdrawals and sends them to amqp:withdraw_coin.

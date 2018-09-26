@@ -1,4 +1,4 @@
-# `EXPERIMENT` RabbitMQ Peatio Event API
+# RabbitMQ Peatio Event API
 
 ## Overview of RabbitMQ details
 
