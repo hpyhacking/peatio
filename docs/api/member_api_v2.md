@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.9.1-rc.10
+**Version:** 1.9.1-rc.11
 
 **Contact information:**  
 peatio.tech  
@@ -370,10 +370,10 @@ hello@peatio.tech
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
-| limit | query | Limit the number of returned data points, default to 30. | No | integer |
 | period | query | Time period of K line, default to 1. You can choose between 1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080 | No | integer |
 | time_from | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data after that time will be returned. | No | integer |
 | time_to | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data till that time will be returned. | No | integer |
+| limit | query | Limit the number of returned data points default to 30. Ignored if time_from and time_to are given. | No | integer |
 
 **Responses**
 
@@ -392,10 +392,10 @@ hello@peatio.tech
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
 | trade_id | query | The trade id of the first trade you received. | Yes | integer |
-| limit | query | Limit the number of returned data points, default to 30. | No | integer |
 | period | query | Time period of K line, default to 1. You can choose between 1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080 | No | integer |
 | time_from | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data after that time will be returned. | No | integer |
 | time_to | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data till that time will be returned. | No | integer |
+| limit | query | Limit the number of returned data points, default to 30. | No | integer |
 
 **Responses**
 
