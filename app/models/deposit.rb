@@ -16,6 +16,7 @@ class Deposit < ActiveRecord::Base
   validates :tid, :aasm_state, :type, presence: true
   validates :completed_at, presence: { if: :completed? }
   validates :block_number, allow_blank: true, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :amount, numericality: { greater_than_or_equal_to: -> (deposit){ Currency.find(deposit.currency_id).min_deposit_amount } }
 
   scope :recent, -> { order(id: :desc) }
 

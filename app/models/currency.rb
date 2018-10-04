@@ -21,6 +21,7 @@ class Currency < ActiveRecord::Base
   validates :base_factor, numericality: { greater_than_or_equal_to: 1, only_integer: true }
 
   validates :quick_withdraw_limit,
+            :min_deposit_amount,
             :withdraw_fee,
             :deposit_fee,
             numericality: { greater_than_or_equal_to: 0 }
@@ -146,7 +147,7 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20180808144704
+# Schema version: 20181004114428
 #
 # Table name: currencies
 #
@@ -156,6 +157,7 @@ end
 #  type                 :string(30)       default("coin"), not null
 #  deposit_fee          :decimal(32, 16)  default(0.0), not null
 #  quick_withdraw_limit :decimal(32, 16)  default(0.0), not null
+#  min_deposit_amount   :decimal(32, 16)  default(0.0), not null
 #  withdraw_fee         :decimal(32, 16)  default(0.0), not null
 #  options              :string(1000)     default({}), not null
 #  enabled              :boolean          default(TRUE), not null

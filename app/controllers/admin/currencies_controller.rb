@@ -53,6 +53,7 @@ module Admin
         symbol
         icon_url
         quick_withdraw_limit
+        min_deposit_amount
         withdraw_fee
         deposit_fee
         enabled
