@@ -16,13 +16,13 @@ GET request parameters:
 | `stream` | List of streams to be subscribed on | Yes              |
 
 List of supported public streams:
-* `<market>.update` (global state updates)
-* `<market>.trades` 
+* [`<market>.update`](#update) (global state updates)
+* [`<market>.trades` ](#trades)
+* [`global.tickers`](#tickers)
 
 List of supported private streams (requires authentication):
-* `order`
-* `trade` 
-* `deposit_address` 
+* [`order`](#order)
+* [`trade`](#trade) 
 
 You can find a format of these events below in the doc.
 
@@ -103,40 +103,85 @@ When order or trade done, websocket server send message to client with object de
 
 Depending on what trade happend server will send the `ask` and `bid` details.
 
+### Public streams
+
+#### Update
+
+Here is structure of `<market.update>` event:
+
+| Field  | Description                                             |
+| ------ | ------------------------------------------------------- |
+| `asks` | Added asks with price and total volume expose as array. |
+| `bids` | Added bids with price and total volume expose as array. |
+
+Example:
+
+```ruby
+{
+  asks: [[0.4e1, 0.1e-1], [0.3e1, 0.401e1]], # first is price & second is total volume
+  bids: [[0.5e1, 0.4e1]]
+}
+```
+
+#### Trades
+
+Here is structure of `<market.trades>` event expose as array with trades:
+
+| Field    | Description                            |
+| -------- | -------------------------------------- |
+| `tid`    | Unique trade tid.                      |
+| `type`   | Type of trade, either `buy` or `sell`. |
+| `price`  | Price for the trade.                   |
+| `amount` | The amount of trade.                   |
+| `date`   | Trade create time.                     |
+
+#### Tickers
+
+Here is structure of `global.tickers` event expose as array with all markets pairs:
+
+| Field        | Description                     |
+| ------------ | ------------------------------- |
+| `name`       | Market pair name.               |
+| `base_unit`  | Base currency.                  |
+| `quote_unit` | Quote currency.                 |
+| `low`        | Lowest price in 24 hours.       |
+| `high`       | Highest price in 24 hours.      |
+| `last`       | Last trade price.               |
+| `open`       | Last trade from last timestamp. |
+| `volume`     | Volume in 24 hours.             |
+| `sell`       | Best price per unit.            |
+| `buy`        | Best price per unit.            |
+| `at`         | Date of current ticker.         |
+
+### Private streams
+
 #### Order
 
-Here is structure of `Order` object:
+Here is structure of `Order` event:
 
-| Field           | Description                                |
-|-----------------|--------------------------------------------|
-| `id`            | Unique order id.                           |
-| `side`          | Either `sell` or `buy`.                    |
-| `ord_type`      | Type of order, either `limit` or `market`. |
-| `price`         | Price for each unit.                       |
-| `avg_price`     | Average execution price.                   |
-| `state`         | One of `wait`, `done`, or `cancel`.        |
-| `market_id`     | The market in which the order is placed.   |
-| `created_at`    | Order create time in `iso8601` format.     |
-| `origin_volume` | The amount user want to sell/buy.          |
-| `trades_count`  | Number of trades.                          |
-| `trades`        | List of trades.                            |
+| Field           | Description                                                  |
+| --------------- | ------------------------------------------------------------ |
+| `id`            | Unique order id.                                             |
+| `kind`          | Type of order, either `bid` or `ask`.                        |
+| `price`         | Price for each unit.                                         |
+| `state`         | One of `wait`, `done`, or `cancel`.                          |
+| `market`        | The market in which the order is placed. (In peatio `market_id`) |
+| `at`            | Order create time. (In peatio `created_at`)                  |
+| `origin_volume` | The amount user want to sell/buy.                            |
+| `volume`        | Remaining amount user want to sell/buy.                      |
 
 #### Trade
 
-Here is structure of `Trade` object:
+Here is structure of `Trade` event:
 
-| Field        | Description                              |
-|--------------|----------------------------------------- |
-| `id`         | Uniq trade id.                           |
-| `price`      | Price for each unit.                     |
-| `volume`     | The amount of trade.                     |
-| `funds`      |                                          |
-| `market_id`  | The market in which the order is placed. |
-| `created_at` | Uniq trade id.                           |
-| `side`       | Type of order, either `bid` or `ask`.    |
-| `order_id`   | Order that placed.                       |
-| `bid`        | Bid order object.                        |
-| `ask`        | Ask order object.                        |
+| Field    | Description                                                  |
+| -------- | ------------------------------------------------------------ |
+| `id`     | Uniq trade id.                                               |
+| `price`  | Price for each unit.                                         |
+| `volume` | The amount of trade.                                         |
+| `market` | The market in which the order is placed. (In peatio market_id) |
+| `at`     | Order create time. (In peatio created_at)                    |
+| `kind`   | Type of order, either `bid` or `ask`.                        |
 
 ### Development
 
