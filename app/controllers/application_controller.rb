@@ -145,6 +145,7 @@ private
 
     gon.ranger_host = ENV["RANGER_HOST"] || '0.0.0.0'
     gon.ranger_port = ENV["RANGER_PORT"] || '8081'
+    gon.ranger_connect_secure = ENV["RANGER_CONNECT_SECURE"] || false
   end
 
   def set_language
