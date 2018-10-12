@@ -31,7 +31,7 @@ class Deposit < ActiveRecord::Base
     event(:reject) { transitions from: :submitted, to: :rejected }
     event :accept do
       transitions from: :submitted, to: :accepted
-      after %i[plus_funds collect!]
+      after :plus_funds
     end
   end
 

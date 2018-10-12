@@ -50,6 +50,9 @@ module BlockchainService
           deposit_txs.fetch(:entries).each_with_index do |entry, index|
             if entry[:amount] <= payment_address.currency.min_deposit_amount
               # Currently we just skip small deposits. Custom behavior will be implemented later.
+              Rails.logger.info do  "Skipped deposit with txid: #{deposit_txs[:id]} with amount: #{entry[:amount]} XRP"\
+                                     " from #{address} in block number #{ledger_index}"
+              end
               next
             end
             deposits << {

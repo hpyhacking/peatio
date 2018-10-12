@@ -57,6 +57,9 @@ module BlockchainService
             deposit_txs.fetch(:entries).each_with_index do |entry, i|
               if entry[:amount] <= payment_address.currency.min_deposit_amount
                 # Currently we just skip small deposits. Custom behavior will be implemented later.
+                Rails.logger.info do  "Skipped deposit with txid: #{deposit_txs[:id]} with amount: #{entry[:amount]} ETH"\
+                                     " from #{entry[:address]} in block number #{deposit_txs[:block_number]}"
+                end
                 next
               end
               deposits << { txid:           deposit_txs[:id],
