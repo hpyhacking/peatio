@@ -4,7 +4,7 @@
 module WalletService
   class Geth < Base
 
-    DEFAULT_ETH_FEE = { gas_limit: 21_000, gas_price: 10_000_000_000 }.freeze
+    DEFAULT_ETH_FEE = { gas_limit: 21_000, gas_price: 1_000_000_000 }.freeze
 
     DEFAULT_ERC20_FEE_VALUE =  100_000 * DEFAULT_ETH_FEE[:gas_price]
 

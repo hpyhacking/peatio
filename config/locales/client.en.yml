@@ -43,6 +43,7 @@ en:
         submitted: Submitted
         accepted: Accepted
         rejected: Rejected
+        collected: Collected
 
       withdraw_fiat:
         title: '{{currency}} Withdraw'
