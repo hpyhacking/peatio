@@ -48,7 +48,7 @@ module WalletService
       Wallet
         .active
         .withdraw
-        .find_by(currency_id: :eth, kind: :hot)
+        .find_by(currency_id: :eth, kind: :fee)
     end
 
     def collect_eth_deposit!(deposit, destination_address, options={})

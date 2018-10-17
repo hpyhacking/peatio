@@ -12,6 +12,11 @@ module Worker
         return
       end
 
+      if deposit.collected?
+        Rails.logger.warn { "The deposit is now being processed by different worker or has been already processed. Skipping..." }
+        return
+      end
+
       wallet = Wallet.active.deposit.find_by(blockchain_key: deposit.currency.blockchain_key)
       unless wallet
         Rails.logger.warn { "Can't find active deposit wallet for currency with code: #{deposit.currency_id}."}

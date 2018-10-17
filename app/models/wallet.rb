@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class Wallet < ActiveRecord::Base
-  KIND = %w[hot warm cold deposit].freeze
+  KIND = %w[hot warm cold deposit fee].freeze
   GATEWAYS = %w[bitcoind bitcoincashd litecoind geth dashd rippled bitgo].freeze
   SETTING_ATTRIBUTES = %i[ uri
                            secret
