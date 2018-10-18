@@ -4,14 +4,16 @@
 describe Admin::MarketsController, type: :controller do
   let(:member) { create(:admin_member) }
   let :attributes do
-    { bid_unit:      'usd',
-      bid_fee:       '0.003'.to_d,
-      bid_precision: 8,
-      ask_unit:      'eth',
-      ask_fee:       '0.02'.to_d,
-      ask_precision: 8,
-      enabled:       true,
-      position:      100 }
+    { bid_unit:       'usd',
+      bid_fee:        '0.003'.to_d,
+      bid_precision:  8,
+      ask_unit:       'eth',
+      ask_fee:        '0.02'.to_d,
+      min_ask_amount: '0.02'.to_d,
+      min_bid_amount: '0.02'.to_d,
+      ask_precision:  8,
+      enabled:        true,
+      position:       100 }
   end
   let(:existing_market) { Market.ordered.first }
 
@@ -39,14 +41,16 @@ describe Admin::MarketsController, type: :controller do
 
   describe '#update' do
     let :new_attributes do
-      { bid_unit:      'btc',
-        bid_fee:       '0.002'.to_d,
-        bid_precision: 7,
-        ask_unit:      'xrp',
-        ask_fee:       '0.05'.to_d,
-        ask_precision: 7,
-        enabled:       false,
-        position:      200 }
+      { bid_unit:       'btc',
+        bid_fee:        '0.002'.to_d,
+        bid_precision:  7,
+        ask_unit:       'xrp',
+        ask_fee:        '0.05'.to_d,
+        min_ask_amount: '0.02'.to_d,
+        min_bid_amount: '0.02'.to_d,
+        ask_precision:  7,
+        enabled:        false,
+        position:       200 }
     end
 
     let :final_attributes do

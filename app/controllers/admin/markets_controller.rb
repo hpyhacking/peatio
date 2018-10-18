@@ -57,6 +57,8 @@ module Admin
         :enabled,
         :max_bid,
         :min_ask,
+        :min_bid_amount,
+        :min_ask_amount,
         :position
       ]
 

@@ -15,10 +15,9 @@ class Order < ActiveRecord::Base
   before_validation :fix_number_precision, on: :create
 
   validates :ord_type, :volume, :origin_volume, :locked, :origin_locked, presence: true
-  validates :origin_volume, numericality: { greater_than: 0.to_d }
   validates :price, numericality: { greater_than: 0 }, if: ->(order) { order.ord_type == 'limit' }
   validate  :market_order_validations, if: ->(order) { order.ord_type == 'market' }
-  
+
   WAIT   = 'wait'
   DONE   = 'done'
   CANCEL = 'cancel'

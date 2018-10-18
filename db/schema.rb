@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181126101312) do
+ActiveRecord::Schema.define(version: 20181213135712) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -102,18 +102,20 @@ ActiveRecord::Schema.define(version: 20181126101312) do
   add_index "deposits", ["type"], name: "index_deposits_on_type", using: :btree
 
   create_table "markets", force: :cascade do |t|
-    t.string   "ask_unit",      limit: 10,                                          null: false
-    t.string   "bid_unit",      limit: 10,                                          null: false
-    t.decimal  "ask_fee",                  precision: 17, scale: 16, default: 0.0,  null: false
-    t.decimal  "bid_fee",                  precision: 17, scale: 16, default: 0.0,  null: false
-    t.decimal  "max_bid",                  precision: 17, scale: 16
-    t.decimal  "min_ask",                  precision: 17, scale: 16, default: 0.0,  null: false
-    t.integer  "ask_precision", limit: 1,                            default: 8,    null: false
-    t.integer  "bid_precision", limit: 1,                            default: 8,    null: false
-    t.integer  "position",      limit: 4,                            default: 0,    null: false
-    t.boolean  "enabled",                                            default: true, null: false
-    t.datetime "created_at",                                                        null: false
-    t.datetime "updated_at",                                                        null: false
+    t.string   "ask_unit",       limit: 10,                                          null: false
+    t.string   "bid_unit",       limit: 10,                                          null: false
+    t.decimal  "ask_fee",                   precision: 17, scale: 16, default: 0.0,  null: false
+    t.decimal  "bid_fee",                   precision: 17, scale: 16, default: 0.0,  null: false
+    t.decimal  "max_bid",                   precision: 17, scale: 16
+    t.decimal  "min_ask",                   precision: 17, scale: 16, default: 0.0,  null: false
+    t.decimal  "min_bid_amount",            precision: 32, scale: 16, default: 0.0,  null: false
+    t.decimal  "min_ask_amount",            precision: 32, scale: 16, default: 0.0,  null: false
+    t.integer  "ask_precision",  limit: 1,                            default: 8,    null: false
+    t.integer  "bid_precision",  limit: 1,                            default: 8,    null: false
+    t.integer  "position",       limit: 4,                            default: 0,    null: false
+    t.boolean  "enabled",                                             default: true, null: false
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
   end
 
   add_index "markets", ["ask_unit", "bid_unit"], name: "index_markets_on_ask_unit_and_bid_unit", unique: true, using: :btree

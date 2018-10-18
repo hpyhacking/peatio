@@ -7,7 +7,7 @@ describe OrderAsk do
   it { expect(subject.compute_locked).to eq subject.volume }
 
   let(:market) do
-    Market.find(:btcusd).tap { |m| m.update(min_ask: 0.1) }
+    Market.find(:btcusd).tap { |m| m.update(min_ask: 0.1, min_ask_amount: 0.1) }
   end
 
   context 'compute locked for market order' do
@@ -45,6 +45,12 @@ describe OrderAsk do
       ask = OrderAsk.new(market_id: market.id, price: '0.0'.to_d, ord_type: 'limit')
       expect(ask).not_to be_valid
       expect(ask.errors[:price]).to include "must be greater than or equal to #{market.min_ask}"
+    end
+
+    it 'should make sure amount is greater than min_ask_amount' do
+      ask_amount = OrderAsk.new(market_id: market.id, origin_volume: '0.0'.to_d)
+      expect(ask_amount).not_to be_valid
+      expect(ask_amount.errors[:origin_volume]).to include "must be greater than or equal to #{market.min_ask_amount}"
     end
   end
 end
