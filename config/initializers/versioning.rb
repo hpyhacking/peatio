@@ -5,9 +5,9 @@
 
 module Peatio
   class Application
-    GIT_TAG =    '1.9.1-rc.13'
-    GIT_SHA =    '290fb2e'
-    BUILD_DATE = 'Thu Oct 18 08:42:54 UTC 2018'
+    GIT_TAG =    '1.9.1-rc.14'
+    GIT_SHA =    '6bc73b8'
+    BUILD_DATE = 'Thu Oct 18 17:58:46 UTC 2018'
     VERSION =    GIT_TAG
   end
 end
