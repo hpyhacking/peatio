@@ -1,4 +1,4 @@
-# Peatio Plugins v2
+# Peatio Plugin API v2
 
 Peatio plugins v2 is updated peatio plugin system. We distribute plugins as peatio gems.
 
@@ -16,13 +16,12 @@ Peatio plugins v2 is updated peatio plugin system. We distribute plugins as peat
 
 Default Dockerfile has two stages. First stage is base image build and second is installation plugins into base image.
 
-* To build base image run `docker build --target base --tag peatio:base .`.
+* To build base image run `docker build --target base --tag peatio:base .`
 * To build image with plugins from scratch run `docker build --tag peatio:custom .`
 
 ### Using Dockerfile.plugin
 
-If you want to use rubykube base image you can extend it by adding plugins into
-`Gemfile.plugin`. You don't need whole peatio repository.
+You can use built base image and extend it by adding plugins into `Gemfile.plugin`.
 
 1. Copy `Dockerfile.plugin` and `Gemfile.plugin` into empty directory.
 
