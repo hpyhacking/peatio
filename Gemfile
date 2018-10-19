@@ -81,3 +81,8 @@ group :test do
   gem 'factory_bot_rails',   '~> 4.8'
   gem 'timecop',             '~> 0.9'
 end
+
+# Load gems from Gemfile.plugin.
+Dir.glob File.expand_path('../Gemfile.plugin', __FILE__) do |file|
+  eval_gemfile file
+end
