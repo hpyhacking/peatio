@@ -55,7 +55,7 @@ RUN echo "# This file was overridden by default during docker image build." > Ge
   && ./bin/init_config \
   && chmod +x ./bin/logger \
   && bundle exec rake tmp:create \
-  && yarn:install assets:precompile
+  && rake yarn:install assets:precompile
 
 # Expose port 3000 to the Docker host, so we can access it from the outside.
 EXPOSE 3000

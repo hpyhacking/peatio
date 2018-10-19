@@ -43,7 +43,7 @@ before_script:
 # Execute all of the commands which should make the build pass or fail.
 script:
   URL_HOST=peatio.tech LOG_LEVEL=warn bundle exec rspec &&
-  docker build --tag rubykube/peatio:latest .
+  docker build --tag rubykube/peatio:latest --target base .
 
 # Execute all of the commands which need to be executed after the build passed.
 # Don't let the ci/bump.rb don't run in case of issues with "docker push".
