@@ -16,7 +16,10 @@ Peatio plugins v2 is updated peatio plugin system. We distribute plugins as peat
 
 Default Dockerfile has two stages. First stage is base image build and second is installation plugins into base image.
 
+Note that building image from scratch takes much more time. If you didn't changes in Peatio code use [Dockerfile.plugin](#using-dockerfileplugin).
+
 * To build base image run `docker build --target base --tag peatio:base .`
+
 * To build image with plugins from scratch run `docker build --tag peatio:custom .`
 
 ### Using Dockerfile.plugin
