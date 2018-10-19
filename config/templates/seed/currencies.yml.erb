@@ -8,6 +8,7 @@
   base_factor:          1
   enabled:              true
   quick_withdraw_limit: 1000
+  min_deposit_amount:   0
   deposit_fee:          0
   withdraw_fee:         0
 
@@ -19,7 +20,9 @@
   base_factor:          100_000_000
   enabled:              true
   quick_withdraw_limit: 0.1
-  min_deposit_amount:   0.0000356 #Set the value ten times bigger than the network fee
+  # Deposits with less amount are skipped during blockchain synchronization.
+  # We advise to set value 10 times bigger than the network fee to prevent losses.
+  min_deposit_amount:   0.0000356
   deposit_fee:          0
   withdraw_fee:         0
   options:              {}
@@ -32,7 +35,9 @@
   base_factor:          1_000_000
   enabled:              true
   quick_withdraw_limit: 1000
-  min_deposit_amount:   0.00012 #Set the value ten times bigger than the network fee
+  # Deposits with less amount are skipped during blockchain synchronization.
+  # We advise to set value 10 times bigger than the network fee to prevent losses.
+  min_deposit_amount:   0.00012
   deposit_fee:          0
   withdraw_fee:         0
   options:              {}
@@ -45,7 +50,9 @@
   base_factor:          100_000_000
   enabled:              true
   quick_withdraw_limit: 1
-  min_deposit_amount:   0.0000748 #Set the value ten times bigger than the network fee
+  # Deposits with less amount are skipped during blockchain synchronization.
+  # We advise to set value 10 times bigger than the network fee to prevent losses.
+  min_deposit_amount:   0.0000748
   deposit_fee:          0
   withdraw_fee:         0
   options:              {}
@@ -58,7 +65,9 @@
   base_factor:          100_000_000
   enabled:              true
   quick_withdraw_limit: 5
-  min_deposit_amount:   0.0004488 #Set the value ten times bigger than the network fee
+  # Deposits with less amount are skipped during blockchain synchronization.
+  # We advise to set value 10 times bigger than the network fee to prevent losses.
+  min_deposit_amount:   0.0004488
   deposit_fee:          0
   withdraw_fee:         0
   options:              {}
@@ -71,7 +80,9 @@
   base_factor:          100_000_000
   enabled:              true
   quick_withdraw_limit: 2
-  min_deposit_amount:   0.0000226 #Set the value ten times bigger than the network fee
+  # Deposits with less amount are skipped during blockchain synchronization.
+  # We advise to set value 10 times bigger than the network fee to prevent losses.
+  min_deposit_amount:   0.0000226
   deposit_fee:          0
   withdraw_fee:         0
   options:              {}
@@ -84,7 +95,9 @@
   base_factor:          1_000_000_000_000_000_000
   enabled:              true
   quick_withdraw_limit: 2
-  min_deposit_amount:   0.00042 #Set the value ten times bigger than the network fee
+  # Deposits with less amount are skipped during blockchain synchronization.
+  # We advise to set value 10 times bigger than the network fee to prevent losses.
+  min_deposit_amount:   0.00021
   deposit_fee:          0
   withdraw_fee:         0
   options:              {}
@@ -97,7 +110,10 @@
   base_factor:          1_000_000 # IMPORTANT: Don't forget to update this variable according
   enabled:              true      #            to your ERC20-based currency requirements
   quick_withdraw_limit: 3000      #            (usually can be found on the official website).
-  min_deposit_amount:   0.00042 #Set the value ten times bigger than the network fee
+  # Deposits with less amount are skipped during blockchain synchronization.
+  # We advise to set value 10 times bigger than the network fee to prevent losses.
+  # NOTE: Network fee is paid in ETH but min_deposit_amount is in TRST.
+  min_deposit_amount:   1.7
   deposit_fee:          0
   withdraw_fee:         0
   options:

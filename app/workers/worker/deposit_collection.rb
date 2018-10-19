@@ -28,8 +28,7 @@ module Worker
 
         Rails.logger.warn { "The API accepted deposit collection and assigned transaction ID: #{txid}." }
 
-        deposit.dispatch
-        deposit.save!
+        deposit.dispatch!
       rescue => e
         report_exception(e)
         raise e

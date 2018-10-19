@@ -3,7 +3,7 @@
 
 describe Worker::DepositCollection do
   describe 'Deposit Collection' do
-    let(:deposit) { create(:deposit_btc) }
+    let(:deposit) { create(:deposit_btc).tap { |d| d.accept! } }
     let(:wallet) { Wallet.find_by_blockchain_key('btc-testnet') }
     let(:wallet_service) { WalletService[wallet] }
     let(:txid) { Faker::Lorem.characters(64) }
