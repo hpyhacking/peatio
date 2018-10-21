@@ -47,7 +47,7 @@ Rails.application.configure do
   
   # Bullet gem config.
   config.after_initialize do
-    Bullet.enable = ENV['BULLET'].present?
+    Bullet.enable = true if ENV['BULLET'] == 'true'
     Bullet.bullet_logger = true
   end  
 end

@@ -24,8 +24,7 @@ module ManagementAPIv1
         .tap { |q| q.where!(currency: currency) if currency }
         .tap { |q| q.where!(member: member) if member }
         .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
-        .includes(:member)
-        .includes(:currency)
+        .includes(:member, :currency)
         .page(params[:page])
         .per(params[:limit])
         .tap { |q| present q, with: ManagementAPIv1::Entities::Deposit }

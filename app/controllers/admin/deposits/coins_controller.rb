@@ -8,9 +8,7 @@ module Admin
     class CoinsController < BaseController
       def index
         @deposits = ::Deposits::Coin.where(currency: currency)
-                                    .includes(:member)
-                                    .includes(:currency)
-                                    .includes(:blockchain)
+                                    .includes(:member, :currency, :blockchain)
                                     .where('created_at > ?', 1.year.ago)
                                     .order(id: :desc)
                                     .page(params[:page])

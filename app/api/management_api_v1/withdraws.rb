@@ -43,8 +43,7 @@ module ManagementAPIv1
 
       Withdraw
         .order(id: :desc)
-        .includes(:member)
-        .tap { |q| q.includes(:currency).where!(currency: currency) if currency }
+        .includes(:member, :currency)
         .tap { |q| q.where!(currency: currency) if currency }
         .tap { |q| q.where!(member: member) if member }
         .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
