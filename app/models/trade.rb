@@ -56,6 +56,8 @@ class Trade < ActiveRecord::Base
       at:     created_at.to_i,
       price:  price.to_s  || ZERO,
       volume: volume.to_s || ZERO,
+      ask_id: ask_id,
+      bid_id: bid_id,
       market: market.id }
   end
 

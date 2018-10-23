@@ -59,6 +59,8 @@ describe Trade, '#for_notify' do
   it { expect(notify[:at]).not_to be_blank }
   it { expect(notify[:price]).not_to be_blank }
   it { expect(notify[:volume]).not_to be_blank }
+  it { expect(notify[:ask_id]).to eq(order_ask.id) }
+  it { expect(notify[:bid_id]).to eq(order_bid.id) }
 
   it 'should use side as kind' do
     trade.side = 'ask'
