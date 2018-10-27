@@ -57,7 +57,7 @@ gem 'jwt-multisig', '~> 1.0.0'
 gem 'cash-addr', '~> 0.1.1', require: 'cash_addr'
 gem 'digest-sha3', '~> 1.1.0'
 gem 'scout_apm', '~> 2.4', require: false
-gem 'peatio', '~> 0.4.2'
+gem 'peatio', '~> 0.4.3'
 
 group :development, :test do
   gem 'faker',        '~> 1.8'
@@ -80,6 +80,7 @@ group :test do
   gem 'mocha',               '~> 1.4', require: false
   gem 'factory_bot_rails',   '~> 4.8'
   gem 'timecop',             '~> 0.9'
+  gem 'rubocop-rspec',       '~> 1.30', require: false
 end
 
 # Load gems from Gemfile.plugin.

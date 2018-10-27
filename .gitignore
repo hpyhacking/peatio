@@ -28,7 +28,8 @@ tmp
 /config/withdraw_channels.old.yml
 /config/plugins.yml
 /config/management_api_v1.yml
-/config/seed/*
+/config/secrets
+/config/seed
 
 # Ignore translations.js
 /public/javascripts/translations.js

@@ -4,22 +4,22 @@
 FactoryBot.define do
   factory :member do
     email { Faker::Internet.email }
-    level 0
+    level { 0 }
 
     trait :level_3 do
-      level 3
+      level { 3 }
     end
 
     trait :level_2 do
-      level 2
+      level { 2 }
     end
 
     trait :level_1 do
-      level 1
+      level { 1 }
     end
 
     trait :level_0 do
-      level 0
+      level { 0 }
     end
 
     trait :admin do

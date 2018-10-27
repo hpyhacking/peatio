@@ -7,7 +7,7 @@ FactoryBot.define do
     member { create(:member, :level_3) }
     rid { Faker::Bitcoin.address }
     sum { 10.to_d }
-    type 'Withdraws::Coin'
+    type { 'Withdraws::Coin' }
 
     account do
       member.get_account(:btc).tap do |a|
@@ -22,7 +22,7 @@ FactoryBot.define do
     currency { Currency.find(:usd) }
     rid { Faker::Bank.iban }
     sum { 1000.to_d }
-    type 'Withdraws::Fiat'
+    type { 'Withdraws::Fiat' }
 
     account do
       member.get_account(:usd).tap do |a|
@@ -37,7 +37,7 @@ FactoryBot.define do
     member { create(:member, :level_3) }
     rid { Faker::Bitcoin.address }
     sum { 10.to_d }
-    type 'Withdraws::Coin'
+    type { 'Withdraws::Coin' }
 
     account do
       member.get_account(:eth).tap do |a|
@@ -52,7 +52,7 @@ FactoryBot.define do
     member { create(:member, :level_3) }
     rid { Faker::Bitcoin.address }
     sum { 10.to_d }
-    type 'Withdraws::Coin'
+    type { 'Withdraws::Coin' }
 
     account do
       member.get_account(:ltc).tap do |a|
@@ -67,7 +67,7 @@ FactoryBot.define do
     member { create(:member, :level_3) }
     rid { Faker::Bitcoin.address }
     sum { 10.to_d }
-    type 'Withdraws::Coin'
+    type { 'Withdraws::Coin' }
 
     account do
       member.get_account(:dash).tap do |a|
@@ -82,7 +82,7 @@ FactoryBot.define do
     member { create(:member, :level_3) }
     rid { Faker::Bitcoin.address }
     sum { 10.to_d }
-    type 'Withdraws::Coin'
+    type { 'Withdraws::Coin' }
 
     account do
       member.get_account(:bch).tap do |a|
@@ -97,7 +97,7 @@ FactoryBot.define do
     member { create(:member, :level_3) }
     rid { Faker::Bitcoin.address }
     sum { 10.to_d }
-    type 'Withdraws::Coin'
+    type { 'Withdraws::Coin' }
 
     account do
       member.get_account(:trst).tap do |a|
@@ -110,9 +110,9 @@ FactoryBot.define do
   factory :xrp_withdraw, class: Withdraws::Coin do
     currency { Currency.find(:xrp) }
     member { create(:member, :level_3) }
-    rid 'r4kpJtnx4goLYXoRdi7mbkRpZ9Xpx2RyPN'
+    rid { 'r4kpJtnx4goLYXoRdi7mbkRpZ9Xpx2RyPN' }
     sum { 10.to_d }
-    type 'Withdraws::Coin'
+    type { 'Withdraws::Coin' }
 
     account do
       member.get_account(:xrp).tap do |a|
