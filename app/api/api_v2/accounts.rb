@@ -25,7 +25,7 @@ module APIv2
       use :currency
     end
     get '/accounts/:currency' do
-      present current_user.accounts.find_by!(params[:currency]),
+      present current_user.accounts.find_by!(currency_id: params[:currency]),
               with: Entities::Account
     end
   end
