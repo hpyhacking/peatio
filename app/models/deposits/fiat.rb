@@ -3,6 +3,8 @@
 
 module Deposits
   class Fiat < Deposit
+    has_one :blockchain, through: :currency
+
     validate { errors.add(:currency, :invalid) if currency && !currency.fiat? }
 
     def charge!
