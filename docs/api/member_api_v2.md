@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 2.0.1.pre.alpha.0
+**Version:** 1.9.1-rc.18
 
 **Contact information:**  
 peatio.tech  
