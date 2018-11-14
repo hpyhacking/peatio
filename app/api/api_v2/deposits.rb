@@ -55,7 +55,8 @@ module APIv2
     params do
       requires :currency, type: String, values: -> { Currency.coins.enabled.codes(bothcase: true) }, desc: 'The account you want to deposit to.'
     end
-    post '/deposit_address' do
+    post '/deposit_address', hidden: true do
+      error!(error: 'This method is currently unavailable.', status: 403)
       current_user.ac(params[:currency]).payment_address!.yield_self do |pa|
         { currency: params[:currency], address: pa.address }
       end
