@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.9.1-rc.21
+**Version:** 1.9.1-rc.22
 
 **Contact information:**  
 peatio.tech  
@@ -136,21 +136,6 @@ hello@peatio.tech
 
 ### /v2/deposit_address
 ---
-##### ***POST***
-**Description:** Returns new deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later. 
-
-**Parameters**
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| currency | formData | The account you want to deposit to. | Yes | string |
-
-**Responses**
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | Returns new deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later.  |
-
 ##### ***GET***
 **Description:** Returns deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later.
 
