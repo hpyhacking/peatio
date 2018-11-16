@@ -51,7 +51,7 @@ module BlockchainService
         # If deposit doesn't exist create it.
         deposit = Deposits::Coin
                     .where(currency: currencies)
-                    .find_or_create_by!(deposit_hash.slice(:txid)) do |deposit|
+                    .find_or_create_by!(deposit_hash.slice(:txid, :txout)) do |deposit|
                       deposit.assign_attributes(deposit_hash)
                     end
 

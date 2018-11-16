@@ -124,12 +124,14 @@ describe BlockchainService::Ethereum do
           {
             amount:   '0x1e8480'.hex.to_d / currency.base_factor,
             address:  '0xe3cb6897d83691a8eb8458140a1941ce1d6e6daa',
-            txid:     '0xd5cc0d1d5dd35f4b57572b440fb4ef39a4ab8035657a21692d1871353bfbceea'
+            txid:     '0x826555325cec51c4d39b327e563ce3e8ee87e27be5911383f528724a62f0da5d',
+            txout:    8
           },
           {
             amount:   '0x1e8480'.hex.to_d / currency.base_factor,
-            address:  '0xe3cb6897d83691a8eb8458140a1941ce1d6e6daa',
-            txid:     '0x826555325cec51c4d39b327e563ce3e8ee87e27be5911383f528724a62f0da5d'
+            address:  '0xe3cb6897d83691a8eb8458140a1941ce1d6e6dac',
+            txid:     '0xd5cc0d1d5dd35f4b57572b440fb4ef39a4ab8035657a21692d1871353bfbceea',
+            txout:    9
           }
         ]
       end
@@ -138,6 +140,10 @@ describe BlockchainService::Ethereum do
 
       let!(:payment_address) do
         create(:trst_payment_address, address: '0xe3cb6897d83691a8eb8458140a1941ce1d6e6daa')
+      end
+
+      let!(:second_payment_address) do
+        create(:trst_payment_address, address: '0xe3cb6897d83691a8eb8458140a1941ce1d6e6dac')
       end
 
       before do
@@ -179,6 +185,68 @@ describe BlockchainService::Ethereum do
         it 'doesn\'t change deposit' do
           expect(blockchain.height).to eq start_block
           expect{ BlockchainService[blockchain.key].process_blockchain(force: true)}.not_to change{subject}
+        end
+      end
+    end
+
+    context 'two TRST deposit in one transaction were created during blockchain proccessing' do
+      # File with real json rpc data for bunch of blocks.
+      let(:block_file_name) { '2621839-2621843.json' }
+
+      # Use rinkeby.etherscan.io to fetch transactions data.
+      let(:expected_deposits) do
+        [
+          {
+            amount:   '0x1e8480'.hex.to_d / currency.base_factor,
+            address:  '0xe3cb6897d83691a8eb8458140a1941ce1d6e6daa',
+            txid:     '0x826555325cec51c4d39b327e563ce3e8ee87e27be5911383f528724a62f0da5d'
+          },
+          {
+            amount:   '0x1e8480'.hex.to_d / currency.base_factor,
+            address:  '0x4b6a630ff1f66604d31952bdce2e4950efc99821',
+            txid:     '0x826555325cec51c4d39b327e563ce3e8ee87e27be5911383f528724a62f0da5d'
+          }
+        ]
+      end
+
+      let(:currency) { Currency.find_by_id(:trst) }
+
+      let!(:payment_address) do
+        create(:trst_payment_address, address: '0xe3cb6897d83691a8eb8458140a1941ce1d6e6daa')
+      end
+
+      let!(:second_payment_address) do
+        create(:trst_payment_address, address: '0x4b6a630ff1f66604d31952bdce2e4950efc99821')
+      end
+
+      before do
+        # Mock requests and methods.
+        client.class.any_instance.stubs(:latest_block_number).returns(latest_block)
+        client.class.any_instance.stubs(:rpc_call_id).returns(1)
+
+        block_data.each_with_index do |blk, index|
+          stub_request(:post, client.endpoint)
+            .with(body: request_body(blk['result']['number'], index))
+            .to_return(body: blk.to_json)
+        end
+
+        transaction_receipt_data.each_with_index do |rcpt, index|
+          stub_request(:post, client.endpoint)
+              .with(body: request_receipt_body(rcpt['result']['transactionHash'],index))
+              .to_return(body: rcpt.to_json)
+        end
+        BlockchainService[blockchain.key].process_blockchain(force: true)
+      end
+
+      subject { Deposits::Coin.where(currency: currency) }
+
+      it 'creates two deposits' do
+        expect(Deposits::Coin.where(currency: currency).count).to eq expected_deposits.count
+      end
+
+      it 'creates deposits with correct attributes' do
+        expected_deposits.each do |expected_deposit|
+          expect(subject.where(expected_deposit).count).to eq 1
         end
       end
     end

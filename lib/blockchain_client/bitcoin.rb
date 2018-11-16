@@ -54,7 +54,9 @@ module BlockchainClient
         next unless item['scriptPubKey'].has_key?('addresses')
         next if address != normalize_address(item['scriptPubKey']['addresses'][0])
 
-        { amount: item.fetch('value').to_d, address: normalize_address(item['scriptPubKey']['addresses'][0]) }
+        { amount:   item.fetch('value').to_d,
+          address:  normalize_address(item['scriptPubKey']['addresses'][0]),
+          txout:    item.fetch('n') }
       end.compact
 
       { id:            normalize_txid(tx.fetch('txid')),

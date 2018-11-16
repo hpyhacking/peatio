@@ -48,13 +48,12 @@ module BlockchainService
             next if client.invalid_eth_transaction?(txn)
           else
             txn = client.get_txn_receipt(block_txn.fetch('hash'))
-	          next if txn.nil? || client.invalid_erc20_transaction?(txn)
+            next if txn.nil? || client.invalid_erc20_transaction?(txn)
           end
 
           payment_addresses_where(address: client.to_address(txn)) do |payment_address|
-
-            deposit_txs = client.build_transaction(txn, block_json, payment_address.currency)
-            deposit_txs.fetch(:entries).each_with_index do |entry, i|
+            deposit_txs = client.build_transaction(txn, block_json, payment_address.address, payment_address.currency)
+            deposit_txs.fetch(:entries).each do |entry|
               if entry[:amount] <= payment_address.currency.min_deposit_amount
                 # Currently we just skip small deposits. Custom behavior will be implemented later.
                 Rails.logger.info do  "Skipped deposit with txid: #{deposit_txs[:id]} with amount: #{entry[:amount]}"\
@@ -67,7 +66,7 @@ module BlockchainService
                             amount:         entry[:amount],
                             member:         payment_address.account.member,
                             currency:       payment_address.currency,
-                            txout:          i,
+                            txout:          entry[:txout],
                             block_number:   deposit_txs[:block_number] }
             end
           end
@@ -89,22 +88,21 @@ module BlockchainService
               next if client.invalid_eth_transaction?(txn)
             else
               txn = client.get_txn_receipt(block_txn.fetch('hash'))
-	            if txn.nil? || client.invalid_erc20_transaction?(txn)
+              if txn.nil? || client.invalid_erc20_transaction?(txn)
                 withdraw.fail!
                 next
               end
             end
 
-            withdraw_txs = client.build_transaction(txn, block_json, withdraw.currency)  # block_txn required for ETH transaction
+            withdraw_txs = client.build_transaction(txn, block_json, withdraw.rid, withdraw.currency)  # block_txn required for ETH transaction
             withdraw_txs.fetch(:entries).each do |entry|
-            withdrawals << { txid:           withdraw_txs[:id],
-                             rid:            entry[:address],
-                             amount:         entry[:amount],
-                             block_number:   withdraw_txs[:block_number] }
+              withdrawals << { txid:           withdraw_txs[:id],
+                               rid:            entry[:address],
+                               amount:         entry[:amount],
+                               block_number:   withdraw_txs[:block_number] }
             end
           end
         end
     end
   end
 end
-

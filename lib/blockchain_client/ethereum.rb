@@ -41,11 +41,11 @@ module BlockchainClient
       normalize_address(tx['from'])
     end
 
-    def build_transaction(txn, current_block_json, currency)
+    def build_transaction(txn, current_block_json, address, currency)
       if txn.has_key?('logs')
-        build_erc20_transaction(txn, current_block_json, currency)
+        build_erc20_transaction(txn, current_block_json, address, currency)
       else
-        build_eth_transaction(txn, current_block_json, currency)
+        build_eth_transaction(txn, current_block_json, address, currency)
       end
     end
 
@@ -102,7 +102,6 @@ module BlockchainClient
       @json_rpc_call_id += 1
     end
 
-
     def block_information(number)
       json_rpc(:eth_getBlockByNumber, [number, false]).fetch('result')
     end
@@ -140,7 +139,7 @@ module BlockchainClient
       txid.to_s.match?(/\A0x[A-F0-9]{64}\z/i)
     end
 
-    def build_eth_transaction(tx, current_block_json, currency)
+    def build_eth_transaction(tx, current_block_json, _address, currency)
       { id:            normalize_txid(tx.fetch('hash')),
         block_number:  current_block_json.fetch('number').hex,
         entries:       currency.code.eth? ? build_entries(tx, currency) : [] }
@@ -149,23 +148,27 @@ module BlockchainClient
     def build_entries(tx, currency)
       [
         { amount:  convert_from_base_unit(tx.fetch('value').hex, currency),
-          address: normalize_address(tx['to'])}
+          address: normalize_address(tx['to']) }
       ]
     end
 
-    def build_erc20_transaction(tx, current_block_json, currency)
+    def build_erc20_transaction(tx, current_block_json, address, currency)
       entries = tx.fetch('logs').map do |log|
 
         next if log.fetch('topics').blank? || log.fetch('topics')[0] != TOKEN_EVENT_IDENTIFIER
         # Skip if ERC20 contract address doesn't match.
-        next if tx.fetch('to') != currency.erc20_contract_address
+        next if log.fetch('address') != currency.erc20_contract_address
+        # Skip if address doesn't match.
+        destination_address = normalize_address('0x' + log.fetch('topics').last[-40..-1])
+        next if destination_address != address
 
         { amount:  convert_from_base_unit(log.fetch('data').hex, currency),
-          address: normalize_address('0x' + log.fetch('topics').last[-40..-1]) }
+          address: destination_address,
+          txout:   log['logIndex'].to_i(16) }
       end
 
       { id:            normalize_txid(tx.fetch('transactionHash')),
-        block_number: current_block_json.fetch('number').hex,
+        block_number:  current_block_json.fetch('number').hex,
         entries:       entries.compact }
     end
 

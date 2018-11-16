@@ -6,7 +6,7 @@ module Deposits
     include HasOneBlockchainThroughCurrency
 
     validate { errors.add(:currency, :invalid) if currency && !currency.coin? }
-    validates :address, :txid, :txout, presence: true
+    validates :address, :txid, presence: true
     validates :txid, uniqueness: { scope: %i[currency_id txout] }
 
     before_validation do

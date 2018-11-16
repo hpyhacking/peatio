@@ -109,6 +109,81 @@ describe BlockchainService::Bitcoin do
       end
     end
 
+    context 'two BTC deposit in one transactions was created during blockchain proccessing' do
+      # File with real json rpc data for two blocks.
+      let(:block_file_name) { '1354419-1354420.json' }
+
+      let(:expected_deposits) do
+        [
+          {
+            amount:   0.09999834,
+            address:  '2N53Qy2KPYc6FBboYpuQmYroiSu8S6xthug',
+            txid:     '0274c3905b407d75ee26bf948d6d4365a6dd5f3941b0fdc281e8afa01580d67d'
+          },
+          {
+            amount:   0.60000000,
+            address:  '2N9ufFR59zrxPETBaxEH51PcxAeJ2TyASVm',
+            txid:     '0274c3905b407d75ee26bf948d6d4365a6dd5f3941b0fdc281e8afa01580d67d'
+          }
+        ]
+      end
+
+      let(:currency) { Currency.find_by_id(:btc) }
+
+      let!(:first_payment_address) do
+        create(:btc_payment_address, address: '2N53Qy2KPYc6FBboYpuQmYroiSu8S6xthug')
+      end
+
+      let!(:second_payment_address) do
+        create(:btc_payment_address, address: '2N9ufFR59zrxPETBaxEH51PcxAeJ2TyASVm')
+      end
+
+      before do
+        # Mock requests and methods.
+        client.class.any_instance.stubs(:latest_block_number).returns(latest_block)
+
+        Deposits::Coin.where(currency: currency).delete_all
+
+        block_data.each_with_index do |blk, index|
+          # stub get_block_hash
+          stub_request(:post, client.endpoint)
+            .with(body: request_block_hash_body(blk['result']['height']))
+            .to_return(body: {result: blk['result']['hash']}.to_json)
+
+          # stub get_block
+          stub_request(:post, client.endpoint)
+            .with(body: request_block_body(blk['result']['hash']))
+            .to_return(body: blk.to_json)
+        end
+
+        # Process blockchain data.
+        BlockchainService[blockchain.key].process_blockchain(force: true)
+      end
+
+      subject { Deposits::Coin.where(currency: currency) }
+
+      it 'creates two deposit' do
+        expect(Deposits::Coin.where(currency: currency).count).to eq expected_deposits.count
+      end
+
+      it 'creates deposits with correct attributes' do
+        expected_deposits.each do |expected_deposit|
+          expect(subject.where(expected_deposit).count).to eq 1
+        end
+      end
+
+      context 'we process same data one more time' do
+        before do
+          blockchain.update(height: start_block)
+        end
+
+        it 'doesn\'t change deposit' do
+          expect(blockchain.height).to eq start_block
+          expect{ BlockchainService[blockchain.key].process_blockchain(force: true)}.not_to change{subject}
+        end
+      end
+    end
+
     context 'two BTC withdrawals were processed' do
       # File with real json rpc data for bunch of blocks.
       let(:block_file_name) { '1354649-1354651.json' }
