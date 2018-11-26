@@ -61,6 +61,10 @@ function openSidebar() {
   $('.has-sub-menu').popover('hide');
 }
 
+function operationsUrl(path, value) {
+  window.location = path + '/' + value;
+}
+
 // Show/Hide popovers
 $(function () {
   $(".dashboard-sidebar .has-sub-menu").each(function(i, obj) {

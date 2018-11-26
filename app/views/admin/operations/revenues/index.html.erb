@@ -1,0 +1,12 @@
+<h3>Revenues</h3>
+<div class="card">
+  <div class="m-4 operations-tab">
+    <%= select_tag :currency_id, options_for_select( Currency.codes.map { |code| [code.upcase, code] }, currency.try(:code)), \
+                  {:prompt => "Select Currency", class: "form-control col-md-2 float-right", onchange: "operationsUrl('#{admin_revenue_operations_path}', this.value)"} %>
+  </div>
+<%= render partial: 'admin/operations/shared/table', locals: { objects: @revenues} %>
+</div>
+
+<div class="float-right">
+  <%= paginate @revenues, params: { route: :admin_revenue_operations } %>
+</div>

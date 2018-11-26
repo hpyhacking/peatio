@@ -74,10 +74,6 @@ class Order < ActiveRecord::Base
     created_at.to_i
   end
 
-  def self.head(currency)
-    active.with_market(currency).matching_rule.first
-  end
-
   def to_matching_attributes
     { id:        id,
       market:    market_id,
@@ -95,6 +91,32 @@ class Order < ActiveRecord::Base
     if volume
       self.volume = config.fix_number_precision(:ask, volume.to_d)
       self.origin_volume = origin_volume.present? ? config.fix_number_precision(:ask, origin_volume.to_d) : volume
+    end
+  end
+
+  def record_submit_operations!
+    transaction do
+      # Debit main fiat/crypto Liability account.
+      # Credit locked fiat/crypto Liability account.
+      Operations::Liability.transfer!(
+        reference: self,
+        amount: locked,
+        from_kind: :main,
+        to_kind:   :locked
+      )
+    end
+  end
+
+  def record_cancel_operations!
+    transaction do
+      # Debit locked fiat/crypto Liability account.
+      # Credit main fiat/crypto Liability account.
+      Operations::Liability.transfer!(
+        reference: self,
+        amount: locked,
+        from_kind: :locked,
+        to_kind:   :main
+      )
     end
   end
 

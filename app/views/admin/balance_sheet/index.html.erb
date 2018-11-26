@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-md-4">
+    <h3>Assets</h3>
+    <div class="card">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Currency</th>
+          <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @assets.each do |k,v| %>
+          <tr>
+            <td><%= k.upcase %></td>
+            <td><%= v %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <h3>Liabilites</h3>
+    <div class="card">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Currency</th>
+          <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @liabilities.each do |k,v| %>
+          <tr>
+            <td><%= k.upcase %></td>
+            <td><%= v %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <h3>Balance</h3>
+    <div class="card">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Currency</th>
+          <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @balances.each do |k,v| %>
+          <tr>
+            <td><%= k.upcase %></td>
+            <td><%= v %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

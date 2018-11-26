@@ -36,7 +36,10 @@ class Deposit < ActiveRecord::Base
     event(:reject) { transitions from: :submitted, to: :rejected }
     event :accept do
       transitions from: :submitted, to: :accepted
-      after :plus_funds
+      after do
+        plus_funds
+        record_complete_operations!
+      end
     end
     event :dispatch do
       transitions from: :accepted, to: :collected
@@ -72,6 +75,7 @@ class Deposit < ActiveRecord::Base
     !submitted?
   end
 
+  # @deprecated
   def plus_funds
     account.plus_funds(amount)
   end
@@ -83,6 +87,26 @@ class Deposit < ActiveRecord::Base
       else
         AMQPQueue.enqueue(:deposit_collection, id: id)
       end
+    end
+  end
+
+  private
+
+  # Creates dependant operations for deposit.
+  def record_complete_operations!
+    transaction do
+      # Credit main fiat/crypto Asset account.
+      Operations::Asset.credit!(reference: self, amount: amount + fee)
+
+      # Credit main fiat/crypto Revenue account.
+      Operations::Revenue.credit!(reference: self, amount: fee)
+
+      # Credit main fiat/crypto Liability account.
+      Operations::Liability.credit!(
+        reference: self,
+        amount: amount,
+        kind: :main
+      )
     end
   end
 end

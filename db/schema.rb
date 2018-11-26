@@ -25,6 +25,20 @@ ActiveRecord::Schema.define(version: 20181126101312) do
   add_index "accounts", ["currency_id", "member_id"], name: "index_accounts_on_currency_id_and_member_id", unique: true, using: :btree
   add_index "accounts", ["member_id"], name: "index_accounts_on_member_id", using: :btree
 
+  create_table "assets", force: :cascade do |t|
+    t.integer  "code",           limit: 4,                                           null: false
+    t.string   "currency_id",    limit: 255,                                         null: false
+    t.integer  "reference_id",   limit: 4,                                           null: false
+    t.string   "reference_type", limit: 255,                                         null: false
+    t.decimal  "debit",                      precision: 32, scale: 16, default: 0.0, null: false
+    t.decimal  "credit",                     precision: 32, scale: 16, default: 0.0, null: false
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
+  end
+
+  add_index "assets", ["currency_id"], name: "index_assets_on_currency_id", using: :btree
+  add_index "assets", ["reference_type", "reference_id"], name: "index_assets_on_reference_type_and_reference_id", using: :btree
+
   create_table "authentications", force: :cascade do |t|
     t.string   "provider",   limit: 30,   null: false
     t.string   "uid",        limit: 255,  null: false
@@ -101,6 +115,36 @@ ActiveRecord::Schema.define(version: 20181126101312) do
   add_index "deposits", ["tid"], name: "index_deposits_on_tid", using: :btree
   add_index "deposits", ["type"], name: "index_deposits_on_type", using: :btree
 
+  create_table "expenses", force: :cascade do |t|
+    t.integer  "code",           limit: 4,                                           null: false
+    t.string   "currency_id",    limit: 255,                                         null: false
+    t.integer  "reference_id",   limit: 4,                                           null: false
+    t.string   "reference_type", limit: 255,                                         null: false
+    t.decimal  "debit",                      precision: 32, scale: 16, default: 0.0, null: false
+    t.decimal  "credit",                     precision: 32, scale: 16, default: 0.0, null: false
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
+  end
+
+  add_index "expenses", ["currency_id"], name: "index_expenses_on_currency_id", using: :btree
+  add_index "expenses", ["reference_type", "reference_id"], name: "index_expenses_on_reference_type_and_reference_id", using: :btree
+
+  create_table "liabilities", force: :cascade do |t|
+    t.integer  "code",           limit: 4,                                           null: false
+    t.string   "currency_id",    limit: 255,                                         null: false
+    t.integer  "member_id",      limit: 4,                                           null: false
+    t.integer  "reference_id",   limit: 4,                                           null: false
+    t.string   "reference_type", limit: 255,                                         null: false
+    t.decimal  "debit",                      precision: 32, scale: 16, default: 0.0, null: false
+    t.decimal  "credit",                     precision: 32, scale: 16, default: 0.0, null: false
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
+  end
+
+  add_index "liabilities", ["currency_id"], name: "index_liabilities_on_currency_id", using: :btree
+  add_index "liabilities", ["member_id"], name: "index_liabilities_on_member_id", using: :btree
+  add_index "liabilities", ["reference_type", "reference_id"], name: "index_liabilities_on_reference_type_and_reference_id", using: :btree
+
   create_table "markets", force: :cascade do |t|
     t.string   "ask_unit",      limit: 10,                                          null: false
     t.string   "bid_unit",      limit: 10,                                          null: false
@@ -174,6 +218,20 @@ ActiveRecord::Schema.define(version: 20181126101312) do
   end
 
   add_index "payment_addresses", ["currency_id", "address"], name: "index_payment_addresses_on_currency_id_and_address", unique: true, using: :btree
+
+  create_table "revenues", force: :cascade do |t|
+    t.integer  "code",           limit: 4,                                           null: false
+    t.string   "currency_id",    limit: 255,                                         null: false
+    t.integer  "reference_id",   limit: 4,                                           null: false
+    t.string   "reference_type", limit: 255,                                         null: false
+    t.decimal  "debit",                      precision: 32, scale: 16, default: 0.0, null: false
+    t.decimal  "credit",                     precision: 32, scale: 16, default: 0.0, null: false
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
+  end
+
+  add_index "revenues", ["currency_id"], name: "index_revenues_on_currency_id", using: :btree
+  add_index "revenues", ["reference_type", "reference_id"], name: "index_revenues_on_reference_type_and_reference_id", using: :btree
 
   create_table "trades", force: :cascade do |t|
     t.decimal  "price",                    precision: 32, scale: 16, null: false

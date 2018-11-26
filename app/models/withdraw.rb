@@ -47,17 +47,28 @@ class Withdraw < ActiveRecord::Base
 
     event :submit do
       transitions from: :prepared, to: :submitted
-      after :lock_funds
+      after do
+        lock_funds
+        record_submit_operations!
+      end
     end
 
     event :cancel do
       transitions from: %i[prepared submitted accepted], to: :canceled
-      after { unlock_funds unless aasm.from_state == :prepared }
+      after do
+        unless aasm.from_state == :prepared
+          unlock_funds
+          record_cancel_operations!
+        end
+      end
     end
 
     event :suspect do
       transitions from: :submitted, to: :suspected
-      after :unlock_funds
+      after do
+        unlock_funds
+        record_cancel_operations!
+      end
     end
 
     event :accept do
@@ -66,7 +77,10 @@ class Withdraw < ActiveRecord::Base
 
     event :reject do
       transitions from: %i[submitted accepted], to: :rejected
-      after :unlock_funds
+      after do
+        unlock_funds
+        record_cancel_operations!
+      end
     end
 
     event :process do
@@ -81,12 +95,18 @@ class Withdraw < ActiveRecord::Base
 
     event :success do
       transitions from: :confirming, to: :succeed
-      before :unlock_and_sub_funds
+      after do
+        unlock_and_sub_funds
+        record_complete_operations!
+      end
     end
 
     event :fail do
       transitions from: %i[processing confirming], to: :failed
-      after :unlock_funds
+      after do
+        unlock_funds
+        record_cancel_operations!
+      end
     end
   end
 
@@ -140,16 +160,64 @@ class Withdraw < ActiveRecord::Base
 
 private
 
+  # @deprecated
   def lock_funds
     account.lock_funds(sum)
   end
 
+  # @deprecated
   def unlock_funds
     account.unlock_funds(sum)
   end
 
+  # @deprecated
   def unlock_and_sub_funds
     account.unlock_and_sub_funds(sum)
+  end
+
+  def record_submit_operations!
+    transaction do
+      # Debit main fiat/crypto Liability account.
+      # Credit locked fiat/crypto Liability account.
+      Operations::Liability.transfer!(
+        reference: self,
+        amount: sum,
+        from_kind: :main,
+        to_kind:   :locked
+      )
+    end
+  end
+
+  def record_cancel_operations!
+    transaction do
+      # Debit locked fiat/crypto Liability account.
+      # Credit main fiat/crypto Liability account.
+      Operations::Liability.transfer!(
+        reference: self,
+        amount: sum,
+        from_kind: :locked,
+        to_kind:   :main
+      )
+    end
+  end
+
+  def record_complete_operations!
+    transaction do
+      # Debit locked fiat/crypto Liability account.
+      Operations::Liability.debit!(
+        reference: self,
+        amount: sum,
+        kind: :locked
+      )
+
+      # Credit main fiat/crypto Revenue account.
+      # NOTE: Credit amount = fee.
+      Operations::Revenue.credit!(reference: self, amount: fee)
+
+      # Debit main fiat/crypto Asset account.
+      # NOTE: Debit amount = sum - fee.
+      Operations::Asset.debit!(reference: self, amount: amount)
+    end
   end
 
   def send_coins!

@@ -50,4 +50,67 @@ describe Deposit do
     record = create(:deposit_btc)
     expect(record.tid).to eq record.tid.upcase
   end
+
+  context :accept do
+    context :record_complete_operations! do
+      subject { deposit }
+      it 'creates single asset operation' do
+        expect{ subject.accept! }.to change{ Operations::Asset.count }.by(1)
+      end
+
+      it 'credits assets with correct amount' do
+        subject.accept!
+        asset_operation = Operations::Asset.find_by(reference: subject)
+        expect(asset_operation.credit).to eq(subject.amount)
+      end
+
+      it 'creates single liability operation' do
+        expect{ subject.accept! }.to change{ Operations::Liability.count }.by(1)
+      end
+
+      it 'credits liabilities with correct amount' do
+        subject.accept!
+        liability_operation = Operations::Liability.find_by(reference: subject)
+        expect(liability_operation.credit).to eq(subject.amount)
+      end
+
+      context 'zero deposit fee' do
+        it 'doesn\'t create revenue operation' do
+          expect{ subject.accept! }.to_not change{ Operations::Revenue.count }
+        end
+      end
+
+      context 'greater than zero deposit fee' do
+        let(:currency) do
+          Currency.find(:usd).tap{ |c| c.update(deposit_fee: 0.01) }
+        end
+
+        let(:deposit) do
+          create(:deposit_usd, member: member, amount: amount, currency: currency)
+        end
+
+        it 'creates single revenue operation' do
+          expect{ subject.accept! }.to change{ Operations::Revenue.count }.by(1)
+        end
+
+        it 'credits revenues with fee amount' do
+          subject.accept!
+          revenue_operation = Operations::Revenue.find_by(reference: subject)
+          expect(revenue_operation.credit).to eq(subject.fee)
+        end
+      end
+
+      it 'credits both legacy and operations based member balance' do
+        subject.accept!
+
+        %i[main locked].each do |kind|
+          expect(
+            subject.member.balance_for(currency: subject.currency, kind: kind)
+          ).to eq(
+            subject.member.legacy_balance_for(currency: subject.currency, kind: kind)
+          )
+        end
+      end
+    end
+  end
 end

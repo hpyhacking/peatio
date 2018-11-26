@@ -122,6 +122,26 @@ class Member < ActiveRecord::Base
     self.class.trigger_pusher_event(self, event, data)
   end
 
+  def balance_for(currency:, kind:)
+    account_code = Operations::Chart.code_for(
+      type: :liability,
+      kind: kind,
+      currency_type: currency.type.to_sym
+    )
+    liabilities = Operations::Liability.where(member_id: id, currency: currency, code: account_code)
+    liabilities.sum('credit - debit')
+  end
+
+  def legacy_balance_for(currency:, kind:)
+    if kind.to_sym == :main
+      ac(currency).balance
+    elsif kind.to_sym == :locked
+      ac(currency).locked
+    else
+      raise Operations::Exception, "Account for #{options} doesn't exists."
+    end
+  end
+
 private
 
   def downcase_email

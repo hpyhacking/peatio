@@ -12,8 +12,8 @@
 # _usd_ is the `quote_unit`.
 #
 # Given market BTCUSD.
-# Ask unit = USD.
-# Bid unit = BTC.
+# Ask/Base unit = BTC.
+# Bid/Quote unit = USD.
 #
 
 class Market < ActiveRecord::Base

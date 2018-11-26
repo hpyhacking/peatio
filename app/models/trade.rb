@@ -68,6 +68,98 @@ class Trade < ActiveRecord::Base
       price:  price.to_s || ZERO,
       amount: volume.to_s || ZERO }
   end
+
+  def record_complete_operations!
+    transaction do
+      record_liability_debit!
+      record_liability_credit!
+      record_liability_transfer!
+      record_revenues!
+    end
+  end
+
+  private
+  def record_liability_debit!
+    ask_currency_outcome = volume
+    bid_currency_outcome = funds
+
+    # Debit locked fiat/crypto Liability account for member who created ask.
+    Operations::Liability.debit!(
+      reference: self,
+      amount:    ask_currency_outcome,
+      kind:      :locked,
+      member_id: ask.member_id,
+      currency:  ask.currency
+    )
+    # Debit locked fiat/crypto Liability account for member who created bid.
+    Operations::Liability.debit!(
+      reference: self,
+      amount:    bid_currency_outcome,
+      kind:      :locked,
+      member_id: bid.member_id,
+      currency:  bid.currency
+    )
+  end
+
+  def record_liability_credit!
+    # We multiply ask outcome by bid fee.
+    # Fees are related to side bid or ask (not currency).
+    ask_currency_income = volume - volume * bid.fee
+    bid_currency_income = funds - funds * ask.fee
+
+    # Credit main fiat/crypto Liability account for member who created ask.
+    Operations::Liability.credit!(
+      reference: self,
+      amount:    bid_currency_income,
+      kind:      :main,
+      member_id: ask.member_id,
+      currency:  bid.currency
+    )
+
+    # Credit main fiat/crypto Liability account for member who created bid.
+    Operations::Liability.credit!(
+      reference: self,
+      amount:    ask_currency_income,
+      kind:      :main,
+      member_id: bid.member_id,
+      currency:  ask.currency
+    )
+  end
+
+  def record_liability_transfer!
+    # Unlock unused funds.
+    [bid, ask].each do |order|
+      if order.volume.zero? && !order.locked.zero?
+        Operations::Liability.transfer!(
+          reference: self,
+          amount:    order.locked,
+          from_kind: :locked,
+          to_kind:   :main,
+          member_id: order.member_id,
+          currency:  order.currency
+        )
+      end
+    end
+  end
+
+  def record_revenues!
+    ask_currency_fee = volume * bid.fee
+    bid_currency_fee = funds * ask.fee
+
+    # Credit main fiat/crypto Revenue account.
+    Operations::Revenue.credit!(
+      reference: self,
+      amount:    ask_currency_fee,
+      currency:  ask.currency
+    )
+
+    # Credit main fiat/crypto Revenue account.
+    Operations::Revenue.credit!(
+      reference: self,
+      amount:    bid_currency_fee,
+      currency:  bid.currency
+    )
+  end
 end
 
 # == Schema Information

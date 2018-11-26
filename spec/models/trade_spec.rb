@@ -67,3 +67,72 @@ describe Trade, '#for_notify' do
     expect(trade.for_notify[:kind]).to eq 'ask'
   end
 end
+
+describe Trade, '#record_complete_operations!' do
+  # Persist orders and trades in database.
+  let!(:trade){ create(:trade, :with_deposit_liability, :submitted_orders) }
+
+  let(:ask){ trade.ask }
+  let(:bid){ trade.bid }
+
+  let(:ask_currency_outcome){ trade.volume }
+  let(:bid_currency_outcome){ trade.funds }
+
+  let(:ask_currency_fee){ trade.volume * bid.fee }
+  let(:bid_currency_fee){ trade.funds * ask.fee }
+
+  let(:ask_currency_income){ ask_currency_outcome - ask_currency_fee }
+  let(:bid_currency_income){ bid_currency_outcome - bid_currency_fee }
+
+  subject{ trade }
+
+  let(:ask_fee) { 0.002 }
+  let(:bid_fee) { 0.001 }
+  before do
+    trade.market.update(bid_fee: bid_fee, ask_fee: ask_fee)
+  end
+
+  it 'creates four liability operations' do
+    expect{ subject.record_complete_operations! }.to change{ Operations::Liability.count }.by(4)
+  end
+
+  it 'doesn\'t create asset operations' do
+    expect{ subject.record_complete_operations! }.to_not change{ Operations::Asset.count }
+  end
+
+  it 'debits locked ask liabilities for ask creator' do
+    expect{ subject.record_complete_operations! }.to change {
+      ask.member.balance_for(currency: ask.currency, kind: :locked)
+    }.by(-ask_currency_outcome)
+  end
+
+  it 'debits locked bid liabilities for bid creator' do
+    expect{ subject.record_complete_operations! }.to change {
+      bid.member.balance_for(currency: bid.currency, kind: :locked)
+    }.by(-bid_currency_outcome)
+  end
+
+  it 'credits main bid liabilities for ask creator' do
+    expect{ subject.record_complete_operations! }.to change {
+      ask.member.balance_for(currency: bid.currency, kind: :main)
+    }.by(bid_currency_income)
+  end
+
+  it 'credits main ask liabilities for bid creator' do
+    expect{ subject.record_complete_operations! }.to change {
+      bid.member.balance_for(currency: ask.currency, kind: :main)
+    }.by(ask_currency_income)
+  end
+
+  it 'credits ask currency revenues' do
+    expect{ subject.record_complete_operations! }.to change {
+      Operations::Revenue.balance(currency: ask.currency)
+    }.by(ask_currency_fee)
+  end
+
+  it 'credits bid currency revenues' do
+    expect{ subject.record_complete_operations! }.to change {
+      Operations::Revenue.balance(currency: bid.currency)
+    }.by(bid_currency_fee)
+  end
+end

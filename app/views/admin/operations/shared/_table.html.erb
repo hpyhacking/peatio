@@ -1,0 +1,31 @@
+
+<%= table_for objects, class: 'table table-bordered table-striped' do |t| %>
+  <% t.column 'Currency' do |x| %>
+    <% x.currency_id.upcase %>
+  <% end %>
+
+  <% t.column 'Account Kind' do |x| %>
+    <%= Operations::Chart::find_chart(x.code).fetch(:kind).upcase %>
+  <% end %>
+
+  <% if objects.klass.name.demodulize == "Liability" %>
+    <% t.column 'Member ID' do |x| %>
+      <code class="text-info"><%= x.member_id %></code>
+    <% end %>
+  <% end %>
+
+  <% t.column :reference_id, 'Reference ID' %>
+  <% t.column 'Reference Type' do |x| %>
+    <code class="text-info"><%= x.reference_type %></code>
+  <% end %>
+
+  <% t.column 'Credit/Debit' do |x| %>
+    <code class="text-<%= x.debit.zero? ? 'success' : 'danger' %>"><%= x.debit.zero? ? 'Credit' : 'Debit' %></code>
+  <% end %>
+
+  <% t.column 'Amount' do |x| %>
+    <code class="text-info"><%= x.debit.zero? ? x.credit : x.debit %></code>
+  <% end %>
+
+  <% t.column :created_at, 'Created At' %>
+<% end %>

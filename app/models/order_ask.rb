@@ -10,10 +10,12 @@ class OrderAsk < Order
             numericality: { greater_than_or_equal_to: ->(order){ order.market.min_ask }},
             if: :is_limit_order?
 
+  # @deprecated
   def hold_account
     member.get_account(ask)
   end
 
+  # @deprecated
   def hold_account!
     Account.lock.find_by!(member_id: member_id, currency_id: ask)
   end
@@ -29,6 +31,10 @@ class OrderAsk < Order
   def avg_price
     return ::Trade::ZERO if funds_used.zero?
     config.fix_number_precision(:bid, funds_received / funds_used)
+  end
+
+  def currency
+    Currency.find(ask)
   end
 
   def compute_locked
