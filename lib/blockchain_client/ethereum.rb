@@ -22,6 +22,27 @@ module BlockchainClient
       json_rpc(:eth_getBlockByNumber, ["0x#{current_block.to_s(16)}", true]).fetch('result')
     end
 
+    def load_balance!(address, currency)
+      if currency.code.eth?
+        json_rpc(:eth_getBalance, [normalize_address(address), 'latest'])
+          .fetch('result')
+          .hex
+          .to_d
+          .yield_self { |amount| convert_from_base_unit(amount, currency) }
+      else
+        load_balance_of_address(address, currency)
+      end
+    end
+
+    def load_balance_of_address(address, currency)
+      data = abi_encode('balanceOf(address)', normalize_address(address))
+      json_rpc(:eth_call, [{ to: contract_address(currency), data: data }, 'latest'])
+        .fetch('result')
+        .hex
+        .to_d
+        .yield_self { |amount| convert_from_base_unit(amount, currency) }
+    end
+
     def to_address(tx)
       if tx.has_key?('logs')
         get_erc20_addresses(tx)
@@ -73,6 +94,10 @@ module BlockchainClient
     # IMPORTANT: Be sure to set the correct value!
     def case_sensitive?
       false
+    end
+
+    def convert_from_base_unit(value, currency)
+      value.to_d / currency.base_factor
     end
 
   protected
@@ -172,7 +197,7 @@ module BlockchainClient
         entries:       entries.compact }
     end
 
-    def contract_address
+    def contract_address(currency)
       normalize_address(currency.erc20_contract_address)
     end
   end

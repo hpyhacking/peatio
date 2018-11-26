@@ -7,7 +7,7 @@ FactoryBot.define do
       key                     { 'xrp-testnet' }
       name                    { 'Ripple Testnet' }
       client                  { 'ripple' }
-      server                  { 'https://s.altnet.rippletest.net:51234' }
+      server                  { 'http://127.0.0.1:5005' }
       height                  { 40280751 }
       min_confirmations       { 1 }
       explorer_address        { '' }
@@ -46,7 +46,7 @@ FactoryBot.define do
       server                  { 'http://127.0.0.1:18332' }
       height                  { 1350000 }
       min_confirmations       { 1 }
-      explorer_address        { ' https://blockchain.info/address/#{address}' }
+      explorer_address        { 'https://blockchain.info/address/#{address}' }
       explorer_transaction    { 'https://blockchain.info/tx/#{txid}' }
       status                  { 'active' }
     end

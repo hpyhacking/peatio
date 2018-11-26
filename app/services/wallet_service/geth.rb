@@ -13,11 +13,11 @@ module WalletService
     end
 
     def collect_deposit!(deposit, options={})
-      destination_address = destination_wallet(deposit).address
+      destination_wallets = destination_wallets(deposit)
       if deposit.currency.code.eth?
-        collect_eth_deposit!(deposit, destination_address, options)
+        collect_eth_deposit!(deposit, destination_wallets, options)
       else
-        collect_erc20_deposit!(deposit, destination_address, options)
+        collect_erc20_deposit!(deposit, destination_wallets, options)
       end
     end
 
@@ -30,12 +30,12 @@ module WalletService
     end
 
     def deposit_collection_fees(deposit, value=DEFAULT_ERC20_FEE_VALUE, options={})
-      fees_wallet = erc20_fee_wallet
+      fee_wallet = erc20_fee_wallet
       destination_address = deposit.account.payment_address.address
       options = DEFAULT_ETH_FEE.merge options
 
       client.create_eth_withdrawal!(
-        { address: fees_wallet.address, secret: fees_wallet.secret },
+        { address: fee_wallet.address, secret: fee_wallet.secret },
         { address: destination_address },
         value,
         options
@@ -47,35 +47,38 @@ module WalletService
     def erc20_fee_wallet
       Wallet
         .active
-        .withdraw
         .find_by(currency_id: :eth, kind: :fee)
     end
 
-    def collect_eth_deposit!(deposit, destination_address, options={})
+    def collect_eth_deposit!(deposit, destination_wallets, options={})
       # Default values for Ethereum tx fees.
       options = DEFAULT_ETH_FEE.merge options
-
-      # We can't collect all funds we need to subtract gas fees.
-      amount = deposit.amount_to_base_unit! - options[:gas_limit] * options[:gas_price]
       pa = deposit.account.payment_address
-      client.create_eth_withdrawal!(
-        { address: pa.address, secret: pa.secret },
-        { address: destination_address },
-        amount,
-        options
-      )
+      spread_hash = spread_deposit(deposit)
+      spread_hash.map do |address, amount|
+        spread_amount = amount * deposit.currency.base_factor - options[:gas_limit] * options[:gas_price]
+        client.create_eth_withdrawal!(
+            { address: pa.address, secret: pa.secret },
+            { address: address},
+            spread_amount.to_i,
+            options
+        )
+      end
     end
 
-    def collect_erc20_deposit!(deposit, destination_address, options={})
+    def collect_erc20_deposit!(deposit, destination_wallets, options={})
       pa = deposit.account.payment_address
 
-      client.create_erc20_withdrawal!(
-        { address: pa.address, secret: pa.secret },
-        { address: destination_address },
-        deposit.amount_to_base_unit!,
-        options.merge(contract_address: deposit.currency.erc20_contract_address )
-      )
-
+      spread_hash = spread_deposit(deposit)
+      spread_hash.map do |address, amount|
+        spread_amount = amount * deposit.currency.base_factor
+        client.create_erc20_withdrawal!(
+            { address: pa.address, secret: pa.secret },
+            { address: address},
+            spread_amount.to_i,
+            options.merge( contract_address: deposit.currency.erc20_contract_address )
+        )
+      end
     end
 
     def build_eth_withdrawal!(withdraw)

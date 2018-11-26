@@ -116,6 +116,7 @@ describe BlockchainService::Ripple do
       end
 
       before do
+        Deposits::Coin.where(currency: currency).delete_all
         client.class.any_instance.stubs(:latest_block_number).returns(latest_block_number)
         stub_request(:post, client.endpoint)
           .with(body: request_body(start_ledger_index, 0))

@@ -83,6 +83,8 @@ describe BlockchainService::Bitcoincash do
         # Mock requests and methods.
         client.class.any_instance.stubs(:latest_block_number).returns(latest_block)
 
+        Deposits::Coin.where(currency: currency).delete_all
+
         block_data.each_with_index do |blk, index|
           # stub get_block_hash
           stub_request(:post, client.endpoint)
@@ -165,6 +167,8 @@ describe BlockchainService::Bitcoincash do
       before do
         # Mock requests and methods.
         client.class.any_instance.stubs(:latest_block_number).returns(latest_block)
+
+        Deposits::Coin.where(currency: currency).delete_all
 
         block_data.each_with_index do |blk, index|
           # stub get_block_hash

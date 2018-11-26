@@ -4,7 +4,7 @@
 describe Wallet do
   context 'validations' do
 
-    subject { build(:wallet, 'eth_warm') }
+    subject { build(:wallet, :eth_cold) }
 
     it 'checks valid record' do
       expect(subject).to be_valid

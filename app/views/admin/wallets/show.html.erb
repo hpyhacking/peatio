@@ -25,7 +25,7 @@
           <%= f.text_field :address, class: 'form-control mb-3' %>
 
           <label>Kind</label>
-          <%= f.select :kind, Wallet::KIND.map { |k| [k.capitalize, k] }, {selected: @wallet.kind}, {class: 'form-control mb-3'} %>
+          <%= f.select :kind, Wallet::kinds(keys: true).map { |k| [k.capitalize, k] }, {selected: @wallet.kind}, {class: 'form-control mb-3'} %>
         </div>
       </div>
     </div>

@@ -21,6 +21,18 @@ module BlockchainClient
       normalize_address(tx['Account'])
     end
 
+    def load_balance!(address, currency)
+    json_rpc(:account_info, [account: normalize_address(address), ledger_index: 'validated', strict: true])
+      .fetch('result')
+      .fetch('account_data')
+      .fetch('Balance')
+      .to_d
+      .yield_self { |amount| convert_from_base_unit(amount, currency) }
+  rescue => e
+    report_exception_to_screen(e)
+    0.0
+  end
+
     def build_transaction(tx:, currency:)
       {
         id: normalize_txid(tx.fetch('hash')),

@@ -11,15 +11,16 @@ module WalletService
     end
 
     def collect_deposit!(deposit, options={})
-      destination_address = destination_wallet(deposit).address
       pa = deposit.account.payment_address
-
-      client.create_withdrawal!(
-        { address: pa.address, secret: pa.secret },
-        { address: destination_address },
-        deposit.amount,
-        options
-      )
+      spread_hash = spread_deposit(deposit)
+      spread_hash.map do |address, amount|
+        client.create_withdrawal!(
+          { address: pa.address, secret: pa.secret },
+          { address: address },
+          amount,
+          options
+        )
+      end
     end
 
     def build_withdrawal!(withdraw, options = {})

@@ -82,6 +82,13 @@ module WalletClient
       txid.downcase
     end
 
+    def load_balance!(address)
+      json_rpc(:eth_getBalance, [normalize_address(address), 'latest']).fetch('result').hex.to_d
+    rescue => e
+      report_exception_to_screen(e)
+      0.0
+    end
+
     protected
 
     def abi_encode(method, *args)

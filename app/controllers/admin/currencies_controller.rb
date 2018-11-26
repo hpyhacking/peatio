@@ -54,6 +54,7 @@ module Admin
         icon_url
         quick_withdraw_limit
         min_deposit_amount
+        min_collection_amount
         withdraw_fee
         deposit_fee
         enabled

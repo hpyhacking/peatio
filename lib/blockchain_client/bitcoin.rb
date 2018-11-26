@@ -13,6 +13,12 @@ module BlockchainClient
       @json_rpc_endpoint
     end
 
+    def load_balance!(address, currency)
+      json_rpc(:listunspent, [1, 10_000_000, [address]])
+        .fetch('result')
+        .sum { |vout| vout['amount'] }
+    end
+
     def load_deposit!(txid)
       json_rpc(:gettransaction, [normalize_txid(txid)]).fetch('result').yield_self { |tx| build_standalone_deposit(tx) }
     end
