@@ -40,11 +40,14 @@ module Admin
   private
 
     def currency_params
-      params.require(:currency).permit(permitted_currency_attributes).tap do |params|
+      params.require(:currency).permit(permitted_currency_attributes).tap do |whitelist|
         boolean_currency_attributes.each do |param|
-          next unless params.key?(param)
-          params[param] = params[param].in?(['1', 'true', true])
+          next unless whitelist.key?(param)
+          whitelist[param] = whitelist[param].in?(['1', 'true', true])
         end
+        whitelist[:options] = params[:currency][:options].is_a?(String) ? \
+                                  JSON.parse(params[:currency][:options]) : params[:currency][:options] \
+                                  if params[:currency][:options]
       end
     end
 
@@ -67,8 +70,7 @@ module Admin
           code
           type
           base_factor
-          precision
-          erc20_contract_address ]
+          precision ]
       end
 
       attributes
