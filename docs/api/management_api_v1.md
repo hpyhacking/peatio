@@ -2,7 +2,7 @@ Management API v1
 =================
 Management API is server-to-server API with high privileges.
 
-**Version:** 1.9.1-rc.24
+**Version:** 1.9.1-rc.25
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
