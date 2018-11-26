@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.9.1-rc.25
+**Version:** 1.9.1-rc.26
 
 **Contact information:**  
 peatio.tech  
@@ -559,7 +559,8 @@ Get a currency
 | type | string | Currency type | No |
 | deposit_fee | string | Currency deposit fee | No |
 | withdraw_fee | string | Currency withdraw fee | No |
-| quick_withdraw_limit | string | Currency quick withdraw limit | No |
+| withdraw_limit_24h | string | Currency 24h withdraw limit | No |
+| withdraw_limit_72h | string | Currency 72h withdraw limit | No |
 | base_factor | string | Currency base factor | No |
 | precision | string | Currency precision | No |
 | icon_url | string | Currency icon | No |
