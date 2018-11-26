@@ -86,7 +86,7 @@ describe APIv2::Currencies, type: :request do
     let(:coin) { Currency.find(:btc) }
 
     let(:expected_for_fiat) do
-      %w[id symbol type deposit_fee withdraw_fee quick_withdraw_limit base_factor precision]
+      %w[id symbol type deposit_fee withdraw_fee withdraw_limit_24h withdraw_limit_72h base_factor precision]
     end
     let(:expected_for_coin) do
       expected_for_fiat.concat(%w[explorer_transaction explorer_address])
@@ -118,7 +118,6 @@ describe APIv2::Currencies, type: :request do
       expect(response).to be_success
 
       result = JSON.parse(response.body)
-
       expected_for_coin.each { |key| expect(result).to have_key key }
     end
 

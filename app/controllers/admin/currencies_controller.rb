@@ -52,7 +52,8 @@ module Admin
       attributes = %i[
         symbol
         icon_url
-        quick_withdraw_limit
+        withdraw_limit_24h
+        withdraw_limit_72h
         min_deposit_amount
         min_collection_amount
         withdraw_fee

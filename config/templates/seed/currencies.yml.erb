@@ -7,9 +7,10 @@
   precision:              2
   base_factor:            1
   enabled:                true
-  quick_withdraw_limit:   1000
   min_deposit_amount:     0
   min_collection_amount:  0
+  withdraw_limit_24h:     100
+  withdraw_limit_72h:     200
   deposit_fee:            0
   withdraw_fee:           0
 
@@ -20,11 +21,12 @@
   precision:              8
   base_factor:            100_000_000
   enabled:                true
-  quick_withdraw_limit:   0.1
   # Deposits with less amount are skipped during blockchain synchronization.
   # We advise to set value 10 times bigger than the network fee to prevent losses.
   min_deposit_amount:     0.0000356
   min_collection_amount:  0.0000356
+  withdraw_limit_24h:     0.1
+  withdraw_limit_72h:     0.2
   deposit_fee:            0
   withdraw_fee:           0
   options:                {}
@@ -36,11 +38,12 @@
   precision:              8
   base_factor:            1_000_000
   enabled:                true
-  quick_withdraw_limit:   1000
   # Deposits with less amount are skipped during blockchain synchronization.
   # We advise to set value 10 times bigger than the network fee to prevent losses.
   min_deposit_amount:     0.00012
   min_collection_amount:  0.00012
+  withdraw_limit_24h:     100
+  withdraw_limit_72h:     200
   deposit_fee:            0
   withdraw_fee:           0
   options:                {}
@@ -52,11 +55,12 @@
   precision:              8
   base_factor:            100_000_000
   enabled:                true
-  quick_withdraw_limit:   1
   # Deposits with less amount are skipped during blockchain synchronization.
   # We advise to set value 10 times bigger than the network fee to prevent losses.
   min_deposit_amount:     0.0000748
   min_collection_amount:  0.0000748
+  withdraw_limit_24h:     0.1
+  withdraw_limit_72h:     0.2
   deposit_fee:            0
   withdraw_fee:           0
   options:                {}
@@ -68,11 +72,12 @@
   precision:              8
   base_factor:            100_000_000
   enabled:                true
-  quick_withdraw_limit:   5
   # Deposits with less amount are skipped during blockchain synchronization.
   # We advise to set value 10 times bigger than the network fee to prevent losses.
   min_deposit_amount:     0.0004488
   min_collection_amount:  0.0004488
+  withdraw_limit_24h:     0.5
+  withdraw_limit_72h:     1.2
   deposit_fee:            0
   withdraw_fee:           0
   options:                {}
@@ -84,11 +89,12 @@
   precision:              8
   base_factor:            100_000_000
   enabled:                true
-  quick_withdraw_limit:   2
   # Deposits with less amount are skipped during blockchain synchronization.
   # We advise to set value 10 times bigger than the network fee to prevent losses.
   min_deposit_amount:     0.0000226
   min_collection_amount:  0.0000226
+  withdraw_limit_24h:     0.2
+  withdraw_limit_72h:     0.5
   deposit_fee:            0
   withdraw_fee:           0
   options:                {}
@@ -100,11 +106,12 @@
   precision:              8
   base_factor:            1_000_000_000_000_000_000
   enabled:                true
-  quick_withdraw_limit:   2
   # Deposits with less amount are skipped during blockchain synchronization.
   # We advise to set value 10 times bigger than the network fee to prevent losses.
   min_deposit_amount:     0.00021
   min_collection_amount:  0.00021
+  withdraw_limit_24h:     0.2
+  withdraw_limit_72h:     0.5
   deposit_fee:            0
   withdraw_fee:           0
   options:                {}
@@ -116,12 +123,13 @@
   precision:              8
   base_factor:            1_000_000 # IMPORTANT: Don't forget to update this variable according
   enabled:                true      #            to your ERC20-based currency requirements
-  quick_withdraw_limit:   3000      #            (usually can be found on the official website).
   # Deposits with less amount are skipped during blockchain synchronization.
   # We advise to set value 10 times bigger than the network fee to prevent losses.
   # NOTE: Network fee is paid in ETH but min_deposit_amount is in TRST.
   min_deposit_amount:     0.00021
   min_collection_amount:  0.00021
+  withdraw_limit_24h:     300      #            (usually can be found on the official website).
+  withdraw_limit_72h:     600
   deposit_fee:            0
   withdraw_fee:           0
   options:

@@ -91,7 +91,18 @@ class Withdraw < ActiveRecord::Base
   end
 
   def quick?
-    sum <= currency.quick_withdraw_limit
+    sums_24h = Withdraw.where(currency_id: currency_id,
+      member_id: member_id,
+      created_at: [1.day.ago..Time.now],
+      aasm_state: [:processing, :confirming, :succeed])
+      .sum(:sum) + sum
+    sums_72h = Withdraw.where(currency_id: currency_id,
+      member_id: member_id,
+      created_at: [3.day.ago..Time.now],
+      aasm_state: [:processing, :confirming, :succeed])
+      .sum(:sum) + sum
+
+    sums_24h <= currency.withdraw_limit_24h && sums_72h <= currency.withdraw_limit_72h
   end
 
   def audit!
@@ -147,7 +158,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20180925123806
+# Schema version: 20181120113445
 #
 # Table name: withdraws
 #

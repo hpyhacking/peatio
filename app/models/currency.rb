@@ -1,6 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+
 class Currency < ActiveRecord::Base
   serialize :options, JSON
 
@@ -20,7 +21,8 @@ class Currency < ActiveRecord::Base
   validates :options, length: { maximum: 1000 }
   validates :base_factor, numericality: { greater_than_or_equal_to: 1, only_integer: true }
 
-  validates :quick_withdraw_limit,
+  validates :withdraw_limit_24h,
+            :withdraw_limit_72h,
             :min_deposit_amount,
             :min_collection_amount,
             :withdraw_fee,
@@ -157,7 +159,8 @@ end
 #  symbol                :string(1)        not null
 #  type                  :string(30)       default("coin"), not null
 #  deposit_fee           :decimal(32, 16)  default(0.0), not null
-#  quick_withdraw_limit  :decimal(32, 16)  default(0.0), not null
+#  withdraw_limit_24h    :decimal(32, 16)  default(0.0), not null
+#  withdraw_limit_72h    :decimal(32, 16)  default(0.0), not null
 #  min_deposit_amount    :decimal(32, 16)  default(0.0), not null
 #  min_collection_amount :decimal(32, 16)  default(0.0), not null
 #  withdraw_fee          :decimal(32, 16)  default(0.0), not null

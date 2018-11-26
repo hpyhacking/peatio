@@ -24,8 +24,11 @@
               <dd><%= @currency.type.titleize %></dd>
             <% end %>
 
-            <dt>Quick withdraw limit</dt>
-            <dd><%= f.text_field :quick_withdraw_limit, class: 'form-control' %></dd>
+            <dt>24h withdraw limit</dt>
+            <dd><%= f.text_field :withdraw_limit_24h, class: 'form-control' %></dd>
+
+            <dt>72h withdraw limit</dt>
+            <dd><%= f.text_field :withdraw_limit_72h, class: 'form-control' %></dd>
 
             <dt>Withdraw fee</dt>
             <dd><%= f.text_field :withdraw_fee, class: 'form-control' %></dd>

@@ -68,10 +68,18 @@ module APIv2
       )
 
       expose(
-        :quick_withdraw_limit,
+        :withdraw_limit_24h,
         documentation: {
-          desc: 'Currency quick withdraw limit',
-          example: -> { ::Currency.enabled.first.quick_withdraw_limit }
+          desc: 'Currency 24h withdraw limit',
+          example: -> { ::Currency.enabled.first.withdraw_limit_24h }
+        }
+      )
+
+      expose(
+        :withdraw_limit_72h,
+        documentation: {
+          desc: 'Currency 72h withdraw limit',
+          example: -> { ::Currency.enabled.first.withdraw_limit_24h }
         }
       )
 

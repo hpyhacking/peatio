@@ -98,7 +98,7 @@ describe Withdraw do
     subject { create(:btc_withdraw) }
     before do
       @rpc = mock
-      @rpc.stubs(load_balance!: 50_000, build_withdrawal!: '12345')
+      @rpc.stubs(load_balance: 50_000, build_withdrawal!: '12345')
 
       subject.submit
       subject.accept
@@ -225,20 +225,36 @@ describe Withdraw do
   end
 
   context '#quick?' do
-    subject(:withdraw) { build(:btc_withdraw) }
 
-    it 'returns false if currency doesn\'t set quick withdraw max' do
-      expect(withdraw).to_not be_quick
+    before do
+      withdraw.currency.update(
+        'withdraw_limit_24h': 1,
+        'withdraw_limit_72h': 3
+      )
     end
 
-    it 'returns false if exceeds quick withdraw amount' do
-      withdraw.currency.stubs(:quick_withdraw_limit).returns(withdraw.sum - 1)
-      expect(withdraw).to_not be_quick
+    context 'returns false if exceeds 24h withdraw limit' do
+      subject(:withdraw) { create(:btc_withdraw, sum: 2, aasm_state: 'accepted') }
+      it { expect(withdraw).to_not be_quick }
     end
 
-    it 'returns true' do
-      withdraw.currency.stubs(:quick_withdraw_limit).returns(withdraw.sum + 1)
-      expect(withdraw).to be_quick
+    context 'returns false if exceeds 72h withdraw limit' do
+      subject(:withdraw) { create(:btc_withdraw, sum: 4, aasm_state: 'accepted') }
+      it { expect(withdraw).to_not be_quick }
+    end
+
+    context 'returns true if doesn\'t exceeds 24h withdraw limit' do
+      subject(:withdraw) { create(:btc_withdraw, sum: 0.5, aasm_state: 'accepted') }
+      it { expect(withdraw).to be_quick }
+    end
+
+    context 'returns false if exceeds 24h withdraw limit' do
+      subject(:withdraw) { create(:btc_withdraw, sum: 0.5, aasm_state: 'accepted') }
+      it do
+        second_withdraw = create(:btc_withdraw, member: withdraw.member, sum: 0.8, aasm_state: 'accepted')
+        second_withdraw.process!
+        expect(second_withdraw).to_not be_quick
+      end
     end
   end
 

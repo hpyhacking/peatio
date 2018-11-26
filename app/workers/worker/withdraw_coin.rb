@@ -38,14 +38,13 @@ module Worker
         currency = withdraw.currency
 
         wallet_service = WalletService[wallet]
-        # TODO: we load balance of hot, warm and cold wallets
-        # balance = wallet_service.load_balance(currency)
 
-        # if balance < withdraw.sum
-        #   Rails.logger.warn { "The withdraw failed because wallet balance is not sufficient (wallet balance is #{balance.to_s("F")})." }
-        #   withdraw.suspect!
-        #   return
-        # end
+        balance = wallet_service.load_balance(withdraw.rid, currency)
+
+        if balance < withdraw.sum
+          Rails.logger.warn { "The withdraw skipped because wallet balance is not sufficient (wallet balance is #{balance.to_s("F")})." }
+          return
+        end
 
         # pa = withdraw.account.payment_address
 

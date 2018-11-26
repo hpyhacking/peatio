@@ -112,19 +112,19 @@ module WalletClient
       end
     end
 
-    def load_balance!(address)
-     json_rpc(:account_info, [account: normalize_address(address), ledger_index: 'validated', strict: true])
-            .fetch('result')
-            .fetch('account_data')
-            .fetch('Balance')
-            .to_d
-            .yield_self { |amount| convert_from_base_unit(amount) }
-      rescue => e
-        report_exception_to_screen(e)
-        0.0
+    def load_balance!(address, currency)
+      json_rpc(:account_info, [account: normalize_address(address), ledger_index: 'validated', strict: true])
+        .fetch('result')
+        .fetch('account_data')
+        .fetch('Balance')
+        .to_d
+        .yield_self { |amount| convert_from_base_unit(amount) }
+    rescue => e
+      report_exception_to_screen(e)
+      0.0
     end
 
-      protected
+    protected
 
     def connection
       Faraday.new(@json_rpc_endpoint).tap do |connection|

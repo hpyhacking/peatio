@@ -8,7 +8,8 @@ FactoryBot.define do
       symbol               { '$' }
       type                 { 'fiat' }
       precision            { 2 }
-      quick_withdraw_limit { 10 }
+      withdraw_limit_24h   { 100 }
+      withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.1 }
     end
 
@@ -17,7 +18,8 @@ FactoryBot.define do
       symbol               { '€' }
       type                 { 'fiat' }
       precision            { 8 }
-      quick_withdraw_limit { 1000 }
+      withdraw_limit_24h   { 100 }
+      withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.1 }
       enabled              { false }
     end
@@ -28,7 +30,8 @@ FactoryBot.define do
       symbol               { '฿' }
       type                 { 'coin' }
       base_factor          { 100_000_000 }
-      quick_withdraw_limit { 0.1 }
+      withdraw_limit_24h   { 0.1 }
+      withdraw_limit_72h   { 1 }
       withdraw_fee         { 0.01 }
     end
 
@@ -38,7 +41,8 @@ FactoryBot.define do
       symbol               { 'Đ' }
       type                 { 'coin' }
       base_factor          { 100_000_000 }
-      quick_withdraw_limit { 1000 }
+      withdraw_limit_24h   { 100 }
+      withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.02 }
     end
 
@@ -48,7 +52,8 @@ FactoryBot.define do
       symbol               { 'Ξ' }
       type                 { 'coin' }
       base_factor          { 1_000_000_000_000_000_000 }
-      quick_withdraw_limit { 1 }
+      withdraw_limit_24h   { 0.1 }
+      withdraw_limit_72h   { 1 }
       withdraw_fee         { 0.025 }
     end
 
@@ -58,7 +63,8 @@ FactoryBot.define do
       symbol               { 'ꭆ' }
       type                 { 'coin' }
       base_factor          { 1_000_000 }
-      quick_withdraw_limit { 1000 }
+      withdraw_limit_24h   { 100 }
+      withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.015 }
     end
 
@@ -68,7 +74,8 @@ FactoryBot.define do
       symbol               { 'Ξ' }
       type                 { 'coin' }
       base_factor          { 1_000_000 }
-      quick_withdraw_limit { 1000 }
+      withdraw_limit_24h   { 100 }
+      withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.025 }
       options \
         { { erc20_contract_address:           '0x87099adD3bCC0821B5b151307c147215F839a110' } }
@@ -80,7 +87,8 @@ FactoryBot.define do
       symbol               { '฿' }
       type                 { 'coin' }
       base_factor          { 100_000_000 }
-      quick_withdraw_limit { 1 }
+      withdraw_limit_24h   { 0.1 }
+      withdraw_limit_72h   { 1 }
       withdraw_fee         { 0 }
     end
 
@@ -90,7 +98,8 @@ FactoryBot.define do
       symbol               { 'Ł' }
       type                 { 'coin' }
       base_factor          { 100_000_000 }
-      quick_withdraw_limit { 1000 }
+      withdraw_limit_24h   { 100 }
+      withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.02 }
     end
   end

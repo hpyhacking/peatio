@@ -28,6 +28,10 @@ module WalletClient
       end
     end
 
+    def load_balance!(_address, _currency)
+      json_rpc(:getbalance).fetch('result').to_d
+    end
+
     protected
 
     def connection
