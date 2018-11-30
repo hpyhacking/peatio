@@ -21,10 +21,12 @@ namespace :admin do
   resources 'deposits/:currency',  to: AdminDepositsRouter.new,  as: 'deposit'
   resources 'withdraws/:currency', to: AdminWithdrawsRouter.new, as: 'withdraw'
 
-  resources :balance_sheet, only: %i[index]
   %i[liability asset revenue expense].each do |type|
     get "operations/#{type.to_s.pluralize}/(:currency)",
       to: AdminOperationsRouter.new(type),
       as: "#{type}_operations"
   end
+
+  get :balance_sheet,  controller: 'accountings'
+  get :income_statement, controller: 'accountings'
 end

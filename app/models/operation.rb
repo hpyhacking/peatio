@@ -50,17 +50,19 @@ class Operation < ActiveRecord::Base
       )
     end
 
-    def balance(currency: nil)
+    def balance(currency: nil, created_at_from: nil, created_at_to: nil)
       if currency.blank?
-        db_balances = group(:currency_id)
-                        .sum('credit - debit')
+        db_balances = all
+        db_balances = db_balances.where('created_at > ?', created_at_from) if created_at_from.present?
+        db_balances = db_balances.where('created_at < ?', created_at_to) if created_at_to.present?
+        db_balances = db_balances.group(:currency_id)
+                                 .sum('credit - debit')
 
         Currency.ids.map(&:to_sym).each_with_object({}) do |id, memo|
           memo[id] = db_balances[id.to_s] || 0
         end
       else
-        where(currency: currency)
-        .sum('credit - debit')
+        where(currency: currency).sum('credit - debit')
       end
     end
   end

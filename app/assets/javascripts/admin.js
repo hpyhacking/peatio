@@ -7,5 +7,7 @@
 //= require popper
 //= require bootstrap
 //= require bootstrap-datetimepicker
+//= require moment.min
+//= require daterangepicker
 //= require admin/app
 //= require theme/sidebar

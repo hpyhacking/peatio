@@ -116,7 +116,7 @@
       <% if can? :menu, Operation %>
         <li class="list-icon-item <%= check_active('operations') %>">
           <%= link_to "javascript:void(0);", class: 'has-arrow waves-effect waves-dark has-sub-menu', 'aria-expanded': "false", data: { toggle: 'popover' } do %>
-            <i class="icon fa fa-level-down-alt"></i>
+            <i class="icon fa fa-briefcase"></i>
             <span class="menu-text"><%= t('admin_header.operations') %></span>
           <% end %>
           <div class="sub-menu hidden">
@@ -128,11 +128,18 @@
           </div>
         </li>
 
-        <li class="list-icon-item <%= check_active('balance_sheet') %>">
-          <%= link_to admin_balance_sheet_index_path do %>
+        <li class="list-icon-item <%= check_active('accountings') %>">
+          <%= link_to "javascript:void(0);", class: 'has-arrow waves-effect waves-dark has-sub-menu', 'aria-expanded': "false", data: { toggle: 'popover' } do %>
             <i class="icon fa fa-balance-scale"></i>
-            <span class="menu-text"><%= t('.menus.sections.balance_sheet') %></span>
+            <span class="menu-text"><%= t('admin_header.accountings') %></span>
           <% end %>
+          <div class="sub-menu hidden">
+            <ul class="list-unstyled list-menu mb-0">
+              <% [:balance_sheet, :income_statement].each do |o| %>
+                <li><%= link_to o.to_s.humanize.upcase, eval("admin_#{o.to_s}_path") %></li>
+              <% end %>
+            </ul>
+          </div>
         </li>
       <% end %>
     </ul>

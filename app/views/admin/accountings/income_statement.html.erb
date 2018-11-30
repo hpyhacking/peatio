@@ -1,0 +1,89 @@
+<div class="card">
+  <div class="m-4 income_statement">
+    <%= form_tag admin_income_statement_path, method: :get, class: "form-inline float-right" do |f| %>
+      <div class="col">
+        <%= text_field_tag :date_range, @date_range, class: "form-control", autocomplete: 'off' %>
+        <%= submit_tag 'Search', class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <h3>Revenues</h3>
+    <div class="card">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Currency</th>
+          <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @revenues.each do |k,v| %>
+          <tr>
+            <td><%= k.upcase %></td>
+            <td><%= v %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <h3>Expenses</h3>
+    <div class="card">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Currency</th>
+          <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @expenses.each do |k,v| %>
+          <tr>
+            <td><%= k.upcase %></td>
+            <td><%= v %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <h3>Profit</h3>
+    <div class="card">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Currency</th>
+          <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @profits.each do |k,v| %>
+          <tr>
+            <td><%= k.upcase %></td>
+            <td><%= v %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+    $(function() {
+        $('.income_statement input[name="date_range"]').daterangepicker({
+            startDate: '<%= @date_range.split('-')[0].strip %>',
+            endDate: '<%= @date_range.split('-')[1].strip %>',
+            opens: 'left',
+            locale: {
+                format: 'YYYY/MM/DD'
+            }
+        });
+    });
+</script>
