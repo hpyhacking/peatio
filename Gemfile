@@ -60,6 +60,7 @@ gem 'scout_apm', '~> 2.4', require: false
 gem 'peatio', '~> 0.4.3'
 
 group :development, :test do
+  gem 'bump',         '~> 0.7'
   gem 'faker',        '~> 1.8'
   gem 'pry-byebug',   '~> 3.6'
   gem 'quiet_assets', '~> 1.1'
@@ -67,8 +68,8 @@ group :development, :test do
 end
 
 group :development do
-  gem 'annotate', '~> 2.7'
-  gem 'ruby-prof', '~> 0.17.0', require: false
+  gem 'annotate',   '~> 2.7'
+  gem 'ruby-prof',  '~> 0.17.0', require: false
 end
 
 group :test do

@@ -47,7 +47,7 @@ script:
 
 # Execute all of the commands which need to be executed after the build passed.
 # Don't let the ci/bump.rb don't run in case of issues with "docker push".
-after_success: ruby bin/bump
+after_success: bundle exec rake release:travis
 
 # Execute all of the commands which need to be executed after the build failed.
 after_failure:
