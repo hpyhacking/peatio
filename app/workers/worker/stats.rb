@@ -7,7 +7,6 @@ module Worker
     def initialize
       @redis = Redis.new(
         url: ENV["REDIS_URL"],
-        password: ENV["REDIS_PASSWORD"],
         db: 1
       )
     end

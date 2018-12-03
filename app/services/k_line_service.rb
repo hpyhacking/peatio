@@ -14,9 +14,8 @@ class KLineService
 
   def redis
     Redis.new(
-      url:      ENV.fetch('REDIS_URL'),
-      password: ENV['REDIS_PASSWORD'],
-      db:       1
+      url: ENV.fetch('REDIS_URL'),
+      db:  1
     )
   end
   memoize :redis
