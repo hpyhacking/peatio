@@ -1,9 +1,10 @@
 defaults: &defaults
   TIMEZONE: 'Paris'
 
-  # Configuration variables for Redis.
+  # Configure Redis URL, for a TCP connection:
+  # `redis://:[password]@[hostname]:[port]/[db]`
+  # (password, port and database are optional).
   REDIS_URL:      redis://localhost:6379
-  REDIS_PASSWORD: ~ # By default no password is sent to Redis server. Change this if you want to connect using password.
 
   # Comma-separated list of administrators.
   ADMIN: 'admin@peatio.tech'
