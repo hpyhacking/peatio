@@ -1,12 +1,29 @@
-<% unless @latest_withdraws.empty? %>
+<div class="row">
+  <div class="col-6">
+  <%= link_to raw("All withdraws"), admin_withdraw_index_path(state: 'all'), class: 'btn btn-primary  mb-3' %>
+  <%= link_to raw("Latest withdraws"), admin_withdraw_index_path(state: 'latest'), class: 'btn btn-primary  mb-3' %>
+  <%= link_to raw("Pending withdraws"), admin_withdraw_index_path(state: 'pending'), class: 'btn btn-primary  mb-3' %>
+  </div>
+</div>
+<% if @latest_withdraws %>
   <h3>Withdraws for the last 24 hours</h3>
   <div class="card">
     <%= render partial: 'table', locals: {withdraws: @latest_withdraws} %>
   </div>
 <% end %>
-<% unless @all_withdraws.empty? %>
-  <h3>All withdraws</h3>
+<% if @all_withdraws %>
+  <div class="col-6">
+    <h3>All withdraws</h3>
+  </div>
   <div class="card">
     <%= render partial: 'table', locals: {withdraws: @all_withdraws} %>
+  </div>
+<% end %>
+<% if @pending_withdraws %>
+  <div class="col-6">
+    <h3>Pending withdraws</h3>
+  </div>
+  <div class="card">
+    <%= render partial: 'pending_table', locals: {withdraws: @pending_withdraws} %>
   </div>
 <% end %>

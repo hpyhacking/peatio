@@ -9,9 +9,13 @@
         <%= description_for :withdraw do %>
           <%= item_for @withdraw, :id %>
           <%= item_for @withdraw, 'Txid' do %>
-            <a href="<%= @withdraw.transaction_url %>" target="_blank">
-              <code class="text-info"><%= @withdraw.txid %></code>
-            </a>
+            <% if @withdraw.txid? %>
+              <a href="<%= @withdraw.transaction_url %>" target="_blank">
+                <code class="text-info"><%= @withdraw.txid %></code>
+              </a>
+            <% else %>
+              <%= 'Empty' %>
+            <% end %>
           <% end %>
           <%= item_for @withdraw, :created_at %>
           <%= item_for @withdraw, 'State' do %>
@@ -24,6 +28,14 @@
           <% end %>
           <%= item_for @withdraw, :amount %>
           <hr>
+          <% if @withdraw.may_accept? || @withdraw.may_process? || @withdraw.confirming? %>
+            <ul class="list-inline w-100 px-3 mt-3 pt-3 border-top">
+              <%= form_tag admin_withdraw_path(event: 'load'), method: 'PATCH' do -%>
+                <%= text_field_tag :txid, nil, placeholder: 'Set txid here...', class: 'form-control w-50 d-inline ml-4' %>
+                <%= submit_tag 'Load withdraw', class: 'btn btn-primary float-left' %>
+              <% end -%>
+            </ul>
+          <% end %>
           <ul class="list-inline w-100 px-3 mt-3 pt-3 border-top">
             <% if @withdraw.may_reject? %>
               <li>
@@ -36,7 +48,7 @@
             <% if @withdraw.may_accept? || @withdraw.may_process? %>
               <li>
                 <%= link_to 'Process',
-                            admin_withdraw_path(@withdraw.currency.code, @withdraw),
+                            admin_withdraw_path(event: 'process'),
                             class: 'btn btn-primary float-left',
                             method: 'PATCH' %>
               </li>
