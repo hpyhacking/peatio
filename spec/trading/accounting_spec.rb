@@ -83,6 +83,7 @@ describe 'Accounting' do
     before do
       btc_withdraw.submit!
       btc_withdraw.accept!
+      btc_withdraw.update(txid: 'a1a43ab7166f81059449f80a35abdc6febe62fe1f75a0cdb25d49ebae3fc10d9')
       btc_withdraw.process!
       btc_withdraw.dispatch!
       btc_withdraw.success!

@@ -1,0 +1,28 @@
+<%= table_for withdraws, class: 'table table-bordered table-striped', model: Withdraws::Coin do |t| %>
+  <% t.column :id %>
+  <% t.column :txid do |x| %>
+    <a href="<%= x.transaction_url %>" target="_blank">
+      <code class="text-info"><%= x.txid%></code>
+    </a>
+  <% end %>
+  <% t.column :created_at %>
+  <% t.column 'Currency' do |x| %>
+    <%= x.currency.code.upcase %>
+  <% end %>
+  <% t.column 'Member Email' do |x| %>
+    <%= link_to x.member.email, url_for([:admin, x.member]) %>
+  <% end %>
+  <% t.column 'Withdraw Address' do |x| %>
+    <a href="<%= x.wallet_url %>" target="_blank" ><%= x.rid.truncate(22) %></a>
+  <% end %>
+  <% t.column :amount do |x| %>
+    <code class="text-info"><%= x.amount %></code>
+  <% end %>
+  <% t.column :state_and_action do |x| %>
+    <span><%= x.aasm_state.humanize %> | </span>
+    <span><%= link_to 'Process',
+                            admin_withdraw_path(x.currency.code, x, event: 'process'),
+                            method: 'PATCH' %> | </span>
+    <%= link_to t('actions.view'), admin_withdraw_path(currency: x.currency.code, id: x) %>
+  <% end %>
+<% end %>

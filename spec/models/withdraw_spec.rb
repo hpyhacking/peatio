@@ -450,6 +450,25 @@ describe Withdraw do
         end
       end
     end
+    context :load do
+      let(:txid) { 'a738cb8411e2141f3de43c5f3e7a3aabe71c099bb91d296ded84f0daf29d881c' }
+
+      subject { create(:btc_withdraw) }
+
+      before { subject.submit! }
+      before { subject.accept! }
+
+      it 'doesn\'t change state after calling #load! when withdrawing coin currency' do
+        subject.load!
+        expect(subject.accepted?).to be true
+      end
+
+      it 'transitions to :confirming after calling #load! when withdrawing coin currency' do
+        subject.update(txid: txid)
+        subject.load!
+        expect(subject.confirming?).to be true
+      end
+    end
   end
 
   context '#quick?' do
