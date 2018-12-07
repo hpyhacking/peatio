@@ -1,17 +1,15 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-
-
 class Currency < ActiveRecord::Base
 
   DEFAULT_OPTIONS_SCHEMA = {
-   erc20_contract_address: {
-       title: 'ERC20 Contract Address',
-       type: 'string'
-   }
+    erc20_contract_address: {
+      title: 'ERC20 Contract Address',
+      type: 'string'
+    }
   }
-  OPTIONS_ATTRIBUTES = %i[erc20_contract_address].freeze
+  OPTIONS_ATTRIBUTES = %i[erc20_contract_address gas_limit gas_price].freeze
   store :options, accessors: OPTIONS_ATTRIBUTES, coder: JSON
 
   belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key

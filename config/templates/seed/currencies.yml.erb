@@ -115,7 +115,13 @@
   withdraw_limit_72h:     0.5
   deposit_fee:            0
   withdraw_fee:           0
-  options:                {}
+  options:
+    # ETH tx fees configurations.
+    #
+    # Maximum amount of gas you're willing to spend on a particular transaction.
+    gas_limit: 21_000
+    # Internal price that is paid for running a transaction on the Ethereum network.
+    gas_price: 1_000_000_000
 
 - id:                     trst
   blockchain_key:         eth-rinkeby
@@ -134,6 +140,12 @@
   deposit_fee:            0
   withdraw_fee:           0
   options:
+    # ERC20 tx fees configurations.
+    #
+    # Maximum amount of gas you're willing to spend on a particular transaction.
+    gas_limit: 90_000
+    # Internal price that is paid for running a contract on the Ethereum network.
+    gas_price: 1_000_000_000
     #
     # ERC20 configuration.
     erc20_contract_address: '0x0000000000000000000000000000000000000000' # Always wrap this value in quotes!

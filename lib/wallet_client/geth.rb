@@ -20,15 +20,18 @@ module WalletClient
 
     def create_eth_withdrawal!(issuer, recipient, amount, options = {})
       permit_transaction(issuer, recipient)
+
       json_rpc(
-          :eth_sendTransaction,
-          [{
-               from:     normalize_address(issuer.fetch(:address)),
-               to:       normalize_address(recipient.fetch(:address)),
-               value:    '0x' + amount.to_s(16),
-               gas:      options.key?(:gas_limit) ? '0x' + options[:gas_limit].to_s(16) : nil,
-               gasPrice: options.key?(:gas_price) ? '0x' + options[:gas_price].to_s(16) : nil
-           }.compact]
+        :eth_sendTransaction,
+        [
+          {
+            from:     normalize_address(issuer.fetch(:address)),
+            to:       normalize_address(recipient.fetch(:address)),
+            value:    '0x' + amount.to_s(16),
+            gas:      '0x' + require_param!(options, :gas_limit).to_i.to_s(16),
+            gasPrice: '0x' + require_param!(options, :gas_price).to_i.to_s(16)
+          }
+        ]
       ).fetch('result').yield_self do |txid|
         raise WalletClient::Error, \
           "#{wallet.name} withdrawal from #{normalize_address(issuer[:address])} to #{normalize_address(recipient[:address])} failed." \
@@ -46,12 +49,16 @@ module WalletClient
         '0x' + amount.to_s(16)
 
       json_rpc(
-          :eth_sendTransaction,
-          [{
-               from: normalize_address(issuer.fetch(:address)),
-               to:   options[:contract_address],
-               data: data
-           }]
+        :eth_sendTransaction,
+        [
+          {
+            from:     normalize_address(issuer.fetch(:address)),
+            to:       options[:contract_address],
+            data:     data,
+            gas:      '0x' + require_param!(options, :gas_limit).to_i.to_s(16),
+            gasPrice: '0x' + require_param!(options, :gas_price).to_i.to_s(16)
+          }
+        ]
       ).fetch('result').yield_self do |txid|
         raise WalletClient::Error, \
           "#{wallet.name} withdrawal from #{normalize_address(issuer[:address])} to #{normalize_address(recipient[:address])} failed." \
@@ -148,6 +155,12 @@ module WalletClient
 
     def contract_address(currency)
       normalize_address(currency.erc20_contract_address)
+    end
+
+    def require_param!(options, key)
+      options.fetch(key) do
+        raise WalletClient::Error, "#{key.to_s.humanize} is required param."
+      end
     end
   end
 end
