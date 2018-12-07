@@ -10,6 +10,7 @@ describe Ordering do
       order.stubs(:hold_account).returns(account)
       order.stubs(:hold_account!).returns(account.lock!)
       AMQPQueue.expects(:enqueue).with(:matching, anything).once
+      AMQPQueue.expects(:enqueue).with(:pusher_member, anything).once
     end
 
     it 'should return true on success' do
