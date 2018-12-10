@@ -6,9 +6,7 @@ module API
     module Account
       class Balances < Grape::API
         helpers API::V2::NamedParams
-        before { authenticate! }
 
-        # TODO: Add specs for this API
         # TODO: Add failures.
         # TODO: Move desc hash options to block once issues are resolved.
         # https://github.com/ruby-grape/grape/issues/1789

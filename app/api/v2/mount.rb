@@ -7,7 +7,6 @@ require_dependency 'v2/validations'
 module API
   module V2
     class Mount < Grape::API
-      PREFIX = '/api'
       API_VERSION = 'v2'
 
 
@@ -34,13 +33,13 @@ module API
       include Constraints
       include ExceptionHandlers
 
-      mount Public::Mount => 'public'
-      mount Account::Mount => 'account'
-      mount Market::Mount => 'market'
-      mount Management::Mount => 'management'
+      mount Public::Mount       => :public
+      mount Account::Mount      => :account
+      mount Market::Mount       => :market
+      mount Management::Mount   => :management
 
       # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/swagger
-      add_swagger_documentation base_path:   PREFIX,
+      add_swagger_documentation base_path:   File.join(API::Mount::PREFIX, API_VERSION),
                                 mount_path:  '/swagger',
                                 api_version: API_VERSION,
                                 doc_version: Peatio::Application::VERSION,
@@ -60,7 +59,7 @@ module API
                                   Bearer: {
                                     type: "apiKey",
                                     name: "JWT",
-                                    in: "header"
+                                    in:   "header"
                                   }
                                 }
     end

@@ -18,11 +18,6 @@ describe API::V2::Management::JWTAuthenticationMiddleware, type: :request do
     expect(response).to be_success
   end
 
-  it 'allows GET and doesn\'t require authentication for documentation' do
-    get '/api/v2/management/swagger'
-    expect(response).to be_success
-  end
-
   it 'allows only POST, PUT, and DELETE' do
     get '/api/v2/management/timestamp'
     expect(response).to have_http_status(405)

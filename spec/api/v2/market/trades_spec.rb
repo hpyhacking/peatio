@@ -38,14 +38,14 @@ describe API::V2::Market::Trades, type: :request do
   let!(:bid_trade) { create(:trade, bid: bid, created_at: 1.day.ago) }
 
   describe 'GET /api/v2/market/trades' do
-    it 'should require authentication' do
+    it 'requires authentication' do
       get '/api/v2/market/trades', market: 'btcusd'
 
       expect(response.code).to eq '401'
       expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
     end
 
-    it 'should return all my recent trades' do
+    it 'returns all my recent trades' do
       api_get '/api/v2/market/trades', params: { market: 'btcusd' }, token: token
       expect(response).to be_success
 
@@ -57,21 +57,21 @@ describe API::V2::Market::Trades, type: :request do
       expect(result.find { |t| t['id'] == bid_trade.id }['order_id']).to eq bid.id
     end
 
-    it 'should return 1 trade' do
+    it 'returns 1 trade' do
       api_get '/api/v2/market/trades', params: { market: 'btcusd', limit: 1 }, token: token
 
       expect(response).to be_success
       expect(JSON.parse(response.body).size).to eq 1
     end
 
-    it 'should return trades before timestamp' do
+    it 'returns trades before timestamp' do
       api_get '/api/v2/market/trades', params: { market: 'btcusd', timestamp: 30.hours.ago.to_i }, token: token
 
       expect(response).to be_success
       expect(JSON.parse(response.body).size).to eq 1
     end
 
-    it 'should return limit out of range error' do
+    it 'returns limit out of range error' do
       api_get '/api/v2/market/trades', params: { market: 'btcusd', limit: 1024 }, token: token
 
       expect(response.code).to eq '422'

@@ -47,16 +47,6 @@ module API
         mount Management::Withdraws
         mount Management::Tools
 
-        # The documentation is accessible at http://localhost:3000/swagger?url=/management_api/v1/swagger
-        add_swagger_documentation base_path:   nil,
-                                  mount_path:  '/swagger',
-                                  api_version: 'v2',
-                                  doc_version: Peatio::Application::VERSION,
-                                  info: {
-                                    title:       'Management API v2',
-                                    description: 'Management API is server-to-server API with high privileges.',
-                                    licence:     'MIT',
-                                    license_url: 'https://github.com/rubykube/peatio/blob/master/LICENSE.md' }
       end
     end
   end

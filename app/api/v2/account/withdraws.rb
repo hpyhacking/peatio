@@ -7,7 +7,6 @@ module API
       class Withdraws < Grape::API
         helpers API::V2::NamedParams
 
-        before { authenticate! }
         before { withdraws_must_be_permitted! }
 
         desc 'List your withdraws as paginated collection.', scopes: %w[ history ]

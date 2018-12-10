@@ -7,7 +7,7 @@ module API
       class Currencies < Grape::API
         helpers API::V2::NamedParams
 
-        desc 'Get a currency', tags: %w[currencies], success: Entities::Currency
+        desc 'Get a currency', success: Entities::Currency
         params do
           requires :id, type: String,
                         values: -> { Currency.enabled.codes(bothcase: true) },
@@ -19,7 +19,6 @@ module API
 
         desc 'Get list of currencies', is_array: true,
                                       success: Entities::Currency,
-                                      tags: %w[currencies],
                                       security: []
         params do
           optional :type, type: String,

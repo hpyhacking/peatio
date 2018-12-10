@@ -10,10 +10,4 @@ describe 'Swagger', type: :request do
     end.not_to raise_error
   end
 
-  it "returns ManagementAPIv1 swagger docs" do
-    expect do
-      get "/api/v2/management/swagger"
-      expect(response).to have_http_status 200
-    end.not_to raise_error
-  end
 end

@@ -12,8 +12,6 @@ module API
           use :market, :trade_filters
         end
         get '/trades' do
-          authenticate!
-          trading_must_be_permitted!
 
           trades = Trade.for_member(
             params[:market], current_user,

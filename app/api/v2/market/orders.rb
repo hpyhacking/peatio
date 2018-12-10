@@ -7,8 +7,6 @@ module API
       class Orders < Grape::API
         helpers ::API::V2::NamedParams
 
-        before { authenticate! }
-        before { trading_must_be_permitted! }
 
         desc 'Get your orders, results is paginated.', scopes: %w(history trade)
         params do

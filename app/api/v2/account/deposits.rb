@@ -9,7 +9,6 @@ module API
       class Deposits < Grape::API
         helpers API::V2::NamedParams
 
-        before { authenticate! }
         before { deposits_must_be_permitted! }
 
         desc 'Get your deposits history.'
