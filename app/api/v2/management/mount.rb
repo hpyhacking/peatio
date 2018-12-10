@@ -46,6 +46,7 @@ module API
         mount Management::Deposits
         mount Management::Withdraws
         mount Management::Tools
+        mount Management::Operations
 
       end
     end

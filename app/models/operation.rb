@@ -11,6 +11,10 @@ class Operation < ActiveRecord::Base
 
   self.abstract_class = true
 
+  MEMBER_TYPES = %i[liability].freeze
+  PLATFORM_TYPES = %i[asset expense revenue].freeze
+  TYPES = (MEMBER_TYPES + PLATFORM_TYPES).freeze
+
   class << self
     def operation_type
       name.demodulize.downcase.to_sym

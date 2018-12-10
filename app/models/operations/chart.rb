@@ -86,6 +86,10 @@ module Operations
       def find_chart(code)
         CHART.find { |entry| entry.fetch(:code) == code }
       end
+
+      def codes
+        CHART.map { |entry| entry.fetch(:code) }
+      end
     end
   end
 end
