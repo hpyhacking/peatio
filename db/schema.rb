@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181126101312) do
+ActiveRecord::Schema.define(version: 20181210162905) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -28,8 +28,8 @@ ActiveRecord::Schema.define(version: 20181126101312) do
   create_table "assets", force: :cascade do |t|
     t.integer  "code",           limit: 4,                                           null: false
     t.string   "currency_id",    limit: 255,                                         null: false
-    t.integer  "reference_id",   limit: 4,                                           null: false
-    t.string   "reference_type", limit: 255,                                         null: false
+    t.integer  "reference_id",   limit: 4
+    t.string   "reference_type", limit: 255
     t.decimal  "debit",                      precision: 32, scale: 16, default: 0.0, null: false
     t.decimal  "credit",                     precision: 32, scale: 16, default: 0.0, null: false
     t.datetime "created_at",                                                         null: false
@@ -104,8 +104,8 @@ ActiveRecord::Schema.define(version: 20181126101312) do
   create_table "expenses", force: :cascade do |t|
     t.integer  "code",           limit: 4,                                           null: false
     t.string   "currency_id",    limit: 255,                                         null: false
-    t.integer  "reference_id",   limit: 4,                                           null: false
-    t.string   "reference_type", limit: 255,                                         null: false
+    t.integer  "reference_id",   limit: 4
+    t.string   "reference_type", limit: 255
     t.decimal  "debit",                      precision: 32, scale: 16, default: 0.0, null: false
     t.decimal  "credit",                     precision: 32, scale: 16, default: 0.0, null: false
     t.datetime "created_at",                                                         null: false
@@ -119,8 +119,8 @@ ActiveRecord::Schema.define(version: 20181126101312) do
     t.integer  "code",           limit: 4,                                           null: false
     t.string   "currency_id",    limit: 255,                                         null: false
     t.integer  "member_id",      limit: 4,                                           null: false
-    t.integer  "reference_id",   limit: 4,                                           null: false
-    t.string   "reference_type", limit: 255,                                         null: false
+    t.integer  "reference_id",   limit: 4
+    t.string   "reference_type", limit: 255
     t.decimal  "debit",                      precision: 32, scale: 16, default: 0.0, null: false
     t.decimal  "credit",                     precision: 32, scale: 16, default: 0.0, null: false
     t.datetime "created_at",                                                         null: false
@@ -206,8 +206,8 @@ ActiveRecord::Schema.define(version: 20181126101312) do
   create_table "revenues", force: :cascade do |t|
     t.integer  "code",           limit: 4,                                           null: false
     t.string   "currency_id",    limit: 255,                                         null: false
-    t.integer  "reference_id",   limit: 4,                                           null: false
-    t.string   "reference_type", limit: 255,                                         null: false
+    t.integer  "reference_id",   limit: 4
+    t.string   "reference_type", limit: 255
     t.decimal  "debit",                      precision: 32, scale: 16, default: 0.0, null: false
     t.decimal  "credit",                     precision: 32, scale: 16, default: 0.0, null: false
     t.datetime "created_at",                                                         null: false

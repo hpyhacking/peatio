@@ -51,7 +51,7 @@ module Operations
 end
 
 # == Schema Information
-# Schema version: 20181105120211
+# Schema version: 20181210162905
 #
 # Table name: liabilities
 #
@@ -59,8 +59,8 @@ end
 #  code           :integer          not null
 #  currency_id    :string(255)      not null
 #  member_id      :integer          not null
-#  reference_id   :integer          not null
-#  reference_type :string(255)      not null
+#  reference_id   :integer
+#  reference_type :string(255)
 #  debit          :decimal(32, 16)  default(0.0), not null
 #  credit         :decimal(32, 16)  default(0.0), not null
 #  created_at     :datetime         not null
