@@ -79,6 +79,8 @@ module WalletService
       unless collection_spread.values.sum == deposit.amount
         raise Error, "Deposit spread failed deposit.amount != collection_spread.values.sum"
       end
+
+      Rails.logger.warn { "Deposit collection spread #{collection_spread}." }
       collection_spread
     end
 

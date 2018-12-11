@@ -1,38 +1,34 @@
-<h3><%= currency.code.upcase %> deposits</h3>
-<div class="card">
-
-  <%= table_for @deposits, class: 'table table-bordered table-striped' do |t| %>
-    <% t.column :txid do |x| %>
-      <a href="<%= x.transaction_url %>" target="_blank">
-        <code class="text-info"><%= x.txid.truncate(36) %></code>
-      </a>
-    <% end %>
-    <% t.column :created_at %>
-    <% t.column 'Currency' do |x| %>
-      <% x.currency.code.upcase %>
-    <% end %>
-    <% t.column 'Member email' do |x| %>
-      <%= link_to x.member.email, url_for([:admin, x.member]), target: '_blank' %>
-    <% end %>
-    <% t.column :amount do |x| %>
-      <code class="text-info"><%= x.amount %></code>
-    <% end %>
-    <% t.column :confirmations do |x| %>
-      <span class="badge"><%= x.confirmations %></span>
-    <% end %>
-    <% t.column :state_and_actions do |x| %>
-      <span><%= x.aasm_state.humanize %></span>
-      <% if x.may_accept? %>
-        <span> / </span>
-        <%= link_to t('admin.deposits.coins.index.accept'),
-                    admin_deposit_path(x.currency.code, x),
-                    method:  'PATCH',
-                    confirm: t('admin.deposits.coins.index.accept_confirm') %>
-      <% end %>
-    <% end %>
-  <% end %>
+<div class="row">
+  <div class="col-6">
+  <%= link_to raw("All deposits"), admin_deposit_index_path(state: 'all'), class: 'btn btn-primary  mb-3' %>
+  <%= link_to raw("Latest deposits"), admin_deposit_index_path(state: 'latest'), class: 'btn btn-primary  mb-3' %>
+  <%= link_to raw("Uncollected deposits"), admin_deposit_index_path(state: 'uncollected'), class: 'btn btn-primary  mb-3' %>
+  </div>
 </div>
-
-<div class="float-right">
-  <%= paginate @deposits, params: { route: :admin_deposit_index } %>
-</div>
+<% if @latest_deposits %>
+  <h3><%= currency.code.upcase %> Deposits for the last 24 hours</h3>
+  <div class="card">
+    <%= render partial: 'table', locals: {deposits: @latest_deposits} %>
+  </div>
+  <div class="float-right">
+  <%= paginate @latest_deposits, params: { route: :admin_deposit_index } %>
+  </div>
+<% end %>
+<% if @all_deposits %>
+  <h3> <%= currency.code.upcase %> All deposits</h3>
+  <div class="card">
+    <%= render partial: 'table', locals: {deposits: @all_deposits} %>
+  </div>
+  <div class="float-right">
+  <%= paginate @all_deposits, params: { route: :admin_deposit_index } %>
+  </div>
+<% end %>
+<% if @uncollected_deposits %>
+  <h3> <%= currency.code.upcase %> Uncollected deposits</h3>
+  <div class="card">
+    <%= render partial: 'table', locals: {deposits: @uncollected_deposits} %>
+  </div>
+  <div class="float-right">
+  <%= paginate @uncollected_deposits, params: { route: :admin_deposit_index } %>
+  </div>
+<% end %>

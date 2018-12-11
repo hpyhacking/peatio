@@ -31,6 +31,7 @@ class Deposit < ActiveRecord::Base
     state :canceled
     state :rejected
     state :accepted
+    state :skipped
     state :collected
     event(:cancel) { transitions from: :submitted, to: :canceled }
     event(:reject) { transitions from: :submitted, to: :rejected }
@@ -41,8 +42,11 @@ class Deposit < ActiveRecord::Base
         record_complete_operations!
       end
     end
+    event :skip do
+      transitions from: :accepted, to: :skipped
+    end
     event :dispatch do
-      transitions from: :accepted, to: :collected
+      transitions from: %i[accepted skipped], to: :collected
     end
   end
 
