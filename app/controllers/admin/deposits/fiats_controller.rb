@@ -32,7 +32,13 @@ module Admin
       end
 
       def update
-        ::Deposits::Fiat.where(currency: currency).find(params[:id]).charge!
+        deposit = ::Deposits::Fiat.where(currency: currency).find(params[:id])
+        case params.fetch(:commit)
+        when 'Accept'
+          deposit.charge!
+        when 'Reject'
+          deposit.reject!
+        end
         redirect_to :back
       end
 
@@ -46,4 +52,3 @@ module Admin
     end
   end
 end
-
