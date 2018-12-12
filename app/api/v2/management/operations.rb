@@ -5,7 +5,7 @@ module API
   module V2
     module Management
       class Operations < Grape::API
-        Operation::PLATFORM_TYPES.map(&:to_s).map(&:pluralize).each do |op_type|
+        Operation::PLATFORM_TYPES.each do |op_type|
           desc "Creates new #{op_type} operation." do
             @settings[:scope] = :write_operations
             # success API::V2::Management::Entities::
@@ -29,12 +29,13 @@ module API
                      desc: 'Operation credit amount.'
             exactly_one_of :debit, :credit
           end
-          post "/#{op_type}/new" do
+          post "/#{op_type.to_s.pluralize}/new" do
+            klass = "operations/#{op_type}".camelize.constantize
 
           end
         end
 
-        Operation::MEMBER_TYPES.map(&:to_s).map(&:pluralize).each do |op_type|
+        Operation::MEMBER_TYPES.each do |op_type|
           desc "Creates new #{op_type} operation." do
             @settings[:scope] = :write_operations
             # success API::V2::Management::Entities::
@@ -61,7 +62,7 @@ module API
                      desc: 'Operation credit amount.'
             exactly_one_of :debit, :credit
           end
-          post "/#{op_type}/new" do
+          post "/#{op_type.to_s.pluralize}/new" do
 
           end
         end

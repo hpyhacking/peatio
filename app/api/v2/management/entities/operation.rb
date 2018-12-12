@@ -6,11 +6,50 @@ module API
     module Management
       module Entities
         class Operation < Base
-          expose(:uid, documentation: { type: String, desc: 'The shared user ID.' }) { |w| w.member.uid }
-          expose(:balance, documentation: { type: String, desc: 'The account balance.' }, format_with: :decimal)
-          expose(:locked, documentation: { type: String, desc: 'The locked account balance.' }, format_with: :decimal)
+          expose :code,
+                 documentation: {
+                   type: String,
+                   desc: 'Operation currency ID.'
+                 }
+          expose :currency_id,
+                 as: currency,
+                 documentation: {
+                   type: String,
+                   desc: 'Operation currency ID.'
+                 }
+          expose :credit,
+                 if: ->(operation) { !operation.credit.zero? },
+                 documentation: {
+                   type: String,
+                   desc: 'Operation credit amount.'
+                 }
+          expose :debit,
+                 if: ->(operation) { !operation.debit.zero? },
+                 documentation: {
+                   type: String,
+                   desc: 'Operation debit amount.'
+                 }
         end
       end
     end
   end
 end
+
+#
+# Table name: assets
+#
+#  id             :integer          not null, primary key
+#  code           :integer          not null
+#  currency_id    :string(255)      not null
+#  reference_id   :integer
+#  reference_type :string(255)
+#  debit          :decimal(32, 16)  default(0.0), not null
+#  credit         :decimal(32, 16)  default(0.0), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+# Indexes
+#
+#  index_assets_on_currency_id                      (currency_id)
+#  index_assets_on_reference_type_and_reference_id  (reference_type,reference_id)
+#
