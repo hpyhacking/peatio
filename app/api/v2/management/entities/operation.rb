@@ -9,10 +9,10 @@ module API
           expose :code,
                  documentation: {
                    type: String,
-                   desc: 'Operation currency ID.'
+                   desc: 'The Account code which this operation related to.'
                  }
           expose :currency_id,
-                 as: currency,
+                 as: :currency,
                  documentation: {
                    type: String,
                    desc: 'Operation currency ID.'
@@ -28,6 +28,18 @@ module API
                  documentation: {
                    type: String,
                    desc: 'Operation debit amount.'
+                 }
+          expose(:uid,
+                 if: ->(operation) { operation.respond_to?(:member) },
+                 documentation: {
+                   type: String,
+                   desc: 'The shared user ID.'
+                 }) { |w| w.try(:member).try(:uid) }
+          expose :created_at,
+                 format_with: :iso8601,
+                 documentation: {
+                   type: String,
+                   desc: 'The datetime when operation was created.'
                  }
         end
       end

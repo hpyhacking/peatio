@@ -18,7 +18,7 @@ module API
             requires :code,
                      type: Integer,
                      values: -> { ::Operations::Chart.codes },
-                     desc: 'The Account code which this operation belongs to.'
+                     desc: 'The Account code which this operation related to.'
             optional :debit,
                      type: BigDecimal,
                      values: ->(v) { v.to_d.positive? },

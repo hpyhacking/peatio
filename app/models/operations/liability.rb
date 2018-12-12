@@ -3,6 +3,8 @@
 module Operations
   # {Liability} is a balance sheet operation
   class Liability < Operation
+    belongs_to :member
+
     class << self
       def credit!(reference:, amount:, kind:, member_id: nil, currency: nil)
         return if amount.zero?
