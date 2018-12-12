@@ -8,7 +8,7 @@ module API
         Operation::PLATFORM_TYPES.each do |op_type|
           desc "Creates new #{op_type} operation." do
             @settings[:scope] = :write_operations
-            # success API::V2::Management::Entities::
+            success API::V2::Management::Entities::Operation
           end
           params do
             requires :currency,
@@ -38,7 +38,7 @@ module API
         Operation::MEMBER_TYPES.each do |op_type|
           desc "Creates new #{op_type} operation." do
             @settings[:scope] = :write_operations
-            # success API::V2::Management::Entities::
+            success API::V2::Management::Entities::Operation
           end
           params do
             requires :currency,
