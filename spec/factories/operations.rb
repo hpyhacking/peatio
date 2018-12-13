@@ -24,7 +24,6 @@ FactoryBot.define do
 
   factory :revenue, class: Operations::Revenue, parent: :operation do
     code { Operations::Chart.code_for(type: :revenue, currency_type: :coin) }
-
   end
 
   factory :liability, class: Operations::Liability, parent: :operation do
