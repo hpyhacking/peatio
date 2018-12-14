@@ -145,5 +145,9 @@ module WalletClient
     def valid_txid?(txid)
       txid.to_s.match?(/\A0x[A-F0-9]{64}\z/i)
     end
+
+    def contract_address(currency)
+      normalize_address(currency.erc20_contract_address)
+    end
   end
 end
