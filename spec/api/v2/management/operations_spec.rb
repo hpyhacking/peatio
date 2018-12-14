@@ -11,6 +11,9 @@ describe API::V2::Management::Operations, type: :request do
     }
   end
 
+  def request(op_type)
+    post_json "/api/v2/management/#{op_type}", multisig_jwt_management_api_v1({ data: data }, *signers)
+  end
 
   describe 'list operations' do
     Operation::PLATFORM_TYPES.each do |op_type|
@@ -21,23 +24,91 @@ describe API::V2::Management::Operations, type: :request do
         let!(:operations) { create_list(op_type, operations_number) }
 
         before do
-          post_json "/api/v2/management/#{op_type.to_s.pluralize}",
-                    multisig_jwt_management_api_v1({ data: data }, *signers)
+          request(op_type.to_s.pluralize)
         end
 
         it { expect(response).to have_http_status(200) }
 
-        context 'filter' do
+        context 'filter by currency' do
           let(:data) { { currency: :btc } }
           it { expect(response).to have_http_status(200) }
 
           it 'returns operations by currency' do
-            count = "operations/#{op_type}"
-                      .camelize
-                      .constantize
-                      .where(currency_id: :btc)
-                      .count
-            expect(JSON.parse(response.body).count).to eq count
+            operations = "operations/#{op_type}"
+                            .camelize
+                            .constantize
+                            .where(currency_id: :btc)
+            expect(JSON.parse(response.body).count).to eq operations.count
+            expect(JSON.parse(response.body).map { |h| h['currency'] }).to\
+              eq operations.pluck(:currency_id)
+          end
+        end
+
+        context 'pagination' do
+          let(:data) { { page: 2, limit: 8 } }
+
+          it { expect(response).to have_http_status(200) }
+
+          it 'returns second page of operations' do
+            expect(JSON.parse(response.body).count).to eq 7
+            credits = "operations/#{op_type}"
+                        .camelize
+                        .constantize
+                        .order(id: :desc)
+                        .pluck(:credit)
+
+            # Consider that credit sequence is unique.
+            expect(JSON.parse(response.body).map { |h| h['credit'].to_d }).to eq credits[8..15]
+          end
+        end
+      end
+    end
+
+    Operation::MEMBER_TYPES.each do |op_type|
+      context op_type do
+        let(:data) { {} }
+        let(:signers) { %i[alex jeff] }
+        let(:operations_number) { 15 }
+        let!(:operations) { create_list(op_type, operations_number) }
+
+        before do
+          request(op_type.to_s.pluralize)
+        end
+
+        it { expect(response).to have_http_status(200) }
+
+        context 'filter by currency' do
+          let(:data) { { currency: :btc } }
+          it { expect(response).to have_http_status(200) }
+
+          it 'returns operations by currency' do
+            operations = "operations/#{op_type}"
+                           .camelize
+                           .constantize
+                           .where(currency_id: :btc)
+            expect(JSON.parse(response.body).count).to eq operations.count
+            expect(JSON.parse(response.body).map { |h| h['currency'] }).to\
+              eq operations.pluck(:currency_id)
+          end
+        end
+
+        context 'filter by uid' do
+          let(:member) { create(:member, :barong) }
+          let!(:member_operations) do
+            create_list(op_type, operations_number, member_id: member.id)
+          end
+          let(:data) { { uid: member.uid } }
+          it { expect(response).to have_http_status(200) }
+
+          it 'returns operations by member UID' do
+            request(op_type.to_s.pluralize)
+            operations = "operations/#{op_type}"
+                           .camelize
+                           .constantize
+                           .where(member: member)
+            expect(JSON.parse(response.body).count).to eq operations.count
+            expect(JSON.parse(response.body).map { |h| h['uid'] }).to\
+              eq [member.uid] * operations_number
           end
         end
 
