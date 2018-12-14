@@ -124,6 +124,9 @@ module Matching
           when 'done'   then 'order_completed'
           else 'order_updated'
         end
+        # trigger member private ranger event
+        order.trigger_pusher_event
+
         EventAPI.notify ['market', order.market_id, event].join('.'), \
           Serializers::EventAPI.const_get(event.camelize).call(order)
       end
