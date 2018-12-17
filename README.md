@@ -145,7 +145,7 @@ This will output password for **admin@barong.io**. Default password is **`Qwerty
 Start peatio server
 
 ```sh
-$> docker-compose run --rm peatio bash -c "./bin/link_config && rake db:create db:migrate db:seed"
+$> docker-compose run --rm peatio bash -c "bundle exec rake db:create db:migrate db:seed"
 $> docker-compose up -d peatio
 ```
 
