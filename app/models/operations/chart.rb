@@ -75,12 +75,20 @@ module Operations
         description:    'Main Crypto Expenses Account',
         scope:          %i[platform]
       }
-    ].freeze
+    ].map(&:with_indifferent_access).freeze
 
     class << self
       def code_for(options)
-        CHART.find { |entry| entry.merge(options) == entry }
-          .fetch(:code) { raise Operations::Exception, "Account for #{options} doesn't exists." }
+        # We use #as_json to stringify hash values.
+        # {type: 'asset'}.as_json == {type: :asset}.as_json #=> true
+        CHART
+          .find { |entry| entry.merge(options).as_json == entry.as_json }
+          .tap do |entry|
+            if entry.blank?
+              raise StandardError, "Account for #{options} doesn't exists."\
+            end
+          end
+          .fetch(:code)
       end
 
       def find_chart(code)

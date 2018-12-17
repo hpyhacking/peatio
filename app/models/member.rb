@@ -53,7 +53,7 @@ class Member < ActiveRecord::Base
     account_code = Operations::Chart.code_for(
       type: :liability,
       kind: kind,
-      currency_type: currency.type.to_sym
+      currency_type: currency.type
     )
     liabilities = Operations::Liability.where(member_id: id, currency: currency, code: account_code)
     liabilities.sum('credit - debit')

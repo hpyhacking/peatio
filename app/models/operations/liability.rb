@@ -6,33 +6,35 @@ module Operations
     belongs_to :member
 
     class << self
-      def credit!(reference:, amount:, kind:, member_id: nil, currency: nil)
+      def credit!(amount:, kind: :main, reference: nil,
+                  member_id: nil, currency: nil)
         return if amount.zero?
 
         currency ||= reference.currency
         account_code = Operations::Chart.code_for(
           type:          operation_type,
           kind:          kind,
-          currency_type: currency.type.to_sym
+          currency_type: currency.type
         )
-        create!(
+        new(
           credit:      amount,
           reference:   reference,
           currency_id: currency.id,
           code:        account_code,
           member_id:   member_id || reference.member_id
-        )
+        ).tap(&:save!)
       end
 
       # TODO: Validate member balance before debit.
-      def debit!(reference:, amount:, kind:, member_id: nil, currency: nil)
+      def debit!(amount:, kind: :main, reference: nil,
+                 member_id: nil, currency: nil)
         return if amount.zero?
 
         currency ||= reference.currency
         account_code = Operations::Chart.code_for(
           type:          operation_type,
           kind:          kind,
-          currency_type: currency.type.to_sym
+          currency_type: currency.type
         )
         create!(
           debit:       amount,
@@ -40,13 +42,18 @@ module Operations
           currency_id: currency.id,
           code:        account_code,
           member_id:   member_id || reference.member_id
-        )
+        ).tap(&:save!)
       end
 
-      def transfer!(reference:, amount:, from_kind:,
-                    to_kind:, member_id: nil, currency: nil)
-        debit!(reference: reference, amount: amount, kind: from_kind, member_id: member_id, currency: currency)
-        credit!(reference: reference, amount: amount, kind: to_kind, member_id: member_id, currency: currency)
+      def transfer!(amount:, from_kind:, to_kind:,
+                    reference: nil, member_id: nil, currency: nil)
+        params = {
+          reference: reference,
+          amount: amount,
+          member_id: member_id,
+          currency: currency
+        }
+        [debit!(params.merge(kind: from_kind)), credit!(params.merge(kind: to_kind))]
       end
     end
   end

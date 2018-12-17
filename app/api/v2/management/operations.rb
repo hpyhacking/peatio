@@ -6,13 +6,13 @@ module API
     module Management
       class Operations < Grape::API
 
-        # POST: api/v2/management/assets/new
-        # POST: api/v2/management/expenses/new
-        # POST: api/v2/management/revenues/new
-        #
         # POST: api/v2/management/assets
         # POST: api/v2/management/expenses
         # POST: api/v2/management/revenues
+        #
+        # POST: api/v2/management/assets/new
+        # POST: api/v2/management/expenses/new
+        # POST: api/v2/management/revenues/new
         Operation::PLATFORM_TYPES.each do |op_type|
           op_type_plural = op_type.to_s.pluralize
           op_klass = "operations/#{op_type}".camelize.constantize
@@ -57,10 +57,6 @@ module API
                      type: String,
                      values: -> { ::Currency.codes(bothcase: true) },
                      desc: 'The currency code.'
-            requires :code,
-                     type: Integer,
-                     values: -> { ::Operations::Chart.codes },
-                     desc: 'The Account code which this operation related to.'
             optional :debit,
                      type: BigDecimal,
                      values: ->(v) { v.to_d.positive? },
@@ -72,11 +68,27 @@ module API
             exactly_one_of :debit, :credit
           end
           post "/#{op_type_plural}/new" do
+            currency = Currency.find(params[:currency])
             klass = "operations/#{op_type}".camelize.constantize
-
+            op =
+              if params[:credit].present?
+                klass.credit!(
+                  amount: params.fetch(:credit),
+                  currency: currency
+                )
+              else
+                klass.debit!(
+                  amount: params.fetch(:debit),
+                  currency: currency
+                )
+              end
+            present op, with: Entities::Operation
+            status 200
           end
         end
 
+        # POST: api/v2/management/liabilities
+        #
         # POST: api/v2/management/liabilities/new
         Operation::MEMBER_TYPES.each do |op_type|
           op_type_plural = op_type.to_s.pluralize
@@ -115,6 +127,54 @@ module API
               .page(params[:page])
               .per(params[:limit])
               .tap { |q| present q, with: API::V2::Management::Entities::Operation }
+            status 200
+          end
+
+          desc "Creates new #{op_type} operation." do
+            @settings[:scope] = :write_operations
+            success API::V2::Management::Entities::Operation
+          end
+          params do
+            requires :currency,
+                     type: String,
+                     values: -> { ::Currency.codes(bothcase: true) },
+                     desc: 'The currency code.'
+            optional :uid,
+                     type: String,
+                     desc: 'The user ID for operation owner.'
+            optional :debit,
+                     type: BigDecimal,
+                     values: ->(v) { v.to_d.positive? },
+                     desc: 'Operation debit amount.'
+            optional :credit,
+                     type: BigDecimal,
+                     values: ->(v) { v.to_d.positive? },
+                     desc: 'Operation credit amount.'
+            exactly_one_of :debit, :credit
+          end
+          post "/#{op_type_plural}/new" do
+            currency = Currency.find(params[:currency])
+            member = Member.find_by!(uid: params[:uid])
+            klass = "operations/#{op_type}".camelize.constantize
+            op =
+              if params[:credit].present?
+                # Update legacy account balance.
+                member.ac(currency).plus_funds(params.fetch(:credit))
+                klass.credit!(
+                  amount: params.fetch(:credit),
+                  currency: currency,
+                  member_id: member.id
+                )
+              else
+                # Update legacy account balance.
+                member.ac(currency).sub_funds(params.fetch(:debit))
+                klass.debit!(
+                  amount: params.fetch(:debit),
+                  currency: currency,
+                  member_id: member.id
+                )
+              end
+            present op, with: Entities::Operation
             status 200
           end
         end
