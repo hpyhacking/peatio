@@ -19,7 +19,7 @@ describe API::V2::Management::Operations, type: :request do
     Operation::PLATFORM_TYPES.each do |op_type|
       context op_type do
         let(:data) { {} }
-        let(:signers) { %i[alex jeff] }
+        let(:signers) { %i[alex] }
         let(:operations_number) { 15 }
         let!(:operations) { create_list(op_type, operations_number) }
 
@@ -67,7 +67,7 @@ describe API::V2::Management::Operations, type: :request do
     Operation::MEMBER_TYPES.each do |op_type|
       context op_type do
         let(:data) { {} }
-        let(:signers) { %i[alex jeff] }
+        let(:signers) { %i[alex] }
         let(:operations_number) { 15 }
         let!(:operations) { create_list(op_type, operations_number) }
 

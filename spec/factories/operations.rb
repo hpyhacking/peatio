@@ -42,6 +42,7 @@ FactoryBot.define do
                                  kind: :main)
     end
     member { create(:member, :level_3) }
+
     # Update legacy balance.
     after(:create) do |liability|
       acc = liability.member.ac(liability.currency)
