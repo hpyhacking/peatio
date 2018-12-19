@@ -15,6 +15,14 @@
 
     <% t.column :ask_fee, 'Ask fee', class: 'col-xs-2' %>
 
+    <% t.column 'Min ask amount', class: 'col-xs-2' do |x| %>
+      <%= x.min_ask_amount %>
+    <% end %>
+
+    <% t.column 'Min bid amount', class: 'col-xs-2' do |x| %>
+      <%= x.min_bid_amount %>
+    <% end %>
+    
     <% t.column 'Created at', class: 'col-xs-3' do |x| %>
       <%= l(x.created_at, format: :long) %>
     <% end %>

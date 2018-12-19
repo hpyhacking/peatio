@@ -36,6 +36,9 @@ class Market < ActiveRecord::Base
   validates :min_ask, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :max_bid, numericality: { allow_blank: true, greater_than_or_equal_to: ->(market){ market.min_ask }}
 
+  validates :min_ask_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :min_bid_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  
   before_validation(on: :create) { self.id = "#{ask_unit}#{bid_unit}" }
 
   validate :must_not_disable_all_markets, on: :update
@@ -129,23 +132,25 @@ private
 end
 
 # == Schema Information
-# Schema version: 20180813105100
+# Schema version: 20181213135712
 #
 # Table name: markets
 #
-#  id            :string(20)       not null, primary key
-#  ask_unit      :string(10)       not null
-#  bid_unit      :string(10)       not null
-#  ask_fee       :decimal(17, 16)  default(0.0), not null
-#  bid_fee       :decimal(17, 16)  default(0.0), not null
-#  max_bid       :decimal(17, 16)
-#  min_ask       :decimal(17, 16)  default(0.0), not null
-#  ask_precision :integer          default(8), not null
-#  bid_precision :integer          default(8), not null
-#  position      :integer          default(0), not null
-#  enabled       :boolean          default(TRUE), not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  id             :string(20)       not null, primary key
+#  ask_unit       :string(10)       not null
+#  bid_unit       :string(10)       not null
+#  ask_fee        :decimal(17, 16)  default(0.0), not null
+#  bid_fee        :decimal(17, 16)  default(0.0), not null
+#  max_bid        :decimal(17, 16)
+#  min_ask        :decimal(17, 16)  default(0.0), not null
+#  min_bid_amount :decimal(32, 16)  default(0.0), not null
+#  min_ask_amount :decimal(32, 16)  default(0.0), not null
+#  ask_precision  :integer          default(8), not null
+#  bid_precision  :integer          default(8), not null
+#  position       :integer          default(0), not null
+#  enabled        :boolean          default(TRUE), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 # Indexes
 #

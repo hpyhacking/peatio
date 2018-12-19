@@ -19,8 +19,11 @@
           <label>Quote currency fee</label>
           <%= f.text_field :ask_fee, class: 'form-control mb-3' %>
 
-          <label>Maximum Bid</label>
+          <label>Maximum Bid Price</label>
           <%= f.text_field :max_bid, class: 'form-control mb-3' %>
+
+          <label>Minimum Bid Amount</label>
+          <%= f.text_field :min_bid_amount, class: 'form-control mb-3' %>
 
           <label>Bid precision</label>
           <% if @market.new_record? %>
@@ -45,8 +48,11 @@
           <label>Base currency fee</label>
           <%= f.text_field :bid_fee, class: 'form-control mb-3' %>
 
-          <label>Minimum Ask</label>
+          <label>Minimum Ask Price</label>
           <%= f.text_field :min_ask, class: 'form-control mb-3' %>
+
+          <label>Minimum Ask Amount</label>
+          <%= f.text_field :min_ask_amount, class: 'form-control mb-3' %>
 
           <label>Ask precision</label>
           <% if @market.new_record? %>
