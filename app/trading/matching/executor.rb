@@ -118,7 +118,7 @@ module Matching
       }
 
       [@ask, @bid].each do |order|
-        next unless order.ord_type == 'limit'
+        next unless order.ord_type == 'limit' # skip market type orders, they should not appear on trading-ui
         event = case order.state
           when 'cancel' then 'order_canceled'
           when 'done'   then 'order_completed'
