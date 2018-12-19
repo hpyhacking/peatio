@@ -42,17 +42,6 @@
             <dt>Min collection amount</dt>
             <dd><%= f.text_field :min_collection_amount, class: 'form-control' %></dd>
 
-            <% if @currency.coin? || @currency.new_record? %>
-              <% if @currency.new_record? || @currency.erc20_contract_address? %>
-                <dt>ERC20 contract address</dt>
-                <% if @currency.new_record? %>
-                  <dd><%= f.text_field :erc20_contract_address, class: 'form-control' %></dd>
-                <% else %>
-                  <dd><%= @currency.erc20_contract_address %></dd>
-                <% end %>
-              <% end %>
-            <% end %>
-
             <dt>Enabled?</dt>
             <dd><%= f.check_box :enabled %></dd>
 
@@ -75,6 +64,20 @@
 
             <dt>Blockchain Key</dt>
             <dd><%= f.select :blockchain_key, Blockchain.all.map(&:key), {prompt: "Select Blockchain Key"}, {class: 'form-control'} %></dd>
+
+            <%= f.hidden_field :options, id: "currency_options" %>
+          </dl>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-12 mb-4">
+      <div class="card h-100">
+        <dd class="card-body">
+          <dl>
+            <div class="row">
+              <div class="col-12">
+                <div id="json_editor" data-enabled="<%= @currency.coin? || @currency.new_record? %>"></div>
+              </div>
+            </div>
           </dl>
       </div>
     </div>
@@ -85,3 +88,33 @@
     </div>
   </div>
 <% end %>
+<script>
+    $(document).ready(function() {
+        elem = $('#json_editor');
+        if(elem.length){
+            json_editor = new JSONEditor(document.getElementById('json_editor'), {
+                // form_name_root: 'currency[options]',
+                disable_collapse: true,
+                theme: 'bootstrap3',
+                iconlib: 'fontawesome4',
+                disable_array_reorder: true,
+                required: jQuery.parseJSON('<%= raw Currency::OPTIONS_ATTRIBUTES.map(&:to_s) %>'),
+                disable_array_delete_last_row: true,
+                schema: {
+                    title: 'Options',
+                    type: 'object',
+                    properties: jQuery.parseJSON('<%= raw @currency.build_options_schema.to_json %>')
+                }
+            });
+            json_editor.setValue(jQuery.parseJSON('<%= raw @currency.set_options_values.to_json %>'));
+
+            if(elem.data("enabled") === false){
+                json_editor.disable();
+            }
+
+            json_editor.on('change',function() {
+                $('#currency_options').val(JSON.stringify(json_editor.getValue()));
+            });
+        }
+    });
+</script>

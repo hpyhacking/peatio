@@ -7,5 +7,6 @@
 //= require popper
 //= require bootstrap
 //= require bootstrap-datetimepicker
+//= require jsoneditor.min
 //= require admin/app
 //= require theme/sidebar

@@ -15,7 +15,8 @@ describe Admin::CurrenciesController, type: :controller do
       enabled:                          true,
       base_factor:                      1000000,
       precision:                        8,
-      erc20_contract_address:           '1fmiowizbqnrkhzrn4vvsmqacc5gvk9sf3' }
+      options:                          { "erc20_contract_address" => '1fmiowizbqnrkhzrn4vvsmqacc5gvk9sf3' }
+    }
 
   end
 
@@ -46,7 +47,9 @@ describe Admin::CurrenciesController, type: :controller do
         enabled:                          false,
         base_factor:                      100000,
         precision:                        9,
-        erc20_contract_address:           '12kAmv8QXvQyosGzitFYm6YzxK2SgovhQ9' }
+        options:                          { "erc20_contract_address" => '12kamv8qxvqyosgzitfym6yzxk2sgovhq9', \
+                                            "custom_token_id" => "12kamv8qxvqyosgzitfym6yzxk2sgovhq9" }
+      }
 
     end
 
@@ -57,7 +60,8 @@ describe Admin::CurrenciesController, type: :controller do
           :type,
           :base_factor,
           :precision,
-          :erc20_contract_address
+          :erc20_contract_address,
+          :custom_token_id
     end
 
     before { request.env['HTTP_REFERER'] = '/admin/currencies' }
