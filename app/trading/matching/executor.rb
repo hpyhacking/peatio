@@ -118,15 +118,16 @@ module Matching
       }
 
       [@ask, @bid].each do |order|
-        next unless order.ord_type == 'limit' # skip market type orders, they should not appear on trading-ui
-        event = case order.state
+        event =
+          case order.state
           when 'cancel' then 'order_canceled'
           when 'done'   then 'order_completed'
           else 'order_updated'
-        end
-        # trigger member private ranger event
+          end
+
         order.trigger_pusher_event
 
+        next unless order.ord_type == 'limit' # Skip market orders.
         EventAPI.notify ['market', order.market_id, event].join('.'), \
           Serializers::EventAPI.const_get(event.camelize).call(order)
       end
