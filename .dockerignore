@@ -11,8 +11,7 @@ Dockerfile.plugin
 .dockerignore
 
 # Ignore CI related files
-ci
-.travis.yml
+.drone.yml
 
 # Ignore files for development
 .ruby-version
@@ -24,4 +23,10 @@ docs
 tmp
 log
 .god
+
+# Ignore bundler config
+/.bundle
+
+# Ignore locally installed gems
+/vendor/bundle
 
