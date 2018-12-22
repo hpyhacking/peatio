@@ -11,7 +11,19 @@ module APIv2
       expose :market_id, as: :market
       expose :created_at, format_with: :iso8601
 
-      expose :side do |trade, options|
+      expose :maker_type do |trade, _options|
+        trade.ask_id < trade.bid_id ? :sell : :buy
+      end
+
+      expose :type do |trade, _options|
+        # Returns market maker order type.
+        trade.ask_id < trade.bid_id ? :sell : :buy
+      end
+
+      expose(
+        :side,
+        if: ->(trade, options) { options[:side] || trade.side },
+      ) do |trade, options|
         options[:side] || trade.side
       end
 
