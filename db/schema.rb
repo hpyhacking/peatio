@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181229051129) do
+ActiveRecord::Schema.define(version: 20181219115439) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -62,11 +62,12 @@ ActiveRecord::Schema.define(version: 20181229051129) do
     t.string   "symbol",                limit: 1,                                               null: false
     t.string   "type",                  limit: 30,                             default: "coin", null: false
     t.decimal  "deposit_fee",                        precision: 32, scale: 16, default: 0.0,    null: false
-    t.decimal  "withdraw_limit_24h",                 precision: 32, scale: 16, default: 0.0,    null: false
-    t.decimal  "withdraw_limit_72h",                 precision: 32, scale: 16, default: 0.0,    null: false
     t.decimal  "min_deposit_amount",                 precision: 32, scale: 16, default: 0.0,    null: false
     t.decimal  "min_collection_amount",              precision: 32, scale: 16, default: 0.0,    null: false
     t.decimal  "withdraw_fee",                       precision: 32, scale: 16, default: 0.0,    null: false
+    t.decimal  "min_withdraw_amount",                precision: 32, scale: 16, default: 0.0,    null: false
+    t.decimal  "withdraw_limit_24h",                 precision: 32, scale: 16, default: 0.0,    null: false
+    t.decimal  "withdraw_limit_72h",                 precision: 32, scale: 16, default: 0.0,    null: false
     t.string   "options",               limit: 1000,                           default: "{}",   null: false
     t.boolean  "enabled",                                                      default: true,   null: false
     t.integer  "base_factor",           limit: 8,                              default: 1,      null: false

@@ -27,15 +27,6 @@
               <dd><%= @currency.type.titleize %></dd>
             <% end %>
 
-            <dt>24h withdraw limit</dt>
-            <dd><%= f.text_field :withdraw_limit_24h, class: 'form-control' %></dd>
-
-            <dt>72h withdraw limit</dt>
-            <dd><%= f.text_field :withdraw_limit_72h, class: 'form-control' %></dd>
-
-            <dt>Withdraw fee</dt>
-            <dd><%= f.text_field :withdraw_fee, class: 'form-control' %></dd>
-
             <dt>Deposit fee (fiat only)</dt>
             <dd><%= f.text_field :deposit_fee, class: 'form-control' %></dd>
 
@@ -44,6 +35,18 @@
 
             <dt>Min collection amount</dt>
             <dd><%= f.text_field :min_collection_amount, class: 'form-control' %></dd>
+
+            <dt>Withdraw fee</dt>
+            <dd><%= f.text_field :withdraw_fee, class: 'form-control' %></dd>
+
+            <dt>Min withdraw amount</dt>
+            <dd><%= f.text_field :min_withdraw_amount, class: 'form-control' %></dd>
+
+            <dt>24h withdraw limit</dt>
+            <dd><%= f.text_field :withdraw_limit_24h, class: 'form-control' %></dd>
+
+            <dt>72h withdraw limit</dt>
+            <dd><%= f.text_field :withdraw_limit_72h, class: 'form-control' %></dd>
 
             <dt>Enabled?</dt>
             <dd><%= f.check_box :enabled %></dd>

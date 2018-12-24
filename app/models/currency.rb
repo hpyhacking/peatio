@@ -1,6 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+
 class Currency < ActiveRecord::Base
 
   DEFAULT_OPTIONS_SCHEMA = {
@@ -28,12 +29,13 @@ class Currency < ActiveRecord::Base
   validates :options, length: { maximum: 1000 }
   validates :base_factor, numericality: { greater_than_or_equal_to: 1, only_integer: true }
 
-  validates :withdraw_limit_24h,
-            :withdraw_limit_72h,
+  validates :deposit_fee,
             :min_deposit_amount,
             :min_collection_amount,
             :withdraw_fee,
-            :deposit_fee,
+            :min_withdraw_amount,
+            :withdraw_limit_24h,
+            :withdraw_limit_72h,
             numericality: { greater_than_or_equal_to: 0 }
 
   validate :validate_options
@@ -162,7 +164,7 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20181229051129
+# Schema version: 20181219115439
 #
 # Table name: currencies
 #
@@ -172,11 +174,12 @@ end
 #  symbol                :string(1)        not null
 #  type                  :string(30)       default("coin"), not null
 #  deposit_fee           :decimal(32, 16)  default(0.0), not null
-#  withdraw_limit_24h    :decimal(32, 16)  default(0.0), not null
-#  withdraw_limit_72h    :decimal(32, 16)  default(0.0), not null
 #  min_deposit_amount    :decimal(32, 16)  default(0.0), not null
 #  min_collection_amount :decimal(32, 16)  default(0.0), not null
 #  withdraw_fee          :decimal(32, 16)  default(0.0), not null
+#  min_withdraw_amount   :decimal(32, 16)  default(0.0), not null
+#  withdraw_limit_24h    :decimal(32, 16)  default(0.0), not null
+#  withdraw_limit_72h    :decimal(32, 16)  default(0.0), not null
 #  options               :string(1000)     default({}), not null
 #  enabled               :boolean          default(TRUE), not null
 #  base_factor           :integer          default(1), not null
