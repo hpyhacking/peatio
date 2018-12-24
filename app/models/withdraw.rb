@@ -196,10 +196,12 @@ private
       # Debit main fiat/crypto Liability account.
       # Credit locked fiat/crypto Liability account.
       Operations::Liability.transfer!(
-        reference: self,
-        amount: sum,
-        from_kind: :main,
-        to_kind:   :locked
+        amount:     sum,
+        currency:   currency,
+        reference:  self,
+        from_kind:  :main,
+        to_kind:    :locked,
+        member_id:  member_id
       )
     end
   end
@@ -209,10 +211,12 @@ private
       # Debit locked fiat/crypto Liability account.
       # Credit main fiat/crypto Liability account.
       Operations::Liability.transfer!(
-        reference: self,
-        amount: sum,
-        from_kind: :locked,
-        to_kind:   :main
+        amount:     sum,
+        currency:   currency,
+        reference:  self,
+        from_kind:  :locked,
+        to_kind:    :main,
+        member_id:  member_id
       )
     end
   end
@@ -221,18 +225,29 @@ private
     transaction do
       # Debit locked fiat/crypto Liability account.
       Operations::Liability.debit!(
-        reference: self,
-        amount: sum,
-        kind: :locked
+        amount:     sum,
+        currency:   currency,
+        reference:  self,
+        kind:       :locked,
+        member_id:  member_id
       )
 
       # Credit main fiat/crypto Revenue account.
       # NOTE: Credit amount = fee.
-      Operations::Revenue.credit!(reference: self, amount: fee)
+      Operations::Revenue.credit!(
+        amount:     fee,
+        currency:   currency,
+        reference:  self,
+        member_id:  member_id
+      )
 
       # Debit main fiat/crypto Asset account.
       # NOTE: Debit amount = sum - fee.
-      Operations::Asset.debit!(reference: self, amount: amount)
+      Operations::Asset.debit!(
+        amount:     amount,
+        currency:   currency,
+        reference:  self
+      )
     end
   end
 

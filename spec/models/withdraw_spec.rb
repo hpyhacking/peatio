@@ -448,6 +448,31 @@ describe Withdraw do
             Operations::Revenue.balance(currency: subject.currency)
           }.by(subject.fee)
         end
+
+        it 'creates revenue operation from member' do
+          expect{ subject.success! }.to change {
+            Operations::Revenue.where(member: subject.member).count
+          }.by(1)
+        end
+      end
+    end
+    context :load do
+      let(:txid) { 'a738cb8411e2141f3de43c5f3e7a3aabe71c099bb91d296ded84f0daf29d881c' }
+
+      subject { create(:btc_withdraw) }
+
+      before { subject.submit! }
+      before { subject.accept! }
+
+      it 'doesn\'t change state after calling #load! when withdrawing coin currency' do
+        subject.load!
+        expect(subject.accepted?).to be true
+      end
+
+      it 'transitions to :confirming after calling #load! when withdrawing coin currency' do
+        subject.update(txid: txid)
+        subject.load!
+        expect(subject.confirming?).to be true
       end
     end
     context :load do

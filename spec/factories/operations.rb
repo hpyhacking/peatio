@@ -16,38 +16,40 @@ FactoryBot.define do
 
   factory :asset, class: Operations::Asset, parent: :operation do
     code do
-      Operations::Chart.code_for(type: :asset,
-                                 currency_type: currency.type)
+      Operations::Account.find_by(type: :asset,
+                                 currency_type: currency.type).code
     end
   end
 
   factory :expense, class: Operations::Expense, parent: :operation do
     code do
-      Operations::Chart.code_for(type: :expense,
-                                 currency_type: currency.type)
+      Operations::Account.find_by(type: :expense,
+                                  currency_type: currency.type).code
     end
   end
 
   factory :revenue, class: Operations::Revenue, parent: :operation do
     code do
-      Operations::Chart.code_for(type: :revenue,
-                                 currency_type: currency.type)
+      Operations::Account.find_by(type: :revenue,
+                                  currency_type: currency.type).code
     end
   end
 
   factory :liability, class: Operations::Liability, parent: :operation do
     code do
-      Operations::Chart.code_for(type: :liability,
+      Operations::Account.find_by(type: :liability,
                                  currency_type: currency.type,
-                                 kind: :main)
+                                 kind: :main).code
     end
-    member { create(:member, :level_3) }
+    trait :with_member do
+      member { create(:member, :level_3) }
 
-    # Update legacy balance.
-    after(:create) do |liability|
-      acc = liability.member.ac(liability.currency)
-      acc.plus_funds(liability.credit) unless liability.credit.zero?
-      acc.sub_funds(liability.debit) unless liability.debit.zero?
+      # Update legacy balance.
+      after(:create) do |liability|
+        acc = liability.member.ac(liability.currency)
+        acc.plus_funds(liability.credit) unless liability.credit.zero?
+        acc.sub_funds(liability.debit) unless liability.debit.zero?
+      end
     end
   end
 end

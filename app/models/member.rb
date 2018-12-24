@@ -50,11 +50,11 @@ class Member < ActiveRecord::Base
   end
 
   def balance_for(currency:, kind:)
-    account_code = Operations::Chart.code_for(
+    account_code = Operations::Account.find_by(
       type: :liability,
       kind: kind,
       currency_type: currency.type
-    )
+    ).code
     liabilities = Operations::Liability.where(member_id: id, currency: currency, code: account_code)
     liabilities.sum('credit - debit')
   end

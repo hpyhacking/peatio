@@ -3,9 +3,7 @@
 module Operations
   # {Asset} is a balance sheet operation
   class Asset < Operation
-    class << self
 
-    end
   end
 end
 

@@ -135,4 +135,16 @@ describe Trade, '#record_complete_operations!' do
       Operations::Revenue.balance(currency: bid.currency)
     }.by(bid_currency_fee)
   end
+
+  it 'creates ask currency revenue from bid creator' do
+    expect{ subject.record_complete_operations! }.to change {
+      Operations::Revenue.where(currency: ask.currency, member: bid.member).count
+    }.by(1)
+  end
+
+  it 'creates bid currency revenue from ask creator' do
+    expect{ subject.record_complete_operations! }.to change {
+      Operations::Revenue.where(currency: bid.currency, member: ask.member).count
+    }.by(1)
+  end
 end

@@ -98,6 +98,10 @@ describe Deposit do
           revenue_operation = Operations::Revenue.find_by(reference: subject)
           expect(revenue_operation.credit).to eq(subject.fee)
         end
+
+        it 'creates revenue from member' do
+          expect{ subject.accept! }.to change{ Operations::Revenue.where(member: member).count }.by(1)
+        end
       end
 
       it 'credits both legacy and operations based member balance' do

@@ -3,20 +3,19 @@
 module Operations
   # {Revenue} is a income statement operation
   class Revenue < Operation
-    class << self
-
-    end
+    belongs_to :member
   end
 end
 
 # == Schema Information
-# Schema version: 20181210162905
+# Schema version: 20190115165813
 #
 # Table name: revenues
 #
 #  id             :integer          not null, primary key
 #  code           :integer          not null
 #  currency_id    :string(255)      not null
+#  member_id      :integer
 #  reference_id   :integer
 #  reference_type :string(255)
 #  debit          :decimal(32, 16)  default(0.0), not null

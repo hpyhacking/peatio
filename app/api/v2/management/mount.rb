@@ -48,6 +48,7 @@ module API
         mount Management::Withdraws
         mount Management::Tools
         mount Management::Operations
+        mount Management::Transfers
 
         # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/management/swagger
         # Add swagger documentation for Peatio Management API

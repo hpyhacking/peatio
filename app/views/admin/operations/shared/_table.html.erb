@@ -5,7 +5,7 @@
   <% end %>
 
   <% t.column 'Account Kind' do |x| %>
-    <%= Operations::Chart::find_chart(x.code).fetch(:kind).upcase %>
+    <%= Operations::Account::find_by(code: x.code).kind.upcase %>
   <% end %>
 
   <% if objects.klass.name.demodulize == "Liability" %>

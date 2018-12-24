@@ -6,52 +6,66 @@
 class Operation < ActiveRecord::Base
   belongs_to :reference, polymorphic: true
   belongs_to :currency, foreign_key: :currency_id
+  belongs_to :account, class_name: 'Operations::Account',
+             foreign_key: :code, primary_key: :code
 
   validates :credit, :debit, numericality: { greater_than_or_equal_to: 0 }
+  validates :currency, :code, presence: true
+
+  validate do
+    unless account.currency_type == currency&.type
+      errors.add(:currency, 'type and account currency type don\'t match')
+    end
+  end
+
+  validate do
+    unless account.type == self.class.operation_type
+      errors.add(:base, 'Account type and operation type don\'t match')
+    end
+  end
 
   self.abstract_class = true
 
-  MEMBER_TYPES = %i[liability].freeze
-  PLATFORM_TYPES = %i[asset expense revenue].freeze
-  TYPES = (MEMBER_TYPES + PLATFORM_TYPES).freeze
-
   class << self
     def operation_type
-      name.demodulize.downcase.to_sym
+      name.demodulize.downcase
     end
 
-    def credit!(amount:, kind: :main, reference: nil, currency: nil)
+    def credit!(amount:, currency:, kind: :main, **opt)
       return if amount.zero?
 
-      currency ||= reference.currency
-      account_code = Operations::Chart.code_for(
-        type:          operation_type,
-        kind:          kind,
-        currency_type: currency.type.to_sym
-      )
-      create!(
-        credit:      amount,
-        reference:   reference,
-        currency_id: currency.id,
-        code:        account_code
-      ).tap(&:save!)
-    end
-
-    def debit!(amount:, kind: :main, reference: nil, currency: nil)
-      return if amount.zero?
-
-      currency ||= reference.currency
-      account_code = Operations::Chart.code_for(
+      opt[:code] ||= Operations::Account.find_by(
         type:          operation_type,
         kind:          kind,
         currency_type: currency.type
-      )
-      new(
-        debit:       amount,
-        reference:   reference,
-        currency_id: currency.id,
-        code:        account_code
-      ).tap(&:save!)
+      ).code
+
+      opt.merge(credit: amount, currency_id: currency.id)
+         .yield_self { |attr| new(attr) }
+         .tap(&:save!)
+    end
+
+    def debit!(amount:, currency:, kind: :main, **opt)
+      return if amount.zero?
+
+      opt[:code] ||= Operations::Account.find_by(
+        type:          operation_type,
+        kind:          kind,
+        currency_type: currency.type
+      ).code
+
+      opt.merge(debit: amount, currency_id: currency.id)
+         .yield_self { |attr| new(attr) }
+         .tap(&:save!)
+    end
+
+    def transfer!(amount:, currency:, from_kind:, to_kind:, **opt)
+      params = opt.merge(amount: amount, currency: currency)
+
+      [
+        debit!(params.merge(kind: from_kind)),
+        credit!(params.merge(kind: to_kind))
+      ]
     end
 
     def balance(currency: nil, created_at_from: nil, created_at_to: nil)

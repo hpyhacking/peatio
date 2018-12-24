@@ -30,11 +30,11 @@ module API
                    desc: 'Operation debit amount.'
                  }
           expose(:uid,
-                 if: ->(operation) { operation.respond_to?(:member) },
+                 if: ->(operation) { operation.try(:member).try(:uid) },
                  documentation: {
                    type: String,
                    desc: 'The shared user ID.'
-                 }) { |w| w.try(:member).try(:uid) }
+                 }) { |operation| operation.try(:member).try(:uid) }
           expose :created_at,
                  format_with: :iso8601,
                  documentation: {
@@ -46,22 +46,3 @@ module API
     end
   end
 end
-
-#
-# Table name: assets
-#
-#  id             :integer          not null, primary key
-#  code           :integer          not null
-#  currency_id    :string(255)      not null
-#  reference_id   :integer
-#  reference_type :string(255)
-#  debit          :decimal(32, 16)  default(0.0), not null
-#  credit         :decimal(32, 16)  default(0.0), not null
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#
-# Indexes
-#
-#  index_assets_on_currency_id                      (currency_id)
-#  index_assets_on_reference_type_and_reference_id  (reference_type,reference_id)
-#

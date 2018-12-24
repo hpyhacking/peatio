@@ -81,19 +81,19 @@ class Trade < ActiveRecord::Base
 
     # Debit locked fiat/crypto Liability account for member who created ask.
     Operations::Liability.debit!(
-      reference: self,
       amount:    ask_currency_outcome,
+      currency:  ask.currency,
+      reference: self,
       kind:      :locked,
       member_id: ask.member_id,
-      currency:  ask.currency
     )
     # Debit locked fiat/crypto Liability account for member who created bid.
     Operations::Liability.debit!(
-      reference: self,
       amount:    bid_currency_outcome,
+      currency:  bid.currency,
+      reference: self,
       kind:      :locked,
       member_id: bid.member_id,
-      currency:  bid.currency
     )
   end
 
@@ -105,20 +105,20 @@ class Trade < ActiveRecord::Base
 
     # Credit main fiat/crypto Liability account for member who created ask.
     Operations::Liability.credit!(
-      reference: self,
       amount:    bid_currency_income,
+      currency:  bid.currency,
+      reference: self,
       kind:      :main,
-      member_id: ask.member_id,
-      currency:  bid.currency
+      member_id: ask.member_id
     )
 
     # Credit main fiat/crypto Liability account for member who created bid.
     Operations::Liability.credit!(
-      reference: self,
       amount:    ask_currency_income,
+      currency:  ask.currency,
+      reference: self,
       kind:      :main,
-      member_id: bid.member_id,
-      currency:  ask.currency
+      member_id: bid.member_id
     )
   end
 
@@ -127,12 +127,12 @@ class Trade < ActiveRecord::Base
     [bid, ask].each do |order|
       if order.volume.zero? && !order.locked.zero?
         Operations::Liability.transfer!(
-          reference: self,
           amount:    order.locked,
+          currency:  order.currency,
+          reference: self,
           from_kind: :locked,
           to_kind:   :main,
-          member_id: order.member_id,
-          currency:  order.currency
+          member_id: order.member_id
         )
       end
     end
@@ -144,16 +144,18 @@ class Trade < ActiveRecord::Base
 
     # Credit main fiat/crypto Revenue account.
     Operations::Revenue.credit!(
-      reference: self,
       amount:    ask_currency_fee,
-      currency:  ask.currency
+      currency:  ask.currency,
+      reference: self,
+      member_id: bid.member_id
     )
 
     # Credit main fiat/crypto Revenue account.
     Operations::Revenue.credit!(
-      reference: self,
       amount:    bid_currency_fee,
-      currency:  bid.currency
+      currency:  bid.currency,
+      reference: self,
+      member_id: ask.member_id
     )
   end
 end

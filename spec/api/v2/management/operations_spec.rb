@@ -16,7 +16,7 @@ describe API::V2::Management::Operations, type: :request do
       post_json "/api/v2/management/#{op_type}", multisig_jwt_management_api_v1({ data: data }, *signers)
     end
 
-    Operation::PLATFORM_TYPES.each do |op_type|
+    Operations::Account::PLATFORM_TYPES.each do |op_type|
       context op_type do
         let(:data) { {} }
         let(:signers) { %i[alex] }
@@ -64,12 +64,12 @@ describe API::V2::Management::Operations, type: :request do
       end
     end
 
-    Operation::MEMBER_TYPES.each do |op_type|
+    Operations::Account::MEMBER_TYPES.each do |op_type|
       context op_type do
         let(:data) { {} }
         let(:signers) { %i[alex] }
         let(:operations_number) { 15 }
-        let!(:operations) { create_list(op_type, operations_number) }
+        let!(:operations) { create_list(op_type, operations_number, :with_member) }
 
         before do
           request(op_type.to_s.pluralize)
@@ -138,12 +138,13 @@ describe API::V2::Management::Operations, type: :request do
       post_json "/api/v2/management/#{op_type}/new", multisig_jwt_management_api_v1({ data: data }, *signers)
     end
 
-    Operation::PLATFORM_TYPES.each do |op_type|
+    Operations::Account::PLATFORM_TYPES.each do |op_type|
       context op_type do
         let(:currency) { Currency.coins.sample }
         let(:signers) { %i[alex jeff] }
         let(:data) do
-          { currency: currency.code }
+          { currency: currency.code,
+            code:     Operations::Account.find_by(type: op_type, currency_type: currency.type).code}
         end
 
         context 'credit' do
@@ -159,9 +160,9 @@ describe API::V2::Management::Operations, type: :request do
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
             expect(JSON.parse(response.body)['credit'].to_d).to eq amount
             expect(JSON.parse(response.body)['code']).to \
-              eq Operations::Chart.code_for(type: op_type,
+              eq Operations::Account.find_by(type: op_type,
                                             kind: :main,
-                                            currency_type: currency.type)
+                                            currency_type: currency.type).code
           end
 
           it 'saves operation' do
@@ -170,6 +171,15 @@ describe API::V2::Management::Operations, type: :request do
                          .constantize
             expect { request(op_type.to_s.pluralize) }.to \
               change(op_klass, :count).by(1)
+          end
+
+          context 'wrong account code' do
+            before do
+              data[:code] = (::Operations::Account.pluck(:code) - [data[:code]]).sample
+              request(op_type.to_s.pluralize)
+            end
+
+            it { expect(response).to have_http_status 422 }
           end
         end
 
@@ -188,9 +198,9 @@ describe API::V2::Management::Operations, type: :request do
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
             expect(JSON.parse(response.body)['debit'].to_d).to eq amount
             expect(JSON.parse(response.body)['code']).to \
-              eq Operations::Chart.code_for(type: op_type,
+              eq Operations::Account.find_by(type: op_type,
                                             kind: :main,
-                                            currency_type: currency.type)
+                                            currency_type: currency.type).code
           end
 
           it 'saves operation' do
@@ -204,14 +214,15 @@ describe API::V2::Management::Operations, type: :request do
       end
     end
 
-    Operation::MEMBER_TYPES.each do |op_type|
+    Operations::Account::MEMBER_TYPES.each do |op_type|
       context op_type do
         let(:currency) { Currency.coins.sample }
         let(:signers) { %i[alex jeff] }
         let(:member) { create(:member, :barong) }
         let(:data) do
           { currency: currency.code,
-            uid: member.uid }
+            code:     Operations::Account.find_by(type: op_type, currency_type: currency.type, kind: :main).code,
+            uid:      member.uid }
         end
 
         context 'credit' do
@@ -228,9 +239,9 @@ describe API::V2::Management::Operations, type: :request do
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
             expect(JSON.parse(response.body)['credit'].to_d).to eq amount
             expect(JSON.parse(response.body)['code']).to \
-              eq Operations::Chart.code_for(type: op_type,
+              eq Operations::Account.find_by(type: op_type,
                                             kind: :main,
-                                            currency_type: currency.type)
+                                            currency_type: currency.type).code
           end
 
           it 'saves operation' do
@@ -246,13 +257,23 @@ describe API::V2::Management::Operations, type: :request do
             expect(member.ac(currency_id).balance).to \
               eq JSON.parse(response.body)['credit'].to_d
           end
+
+          context 'wrong account code' do
+            before do
+              data[:code] = 999
+              request(op_type.to_s.pluralize)
+            end
+
+            it { expect(response).to have_http_status 422 }
+          end
         end
 
         context 'debit' do
           let(:amount) { 0.1545 }
           before do
             # Create credit operation to avoid negative balance.
-            create(op_type, credit: amount, member: member, currency: currency)
+            create(op_type, :with_member, credit: amount,
+                   member: member, currency: currency)
             data[:debit] = amount
             request(op_type.to_s.pluralize)
           end
@@ -264,15 +285,15 @@ describe API::V2::Management::Operations, type: :request do
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
             expect(JSON.parse(response.body)['debit'].to_d).to eq amount
             expect(JSON.parse(response.body)['code']).to \
-              eq Operations::Chart.code_for(type: op_type,
+              eq Operations::Account.find_by(type: op_type,
                                             kind: :main,
-                                            currency_type: currency.type)
+                                            currency_type: currency.type).code
           end
 
           it 'saves operation' do
             # Create one more credit operation to avoid negative balance.
             # So we can create one more debit operation.
-            create(op_type, credit: amount, member: member, currency: currency)
+            create(op_type, :with_member, credit: amount, member: member, currency: currency)
             op_klass = "operations/#{op_type}"
                          .camelize
                          .constantize

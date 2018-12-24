@@ -3,6 +3,16 @@
 require 'yaml'
 
 namespace :seed do
+  desc 'Adds missing accounts to database defined at config/seed/accounts.yml.'
+  task accounts: :environment do
+    Operations::Account.transaction do
+      YAML.load_file(Rails.root.join('config/seed/accounts.yml')).each do |hash|
+        next if Operations::Account.exists?(code: hash.fetch('code'))
+        Operations::Account.create!(hash)
+      end
+    end
+  end
+
   desc 'Adds missing currencies to database defined at config/seed/currencies.yml.'
   task currencies: :environment do  
     Currency.transaction do

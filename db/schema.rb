@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 20190116140939) do
   create_table "liabilities", force: :cascade do |t|
     t.integer  "code",           limit: 4,                                           null: false
     t.string   "currency_id",    limit: 255,                                         null: false
-    t.integer  "member_id",      limit: 4,                                           null: false
+    t.integer  "member_id",      limit: 4
     t.integer  "reference_id",   limit: 4
     t.string   "reference_type", limit: 255
     t.decimal  "debit",                      precision: 32, scale: 16, default: 0.0, null: false
@@ -170,6 +170,23 @@ ActiveRecord::Schema.define(version: 20190116140939) do
 
   add_index "members", ["email"], name: "index_members_on_email", unique: true, using: :btree
 
+  create_table "operations_accounts", force: :cascade do |t|
+    t.integer  "code",          limit: 3,   null: false
+    t.string   "type",          limit: 10,  null: false
+    t.string   "kind",          limit: 30,  null: false
+    t.string   "currency_type", limit: 10,  null: false
+    t.string   "description",   limit: 100
+    t.string   "scope",         limit: 10,  null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "operations_accounts", ["code"], name: "index_operations_accounts_on_code", unique: true, using: :btree
+  add_index "operations_accounts", ["currency_type"], name: "index_operations_accounts_on_currency_type", using: :btree
+  add_index "operations_accounts", ["scope"], name: "index_operations_accounts_on_scope", using: :btree
+  add_index "operations_accounts", ["type", "kind", "currency_type"], name: "index_operations_accounts_on_type_and_kind_and_currency_type", unique: true, using: :btree
+  add_index "operations_accounts", ["type"], name: "index_operations_accounts_on_type", using: :btree
+
   create_table "orders", force: :cascade do |t|
     t.string   "bid",            limit: 10,                                         null: false
     t.string   "ask",            limit: 10,                                         null: false
@@ -212,6 +229,7 @@ ActiveRecord::Schema.define(version: 20190116140939) do
   create_table "revenues", force: :cascade do |t|
     t.integer  "code",           limit: 4,                                           null: false
     t.string   "currency_id",    limit: 255,                                         null: false
+    t.integer  "member_id",      limit: 4
     t.integer  "reference_id",   limit: 4
     t.string   "reference_type", limit: 255
     t.decimal  "debit",                      precision: 32, scale: 16, default: 0.0, null: false
@@ -241,6 +259,17 @@ ActiveRecord::Schema.define(version: 20190116140939) do
   add_index "trades", ["ask_member_id", "bid_member_id"], name: "index_trades_on_ask_member_id_and_bid_member_id", using: :btree
   add_index "trades", ["bid_id"], name: "index_trades_on_bid_id", using: :btree
   add_index "trades", ["market_id", "created_at"], name: "index_trades_on_market_id_and_created_at", using: :btree
+
+  create_table "transfers", force: :cascade do |t|
+    t.integer  "key",        limit: 4,                null: false
+    t.string   "kind",       limit: 30,               null: false
+    t.string   "desc",       limit: 255, default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "transfers", ["key"], name: "index_transfers_on_key", unique: true, using: :btree
+  add_index "transfers", ["kind"], name: "index_transfers_on_kind", using: :btree
 
   create_table "wallets", force: :cascade do |t|
     t.string   "blockchain_key", limit: 32
