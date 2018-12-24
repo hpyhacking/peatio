@@ -62,11 +62,12 @@ ActiveRecord::Schema.define(version: 20181229051129) do
     t.string   "symbol",                limit: 1,                                               null: false
     t.string   "type",                  limit: 30,                             default: "coin", null: false
     t.decimal  "deposit_fee",                        precision: 32, scale: 16, default: 0.0,    null: false
-    t.decimal  "withdraw_limit_24h",                 precision: 32, scale: 16, default: 0.0,    null: false
-    t.decimal  "withdraw_limit_72h",                 precision: 32, scale: 16, default: 0.0,    null: false
     t.decimal  "min_deposit_amount",                 precision: 32, scale: 16, default: 0.0,    null: false
     t.decimal  "min_collection_amount",              precision: 32, scale: 16, default: 0.0,    null: false
     t.decimal  "withdraw_fee",                       precision: 32, scale: 16, default: 0.0,    null: false
+    t.decimal  "min_withdraw_amount",                precision: 32, scale: 16, default: 0.0,    null: false
+    t.decimal  "withdraw_limit_24h",                 precision: 32, scale: 16, default: 0.0,    null: false
+    t.decimal  "withdraw_limit_72h",                 precision: 32, scale: 16, default: 0.0,    null: false
     t.string   "options",               limit: 1000,                           default: "{}",   null: false
     t.boolean  "enabled",                                                      default: true,   null: false
     t.integer  "base_factor",           limit: 8,                              default: 1,      null: false
@@ -241,7 +242,7 @@ ActiveRecord::Schema.define(version: 20181229051129) do
 
   create_table "wallets", force: :cascade do |t|
     t.string   "blockchain_key", limit: 32
-    t.string   "currency_id",    limit: 5
+    t.string   "currency_id",    limit: 10
     t.string   "name",           limit: 64
     t.string   "address",        limit: 255,                                           null: false
     t.integer  "kind",           limit: 4,                                             null: false

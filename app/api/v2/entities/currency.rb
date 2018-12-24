@@ -71,10 +71,26 @@ module API
         )
 
         expose(
+          :min_deposit_amount,
+          documentation: {
+            desc: 'Minimal deposit amount',
+            example: -> { ::Currency.enabled.first.min_deposit_amount }
+          }
+        )
+
+        expose(
           :withdraw_fee,
           documentation: {
             desc: 'Currency withdraw fee',
             example: -> { ::Currency.enabled.first.withdraw_fee }
+          }
+        )
+
+        expose(
+          :min_withdraw_amount,
+          documentation: {
+            desc: 'Minimal withdraw amount',
+            example: -> { ::Currency.enabled.first.min_withdraw_amount }
           }
         )
 
@@ -90,7 +106,7 @@ module API
           :withdraw_limit_72h,
           documentation: {
             desc: 'Currency 72h withdraw limit',
-            example: -> { ::Currency.enabled.first.withdraw_limit_24h }
+            example: -> { ::Currency.enabled.first.withdraw_limit_72h }
           }
         )
 

@@ -563,6 +563,23 @@ describe Withdraw do
     end
   end
 
+  context 'validate min withdrawal sum' do
+
+    subject { build(:btc_withdraw, sum: 0.1) }
+
+    before do 
+      Currency.find('btc').update(min_withdraw_amount: 0.5.to_d)
+    end
+
+    it { expect(subject).not_to be_valid }
+
+    it do
+      subject.save
+      expect(subject.errors[:sum]).to match(["must be greater than or equal to 0.5"])
+    end
+
+  end
+
   it 'doesn\'t raise exceptions in before_validation callbacks if member doesn\'t exist' do
     expect { Withdraw.new.validate }.not_to raise_error
   end

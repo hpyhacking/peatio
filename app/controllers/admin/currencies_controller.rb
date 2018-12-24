@@ -56,12 +56,13 @@ module Admin
         name
         symbol
         icon_url
-        withdraw_limit_24h
-        withdraw_limit_72h
+        deposit_fee
         min_deposit_amount
         min_collection_amount
         withdraw_fee
-        deposit_fee
+        min_withdraw_amount
+        withdraw_limit_24h
+        withdraw_limit_72h
         enabled
         blockchain_key
       ]
