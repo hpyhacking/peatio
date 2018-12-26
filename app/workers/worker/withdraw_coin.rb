@@ -39,7 +39,7 @@ module Worker
 
         wallet_service = WalletService[wallet]
 
-        balance = wallet_service.load_balance(withdraw.rid, currency)
+        balance = wallet_service.load_balance(wallet.address, currency)
 
         if balance < withdraw.sum
           Rails.logger.warn { "The withdraw skipped because wallet balance is not sufficient (wallet balance is #{balance.to_s("F")})." }
