@@ -32,6 +32,7 @@ ru:
         submitted: Подтвержден
         accepted: Принят
         rejected: Отклонен
+        skipped: Пропущен
       withdraw_fiat:
         title: 'Вывести в {{currency}}'
         intro: Выберите банк для вывода средств и введите номер счета.
