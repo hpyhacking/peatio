@@ -47,6 +47,10 @@ module WalletClient
       wallet.blockchain_api&.supports_cash_addr_format? ? CashAddr::Converter.to_legacy_address(super) : super
     end
 
+    def load_balance!(_address, _currency)
+      convert_from_base_unit(wallet_details(true).fetch('balanceString'))
+    end
+
     protected
 
     def rest_api(verb, path, data = nil, raise_error = true)
@@ -74,7 +78,7 @@ module WalletClient
       JSON.parse(response.body)
     end
 
-    def wallet_details
+    def wallet_details(_state)
       rest_api(:get, '/wallet/' + urlsafe_wallet_id)
     end
 
