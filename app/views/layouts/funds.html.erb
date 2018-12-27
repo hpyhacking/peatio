@@ -3,7 +3,6 @@
   <head>
     <%= render 'shared/meta' %>
     <%= render 'shared/sentry' %>
-    <%= csrf_meta_tags %>
 
     <link href="/favicon.ico" rel="shortcut icon" />
     <% stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : 'application' %>

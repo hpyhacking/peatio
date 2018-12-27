@@ -70,7 +70,6 @@ end
 group :test do
   gem 'rspec-rails',         '~> 3.7'
   gem 'rspec-retry',         '~> 0.5'
-  gem 'rack_session_access', '~> 0.1'
   gem 'webmock',             '~> 3.3'
   gem 'database_cleaner',    '~> 1.6'
   gem 'mocha',               '~> 1.4', require: false

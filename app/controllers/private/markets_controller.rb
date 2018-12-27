@@ -68,7 +68,6 @@ module Private
         current_member: @member,
         markets:        @markets.map { |m| m.as_json.merge!(ticker: Global[m].ticker) },
         my_accounts:    accounts,
-        csrf_token:     form_authenticity_token
       }
     end
 

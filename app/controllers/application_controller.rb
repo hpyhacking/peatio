@@ -7,8 +7,6 @@ class ApplicationController < ActionController::Base
   include Authorization::Bearer
   extend Memoist
 
-  protect_from_forgery with: :exception
-
   helper_method :current_user, :is_admin?, :current_market, :gon
   before_action :set_language, :set_gon
 
@@ -26,10 +24,9 @@ class ApplicationController < ActionController::Base
       token = request.headers['Authorization']
       payload = authenticate!(token)
       Member.from_payload(payload)
-    else
-      nil
     end
   end
+  memoize :current_user
 
   def auth_member!
     unless current_user
