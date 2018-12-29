@@ -15,6 +15,16 @@ module APIv2
       )
 
       expose(
+        :name,
+        documentation: {
+            type: String,
+            desc: 'Currency name',
+            example: -> { ::Currency.enabled.first.name }
+        },
+        if: -> (currency){ currency.name.present? }
+      )
+
+      expose(
         :symbol,
         documentation: {
           type: String,

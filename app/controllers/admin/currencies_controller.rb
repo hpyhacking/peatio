@@ -53,6 +53,7 @@ module Admin
 
     def permitted_currency_attributes
       attributes = %i[
+        name
         symbol
         icon_url
         withdraw_limit_24h

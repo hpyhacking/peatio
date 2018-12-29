@@ -14,6 +14,9 @@
               <dd><%= @currency.code.upcase %></dd>
             <% end %>
 
+            <dt>Name</dt>
+            <dd><%= f.text_field :name, class: 'form-control' %></dd>
+
             <dt>Symbol</dt>
             <dd><%= f.text_field :symbol, maxlength: 1, class: 'form-control' %></dd>
 
