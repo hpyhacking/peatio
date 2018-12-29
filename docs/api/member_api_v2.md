@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.9.11
+**Version:** 1.9.12
 
 **Contact information:**  
 peatio.tech  
@@ -553,6 +553,7 @@ Get a currency
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | id | string | Currency code. | No |
+| name | string | Currency name | No |
 | symbol | string | Currency symbol | No |
 | explorer_transaction | string | Currency transaction exprorer url template | No |
 | explorer_address | string | Currency address exprorer url template | No |
