@@ -2,6 +2,7 @@
 <%= File.read(ENV['CURRENCIES_CONFIG']) %>
 <% else %>
 - id:                     usd
+  name:                   US Dollar
   symbol:                 '$'
   type:                   fiat
   precision:              2
@@ -16,6 +17,7 @@
   options:                {}
 
 - id:                     btc
+  name:                   Bitcoin
   blockchain_key:         btc-testnet
   symbol:                 '฿'
   type:                   coin
@@ -33,6 +35,7 @@
   options:                {}
 
 - id:                     xrp
+  name:                   Ripple
   blockchain_key:         xrp-testnet
   symbol:                 'ꭆ'
   type:                   coin
@@ -50,6 +53,7 @@
   options:                {}
 
 - id:                     bch
+  name:                   Bitcoin Cash
   blockchain_key:         bch-testnet
   symbol:                 '฿'
   type:                   coin
@@ -67,6 +71,7 @@
   options:                {}
 
 - id:                     ltc
+  name:                   Litecoin
   blockchain_key:         ltc-testnet
   symbol:                 'Ł'
   type:                   coin
@@ -84,6 +89,7 @@
   options:                {}
 
 - id:                     dash
+  name:                   Dash
   blockchain_key:         dash-testnet
   symbol:                 'Đ'
   type:                   coin
@@ -101,6 +107,7 @@
   options:                {}
 
 - id:                     eth
+  name:                   Ethereum
   blockchain_key:         eth-rinkeby
   symbol:                 'Ξ'
   type:                   coin
@@ -124,6 +131,7 @@
     gas_price: 1_000_000_000
 
 - id:                     trst
+  name:                   WeTrust
   blockchain_key:         eth-rinkeby
   symbol:                 'Ξ'
   type:                   coin

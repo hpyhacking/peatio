@@ -13,6 +13,10 @@
       <%= x.code.upcase %>
     <% end %>
 
+    <% t.column 'Name' do |x| %>
+      <%= x.name %>
+    <% end %>
+
     <% t.column 'Symbol' do |x| %>
       <span class="h5"><%= x.symbol %></span>
     <% end %>
