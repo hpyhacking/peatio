@@ -25,6 +25,9 @@ Dir.chdir APP_ROOT do
   puts "\n=== Starting backends"
   system "docker-compose -f config/backend.yml up -d"
 
+  puts "\n=== Setup Vault"
+  system "bin/init_vault"
+
   # in production we run db:setup as k8s jobs
   if ENV['RAILS_ENV'] == 'production'
     puts "\n=== Compiling assets ==="

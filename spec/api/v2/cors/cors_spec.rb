@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require 'rack/cors'
-require 'env-tweaks'
 
 describe Rack::Cors, type: :request do
 

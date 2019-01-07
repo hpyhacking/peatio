@@ -20,6 +20,7 @@ services:
   - redis-server
   - rabbitmq
   - docker
+  - docker-compose
 
 # Execute all of the commands which need to be executed before installing dependencies.
 before_install:
@@ -32,6 +33,7 @@ before_install:
 
 # Execute all of the commands which should install application dependencies.
 install:
+  - docker-compose -f config/backend.yml up -d vault
   - bundle install --deployment --without production --jobs=$(nproc) --retry=3
   - bundle exec rake yarn:install
   - ./bin/install_plugins
@@ -39,6 +41,7 @@ install:
 # Execute all of the commands which need to be executed before running actual tests.
 before_script:
   - bundle exec rake db:create db:migrate
+  - ./bin/init_vault
 
 # Execute all of the commands which should make the build pass or fail.
 script:

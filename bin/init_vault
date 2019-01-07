@@ -1,0 +1,7 @@
+DOCKER_VAULT_ID=`docker ps | grep vault  | awk '{ print $1 }'`
+
+docker exec ${DOCKER_VAULT_ID} sh -c \
+    "vault secrets disable secret \
+    && vault secrets enable -path=secret -version=1 kv \
+    && vault secrets enable totp"
+

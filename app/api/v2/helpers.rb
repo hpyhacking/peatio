@@ -28,6 +28,12 @@ module API
         end
       end
 
+      def withdraw_api_must_be_enabled!
+        if ENV.false?('ENABLE_ACCOUNT_WITHDRAWAL_API')
+          raise Error.new(text: 'Account withdrawal API is disabled', status: 422)
+        end
+      end
+
       def current_user
         # JWT authentication provides member email.
         if env.key?('api_v2.authentic_member_email')

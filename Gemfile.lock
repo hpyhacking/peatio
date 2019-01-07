@@ -56,6 +56,7 @@ GEM
     ast (2.4.0)
     autoprefixer-rails (9.4.2)
       execjs
+    aws-sigv4 (1.0.3)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -376,6 +377,8 @@ GEM
       addressable
     validates_lengths_from_database (0.7.0)
       activerecord (>= 3)
+    vault (0.12.0)
+      aws-sigv4
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -456,6 +459,7 @@ DEPENDENCIES
   uglifier (~> 4.1.17)
   validate_url (~> 1.0.2)
   validates_lengths_from_database (~> 0.7.0)
+  vault (~> 0.12)
   webmock (~> 3.3)
 
 BUNDLED WITH

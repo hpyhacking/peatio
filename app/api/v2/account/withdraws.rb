@@ -28,6 +28,48 @@ module API
             .per(params[:limit])
             .tap { |q| present q, with: API::V2::Entities::Withdraw }
         end
+
+        desc 'Creates new crypto withdrawal.'
+        params do
+          requires :otp,
+                   type: Integer,
+                   desc: 'OTP to perform action',
+                   allow_blank: false
+          requires :rid,
+                   type: String,
+                   desc: 'Wallet address on the Blockchain.',
+                   allow_blank: false
+          requires :currency,
+                   type: String,
+                   values: -> { Currency.coins.codes(bothcase: true) },
+                   desc: 'The currency code.'
+          requires :amount,
+                   type: BigDecimal,
+                   values: { value: ->(v) { v.to_d.positive? }, message: 'must be positive' },
+                   desc: 'The amount to withdraw.'
+        end
+        post '/withdraws' do
+          withdraw_api_must_be_enabled!
+
+          unless Vault::TOTP.validate?(current_user.uid, params[:otp])
+            raise Error.new(text: 'OTP code is invalid', status: 422)
+          end
+
+          currency = Currency.find(params[:currency])
+          withdraw = ::Withdraws::Coin.new \
+            sum:            params[:amount],
+            member:         current_user,
+            currency:       currency,
+            rid:            params[:rid]
+
+          if withdraw.save
+            withdraw.with_lock { withdraw.submit! }
+            present withdraw, with: API::V2::Entities::Withdraw
+          else
+            body errors: withdraw.errors.full_messages
+            status 422
+          end
+        end
       end
     end
   end

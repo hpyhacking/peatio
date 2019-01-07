@@ -136,6 +136,13 @@ defaults: &defaults
 
   BULLET: 'false'
 
+  # Configuration to allow Withdraw via API i.e (POST api/v2/account/withdraws)
+  ENABLE_ACCOUNT_WITHDRAWAL_API: true
+
+  # Configure Vault to verify OTP for Withdraw API
+  VAULT_URL:    http://127.0.0.1:8200
+  VAULT_TOKEN:  changeme
+
 development:
   <<: *defaults
 
