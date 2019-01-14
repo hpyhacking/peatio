@@ -19,7 +19,7 @@ module Peatio
   class Application
     GIT_TAG =    '${V}'
     GIT_SHA =    '$(git rev-parse --short HEAD)'
-    BUILD_DATE = '$(date)'
+    BUILD_DATE = '$(date --rfc-3339=seconds)'
     VERSION =    GIT_TAG
   end
 end
