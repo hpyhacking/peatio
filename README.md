@@ -57,6 +57,11 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * Maintained by [peatio.tech](https://www.peatio.tech)
 * [KYC Verification](http://en.wikipedia.org/wiki/Know_your_customer) provided by [Barong](https://www.github.com/rubykube/barong)
 
+## Contribute
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute
+issues, fixes, and patches to this project.
+
 ## Getting Started
 
 We advice to use [minimalistic environment](#minimalistic-local-development-environment-with-docker-compose) if you want to develop only Peatio and don't touch processes which interact with other components.
