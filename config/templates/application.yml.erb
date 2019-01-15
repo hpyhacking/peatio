@@ -15,6 +15,20 @@ defaults: &defaults
   # Configuration variables for logger.
   LOG_LEVEL: ~ # Default level for production is warn, otherwise – debug.
 
+  # Configuration variables for API CORS.
+  #
+  # Set list of allowed origins using the variable below.
+  # By default it allows access to API from all origins.
+  # See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
+  API_CORS_ORIGINS:           '*'
+  # Access-Control-Allow-Credentials response header is not supported
+  # if the CORS header ‘Access-Control-Allow-Origin’ is ‘*’.
+  API_CORS_ALLOW_CREDENTIALS: 'false'
+  # The Access-Control-Max-Age response header indicates how long 
+  # the results of a preflight request can be cached.
+  # Default value 3600. 
+  API_CORS_MAX_AGE:           ~
+
   # Configuration variables for Sentry.
   SENTRY_DSN_BACKEND:  ~          # Specify Sentry DSN used for Rails application.
   SENTRY_DSN_FRONTEND: ~          # Specify Sentry DSN used for JavaScript application.
