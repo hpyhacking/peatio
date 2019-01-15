@@ -38,8 +38,9 @@ do
   sleep 1
 done
 sleep 5 # Wait additional time until Rails starts listen port.
-curl http://localhost:3000/api/v2/swagger | prettyjson > docs/api/swagger.json
+curl http://localhost:3000/api/v2/swagger > tmp/swagger.json
 curl http://localhost:3000/api/v2/management/swagger > tmp/peatio_management_api_v2_swagger.json
-swagger-markdown -i docs/api/swagger.json -o ./docs/api/peatio_user_api_v2.md
+swagger-markdown -i tmp/swagger.json -o ./docs/api/peatio_user_api_v2.md
 swagger-markdown -i tmp/peatio_management_api_v2_swagger.json -o ./docs/api/peatio_management_api_v2.md
+cat tmp/swagger.json | prettyjson > docs/api/swagger.json
 kill $(cat tmp/pids/server.pid)
