@@ -20,4 +20,21 @@ describe API::V2::Entities::Trade do
   it { expect(subject.side).to eq 'sell' }
 
   it { expect(subject.created_at).to eq trade.created_at.iso8601 }
+
+  context 'sell order maker' do
+    it { expect(subject.maker_type).to eq :sell }
+  end
+
+  context 'buy order maker' do
+    let(:trade) do
+      create :trade, bid: create(:order_bid), ask: create(:order_ask)
+    end
+
+    it { expect(subject.maker_type).to eq :buy }
+  end
+
+  context 'empty side' do
+    subject { OpenStruct.new API::V2::Entities::Trade.represent(trade).serializable_hash }
+    it { expect(subject.respond_to?(:side)).to be_falsey }
+  end
 end

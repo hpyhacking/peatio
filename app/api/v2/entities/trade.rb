@@ -13,7 +13,7 @@ module API
           }
         )
 
-        expose( 
+        expose(
           :price,
           documentation: {
             type: BigDecimal,
@@ -56,7 +56,18 @@ module API
         )
 
         expose(
+          :maker_type,
+          documentation: {
+            type: String,
+            desc: 'Trade maker order type (sell or buy).'
+          }
+        ) do |trade, _options|
+            trade.ask_id < trade.bid_id ? :sell : :buy
+        end
+
+        expose(
           :side,
+          if: ->(trade, options) { options[:side] || trade.side },
           documentation: {
             type: String,
             desc: 'Trade side.'
