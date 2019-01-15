@@ -36,16 +36,16 @@ module API
       mount Public::Mount       => :public
       mount Account::Mount      => :account
       mount Market::Mount       => :market
-      mount Management::Mount   => :management
 
       # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/swagger
+      # Add swagger documentation for Peatio User API
       add_swagger_documentation base_path:   File.join(API::Mount::PREFIX, API_VERSION),
                                 mount_path:  '/swagger',
                                 api_version: API_VERSION,
                                 doc_version: Peatio::Application::VERSION,
                                 info: {
-                                  title:         "Member API #{API_VERSION}",
-                                  description:   'Member API is API which can be used by client application like SPA.',
+                                  title:         "Peatio User API #{API_VERSION}",
+                                  description:   'API for Peatio application.',
                                   contact_name:  'peatio.tech',
                                   contact_email: 'hello@peatio.tech',
                                   contact_url:   'https://www.peatio.tech',
@@ -53,7 +53,15 @@ module API
                                   license_url:   'https://github.com/rubykube/peatio/blob/master/LICENSE.md'
                                 },
                                 models: [
-                                  Entities::Currency, Entities::Account
+                                  API::V2::Entities::Currency,
+                                  API::V2::Entities::Account,
+                                  API::V2::Entities::Deposit,
+                                  API::V2::Entities::Market,
+                                  API::V2::Entities::Member,
+                                  API::V2::Entities::OrderBook,
+                                  API::V2::Entities::Order,
+                                  API::V2::Entities::Trade,
+                                  API::V2::Entities::Withdraw
                                 ],
                                 security_definitions: {
                                   Bearer: {
@@ -62,6 +70,10 @@ module API
                                     in:   "header"
                                   }
                                 }
+      
+      # Mount Management API after swagger. To separate swagger Management API doc.
+      # TODO: Find better solution for separating swagger Management API. 
+      mount Management::Mount   => :management
     end
   end
 end

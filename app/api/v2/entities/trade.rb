@@ -5,27 +5,82 @@ module API
   module V2
     module Entities
       class Trade < Base
-        expose :id
-        expose :price
-        expose :volume
-        expose :funds
-        expose :market_id, as: :market
-        expose :created_at, format_with: :iso8601
+        expose(
+          :id,
+          documentation: {
+            type: String,
+            desc: 'Trade ID.'
+          }
+        )
 
-        expose :side do |trade, options|
-          options[:side] || trade.side
-        end
+        expose( 
+          :price,
+          documentation: {
+            type: BigDecimal,
+            desc: 'Trade price.'
+          }
+        )
 
-        expose :order_id, if: ->(trade, options){ options[:current_user] } do |trade, options|
-          if trade.ask_member_id == options[:current_user].id
-            trade.ask_id
-          elsif trade.bid_member_id == options[:current_user].id
-            trade.bid_id
-          else
-            nil
+        expose(
+          :volume,
+          documentation: {
+            type: BigDecimal,
+            desc: 'Trade volume.'
+          }
+        )
+
+        expose(
+          :funds,
+          documentation: {
+            type: BigDecimal,
+            desc: 'Trade funds.'
+          }
+        )
+
+        expose(
+          :market_id,
+          as: :market,
+          documentation: {
+            type: String,
+            desc: 'Trade market id.'
+          }
+        )
+
+        expose(
+          :created_at,
+          format_with: :iso8601,
+          documentation: {
+            type: String,
+            desc: 'Trade create time in iso8601 format.'
+          }
+        )
+
+        expose(
+          :side,
+          documentation: {
+            type: String,
+            desc: 'Trade side.'
+          }
+        ) do |trade, options|
+            options[:side] || trade.side
           end
-        end
 
+        expose(
+          :order_id,
+          documentation: {
+            type: Integer,
+            desc: 'Order id.'
+          },
+          if: ->(_, options) { options[:current_user] }
+        ) do |trade, options|
+            if trade.ask_member_id == options[:current_user].id
+              trade.ask_id
+            elsif trade.bid_member_id == options[:current_user].id
+              trade.bid_id
+            else
+              nil
+            end
+          end
       end
     end
   end

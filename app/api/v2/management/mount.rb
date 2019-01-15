@@ -5,6 +5,7 @@ module API
   module V2
     module Management
       class Mount < Grape::API
+        PREFIX = '/management'
 
         format         :json
         content_type   :json, 'application/json'
@@ -48,6 +49,27 @@ module API
         mount Management::Tools
         mount Management::Operations
 
+        # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/management/swagger
+        # Add swagger documentation for Peatio Management API
+        add_swagger_documentation base_path: File.join(API::Mount::PREFIX, API::V2::Mount::API_VERSION, PREFIX),
+                                  mount_path:  '/swagger',
+                                  api_version: API::V2::Mount::API_VERSION,
+                                  doc_version: Peatio::Application::VERSION,
+                                  info: {
+                                    title:          "Peatio Management API #{API::V2::Mount::API_VERSION}",
+                                    description:    'Management API is server-to-server API with high privileges.',
+                                    contact_name:   'peatio.tech',
+                                    contact_email:  'hello@peatio.tech',
+                                    contact_url:    'https://www.peatio.tech',
+                                    licence:        'MIT',
+                                    license_url:    'https://github.com/rubykube/peatio/blob/master/LICENSE.md'
+                                  },
+                                  models: [
+                                    API::V2::Management::Entities::Balance,
+                                    API::V2::Management::Entities::Deposit,
+                                    API::V2::Management::Entities::Withdraw,
+                                    API::V2::Management::Entities::Operation
+                                  ]
       end
     end
   end

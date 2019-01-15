@@ -8,7 +8,9 @@ module API
         helpers ::API::V2::NamedParams
 
 
-        desc 'Get your orders, results is paginated.', scopes: %w(history trade)
+        desc 'Get your orders, results is paginated.',
+          is_array: true,
+          success: API::V2::Entities::Order
         params do
           use :market
           optional :state, type: String,  default: 'wait', values: -> { Order.state.values }, desc: 'Filter order by state, default to "wait" (active orders).'
@@ -27,7 +29,8 @@ module API
           present orders, with: API::V2::Entities::Order
         end
 
-        desc 'Get information of specified order.', scopes: %w(history trade)
+        desc 'Get information of specified order.',
+          success: API::V2::Entities::Order
         params do
           use :order_id
         end
@@ -37,7 +40,8 @@ module API
           present order, with: API::V2::Entities::Order, type: :full
         end
 
-        desc 'Create a Sell/Buy order.', scopes: %w(trade)
+        desc 'Create a Sell/Buy order.',
+          success: API::V2::Entities::Order
         params do
           use :market, :order
         end
@@ -46,7 +50,7 @@ module API
           present order, with: API::V2::Entities::Order
         end
 
-        desc 'Cancel an order.', scopes: %w(trade)
+        desc 'Cancel an order.'
         params do
           use :order_id
         end
@@ -60,7 +64,8 @@ module API
           end
         end
 
-        desc 'Cancel all my orders.', scopes: %w(trade)
+        desc 'Cancel all my orders.',
+          success: API::V2::Entities::Order
         params do
           optional :side, type: String, values: %w(sell buy), desc: 'If present, only sell orders (asks) or buy orders (bids) will be canncelled.'
         end

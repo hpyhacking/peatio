@@ -13,12 +13,16 @@ module API
         helpers API::V2::NamedParams
 
         resource :markets do
-          desc 'Get all available markets.'
+          desc 'Get all available markets.',
+            is_array: true,
+            success: API::V2::Entities::Market
           get "/" do
             present ::Market.enabled.ordered, with: API::V2::Entities::Market
           end
 
-          desc 'Get the order book of specified market.'
+          desc 'Get the order book of specified market.',
+            is_array: true,
+            success: API::V2::Entities::OrderBook
           params do
             use :market
             optional :asks_limit, type: Integer, default: 20, range: 1..200, desc: 'Limit the number of returned sell orders. Default to 20.'
@@ -31,7 +35,9 @@ module API
             present book, with: API::V2::Entities::OrderBook
           end
 
-          desc 'Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.'
+          desc 'Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.',
+            is_array: true,
+            success: API::V2::Entities::Trade
           params do
             use :market, :trade_filters
           end

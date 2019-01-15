@@ -62,6 +62,7 @@ group :development, :test do
   gem 'pry-byebug',   '~> 3.6'
   gem 'quiet_assets', '~> 1.1'
   gem 'bullet',       '~> 5.7'
+  gem 'grape_on_rails_routes', '~> 0.3.2'
 end
 
 group :development do

@@ -7,7 +7,8 @@ module API
       class Trades < Grape::API
         helpers API::V2::NamedParams
 
-        desc 'Get your executed trades. Trades are sorted in reverse creation order.', scopes: %w(history)
+        desc 'Get your executed trades. Trades are sorted in reverse creation order.',
+          success: API::V2::Entities::Trade
         params do
           use :market, :trade_filters
         end

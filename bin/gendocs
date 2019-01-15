@@ -31,12 +31,15 @@ bin/init_config
 bin/install_plugins
 bundle exec rake yarn:install db:drop db:create db:migrate db:seed
 npm i -g swagger-markdown
+npm i -g prettyjson-cli
 bundle exec rails s -d
 while [ ! -f tmp/pids/server.pid ]
 do
   sleep 1
 done
 sleep 5 # Wait additional time until Rails starts listen port.
-curl http://localhost:3000/api/v2/swagger > tmp/peatio_api_v2_swagger.json
-swagger-markdown -i tmp/peatio_api_v2_swagger.json -o ./docs/api/peatio_api_v2.md
+curl http://localhost:3000/api/v2/swagger | prettyjson > docs/api/swagger.json
+curl http://localhost:3000/api/v2/management/swagger > tmp/peatio_management_api_v2_swagger.json
+swagger-markdown -i docs/api/swagger.json -o ./docs/api/peatio_user_api_v2.md
+swagger-markdown -i tmp/peatio_management_api_v2_swagger.json -o ./docs/api/peatio_management_api_v2.md
 kill $(cat tmp/pids/server.pid)
