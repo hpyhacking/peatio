@@ -2,7 +2,7 @@ Peatio User API v2
 ==================
 API for Peatio application.
 
-**Version:** 2.0.14-alpha
+**Version:** 2.0.15-alpha
 
 **Contact information:**  
 peatio.tech  
@@ -468,6 +468,7 @@ Get your executed trades. Trades are sorted in reverse creation order.
 | funds | double | Trade funds. | No |
 | market | string | Trade market id. | No |
 | created_at | string | Trade create time in iso8601 format. | No |
+| maker_type | string | Trade maker order type (sell or buy). | No |
 | side | string | Trade side. | No |
 | order_id | integer | Order id. | No |
 
