@@ -4,6 +4,7 @@
 describe APIv2::K, type: :request do
   describe 'GET /api/v2/k' do
     let(:points) do
+      # [timestamp, open_price, max_price, min_price, last_price, period_volume]
       [[1537370460, 0.7079, 0.2204, 0.9794, 0.5273, 0.0747],
        [1537370520, 0.6293, 0.5054, 0.2253, 0.1969, 0.7276],
        [1537370580, 0.0939, 0.1949, 0.0032, 0.8328, 0.5895],

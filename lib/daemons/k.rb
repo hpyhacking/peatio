@@ -1,6 +1,15 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+# TODO:
+#   - Refactor.
+#   - Check business logic.
+#   - Move to KLineService.
+#   - Add appropriate specs.
+
+# K-line point is represented as array of 5 numbers:
+# [timestamp, open_price, max_price, min_price, last_price, period_volume]
+
 require File.join(ENV.fetch('RAILS_ROOT'), "config", "environment")
 
 @logger = Rails.logger
@@ -80,6 +89,7 @@ def append_point(market, period, ts)
 
   @logger.info { "append #{k}: #{point.to_json}" }
   @r.rpush k, point.to_json
+  publish_point(market, period, point)
 
   if period == 1
     # 24*60 = 1440
@@ -93,9 +103,23 @@ def update_point(market, period, ts)
   k = key(market, period)
   point = get_point(market, period, ts)
 
+  # Return if there is nothing to update.
+  return if @r.lindex(k, -1) == point.to_json
+
   @logger.info { "update #{k}: #{point.to_json}" }
-  @r.rpop k
-  @r.rpush k, point.to_json
+  @r.lset(k, -1, point.to_json) # Replace last element.
+  publish_point(market, period, point)
+end
+
+# Example of event_name 'kline-1m'.
+def event_name(period)
+  "kline-#{KLineService.humanize_period(period)}"
+end
+
+def publish_point(market_id, period, point)
+  @logger.info { "publishing #{point} to #{event_name(period)} stream"}
+  Peatio::MQ::Events.publish('public', market_id,
+                             event_name(period), point.to_json)
 end
 
 def fill(market, period = 1)
@@ -116,12 +140,12 @@ def fill(market, period = 1)
 end
 
 while($running) do
-  # NOTE: Turn off ticker updates for disabled markets.
+  # NOTE: Turn off ticker & k-line updates for disabled markets.
   Market.enabled.each do |market|
     ts = next_ts(market.id, 1)
     next unless ts
 
-    [1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080].each do |period|
+    KLineService::AVAILABLE_POINT_PERIODS.each do |period|
       fill(market.id, period)
     end
   end
