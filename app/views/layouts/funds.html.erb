@@ -6,6 +6,7 @@
 
     <link href="/favicon.ico" rel="shortcut icon" />
     <% stylesheet = content_for?(:stylesheet) ? yield(:stylesheet) : 'application' %>
+    <h2 align="center" style="color:#EC2727">This UI will be removed the next version!</h2>
     <%= stylesheet_link_tag stylesheet, media: 'all' %>
     <%= custom_stylesheet_link_tag_for :main %>
 
