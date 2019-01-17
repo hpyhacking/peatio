@@ -12,13 +12,12 @@ class KLineService
 
   AVAILABLE_POINT_LIMITS  = (1..10000).freeze
 
-  def redis
-    Redis.new(
-      url: ENV.fetch('REDIS_URL'),
-      db:  1
-    )
-  end
-  memoize :redis
+  HUMANIZED_POINT_PERIODS = {
+    1 => '1m', 5 => '5m', 15 => '15m', 30 => '30m',                   # minuets
+    60 => '1h', 120 => '2h', 240 => '4h', 360 => '6h', 720 => '12h',  # hours
+    1440 => '1d', 4320 => '3d',                                       # days
+    10080 => '1w'                                                     # weeks
+  }.freeze
 
   attr_accessor :market_id, :period
 
@@ -27,10 +26,26 @@ class KLineService
     @period    = period
   end
 
+  def redis
+    Redis.new(
+      url: ENV.fetch('REDIS_URL'),
+      db:  1
+    )
+  end
+  memoize :redis
+
   def key
     "peatio:#{market_id}:k:#{period}"
   end
   memoize :key
+
+  class << self
+    def humanize_period(period)
+      HUMANIZED_POINT_PERIODS.fetch(period) do
+        raise StandardError, "Not available period #{period}"
+      end
+    end
+  end
 
   # OHCL - open, high, closing, and low prices.
   def get_ohlc(options={})

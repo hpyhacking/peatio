@@ -18,6 +18,7 @@ GET request parameters:
 List of supported public streams:
 * [`<market>.update`](#update) (global state updates)
 * [`<market>.trades` ](#trades)
+* [`<market>.kline-PERIOD` ](#kline-point) (available periods are "1m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "12h", "1d", "3d", "1w")
 * [`global.tickers`](#tickers)
 
 List of supported private streams (requires authentication):
@@ -134,6 +135,24 @@ Here is structure of `<market.trades>` event expose as array with trades:
 | `price`  | Price for the trade.                   |
 | `amount` | The amount of trade.                   |
 | `date`   | Trade create time.                     |
+
+#### Kline point
+
+Kline point as array of numbers:
+
+1. Timestamp.
+2. Open price.
+3. Max price.
+4. Min price.
+5. Last price.
+6. Period volume
+
+Example:
+
+```ruby
+[1537370580, 0.0839, 0.0921, 0.0781, 0.0845, 0.5895]
+```
+
 
 #### Tickers
 
