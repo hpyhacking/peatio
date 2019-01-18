@@ -158,19 +158,22 @@ Example:
 
 Here is structure of `global.tickers` event expose as array with all markets pairs:
 
-| Field        | Description                     |
-| ------------ | ------------------------------- |
-| `name`       | Market pair name.               |
-| `base_unit`  | Base currency.                  |
-| `quote_unit` | Quote currency.                 |
-| `low`        | Lowest price in 24 hours.       |
-| `high`       | Highest price in 24 hours.      |
-| `last`       | Last trade price.               |
-| `open`       | Last trade from last timestamp. |
-| `volume`     | Volume in 24 hours.             |
-| `sell`       | Best price per unit.            |
-| `buy`        | Best price per unit.            |
-| `at`         | Date of current ticker.         |
+| Field                  | Description                     |
+| -----------------------| ------------------------------- |
+| `at`                   | Date of current ticker.         |
+| `name`                 | Market pair name.               |
+| `base_unit`            | Base currency.                  |
+| `quote_unit`           | Quote currency.                 |
+| `low`                  | Lowest price in 24 hours.       |
+| `high`                 | Highest price in 24 hours.      |
+| `last`                 | Last trade price.               |
+| `open`                 | Last trade from last timestamp. |
+| `close`                | Last trade price.               |
+| `volume`               | Volume in 24 hours.             |
+| `sell`                 | Best price per unit.            |
+| `buy`                  | Best price per unit.            |
+| `avg_price`            | Average price for last 24 hours.|
+| `price_change_percent` | Average price change in percent.|
 
 ### Private streams
 

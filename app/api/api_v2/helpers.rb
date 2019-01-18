@@ -83,16 +83,14 @@ module APIv2
     end
 
     def format_ticker(ticker)
+      permitted_keys = %i[buy sell low high open last volume
+                            avg_price price_change_percent]
+
+      # Add vol for compatibility with old API.
+      formatted_ticker = ticker.slice(*permitted_keys)
+                           .merge(vol: ticker[:volume])
       { at: ticker[:at],
-        ticker: {
-          buy: ticker[:buy],
-          sell: ticker[:sell],
-          low: ticker[:low],
-          high: ticker[:high],
-          last: ticker[:last],
-          vol: ticker[:volume]
-        }
-      }
+        ticker: formatted_ticker }
     end
   end
 end
