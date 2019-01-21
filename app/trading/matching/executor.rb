@@ -119,12 +119,16 @@ module Matching
       }
 
       [@ask, @bid].each do |order|
-        next unless order.ord_type == 'limit'
-        event = case order.state
+        event =
+          case order.state
           when 'cancel' then 'order_canceled'
           when 'done'   then 'order_completed'
           else 'order_updated'
-        end
+          end
+
+        order.trigger_pusher_event
+        next unless order.ord_type == 'limit' # Skip market orders.
+
         EventAPI.notify ['market', order.market_id, event].join('.'), \
           Serializers::EventAPI.const_get(event.camelize).call(order)
       end
