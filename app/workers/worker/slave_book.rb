@@ -66,16 +66,12 @@ module Worker
       @managers[market] = ::Matching::OrderBookManager.new(market, broadcast: false)
     end
 
-    def get_depth(market, side)
-      depth = Hash.new { |h, k| h[k] = 0 }
-      @managers[Market === market ? market.id : market].send("#{side}_orders").limit_orders.each do |price, orders|
-        depth[price] += orders.map(&:volume).sum
-      end
-
-      depth = depth.to_a
-      depth.reverse! if side == :bid
-      depth
+    def get_depth(market_id, side)
+      Order.where(market_id: market_id, state: 'wait', type: "Order#{side}", ord_type: 'limit')
+           .group(:price)
+           .sum(:volume)
+           .to_a
+           .tap { |o| o.reverse! if side == :bid }
     end
-
   end
 end
