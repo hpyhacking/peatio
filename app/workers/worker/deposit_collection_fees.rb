@@ -12,24 +12,31 @@ module Worker
         return
       end
 
-      if deposit.collected?
-        Rails.logger.warn { "The deposit is now being processed by different worker or has been already processed. Skipping..." }
-        return
-      end
+      deposit.with_lock do
+        if deposit.collected?
+          Rails.logger.warn { "The deposit is now being processed by different worker or has been already processed. Skipping..." }
+          return
+        end
 
-      wallet = Wallet.active.deposit.find_by(blockchain_key: deposit.currency.blockchain_key)
-      unless wallet
-        Rails.logger.warn { "Can't find active deposit wallet for currency with code: #{deposit.currency_id}."}
-        return
-      end
+        wallet = Wallet.active.deposit.find_by(blockchain_key: deposit.currency.blockchain_key)
+        unless wallet
+          Rails.logger.warn { "Can't find active deposit wallet for currency with code: #{deposit.currency_id}."}
+          return
+        end
 
-      txid = WalletService[wallet].deposit_collection_fees(deposit)
-      Rails.logger.warn { "The API accepted deposit collection fees transfer and assigned transaction ID: #{txid}." }
-      AMQPQueue.enqueue(:deposit_collection, id: deposit.id)
-      Rails.logger.warn { "Deposit collection job enqueue." }
-    rescue => e
-      report_exception(e)
-      raise e
+        txid = WalletService[wallet].deposit_collection_fees(deposit)
+        Rails.logger.warn { "The API accepted deposit collection fees transfer and assigned transaction ID: #{txid}." }
+        AMQPQueue.enqueue(:deposit_collection, id: deposit.id)
+        Rails.logger.warn { "Deposit collection job enqueue." }
+      rescue Exception => e
+        begin
+          Rails.logger.error { "Failed to collect fee transfer deposit #{deposit.id}. See exception details below." }
+          report_exception(e)
+        ensure
+          deposit.skip!
+          Rails.logger.error { "Exit..." }
+        end
+      end
     end
   end
 end

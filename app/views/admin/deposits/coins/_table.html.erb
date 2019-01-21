@@ -30,8 +30,15 @@
       <% end %>
       <% if x.may_dispatch? %>
         <span> / </span>
-        <%= link_to t('admin.deposits.coins.index.dispatch'),
+        <%= link_to t('admin.deposits.coins.index.collect'),
                     admin_deposit_path(x.currency.code, x, event: 'collect'),
+                    method:  'PATCH',
+                    confirm: t('admin.deposits.coins.index.dispatch_confirm') %>
+      <% end %>
+      <% if x.may_dispatch? && x.currency.is_erc20? %>
+        <span> / </span>
+        <%= link_to t('admin.deposits.coins.index.collect with fees'),
+                    admin_deposit_path(x.currency.code, x, event: 'collect_fee'),
                     method:  'PATCH',
                     confirm: t('admin.deposits.coins.index.dispatch_confirm') %>
       <% end %>

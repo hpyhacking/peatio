@@ -23,7 +23,9 @@ module Admin
         when 'accept'
           deposit.accept! if deposit.may_accept?
         when 'collect'
-          deposit.collect! if deposit.may_dispatch?
+          deposit.collect!(false) if deposit.may_dispatch?
+        when 'collect_fee'
+          deposit.collect!
         end
         redirect_to :back, notice: t('admin.deposits.coins.update.notice')
       end
