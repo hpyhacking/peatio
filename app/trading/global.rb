@@ -38,7 +38,7 @@ class Global
   end
 
   def default_ticker
-    {low: ZERO, high: ZERO, last: ZERO, volume: ZERO}
+    { low: ZERO, high: ZERO, last: ZERO, volume: ZERO }
   end
 
   def ticker
@@ -46,14 +46,25 @@ class Global
     open = Rails.cache.read("peatio:#{market_id}:ticker:open") || ticker[:last]
     best_buy_price   = bids.first && bids.first[0] || ZERO
     best_sell_price  = asks.first && asks.first[0] || ZERO
+    avg_price        = Trade.avg_h24_price(market_id)
+    price_change_percent = change_ratio(open, ticker[:last])
 
-    ticker.merge({
+    ticker.merge(
+      at: at,
       open: open,
       volume: h24_volume,
       sell: best_sell_price,
       buy: best_buy_price,
-      at: at
-    })
+      avg_price: avg_price,
+      price_change_percent: price_change_percent
+    )
+  end
+
+  def change_ratio(open, last)
+    percent = open.zero? ? 0 : (last - open) / open * 100
+
+    # Prepend sign. Show two digits after the decimal point. Append '%'.
+    "#{'%+.2f' % percent}%"
   end
 
   def h24_volume

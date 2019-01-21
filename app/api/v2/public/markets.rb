@@ -8,8 +8,6 @@ module API
 
         class OrderBook < Struct.new(:asks, :bids); end
 
-        TradeStruct = Struct.new(:price, :volume, :change)
-
         helpers API::V2::NamedParams
 
         resource :markets do

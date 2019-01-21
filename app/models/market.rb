@@ -100,17 +100,6 @@ class Market < ActiveRecord::Base
     Global[id]
   end
 
-  def change_ratio
-    open = ticker[:open].to_f
-    last = ticker[:last].to_f
-    percent = if open
-                (100*(last-open)/open).nan? ? 0.0 : (100*(last-open)/open).round(2)
-              else
-                '0.00'
-              end
-    "#{open > last ? '' : '+'}#{percent}%"
-  end
-
 private
 
   def precisions_must_be_same
