@@ -10,7 +10,8 @@ module API
         DepositFee  = Struct.new(:currency, :type, :fee)
         TradingFee  = Struct.new(:market, :ask_fee, :bid_fee)
 
-        desc 'Returns withdraw fees for currencies.'
+        desc 'Returns withdraw fees for currencies.',
+          deprecated: true
         get '/fees/withdraw' do
           withdraw_fees = Currency.enabled.map do |c|
             fee = Fee.new(:fixed, c.withdraw_fee)
@@ -19,7 +20,8 @@ module API
           present withdraw_fees
         end
 
-        desc 'Returns deposit fees for currencies.'
+        desc 'Returns deposit fees for currencies.',
+          deprecated: true
         get '/fees/deposit' do
           deposit_fees = Currency.enabled.map do |c|
             fee = Fee.new(:fixed, c.deposit_fee)
@@ -28,7 +30,8 @@ module API
           present deposit_fees
         end
 
-        desc 'Returns trading fees for markets.'
+        desc 'Returns trading fees for markets.',
+          deprecated: true
         get '/fees/trading' do
           trading_fees = ::Market.enabled.ordered.map do |m|
             ask_fee = Fee.new(:relative, m.ask_fee)

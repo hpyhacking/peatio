@@ -55,7 +55,7 @@ class Currency < ActiveRecord::Base
   after_update :disable_markets
 
   scope :enabled, -> { where(enabled: true) }
-  scope :ordered, -> { order(id: :asc) }
+  scope :ordered, -> { order(position: :asc) }
   scope :coins,   -> { where(type: :coin) }
   scope :fiats,   -> { where(type: :fiat) }
 
@@ -163,7 +163,7 @@ class Currency < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20181219133822
+# Schema version: 20190116140939
 #
 # Table name: currencies
 #
@@ -179,6 +179,7 @@ end
 #  min_withdraw_amount   :decimal(32, 16)  default(0.0), not null
 #  withdraw_limit_24h    :decimal(32, 16)  default(0.0), not null
 #  withdraw_limit_72h    :decimal(32, 16)  default(0.0), not null
+#  position              :integer          default(0), not null
 #  options               :string(1000)     default({}), not null
 #  enabled               :boolean          default(TRUE), not null
 #  base_factor           :integer          default(1), not null
@@ -189,5 +190,6 @@ end
 #
 # Indexes
 #
-#  index_currencies_on_enabled  (enabled)
+#  index_currencies_on_enabled   (enabled)
+#  index_currencies_on_position  (position) UNIQUE
 #

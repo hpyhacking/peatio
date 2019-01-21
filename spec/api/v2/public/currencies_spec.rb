@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 describe API::V2::Public::Currencies, type: :request do
-  
+
   describe 'GET /api/v2/public/currencies/:id' do
     let(:fiat) { Currency.find(:usd) }
     let(:coin) { Currency.find(:btc) }

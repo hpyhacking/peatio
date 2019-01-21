@@ -7,13 +7,12 @@ class OrderAsk < Order
 
   validates :price,
             presence: true,
-            numericality: { greater_than_or_equal_to: ->(order){ order.market.min_ask }},
+            numericality: { greater_than_or_equal_to: ->(order){ order.market.min_ask_price }},
             if: :is_limit_order?
 
   validates :origin_volume,
             presence: true,
-            numericality: { greater_than_or_equal_to: ->(order){ order.market.min_ask_amount }},
-            if: ->(order){ order.market.min_ask_amount.present? }
+            numericality: { greater_than_or_equal_to: ->(order){ order.market.min_ask_amount }}
 
   # @deprecated
   def hold_account

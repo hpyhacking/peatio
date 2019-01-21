@@ -4,7 +4,7 @@
 module Admin
   class CurrenciesController < BaseController
     def index
-      @currencies = Currency.page(params[:page]).per(100)
+      @currencies = Currency.ordered.page(params[:page]).per(100)
     end
 
     def new
@@ -65,6 +65,7 @@ module Admin
         withdraw_limit_72h
         enabled
         blockchain_key
+        position
       ]
 
       if @currency.new_record?

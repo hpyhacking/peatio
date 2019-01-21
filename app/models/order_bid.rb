@@ -7,13 +7,12 @@ class OrderBid < Order
 
   validates :price, presence: true, if: :is_limit_order?
   validates :price,
-            numericality: { less_than_or_equal_to: ->(order){ order.market.max_bid }},
-            if: ->(order){ order.ord_type == 'limit' && order.market.max_bid.present? }
+            numericality: { less_than_or_equal_to: ->(order){ order.market.max_bid_price }},
+            if: ->(order){ order.ord_type == 'limit' && order.market.max_bid_price.nonzero? }
 
   validates :origin_volume,
             presence: true,
-            numericality: { greater_than_or_equal_to: ->(order){ order.market.min_bid_amount }},
-            if: ->(order){ order.market.min_bid_amount.present? }
+            numericality: { greater_than_or_equal_to: ->(order){ order.market.min_bid_amount }}
 
   # @deprecated
   def hold_account

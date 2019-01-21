@@ -31,7 +31,7 @@ module API
           currencies = Currency.enabled
           currencies = currencies.where(type: params[:type]).includes(:blockchain) if params[:type] == 'coin'
           currencies = currencies.where(type: params[:type]) if params[:type] == 'fiat'
-          present currencies, with: API::V2::Entities::Currency
+          present currencies.ordered, with: API::V2::Entities::Currency
         end
       end
     end

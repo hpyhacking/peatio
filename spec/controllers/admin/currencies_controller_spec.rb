@@ -12,6 +12,7 @@ describe Admin::CurrenciesController, type: :controller do
       withdraw_limit_24h:               '1.5'.to_d,
       withdraw_limit_72h:               '2.5'.to_d,
       withdraw_fee:                     '0.001'.to_d,
+      position:                         '10'.to_i,
       deposit_fee:                      '0.0'.to_d,
       enabled:                          true,
       base_factor:                      1000000,

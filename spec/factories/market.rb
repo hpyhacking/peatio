@@ -11,7 +11,7 @@ FactoryBot.define do
       bid_fee        { 0.0015 }
       ask_precision  { 4 }
       bid_precision  { 4 }
-      min_ask        { 0.0 }
+      min_ask_price  { 0.0 }
       min_ask_amount { 0.0 }
       min_bid_amount { 0.0 }
       position       { 1 }
@@ -26,7 +26,7 @@ FactoryBot.define do
       bid_fee         { 0.0015 }
       ask_precision   { 4 }
       bid_precision   { 4 }
-      min_ask         { 0.0 }
+      min_ask_price   { 0.0 }
       min_ask_amount  { 0.0 }
       min_bid_amount  { 0.0 }
       position        { 2 }
@@ -41,7 +41,7 @@ FactoryBot.define do
       bid_fee        { 0.0015 }
       ask_precision  { 4 }
       bid_precision  { 4 }
-      min_ask        { 0.0 }
+      min_ask_price  { 0.0 }
       min_ask_amount { 0.0 }
       min_bid_amount { 0.0 }
       position       { 3 }

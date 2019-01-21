@@ -55,17 +55,17 @@ module Admin
         :ask_unit,
         :ask_fee,
         :enabled,
-        :max_bid,
-        :min_ask,
-        :min_bid_amount,
+        :min_ask_price,
+        :max_bid_price,
         :min_ask_amount,
+        :min_bid_amount,
         :position
       ]
 
       if @market.new_record?
         attributes += [
-          :bid_precision,
-          :ask_precision
+          :ask_precision,
+          :bid_precision
         ]
       end
 

@@ -71,6 +71,9 @@
             <dt>Blockchain Key</dt>
             <dd><%= f.select :blockchain_key, Blockchain.all.map(&:key), {prompt: "Select Blockchain Key"}, {class: 'form-control'} %></dd>
 
+            <dt>Position</dt>
+            <dd><%= f.number_field :position, class: 'form-control' %></dd>
+
             <%= f.hidden_field :options, id: "currency_options" %>
           </dl>
       </div>

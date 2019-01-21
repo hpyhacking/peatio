@@ -10,7 +10,7 @@ module Private
     before_action :trading_must_be_permitted!
 
     def index
-      @currencies        = Currency.enabled.sort
+      @currencies        = Currency.enabled.ordered
       @deposits          = current_user.deposits.includes(:currency, :blockchain)
       @accounts          = current_user.accounts.enabled.includes(:currency)
       @withdraws         = current_user.withdraws
@@ -26,4 +26,3 @@ module Private
     end
   end
 end
-

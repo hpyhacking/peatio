@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181229051129) do
+ActiveRecord::Schema.define(version: 20190116140939) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20181229051129) do
     t.decimal  "min_withdraw_amount",                precision: 32, scale: 16, default: 0.0,    null: false
     t.decimal  "withdraw_limit_24h",                 precision: 32, scale: 16, default: 0.0,    null: false
     t.decimal  "withdraw_limit_72h",                 precision: 32, scale: 16, default: 0.0,    null: false
+    t.integer  "position",              limit: 4,                              default: 0,      null: false
     t.string   "options",               limit: 1000,                           default: "{}",   null: false
     t.boolean  "enabled",                                                      default: true,   null: false
     t.integer  "base_factor",           limit: 8,                              default: 1,      null: false
@@ -78,6 +79,7 @@ ActiveRecord::Schema.define(version: 20181229051129) do
   end
 
   add_index "currencies", ["enabled"], name: "index_currencies_on_enabled", using: :btree
+  add_index "currencies", ["position"], name: "index_currencies_on_position", unique: true, using: :btree
 
   create_table "deposits", force: :cascade do |t|
     t.integer  "member_id",    limit: 4,                             null: false
@@ -138,10 +140,10 @@ ActiveRecord::Schema.define(version: 20181229051129) do
     t.string   "bid_unit",       limit: 10,                                          null: false
     t.decimal  "ask_fee",                   precision: 17, scale: 16, default: 0.0,  null: false
     t.decimal  "bid_fee",                   precision: 17, scale: 16, default: 0.0,  null: false
-    t.decimal  "max_bid",                   precision: 17, scale: 16
-    t.decimal  "min_ask",                   precision: 17, scale: 16, default: 0.0,  null: false
-    t.decimal  "min_bid_amount",            precision: 32, scale: 16, default: 0.0,  null: false
+    t.decimal  "min_ask_price",             precision: 17, scale: 16, default: 0.0,  null: false
+    t.decimal  "max_bid_price",             precision: 17, scale: 16, default: 0.0,  null: false
     t.decimal  "min_ask_amount",            precision: 32, scale: 16, default: 0.0,  null: false
+    t.decimal  "min_bid_amount",            precision: 32, scale: 16, default: 0.0,  null: false
     t.integer  "ask_precision",  limit: 1,                            default: 8,    null: false
     t.integer  "bid_precision",  limit: 1,                            default: 8,    null: false
     t.integer  "position",       limit: 4,                            default: 0,    null: false

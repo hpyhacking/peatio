@@ -23,6 +23,86 @@ module API
             desc: 'Market name.'
           }
         )
+
+        expose(
+          :ask_unit,
+          documentation: {
+            type: String,
+            desc: "Market ask unit."
+          }
+        )
+
+        expose(
+          :bid_unit,
+          documentation: {
+            type: String,
+            desc: "Market bid unit."
+          }
+        )
+
+        expose(
+          :ask_fee,
+          documentation: {
+            type: BigDecimal,
+            desc: "Market ask fee."
+          }
+        )
+
+        expose(
+          :bid_fee,
+          documentation: {
+            type: BigDecimal,
+            desc: "Market bid fee."
+          }
+        )
+
+        expose(
+          :min_ask_price,
+          documentation: {
+            type: BigDecimal,
+            desc: "Max ask order price."
+          }
+        )
+
+        expose(
+          :max_bid_price,
+          documentation: {
+            type: BigDecimal,
+            desc: "Max bid order price."
+          }
+        )
+
+        expose(
+          :min_ask_amount,
+          documentation: {
+            type: BigDecimal,
+            documentation: "Min ask order amount."
+          }
+        )
+
+        expose(
+          :min_bid_amount,
+          documentation: {
+            type: BigDecimal,
+            documentation: "Min bid order amount."
+          }
+        )
+
+        expose(
+          :ask_precision,
+          documentation: {
+            type: BigDecimal,
+            documentation: "Precision for ask order."
+          }
+        )
+
+        expose(
+          :bid_precision,
+          documentation: {
+            type: BigDecimal,
+            documentation: "Precision for bid order."
+          }
+        )
       end
     end
   end

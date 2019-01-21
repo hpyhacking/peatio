@@ -2,20 +2,22 @@
 # frozen_string_literal: true
 
 describe API::V2::Public::Markets, type: :request do
+
   describe 'GET /api/v2/markets' do
-    let(:expected_markets) do
-      [
-        {"id"=>"btcusd", "name"=>"BTC/USD"},
-        {"id"=>"dashbtc", "name"=>"DASH/BTC"},
-        {"id"=>"btceth", "name"=>"BTC/ETH"},
-        {"id"=>"btcxrp", "name"=>"BTC/XRP"}
-      ]
+
+    let(:expected_keys) do
+      %w[id name ask_unit bid_unit ask_fee bid_fee min_ask_price max_bid_price min_ask_amount min_bid_amount ask_precision bid_precision]
     end
 
     it 'lists enabled markets' do
       get '/api/v2/public/markets'
       expect(response).to be_success
-      expect(JSON.parse(response.body)).to eq expected_markets
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq Market.enabled.size
+      result.each do |market|
+        expect(market.keys).to eq expected_keys
+      end
     end
   end
 
