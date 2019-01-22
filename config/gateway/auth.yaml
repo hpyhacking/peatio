@@ -1,8 +1,11 @@
 ---
-apiVersion: ambassador/v0
+apiVersion: ambassador/v1
 kind: AuthService
 name: authentication
 auth_service: auth:8005
 path_prefix: /auth
-allowed_headers:
+proto: http
+allowed_authorization_headers:
+  - "Authorization"
+allowed_request_headers:
   - "Authorization"

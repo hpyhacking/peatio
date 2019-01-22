@@ -221,7 +221,7 @@ GEM
     parser (2.5.3.0)
       ast (~> 2.4.0)
     passgen (1.0.2)
-    peatio (0.4.4)
+    peatio (0.4.5)
       amqp
       bunny
       clamp
@@ -438,7 +438,7 @@ DEPENDENCIES
   mocha (~> 1.4)
   mysql2 (~> 0.4.10)
   passgen (~> 1.0.2)
-  peatio (~> 0.4.4)
+  peatio (~> 0.4.5)
   pry-byebug (~> 3.6)
   puma (~> 3.11.4)
   quiet_assets (~> 1.1)

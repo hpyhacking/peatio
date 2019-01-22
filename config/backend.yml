@@ -40,7 +40,7 @@ services:
       - ./secrets:/secrets:ro
 
   gateway:
-    image: quay.io/datawire/ambassador:0.40.0
+    image: quay.io/datawire/ambassador:0.50.0-rc3
     ports:
       - "8080:80"
     depends_on:
@@ -54,6 +54,7 @@ services:
         # Allow accessing host's 0.0.0.0 so we can connect to a local peatio
         # from the gateway container
         ip -4 route list match 0/0 | awk '{print $$3" peatio.local"}' >> /etc/hosts
+        ip -4 route list match 0/0 | awk '{print $$3" ws.local"}' >> /etc/hosts
         # Continue with the default entrypoint
         ./entrypoint.sh
 

@@ -207,33 +207,27 @@ Here is structure of `Trade` event:
 
 ### Development
 
-Start websocket server using following command in peatio-core git repository:
+Start ranger websocket server using following command in peatio-core gem:
 
 ```bash
 $ ./bin/peatio service start ranger
 ```
 
-In peatio git repository call `./bin/rails c` and get a jwt token:
-```ruby
-irb(main):001:0> Member.first.authentications.first.token
-```
-
-Or you can obtain a JWT token after authentication in Baron.
-
 Now we can test authentication with [wscat](https://github.com/websockets/wscat):
 
-Connect to public usdeth channel:
+#### Connect to public channel:
 
 ```bash
-$ wscat -n -c 'ws://ws.ranger.wb.local?stream=usdeth'
+$ wscat -n -c 'ws://ws.app.local:8080/api/ranger/v2?stream=usdeth'
 ```
 
-Send a JWT authentication payload:
-```
-{ "jwt": "Bearer <token>" }
+#### Connect to private channel:
+
+Authorization header will be injected automatically by ambassador so we could subscribe to private channels.
+```bash
+$ wscat -n -c 'ws://ws.app.local:8080/api/ranger/v2?stream=trade'
 ```
 
 ### Examples
 
-There is also [example of working with Ranger service using
-NodeJS.](https://github.com/rubykube/ranger-example-nodejs)
+There is also [example of working with Ranger service using NodeJS.](https://github.com/rubykube/ranger-example-nodejs)
