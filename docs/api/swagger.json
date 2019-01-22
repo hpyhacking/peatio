@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.0.16-alpha"
+    "version": "2.0.17-alpha"
   },
   "swagger": "2.0",
   "produces": [
@@ -782,7 +782,8 @@
         "tags": [
           "public"
         ],
-        "operationId": "getPublicFeesTrading"
+        "operationId": "getPublicFeesTrading",
+        "deprecated": true
       }
     },
     "/public/fees/deposit": {
@@ -799,7 +800,8 @@
         "tags": [
           "public"
         ],
-        "operationId": "getPublicFeesDeposit"
+        "operationId": "getPublicFeesDeposit",
+        "deprecated": true
       }
     },
     "/public/fees/withdraw": {
@@ -816,7 +818,8 @@
         "tags": [
           "public"
         ],
-        "operationId": "getPublicFeesWithdraw"
+        "operationId": "getPublicFeesWithdraw",
+        "deprecated": true
       }
     },
     "/account/balances/{currency}": {
@@ -1040,6 +1043,72 @@
       }
     },
     "/account/withdraws": {
+      "post": {
+        "description": "Creates new crypto withdrawal.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "otp",
+            "description": "OTP to perform action",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "rid",
+            "description": "Wallet address on the Blockchain.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "currency",
+            "description": "The currency code.",
+            "type": "string",
+            "enum": [
+              "bch",
+              "btc",
+              "dash",
+              "eth",
+              "ltc",
+              "trst",
+              "xrp",
+              "BCH",
+              "BTC",
+              "DASH",
+              "ETH",
+              "LTC",
+              "TRST",
+              "XRP"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "amount",
+            "description": "The amount to withdraw.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates new crypto withdrawal."
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "postAccountWithdraws"
+      },
       "get": {
         "description": "List your withdraws as paginated collection.",
         "produces": [
@@ -1741,6 +1810,50 @@
         "name": {
           "type": "string",
           "description": "Market name."
+        },
+        "ask_unit": {
+          "type": "string",
+          "description": "Market ask unit."
+        },
+        "bid_unit": {
+          "type": "string",
+          "description": "Market bid unit."
+        },
+        "ask_fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Market ask fee."
+        },
+        "bid_fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Market bid fee."
+        },
+        "min_ask_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Max ask order price."
+        },
+        "max_bid_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Max bid order price."
+        },
+        "min_ask_amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "min_bid_amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "ask_precision": {
+          "type": "number",
+          "format": "double"
+        },
+        "bid_precision": {
+          "type": "number",
+          "format": "double"
         }
       },
       "description": "Get all available markets."

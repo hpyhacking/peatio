@@ -2,7 +2,7 @@ Peatio User API v2
 ==================
 API for Peatio application.
 
-**Version:** 2.0.16-alpha
+**Version:** 2.0.17-alpha
 
 **Contact information:**  
 peatio.tech  
@@ -323,6 +323,24 @@ hello@peatio.tech
 
 ### /account/withdraws
 ---
+##### ***POST***
+**Description:** Creates new crypto withdrawal.
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| otp | formData | OTP to perform action | Yes | integer |
+| rid | formData | Wallet address on the Blockchain. | Yes | string |
+| currency | formData | The currency code. | Yes | string |
+| amount | formData | The amount to withdraw. | Yes | double |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Creates new crypto withdrawal. |
+
 ##### ***GET***
 **Description:** List your withdraws as paginated collection.
 
@@ -509,6 +527,16 @@ Get all available markets.
 | ---- | ---- | ----------- | -------- |
 | id | string | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No |
 | name | string | Market name. | No |
+| ask_unit | string | Market ask unit. | No |
+| bid_unit | string | Market bid unit. | No |
+| ask_fee | double | Market ask fee. | No |
+| bid_fee | double | Market bid fee. | No |
+| min_ask_price | double | Max ask order price. | No |
+| max_bid_price | double | Max bid order price. | No |
+| min_ask_amount | double |  | No |
+| min_bid_amount | double |  | No |
+| ask_precision | double |  | No |
+| bid_precision | double |  | No |
 
 ### Currency  
 
