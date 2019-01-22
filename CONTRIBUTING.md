@@ -4,27 +4,27 @@
 
 ### If your problem is with...
 
- - [Workbench](https://github.com/rubykube/workbench)
  - [Microkube](https://github.com/rubykube/microkube)
  - [Barong](https://github.com/rubykube/barong)
- - [AppLogic](https://github.com/rubykube/applogic)
- - [Peatio Trading UI](https://github.com/rubykube/peatio-trading-ui)
  - Cryptonode e.g [Bitcoind](https://github.com/bitcoin/bitcoin), [Geth](https://github.com/ethereum/go-ethereum),
-   [Rippled](https://github.com/ripple/rippled), [BitGo](https://www.bitgo.com/)
+    [Rippled](https://github.com/ripple/rippled), [BitGo](https://www.bitgo.com/)
+ - [Workbench](https://github.com/rubykube/workbench) (DEPRECATED since 2.0)
+ - [AppLogic](https://github.com/rubykube/applogic) (NOT SUPPORTED since 2.0)
+ - [Peatio Trading UI](https://github.com/rubykube/peatio-trading-ui) (NOT SUPPORTED since 1.9)
 
 Then please do not report your issue here - you should instead report it to appropriate repository or organisation.
 
 ### For local installation please use...
 
- - [Workbench](https://github.com/rubykube/workbench)
  - [Microkube](https://github.com/rubykube/microkube)
- - [Minimalistic local development environment with docker-compose](README.md) (Advanced)
+ - [Minimalistic local development environment with docker-compose](README.md) (ADVANCED)
+ - [Workbench](https://github.com/rubykube/workbench) (DEPRECATED since 2.0)
 
 Then please open an issue here **ONLY** if you use [Minimalistic local development environment with docker-compose](README.md):
 
 ### If your issue is...
   
-  - New feature request but it is possible to add this feature in separate service e.g AppLogic, Barong or Custom Frontend.
+  - New feature request but it is possible to add this feature in separate service using Event or Management API.
   - Described in [FAQ section](https://github.com/rubykube/peatio/issues?q=is%3Aissue+is%3Aclosed+label%3AFAQ) (we are working on it now)
   
 Then please don't open new issue here.
@@ -83,7 +83,6 @@ Then you should submit your implementation, clearly linking to the issue (and po
 Your PR will be reviewed by the project maintainers and community, before being merged.
 
 It's mandatory to cover your code with tests!
-
 
 ## Coding Style
 

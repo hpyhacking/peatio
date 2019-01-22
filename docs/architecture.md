@@ -44,7 +44,7 @@ Components managed by bosh are:
  * RabbitMQ
  * Prometheus with Grafana for monitoring
 
-[Bosh project](http://bosh.io/)
+[Bosh project](https://bosh.io/)
 
 #### Vault
 
@@ -82,18 +82,12 @@ Our goal and roadmap is to provide advanced API endpoints in order to be able to
 
 [Peatio project](https://github.com/rubykube/peatio)
 
-#### Peatio Workbench
+#### Peatio Microkube
 
-Peatio workbench is the recommended development, test and integration environment for new developers.
+Peatio microkube is the recommended development, test and integration environment for new developers.
 
-[Peatio Workbench](https://github.com/rubykube/peatio-workbench)
+[Peatio Microkube](https://github.com/rubykube/microkube)
 
-#### Peatio SDK
-
-Peatio SDK is a javascript SDK we maintain for running QA Test scenarios.
-Use Peatio SDK to interact with the server side backends such as Peatio and Barong.
-
-[Peatio SDK](https://github.com/rubykube/peatio-workbench)
 
 #### Coinhub
 

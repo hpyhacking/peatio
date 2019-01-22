@@ -50,7 +50,7 @@ module Peatio
     config.active_record.raise_in_transactional_callbacks = true
 
     # Configure relative url root by setting URL_ROOT_PATH environment variable.
-    # Used by workbench with API Gateway.
+    # Used by microkube with API Gateway.
     config.relative_url_root = ENV.fetch('URL_ROOT_PATH', '/')
 
     config.assets.initialize_on_precompile = true

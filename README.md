@@ -66,7 +66,7 @@ issues, fixes, and patches to this project.
 
 We advice to use [minimalistic environment](#minimalistic-local-development-environment-with-docker-compose) if you want to develop only Peatio and don't touch processes which interact with other components.
 
-Otherwise we advice to use [workbench based environment](#local-development-environment-with-workbench)
+Otherwise we advice to use [microkube based environment](#local-development-environment-with-microkube)
 
 ### Minimalistic local development environment with docker-compose:
 
@@ -78,7 +78,7 @@ Otherwise we advice to use [workbench based environment](#local-development-envi
 
 ## Installation
 
-### Local development without workbench
+### Local development without microkube
 
 1. Set up initial configuration `./bin/setup`
 2. Start peatio daemons `god -c lib/daemons/daemons.god`
@@ -90,37 +90,26 @@ Otherwise we advice to use [workbench based environment](#local-development-envi
 ```
 4. Start rails server `JWT_PUBLIC_KEY=$(cat config/secrets/rsa-key.pub| base64 -w0) rails s -b0.0.0.0`
 
-### Local development environment with workbench:
+### Local development environment with microkube:
 
-We suggest you to start using Peatio by installing [Workbench](https://github.com/rubykube/workbench). [Workbench](https://github.com/rubykube/workbench) which is based on [Docker containers](https://www.docker.com/what-docker) is a convenient and straightforward way to start Peatio development environment.
+We suggest you to start using Peatio by installing [Microkube](https://github.com/rubykube/microkube).
+[Microkube](https://github.com/rubykube/microkube) which is based on
+[Docker containers](https://www.docker.com/what-docker) is a convenient and straightforward way to start
+Peatio development environment.
 
 #### Prerequisites
 * [Docker](https://docs.docker.com/install/) installed
 * [Docker compose](https://docs.docker.com/compose/install/) installed
 
-#### Prepare the workbench
+#### Prepare the microkube
 
-1. Recursive clone : `git clone --recursive https://github.com/rubykube/workbench.git`
-2. Move to workbench `cd workbench`
-3. Build the images: `make build`
-4. Run the application: `make run`
+Follow microkube [README](https://github.com/rubykube/microkube) for the best Peatio installation experience.
 
-You should add those hosts to your `/etc/hosts` file:
+### Local development environment with workbench (DEPRECATED since 2.0):
 
-```
-0.0.0.0 api.wb.local
-0.0.0.0 auth.wb.local
-
-0.0.0.0 api.slanger.wb.local
-0.0.0.0 ws.slanger.wb.local
-
-0.0.0.0 pma.wb.local
-0.0.0.0 monitor.wb.local
-
-0.0.0.0 btc.wb.local
-0.0.0.0 eth.wb.local
-```
-Now you have peatio up and running.
+[Workbench](https://github.com/rubykube/workbench) is legacy way for running Peatio locally.
+Probably Workbench support will be removed soon. We advice to use [Microkube](https://github.com/rubykube/microkube)
+which is more lightweight environment.
 
 #### [Barong](https://github.com/rubykube/barong)
 
@@ -166,8 +155,8 @@ After all of that you can start using Peatio in your browser just by following o
 
 You can interact with Peatio through API:
 
-* API v2
-* Management API v1
+* Account, Market & Public API v2
+* Management API v2
 * Websocket API
 * Event API (AMQP)
 
