@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20190116140939) do
   end
 
   add_index "currencies", ["enabled"], name: "index_currencies_on_enabled", using: :btree
-  add_index "currencies", ["position"], name: "index_currencies_on_position", unique: true, using: :btree
+  add_index "currencies", ["position"], name: "index_currencies_on_position", using: :btree
 
   create_table "deposits", force: :cascade do |t|
     t.integer  "member_id",    limit: 4,                             null: false

@@ -76,7 +76,7 @@ module API
           :min_ask_amount,
           documentation: {
             type: BigDecimal,
-            documentation: "Min ask order amount."
+            desc: "Min ask order amount."
           }
         )
 
@@ -84,7 +84,7 @@ module API
           :min_bid_amount,
           documentation: {
             type: BigDecimal,
-            documentation: "Min bid order amount."
+            desc: "Min bid order amount."
           }
         )
 
@@ -92,7 +92,7 @@ module API
           :ask_precision,
           documentation: {
             type: BigDecimal,
-            documentation: "Precision for ask order."
+            desc: "Precision for ask order."
           }
         )
 
@@ -100,7 +100,7 @@ module API
           :bid_precision,
           documentation: {
             type: BigDecimal,
-            documentation: "Precision for bid order."
+            desc: "Precision for bid order."
           }
         )
       end

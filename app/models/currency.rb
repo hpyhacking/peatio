@@ -191,5 +191,5 @@ end
 # Indexes
 #
 #  index_currencies_on_enabled   (enabled)
-#  index_currencies_on_position  (position) UNIQUE
+#  index_currencies_on_position  (position)
 #
