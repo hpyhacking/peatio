@@ -2,7 +2,7 @@ Peatio User API v2
 ==================
 API for Peatio application.
 
-**Version:** 2.0.17-alpha
+**Version:** 2.0.18-alpha
 
 **Contact information:**  
 peatio.tech  
@@ -533,10 +533,10 @@ Get all available markets.
 | bid_fee | double | Market bid fee. | No |
 | min_ask_price | double | Max ask order price. | No |
 | max_bid_price | double | Max bid order price. | No |
-| min_ask_amount | double |  | No |
-| min_bid_amount | double |  | No |
-| ask_precision | double |  | No |
-| bid_precision | double |  | No |
+| min_ask_amount | double | Min ask order amount. | No |
+| min_bid_amount | double | Min bid order amount. | No |
+| ask_precision | double | Precision for ask order. | No |
+| bid_precision | double | Precision for bid order. | No |
 
 ### Currency  
 
