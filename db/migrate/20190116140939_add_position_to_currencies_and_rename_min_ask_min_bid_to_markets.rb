@@ -1,11 +1,18 @@
 class AddPositionToCurrenciesAndRenameMinAskMinBidToMarkets < ActiveRecord::Migration
   def change
-    add_column    :currencies, :position, :integer, default: 0, null: false, after: :withdraw_limit_72h
-    add_index     :currencies, :position unless index_exists?(:currencies, :position)
+    unless column_exists?(:currencies, :position)
+      add_column :currencies, :position, :integer, default: 0, null: false, after: :withdraw_limit_72h
+    end
+
+    add_index :currencies, :position unless index_exists?(:currencies, :position)
+
     rename_column :markets, :min_ask, :min_ask_price if column_exists?(:markets, :min_ask)
     rename_column :markets, :max_bid, :max_bid_price if column_exists?(:markets, :max_bid)
-    change_column :markets, :min_ask_price, :decimal, null: false, default: 0, precision: 17, scale: 16, after: :bid_fee
-    change_column :markets, :max_bid_price, :decimal, null: false, default: 0, precision: 17, scale: 16, after: :min_ask_price
-    change_column :markets, :min_ask_amount, :decimal, null: false, default: 0, precision: 32, scale: 16, after: :max_bid_price
+
+    change_column_null :markets, :max_bid_price, false, 0.0
+
+    change_column :markets, :min_ask_price,  :decimal, precision: 32, scale: 16, after: :bid_fee
+    change_column :markets, :max_bid_price,  :decimal, precision: 32, scale: 16, after: :min_ask_price, default: 0.0
+    change_column :markets, :min_ask_amount, :decimal, precision: 32, scale: 16, after: :max_bid_price
   end
 end
