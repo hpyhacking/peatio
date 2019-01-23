@@ -295,9 +295,8 @@ describe API::V2::Public::Markets, type: :request do
   end
 
   describe 'GET /api/v2/markets/tickers' do
-    # Clear Redis before each example.
-    before { Rails.cache.instance_variable_get(:@data).flushall }
-    after { Rails.cache.instance_variable_get(:@data).flushall }
+    before { clear_redis }
+    after { clear_redis }
 
     context 'no trades executed yet' do
       let(:expected_ticker) do
@@ -348,7 +347,7 @@ describe API::V2::Public::Markets, type: :request do
           'low' => '5.0', 'high' => '6.0',
           'open' => '6.0', 'last' => '6.0',
           'vol' => '2.0', 'volume' => '2.0',
-          'avg_price' => '5.5', 'price_change_percent' => '+0.00%' }
+          'avg_price' => '5.45', 'price_change_percent' => '+0.00%' }
       end
       before do
         Worker::MarketTicker.new.process(trade1.as_json, nil, nil)
@@ -365,9 +364,8 @@ describe API::V2::Public::Markets, type: :request do
   end
 
   describe 'GET /api/v2/public/markets/:market/tickers' do
-    # Clear Redis before each example.
-    before { Rails.cache.instance_variable_get(:@data).flushall }
-    after { Rails.cache.instance_variable_get(:@data).flushall }
+    before { clear_redis }
+    after { clear_redis }
     context 'no trades executed yet' do
       let(:expected_ticker) do
         { 'buy' => '0.0', 'sell' => '0.0',
@@ -415,7 +413,7 @@ describe API::V2::Public::Markets, type: :request do
           'low' => '5.0', 'high' => '6.0',
           'open' => '6.0', 'last' => '6.0',
           'vol' => '2.0', 'volume' => '2.0',
-          'avg_price' => '5.5', 'price_change_percent' => '+0.00%' }
+          'avg_price' => '5.45', 'price_change_percent' => '+0.00%' }
       end
       before do
         Worker::MarketTicker.new.process(trade1.as_json, nil, nil)

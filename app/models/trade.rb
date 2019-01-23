@@ -26,7 +26,7 @@ class Trade < ActiveRecord::Base
 
   class << self
     def latest_price(market)
-      with_market(market).order(id: :desc).select(:price).first.try(:price) || 0.to_d
+      with_market(market).order(id: :desc).pluck(:price).first.to_d
     end
 
     def filter(market, timestamp, from, to, limit, order)
@@ -43,10 +43,6 @@ class Trade < ActiveRecord::Base
       trades.each do |trade|
         trade.side = trade.ask_member_id == member.id ? 'ask' : 'bid'
       end
-    end
-
-    def avg_h24_price(market)
-      with_market(market).h24.select(:price).average(:price).to_d
     end
   end
 

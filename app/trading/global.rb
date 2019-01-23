@@ -6,6 +6,11 @@ class Global
   NOTHING_ARRAY = YAML::dump([])
   LIMIT = 80
 
+  CACHE_EXPIRATION_TIME = {
+    avg_h24_price: 5.minutes,
+    h24_volume:    15.minutes
+  }.freeze
+
   def initialize(market_id)
     @market_id = market_id
   end
@@ -20,21 +25,26 @@ class Global
     end
   end
 
-  def key(key, interval=5)
-    "peatio:#{@market_id}:#{key}:#{time_key(interval)}"
+  # key(:suf1, :suf2) # => "peatio:btcusd:suf1:suf2"
+  def key(*suffixes)
+    [
+      'peatio',
+      market_id,
+      suffixes
+    ].join(':')
   end
 
   def time_key(interval)
-    seconds  = Time.now.to_i
+    seconds = Time.now.to_i
     seconds - (seconds % interval)
   end
 
   def asks
-    Rails.cache.read("peatio:#{market_id}:depth:asks") || []
+    Rails.cache.read(key(:depth, :asks)) || []
   end
 
   def bids
-    Rails.cache.read("peatio:#{market_id}:depth:bids") || []
+    Rails.cache.read(key(:depth, :bids)) || []
   end
 
   def default_ticker
@@ -42,11 +52,11 @@ class Global
   end
 
   def ticker
-    ticker           = Rails.cache.read("peatio:#{market_id}:ticker") || default_ticker
-    open = Rails.cache.read("peatio:#{market_id}:ticker:open") || ticker[:last]
+    ticker           = Rails.cache.read(key(:ticker)) || default_ticker
+    open             = Rails.cache.read(key(:ticker, :open)) || ticker[:last]
     best_buy_price   = bids.first && bids.first[0] || ZERO
     best_sell_price  = asks.first && asks.first[0] || ZERO
-    avg_price        = Trade.avg_h24_price(market_id)
+    avg_price        = avg_h24_price
     price_change_percent = change_ratio(open, ticker[:last])
 
     ticker.merge(
@@ -68,16 +78,38 @@ class Global
   end
 
   def h24_volume
-    Rails.cache.fetch key('h24_volume', 5), expires_in: 24.hours do
+    cache_fetch(:h24_volume) do
       Trade.where(market_id: market_id).h24.sum(:volume) || ZERO
     end
   end
 
+  # Average 24 hours price calculated using VWAP ratio.
+  # For more info visit https://www.investopedia.com/terms/v/vwap.asp
+  def avg_h24_price
+    cache_fetch(:avg_h24_price) do
+      Trade.with_market(market_id).h24.yield_self do |t|
+        total_volume = t.sum(:volume)
+        if total_volume.zero?
+          ZERO
+        else
+          t.sum('price * volume') / total_volume
+        end
+      end
+    end
+  end
+
   def trades
-    Rails.cache.read("peatio:#{market_id}:trades") || []
+    Rails.cache.read(key(:trades)) || []
   end
 
   def at
     @at ||= DateTime.now.to_i
+  end
+
+  def cache_fetch(method)
+    Rails.cache.fetch(
+      key(method),
+      expires_in: CACHE_EXPIRATION_TIME[method]
+    ) { yield if block_given? }
   end
 end

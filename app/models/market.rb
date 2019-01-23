@@ -21,6 +21,8 @@
 class Market < ActiveRecord::Base
 
   attr_readonly :ask_unit, :bid_unit, :ask_precision, :bid_precision
+  delegate :bids, :asks, :trades, :ticker, :h24_volume, :avg_h24_price,
+           to: :global
 
   scope :ordered, -> { order(position: :asc) }
   scope :enabled, -> { where(enabled: true) }
@@ -40,7 +42,7 @@ class Market < ActiveRecord::Base
 
   validates :min_ask_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :min_bid_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  
+
   before_validation(on: :create) { self.id = "#{ask_unit}#{bid_unit}" }
 
   validate :must_not_disable_all_markets, on: :update
@@ -85,12 +87,6 @@ class Market < ActiveRecord::Base
   def fix_number_precision(type, d)
     d.round send("#{type}_precision"), BigDecimal::ROUND_DOWN
   end
-
-  # shortcut of global access
-  def bids;   global.bids   end
-  def asks;   global.asks   end
-  def trades; global.trades end
-  def ticker; global.ticker end
 
   def unit_info
     {name: name, base_unit: ask_unit, quote_unit: bid_unit}
