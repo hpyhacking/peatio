@@ -14,28 +14,50 @@ describe API::V2::Market::Trades, type: :request do
   let(:level_0_member) { create(:member, :level_0) }
   let(:level_0_member_token) { jwt_for(level_0_member) }
 
-  let(:ask) do
+  let(:btcusd_ask) do
     create(
       :order_ask,
-      market_id: 'btcusd',
+      :btcusd,
       price: '12.326'.to_d,
       volume: '123.123456789',
       member: member
     )
   end
 
-  let(:bid) do
+  let(:dashbtc_ask) do
+    create(
+      :order_ask,
+      :dashbtc,
+      price: '12.326'.to_d,
+      volume: '123.123456789',
+      member: member
+    )
+  end
+
+  let(:btcusd_bid) do
     create(
       :order_bid,
-      market_id: 'btcusd',
+      :btcusd,
       price: '12.326'.to_d,
       volume: '123.123456789',
       member: member
     )
   end
 
-  let!(:ask_trade) { create(:trade, ask: ask, created_at: 2.days.ago) }
-  let!(:bid_trade) { create(:trade, bid: bid, created_at: 1.day.ago) }
+  let(:dashbtc_bid) do
+    create(
+      :order_bid,
+      :dashbtc,
+      price: '12.326'.to_d,
+      volume: '123.123456789',
+      member: member
+    )
+  end
+
+  let!(:btcusd_ask_trade) { create(:trade, :btcusd, ask: btcusd_ask, created_at: 2.days.ago) }
+  let!(:dashbtc_ask_trade) { create(:trade, :dashbtc, ask: dashbtc_ask, created_at: 2.days.ago) }
+  let!(:btcusd_bid_trade) { create(:trade, :btcusd, bid: btcusd_bid, created_at: 1.day.ago) }
+  let!(:dashbtc_bid_trade) { create(:trade, :dashbtc, bid: dashbtc_bid, created_at: 1.day.ago) }
 
   describe 'GET /api/v2/market/trades' do
     it 'requires authentication' do
@@ -46,15 +68,31 @@ describe API::V2::Market::Trades, type: :request do
     end
 
     it 'returns all my recent trades' do
+      api_get '/api/v2/market/trades', token: token
+      expect(response).to be_success
+
+      result = JSON.parse(response.body)
+
+      expect(result.find { |t| t['id'] == btcusd_ask_trade.id }['side']).to eq 'ask'
+      expect(result.find { |t| t['id'] == btcusd_ask_trade.id }['order_id']).to eq btcusd_ask.id
+      expect(result.find { |t| t['id'] == dashbtc_ask_trade.id }['side']).to eq 'ask'
+      expect(result.find { |t| t['id'] == dashbtc_ask_trade.id }['order_id']).to eq dashbtc_ask.id
+      expect(result.find { |t| t['id'] == btcusd_bid_trade.id }['side']).to eq 'bid'
+      expect(result.find { |t| t['id'] == btcusd_bid_trade.id }['order_id']).to eq btcusd_bid.id
+      expect(result.find { |t| t['id'] == dashbtc_bid_trade.id }['side']).to eq 'bid'
+      expect(result.find { |t| t['id'] == dashbtc_bid_trade.id }['order_id']).to eq dashbtc_bid.id
+    end
+
+    it 'returns all my recent trades for btcusd market' do
       api_get '/api/v2/market/trades', params: { market: 'btcusd' }, token: token
       expect(response).to be_success
 
       result = JSON.parse(response.body)
 
-      expect(result.find { |t| t['id'] == ask_trade.id }['side']).to eq 'ask'
-      expect(result.find { |t| t['id'] == ask_trade.id }['order_id']).to eq ask.id
-      expect(result.find { |t| t['id'] == bid_trade.id }['side']).to eq 'bid'
-      expect(result.find { |t| t['id'] == bid_trade.id }['order_id']).to eq bid.id
+      expect(result.find { |t| t['id'] == btcusd_ask_trade.id }['side']).to eq 'ask'
+      expect(result.find { |t| t['id'] == btcusd_ask_trade.id }['order_id']).to eq btcusd_ask.id
+      expect(result.find { |t| t['id'] == btcusd_bid_trade.id }['side']).to eq 'bid'
+      expect(result.find { |t| t['id'] == btcusd_bid_trade.id }['order_id']).to eq btcusd_bid.id
     end
 
     it 'returns 1 trade' do

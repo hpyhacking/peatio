@@ -8,10 +8,10 @@ describe Worker::SlaveBook do
  
   context '#get_depth' do
 
-    let!(:low_ask)  { create(:order_ask, market: market, price: '10.0') }
-    let!(:high_ask) { create(:order_ask, market: market, price: '12.0') }
-    let!(:low_bid)  { create(:order_bid, market: market, price: '6.0') }
-    let!(:high_bid) { create(:order_bid, market: market, price: '8.0') }
+    let!(:low_ask)  { create(:order_ask, :btcusd, price: '10.0') }
+    let!(:high_ask) { create(:order_ask, :btcusd, price: '12.0') }
+    let!(:low_bid)  { create(:order_bid, :btcusd, price: '6.0') }
+    let!(:high_bid) { create(:order_bid, :btcusd, price: '8.0') }
 
     it 'returns lowest asks' do
       expect(subject.get_depth(market, :ask)).to eq [

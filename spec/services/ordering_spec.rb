@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 describe Ordering do
-  let(:order) { create(:order_bid, volume: '1.23456789', price: '1.23456789') }
+  let(:order) { create(:order_bid, :btcusd, volume: '1.23456789', price: '1.23456789') }
   let(:account) { create_account(:usd, balance: 100.to_d, locked: 100.to_d) }
 
   describe 'ordering service can submit order' do

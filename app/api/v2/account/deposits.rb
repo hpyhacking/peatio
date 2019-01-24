@@ -17,14 +17,21 @@ module API
 
         params do
           optional :currency, type: String, values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { "Currency value contains #{Currency.enabled.codes(bothcase: true).join(',')}" }
-          optional :limit, type: Integer, range: 1..100, default: 3, desc: "Set result limit."
-          optional :state, type: String, values: -> { Deposit::STATES.map(&:to_s) }
+          optional :state,    type: String, values: -> { Deposit::STATES.map(&:to_s) }
+          optional :limit,    type: Integer, default: 100, range: 1..1000, desc: "Set result limit."
+          optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'Page number (defaults to 1).'
         end
         get "/deposits" do
-          deposits = current_user.deposits.includes(:currency).limit(params[:limit]).recent
-          deposits = deposits.with_currency(params[:currency]) if params[:currency]
-          deposits = deposits.where(aasm_state: params[:state]) if params[:state].present?
-          present deposits, with: API::V2::Entities::Deposit
+          currency = Currency.find(params[:currency]) if params[:currency].present?
+
+          current_user
+            .deposits
+            .order(id: :desc)
+            .tap { |q| q.where!(currency: currency) if currency }
+            .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
+            .page(params[:page])
+            .per(params[:limit])
+            .tap { |q| present q, with: API::V2::Entities::Deposit }
         end
 
         desc 'Get details of specific deposit.' do

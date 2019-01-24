@@ -23,8 +23,8 @@ describe API::V2::Public::Markets, type: :request do
 
   describe 'GET /api/v2/public/markets/:market/order_book' do
     before do
-      5.times { create(:order_bid) }
-      5.times { create(:order_ask) }
+      create_list(:order_bid, 5, :btcusd)
+      create_list(:order_ask, 5, :btcusd)
     end
 
     let(:market) { :btcusd }
@@ -316,7 +316,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     context 'single trade was executed' do
-      let!(:trade) { create(:trade, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
+      let!(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
       let(:expected_ticker) do
         { 'buy' => '0.0', 'sell' => '0.0',
           'low' => '5.0', 'high' => '5.0',
@@ -337,8 +337,8 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     context 'multiple trades were executed' do
-      let!(:trade1) { create(:trade, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
-      let!(:trade2) { create(:trade, price: '6.0'.to_d, volume: '0.9'.to_d, funds: '5.4'.to_d)}
+      let!(:trade1) { create(:trade, :btcusd, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
+      let!(:trade2) { create(:trade, :btcusd, price: '6.0'.to_d, volume: '0.9'.to_d, funds: '5.4'.to_d)}
 
       # open = 6.0 because it takes last by default.
       # to make it work correctly need to run k-line daemon.
@@ -383,7 +383,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     context 'single trade was executed' do
-      let!(:trade) { create(:trade, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
+      let!(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
       let(:expected_ticker) do
         { 'buy' => '0.0', 'sell' => '0.0',
           'low' => '5.0', 'high' => '5.0',
@@ -403,8 +403,8 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     context 'multiple trades were executed' do
-      let!(:trade1) { create(:trade, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
-      let!(:trade2) { create(:trade, price: '6.0'.to_d, volume: '0.9'.to_d, funds: '5.4'.to_d)}
+      let!(:trade1) { create(:trade, :btcusd, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
+      let!(:trade2) { create(:trade, :btcusd, price: '6.0'.to_d, volume: '0.9'.to_d, funds: '5.4'.to_d)}
 
       # open = 6.0 because it takes last by default.
       # to make it work correctly need to run k-line daemon.
@@ -440,7 +440,7 @@ describe API::V2::Public::Markets, type: :request do
     let(:ask) do
       create(
         :order_ask,
-        market_id: 'btcusd',
+        :btcusd,
         price: '12.326'.to_d,
         volume: '123.123456789',
         member: member
@@ -450,7 +450,7 @@ describe API::V2::Public::Markets, type: :request do
     let(:bid) do
       create(
         :order_bid,
-        market_id: 'btcusd',
+        :btcusd,
         price: '12.326'.to_d,
         volume: '123.123456789',
         member: member
@@ -459,8 +459,8 @@ describe API::V2::Public::Markets, type: :request do
 
     let(:market) { :btcusd }
 
-    let!(:ask_trade) { create(:trade, ask: ask, created_at: 2.days.ago) }
-    let!(:bid_trade) { create(:trade, bid: bid, created_at: 1.day.ago) }
+    let!(:ask_trade) { create(:trade, :btcusd, ask: ask, created_at: 2.days.ago) }
+    let!(:bid_trade) { create(:trade, :btcusd, bid: bid, created_at: 1.day.ago) }
 
     it 'returns all recent trades' do
       get "/api/v2/public/markets/#{market}/trades"
@@ -477,7 +477,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     it 'returns trades before timestamp' do
-      create(:trade, bid: bid, created_at: 6.hours.ago)
+      create(:trade, :btcusd, bid: bid, created_at: 6.hours.ago)
 
       get "/api/v2/public/markets/#{market}/trades", timestamp: 8.hours.ago.to_i, limit: 1
       expect(response).to be_success
@@ -488,7 +488,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     it 'returns trades between id range' do
-      another = create(:trade, bid: bid)
+      another = create(:trade, :btcusd, bid: bid)
 
       get "/api/v2/public/markets/#{market}/trades", from: ask_trade.id, to: another.id
       expect(response).to be_success
@@ -506,7 +506,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     it 'gets trades by from and limit' do
-      create(:trade, bid: bid, created_at: 6.hours.ago)
+      create(:trade, :btcusd, bid: bid, created_at: 6.hours.ago)
 
       get "/api/v2/public/markets/#{market}/trades", from: ask_trade.id, limit: 1, order_by: 'asc'
 
@@ -521,7 +521,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     it 'validates from and to param' do
-      another = create(:trade, bid: bid)
+      another = create(:trade, :btcusd, bid: bid)
 
       get "/api/v2/public/markets/#{market}/trades", from: another.id, to: ask_trade.id
       expect(response).to have_http_status 422
@@ -529,7 +529,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     it 'validates from and to params without market' do
-      another = create(:trade, bid: bid)
+      another = create(:trade, :btcusd, bid: bid)
 
       get "/api/v2/public/markets/usdusd/trades", from: ask_trade.id, to: another.id
       expect(response).to have_http_status 422
@@ -537,7 +537,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     it 'validates from and to params with negative value' do
-      another = create(:trade, bid: bid)
+      another = create(:trade, :btcusd, bid: bid)
 
       get "/api/v2/public/markets/#{market}/trades", from: -(ask_trade.id), to: -(another.id)
       expect(response).to have_http_status 422
@@ -552,7 +552,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     it 'validates value of to' do
-      another = create(:trade, bid: bid)
+      another = create(:trade, :btcusd, bid: bid)
 
       get "/api/v2/public/markets/#{market}/trades", to: -(another.id)
       expect(response).to have_http_status 422

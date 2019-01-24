@@ -19,7 +19,7 @@ describe Worker::Matching do
   end
 
   context 'partial match' do
-    let(:existing) { create(:order_ask, price: '4001', volume: '10.0', member: alice) }
+    let(:existing) { create(:order_ask, :btcusd, price: '4001', volume: '10.0', member: alice) }
 
     before do
       subject.process({ action: 'submit', order: existing.to_matching_attributes }, {}, {})
@@ -30,7 +30,7 @@ describe Worker::Matching do
     end
 
     it 'should match part of existing order' do
-      order = create(:order_bid, price: '4001', volume: '8.0', member: bob)
+      order = create(:order_bid, :btcusd, price: '4001', volume: '8.0', member: bob)
 
       AMQPQueue.expects(:enqueue)
                .with(:slave_book, { action: 'update', order: { id: existing.id, timestamp: existing.at, type: :ask, volume: '2.0'.to_d, price: existing.price, market: 'btcusd', ord_type: 'limit' } }, anything)
@@ -40,7 +40,7 @@ describe Worker::Matching do
     end
 
     it 'should match part of new order' do
-      order = create(:order_bid, price: '4001', volume: '12.0', member: bob)
+      order = create(:order_bid, :btcusd, price: '4001', volume: '12.0', member: bob)
 
       AMQPQueue.expects(:enqueue)
                .with(:trade_executor, { market_id: market.id, ask_id: existing.id, bid_id: order.id, strike_price: '4001'.to_d, volume: '10.0'.to_d, funds: '40010'.to_d }, anything)
@@ -64,12 +64,12 @@ describe Worker::Matching do
     # -----------------------------------------------
     # bid6    |                  | 4001/5           |
     # -----------------------------------------------
-    let!(:ask1) { create(:order_ask, price: '4003', volume: '3.0', member: alice) }
-    let!(:ask2) { create(:order_ask, price: '4002', volume: '3.0', member: alice) }
-    let!(:bid3) { create(:order_bid, price: '4003', volume: '8.0', member: bob) }
-    let!(:ask4) { create(:order_ask, price: '4002', volume: '5.0', member: alice) }
-    let!(:bid5) { create(:order_bid, price: '4003', volume: '3.0', member: bob) }
-    let!(:bid6) { create(:order_bid, price: '4001', volume: '5.0', member: bob) }
+    let!(:ask1) { create(:order_ask, :btcusd, price: '4003', volume: '3.0', member: alice) }
+    let!(:ask2) { create(:order_ask, :btcusd, price: '4002', volume: '3.0', member: alice) }
+    let!(:bid3) { create(:order_bid, :btcusd, price: '4003', volume: '8.0', member: bob) }
+    let!(:ask4) { create(:order_ask, :btcusd, price: '4002', volume: '5.0', member: alice) }
+    let!(:bid5) { create(:order_bid, :btcusd, price: '4003', volume: '3.0', member: bob) }
+    let!(:bid6) { create(:order_bid, :btcusd, price: '4001', volume: '5.0', member: bob) }
 
     let!(:orderbook) { Matching::OrderBookManager.new('btcusd', broadcast: false) }
     let!(:engine)    { Matching::Engine.new(market, mode: :run) }
@@ -94,7 +94,7 @@ describe Worker::Matching do
   end
 
   context 'cancel order' do
-    let(:existing) { create(:order_ask, price: '4001', volume: '10.0', member: alice) }
+    let(:existing) { create(:order_ask, :btcusd, price: '4001', volume: '10.0', member: alice) }
 
     before do
       subject.process({ action: 'submit', order: existing.to_matching_attributes }, {}, {})
@@ -107,8 +107,8 @@ describe Worker::Matching do
   end
 
   context 'dryrun' do
-    let!(:ask) { create(:order_ask, price: '4000', volume: '3.0', member: alice) }
-    let!(:bid) { create(:order_bid, price: '4001', volume: '8.0', member: bob) }
+    let!(:ask) { create(:order_ask, :btcusd, price: '4000', volume: '3.0', member: alice) }
+    let!(:bid) { create(:order_bid, :btcusd, price: '4001', volume: '8.0', member: bob) }
 
     subject { Worker::Matching.new(mode: :dryrun) }
 

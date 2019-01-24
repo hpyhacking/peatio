@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 describe OrderAsk do
-  subject { create(:order_ask) }
+  subject { create(:order_ask, :btcusd) }
 
   it { expect(subject.compute_locked).to eq subject.volume }
 

@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 describe OrderBid do
-  subject { create(:order_bid) }
+  subject { create(:order_bid, :btcusd) }
 
   it { expect(subject.compute_locked).to eq subject.volume * subject.price }
 

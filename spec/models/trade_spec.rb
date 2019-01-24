@@ -7,50 +7,50 @@ describe Trade, '.latest_price' do
   end
 
   context 'add one trade' do
-    let!(:trade) { create(:trade, market_id: :btcusd) }
+    let!(:trade) { create(:trade, :btcusd, market_id: :btcusd) }
     it { expect(Trade.latest_price(:btcusd)).to eq(trade.price) }
   end
 end
 
 describe Trade, '.for_member' do
   let(:member) { create(:member, :level_3) }
-  let(:ask)    { create(:order_ask, member: member) }
-  let(:bid)    { create(:order_bid, member: member) }
+  let(:ask)    { create(:order_ask, :btcusd, member: member) }
+  let(:bid)    { create(:order_bid, :btcusd, member: member) }
 
   let!(:trades) do
     [
-      create(:trade, ask: ask, created_at: 2.days.ago),
-      create(:trade, bid: bid, created_at: 1.day.ago)
+      create(:trade, :btcusd, ask: ask, created_at: 2.days.ago),
+      create(:trade, :btcusd, bid: bid, created_at: 1.day.ago)
     ]
   end
 
   it 'should add side attribute on trades' do
-    results = Trade.for_member(ask.market_id, member)
+    results = Trade.for_member(member, market: ask.market_id)
     expect(results.size).to eq 2
     expect(results.find { |t| t.id == trades.first.id }.side).to eq 'ask'
     expect(results.find { |t| t.id == trades.last.id  }.side).to eq 'bid'
   end
 
   it 'should sort trades in reverse creation order' do
-    expect(Trade.for_member(ask.market_id, member, order: 'id desc').first).to eq trades.last
+    expect(Trade.for_member(member, market: ask.market_id, order: 'id desc').first).to eq trades.last
   end
 
   it 'should return 1 trade' do
-    results = Trade.for_member(ask.market_id, member, limit: 1)
+    results = Trade.for_member(member, market: ask.market_id, limit: 1)
     expect(results.size).to eq 1
   end
 
   it 'should return trades from specified time' do
-    results = Trade.for_member(ask.market_id, member, time_to: 30.hours.ago)
+    results = Trade.for_member(member, market: ask.market_id, time_to: 30.hours.ago)
     expect(results.size).to eq 1
     expect(results.first).to eq trades.first
   end
 end
 
 describe Trade, '#for_notify' do
-  let(:order_ask) { create(:order_ask) }
-  let(:order_bid) { create(:order_bid) }
-  let(:trade) { create(:trade, ask: order_ask, bid: order_bid) }
+  let(:order_ask) { create(:order_ask, :btcusd) }
+  let(:order_bid) { create(:order_bid, :btcusd) }
+  let(:trade) { create(:trade, :btcusd, ask: order_ask, bid: order_bid) }
 
   subject(:notify) { trade.for_notify('ask') }
 
@@ -70,7 +70,7 @@ end
 
 describe Trade, '#record_complete_operations!' do
   # Persist orders and trades in database.
-  let!(:trade){ create(:trade, :with_deposit_liability, :submitted_orders) }
+  let!(:trade){ create(:trade, :btcusd, :with_deposit_liability, :submitted_orders) }
 
   let(:ask){ trade.ask }
   let(:bid){ trade.bid }

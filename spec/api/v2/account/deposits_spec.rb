@@ -17,22 +17,22 @@ describe API::V2::Account::Deposits, type: :request do
       create(:deposit_usd, member: other_member, txid: 10)
     end
 
-    it 'require deposits authentication' do
+    it 'requires authentication' do
       api_get '/api/v2/account/deposits'
       expect(response.code).to eq '401'
     end
 
-    it 'login deposits' do
+    it 'returns with auth token deposits' do
       api_get '/api/v2/account/deposits', token: token
       expect(response).to be_success
     end
 
-    it 'deposits num' do
+    it 'returns all deposits num' do
       api_get '/api/v2/account/deposits', token: token
-      expect(JSON.parse(response.body).size).to eq 3
+      expect(JSON.parse(response.body).size).to eq 4
     end
 
-    it 'return limited deposits' do
+    it 'returns limited deposits' do
       api_get '/api/v2/account/deposits', params: { limit: 1 }, token: token
       expect(JSON.parse(response.body).size).to eq 1
     end
@@ -48,11 +48,18 @@ describe API::V2::Account::Deposits, type: :request do
       expect(json.first['txid']).to eq d.txid
     end
 
-    it 'deposits currency usd' do
+    it 'returns deposits for currency usd' do
       api_get '/api/v2/account/deposits', params: { currency: 'usd' }, token: token
       result = JSON.parse(response.body)
       expect(result.size).to eq 2
       expect(result.all? { |d| d['currency'] == 'usd' }).to be_truthy
+    end
+
+    it 'returns deposits for currency btc' do
+      api_get '/api/v2/account/deposits', params: { currency: 'btc' }, token: token
+      result = JSON.parse(response.body)
+      expect(result.size).to eq 2
+      expect(result.all? { |d| d['currency'] == 'btc' }).to be_truthy
     end
 
     it 'return 404 if txid not exist' do

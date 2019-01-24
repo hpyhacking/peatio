@@ -29,17 +29,17 @@ class Trade < ActiveRecord::Base
       with_market(market).order(id: :desc).pluck(:price).first.to_d
     end
 
-    def filter(market, timestamp, from, to, limit, order)
-      trades = with_market(market).order(order)
-      trades = trades.limit(limit) if limit.present?
-      trades = trades.where('created_at <= ?', timestamp) if timestamp.present?
-      trades = trades.where('id > ?', from) if from.present?
-      trades = trades.where('id < ?', to) if to.present?
+    def filter(options = {})
+      trades = options[:market] ? with_market(options[:market]).order(options[:order]) : order(options[:order])
+      trades = trades.limit(options[:limit]) if options[:limit].present?
+      trades = trades.where('created_at <= ?', options[:time_to]) if options[:time_to].present?
+      trades = trades.where('id > ?', options[:from]) if options[:from].present?
+      trades = trades.where('id < ?', options[:to]) if options[:to].present?
       trades
     end
 
-    def for_member(market, member, options={})
-      trades = filter(market, options[:time_to], options[:from], options[:to], options[:limit], options[:order]).where("ask_member_id = ? or bid_member_id = ?", member.id, member.id)
+    def for_member(member, options={})
+      trades = filter(options).where("ask_member_id = ? or bid_member_id = ?", member.id, member.id)
       trades.each do |trade|
         trade.side = trade.ask_member_id == member.id ? 'ask' : 'bid'
       end

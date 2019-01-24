@@ -35,8 +35,8 @@ describe Order, 'validations', type: :model do
 end
 
 describe Order, '#fix_number_precision', type: :model do
-  let(:order_bid) { create(:order_bid, market_id: 'btcusd', price: '12.326'.to_d, volume: '123.123456789') }
-  let(:order_ask) { create(:order_ask, market_id: 'btcusd', price: '12.326'.to_d, volume: '123.123456789') }
+  let(:order_bid) { create(:order_bid, :btcusd, price: '12.326'.to_d, volume: '123.123456789') }
+  let(:order_ask) { create(:order_ask, :btcusd, price: '12.326'.to_d, volume: '123.123456789') }
 
   it { expect(order_bid.price).to be_d '12.326' }
   it { expect(order_bid.volume).to be_d '123.1234' }
@@ -50,8 +50,8 @@ describe Order, '#done', type: :model do
   let(:ask_fee) { '0.003'.to_d }
   let(:bid_fee) { '0.001'.to_d }
   let(:order) { order_bid }
-  let(:order_bid) { create(:order_bid, price: '1.2'.to_d, volume: '10.0'.to_d) }
-  let(:order_ask) { create(:order_ask, price: '1.2'.to_d, volume: '10.0'.to_d) }
+  let(:order_bid) { create(:order_bid, :btcusd, price: '1.2'.to_d, volume: '10.0'.to_d) }
+  let(:order_ask) { create(:order_ask, :btcusd, price: '1.2'.to_d, volume: '10.0'.to_d) }
   let(:hold_account) { create_account(:usd, locked: '100.0'.to_d) }
   let(:expect_account) { create_account(:btc) }
 
@@ -92,7 +92,7 @@ describe Order, 'related accounts' do
 
   context OrderAsk do
     it 'should hold btc and expect usd' do
-      ask = create(:order_ask, member: alice)
+      ask = create(:order_ask, :btcusd, member: alice)
       expect(ask.hold_account).to eq alice.get_account(:btc)
       expect(ask.expect_account).to eq alice.get_account(:usd)
     end
@@ -100,7 +100,7 @@ describe Order, 'related accounts' do
 
   context OrderBid do
     it 'should hold usd and expect btc' do
-      bid = create(:order_bid, member: bob)
+      bid = create(:order_bid, :btcusd, member: bob)
       expect(bid.hold_account).to eq bob.get_account(:usd)
       expect(bid.expect_account).to eq bob.get_account(:btc)
     end
@@ -175,7 +175,7 @@ end
 
 describe Order, '#record_submit_operations!' do
   # Persist Order in database.
-  let!(:order){ create(:order_ask, :with_deposit_liability) }
+  let!(:order){ create(:order_ask, :btcusd, :with_deposit_liability) }
 
   subject { order }
 

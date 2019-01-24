@@ -5,7 +5,7 @@ describe API::V2::Entities::Order do
   let(:order) do
     create(
       :order_ask,
-      market_id: 'btcusd',
+      :btcusd,
       price: '12.326'.to_d,
       volume: '3.14',
       origin_volume: '12.13'
@@ -37,8 +37,8 @@ describe API::V2::Entities::Order do
 
   context 'full exposure' do
     it 'should expose related trades' do
-      create(:trade, ask: order, volume: '8.0', price: '12')
-      create(:trade, ask: order, volume: '0.99', price: '12.56')
+      create(:trade, :btcusd, ask: order, volume: '8.0', price: '12')
+      create(:trade, :btcusd, ask: order, volume: '0.99', price: '12.56')
 
       json = API::V2::Entities::Order.represent(order, type: :full).serializable_hash
       expect(json[:trades].size).to eq 2

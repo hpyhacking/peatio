@@ -40,7 +40,10 @@ module API
             use :market, :trade_filters
           end
           get ":market/trades" do
-            trades = Trade.filter(params[:market], time_to, params[:from], params[:to], params[:limit], order_param)
+            trades = Trade.filter(market: params[:market],
+              limit: params[:limit], time_to: time_to,
+              from: params[:from], to: params[:to],
+              order: order_param)
             present trades, with: API::V2::Entities::Trade
           end
 

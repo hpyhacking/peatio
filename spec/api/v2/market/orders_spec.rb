@@ -9,10 +9,11 @@ describe API::V2::Market::Orders, type: :request do
 
   describe 'GET /api/v2/market/orders' do
     before do
-      create(:order_bid, market_id: 'btcusd', price: '11'.to_d, volume: '123.123456789', member: member)
-      create(:order_bid, market_id: 'btcusd', price: '12'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
-      create(:order_ask, market_id: 'btcusd', price: '13'.to_d, volume: '123.123456789', member: member)
-      create(:order_ask, market_id: 'btcusd', price: '14'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
+      create(:order_bid, :btcusd, price: '11'.to_d, volume: '123.123456789', member: member)
+      create(:order_bid, :dashbtc, price: '11'.to_d, volume: '123.123456789', member: member)
+      create(:order_bid, :btcusd, price: '12'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
+      create(:order_ask, :btcusd, price: '13'.to_d, volume: '123.123456789', member: member, state: Order::WAIT)
+      create(:order_ask, :btcusd, price: '14'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
     end
 
     it 'should require authentication' do
@@ -33,14 +34,21 @@ describe API::V2::Market::Orders, type: :request do
       expect(JSON.parse(response.body)).to eq ({ 'error' => { 'code' => 1001, 'message' => 'state does not have a valid value' } })
     end
 
-    it 'should return active orders by default' do
+    it 'should return all order history' do
+      api_get '/api/v2/market/orders', token: token
+
+      expect(response).to be_success
+      expect(JSON.parse(response.body).size).to eq 5
+    end
+
+    it 'order from second page (limit: 1)' do
       api_get '/api/v2/market/orders', params: { market: 'btcusd' }, token: token
 
       expect(response).to be_success
-      expect(JSON.parse(response.body).size).to eq 2
+      expect(JSON.parse(response.body).size).to eq 4
     end
 
-    it 'should return complete orders' do
+    it 'order from second page (limit: 1)' do
       api_get '/api/v2/market/orders', params: { market: 'btcusd', state: Order::DONE }, token: token
 
       expect(response).to be_success
@@ -56,7 +64,7 @@ describe API::V2::Market::Orders, type: :request do
       api_get '/api/v2/market/orders', params: { market: 'btcusd', limit: 1, page: 2 }, token: token
 
       expect(response).to be_success
-      expect(JSON.parse(response.body).first['price']).to eq '13.0'
+      expect(JSON.parse(response.body).first['price']).to eq '12.0'
     end
 
     it 'should sort orders' do
@@ -77,16 +85,16 @@ describe API::V2::Market::Orders, type: :request do
       expect(JSON.parse(response.body)['error']).to eq( {'code' => 2000, 'message' => 'Please, pass the corresponding verification steps to enable trading.'} )
     end
 
-    it 'allows removes whitespace from query params' do
+    it 'removes whitespace from query params and returns all orders' do
       api_get '/api/v2/market/orders', token: token, params: { market: ' btcusd ' }
       expect(response).to have_http_status 200
-      expect(JSON.parse(response.body).length).to eq 2
+      expect(JSON.parse(response.body).length).to eq 4
     end
   end
 
   describe 'GET /api/v2/market/orders/:id' do
-    let(:order)  { create(:order_bid, market_id: 'btcusd', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member, trades_count: 1) }
-    let!(:trade) { create(:trade, bid: order) }
+    let(:order)  { create(:order_bid, :btcusd, price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member, trades_count: 1) }
+    let!(:trade) { create(:trade, :btcusd, bid: order) }
 
     it 'should get specified order' do
       api_get "/api/v2/market/orders/#{order.id}", token: token
@@ -157,7 +165,7 @@ describe API::V2::Market::Orders, type: :request do
   end
 
   describe 'POST /api/v2/market/orders/:id/cancel' do
-    let!(:order) { create(:order_bid, market_id: 'btcusd', price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', locked: '20.1082', origin_locked: '38.0882', member: member) }
+    let!(:order) { create(:order_bid, :btcusd, price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', locked: '20.1082', origin_locked: '38.0882', member: member) }
 
     context 'succesful' do
       before do
@@ -185,8 +193,8 @@ describe API::V2::Market::Orders, type: :request do
 
   describe 'POST /api/v2/market/orders/cancel' do
     before do
-      create(:order_ask, market_id: 'btcusd', price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
-      create(:order_bid, market_id: 'btcusd', price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
+      create(:order_ask, :btcusd, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
+      create(:order_bid, :btcusd, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
 
       member.get_account(:btc).update_attributes(locked: '5')
       member.get_account(:usd).update_attributes(locked: '50')

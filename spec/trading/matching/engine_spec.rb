@@ -162,7 +162,7 @@ describe Matching::Engine do
 
   context 'float number edge cases' do
     it 'should add up used funds to locked funds' do
-      order = create(:order_bid, price: '3662.05', volume: '0.62')
+      order = create(:order_bid, :btcusd, price: '3662.05', volume: '0.62')
       bid  = Matching.mock_limit_order(order.to_matching_attributes)
 
       ask1 = Matching.mock_limit_order(type: :ask, price: '3658.28'.to_d, volume: '0.0129'.to_d)

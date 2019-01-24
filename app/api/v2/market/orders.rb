@@ -12,8 +12,8 @@ module API
           is_array: true,
           success: API::V2::Entities::Order
         params do
-          use :market
-          optional :state, type: String,  default: 'wait', values: -> { Order.state.values }, desc: 'Filter order by state, default to "wait" (active orders).'
+          optional :market, type: String, desc: -> { V2::Entities::Market.documentation[:id] }, values: -> { ::Market.enabled.ids }
+          optional :state, type: String, values: -> { Order.state.values }, desc: 'Filter order by state.'
           optional :limit, type: Integer, default: 100, range: 1..1000, desc: 'Limit the number of returned orders, default to 100.'
           optional :page,  type: Integer, default: 1, desc: 'Specify the page of paginated results.'
           optional :order_by, type: String, values: %w(asc desc), default: 'asc', desc: 'If set, returned orders will be sorted in specific order, default to "asc".'
@@ -21,8 +21,8 @@ module API
         get '/orders' do
           orders = current_user.orders
             .order(order_param)
-            .with_market(current_market)
-            .with_state(params[:state])
+            .tap { |q| q.where!(market: params[:market]) if params[:market] }
+            .tap { |q| q.where!(state: params[:state]) if params[:state] }
             .page(params[:page])
             .per(params[:limit])
 
