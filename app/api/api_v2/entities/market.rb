@@ -4,8 +4,24 @@
 module APIv2
   module Entities
     class Market < Base
-      expose :id, documentation: "Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets."
-      expose :name
+      expose(
+          :id,
+          documentation: {
+            type: String,
+            desc: "Unique market id. It's always in the form of xxxyyy,"\
+                  "where xxx is the base currency code, yyy is the quote"\
+                  "currency code, e.g. 'btcusd'. All available markets can"\
+                  "be found at /api/v2/markets."
+          }
+        )
+
+        expose(
+          :name,
+          documentation: {
+            type: String,
+            desc: 'Market name.'
+          }
+        )
     end
   end
 end

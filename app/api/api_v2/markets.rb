@@ -3,11 +3,11 @@
 
 module APIv2
   class Markets < Grape::API
-
-    desc 'Get all available markets.'
-    get "/markets" do
+    desc 'Get all available markets.',
+    is_array: true,
+    success: APIv2::Entities::Market
+    get '/markets' do
       present Market.enabled.ordered, with: APIv2::Entities::Market
     end
-
   end
 end

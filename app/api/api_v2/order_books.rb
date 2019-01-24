@@ -7,7 +7,9 @@ module APIv2
   class OrderBooks < Grape::API
     helpers ::APIv2::NamedParams
 
-    desc 'Get the order book of specified market.'
+    desc 'Get the order book of specified market.',
+      is_array: true,
+      success: APIv2::Entities::OrderBook
     params do
       use :market
       optional :asks_limit, type: Integer, default: 20, range: 1..200, desc: 'Limit the number of returned sell orders. Default to 20.'
@@ -29,8 +31,7 @@ module APIv2
       global = Global[params[:market]]
       asks = global.asks[0,params[:limit]].reverse
       bids = global.bids[0,params[:limit]]
-      {timestamp: Time.now.to_i, asks: asks, bids: bids}
+      { timestamp: Time.now.to_i, asks: asks, bids: bids }
     end
-
   end
 end

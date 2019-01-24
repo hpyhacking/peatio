@@ -7,7 +7,7 @@ module APIv2
 
     before { authenticate! }
 
-    desc 'Get your profile and accounts info.', scopes: %w[ profile ]
+    desc 'Get your profile and accounts info.', scopes: %w[profile], success: APIv2::Entities::Member
     get '/members/me' do
       present current_user, with: APIv2::Entities::Member
     end

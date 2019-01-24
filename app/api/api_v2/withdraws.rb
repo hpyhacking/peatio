@@ -8,7 +8,9 @@ module APIv2
     before { authenticate! }
     before { withdraws_must_be_permitted! }
 
-    desc 'List your withdraws as paginated collection.', scopes: %w[ history ]
+    desc 'List your withdraws as paginated collection.', scopes: %w[history],
+      is_array: true,
+      success: APIv2::Entities::Withdraw
     params do
       optional :currency, type: String,  values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { "Any supported currencies: #{Currency.enabled.codes(bothcase: true).join(',')}." }
       optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'Page number (defaults to 1).'

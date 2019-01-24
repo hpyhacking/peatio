@@ -10,7 +10,10 @@ module APIv2
     before { authenticate! }
     before { deposits_must_be_permitted! }
 
-    desc 'Get your deposits history.'
+    desc 'Get your deposits history.',
+    is_array: true,
+    success: APIv2::Entities::Deposit
+
     params do
       optional :currency, type: String, values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { "Currency value contains #{Currency.enabled.codes(bothcase: true).join(',')}" }
       optional :limit, type: Integer, range: 1..100, default: 3, desc: "Set result limit."
@@ -23,7 +26,9 @@ module APIv2
       present deposits, with: APIv2::Entities::Deposit
     end
 
-    desc 'Get details of specific deposit.'
+    desc 'Get details of specific deposit.' do
+      success APIv2::Entities::Deposit
+    end
     params do
       requires :txid
     end
@@ -36,7 +41,8 @@ module APIv2
 
     desc 'Returns deposit address for account you want to deposit to. ' \
          'The address may be blank because address generation process is still in progress. ' \
-         'If this case you should try again later.'
+         'If this case you should try again later.',
+          success: APIv2::Entities::Deposit
     params do
       requires :currency, type: String, values: -> { Currency.coins.enabled.codes(bothcase: true) }, desc: 'The account you want to deposit to.'
       given :currency do
@@ -51,7 +57,8 @@ module APIv2
 
     desc 'Returns new deposit address for account you want to deposit to. ' \
          'The address may be blank because address generation process is still in progress. ' \
-         'If this case you should try again later. '
+         'If this case you should try again later. ',
+         success: APIv2::Entities::Deposit
     params do
       requires :currency, type: String, values: -> { Currency.coins.enabled.codes(bothcase: true) }, desc: 'The account you want to deposit to.'
     end
