@@ -2,7 +2,7 @@ Peatio Management API v2
 ========================
 Management API is server-to-server API with high privileges.
 
-**Version:** 2.0.19-alpha
+**Version:** 2.0.20-alpha
 
 **Contact information:**  
 peatio.tech  
@@ -209,6 +209,7 @@ hello@peatio.tech
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | formData | The currency code. | Yes | string |
+| code | formData | Operation account code | Yes | integer |
 | debit | formData | Operation debit amount. | No | double |
 | credit | formData | Operation credit amount. | No | double |
 
@@ -247,6 +248,7 @@ hello@peatio.tech
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | formData | The currency code. | Yes | string |
+| code | formData | Operation account code | Yes | integer |
 | debit | formData | Operation debit amount. | No | double |
 | credit | formData | Operation credit amount. | No | double |
 
@@ -285,6 +287,7 @@ hello@peatio.tech
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | formData | The currency code. | Yes | string |
+| code | formData | Operation account code | Yes | integer |
 | debit | formData | Operation debit amount. | No | double |
 | credit | formData | Operation credit amount. | No | double |
 
@@ -323,7 +326,8 @@ hello@peatio.tech
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | formData | The currency code. | Yes | string |
-| uid | formData | The user ID for operation owner. | No | string |
+| code | formData | Operation account code | Yes | integer |
+| uid | formData | The user ID for operation owner. | Yes | string |
 | debit | formData | Operation debit amount. | No | double |
 | credit | formData | Operation credit amount. | No | double |
 
@@ -352,6 +356,31 @@ hello@peatio.tech
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns liabilities as paginated collection. | [Operation](#operation) |
+
+### /transfers/new
+---
+##### ***POST***
+**Description:** Creates new transfer.
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| key | formData | Unique Transfer Key. | Yes | integer |
+| kind | formData | Transfer Kind. | Yes | string |
+| desc | formData | Transfer Description. | No | string |
+| operations[currency] | formData | Operation currency. | Yes | [ string ] |
+| operations[amount] | formData | Operation amount. | Yes | [ double ] |
+| operations[account_src][code] | formData | Source Account code. | Yes | [ integer ] |
+| operations[account_src][uid] | formData | Source Account User ID (for accounts with member scope). | Yes | [ string ] |
+| operations[account_dst][code] | formData | Destination Account code. | Yes | [ integer ] |
+| operations[account_dst][uid] | formData | Destination Account User ID (for accounts with member scope). | Yes | [ string ] |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Creates new transfer. |
 
 ### Models
 ---

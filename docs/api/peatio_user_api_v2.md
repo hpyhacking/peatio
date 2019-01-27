@@ -2,7 +2,7 @@ Peatio User API v2
 ==================
 API for Peatio application.
 
-**Version:** 2.0.19-alpha
+**Version:** 2.0.20-alpha
 
 **Contact information:**  
 peatio.tech  
@@ -45,13 +45,13 @@ hello@peatio.tech
 ### /public/member-levels
 ---
 ##### ***GET***
-**Description:** Returns list of member levels and the privileges they provide.
+**Description:** Returns hash of minimum levels and the privileges they provide.
 
 **Responses**
 
 | Code | Description |
 | ---- | ----------- |
-| 200 | Returns list of member levels and the privileges they provide. |
+| 200 | Returns hash of minimum levels and the privileges they provide. |
 
 ### /public/markets/{market}/tickers
 ---
@@ -312,8 +312,9 @@ hello@peatio.tech
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | query | Currency value contains bch,btc,dash,eth,ltc,trst,usd,xrp,BCH,BTC,DASH,ETH,LTC,TRST,USD,XRP | No | string |
-| limit | query | Set result limit. | No | integer |
 | state | query |  | No | string |
+| limit | query | Set result limit. | No | integer |
+| page | query | Page number (defaults to 1). | No | integer |
 
 **Responses**
 
@@ -367,7 +368,7 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query |  | Yes | string |
+| market | query |  | No | string |
 | limit | query | Limit the number of returned trades. Default to 50. | No | integer |
 | timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned. | No | integer |
 | from | query | Trade id. If set, only trades created after the trade will be returned. | No | integer |
@@ -442,8 +443,8 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query |  | Yes | string |
-| state | query | Filter order by state, default to "wait" (active orders). | No | string |
+| market | query |  | No | string |
+| state | query | Filter order by state. | No | string |
 | limit | query | Limit the number of returned orders, default to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
 | order_by | query | If set, returned orders will be sorted in specific order, default to "asc". | No | string |
