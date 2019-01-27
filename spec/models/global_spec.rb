@@ -6,7 +6,7 @@ describe Global, '.avg_h24_price' do
   before { clear_redis }
   after { clear_redis }
   
-  let(:market) { Market.all.sample }
+  let(:market) { Market.all.sample.id.to_sym }
   let(:global) { Global[market] }
   context 'no trades executed' do
     it 'returns 0' do
@@ -15,14 +15,14 @@ describe Global, '.avg_h24_price' do
   end
 
   context 'no trades executed for last 24 hours' do
-    let!(:trades) { create_list(:trade, 10, market: market, created_at: 24.hours.ago - 1) }
+    let!(:trades) { create_list(:trade, 10, market, created_at: 24.hours.ago - 1) }
     it 'returns 0' do
       expect(global.avg_h24_price).to eq 0.to_d
     end
   end
 
   context 'single trade executed during last 24 hours' do
-    let!(:trade) { create(:trade, market: market, price: 5, volume: 2) }
+    let!(:trade) { create(:trade, market, price: 5, volume: 2) }
     it 'returns trade price' do
       expect(global.avg_h24_price).to eq trade.price
     end
@@ -50,7 +50,7 @@ describe Global, '.avg_h24_price' do
 
     let!(:trades) do
       trades_price_volume.each do |h|
-        create(:trade, market: market, price: h[:price], volume: h[:volume])
+        create(:trade, market, price: h[:price], volume: h[:volume])
       end
       Trade.where(market: market)
     end
@@ -64,13 +64,13 @@ describe Global, '.avg_h24_price' do
 
       it 'caches VWAP' do
         expect(global.avg_h24_price).to eq old_vwap
-        create(:trade, market: market, price: 15, volume: 20)
+        create(:trade, market, price: 15, volume: 20)
         expect(global.avg_h24_price).to eq old_vwap
       end
 
       it 'updates VWAP after redis clear' do
         expect(global.avg_h24_price).to eq old_vwap
-        new_trade = create(:trade, market: market, price: 15, volume: 20)
+        new_trade = create(:trade, market, price: 15, volume: 20)
 
         updated_trades = [*trades, new_trade]
         new_vwap = calculate_vwap(updated_trades)
