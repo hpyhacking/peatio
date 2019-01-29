@@ -2,7 +2,7 @@ Member API v2
 =============
 Member API is API which can be used by client application like SPA.
 
-**Version:** 1.9.18
+**Version:** 1.9.19
 
 **Contact information:**  
 peatio.tech  
@@ -55,9 +55,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get all available markets. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get all available markets. | [ [Market](#market) ] |
 
 ### /v2/tickers/{market}
 ---
@@ -68,7 +68,7 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | path | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| market | path |  | Yes | string |
 
 **Responses**
 
@@ -94,9 +94,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get your profile and accounts info. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get your profile and accounts info. | [Member](#member) |
 
 ### /v2/deposits
 ---
@@ -113,9 +113,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get your deposits history. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get your deposits history. | [ [Deposit](#deposit) ] |
 
 ### /v2/deposit
 ---
@@ -130,9 +130,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get details of specific deposit. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get details of specific deposit. | [Deposit](#deposit) |
 
 ### /v2/deposit_address
 ---
@@ -148,9 +148,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Returns deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Returns deposit address for account you want to deposit to. The address may be blank because address generation process is still in progress. If this case you should try again later. | [Deposit](#deposit) |
 
 ### /v2/orders/clear
 ---
@@ -165,9 +165,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 201 | Cancel all my orders. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Cancel all my orders. | [ [Order](#order) ] |
 
 ### /v2/orders
 ---
@@ -178,17 +178,17 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | formData | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
-| side | formData | Either 'sell' or 'buy'. | Yes | string |
-| volume | formData | The amount user want to sell/buy. An order could be partially executed, e.g. an order sell 5 btc can be matched with a buy 3 btc order, left 2 btc to be sold; in this case the order's volume would be '5.0', its remaining_volume would be '2.0', its executed volume is '3.0'. | Yes | float |
+| market | formData |  | Yes | string |
+| side | formData |  | Yes | string |
+| volume | formData |  | Yes | float |
 | ord_type | formData |  | No | string |
-| price | formData | Price for each unit. e.g. If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | Yes | float |
+| price | formData |  | Yes | float |
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 201 | Create a Sell/Buy order. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Create a Sell/Buy order. | [Order](#order) |
 
 ##### ***GET***
 **Description:** Get your orders, results is paginated.
@@ -197,7 +197,7 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| market | query |  | Yes | string |
 | state | query | Filter order by state, default to 'wait' (active orders). | No | string |
 | limit | query | Limit the number of returned orders, default to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
@@ -205,9 +205,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get your orders, results is paginated. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get your orders, results is paginated. | [ [Order](#order) ] |
 
 ### /v2/orders/multi
 ---
@@ -218,17 +218,17 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | formData | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
-| orders[side] | formData | Either 'sell' or 'buy'. | Yes | [ string ] |
-| orders[volume] | formData | The amount user want to sell/buy. An order could be partially executed, e.g. an order sell 5 btc can be matched with a buy 3 btc order, left 2 btc to be sold; in this case the order's volume would be '5.0', its remaining_volume would be '2.0', its executed volume is '3.0'. | Yes | [ float ] |
+| market | formData |  | Yes | string |
+| orders[side] | formData |  | Yes | [ string ] |
+| orders[volume] | formData |  | Yes | [ float ] |
 | orders[ord_type] | formData |  | No | [ string ] |
-| orders[price] | formData | Price for each unit. e.g. If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | Yes | [ float ] |
+| orders[price] | formData |  | Yes | [ float ] |
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 201 | Create multiple sell/buy orders. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Create multiple sell/buy orders. | [ [Order](#order) ] |
 
 ### /v2/order/delete
 ---
@@ -239,13 +239,13 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| id | formData | Unique order id. | Yes | integer |
+| id | formData |  | Yes | integer |
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 201 | Cancel an order. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Cancel an order. | [Order](#order) |
 
 ### /v2/order
 ---
@@ -256,13 +256,13 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| id | query | Unique order id. | Yes | integer |
+| id | query |  | Yes | integer |
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get information of specified order. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get information of specified order. | [Order](#order) |
 
 ### /v2/order_book
 ---
@@ -273,15 +273,15 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| market | query |  | Yes | string |
 | asks_limit | query | Limit the number of returned sell orders. Default to 20. | No | integer |
 | bids_limit | query | Limit the number of returned buy orders. Default to 20. | No | integer |
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get the order book of specified market. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get the order book of specified market. | [ [OrderBook](#orderbook) ] |
 
 ### /v2/depth
 ---
@@ -292,7 +292,7 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| market | query |  | Yes | string |
 | limit | query | Limit the number of returned price levels. Default to 300. | No | integer |
 
 **Responses**
@@ -310,7 +310,7 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| market | query |  | Yes | string |
 | limit | query | Limit the number of returned trades. Default to 50. | No | integer |
 | timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned. | No | integer |
 | from | query | Trade id. If set, only trades created after the trade will be returned. | No | integer |
@@ -319,9 +319,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get your executed trades. Trades are sorted in reverse creation order. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get your executed trades. Trades are sorted in reverse creation order. | [ [Trade](#trade) ] |
 
 ### /v2/trades
 ---
@@ -332,7 +332,7 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| market | query |  | Yes | string |
 | limit | query | Limit the number of returned trades. Default to 50. | No | integer |
 | timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned. | No | integer |
 | from | query | Trade id. If set, only trades created after the trade will be returned. | No | integer |
@@ -341,9 +341,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order. | [ [Trade](#trade) ] |
 
 ### /v2/k
 ---
@@ -354,7 +354,7 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| market | query |  | Yes | string |
 | period | query | Time period of K line, default to 1. You can choose between 1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080 | No | integer |
 | time_from | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data after that time will be returned. | No | integer |
 | time_to | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data till that time will be returned. | No | integer |
@@ -375,7 +375,7 @@ hello@peatio.tech
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| market | query | Unique market id. It's always in the form of xxxyyy, where xxx is the base currency code, yyy is the quote currency code, e.g. 'btcusd'. All available markets can be found at /api/v2/markets. | Yes | string |
+| market | query |  | Yes | string |
 | trade_id | query | The trade id of the first trade you received. | Yes | integer |
 | period | query | Time period of K line, default to 1. You can choose between 1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080 | No | integer |
 | time_from | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data after that time will be returned. | No | integer |
@@ -414,9 +414,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | List your withdraws as paginated collection. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | List your withdraws as paginated collection. | [ [Withdraw](#withdraw) ] |
 
 ### /v2/sessions
 ---
@@ -456,9 +456,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Returns deposit fees for currencies. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Returns deposit fees for currencies. | [Deposit](#deposit) |
 
 ### /v2/fees/withdraw
 ---
@@ -467,9 +467,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Returns withdraw fees for currencies. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Returns withdraw fees for currencies. | [Withdraw](#withdraw) |
 
 ### /v2/member_levels
 ---
@@ -495,9 +495,9 @@ hello@peatio.tech
 
 **Responses**
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get currency trades at last 24h |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get currency trades at last 24h | [Trade](#trade) |
 
 ### /v2/currencies
 ---
@@ -545,6 +545,106 @@ Get list of user accounts
 | currency | string | Currency code. | No |
 | balance | double | Account balance. | No |
 | locked | double | Account locked funds. | No |
+
+### Market  
+
+Get all available markets.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | string | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No |
+| name | string | Market name. | No |
+
+### Member  
+
+Get your profile and accounts info.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| sn | string |  | No |
+| email | string |  | No |
+| accounts | [Account](#account) |  | No |
+
+### Deposit  
+
+Returns deposit fees for currencies.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Unique deposit id. | No |
+| currency | string | Deposit currency id. | No |
+| amount | double | Deposit amount. | No |
+| fee | double | Deposit fee. | No |
+| txid | string | Deposit transaction id. | No |
+| confirmations | integer | Number of deposit confirmations. | No |
+| state | string | Deposit state. | No |
+| created_at | string | The datetime when deposit was created. | No |
+| completed_at | string | The datetime when deposit was completed.. | No |
+
+### Order  
+
+Get information of specified order.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Unique order id. | No |
+| side | string | Either 'sell' or 'buy'. | No |
+| ord_type | string | Type of order, either 'limit' or 'market'. | No |
+| price | double | Price for each unit. e.g.If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | No |
+| avg_price | double | Average execution price, average of price in trades. | No |
+| state | string | One of 'wait', 'done', or 'cancel'.An order in 'wait' is an active order, waiting fulfillment;a 'done' order is an order fulfilled;'cancel' means the order has been canceled. | No |
+| market | string | The market in which the order is placed, e.g. 'btcusd'.All available markets can be found at /api/v2/markets. | No |
+| created_at | string | Order create time in iso8601 format. | No |
+| volume | double | The amount user want to sell/buy.An order could be partially executed,e.g. an order sell 5 btc can be matched with a buy 3 btc order,left 2 btc to be sold; in this case the order's volume would be '5.0',its remaining_volume would be '2.0', its executed volume is '3.0'. | No |
+| remaining_volume | double | The remaining volume, see 'volume'. | No |
+| executed_volume | double | The executed volume, see 'volume'. | No |
+| trades_count | integer | Count of trades. | No |
+| trades | [ [Trade](#trade) ] | Trades wiht this order. | No |
+
+### Trade  
+
+Get currency trades at last 24h
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | string |  | No |
+| price | string |  | No |
+| volume | string |  | No |
+| funds | string |  | No |
+| market | string |  | No |
+| created_at | string |  | No |
+| maker_type | string |  | No |
+| type | string |  | No |
+| side | string |  | No |
+| order_id | string |  | No |
+
+### OrderBook  
+
+Get the order book of specified market.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| asks | [Order](#order) |  | No |
+| bids | [Order](#order) |  | No |
+
+### Withdraw  
+
+Returns withdraw fees for currencies.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | string |  | No |
+| currency | string |  | No |
+| type | string |  | No |
+| amount | string |  | No |
+| fee | string |  | No |
+| blockchain_txid | string |  | No |
+| rid | string |  | No |
+| state | string |  | No |
+| confirmations | string |  | No |
+| created_at | string |  | No |
+| updated_at | string |  | No |
+| done_at | string |  | No |
 
 ### Currency  
 
