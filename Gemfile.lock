@@ -1,3 +1,17 @@
+GIT
+  remote: https://github.com/ysv/peatio-core
+  revision: 12eabe52efe03c5f88f4601b1cfa4318da174a3c
+  branch: feature/plugable-currencies
+  specs:
+    peatio (0.4.5)
+      amqp
+      bunny
+      clamp
+      em-websocket
+      eventmachine
+      jwt
+      mysql2
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -221,14 +235,6 @@ GEM
     parser (2.5.3.0)
       ast (~> 2.4.0)
     passgen (1.0.2)
-    peatio (0.4.5)
-      amqp
-      bunny
-      clamp
-      em-websocket
-      eventmachine
-      jwt
-      mysql2
     popper_js (1.14.5)
     powerpack (0.1.2)
     pry (0.12.2)
@@ -438,7 +444,7 @@ DEPENDENCIES
   mocha (~> 1.4)
   mysql2 (~> 0.4.10)
   passgen (~> 1.0.2)
-  peatio (~> 0.4.5)
+  peatio!
   pry-byebug (~> 3.6)
   puma (~> 3.11.4)
   quiet_assets (~> 1.1)
