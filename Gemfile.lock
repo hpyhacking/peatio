@@ -12,6 +12,12 @@ GIT
       jwt
       mysql2
 
+GIT
+  remote: https://github.com/ysv/peatio-ethereum
+  revision: 8b8cfa43d7d4f530f19e9a851b001a83c2f7b98c
+  specs:
+    peatio-ethereum (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -445,6 +451,7 @@ DEPENDENCIES
   mysql2 (~> 0.4.10)
   passgen (~> 1.0.2)
   peatio!
+  peatio-ethereum!
   pry-byebug (~> 3.6)
   puma (~> 3.11.4)
   quiet_assets (~> 1.1)
