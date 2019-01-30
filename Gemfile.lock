@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/ysv/peatio-core
-  revision: 12eabe52efe03c5f88f4601b1cfa4318da174a3c
+  revision: 1c9b43052ebc45fa8722fca6b47a7b0d6f53d3f0
   branch: feature/plugable-currencies
   specs:
     peatio (0.4.5)
@@ -10,6 +10,7 @@ GIT
       em-websocket
       eventmachine
       jwt
+      method-not-implemented
       mysql2
 
 GIT
