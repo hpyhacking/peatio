@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/ysv/peatio-core
-  revision: 1c9b43052ebc45fa8722fca6b47a7b0d6f53d3f0
+  revision: 0a440555727b8bff6a0a3fdf9bc1f73c984f215c
   branch: feature/plugable-currencies
   specs:
     peatio (0.4.5)
