@@ -30,6 +30,10 @@ describe Peatio::BlockchainService::Ethereum do
         .tap { |b| b.update(height: start_block) }
     end
 
+    before do
+      puts blockchain.height
+    end
+
     let(:client) { BlockchainClient[blockchain.key] }
 
     def request_receipt_body(txid, index)
@@ -88,8 +92,6 @@ describe Peatio::BlockchainService::Ethereum do
             .to_return(body: rcpt.to_json)
         end
 
-        # Process blockchain data.
-        # 10.times { BlockchainService[blockchain.key].process_blockchain(force: true) }
         BlockchainService[blockchain.key].process_blockchain(force: true)
       end
 
@@ -322,16 +324,8 @@ describe Peatio::BlockchainService::Ethereum do
         expect(subject.count).to eq expected_withdrawals.count
       end
 
-      it 'changes withdraw confirmations amount' do
-        subject.each do |withdrawal|
-          expect(withdrawal.confirmations).to_not eq 0
-          if withdrawal.confirmations >= blockchain.min_confirmations
-            expect(withdrawal.aasm_state).to eq 'succeed'
-          end
-        end
-      end
-
-      it 'changes withdraw state if it has enough confirmations' do
+      it 'changes withdraw confirmations amount & state if it has enough confirmations' do
+        # binding.pry
         subject.each do |withdrawal|
           expect(withdrawal.confirmations).to_not eq 0
           if withdrawal.confirmations >= blockchain.min_confirmations

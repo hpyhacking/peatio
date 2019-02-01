@@ -43,8 +43,8 @@ class BlockchainService
     from_block.upto(to_block) do |block_number|
       process_block(block_number)
     end
-    # binding.pry
-    update_height
+    # TODO: Tricky!!!
+    update_height if @service.current_block
   # rescue => e
   #   report_exception(e)
   #   Rails.logger.info { "Exception was raised during block processing." }
@@ -59,7 +59,8 @@ class BlockchainService
 
     ActiveRecord::Base.transaction do
       # binding.pry
-      # pp block_number, @service.filtered_deposits(addresses)
+      pp "withdrawals=#{withdrawals.count}"
+      pp block_number, @service.filtered_withdrawals(withdrawals)
       @service.filtered_deposits(addresses, &method(:update_or_create_deposit!))
       @service.filtered_withdrawals(withdrawals, &method(:update_withdrawal!))
     end
