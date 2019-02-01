@@ -29,28 +29,45 @@ describe API::V2::Account::Deposits, type: :request do
 
     it 'returns all deposits num' do
       api_get '/api/v2/account/deposits', token: token
-      expect(JSON.parse(response.body).size).to eq 4
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 4
+
+      expect(response.headers.fetch('Total')).to eq '4'
     end
 
     it 'returns limited deposits' do
-      api_get '/api/v2/account/deposits', params: { limit: 1 }, token: token
-      expect(JSON.parse(response.body).size).to eq 1
+      api_get '/api/v2/account/deposits', params: { limit: 2, page: 1 }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 2
+      expect(response.headers.fetch('Total')).to eq '4'
+
+      api_get '/api/v2/account/deposits', params: { limit: 1, page: 2 }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 1
+      expect(response.headers.fetch('Total')).to eq '4'
     end
 
-    it 'filter deposits by state' do
+    it 'filters deposits by state' do
       api_get '/api/v2/account/deposits', params: { state: 'canceled' }, token: token
-      expect(JSON.parse(response.body).size).to eq 0
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 0
 
       d = create(:deposit_btc, member: member, aasm_state: :canceled)
       api_get '/api/v2/account/deposits', params: { state: 'canceled' }, token: token
-      json = JSON.parse(response.body)
-      expect(json.size).to eq 1
-      expect(json.first['txid']).to eq d.txid
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 1
+      expect(result.first['txid']).to eq d.txid
     end
 
     it 'returns deposits for currency usd' do
       api_get '/api/v2/account/deposits', params: { currency: 'usd' }, token: token
       result = JSON.parse(response.body)
+
       expect(result.size).to eq 2
       expect(result.all? { |d| d['currency'] == 'usd' }).to be_truthy
     end
@@ -58,7 +75,8 @@ describe API::V2::Account::Deposits, type: :request do
     it 'returns deposits for currency btc' do
       api_get '/api/v2/account/deposits', params: { currency: 'btc' }, token: token
       result = JSON.parse(response.body)
-      expect(result.size).to eq 2
+
+      expect(response.headers.fetch('Total')).to eq '2'
       expect(result.all? { |d| d['currency'] == 'btc' }).to be_truthy
     end
 
@@ -67,23 +85,25 @@ describe API::V2::Account::Deposits, type: :request do
       expect(response.code).to eq '404'
     end
 
-    it 'return 404 if txid not belongs_to you ' do
+    it 'returns 404 if txid not belongs_to you ' do
       api_get '/api/v2/account/deposits/10', token: token
       expect(response.code).to eq '404'
     end
 
-    it 'ok txid if exist' do
+    it 'returns deposit txid if exist' do
       api_get '/api/v2/account/deposits/1', token: token
+      result = JSON.parse(response.body)
 
       expect(response.code).to eq '200'
-      expect(JSON.parse(response.body)['amount']).to eq '520.0'
+      expect(result['amount']).to eq '520.0'
     end
 
-    it 'return deposit no time limit ' do
+    it 'returns deposit no time limit ' do
       api_get '/api/v2/account/deposits/test', token: token
+      result = JSON.parse(response.body)
 
       expect(response.code).to eq '200'
-      expect(JSON.parse(response.body)['amount']).to eq '111.0'
+      expect(result['amount']).to eq '111.0'
     end
 
     it 'denies access to unverified member' do

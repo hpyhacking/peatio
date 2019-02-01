@@ -16,17 +16,13 @@ module API
           optional :state, type: String, values: -> { Order.state.values }, desc: 'Filter order by state.'
           optional :limit, type: Integer, default: 100, range: 1..1000, desc: 'Limit the number of returned orders, default to 100.'
           optional :page,  type: Integer, default: 1, desc: 'Specify the page of paginated results.'
-          optional :order_by, type: String, values: %w(asc desc), default: 'asc', desc: 'If set, returned orders will be sorted in specific order, default to "asc".'
+          optional :order_by, type: String, values: %w(asc desc), default: 'desc', desc: 'If set, returned orders will be sorted in specific order, default to "desc".'
         end
         get '/orders' do
-          orders = current_user.orders
-            .order(order_param)
-            .tap { |q| q.where!(market: params[:market]) if params[:market] }
-            .tap { |q| q.where!(state: params[:state]) if params[:state] }
-            .page(params[:page])
-            .per(params[:limit])
-
-          present orders, with: API::V2::Entities::Order
+          current_user.orders.order(order_param)
+                      .tap { |q| q.where!(market: params[:market]) if params[:market] }
+                      .tap { |q| q.where!(state: params[:state]) if params[:state] }
+                      .tap { |q| present paginate(q), with: API::V2::Entities::Order }
         end
 
         desc 'Get information of specified order.',

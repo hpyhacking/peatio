@@ -8,25 +8,18 @@ module API
         helpers API::V2::NamedParams
 
         desc 'Get your executed trades. Trades are sorted in reverse creation order.',
+          is_array: true,
           success: API::V2::Entities::Trade
         params do
-          optional :market, type: String,
-            desc: -> { V2::Entities::Market.documentation[:id] },
-            values: -> { ::Market.enabled.ids }
+          optional :market, type: String, desc: -> { V2::Entities::Market.documentation[:id] }, values: -> { ::Market.enabled.ids }
           use :trade_filters
         end
         get '/trades' do
 
-          trades = Trade.for_member(
-            current_user, market: params[:market],
-            limit: params[:limit], time_to: time_to,
-            from: params[:from], to: params[:to],
-            order: order_param
-          )
-
-          present trades, with: API::V2::Entities::Trade, current_user: current_user
+          current_user.trades.order(order_param)
+                      .tap { |q| q.where!(market: params[:market]) if params[:market] }
+                      .tap { |q| present paginate(q), with: API::V2::Entities::Trade, current_user: current_user }
         end
-
       end
     end
   end

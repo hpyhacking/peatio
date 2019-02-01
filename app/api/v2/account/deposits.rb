@@ -18,20 +18,16 @@ module API
         params do
           optional :currency, type: String, values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { "Currency value contains #{Currency.enabled.codes(bothcase: true).join(',')}" }
           optional :state,    type: String, values: -> { Deposit::STATES.map(&:to_s) }
-          optional :limit,    type: Integer, default: 100, range: 1..1000, desc: "Set result limit."
+          optional :limit,    type: Integer, default: 100, range: 1..100, desc: "Number of deposits per page (defaults to 100, maximum is 100)."
           optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'Page number (defaults to 1).'
         end
         get "/deposits" do
           currency = Currency.find(params[:currency]) if params[:currency].present?
 
-          current_user
-            .deposits
-            .order(id: :desc)
-            .tap { |q| q.where!(currency: currency) if currency }
-            .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
-            .page(params[:page])
-            .per(params[:limit])
-            .tap { |q| present q, with: API::V2::Entities::Deposit }
+          current_user.deposits.order(id: :desc)
+                      .tap { |q| q.where!(currency: currency) if currency }
+                      .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
+                      .tap { |q| present paginate(q), with: API::V2::Entities::Deposit }
         end
 
         desc 'Get details of specific deposit.' do

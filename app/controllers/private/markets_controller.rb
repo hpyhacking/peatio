@@ -46,7 +46,10 @@ module Private
     def set_member_data
       @member = current_user
       @orders_wait = @member.orders.includes(:market).where(market_id: @market).with_state(:wait)
-      @trades_done = Trade.includes(:market).for_member(current_user, market: @market.id, limit: 100, order: 'id desc')
+      @trades_done = Trade.includes(:market)
+                          .where(market_id: @market)
+                          .where("ask_member_id = ? or bid_member_id = ?", current_user.id, current_user.id)
+                          .order('id desc')
     end
 
     def trading_ui_variables

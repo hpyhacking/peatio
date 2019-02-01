@@ -16,67 +16,80 @@ describe API::V2::Market::Orders, type: :request do
       create(:order_ask, :btcusd, price: '14'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
     end
 
-    it 'should require authentication' do
+    it 'requires authentication' do
       get '/api/v2/market/orders', market: 'btcusd'
       expect(response.code).to eq '401'
     end
 
-    it 'should validate market param' do
+    it 'validates market param' do
       api_get '/api/v2/market/orders', params: { market: 'usdusd' }, token: token
       expect(response).to have_http_status 422
       expect(JSON.parse(response.body)).to eq ({ 'error' => { 'code' => 1001, 'message' => 'market does not have a valid value' } })
     end
 
-    it 'should validate state param' do
+    it 'validates state param' do
       api_get '/api/v2/market/orders', params: { market: 'btcusd', state: 'test' }, token: token
 
       expect(response.code).to eq '422'
       expect(JSON.parse(response.body)).to eq ({ 'error' => { 'code' => 1001, 'message' => 'state does not have a valid value' } })
     end
 
-    it 'should return all order history' do
+    it 'returns all order history' do
       api_get '/api/v2/market/orders', token: token
+      result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(JSON.parse(response.body).size).to eq 5
+      expect(response.headers.fetch('Total')).to eq '5'
+      expect(result.size).to eq 5
     end
 
-    it 'order from second page (limit: 1)' do
+    it 'returns all my orders for btcusd market' do
       api_get '/api/v2/market/orders', params: { market: 'btcusd' }, token: token
+      result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(JSON.parse(response.body).size).to eq 4
+      expect(response.headers.fetch('Total')).to eq '4'
+      expect(result.size).to eq 4
     end
 
-    it 'order from second page (limit: 1)' do
+    it 'returns orders with state done' do
       api_get '/api/v2/market/orders', params: { market: 'btcusd', state: Order::DONE }, token: token
+      result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(JSON.parse(response.body).first['state']).to eq Order::DONE
+      expect(response.headers.fetch('Total')).to eq '1'
+      expect(result.size).to eq 1
+      expect(result.first['state']).to eq Order::DONE
     end
 
-    it 'should return paginated orders' do
+    it 'returns paginated orders' do
       api_get '/api/v2/market/orders', params: { market: 'btcusd', limit: 1, page: 1 }, token: token
+      result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(JSON.parse(response.body).first['price']).to eq '11.0'
+      expect(response.headers.fetch('Total')).to eq '4'
+      expect(result.first['price']).to eq '14.0'
 
       api_get '/api/v2/market/orders', params: { market: 'btcusd', limit: 1, page: 2 }, token: token
+      result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(JSON.parse(response.body).first['price']).to eq '12.0'
+      expect(response.headers.fetch('Total')).to eq '4'
+      expect(result.first['price']).to eq '13.0'
     end
 
-    it 'should sort orders' do
+    it 'returns sorted orders' do
       api_get '/api/v2/market/orders', params: { market: 'btcusd', order_by: 'asc' }, token: token
+      result = JSON.parse(response.body)
+
       expect(response).to be_success
-      orders = JSON.parse(response.body)
-      expect(orders[0]['id']).to be < orders[1]['id']
+      expect(result.first['id']).to be < result.second['id']
 
       api_get '/api/v2/market/orders', params: { market: 'btcusd', order_by: 'desc' }, token: token
+      result = JSON.parse(response.body)
+
       expect(response).to be_success
-      orders = JSON.parse(response.body)
-      expect(orders[0]['id']).to be > orders[1]['id']
+      expect(result.first['id']).to be > result.second['id']
     end
 
     it 'denies access to unverified member' do
@@ -87,8 +100,9 @@ describe API::V2::Market::Orders, type: :request do
 
     it 'removes whitespace from query params and returns all orders' do
       api_get '/api/v2/market/orders', token: token, params: { market: ' btcusd ' }
+
       expect(response).to have_http_status 200
-      expect(JSON.parse(response.body).length).to eq 4
+      expect(response.headers.fetch('Total')).to eq '4'
     end
   end
 

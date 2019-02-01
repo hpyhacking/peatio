@@ -476,28 +476,6 @@ describe API::V2::Public::Markets, type: :request do
       expect(JSON.parse(response.body).size).to eq 1
     end
 
-    it 'returns trades before timestamp' do
-      create(:trade, :btcusd, bid: bid, created_at: 6.hours.ago)
-
-      get "/api/v2/public/markets/#{market}/trades", timestamp: 8.hours.ago.to_i, limit: 1
-      expect(response).to be_success
-
-      json = JSON.parse(response.body)
-      expect(json.size).to eq 1
-      expect(json.first['id']).to eq bid_trade.id
-    end
-
-    it 'returns trades between id range' do
-      another = create(:trade, :btcusd, bid: bid)
-
-      get "/api/v2/public/markets/#{market}/trades", from: ask_trade.id, to: another.id
-      expect(response).to be_success
-
-      json = JSON.parse(response.body)
-      expect(json.size).to eq 1
-      expect(json.first['id']).to eq bid_trade.id
-    end
-
     it 'sorts trades in reverse creation order' do
       get "/api/v2/public/markets/#{market}/trades"
 
@@ -505,79 +483,26 @@ describe API::V2::Public::Markets, type: :request do
       expect(JSON.parse(response.body).first['id']).to eq bid_trade.id
     end
 
-    it 'gets trades by from and limit' do
+    it 'gets trades by page and limit' do
       create(:trade, :btcusd, bid: bid, created_at: 6.hours.ago)
 
-      get "/api/v2/public/markets/#{market}/trades", from: ask_trade.id, limit: 1, order_by: 'asc'
+      get "/api/v2/public/markets/#{market}/trades", limit: 1, page: 1, order_by: 'asc'
 
       expect(response).to be_success
-      expect(JSON.parse(response.body).first['id']).to eq bid_trade.id
+      expect(response.headers.fetch('Total')).to eq '3'
+      expect(JSON.parse(response.body).first['id']).to eq 1
+
+      get "/api/v2/public/markets/#{market}/trades", market: 'btcusd', limit: 1, page: 2, order_by: 'asc'
+
+      expect(response).to be_success
+      expect(response.headers.fetch('Total')).to eq '3'
+      expect(JSON.parse(response.body).first['id']).to eq 2
     end
 
     it 'validates market param' do
       api_get "/api/v2/public/markets/usdusd/trades"
       expect(response).to have_http_status 422
       expect(JSON.parse(response.body)).to eq ({ 'error' => { 'code' => 1001, 'message' => 'market does not have a valid value' } })
-    end
-
-    it 'validates from and to param' do
-      another = create(:trade, :btcusd, bid: bid)
-
-      get "/api/v2/public/markets/#{market}/trades", from: another.id, to: ask_trade.id
-      expect(response).to have_http_status 422
-      expect(response.body).to eq '{"error":{"code":1001,"message":"from should be less than to."}}'
-    end
-
-    it 'validates from and to params without market' do
-      another = create(:trade, :btcusd, bid: bid)
-
-      get "/api/v2/public/markets/usdusd/trades", from: ask_trade.id, to: another.id
-      expect(response).to have_http_status 422
-      expect(response.body).to eq '{"error":{"code":1001,"message":"market does not have a valid value"}}'
-    end
-
-    it 'validates from and to params with negative value' do
-      another = create(:trade, :btcusd, bid: bid)
-
-      get "/api/v2/public/markets/#{market}/trades", from: -(ask_trade.id), to: -(another.id)
-      expect(response).to have_http_status 422
-      expect(response.body).to eq '{"error":{"code":1001,"message":"from is invalid, from should be less than to., to is invalid"}}'
-    end
-
-    it 'validates value of from' do
-      get "/api/v2/public/markets/#{market}/trades", from: -(ask_trade.id)
-
-      expect(response).to have_http_status 422
-      expect(response.body).to eq '{"error":{"code":1001,"message":"from is invalid"}}'
-    end
-
-    it 'validates value of to' do
-      another = create(:trade, :btcusd, bid: bid)
-
-      get "/api/v2/public/markets/#{market}/trades", to: -(another.id)
-      expect(response).to have_http_status 422
-      expect(response.body).to eq '{"error":{"code":1001,"message":"to is invalid"}}'
-    end
-
-    it 'validates empty value of from' do
-      get "/api/v2/public/markets/#{market}/trades", from: nil
-
-      expect(response).to have_http_status 422
-      expect(response.body).to eq '{"error":{"code":1001,"message":"from is empty"}}'
-    end
-
-    it 'validates empty value of to' do
-      get "/api/v2/public/markets/#{market}/trades", to: nil
-
-      expect(response).to have_http_status 422
-      expect(response.body).to eq '{"error":{"code":1001,"message":"to is empty"}}'
-    end
-
-    it 'validates missing value of from and to' do
-      get "/api/v2/public/markets/#{market}/trades", from: '', to: ''
-
-      expect(response).to have_http_status 422
-      expect(response.body).to eq '{"error":{"code":1001,"message":"from should be less than to., from is empty, to is empty"}}'
     end
   end
 end

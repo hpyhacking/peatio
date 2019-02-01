@@ -15,18 +15,14 @@ module API
         params do
           optional :currency, type: String,  values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { "Any supported currencies: #{Currency.enabled.codes(bothcase: true).join(',')}." }
           optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'Page number (defaults to 1).'
-          optional :limit,    type: Integer, default: 100, range: 1..1000, desc: 'Number of withdraws per page (defaults to 100, maximum is 1000).'
+          optional :limit,    type: Integer, default: 100, range: 1..100, desc: 'Number of withdraws per page (defaults to 100, maximum is 100).'
         end
         get '/withdraws' do
           currency = Currency.find(params[:currency]) if params[:currency].present?
 
-          current_user
-            .withdraws
-            .order(id: :desc)
-            .tap { |q| q.where!(currency: currency) if currency }
-            .page(params[:page])
-            .per(params[:limit])
-            .tap { |q| present q, with: API::V2::Entities::Withdraw }
+          current_user.withdraws.order(id: :desc)
+                      .tap { |q| q.where!(currency: currency) if currency }
+                      .tap { |q| present paginate(q), with: API::V2::Entities::Withdraw }
         end
 
         desc 'Creates new crypto withdrawal.'

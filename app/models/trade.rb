@@ -17,8 +17,6 @@ class Trade < ActiveRecord::Base
 
   scope :h24, -> { where('created_at > ?', 24.hours.ago) }
 
-  attr_accessor :side
-
   after_commit on: :create do
     EventAPI.notify ['market', market_id, 'trade_completed'].join('.'), \
       Serializers::EventAPI::TradeCompleted.call(self)
@@ -28,27 +26,17 @@ class Trade < ActiveRecord::Base
     def latest_price(market)
       with_market(market).order(id: :desc).pluck(:price).first.to_d
     end
-
-    def filter(options = {})
-      trades = options[:market] ? with_market(options[:market]).order(options[:order]) : order(options[:order])
-      trades = trades.limit(options[:limit]) if options[:limit].present?
-      trades = trades.where('created_at <= ?', options[:time_to]) if options[:time_to].present?
-      trades = trades.where('id > ?', options[:from]) if options[:from].present?
-      trades = trades.where('id < ?', options[:to]) if options[:to].present?
-      trades
-    end
-
-    def for_member(member, options={})
-      trades = filter(options).where("ask_member_id = ? or bid_member_id = ?", member.id, member.id)
-      trades.each do |trade|
-        trade.side = trade.ask_member_id == member.id ? 'ask' : 'bid'
-      end
-    end
   end
 
-  def for_notify(kind = nil)
+  def side(member)
+    return unless member
+
+    self.ask_member_id == member.id ? 'ask' : 'bid'
+  end
+
+  def for_notify(member = nil)
     { id:     id,
-      kind:   kind || side,
+      kind:   side(member),
       at:     created_at.to_i,
       price:  price.to_s  || ZERO,
       volume: volume.to_s || ZERO,

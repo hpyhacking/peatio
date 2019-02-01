@@ -67,13 +67,13 @@ module API
 
         expose(
           :side,
-          if: ->(trade, options) { options[:side] || trade.side },
+          if: ->(trade, options) { options[:side] || options[:current_user] },
           documentation: {
             type: String,
             desc: 'Trade side.'
           }
         ) do |trade, options|
-            options[:side] || trade.side
+            options[:side] || trade.side(options[:current_user])
           end
 
         expose(

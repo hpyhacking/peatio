@@ -11,19 +11,21 @@ describe API::V2::Account::Withdraws, type: :request do
     let!(:btc_withdraws) { create_list(:btc_withdraw, 20, member: member) }
     let!(:usd_withdraws) { create_list(:usd_withdraw, 20, member: member) }
 
-    it 'require authentication' do
+    it 'requires authentication' do
       get '/api/v2/account/withdraws'
       expect(response.code).to eq '401'
     end
 
     it 'validates currency param' do
       api_get '/api/v2/account/withdraws', params: { currency: 'FOO' }, token: token
+
       expect(response.code).to eq '422'
       expect(response.body).to eq '{"error":{"code":1001,"message":"currency does not have a valid value"}}'
     end
 
     it 'validates page param' do
       api_get '/api/v2/account/withdraws', params: { page: -1 }, token: token
+
       expect(response.code).to eq '422'
       expect(response.body).to eq '{"error":{"code":1001,"message":"page page must be greater than zero."}}'
     end
@@ -31,31 +33,43 @@ describe API::V2::Account::Withdraws, type: :request do
     it 'validates limit param' do
       api_get '/api/v2/account/withdraws', params: { limit: 9999 }, token: token
       expect(response.code).to eq '422'
-      expect(response.body).to eq '{"error":{"code":1001,"message":"limit must be in range: 1..1000."}}'
+      expect(response.body).to eq '{"error":{"code":1001,"message":"limit must be in range: 1..100."}}'
     end
 
     it 'returns withdraws for all currencies by default' do
-      api_get '/api/v2/account/withdraws', params: { limit: 1000 }, token: token
+      api_get '/api/v2/account/withdraws', params: { limit: 100 }, token: token
+      result = JSON.parse(response.body)
+
       expect(response).to be_success
-      expect(JSON.parse(response.body).map { |x| x['currency'] }.uniq.sort).to eq %w[ btc usd ]
+      expect(response.headers.fetch('Total')).to eq '40'
+      expect(result.map { |x| x['currency'] }.uniq.sort).to eq %w[ btc usd ]
     end
 
     it 'returns withdraws specified currency' do
-      api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 1000 }, token: token
+      api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 100 }, token: token
+      result = JSON.parse(response.body)
+
       expect(response).to be_success
-      expect(JSON.parse(response.body).map { |x| x['currency'] }.uniq.sort).to eq %w[ btc ]
+      expect(response.headers.fetch('Total')).to eq '20'
+      expect(result.map { |x| x['currency'] }.uniq.sort).to eq %w[ btc ]
     end
 
     it 'paginates withdraws' do
       ordered_withdraws = btc_withdraws.sort_by(&:id).reverse
 
       api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 10, page: 1 }, token: token
+      result = JSON.parse(response.body)
+
       expect(response).to be_success
-      expect(JSON.parse(response.body).first['id']).to eq ordered_withdraws[0].id
+      expect(response.headers.fetch('Total')).to eq '20'
+      expect(result.first['id']).to eq ordered_withdraws[0].id
 
       api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 10, page: 2 }, token: token
+      result = JSON.parse(response.body)
+
       expect(response).to be_success
-      expect(JSON.parse(response.body).first['id']).to eq ordered_withdraws[10].id
+      expect(response.headers.fetch('Total')).to eq '20'
+      expect(result.first['id']).to eq ordered_withdraws[10].id
     end
 
     it 'sorts withdraws' do
@@ -63,8 +77,9 @@ describe API::V2::Account::Withdraws, type: :request do
 
       api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 100 }, token: token
       expect(response).to be_success
-      results = JSON.parse(response.body)
-      expect(results.map { |x| x['id'] }).to eq ordered_withdraws.map(&:id)
+      result = JSON.parse(response.body)
+
+      expect(result.map { |x| x['id'] }).to eq ordered_withdraws.map(&:id)
     end
 
     it 'denies access to unverified member' do

@@ -12,47 +12,12 @@ describe Trade, '.latest_price' do
   end
 end
 
-describe Trade, '.for_member' do
-  let(:member) { create(:member, :level_3) }
-  let(:ask)    { create(:order_ask, :btcusd, member: member) }
-  let(:bid)    { create(:order_bid, :btcusd, member: member) }
-
-  let!(:trades) do
-    [
-      create(:trade, :btcusd, ask: ask, created_at: 2.days.ago),
-      create(:trade, :btcusd, bid: bid, created_at: 1.day.ago)
-    ]
-  end
-
-  it 'should add side attribute on trades' do
-    results = Trade.for_member(member, market: ask.market_id)
-    expect(results.size).to eq 2
-    expect(results.find { |t| t.id == trades.first.id }.side).to eq 'ask'
-    expect(results.find { |t| t.id == trades.last.id  }.side).to eq 'bid'
-  end
-
-  it 'should sort trades in reverse creation order' do
-    expect(Trade.for_member(member, market: ask.market_id, order: 'id desc').first).to eq trades.last
-  end
-
-  it 'should return 1 trade' do
-    results = Trade.for_member(member, market: ask.market_id, limit: 1)
-    expect(results.size).to eq 1
-  end
-
-  it 'should return trades from specified time' do
-    results = Trade.for_member(member, market: ask.market_id, time_to: 30.hours.ago)
-    expect(results.size).to eq 1
-    expect(results.first).to eq trades.first
-  end
-end
-
 describe Trade, '#for_notify' do
   let(:order_ask) { create(:order_ask, :btcusd) }
   let(:order_bid) { create(:order_bid, :btcusd) }
   let(:trade) { create(:trade, :btcusd, ask: order_ask, bid: order_bid) }
 
-  subject(:notify) { trade.for_notify('ask') }
+  subject(:notify) { trade.for_notify(order_ask.member) }
 
   it { expect(notify).not_to be_blank }
   it { expect(notify[:kind]).not_to be_blank }
@@ -63,8 +28,7 @@ describe Trade, '#for_notify' do
   it { expect(notify[:bid_id]).to eq(order_bid.id) }
 
   it 'should use side as kind' do
-    trade.side = 'ask'
-    expect(trade.for_notify[:kind]).to eq 'ask'
+    expect(trade.for_notify(Member.find(trade.ask_member_id))[:kind]).to eq 'ask'
   end
 end
 

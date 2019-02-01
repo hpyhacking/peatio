@@ -40,11 +40,9 @@ module API
             use :market, :trade_filters
           end
           get ":market/trades" do
-            trades = Trade.filter(market: params[:market],
-              limit: params[:limit], time_to: time_to,
-              from: params[:from], to: params[:to],
-              order: order_param)
-            present trades, with: API::V2::Entities::Trade
+            Trade.order(order_param)
+                 .tap { |q| q.where!(market: params[:market]) if params[:market] }
+                 .tap { |q| present paginate(q), with: API::V2::Entities::Trade }
           end
 
           desc 'Get depth or specified market. Both asks and bids are sorted from highest price to lowest.'
