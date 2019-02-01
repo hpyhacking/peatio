@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-describe BlockchainService::Ethereum do
+describe Peatio::BlockchainService::Ethereum do
 
   around do |example|
     WebMock.disable_net_connect!
@@ -89,6 +89,7 @@ describe BlockchainService::Ethereum do
         end
 
         # Process blockchain data.
+        # 10.times { BlockchainService[blockchain.key].process_blockchain(force: true) }
         BlockchainService[blockchain.key].process_blockchain(force: true)
       end
 

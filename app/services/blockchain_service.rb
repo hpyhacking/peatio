@@ -17,7 +17,10 @@ class BlockchainService
     end
   end
 
+  attr_reader :blockchain
+
   def initialize(blockchain)
+    @blockchain = blockchain
     @service =
         "Peatio::BlockchainService::#{blockchain.client.capitalize}"
           .constantize
@@ -26,167 +29,78 @@ class BlockchainService
     # TODO: Raise Peatio::Blockchain::Error unless class exist.
   end
 
-  def process_blockchain
-    @service.fetch_block!
-    # latest_block_number is in block Hash.
-    addresses = PaymentAddress.all
-    withdrawals = Withdraw::Coin.all
-
-    ActiveRecord::Base.transaction do
-      @service.filtered_deposits(addresses) do |d|
-        # update_or_create_deposit!(d)
-      end
-
-      @service.filtered_withdrawals(withdrawals) do |w|
-        # update_or_create_withdrawal!(w)
-      end
-      # update_height
-      # save_block(block_data, nil)
+  def process_blockchain(blocks_limit: 250, force: false)
+    # Don't start process if we didn't receive new blocks.
+    latest_block = @service.latest_block
+    if @blockchain.height + @blockchain.min_confirmations >= latest_block && !force
+      Rails.logger.info { "Skip synchronization. No new blocks detected height: #{@blockchain.height}, latest_block: #{latest_block}" }
+      return
     end
-  rescue => e
-    report_exception(e)
-    Rails.logger.info { "Exception was raised during block processing." }
+
+    from_block = @blockchain.height
+    to_block = [latest_block, from_block + blocks_limit]. min
+    # binding.pry
+    from_block.upto(to_block) do |block_number|
+      process_block(block_number)
+    end
+    # binding.pry
+    update_height
+  # rescue => e
+  #   report_exception(e)
+  #   Rails.logger.info { "Exception was raised during block processing." }
   end
 
-  # def save_block(block, latest_block_number)
-  #   block[:deposits].map { |d| d[:txid] }.join(',').tap do |txids|
-  #     Rails.logger.info { "Deposit trancations in block #{block[:id]}: #{txids}" }
-  #   end
-  #
-  #   block[:withdrawals].map { |d| d[:txid] }.join(',').tap do |txids|
-  #     Rails.logger.info { "Withdraw trancations in block #{block[:id]}: #{txids}" }
-  #   end
-  #
-  #   ActiveRecord::Base.transaction do
-  #     update_or_create_deposits!(block[:deposits])
-  #     update_withdrawals!(block[:withdrawals])
-  #     update_height(block[:id], latest_block_number)
-  #   end
-  # end
-  #
-  # def update_or_create_deposits!(deposits)
-  #   deposits.each do |deposit_hash|
-  #     # If deposit doesn't exist create it.
-  #     deposit = Deposits::Coin
-  #                 .where(currency: currencies)
-  #                 .find_or_create_by!(deposit_hash.slice(:txid, :txout)) do |deposit|
-  #       deposit.assign_attributes(deposit_hash)
-  #     end
-  #
-  #     deposit.update_column(:block_number, deposit_hash.fetch(:block_number))
-  #     if deposit.confirmations >= blockchain.min_confirmations
-  #       deposit.collect! if deposit.accept!
-  #     end
-  #   end
-  # end
-  #
-  # def update_withdrawals!(withdrawals)
-  #   withdrawals.each do |withdrawal_hash|
-  #
-  #     withdrawal = Withdraws::Coin
-  #                    .confirming
-  #                    .where(currency: currencies)
-  #                    .find_by(withdrawal_hash.slice(:txid)) do |withdrawal|
-  #       withdrawal.assign_attributes(withdrawal_hash)
-  #     end
-  #
-  #     # Skip non-existing in database withdrawals.
-  #     if withdrawal.blank?
-  #       Rails.logger.info { "Skipped withdrawal: #{withdrawal_hash[:txid]}." }
-  #       next
-  #     end
-  #
-  #     withdrawal.update_column(:block_number, withdrawal_hash.fetch(:block_number))
-  #     withdrawal.success! if withdrawal.confirmations >= blockchain.min_confirmations
-  #   end
-  # end
-  #
-  # def update_height(block_id, latest_block)
-  #   raise Error, "#{blockchain.name} height was reset." if blockchain.height != blockchain.reload.height
-  #   blockchain.update(height: block_id) if latest_block - block_id >= blockchain.min_confirmations
-  # end
+  # TODO: Rename method.
+  def process_block(block_number)
+    @service.fetch_block!(block_number)
 
-  class Base
+    addresses = PaymentAddress.where(currency: @blockchain.currencies)
+    withdrawals = Withdraws::Coin.confirming.where(currency: @blockchain.currencies)
 
-    # attr_reader :blockchain, :client
-    #
-    # def initialize(blockchain)
-    #   @blockchain = blockchain
-    #   @client     = BlockchainClient[blockchain.key]
-    # end
-    #
-    # protected
-    #
-    # def save_block(block, latest_block_number)
-    #   block[:deposits].map { |d| d[:txid] }.join(',').tap do |txids|
-    #     Rails.logger.info { "Deposit trancations in block #{block[:id]}: #{txids}" }
-    #   end
-    #
-    #   block[:withdrawals].map { |d| d[:txid] }.join(',').tap do |txids|
-    #     Rails.logger.info { "Withdraw trancations in block #{block[:id]}: #{txids}" }
-    #   end
-    #
-    #   ActiveRecord::Base.transaction do
-    #     update_or_create_deposits!(block[:deposits])
-    #     update_withdrawals!(block[:withdrawals])
-    #     update_height(block[:id], latest_block_number)
-    #   end
-    # end
-    #
-    # def update_or_create_deposits!(deposits)
-    #   deposits.each do |deposit_hash|
-    #     # If deposit doesn't exist create it.
-    #     deposit = Deposits::Coin
-    #                 .where(currency: currencies)
-    #                 .find_or_create_by!(deposit_hash.slice(:txid, :txout)) do |deposit|
-    #                   deposit.assign_attributes(deposit_hash)
-    #                 end
-    #
-    #     deposit.update_column(:block_number, deposit_hash.fetch(:block_number))
-    #     if deposit.confirmations >= blockchain.min_confirmations
-    #       deposit.collect! if deposit.accept!
-    #     end
-    #   end
-    # end
-    #
-    # def update_withdrawals!(withdrawals)
-    #   withdrawals.each do |withdrawal_hash|
-    #
-    #     withdrawal = Withdraws::Coin
-    #                    .confirming
-    #                    .where(currency: currencies)
-    #                    .find_by(withdrawal_hash.slice(:txid)) do |withdrawal|
-    #                      withdrawal.assign_attributes(withdrawal_hash)
-    #                    end
-    #
-    #     # Skip non-existing in database withdrawals.
-    #     if withdrawal.blank?
-    #       Rails.logger.info { "Skipped withdrawal: #{withdrawal_hash[:txid]}." }
-    #       next
-    #     end
-    #
-    #     withdrawal.update_column(:block_number, withdrawal_hash.fetch(:block_number))
-    #     withdrawal.success! if withdrawal.confirmations >= blockchain.min_confirmations
-    #   end
-    # end
-    #
-    # def update_height(block_id, latest_block)
-    #   raise Error, "#{blockchain.name} height was reset." if blockchain.height != blockchain.reload.height
-    #   blockchain.update(height: block_id) if latest_block - block_id >= blockchain.min_confirmations
-    # end
+    ActiveRecord::Base.transaction do
+      # binding.pry
+      # pp block_number, @service.filtered_deposits(addresses)
+      @service.filtered_deposits(addresses, &method(:update_or_create_deposit!))
+      @service.filtered_withdrawals(withdrawals, &method(:update_withdrawal!))
+    end
+  end
 
-    # def currencies
-    #   blockchain.currencies
-    # end
-    #
-    # def payment_addresses_where(options = {})
-    #   options = { currency: currencies }.merge(options)
-    #   PaymentAddress
-    #     .includes(:currency)
-    #     .where(options)
-    #     .each do |payment_address|
-    #       yield payment_address if block_given?
-    #     end
-    # end
+  def update_or_create_deposit!(deposit_hash)
+    # If deposit doesn't exist create it.
+    deposit = Deposits::Coin
+                .where(currency: @blockchain.currencies)
+                .find_or_create_by!(deposit_hash.slice(:txid, :txout)) do |deposit|
+      deposit.assign_attributes(deposit_hash)
+    end
+
+    deposit.update_column(:block_number, deposit_hash.fetch(:block_number))
+    if deposit.confirmations >= blockchain.min_confirmations
+      deposit.collect! if deposit.accept!
+    end
+  end
+
+  def update_withdrawal!(withdrawal_hash)
+    withdrawal = Withdraws::Coin
+                   .confirming
+                   .where(currency: @blockchain.currencies)
+                   .find_by(withdrawal_hash.slice(:txid)) do |withdrawal|
+      withdrawal.assign_attributes(withdrawal_hash)
+    end
+
+    # Skip non-existing in database withdrawals.
+    if withdrawal.blank?
+      Rails.logger.info { "Skipped withdrawal: #{withdrawal_hash[:txid]}." }
+      return
+    end
+
+    withdrawal.update_column(:block_number, withdrawal_hash.fetch(:block_number))
+    withdrawal.success! if withdrawal.confirmations >= blockchain.min_confirmations
+  end
+
+  def update_height
+    raise Error, "#{@blockchain.name} height was reset." if @blockchain.height != @blockchain.reload.height
+    if @service.latest_block - @service.current_block >= @blockchain.min_confirmations
+      @blockchain.update(height: @service.current_block)
+    end
   end
 end
