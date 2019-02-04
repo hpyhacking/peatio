@@ -30,6 +30,7 @@ class Deposit < ActiveRecord::Base
     state :submitted, initial: true
     state :canceled
     state :rejected
+    state :failed
     state :accepted
     state :skipped
     state :collected
@@ -48,6 +49,9 @@ class Deposit < ActiveRecord::Base
     event :dispatch do
       transitions from: %i[accepted skipped], to: :collected
     end
+    event :fail do
+      transitions from: :submitted, to: :failed
+    end
   end
 
   def account
@@ -63,16 +67,16 @@ class Deposit < ActiveRecord::Base
   end
 
   def as_json_for_event_api
-    { tid:                      tid,
-      uid:                      member.uid,
-      currency:                 currency_id,
-      amount:                   amount.to_s('F'),
-      state:                    aasm_state,
-      created_at:               created_at.iso8601,
-      updated_at:               updated_at.iso8601,
-      completed_at:             completed_at&.iso8601,
-      blockchain_address:       address,
-      blockchain_txid:          txid }
+    { tid:                tid,
+      uid:                member.uid,
+      currency:           currency_id,
+      amount:             amount.to_s('F'),
+      state:              aasm_state,
+      created_at:         created_at.iso8601,
+      updated_at:         updated_at.iso8601,
+      completed_at:       completed_at&.iso8601,
+      blockchain_address: address,
+      blockchain_txid:    txid }
   end
 
   def completed?

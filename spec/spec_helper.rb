@@ -71,6 +71,11 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :truncation
   end
 
+  # Clear Redis.
+  config.before :each do
+    Rails.cache.instance_variable_get(:@data).flushall
+  end
+
   config.before :each do
     DatabaseCleaner.start
     AMQPQueue.stubs(:publish)

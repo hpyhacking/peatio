@@ -30,10 +30,6 @@ describe Peatio::BlockchainService::Ethereum do
         .tap { |b| b.update(height: start_block) }
     end
 
-    before do
-      puts blockchain.height
-    end
-
     let(:client) { BlockchainClient[blockchain.key] }
 
     def request_receipt_body(txid, index)

@@ -38,11 +38,10 @@ class BlockchainService
     end
 
     from_block = @blockchain.height
-    to_block = [latest_block, from_block + blocks_limit]. min
+    to_block = [latest_block, from_block + blocks_limit].min
     # binding.pry
-    from_block.upto(to_block) do |block_number|
-      process_block(block_number)
-    end
+    from_block.upto(to_block, &method(:process_block))
+
     # TODO: Tricky!!!
     update_height if @service.current_block
   # rescue => e
@@ -54,43 +53,62 @@ class BlockchainService
   def process_block(block_number)
     @service.fetch_block!(block_number)
 
-    addresses = PaymentAddress.where(currency: @blockchain.currencies)
-    withdrawals = Withdraws::Coin.confirming.where(currency: @blockchain.currencies)
+    addresses = PaymentAddress.where(currency: @blockchain.currencies).readonly
+    withdrawals = Withdraws::Coin
+                    .confirming
+                    .where(currency: @blockchain.currencies)
+                    .readonly
 
     ActiveRecord::Base.transaction do
-      # binding.pry
-      pp "withdrawals=#{withdrawals.count}"
-      pp block_number, @service.filtered_withdrawals(withdrawals)
       @service.filtered_deposits(addresses, &method(:update_or_create_deposit!))
       @service.filtered_withdrawals(withdrawals, &method(:update_withdrawal!))
     end
   end
 
   def update_or_create_deposit!(deposit_hash)
-    # If deposit doesn't exist create it.
-    deposit = Deposits::Coin
-                .where(currency: @blockchain.currencies)
-                .find_or_create_by!(deposit_hash.slice(:txid, :txout)) do |deposit|
-      deposit.assign_attributes(deposit_hash)
+    if deposit_hash[:amount] <= deposit_hash[:currency].min_deposit_amount
+      # Currently we just skip small deposits.
+      # Custom behavior could be implemented later.
+      Rails.logger.info do
+        "Skipped deposit with txid: #{deposit_hash[:txid]} with amount: #{deposit_hash[:amount]}"\
+        " from #{deposit_hash[:address]} in block number #{deposit_hash[:block_number]}"
+      end
+      return
     end
 
+    # If deposit doesn't exist create it and assign attributes.
+    deposit =
+      Deposits::Coin
+        .submitted
+        .where(currency: @blockchain.currencies)
+        .find_or_create_by!(deposit_hash.slice(:txid, :txout)) do |deposit|
+          deposit.assign_attributes(deposit_hash)
+        end
+
     deposit.update_column(:block_number, deposit_hash.fetch(:block_number))
-    if deposit.confirmations >= blockchain.min_confirmations
-      deposit.collect! if deposit.accept!
+    if deposit.confirmations >= blockchain.min_confirmations && deposit.accept!
+      deposit.collect!
     end
   end
 
-  def update_withdrawal!(withdrawal_hash)
-    withdrawal = Withdraws::Coin
-                   .confirming
-                   .where(currency: @blockchain.currencies)
-                   .find_by(withdrawal_hash.slice(:txid)) do |withdrawal|
-      withdrawal.assign_attributes(withdrawal_hash)
-    end
+  def update_withdrawal!(withdrawal_hash, successful = true)
+    withdrawal =
+      Withdraws::Coin
+        .confirming
+        .where(currency: @blockchain.currencies)
+        .find_by(withdrawal_hash.slice(:txid)) do |withdrawal|
+          withdrawal.assign_attributes(withdrawal_hash)
+        end
 
     # Skip non-existing in database withdrawals.
     if withdrawal.blank?
       Rails.logger.info { "Skipped withdrawal: #{withdrawal_hash[:txid]}." }
+      return
+    end
+
+    unless successful
+      Rails.logger.info { "Failed withdrawal detected: #{withdrawal_hash[:txid]}."}
+      withdrawal.fail!
       return
     end
 
