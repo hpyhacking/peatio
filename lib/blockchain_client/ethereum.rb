@@ -18,7 +18,7 @@ module BlockchainClient
     end
 
     def get_block(height)
-      current_block   = height || 0
+      current_block = height || 0
       json_rpc(:eth_getBlockByNumber, ["0x#{current_block.to_s(16)}", true]).fetch('result')
     end
 
@@ -71,9 +71,7 @@ module BlockchainClient
     end
 
     def latest_block_number
-      Rails.cache.fetch :latest_ethereum_block_number, expires_in: 5.seconds do
-        json_rpc(:eth_blockNumber).fetch('result').hex
-      end
+      json_rpc(:eth_blockNumber).fetch('result').hex
     end
 
     def invalid_eth_transaction?(block_txn)

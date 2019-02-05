@@ -2,8 +2,7 @@
 # frozen_string_literal: true
 
 class BlockchainService
-  Error                  = Class.new(StandardError) # TODO: Rename to Exception.
-  ConnectionRefusedError = Class.new(StandardError) # TODO: Remove this.
+  Error = Class.new(StandardError) # TODO: Rename to Exception.
 
   class << self
     #
@@ -24,26 +23,28 @@ class BlockchainService
     @service =
         "Peatio::BlockchainService::#{blockchain.client.capitalize}"
           .constantize
-          .new(logger: Rails.logger.info, cache: Rails.cache,
-               blockchain: blockchain, currencies: blockchain.currencies)
+          .new(cache: Rails.cache, blockchain: blockchain)
     # TODO: Raise Peatio::Blockchain::Error unless class exist.
   end
 
   def process_blockchain(blocks_limit: 250, force: false)
     # Don't start process if we didn't receive new blocks.
-    latest_block = @service.latest_block
-    if @blockchain.height + @blockchain.min_confirmations >= latest_block && !force
-      Rails.logger.info { "Skip synchronization. No new blocks detected height: #{@blockchain.height}, latest_block: #{latest_block}" }
+    latest_block_number = @service.latest_block_number
+    if blockchain.height + blockchain.min_confirmations >= latest_block_number && !force
+      Rails.logger.info do
+        "Skip synchronization. No new blocks detected height: "\
+        "#{blockchain.height}, latest_block: #{latest_block_number}"
+      end
       return
     end
 
-    from_block = @blockchain.height
-    to_block = [latest_block, from_block + blocks_limit].min
-    # binding.pry
+    from_block = blockchain.height
+    to_block = [latest_block_number, from_block + blocks_limit].min
+
     from_block.upto(to_block, &method(:process_block))
 
     # TODO: Tricky!!!
-    update_height if @service.current_block
+    update_height
   # rescue => e
   #   report_exception(e)
   #   Rails.logger.info { "Exception was raised during block processing." }
@@ -53,10 +54,10 @@ class BlockchainService
   def process_block(block_number)
     @service.fetch_block!(block_number)
 
-    addresses = PaymentAddress.where(currency: @blockchain.currencies).readonly
+    addresses = PaymentAddress.where(currency: blockchain.currencies).readonly
     withdrawals = Withdraws::Coin
                     .confirming
-                    .where(currency: @blockchain.currencies)
+                    .where(currency: blockchain.currencies)
                     .readonly
 
     ActiveRecord::Base.transaction do
@@ -80,7 +81,7 @@ class BlockchainService
     deposit =
       Deposits::Coin
         .submitted
-        .where(currency: @blockchain.currencies)
+        .where(currency: blockchain.currencies)
         .find_or_create_by!(deposit_hash.slice(:txid, :txout)) do |deposit|
           deposit.assign_attributes(deposit_hash)
         end
@@ -95,7 +96,7 @@ class BlockchainService
     withdrawal =
       Withdraws::Coin
         .confirming
-        .where(currency: @blockchain.currencies)
+        .where(currency: blockchain.currencies)
         .find_by(withdrawal_hash.slice(:txid)) do |withdrawal|
           withdrawal.assign_attributes(withdrawal_hash)
         end
@@ -117,9 +118,9 @@ class BlockchainService
   end
 
   def update_height
-    raise Error, "#{@blockchain.name} height was reset." if @blockchain.height != @blockchain.reload.height
-    if @service.latest_block - @service.current_block >= @blockchain.min_confirmations
-      @blockchain.update(height: @service.current_block)
+    raise Error, "#{blockchain.name} height was reset." if blockchain.height != blockchain.reload.height
+    if @service.latest_block_number - @service.current_block_number >= blockchain.min_confirmations
+      blockchain.update(height: @service.current_block_number)
     end
   end
 end

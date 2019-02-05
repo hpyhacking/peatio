@@ -1,7 +1,11 @@
 GIT
-  remote: https://github.com/ysv/peatio-core
-  revision: b86b938f9a71e539420d11e732aa546d5ea0c03f
-  branch: feature/plugable-currencies
+  remote: https://github.com/ysv/peatio-ethereum
+  revision: 8b8cfa43d7d4f530f19e9a851b001a83c2f7b98c
+  specs:
+    peatio-ethereum (0.1.0)
+
+PATH
+  remote: ../peatio-core
   specs:
     peatio (0.4.5)
       amqp
@@ -12,12 +16,6 @@ GIT
       jwt
       method-not-implemented
       mysql2
-
-GIT
-  remote: https://github.com/ysv/peatio-ethereum
-  revision: 8b8cfa43d7d4f530f19e9a851b001a83c2f7b98c
-  specs:
-    peatio-ethereum (0.1.0)
 
 GEM
   remote: https://rubygems.org/
