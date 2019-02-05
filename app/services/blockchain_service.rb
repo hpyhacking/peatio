@@ -17,6 +17,19 @@ class BlockchainService
   end
 
   attr_reader :blockchain
+  # delegate :client, to: @blockchain
+
+  def latest_block_number
+    @service.latest_block_number
+  end
+
+  def supports_cash_addr_format?
+    @service.supports_cash_addr_format?
+  end
+
+  def case_sensitive?
+    @service.case_sensitive?
+  end
 
   def initialize(blockchain)
     @blockchain = blockchain
