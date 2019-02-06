@@ -14,6 +14,7 @@ module BlockchainClient
     # @return [BaseAPI]
     def [](key)
       blockchain = Blockchain.find_by(key: key)
+      # binding.pry if blockchain.client == 'ethereum'
       if blockchain.try(:client).present?
         "BlockchainClient::#{blockchain.client.capitalize}"
       end.constantize.new(blockchain)
@@ -41,18 +42,6 @@ module BlockchainClient
     # @param currency [String, Symbol]
     # @return [BigDecimal]
     def load_balance!(currency)
-      method_not_implemented
-    end
-
-    #
-    # Returns transaction details.
-    #
-    # TODO: Docs.
-    #
-    # @param txid [String]
-    # @return [Hash]
-    #   The deposit details.
-    def load_deposit!(txid)
       method_not_implemented
     end
 

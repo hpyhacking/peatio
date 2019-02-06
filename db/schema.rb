@@ -140,8 +140,8 @@ ActiveRecord::Schema.define(version: 20190116140939) do
     t.string   "bid_unit",       limit: 10,                                          null: false
     t.decimal  "ask_fee",                   precision: 17, scale: 16, default: 0.0,  null: false
     t.decimal  "bid_fee",                   precision: 17, scale: 16, default: 0.0,  null: false
-    t.decimal  "min_ask_price",             precision: 32, scale: 16, default: 0.0,  null: false
-    t.decimal  "max_bid_price",             precision: 32, scale: 16, default: 0.0,  null: false
+    t.decimal  "min_ask_price",             precision: 17, scale: 16, default: 0.0,  null: false
+    t.decimal  "max_bid_price",             precision: 17, scale: 16, default: 0.0,  null: false
     t.decimal  "min_ask_amount",            precision: 32, scale: 16, default: 0.0,  null: false
     t.decimal  "min_bid_amount",            precision: 32, scale: 16, default: 0.0,  null: false
     t.integer  "ask_precision",  limit: 1,                            default: 8,    null: false

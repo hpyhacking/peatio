@@ -19,10 +19,6 @@ module BlockchainClient
         .sum { |vout| vout['amount'] }
     end
 
-    def load_deposit!(txid)
-      json_rpc(:gettransaction, [normalize_txid(txid)]).fetch('result').yield_self { |tx| build_standalone_deposit(tx) }
-    end
-
     def create_address!(options = {})
       { address: normalize_address(json_rpc(:getnewaddress).fetch('result')) }
     end
