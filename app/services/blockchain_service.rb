@@ -16,24 +16,13 @@ class BlockchainService
     end
   end
 
-  attr_reader :blockchain
-  # delegate :client, to: @blockchain
-
-  def latest_block_number
-    @service.latest_block_number
-  end
-
-  def supports_cash_addr_format?
-    @service.supports_cash_addr_format?
-  end
-
-  def case_sensitive?
-    @service.case_sensitive?
-  end
+  attr_reader :blockchain, :adapter
+  delegate :latest_block_number, :supports_cash_addr_format?, :case_sensitive?,
+           to: :adapter
 
   def initialize(blockchain)
     @blockchain = blockchain
-    @service =
+    @adapter =
         "Peatio::BlockchainService::#{blockchain.client.capitalize}"
           .constantize
           .new(cache: Rails.cache, blockchain: blockchain)
@@ -42,7 +31,7 @@ class BlockchainService
 
   def process_blockchain(blocks_limit: 250, force: false)
     # Don't start process if we didn't receive new blocks.
-    latest_block_number = @service.latest_block_number
+    latest_block_number = @adapter.latest_block_number
     if blockchain.height + blockchain.min_confirmations >= latest_block_number && !force
       Rails.logger.info do
         "Skip synchronization. No new blocks detected height: "\
@@ -53,19 +42,19 @@ class BlockchainService
 
     from_block = blockchain.height
     to_block = [latest_block_number, from_block + blocks_limit].min
-
     from_block.upto(to_block, &method(:process_block))
 
-    # TODO: Tricky!!!
     update_height
-  # rescue => e
-  #   report_exception(e)
-  #   Rails.logger.info { "Exception was raised during block processing." }
+  rescue => e
+    report_exception(e)
+    Rails.logger.info { "Exception was raised during block processing." }
   end
+
+  private
 
   # TODO: Rename method.
   def process_block(block_number)
-    @service.fetch_block!(block_number)
+    @adapter.fetch_block!(block_number)
 
     addresses = PaymentAddress.where(currency: blockchain.currencies).readonly
     withdrawals = Withdraws::Coin
@@ -74,15 +63,14 @@ class BlockchainService
                     .readonly
 
     ActiveRecord::Base.transaction do
-      @service.filtered_deposits(addresses, &method(:update_or_create_deposit!))
-      @service.filtered_withdrawals(withdrawals, &method(:update_withdrawal!))
+      @adapter.filtered_deposits(addresses, &method(:update_or_create_deposit!))
+      @adapter.filtered_withdrawals(withdrawals, &method(:update_withdrawal!))
     end
   end
 
   def update_or_create_deposit!(deposit_hash)
     if deposit_hash[:amount] <= deposit_hash[:currency].min_deposit_amount
-      # Currently we just skip small deposits.
-      # Custom behavior could be implemented later.
+      # Currently we just skip tiny deposits.
       Rails.logger.info do
         "Skipped deposit with txid: #{deposit_hash[:txid]} with amount: #{deposit_hash[:amount]}"\
         " from #{deposit_hash[:address]} in block number #{deposit_hash[:block_number]}"
@@ -132,8 +120,8 @@ class BlockchainService
 
   def update_height
     raise Error, "#{blockchain.name} height was reset." if blockchain.height != blockchain.reload.height
-    if @service.latest_block_number - @service.current_block_number >= blockchain.min_confirmations
-      blockchain.update(height: @service.current_block_number)
+    if @adapter.latest_block_number - @adapter.current_block_number >= blockchain.min_confirmations
+      blockchain.update(height: @adapter.current_block_number)
     end
   end
 end

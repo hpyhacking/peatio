@@ -13,6 +13,7 @@ PATH
       clamp
       em-websocket
       eventmachine
+      faraday (~> 0.14.0)
       jwt
       method-not-implemented
       mysql2
