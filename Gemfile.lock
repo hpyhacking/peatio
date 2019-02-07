@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/ysv/peatio-core
-  revision: 9f302eb25871e534d459354d4fdd755fff8d24e4
+  remote: https://github.com/rubykube/peatio-core
+  revision: 990cedb9ed73461f29c0acb0ab8acf9d9d9bede0
   branch: feature/plugable-currencies
   specs:
     peatio (0.4.5)
