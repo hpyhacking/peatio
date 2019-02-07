@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.0.20-alpha"
+    "version": "2.0.21-alpha"
   },
   "swagger": "2.0",
   "produces": [
@@ -494,32 +494,25 @@
           {
             "in": "query",
             "name": "limit",
-            "description": "Limit the number of returned trades. Default to 50.",
+            "description": "Limit the number of returned trades. Default to 100.",
             "type": "integer",
             "format": "int32",
-            "default": 50,
+            "default": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
             "required": false
           },
           {
             "in": "query",
             "name": "timestamp",
             "description": "An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned.",
-            "type": "integer",
-            "format": "int32",
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "from",
-            "description": "Trade id. If set, only trades created after the trade will be returned.",
-            "type": "integer",
-            "format": "int32",
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "to",
-            "description": "Trade id. If set, only trades created before the trade will be returned.",
             "type": "integer",
             "format": "int32",
             "required": false
@@ -1018,7 +1011,7 @@
           {
             "in": "query",
             "name": "limit",
-            "description": "Set result limit.",
+            "description": "Number of deposits per page (defaults to 100, maximum is 100).",
             "type": "integer",
             "format": "int32",
             "default": 100,
@@ -1161,7 +1154,7 @@
           {
             "in": "query",
             "name": "limit",
-            "description": "Number of withdraws per page (defaults to 100, maximum is 1000).",
+            "description": "Number of withdraws per page (defaults to 100, maximum is 100).",
             "type": "integer",
             "format": "int32",
             "default": 100,
@@ -1260,32 +1253,25 @@
           {
             "in": "query",
             "name": "limit",
-            "description": "Limit the number of returned trades. Default to 50.",
+            "description": "Limit the number of returned trades. Default to 100.",
             "type": "integer",
             "format": "int32",
-            "default": 50,
+            "default": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
             "required": false
           },
           {
             "in": "query",
             "name": "timestamp",
             "description": "An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned.",
-            "type": "integer",
-            "format": "int32",
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "from",
-            "description": "Trade id. If set, only trades created after the trade will be returned.",
-            "type": "integer",
-            "format": "int32",
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "to",
-            "description": "Trade id. If set, only trades created before the trade will be returned.",
             "type": "integer",
             "format": "int32",
             "required": false
@@ -1307,7 +1293,10 @@
           "200": {
             "description": "Get your executed trades. Trades are sorted in reverse creation order.",
             "schema": {
-              "$ref": "#/definitions/Trade"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Trade"
+              }
             }
           }
         },
@@ -1615,9 +1604,9 @@
           {
             "in": "query",
             "name": "order_by",
-            "description": "If set, returned orders will be sorted in specific order, default to \"asc\".",
+            "description": "If set, returned orders will be sorted in specific order, default to \"desc\".",
             "type": "string",
-            "default": "asc",
+            "default": "desc",
             "enum": [
               "asc",
               "desc"

@@ -2,7 +2,7 @@ Peatio User API v2
 ==================
 API for Peatio application.
 
-**Version:** 2.0.20-alpha
+**Version:** 2.0.21-alpha
 
 **Contact information:**  
 peatio.tech  
@@ -130,10 +130,9 @@ hello@peatio.tech
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | path |  | Yes | string |
-| limit | query | Limit the number of returned trades. Default to 50. | No | integer |
+| limit | query | Limit the number of returned trades. Default to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
 | timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned. | No | integer |
-| from | query | Trade id. If set, only trades created after the trade will be returned. | No | integer |
-| to | query | Trade id. If set, only trades created before the trade will be returned. | No | integer |
 | order_by | query | If set, returned trades will be sorted in specific order, default to 'desc'. | No | string |
 
 **Responses**
@@ -313,7 +312,7 @@ hello@peatio.tech
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | query | Currency value contains bch,btc,dash,eth,ltc,trst,usd,xrp,BCH,BTC,DASH,ETH,LTC,TRST,USD,XRP | No | string |
 | state | query |  | No | string |
-| limit | query | Set result limit. | No | integer |
+| limit | query | Number of deposits per page (defaults to 100, maximum is 100). | No | integer |
 | page | query | Page number (defaults to 1). | No | integer |
 
 **Responses**
@@ -351,7 +350,7 @@ hello@peatio.tech
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | query | Any supported currencies: bch,btc,dash,eth,ltc,trst,usd,xrp,BCH,BTC,DASH,ETH,LTC,TRST,USD,XRP. | No | string |
 | page | query | Page number (defaults to 1). | No | integer |
-| limit | query | Number of withdraws per page (defaults to 100, maximum is 1000). | No | integer |
+| limit | query | Number of withdraws per page (defaults to 100, maximum is 100). | No | integer |
 
 **Responses**
 
@@ -369,17 +368,16 @@ hello@peatio.tech
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | query |  | No | string |
-| limit | query | Limit the number of returned trades. Default to 50. | No | integer |
+| limit | query | Limit the number of returned trades. Default to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
 | timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned. | No | integer |
-| from | query | Trade id. If set, only trades created after the trade will be returned. | No | integer |
-| to | query | Trade id. If set, only trades created before the trade will be returned. | No | integer |
 | order_by | query | If set, returned trades will be sorted in specific order, default to 'desc'. | No | string |
 
 **Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Get your executed trades. Trades are sorted in reverse creation order. | [Trade](#trade) |
+| 200 | Get your executed trades. Trades are sorted in reverse creation order. | [ [Trade](#trade) ] |
 
 ### /market/orders/cancel
 ---
@@ -447,7 +445,7 @@ hello@peatio.tech
 | state | query | Filter order by state. | No | string |
 | limit | query | Limit the number of returned orders, default to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
-| order_by | query | If set, returned orders will be sorted in specific order, default to "asc". | No | string |
+| order_by | query | If set, returned orders will be sorted in specific order, default to "desc". | No | string |
 
 **Responses**
 
