@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class BlockchainService
-  Error = Class.new(StandardError) # TODO: Rename to Exception.
+  Error = Class.new(StandardError) # TODO: Do we use this Error.
 
   class << self
     #
@@ -18,14 +18,14 @@ class BlockchainService
 
   attr_reader :blockchain, :adapter
   delegate :latest_block_number, :supports_cash_addr_format?, :case_sensitive?,
-           to: :adapter
+           to: :@adapter
 
   def initialize(blockchain)
     @blockchain = blockchain
     @adapter =
         "Peatio::BlockchainService::#{blockchain.client.capitalize}"
           .constantize
-          .new(cache: Rails.cache, blockchain: blockchain)
+          .new(cache: Rails.cache, blockchain: blockchain.dup.tap(&:readonly!))
     # TODO: Raise Peatio::Blockchain::Error unless class exist.
   end
 
