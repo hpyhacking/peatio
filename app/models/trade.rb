@@ -22,9 +22,11 @@ class Trade < ActiveRecord::Base
       Serializers::EventAPI::TradeCompleted.call(self)
   end
 
+
   class << self
     def latest_price(market)
-      with_market(market).order(id: :desc).pluck(:price).first.to_d
+      trade = with_market(market).order(id: :desc).limit(1).first
+      trade ? trade.price : 0
     end
   end
 

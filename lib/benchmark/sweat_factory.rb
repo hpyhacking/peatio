@@ -2,10 +2,14 @@
 module Benchmark
   class SweatFactory
 
-    class <<self
+    class << self
       def make_member
         member = Member.create!(
-          email: Faker::Internet.unique.email
+          uid: 'ID' + Faker::Number.number(8),
+          email: Faker::Internet.unique.email,
+          level: 3,
+          role: 'member',
+          state: 'active'
         )
       end
 
