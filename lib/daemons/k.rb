@@ -119,7 +119,7 @@ end
 def publish_point(market_id, period, point)
   @logger.info { "publishing #{point} to #{event_name(period)} stream"}
   Peatio::MQ::Events.publish('public', market_id,
-                             event_name(period), point.to_json)
+                             event_name(period), point)
 end
 
 def fill(market, period = 1)
