@@ -32,6 +32,7 @@ describe Serializers::EventAPI::OrderCreated do
   before { OrderBid.any_instance.expects(:created_at).returns(created_at).at_least_once }
 
   before do
+    DatabaseCleaner.clean
     EventAPI.expects(:notify).with('market.btcusd.order_created', {
       id:                     1,
       market:                 'btcusd',
@@ -55,5 +56,11 @@ describe Serializers::EventAPI::OrderCreated do
     }).once
   end
 
-  it('publishes event') { subject }
+  after do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  it('publishes event', clean_database_with_truncation: true) do
+    subject
+  end
 end

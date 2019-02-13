@@ -13,17 +13,21 @@ describe Ordering do
       AMQPQueue.expects(:enqueue).with(:pusher_member, anything).once
     end
 
-    it 'should return true on success' do
+    after do
+      DatabaseCleaner.strategy = :truncation
+    end
+
+    it 'should return true on success', clean_database_with_truncation: true do
       expect(Ordering.new(order).submit).to be true
     end
 
-    it 'should set locked funds on order' do
+    it 'should set locked funds on order', clean_database_with_truncation: true do
       Ordering.new(order).submit
       expect(order.locked).to eq order.compute_locked
       expect(order.origin_locked).to eq order.compute_locked
     end
 
-    it 'should compute locked after number precision fixed' do
+    it 'should compute locked after number precision fixed', clean_database_with_truncation: true do
       Ordering.new(order).submit
       expect(order.reload.locked).to eq '1.52399025'.to_d
     end

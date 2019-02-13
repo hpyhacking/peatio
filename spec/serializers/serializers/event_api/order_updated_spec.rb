@@ -34,6 +34,7 @@ describe Serializers::EventAPI::OrderUpdated, OrderAsk do
   before { OrderAsk.any_instance.expects(:updated_at).returns(updated_at).at_least_once }
 
   before do
+    DatabaseCleaner.clean
     EventAPI.expects(:notify).with('market.btcusd.order_created', anything)
     EventAPI.expects(:notify).with('market.btcusd.order_updated', {
       id:                      1,
@@ -61,7 +62,11 @@ describe Serializers::EventAPI::OrderUpdated, OrderAsk do
     }).once
   end
 
-  it 'publishes event' do
+  after do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  it 'publishes event', clean_database_with_truncation: true do
     subject.transaction do
       subject.update! \
         volume:         80,
@@ -105,6 +110,7 @@ describe Serializers::EventAPI::OrderUpdated, OrderBid do
   before { OrderBid.any_instance.expects(:updated_at).returns(updated_at).at_least_once }
 
   before do
+    DatabaseCleaner.clean
     EventAPI.expects(:notify).with('market.btcusd.order_created', anything)
     EventAPI.expects(:notify).with('market.btcusd.order_updated', {
       id:                      1,
@@ -132,7 +138,11 @@ describe Serializers::EventAPI::OrderUpdated, OrderBid do
     }).once
   end
 
-  it 'publishes event' do
+  after do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  it 'publishes event', clean_database_with_truncation: true do
     subject.transaction do
       subject.update! \
         volume:         12,

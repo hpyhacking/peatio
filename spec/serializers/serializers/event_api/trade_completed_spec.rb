@@ -65,6 +65,7 @@ describe Serializers::EventAPI::TradeCompleted, 'Event API' do
   before { Trade.any_instance.expects(:created_at).returns(completed_at).at_least_once }
 
   before do
+    DatabaseCleaner.clean
     EventAPI.expects(:notify).with('market.btcusd.order_created', anything).twice
     EventAPI.expects(:notify).with('market.btcusd.order_updated', anything).once
     EventAPI.expects(:notify).with('market.btcusd.order_completed', anything).once
@@ -90,7 +91,11 @@ describe Serializers::EventAPI::TradeCompleted, 'Event API' do
     }).once
   end
 
-  it 'publishes event' do
+  after do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  it 'publishes event', clean_database_with_truncation: true do
     subject
     expect(order_bid.reload.state).to eq 'done'
     expect(order_ask.reload.state).to eq 'wait'
