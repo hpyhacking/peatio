@@ -28,6 +28,7 @@ steps:
   when:
     event:
     - push
+    - pull_request
 
 # Copy bundler cache from the host machine to your build environment.
 # Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
@@ -44,6 +45,7 @@ steps:
   when:
     event:
     - push
+    - pull_request
 
 # Initialize application. Install dependencies. Migrate database. Run rspec.
 - name: run-rspec
@@ -62,6 +64,7 @@ steps:
   when:
     event:
     - push
+    - pull_request
 
 # Update application version, markdown and swagger documentation, then push it to git repository.
 - name: git-tag-and-push
@@ -105,6 +108,8 @@ steps:
   when:
     event:
     - push
+    - pull_request
+
 # Copy docker cache from the host machine to your build environment.
 # Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
 - name: restore-docker-cache
