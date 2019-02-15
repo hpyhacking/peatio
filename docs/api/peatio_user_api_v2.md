@@ -2,7 +2,7 @@ Peatio User API v2
 ==================
 API for Peatio application.
 
-**Version:** 2.0.24-alpha
+**Version:** 2.0.25-alpha
 
 **Contact information:**  
 peatio.tech  
@@ -20,6 +20,10 @@ hello@peatio.tech
 |Name|JWT|
 |In|header|
 
+### /public/health/ready
+---
+### /public/health/alive
+---
 ### /public/version
 ---
 ##### ***GET***
@@ -512,6 +516,7 @@ Get your orders, results is paginated.
 | state | string | One of 'wait', 'done', or 'cancel'.An order in 'wait' is an active order, waiting fulfillment;a 'done' order is an order fulfilled;'cancel' means the order has been canceled. | No |
 | market | string | The market in which the order is placed, e.g. 'btcusd'.All available markets can be found at /api/v2/markets. | No |
 | created_at | string | Order create time in iso8601 format. | No |
+| updated_at | string | Order updated time in iso8601 format. | No |
 | volume | double | The amount user want to sell/buy.An order could be partially executed,e.g. an order sell 5 btc can be matched with a buy 3 btc order,left 2 btc to be sold; in this case the order's volume would be '5.0',its remaining_volume would be '2.0', its executed volume is '3.0'. | No |
 | remaining_volume | double | The remaining volume, see 'volume'. | No |
 | executed_volume | double | The executed volume, see 'volume'. | No |

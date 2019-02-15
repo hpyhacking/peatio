@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.0.24-alpha"
+    "version": "2.0.25-alpha"
   },
   "swagger": "2.0",
   "produces": [
@@ -40,6 +40,40 @@
     }
   ],
   "paths": {
+    "/public/health/ready": {
+      "head": {
+        "description": "Get application readiness status",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get application readiness status"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "headPublicHealthReady"
+      }
+    },
+    "/public/health/alive": {
+      "head": {
+        "description": "Get application liveness status",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get application liveness status"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "headPublicHealthAlive"
+      }
+    },
     "/public/version": {
       "get": {
         "description": "Get running Peatio version and build details.",
@@ -1766,6 +1800,10 @@
         "created_at": {
           "type": "string",
           "description": "Order create time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Order updated time in iso8601 format."
         },
         "volume": {
           "type": "number",
