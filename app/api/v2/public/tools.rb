@@ -21,6 +21,18 @@ module API
             present OpenStruct.new(v), with: Entities::Version
           end
         end
+
+        resource :health do
+          desc 'Get application liveness status'
+          head "/alive" do
+            status Services::HealthChecker.alive? ? 200 : 503
+          end
+
+          desc 'Get application readiness status'
+          head "/ready" do
+            status Services::HealthChecker.ready? ? 200 : 503
+          end
+        end
       end
     end
   end

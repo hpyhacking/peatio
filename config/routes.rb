@@ -55,9 +55,6 @@ Peatio::Application.routes.draw do
     end
   end
 
-  get 'health/alive', to: 'public/health#alive'
-  get 'health/ready', to: 'public/health#ready'
-
   get 'trading/:market_id', to: BlackHoleRouter.new, as: :trading
 
   draw :admin

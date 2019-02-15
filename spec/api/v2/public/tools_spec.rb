@@ -10,4 +10,30 @@ describe API::V2::Public::Tools, type: :request do
       expect(JSON.parse(response.body)).to be_between(now.iso8601, (now + 1).iso8601)
     end
   end
+
+  describe '/health' do
+    it 'returns successful liveness probe' do
+      head '/api/v2/public/health/alive'
+      expect(response).to be_success
+    end
+
+    it 'returns failed liveness probe' do
+      Market.stubs(:connected?).returns(false)
+
+      head '/api/v2/public/health/alive'
+      expect(response).to have_http_status(503)
+    end
+
+    it 'returns successful readiness probe' do
+      head '/api/v2/public/health/ready'
+      expect(response).to be_success
+    end
+
+    it 'returns failed readiness probe' do
+      Bunny.stubs(:run).returns(false)
+
+      head '/api/v2/public/health/alive'
+      expect(response).to have_http_status(503)
+    end
+  end
 end
