@@ -9,10 +9,11 @@ describe API::V2::Market::Orders, type: :request do
 
   describe 'GET /api/v2/market/orders' do
     before do
-      create(:order_bid, :btcusd, price: '11'.to_d, volume: '123.123456789', member: member)
+      # NOTE: We specify updated_at attribute for testing order of Order.
+      create(:order_bid, :btcusd, price: '11'.to_d, volume: '123.123456789', member: member, updated_at: Time.now + 1)
       create(:order_bid, :dashbtc, price: '11'.to_d, volume: '123.123456789', member: member)
       create(:order_bid, :btcusd, price: '12'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
-      create(:order_ask, :btcusd, price: '13'.to_d, volume: '123.123456789', member: member, state: Order::WAIT)
+      create(:order_ask, :btcusd, price: '13'.to_d, volume: '123.123456789', member: member, state: Order::WAIT, updated_at: Time.now + 2)
       create(:order_ask, :btcusd, price: '14'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
     end
 
@@ -68,14 +69,14 @@ describe API::V2::Market::Orders, type: :request do
 
       expect(response).to be_success
       expect(response.headers.fetch('Total')).to eq '4'
-      expect(result.first['price']).to eq '14.0'
+      expect(result.first['price']).to eq '13.0'
 
       api_get '/api/v2/market/orders', params: { market: 'btcusd', limit: 1, page: 2 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_success
       expect(response.headers.fetch('Total')).to eq '4'
-      expect(result.first['price']).to eq '13.0'
+      expect(result.first['price']).to eq '11.0'
     end
 
     it 'returns sorted orders' do
@@ -83,13 +84,19 @@ describe API::V2::Market::Orders, type: :request do
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result.first['id']).to be < result.second['id']
+
+      first_order_updated_at = Time.iso8601(result.first['updated_at'])
+      second_order_updated_at = Time.iso8601(result.second['updated_at'])
+      expect(first_order_updated_at).to be <= second_order_updated_at
 
       api_get '/api/v2/market/orders', params: { market: 'btcusd', order_by: 'desc' }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_success
-      expect(result.first['id']).to be > result.second['id']
+
+      first_order_updated_at = Time.iso8601(result.first['updated_at'])
+      second_order_updated_at = Time.iso8601(result.second['updated_at'])
+      expect(first_order_updated_at).to be >= second_order_updated_at
     end
 
     it 'denies access to unverified member' do

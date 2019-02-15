@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190116140939) do
+ActiveRecord::Schema.define(version: 20190213104708) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer  "member_id",   limit: 4,                                          null: false
@@ -213,6 +213,7 @@ ActiveRecord::Schema.define(version: 20190116140939) do
   add_index "orders", ["type", "member_id"], name: "index_orders_on_type_and_member_id", using: :btree
   add_index "orders", ["type", "state", "market_id"], name: "index_orders_on_type_and_state_and_market_id", using: :btree
   add_index "orders", ["type", "state", "member_id"], name: "index_orders_on_type_and_state_and_member_id", using: :btree
+  add_index "orders", ["updated_at"], name: "index_orders_on_updated_at", using: :btree
 
   create_table "payment_addresses", force: :cascade do |t|
     t.string   "currency_id", limit: 10,                  null: false
@@ -258,6 +259,7 @@ ActiveRecord::Schema.define(version: 20190116140939) do
   add_index "trades", ["ask_id"], name: "index_trades_on_ask_id", using: :btree
   add_index "trades", ["ask_member_id", "bid_member_id"], name: "index_trades_on_ask_member_id_and_bid_member_id", using: :btree
   add_index "trades", ["bid_id"], name: "index_trades_on_bid_id", using: :btree
+  add_index "trades", ["created_at"], name: "index_trades_on_created_at", using: :btree
   add_index "trades", ["market_id", "created_at"], name: "index_trades_on_market_id_and_created_at", using: :btree
 
   create_table "transfers", force: :cascade do |t|

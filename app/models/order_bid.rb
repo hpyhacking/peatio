@@ -55,7 +55,7 @@ class OrderBid < Order
 end
 
 # == Schema Information
-# Schema version: 20180813105100
+# Schema version: 20190213104708
 #
 # Table name: orders
 #
@@ -86,4 +86,5 @@ end
 #  index_orders_on_type_and_member_id            (type,member_id)
 #  index_orders_on_type_and_state_and_market_id  (type,state,market_id)
 #  index_orders_on_type_and_state_and_member_id  (type,state,member_id)
+#  index_orders_on_updated_at                    (updated_at)
 #

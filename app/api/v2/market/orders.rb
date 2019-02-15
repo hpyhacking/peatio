@@ -19,7 +19,7 @@ module API
           optional :order_by, type: String, values: %w(asc desc), default: 'desc', desc: 'If set, returned orders will be sorted in specific order, default to "desc".'
         end
         get '/orders' do
-          current_user.orders.order(order_param)
+          current_user.orders.order(updated_at: params[:order_by])
                       .tap { |q| q.where!(market: params[:market]) if params[:market] }
                       .tap { |q| q.where!(state: params[:state]) if params[:state] }
                       .tap { |q| present paginate(q), with: API::V2::Entities::Order }

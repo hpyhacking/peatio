@@ -78,6 +78,15 @@ module API
         )
 
         expose(
+          :updated_at,
+          format_with: :iso8601,
+          documentation: {
+            type: String,
+            desc: "Order updated time in iso8601 format."
+          }
+        )
+
+        expose(
           :origin_volume,
           as: :volume,
           documentation: {
