@@ -223,8 +223,10 @@ Replace `username:password` and `port`.
 ```shell
 bundle exec rake db:create
 bundle exec rake db:migrate
-bundle exec rake currencies:seed
-bundle exec rake markets:seed
+bundle exec rake seed:blockchains
+bundle exec rake seed:currencies
+bundle exec rake seed:markets
+bundle exec rake seed:wallets
 ```
 
 #### Run daemons
