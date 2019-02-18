@@ -45,7 +45,7 @@ describe Admin::MarketsController, type: :controller do
       { bid_unit:       'btc',
         bid_fee:        '0.002'.to_d,
         bid_precision:  7,
-        ask_unit:       'xrp',
+        ask_unit:       'dash',
         ask_fee:        '0.05'.to_d,
         min_ask_amount: '0.02'.to_d,
         min_bid_amount: '0.02'.to_d,

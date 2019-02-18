@@ -29,6 +29,7 @@ class Market < ActiveRecord::Base
   scope :with_base_unit, -> (base_unit){ where(ask_unit: base_unit) }
 
   validate { errors.add(:ask_unit, :invalid) if ask_unit == bid_unit }
+  validate { errors.add(:id, :taken) if Market.where(ask_unit: bid_unit, bid_unit: ask_unit).present? }
   validates :id, uniqueness: { case_sensitive: false }, presence: true
   validates :ask_unit, :bid_unit, presence: true
   validates :ask_fee, :bid_fee, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 0.5 }

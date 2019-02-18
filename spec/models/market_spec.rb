@@ -70,6 +70,16 @@ describe Market do
         position:      100 }
     end
 
+    let(:mirror_attributes) do
+      { ask_unit:      :usd,
+        bid_unit:      :btc,
+        bid_fee:       0.1,
+        ask_fee:       0.2,
+        ask_precision: 4,
+        bid_precision: 4,
+        position:      100 }
+    end
+
     let(:disabled_currency) { Currency.find_by_id(:eur) }
 
     it 'creates valid record' do
@@ -85,6 +95,12 @@ describe Market do
 
     it 'validates uniqueness of ID' do
       record = build(:market, :btcusd)
+      record.save
+      expect(record.errors.full_messages).to include(/id has already been taken/i)
+    end
+
+    it 'validates mirror market pair' do
+      record = Market.new(mirror_attributes)
       record.save
       expect(record.errors.full_messages).to include(/id has already been taken/i)
     end
