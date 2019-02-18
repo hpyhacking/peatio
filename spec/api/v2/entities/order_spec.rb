@@ -20,7 +20,7 @@ describe API::V2::Entities::Order do
     it { expect(subject.price).to eq order.price }
     it { expect(subject.avg_price).to eq ::Trade::ZERO }
 
-    it { expect(subject.volume).to eq order.origin_volume }
+    it { expect(subject.origin_volume).to eq order.origin_volume }
     it { expect(subject.remaining_volume).to eq order.volume }
     it { expect(subject.executed_volume).to eq(order.origin_volume - order.volume) }
 

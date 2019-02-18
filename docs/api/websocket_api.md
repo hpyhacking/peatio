@@ -181,16 +181,16 @@ Here is structure of `global.tickers` event expose as array with all markets pai
 
 Here is structure of `Order` event:
 
-| Field           | Description                                                  |
-| --------------- | ------------------------------------------------------------ |
-| `id`            | Unique order id.                                             |
-| `kind`          | Type of order, either `bid` or `ask`.                        |
-| `price`         | Price for each unit.                                         |
-| `state`         | One of `wait`, `done`, or `cancel`.                          |
-| `market`        | The market in which the order is placed. (In peatio `market_id`) |
-| `at`            | Order create time. (In peatio `created_at`)                  |
-| `origin_volume` | The amount user want to sell/buy.                            |
-| `volume`        | Remaining amount user want to sell/buy.                      |
+| Field              | Description                                                  |
+| ------------------ | ------------------------------------------------------------ |
+| `id`               | Unique order id.                                             |
+| `kind`             | Type of order, either `bid` or `ask`.                        |
+| `price`            | Price for each unit.                                         |
+| `state`            | One of `wait`, `done`, or `cancel`.                          |
+| `market`           | The market in which the order is placed. (In peatio `market_id`) |
+| `at`               | Order create time. (In peatio `created_at`)                  |
+| `origin_volume`    | The amount user want to sell/buy.                            |
+| `remaining_volume` | Remaining amount user want to sell/buy.                      |
 
 #### Trade
 

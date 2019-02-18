@@ -59,14 +59,14 @@ class Order < ActiveRecord::Base
     return if ord_type != 'limit'
 
     Member.trigger_pusher_event member_id, :order, \
-      id:            id,
-      at:            at,
-      market:        market_id,
-      kind:          kind,
-      price:         price&.to_s('F'),
-      state:         state,
-      volume:        volume.to_s('F'),
-      origin_volume: origin_volume.to_s('F')
+      id:               id,
+      at:               at,
+      market:           market_id,
+      kind:             kind,
+      price:            price&.to_s('F'),
+      state:            state,
+      remaining_volume: volume.to_s('F'),
+      origin_volume:    origin_volume.to_s('F')
   end
 
   def kind

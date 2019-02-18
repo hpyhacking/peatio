@@ -88,7 +88,6 @@ module API
 
         expose(
           :origin_volume,
-          as: :volume,
           documentation: {
             type: BigDecimal,
             desc: "The amount user want to sell/buy."\

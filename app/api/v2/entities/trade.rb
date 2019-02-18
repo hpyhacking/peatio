@@ -56,13 +56,13 @@ module API
         )
 
         expose(
-          :maker_type,
+          :taker_type,
           documentation: {
             type: String,
             desc: 'Trade maker order type (sell or buy).'
           }
         ) do |trade, _options|
-            trade.ask_id < trade.bid_id ? :sell : :buy
+            trade.ask_id > trade.bid_id ? :sell : :buy
         end
 
         expose(
