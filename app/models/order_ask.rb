@@ -46,7 +46,7 @@ class OrderAsk < Order
     when 'limit'
       volume
     when 'market'
-      estimate_required_funds(Global[market_id].bids) {|p, v| v}
+      estimate_required_funds(Global[market_id].bids) {|_p, v| v}
     end
   end
 

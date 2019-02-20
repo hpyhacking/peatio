@@ -83,11 +83,13 @@ describe API::V2::Account::Deposits, type: :request do
     it 'return 404 if txid not exist' do
       api_get '/api/v2/account/deposits/5', token: token
       expect(response.code).to eq '404'
+      expect(response).to include_api_error('record.not_found')
     end
 
     it 'returns 404 if txid not belongs_to you ' do
       api_get '/api/v2/account/deposits/10', token: token
       expect(response.code).to eq '404'
+      expect(response).to include_api_error('record.not_found')
     end
 
     it 'returns deposit txid if exist' do
@@ -109,7 +111,7 @@ describe API::V2::Account::Deposits, type: :request do
     it 'denies access to unverified member' do
       api_get '/api/v2/account/deposits', token: level_0_member_token
       expect(response.code).to eq '403'
-      expect(JSON.parse(response.body)['error']).to eq( {'code' => 2000, 'message' => 'Please, pass the corresponding verification steps to deposit funds.'} )
+      expect(response).to include_api_error('account.deposit.not_permitted')
     end
   end
 
@@ -120,19 +122,19 @@ describe API::V2::Account::Deposits, type: :request do
       it 'validates currency' do
         api_get "/api/v2/account/deposit_address/dildocoin", token: token
         expect(response).to have_http_status 422
-        expect(response.body).to eq '{"error":{"code":1001,"message":"currency does not have a valid value"}}'
+        expect(response).to include_api_error('account.currency.doesnt_exist')
       end
 
       it 'validates currency address format' do
         api_get '/api/v2/account/deposit_address/btc', params: { address_format: 'cash' }, token: token
         expect(response).to have_http_status 422
-        expect(response.body).to eq '{"error":{"code":1001,"message":"currency does not support cash address format."}}'
+        expect(response).to include_api_error('account.deposit_address.doesnt_support_cash_address_format')
       end
 
       it 'validates currency with address_format param' do
         api_get '/api/v2/account/deposit_address/abc', params: { address_format: 'cash' }, token: token
         expect(response).to have_http_status 422
-        expect(response.body).to eq '{"error":{"code":1001,"message":"currency does not have a valid value, currency does not support cash address format."}}'
+        expect(response).to include_api_error('account.currency.doesnt_exist')
       end
     end
 

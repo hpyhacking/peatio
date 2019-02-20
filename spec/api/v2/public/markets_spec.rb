@@ -46,6 +46,24 @@ describe API::V2::Public::Markets, type: :request do
       expect(result['asks'].size).to eq 1
       expect(result['bids'].size).to eq 1
     end
+
+    it 'validates market param' do
+      get "/api/v2/public/markets/somecoin/order-book", asks_limit: 1, bids_limit: 1
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('public.market.doesnt_exist')
+    end
+
+    it 'validates asks limit' do
+      get "/api/v2/public/markets/somecoin/order-book", asks_limit: 201, bids_limit: 1
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('public.order_book.invalid_ask_limit')
+    end
+
+    it 'validates bids limit' do
+      get "/api/v2/public/markets/somecoin/order-book", asks_limit: 1, bids_limit: 201
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('public.order_book.invalid_bid_limit')
+    end
   end
 
   describe 'GET /api/v2/markets/:market/depth' do
@@ -73,7 +91,7 @@ describe API::V2::Public::Markets, type: :request do
       it 'validates market param' do
         api_get "/api/v2/public/markets/usdusd/depth"
         expect(response).to have_http_status 422
-        expect(JSON.parse(response.body)).to eq ({ 'error' => { 'code' => 1001, 'message' => 'market does not have a valid value' } })
+        expect(response).to include_api_error('public.market.doesnt_exist')
       end
     end
   end
@@ -503,7 +521,19 @@ describe API::V2::Public::Markets, type: :request do
     it 'validates market param' do
       api_get "/api/v2/public/markets/usdusd/trades"
       expect(response).to have_http_status 422
-      expect(JSON.parse(response.body)).to eq ({ 'error' => { 'code' => 1001, 'message' => 'market does not have a valid value' } })
+      expect(response).to include_api_error('public.market.doesnt_exist')
+    end
+
+    it 'validates limit param' do
+      get "/api/v2/public/markets/#{market}/trades", limit: 1001
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('public.trade.invalid_limit')
+    end
+
+    it 'validates page param' do
+      get "/api/v2/public/markets/#{market}/trades", page: -1
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('public.trade.non_positive_page')
     end
   end
 end

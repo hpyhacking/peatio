@@ -31,13 +31,13 @@ describe API::V2::Auth::Middleware, type: :request do
     it 'should deny access when token is not given' do
       api_get '/api/v2/'
       expect(response.code).to eq '401'
-      expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
+      expect(response).to include_api_error('jwt.decode_and_verify')
     end
 
     it 'should deny access when invalid token is given' do
       api_get '/api/v2/', token: '123.456.789'
       expect(response.code).to eq '401'
-      expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
+      expect(response).to include_api_error('jwt.decode_and_verify')
     end
 
     it 'should allow access when valid token is given' do
@@ -51,7 +51,7 @@ describe API::V2::Auth::Middleware, type: :request do
     it 'should deny access' do
       api_get '/api/v2/'
       expect(response.code).to eq '401'
-      expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
+      expect(response).to include_api_error('jwt.decode_and_verify')
     end
   end
 end

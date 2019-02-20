@@ -1,14 +1,12 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-require_dependency 'v2/errors'
 require_dependency 'v2/validations'
 
 module API
   module V2
     class Mount < Grape::API
       API_VERSION = 'v2'
-
 
       format         :json
       content_type   :json, 'application/json'
@@ -33,9 +31,9 @@ module API
       include Constraints
       include ExceptionHandlers
 
-      mount Public::Mount       => :public
-      mount Account::Mount      => :account
-      mount Market::Mount       => :market
+      mount Public::Mount   => :public
+      mount Account::Mount  => :account
+      mount Market::Mount   => :market
 
       # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/swagger
       # Add swagger documentation for Peatio User API

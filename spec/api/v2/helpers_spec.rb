@@ -36,7 +36,7 @@ describe API::V2::Helpers, type: :request do
         get '/api/v2/auth_test'
 
         expect(response.code).to eq '401'
-        expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
+        expect(response).to include_api_error('jwt.decode_and_verify')
       end
     end
   end

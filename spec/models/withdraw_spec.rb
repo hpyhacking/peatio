@@ -84,12 +84,29 @@ describe Withdraw do
       end
     end
 
-    describe 'account id assignment' do
+    describe 'balance validations' do
       subject { build :btc_withdraw, account_id: 999 }
 
+      it 'validates balance' do
+        expect do
+          subject.save.to raise_error(Account::AccountError)
+        end
+      end
+    end
+
+    describe 'account id from outside' do
+
+      let(:currency) { Currency.find('btc') }
+      let(:member) { create(:member) }
+      before do
+        member.accounts.with_currency(currency).first.plus_funds(12)
+      end
+      subject { build :btc_withdraw, account_id: 999, member: member }
+
       it 'don\'t accept account id from outside' do
-        subject.save
-        expect(subject.account_id).to eq(subject.member.get_account(subject.currency).id)
+        expect do
+          expect(subject.account_id).to eq(subject.member.get_account(subject.currency).id)
+        end
       end
     end
   end

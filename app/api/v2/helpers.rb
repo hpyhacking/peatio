@@ -12,25 +12,25 @@ module API
 
       def deposits_must_be_permitted!
         if current_user.level < ENV.fetch('MINIMUM_MEMBER_LEVEL_FOR_DEPOSIT').to_i
-          raise Error.new(text: 'Please, pass the corresponding verification steps to deposit funds.', status: 403)
+          error!({ errors: ['account.deposit.not_permitted'] }, 403)
         end
       end
 
       def withdraws_must_be_permitted!
         if current_user.level < ENV.fetch('MINIMUM_MEMBER_LEVEL_FOR_WITHDRAW').to_i
-          raise Error.new(text: 'Please, pass the corresponding verification steps to withdraw funds.', status: 403)
+          error!({ errors: ['account.withdraw.not_permitted'] }, 403)
         end
       end
 
       def trading_must_be_permitted!
         if current_user.level < ENV.fetch('MINIMUM_MEMBER_LEVEL_FOR_TRADING').to_i
-          raise Error.new(text: 'Please, pass the corresponding verification steps to enable trading.', status: 403)
+          error!({ errors: ['market.trade.not_permitted'] }, 403)
         end
       end
 
       def withdraw_api_must_be_enabled!
         if ENV.false?('ENABLE_ACCOUNT_WITHDRAWAL_API')
-          raise Error.new(text: 'Account withdrawal API is disabled', status: 422)
+          error!({ errors: ['account.withdraw.disabled_api'] }, 422)
         end
       end
 
@@ -65,24 +65,19 @@ module API
       end
 
       def create_order(attrs)
+        create_order_errors = {
+          ::Account::AccountError => 'market.account.insufficient_balance',
+          ::Order::InsufficientMarketLiquidity => 'market.order.insufficient_market_liquidity',
+          ActiveRecord::RecordInvalid => 'market.order.invalid_volume_or_price'
+        }
+
         order = build_order(attrs)
         Ordering.new(order).submit
         order
-      rescue ::Account::AccountError => e
-        report_exception_to_screen(e)
-        raise CreateOrderAccountError, e.inspect
       rescue => e
+        message = create_order_errors.fetch(e.class, 'market.order.create_error')
         report_exception_to_screen(e)
-        raise CreateOrderError, e.inspect
-      end
-
-      def create_orders(multi_attrs)
-        orders = multi_attrs.map(&method(:build_order))
-        Ordering.new(orders).submit
-        orders
-      rescue => e
-        report_exception_to_screen(e)
-        raise CreateOrderError, e.inspect
+        error!({ errors: [message] }, 422)
       end
 
       def order_param

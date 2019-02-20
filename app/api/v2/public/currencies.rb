@@ -5,15 +5,15 @@ module API
   module V2
     module Public
       class Currencies < Grape::API
-        helpers API::V2::NamedParams
 
         desc 'Get a currency' do
           success Entities::Currency
         end
         params do
-          requires :id, type: String,
-                        values: -> { Currency.enabled.codes(bothcase: true) },
-                        desc: -> { API::V2::Entities::Currency.documentation[:id][:desc] }
+          requires :id,
+                   type: String,
+                   values: { value: -> { Currency.enabled.codes(bothcase: true) }, message: 'public.currency.doesnt_exist'},
+                   desc: -> { API::V2::Entities::Currency.documentation[:id][:desc] }
         end
         get '/currencies/:id' do
           present Currency.find(params[:id]), with: API::V2::Entities::Currency
@@ -23,9 +23,10 @@ module API
           is_array: true,
           success: Entities::Currency
         params do
-          optional :type, type: String,
-                          values: %w[fiat coin],
-                          desc: -> { API::V2::Entities::Currency.documentation[:type][:desc] }
+          optional :type, 
+                   type: String,
+                   values: { value: %w[fiat coin], message: 'public.currency.invalid_type' },
+                   desc: -> { API::V2::Entities::Currency.documentation[:type][:desc] }
         end
         get '/currencies' do
           currencies = Currency.enabled

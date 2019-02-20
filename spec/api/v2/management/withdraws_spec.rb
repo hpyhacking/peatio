@@ -118,6 +118,18 @@ describe API::V2::Management::Withdraws, type: :request do
           expect(record.account.locked).to eq amount
         end
       end
+
+      context 'invalid withdraw' do
+        before do
+          data[:action] = :process
+          data[:amount] = 1000
+        end
+        it 'validates enough balance' do
+          request
+          expect(response).to have_http_status(422)
+          expect(JSON.parse(response.body)).to eq("errors"=>["Account balance is insufficient"])
+        end
+      end
     end
 
     context 'extremely precise values' do

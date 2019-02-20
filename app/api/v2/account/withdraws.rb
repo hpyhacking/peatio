@@ -5,7 +5,6 @@ module API
   module V2
     module Account
       class Withdraws < Grape::API
-        helpers API::V2::NamedParams
 
         before { withdraws_must_be_permitted! }
 
@@ -13,9 +12,20 @@ module API
           is_array: true,
           success: API::V2::Entities::Withdraw
         params do
-          optional :currency, type: String,  values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { "Any supported currencies: #{Currency.enabled.codes(bothcase: true).join(',')}." }
-          optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'Page number (defaults to 1).'
-          optional :limit,    type: Integer, default: 100, range: 1..100, desc: 'Number of withdraws per page (defaults to 100, maximum is 100).'
+          optional :currency,
+                   type: String,
+                   values: { value: -> { Currency.coins.enabled.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
+                   desc: 'Currency code.'
+          optional :limit,
+                   type: { value: Integer, message: 'account.withdraw.non_integer_limit' },
+                   values: { value: 1..100, message: 'account.withdraw.invalid_limit' },
+                   default: 100,
+                   desc: "Number of withdraws per page (defaults to 100, maximum is 100)."
+          optional :page,
+                   type: { value: Integer, message: 'account.withdraw.non_integer_page' },
+                   values: { value: -> (p){ p.try(:positive?) }, message: 'account.withdraw.non_positive_page'},
+                   default: 1,
+                   desc: 'Page number (defaults to 1).'
         end
         get '/withdraws' do
           currency = Currency.find(params[:currency]) if params[:currency].present?
@@ -28,27 +38,27 @@ module API
         desc 'Creates new crypto withdrawal.'
         params do
           requires :otp,
-                   type: Integer,
-                   desc: 'OTP to perform action',
-                   allow_blank: false
+                   type: { value: Integer, message: 'account.withdraw.non_integer_otp' },
+                   allow_blank: { value: false, message: 'account.withdraw.empty_otp' },
+                   desc: 'OTP to perform action'
           requires :rid,
                    type: String,
-                   desc: 'Wallet address on the Blockchain.',
-                   allow_blank: false
+                   allow_blank: { value: false, message: 'account.withdraw.empty_rid' },
+                   desc: 'Wallet address on the Blockchain.'
           requires :currency,
                    type: String,
-                   values: -> { Currency.coins.codes(bothcase: true) },
+                   values: { value: -> { Currency.coins.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
                    desc: 'The currency code.'
           requires :amount,
-                   type: BigDecimal,
-                   values: { value: ->(v) { v.to_d.positive? }, message: 'must be positive' },
+                   type: { value: BigDecimal, message: 'account.withdraw.non_decimal_amount' },
+                   values: { value: ->(v) { v.try(:positive?) }, message: 'account.withdraw.non_positive_amount' },
                    desc: 'The amount to withdraw.'
         end
         post '/withdraws' do
           withdraw_api_must_be_enabled!
 
           unless Vault::TOTP.validate?(current_user.uid, params[:otp])
-            raise Error.new(text: 'OTP code is invalid', status: 422)
+            error!({ errors: ['account.withdraw.invalid_otp'] }, 422)
           end
 
           currency = Currency.find(params[:currency])
@@ -57,14 +67,19 @@ module API
             member:         current_user,
             currency:       currency,
             rid:            params[:rid]
+          withdraw.save!
+          withdraw.with_lock { withdraw.submit! }
+          present withdraw, with: API::V2::Entities::Withdraw
 
-          if withdraw.save
-            withdraw.with_lock { withdraw.submit! }
-            present withdraw, with: API::V2::Entities::Withdraw
-          else
-            body errors: withdraw.errors.full_messages
-            status 422
-          end
+        rescue ::Account::AccountError => e
+          report_exception_to_screen(e)
+          error!({ errors: ['account.withdraw.insufficient_balance'] }, 422)
+        rescue ActiveRecord::RecordInvalid => e
+          report_exception_to_screen(e)
+          error!({ errors: ['account.withdraw.invalid_amount'] }, 422)
+        rescue => e
+          report_exception_to_screen(e)
+          error!({ errors: ['account.withdraw.create_error'] }, 422)
         end
       end
     end

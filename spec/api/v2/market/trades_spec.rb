@@ -62,9 +62,8 @@ describe API::V2::Market::Trades, type: :request do
   describe 'GET /api/v2/market/trades' do
     it 'requires authentication' do
       get '/api/v2/market/trades', market: 'btcusd'
-
       expect(response.code).to eq '401'
-      expect(response.body).to eq '{"error":{"code":2001,"message":"Authorization failed"}}'
+      expect(response).to include_api_error('jwt.decode_and_verify')
     end
 
     it 'returns all my recent trades' do
@@ -111,14 +110,13 @@ describe API::V2::Market::Trades, type: :request do
       api_get '/api/v2/market/trades', params: { market: 'btcusd', limit: 1024 }, token: token
 
       expect(response.code).to eq '422'
-      expect(response.body).to eq '{"error":{"code":1001,"message":"limit must be in range: 1..1000."}}'
+      expect(response).to include_api_error('market.trade.invalid_limit')
     end
 
     it 'denies access to unverified member' do
       api_get '/api/v2/market/trades', params: { market: 'btcusd' }, token: level_0_member_token
       expect(response.code).to eq '403'
-      expect(JSON.parse(response.body)['error']).to eq( {'code' => 2000, 'message' => 'Please, pass the corresponding verification steps to enable trading.'} )
+      expect(response).to include_api_error('market.trade.not_permitted')
     end
-
   end
 end

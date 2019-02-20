@@ -98,15 +98,16 @@ module API
             currency:       currency,
             tid:            params[:tid],
             rid:            params[:rid]
-
-          if withdraw.save
-            withdraw.with_lock { withdraw.submit! }
-            perform_action(withdraw, params[:action]) if params[:action]
-            present withdraw, with: API::V2::Management::Entities::Withdraw
-          else
-            body errors: withdraw.errors.full_messages
-            status 422
-          end
+          withdraw.save!
+          withdraw.with_lock { withdraw.submit! }
+          perform_action(withdraw, params[:action]) if params[:action]
+          present withdraw, with: API::V2::Management::Entities::Withdraw
+        rescue ::Account::AccountError => e
+          report_exception_to_screen(e)
+          error!({ errors: [e.to_s] }, 422)
+        rescue => e
+          report_exception(e)
+          error!({ errors: ['Failed to create withdraw!']}, 422)
         end
 
         desc 'Performs action on withdraw.' do

@@ -5,7 +5,6 @@ module API
   module V2
     module Account
       class Balances < Grape::API
-        helpers API::V2::NamedParams
 
         # TODO: Add failures.
         # TODO: Move desc hash options to block once issues are resolved.
@@ -23,8 +22,12 @@ module API
           # TODO: Add failures.
         end
         params do
-          use :currency
+          requires :currency,
+                   type: String,
+                   values: { value: -> { Currency.enabled.pluck(:id) }, message: 'account.currency.doesnt_exist' },
+                   desc: 'The currency code.'
         end
+
         get '/balances/:currency' do
           present current_user.accounts.enabled.find_by!(currency_id: params[:currency]),
                   with: API::V2::Entities::Account

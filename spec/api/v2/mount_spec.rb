@@ -5,7 +5,9 @@ module API
   module V2
     class Mount
       get('/null') { '' }
-      get('/broken') { raise Error, code: 2_014_310, text: 'MtGox bankrupt' }
+      get('/record-not-found') { raise ActiveRecord::RecordNotFound }
+      get('/auth-error') { raise Peatio::Auth::Error }
+      get('/standard-error') { raise StandardError }
     end
   end
 end
@@ -17,10 +19,22 @@ describe API::V2::Mount, type: :request do
   end
 
   context 'handle exception on request processing' do
-    it 'should render json error message' do
-      get '/api/v2/broken'
-      expect(response.code).to eq '400'
-      expect(JSON.parse(response.body)).to eq('error' => { 'code' => 2_014_310, 'message' => 'MtGox bankrupt' })
+    it 'returns array with record.not_found error' do
+      get '/api/v2/record-not-found'
+      expect(response.code).to eq '404'
+      expect(response).to include_api_error('record.not_found')
+    end
+
+    it 'returns array with jwt.decode_and_verify error' do
+      get '/api/v2/auth-error'
+      expect(response.code).to eq '401'
+      expect(response).to include_api_error('jwt.decode_and_verify')
+    end
+
+    it 'returns array with server.internal_error error' do
+      get '/api/v2/standard-error'
+      expect(response.code).to eq '500'
+      expect(response).to include_api_error('server.internal_error')
     end
   end
 

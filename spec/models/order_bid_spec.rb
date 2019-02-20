@@ -37,17 +37,7 @@ describe OrderBid do
     it 'should raise error if the market is not deep enough' do
       expect do
         OrderBid.new(volume: '50'.to_d, ord_type: 'market').compute_locked
-      end.to raise_error(RuntimeError, 'Market is not deep enough')
-    end
-
-    it 'should raise error if volume is too large' do
-      expect do
-        OrderBid.new(volume: '30'.to_d, ord_type: 'market').compute_locked
-      end.not_to raise_error
-
-      expect do
-        OrderBid.new(volume: '31'.to_d, ord_type: 'market').compute_locked
-      end.to raise_error(RuntimeError, 'Market is not deep enough')
+      end.to raise_error(Order::InsufficientMarketLiquidity)
     end
 
     it 'should make sure price is less than max_bid_price' do

@@ -20,20 +20,20 @@ describe API::V2::Account::Withdraws, type: :request do
       api_get '/api/v2/account/withdraws', params: { currency: 'FOO' }, token: token
 
       expect(response.code).to eq '422'
-      expect(response.body).to eq '{"error":{"code":1001,"message":"currency does not have a valid value"}}'
+      expect(response).to include_api_error('account.currency.doesnt_exist')
     end
 
     it 'validates page param' do
       api_get '/api/v2/account/withdraws', params: { page: -1 }, token: token
 
       expect(response.code).to eq '422'
-      expect(response.body).to eq '{"error":{"code":1001,"message":"page page must be greater than zero."}}'
+      expect(response).to include_api_error('account.withdraw.non_positive_page')
     end
 
     it 'validates limit param' do
       api_get '/api/v2/account/withdraws', params: { limit: 9999 }, token: token
       expect(response.code).to eq '422'
-      expect(response.body).to eq '{"error":{"code":1001,"message":"limit must be in range: 1..100."}}'
+      expect(response).to include_api_error('account.withdraw.invalid_limit')
     end
 
     it 'returns withdraws for all currencies by default' do
@@ -85,7 +85,7 @@ describe API::V2::Account::Withdraws, type: :request do
     it 'denies access to unverified member' do
       api_get '/api/v2/account/withdraws', token: level_0_member_token
       expect(response.code).to eq '403'
-      expect(JSON.parse(response.body)['error']).to eq( {'code' => 2000, 'message' => 'Please, pass the corresponding verification steps to withdraw funds.'} )
+      expect(response).to include_api_error('account.withdraw.not_permitted')
     end
   end
 
@@ -109,7 +109,7 @@ describe API::V2::Account::Withdraws, type: :request do
       it 'doesn\'t allow fiat' do
         api_post '/api/v2/account/withdraws', params: data, token: token
         expect(response).to have_http_status(422)
-        expect(response.body).to eq '{"error":{"code":1001,"message":"currency does not have a valid value"}}'
+        expect(response).to include_api_error('account.currency.doesnt_exist')
       end
     end
 
@@ -120,7 +120,7 @@ describe API::V2::Account::Withdraws, type: :request do
         it 'doesn\'t allow account withdrawal API call' do
           api_post '/api/v2/account/withdraws', params: data, token: token
           expect(response).to have_http_status(422)
-          expect(response.body).to eq '{"error":{"code":2000,"message":"Account withdrawal API is disabled"}}'
+          expect(response).to include_api_error('account.withdraw.disabled_api')
         end
       end
 
@@ -136,60 +136,70 @@ describe API::V2::Account::Withdraws, type: :request do
         end
       end
 
-      it 'validates missing otp param' do
-        data.except!(:otp)
+      it 'validates missing params' do
+        data.except!(:otp, :rid, :amount, :currency)
         api_post '/api/v2/account/withdraws', params: data, token: token
         expect(response).to have_http_status(422)
-        expect(response.body).to eq '{"error":{"code":1001,"message":"otp is missing, otp is empty"}}'
+        expect(response).to include_api_error('account.withdraw.missing_otp')
+        expect(response).to include_api_error('account.withdraw.missing_rid')
+        expect(response).to include_api_error('account.withdraw.missing_amount')
+        expect(response).to include_api_error('account.withdraw.missing_currency')
       end
 
       it 'requires otp' do
         data[:otp] = nil
         api_post '/api/v2/account/withdraws', params: data, token: token
         expect(response).to have_http_status(422)
-        expect(response.body).to eq '{"error":{"code":1001,"message":"otp is empty"}}'
+        expect(response).to include_api_error('account.withdraw.empty_otp')
       end
 
       it 'validates otp code' do
         Vault::TOTP.stubs(:validate?).returns(false)
         api_post '/api/v2/account/withdraws', params: data, token: token
         expect(response).to have_http_status(422)
-        expect(response.body).to eq '{"error":{"code":2000,"message":"OTP code is invalid"}}'
+        expect(response).to include_api_error('account.withdraw.invalid_otp')
       end
 
       it 'requires amount' do
         data[:amount] = nil
         api_post '/api/v2/account/withdraws', params: data, token: token
         expect(response).to have_http_status(422)
-        expect(response.body).to eq '{"error":{"code":1001,"message":"amount must be positive"}}'
+        expect(response).to include_api_error('account.withdraw.non_positive_amount')
       end
 
-      it 'validates negative balance' do
+      it 'validates negative amount' do
         data[:amount] = -1
         api_post '/api/v2/account/withdraws', params: data, token: token
         expect(response).to have_http_status(422)
-        expect(response.body).to eq '{"error":{"code":1001,"message":"amount must be positive"}}'
+        expect(response).to include_api_error('account.withdraw.non_positive_amount')
       end
 
       it 'validates enough balance' do
         data[:amount] = 100
         api_post '/api/v2/account/withdraws', params: data, token: token
         expect(response).to have_http_status(422)
-        expect(response.body).to eq '{"errors":["Account balance is insufficient"]}'
+        expect(response).to include_api_error('account.withdraw.insufficient_balance')
+      end
+
+      it 'validates type amount' do
+        data[:amount] = 'one'
+        api_post '/api/v2/account/withdraws', params: data, token: token
+        expect(response).to have_http_status(422)
+        expect(response).to include_api_error('account.withdraw.non_decimal_amount')
       end
 
       it 'requires rid' do
         data[:rid] = nil
         api_post '/api/v2/account/withdraws', params: data, token: token
         expect(response).to have_http_status(422)
-        expect(response.body).to eq '{"error":{"code":1001,"message":"rid is empty"}}'
+        expect(response).to include_api_error('account.withdraw.empty_rid')
       end
 
       it 'requires currency' do
         data[:currency] = nil
         api_post '/api/v2/account/withdraws', params: data, token: token
         expect(response).to have_http_status(422)
-        expect(response.body).to eq '{"error":{"code":1001,"message":"currency does not have a valid value"}}'
+        expect(response).to include_api_error('account.currency.doesnt_exist')
       end
 
       it 'creates new withdraw and immediately submits it' do

@@ -62,6 +62,15 @@ describe API::V2::Account::Balances, type: :request do
       expect(result).to match response_body
     end
 
+    context 'invalid currency' do
+
+      before { api_get '/api/v2/account/balances/somecoin', token: token }
+
+      it { expect(response).to have_http_status 422 }
+
+      it { expect(response).to include_api_error('account.currency.doesnt_exist') }
+
+    end
 
     context 'disable currency' do
 

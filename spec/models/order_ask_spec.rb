@@ -31,16 +31,6 @@ describe OrderAsk do
       expect(bid).to eq('1010'.to_d * OrderBid::LOCKING_BUFFER_FACTOR)
     end
 
-    it 'should raise error if volume is too large' do
-      expect do
-        OrderBid.new(volume: '30'.to_d, ord_type: 'market').compute_locked
-      end.not_to raise_error
-
-      expect do
-        OrderBid.new(volume: '31'.to_d, ord_type: 'market').compute_locked
-      end.to raise_error(RuntimeError, 'Market is not deep enough')
-    end
-
     it 'should make sure price is greater than min_ask_price' do
       ask = OrderAsk.new(market_id: market.id, price: '0.0'.to_d, ord_type: 'limit')
       expect(ask).not_to be_valid

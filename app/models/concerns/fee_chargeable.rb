@@ -40,7 +40,7 @@ module FeeChargeable
       validate on: :create do
         next if !account || [sum, amount, fee].any?(&:blank?)
         if sum > account.balance || (amount + fee) > sum
-          errors.add :base, -> { I18n.t('activerecord.errors.models.withdraw.account_balance_is_poor') }
+          raise ::Account::AccountError, 'Account balance is insufficient'
         end
       end
     end

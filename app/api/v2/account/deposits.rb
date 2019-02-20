@@ -7,7 +7,6 @@ module API
   module V2
     module Account
       class Deposits < Grape::API
-        helpers API::V2::NamedParams
 
         before { deposits_must_be_permitted! }
 
@@ -16,10 +15,23 @@ module API
           success: API::V2::Entities::Deposit
 
         params do
-          optional :currency, type: String, values: -> { Currency.enabled.codes(bothcase: true) }, desc: -> { "Currency value contains #{Currency.enabled.codes(bothcase: true).join(',')}" }
-          optional :state,    type: String, values: -> { Deposit::STATES.map(&:to_s) }
-          optional :limit,    type: Integer, default: 100, range: 1..100, desc: "Number of deposits per page (defaults to 100, maximum is 100)."
-          optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'Page number (defaults to 1).'
+          optional :currency,
+                   type: String,
+                   values: { value: -> { Currency.enabled.codes(bothcase: true) }, message: 'account.currency.doesnt_exist' },
+                   desc: 'Currency code'
+          optional :state,
+                   type: String,
+                   values: { value: -> { Deposit::STATES.map(&:to_s) }, message: 'account.deposit.invalid_state' }
+          optional :limit,
+                   type: { value: Integer, message: 'account.deposit.non_integer_limit' },
+                   values: { value: 1..100, message: 'account.deposit.invalid_limit' },
+                   default: 100,
+                   desc: "Number of deposits per page (defaults to 100, maximum is 100)."
+          optional :page,
+                   type: { value: Integer, message: 'account.deposit.non_integer_page' },
+                   values: { value: -> (p){ p.try(:positive?) }, message: 'account.deposit.non_positive_page'},
+                   default: 1,
+                   desc: 'Page number (defaults to 1).'
         end
         get "/deposits" do
           currency = Currency.find(params[:currency]) if params[:currency].present?
@@ -34,12 +46,13 @@ module API
           success API::V2::Entities::Deposit
         end
         params do
-          requires :txid
+          requires :txid,
+                   type: String,
+                   allow_blank: { value: false, message: 'account.deposit.empty_txid' },
+                   desc: "Deposit transaction id"
         end
         get "/deposits/:txid" do
-          deposit = current_user.deposits.find_by(txid: params[:txid])
-          raise DepositByTxidNotFoundError, params[:txid] unless deposit
-
+          deposit = current_user.deposits.find_by!(txid: params[:txid])
           present deposit, with: API::V2::Entities::Deposit
         end
 
@@ -48,9 +61,16 @@ module API
           'If this case you should try again later.',
           success: API::V2::Entities::Deposit
         params do
-          requires :currency, type: String, values: -> { Currency.coins.enabled.codes(bothcase: true) }, desc: 'The account you want to deposit to.'
+          requires :currency,
+                   type: String,
+                   values: { value: -> { Currency.coins.enabled.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
+                   desc: 'The account you want to deposit to.'
           given :currency do
-            optional :address_format, type: String, values: -> { %w[legacy cash] }, validate_currency_address_format: true, desc: 'Address format legacy/cash'
+            optional :address_format,
+                     type: String,
+                     values: { value: -> { %w[legacy cash] }, message: 'account.deposit_address.invalid_address_format' },
+                     validate_currency_address_format: { value: true, prefix: 'account.deposit_address' },
+                     desc: 'Address format legacy/cash'
           end
         end
         get '/deposit_address/:currency' do

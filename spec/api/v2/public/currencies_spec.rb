@@ -45,7 +45,9 @@ describe API::V2::Public::Currencies, type: :request do
 
     it 'returns error in case of invalid id' do
       get '/api/v2/public/currencies/invalid'
+
       expect(response).to have_http_status 422
+      expect(response).to include_api_error('public.currency.doesnt_exist')
     end
   end
 
