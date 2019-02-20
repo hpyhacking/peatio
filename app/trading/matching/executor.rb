@@ -157,6 +157,7 @@ module Matching
       order.locked         -= outcome_value
       order.funds_received += income_value
       order.trades_count   += 1
+      order.updated_at      = Time.now
 
       if order.volume.zero?
         order.state = Order::DONE

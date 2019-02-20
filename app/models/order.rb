@@ -18,7 +18,7 @@ class Order < ActiveRecord::Base
   validates :price, numericality: { greater_than: 0 }, if: ->(order) { order.ord_type == 'limit' }
   validates :origin_volume, numericality: { greater_than: 0 }
   validate  :market_order_validations, if: ->(order) { order.ord_type == 'market' }
-  
+
   WAIT   = 'wait'
   DONE   = 'done'
   CANCEL = 'cancel'
