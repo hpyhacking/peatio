@@ -1,6 +1,6 @@
 # Peatio - an open-source crypto currency exchange
 
-[![Build Status](https://ci.microkube.com/api/badges/rubykube/peatio/status.svg?branch=master)](https://ci.microkube.com/rubykube/peatio)
+[![Build Status](https://travis-ci.org/rubykube/peatio.svg?branch=master)](https://travis-ci.org/rubykube/peatio)
 [![Telegram Chat](https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg)](https://t.me/peatio)
 
 ## [Peatio.tech](https://www.peatio.tech) Introduction
