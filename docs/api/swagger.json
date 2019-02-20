@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.0.29-alpha"
+    "version": "2.0.30-alpha"
   },
   "swagger": "2.0",
   "produces": [
@@ -325,6 +325,8 @@
             "type": "integer",
             "format": "int32",
             "default": 300,
+            "minimum": 1,
+            "maximum": 1000,
             "required": false
           }
         ],
@@ -380,6 +382,8 @@
             "type": "integer",
             "format": "int32",
             "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
             "required": false
           },
           {
@@ -394,7 +398,7 @@
           {
             "in": "query",
             "name": "timestamp",
-            "description": "An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned.",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only trades executed before the time will be returned.",
             "type": "integer",
             "format": "int32",
             "required": false
@@ -470,6 +474,8 @@
             "type": "integer",
             "format": "int32",
             "default": 20,
+            "minimum": 1,
+            "maximum": 200,
             "required": false
           },
           {
@@ -479,6 +485,8 @@
             "type": "integer",
             "format": "int32",
             "default": 20,
+            "minimum": 1,
+            "maximum": 200,
             "required": false
           }
         ],
@@ -787,7 +795,7 @@
           {
             "in": "path",
             "name": "txid",
-            "description": "",
+            "description": "Deposit transaction id",
             "type": "string",
             "required": true
           }
@@ -816,7 +824,7 @@
           {
             "in": "query",
             "name": "currency",
-            "description": "Currency value contains bch,btc,dash,eth,ltc,trst,usd,xrp,BCH,BTC,DASH,ETH,LTC,TRST,USD,XRP",
+            "description": "Currency code",
             "type": "string",
             "enum": [
               "bch",
@@ -859,6 +867,8 @@
             "type": "integer",
             "format": "int32",
             "default": 100,
+            "minimum": 1,
+            "maximum": 100,
             "required": false
           },
           {
@@ -964,7 +974,7 @@
           {
             "in": "query",
             "name": "currency",
-            "description": "Any supported currencies: bch,btc,dash,eth,ltc,trst,usd,xrp,BCH,BTC,DASH,ETH,LTC,TRST,USD,XRP.",
+            "description": "Currency code.",
             "type": "string",
             "enum": [
               "bch",
@@ -973,7 +983,6 @@
               "eth",
               "ltc",
               "trst",
-              "usd",
               "xrp",
               "BCH",
               "BTC",
@@ -981,18 +990,8 @@
               "ETH",
               "LTC",
               "TRST",
-              "USD",
               "XRP"
             ],
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Page number (defaults to 1).",
-            "type": "integer",
-            "format": "int32",
-            "default": 1,
             "required": false
           },
           {
@@ -1002,6 +1001,17 @@
             "type": "integer",
             "format": "int32",
             "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
             "required": false
           }
         ],
@@ -1063,6 +1073,8 @@
             "type": "integer",
             "format": "int32",
             "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
             "required": false
           },
           {
@@ -1077,7 +1089,7 @@
           {
             "in": "query",
             "name": "timestamp",
-            "description": "An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned.",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only trades executed before the time will be returned.",
             "type": "integer",
             "format": "int32",
             "required": false
@@ -1231,7 +1243,7 @@
             "name": "volume",
             "description": "",
             "type": "number",
-            "format": "float",
+            "format": "double",
             "required": true
           },
           {
@@ -1251,7 +1263,7 @@
             "name": "price",
             "description": "",
             "type": "number",
-            "format": "float",
+            "format": "double",
             "required": true
           }
         ],
@@ -1320,6 +1332,8 @@
             "type": "integer",
             "format": "int32",
             "default": 100,
+            "minimum": 0,
+            "maximum": 1000,
             "required": false
           },
           {
