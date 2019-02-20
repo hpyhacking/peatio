@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.0.28-alpha
+## Version: 2.0.29-alpha
 
 **Contact information:**  
 peatio.tech  
