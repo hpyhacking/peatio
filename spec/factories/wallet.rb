@@ -102,6 +102,90 @@ FactoryBot.define do
       secret             { 'changeme' }
     end
 
+    trait :ring_deposit do
+      currency_id        { 'ring' }
+      blockchain_key     { 'eth-kovan' }
+      name               { 'Ring Coin Deposit Wallet' }
+      address            { '0x828058628DF254Ebf252e0b1b5393D1DED91E369' }
+      kind               { 'deposit' }
+      max_balance        { 0.0 }
+      nsig               { 2 }
+      status             { 'active' }
+      gateway            { 'parity' }
+      uri                { 'http://127.0.0.1:8545' }
+      secret             { 'changeme' }
+    end
+
+    trait :ring_hot do
+      currency_id        { 'ring' }
+      blockchain_key     { 'eth-kovan' }
+      name               { 'Ring Coin Hot Wallet' }
+      address            { '0x23236af7d03c4b0720f709593f5ace0ea92e77cf' }
+      kind               { 'hot' }
+      max_balance        { 100.0 }
+      nsig               { 2 }
+      status             { 'active' }
+      gateway            { 'parity' }
+      uri                { 'http://127.0.0.1:8545' }
+      secret             { 'changeme' }
+    end
+
+    trait :peth_deposit do
+      currency_id        { 'eth' }
+      blockchain_key     { 'eth-kovan' }
+      name               { 'Kovan Ethereum Deposit Wallet' }
+      address            { '0x828058628DF254Ebf252e0b1b5393D1DED91E369' }
+      kind               { 'deposit' }
+      max_balance        { 0.0 }
+      nsig               { 2 }
+      status             { 'active' }
+      gateway            { 'parity' }
+      uri                { 'http://127.0.0.1:8545' }
+      secret             { 'changeme' }
+    end
+
+    trait :peth_hot do
+      currency_id        { 'eth' }
+      blockchain_key     { 'eth-kovan' }
+      name               { 'Kovan Ethereum Hot Wallet' }
+      address            { '0xb6a61c43DAe37c0890936D720DC42b5CBda990F9' }
+      kind               { 'hot' }
+      max_balance        { 100.0 }
+      nsig               { 2 }
+      status             { 'active' }
+      gateway            { 'parity' }
+      uri                { 'http://127.0.0.1:8545' }
+      secret             { 'changeme' }
+    end
+
+    trait :peth_cold do
+      currency_id        { 'eth' }
+      blockchain_key     { 'eth-kovan' }
+      name               { 'Kovan Ethereum Cold Wallet' }
+      address            { '0x2b9fBC10EbAeEc28a8Fc10069C0BC29E45eBEB9C' }
+      kind               { 'cold' }
+      max_balance        { 1000.0 }
+      nsig               { 2 }
+      status             { 'active' }
+      gateway            { 'parity' }
+      uri                { 'http://127.0.0.1:8545' }
+      secret             { 'changeme' }
+    end
+
+    trait :peth_fee do
+      currency_id        { 'eth' }
+      blockchain_key     { 'eth-kovan' }
+      name               { 'Kovan Ethereum Fee Wallet' }
+      address            { '0x45a31b15a2ab8a8477375b36b6f5a0c63733dce8' }
+      kind               { 'fee' }
+      max_balance        { 1000.0 }
+      nsig               { 2 }
+      status             { 'active' }
+      gateway            { 'parity' }
+      uri                { 'http://127.0.0.1:8545' }
+      secret             { 'changeme' }
+    end
+
     trait :btc_deposit do
       currency_id        { 'btc' }
       blockchain_key     { 'btc-testnet' }

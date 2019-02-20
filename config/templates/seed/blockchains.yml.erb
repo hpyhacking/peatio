@@ -1,9 +1,20 @@
 <% if ENV['BLOCKCHAINS_CONFIG'] %>
 <%= File.read(ENV['BLOCKCHAINS_CONFIG']) %>
 <% else %>
+- key:               prt-kovan
+  name:              Ethereum Kovan
+  client:            parity                 # API client name.
+  server:            http://127.0.0.1:8545  # Public Ethereum node endpoint. IMPORTANT: full syncmode.
+  height:            2500000                # Initial block number from which sync will be started.
+  min_confirmations: 6                      # Minimal confirmations needed for withdraw and deposit confirmation.
+  explorer:
+    address:         https://kovan.etherscan.io/address/#{address}
+    transaction:     https://kovan.etherscan.io/tx/#{txid}
+  status:            disabled
+
 - key:               eth-rinkeby
   name:              Ethereum Rinkeby
-  client:            ethereum               # API client name.
+  client:            geth                 # API client name.
   server:            http://127.0.0.1:8545  # Public Ethereum node endpoint. IMPORTANT: full syncmode.
   height:            2500000                # Initial block number from which sync will be started.
   min_confirmations: 6                      # Minimal confirmations needed for withdraw and deposit confirmation.
@@ -14,7 +25,7 @@
 
 - key:               eth-mainet
   name:              Ethereum Mainet
-  client:            ethereum               # API client name.
+  client:            geth                 # API client name.
   server:            http://127.0.0.1:8545  # Public Ethereum node endpoint. IMPORTANT: full syncmode.
   height:            5000000                # Initial block number from which sync will be started.
   min_confirmations: 6                      # Minimal confirmations needed for withdraw and deposit confirmation.

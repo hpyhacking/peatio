@@ -18,12 +18,24 @@ FactoryBot.define do
     trait 'eth-rinkeby' do
       key                     { 'eth-rinkeby' }
       name                    { 'Ethereum Rinkeby' }
-      client                  { 'ethereum' }
+      client                  { 'geth' }
       server                  { 'http://127.0.0.1:8545' }
       height                  { 2500000 }
       min_confirmations       { 6 }
       explorer_address        { 'https://etherscan.io/address/#{address}' }
       explorer_transaction    { 'https://etherscan.io/tx/#{txid}' }
+      status                  { 'active' }
+    end
+
+    trait 'eth-kovan' do
+      key                     { 'eth-kovan' }
+      name                    { 'Ethereum Kovan' }
+      client                  { 'parity' }
+      server                  { 'http://127.0.0.1:8545' }
+      height                  { 2500000 }
+      min_confirmations       { 6 }
+      explorer_address        { 'https://kovan.etherscan.io/address/#{address}' }
+      explorer_transaction    { 'https://kovan.etherscan.io/tx/#{txid}' }
       status                  { 'active' }
     end
 

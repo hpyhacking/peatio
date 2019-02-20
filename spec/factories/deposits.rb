@@ -67,6 +67,15 @@ FactoryBot.define do
       txout { 0 }
     end
 
+    trait :deposit_ring do
+      type { Deposits::Coin }
+      currency { Currency.find(:ring) }
+      member { create(:member, :level_3, :barong) }
+      address { Faker::Bitcoin.address }
+      txid { Faker::Lorem.characters(64) }
+      txout { 0 }
+    end
+
     trait :deposit_xrp do
       type { Deposits::Coin }
       currency { Currency.find(:xrp) }

@@ -131,15 +131,6 @@ module BlockchainClient
       json_rpc(:eth_getBlockByNumber, [number, false]).fetch('result')
     end
 
-    def permit_transaction(issuer, recipient)
-      json_rpc(:personal_unlockAccount, [normalize_address(issuer.fetch(:address)), issuer.fetch(:secret), 5]).tap do |response|
-        unless response['result']
-          raise BlockchainClient::Error, \
-            "#{currency.code.upcase} withdrawal from #{normalize_address(issuer[:address])} to #{normalize_address(recipient[:address])} is not permitted."
-        end
-      end
-    end
-
     def abi_encode(method, *args)
       '0x' + args.each_with_object(Digest::SHA3.hexdigest(method, 256)[0...8]) do |arg, data|
         data.concat(arg.gsub(/\A0x/, '').rjust(64, '0'))

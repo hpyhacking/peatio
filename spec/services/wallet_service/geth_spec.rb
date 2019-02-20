@@ -70,10 +70,10 @@ describe WalletService::Geth do
         { result: '0' }.to_json
       end
 
-      let :eth_sendTransaction_request do
+      let :personal_sendTransaction_request do
       { jsonrpc: '2.0',
         id:       1,
-        method:  'eth_sendTransaction',
+        method:  'personal_sendTransaction',
         params:
           [
             {
@@ -82,12 +82,12 @@ describe WalletService::Geth do
               value: '0x' + (deposit.amount_to_base_unit! - eth_options[:gas_limit] * eth_options[:gas_price]).to_s(16),
               gas:   '0x' + eth_options[:gas_limit].to_s(16),
               gasPrice: '0x' + eth_options[:gas_price].to_s(16)
-            }
+            }, nil
           ]
       }.to_json
       end
 
-      let :eth_sendTransaction_response do
+      let :personal_sendTransaction_response do
         { jsonrpc: '2.0',
           id:      2,
           result:  txid
@@ -98,8 +98,7 @@ describe WalletService::Geth do
 
       before do
         stub_request(:post, hot_wallet.uri).with(body: eth_getBalance_request).to_return(body: eth_getBalance_response)
-        WalletClient[deposit_wallet].class.any_instance.expects(:permit_transaction)
-        stub_request(:post, deposit_wallet.uri).with(body: eth_sendTransaction_request).to_return(body: eth_sendTransaction_response)
+        stub_request(:post, deposit_wallet.uri).with(body: personal_sendTransaction_request).to_return(body: personal_sendTransaction_response)
       end
 
       it do
@@ -144,10 +143,10 @@ describe WalletService::Geth do
         { result: '0' }.to_json
       end
 
-      let :eth_sendTransaction_request do
+      let :personal_sendTransaction_request do
         { jsonrpc: '2.0',
           id:      1,
-          method:  'eth_sendTransaction',
+          method:  'personal_sendTransaction',
           params:
             [
               {
@@ -156,12 +155,12 @@ describe WalletService::Geth do
                 data:      '0xa9059cbb000000000000000000000000b6a61c43dae37c0890936d720dc42b5cbda990f90000000000000000000000000000000000000000000000000000000000989680',
                 gas:       '0x' + erc20_options[:gas_limit].to_s(16),
                 gasPrice:  '0x' + erc20_options[:gas_price].to_s(16)
-              }
+              }, nil
             ]
         }.to_json
       end
 
-      let :eth_sendTransaction_response do
+      let :personal_sendTransaction_response do
         { jsonrpc: '2.0',
           id:      1,
           result:  txid
@@ -172,8 +171,7 @@ describe WalletService::Geth do
 
       before do
         stub_request(:post, hot_wallet.uri).with(body: eth_call_request).to_return(body: eth_call_response)
-        WalletClient[deposit_wallet].class.any_instance.expects(:permit_transaction)
-        stub_request(:post, deposit_wallet.uri).with(body: eth_sendTransaction_request).to_return(body: eth_sendTransaction_response)
+        stub_request(:post, deposit_wallet.uri).with(body: personal_sendTransaction_request).to_return(body: personal_sendTransaction_response)
       end
 
       it do
@@ -191,10 +189,10 @@ describe WalletService::Geth do
 
       let(:txid) { '0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b' }
 
-      let :eth_sendTransaction_request do
+      let :personal_sendTransaction_request do
         { jsonrpc: '2.0',
           id:      1,
-          method:  'eth_sendTransaction',
+          method:  'personal_sendTransaction',
           params:
             [
               {
@@ -203,12 +201,12 @@ describe WalletService::Geth do
                 value: '0x8a6e51a672858000',
                 gas:   '0x' + eth_options[:gas_limit].to_s(16),
                 gasPrice: '0x' + eth_options[:gas_price].to_s(16)
-              }
+              }, "changeme"
             ]
         }.to_json
       end
 
-      let :eth_sendTransaction_response do
+      let :personal_sendTransaction_response do
         { jsonrpc: '2.0',
           id:      1,
           result:  txid
@@ -218,8 +216,7 @@ describe WalletService::Geth do
       subject { WalletService[hot_wallet].build_withdrawal!(withdraw)}
 
       before do
-        WalletClient[hot_wallet].class.any_instance.expects(:permit_transaction)
-        stub_request(:post, 'http://127.0.0.1:8545/').with(body: eth_sendTransaction_request).to_return(body: eth_sendTransaction_response)
+        stub_request(:post, 'http://127.0.0.1:8545/').with(body: personal_sendTransaction_request).to_return(body: personal_sendTransaction_response)
       end
 
       it 'sends withdrawal' do
@@ -232,10 +229,10 @@ describe WalletService::Geth do
             gas_price: 2 * eth_options[:gas_price] }
         end
 
-        let :eth_sendTransaction_request do
+        let :personal_sendTransaction_request do
           { jsonrpc: '2.0',
             id:      1,
-            method:  'eth_sendTransaction',
+            method:  'personal_sendTransaction',
             params:
               [
                 {
@@ -244,7 +241,7 @@ describe WalletService::Geth do
                   value: '0x8a6e51a672858000',
                   gas:   '0x' + custom_eth_options[:gas_limit].to_s(16),
                   gasPrice: '0x' + custom_eth_options[:gas_price].to_s(16)
-                }
+                }, "changeme"
               ]
           }.to_json
         end
@@ -265,10 +262,10 @@ describe WalletService::Geth do
       let(:txid) { '0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b' }
 
 
-      let :eth_sendTransaction_request do
+      let :personal_sendTransaction_request do
         { jsonrpc: '2.0',
           id:      1,
-          method:  'eth_sendTransaction',
+          method:  'personal_sendTransaction',
           params:
             [
               {
@@ -277,12 +274,12 @@ describe WalletService::Geth do
                 data:   '0xa9059cbb000000000000000000000000085h43d8a49eeb85d32cf465507dd71d507100c100000000000000000000000000000000000000000000000000000000009834d8',
                 gas:   '0x' + erc20_options[:gas_limit].to_s(16),
                 gasPrice: '0x' + erc20_options[:gas_price].to_s(16)
-              }
+              }, "changeme"
             ]
         }.to_json
       end
 
-      let :eth_sendTransaction_response do
+      let :personal_sendTransaction_response do
         { jsonrpc: '2.0',
           id:      1,
           result:  txid
@@ -292,8 +289,7 @@ describe WalletService::Geth do
       subject { WalletService[hot_wallet].build_withdrawal!(withdraw)}
 
       before do
-        WalletClient[hot_wallet].class.any_instance.expects(:permit_transaction)
-        stub_request(:post, 'http://127.0.0.1:8545/').with(body: eth_sendTransaction_request).to_return(body: eth_sendTransaction_response)
+        stub_request(:post, 'http://127.0.0.1:8545/').with(body: personal_sendTransaction_request).to_return(body: personal_sendTransaction_response)
       end
 
       it 'sends withdrawal and returns txid' do
@@ -306,10 +302,10 @@ describe WalletService::Geth do
             gas_price: 2 * erc20_options[:gas_price] }
         end
 
-        let :eth_sendTransaction_request do
+        let :personal_sendTransaction_request do
           { jsonrpc: '2.0',
             id:      1,
-            method:  'eth_sendTransaction',
+            method:  'personal_sendTransaction',
             params:
               [
                 {
@@ -318,7 +314,7 @@ describe WalletService::Geth do
                   data:   '0xa9059cbb000000000000000000000000085h43d8a49eeb85d32cf465507dd71d507100c100000000000000000000000000000000000000000000000000000000009834d8',
                   gas:   '0x' + custom_erc20_options[:gas_limit].to_s(16),
                   gasPrice: '0x' + custom_erc20_options[:gas_price].to_s(16)
-                }
+                }, "changeme"
               ]
           }.to_json
         end
@@ -349,10 +345,10 @@ describe WalletService::Geth do
 
     let(:txid) { '0xc6ef2fc5426d6ad6fd9e2a26abeab0aa2411b7ab17f30a99d3cb96aed1d1055b' }
 
-    let :eth_sendTransaction_request do
+    let :personal_sendTransaction_request do
       { jsonrpc: '2.0',
         id:      1,
-        method:  'eth_sendTransaction',
+        method:  'personal_sendTransaction',
         params:
           [
             {
@@ -361,12 +357,12 @@ describe WalletService::Geth do
               value: collection_fees,
               gas:   '0x' + eth_options[:gas_limit].to_s(16),
               gasPrice: '0x' + eth_options[:gas_price].to_s(16)
-            }
+            }, "changeme"
           ]
       }.to_json
     end
 
-    let :eth_sendTransaction_response do
+    let :personal_sendTransaction_response do
       { jsonrpc: '2.0',
         id:      1,
         result:  txid
@@ -376,8 +372,7 @@ describe WalletService::Geth do
     subject { WalletService[deposit_wallet].deposit_collection_fees(deposit) }
 
     before do
-      WalletClient[deposit_wallet].class.any_instance.expects(:permit_transaction)
-      stub_request(:post, deposit_wallet.uri).with(body: eth_sendTransaction_request).to_return(body: eth_sendTransaction_response)
+      stub_request(:post, deposit_wallet.uri).with(body: personal_sendTransaction_request).to_return(body: personal_sendTransaction_response)
     end
 
     it do

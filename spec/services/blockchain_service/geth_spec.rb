@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-describe BlockchainService::Ethereum do
+describe BlockchainService::Geth do
 
   around do |example|
     WebMock.disable_net_connect!
@@ -9,15 +9,15 @@ describe BlockchainService::Ethereum do
     WebMock.allow_net_connect!
   end
 
-  describe 'Client::Ethereum' do
+  describe 'Client::Geth' do
     let(:block_data) do
-      Rails.root.join('spec', 'resources', 'ethereum-data', block_file_name)
+      Rails.root.join('spec', 'resources', 'ethereum-data', 'rinkeby', block_file_name)
         .yield_self { |file_path| File.open(file_path) }
         .yield_self { |file| JSON.load(file) }
     end
 
     let(:transaction_receipt_data) do
-      Rails.root.join('spec', 'resources', 'ethereum-data/transaction-receipts', block_file_name)
+      Rails.root.join('spec', 'resources', 'ethereum-data', 'rinkeby/transaction-receipts', block_file_name)
           .yield_self { |file_path| File.open(file_path) }
           .yield_self { |file| JSON.load(file) }
     end
@@ -323,6 +323,7 @@ describe BlockchainService::Ethereum do
 
       it 'changes withdraw confirmations amount' do
         subject.each do |withdrawal|
+          
           expect(withdrawal.confirmations).to_not eq 0
           if withdrawal.confirmations >= blockchain.min_confirmations
             expect(withdrawal.aasm_state).to eq 'succeed'

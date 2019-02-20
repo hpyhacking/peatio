@@ -1,7 +1,6 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-
 class Wallet < ActiveRecord::Base
   extend Enumerize
 
@@ -12,7 +11,7 @@ class Wallet < ActiveRecord::Base
   ENUMERIZED_KINDS = { deposit: 100, fee: 200, hot: 310, warm: 320, cold: 330 }.freeze
   enumerize :kind, in: ENUMERIZED_KINDS, scope: true
 
-  GATEWAYS = %w[bitcoind bitcoincashd litecoind geth dashd rippled bitgo].freeze
+  GATEWAYS = %w[bitcoind bitcoincashd litecoind parity geth dashd rippled bitgo].freeze
   SETTING_ATTRIBUTES = %i[ uri
                            secret
                            bitgo_test_net
@@ -82,7 +81,7 @@ class Wallet < ActiveRecord::Base
 end
 
 # == Schema Information
-# Schema version: 20181017114624
+# Schema version: 20181126101312
 #
 # Table name: wallets
 #

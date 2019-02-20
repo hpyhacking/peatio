@@ -55,6 +55,7 @@ describe WalletService do
       subject { WalletService[deposit_wallet].send(:spread_deposit, deposit) }
 
       before do
+        Wallet.find_by(currency: :eth, kind: :hot, blockchain_key: 'eth-kovan').delete
         # Hot wallet balance = 50 eth
         stub_request(:post, hot_wallet.uri).with(body: hot_wallet_eth_getBalance_request).to_return(body: hot_wallet_eth_getBalance_response)
         # Warm wallet balance = 0 eth
@@ -107,6 +108,7 @@ describe WalletService do
       subject { WalletService[deposit_wallet].send(:spread_deposit, deposit) }
 
       before do
+        Wallet.find_by(currency: :eth, kind: :hot, blockchain_key: 'eth-kovan').delete
         warm_wallet.update!(max_balance: 100)
         # Hot wallet balance = 50 eth
         stub_request(:post, hot_wallet.uri).with(body: hot_wallet_eth_getBalance_request).to_return(body: hot_wallet_eth_getBalance_response)
