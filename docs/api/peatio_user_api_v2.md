@@ -1,8 +1,7 @@
-Peatio User API v2
-==================
+# Peatio User API v2
 API for Peatio application.
 
-**Version:** 2.0.27-alpha
+## Version: 2.0.28-alpha
 
 **Contact information:**  
 peatio.tech  
@@ -12,7 +11,6 @@ hello@peatio.tech
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
 ### Security
----
 **Bearer**  
 
 |apiKey|*API Key*|
@@ -21,76 +19,88 @@ hello@peatio.tech
 |In|header|
 
 ### /public/health/ready
----
-### /public/health/alive
----
-### /public/version
----
-##### ***GET***
-**Description:** Get running Peatio version and build details.
 
-**Responses**
+### /public/health/alive
+
+### /public/version
+
+#### GET
+##### Description:
+
+Get running Peatio version and build details.
+
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get running Peatio version and build details. |
 
 ### /public/timestamp
----
-##### ***GET***
-**Description:** Get server current time, in seconds since Unix epoch.
 
-**Responses**
+#### GET
+##### Description:
+
+Get server current time, in seconds since Unix epoch.
+
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get server current time, in seconds since Unix epoch. |
 
 ### /public/member-levels
----
-##### ***GET***
-**Description:** Returns hash of minimum levels and the privileges they provide.
 
-**Responses**
+#### GET
+##### Description:
+
+Returns hash of minimum levels and the privileges they provide.
+
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Returns hash of minimum levels and the privileges they provide. |
 
 ### /public/markets/{market}/tickers
----
-##### ***GET***
-**Description:** Get ticker of specific market.
 
-**Parameters**
+#### GET
+##### Description:
+
+Get ticker of specific market.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | path |  | Yes | string |
 
-**Responses**
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get ticker of specific market. |
 
 ### /public/markets/tickers
----
-##### ***GET***
-**Description:** Get ticker of all markets.
 
-**Responses**
+#### GET
+##### Description:
+
+Get ticker of all markets.
+
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get ticker of all markets. |
 
 ### /public/markets/{market}/k-line
----
-##### ***GET***
-**Description:** Get OHLC(k line) of specific market.
 
-**Parameters**
+#### GET
+##### Description:
+
+Get OHLC(k line) of specific market.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -100,36 +110,40 @@ hello@peatio.tech
 | time_to | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data till that time will be returned. | No | integer |
 | limit | query | Limit the number of returned data points default to 30. Ignored if time_from and time_to are given. | No | integer |
 
-**Responses**
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get OHLC(k line) of specific market. |
 
 ### /public/markets/{market}/depth
----
-##### ***GET***
-**Description:** Get depth or specified market. Both asks and bids are sorted from highest price to lowest.
 
-**Parameters**
+#### GET
+##### Description:
+
+Get depth or specified market. Both asks and bids are sorted from highest price to lowest.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | path |  | Yes | string |
 | limit | query | Limit the number of returned price levels. Default to 300. | No | integer |
 
-**Responses**
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get depth or specified market. Both asks and bids are sorted from highest price to lowest. |
 
 ### /public/markets/{market}/trades
----
-##### ***GET***
-**Description:** Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.
 
-**Parameters**
+#### GET
+##### Description:
+
+Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -139,18 +153,20 @@ hello@peatio.tech
 | timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned. | No | integer |
 | order_by | query | If set, returned trades will be sorted in specific order, default to 'desc'. | No | string |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order. | [ [Trade](#trade) ] |
 
 ### /public/markets/{market}/order-book
----
-##### ***GET***
-**Description:** Get the order book of specified market.
 
-**Parameters**
+#### GET
+##### Description:
+
+Get the order book of specified market.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -158,159 +174,181 @@ hello@peatio.tech
 | asks_limit | query | Limit the number of returned sell orders. Default to 20. | No | integer |
 | bids_limit | query | Limit the number of returned buy orders. Default to 20. | No | integer |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get the order book of specified market. | [ [OrderBook](#orderbook) ] |
 
 ### /public/markets
----
-##### ***GET***
-**Description:** Get all available markets.
 
-**Responses**
+#### GET
+##### Description:
+
+Get all available markets.
+
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all available markets. | [ [Market](#market) ] |
 
 ### /public/currencies
----
-##### ***GET***
-**Description:** Get list of currencies
 
-**Parameters**
+#### GET
+##### Description:
+
+Get list of currencies
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | type | query | Currency type | No | string |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get list of currencies | [ [Currency](#currency) ] |
 
 ### /public/currencies/{id}
----
-##### ***GET***
-**Description:** Get a currency
 
-**Parameters**
+#### GET
+##### Description:
+
+Get a currency
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | Currency code. | Yes | string |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get a currency | [Currency](#currency) |
 
 ### /public/fees/trading
----
-##### ***GET***
-**Description:** Returns trading fees for markets.
 
-**Responses**
+#### GET
+##### Description:
+
+Returns trading fees for markets.
+
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Returns trading fees for markets. |
 
 ### /public/fees/deposit
----
-##### ***GET***
-**Description:** Returns deposit fees for currencies.
 
-**Responses**
+#### GET
+##### Description:
+
+Returns deposit fees for currencies.
+
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Returns deposit fees for currencies. |
 
 ### /public/fees/withdraw
----
-##### ***GET***
-**Description:** Returns withdraw fees for currencies.
 
-**Responses**
+#### GET
+##### Description:
+
+Returns withdraw fees for currencies.
+
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Returns withdraw fees for currencies. |
 
 ### /account/balances/{currency}
----
-##### ***GET***
-**Description:** Get user account by currency
 
-**Parameters**
+#### GET
+##### Description:
+
+Get user account by currency
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | path | The currency code. | Yes | string |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get user account by currency | [Account](#account) |
 
 ### /account/balances
----
-##### ***GET***
-**Description:** Get list of user accounts
 
-**Responses**
+#### GET
+##### Description:
+
+Get list of user accounts
+
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get list of user accounts | [ [Account](#account) ] |
 
 ### /account/deposit_address/{currency}
----
-##### ***GET***
-**Description:** Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later.
 
-**Parameters**
+#### GET
+##### Description:
+
+Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | path | The account you want to deposit to. | Yes | string |
 | address_format | query | Address format legacy/cash | No | string |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later. | [Deposit](#deposit) |
 
 ### /account/deposits/{txid}
----
-##### ***GET***
-**Description:** Get details of specific deposit.
 
-**Parameters**
+#### GET
+##### Description:
+
+Get details of specific deposit.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | txid | path |  | Yes | string |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get details of specific deposit. | [Deposit](#deposit) |
 
 ### /account/deposits
----
-##### ***GET***
-**Description:** Get your deposits history.
 
-**Parameters**
+#### GET
+##### Description:
+
+Get your deposits history.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -319,18 +357,20 @@ hello@peatio.tech
 | limit | query | Number of deposits per page (defaults to 100, maximum is 100). | No | integer |
 | page | query | Page number (defaults to 1). | No | integer |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get your deposits history. | [ [Deposit](#deposit) ] |
 
 ### /account/withdraws
----
-##### ***POST***
-**Description:** Creates new crypto withdrawal.
 
-**Parameters**
+#### POST
+##### Description:
+
+Creates new crypto withdrawal.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -339,16 +379,18 @@ hello@peatio.tech
 | currency | formData | The currency code. | Yes | string |
 | amount | formData | The amount to withdraw. | Yes | double |
 
-**Responses**
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 201 | Creates new crypto withdrawal. |
 
-##### ***GET***
-**Description:** List your withdraws as paginated collection.
+#### GET
+##### Description:
 
-**Parameters**
+List your withdraws as paginated collection.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -356,18 +398,20 @@ hello@peatio.tech
 | page | query | Page number (defaults to 1). | No | integer |
 | limit | query | Number of withdraws per page (defaults to 100, maximum is 100). | No | integer |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | List your withdraws as paginated collection. | [ [Withdraw](#withdraw) ] |
 
 ### /market/trades
----
-##### ***GET***
-**Description:** Get your executed trades. Trades are sorted in reverse creation order.
 
-**Parameters**
+#### GET
+##### Description:
+
+Get your executed trades. Trades are sorted in reverse creation order.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -377,52 +421,58 @@ hello@peatio.tech
 | timestamp | query | An integer represents the seconds elapsed since Unix epoch. If set, only trades executed before the time will be returned. | No | integer |
 | order_by | query | If set, returned trades will be sorted in specific order, default to 'desc'. | No | string |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get your executed trades. Trades are sorted in reverse creation order. | [ [Trade](#trade) ] |
 
 ### /market/orders/cancel
----
-##### ***POST***
-**Description:** Cancel all my orders.
 
-**Parameters**
+#### POST
+##### Description:
+
+Cancel all my orders.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | side | formData | If present, only sell orders (asks) or buy orders (bids) will be canncelled. | No | string |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Cancel all my orders. | [Order](#order) |
 
 ### /market/orders/{id}/cancel
----
-##### ***POST***
-**Description:** Cancel an order.
 
-**Parameters**
+#### POST
+##### Description:
+
+Cancel an order.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path |  | Yes | integer |
 
-**Responses**
+##### Responses
 
 | Code | Description |
 | ---- | ----------- |
 | 201 | Cancel an order. |
 
 ### /market/orders
----
-##### ***POST***
-**Description:** Create a Sell/Buy order.
 
-**Parameters**
+#### POST
+##### Description:
+
+Create a Sell/Buy order.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -432,16 +482,18 @@ hello@peatio.tech
 | ord_type | formData |  | No | string |
 | price | formData |  | Yes | float |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Create a Sell/Buy order. | [Order](#order) |
 
-##### ***GET***
-**Description:** Get your orders, results is paginated.
+#### GET
+##### Description:
 
-**Parameters**
+Get your orders, results is paginated.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -451,33 +503,35 @@ hello@peatio.tech
 | page | query | Specify the page of paginated results. | No | integer |
 | order_by | query | If set, returned orders will be sorted in specific order, default to "desc". | No | string |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get your orders, results is paginated. | [ [Order](#order) ] |
 
 ### /market/orders/{id}
----
-##### ***GET***
-**Description:** Get information of specified order.
 
-**Parameters**
+#### GET
+##### Description:
+
+Get information of specified order.
+
+##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path |  | Yes | integer |
 
-**Responses**
+##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get information of specified order. | [Order](#order) |
 
 ### Models
----
 
-### Trade  
+
+#### Trade
 
 Get your executed trades. Trades are sorted in reverse creation order.
 
@@ -493,7 +547,7 @@ Get your executed trades. Trades are sorted in reverse creation order.
 | side | string | Trade side. | No |
 | order_id | integer | Order id. | No |
 
-### OrderBook  
+#### OrderBook
 
 Get the order book of specified market.
 
@@ -502,7 +556,7 @@ Get the order book of specified market.
 | asks | [ [Order](#order) ] | Asks in orderbook | No |
 | bids | [ [Order](#order) ] | Bids in orderbook | No |
 
-### Order  
+#### Order
 
 Get your orders, results is paginated.
 
@@ -523,7 +577,7 @@ Get your orders, results is paginated.
 | trades_count | integer | Count of trades. | No |
 | trades | [ [Trade](#trade) ] | Trades wiht this order. | No |
 
-### Market  
+#### Market
 
 Get all available markets.
 
@@ -542,7 +596,7 @@ Get all available markets.
 | ask_precision | double | Precision for ask order. | No |
 | bid_precision | double | Precision for bid order. | No |
 
-### Currency  
+#### Currency
 
 Get a currency
 
@@ -564,7 +618,7 @@ Get a currency
 | precision | string | Currency precision | No |
 | icon_url | string | Currency icon | No |
 
-### Account  
+#### Account
 
 Get list of user accounts
 
@@ -574,7 +628,7 @@ Get list of user accounts
 | balance | double | Account balance. | No |
 | locked | double | Account locked funds. | No |
 
-### Deposit  
+#### Deposit
 
 Get your deposits history.
 
@@ -590,7 +644,7 @@ Get your deposits history.
 | created_at | string | The datetime when deposit was created. | No |
 | completed_at | string | The datetime when deposit was completed.. | No |
 
-### Withdraw  
+#### Withdraw
 
 List your withdraws as paginated collection.
 
@@ -609,7 +663,7 @@ List your withdraws as paginated collection.
 | updated_at | string | The datetimes for the withdrawal. | No |
 | done_at | string | The datetime when withdraw was completed | No |
 
-### Member  
+#### Member
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
