@@ -36,7 +36,7 @@ module API
         def fetch_member(payload)
           begin
             Member.from_payload(payload)
-            # Handle race conditions when creating member & authentication records.
+            # Handle race conditions when creating member record.
             # We do not handle race condition for update operations.
             # http://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-find_or_create_by
           rescue ActiveRecord::RecordNotUnique

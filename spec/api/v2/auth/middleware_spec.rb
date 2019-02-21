@@ -21,7 +21,7 @@ end
 describe API::V2::Auth::Middleware, type: :request do
 
   context 'when using JWT authentication' do
-    let(:member) { create(:member, :level_3) }
+    let(:member) { create(:member, :level_3, uid: 'U123456789') }
     let(:payload) do
       { x: 'x', y: 'y', z: 'z', email: member.email,\
         uid: 'U123456789', role: 'member', state: 'active', level: '3' }
@@ -42,6 +42,7 @@ describe API::V2::Auth::Middleware, type: :request do
 
     it 'should allow access when valid token is given' do
       api_get '/api/v2/', token: token
+
       expect(response).to be_success
       expect(JSON.parse(response.body)).to eq member.email
     end

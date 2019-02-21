@@ -37,6 +37,7 @@ module API
       def current_user
         # JWT authentication provides member email.
         if env.key?('api_v2.authentic_member_email')
+          # TODO: UID should be used for member identify.
           Member.find_by_email(env['api_v2.authentic_member_email'])
         end
       end

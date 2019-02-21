@@ -105,7 +105,7 @@ private
         m.level = params[:level]
       end
       member.assign_attributes(params)
-      member.save if member.changed?
+      member.save! if member.changed?
       member
     end
 
