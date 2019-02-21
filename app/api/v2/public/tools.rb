@@ -24,12 +24,12 @@ module API
 
         resource :health do
           desc 'Get application liveness status'
-          head "/alive" do
+          get "/alive" do
             status Services::HealthChecker.alive? ? 200 : 503
           end
 
           desc 'Get application readiness status'
-          head "/ready" do
+          get "/ready" do
             status Services::HealthChecker.ready? ? 200 : 503
           end
         end
