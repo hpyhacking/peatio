@@ -4,7 +4,8 @@
 # frozen_string_literal: true
 
 # path to your application root
-APP_ROOT = File.expand_path('../../', __FILE__)
+APP_ROOT    = File.expand_path('..', __dir__)
+VAULT_TOKEN = ENV.fetch('VAULT_TOKEN', 'changeme')
 
 Dir.chdir APP_ROOT do
   puts "\n=== Copying config files ==="
@@ -19,11 +20,12 @@ Dir.chdir APP_ROOT do
 
   if ENV['JWT_PUBLIC_KEY'].nil?
     puts "\n=== Creating secrets"
-    system "bundle exec peatio security keygen --path=config/secrets"
+    system 'bundle exec peatio security keygen --path=config/secrets'
   end
 
-  puts "\n=== Starting backends"
-  system "docker-compose -f config/backend.yml up -d"
+  {'VAULT_TOKEN' => VAULT_TOKEN}.tap do |env|
+    system(env, 'docker-compose -f config/backend.yml up -d')
+  end
 
   puts "\n=== Setup Vault"
   system "bin/init_vault"
