@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.0.30-alpha
+## Version: 2.0.31-alpha
 
 **Contact information:**  
 peatio.tech  
@@ -20,7 +20,29 @@ hello@peatio.tech
 
 ### /public/health/ready
 
+#### GET
+##### Description:
+
+Get application readiness status
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get application readiness status |
+
 ### /public/health/alive
+
+#### GET
+##### Description:
+
+Get application liveness status
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get application liveness status |
 
 ### /public/version
 
