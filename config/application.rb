@@ -26,7 +26,6 @@ module Peatio
       Raven.configure { |config| config.dsn = ENV['SENTRY_DSN_BACKEND'] }
     end
 
-
     # Require Scout.
     require 'scout_apm' if Rails.env.in?(ENV['SCOUT_ENV'].to_s.split(',').map(&:squish))
 
@@ -37,14 +36,6 @@ module Peatio
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = ENV.fetch('TIMEZONE')
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    config.i18n.enforce_available_locales = false
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    config.i18n.load_path += Dir[root.join('config', 'locales', '*.{yml}')]
-    config.i18n.available_locales = ['en']
 
     # Don't suppress exceptions in before_commit & after_commit callbacks.
     config.active_record.raise_in_transactional_callbacks = true
@@ -66,5 +57,7 @@ module Peatio
 
     # Disable CSRF.
     config.action_controller.allow_forgery_protection = false
+
+    config.middleware.use ActionDispatch::Flash
   end
 end

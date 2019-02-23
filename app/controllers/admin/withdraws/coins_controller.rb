@@ -34,7 +34,7 @@ module Admin
 
       def destroy
         @withdraw.reject!
-        redirect_to :back, notice: t('admin.withdraws.coins.update.notice')
+        redirect_to :back, notice: 'Succesfully updated.'
       end
 
       private
@@ -64,7 +64,7 @@ module Admin
           @withdraw.accept!
           @withdraw.process!
         end
-        redirect_to :back, notice: t('admin.withdraws.coins.update.notice')
+        redirect_to :back, notice: 'Succesfully updated.'
       end
 
       def load!
@@ -72,7 +72,7 @@ module Admin
           @withdraw.update!(txid: params.fetch(:txid))
           @withdraw.load!
         end
-        redirect_to :back, notice: t('admin.withdraws.coins.update.notice')
+        redirect_to :back, notice: 'Succesfully updated.'
       end
     end
   end

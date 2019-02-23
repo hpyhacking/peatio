@@ -1,6 +1,6 @@
 <div class="card card-primary">
   <div class="card-header">
-    <span><%= t('.account_info') %></span>
+    <span>Account Info</span>
     <span> : </span>
     <span><%= account.currency.code.upcase %></span>
   </div>
@@ -10,7 +10,7 @@
       <%= item_for account, :locked %>
       <%= item_for account, :balance %>
       <% if account.currency.coin? %>
-        <%= item_for t('.payment_address') do %>
+        <%= item_for 'Deposit Address' do %>
           <%= account.payment_address.address %>
         <% end %>
       <% end %>

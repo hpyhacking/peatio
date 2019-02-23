@@ -29,7 +29,7 @@ fi
 bundle install
 bin/init_config
 bin/install_plugins
-bundle exec rake yarn:install db:drop db:create db:migrate db:seed
+bundle exec rake db:drop db:create db:migrate db:seed
 npm i -g swagger-markdown
 npm i -g prettyjson-cli
 bundle exec rails s -d

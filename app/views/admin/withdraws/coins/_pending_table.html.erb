@@ -23,6 +23,6 @@
     <span><%= link_to 'Process',
                             admin_withdraw_path(x.currency.code, x, event: 'process'),
                             method: 'PATCH' %> | </span>
-    <%= link_to t('actions.view'), admin_withdraw_path(currency: x.currency.code, id: x) %>
+    <%= link_to 'View', admin_withdraw_path(currency: x.currency.code, id: x) %>
   <% end %>
 <% end %>

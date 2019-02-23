@@ -12,7 +12,9 @@
     </div>
     <div>
       <ul class="float-right list-unstyled mt-3 pt-1">
-        <%= render partial: 'shared/header_profile_setting' if current_user %>
+        <li class="nav-site text-left nav-link">
+          <span><%= current_user.email %></span>
+        </li>
       </ul>
     </div>
   </div>

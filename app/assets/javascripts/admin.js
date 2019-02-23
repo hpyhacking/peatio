@@ -1,7 +1,4 @@
-//= require yarn_components/raven-js/dist/raven
-//= require yarn_components/perfect-scrollbar/dist/perfect-scrollbar
-//= require ./lib/sentry
-
+//= require perfect-scrollbar
 //= require jquery3
 //= require jquery_ujs
 //= require popper

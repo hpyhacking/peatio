@@ -46,13 +46,8 @@ tags
 .idea
 
 /vendor/bundle
-/vendor/assets/yarn_components
 /vendor/plugins
 .env
 .DS_Store
 .agignore
 **/*.tgz
-
-# Ignore useless yarn files and cache
-.cache
-.yarnrc

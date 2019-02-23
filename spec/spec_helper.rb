@@ -79,7 +79,6 @@ RSpec.configure do |config|
     DatabaseCleaner.start
     AMQPQueue.stubs(:publish)
     KlineDB.stubs(:kline).returns([])
-    I18n.locale = :en
     %w[  eth-kovan eth-rinkeby btc-testnet dash-testnet ltc-testnet bch-testnet xrp-testnet ].each { |blockchain| FactoryBot.create(:blockchain, blockchain) }
     %i[ usd btc dash eth xrp trst ring bch eur ltc ].each { |ccy| FactoryBot.create(:currency, ccy) }
     %i[ eth_deposit eth_hot eth_fee peth_deposit peth_fee trst_deposit trst_hot ring_deposit ring_hot btc_hot btc_deposit bch_deposit bch_hot dash_deposit dash_hot ltc_deposit ltc_hot xrp_deposit xrp_hot peth_hot eth_warm ]

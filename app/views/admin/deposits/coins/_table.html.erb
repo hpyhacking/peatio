@@ -23,24 +23,24 @@
       <span><%= x.aasm_state.humanize %></span>
       <% if x.may_accept? %>
         <span> / </span>
-        <%= link_to t('admin.deposits.coins.index.accept'),
+        <%= link_to 'Accept',
                     admin_deposit_path(x.currency.code, x, event: 'accept'),
                     method:  'PATCH',
-                    confirm: t('admin.deposits.coins.index.accept_confirm') %>
+                    confirm: 'Confirm deposit?' %>
       <% end %>
       <% if x.may_dispatch? %>
         <span> / </span>
-        <%= link_to t('admin.deposits.coins.index.collect'),
+        <%= link_to 'Collect',
                     admin_deposit_path(x.currency.code, x, event: 'collect'),
                     method:  'PATCH',
-                    confirm: t('admin.deposits.coins.index.dispatch_confirm') %>
+                    confirm: 'dispatch deposit?' %>
       <% end %>
       <% if x.may_dispatch? && x.currency.is_erc20? %>
         <span> / </span>
-        <%= link_to t('admin.deposits.coins.index.collect with fees'),
+        <%= link_to 'Collect with Fees',
                     admin_deposit_path(x.currency.code, x, event: 'collect_fee'),
                     method:  'PATCH',
-                    confirm: t('admin.deposits.coins.index.dispatch_confirm') %>
+                    confirm: 'dispatch deposit?' %>
       <% end %>
     <% end %>
   <% end %>

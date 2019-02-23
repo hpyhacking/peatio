@@ -30,7 +30,6 @@ class AMQPQueue
     # enqueue = publish to direct exchange
     def enqueue(id, payload, attrs={})
       eid = AMQPConfig.binding_exchange_id(id) || :default
-      payload.merge!({locale: I18n.locale})
       attrs.merge!({routing_key: AMQPConfig.routing_key(id)})
       publish(eid, payload, attrs)
     end

@@ -11,9 +11,6 @@ Dir.chdir APP_ROOT do
   puts "\n=== Copying config files ==="
   system 'bin/init_config'
 
-  puts "\n=== Install yarn packages ==="
-  system 'bin/rake yarn:install'
-
   puts "\n=== Removing old logs and tempfiles ==="
   system 'rm -f log/* log/daemons/*'
   system 'bin/rake tmp:clear tmp:create'
