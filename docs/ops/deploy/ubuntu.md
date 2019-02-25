@@ -166,7 +166,7 @@ A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do b
 ##### Clone the Source
 
     mkdir -p ~/peatio
-    git clone git://github.com/peatio/peatio.git ~/peatio/current
+    git clone https://github.com/rubykube/peatio.git ~/peatio/current
     cd peatio/current
 
     ＃ Install dependency gems
