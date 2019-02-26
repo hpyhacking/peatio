@@ -26,7 +26,6 @@ tmp
 /config/markets.old.yml
 /config/deposit_channels.old.yml
 /config/withdraw_channels.old.yml
-/config/plugins.yml
 /config/management_api_v1.yml
 /config/secrets
 /config/seed
@@ -46,7 +45,6 @@ tags
 .idea
 
 /vendor/bundle
-/vendor/plugins
 .env
 .DS_Store
 .agignore

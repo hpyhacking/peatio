@@ -31,7 +31,6 @@ before_install:
 install:
   - docker-compose -f config/backend.yml up -d vault
   - bundle install --deployment --without production --jobs=$(nproc) --retry=3
-  - ./bin/install_plugins
 
 # Execute all of the commands which need to be executed before running actual tests.
 before_script:

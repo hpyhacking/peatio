@@ -11,9 +11,6 @@ require 'rails'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-# Require the plugins listed in config/plugins.yml.
-require_relative 'plugins'
-
 module Peatio
   class Application < Rails::Application
 
