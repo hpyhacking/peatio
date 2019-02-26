@@ -5,7 +5,6 @@ module API
     module Public
       class Mount < Grape::API
 
-        mount Public::Fees
         mount Public::Currencies
         mount Public::Markets
         mount Public::MemberLevels
