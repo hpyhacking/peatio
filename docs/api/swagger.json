@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.1.3"
+    "version": "2.1.4"
   },
   "swagger": "2.0",
   "produces": [
@@ -611,60 +611,6 @@
           "public"
         ],
         "operationId": "getPublicCurrenciesId"
-      }
-    },
-    "/public/fees/trading": {
-      "get": {
-        "description": "Returns trading fees for markets.",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns trading fees for markets."
-          }
-        },
-        "tags": [
-          "public"
-        ],
-        "operationId": "getPublicFeesTrading",
-        "deprecated": true
-      }
-    },
-    "/public/fees/deposit": {
-      "get": {
-        "description": "Returns deposit fees for currencies.",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns deposit fees for currencies."
-          }
-        },
-        "tags": [
-          "public"
-        ],
-        "operationId": "getPublicFeesDeposit",
-        "deprecated": true
-      }
-    },
-    "/public/fees/withdraw": {
-      "get": {
-        "description": "Returns withdraw fees for currencies.",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns withdraw fees for currencies."
-          }
-        },
-        "tags": [
-          "public"
-        ],
-        "operationId": "getPublicFeesWithdraw",
-        "deprecated": true
       }
     },
     "/account/balances/{currency}": {

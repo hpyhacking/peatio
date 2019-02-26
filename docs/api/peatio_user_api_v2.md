@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.1.3
+## Version: 2.1.4
 
 **Contact information:**  
 peatio.tech  
@@ -252,45 +252,6 @@ Get a currency
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get a currency | [Currency](#currency) |
-
-### /public/fees/trading
-
-#### GET
-##### Description:
-
-Returns trading fees for markets.
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Returns trading fees for markets. |
-
-### /public/fees/deposit
-
-#### GET
-##### Description:
-
-Returns deposit fees for currencies.
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Returns deposit fees for currencies. |
-
-### /public/fees/withdraw
-
-#### GET
-##### Description:
-
-Returns withdraw fees for currencies.
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200 | Returns withdraw fees for currencies. |
 
 ### /account/balances/{currency}
 
