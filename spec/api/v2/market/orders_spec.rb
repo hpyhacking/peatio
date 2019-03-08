@@ -109,13 +109,6 @@ describe API::V2::Market::Orders, type: :request do
       expect(response.code).to eq '403'
       expect(response).to include_api_error('market.trade.not_permitted')
     end
-
-    it 'removes whitespace from query params and returns all orders' do
-      api_get '/api/v2/market/orders', token: token, params: { market: ' btcusd ' }
-
-      expect(response).to have_http_status 200
-      expect(response.headers.fetch('Total')).to eq '4'
-    end
   end
 
   describe 'GET /api/v2/market/orders/:id' do
@@ -333,15 +326,5 @@ describe API::V2::Market::Orders, type: :request do
       end.not_to change(Order, :count)
     end
 
-    it 'strips leading and trailing whitespace from params' do
-      member.orders.where(type: 'OrderAsk').each do |o|
-        AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: o.to_matching_attributes)
-      end
-
-      expect do
-        api_post '/api/v2/market/orders/cancel', token: token, params: { side: 'sell ' }
-        expect(response).to be_success
-      end.not_to change(Order, :count)
-    end
   end
 end
