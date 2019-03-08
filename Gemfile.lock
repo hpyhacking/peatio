@@ -154,8 +154,6 @@ GEM
       rack
     grape_on_rails_routes (0.3.2)
       rails (>= 3.1.1)
-    grape_strip (1.0.1)
-      grape (~> 1.0)
     hashdiff (0.3.7)
     hashie (3.5.7)
     http_parser.rb (0.6.0)
@@ -414,7 +412,6 @@ DEPENDENCIES
   grape-swagger-ui (~> 2.2.8)
   grape_logging (~> 1.8.0)
   grape_on_rails_routes (~> 0.3.2)
-  grape_strip (~> 1.0.0)
   hashie (~> 3.5.7)
   jbuilder (~> 2.7.0)
   jquery-rails (~> 4.3.3)
@@ -451,4 +448,4 @@ DEPENDENCIES
   webmock (~> 3.3)
 
 BUNDLED WITH
-   1.17.1
+   1.17.2
