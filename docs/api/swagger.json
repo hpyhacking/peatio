@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.1.5"
+    "version": "2.1.6"
   },
   "swagger": "2.0",
   "produces": [
