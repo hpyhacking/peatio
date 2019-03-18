@@ -48,11 +48,11 @@ class Trade < ActiveRecord::Base
   end
 
   def for_global
-    { tid:    id,
-      type:   trend == 'down' ? 'sell' : 'buy',
-      date:   created_at.to_i,
-      price:  price.to_s || ZERO,
-      amount: volume.to_s || ZERO }
+    { tid:        id,
+      taker_type: ask_id > bid_id ? :sell : :buy,
+      date:       created_at.to_i,
+      price:      price.to_s || ZERO,
+      amount:     volume.to_s || ZERO }
   end
 
   def record_complete_operations!
