@@ -26,7 +26,7 @@ module API
                    desc: 'Limit the number of returned orders, default to 100.'
           optional :page,
                    type: { value: Integer, message: 'market.order.non_integer_page' },
-                   allow_blank: { value: false, message: 'market.trade.empty_page' },
+                   allow_blank: false,
                    default: 1,
                    desc: 'Specify the page of paginated results.'
           optional :order_by,

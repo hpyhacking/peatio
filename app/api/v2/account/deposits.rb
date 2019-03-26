@@ -48,7 +48,7 @@ module API
         params do
           requires :txid,
                    type: String,
-                   allow_blank: { value: false, message: 'account.deposit.empty_txid' },
+                   allow_blank: false,
                    desc: "Deposit transaction id"
         end
         get "/deposits/:txid" do

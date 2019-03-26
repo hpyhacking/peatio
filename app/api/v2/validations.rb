@@ -22,7 +22,7 @@ module API
         end
       end
 
-
+      # overrides default Grape PresenceValidator class methods
       class PresenceValidator < Grape::Validations::PresenceValidator
         # Default exception is costructed from `@api` class name.
         # E.g
@@ -41,6 +41,28 @@ module API
 
         def default_exception(module_name, class_name)
           "#{module_name}.#{class_name}.missing_#{attrs.first}"
+        end
+      end
+
+      # overrides default Grape AllowBlankValidator class methods
+      class AllowBlankValidator < Grape::Validations::AllowBlankValidator
+        # Default exception is costructed from `@api` class name.
+        # E.g
+        # @api.class  => API::V2::Account::Withdraws
+        # default_message => "account.withdraw.empty_otp"
+
+        def message(_param)
+          api = @scope.instance_variable_get(:@api)
+          module_name = api.parent.name.humanize.demodulize
+          class_name = options_key?(:c_name) ? @option[:c_name] : api.name.humanize.demodulize.singularize
+          # Return default API error message for Management module (no errors unify).
+          return super if module_name == 'management'
+
+          options_key?(:message) ? @option[:message] : default_exception(module_name, class_name)
+        end
+
+        def default_exception(module_name, class_name)
+          "#{module_name}.#{class_name}.empty_#{attrs.first}"
         end
       end
 

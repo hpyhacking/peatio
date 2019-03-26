@@ -39,7 +39,7 @@ module API
         params :order_id do
           requires :id,
                    type: { value: Integer, message: 'market.order.non_integer_id' },
-                   allow_blank: { value: false, message: 'market.order.empty_id' },
+                   allow_blank: false,
                    desc: -> { V2::Entities::Order.documentation[:id] }
         end
 
@@ -51,12 +51,12 @@ module API
                    desc: 'Limit the number of returned trades. Default to 100.'
           optional :page,
                    type: { value: Integer, message: 'market.trade.non_integer_page' },
-                   allow_blank: { value: false, message: 'market.trade.empty_page' },
+                   allow_blank: false,
                    default: 1,
                    desc: 'Specify the page of paginated results.'
           optional :timestamp,
                    type: { value: Integer, message: 'market.trade.non_integer_timestamp' },
-                   allow_blank: { value: false, message: 'market.trade.empty_timestamp' },
+                   allow_blank: false,
                    desc: "An integer represents the seconds elapsed since Unix epoch."\
                         "If set, only trades executed before the time will be returned."
           optional :order_by,

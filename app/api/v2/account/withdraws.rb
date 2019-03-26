@@ -39,11 +39,11 @@ module API
         params do
           requires :otp,
                    type: { value: Integer, message: 'account.withdraw.non_integer_otp' },
-                   allow_blank: { value: false, message: 'account.withdraw.empty_otp' },
+                   allow_blank: false,
                    desc: 'OTP to perform action'
           requires :rid,
                    type: String,
-                   allow_blank: { value: false, message: 'account.withdraw.empty_rid' },
+                   allow_blank: false,
                    desc: 'Wallet address on the Blockchain.'
           requires :currency,
                    type: String,

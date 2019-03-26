@@ -108,11 +108,11 @@ module API
                      desc: "Time period of K line, default to 1. You can choose between #{KLineService::AVAILABLE_POINT_PERIODS.join(', ')}"
             optional :time_from,
                      type: { value: Integer, message: 'public.k_line.non_integer_time_from' },
-                     allow_blank: { value: false, message: 'public.k_line.empty_time_from' },
+                     allow_blank: { value: false, c_name: 'k_line' },
                      desc: "An integer represents the seconds elapsed since Unix epoch. If set, only k-line data after that time will be returned."
             optional :time_to,
                      type: { value: Integer, message: 'public.k_line.non_integer_time_to' },
-                     allow_blank: { value: false, message: 'public.k_line.empty_time_to' },
+                     allow_blank: { value: false, c_name: 'k_line' },
                      desc: "An integer represents the seconds elapsed since Unix epoch. If set, only k-line data till that time will be returned."
             optional :limit,
                      type: { value: Integer, message: 'public.k_line.non_integer_limit' },
