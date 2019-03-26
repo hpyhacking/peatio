@@ -85,16 +85,25 @@ module API
         desc 'Cancel all my orders.',
           success: API::V2::Entities::Order
         params do
-          optional :side, type: String, values: %w(sell buy), desc: 'If present, only sell orders (asks) or buy orders (bids) will be canncelled.'
+          optional :market,
+                   type: String,
+                   values: { value: -> { ::Market.enabled.ids }, message: 'market.market.doesnt_exist' },
+                   desc: -> { V2::Entities::Market.documentation[:id] }
+          optional :side,
+                   type: String,
+                   values: %w(sell buy),
+                   desc: 'If present, only sell orders (asks) or buy orders (bids) will be canncelled.'
         end
         post '/orders/cancel' do
           begin
-            orders = current_user.orders.with_state(:wait)
+            orders = current_user.orders
+                                 .with_state(:wait)
+                                 .tap { |q| q.where!(market: params[:market]) if params[:market] }
             if params[:side].present?
               type = params[:side] == 'sell' ? 'OrderAsk' : 'OrderBid'
               orders = orders.where(type: type)
             end
-            orders.each {|o| Ordering.new(o).cancel }
+            orders.each { |o| Ordering.new(o).cancel }
             present orders, with: API::V2::Entities::Order
           rescue
             error!({ errors: ['market.order.cancel_error'] }, 422)

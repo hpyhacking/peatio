@@ -292,6 +292,7 @@ describe API::V2::Market::Orders, type: :request do
     before do
       create(:order_ask, :btcusd, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
       create(:order_bid, :btcusd, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
+      create(:order_bid, :dashbtc, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
 
       member.get_account(:btc).update_attributes(locked: '5')
       member.get_account(:usd).update_attributes(locked: '50')
@@ -307,7 +308,21 @@ describe API::V2::Market::Orders, type: :request do
         expect(response).to be_success
 
         result = JSON.parse(response.body)
-        expect(result.size).to eq 2
+        expect(result.size).to eq 3
+      end.not_to change(Order, :count)
+    end
+
+    it 'should cancel all my orders for specific market' do
+      member.orders.where(market: 'dashbtc').each do |o|
+        AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: o.to_matching_attributes)
+      end
+
+      expect do
+        api_post '/api/v2/market/orders/cancel', token: token, params: { market: 'dashbtc' }
+        expect(response).to be_success
+
+        result = JSON.parse(response.body)
+        expect(result.size).to eq 1
       end.not_to change(Order, :count)
     end
 
