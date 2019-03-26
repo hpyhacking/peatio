@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.1.8
+## Version: 2.1.9
 
 **Contact information:**  
 peatio.tech  
@@ -421,6 +421,7 @@ Cancel all my orders.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
+| market | formData |  | No | string |
 | side | formData | If present, only sell orders (asks) or buy orders (bids) will be canncelled. | No | string |
 
 ##### Responses
