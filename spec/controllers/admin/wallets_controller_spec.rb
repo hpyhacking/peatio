@@ -25,7 +25,7 @@ describe Admin::WalletsController, type: :controller do
   describe '#create' do
     it 'creates wallet with valid attributes' do
       expect do
-        post :create, wallet: attributes
+        post :create, params: { wallet: attributes }
         expect(response).to redirect_to admin_wallets_path
       end.to change(Wallet, :count).by(1)
       wallet = Wallet.last
@@ -51,7 +51,7 @@ describe Admin::WalletsController, type: :controller do
 
     it 'updates wallet attributes' do
       wallet = Wallet.last
-      post :update, wallet: new_attributes, id: wallet.id
+      post :update, params: { wallet: new_attributes, id: wallet.id }
       expect(response).to redirect_to admin_wallets_path
       wallet.reload
       new_attributes.each { |k, v| expect(wallet.method(k).call).to eq v }
@@ -60,7 +60,8 @@ describe Admin::WalletsController, type: :controller do
 
   describe '#destroy' do
     it 'doesn\'t support deletion of wallet' do
-      expect { delete :destroy, id: existing_wallet.id }.to raise_error(ActionController::UrlGenerationError)
+      params = { id: existing_wallet.id }
+      expect { delete :destroy, params: params }.to raise_error(ActionController::UrlGenerationError)
     end
   end
 

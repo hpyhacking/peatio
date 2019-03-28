@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class Trade < ActiveRecord::Base
+class Trade < ApplicationRecord
   include BelongsToMarket
   extend Enumerize
   ZERO = '0.0'.to_d

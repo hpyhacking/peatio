@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class ImproveAccountModel < ActiveRecord::Migration
+class ImproveAccountModel < ActiveRecord::Migration[4.2]
   def change
     change_column :accounts, :member_id, :integer, null: false
     change_column :accounts, :currency_id, :integer, null: false

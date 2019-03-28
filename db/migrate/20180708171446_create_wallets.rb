@@ -1,4 +1,4 @@
-class CreateWallets < ActiveRecord::Migration
+class CreateWallets < ActiveRecord::Migration[4.2]
   def change
     create_table :wallets do |t|
       t.string  :currency_id,               limit: 5

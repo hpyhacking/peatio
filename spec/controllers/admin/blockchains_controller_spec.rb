@@ -23,7 +23,7 @@ describe Admin::BlockchainsController, type: :controller do
   describe '#create' do
     it 'creates blockchain with valid attributes' do
       expect do
-        post :create, blockchain: attributes
+        post :create, params: { blockchain: attributes }
         expect(response).to redirect_to admin_blockchains_path
       end.to change(Blockchain, :count).by(1)
       blockchain = Blockchain.last
@@ -49,7 +49,7 @@ describe Admin::BlockchainsController, type: :controller do
 
     it 'updates blockchain attributes' do
       blockchain = Blockchain.last
-      post :update, blockchain: new_attributes, id: blockchain.id
+      post :update, params: { blockchain: new_attributes, id: blockchain.id }
       expect(response).to redirect_to admin_blockchains_path
       blockchain.reload
       expect(blockchain.attributes.symbolize_keys.except(:id, :created_at, :updated_at)).to eq new_attributes
@@ -58,7 +58,7 @@ describe Admin::BlockchainsController, type: :controller do
 
   describe '#destroy' do
     it 'doesn\'t support deletion of blockchain' do
-      expect { delete :destroy, id: existing_blockchain.id }.to raise_error(ActionController::UrlGenerationError)
+      expect { delete :destroy, params: { id: existing_blockchain.id } }.to raise_error(ActionController::UrlGenerationError)
     end
   end
 end

@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class Deposit < ActiveRecord::Base
+class Deposit < ApplicationRecord
   STATES = %i[submitted canceled rejected accepted collected].freeze
 
   include AASM

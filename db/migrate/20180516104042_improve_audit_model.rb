@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class ImproveAuditModel < ActiveRecord::Migration
+class ImproveAuditModel < ActiveRecord::Migration[4.2]
   def change
     change_column :audit_logs, :type, :string, limit: 30, null: false
     change_column :audit_logs, :operator_id, :integer, null: true

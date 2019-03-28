@@ -96,7 +96,7 @@ describe API::V2::Account::Withdraws, type: :request do
       { uid:      member.uid,
         currency: currency.code,
         amount:   amount,
-        rid:      Faker::Bitcoin.address,
+        rid:      Faker::Blockchain::Bitcoin.address,
         otp:      123456 }
     end
     let(:account) { member.accounts.with_currency(currency).first }

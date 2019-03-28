@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class CaseSensitiveData < ActiveRecord::Migration
+class CaseSensitiveData < ActiveRecord::Migration[4.2]
   def change
     execute %[ALTER TABLE deposits MODIFY address VARCHAR(64) BINARY;]
     execute %[ALTER TABLE deposits MODIFY txid VARCHAR(128) BINARY;]

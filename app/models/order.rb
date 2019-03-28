@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class Order < ActiveRecord::Base
+class Order < ApplicationRecord
   include BelongsToMarket
   include BelongsToMember
 
@@ -39,14 +39,16 @@ class Order < ActiveRecord::Base
 
   after_commit on: :update do
     next unless ord_type == 'limit'
-    event = case previous_changes.dig('state', 1)
+
+    event = case state
       when 'cancel' then 'order_canceled'
       when 'done'   then 'order_completed'
       else 'order_updated'
     end
 
-    EventAPI.notify ['market', market_id, event].join('.'), \
-      Serializers::EventAPI.const_get(event.camelize).call(self)
+    Serializers::EventAPI.const_get(event.camelize).call(self).tap do |payload|
+      EventAPI.notify ['market', market_id, event].join('.'), payload
+    end
   end
 
   def funds_used
@@ -176,7 +178,7 @@ end
 #  state          :integer          not null
 #  type           :string(8)        not null
 #  member_id      :integer          not null
-#  ord_type       :string           not null
+#  ord_type       :string(30)       not null
 #  locked         :decimal(32, 16)  default(0.0), not null
 #  origin_locked  :decimal(32, 16)  default(0.0), not null
 #  funds_received :decimal(32, 16)  default(0.0)

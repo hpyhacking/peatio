@@ -1,4 +1,4 @@
-class MemberField < ActiveRecord::Migration
+class MemberField < ActiveRecord::Migration[4.2]
   def change
 
     change_table :members do |t|

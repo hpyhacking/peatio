@@ -1,4 +1,4 @@
-class AddFieldSupportsCashAddrFormatToCurrencies < ActiveRecord::Migration
+class AddFieldSupportsCashAddrFormatToCurrencies < ActiveRecord::Migration[4.2]
   class Ccy < ActiveRecord::Base
     serialize :options, JSON
     self.table_name = 'currencies'

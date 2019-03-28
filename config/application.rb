@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails'
 
@@ -14,8 +14,12 @@ Bundler.require(*Rails.groups)
 module Peatio
   class Application < Rails::Application
 
-    # Eager loading app dir
+    # Eager loading app dir.
     config.eager_load_paths += Dir[Rails.root.join('app')]
+    # Eager load constants from lib/peatio
+    # There is a lot of constants used over the whole application.
+    #   lib/peatio/aasm/locking.rb => AASM::Locking
+    config.eager_load_paths += Dir[Rails.root.join('lib/peatio')]
 
     # Configure Sentry as early as possible.
     if ENV['SENTRY_DSN_BACKEND'].present?
@@ -34,19 +38,11 @@ module Peatio
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = ENV.fetch('TIMEZONE')
 
-    # Don't suppress exceptions in before_commit & after_commit callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     # Configure relative url root by setting URL_ROOT_PATH environment variable.
     # Used by microkube with API Gateway.
     config.relative_url_root = ENV.fetch('URL_ROOT_PATH', '/')
 
     config.assets.initialize_on_precompile = true
-
-    # Automatically load and reload constants from "lib/*":
-    #   lib/aasm/locking.rb => AASM::Locking
-    # We disable eager load here since lib contains lot of stuff which is not required for typical app functions.
-    config.paths.add 'lib', eager_load: false, autoload: true
 
     # Remove cookies and cookies session.
     config.middleware.delete ActionDispatch::Cookies

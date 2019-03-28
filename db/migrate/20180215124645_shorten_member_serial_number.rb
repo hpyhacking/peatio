@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class ShortenMemberSerialNumber < ActiveRecord::Migration
+class ShortenMemberSerialNumber < ActiveRecord::Migration[4.2]
   def change
     if defined?(Member)
       Member.find_each do |member|

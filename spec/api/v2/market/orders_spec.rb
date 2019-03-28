@@ -10,15 +10,15 @@ describe API::V2::Market::Orders, type: :request do
   describe 'GET /api/v2/market/orders' do
     before do
       # NOTE: We specify updated_at attribute for testing order of Order.
-      create(:order_bid, :btcusd, price: '11'.to_d, volume: '123.123456789', member: member, updated_at: Time.now + 1)
+      create(:order_bid, :btcusd, price: '11'.to_d, volume: '123.123456789', member: member, updated_at: Time.now + 5)
       create(:order_bid, :dashbtc, price: '11'.to_d, volume: '123.123456789', member: member)
       create(:order_bid, :btcusd, price: '12'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
-      create(:order_ask, :btcusd, price: '13'.to_d, volume: '123.123456789', member: member, state: Order::WAIT, updated_at: Time.now + 2)
+      create(:order_ask, :btcusd, price: '13'.to_d, volume: '123.123456789', member: member, state: Order::WAIT, updated_at: Time.now + 10)
       create(:order_ask, :btcusd, price: '14'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
     end
 
     it 'requires authentication' do
-      get '/api/v2/market/orders', market: 'btcusd'
+      get '/api/v2/market/orders', params: { market: 'btcusd' }
       expect(response.code).to eq '401'
     end
 

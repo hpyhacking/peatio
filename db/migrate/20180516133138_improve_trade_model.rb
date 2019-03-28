@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class ImproveTradeModel < ActiveRecord::Migration
+class ImproveTradeModel < ActiveRecord::Migration[4.2]
   def change
     change_column_null :trades, :price, false
     change_column_null :trades, :volume, false

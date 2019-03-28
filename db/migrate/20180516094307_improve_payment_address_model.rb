@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class ImprovePaymentAddressModel < ActiveRecord::Migration
+class ImprovePaymentAddressModel < ActiveRecord::Migration[4.2]
   def change
     change_column :payment_addresses, :created_at, :datetime, null: false, after: :details
     change_column :payment_addresses, :updated_at, :datetime, null: false, after: :created_at

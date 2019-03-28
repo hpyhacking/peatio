@@ -8,7 +8,7 @@ FactoryBot.define do
 
     factory :deposit_btc, class: Deposits::Coin do
       currency { Currency.find(:btc) }
-      address { Faker::Bitcoin.address }
+      address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end
@@ -20,7 +20,7 @@ FactoryBot.define do
     trait :deposit_btc do
       type { Deposits::Coin }
       currency { Currency.find(:btc) }
-      address { Faker::Bitcoin.address }
+      address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end
@@ -28,7 +28,7 @@ FactoryBot.define do
     trait :deposit_bch do
       type { Deposits::Coin }
       currency { Currency.find(:bch) }
-      address { Faker::Bitcoin.address }
+      address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end
@@ -36,7 +36,7 @@ FactoryBot.define do
     trait :deposit_dash do
       type { Deposits::Coin }
       currency { Currency.find(:dash) }
-      address { Faker::Bitcoin.address }
+      address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end
@@ -44,7 +44,7 @@ FactoryBot.define do
     trait :deposit_ltc do
       type { Deposits::Coin }
       currency { Currency.find(:ltc) }
-      address { Faker::Bitcoin.address }
+      address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end
@@ -53,7 +53,7 @@ FactoryBot.define do
       type { Deposits::Coin }
       currency { Currency.find(:eth) }
       member { create(:member, :level_3, :barong) }
-      address { Faker::Bitcoin.address }
+      address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end
@@ -62,7 +62,7 @@ FactoryBot.define do
       type { Deposits::Coin }
       currency { Currency.find(:trst) }
       member { create(:member, :level_3, :barong) }
-      address { Faker::Bitcoin.address }
+      address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end
@@ -71,7 +71,7 @@ FactoryBot.define do
       type { Deposits::Coin }
       currency { Currency.find(:ring) }
       member { create(:member, :level_3, :barong) }
-      address { Faker::Bitcoin.address }
+      address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end
@@ -80,7 +80,7 @@ FactoryBot.define do
       type { Deposits::Coin }
       currency { Currency.find(:xrp) }
       member { create(:member, :level_3, :barong) }
-      address { Faker::Bitcoin.address }
+      address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
     end

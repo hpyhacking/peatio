@@ -45,9 +45,12 @@ module Admin
           next unless whitelist.key?(param)
           whitelist[param] = whitelist[param].in?(['1', 'true', true])
         end
-        whitelist[:options] = params[:currency][:options].is_a?(String) ? \
-                                  JSON.parse(params[:currency][:options]) : params[:currency][:options] \
-                                  if params[:currency][:options]
+
+        if params[:currency][:options].is_a?(String)
+          whitelist[:options] = JSON.parse(params[:currency][:options])
+        elsif params[:currency][:options]
+          whitelist[:options] = params[:currency][:options].permit!
+        end
       end
     end
 

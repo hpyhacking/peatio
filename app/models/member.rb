@@ -3,7 +3,7 @@
 
 require 'securerandom'
 
-class Member < ActiveRecord::Base
+class Member < ApplicationRecord
   has_many :orders
   has_many :accounts
   has_many :payment_addresses, through: :accounts

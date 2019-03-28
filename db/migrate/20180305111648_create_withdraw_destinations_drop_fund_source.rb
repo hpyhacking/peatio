@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class CreateWithdrawDestinationsDropFundSource < ActiveRecord::Migration
+class CreateWithdrawDestinationsDropFundSource < ActiveRecord::Migration[4.2]
   def change
     create_table :withdraw_destinations do |t|
       t.string  :type,        null: false, limit: 30, index: true

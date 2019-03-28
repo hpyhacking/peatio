@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class AddCurrencies < ActiveRecord::Migration
+class AddCurrencies < ActiveRecord::Migration[4.2]
   def change
     create_table :currencies do |t|
       t.string  :key,                      limit: 30, null: false

@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class MigrateStates < ActiveRecord::Migration
+class MigrateStates < ActiveRecord::Migration[4.2]
   def change
     execute %{UPDATE deposits SET aasm_state = 'submitted' WHERE aasm_state = 'submitting'}
     execute %{UPDATE deposits SET aasm_state = 'accepted' WHERE aasm_state = 'checked' OR aasm_state = 'warning'}

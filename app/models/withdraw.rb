@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class Withdraw < ActiveRecord::Base
+class Withdraw < ApplicationRecord
   STATES = %i[ prepared
                submitted
                rejected

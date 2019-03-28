@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class Blockchain < ActiveRecord::Base
+class Blockchain < ApplicationRecord
   has_many :currencies, foreign_key: :blockchain_key, primary_key: :key
   has_many :wallets, foreign_key: :blockchain_key, primary_key: :key
 

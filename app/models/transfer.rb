@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class Transfer < ActiveRecord::Base
+class Transfer < ApplicationRecord
   # Define has_many relation with Operations::{Asset,Expense,Liability,Revenue}.
   ::Operations::Account::TYPES.map(&:pluralize).each do |op_t|
     has_many op_t.to_sym,

@@ -1,4 +1,4 @@
-class AddPositionToCurrenciesAndRenameMinAskMinBidToMarkets < ActiveRecord::Migration
+class AddPositionToCurrenciesAndRenameMinAskMinBidToMarkets < ActiveRecord::Migration[4.2]
   def change
     unless column_exists?(:currencies, :position)
       add_column :currencies, :position, :integer, default: 0, null: false, after: :withdraw_limit_72h

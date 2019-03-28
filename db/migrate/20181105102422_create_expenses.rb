@@ -1,4 +1,4 @@
-class CreateExpenses < ActiveRecord::Migration
+class CreateExpenses < ActiveRecord::Migration[4.2]
   def change
     create_table :expenses do |t|
       t.integer     :code,        null: false

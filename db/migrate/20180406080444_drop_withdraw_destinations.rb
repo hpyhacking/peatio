@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class DropWithdrawDestinations < ActiveRecord::Migration
+class DropWithdrawDestinations < ActiveRecord::Migration[4.2]
   class WithdrawDestination < ActiveRecord::Base
     serialize :details, JSON
     self.inheritance_column = :disabled

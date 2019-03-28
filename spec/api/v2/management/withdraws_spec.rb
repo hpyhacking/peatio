@@ -23,7 +23,7 @@ describe API::V2::Management::Withdraws, type: :request do
     before do
       Withdraw::STATES.tap do |states|
         (states.count * 2).times do
-          create(:btc_withdraw, member: members.sample, aasm_state: states.sample, rid: Faker::Bitcoin.address)
+          create(:btc_withdraw, member: members.sample, aasm_state: states.sample, rid: Faker::Blockchain::Bitcoin.address)
           create(:usd_withdraw, member: members.sample, aasm_state: states.sample, rid: Faker::Bank.iban)
         end
       end
@@ -85,7 +85,7 @@ describe API::V2::Management::Withdraws, type: :request do
       { uid:      member.uid,
         currency: currency.code,
         amount:   amount,
-        rid:      Faker::Bitcoin.address }
+        rid:      Faker::Blockchain::Bitcoin.address }
     end
     let(:account) { member.accounts.with_currency(currency).first }
     let(:balance) { 1.2 }

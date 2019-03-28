@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class CreateMarkets < ActiveRecord::Migration
+class CreateMarkets < ActiveRecord::Migration[4.2]
   def change
     create_table :markets do |t|
       t.string  :ask_unit,      null: false, limit: 5,                 index: true

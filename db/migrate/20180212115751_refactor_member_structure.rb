@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class RefactorMemberStructure < ActiveRecord::Migration
+class RefactorMemberStructure < ActiveRecord::Migration[4.2]
   def change
     change_column :members, :created_at, :datetime, null: false, after: :nickname
     change_column :members, :updated_at, :datetime, null: false, after: :created_at

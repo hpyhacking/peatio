@@ -14,7 +14,7 @@ FactoryBot.define do
   factory :legacy_btc_withdraw, aliases: %i[btc_withdraw], class: Withdraws::Coin do
     currency { Currency.find(:btc) }
     member { create(:member, :level_3) }
-    rid { Faker::Bitcoin.address }
+    rid { Faker::Blockchain::Bitcoin.address }
     sum { 10.to_d }
     type { 'Withdraws::Coin' }
 
@@ -44,7 +44,7 @@ FactoryBot.define do
   factory :legacy_eth_withdraw, aliases: %i[eth_withdraw], class: Withdraws::Coin do
     currency { Currency.find(:eth) }
     member { create(:member, :level_3) }
-    rid { Faker::Bitcoin.address }
+    rid { Faker::Blockchain::Bitcoin.address }
     sum { 10.to_d }
     type { 'Withdraws::Coin' }
 
@@ -59,7 +59,7 @@ FactoryBot.define do
   factory :legacy_ltc_withdraw, aliases: %i[ltc_withdraw], class: Withdraws::Coin do
     currency { Currency.find(:ltc) }
     member { create(:member, :level_3) }
-    rid { Faker::Bitcoin.address }
+    rid { Faker::Blockchain::Bitcoin.address }
     sum { 10.to_d }
     type { 'Withdraws::Coin' }
 
@@ -74,7 +74,7 @@ FactoryBot.define do
   factory :legacy_dash_withdraw, aliases: %i[dash_withdraw], class: Withdraws::Coin do
     currency { Currency.find(:dash) }
     member { create(:member, :level_3) }
-    rid { Faker::Bitcoin.address }
+    rid { Faker::Blockchain::Bitcoin.address }
     sum { 10.to_d }
     type { 'Withdraws::Coin' }
 
@@ -89,7 +89,7 @@ FactoryBot.define do
   factory :legacy_bch_withdraw, aliases: %i[bch_withdraw], class: Withdraws::Coin do
     currency { Currency.find(:bch) }
     member { create(:member, :level_3) }
-    rid { Faker::Bitcoin.address }
+    rid { Faker::Blockchain::Bitcoin.address }
     sum { 10.to_d }
     type { 'Withdraws::Coin' }
 
@@ -104,7 +104,7 @@ FactoryBot.define do
   factory :legacy_trst_withdraw, aliases: %i[trst_withdraw], class: Withdraws::Coin do
     currency { Currency.find(:trst) }
     member { create(:member, :level_3) }
-    rid { Faker::Bitcoin.address }
+    rid { Faker::Blockchain::Bitcoin.address }
     sum { 10.to_d }
     type { 'Withdraws::Coin' }
 
@@ -119,7 +119,7 @@ FactoryBot.define do
   factory :legacy_ring_withdraw, aliases: %i[ring_withdraw], class: Withdraws::Coin do
     currency { Currency.find(:ring) }
     member { create(:member, :level_3) }
-    rid { Faker::Bitcoin.address }
+    rid { Faker::Blockchain::Bitcoin.address }
     sum { 10.to_d }
     type { 'Withdraws::Coin' }
 
@@ -158,7 +158,7 @@ FactoryBot.define do
 
     currency { Currency.find(:btc) }
     member { create(:member, :level_3) }
-    rid { Faker::Bitcoin.address }
+    rid { Faker::Blockchain::Bitcoin.address }
     sum { 10.to_d }
     type { 'Withdraws::Coin' }
   end

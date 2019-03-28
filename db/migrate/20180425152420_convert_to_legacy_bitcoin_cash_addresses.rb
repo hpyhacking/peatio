@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class ConvertToLegacyBitcoinCashAddresses < ActiveRecord::Migration
+class ConvertToLegacyBitcoinCashAddresses < ActiveRecord::Migration[4.2]
   def change
     return unless defined?(PaymentAddress)
     return unless defined?(Currency)

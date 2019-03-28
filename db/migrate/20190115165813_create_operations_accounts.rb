@@ -1,4 +1,4 @@
-class CreateOperationsAccounts < ActiveRecord::Migration
+class CreateOperationsAccounts < ActiveRecord::Migration[4.2]
   def change
     create_table :operations_accounts do |t|
       t.integer :code,          null: false, limit: 3,  index: { unique: true }

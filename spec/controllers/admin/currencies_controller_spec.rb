@@ -29,7 +29,7 @@ describe Admin::CurrenciesController, type: :controller do
   describe '#create' do
     it 'creates market with valid attributes' do
       expect do
-        post :create, currency: attributes
+        post :create, params: { currency: attributes }
         expect(response).to redirect_to admin_currencies_path
       end.to change(Currency, :count)
       currency = Currency.find(:nbn)
@@ -69,10 +69,10 @@ describe Admin::CurrenciesController, type: :controller do
     before { request.env['HTTP_REFERER'] = '/admin/currencies' }
 
     it 'updates currency attributes' do
-      post :create, currency: attributes
+      post :create, params: { currency: attributes }
       currency = Currency.find(:nbn)
       attributes.each { |k, v| expect(currency.method(k).call).to eq v }
-      post :update, currency: new_attributes, id: currency.id
+      post :update, params: { currency: new_attributes, id: currency.id }
       expect(response).to redirect_to admin_currencies_path
       currency.reload
       final_attributes.each { |k, v| expect(currency.method(k).call).to eq v }
@@ -81,7 +81,7 @@ describe Admin::CurrenciesController, type: :controller do
 
   describe '#destroy' do
     it 'doesn\'t support deletion of currencies' do
-      expect { delete :destroy, id: existing_currency.id }.to raise_error(ActionController::UrlGenerationError)
+      expect { delete :destroy, params: { id: existing_currency.id } }.to raise_error(ActionController::UrlGenerationError)
     end
   end
 

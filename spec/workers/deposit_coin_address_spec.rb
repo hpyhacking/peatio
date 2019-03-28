@@ -5,7 +5,7 @@ describe Worker::DepositCoinAddress do
   describe 'BitGo label address' do
     let(:member) { create(:member, :barong) }
     let(:account) { member.ac(:btc) }
-    let(:address) { Faker::Bitcoin.address }
+    let(:address) { Faker::Blockchain::Bitcoin.address }
     let(:wallet) { Wallet.deposit.find_by_blockchain_key('btc-testnet') }
     let(:wallet_service) { WalletService[wallet] }
     subject { account.payment_address.address }

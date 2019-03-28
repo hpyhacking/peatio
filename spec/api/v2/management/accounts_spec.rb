@@ -32,8 +32,8 @@ describe API::V2::Management::Deposits, type: :request do
     it 'contains the correct response data' do
       request
       expect(JSON.parse(response.body)).to include(
-        'balance' => member.get_account(data[:currency]).balance.to_formatted_s,
-        'locked' => member.get_account(data[:currency]).locked.to_formatted_s
+        'balance' => member.get_account(data[:currency]).balance.to_s,
+        'locked' => member.get_account(data[:currency]).locked.to_s
       )
     end
   end

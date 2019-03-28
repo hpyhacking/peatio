@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class MultipleDepositAddresses < ActiveRecord::Migration
+class MultipleDepositAddresses < ActiveRecord::Migration[4.2]
   class Currency < ActiveRecord::Base
     serialize :options, JSON
     self.inheritance_column = nil

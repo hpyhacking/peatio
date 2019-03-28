@@ -1,4 +1,4 @@
-class CreateLiabilities < ActiveRecord::Migration
+class CreateLiabilities < ActiveRecord::Migration[4.2]
   def change
     create_table :liabilities do |t|
       t.integer     :code,        null: false

@@ -61,7 +61,7 @@ describe API::V2::Public::Currencies, type: :request do
     end
 
     it 'lists enabled coins' do
-      get '/api/v2/public/currencies', type: 'coin'
+      get '/api/v2/public/currencies', params: { type: 'coin' }
       expect(response).to be_success
 
       result = JSON.parse(response.body)
@@ -69,7 +69,7 @@ describe API::V2::Public::Currencies, type: :request do
     end
 
     it 'lists enabled fiats' do
-      get '/api/v2/public/currencies', type: 'fiat'
+      get '/api/v2/public/currencies', params: { type: 'fiat' }
       expect(response).to be_success
 
       result = JSON.parse(response.body, symbolize_names: true)
@@ -78,7 +78,7 @@ describe API::V2::Public::Currencies, type: :request do
     end
 
     it 'returns error in case of invalid type' do
-      get '/api/v2/public/currencies', type: 'invalid'
+      get '/api/v2/public/currencies', params: { type: 'invalid' }
       expect(response).to have_http_status 422
     end
   end

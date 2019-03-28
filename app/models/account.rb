@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class Account < ActiveRecord::Base
+class Account < ApplicationRecord
   AccountError = Class.new(StandardError)
 
   include BelongsToCurrency

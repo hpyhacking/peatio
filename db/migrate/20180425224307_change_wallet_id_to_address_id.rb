@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class ChangeWalletIdToAddressId < ActiveRecord::Migration
+class ChangeWalletIdToAddressId < ActiveRecord::Migration[4.2]
   def change
     return unless defined?(PaymentAddress)
     return unless column_exists?(:payment_addresses, :details)

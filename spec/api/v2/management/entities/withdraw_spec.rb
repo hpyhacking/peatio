@@ -22,7 +22,7 @@ describe API::V2::Management::Entities::Withdraw do
   end
 
   context 'coin' do
-    let(:rid) { Faker::Bitcoin.address }
+    let(:rid) { Faker::Blockchain::Bitcoin.address }
     let(:member) { create(:member, :barong) }
     let(:record) { create(:btc_withdraw, member: member, rid: rid) }
 

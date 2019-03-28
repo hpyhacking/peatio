@@ -36,7 +36,7 @@ describe API::V2::Management::JWTAuthenticationMiddleware, type: :request do
   end
 
   it 'requires JSON in the request body' do
-    post '/api/v2/management/timestamp', 'foo=baz&baz=qux'
+    post '/api/v2/management/timestamp', params: { foo: 'baz', baz: 'qux' }
     expect(response).to have_http_status(400)
     expect(response.body).to match(/only json/i)
   end

@@ -1,4 +1,4 @@
-class CreateTransfers < ActiveRecord::Migration
+class CreateTransfers < ActiveRecord::Migration[4.2]
   def change
     create_table :transfers do |t|
       t.integer :key,                           null: false, index: { unique: true }

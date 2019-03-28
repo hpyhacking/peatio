@@ -13,7 +13,7 @@ namespace :admin do
 
   resources :members, only: %i[index show]
 
-  resources 'deposits/:currency',  to: AdminDepositsRouter.new,  as: 'deposit'
+  resources 'deposits/:currency', to:  AdminDepositsRouter.new,  as: 'deposit'
   resources 'withdraws/:currency', to: AdminWithdrawsRouter.new, as: 'withdraw'
 
   %i[liability asset revenue expense].each do |type|

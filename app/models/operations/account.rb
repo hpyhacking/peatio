@@ -3,7 +3,7 @@
 # TODO: Add specs for validations.
 # TODO: Add admin rubric for Account.
 module Operations
-  class Account < ActiveRecord::Base
+  class Account < ApplicationRecord
     SCOPES = %w[member platform].freeze
 
     MEMBER_TYPES = %w[liability].freeze

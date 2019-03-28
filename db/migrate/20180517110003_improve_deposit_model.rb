@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class ImproveDepositModel < ActiveRecord::Migration
+class ImproveDepositModel < ActiveRecord::Migration[4.2]
   def change
     change_column :deposits, :aasm_state, :string, limit: 30, null: false
     add_index :deposits, %i[member_id txid]

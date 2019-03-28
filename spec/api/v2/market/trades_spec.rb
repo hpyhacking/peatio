@@ -61,7 +61,7 @@ describe API::V2::Market::Trades, type: :request do
 
   describe 'GET /api/v2/market/trades' do
     it 'requires authentication' do
-      get '/api/v2/market/trades', market: 'btcusd'
+      get '/api/v2/market/trades', params: { market: 'btcusd' }
       expect(response.code).to eq '401'
       expect(response).to include_api_error('jwt.decode_and_verify')
     end

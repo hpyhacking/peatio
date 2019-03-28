@@ -84,10 +84,10 @@ module Matching
 
         ([@ask, @bid] + accounts_table.values).map do |record|
           table     = record.class.arel_table
-          statement = Arel::UpdateManager.new(table.engine)
+          statement = Arel::UpdateManager.new
           statement.table(table)
           statement.where(table[:id].eq(record.id))
-          updates = record.changed_attributes.map do |(attribute, previous_value)|
+          updates = record.changed_attributes.map do |(attribute, _)|
             if Order === record
               value = record.public_send(attribute)
               [table[attribute], { wait: 100, done: 200, cancel: 0 }.with_indifferent_access.fetch(value, value)]

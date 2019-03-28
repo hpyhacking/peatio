@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class UpdateDeprecatedCurrencyIds < ActiveRecord::Migration
+class UpdateDeprecatedCurrencyIds < ActiveRecord::Migration[4.2]
   def change
     # Migrate deprecated market codes to new.
     if File.file?('config/markets.old.yml')

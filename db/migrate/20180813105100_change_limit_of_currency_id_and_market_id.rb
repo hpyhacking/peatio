@@ -1,4 +1,4 @@
-class ChangeLimitOfCurrencyIdAndMarketId < ActiveRecord::Migration
+class ChangeLimitOfCurrencyIdAndMarketId < ActiveRecord::Migration[4.2]
   def self.up
     change_column :markets, :ask_unit, :string, limit: 10
     change_column :markets, :bid_unit, :string, limit: 10

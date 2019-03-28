@@ -23,7 +23,7 @@ describe Admin::MarketsController, type: :controller do
   describe '#create' do
     it 'creates market with valid attributes' do
       expect do
-        post :create, trading_pair: attributes
+        post :create, params: { trading_pair: attributes }
         expect(response).to redirect_to admin_markets_path
       end.to change(Market, :count)
       market = Market.ordered.last
@@ -34,7 +34,7 @@ describe Admin::MarketsController, type: :controller do
       existing = Market.ordered.first
       params   = attributes.merge(bid_unit: existing.bid_unit, ask_unit: existing.ask_unit)
       expect do
-        post :create, trading_pair: params
+        post :create, params: { trading_pair: params }
         expect(response).not_to redirect_to admin_markets_path
       end.not_to change(Market, :count)
     end
@@ -66,10 +66,10 @@ describe Admin::MarketsController, type: :controller do
     before { request.env['HTTP_REFERER'] = '/admin/markets' }
 
     it 'updates market attributes' do
-      post :create, trading_pair: attributes
+      post :create, params: { trading_pair: attributes }
       market = Market.ordered.last
       attributes.each { |k, v| expect(market.method(k).call).to eq v }
-      post :update, trading_pair: new_attributes, id: market.id
+      post :update, params: { trading_pair: new_attributes, id: market.id }
       expect(response).to redirect_to admin_markets_path
       market.reload
       final_attributes.each { |k, v| expect(market.method(k).call).to eq v }
@@ -78,7 +78,7 @@ describe Admin::MarketsController, type: :controller do
 
   describe '#destroy' do
     it 'doesn\'t support deletion of markets' do
-      expect { delete :destroy, id: existing_market.id }.to raise_error(ActionController::UrlGenerationError)
+      expect { delete :destroy, params: { id: existing_market.id } }.to raise_error(ActionController::UrlGenerationError)
     end
   end
 

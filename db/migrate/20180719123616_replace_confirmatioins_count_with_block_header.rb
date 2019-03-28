@@ -1,4 +1,4 @@
-class ReplaceConfirmatioinsCountWithBlockHeader < ActiveRecord::Migration
+class ReplaceConfirmatioinsCountWithBlockHeader < ActiveRecord::Migration[4.2]
   def change
     remove_column :deposits,  :confirmations
     remove_column :withdraws, :confirmations

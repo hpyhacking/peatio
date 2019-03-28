@@ -39,7 +39,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     it 'returns limited asks and bids' do
-      get "/api/v2/public/markets/#{market}/order-book", asks_limit: 1, bids_limit: 1
+      get "/api/v2/public/markets/#{market}/order-book", params: { asks_limit: 1, bids_limit: 1 }
       expect(response).to be_success
 
       result = JSON.parse(response.body)
@@ -48,19 +48,19 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     it 'validates market param' do
-      get "/api/v2/public/markets/somecoin/order-book", asks_limit: 1, bids_limit: 1
+      get "/api/v2/public/markets/somecoin/order-book", params: { asks_limit: 1, bids_limit: 1 }
       expect(response).to have_http_status 422
       expect(response).to include_api_error('public.market.doesnt_exist')
     end
 
     it 'validates asks limit' do
-      get "/api/v2/public/markets/somecoin/order-book", asks_limit: 201, bids_limit: 1
+      get "/api/v2/public/markets/somecoin/order-book", params: { asks_limit: 201, bids_limit: 1 }
       expect(response).to have_http_status 422
       expect(response).to include_api_error('public.order_book.invalid_ask_limit')
     end
 
     it 'validates bids limit' do
-      get "/api/v2/public/markets/somecoin/order-book", asks_limit: 1, bids_limit: 201
+      get "/api/v2/public/markets/somecoin/order-book", params: { asks_limit: 1, bids_limit: 201 }
       expect(response).to have_http_status 422
       expect(response).to include_api_error('public.order_book.invalid_bid_limit')
     end

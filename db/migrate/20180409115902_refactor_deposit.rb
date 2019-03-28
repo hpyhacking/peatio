@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class RefactorDeposit < ActiveRecord::Migration
+class RefactorDeposit < ActiveRecord::Migration[4.2]
   def change
     change_column_null :deposits, :account_id, false
     change_column_null :deposits, :member_id, false

@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class PaymentAddress < ActiveRecord::Base
+class PaymentAddress < ApplicationRecord
   include BelongsToCurrency
   include BelongsToAccount
 

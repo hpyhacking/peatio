@@ -3,7 +3,7 @@
 
 FactoryBot.define do
   factory :payment_address do
-    address { Faker::Bitcoin.address }
+    address { Faker::Blockchain::Bitcoin.address }
     currency { Currency.find(:usd) }
     account { create(:member, :level_3).get_account(:usd) }
 

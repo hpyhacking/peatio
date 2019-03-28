@@ -1,4 +1,4 @@
-class CreateBlockchains < ActiveRecord::Migration
+class CreateBlockchains < ActiveRecord::Migration[4.2]
   def change
     create_table :blockchains do |t|
       t.string  :key,                 null: false,                index: { unique: true }

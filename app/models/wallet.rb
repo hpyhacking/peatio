@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class Wallet < ActiveRecord::Base
+class Wallet < ApplicationRecord
   extend Enumerize
 
   # We use this attribute values rules for wallet kinds:

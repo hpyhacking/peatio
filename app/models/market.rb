@@ -18,7 +18,7 @@
 # Bid/Quote unit = USD.
 #
 
-class Market < ActiveRecord::Base
+class Market < ApplicationRecord
 
   attr_readonly :ask_unit, :bid_unit, :ask_precision, :bid_precision
   delegate :bids, :asks, :trades, :ticker, :h24_volume, :avg_h24_price,

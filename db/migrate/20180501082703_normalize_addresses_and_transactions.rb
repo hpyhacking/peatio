@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class NormalizeAddressesAndTransactions < ActiveRecord::Migration
+class NormalizeAddressesAndTransactions < ActiveRecord::Migration[4.2]
   class Ccy < ActiveRecord::Base
     serialize :options, JSON
     self.table_name = 'currencies'

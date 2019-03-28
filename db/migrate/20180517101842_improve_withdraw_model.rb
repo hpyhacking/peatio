@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class ImproveWithdrawModel < ActiveRecord::Migration
+class ImproveWithdrawModel < ActiveRecord::Migration[4.2]
   def change
     change_column_null :withdraws, :account_id, false
     change_column_null :withdraws, :member_id, false

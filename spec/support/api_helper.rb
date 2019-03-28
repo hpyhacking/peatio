@@ -6,21 +6,21 @@ module APITestHelpers
 
   def post_json(destination, body, headers = {})
     post destination,
-         String === body ? body : body.to_json,
-         headers.reverse_merge('Content-Type' => 'application/json')
+         params: String === body ? body : body.to_json,
+         headers: headers.reverse_merge('Content-Type' => 'application/json')
   end
 
   def put_json(destination, body, headers = {})
     put destination,
-        String === body ? body : body.to_json,
-        headers.reverse_merge('Content-Type' => 'application/json')
+        params: String === body ? body : body.to_json,
+        headers: headers.reverse_merge('Content-Type' => 'application/json')
   end
 
   def api_request(method, url, options = {})
     headers = options.fetch(:headers, {})
     params  = options.fetch(:params, {})
     options[:token].tap { |t| headers['Authorization'] = 'Bearer ' + t if t }
-    send(method, url, params, headers)
+    send(method, url, params: params, headers: headers)
   end
 
   def api_get(*args)

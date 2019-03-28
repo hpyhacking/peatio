@@ -114,7 +114,7 @@ describe API::V2::Management::Deposits, type: :request do
       expect(response.body).to match(/uid is missing/i)
       data[:uid] = '1234567890'
       request
-      expect(response.body).to match(/member can't be blank/i)
+      expect(response.body).to match(/member must exist/i)
     end
 
     it 'validates currency' do

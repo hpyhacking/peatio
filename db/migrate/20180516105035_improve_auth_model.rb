@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class ImproveAuthModel < ActiveRecord::Migration
+class ImproveAuthModel < ActiveRecord::Migration[4.2]
   def change
     change_column :authentications, :provider, :string, null: false, limit: 30
     change_column :authentications, :uid, :string, null: false, limit: 255

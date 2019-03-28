@@ -1,4 +1,4 @@
-class CreateAssets < ActiveRecord::Migration
+class CreateAssets < ActiveRecord::Migration[4.2]
   def change
     create_table :assets do |t|
       t.integer     :code,        null: false
