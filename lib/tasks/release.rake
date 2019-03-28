@@ -27,7 +27,7 @@ namespace 'release' do
     sh %(git config --global user.name 'OpenWare')
     sh %(git config --global user.email 'support@openware.com')
     sh %(git remote add authenticated-origin https://#{bot_username}:#{ENV.fetch('GITHUB_API_KEY')}@github.com/#{repository_slug})
-    next_version = Bump::Bump.send(:next_version, Bump::Bump.current, 'patch')
+    next_version = Bump::Bump.next_version('patch')
     sh %(V='#{next_version}' bin/gendocs)
     sh %(git add -A)
     Bump::Bump.run('patch', commit_message: '[skip ci]', tag: false)
