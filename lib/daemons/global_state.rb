@@ -16,8 +16,8 @@ while $running
     state = Global[market.id]
 
     Peatio::MQ::Events.publish("public", market.id, "update", {
-      asks: state.asks,
-      bids: state.bids,
+      asks: state.asks[0,300],
+      bids: state.bids[0,300],
     })
 
     tickers[market.id] = market.unit_info.merge(state.ticker)
