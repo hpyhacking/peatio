@@ -68,7 +68,7 @@ describe API::V2::Market::Trades, type: :request do
 
     it 'returns all my recent trades' do
       api_get '/api/v2/market/trades', token: token
-      expect(response).to be_success
+      expect(response).to be_successful
 
       result = JSON.parse(response.body)
 
@@ -86,7 +86,7 @@ describe API::V2::Market::Trades, type: :request do
 
     it 'returns all my recent trades for btcusd market' do
       api_get '/api/v2/market/trades', params: { market: 'btcusd' }, token: token
-      expect(response).to be_success
+      expect(response).to be_successful
 
       result = JSON.parse(response.body)
 
@@ -101,7 +101,7 @@ describe API::V2::Market::Trades, type: :request do
       api_get '/api/v2/market/trades', params: { market: 'btcusd', limit: 1 }, token: token
       result = JSON.parse(response.body)
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(result.size).to eq 1
       expect(response.headers.fetch('Total')).to eq '2'
     end

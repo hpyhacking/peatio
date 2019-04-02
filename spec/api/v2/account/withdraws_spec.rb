@@ -40,7 +40,7 @@ describe API::V2::Account::Withdraws, type: :request do
       api_get '/api/v2/account/withdraws', params: { limit: 100 }, token: token
       result = JSON.parse(response.body)
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.headers.fetch('Total')).to eq '40'
       expect(result.map { |x| x['currency'] }.uniq.sort).to eq %w[ btc usd ]
     end
@@ -49,7 +49,7 @@ describe API::V2::Account::Withdraws, type: :request do
       api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 100 }, token: token
       result = JSON.parse(response.body)
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.headers.fetch('Total')).to eq '20'
       expect(result.map { |x| x['currency'] }.uniq.sort).to eq %w[ btc ]
     end
@@ -60,14 +60,14 @@ describe API::V2::Account::Withdraws, type: :request do
       api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 10, page: 1 }, token: token
       result = JSON.parse(response.body)
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.headers.fetch('Total')).to eq '20'
       expect(result.first['id']).to eq ordered_withdraws[0].id
 
       api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 10, page: 2 }, token: token
       result = JSON.parse(response.body)
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.headers.fetch('Total')).to eq '20'
       expect(result.first['id']).to eq ordered_withdraws[10].id
     end
@@ -76,7 +76,7 @@ describe API::V2::Account::Withdraws, type: :request do
       ordered_withdraws = btc_withdraws.sort_by(&:id).reverse
 
       api_get '/api/v2/account/withdraws', params: { currency: 'BTC', limit: 100 }, token: token
-      expect(response).to be_success
+      expect(response).to be_successful
       result = JSON.parse(response.body)
 
       expect(result.map { |x| x['id'] }).to eq ordered_withdraws.map(&:id)

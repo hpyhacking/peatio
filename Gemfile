@@ -4,7 +4,9 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 
-gem 'rails', '~> 5.0.7'
+ruby '2.5.3'
+
+gem 'rails', '~> 5.2.3'
 gem 'puma', '~> 3.12.0'
 gem 'mysql2', '~> 0.4.10'
 gem 'redis-rails', '~> 5.0.2'
@@ -53,6 +55,7 @@ gem 'peatio', '~> 0.4.5'
 gem 'rack-cors', '~> 1.0.2', require: false
 gem 'env-tweaks', '~> 1.0.0'
 gem 'vault', '~> 0.12', require: false
+gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
   gem 'bump',         '~> 0.7'
@@ -65,6 +68,7 @@ end
 group :development do
   gem 'annotate',   '~> 2.7.4'
   gem 'ruby-prof',  '~> 0.17.0', require: false
+  gem 'listen',     '>= 3.0.5', '< 3.2'
 end
 
 group :test do

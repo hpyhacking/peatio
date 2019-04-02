@@ -22,7 +22,7 @@ describe API::V2::Management::Tools, type: :request do
     it 'returns current time in seconds' do
       now = Time.now
       request
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(JSON.parse(response.body).fetch('timestamp')).to be_between(now.iso8601, (now + 1).iso8601)
     end
   end

@@ -5,7 +5,7 @@ require_relative 'boot'
 
 require 'rails'
 
-%w( active_record action_controller action_view sprockets ).each { |framework| require "#{framework}/railtie" }
+%w( active_record action_controller action_view active_job sprockets ).each { |framework| require "#{framework}/railtie" }
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -16,6 +16,7 @@ module Peatio
 
     # Eager loading app dir.
     config.eager_load_paths += Dir[Rails.root.join('app')]
+
     # Eager load constants from lib/peatio
     # There is a lot of constants used over the whole application.
     #   lib/peatio/aasm/locking.rb => AASM::Locking

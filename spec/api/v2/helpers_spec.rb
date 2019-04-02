@@ -24,7 +24,7 @@ describe API::V2::Helpers, type: :request do
     context 'Authenticate using headers' do
       it 'should response successfully' do
         api_get '/api/v2/auth_test', foo: 'bar', hello: 'world', token: token
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'should set current user' do

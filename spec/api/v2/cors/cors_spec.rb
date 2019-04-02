@@ -59,13 +59,13 @@ describe Rack::Cors, type: :request do
 
     it 'sends CORS headers when requesting using GET from frontend url' do
       api_get '/api/v2/account/balances', token: token, headers: { 'Origin' => frontend_url }
-      expect(response).to be_success
+      expect(response).to be_successful
       check_cors(response, '*', allow_crendentails, max_age)
     end
 
     it 'sends CORS headers when requesting using GET from localhost' do
       api_get '/api/v2/account/balances', token: token, headers: { 'Origin' => local_url }
-      expect(response).to be_success
+      expect(response).to be_successful
       check_cors(response, '*', allow_crendentails, max_age)
     end
   end
@@ -88,19 +88,19 @@ describe Rack::Cors, type: :request do
 
     it 'sends CORS headers when requesting using GET from frontend url' do
       api_get '/api/v2/account/balances', token: token, headers: { 'Origin' => frontend_url }
-      expect(response).to be_success
+      expect(response).to be_successful
       check_cors(response, frontend_url, allow_crendentails, max_age)
     end
 
     it 'sends CORS headers when requesting using GET from localhost' do
       api_get '/api/v2/account/balances', token: token, headers: { 'Origin' => local_url }
-      expect(response).to be_success
+      expect(response).to be_successful
       check_cors(response, local_url, allow_crendentails, max_age)
     end
 
     it 'doesn\'t sends CORS headers when requesting using GET from unkown domain' do
       api_get '/api/v2/account/balances', token: token, headers: { 'Origin' => 'http://domain.com' }
-      expect(response).to be_success
+      expect(response).to be_successful
       without_cors(response)
     end
   end

@@ -43,7 +43,7 @@ describe API::V2::Auth::Middleware, type: :request do
     it 'should allow access when valid token is given' do
       api_get '/api/v2/', token: token
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(JSON.parse(response.body)).to eq member.email
     end
   end

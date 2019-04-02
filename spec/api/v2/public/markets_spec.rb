@@ -11,7 +11,7 @@ describe API::V2::Public::Markets, type: :request do
 
     it 'lists enabled markets' do
       get '/api/v2/public/markets'
-      expect(response).to be_success
+      expect(response).to be_successful
       result = JSON.parse(response.body)
 
       expect(result.size).to eq Market.enabled.size
@@ -31,7 +31,7 @@ describe API::V2::Public::Markets, type: :request do
 
     it 'returns ask and bid orders on specified market' do
       get "/api/v2/public/markets/#{market}/order-book"
-      expect(response).to be_success
+      expect(response).to be_successful
 
       result = JSON.parse(response.body)
       expect(result['asks'].size).to eq 5
@@ -40,7 +40,7 @@ describe API::V2::Public::Markets, type: :request do
 
     it 'returns limited asks and bids' do
       get "/api/v2/public/markets/#{market}/order-book", params: { asks_limit: 1, bids_limit: 1 }
-      expect(response).to be_success
+      expect(response).to be_successful
 
       result = JSON.parse(response.body)
       expect(result['asks'].size).to eq 1
@@ -79,7 +79,7 @@ describe API::V2::Public::Markets, type: :request do
 
       it 'sorts asks and bids from highest to lowest' do
         get "/api/v2/public/markets/#{market}/depth"
-        expect(response).to be_success
+        expect(response).to be_successful
 
         result = JSON.parse(response.body)
         expect(result['asks']).to eq asks.reverse
@@ -141,7 +141,7 @@ describe API::V2::Public::Markets, type: :request do
     before { KlineDB.redis.rpush('peatio:btcusd:k:1', points) }
     after { KlineDB.redis.flushall }
 
-    def load(query = {})
+    def load_k_line(query = {})
       api_get '/api/v2/public/markets/btcusd/k-line?' + query.to_query
       expect(response).to have_http_status 200
     end
@@ -152,30 +152,30 @@ describe API::V2::Public::Markets, type: :request do
 
     context 'data exists' do
       it 'without time limits' do
-        load
+        load_k_line
         expect(JSON.parse(response.body)).to eq points[-points_default_limit..-1]
       end
 
       context 'with time_from' do
         it 'smaller than first point timestamp' do
-          load(time_from: first_point.first - 2 * point_period)
+          load_k_line(time_from: first_point.first - 2 * point_period)
           expect(response_body).to eq points[0...points_default_limit - 2]
         end
 
         it 'bigger than last point timestamp' do
-          load(time_from: last_point.first + 2 * point_period)
+          load_k_line(time_from: last_point.first + 2 * point_period)
           expect(response_body).to eq []
         end
 
         it 'in range of first and last timestamp' do
           time_from = first_point.first + 10 * point_period
-          load(time_from: time_from)
+          load_k_line(time_from: time_from)
           expect(response_body).to eq points[10..-1]
           # First point timestamp should be eq to time_from.
           expect(response_body.first.first).to eq time_from
 
           time_from = first_point.first + 22 * point_period
-          load(time_from: time_from)
+          load_k_line(time_from: time_from)
           expect(response_body).to eq points[22..-1]
           # First point timestamp should be eq to time_from.
           expect(response_body.first.first).to eq time_from
@@ -184,21 +184,21 @@ describe API::V2::Public::Markets, type: :request do
 
       context 'with time_to' do
         it 'smaller than first point timestamp' do
-          load(time_to: first_point.first - 2 * point_period)
+          load_k_line(time_to: first_point.first - 2 * point_period)
           expect(response_body).to eq []
         end
 
         it 'bigger than last point timestamp' do
-          load(time_to: last_point.first + 2 * point_period)
+          load_k_line(time_to: last_point.first + 2 * point_period)
           # Returns (limit - 2) left points.
           points[(-points_default_limit + 2)..-1]
         end
 
         it 'in range of first and last timestamp' do
-          load(time_to: first_point.first + 1 * point_period)
+          load_k_line(time_to: first_point.first + 1 * point_period)
           expect(response_body).to eq points[0..1]
 
-          load(time_to: first_point.first + 20 * point_period)
+          load_k_line(time_to: first_point.first + 20 * point_period)
           expect(response_body).to eq points[0..20]
         end
       end
@@ -209,7 +209,7 @@ describe API::V2::Public::Markets, type: :request do
           time_from = first_point.first + 2 * point_period
           time_to = first_point.first - 2 * point_period
 
-          load(time_from: time_from, time_to: time_to)
+          load_k_line(time_from: time_from, time_to: time_to)
           expect(response_body).to eq []
         end
 
@@ -217,7 +217,7 @@ describe API::V2::Public::Markets, type: :request do
           time_from = first_point.first - 10 * point_period
           time_to = first_point.first - 4 * point_period
 
-          load(time_from: time_from, time_to: time_to)
+          load_k_line(time_from: time_from, time_to: time_to)
           expect(response_body).to eq []
         end
 
@@ -225,7 +225,7 @@ describe API::V2::Public::Markets, type: :request do
           time_from = last_point.first + 2 * point_period
           time_to = last_point.first + 12 * point_period
 
-          load(time_from: time_from, time_to: time_to)
+          load_k_line(time_from: time_from, time_to: time_to)
           expect(response_body).to eq []
         end
 
@@ -233,7 +233,7 @@ describe API::V2::Public::Markets, type: :request do
           time_from = first_point.first + 10 * point_period
           time_to = last_point.first - 10 * point_period
 
-          load(time_from: time_from, time_to: time_to)
+          load_k_line(time_from: time_from, time_to: time_to)
           # Points timestamps should be in range time_from..time_to (limit is bigger).
           expect(response_body).to eq\
             points.select { |p| p.first >= time_from && p.first <= time_to }
@@ -245,17 +245,17 @@ describe API::V2::Public::Markets, type: :request do
       context 'with limit' do
         it 'returns n last points' do
           limit = 5
-          load(limit: limit)
+          load_k_line(limit: limit)
           expect(response_body).to eq points[-limit..-1]
 
           limit = 10
-          load(limit: limit)
+          load_k_line(limit: limit)
           expect(response_body).to eq points[-limit..-1]
         end
 
         it 'returns all points if limit greater than points number' do
           limit = points.length + 1
-          load(limit: limit)
+          load_k_line(limit: limit)
           expect(response_body).to eq points
         end
       end
@@ -265,7 +265,7 @@ describe API::V2::Public::Markets, type: :request do
           time_from = first_point.first + 1 * point_period
           time_to   = last_point.first - 1 * point_period
           limit     = 5
-          load(time_from: time_from, time_to: time_to, limit: limit)
+          load_k_line(time_from: time_from, time_to: time_to, limit: limit)
 
           # All point in time_from..time_to including time_to (time_to - time_from) / 60 + 1.
           expect(response_body.count).to eq (time_to - time_from) / 60 + 1
@@ -281,7 +281,7 @@ describe API::V2::Public::Markets, type: :request do
         it 'returns n right points from time_from (adds limit to time_from)' do
           time_from = first_point.first + 5 * point_period
           limit     = 10
-          load(time_from: time_from, limit: limit)
+          load_k_line(time_from: time_from, limit: limit)
 
           expect(response_body.count).to eq limit
           # Points timestamps should be bigger than time_from and we select first 10.
@@ -296,17 +296,17 @@ describe API::V2::Public::Markets, type: :request do
       before { KlineDB.redis.flushall }
 
       it 'without time_from' do
-        load
+        load_k_line
         expect(JSON.parse(response.body)).to eq []
       end
 
       it 'with time_from' do
-        load(time_from: first_point.first)
+        load_k_line(time_from: first_point.first)
         expect(JSON.parse(response.body)).to eq []
       end
 
       it 'with time_from and time_to' do
-        load(time_from: first_point.first, time_to: last_point.first)
+        load_k_line(time_from: first_point.first, time_to: last_point.first)
         expect(JSON.parse(response.body)).to eq []
       end
     end
@@ -327,7 +327,7 @@ describe API::V2::Public::Markets, type: :request do
 
       it 'returns ticker of all markets' do
         get '/api/v2/public/markets/tickers'
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(JSON.parse(response.body)['btcusd']['at']).not_to be_nil
         expect(JSON.parse(response.body)['btcusd']['ticker']).to eq (expected_ticker)
       end
@@ -348,7 +348,7 @@ describe API::V2::Public::Markets, type: :request do
 
       it 'returns market tickers' do
         get '/api/v2/public/markets/tickers'
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(JSON.parse(response.body)['btcusd']['at']).not_to be_nil
         expect(JSON.parse(response.body)['btcusd']['ticker']).to eq (expected_ticker)
       end
@@ -374,7 +374,7 @@ describe API::V2::Public::Markets, type: :request do
 
       it 'returns market tickers' do
         get '/api/v2/public/markets/tickers'
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(JSON.parse(response.body)['btcusd']['at']).not_to be_nil
         expect(JSON.parse(response.body)['btcusd']['ticker']).to eq (expected_ticker)
       end
@@ -395,7 +395,7 @@ describe API::V2::Public::Markets, type: :request do
 
       it 'returns market tickers' do
         get '/api/v2/public/markets/btcusd/tickers'
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(JSON.parse(response.body)['ticker']).to eq (expected_ticker)
       end
     end
@@ -415,7 +415,7 @@ describe API::V2::Public::Markets, type: :request do
 
       it 'returns market tickers' do
         get '/api/v2/public/markets/btcusd/tickers'
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(JSON.parse(response.body)['ticker']).to eq (expected_ticker)
       end
     end
@@ -440,7 +440,7 @@ describe API::V2::Public::Markets, type: :request do
 
       it 'returns market tickers' do
         get '/api/v2/public/markets/btcusd/tickers'
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(JSON.parse(response.body)['ticker']).to eq (expected_ticker)
       end
     end
@@ -483,37 +483,37 @@ describe API::V2::Public::Markets, type: :request do
     it 'returns all recent trades' do
       get "/api/v2/public/markets/#{market}/trades"
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(JSON.parse(response.body).size).to eq 2
     end
 
     it 'returns 1 trade' do
-      get "/api/v2/public/markets/#{market}/trades", limit: 1
+      get "/api/v2/public/markets/#{market}/trades", params: {limit: 1}
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(JSON.parse(response.body).size).to eq 1
     end
 
     it 'sorts trades in reverse creation order' do
       get "/api/v2/public/markets/#{market}/trades"
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(JSON.parse(response.body).first['id']).to eq bid_trade.id
     end
 
     it 'gets trades by page and limit' do
       create(:trade, :btcusd, bid: bid, created_at: 6.hours.ago)
 
-      get "/api/v2/public/markets/#{market}/trades", limit: 2, page: 1, order_by: 'asc'
+      get "/api/v2/public/markets/#{market}/trades", params: { limit: 2, page: 1, order_by: 'asc'}
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.headers.fetch('Total')).to eq '3'
 
       expect(JSON.parse(response.body).count).to eq 2
 
-      get "/api/v2/public/markets/#{market}/trades", market: 'btcusd', limit: 1, page: 2, order_by: 'asc'
+      get "/api/v2/public/markets/#{market}/trades", params: { market: 'btcusd', limit: 1, page: 2, order_by: 'asc' }
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.headers.fetch('Total')).to eq '3'
       expect(JSON.parse(response.body).count).to eq 1
     end
@@ -525,13 +525,13 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     it 'validates limit param' do
-      get "/api/v2/public/markets/#{market}/trades", limit: 1001
+      get "/api/v2/public/markets/#{market}/trades", params: { limit: 1001 }
       expect(response).to have_http_status 422
       expect(response).to include_api_error('public.trade.invalid_limit')
     end
 
     it 'validates page param' do
-      get "/api/v2/public/markets/#{market}/trades", page: -1
+      get "/api/v2/public/markets/#{market}/trades", params: { page: -1 }
       expect(response).to have_http_status 422
       expect(response).to include_api_error('public.trade.non_positive_page')
     end
