@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.1.12
+## Version: 2.1.13
 
 **Contact information:**  
 peatio.tech  
@@ -361,6 +361,7 @@ Creates new crypto withdrawal.
 | rid | formData | Wallet address on the Blockchain. | Yes | string |
 | currency | formData | The currency code. | Yes | string |
 | amount | formData | The amount to withdraw. | Yes | double |
+| note | formData | Optional metadata to be applied to the transaction. Used to tag transactions with memorable comments. | No | string |
 
 ##### Responses
 
@@ -643,6 +644,7 @@ List your withdraws as paginated collection.
 | rid | string | The beneficiary ID or wallet address on the Blockchain. | No |
 | state | string | The withdrawal state. | No |
 | confirmations | integer | Number of confirmations. | No |
+| note | string | Withdraw note. | No |
 | created_at | string | The datetimes for the withdrawal. | No |
 | updated_at | string | The datetimes for the withdrawal. | No |
 | done_at | string | The datetime when withdraw was completed | No |
