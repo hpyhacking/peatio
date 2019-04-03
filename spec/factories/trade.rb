@@ -57,9 +57,5 @@ FactoryBot.define do
       ask { create(:order_ask, :with_deposit_liability) }
       bid { create(:order_bid, :with_deposit_liability) }
     end
-
-    trait :submitted_orders do
-      before(:create) { |trade| Ordering.new([trade.bid, trade.ask]).submit }
-    end
   end
 end

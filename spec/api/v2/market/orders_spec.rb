@@ -187,6 +187,7 @@ describe API::V2::Market::Orders, type: :request do
     end
 
     it 'validates volume greater than min_ask_amount' do
+      member.get_account(:btc).update_attributes(balance: 1)
       m = Market.find(:btcusd)
       m.update(min_ask_amount: 1.0)
       api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'sell', volume: '0.1', price: '2014' }
@@ -195,6 +196,7 @@ describe API::V2::Market::Orders, type: :request do
     end
 
     it 'validates price less than max_bid_price' do
+      member.get_account(:usd).update_attributes(balance: 1)
       m = Market.find(:btcusd)
       m.update(max_bid_price: 1.0)
       api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'buy', volume: '0.1', price: '2' }
@@ -224,6 +226,7 @@ describe API::V2::Market::Orders, type: :request do
 
     context 'market order' do
       it 'validates that market has sufficient volume' do
+        member.get_account(:btc).update_attributes(balance: 20)
         api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'sell', volume: '12.13', ord_type: 'market' }
         expect(response.code).to eq '422'
         expect(response).to include_api_error('market.order.insufficient_market_liquidity')
@@ -233,16 +236,6 @@ describe API::V2::Market::Orders, type: :request do
         api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'sell', volume: '0.5', price: '0.5', ord_type: 'market' }
         expect(response.code).to eq '422'
         expect(response).to include_api_error('market.order.market_order_price')
-      end
-
-      it 'validates that balance is sufficient' do
-        # Stub bids in order book so we can create ask market order.
-        Global.any_instance.expects(:bids).once.returns([[10.to_d, 10.to_d]])
-
-        api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'sell', volume: '1.0', ord_type: 'market' }
-
-        expect(response.code).to eq '422'
-        expect(response).to include_api_error('market.account.insufficient_balance')
       end
 
       it 'creates sell order' do

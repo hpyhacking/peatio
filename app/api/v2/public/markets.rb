@@ -5,6 +5,7 @@ module API
   module V2
     module Public
       class Markets < Grape::API
+        helpers ::API::V2::OrderHelpers
 
         class OrderBook < Struct.new(:asks, :bids); end
 

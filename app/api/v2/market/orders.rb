@@ -61,7 +61,7 @@ module API
           if params[:ord_type] == 'market' && params.key?(:price)
             error!({ errors: ['market.order.market_order_price'] }, 422)
           end
-          order = create_order params
+          order = create_order(params)
           present order, with: API::V2::Entities::Order
         end
 
@@ -72,7 +72,7 @@ module API
         post '/orders/:id/cancel' do
           begin
             order = current_user.orders.find(params[:id])
-            Ordering.new(order).cancel
+            cancel_order(order)
             present order, with: API::V2::Entities::Order
           rescue ActiveRecord::RecordNotFound => e
             # RecordNotFound in rescued by ExceptionsHandler.
@@ -103,7 +103,7 @@ module API
               type = params[:side] == 'sell' ? 'OrderAsk' : 'OrderBid'
               orders = orders.where(type: type)
             end
-            orders.each { |o| Ordering.new(o).cancel }
+            orders.each { |o| cancel_order(o) }
             present orders, with: API::V2::Entities::Order
           rescue
             error!({ errors: ['market.order.cancel_error'] }, 422)

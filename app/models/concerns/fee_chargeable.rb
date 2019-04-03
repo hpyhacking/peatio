@@ -25,7 +25,7 @@ module FeeChargeable
 
       before_validation on: :create do
         next unless currency
-        
+
         if sum.present?
           self.sum = sum.round(currency.precision, BigDecimal::ROUND_DOWN)
         end

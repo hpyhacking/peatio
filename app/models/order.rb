@@ -9,7 +9,8 @@ class Order < ApplicationRecord
   InsufficientMarketLiquidity = Class.new(StandardError)
 
   extend Enumerize
-  enumerize :state, in: { wait: 100, done: 200, cancel: 0 }, scope: true
+  STATES = { pending: 0, wait: 100, done: 200, cancel: -100, reject: -200 }.freeze
+  enumerize :state, in: STATES, scope: true
 
   TYPES = %w[ market limit ]
   enumerize :ord_type, in: TYPES, scope: true
@@ -22,9 +23,11 @@ class Order < ApplicationRecord
   validates :origin_volume, numericality: { greater_than: 0 }
   validate  :market_order_validations, if: ->(order) { order.ord_type == 'market' }
 
-  WAIT   = 'wait'
-  DONE   = 'done'
-  CANCEL = 'cancel'
+  PENDING = 'pending'
+  WAIT    = 'wait'
+  DONE    = 'done'
+  CANCEL  = 'cancel'
+  REJECT  = 'reject'
 
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
@@ -48,6 +51,39 @@ class Order < ApplicationRecord
 
     Serializers::EventAPI.const_get(event.camelize).call(self).tap do |payload|
       EventAPI.notify ['market', market_id, event].join('.'), payload
+    end
+  end
+
+  class << self
+    def submit(id)
+      ActiveRecord::Base.transaction do
+        order = lock.find_by_id!(id)
+        return unless order.state == ::Order::PENDING
+
+        order.hold_account!.lock_funds!(order.locked)
+        order.record_submit_operations!
+        order.update!(state: ::Order::WAIT)
+
+        AMQPQueue.enqueue(:matching, action: 'submit', order: order.to_matching_attributes)
+      end
+    rescue => e
+      order = find_by_id!(id)
+      order.update!(state: ::Order::REJECT) if order
+      report_exception_to_screen(e)
+    end
+
+    def cancel(id)
+      ActiveRecord::Base.transaction do
+        order = lock.find_by_id!(id)
+        return unless order.state == ::Order::WAIT
+
+        order.hold_account!.unlock_funds!(order.locked)
+        order.record_cancel_operations!
+
+        order.update!(state: ::Order::CANCEL)
+      end
+    rescue => e
+      report_exception_to_screen(e)
     end
   end
 

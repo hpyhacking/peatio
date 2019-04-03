@@ -34,7 +34,7 @@ end
 
 describe Trade, '#record_complete_operations!' do
   # Persist orders and trades in database.
-  let!(:trade){ create(:trade, :btcusd, :with_deposit_liability, :submitted_orders) }
+  let!(:trade){ create(:trade, :btcusd, :with_deposit_liability) }
 
   let(:ask){ trade.ask }
   let(:bid){ trade.bid }

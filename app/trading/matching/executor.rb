@@ -39,8 +39,8 @@ module Matching
     def validate!
       raise_error(3001, 'Ask price exceeds strike price.') if @ask.ord_type == 'limit' && @ask.price > @price
       raise_error(3002, 'Bid price is less than strike price.') if @bid.ord_type == 'limit' && @bid.price < @price
-      raise_error(3003, 'Ask state isn\'t equal to «wait».') unless @ask.state == Order::WAIT
-      raise_error(3004, 'Bid state isn\'t equal to «wait».') unless @bid.state == Order::WAIT
+      raise_error(3003, "Ask state isn\'t equal to «wait» (#{@ask.state}).") unless @ask.state == Order::WAIT
+      raise_error(3004, "Bid state isn\'t equal to «wait» (#{@bid.state}).") unless @bid.state == Order::WAIT
       unless @funds > ZERO && [@ask.volume, @bid.volume].min >= @volume
         raise_error(3005, 'Not enough funds.')
       end
@@ -90,7 +90,7 @@ module Matching
           updates = record.changed_attributes.map do |(attribute, _)|
             if Order === record
               value = record.public_send(attribute)
-              [table[attribute], { wait: 100, done: 200, cancel: 0 }.with_indifferent_access.fetch(value, value)]
+              [table[attribute], ::Order::STATES.with_indifferent_access.fetch(value, value)]
             else
               [table[attribute], record.public_send(attribute)]
             end

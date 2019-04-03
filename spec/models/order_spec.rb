@@ -34,6 +34,33 @@ describe Order, 'validations', type: :model do
   end
 end
 
+describe Order, '#submit' do
+  let(:order) { create(:order_bid, :with_deposit_liability, state: 'pending', price: '12.326'.to_d, volume: '123.123456789') }
+  let(:rejected_order) { create(:order_bid, :with_deposit_liability, state: 'reject', price: '12.326'.to_d, volume: '123.123456789') }
+  let(:order_bid) { create(:order_bid, :with_deposit_liability, state: 'pending', price: '12.326'.to_d, volume: '123.123456789') }
+  let(:order_ask) { create(:order_ask, :with_deposit_liability, state: 'pending', price: '12.326'.to_d, volume: '123.123456789') }
+
+  before do
+    Order.submit(order_bid.id)
+    Order.submit(order_ask.id)
+  end
+
+  it { expect(order_bid.reload.state).to eq 'wait' }
+  it { expect(Operations::Liability.where(reference: order_ask).count).to eq 2 }
+  it { expect(Operations::Liability.where(reference: order_bid).count).to eq 2 }
+
+  context 'validations' do
+    before do
+      order.member.accounts.find_by_currency_id(order.currency).update(balance: 0)
+      Order.submit(order.id)
+      Order.submit(rejected_order.id)
+    end
+
+    it { expect(order.reload.state).to eq('reject') }
+    it { expect(rejected_order.reload.state).to eq('reject') }
+  end
+end
+
 describe Order, '#fix_number_precision', type: :model do
   let(:order_bid) { create(:order_bid, :btcusd, price: '12.326'.to_d, volume: '123.123456789') }
   let(:order_ask) { create(:order_ask, :btcusd, price: '12.326'.to_d, volume: '123.123456789') }

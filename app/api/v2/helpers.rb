@@ -52,39 +52,6 @@ module API
         params[:timestamp].present? ? Time.at(params[:timestamp]) : nil
       end
 
-      def build_order(attrs)
-        (attrs[:side] == 'sell' ? OrderAsk : OrderBid).new \
-          state:         ::Order::WAIT,
-          member:        current_user,
-          ask:           current_market&.base_unit,
-          bid:           current_market&.quote_unit,
-          market:        current_market,
-          ord_type:      attrs[:ord_type] || 'limit',
-          price:         attrs[:price],
-          volume:        attrs[:volume],
-          origin_volume: attrs[:volume]
-      end
-
-      def create_order(attrs)
-        create_order_errors = {
-          ::Account::AccountError => 'market.account.insufficient_balance',
-          ::Order::InsufficientMarketLiquidity => 'market.order.insufficient_market_liquidity',
-          ActiveRecord::RecordInvalid => 'market.order.invalid_volume_or_price'
-        }
-
-        order = build_order(attrs)
-        Ordering.new(order).submit
-        order
-      rescue => e
-        message = create_order_errors.fetch(e.class, 'market.order.create_error')
-        report_exception_to_screen(e)
-        error!({ errors: [message] }, 422)
-      end
-
-      def order_param
-        params[:order_by].downcase == 'asc' ? 'id asc' : 'id desc'
-      end
-
       def format_ticker(ticker)
         permitted_keys = %i[buy sell low high open last volume
                             avg_price price_change_percent]

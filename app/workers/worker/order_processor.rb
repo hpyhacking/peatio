@@ -3,21 +3,22 @@
 
 module Worker
   class OrderProcessor
-    def process(payload)
-      case payload['action']
-        when 'cancel'
-          order = Order.find_by_id(payload.dig('order', 'id'))
-          cancel(order) if order
+    def initialize
+      Order.where(state: ::Order::PENDING).find_each do |order|
+        Order.submit(order.id)
       end
     end
 
-  private
-
-    def cancel(order)
-      Ordering.new(order).cancel!
-    rescue StandardError => e
+    def process(payload)
+      case payload['action']
+      when 'submit'
+        Order.submit(payload.dig('order', 'id'))
+      when 'cancel'
+        Order.cancel(payload.dig('order', 'id'))
+      end
+    rescue => e
+      AMQPQueue.enqueue(:trade_error, e.message)
       report_exception_to_screen(e)
     end
   end
 end
-
