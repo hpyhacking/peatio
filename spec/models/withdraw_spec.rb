@@ -628,7 +628,7 @@ describe Withdraw do
 
     subject { build(:btc_withdraw, sum: 0.1) }
 
-    before do 
+    before do
       Currency.find('btc').update(min_withdraw_amount: 0.5.to_d)
     end
 
@@ -639,6 +639,40 @@ describe Withdraw do
       expect(subject.errors[:sum]).to match(["must be greater than or equal to 0.5"])
     end
 
+  end
+
+  context 'validate note length' do
+    let(:member)    { create(:member) }
+    let(:account)   { member.ac(:bch).tap { |x| x.update!(balance: 1.0.to_d) } }
+    let(:address)   { 'bitcoincash:qqkv9wr69ry2p9l53lxp635va4h86wv435995w8p2h' }
+
+    let :record do
+      Withdraws::Coin.new \
+        currency: Currency.find(:bch),
+        member:   member,
+        rid:      address,
+        sum:      1.0.to_d,
+        account:  account,
+        note:     note
+    end
+
+    context 'valid note' do
+      let(:note) { 'TEST' }
+
+      it do
+        expect(record.save).to eq true
+        expect(record.note).to eq 'TEST'
+      end
+    end
+
+    context 'invalid note' do
+      let(:note) { (0...257).map { (65 + rand(26)).chr }.join }
+
+      it do
+        expect(record.save).to eq false
+        expect(record.errors.full_messages).to include 'Note is too long (maximum is 256 characters)'
+      end
+    end
   end
 
   it 'doesn\'t raise exceptions in before_validation callbacks if member doesn\'t exist' do

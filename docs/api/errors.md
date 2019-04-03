@@ -40,6 +40,7 @@
 | `account.withdraw.invalid_otp`          | Parameter **otp** is not valid                 |
 | `account.withdraw.disabled_api`         | Withdrawal API is disabled                     |
 | `account.withdraw.not_permitted`        | Pass the corresponding verification steps to **withdraw funds** |
+| `account.withdraw.too_long_note`        | Parameter **note** is too long |
 | `account.deposit_address.invalid_address_format`             | Invalid parameter for deposit address format |
 | `account.deposit_address.doesnt_support_cash_address_format` | Currency doesn't support cash address format |
 

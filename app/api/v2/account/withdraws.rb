@@ -53,6 +53,10 @@ module API
                    type: { value: BigDecimal, message: 'account.withdraw.non_decimal_amount' },
                    values: { value: ->(v) { v.try(:positive?) }, message: 'account.withdraw.non_positive_amount' },
                    desc: 'The amount to withdraw.'
+          optional :note,
+                   type: String,
+                   values: { value: ->(v) { v.size <= 256 }, message: 'account.withdraw.too_long_note' },
+                   desc: 'Optional metadata to be applied to the transaction. Used to tag transactions with memorable comments.'
         end
         post '/withdraws' do
           withdraw_api_must_be_enabled!
@@ -66,7 +70,8 @@ module API
             sum:            params[:amount],
             member:         current_user,
             currency:       currency,
-            rid:            params[:rid]
+            rid:            params[:rid],
+            note:           params[:note]
           withdraw.save!
           withdraw.with_lock { withdraw.submit! }
           present withdraw, with: API::V2::Entities::Withdraw
