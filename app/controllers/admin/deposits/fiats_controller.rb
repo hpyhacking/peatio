@@ -7,9 +7,12 @@ module Admin
   module Deposits
     class FiatsController < BaseController
       def index
-        q = ::Deposits::Fiat.where(currency: currency).includes(:member, :currency)
-        @latest_deposits = q.where('created_at <= ?', 1.day.ago).order('id DESC')
-        @all_deposits    = q.where('created_at > ?', 1.day.ago).order('id DESC')
+        case params.fetch(:state, 'all')
+        when 'all'
+          @all_deposits = all_deposits
+        when 'latest'
+          @latest_deposits = latest_deposits
+        end
       end
 
       def new
@@ -43,7 +46,6 @@ module Admin
       end
 
     private
-
       def deposit_params
         params.require(:deposits_fiat).slice(:uid, :amount)
               .merge(currency: currency)

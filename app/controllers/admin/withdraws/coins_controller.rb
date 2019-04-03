@@ -6,22 +6,20 @@ require_dependency 'admin/withdraws/base_controller'
 module Admin
   module Withdraws
     class CoinsController < BaseController
-      before_action :find_withdraw, only: [:show, :update, :destroy]
+      before_action :find_withdraw, only: %i[show update destroy]
 
       def index
         case params.fetch(:state, 'all')
         when 'all'
-          all_withdraws
+          @all_withdraws = all_withdraws.includes(:blockchain)
         when 'latest'
-          latest_withdraws
+          @latest_withdraws = latest_withdraws.includes(:blockchain)
         when 'pending'
-          pending_withdraws
+          @pending_withdraws = pending_withdraws.includes(:blockchain)
         end
       end
 
-      def show
-
-      end
+      def show; end
 
       def update
         case params.fetch(:event)
@@ -39,24 +37,9 @@ module Admin
 
       private
 
-      def all_withdraws
-        @all_withdraws     = ::Withdraws::Coin.where(currency: currency)
-                                              .order(id: :desc)
-                                              .includes(:member, :currency, :blockchain)
-      end
-
-      def latest_withdraws
-        @latest_withdraws  = ::Withdraws::Coin.where(currency: currency)
-                                              .where('created_at > ?', 1.day.ago)
-                                              .order(id: :desc)
-                                              .includes(:member, :currency, :blockchain)
-      end
-
       def pending_withdraws
-        @pending_withdraws = ::Withdraws::Coin.where(currency: currency, aasm_state: 'accepted')
-                                              .where('created_at  < ?', 1.minute.ago)
-                                              .order(id: :desc)
-                                              .includes(:member, :currency, :blockchain)
+        all_withdraws.where(aasm_state: 'accepted')
+                     .where('created_at  < ?', 1.minute.ago)
       end
 
       def process!

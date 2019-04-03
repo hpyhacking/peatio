@@ -10,6 +10,9 @@
   <div class="card">
     <%= render partial: 'table', locals: {withdraws: @latest_withdraws} %>
   </div>
+  <div class="float-right">
+    <%= paginate @latest_withdraws, params: { route: :admin_withdraw_index } %>
+  </div>
 <% end %>
 <% if @all_withdraws %>
   <div class="col-6">
@@ -18,6 +21,9 @@
   <div class="card">
     <%= render partial: 'table', locals: {withdraws: @all_withdraws} %>
   </div>
+  <div class="float-right">
+    <%= paginate @all_withdraws, params: { route: :admin_withdraw_index } %>
+  </div>
 <% end %>
 <% if @pending_withdraws %>
   <div class="col-6">
@@ -25,5 +31,8 @@
   </div>
   <div class="card">
     <%= render partial: 'pending_table', locals: {withdraws: @pending_withdraws} %>
+  </div>
+  <div class="float-right">
+    <%= paginate @pending_withdraws, params: { route: :admin_withdraw_index } %>
   </div>
 <% end %>

@@ -7,13 +7,25 @@ module Admin
   module Deposits
     class BaseController < BaseController
 
-    protected
+      protected
+
+      def all_deposits
+        ::Deposit.where(currency: currency)
+                 .includes(:member, :currency)
+                 .order(id: :desc)
+                 .page(params[:page])
+                 .per(20)
+      end
+
+      def latest_deposits
+        all_deposits.where('created_at > ?', 1.day.ago)
+      end
 
       def currency
-        Currency.where(type: self.class.name.demodulize.underscore.gsub(/_controller\z/, '').singularize)
-                .find(params[:currency])
+        @currency ||= Currency.find(params[:currency])
       end
-      helper_method :currency
+
+      helper_method :all_deposits, :latest_deposits, :currency
     end
   end
 end

@@ -9,19 +9,14 @@ module Admin
       before_action :find_withdraw, only: [:show, :update, :destroy]
 
       def index
-        @latest_withdraws  = ::Withdraws::Fiat.where(currency: currency)
-                                              .where('created_at <= ?', 1.day.ago)
-                                              .order(id: :desc)
-                                              .includes(:member, :currency)
-        @all_withdraws     = ::Withdraws::Fiat.where(currency: currency)
-                                              .where('created_at > ?', 1.day.ago)
-                                              .order(id: :desc)
-                                              .includes(:member, :currency)
+        case params.fetch(:state, 'all')
+        when 'all'
+          @all_withdraws = all_withdraws
+        when 'latest'
+          @latest_withdraws = latest_withdraws
       end
 
-      def show
-
-      end
+      def show; end
 
       def update
         @withdraw.transaction do

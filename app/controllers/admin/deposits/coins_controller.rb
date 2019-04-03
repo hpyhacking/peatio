@@ -9,11 +9,11 @@ module Admin
       def index
         case params.fetch(:state, 'all')
         when 'all'
-          all_deposits
+          @all_deposits = all_deposits.includes(:blockchain)
         when 'latest'
-          latest_deposits
+          @latest_deposits = latest_deposits.includes(:blockchain)
         when 'uncollected'
-          uncollected_deposits
+          @uncollected_deposits = uncollected_deposits.includes(:blockchain)
         end
       end
 
@@ -32,29 +32,8 @@ module Admin
 
       private
 
-      def all_deposits
-        @all_deposits = ::Deposits::Coin.where(currency: currency)
-                                        .includes(:member, :currency, :blockchain)
-                                        .order(id: :desc)
-                                        .page(params[:page])
-                                        .per(20)
-      end
-
-      def latest_deposits
-        @latest_deposits = ::Deposits::Coin.where(currency: currency)
-                                            .includes(:member, :currency, :blockchain)
-                                            .where('created_at > ?', 1.day.ago)
-                                            .order(id: :desc)
-                                            .page(params[:page])
-                                            .per(20)
-      end
-
       def uncollected_deposits
-        @uncollected_deposits = ::Deposits::Coin.where(currency: currency, aasm_state: 'skipped')
-                                              .order(id: :desc)
-                                              .includes(:member, :currency, :blockchain)
-                                              .page(params[:page])
-                                              .per(20)
+        all_deposits.where(aasm_state: 'skipped')
       end
     end
   end
