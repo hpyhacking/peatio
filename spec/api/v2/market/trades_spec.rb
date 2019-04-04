@@ -56,8 +56,8 @@ describe API::V2::Market::Trades, type: :request do
 
   let!(:btcusd_ask_trade) { create(:trade, :btcusd, ask: btcusd_ask, created_at: 2.days.ago) }
   let!(:dashbtc_ask_trade) { create(:trade, :dashbtc, ask: dashbtc_ask, created_at: 2.days.ago) }
-  let!(:btcusd_bid_trade) { create(:trade, :btcusd, bid: btcusd_bid, created_at: 1.day.ago) }
-  let!(:dashbtc_bid_trade) { create(:trade, :dashbtc, bid: dashbtc_bid, created_at: 1.day.ago) }
+  let!(:btcusd_bid_trade) { create(:trade, :btcusd, bid: btcusd_bid, created_at: 23.hours.ago) }
+  let!(:dashbtc_bid_trade) { create(:trade, :dashbtc, bid: dashbtc_bid, created_at: 23.hours.ago) }
 
   describe 'GET /api/v2/market/trades' do
     it 'requires authentication' do
@@ -104,6 +104,35 @@ describe API::V2::Market::Trades, type: :request do
       expect(response).to be_successful
       expect(result.size).to eq 1
       expect(response.headers.fetch('Total')).to eq '2'
+    end
+
+    it 'returns trades for last 24h' do
+      create(:trade, :btcusd, ask_member: member, created_at: 6.hours.ago)
+      api_get '/api/v2/market/trades', params: { time_from: 1.day.ago.to_i }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result.size).to eq 3
+      expect(response.headers.fetch('Total')).to eq '3'
+    end
+
+    it 'returns trades older than 1 day' do
+      api_get '/api/v2/market/trades', params: { time_to: 1.day.ago.to_i }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result.size).to eq 2
+      expect(response.headers.fetch('Total')).to eq '2'
+    end
+
+    it 'returns trades for specific hour' do
+      create(:trade, :btcusd, ask_member: member, created_at: 6.hours.ago)
+      api_get '/api/v2/market/trades', params: { time_from: 7.hours.ago.to_i, time_to: 5.hours.ago.to_i }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_success
+      expect(result.size).to eq 1
+      expect(response.headers.fetch('Total')).to eq '1'
     end
 
     it 'returns limit out of range error' do

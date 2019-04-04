@@ -22,6 +22,8 @@ module API
             .trades
             .order(order_param)
             .tap { |q| q.where!(market: params[:market]) if params[:market] }
+            .tap { |q| q.where!('created_at >= ?', Time.at(params[:time_from])) if params[:time_from] }
+            .tap { |q| q.where!('created_at < ?', Time.at(params[:time_to])) if params[:time_to] }
             .tap { |q| present paginate(q), with: API::V2::Entities::Trade, current_user: current_user }
         end
       end

@@ -75,8 +75,10 @@
 | `market.trade.non_integer_limit`             | Parameter **limit** should be integer                           |
 | `market.trade.invalid_limit`                 | Parameter **limit** is not valid                                |
 | `market.trade.empty_page`                    | Parameter **page** is empty                                     |
-| `market.trade.non_integer_timestamp`         | Parameter **timestamp** should be integer                       |
-| `market.trade.empty_timestamp`               | Parameter **timestamp** is empty                                |
+| `market.trade.non_integer_time_from`         | Parameter **time_from** should be integer                       |
+| `market.trade.empty_time_from`               | Parameter **time_from** is empty                                |
+| `market.trade.non_integer_time_to`           | Parameter **time_to** should be integer                         |
+| `market.trade.empty_time_to_`                | Parameter **time_to** is empty                                  |
 | `market.trade.invalid_order_by`              | Parameter **order_by** is not valid                             |
 | `market.trade.not_permitted`                 | Pass the corresponding verification steps to **enable trading** |
 

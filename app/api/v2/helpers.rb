@@ -48,10 +48,6 @@ module API
       end
       memoize :current_market
 
-      def time_to
-        params[:timestamp].present? ? Time.at(params[:timestamp]) : nil
-      end
-
       def format_ticker(ticker)
         permitted_keys = %i[buy sell low high open last volume
                             avg_price price_change_percent]
