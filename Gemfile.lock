@@ -224,7 +224,7 @@ GEM
     mustermann (1.0.3)
     mustermann-grape (1.0.0)
       mustermann (~> 1.0.0)
-    mysql2 (0.4.10)
+    mysql2 (0.5.2)
     nio4r (2.3.1)
     nokogiri (1.10.2)
       mini_portile2 (~> 2.4.0)
@@ -439,7 +439,7 @@ DEPENDENCIES
   method-not-implemented (~> 1.0.1)
   mini_racer (~> 0.2.4)
   mocha (~> 1.8)
-  mysql2 (~> 0.4.10)
+  mysql2 (~> 0.5.2)
   passgen (~> 1.0.2)
   peatio (~> 0.4.5)
   pry-byebug (~> 3.7)
@@ -464,7 +464,7 @@ DEPENDENCIES
   webmock (~> 3.5)
 
 RUBY VERSION
-   ruby 2.5.3p105
+   ruby 2.6.2p47
 
 BUNDLED WITH
    1.17.3

@@ -4,11 +4,11 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 
-ruby '2.5.3'
+ruby '2.6.2'
 
 gem 'rails', '~> 5.2.3'
 gem 'puma', '~> 3.12.0'
-gem 'mysql2', '~> 0.4.10'
+gem 'mysql2', '~> 0.5.2'
 gem 'redis-rails', '~> 5.0.2'
 gem 'jbuilder', '~> 2.7.0'
 gem 'figaro', '~> 1.1.1'
