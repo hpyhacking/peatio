@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.1.13
+## Version: 2.1.14
 
 **Contact information:**  
 peatio.tech  
@@ -402,7 +402,8 @@ Get your executed trades. Trades are sorted in reverse creation order.
 | market | query |  | No | string |
 | limit | query | Limit the number of returned trades. Default to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
-| timestamp | query | An integer represents the seconds elapsed since Unix epoch.If set, only trades executed before the time will be returned. | No | integer |
+| time_from | query | An integer represents the seconds elapsed since Unix epoch.If set, only trades executed after the time will be returned. | No | integer |
+| time_to | query | An integer represents the seconds elapsed since Unix epoch.If set, only trades executed before the time will be returned. | No | integer |
 | order_by | query | If set, returned trades will be sorted in specific order, default to 'desc'. | No | string |
 
 ##### Responses
