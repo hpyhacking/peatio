@@ -14,6 +14,7 @@ module Admin
           @all_withdraws = all_withdraws
         when 'latest'
           @latest_withdraws = latest_withdraws
+        end
       end
 
       def show; end
