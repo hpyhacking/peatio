@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.1.15"
+    "version": "2.1.16"
   },
   "swagger": "2.0",
   "produces": [
@@ -1344,6 +1344,28 @@
             "enum": [
               "asc",
               "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ord_type",
+            "description": "Filter order by ord_type.",
+            "type": "string",
+            "enum": [
+              "market",
+              "limit"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "Filter order by type.",
+            "type": "string",
+            "enum": [
+              "buy",
+              "sell"
             ],
             "required": false
           }

@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.1.15
+## Version: 2.1.16
 
 **Contact information:**  
 peatio.tech  
@@ -488,6 +488,8 @@ Get your orders, results is paginated.
 | limit | query | Limit the number of returned orders, default to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
 | order_by | query | If set, returned orders will be sorted in specific order, default to "desc". | No | string |
+| ord_type | query | Filter order by ord_type. | No | string |
+| type | query | Filter order by type. | No | string |
 
 ##### Responses
 
