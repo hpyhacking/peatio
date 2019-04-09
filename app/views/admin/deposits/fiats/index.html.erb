@@ -3,6 +3,9 @@
     <%= link_to raw("All deposits"), admin_deposit_index_path(state: 'all'), class: 'btn btn-primary  mb-3' %>
     <%= link_to raw("Latest deposits"), admin_deposit_index_path(state: 'latest'), class: 'btn btn-primary  mb-3' %>
   </div>
+  <div class="col-6">
+    <%= link_to raw("<i class='fa fa-plus mr-2'></i> New Deposit"), new_admin_deposit_path(currency: currency.code), class: "btn btn-primary float-right mb-3" %>
+  </div>
 </div>
 <% if @latest_deposits %>
   <h3><%= currency.code.upcase %> Deposits for the last 24 hours</h3>

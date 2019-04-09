@@ -88,7 +88,7 @@ Otherwise we advice to use [microkube based environment](#local-development-envi
 127.0.0.1 peatio.app.local
 127.0.0.1 barong.app.local
 ```
-4. Start rails server `JWT_PUBLIC_KEY=$(cat config/secrets/rsa-key.pub| base64 -w0) rails s -b0.0.0.0` 
+4. Start rails server `JWT_PUBLIC_KEY=$(cat config/secrets/rsa-key.pub| base64 -w0) rails s -b 0.0.0.0` 
 (`base64 -b0` for macOS)
 
 
