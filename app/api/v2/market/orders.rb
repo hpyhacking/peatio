@@ -34,11 +34,21 @@ module API
                    values: { value: %w(asc desc), message: 'market.order.invalid_order_by' },
                    default: 'desc',
                    desc: 'If set, returned orders will be sorted in specific order, default to "desc".'
+          optional :ord_type,
+                   type: String,
+                   values: { value: Order::TYPES, message: 'market.order.invalid_ord_type' },
+                   desc: 'Filter order by ord_type.'
+          optional :type,
+                   type: String,
+                   values: { value: %w(buy sell), message: 'market.order.invalid_type' },
+                   desc: 'Filter order by type.'
         end
         get '/orders' do
           current_user.orders.order(updated_at: params[:order_by])
                       .tap { |q| q.where!(market: params[:market]) if params[:market] }
                       .tap { |q| q.where!(state: params[:state]) if params[:state] }
+                      .tap { |q| q.where!(ord_type: params[:ord_type]) if params[:ord_type] }
+                      .tap { |q| q.where!(type: (params[:type] == 'buy' ? 'OrderBid' : 'OrderAsk')) if params[:type] }
                       .tap { |q| present paginate(q), with: API::V2::Entities::Order }
         end
 

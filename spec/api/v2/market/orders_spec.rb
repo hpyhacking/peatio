@@ -40,6 +40,18 @@ describe API::V2::Market::Orders, type: :request do
       expect(response).to include_api_error('market.order.invalid_limit')
     end
 
+    it 'validates ord_type param' do
+      api_get '/api/v2/market/orders', params: { ord_type: 'test' }, token: token
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('market.order.invalid_ord_type')
+    end
+
+    it 'validates type param' do
+      api_get '/api/v2/market/orders', params: { type: 'test' }, token: token
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('market.order.invalid_type')
+    end
+
     it 'returns all order history' do
       api_get '/api/v2/market/orders', token: token
       result = JSON.parse(response.body)
@@ -102,6 +114,24 @@ describe API::V2::Market::Orders, type: :request do
       first_order_updated_at = Time.iso8601(result.first['updated_at'])
       second_order_updated_at = Time.iso8601(result.second['updated_at'])
       expect(first_order_updated_at).to be >= second_order_updated_at
+    end
+
+    it 'returns orders with ord_type limit' do
+      api_get '/api/v2/market/orders', params: { ord_type: 'limit' }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result.map{|r| r['ord_type']}.uniq.size).to eq 1
+      expect(result.map{|r| r['ord_type']}.uniq.first).to eq 'limit'
+    end
+
+    it 'returns orders with type sell' do
+      api_get '/api/v2/market/orders', params: { type: 'sell' }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result.map{|r| r['side']}.uniq.size).to eq 1
+      expect(result.map{|r| r['side']}.uniq.first).to eq 'sell'
     end
 
     it 'denies access to unverified member' do

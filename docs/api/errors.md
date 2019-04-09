@@ -59,6 +59,8 @@
 | `market.order.invalid_limit`                 | Parameter **limit** is not valid                                |
 | `market.order.non_integer_limit`             | Parameter **limit** should be integer                           |
 | `market.order.invalid_order_by`              | Parameter **order_by** is not valid                             |
+| `market.order.invalid_ord_type`              | Parameter **ord_type** is not valid                             |
+| `market.order.invalid_type`                  | Parameter **type** is not valid                             |
 | `market.order.invalid_side`                  | Parameter **side** is not valid                                 |
 | `market.order.missing_market`                | Parameter **market** is missing                                 |
 | `market.order.missing_side`                  | Parameter **side** is missing                                   |
