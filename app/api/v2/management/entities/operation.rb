@@ -35,6 +35,11 @@ module API
                    type: String,
                    desc: 'The shared user ID.'
                  }) { |operation| operation.try(:member).try(:uid) }
+         expose(:reference_type,
+                documentation: {
+                  type: String,
+                  desc: 'The type of operations.'
+                }) { |operation| operation.reference_type.downcase if operation.reference_type.present? }
           expose :created_at,
                  format_with: :iso8601,
                  documentation: {

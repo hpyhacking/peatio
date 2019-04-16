@@ -34,6 +34,17 @@ module API
                      default: 100,
                      range: 1..1000,
                      desc: 'The number of objects per page (defaults to 100, maximum is 1000).'
+            optional :time_from,
+                    type: Integer,
+                    desc: "An integer represents the seconds elapsed since Unix epoch."\
+                        "If set, only operations after the time will be returned."
+            optional :time_to,
+                    type: Integer,
+                    desc: "An integer represents the seconds elapsed since Unix epoch."\
+                       "If set, only operations before the time will be returned."
+            optional :reference_type,
+                    type: String,
+                    desc: "The reference type for operations filtering"
           end
           post op_type_plural do
             currency_id = params.fetch(:currency, nil)
@@ -43,6 +54,9 @@ module API
               .constantize
               .order(id: :desc)
               .tap { |q| q.where!(currency_id: currency_id) if currency_id }
+              .tap { |q| q.where!(reference_type: params[:reference_type]) if params[:reference_type].present? }
+              .tap { |q| q.where!('created_at >= ?', Time.at(params[:time_from])) if params[:time_from].present? }
+              .tap { |q| q.where!('created_at < ?', Time.at(params[:time_to])) if params[:time_to].present? }
               .page(params[:page])
               .per(params[:limit])
               .tap { |q| present q, with: API::V2::Management::Entities::Operation }
@@ -103,15 +117,27 @@ module API
             optional :uid,
                      type: String,
                      desc: 'The user ID for operations filtering.'
+            optional :reference_type,
+                     type: String,
+                     desc: "The reference type for operations filtering"
+            optional :time_from,
+                     type: Integer,
+                     desc: "An integer represents the seconds elapsed since Unix epoch."\
+                         "If set, only operations after the time will be returned."
+            optional :time_to,
+                     type: Integer,
+                     desc: "An integer represents the seconds elapsed since Unix epoch."\
+                        "If set, only operations before the time will be returned."
             optional :page,
-                     type: Integer, default: 1,
+                     type: Integer,
+                     default: 1,
                      integer_gt_zero: true,
                      desc: 'The page number (defaults to 1).'
             optional :limit,
                      type: Integer,
                      default: 100,
-                     range: 1..1000,
-                     desc: 'The number of objects per page (defaults to 100, maximum is 1000).'
+                     range: 1..10000,
+                     desc: 'The number of objects per page (defaults to 100, maximum is 10000).'
           end
           post op_type_plural do
             currency_id = params.fetch(:currency, nil)
@@ -123,9 +149,10 @@ module API
               .order(id: :desc)
               .tap { |q| q.where!(currency_id: currency_id) if currency_id }
               .tap { |q| q.where!(member: member) if member }
-              .page(params[:page])
-              .per(params[:limit])
-              .tap { |q| present q, with: API::V2::Management::Entities::Operation }
+              .tap { |q| q.where!(reference_type: params[:reference_type]) if params[:reference_type].present? }
+              .tap { |q| q.where!('created_at >= ?', Time.at(params[:time_from])) if params[:time_from].present? }
+              .tap { |q| q.where!('created_at < ?', Time.at(params[:time_to])) if params[:time_to].present? }
+              .tap { |q| present paginate(q), with: API::V2::Management::Entities::Operation }
             status 200
           end
 

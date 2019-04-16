@@ -16,6 +16,9 @@ describe API::V2::Management::Operations, type: :request do
       post_json "/api/v2/management/#{op_type}", multisig_jwt_management_api_v1({ data: data }, *signers)
     end
 
+    def optional_request(op_type, data)
+      post_json "/api/v2/management/#{op_type}", multisig_jwt_management_api_v1({ data: data }, *signers)
+    end
     Operations::Account::PLATFORM_TYPES.each do |op_type|
       context op_type do
         let(:data) { {} }
@@ -109,6 +112,53 @@ describe API::V2::Management::Operations, type: :request do
             expect(JSON.parse(response.body).count).to eq operations.count
             expect(JSON.parse(response.body).map { |h| h['uid'] }).to\
               eq [member.uid] * operations_number
+          end
+        end
+
+        context 'filter by reference type' do
+          let(:deposit_data) { { reference_type: 'deposit' } }
+          let(:trade_data) { { reference_type: 'trade' } }
+          let(:order_data) { { reference_type: 'order' } }
+
+          it { expect(response).to have_http_status(200) }
+
+          def equal_amount!(response, optional_field, op_type)
+            operations = "operations/#{op_type}"
+                           .camelize
+                           .constantize
+                           .where(optional_field)
+            expect(JSON.parse(response.body).count).to eq operations.count
+          end
+
+          it 'returns operations by reference type deposit' do
+            optional_request(op_type.to_s.pluralize, deposit_data)
+            equal_amount!(response, deposit_data, op_type)
+          end
+
+          it 'returns operations by reference type trade' do
+            optional_request(op_type.to_s.pluralize, trade_data)
+            equal_amount!(response, trade_data, op_type)
+          end
+
+          it 'returns operations by reference type order' do
+            optional_request(op_type.to_s.pluralize, order_data)
+            equal_amount!(response, order_data, op_type)
+          end
+        end
+
+        context 'time range' do
+          let(:data) { { time_from: 2.days.ago.to_i, time_to: 1.day.ago.to_i } }
+
+          it { expect(response).to have_http_status(200) }
+
+          it 'returns operations between 48h and 24h ago' do
+            request(op_type.to_s.pluralize)
+            operations = "operations/#{op_type}"
+                           .camelize
+                           .constantize
+                           .where('created_at >= ?', 2.days.ago.to_s)
+                           .where('created_at < ?', 1.day.ago.to_s)
+            expect(JSON.parse(response.body).count).to eq operations.count
           end
         end
 

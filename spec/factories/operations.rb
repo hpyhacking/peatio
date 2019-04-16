@@ -12,6 +12,9 @@ FactoryBot.define do
       credit { 0 }
     end
 
+    reference_type { %w[order deposit trade].sample }
+
+    created_at { Faker::Date.between(3.days.ago, Date.today) }
   end
 
   factory :asset, class: Operations::Asset, parent: :operation do
