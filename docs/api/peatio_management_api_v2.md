@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.1.16
+## Version: 2.1.17
 
 **Contact information:**  
 peatio.tech  
@@ -258,6 +258,9 @@ Returns assets as paginated collection.
 | currency | formData | The currency for operations filtering. | No | string |
 | page | formData | The page number (defaults to 1). | No | integer |
 | limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
+| time_from | formData | An integer represents the seconds elapsed since Unix epoch.If set, only operations after the time will be returned. | No | integer |
+| time_to | formData | An integer represents the seconds elapsed since Unix epoch.If set, only operations before the time will be returned. | No | integer |
+| reference_type | formData | The reference type for operations filtering | No | string |
 
 ##### Responses
 
@@ -301,6 +304,9 @@ Returns expenses as paginated collection.
 | currency | formData | The currency for operations filtering. | No | string |
 | page | formData | The page number (defaults to 1). | No | integer |
 | limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
+| time_from | formData | An integer represents the seconds elapsed since Unix epoch.If set, only operations after the time will be returned. | No | integer |
+| time_to | formData | An integer represents the seconds elapsed since Unix epoch.If set, only operations before the time will be returned. | No | integer |
+| reference_type | formData | The reference type for operations filtering | No | string |
 
 ##### Responses
 
@@ -344,6 +350,9 @@ Returns revenues as paginated collection.
 | currency | formData | The currency for operations filtering. | No | string |
 | page | formData | The page number (defaults to 1). | No | integer |
 | limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
+| time_from | formData | An integer represents the seconds elapsed since Unix epoch.If set, only operations after the time will be returned. | No | integer |
+| time_to | formData | An integer represents the seconds elapsed since Unix epoch.If set, only operations before the time will be returned. | No | integer |
+| reference_type | formData | The reference type for operations filtering | No | string |
 
 ##### Responses
 
@@ -387,8 +396,11 @@ Returns liabilities as paginated collection.
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | formData | The currency for operations filtering. | No | string |
 | uid | formData | The user ID for operations filtering. | No | string |
+| reference_type | formData | The reference type for operations filtering | No | string |
+| time_from | formData | An integer represents the seconds elapsed since Unix epoch.If set, only operations after the time will be returned. | No | integer |
+| time_to | formData | An integer represents the seconds elapsed since Unix epoch.If set, only operations before the time will be returned. | No | integer |
 | page | formData | The page number (defaults to 1). | No | integer |
-| limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
+| limit | formData | The number of objects per page (defaults to 100, maximum is 10000). | No | integer |
 
 ##### Responses
 
@@ -481,4 +493,5 @@ Returns liabilities as paginated collection.
 | credit | string | Operation credit amount. | No |
 | debit | string | Operation debit amount. | No |
 | uid | string | The shared user ID. | No |
+| reference_type | string | The type of operations. | No |
 | created_at | string | The datetime when operation was created. | No |
