@@ -33,7 +33,7 @@ module Admin
         redirect_to admin_currencies_path
       else
         flash[:alert] = @currency.errors.full_messages.first
-        redirect_to :back
+        render :show
       end
     end
 

@@ -27,7 +27,7 @@ module Admin
         when 'collect_fee'
           deposit.collect!
         end
-        redirect_to :back, notice: 'The deposit was successful.'
+        redirect_to admin_deposit_index_path(currency.id), notice: 'Deposit succesfully updated.'
       end
 
       private

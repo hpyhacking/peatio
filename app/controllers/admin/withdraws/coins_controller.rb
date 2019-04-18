@@ -32,7 +32,7 @@ module Admin
 
       def destroy
         @withdraw.reject!
-        redirect_to :back, notice: 'Succesfully updated.'
+        redirect_to admin_withdraw_path(currency.id, @withdraw.id), notice: 'Withdrawal succesfully updated.'
       end
 
       private
@@ -47,7 +47,7 @@ module Admin
           @withdraw.accept!
           @withdraw.process!
         end
-        redirect_to :back, notice: 'Succesfully updated.'
+        redirect_to admin_withdraw_path(currency.id, @withdraw.id), notice: 'Withdrawal succesfully updated.'
       end
 
       def load!
@@ -55,7 +55,7 @@ module Admin
           @withdraw.update!(txid: params.fetch(:txid))
           @withdraw.load!
         end
-        redirect_to :back, notice: 'Succesfully updated.'
+        redirect_to admin_withdraw_path(currency.id, @withdraw.id), notice: 'Withdrawal succesfully updated.'
       end
     end
   end

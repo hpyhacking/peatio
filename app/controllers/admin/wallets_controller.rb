@@ -23,7 +23,7 @@ module Admin
       if @wallet.save
         redirect_to admin_wallets_path
       else
-        flash[:alert] = @wallet.errors.full_messages
+        flash[:alert] = @wallet.errors.full_messages.first
         render :show
       end
     end
@@ -33,8 +33,8 @@ module Admin
       if @wallet.update(wallet_params)
         redirect_to admin_wallets_path
       else
-        flash[:alert] = @wallet.errors.full_messages
-        redirect_to :back
+        flash[:alert] = @wallet.errors.full_messages.first
+        render :show
       end
     end
 

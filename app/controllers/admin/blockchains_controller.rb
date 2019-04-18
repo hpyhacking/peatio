@@ -21,7 +21,7 @@ module Admin
       if @blockchain.save
         redirect_to admin_blockchains_path
       else
-        flash[:alert] = @blockchain.errors.full_messages
+        flash[:alert] = @blockchain.errors.full_messages.first
         render :show
       end
     end
@@ -31,8 +31,8 @@ module Admin
       if @blockchain.update(blockchain_params)
         redirect_to admin_blockchains_path
       else
-        flash[:alert] = @blockchain.errors.full_messages
-        redirect_to :back
+        flash[:alert] = @blockchain.errors.full_messages.first
+        render :show
       end
     end
 

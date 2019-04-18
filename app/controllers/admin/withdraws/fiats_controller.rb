@@ -26,12 +26,12 @@ module Admin
           @withdraw.dispatch!
           @withdraw.success!
         end
-        redirect_to :back, notice: 'Withdraw successfully updated!'
+        redirect_to admin_withdraw_path(currency.id, @withdraw.id), notice: 'Withdrawal successfully updated!'
       end
 
       def destroy
         @withdraw.reject!
-        redirect_to :back, notice: 'Withdraw successfully destroyed!'
+        redirect_to admin_withdraw_path(currency.id, @withdraw.id), notice: 'Withdrawal successfully destroyed!'
       end
     end
   end
