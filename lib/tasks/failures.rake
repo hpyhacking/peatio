@@ -16,13 +16,13 @@ namespace :failures do
     puts "******  Total Messages in queue = #{count}  ******"
     errors = []
     until count == 0
-      delivery_info, metadata, payload = q.pop
+      _delivery_info, _metadata, payload = q.pop
       payload = JSON.parse(payload).symbolize_keys!
-      err_obj = payload.fetch(:error)
-      if err = errors.find{|k| k[:code] == err_obj.fetch("code")}
+      err_obj = payload.slice(:code, :message)
+      if err = errors.find{|k| k[:code] == err_obj.fetch(:code)}
         err[:count] += 1
       else
-        errors << {code: err_obj.fetch("code"), count: 1 }
+        errors << {code: err_obj.fetch(:code), count: 1 }
       end
       count -= 1
     end

@@ -16,6 +16,7 @@ module Matching
 
     def execute
       execute!
+      # TODO: Queue should exist event if none is listening.
     rescue TradeExecutionError => e
       AMQPQueue.enqueue(:trade_error, e.options)
       [@ask, @bid].each do |order|

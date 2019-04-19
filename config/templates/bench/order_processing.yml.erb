@@ -1,0 +1,36 @@
+- currencies:   btc,usd         # List of fiat currencies for creating deposits.
+  traders:      25              # Number of members who will trade.
+  threads:      50              # Number of simultaneous threads which will publish messages to RabbitMQ.
+  report_path:  bench/reports   # Path for saving benchmark report.
+  log_path:     bench/log       # Path for logging benchmark status.
+  orders:
+    #
+    # Generic config.
+    injector:   dummy   # Order injector name.
+    number:     10000   # Number of orders to be created and published to RabbitMQ (at least 2000).
+    step:       10000
+    markets:    btcusd  # Markets for performing trading.
+    #
+    # Dummy injector specific config.
+    min_volume: 0.1     # Order min volume (default 0.1).
+    max_volume: 1.0     # Order max volume (default 1.0).
+    min_price:  0.5     # Order min price (default 0.5).
+    max_price:  2.0     # Order max price (default 2.0).
+
+- currencies:   btc,usd         # List of fiat currencies for creating deposits.
+  traders:      25              # Number of members who will trade.
+  threads:      50              # Number of simultaneous threads which will publish messages to RabbitMQ.
+  report_path:  bench/reports   # Path for saving benchmark report.
+  log_path:     bench/log       # Path for logging benchmark status.
+  orders:
+    #
+    # Generic config.
+    injector:       bitfinex  # Order injector name.
+    number:         10000     # Number of orders to be created and published to RabbitMQ (at least 2000).
+    step:           10000     # Step for writing sql transactions.
+    markets:        btcusd    # Markets for performing trading.
+    #
+    # Bitfinex injector specific config.
+    # Path to bitfinex order history file.
+    # TODO: Add example how to generate this file.
+    data_load_path: config/bench/data/usd-eur.csv

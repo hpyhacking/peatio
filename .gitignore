@@ -29,6 +29,7 @@ tmp
 /config/management_api_v1.yml
 /config/secrets
 /config/seed
+/config/bench/*.yml
 
 # Ignore translations.js
 /public/javascripts/translations.js
@@ -49,3 +50,11 @@ tags
 .DS_Store
 .agignore
 **/*.tgz
+
+# Ignore useless yarn files and cache
+.cache
+.yarnrc
+
+# Ignore bench reports & logs
+bench/reports/*
+bench/log/*

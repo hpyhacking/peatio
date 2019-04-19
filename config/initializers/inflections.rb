@@ -21,6 +21,8 @@
 ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'API'
   inflect.acronym 'AMQP'
+  inflect.acronym 'MQ'
+  inflect.acronym 'CORS'
   inflect.acronym 'UI'
   inflect.acronym 'CRUD'
   inflect.acronym 'TID'
