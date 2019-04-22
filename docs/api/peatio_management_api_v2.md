@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.1.19
+## Version: 2.1.20
 
 **Contact information:**  
 peatio.tech  
@@ -478,7 +478,7 @@ Returns withdraws as paginated collection.
 | amount | string | The withdraw amount excluding fee. | No |
 | fee | string | The exchange fee. | No |
 | rid | string | The beneficiary ID or wallet address on the Blockchain. | No |
-| state | string | The withdraw state. «prepared» – initial state, money are not locked. «submitted» – withdraw has been allowed by outer service for further validation, money are locked. «canceled» – withdraw has been canceled by outer service, money are unlocked. «accepted» – system has validated withdraw and queued it for processing by worker, money are locked. «rejected» – system has validated withdraw and found errors, money are unlocked. «suspected» – system detected suspicious activity, money are unlocked. «processing» – worker is processing withdraw as the current moment, money are locked. «succeed» – worker has successfully processed withdraw, money are subtracted from the account. «failed» – worker has encountered an unhandled error while processing withdraw, money are unlocked. | No |
+| state | string | The withdraw state. «prepared» – initial state, money are not locked. «submitted» – withdraw has been allowed by outer service for further validation, money are locked. «canceled» – withdraw has been canceled by outer service, money are unlocked. «accepted» – system has validated withdraw and queued it for processing by worker, money are locked. «rejected» – system has validated withdraw and found errors, money are unlocked. «processing» – worker is processing withdraw as the current moment, money are locked. «skipped» – worker skipped withdrawal in case of insufficient balance of hot wallet or it absence. «succeed» – worker has successfully processed withdraw, money are subtracted from the account. «failed» – worker has encountered an unhandled error while processing withdraw, money are unlocked. | No |
 | created_at | string | The datetime when withdraw was created. | No |
 | blockchain_txid | string | The transaction ID on the Blockchain (coin only). | No |
 
