@@ -131,6 +131,14 @@ describe Withdraw do
       expect(subject.reload.failed?).to be true
     end
 
+    it 'transition to :skipped after calling WalletService.load_balance' do
+      WalletService.stubs(:[]).returns(@rpc)
+      @rpc.stubs(load_balance: 0.to_d, build_withdrawal!: '12345')
+
+      Worker::WithdrawCoin.new.process({ id: subject.id })
+      expect(subject.reload.skipped?).to be true
+    end
+
     it 'transitions to :confirming after calling WalletService' do
       WalletService.stubs(:[]).returns(@rpc)
 
@@ -248,6 +256,17 @@ describe Withdraw do
 
         expect(subject.processing?).to be true
       end
+
+      it 'transitions to :processing after calling #process from :skipped' do
+        subject.process!
+        expect(subject.processing?).to be true
+
+        subject.skip!
+        expect(subject.skipped?).to be true
+
+        subject.process!
+        expect(subject.processing?).to be true
+      end
     end
 
     context :cancel do
@@ -311,50 +330,17 @@ describe Withdraw do
       end
     end
 
-    context :suspect do
+    context :skip do
       before do
         subject.submit!
+        subject.accept!
+        subject.process!
       end
 
-      it 'transitions from :submitted to :suspected after calling #suspect!' do
-        subject.suspect!
+      it 'transitions from :accept to :skipped after calling #process' do
+        subject.skip!
 
-        expect(subject.suspected?).to be true
-      end
-
-      context :record_cancel_operations do
-
-        it 'creates two liability operations' do
-          expect{ subject.suspect! }.to change{ Operations::Liability.count }.by(2)
-        end
-
-        it 'doesn\'t create asset operations' do
-          expect{ subject.suspect! }.to_not change{ Operations::Asset.count }
-        end
-
-        it 'credits main liabilities for member' do
-          expect{ subject.suspect! }.to change {
-            subject.member.balance_for(currency: subject.currency, kind: :main)
-          }.by(subject.sum)
-        end
-
-        it 'debits locked liabilities for member' do
-          expect{ subject.suspect! }.to change {
-            subject.member.balance_for(currency: subject.currency, kind: :locked)
-          }.by(-subject.sum)
-        end
-
-        it 'updates both legacy and operations based member balance' do
-          subject.suspect!
-
-          %i[main locked].each do |kind|
-            expect(
-              subject.member.balance_for(currency: subject.currency, kind: kind)
-            ).to eq(
-              subject.member.legacy_balance_for(currency: subject.currency, kind: kind)
-            )
-          end
-        end
+        expect(subject.skipped?).to be true
       end
     end
 

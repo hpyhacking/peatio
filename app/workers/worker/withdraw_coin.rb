@@ -32,6 +32,7 @@ module Worker
         wallet = Wallet.active.withdraw.find_by(currency_id: withdraw.currency_id, kind: :hot)
         unless wallet
           Rails.logger.warn { "Can't find active hot wallet for currency with code: #{withdraw.currency_id}."}
+          withdraw.skip!
           return
         end
 
@@ -43,10 +44,9 @@ module Worker
 
         if balance < withdraw.sum
           Rails.logger.warn { "The withdraw skipped because wallet balance is not sufficient (wallet balance is #{balance.to_s("F")})." }
+          withdraw.skip!
           return
         end
-
-        # pa = withdraw.account.payment_address
 
         Rails.logger.warn { "Sending request to Wallet Service." }
 

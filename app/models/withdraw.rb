@@ -6,7 +6,6 @@ class Withdraw < ApplicationRecord
                submitted
                rejected
                accepted
-               suspected
                processing
                succeed
                canceled
@@ -41,7 +40,7 @@ class Withdraw < ApplicationRecord
     state :submitted
     state :canceled
     state :accepted
-    state :suspected
+    state :skipped
     state :rejected
     state :processing
     state :succeed
@@ -66,14 +65,6 @@ class Withdraw < ApplicationRecord
       end
     end
 
-    event :suspect do
-      transitions from: :submitted, to: :suspected
-      after do
-        unlock_funds
-        record_cancel_operations!
-      end
-    end
-
     event :accept do
       transitions from: :submitted, to: :accepted
     end
@@ -87,7 +78,7 @@ class Withdraw < ApplicationRecord
     end
 
     event :process do
-      transitions from: :accepted, to: :processing
+      transitions from: %i[accepted skipped], to: :processing
       after :send_coins!
     end
 
@@ -115,6 +106,10 @@ class Withdraw < ApplicationRecord
         unlock_and_sub_funds
         record_complete_operations!
       end
+    end
+
+    event :skip do
+      transitions from: :processing, to: :skipped
     end
 
     event :fail do
