@@ -47,7 +47,7 @@ module API
 
         AMQPQueue.enqueue \
           :order_processor,
-          { action: 'submit', order: order.attributes },
+          { action: 'submit', order: order.attributes_before_type_cast },
           { persistent: false }
       end
 
