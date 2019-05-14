@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.2.2
+## Version: 2.2.3
 
 **Contact information:**  
 peatio.tech  
@@ -435,6 +435,28 @@ Creates new transfer.
 | ---- | ----------- |
 | 201 | Creates new transfer. |
 
+### /trades
+
+#### POST
+##### Description:
+
+Returns trades as paginated collection.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | formData | The shared user ID. | No | string |
+| market | formData |  | No | string |
+| page | formData | The page number (defaults to 1). | No | integer |
+| limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Returns trades as paginated collection. | [Trade](#trade) |
+
 ### Models
 
 
@@ -495,3 +517,23 @@ Returns liabilities as paginated collection.
 | uid | string | The shared user ID. | No |
 | reference_type | string | The type of operations. | No |
 | created_at | string | The datetime when operation was created. | No |
+
+#### Trade
+
+Returns trades as paginated collection.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | string | Trade ID. | No |
+| price | double | Trade price. | No |
+| volume | double | Trade volume. | No |
+| funds | double | Trade funds. | No |
+| market | string | Trade market id. | No |
+| created_at | string | Trade create time in iso8601 format. | No |
+| ask_id | string | Trade ask order id. | No |
+| bid_id | string | Trade bid order id. | No |
+| ask_member_uid | string | Trade ask member uid. | No |
+| bid_member_uid | string | Trade bid member uid. | No |
+| taker_type | string | Trade maker order type (sell or buy). | No |
+| side | string | Trade side. | No |
+| order_id | integer | Order id. | No |
