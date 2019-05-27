@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.2.3"
+    "version": "2.2.4"
   },
   "swagger": "2.0",
   "produces": [
@@ -138,24 +138,12 @@
             "description": "",
             "type": "string",
             "enum": [
-              "bchbtc",
-              "bcheth",
-              "bchusd",
               "btcusd",
-              "dashbtc",
-              "dasheth",
-              "dashusd",
               "ethbtc",
               "ethusd",
-              "ltcbtc",
-              "ltceth",
-              "ltcusd",
               "trstbtc",
               "trsteth",
-              "trstusd",
-              "xrpbtc",
-              "xrpeth",
-              "xrpusd"
+              "trstusd"
             ],
             "required": true
           }
@@ -201,24 +189,12 @@
             "description": "",
             "type": "string",
             "enum": [
-              "bchbtc",
-              "bcheth",
-              "bchusd",
               "btcusd",
-              "dashbtc",
-              "dasheth",
-              "dashusd",
               "ethbtc",
               "ethusd",
-              "ltcbtc",
-              "ltceth",
-              "ltcusd",
               "trstbtc",
               "trsteth",
-              "trstusd",
-              "xrpbtc",
-              "xrpeth",
-              "xrpusd"
+              "trstusd"
             ],
             "required": true
           },
@@ -297,24 +273,12 @@
             "description": "",
             "type": "string",
             "enum": [
-              "bchbtc",
-              "bcheth",
-              "bchusd",
               "btcusd",
-              "dashbtc",
-              "dasheth",
-              "dashusd",
               "ethbtc",
               "ethusd",
-              "ltcbtc",
-              "ltceth",
-              "ltcusd",
               "trstbtc",
               "trsteth",
-              "trstusd",
-              "xrpbtc",
-              "xrpeth",
-              "xrpusd"
+              "trstusd"
             ],
             "required": true
           },
@@ -354,24 +318,12 @@
             "description": "",
             "type": "string",
             "enum": [
-              "bchbtc",
-              "bcheth",
-              "bchusd",
               "btcusd",
-              "dashbtc",
-              "dasheth",
-              "dashusd",
               "ethbtc",
               "ethusd",
-              "ltcbtc",
-              "ltceth",
-              "ltcusd",
               "trstbtc",
               "trsteth",
-              "trstusd",
-              "xrpbtc",
-              "xrpeth",
-              "xrpusd"
+              "trstusd"
             ],
             "required": true
           },
@@ -446,24 +398,12 @@
             "description": "",
             "type": "string",
             "enum": [
-              "bchbtc",
-              "bcheth",
-              "bchusd",
               "btcusd",
-              "dashbtc",
-              "dasheth",
-              "dashusd",
               "ethbtc",
               "ethusd",
-              "ltcbtc",
-              "ltceth",
-              "ltcusd",
               "trstbtc",
               "trsteth",
-              "trstusd",
-              "xrpbtc",
-              "xrpeth",
-              "xrpusd"
+              "trstusd"
             ],
             "required": true
           },
@@ -579,22 +519,14 @@
             "description": "Currency code.",
             "type": "string",
             "enum": [
-              "bch",
               "btc",
-              "dash",
               "eth",
-              "ltc",
               "trst",
               "usd",
-              "xrp",
-              "BCH",
               "BTC",
-              "DASH",
               "ETH",
-              "LTC",
               "TRST",
-              "USD",
-              "XRP"
+              "USD"
             ],
             "required": true
           }
@@ -626,14 +558,10 @@
             "description": "The currency code.",
             "type": "string",
             "enum": [
-              "bch",
               "btc",
-              "dash",
               "eth",
-              "ltc",
               "trst",
-              "usd",
-              "xrp"
+              "usd"
             ],
             "required": true
           }
@@ -688,20 +616,12 @@
             "description": "The account you want to deposit to.",
             "type": "string",
             "enum": [
-              "bch",
               "btc",
-              "dash",
               "eth",
-              "ltc",
               "trst",
-              "xrp",
-              "BCH",
               "BTC",
-              "DASH",
               "ETH",
-              "LTC",
-              "TRST",
-              "XRP"
+              "TRST"
             ],
             "required": true
           },
@@ -773,22 +693,14 @@
             "description": "Currency code",
             "type": "string",
             "enum": [
-              "bch",
               "btc",
-              "dash",
               "eth",
-              "ltc",
               "trst",
               "usd",
-              "xrp",
-              "BCH",
               "BTC",
-              "DASH",
               "ETH",
-              "LTC",
               "TRST",
-              "USD",
-              "XRP"
+              "USD"
             ],
             "required": false
           },
@@ -875,20 +787,12 @@
             "description": "The currency code.",
             "type": "string",
             "enum": [
-              "bch",
               "btc",
-              "dash",
               "eth",
-              "ltc",
               "trst",
-              "xrp",
-              "BCH",
               "BTC",
-              "DASH",
               "ETH",
-              "LTC",
-              "TRST",
-              "XRP"
+              "TRST"
             ],
             "required": true
           },
@@ -930,20 +834,12 @@
             "description": "Currency code.",
             "type": "string",
             "enum": [
-              "bch",
               "btc",
-              "dash",
               "eth",
-              "ltc",
               "trst",
-              "xrp",
-              "BCH",
               "BTC",
-              "DASH",
               "ETH",
-              "LTC",
-              "TRST",
-              "XRP"
+              "TRST"
             ],
             "required": false
           },
@@ -998,24 +894,12 @@
             "description": "",
             "type": "string",
             "enum": [
-              "bchbtc",
-              "bcheth",
-              "bchusd",
               "btcusd",
-              "dashbtc",
-              "dasheth",
-              "dashusd",
               "ethbtc",
               "ethusd",
-              "ltcbtc",
-              "ltceth",
-              "ltcusd",
               "trstbtc",
               "trsteth",
-              "trstusd",
-              "xrpbtc",
-              "xrpeth",
-              "xrpusd"
+              "trstusd"
             ],
             "required": false
           },
@@ -1101,24 +985,12 @@
             "description": "",
             "type": "string",
             "enum": [
-              "bchbtc",
-              "bcheth",
-              "bchusd",
               "btcusd",
-              "dashbtc",
-              "dasheth",
-              "dashusd",
               "ethbtc",
               "ethusd",
-              "ltcbtc",
-              "ltceth",
-              "ltcusd",
               "trstbtc",
               "trsteth",
-              "trstusd",
-              "xrpbtc",
-              "xrpeth",
-              "xrpusd"
+              "trstusd"
             ],
             "required": false
           },
@@ -1194,24 +1066,12 @@
             "description": "",
             "type": "string",
             "enum": [
-              "bchbtc",
-              "bcheth",
-              "bchusd",
               "btcusd",
-              "dashbtc",
-              "dasheth",
-              "dashusd",
               "ethbtc",
               "ethusd",
-              "ltcbtc",
-              "ltceth",
-              "ltcusd",
               "trstbtc",
               "trsteth",
-              "trstusd",
-              "xrpbtc",
-              "xrpeth",
-              "xrpusd"
+              "trstusd"
             ],
             "required": true
           },
@@ -1280,24 +1140,12 @@
             "description": "",
             "type": "string",
             "enum": [
-              "bchbtc",
-              "bcheth",
-              "bchusd",
               "btcusd",
-              "dashbtc",
-              "dasheth",
-              "dashusd",
               "ethbtc",
               "ethusd",
-              "ltcbtc",
-              "ltceth",
-              "ltcusd",
               "trstbtc",
               "trsteth",
-              "trstusd",
-              "xrpbtc",
-              "xrpeth",
-              "xrpusd"
+              "trstusd"
             ],
             "required": false
           },
@@ -1624,12 +1472,12 @@
       "properties": {
         "id": {
           "type": "string",
-          "example": "bch",
+          "example": "btc",
           "description": "Currency code."
         },
         "name": {
           "type": "string",
-          "example": "Bitcoin Cash",
+          "example": "Bitcoin",
           "description": "Currency name"
         },
         "symbol": {
@@ -1659,7 +1507,7 @@
         },
         "min_deposit_amount": {
           "type": "string",
-          "example": "0.0000748",
+          "example": "0.0000356",
           "description": "Minimal deposit amount"
         },
         "withdraw_fee": {
