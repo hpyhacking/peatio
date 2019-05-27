@@ -41,19 +41,6 @@ FactoryBot.define do
       options              { {} }
     end
 
-    trait :dash do
-      blockchain_key       { 'dash-testnet' }
-      code                 { 'dash' }
-      symbol               { 'Đ' }
-      type                 { 'coin' }
-      base_factor          { 100_000_000 }
-      withdraw_limit_24h   { 100 }
-      withdraw_limit_72h   { 1000 }
-      withdraw_fee         { 0.02 }
-      position             { 3 }
-      options              { {} }
-    end
-
     trait :eth do
       blockchain_key       { 'eth-rinkeby' }
       code                 { 'eth' }
@@ -68,19 +55,6 @@ FactoryBot.define do
         { gas_limit: 21_000,
           gas_price: 1_000_000_000 }
       end
-    end
-
-    trait :xrp do
-      code                 { 'xrp' }
-      blockchain_key       { 'xrp-testnet' }
-      symbol               { 'ꭆ' }
-      type                 { 'coin' }
-      base_factor          { 1_000_000 }
-      withdraw_limit_24h   { 100 }
-      withdraw_limit_72h   { 1000 }
-      withdraw_fee         { 0.015 }
-      position             { 5 }
-      options              { {} }
     end
 
     trait :trst do
@@ -114,30 +88,17 @@ FactoryBot.define do
         { { erc20_contract_address: '0xf8720eb6ad4a530cccb696043a0d10831e2ff60e' } }
     end
 
-    trait :bch do
-      blockchain_key       { 'bch-testnet' }
-      code                 { 'bch' }
-      symbol               { '฿' }
-      type                 { 'coin' }
-      base_factor          { 100_000_000 }
-      withdraw_limit_24h   { 0.1 }
-      withdraw_limit_72h   { 1 }
-      withdraw_fee         { 0 }
-      position             { 8 }
-      options              { {} }
-    end
-
-    trait :ltc do
-      blockchain_key       { 'ltc-testnet' }
-      code                 { 'ltc' }
-      symbol               { 'Ł' }
-      type                 { 'coin' }
-      base_factor          { 100_000_000 }
-      withdraw_limit_24h   { 100 }
-      withdraw_limit_72h   { 1000 }
-      withdraw_fee         { 0.02 }
-      position             { 9 }
-      options              { {} }
+    trait :fake do
+      blockchain_key      { 'fake-testnet' }
+      code                { 'fake' }
+      symbol              { 'F' }
+      type                { 'coin' }
+      base_factor         { 1_000_000 }
+      withdraw_limit_24h  { 100 }
+      withdraw_limit_72h  { 1000 }
+      withdraw_fee        { 0.02 }
+      position            { 10 }
+      options             { {} }
     end
   end
 end

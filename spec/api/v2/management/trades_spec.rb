@@ -24,10 +24,10 @@ describe API::V2::Management::Trades, type: :request do
     )
   end
 
-  let(:dashbtc_ask) do
+  let(:btceth_ask) do
     create(
       :order_ask,
-      :dashbtc,
+      :btceth,
       price: '12.326'.to_d,
       volume: '123.123456789',
       member: second_member
@@ -44,10 +44,10 @@ describe API::V2::Management::Trades, type: :request do
     )
   end
 
-  let(:dashbtc_bid) do
+  let(:btceth_bid) do
     create(
       :order_bid,
-      :dashbtc,
+      :btceth,
       price: '12.326'.to_d,
       volume: '123.123456789',
       member: second_member
@@ -55,9 +55,9 @@ describe API::V2::Management::Trades, type: :request do
   end
 
   let!(:btcusd_ask_trade) { create(:trade, :btcusd, ask: btcusd_ask, created_at: 2.days.ago) }
-  let!(:dashbtc_ask_trade) { create(:trade, :dashbtc, ask: dashbtc_ask, created_at: 2.days.ago) }
+  let!(:btceth_ask_trade) { create(:trade, :btceth, ask: btceth_ask, created_at: 2.days.ago) }
   let!(:btcusd_bid_trade) { create(:trade, :btcusd, bid: btcusd_bid, created_at: 23.hours.ago) }
-  let!(:dashbtc_bid_trade) { create(:trade, :dashbtc, bid: dashbtc_bid, created_at: 23.hours.ago) }
+  let!(:btceth_bid_trade) { create(:trade, :btceth, bid: btceth_bid, created_at: 23.hours.ago) }
 
   before do
     defaults_for_management_api_v1_security_configuration!

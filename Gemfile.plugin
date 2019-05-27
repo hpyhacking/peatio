@@ -2,3 +2,5 @@ source 'https://rubygems.org'
 git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 
 # List your plugins here.
+
+gem 'peatio-litecoin', '~> 0.2.0'

@@ -35,6 +35,7 @@ gem 'grape_logging', '~> 1.8.0'
 gem 'rack-attack', '~> 5.4.2'
 gem 'easy_table', '~> 0.0.10'
 gem 'faraday', '~> 0.15.4'
+gem 'better-faraday', '~> 1.0.5'
 gem 'jwt', '~> 2.1.0'
 gem 'email_validator', '~> 1.6.0'
 gem 'validate_url', '~> 1.0.4'
@@ -51,7 +52,7 @@ gem 'jwt-multisig', '~> 1.0.0'
 gem 'cash-addr', '~> 0.2.0', require: 'cash_addr'
 gem 'digest-sha3', '~> 1.1.0'
 gem 'scout_apm', '~> 2.4', require: false
-gem 'peatio', '~> 0.4.5'
+gem 'peatio', '~> 0.6.1'
 gem 'rack-cors', '~> 1.0.2', require: false
 gem 'env-tweaks', '~> 1.0.0'
 gem 'vault', '~> 0.12', require: false

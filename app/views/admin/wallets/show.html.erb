@@ -16,7 +16,7 @@
           <%= f.select :currency_id, Currency.codes.map { |code| [code.upcase, code] }, {selected: @wallet.currency_id}, {class: 'form-control mb-3'} %>
 
           <label>Gateway Client</label>
-          <%= f.select :gateway, options_for_select(Wallet::GATEWAYS, selected: @wallet.gateway), {}, class: 'form-control mb-3' %>
+          <%= f.select :gateway, options_for_select(Wallet.gateways, selected: @wallet.gateway), {}, class: 'form-control mb-3' %>
 
           <label>Name</label>
           <%= f.text_field :name, class: 'form-control mb-3' %>

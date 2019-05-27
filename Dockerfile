@@ -34,7 +34,7 @@ WORKDIR $APP_HOME
 # Install dependencies defined in Gemfile.
 COPY Gemfile Gemfile.lock $APP_HOME/
 RUN mkdir -p /opt/vendor/bundle \
- && chown -R app:app /opt/vendor \
+ && chown -R app:app /opt/vendor $APP_HOME \
  && su app -s /bin/bash -c "bundle install --path /opt/vendor/bundle"
 
 # Copy application sources.
@@ -62,7 +62,7 @@ CMD ["bundle", "exec", "puma", "--config", "config/puma.rb"]
 FROM base
 
 # Copy Gemfile.plugin for installing plugins.
-COPY Gemfile.plugin $APP_HOME
+COPY Gemfile.plugin Gemfile.lock $APP_HOME/
 
 # Install plugins.
 RUN bundle install --path /opt/vendor/bundle

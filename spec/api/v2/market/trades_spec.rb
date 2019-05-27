@@ -24,10 +24,10 @@ describe API::V2::Market::Trades, type: :request do
     )
   end
 
-  let(:dashbtc_ask) do
+  let(:btceth_ask) do
     create(
       :order_ask,
-      :dashbtc,
+      :btceth,
       price: '12.326'.to_d,
       volume: '123.123456789',
       member: member
@@ -44,10 +44,10 @@ describe API::V2::Market::Trades, type: :request do
     )
   end
 
-  let(:dashbtc_bid) do
+  let(:btceth_bid) do
     create(
       :order_bid,
-      :dashbtc,
+      :btceth,
       price: '12.326'.to_d,
       volume: '123.123456789',
       member: member
@@ -55,9 +55,9 @@ describe API::V2::Market::Trades, type: :request do
   end
 
   let!(:btcusd_ask_trade) { create(:trade, :btcusd, ask: btcusd_ask, created_at: 2.days.ago) }
-  let!(:dashbtc_ask_trade) { create(:trade, :dashbtc, ask: dashbtc_ask, created_at: 2.days.ago) }
+  let!(:btceth_ask_trade) { create(:trade, :btceth, ask: btceth_ask, created_at: 2.days.ago) }
   let!(:btcusd_bid_trade) { create(:trade, :btcusd, bid: btcusd_bid, created_at: 23.hours.ago) }
-  let!(:dashbtc_bid_trade) { create(:trade, :dashbtc, bid: dashbtc_bid, created_at: 23.hours.ago) }
+  let!(:btceth_bid_trade) { create(:trade, :btceth, bid: btceth_bid, created_at: 23.hours.ago) }
 
   describe 'GET /api/v2/market/trades' do
     it 'requires authentication' do
@@ -76,12 +76,12 @@ describe API::V2::Market::Trades, type: :request do
 
       expect(result.find { |t| t['id'] == btcusd_ask_trade.id }['side']).to eq 'ask'
       expect(result.find { |t| t['id'] == btcusd_ask_trade.id }['order_id']).to eq btcusd_ask.id
-      expect(result.find { |t| t['id'] == dashbtc_ask_trade.id }['side']).to eq 'ask'
-      expect(result.find { |t| t['id'] == dashbtc_ask_trade.id }['order_id']).to eq dashbtc_ask.id
+      expect(result.find { |t| t['id'] == btceth_ask_trade.id }['side']).to eq 'ask'
+      expect(result.find { |t| t['id'] == btceth_ask_trade.id }['order_id']).to eq btceth_ask.id
       expect(result.find { |t| t['id'] == btcusd_bid_trade.id }['side']).to eq 'bid'
       expect(result.find { |t| t['id'] == btcusd_bid_trade.id }['order_id']).to eq btcusd_bid.id
-      expect(result.find { |t| t['id'] == dashbtc_bid_trade.id }['side']).to eq 'bid'
-      expect(result.find { |t| t['id'] == dashbtc_bid_trade.id }['order_id']).to eq dashbtc_bid.id
+      expect(result.find { |t| t['id'] == btceth_bid_trade.id }['side']).to eq 'bid'
+      expect(result.find { |t| t['id'] == btceth_bid_trade.id }['order_id']).to eq btceth_bid.id
     end
 
     it 'returns all my recent trades for btcusd market' do
@@ -111,7 +111,7 @@ describe API::V2::Market::Trades, type: :request do
       api_get '/api/v2/market/trades', params: { time_from: 1.day.ago.to_i }, token: token
       result = JSON.parse(response.body)
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(result.size).to eq 3
       expect(response.headers.fetch('Total')).to eq '3'
     end
@@ -120,7 +120,7 @@ describe API::V2::Market::Trades, type: :request do
       api_get '/api/v2/market/trades', params: { time_to: 1.day.ago.to_i }, token: token
       result = JSON.parse(response.body)
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(result.size).to eq 2
       expect(response.headers.fetch('Total')).to eq '2'
     end
@@ -130,7 +130,7 @@ describe API::V2::Market::Trades, type: :request do
       api_get '/api/v2/market/trades', params: { time_from: 7.hours.ago.to_i, time_to: 5.hours.ago.to_i }, token: token
       result = JSON.parse(response.body)
 
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(result.size).to eq 1
       expect(response.headers.fetch('Total')).to eq '1'
     end

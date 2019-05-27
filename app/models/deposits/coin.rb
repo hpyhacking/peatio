@@ -32,7 +32,7 @@ module Deposits
 end
 
 # == Schema Information
-# Schema version: 20180925123806
+# Schema version: 20190426145506
 #
 # Table name: deposits
 #
@@ -48,6 +48,7 @@ end
 #  block_number :integer
 #  type         :string(30)       not null
 #  tid          :string(64)       not null
+#  spread       :string(1000)
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  completed_at :datetime

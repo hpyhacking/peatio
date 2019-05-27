@@ -14,9 +14,9 @@
 
 - key:               eth-rinkeby
   name:              Ethereum Rinkeby
-  client:            geth                 # API client name.
+  client:            geth                   # API client name.
   server:            http://127.0.0.1:8545  # Public Ethereum node endpoint. IMPORTANT: full syncmode.
-  height:            2500000                # Initial block number from which sync will be started.
+  height:            4000000                # Initial block number from which sync will be started.
   min_confirmations: 6                      # Minimal confirmations needed for withdraw and deposit confirmation.
   explorer:
     address:         https://rinkeby.etherscan.io/address/#{address}
@@ -25,9 +25,9 @@
 
 - key:               eth-mainet
   name:              Ethereum Mainet
-  client:            geth                 # API client name.
+  client:            geth                   # API client name.
   server:            http://127.0.0.1:8545  # Public Ethereum node endpoint. IMPORTANT: full syncmode.
-  height:            5000000                # Initial block number from which sync will be started.
+  height:            7500000                # Initial block number from which sync will be started.
   min_confirmations: 6                      # Minimal confirmations needed for withdraw and deposit confirmation.
   explorer:
     address:         https://etherscan.io/address/#{address}
@@ -38,54 +38,10 @@
   name:              Bitcoin Testnet
   client:            bitcoin                              # API client name.
   server:            http://user:password@127.0.0.1:18332 # Public Bitcoin node endpoint.
-  height:            1350000                              # Initial block number from which sync will be started.
+  height:            1500000                              # Initial block number from which sync will be started.
   min_confirmations: 6                                    # Minimal confirmations needed for withdraw and deposit confirmation.
   explorer:
     address:         https://testnet.blockchain.info/address/#{address}
     transaction:     https://testnet.blockchain.info/tx/#{txid}
-  status:            active
-
-- key:               bch-testnet
-  name:              BitcoinCash Testnet
-  client:            bitcoincash                          # API client name.
-  server:            http://user:password@127.0.0.1:18332 # Public Bitcoin Cash node endpoint.
-  height:            1249826                              # Initial block number from which sync will be started.
-  min_confirmations: 6                                    # Minimal confirmations needed for withdraw and deposit confirmation.
-  explorer:
-    address:         https://www.blocktrail.com/tBCC/address/#{address}
-    transaction:     https://www.blocktrail.com/tBCC/tx/#{txid}
-  status:            active
-
-- key:               ltc-testnet
-  name:              Litecoin Testnet
-  client:            litecoin                             # API client name.
-  server:            http://user:password@127.0.0.1:18332 # Public Litecoin node endpoint.
-  height:            678183                               # Initial block number from which sync will be started.
-  min_confirmations: 6                                    # Minimal confirmations needed for withdraw and deposit confirmation.
-  explorer:
-    address:         https://chain.so/address/LTCTEST/#{address}
-    transaction:     https://chain.so/tx/LTCTEST/#{txid}
-  status:            active
-
-- key:               dash-testnet
-  name:              Dash Testnet
-  client:            dash                                 # API client name.
-  server:            http://user:password@127.0.0.1:19998 # Public Dash node endpoint.
-  height:            199136                               # Initial block number from which sync will be started.
-  min_confirmations: 6                                    # Minimal confirmations needed for withdraw and deposit confirmation.
-  explorer:
-    address:         https://test.insight.dash.siampm.com/dash/address/#{address}
-    transaction:     https://test.insight.dash.siampm.com/dash/tx/#{txid}
-  status:            active
-
-- key:               xrp-testnet
-  name:              Ripple Testnet
-  client:            ripple                              # API client name.
-  server:            http://user:password@127.0.0.1:5005 # Public Ripple node endpoint.
-  height:            11947454                            # Initial block number from which sync will be started.
-  min_confirmations: 6                                   # Minimal confirmations needed for withdraw and deposit confirmation.
-  explorer:
-    address:         https://bithomp.com/explorer/#{address}
-    transaction:     https://bithomp.com/explorer/#{txid}
   status:            active
 <% end %>

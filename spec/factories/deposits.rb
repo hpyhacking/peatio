@@ -25,30 +25,6 @@ FactoryBot.define do
       txout { 0 }
     end
 
-    trait :deposit_bch do
-      type { Deposits::Coin }
-      currency { Currency.find(:bch) }
-      address { Faker::Blockchain::Bitcoin.address }
-      txid { Faker::Lorem.characters(64) }
-      txout { 0 }
-    end
-
-    trait :deposit_dash do
-      type { Deposits::Coin }
-      currency { Currency.find(:dash) }
-      address { Faker::Blockchain::Bitcoin.address }
-      txid { Faker::Lorem.characters(64) }
-      txout { 0 }
-    end
-
-    trait :deposit_ltc do
-      type { Deposits::Coin }
-      currency { Currency.find(:ltc) }
-      address { Faker::Blockchain::Bitcoin.address }
-      txid { Faker::Lorem.characters(64) }
-      txout { 0 }
-    end
-
     trait :deposit_eth do
       type { Deposits::Coin }
       currency { Currency.find(:eth) }
@@ -70,15 +46,6 @@ FactoryBot.define do
     trait :deposit_ring do
       type { Deposits::Coin }
       currency { Currency.find(:ring) }
-      member { create(:member, :level_3, :barong) }
-      address { Faker::Blockchain::Bitcoin.address }
-      txid { Faker::Lorem.characters(64) }
-      txout { 0 }
-    end
-
-    trait :deposit_xrp do
-      type { Deposits::Coin }
-      currency { Currency.find(:xrp) }
       member { create(:member, :level_3, :barong) }
       address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }

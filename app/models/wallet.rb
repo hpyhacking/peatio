@@ -11,7 +11,6 @@ class Wallet < ApplicationRecord
   ENUMERIZED_KINDS = { deposit: 100, fee: 200, hot: 310, warm: 320, cold: 330 }.freeze
   enumerize :kind, in: ENUMERIZED_KINDS, scope: true
 
-  GATEWAYS = %w[bitcoind bitcoincashd litecoind parity geth dashd rippled bitgo].freeze
   SETTING_ATTRIBUTES = %i[ uri
                            secret
                            bitgo_test_net
@@ -19,6 +18,8 @@ class Wallet < ApplicationRecord
                            bitgo_wallet_passphrase
                            bitgo_rest_api_root
                            bitgo_rest_api_access_token ].freeze
+
+  NOT_AVAILABLE = 'N/A'.freeze
 
   include BelongsToCurrency
 
@@ -30,7 +31,8 @@ class Wallet < ApplicationRecord
   validates :address, presence: true
 
   validates :status,  inclusion: { in: %w[active disabled] }
-  validates :gateway, inclusion: { in: GATEWAYS }
+
+  validates :gateway, inclusion: { in: ->(_){ Wallet.gateways.map(&:to_s) } }
 
   validates :nsig,        numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :max_balance, numericality: { greater_than_or_equal_to: 0 }
@@ -48,6 +50,10 @@ class Wallet < ApplicationRecord
   end
 
   class << self
+    def gateways
+      Peatio::Wallet.registry.adapters.keys
+    end
+
     def kinds(options={})
       ENUMERIZED_KINDS
         .yield_self do |kinds|
@@ -73,6 +79,16 @@ class Wallet < ApplicationRecord
           end
         end
     end
+  end
+
+  def current_balance
+    WalletService.new(self).load_balance!
+  rescue BlockchainService::BalanceLoadError
+    NOT_AVAILABLE
+  end
+
+  def to_wallet_api_settings
+    settings.compact.deep_symbolize_keys.merge(address: address)
   end
 
   def wallet_url

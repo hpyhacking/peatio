@@ -51,6 +51,26 @@ describe Deposit do
     expect(record.tid).to eq record.tid.upcase
   end
 
+  context :spread_between_wallets! do
+    let(:spread) do
+      [Peatio::Transaction.new(to_address: 'to-address-1', amount: 1.2),
+       Peatio::Transaction.new(to_address: 'to-address-2', amount: 2.5)]
+    end
+    let(:deposit) { create(:deposit_btc, amount: 3.7) }
+
+    before do
+      WalletService.any_instance.expects(:spread_deposit).returns(spread)
+    end
+
+    it 'spreads deposit between wallets' do
+      expect(deposit.spread).to eq([])
+      expect(deposit.spread_between_wallets!).to be_truthy
+      expect(deposit.reload.spread).to eq(spread.map(&:as_json).map(&:symbolize_keys))
+
+      expect(deposit.spread_between_wallets!).to be_falsey
+    end
+  end
+
   context :accept do
     context :record_complete_operations! do
       subject { deposit }

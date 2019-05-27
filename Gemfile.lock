@@ -69,6 +69,9 @@ GEM
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
     base58 (0.2.3)
+    better-faraday (1.0.5)
+      activesupport (>= 4.0, < 6.0)
+      faraday (~> 0.12)
     bootsnap (1.4.2)
       msgpack (~> 1.0)
     bootstrap (4.3.1)
@@ -80,7 +83,7 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     bump (0.8.0)
-    bunny (2.14.1)
+    bunny (2.14.2)
       amq-protocol (~> 2.3, >= 2.3.0)
     byebug (11.0.0)
     cancancan (2.3.0)
@@ -220,7 +223,7 @@ GEM
       metaclass (~> 0.0.1)
     msgpack (1.2.9)
     multi_json (1.13.1)
-    multipart-post (2.0.0)
+    multipart-post (2.1.1)
     mustermann (1.0.3)
     mustermann-grape (1.0.0)
       mustermann (~> 1.0.0)
@@ -232,7 +235,8 @@ GEM
     parser (2.6.0.0)
       ast (~> 2.4.0)
     passgen (1.0.2)
-    peatio (0.4.5)
+    peatio (0.6.1)
+      activemodel (~> 5.2.3)
       amqp
       bunny
       clamp
@@ -240,6 +244,12 @@ GEM
       eventmachine
       jwt
       mysql2
+    peatio-litecoin (0.2.0)
+      activesupport (~> 5.2.3)
+      better-faraday (~> 1.0.5)
+      faraday (~> 0.15.4)
+      memoist (~> 0.16.0)
+      peatio (~> 0.6.1)
     popper_js (1.14.5)
     powerpack (0.1.2)
     pry (0.12.2)
@@ -400,6 +410,7 @@ DEPENDENCIES
   annotate (~> 2.7.4)
   api-pagination (~> 4.8.2)
   arel-is-blank (~> 1.0.0)
+  better-faraday (~> 1.0.5)
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.3.1)
   bullet (~> 5.9)
@@ -441,7 +452,8 @@ DEPENDENCIES
   mocha (~> 1.8)
   mysql2 (~> 0.5.2)
   passgen (~> 1.0.2)
-  peatio (~> 0.4.5)
+  peatio (~> 0.6.1)
+  peatio-litecoin (~> 0.2.0)
   pry-byebug (~> 3.7)
   puma (~> 3.12.0)
   rack-attack (~> 5.4.2)

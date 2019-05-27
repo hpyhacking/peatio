@@ -2,10 +2,6 @@
 # frozen_string_literal: true
 
 describe Market do
-  context 'enabled market' do
-    it { expect(Market.enabled.count).to eq(4) }
-  end
-
   context 'market attributes' do
     subject { Market.find(:btcusd) }
 

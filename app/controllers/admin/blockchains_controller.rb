@@ -49,6 +49,7 @@ module Admin
           client
           server
           height
+          step
           min_confirmations
           explorer_address
           explorer_transaction

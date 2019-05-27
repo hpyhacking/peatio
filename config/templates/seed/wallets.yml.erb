@@ -66,6 +66,55 @@
     uri:          http://127.0.0.1:8545
     secret:       'test'
 
+- name:             WeTrust Deposit Wallet
+  blockchain_key:   eth-rinkeby
+  currency_id:      trst
+  # Address where deposits will be collected to.
+  address:          '0x2b9fBC10EbAeEc28a8Fc10069C0BC29E45eBEB9C'  # IMPORTANT: Always wrap this value in quotes!
+  kind:             deposit  # Wallet kind (deposit, hot, warm, cold or fee).
+  nsig:             1        # Number of signatures required for performing withdraw.
+  max_balance:      0.0
+  status:           active
+  gateway:          geth     # Gateway client name.
+  settings:
+    #
+    # Geth gateway client settings.
+    uri:          http://127.0.0.1:8545
+    secret:       'changeme'
+
+- name:             WeTrust Hot Wallet
+  blockchain_key:   eth-rinkeby
+  currency_id:      trst
+  # Address where deposits will be collected to.
+  address:          '0x270704935783087a01c7a28d8f2d8f01670c8050'  # IMPORTANT: Always wrap this value in quotes!
+  kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
+  nsig:             1       # Number of signatures required for performing withdraw.
+  max_balance:      100.0
+  status:           active
+  gateway:          geth    # Gateway client name.
+  settings:
+    #
+    # Geth gateway client settings.
+    uri:          http://127.0.0.1:8545
+    secret:       'test'
+
+
+- name:             WeTrust Warm Wallet
+  blockchain_key:   eth-rinkeby
+  currency_id:      trst
+  # Address where deposits will be collected to.
+  address:          '0x2b9fBC10EbAeEc28a8Fc10069C0BC29E45eBEB9C'  # IMPORTANT: Always wrap this value in quotes!
+  kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
+  nsig:             1       # Number of signatures required for performing withdraw.
+  max_balance:      1000.0
+  status:           active
+  gateway:          geth    # Gateway client name.
+  settings:
+    #
+    # Geth gateway client settings.
+    uri:          http://127.0.0.1:8545
+    secret:       'test'
+
 - name:             Bitcoin Deposit Wallet
   blockchain_key:   btc-testnet
   currency_id:      btc
@@ -83,248 +132,31 @@
 
 - name:             Bitcoin Hot Wallet
   blockchain_key:   btc-testnet
-  currency_id:        btc
+  currency_id:      btc
   # Address where deposits will be collected to.
   address:          '2N4qYjye5yENLEkz4UkLFxzPaxJatF3kRwf'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1       # Number of signatures required for performing withdraw.
-  max_balance:      5.0
+  kind:             hot       # Wallet kind (deposit, hot, warm, cold or fee).
+  nsig:             1         # Number of signatures required for performing withdraw.
+  max_balance:      0.0
   status:           active
-  gateway:          bitgo   # Gateway client name.
+  gateway:          bitcoind  # Gateway client name.
   settings:
     #
-    # BitGo gateway client settings.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
+    # Bitcoind gateway client settings.
+    uri:          http://user:password@127.0.0.1:18332
 
 - name:             Bitcoin Warm Wallet
   blockchain_key:   btc-testnet
   currency_id:      btc
   # Address where deposits will be collected to.
   address:          '2N4qYjye5yENLEkz4UkLFxzPaxJatF3kRwf'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1       # Number of signatures required for performing withdraw.
-  max_balance:      50.0
-  status:           active
-  gateway:          bitgo   # Gateway client name.
-  settings:
-    #
-    # BitGo gateway client settings.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-
-- name:             Bitcoincash Deposit Wallet
-  blockchain_key:   bch-testnet
-  currency_id:      bch
-  # Address where deposits will be collected to.
-  address:          'n2stP7w1DpSh7N1PzJh7eGjgCk3eTF3DMC'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             deposit       # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1             # Number of signatures required for performing withdraw.
+  kind:             warm      # Wallet kind (deposit, hot, warm, cold or fee).
+  nsig:             1         # Number of signatures required for performing withdraw.
   max_balance:      0.0
   status:           active
-  gateway:          bitcoincashd  # Gateway client name.
+  gateway:          bitcoind  # Gateway client name.
   settings:
     #
-    # Bitcoincashd gateway client settings.
+    # Bitcoind gateway client settings.
     uri:          http://user:password@127.0.0.1:18332
-
-- name:             Bitcoincash Hot Wallet
-  blockchain_key:   bch-testnet
-  currency_id:      bch
-  # Address where deposits will be collected to.
-  address:          'n2stP7w1DpSh7N1PzJh7eGjgCk3eTF3DMC'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1       # Number of signatures required for performing withdraw.
-  max_balance:      5.0
-  status:           active
-  gateway:          bitgo   # Gateway client name.
-  settings:
-    #
-    # BitGo gateway client settings.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-
-- name:             Bitcoincash Warm Wallet
-  blockchain_key:   bch-testnet
-  currency_id:      bch
-  # Address where deposits will be collected to.
-  address:          'n2stP7w1DpSh7N1PzJh7eGjgCk3eTF3DMC'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1       # Number of signatures required for performing withdraw.
-  max_balance:      50.0
-  status:           active
-  gateway:          bitgo   # Gateway client name.
-  settings:
-    #
-    # BitGo gateway client settings.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-
-
-- name:             Litecoin Deposit Wallet
-  blockchain_key:   ltc-testnet
-  currency_id:      ltc
-  # Address where deposits will be collected to.
-  address:          'Qc2BM7gp8mKgJPPxLAadLAHteNQwhFwwuf'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             deposit    # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1          # Number of signatures required for performing withdraw.
-  max_balance:      0.0
-  status:           active
-  gateway:          litecoind  # Gateway client name.
-  settings:
-    #
-    # Litecoind gateway client settings.
-    uri:          http://user:password@127.0.0.1:19332
-
-- name:             Litecoin Hot Wallet
-  blockchain_key:   ltc-testnet
-  currency_id:      ltc
-  # Address where deposits will be collected to.
-  address:          'Qc2BM7gp8mKgJPPxLAadLAHteNQwhFwwuf'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1       # Number of signatures required for performing withdraw.
-  max_balance:      5.0
-  status:           active
-  gateway:          bitgo   # Gateway client name.
-  settings:
-    #
-    # BitGo gateway client settings.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-
-- name:             Litecoin Warm Wallet
-  blockchain_key:   ltc-testnet
-  currency_id:      ltc
-  # Address where deposits will be collected to.
-  address:          'Qc2BM7gp8mKgJPPxLAadLAHteNQwhFwwuf'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1       # Number of signatures required for performing withdraw.
-  max_balance:      50.0
-  status:           active
-  gateway:          bitgo   # Gateway client name.
-  settings:
-    #
-    # BitGo gateway client settings.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-
-
-- name:             Dash Deposit Wallet
-  blockchain_key:   dash-testnet
-  currency_id:      dash
-  # Address where deposits will be collected to.
-  address:          'yVcZM6oUjfwrREm2CDb9G8BMHwwm5o5UsL'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             deposit # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1       # Number of signatures required for performing withdraw.
-  max_balance:      0.0
-  status:           active
-  gateway:          dashd   # Gateway client name.
-  settings:
-    #
-    # Dashd gateway client settings.
-    uri:          http://user:password@127.0.0.1:19998
-
-- name:             Dash Hot Wallet
-  blockchain_key:   dash-testnet
-  currency_id:      dash
-  # Address where deposits will be collected to.
-  address:          'yVcZM6oUjfwrREm2CDb9G8BMHwwm5o5UsL'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1       # Number of signatures required for performing withdraw.
-  max_balance:      5.0
-  status:           active
-  gateway:          bitgo   # Gateway client name.
-  settings:
-    #
-    # BitGo gateway client settings.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-
-- name:             Dash Warm Wallet
-  blockchain_key:   dash-testnet
-  currency_id:      dash
-  # Address where deposits will be collected to.
-  address:          'yVcZM6oUjfwrREm2CDb9G8BMHwwm5o5UsL'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1       # Number of signatures required for performing withdraw.
-  max_balance:      50.0
-  status:           active
-  gateway:          bitgo   # Gateway client name.
-  settings:
-    #
-    # BitGo gateway client settings.
-    bitgo_test_net:              on
-    bitgo_wallet_id:             ~
-    bitgo_wallet_passphrase:     ~
-    bitgo_rest_api_root:         https://test.bitgo.com/api/v2
-    bitgo_rest_api_access_token: ~
-
-- name:             Ripple Deposit Wallet
-  blockchain_key:   xrp-testnet
-  currency_id:      xrp
-  # Address where deposits will be collected to.
-  address:          'r4kpJtnx4goLYXoRdi7mbkRpZ9Xpx2RyPN'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             deposit  # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1        # Number of signatures required for performing withdraw.
-  max_balance:      0.0
-  status:           active
-  gateway:          rippled     # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://127.0.0.1:5005
-    secret:       'changeme'
-
-- name:             Ripple Hot Wallet
-  blockchain_key:   xrp-testnet
-  currency_id:      xrp
-  # Address where deposits will be collected to.
-  address:          'r4kpJtnx4goLYXoRdi7mbkRpZ9Xpx2RyPN'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1       # Number of signatures required for performing withdraw.
-  max_balance:      100.0
-  status:           active
-  gateway:          rippled    # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://127.0.0.1:5005
-    secret:       'changeme'
-
-- name:             Ripple Warm Wallet
-  blockchain_key:   xrp-testnet
-  currency_id:      xrp
-  # Address where deposits will be collected to.
-  address:          'r4kpJtnx4goLYXoRdi7mbkRpZ9Xpx2RyPN'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
-  nsig:             1       # Number of signatures required for performing withdraw.
-  max_balance:      1000.0
-  status:           active
-  gateway:          rippled    # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://user:password@127.0.0.1:5005
-    secret:       'changeme'
 <% end %>

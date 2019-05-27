@@ -27,31 +27,6 @@ FactoryBot.define do
       trend { %w[up down].sample }
     end
 
-
-    trait :dashbtc do
-      price { '10.0'.to_d }
-      volume { '1.0'.to_d }
-      funds { price.to_d * volume.to_d }
-      market { Market.find(:dashbtc) }
-      ask { create(:order_ask, :dashbtc) }
-      bid { create(:order_bid, :dashbtc) }
-      ask_member { ask.member }
-      bid_member { bid.member }
-      trend { %w[up down].sample }
-    end
-
-    trait :btcxrp do
-      price { '10.0'.to_d }
-      volume { '1.0'.to_d }
-      funds { price.to_d * volume.to_d }
-      market { Market.find(:btcxrp) }
-      ask { create(:order_ask, :btcxrp) }
-      bid { create(:order_bid, :btcxrp) }
-      ask_member { ask.member }
-      bid_member { bid.member }
-      trend { %w[up down].sample }
-    end
-
     # Create liability history for orders by passing with_deposit_liability trait.
     trait :with_deposit_liability do
       ask { create(:order_ask, :with_deposit_liability) }

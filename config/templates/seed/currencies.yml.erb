@@ -36,82 +36,6 @@
   position:               2
   options:                {}
 
-- id:                     xrp
-  name:                   Ripple
-  blockchain_key:         xrp-testnet
-  symbol:                 'ꭆ'
-  type:                   coin
-  precision:              8
-  base_factor:            1_000_000
-  enabled:                true
-  # Deposits with less amount are skipped during blockchain synchronization.
-  # We advise to set value 10 times bigger than the network fee to prevent losses.
-  min_deposit_amount:     0.00012
-  min_collection_amount:  0.00012
-  withdraw_limit_24h:     100
-  withdraw_limit_72h:     200
-  deposit_fee:            0
-  withdraw_fee:           0
-  position:               3
-  options:                {}
-
-- id:                     bch
-  name:                   Bitcoin Cash
-  blockchain_key:         bch-testnet
-  symbol:                 '฿'
-  type:                   coin
-  precision:              8
-  base_factor:            100_000_000
-  enabled:                true
-  # Deposits with less amount are skipped during blockchain synchronization.
-  # We advise to set value 10 times bigger than the network fee to prevent losses.
-  min_deposit_amount:     0.0000748
-  min_collection_amount:  0.0000748
-  withdraw_limit_24h:     0.1
-  withdraw_limit_72h:     0.2
-  deposit_fee:            0
-  withdraw_fee:           0
-  position:               4
-  options:                {}
-
-- id:                     ltc
-  name:                   Litecoin
-  blockchain_key:         ltc-testnet
-  symbol:                 'Ł'
-  type:                   coin
-  precision:              8
-  base_factor:            100_000_000
-  enabled:                true
-  # Deposits with less amount are skipped during blockchain synchronization.
-  # We advise to set value 10 times bigger than the network fee to prevent losses.
-  min_deposit_amount:     0.0004488
-  min_collection_amount:  0.0004488
-  withdraw_limit_24h:     0.5
-  withdraw_limit_72h:     1.2
-  deposit_fee:            0
-  withdraw_fee:           0
-  position:               5
-  options:                {}
-
-- id:                     dash
-  name:                   Dash
-  blockchain_key:         dash-testnet
-  symbol:                 'Đ'
-  type:                   coin
-  precision:              8
-  base_factor:            100_000_000
-  enabled:                true
-  # Deposits with less amount are skipped during blockchain synchronization.
-  # We advise to set value 10 times bigger than the network fee to prevent losses.
-  min_deposit_amount:     0.0000226
-  min_collection_amount:  0.0000226
-  withdraw_limit_24h:     0.2
-  withdraw_limit_72h:     0.5
-  deposit_fee:            0
-  withdraw_fee:           0
-  position:               6
-  options:                {}
-
 - id:                     eth
   name:                   Ethereum
   blockchain_key:         eth-rinkeby
@@ -128,7 +52,7 @@
   withdraw_limit_72h:     0.5
   deposit_fee:            0
   withdraw_fee:           0
-  position:               7
+  position:               3
   options:
     # ETH tx fees configurations.
     #
@@ -148,13 +72,13 @@
   # Deposits with less amount are skipped during blockchain synchronization.
   # We advise to set value 10 times bigger than the network fee to prevent losses.
   # NOTE: Network fee is paid in ETH but min_deposit_amount is in TRST.
-  min_deposit_amount:     0.00021
-  min_collection_amount:  0.00021
+  min_deposit_amount:     2
+  min_collection_amount:  2
   withdraw_limit_24h:     300      #            (usually can be found on the official website).
   withdraw_limit_72h:     600
   deposit_fee:            0
   withdraw_fee:           0
-  position:               8
+  position:               4
   options:
     # ERC20 tx fees configurations.
     #

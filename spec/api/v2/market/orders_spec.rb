@@ -11,7 +11,7 @@ describe API::V2::Market::Orders, type: :request do
     before do
       # NOTE: We specify updated_at attribute for testing order of Order.
       create(:order_bid, :btcusd, price: '11'.to_d, volume: '123.123456789', member: member, updated_at: Time.now + 5)
-      create(:order_bid, :dashbtc, price: '11'.to_d, volume: '123.123456789', member: member)
+      create(:order_bid, :btceth, price: '11'.to_d, volume: '123.123456789', member: member)
       create(:order_bid, :btcusd, price: '12'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
       create(:order_ask, :btcusd, price: '13'.to_d, volume: '123.123456789', member: member, state: Order::WAIT, updated_at: Time.now + 10)
       create(:order_ask, :btcusd, price: '14'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
@@ -315,7 +315,7 @@ describe API::V2::Market::Orders, type: :request do
     before do
       create(:order_ask, :btcusd, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
       create(:order_bid, :btcusd, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
-      create(:order_bid, :dashbtc, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
+      create(:order_bid, :btceth, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
 
       member.get_account(:btc).update_attributes(locked: '5')
       member.get_account(:usd).update_attributes(locked: '50')
@@ -336,12 +336,12 @@ describe API::V2::Market::Orders, type: :request do
     end
 
     it 'should cancel all my orders for specific market' do
-      member.orders.where(market: 'dashbtc').each do |o|
+      member.orders.where(market: 'btceth').each do |o|
         AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: o.to_matching_attributes)
       end
 
       expect do
-        api_post '/api/v2/market/orders/cancel', token: token, params: { market: 'dashbtc' }
+        api_post '/api/v2/market/orders/cancel', token: token, params: { market: 'btceth' }
         expect(response).to be_successful
 
         result = JSON.parse(response.body)

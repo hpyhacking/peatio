@@ -44,6 +44,7 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * Designed as high performance crypto currency exchange
 * Built-in high performance matching-engine
 * Built-in multiple wallet support (e.g. deposit, hot, warm and cold)
+* Built-in [plugable coin API](docs/coins/development.md)
 * Build-in Management API - server-to-server API with high privileges
 * Build-in RabbitMQ Event API
 * Usability and scalability

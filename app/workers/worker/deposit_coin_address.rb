@@ -11,21 +11,25 @@ module Worker
       return unless acc.currency.coin?
 
       wallet = Wallet.active.deposit.find_by(currency_id: acc.currency_id)
-      return unless wallet
+      unless wallet
+        Rails.logger.warn do
+          "Unable to generate deposit address."\
+          "Deposit Wallet for #{acc.currency_id} doesn't exist"
+        end
+        return
+      end
 
-      wallet_service = WalletService[wallet]
+      wallet_service = WalletService.new(wallet)
 
       acc.payment_address.tap do |pa|
         pa.with_lock do
           next if pa.address.present?
 
-          # Supply address ID in case of BitGo address generation if it exists.
-          result = wallet_service.create_address \
-            address_id: pa.details['bitgo_address_id'],
-            label:      acc.member.uid
-          # Save all the details including address ID from BitGo to use it later.
-          pa.update! \
-            result.extract!(:address, :secret).merge!(details: pa.details.merge(result))
+          result = wallet_service.create_address!(acc)
+
+          pa.update!(address: result[:address],
+                     secret:  result[:secret],
+                     details: result.fetch(:details, {}).merge(pa.details))
         end
 
         # Enqueue address generation again if address is not provided.
