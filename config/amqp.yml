@@ -45,6 +45,10 @@ queue:
     durable: true
   trade_error:
     name: peatio.trades.errors
+  # Queue which used by third-party trading engine for updating balances and
+  # order submit consuming.
+  events_processor:
+    name: peatio.events.processor
 
 binding:
   matching:
@@ -75,6 +79,8 @@ binding:
     queue: deposit_coin_address
   trade_error:
     queue: trade_error
+  events_processor:
+    queue: events_processor
 
 channel:
   trade_executor:

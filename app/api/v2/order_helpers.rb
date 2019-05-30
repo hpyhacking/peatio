@@ -45,14 +45,23 @@ module API
 
         order.save!
 
-        AMQPQueue.enqueue \
-          :order_processor,
-          { action: 'submit', order: order.attributes_before_type_cast },
-          { persistent: false }
+        AMQPQueue.enqueue(:order_processor,
+                          { action: 'submit', order: order.attributes_before_type_cast },
+                          { persistent: false })
+
+        # Notify third party trading engine about order submit.
+        AMQPQueue.enqueue(:events_processor,
+                          subject: :submit_order,
+                          payload: order.as_json_for_events_processor)
       end
 
       def cancel_order(order)
         AMQPQueue.enqueue(:matching, action: 'cancel', order: order.to_matching_attributes)
+
+        # Notify third party trading engine about order stop.
+        AMQPQueue.enqueue(:events_processor,
+                          subject: :stop_order,
+                          payload: order.as_json_for_events_processor)
       end
 
       def order_param

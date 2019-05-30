@@ -129,6 +129,23 @@ class Order < ApplicationRecord
       timestamp: created_at.to_i }
   end
 
+  def as_json_for_events_processor
+    { id:            id,
+      member_id:     member_id,
+      member_uid:    member.uid,
+      ask:           ask,
+      bid:           bid,
+      type:          type,
+      ord_type:      ord_type,
+      price:         price,
+      volume:        volume,
+      origin_volume: origin_volume,
+      market_id:     market_id,
+      fee:           fee,
+      locked:        locked,
+      state:         read_attribute_before_type_cast(:state) }
+  end
+
   def fix_number_precision
     self.price = config.fix_number_precision(:bid, price.to_d) if price
 
