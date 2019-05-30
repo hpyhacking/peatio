@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_02_103256) do
+ActiveRecord::Schema.define(version: 2019_05_29_142209) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 2019_05_02_103256) do
   create_table "assets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "code", null: false
     t.string "currency_id", null: false
-    t.string "reference_type"
     t.integer "reference_id"
+    t.string "reference_type"
     t.decimal "debit", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "credit", precision: 32, scale: 16, default: "0.0", null: false
     t.datetime "created_at", null: false
@@ -74,7 +74,6 @@ ActiveRecord::Schema.define(version: 2019_05_02_103256) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["enabled"], name: "index_currencies_on_enabled"
-    t.index ["enabled"], name: "index_currencies_on_enabled_and_code"
     t.index ["position"], name: "index_currencies_on_position"
   end
 
@@ -105,8 +104,8 @@ ActiveRecord::Schema.define(version: 2019_05_02_103256) do
   create_table "expenses", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "code", null: false
     t.string "currency_id", null: false
-    t.string "reference_type"
     t.integer "reference_id"
+    t.string "reference_type"
     t.decimal "debit", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "credit", precision: 32, scale: 16, default: "0.0", null: false
     t.datetime "created_at", null: false
@@ -119,8 +118,8 @@ ActiveRecord::Schema.define(version: 2019_05_02_103256) do
     t.integer "code", null: false
     t.string "currency_id", null: false
     t.integer "member_id"
-    t.string "reference_type"
     t.integer "reference_id"
+    t.string "reference_type"
     t.decimal "debit", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "credit", precision: 32, scale: 16, default: "0.0", null: false
     t.datetime "created_at", null: false
@@ -221,8 +220,8 @@ ActiveRecord::Schema.define(version: 2019_05_02_103256) do
     t.integer "code", null: false
     t.string "currency_id", null: false
     t.integer "member_id"
-    t.string "reference_type"
     t.integer "reference_id"
+    t.string "reference_type"
     t.decimal "debit", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "credit", precision: 32, scale: 16, default: "0.0", null: false
     t.datetime "created_at", null: false
@@ -258,6 +257,18 @@ ActiveRecord::Schema.define(version: 2019_05_02_103256) do
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_transfers_on_key", unique: true
     t.index ["kind"], name: "index_transfers_on_kind"
+  end
+
+  create_table "triggers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.integer "order_type", limit: 1, null: false, unsigned: true
+    t.binary "value", limit: 128, null: false
+    t.integer "state", limit: 1, default: 0, null: false, unsigned: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_triggers_on_order_id"
+    t.index ["order_type"], name: "index_triggers_on_order_type"
+    t.index ["state"], name: "index_triggers_on_state"
   end
 
   create_table "wallets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
