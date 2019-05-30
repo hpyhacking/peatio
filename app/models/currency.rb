@@ -199,6 +199,7 @@ end
 #
 # Indexes
 #
-#  index_currencies_on_enabled   (enabled)
-#  index_currencies_on_position  (position)
+#  index_currencies_on_enabled           (enabled)
+#  index_currencies_on_enabled_and_code  (enabled)
+#  index_currencies_on_position          (position)
 #
