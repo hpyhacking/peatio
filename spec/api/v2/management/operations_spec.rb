@@ -147,7 +147,10 @@ describe API::V2::Management::Operations, type: :request do
         end
 
         context 'time range' do
-          let(:data) { { time_from: 2.days.ago.to_i, time_to: 1.day.ago.to_i } }
+          let(:time_from) { 2.days.ago }
+          let(:time_to) { 1.day.ago }
+
+          let(:data) { { time_from: time_from.to_i, time_to: time_to.to_i } }
 
           it { expect(response).to have_http_status(200) }
 
@@ -156,8 +159,8 @@ describe API::V2::Management::Operations, type: :request do
             operations = "operations/#{op_type}"
                            .camelize
                            .constantize
-                           .where('created_at >= ?', 2.days.ago.to_s)
-                           .where('created_at < ?', 1.day.ago.to_s)
+                           .where('created_at >= ?', time_from)
+                           .where('created_at < ?', time_to)
             expect(JSON.parse(response.body).count).to eq operations.count
           end
         end
