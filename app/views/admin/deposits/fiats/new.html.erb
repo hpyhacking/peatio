@@ -22,6 +22,7 @@
     </div>
   </div>
 
-  <%= f.submit 'Accept', class: 'btn btn-primary btn-lg mt-3' %>
-
+  <% if can? :create, Deposits::Fiat %>
+    <%= f.submit 'Accept', class: 'btn btn-primary btn-lg mt-3' %>
+  <% end %>
 <% end %>

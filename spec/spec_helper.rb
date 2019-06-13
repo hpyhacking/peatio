@@ -17,6 +17,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'rspec/retry'
 require 'webmock/rspec'
+require 'cancan/matchers'
 
 WebMock.allow_net_connect!
 

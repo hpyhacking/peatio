@@ -1,84 +1,85 @@
 <h3>Market info</h3>
+<% if (can? :read, Market) || (can? :write, Market) %>
+  <%= form_for @market,
+      as:  :trading_pair,
+      url: @market.new_record? ? admin_markets_url : admin_market_url(@market.id) do |f| %>
 
-<%= form_for @market,
-    as:  :trading_pair,
-    url: @market.new_record? ? admin_markets_url : admin_market_url(@market.id) do |f| %>
+    <div class="card-deck">
 
-  <div class="card-deck">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <label>Quote currency</label>
+            <% if @market.new_record? %>
+              <%= f.select :bid_unit, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
+            <% else %>
+              <div class="mb-3"><%= @market.bid_unit.upcase %></div>
+            <% end %>
 
-    <div class="card">
-      <div class="card-body">
-        <div class="form-group">
-          <label>Quote currency</label>
-          <% if @market.new_record? %>
-            <%= f.select :bid_unit, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
-          <% else %>
-            <div class="mb-3"><%= @market.bid_unit.upcase %></div>
-          <% end %>
+            <label>Quote currency fee</label>
+            <%= f.text_field :ask_fee, class: 'form-control mb-3' %>
 
-          <label>Quote currency fee</label>
-          <%= f.text_field :ask_fee, class: 'form-control mb-3' %>
+            <label>Maximum Bid Price</label>
+            <%= f.text_field :max_bid_price, class: 'form-control mb-3' %>
 
-          <label>Maximum Bid Price</label>
-          <%= f.text_field :max_bid_price, class: 'form-control mb-3' %>
+            <label>Minimum Bid Amount</label>
+            <%= f.text_field :min_bid_amount, class: 'form-control mb-3' %>
 
-          <label>Minimum Bid Amount</label>
-          <%= f.text_field :min_bid_amount, class: 'form-control mb-3' %>
-
-          <label>Bid precision</label>
-          <% if @market.new_record? %>
-            <%= f.number_field :bid_precision, class: 'form-control mb-3' %>
-          <% else %>
-            <div><%= @market.bid_precision %></div>
-          <% end %>
+            <label>Bid precision</label>
+            <% if @market.new_record? %>
+              <%= f.number_field :bid_precision, class: 'form-control mb-3' %>
+            <% else %>
+              <div><%= @market.bid_precision %></div>
+            <% end %>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="card">
-      <div class="card-body">
-        <div class="form-group">
-          <label>Base currency</label>
-          <% if @market.new_record? %>
-            <%= f.select :ask_unit, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
-          <% else %>
-            <div class="mb-3"><%= @market.ask_unit.upcase %></div>
-          <% end %>
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <label>Base currency</label>
+            <% if @market.new_record? %>
+              <%= f.select :ask_unit, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
+            <% else %>
+              <div class="mb-3"><%= @market.ask_unit.upcase %></div>
+            <% end %>
 
-          <label>Base currency fee</label>
-          <%= f.text_field :bid_fee, class: 'form-control mb-3' %>
+            <label>Base currency fee</label>
+            <%= f.text_field :bid_fee, class: 'form-control mb-3' %>
 
-          <label>Minimum Ask Price</label>
-          <%= f.text_field :min_ask_price, class: 'form-control mb-3' %>
+            <label>Minimum Ask Price</label>
+            <%= f.text_field :min_ask_price, class: 'form-control mb-3' %>
 
-          <label>Minimum Ask Amount</label>
-          <%= f.text_field :min_ask_amount, class: 'form-control mb-3' %>
+            <label>Minimum Ask Amount</label>
+            <%= f.text_field :min_ask_amount, class: 'form-control mb-3' %>
 
-          <label>Ask precision</label>
-          <% if @market.new_record? %>
-            <%= f.number_field :ask_precision, class: 'form-control' %>
-          <% else %>
-            <div><%= @market.ask_precision %></div>
-          <% end %>
+            <label>Ask precision</label>
+            <% if @market.new_record? %>
+              <%= f.number_field :ask_precision, class: 'form-control' %>
+            <% else %>
+              <div><%= @market.ask_precision %></div>
+            <% end %>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="card">
-      <div class="card-body">
-        <div class="form-group form-check">
-          <%= f.check_box :enabled, class: 'form-check-input' %>
-          <label class="form-check-label" for="trading_pair_enabled">Enabled</label>
-        </div>
-        <div class="form-group">
-          <label>Position</label>
-          <%= f.number_field :position, class: 'form-control' %>
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group form-check">
+            <%= f.check_box :enabled, class: 'form-check-input' %>
+            <label class="form-check-label" for="trading_pair_enabled">Enabled</label>
+          </div>
+          <div class="form-group">
+            <label>Position</label>
+            <%= f.number_field :position, class: 'form-control' %>
+          </div>
         </div>
       </div>
+
     </div>
-
-  </div>
-
-  <%= f.submit 'Submit', class: 'btn btn-primary btn-lg mt-3' %>
-
+    <% if (can? :write, Market) %>
+      <%= f.submit 'Submit', class: 'btn btn-primary btn-lg mt-3' %>
+    <% end %>
+  <% end %>
 <% end %>

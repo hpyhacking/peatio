@@ -1,19 +1,21 @@
-<div class="card card-primary">
-  <div class="card-header">
-    <span>Account Info</span>
-    <span> : </span>
-    <span><%= account.currency.code.upcase %></span>
-  </div>
-  <div class="card-body">
-    <dl class="dl-horizontal">
-      <%= item_for account, :amount %>
-      <%= item_for account, :locked %>
-      <%= item_for account, :balance %>
-      <% if account.currency.coin? %>
-        <%= item_for 'Deposit Address' do %>
-          <%= account.payment_address.address %>
+<% if (can? :read, Account) && (can? :read, PaymentAddress)%>
+  <div class="card card-primary">
+    <div class="card-header">
+      <span>Account Info</span>
+      <span> : </span>
+      <span><%= account.currency.code.upcase %></span>
+    </div>
+    <div class="card-body">
+      <dl class="dl-horizontal">
+        <%= item_for account, :amount %>
+        <%= item_for account, :locked %>
+        <%= item_for account, :balance %>
+        <% if account.currency.coin? %>
+          <%= item_for 'Deposit Address' do %>
+            <%= account.payment_address.address %>
+          <% end %>
         <% end %>
-      <% end %>
-    </dl>
+      </dl>
+    </div>
   </div>
-</div>
+<% end %>

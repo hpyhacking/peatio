@@ -37,21 +37,23 @@
             </ul>
           <% end %>
           <ul class="list-inline w-100 px-3 mt-3 pt-3 border-top">
-            <% if @withdraw.may_reject? %>
-              <li>
-                <%= link_to 'Reject',
-                            admin_withdraw_path(@withdraw.currency.code, @withdraw),
-                            class:   'btn btn-danger float-right',
-                            method:  'DELETE' %>
-              </li>
-            <% end %>
-            <% if @withdraw.may_accept? || @withdraw.may_process? %>
-              <li>
-                <%= link_to 'Process',
-                            admin_withdraw_path(event: 'process'),
-                            class: 'btn btn-primary float-left',
-                            method: 'PATCH' %>
-              </li>
+            <% if can? :write, Withdraw %>
+              <% if @withdraw.may_reject? %>
+                <li>
+                  <%= link_to 'Reject',
+                              admin_withdraw_path(@withdraw.currency.code, @withdraw),
+                              class:   'btn btn-danger float-right',
+                              method:  'DELETE' %>
+                </li>
+              <% end %>
+              <% if @withdraw.may_accept? || @withdraw.may_process? %>
+                <li>
+                  <%= link_to 'Process',
+                              admin_withdraw_path(event: 'process'),
+                              class: 'btn btn-primary float-left',
+                              method: 'PATCH' %>
+                </li>
+              <% end %>
             <% end %>
           </ul>
         <% end %>

@@ -2,41 +2,44 @@
   <div class="col-6">
     <h3>Currencies</h3>
   </div>
-  <div class="col-6">
-    <%= link_to raw("<i class='fa fa-plus mr-2'></i> New currency"), new_admin_currency_path, class: "btn btn-primary float-right mb-3" %>
-  </div>
+  <% if can? :manage,  Currency %>
+    <div class="col-6">
+      <%= link_to raw("<i class='fa fa-plus mr-2'></i> New currency"), new_admin_currency_path, class: "btn btn-primary float-right mb-3" %>
+    </div>
+  <% end %>
 </div>
 
 <div class="card">
-  <%= table_for @currencies, class: 'table table-condensed table-striped' do |t| %>
-    <% t.column 'Code' do |x| %>
-      <%= x.code.upcase %>
-    <% end %>
+  <% if can? :read, Currency %>
+    <%= table_for @currencies, class: 'table table-condensed table-striped' do |t| %>
+      <% t.column 'Code' do |x| %>
+        <%= x.code.upcase %>
+      <% end %>
 
-    <% t.column 'Name' do |x| %>
-      <%= x.name %>
-    <% end %>
+      <% t.column 'Name' do |x| %>
+        <%= x.name %>
+      <% end %>
 
-    <% t.column 'Symbol' do |x| %>
-      <span class="h5"><%= x.symbol %></span>
-    <% end %>
+      <% t.column 'Symbol' do |x| %>
+        <span class="h5"><%= x.symbol %></span>
+      <% end %>
 
-    <% t.column 'Type' do |x| %>
-      <%= x.type.capitalize %>
-    <% end %>
+      <% t.column 'Type' do |x| %>
+        <%= x.type.capitalize %>
+      <% end %>
 
-    <% t.column 'Created at' do |x| %>
-      <%= l(x.created_at, format: :long) %>
-    <% end %>
+      <% t.column 'Created at' do |x| %>
+        <%= l(x.created_at, format: :long) %>
+      <% end %>
 
-    <% t.column 'Enabled' do |x| %>
-      <%= x.enabled? ? 'Yes' : 'No' %>
-    <% end %>
+      <% t.column 'Enabled' do |x| %>
+        <%= x.enabled? ? 'Yes' : 'No' %>
+      <% end %>
 
-    <% t.column 'Actions' do |x| %>
-      <%= link_to 'View', admin_currency_path(x) %>
+      <% t.column 'Actions' do |x| %>
+        <%= link_to 'View', admin_currency_path(x) %>
+      <% end %>
     <% end %>
   <% end %>
-
   <%= paginate @currencies %>
 </div>

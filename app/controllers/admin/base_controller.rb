@@ -9,9 +9,8 @@ module Admin
     before_action :auth_member!
 
     def current_ability
-      @current_ability ||= Admin::Ability.new(current_user)
+      @current_ability ||= Abilities.new(current_user)
     end
 
   end
 end
-

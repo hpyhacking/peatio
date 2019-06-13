@@ -2,7 +2,7 @@
   <div class="col-6">
     <h3>Blockchains</h3>
   </div>
-  <% if can? :create, Blockchain %>
+  <% if can? :manage, Blockchain %>
     <div class="col-6">
       <%= link_to raw("<i class='fa fa-plus mr-2'></i> New Blockchain"), new_admin_blockchain_path, class: 'btn btn-primary float-right mb-3' %>
     </div>
@@ -10,29 +10,31 @@
 </div>
 
 <div class="card">
-  <%= table_for @blockchains, class: 'table table-condensed table-striped' do |t| %>
-    <% t.column :id, 'ID' %>
+  <% if can? :read, Blockchain %>
+    <%= table_for @blockchains, class: 'table table-condensed table-striped' do |t| %>
+      <% t.column :id, 'ID' %>
 
-    <% t.column :key, 'Key' %>
+      <% t.column :key, 'Key' %>
 
-    <% t.column :name, 'Name' %>
+      <% t.column :name, 'Name' %>
 
-    <% t.column 'Client' do |x| %>
-      <%= x.client.upcase %>
-    <% end %>
+      <% t.column 'Client' do |x| %>
+        <%= x.client.upcase %>
+      <% end %>
 
-    <% t.column :height, 'Height' %>
+      <% t.column :height, 'Height' %>
 
-    <% t.column 'Status' do |x| %>
-      <%= x.status.titleize %>
-    <% end %>
+      <% t.column 'Status' do |x| %>
+        <%= x.status.titleize %>
+      <% end %>
 
-    <% t.column 'Created At' do |x| %>
-      <%= l(x.created_at, format: :long) %>
-    <% end %>
+      <% t.column 'Created At' do |x| %>
+        <%= l(x.created_at, format: :long) %>
+      <% end %>
 
-    <% t.column 'Actions' do |x| %>
-      <%= link_to 'View', admin_blockchain_path(x) %>
+      <% t.column 'Actions' do |x| %>
+        <%= link_to 'View', admin_blockchain_path(x) %>
+      <% end %>
     <% end %>
   <% end %>
 

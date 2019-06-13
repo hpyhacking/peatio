@@ -3,40 +3,44 @@
     <h3>Markets</h3>
   </div>
   <div class="col-6">
-    <%= link_to raw("<i class='fa fa-plus mr-2'></i> New market"), new_admin_market_path, class: "btn btn-primary float-right mb-3" %>
+    <% if can? :manage, Market %>
+      <%= link_to raw("<i class='fa fa-plus mr-2'></i> New market"), new_admin_market_path, class: "btn btn-primary float-right mb-3" %>
+    <% end %>
   </div>
 </div>
 
 <div class="card">
-  <%= table_for @markets, class: 'table table-bordered table-striped' do |t| %>
-    <% t.column :name, 'Name', class: 'col-xs-2' %>
+  <% if can? :read, Market %>
+    <%= table_for @markets, class: 'table table-bordered table-striped' do |t| %>
+      <% t.column :name, 'Name', class: 'col-xs-2' %>
 
-    <% t.column :bid_fee, 'Bid fee', class: 'col-xs-2' %>
+      <% t.column :bid_fee, 'Bid fee', class: 'col-xs-2' %>
 
-    <% t.column :ask_fee, 'Ask fee', class: 'col-xs-2' %>
+      <% t.column :ask_fee, 'Ask fee', class: 'col-xs-2' %>
 
-    <% t.column 'Min ask amount', class: 'col-xs-2' do |x| %>
-      <%= x.min_ask_amount %>
-    <% end %>
-
-    <% t.column 'Min bid amount', class: 'col-xs-2' do |x| %>
-      <%= x.min_bid_amount %>
-    <% end %>
-    
-    <% t.column 'Created at', class: 'col-xs-3' do |x| %>
-      <%= l(x.created_at, format: :long) %>
-    <% end %>
-
-    <% t.column 'Enabled', class: 'col-xs-2' do |x| %>
-      <% if x.enabled? %>
-        <span class="text-success">Yes</span>
-      <% else %>
-        <span class="text-danger">No</span>
+      <% t.column 'Min ask amount', class: 'col-xs-2' do |x| %>
+        <%= x.min_ask_amount %>
       <% end %>
-    <% end %>
 
-    <% t.column 'Actions', class: 'col-xs-1' do |x| %>
-      <%= link_to 'View', admin_market_path(x) %>
+      <% t.column 'Min bid amount', class: 'col-xs-2' do |x| %>
+        <%= x.min_bid_amount %>
+      <% end %>
+
+      <% t.column 'Created at', class: 'col-xs-3' do |x| %>
+        <%= l(x.created_at, format: :long) %>
+      <% end %>
+
+      <% t.column 'Enabled', class: 'col-xs-2' do |x| %>
+        <% if x.enabled? %>
+          <span class="text-success">Yes</span>
+        <% else %>
+          <span class="text-danger">No</span>
+        <% end %>
+      <% end %>
+
+      <% t.column 'Actions', class: 'col-xs-1' do |x| %>
+        <%= link_to 'View', admin_market_path(x) %>
+      <% end %>
     <% end %>
   <% end %>
 </div>

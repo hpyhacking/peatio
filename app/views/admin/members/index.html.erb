@@ -1,35 +1,37 @@
-<h3>Search</h3>
-<div class="card">
-  <div class="m-4">
-    <%= form_tag admin_members_path, method: :get, class: "form-inline" do |f| %>
-        <%= select_tag :search_field, options_for_select([ \
-          ['E-Mail', 'email'],                             \
-          ['Wallet address', 'wallet_address'],            \
-          ['UID', 'uid']
-        ], @search_field), class: "form-control" %>
+<% if can? :read, Member %>
+  <h3>Search</h3>
+  <div class="card">
+    <div class="m-4">
+      <%= form_tag admin_members_path, method: :get, class: "form-inline" do |f| %>
+          <%= select_tag :search_field, options_for_select([ \
+            ['E-Mail', 'email'],                             \
+            ['Wallet address', 'wallet_address'],            \
+            ['UID', 'uid']
+          ], @search_field), class: "form-control" %>
 
-        <%= text_field_tag :search_term, @search_term, class: "form-control" %>
-        <%= submit_tag 'Search', class: "btn btn-primary" %>
+          <%= text_field_tag :search_term, @search_term, class: "form-control" %>
+          <%= submit_tag 'Search', class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+
+  <h3>Members</h3>
+  <div class="card">
+    <%= table_for @members, class: 'table table-bordered table-striped table-condensed' do |t| %>
+      <% t.column :id, 'ID'  %>
+      <% t.column :email, 'Email' do |x| %>
+        <code class="text-info">
+          <%= x.email %>
+        </code>
+      <% end %>
+      <% t.column 'UID' do |x| %>
+          <%= x.uid %>
+      <% end %>
+      <% t.column :created_at, 'Created At' %>
+      <% t.column :actions, 'Actions' do |x| %>
+        <%= link_to 'View', url_for([:admin, x]) %>
+      <% end %>
     <% end %>
   </div>
-</div>
-
-<h3>Members</h3>
-<div class="card">
-  <%= table_for @members, class: 'table table-bordered table-striped table-condensed' do |t| %>
-    <% t.column :id, 'ID'  %>
-    <% t.column :email, 'Email' do |x| %>
-      <code class="text-info">
-        <%= x.email %>
-      </code>
-    <% end %>
-    <% t.column 'UID' do |x| %>
-        <%= x.uid %>
-    <% end %>
-    <% t.column :created_at, 'Created At' %>
-    <% t.column :actions, 'Actions' do |x| %>
-      <%= link_to 'View', url_for([:admin, x]) %>
-    <% end %>
-  <% end %>
-</div>
-<%= paginate @members %>
+  <%= paginate @members %>
+<% end %>

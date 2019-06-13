@@ -37,7 +37,7 @@
         <% end %>
       </li>
 
-      <% if can? :manage, Blockchain %>
+      <% if can? :read, Blockchain %>
         <li class="list-icon-item <%= check_active('blockchains') %>">
           <%= link_to admin_blockchains_path do %>
             <i class="icon fa fa-link"></i>
@@ -46,14 +46,16 @@
         </li>
       <% end %>
 
-      <li class="list-icon-item <%= check_active('currencies') %>">
-        <%= link_to admin_currencies_path do %>
-          <i class="icon fa fa-dollar-sign"></i>
-          <span class="menu-text">Currencies</span>
-        <% end %>
-      </li>
+      <% if can? :read, Currency %>
+        <li class="list-icon-item <%= check_active('currencies') %>">
+          <%= link_to admin_currencies_path do %>
+            <i class="icon fa fa-dollar-sign"></i>
+            <span class="menu-text">Currencies</span>
+          <% end %>
+        </li>
+      <% end %>
 
-      <% if can? :manage, Market %>
+      <% if can? :read, Market %>
         <li class="list-icon-item <%= check_active('markets') %>">
           <%= link_to admin_markets_path do %>
             <i class="icon fa fa-chart-line"></i>
@@ -62,7 +64,7 @@
         </li>
       <% end %>
 
-      <% if can? :manage, Wallet %>
+      <% if can? :read, Wallet %>
         <li class="list-icon-item <%= check_active('wallets') %>">
           <%= link_to admin_wallets_path do %>
             <i class="icon fa fa-money-bill-wave"></i>
@@ -71,7 +73,7 @@
         </li>
       <% end %>
 
-      <% if can? :menu, Deposit %>
+      <% if can? :read, Deposit %>
         <li class="list-icon-item <%= check_active('deposits') %>">
           <%= link_to "javascript:void(0);", class: 'has-arrow waves-effect waves-dark has-sub-menu', 'aria-expanded': 'false', data: {toggle: 'popover'} do %>
             <i class="icon fa fa-level-up-alt"></i>
@@ -87,7 +89,7 @@
         </li>
       <% end %>
 
-      <% if can? :menu, Withdraw %>
+      <% if can? :read, Withdraw %>
         <li class="list-icon-item <%= check_active('withdraws') %>">
           <%= link_to "javascript:void(0);", class: 'has-arrow waves-effect waves-dark has-sub-menu', 'aria-expanded': "false", data: { toggle: 'popover' } do %>
             <i class="icon fa fa-level-down-alt"></i>
@@ -103,7 +105,7 @@
         </li>
       <% end %>
 
-      <% if can? :manage, Member %>
+      <% if can? :read, Member %>
         <li class="list-icon-item <%= check_active('members') %>">
           <%= link_to admin_members_path do %>
             <i class="icon fa fa-users"></i>
@@ -112,7 +114,8 @@
         </li>
       <% end %>
 
-      <% if can? :menu, Operation %>
+      <% if (can? :read, Operations::Account) && (can? :read, Operations::Expense) && (can? :read, Operations::Liability) &&
+            (can? :read, Operations::Asset) && (can? :read, Operations::Revenue) %>
         <li class="list-icon-item <%= check_active('operations') %>">
           <%= link_to "javascript:void(0);", class: 'has-arrow waves-effect waves-dark has-sub-menu', 'aria-expanded': "false", data: { toggle: 'popover' } do %>
             <i class="icon fa fa-briefcase"></i>

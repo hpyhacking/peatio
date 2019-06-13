@@ -33,7 +33,7 @@ services:
     environment:
       DUMMY_USER_EMAIL: "admin@barong.io"
       DUMMY_USER_UID: "U123456789"
-      DUMMY_USER_ROLE: "admin"
+      DUMMY_USER_ROLE: "support"
       DUMMY_USER_LEVEL: 3
       DUMMY_USER_STATE: "active"
       DUMMY_JWT_PRIVKEY_FILE: "/secrets/rsa-key"

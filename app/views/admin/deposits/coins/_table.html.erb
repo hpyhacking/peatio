@@ -1,5 +1,4 @@
 <div class="card">
-
   <%= table_for deposits, class: 'table table-bordered table-striped' do |t| %>
     <% t.column :txid do |x| %>
       <a href="<%= x.transaction_url %>" target="_blank">
@@ -21,26 +20,28 @@
     <% end %>
     <% t.column :state_and_actions do |x| %>
       <span><%= x.aasm_state.humanize %></span>
-      <% if x.may_accept? %>
-        <span> / </span>
-        <%= link_to 'Accept',
-                    admin_deposit_path(x.currency.code, x, event: 'accept'),
-                    method:  'PATCH',
-                    confirm: 'Confirm deposit?' %>
-      <% end %>
-      <% if x.may_dispatch? %>
-        <span> / </span>
-        <%= link_to 'Collect',
-                    admin_deposit_path(x.currency.code, x, event: 'collect'),
-                    method:  'PATCH',
-                    confirm: 'dispatch deposit?' %>
-      <% end %>
-      <% if x.may_dispatch? && x.currency.is_erc20? %>
-        <span> / </span>
-        <%= link_to 'Collect with Fees',
-                    admin_deposit_path(x.currency.code, x, event: 'collect_fee'),
-                    method:  'PATCH',
-                    confirm: 'dispatch deposit?' %>
+      <% if can? :write, Deposit%>
+        <% if x.may_accept? %>
+          <span> / </span>
+          <%= link_to 'Accept',
+                      admin_deposit_path(x.currency.code, x, event: 'accept'),
+                      method:  'PATCH',
+                      confirm: 'Confirm deposit?' %>
+        <% end %>
+        <% if x.may_dispatch? %>
+          <span> / </span>
+          <%= link_to 'Collect',
+                      admin_deposit_path(x.currency.code, x, event: 'collect'),
+                      method:  'PATCH',
+                      confirm: 'dispatch deposit?' %>
+        <% end %>
+        <% if x.may_dispatch? && x.currency.is_erc20? %>
+          <span> / </span>
+          <%= link_to 'Collect with Fees',
+                      admin_deposit_path(x.currency.code, x, event: 'collect_fee'),
+                      method:  'PATCH',
+                      confirm: 'dispatch deposit?' %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

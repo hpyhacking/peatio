@@ -20,9 +20,11 @@
   <% end %>
   <% t.column :state_and_action do |x| %>
     <span><%= x.aasm_state.humanize %> | </span>
-    <span><%= link_to 'Process',
+    <% if can? :write, Withdraw %>
+      <span><%= link_to 'Process',
                             admin_withdraw_path(x.currency.code, x, event: 'process'),
                             method: 'PATCH' %> | </span>
+    <% end %>
     <%= link_to 'View', admin_withdraw_path(currency: x.currency.code, id: x) %>
   <% end %>
 <% end %>

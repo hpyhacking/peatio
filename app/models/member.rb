@@ -4,6 +4,8 @@
 require 'securerandom'
 
 class Member < ApplicationRecord
+  ROLES = %w[superadmin admin accountant compliance support technical member broker trader]
+  ADMIN_ROLES = %w[superadmin admin accountant compliance support technical]
   has_many :orders
   has_many :accounts
   has_many :payment_addresses, through: :accounts
@@ -16,7 +18,7 @@ class Member < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true, email: true
   validates :level, numericality: { greater_than_or_equal_to: 0 }
-  validates :role, inclusion: { in: %w[member admin] }
+  validates :role, inclusion: { in: ROLES }
 
   after_create :touch_accounts
 
@@ -24,6 +26,10 @@ class Member < ApplicationRecord
 
   def trades
     Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
+  end
+
+  def role
+    super&.inquiry
   end
 
   def admin?
