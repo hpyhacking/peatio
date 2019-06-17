@@ -31,16 +31,6 @@ module API
           error!('Couldn\'t find record.', 404)
         end
 
-        logger Rails.logger.dup
-        logger.formatter = GrapeLogging::Formatters::Rails.new
-        use GrapeLogging::Middleware::RequestLogger,
-            logger:    logger,
-            log_level: :info,
-            include:   [GrapeLogging::Loggers::Response.new,
-                        GrapeLogging::Loggers::FilterParameters.new,
-                        GrapeLogging::Loggers::ClientEnv.new,
-                        GrapeLogging::Loggers::RequestHeaders.new]
-
         use Management::JWTAuthenticationMiddleware
 
         mount Management::Accounts

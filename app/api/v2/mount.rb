@@ -17,7 +17,11 @@ module API
       do_not_route_options!
 
       logger Rails.logger.dup
-      logger.formatter = GrapeLogging::Formatters::Rails.new
+      if Rails.env.production?
+        logger.formatter = GrapeLogging::Formatters::Json.new
+      else
+        logger.formatter = GrapeLogging::Formatters::Rails.new
+      end
       use GrapeLogging::Middleware::RequestLogger,
           logger:    logger,
           log_level: :info,
@@ -68,9 +72,9 @@ module API
                                     in:   "header"
                                   }
                                 }
-      
+
       # Mount Management API after swagger. To separate swagger Management API doc.
-      # TODO: Find better solution for separating swagger Management API. 
+      # TODO: Find better solution for separating swagger Management API.
       mount Management::Mount   => :management
     end
   end
