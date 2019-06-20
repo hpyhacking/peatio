@@ -5,7 +5,7 @@ module Abilities
   class Compliance
     include CanCan::Ability
 
-    def initialize(user)
+    def initialize
       can :read, Operations::Account
       can :read, Operations::Asset
       can :read, Operations::Expense

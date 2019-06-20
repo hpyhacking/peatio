@@ -5,7 +5,7 @@ module Abilities
   class Superadmin
     include CanCan::Ability
 
-    def initialize(user)
+    def initialize
       can :read, Order
       can :read, Trade
 

@@ -1,4 +1,4 @@
-<% if (can? :read, Account) && (can? :read, PaymentAddress)%>
+<% if (can? :read, Account) %>
   <div class="card card-primary">
     <div class="card-header">
       <span>Account Info</span>
@@ -10,7 +10,7 @@
         <%= item_for account, :amount %>
         <%= item_for account, :locked %>
         <%= item_for account, :balance %>
-        <% if account.currency.coin? %>
+        <% if account.currency.coin? && (can? :read, PaymentAddress) %>
           <%= item_for 'Deposit Address' do %>
             <%= account.payment_address.address %>
           <% end %>

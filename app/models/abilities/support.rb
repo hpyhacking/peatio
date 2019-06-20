@@ -5,7 +5,7 @@ module Abilities
   class Support
     include CanCan::Ability
 
-    def initialize(user)
+    def initialize
       can :read, Member
       can :read, Deposit
       can :read, Withdraw

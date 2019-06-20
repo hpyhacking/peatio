@@ -7,7 +7,7 @@ module Abilities
   class << self
     def new(member)
       if member.role.in?(Member::ADMIN_ROLES)
-        "Abilities::#{member.role.capitalize}".constantize.new(member)
+        "Abilities::#{member.role.capitalize}".constantize.new
       end
     end
   end

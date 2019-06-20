@@ -5,7 +5,13 @@ module Abilities
   class Technical
     include CanCan::Ability
 
-    def initialize(user)
+    def initialize
+      can :read, Operations::Account
+      can :read, Operations::Asset
+      can :read, Operations::Expense
+      can :read, Operations::Liability
+      can :read, Operations::Revenue
+
       can :read, Member
       can :read, Deposit
       can :read, Withdraw

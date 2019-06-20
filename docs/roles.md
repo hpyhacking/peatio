@@ -25,7 +25,7 @@
 |Read user's balances          |  RW          |   RO   | RO          | RO        | RO       | RO      | NO    |NO     |NO     |
 |Read user's deposit address   |  RW          |   RO   | RO          | RO        | RO       | RO      | NO    |NO     |NO     |
 |**Operations**                |              |        |             |           |          |         |       |
-|Read platform's operations    |  RW          |   RW   | RO          | RO        | NO       | RO      | NO    |NO     |NO     |
+|Read platform's operations    |  RW          |   RW   | RO          | RO        | RO       | RO      | NO    |NO     |NO     |
 |**Accounting**                |              |        |             |           |          |         |       |
 |Read exchange balance sheet   |  RW          |   RW   | RO          | RO        | NO       | RO      | NO    |NO     |NO     |
 |Read exchange income statement|  RW          |   RW   | RO          | RO        | NO       | RO      | NO    |NO     |NO     |
