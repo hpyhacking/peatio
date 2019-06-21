@@ -6,12 +6,14 @@ class Withdraw < ApplicationRecord
                submitted
                rejected
                accepted
+               skipped
                processing
                succeed
                canceled
                failed
                confirming].freeze
   COMPLETED_STATES = %i[succeed rejected canceled failed].freeze
+  MAX_ATTEMPTS = 5
 
   include AASM
   include AASM::Locking
@@ -78,8 +80,11 @@ class Withdraw < ApplicationRecord
     end
 
     event :process do
-      transitions from: %i[accepted skipped], to: :processing
-      after :send_coins!
+      transitions from: %i[processing accepted skipped], to: :processing, if: :processable?
+      after do
+        update!(attempts: self.attempts + 1)
+        send_coins!
+      end
     end
 
     event :load do
@@ -169,6 +174,9 @@ class Withdraw < ApplicationRecord
       blockchain_txid: txid }
   end
 
+  def processable?
+    attempts < MAX_ATTEMPTS
+  end
 private
 
   # @deprecated
@@ -252,7 +260,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20190402130148
+# Schema version: 20190617090551
 #
 # Table name: withdraws
 #
@@ -264,6 +272,7 @@ end
 #  fee          :decimal(32, 16)  not null
 #  txid         :string(128)
 #  aasm_state   :string(30)       not null
+#  attempts     :integer          default(0), not null
 #  block_number :integer
 #  sum          :decimal(32, 16)  not null
 #  type         :string(30)       not null

@@ -201,6 +201,15 @@ describe Withdraw do
         expect(subject.processing?).to be true
       end
 
+      it 'retry withdraw after calling #process from :processing' do
+        subject.process!
+        subject.expects(:send_coins!)
+
+        expect { subject.process! }.to_not change { subject.account.amount }
+        expect(subject.attempts).to eq 2
+        expect(subject.processing?).to be true
+      end
+
       it 'transitions to :processing after calling #process from :skipped' do
         subject.process!
         expect(subject.processing?).to be true
@@ -422,6 +431,7 @@ describe Withdraw do
         expect(subject.confirming?).to be true
       end
     end
+
     context :load do
       let(:txid) { 'a738cb8411e2141f3de43c5f3e7a3aabe71c099bb91d296ded84f0daf29d881c' }
 
@@ -439,6 +449,21 @@ describe Withdraw do
         subject.update(txid: txid)
         subject.load!
         expect(subject.confirming?).to be true
+      end
+    end
+
+    context :failed do
+      before do
+        subject.submit!
+        subject.accept!
+        subject.process!
+        Withdraw::MAX_ATTEMPTS.times { subject.process! }
+      end
+
+      it 'transitions to :failed after calling #fail from :failing' do
+        expect(subject.may_process?).to be false
+        expect { subject.fail! }.to_not change { subject.account.amount }
+        expect(subject.failed?).to be true
       end
     end
   end

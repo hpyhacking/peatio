@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_29_142209) do
+ActiveRecord::Schema.define(version: 2019_06_17_090551) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -300,6 +300,7 @@ ActiveRecord::Schema.define(version: 2019_05_29_142209) do
     t.decimal "fee", precision: 32, scale: 16, null: false
     t.string "txid", limit: 128, collation: "utf8_bin"
     t.string "aasm_state", limit: 30, null: false
+    t.integer "attempts", default: 0, null: false
     t.integer "block_number"
     t.decimal "sum", precision: 32, scale: 16, null: false
     t.string "type", limit: 30, null: false

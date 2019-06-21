@@ -68,7 +68,11 @@ module Worker
           report_exception(e)
           Rails.logger.warn { "Setting withdraw state to failed." }
         ensure
-          withdraw.fail!
+          if withdraw.may_process?
+            withdraw.process!
+          else
+            withdraw.fail!
+          end
           Rails.logger.warn { "OK." }
         end
       end
