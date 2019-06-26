@@ -37,14 +37,20 @@ class Trade < ApplicationRecord
   end
 
   def for_notify(member = nil)
-    { id:     id,
-      kind:   side(member),
-      at:     created_at.to_i,
-      price:  price.to_s  || ZERO,
-      volume: volume.to_s || ZERO,
-      ask_id: ask_id,
-      bid_id: bid_id,
-      market: market.id }
+    payload = { id:             id,
+                side:           side(member),
+                kind:           side(member),
+                price:          price.to_s  || ZERO,
+                volume:         volume.to_s || ZERO,
+                market:         market.id,
+                at:             created_at.to_i,
+                created_at:     created_at.to_i }
+    if side(member) == 'ask'
+      payload[:ask_id] = ask_id
+    else
+      payload[:bid_id] = bid_id
+    end
+    payload
   end
 
   def for_global

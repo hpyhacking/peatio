@@ -97,23 +97,36 @@ class Order < ApplicationRecord
 
   def trigger_pusher_event
     # skip market type orders, they should not appear on trading-ui
-    return if ord_type != 'limit'
+    return unless ord_type == 'limit' || state == 'done'
 
     Member.trigger_pusher_event member_id, :order, \
       id:               id,
-      at:               at,
       market:           market_id,
       kind:             kind,
+      side:             side,
+      ord_type:         ord_type,
       price:            price&.to_s('F'),
+      avg_price:        avg_price&.to_s('F'),
       state:            state,
+      origin_volume:    origin_volume.to_s('F'),
       remaining_volume: volume.to_s('F'),
-      origin_volume:    origin_volume.to_s('F')
+      executed_volume:  (origin_volume - volume).to_s('F'),
+      at:               at,
+      created_at:       created_at.to_i,
+      updated_at:       updated_at.to_i,
+      trades_count:     trades_count
   end
 
+  def side
+    self.class.name.underscore[-3, 3] == 'ask' ? 'sell' : 'buy'
+  end
+
+  # @deprecated Please use {#side} instead
   def kind
     self.class.name.underscore[-3, 3]
   end
 
+  # @deprecated Please use {#created_at} instead
   def at
     created_at.to_i
   end

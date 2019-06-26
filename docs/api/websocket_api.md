@@ -128,13 +128,13 @@ Example:
 
 Here is structure of `<market.trades>` event expose as array with trades:
 
-| Field    | Description                            |
-| -------- | -------------------------------------- |
-| `tid`    | Unique trade tid.                      |
-| `type`   | Type of trade, either `buy` or `sell`. |
-| `price`  | Price for the trade.                   |
-| `amount` | The amount of trade.                   |
-| `date`   | Trade create time.                     |
+| Field          | Description                                  |
+| -------------- | -------------------------------------------- |
+| `tid`          | Unique trade tid.                            |
+| `taker_type`   | Taker type of trade, either `buy` or `sell`. |
+| `price`        | Price for the trade.                         |
+| `amount`       | The amount of trade.                         |
+| `created_at`   | Trade create time.                           |
 
 #### Kline point
 
@@ -184,26 +184,37 @@ Here is structure of `Order` event:
 | Field              | Description                                                  |
 | ------------------ | ------------------------------------------------------------ |
 | `id`               | Unique order id.                                             |
-| `kind`             | Type of order, either `bid` or `ask`.                        |
-| `price`            | Price for each unit.                                         |
-| `state`            | One of `wait`, `done`, or `cancel`.                          |
 | `market`           | The market in which the order is placed. (In peatio `market_id`) |
-| `at`               | Order create time. (In peatio `created_at`)                  |
+| `side`             | Type of order, either `but` or `sell`.                        |
+| `ord_type`         | Order tyep, either `limit` or `market`.                      |
+| `price`            | Order price.                                                 |
+| `avg_price`        | Order average price.                                         |
+| `state`            | One of `wait`, `done`, or `cancel`.                          |
 | `origin_volume`    | The amount user want to sell/buy.                            |
 | `remaining_volume` | Remaining amount user want to sell/buy.                      |
+| `executed_volume`  | Executed amount for current order.                           |
+| `created_at`       | Order create time.                                           |
+| `updated_at`       | Order create time.                                           |
+| `trades_count`     | Trades wiht this order.                                      |
+| `kind`             | Type of order, either `bid` or `ask`. (Deprecated)           |
+| `at`               | Order create time. (Deprecated) (In peatio `created_at`)     |
 
 #### Trade
 
 Here is structure of `Trade` event:
 
-| Field    | Description                                                  |
-| -------- | ------------------------------------------------------------ |
-| `id`     | Uniq trade id.                                               |
-| `price`  | Price for each unit.                                         |
-| `volume` | The amount of trade.                                         |
-| `market` | The market in which the order is placed. (In peatio market_id) |
-| `at`     | Order create time. (In peatio created_at)                    |
-| `kind`   | Type of order, either `bid` or `ask`.                        |
+| Field           | Description                                                  |
+| --------------- | ------------------------------------------------------------ |
+| `id`            | Uniq trade id.                                               |
+| `side`          | Type of order in trade that related to current user `bid` or `ask`.   |
+| `price`         | Price for each unit.                                         |
+| `volume`        | The amount of trade.                                         |
+| `market`        | The market in which the trade is placed. (In peatio market_id) |
+| `created_at`    | Trade create time. (In peatio created_at)                    |
+| `ask_id/bid_id` | Ask or bid id depending on which order has user in trade.    |
+| `kind`          | Type of order in trade that related to current user `bid` or `ask`. (Deprecated)   |
+| `at`            | Trade create time. (Deprecated) (In peatio `created_at`)     |
+
 
 ### Development
 
