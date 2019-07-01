@@ -21,8 +21,8 @@ describe Market do
       expect(subject.quote_unit).to eq 'usd'
     end
 
-    it 'enabled' do
-      expect(subject.enabled).to be true
+    it 'state' do
+      expect(subject.state).to eq 'enabled'
     end
   end
 
@@ -57,23 +57,23 @@ describe Market do
 
   context 'validations' do
     let(:valid_attributes) do
-      { ask_unit:      :btc,
-        bid_unit:      :trst,
-        bid_fee:       0.1,
-        ask_fee:       0.2,
-        ask_precision: 4,
-        bid_precision: 4,
-        position:      100 }
+      { base_unit:         :btc,
+        quote_unit:         :trst,
+        bid_fee:          0.1,
+        ask_fee:          0.2,
+        amount_precision: 4,
+        price_precision:  4,
+        position:         100 }
     end
 
     let(:mirror_attributes) do
-      { ask_unit:      :usd,
-        bid_unit:      :btc,
-        bid_fee:       0.1,
-        ask_fee:       0.2,
-        ask_precision: 4,
-        bid_precision: 4,
-        position:      100 }
+      { base_unit:         :usd,
+        quote_unit:         :btc,
+        bid_fee:          0.1,
+        ask_fee:          0.2,
+        amount_precision: 4,
+        price_precision:  4,
+        position:         100 }
     end
 
     let(:disabled_currency) { Currency.find_by_id(:eur) }
@@ -84,9 +84,9 @@ describe Market do
     end
 
     it 'validates equivalence of units' do
-      record = Market.new(valid_attributes.merge(bid_unit: valid_attributes[:ask_unit]))
+      record = Market.new(valid_attributes.merge(quote_unit: valid_attributes[:base_unit]))
       record.save
-      expect(record.errors.full_messages).to include(/ask unit is invalid/i)
+      expect(record.errors.full_messages).to include(/base unit is invalid/i)
     end
 
     it 'validates uniqueness of ID' do
@@ -102,7 +102,7 @@ describe Market do
     end
 
     it 'validates presence of units' do
-      %i[bid_unit ask_unit].each do |field|
+      %i[base_unit quote_unit].each do |field|
         record = Market.new(valid_attributes.except(field))
         record.save
         expect(record.errors.full_messages).to include(/#{to_readable(field)} can't be blank/i)
@@ -110,7 +110,7 @@ describe Market do
     end
 
     it 'validates fields to be greater than or equal to 0' do
-      %i[bid_fee ask_fee bid_precision ask_precision position].each do |field|
+      %i[bid_fee ask_fee price_precision amount_precision position].each do |field|
         record = Market.new(valid_attributes.merge(field => -1))
         record.save
         expect(record.errors.full_messages).to include(/#{to_readable(field)} must be greater than or equal to 0/i)
@@ -118,7 +118,7 @@ describe Market do
     end
 
     it 'validates fields to be integer' do
-      %i[bid_precision ask_precision position].each do |field|
+      %i[price_precision amount_precision position].each do |field|
         record = Market.new(valid_attributes.merge(field => 0.1))
         record.save
         expect(record.errors.full_messages).to include(/#{to_readable(field)} must be an integer/i)
@@ -126,7 +126,7 @@ describe Market do
     end
 
     it 'validates unit codes to be inclusion of currency codes' do
-      %i[bid_unit ask_unit].each do |field|
+      %i[base_unit quote_unit].each do |field|
         record = Market.new(valid_attributes.merge(field => :bad))
         record.save
         expect(record.errors.full_messages).to include(/#{to_readable(field)} is not included in the list/i)
@@ -134,7 +134,7 @@ describe Market do
     end
 
     it 'validates if both currencies enabled on enabled market creation' do
-      %i[bid_unit ask_unit].each do |field|
+      %i[base_unit quote_unit].each do |field|
         record = Market.new(valid_attributes.merge(field => disabled_currency.code))
         record.save
         expect(record.errors.full_messages).to include(/#{to_readable(field)} is not enabled/i)
@@ -142,18 +142,18 @@ describe Market do
     end
 
     it 'doesn\'t validate if both currencies enabled on disabled market creation' do
-      %i[bid_unit ask_unit].each do |field|
-        record = Market.new(valid_attributes.merge(field => disabled_currency.code, enabled: false))
+      %i[base_unit quote_unit].each do |field|
+        record = Market.new(valid_attributes.merge(field => disabled_currency.code, state: 'disabled'))
         expect(record.save).to eq true
       end
     end
 
-    it 'doesn\'t allow to disable all markets' do
-      Market.where.not(id: :btcusd).update_all(enabled: false)
+    it 'allows to disable all markets' do
+      Market.where.not(id: :btcusd).update_all(state: :disabled)
       market = Market.find(:btcusd)
-      market.update(enabled: false)
+      market.update(state: :disabled)
       market.valid?
-      expect(market.errors[:market].size).to eq(1)
+      expect(market.errors[:market].size).to eq(0)
     end
 
     def to_readable(field)

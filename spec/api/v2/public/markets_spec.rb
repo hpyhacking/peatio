@@ -6,7 +6,8 @@ describe API::V2::Public::Markets, type: :request do
   describe 'GET /api/v2/markets' do
 
     let(:expected_keys) do
-      %w[id name ask_unit bid_unit ask_fee bid_fee min_ask_price max_bid_price min_ask_amount min_bid_amount ask_precision bid_precision]
+      %w[id name base_unit quote_unit ask_fee bid_fee min_price max_price
+         min_amount amount_precision price_precision state]
     end
 
     it 'lists enabled markets' do

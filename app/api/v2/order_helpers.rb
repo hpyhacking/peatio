@@ -39,7 +39,7 @@ module API
       end
 
       def submit_order(order)
-        order.fix_number_precision # number must be fixed before computing locked
+        order.round_amount_and_price # number must be fixed before computing locked
         order.locked = order.origin_locked = order.compute_locked
         raise ::Account::AccountError unless check_balance(order)
 

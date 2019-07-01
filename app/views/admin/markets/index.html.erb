@@ -18,24 +18,16 @@
 
       <% t.column :ask_fee, 'Ask fee', class: 'col-xs-2' %>
 
-      <% t.column 'Min ask amount', class: 'col-xs-2' do |x| %>
-        <%= x.min_ask_amount %>
-      <% end %>
-
-      <% t.column 'Min bid amount', class: 'col-xs-2' do |x| %>
-        <%= x.min_bid_amount %>
+      <% t.column 'Min amount', class: 'col-xs-2' do |x| %>
+        <%= x.min_amount %>
       <% end %>
 
       <% t.column 'Created at', class: 'col-xs-3' do |x| %>
         <%= l(x.created_at, format: :long) %>
       <% end %>
 
-      <% t.column 'Enabled', class: 'col-xs-2' do |x| %>
-        <% if x.enabled? %>
-          <span class="text-success">Yes</span>
-        <% else %>
-          <span class="text-danger">No</span>
-        <% end %>
+      <% t.column 'State', class: 'col-xs-2' do |x| %>
+        <%= x.state.capitalize %>
       <% end %>
 
       <% t.column 'Actions', class: 'col-xs-1' do |x| %>

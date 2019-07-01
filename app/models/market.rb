@@ -1,8 +1,6 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-
-
 # People exchange commodities in markets. Each market focuses on certain
 # commodity pair `{A, B}`. By convention, we call people exchange A for B
 # *sellers* who submit *ask* orders, and people exchange B for A *buyers*
@@ -16,62 +14,54 @@
 # Given market BTCUSD.
 # Ask/Base unit = BTC.
 # Bid/Quote unit = USD.
-#
 
 class Market < ApplicationRecord
 
-  attr_readonly :ask_unit, :bid_unit, :ask_precision, :bid_precision
+  DB_DECIMAL_PRECISION = 16
+
+  STATES = %w[enabled disabled hidden locked sale presale].freeze
+  # enabled - user can view and trade.
+  # disabled - none can trade, user can't view.
+  # hidden - user can't view but can trade.
+  # locked - user can view but can't trade.
+  # sale - user can't view but can trade with market orders.
+  # presale - user can't view and trade. Admin can trade.
+
+  attr_readonly :base_unit, :quote_unit, :amount_precision, :price_precision
   delegate :bids, :asks, :trades, :ticker, :h24_volume, :avg_h24_price,
            to: :global
 
   scope :ordered, -> { order(position: :asc) }
-  scope :enabled, -> { where(enabled: true) }
-  scope :with_base_unit, -> (base_unit){ where(ask_unit: base_unit) }
+  scope :enabled, -> { where(state: :enabled) }
+  scope :with_base_unit, -> (base_unit){ where(base_unit: base_unit) }
 
-  validate { errors.add(:ask_unit, :invalid) if ask_unit == bid_unit }
-  validate { errors.add(:id, :taken) if Market.where(ask_unit: bid_unit, bid_unit: ask_unit).present? }
+  validate { errors.add(:base_unit, :invalid) if base_unit == quote_unit }
+  validate { errors.add(:id, :taken) if Market.where(base_unit: quote_unit, quote_unit: base_unit).present? }
   validates :id, uniqueness: { case_sensitive: false }, presence: true
-  validates :ask_unit, :bid_unit, presence: true
+  validates :base_unit, :quote_unit, presence: true
   validates :ask_fee, :bid_fee, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 0.5 }
-  validates :ask_precision, :bid_precision, :position, numericality: { greater_than_or_equal_to: 0, only_integer: true }
-  validates :ask_unit, :bid_unit, inclusion: { in: -> (_) { Currency.codes } }
-  validate  :precisions_must_be_same
-  validate  :units_must_be_enabled, if: :enabled?
+  validates :amount_precision, :price_precision, :position, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :base_unit, :quote_unit, inclusion: { in: -> (_) { Currency.codes } }
+  validate  :validate_preciseness
+  validate  :units_must_be_enabled, if: ->(m) { m.state.enabled? }
 
-  validates :min_ask_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :max_bid_price, numericality: { allow_blank: true, greater_than_or_equal_to: ->(market){ market.min_ask_price }}
+  validates :min_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :max_price, numericality: { allow_blank: true, greater_than_or_equal_to: ->(market){ market.min_price }}
 
-  validates :min_ask_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :min_bid_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :min_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  before_validation(on: :create) { self.id = "#{ask_unit}#{bid_unit}" }
+  validates :state, inclusion: { in: STATES }
 
-  validate :must_not_disable_all_markets, on: :update
+  before_validation(on: :create) { self.id = "#{base_unit}#{quote_unit}" }
 
   after_commit { AMQPQueue.enqueue(:matching, action: 'new', market: id) }
 
-  # @deprecated
-  def base_unit
-    ask_unit
-  end
-
-  # @deprecated
-  def quote_unit
-    bid_unit
-  end
-
-  # @deprecated
-  def bid
-    { fee: bid_fee, currency: bid_unit, fixed: bid_precision }
-  end
-
-  # @deprecated
-  def ask
-    { fee: ask_fee, currency: ask_unit, fixed: ask_precision }
-  end
-
   def name
-    "#{ask_unit}/#{bid_unit}".upcase
+    "#{base_unit}/#{quote_unit}".upcase
+  end
+
+  def state
+    super&.inquiry
   end
 
   def as_json(*)
@@ -84,13 +74,16 @@ class Market < ApplicationRecord
     Trade.latest_price(self)
   end
 
-  # type is :ask or :bid
-  def fix_number_precision(type, d)
-    d.round send("#{type}_precision"), BigDecimal::ROUND_DOWN
+  def round_amount(d)
+    d.round(amount_precision, BigDecimal::ROUND_DOWN)
+  end
+
+  def round_price(d)
+    d.round(price_precision, BigDecimal::ROUND_DOWN)
   end
 
   def unit_info
-    {name: name, base_unit: ask_unit, quote_unit: bid_unit}
+    {name: name, base_unit: base_unit, quote_unit: quote_unit}
   end
 
   def global
@@ -99,52 +92,45 @@ class Market < ApplicationRecord
 
 private
 
-  def precisions_must_be_same
-    if ask_precision? && bid_precision? && ask_precision != bid_precision
-      errors.add(:ask_precision, :invalid)
-      errors.add(:bid_precision, :invalid)
+  def validate_preciseness
+    if price_precision &&
+       amount_precision &&
+       price_precision + amount_precision > DB_DECIMAL_PRECISION
+      errors.add(:market, "is too precise (price_precision + amount_precision > #{DB_DECIMAL_PRECISION})")
     end
   end
 
   def units_must_be_enabled
-    %i[bid_unit ask_unit].each do |unit|
+    %i[base_unit quote_unit].each do |unit|
       errors.add(unit, 'is not enabled.') if Currency.lock.find_by_id(public_send(unit))&.disabled?
-    end
-  end
-
-  def must_not_disable_all_markets
-    if enabled_was && !enabled? && Market.enabled.count == 1
-      errors.add(:market, 'is last enabled.')
     end
   end
 end
 
 # == Schema Information
-# Schema version: 20190116140939
+# Schema version: 20190624102330
 #
 # Table name: markets
 #
-#  id             :string(20)       not null, primary key
-#  ask_unit       :string(10)       not null
-#  bid_unit       :string(10)       not null
-#  ask_fee        :decimal(17, 16)  default(0.0), not null
-#  bid_fee        :decimal(17, 16)  default(0.0), not null
-#  min_ask_price  :decimal(32, 16)  default(0.0), not null
-#  max_bid_price  :decimal(32, 16)  default(0.0), not null
-#  min_ask_amount :decimal(32, 16)  default(0.0), not null
-#  min_bid_amount :decimal(32, 16)  default(0.0), not null
-#  ask_precision  :integer          default(8), not null
-#  bid_precision  :integer          default(8), not null
-#  position       :integer          default(0), not null
-#  enabled        :boolean          default(TRUE), not null
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id               :string(20)       not null, primary key
+#  base_unit        :string(10)       not null
+#  quote_unit       :string(10)       not null
+#  amount_precision :integer          default(4), not null
+#  price_precision  :integer          default(4), not null
+#  ask_fee          :decimal(17, 16)  default(0.0), not null
+#  bid_fee          :decimal(17, 16)  default(0.0), not null
+#  min_price        :decimal(32, 16)  default(0.0), not null
+#  max_price        :decimal(32, 16)  default(0.0), not null
+#  min_amount       :decimal(32, 16)  default(0.0), not null
+#  position         :integer          default(0), not null
+#  state            :string(32)       default("enabled"), not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 # Indexes
 #
-#  index_markets_on_ask_unit               (ask_unit)
-#  index_markets_on_ask_unit_and_bid_unit  (ask_unit,bid_unit) UNIQUE
-#  index_markets_on_bid_unit               (bid_unit)
-#  index_markets_on_enabled                (enabled)
-#  index_markets_on_position               (position)
+#  index_markets_on_base_unit                 (base_unit)
+#  index_markets_on_base_unit_and_quote_unit  (base_unit,quote_unit) UNIQUE
+#  index_markets_on_position                  (position)
+#  index_markets_on_quote_unit                (quote_unit)
 #

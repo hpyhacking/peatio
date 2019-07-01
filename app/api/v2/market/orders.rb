@@ -65,7 +65,7 @@ module API
         desc 'Create a Sell/Buy order.',
           success: API::V2::Entities::Order
         params do
-          use :market, :order
+          use :enabled_markets, :order
         end
         post '/orders' do
           if params[:ord_type] == 'market' && params.key?(:price)

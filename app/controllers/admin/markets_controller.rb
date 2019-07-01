@@ -40,40 +40,30 @@ module Admin
   private
 
     def market_params
-      params.require(:trading_pair).except(:id).permit(permitted_market_attributes).tap do |params|
-        boolean_market_attributes.each do |param|
-          next unless params.key?(param)
-          params[param] = params[param].in?(['1', 'true', true])
-        end
-      end
+      params.require(:trading_pair).except(:id).permit(permitted_market_attributes)
     end
 
     def permitted_market_attributes
       attributes = [
-        :bid_unit,
+        :quote_unit,
         :bid_fee,
-        :ask_unit,
+        :base_unit,
         :ask_fee,
-        :enabled,
-        :min_ask_price,
-        :max_bid_price,
-        :min_ask_amount,
-        :min_bid_amount,
+        :state,
+        :min_price,
+        :max_price,
+        :min_amount,
         :position
       ]
 
       if @market.new_record?
         attributes += [
-          :ask_precision,
-          :bid_precision
+          :amount_precision,
+          :price_precision
         ]
       end
 
       attributes
-    end
-
-    def boolean_market_attributes
-      %i[enabled]
     end
   end
 end

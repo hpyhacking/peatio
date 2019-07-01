@@ -6,6 +6,7 @@ require 'securerandom'
 class Member < ApplicationRecord
   ROLES = %w[superadmin admin accountant compliance support technical member broker trader]
   ADMIN_ROLES = %w[superadmin admin accountant compliance support technical]
+
   has_many :orders
   has_many :accounts
   has_many :payment_addresses, through: :accounts

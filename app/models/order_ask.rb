@@ -5,15 +5,6 @@ class OrderAsk < Order
   has_many :trades, -> { order(id: :asc) }, foreign_key: :ask_id
   scope :matching_rule, -> { order(price: :asc, created_at: :asc) }
 
-  validates :price,
-            presence: true,
-            numericality: { greater_than_or_equal_to: ->(order){ order.market.min_ask_price }},
-            if: :is_limit_order?
-
-  validates :origin_volume,
-            presence: true,
-            numericality: { greater_than_or_equal_to: ->(order){ order.market.min_ask_amount }}
-
   # @deprecated
   def hold_account
     member.get_account(ask)
@@ -34,7 +25,7 @@ class OrderAsk < Order
 
   def avg_price
     return ::Trade::ZERO if funds_used.zero?
-    config.fix_number_precision(:bid, funds_received / funds_used)
+    market.round_price(funds_received / funds_used)
   end
 
   def currency

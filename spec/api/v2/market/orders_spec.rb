@@ -219,19 +219,19 @@ describe API::V2::Market::Orders, type: :request do
       expect(response).to include_api_error('market.order.non_decimal_volume')
     end
 
-    it 'validates volume greater than min_ask_amount' do
+    it 'validates volume greater than min_amount' do
       member.get_account(:btc).update_attributes(balance: 1)
       m = Market.find(:btcusd)
-      m.update(min_ask_amount: 1.0)
+      m.update(min_amount: 1.0)
       api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'sell', volume: '0.1', price: '2014' }
       expect(response.code).to eq '422'
       expect(response).to include_api_error('market.order.invalid_volume_or_price')
     end
 
-    it 'validates price less than max_bid_price' do
+    it 'validates price less than max_price' do
       member.get_account(:usd).update_attributes(balance: 1)
       m = Market.find(:btcusd)
-      m.update(max_bid_price: 1.0)
+      m.update(max_price: 1.0)
       api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'buy', volume: '0.1', price: '2' }
       expect(response.code).to eq '422'
       expect(response).to include_api_error('market.order.invalid_volume_or_price')

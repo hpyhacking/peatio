@@ -7,10 +7,10 @@ module API
       module NamedParams
         extend ::Grape::API::Helpers
 
-        params :market do
+        params :enabled_markets do
           requires :market,
                    type: String,
-                   values: { value: -> { ::Market.enabled.ids }, message: 'market.market.doesnt_exist' },
+                   values: { value: -> { ::Market.enabled.ids }, message: 'market.market.doesnt_exist_or_not_enabled' },
                    desc: -> { V2::Entities::Market.documentation[:id] }
         end
 
@@ -25,7 +25,7 @@ module API
                    desc: -> { V2::Entities::Order.documentation[:volume] }
           optional :ord_type,
                    type: String,
-                   values: { value: -> { Order::TYPES}, message:  'market.order.invalid_type' },
+                   values: { value: -> { Order::TYPES }, message: 'market.order.invalid_type' },
                    default: 'limit',
                    desc: -> { V2::Entities::Order.documentation[:type] }
           given ord_type: ->(val) { val == 'limit' } do

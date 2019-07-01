@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_17_090551) do
+ActiveRecord::Schema.define(version: 2019_06_24_102330) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -131,25 +131,23 @@ ActiveRecord::Schema.define(version: 2019_06_17_090551) do
   end
 
   create_table "markets", id: :string, limit: 20, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "ask_unit", limit: 10, null: false
-    t.string "bid_unit", limit: 10, null: false
+    t.string "base_unit", limit: 10, null: false
+    t.string "quote_unit", limit: 10, null: false
+    t.integer "amount_precision", limit: 1, default: 4, null: false
+    t.integer "price_precision", limit: 1, default: 4, null: false
     t.decimal "ask_fee", precision: 17, scale: 16, default: "0.0", null: false
     t.decimal "bid_fee", precision: 17, scale: 16, default: "0.0", null: false
-    t.decimal "min_ask_price", precision: 32, scale: 16, default: "0.0", null: false
-    t.decimal "max_bid_price", precision: 32, scale: 16, default: "0.0", null: false
-    t.decimal "min_ask_amount", precision: 32, scale: 16, default: "0.0", null: false
-    t.decimal "min_bid_amount", precision: 32, scale: 16, default: "0.0", null: false
-    t.integer "ask_precision", limit: 1, default: 8, null: false
-    t.integer "bid_precision", limit: 1, default: 8, null: false
+    t.decimal "min_price", precision: 32, scale: 16, default: "0.0", null: false
+    t.decimal "max_price", precision: 32, scale: 16, default: "0.0", null: false
+    t.decimal "min_amount", precision: 32, scale: 16, default: "0.0", null: false
     t.integer "position", default: 0, null: false
-    t.boolean "enabled", default: true, null: false
+    t.string "state", limit: 32, default: "enabled", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ask_unit", "bid_unit"], name: "index_markets_on_ask_unit_and_bid_unit", unique: true
-    t.index ["ask_unit"], name: "index_markets_on_ask_unit"
-    t.index ["bid_unit"], name: "index_markets_on_bid_unit"
-    t.index ["enabled"], name: "index_markets_on_enabled"
+    t.index ["base_unit", "quote_unit"], name: "index_markets_on_base_unit_and_quote_unit", unique: true
+    t.index ["base_unit"], name: "index_markets_on_base_unit"
     t.index ["position"], name: "index_markets_on_position"
+    t.index ["quote_unit"], name: "index_markets_on_quote_unit"
   end
 
   create_table "members", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

@@ -5,16 +5,15 @@ describe Admin::MarketsController, type: :controller do
   let(:member) { create(:admin_member) }
   before(:each) { inject_authorization!(member) }
   let :attributes do
-    { bid_unit:       'usd',
-      bid_fee:        '0.003'.to_d,
-      bid_precision:  8,
-      ask_unit:       'eth',
-      ask_fee:        '0.02'.to_d,
-      min_ask_amount: '0.02'.to_d,
-      min_bid_amount: '0.02'.to_d,
-      ask_precision:  8,
-      enabled:        true,
-      position:       100 }
+    { quote_unit:         'usd',
+      bid_fee:          '0.003'.to_d,
+      price_precision:  8,
+      base_unit:         'eth',
+      ask_fee:          '0.02'.to_d,
+      min_amount:       '0.02'.to_d,
+      amount_precision: 8,
+      state:            'enabled',
+      position:         100 }
   end
   let(:existing_market) { Market.ordered.first }
 
@@ -32,7 +31,7 @@ describe Admin::MarketsController, type: :controller do
 
     it 'doesn\'t create market if commodity pair already exists' do
       existing = Market.ordered.first
-      params   = attributes.merge(bid_unit: existing.bid_unit, ask_unit: existing.ask_unit)
+      params   = attributes.merge(quote_unit: existing.quote_unit, base_unit: existing.base_unit)
       expect do
         post :create, params: { trading_pair: params }
         expect(response).not_to redirect_to admin_markets_path
@@ -42,25 +41,24 @@ describe Admin::MarketsController, type: :controller do
 
   describe '#update' do
     let :new_attributes do
-      { bid_unit:       'btc',
-        bid_fee:        '0.002'.to_d,
-        bid_precision:  7,
-        ask_unit:       'eth',
-        ask_fee:        '0.05'.to_d,
-        min_ask_amount: '0.02'.to_d,
-        min_bid_amount: '0.02'.to_d,
-        ask_precision:  7,
-        enabled:        false,
-        position:       200 }
+      { quote_unit:         'btc',
+        bid_fee:          '0.002'.to_d,
+        price_precision:    7,
+        base_unit:         'eth',
+        ask_fee:          '0.05'.to_d,
+        min_amount:       '0.02'.to_d,
+        amount_precision: 7,
+        state:            :disabled,
+        position:         200 }
     end
 
     let :final_attributes do
       new_attributes.merge \
         attributes.slice \
-          :bid_unit,
-          :ask_unit,
-          :ask_precision,
-          :bid_precision
+          :quote_unit,
+          :base_unit,
+          :amount_precision,
+          :price_precision
     end
 
     before { request.env['HTTP_REFERER'] = '/admin/markets' }

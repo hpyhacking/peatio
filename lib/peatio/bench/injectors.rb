@@ -51,7 +51,7 @@ module Bench
 
       def create_order
         Order.new(construct_order)
-             .tap(&:fix_number_precision)
+             .tap(&:round_amount_and_price)
              .tap { |o| o.locked = o.origin_locked = o.compute_locked }
              .tap { |o| o.hold_account!.lock_funds(o.locked) }
              .tap(&:save)

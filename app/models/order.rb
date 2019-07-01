@@ -16,12 +16,26 @@ class Order < ApplicationRecord
   enumerize :ord_type, in: TYPES, scope: true
 
   after_commit :trigger_pusher_event
-  before_validation :fix_number_precision, on: :create
+  before_validation :round_amount_and_price, on: :create
 
   validates :ord_type, :volume, :origin_volume, :locked, :origin_locked, presence: true
   validates :price, numericality: { greater_than: 0 }, if: ->(order) { order.ord_type == 'limit' }
-  validates :origin_volume, numericality: { greater_than: 0 }
+
+  validates :origin_volume,
+            presence: true,
+            numericality: { greater_than: 0, greater_than_or_equal_to: ->(order){ order.market.min_amount } }
+
   validate  :market_order_validations, if: ->(order) { order.ord_type == 'market' }
+
+  validates :price, presence: true, if: :is_limit_order?
+
+  validates :price,
+            numericality: { less_than_or_equal_to: ->(order){ order.market.max_price }},
+            if: ->(order) { order.is_limit_order? && order.market.max_price.nonzero? }
+
+  validates :price,
+            numericality: { greater_than_or_equal_to: ->(order){ order.market.min_price }},
+            if: :is_limit_order?
 
   PENDING = 'pending'
   WAIT    = 'wait'
@@ -32,7 +46,7 @@ class Order < ApplicationRecord
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
 
-  before_validation(on: :create) { self.fee = config.public_send("#{kind}_fee") }
+  before_validation(on: :create) { self.fee = market.public_send("#{kind}_fee") }
 
   after_commit on: :create do
     next unless ord_type == 'limit'
@@ -89,10 +103,6 @@ class Order < ApplicationRecord
 
   def funds_used
     origin_locked - locked
-  end
-
-  def config
-    market
   end
 
   def trigger_pusher_event
@@ -159,12 +169,12 @@ class Order < ApplicationRecord
       state:         read_attribute_before_type_cast(:state) }
   end
 
-  def fix_number_precision
-    self.price = config.fix_number_precision(:bid, price.to_d) if price
+  def round_amount_and_price
+    self.price = market.round_price(price.to_d) if price
 
     if volume
-      self.volume = config.fix_number_precision(:ask, volume.to_d)
-      self.origin_volume = origin_volume.present? ? config.fix_number_precision(:ask, origin_volume.to_d) : volume
+      self.volume = market.round_amount(volume.to_d)
+      self.origin_volume = origin_volume.present? ? market.round_amount(origin_volume.to_d) : volume
     end
   end
 
@@ -198,11 +208,11 @@ class Order < ApplicationRecord
     end
   end
 
-  private
-
   def is_limit_order?
     ord_type == 'limit'
   end
+
+  private
 
   def market_order_validations
     errors.add(:price, 'must not be present') if price.present?

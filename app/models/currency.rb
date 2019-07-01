@@ -40,9 +40,6 @@ class Currency < ApplicationRecord
   validate :validate_options
   validate { errors.add(:base, 'Cannot disable display currency!') if disabled? && code == ENV.fetch('DISPLAY_CURRENCY').downcase }
 
-  # TODO: Add specs to this validation.
-  validate :must_not_disable_all_markets, on: :update
-
   before_validation :initialize_options
   before_validation { self.deposit_fee = 0 unless fiat? }
 
@@ -130,18 +127,12 @@ class Currency < ApplicationRecord
   end
 
   def dependent_markets
-    Market.where('ask_unit = ? OR bid_unit = ?', id, id)
+    Market.where('base_unit = ? OR quote_unit = ?', id, id)
   end
 
   def disable_markets
     unless enabled?
-      dependent_markets.update_all(enabled: false)
-    end
-  end
-
-  def must_not_disable_all_markets
-    if enabled_was && !enabled? && (Market.enabled.count - dependent_markets.enabled.count).zero?
-      errors.add(:currency, 'disables all enabled markets.')
+      dependent_markets.update_all(state: :disabled)
     end
   end
 

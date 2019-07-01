@@ -5,15 +5,6 @@ class OrderBid < Order
   has_many :trades, foreign_key: :bid_id
   scope :matching_rule, -> { order(price: :desc, created_at: :asc) }
 
-  validates :price, presence: true, if: :is_limit_order?
-  validates :price,
-            numericality: { less_than_or_equal_to: ->(order){ order.market.max_bid_price }},
-            if: ->(order){ order.ord_type == 'limit' && order.market.max_bid_price.nonzero? }
-
-  validates :origin_volume,
-            presence: true,
-            numericality: { greater_than_or_equal_to: ->(order){ order.market.min_bid_amount }}
-
   # @deprecated
   def hold_account
     member.get_account(bid)
@@ -34,7 +25,7 @@ class OrderBid < Order
 
   def avg_price
     return ::Trade::ZERO if funds_received.zero?
-    config.fix_number_precision(:bid, funds_used / funds_received)
+    market.round_price(funds_used / funds_received)
   end
 
   def currency

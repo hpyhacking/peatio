@@ -30,7 +30,7 @@ module API
                      values: { value: 1..200, message: 'public.order_book.invalid_ask_limit' },
                      default: 20,
                      desc: 'Limit the number of returned sell orders. Default to 20.'
-            optional :bids_limit, 
+            optional :bids_limit,
                      type: { value: Integer, message: 'public.order_book.non_integer_bid_limit' },
                      values: { value: 1..200, message: 'public.order_book.invalid_bid_limit' },
                      default: 20,

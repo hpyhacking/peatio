@@ -46,43 +46,43 @@
 
 ## Market module
 
-| Code                                         | Description                                                     |
-| -------------------------------------------- | ----------------------------------------------------------------|
-| `market.account.insufficient_balance`        | Account balance is insufficient                                 |
-| `market.market.doesnt_exist`                 | **Market** doesn't exist in database                            |
-| `market.order.insufficient_market_liquidity` | Insufficient market liquidity                                   |
-| `market.order.invalid_volume_or_price`       | Order **volume** or **price** is invalid for selected market    |
-| `market.order.create_error`                  | Failed to create order                                          |
-| `market.order.cancel_error`                  | Failed to cancel order                                          |
-| `market.order.market_order_price`            | Market order doesn't have **price**                             |
-| `market.order.invalid_state`                 | Parameter **state** is not valid                                |
-| `market.order.invalid_limit`                 | Parameter **limit** is not valid                                |
-| `market.order.non_integer_limit`             | Parameter **limit** should be integer                           |
-| `market.order.invalid_order_by`              | Parameter **order_by** is not valid                             |
-| `market.order.invalid_ord_type`              | Parameter **ord_type** is not valid                             |
-| `market.order.invalid_type`                  | Parameter **type** is not valid                             |
-| `market.order.invalid_side`                  | Parameter **side** is not valid                                 |
-| `market.order.missing_market`                | Parameter **market** is missing                                 |
-| `market.order.missing_side`                  | Parameter **side** is missing                                   |
-| `market.order.missing_volume`                | Parameter **volume** is missing                                 |
-| `market.order.missing_price`                 | Parameter **price** is missing                                  |
-| `market.order.missing_id`                    | Parameter **id** is missing                                     |
-| `market.order.non_decimal_volume`            | Parameter **volume** should be decimal                          |
-| `market.order.non_positive_volume`           | Parameter **volume** should be positive number                  |
-| `market.order.invalid_type`                  | Parameter **type** is not valid                                 |
-| `market.order.non_decimal_price`             | Parameter **price** should be decimal                           |
-| `market.order.non_positive_price`            | Parameter **price** should be positive number                   |
-| `market.order.non_integer_id`                | Parameter **id** should be integer                              |
-| `market.order.empty_id`                      | Parameter **id** is empty                                       |
-| `market.trade.non_integer_limit`             | Parameter **limit** should be integer                           |
-| `market.trade.invalid_limit`                 | Parameter **limit** is not valid                                |
-| `market.trade.empty_page`                    | Parameter **page** is empty                                     |
-| `market.trade.non_integer_time_from`         | Parameter **time_from** should be integer                       |
-| `market.trade.empty_time_from`               | Parameter **time_from** is empty                                |
-| `market.trade.non_integer_time_to`           | Parameter **time_to** should be integer                         |
-| `market.trade.empty_time_to_`                | Parameter **time_to** is empty                                  |
-| `market.trade.invalid_order_by`              | Parameter **order_by** is not valid                             |
-| `market.trade.not_permitted`                 | Pass the corresponding verification steps to **enable trading** |
+| Code                                         | Description                                                      |
+| -------------------------------------------- | ---------------------------------------------------------------- |
+| `market.account.insufficient_balance`        | Account balance is insufficient                                  |
+| `market.market.doesnt_exist_or_not_enabled`  | **Market** doesn't exist in database or currently disabled/hidden|
+| `market.order.insufficient_market_liquidity` | Insufficient market liquidity                                    |
+| `market.order.invalid_volume_or_price`       | Order **volume** or **price** is invalid for selected market     |
+| `market.order.create_error`                  | Failed to create order                                           |
+| `market.order.cancel_error`                  | Failed to cancel order                                           |
+| `market.order.market_order_price`            | Market order doesn't have **price**                              |
+| `market.order.invalid_state`                 | Parameter **state** is not valid                                 |
+| `market.order.invalid_limit`                 | Parameter **limit** is not valid                                 |
+| `market.order.non_integer_limit`             | Parameter **limit** should be integer                            |
+| `market.order.invalid_order_by`              | Parameter **order_by** is not valid                              |
+| `market.order.invalid_ord_type`              | Parameter **ord_type** is not valid                              |
+| `market.order.invalid_type`                  | Parameter **type** is not valid                                  |
+| `market.order.invalid_side`                  | Parameter **side** is not valid                                  |
+| `market.order.missing_market`                | Parameter **market** is missing                                  |
+| `market.order.missing_side`                  | Parameter **side** is missing                                    |
+| `market.order.missing_volume`                | Parameter **volume** is missing                                  |
+| `market.order.missing_price`                 | Parameter **price** is missing                                   |
+| `market.order.missing_id`                    | Parameter **id** is missing                                      |
+| `market.order.non_decimal_volume`            | Parameter **volume** should be decimal                           |
+| `market.order.non_positive_volume`           | Parameter **volume** should be positive number                   |
+| `market.order.invalid_type`                  | Parameter **type** is not valid                                  |
+| `market.order.non_decimal_price`             | Parameter **price** should be decimal                            |
+| `market.order.non_positive_price`            | Parameter **price** should be positive number                    |
+| `market.order.non_integer_id`                | Parameter **id** should be integer                               |
+| `market.order.empty_id`                      | Parameter **id** is empty                                        |
+| `market.trade.non_integer_limit`             | Parameter **limit** should be integer                            |
+| `market.trade.invalid_limit`                 | Parameter **limit** is not valid                                 |
+| `market.trade.empty_page`                    | Parameter **page** is empty                                      |
+| `market.trade.non_integer_time_from`         | Parameter **time_from** should be integer                        |
+| `market.trade.empty_time_from`               | Parameter **time_from** is empty                                 |
+| `market.trade.non_integer_time_to`           | Parameter **time_to** should be integer                          |
+| `market.trade.empty_time_to_`                | Parameter **time_to** is empty                                   |
+| `market.trade.invalid_order_by`              | Parameter **order_by** is not valid                              |
+| `market.trade.not_permitted`                 | Pass the corresponding verification steps to **enable trading**  |
 
 ## Public module
 
