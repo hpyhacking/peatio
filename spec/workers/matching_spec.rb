@@ -1,12 +1,12 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-describe Worker::Matching do
+describe Workers::AMQP::Matching do
   let(:alice)  { who_is_billionaire }
   let(:bob)    { who_is_billionaire }
   let(:market) { Market.find(:btcusd) }
 
-  subject { Worker::Matching.new }
+  subject { Workers::AMQP::Matching.new }
 
   context 'engines' do
     it 'should get all engines' do
@@ -110,7 +110,7 @@ describe Worker::Matching do
     let!(:ask) { create(:order_ask, :btcusd, price: '4000', volume: '3.0', member: alice) }
     let!(:bid) { create(:order_bid, :btcusd, price: '4001', volume: '8.0', member: bob) }
 
-    subject { Worker::Matching.new(mode: :dryrun) }
+    subject { Workers::AMQP::Matching.new(mode: :dryrun) }
 
     context 'very old orders matched' do
       before do

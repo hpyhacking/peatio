@@ -1,8 +1,10 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-module Worker
-  class Test
+module Workers
+  module AMQP
+    class Test
+    end
   end
 end
 
@@ -50,7 +52,7 @@ describe AMQPConfig do
   end
 
   it 'should find binding worker' do
-    expect(AMQPConfig.binding_worker(:test)).to be_instance_of(Worker::Test)
+    expect(AMQPConfig.binding_worker(:test)).to be_instance_of(Workers::AMQP::Test)
   end
 
   it 'should return queue name of binding' do

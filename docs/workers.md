@@ -40,22 +40,22 @@ This daemon keeps copy of in-memory orderbook from amqp:matching and updates var
 
 This daemon performs withdraw.
 
-## blockchain
-
-This daemon monitors blockchain for incoming deposits and withdrawal and updates their state on the database.
-
-## global_state
-
-This daemon send orderbook to Ranger every 5 seconds.
-
-## k
-
-This daemon updates k-lines every 15 seconds.
-
-## withdraw_audit
-
-This daemon validates withdrawals and sends them to amqp:withdraw_coin.
-
 ## amqp:trade_executor
 
 This daemon performs partial or full fullfilment of two orders.
+
+## daemon:blockchain
+
+This daemon monitors blockchain for incoming deposits and withdrawal and updates their state on the database.
+
+## daemon:global_state
+
+This daemon send orderbook to Ranger every 5 seconds.
+
+## daemon:k
+
+This daemon updates k-lines every 15 seconds.
+
+## daemon:withdraw_audit
+
+This daemon validates withdrawals and sends them to amqp:withdraw_coin.

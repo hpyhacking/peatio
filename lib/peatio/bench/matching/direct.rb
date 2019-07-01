@@ -12,7 +12,7 @@ module Bench
 
         @injector = Injectors.initialize_injector(@config[:orders])
         @currencies = Currency.where(id: @config[:currencies].split(',').map(&:squish).reject(&:blank?))
-        @matching = Worker::Matching.new
+        @matching = Workers::AMQP::Matching.new
         # TODO: Print errors in the end of benchmark and include them into report.
         @errors = []
       end

@@ -12,7 +12,7 @@ module Bench
         @bid_injector = Injectors.initialize_injector(@config[:orders].merge(price: 1, side: 'OrderBid'))
         @ask_injector = Injectors.initialize_injector(@config[:orders].merge(price: 0.9, side: 'OrderAsk'))
         @currencies = Currency.where(id: @config[:currencies].split(',').map(&:squish).reject(&:blank?))
-        @executor = Worker::TradeExecutor.new
+        @executor = Workers::AMQP::TradeExecutor.new
         # TODO: Print errors in the end of benchmark and include them into report.
         @errors = []
       end

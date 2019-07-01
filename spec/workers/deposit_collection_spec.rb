@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-describe Worker::DepositCollection do
+describe Workers::AMQP::DepositCollection do
   let(:deposit) do
     create(:deposit_btc)
       .tap { |d| d.accept! }
@@ -31,7 +31,7 @@ describe Worker::DepositCollection do
   it 'collect deposit and update spread' do
     expect(deposit.spread).to eq(spread)
     expect(deposit.collected?).to be_falsey
-    expect{ Worker::DepositCollection.new.process(deposit) }.to change{ deposit.reload.spread }
+    expect{ Workers::AMQP::DepositCollection.new.process(deposit) }.to change{ deposit.reload.spread }
     expect(deposit.spread).to eq(collected_spread)
     expect(deposit.collected?).to be_truthy
   end

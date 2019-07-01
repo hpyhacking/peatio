@@ -29,7 +29,7 @@ class AMQPConfig
     end
 
     def binding_worker(id)
-      ::Worker.const_get(id.to_s.camelize).new
+      ::Workers::AMQP.const_get(id.to_s.camelize).new
     end
 
     def routing_key(id)

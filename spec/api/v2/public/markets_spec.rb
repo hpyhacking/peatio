@@ -343,7 +343,7 @@ describe API::V2::Public::Markets, type: :request do
           'avg_price' => '5.0', 'price_change_percent' => '+0.00%' }
       end
       before do
-        Worker::MarketTicker.new.process(trade.as_json, nil, nil)
+        Workers::AMQP::MarketTicker.new.process(trade.as_json, nil, nil)
       end
 
       it 'returns market tickers' do
@@ -368,8 +368,8 @@ describe API::V2::Public::Markets, type: :request do
           'avg_price' => '5.45', 'price_change_percent' => '+0.00%' }
       end
       before do
-        Worker::MarketTicker.new.process(trade1.as_json, nil, nil)
-        Worker::MarketTicker.new.process(trade2.as_json, nil, nil)
+        Workers::AMQP::MarketTicker.new.process(trade1.as_json, nil, nil)
+        Workers::AMQP::MarketTicker.new.process(trade2.as_json, nil, nil)
       end
 
       it 'returns market tickers' do
@@ -410,7 +410,7 @@ describe API::V2::Public::Markets, type: :request do
           'avg_price' => '5.0', 'price_change_percent' => '+0.00%' }
       end
       before do
-        Worker::MarketTicker.new.process(trade.as_json, nil, nil)
+        Workers::AMQP::MarketTicker.new.process(trade.as_json, nil, nil)
       end
 
       it 'returns market tickers' do
@@ -434,8 +434,8 @@ describe API::V2::Public::Markets, type: :request do
           'avg_price' => '5.45', 'price_change_percent' => '+0.00%' }
       end
       before do
-        Worker::MarketTicker.new.process(trade1.as_json, nil, nil)
-        Worker::MarketTicker.new.process(trade2.as_json, nil, nil)
+        Workers::AMQP::MarketTicker.new.process(trade1.as_json, nil, nil)
+        Workers::AMQP::MarketTicker.new.process(trade2.as_json, nil, nil)
       end
 
       it 'returns market tickers' do

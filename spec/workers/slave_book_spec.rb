@@ -1,8 +1,8 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-describe Worker::SlaveBook do
-  subject { Worker::SlaveBook.new(false) }
+describe Workers::AMQP::SlaveBook do
+  subject { Workers::AMQP::SlaveBook.new(false) }
 
   let(:market) { Market.find(:btcusd) }
  

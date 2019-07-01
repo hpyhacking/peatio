@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-describe Worker::DepositCoinAddress do
+describe Workers::AMQP::DepositCoinAddress do
   let(:member) { create(:member, :barong) }
   let(:account) { member.ac(:btc) }
   let(:address) { Faker::Blockchain::Bitcoin.address }
@@ -23,7 +23,7 @@ describe Worker::DepositCoinAddress do
   end
 
   it 'is passed to wallet service' do
-    Worker::DepositCoinAddress.new.process(account_id: account.id)
+    Workers::AMQP::DepositCoinAddress.new.process(account_id: account.id)
     expect(subject).to eq address
     payment_address.reload
     expect(payment_address.as_json
@@ -38,7 +38,7 @@ describe Worker::DepositCoinAddress do
     end
 
     it 'is passed to wallet service' do
-      Worker::DepositCoinAddress.new.process(account_id: account.id)
+      Workers::AMQP::DepositCoinAddress.new.process(account_id: account.id)
       expect(subject).to eq address
       payment_address.reload
       expect(payment_address.as_json
