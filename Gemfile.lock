@@ -234,7 +234,6 @@ GEM
     parallel (1.14.0)
     parser (2.6.0.0)
       ast (~> 2.4.0)
-    passgen (1.0.2)
     peatio (0.6.1)
       activemodel (~> 5.2.3)
       amqp
@@ -451,7 +450,6 @@ DEPENDENCIES
   mini_racer (~> 0.2.4)
   mocha (~> 1.8)
   mysql2 (~> 0.5.2)
-  passgen (~> 1.0.2)
   peatio (~> 0.6.1)
   peatio-litecoin (~> 0.2.0)
   pry-byebug (~> 3.7)

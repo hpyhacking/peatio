@@ -46,7 +46,6 @@ gem 'arel-is-blank', '~> 1.0.0'
 gem 'sentry-raven', '~> 2.9.0', require: false
 gem 'memoist', '~> 0.16.0'
 gem 'method-not-implemented', '~> 1.0.1'
-gem 'passgen', '~> 1.0.2'
 gem 'validates_lengths_from_database', '~> 0.7.0'
 gem 'jwt-multisig', '~> 1.0.0'
 gem 'cash-addr', '~> 0.2.0', require: 'cash_addr'

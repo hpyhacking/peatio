@@ -5,7 +5,7 @@ describe Worker::DepositCoinAddress do
   let(:member) { create(:member, :barong) }
   let(:account) { member.ac(:btc) }
   let(:address) { Faker::Blockchain::Bitcoin.address }
-  let(:secret) { Passgen.generate(length: 64, symbols: true) }
+  let(:secret) { PasswordGenerator.generate(64) }
   let(:wallet) { Wallet.deposit.find_by(blockchain_key: 'btc-testnet') }
   let(:payment_address) { account.payment_address }
   let(:create_address_result) do
