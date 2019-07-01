@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.2.13
+## Version: 2.2.14
 
 **Contact information:**  
 peatio.tech  
@@ -573,16 +573,16 @@ Get all available markets.
 | ---- | ---- | ----------- | -------- |
 | id | string | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No |
 | name | string | Market name. | No |
-| ask_unit | string | Market ask unit. | No |
-| bid_unit | string | Market bid unit. | No |
+| base_unit | string | Market Base unit. | No |
+| quote_unit | string | Market Quote unit. | No |
 | ask_fee | double | Market ask fee. | No |
 | bid_fee | double | Market bid fee. | No |
-| min_ask_price | double | Max ask order price. | No |
-| max_bid_price | double | Max bid order price. | No |
-| min_ask_amount | double | Min ask order amount. | No |
-| min_bid_amount | double | Min bid order amount. | No |
-| ask_precision | double | Precision for ask order. | No |
-| bid_precision | double | Precision for bid order. | No |
+| min_price | double | Minimum order price. | No |
+| max_price | double | Maximum order price. | No |
+| min_amount | double | Minimum order amount. | No |
+| amount_precision | double | Precision for order amount. | No |
+| price_precision | double | Precision for order price. | No |
+| state | string | Market state defines if user can see/trade on current market. | No |
 
 #### Currency
 
