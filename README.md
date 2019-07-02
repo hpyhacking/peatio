@@ -3,10 +3,10 @@
 [![Build Status](https://travis-ci.org/rubykube/peatio.svg?branch=master)](https://travis-ci.org/rubykube/peatio)
 [![Telegram Chat](https://cdn.rawgit.com/Patrolavia/telegram-badge/8fe3382b/chat.svg)](https://t.me/peatio)
 
-## [Peatio.tech](https://www.peatio.tech) Introduction
+## [Peatio](https://www.openware.com) Introduction
 
 Peatio is a free and open-source crypto currency exchange implementation with the Rails framework.
-Peatio.tech is a fork of Peatio designed for micro-services architecture. We have simplified the code
+This is a fork of Peatio designed for micro-services architecture. We have simplified the code
 in order to use only Peatio API with external frontend and server components.
 
 To build your own exchange you should now run Peatio as a backend instead of forking the repository,
@@ -17,7 +17,7 @@ and extend it using other microservices such as [Barong](https://www.github.com/
 Our mission is to build an open-source crypto currency exchange with a high performance trading engine and incomparable security. We are moving toward dev/ops best practices of running an enterprise grade exchange.
 
 We provide webinar or on site training for installing, configuring and administration best practices of Peatio.
-Feel free to contact us for joining the next training session: [Peatio.tech](https://www.peatio.tech)
+Feel free to contact us for joining the next training session: [Openware.com](https://www.openware.com)
 
 Help is greatly appreciated, feel free to submit pull-requests or open issues.
 
@@ -55,7 +55,7 @@ You must know what you're doing, there's no shortcut. Please get prepared before
 * Powerful admin dashboard and management tools
 * Highly configurable and extendable
 * Industry standard security out of box
-* Maintained by [peatio.tech](https://www.peatio.tech)
+* Maintained by [Openware.com](https://www.openware.com)
 * [KYC Verification](http://en.wikipedia.org/wiki/Know_your_customer) provided by [Barong](https://www.github.com/rubykube/barong)
 
 ## Contribute
@@ -186,16 +186,16 @@ If you spot a bug, then please raise an issue in our main GitHub project (rubyku
 If you want to brainstorm a potential new feature, then the Rubykube Discourse Forum (see above) is probably a better place to start.
 
 ### Email
-hello@peatio.tech
+hello@openware.com
 
 If you want to talk directly to us (e.g. about a commercially sensitive issue), email is the easiest way.
 
 ## Getting Support and Customization
 
 If you need help with running/deploying/customizing Peatio,
-you can contact us on [peatio.tech](https://www.peatio.tech).
+you can contact us on [Openware.com](https://www.openware.com).
 
-Contact us by email: [hello@peatio.tech](mailto:hello@peatio.tech)
+Contact us by email: [hello@openware.com](mailto:hello@openware.com)
 
 ## License
 
