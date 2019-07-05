@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   include Authorization::Bearer
   extend Memoist
 
+  before_action :set_ets_context!, if: -> { defined?(Raven) }
+
   helper_method :is_admin?, :current_user
 
   private
@@ -38,5 +40,14 @@ class ApplicationController < ActionController::Base
 
   def is_admin?
     current_user.role.in?(Member::ADMIN_ROLES)
+  end
+
+  def set_ets_context!
+    Raven.tags_context(
+      email: current_user.email,
+      uid: current_user.uid,
+      role: current_user.role,
+      peatio_version: Peatio::Application::VERSION
+    )
   end
 end

@@ -5,6 +5,8 @@ module API
     module Public
       class Mount < Grape::API
 
+        before { set_ets_context! }
+
         mount Public::Currencies
         mount Public::Markets
         mount Public::MemberLevels

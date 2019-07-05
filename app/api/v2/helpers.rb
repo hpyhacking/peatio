@@ -10,6 +10,19 @@ module API
         current_user or raise Peatio::Auth::Error
       end
 
+      def set_ets_context!
+        return unless defined?(Raven)
+
+        Raven.user_context(
+          email: current_user.email,
+          uid: current_user.uid,
+          role: current_user.role
+        ) if current_user
+        Raven.tags_context(
+          peatio_version: Peatio::Application::VERSION
+        )
+      end
+
       def deposits_must_be_permitted!
         if current_user.level < ENV.fetch('MINIMUM_MEMBER_LEVEL_FOR_DEPOSIT').to_i
           error!({ errors: ['account.deposit.not_permitted'] }, 403)

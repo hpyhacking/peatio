@@ -15,6 +15,8 @@ module API
 
         helpers Management::Helpers
 
+        before { set_ets_context! }
+
         rescue_from Management::Exceptions::Base do |e|
           Management::Mount.logger.error { e.inspect }
           error!(e.message, e.status, e.headers)

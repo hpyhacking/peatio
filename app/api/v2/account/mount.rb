@@ -3,6 +3,7 @@ module API::V2
     class Mount < Grape::API
 
       before { authenticate! }
+      before { set_ets_context! }
 
       mount Account::Withdraws
       mount Account::Deposits

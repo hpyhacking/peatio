@@ -7,6 +7,7 @@ module API::V2
 
       before { authenticate! }
       before { trading_must_be_permitted! }
+      before { set_ets_context! }
 
       mount Market::Orders
       mount Market::Trades
