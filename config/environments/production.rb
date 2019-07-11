@@ -82,6 +82,9 @@ Rails.application.configure do
 
   config.logger.formatter = config.log_formatter
 
+  # Disable colorize logging in production
+  config.colorize_logging = false
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
