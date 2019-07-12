@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  parity:
+    image: parity/parity:stable
+    restart: always
+    command:
+      --chain=kovan
+      --jsonrpc-interface=all
+      --jsonrpc-hosts=all
+    ports:
+      - 8180:8180
+      - 8545:8545
+    volumes:
+      - parity:/root/.local/share/io.parity.ethereum/
+    user: root
+
+volumes:
+  parity: {}

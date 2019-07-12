@@ -56,6 +56,7 @@ gem 'rack-cors', '~> 1.0.2', require: false
 gem 'env-tweaks', '~> 1.0.0'
 gem 'vault', '~> 0.12', require: false
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'net-http-persistent', '~> 3.0.1'
 
 group :development, :test do
   gem 'bump',         '~> 0.7'

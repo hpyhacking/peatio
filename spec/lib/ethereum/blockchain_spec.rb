@@ -93,6 +93,17 @@ describe Ethereum::Blockchain do
 
       expect{ blockchain.latest_block_number }.to raise_error(Peatio::Blockchain::ClientError)
     end
+
+    it 'keeps alive' do
+      stub_request(:post, endpoint)
+          .to_return(body: { result: '0x16b916',
+                             error:  nil,
+                             id:     nil }.to_json)
+          .with(headers: { 'Connection': 'keep-alive',
+                           'Keep-Alive': '30' })
+
+      blockchain.latest_block_number
+    end
   end
 
   context :fetch_block! do
