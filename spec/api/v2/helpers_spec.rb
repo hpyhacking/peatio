@@ -6,7 +6,6 @@ module API
     class AuthTest < Grape::API
       get('/auth_test') do
         authenticate!
-        current_user
       end
     end
 
@@ -25,6 +24,11 @@ describe API::V2::Helpers, type: :request do
       it 'should response successfully' do
         api_get '/api/v2/auth_test', foo: 'bar', hello: 'world', token: token
         expect(response).to be_successful
+      end
+
+      it 'should not return authorization header' do
+        api_get '/api/v2/auth_test', foo: 'bar', hello: 'world', token: token
+        expect(response.headers).not_to include('Authorization')
       end
 
       it 'should set current user' do

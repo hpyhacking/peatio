@@ -23,7 +23,7 @@ module API
           is_array: true,
           success: Entities::Currency
         params do
-          optional :type, 
+          optional :type,
                    type: String,
                    values: { value: %w[fiat coin], message: 'public.currency.invalid_type' },
                    desc: -> { API::V2::Entities::Currency.documentation[:type][:desc] }

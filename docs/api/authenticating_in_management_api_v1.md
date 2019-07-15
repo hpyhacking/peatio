@@ -14,7 +14,7 @@ The variable `keychain` in `config/management_api_v1.yml` should look like:
 keychain:
   backend-1.mycompany.example:
     algorithm: RS256
-    value: 'BACKEND_1_PUBLIC_KEY_IN_PEM_FORMAT_BASE64_URLSAFE_ENCODED'  
+    value: 'BACKEND_1_PUBLIC_KEY_IN_PEM_FORMAT_BASE64_URLSAFE_ENCODED'
   backend-2.mycompany.example:
     algorithm: RS256
     value: 'BACKEND_2_PUBLIC_KEY_IN_PEM_FORMAT_BASE64_URLSAFE_ENCODED'
@@ -60,7 +60,7 @@ require 'jwt-multisig'
 require 'base64'
 require 'json'
 
-payload = { 
+payload = {
   exp:  1922830281, # Put here all the JWT claims.
   data: { foo: 'bar', baz: 'qux' } # Put here all the data your API action expects.
 }
@@ -104,7 +104,7 @@ require 'faraday_middleware'
 # Read and save your JWT from data.json
 data = File.read('./data.json')
 
-# Create HTTP request with ruby Faraday client library 
+# Create HTTP request with ruby Faraday client library
 module Faraday
   class Connection
     alias original_run_request run_request
