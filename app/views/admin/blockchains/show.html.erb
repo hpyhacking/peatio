@@ -9,8 +9,11 @@
             <%= f.text_field :name, class: 'form-control mb-3' %>
 
             <label>Client</label>
-            <%= f.select :client, options_for_select(Blockchain.clients, selected: @blockchain.client), {}, class: 'form-control mb-3' %>
-
+            <% if @blockchain.client.in?(Blockchain.clients) %>
+              <%= f.select :client, options_for_select(Blockchain.clients, selected: @blockchain.client), {}, class: 'form-control col-mb-2' %>
+            <% else %>
+              <%= f.select :client, options_for_select(Blockchain.clients.append(@blockchain.client), selected: @blockchain.client), {}, class: 'form-control mb-3' %>
+            <% end %>
             <label>Server</label>
             <%= f.text_field :server, class: 'form-control mb-3' %>
 

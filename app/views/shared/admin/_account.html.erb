@@ -12,7 +12,7 @@
         <%= item_for account, :balance %>
         <% if account.currency.coin? && (can? :read, PaymentAddress) %>
           <%= item_for 'Deposit Address' do %>
-            <%= account.payment_address.address %>
+            <%= account.payment_addresses.last&.address %>
           <% end %>
         <% end %>
       </dl>

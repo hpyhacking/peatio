@@ -12,7 +12,7 @@ end
 describe BlockchainService do
 
   let!(:blockchain) { create(:blockchain, 'fake-testnet') }
-  let(:block_number) { 1 }
+  let(:block_number) { 100 }
   let(:fake_adapter) { FakeBlockchain.new }
   let(:service) { BlockchainService.new(blockchain) }
 
@@ -79,7 +79,7 @@ describe BlockchainService do
       context 'collect deposit after processing block' do
         before do
           clear_redis
-          fake_adapter.stubs(:latest_block_number).returns(10)
+          blockchain.update!(height: 100)
           fake_adapter.stubs(:fetch_block!).returns(expected_transactions)
           AMQPQueue.expects(:enqueue).with(:events_processor, is_a(Hash))
           AMQPQueue.expects(:enqueue).with(:deposit_collection_fees, id: subject.first.id)
@@ -186,7 +186,7 @@ describe BlockchainService do
 
         before do
           clear_redis
-          fake_adapter.stubs(:latest_block_number).returns(10)
+          blockchain.update!(height: 100)
           fake_adapter.stubs(:fetch_block!).returns(expected_transactions)
           service.process_block(block_number)
         end
@@ -309,7 +309,7 @@ describe BlockchainService do
 
     before do
       clear_redis
-      fake_adapter.stubs(:latest_block_number).returns(10)
+      blockchain.update!(height: 100)
       PaymentAddress.create!(currency: fake_currency1,
         account: fake_account1,
         address: 'fake_address')
@@ -321,7 +321,6 @@ describe BlockchainService do
 
     it 'creates deposits and updates withdrawals' do
       service.process_block(block_number)
-
       expect(Deposits::Coin.where(currency: fake_currency1).exists?).to be true
       expect(Deposits::Coin.where(currency: fake_currency2).exists?).to be true
 

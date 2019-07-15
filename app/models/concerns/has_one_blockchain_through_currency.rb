@@ -26,9 +26,9 @@ module HasOneBlockchainThroughCurrency
 
   def confirmations
     return 0 if block_number.blank?
-    return latest_block_number - block_number if (latest_block_number - block_number) >= 0
+    return blockchain.processed_height - block_number if (blockchain.processed_height - block_number) >= 0
     'N/A'
-  rescue Faraday::ConnectionFailed => e
+  rescue StandardError => e
     report_exception(e)
     'N/A'
   end
