@@ -60,10 +60,6 @@ daemon 'amqp:deposit_coin_address',
        script:   'amqp_daemon.rb',
        arguments: %w[ deposit_coin_address ]
 
-daemon 'amqp:slave_book',
-       script:   'amqp_daemon.rb',
-       arguments: %w[ slave_book  ]
-
 daemon 'amqp:market_ticker',
        script:   'amqp_daemon.rb',
        arguments: %w[ market_ticker ]
@@ -107,3 +103,7 @@ daemon 'daemon:global_state',
 daemon 'daemon:withdraw_audit',
        script:   'daemons.rb',
        arguments: %w[ withdraw_audit ]
+
+daemon 'daemon:slave_book',
+       script:   'daemons.rb',
+       arguments: %w[ slave_book  ]

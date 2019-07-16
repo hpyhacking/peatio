@@ -1,8 +1,8 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-describe Workers::AMQP::SlaveBook do
-  subject { Workers::AMQP::SlaveBook.new(false) }
+describe Workers::Daemons::SlaveBook do
+  subject { Workers::Daemons::SlaveBook.new }
 
   let(:market) { Market.find(:btcusd) }
  
@@ -28,8 +28,8 @@ describe Workers::AMQP::SlaveBook do
     end
 
     it 'updates volume' do
-      attrs = low_ask.update!(volume: '0.01'.to_d)
-      subject.process({ action: 'update', order: attrs }, {}, {})
+      low_ask.update!(volume: '0.01'.to_d)
+      subject.process
       expect(subject.get_depth(market, :ask)).to eq [
         ['10.0'.to_d, '0.01'.to_d],
         ['12.0'.to_d, high_ask.volume]
