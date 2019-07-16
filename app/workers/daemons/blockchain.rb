@@ -19,7 +19,7 @@ module Workers
 
             latest_block = bc_service.latest_block_number
 
-            if bc.height + bc.min_confirmations >= latest_block
+            if bc.reload.height + bc.min_confirmations >= latest_block
               logger.info {"Skip synchronization. No new blocks detected, height: #{bc.height}, latest_block: #{latest_block}. Sleeping for 10 seconds"}
               sleep(10)
               next
