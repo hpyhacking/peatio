@@ -28,9 +28,9 @@ fi
 
 bundle install
 bin/init_config
-bundle exec rails db:drop db:create
-bin/rails db:environment:set RAILS_ENV=$RAILS_ENV
-bundle exec rails db:migrate db:seed
+bin/rails db:environment:set RAILS_ENV=$RAILS_ENV 
+bundle exec rails db:drop db:create db:migrate
+bundle exec rails db:seed
 npm i -g swagger-markdown
 npm i -g prettyjson-cli
 bundle exec rails s -d
