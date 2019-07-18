@@ -84,12 +84,14 @@ module Workers
             @logger.error id: withdraw.id,
                           message: 'Failed to process withdraw. See exception details below.'
             report_exception(e)
-            @logger.warn id: withdraw.id,
-                         message: 'Setting withdraw state to failed.'
           ensure
             if withdraw.may_process?
+              @logger.warn id: withdraw.id,
+                           message: "Retring to process withdraw. Attempt ##{withdraw.attempts}"
               withdraw.process!
             else
+              @logger.warn id: withdraw.id,
+                           message: 'Setting withdraw state to failed.'
               withdraw.fail!
             end
             @logger.warn id: withdraw.id, message: 'OK.'
