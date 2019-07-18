@@ -61,6 +61,8 @@ describe Market do
         quote_unit:         :trst,
         bid_fee:          0.1,
         ask_fee:          0.2,
+        min_amount:       0.0001,
+        min_price:        0.0001,
         amount_precision: 4,
         price_precision:  4,
         position:         100 }
@@ -71,6 +73,8 @@ describe Market do
         quote_unit:         :btc,
         bid_fee:          0.1,
         ask_fee:          0.2,
+        min_amount:       0.0001,
+        min_price:        0.0001,
         amount_precision: 4,
         price_precision:  4,
         position:         100 }
@@ -80,6 +84,7 @@ describe Market do
 
     it 'creates valid record' do
       record = Market.new(valid_attributes)
+
       expect(record.save).to eq true
     end
 
@@ -154,6 +159,35 @@ describe Market do
       market.update(state: :disabled)
       market.valid?
       expect(market.errors[:market].size).to eq(0)
+    end
+
+    it 'validates min_amount from amount_precision variable' do
+      record = Market.new(valid_attributes)
+      expect(record.save).to eq true
+
+      # Delete record since amount_precision is readonly attribute.
+      record.delete
+
+      record = Market.new(valid_attributes.merge(amount_precision: 2))
+      expect(record.save).to eq false
+      expect(record.errors.full_messages).to include(/#{to_readable(:min_amount)} must be greater than or equal to 0.01/i)
+    end
+
+    it 'validates fee preciseness' do
+      record = Market.create(valid_attributes)
+
+      %i[bid_fee ask_fee].each do |f|
+        record.reload
+        expect(record.update(f => 0.0001)).to eq true
+        expect(record.update(f => 0.00011)).to eq false
+        expect(record.update(f => 0.00001)).to eq false
+        expect(record.update(f => 0.02000003)).to eq false
+      end
+    end
+
+    it 'allows to set min_amount greater than value defined by amount_precision' do
+      record = Market.new(valid_attributes.merge(min_amount: 1))
+      expect(record.save).to eq true
     end
 
     def to_readable(field)

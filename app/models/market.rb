@@ -17,7 +17,14 @@
 
 class Market < ApplicationRecord
 
+  # Since we use decimal with 16 digits fractional part for storing numbers in DB
+  # sum of multipliers fractional parts must not be greater then 16.
+  # In the worst situation we have 3 multipliers (price * amount * fee).
+  # For fee we define static precision - 4.
+  # So 12 left for amount and price precision.
   DB_DECIMAL_PRECISION = 16
+  FEE_PRECISION = 4
+  FUNDS_PRECISION = 12
 
   STATES = %w[enabled disabled hidden locked sale presale].freeze
   # enabled - user can view and trade.
@@ -27,7 +34,7 @@ class Market < ApplicationRecord
   # sale - user can't view but can trade with market orders.
   # presale - user can't view and trade. Admin can trade.
 
-  attr_readonly :base_unit, :quote_unit, :amount_precision, :price_precision
+  attr_readonly :base_unit, :quote_unit
   delegate :bids, :asks, :trades, :ticker, :h24_volume, :avg_h24_price,
            to: :global
 
@@ -40,15 +47,23 @@ class Market < ApplicationRecord
   validates :id, uniqueness: { case_sensitive: false }, presence: true
   validates :base_unit, :quote_unit, presence: true
   validates :ask_fee, :bid_fee, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 0.5 }
+  validate  :validate_attr_precisions
+
   validates :amount_precision, :price_precision, :position, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :base_unit, :quote_unit, inclusion: { in: -> (_) { Currency.codes } }
-  validate  :validate_preciseness
+  validate  :validate_precisions_sum
   validate  :units_must_be_enabled, if: ->(m) { m.state.enabled? }
 
-  validates :min_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :max_price, numericality: { allow_blank: true, greater_than_or_equal_to: ->(market){ market.min_price }}
+  validates :min_price,
+            presence: true,
+            numericality: { greater_than_or_equal_to: ->(market){ market.min_price_by_precision } }
+  validates :max_price,
+            numericality: { allow_blank: true, greater_than_or_equal_to: ->(market){ market.min_price }},
+            if: ->(market) { !market.max_price.zero? }
 
-  validates :min_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :min_amount,
+            presence: true,
+            numericality: { greater_than_or_equal_to: ->(market){ market.min_amount_by_precision } }
 
   validates :state, inclusion: { in: STATES }
 
@@ -90,13 +105,48 @@ class Market < ApplicationRecord
     Global[id]
   end
 
+  # min_amount_by_precision - is the smallest positive number which could be
+  # rounded to value greater then 0 with precision defined by
+  # Market #amount_precision. So min_amount_by_precision is the smallest amount
+  # of order/trade for current market.
+  # E.g.
+  #   market.amount_precision => 4
+  #   min_amount_by_precision => 0.0001
+  #
+  #   market.amount_precision => 2
+  #   min_amount_by_precision => 0.01
+  #
+  def min_amount_by_precision
+    0.1.to_d**amount_precision
+  end
+
+  # See #min_amount_by_precision.
+  def min_price_by_precision
+    0.1.to_d**price_precision
+  end
+
+  def valid_precision?(d, max_precision)
+    d.round(max_precision) == d
+  end
+
 private
 
-  def validate_preciseness
+  def validate_attr_precisions
+    { bid_fee: FEE_PRECISION, ask_fee: FEE_PRECISION,
+      min_price: price_precision, max_price: price_precision,
+      min_amount: amount_precision }.each do |field, precision|
+      attr_value = public_send(field)
+      unless attr_value.round(precision) == attr_value
+        errors.add(field, "is too precise (max fractional part size is #{precision})")
+      end
+    end
+  end
+
+  def validate_precisions_sum
     if price_precision &&
        amount_precision &&
-       price_precision + amount_precision > DB_DECIMAL_PRECISION
-      errors.add(:market, "is too precise (price_precision + amount_precision > #{DB_DECIMAL_PRECISION})")
+       price_precision + amount_precision > FUNDS_PRECISION
+      errors.add(:market, "is too precise (price_precision + amount_precision > #{FUNDS_PRECISION})")
     end
   end
 

@@ -10,11 +10,11 @@ describe API::V2::Market::Orders, type: :request do
   describe 'GET /api/v2/market/orders' do
     before do
       # NOTE: We specify updated_at attribute for testing order of Order.
-      create(:order_bid, :btcusd, price: '11'.to_d, volume: '123.123456789', member: member, updated_at: Time.now + 5)
-      create(:order_bid, :btceth, price: '11'.to_d, volume: '123.123456789', member: member)
-      create(:order_bid, :btcusd, price: '12'.to_d, volume: '123.123456789', member: member, state: Order::CANCEL)
-      create(:order_ask, :btcusd, price: '13'.to_d, volume: '123.123456789', member: member, state: Order::WAIT, updated_at: Time.now + 10)
-      create(:order_ask, :btcusd, price: '14'.to_d, volume: '123.123456789', member: member, state: Order::DONE)
+      create(:order_bid, :btcusd, price: '11'.to_d, volume: '123.12345678', member: member, updated_at: Time.now + 5)
+      create(:order_bid, :btceth, price: '11'.to_d, volume: '123.1234', member: member)
+      create(:order_bid, :btcusd, price: '12'.to_d, volume: '123.12345678', member: member, state: Order::CANCEL)
+      create(:order_ask, :btcusd, price: '13'.to_d, volume: '123.12345678', member: member, state: Order::WAIT, updated_at: Time.now + 10)
+      create(:order_ask, :btcusd, price: '14'.to_d, volume: '123.12345678', member: member, state: Order::DONE)
     end
 
     it 'requires authentication' do
@@ -142,7 +142,7 @@ describe API::V2::Market::Orders, type: :request do
   end
 
   describe 'GET /api/v2/market/orders/:id' do
-    let(:order)  { create(:order_bid, :btcusd, price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', member: member, trades_count: 1) }
+    let(:order)  { create(:order_bid, :btcusd, price: '12.32'.to_d, volume: '3.14', origin_volume: '12.13', member: member, trades_count: 1) }
     let!(:trade) { create(:trade, :btcusd, bid: order) }
 
     it 'should get specified order' do
@@ -237,6 +237,29 @@ describe API::V2::Market::Orders, type: :request do
       expect(response).to include_api_error('market.order.invalid_volume_or_price')
     end
 
+    it 'validates volume precision' do
+      member.get_account(:usd).update_attributes(balance: 1)
+      api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'buy', volume: '0.123456789', price: '0.1' }
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('market.order.invalid_volume_or_price')
+    end
+
+    it 'validates price greater than min_price' do
+      member.get_account(:usd).update_attributes(balance: 1)
+      m = Market.find(:btcusd)
+      m.update(min_price: 1.0)
+      api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'buy', volume: '0.1', price: '0.2' }
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('market.order.invalid_volume_or_price')
+    end
+
+    it 'validates price precision' do
+      member.get_account(:usd).update_attributes(balance: 1)
+      api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'buy', volume: '0.12', price: '0.123' }
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('market.order.invalid_volume_or_price')
+    end
+
     it 'validates enough funds' do
       old_count = OrderAsk.count
       api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'sell', volume: '12.13', price: '2014' }
@@ -288,7 +311,7 @@ describe API::V2::Market::Orders, type: :request do
   end
 
   describe 'POST /api/v2/market/orders/:id/cancel' do
-    let!(:order) { create(:order_bid, :btcusd, price: '12.326'.to_d, volume: '3.14', origin_volume: '12.13', locked: '20.1082', origin_locked: '38.0882', member: member) }
+    let!(:order) { create(:order_bid, :btcusd, price: '12.32'.to_d, volume: '3.14', origin_volume: '12.13', locked: '20.1082', origin_locked: '38.0882', member: member) }
 
     context 'succesful' do
       before do
@@ -319,9 +342,9 @@ describe API::V2::Market::Orders, type: :request do
 
   describe 'POST /api/v2/market/orders/cancel' do
     before do
-      create(:order_ask, :btcusd, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
-      create(:order_bid, :btcusd, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
-      create(:order_bid, :btceth, price: '12.326', volume: '3.14', origin_volume: '12.13', member: member)
+      create(:order_ask, :btcusd, price: '12.32', volume: '3.14', origin_volume: '12.13', member: member)
+      create(:order_bid, :btcusd, price: '12.32', volume: '3.14', origin_volume: '12.13', member: member)
+      create(:order_bid, :btceth, price: '12.32', volume: '3.14', origin_volume: '12.13', member: member)
 
       member.get_account(:btc).update_attributes(locked: '5')
       member.get_account(:usd).update_attributes(locked: '50')

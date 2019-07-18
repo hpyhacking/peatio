@@ -7,11 +7,12 @@ describe Admin::MarketsController, type: :controller do
   let :attributes do
     { quote_unit:         'usd',
       bid_fee:          '0.003'.to_d,
-      price_precision:  8,
+      price_precision:  4,
       base_unit:         'eth',
       ask_fee:          '0.02'.to_d,
       min_amount:       '0.02'.to_d,
-      amount_precision: 8,
+      min_price:        '0.02'.to_d,
+      amount_precision: 4,
       state:            'enabled',
       position:         100 }
   end

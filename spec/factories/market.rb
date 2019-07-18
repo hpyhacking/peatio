@@ -9,10 +9,10 @@ FactoryBot.define do
       quote_unit        { 'usd' }
       ask_fee           { 0.0015 }
       bid_fee           { 0.0015 }
-      amount_precision  { 4 }
-      price_precision   { 4 }
-      min_price         { 0.0 }
-      min_amount        { 0.0 }
+      amount_precision  { 8 }
+      price_precision   { 2 }
+      min_price         { 0.01 }
+      min_amount        { 0.00000001 }
       position          { 1 }
       state             { :enabled }
     end
@@ -24,9 +24,9 @@ FactoryBot.define do
       ask_fee           { 0.0015 }
       bid_fee           { 0.0015 }
       amount_precision  { 4 }
-      price_precision   { 4 }
-      min_price         { 0.0 }
-      min_amount        { 0.0 }
+      price_precision   { 6 }
+      min_price         { 0.000001 }
+      min_amount        { 0.0001 }
       position          { 3 }
       state             { :enabled }
     end

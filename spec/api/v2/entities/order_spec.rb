@@ -6,8 +6,8 @@ describe API::V2::Entities::Order do
     create(
       :order_ask,
       :btcusd,
-      price: '12.326'.to_d,
-      volume: '3.14',
+      price: '12.32'.to_d,
+      volume: '3.1418',
       origin_volume: '12.13'
     )
   end

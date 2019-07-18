@@ -35,10 +35,10 @@ describe Order, 'validations', type: :model do
 end
 
 describe Order, '#submit' do
-  let(:order) { create(:order_bid, :with_deposit_liability, state: 'pending', price: '12.326'.to_d, volume: '123.123456789') }
-  let(:rejected_order) { create(:order_bid, :with_deposit_liability, state: 'reject', price: '12.326'.to_d, volume: '123.123456789') }
-  let(:order_bid) { create(:order_bid, :with_deposit_liability, state: 'pending', price: '12.326'.to_d, volume: '123.123456789') }
-  let(:order_ask) { create(:order_ask, :with_deposit_liability, state: 'pending', price: '12.326'.to_d, volume: '123.123456789') }
+  let(:order) { create(:order_bid, :with_deposit_liability, state: 'pending', price: '12.32'.to_d, volume: '123.12345678') }
+  let(:rejected_order) { create(:order_bid, :with_deposit_liability, state: 'reject', price: '12.32'.to_d, volume: '123.12345678') }
+  let(:order_bid) { create(:order_bid, :with_deposit_liability, state: 'pending', price: '12.32'.to_d, volume: '123.12345678') }
+  let(:order_ask) { create(:order_ask, :with_deposit_liability, state: 'pending', price: '12.32'.to_d, volume: '123.12345678') }
 
   before do
     Order.submit(order_bid.id)
@@ -61,16 +61,21 @@ describe Order, '#submit' do
   end
 end
 
-describe Order, '#fix_number_precision', type: :model do
-  let(:order_bid) { create(:order_bid, :btcusd, price: '12.326'.to_d, volume: '123.123456789') }
-  let(:order_ask) { create(:order_ask, :btcusd, price: '12.326'.to_d, volume: '123.123456789') }
+describe Order, 'precision validations', type: :model do
+  let(:order_bid) { build(:order_bid, :btcusd, price: '12.32'.to_d, volume: '123.123456789') }
+  let(:order_ask) { build(:order_ask, :btcusd, price: '12.326'.to_d, volume: '123.12345678') }
 
-  it { expect(order_bid.price).to be_d '12.326' }
-  it { expect(order_bid.volume).to be_d '123.1234' }
-  it { expect(order_bid.origin_volume).to be_d '123.1234' }
-  it { expect(order_ask.price).to be_d '12.326' }
-  it { expect(order_ask.volume).to be_d '123.1234' }
-  it { expect(order_ask.origin_volume).to be_d '123.1234' }
+  it 'validates origin_volume precision' do
+    record = order_bid
+    expect(record.save).to eq false
+    expect(record.errors[:origin_volume]).to include(/is too precise/i)
+  end
+
+  it 'validates price precision' do
+    record = order_ask
+    expect(record.save).to eq false
+    expect(record.errors[:price]).to include(/is too precise/i)
+  end
 end
 
 describe Order, '#done', type: :model do

@@ -22,20 +22,14 @@ describe Matching::OrderBook do
     it 'should reject invalid order whose volume is zero' do
       expect do
         subject.add Matching.mock_limit_order(type: :ask, volume: '0.0'.to_d)
-      end.to raise_error(::Matching::InvalidOrderError)
+      end.to raise_error(Matching::OrderError)
     end
 
     it 'should add market order' do
       subject.add Matching.mock_limit_order(type: :ask)
 
       o1 = Matching.mock_market_order(type: :ask)
-      o2 = Matching.mock_market_order(type: :ask)
-      o3 = Matching.mock_market_order(type: :ask)
-      subject.add o1
-      subject.add o2
-      subject.add o3
-
-      expect(subject.market_orders).to eq [o1, o2, o3]
+      expect{ subject.add o1 }.to raise_error(Matching::MarketOrderbookError)
     end
 
     it 'should create price level for order with new price' do
@@ -67,9 +61,23 @@ describe Matching::OrderBook do
     subject { Matching::OrderBook.new('btcusd', :ask) }
 
     it 'should remove market order' do
+      subject.define_singleton_method(:legacy_add) do |order|
+        raise Matching::InvalidOrderError, "volume is zero" if order.volume <= 0.to_d
+
+        case order
+        when Matching::LimitOrder
+          @limit_orders[order.price] ||= PriceLevel.new(order.price)
+          @limit_orders[order.price].add order
+        when Matching::MarketOrder
+          @market_orders[order.id] = order
+        else
+          raise ArgumentError, "Unknown order type"
+        end
+      end
+
       subject.add Matching.mock_limit_order(type: :ask)
       order = Matching.mock_market_order(type: :ask)
-      subject.add order
+      subject.legacy_add order
       subject.remove order
       expect(subject.market_orders).to be_empty
     end
@@ -99,7 +107,7 @@ describe Matching::OrderBook do
     it 'should return order in book' do
       o1 = Matching.mock_limit_order(type: :ask, price: '1.0'.to_d)
       o2 = o1.dup
-      o1.volume = '12345'.to_d
+      o1.instance_variable_set(:@volume, '12345'.to_d)
       subject.add o1
       o = subject.remove o2
       expect(o.volume).to eq '12345'.to_d
@@ -134,16 +142,6 @@ describe Matching::OrderBook do
   end
 
   context '#top' do
-    it 'should return market order if there\'s any market order' do
-      book = Matching::OrderBook.new('btcusd', :ask)
-      o1 = Matching.mock_limit_order(type: :ask)
-      o2 = Matching.mock_market_order(type: :ask)
-      book.add o1
-      book.add o2
-
-      expect(book.top).to eq o2
-    end
-
     it 'should return nil for empty book' do
       book = Matching::OrderBook.new('btcusd', :ask)
       expect(book.top).to be_nil
@@ -187,22 +185,6 @@ describe Matching::OrderBook do
       expect do
         subject.fill_top('1.0'.to_d, '1.0'.to_d, '1.0'.to_d)
       end.to raise_error(RuntimeError, 'No top order in empty book.')
-    end
-
-    it 'should complete fill the top market order' do
-      subject.add Matching.mock_limit_order(type: :ask, volume: '1.0'.to_d)
-      subject.add Matching.mock_market_order(type: :ask, volume: '1.0'.to_d)
-      subject.fill_top '1.0'.to_d, '1.0'.to_d, '1.0'.to_d
-      expect(subject.market_orders).to be_empty
-      expect(subject.limit_orders.size).to eq 1
-    end
-
-    it 'should partial fill the top market order' do
-      subject.add Matching.mock_limit_order(type: :ask, volume: '1.0'.to_d)
-      subject.add Matching.mock_market_order(type: :ask, volume: '1.0'.to_d)
-      subject.fill_top '1.0'.to_d, '0.6'.to_d, '0.6'.to_d
-      expect(subject.market_orders.first.volume).to eq '0.4'.to_d
-      expect(subject.limit_orders.size).to eq 1
     end
 
     it 'should remove the price level if top order is the only order in level' do

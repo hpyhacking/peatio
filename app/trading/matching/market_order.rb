@@ -4,40 +4,34 @@
 require_relative 'constants'
 
 module Matching
-  class MarketOrder
-    attr :id, :timestamp, :type, :locked, :market
-    attr_accessor :volume
+  class MarketOrder < BaseOrder
+
+    attr_reader :locked
 
     def initialize(attrs)
-      @id         = attrs[:id]
-      @timestamp  = attrs[:timestamp]
-      @type       = attrs[:type].to_sym
-      @locked     = attrs[:locked].to_d
-      @volume     = attrs[:volume].to_d
-      @market     = attrs[:market]
+      super
+      @locked = attrs[:locked].to_d
 
-      raise ::Matching::InvalidOrderError.new(attrs) unless valid?(attrs)
+      raise OrderError.new(self, 'Order is not valid') unless valid?(attrs)
     end
 
-    def trade_with(counter_order, counter_book)
-      if counter_order.is_a?(LimitOrder)
-        trade_price  = counter_order.price
-        trade_volume = [volume, volume_limit(trade_price), counter_order.volume].min
-        trade_funds  = trade_price*trade_volume
-        [trade_price, trade_volume, trade_funds]
-      elsif price = counter_book.best_limit_price
-        trade_price  = price
-        trade_volume = [volume, volume_limit(trade_price), counter_order.volume, counter_order.volume_limit(trade_price)].min
-        trade_funds  = trade_price*trade_volume
-        [trade_price, trade_volume, trade_funds]
+    def trade_with(counter_order, _counter_book)
+      if counter_order.is_a?(MarketOrder)
+        raise MarketOrderbookError.new(order, 'market order in orderbook detected')
       end
+
+      trade_price  = counter_order.price
+      trade_volume = [volume, counter_order.volume].min
+      trade_funds  = trade_price * trade_volume
+
+      # If buy order is out of locked. Which means that order can't fulfill in
+      # current price point because locked run out.
+      return if bid? && trade_funds > locked
+
+      [trade_price, trade_volume, trade_funds]
     end
 
-    def volume_limit(trade_price)
-      type == :ask ? locked : locked/trade_price
-    end
-
-    def fill(trade_price, trade_volume, trade_funds)
+    def fill(_trade_price, trade_volume, trade_funds)
       raise NotEnoughVolume if trade_volume > @volume
       @volume -= trade_volume
 
@@ -55,20 +49,22 @@ module Matching
     end
 
     def valid?(attrs)
-      return false unless [:ask, :bid].include?(type)
-      return false if attrs[:price].present? # should have no limit price
-      id && timestamp && market && locked > ZERO
+      type.in?(%i[ask bid]) && \
+        attrs[:price].blank? && \
+        id.present? && \
+        timestamp.present? && \
+        market.present? && \
+        locked > ZERO
     end
 
     def attributes
-      { id: @id,
+      { id:        @id,
         timestamp: @timestamp,
-        type: @type,
-        locked: @locked,
-        volume: @volume,
-        market: @market,
-        ord_type: 'market' }
+        type:      @type,
+        locked:    @locked,
+        volume:    @volume,
+        market:    @market,
+        ord_type:  'market' }
     end
-
   end
 end

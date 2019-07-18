@@ -3,12 +3,41 @@
 
 module Matching
 
+  # NOTE: Name is TradeStruct for not confusing it with ActiveRecord Trade model.
+  # TODO: Use TradeStruct instead of trade_price, trade_volume, trade_funds.
+  TradeStruct = Struct.new(:price, :volume, :funds)
+
   ZERO = 0.to_d unless defined?(ZERO)
 
-  class InvalidOrderError   < StandardError; end
-  class NotEnoughVolume     < StandardError; end
-  class ExceedSumLimit      < StandardError; end
-  class TradeExecutionError < StandardError
+  Error = Class.new(StandardError)
+
+  class OrderError < Error
+
+    attr_reader :order
+
+    def initialize(order, message=nil)
+      @order = order
+      super "#{message} (#{order.attributes})"
+    end
+  end
+
+  class TradeError < Error
+
+    attr_reader :trade
+
+    def initialize(trade, message=nil)
+      @trade = trade
+      super "#{message} (#{trade})"
+    end
+  end
+
+  # TODO: Use OrderError & TradeError instead of
+  # NotEnoughVolume, ExceedSumLimit, TradeExecutionError.
+  class NotEnoughVolume     < Error; end
+  class ExceedSumLimit      < Error; end
+
+  class MarketOrderbookError < OrderError; end
+  class TradeExecutionError < Error
     attr_accessor :options
 
     def initialize(options = {})

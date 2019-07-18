@@ -18,8 +18,8 @@ describe API::V2::Market::Trades, type: :request do
     create(
       :order_ask,
       :btcusd,
-      price: '12.326'.to_d,
-      volume: '123.123456789',
+      price: '12.32'.to_d,
+      volume: '123.12345678',
       member: member
     )
   end
@@ -28,8 +28,8 @@ describe API::V2::Market::Trades, type: :request do
     create(
       :order_ask,
       :btceth,
-      price: '12.326'.to_d,
-      volume: '123.123456789',
+      price: '12.32'.to_d,
+      volume: '123.1234',
       member: member
     )
   end
@@ -38,8 +38,8 @@ describe API::V2::Market::Trades, type: :request do
     create(
       :order_bid,
       :btcusd,
-      price: '12.326'.to_d,
-      volume: '123.123456789',
+      price: '12.32'.to_d,
+      volume: '123.12345678',
       member: member
     )
   end
@@ -48,8 +48,8 @@ describe API::V2::Market::Trades, type: :request do
     create(
       :order_bid,
       :btceth,
-      price: '12.326'.to_d,
-      volume: '123.123456789',
+      price: '12.32'.to_d,
+      volume: '123.1234',
       member: member
     )
   end
