@@ -27,10 +27,18 @@ EOF
 fi
 
 bundle install
+# Generate seed files.
 bin/init_config
-bin/rails db:environment:set RAILS_ENV=$RAILS_ENV 
-bundle exec rails db:drop db:create db:migrate
+# Drop and create peatio_development and peatio_test databases.
+bundle exec rails db:drop db:create
+# Set the current RAILS_ENV environment in the ar_internal_metadata table.
+# (Used as part of the protected environment check.)
+bin/rails db:environment:set RAILS_ENV=$RAILS_ENV
+# Runs migrations for the current environment that have not run yet.
+bundle exec rails db:migrate
+# Runs the db/seeds.rb file.
 bundle exec rails db:seed
+
 npm i -g swagger-markdown
 npm i -g prettyjson-cli
 bundle exec rails s -d
