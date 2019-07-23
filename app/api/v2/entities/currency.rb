@@ -125,6 +125,7 @@ module API
             example: -> { ::Currency.enabled.first.precision }
           }
         )
+
         expose(
           :icon_url,
           documentation: {
@@ -133,6 +134,14 @@ module API
           },
           if: -> (currency){ currency.icon_url.present? }
         )
+
+        expose(
+          :min_confirmations,
+          if: ->(currency) { currency.coin? },
+          documentation: {
+            desc: 'Number of confirmations required for confirming deposit or withdrawal'
+          }
+        ) { |c| c.blockchain.min_confirmations }
       end
     end
   end
