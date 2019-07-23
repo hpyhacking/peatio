@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.2.23
+## Version: 2.2.24
 
 **Contact information:**  
 peatio.tech  
@@ -605,6 +605,7 @@ Get a currency
 | base_factor | string | Currency base factor | No |
 | precision | string | Currency precision | No |
 | icon_url | string | Currency icon | No |
+| min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
 
 #### Account
 
