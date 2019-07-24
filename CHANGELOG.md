@@ -1,5 +1,295 @@
 # Change Log
 
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.25...HEAD)
+
+**Merged pull requests:**
+
+- Remove withdrawal attempts [\#2281](https://github.com/rubykube/peatio/pull/2281) ([mnaichuk](https://github.com/mnaichuk))
+- Multi coin support for altcoins [\#2243](https://github.com/rubykube/peatio/pull/2243) ([Xicy](https://github.com/Xicy))
+- Fix GET /withdraws to include both fiat and crypto  [\#2222](https://github.com/rubykube/peatio/pull/2222) ([msembinelli](https://github.com/msembinelli))
+
+## [2.2.25](https://github.com/rubykube/peatio/tree/2.2.25) (2019-07-24)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.24...2.2.25)
+
+**Merged pull requests:**
+
+- Add min\_confirmations field to Currency model entity [\#2276](https://github.com/rubykube/peatio/pull/2276) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.2.24](https://github.com/rubykube/peatio/tree/2.2.24) (2019-07-23)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.23...2.2.24)
+
+**Merged pull requests:**
+
+- Fix issue with rake task release.rake in travis [\#2275](https://github.com/rubykube/peatio/pull/2275) ([mnaichuk](https://github.com/mnaichuk))
+- Fix bin/gendocs [\#2272](https://github.com/rubykube/peatio/pull/2272) ([mnaichuk](https://github.com/mnaichuk))
+- Update ruby version and gems [\#2263](https://github.com/rubykube/peatio/pull/2263) ([mod](https://github.com/mod))
+- Major trading engine and logic rework with precision, rounding and matching flow improvements [\#2258](https://github.com/rubykube/peatio/pull/2258) ([ysv](https://github.com/ysv))
+
+## [2.2.23](https://github.com/rubykube/peatio/tree/2.2.23) (2019-07-22)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.22...2.2.23)
+
+**Closed issues:**
+
+- Blockchain height issue [\#2268](https://github.com/rubykube/peatio/issues/2268)
+
+**Merged pull requests:**
+
+- Reload blockchain from DB before sync [\#2269](https://github.com/rubykube/peatio/pull/2269) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.2.22](https://github.com/rubykube/peatio/tree/2.2.22) (2019-07-16)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.21...2.2.22)
+
+**Closed issues:**
+
+- Blockchain height issue [\#2268](https://github.com/rubykube/peatio/issues/2268)
+
+**Merged pull requests:**
+
+- Reload blockchain from DB before sync [\#2269](https://github.com/rubykube/peatio/pull/2269) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.2.21](https://github.com/rubykube/peatio/tree/2.2.21) (2019-07-16)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.20...2.2.21)
+
+**Merged pull requests:**
+
+- Move slave book from amqp to ruby daemons [\#2267](https://github.com/rubykube/peatio/pull/2267) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.2.20](https://github.com/rubykube/peatio/tree/2.2.20) (2019-07-15)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.19...2.2.20)
+
+**Closed issues:**
+
+- file upload error 500 internal server error [\#2259](https://github.com/rubykube/peatio/issues/2259)
+
+**Merged pull requests:**
+
+- Remove JWT token from response payload [\#2265](https://github.com/rubykube/peatio/pull/2265) ([shal](https://github.com/shal))
+- Remove http request for confirmations method [\#2262](https://github.com/rubykube/peatio/pull/2262) ([mnaichuk](https://github.com/mnaichuk))
+- Update admin API [\#2252](https://github.com/rubykube/peatio/pull/2252) ([denisfd](https://github.com/denisfd))
+
+## [2.2.19](https://github.com/rubykube/peatio/tree/2.2.19) (2019-07-12)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.18...2.2.19)
+
+**Merged pull requests:**
+
+- Refactor blockchain daemon [\#2257](https://github.com/rubykube/peatio/pull/2257) ([shal](https://github.com/shal))
+
+## [2.2.18](https://github.com/rubykube/peatio/tree/2.2.18) (2019-07-11)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.17...2.2.18)
+
+**Merged pull requests:**
+
+- Disable colorize logging in production [\#2261](https://github.com/rubykube/peatio/pull/2261) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.2.17](https://github.com/rubykube/peatio/tree/2.2.17) (2019-07-11)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.16...2.2.17)
+
+**Merged pull requests:**
+
+- Change: config/database.yml – use port value from ENV [\#2254](https://github.com/rubykube/peatio/pull/2254) ([matass](https://github.com/matass))
+
+## [2.2.16](https://github.com/rubykube/peatio/tree/2.2.16) (2019-07-05)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.15...2.2.16)
+
+**Merged pull requests:**
+
+- Improve sentry-raven error reporting [\#2236](https://github.com/rubykube/peatio/pull/2236) ([mnaichuk](https://github.com/mnaichuk))
+- Update logs in withdraw\_coin worker [\#2234](https://github.com/rubykube/peatio/pull/2234) ([denisfd](https://github.com/denisfd))
+
+## [2.2.15](https://github.com/rubykube/peatio/tree/2.2.15) (2019-07-02)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.14...2.2.15)
+
+**Closed issues:**
+
+- Can't run application on mac properly [\#2104](https://github.com/rubykube/peatio/issues/2104)
+
+**Merged pull requests:**
+
+- Update Readme [\#2250](https://github.com/rubykube/peatio/pull/2250) ([liutenko](https://github.com/liutenko))
+
+## [2.2.14](https://github.com/rubykube/peatio/tree/2.2.14) (2019-07-01)
+[Full Changelog](https://github.com/rubykube/peatio/compare/1.9.24...2.2.14)
+
+**Closed issues:**
+
+- failed to build custom docker image  [\#2249](https://github.com/rubykube/peatio/issues/2249)
+
+**Merged pull requests:**
+
+- Major Market model rework [\#2241](https://github.com/rubykube/peatio/pull/2241) ([ysv](https://github.com/ysv))
+
+## [1.9.24](https://github.com/rubykube/peatio/tree/1.9.24) (2019-07-01)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.0.40...1.9.24)
+
+## [2.0.40](https://github.com/rubykube/peatio/tree/2.0.40) (2019-07-01)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.13...2.0.40)
+
+**Merged pull requests:**
+
+- Replace Passgen gem with new password generator [\#2248](https://github.com/rubykube/peatio/pull/2248) ([shal](https://github.com/shal))
+- Replace Passgen gem with new password generator [\#2247](https://github.com/rubykube/peatio/pull/2247) ([shal](https://github.com/shal))
+- Replace Passgen gem with new password generator [\#2246](https://github.com/rubykube/peatio/pull/2246) ([shal](https://github.com/shal))
+
+## [2.2.13](https://github.com/rubykube/peatio/tree/2.2.13) (2019-07-01)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.12...2.2.13)
+
+**Closed issues:**
+
+- Don't ever try to do this again [\#2244](https://github.com/rubykube/peatio/issues/2244)
+- ability to multiple withdraws in one transaction [\#2240](https://github.com/rubykube/peatio/issues/2240)
+- What is the use of REDIS and MySQL databases [\#2229](https://github.com/rubykube/peatio/issues/2229)
+- Rake seed:blockchain fail [\#2225](https://github.com/rubykube/peatio/issues/2225)
+
+**Merged pull requests:**
+
+- Replace Passgen gem with new password generator [\#2245](https://github.com/rubykube/peatio/pull/2245) ([mnaichuk](https://github.com/mnaichuk))
+- Reorganization ruby and amqp workers [\#2242](https://github.com/rubykube/peatio/pull/2242) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.2.12](https://github.com/rubykube/peatio/tree/2.2.12) (2019-06-26)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.11...2.2.12)
+
+**Merged pull requests:**
+
+- Add admin API module \(Blockchains, Currencies, Wallets, Markets, Orders\) [\#2226](https://github.com/rubykube/peatio/pull/2226) ([chumaknadya](https://github.com/chumaknadya))
+- Add WS message for market order executed event [\#2208](https://github.com/rubykube/peatio/pull/2208) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.2.11](https://github.com/rubykube/peatio/tree/2.2.11) (2019-06-21)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.10...2.2.11)
+
+**Merged pull requests:**
+
+- Retry withdraw on failure [\#2233](https://github.com/rubykube/peatio/pull/2233) ([shal](https://github.com/shal))
+
+## [2.2.10](https://github.com/rubykube/peatio/tree/2.2.10) (2019-06-20)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.9...2.2.10)
+
+**Closed issues:**
+
+- rbac permissions issue [\#2235](https://github.com/rubykube/peatio/issues/2235)
+- What does it mean \*LOCKING\_BUFFER\_FACTOR\*? Why do we use it? [\#2181](https://github.com/rubykube/peatio/issues/2181)
+
+**Merged pull requests:**
+
+- Update RBAC roles [\#2237](https://github.com/rubykube/peatio/pull/2237) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.2.9](https://github.com/rubykube/peatio/tree/2.2.9) (2019-06-17)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.8...2.2.9)
+
+**Merged pull requests:**
+
+- Use json format for logs [\#2232](https://github.com/rubykube/peatio/pull/2232) ([denisfd](https://github.com/denisfd))
+
+## [2.2.8](https://github.com/rubykube/peatio/tree/2.2.8) (2019-06-13)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.7...2.2.8)
+
+**Closed issues:**
+
+- Yay! You’re on Rails! [\#2223](https://github.com/rubykube/peatio/issues/2223)
+- NoMethodError \(undefined method `attributes' for nil:NilClass\): [\#2196](https://github.com/rubykube/peatio/issues/2196)
+
+**Merged pull requests:**
+
+- Admin panel RBAC. New admin roles support [\#2217](https://github.com/rubykube/peatio/pull/2217) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.2.7](https://github.com/rubykube/peatio/tree/2.2.7) (2019-05-31)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.6...2.2.7)
+
+**Merged pull requests:**
+
+- Fix operations spec by saving timestamps in variables [\#2220](https://github.com/rubykube/peatio/pull/2220) ([ysv](https://github.com/ysv))
+
+## [2.2.6](https://github.com/rubykube/peatio/tree/2.2.6) (2019-05-30)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.5...2.2.6)
+
+## [2.2.5](https://github.com/rubykube/peatio/tree/2.2.5) (2019-05-30)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.4...2.2.5)
+
+**Closed issues:**
+
+- cant create ERC20 Deposit Address [\#2216](https://github.com/rubykube/peatio/issues/2216)
+
+**Merged pull requests:**
+
+- AMQP messages for third party trading engine integration [\#2215](https://github.com/rubykube/peatio/pull/2215) ([ysv](https://github.com/ysv))
+
+## [2.2.4](https://github.com/rubykube/peatio/tree/2.2.4) (2019-05-27)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.3...2.2.4)
+
+**Closed issues:**
+
+- Cant create deposit\_address [\#2211](https://github.com/rubykube/peatio/issues/2211)
+- ERC20 Gas limit & Gas price Withdrawal bug [\#2155](https://github.com/rubykube/peatio/issues/2155)
+
+**Merged pull requests:**
+
+- Peatio-litecoin gem integration with minor updates. Coin plugin development doc [\#2210](https://github.com/rubykube/peatio/pull/2210) ([ysv](https://github.com/ysv))
+- Plugable coins API [\#2168](https://github.com/rubykube/peatio/pull/2168) ([ysv](https://github.com/ysv))
+
+## [2.2.3](https://github.com/rubykube/peatio/tree/2.2.3) (2019-05-14)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.2...2.2.3)
+
+**Merged pull requests:**
+
+- Change order 'state' to int for order\_processor [\#2205](https://github.com/rubykube/peatio/pull/2205) ([mnaichuk](https://github.com/mnaichuk))
+- Add management API endpoint for listing trades [\#2182](https://github.com/rubykube/peatio/pull/2182) ([ymasiuk](https://github.com/ymasiuk))
+
+## [2.2.2](https://github.com/rubykube/peatio/tree/2.2.2) (2019-05-14)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.1...2.2.2)
+
+**Closed issues:**
+
+- application.yml not seen on 1.9 stable tree [\#2202](https://github.com/rubykube/peatio/issues/2202)
+- key not found: "TIMEZONE" \(KeyError\) [\#2197](https://github.com/rubykube/peatio/issues/2197)
+- Docker Setup for Production Environment [\#2154](https://github.com/rubykube/peatio/issues/2154)
+- must use barong? or can use an external KYC service? [\#2151](https://github.com/rubykube/peatio/issues/2151)
+- can't see sign in page [\#2139](https://github.com/rubykube/peatio/issues/2139)
+- My money appears in the "admin panel", but the money don't appear "funds panel" [\#2137](https://github.com/rubykube/peatio/issues/2137)
+- Error when accepting deposit, related to redirect\_to :back [\#2123](https://github.com/rubykube/peatio/issues/2123)
+- Peatio and Ethereum/client-go:stable  [\#2122](https://github.com/rubykube/peatio/issues/2122)
+- Sync geth but Ethereum does not appear on the local [\#2118](https://github.com/rubykube/peatio/issues/2118)
+- TypeError: wrong argument type Hash \(expected String\) [\#2107](https://github.com/rubykube/peatio/issues/2107)
+- insuficient funds for gas\*price + value [\#2064](https://github.com/rubykube/peatio/issues/2064)
+- Move to ruby 2.6 [\#2057](https://github.com/rubykube/peatio/issues/2057)
+- Remove funds UI and dependencies [\#2055](https://github.com/rubykube/peatio/issues/2055)
+- eth and erc20 token withdraw no working [\#2049](https://github.com/rubykube/peatio/issues/2049)
+- Link is absolute in application.yml [\#2038](https://github.com/rubykube/peatio/issues/2038)
+- Improve pagination in REST API [\#2029](https://github.com/rubykube/peatio/issues/2029)
+- Barong Auth provider integration [\#2028](https://github.com/rubykube/peatio/issues/2028)
+- on Funds tab getting error [\#2027](https://github.com/rubykube/peatio/issues/2027)
+- "Make Test" Error \(wallets.spec.js\) [\#2006](https://github.com/rubykube/peatio/issues/2006)
+- need help on POST api [\#2003](https://github.com/rubykube/peatio/issues/2003)
+-  We can add full order ballots.With fields of loss or gain can already be preechidos by the client. [\#1999](https://github.com/rubykube/peatio/issues/1999)
+- It's not a problem! How to install the whole stack in a simple way as a lib and generate some commands to function [\#1977](https://github.com/rubykube/peatio/issues/1977)
+
+**Merged pull requests:**
+
+- Fix Bitgo WalletService & WalletClient build\_raw\_transaction [\#2206](https://github.com/rubykube/peatio/pull/2206) ([ysv](https://github.com/ysv))
+- Blockchain & Wallet final refactoring [\#2203](https://github.com/rubykube/peatio/pull/2203) ([ysv](https://github.com/ysv))
+- Move core code to peatio gem [\#2201](https://github.com/rubykube/peatio/pull/2201) ([ysv](https://github.com/ysv))
+- Bugfixing and improvements for Blockchain/WaletService [\#2200](https://github.com/rubykube/peatio/pull/2200) ([mnaichuk](https://github.com/mnaichuk))
+- Remove Legacy source code & finalize TODOs [\#2199](https://github.com/rubykube/peatio/pull/2199) ([ysv](https://github.com/ysv))
+- Local daemons bugfixing and improvements  [\#2195](https://github.com/rubykube/peatio/pull/2195) ([ysv](https://github.com/ysv))
+- Add :step column to blockchain model, update Blockchain daemon [\#2194](https://github.com/rubykube/peatio/pull/2194) ([mnaichuk](https://github.com/mnaichuk))
+- Update ruby version to 2.6.2 [\#2191](https://github.com/rubykube/peatio/pull/2191) ([sd189](https://github.com/sd189))
+
+## [2.2.1](https://github.com/rubykube/peatio/tree/2.2.1) (2019-05-06)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.0.39...2.2.1)
+
+**Merged pull requests:**
+
+- Update blockchain daemon with BlockchainService v2 [\#2193](https://github.com/rubykube/peatio/pull/2193) ([mnaichuk](https://github.com/mnaichuk))
+- Update Bitcoin::WalletClient with subtract fees [\#2192](https://github.com/rubykube/peatio/pull/2192) ([mnaichuk](https://github.com/mnaichuk))
+- Make daemons compatible with WalletService v2 [\#2190](https://github.com/rubykube/peatio/pull/2190) ([ysv](https://github.com/ysv))
+- Add Ethereum::Wallet specs [\#2188](https://github.com/rubykube/peatio/pull/2188) ([mnaichuk](https://github.com/mnaichuk))
+- Move to Blockchain & Wallet API v2 [\#2187](https://github.com/rubykube/peatio/pull/2187) ([ysv](https://github.com/ysv))
+- Bitcoin::Blockchain load\_balance\_of\_address & Bitcoin::Wallet load\_balance [\#2186](https://github.com/rubykube/peatio/pull/2186) ([ysv](https://github.com/ysv))
+-  Add load\_balance & load\_balance\_of\_address [\#2185](https://github.com/rubykube/peatio/pull/2185) ([ysv](https://github.com/ysv))
+- Remove BlockchainAddress, use Hash instead;  Fix collection publish;  Finish WalletService2 specs [\#2184](https://github.com/rubykube/peatio/pull/2184) ([mnaichuk](https://github.com/mnaichuk))
+- Define Exception hierarchy for Blockchain & Wallet [\#2183](https://github.com/rubykube/peatio/pull/2183) ([ysv](https://github.com/ysv))
+- \[ci skip\] Prepare for 2.1.0 release [\#2177](https://github.com/rubykube/peatio/pull/2177) ([ysv](https://github.com/ysv))
+- Implement Ethereum::Blockchain & Ethereum::Client [\#2174](https://github.com/rubykube/peatio/pull/2174) ([mnaichuk](https://github.com/mnaichuk))
+- WalletService2 & Peatio::Wallet::Abstract design [\#2173](https://github.com/rubykube/peatio/pull/2173) ([ysv](https://github.com/ysv))
+
 ## [2.0.39](https://github.com/rubykube/peatio/tree/2.0.39) (2019-04-22)
 [Full Changelog](https://github.com/rubykube/peatio/compare/2.1.20...2.0.39)
 
