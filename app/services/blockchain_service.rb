@@ -13,7 +13,7 @@ class BlockchainService
   end
 
   def latest_block_number
-    Rails.cache.fetch("latest_#{@blockchain.client}_block_number", expires_in: 5.seconds) do
+    Rails.cache.fetch("latest_#{@blockchain.key.underscore}_block_number", expires_in: 5.seconds) do
       @adapter.latest_block_number
     end
   end
