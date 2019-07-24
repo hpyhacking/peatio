@@ -65,7 +65,6 @@ describe Workers::AMQP::WithdrawCoin do
     end
 
     it 'returns true and marks withdrawal as failed' do
-      processing_withdrawal.update!(attempts: 5)
       expect(Workers::AMQP::WithdrawCoin.new.process(processing_withdrawal.as_json)).to be_truthy
       expect(processing_withdrawal.reload.failed?).to be_truthy
     end
@@ -94,11 +93,9 @@ describe Workers::AMQP::WithdrawCoin do
                     .expects(:build_withdrawal!)
                     .with(instance_of(Withdraws::Coin))
                     .raises(Peatio::Blockchain::ClientError)
-      Withdraw.any_instance.stubs(:attempts).returns(5)
     end
 
     it 'returns true and marks withdrawal as failed' do
-      processing_withdrawal.update!(attempts: 5)
       expect(Workers::AMQP::WithdrawCoin.new.process(processing_withdrawal.as_json)).to be_truthy
       expect(processing_withdrawal.reload.failed?).to be_truthy
     end

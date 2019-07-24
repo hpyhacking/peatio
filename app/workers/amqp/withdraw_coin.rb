@@ -87,11 +87,7 @@ module Workers
             @logger.warn id: withdraw.id,
                          message: 'Setting withdraw state to failed.'
           ensure
-            if withdraw.may_process?
-              withdraw.process!
-            else
-              withdraw.fail!
-            end
+            withdraw.fail!
             @logger.warn id: withdraw.id, message: 'OK.'
           end
         end
