@@ -211,6 +211,17 @@ describe Withdraw do
         subject.process!
         expect(subject.processing?).to be true
       end
+
+      it 'transitions to :errored after calling #err from :processing' do
+        subject.process!
+        expect(subject.processing?).to be true
+
+        expect { subject.err! StandardError.new }.to_not change { subject.account.amount }
+        expect(subject.errored?).to be true
+
+        subject.process!
+        expect(subject.processing?).to be true
+      end
     end
 
     context :cancel do

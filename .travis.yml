@@ -15,13 +15,6 @@ env:
     BOT_EMAIL=kite-bot@heliostech.fr
     BULLET="true"
 
-services:
-  - mysql
-  - redis-server
-  - rabbitmq
-  - docker
-  - docker-compose
-
 # Execute all of the commands which need to be executed before installing dependencies.
 before_install:
   - gem install bundler -v 1.17.3
@@ -29,8 +22,11 @@ before_install:
 
 # Execute all of the commands which should install application dependencies.
 install:
-  - docker-compose -f config/backend.yml up -d vault
+  - sudo service mysql stop
+  - docker-compose -f config/backend.yml up -d vault db rabbitmq redis
   - bundle install --deployment --without production --jobs=$(nproc) --retry=3
+  # Wait for backend services.
+  - sleep 10
 
 # Execute all of the commands which need to be executed before running actual tests.
 before_script:

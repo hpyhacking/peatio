@@ -77,19 +77,14 @@ module Workers
           withdraw.dispatch
           withdraw.save!
 
-          @logger.warn id: withdraw.id, message: 'OK.'
+          @logger.warn id: withdraw.id, message: 'Withdrawal has processed'
 
-        rescue Exception => e
-          begin
-            @logger.error id: withdraw.id,
-                          message: 'Failed to process withdraw. See exception details below.'
-            report_exception(e)
-            @logger.warn id: withdraw.id,
-                         message: 'Setting withdraw state to failed.'
-          ensure
-            withdraw.fail!
-            @logger.warn id: withdraw.id, message: 'OK.'
-          end
+        rescue StandardError => e
+          @logger.warn id: withdraw.id, message: 'Failed to process withdrawal. See exception details below.'
+          report_exception(e)
+          withdraw.err! e
+          @logger.warn id: withdraw.id,
+                       message: 'Setting withdrawal state to errored.'
         end
       end
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_23_202251) do
+ActiveRecord::Schema.define(version: 2019_07_25_131843) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -304,6 +304,7 @@ ActiveRecord::Schema.define(version: 2019_07_23_202251) do
     t.string "tid", limit: 64, null: false, collation: "utf8_bin"
     t.string "rid", limit: 95, null: false
     t.string "note", limit: 256
+    t.json "error"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "completed_at"

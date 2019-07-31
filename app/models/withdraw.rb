@@ -11,6 +11,7 @@ class Withdraw < ApplicationRecord
                succeed
                canceled
                failed
+               errored
                confirming].freeze
   COMPLETED_STATES = %i[succeed rejected canceled failed].freeze
 
@@ -46,6 +47,7 @@ class Withdraw < ApplicationRecord
     state :processing
     state :succeed
     state :failed
+    state :errored
     state :confirming
 
     event :submit do
@@ -79,7 +81,7 @@ class Withdraw < ApplicationRecord
     end
 
     event :process do
-      transitions from: %i[processing accepted skipped], to: :processing
+      transitions from: %i[accepted skipped errored], to: :processing
       after :send_coins!
     end
 
@@ -102,10 +104,14 @@ class Withdraw < ApplicationRecord
     end
 
     event :success do
-      transitions from: :confirming, to: :succeed
-      after do
-        unlock_and_sub_funds
-        record_complete_operations!
+      transitions from: %i[confirming errored], to: :succeed do
+        guard do
+          fiat? || txid?
+        end
+        after do
+          unlock_and_sub_funds
+          record_complete_operations!
+        end
       end
     end
 
@@ -114,11 +120,23 @@ class Withdraw < ApplicationRecord
     end
 
     event :fail do
-      transitions from: %i[processing confirming], to: :failed
+      transitions from: %i[processing confirming errored], to: :failed
       after do
         unlock_funds
         record_cancel_operations!
       end
+    end
+
+    event :err do
+      transitions from: :processing, to: :errored, on_transition: :add_error
+    end
+  end
+
+  def add_error(e)
+    if error.blank?
+      update!(error: [{ class: e.class.to_s, message: e.message }])
+    else
+      update!(error: error << { class: e.class.to_s, message: e.message })
     end
   end
 
@@ -253,7 +271,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20190723202251
+# Schema version: 20190725131843
 #
 # Table name: withdraws
 #
@@ -271,6 +289,7 @@ end
 #  tid          :string(64)       not null
 #  rid          :string(95)       not null
 #  note         :string(256)
+#  error        :json
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  completed_at :datetime

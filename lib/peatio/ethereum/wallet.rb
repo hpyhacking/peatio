@@ -175,7 +175,7 @@ module Ethereum
 
     def client
       uri = @wallet.fetch(:uri) { raise Peatio::Wallet::MissingSettingError, :uri }
-      @client ||= Client.new(uri)
+      @client ||= Client.new(uri, idle_timeout: 1)
     end
   end
 end

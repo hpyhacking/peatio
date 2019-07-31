@@ -5,6 +5,7 @@
 **Merged pull requests:**
 
 - Remove withdrawal attempts [\#2281](https://github.com/rubykube/peatio/pull/2281) ([mnaichuk](https://github.com/mnaichuk))
+- Remove withdrawal attempts [\#2280](https://github.com/rubykube/peatio/pull/2280) ([mnaichuk](https://github.com/mnaichuk))
 - Multi coin support for altcoins [\#2243](https://github.com/rubykube/peatio/pull/2243) ([Xicy](https://github.com/Xicy))
 - Fix GET /withdraws to include both fiat and crypto  [\#2222](https://github.com/rubykube/peatio/pull/2222) ([msembinelli](https://github.com/msembinelli))
 
