@@ -1,20 +1,29 @@
 # Change Log
 
-[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.25...HEAD)
+## [2.2.27](https://github.com/rubykube/peatio/tree/2.2.27) (2019-08-1)
 
 **Merged pull requests:**
 
-- Remove withdrawal attempts [\#2281](https://github.com/rubykube/peatio/pull/2281) ([mnaichuk](https://github.com/mnaichuk))
-- Remove withdrawal attempts [\#2280](https://github.com/rubykube/peatio/pull/2280) ([mnaichuk](https://github.com/mnaichuk))
-- Multi coin support for altcoins [\#2243](https://github.com/rubykube/peatio/pull/2243) ([Xicy](https://github.com/Xicy))
-- Fix GET /withdraws to include both fiat and crypto  [\#2222](https://github.com/rubykube/peatio/pull/2222) ([msembinelli](https://github.com/msembinelli))
+- Add rake task for load users and balances [\2287](https://github.com/rubykube/peatio/pull/2287) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.2.26](https://github.com/rubykube/peatio/tree/2.2.26) (2019-07-31)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.25...2.2.26)
+
+**Merged pull requests:**
+
+- Add trades GET API [\#2284](https://github.com/rubykube/peatio/pull/2284) ([dnfd](https://github.com/dnfd))
+- Fix double spending issue on withdraw [\#2280](https://github.com/rubykube/peatio/pull/2280) ([mnaichuk](https://github.com/mnaichuk))
+- Add bitcoincash and ripple [\#2284](https://github.com/rubykube/peatio/pull/2286)([ymasiuk](https://github.com/ymasiuk))
+- \[ci skip\] Prepare for 2.2.0 release [\#2219](https://github.com/rubykube/peatio/pull/2219) ([ysv](https://github.com/ysv))
 
 ## [2.2.25](https://github.com/rubykube/peatio/tree/2.2.25) (2019-07-24)
 [Full Changelog](https://github.com/rubykube/peatio/compare/2.2.24...2.2.25)
 
 **Merged pull requests:**
 
-- Add min\_confirmations field to Currency model entity [\#2276](https://github.com/rubykube/peatio/pull/2276) ([mnaichuk](https://github.com/mnaichuk))
+- Remove withdrawal attempts [\#2281](https://github.com/rubykube/peatio/pull/2281) ([mnaichuk](https://github.com/mnaichuk))
+- Multi coin support for altcoins [\#2243](https://github.com/rubykube/peatio/pull/2243) ([Xicy](https://github.com/Xicy))
+- Fix GET /withdraws to include both fiat and crypto  [\#2222](https://github.com/rubykube/peatio/pull/2222) ([msembinelli](https://github.com/msembinelli))
 
 ## [2.2.24](https://github.com/rubykube/peatio/tree/2.2.24) (2019-07-23)
 [Full Changelog](https://github.com/rubykube/peatio/compare/2.2.23...2.2.24)
