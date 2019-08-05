@@ -5,16 +5,16 @@ describe Admin::MarketsController, type: :controller do
   let(:member) { create(:admin_member) }
   before(:each) { inject_authorization!(member) }
   let :attributes do
-    { quote_unit:         'usd',
-      bid_fee:          '0.003'.to_d,
-      price_precision:  4,
-      base_unit:         'eth',
-      ask_fee:          '0.02'.to_d,
-      min_amount:       '0.02'.to_d,
-      min_price:        '0.02'.to_d,
-      amount_precision: 4,
-      state:            'enabled',
-      position:         100 }
+    { quote_currency:     'usd',
+      base_currency_fee:  '0.003'.to_d,
+      price_precision:    4,
+      base_currency:      'eth',
+      quote_currency_fee: '0.02'.to_d,
+      min_amount:         '0.02'.to_d,
+      min_price:          '0.02'.to_d,
+      amount_precision:   4,
+      state:              'enabled',
+      position:           100 }
   end
   let(:existing_market) { Market.ordered.first }
 
@@ -32,7 +32,7 @@ describe Admin::MarketsController, type: :controller do
 
     it 'doesn\'t create market if commodity pair already exists' do
       existing = Market.ordered.first
-      params   = attributes.merge(quote_unit: existing.quote_unit, base_unit: existing.base_unit)
+      params   = attributes.merge(quote_currency: existing.quote_currency, base_currency: existing.base_currency)
       expect do
         post :create, params: { trading_pair: params }
         expect(response).not_to redirect_to admin_markets_path
@@ -42,10 +42,10 @@ describe Admin::MarketsController, type: :controller do
 
   describe '#update' do
     let :new_attributes do
-      { quote_unit:         'btc',
+      { quote_currency:         'btc',
         bid_fee:          '0.002'.to_d,
         price_precision:    7,
-        base_unit:         'eth',
+        base_currency:         'eth',
         ask_fee:          '0.05'.to_d,
         min_amount:       '0.02'.to_d,
         amount_precision: 7,
@@ -56,8 +56,8 @@ describe Admin::MarketsController, type: :controller do
     let :final_attributes do
       new_attributes.merge \
         attributes.slice \
-          :quote_unit,
-          :base_unit,
+          :quote_currency,
+          :base_currency,
           :amount_precision,
           :price_precision
     end

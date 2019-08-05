@@ -12,10 +12,12 @@
 # _usd_ is the `quote_unit`.
 #
 # Given market BTCUSD.
-# Ask/Base unit = BTC.
-# Bid/Quote unit = USD.
+# Ask/Base currency/unit = BTC.
+# Bid/Quote currency/unit = USD.
 
 class Market < ApplicationRecord
+
+  # == Constants ============================================================
 
   # Since we use decimal with 16 digits fractional part for storing numbers in DB
   # sum of multipliers fractional parts must not be greater then 16.
@@ -34,25 +36,63 @@ class Market < ApplicationRecord
   # sale - user can't view but can trade with market orders.
   # presale - user can't view and trade. Admin can trade.
 
+  # == Attributes ===========================================================
+
   attr_readonly :base_unit, :quote_unit
-  delegate :bids, :asks, :trades, :ticker, :h24_volume, :avg_h24_price,
-           to: :global
 
-  scope :ordered, -> { order(position: :asc) }
-  scope :enabled, -> { where(state: :enabled) }
-  scope :with_base_unit, -> (base_unit){ where(base_unit: base_unit) }
+  # base_currency & quote_currency is preferred names instead of legacy
+  # base_unit & quote_unit.
+  # For avoiding DB migration and config we use alias as temporary solution.
+  alias_attribute :base_currency, :base_unit
+  alias_attribute :quote_currency, :quote_unit
 
-  validate { errors.add(:base_unit, :invalid) if base_unit == quote_unit }
-  validate { errors.add(:id, :taken) if Market.where(base_unit: quote_unit, quote_unit: base_unit).present? }
+  alias_attribute :base_currency_fee, :bid_fee
+  alias_attribute :quote_currency_fee, :ask_fee
+
+  # == Validations ==========================================================
+
+  validate do
+    if quote_currency == base_currency
+      errors.add(:quote_currency, 'duplicates base currency')
+    end
+  end
+
+  validate on: :create do
+    if Market.where(base_currency: quote_currency, quote_currency: base_currency).present? ||
+       Market.where(base_currency: base_currency, quote_currency: quote_currency).present?
+      errors.add(:base, "#{base_currency.upcase}, #{quote_currency.upcase} market already exists")
+    end
+  end
+
   validates :id, uniqueness: { case_sensitive: false }, presence: true
-  validates :base_unit, :quote_unit, presence: true
-  validates :ask_fee, :bid_fee, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 0.5 }
+
+  validates :base_currency, :quote_currency, presence: true
+
+  validates :quote_currency_fee,
+            :base_currency_fee,
+            presence: true,
+            numericality: { greater_than_or_equal_to: 0,
+                            less_than_or_equal_to: 0.5 }
+
   validate  :validate_attr_precisions
 
-  validates :amount_precision, :price_precision, :position, numericality: { greater_than_or_equal_to: 0, only_integer: true }
-  validates :base_unit, :quote_unit, inclusion: { in: -> (_) { Currency.codes } }
-  validate  :validate_precisions_sum
-  validate  :units_must_be_enabled, if: ->(m) { m.state.enabled? }
+  validates :amount_precision,
+            :price_precision,
+            :position,
+            numericality: { greater_than_or_equal_to: 0, only_integer: true }
+
+  validates :price_precision,
+            numericality: {
+              less_than_or_equal_to: -> (_m) { FUNDS_PRECISION }
+            }
+  validates :amount_precision,
+            numericality: {
+              less_than_or_equal_to: -> (m) { FUNDS_PRECISION - m.price_precision }
+            }
+
+  validates :base_currency, :quote_currency, inclusion: { in: -> (_) { Currency.codes } }
+
+  validate  :currencies_must_be_enabled, if: ->(m) { m.state.enabled? }
 
   validates :min_price,
             presence: true,
@@ -67,12 +107,23 @@ class Market < ApplicationRecord
 
   validates :state, inclusion: { in: STATES }
 
-  before_validation(on: :create) { self.id = "#{base_unit}#{quote_unit}" }
+  # == Scopes ===============================================================
 
+  scope :ordered, -> { order(position: :asc) }
+  scope :enabled, -> { where(state: :enabled) }
+
+  # == Callbacks ============================================================
+
+  before_validation(on: :create) { self.id = "#{base_currency}#{quote_currency}" }
   after_commit { AMQPQueue.enqueue(:matching, action: 'new', market: id) }
 
+  # == Instance Methods =====================================================
+
+  delegate :bids, :asks, :trades, :ticker, :h24_volume, :avg_h24_price,
+           to: :global
+
   def name
-    "#{base_unit}/#{quote_unit}".upcase
+    "#{base_currency}/#{quote_currency}".upcase
   end
 
   def state
@@ -98,7 +149,7 @@ class Market < ApplicationRecord
   end
 
   def unit_info
-    {name: name, base_unit: base_unit, quote_unit: quote_unit}
+    { name: name, base_unit: base_currency, quote_unit: quote_currency }
   end
 
   def global
@@ -132,7 +183,7 @@ class Market < ApplicationRecord
 private
 
   def validate_attr_precisions
-    { bid_fee: FEE_PRECISION, ask_fee: FEE_PRECISION,
+    { base_currency_fee: FEE_PRECISION, quote_currency_fee: FEE_PRECISION,
       min_price: price_precision, max_price: price_precision,
       min_amount: amount_precision }.each do |field, precision|
       attr_value = public_send(field)
@@ -142,16 +193,8 @@ private
     end
   end
 
-  def validate_precisions_sum
-    if price_precision &&
-       amount_precision &&
-       price_precision + amount_precision > FUNDS_PRECISION
-      errors.add(:market, "is too precise (price_precision + amount_precision > #{FUNDS_PRECISION})")
-    end
-  end
-
-  def units_must_be_enabled
-    %i[base_unit quote_unit].each do |unit|
+  def currencies_must_be_enabled
+    %i[base_currency quote_currency].each do |unit|
       errors.add(unit, 'is not enabled.') if Currency.lock.find_by_id(public_send(unit))&.disabled?
     end
   end

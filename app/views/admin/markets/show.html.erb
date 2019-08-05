@@ -9,23 +9,23 @@
       <div class="card">
         <div class="card-body">
           <div class="form-group">
-            <label>Quote currency</label>
+            <label>Quote Currency</label>
             <% if @market.new_record? %>
-              <%= f.select :quote_unit, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
+              <%= f.select :quote_currency, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
             <% else %>
               <div class="mb-3"><%= @market.quote_unit.upcase %></div>
             <% end %>
 
-            <label>Quote currency fee</label>
-            <%= f.text_field :ask_fee, class: 'form-control mb-3' %>
+            <label>Quote Currency Fee</label>
+            <%= f.number_field :quote_currency_fee, step: :any, class: 'form-control mb-3' %>
 
             <label>Maximum Price</label>
-            <%= f.text_field :max_price, class: 'form-control mb-3' %>
+            <%= f.number_field :max_price, step: :any, class: 'form-control mb-3' %>
 
             <label>Minimum Amount</label>
-            <%= f.text_field :min_amount, class: 'form-control mb-3' %>
+            <%= f.number_field :min_amount, step: :any, class: 'form-control mb-3' %>
 
-            <label>Price precision</label>
+            <label>Price Precision</label>
             <% if @market.new_record? %>
               <%= f.number_field :price_precision, class: 'form-control mb-3' %>
             <% else %>
@@ -38,20 +38,20 @@
       <div class="card">
         <div class="card-body">
           <div class="form-group">
-            <label>Base currency</label>
+            <label>Base Currency</label>
             <% if @market.new_record? %>
-              <%= f.select :base_unit, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
+              <%= f.select :base_currency, Currency.codes.map { |code| [code.upcase, code] }, {}, { class: "form-control mb-3" } %>
             <% else %>
               <div class="mb-3"><%= @market.base_unit.upcase %></div>
             <% end %>
 
-            <label>Base currency fee</label>
-            <%= f.text_field :bid_fee, class: 'form-control mb-3' %>
+            <label>Base Currency Fee</label>
+            <%= f.number_field :base_currency_fee, step: :any, class: 'form-control mb-3' %>
 
             <label>Minimum Price</label>
-            <%= f.text_field :min_price, class: 'form-control mb-3' %>
+            <%= f.number_field :min_price, step: :any, class: 'form-control mb-3' %>
 
-            <label>Amount precision</label>
+            <label>Amount Precision</label>
             <% if @market.new_record? %>
               <%= f.number_field :amount_precision, class: 'form-control' %>
             <% else %>

@@ -1,14 +1,14 @@
 <% unless deposits.empty? %>
   <%= table_for deposits, class: 'table table-bordered table-striped' do |t| %>
     <% t.column :id, 'Deposit ID' %>
-    <% t.column :created_at, 'Created at' %>
+    <% t.column :created_at, 'Created At' %>
     <% t.column 'Currency' do |x| %>
       <%= x.currency.code.upcase %>
     <% end %>
     <% t.column 'Member email' do |x| %>
       <%= link_to x.member.email, url_for([:admin, x.member]) %>
     <% end %>
-    <% t.column :amount do |x| %>
+    <% t.column 'Amount' do |x| %>
       <code class="text-info"><%= number_with_precision(x.amount, precision: 2) %></code>
     <% end %>
     <% t.column 'State' do |x| %>

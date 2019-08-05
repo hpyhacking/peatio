@@ -1,12 +1,12 @@
 <% if can? :read, Withdraw %>
   <div class="row">
     <div class="col-6">
-      <%= link_to raw("All withdraws"), admin_withdraw_index_path(state: 'all'), class: 'btn btn-primary  mb-3' %>
-      <%= link_to raw("Latest withdraws"), admin_withdraw_index_path(state: 'latest'), class: 'btn btn-primary  mb-3' %>
+      <%= link_to raw("All withdrawals"), admin_withdraw_index_path(state: 'all'), class: 'btn btn-primary  mb-3' %>
+      <%= link_to raw("Latest withdrawals"), admin_withdraw_index_path(state: 'latest'), class: 'btn btn-primary  mb-3' %>
     </div>
   </div>
   <% if @latest_withdraws %>
-    <h3>Withdraws for the last 24 hours</h3>
+    <h3>Withdrawals for the last 24 hours</h3>
     <div class="card">
       <%= render partial: 'table', locals: {withdraws: @latest_withdraws} %>
     </div>
@@ -16,7 +16,7 @@
   <% end %>
   <% if @all_withdraws %>
     <div class="col-6">
-      <h3>All withdraws</h3>
+      <h3>All withdrawals</h3>
     </div>
     <div class="card">
       <%= render partial: 'table', locals: {withdraws: @all_withdraws} %>
