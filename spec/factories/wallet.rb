@@ -111,7 +111,7 @@ FactoryBot.define do
       max_balance        { 0.0 }
       nsig               { 2 }
       status             { 'active' }
-      gateway            { 'peth' }
+      gateway            { 'parity' }
       uri                { 'http://127.0.0.1:8545' }
       secret             { 'changeme' }
     end
@@ -125,12 +125,12 @@ FactoryBot.define do
       max_balance        { 100.0 }
       nsig               { 2 }
       status             { 'active' }
-      gateway            { 'peth' }
+      gateway            { 'parity' }
       uri                { 'http://127.0.0.1:8545' }
       secret             { 'changeme' }
     end
 
-    trait :peth_deposit do
+    trait :parity_deposit do
       currency_id        { 'eth' }
       blockchain_key     { 'eth-kovan' }
       name               { 'Kovan Ethereum Deposit Wallet' }
@@ -139,12 +139,12 @@ FactoryBot.define do
       max_balance        { 0.0 }
       nsig               { 2 }
       status             { 'active' }
-      gateway            { 'peth' }
+      gateway            { 'parity' }
       uri                { 'http://127.0.0.1:8545' }
       secret             { 'changeme' }
     end
 
-    trait :peth_hot do
+    trait :parity_hot do
       currency_id        { 'eth' }
       blockchain_key     { 'eth-kovan' }
       name               { 'Kovan Ethereum Hot Wallet' }
@@ -153,12 +153,12 @@ FactoryBot.define do
       max_balance        { 100.0 }
       nsig               { 2 }
       status             { 'active' }
-      gateway            { 'peth' }
+      gateway            { 'parity' }
       uri                { 'http://127.0.0.1:8545' }
       secret             { 'changeme' }
     end
 
-    trait :peth_cold do
+    trait :parity_cold do
       currency_id        { 'eth' }
       blockchain_key     { 'eth-kovan' }
       name               { 'Kovan Ethereum Cold Wallet' }
@@ -167,12 +167,12 @@ FactoryBot.define do
       max_balance        { 1000.0 }
       nsig               { 2 }
       status             { 'active' }
-      gateway            { 'peth' }
+      gateway            { 'parity' }
       uri                { 'http://127.0.0.1:8545' }
       secret             { 'changeme' }
     end
 
-    trait :peth_fee do
+    trait :parity_fee do
       currency_id        { 'eth' }
       blockchain_key     { 'eth-kovan' }
       name               { 'Kovan Ethereum Fee Wallet' }
@@ -181,7 +181,7 @@ FactoryBot.define do
       max_balance        { 1000.0 }
       nsig               { 2 }
       status             { 'active' }
-      gateway            { 'peth' }
+      gateway            { 'parity' }
       uri                { 'http://127.0.0.1:8545' }
       secret             { 'changeme' }
     end
