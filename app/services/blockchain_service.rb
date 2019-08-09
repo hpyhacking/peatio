@@ -13,9 +13,7 @@ class BlockchainService
   end
 
   def latest_block_number
-    Rails.cache.fetch("latest_#{@blockchain.key.underscore}_block_number", expires_in: 5.seconds) do
-      @adapter.latest_block_number
-    end
+    @latest_block_number ||= @adapter.latest_block_number
   end
 
   def load_balance!(address, currency_id)
@@ -42,13 +40,19 @@ class BlockchainService
     ActiveRecord::Base.transaction do
       accepted_deposits = deposits.map(&method(:update_or_create_deposit)).compact
       withdrawals.each(&method(:update_withdrawal))
-      update_height(block_number, adapter.latest_block_number)
+      update_height(block_number)
     end
     accepted_deposits.each(&:collect!)
     block
   end
 
+  # Resets current cached state.
+  def reset!
+    @latest_block_number = nil
+  end
+
   private
+
   def filter_deposits(block)
     # TODO: Process addresses in batch in case of huge number of PA.
     addresses = PaymentAddress.where(currency: @currencies).pluck(:address).compact
@@ -87,7 +91,8 @@ class BlockchainService
       end
 
     deposit.update_column(:block_number, transaction.block_number) if deposit.block_number != transaction.block_number
-    if deposit.confirmations >= @blockchain.min_confirmations && deposit.accept!
+    # Manually calculating deposit confirmations, because blockchain height is not updated yet.
+    if latest_block_number - deposit.block_number >= @blockchain.min_confirmations && deposit.accept!
       deposit
     else
       nil
@@ -107,16 +112,17 @@ class BlockchainService
 
     withdrawal.update_column(:block_number, transaction.block_number)
 
+    # Manually calculating withdrawal confirmations, because blockchain height is not updated yet.
     if transaction.status.failed?
       withdrawal.fail!
-    elsif transaction.status.success? && withdrawal.confirmations >= @blockchain.min_confirmations
+    elsif transaction.status.success? && latest_block_number - withdrawal.block_number >= @blockchain.min_confirmations
       withdrawal.success!
     end
   end
 
-  def update_height(block_number, latest_block)
+  def update_height(block_number)
     raise Error, "#{blockchain.name} height was reset." if blockchain.height != blockchain.reload.height
 
-    blockchain.update(height: block_number) if latest_block - block_number >= blockchain.min_confirmations
+    blockchain.update(height: block_number) if latest_block_number - block_number >= blockchain.min_confirmations
   end
 end

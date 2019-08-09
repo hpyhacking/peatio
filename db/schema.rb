@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_25_131843) do
+ActiveRecord::Schema.define(version: 2019_07_26_161540) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 2019_07_25_131843) do
     t.string "client", null: false
     t.string "server"
     t.integer "height", null: false
-    t.integer "step", default: 6, null: false
     t.string "explorer_address"
     t.string "explorer_transaction"
     t.integer "min_confirmations", default: 6, null: false

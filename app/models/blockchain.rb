@@ -9,7 +9,6 @@ class Blockchain < ApplicationRecord
   validates :status, inclusion: { in: %w[active disabled] }
   validates :height,
             :min_confirmations,
-            :step,
             numericality: { greater_than_or_equal_to: 1, only_integer: true }
   validates :server, url: { allow_blank: true }
 
@@ -43,7 +42,7 @@ class Blockchain < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20190502103256
+# Schema version: 20190726161540
 #
 # Table name: blockchains
 #
@@ -53,7 +52,6 @@ end
 #  client               :string(255)      not null
 #  server               :string(255)
 #  height               :integer          not null
-#  step                 :integer          default(6), not null
 #  explorer_address     :string(255)
 #  explorer_transaction :string(255)
 #  min_confirmations    :integer          default(6), not null

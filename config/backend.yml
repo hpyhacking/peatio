@@ -37,6 +37,7 @@ services:
       DUMMY_USER_LEVEL: 3
       DUMMY_USER_STATE: "active"
       DUMMY_JWT_PRIVKEY_FILE: "/secrets/rsa-key"
+      DUMMY_JWT_TTL: 86400
     volumes:
       - ./secrets:/secrets:ro
 

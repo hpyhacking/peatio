@@ -38,7 +38,8 @@ describe BlockchainService do
                          .returns(fake_adapter)
                          .at_least_once
 
-    fake_adapter.stubs(:latest_block_number).returns(4)
+    service.stubs(:latest_block_number).returns(4)
+    fake_adapter.stubs(:latest_block_number).never
   end
 
   # Deposit context: (mock fetch_block)
@@ -79,7 +80,7 @@ describe BlockchainService do
       context 'collect deposit after processing block' do
         before do
           clear_redis
-          blockchain.update!(height: 100)
+          service.stubs(:latest_block_number).returns(100)
           fake_adapter.stubs(:fetch_block!).returns(expected_transactions)
           AMQPQueue.expects(:enqueue).with(:events_processor, is_a(Hash))
           AMQPQueue.expects(:enqueue).with(:deposit_collection_fees, id: subject.first.id)
@@ -186,7 +187,7 @@ describe BlockchainService do
 
         before do
           clear_redis
-          blockchain.update!(height: 100)
+          service.stubs(:latest_block_number).returns(100)
           fake_adapter.stubs(:fetch_block!).returns(expected_transactions)
           service.process_block(block_number)
         end
@@ -309,7 +310,7 @@ describe BlockchainService do
 
     before do
       clear_redis
-      blockchain.update!(height: 100)
+      service.stubs(:latest_block_number).returns(100)
       PaymentAddress.create!(currency: fake_currency1,
         account: fake_account1,
         address: 'fake_address')
