@@ -51,5 +51,33 @@ describe Wallet do
       expect(subject).to_not be_valid
       expect(subject.errors.full_messages).to eq ['Name has already been taken']
     end
+
+    it 'saves settings in encrypted column' do
+      subject.save
+      expect {
+        subject.uri = 'http://geth:8545/'
+        subject.save
+      }.to change { subject.settings_encrypted }
+    end
+
+    it 'does not update settings_encrypted before model is saved' do
+      subject.save
+      expect {
+        subject.uri = 'http://geth:8545/'
+      }.not_to change { subject.settings_encrypted }
+    end
+
+    it 'updates setting fields' do
+      expect {
+        subject.uri = 'http://geth:8545/'
+      }.to change { subject.settings['uri'] }.to 'http://geth:8545/'
+    end
+
+    it 'long encrypted secret' do
+      expect {
+        subject.secret = Faker::String.random(1024)
+        subject.save!
+      }.to raise_error ActiveRecord::ValueTooLong
+    end
   end
 end

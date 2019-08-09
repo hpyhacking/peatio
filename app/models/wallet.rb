@@ -4,6 +4,10 @@
 class Wallet < ApplicationRecord
   extend Enumerize
 
+  include Vault::EncryptedModel
+
+  vault_lazy_decrypt!
+
   # We use this attribute values rules for wallet kinds:
   # 1** - for deposit wallets.
   # 2** - for fee wallets.
@@ -11,6 +15,7 @@ class Wallet < ApplicationRecord
   ENUMERIZED_KINDS = { deposit: 100, fee: 200, hot: 310, warm: 320, cold: 330 }.freeze
   enumerize :kind, in: ENUMERIZED_KINDS, scope: true
 
+  # Remove after admin panel deletion.
   SETTING_ATTRIBUTES = %i[ uri
                            secret
                            bitgo_test_net
@@ -19,11 +24,21 @@ class Wallet < ApplicationRecord
                            bitgo_rest_api_root
                            bitgo_rest_api_access_token ].freeze
 
+  SETTING_ATTRIBUTES.each do |attribute|
+    define_method attribute do
+      self.settings[attribute.to_s]
+    end
+
+    define_method "#{attribute}=".to_sym do |value|
+      self.settings = self.settings.merge(attribute.to_s => value)
+    end
+  end
+
   NOT_AVAILABLE = 'N/A'.freeze
 
   include BelongsToCurrency
 
-  store :settings, accessors: SETTING_ATTRIBUTES, coder: JSON
+  vault_attribute :settings, serialize: :json, default: {}
 
   belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
 
@@ -97,24 +112,24 @@ class Wallet < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20181126101312
+# Schema version: 20190807092706
 #
 # Table name: wallets
 #
-#  id             :integer          not null, primary key
-#  blockchain_key :string(32)
-#  currency_id    :string(10)
-#  name           :string(64)
-#  address        :string(255)      not null
-#  kind           :integer          not null
-#  nsig           :integer
-#  gateway        :string(20)       default(""), not null
-#  settings       :string(1000)     default({}), not null
-#  max_balance    :decimal(32, 16)  default(0.0), not null
-#  parent         :integer
-#  status         :string(32)
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id                 :integer          not null, primary key
+#  blockchain_key     :string(32)
+#  currency_id        :string(10)
+#  name               :string(64)
+#  address            :string(255)      not null
+#  kind               :integer          not null
+#  nsig               :integer
+#  gateway            :string(20)       default(""), not null
+#  settings_encrypted :string(1024)
+#  max_balance        :decimal(32, 16)  default(0.0), not null
+#  parent             :integer
+#  status             :string(32)
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
 #
 # Indexes
 #

@@ -28,7 +28,7 @@ module Vault
         raise ArgumentError, 'Block is required' unless block_given?
         yield
       rescue Vault::VaultError => e
-        Rails.logger.error { e }
+        ::Rails.logger.error { e }
         if e.message.include?('connection refused')
           raise Error, '2FA server is under maintenance'
         end

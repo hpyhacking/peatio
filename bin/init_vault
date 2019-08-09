@@ -11,5 +11,6 @@ echo $VAULT_TOKEN
 docker exec -e "VAULT_TOKEN=${VAULT_TOKEN}" ${DOCKER_VAULT_ID} sh -c \
     "vault secrets disable secret \
     && vault secrets enable -path=secret -version=1 kv \
+    && vault secrets enable transit \
     && vault secrets enable totp"
 
