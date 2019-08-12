@@ -15,5 +15,5 @@ map Rails.application.config.relative_url_root do
         max_age: CORS::Validations.validate_max_age(ENV['API_CORS_MAX_AGE'])
     end
   end
-  run Peatio::Application
+  run Rails.application
 end
