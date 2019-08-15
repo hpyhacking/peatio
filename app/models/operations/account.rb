@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# TODO: Add specs for validations.
 # TODO: Add admin rubric for Account.
 module Operations
   class Account < ApplicationRecord
