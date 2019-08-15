@@ -5,6 +5,7 @@ module Ethereum
 
     TOKEN_EVENT_IDENTIFIER = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
     SUCCESS = '0x1'
+    FAILED = '0x0'
 
     DEFAULT_FEATURES = { case_sensitive: false, cash_addr_format: false }.freeze
 
@@ -73,6 +74,29 @@ module Ethereum
       end
     rescue Ethereum::Client::Error => e
       raise Peatio::Blockchain::ClientError, e
+    end
+
+    def fetch_transaction(transaction)
+      currency = settings[:currencies].find { |c| c.fetch(:id) == transaction.currency_id }
+      return if currency.blank?
+      txn_receipt = client.json_rpc(:eth_getTransactionReceipt, [transaction.hash])
+      if currency.in?(@eth)
+        txn_json = client.json_rpc(:eth_getTransactionByHash, [transaction.hash])
+        attributes = {
+          amount: convert_from_base_unit(txn_json.fetch('value').hex, currency),
+          to_address: normalize_address(txn_json['to']),
+          status: transaction_status(txn_receipt)
+        }
+      else
+        txn_json = txn_receipt.fetch('logs').find { |log| log['logIndex'].to_i(16) == transaction.txout }
+        attributes = {
+          amount: convert_from_base_unit(txn_json.fetch('data').hex, currency),
+          to_address: normalize_address('0x' + txn_json.fetch('topics').last[-40..-1]),
+          status: transaction_status(txn_receipt)
+        }
+      end
+      transaction.assign_attributes(attributes)
+      transaction
     end
 
     private
@@ -162,8 +186,13 @@ module Ethereum
     end
 
     def transaction_status(block_txn)
-      # TODO: Add fetching status for eth transaction
-      block_txn.fetch('status', '0x1') == SUCCESS ? 'success' : 'failed'
+      if block_txn.dig('status') == SUCCESS
+        'success'
+      elsif block_txn.dig('status') == FAILED
+        'failed'
+      else
+        'pending'
+      end
     end
 
     def invalid_eth_transaction?(block_txn)
