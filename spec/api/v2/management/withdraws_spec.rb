@@ -23,8 +23,8 @@ describe API::V2::Management::Withdraws, type: :request do
     before do
       Withdraw::STATES.tap do |states|
         (states.count * 2).times do
-          create(:btc_withdraw, member: members.sample, aasm_state: states.sample, rid: Faker::Blockchain::Bitcoin.address)
-          create(:usd_withdraw, member: members.sample, aasm_state: states.sample, rid: Faker::Bank.iban)
+          create(:btc_withdraw, :with_deposit_liability, member: members.sample, aasm_state: states.sample, rid: Faker::Blockchain::Bitcoin.address)
+          create(:usd_withdraw, :with_deposit_liability, member: members.sample, aasm_state: states.sample, rid: Faker::Bank.iban)
         end
       end
     end
@@ -177,7 +177,7 @@ describe API::V2::Management::Withdraws, type: :request do
 
     let(:signers) { %i[alex jeff] }
     let(:data) { { tid: record.tid } }
-    let(:record) { create(:btc_withdraw, member: member) }
+    let(:record) { create(:btc_withdraw, :with_deposit_liability, member: member) }
     let(:member) { create(:member, :barong) }
 
     it 'returns withdraw by TID' do

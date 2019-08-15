@@ -5,7 +5,7 @@ describe API::V2::Account::Balances, type: :request do
   let(:member) { create(:member, :level_3) }
   let(:deposit_btc) { create(:deposit, :deposit_btc, member: member, amount: 10) }
   let(:deposit_eth) { create(:deposit, :deposit_eth, member: member, amount: 30.5) }
-  let(:withdraw) { create(:new_btc_withdraw, member: member, sum: 5) }
+  let(:withdraw) { create(:btc_withdraw, member: member, sum: 5) }
   let(:token) { jwt_for(member) }
 
   let(:response_body) { { 'currency' => 'eth', 'balance' => '30.5', 'locked' => '0.0' } }

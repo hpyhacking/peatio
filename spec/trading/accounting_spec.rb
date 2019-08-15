@@ -78,7 +78,7 @@ describe 'Accounting' do
   end
 
   context 'withdraws' do
-    let(:btc_withdraw) { create(:new_btc_withdraw, sum: 1000.to_d, member: buyer ) }
+    let(:btc_withdraw) { create(:btc_withdraw, sum: 1000.to_d, member: buyer ) }
 
     before do
       btc_withdraw.submit!
