@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.7"
+    "version": "2.3.8"
   },
   "swagger": "2.0",
   "produces": [
@@ -1281,15 +1281,15 @@
           "format": "double",
           "description": "Trade price."
         },
-        "volume": {
+        "amount": {
           "type": "number",
           "format": "double",
-          "description": "Trade volume."
+          "description": "Trade amount."
         },
-        "funds": {
+        "total": {
           "type": "number",
           "format": "double",
-          "description": "Trade funds."
+          "description": "Trade total (Amount * Price)."
         },
         "market": {
           "type": "string",
@@ -1301,7 +1301,7 @@
         },
         "taker_type": {
           "type": "string",
-          "description": "Trade maker order type (sell or buy)."
+          "description": "Trade taker order type (sell or buy)."
         },
         "side": {
           "type": "string",
@@ -1426,15 +1426,15 @@
           "type": "string",
           "description": "Market Quote unit."
         },
-        "ask_fee": {
+        "maker_fee": {
           "type": "number",
           "format": "double",
-          "description": "Market ask fee."
+          "description": "Market maker fee."
         },
-        "bid_fee": {
+        "taker_fee": {
           "type": "number",
           "format": "double",
-          "description": "Market bid fee."
+          "description": "Market taker fee."
         },
         "min_price": {
           "type": "number",

@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.3.7
+## Version: 2.3.8
 
 **Contact information:**  
 peatio.tech  
@@ -527,11 +527,11 @@ Get your executed trades. Trades are sorted in reverse creation order.
 | ---- | ---- | ----------- | -------- |
 | id | string | Trade ID. | No |
 | price | double | Trade price. | No |
-| volume | double | Trade volume. | No |
-| funds | double | Trade funds. | No |
+| amount | double | Trade amount. | No |
+| total | double | Trade total (Amount * Price). | No |
 | market | string | Trade market id. | No |
 | created_at | string | Trade create time in iso8601 format. | No |
-| taker_type | string | Trade maker order type (sell or buy). | No |
+| taker_type | string | Trade taker order type (sell or buy). | No |
 | side | string | Trade side. | No |
 | order_id | integer | Order id. | No |
 
@@ -575,8 +575,8 @@ Get all available markets.
 | name | string | Market name. | No |
 | base_unit | string | Market Base unit. | No |
 | quote_unit | string | Market Quote unit. | No |
-| ask_fee | double | Market ask fee. | No |
-| bid_fee | double | Market bid fee. | No |
+| maker_fee | double | Market maker fee. | No |
+| taker_fee | double | Market taker fee. | No |
 | min_price | double | Minimum order price. | No |
 | max_price | double | Maximum order price. | No |
 | min_amount | double | Minimum order amount. | No |

@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.3.7
+## Version: 2.3.8
 
 **Contact information:**  
 peatio.tech  
@@ -526,14 +526,14 @@ Returns trades as paginated collection.
 | ---- | ---- | ----------- | -------- |
 | id | string | Trade ID. | No |
 | price | double | Trade price. | No |
-| volume | double | Trade volume. | No |
-| funds | double | Trade funds. | No |
+| amount | double | Trade amount. | No |
+| total | double | Trade total. | No |
 | market | string | Trade market id. | No |
 | created_at | string | Trade create time in iso8601 format. | No |
-| ask_id | string | Trade ask order id. | No |
-| bid_id | string | Trade bid order id. | No |
-| ask_member_uid | string | Trade ask member uid. | No |
-| bid_member_uid | string | Trade bid member uid. | No |
+| maker_order_id | string | Trade maker order id. | No |
+| taker_order_id | string | Trade taker order id. | No |
+| maker_member_uid | string | Trade ask member uid. | No |
+| taker_member_uid | string | Trade bid member uid. | No |
 | taker_type | string | Trade maker order type (sell or buy). | No |
 | side | string | Trade side. | No |
 | order_id | integer | Order id. | No |
