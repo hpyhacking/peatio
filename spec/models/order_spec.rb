@@ -32,6 +32,36 @@ describe Order, 'validations', type: :model do
       expect(order.errors[:price]).to include 'must not be present'
     end
   end
+
+  context 'attr_readonly' do
+    let!(:order) { create(:order_bid, :btcusd) }
+
+    it "does not allow updating readonly attributes" do
+      expect { order.update_attribute(:member_id, 1) }.to \
+        raise_error(ActiveRecord::ActiveRecordError, 'member_id is marked as readonly')
+
+      expect { order.update_attribute(:bid, 'xyz') }.to \
+        raise_error(ActiveRecord::ActiveRecordError, 'bid is marked as readonly')
+
+      expect { order.update_attribute(:ask, 'abc') }.to \
+        raise_error(ActiveRecord::ActiveRecordError, 'ask is marked as readonly')
+
+      expect { order.update_attribute(:market_id, 'abcxyz') }.to \
+        raise_error(ActiveRecord::ActiveRecordError, 'market_id is marked as readonly')
+
+      expect { order.update_attribute(:ord_type, 'market') }.to \
+        raise_error(ActiveRecord::ActiveRecordError, 'ord_type is marked as readonly')
+
+      expect { order.update_attribute(:origin_volume, 1) }.to \
+        raise_error(ActiveRecord::ActiveRecordError, 'origin_volume is marked as readonly')
+
+      expect { order.update_attribute(:origin_locked, 1) }.to \
+        raise_error(ActiveRecord::ActiveRecordError, 'origin_locked is marked as readonly')
+
+      expect { order.update_attribute(:created_at, '2009-01-03') }.to \
+        raise_error(ActiveRecord::ActiveRecordError, 'created_at is marked as readonly')
+    end
+  end
 end
 
 describe Order, '#submit' do

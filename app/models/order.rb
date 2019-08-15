@@ -48,6 +48,15 @@ class Order < ApplicationRecord
             numericality: { greater_than_or_equal_to: ->(order){ order.market.min_price }},
             if: :is_limit_order?
 
+  attr_readonly :member_id,
+                :bid,
+                :ask,
+                :market_id,
+                :ord_type,
+                :origin_volume,
+                :origin_locked,
+                :created_at
+
   PENDING = 'pending'
   WAIT    = 'wait'
   DONE    = 'done'

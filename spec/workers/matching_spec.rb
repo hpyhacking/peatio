@@ -104,15 +104,12 @@ describe Workers::AMQP::Matching do
   end
 
   context 'dryrun' do
-    let!(:ask) { create(:order_ask, :btcusd, price: '4000', volume: '3.0', member: alice) }
     let!(:bid) { create(:order_bid, :btcusd, price: '4001', volume: '8.0', member: bob) }
 
     subject { Workers::AMQP::Matching.new(mode: :dryrun) }
 
     context 'very old orders matched' do
-      before do
-        ask.update_column :created_at, 1.day.ago
-      end
+      let!(:ask) { create(:order_ask, :btcusd, price: '4000', volume: '3.0', member: alice, created_at: 1.day.ago) }
 
       it 'should not start engine' do
         expect(subject.engines['btcusd'].mode).to eq :dryrun
@@ -121,6 +118,8 @@ describe Workers::AMQP::Matching do
     end
 
     context 'buffered orders matched' do
+      let!(:ask) { create(:order_ask, :btcusd, price: '4000', volume: '3.0', member: alice) }
+
       it 'should start engine' do
         expect(subject.engines['btcusd'].mode).to eq :run
       end
