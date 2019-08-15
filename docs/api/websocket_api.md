@@ -206,14 +206,14 @@ Here is structure of `Trade` event:
 | Field           | Description                                                  |
 | --------------- | ------------------------------------------------------------ |
 | `id`            | Uniq trade id.                                               |
-| `side`          | Type of order in trade that related to current user `bid` or `ask`.   |
 | `price`         | Price for each unit.                                         |
-| `volume`        | The amount of trade.                                         |
+| `amount`        | The amount of trade.                                         |
+| `total`         | The total of trade (volume * price).                         |
 | `market`        | The market in which the trade is placed. (In peatio market_id) |
-| `created_at`    | Trade create time. (In peatio created_at)                    |
-| `ask_id/bid_id` | Ask or bid id depending on which order has user in trade.    |
-| `kind`          | Type of order in trade that related to current user `bid` or `ask`. (Deprecated)   |
-| `at`            | Trade create time. (Deprecated) (In peatio `created_at`)     |
+| `side`          | Type of order in trade that related to current user `sell` or `buy`. |
+| `taker_type`    | Taker type of trade, either `buy` or `sell`.                 |
+| `created_at`    | Trade create time.                                           |
+| `order_id`      | User order identifier in trade.                              |
 
 
 ### Development

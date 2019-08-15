@@ -79,7 +79,7 @@ class Global
 
   def h24_volume
     cache_fetch(:h24_volume) do
-      Trade.where(market_id: market_id).h24.sum(:volume) || ZERO
+      Trade.where(market_id: market_id).h24.sum(:amount) || ZERO
     end
   end
 
@@ -88,11 +88,11 @@ class Global
   def avg_h24_price
     cache_fetch(:avg_h24_price) do
       Trade.with_market(market_id).h24.yield_self do |t|
-        total_volume = t.sum(:volume)
+        total_volume = t.sum(:amount)
         if total_volume.zero?
           ZERO
         else
-          t.sum('price * volume') / total_volume
+          t.sum('price * amount') / total_volume
         end
       end
     end

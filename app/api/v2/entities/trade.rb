@@ -22,18 +22,18 @@ module API
         )
 
         expose(
-          :volume,
+          :amount,
           documentation: {
             type: BigDecimal,
-            desc: 'Trade volume.'
+            desc: 'Trade amount.'
           }
         )
 
         expose(
-          :funds,
+          :total,
           documentation: {
             type: BigDecimal,
-            desc: 'Trade funds.'
+            desc: 'Trade total (Amount * Price).'
           }
         )
 
@@ -59,10 +59,10 @@ module API
           :taker_type,
           documentation: {
             type: String,
-            desc: 'Trade maker order type (sell or buy).'
+            desc: 'Trade taker order type (sell or buy).'
           }
         ) do |trade, _options|
-            trade.ask_id > trade.bid_id ? :sell : :buy
+          trade.taker_order.side
         end
 
         expose(
@@ -73,8 +73,8 @@ module API
             desc: 'Trade side.'
           }
         ) do |trade, options|
-            options[:side] || trade.side(options[:current_user])
-          end
+          options[:side] || trade.order_for_member(options[:current_user]).side
+        end
 
         expose(
           :order_id,
@@ -84,14 +84,8 @@ module API
           },
           if: ->(_, options) { options[:current_user] }
         ) do |trade, options|
-            if trade.ask_member_id == options[:current_user].id
-              trade.ask_id
-            elsif trade.bid_member_id == options[:current_user].id
-              trade.bid_id
-            else
-              nil
-            end
-          end
+          trade.order_for_member(options[:current_user]).id
+        end
       end
     end
   end

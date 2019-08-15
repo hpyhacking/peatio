@@ -23,18 +23,18 @@ module API
           )
 
           expose(
-            :volume,
+            :amount,
             documentation: {
               type: BigDecimal,
-              desc: 'Trade volume.'
+              desc: 'Trade amount.'
             }
           )
 
           expose(
-            :funds,
+            :total,
             documentation: {
               type: BigDecimal,
-              desc: 'Trade funds.'
+              desc: 'Trade total.'
             }
           )
 
@@ -57,39 +57,39 @@ module API
           )
 
           expose(
-            :ask_id,
+            :maker_order_id,
             documentation: {
               type: String,
-              desc: 'Trade ask order id.'
+              desc: 'Trade maker order id.'
             }
           )
 
           expose(
-            :bid_id,
+            :taker_order_id,
             documentation: {
               type: String,
-              desc: 'Trade bid order id.'
+              desc: 'Trade taker order id.'
             }
           )
 
           expose(
-            :ask_member_uid,
+            :maker_member_uid,
             documentation: {
               type: String,
               desc: 'Trade ask member uid.'
             }
           ) do |trade|
-              trade.ask.member.uid
+            trade.maker.uid
           end
 
           expose(
-            :bid_member_uid,
+            :taker_member_uid,
             documentation: {
               type: String,
               desc: 'Trade bid member uid.'
             }
           ) do |trade|
-            trade.bid.member.uid
+            trade.taker.uid
           end
 
           expose(
@@ -99,7 +99,7 @@ module API
               desc: 'Trade maker order type (sell or buy).'
             }
           ) do |trade, _options|
-              trade.ask_id > trade.bid_id ? :sell : :buy
+            trade.taker_order.side
           end
 
           expose(
@@ -110,8 +110,8 @@ module API
               desc: 'Trade side.'
             }
           ) do |trade, options|
-              options[:side] || trade.side(options[:current_user])
-            end
+            options[:side] || trade.order_for_member(options[:current_user]).side
+          end
 
           expose(
             :order_id,
@@ -121,14 +121,8 @@ module API
             },
             if: ->(_, options) { options[:current_user] }
           ) do |trade, options|
-              if trade.ask_member_id == options[:current_user].id
-                trade.ask_id
-              elsif trade.bid_member_id == options[:current_user].id
-                trade.bid_id
-              else
-                nil
-              end
-            end
+            trade.order_for_member(options[:current_user]).id
+          end
         end
       end
     end

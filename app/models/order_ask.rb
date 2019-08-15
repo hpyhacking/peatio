@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 class OrderAsk < Order
-  has_many :trades, -> { order(id: :asc) }, foreign_key: :ask_id
   scope :matching_rule, -> { order(price: :asc, created_at: :asc) }
 
   # @deprecated
@@ -28,8 +27,17 @@ class OrderAsk < Order
     market.round_price(funds_received / funds_used)
   end
 
+  # @deprecated Please use {income/outcome_currency} in Order model
   def currency
     Currency.find(ask)
+  end
+
+  def income_currency
+    bid_currency
+  end
+
+  def outcome_currency
+    ask_currency
   end
 
   def compute_locked
@@ -44,7 +52,7 @@ class OrderAsk < Order
 end
 
 # == Schema Information
-# Schema version: 20190213104708
+# Schema version: 20190813121822
 #
 # Table name: orders
 #
@@ -55,7 +63,8 @@ end
 #  price          :decimal(32, 16)
 #  volume         :decimal(32, 16)  not null
 #  origin_volume  :decimal(32, 16)  not null
-#  fee            :decimal(32, 16)  default(0.0), not null
+#  maker_fee      :decimal(17, 16)  default(0.0), not null
+#  taker_fee      :decimal(17, 16)  default(0.0), not null
 #  state          :integer          not null
 #  type           :string(8)        not null
 #  member_id      :integer          not null

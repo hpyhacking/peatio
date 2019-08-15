@@ -90,7 +90,7 @@ module Workers
           else
             accept = ENV['ACCEPT_MINUTES'] ? ENV['ACCEPT_MINUTES'].to_i : 30
             order_ids = engine.queue
-              .map {|args| [args[1][:ask_id], args[1][:bid_id]] }
+              .map {|args| [args[1][:maker_order_id], args[1][:taker_order_id]] }
               .flatten.uniq
 
             orders = Order.where('created_at < ?', accept.minutes.ago).where(id: order_ids)

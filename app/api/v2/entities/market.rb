@@ -41,18 +41,18 @@ module API
         )
 
         expose(
-          :ask_fee,
+          :maker_fee,
           documentation: {
             type: BigDecimal,
-            desc: "Market ask fee."
+            desc: "Market maker fee."
           }
         )
 
         expose(
-          :bid_fee,
+          :taker_fee,
           documentation: {
             type: BigDecimal,
-            desc: "Market bid fee."
+            desc: "Market taker fee."
           }
         )
 

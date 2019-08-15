@@ -59,27 +59,27 @@ describe Market do
 
   context 'validations' do
     let(:valid_attributes) do
-      { base_currency:      :btc,
-        quote_currency:     :trst,
-        base_currency_fee:  0.1,
-        quote_currency_fee: 0.2,
-        min_amount:         0.0001,
-        min_price:          0.0001,
-        amount_precision:   4,
-        price_precision:    4,
-        position:           100 }
+      { base_currency:    :btc,
+        quote_currency:   :trst,
+        taker_fee:        0.1,
+        maker_fee:        0.2,
+        min_amount:       0.0001,
+        min_price:        0.0001,
+        amount_precision: 4,
+        price_precision:  4,
+        position:         100 }
     end
 
     let(:mirror_attributes) do
-      { base_currency:      :usd,
-        quote_currency:     :btc,
-        base_currency_fee:  0.1,
-        quote_currency_fee: 0.2,
-        min_amount:         0.0001,
-        min_price:          0.0001,
-        amount_precision:   4,
-        price_precision:    4,
-        position:           100 }
+      { base_currency:    :usd,
+        quote_currency:   :btc,
+        maker_fee:        0.1,
+        taker_fee:        0.2,
+        min_amount:       0.0001,
+        min_price:        0.0001,
+        amount_precision: 4,
+        price_precision:  4,
+        position:         100 }
     end
 
     let(:disabled_currency) { Currency.find_by_id(:eur) }
@@ -117,8 +117,7 @@ describe Market do
     end
 
     it 'validates fields to be greater than or equal to 0' do
-      %i[base_currency_fee quote_currency_fee
-         price_precision amount_precision position].each do |field|
+      %i[maker_fee taker_fee price_precision amount_precision position].each do |field|
         record = Market.new(valid_attributes.merge(field => -1))
         record.save
         expect(record.errors.full_messages).to include(/#{to_readable(field)} must be greater than or equal to 0/i)
@@ -179,7 +178,7 @@ describe Market do
     it 'validates fee preciseness' do
       record = Market.create(valid_attributes)
 
-      %i[bid_fee ask_fee].each do |f|
+      %i[maker_fee taker_fee].each do |f|
         record.reload
         expect(record.update(f => 0.0001)).to eq true
         expect(record.update(f => 0.00011)).to eq false

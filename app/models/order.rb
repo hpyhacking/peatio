@@ -15,6 +15,8 @@ class Order < ApplicationRecord
   TYPES = %w[ market limit ]
   enumerize :ord_type, in: TYPES, scope: true
 
+  belongs_to :ask_currency, class_name: 'Currency', foreign_key: :ask
+  belongs_to :bid_currency, class_name: 'Currency', foreign_key: :bid
   after_commit :trigger_pusher_event
 
   validates :ord_type, :volume, :origin_volume, :locked, :origin_locked, presence: true
@@ -55,7 +57,13 @@ class Order < ApplicationRecord
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
 
-  before_validation(on: :create) { self.fee = market.public_send("#{kind}_fee") }
+  # Single Order can produce multiple Trades with different fee types (maker and taker).
+  # Since we can't predict fee types on order creation step and
+  # Market fees configuration can change we need to store fees on Order creation.
+  before_validation(on: :create) do
+    self.maker_fee = market.maker_fee
+    self.taker_fee = market.taker_fee
+  end
 
   after_commit on: :create do
     next unless ord_type == 'limit'
@@ -108,6 +116,10 @@ class Order < ApplicationRecord
     rescue => e
       report_exception_to_screen(e)
     end
+  end
+
+  def trades
+    Trade.where('maker_order_id = ? OR taker_order_id = ?', id, id)
   end
 
   def funds_used
@@ -173,7 +185,8 @@ class Order < ApplicationRecord
       volume:        volume,
       origin_volume: origin_volume,
       market_id:     market_id,
-      fee:           fee,
+      maker_fee:     maker_fee,
+      taker_fee:     taker_fee,
       locked:        locked,
       state:         read_attribute_before_type_cast(:state) }
   end
@@ -249,7 +262,7 @@ class Order < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20190213104708
+# Schema version: 20190813121822
 #
 # Table name: orders
 #
@@ -260,7 +273,8 @@ end
 #  price          :decimal(32, 16)
 #  volume         :decimal(32, 16)  not null
 #  origin_volume  :decimal(32, 16)  not null
-#  fee            :decimal(32, 16)  default(0.0), not null
+#  maker_fee      :decimal(17, 16)  default(0.0), not null
+#  taker_fee      :decimal(17, 16)  default(0.0), not null
 #  state          :integer          not null
 #  type           :string(8)        not null
 #  member_id      :integer          not null

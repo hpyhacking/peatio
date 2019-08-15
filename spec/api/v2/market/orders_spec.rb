@@ -143,7 +143,7 @@ describe API::V2::Market::Orders, type: :request do
 
   describe 'GET /api/v2/market/orders/:id' do
     let(:order)  { create(:order_bid, :btcusd, price: '12.32'.to_d, volume: '3.14', origin_volume: '12.13', member: member, trades_count: 1) }
-    let!(:trade) { create(:trade, :btcusd, bid: order) }
+    let!(:trade) { create(:trade, :btcusd, taker_order: order) }
 
     it 'should get specified order' do
       api_get "/api/v2/market/orders/#{order.id}", token: token

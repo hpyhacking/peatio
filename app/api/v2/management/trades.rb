@@ -24,9 +24,9 @@ module API
 
           Trade
             .order(id: :desc)
-            .includes(:ask_member, :bid_member)
+            .includes(:maker, :taker)
             .tap { |q| q.where!(market: market) if market }
-            .tap { |q| q.where!("ask_member_id = #{member.id} OR bid_member_id = #{member.id}") if member }
+            .tap { |q| q.where!("maker_id = #{member.id} OR taker_id = #{member.id}") if member }
             .page(params[:page])
             .per(params[:limit])
             .tap { |q| present q, with: API::V2::Management::Entities::Trade }

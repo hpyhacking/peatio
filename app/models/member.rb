@@ -26,7 +26,7 @@ class Member < ApplicationRecord
   attr_readonly :email
 
   def trades
-    Trade.where('bid_member_id = ? OR ask_member_id = ?', id, id)
+    Trade.where('maker_id = ? OR taker_id = ?', id, id)
   end
 
   def role

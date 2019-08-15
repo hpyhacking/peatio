@@ -15,7 +15,7 @@ end
 describe Trade, '#for_notify' do
   let(:order_ask) { create(:order_ask, :btcusd) }
   let(:order_bid) { create(:order_bid, :btcusd) }
-  let(:trade) { create(:trade, :btcusd, ask: order_ask, bid: order_bid) }
+  let(:trade) { create(:trade, :btcusd, maker_order: order_ask, taker_order: order_bid) }
 
   subject(:notify) { trade.for_notify(order_ask.member) }
 
@@ -23,11 +23,11 @@ describe Trade, '#for_notify' do
   it { expect(notify[:side]).not_to be_blank }
   it { expect(notify[:created_at]).not_to be_blank }
   it { expect(notify[:price]).not_to be_blank }
-  it { expect(notify[:volume]).not_to be_blank }
-  it { expect(notify[:ask_id]).to eq(order_ask.id) }
+  it { expect(notify[:amount]).not_to be_blank }
+  it { expect(notify[:order_id]).to eq(order_ask.id) }
 
   it 'should use side as kind' do
-    expect(trade.for_notify(Member.find(trade.ask_member_id))[:side]).to eq 'ask'
+    expect(trade.for_notify(Member.find(trade.maker_id))[:side]).to eq 'sell'
   end
 
   context 'notify for bid member' do
@@ -37,8 +37,8 @@ describe Trade, '#for_notify' do
     it { expect(notify[:side]).not_to be_blank }
     it { expect(notify[:created_at]).not_to be_blank }
     it { expect(notify[:price]).not_to be_blank }
-    it { expect(notify[:volume]).not_to be_blank }
-    it { expect(notify[:bid_id]).to eq(order_bid.id) }
+    it { expect(notify[:amount]).not_to be_blank }
+    it { expect(notify[:order_id]).to eq(order_bid.id) }
   end
 end
 
@@ -46,24 +46,24 @@ describe Trade, '#record_complete_operations!' do
   # Persist orders and trades in database.
   let!(:trade){ create(:trade, :btcusd, :with_deposit_liability) }
 
-  let(:ask){ trade.ask }
-  let(:bid){ trade.bid }
+  let(:ask){ trade.maker_order }
+  let(:bid){ trade.taker_order }
 
-  let(:ask_currency_outcome){ trade.volume }
-  let(:bid_currency_outcome){ trade.funds }
+  let(:ask_currency_outcome){ trade.amount }
+  let(:bid_currency_outcome){ trade.total }
 
-  let(:ask_currency_fee){ trade.volume * bid.fee }
-  let(:bid_currency_fee){ trade.funds * ask.fee }
+  let(:ask_currency_fee){ trade.amount * trade.order_fee(bid) }
+  let(:bid_currency_fee){ trade.total * trade.order_fee(ask) }
 
   let(:ask_currency_income){ ask_currency_outcome - ask_currency_fee }
   let(:bid_currency_income){ bid_currency_outcome - bid_currency_fee }
 
   subject{ trade }
 
-  let(:ask_fee) { 0.002 }
-  let(:bid_fee) { 0.001 }
+  let(:maker_fee) { 0.002 }
+  let(:taker_fee) { 0.001 }
   before do
-    trade.market.update(bid_fee: bid_fee, ask_fee: ask_fee)
+    trade.market.update(maker_fee: maker_fee, taker_fee: taker_fee)
   end
 
   it 'creates four liability operations' do

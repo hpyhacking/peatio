@@ -54,10 +54,10 @@ describe API::V2::Management::Trades, type: :request do
     )
   end
 
-  let!(:btcusd_ask_trade) { create(:trade, :btcusd, ask: btcusd_ask, created_at: 2.days.ago) }
-  let!(:btceth_ask_trade) { create(:trade, :btceth, ask: btceth_ask, created_at: 2.days.ago) }
-  let!(:btcusd_bid_trade) { create(:trade, :btcusd, bid: btcusd_bid, created_at: 23.hours.ago) }
-  let!(:btceth_bid_trade) { create(:trade, :btceth, bid: btceth_bid, created_at: 23.hours.ago) }
+  let!(:btcusd_ask_trade) { create(:trade, :btcusd, maker_order: btcusd_ask, created_at: 2.days.ago) }
+  let!(:btceth_ask_trade) { create(:trade, :btceth, maker_order: btceth_ask, created_at: 2.days.ago) }
+  let!(:btcusd_bid_trade) { create(:trade, :btcusd, taker_order: btcusd_bid, created_at: 23.hours.ago) }
+  let!(:btceth_bid_trade) { create(:trade, :btceth, taker_order: btceth_bid, created_at: 23.hours.ago) }
 
   before do
     defaults_for_management_api_v1_security_configuration!

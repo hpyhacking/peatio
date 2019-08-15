@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_07_092706) do
+ActiveRecord::Schema.define(version: 2019_08_13_121822) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -134,8 +134,8 @@ ActiveRecord::Schema.define(version: 2019_08_07_092706) do
     t.string "quote_unit", limit: 10, null: false
     t.integer "amount_precision", limit: 1, default: 4, null: false
     t.integer "price_precision", limit: 1, default: 4, null: false
-    t.decimal "ask_fee", precision: 17, scale: 16, default: "0.0", null: false
-    t.decimal "bid_fee", precision: 17, scale: 16, default: "0.0", null: false
+    t.decimal "maker_fee", precision: 17, scale: 16, default: "0.0", null: false
+    t.decimal "taker_fee", precision: 17, scale: 16, default: "0.0", null: false
     t.decimal "min_price", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "max_price", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "min_amount", precision: 32, scale: 16, default: "0.0", null: false
@@ -183,7 +183,8 @@ ActiveRecord::Schema.define(version: 2019_08_07_092706) do
     t.decimal "price", precision: 32, scale: 16
     t.decimal "volume", precision: 32, scale: 16, null: false
     t.decimal "origin_volume", precision: 32, scale: 16, null: false
-    t.decimal "fee", precision: 32, scale: 16, default: "0.0", null: false
+    t.decimal "maker_fee", precision: 17, scale: 16, default: "0.0", null: false
+    t.decimal "taker_fee", precision: 17, scale: 16, default: "0.0", null: false
     t.integer "state", null: false
     t.string "type", limit: 8, null: false
     t.integer "member_id", null: false
@@ -230,21 +231,20 @@ ActiveRecord::Schema.define(version: 2019_08_07_092706) do
 
   create_table "trades", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.decimal "price", precision: 32, scale: 16, null: false
-    t.decimal "volume", precision: 32, scale: 16, null: false
-    t.integer "ask_id", null: false
-    t.integer "bid_id", null: false
-    t.integer "trend", null: false
+    t.decimal "amount", precision: 32, scale: 16, null: false
+    t.decimal "total", precision: 32, scale: 16, default: "0.0", null: false
+    t.integer "maker_order_id", null: false
+    t.integer "taker_order_id", null: false
     t.string "market_id", limit: 20, null: false
-    t.integer "ask_member_id", null: false
-    t.integer "bid_member_id", null: false
-    t.decimal "funds", precision: 32, scale: 16, null: false
+    t.integer "maker_id", null: false
+    t.integer "taker_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ask_id"], name: "index_trades_on_ask_id"
-    t.index ["ask_member_id", "bid_member_id"], name: "index_trades_on_ask_member_id_and_bid_member_id"
-    t.index ["bid_id"], name: "index_trades_on_bid_id"
     t.index ["created_at"], name: "index_trades_on_created_at"
+    t.index ["maker_id", "taker_id"], name: "index_trades_on_maker_id_and_taker_id"
+    t.index ["maker_order_id"], name: "index_trades_on_maker_order_id"
     t.index ["market_id", "created_at"], name: "index_trades_on_market_id_and_created_at"
+    t.index ["taker_order_id"], name: "index_trades_on_taker_order_id"
   end
 
   create_table "transfers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

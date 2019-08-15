@@ -46,9 +46,6 @@ class Market < ApplicationRecord
   alias_attribute :base_currency, :base_unit
   alias_attribute :quote_currency, :quote_unit
 
-  alias_attribute :base_currency_fee, :bid_fee
-  alias_attribute :quote_currency_fee, :ask_fee
-
   # == Validations ==========================================================
 
   validate do
@@ -68,8 +65,8 @@ class Market < ApplicationRecord
 
   validates :base_currency, :quote_currency, presence: true
 
-  validates :quote_currency_fee,
-            :base_currency_fee,
+  validates :maker_fee,
+            :taker_fee,
             presence: true,
             numericality: { greater_than_or_equal_to: 0,
                             less_than_or_equal_to: 0.5 }
@@ -183,7 +180,7 @@ class Market < ApplicationRecord
 private
 
   def validate_attr_precisions
-    { base_currency_fee: FEE_PRECISION, quote_currency_fee: FEE_PRECISION,
+    { maker_fee: FEE_PRECISION, taker_fee: FEE_PRECISION,
       min_price: price_precision, max_price: price_precision,
       min_amount: amount_precision }.each do |field, precision|
       attr_value = public_send(field)
@@ -201,7 +198,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20190624102330
+# Schema version: 20190813121822
 #
 # Table name: markets
 #
@@ -210,8 +207,8 @@ end
 #  quote_unit       :string(10)       not null
 #  amount_precision :integer          default(4), not null
 #  price_precision  :integer          default(4), not null
-#  ask_fee          :decimal(17, 16)  default(0.0), not null
-#  bid_fee          :decimal(17, 16)  default(0.0), not null
+#  maker_fee        :decimal(17, 16)  default(0.0), not null
+#  taker_fee        :decimal(17, 16)  default(0.0), not null
 #  min_price        :decimal(32, 16)  default(0.0), not null
 #  max_price        :decimal(32, 16)  default(0.0), not null
 #  min_amount       :decimal(32, 16)  default(0.0), not null

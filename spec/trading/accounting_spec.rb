@@ -40,12 +40,12 @@ describe 'Accounting' do
     ask = Matching::LimitOrder.new(order_ask.to_matching_attributes)
     bid = Matching::LimitOrder.new(order_bid.to_matching_attributes)
     Matching::Executor.new \
-      market_id:    :btcusd,
-      ask_id:       ask.id,
-      bid_id:       bid.id,
-      strike_price: '1.2',
-      volume:       '10000',
-      funds:        '12000'
+      market_id:       :btcusd,
+      maker_order_id:  ask.id,
+      taker_order_id:  bid.id,
+      strike_price:    '1.2',
+      amount:          '10000',
+      total:           '12000'
   end
 
   let(:asset_balance) { Operations::Asset.balance }

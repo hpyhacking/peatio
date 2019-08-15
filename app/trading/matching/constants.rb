@@ -5,7 +5,7 @@ module Matching
 
   # NOTE: Name is TradeStruct for not confusing it with ActiveRecord Trade model.
   # TODO: Use TradeStruct instead of trade_price, trade_volume, trade_funds.
-  TradeStruct = Struct.new(:price, :volume, :funds)
+  TradeStruct = Struct.new(:price, :amount, :total)
 
   ZERO = 0.to_d unless defined?(ZERO)
 

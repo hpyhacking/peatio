@@ -6,7 +6,7 @@ describe API::V2::Public::Markets, type: :request do
   describe 'GET /api/v2/markets' do
 
     let(:expected_keys) do
-      %w[id name base_unit quote_unit ask_fee bid_fee min_price max_price
+      %w[id name base_unit quote_unit maker_fee taker_fee min_price max_price
          min_amount amount_precision price_precision state]
     end
 
@@ -335,7 +335,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     context 'single trade was executed' do
-      let!(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
+      let!(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
       let(:expected_ticker) do
         { 'buy' => '0.0', 'sell' => '0.0',
           'low' => '5.0', 'high' => '5.0',
@@ -356,8 +356,8 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     context 'multiple trades were executed' do
-      let!(:trade1) { create(:trade, :btcusd, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
-      let!(:trade2) { create(:trade, :btcusd, price: '6.0'.to_d, volume: '0.9'.to_d, funds: '5.4'.to_d)}
+      let!(:trade1) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
+      let!(:trade2) { create(:trade, :btcusd, price: '6.0'.to_d, amount: '0.9'.to_d, total: '5.4'.to_d)}
 
       # open = 6.0 because it takes last by default.
       # to make it work correctly need to run k-line daemon.
@@ -402,7 +402,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     context 'single trade was executed' do
-      let!(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
+      let!(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
       let(:expected_ticker) do
         { 'buy' => '0.0', 'sell' => '0.0',
           'low' => '5.0', 'high' => '5.0',
@@ -422,8 +422,8 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     context 'multiple trades were executed' do
-      let!(:trade1) { create(:trade, :btcusd, price: '5.0'.to_d, volume: '1.1'.to_d, funds: '5.5'.to_d)}
-      let!(:trade2) { create(:trade, :btcusd, price: '6.0'.to_d, volume: '0.9'.to_d, funds: '5.4'.to_d)}
+      let!(:trade1) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
+      let!(:trade2) { create(:trade, :btcusd, price: '6.0'.to_d, amount: '0.9'.to_d, total: '5.4'.to_d)}
 
       # open = 6.0 because it takes last by default.
       # to make it work correctly need to run k-line daemon.
@@ -478,8 +478,8 @@ describe API::V2::Public::Markets, type: :request do
 
     let(:market) { :btcusd }
 
-    let!(:ask_trade) { create(:trade, :btcusd, ask: ask, created_at: 2.days.ago) }
-    let!(:bid_trade) { create(:trade, :btcusd, bid: bid, created_at: 1.day.ago) }
+    let!(:ask_trade) { create(:trade, :btcusd, maker_order: ask, created_at: 2.days.ago) }
+    let!(:bid_trade) { create(:trade, :btcusd, taker_order: bid, created_at: 1.day.ago) }
 
     it 'returns all recent trades' do
       get "/api/v2/public/markets/#{market}/trades"
@@ -503,7 +503,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     it 'gets trades by page and limit' do
-      create(:trade, :btcusd, bid: bid, created_at: 6.hours.ago)
+      create(:trade, :btcusd, taker_order: bid, created_at: 6.hours.ago)
 
       get "/api/v2/public/markets/#{market}/trades", params: { limit: 2, page: 1, order_by: 'asc'}
 
