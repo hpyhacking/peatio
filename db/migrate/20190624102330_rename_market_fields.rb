@@ -24,7 +24,7 @@ class RenameMarketFields < ActiveRecord::Migration[5.2]
         if column_exists?(:markets, :enabled)
           add_column :markets, :state, :string, limit: 32, default: :enabled, null: false, after: :position
           Market.find_each do |m|
-            m.update(state: m.enabled ? :enabled : :disabled)
+            m.update_attribute(:state, m.enabled ? :enabled : :disabled)
           end
           remove_column :markets, :enabled
         end
@@ -56,7 +56,7 @@ class RenameMarketFields < ActiveRecord::Migration[5.2]
         if column_exists?(:markets, :state)
           add_column :markets, :enabled, :boolean, default: true, null: false, after: :position
           Market.find_each do |m|
-            m.update(enabled: m.state == 'enabled')
+            m.update_attribute(:enabled, m.state == 'enabled')
           end
           remove_column :markets, :state
         end
