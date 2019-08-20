@@ -16,6 +16,16 @@ describe Currency do
       currency.update!(deposit_fee: 0.25)
       expect(currency.deposit_fee).to eq 0
     end
+
+    it 'validates blockchain_key' do
+      currency.blockchain_key = 'an-nonexistent-key'
+      expect(currency.valid?).to be_falsey
+      expect(currency.errors[:blockchain_key].size).to eq(1)
+
+      currency.blockchain_key = 'btc-testnet' # an existent key
+      expect(currency.valid?).to be_truthy
+      expect(currency.errors[:blockchain_key]).to be_empty
+    end
   end
 
   it 'disables markets when currency is set to disabled' do
@@ -35,8 +45,8 @@ describe Currency do
   it 'allows to disable all dependent markets' do
     Market.where.not(base_unit: 'btc').update_all(state: :disabled)
     currency = Currency.find(:btc)
-    currency.update(enabled: false)
-    currency.valid?
+    currency.update(enabled: false) # FIXME: this line has no effect here.
+    expect(currency.valid?).to be_truthy
     expect(currency.errors[:currency].size).to eq(0)
   end
 
