@@ -31,7 +31,7 @@ FactoryBot.define do
     trait 'eth-mainet' do
       key                     { 'eth-mainet' }
       name                    { 'Ethereum Mainet' }
-      client                  { 'ethereum' }
+      client                  { 'geth' }
       server                  { 'http://127.0.0.1:8545' }
       height                  { 2500000 }
       min_confirmations       { 4 }

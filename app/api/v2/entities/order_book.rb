@@ -16,7 +16,7 @@ module API
             desc: 'Asks in orderbook'
           }
         )
-        
+
         expose(
           :bids,
           using: Order,

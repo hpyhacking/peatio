@@ -7,7 +7,7 @@ module API
       class Orders < Grape::API
         helpers ::API::V2::Market::NamedParams
 
-        desc 'Get your orders, results is paginated.',
+        desc 'Get your orders, result is paginated.',
           is_array: true,
           success: API::V2::Entities::Order
         params do

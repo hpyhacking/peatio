@@ -6,8 +6,14 @@ module API
     module Helpers
       extend Memoist
 
+      def authorize!(*args)
+        Abilities.new(current_user).authorize!(*args)
+      rescue StandardError
+        error!({ errors: ['admin.ability.not_permitted'] }, 403)
+      end
+
       def authenticate!
-        current_user or raise Peatio::Auth::Error
+        current_user || raise(Peatio::Auth::Error)
       end
 
       def set_ets_context!

@@ -1,6 +1,8 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+require 'csv'
+
 class Order < ApplicationRecord
   include BelongsToMarket
   include BelongsToMember
@@ -124,6 +126,20 @@ class Order < ApplicationRecord
       end
     rescue => e
       report_exception_to_screen(e)
+    end
+
+    def to_csv
+      attributes = %w[id market_id ord_type side price volume origin_volume avg_price trades_count state created_at updated_at]
+
+      CSV.generate(headers: true) do |csv|
+        csv << attributes
+
+        all.each do |order|
+          data = attributes[0...-2].map { |attr| order.send(attr) }
+          data += attributes[-2..-1].map { |attr| order.send(attr).iso8601 }
+          csv << data
+        end
+      end
     end
   end
 

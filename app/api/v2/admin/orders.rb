@@ -1,0 +1,67 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
+module API
+  module V2
+    module Admin
+      class Orders < Grape::API
+        helpers ::API::V2::Admin::Helpers
+
+        content_type :csv, 'text/csv'
+
+        desc 'Get all orders, result is paginated.',
+          is_array: true,
+          success: API::V2::Admin::Entities::Order
+        params do
+          optional :market,
+                   values: { value: -> { ::Market.enabled.ids }, message: 'admin.market.doesnt_exist' },
+                   desc: -> { API::V2::Admin::Entities::Market.documentation[:id][:desc] }
+          optional :state,
+                   values: { value: -> { ::Order.state.values }, message: 'admin.order.invalid_state' },
+                   desc: 'Filter order by state.'
+          optional :ord_type,
+                   values: { value: ::Order::TYPES, message: 'admin.order.invalid_ord_type' },
+                   desc: 'Filter order by ord_type.'
+          optional :price,
+                   type: { value: BigDecimal, message: 'admin.order.non_decimal_price' },
+                   values: { value: -> (p){ p.try(:positive?) }, message: 'admin.order.non_positive_price' },
+                   desc: -> { API::V2::Admin::Entities::Order.documentation[:price][:desc] }
+          optional :origin_volume,
+                   type: { value: BigDecimal, message: 'admin.order.non_decimal_price' },
+                   values: { value: -> (p){ p.try(:positive?) }, message: 'admin.order.non_positive_origin_volume' },
+                   desc: -> { API::V2::Admin::Entities::Order.documentation[:origin_volume][:desc] }
+          optional :type,
+                   values: { value: %w(bid ask), message: 'admin.order.invalid_type' },
+                   desc: 'Filter order by type.'
+          optional :email,
+                   desc: -> { API::V2::Entities::Member.documentation[:email][:desc] }
+          use :uid
+          use :date_picker
+          use :pagination
+          use :ordering
+        end
+        get '/orders' do
+          authorize! :read, Order
+
+          ransack_params = Helpers::RansackBuilder.new(params)
+                             .eq(:price, :origin_volume, :ord_type)
+                             .translate(market: :market_id, uid: :member_uid, email: :member_email)
+                             .with_daterange
+                             .merge({
+                                state_eq: params[:state].present? ? Order::STATES[params[:state].to_sym] : nil,
+                                type_eq: params[:type].present? ? "Order#{params[:type].capitalize}" : nil,
+                             }).build
+
+          search = Order.ransack(ransack_params)
+          search.sorts = "#{params[:order_by]} #{params[:ordering]}"
+
+          if params[:format] == 'csv'
+            search.result
+          else
+            present paginate(search.result), with: API::V2::Admin::Entities::Order
+          end
+        end
+      end
+    end
+  end
+end

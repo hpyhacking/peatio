@@ -12,6 +12,10 @@ module API::V2
           error!({ errors: errors_array }, 422)
         end
 
+        rescue_from Grape::Exceptions::MethodNotAllowed do |_e|
+          error!({ errors: 'server.method_not_allowed' }, 405)
+        end
+
         rescue_from Peatio::Auth::Error do |e|
           report_exception(e)
           error!({ errors: ['jwt.decode_and_verify'] }, 401)

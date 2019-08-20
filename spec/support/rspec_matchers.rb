@@ -22,7 +22,8 @@ RSpec::Matchers.define :include_api_error do |expected|
     raise 'actual doesnt respond to body' unless actual.respond_to?(:body)
     raise 'expected is not a String' unless expected.is_a? String
 
-    expected.in?(JSON.parse(actual.body)['errors'])
+    errors = JSON.parse(actual.body)['errors']
+    !errors.nil? && expected.in?(errors)
   end
 
   # TODO: Better Error message. Same as in module RSpec::Matchers::BuiltIn::Include

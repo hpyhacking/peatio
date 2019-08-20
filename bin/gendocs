@@ -40,16 +40,24 @@ bundle exec rails db:migrate
 bundle exec rails db:seed
 
 npm i -g swagger-markdown
-npm i -g prettyjson-cli
+sudo apt-get install jq
 bundle exec rails s -d
 while [ ! -f tmp/pids/server.pid ]
 do
   sleep 1
 done
 sleep 5 # Wait additional time until Rails starts listen port.
-curl http://localhost:3000/api/v2/swagger > tmp/swagger.json
-curl http://localhost:3000/api/v2/management/swagger > tmp/peatio_management_api_v2_swagger.json
-swagger-markdown -i tmp/swagger.json -o ./docs/api/peatio_user_api_v2.md
-swagger-markdown -i tmp/peatio_management_api_v2_swagger.json -o ./docs/api/peatio_management_api_v2.md
-cat tmp/swagger.json | prettyjson > docs/api/swagger.json
+
+curl http://localhost:3000/api/v2/swagger > tmp/user_api_v2_swagger.json
+curl http://localhost:3000/api/v2/management/swagger > tmp/management_api_v2_swagger.json
+curl http://localhost:3000/api/v2/admin/swagger > tmp/admin_api_v2_swagger.json
+
+swagger-markdown -i tmp/user_api_v2_swagger.json -o ./docs/api/peatio_user_api_v2.md
+swagger-markdown -i tmp/management_api_v2_swagger.json -o ./docs/api/peatio_management_api_v2.md
+swagger-markdown -i tmp/admin_api_v2_swagger.json -o ./docs/api/peatio_admin_api_v2.md
+
+cat tmp/user_api_v2_swagger.json | jq > docs/api/swagger/user_api.json
+cat tmp/management_api_v2_swagger.json | jq > docs/api/swagger/management_api.json
+cat tmp/admin_api_v2_swagger.json | jq > docs/api/swagger/admin_api.json
+
 kill $(cat tmp/pids/server.pid)

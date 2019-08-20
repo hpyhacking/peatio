@@ -9,7 +9,7 @@ describe Member do
     subject(:member) { create(:member, :level_3) }
     it { expect(member.uid).to_not be_nil }
     it { expect(member.uid).to_not be_empty }
-    it { expect(member.uid).to match /\AU[A-Z0-9]{9}$/ }
+    it { expect(member.uid).to match(/\AID[A-Z0-9]{10}$/) }
   end
 
   describe 'before_create' do

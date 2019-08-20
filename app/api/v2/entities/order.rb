@@ -7,7 +7,7 @@ module API
       class Order < Base
         expose(
           :id,
-          documentation:{ 
+          documentation:{
             type: Integer,
             desc: "Unique order id."
           }

@@ -14,7 +14,7 @@ module API
         end
       private
 
-         def auth_by_jwt?
+        def auth_by_jwt?
           request.headers.key?('Authorization')
         end
 

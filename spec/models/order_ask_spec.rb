@@ -31,7 +31,7 @@ describe OrderAsk do
       expect(bid).to eq('1010'.to_d * OrderBid::LOCKING_BUFFER_FACTOR)
     end
 
-    it 'should make sure price is greater than min_ask_price' do
+    it 'should make sure price is greater than min_price' do
       ask = OrderAsk.new(market_id: market.id, price: '0.0'.to_d, ord_type: 'limit')
       expect(ask).not_to be_valid
       expect(ask.errors[:price]).to include "must be greater than or equal to #{market.min_price}"

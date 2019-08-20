@@ -48,9 +48,9 @@ module API
                                 info: {
                                   title:         "Peatio User API #{API_VERSION}",
                                   description:   'API for Peatio application.',
-                                  contact_name:  'peatio.tech',
-                                  contact_email: 'hello@peatio.tech',
-                                  contact_url:   'https://www.peatio.tech',
+                                  contact_name:  'openware.com',
+                                  contact_email: 'hello@openware.com',
+                                  contact_url:   'https://www.openware.com',
                                   licence:       'MIT',
                                   license_url:   'https://github.com/rubykube/peatio/blob/master/LICENSE.md'
                                 },
@@ -75,7 +75,8 @@ module API
 
       # Mount Management API after swagger. To separate swagger Management API doc.
       # TODO: Find better solution for separating swagger Management API.
-      mount Management::Mount   => :management
+      mount Management::Mount => :management
+      mount Admin::Mount      => :admin
     end
   end
 end

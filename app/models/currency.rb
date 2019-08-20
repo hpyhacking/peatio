@@ -51,6 +51,8 @@ class Currency < ApplicationRecord
             :min_withdraw_amount,
             :withdraw_limit_24h,
             :withdraw_limit_72h,
+            :precision,
+            :position,
             numericality: { greater_than_or_equal_to: 0 }
 
   validate :validate_options
@@ -113,6 +115,13 @@ class Currency < ApplicationRecord
   #   code.eth? # true if code equals to "eth".
   def id
     super&.inquiry
+  end
+
+  # subunit (or fractional monetary unit) - a monetary unit
+  # that is valued at a fraction (usually one hundredth)
+  # of the basic monetary unit
+  def subunits=(n)
+    self.base_factor = 10 ** n
   end
 
   def as_json(*)

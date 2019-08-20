@@ -45,4 +45,12 @@ describe Currency do
     currency.update(enabled: false)
     expect(currency.errors.full_messages).to eq ['Cannot disable display currency!']
   end
+
+  context 'subunits=' do
+    let!(:currency) { Currency.find(:btc) }
+
+    it 'updates base_factor' do
+      expect { currency.subunits = 4 }.to change { currency.base_factor }.to 10_000
+    end
+  end
 end
