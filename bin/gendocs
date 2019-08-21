@@ -40,7 +40,7 @@ bundle exec rails db:migrate
 bundle exec rails db:seed
 
 npm i -g swagger-markdown
-sudo apt-get install jq
+sudo apt-get install -y jq
 bundle exec rails s -d
 while [ ! -f tmp/pids/server.pid ]
 do
