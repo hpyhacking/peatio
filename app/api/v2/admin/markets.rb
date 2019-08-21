@@ -10,18 +10,6 @@ module API
           # Collection of shared params, used to
           # generate required/optional Grape params.
           OPTIONAL_MARKET_PARAMS = {
-            maker_fee: {
-              type: { value: BigDecimal, message: 'admin.market.non_decimal_maker_fee' },
-              values: { value: -> (p){ p >= 0 }, message: 'admin.market.invalid_maker_fee' },
-              default: 0.0,
-              desc: -> { API::V2::Admin::Entities::Market.documentation[:maker_fee][:desc] }
-            },
-            taker_fee: {
-              type: { value: BigDecimal, message: 'admin.market.non_decimal_bid_fee' },
-              values: { value: -> (p){ p >= 0 }, message: 'admin.market.invalid_bid_fee' },
-              default: 0.0,
-              desc: -> { API::V2::Admin::Entities::Market.documentation[:taker_fee][:desc] }
-            },
             max_price: {
               type: { value: BigDecimal, message: 'admin.market.non_decimal_max_price' },
               values: { value: -> (p){ p >= 0 }, message: 'admin.market.invalid_max_price' },

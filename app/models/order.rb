@@ -27,20 +27,16 @@ class Order < ApplicationRecord
   validates :origin_volume,
             presence: true,
             numericality: { greater_than: 0, greater_than_or_equal_to: ->(order){ order.market.min_amount } }
-  validate do
-    if origin_volume.present? && !market.valid_precision?(origin_volume, market.amount_precision)
-      errors.add(:origin_volume, 'is too precise')
-    end
-  end
+
+  validates :origin_volume, precision: { less_than_or_eq_to: ->(o) { o.market.amount_precision } },
+                            if: ->(o) { o.origin_volume.present? }
 
   validate  :market_order_validations, if: ->(order) { order.ord_type == 'market' }
 
   validates :price, presence: true, if: :is_limit_order?
-  validate do
-    if price.present? && !market.valid_precision?(price, market.price_precision)
-      errors.add(:price, 'is too precise')
-    end
-  end
+
+  validates :price, precision: { less_than_or_eq_to: ->(o) { o.market.price_precision } },
+                    if: ->(o) { o.price.present? }
 
   validates :price,
             numericality: { less_than_or_equal_to: ->(order){ order.market.max_price }},
@@ -71,9 +67,10 @@ class Order < ApplicationRecord
   # Single Order can produce multiple Trades with different fee types (maker and taker).
   # Since we can't predict fee types on order creation step and
   # Market fees configuration can change we need to store fees on Order creation.
-  before_validation(on: :create) do
-    self.maker_fee = market.maker_fee
-    self.taker_fee = market.taker_fee
+  after_validation(on: :create, if: ->(o) { o.errors.blank? }) do
+    trading_fee = TradingFee.for(group: member.group, market_id: market_id)
+    self.maker_fee = trading_fee.maker
+    self.taker_fee = trading_fee.taker
   end
 
   after_commit on: :create do

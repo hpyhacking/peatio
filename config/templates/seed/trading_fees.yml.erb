@@ -1,0 +1,29 @@
+<% if ENV['TRADING_FEES_CONFIG'] %>
+<%= File.read(ENV['TRADING_FEES_CONFIG']) %>
+<% else %>
+- market_id:        any
+  group:            any
+  maker:            0.002
+  taker:            0.002
+
+- market_id:        any
+  group:            vip-0
+  maker:            0.001
+  taker:            0.002
+
+- market_id:        any
+  group:            vip-1
+  maker:            0.0008
+  taker:            0.0018
+
+- market_id:        any
+  group:            vip-2
+  maker:            0.0006
+  taker:            0.0016
+
+- market_id:        any
+  group:            vip-3
+  maker:            0.0
+  taker:            0.0014
+
+<% end %>

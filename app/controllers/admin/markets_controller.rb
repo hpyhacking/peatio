@@ -47,8 +47,6 @@ module Admin
       attributes = %i[
         base_currency
         quote_currency
-        maker_fee
-        taker_fee
         state
         min_price
         max_price

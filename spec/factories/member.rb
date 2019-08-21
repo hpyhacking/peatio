@@ -7,6 +7,7 @@ FactoryBot.define do
     level { 0 }
     uid { "ID#{Faker::Number.unique.hexadecimal(10)}".upcase }
     role { "member" }
+    group { "vip-0" }
     state { "active" }
 
     trait :level_3 do

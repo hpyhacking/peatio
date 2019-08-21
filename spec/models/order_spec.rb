@@ -98,13 +98,13 @@ describe Order, 'precision validations', type: :model do
   it 'validates origin_volume precision' do
     record = order_bid
     expect(record.save).to eq false
-    expect(record.errors[:origin_volume]).to include(/is too precise/i)
+    expect(record.errors[:origin_volume]).to include(/precision must be less than or equal to 8/i)
   end
 
   it 'validates price precision' do
     record = order_ask
     expect(record.save).to eq false
-    expect(record.errors[:price]).to include(/is too precise/i)
+    expect(record.errors[:price]).to include(/precision must be less than or equal to 2/i)
   end
 end
 

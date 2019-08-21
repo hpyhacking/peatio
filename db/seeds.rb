@@ -7,3 +7,4 @@ Rake::Task['seed:blockchains'].invoke
 Rake::Task['seed:currencies'].invoke
 Rake::Task['seed:markets'].invoke
 Rake::Task['seed:wallets'].invoke
+Rake::Task['seed:trading_fees'].invoke

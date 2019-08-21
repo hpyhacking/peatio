@@ -92,7 +92,6 @@ describe API::V2::Admin::Markets, type: :request do
     it 'creates new market' do
       api_post '/api/v2/admin/markets/new', token: token, params: valid_params
       result = JSON.parse(response.body)
-
       expect(response).to be_successful
       expect(result['id']).to eq 'trstbtc'
     end
@@ -136,11 +135,11 @@ describe API::V2::Admin::Markets, type: :request do
 
   describe 'POST /api/v2/admin/markets/update' do
     it 'update market' do
-      api_post '/api/v2/admin/markets/update', params: { id: Market.first.id, taker_fee: 0.4 }, token: token
+      api_post '/api/v2/admin/markets/update', params: { id: Market.first.id, min_price: 0.4 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
-      expect(result['taker_fee']).to eq '0.4'
+      expect(result['min_price']).to eq '0.4'
     end
 
     it 'checkes required params' do

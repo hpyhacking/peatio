@@ -91,6 +91,7 @@ RSpec.configure do |config|
 
     %i[btcusd btceth].each { |market| FactoryBot.create(:market, market) }
     %w[101 102 201 202 211 212 301 302 401 402].each { |ac_code| FactoryBot.create(:operations_account, ac_code)}
+    FactoryBot.create(:trading_fee, market_id: :any, group: :any, maker: 0.0015, taker: 0.0015)
   end
 
   config.after(:each) do

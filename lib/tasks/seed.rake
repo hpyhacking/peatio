@@ -74,4 +74,14 @@ namespace :seed do
       end
     end
   end
+
+  desc 'Adds missing trading_fees to database defined at config/seed/trading_fees.yml.'
+  task trading_fees: :environment do
+    TradingFee.transaction do
+      YAML.load_file(Rails.root.join('config/seed/trading_fees.yml')).each do |hash|
+        next if TradingFee.exists?(market_id: hash.fetch('market_id'), group: hash.fetch('group'))
+        TradingFee.create!(hash)
+      end
+    end
+  end
 end

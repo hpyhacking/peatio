@@ -25,7 +25,6 @@ class Market < ApplicationRecord
   # For fee we define static precision - 4.
   # So 12 left for amount and price precision.
   DB_DECIMAL_PRECISION = 16
-  FEE_PRECISION = 4
   FUNDS_PRECISION = 12
 
   STATES = %w[enabled disabled hidden locked sale presale].freeze
@@ -46,6 +45,12 @@ class Market < ApplicationRecord
   alias_attribute :base_currency, :base_unit
   alias_attribute :quote_currency, :quote_unit
 
+  # == Extensions ===========================================================
+
+  # == Relationships ========================================================
+
+  has_many :trading_fees, dependent: :delete_all
+
   # == Validations ==========================================================
 
   validate do
@@ -65,13 +70,9 @@ class Market < ApplicationRecord
 
   validates :base_currency, :quote_currency, presence: true
 
-  validates :maker_fee,
-            :taker_fee,
-            presence: true,
-            numericality: { greater_than_or_equal_to: 0,
-                            less_than_or_equal_to: 0.5 }
+  validates :min_price, :max_price, precision: { less_than_or_eq_to: ->(m) { m.price_precision } }
 
-  validate  :validate_attr_precisions
+  validates :min_amount, precision: { less_than_or_eq_to: ->(m) { m.amount_precision } }
 
   validates :amount_precision,
             :price_precision,
@@ -173,22 +174,7 @@ class Market < ApplicationRecord
     0.1.to_d**price_precision
   end
 
-  def valid_precision?(d, max_precision)
-    d.round(max_precision) == d
-  end
-
 private
-
-  def validate_attr_precisions
-    { maker_fee: FEE_PRECISION, taker_fee: FEE_PRECISION,
-      min_price: price_precision, max_price: price_precision,
-      min_amount: amount_precision }.each do |field, precision|
-      attr_value = public_send(field)
-      unless attr_value.round(precision) == attr_value
-        errors.add(field, "is too precise (max fractional part size is #{precision})")
-      end
-    end
-  end
 
   def currencies_must_be_enabled
     %i[base_currency quote_currency].each do |unit|
@@ -198,7 +184,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20190813121822
+# Schema version: 20190816125948
 #
 # Table name: markets
 #
@@ -207,8 +193,6 @@ end
 #  quote_unit       :string(10)       not null
 #  amount_precision :integer          default(4), not null
 #  price_precision  :integer          default(4), not null
-#  maker_fee        :decimal(17, 16)  default(0.0), not null
-#  taker_fee        :decimal(17, 16)  default(0.0), not null
 #  min_price        :decimal(32, 16)  default(0.0), not null
 #  max_price        :decimal(32, 16)  default(0.0), not null
 #  min_amount       :decimal(32, 16)  default(0.0), not null

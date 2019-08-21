@@ -41,22 +41,6 @@ module API
         )
 
         expose(
-          :maker_fee,
-          documentation: {
-            type: BigDecimal,
-            desc: "Market maker fee."
-          }
-        )
-
-        expose(
-          :taker_fee,
-          documentation: {
-            type: BigDecimal,
-            desc: "Market taker fee."
-          }
-        )
-
-        expose(
           :min_price,
           documentation: {
             type: BigDecimal,

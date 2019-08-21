@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_13_121822) do
+ActiveRecord::Schema.define(version: 2019_08_16_125948) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -134,8 +134,6 @@ ActiveRecord::Schema.define(version: 2019_08_13_121822) do
     t.string "quote_unit", limit: 10, null: false
     t.integer "amount_precision", limit: 1, default: 4, null: false
     t.integer "price_precision", limit: 1, default: 4, null: false
-    t.decimal "maker_fee", precision: 17, scale: 16, default: "0.0", null: false
-    t.decimal "taker_fee", precision: 17, scale: 16, default: "0.0", null: false
     t.decimal "min_price", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "max_price", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "min_amount", precision: 32, scale: 16, default: "0.0", null: false
@@ -154,6 +152,7 @@ ActiveRecord::Schema.define(version: 2019_08_13_121822) do
     t.string "email", null: false
     t.integer "level", null: false
     t.string "role", limit: 16, null: false
+    t.string "group", limit: 32, default: "vip-0", null: false
     t.string "state", limit: 16, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -245,6 +244,18 @@ ActiveRecord::Schema.define(version: 2019_08_13_121822) do
     t.index ["maker_order_id"], name: "index_trades_on_maker_order_id"
     t.index ["market_id", "created_at"], name: "index_trades_on_market_id_and_created_at"
     t.index ["taker_order_id"], name: "index_trades_on_taker_order_id"
+  end
+
+  create_table "trading_fees", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "market_id", limit: 20, default: "any", null: false
+    t.string "group", limit: 32, default: "any", null: false
+    t.decimal "maker", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "taker", precision: 5, scale: 4, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group"], name: "index_trading_fees_on_group"
+    t.index ["market_id", "group"], name: "index_trading_fees_on_market_id_and_group", unique: true
+    t.index ["market_id"], name: "index_trading_fees_on_market_id"
   end
 
   create_table "transfers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

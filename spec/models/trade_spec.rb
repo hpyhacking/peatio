@@ -60,12 +60,6 @@ describe Trade, '#record_complete_operations!' do
 
   subject{ trade }
 
-  let(:maker_fee) { 0.002 }
-  let(:taker_fee) { 0.001 }
-  before do
-    trade.market.update(maker_fee: maker_fee, taker_fee: taker_fee)
-  end
-
   it 'creates four liability operations' do
     expect{ subject.record_complete_operations! }.to change{ Operations::Liability.count }.by(4)
   end

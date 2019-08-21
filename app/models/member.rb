@@ -160,7 +160,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20181027192001
+# Schema version: 20190816125948
 #
 # Table name: members
 #
@@ -169,6 +169,7 @@ end
 #  email      :string(255)      not null
 #  level      :integer          not null
 #  role       :string(16)       not null
+#  group      :string(32)       default("vip-0"), not null
 #  state      :string(16)       not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

@@ -164,7 +164,7 @@ describe Matching::Executor do
       let(:bid) { create(:order_bid, :btcusd, price: price, volume: volume, member: bob) }
 
       before do
-        market.update!(maker_fee: 0.01, taker_fee: 0.02)
+        TradingFee.last.update!(maker: 0.01, taker: 0.02)
         subject.execute!
       end
 
@@ -184,7 +184,7 @@ describe Matching::Executor do
       let(:bid) { create(:order_bid, :btcusd, price: price, volume: volume, member: bob) }
 
       before do
-        market.update!(maker_fee: 0.0, taker_fee: 0.02)
+        TradingFee.last.update!(maker: 0.0, taker: 0.02)
         subject.execute!
       end
 
