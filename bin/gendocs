@@ -40,7 +40,6 @@ bundle exec rails db:migrate
 bundle exec rails db:seed
 
 npm i -g swagger-markdown
-sudo apt-get install -y jq
 bundle exec rails s -d
 while [ ! -f tmp/pids/server.pid ]
 do
@@ -52,12 +51,17 @@ curl http://localhost:3000/api/v2/swagger > tmp/user_api_v2_swagger.json
 curl http://localhost:3000/api/v2/management/swagger > tmp/management_api_v2_swagger.json
 curl http://localhost:3000/api/v2/admin/swagger > tmp/admin_api_v2_swagger.json
 
+mkdir -p docs/api/swagger
+
 swagger-markdown -i tmp/user_api_v2_swagger.json -o ./docs/api/peatio_user_api_v2.md
 swagger-markdown -i tmp/management_api_v2_swagger.json -o ./docs/api/peatio_management_api_v2.md
 swagger-markdown -i tmp/admin_api_v2_swagger.json -o ./docs/api/peatio_admin_api_v2.md
 
-cat tmp/user_api_v2_swagger.json | jq > docs/api/swagger/user_api.json
-cat tmp/management_api_v2_swagger.json | jq > docs/api/swagger/management_api.json
-cat tmp/admin_api_v2_swagger.json | jq > docs/api/swagger/admin_api.json
+ruby -r json -e "puts JSON.pretty_generate(JSON.parse(File.read('tmp/user_api_v2_swagger.json')))" \
+      > docs/api/swagger/user_api.json
+ruby -r json -e "puts JSON.pretty_generate(JSON.parse(File.read('tmp/management_api_v2_swagger.json')))" \
+      > docs/api/swagger/management_api.json
+ruby -r json -e "puts JSON.pretty_generate(JSON.parse(File.read('tmp/admin_api_v2_swagger.json')))" \
+      > docs/api/swagger/admin_api.json
 
 kill $(cat tmp/pids/server.pid)
