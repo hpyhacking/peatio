@@ -38,8 +38,9 @@ module Matching
   private
 
     def validate!
-      raise_error(3001, 'Maker order price exceeds strike price.') if @maker_order.ord_type == 'limit' && @maker_order.price > @price
-      raise_error(3002, 'Taker order price is less than strike price.') if @taker_order.ord_type == 'limit' && @taker_order.price < @price
+      ask, bid = @maker_order.side == 'sell' ? [@maker_order, @taker_order] : [@taker_order, @maker_order]
+      raise_error(3001, 'Ask price exceeds strike price.') if ask.ord_type == 'limit' && ask.price > @price
+      raise_error(3002, 'Bid price is less than strike price.') if bid.ord_type == 'limit' && bid.price < @price
       raise_error(3003, "Maker order state isn\'t equal to «wait» (#{@maker_order.state}).") unless @maker_order.state == Order::WAIT
       raise_error(3004, "Taker order state isn\'t equal to «wait» (#{@taker_order.state}).") unless @taker_order.state == Order::WAIT
       unless @total > ZERO && [@maker_order.volume, @taker_order.volume].min >= @amount
