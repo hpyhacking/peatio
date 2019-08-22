@@ -9,6 +9,16 @@ Peatio is a free and open-source crypto currency exchange implementation with th
 This is a fork of Peatio designed for micro-services architecture. We have simplified the code
 in order to use only Peatio API with external frontend and server components.
 
+## Getting Started
+
+Rubykube is a container distribution, the fastest way to install the full stack is using [OpenDAX](https://github.com/openware/opendax)
+
+```
+# To install
+git clone https://github.com/openware/opendax.git
+# Follow the README instructions
+```
+
 To build your own exchange you should now run Peatio as a backend instead of forking the repository,
 and extend it using other microservices such as [Barong](https://www.github.com/rubykube/barong).
 
