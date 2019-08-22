@@ -1,12 +1,12 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.3.12
+## Version: 2.3.13
 
 **Contact information:**  
-peatio.tech  
-https://www.peatio.tech  
-hello@peatio.tech  
+openware.com  
+https://www.openware.com  
+hello@openware.com  
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -477,7 +477,7 @@ Create a Sell/Buy order.
 #### GET
 ##### Description:
 
-Get your orders, results is paginated.
+Get your orders, result is paginated.
 
 ##### Parameters
 
@@ -495,7 +495,7 @@ Get your orders, results is paginated.
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Get your orders, results is paginated. | [ [Order](#order) ] |
+| 200 | Get your orders, result is paginated. | [ [Order](#order) ] |
 
 ### /market/orders/{id}
 
@@ -546,7 +546,7 @@ Get the order book of specified market.
 
 #### Order
 
-Get your orders, results is paginated.
+Get your orders, result is paginated.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -575,8 +575,6 @@ Get all available markets.
 | name | string | Market name. | No |
 | base_unit | string | Market Base unit. | No |
 | quote_unit | string | Market Quote unit. | No |
-| maker_fee | double | Market maker fee. | No |
-| taker_fee | double | Market taker fee. | No |
 | min_price | double | Minimum order price. | No |
 | max_price | double | Maximum order price. | No |
 | min_amount | double | Minimum order amount. | No |

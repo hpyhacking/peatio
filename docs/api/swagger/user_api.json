@@ -1,0 +1,1694 @@
+{
+  "info": {
+    "title": "Peatio User API v2",
+    "description": "API for Peatio application.",
+    "contact": {
+      "name": "openware.com",
+      "email": "hello@openware.com",
+      "url": "https://www.openware.com"
+    },
+    "license": {
+      "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
+    },
+    "version": "2.3.13"
+  },
+  "swagger": "2.0",
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "JWT",
+      "in": "header"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v2",
+  "tags": [
+    {
+      "name": "public",
+      "description": "Operations about publics"
+    },
+    {
+      "name": "account",
+      "description": "Operations about accounts"
+    },
+    {
+      "name": "market",
+      "description": "Operations about markets"
+    }
+  ],
+  "paths": {
+    "/public/health/ready": {
+      "get": {
+        "description": "Get application readiness status",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get application readiness status"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicHealthReady"
+      }
+    },
+    "/public/health/alive": {
+      "get": {
+        "description": "Get application liveness status",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get application liveness status"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicHealthAlive"
+      }
+    },
+    "/public/version": {
+      "get": {
+        "description": "Get running Peatio version and build details.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get running Peatio version and build details."
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicVersion"
+      }
+    },
+    "/public/timestamp": {
+      "get": {
+        "description": "Get server current time, in seconds since Unix epoch.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get server current time, in seconds since Unix epoch."
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicTimestamp"
+      }
+    },
+    "/public/member-levels": {
+      "get": {
+        "description": "Returns hash of minimum levels and the privileges they provide.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns hash of minimum levels and the privileges they provide."
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicMemberLevels"
+      }
+    },
+    "/public/markets/{market}/tickers": {
+      "get": {
+        "description": "Get ticker of specific market.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "market",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethbtc",
+              "ethusd",
+              "trstbtc",
+              "trsteth",
+              "trstusd"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get ticker of specific market."
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicMarketsMarketTickers"
+      }
+    },
+    "/public/markets/tickers": {
+      "get": {
+        "description": "Get ticker of all markets.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get ticker of all markets."
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicMarketsTickers"
+      }
+    },
+    "/public/markets/{market}/k-line": {
+      "get": {
+        "description": "Get OHLC(k line) of specific market.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "market",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethbtc",
+              "ethusd",
+              "trstbtc",
+              "trsteth",
+              "trstusd"
+            ],
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "period",
+            "description": "Time period of K line, default to 1. You can choose between 1, 5, 15, 30, 60, 120, 240, 360, 720, 1440, 4320, 10080",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "enum": [
+              1,
+              5,
+              15,
+              30,
+              60,
+              120,
+              240,
+              360,
+              720,
+              1440,
+              4320,
+              10080
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_from",
+            "description": "An integer represents the seconds elapsed since Unix epoch. If set, only k-line data after that time will be returned.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_to",
+            "description": "An integer represents the seconds elapsed since Unix epoch. If set, only k-line data till that time will be returned.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned data points default to 30. Ignored if time_from and time_to are given.",
+            "type": "integer",
+            "format": "int32",
+            "default": 30,
+            "minimum": 1,
+            "maximum": 10000,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get OHLC(k line) of specific market."
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicMarketsMarketKLine"
+      }
+    },
+    "/public/markets/{market}/depth": {
+      "get": {
+        "description": "Get depth or specified market. Both asks and bids are sorted from highest price to lowest.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "market",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethbtc",
+              "ethusd",
+              "trstbtc",
+              "trsteth",
+              "trstusd"
+            ],
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned price levels. Default to 300.",
+            "type": "integer",
+            "format": "int32",
+            "default": 300,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get depth or specified market. Both asks and bids are sorted from highest price to lowest."
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicMarketsMarketDepth"
+      }
+    },
+    "/public/markets/{market}/trades": {
+      "get": {
+        "description": "Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "market",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethbtc",
+              "ethusd",
+              "trstbtc",
+              "trsteth",
+              "trstusd"
+            ],
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned trades. Default to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "timestamp",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only trades executed before the time will be returned.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "If set, returned trades will be sorted in specific order, default to 'desc'.",
+            "type": "string",
+            "default": "desc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Trade"
+              }
+            }
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicMarketsMarketTrades"
+      }
+    },
+    "/public/markets/{market}/order-book": {
+      "get": {
+        "description": "Get the order book of specified market.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "market",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethbtc",
+              "ethusd",
+              "trstbtc",
+              "trsteth",
+              "trstusd"
+            ],
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "asks_limit",
+            "description": "Limit the number of returned sell orders. Default to 20.",
+            "type": "integer",
+            "format": "int32",
+            "default": 20,
+            "minimum": 1,
+            "maximum": 200,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "bids_limit",
+            "description": "Limit the number of returned buy orders. Default to 20.",
+            "type": "integer",
+            "format": "int32",
+            "default": 20,
+            "minimum": 1,
+            "maximum": 200,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get the order book of specified market.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/OrderBook"
+              }
+            }
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicMarketsMarketOrderBook"
+      }
+    },
+    "/public/markets": {
+      "get": {
+        "description": "Get all available markets.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all available markets.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Market"
+              }
+            }
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicMarkets"
+      }
+    },
+    "/public/currencies": {
+      "get": {
+        "description": "Get list of currencies",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "description": "Currency type",
+            "type": "string",
+            "enum": [
+              "fiat",
+              "coin"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list of currencies",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Currency"
+              }
+            }
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicCurrencies"
+      }
+    },
+    "/public/currencies/{id}": {
+      "get": {
+        "description": "Get a currency",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a currency",
+            "schema": {
+              "$ref": "#/definitions/Currency"
+            }
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicCurrenciesId"
+      }
+    },
+    "/account/balances/{currency}": {
+      "get": {
+        "description": "Get user account by currency",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "currency",
+            "description": "The currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get user account by currency",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "getAccountBalancesCurrency"
+      }
+    },
+    "/account/balances": {
+      "get": {
+        "description": "Get list of user accounts",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list of user accounts",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "getAccountBalances"
+      }
+    },
+    "/account/deposit_address/{currency}": {
+      "get": {
+        "description": "Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "currency",
+            "description": "The account you want to deposit to.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "BTC",
+              "ETH",
+              "TRST"
+            ],
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "address_format",
+            "description": "Address format legacy/cash",
+            "type": "string",
+            "enum": [
+              "legacy",
+              "cash"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later.",
+            "schema": {
+              "$ref": "#/definitions/Deposit"
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "getAccountDepositAddressCurrency"
+      }
+    },
+    "/account/deposits/{txid}": {
+      "get": {
+        "description": "Get details of specific deposit.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "txid",
+            "description": "Deposit transaction id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get details of specific deposit.",
+            "schema": {
+              "$ref": "#/definitions/Deposit"
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "getAccountDepositsTxid"
+      }
+    },
+    "/account/deposits": {
+      "get": {
+        "description": "Get your deposits history.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Currency code",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "submitted",
+              "canceled",
+              "rejected",
+              "accepted",
+              "collected"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of deposits per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get your deposits history.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Deposit"
+              }
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "getAccountDeposits"
+      }
+    },
+    "/account/withdraws": {
+      "post": {
+        "description": "Creates new crypto withdrawal.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "otp",
+            "description": "OTP to perform action",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "rid",
+            "description": "Wallet address on the Blockchain.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "currency",
+            "description": "The currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "BTC",
+              "ETH",
+              "TRST"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "amount",
+            "description": "The amount to withdraw.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "note",
+            "description": "Optional metadata to be applied to the transaction. Used to tag transactions with memorable comments.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Creates new crypto withdrawal."
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "postAccountWithdraws"
+      },
+      "get": {
+        "description": "List your withdraws as paginated collection.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of withdraws per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List your withdraws as paginated collection.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Withdraw"
+              }
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "getAccountWithdraws"
+      }
+    },
+    "/market/trades": {
+      "get": {
+        "description": "Get your executed trades. Trades are sorted in reverse creation order.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "market",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethbtc",
+              "ethusd",
+              "trstbtc",
+              "trsteth",
+              "trstusd"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned trades. Default to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only trades executed after the time will be returned.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only trades executed before the time will be returned.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "If set, returned trades will be sorted in specific order, default to 'desc'.",
+            "type": "string",
+            "default": "desc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get your executed trades. Trades are sorted in reverse creation order.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Trade"
+              }
+            }
+          }
+        },
+        "tags": [
+          "market"
+        ],
+        "operationId": "getMarketTrades"
+      }
+    },
+    "/market/orders/cancel": {
+      "post": {
+        "description": "Cancel all my orders.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "market",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethbtc",
+              "ethusd",
+              "trstbtc",
+              "trsteth",
+              "trstusd"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "side",
+            "description": "If present, only sell orders (asks) or buy orders (bids) will be canncelled.",
+            "type": "string",
+            "enum": [
+              "sell",
+              "buy"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Cancel all my orders.",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        },
+        "tags": [
+          "market"
+        ],
+        "operationId": "postMarketOrdersCancel"
+      }
+    },
+    "/market/orders/{id}/cancel": {
+      "post": {
+        "description": "Cancel an order.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Cancel an order."
+          }
+        },
+        "tags": [
+          "market"
+        ],
+        "operationId": "postMarketOrdersIdCancel"
+      }
+    },
+    "/market/orders": {
+      "post": {
+        "description": "Create a Sell/Buy order.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "market",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethbtc",
+              "ethusd",
+              "trstbtc",
+              "trsteth",
+              "trstusd"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "side",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "sell",
+              "buy"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "volume",
+            "description": "",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "ord_type",
+            "description": "",
+            "type": "string",
+            "default": "limit",
+            "enum": [
+              "market",
+              "limit"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "price",
+            "description": "",
+            "type": "number",
+            "format": "double",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create a Sell/Buy order.",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        },
+        "tags": [
+          "market"
+        ],
+        "operationId": "postMarketOrders"
+      },
+      "get": {
+        "description": "Get your orders, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "market",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethbtc",
+              "ethusd",
+              "trstbtc",
+              "trsteth",
+              "trstusd"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Filter order by state.",
+            "type": "string",
+            "enum": [
+              "pending",
+              "wait",
+              "done",
+              "cancel",
+              "reject"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned orders, default to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 0,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "If set, returned orders will be sorted in specific order, default to \"desc\".",
+            "type": "string",
+            "default": "desc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ord_type",
+            "description": "Filter order by ord_type.",
+            "type": "string",
+            "enum": [
+              "market",
+              "limit"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "description": "Filter order by type.",
+            "type": "string",
+            "enum": [
+              "buy",
+              "sell"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get your orders, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Order"
+              }
+            }
+          }
+        },
+        "tags": [
+          "market"
+        ],
+        "operationId": "getMarketOrders"
+      }
+    },
+    "/market/orders/{id}": {
+      "get": {
+        "description": "Get information of specified order.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get information of specified order.",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        },
+        "tags": [
+          "market"
+        ],
+        "operationId": "getMarketOrdersId"
+      }
+    }
+  },
+  "definitions": {
+    "Trade": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Trade ID."
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade price."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade amount."
+        },
+        "total": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade total (Amount * Price)."
+        },
+        "market": {
+          "type": "string",
+          "description": "Trade market id."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Trade create time in iso8601 format."
+        },
+        "taker_type": {
+          "type": "string",
+          "description": "Trade taker order type (sell or buy)."
+        },
+        "side": {
+          "type": "string",
+          "description": "Trade side."
+        },
+        "order_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Order id."
+        }
+      },
+      "description": "Get your executed trades. Trades are sorted in reverse creation order."
+    },
+    "OrderBook": {
+      "type": "object",
+      "properties": {
+        "asks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Order"
+          },
+          "description": "Asks in orderbook"
+        },
+        "bids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Order"
+          },
+          "description": "Bids in orderbook"
+        }
+      },
+      "description": "Get the order book of specified market."
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique order id."
+        },
+        "side": {
+          "type": "string",
+          "description": "Either 'sell' or 'buy'."
+        },
+        "ord_type": {
+          "type": "string",
+          "description": "Type of order, either 'limit' or 'market'."
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "Price for each unit. e.g.If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0'"
+        },
+        "avg_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Average execution price, average of price in trades."
+        },
+        "state": {
+          "type": "string",
+          "description": "One of 'wait', 'done', or 'cancel'.An order in 'wait' is an active order, waiting fulfillment;a 'done' order is an order fulfilled;'cancel' means the order has been canceled."
+        },
+        "market": {
+          "type": "string",
+          "description": "The market in which the order is placed, e.g. 'btcusd'.All available markets can be found at /api/v2/markets."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Order create time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Order updated time in iso8601 format."
+        },
+        "origin_volume": {
+          "type": "number",
+          "format": "double",
+          "description": "The amount user want to sell/buy.An order could be partially executed,e.g. an order sell 5 btc can be matched with a buy 3 btc order,left 2 btc to be sold; in this case the order's volume would be '5.0',its remaining_volume would be '2.0', its executed volume is '3.0'."
+        },
+        "remaining_volume": {
+          "type": "number",
+          "format": "double",
+          "description": "The remaining volume, see 'volume'."
+        },
+        "executed_volume": {
+          "type": "number",
+          "format": "double",
+          "description": "The executed volume, see 'volume'."
+        },
+        "trades_count": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Count of trades."
+        },
+        "trades": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Trade"
+          },
+          "description": "Trades wiht this order."
+        }
+      },
+      "description": "Get your orders, result is paginated."
+    },
+    "Market": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets."
+        },
+        "name": {
+          "type": "string",
+          "description": "Market name."
+        },
+        "base_unit": {
+          "type": "string",
+          "description": "Market Base unit."
+        },
+        "quote_unit": {
+          "type": "string",
+          "description": "Market Quote unit."
+        },
+        "min_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Minimum order price."
+        },
+        "max_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Maximum order price."
+        },
+        "min_amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Minimum order amount."
+        },
+        "amount_precision": {
+          "type": "number",
+          "format": "double",
+          "description": "Precision for order amount."
+        },
+        "price_precision": {
+          "type": "number",
+          "format": "double",
+          "description": "Precision for order price."
+        },
+        "state": {
+          "type": "string",
+          "description": "Market state defines if user can see/trade on current market."
+        }
+      },
+      "description": "Get all available markets."
+    },
+    "Currency": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "btc",
+          "description": "Currency code."
+        },
+        "name": {
+          "type": "string",
+          "example": "Bitcoin",
+          "description": "Currency name"
+        },
+        "symbol": {
+          "type": "string",
+          "example": "฿",
+          "description": "Currency symbol"
+        },
+        "explorer_transaction": {
+          "type": "string",
+          "example": "https://testnet.blockchain.info/tx/",
+          "description": "Currency transaction exprorer url template"
+        },
+        "explorer_address": {
+          "type": "string",
+          "example": "https://testnet.blockchain.info/address/",
+          "description": "Currency address exprorer url template"
+        },
+        "type": {
+          "type": "string",
+          "example": "coin",
+          "description": "Currency type"
+        },
+        "deposit_fee": {
+          "type": "string",
+          "example": "0.0",
+          "description": "Currency deposit fee"
+        },
+        "min_deposit_amount": {
+          "type": "string",
+          "example": "0.0000356",
+          "description": "Minimal deposit amount"
+        },
+        "withdraw_fee": {
+          "type": "string",
+          "example": "0.0",
+          "description": "Currency withdraw fee"
+        },
+        "min_withdraw_amount": {
+          "type": "string",
+          "example": "0.0",
+          "description": "Minimal withdraw amount"
+        },
+        "withdraw_limit_24h": {
+          "type": "string",
+          "example": "0.1",
+          "description": "Currency 24h withdraw limit"
+        },
+        "withdraw_limit_72h": {
+          "type": "string",
+          "example": "0.2",
+          "description": "Currency 72h withdraw limit"
+        },
+        "base_factor": {
+          "type": "string",
+          "example": 100000000,
+          "description": "Currency base factor"
+        },
+        "precision": {
+          "type": "string",
+          "example": 8,
+          "description": "Currency precision"
+        },
+        "icon_url": {
+          "type": "string",
+          "example": "https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg",
+          "description": "Currency icon"
+        },
+        "min_confirmations": {
+          "type": "string",
+          "description": "Number of confirmations required for confirming deposit or withdrawal"
+        }
+      },
+      "description": "Get a currency"
+    },
+    "Account": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "Currency code."
+        },
+        "balance": {
+          "type": "number",
+          "format": "double",
+          "description": "Account balance."
+        },
+        "locked": {
+          "type": "number",
+          "format": "double",
+          "description": "Account locked funds."
+        }
+      },
+      "description": "Get list of user accounts"
+    },
+    "Deposit": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique deposit id."
+        },
+        "currency": {
+          "type": "string",
+          "description": "Deposit currency id."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Deposit amount."
+        },
+        "fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Deposit fee."
+        },
+        "txid": {
+          "type": "string",
+          "description": "Deposit transaction id."
+        },
+        "confirmations": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of deposit confirmations."
+        },
+        "state": {
+          "type": "string",
+          "description": "Deposit state."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The datetime when deposit was created."
+        },
+        "completed_at": {
+          "type": "string",
+          "description": "The datetime when deposit was completed.."
+        }
+      },
+      "description": "Get your deposits history."
+    },
+    "Withdraw": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The withdrawal id."
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency code."
+        },
+        "type": {
+          "type": "string",
+          "description": "The withdrawal type"
+        },
+        "amount": {
+          "type": "string",
+          "description": "The withdrawal amount"
+        },
+        "fee": {
+          "type": "number",
+          "format": "double",
+          "description": "The exchange fee."
+        },
+        "blockchain_txid": {
+          "type": "string",
+          "description": "The withdrawal transaction id."
+        },
+        "rid": {
+          "type": "string",
+          "description": "The beneficiary ID or wallet address on the Blockchain."
+        },
+        "state": {
+          "type": "string",
+          "description": "The withdrawal state."
+        },
+        "confirmations": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of confirmations."
+        },
+        "note": {
+          "type": "string",
+          "description": "Withdraw note."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The datetimes for the withdrawal."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The datetimes for the withdrawal."
+        },
+        "done_at": {
+          "type": "string",
+          "description": "The datetime when withdraw was completed"
+        }
+      },
+      "description": "List your withdraws as paginated collection."
+    },
+    "Member": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Member UID."
+        },
+        "email": {
+          "type": "string",
+          "description": "Member email."
+        },
+        "accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Account"
+          },
+          "description": "Member accounts."
+        }
+      }
+    }
+  }
+}

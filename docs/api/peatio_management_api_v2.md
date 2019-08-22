@@ -1,12 +1,12 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.3.12
+## Version: 2.3.13
 
 **Contact information:**  
-peatio.tech  
-https://www.peatio.tech  
-hello@peatio.tech  
+openware.com  
+https://www.openware.com  
+hello@openware.com  
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
@@ -456,6 +456,26 @@ Returns trades as paginated collection.
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns trades as paginated collection. | [Trade](#trade) |
+
+### /members/group
+
+#### POST
+##### Description:
+
+Set user group.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | formData | The shared user ID. | Yes | string |
+| group | formData | User gruop | Yes | string |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Set user group. |
 
 ### Models
 
