@@ -33,6 +33,13 @@ describe API::V2::Admin::Blockchains, type: :request do
     end
   end
 
+  describe 'GET /api/v2/admin/blockchains/clients' do
+    it 'get list of all available clients' do
+      api_get '/api/v2/admin/blockchains/clients', token: token
+      expect(JSON.parse(response.body)).to match_array Blockchain.clients.map &:to_s
+    end
+  end
+
   describe 'GET /api/v2/admin/blockchains' do
     it 'lists of blockchains' do
       api_get '/api/v2/admin/blockchains', token: token

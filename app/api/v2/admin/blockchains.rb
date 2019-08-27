@@ -21,6 +21,12 @@ module API
           present paginate(result), with: API::V2::Admin::Entities::Blockchain
         end
 
+        desc 'Get available blockchain clients.',
+          is_array: true
+        get '/blockchains/clients' do
+          Blockchain.clients
+        end
+
         desc 'Get a blockchain.' do
           success API::V2::Admin::Entities::Blockchain
         end
