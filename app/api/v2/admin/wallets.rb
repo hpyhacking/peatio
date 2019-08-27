@@ -106,7 +106,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:address][:desc] }
           requires :currency_id,
                    values: { value: -> { ::Currency.codes }, message: 'admin.wallet.currency_id_doesnt_exist' },
-                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currency_id][:desc] }
+                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currency][:desc] }
           requires :kind,
                    values: { value: ::Wallet.kind.values, message: 'admin.wallet.invalid_kind' },
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:kind][:desc] }

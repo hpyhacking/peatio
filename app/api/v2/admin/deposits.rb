@@ -18,7 +18,7 @@ module API
                    type: Integer,
                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:id][:desc] }
           optional :txid,
-                   desc: -> { API::V2::Admin::Entities::Deposit.documentation[:blockchain_txid][:desc] }
+                   desc: -> { API::V2::Admin::Entities::Deposit.documentation[:txid][:desc] }
           optional :address,
                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:address][:desc] }
           optional :tid,
