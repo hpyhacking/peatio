@@ -17,6 +17,7 @@ class Member < ApplicationRecord
 
   before_validation :downcase_email
 
+  validates :uid, length: { maximum: 32 }
   validates :email, presence: true, uniqueness: true, email: true
   validates :level, numericality: { greater_than_or_equal_to: 0 }
   validates :role, inclusion: { in: ROLES }
@@ -160,12 +161,12 @@ private
 end
 
 # == Schema Information
-# Schema version: 20190816125948
+# Schema version: 20190829035814
 #
 # Table name: members
 #
 #  id         :integer          not null, primary key
-#  uid        :string(12)       not null
+#  uid        :string(32)       not null
 #  email      :string(255)      not null
 #  level      :integer          not null
 #  role       :string(16)       not null
