@@ -14,10 +14,6 @@
     <%= table_for @markets, class: 'table table-bordered table-striped' do |t| %>
       <% t.column :name, 'Name', class: 'col-xs-2' %>
 
-      <% t.column :maker_fee, 'Maker fee', class: 'col-xs-2' %>
-
-      <% t.column :taker_fee, 'Taker fee', class: 'col-xs-2' %>
-
       <% t.column 'Min amount', class: 'col-xs-2' do |x| %>
         <%= x.min_amount %>
       <% end %>

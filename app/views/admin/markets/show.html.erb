@@ -16,9 +16,6 @@
               <div class="mb-3"><%= @market.quote_unit.upcase %></div>
             <% end %>
 
-            <label>Maker fee</label>
-            <%= f.number_field :maker_fee, step: :any, class: 'form-control mb-3' %>
-
             <label>Maximum Price</label>
             <%= f.number_field :max_price, step: :any, class: 'form-control mb-3' %>
 
@@ -44,9 +41,6 @@
             <% else %>
               <div class="mb-3"><%= @market.base_unit.upcase %></div>
             <% end %>
-
-            <label>Taker fee</label>
-            <%= f.number_field :taker_fee, step: :any, class: 'form-control mb-3' %>
 
             <label>Minimum Price</label>
             <%= f.number_field :min_price, step: :any, class: 'form-control mb-3' %>
