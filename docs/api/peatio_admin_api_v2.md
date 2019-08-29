@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.15
+## Version: 2.3.16
 
 **Contact information:**  
 openware.com  
@@ -702,6 +702,94 @@ Get all members, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all members, result is paginated. | [ [Member](#member) ] |
 
+### /trading_fees/delete
+
+#### POST
+##### Description:
+
+It deletes trading fees record
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Unique trading fee table identifier in database. | Yes | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | It deletes trading fees record | [TradingFee](#tradingfee) |
+
+### /trading_fees/update
+
+#### POST
+##### Description:
+
+It updates trading fees record
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Unique trading fee table identifier in database. | Yes | integer |
+| maker | formData | Market maker fee. | No | double |
+| taker | formData | Market taker fee. | No | double |
+| group | formData | Member group for define maker/taker fee. | No | string |
+| market_id | formData | Market id for define maker/taker fee. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | It updates trading fees record | [TradingFee](#tradingfee) |
+
+### /trading_fees/new
+
+#### POST
+##### Description:
+
+It creates trading fees record
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| maker | formData | Market maker fee. | Yes | double |
+| taker | formData | Market taker fee. | Yes | double |
+| group | formData | Member group for define maker/taker fee. | No | string |
+| market_id | formData | Market id for define maker/taker fee. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | It creates trading fees record | [TradingFee](#tradingfee) |
+
+### /trading_fees
+
+#### GET
+##### Description:
+
+Returns trading_fees table as paginated collection
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| group | query | Member group for define maker/taker fee. | No | string |
+| market_id | query | Market id for define maker/taker fee. | No | string |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+| ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
+| order_by | query | Name of the field, which result will be ordered by. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Returns trading_fees table as paginated collection | [ [TradingFee](#tradingfee) ] |
+
 ### Models
 
 
@@ -896,6 +984,20 @@ Get all members, result is paginated.
 | currency | string | Currency code. | No |
 | balance | double | Account balance. | No |
 | locked | double | Account locked funds. | No |
+
+#### TradingFee
+
+Returns trading_fees table as paginated collection
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Unique trading fee table identifier in database. | No |
+| group | string | Member group for define maker/taker fee. | No |
+| market_id | string | Market id for define maker/taker fee. | No |
+| maker | double | Market maker fee. | No |
+| taker | double | Market taker fee. | No |
+| created_at | string | Trading fee table created time in iso8601 format. | No |
+| updated_at | string | Trading fee table updated time in iso8601 format. | No |
 
 #### Withdraw
 

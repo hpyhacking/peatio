@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.3.15
+## Version: 2.3.16
 
 **Contact information:**  
 openware.com  
@@ -476,6 +476,28 @@ Set user group.
 | Code | Description |
 | ---- | ----------- |
 | 201 | Set user group. |
+
+### /fee_schedule/trading_fees
+
+#### POST
+##### Description:
+
+Returns trading_fees table as paginated collection
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| group | formData | Member group | No | string |
+| market_id | formData | Market id | No | string |
+| page | formData | The page number (defaults to 1). | No | integer |
+| limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Returns trading_fees table as paginated collection |
 
 ### Models
 
