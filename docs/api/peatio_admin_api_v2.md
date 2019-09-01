@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.16
+## Version: 2.3.17
 
 **Contact information:**  
 openware.com  
@@ -790,6 +790,80 @@ Returns trading_fees table as paginated collection
 | ---- | ----------- | ------ |
 | 200 | Returns trading_fees table as paginated collection | [ [TradingFee](#tradingfee) ] |
 
+### /adjustments/action
+
+#### POST
+##### Description:
+
+Accepts adjustment and creates operations or reject adjustment.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Unique adjustment identifier in database. | Yes | integer |
+| action | formData | Adjustment action all available actions: [:accept, :reject] | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Accepts adjustment and creates operations or reject adjustment. | [Adjustment](#adjustment) |
+
+### /adjustments/new
+
+#### POST
+##### Description:
+
+Create new adjustment.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| reason | formData | Adjustment reason. | Yes | string |
+| description | formData | Adjustment description. | Yes | string |
+| category | formData | Adjustment category | Yes | string |
+| amount | formData | Adjustment amount. | Yes | double |
+| currency_id | formData | Adjustment currency ID. | Yes | string |
+| asset_account_code | formData | Adjustment asset account code. | Yes | integer |
+| receiving_account_code | formData | Adjustment receiving account code. | Yes | integer |
+| receiving_member_uid | formData | Adjustment receiving account code. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Create new adjustment. | [Adjustment](#adjustment) |
+
+### /adjustments
+
+#### GET
+##### Description:
+
+Get all adjustments, result is paginated.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | query | Deposit currency id. | No | string |
+| range | query | Date range picker, defaults to 'created'. | No | string |
+| from | query | An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved. | No | dateTime |
+| to | query | An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved. | No | dateTime |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+| ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
+| order_by | query | Name of the field, which result will be ordered by. | No | string |
+| state | query | Adjustment's state. | No | string |
+| category | query | Adjustment category | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get all adjustments, result is paginated. | [ [Adjustment](#adjustment) ] |
+
 ### Models
 
 
@@ -998,6 +1072,31 @@ Returns trading_fees table as paginated collection
 | taker | double | Market taker fee. | No |
 | created_at | string | Trading fee table created time in iso8601 format. | No |
 | updated_at | string | Trading fee table updated time in iso8601 format. | No |
+
+#### Adjustment
+
+Get all adjustments, result is paginated.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Unique adjustment identifier in database. | No |
+| reason | string | Adjustment reason. | No |
+| description | string | Adjustment description. | No |
+| category | string | Adjustment category | No |
+| amount | string | Adjustment amount. | No |
+| validator_uid | integer | Unique adjustment validator identifier in database. | No |
+| creator_uid | integer | Unique adjustment creator identifier in database. | No |
+| currency | string | Adjustment currency ID. | No |
+| asset | [Operation](#operation) |  | No |
+| liability | [Operation](#operation) |  | No |
+| revenue | [Operation](#operation) |  | No |
+| expense | [Operation](#operation) |  | No |
+| state | string | Adjustment's state. | No |
+| asset_account_code | integer | Adjustment asset account code. | No |
+| receiving_account_code | string | Adjustment receiving account code. | No |
+| receiving_member_uid | string | Adjustment receiving member uid. | No |
+| created_at | string | The datetime when operation was created. | No |
+| updated_at | string | The datetime when operation was updated. | No |
 
 #### Withdraw
 

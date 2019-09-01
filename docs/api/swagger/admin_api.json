@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.16"
+    "version": "2.3.17"
   },
   "swagger": "2.0",
   "produces": [
@@ -74,6 +74,10 @@
     {
       "name": "trading_fees",
       "description": "Operations about trading_fees"
+    },
+    {
+      "name": "adjustments",
+      "description": "Operations about adjustments"
     }
   ],
   "paths": {
@@ -3183,6 +3187,310 @@
         ],
         "operationId": "getTradingFees"
       }
+    },
+    "/adjustments/action": {
+      "post": {
+        "description": "Accepts adjustment and creates operations or reject adjustment.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique adjustment identifier in database.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "action",
+            "description": "Adjustment action all available actions: [:accept, :reject]",
+            "type": "string",
+            "enum": [
+              "accept",
+              "reject"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Accepts adjustment and creates operations or reject adjustment.",
+            "schema": {
+              "$ref": "#/definitions/Adjustment"
+            }
+          }
+        },
+        "tags": [
+          "adjustments"
+        ],
+        "operationId": "postAdjustmentsAction"
+      }
+    },
+    "/adjustments/new": {
+      "post": {
+        "description": "Create new adjustment.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "reason",
+            "description": "Adjustment reason.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "Adjustment description.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "category",
+            "description": "Adjustment category",
+            "type": "string",
+            "enum": [
+              "asset_registration",
+              "investment",
+              "minting_token",
+              "balance_anomaly",
+              "misc",
+              "refund",
+              "compensation",
+              "incentive",
+              "bank_fees",
+              "bank_interest",
+              "minor"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "amount",
+            "description": "Adjustment amount.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "currency_id",
+            "description": "Adjustment currency ID.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "asset_account_code",
+            "description": "Adjustment asset account code.",
+            "type": "integer",
+            "format": "int32",
+            "enum": [
+              102,
+              101
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "receiving_account_code",
+            "description": "Adjustment receiving account code.",
+            "type": "integer",
+            "format": "int32",
+            "enum": [
+              201,
+              202,
+              211,
+              212,
+              301,
+              302,
+              401,
+              402
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "receiving_member_uid",
+            "description": "Adjustment receiving account code.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create new adjustment.",
+            "schema": {
+              "$ref": "#/definitions/Adjustment"
+            }
+          }
+        },
+        "tags": [
+          "adjustments"
+        ],
+        "operationId": "postAdjustmentsNew"
+      }
+    },
+    "/adjustments": {
+      "get": {
+        "description": "Get all adjustments, result is paginated.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Deposit currency id.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "range",
+            "description": "Date range picker, defaults to 'created'.",
+            "type": "string",
+            "default": "created",
+            "enum": [
+              "created",
+              "updated",
+              "completed"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities FROM the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only entities BEFORE the time will be retrieved.",
+            "type": "string",
+            "format": "date-time",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Adjustment's state.",
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "rejected"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "description": "Adjustment category",
+            "type": "string",
+            "enum": [
+              "asset_registration",
+              "investment",
+              "minting_token",
+              "balance_anomaly",
+              "misc",
+              "refund",
+              "compensation",
+              "incentive",
+              "bank_fees",
+              "bank_interest",
+              "minor"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all adjustments, result is paginated.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Adjustment"
+              }
+            }
+          }
+        },
+        "tags": [
+          "adjustments"
+        ],
+        "operationId": "getAdjustments"
+      }
     }
   },
   "definitions": {
@@ -3833,6 +4141,84 @@
         }
       },
       "description": "Returns trading_fees table as paginated collection"
+    },
+    "Adjustment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique adjustment identifier in database."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Adjustment reason."
+        },
+        "description": {
+          "type": "string",
+          "description": "Adjustment description."
+        },
+        "category": {
+          "type": "string",
+          "description": "Adjustment category"
+        },
+        "amount": {
+          "type": "string",
+          "description": "Adjustment amount."
+        },
+        "validator_uid": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique adjustment validator identifier in database."
+        },
+        "creator_uid": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique adjustment creator identifier in database."
+        },
+        "currency": {
+          "type": "string",
+          "description": "Adjustment currency ID."
+        },
+        "asset": {
+          "$ref": "#/definitions/Operation"
+        },
+        "liability": {
+          "$ref": "#/definitions/Operation"
+        },
+        "revenue": {
+          "$ref": "#/definitions/Operation"
+        },
+        "expense": {
+          "$ref": "#/definitions/Operation"
+        },
+        "state": {
+          "type": "string",
+          "description": "Adjustment's state."
+        },
+        "asset_account_code": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Adjustment asset account code."
+        },
+        "receiving_account_code": {
+          "type": "string",
+          "description": "Adjustment receiving account code."
+        },
+        "receiving_member_uid": {
+          "type": "string",
+          "description": "Adjustment receiving member uid."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The datetime when operation was created."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The datetime when operation was updated."
+        }
+      },
+      "description": "Get all adjustments, result is paginated."
     },
     "Withdraw": {
       "type": "object",
