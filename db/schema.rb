@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_29_035814) do
+ActiveRecord::Schema.define(version: 2019_08_30_082950) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -21,6 +21,23 @@ ActiveRecord::Schema.define(version: 2019_08_29_035814) do
     t.datetime "updated_at", null: false
     t.index ["currency_id", "member_id"], name: "index_accounts_on_currency_id_and_member_id", unique: true
     t.index ["member_id"], name: "index_accounts_on_member_id"
+  end
+
+  create_table "adjustments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "reason", null: false
+    t.text "description", null: false
+    t.bigint "creator_id", null: false
+    t.bigint "validator_id"
+    t.decimal "amount", precision: 32, scale: 16, null: false
+    t.integer "asset_account_code", limit: 2, null: false, unsigned: true
+    t.string "receiving_account_number", limit: 64, null: false
+    t.string "currency_id", null: false
+    t.integer "category", limit: 1, null: false
+    t.integer "state", limit: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["currency_id", "state"], name: "index_adjustments_on_currency_id_and_state"
+    t.index ["currency_id"], name: "index_adjustments_on_currency_id"
   end
 
   create_table "assets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

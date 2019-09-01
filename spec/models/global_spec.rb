@@ -5,7 +5,7 @@ describe Global, '.avg_h24_price' do
 
   before { clear_redis }
   after { clear_redis }
-  
+
   let(:market) { Market.all.sample.id.to_sym }
   let(:global) { Global[market] }
   context 'no trades executed' do

@@ -26,6 +26,7 @@ module Abilities
       can :manage, Wallet
       can :manage, TradingFee
       can :manage, PaymentAddress
+      can :manage, Adjustment
     end
   end
 end
