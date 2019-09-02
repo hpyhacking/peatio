@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.17"
+    "version": "2.3.18"
   },
   "swagger": "2.0",
   "produces": [
@@ -1366,25 +1366,10 @@
           },
           {
             "in": "formData",
-            "name": "nsig",
-            "description": "Wallet number of signatures.",
-            "type": "integer",
-            "format": "int32",
-            "required": false
-          },
-          {
-            "in": "formData",
             "name": "max_balance",
             "description": "Wallet max balance.",
             "type": "number",
             "format": "double",
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "parent",
-            "description": "Wallet parent.",
-            "type": "string",
             "required": false
           },
           {
@@ -1467,17 +1452,13 @@
           {
             "in": "formData",
             "name": "currency",
-            "description": "Deposit currency id.",
+            "description": "Wallet currency code.",
             "type": "string",
             "enum": [
               "btc",
               "eth",
               "trst",
-              "usd",
-              "BTC",
-              "ETH",
-              "TRST",
-              "USD"
+              "usd"
             ],
             "required": false
           }
@@ -1515,27 +1496,11 @@
           },
           {
             "in": "formData",
-            "name": "nsig",
-            "description": "Wallet number of signatures.",
-            "type": "integer",
-            "format": "int32",
-            "default": 1,
-            "required": false
-          },
-          {
-            "in": "formData",
             "name": "max_balance",
             "description": "Wallet max balance.",
             "type": "number",
             "format": "double",
             "default": 0.0,
-            "required": false
-          },
-          {
-            "in": "formData",
-            "name": "parent",
-            "description": "Wallet parent.",
-            "type": "string",
             "required": false
           },
           {
@@ -1579,7 +1544,7 @@
           },
           {
             "in": "formData",
-            "name": "currency_id",
+            "name": "currency",
             "description": "Wallet currency code.",
             "type": "string",
             "enum": [
@@ -1664,6 +1629,40 @@
           "wallets"
         ],
         "operationId": "getWalletsId"
+      }
+    },
+    "/wallets/gateways": {
+      "get": {
+        "description": "List wallet gateways.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List wallet gateways."
+          }
+        },
+        "tags": [
+          "wallets"
+        ],
+        "operationId": "getWalletsGateways"
+      }
+    },
+    "/wallets/kinds": {
+      "get": {
+        "description": "List wallet kinds.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "List wallet kinds."
+          }
+        },
+        "tags": [
+          "wallets"
+        ],
+        "operationId": "getWalletsKinds"
       }
     },
     "/wallets": {
@@ -3873,20 +3872,10 @@
           "type": "string",
           "description": "Wallet gateway."
         },
-        "nsig": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Wallet number of signatures."
-        },
         "max_balance": {
           "type": "number",
           "format": "double",
           "description": "Wallet max balance."
-        },
-        "parent": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Wallet parent."
         },
         "blockchain_key": {
           "type": "string",

@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.17
+## Version: 2.3.18
 
 **Contact information:**  
 openware.com  
@@ -369,9 +369,7 @@ Update wallet.
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | settings | formData | Wallet settings. | No | json |
-| nsig | formData | Wallet number of signatures. | No | integer |
 | max_balance | formData | Wallet max balance. | No | double |
-| parent | formData | Wallet parent. | No | string |
 | status | formData | Wallet status (active/disabled). | No | string |
 | id | formData | Unique wallet identifier in database. | Yes | integer |
 | blockchain_key | formData | Wallet blockchain key. | No | string |
@@ -379,7 +377,7 @@ Update wallet.
 | address | formData | Wallet address. | No | string |
 | kind | formData | Kind of wallet 'deposit','fee','hot','warm' or 'cold'. | No | string |
 | gateway | formData | Wallet gateway. | No | string |
-| currency | formData | Deposit currency id. | No | string |
+| currency | formData | Wallet currency code. | No | string |
 
 ##### Responses
 
@@ -399,14 +397,12 @@ Creates new wallet.
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | settings | formData | Wallet settings. | No | json |
-| nsig | formData | Wallet number of signatures. | No | integer |
 | max_balance | formData | Wallet max balance. | No | double |
-| parent | formData | Wallet parent. | No | string |
 | status | formData | Wallet status (active/disabled). | No | string |
 | blockchain_key | formData | Wallet blockchain key. | Yes | string |
 | name | formData | Wallet name. | Yes | string |
 | address | formData | Wallet address. | Yes | string |
-| currency_id | formData | Wallet currency code. | Yes | string |
+| currency | formData | Wallet currency code. | Yes | string |
 | kind | formData | Kind of wallet 'deposit','fee','hot','warm' or 'cold'. | Yes | string |
 | gateway | formData | Wallet gateway. | Yes | string |
 
@@ -434,6 +430,32 @@ Get a wallet.
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get a wallet. | [Wallet](#wallet) |
+
+### /wallets/gateways
+
+#### GET
+##### Description:
+
+List wallet gateways.
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | List wallet gateways. |
+
+### /wallets/kinds
+
+#### GET
+##### Description:
+
+List wallet kinds.
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | List wallet kinds. |
 
 ### /wallets
 
@@ -985,9 +1007,7 @@ Get all wallets, result is paginated.
 | currency | string | Wallet currency code. | No |
 | address | string | Wallet address. | No |
 | gateway | string | Wallet gateway. | No |
-| nsig | integer | Wallet number of signatures. | No |
 | max_balance | double | Wallet max balance. | No |
-| parent | integer | Wallet parent. | No |
 | blockchain_key | string | Wallet blockchain key. | No |
 | status | string | Wallet status (active/disabled). | No |
 | settings | json | Wallet settings. | No |
