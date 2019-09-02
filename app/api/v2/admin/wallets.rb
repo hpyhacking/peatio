@@ -15,20 +15,11 @@ module API
               default: {},
               desc: -> { API::V2::Admin::Entities::Wallet.documentation[:settings][:desc] }
             },
-            nsig: {
-              type: { value: Integer, message: 'admin.wallet.non_integer_nsig' },
-              default: 1,
-              desc: -> { API::V2::Admin::Entities::Wallet.documentation[:nsig][:desc] }
-            },
             max_balance: {
               type: { value: BigDecimal, message: 'admin.blockchain.non_decimal_max_balance' },
               values: { value: -> (p){ p >= 0 }, message: 'admin.wallet.invalid_max_balance' },
               default: 0.0,
               desc: -> { API::V2::Admin::Entities::Wallet.documentation[:max_balance][:desc] }
-            },
-            parent: {
-              type: { value: String, message: 'admin.wallet.non_string_parent'},
-              desc: -> { API::V2::Admin::Entities::Wallet.documentation[:parent][:desc] }
             },
             status: {
               values: { value: %w(active disabled), message: 'admin.wallet.invalid_status' },
@@ -73,9 +64,19 @@ module API
                              .merge(kind_eq: params[:kind].present? ? Wallet.kinds[params[:kind].to_sym] : nil)
                              .build
 
-          search = Wallet.ransack(ransack_params)
+          search = ::Wallet.ransack(ransack_params)
           search.sorts = "#{params[:order_by]} #{params[:ordering]}"
           present paginate(search.result), with: API::V2::Admin::Entities::Wallet
+        end
+
+        desc 'List wallet kinds.'
+        get '/wallets/kinds' do
+          ::Wallet.kind.values
+        end
+
+        desc 'List wallet gateways.'
+        get '/wallets/gateways' do
+          ::Wallet.gateways.map(&:to_s)
         end
 
         desc 'Get a wallet.' do
@@ -89,7 +90,7 @@ module API
         get '/wallets/:id' do
           authorize! :read, Wallet
 
-          present Wallet.find(params[:id]), with: API::V2::Admin::Entities::Wallet
+          present ::Wallet.find(params[:id]), with: API::V2::Admin::Entities::Wallet
         end
 
         desc 'Creates new wallet.' do
@@ -104,8 +105,9 @@ module API
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:name][:desc] }
           requires :address,
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:address][:desc] }
-          requires :currency_id,
-                   values: { value: -> { ::Currency.codes }, message: 'admin.wallet.currency_id_doesnt_exist' },
+          requires :currency,
+                   values: { value: -> { ::Currency.codes }, message: 'admin.wallet.currency_doesnt_exist' },
+                   as: :currency_id,
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currency][:desc] }
           requires :kind,
                    values: { value: ::Wallet.kind.values, message: 'admin.wallet.invalid_kind' },
@@ -117,7 +119,7 @@ module API
         post '/wallets/new' do
           authorize! :create, Wallet
 
-          wallet = Wallet.new(declared(params))
+          wallet = ::Wallet.new(declared(params))
           if wallet.save
             present wallet, with: API::V2::Admin::Entities::Wallet
             status 201
@@ -148,12 +150,15 @@ module API
           optional :gateway,
                    values: { value: -> { ::Wallet.gateways.map(&:to_s) }, message: 'admin.wallet.gateway_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:gateway][:desc] }
-          use :currency
+          optional :currency,
+                   values: { value: -> { ::Currency.codes }, message: 'admin.wallet.currency_doesnt_exist' },
+                   as: :currency_id,
+                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currency][:desc] }
         end
         post '/wallets/update' do
           authorize! :write, Wallet
 
-          wallet = Wallet.find(params[:id])
+          wallet = ::Wallet.find(params[:id])
           if wallet.update(declared(params, include_missing: false))
             present wallet, with: API::V2::Admin::Entities::Wallet
           else

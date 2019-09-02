@@ -56,26 +56,10 @@ module API
           )
 
           expose(
-            :nsig,
-            documentation: {
-                type: Integer,
-                desc: 'Wallet number of signatures.'
-            }
-          )
-
-          expose(
             :max_balance,
             documentation: {
                 type: BigDecimal,
                 desc: 'Wallet max balance.'
-            }
-          )
-
-          expose(
-            :parent,
-            documentation: {
-                type: Integer,
-                desc: 'Wallet parent.'
             }
           )
 

@@ -66,8 +66,6 @@ module Admin
         address
         max_balance
         kind
-        nsig
-        parent
         status
         gateway
         uri

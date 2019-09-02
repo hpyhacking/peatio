@@ -107,9 +107,23 @@ describe API::V2::Admin::Wallets, type: :request do
     end
   end
 
+  describe 'GET /api/v2/admin/wallets/kinds' do
+    it 'list kinds' do
+      api_get '/api/v2/admin/wallets/kinds', token: token
+      expect(response).to be_successful
+    end
+  end
+
+  describe 'GET /api/v2/admin/wallets/gateways' do
+    it 'list gateways' do
+      api_get '/api/v2/admin/wallets/gateways', token: token
+      expect(response).to be_successful
+    end
+  end
+
   describe 'POST /api/v2/admin/wallets/new' do
     it 'create wallet' do
-      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currency_id: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}}, token: token
+      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currency: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}}, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -122,28 +136,28 @@ describe API::V2::Admin::Wallets, type: :request do
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.wallet.missing_name')
       expect(response).to include_api_error('admin.wallet.missing_kind')
-      expect(response).to include_api_error('admin.wallet.missing_currency_id')
+      expect(response).to include_api_error('admin.wallet.missing_currency')
       expect(response).to include_api_error('admin.wallet.missing_address')
       expect(response).to include_api_error('admin.wallet.missing_blockchain_key')
       expect(response).to include_api_error('admin.wallet.missing_gateway')
     end
 
     it 'validate status' do
-      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currency_id: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}, status: 'disable' }, token: token
+      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currency: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}, status: 'disable' }, token: token
 
       expect(response.code).to eq '422'
       expect(response).to include_api_error('admin.wallet.invalid_status')
     end
 
     it 'validate gateway' do
-      api_post '/api/v2/admin/wallets/update', params: { name: 'Test', kind: 'deposit', currency_id: 'eth', address: 'blank', blockchain_key: 'btc-testnet', settings: { uri: 'http://127.0.0.1:18332'}, gateway: 'test' }, token: token
+      api_post '/api/v2/admin/wallets/update', params: { name: 'Test', kind: 'deposit', currency: 'eth', address: 'blank', blockchain_key: 'btc-testnet', settings: { uri: 'http://127.0.0.1:18332'}, gateway: 'test' }, token: token
 
       expect(response.code).to eq '422'
       expect(response).to include_api_error('admin.wallet.gateway_doesnt_exist')
     end
 
     it 'validate kind' do
-      api_post '/api/v2/admin/wallets/update', params: { name: 'Test', kind: 'test', currency_id: 'eth', address: 'blank', blockchain_key: 'btc-testnet', settings: { uri: 'http://127.0.0.1:18332'}, gateway: 'geth' }, token: token
+      api_post '/api/v2/admin/wallets/update', params: { name: 'Test', kind: 'test', currency: 'eth', address: 'blank', blockchain_key: 'btc-testnet', settings: { uri: 'http://127.0.0.1:18332'}, gateway: 'geth' }, token: token
 
       expect(response.code).to eq '422'
       expect(response).to include_api_error('admin.wallet.invalid_kind')
@@ -153,11 +167,11 @@ describe API::V2::Admin::Wallets, type: :request do
       api_post '/api/v2/admin/wallets/update', params: { id: 1, name: 'Test', kind: 'deposit', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}, currency: 'test' }, token: token
 
       expect(response.code).to eq '422'
-      expect(response).to include_api_error('admin.currency.doesnt_exist')
+      expect(response).to include_api_error('admin.wallet.currency_doesnt_exist')
     end
 
     it 'return error in case of not permitted ability' do
-      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currency_id: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}}, token: level_3_member_token
+      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currency: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}}, token: level_3_member_token
 
       expect(response.code).to eq '403'
       expect(response).to include_api_error('admin.ability.not_permitted')
@@ -171,6 +185,14 @@ describe API::V2::Admin::Wallets, type: :request do
 
       expect(response).to be_successful
       expect(result['gateway']).to eq 'geth'
+    end
+
+    it 'update currency' do
+      api_post '/api/v2/admin/wallets/update', params: { id: Wallet.first.id, currency: 'btc' }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result['currency']).to eq 'btc'
     end
 
     it 'validate blockchain_key' do
@@ -202,10 +224,10 @@ describe API::V2::Admin::Wallets, type: :request do
     end
 
     it 'validate currency_id' do
-      api_post '/api/v2/admin/wallets/update', params: { id: Wallet.first.id, currency: 'test' }, token: token
+      api_post '/api/v2/admin/wallets/update', params: { id: Wallet.first.id, currency: 'test ' }, token: token
 
       expect(response.code).to eq '422'
-      expect(response).to include_api_error('admin.currency.doesnt_exist')
+      expect(response).to include_api_error('admin.wallet.currency_doesnt_exist')
     end
 
     it 'checked required params' do

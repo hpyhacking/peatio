@@ -20,7 +20,7 @@ describe API::V2::Admin::Blockchains, type: :request do
     end
 
     it 'returns error in case of invalid id' do
-      api_get '/api/v2/admin/blockchains/120', token: token
+      api_get "/api/v2/admin/blockchains/#{Blockchain.last.id + 42}", token: token
 
       expect(response.code).to eq '404'
       expect(response).to include_api_error('record.not_found')

@@ -34,12 +34,6 @@ describe Wallet do
       expect(subject.errors.full_messages).to eq ['Kind is not included in the list']
     end
 
-    it 'validates nsig should be greater than or equal to 1' do
-      subject.nsig = 0
-      expect(subject).to_not be_valid
-      expect(subject.errors.full_messages).to eq ['Nsig must be greater than or equal to 1']
-    end
-
     it 'validates structure of uri' do
       subject.uri = 'Wrong URL'
       expect(subject).to_not be_valid
