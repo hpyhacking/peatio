@@ -18,10 +18,19 @@ module API
           expose(
             :uid,
             documentation: {
-              type: Integer,
+              type: String,
               desc: 'Deposit member uid.'
             }
           )
+
+
+          expose(
+            :email,
+            documentation: {
+              type: String,
+              desc: 'The deposit member email.'
+            }
+          ) { |d| d.member.email }
 
           expose(
             :address,
