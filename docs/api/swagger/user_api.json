@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.20"
+    "version": "2.3.21"
   },
   "swagger": "2.0",
   "produces": [
@@ -40,6 +40,94 @@
     }
   ],
   "paths": {
+    "/public/trading_fees": {
+      "get": {
+        "description": "Returns trading_fees table as paginated collection",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "group",
+            "description": "Member group for define maker/taker fee.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "market_id",
+            "description": "Market id for define maker/taker fee.",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethusd",
+              "trstusd",
+              "ethbtc",
+              "trstbtc",
+              "trsteth",
+              "any"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns trading_fees table as paginated collection",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TradingFee"
+              }
+            }
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "getPublicTradingFees"
+      }
+    },
     "/public/health/ready": {
       "get": {
         "description": "Get application readiness status",
@@ -1269,6 +1357,43 @@
     }
   },
   "definitions": {
+    "TradingFee": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique trading fee table identifier in database."
+        },
+        "group": {
+          "type": "string",
+          "description": "Member group for define maker/taker fee."
+        },
+        "market_id": {
+          "type": "string",
+          "description": "Market id for define maker/taker fee."
+        },
+        "maker": {
+          "type": "number",
+          "format": "double",
+          "description": "Market maker fee."
+        },
+        "taker": {
+          "type": "number",
+          "format": "double",
+          "description": "Market taker fee."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Trading fee table created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Trading fee table updated time in iso8601 format."
+        }
+      },
+      "description": "Returns trading_fees table as paginated collection"
+    },
     "Trade": {
       "type": "object",
       "properties": {

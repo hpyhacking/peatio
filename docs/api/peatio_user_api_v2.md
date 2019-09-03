@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.3.20
+## Version: 2.3.21
 
 **Contact information:**  
 openware.com  
@@ -17,6 +17,30 @@ hello@openware.com
 |---|---|
 |Name|JWT|
 |In|header|
+
+### /public/trading_fees
+
+#### GET
+##### Description:
+
+Returns trading_fees table as paginated collection
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| group | query | Member group for define maker/taker fee. | No | string |
+| market_id | query | Market id for define maker/taker fee. | No | string |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+| ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
+| order_by | query | Name of the field, which result will be ordered by. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Returns trading_fees table as paginated collection | [ [TradingFee](#tradingfee) ] |
 
 ### /public/health/ready
 
@@ -518,6 +542,20 @@ Get information of specified order.
 
 ### Models
 
+
+#### TradingFee
+
+Returns trading_fees table as paginated collection
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Unique trading fee table identifier in database. | No |
+| group | string | Member group for define maker/taker fee. | No |
+| market_id | string | Market id for define maker/taker fee. | No |
+| maker | double | Market maker fee. | No |
+| taker | double | Market taker fee. | No |
+| created_at | string | Trading fee table created time in iso8601 format. | No |
+| updated_at | string | Trading fee table updated time in iso8601 format. | No |
 
 #### Trade
 
