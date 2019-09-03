@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.18
+## Version: 2.3.19
 
 **Contact information:**  
 openware.com  
@@ -1030,7 +1030,8 @@ Get all withdraws, result is paginated.
 | created_at | string | The datetime when deposit was created. | No |
 | completed_at | string | The datetime when deposit was completed. | No |
 | member | string | The member id. | No |
-| uid | integer | Deposit member uid. | No |
+| uid | string | Deposit member uid. | No |
+| email | string | The deposit member email. | No |
 | address | string | Deposit blockchain address. | No |
 | txout | integer | Deposit blockchain transaction output. | No |
 | block_number | integer | Deposit blockchain block number. | No |
@@ -1136,6 +1137,8 @@ Get all adjustments, result is paginated.
 | updated_at | string | The datetimes for the withdrawal. | No |
 | completed_at | string | The datetime when withdraw was completed. | No |
 | member | string | The member id. | No |
+| uid | string | The withdrawal member uid. | No |
+| email | string | The withdrawal member email. | No |
 | account | string | The account code. | No |
 | block_number | integer | The withdrawal block_number. | No |
 | amount | double | The withdrawal amount. | No |
