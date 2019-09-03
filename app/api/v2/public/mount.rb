@@ -11,6 +11,7 @@ module API
         mount Public::Markets
         mount Public::MemberLevels
         mount Public::Tools
+        mount Public::TradingFees
       end
     end
   end
