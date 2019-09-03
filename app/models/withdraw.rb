@@ -176,6 +176,7 @@ class Withdraw < ApplicationRecord
 
   def as_json_for_event_api
     { tid:             tid,
+      user:            { uid: member.uid, email: member.email },
       uid:             member.uid,
       rid:             rid,
       currency:        currency_id,
