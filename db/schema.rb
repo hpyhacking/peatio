@@ -53,6 +53,20 @@ ActiveRecord::Schema.define(version: 2019_09_02_134819) do
     t.index ["reference_type", "reference_id"], name: "index_assets_on_reference_type_and_reference_id"
   end
 
+  create_table "beneficiaries", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "member_id", null: false
+    t.string "currency_id", limit: 10, null: false
+    t.string "name", limit: 64, null: false
+    t.string "description", default: ""
+    t.json "data"
+    t.integer "pin", limit: 3, null: false, unsigned: true
+    t.integer "state", limit: 1, default: 0, null: false, unsigned: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["currency_id"], name: "index_beneficiaries_on_currency_id"
+    t.index ["member_id"], name: "index_beneficiaries_on_member_id"
+  end
+
   create_table "blockchains", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "key", null: false
     t.string "name"

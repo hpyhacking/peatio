@@ -12,6 +12,7 @@ class Member < ApplicationRecord
   has_many :payment_addresses, through: :accounts
   has_many :withdraws, -> { order(id: :desc) }
   has_many :deposits, -> { order(id: :desc) }
+  has_many :beneficiaries, -> { order(id: :desc) }
 
   scope :enabled, -> { where(state: 'active') }
 
