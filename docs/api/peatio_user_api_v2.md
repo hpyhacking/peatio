@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.3.21
+## Version: 2.3.22
 
 **Contact information:**  
 openware.com  
@@ -277,37 +277,143 @@ Get a currency
 | ---- | ----------- | ------ |
 | 200 | Get a currency | [Currency](#currency) |
 
-### /account/balances/{currency}
+### /account/withdraws
 
-#### GET
+#### POST
 ##### Description:
 
-Get user account by currency
+Creates new crypto withdrawal.
 
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | path | The currency code. | Yes | string |
+| otp | formData | OTP to perform action | Yes | integer |
+| rid | formData | Wallet address on the Blockchain. | Yes | string |
+| currency | formData | The currency code. | Yes | string |
+| amount | formData | The amount to withdraw. | Yes | double |
+| note | formData | Optional metadata to be applied to the transaction. Used to tag transactions with memorable comments. | No | string |
 
 ##### Responses
 
-| Code | Description | Schema |
-| ---- | ----------- | ------ |
-| 200 | Get user account by currency | [Account](#account) |
-
-### /account/balances
+| Code | Description |
+| ---- | ----------- |
+| 201 | Creates new crypto withdrawal. |
 
 #### GET
 ##### Description:
 
-Get list of user accounts
+List your withdraws as paginated collection.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | query | Currency code. | No | string |
+| limit | query | Number of withdraws per page (defaults to 100, maximum is 100). | No | integer |
+| page | query | Page number (defaults to 1). | No | integer |
 
 ##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Get list of user accounts | [ [Account](#account) ] |
+| 200 | List your withdraws as paginated collection. | [ [Withdraw](#withdraw) ] |
+
+### /account/beneficiaries/{id}
+
+#### DELETE
+##### Description:
+
+Delete beneficiary
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Beneficiary Identifier in Database | Yes | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 204 | Delete beneficiary |
+
+#### GET
+##### Description:
+
+Get beneficiary by ID
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Beneficiary Identifier in Database | Yes | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get beneficiary by ID | [Beneficiary](#beneficiary) |
+
+### /account/beneficiaries/{id}/activate
+
+#### PATCH
+##### Description:
+
+Activates beneficiary with pin
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Beneficiary Identifier in Database | Yes | integer |
+| pin | formData | Pin code for beneficiary activation | Yes | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Activates beneficiary with pin | [Beneficiary](#beneficiary) |
+
+### /account/beneficiaries
+
+#### POST
+##### Description:
+
+Create new beneficiary
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | formData | Beneficiary currency code. | Yes | string |
+| name | formData | Human rememberable name which refer beneficiary. | Yes | string |
+| description | formData | Human rememberable name which refer beneficiary. | No | string |
+| data | formData | Beneficiary data in JSON format | Yes | json |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Create new beneficiary | [Beneficiary](#beneficiary) |
+
+#### GET
+##### Description:
+
+Get list of user beneficiaries
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | query | Beneficiary currency code. | No | string |
+| state | query | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get list of user beneficiaries | [ [Beneficiary](#beneficiary) ] |
 
 ### /account/deposit_address/{currency}
 
@@ -370,47 +476,37 @@ Get your deposits history.
 | ---- | ----------- | ------ |
 | 200 | Get your deposits history. | [ [Deposit](#deposit) ] |
 
-### /account/withdraws
-
-#### POST
-##### Description:
-
-Creates new crypto withdrawal.
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ---- |
-| otp | formData | OTP to perform action | Yes | integer |
-| rid | formData | Wallet address on the Blockchain. | Yes | string |
-| currency | formData | The currency code. | Yes | string |
-| amount | formData | The amount to withdraw. | Yes | double |
-| note | formData | Optional metadata to be applied to the transaction. Used to tag transactions with memorable comments. | No | string |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 201 | Creates new crypto withdrawal. |
+### /account/balances/{currency}
 
 #### GET
 ##### Description:
 
-List your withdraws as paginated collection.
+Get user account by currency
 
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| currency | query | Currency code. | No | string |
-| limit | query | Number of withdraws per page (defaults to 100, maximum is 100). | No | integer |
-| page | query | Page number (defaults to 1). | No | integer |
+| currency | path | The currency code. | Yes | string |
 
 ##### Responses
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | List your withdraws as paginated collection. | [ [Withdraw](#withdraw) ] |
+| 200 | Get user account by currency | [Account](#account) |
+
+### /account/balances
+
+#### GET
+##### Description:
+
+Get list of user accounts
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get list of user accounts | [ [Account](#account) ] |
 
 ### /market/trades
 
@@ -643,32 +739,6 @@ Get a currency
 | icon_url | string | Currency icon | No |
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
 
-#### Account
-
-Get list of user accounts
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| currency | string | Currency code. | No |
-| balance | double | Account balance. | No |
-| locked | double | Account locked funds. | No |
-
-#### Deposit
-
-Get your deposits history.
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer | Unique deposit id. | No |
-| currency | string | Deposit currency id. | No |
-| amount | double | Deposit amount. | No |
-| fee | double | Deposit fee. | No |
-| txid | string | Deposit transaction id. | No |
-| confirmations | integer | Number of deposit confirmations. | No |
-| state | string | Deposit state. | No |
-| created_at | string | The datetime when deposit was created. | No |
-| completed_at | string | The datetime when deposit was completed.. | No |
-
 #### Withdraw
 
 List your withdraws as paginated collection.
@@ -688,6 +758,45 @@ List your withdraws as paginated collection.
 | created_at | string | The datetimes for the withdrawal. | No |
 | updated_at | string | The datetimes for the withdrawal. | No |
 | done_at | string | The datetime when withdraw was completed | No |
+
+#### Beneficiary
+
+Get list of user beneficiaries
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Beneficiary Identifier in Database | No |
+| currency | string | Beneficiary currency code. | No |
+| name | string | Human rememberable name which refer beneficiary. | No |
+| description | string | Human rememberable description of beneficiary. | No |
+| data | json | Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address. | No |
+| state | string | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No |
+
+#### Deposit
+
+Get your deposits history.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Unique deposit id. | No |
+| currency | string | Deposit currency id. | No |
+| amount | double | Deposit amount. | No |
+| fee | double | Deposit fee. | No |
+| txid | string | Deposit transaction id. | No |
+| confirmations | integer | Number of deposit confirmations. | No |
+| state | string | Deposit state. | No |
+| created_at | string | The datetime when deposit was created. | No |
+| completed_at | string | The datetime when deposit was completed.. | No |
+
+#### Account
+
+Get list of user accounts
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| currency | string | Currency code. | No |
+| balance | double | Account balance. | No |
+| locked | double | Account locked funds. | No |
 
 #### Member
 

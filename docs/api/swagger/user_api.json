@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.21"
+    "version": "2.3.22"
   },
   "swagger": "2.0",
   "produces": [
@@ -633,15 +633,33 @@
         "operationId": "getPublicCurrenciesId"
       }
     },
-    "/account/balances/{currency}": {
-      "get": {
-        "description": "Get user account by currency",
+    "/account/withdraws": {
+      "post": {
+        "description": "Creates new crypto withdrawal.",
         "produces": [
+          "application/json"
+        ],
+        "consumes": [
           "application/json"
         ],
         "parameters": [
           {
-            "in": "path",
+            "in": "formData",
+            "name": "otp",
+            "description": "OTP to perform action",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "rid",
+            "description": "Wallet address on the Blockchain.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
             "name": "currency",
             "description": "The currency code.",
             "type": "string",
@@ -649,38 +667,89 @@
               "btc",
               "eth",
               "trst",
-              "usd"
+              "BTC",
+              "ETH",
+              "TRST"
             ],
             "required": true
+          },
+          {
+            "in": "formData",
+            "name": "amount",
+            "description": "The amount to withdraw.",
+            "type": "number",
+            "format": "double",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "note",
+            "description": "Optional metadata to be applied to the transaction. Used to tag transactions with memorable comments.",
+            "type": "string",
+            "required": false
           }
         ],
         "responses": {
-          "200": {
-            "description": "Get user account by currency",
-            "schema": {
-              "$ref": "#/definitions/Account"
-            }
+          "201": {
+            "description": "Creates new crypto withdrawal."
           }
         },
         "tags": [
           "account"
         ],
-        "operationId": "getAccountBalancesCurrency"
-      }
-    },
-    "/account/balances": {
+        "operationId": "postAccountWithdraws"
+      },
       "get": {
-        "description": "Get list of user accounts",
+        "description": "List your withdraws as paginated collection.",
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Number of withdraws per page (defaults to 100, maximum is 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Page number (defaults to 1).",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Get list of user accounts",
+            "description": "List your withdraws as paginated collection.",
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Account"
+                "$ref": "#/definitions/Withdraw"
               }
             }
           }
@@ -688,7 +757,217 @@
         "tags": [
           "account"
         ],
-        "operationId": "getAccountBalances"
+        "operationId": "getAccountWithdraws"
+      }
+    },
+    "/account/beneficiaries/{id}": {
+      "delete": {
+        "description": "Delete beneficiary",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Beneficiary Identifier in Database",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Delete beneficiary"
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "deleteAccountBeneficiariesId"
+      },
+      "get": {
+        "description": "Get beneficiary by ID",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Beneficiary Identifier in Database",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get beneficiary by ID",
+            "schema": {
+              "$ref": "#/definitions/Beneficiary"
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "getAccountBeneficiariesId"
+      }
+    },
+    "/account/beneficiaries/{id}/activate": {
+      "patch": {
+        "description": "Activates beneficiary with pin",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Beneficiary Identifier in Database",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "pin",
+            "description": "Pin code for beneficiary activation",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Activates beneficiary with pin",
+            "schema": {
+              "$ref": "#/definitions/Beneficiary"
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "patchAccountBeneficiariesIdActivate"
+      }
+    },
+    "/account/beneficiaries": {
+      "post": {
+        "description": "Create new beneficiary",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "currency",
+            "description": "Beneficiary currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Human rememberable name which refer beneficiary.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "description",
+            "description": "Human rememberable name which refer beneficiary.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "data",
+            "description": "Beneficiary data in JSON format",
+            "type": "json",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Create new beneficiary",
+            "schema": {
+              "$ref": "#/definitions/Beneficiary"
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "postAccountBeneficiaries"
+      },
+      "get": {
+        "description": "Get list of user beneficiaries",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Beneficiary currency code.",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin.",
+            "type": "string",
+            "enum": [
+              "pending",
+              "active"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get list of user beneficiaries",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Beneficiary"
+              }
+            }
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "getAccountBeneficiaries"
       }
     },
     "/account/deposit_address/{currency}": {
@@ -844,33 +1123,15 @@
         "operationId": "getAccountDeposits"
       }
     },
-    "/account/withdraws": {
-      "post": {
-        "description": "Creates new crypto withdrawal.",
+    "/account/balances/{currency}": {
+      "get": {
+        "description": "Get user account by currency",
         "produces": [
-          "application/json"
-        ],
-        "consumes": [
           "application/json"
         ],
         "parameters": [
           {
-            "in": "formData",
-            "name": "otp",
-            "description": "OTP to perform action",
-            "type": "integer",
-            "format": "int32",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "rid",
-            "description": "Wallet address on the Blockchain.",
-            "type": "string",
-            "required": true
-          },
-          {
-            "in": "formData",
+            "in": "path",
             "name": "currency",
             "description": "The currency code.",
             "type": "string",
@@ -878,89 +1139,38 @@
               "btc",
               "eth",
               "trst",
-              "BTC",
-              "ETH",
-              "TRST"
+              "usd"
             ],
             "required": true
-          },
-          {
-            "in": "formData",
-            "name": "amount",
-            "description": "The amount to withdraw.",
-            "type": "number",
-            "format": "double",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "name": "note",
-            "description": "Optional metadata to be applied to the transaction. Used to tag transactions with memorable comments.",
-            "type": "string",
-            "required": false
           }
         ],
         "responses": {
-          "201": {
-            "description": "Creates new crypto withdrawal."
+          "200": {
+            "description": "Get user account by currency",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
           }
         },
         "tags": [
           "account"
         ],
-        "operationId": "postAccountWithdraws"
-      },
+        "operationId": "getAccountBalancesCurrency"
+      }
+    },
+    "/account/balances": {
       "get": {
-        "description": "List your withdraws as paginated collection.",
+        "description": "Get list of user accounts",
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "currency",
-            "description": "Currency code.",
-            "type": "string",
-            "enum": [
-              "btc",
-              "eth",
-              "trst",
-              "usd",
-              "BTC",
-              "ETH",
-              "TRST",
-              "USD"
-            ],
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "description": "Number of withdraws per page (defaults to 100, maximum is 100).",
-            "type": "integer",
-            "format": "int32",
-            "default": 100,
-            "minimum": 1,
-            "maximum": 100,
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "page",
-            "description": "Page number (defaults to 1).",
-            "type": "integer",
-            "format": "int32",
-            "default": 1,
-            "required": false
-          }
-        ],
         "responses": {
           "200": {
-            "description": "List your withdraws as paginated collection.",
+            "description": "Get list of user accounts",
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Withdraw"
+                "$ref": "#/definitions/Account"
               }
             }
           }
@@ -968,7 +1178,7 @@
         "tags": [
           "account"
         ],
-        "operationId": "getAccountWithdraws"
+        "operationId": "getAccountBalances"
       }
     },
     "/market/trades": {
@@ -1668,72 +1878,6 @@
       },
       "description": "Get a currency"
     },
-    "Account": {
-      "type": "object",
-      "properties": {
-        "currency": {
-          "type": "string",
-          "description": "Currency code."
-        },
-        "balance": {
-          "type": "number",
-          "format": "double",
-          "description": "Account balance."
-        },
-        "locked": {
-          "type": "number",
-          "format": "double",
-          "description": "Account locked funds."
-        }
-      },
-      "description": "Get list of user accounts"
-    },
-    "Deposit": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Unique deposit id."
-        },
-        "currency": {
-          "type": "string",
-          "description": "Deposit currency id."
-        },
-        "amount": {
-          "type": "number",
-          "format": "double",
-          "description": "Deposit amount."
-        },
-        "fee": {
-          "type": "number",
-          "format": "double",
-          "description": "Deposit fee."
-        },
-        "txid": {
-          "type": "string",
-          "description": "Deposit transaction id."
-        },
-        "confirmations": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Number of deposit confirmations."
-        },
-        "state": {
-          "type": "string",
-          "description": "Deposit state."
-        },
-        "created_at": {
-          "type": "string",
-          "description": "The datetime when deposit was created."
-        },
-        "completed_at": {
-          "type": "string",
-          "description": "The datetime when deposit was completed.."
-        }
-      },
-      "description": "Get your deposits history."
-    },
     "Withdraw": {
       "type": "object",
       "properties": {
@@ -1794,6 +1938,103 @@
         }
       },
       "description": "List your withdraws as paginated collection."
+    },
+    "Beneficiary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Beneficiary Identifier in Database"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Beneficiary currency code."
+        },
+        "name": {
+          "type": "string",
+          "description": "Human rememberable name which refer beneficiary."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human rememberable description of beneficiary."
+        },
+        "data": {
+          "type": "json",
+          "description": "Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address."
+        },
+        "state": {
+          "type": "string",
+          "description": "Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin."
+        }
+      },
+      "description": "Get list of user beneficiaries"
+    },
+    "Deposit": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Unique deposit id."
+        },
+        "currency": {
+          "type": "string",
+          "description": "Deposit currency id."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Deposit amount."
+        },
+        "fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Deposit fee."
+        },
+        "txid": {
+          "type": "string",
+          "description": "Deposit transaction id."
+        },
+        "confirmations": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of deposit confirmations."
+        },
+        "state": {
+          "type": "string",
+          "description": "Deposit state."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The datetime when deposit was created."
+        },
+        "completed_at": {
+          "type": "string",
+          "description": "The datetime when deposit was completed.."
+        }
+      },
+      "description": "Get your deposits history."
+    },
+    "Account": {
+      "type": "object",
+      "properties": {
+        "currency": {
+          "type": "string",
+          "description": "Currency code."
+        },
+        "balance": {
+          "type": "number",
+          "format": "double",
+          "description": "Account balance."
+        },
+        "locked": {
+          "type": "number",
+          "format": "double",
+          "description": "Account locked funds."
+        }
+      },
+      "description": "Get list of user accounts"
     },
     "Member": {
       "type": "object",
