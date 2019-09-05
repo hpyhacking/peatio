@@ -6,8 +6,8 @@ describe API::V2::Management::Entities::Transfer do
   subject { OpenStruct.new API::V2::Management::Entities::Transfer.represent(record).serializable_hash }
 
   it { expect(subject.key).to eq record.key }
-  it { expect(subject.kind).to eq record.kind }
-  it { expect(subject.desc).to eq record.desc }
+  it { expect(subject.category).to eq record.category }
+  it { expect(subject.description).to eq record.description }
 
   context 'with operations' do
     let(:record) { create(:transfer_with_operations) }

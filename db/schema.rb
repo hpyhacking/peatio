@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_02_141139) do
+ActiveRecord::Schema.define(version: 2019_09_05_050444) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -290,13 +290,12 @@ ActiveRecord::Schema.define(version: 2019_09_02_141139) do
   end
 
   create_table "transfers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "key", null: false
-    t.string "kind", limit: 30, null: false
-    t.string "desc", default: ""
+    t.string "key", limit: 30, null: false
+    t.integer "category", limit: 1, null: false
+    t.string "description", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_transfers_on_key", unique: true
-    t.index ["kind"], name: "index_transfers_on_kind"
   end
 
   create_table "triggers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

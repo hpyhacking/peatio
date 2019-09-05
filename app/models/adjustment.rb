@@ -8,7 +8,7 @@ class Adjustment < ApplicationRecord
   include AASM::Locking
   CATEGORIES = %w[asset_registration investment minting_token
                   balance_anomaly misc refund compensation
-                  incentive bank_fees bank_interest minor]
+                  incentive bank_fees bank_interest minor].freeze
 
   # == Attributes ===========================================================
 

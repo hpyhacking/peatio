@@ -20,7 +20,7 @@ describe API::V2::Management::Transfers, type: :request do
     let(:signers) { %i[alex jeff] }
     let(:data) do
       { key:  generate(:transfer_key),
-        kind: generate(:transfer_kind),
+        category: Transfer::CATEGORIES.sample,
         desc: "Referral program payoffs (#{Time.now.to_date})",
         operations: operations }
     end
@@ -49,23 +49,23 @@ describe API::V2::Management::Transfers, type: :request do
       it { expect(response.body).to match(/key is missing/i) }
     end
 
-    context 'empty kind' do
+    context 'empty category' do
       let(:operations) {[valid_operation]}
 
       before do
-        data.delete(:kind)
+        data.delete(:category)
         request
       end
 
       it { expect(response).to have_http_status(422) }
-      it { expect(response.body).to match(/kind is missing/i) }
+      it { expect(response.body).to match(/category is missing/i) }
     end
 
-    context 'empty desc' do
+    context 'empty description' do
       let(:operations) {[valid_operation]}
 
       before do
-        data.delete(:desc)
+        data.delete(:description)
         request
       end
 
@@ -236,8 +236,8 @@ describe API::V2::Management::Transfers, type: :request do
       it 'returns transfer with operations' do
         request
         expect(JSON.parse(response.body)['key']).to eq data[:key]
-        expect(JSON.parse(response.body)['kind']).to eq data[:kind]
-        expect(JSON.parse(response.body)['desc']).to eq data[:desc]
+        expect(JSON.parse(response.body)['category']).to eq data[:category]
+        expect(JSON.parse(response.body)['description']).to eq data[:description]
         expect(JSON.parse(response.body)['liabilities'].size).to eq operations.size
         expect(JSON.parse(response.body)['revenues'].size).to eq operations.size
       end
@@ -387,8 +387,8 @@ describe API::V2::Management::Transfers, type: :request do
       it 'returns transfer with liabilities' do
         request
         expect(JSON.parse(response.body)['key']).to eq data[:key]
-        expect(JSON.parse(response.body)['kind']).to eq data[:kind]
-        expect(JSON.parse(response.body)['desc']).to eq data[:desc]
+        expect(JSON.parse(response.body)['category']).to eq data[:category]
+        expect(JSON.parse(response.body)['description']).to eq data[:description]
         # Two liability operation for each token-distribution operation.
         expect(JSON.parse(response.body)['liabilities'].size).to eq operations.size * 2
       end

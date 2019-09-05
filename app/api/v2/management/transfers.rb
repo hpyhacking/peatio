@@ -12,12 +12,12 @@ module API
         end
         params do
           requires :key,
-                   type: Integer,
-                   desc: 'Unique Transfer Key.'
-          requires :kind,
                    type: String,
-                   desc: 'Transfer Kind.'
-          optional :desc,
+                   desc: 'Unique Transfer Key.'
+          requires :category,
+                   type: String,
+                   desc: 'Transfer Category.'
+          optional :description,
                    type: String,
                    desc: 'Transfer Description.'
 
@@ -60,7 +60,7 @@ module API
           declared_params = declared(params)
 
           Transfer.transaction do
-            transfer = Transfer.create!(declared_params.slice(:key, :kind, :desc))
+            transfer = Transfer.create!(declared_params.slice(:key, :category, :description))
             declared_params[:operations].map do |op_pair|
               shared_params = { currency: op_pair[:currency],
                                 reference: transfer }
