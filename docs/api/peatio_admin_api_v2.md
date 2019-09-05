@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.24
+## Version: 2.3.25
 
 **Contact information:**  
 openware.com  

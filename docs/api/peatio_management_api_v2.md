@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.3.24
+## Version: 2.3.25
 
 **Contact information:**  
 openware.com  
@@ -419,9 +419,9 @@ Creates new transfer.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| key | formData | Unique Transfer Key. | Yes | integer |
-| kind | formData | Transfer Kind. | Yes | string |
-| desc | formData | Transfer Description. | No | string |
+| key | formData | Unique Transfer Key. | Yes | string |
+| category | formData | Transfer Category. | Yes | string |
+| description | formData | Transfer Description. | No | string |
 | operations[currency] | formData | Operation currency. | Yes | [ string ] |
 | operations[amount] | formData | Operation amount. | Yes | [ double ] |
 | operations[account_src][code] | formData | Source Account code. | Yes | [ integer ] |
