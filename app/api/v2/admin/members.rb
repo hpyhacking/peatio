@@ -23,7 +23,7 @@ module API
           use :ordering
         end
         get '/members' do
-          authorize! :read, Order
+          authorize! :read, Member
 
           ransack_params = Helpers::RansackBuilder.new(params)
                              .eq(:uid, :email, :state, :role)

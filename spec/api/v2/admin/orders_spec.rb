@@ -90,8 +90,8 @@ describe API::V2::Admin::Orders, type: :request do
       expect(result.map{|r| r['ord_type']}).to all eq 'limit'
     end
 
-    it 'returns orders with type ask' do
-      api_get '/api/v2/admin/orders', params: { type: 'ask' }, token: token
+    it 'returns orders with type sell' do
+      api_get '/api/v2/admin/orders', params: { type: 'sell' }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -170,6 +170,104 @@ describe API::V2::Admin::Orders, type: :request do
       api_get'/api/v2/admin/orders', token: level_3_member_token
       expect(response.code).to eq '403'
       expect(response).to include_api_error('admin.ability.not_permitted')
+    end
+  end
+
+  describe 'POST /api/v2/admin/orders/:id/cancel' do
+    let!(:order) { create(:order_bid, :btcusd, price: '12.32'.to_d, volume: '3.14', origin_volume: '12.13', locked: '20.1082', origin_locked: '38.0882', member: level_3_member) }
+
+    before do
+      level_3_member.get_account(:usd).update_attributes(locked: order.price * order.volume)
+    end
+
+    it 'should cancel specified order' do
+      AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: order.to_matching_attributes)
+      AMQPQueue.expects(:enqueue).with(:events_processor,
+                                       subject: :stop_order,
+                                       payload: order.as_json_for_events_processor)
+      expect do
+        api_post "/api/v2/admin/orders/#{order.id}/cancel", token: token
+        result = JSON.parse(response.body)
+
+        expect(response).to be_successful
+        expect(result['id']).to eq order.id
+      end.not_to change(Order, :count)
+    end
+
+    it 'return error in case of non existent order' do
+      api_post '/api/v2/admin/orders/0/cancel', token: token
+      expect(response.code).to eq '404'
+      expect(response).to include_api_error('record.not_found')
+    end
+
+    it 'return error in case of not permitted ability' do
+      api_post '/api/v2/admin/orders/0/cancel', token: level_3_member_token
+      expect(response.code).to eq '403'
+      expect(response).to include_api_error('admin.ability.not_permitted')
+    end
+  end
+
+  describe 'POST /api/v2/admin/orders/cancel' do
+    before do
+      create(:order_ask, :btcusd, price: '12.32', volume: '3.14', origin_volume: '12.13', member: level_3_member)
+      create(:order_bid, :btcusd, price: '12.32', volume: '3.14', origin_volume: '12.13', member: level_3_member)
+      create(:order_bid, :btceth, price: '12.32', volume: '3.14', origin_volume: '12.13', member: level_3_member)
+
+      level_3_member.get_account(:btc).update_attributes(locked: '5')
+      level_3_member.get_account(:usd).update_attributes(locked: '50')
+    end
+
+    it 'should cancel all my orders for specific market' do
+      level_3_member.orders.where(market: 'btceth').each do |o|
+        AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: o.to_matching_attributes)
+        AMQPQueue.expects(:enqueue).with(:events_processor,
+                                         subject: :stop_order,
+                                         payload: o.as_json_for_events_processor)
+      end
+
+      expect do
+        api_post '/api/v2/admin/orders/cancel', token: token, params: { market: 'btceth' }
+        result = JSON.parse(response.body)
+
+        expect(response).to be_successful
+        expect(result.size).to eq 1
+      end.not_to change(Order, :count)
+    end
+
+    it 'should cancel all asks for specific market' do
+      level_3_member.orders.where(type: 'OrderAsk', market_id: 'btcusd').each do |o|
+        AMQPQueue.expects(:enqueue).with(:matching, action: 'cancel', order: o.to_matching_attributes)
+        AMQPQueue.expects(:enqueue).with(:events_processor,
+                                         subject: :stop_order,
+                                         payload: o.as_json_for_events_processor)
+      end
+
+      expect do
+        api_post '/api/v2/admin/orders/cancel', token: token, params: { market: 'btcusd', side: 'sell' }
+        result = JSON.parse(response.body)
+
+        expect(response).to be_successful
+        expect(result.size).to eq 1
+        expect(result.first['id']).to eq level_3_member.orders.where(type: 'OrderAsk').first.id
+      end.not_to change(Order, :count)
+    end
+
+    it 'return error in case of not permitted ability' do
+      api_post '/api/v2/admin/orders/cancel', token: level_3_member_token, params: { market: 'btceth' }
+      expect(response.code).to eq '403'
+      expect(response).to include_api_error('admin.ability.not_permitted')
+    end
+
+    it 'return error in case of invalid order type' do
+      api_post '/api/v2/admin/orders/cancel', token: token, params: { market: 'btceth', side: 'ask' }
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('admin.order.invalid_side')
+    end
+
+    it 'return error in case of invalid market' do
+      api_post '/api/v2/admin/orders/cancel', token: token, params: { market: 'testusd' }
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('admin.order.market_doesnt_exist')
     end
   end
 end

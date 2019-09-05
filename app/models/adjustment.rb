@@ -63,7 +63,7 @@ class Adjustment < ApplicationRecord
     end
   end
 
-  # Custon ransackers.
+  # Custom ransackers.
 
   ransacker :state, formatter: proc { |v| states[v] } do |parent|
     parent.table[:state]

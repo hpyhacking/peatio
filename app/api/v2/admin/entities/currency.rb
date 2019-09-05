@@ -35,7 +35,6 @@ module API
             }
           )
 
-
           expose(
             :position,
             documentation: {
@@ -53,12 +52,36 @@ module API
           )
 
           expose(
+            :base_factor,
+            documentation: {
+              type: Integer,
+              desc: 'Currency base factor.'
+            }
+          )
+
+          expose(
+            :subunits,
+            documentation: {
+              type: Integer,
+              desc: 'Fraction of the basic monetary unit.'
+            }
+          ) { |currency| currency.subunits }
+
+          expose(
             :options,
             documentation: {
               type: JSON,
               desc: 'Currency options.'
             },
             if: -> (currency){ currency.coin? }
+          )
+
+          expose(
+            :precision,
+            documentation: {
+              type: Integer,
+              desc: 'Currency precision.'
+            }
           )
 
           expose(

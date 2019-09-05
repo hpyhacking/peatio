@@ -22,6 +22,7 @@ describe Abilities do
     it { is_expected.to be_able_to(:manage, PaymentAddress.new) }
     it { is_expected.to be_able_to(:manage, Member.new) }
     it { is_expected.to be_able_to(:read, Order.new) }
+    it { is_expected.to be_able_to(:update, Order.new) }
     it { is_expected.to be_able_to(:read, Trade.new) }
     it { is_expected.not_to be_able_to(:write, Trade.new) }
     it { is_expected.not_to be_able_to(:write, Order.new) }
@@ -45,6 +46,7 @@ describe Abilities do
     it { is_expected.to be_able_to(:read, PaymentAddress.new) }
     it { is_expected.to be_able_to(:read, Member.new) }
     it { is_expected.to be_able_to(:read, Order.new) }
+    it { is_expected.to be_able_to(:update, Order.new) }
     it { is_expected.to be_able_to(:read, Trade.new) }
     it { is_expected.to be_able_to(:read, Account.new) }
     it { is_expected.not_to be_able_to(:write, PaymentAddress.new) }

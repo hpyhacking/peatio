@@ -44,7 +44,7 @@ class Blockchain < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20190726161540
+# Schema version: 20190902141139
 #
 # Table name: blockchains
 #
@@ -53,7 +53,7 @@ end
 #  name                 :string(255)
 #  client               :string(255)      not null
 #  server               :string(255)
-#  height               :integer          not null
+#  height               :bigint           not null
 #  explorer_address     :string(255)
 #  explorer_transaction :string(255)
 #  min_confirmations    :integer          default(6), not null

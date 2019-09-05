@@ -16,7 +16,8 @@ class Currency < ApplicationRecord
   # == Attributes ===========================================================
 
   attr_readonly :id,
-                :type
+                :type,
+                :base_factor
 
   # Code is aliased to id because it's more user-friendly primary key.
   # It's preferred to use code where this attributes are equal.
@@ -186,6 +187,10 @@ class Currency < ApplicationRecord
     options.keys.present?  ? \
           options.keys.map{|v| [v, options[v]]}.to_h \
           : OPTIONS_ATTRIBUTES.map(&:to_s).map{|v| [v, '']}.to_h
+  end
+
+  def subunits
+    Math.log(self.base_factor, 10).round
   end
 end
 

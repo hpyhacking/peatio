@@ -6,7 +6,7 @@ module Abilities
     include CanCan::Ability
 
     def initialize
-      can :read, Order
+      can [:read, :update], Order
       can :read, Trade
       can :read, Member
 

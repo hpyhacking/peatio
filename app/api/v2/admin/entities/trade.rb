@@ -10,20 +10,20 @@ module API
           unexpose(:order_id)
 
           expose(
-            :maker_order_id,
+            :maker_order_email,
             documentation: {
               type: String,
-              desc: 'Trade maker order id.'
+              desc: 'Trade maker member email.'
             }
-          )
+          ) { |trade| trade.maker.email }
 
           expose(
-            :taker_order_id,
+            :taker_order_email,
             documentation: {
               type: String,
-              desc: 'Trade taker order id.'
+              desc: 'Trade taker member email.'
             }
-          )
+          ) { |trade| trade.taker.email }
 
           expose(
             :maker_uid,
@@ -31,9 +31,7 @@ module API
               type: String,
               desc: 'Trade maker member uid.'
             }
-          ) do |trade|
-              trade.maker.uid
-          end
+          ) { |trade| trade.maker.uid }
 
           expose(
             :taker_uid,
@@ -41,9 +39,7 @@ module API
               type: String,
               desc: 'Trade taker member uid.'
             }
-          ) do |trade|
-            trade.taker.uid
-          end
+          ) { |trade| trade.taker.uid }
         end
       end
     end

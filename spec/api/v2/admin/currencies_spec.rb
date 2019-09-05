@@ -15,7 +15,7 @@ describe API::V2::Admin::Currencies, type: :request do
       %w[code symbol type deposit_fee withdraw_fee withdraw_limit_24h withdraw_limit_72h min_collection_amount base_factor precision position]
     end
     let(:expected_for_coin) do
-      expected_for_fiat.concat(%w[blockchain_key options])
+      expected_for_fiat.concat(%w[blockchain_key base_factor precision subunits options])
     end
 
     it 'returns information about specified currency' do
@@ -31,7 +31,6 @@ describe API::V2::Admin::Currencies, type: :request do
       expect(response).to be_successful
 
       result = JSON.parse(response.body)
-
       expected_for_fiat.each { |key| expect(result).to have_key key }
 
       (expected_for_coin - expected_for_fiat).each do |key|
@@ -172,6 +171,47 @@ describe API::V2::Admin::Currencies, type: :request do
       expect(response).to include_api_error('admin.currency.non_json_options')
     end
 
+    it 'verifies subunits >= 0' do
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet', subunits: -1 }, token: token
+
+      expect(response).to include_api_error 'admin.currency.invalid_subunits'
+      expect(response).not_to be_successful
+    end
+
+    it 'verifies subunits <= 18' do
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet', subunits: 19 }, token: token
+
+      expect(response).to include_api_error 'admin.currency.invalid_subunits'
+      expect(response).not_to be_successful
+    end
+
+    it 'creates 1_000_000_000_000_000_000 base_factor' do
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet', subunits: 18 }, token: token
+
+      result = JSON.parse(response.body)
+      expect(response).to be_successful
+      expect(result['base_factor']).to eq 1_000_000_000_000_000_000
+      expect(result['subunits']).to eq 18
+    end
+
+    it 'return error while putting base_factor and subunit params' do
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet', subunits: 18, base_factor: 1 }, token: token
+
+      result = JSON.parse(response.body)
+
+      expect(response.code).to eq '422'
+      expect(result['errors']).to eq(['admin.currency.one_of_base_factor_subunits_fields'])
+    end
+
+    it 'creates currency with 1000 base_factor' do
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet', base_factor: 1000 }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result['base_factor']).to eq 1000
+      expect(result['subunits']).to eq 3
+    end
+
     it 'checked required params' do
       api_post '/api/v2/admin/currencies/new', params: { }, token: token
 
@@ -226,32 +266,6 @@ describe API::V2::Admin::Currencies, type: :request do
 
       expect(response).not_to be_successful
       expect(response.status).to eq 422
-    end
-
-    it 'verifies subunits >= 0' do
-      api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id, subunits: -1 }, token: token
-
-      expect(response).to include_api_error 'admin.currency.invalid_subunits'
-      expect(response).not_to be_successful
-    end
-
-    it 'verifies subunits <= 18' do
-      api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id, subunits: 19 }, token: token
-
-      expect(response).to include_api_error 'admin.currency.invalid_subunits'
-      expect(response).not_to be_successful
-    end
-
-    it 'updates base_factor to 1' do
-      expect {
-        api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id, subunits: 0 }, token: token
-      }.to change { Currency.first.base_factor }.to 1
-    end
-
-    it 'updates base_factor to 1_000_000_000_000_000_000' do
-      expect {
-        api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id, subunits: 18 }, token: token
-      }.to change { Currency.first.base_factor }.to 1_000_000_000_000_000_000
     end
 
     it 'validate options param' do

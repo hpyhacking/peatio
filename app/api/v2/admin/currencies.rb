@@ -68,12 +68,6 @@ module API
               default: true,
               desc: -> { API::V2::Admin::Entities::Currency.documentation[:enabled][:desc] }
             },
-            subunits: {
-              type: { value: Integer, message: 'admin.currency.non_integer_subunits' },
-              values: { value: (0..18), message: 'admin.currency.invalid_subunits' },
-              default: 0,
-              desc: 'Fraction of the basic monetary unit.'
-            },
             precision: {
               type: { value: Integer, message: 'admin.currency.non_integer_base_precision' },
               default: 8,
@@ -140,17 +134,24 @@ module API
                    values: { value: ::Currency.types.map(&:to_s), message: 'admin.currency.invalid_type' },
                    default: 'coin',
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:type][:desc] }
+          optional :base_factor,
+                   type: { value: Integer, message: 'admin.currency.non_integer_base_factor' },
+                   desc: -> { API::V2::Admin::Entities::Currency.documentation[:base_factor][:desc] }
+          optional :subunits,
+                   type: { value: Integer, message: 'admin.currency.non_integer_subunits' },
+                   values: { value: (0..18), message: 'admin.currency.invalid_subunits' },
+                   desc: -> { API::V2::Admin::Entities::Currency.documentation[:subunits][:desc] }
           given type: ->(val) { val == 'coin' } do
             requires :blockchain_key,
                      values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.currency.blockchain_key_doesnt_exist' },
                      desc: -> { API::V2::Admin::Entities::Currency.documentation[:blockchain_key][:desc] }
           end
+          mutually_exclusive :base_factor, :subunits, message: 'admin.currency.one_of_base_factor_subunits_fields'
         end
         post '/currencies/new' do
           authorize! :create, Currency
 
-          currency = Currency.new(declared(params).except(:subunits))
-          currency.subunits = params[:subunits]
+          currency = Currency.new(declared(params, include_missing: false))
           if currency.save
             present currency, with: API::V2::Admin::Entities::Currency
             status 201
@@ -178,8 +179,7 @@ module API
           authorize! :write, Currency
 
           currency = Currency.find(params[:code])
-          currency.subunits = params[:subunits] if params[:subunits]
-          if currency.update(declared(params, include_missing: false).except(:subunits))
+          if currency.update(declared(params, include_missing: false))
             present currency, with: API::V2::Admin::Entities::Currency
           else
             body errors: currency.errors.full_messages

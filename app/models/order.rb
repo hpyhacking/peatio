@@ -64,6 +64,12 @@ class Order < ApplicationRecord
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
 
+  # Custom ransackers.
+
+  ransacker :state, formatter: proc { |v| STATES[v.to_sym] } do |parent|
+    parent.table[:state]
+  end
+
   # Single Order can produce multiple Trades with different fee types (maker and taker).
   # Since we can't predict fee types on order creation step and
   # Market fees configuration can change we need to store fees on Order creation.

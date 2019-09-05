@@ -6,6 +6,7 @@ module API
     module Admin
       class Orders < Grape::API
         helpers ::API::V2::Admin::Helpers
+        helpers ::API::V2::OrderHelpers
 
         content_type :csv, 'text/csv'
 
@@ -31,7 +32,7 @@ module API
                    values: { value: -> (p){ p.try(:positive?) }, message: 'admin.order.non_positive_origin_volume' },
                    desc: -> { API::V2::Admin::Entities::Order.documentation[:origin_volume][:desc] }
           optional :type,
-                   values: { value: %w(bid ask), message: 'admin.order.invalid_type' },
+                   values: { value: %w(sell buy), message: 'admin.order.invalid_type' },
                    desc: 'Filter order by type.'
           optional :email,
                    desc: -> { API::V2::Entities::Member.documentation[:email][:desc] }
@@ -44,12 +45,11 @@ module API
           authorize! :read, Order
 
           ransack_params = Helpers::RansackBuilder.new(params)
-                             .eq(:price, :origin_volume, :ord_type)
+                             .eq(:price, :origin_volume, :ord_type, :state)
                              .translate(market: :market_id, uid: :member_uid, email: :member_email)
                              .with_daterange
                              .merge({
-                                state_eq: params[:state].present? ? Order::STATES[params[:state].to_sym] : nil,
-                                type_eq: params[:type].present? ? "Order#{params[:type].capitalize}" : nil,
+                                type_eq: params[:type].present? ? params[:type] == 'buy' ? 'OrderBid' : 'OrderAsk' : nil
                              }).build
 
           search = Order.ransack(ransack_params)
@@ -59,6 +59,56 @@ module API
             search.result
           else
             present paginate(search.result), with: API::V2::Admin::Entities::Order
+          end
+        end
+
+        desc 'Cancel an order.'
+        params do
+          requires :id,
+                   type: { value: Integer, message: 'admin.order.non_integer_id' },
+                   allow_blank: false,
+                   desc: -> { API::V2::Admin::Entities::Order.documentation[:id][:desc] }
+        end
+        post '/orders/:id/cancel' do
+          authorize! :update, ::Order
+
+          begin
+            order = Order.find(params[:id])
+            cancel_order(order)
+            present order, with: API::V2::Admin::Entities::Order
+          rescue ActiveRecord::RecordNotFound => e
+            # RecordNotFound in rescued by ExceptionsHandler.
+            raise(e)
+          rescue
+            error!({ errors: ['admin.order.cancel_error'] }, 422)
+          end
+        end
+
+        desc 'Cancel all orders.'
+        params do
+          requires :market,
+                   values: { value: -> { ::Market.enabled.ids }, message: 'admin.order.market_doesnt_exist' },
+                   desc: -> { API::V2::Admin::Entities::Order.documentation[:id][:desc] }
+          optional :side,
+                   values: { value: %w(sell buy), message: 'admin.order.invalid_side' },
+                   desc: 'If present, only sell orders (asks) or buy orders (bids) will be cancelled.'
+        end
+        post '/orders/cancel' do
+          authorize! :update, ::Order
+
+          begin
+            ransack_params = Helpers::RansackBuilder.new(params)
+                                    .eq(state: 'wait')
+                                    .translate(market: :market_id)
+                                    .merge({
+                                      type_eq: params[:side].present? ? params[:side] == 'buy' ? 'OrderBid' : 'OrderAsk' : nil,
+                                    }).build
+
+            orders = Order.ransack(ransack_params)
+            orders.result.each { |o| cancel_order(o) }
+            present orders.result, with: API::V2::Entities::Order
+          rescue
+            error!({ errors: ['admin.order.cancel_error'] }, 422)
           end
         end
       end

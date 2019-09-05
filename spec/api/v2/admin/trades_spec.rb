@@ -23,7 +23,7 @@ describe API::V2::Admin::Trades, type: :request do
     it 'entity provides correct fields' do
       api_get'/api/v2/admin/trades', token: token, params: { limit: 5 }
       result = JSON.parse(response.body).first
-      keys = %w[id amount price total maker_order_id taker_order_id created_at maker_uid taker_uid taker_type market]
+      keys = %w[id amount price total maker_order_email taker_order_email created_at maker_uid taker_uid taker_type market]
 
       expect(result.keys).to match_array keys
       expect(result.values).not_to include nil

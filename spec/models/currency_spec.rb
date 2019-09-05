@@ -63,4 +63,26 @@ describe Currency do
       expect { currency.subunits = 4 }.to change { currency.base_factor }.to 10_000
     end
   end
+
+  context 'read only attributes' do
+    let!(:fake_currency) { create(:currency, :btc, id: 'fake') }
+
+    it 'should not update the base factor' do
+      fake_currency.update_attributes :base_factor => 8
+      fake_currency.reload.base_factor.should eql fake_currency.base_factor
+    end
+
+    it 'should not update the type' do
+      fake_currency.update_attributes :type => 'fiat'
+      fake_currency.reload.type.should eql fake_currency.type
+    end
+  end
+
+  context 'subunits' do
+    let!(:fake_currency) { create(:currency, :btc, id: 'fake', base_factor: 100) }
+
+    it 'return currency subunits' do
+      expect(fake_currency.subunits).to eq(2)
+    end
+  end
 end
