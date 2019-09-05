@@ -56,6 +56,14 @@ module API
             }) { |operation| operation.try(:member).try(:uid) }
 
           expose(
+            :account_kind,
+            documentation: {
+              type: String,
+              desc: 'Operation\'s account kind (locked or main).'
+            }
+          ) { |operation| operation.account.kind }
+
+          expose(
             :reference_id,
             as: :rid,
             documentation: {

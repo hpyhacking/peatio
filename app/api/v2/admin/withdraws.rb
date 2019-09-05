@@ -51,6 +51,50 @@ module API
 
           present paginate(search.result), with: API::V2::Admin::Entities::Withdraw
         end
+
+        desc 'Take an action on the withdrawal.',
+          success: API::V2::Admin::Entities::Withdraw
+        params do
+          requires :id,
+                   type: Integer,
+                   desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:id][:desc] }
+          requires :action,
+                   type: String,
+                   values: { value: -> { ::Withdraw.aasm.events.map(&:name).map(&:to_s) }, message: 'admin.withdraw.invalid_action' },
+                   desc: "Valid actions are #{::Withdraw.aasm.events.map(&:name)}."
+          given action: ->(action) { %w[load dispatch success].include?(action) } do
+            optional :txid,
+                     type: String,
+                     desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:blockchain_txid][:desc] }
+          end
+        end
+        post '/withdraws/actions' do
+          authorize! :write, Withdraw
+
+          declared_params = declared(params, include_missing: false)
+
+          withdraw = Withdraw.find(declared_params[:id])
+
+          if withdraw.fiat? && declared_params[:txid].present?
+            error!({ errors: ['admin.withdraw.redundant_txid'] }, 422)
+          end
+
+          transited = withdraw.transaction do
+            withdraw.update!(txid: declared_params[:txid]) if declared_params[:txid].present?
+            unless withdraw.public_send("#{declared_params[:action]}!")
+              raise ActiveRecord::Rollback
+            end
+          rescue StandardError
+            raise ActiveRecord::Rollback
+          end
+
+          if transited
+            present withdraw, with: API::V2::Admin::Entities::Withdraw
+          else
+            body errors: ["admin.withdraw.cannot_#{declared_params[:action]}"]
+            status 422
+          end
+        end
       end
     end
   end

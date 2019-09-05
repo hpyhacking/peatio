@@ -101,4 +101,54 @@ describe API::V2::Admin::Deposits, type: :request do
       end
     end
   end
+
+  describe 'POST /api/v2/admin/deposits/actions' do
+    let(:url) { '/api/v2/admin/deposits/actions' }
+    let(:fiat) { fiat_deposits.first }
+    let!(:coin) { create(:deposit, :deposit_trst, aasm_state: :accepted) }
+
+    context 'validates params' do
+      it 'does not pass unsupported action' do
+        api_post url, token: token, params: { action: 'illegal', id: fiat.id }
+
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('admin.deposit.invalid_action')
+      end
+
+      it 'passes supported action for fiat' do
+        api_post url, token: token, params: { action: 'reject', id: fiat.id }
+
+        expect(response).not_to include_api_error('admin.deposit.invalid_action')
+      end
+
+      it 'does not pass coin action for fiat' do
+        api_post url, token: token, params: { action: 'collect_fee', id: fiat.id }
+
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('admin.deposit.invalid_action')
+      end
+    end
+
+    context 'updates deposit' do
+      let!(:coin) { create(:deposit, :deposit_trst) }
+
+      it 'accept fiat' do
+        api_post url, token: token, params: { action: 'accept', id: fiat.id }
+        expect(fiat.reload.aasm_state).to eq('accepted')
+        expect(response).to be_successful
+      end
+
+      it 'accept coin' do
+        api_post url, token: token, params: { action: 'accept', id: coin.id }
+        expect(coin.reload.aasm_state).to eq('accepted')
+        expect(response).to be_successful
+      end
+
+      it 'reject fiat' do
+        api_post url, token: token, params: { action: 'reject', id: fiat.id }
+        expect(response).to be_successful
+        expect(fiat.reload.aasm_state).to eq('rejected')
+      end
+    end
+  end
 end

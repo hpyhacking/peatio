@@ -45,6 +45,31 @@ module API
 
           present paginate(search.result), with: API::V2::Admin::Entities::Deposit
         end
+
+        desc 'Take an action on the deposit.',
+          success: API::V2::Admin::Entities::Deposit
+        params do
+          requires :id,
+                   type: Integer,
+                   desc: -> { API::V2::Admin::Entities::Deposit.documentation[:id][:desc] }
+          requires :action,
+                   type: String,
+                   values: { value: -> { ::Deposit.aasm.events.map(&:name).map(&:to_s) }, message: 'admin.deposit.invalid_action' },
+                   desc: "Valid actions are #{::Deposit.aasm.events.map(&:name)}."
+        end
+        post '/deposits/actions' do
+          authorize! :write, Deposit
+
+          deposit = Deposit.find(params[:id])
+
+          if deposit.public_send("may_#{params[:action]}?")
+            deposit.public_send("#{params[:action]}!")
+            present deposit, with: API::V2::Admin::Entities::Deposit
+          else
+            body errors: ["admin.depodit.cannot_#{params[:action]}"]
+            status 422
+          end
+        end
       end
     end
   end

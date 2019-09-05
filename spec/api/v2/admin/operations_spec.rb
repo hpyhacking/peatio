@@ -40,7 +40,7 @@ describe API::V2::Admin::Operations, type: :request do
       it 'entity present valid fields' do
         api_get '/api/v2/admin/assets', token: token
         result = JSON.parse(response.body)
-        expected = %w[id rid currency reference_type credit debit created_at code]
+        expected = %w[id rid currency reference_type credit debit created_at code account_kind]
 
         expect(result.first.keys).to match_array expected
       end
@@ -74,7 +74,7 @@ describe API::V2::Admin::Operations, type: :request do
       it 'entity presents valid fields' do
         api_get '/api/v2/admin/expenses', token: token
         result = JSON.parse(response.body)
-        expected = %w[id rid currency reference_type credit debit created_at code]
+        expected = %w[id rid currency reference_type credit debit created_at code account_kind]
 
         expect(result.first.keys).to match_array expected
       end
@@ -116,7 +116,7 @@ describe API::V2::Admin::Operations, type: :request do
       it 'entity presents valid fields' do
         api_get '/api/v2/admin/revenues', token: token
         result = JSON.parse(response.body)
-        expected = %w[id rid currency reference_type credit debit created_at code]
+        expected = %w[id rid currency reference_type credit debit created_at code account_kind]
 
         expect(result.first.keys).to match_array expected
       end
@@ -150,7 +150,7 @@ describe API::V2::Admin::Operations, type: :request do
       it 'entity presents valid fields' do
         api_get '/api/v2/admin/liabilities', token: token
         result = JSON.parse(response.body)
-        expected = %w[id rid currency reference_type credit debit created_at code uid]
+        expected = %w[id rid currency reference_type credit debit created_at code uid account_kind]
 
         expect(result.first.keys).to match_array expected
       end

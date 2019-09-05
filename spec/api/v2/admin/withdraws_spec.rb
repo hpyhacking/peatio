@@ -104,4 +104,97 @@ describe API::V2::Admin::Withdraws, type: :request do
       end
     end
   end
+
+  describe 'POST /api/v2/admin/withdraws/actions' do
+    let(:url) { '/api/v2/admin/withdraws/actions' }
+    let(:fiat) { Withdraw.where(type: 'Withdraws::Fiat').first }
+    let(:coin) { Withdraw.where(type: 'Withdraws::Coin').first }
+
+    context 'validates params' do
+      it 'does not pass unsupported action' do
+        api_post url, token: token, params: { action: 'illegal', id: fiat.id }
+
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('admin.withdraw.invalid_action')
+      end
+
+      it 'passes supported action for coin' do
+        api_post url, token: token, params: { action: 'process', id: coin.id }
+
+        expect(response).not_to include_api_error('admin.withdraw.invalid_action')
+      end
+
+      it 'passes supported action for fiat' do
+        api_post url, token: token, params: { action: 'reject', id: fiat.id }
+
+        expect(response).not_to include_api_error('admin.withdraw.invalid_action')
+      end
+
+      it 'does not pass coin action for fiat' do
+        api_post url, token: token, params: { action: 'load', id: fiat.id }
+
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('admin.withdraw.cannot_load')
+      end
+    end
+
+    context 'updates withdraw' do
+      before { [coin, fiat].map(&:submit!) }
+
+      it 'accept fiat' do
+        api_post url, token: token, params: { action: 'accept', id: fiat.id }
+        expect(fiat.reload.aasm_state).to eq('accepted')
+      end
+
+      it 'process coin' do
+        coin.accept!
+        api_post url, token: token, params: { action: 'process', id: coin.id }
+        expect(coin.reload.aasm_state).to eq('processing')
+      end
+
+      it 'reject fiat' do
+        api_post url, token: token, params: { action: 'reject', id: fiat.id }
+        expect(fiat.reload.aasm_state).to eq('rejected')
+      end
+
+      it 'fail coin' do
+        coin.accept!
+        coin.process!
+        api_post url, token: token, params: { action: 'fail', id: coin.id }
+        expect(coin.reload.aasm_state).to eq('failed')
+      end
+
+      it 'load coin with txid' do
+        coin.accept!
+        api_post url, token: token, params: { action: 'load', id: coin.id, txid: 'new_txid' }
+        expect(coin.reload.txid).to eq('new_txid')
+        expect(coin.aasm_state).to eq('confirming')
+      end
+
+      it 'load fiat with txid' do
+        fiat.accept!
+        expect {
+          api_post url, token: token, params: { action: 'load', id: fiat.id, txid: 'new_txid' }
+        }.not_to change { fiat }
+        expect(response).to include_api_error('admin.withdraw.redundant_txid')
+      end
+
+      it 'load coin without txid with txid as param' do
+        coin.update(txid: nil)
+        coin.accept!
+        api_post url, token: token, params: { action: 'load', id: coin.id, txid: 'new_txid' }
+        expect(coin.reload.txid).to eq('new_txid')
+        expect(coin.aasm_state).to eq('confirming')
+      end
+
+      it 'load coin without txid' do
+        coin.update(txid: nil)
+        coin.accept!
+        expect {
+          api_post url, token: token, params: { action: 'load', id: coin.id }
+        }.not_to change { coin }
+        expect(response).to include_api_error('admin.withdraw.cannot_load')
+      end
+    end
+  end
 end
