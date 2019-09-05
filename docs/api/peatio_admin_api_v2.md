@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.23
+## Version: 2.3.24
 
 **Contact information:**  
 openware.com  
@@ -521,6 +521,26 @@ Get all wallets, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all wallets, result is paginated. | [ [Wallet](#wallet) ] |
 
+### /deposits/actions
+
+#### POST
+##### Description:
+
+Take an action on the deposit.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Unique deposit id. | Yes | integer |
+| action | formData | Valid actions are [:cancel, :reject, :accept, :skip, :dispatch]. | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Take an action on the deposit. | [Deposit](#deposit) |
+
 ### /deposits
 
 #### GET
@@ -553,6 +573,27 @@ Get all deposits, result is paginated.
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all deposits, result is paginated. | [ [Deposit](#deposit) ] |
+
+### /withdraws/actions
+
+#### POST
+##### Description:
+
+Take an action on the withdrawal.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | The withdrawal id. | Yes | integer |
+| action | formData | Valid actions are [:submit, :cancel, :accept, :reject, :process, :load, :dispatch, :success, :skip, :fail, :err]. | Yes | string |
+| txid | formData | The withdrawal transaction id. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Take an action on the withdrawal. | [Withdraw](#withdraw) |
 
 ### /withdraws
 
@@ -1080,6 +1121,33 @@ Get all withdraws, result is paginated.
 | spread | string | Deposit collection spread. | No |
 | updated_at | string | The datetime when deposit was updated. | No |
 
+#### Withdraw
+
+Take an action on the withdrawal.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | The withdrawal id. | No |
+| currency | string | The currency code. | No |
+| type | string | The withdrawal type | No |
+| sum | double | The withdrawal sum. | No |
+| fee | double | The exchange fee. | No |
+| blockchain_txid | string | The withdrawal transaction id. | No |
+| rid | string | The beneficiary ID or wallet address on the Blockchain. | No |
+| state | string | The withdrawal state. | No |
+| confirmations | integer | Number of confirmations. | No |
+| note | string | Withdraw note. | No |
+| created_at | string | The datetimes for the withdrawal. | No |
+| updated_at | string | The datetimes for the withdrawal. | No |
+| completed_at | string | The datetime when withdraw was completed. | No |
+| member | string | The member id. | No |
+| uid | string | The withdrawal member uid. | No |
+| email | string | The withdrawal member email. | No |
+| account | string | The account code. | No |
+| block_number | integer | The withdrawal block_number. | No |
+| amount | double | The withdrawal amount. | No |
+| tid | string | Withdraw tid. | No |
+
 #### Operation
 
 Returns liabilities as a paginated collection.
@@ -1092,6 +1160,7 @@ Returns liabilities as a paginated collection.
 | credit | string | Operation credit amount. | No |
 | debit | string | Operation debit amount. | No |
 | uid | string | The shared user ID. | No |
+| account_kind | string | Operation's account kind (locked or main). | No |
 | rid | string | The id of operation reference. | No |
 | reference_type | string | The type of operations. | No |
 | created_at | string | The datetime when operation was created. | No |
@@ -1158,28 +1227,3 @@ Get all adjustments, result is paginated.
 | receiving_member_uid | string | Adjustment receiving member uid. | No |
 | created_at | string | The datetime when operation was created. | No |
 | updated_at | string | The datetime when operation was updated. | No |
-
-#### Withdraw
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | integer | The withdrawal id. | No |
-| currency | string | The currency code. | No |
-| type | string | The withdrawal type | No |
-| sum | double | The withdrawal sum. | No |
-| fee | double | The exchange fee. | No |
-| blockchain_txid | string | The withdrawal transaction id. | No |
-| rid | string | The beneficiary ID or wallet address on the Blockchain. | No |
-| state | string | The withdrawal state. | No |
-| confirmations | integer | Number of confirmations. | No |
-| note | string | Withdraw note. | No |
-| created_at | string | The datetimes for the withdrawal. | No |
-| updated_at | string | The datetimes for the withdrawal. | No |
-| completed_at | string | The datetime when withdraw was completed. | No |
-| member | string | The member id. | No |
-| uid | string | The withdrawal member uid. | No |
-| email | string | The withdrawal member email. | No |
-| account | string | The account code. | No |
-| block_number | integer | The withdrawal block_number. | No |
-| amount | double | The withdrawal amount. | No |
-| tid | string | Withdraw tid. | No |

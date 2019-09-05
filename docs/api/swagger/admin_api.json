@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.23"
+    "version": "2.3.24"
   },
   "swagger": "2.0",
   "produces": [
@@ -1849,6 +1849,53 @@
         "operationId": "getWallets"
       }
     },
+    "/deposits/actions": {
+      "post": {
+        "description": "Take an action on the deposit.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique deposit id.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "action",
+            "description": "Valid actions are [:cancel, :reject, :accept, :skip, :dispatch].",
+            "type": "string",
+            "enum": [
+              "cancel",
+              "reject",
+              "accept",
+              "skip",
+              "dispatch"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Take an action on the deposit.",
+            "schema": {
+              "$ref": "#/definitions/Deposit"
+            }
+          }
+        },
+        "tags": [
+          "deposits"
+        ],
+        "operationId": "postDepositsActions"
+      }
+    },
     "/deposits": {
       "get": {
         "description": "Get all deposits, result is paginated.",
@@ -2019,6 +2066,66 @@
           "deposits"
         ],
         "operationId": "getDeposits"
+      }
+    },
+    "/withdraws/actions": {
+      "post": {
+        "description": "Take an action on the withdrawal.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "The withdrawal id.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "action",
+            "description": "Valid actions are [:submit, :cancel, :accept, :reject, :process, :load, :dispatch, :success, :skip, :fail, :err].",
+            "type": "string",
+            "enum": [
+              "submit",
+              "cancel",
+              "accept",
+              "reject",
+              "process",
+              "load",
+              "dispatch",
+              "success",
+              "skip",
+              "fail",
+              "err"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "txid",
+            "description": "The withdrawal transaction id.",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Take an action on the withdrawal.",
+            "schema": {
+              "$ref": "#/definitions/Withdraw"
+            }
+          }
+        },
+        "tags": [
+          "withdraws"
+        ],
+        "operationId": "postWithdrawsActions"
       }
     },
     "/withdraws": {
@@ -4068,6 +4175,98 @@
       },
       "description": "Get all withdraws, result is paginated."
     },
+    "Withdraw": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The withdrawal id."
+        },
+        "currency": {
+          "type": "string",
+          "description": "The currency code."
+        },
+        "type": {
+          "type": "string",
+          "description": "The withdrawal type"
+        },
+        "sum": {
+          "type": "number",
+          "format": "double",
+          "description": "The withdrawal sum."
+        },
+        "fee": {
+          "type": "number",
+          "format": "double",
+          "description": "The exchange fee."
+        },
+        "blockchain_txid": {
+          "type": "string",
+          "description": "The withdrawal transaction id."
+        },
+        "rid": {
+          "type": "string",
+          "description": "The beneficiary ID or wallet address on the Blockchain."
+        },
+        "state": {
+          "type": "string",
+          "description": "The withdrawal state."
+        },
+        "confirmations": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of confirmations."
+        },
+        "note": {
+          "type": "string",
+          "description": "Withdraw note."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "The datetimes for the withdrawal."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "The datetimes for the withdrawal."
+        },
+        "completed_at": {
+          "type": "string",
+          "description": "The datetime when withdraw was completed."
+        },
+        "member": {
+          "type": "string",
+          "description": "The member id."
+        },
+        "uid": {
+          "type": "string",
+          "description": "The withdrawal member uid."
+        },
+        "email": {
+          "type": "string",
+          "description": "The withdrawal member email."
+        },
+        "account": {
+          "type": "string",
+          "description": "The account code."
+        },
+        "block_number": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The withdrawal block_number."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "The withdrawal amount."
+        },
+        "tid": {
+          "type": "string",
+          "description": "Withdraw tid."
+        }
+      },
+      "description": "Take an action on the withdrawal."
+    },
     "Operation": {
       "type": "object",
       "properties": {
@@ -4095,6 +4294,10 @@
         "uid": {
           "type": "string",
           "description": "The shared user ID."
+        },
+        "account_kind": {
+          "type": "string",
+          "description": "Operation's account kind (locked or main)."
         },
         "rid": {
           "type": "string",
@@ -4291,97 +4494,6 @@
         }
       },
       "description": "Get all adjustments, result is paginated."
-    },
-    "Withdraw": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The withdrawal id."
-        },
-        "currency": {
-          "type": "string",
-          "description": "The currency code."
-        },
-        "type": {
-          "type": "string",
-          "description": "The withdrawal type"
-        },
-        "sum": {
-          "type": "number",
-          "format": "double",
-          "description": "The withdrawal sum."
-        },
-        "fee": {
-          "type": "number",
-          "format": "double",
-          "description": "The exchange fee."
-        },
-        "blockchain_txid": {
-          "type": "string",
-          "description": "The withdrawal transaction id."
-        },
-        "rid": {
-          "type": "string",
-          "description": "The beneficiary ID or wallet address on the Blockchain."
-        },
-        "state": {
-          "type": "string",
-          "description": "The withdrawal state."
-        },
-        "confirmations": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Number of confirmations."
-        },
-        "note": {
-          "type": "string",
-          "description": "Withdraw note."
-        },
-        "created_at": {
-          "type": "string",
-          "description": "The datetimes for the withdrawal."
-        },
-        "updated_at": {
-          "type": "string",
-          "description": "The datetimes for the withdrawal."
-        },
-        "completed_at": {
-          "type": "string",
-          "description": "The datetime when withdraw was completed."
-        },
-        "member": {
-          "type": "string",
-          "description": "The member id."
-        },
-        "uid": {
-          "type": "string",
-          "description": "The withdrawal member uid."
-        },
-        "email": {
-          "type": "string",
-          "description": "The withdrawal member email."
-        },
-        "account": {
-          "type": "string",
-          "description": "The account code."
-        },
-        "block_number": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The withdrawal block_number."
-        },
-        "amount": {
-          "type": "number",
-          "format": "double",
-          "description": "The withdrawal amount."
-        },
-        "tid": {
-          "type": "string",
-          "description": "Withdraw tid."
-        }
-      }
     }
   }
 }
