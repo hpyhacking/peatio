@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.22"
+    "version": "2.3.23"
   },
   "swagger": "2.0",
   "produces": [
@@ -81,6 +81,84 @@
     }
   ],
   "paths": {
+    "/orders/cancel": {
+      "post": {
+        "description": "Cancel all orders.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "market",
+            "description": "Unique order id.",
+            "type": "string",
+            "enum": [
+              "btcusd",
+              "ethbtc",
+              "ethusd",
+              "trstbtc",
+              "trsteth",
+              "trstusd"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "side",
+            "description": "If present, only sell orders (asks) or buy orders (bids) will be cancelled.",
+            "type": "string",
+            "enum": [
+              "sell",
+              "buy"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Cancel all orders."
+          }
+        },
+        "tags": [
+          "orders"
+        ],
+        "operationId": "postOrdersCancel"
+      }
+    },
+    "/orders/{id}/cancel": {
+      "post": {
+        "description": "Cancel an order.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Unique order id.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Cancel an order."
+          }
+        },
+        "tags": [
+          "orders"
+        ],
+        "operationId": "postOrdersIdCancel"
+      }
+    },
     "/orders": {
       "get": {
         "description": "Get all orders, result is paginated.",
@@ -150,8 +228,8 @@
             "description": "Filter order by type.",
             "type": "string",
             "enum": [
-              "bid",
-              "ask"
+              "sell",
+              "buy"
             ],
             "required": false
           },
@@ -681,18 +759,8 @@
           },
           {
             "in": "formData",
-            "name": "subunits",
-            "description": "Fraction of the basic monetary unit.",
-            "type": "integer",
-            "format": "int32",
-            "minimum": 0,
-            "maximum": 18,
-            "required": false
-          },
-          {
-            "in": "formData",
             "name": "precision",
-            "description": "Currency precision",
+            "description": "Currency precision.",
             "type": "integer",
             "format": "int32",
             "required": false
@@ -859,19 +927,8 @@
           },
           {
             "in": "formData",
-            "name": "subunits",
-            "description": "Fraction of the basic monetary unit.",
-            "type": "integer",
-            "format": "int32",
-            "default": 0,
-            "minimum": 0,
-            "maximum": 18,
-            "required": false
-          },
-          {
-            "in": "formData",
             "name": "precision",
-            "description": "Currency precision",
+            "description": "Currency precision.",
             "type": "integer",
             "format": "int32",
             "default": 8,
@@ -908,6 +965,24 @@
               "fiat",
               "coin"
             ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "base_factor",
+            "description": "Currency base factor.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "subunits",
+            "description": "Fraction of the basic monetary unit.",
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0,
+            "maximum": 18,
             "required": false
           },
           {
@@ -3725,14 +3800,14 @@
           "description": "Currency 72h withdraw limit"
         },
         "base_factor": {
-          "type": "string",
-          "example": 100000000,
-          "description": "Currency base factor"
+          "type": "integer",
+          "format": "int32",
+          "description": "Currency base factor."
         },
         "precision": {
-          "type": "string",
-          "example": 8,
-          "description": "Currency precision"
+          "type": "integer",
+          "format": "int32",
+          "description": "Currency precision."
         },
         "icon_url": {
           "type": "string",
@@ -3764,6 +3839,11 @@
         "enabled": {
           "type": "string",
           "description": "Currency display status (enabled/disabled)."
+        },
+        "subunits": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Fraction of the basic monetary unit."
         },
         "options": {
           "type": "json",

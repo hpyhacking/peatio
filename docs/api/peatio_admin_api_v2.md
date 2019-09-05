@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.22
+## Version: 2.3.23
 
 **Contact information:**  
 openware.com  
@@ -9,6 +9,45 @@ https://www.openware.com
 hello@openware.com  
 
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
+
+### /orders/cancel
+
+#### POST
+##### Description:
+
+Cancel all orders.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| market | formData | Unique order id. | Yes | string |
+| side | formData | If present, only sell orders (asks) or buy orders (bids) will be cancelled. | No | string |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Cancel all orders. |
+
+### /orders/{id}/cancel
+
+#### POST
+##### Description:
+
+Cancel an order.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Unique order id. | Yes | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Cancel an order. |
 
 ### /orders
 
@@ -174,8 +213,7 @@ Update currency.
 | position | formData | Currency position. | No | integer |
 | options | formData | Currency options. | No | json |
 | enabled | formData | Currency display status (enabled/disabled). | No | boolean |
-| subunits | formData | Fraction of the basic monetary unit. | No | integer |
-| precision | formData | Currency precision | No | integer |
+| precision | formData | Currency precision. | No | integer |
 | icon_url | formData | Currency icon | No | string |
 | code | formData | Unique currency code. | Yes | string |
 | symbol | formData | Currency symbol | No | string |
@@ -209,12 +247,13 @@ Create new currency.
 | position | formData | Currency position. | No | integer |
 | options | formData | Currency options. | No | json |
 | enabled | formData | Currency display status (enabled/disabled). | No | boolean |
-| subunits | formData | Fraction of the basic monetary unit. | No | integer |
-| precision | formData | Currency precision | No | integer |
+| precision | formData | Currency precision. | No | integer |
 | icon_url | formData | Currency icon | No | string |
 | code | formData | Unique currency code. | Yes | string |
 | symbol | formData | Currency symbol | Yes | string |
 | type | formData | Currency type | No | string |
+| base_factor | formData | Currency base factor. | No | integer |
+| subunits | formData | Fraction of the basic monetary unit. | No | integer |
 | blockchain_key | formData | Associated blockchain key which will perform transactions synchronization for currency. | Yes | string |
 
 ##### Responses
@@ -962,8 +1001,8 @@ Get list of currencies
 | min_withdraw_amount | string | Minimal withdraw amount | No |
 | withdraw_limit_24h | string | Currency 24h withdraw limit | No |
 | withdraw_limit_72h | string | Currency 72h withdraw limit | No |
-| base_factor | string | Currency base factor | No |
-| precision | string | Currency precision | No |
+| base_factor | integer | Currency base factor. | No |
+| precision | integer | Currency precision. | No |
 | icon_url | string | Currency icon | No |
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
 | code | string | Unique currency code. | No |
@@ -971,6 +1010,7 @@ Get list of currencies
 | min_collection_amount | double | Minimal collection amount. | No |
 | position | integer | Currency position. | No |
 | enabled | string | Currency display status (enabled/disabled). | No |
+| subunits | integer | Fraction of the basic monetary unit. | No |
 | options | json | Currency options. | No |
 | created_at | string | Currency created time in iso8601 format. | No |
 | updated_at | string | Currency updated time in iso8601 format. | No |
