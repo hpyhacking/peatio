@@ -40,7 +40,7 @@ class Beneficiary < ApplicationRecord
     end
   end
 
-  acts_as_eventable on: %i[create update], prefix: 'beneficiary'
+  acts_as_eventable prefix: 'beneficiary', on: %i[create update]
 
   # == Relationships ========================================================
 
@@ -50,7 +50,18 @@ class Beneficiary < ApplicationRecord
   # == Validations ==========================================================
 
   validates :pin, presence: true, numericality: { only_integer: true }
-  # TODO: Validate that we have address in data in case of crypto.
+
+  validates :data, presence: true
+
+  # Validates that data contains address field which is required for coin.
+  validate if: ->(b) { b.currency.present? && b.currency.coin? } do
+    errors.add(:data, 'address can\'t be blank') if data.blank? || data['address'].blank?
+  end
+
+  # Validates that data contains full_name field which is required for fiat.
+  validate if: ->(b) { b.currency.present? && b.currency.fiat? } do
+    errors.add(:data, 'full_name can\'t be blank') if data.blank? || data['full_name'].blank?
+  end
 
   # == Scopes ===============================================================
 
@@ -69,7 +80,7 @@ class Beneficiary < ApplicationRecord
       SecureRandom.rand(Beneficiary::PIN_RANGE)
     end
 
-    # Method used for defining passing states mapping to aasm.
+    # Method used for passing states mapping to AASM.
     def states_mapping
       STATES_MAPPING
     end
@@ -100,9 +111,20 @@ class Beneficiary < ApplicationRecord
     end
   end
 
-  # TODO: Implement me.
-  # Return B000001 for bank, C0000042 for crypto
   def rid
+    currency.coin? ? coin_rid : fiat_rid
+  end
+
+  private
+
+  def coin_rid
+    return unless currency.coin?
+    data['address']
+  end
+
+  def fiat_rid
+    return unless currency.fiat?
+    "%s-%s-%08d" % [data['full_name'].downcase.split.join('-'), currency_id.downcase, id]
   end
 end
 

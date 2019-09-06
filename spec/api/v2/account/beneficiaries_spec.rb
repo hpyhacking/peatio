@@ -247,6 +247,8 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
           expect(response).to include_api_error('account.beneficiary.missing_address_in_data')
         end
       end
+
+      # TODO: Test nil full_name in data for both fiat and crypto.
     end
 
     context 'fiat beneficiary' do
@@ -255,15 +257,13 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
           currency: :usd,
           name: Faker::Bank.name,
           description: Faker::Company.catch_phrase,
-          data: {
-            iban: Faker::Bank.iban,
-            bank: Faker::Bank.name
-          }
+          data: generate(:fiat_beneficiary_data)
         }
       end
 
       context 'nil address in data' do
         it do
+          fiat_beneficiary_data[:data].delete(:address)
           api_post endpoint, params: fiat_beneficiary_data, token: token
           expect(response.status).to eq 201
         end

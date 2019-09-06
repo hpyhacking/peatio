@@ -105,6 +105,49 @@ describe API::V2::Admin::Withdraws, type: :request do
     end
   end
 
+  describe 'GET /api/v2/admin/withdraws/:id' do
+    context 'invalid params' do
+      context 'non-integer id' do
+        it do
+          api_get '/api/v2/admin/withdraws/id', token: token
+          expect(response).to include_api_error('admin.withdraw.non_integer_id')
+        end
+      end
+
+      context 'withdraw does not exist' do
+        it do
+          api_get "/api/v2/admin/withdraws/#{Withdraw.last.id + 1}", token: token
+          expect(response).to include_api_error('record.not_found')
+        end
+      end
+    end
+
+    context 'with beneficiary' do
+      context 'has beneficiary' do
+        let!(:withdraw) { create(:usd_withdraw, :with_beneficiary, :with_deposit_liability) }
+        it 'includes beneficiary in withdrawal payload' do
+          beneficiary_json = API::V2::Entities::Beneficiary
+                               .represent(withdraw.beneficiary)
+                               .as_json
+                               .stringify_keys
+
+          api_get "/api/v2/admin/withdraws/#{withdraw.id}", token: token
+          expect(response_body['beneficiary']).to_not be_nil
+          expect(response_body['beneficiary']).to eq(beneficiary_json)
+        end
+      end
+
+      context 'does not have beneficiary' do
+        let!(:withdraw) { create(:usd_withdraw, :with_deposit_liability) }
+
+        it 'includes beneficiary in withdrawal payload' do
+          api_get "/api/v2/admin/withdraws/#{withdraw.id}", token: token
+          expect(response_body['beneficiary']).to be_nil
+        end
+      end
+    end
+  end
+
   describe 'POST /api/v2/admin/withdraws/actions' do
     let(:url) { '/api/v2/admin/withdraws/actions' }
     let(:fiat) { Withdraw.where(type: 'Withdraws::Fiat').first }

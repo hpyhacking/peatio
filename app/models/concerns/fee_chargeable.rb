@@ -26,16 +26,18 @@ module FeeChargeable
       before_validation on: :create do
         next unless currency
 
-        if sum.present?
-          self.sum = sum.round(currency.precision, BigDecimal::ROUND_DOWN)
-        end
-
         self.sum  ||= 0.to_d
         self.fee  ||= currency.withdraw_fee
         self.amount = sum - fee
       end
 
-      validates :sum, presence: true, numericality: { greater_than: 0.to_d }
+      validates :sum,
+                presence: true,
+                numericality: { greater_than: 0.to_d },
+                precision: { less_than_or_eq_to: ->(w) { w.currency.precision } }
+
+      validates :amount,
+                precision: { less_than_or_eq_to: ->(w) { w.currency.precision } }
 
       validate on: :create do
         next if !account || [sum, amount, fee].any?(&:blank?)

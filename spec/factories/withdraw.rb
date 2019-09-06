@@ -19,6 +19,16 @@ FactoryBot.define do
       end
     end
 
+    trait :with_beneficiary do
+      beneficiary do
+        create(:beneficiary,
+               currency: currency,
+               member: member,
+               state: :active)
+      end
+      rid { nil }
+    end
+
     currency { Currency.find(:btc) }
     member { create(:member, :level_3) }
     rid { Faker::Blockchain::Bitcoin.address }
@@ -34,6 +44,16 @@ FactoryBot.define do
         create(:deposit_usd, member: withdraw.member, amount: withdraw.sum)
           .accept!
       end
+    end
+
+    trait :with_beneficiary do
+      beneficiary do
+        create(:beneficiary,
+               currency: currency,
+               member: member,
+               state: :active)
+      end
+      rid { nil }
     end
 
     member { create(:member, :level_3) }

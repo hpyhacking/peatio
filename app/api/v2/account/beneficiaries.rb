@@ -86,12 +86,17 @@ module API
             currency = Currency.find_by!(id: params[:currency_id])
             if currency.coin? && declared_params.dig(:data, :address).blank?
               error!({ errors: ['account.beneficiary.missing_address_in_data'] }, 422)
+            elsif currency.fiat? && declared_params.dig(:data, :full_name).blank?
+              error!({ errors: ['account.beneficiary.missing_full_name_in_data'] }, 422)
             end
 
             present current_user
                       .beneficiaries
                       .create!(declared_params),
                     with: API::V2::Entities::Beneficiary
+          rescue ActiveRecord::RecordInvalid => e
+            report_exception(e)
+            error!({ errors: ['account.beneficiary.failed_to_create'] }, 422)
           end
 
           desc 'Activates beneficiary with pin',

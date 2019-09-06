@@ -9,7 +9,7 @@ module API
 
         desc 'Get all withdraws, result is paginated.',
           is_array: true,
-          success: API::V2::Admin::Entities::Deposit
+          success: API::V2::Admin::Entities::Withdraw
         params do
           optional :state,
                    values: { value: -> { Withdraw::STATES.map(&:to_s) }, message: 'admin.withdraw.invalid_state' },
@@ -50,6 +50,22 @@ module API
           search.sorts = "#{params[:order_by]} #{params[:ordering]}"
 
           present paginate(search.result), with: API::V2::Admin::Entities::Withdraw
+        end
+
+        desc 'Get withdraw by ID.',
+             success: API::V2::Admin::Entities::Withdraw
+        params do
+          requires :id,
+                   type: { value: Integer, message: 'admin.withdraw.non_integer_id' },
+                   desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:id][:desc] }
+        end
+        get '/withdraws/:id' do
+          authorize! :read, Withdraw
+
+          withdraw = Withdraw.find_by!(id: params[:id])
+          present withdraw,
+                  with: API::V2::Admin::Entities::Withdraw,
+                  with_beneficiary: true
         end
 
         desc 'Take an action on the withdrawal.',

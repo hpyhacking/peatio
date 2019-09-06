@@ -331,6 +331,7 @@ ActiveRecord::Schema.define(version: 2019_09_05_050444) do
   create_table "withdraws", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "member_id", null: false
+    t.bigint "beneficiary_id"
     t.string "currency_id", limit: 10, null: false
     t.decimal "amount", precision: 32, scale: 16, null: false
     t.decimal "fee", precision: 32, scale: 16, null: false

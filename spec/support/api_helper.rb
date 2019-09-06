@@ -116,6 +116,13 @@ module APITestHelpers
 
     Rails.configuration.x.security_configuration = config
   end
+
+  # TODO: Improvements:
+  #   - ability to use both symbol and string keys;
+  #   - handle nil response body;
+  def response_body
+    JSON.parse(response.body)
+  end
 end
 
 RSpec.configure { |config| config.include APITestHelpers }

@@ -59,6 +59,40 @@ describe Beneficiary, 'Validations' do
       it { expect(subject.valid?).to be_falsey }
     end
   end
+
+  context 'data presence' do
+    context 'nil data' do
+      subject { build(:beneficiary, data: nil) }
+      it { expect(subject.valid?).to be_falsey }
+    end
+
+    context 'empty hash data' do
+      subject { build(:beneficiary, data: {}) }
+      it { expect(subject.valid?).to be_falsey }
+    end
+  end
+
+  context 'data address presence' do
+    context 'fiat' do
+      context 'blank address' do
+        let(:fiat) { Currency.find(:usd)}
+        subject { build(:beneficiary, currency: fiat).tap { |b| b.data.delete('address') } }
+        it { expect(subject.valid?).to be_truthy }
+      end
+    end
+
+    context 'coin' do
+      context 'blank address' do
+        let(:coin) { Currency.find(:btc)}
+        subject { build(:beneficiary, currency_id: coin).tap { |b| b.data.delete('address') } }
+        it { expect(subject.valid?).to be_falsey }
+      end
+    end
+  end
+
+  context 'data full_name presence' do
+    # TODO: Write me.
+  end
 end
 
 describe Beneficiary, 'Callback' do
@@ -71,6 +105,42 @@ describe Beneficiary, 'Callback' do
       pin = subject.pin
       subject.validate!
       expect(subject.pin).to eq(pin)
+    end
+  end
+end
+
+describe Beneficiary, 'Instance Methods' do
+  context 'rid' do
+    context 'fiat' do
+      let(:full_name) { Faker::Name.name_with_middle }
+      let(:fiat) { Currency.find(:usd)}
+
+      subject do
+        create(:beneficiary,
+               currency: fiat,
+               data: generate(:fiat_beneficiary_data).merge(full_name: full_name))
+      end
+
+      it do
+        expect(subject.rid).to include(*full_name.downcase.split)
+        expect(subject.rid).to include(subject.id.to_s)
+        expect(subject.rid).to include(subject.currency_id)
+      end
+    end
+
+    context 'coin' do
+      let(:address) { Faker::Blockchain::Ethereum.address }
+      let(:coin) { Currency.find(:btc) }
+
+      subject do
+        create(:beneficiary,
+               currency: coin,
+               data: generate(:coin_beneficiary_data).merge(address: address))
+      end
+
+      it do
+        expect(subject.rid).to include(address)
+      end
     end
   end
 end

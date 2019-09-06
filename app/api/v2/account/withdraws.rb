@@ -35,19 +35,19 @@ module API
                       .tap { |q| present paginate(q), with: API::V2::Entities::Withdraw }
         end
 
-        desc 'Creates new crypto withdrawal.'
+        desc 'Creates new withdrawal to active beneficiary.'
         params do
           requires :otp,
                    type: { value: Integer, message: 'account.withdraw.non_integer_otp' },
                    allow_blank: false,
                    desc: 'OTP to perform action'
-          requires :rid,
-                   type: String,
+          requires :beneficiary_id,
+                   type: { value: Integer, message: 'account.withdraw.non_integer_beneficiary_id' },
                    allow_blank: false,
-                   desc: 'Wallet address on the Blockchain.'
+                   desc: 'ID of Active Beneficiary belonging to user.'
           requires :currency,
                    type: String,
-                   values: { value: -> { Currency.coins.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
+                   values: { value: -> { Currency.enabled.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
                    desc: 'The currency code.'
           requires :amount,
                    type: { value: BigDecimal, message: 'account.withdraw.non_decimal_amount' },
@@ -61,17 +61,28 @@ module API
         post '/withdraws' do
           withdraw_api_must_be_enabled!
 
+          beneficiary = current_user
+                          .beneficiaries
+                          .available_to_member
+                          .find_by(id: params[:beneficiary_id])
+
+          if beneficiary.blank?
+            error!({ errors: ['account.beneficiary.doesnt_exist'] }, 422)
+          elsif !beneficiary.active?
+            error!({ errors: ['account.beneficiary.invalid_state_for_withdrawal'] }, 422)
+          end
+
           unless Vault::TOTP.validate?(current_user.uid, params[:otp])
             error!({ errors: ['account.withdraw.invalid_otp'] }, 422)
           end
 
           currency = Currency.find(params[:currency])
-          withdraw = ::Withdraws::Coin.new \
-            sum:            params[:amount],
-            member:         current_user,
-            currency:       currency,
-            rid:            params[:rid],
-            note:           params[:note]
+          withdraw = "withdraws/#{currency.type}".camelize.constantize.new \
+            beneficiary: beneficiary,
+            sum:         params[:amount],
+            member:      current_user,
+            currency:    currency,
+            note:        params[:note]
           withdraw.save!
           withdraw.with_lock { withdraw.submit! }
           present withdraw, with: API::V2::Entities::Withdraw
@@ -81,6 +92,9 @@ module API
           error!({ errors: ['account.withdraw.insufficient_balance'] }, 422)
         rescue ActiveRecord::RecordInvalid => e
           report_exception_to_screen(e)
+          # TODO: Check if there are other errors possible here.
+          # For now single error which is not handled by params validations is
+          # sum precision validation error (PrecisionValidator).
           error!({ errors: ['account.withdraw.invalid_amount'] }, 422)
         rescue => e
           report_exception_to_screen(e)

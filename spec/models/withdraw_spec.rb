@@ -2,13 +2,6 @@
 # frozen_string_literal: true
 
 describe Withdraw do
-  describe '#fix_precision' do
-    it 'should round down to max precision' do
-      withdraw = create(:btc_withdraw, :with_deposit_liability, sum: '0.123456789')
-      expect(withdraw.sum).to eq('0.12345678'.to_d)
-    end
-  end
-
   context 'bank withdraw' do
     describe '#audit!' do
       subject { create(:usd_withdraw, :with_deposit_liability) }
@@ -475,14 +468,14 @@ describe Withdraw do
     end
 
     context 'returns true if doesn\'t exceeds 24h withdraw limit' do
-      subject(:withdraw) { create(:btc_withdraw, :with_deposit_liability, sum: 0.5, aasm_state: 'accepted') }
+      subject(:withdraw) { create(:btc_withdraw, :with_deposit_liability, sum: 0.5.to_d, aasm_state: 'accepted') }
       it { expect(withdraw).to be_quick }
     end
 
     context 'returns false if exceeds 24h withdraw limit' do
-      subject(:withdraw) { create(:btc_withdraw, :with_deposit_liability, sum: 0.5, aasm_state: 'accepted') }
+      subject(:withdraw) { create(:btc_withdraw, :with_deposit_liability, sum: 0.5.to_d, aasm_state: 'accepted') }
       it do
-        second_withdraw = create(:btc_withdraw, :with_deposit_liability, member: withdraw.member, sum: 0.8, aasm_state: 'accepted')
+        second_withdraw = create(:btc_withdraw, :with_deposit_liability, member: withdraw.member, sum: 0.8.to_d, aasm_state: 'accepted')
         second_withdraw.process!
         expect(second_withdraw).to_not be_quick
       end
@@ -525,6 +518,59 @@ describe Withdraw do
   it 'uppercases TID' do
     record = create(:btc_withdraw, :with_deposit_liability)
     expect(record.tid).to eq record.tid.upcase
+  end
+
+  context 'using beneficiary' do
+    context 'fiat' do
+      let(:withdraw) do
+        create(:usd_withdraw,
+               :with_beneficiary,
+               :with_deposit_liability,
+               sum: 200)
+      end
+
+      it 'automatically sets rid from beneficiary' do
+        expect(withdraw.rid).to eq withdraw.beneficiary.rid
+      end
+    end
+
+    context 'crypto' do
+      let(:withdraw) do
+        create(:btc_withdraw,
+               :with_beneficiary,
+               :with_deposit_liability,
+               sum: 2)
+      end
+
+      it 'automatically sets rid from beneficiary' do
+        expect(withdraw.rid).to eq withdraw.beneficiary.rid
+      end
+    end
+
+    context 'non-active beneficiary' do
+      let(:currency) { Currency.all.sample }
+      let(:beneficiary) { create(:beneficiary, state: :pending, currency: currency) }
+
+      # Create deposit before withdraw for valid accounting cause withdraw
+      # build callback doesn't trigger deposit creation.
+      let!(:deposit) do
+        create(:deposit_usd, member: beneficiary.member, amount: 12)
+          .accept!
+      end
+
+      let(:withdraw) do
+        build(:usd_withdraw,
+               :with_deposit_liability,
+               beneficiary: beneficiary,
+               sum: 10,
+               member: beneficiary.member)
+      end
+
+      it 'automatically sets rid from beneficiary' do
+        expect(withdraw.valid?).to be_falsey
+        expect(withdraw.errors[:beneficiary]).to include('not active')
+      end
+    end
   end
 
   context 'CashAddr' do
@@ -613,6 +659,28 @@ describe Withdraw do
         expect(record.save).to eq false
         expect(record.errors.full_messages).to include 'Note is too long (maximum is 256 characters)'
       end
+    end
+  end
+
+  context 'validates sum precision' do
+    let(:currency) { Currency.find(:usd) }
+    let(:member)    { create(:member) }
+
+    # Create deposit before withdraw for valid accounting cause withdraw
+    # build callback doesn't trigger deposit creation.
+    let!(:deposit) do
+      create(:deposit_usd, member: member, amount: 12)
+        .accept!
+    end
+
+    let :record do
+      build(:usd_withdraw, :with_deposit_liability, :with_beneficiary, member: member, sum: 0.1234)
+    end
+
+    it do
+      expect(record.valid?).to be_falsey
+      expect(record.errors[:amount]).to include("precision must be less than or equal to #{currency.precision}")
+      expect(record.errors[:sum]).to include("precision must be less than or equal to #{currency.precision}")
     end
   end
 

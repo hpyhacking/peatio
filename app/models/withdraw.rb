@@ -23,9 +23,14 @@ class Withdraw < ApplicationRecord
   include TIDIdentifiable
   include FeeChargeable
 
+  # Optional beneficiary association gives ability to support both in-peatio
+  # beneficiaries and managed by third party application.
+  belongs_to :beneficiary, optional: true
+
   acts_as_eventable prefix: 'withdraw', on: %i[create update]
 
   before_validation(on: :create) { self.account ||= member&.ac(currency) }
+  before_validation(on: :create) { self.rid ||= beneficiary.rid if beneficiary.present? }
   before_validation { self.completed_at ||= Time.current if completed? }
 
   validates :rid, :aasm_state, presence: true
@@ -34,6 +39,10 @@ class Withdraw < ApplicationRecord
   validates :sum,
             presence: true,
             numericality: { greater_than_or_equal_to: ->(withdraw) { withdraw.currency.min_withdraw_amount }}
+
+  validate do
+    errors.add(:beneficiary, 'not active') if beneficiary.present? && !beneficiary.active?
+  end
 
   scope :completed, -> { where(aasm_state: COMPLETED_STATES) }
 
@@ -272,28 +281,29 @@ private
 end
 
 # == Schema Information
-# Schema version: 20190725131843
+# Schema version: 20190904143050
 #
 # Table name: withdraws
 #
-#  id           :integer          not null, primary key
-#  account_id   :integer          not null
-#  member_id    :integer          not null
-#  currency_id  :string(10)       not null
-#  amount       :decimal(32, 16)  not null
-#  fee          :decimal(32, 16)  not null
-#  txid         :string(128)
-#  aasm_state   :string(30)       not null
-#  block_number :integer
-#  sum          :decimal(32, 16)  not null
-#  type         :string(30)       not null
-#  tid          :string(64)       not null
-#  rid          :string(95)       not null
-#  note         :string(256)
-#  error        :json
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  completed_at :datetime
+#  id             :integer          not null, primary key
+#  account_id     :integer          not null
+#  member_id      :integer          not null
+#  beneficiary_id :bigint
+#  currency_id    :string(10)       not null
+#  amount         :decimal(32, 16)  not null
+#  fee            :decimal(32, 16)  not null
+#  txid           :string(128)
+#  aasm_state     :string(30)       not null
+#  block_number   :integer
+#  sum            :decimal(32, 16)  not null
+#  type           :string(30)       not null
+#  tid            :string(64)       not null
+#  rid            :string(95)       not null
+#  note           :string(256)
+#  error          :json
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  completed_at   :datetime
 #
 # Indexes
 #
