@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.26
+## Version: 2.3.27
 
 **Contact information:**  
 openware.com  
@@ -613,6 +613,28 @@ Get all wallets, result is paginated.
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all wallets, result is paginated. | [ [Wallet](#wallet) ] |
+
+### /deposits/new
+
+#### POST
+##### Description:
+
+Creates new fiat deposit .
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | formData | Deposit member uid. | Yes | string |
+| currency | formData | Deposit currency id. | Yes | string |
+| amount | formData | Deposit amount. | Yes | double |
+| tid | formData | Deposit tid. | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Creates new fiat deposit . | [Deposit](#deposit) |
 
 ### /deposits/actions
 
