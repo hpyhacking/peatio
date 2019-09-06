@@ -163,13 +163,11 @@ describe API::V2::Admin::Withdraws, type: :request do
 
       it 'passes supported action for coin' do
         api_post url, token: token, params: { action: 'process', id: coin.id }
-
         expect(response).not_to include_api_error('admin.withdraw.invalid_action')
       end
 
       it 'passes supported action for fiat' do
         api_post url, token: token, params: { action: 'reject', id: fiat.id }
-
         expect(response).not_to include_api_error('admin.withdraw.invalid_action')
       end
 
@@ -187,6 +185,7 @@ describe API::V2::Admin::Withdraws, type: :request do
       it 'accept fiat' do
         api_post url, token: token, params: { action: 'accept', id: fiat.id }
         expect(fiat.reload.aasm_state).to eq('accepted')
+        expect(response).to be_successful
       end
 
       it 'process coin' do
@@ -198,6 +197,7 @@ describe API::V2::Admin::Withdraws, type: :request do
       it 'reject fiat' do
         api_post url, token: token, params: { action: 'reject', id: fiat.id }
         expect(fiat.reload.aasm_state).to eq('rejected')
+        expect(response).to be_successful
       end
 
       it 'fail coin' do
@@ -205,6 +205,7 @@ describe API::V2::Admin::Withdraws, type: :request do
         coin.process!
         api_post url, token: token, params: { action: 'fail', id: coin.id }
         expect(coin.reload.aasm_state).to eq('failed')
+        expect(response).to be_successful
       end
 
       it 'load coin with txid' do
@@ -212,6 +213,7 @@ describe API::V2::Admin::Withdraws, type: :request do
         api_post url, token: token, params: { action: 'load', id: coin.id, txid: 'new_txid' }
         expect(coin.reload.txid).to eq('new_txid')
         expect(coin.aasm_state).to eq('confirming')
+        expect(response).to be_successful
       end
 
       it 'load fiat with txid' do
@@ -228,6 +230,7 @@ describe API::V2::Admin::Withdraws, type: :request do
         api_post url, token: token, params: { action: 'load', id: coin.id, txid: 'new_txid' }
         expect(coin.reload.txid).to eq('new_txid')
         expect(coin.aasm_state).to eq('confirming')
+        expect(response).to be_successful
       end
 
       it 'load coin without txid' do
