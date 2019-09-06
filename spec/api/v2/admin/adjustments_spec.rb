@@ -102,6 +102,43 @@ describe API::V2::Admin::Adjustments, type: :request do
     end
   end
 
+  describe 'GET /api/v2/admin/adjustments/:id' do
+    let!(:adjustment1) { create(:adjustment, currency_id: 'btc') }
+    let!(:adjustment2) { create(:adjustment, currency_id: 'eth', receiving_account_number: "ETH-202-#{member.uid}") }
+    let!(:adjustment3) { create(:adjustment, currency_id: 'eth', receiving_account_number: "ETH-302-#{member.uid}") }
+
+    it 'get specified adjustment' do
+      api_get "/api/v2/admin/adjustments/#{adjustment1.id}", token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result['id']).to eq adjustment1.id
+      expect(result['currency']).to eq adjustment1.currency_id
+    end
+
+    it 'get specified adjustment' do
+      api_get "/api/v2/admin/adjustments/#{adjustment2.id}", token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result['id']).to eq adjustment2.id
+      expect(result['currency']).to eq adjustment2.currency_id
+      expect(result['receiving_account_code']).to eq '202'
+      expect(result['receiving_member_uid']).to eq member.uid
+    end
+
+    it 'get specified adjustment' do
+      api_get "/api/v2/admin/adjustments/#{adjustment3.id}", token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result['id']).to eq adjustment3.id
+      expect(result['currency']).to eq adjustment3.currency_id
+      expect(result['receiving_account_code']).to eq '302'
+      expect(result['receiving_member_uid'].blank?).to be_truthy
+    end
+  end
+
   describe 'POST /api/v2/admin/adjustments/new' do
     let(:params) do
       {
@@ -179,7 +216,7 @@ describe API::V2::Admin::Adjustments, type: :request do
       expect(response).to include_api_error('Prebuild operations are invalid')
     end
 
-    context 'receiving_member_uid requirenment validatation' do
+    context 'receiving_member_uid validatations' do
       it 'requires for liability receiving account' do
         api_post '/api/v2/admin/adjustments/new', token: token, params: params.merge(receiving_account_code: 202).except(:receiving_member_uid)
 
@@ -204,13 +241,23 @@ describe API::V2::Admin::Adjustments, type: :request do
         expect(result['reason']).to eq('Adjustment')
       end
 
-      it 'create adjustment with revenue for specific member' do
+      it 'creates adjustment with expense without member_uid' do
+        api_post '/api/v2/admin/adjustments/new', token: token, params: params.merge(receiving_account_code: 402)
+
+        expect(response).not_to be_successful
+        expect(response).to include_api_error('admin.adjustment.redundant_receiving_member_uid')
+      end
+
+      it 'creates adjustment with revenue that contains member uid' do
         api_post '/api/v2/admin/adjustments/new', token: token, params: params.merge(receiving_account_code: 302)
 
         expect(response).to be_successful
         result = JSON.parse(response.body)
         expect(result['reason']).to eq('Adjustment')
-        expect(result['revenue'].key?('uid')).to be_truthy
+        expect(result['receiving_member_uid'].blank?).to be_truthy
+        adjustment_db = Adjustment.find(result['id'])
+        account_number_hash = Operations.split_account_number(account_number: adjustment_db.receiving_account_number)
+        expect(account_number_hash[:member_uid].present?).to be_truthy
       end
     end
   end

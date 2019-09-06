@@ -139,7 +139,8 @@ module API
             documentation: {
               type: String,
               desc: 'Adjustment receiving member uid.'
-            }
+            },
+            if: ->(adjustment, _options) { adjustment.fetch_liability.present? }
           ) do |adjustment, _options|
             ::Operations.split_account_number(account_number: adjustment.receiving_account_number)[:member_uid]
           end
