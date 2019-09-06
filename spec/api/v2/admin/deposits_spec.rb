@@ -151,4 +151,54 @@ describe API::V2::Admin::Deposits, type: :request do
       end
     end
   end
+
+  describe 'POST /api/v2/admin/deposits/new' do
+    let(:url) { '/api/v2/admin/deposits/new' }
+    let(:fiat) { Currency.find(:usd) }
+    let(:coin) { Currency.find(:btc) }
+
+    context 'validates params' do
+      it 'returns error when user doesnt exist' do
+        api_post url, token: token, params: { uid: SecureRandom.uuid, currency: fiat.code, amount: 12.2 }
+
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('admin.deposit.user_doesnt_exist')
+      end
+
+      it 'returns error when currency doesnt exist' do
+        api_post url, token: token, params: { uid: admin.uid, currency: coin.code, amount: 12.2 }
+
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('admin.deposit.currency_doesnt_exist')
+      end
+
+      it 'returns error when amount is not decimal' do
+        api_post url, token: token, params: { uid: admin.uid, currency: fiat.code, amount: 'amount' }
+
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('admin.deposit.non_decimal_amount')
+      end
+    end
+
+    it 'creates fiat deposit' do
+      api_post url, token: token, params: { uid: admin.uid, currency: fiat.code, amount: '13.4' }
+      result = JSON.parse(response.body)
+
+      expect(response.status).to eq 201
+      expect(result['currency']).to eq fiat.id
+      expect(result['member']).to eq admin.id
+      expect(result['uid']).to eq admin.uid
+      expect(result['email']).to eq admin.email
+      expect(result['amount']).to eq '13.4'
+      expect(result['type']).to eq 'fiat'
+      expect(result['state']).to eq 'submitted'
+    end
+
+    it 'return error in case of not permitted ability' do
+      api_post url, token: level_3_member_token, params: { uid: admin.uid, currency: fiat.code, amount: 12.1 }
+
+      expect(response.code).to eq '403'
+      expect(response).to include_api_error('admin.ability.not_permitted')
+    end
+  end
 end

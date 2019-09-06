@@ -23,7 +23,6 @@ module API
             }
           )
 
-
           expose(
             :email,
             documentation: {

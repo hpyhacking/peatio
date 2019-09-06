@@ -70,6 +70,39 @@ module API
             status 422
           end
         end
+
+        desc 'Creates new fiat deposit .',
+          success: API::V2::Admin::Entities::Deposit
+        params do
+          requires :uid,
+                   values: { value: -> (v) { Member.exists?(uid: v) }, message: 'admin.deposit.user_doesnt_exist' },
+                   desc: -> { API::V2::Admin::Entities::Deposit.documentation[:uid][:desc] }
+          requires :currency,
+                   values: { value: -> { Currency.fiats.codes(bothcase: true) }, message: 'admin.deposit.currency_doesnt_exist' },
+                   desc: -> { API::V2::Admin::Entities::Deposit.documentation[:currency][:desc] }
+          requires :amount,
+                   type: { value: BigDecimal, message: 'admin.deposit.non_decimal_amount' },
+                   desc: -> { API::V2::Admin::Entities::Deposit.documentation[:amount][:desc] }
+          optional :tid,
+                   desc: -> { API::V2::Admin::Entities::Deposit.documentation[:tid][:desc] }
+        end
+        post '/deposits/new' do
+          authorize! :create, Deposit
+
+          declared_params = declared(params, include_missing: false)
+          member   = Member.find_by(uid: declared_params[:uid])
+          currency = Currency.find(declared_params[:currency])
+          data     = { member: member, currency: currency }.merge!(declared_params.slice(:amount, :tid))
+          deposit  = ::Deposits::Fiat.new(data)
+
+          if deposit.save
+            present deposit, with: API::V2::Admin::Entities::Deposit
+            status 201
+          else
+            body errors: deposit.errors.full_messages
+            status 422
+          end
+        end
       end
     end
   end
