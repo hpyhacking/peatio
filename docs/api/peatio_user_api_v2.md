@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.3.27
+## Version: 2.3.28
 
 **Contact information:**  
 openware.com  
@@ -282,14 +282,14 @@ Get a currency
 #### POST
 ##### Description:
 
-Creates new crypto withdrawal.
+Creates new withdrawal to active beneficiary.
 
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | otp | formData | OTP to perform action | Yes | integer |
-| rid | formData | Wallet address on the Blockchain. | Yes | string |
+| beneficiary_id | formData | ID of Active Beneficiary belonging to user. | Yes | integer |
 | currency | formData | The currency code. | Yes | string |
 | amount | formData | The amount to withdraw. | Yes | double |
 | note | formData | Optional metadata to be applied to the transaction. Used to tag transactions with memorable comments. | No | string |
@@ -298,7 +298,7 @@ Creates new crypto withdrawal.
 
 | Code | Description |
 | ---- | ----------- |
-| 201 | Creates new crypto withdrawal. |
+| 201 | Creates new withdrawal to active beneficiary. |
 
 #### GET
 ##### Description:

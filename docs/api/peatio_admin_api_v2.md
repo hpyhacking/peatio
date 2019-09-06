@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.27
+## Version: 2.3.28
 
 **Contact information:**  
 openware.com  
@@ -710,6 +710,25 @@ Take an action on the withdrawal.
 | ---- | ----------- | ------ |
 | 201 | Take an action on the withdrawal. | [Withdraw](#withdraw) |
 
+### /withdraws/{id}
+
+#### GET
+##### Description:
+
+Get withdraw by ID.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | The withdrawal id. | Yes | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get withdraw by ID. | [Withdraw](#withdraw) |
+
 ### /withdraws
 
 #### GET
@@ -743,7 +762,7 @@ Get all withdraws, result is paginated.
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
-| 200 | Get all withdraws, result is paginated. | [ [Deposit](#deposit) ] |
+| 200 | Get all withdraws, result is paginated. | [ [Withdraw](#withdraw) ] |
 
 ### /trades
 
@@ -1180,7 +1199,7 @@ Get all wallets, result is paginated.
 
 #### Deposit
 
-Get all withdraws, result is paginated.
+Get all deposits, result is paginated.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -1206,7 +1225,7 @@ Get all withdraws, result is paginated.
 
 #### Withdraw
 
-Take an action on the withdrawal.
+Get all withdraws, result is paginated.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -1224,12 +1243,24 @@ Take an action on the withdrawal.
 | updated_at | string | The datetimes for the withdrawal. | No |
 | completed_at | string | The datetime when withdraw was completed. | No |
 | member | string | The member id. | No |
+| beneficiary | [Beneficiary](#beneficiary) |  | No |
 | uid | string | The withdrawal member uid. | No |
 | email | string | The withdrawal member email. | No |
 | account | string | The account code. | No |
 | block_number | integer | The withdrawal block_number. | No |
 | amount | double | The withdrawal amount. | No |
 | tid | string | Withdraw tid. | No |
+
+#### Beneficiary
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | integer | Beneficiary Identifier in Database | No |
+| currency | string | Beneficiary currency code. | No |
+| name | string | Human rememberable name which refer beneficiary. | No |
+| description | string | Human rememberable description of beneficiary. | No |
+| data | json | Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address. | No |
+| state | string | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No |
 
 #### Member
 

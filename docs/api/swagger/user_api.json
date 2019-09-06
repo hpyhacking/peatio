@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.27"
+    "version": "2.3.28"
   },
   "swagger": "2.0",
   "produces": [
@@ -635,7 +635,7 @@
     },
     "/account/withdraws": {
       "post": {
-        "description": "Creates new crypto withdrawal.",
+        "description": "Creates new withdrawal to active beneficiary.",
         "produces": [
           "application/json"
         ],
@@ -653,9 +653,10 @@
           },
           {
             "in": "formData",
-            "name": "rid",
-            "description": "Wallet address on the Blockchain.",
-            "type": "string",
+            "name": "beneficiary_id",
+            "description": "ID of Active Beneficiary belonging to user.",
+            "type": "integer",
+            "format": "int32",
             "required": true
           },
           {
@@ -667,9 +668,11 @@
               "btc",
               "eth",
               "trst",
+              "usd",
               "BTC",
               "ETH",
-              "TRST"
+              "TRST",
+              "USD"
             ],
             "required": true
           },
@@ -691,7 +694,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Creates new crypto withdrawal."
+            "description": "Creates new withdrawal to active beneficiary."
           }
         },
         "tags": [
