@@ -38,7 +38,7 @@ class TradingFee < ApplicationRecord
   # == Constants ============================================================
 
   # For fee we define static precision - 4.
-  FEE_PRECISION = 4
+  FEE_PRECISION = 6
 
   MIN_FEE = 0
   MAX_FEE = 0.5
@@ -118,15 +118,15 @@ class TradingFee < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20190816125948
+# Schema version: 20190910105717
 #
 # Table name: trading_fees
 #
 #  id         :bigint           not null, primary key
 #  market_id  :string(20)       default("any"), not null
 #  group      :string(32)       default("any"), not null
-#  maker      :decimal(5, 4)    default(0.0), not null
-#  taker      :decimal(5, 4)    default(0.0), not null
+#  maker      :decimal(7, 6)    default(0.0), not null
+#  taker      :decimal(7, 6)    default(0.0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

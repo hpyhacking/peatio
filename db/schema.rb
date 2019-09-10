@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_05_050444) do
+ActiveRecord::Schema.define(version: 2019_09_10_105717) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -280,8 +280,8 @@ ActiveRecord::Schema.define(version: 2019_09_05_050444) do
   create_table "trading_fees", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "market_id", limit: 20, default: "any", null: false
     t.string "group", limit: 32, default: "any", null: false
-    t.decimal "maker", precision: 5, scale: 4, default: "0.0", null: false
-    t.decimal "taker", precision: 5, scale: 4, default: "0.0", null: false
+    t.decimal "maker", precision: 7, scale: 6, default: "0.0", null: false
+    t.decimal "taker", precision: 7, scale: 6, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group"], name: "index_trading_fees_on_group"

@@ -22,10 +22,10 @@ class Market < ApplicationRecord
   # Since we use decimal with 16 digits fractional part for storing numbers in DB
   # sum of multipliers fractional parts must not be greater then 16.
   # In the worst situation we have 3 multipliers (price * amount * fee).
-  # For fee we define static precision - 4.
-  # So 12 left for amount and price precision.
+  # For fee we define static precision - 6. See TradingFee::FEE_PRECISION.
+  # So 10 left for amount and price precision.
   DB_DECIMAL_PRECISION = 16
-  FUNDS_PRECISION = 12
+  FUNDS_PRECISION = 10
 
   STATES = %w[enabled disabled hidden locked sale presale].freeze
   # enabled - user can view and trade.
