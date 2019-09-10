@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.3.29
+## Version: 2.3.30
 
 **Contact information:**  
 openware.com  
