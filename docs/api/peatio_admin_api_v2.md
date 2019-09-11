@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.30
+## Version: 2.3.31
 
 **Contact information:**  
 openware.com  
@@ -408,6 +408,8 @@ Update market.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
+| amount_precision | formData | Precision for order amount. | No | integer |
+| price_precision | formData | Precision for order price. | No | integer |
 | max_price | formData | Maximum order price. | No | double |
 | position | formData | Market position. | No | integer |
 | state | formData | Market state defines if user can see/trade on current market. | No | string |
@@ -432,13 +434,13 @@ Create new market.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
+| amount_precision | formData | Precision for order amount. | No | integer |
+| price_precision | formData | Precision for order price. | No | integer |
 | max_price | formData | Maximum order price. | No | double |
 | position | formData | Market position. | No | integer |
 | state | formData | Market state defines if user can see/trade on current market. | No | string |
 | base_currency | formData | Market Base unit. | Yes | string |
 | quote_currency | formData | Market Quote unit. | Yes | string |
-| amount_precision | formData | Precision for order amount. | Yes | integer |
-| price_precision | formData | Precision for order price. | Yes | integer |
 | min_price | formData | Minimum order price. | Yes | double |
 | min_amount | formData | Minimum order amount. | Yes | double |
 
