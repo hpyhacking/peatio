@@ -134,12 +134,15 @@ describe API::V2::Admin::Markets, type: :request do
   end
 
   describe 'POST /api/v2/admin/markets/update' do
-    it 'update market' do
-      api_post '/api/v2/admin/markets/update', params: { id: Market.first.id, min_price: 0.4 }, token: token
+    it 'updates attributes' do
+      api_post '/api/v2/admin/markets/update', params: { id: Market.first.id, amount_precision: 3, price_precision: 5, min_amount: 0.1, min_price: 0.1 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
-      expect(result['min_price']).to eq '0.4'
+      expect(result['amount_precision']).to eq 3
+      expect(result['price_precision']).to eq 5
+      expect(result['min_amount']).to eq '0.1'
+      expect(result['min_price']).to eq '0.1'
     end
 
     it 'checkes required params' do

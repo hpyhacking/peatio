@@ -10,6 +10,18 @@ module API
           # Collection of shared params, used to
           # generate required/optional Grape params.
           OPTIONAL_MARKET_PARAMS = {
+            amount_precision: {
+              type: { value: Integer, message: 'admin.market.non_integer_amount_precision' },
+              values: { value: -> (p){ p && p >= 0 }, message: 'admin.market.invalid_amount_precision' },
+              default: 4,
+              desc: -> { API::V2::Admin::Entities::Market.documentation[:amount_precision][:desc] }
+            },
+            price_precision: {
+              type: { value: Integer, message: 'admin.market.non_integer_price_precision' },
+              values: { value: -> (p){ p && p >= 0 }, message: 'admin.market.invalid_price_precision' },
+              default: 4,
+              desc: -> { API::V2::Admin::Entities::Market.documentation[:price_precision][:desc] }
+            },
             max_price: {
               type: { value: BigDecimal, message: 'admin.market.non_decimal_max_price' },
               values: { value: -> (p){ p >= 0 }, message: 'admin.market.invalid_max_price' },
@@ -80,25 +92,13 @@ module API
           requires :quote_currency,
                    values: { value: -> { ::Currency.ids }, message: 'admin.market.currency_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:quote_unit][:desc] }
-          requires :amount_precision,
-                   type: { value: Integer, message: 'admin.market.non_integer_amount_precision' },
-                   values: { value: -> (p){ p && p >= 0 }, message: 'admin.market.invalid_amount_precision' },
-                   default: 0,
-                   desc: -> { API::V2::Admin::Entities::Market.documentation[:amount_precision][:desc] }
-          requires :price_precision,
-                   type: { value: Integer, message: 'admin.market.non_integer_price_precision' },
-                   values: { value: -> (p){ p && p >= 0 }, message: 'admin.market.invalid_price_precision' },
-                   default: 0,
-                   desc: -> { API::V2::Admin::Entities::Market.documentation[:price_precision][:desc] }
           requires :min_price,
                    type: { value: BigDecimal, message: 'admin.market.non_decimal_min_price' },
                    values: { value: -> (p){ p && p >= 0 }, message: 'admin.market.invalid_min_price' },
-                   default: 0.0,
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:min_price][:desc] }
           requires :min_amount,
                    type: { value: BigDecimal, message: 'admin.market.non_decimal_min_amount' },
                    values: { value: -> (p){ p && p >= 0 }, message: 'admin.market.invalid_min_amount' },
-                   default: 0.0,
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:min_amount][:desc] }
         end
         post '/markets/new' do
