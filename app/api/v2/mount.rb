@@ -63,7 +63,9 @@ module API
                                   API::V2::Entities::OrderBook,
                                   API::V2::Entities::Order,
                                   API::V2::Entities::Trade,
-                                  API::V2::Entities::Withdraw
+                                  API::V2::Entities::Withdraw,
+                                  API::V2::Entities::Ticker,
+                                  API::V2::Entities::Ticker::TickerEntry
                                 ],
                                 security_definitions: {
                                   Bearer: {

@@ -122,22 +122,22 @@ Get ticker of specific market.
 
 ##### Responses
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get ticker of specific market. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get ticker of specific market. | [Ticker](#ticker) |
 
 ### /public/markets/tickers
 
 #### GET
 ##### Description:
 
-Get ticker of all markets.
+Get ticker of all markets (For response doc see /:market/tickers/ response).
 
 ##### Responses
 
-| Code | Description |
-| ---- | ----------- |
-| 200 | Get ticker of all markets. |
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get ticker of all markets (For response doc see /:market/tickers/ response). | [Ticker](#ticker) |
 
 ### /public/markets/{market}/k-line
 
@@ -652,6 +652,30 @@ Returns trading_fees table as paginated collection
 | taker | double | Market taker fee. | No |
 | created_at | string | Trading fee table created time in iso8601 format. | No |
 | updated_at | string | Trading fee table updated time in iso8601 format. | No |
+
+#### Ticker
+
+Get ticker of all markets (For response doc see /:market/tickers/ response).
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| at | integer | Timestamp of ticker | No |
+| ticker | [TickerEntry](#tickerentry) | Ticker entry for specified time | No |
+
+#### TickerEntry
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| buy | double | Best buy (highest) price in current orderbook (0.0 if there is no buy orders) | No |
+| sell | double | Best sell (lowest) price in current orderbook (0.0 if there is no sell orders) | No |
+| low | double | The lowest trade price during last 24 hours (0.0 if no trades executed during last 24 hours) | No |
+| high | double | The highest trade price during last 24 hours (0.0 if no trades executed during last 24 hours) | No |
+| open | double | Price of the first trade executed 24 hours ago or less | No |
+| last | double | The last executed trade price | No |
+| volume | double | Total amount of trades executed during last 24 hours (recalculated once in 15 minuets) | No |
+| vol | double | Alias to volume | No |
+| avg_price | double | Average price more precisely VWAP is calculated by adding up the total traded for every transaction(price multiplied by the number of shares traded) and then dividing by the total shares traded | No |
+| price_change_percent | string | Price change in the next format +3.19%.Price change is calculated using next formula (last - open) / open * 100% | No |
 
 #### Trade
 

@@ -127,7 +127,7 @@ module API
               .get_ohlc(params.slice(:limit, :time_from, :time_to))
           end
 
-          desc 'Get ticker of all markets.'
+          desc 'Get ticker of all markets (For response doc see /:market/tickers/ response).'
           get "/tickers" do
             ::Market.enabled.ordered.inject({}) do |h, m|
               h[m.id] = format_ticker Global[m.id].ticker
@@ -135,7 +135,8 @@ module API
             end
           end
 
-          desc 'Get ticker of specific market.'
+          desc 'Get ticker of specific market.',
+               success: API::V2::Entities::Ticker
           params do
             requires :market,
                      type: String,
@@ -143,7 +144,8 @@ module API
                      desc: -> { V2::Entities::Market.documentation[:id] }
           end
           get "/:market/tickers/" do
-            format_ticker Global[params[:market]].ticker
+            present format_ticker(Global[params[:market]].ticker),
+                    with: API::V2::Entities::Ticker
           end
         end
       end
