@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.31"
+    "version": "2.3.32"
   },
   "swagger": "2.0",
   "produces": [
@@ -238,7 +238,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Get ticker of specific market."
+            "description": "Get ticker of specific market.",
+            "schema": {
+              "$ref": "#/definitions/Ticker"
+            }
           }
         },
         "tags": [
@@ -249,13 +252,16 @@
     },
     "/public/markets/tickers": {
       "get": {
-        "description": "Get ticker of all markets.",
+        "description": "Get ticker of all markets (For response doc see /:market/tickers/ response).",
         "produces": [
           "application/json"
         ],
         "responses": {
           "200": {
-            "description": "Get ticker of all markets."
+            "description": "Get ticker of all markets (For response doc see /:market/tickers/ response).",
+            "schema": {
+              "$ref": "#/definitions/Ticker"
+            }
           }
         },
         "tags": [
@@ -1607,6 +1613,75 @@
       },
       "description": "Returns trading_fees table as paginated collection"
     },
+    "Ticker": {
+      "type": "object",
+      "properties": {
+        "at": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Timestamp of ticker"
+        },
+        "ticker": {
+          "$ref": "#/definitions/TickerEntry",
+          "description": "Ticker entry for specified time"
+        }
+      },
+      "description": "Get ticker of all markets (For response doc see /:market/tickers/ response)."
+    },
+    "TickerEntry": {
+      "type": "object",
+      "properties": {
+        "buy": {
+          "type": "number",
+          "format": "double",
+          "description": "Best buy (highest) price in current orderbook (0.0 if there is no buy orders)"
+        },
+        "sell": {
+          "type": "number",
+          "format": "double",
+          "description": "Best sell (lowest) price in current orderbook (0.0 if there is no sell orders)"
+        },
+        "low": {
+          "type": "number",
+          "format": "double",
+          "description": "The lowest trade price during last 24 hours (0.0 if no trades executed during last 24 hours)"
+        },
+        "high": {
+          "type": "number",
+          "format": "double",
+          "description": "The highest trade price during last 24 hours (0.0 if no trades executed during last 24 hours)"
+        },
+        "open": {
+          "type": "number",
+          "format": "double",
+          "description": "Price of the first trade executed 24 hours ago or less"
+        },
+        "last": {
+          "type": "number",
+          "format": "double",
+          "description": "The last executed trade price"
+        },
+        "volume": {
+          "type": "number",
+          "format": "double",
+          "description": "Total amount of trades executed during last 24 hours (recalculated once in 15 minuets)"
+        },
+        "vol": {
+          "type": "number",
+          "format": "double",
+          "description": "Alias to volume"
+        },
+        "avg_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Average price more precisely VWAP is calculated by adding up the total traded for every transaction(price multiplied by the number of shares traded) and then dividing by the total shares traded"
+        },
+        "price_change_percent": {
+          "type": "string",
+          "description": "Price change in the next format +3.19%.Price change is calculated using next formula (last - open) / open * 100%"
+        }
+      }
+    },
     "Trade": {
       "type": "object",
       "properties": {
@@ -1628,6 +1703,21 @@
           "type": "number",
           "format": "double",
           "description": "Trade total (Amount * Price)."
+        },
+        "fee_currency": {
+          "type": "number",
+          "format": "double",
+          "description": "Currency user's fees were charged in."
+        },
+        "fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Percentage of fee user was charged for performed trade."
+        },
+        "fee_amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Amount of fee user was charged for performed trade."
         },
         "market": {
           "type": "string",

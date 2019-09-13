@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.31"
+    "version": "2.3.32"
   },
   "swagger": "2.0",
   "produces": [
@@ -2758,6 +2758,36 @@
         "operationId": "getWithdraws"
       }
     },
+    "/trades/{id}": {
+      "get": {
+        "description": "Get a trade with detailed information.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Trade ID.",
+            "type": "integer",
+            "format": "int32",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a trade with detailed information.",
+            "schema": {
+              "$ref": "#/definitions/Blockchain"
+            }
+          }
+        },
+        "tags": [
+          "trades"
+        ],
+        "operationId": "getTradesId"
+      }
+    },
     "/trades": {
       "get": {
         "description": "Get all trades, result is paginated.",
@@ -3994,13 +4024,6 @@
           "format": "int32",
           "description": "Count of trades."
         },
-        "trades": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Trade"
-          },
-          "description": "Trades wiht this order."
-        },
         "email": {
           "type": "string",
           "description": "The shared user email."
@@ -4011,52 +4034,6 @@
         }
       },
       "description": "Get all orders, result is paginated."
-    },
-    "Trade": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Trade ID."
-        },
-        "price": {
-          "type": "number",
-          "format": "double",
-          "description": "Trade price."
-        },
-        "amount": {
-          "type": "number",
-          "format": "double",
-          "description": "Trade amount."
-        },
-        "total": {
-          "type": "number",
-          "format": "double",
-          "description": "Trade total (Amount * Price)."
-        },
-        "market": {
-          "type": "string",
-          "description": "Trade market id."
-        },
-        "created_at": {
-          "type": "string",
-          "description": "Trade create time in iso8601 format."
-        },
-        "taker_type": {
-          "type": "string",
-          "description": "Trade taker order type (sell or buy)."
-        },
-        "side": {
-          "type": "string",
-          "description": "Trade side."
-        },
-        "order_id": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Order id."
-        }
-      },
-      "description": "Get all trades, result is paginated."
     },
     "Blockchain": {
       "type": "object",
@@ -4113,7 +4090,7 @@
           "description": "Blockchain updated time in iso8601 format."
         }
       },
-      "description": "Get all blockchains, result is paginated."
+      "description": "Get a trade with detailed information."
     },
     "Currency": {
       "type": "object",
@@ -4556,6 +4533,93 @@
           "description": "Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin."
         }
       }
+    },
+    "Trade": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Trade ID."
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade price."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade amount."
+        },
+        "total": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade total (Amount * Price)."
+        },
+        "market": {
+          "type": "string",
+          "description": "Trade market id."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Trade create time in iso8601 format."
+        },
+        "taker_type": {
+          "type": "string",
+          "description": "Trade taker order type (sell or buy)."
+        },
+        "maker_order_email": {
+          "type": "string",
+          "description": "Trade maker member email."
+        },
+        "maker_uid": {
+          "type": "string",
+          "description": "Trade maker member uid."
+        },
+        "maker_fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade maker fee percentage."
+        },
+        "maker_fee_amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade maker fee amount."
+        },
+        "maker_fee_currency": {
+          "type": "string",
+          "description": "Trade maker fee currency code."
+        },
+        "maker_order": {
+          "$ref": "#/definitions/Order"
+        },
+        "taker_order_email": {
+          "type": "string",
+          "description": "Trade taker member email."
+        },
+        "taker_uid": {
+          "type": "string",
+          "description": "Trade taker member uid."
+        },
+        "taker_fee_currency": {
+          "type": "string",
+          "description": "Trade taker fee currency code."
+        },
+        "taker_fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade taker fee percentage."
+        },
+        "taker_fee_amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Trade taker fee amount."
+        },
+        "taker_order": {
+          "$ref": "#/definitions/Order"
+        }
+      },
+      "description": "Get all trades, result is paginated."
     },
     "Member": {
       "type": "object",

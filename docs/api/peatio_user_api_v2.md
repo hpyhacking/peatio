@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.3.31
+## Version: 2.3.32
 
 **Contact information:**  
 openware.com  
@@ -687,6 +687,9 @@ Get your executed trades. Trades are sorted in reverse creation order.
 | price | double | Trade price. | No |
 | amount | double | Trade amount. | No |
 | total | double | Trade total (Amount * Price). | No |
+| fee_currency | double | Currency user's fees were charged in. | No |
+| fee | double | Percentage of fee user was charged for performed trade. | No |
+| fee_amount | double | Amount of fee user was charged for performed trade. | No |
 | market | string | Trade market id. | No |
 | created_at | string | Trade create time in iso8601 format. | No |
 | taker_type | string | Trade taker order type (sell or buy). | No |

@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.31
+## Version: 2.3.32
 
 **Contact information:**  
 openware.com  
@@ -766,6 +766,25 @@ Get all withdraws, result is paginated.
 | ---- | ----------- | ------ |
 | 200 | Get all withdraws, result is paginated. | [ [Withdraw](#withdraw) ] |
 
+### /trades/{id}
+
+#### GET
+##### Description:
+
+Get a trade with detailed information.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | path | Trade ID. | Yes | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get a trade with detailed information. | [Blockchain](#blockchain) |
+
 ### /trades
 
 #### GET
@@ -1092,29 +1111,12 @@ Get all orders, result is paginated.
 | remaining_volume | double | The remaining volume, see 'volume'. | No |
 | executed_volume | double | The executed volume, see 'volume'. | No |
 | trades_count | integer | Count of trades. | No |
-| trades | [ [Trade](#trade) ] | Trades wiht this order. | No |
 | email | string | The shared user email. | No |
 | uid | string | The shared user ID. | No |
 
-#### Trade
-
-Get all trades, result is paginated.
-
-| Name | Type | Description | Required |
-| ---- | ---- | ----------- | -------- |
-| id | string | Trade ID. | No |
-| price | double | Trade price. | No |
-| amount | double | Trade amount. | No |
-| total | double | Trade total (Amount * Price). | No |
-| market | string | Trade market id. | No |
-| created_at | string | Trade create time in iso8601 format. | No |
-| taker_type | string | Trade taker order type (sell or buy). | No |
-| side | string | Trade side. | No |
-| order_id | integer | Order id. | No |
-
 #### Blockchain
 
-Get all blockchains, result is paginated.
+Get a trade with detailed information.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -1263,6 +1265,32 @@ Get all withdraws, result is paginated.
 | description | string | Human rememberable description of beneficiary. | No |
 | data | json | Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address. | No |
 | state | string | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No |
+
+#### Trade
+
+Get all trades, result is paginated.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | string | Trade ID. | No |
+| price | double | Trade price. | No |
+| amount | double | Trade amount. | No |
+| total | double | Trade total (Amount * Price). | No |
+| market | string | Trade market id. | No |
+| created_at | string | Trade create time in iso8601 format. | No |
+| taker_type | string | Trade taker order type (sell or buy). | No |
+| maker_order_email | string | Trade maker member email. | No |
+| maker_uid | string | Trade maker member uid. | No |
+| maker_fee | double | Trade maker fee percentage. | No |
+| maker_fee_amount | double | Trade maker fee amount. | No |
+| maker_fee_currency | string | Trade maker fee currency code. | No |
+| maker_order | [Order](#order) |  | No |
+| taker_order_email | string | Trade taker member email. | No |
+| taker_uid | string | Trade taker member uid. | No |
+| taker_fee_currency | string | Trade taker fee currency code. | No |
+| taker_fee | double | Trade taker fee percentage. | No |
+| taker_fee_amount | double | Trade taker fee amount. | No |
+| taker_order | [Order](#order) |  | No |
 
 #### Member
 
