@@ -147,5 +147,39 @@ describe API::V2::Market::Trades, type: :request do
       expect(response.code).to eq '403'
       expect(response).to include_api_error('market.trade.not_permitted')
     end
+
+    it 'fee calculation for buy order' do
+      api_get '/api/v2/market/trades', params: { market: 'btcusd' }, token: token
+      result = JSON.parse(response.body).find { |t| t['side'] == 'buy' }
+
+      expect(result['order_id']).to eq btcusd_bid.id
+      expect(result['fee_amount']).to eq((btcusd_bid.taker_fee * btcusd_bid_trade.amount).to_s)
+      expect(result['fee']).to eq btcusd_bid.taker_fee.to_s
+    end
+
+    it 'fee calculation for sell order' do
+      api_get '/api/v2/market/trades', params: { market: 'btcusd' }, token: token
+      result = JSON.parse(response.body).find { |t| t['side'] == 'sell' }
+
+      expect(result['order_id']).to eq btcusd_ask.id
+      expect(result['fee_amount']).to eq((btcusd_ask.taker_fee * btcusd_ask_trade.total).to_s)
+      expect(result['fee']).to eq btcusd_ask.taker_fee.to_s
+    end
+
+    it 'fee currency for buy order' do
+      api_get '/api/v2/market/trades', params: { market: 'btcusd' }, token: token
+      result = JSON.parse(response.body).find { |t| t['side'] == 'buy' }
+
+      expect(result['order_id']).to eq btcusd_bid.id
+      expect(result['fee_currency']).to eq 'btc'
+    end
+
+    it 'fee currency for sell order' do
+      api_get '/api/v2/market/trades', params: { market: 'btcusd' }, token: token
+      result = JSON.parse(response.body).find { |t| t['side'] == 'sell' }
+
+      expect(result['order_id']).to eq btcusd_ask.id
+      expect(result['fee_currency']).to eq 'usd'
+    end
   end
 end

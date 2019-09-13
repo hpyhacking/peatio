@@ -46,6 +46,20 @@ module API
             present paginate(search.result), with: API::V2::Admin::Entities::Trade
           end
         end
+
+        desc 'Get a trade with detailed information.' do
+          success API::V2::Admin::Entities::Blockchain
+        end
+        params do
+          requires :id,
+                   type: { value: Integer, message: 'admin.trade.non_integer_id' },
+                   desc: -> { API::V2::Admin::Entities::Trade.documentation[:id][:desc] }
+        end
+        get '/trades/:id' do
+          authorize! :read, Trade
+
+          present Trade.find(params[:id]), with: API::V2::Admin::Entities::Trade, extended: true
+        end
       end
     end
   end

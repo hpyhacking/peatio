@@ -6,6 +6,8 @@ module API
     module Admin
       module Entities
         class Order < API::V2::Entities::Order
+          unexpose(:trades)
+
           expose(
             :email,
             documentation: {

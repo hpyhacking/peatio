@@ -38,6 +38,39 @@ module API
         )
 
         expose(
+          :fee_currency,
+          documentation: {
+            type: BigDecimal,
+            desc: 'Currency user\'s fees were charged in.'
+          },
+          if: ->(_, options) { options[:current_user] }
+        ) do |trade, options|
+            fee_currency(trade.order_for_member(options[:current_user]))
+          end
+
+        expose(
+          :fee,
+          documentation: {
+            type: BigDecimal,
+            desc: 'Percentage of fee user was charged for performed trade.'
+          },
+          if: ->(_, options) { options[:current_user] }
+        ) do |trade, options|
+            trade.order_fee(trade.order_for_member(options[:current_user]))
+          end
+
+        expose(
+          :fee_amount,
+          documentation: {
+            type: BigDecimal,
+            desc: 'Amount of fee user was charged for performed trade.'
+          },
+          if: ->(_, options) { options[:current_user] }
+        ) do |trade, options|
+            fee_amount(trade, trade.order_for_member(options[:current_user]))
+          end
+
+        expose(
           :market_id,
           as: :market,
           documentation: {
@@ -85,6 +118,14 @@ module API
           if: ->(_, options) { options[:current_user] }
         ) do |trade, options|
           trade.order_for_member(options[:current_user]).id
+        end
+
+        def fee_amount(trade, order)
+          trade.order_fee(order) * (order.side == 'buy' ? trade.amount : trade.total)
+        end
+
+        def fee_currency(order)
+          order.side == 'buy' ? order.ask : order.bid
         end
       end
     end

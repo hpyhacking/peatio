@@ -23,7 +23,8 @@ describe API::V2::Admin::Trades, type: :request do
     it 'entity provides correct fields' do
       api_get'/api/v2/admin/trades', token: token, params: { limit: 5 }
       result = JSON.parse(response.body).first
-      keys = %w[id amount price total maker_order_email taker_order_email created_at maker_uid taker_uid taker_type market]
+      keys = %w[id amount price total maker_order_email taker_order_email created_at maker_uid taker_uid
+        taker_type market maker_fee_currency maker_fee_amount taker_fee_currency taker_fee_amount]
 
       expect(result.keys).to match_array keys
       expect(result.values).not_to include nil
@@ -98,7 +99,6 @@ describe API::V2::Admin::Trades, type: :request do
         api_get'/api/v2/admin/trades', token: token, params: { order_by: 'price', ordering: 'asc' }
         result = JSON.parse(response.body)
         expected = trades.sort { |a, b| a.price <=> b.price }
-
         expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
       end
 
@@ -115,7 +115,6 @@ describe API::V2::Admin::Trades, type: :request do
       context 'with market' do
         it 'validates market param' do
           api_get'/api/v2/admin/trades', token: token, params: { market: 'btcbtc' }
-
           expect(response).to include_api_error "admin.market.doesnt_exist"
         end
 
@@ -186,6 +185,46 @@ describe API::V2::Admin::Trades, type: :request do
           expect(result.map { |t| t['id'] }).to match_array expected.map(&:id)
         end
       end
+    end
+  end
+
+  describe 'GET /api/v2/admin/trades/:id' do
+    let(:maker) { create(:order_ask, :btcusd) }
+    let(:taker) { create(:order_bid, :btcusd) }
+    let(:trade) { create(:trade, :btcusd, price: 12.0, amount: 2.0, maker_order: maker, taker_order: taker) }
+
+    it 'entity provides correct fields' do
+      api_get "/api/v2/admin/trades/#{trade.id}", token: token
+      result = JSON.parse(response.body)
+      keys = %w[id amount price total maker_order_email taker_order_email created_at maker_uid taker_uid taker_type
+        market maker_fee_currency maker_fee maker_fee_amount taker_fee_currency taker_fee taker_fee_amount maker_order taker_order]
+
+      expect(result.keys).to match_array keys
+      expect(result.values).not_to include nil
+    end
+
+    it 'exposes correct orders' do
+      api_get "/api/v2/admin/trades/#{trade.id}", token: token
+      result = JSON.parse(response.body)
+
+      expect(result['maker_order']['id']).to eq maker.id
+      expect(result['taker_order']['id']).to eq taker.id
+    end
+
+    it 'fee calculation' do
+      api_get "/api/v2/admin/trades/#{trade.id}", token: token
+      result = JSON.parse(response.body)
+
+      expect(result['maker_fee_amount']).to eq((trade.total * maker.maker_fee).to_s)
+      expect(result['taker_fee_amount']).to eq((trade.amount * taker.taker_fee).to_s)
+    end
+
+    it 'fee currency' do
+      api_get "/api/v2/admin/trades/#{trade.id}", token: token
+      result = JSON.parse(response.body)
+
+      expect(result['maker_fee_currency']).to eq 'usd'
+      expect(result['taker_fee_currency']).to eq 'btc'
     end
   end
 end
