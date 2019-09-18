@@ -3,7 +3,7 @@
 
 module Workers
   module AMQP
-    class MarketTicker
+    class MarketTicker < Base
 
       FRESH_TRADES = 80
 

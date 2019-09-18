@@ -5,7 +5,7 @@ require "peatio/mq/events"
 
 module Workers
   module AMQP
-    class PusherMember
+    class PusherMember < Base
       def process(payload)
         return unless (uid = Member.where(id: payload["member_id"]).first.uid)
 

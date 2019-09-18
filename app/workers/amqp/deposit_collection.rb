@@ -3,7 +3,7 @@
 
 module Workers
   module AMQP
-    class DepositCollection
+    class DepositCollection < Base
       def process(payload)
         Rails.logger.info { "Received request for deposit collection at #{Time.now} deposit_id: #{payload['id']}." }
         deposit = Deposit.find_by_id(payload['id'])
@@ -51,6 +51,7 @@ module Workers
             deposit.skip!
             Rails.logger.warn { "Deposit skipped." }
           end
+          raise e if is_db_connection_error?(e)
         end
       end
     end

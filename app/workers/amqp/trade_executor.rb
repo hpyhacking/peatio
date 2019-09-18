@@ -3,7 +3,7 @@
 
 module Workers
   module AMQP
-    class TradeExecutor
+    class TradeExecutor < Base
       def process(payload)
         ::Matching::Executor.new(payload.symbolize_keys).execute
       end

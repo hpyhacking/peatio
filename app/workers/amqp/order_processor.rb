@@ -3,7 +3,7 @@
 
 module Workers
   module AMQP
-    class OrderProcessor
+    class OrderProcessor < Base
       def initialize
         Order.where(state: ::Order::PENDING).find_each do |order|
           Order.submit(order.id)
@@ -20,6 +20,8 @@ module Workers
       rescue StandardError => e
         AMQPQueue.enqueue(:trade_error, e.message)
         report_exception_to_screen(e)
+
+        raise e if is_db_connection_error?(e)
       end
     end
   end

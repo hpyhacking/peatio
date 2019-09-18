@@ -3,7 +3,7 @@
 
 module Workers
   module AMQP
-    class WithdrawCoin
+    class WithdrawCoin < Base
       def initialize
         @logger = TaggedLogger.new(Rails.logger, worker: __FILE__)
       end
@@ -83,6 +83,9 @@ module Workers
           @logger.warn id: withdraw.id, message: 'Failed to process withdrawal. See exception details below.'
           report_exception(e)
           withdraw.err! e
+
+          raise e if is_db_connection_error?(e)
+
           @logger.warn id: withdraw.id,
                        message: 'Setting withdrawal state to errored.'
         end

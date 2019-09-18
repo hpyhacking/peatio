@@ -22,7 +22,9 @@ module Workers
         while running
           begin
             process
-          rescue StandardError => e
+          rescue ScriptError => e
+            raise e if is_db_connection_error?(e)
+
             report_exception(e)
           end
           wait
@@ -35,6 +37,10 @@ module Workers
 
       def wait
         Kernel.sleep self.class.sleep_time
+      end
+
+      def is_db_connection_error?(exception)
+        exception.is_a?(Mysql2::Error::ConnectionError) || exception.cause.is_a?(Mysql2::Error)
       end
     end
   end

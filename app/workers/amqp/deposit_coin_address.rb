@@ -3,7 +3,7 @@
 
 module Workers
   module AMQP
-    class DepositCoinAddress
+    class DepositCoinAddress < Base
       def process(payload)
         payload.symbolize_keys!
 
@@ -43,6 +43,8 @@ module Workers
       # The system is designed in such way that when user will
       # request list of accounts system will ask to generate address again (if it is not generated of course).
       rescue StandardError => e
+        raise e if is_db_connection_error?(e)
+
         report_exception(e)
       end
 

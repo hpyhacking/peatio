@@ -57,13 +57,15 @@ ARGV.each do |id|
       args          = [JSON.parse(payload), metadata, delivery_info]
       arity         = worker.method(:process).arity
       resized_args  = arity < 0 ? args : args[0...arity]
-      worker.method(:process).call(*resized_args)
+      worker.process(*resized_args)
 
       # Send confirmation to RabbitMQ that message has been successfully processed.
       # See http://rubybunny.info/articles/queues.html
       ch.ack(delivery_info.delivery_tag)
 
-    rescue => e
+    rescue StandardError => e
+      raise e if worker.is_db_connection_error?(e)
+
       report_exception(e)
 
       # Ask RabbitMQ to deliver message once again later.

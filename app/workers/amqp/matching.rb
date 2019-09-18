@@ -3,7 +3,7 @@
 
 module Workers
   module AMQP
-    class Matching
+    class Matching < Base
 
       class DryrunError < StandardError
         attr :engine

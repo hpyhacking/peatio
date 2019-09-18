@@ -5,7 +5,7 @@ require "peatio/mq/events"
 
 module Workers
   module AMQP
-    class PusherMarket
+    class PusherMarket < Base
       def process(payload)
         trade = Trade.new(payload)
 

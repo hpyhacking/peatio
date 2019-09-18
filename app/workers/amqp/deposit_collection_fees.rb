@@ -3,7 +3,7 @@
 
 module Workers
   module AMQP
-    class DepositCollectionFees
+    class DepositCollectionFees < Base
       def process(payload)
         Rails.logger.info { "Received request for deposit collection fees transfer id: #{payload['id']}." }
         deposit = Deposit.find_by_id(payload['id'])
@@ -48,6 +48,8 @@ module Workers
             deposit.skip!
             Rails.logger.error { "Exit..." }
           end
+
+          raise e if is_db_connection_error?(e)
         end
       end
     end
