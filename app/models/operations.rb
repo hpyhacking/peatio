@@ -23,7 +23,7 @@ module Operations
       return unless liability.present? || liability.is_a?(Operations::Liability)
 
       account = liability.account
-      legacy_account = liability.member.accounts.find_by(currency: liability.currency)
+      legacy_account = liability.member.accounts.find_or_create_by(currency: liability.currency)
 
       credit = liability.credit
       debit = liability.debit
@@ -42,6 +42,23 @@ module Operations
           legacy_account.unlock_ans_sub_funds(debit)
         end
       end
+    end
+
+    def validate_accounting_equation(operations)
+      balance_sheet = Hash.new(0)
+      assets = operations.select { |op| op.is_a?(Operations::Asset) }
+      liabilities = operations.select { |op| op.is_a?(Operations::Liability) }
+      revenues = operations.select { |op| op.is_a?(Operations::Revenue) }
+      expenses = operations.select { |op| op.is_a?(Operations::Expense) }
+
+      (assets + expenses).each do |op|
+        balance_sheet[op.currency_id] += op.amount
+      end
+      (liabilities + revenues).each do |op|
+        balance_sheet[op.currency_id] -= op.amount
+      end
+
+      balance_sheet.delete_if { |_k, v| v.zero? }.empty?
     end
   end
 end

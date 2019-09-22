@@ -21,7 +21,7 @@ describe API::V2::Management::Transfers, type: :request do
     let(:data) do
       { key:  generate(:transfer_key),
         category: Transfer::CATEGORIES.sample,
-        desc: "Referral program payoffs (#{Time.now.to_date})",
+        description: "Referral program payoffs (#{Time.now.to_date})",
         operations: operations }
     end
 
@@ -69,7 +69,7 @@ describe API::V2::Management::Transfers, type: :request do
         request
       end
 
-      it { expect(response).to have_http_status(200) }
+      it { expect(response).to have_http_status(201) }
     end
 
     context 'empty operations' do
@@ -124,6 +124,32 @@ describe API::V2::Management::Transfers, type: :request do
 
       it { expect(response).to have_http_status 422 }
       it { expect(response.body).to match(/key has already been taken/i) }
+    end
+
+    context 'debit liability on account with insufficient balance' do
+      let!(:sender_member) { create(:member, :level_3) }
+      let!(:receiver_member) { create(:member, :level_3) }
+
+      let!(:deposit) { create(:deposit_btc, member: sender_member, amount: 1) }
+      let(:operation) do
+        {
+          currency: :btc,
+          amount:   1.1,
+          account_src: {
+            code: 202,
+            uid:  sender_member.uid
+          },
+          account_dst: {
+            code: 202,
+            uid:  receiver_member.uid
+          }
+        }
+      end
+      let(:operations) {[operation]}
+
+      before { request }
+      it { expect(response).to have_http_status 422 }
+      it { expect(response.body).to match(/account balance is insufficient/i) }
     end
 
     context 'referral program story' do
@@ -230,7 +256,7 @@ describe API::V2::Management::Transfers, type: :request do
 
       it do
         request
-        expect(response).to have_http_status 200
+        expect(response).to have_http_status 201
       end
 
       it 'returns transfer with operations' do
@@ -381,7 +407,7 @@ describe API::V2::Management::Transfers, type: :request do
 
       it do
         request
-        expect(response).to have_http_status 200
+        expect(response).to have_http_status 201
       end
 
       it 'returns transfer with liabilities' do

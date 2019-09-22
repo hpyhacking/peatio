@@ -22,18 +22,21 @@ class Adjustment < ApplicationRecord
   belongs_to :creator, class_name: :Member, required: true
   belongs_to :validator, class_name: :Member
 
-  # Need to define reference type for avoid fetching operations that not related to Adjustments.
-  # TODO: Find a better way to associate Adjustments with operations.
-  has_one :asset, -> { where(reference_type: 'Adjustment') }, class_name: 'Operations::Asset', foreign_key: :reference_id
-  has_one :liability, -> { where(reference_type: 'Adjustment') }, class_name: 'Operations::Liability', foreign_key: :reference_id
-  has_one :revenue, -> { where(reference_type: 'Adjustment') }, class_name: 'Operations::Revenue', foreign_key: :reference_id
-  has_one :expense, -> { where(reference_type: 'Adjustment') }, class_name: 'Operations::Expense', foreign_key: :reference_id
+  # Define has_one relation with Operations::{Asset,Expense,Liability,Revenue}.
+  ::Operations::Account::TYPES.each do |op_t|
+    has_one op_t.to_sym,
+            class_name: "::Operations::#{op_t.to_s.camelize}",
+            as: :reference
+  end
 
   # == Validations ==========================================================
 
   validates :validator, presence: { unless: :pending? }
   validates :category, inclusion: { in: CATEGORIES }
   validates :currency_id, inclusion: { in: ->(_) { Currency.codes } }
+  validate do
+    errors.add(:base, 'invalidates accounting equation') unless Operations.validate_accounting_equation(fetch_operations)
+  end
 
   validate on: :create do
     errors.add(:prebuild_operations, 'are invalid') unless prebuild_operations.map(&:valid?).all?(true)
