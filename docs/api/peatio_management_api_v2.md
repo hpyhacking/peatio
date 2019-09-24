@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.3.34
+## Version: 2.3.35
 
 **Contact information:**  
 openware.com  
@@ -148,7 +148,7 @@ Creates new withdraw.
 
 ##### Description:
 
-Creates new withdraw. The behaviours for fiat and crypto withdraws are different. Fiat: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, and assign state to «rejected» or «accepted». The processing will not begin automatically. The processing may be initiated manually from admin panel or by PUT /management_api/v1/withdraws/action. Coin: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, validate withdraw address and 
+Creates new withdraw. The behaviours for fiat and crypto withdraws are different. Fiat: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, and assign state to «rejected» or «accepted». The processing will not begin automatically. The processing may be initiated manually from admin panel or by PUT /management_api/v1/withdraws/action. Coin: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, validate withdraw address and set state to «rejected» or «accepted». Then in case state is «accepted» withdraw workers will perform interactions with blockchain. The withdraw receives new state «processing». Then withdraw receives state either «confirming» or «failed».Then in case state is «confirming» withdraw confirmations workers will perform interactions with blockchain.Withdraw receives state «succeed» when it receives minimum necessary amount of confirmations.
 
 ##### Parameters
 
@@ -499,6 +499,25 @@ Returns trading_fees table as paginated collection
 | ---- | ----------- |
 | 201 | Returns trading_fees table as paginated collection |
 
+### /currencies/{code}
+
+#### POST
+##### Description:
+
+Returns currency by code.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| code | path | The currency code. | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 201 | Returns currency by code. | [Currency](#currency) |
+
 ### Models
 
 
@@ -579,3 +598,26 @@ Returns trades as paginated collection.
 | taker_type | string | Trade maker order type (sell or buy). | No |
 | side | string | Trade side. | No |
 | order_id | integer | Order id. | No |
+
+#### Currency
+
+Returns currency by code.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | string | Currency code. | No |
+| name | string | Currency name | No |
+| symbol | string | Currency symbol | No |
+| explorer_transaction | string | Currency transaction exprorer url template | No |
+| explorer_address | string | Currency address exprorer url template | No |
+| type | string | Currency type | No |
+| deposit_fee | string | Currency deposit fee | No |
+| min_deposit_amount | string | Minimal deposit amount | No |
+| withdraw_fee | string | Currency withdraw fee | No |
+| min_withdraw_amount | string | Minimal withdraw amount | No |
+| withdraw_limit_24h | string | Currency 24h withdraw limit | No |
+| withdraw_limit_72h | string | Currency 72h withdraw limit | No |
+| base_factor | string | Currency base factor | No |
+| precision | string | Currency precision | No |
+| icon_url | string | Currency icon | No |
+| min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
