@@ -88,16 +88,16 @@ module API
           present withdraw, with: API::V2::Entities::Withdraw
 
         rescue ::Account::AccountError => e
-          report_exception_to_screen(e)
+          report_api_error(e, request)
           error!({ errors: ['account.withdraw.insufficient_balance'] }, 422)
         rescue ActiveRecord::RecordInvalid => e
-          report_exception_to_screen(e)
+          report_api_error(e, request)
           # TODO: Check if there are other errors possible here.
           # For now single error which is not handled by params validations is
           # sum precision validation error (PrecisionValidator).
           error!({ errors: ['account.withdraw.invalid_amount'] }, 422)
         rescue => e
-          report_exception_to_screen(e)
+          report_exception(e)
           error!({ errors: ['account.withdraw.create_error'] }, 422)
         end
       end

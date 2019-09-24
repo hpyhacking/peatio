@@ -73,7 +73,7 @@ module API
                       'will validate withdraw later against suspected activity, and assign state to «rejected» or «accepted». ' \
                       'The processing will not begin automatically. The processing may be initiated manually from admin panel or by PUT /management_api/v1/withdraws/action. ' \
                 'Coin: money are immediately locked, withdraw state is set to «submitted», system workers ' \
-                      'will validate withdraw later against suspected activity, validate withdraw address and '
+                      'will validate withdraw later against suspected activity, validate withdraw address and ' \
                       'set state to «rejected» or «accepted». ' \
                       'Then in case state is «accepted» withdraw workers will perform interactions with blockchain. ' \
                       'The withdraw receives new state «processing». Then withdraw receives state either «confirming» or «failed».' \
@@ -103,7 +103,7 @@ module API
           perform_action(withdraw, params[:action]) if params[:action]
           present withdraw, with: API::V2::Management::Entities::Withdraw
         rescue ::Account::AccountError => e
-          report_exception_to_screen(e)
+          report_api_error(e, request)
           error!({ errors: [e.to_s] }, 422)
         rescue => e
           report_exception(e)
