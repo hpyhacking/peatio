@@ -10,12 +10,15 @@ describe Matching::Executor do
 
   subject do
     Matching::Executor.new(
-      market_id:      market.id,
-      maker_order_id: ask.id,
-      taker_order_id: bid.id,
-      strike_price:   price.to_s('F'),
-      amount:         volume.to_s('F'),
-      total:          (price * volume).to_s('F')
+      action: 'execute',
+      trade: {
+        market_id:      market.id,
+        maker_order_id: ask.id,
+        taker_order_id: bid.id,
+        strike_price:   price.to_s('F'),
+        amount:         volume.to_s('F'),
+        total:          (price * volume).to_s('F')
+      }
     )
   end
 
@@ -115,12 +118,15 @@ describe Matching::Executor do
 
     it 'should cancel the market order' do
       executor = Matching::Executor.new(
-        market_id:      market.id,
-        maker_order_id: ask.id,
-        taker_order_id: bid.id,
-        strike_price:   '2.0'.to_d,
-        amount:         '1.5'.to_d,
-        total:          '3.0'.to_d
+        action: 'execute',
+        trade: {
+          market_id:      market.id,
+          maker_order_id: ask.id,
+          taker_order_id: bid.id,
+          strike_price:   '2.0'.to_d,
+          amount:         '1.5'.to_d,
+          total:          '3.0'.to_d
+        }
       )
       executor.execute!
 
@@ -134,12 +140,15 @@ describe Matching::Executor do
 
     subject do
       Matching::Executor.new(
-        market_id:      market.id,
-        maker_order_id: ask.id,
-        taker_order_id: bid.id,
-        strike_price:   price - 1, # so bid order only used (price-1)*volume
-        amount:         volume.to_s('F'),
-        total:          ((price - 1) * volume).to_s('F')
+        action: 'execute',
+        trade: {
+          market_id:      market.id,
+          maker_order_id: ask.id,
+          taker_order_id: bid.id,
+          strike_price:   price - 1, # so bid order only used (price-1)*volume
+          amount:         volume.to_s('F'),
+          total:          ((price - 1) * volume).to_s('F')
+        }
       )
     end
 

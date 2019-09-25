@@ -42,12 +42,15 @@ describe Serializers::EventAPI::TradeCompleted, 'Event API' do
     ask = Matching::LimitOrder.new(order_ask.to_matching_attributes)
     bid = Matching::LimitOrder.new(order_bid.to_matching_attributes)
     Matching::Executor.new \
-      market_id:    :btcusd,
-      maker_order_id:       ask.id,
-      taker_order_id:       bid.id,
-      strike_price: '0.03',
-      amount:       '14.0',
-      total:        '0.42'
+      action: 'execute',
+      trade: {
+        market_id:    :btcusd,
+        maker_order_id:       ask.id,
+        taker_order_id:       bid.id,
+        strike_price: '0.03',
+        amount:       '14.0',
+        total:        '0.42'
+      }
   end
 
   subject { executor.execute! }

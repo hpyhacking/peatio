@@ -33,7 +33,7 @@ describe Workers::AMQP::Matching do
       order = create(:order_bid, :btcusd, price: '4001', volume: '8.0', member: bob)
 
       AMQPQueue.expects(:enqueue)
-               .with(:trade_executor, { market_id: market.id, maker_order_id: existing.id, taker_order_id: order.id, strike_price: '4001'.to_d, amount: '8.0'.to_d, total: '32008'.to_d }, anything)
+               .with(:trade_executor, { action: 'execute', trade: { market_id: market.id, maker_order_id: existing.id, taker_order_id: order.id, strike_price: '4001'.to_d, amount: '8.0'.to_d, total: '32008'.to_d } }, anything)
       subject.process({ action: 'submit', order: order.to_matching_attributes }, {}, {})
     end
 
@@ -41,7 +41,7 @@ describe Workers::AMQP::Matching do
       order = create(:order_bid, :btcusd, price: '4001', volume: '12.0', member: bob)
 
       AMQPQueue.expects(:enqueue)
-               .with(:trade_executor, { market_id: market.id, maker_order_id: existing.id, taker_order_id: order.id, strike_price: '4001'.to_d, amount: '10.0'.to_d, total: '40010'.to_d }, anything)
+               .with(:trade_executor, { action: 'execute', trade: { market_id: market.id, maker_order_id: existing.id, taker_order_id: order.id, strike_price: '4001'.to_d, amount: '10.0'.to_d, total: '40010'.to_d } }, anything)
       subject.process({ action: 'submit', order: order.to_matching_attributes }, {}, {})
     end
   end
@@ -78,13 +78,13 @@ describe Workers::AMQP::Matching do
 
     it 'should create many trades' do
       AMQPQueue.expects(:enqueue)
-               .with(:trade_executor, { market_id: market.id, maker_order_id: ask1.id, taker_order_id: bid3.id, strike_price: ask1.price, amount: ask1.volume, total: '12009'.to_d }, anything).once
+               .with(:trade_executor, { action: 'execute', trade: { market_id: market.id, maker_order_id: ask1.id, taker_order_id: bid3.id, strike_price: ask1.price, amount: ask1.volume, total: '12009'.to_d } }, anything).once
       AMQPQueue.expects(:enqueue)
-               .with(:trade_executor, { market_id: market.id, maker_order_id: ask2.id, taker_order_id: bid3.id, strike_price: ask2.price, amount: ask2.volume, total: '12006'.to_d }, anything).once
+               .with(:trade_executor, { action: 'execute', trade: { market_id: market.id, maker_order_id: ask2.id, taker_order_id: bid3.id, strike_price: ask2.price, amount: ask2.volume, total: '12006'.to_d } }, anything).once
       AMQPQueue.expects(:enqueue)
-               .with(:trade_executor, { market_id: market.id, taker_order_id: ask4.id, maker_order_id: bid3.id, strike_price: bid3.price, amount: '2.0'.to_d, total: '8006'.to_d }, anything).once
+               .with(:trade_executor, { action: 'execute', trade: { market_id: market.id, taker_order_id: ask4.id, maker_order_id: bid3.id, strike_price: bid3.price, amount: '2.0'.to_d, total: '8006'.to_d } }, anything).once
       AMQPQueue.expects(:enqueue)
-               .with(:trade_executor, { market_id: market.id, maker_order_id: ask4.id, taker_order_id: bid5.id, strike_price: ask4.price, amount: bid5.volume, total: '12006'.to_d }, anything).once
+               .with(:trade_executor, { action: 'execute', trade: { market_id: market.id, maker_order_id: ask4.id, taker_order_id: bid5.id, strike_price: ask4.price, amount: bid5.volume, total: '12006'.to_d } }, anything).once
 
       subject
     end

@@ -5,13 +5,28 @@ require_relative 'constants'
 
 module Matching
   class Executor
+    ExecutorError = Class.new(StandardError)
+
     def initialize(payload)
       @payload = payload
-      # NOTE: Run matching engine for disabled markets.
-      @market  = Market.find(payload[:market_id])
-      @price   = payload[:strike_price].to_d
-      @amount  = payload[:amount].to_d
-      @total   = payload[:total].to_d
+      @trade_payload = payload[:trade].symbolize_keys if payload[:trade]
+    end
+
+    def process
+      case @payload[:action]
+      when 'execute'
+        execute
+      when 'cancel'
+        publish_cancel
+      else
+        raise ExecutorError.new("Unknown action: #{@payload[:action]}")
+      end
+    end
+
+    def publish_cancel
+      AMQPQueue.enqueue(:order_processor,
+                        { action: 'cancel', order: @payload[:order] },
+                        { persistent: false })
     end
 
     def execute
@@ -30,6 +45,12 @@ module Matching
     end
 
     def execute!
+      # NOTE: Run matching engine for disabled markets.
+      @market = Market.find(@trade_payload[:market_id])
+      @price  = @trade_payload[:strike_price].to_d
+      @amount = @trade_payload[:amount].to_d
+      @total  = @trade_payload[:total].to_d
+
       create_trade_and_strike_orders
       publish_trade
       @trade
@@ -50,12 +71,12 @@ module Matching
 
     def create_trade_and_strike_orders
       ActiveRecord::Base.transaction do
-        Order.lock.where(id: [@payload[:maker_order_id], @payload[:taker_order_id]])
+        Order.lock.where(id: [@trade_payload[:maker_order_id], @trade_payload[:taker_order_id]])
              .includes(:ask_currency, :bid_currency)
              .to_a
              .tap do |orders|
-          @maker_order = orders.find { |order| order.id == @payload[:maker_order_id] }
-          @taker_order = orders.find { |order| order.id == @payload[:taker_order_id] }
+          @maker_order = orders.find { |order| order.id == @trade_payload[:maker_order_id] }
+          @taker_order = orders.find { |order| order.id == @trade_payload[:taker_order_id] }
         end
 
         validate!

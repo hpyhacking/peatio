@@ -134,17 +134,19 @@ module Matching
       Rails.logger.info { "[#{@market.id}] new trade - maker_order: #{maker_order.label} taker_order: #{taker_order.label} price: #{price} amount: #{amount} total: #{total}" }
 
       @queue.enqueue(:trade_executor,
-                     { market_id: @market.id,
-                       maker_order_id: maker_order.id,
-                       taker_order_id: taker_order.id,
-                       strike_price: price,
-                       amount: amount,
-                       total: total },
+                     { action: 'execute',
+                       trade: {
+                         market_id: @market.id,
+                         maker_order_id: maker_order.id,
+                         taker_order_id: taker_order.id,
+                         strike_price: price,
+                         amount: amount,
+                         total: total } },
                      { persistent: false })
     end
 
     def publish_cancel(order)
-      @queue.enqueue(:order_processor,
+      @queue.enqueue(:trade_executor,
                      { action: 'cancel', order: order.attributes },
                      { persistent: false })
     end
