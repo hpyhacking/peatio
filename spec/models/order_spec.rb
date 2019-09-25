@@ -82,12 +82,33 @@ describe Order, '#submit' do
   context 'validations' do
     before do
       order.member.accounts.find_by_currency_id(order.currency).update(balance: 0)
-      Order.submit(order.id)
-      Order.submit(rejected_order.id)
     end
 
-    it { expect(order.reload.state).to eq('reject') }
-    it { expect(rejected_order.reload.state).to eq('reject') }
+    it 'insufficient balance' do
+      expect {
+        Order.submit(order.id)
+      }.to raise_error(Account::AccountError)
+      expect(order.reload.state).to eq('reject')
+    end
+
+    it 'rejected order' do
+      Order.submit(rejected_order.id)
+      expect(rejected_order.reload.state).to eq('reject')
+    end
+  end
+
+  it 'mysql connection error' do
+    ActiveRecord::Base.stubs(:transaction).raises(Mysql2::Error::ConnectionError.new(''))
+    expect { Order.submit(order.id) }.to raise_error(Mysql2::Error::ConnectionError)
+  end
+end
+
+describe Order, '#cancel' do
+  let(:order) { create(:order_bid, :with_deposit_liability, state: 'pending', price: '12.32'.to_d, volume: '123.12345678') }
+
+  it 'mysql connection error' do
+    ActiveRecord::Base.stubs(:transaction).raises(Mysql2::Error::ConnectionError.new(''))
+    expect { Order.cancel(order.id) }.to raise_error(Mysql2::Error::ConnectionError)
   end
 end
 

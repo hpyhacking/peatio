@@ -16,25 +16,18 @@ describe Workers::AMQP::DepositCoinAddress do
 
   subject { account.payment_address.address }
 
-  before do
-    WalletService.any_instance
-                  .expects(:create_address!)
-                  .returns(create_address_result)
+  it 'raise error on databse connection error' do
+    Account.stubs(:find_by_id).raises(Mysql2::Error::ConnectionError.new(''))
+    expect {
+      Workers::AMQP::DepositCoinAddress.new.process(account_id: account.id)
+    }.to raise_error Mysql2::Error::ConnectionError
   end
 
-  it 'is passed to wallet service' do
-    Workers::AMQP::DepositCoinAddress.new.process(account_id: account.id)
-    expect(subject).to eq address
-    payment_address.reload
-    expect(payment_address.as_json
-             .deep_symbolize_keys
-             .slice(:address, :secret, :details)).to eq(create_address_result)
-  end
-
-  context 'empty address details' do
-    let(:create_address_result) do
-      { address: address,
-        secret: secret }
+  context 'wallet service' do
+    before do
+      WalletService.any_instance
+                    .expects(:create_address!)
+                    .returns(create_address_result)
     end
 
     it 'is passed to wallet service' do
@@ -43,7 +36,23 @@ describe Workers::AMQP::DepositCoinAddress do
       payment_address.reload
       expect(payment_address.as_json
                .deep_symbolize_keys
-               .slice(:address, :secret, :details)).to eq(create_address_result.merge(details: {}))
+               .slice(:address, :secret, :details)).to eq(create_address_result)
+    end
+
+    context 'empty address details' do
+      let(:create_address_result) do
+        { address: address,
+          secret: secret }
+      end
+
+      it 'is passed to wallet service' do
+        Workers::AMQP::DepositCoinAddress.new.process(account_id: account.id)
+        expect(subject).to eq address
+        payment_address.reload
+        expect(payment_address.as_json
+                 .deep_symbolize_keys
+                 .slice(:address, :secret, :details)).to eq(create_address_result.merge(details: {}))
+      end
     end
   end
 end

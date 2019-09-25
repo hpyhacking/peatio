@@ -114,7 +114,8 @@ class Order < ApplicationRecord
     rescue => e
       order = find_by_id!(id)
       order.update!(state: ::Order::REJECT) if order
-      report_exception_to_screen(e)
+
+      raise e
     end
 
     def cancel(id)
@@ -127,8 +128,6 @@ class Order < ApplicationRecord
 
         order.update!(state: ::Order::CANCEL)
       end
-    rescue => e
-      report_exception_to_screen(e)
     end
 
     def to_csv

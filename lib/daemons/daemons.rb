@@ -20,7 +20,10 @@ Signal.trap("TERM", &terminate)
 begin
   worker.run
 rescue StandardError => e
-  raise e if worker.is_db_connection_error?(e)
+  if worker.is_db_connection_error?(e)
+    logger.error(db: :unhealthy, message: e.message)
+    raise e
+  end
 
   report_exception(e)
 end
