@@ -32,8 +32,8 @@
         <%= l(x.created_at, format: :long) %>
       <% end %>
 
-      <% t.column 'Enabled' do |x| %>
-        <%= x.enabled? ? 'Yes' : 'No' %>
+      <% t.column 'Visible' do |x| %>
+        <%= x.visible? ? 'Yes' : 'No' %>
       <% end %>
 
       <% t.column 'Actions' do |x| %>

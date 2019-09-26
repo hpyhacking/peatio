@@ -63,10 +63,20 @@ module API
               default: 0.0,
               desc: -> { API::V2::Admin::Entities::Currency.documentation[:options][:desc] }
             },
-            enabled: {
-              type: { value: Boolean, message: 'admin.currency.non_boolean_enabled' },
+            visible: {
+              type: { value: Boolean, message: 'admin.currency.non_boolean_visible' },
               default: true,
-              desc: -> { API::V2::Admin::Entities::Currency.documentation[:enabled][:desc] }
+              desc: -> { API::V2::Admin::Entities::Currency.documentation[:visible][:desc] }
+            },
+            deposit_enabled: {
+              type: { value: Boolean, message: 'admin.currency.non_boolean_deposit_enabled' },
+              default: true,
+              desc: -> { API::V2::Admin::Entities::Currency.documentation[:deposit_enabled][:desc] }
+            },
+            withdrawal_enabled: {
+              type: { value: Boolean, message: 'admin.currency.non_boolean_withdrawal_enabled' },
+              default: true,
+              desc: -> { API::V2::Admin::Entities::Currency.documentation[:withdrawal_enabled][:desc] }
             },
             precision: {
               type: { value: Integer, message: 'admin.currency.non_integer_base_precision' },

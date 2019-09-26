@@ -14,7 +14,7 @@ module API
             is_array: true,
             success: API::V2::Entities::Account
         get '/balances' do
-          present current_user.accounts.enabled, with: Entities::Account
+          present current_user.accounts.visible, with: Entities::Account
         end
 
         desc 'Get user account by currency' do
@@ -24,12 +24,12 @@ module API
         params do
           requires :currency,
                    type: String,
-                   values: { value: -> { Currency.enabled.pluck(:id) }, message: 'account.currency.doesnt_exist' },
+                   values: { value: -> { Currency.visible.pluck(:id) }, message: 'account.currency.doesnt_exist' },
                    desc: 'The currency code.'
         end
 
         get '/balances/:currency' do
-          present current_user.accounts.enabled.find_by!(currency_id: params[:currency]),
+          present current_user.accounts.visible.find_by!(currency_id: params[:currency]),
                   with: API::V2::Entities::Account
         end
       end

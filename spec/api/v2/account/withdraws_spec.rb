@@ -90,7 +90,7 @@ describe API::V2::Account::Withdraws, type: :request do
   end
 
   describe 'create withdraw' do
-    let(:currency) { Currency.enabled.sample; Currency.find(:usd) }
+    let(:currency) { Currency.visible.sample; Currency.find(:usd) }
     let(:amount) { 0.15 }
 
     let(:beneficiary) do
@@ -246,6 +246,18 @@ describe API::V2::Account::Withdraws, type: :request do
       api_post '/api/v2/account/withdraws', params: data, token: token
       expect(response).to have_http_status(422)
       expect(response).to include_api_error('account.currency.doesnt_exist')
+    end
+
+    context 'disabled withdrawal for currency' do
+      let(:currency) { Currency.find('btc') }
+
+      before { currency.update!(withdrawal_enabled: false) }
+
+      it 'returns error' do
+        api_post '/api/v2/account/withdraws', params: data, token: token
+        expect(response).to have_http_status 422
+        expect(response).to include_api_error('account.currency.withdrawal_disabled')
+      end
     end
 
     it 'creates new withdraw and immediately submits it' do

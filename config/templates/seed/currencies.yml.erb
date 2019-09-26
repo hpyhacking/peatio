@@ -7,7 +7,9 @@
   type:                   fiat
   precision:              2
   base_factor:            1
-  enabled:                true
+  visible:                true
+  deposit_enabled:        true
+  withdrawal_enabled:     true
   min_deposit_amount:     0
   min_collection_amount:  0
   withdraw_limit_24h:     100
@@ -24,7 +26,9 @@
   type:                   coin
   precision:              8
   base_factor:            100_000_000
-  enabled:                true
+  visible:                true
+  deposit_enabled:        true
+  withdrawal_enabled:     true
   # Deposits with less amount are skipped during blockchain synchronization.
   # We advise to set value 10 times bigger than the network fee to prevent losses.
   min_deposit_amount:     0.0000356
@@ -43,7 +47,9 @@
   type:                   coin
   precision:              8
   base_factor:            1_000_000_000_000_000_000
-  enabled:                true
+  visible:                true
+  deposit_enabled:        true
+  withdrawal_enabled:     true
   # Deposits with less amount are skipped during blockchain synchronization.
   # We advise to set value 10 times bigger than the network fee to prevent losses.
   min_deposit_amount:     0.00021
@@ -68,13 +74,17 @@
   type:                   coin
   precision:              8
   base_factor:            1_000_000 # IMPORTANT: Don't forget to update this variable according
-  enabled:                true      #            to your ERC20-based currency requirements
+                                    # to your ERC20-based currency requirements
+                                    # (usually can be found on the official website).
+  visible:                true
+  deposit_enabled:        true
+  withdrawal_enabled:     true
   # Deposits with less amount are skipped during blockchain synchronization.
   # We advise to set value 10 times bigger than the network fee to prevent losses.
   # NOTE: Network fee is paid in ETH but min_deposit_amount is in TRST.
   min_deposit_amount:     2
   min_collection_amount:  2
-  withdraw_limit_24h:     300      #            (usually can be found on the official website).
+  withdraw_limit_24h:     300
   withdraw_limit_72h:     600
   deposit_fee:            0
   withdraw_fee:           0

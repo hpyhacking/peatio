@@ -153,7 +153,7 @@ describe API::V2::Admin::Markets, type: :request do
     end
 
     it 'return error in case of not permitted ability' do
-      api_post '/api/v2/admin/markets/update', params: { id: Market.first.id, enabled: false }, token: level_3_member_token
+      api_post '/api/v2/admin/markets/update', params: { id: Market.first.id, state: :disabled }, token: level_3_member_token
 
       expect(response.code).to eq '403'
       expect(response).to include_api_error('admin.ability.not_permitted')

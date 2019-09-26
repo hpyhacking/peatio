@@ -24,7 +24,7 @@ FactoryBot.define do
       withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.1 }
       position             { 1 }
-      enabled              { false }
+      visible              { false }
       options              { {} }
     end
 

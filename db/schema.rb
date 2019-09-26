@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_10_105717) do
+ActiveRecord::Schema.define(version: 2019_09_23_085927) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -97,15 +97,16 @@ ActiveRecord::Schema.define(version: 2019_09_10_105717) do
     t.decimal "withdraw_limit_72h", precision: 32, scale: 16, default: "0.0", null: false
     t.integer "position", default: 0, null: false
     t.string "options", limit: 1000, default: "{}"
-    t.boolean "enabled", default: true, null: false
+    t.boolean "visible", default: true, null: false
+    t.boolean "deposit_enabled", default: true, null: false
+    t.boolean "withdrawal_enabled", default: true, null: false
     t.bigint "base_factor", default: 1, null: false
     t.integer "precision", limit: 1, default: 8, null: false
     t.string "icon_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["enabled"], name: "index_currencies_on_enabled"
-    t.index ["enabled"], name: "index_currencies_on_enabled_and_code"
     t.index ["position"], name: "index_currencies_on_position"
+    t.index ["visible"], name: "index_currencies_on_visible"
   end
 
   create_table "deposits", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

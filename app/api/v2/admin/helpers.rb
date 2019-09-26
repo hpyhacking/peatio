@@ -52,7 +52,7 @@ module API
 
         params :currency do
           optional :currency,
-                   values: { value: -> { Currency.enabled.codes(bothcase: true) }, message: 'admin.currency.doesnt_exist' },
+                   values: { value: -> { Currency.codes(bothcase: true) }, message: 'admin.currency.doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:currency][:desc] }
         end
 

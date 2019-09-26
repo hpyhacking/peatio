@@ -44,10 +44,10 @@ module API
           )
 
           expose(
-            :enabled,
+            :visible,
             documentation: {
               type: String,
-              desc: 'Currency display status (enabled/disabled).'
+              desc: 'Currency display status (true/false).'
             }
           )
 

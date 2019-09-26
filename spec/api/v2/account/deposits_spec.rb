@@ -156,5 +156,17 @@ describe API::V2::Account::Deposits, type: :request do
         expect(response.body).to eq '{"currency":"bch","address":"2N2wNXrdo4oEngp498XGnGCbru29MycHogR"}'
       end
     end
+
+    context 'disabled deposit for currency' do
+      let(:currency) { :btc }
+
+      before { Currency.find(currency).update!(deposit_enabled: false) }
+
+      it 'returns error' do
+        api_get "/api/v2/account/deposit_address/#{currency}", token: token
+        expect(response).to have_http_status 422
+        expect(response).to include_api_error('account.currency.deposit_disabled')
+      end
+    end
   end
 end

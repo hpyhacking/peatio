@@ -248,6 +248,18 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
         end
       end
 
+      context 'disabled withdrawal for currency' do
+        let(:currency) { Currency.find(:btc) }
+        before do
+          currency.update(withdrawal_enabled: false)
+        end
+        it do
+          api_post endpoint, params: beneficiary_data, token: token
+          expect(response.status).to eq 422
+          expect(response).to include_api_error('account.currency.withdrawal_disabled')
+        end
+      end
+
       # TODO: Test nil full_name in data for both fiat and crypto.
     end
 

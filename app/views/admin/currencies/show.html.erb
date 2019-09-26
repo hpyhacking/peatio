@@ -49,8 +49,8 @@
               <dt>72h withdraw limit</dt>
               <dd><%= f.text_field :withdraw_limit_72h, class: 'form-control' %></dd>
 
-              <dt>Enabled?</dt>
-              <dd><%= f.check_box :enabled %></dd>
+              <dt>Visible?</dt>
+              <dd><%= f.check_box :visible %></dd>
 
               <dt>Base factor</dt>
               <% if @currency.new_record? %>

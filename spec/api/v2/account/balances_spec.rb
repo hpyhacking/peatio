@@ -36,13 +36,13 @@ describe API::V2::Account::Balances, type: :request do
     context 'disable currency' do
 
       before do
-        Currency.find(:eth).update(enabled: false)
+        Currency.find(:eth).update(visible: false)
         api_get '/api/v2/account/balances', token: token
       end
 
       it 'returns only balances of enabled currencies' do
         result = JSON.parse(response.body)
-        expect(result.count).to eq Currency.enabled.count
+        expect(result.count).to eq Currency.visible.count
       end
 
     end
@@ -72,7 +72,7 @@ describe API::V2::Account::Balances, type: :request do
     context 'disable currency' do
 
       before do
-        Currency.find(:eth).update(enabled: false)
+        Currency.find(:eth).update(visible: false)
         api_get '/api/v2/account/balances/eth', token: token
       end
 

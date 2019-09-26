@@ -36,10 +36,10 @@ class Currency < ApplicationRecord
   validates :code, presence: true, uniqueness: { case_sensitive: false }
 
   validates :blockchain_key,
-            inclusion: { in: -> (_) { Blockchain.pluck(:key).map(&:to_s) } },
+            inclusion: { in: ->(_) { Blockchain.pluck(:key).map(&:to_s) } },
             if: :coin?
 
-  validates :type, inclusion: { in: -> (_) { Currency.types.map(&:to_s) } }
+  validates :type, inclusion: { in: ->(_) { Currency.types.map(&:to_s) } }
   validates :symbol, presence: true, length: { maximum: 1 }
   validates :options, length: { maximum: 1000 }
   validates :base_factor, numericality: { greater_than_or_equal_to: 1, only_integer: true }
@@ -56,11 +56,12 @@ class Currency < ApplicationRecord
             numericality: { greater_than_or_equal_to: 0 }
 
   validate :validate_options
-  validate { errors.add(:base, 'Cannot disable display currency!') if disabled? && code == ENV.fetch('DISPLAY_CURRENCY').downcase }
 
   # == Scopes ===============================================================
 
-  scope :enabled, -> { where(enabled: true) }
+  scope :visible, -> { where(visible: true) }
+  scope :deposit_enabled, -> { where(deposit_enabled: true) }
+  scope :withdrawal_enabled, -> { where(withdrawal_enabled: true) }
   scope :ordered, -> { order(position: :asc) }
   scope :coins,   -> { where(type: :coin) }
   scope :fiats,   -> { where(type: :fiat) }
@@ -150,10 +151,6 @@ class Currency < ApplicationRecord
       hot:      coin? ? balance : nil }
   end
 
-  def disabled?
-    !enabled
-  end
-
   def is_erc20?
     erc20_contract_address.present?
   end
@@ -163,7 +160,7 @@ class Currency < ApplicationRecord
   end
 
   def disable_markets
-    unless enabled?
+    unless visible?
       dependent_markets.update_all(state: :disabled)
     end
   end
@@ -195,7 +192,7 @@ class Currency < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20190711114027
+# Schema version: 20190923085927
 #
 # Table name: currencies
 #
@@ -213,7 +210,9 @@ end
 #  withdraw_limit_72h    :decimal(32, 16)  default(0.0), not null
 #  position              :integer          default(0), not null
 #  options               :string(1000)     default({})
-#  enabled               :boolean          default(TRUE), not null
+#  visible               :boolean          default(TRUE), not null
+#  deposit_enabled       :boolean          default(TRUE), not null
+#  withdrawal_enabled    :boolean          default(TRUE), not null
 #  base_factor           :bigint           default(1), not null
 #  precision             :integer          default(8), not null
 #  icon_url              :string(255)
@@ -222,7 +221,6 @@ end
 #
 # Indexes
 #
-#  index_currencies_on_enabled           (enabled)
-#  index_currencies_on_enabled_and_code  (enabled)
-#  index_currencies_on_position          (position)
+#  index_currencies_on_position  (position)
+#  index_currencies_on_visible   (visible)
 #

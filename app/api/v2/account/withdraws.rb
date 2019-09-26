@@ -14,7 +14,7 @@ module API
         params do
           optional :currency,
                    type: String,
-                   values: { value: -> { Currency.enabled.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
+                   values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
                    desc: 'Currency code.'
           optional :limit,
                    type: { value: Integer, message: 'account.withdraw.non_integer_limit' },
@@ -47,7 +47,7 @@ module API
                    desc: 'ID of Active Beneficiary belonging to user.'
           requires :currency,
                    type: String,
-                   values: { value: -> { Currency.enabled.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
+                   values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'account.currency.doesnt_exist'},
                    desc: 'The currency code.'
           requires :amount,
                    type: { value: BigDecimal, message: 'account.withdraw.non_decimal_amount' },
@@ -77,6 +77,11 @@ module API
           end
 
           currency = Currency.find(params[:currency])
+
+          unless currency.withdrawal_enabled?
+            error!({ errors: ['account.currency.withdrawal_disabled'] }, 422) 
+          end
+
           withdraw = "withdraws/#{currency.type}".camelize.constantize.new \
             beneficiary: beneficiary,
             sum:         params[:amount],

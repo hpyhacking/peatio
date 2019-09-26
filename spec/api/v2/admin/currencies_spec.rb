@@ -157,11 +157,26 @@ describe API::V2::Admin::Currencies, type: :request do
       expect(response).to include_api_error('admin.currency.invalid_type')
     end
 
-    it 'validate enabled param' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', type: 'fiat', enabled: '123'}, token: token
+    it 'validate visible param' do
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', type: 'fiat', visible: '123'}, token: token
 
       expect(response).to have_http_status 422
-      expect(response).to include_api_error('admin.currency.non_boolean_enabled')
+      expect(response).to include_api_error('admin.currency.non_boolean_visible')
+    end
+
+
+    it 'validate deposit_enabled param' do
+      api_post '/api/v2/admin/currencies/new', params: { code: Currency.first.id, deposit_enabled: '123' }, token: token
+
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.currency.non_boolean_deposit_enabled')
+    end
+
+    it 'validate withdrawal_enabled param' do
+      api_post '/api/v2/admin/currencies/new', params: { code: Currency.first.id, withdrawal_enabled: '123' }, token: token
+
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.currency.non_boolean_withdrawal_enabled')
     end
 
     it 'validate options param' do
@@ -252,16 +267,30 @@ describe API::V2::Admin::Currencies, type: :request do
       expect(response).to include_api_error('admin.currency.blockchain_key_doesnt_exist')
     end
 
-    it 'validate enabled param' do
-      api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id, enabled: '123' }, token: token
+    it 'validate visible param' do
+      api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id, visible: '123' }, token: token
 
       expect(response).to have_http_status 422
-      expect(response).to include_api_error('admin.currency.non_boolean_enabled')
+      expect(response).to include_api_error('admin.currency.non_boolean_visible')
     end
 
-    it 'validates neagtive precision' do
+    it 'validate deposit_enabled param' do
+      api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id, deposit_enabled: '123' }, token: token
+
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.currency.non_boolean_deposit_enabled')
+    end
+
+    it 'validate withdrawal_enabled param' do
+      api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id, withdrawal_enabled: '123' }, token: token
+
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.currency.non_boolean_withdrawal_enabled')
+    end
+
+    it 'validates negative precision' do
       expect {
-        api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id, enabled: '123' }, token: token
+        api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id, precision: -1 }, token: token
       }.not_to change { Currency.first }
 
       expect(response).not_to be_successful

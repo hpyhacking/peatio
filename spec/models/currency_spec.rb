@@ -28,16 +28,44 @@ describe Currency do
     end
   end
 
+  context 'scopes' do
+    let(:currency) { Currency.find(:btc) }
+
+    context 'visible' do
+      it 'changes visible scope count' do
+        visible = Currency.visible.count
+        currency.update(visible: false)
+        expect(Currency.visible.count).to eq(visible - 1)
+      end
+    end
+
+    context 'deposit_enabled' do
+      it 'changes deposit_enabled scope count' do
+        deposit_enabled = Currency.deposit_enabled.count
+        currency.update(deposit_enabled: false)
+        expect(Currency.deposit_enabled.count).to eq(deposit_enabled - 1)
+      end
+    end
+
+    context 'withdrawal_enabled' do
+      it 'changes withdrawal_enabled scope count' do
+        withdrawal_enabled = Currency.withdrawal_enabled.count
+        currency.update(withdrawal_enabled: false)
+        expect(Currency.withdrawal_enabled.count).to eq(withdrawal_enabled - 1)
+      end
+    end
+  end
+
   it 'disables markets when currency is set to disabled' do
     currency = Currency.find(:eth)
     expect(Market.find(:btcusd).state.enabled?).to be_truthy
     expect(Market.find(:btceth).state.enabled?).to be_truthy
 
-    currency.update!(enabled: false)
+    currency.update!(visible: false)
     expect(Market.find(:btcusd).state.enabled?).to be_truthy
     expect(Market.find(:btceth).state.enabled?).to be_falsey
 
-    currency.update!(enabled: true)
+    currency.update!(visible: true)
     expect(Market.find(:btcusd).state.enabled?).to be_truthy
     expect(Market.find(:btceth).state.enabled?).to be_falsey
   end
@@ -45,15 +73,9 @@ describe Currency do
   it 'allows to disable all dependent markets' do
     Market.where.not(base_unit: 'btc').update_all(state: :disabled)
     currency = Currency.find(:btc)
-    currency.update(enabled: false) # FIXME: this line has no effect here.
+    currency.update(visible: false)
     expect(currency.valid?).to be_truthy
     expect(currency.errors[:currency].size).to eq(0)
-  end
-
-  it 'doesn\'t allow to disable display currency' do
-    currency = Currency.find(:usd)
-    currency.update(enabled: false)
-    expect(currency.errors.full_messages).to eq ['Cannot disable display currency!']
   end
 
   context 'subunits=' do
@@ -69,12 +91,12 @@ describe Currency do
 
     it 'should not update the base factor' do
       fake_currency.update_attributes :base_factor => 8
-      fake_currency.reload.base_factor.should eql fake_currency.base_factor
+      expect(fake_currency.reload.base_factor).to eq(fake_currency.base_factor)
     end
 
     it 'should not update the type' do
       fake_currency.update_attributes :type => 'fiat'
-      fake_currency.reload.type.should eql fake_currency.type
+      expect(fake_currency.reload.type).to eq(fake_currency.type)
     end
   end
 

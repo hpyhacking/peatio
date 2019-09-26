@@ -14,7 +14,7 @@ describe Admin::CurrenciesController, type: :controller do
       withdraw_fee:                     '0.001'.to_d,
       position:                         '10'.to_i,
       deposit_fee:                      '0.0'.to_d,
-      enabled:                          true,
+      visible:                          true,
       base_factor:                      1000000,
       precision:                        8,
       options:                          { "erc20_contract_address" => '1fmiowizbqnrkhzrn4vvsmqacc5gvk9sf3' }
@@ -46,7 +46,7 @@ describe Admin::CurrenciesController, type: :controller do
         withdraw_limit_72h:               '3.5'.to_d,
         withdraw_fee:                     '0.006'.to_d,
         deposit_fee:                      '0.05'.to_d,
-        enabled:                          false,
+        visible:                          false,
         base_factor:                      100000,
         precision:                        9,
         options:                          { "erc20_contract_address" => '12kamv8qxvqyosgzitfym6yzxk2sgovhq9', \

@@ -16,7 +16,7 @@ class Account < ApplicationRecord
   validates :member_id, uniqueness: { scope: :currency_id }
   validates :balance, :locked, numericality: { greater_than_or_equal_to: 0.to_d }
 
-  scope :enabled, -> { joins(:currency).merge(Currency.where(enabled: true)) }
+  scope :visible, -> { joins(:currency).merge(Currency.where(visible: true)) }
 
   def as_json_for_event_api
     {

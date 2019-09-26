@@ -16,7 +16,7 @@ module API
           params do
             optional :currency,
                      type: String,
-                     values: { value: -> { Currency.enabled.codes(bothcase: true) }, message: 'account.currency.doesnt_exist' },
+                     values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'account.currency.doesnt_exist' },
                      as: :currency_id,
                      desc: 'Beneficiary currency code.'
             optional :state,
@@ -63,7 +63,7 @@ module API
           params do
             requires :currency,
                      type: String,
-                     values: { value: -> { Currency.enabled.codes(bothcase: true) }, message: 'account.currency.doesnt_exist' },
+                     values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'account.currency.doesnt_exist' },
                      as: :currency_id,
                      desc: 'Beneficiary currency code.'
             requires :name,
@@ -84,7 +84,10 @@ module API
             declared_params = declared(params)
 
             currency = Currency.find_by!(id: params[:currency_id])
-            if currency.coin? && declared_params.dig(:data, :address).blank?
+
+            if !currency.withdrawal_enabled?
+              error!({ errors: ['account.currency.withdrawal_disabled'] }, 422)
+            elsif currency.coin? && declared_params.dig(:data, :address).blank?
               error!({ errors: ['account.beneficiary.missing_address_in_data'] }, 422)
             elsif currency.fiat? && declared_params.dig(:data, :full_name).blank?
               error!({ errors: ['account.beneficiary.missing_full_name_in_data'] }, 422)
