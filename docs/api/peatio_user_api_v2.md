@@ -1,7 +1,7 @@
 # Peatio User API v2
 API for Peatio application.
 
-## Version: 2.3.36
+## Version: 2.3.37
 
 **Contact information:**  
 openware.com  
@@ -755,6 +755,8 @@ Get a currency
 | explorer_transaction | string | Currency transaction exprorer url template | No |
 | explorer_address | string | Currency address exprorer url template | No |
 | type | string | Currency type | No |
+| deposit_enabled | string | Currency deposit possibility status (true/false). | No |
+| withdrawal_enabled | string | Currency withdrawal possibility status (true/false). | No |
 | deposit_fee | string | Currency deposit fee | No |
 | min_deposit_amount | string | Minimal deposit amount | No |
 | withdraw_fee | string | Currency withdraw fee | No |

@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.36
+## Version: 2.3.37
 
 **Contact information:**  
 openware.com  
@@ -305,7 +305,9 @@ Update currency.
 | withdraw_limit_72h | formData | Currency 72h withdraw limit | No | double |
 | position | formData | Currency position. | No | integer |
 | options | formData | Currency options. | No | json |
-| enabled | formData | Currency display status (enabled/disabled). | No | boolean |
+| visible | formData | Currency display status (true/false). | No | boolean |
+| deposit_enabled | formData | Currency deposit possibility status (true/false). | No | boolean |
+| withdrawal_enabled | formData | Currency withdrawal possibility status (true/false). | No | boolean |
 | precision | formData | Currency precision. | No | integer |
 | icon_url | formData | Currency icon | No | string |
 | code | formData | Unique currency code. | Yes | string |
@@ -339,7 +341,9 @@ Create new currency.
 | withdraw_limit_72h | formData | Currency 72h withdraw limit | No | double |
 | position | formData | Currency position. | No | integer |
 | options | formData | Currency options. | No | json |
-| enabled | formData | Currency display status (enabled/disabled). | No | boolean |
+| visible | formData | Currency display status (true/false). | No | boolean |
+| deposit_enabled | formData | Currency deposit possibility status (true/false). | No | boolean |
+| withdrawal_enabled | formData | Currency withdrawal possibility status (true/false). | No | boolean |
 | precision | formData | Currency precision. | No | integer |
 | icon_url | formData | Currency icon | No | string |
 | code | formData | Unique currency code. | Yes | string |
@@ -1142,6 +1146,8 @@ Get list of currencies
 | name | string | Currency name | No |
 | symbol | string | Currency symbol | No |
 | type | string | Currency type | No |
+| deposit_enabled | string | Currency deposit possibility status (true/false). | No |
+| withdrawal_enabled | string | Currency withdrawal possibility status (true/false). | No |
 | deposit_fee | string | Currency deposit fee | No |
 | min_deposit_amount | string | Minimal deposit amount | No |
 | withdraw_fee | string | Currency withdraw fee | No |
@@ -1156,7 +1162,7 @@ Get list of currencies
 | blockchain_key | string | Associated blockchain key which will perform transactions synchronization for currency. | No |
 | min_collection_amount | double | Minimal collection amount. | No |
 | position | integer | Currency position. | No |
-| enabled | string | Currency display status (enabled/disabled). | No |
+| visible | string | Currency display status (true/false). | No |
 | subunits | integer | Fraction of the basic monetary unit. | No |
 | options | json | Currency options. | No |
 | created_at | string | Currency created time in iso8601 format. | No |

@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.36"
+    "version": "2.3.37"
   },
   "swagger": "2.0",
   "produces": [
@@ -1086,8 +1086,22 @@
           },
           {
             "in": "formData",
-            "name": "enabled",
-            "description": "Currency display status (enabled/disabled).",
+            "name": "visible",
+            "description": "Currency display status (true/false).",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "deposit_enabled",
+            "description": "Currency deposit possibility status (true/false).",
+            "type": "boolean",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdrawal_enabled",
+            "description": "Currency withdrawal possibility status (true/false).",
             "type": "boolean",
             "required": false
           },
@@ -1253,8 +1267,24 @@
           },
           {
             "in": "formData",
-            "name": "enabled",
-            "description": "Currency display status (enabled/disabled).",
+            "name": "visible",
+            "description": "Currency display status (true/false).",
+            "type": "boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "deposit_enabled",
+            "description": "Currency deposit possibility status (true/false).",
+            "type": "boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdrawal_enabled",
+            "description": "Currency withdrawal possibility status (true/false).",
             "type": "boolean",
             "default": true,
             "required": false
@@ -4110,6 +4140,14 @@
           "example": "coin",
           "description": "Currency type"
         },
+        "deposit_enabled": {
+          "type": "string",
+          "description": "Currency deposit possibility status (true/false)."
+        },
+        "withdrawal_enabled": {
+          "type": "string",
+          "description": "Currency withdrawal possibility status (true/false)."
+        },
         "deposit_fee": {
           "type": "string",
           "example": "0.0",
@@ -4177,9 +4215,9 @@
           "format": "int32",
           "description": "Currency position."
         },
-        "enabled": {
+        "visible": {
           "type": "string",
-          "description": "Currency display status (enabled/disabled)."
+          "description": "Currency display status (true/false)."
         },
         "subunits": {
           "type": "integer",
