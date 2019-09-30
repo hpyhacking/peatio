@@ -142,10 +142,24 @@ describe Adjustment do
       expect(operations.map(&:reference_id)).to all eq subject.id
     end
 
-    it 'updates legacy balances' do
+    it 'updates legacy balances (credit for main account)' do
       expect {
         subject.accept!(validator: member)
       }.to change { member.accounts.find_by(currency: subject.currency).balance }.by(subject.amount)
+    end
+
+    context 'updates legacy balances (debit for locked account)' do
+      subject { create(:adjustment, currency_id: 'btc', amount: -1, receiving_account_number: "btc-212-#{member.uid}") }
+
+      before do
+        member.get_account(:btc).update!(locked: 1)
+      end
+
+      it 'updates legacy balances (credit for main account)' do
+        expect {
+          subject.accept!(validator: member)
+        }.to change { member.accounts.find_by(currency: subject.currency).locked }.by(subject.amount)
+      end
     end
 
     it 'does not accept with invalid attributes' do

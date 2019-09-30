@@ -39,7 +39,7 @@ module Operations
           legacy_account.plus_funds(credit)
           legacy_account.lock_funds(credit)
         else
-          legacy_account.unlock_ans_sub_funds(debit)
+          legacy_account.unlock_and_sub_funds(debit)
         end
       end
     end
