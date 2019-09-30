@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.37"
+    "version": "2.3.38"
   },
   "swagger": "2.0",
   "produces": [
@@ -420,7 +420,14 @@
             "name": "rid",
             "description": "The beneficiary ID or wallet address on the Blockchain.",
             "type": "string",
-            "required": true
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "beneficiary_id",
+            "description": "ID of Active Beneficiary belonging to user.",
+            "type": "string",
+            "required": false
           },
           {
             "in": "formData",

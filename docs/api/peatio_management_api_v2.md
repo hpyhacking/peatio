@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.3.37
+## Version: 2.3.38
 
 **Contact information:**  
 openware.com  
@@ -156,7 +156,8 @@ Creates new withdraw. The behaviours for fiat and crypto withdraws are different
 | ---- | ---------- | ----------- | -------- | ---- |
 | uid | formData | The shared user ID. | Yes | string |
 | tid | formData | The shared transaction ID. Must not exceed 64 characters. Peatio will generate one automatically unless supplied. | No | string |
-| rid | formData | The beneficiary ID or wallet address on the Blockchain. | Yes | string |
+| rid | formData | The beneficiary ID or wallet address on the Blockchain. | No | string |
+| beneficiary_id | formData | ID of Active Beneficiary belonging to user. | No | string |
 | currency | formData | The currency code. | Yes | string |
 | amount | formData | The amount to withdraw. | Yes | double |
 | action | formData | The action to perform. | No | string |
