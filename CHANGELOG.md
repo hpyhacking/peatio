@@ -1,5 +1,289 @@
 # Change Log
 
+## [2.3.34](https://github.com/rubykube/peatio/tree/2.3.34) (2019-09-22)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.33...2.3.34)
+
+**Merged pull requests:**
+
+- Validate accounting on Transfer & Adjustment creation. Create account on fly if does not exist [\#2370](https://github.com/rubykube/peatio/pull/2370) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.33](https://github.com/rubykube/peatio/tree/2.3.33) (2019-09-18)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.32...2.3.33)
+
+**Closed issues:**
+
+- Give option for Ethereum to set Gasprice and Gaslimit manually [\#2364](https://github.com/rubykube/peatio/issues/2364)
+
+**Merged pull requests:**
+
+- Crash daemons on Mysql connection error [\#2367](https://github.com/rubykube/peatio/pull/2367) ([dnfd](https://github.com/dnfd))
+
+## [2.3.32](https://github.com/rubykube/peatio/tree/2.3.32) (2019-09-13)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.31...2.3.32)
+
+**Closed issues:**
+
+- Troubles depositing ERC20 [\#2342](https://github.com/rubykube/peatio/issues/2342)
+
+**Merged pull requests:**
+
+- Use grape entity for exposing & documenting market ticker [\#2365](https://github.com/rubykube/peatio/pull/2365) ([ysv](https://github.com/ysv))
+- Add details about fees in trade API [\#2363](https://github.com/rubykube/peatio/pull/2363) ([dnfd](https://github.com/dnfd))
+
+## [2.3.31](https://github.com/rubykube/peatio/tree/2.3.31) (2019-09-11)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.30...2.3.31)
+
+**Merged pull requests:**
+
+- Add ability to change markets precision in Admin API [\#2361](https://github.com/rubykube/peatio/pull/2361) ([ysv](https://github.com/ysv))
+
+## [2.3.30](https://github.com/rubykube/peatio/tree/2.3.30) (2019-09-10)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.29...2.3.30)
+
+**Merged pull requests:**
+
+- Increase trading fees maker & taker precision to 6 digits [\#2360](https://github.com/rubykube/peatio/pull/2360) ([ysv](https://github.com/ysv))
+
+## [2.3.29](https://github.com/rubykube/peatio/tree/2.3.29) (2019-09-06)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.28...2.3.29)
+
+**Merged pull requests:**
+
+- Fix 422 response on successful withdraw action [\#2358](https://github.com/rubykube/peatio/pull/2358) ([dnfd](https://github.com/dnfd))
+
+## [2.3.28](https://github.com/rubykube/peatio/tree/2.3.28) (2019-09-06)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.27...2.3.28)
+
+**Merged pull requests:**
+
+- Integrate ability to withdraw both fiat & crypto with Beneficiary model [\#2355](https://github.com/rubykube/peatio/pull/2355) ([ysv](https://github.com/ysv))
+
+## [2.3.27](https://github.com/rubykube/peatio/tree/2.3.27) (2019-09-06)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.26...2.3.27)
+
+**Merged pull requests:**
+
+- Add endpoint for create fiat deposit [\#2357](https://github.com/rubykube/peatio/pull/2357) ([chumaknadya](https://github.com/chumaknadya))
+
+## [2.3.26](https://github.com/rubykube/peatio/tree/2.3.26) (2019-09-06)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.25...2.3.26)
+
+**Merged pull requests:**
+
+- Add endpoint to select adjustment by ID [\#2354](https://github.com/rubykube/peatio/pull/2354) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.25](https://github.com/rubykube/peatio/tree/2.3.25) (2019-09-05)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.24...2.3.25)
+
+**Merged pull requests:**
+
+- Minor Transfer table updates [\#2356](https://github.com/rubykube/peatio/pull/2356) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.24](https://github.com/rubykube/peatio/tree/2.3.24) (2019-09-05)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.23...2.3.24)
+
+**Merged pull requests:**
+
+- Add actions endpoints for Withdraw and Deposit Admin API [\#2351](https://github.com/rubykube/peatio/pull/2351) ([dnfd](https://github.com/dnfd))
+
+## [2.3.23](https://github.com/rubykube/peatio/tree/2.3.23) (2019-09-05)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.22...2.3.23)
+
+**Merged pull requests:**
+
+- Minor Admin fixes for Blockchain, Order, Trade, Currency [\#2352](https://github.com/rubykube/peatio/pull/2352) ([chumaknadya](https://github.com/chumaknadya))
+
+## [2.3.22](https://github.com/rubykube/peatio/tree/2.3.22) (2019-09-04)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.21...2.3.22)
+
+**Merged pull requests:**
+
+- Beneficiaries model with ability to manage via user API [\#2347](https://github.com/rubykube/peatio/pull/2347) ([mod](https://github.com/mod))
+
+## [2.3.21](https://github.com/rubykube/peatio/tree/2.3.21) (2019-09-03)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.20...2.3.21)
+
+**Merged pull requests:**
+
+- Add public endpoint for trading\_fees [\#2353](https://github.com/rubykube/peatio/pull/2353) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.20](https://github.com/rubykube/peatio/tree/2.3.20) (2019-09-03)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.19...2.3.20)
+
+**Merged pull requests:**
+
+- Add email to withdraw & deposit event\_api payloads [\#2349](https://github.com/rubykube/peatio/pull/2349) ([shal](https://github.com/shal))
+
+## [2.3.19](https://github.com/rubykube/peatio/tree/2.3.19) (2019-09-03)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.18...2.3.19)
+
+**Merged pull requests:**
+
+- Add uid, email field for withdrawal and deposits admin entities [\#2350](https://github.com/rubykube/peatio/pull/2350) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.18](https://github.com/rubykube/peatio/tree/2.3.18) (2019-09-02)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.17...2.3.18)
+
+**Merged pull requests:**
+
+- Minor Wallet Admin API fixes & improvements. Drop parent & nsig from Wallet [\#2348](https://github.com/rubykube/peatio/pull/2348) ([dnfd](https://github.com/dnfd))
+
+## [2.3.17](https://github.com/rubykube/peatio/tree/2.3.17) (2019-09-01)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.16...2.3.17)
+
+**Merged pull requests:**
+
+- Integrate ability to create accounting Adjustments  [\#2325](https://github.com/rubykube/peatio/pull/2325) ([dnfd](https://github.com/dnfd))
+
+## [2.3.16](https://github.com/rubykube/peatio/tree/2.3.16) (2019-08-29)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.15...2.3.16)
+
+**Merged pull requests:**
+
+- Remove uid length limit in members table [\#2346](https://github.com/rubykube/peatio/pull/2346) ([mnaichuk](https://github.com/mnaichuk))
+- Add Admin and Management API for TradingFees [\#2334](https://github.com/rubykube/peatio/pull/2334) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.15](https://github.com/rubykube/peatio/tree/2.3.15) (2019-08-27)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.29...2.3.15)
+
+## [2.2.29](https://github.com/rubykube/peatio/tree/2.2.29) (2019-08-27)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.14...2.2.29)
+
+**Merged pull requests:**
+
+- Use Faker::Blockchain::Bitcoin instead of Faker::Bitcoin [\#2344](https://github.com/rubykube/peatio/pull/2344) ([ysv](https://github.com/ysv))
+- Use Faker::Blockchain::Bitcoin instead of Faker::Bitcoin [\#2343](https://github.com/rubykube/peatio/pull/2343) ([ysv](https://github.com/ysv))
+- Update specs for swagger [\#2340](https://github.com/rubykube/peatio/pull/2340) ([dnfd](https://github.com/dnfd))
+- Add endpoint to list all blockchain clients & provide access to disabled markets in Admin API  [\#2339](https://github.com/rubykube/peatio/pull/2339) ([dnfd](https://github.com/dnfd))
+
+## [2.3.14](https://github.com/rubykube/peatio/tree/2.3.14) (2019-08-26)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.13...2.3.14)
+
+**Merged pull requests:**
+
+- Feature: add gem for support dash [\#2338](https://github.com/rubykube/peatio/pull/2338) ([ymasiuk](https://github.com/ymasiuk))
+- Update API [\#2336](https://github.com/rubykube/peatio/pull/2336) ([dnfd](https://github.com/dnfd))
+
+## [2.3.13](https://github.com/rubykube/peatio/tree/2.3.13) (2019-08-22)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.1.21...2.3.13)
+
+**Merged pull requests:**
+
+- Rewrite validation for buy and sell order in trade\_executor [\#2335](https://github.com/rubykube/peatio/pull/2335) ([mnaichuk](https://github.com/mnaichuk))
+- Remove jq package from gendocs [\#2333](https://github.com/rubykube/peatio/pull/2333) ([dnfd](https://github.com/dnfd))
+- Add missing -y for jq install in bin/gendocs [\#2332](https://github.com/rubykube/peatio/pull/2332) ([mnaichuk](https://github.com/mnaichuk))
+- Use update\_attribute in migrations for skipping validations [\#2331](https://github.com/rubykube/peatio/pull/2331) ([mnaichuk](https://github.com/mnaichuk))
+- Trading Fee Schedule based on Member group [\#2321](https://github.com/rubykube/peatio/pull/2321) ([ysv](https://github.com/ysv))
+- Admin API module for tower [\#2264](https://github.com/rubykube/peatio/pull/2264) ([mod](https://github.com/mod))
+
+## [2.1.21](https://github.com/rubykube/peatio/tree/2.1.21) (2019-08-20)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.28...2.1.21)
+
+## [2.2.28](https://github.com/rubykube/peatio/tree/2.2.28) (2019-08-20)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.12...2.2.28)
+
+**Merged pull requests:**
+
+- Add ability to bump & tag stable branches [\#2330](https://github.com/rubykube/peatio/pull/2330) ([mnaichuk](https://github.com/mnaichuk))
+- Add ability to bump & tag stable branches [\#2329](https://github.com/rubykube/peatio/pull/2329) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.12](https://github.com/rubykube/peatio/tree/2.3.12) (2019-08-20)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.11...2.3.12)
+
+**Merged pull requests:**
+
+- Add ability to bump & tag stable branches [\#2328](https://github.com/rubykube/peatio/pull/2328) ([mnaichuk](https://github.com/mnaichuk))
+- Fail ethereum withdrawal in case of fail status in blockchain [\#2327](https://github.com/rubykube/peatio/pull/2327) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.11](https://github.com/rubykube/peatio/tree/2.3.11) (2019-08-16)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.10...2.3.11)
+
+**Merged pull requests:**
+
+- Don't use validations for updating database in migrations [\#2324](https://github.com/rubykube/peatio/pull/2324) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.10](https://github.com/rubykube/peatio/tree/2.3.10) (2019-08-16)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.9...2.3.10)
+
+## [2.3.9](https://github.com/rubykube/peatio/tree/2.3.9) (2019-08-15)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.8...2.3.9)
+
+**Merged pull requests:**
+
+- Update Admin API [\#2317](https://github.com/rubykube/peatio/pull/2317) ([dnfd](https://github.com/dnfd))
+- Fail ethereum withdrawal in case of fail status in blockchain [\#2302](https://github.com/rubykube/peatio/pull/2302) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.8](https://github.com/rubykube/peatio/tree/2.3.8) (2019-08-15)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.7...2.3.8)
+
+**Merged pull requests:**
+
+- Switch to maker-taker fee model. Major Trade model rework [\#2292](https://github.com/rubykube/peatio/pull/2292) ([mnaichuk](https://github.com/mnaichuk))
+
+## [2.3.7](https://github.com/rubykube/peatio/tree/2.3.7) (2019-08-14)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.6...2.3.7)
+
+**Merged pull requests:**
+
+- Update gem versions to reduce vulnerabilities [\#2318](https://github.com/rubykube/peatio/pull/2318) ([snyk-bot](https://github.com/snyk-bot))
+- Prepare management API for Revenue Share [\#2293](https://github.com/rubykube/peatio/pull/2293) ([shal](https://github.com/shal))
+
+## [2.3.6](https://github.com/rubykube/peatio/tree/2.3.6) (2019-08-12)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.5...2.3.6)
+
+**Merged pull requests:**
+
+- Change run Peatio::Application to Rails.application in config.ru [\#2316](https://github.com/rubykube/peatio/pull/2316) ([ysv](https://github.com/ysv))
+- Upgrade Transfer model. Add gross Revenue account [\#2301](https://github.com/rubykube/peatio/pull/2301) ([ysv](https://github.com/ysv))
+
+## [2.3.5](https://github.com/rubykube/peatio/tree/2.3.5) (2019-08-09)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.4...2.3.5)
+
+**Merged pull requests:**
+
+- Use Vault transit engine for storing Wallet & PaymentAddress sensitive data [\#2310](https://github.com/rubykube/peatio/pull/2310) ([dnfd](https://github.com/dnfd))
+
+## [2.3.4](https://github.com/rubykube/peatio/tree/2.3.4) (2019-08-09)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.3...2.3.4)
+
+**Merged pull requests:**
+
+- Update management/transfers [\#2307](https://github.com/rubykube/peatio/pull/2307) ([dnfd](https://github.com/dnfd))
+- Drop step from blockchain model [\#2282](https://github.com/rubykube/peatio/pull/2282) ([shal](https://github.com/shal))
+
+## [2.3.3](https://github.com/rubykube/peatio/tree/2.3.3) (2019-08-08)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.2...2.3.3)
+
+**Merged pull requests:**
+
+- Update peatio-ripple gem version [\#2306](https://github.com/rubykube/peatio/pull/2306) ([ysv](https://github.com/ysv))
+- Update API doc files structure and naming [\#2305](https://github.com/rubykube/peatio/pull/2305) ([ysv](https://github.com/ysv))
+- Update peatio-ripple gem version [\#2304](https://github.com/rubykube/peatio/pull/2304) ([ysv](https://github.com/ysv))
+- Market & Currency admin forms corrections & improvements [\#2303](https://github.com/rubykube/peatio/pull/2303) ([ysv](https://github.com/ysv))
+- Update gendocs script [\#2300](https://github.com/rubykube/peatio/pull/2300) ([dnfd](https://github.com/dnfd))
+- Add parity wallet gataway and use it instead of peth. Deprecate peth [\#2295](https://github.com/rubykube/peatio/pull/2295) ([streetcrypto7](https://github.com/streetcrypto7))
+
+## [2.3.2](https://github.com/rubykube/peatio/tree/2.3.2) (2019-08-05)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.3.1...2.3.2)
+
+**Closed issues:**
+
+- Microkube Build Failed Using Latest Docker Image [\#2255](https://github.com/rubykube/peatio/issues/2255)
+
+**Merged pull requests:**
+
+- Update peatio-ripple gem version [\#2298](https://github.com/rubykube/peatio/pull/2298) ([mnaichuk](https://github.com/mnaichuk))
+- Add GET API for Operations and Members [\#2285](https://github.com/rubykube/peatio/pull/2285) ([dnfd](https://github.com/dnfd))
+- Add RevShare model. Add state to Trade [\#2283](https://github.com/rubykube/peatio/pull/2283) ([ysv](https://github.com/ysv))
+- Market & Currency admin forms corrections & improvements [\#2278](https://github.com/rubykube/peatio/pull/2278) ([ysv](https://github.com/ysv))
+
+## [2.3.1](https://github.com/rubykube/peatio/tree/2.3.1) (2019-08-01)
+[Full Changelog](https://github.com/rubykube/peatio/compare/2.2.27...2.3.1)
+
+**Merged pull requests:**
+
+- \[ci skip\] Finalize 2-2 release docs [\#2289](https://github.com/rubykube/peatio/pull/2289) ([ysv](https://github.com/ysv))
+
 ## [2.2.27](https://github.com/rubykube/peatio/tree/2.2.27) (2019-08-1)
 
 **Merged pull requests:**
