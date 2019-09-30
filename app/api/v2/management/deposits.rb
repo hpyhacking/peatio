@@ -59,6 +59,11 @@ module API
         post '/deposits/new' do
           member   = Member.find_by(uid: params[:uid])
           currency = Currency.find(params[:currency])
+
+          unless currency.deposit_enabled?
+            error!({ errors: ['management.currency.deposit_disabled'] }, 422)
+          end
+
           data     = { member: member, currency: currency }.merge!(params.slice(:amount, :tid))
           deposit  = ::Deposits::Fiat.new(data)
           if deposit.save

@@ -157,6 +157,18 @@ describe API::V2::Management::Deposits, type: :request do
         expect(Deposit.last.amount.to_s).to eq data[:amount]
       end
     end
+
+    context 'disabled currency' do
+      before do
+        currency.update(deposit_enabled: false)
+      end
+
+      it 'returns error for enabled disabled deposit' do
+        request
+        expect(response).to have_http_status(422)
+        expect(response).to include_api_error('management.currency.deposit_disabled')
+      end
+    end
   end
 
   describe 'get deposit' do

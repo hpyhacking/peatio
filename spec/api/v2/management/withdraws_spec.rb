@@ -104,6 +104,52 @@ describe API::V2::Management::Withdraws, type: :request do
         expect(record.account.locked).to eq amount
       end
 
+      context 'disabled currency' do
+        before do
+          currency.update(withdrawal_enabled: false)
+        end
+
+        it 'returns error for disabled withdrawal' do
+          request
+          expect(response).to have_http_status(422)
+          expect(response).to include_api_error('management.currency.withdrawal_disabled')
+        end
+      end
+
+      context 'withdrawal with beneficiary' do
+        let(:beneficiary) { create(:beneficiary, state: :active, currency: currency) }
+        let(:data) do
+          { uid:      member.uid,
+            currency: currency.code,
+            amount:   amount,
+            beneficiary_id: beneficiary.id }
+        end
+
+        it 'creates new withdraw and immediately submits it' do
+          request
+          expect(response).to have_http_status(201)
+          record = Withdraw.find_by_tid!(JSON.parse(response.body).fetch('tid'))
+          expect(record.sum).to eq 0.1575
+          expect(record.aasm_state).to eq 'submitted'
+          expect(record.rid).to eq beneficiary.rid
+          expect(record.account).to eq account
+          expect(record.account.balance).to eq (1.2 - amount)
+          expect(record.account.locked).to eq amount
+        end
+
+        context 'pending beneficiary' do
+          before do
+            beneficiary.update(state: :pending)
+          end
+
+          it 'returns error for pending beneficiary' do
+            request
+            expect(response).to have_http_status(422)
+            expect(response).to include_api_error('management.beneficiary.invalid_state_for_withdrawal')
+          end
+        end
+      end
+
       context 'action: :process' do
         it 'creates new withdraw and immediately submits it' do
           data.merge!(action: 'process')
