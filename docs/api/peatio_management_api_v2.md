@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.3.39
+## Version: 2.3.40
 
 **Contact information:**  
 openware.com  
@@ -519,6 +519,32 @@ Returns currency by code.
 | ---- | ----------- | ------ |
 | 201 | Returns currency by code. | [Currency](#currency) |
 
+### /markets/update
+
+#### PUT
+##### Description:
+
+Update market.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | Yes | string |
+| state | formData | Market state defines if user can see/trade on current market. | No | string |
+| min_price | formData | Minimum order price. | No | double |
+| min_amount | formData | Minimum order amount. | No | double |
+| amount_precision | formData | Precision for order amount. | No | integer |
+| price_precision | formData | Precision for order price. | No | integer |
+| max_price | formData | Maximum order price. | No | double |
+| position | formData | Market position. | No | integer |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Update market. | [Market](#market) |
+
 ### Models
 
 
@@ -622,3 +648,23 @@ Returns currency by code.
 | precision | string | Currency precision | No |
 | icon_url | string | Currency icon | No |
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
+
+#### Market
+
+Update market.
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| id | string | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | No |
+| name | string | Market name. | No |
+| base_unit | string | Market Base unit. | No |
+| quote_unit | string | Market Quote unit. | No |
+| min_price | double | Minimum order price. | No |
+| max_price | double | Maximum order price. | No |
+| min_amount | double | Minimum order amount. | No |
+| amount_precision | double | Precision for order amount. | No |
+| price_precision | double | Precision for order price. | No |
+| state | string | Market state defines if user can see/trade on current market. | No |
+| position | integer | Market position. | No |
+| created_at | string | Market created time in iso8601 format. | No |
+| updated_at | string | Market updated time in iso8601 format. | No |

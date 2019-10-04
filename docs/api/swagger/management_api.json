@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.39"
+    "version": "2.3.40"
   },
   "swagger": "2.0",
   "produces": [
@@ -70,6 +70,10 @@
     {
       "name": "currencies",
       "description": "Operations about currencies"
+    },
+    {
+      "name": "markets",
+      "description": "Operations about markets"
     }
   ],
   "paths": {
@@ -1581,6 +1585,101 @@
         ],
         "operationId": "postCurrenciesCode"
       }
+    },
+    "/markets/update": {
+      "put": {
+        "description": "Update market.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "state",
+            "description": "Market state defines if user can see/trade on current market.",
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled",
+              "hidden",
+              "locked",
+              "sale",
+              "presale"
+            ],
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_price",
+            "description": "Minimum order price.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_amount",
+            "description": "Minimum order amount.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "amount_precision",
+            "description": "Precision for order amount.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "price_precision",
+            "description": "Precision for order price.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "max_price",
+            "description": "Maximum order price.",
+            "type": "number",
+            "format": "double",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "position",
+            "description": "Market position.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update market.",
+            "schema": {
+              "$ref": "#/definitions/Market"
+            }
+          }
+        },
+        "tags": [
+          "markets"
+        ],
+        "operationId": "putMarketsUpdate"
+      }
     }
   },
   "definitions": {
@@ -1876,6 +1975,70 @@
         }
       },
       "description": "Returns currency by code."
+    },
+    "Market": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets."
+        },
+        "name": {
+          "type": "string",
+          "description": "Market name."
+        },
+        "base_unit": {
+          "type": "string",
+          "description": "Market Base unit."
+        },
+        "quote_unit": {
+          "type": "string",
+          "description": "Market Quote unit."
+        },
+        "min_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Minimum order price."
+        },
+        "max_price": {
+          "type": "number",
+          "format": "double",
+          "description": "Maximum order price."
+        },
+        "min_amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Minimum order amount."
+        },
+        "amount_precision": {
+          "type": "number",
+          "format": "double",
+          "description": "Precision for order amount."
+        },
+        "price_precision": {
+          "type": "number",
+          "format": "double",
+          "description": "Precision for order price."
+        },
+        "state": {
+          "type": "string",
+          "description": "Market state defines if user can see/trade on current market."
+        },
+        "position": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Market position."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Market created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Market updated time in iso8601 format."
+        }
+      },
+      "description": "Update market."
     }
   }
 }
