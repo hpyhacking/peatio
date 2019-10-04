@@ -1,4 +1,4 @@
-FROM ruby:2.6.3 as base
+FROM ruby:2.6.5 as base
 
 MAINTAINER lbellet@heliostech.fr
 

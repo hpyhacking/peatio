@@ -4,7 +4,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 
-ruby '2.6.3'
+ruby '2.6.5'
 
 gem 'ransack', '~> 2.1.1'
 gem 'rails', '~> 5.2.3'
