@@ -25,26 +25,27 @@ class Order < ApplicationRecord
   validates :price, numericality: { greater_than: 0 }, if: ->(order) { order.ord_type == 'limit' }
 
   validates :origin_volume,
-            presence: true,
-            numericality: { greater_than: 0, greater_than_or_equal_to: ->(order){ order.market.min_amount } }
+            numericality: { greater_than: 0, greater_than_or_equal_to: ->(order){ order.market.min_amount } },
+            on: :create
 
   validates :origin_volume, precision: { less_than_or_eq_to: ->(o) { o.market.amount_precision } },
-                            if: ->(o) { o.origin_volume.present? }
+                            if: ->(o) { o.origin_volume.present? }, on: :create
 
   validate  :market_order_validations, if: ->(order) { order.ord_type == 'market' }
 
   validates :price, presence: true, if: :is_limit_order?
 
   validates :price, precision: { less_than_or_eq_to: ->(o) { o.market.price_precision } },
-                    if: ->(o) { o.price.present? }
+                    if: ->(o) { o.price.present? }, on: :create
 
   validates :price,
             numericality: { less_than_or_equal_to: ->(order){ order.market.max_price }},
-            if: ->(order) { order.is_limit_order? && order.market.max_price.nonzero? }
+            if: ->(order) { order.is_limit_order? && order.market.max_price.nonzero? },
+            on: :create
 
   validates :price,
             numericality: { greater_than_or_equal_to: ->(order){ order.market.min_price }},
-            if: :is_limit_order?
+            if: :is_limit_order?, on: :create
 
   attr_readonly :member_id,
                 :bid,
