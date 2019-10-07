@@ -59,5 +59,13 @@ describe API::V2::Admin::Members, type: :request do
         expect(result.first['id']).to eq admin.id
       end
     end
+
+    context 'accounts' do
+      it 'returns accounts for all currencies' do
+        api_get'/api/v2/admin/members', token: token, params: { uid: uid }
+        result = JSON.parse(response.body)
+        expect(result.first['accounts'].count).to eq(Currency.count)
+      end
+    end
   end
 end

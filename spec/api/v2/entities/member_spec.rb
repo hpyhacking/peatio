@@ -13,6 +13,7 @@ describe API::V2::Entities::Member do
     expect(subject.accounts).to match [
       { currency: 'btc',  balance: '0.0', locked: '0.0' },
       { currency: 'eth',  balance: '0.0', locked: '0.0' },
+      { currency: 'eur',  balance: "0.0", locked: '0.0' },
       { currency: 'ring', balance: '0.0', locked: '0.0' },
       { currency: 'trst', balance: '0.0', locked: '0.0' },
       { currency: 'usd',  balance: '0.0', locked: '0.0' },
