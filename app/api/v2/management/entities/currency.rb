@@ -5,144 +5,74 @@ module API
   module V2
     module Management
       module Entities
-        class Currency < Base
+        class Currency < ::API::V2::Entities::Currency
+
           expose(
-            :id,
+            :code,
             documentation: {
-              desc: 'Currency code.',
-              type: String,
-              values: -> { ::Currency.visible.codes },
-              example: -> { ::Currency.visible.first.id }
+              desc: 'Unique currency code.',
+              type: String
             }
           )
 
           expose(
-              :name,
-              documentation: {
-                  type: String,
-                  desc: 'Currency name',
-                  example: -> { ::Currency.visible.first.name }
-              },
-              if: -> (currency){ currency.name.present? }
-          )
-
-          expose(
-            :symbol,
+            :min_collection_amount,
             documentation: {
-              type: String,
-              desc: 'Currency symbol',
-              example: -> { ::Currency.visible.first.symbol }
+              desc: 'Minimal deposit amount that will be collected',
+              example: -> { ::Currency.visible.first.min_collection_amount }
             }
           )
 
           expose(
-            :explorer_transaction,
+            :visible,
             documentation: {
-              desc: 'Currency transaction exprorer url template',
-              example: 'https://testnet.blockchain.info/tx/'
+              type: String,
+              desc: 'Currency display possibility status (true/false).'
+            }
+          )
+
+          expose(
+            :subunits,
+            documentation: {
+              type: Integer,
+              desc: 'Fraction of the basic monetary unit.'
+            }
+          ) { |currency| currency.subunits }
+
+          expose(
+            :options,
+            documentation: {
+              type: JSON,
+              desc: 'Currency options.'
             },
             if: -> (currency){ currency.coin? }
           )
 
           expose(
-            :explorer_address,
+            :position,
             documentation: {
-              desc: 'Currency address exprorer url template',
-              example: 'https://testnet.blockchain.info/address/'
-            },
-            if: -> (currency){ currency.coin? }
+              type: Integer,
+              desc: 'Currency position.'
+            }
           )
 
           expose(
-            :type,
+            :created_at,
+            format_with: :iso8601,
             documentation: {
               type: String,
-              values: -> { ::Currency.types },
-              desc: 'Currency type',
-              example: -> { ::Currency.visible.first.type }
+              desc: 'Currency created time in iso8601 format.'
             }
           )
 
           expose(
-            :deposit_fee,
+            :updated_at,
+            format_with: :iso8601,
             documentation: {
-              desc: 'Currency deposit fee',
-              example: -> { ::Currency.visible.first.deposit_fee }
+              type: String,
+              desc: 'Currency updated time in iso8601 format.'
             }
           )
-
-          expose(
-            :min_deposit_amount,
-            documentation: {
-              desc: 'Minimal deposit amount',
-              example: -> { ::Currency.visible.first.min_deposit_amount }
-            }
-          )
-
-          expose(
-            :withdraw_fee,
-            documentation: {
-              desc: 'Currency withdraw fee',
-              example: -> { ::Currency.visible.first.withdraw_fee }
-            }
-          )
-
-          expose(
-            :min_withdraw_amount,
-            documentation: {
-              desc: 'Minimal withdraw amount',
-              example: -> { ::Currency.visible.first.min_withdraw_amount }
-            }
-          )
-
-          expose(
-            :withdraw_limit_24h,
-            documentation: {
-              desc: 'Currency 24h withdraw limit',
-              example: -> { ::Currency.visible.first.withdraw_limit_24h }
-            }
-          )
-
-          expose(
-            :withdraw_limit_72h,
-            documentation: {
-              desc: 'Currency 72h withdraw limit',
-              example: -> { ::Currency.visible.first.withdraw_limit_72h }
-            }
-          )
-
-          expose(
-            :base_factor,
-            documentation: {
-              desc: 'Currency base factor',
-              example: -> { ::Currency.visible.first.base_factor }
-            }
-          )
-
-          expose(
-            :precision,
-            documentation: {
-              desc: 'Currency precision',
-              example: -> { ::Currency.visible.first.precision }
-            }
-          )
-
-          expose(
-            :icon_url,
-            documentation: {
-              desc: 'Currency icon',
-              example: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg'
-            },
-            if: -> (currency){ currency.icon_url.present? }
-          )
-
-          expose(
-            :min_confirmations,
-            if: ->(currency) { currency.coin? },
-            documentation: {
-              desc: 'Number of confirmations required for confirming deposit or withdrawal'
-            }
-          ) { |c| c.blockchain.min_confirmations }
         end
       end
     end
