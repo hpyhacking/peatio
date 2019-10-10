@@ -1,7 +1,7 @@
 # Peatio Management API v2
 Management API is server-to-server API with high privileges.
 
-## Version: 2.3.41
+## Version: 2.3.42
 
 **Contact information:**  
 openware.com  
@@ -500,6 +500,40 @@ Returns trading_fees table as paginated collection
 | ---- | ----------- |
 | 201 | Returns trading_fees table as paginated collection |
 
+### /currencies/update
+
+#### PUT
+##### Description:
+
+Update  currency.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | formData | Currency code. | Yes | string |
+| name | formData | Currency name | No | string |
+| deposit_fee | formData | Currency deposit fee | No | double |
+| min_deposit_amount | formData | Minimal deposit amount | No | double |
+| min_collection_amount | formData | Minimal deposit amount that will be collected | No | double |
+| withdraw_fee | formData | Currency withdraw fee | No | double |
+| min_withdraw_amount | formData | Minimal withdraw amount | No | double |
+| withdraw_limit_24h | formData | Currency 24h withdraw limit | No | double |
+| withdraw_limit_72h | formData | Currency 72h withdraw limit | No | double |
+| position | formData | Currency position. | No | integer |
+| options | formData | Currency options. | No | json |
+| visible | formData | Currency display possibility status (true/false). | No | boolean |
+| deposit_enabled | formData | Currency deposit possibility status (true/false). | No | boolean |
+| withdrawal_enabled | formData | Currency withdrawal possibility status (true/false). | No | boolean |
+| precision | formData | Currency precision | No | integer |
+| icon_url | formData | Currency icon | No | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Update  currency. | [Currency](#currency) |
+
 ### /currencies/{code}
 
 #### POST
@@ -638,6 +672,8 @@ Returns currency by code.
 | explorer_transaction | string | Currency transaction exprorer url template | No |
 | explorer_address | string | Currency address exprorer url template | No |
 | type | string | Currency type | No |
+| deposit_enabled | string | Currency deposit possibility status (true/false). | No |
+| withdrawal_enabled | string | Currency withdrawal possibility status (true/false). | No |
 | deposit_fee | string | Currency deposit fee | No |
 | min_deposit_amount | string | Minimal deposit amount | No |
 | withdraw_fee | string | Currency withdraw fee | No |
@@ -648,6 +684,14 @@ Returns currency by code.
 | precision | string | Currency precision | No |
 | icon_url | string | Currency icon | No |
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
+| code | string | Unique currency code. | No |
+| min_collection_amount | string | Minimal deposit amount that will be collected | No |
+| visible | string | Currency display possibility status (true/false). | No |
+| subunits | integer | Fraction of the basic monetary unit. | No |
+| options | json | Currency options. | No |
+| position | integer | Currency position. | No |
+| created_at | string | Currency created time in iso8601 format. | No |
+| updated_at | string | Currency updated time in iso8601 format. | No |
 
 #### Market
 

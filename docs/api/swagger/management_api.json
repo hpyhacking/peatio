@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.41"
+    "version": "2.3.42"
   },
   "swagger": "2.0",
   "produces": [
@@ -1554,6 +1554,165 @@
         "operationId": "postFeeScheduleTradingFees"
       }
     },
+    "/currencies/update": {
+      "put": {
+        "description": "Update  currency.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "id",
+            "description": "Currency code.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "name",
+            "description": "Currency name",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "deposit_fee",
+            "description": "Currency deposit fee",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_deposit_amount",
+            "description": "Minimal deposit amount",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_collection_amount",
+            "description": "Minimal deposit amount that will be collected",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_fee",
+            "description": "Currency withdraw fee",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "min_withdraw_amount",
+            "description": "Minimal withdraw amount",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_limit_24h",
+            "description": "Currency 24h withdraw limit",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdraw_limit_72h",
+            "description": "Currency 72h withdraw limit",
+            "type": "number",
+            "format": "double",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "position",
+            "description": "Currency position.",
+            "type": "integer",
+            "format": "int32",
+            "default": 0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "options",
+            "description": "Currency options.",
+            "type": "json",
+            "default": 0.0,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "visible",
+            "description": "Currency display possibility status (true/false).",
+            "type": "boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "deposit_enabled",
+            "description": "Currency deposit possibility status (true/false).",
+            "type": "boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "withdrawal_enabled",
+            "description": "Currency withdrawal possibility status (true/false).",
+            "type": "boolean",
+            "default": true,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "precision",
+            "description": "Currency precision",
+            "type": "integer",
+            "format": "int32",
+            "default": 8,
+            "required": false
+          },
+          {
+            "in": "formData",
+            "name": "icon_url",
+            "description": "Currency icon",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update  currency.",
+            "schema": {
+              "$ref": "#/definitions/Currency"
+            }
+          }
+        },
+        "tags": [
+          "currencies"
+        ],
+        "operationId": "putCurrenciesUpdate"
+      }
+    },
     "/currencies/{code}": {
       "post": {
         "description": "Returns currency by code.",
@@ -1924,6 +2083,14 @@
           "example": "coin",
           "description": "Currency type"
         },
+        "deposit_enabled": {
+          "type": "string",
+          "description": "Currency deposit possibility status (true/false)."
+        },
+        "withdrawal_enabled": {
+          "type": "string",
+          "description": "Currency withdrawal possibility status (true/false)."
+        },
         "deposit_fee": {
           "type": "string",
           "example": "0.0",
@@ -1972,6 +2139,41 @@
         "min_confirmations": {
           "type": "string",
           "description": "Number of confirmations required for confirming deposit or withdrawal"
+        },
+        "code": {
+          "type": "string",
+          "description": "Unique currency code."
+        },
+        "min_collection_amount": {
+          "type": "string",
+          "example": "0.0000356",
+          "description": "Minimal deposit amount that will be collected"
+        },
+        "visible": {
+          "type": "string",
+          "description": "Currency display possibility status (true/false)."
+        },
+        "subunits": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Fraction of the basic monetary unit."
+        },
+        "options": {
+          "type": "json",
+          "description": "Currency options."
+        },
+        "position": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Currency position."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Currency created time in iso8601 format."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Currency updated time in iso8601 format."
         }
       },
       "description": "Returns currency by code."
