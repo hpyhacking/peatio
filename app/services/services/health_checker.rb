@@ -33,8 +33,7 @@ module Services
       end
 
       def check_redis
-        redis = Rails.cache.instance_variable_get(:@data)
-        redis.ping == 'PONG'
+        Rails.cache.redis.ping == 'PONG'
       end
 
       def check_rabbitmq
