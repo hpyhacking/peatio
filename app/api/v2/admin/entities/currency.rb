@@ -7,8 +7,6 @@ module API
       module Entities
         class Currency < API::V2::Entities::Currency
           unexpose(:id)
-          unexpose(:explorer_address)
-          unexpose(:explorer_transaction)
 
           expose(
             :code,
