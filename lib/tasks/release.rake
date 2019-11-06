@@ -5,7 +5,7 @@ def bot_username
 end
 
 def repository_slug
-  ENV.fetch('REPOSITORY_SLUG', 'rubykube/peatio')
+  ENV.fetch('REPOSITORY_SLUG', 'openware/peatio')
 end
 
 namespace 'release' do
