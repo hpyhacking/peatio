@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.43"
+    "version": "2.3.44"
   },
   "swagger": "2.0",
   "produces": [
@@ -4134,6 +4134,16 @@
           "type": "string",
           "example": "฿",
           "description": "Currency symbol"
+        },
+        "explorer_transaction": {
+          "type": "string",
+          "example": "https://testnet.blockchain.info/tx/",
+          "description": "Currency transaction exprorer url template"
+        },
+        "explorer_address": {
+          "type": "string",
+          "example": "https://testnet.blockchain.info/address/",
+          "description": "Currency address exprorer url template"
         },
         "type": {
           "type": "string",

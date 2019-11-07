@@ -1,7 +1,7 @@
 # Peatio Admin API v2
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.43
+## Version: 2.3.44
 
 **Contact information:**  
 openware.com  
@@ -1145,6 +1145,8 @@ Get list of currencies
 | ---- | ---- | ----------- | -------- |
 | name | string | Currency name | No |
 | symbol | string | Currency symbol | No |
+| explorer_transaction | string | Currency transaction exprorer url template | No |
+| explorer_address | string | Currency address exprorer url template | No |
 | type | string | Currency type | No |
 | deposit_enabled | string | Currency deposit possibility status (true/false). | No |
 | withdrawal_enabled | string | Currency withdrawal possibility status (true/false). | No |
