@@ -9,6 +9,7 @@ module API::V2
       mount Account::Deposits
       mount Account::Beneficiaries
       mount Account::Withdraws
+      mount Account::Transactions
     end
   end
 end

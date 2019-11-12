@@ -58,6 +58,7 @@ module API
                                   API::V2::Entities::Currency,
                                   API::V2::Entities::Account,
                                   API::V2::Entities::Deposit,
+                                  API::V2::Entities::Transactions,
                                   API::V2::Entities::Market,
                                   API::V2::Entities::Member,
                                   API::V2::Entities::OrderBook,
