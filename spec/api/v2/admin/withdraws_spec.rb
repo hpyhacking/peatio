@@ -15,8 +15,9 @@ describe API::V2::Admin::Withdraws, type: :request do
     create(:usd_withdraw, amount: 9.0, sum: 9.0, member: admin)
     create(:usd_withdraw, amount: 100.0, sum: 100.0, member: level_3_member)
     create(:btc_withdraw, amount: 42.0, sum: 42.0, txid: 'special_txid', member: admin)
-    create(:btc_withdraw, amount: 11.0, sum: 11.0, member: level_3_member)
-    create(:btc_withdraw, amount: 12.0, sum: 12.0, member: level_3_member)
+    create(:btc_withdraw, amount: 42.0, sum: 42.0, member: admin, aasm_state: :accepted)
+    create(:btc_withdraw, amount: 11.0, sum: 11.0, member: level_3_member, aasm_state: :skipped)
+    create(:btc_withdraw, amount: 12.0, sum: 12.0, member: level_3_member, aasm_state: :errored)
   end
 
   describe 'GET /api/v2/admin/withdraws' do
@@ -73,6 +74,30 @@ describe API::V2::Admin::Withdraws, type: :request do
         expect(actual.map { |a| a['type'] }).to match_array(expected.map { |d| d.coin? ? 'coin' : 'fiat' })
         expect(actual.map { |a| a['uid'] }).to match_array(expected.map { |d| d.member.uid })
         expect(actual.map { |a| a['email'] }).to match_array(expected.map { |d| d.member.email })
+      end
+
+      it 'by state' do
+        api_get url, token: token, params: { state: :skipped }
+
+        actual = JSON.parse(response.body)
+        expected = Withdraw.where(aasm_state: :skipped)
+
+        expect(actual.map { |a| a['state'] }).to all eq 'skipped'
+        expect(actual.length).to eq expected.count
+        expect(actual.map { |a| a['id'] }).to match_array expected.map(&:id)
+        expect(actual.map { |a| a['uid'] }).to match_array(expected.map { |d| d.member.uid })
+      end
+
+      it 'by multiple states' do
+        api_get url, token: token, params: { state: [:skipped, :accepted] }
+
+        actual = JSON.parse(response.body)
+        expected = Withdraw.where(aasm_state: [:skipped, :accepted])
+
+        expect(actual.map { |a| a['state'] }.uniq).to match_array %w[skipped accepted]
+        expect(actual.length).to eq expected.count
+        expect(actual.map { |a| a['id'] }).to match_array expected.map(&:id)
+        expect(actual.map { |a| a['uid'] }).to match_array(expected.map { |d| d.member.uid })
       end
 
       it 'by type' do
