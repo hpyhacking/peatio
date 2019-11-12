@@ -18,19 +18,34 @@ describe API::V2::Account::Balances, type: :request do
 
   describe 'GET api/v2/account/balances' do
 
-    before { api_get '/api/v2/account/balances', token: token }
+    context 'all balances' do
+      before { api_get '/api/v2/account/balances', token: token }
 
-    it { expect(response).to have_http_status 200 }
+      it { expect(response).to have_http_status 200 }
 
-    it 'returns current user balances' do
-      result = JSON.parse(response.body)
-      expect(result).to match [
-        { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0' },
-        { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0' },
-        { 'currency' => 'ring', 'balance' => '0.0',  'locked'  => '0.0' },
-        { 'currency' => 'trst', 'balance' => '0.0',  'locked'  => '0.0' },
-        { 'currency' => 'usd',  'balance' => '0.0',  'locked'  => '0.0' },
-      ]
+      it 'returns current user balances' do
+        result = JSON.parse(response.body)
+        expect(result).to contain_exactly(
+                            { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0' },
+                            { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0' },
+                            { 'currency' => 'ring', 'balance' => '0.0',  'locked'  => '0.0' },
+                            { 'currency' => 'trst', 'balance' => '0.0',  'locked'  => '0.0' },
+                            { 'currency' => 'usd',  'balance' => '0.0',  'locked'  => '0.0' },
+                            )
+      end
+    end
+
+    context 'pagination' do
+      before { api_get '/api/v2/account/balances', {token: token, params: {limit: 2} } }
+
+      it 'limited user balances' do
+        result = JSON.parse(response.body)
+        expect(response).to be_successful
+
+        expect(response.headers.fetch('Total').to_i).to eq Currency.visible.count
+
+        expect(result.size).to eq(2)
+      end
     end
 
     context 'disable currency' do

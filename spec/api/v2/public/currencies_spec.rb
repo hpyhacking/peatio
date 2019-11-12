@@ -81,5 +81,18 @@ describe API::V2::Public::Currencies, type: :request do
       get '/api/v2/public/currencies', params: { type: 'invalid' }
       expect(response).to have_http_status 422
     end
+
+    context 'pagination' do
+      it 'returns paginated currencies' do
+        get '/api/v2/public/currencies', params: { limit: 2 }
+
+        result = JSON.parse(response.body)
+
+        expect(response).to be_successful
+
+        expect(response.headers.fetch('Total').to_i).to eq Currency.visible.count
+        expect(result.size).to eq(2)
+      end
+    end
   end
 end

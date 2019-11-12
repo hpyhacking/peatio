@@ -143,6 +143,14 @@ module API
         )
 
         expose(
+          :position,
+          documentation: {
+            desc: 'Position used for defining currencies order',
+            example: -> { ::Currency.visible.first.precision }
+          }
+        )
+
+        expose(
           :icon_url,
           documentation: {
             desc: 'Currency icon',

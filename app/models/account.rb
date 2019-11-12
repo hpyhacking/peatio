@@ -17,6 +17,7 @@ class Account < ApplicationRecord
   validates :balance, :locked, numericality: { greater_than_or_equal_to: 0.to_d }
 
   scope :visible, -> { joins(:currency).merge(Currency.where(visible: true)) }
+  scope :ordered, -> { joins(:currency).order(position: :asc) }
 
   def as_json_for_event_api
     {

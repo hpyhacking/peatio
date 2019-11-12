@@ -6,6 +6,8 @@ module API
     module Account
       class Balances < Grape::API
 
+        helpers ::API::V2::ParamHelpers
+
         # TODO: Add failures.
         # TODO: Move desc hash options to block once issues are resolved.
         # https://github.com/ruby-grape/grape/issues/1789
@@ -13,8 +15,12 @@ module API
         desc 'Get list of user accounts',
             is_array: true,
             success: API::V2::Entities::Account
+        params do
+          use :pagination
+        end
         get '/balances' do
-          present current_user.accounts.visible, with: Entities::Account
+          present paginate(current_user.accounts.visible.ordered),
+                  with: Entities::Account
         end
 
         desc 'Get user account by currency' do
