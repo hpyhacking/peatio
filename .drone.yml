@@ -1,0 +1,174 @@
+kind: pipeline
+name: default
+
+services:
+- name: database
+  image: mysql:5.7
+  ports:
+    - 3306
+  environment:
+    MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+
+- name: rabbitmq
+  image: rabbitmq:3.7.6-management
+  ports:
+    - 5672
+
+- name: redis
+  image: redis:4.0
+  ports:
+    - 6379
+
+steps:
+# Wait MySQL to be ready for taking connections.
+- name: wait-for-mysql
+  image: jwilder/dockerize
+  commands:
+  - dockerize -wait tcp://database:3306 -timeout 1m
+  when:
+    event:
+    - push
+    - pull_request
+
+# Copy bundler cache from the host machine to your build environment.
+# Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
+- name: restore-bundle-cache
+  pull: default
+  image: drillster/drone-volume-cache
+  settings:
+    restore: true
+    mount:
+    - vendor/bundle
+  volumes:
+  - name: bundle-cache
+    path: /cache
+  when:
+    event:
+    - push
+    - pull_request
+
+# Initialize application. Install dependencies. Migrate database. Run rspec.
+- name: run-rspec
+  image: ruby:2.6.5
+  environment:
+    DATABASE_HOST: database
+    RABBITMQ_HOST: rabbitmq
+    EVENT_API_RABBITMQ_HOST: rabbitmq
+    REDIS_URL: redis://redis:6379
+    RAILS_ENV: test
+  commands:
+  - bin/init_config
+  - bundle install --jobs=$(nproc) --retry=3 --path vendor/bundle
+  - bundle exec rake db:create db:migrate
+  - LOG_LEVEL=warn bundle exec rspec
+  when:
+    event:
+    - push
+    - pull_request
+
+# Update application version, markdown and swagger documentation, then push it to git repository.
+- name: git-tag-and-push
+  image: quay.io/openware/sdk-tools:0.0.2
+  environment:
+    BOT_USERNAME: kite-bot
+    BOT_NAME: Kite Bot
+    BOT_EMAIL: kite-bot@heliostech.fr
+    BRANCH_NAME: ${DRONE_BRANCH}
+    REPO_NAME: ${DRONE_REPO}
+    GITHUB_API_KEY:
+      from_secret: kite_bot_key
+  commands:
+    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile release:push
+  when:
+    event:
+      - push
+    branch:
+      - master
+      - 2-0-stable
+      - 2-1-stable
+      - 2-2-stable
+      - 2-3-stable
+
+# Copy bundler cache from the build environment to your host machine.
+# Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
+- name: rebuild-bundle-cache
+  pull: default
+  image: drillster/drone-volume-cache
+  settings:
+    rebuild: true
+    mount:
+    - vendor/bundle
+  volumes:
+  - name: bundle-cache
+    path: /cache
+  when:
+    event:
+    - push
+    - pull_request
+
+# Copy docker cache from the host machine to your build environment.
+# Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
+- name: restore-docker-cache
+  pull: default
+  image: drillster/drone-volume-cache
+  settings:
+    restore: true
+    mount:
+    - /drone/docker
+  volumes:
+  - name: docker-cache
+    path: /cache
+  when:
+    event:
+    - push
+    branch:
+    - master
+
+# Build and push docker image using ".tags" file.
+- name: docker-build-and-push
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: quay_username
+    password:
+      from_secret: quay_password
+    repo: quay.io/openware/peatio
+    registry: quay.io
+  when:
+    event:
+      - push
+    branch:
+      - master
+      - 2-0-stable
+      - 2-1-stable
+      - 2-2-stable
+      - 2-3-stable
+
+# Copy docker cache from the build environment to your host machine.
+# Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
+- name: rebuild-docker-cache
+  pull: default
+  image: drillster/drone-volume-cache
+  settings:
+    rebuild: true
+    mount:
+    - /drone/docker
+  volumes:
+  - name: docker-cache
+    path: /cache
+  when:
+    event:
+    - push
+    branch:
+    - master
+
+volumes:
+- name: bundle-cache
+  host:
+    path: /tmp/bundle
+- name: docker-cache
+  host:
+    path: /tmp/docker
+
+image_pull_secrets:
+  - dockerconfigjson
