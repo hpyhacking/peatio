@@ -82,6 +82,13 @@ module API
             desc: 'The datetime when deposit was completed..'
           }
         )
+        expose(
+          :tid,
+          documentation: {
+            type: String,
+            desc: 'The shared transaction ID'
+          }
+        )
       end
     end
   end
