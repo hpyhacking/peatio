@@ -63,7 +63,6 @@ steps:
   - LOG_LEVEL=warn bundle exec rspec
   when:
     event:
-    - push
     - pull_request
 
 # Update application version, markdown and swagger documentation, then push it to git repository.
@@ -161,6 +160,23 @@ steps:
     - push
     branch:
     - master
+
+- name: "Notify staging"
+  image: plugins/slack
+  settings:
+    webhook:
+      from_secret: peatio_slack_webhook
+    channel:
+      from_secret: peatio_slack_channel
+    template: >
+      {{#success build.status}}
+        [SUCCESS] {{ build.event }} to branch {{ build.branch }} by {{ build.author }} staging has succeeded!
+      {{else}}
+        [FAILURE] {{ build.event }} to branch {{ build.branch }} by {{ build.author }} staging has failed!
+      {{/success}}
+      Check the build info here: {{ build.link }}
+  when:
+    status: [success, failure]
 
 volumes:
 - name: bundle-cache
