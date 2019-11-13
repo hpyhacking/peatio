@@ -30,11 +30,11 @@ You can find a format of these events below in the doc.
 
 ## Public channels architecture
 
-![scheme](assets/scheme_ranger_public_channels.png)
+![scheme](images/peatio/scheme_ranger_public_channels.png)
 
 ## Private channels architecture
 
-![scheme](assets/scheme_ranger_private_channels.png)
+![scheme](images/peatio/scheme_ranger_private_channels.png)
 
 ### Authentication
 
