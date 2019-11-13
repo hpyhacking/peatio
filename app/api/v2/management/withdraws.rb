@@ -88,6 +88,7 @@ module API
           optional :beneficiary_id, type: String, desc: 'ID of Active Beneficiary belonging to user.'
           requires :currency,       type: String, values: -> { Currency.codes(bothcase: true) }, desc: 'The currency code.'
           requires :amount,         type: BigDecimal, desc: 'The amount to withdraw.'
+          optional :note,           type: String, desc: 'The note for withdraw.'
           optional :action,         type: String, values: %w[process], desc: 'The action to perform.'
 
           exactly_one_of :rid, :beneficiary_id
@@ -107,7 +108,7 @@ module API
             error!({ errors: ['management.beneficiary.invalid_state_for_withdrawal'] }, 422)
           end
 
-          declared_params = declared(params, include_missing: false).slice(:tid, :rid).merge(
+          declared_params = declared(params, include_missing: false).slice(:tid, :rid, :note).merge(
             sum: params[:amount],
             member: member,
             currency: currency,

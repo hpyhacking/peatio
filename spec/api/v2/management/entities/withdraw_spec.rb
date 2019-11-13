@@ -15,6 +15,7 @@ describe API::V2::Management::Entities::Withdraw do
     it { expect(subject.uid).to eq record.member.uid }
     it { expect(subject.type).to eq 'fiat' }
     it { expect(subject.amount).to eq record.amount.to_s }
+    it { expect(subject.note).to eq record.note }
     it { expect(subject.fee).to eq record.fee.to_s }
     it { expect(subject.respond_to?(:txid)).to be_falsey }
     it { expect(subject.state).to eq record.aasm_state }
@@ -34,6 +35,7 @@ describe API::V2::Management::Entities::Withdraw do
     it { expect(subject.uid).to eq record.member.uid }
     it { expect(subject.type).to eq 'coin' }
     it { expect(subject.amount).to eq record.amount.to_s }
+    it { expect(subject.note).to eq record.note }
     it { expect(subject.fee).to eq record.fee.to_s }
     it { expect(subject.blockchain_txid).to eq record.txid }
     it { expect(subject.state).to eq record.aasm_state }

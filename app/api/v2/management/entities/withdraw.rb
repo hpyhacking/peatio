@@ -9,6 +9,7 @@ module API
           expose :tid, documentation: { type: Integer, desc: 'The shared transaction ID.' }
           expose(:uid, documentation: { type: String, desc: 'The shared user ID.' }) { |w| w.member.uid }
           expose :currency_id, as: :currency, documentation: { type: String, desc: 'The currency code.' }
+          expose :note, documentation: { type: String, desc: 'The note for withdraw.' }
           expose(:type, documentation: { type: String, desc: 'The withdraw type (fiat or coin).' }) { |w| w.class.name.demodulize.underscore }
           expose :amount, documentation: { type: String, desc: 'The withdraw amount excluding fee.' }, format_with: :decimal
           expose :fee, documentation: { type: String, desc: 'The exchange fee.' }, format_with: :decimal
