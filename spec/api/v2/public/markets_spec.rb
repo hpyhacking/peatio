@@ -96,7 +96,7 @@ describe API::V2::Public::Markets, type: :request do
         expect(response).to be_successful
 
         result = JSON.parse(response.body)
-        expect(result['asks']).to eq asks.reverse
+        expect(result['asks']).to eq asks
         expect(result['bids']).to eq bids
       end
     end

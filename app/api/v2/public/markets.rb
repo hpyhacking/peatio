@@ -95,7 +95,7 @@ module API
           end
           get ":market/depth" do
             global = Global[params[:market]]
-            asks = global.asks[0,params[:limit]].reverse
+            asks = global.asks[0,params[:limit]]
             bids = global.bids[0,params[:limit]]
             { timestamp: Time.now.to_i, asks: asks, bids: bids }
           end
