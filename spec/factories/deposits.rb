@@ -11,6 +11,7 @@ FactoryBot.define do
       address { Faker::Blockchain::Bitcoin.address }
       txid { Faker::Lorem.characters(64) }
       txout { 0 }
+      block_number { rand(1..1349999) }
     end
 
     factory :deposit_usd, class: Deposits::Fiat do

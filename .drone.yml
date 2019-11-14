@@ -67,7 +67,7 @@ steps:
 
 # Update application version, markdown and swagger documentation, then push it to git repository.
 - name: git-tag-and-push
-  image: quay.io/openware/sdk-tools:0.0.2
+  image: quay.io/openware/sdk-tools:0.0.3
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot

@@ -64,6 +64,15 @@ module API
         )
 
         expose(
+          :confirmations,
+          expose_nil: false,
+          documentation: {
+            type: Integer,
+            desc: 'Number of confirmations.'
+          }
+        )
+
+        expose(
           :updated_at,
           format_with: :iso8601,
           documentation: {

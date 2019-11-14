@@ -91,18 +91,32 @@ describe API::V2::Account::Transactions, type: :request do
         expect(update_time).to eq(update_time.sort)
       end
 
-      it 'return only transactions with BTC currency' do
+      it 'returns only transactions with BTC currency' do
         api_get '/api/v2/account/transactions', params: { currency: 'btc' }, token: token
         result = JSON.parse(response.body)
 
         expect(result.count).to eq 6
       end
 
-      it 'return only transactions with USD currency' do
+      it 'returns only transactions with USD currency' do
         api_get '/api/v2/account/transactions', params: { currency: 'USD' }, token: token
         result = JSON.parse(response.body)
 
         expect(result.count).to eq 18
+      end
+
+      it 'returns nil in confirmations field for fiat' do
+        api_get '/api/v2/account/transactions', params: { currency: 'USD' }, token: token
+        result = JSON.parse(response.body)
+
+        expect(result.pluck('confimations').none?).to be_truthy
+      end
+
+      it 'returns valid number in confirmations field for coin' do
+        api_get '/api/v2/account/transactions', params: { currency: 'btc' }, token: token
+        result = JSON.parse(response.body)
+
+        expect(result.pluck('confimations').any? { |c| c.nil? ? true : c > 1 }).to be_truthy
       end
     end
 
