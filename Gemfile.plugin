@@ -4,6 +4,6 @@ git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 # List your plugins here.
 
 gem 'peatio-litecoin', '~> 0.2.0'
-gem 'peatio-ripple', '~> 0.1.1'
-gem 'peatio-bitcoincash', '~> 0.1.0'
-gem 'peatio-dash', '~> 0.1.1'
+gem 'peatio-ripple', '~> 0.1.2'
+gem 'peatio-bitcoincash', '~> 0.1.1'
+gem 'peatio-dash', '~> 0.1.2'
