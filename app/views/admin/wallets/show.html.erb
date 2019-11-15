@@ -46,13 +46,7 @@
       <div class="card">
         <div class="card-body">
           <div class="form-group" id="dynamic_form">
-
-            <% if @wallet.new_record? || @wallet.gateway != 'bitgo' %>
-              <%=  render partial: 'default_form', locals: { wallet: @wallet } %>
-            <% else %>
-              <%=  render partial: 'bitgo_form', locals: { wallet: @wallet } %>
-            <% end %>
-
+            <%=  render partial: 'default_form', locals: { wallet: @wallet } %>
           </div>
         </div>
       </div>

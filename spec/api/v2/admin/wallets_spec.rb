@@ -32,6 +32,14 @@ describe API::V2::Admin::Wallets, type: :request do
       expect(response.code).to eq '403'
       expect(response).to include_api_error('admin.ability.not_permitted')
     end
+
+    it 'returns information about specified wallet' do
+      api_get "/api/v2/admin/wallets/#{wallet.id}", token: token
+      expect(response).to be_successful
+      result = JSON.parse(response.body)
+
+      expect(result['settings']).not_to include('secret')
+    end
   end
 
   describe 'GET /api/v2/admin/wallets' do
