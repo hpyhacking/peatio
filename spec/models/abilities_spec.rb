@@ -45,6 +45,7 @@ describe Abilities do
     it { is_expected.to be_able_to(:manage, Wallet.new) }
     it { is_expected.to be_able_to(:read, PaymentAddress.new) }
     it { is_expected.to be_able_to(:read, Member.new) }
+    it { is_expected.to be_able_to(:update, Member.new) }
     it { is_expected.to be_able_to(:read, Order.new) }
     it { is_expected.to be_able_to(:update, Order.new) }
     it { is_expected.to be_able_to(:read, Trade.new) }

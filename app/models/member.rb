@@ -27,6 +27,12 @@ class Member < ApplicationRecord
 
   attr_readonly :email
 
+  class << self
+    def groups
+      TradingFee.distinct.pluck(:group)
+    end
+  end
+
   def trades
     Trade.where('maker_id = ? OR taker_id = ?', id, id)
   end
