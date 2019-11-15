@@ -67,7 +67,7 @@ steps:
 
 # Update application version, markdown and swagger documentation, then push it to git repository.
 - name: git-tag-and-push
-  image: quay.io/openware/sdk-tools:0.0.3
+  image: quay.io/openware/sdk-tools:0.0.6
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
@@ -78,6 +78,7 @@ steps:
       from_secret: kite_bot_key
   commands:
     - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile release:push
+    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile ci:write_version
   when:
     event:
       - push
