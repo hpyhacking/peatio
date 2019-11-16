@@ -65,9 +65,9 @@ steps:
     event:
     - pull_request
 
-# Update application version, markdown and swagger documentation, then push it to git repository.
+# Update application version
 - name: git-tag-and-push
-  image: quay.io/openware/sdk-tools:0.0.6
+  image: quay.io/openware/sdk-tools:1.0.0
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
@@ -77,8 +77,35 @@ steps:
     GITHUB_API_KEY:
       from_secret: kite_bot_key
   commands:
-    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile release:push
-    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile ci:write_version
+    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile release:push ci:write_version
+  when:
+    event:
+      - push
+    branch:
+      - master
+      - 2-0-stable
+      - 2-1-stable
+      - 2-2-stable
+      - 2-3-stable
+
+# Update changelog and API documentation, then push it to sdk repository.
+- name: docs-generate
+  image: quay.io/openware/sdk-tools:1.0.0
+  environment:
+    BOT_USERNAME: kite-bot
+    BOT_NAME: Kite Bot
+    BOT_EMAIL: kite-bot@heliostech.fr
+    REPO_NAME: ${DRONE_REPO}
+    BRANCH_NAME: ${DRONE_BRANCH}
+    SDK_BRANCH: ${DRONE_BRANCH}
+    GITHUB_API_KEY:
+      from_secret: kite_bot_key
+  commands:
+    - cd /sdk
+    - bundle exec rake ci:pull
+    - bundle exec rake ci:changelog['/drone/src/']
+    - bundle exec rake ci:copy_docs['/drone/src/']
+    - bundle exec rake ci:push
   when:
     event:
       - push
@@ -162,22 +189,29 @@ steps:
     branch:
     - master
 
-- name: "Notify staging"
-  image: plugins/slack
-  settings:
-    webhook:
-      from_secret: peatio_slack_webhook
-    channel:
-      from_secret: peatio_slack_channel
-    template: >
-      {{#success build.status}}
-        [SUCCESS] {{ build.event }} to branch {{ build.branch }} by {{ build.author }} staging has succeeded!
-      {{else}}
-        [FAILURE] {{ build.event }} to branch {{ build.branch }} by {{ build.author }} staging has failed!
-      {{/success}}
-      Check the build info here: {{ build.link }}
+# notify telegram and slack
+- name: telegram-and-slack-notifying
+  image: quay.io/openware/sdk-tools:1.0.0
+  environment:
+    REPO_NAME: ${DRONE_REPO}
+    BRANCH_NAME: ${DRONE_BRANCH}
+    TELEGRAM_BOT_TOKEN:
+      from_secret: telegram_bot_token
+    TELEGRAM_CHAT_ID:
+      from_secret: telegram_chat_id
+    GITHUB_API_KEY:
+      from_secret: kite_bot_key
+  commands:
+    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile sdk:notify:telegram
   when:
-    status: [success, failure]
+    event:
+      - push
+    branch:
+      - master
+      - 2-0-stable
+      - 2-1-stable
+      - 2-2-stable
+      - 2-3-stable
 
 volumes:
 - name: bundle-cache
