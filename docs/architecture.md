@@ -86,6 +86,8 @@ Our goal and roadmap is to provide advanced API endpoints in order to be able to
 
 Peatio microkube is the recommended development, test and integration environment for new developers.
 
+Bundler 2.0.2
+
 [Peatio Microkube](https://github.com/rubykube/microkube)
 
 
