@@ -67,9 +67,11 @@ module Workers
       end
 
       def initialize_engine(market)
-        create_engine market
-        load_orders   market
-        start_engine  market
+        engine = create_engine(market)
+        load_orders(market)
+        engine.initializing = false
+        engine.publish_snapshot
+        start_engine(market)
       end
 
       def create_engine(market)

@@ -25,6 +25,10 @@ module Matching
       end
     end
 
+    def total
+      @orders.map(&:volume).sum
+    end
+
     def remove(order)
       @orders.delete_if { |o| o.id == order.id }
     end

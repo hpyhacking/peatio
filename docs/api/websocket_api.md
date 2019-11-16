@@ -23,18 +23,18 @@ List of supported public streams:
 
 List of supported private streams (requires authentication):
 * [`order`](#order)
-* [`trade`](#trade) 
+* [`trade`](#trade)
 
 You can find a format of these events below in the doc.
 
 
 ## Public channels architecture
 
-![scheme](../images/peatio/scheme_ranger_public_channels.png)
+![scheme](images/peatio/scheme_ranger_public_channels.png)
 
 ## Private channels architecture
 
-![scheme](../images/peatio/scheme_ranger_private_channels.png)
+![scheme](images/peatio/scheme_ranger_private_channels.png)
 
 ### Authentication
 
@@ -106,9 +106,11 @@ Depending on what trade happend server will send the `ask` and `bid` details.
 
 ### Public streams
 
-#### Update
+#### Order-Book update
 
-Here is structure of `<market.update>` event:
+This stream sends periodically the full order-book with a maximum or 300 price levels for every side.
+
+Here is structure of `<market>.update` event:
 
 | Field  | Description                                             |
 | ------ | ------------------------------------------------------- |
@@ -119,14 +121,57 @@ Example:
 
 ```ruby
 {
-  asks: [[0.4e1, 0.1e-1], [0.3e1, 0.401e1]], # first is price & second is total volume
-  bids: [[0.5e1, 0.4e1]]
+  asks: [["4.0", "0.01"], ["3.0", "4.01"]], # first is price & second is total volume
+  bids: [["3.5", "4.0"]]
 }
 ```
 
+#### Order-Book Incremental
+
+This stream sends a snapshot of the order-book at the subscription time, then it sends increments. Volumes information in increments replace the previous values. If the volume is zero the price point should be removed from the order-book.
+
+Register to stream `<market>.ob-inc`to receive snapshot and increments messages.
+
+Example of order-book snapshot:
+
+```json
+{
+    "eurusd.ob-snap":{
+        "asks":[
+            ["15.0","21.7068"],
+            ["20.0","100.2068"],
+            ["20.5","30.2068"],
+            ["30.0","21.2068"]
+        ],
+        "bids":[
+            ["10.95","21.7068"],
+            ["10.90","65.2068"],
+            ["10.85","55.2068"],
+            ["10.70","30.2068"]
+        ]
+    }
+}
+```
+
+
+
+Example of order-book increment message:
+
+```json
+ {
+     "eurusd.ob-inc":{
+         "asks":[
+             ["15.0","22.1257"]
+         ]
+     }
+ }
+```
+
+
+
 #### Trades
 
-Here is structure of `<market.trades>` event expose as array with trades:
+Here is structure of `<market>.trades` event expose as array with trades:
 
 | Field          | Description                                  |
 | -------------- | -------------------------------------------- |

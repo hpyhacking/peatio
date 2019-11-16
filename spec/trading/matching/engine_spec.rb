@@ -654,4 +654,108 @@ describe Matching::Engine do
       expect(subject.queue.first).to eq [:trade_executor, { action: "execute", trade: { market_id: market.id, maker_order_id: ask.id, taker_order_id: bid.id, strike_price: price, amount: volume, total: '50.0'.to_d } }, { persistent: false }]
     end
   end
+
+  context 'publish_increment' do
+    before(:each) { subject.initializing = false }
+
+    it 'should publish increment of orderbook' do
+      Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-inc", { "asks" => ["10.0", "5.0"], "sequence" => 2, })
+      Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-inc", { "bids" => ["10.0", "5.0"], "sequence" => 3, })
+
+      subject.publish_increment(market.id, :ask, ask.price, ask.volume)
+      subject.publish_increment(market.id, :bid, bid.price, bid.volume)
+    end
+  end
+
+  context 'publish_snapshot' do
+    let(:ask1)    { Matching.mock_limit_order(type: :ask, price: "14".to_d, volume: "1.0".to_d) }
+    let(:ask2)    { Matching.mock_limit_order(type: :ask, price: "12".to_d, volume: "1.0".to_d) }
+    let(:bid1)    { Matching.mock_limit_order(type: :bid, price: "11".to_d, volume: "2.0".to_d) }
+    let(:bid2)    { Matching.mock_limit_order(type: :bid, price: "10".to_d, volume: "2.0".to_d) }
+
+    it 'should publish snapshot of orderbook' do
+      subject.submit(ask1)
+      subject.submit(ask2)
+      subject.submit(bid1)
+      subject.submit(bid2)
+
+      Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-snap", {
+        "asks" => [["12.0", "1.0"], ["14.0", "1.0"]],
+        "bids" => [["11.0", "2.0"], ["10.0", "2.0"]],
+        "sequence" => 1,
+      })
+      subject.publish_snapshot
+    end
+
+    context 'periodic publish snapshot time' do
+      before(:each) { subject.initializing = false }
+
+      it 'should publish snapshot of orderbook and set increment_count to 1' do
+        subject.snapshot_time = Time.now - 80.second
+        subject.submit(ask1)
+        subject.submit(bid1)
+        Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-snap", {
+          "asks" => [["14.0", "1.0"]],
+          "bids" => [["11.0", "2.0"]],
+          "sequence" => 1,
+        })
+        Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
+        subject.publish_increment(market.id, :ask, bid1.price, bid1.volume)
+        expect(subject.increment_count).to eq(1)
+      end
+
+      it 'should publish snapshot of orderbook (snapshot_time >= 1m and increment count < 20)' do
+        subject.snapshot_time = Time.now - 80.second
+        subject.submit(ask1)
+        subject.submit(bid1)
+        Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-snap", {
+          "asks" => [["14.0", "1.0"]],
+          "bids" => [["11.0", "2.0"]],
+          "sequence" => 1,
+        })
+        Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
+        subject.publish_increment(market.id, :ask, bid1.price, bid1.volume)
+      end
+
+      it 'should publish snapshot of orderbook (snapshot_time > 10s and increment count => 20)' do
+        subject.snapshot_time = Time.now - 11.second
+        subject.increment_count = 20
+        subject.submit(ask1)
+        subject.submit(bid1)
+        Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-snap", {
+          "asks" => [["14.0", "1.0"]],
+          "bids" => [["11.0", "2.0"]],
+          "sequence" => 1
+        })
+        Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
+        subject.publish_increment(market.id, :ask, bid1.price, bid1.volume)
+      end
+
+      it 'shouldnt publish snapshot of orderbook (snapshot_time <= 1m and increment count < 20)' do
+        subject.snapshot_time = Time.now
+        subject.submit(ask1)
+        subject.submit(bid1)
+        Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-snap", {
+          "asks" => [["14.0", "1.0"]],
+          "bids" => [["11.0", "2.0"]],
+          "sequence" => 1
+        }).never
+        Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
+        subject.publish_increment(market.id, :ask, bid1.price, bid1.volume)
+      end
+
+      it 'shouldnt publish snapshot of orderbook (snapshot_time < 10s and increment count => 20)' do
+        subject.snapshot_time = Time.now - 1.second
+        subject.increment_count = 20
+        subject.submit(ask1)
+        subject.submit(bid1)
+        Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-snap", {
+          "asks" => [["14.0", "1.0"]],
+          "bids" => [["11.0", "2.0"]],
+        }).never
+        Peatio::Ranger::Events.expects(:publish).with("public", market.id, "ob-inc", { "asks" => ["11.0", "2.0"], "sequence" => 2 })
+        subject.publish_increment(market.id, :ask, bid1.price, bid1.volume)
+      end
+    end
+  end
 end
