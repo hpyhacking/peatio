@@ -160,6 +160,7 @@ Creates new withdraw. The behaviours for fiat and crypto withdraws are different
 | beneficiary_id | formData | ID of Active Beneficiary belonging to user. | No | string |
 | currency | formData | The currency code. | Yes | string |
 | amount | formData | The amount to withdraw. | Yes | double |
+| note | formData | The note for withdraw. | No | string |
 | action | formData | The action to perform. | No | string |
 
 ##### Responses
@@ -618,6 +619,7 @@ Returns withdraws as paginated collection.
 | tid | integer | The shared transaction ID. | No |
 | uid | string | The shared user ID. | No |
 | currency | string | The currency code. | No |
+| note | string | The note for withdraw. | No |
 | type | string | The withdraw type (fiat or coin). | No |
 | amount | string | The withdraw amount excluding fee. | No |
 | fee | string | The exchange fee. | No |
@@ -682,6 +684,7 @@ Returns currency by code.
 | withdraw_limit_72h | string | Currency 72h withdraw limit | No |
 | base_factor | string | Currency base factor | No |
 | precision | string | Currency precision | No |
+| position | integer | Currency position. | No |
 | icon_url | string | Currency icon | No |
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
 | code | string | Unique currency code. | No |
@@ -689,7 +692,6 @@ Returns currency by code.
 | visible | string | Currency display possibility status (true/false). | No |
 | subunits | integer | Fraction of the basic monetary unit. | No |
 | options | json | Currency options. | No |
-| position | integer | Currency position. | No |
 | created_at | string | Currency created time in iso8601 format. | No |
 | updated_at | string | Currency updated time in iso8601 format. | No |
 

@@ -2602,23 +2602,26 @@
         ],
         "parameters": [
           {
-            "in": "query",
+            "in": "formData",
             "name": "state",
             "description": "The withdrawal state.",
-            "type": "string",
-            "enum": [
-              "prepared",
-              "submitted",
-              "rejected",
-              "accepted",
-              "skipped",
-              "processing",
-              "succeed",
-              "canceled",
-              "failed",
-              "errored",
-              "confirming"
-            ],
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "prepared",
+                "submitted",
+                "rejected",
+                "accepted",
+                "skipped",
+                "processing",
+                "succeed",
+                "canceled",
+                "failed",
+                "errored",
+                "confirming"
+              ]
+            },
             "required": false
           },
           {
@@ -3473,6 +3476,89 @@
         "operationId": "getLiabilities"
       }
     },
+    "/members/{uid}": {
+      "put": {
+        "description": "Set user group.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uid",
+            "description": "The shared user ID.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "group",
+            "description": "User gruop",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Set user group.",
+            "schema": {
+              "$ref": "#/definitions/Member"
+            }
+          }
+        },
+        "tags": [
+          "members"
+        ],
+        "operationId": "putMembersUid"
+      },
+      "get": {
+        "description": "Get a member.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "uid",
+            "description": "The shared user ID.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a member.",
+            "schema": {
+              "$ref": "#/definitions/Member"
+            }
+          }
+        },
+        "tags": [
+          "members"
+        ],
+        "operationId": "getMembersUid"
+      }
+    },
+    "/members/groups": {
+      "get": {
+        "description": "Get available members groups.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Get available members groups."
+          }
+        },
+        "tags": [
+          "members"
+        ],
+        "operationId": "getMembersGroups"
+      }
+    },
     "/members": {
       "get": {
         "description": "Get all members, result is paginated.",
@@ -3502,6 +3588,20 @@
               "member",
               "broker",
               "trader"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "group",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "any",
+              "vip-0",
+              "vip-1",
+              "vip-2",
+              "vip-3"
             ],
             "required": false
           },
@@ -4198,6 +4298,11 @@
           "format": "int32",
           "description": "Currency precision."
         },
+        "position": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Currency position."
+        },
         "icon_url": {
           "type": "string",
           "example": "https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg",
@@ -4219,11 +4324,6 @@
           "type": "number",
           "format": "double",
           "description": "Minimal collection amount."
-        },
-        "position": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Currency position."
         },
         "visible": {
           "type": "string",
@@ -4412,6 +4512,10 @@
           "type": "string",
           "description": "The datetime when deposit was completed."
         },
+        "tid": {
+          "type": "string",
+          "description": "Deposit tid."
+        },
         "member": {
           "type": "string",
           "description": "The member id."
@@ -4441,10 +4545,6 @@
         "type": {
           "type": "string",
           "description": "Deposit type (fiat or coin)."
-        },
-        "tid": {
-          "type": "string",
-          "description": "Deposit tid."
         },
         "spread": {
           "type": "string",
@@ -4700,6 +4800,10 @@
         "role": {
           "type": "string",
           "description": "Member's role."
+        },
+        "group": {
+          "type": "string",
+          "description": "Member's group."
         },
         "state": {
           "type": "string",

@@ -460,6 +460,13 @@
           },
           {
             "in": "formData",
+            "name": "note",
+            "description": "The note for withdraw.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "formData",
             "name": "action",
             "description": "The action to perform.",
             "type": "string",
@@ -1923,6 +1930,10 @@
           "type": "string",
           "description": "The currency code."
         },
+        "note": {
+          "type": "string",
+          "description": "The note for withdraw."
+        },
         "type": {
           "type": "string",
           "description": "The withdraw type (fiat or coin)."
@@ -2131,6 +2142,11 @@
           "example": 8,
           "description": "Currency precision"
         },
+        "position": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Currency position."
+        },
         "icon_url": {
           "type": "string",
           "example": "https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg",
@@ -2161,11 +2177,6 @@
         "options": {
           "type": "json",
           "description": "Currency options."
-        },
-        "position": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Currency position."
         },
         "created_at": {
           "type": "string",

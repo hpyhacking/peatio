@@ -233,6 +233,13 @@ Get the order book of specified market.
 
 Get all available markets.
 
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+
 ##### Responses
 
 | Code | Description | Schema |
@@ -250,6 +257,8 @@ Get list of currencies
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
 | type | query | Currency type | No | string |
 
 ##### Responses
@@ -276,6 +285,30 @@ Get a currency
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get a currency | [Currency](#currency) |
+
+### /account/transactions
+
+#### GET
+##### Description:
+
+Get your transactions history.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| currency | query | Currency code | No | string |
+| order_by | query | Sorting order | No | string |
+| time_from | query | An integer represents the seconds elapsed since Unix epoch. | No | integer |
+| time_to | query | An integer represents the seconds elapsed since Unix epoch. | No | integer |
+| limit | query | Limit the number of returned transactions. Default to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get your transactions history. |
 
 ### /account/withdraws
 
@@ -501,6 +534,13 @@ Get user account by currency
 ##### Description:
 
 Get list of user accounts
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
+| page | query | Specify the page of paginated results. | No | integer |
 
 ##### Responses
 
@@ -765,6 +805,7 @@ Get a currency
 | withdraw_limit_72h | string | Currency 72h withdraw limit | No |
 | base_factor | string | Currency base factor | No |
 | precision | string | Currency precision | No |
+| position | string | Position used for defining currencies order | No |
 | icon_url | string | Currency icon | No |
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
 
@@ -816,6 +857,7 @@ Get your deposits history.
 | state | string | Deposit state. | No |
 | created_at | string | The datetime when deposit was created. | No |
 | completed_at | string | The datetime when deposit was completed.. | No |
+| tid | string | The shared transaction ID | No |
 
 #### Account
 
@@ -826,6 +868,21 @@ Get list of user accounts
 | currency | string | Currency code. | No |
 | balance | double | Account balance. | No |
 | locked | double | Account locked funds. | No |
+
+#### Transactions
+
+| Name | Type | Description | Required |
+| ---- | ---- | ----------- | -------- |
+| address | string | Recipient address of transaction. | No |
+| currency | string | Transaction currency id. | No |
+| amount | double | Transaction amount. | No |
+| fee | double | Transaction fee. | No |
+| txid | string | Transaction id. | No |
+| state | string | Transaction state. | No |
+| note | string | Withdraw note. | No |
+| confirmations | integer | Number of confirmations. | No |
+| updated_at | string | Transaction updated time in iso8601 format. | No |
+| type | string | Type of transaction | No |
 
 #### Member
 

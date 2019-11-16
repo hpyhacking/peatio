@@ -547,6 +547,28 @@
         "produces": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get all available markets.",
@@ -571,6 +593,26 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          },
           {
             "in": "query",
             "name": "type",
@@ -637,6 +679,90 @@
           "public"
         ],
         "operationId": "getPublicCurrenciesId"
+      }
+    },
+    "/account/transactions": {
+      "get": {
+        "description": "Get your transactions history.",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "currency",
+            "description": "Currency code",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "trst",
+              "usd",
+              "BTC",
+              "ETH",
+              "TRST",
+              "USD"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Sorting order",
+            "type": "string",
+            "default": "desc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned transactions. Default to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get your transactions history."
+          }
+        },
+        "tags": [
+          "account"
+        ],
+        "operationId": "getAccountTransactions"
       }
     },
     "/account/withdraws": {
@@ -1172,6 +1298,28 @@
         "description": "Get list of user accounts",
         "produces": [
           "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Limit the number of returned paginations. Defaults to 100.",
+            "type": "integer",
+            "format": "int32",
+            "default": 100,
+            "minimum": 1,
+            "maximum": 1000,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Specify the page of paginated results.",
+            "type": "integer",
+            "format": "int32",
+            "default": 1,
+            "required": false
+          }
         ],
         "responses": {
           "200": {
@@ -1967,6 +2115,11 @@
           "example": 8,
           "description": "Currency precision"
         },
+        "position": {
+          "type": "string",
+          "example": 8,
+          "description": "Position used for defining currencies order"
+        },
         "icon_url": {
           "type": "string",
           "example": "https://upload.wikimedia.org/wikipedia/commons/0/05/Ethereum_logo_2014.svg",
@@ -2113,6 +2266,10 @@
         "completed_at": {
           "type": "string",
           "description": "The datetime when deposit was completed.."
+        },
+        "tid": {
+          "type": "string",
+          "description": "The shared transaction ID"
         }
       },
       "description": "Get your deposits history."
@@ -2136,6 +2293,54 @@
         }
       },
       "description": "Get list of user accounts"
+    },
+    "Transactions": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "description": "Recipient address of transaction."
+        },
+        "currency": {
+          "type": "string",
+          "description": "Transaction currency id."
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Transaction amount."
+        },
+        "fee": {
+          "type": "number",
+          "format": "double",
+          "description": "Transaction fee."
+        },
+        "txid": {
+          "type": "string",
+          "description": "Transaction id."
+        },
+        "state": {
+          "type": "string",
+          "description": "Transaction state."
+        },
+        "note": {
+          "type": "string",
+          "description": "Withdraw note."
+        },
+        "confirmations": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Number of confirmations."
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "Transaction updated time in iso8601 format."
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of transaction"
+        }
+      }
     },
     "Member": {
       "type": "object",

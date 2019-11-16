@@ -746,7 +746,7 @@ Get all withdraws, result is paginated.
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
-| state | query | The withdrawal state. | No | string |
+| state | formData | The withdrawal state. | No | [ string ] |
 | account | query | The account code. | No | integer |
 | id | query | The withdrawal id. | No | integer |
 | txid | query | The withdrawal transaction id. | No | string |
@@ -934,6 +934,56 @@ Returns liabilities as a paginated collection.
 | ---- | ----------- | ------ |
 | 200 | Returns liabilities as a paginated collection. | [Operation](#operation) |
 
+### /members/{uid}
+
+#### PUT
+##### Description:
+
+Set user group.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | path | The shared user ID. | Yes | string |
+| group | formData | User gruop | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Set user group. | [Member](#member) |
+
+#### GET
+##### Description:
+
+Get a member.
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| uid | path | The shared user ID. | Yes | string |
+
+##### Responses
+
+| Code | Description | Schema |
+| ---- | ----------- | ------ |
+| 200 | Get a member. | [Member](#member) |
+
+### /members/groups
+
+#### GET
+##### Description:
+
+Get available members groups.
+
+##### Responses
+
+| Code | Description |
+| ---- | ----------- |
+| 200 | Get available members groups. |
+
 ### /members
 
 #### GET
@@ -947,6 +997,7 @@ Get all members, result is paginated.
 | ---- | ---------- | ----------- | -------- | ---- |
 | state | query | Filter order by state. | No | string |
 | role | query |  | No | string |
+| group | query |  | No | string |
 | email | query | Member email. | No | string |
 | uid | query | Member UID. | No | string |
 | range | query | Date range picker, defaults to 'created'. | No | string |
@@ -1158,12 +1209,12 @@ Get list of currencies
 | withdraw_limit_72h | string | Currency 72h withdraw limit | No |
 | base_factor | integer | Currency base factor. | No |
 | precision | integer | Currency precision. | No |
+| position | integer | Currency position. | No |
 | icon_url | string | Currency icon | No |
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
 | code | string | Unique currency code. | No |
 | blockchain_key | string | Associated blockchain key which will perform transactions synchronization for currency. | No |
 | min_collection_amount | double | Minimal collection amount. | No |
-| position | integer | Currency position. | No |
 | visible | string | Currency display status (true/false). | No |
 | subunits | integer | Fraction of the basic monetary unit. | No |
 | options | json | Currency options. | No |
@@ -1224,6 +1275,7 @@ Get all deposits, result is paginated.
 | state | string | Deposit state. | No |
 | created_at | string | The datetime when deposit was created. | No |
 | completed_at | string | The datetime when deposit was completed. | No |
+| tid | string | Deposit tid. | No |
 | member | string | The member id. | No |
 | uid | string | Deposit member uid. | No |
 | email | string | The deposit member email. | No |
@@ -1231,7 +1283,6 @@ Get all deposits, result is paginated.
 | txout | integer | Deposit blockchain transaction output. | No |
 | block_number | integer | Deposit blockchain block number. | No |
 | type | string | Deposit type (fiat or coin). | No |
-| tid | string | Deposit tid. | No |
 | spread | string | Deposit collection spread. | No |
 | updated_at | string | The datetime when deposit was updated. | No |
 
@@ -1312,6 +1363,7 @@ Get all members, result is paginated.
 | id | integer | Unique member identifier in database. | No |
 | level | integer | Member's level. | No |
 | role | string | Member's role. | No |
+| group | string | Member's group. | No |
 | state | string | Member's state. | No |
 | created_at | string | Member created time in iso8601 format. | No |
 | updated_at | string | Member updated time in iso8601 format. | No |
