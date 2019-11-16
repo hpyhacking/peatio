@@ -206,4 +206,38 @@ describe Matching::OrderBook do
       expect(subject.top.volume).to eq '1.5'.to_d
     end
   end
+
+  context 'on_change callback provided' do
+    let(:callback) { Object.new }
+    subject { Matching::OrderBook.new('btcusd', :ask, on_change: callback) }
+
+    it 'should notify add limit order' do
+      order = Matching.mock_limit_order(type: :ask)
+      callback.expects(:call).with('btcusd', :ask, order.price, order.volume)
+      subject.add order
+    end
+
+    it 'should notify remove limit order' do
+      o1 = Matching.mock_limit_order(type: :ask, price: '1.0'.to_d)
+      o2 = Matching.mock_limit_order(type: :ask, price: '1.0'.to_d)
+
+      callback.expects(:call).with('btcusd', :ask, '1.0'.to_d, o1.volume)
+      callback.expects(:call).with('btcusd', :ask, '1.0'.to_d, o2.volume + o1.volume)
+      callback.expects(:call).with('btcusd', :ask, '1.0'.to_d, o2.volume)
+
+      subject.add o1
+      subject.add o2
+      subject.remove o1.dup # dup so it's not the same object, but has same id
+
+      expect(subject.limit_orders.values.first.size).to eq 1
+    end
+
+    it 'should notify fill top order with volume' do
+      o1 = Matching.mock_limit_order(type: :ask, volume: '2.0'.to_d)
+      callback.expects(:call).with('btcusd', :ask, o1.price, '2.0'.to_d)
+      callback.expects(:call).with('btcusd', :ask, o1.price, '1.5'.to_d)
+      subject.add(o1)
+      subject.fill_top(o1.price, '0.5'.to_d, '0.5'.to_d)
+    end
+  end
 end

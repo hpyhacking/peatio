@@ -28,7 +28,6 @@ steps:
   when:
     event:
     - push
-    - pull_request
 
 # Copy bundler cache from the host machine to your build environment.
 # Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
@@ -45,7 +44,6 @@ steps:
   when:
     event:
     - push
-    - pull_request
 
 # Initialize application. Install dependencies. Migrate database. Run rspec.
 - name: run-rspec
@@ -58,12 +56,13 @@ steps:
     RAILS_ENV: test
   commands:
   - bin/init_config
+  - gem install bundler:2.0.2
   - bundle install --jobs=$(nproc) --retry=3 --path vendor/bundle
   - bundle exec rake db:create db:migrate
   - LOG_LEVEL=warn bundle exec rspec
   when:
     event:
-    - pull_request
+    - push
 
 # Update application version
 - name: git-tag-and-push
@@ -131,7 +130,6 @@ steps:
   when:
     event:
     - push
-    - pull_request
 
 # Copy docker cache from the host machine to your build environment.
 # Plugin description: http://plugins.drone.io/drillster/drone-volume-cache

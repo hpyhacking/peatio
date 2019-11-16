@@ -4,7 +4,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 
-ruby '2.6.5'
+ruby '~> 2.6'
 
 gem 'ransack', '~> 2.1.1'
 gem 'rails', '~> 5.2.3'
@@ -53,8 +53,8 @@ gem 'jwt-multisig', '~> 1.0.0'
 gem 'cash-addr', '~> 0.2.0', require: 'cash_addr'
 gem 'digest-sha3', '~> 1.1.0'
 gem 'scout_apm', '~> 2.4', require: false
-gem 'peatio', '~> 0.6.3'
-gem 'rack-cors', '~> 1.0.2', require: false
+gem 'peatio', '2.4.0.pre.alpha'
+gem 'rack-cors', '~> 1.0.6', require: false
 gem 'env-tweaks', '~> 1.0.0'
 gem 'vault', '~> 0.12', require: false
 gem 'vault-rails', git: 'http://github.com/rubykube/vault-rails'
@@ -62,6 +62,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'net-http-persistent', '~> 3.0.1'
 
 group :development, :test do
+  gem 'irb'
   gem 'bump',         '~> 0.7'
   gem 'faker',        '~> 1.8'
   gem 'pry-byebug',   '~> 3.7'
