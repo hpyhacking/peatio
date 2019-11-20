@@ -25,9 +25,6 @@ steps:
   image: jwilder/dockerize
   commands:
   - dockerize -wait tcp://database:3306 -timeout 1m
-  when:
-    event:
-    - push
 
 # Copy bundler cache from the host machine to your build environment.
 # Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
@@ -41,9 +38,6 @@ steps:
   volumes:
   - name: bundle-cache
     path: /cache
-  when:
-    event:
-    - push
 
 # Initialize application. Install dependencies. Migrate database. Run rspec.
 - name: run-rspec
@@ -60,13 +54,11 @@ steps:
   - bundle install --jobs=$(nproc) --retry=3 --path vendor/bundle
   - bundle exec rake db:create db:migrate
   - LOG_LEVEL=warn bundle exec rspec
-  when:
-    event:
-    - push
+
 
 # Update application version
 - name: git-tag-and-push
-  image: quay.io/openware/sdk-tools:1.0.0
+  image: quay.io/openware/sdk-tools:1.0.0-7001fe8
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
@@ -76,38 +68,8 @@ steps:
     GITHUB_API_KEY:
       from_secret: kite_bot_key
   commands:
-    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile release:push ci:write_version
+    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile ci:prebuild
   when:
-    event:
-      - push
-    branch:
-      - master
-      - 2-0-stable
-      - 2-1-stable
-      - 2-2-stable
-      - 2-3-stable
-
-# Update changelog and API documentation, then push it to sdk repository.
-- name: docs-generate
-  image: quay.io/openware/sdk-tools:1.0.0
-  environment:
-    BOT_USERNAME: kite-bot
-    BOT_NAME: Kite Bot
-    BOT_EMAIL: kite-bot@heliostech.fr
-    REPO_NAME: ${DRONE_REPO}
-    BRANCH_NAME: ${DRONE_BRANCH}
-    SDK_BRANCH: ${DRONE_BRANCH}
-    GITHUB_API_KEY:
-      from_secret: kite_bot_key
-  commands:
-    - cd /sdk
-    - bundle exec rake ci:pull
-    - bundle exec rake ci:changelog['/drone/src/']
-    - bundle exec rake ci:copy_docs['/drone/src/']
-    - bundle exec rake ci:push
-  when:
-    event:
-      - push
     branch:
       - master
       - 2-0-stable
@@ -127,9 +89,6 @@ steps:
   volumes:
   - name: bundle-cache
     path: /cache
-  when:
-    event:
-    - push
 
 # Copy docker cache from the host machine to your build environment.
 # Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
@@ -144,8 +103,6 @@ steps:
   - name: docker-cache
     path: /cache
   when:
-    event:
-    - push
     branch:
     - master
 
@@ -160,8 +117,28 @@ steps:
     repo: quay.io/openware/peatio
     registry: quay.io
   when:
-    event:
-      - push
+    branch:
+      - master
+      - 2-0-stable
+      - 2-1-stable
+      - 2-2-stable
+      - 2-3-stable
+
+# Update changelog and API documentation, then push it to sdk repository.
+- name: docs-generate
+  image: quay.io/openware/sdk-tools:1.0.0-7001fe8
+  environment:
+    BOT_USERNAME: kite-bot
+    BOT_NAME: Kite Bot
+    BOT_EMAIL: kite-bot@heliostech.fr
+    REPO_NAME: ${DRONE_REPO}
+    BRANCH_NAME: ${DRONE_BRANCH}
+    SDK_BRANCH: ${DRONE_BRANCH}
+    GITHUB_API_KEY:
+      from_secret: kite_bot_key
+  commands:
+    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile ci:postbuild[/drone/src]
+  when:
     branch:
       - master
       - 2-0-stable
@@ -182,14 +159,12 @@ steps:
   - name: docker-cache
     path: /cache
   when:
-    event:
-    - push
     branch:
     - master
 
 # notify telegram and slack
 - name: telegram-and-slack-notifying
-  image: quay.io/openware/sdk-tools:1.0.0
+  image: quay.io/openware/sdk-tools:1.0.0-7001fe8
   environment:
     REPO_NAME: ${DRONE_REPO}
     BRANCH_NAME: ${DRONE_BRANCH}
@@ -199,11 +174,13 @@ steps:
       from_secret: telegram_chat_id
     GITHUB_API_KEY:
       from_secret: kite_bot_key
+    SLACK_TOKEN:
+      from_secret: slack_token
+    SLACK_CHANNEL:
+      from_secret: slack_channel
   commands:
-    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile sdk:notify:telegram
+    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile ci:notify:all
   when:
-    event:
-      - push
     branch:
       - master
       - 2-0-stable
@@ -218,6 +195,10 @@ volumes:
 - name: docker-cache
   host:
     path: /tmp/docker
+
+trigger:
+  event:
+    - push
 
 image_pull_secrets:
   - dockerconfigjson
