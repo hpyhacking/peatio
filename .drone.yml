@@ -58,7 +58,7 @@ steps:
 
 # Update application version
 - name: git-tag-and-push
-  image: quay.io/openware/sdk-tools:1.0.0-7001fe8
+  image: quay.io/openware/sdk-citools:2.3.0
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
@@ -124,9 +124,9 @@ steps:
       - 2-2-stable
       - 2-3-stable
 
-# Update changelog and API documentation, then push it to sdk repository.
-- name: docs-generate
-  image: quay.io/openware/sdk-tools:1.0.0-7001fe8
+# Update changelog and API documentation, then push it to sdk repository and notify.
+- name: push-and-notify
+  image: quay.io/openware/sdk-citools:2.3.0
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
@@ -134,6 +134,14 @@ steps:
     REPO_NAME: ${DRONE_REPO}
     BRANCH_NAME: ${DRONE_BRANCH}
     SDK_BRANCH: ${DRONE_BRANCH}
+    TELEGRAM_BOT_TOKEN:
+      from_secret: telegram_bot_token
+    TELEGRAM_CHAT_ID:
+      from_secret: telegram_chat_id
+    SLACK_TOKEN:
+      from_secret: slack_token
+    SLACK_CHANNEL:
+      from_secret: slack_channel
     GITHUB_API_KEY:
       from_secret: kite_bot_key
   commands:
@@ -161,32 +169,6 @@ steps:
   when:
     branch:
     - master
-
-# notify telegram and slack
-- name: telegram-and-slack-notifying
-  image: quay.io/openware/sdk-tools:1.0.0-7001fe8
-  environment:
-    REPO_NAME: ${DRONE_REPO}
-    BRANCH_NAME: ${DRONE_BRANCH}
-    TELEGRAM_BOT_TOKEN:
-      from_secret: telegram_bot_token
-    TELEGRAM_CHAT_ID:
-      from_secret: telegram_chat_id
-    GITHUB_API_KEY:
-      from_secret: kite_bot_key
-    SLACK_TOKEN:
-      from_secret: slack_token
-    SLACK_CHANNEL:
-      from_secret: slack_channel
-  commands:
-    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile ci:notify:all
-  when:
-    branch:
-      - master
-      - 2-0-stable
-      - 2-1-stable
-      - 2-2-stable
-      - 2-3-stable
 
 volumes:
 - name: bundle-cache
