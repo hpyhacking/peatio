@@ -260,6 +260,37 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
         end
       end
 
+      context 'duplicated address' do
+        context 'same currency' do
+          before do
+            create(:beneficiary,
+                   member: member,
+                   currency_id: beneficiary_data[:currency],
+                   data: {address: beneficiary_data.dig(:data, :address)})
+          end
+
+          it do
+            api_post endpoint, params: beneficiary_data, token: token
+            expect(response.status).to eq 422
+            expect(response).to include_api_error('account.beneficiary.duplicate_address')
+          end
+        end
+
+        context 'different currencies' do
+          before do
+            create(:beneficiary,
+                   member: member,
+                   currency_id: :eth,
+                   data: {address: beneficiary_data.dig(:data, :address)})
+          end
+
+          it do
+            api_post endpoint, params: beneficiary_data, token: token
+            expect(response.status).to eq 201
+          end
+        end
+      end
+
       # TODO: Test nil full_name in data for both fiat and crypto.
     end
 
@@ -287,6 +318,22 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
           api_post endpoint, params: fiat_beneficiary_data.except(:data), token: token
           expect(response.status).to eq 422
           expect(response).to include_api_error('account.beneficiary.empty_data')
+        end
+      end
+
+      context 'duplicated address' do
+        context 'same currency' do
+          before do
+            create(:beneficiary,
+                   member: member,
+                   currency_id: fiat_beneficiary_data[:currency],
+                   data: fiat_beneficiary_data[:data])
+          end
+
+          it do
+            api_post endpoint, params: fiat_beneficiary_data, token: token
+            expect(response.status).to eq 201
+          end
         end
       end
     end

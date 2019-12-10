@@ -93,6 +93,17 @@ module API
               error!({ errors: ['account.beneficiary.missing_full_name_in_data'] }, 422)
             end
 
+            # Since data is stored in MySQL JSON format we iterate through all
+            # beneficiaries one by one to detect duplicated address.
+            if currency.coin? &&
+                current_user
+                  .beneficiaries
+                  .available_to_member
+                  .where(currency: currency)
+                  .any? { |b| b.data['address'] == declared_params.dig(:data, :address) }
+              error!({ errors: ['account.beneficiary.duplicate_address'] }, 422)
+            end
+
             present current_user
                       .beneficiaries
                       .create!(declared_params),
