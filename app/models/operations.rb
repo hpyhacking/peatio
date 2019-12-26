@@ -16,7 +16,11 @@ module Operations
     end
 
     def klass_for(code:)
-      "Operations::#{Operations::Account.find_by(code: code).type.capitalize}".constantize
+      account = Operations::Account.find_by(code: code)
+      { asset: Operations::Asset,
+        liability: Operations::Liability,
+        revenue: Operations::Revenue,
+        expense: Operations::Expense }.fetch(account.type.to_sym)
     end
 
     def update_legacy_balance(liability)
