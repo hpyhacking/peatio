@@ -26,19 +26,6 @@ steps:
   commands:
   - dockerize -wait tcp://database:3306 -timeout 1m
 
-# Copy bundler cache from the host machine to your build environment.
-# Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
-- name: restore-bundle-cache
-  pull: default
-  image: drillster/drone-volume-cache
-  settings:
-    restore: true
-    mount:
-    - vendor/bundle
-  volumes:
-  - name: bundle-cache
-    path: /cache
-
 # Initialize application. Install dependencies. Migrate database. Run rspec.
 - name: run-rspec
   image: ruby:2.6.5
@@ -58,7 +45,7 @@ steps:
 
 # Update application version
 - name: git-tag-and-push
-  image: quay.io/openware/sdk-citools:2.3.0
+  image: quay.io/openware/sdk-citools:2.3.1
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
@@ -126,7 +113,7 @@ steps:
 
 # Update changelog and API documentation, then push it to sdk repository and notify.
 - name: push-and-notify
-  image: quay.io/openware/sdk-citools:2.3.0
+  image: quay.io/openware/sdk-citools:2.3.1
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
