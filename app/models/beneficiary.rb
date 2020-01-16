@@ -18,6 +18,8 @@ class Beneficiary < ApplicationRecord
   PIN_LENGTH  = 6
   PIN_RANGE   = 10**5..10**Beneficiary::PIN_LENGTH
 
+  INVALID_ADDRESS_SYMBOLS = /[\?\<\>\'\,\?\[\]\}\{\=\"\)\(\*\&\^\%\$\#\`\~\{\}\@]/.freeze
+
   # == Attributes ===========================================================
 
   attr_readonly :pin
@@ -58,6 +60,11 @@ class Beneficiary < ApplicationRecord
     errors.add(:data, 'address can\'t be blank') if data.blank? || data['address'].blank?
   end
 
+    # Validates address field which is required for coin.
+    validate if: ->(b) { b.currency.present? && b.currency.coin? } do
+      errors.add(:data, 'invlalid address') if data.present? && data['address'].present? && data['address'].match?(INVALID_ADDRESS_SYMBOLS)
+    end
+
   # Validates that data contains full_name field which is required for fiat.
   validate if: ->(b) { b.currency.present? && b.currency.fiat? } do
     errors.add(:data, 'full_name can\'t be blank') if data.blank? || data['full_name'].blank?
@@ -70,6 +77,10 @@ class Beneficiary < ApplicationRecord
   # == Callbacks ============================================================
 
   before_validation(on: :create) do
+    # Truncate spaces
+    data['address'] = data['address'].gsub(/\s+/, '') if data.present? && data['address'].present?
+
+    # Generate Beneficiary Pin
     self.pin ||= self.class.generate_pin
   end
 
