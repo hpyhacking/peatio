@@ -446,6 +446,52 @@ describe Withdraw do
         expect(subject.confirming?).to be true
       end
     end
+
+    context :fail do
+      subject { create(:btc_withdraw, :with_deposit_liability) }
+
+      before { subject.submit! }
+      before { subject.accept! }
+
+      context 'from errored' do
+        before do
+          subject.update!(aasm_state: :processing)
+          subject.err!(Peatio::Wallet::ClientError.new('Something wrong with request'))
+        end
+
+        it do
+          subject.fail!
+          expect(subject.failed?).to be true
+        end
+      end
+
+      context 'with archived beneficiary' do
+        let(:member) { create(:member) }
+        let(:address) { Faker::Blockchain::Ethereum.address }
+        let(:coin) { Currency.find(:btc) }
+
+        subject { create(:btc_withdraw, :with_deposit_liability, member: member, rid: address, beneficiary: beneficiary) }
+
+        before { subject.submit! }
+        before { subject.accept! }
+
+        let!(:beneficiary) { create(:beneficiary,
+                                    member: member,
+                                    currency: coin,
+                                    state: :active,
+                                    data: generate(:coin_beneficiary_data).merge(address: address)) }
+
+        before do
+          subject.update!(aasm_state: :processing)
+          subject.err!(Peatio::Wallet::ClientError.new('Something wrong with request'))
+          beneficiary.update!(state: :archived)
+        end
+        it do
+          subject.fail!
+          expect(subject.failed?).to be true
+        end
+      end
+    end
   end
 
   context '#quick?' do
