@@ -77,7 +77,7 @@ describe Account do
         ActiveRecord::Base.transaction do
           account2.lock_funds(8)
         end
-      end.to raise_error(Account::AccountError) { |e| expect(e.message).to eq 'Cannot lock funds (amount: 8).' }
+      end.to raise_error(Account::AccountError) { |e| expect(e.message).to eq "Cannot lock funds (account id: #{subject.id}, amount: 8, balance: 2.0, locked: 18.0)." }
 
       expect(subject.reload.balance).to eq 2.to_d
     end

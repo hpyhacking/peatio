@@ -6,7 +6,7 @@ module Workers
     class Blockchain < Base
       # TODO: Start synchronization of blockchains created in run-time.
       def run
-        ::Blockchain.active.map { |b| Thread.new { process(b) } }.map(&:join)
+        lock(self.class, 0) { ::Blockchain.active.map { |b| Thread.new { process(b) } }.map(&:join) }
       end
 
       def process(bc)
