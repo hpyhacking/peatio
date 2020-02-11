@@ -112,6 +112,14 @@ class Trade < ApplicationRecord
     end
   end
 
+  def revert_trade!
+    transaction do
+      revert_sell_side!
+      revert_buy_side!
+      revert_fees!
+    end
+  end
+
   private
 
   def record_liability_debit!
@@ -189,6 +197,78 @@ class Trade < ApplicationRecord
 
     # Credit main fiat/crypto Revenue account.
     Operations::Revenue.credit!(
+      amount:    buyer_fee,
+      currency:  buy_order.income_currency,
+      reference: self,
+      member_id: buy_order.member_id
+    )
+  end
+
+  def revert_sell_side!
+    seller_outcome = amount
+    seller_income = total - total * order_fee(sell_order)
+
+    # Revert Trade for Sell side
+    # Debit main fiat/crypto Liability account for member who created bid.
+    Operations::Liability.debit!(
+      amount: seller_income,
+      currency: sell_order.income_currency,
+      reference: self,
+      kind: :main,
+      member_id: sell_order.member_id
+    )
+    Account.find_by(currency_id: sell_order.income_currency.id, member_id: sell_order.member_id).sub_funds(seller_income)
+
+    # Credit main fiat/crypto Liability account for member who created ask.
+    Operations::Liability.credit!(
+      amount: seller_outcome,
+      currency: sell_order.outcome_currency,
+      reference: self,
+      kind: :main,
+      member_id: sell_order.member_id
+    )
+    Account.find_by(currency_id: sell_order.outcome_currency.id, member_id: sell_order.member_id).plus_funds(seller_outcome)
+  end
+
+  def revert_buy_side!
+    buyer_outcome = total
+    buyer_income = amount - amount * order_fee(buy_order)
+
+    # Revert Trade for Buy side
+    # Debit main fiat/crypto Liability account for member who created ask
+    Operations::Liability.debit!(
+      amount: buyer_income,
+      currency: buy_order.income_currency,
+      reference: self,
+      kind: :main,
+      member_id: buy_order.member_id
+    )
+    Account.find_by(currency_id: buy_order.income_currency.id, member_id: buy_order.member_id).sub_funds(buyer_income)
+
+    # Credit main fiat/crypto Liability account for member who created bid.
+    Operations::Liability.credit!(
+      amount: buyer_outcome,
+      currency: buy_order.outcome_currency,
+      reference: self,
+      kind: :main,
+      member_id: buy_order.member_id
+    )
+    Account.find_by(currency_id: buy_order.outcome_currency.id, member_id: buy_order.member_id).plus_funds(buyer_outcome)
+  end
+
+  def revert_fees!
+    seller_fee = total * order_fee(sell_order)
+    buyer_fee = amount * order_fee(buy_order)
+
+    # Revert Revenues
+    Operations::Revenue.debit!(
+      amount:    seller_fee,
+      currency:  sell_order.income_currency,
+      reference: self,
+      member_id: sell_order.member_id
+    )
+
+    Operations::Revenue.debit!(
       amount:    buyer_fee,
       currency:  buy_order.income_currency,
       reference: self,
