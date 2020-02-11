@@ -80,6 +80,16 @@ describe API::V2::Market::Orders, type: :request do
       expect(result.first['state']).to eq Order::DONE
     end
 
+    it 'returns orders with state done and wait' do
+      api_get '/api/v2/market/orders', params: { market: 'btcusd', state: [Order::DONE, Order::WAIT] }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      count = member.orders.where(state: [Order::DONE, Order::WAIT], market_id: 'btcusd').count
+      expect(response.headers.fetch('Total')).to eq count.to_s
+      expect(result.size).to eq count
+    end
+
     it 'returns paginated orders' do
       api_get '/api/v2/market/orders', params: { market: 'btcusd', limit: 1, page: 1 }, token: token
       result = JSON.parse(response.body)
