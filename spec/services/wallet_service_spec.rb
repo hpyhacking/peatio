@@ -43,7 +43,7 @@ describe WalletService do
   end
 
   context :create_address! do
-    let(:account) { create(:member, :level_3, :barong).ac(currency)  }
+    let(:account) { create(:member, :level_3, :barong).get_account(currency)  }
     let(:blockchain_address) do
       { address: :fake_address,
         secret: :changeme,

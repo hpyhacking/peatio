@@ -76,8 +76,6 @@ class Currency < ApplicationRecord
     self.erc20_contract_address = erc20_contract_address.try(:downcase) if erc20_contract_address.present?
   end
 
-  after_create { Member.find_each(&:touch_accounts) }
-
   after_update :disable_markets
 
   # == Class Methods ========================================================

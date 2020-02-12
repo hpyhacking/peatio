@@ -79,6 +79,10 @@ module Matching
           @taker_order = orders.find { |order| order.id == @trade_payload[:taker_order_id] }
         end
 
+        # Check if accounts exists or create them.
+        @maker_order.member.get_account(@maker_order.outcome_currency)
+        @taker_order.member.get_account(@taker_order.outcome_currency)
+
         validate!
 
         accounts_table = Account

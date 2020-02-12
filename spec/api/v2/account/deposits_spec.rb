@@ -139,7 +139,7 @@ describe API::V2::Account::Deposits, type: :request do
     end
 
     context 'successful' do
-      before { member.ac(:bch).payment_address.update!(address: '2N2wNXrdo4oEngp498XGnGCbru29MycHogR') }
+      before { member.get_account(:bch).payment_address.update!(address: '2N2wNXrdo4oEngp498XGnGCbru29MycHogR') }
 
       xit 'doesn\'t expose sensitive data' do
         api_get "/api/v2/account/deposit_address/#{currency}", token: token

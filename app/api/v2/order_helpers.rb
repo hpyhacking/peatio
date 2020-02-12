@@ -17,9 +17,7 @@ module API
       end
 
       def check_balance(order)
-        current_user.accounts
-                    .find_by_currency_id(order.currency)
-                    .balance >= order.locked
+        current_user.get_account(order.currency).balance >= order.locked
       end
 
       def create_order(attrs)

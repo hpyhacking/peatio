@@ -307,7 +307,7 @@ describe API::V2::Management::Operations, type: :request do
 
           it 'updates legacy balance' do
             currency_id = JSON.parse(response.body)['currency']
-            expect(member.ac(currency_id).balance).to \
+            expect(member.get_account(currency_id).balance).to \
               eq JSON.parse(response.body)['credit'].to_d
           end
 
@@ -356,7 +356,7 @@ describe API::V2::Management::Operations, type: :request do
 
           it 'updates legacy balance' do
             currency_id = JSON.parse(response.body)['currency']
-            expect(member.ac(currency_id).balance).to \
+            expect(member.get_account(currency_id).balance).to \
               eq 0.to_d
           end
         end

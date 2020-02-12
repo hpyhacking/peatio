@@ -69,7 +69,7 @@ class Deposit < ApplicationRecord
   end
 
   def account
-    member&.ac(currency)
+    member&.get_account(currency)
   end
 
   def uid

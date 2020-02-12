@@ -5,7 +5,7 @@ module AccountFactory
   def create_account(*arguments)
     currency   = Symbol === arguments.first ? arguments.first : :usd
     attributes = arguments.extract_options!
-    attributes.delete(:member) { create(:member) }.ac(currency).tap do |account|
+    attributes.delete(:member) { create(:member) }.get_account(currency).tap do |account|
       account.update!(attributes)
     end
   end

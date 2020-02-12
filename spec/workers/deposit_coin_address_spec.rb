@@ -3,7 +3,7 @@
 
 describe Workers::AMQP::DepositCoinAddress do
   let(:member) { create(:member, :barong) }
-  let(:account) { member.ac(:btc) }
+  let(:account) { member.get_account(:btc) }
   let(:address) { Faker::Blockchain::Bitcoin.address }
   let(:secret) { PasswordGenerator.generate(64) }
   let(:wallet) { Wallet.deposit.find_by(blockchain_key: 'btc-testnet') }

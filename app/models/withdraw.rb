@@ -29,7 +29,7 @@ class Withdraw < ApplicationRecord
 
   acts_as_eventable prefix: 'withdraw', on: %i[create update]
 
-  before_validation(on: :create) { self.account ||= member&.ac(currency) }
+  before_validation(on: :create) { self.account ||= member&.get_account(currency) }
   before_validation(on: :create) { self.rid ||= beneficiary.rid if beneficiary.present? }
   before_validation { self.completed_at ||= Time.current if completed? }
 

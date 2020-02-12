@@ -87,13 +87,13 @@ describe Serializers::EventAPI::TradeCompleted, 'Event API' do
     subject { executor.execute! }
 
     before do
-      maker.ac(:btc).plus_funds('100.0'.to_d)
-      maker.ac(:btc).lock_funds('100.0'.to_d)
+      maker.get_account(:btc).plus_funds('100.0'.to_d)
+      maker.get_account(:btc).lock_funds('100.0'.to_d)
     end
 
     before do
-      taker.ac(:usd).plus_funds('100.0'.to_d)
-      taker.ac(:usd).lock_funds('14.0'.to_d)
+      taker.get_account(:usd).plus_funds('100.0'.to_d)
+      taker.get_account(:usd).lock_funds('14.0'.to_d)
     end
 
     before { Trade.any_instance.expects(:created_at).returns(completed_at).at_least_once }
@@ -156,13 +156,13 @@ describe Serializers::EventAPI::TradeCompleted, 'Event API' do
     subject { executor.execute! }
 
     before do
-      taker.ac(:btc).plus_funds('100.0'.to_d)
-      taker.ac(:btc).lock_funds('100.0'.to_d)
+      taker.get_account(:btc).plus_funds('100.0'.to_d)
+      taker.get_account(:btc).lock_funds('100.0'.to_d)
     end
 
     before do
-      maker.ac(:usd).plus_funds('100.0'.to_d)
-      maker.ac(:usd).lock_funds('14.0'.to_d)
+      maker.get_account(:usd).plus_funds('100.0'.to_d)
+      maker.get_account(:usd).lock_funds('14.0'.to_d)
     end
 
     before { Trade.any_instance.expects(:created_at).returns(completed_at).at_least_once }

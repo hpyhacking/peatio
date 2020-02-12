@@ -46,13 +46,14 @@ class Member < ApplicationRecord
   end
 
   def get_account(model_or_id_or_code)
-    accounts.with_currency(model_or_id_or_code).first.yield_self do |account|
-      touch_accounts unless account
-      accounts.with_currency(model_or_id_or_code).first
+    if model_or_id_or_code.is_a?(String) || model_or_id_or_code.is_a?(Symbol)
+      accounts.find_or_create_by(currency_id: model_or_id_or_code)
+    elsif model_or_id_or_code.is_a?(Currency)
+      accounts.find_or_create_by(currency: model_or_id_or_code)
     end
   end
-  alias :ac :get_account
 
+  # @deprecated
   def touch_accounts
     Currency.find_each do |currency|
       next if accounts.where(currency: currency).exists?
@@ -76,9 +77,9 @@ class Member < ApplicationRecord
 
   def legacy_balance_for(currency:, kind:)
     if kind.to_sym == :main
-      ac(currency).balance
+      get_account(currency).balance
     elsif kind.to_sym == :locked
-      ac(currency).locked
+      get_account(currency).locked
     else
       raise Operations::Exception, "Account for #{options} doesn't exists."
     end

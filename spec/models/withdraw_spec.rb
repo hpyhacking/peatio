@@ -621,7 +621,7 @@ describe Withdraw do
 
   context 'CashAddr' do
     let(:member) { create(:member) }
-    let(:account) { member.ac(:bch).tap { |x| x.update!(balance: 1.0.to_d) } }
+    let(:account) { member.get_account(:bch).tap { |x| x.update!(balance: 1.0.to_d) } }
     let :record do
       Withdraws::Coin.new \
         currency: Currency.find(:bch),
@@ -676,7 +676,7 @@ describe Withdraw do
 
   context 'validate note length' do
     let(:member)    { create(:member) }
-    let(:account)   { member.ac(:btc).tap { |x| x.update!(balance: 1.0.to_d) } }
+    let(:account)   { member.get_account(:btc).tap { |x| x.update!(balance: 1.0.to_d) } }
     let(:address)   { 'bitcoincash:qqkv9wr69ry2p9l53lxp635va4h86wv435995w8p2h' }
 
     let :record do

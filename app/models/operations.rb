@@ -27,7 +27,7 @@ module Operations
       return unless liability.present? || liability.is_a?(Operations::Liability)
 
       account = liability.account
-      legacy_account = liability.member.accounts.find_or_create_by(currency: liability.currency)
+      legacy_account = liability.member.get_account(liability.currency)
 
       credit = liability.credit
       debit = liability.debit

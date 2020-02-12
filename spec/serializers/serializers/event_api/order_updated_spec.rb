@@ -26,8 +26,8 @@ describe Serializers::EventAPI::OrderUpdated, OrderAsk do
   let(:updated_at) { Time.current }
 
   before do
-    seller.ac(:btc).plus_funds('100.0'.to_d)
-    seller.ac(:btc).lock_funds('100.0'.to_d)
+    seller.get_account(:btc).plus_funds('100.0'.to_d)
+    seller.get_account(:btc).lock_funds('100.0'.to_d)
   end
 
   before { OrderAsk.any_instance.expects(:created_at).returns(created_at).at_least_once }
@@ -103,8 +103,8 @@ describe Serializers::EventAPI::OrderUpdated, OrderBid do
   let(:updated_at) { Time.current }
 
   before do
-    buyer.ac(:btc).plus_funds('100.0'.to_d)
-    buyer.ac(:btc).lock_funds('100.0'.to_d)
+    buyer.get_account(:btc).plus_funds('100.0'.to_d)
+    buyer.get_account(:btc).lock_funds('100.0'.to_d)
   end
 
   before { OrderBid.any_instance.expects(:created_at).returns(created_at).at_least_once }

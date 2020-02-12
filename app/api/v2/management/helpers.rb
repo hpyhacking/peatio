@@ -92,19 +92,19 @@ module API
         # @deprecated
         def credit_legacy_balance!(amount:, member:, currency:, account:)
           if account.kind.main?
-            member.ac(currency).plus_funds(amount)
+            member.get_account(currency).plus_funds(amount)
           elsif account.kind.locked?
-            member.ac(currency).plus_funds(amount)
-            member.ac(currency).lock_funds(amount)
+            member.get_account(currency).plus_funds(amount)
+            member.get_account(currency).lock_funds(amount)
           end
         end
 
         # @deprecated
         def debit_legacy_balance!(amount:, member:, currency:, account:)
           if account.kind.main?
-            member.ac(currency).sub_funds(amount)
+            member.get_account(currency).sub_funds(amount)
           elsif account.kind.locked?
-            member.ac(currency).unlock_and_sub_funds(amount)
+            member.get_account(currency).unlock_and_sub_funds(amount)
           end
         end
       end

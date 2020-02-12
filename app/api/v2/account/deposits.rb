@@ -80,7 +80,7 @@ module API
             error!({ errors: ['account.currency.deposit_disabled'] }, 422)
           end
 
-          current_user.ac(currency).payment_address.yield_self do |pa|
+          current_user.get_account(currency).payment_address.yield_self do |pa|
             { currency: params[:currency], address: params[:address_format] ? pa.format_address(params[:address_format]) : pa.address }
           end
         end
