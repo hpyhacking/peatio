@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_085927) do
+ActiveRecord::Schema.define(version: 2020_02_11_124707) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -330,7 +330,6 @@ ActiveRecord::Schema.define(version: 2019_09_23_085927) do
   end
 
   create_table "withdraws", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "account_id", null: false
     t.integer "member_id", null: false
     t.bigint "beneficiary_id"
     t.string "currency_id", limit: 10, null: false
@@ -349,7 +348,6 @@ ActiveRecord::Schema.define(version: 2019_09_23_085927) do
     t.datetime "updated_at", null: false
     t.datetime "completed_at"
     t.index ["aasm_state"], name: "index_withdraws_on_aasm_state"
-    t.index ["account_id"], name: "index_withdraws_on_account_id"
     t.index ["currency_id", "txid"], name: "index_withdraws_on_currency_id_and_txid", unique: true
     t.index ["currency_id"], name: "index_withdraws_on_currency_id"
     t.index ["member_id"], name: "index_withdraws_on_member_id"

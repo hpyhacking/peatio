@@ -166,7 +166,6 @@ describe BlockchainService do
       let!(:fake_account) { member.get_account(:fake1).tap { |ac| ac.update!(balance: 50, locked: 5) } }
       let!(:withdrawal) do
         Withdraw.create!(member: member,
-                         account: fake_account,
                          currency: fake_currency1,
                          amount: 1,
                          txid: 'fake_hash1',
@@ -203,7 +202,6 @@ describe BlockchainService do
     let!(:withdrawals) do
       %w[fake_hash1 fake_hash2].each do |t|
         Withdraw.create!(member: member,
-                         account: fake_account1,
                          currency: fake_currency1,
                          amount: 1,
                          txid: t,
@@ -231,7 +229,6 @@ describe BlockchainService do
     let!(:fake_account2) { member.get_account(:fake2).tap { |ac| ac.update!(balance: 50, locked: 10) } }
     let!(:withdrawal1) do
       Withdraw.create!(member: member,
-                       account: fake_account1,
                        currency: fake_currency1,
                        amount: 1,
                        txid: "fake_hash1",
@@ -242,7 +239,6 @@ describe BlockchainService do
     end
     let!(:withdrawal2) do
       Withdraw.create!(member: member,
-                        account: fake_account2,
                         currency: fake_currency2,
                         amount: 1,
                         txid: "fake_hash3",
@@ -269,7 +265,6 @@ describe BlockchainService do
 
       let!(:withdrawal) do
         Withdraw.create!(member: member,
-                         account: fake_account1,
                          currency: fake_currency1,
                          amount: 1,
                          txid: "fake_hash",
@@ -301,7 +296,6 @@ describe BlockchainService do
 
       let!(:withdrawal) do
         Withdraw.create!(member: member,
-                         account: fake_account1,
                          currency: fake_currency1,
                          amount: 1,
                          txid: "fake_hash",
@@ -339,7 +333,6 @@ describe BlockchainService do
 
       let!(:withdrawal) do
         Withdraw.create!(member: member,
-                         account: fake_account1,
                          currency: fake_currency1,
                          amount: 1,
                          txid: "fake_hash",
@@ -403,14 +396,14 @@ describe BlockchainService do
       expect(Deposits::Coin.where(currency: fake_currency2).exists?).to be true
 
       [fake_account1, fake_account2].map { |a| a.reload }
-      withdraw1 = Withdraw.create!(member: member, account: fake_account1, currency: fake_currency1, amount: 1, txid: "fake_hash5",
+      withdraw1 = Withdraw.create!(member: member, currency: fake_currency1, amount: 1, txid: "fake_hash5",
         rid: 'fake_address4', sum: 1, type: Withdraws::Coin)
       withdraw1.submit!
       withdraw1.accept!
       withdraw1.process!
       withdraw1.dispatch!
 
-      withdraw2 = Withdraw.create!(member: member, account: fake_account2, currency: fake_currency2, amount: 3, txid: "fake_hash6",
+      withdraw2 = Withdraw.create!(member: member, currency: fake_currency2, amount: 3, txid: "fake_hash6",
         rid: 'fake_address4', sum: 3, type: Withdraws::Coin)
       withdraw2.submit!
       withdraw2.accept!

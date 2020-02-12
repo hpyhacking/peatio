@@ -78,28 +78,10 @@ describe Withdraw do
     end
 
     describe 'balance validations' do
-      subject { build :btc_withdraw, account_id: 999 }
+      subject { build :btc_withdraw }
 
       it 'validates balance' do
-        expect do
-          subject.save.to raise_error(Account::AccountError)
-        end
-      end
-    end
-
-    describe 'account id from outside' do
-
-      let(:currency) { Currency.find('btc') }
-      let(:member) { create(:member) }
-      before do
-        member.accounts.with_currency(currency).first.plus_funds(12)
-      end
-      subject { build :btc_withdraw, account_id: 999, member: member }
-
-      it 'don\'t accept account id from outside' do
-        expect do
-          expect(subject.account_id).to eq(subject.member.get_account(subject.currency).id)
-        end
+        expect { subject.save }.to raise_error(::Account::AccountError)
       end
     end
   end
@@ -627,8 +609,7 @@ describe Withdraw do
         currency: Currency.find(:bch),
         member:   member,
         rid:      address,
-        sum:      1.0.to_d,
-        account:  account
+        sum:      1.0.to_d
     end
 
     context 'valid CashAddr address' do
@@ -676,7 +657,7 @@ describe Withdraw do
 
   context 'validate note length' do
     let(:member)    { create(:member) }
-    let(:account)   { member.get_account(:btc).tap { |x| x.update!(balance: 1.0.to_d) } }
+    let!(:account)   { member.get_account(:btc).tap { |x| x.update!(balance: 1.0.to_d) } }
     let(:address)   { 'bitcoincash:qqkv9wr69ry2p9l53lxp635va4h86wv435995w8p2h' }
 
     let :record do
@@ -685,7 +666,6 @@ describe Withdraw do
         member:   member,
         rid:      address,
         sum:      1.0.to_d,
-        account:  account,
         note:     note
     end
 

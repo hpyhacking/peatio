@@ -263,7 +263,7 @@ describe API::V2::Management::Withdraws, type: :request do
     let(:signers) { %i[alex jeff] }
     let(:data) { { tid: record.tid } }
     let(:account) { member.accounts.with_currency(currency).first }
-    let(:record) { "Withdraws::#{currency.type.camelize}".constantize.create!(member: member, account: account, sum: amount, rid: Faker::Bank.iban, currency: currency) }
+    let(:record) { "Withdraws::#{currency.type.camelize}".constantize.create!(member: member, sum: amount, rid: Faker::Bank.iban, currency: currency) }
     let(:balance) { 800.77 }
     before { account.plus_funds(balance) }
 

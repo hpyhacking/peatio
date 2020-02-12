@@ -40,13 +40,12 @@ module API
           ) { |w| w.member.email }
 
           expose(
-            :account_id,
-            as: :account,
+            :account,
             documentation: {
               type: String,
               desc: 'The account code.'
             }
-          )
+          ) { |w| w.account.id }
 
           expose(
             :block_number,

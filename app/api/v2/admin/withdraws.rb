@@ -15,9 +15,6 @@ module API
                    type: Array[String],
                    values: { value: -> { Withdraw::STATES.map(&:to_s) }, message: 'admin.withdraw.invalid_state' },
                    desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:state][:desc] }
-          optional :account,
-                   type: Integer,
-                   desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:account][:desc] }
           optional :id,
                    type: Integer,
                    desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:id][:desc] }
@@ -42,7 +39,7 @@ module API
 
           ransack_params = Helpers::RansackBuilder.new(params)
                              .eq(:id, :txid, :rid, :tid)
-                             .translate(uid: :member_uid, account: :account_id, currency: :currency_id)
+                             .translate(uid: :member_uid, currency: :currency_id)
                              .with_daterange
                              .merge(type_eq: params[:type].present? ? "Withdraws::#{params[:type]}" : nil)
                              .merge(aasm_state_in: params[:state])
