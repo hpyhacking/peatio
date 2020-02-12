@@ -278,7 +278,7 @@ describe API::V2::Admin::Adjustments, type: :request do
     it 'udpates member\'s balance' do
       expect {
         api_post '/api/v2/admin/adjustments/action', token: token, params: { id: adjustment.id, action: :accept }
-      }.to change { member.accounts.find_by(currency: adjustment.currency).balance }.by(adjustment.amount)
+      }.to change { member.get_account(adjustment.currency).balance }.by(adjustment.amount)
     end
 
     it 'does not accept invalid asset_account_code.' do

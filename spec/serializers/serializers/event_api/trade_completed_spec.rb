@@ -100,6 +100,7 @@ describe Serializers::EventAPI::TradeCompleted, 'Event API' do
 
     before do
       DatabaseCleaner.clean
+      EventAPI.expects(:notify).with('model.account.created', anything).twice
       EventAPI.expects(:notify).with('market.btcusd.order_created', anything).twice
       EventAPI.expects(:notify).with('market.btcusd.order_updated', anything).once
       EventAPI.expects(:notify).with('market.btcusd.order_completed', anything).once
@@ -169,6 +170,7 @@ describe Serializers::EventAPI::TradeCompleted, 'Event API' do
 
     before do
       DatabaseCleaner.clean
+      EventAPI.expects(:notify).with('model.account.created', anything).twice
       EventAPI.expects(:notify).with('market.btcusd.order_created', anything).twice
       EventAPI.expects(:notify).with('market.btcusd.order_updated', anything).once
       EventAPI.expects(:notify).with('market.btcusd.order_completed', anything).once

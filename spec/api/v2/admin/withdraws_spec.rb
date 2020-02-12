@@ -8,6 +8,7 @@ describe API::V2::Admin::Withdraws, type: :request do
   let(:level_3_member_token) { jwt_for(level_3_member) }
   before do
     [admin, level_3_member].each do |member|
+      member.touch_accounts
       member.accounts.map { |a| a.update(balance: 500) }
     end
 

@@ -54,7 +54,7 @@ describe BlockchainService do
       before do
         clear_redis
         PaymentAddress.create!(currency: fake_currency1,
-                               account: member.accounts.find_by(currency: fake_currency1),
+                               account: member.get_account(fake_currency1),
                                address: 'fake_address')
         fake_adapter.stubs(:fetch_block!).returns(expected_transactions)
         service.process_block(block_number)
@@ -101,10 +101,10 @@ describe BlockchainService do
     context 'two fake deposits for one currency were created during block processing' do
       before do
         PaymentAddress.create!(currency: fake_currency1,
-          account: member.accounts.find_by(currency: fake_currency1),
+          account: member.get_account(fake_currency1),
           address: 'fake_address')
         PaymentAddress.create!(currency: fake_currency1,
-          account: member.accounts.find_by(currency: fake_currency1),
+          account: member.get_account(fake_currency1),
           address: 'fake_address1')
         fake_adapter.stubs(:fetch_block!).returns(expected_transactions)
         service.process_block(block_number)
@@ -136,10 +136,10 @@ describe BlockchainService do
     context 'two fake deposits for two currency were created during block processing' do
       before do
         PaymentAddress.create!(currency: fake_currency1,
-          account: member.accounts.find_by(currency: fake_currency1),
+          account: member.get_account(fake_currency1),
           address: 'fake_address')
         PaymentAddress.create!(currency: fake_currency2,
-          account: member.accounts.find_by(currency: fake_currency2),
+          account: member.get_account(fake_currency2),
           address: 'fake_address2')
         fake_adapter.stubs(:fetch_block!).returns(expected_transactions)
         service.process_block(block_number)

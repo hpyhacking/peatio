@@ -139,7 +139,7 @@ describe Transfer do
           # (30 + 45 - 12) - (9 + 12 - 2) = (28 + 20 - 2) - (1 + 4 - 3)
           # 63 - 19 = 46 - 2
           # BTC accounting is correct.
-          let(:member1) { create(:member, :level_3).tap { |m| m.accounts.each { |a| a.plus_funds(50.0) } } }
+          let(:member1) { create(:member, :level_3).tap { |m| m.get_account(currency_btc).plus_funds(50.0) } }
 
           let(:asset1) { build(:asset, credit: 30, currency: currency_btc) }
           let(:asset2) { build(:asset, credit: 45, currency: currency_btc) }
@@ -206,9 +206,9 @@ describe Transfer do
       end
 
       context 'with liabilities' do
-        let(:member1) { create(:member, :level_3).tap { |m| m.accounts.each { |a| a.plus_funds(50.0) } } }
-        let(:member2) { create(:member, :level_3).tap { |m| m.accounts.each { |a| a.plus_funds(50.0) } } }
-        let(:member3) { create(:member, :level_3).tap { |m| m.accounts.each { |a| a.plus_funds(50.0) } } }
+        let(:member1) { create(:member, :level_3).tap { |m| m.get_account(currency_btc).plus_funds(50.0) } }
+        let(:member2) { create(:member, :level_3).tap { |m| m.get_account(currency_btc).plus_funds(50.0) } }
+        let(:member3) { create(:member, :level_3).tap { |m| m.get_account(currency_btc).plus_funds(50.0) } }
         let(:credit) { build(:liability, credit: 9, member: member1, currency: currency_btc) }
         let(:debit1) { build(:liability, :debit, debit: 5, member: member2, currency: currency_btc) }
         let(:debit2) { build(:liability, :debit, debit: 4, member: member3, currency: currency_btc) }

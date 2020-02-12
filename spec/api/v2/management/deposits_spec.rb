@@ -75,6 +75,7 @@ describe API::V2::Management::Deposits, type: :request do
   describe 'create deposits' do
     let(:member) { create(:member, :barong) }
     let(:currency) { Currency.find(:usd) }
+    let!(:account) { member.get_account(:usd) }
     let(:amount) { 750.77 }
     let :data do
       { uid:      member.uid,
@@ -93,18 +94,18 @@ describe API::V2::Management::Deposits, type: :request do
       record = Deposit.find_by_tid!(JSON.parse(response.body).fetch('tid'))
       expect(record.amount).to eq 750.77
       expect(record.aasm_state).to eq 'submitted'
-      expect(record.account).to eq member.accounts.with_currency(currency).first
+      expect(record.account).to eq member.get_account(currency)
     end
 
     it 'can create fiat deposit and immediately accept it' do
       data.merge!(state: :accepted)
-      expect { request }.to change { member.accounts.with_currency(currency).first.balance }.by amount
+      expect { request }.to change { member.get_account(currency).balance }.by amount
     end
 
     it 'denies access unless enough signatures are supplied' do
       data.merge!(state: :accepted)
       signers.clear.concat %i[james jeff]
-      expect { request }.not_to(change { member.accounts.with_currency(currency).first.balance })
+      expect { request }.not_to(change { member.get_account(currency).balance })
       expect(response.status).to eq 401
     end
 
@@ -197,7 +198,7 @@ describe API::V2::Management::Deposits, type: :request do
     let(:amount) { 500.90 }
     let(:signers) { %i[alex jeff] }
     let(:data) { { tid: record.tid } }
-    let(:account) { member.accounts.with_currency(currency).first }
+    let(:account) { member.get_account(currency) }
     let(:record) { Deposits::Fiat.create!(member: member, amount: amount, currency: currency) }
 
     context 'coin deposit' do
@@ -260,7 +261,7 @@ describe API::V2::Management::Deposits, type: :request do
     it 'denies access unless enough signatures are supplied' do
       data.merge!(state: :accepted)
       signers.clear.concat %i[james]
-      expect { request }.not_to(change { member.accounts.with_currency(:usd).first.balance })
+      expect { request }.not_to(change { member.get_account(:usd).balance })
       expect(response.status).to eq 401
     end
   end

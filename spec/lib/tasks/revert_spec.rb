@@ -7,8 +7,8 @@ describe 'revert.rake' do
   let(:alice) { create(:member, :level_3, email: 'alice@gmail.com') }
   let(:bob_accounting_balance) { Operations::Liability.where(member_id: bob.id).sum(:credit) - Operations::Liability.where(member_id: bob.id).sum(:debit) }
   let(:alice_accounting_balance) { Operations::Liability.where(member_id: alice.id).sum(:credit) - Operations::Liability.where(member_id: alice.id).sum(:debit) }
-  let(:bob_legacy_balance) { bob.accounts.find_by(currency_id: :usd).balance }
-  let(:alice_legacy_balance) { alice.accounts.find_by(currency_id: :btc).balance }
+  let(:bob_legacy_balance) { bob.get_account(:usd).balance }
+  let(:alice_legacy_balance) { alice.get_account(:btc).balance }
   subject { Rake::Task['revert:trading_activity'] }
 
   after(:each) { subject.reenable }
@@ -38,8 +38,8 @@ describe 'revert.rake' do
       # Deposit 50 usd to Bob
       create(:deposit_btc, member_id: alice.id, amount: 5).accept!
       create(:deposit_usd, member_id: bob.id, amount: 50).accept!
-      alice.accounts.find_by(currency_id: :btc).lock_funds(5)
-      bob.accounts.find_by(currency_id: :usd).lock_funds(50)
+      alice.get_account(:btc).lock_funds(5)
+      bob.get_account(:usd).lock_funds(50)
       executor.execute!
     end
 
@@ -98,8 +98,8 @@ describe 'revert.rake' do
       # Deposit 50 usd to Bob
       create(:deposit_btc, member_id: alice.id, amount: 5).accept!
       create(:deposit_usd, member_id: bob.id, amount: 50).accept!
-      alice.accounts.find_by(currency_id: :btc).lock_funds(5)
-      bob.accounts.find_by(currency_id: :usd).lock_funds(50)
+      alice.get_account(:btc).lock_funds(5)
+      bob.get_account(:usd).lock_funds(50)
       executor1.execute!
       executor2.execute!
     end

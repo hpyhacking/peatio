@@ -5,8 +5,8 @@ describe API::V2::Account::Transactions, type: :request do
   describe 'GET /api/v2/account/transactions' do
     let(:member) { create(:member, :level_3) }
     let(:token) { jwt_for(member) }
-    let(:btc_account) { member.accounts.with_currency('btc').first }
-    let(:usd_account) { member.accounts.with_currency('usd').first }
+    let(:btc_account) { member.get_account('btc') }
+    let(:usd_account) { member.get_account('usd') }
     let(:balance) { 100000 }
 
     context 'successful' do

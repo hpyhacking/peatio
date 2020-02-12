@@ -28,9 +28,6 @@ describe API::V2::Account::Balances, type: :request do
         expect(result).to contain_exactly(
                             { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0' },
                             { 'currency' => 'eth',  'balance' => '30.5', 'locked'  => '0.0' },
-                            { 'currency' => 'ring', 'balance' => '0.0',  'locked'  => '0.0' },
-                            { 'currency' => 'trst', 'balance' => '0.0',  'locked'  => '0.0' },
-                            { 'currency' => 'usd',  'balance' => '0.0',  'locked'  => '0.0' },
                             )
       end
     end
@@ -42,7 +39,7 @@ describe API::V2::Account::Balances, type: :request do
         result = JSON.parse(response.body)
         expect(response).to be_successful
 
-        expect(response.headers.fetch('Total').to_i).to eq Currency.visible.count
+        expect(response.headers.fetch('Total').to_i).to eq member.accounts.count
 
         expect(result.size).to eq(2)
       end
@@ -57,7 +54,7 @@ describe API::V2::Account::Balances, type: :request do
 
       it 'returns only balances of enabled currencies' do
         result = JSON.parse(response.body)
-        expect(result.count).to eq Currency.visible.count
+        expect(result.count).to eq 1
       end
 
     end

@@ -18,14 +18,10 @@ describe Member do
       expect(build(:member, email: 'Foo@example.com')).to_not be_valid
     end
 
-    it 'creates accounts for the member' do
+    it 'doesnt creates accounts for the member' do
       expect do
         member.save!
-      end.to change(member.accounts, :count).by(Currency.codes.size)
-
-      Currency.codes.each do |code|
-        expect(Account.with_currency(code).where(member_id: member.id).count).to eq 1
-      end
+      end.not_to change(member.accounts, :count)
     end
   end
 

@@ -80,8 +80,8 @@ module Matching
         end
 
         # Check if accounts exists or create them.
-        @maker_order.member.get_account(@maker_order.outcome_currency)
-        @taker_order.member.get_account(@taker_order.outcome_currency)
+        @maker_order.member.get_account(@maker_order.income_currency)
+        @taker_order.member.get_account(@taker_order.income_currency)
 
         validate!
 

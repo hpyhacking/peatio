@@ -105,7 +105,7 @@ describe API::V2::Account::Withdraws, type: :request do
         otp:            123456 }
     end
 
-    let(:account) { member.accounts.with_currency(currency).first }
+    let(:account) { member.get_account(currency) }
     let(:balance) { 1.2 }
     let(:long_note) { (0...257).map { (65 + rand(26)).chr }.join }
     before { account.plus_funds(balance) }

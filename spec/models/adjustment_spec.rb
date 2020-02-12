@@ -145,7 +145,7 @@ describe Adjustment do
     it 'updates legacy balances (credit for main account)' do
       expect {
         subject.accept!(validator: member)
-      }.to change { member.accounts.find_by(currency: subject.currency).balance }.by(subject.amount)
+      }.to change { member.get_account(subject.currency).balance }.by(subject.amount)
     end
 
     context 'updates legacy balances (debit for locked account)' do
@@ -211,7 +211,6 @@ describe Adjustment do
 
     context 'user account creation' do
       before do
-        member.accounts.find_by(currency_id: 'btc').delete
         subject.accept!(validator: member)
       end
 

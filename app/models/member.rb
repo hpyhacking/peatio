@@ -23,8 +23,6 @@ class Member < ApplicationRecord
   validates :level, numericality: { greater_than_or_equal_to: 0 }
   validates :role, inclusion: { in: ROLES }
 
-  after_create :touch_accounts
-
   attr_readonly :email
 
   class << self
