@@ -60,11 +60,6 @@ module API
                      values: { value: 1..1000, message: 'public.trade.invalid_limit' },
                      default: 100,
                      desc: 'Limit the number of returned trades. Default to 100.'
-            optional :page,
-                     type: { value: Integer, message: 'public.trade.non_integer_page' },
-                     values: { value: -> (p){ p.try(:positive?) }, message: 'public.trade.non_positive_page'},
-                     default: 1,
-                     desc: 'Specify the page of paginated results.'
             optional :timestamp,
                      type: { value: Integer, message: 'public.trade.non_integer_timestamp' },
                      desc: "An integer represents the seconds elapsed since Unix epoch."\
@@ -76,9 +71,7 @@ module API
                      desc: "If set, returned trades will be sorted in specific order, default to 'desc'."
           end
           get ":market/trades" do
-            Trade.order(order_param)
-                 .tap { |q| q.where!(market: params[:market]) if params[:market] }
-                 .tap { |q| present paginate(q), with: API::V2::Entities::Trade }
+            present Trade.from_influx(params), with: API::V2::Entities::PublicTrade
           end
 
           desc 'Get depth or specified market. Both asks and bids are sorted from highest price to lowest.'

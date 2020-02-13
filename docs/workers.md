@@ -12,6 +12,10 @@ This daemon transfer fees for deposit collection paying and send deposit_collect
 
 This daemon creates new addresses for you.
 
+## amqp:influx_writer
+
+This daemon reads from peatio.trade exchange and records trades to InfluxDB.
+
 ## amqp:market_ticker
 
 This daemon updates market ticker when some orders or trades are created / updated.

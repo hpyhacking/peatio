@@ -60,6 +60,10 @@ daemon 'amqp:deposit_coin_address',
        script:   'amqp_daemon.rb',
        arguments: %w[ deposit_coin_address ]
 
+daemon 'amqp:influx_writer',
+       script:   'amqp_daemon.rb',
+       arguments: %w[ influx_writer ]
+
 daemon 'amqp:market_ticker',
        script:   'amqp_daemon.rb',
        arguments: %w[ market_ticker ]

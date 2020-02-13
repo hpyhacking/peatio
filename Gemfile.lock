@@ -185,6 +185,7 @@ GEM
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
+    influxdb (0.7.0)
     irb (1.0.0)
     jaro_winkler (1.5.4)
     jbuilder (2.7.0)
@@ -473,6 +474,7 @@ DEPENDENCIES
   grape_on_rails_routes (~> 0.3.2)
   hashie (~> 3.6.0)
   hiredis (~> 0.6.0)
+  influxdb (~> 0.7.0)
   irb
   jbuilder (~> 2.7.0)
   jquery-rails (~> 4.3.5)
@@ -503,6 +505,7 @@ DEPENDENCIES
   rspec-retry (~> 0.6)
   rubocop-rspec (~> 1.32)
   ruby-prof (~> 0.17.0)
+  safe_yaml (~> 1.0.5)
   sassc-rails (~> 2.1.2)
   scout_apm (~> 2.4)
   sentry-raven (~> 2.9.0)

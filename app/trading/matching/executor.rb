@@ -135,7 +135,8 @@ module Matching
     def publish_trade
       AMQPQueue.publish :trade, @trade.as_json, {
         headers: {
-          market:        @market.id,
+          type:     :local,
+          market:   @market.id,
           maker_id: @maker_id,
           taker_id: @taker_id
         }

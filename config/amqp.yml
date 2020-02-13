@@ -43,6 +43,8 @@ queue:
   deposit_coin_address:
     name: peatio.deposit.coin.address
     durable: true
+  influx_writer:
+    name: peatio.trade.writer
   trade_error:
     name: peatio.trades.errors
   # Queue which used by third-party trading engine for updating balances and
@@ -77,6 +79,9 @@ binding:
     queue: deposit_collection
   deposit_coin_address:
     queue: deposit_coin_address
+  influx_writer:
+    queue: influx_writer
+    exchange: trade
   trade_error:
     queue: trade_error
   events_processor:

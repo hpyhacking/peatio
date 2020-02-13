@@ -20,9 +20,13 @@ Dir.chdir APP_ROOT do
     system 'bundle exec peatio security keygen --path=config/secrets'
   end
 
+  puts "\n=== Creting backend ==="
   {'VAULT_TOKEN' => VAULT_TOKEN}.tap do |env|
     system(env, 'docker-compose -f config/backend.yml up -d')
   end
+
+  puts "\n=== Initialize InfluxDB ==="
+  system 'docker-compose -f config/backend.yml exec influxdb bash -c "cat influxdb.sql | influx"'
 
   puts "\n=== Setup Vault"
   system "bin/init_vault"

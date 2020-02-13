@@ -9,6 +9,13 @@ services:
   environment:
     MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
 
+- name: influxdb
+  image: influxdb:1.7.8
+  ports:
+    - 8086
+  environment:
+    INFLUXDB_ADMIN_ENABLED: 'true'
+
 - name: rabbitmq
   image: rabbitmq:3.7.6-management
   ports:
@@ -26,11 +33,17 @@ steps:
   commands:
   - dockerize -wait tcp://database:3306 -timeout 1m
 
+- name: init-influxdb
+  image: influxdb:1.7.8
+  commands:
+  - cat db/influxdb.sql | influx -host influxdb
+
 # Initialize application. Install dependencies. Migrate database. Run rspec.
 - name: run-rspec
   image: ruby:2.6.5
   environment:
     DATABASE_HOST: database
+    INFLUXDB_HOST: influxdb
     RABBITMQ_HOST: rabbitmq
     EVENT_API_RABBITMQ_HOST: rabbitmq
     REDIS_URL: redis://redis:6379

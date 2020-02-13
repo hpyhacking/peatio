@@ -45,11 +45,13 @@ module Workers
 
         low_trade = initialize_market_low(market.id)
         high_trade = initialize_market_high(market.id)
+        open_trade = initialize_market_open(market.id)
 
         @tickers[market.id] = {
           low:  low_trade.try(:price)   || ::Trade::ZERO,
           high: high_trade.try(:price)  || ::Trade::ZERO,
-          last: trades.last.try(:price) || ::Trade::ZERO
+          last: trades.last.try(:price) || ::Trade::ZERO,
+          open: open_trade.try(:price)  || ::Trade::ZERO
         }
         Rails.cache.write "peatio:#{market.id}:ticker", @tickers[market.id]
       end
@@ -102,10 +104,17 @@ module Workers
         end
       end
 
+      def initialize_market_open(market)
+        if open_trade = Trade.with_market(market).h24.order('price desc').first
+          ttl = open_trade.created_at.to_i + 24.hours - Time.now.to_i
+          write_h24_key "peatio:#{market}:h24:open", open_trade.price, ttl
+          open_trade
+        end
+      end
+
       def write_h24_key(key, value, ttl=24.hours)
         Rails.cache.write key, value, expires_in: ttl
       end
-
     end
   end
 end

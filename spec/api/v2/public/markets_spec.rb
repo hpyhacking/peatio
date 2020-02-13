@@ -152,8 +152,32 @@ describe API::V2::Public::Markets, type: :request do
     let(:last_point)  { points.last }
     let(:first_point) { points.first }
 
-    before { KlineDB.redis.rpush('peatio:btcusd:k:1', points) }
-    after { KlineDB.redis.flushall }
+    before { write_to_influx(points) }
+    after { delete_measurments("candles_1m") }
+
+    def influx_data(point)
+      {
+        values:
+        {
+          open: point[1],
+          high: point[2],
+          low: point[3],
+          close: point[4],
+          volume: point[5],
+        },
+        tags:
+        {
+          market: 'btcusd'
+        },
+        timestamp: point[0]
+      }
+    end
+
+    def write_to_influx(points)
+      points.each do |point|
+        Peatio::InfluxDB.client(epoch: 's').write_point('candles_1m', influx_data(point), 's')
+      end
+    end
 
     def load_k_line(query = {})
       api_get '/api/v2/public/markets/btcusd/k-line?' + query.to_query
@@ -173,7 +197,7 @@ describe API::V2::Public::Markets, type: :request do
       context 'with time_from' do
         it 'smaller than first point timestamp' do
           load_k_line(time_from: first_point.first - 2 * point_period)
-          expect(response_body).to eq points[0...points_default_limit - 2]
+          expect(response_body).to eq points[0...points_default_limit]
         end
 
         it 'bigger than last point timestamp' do
@@ -205,7 +229,7 @@ describe API::V2::Public::Markets, type: :request do
         it 'bigger than last point timestamp' do
           load_k_line(time_to: last_point.first + 2 * point_period)
           # Returns (limit - 2) left points.
-          points[(-points_default_limit + 2)..-1]
+          expect(response_body).to eq points[-points_default_limit..]
         end
 
         it 'in range of first and last timestamp' do
@@ -307,7 +331,7 @@ describe API::V2::Public::Markets, type: :request do
     end
 
     context 'data is missing' do
-      before { KlineDB.redis.flushall }
+      before { delete_measurments("candles_1m") }
 
       it 'without time_from' do
         load_k_line
@@ -494,6 +518,13 @@ describe API::V2::Public::Markets, type: :request do
     let!(:ask_trade) { create(:trade, :btcusd, maker_order: ask, created_at: 2.days.ago) }
     let!(:bid_trade) { create(:trade, :btcusd, taker_order: bid, created_at: 1.day.ago) }
 
+
+    before do
+      delete_measurments('trades')
+      ask_trade.write_to_influx
+      bid_trade.write_to_influx
+    end
+
     it 'returns all recent trades' do
       get "/api/v2/public/markets/#{market}/trades"
 
@@ -515,21 +546,19 @@ describe API::V2::Public::Markets, type: :request do
       expect(JSON.parse(response.body).first['id']).to eq bid_trade.id
     end
 
-    it 'gets trades by page and limit' do
-      create(:trade, :btcusd, taker_order: bid, created_at: 6.hours.ago)
+    it 'gets trades by limit' do
+      trade = create(:trade, :btcusd, taker_order: bid, created_at: 6.hours.ago)
+      trade.write_to_influx
 
-      get "/api/v2/public/markets/#{market}/trades", params: { limit: 2, page: 1, order_by: 'asc'}
+      get "/api/v2/public/markets/#{market}/trades", params: { limit: 2, order_by: 'asc'}
 
       expect(response).to be_successful
-      expect(response.headers.fetch('Total')).to eq '3'
-
       expect(JSON.parse(response.body).count).to eq 2
 
-      get "/api/v2/public/markets/#{market}/trades", params: { market: 'btcusd', limit: 1, page: 2, order_by: 'asc' }
+      get "/api/v2/public/markets/#{market}/trades", params: { market: 'btcusd', limit: 3, order_by: 'asc' }
 
       expect(response).to be_successful
-      expect(response.headers.fetch('Total')).to eq '3'
-      expect(JSON.parse(response.body).count).to eq 1
+      expect(JSON.parse(response.body).count).to eq 3
     end
 
     it 'validates market param' do
@@ -542,12 +571,6 @@ describe API::V2::Public::Markets, type: :request do
       get "/api/v2/public/markets/#{market}/trades", params: { limit: 1001 }
       expect(response).to have_http_status 422
       expect(response).to include_api_error('public.trade.invalid_limit')
-    end
-
-    it 'validates page param' do
-      get "/api/v2/public/markets/#{market}/trades", params: { page: -1 }
-      expect(response).to have_http_status 422
-      expect(response).to include_api_error('public.trade.non_positive_page')
     end
   end
 end

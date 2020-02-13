@@ -11,6 +11,19 @@ services:
     ports:
       - "3306:3306"
 
+  influxdb:
+    image: influxdb:1.7.8
+    container_name: influxdb
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+    volumes:
+      - ../db/influxdb.sql:/influxdb.sql
+      - influx_data:/var/lib/influxdb
+    environment:
+       INFLUXDB_ADMIN_ENABLED: "true"
+
+
   redis:
     image: redis:4.0
     volumes:
@@ -71,6 +84,7 @@ services:
       VAULT_ADDR: http://vault:8200
 
 volumes:
+  influx_data:
   db_data:
   rabbitmq_data:
   redis_data:

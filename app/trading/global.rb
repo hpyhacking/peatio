@@ -48,20 +48,18 @@ class Global
   end
 
   def default_ticker
-    { low: ZERO, high: ZERO, last: ZERO, volume: ZERO }
+    { low: ZERO, high: ZERO, last: ZERO, volume: ZERO, open: ZERO }
   end
 
   def ticker
     ticker           = Rails.cache.read(key(:ticker)) || default_ticker
-    open             = Rails.cache.read(key(:ticker, :open)) || ticker[:last]
     best_buy_price   = bids.first && bids.first[0] || ZERO
     best_sell_price  = asks.first && asks.first[0] || ZERO
     avg_price        = avg_h24_price
-    price_change_percent = change_ratio(open, ticker[:last])
+    price_change_percent = change_ratio(ticker[:open], ticker[:last])
 
     ticker.merge(
       at: at,
-      open: open,
       volume: h24_volume,
       sell: best_sell_price,
       buy: best_buy_price,
