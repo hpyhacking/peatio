@@ -208,6 +208,7 @@ ActiveRecord::Schema.define(version: 2020_02_11_124707) do
   end
 
   create_table "orders", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.binary "uuid", limit: 16
     t.string "bid", limit: 10, null: false
     t.string "ask", limit: 10, null: false
     t.string "market_id", limit: 20, null: false
@@ -224,8 +225,8 @@ ActiveRecord::Schema.define(version: 2020_02_11_124707) do
     t.decimal "origin_locked", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "funds_received", precision: 32, scale: 16, default: "0.0"
     t.integer "trades_count", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 3, null: false
+    t.datetime "updated_at", precision: 3, null: false
     t.index ["member_id"], name: "index_orders_on_member_id"
     t.index ["state"], name: "index_orders_on_state"
     t.index ["type", "market_id"], name: "index_orders_on_type_and_market_id"

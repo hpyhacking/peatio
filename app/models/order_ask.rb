@@ -52,11 +52,12 @@ class OrderAsk < Order
 end
 
 # == Schema Information
-# Schema version: 20190813121822
+# Schema version: 20200117160600
 #
 # Table name: orders
 #
 #  id             :integer          not null, primary key
+#  uuid           :binary(16)
 #  bid            :string(10)       not null
 #  ask            :string(10)       not null
 #  market_id      :string(20)       not null
