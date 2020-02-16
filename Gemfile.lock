@@ -200,6 +200,9 @@ GEM
     jwt-multisig (1.0.0)
       activesupport (>= 4.0, < 6.0)
       jwt (~> 2.1)
+    jwt-rack (0.1.0)
+      jwt (~> 2.1.0)
+      rack
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.1.1)
@@ -480,6 +483,7 @@ DEPENDENCIES
   jquery-rails (~> 4.3.5)
   jwt (~> 2.1.0)
   jwt-multisig (~> 1.0.0)
+  jwt-rack (~> 0.1.0)
   kaminari (~> 1.1.1)
   listen (>= 3.0.5, < 3.2)
   memoist (~> 0.16.0)

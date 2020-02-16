@@ -30,8 +30,6 @@ module API
                       GrapeLogging::Loggers::ClientEnv.new,
                       GrapeLogging::Loggers::RequestHeaders.new]
 
-      use V2::Auth::Middleware
-
       include Constraints
       include ExceptionHandlers
 

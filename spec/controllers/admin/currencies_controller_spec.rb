@@ -27,7 +27,7 @@ describe Admin::CurrenciesController, type: :controller do
   before { session[:member_id] = member.id }
 
   describe '#create' do
-    it 'creates market with valid attributes' do
+    it 'creates currency with valid attributes' do
       expect do
         post :create, params: { currency: attributes }
         expect(response).to redirect_to admin_currencies_path

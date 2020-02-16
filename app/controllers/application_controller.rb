@@ -1,10 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-require_dependency 'authorization/bearer'
-
 class ApplicationController < ActionController::Base
-  include Authorization::Bearer
   extend Memoist
 
   before_action :set_ets_context!, if: -> { defined?(Raven) }
@@ -14,10 +11,16 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    if request.headers['Authorization']
-      token = request.headers['Authorization']
-      payload = authenticate!(token)
-      Member.from_payload(payload)
+    # JWT authentication provides member email.
+    if request.env.key?('jwt.payload')
+      begin
+        Member.from_payload(request.env['jwt.payload'].symbolize_keys)
+          # Handle race conditions when creating member record.
+          # We do not handle race condition for update operations.
+          # http://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-find_or_create_by
+      rescue ActiveRecord::RecordNotUnique
+        retry
+      end
     end
   end
   memoize :current_user

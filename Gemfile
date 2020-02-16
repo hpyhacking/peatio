@@ -55,6 +55,7 @@ gem 'digest-sha3', '~> 1.1.0'
 gem 'scout_apm', '~> 2.4', require: false
 gem 'peatio', '2.4.0.pre.alpha'
 gem 'rack-cors', '~> 1.0.6', require: false
+gem 'jwt-rack', '~> 0.1.0', require: false
 gem 'env-tweaks', '~> 1.0.0'
 gem 'vault', '~> 0.12', require: false
 gem 'vault-rails', git: 'http://github.com/rubykube/vault-rails'

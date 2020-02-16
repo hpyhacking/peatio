@@ -4,17 +4,14 @@
 module AuthTestHelpers
   AUTH_HEADER_NAME = 'Authorization'.freeze
 
-  def auth_get(method, params, token)
-    request.headers[AUTH_HEADER_NAME] = "Bearer #{token}"
-    get(method, params)
-  end
-
-  def inject_authorization!(m)
-    @request.headers[AUTH_HEADER_NAME] = "Bearer #{jwt_for(m)}"
+  def inject_authorization!(member)
+    @request.env['jwt.payload'] =
+      { email: member.email, uid: member.uid,
+        role: member.role, state: member.state, level: member.level }
   end
 
   def eject_authorization!
-    @request.headers[AUTH_HEADER_NAME] = nil
+    @request.env['jwt.payload'] = nil
   end
 end
 

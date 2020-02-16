@@ -22,7 +22,7 @@ Dir.chdir APP_ROOT do
 
   puts "\n=== Creting backend ==="
   {'VAULT_TOKEN' => VAULT_TOKEN}.tap do |env|
-    system(env, 'docker-compose -f config/backend.yml up -d')
+    system(env, 'docker-compose -f config/backend.yml up -Vd')
   end
 
   puts "\n=== Initialize InfluxDB ==="
