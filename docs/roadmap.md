@@ -2,6 +2,7 @@
 
 ## v2.4
 
+ * Incremental Orderbook via WS
  * Moving historical data of kline and trades into influxDB
  * Performance improvements for matching latency
  * Migration to Rack JWT
@@ -16,6 +17,8 @@
  * API rate limiter per user
  * CSV export and database archiving
  * Support for Remote orderbook
+ * Remove SlaveBook and rework global state
+ * Optimize memory usage of Peatio deployments
 
 ## v3.0
 
