@@ -14,7 +14,7 @@ module Workers
         Market.enabled.each do |market|
           state = Global[market.id]
 
-          Peatio::Ranger::Events.publish("public", market.id, "update", {
+          ::AMQP::Queue.enqueue_event("public", market.id, "update", {
             asks: state.asks[0,300],
             bids: state.bids[0,300],
           })
@@ -22,7 +22,7 @@ module Workers
           tickers[market.id] = market.unit_info.merge(state.ticker)
         end
 
-        Peatio::Ranger::Events.publish("public", "global", "tickers", tickers)
+        ::AMQP::Queue.enqueue_event("public", "global", "tickers", tickers)
 
         tickers.clear
       end

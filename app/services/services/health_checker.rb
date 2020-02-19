@@ -37,7 +37,7 @@ module Services
       end
 
       def check_rabbitmq
-        Bunny.run(AMQPConfig.connect) { |c| c.connected? }
+        Bunny.run(AMQP::Config.connect) { |c| c.connected? }
       end
     end
   end

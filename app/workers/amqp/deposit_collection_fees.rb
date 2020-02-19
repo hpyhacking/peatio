@@ -28,7 +28,7 @@ module Workers
           wallet = Wallet.active.fee.find_by(blockchain_key: deposit.currency.blockchain_key)
           unless wallet
             Rails.logger.warn { "Can't find active deposit wallet for currency with code: #{deposit.currency_id}."}
-            AMQPQueue.enqueue(:deposit_collection, id: deposit.id)
+            ::AMQP::Queue.enqueue(:deposit_collection, id: deposit.id)
             return
           end
 
@@ -38,7 +38,7 @@ module Workers
             Rails.logger.warn { "The API accepted deposit collection fees transfer and assigned transaction IDs: #{transactions.map(&:as_json)}." }
           end
 
-          AMQPQueue.enqueue(:deposit_collection, id: deposit.id)
+          ::AMQP::Queue.enqueue(:deposit_collection, id: deposit.id)
           Rails.logger.warn { "Deposit collection job enqueue." }
         rescue Exception => e
           begin

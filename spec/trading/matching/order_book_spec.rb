@@ -52,7 +52,7 @@ describe Matching::OrderBook do
     it 'should not broadcast add event' do
       order = Matching.mock_limit_order(type: :ask)
 
-      AMQPQueue.expects(:enqueue).with(:slave_book, { action: 'add', order: order.attributes }, persistent: false).never
+      AMQP::Queue.expects(:enqueue).with(:slave_book, { action: 'add', order: order.attributes }, persistent: false).never
       Matching::OrderBook.new('btcusd', :ask, broadcast: false).add order
     end
   end

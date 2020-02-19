@@ -83,7 +83,7 @@ describe Matching::Executor do
     end
 
     it 'should publish trade through amqp' do
-      AMQPQueue.expects(:publish)
+      AMQP::Queue.expects(:publish)
       subject.execute!
     end
   end

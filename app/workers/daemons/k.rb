@@ -17,7 +17,7 @@ module Workers
               points.map do |point|
                 result = [point['time'], point['open'], point['high'], point['low'], point['close'], point['volume']]
                 logger.info { "publishing #{result} #{event_name(period)} stream for #{market.id}" }
-                Peatio::Ranger::Events.publish('public', market.id,
+                ::AMQP::Queue.enqueue_event('public', market.id,
                                            event_name(period), result)
               end
             end

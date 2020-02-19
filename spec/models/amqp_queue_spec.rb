@@ -1,7 +1,7 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-describe AMQPQueue do
+describe AMQP::Queue do
   let(:config) do
     Hashie::Mash.new(connect:   { host: '127.0.0.1' },
                      exchange:  { testx: { name: 'testx', type: 'fanout' } },
@@ -18,27 +18,27 @@ describe AMQPQueue do
   let(:channel) { stub('channel', default_exchange: default_exchange) }
 
   before do
-    AMQPConfig.stubs(:data).returns(config)
+    AMQP::Config.stubs(:data).returns(config)
 
-    AMQPQueue.unstub(:publish)
-    AMQPQueue.stubs(:exchanges).returns(default: default_exchange)
-    AMQPQueue.stubs(:channel).returns(channel)
+    AMQP::Queue.unstub(:publish)
+    AMQP::Queue.stubs(:exchanges).returns(default: default_exchange)
+    AMQP::Queue.stubs(:channel).returns(channel)
   end
 
   it 'should instantiate exchange use exchange config' do
     channel.expects(:fanout).with('testx')
-    AMQPQueue.exchange(:testx)
+    AMQP::Queue.exchange(:testx)
   end
 
   it 'should publish message on selected exchange' do
     exchange = mock('test exchange')
     channel.expects(:fanout).with('testx').returns(exchange)
     exchange.expects(:publish).with(JSON.dump(data: 'hello'), {})
-    AMQPQueue.publish(:testx, data: 'hello')
+    AMQP::Queue.publish(:testx, data: 'hello')
   end
 
   it 'should publish message on default exchange' do
     default_exchange.expects(:publish).with(JSON.dump(data: 'hello'), routing_key: 'testd')
-    AMQPQueue.enqueue(:testd, data: 'hello')
+    AMQP::Queue.enqueue(:testd, data: 'hello')
   end
 end

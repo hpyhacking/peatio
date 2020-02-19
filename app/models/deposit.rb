@@ -107,9 +107,9 @@ class Deposit < ApplicationRecord
     return unless coin?
 
     if collect_fee
-      AMQPQueue.enqueue(:deposit_collection_fees, id: id)
+      AMQP::Queue.enqueue(:deposit_collection_fees, id: id)
     else
-      AMQPQueue.enqueue(:deposit_collection, id: id)
+      AMQP::Queue.enqueue(:deposit_collection, id: id)
     end
   end
 

@@ -26,7 +26,7 @@ module Bench
             loop do
               break if @wait_orders_queue.blank?
               order = @wait_orders_queue.pop
-              AMQPQueue.enqueue(:matching, action: 'cancel', order: order.to_matching_attributes)
+              AMQP::Queue.enqueue(:matching, action: 'cancel', order: order.to_matching_attributes)
             rescue StandardError => e
               Kernel.puts e
               @errors << e
@@ -88,7 +88,7 @@ module Bench
       end
 
       def order_processing_queue_status
-        @rmq_http_client.list_queues.find { |q| q[:name] == AMQPConfig.binding_queue(:order_processor).first }
+        @rmq_http_client.list_queues.find { |q| q[:name] == AMQP::Config.binding_queue(:order_processor).first }
       end
     end
   end

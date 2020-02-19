@@ -101,7 +101,7 @@ module Workers
               raise DryrunError, engine
             else
               # only buffered orders matched, just publish trades and continue
-              engine.queue.each {|args| AMQPQueue.enqueue(*args) }
+              engine.queue.each {|args| ::AMQP::Queue.enqueue(*args) }
               engine.shift_gears :run
             end
           end

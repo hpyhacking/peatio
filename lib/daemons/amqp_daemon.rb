@@ -7,12 +7,12 @@ raise "bindings must be provided." if ARGV.size == 0
 
 logger = Rails.logger
 
-conn = Bunny.new AMQPConfig.connect
+conn = Bunny.new AMQP::Config.connect
 conn.start
 
 ch = conn.create_channel
 id = $0.split(':')[2]
-prefetch = AMQPConfig.channel(id)[:prefetch] || 0
+prefetch = AMQP::Config.channel(id)[:prefetch] || 0
 ch.prefetch(prefetch) if prefetch > 0
 logger.info { "Connected to AMQP broker (prefetch: #{prefetch > 0 ? prefetch : 'default'})" }
 
@@ -30,17 +30,17 @@ Signal.trap("TERM", &terminate)
 
 workers = []
 ARGV.each do |id|
-  worker = AMQPConfig.binding_worker(id)
-  queue  = ch.queue *AMQPConfig.binding_queue(id)
+  worker = AMQP::Config.binding_worker(id)
+  queue  = ch.queue *AMQP::Config.binding_queue(id)
 
-  if args = AMQPConfig.binding_exchange(id)
+  if args = AMQP::Config.binding_exchange(id)
     x = ch.send *args
 
     case args.first
     when 'direct'
-      queue.bind x, routing_key: AMQPConfig.routing_key(id)
+      queue.bind x, routing_key: AMQP::Config.routing_key(id)
     when 'topic'
-      AMQPConfig.topics(id).each do |topic|
+      AMQP::Config.topics(id).each do |topic|
         queue.bind x, routing_key: topic
       end
     else
@@ -48,7 +48,7 @@ ARGV.each do |id|
     end
   end
 
-  clean_start = AMQPConfig.data[:binding][id][:clean_start]
+  clean_start = AMQP::Config.data[:binding][id][:clean_start]
   queue.purge if clean_start
 
   # Enable manual acknowledge mode by setting manual_ack: true.

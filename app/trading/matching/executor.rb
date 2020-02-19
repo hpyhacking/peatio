@@ -24,7 +24,7 @@ module Matching
     end
 
     def publish_cancel
-      AMQPQueue.enqueue(:order_processor,
+      AMQP::Queue.enqueue(:order_processor,
                         { action: 'cancel', order: @payload[:order] },
                         { persistent: false })
     end
@@ -33,11 +33,11 @@ module Matching
       execute!
       # TODO: Queue should exist event if none is listening.
     rescue TradeExecutionError => e
-      AMQPQueue.enqueue(:trade_error, e.options)
+      AMQP::Queue.enqueue(:trade_error, e.options)
       [@maker_order, @taker_order].each do |order|
         order.with_lock do
           next unless order.state == Order::WAIT
-          AMQPQueue.enqueue(:matching, action: 'submit', order: order.to_matching_attributes)
+          AMQP::Queue.enqueue(:matching, action: 'submit', order: order.to_matching_attributes)
         end
       end
       report_exception_to_screen(e)
@@ -133,7 +133,7 @@ module Matching
     end
 
     def publish_trade
-      AMQPQueue.publish :trade, @trade.as_json, {
+      AMQP::Queue.publish :trade, @trade.as_json, {
         headers: {
           type:     :local,
           market:   @market.id,
@@ -141,6 +141,8 @@ module Matching
           taker_id: @taker_id
         }
       }
+
+      @trade.trigger_event
 
       [@maker_order, @taker_order].each do |order|
         event =
@@ -150,7 +152,7 @@ module Matching
           else 'order_updated'
           end
 
-        order.trigger_pusher_event
+        order.trigger_event
         next unless order.ord_type == 'limit' # Skip market orders.
 
         EventAPI.notify ['market', order.market_id, event].join('.'), \

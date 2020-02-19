@@ -278,7 +278,7 @@ private
   end
 
   def send_coins!
-    AMQPQueue.enqueue(:withdraw_coin, id: id) if coin?
+    AMQP::Queue.enqueue(:withdraw_coin, id: id) if coin?
   end
 end
 

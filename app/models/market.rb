@@ -114,7 +114,7 @@ class Market < ApplicationRecord
   # == Callbacks ============================================================
 
   before_validation(on: :create) { self.id = "#{base_currency}#{quote_currency}" }
-  after_commit { AMQPQueue.enqueue(:matching, action: 'new', market: id) }
+  after_commit { AMQP::Queue.enqueue(:matching, action: 'new', market: id) }
 
   # == Instance Methods =====================================================
 

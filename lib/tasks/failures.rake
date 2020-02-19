@@ -5,7 +5,7 @@ namespace :failures do
   desc 'Fetch Trade Execution Errors'
   task trade_errors: :environment do
 
-    conn = Bunny.new AMQPConfig.connect
+    conn = Bunny.new AMQP::Config.connect
     conn.start
 
     ch = conn.create_channel

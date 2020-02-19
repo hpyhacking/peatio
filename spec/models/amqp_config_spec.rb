@@ -8,7 +8,7 @@ module Workers
   end
 end
 
-describe AMQPConfig do
+describe AMQP::Config do
   let(:config) do
     Hashie::Mash.new(connect:   { host: '127.0.0.1' },
                      exchange:  { testx:  { name: 'testx', type: 'fanout' },
@@ -24,42 +24,42 @@ describe AMQPConfig do
   end
 
   before do
-    AMQPConfig.stubs(:data).returns(config)
+    AMQP::Config.stubs(:data).returns(config)
   end
 
   it 'should tell client how to connect' do
-    expect(AMQPConfig.connect).to eq ({ 'host' => '127.0.0.1' })
+    expect(AMQP::Config.connect).to eq ({ 'host' => '127.0.0.1' })
   end
 
   it 'should return queue settings' do
-    expect(AMQPConfig.queue(:testq)).to eq ['testq', { durable: true }]
+    expect(AMQP::Config.queue(:testq)).to eq ['testq', { durable: true }]
   end
 
   it 'should return exchange settings' do
-    expect(AMQPConfig.exchange(:testx)).to eq %w[fanout testx]
+    expect(AMQP::Config.exchange(:testx)).to eq %w[fanout testx]
   end
 
   it 'should return binding queue' do
-    expect(AMQPConfig.binding_queue(:test)).to eq ['testq', { durable: true }]
+    expect(AMQP::Config.binding_queue(:test)).to eq ['testq', { durable: true }]
   end
 
   it 'should return binding exchange' do
-    expect(AMQPConfig.binding_exchange(:test)).to eq %w[fanout testx]
+    expect(AMQP::Config.binding_exchange(:test)).to eq %w[fanout testx]
   end
 
   it 'should set exchange to nil when binding use default exchange' do
-    expect(AMQPConfig.binding_exchange(:default)).to be_nil
+    expect(AMQP::Config.binding_exchange(:default)).to be_nil
   end
 
   it 'should find binding worker' do
-    expect(AMQPConfig.binding_worker(:test)).to be_instance_of(Workers::AMQP::Test)
+    expect(AMQP::Config.binding_worker(:test)).to be_instance_of(Workers::AMQP::Test)
   end
 
   it 'should return queue name of binding' do
-    expect(AMQPConfig.routing_key(:testd)).to eq 'testq'
+    expect(AMQP::Config.routing_key(:testd)).to eq 'testq'
   end
 
   it 'should return topics to subscribe' do
-    expect(AMQPConfig.topics(:topic)).to eq ['test.a', 'test.b']
+    expect(AMQP::Config.topics(:topic)).to eq ['test.a', 'test.b']
   end
 end

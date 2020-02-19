@@ -82,8 +82,8 @@ describe BlockchainService do
           clear_redis
           service.stubs(:latest_block_number).returns(100)
           fake_adapter.stubs(:fetch_block!).returns(expected_transactions)
-          AMQPQueue.expects(:enqueue).with(:events_processor, is_a(Hash))
-          AMQPQueue.expects(:enqueue).with(:deposit_collection_fees, id: subject.first.id)
+          AMQP::Queue.expects(:enqueue).with(:events_processor, is_a(Hash))
+          AMQP::Queue.expects(:enqueue).with(:deposit_collection_fees, id: subject.first.id)
         end
 
         it { service.process_block(block_number) }

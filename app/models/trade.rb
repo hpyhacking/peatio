@@ -89,6 +89,12 @@ class Trade < ApplicationRecord
     [maker_order, taker_order].find { |o| o.side == 'buy' }
   end
 
+  def trigger_event
+    ::AMQP::Queue.enqueue_event("private", maker.uid, "trade", for_notify(maker))
+    ::AMQP::Queue.enqueue_event("private", taker.uid, "trade", for_notify(taker))
+    ::AMQP::Queue.enqueue_event("public", market.id, "trades", {trades: [for_global]})
+  end
+
   def for_notify(member = nil)
     { id:             id,
       price:          price.to_s  || ZERO,

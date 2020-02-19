@@ -311,7 +311,7 @@ describe Order, '#record_cancel_operations!' do
   end
 end
 
-describe Order, '#trigger_pusher_event' do
+describe Order, '#trigger_event' do
 
   context 'trigger pusher event for limit order' do
     let!(:order){ create(:order_ask, :with_deposit_liability) }
@@ -338,9 +338,9 @@ describe Order, '#trigger_pusher_event' do
       }
     end
 
-    before { AMQPQueue.expects(:enqueue).with(:pusher_member, member_id: subject.member.id, event: :order, data: data) }
+    before { ::AMQP::Queue.expects(:enqueue_event).with('private', subject.member.uid, 'order', data) }
 
-    it { subject.trigger_pusher_event }
+    it { subject.trigger_event }
   end
 
   context 'trigger pusher event for market order' do
@@ -369,14 +369,21 @@ describe Order, '#trigger_pusher_event' do
     end
 
     it 'doesnt push event for active market order' do
-      AMQPQueue.expects(:enqueue).with(:pusher_member, member_id: subject.member.id, event: :order, data: data).never
-      subject.trigger_pusher_event
+      ::AMQP::Queue.expects(:enqueue_event).with(:order, data).never
+      subject.trigger_event
     end
 
     it 'pushes event for completed market order' do
+      subject.expects(:trigger_event)
       subject.update!(state: 'done')
-      AMQPQueue.expects(:enqueue).with(:pusher_member, member_id: subject.member.id, event: :order, data: data)
-      subject.trigger_pusher_event
+    end
+
+    context do
+      it do
+        subject.update!(state: 'done')
+        ::AMQP::Queue.expects(:enqueue_event).with('private', subject.member.uid, 'order', data)
+        subject.trigger_event
+      end
     end
   end
 end

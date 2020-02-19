@@ -27,7 +27,7 @@ class PaymentAddress < ApplicationRecord
 
   def enqueue_address_generation
     if address.blank? && currency.coin?
-      AMQPQueue.enqueue(:deposit_coin_address, { account_id: account.id }, { persistent: true })
+      AMQP::Queue.enqueue(:deposit_coin_address, { account_id: account.id }, { persistent: true })
     end
     self
   end
@@ -42,6 +42,12 @@ class PaymentAddress < ApplicationRecord
 
   def to_cash_address
     CashAddr::Converter.to_cash_address(address)
+  end
+
+  def trigger_address_event
+    ::AMQP::Queue.enqueue_event('private', member.uid, :deposit_address, type: :create,
+                          currency: currency.code,
+                          address:  address)
   end
 end
 

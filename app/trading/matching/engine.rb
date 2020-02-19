@@ -38,7 +38,7 @@ module Matching
           end
         end
       when :run
-        @queue = AMQPQueue
+        @queue = AMQP::Queue
       else
         raise "Unrecognized mode: #{mode}"
       end
@@ -130,7 +130,7 @@ module Matching
 
     def publish_snapshot
       @snapshot_time = Time.now
-      Peatio::Ranger::Events.publish("public", @market.id, "ob-snap", {
+      ::AMQP::Queue.enqueue_event("public", @market.id, "ob-snap", {
         "asks" => ask_orders.limit_orders.map{|k,v| [k.to_s, v.map(&:volume).sum.to_s]}[0..300],
         "bids" => bid_orders.limit_orders.map{|k,v| [k.to_s, v.map(&:volume).sum.to_s]}.reverse[0..300],
         "sequence" => @sequence_number,
@@ -152,7 +152,7 @@ module Matching
       end
       @increment_count += 1
       @sequence_number += 1
-      Peatio::Ranger::Events.publish("public", market, "ob-inc", {
+      ::AMQP::Queue.enqueue_event("public", market, "ob-inc", {
         "#{side}s" => [price.to_s, amount.to_s],
         "sequence" => @sequence_number,
       })
