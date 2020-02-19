@@ -7,6 +7,11 @@ module Workers
       def initialize
         Order.where(state: ::Order::PENDING).find_each do |order|
           Order.submit(order.id)
+        rescue StandardError => e
+          AMQPQueue.enqueue(:trade_error, e.message)
+          report_exception_to_screen(e)
+
+          raise e if is_db_connection_error?(e)
         end
       end
 
