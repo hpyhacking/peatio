@@ -1,8 +1,12 @@
 Setup local development environment on Ubuntu 14.04
 -------------------------------------
 
+edit date: 2020-02-19  
+written: oohyun15
+
 ### Overview
 
+0. Install Basic Middleware
 1. Install [Ruby](https://www.ruby-lang.org/en/)
 2. Install [MySQL](http://www.mysql.com/)
 3. Install [Redis](http://redis.io/)
@@ -13,6 +17,27 @@ Setup local development environment on Ubuntu 14.04
 8. Install ImageMagick
 9. Configure Peatio
 
+
+## NOTICE
+
+You must build in UBUNTU 14.04 LTS only.  
+And keep the version RUBY 2.2.1.  
+Then never "bundle update" after install peatio.  
+
+
+### Step 0: Install Basic Middleware
+
+Installing git, curl, vim.
+
+    sudo apt-get install git
+    sudo apt-get install curl
+    sudo apt-get install vim
+
+I recommend to [visual_studio_code](https://code.visualstudio.com/docs/?dv=linux64_deb) rather than vim.
+
+Ex. in Downloads
+
+    sudo dpkg -i code_1.42.1-1581432938_amd64.deb
 
 ### Step 1: Install Ruby
 
@@ -43,11 +68,17 @@ Install Ruby through rbenv:
     rbenv install 2.2.1
     rbenv global 2.2.1
 
+You must keep the version 2.2.1.  
+I've tried to update in 2.3.0, but It doesn't working in trade and funds system.
+
 Install bundler
 
     echo "gem: --no-ri --no-rdoc" > ~/.gemrc
-    gem install bundler
+    gem install bundler -v 1.17.2
     rbenv rehash
+
+You must install bundler version under 2.0.0.  
+To use solargraph, in my case, I've used 1.17.2.
 
 ### Step 2: Install MySQL
 
@@ -67,6 +98,12 @@ Please follow instructions here: https://www.rabbitmq.com/install-debian.html
 
     sudo apt-add-repository 'deb http://www.rabbitmq.com/debian/ testing main'
     curl http://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add -
+
+But I assure you that this will never work normally.  
+So we should add public key to update.
+
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6B73A36E6026DFCA
+
     sudo apt-get update
     sudo apt-get install rabbitmq-server
 
@@ -117,12 +154,12 @@ Peatio uses Capybara with PhantomJS to do the feature tests, so if you want to r
     sudo apt-get update
     sudo apt-get install build-essential chrpath git-core libssl-dev libfontconfig1-dev
     cd /usr/local/share
-    PHANTOMJS_VERISON=1.9.8
-    sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOMJS_VERISON-linux-x86_64.tar.bz2
-    sudo tar xjf phantomjs-$PHANTOMJS_VERISON-linux-x86_64.tar.bz2
-    sudo ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERISON-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs
-    sudo ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERISON-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
-    sudo ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERISON-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
+    PHANTOMJS_VERSION=1.9.8
+    sudo wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2
+    sudo tar xjf phantomjs-$PHANTOMJS_VERSION-linux-x86_64.tar.bz2
+    sudo ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs /usr/local/share/phantomjs
+    sudo ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs
+    sudo ln -s /usr/local/share/phantomjs-$PHANTOMJS_VERSION-linux-x86_64/bin/phantomjs /usr/bin/phantomjs
 
 ### Step 7: Install JavaScript Runtime
 
@@ -142,6 +179,17 @@ A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do b
 
     git clone git://github.com/peatio/peatio.git
     cd peatio
+
+**Edit Gemfile**
+
+    vim Gemfile
+    gem 'rake', '< 11.0.0'
+    gem 'bootstrap-sass', '3.2.0.4'
+    gem 'unread', github: 'itering/unread'
+    gem 'mina-slack', '0.0.3'
+
+**Install bundle**
+
     bundle install
 
 **Prepare configure files**
@@ -157,6 +205,9 @@ More details to visit [pusher official website](http://pusher.com)
     # uncomment Pusher related settings
     vim config/application.yml
 
+    # change url_host to redirect
+    URL_HOST: localhost:3000
+
 **Setup bitcoind rpc endpoint**
 
     # replace username:password and port with the one you set in
@@ -166,6 +217,7 @@ More details to visit [pusher official website](http://pusher.com)
 
 **Config database settings**
 
+    #Beware to write password using " ". (Ex. "mypassword1234")
     vim config/database.yml
 
     # Initialize the database and load the seed data
