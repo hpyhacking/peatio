@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_11_124707) do
+ActiveRecord::Schema.define(version: 2020_02_20_133250) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -225,8 +225,8 @@ ActiveRecord::Schema.define(version: 2020_02_11_124707) do
     t.decimal "origin_locked", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "funds_received", precision: 32, scale: 16, default: "0.0"
     t.integer "trades_count", default: 0, null: false
-    t.datetime "created_at", precision: 3, null: false
-    t.datetime "updated_at", precision: 3, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["member_id"], name: "index_orders_on_member_id"
     t.index ["state"], name: "index_orders_on_state"
     t.index ["type", "market_id"], name: "index_orders_on_type_and_market_id"
