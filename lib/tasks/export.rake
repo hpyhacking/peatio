@@ -107,6 +107,27 @@ namespace :export do
     Kernel.puts "Errored #{errors_count}"
   end
 
+  desc 'Export addresses to csv file.'
+  task addresses: :environment do
+    count = 0
+    errors_count = 0
+    begin
+      CSV.open('exported_addresses.csv', 'w') do |csv|
+        csv << %w[uid currency_id address secret details]
+        PaymentAddress.find_each do |address|
+          csv << [address.account.member.uid, address.currency_id, address.address, address.secret, address.details]
+          count += 1
+        end
+      rescue StandardError => e
+        message = { error: e.message, uid: address.account.member.uid, currency_id: address.currency_id }
+        Rails.logger.error message
+        errors_count += 1
+      end
+    end
+    Kernel.puts "Exported #{count} addresses"
+    Kernel.puts "Errored #{errors_count}"
+  end
+
   def export(model_name)
     model_name.constantize.all.map do |m|
       m.attributes.except('settings_encrypted', 'created_at', 'updated_at').merge('settings' => m.try(:settings))
