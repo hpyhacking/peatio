@@ -20,8 +20,8 @@ module API
                    values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'account.currency.doesnt_exist' },
                    desc: 'Currency code'
           optional :state,
-                   type: String,
-                   values: { value: -> { Deposit::STATES.map(&:to_s) }, message: 'account.deposit.invalid_state' }
+                   values: { value: ->(v) { [*v].all? { |value| value.in? Deposit::STATES.map(&:to_s) } }, message: 'account.deposit.invalid_state' },
+                   desc: 'Filter deposits by states.'
           optional :limit,
                    type: { value: Integer, message: 'account.deposit.non_integer_limit' },
                    values: { value: 1..100, message: 'account.deposit.invalid_limit' },

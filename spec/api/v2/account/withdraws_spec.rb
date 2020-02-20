@@ -54,6 +54,21 @@ describe API::V2::Account::Withdraws, type: :request do
       expect(result.map { |x| x['currency'] }.uniq.sort).to eq %w[ btc ]
     end
 
+
+    it 'filters withdraws by multiple states' do
+      create(:usd_withdraw, member: member, aasm_state: :rejected)
+      api_get '/api/v2/account/withdraws', params: { state: ['canceled', 'rejected'] }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 1
+
+      create(:usd_withdraw, member: member, aasm_state: :canceled)
+      api_get '/api/v2/account/withdraws', params: { state: ['canceled', 'rejected'] }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 2
+    end
+
     it 'paginates withdraws' do
       ordered_withdraws = btc_withdraws.sort_by(&:id).reverse
 

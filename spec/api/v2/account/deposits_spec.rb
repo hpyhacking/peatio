@@ -64,6 +64,20 @@ describe API::V2::Account::Deposits, type: :request do
       expect(result.first['txid']).to eq d.txid
     end
 
+    it 'filters deposits by multiple states' do
+      create(:deposit_btc, member: member, aasm_state: :rejected)
+      api_get '/api/v2/account/deposits', params: { state: ['canceled', 'rejected'] }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 1
+
+      create(:deposit_btc, member: member, aasm_state: :canceled)
+      api_get '/api/v2/account/deposits', params: { state: ['canceled', 'rejected'] }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 2
+    end
+
     it 'returns deposits for currency usd' do
       api_get '/api/v2/account/deposits', params: { currency: 'usd' }, token: token
       result = JSON.parse(response.body)
