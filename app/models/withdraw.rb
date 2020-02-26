@@ -50,6 +50,7 @@ class Withdraw < ApplicationRecord
     state :canceled
     state :accepted
     state :skipped
+    state :to_reject
     state :rejected
     state :processing
     state :succeed
@@ -80,7 +81,7 @@ class Withdraw < ApplicationRecord
     end
 
     event :reject do
-      transitions from: %i[submitted accepted confirming], to: :rejected
+      transitions from: %i[submitted to_reject accepted confirming], to: :rejected
       after do
         unlock_funds
         record_cancel_operations!

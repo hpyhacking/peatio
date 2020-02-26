@@ -8,13 +8,18 @@ module Workers
       self.sleep_time = 5
 
       def process
-        Withdraw.submitted.each do |withdraw|
+        Withdraw.submitted.where('updated_at < ?', 30.seconds.ago).each do |withdraw|
           withdraw.audit!
-        rescue
+        rescue StandardError => e
           raise e if is_db_connection_error?(e)
+          report_exception(e)
+        end
 
-          puts "Error on withdraw audit: #{$!}"
-          puts $!.backtrace.join("\n")
+        Withdraw.to_reject.each do |withdraw|
+          withdraw.reject!
+        rescue StandardError => e
+          raise e if is_db_connection_error?(e)
+          report_exception(e)
         end
       end
     end

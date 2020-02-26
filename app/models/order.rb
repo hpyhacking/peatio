@@ -14,7 +14,7 @@ class Order < ApplicationRecord
   STATES = { pending: 0, wait: 100, done: 200, cancel: -100, reject: -200 }.freeze
   enumerize :state, in: STATES, scope: true
 
-  TYPES = %w[ market limit ]
+  TYPES = %w[market limit]
   enumerize :ord_type, in: TYPES, scope: true
 
   belongs_to :ask_currency, class_name: 'Currency', foreign_key: :ask

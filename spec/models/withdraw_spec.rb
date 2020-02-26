@@ -291,6 +291,18 @@ describe Withdraw do
         expect(subject.rejected?).to be true
       end
 
+      context 'from to_rejected' do
+        before do
+          subject.update(aasm_state: :to_reject)
+        end
+
+        it 'transitions from :accepted to :rejected after calling #reject!' do
+          subject.reject!
+
+          expect(subject.rejected?).to be true
+        end
+      end
+
       context :record_cancel_operations do
 
         it 'creates two liability operations' do
