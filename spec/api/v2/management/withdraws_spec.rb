@@ -84,7 +84,7 @@ describe API::V2::Management::Withdraws, type: :request do
     let :data do
       { uid:      member.uid,
         currency: currency.code,
-        amount:   amount,
+        amount:   amount.to_s,
         rid:      Faker::Blockchain::Bitcoin.address }
     end
     let(:account) { member.get_account(currency) }
@@ -121,7 +121,7 @@ describe API::V2::Management::Withdraws, type: :request do
         let(:data) do
           { uid:      member.uid,
             currency: currency.code,
-            amount:   amount,
+            amount:   amount.to_s,
             beneficiary_id: beneficiary.id }
         end
 
@@ -157,7 +157,7 @@ describe API::V2::Management::Withdraws, type: :request do
           let :data do
             { uid:      member.uid,
               currency: currency.code,
-              amount:   amount,
+              amount:   amount.to_s,
               rid:      Faker::Blockchain::Bitcoin.address,
               note:     'Withdraw money'
             }
@@ -188,7 +188,7 @@ describe API::V2::Management::Withdraws, type: :request do
       context 'invalid withdraw' do
         before do
           data[:action] = :process
-          data[:amount] = 1000
+          data[:amount] = '1000'
         end
         it 'validates enough balance' do
           request

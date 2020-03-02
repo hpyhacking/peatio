@@ -27,7 +27,7 @@ gem 'jquery-rails', '~> 4.3.5'
 gem 'bootstrap', '~> 4.3.1'
 gem 'font-awesome-sass', '~> 5.6.1'
 gem 'rbtree', '~> 0.4.2'
-gem 'grape', '~> 1.1.0'
+gem 'grape', '~> 1.3.1'
 gem 'grape-entity', '~> 0.7.1'
 gem 'grape-swagger', '~> 0.30.1'
 gem 'grape-swagger-ui', '~> 2.2.8'
@@ -73,7 +73,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'annotate',   '~> 2.7.4'
+  gem 'annotate',   '~> 3.1.0'
   gem 'ruby-prof',  '~> 0.17.0', require: false
   gem 'listen',     '>= 3.0.5', '< 3.2'
 end

@@ -12,8 +12,7 @@ module API
           success: API::V2::Admin::Entities::Withdraw
         params do
           optional :state,
-                   type: Array[String],
-                   values: { value: -> { Withdraw::STATES.map(&:to_s) }, message: 'admin.withdraw.invalid_state' },
+                   values: { value: ->(v) { [*v].all? { |value| value.in? Withdraw::STATES.map(&:to_s) } }, message: 'admin.withdraw.invalid_state' },
                    desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:state][:desc] }
           optional :id,
                    type: Integer,

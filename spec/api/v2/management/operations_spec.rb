@@ -201,7 +201,7 @@ describe API::V2::Management::Operations, type: :request do
         end
 
         context 'credit' do
-          let(:amount) { 0.2515 }
+          let(:amount) { '0.2515' }
           before do
             data[:credit] = amount
             request(op_type.to_s.pluralize)
@@ -211,7 +211,7 @@ describe API::V2::Management::Operations, type: :request do
 
           it 'returns operation' do
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
-            expect(JSON.parse(response.body)['credit'].to_d).to eq amount
+            expect(JSON.parse(response.body)['credit'].to_d).to eq amount.to_d
             expect(JSON.parse(response.body)['code']).to \
               eq Operations::Account.find_by(type: op_type,
                                             kind: :main,
@@ -237,7 +237,7 @@ describe API::V2::Management::Operations, type: :request do
         end
 
         context 'debit' do
-          let(:amount) { 0.1545 }
+          let(:amount) { '0.1545' }
           before do
             # Create credit operation to avoid negative balance.
             create(op_type, credit: amount)
@@ -249,7 +249,7 @@ describe API::V2::Management::Operations, type: :request do
 
           it 'returns operation' do
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
-            expect(JSON.parse(response.body)['debit'].to_d).to eq amount
+            expect(JSON.parse(response.body)['debit'].to_d).to eq amount.to_d
             expect(JSON.parse(response.body)['code']).to \
               eq Operations::Account.find_by(type: op_type,
                                             kind: :main,
@@ -279,7 +279,7 @@ describe API::V2::Management::Operations, type: :request do
         end
 
         context 'credit' do
-          let(:amount) { 0.2515 }
+          let(:amount) { '0.2515' }
           before do
             data[:credit] = amount
             request(op_type.to_s.pluralize)
@@ -290,7 +290,7 @@ describe API::V2::Management::Operations, type: :request do
           it 'returns operation' do
             expect(JSON.parse(response.body)['uid']).to eq member.uid
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
-            expect(JSON.parse(response.body)['credit'].to_d).to eq amount
+            expect(JSON.parse(response.body)['credit'].to_d).to eq amount.to_d
             expect(JSON.parse(response.body)['code']).to \
               eq Operations::Account.find_by(type: op_type,
                                             kind: :main,
@@ -322,7 +322,7 @@ describe API::V2::Management::Operations, type: :request do
         end
 
         context 'debit' do
-          let(:amount) { 0.1545 }
+          let(:amount) { '0.1545' }
           before do
             # Create credit operation to avoid negative balance.
             create(op_type, :with_member, credit: amount,
@@ -336,7 +336,7 @@ describe API::V2::Management::Operations, type: :request do
           it 'returns operation' do
             expect(JSON.parse(response.body)['uid']).to eq member.uid
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
-            expect(JSON.parse(response.body)['debit'].to_d).to eq amount
+            expect(JSON.parse(response.body)['debit'].to_d).to eq amount.to_d
             expect(JSON.parse(response.body)['code']).to \
               eq Operations::Account.find_by(type: op_type,
                                             kind: :main,

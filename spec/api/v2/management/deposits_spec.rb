@@ -80,7 +80,7 @@ describe API::V2::Management::Deposits, type: :request do
     let :data do
       { uid:      member.uid,
         currency: currency.code,
-        amount:   amount }
+        amount:   amount.to_s }
     end
     let(:signers) { %i[alex jeff] }
 
@@ -195,7 +195,7 @@ describe API::V2::Management::Deposits, type: :request do
 
     let(:currency) { Currency.find(:usd) }
     let(:member) { create(:member, :barong) }
-    let(:amount) { 500.90 }
+    let(:amount) { '500.90' }
     let(:signers) { %i[alex jeff] }
     let(:data) { { tid: record.tid } }
     let(:account) { member.get_account(currency) }
@@ -227,7 +227,7 @@ describe API::V2::Management::Deposits, type: :request do
       expect(response).to have_http_status(200)
       expect(Deposit.find_by_tid!(JSON.parse(response.body).fetch('tid')).aasm_state).to eq 'accepted'
       account.reload
-      expect(account.balance).to eq amount
+      expect(account.balance).to eq amount.to_d
       expect(account.locked).to eq 0
     end
 
@@ -247,7 +247,7 @@ describe API::V2::Management::Deposits, type: :request do
       data.merge!(state: :accepted)
       expect { request }.not_to(change { record.reload.aasm_state })
       expect(response).to have_http_status(422)
-      expect(record.account.balance).to eq amount
+      expect(record.account.balance).to eq amount.to_d
       expect(record.account.locked).to eq 0
     end
 
