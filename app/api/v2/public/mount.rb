@@ -12,6 +12,7 @@ module API
         mount Public::MemberLevels
         mount Public::Tools
         mount Public::TradingFees
+        mount Public::Webhooks
       end
     end
   end

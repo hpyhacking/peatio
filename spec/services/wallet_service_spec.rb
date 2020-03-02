@@ -55,7 +55,7 @@ describe WalletService do
     end
 
     it 'creates address' do
-      expect(service.create_address!(account)).to eq blockchain_address
+      expect(service.create_address!(account, nil)).to eq blockchain_address
     end
   end
 

@@ -102,6 +102,10 @@ class Wallet < ApplicationRecord
   def wallet_url
     blockchain.explorer_address.gsub('#{address}', address) if blockchain
   end
+
+  def service
+    ::WalletService.new(self)
+  end
 end
 
 # == Schema Information

@@ -8,8 +8,8 @@ class WalletService
                        currency: @wallet.currency.to_blockchain_api_settings)
   end
 
-  def create_address!(account)
-    @adapter.create_address!(uid: account.member.uid)
+  def create_address!(account, address_id)
+    @adapter.create_address!(uid: account.member.uid, address_id: address_id)
   end
 
   def build_withdrawal!(withdrawal)
@@ -79,6 +79,18 @@ class WalletService
   rescue Peatio::Wallet::Error => e
     report_exception(e)
     BlockchainService.new(wallet.blockchain).load_balance!(@wallet.address, @wallet.currency_id)
+  end
+
+  def register_webhooks!(url)
+    @adapter.register_webhooks!(url)
+  end
+
+  def fetch_transfer!(id)
+    @adapter.fetch_transfer!(id)
+  end
+
+  def trigger_webhook_event(event)
+    @adapter.trigger_webhook_event(event)
   end
 
   private

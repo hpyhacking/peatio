@@ -26,7 +26,8 @@ module Workers
           pa.with_lock do
             next if pa.address.present?
 
-            result = wallet_service.create_address!(acc)
+            # Supply address ID in case of BitGo address generation if it exists.
+            result = wallet_service.create_address!(acc, pa.details)
 
             pa.update!(address: result[:address],
                       secret:  result[:secret],
