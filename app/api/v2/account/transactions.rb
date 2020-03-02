@@ -3,7 +3,7 @@
 
  require_relative '../validations'
 
- module API
+module API
   module V2
     module Account
       class Transactions < Grape::API
@@ -36,6 +36,16 @@
                    allow_blank: { value: false, message: 'account.transactions.empty_time_to' },
                    desc: 'An integer represents the seconds elapsed since Unix epoch.'
 
+          optional :deposit_state,
+                   values: { value: ->(v) { [*v].all? { |value| value.in? Deposit::STATES.map(&:to_s) } }, message: 'account.transactions.invalid_deposit_state' },
+                   desc: 'Filter deposits by states.',
+                   default: []
+
+          optional :withdraw_state,
+                   values: { value: ->(v) { [*v].all? { |value| value.in? Withdraw::STATES.map(&:to_s) } }, message: 'account.transactions.invalid_withdraw_state' },
+                   desc: 'Filter withdraws by states.',
+                   default: []
+
           optional :limit,
                    type: { value: Integer, message: 'account.transactions.non_integer_limit' },
                    values: { value: 1..1000, message: 'account.transactions.invalid_limit' },
@@ -51,19 +61,25 @@
 
         end
         get "/transactions" do
-          sql = "SELECT * FROM " \
-                "(SELECT d.id, currency_id, amount, fee, address, aasm_state, NULL AS note, txid, d.updated_at, d.type, b.height - block_number AS confirmations FROM deposits d " \
-                "INNER JOIN currencies c ON c.id=d.currency_id LEFT JOIN blockchains b ON b.key=c.blockchain_key WHERE member_id=#{current_user.id} " \
-                "UNION " \
-                "SELECT w.id, currency_id, amount, fee, rid, aasm_state, note, txid, w.updated_at, w.type, b.height - block_number AS confirmations FROM withdraws w " \
-                "INNER JOIN currencies c ON c.id=w.currency_id LEFT JOIN blockchains b ON b.key=c.blockchain_key WHERE member_id=#{current_user.id}) " \
-                "AS transactions ORDER BY updated_at #{params[:order_by].upcase}"
+          deposit_state = params[:deposit_state]&.split(/\W+/)&.join(',')
+          withdraw_state = params[:withdraw_state]&.split(/\W+/)&.join(',')
+
+          deposit_sql = "(SELECT d.id, currency_id, amount, fee, address, aasm_state, NULL AS note, txid, d.updated_at, d.type, b.height - block_number AS confirmations FROM deposits d " \
+          "INNER JOIN currencies c ON c.id=d.currency_id LEFT JOIN blockchains b ON b.key=c.blockchain_key WHERE member_id=#{current_user.id} "
+          deposit_sql += "and FIND_IN_SET(aasm_state, '#{deposit_state}') " if params[:deposit_state].present?
+
+          withdraw_sql = "SELECT w.id, currency_id, amount, fee, rid, aasm_state, note, txid, w.updated_at, w.type, b.height - block_number AS confirmations FROM withdraws w " \
+          "INNER JOIN currencies c ON c.id=w.currency_id LEFT JOIN blockchains b ON b.key=c.blockchain_key WHERE member_id=#{current_user.id} "
+          withdraw_sql += "and FIND_IN_SET(aasm_state, '#{withdraw_state}')" if params[:withdraw_state].present?
+
+          sql = "SELECT * FROM " + deposit_sql + "UNION " + withdraw_sql + ") AS transactions ORDER BY updated_at #{params[:order_by].upcase}"
 
           result = ActiveRecord::Base.connection.exec_query(sql).to_hash
 
           result.select! { |t|  t['currency_id'] == params[:currency].downcase } if params[:currency].present?
           result.select! { |t|  t['updated_at'] >= Time.at(params[:time_from]) } if params[:time_from].present?
           result.select! { |t|  t['updated_at'] <= Time.at(params[:time_to]) } if params[:time_to].present?
+
           present paginate(result.each(&:symbolize_keys!)), with: API::V2::Entities::Transactions
         end
       end

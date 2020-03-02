@@ -118,6 +118,80 @@ describe API::V2::Account::Transactions, type: :request do
 
         expect(result.pluck('confimations').any? { |c| c.nil? ? true : c > 1 }).to be_truthy
       end
+
+      context 'state filters' do
+        before do
+          create_list(:deposit_usd, 4, member: member, updated_at: 5.hour.ago, aasm_state: 'accepted')
+          create_list(:deposit_usd, 4, member: member, updated_at: 5.hour.ago, aasm_state: 'rejected')
+          create_list(:usd_withdraw, 4, member: member, updated_at: 5.days.ago, aasm_state: 'accepted')
+          create_list(:usd_withdraw, 4, member: member, updated_at: 5.days.ago, aasm_state: 'rejected')
+        end
+
+        it 'returns transactions with more than one deposit state' do
+          expect(Deposit.count).to eq 20
+
+          api_get '/api/v2/account/transactions', params: { deposit_state: ['accepted', 'submitted'] }, token: token
+          result = JSON.parse(response.body)
+
+          expect(result.select { |t| t['type'] == 'Deposit' }.count).to eq 16
+          expect(result.select { |t| t['type'] == 'Deposit' }.pluck('state').uniq).to match_array(['submitted', 'accepted'])
+        end
+
+        it 'returns transactions with one deposit state' do
+          expect(Deposit.count).to eq 20
+
+          api_get '/api/v2/account/transactions', params: { deposit_state: 'submitted' }, token: token
+          result = JSON.parse(response.body)
+
+          expect(result.select { |t| t['type'] == 'Deposit' }.count).to eq 12
+          expect(result.select { |t| t['type'] == 'Deposit' }.pluck('state').uniq).to eq (['submitted'])
+        end
+
+        it 'returns transactions with more than one withdraw state' do
+          expect(Withdraw.count).to eq 20
+
+          api_get '/api/v2/account/transactions', params: { withdraw_state: ['accepted', 'prepared'] }, token: token
+          result = JSON.parse(response.body)
+
+          expect(result.select { |t| t['type'] == 'Withdraw' }.count).to eq 16
+          expect(result.select { |t| t['type'] == 'Withdraw' }.pluck('state').uniq).to match_array(['prepared', 'accepted'])
+        end
+
+        it 'returns transactions with one withdraw state' do
+          expect(Withdraw.count).to eq 20
+          api_get '/api/v2/account/transactions', params: { withdraw_state: 'prepared' }, token: token
+          result = JSON.parse(response.body)
+
+          expect(result.select { |t| t['type'] == 'Withdraw' }.count).to eq 12
+          expect(result.select { |t| t['type'] == 'Withdraw' }.pluck('state').uniq).to eq (['prepared'])
+        end
+
+        it 'returns transactions with one withdraw state and one deposit state' do
+          expect(Withdraw.count).to eq 20
+          expect(Deposit.count).to eq 20
+
+          api_get '/api/v2/account/transactions', params: { withdraw_state: 'rejected', deposit_state: 'rejected' }, token: token
+          result = JSON.parse(response.body)
+
+          expect(result.select { |t| t['type'] == 'Deposit' }.count).to eq 4
+          expect(result.select { |t| t['type'] == 'Withdraw' }.count).to eq 4
+          expect(result.select { |t| t['type'] == 'Deposit' }.pluck('state').uniq).to eq (['rejected'])
+          expect(result.select { |t| t['type'] == 'Withdraw' }.pluck('state').uniq).to eq (['rejected'])
+        end
+
+        it 'returns transactions with more than one withdraw state and more that one deposit state' do
+          expect(Withdraw.count).to eq 20
+          expect(Deposit.count).to eq 20
+
+          api_get '/api/v2/account/transactions', params: { withdraw_state: ['rejected', 'accepted'], deposit_state: ['rejected', 'accepted'] }, token: token
+          result = JSON.parse(response.body)
+
+          expect(result.select { |t| t['type'] == 'Deposit' }.count).to eq 8
+          expect(result.select { |t| t['type'] == 'Withdraw' }.count).to eq 8
+          expect(result.select { |t| t['type'] == 'Deposit' }.pluck('state').uniq).to match_array(['accepted','rejected'])
+          expect(result.select { |t| t['type'] == 'Withdraw' }.pluck('state').uniq).to match_array(['accepted','rejected'])
+        end
+      end
     end
 
     context 'fail' do
@@ -158,6 +232,20 @@ describe API::V2::Account::Transactions, type: :request do
 
         expect(response.code).to eq '422'
         expect(response).to include_api_error('account.transactions.non_integer_time_to')
+      end
+
+      it 'validates deposit state param' do
+        api_get '/api/v2/account/transactions', params: { deposit_state: [] }, token: token
+
+        expect(response.code).to eq '422'
+        expect(response).to include_api_error('account.transactions.invalid_deposit_state')
+      end
+
+      it 'validates withdraw state param' do
+        api_get '/api/v2/account/transactions', params: { withdraw_state: [] }, token: token
+
+        expect(response.code).to eq '422'
+        expect(response).to include_api_error('account.transactions.invalid_withdraw_state')
       end
 
       it 'validates page param' do
