@@ -18,7 +18,7 @@ class Beneficiary < ApplicationRecord
   PIN_LENGTH  = 6
   PIN_RANGE   = 10**5..10**Beneficiary::PIN_LENGTH
 
-  INVALID_ADDRESS_SYMBOLS = /[\?\<\>\'\,\?\[\]\}\{\=\"\)\(\*\&\^\%\$\#\`\~\{\}\@]/.freeze
+  INVALID_ADDRESS_SYMBOLS = /[\<\>\'\,\[\]\}\{\"\)\(\*\&\^\%\$\#\`\~\{\}\@]/.freeze
 
   # == Attributes ===========================================================
 

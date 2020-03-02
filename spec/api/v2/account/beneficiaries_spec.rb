@@ -317,6 +317,19 @@ describe API::V2::Account::Beneficiaries, 'POST', type: :request do
         end
       end
 
+      context 'destination tag in address' do
+        before do
+          beneficiary_data[:data][:address] = Faker::Blockchain::Bitcoin.address + "?dt=4"
+        end
+        it do
+          api_post endpoint, params: beneficiary_data, token: token
+          expect(response.status).to eq 201
+
+          result = JSON.parse(response.body)
+          expect(Beneficiary.find(result['id']).data['address']).to eq(beneficiary_data[:data][:address])
+        end
+      end
+
       # TODO: Test nil full_name in data for both fiat and crypto.
     end
 
