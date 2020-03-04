@@ -12,7 +12,8 @@ describe API::V2::Public::Webhooks, type: :request do
         amount: 0.5,
         to_address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84',
         block_number: 16880960,
-        txout: 0
+        txout: 0,
+        status: :success
       )
     end
 

@@ -13,9 +13,11 @@ module API
             event = service.trigger_webhook_event(params)
             next unless event.present?
 
+            accepted_deposits = []
             ActiveRecord::Base.transaction do
-              process_deposit_event(event)
+              accepted_deposits = process_deposit_event(event)
             end
+            accepted_deposits.each(&:collect!)
           end
         elsif params[:event] == 'withdraw'
           # For withdraw events we use only Withdraw events.
@@ -35,14 +37,15 @@ module API
 
       def process_deposit_event(event)
         if event[:transfers].present?
-          find_or_create_deposit!(event[:transfers])
+          accepted_deposits = find_or_create_deposit!(event[:transfers])
         elsif event[:address_confirmation].present?
           # TODO: Add Address confirmation
         end
+        accepted_deposits.compact
       end
 
       def find_or_create_deposit!(transactions)
-        transactions.each do |transaction|
+        transactions.map do |transaction|
           payment_address = PaymentAddress.find_by(currency_id: transaction.currency_id, address: transaction.to_address)
           next if payment_address.blank?
 
@@ -59,10 +62,9 @@ module API
               d.block_number = transaction.block_number
             end
           # TODO: check if block number changed.
-          if transaction.status.success?
-            deposit.accept!
-            deposit.collect!
-          end
+          next unless transaction.status.success?
+          deposit.accept!
+          deposit
         end
       end
 
