@@ -14,6 +14,9 @@ exchange:
   orderbook:
     name: peatio.orderbook
     type: fanout
+  events:
+    name: peatio.events
+    type: direct
 
 queue:
   matching:
@@ -86,6 +89,7 @@ binding:
     queue: trade_error
   events_processor:
     queue: events_processor
+    exchange: events
 
 channel:
   trade_executor:
