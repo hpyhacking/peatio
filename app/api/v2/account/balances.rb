@@ -17,10 +17,19 @@ module API
             success: API::V2::Entities::Account
         params do
           use :pagination
+          optional :nonzero,
+                   type: { value: Boolean, message: 'account.balances.invalid_nonzero' },
+                   default: false,
+                   desc: 'Filter non zero balances.'
         end
         get '/balances' do
-          present paginate(current_user.accounts.visible.ordered),
-                  with: Entities::Account
+          if params[:nonzero]
+            present paginate(current_user.accounts.visible.ordered.where('balance > 0 OR locked > 0')),
+                    with: Entities::Account
+          else
+            present paginate(current_user.accounts.visible.ordered),
+                    with: Entities::Account
+          end
         end
 
         desc 'Get user account by currency' do
