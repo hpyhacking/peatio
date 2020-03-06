@@ -1,4 +1,4 @@
-class AddUuidToOrder < ActiveRecord::Migration[5.2]
+class AddUUIDToOrder < ActiveRecord::Migration[5.2]
   def change
     add_column :orders, :uuid, :binary, limit: 16, index: {unique: true}, after: :id
 

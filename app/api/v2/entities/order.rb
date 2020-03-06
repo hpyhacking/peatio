@@ -14,6 +14,14 @@ module API
         )
 
         expose(
+          :uuid,
+          documentation:{
+            type: String,
+            desc: "Unique order UUID."
+          }
+        )
+
+        expose(
           :side,
           documentation: {
             type: String,

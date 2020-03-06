@@ -24,6 +24,7 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym 'MQ'
   inflect.acronym 'CORS'
   inflect.acronym 'UI'
+  inflect.acronym 'UUID'
   inflect.acronym 'CRUD'
   inflect.acronym 'TID'
   inflect.irregular 'cash', 'cash'
