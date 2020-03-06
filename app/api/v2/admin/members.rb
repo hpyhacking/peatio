@@ -68,6 +68,7 @@ module API
                    desc: 'The shared user ID.'
           requires :group,
                    type: String,
+                   coerce_with: ->(v) { v.strip.downcase },
                    desc: 'User gruop'
         end
         put '/members/:uid' do

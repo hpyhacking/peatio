@@ -14,6 +14,8 @@ class Blockchain < ApplicationRecord
   validates :server, url: { allow_blank: true }
   validates :client, inclusion: { in: -> (_) { clients.map(&:to_s) } }
 
+  before_create { self.key = self.key.strip.downcase }
+
   scope :active,   -> { where(status: :active) }
 
   class << self

@@ -23,6 +23,8 @@ class Member < ApplicationRecord
   validates :level, numericality: { greater_than_or_equal_to: 0 }
   validates :role, inclusion: { in: ROLES }
 
+  before_create { self.group = self.group.strip.downcase }
+
   attr_readonly :email
 
   class << self

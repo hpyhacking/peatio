@@ -96,7 +96,9 @@ module API
                    type: { value: Integer, message: 'admin.blockchain.non_integer_id' },
                    desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:id][:desc] }
           optional :key,
+                   type: String,
                    values: { value: -> (v){ v.length < 255 }, message: 'admin.blockchain.key_too_long' },
+                   coerce_with: ->(v) { v.strip.downcase },
                    desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:key][:desc] }
           optional :name,
                    values: { value: -> (v){ v.length < 255 }, message: 'admin.blockchain.name_too_long' },

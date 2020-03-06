@@ -76,6 +76,8 @@ class TradingFee < ApplicationRecord
 
   # == Callbacks ============================================================
 
+  before_create { self.group = self.group.strip.downcase }
+
   # == Class Methods ========================================================
 
   class << self

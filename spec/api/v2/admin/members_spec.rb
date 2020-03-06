@@ -132,6 +132,12 @@ describe API::V2::Admin::Members, type: :request do
       expect(JSON.parse(response.body)['group']).to eq('vip-2')
     end
 
+    it 'returns user with updated group' do
+      api_put "/api/v2/admin/members/#{member.uid}", token: token, params: { group: ' Vip-2 ' }
+      expect(response).to have_http_status(201)
+      expect(JSON.parse(response.body)['group']).to eq('vip-2')
+    end
+
     it 'returns status 404 and error' do
       api_put "/api/v2/admin/members/U1234", token: token, params: { group: 'vip-2' }
       expect(response).to have_http_status(404)

@@ -37,6 +37,7 @@ class Transfer < ApplicationRecord
 
   # == Callbacks ============================================================
 
+  before_create { self.key = self.key.strip.downcase }
   after_create :update_legacy_balances
 
   # == Class Methods ========================================================

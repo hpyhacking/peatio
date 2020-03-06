@@ -42,6 +42,14 @@ describe API::V2::Admin::TradingFees, type: :request do
       expect(result.map { |r| r['group'] }).to all eq 'vip-0'
       expect(result.length).to eq TradingFee.where(group: 'vip-0').count
     end
+
+    it 'capitalized fee group' do
+      api_get '/api/v2/admin/trading_fees', token: token, params: { group: 'Vip-0' }
+
+      result = JSON.parse(response.body)
+      expect(result.map { |r| r['group'] }).to all eq 'vip-0'
+      expect(result.length).to eq TradingFee.where(group: 'vip-0').count
+    end
   end
 
   describe 'POST /trading_fees/new' do
@@ -140,6 +148,16 @@ describe API::V2::Admin::TradingFees, type: :request do
   describe 'POST /trading_fees/update' do
     it 'returns updated trading fee table with new group' do
       api_post '/api/v2/admin/trading_fees/update', token: token, params: { group: 'vip-1', id: TradingFee.first.id }
+
+      expect(response).to have_http_status(201)
+      expect(JSON.parse(response.body)['maker']).to eq('0.0015')
+      expect(JSON.parse(response.body)['taker']).to eq('0.0015')
+      expect(JSON.parse(response.body)['group']).to eq('vip-1')
+      expect(JSON.parse(response.body)['market_id']).to eq('any')
+    end
+
+    it 'returns updated trading fee table with new group with capitalized letter' do
+      api_post '/api/v2/admin/trading_fees/update', token: token, params: { group: 'Vip-1 ', id: TradingFee.first.id }
 
       expect(response).to have_http_status(201)
       expect(JSON.parse(response.body)['maker']).to eq('0.0015')

@@ -167,6 +167,14 @@ describe API::V2::Admin::Blockchains, type: :request do
       expect(result['key']).to eq 'test-blockchain'
     end
 
+    it 'returns updated blockchain' do
+      api_post '/api/v2/admin/blockchains/update', token: token, params: { key: 'Test-blockchain ', id: Blockchain.first.id }
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result['key']).to eq 'test-blockchain'
+    end
+
     it 'long blockchain key' do
       api_post '/api/v2/admin/blockchains/update', token: token, params: { key: Faker::String.random(1024) }
       expect(response).not_to be_successful

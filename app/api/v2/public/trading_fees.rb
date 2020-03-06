@@ -13,7 +13,8 @@ module API
         params do
           optional :group,
                    type: String,
-                   desc: -> { API::V2::Entities::TradingFee.documentation[:group][:desc] }
+                   desc: -> { API::V2::Entities::TradingFee.documentation[:group][:desc] },
+                   coerce_with: ->(c) { c.strip.downcase }
           optional :market_id,
                    type: String,
                    desc: -> { API::V2::Entities::TradingFee.documentation[:market_id][:desc] },

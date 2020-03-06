@@ -37,5 +37,13 @@ describe API::V2::Public::TradingFees, type: :request do
       expect(result.map { |r| r['group'] }).to all eq 'vip-0'
       expect(result.length).to eq TradingFee.where(group: 'vip-0').count
     end
+
+    it 'capitalized fee group' do
+      api_get '/api/v2/public/trading_fees', params: { group: 'Vip-0' }
+
+      result = JSON.parse(response.body)
+      expect(result.map { |r| r['group'] }).to all eq 'vip-0'
+      expect(result.length).to eq TradingFee.where(group: 'vip-0').count
+    end
   end
 end
