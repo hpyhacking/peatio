@@ -50,7 +50,7 @@ module API
             search = klass.ransack(ransack_params)
             search.sorts = "#{params[:order_by]} #{params[:ordering]}"
 
-            present paginate(search.result), with: API::V2::Admin::Entities::Operation
+            present paginate(search.result, false), with: API::V2::Admin::Entities::Operation
           end
         end
 

@@ -48,7 +48,7 @@ module API
                       .tap { |q| q.where!(state: params[:state]) if params[:state] }
                       .tap { |q| q.where!(ord_type: params[:ord_type]) if params[:ord_type] }
                       .tap { |q| q.where!(type: (params[:type] == 'buy' ? 'OrderBid' : 'OrderAsk')) if params[:type] }
-                      .tap { |q| present paginate(q), with: API::V2::Entities::Order }
+                      .tap { |q| present paginate(q, false), with: API::V2::Entities::Order }
         end
 
         desc 'Get information of specified order.',

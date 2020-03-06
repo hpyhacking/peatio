@@ -61,7 +61,6 @@ GEM
     annotate (2.7.5)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 13.0)
-    api-pagination (4.8.2)
     arel (9.0.0)
     arel-is-blank (1.0.0)
       arel (>= 6.0)
@@ -451,7 +450,6 @@ PLATFORMS
 DEPENDENCIES
   aasm (~> 5.0.0)
   annotate (~> 2.7.4)
-  api-pagination (~> 4.8.2)
   arel-is-blank (~> 1.0.0)
   better-faraday (~> 1.0.5)
   bootsnap (>= 1.1.0)

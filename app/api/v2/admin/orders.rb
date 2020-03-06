@@ -58,7 +58,7 @@ module API
           if params[:format] == 'csv'
             search.result
           else
-            present paginate(search.result), with: API::V2::Admin::Entities::Order
+            present paginate(search.result, false), with: API::V2::Admin::Entities::Order
           end
         end
 

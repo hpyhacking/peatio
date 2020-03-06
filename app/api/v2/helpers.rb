@@ -83,6 +83,17 @@ module API
         { at: ticker[:at],
           ticker: formatted_ticker }
       end
+
+      def paginate(collection, include_total = true)
+        per_page = params[:limit] || Kaminari.config.default_per_page
+        per_page = [per_page.to_i, Kaminari.config.max_per_page].compact.min
+
+        Kaminari.paginate_array(collection).page(params[:page].to_i).per(per_page).tap do |data|
+          header 'Total',       data.total_count.to_s if include_total
+          header 'Per-Page',    data.limit_value.to_s
+          header 'Page',        data.current_page.to_s
+        end
+      end
     end
   end
 end

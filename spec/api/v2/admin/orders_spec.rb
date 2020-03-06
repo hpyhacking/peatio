@@ -68,7 +68,6 @@ describe API::V2::Admin::Orders, type: :request do
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
-      expect(response.headers.fetch('Total')).to eq '1'
       expect(result.size).to eq 1
       expect(result.first['state']).to eq Order::DONE
     end
@@ -78,7 +77,6 @@ describe API::V2::Admin::Orders, type: :request do
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
-      expect(response.headers.fetch('Total')).to eq '4'
       expect(result.size).to eq 4
     end
 
@@ -139,14 +137,14 @@ describe API::V2::Admin::Orders, type: :request do
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
-      expect(response.headers.fetch('Total')).to eq '4'
+      expect(result.size).to eq 1
       expect(result.first['price']).to eq '11.0'
 
       api_get '/api/v2/admin/orders', params: { market: 'btcusd', limit: 1, page: 2 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
-      expect(response.headers.fetch('Total')).to eq '4'
+      expect(result.size).to eq 1
       expect(result.first['price']).to eq '12.0'
     end
 
