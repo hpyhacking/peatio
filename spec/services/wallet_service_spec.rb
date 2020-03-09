@@ -15,8 +15,8 @@ class FakeWallet < Peatio::Wallet::Abstract
   def configure(settings = {}); end
 end
 
-Peatio::Blockchain.registry[:fake] = FakeBlockchain.new
-Peatio::Wallet.registry[:fake] = FakeWallet.new
+Peatio::Blockchain.registry[:fake] = FakeBlockchain
+Peatio::Wallet.registry[:fake] = FakeWallet
 
 describe WalletService do
   let!(:blockchain) { create(:blockchain, 'fake-testnet') }
@@ -31,12 +31,12 @@ describe WalletService do
   before do
     Peatio::Blockchain.registry.expects(:[])
                          .with(:fake)
-                         .returns(fake_blockchain_adapter)
+                         .returns(fake_blockchain_adapter.class)
                          .at_least_once
 
     Peatio::Wallet.registry.expects(:[])
                      .with(:fake)
-                     .returns(fake_wallet_adapter)
+                     .returns(fake_wallet_adapter.class)
                      .at_least_once
 
     Blockchain.any_instance.stubs(:blockchain_api).returns(BlockchainService.new(blockchain))
@@ -51,7 +51,7 @@ describe WalletService do
     end
 
     before do
-      fake_wallet_adapter.expects(:create_address!).returns(blockchain_address)
+      service.adapter.expects(:create_address!).returns(blockchain_address)
     end
 
     it 'creates address' do
@@ -70,7 +70,7 @@ describe WalletService do
     end
 
     before do
-      fake_wallet_adapter.expects(:create_transaction!).returns(transaction)
+      service.adapter.expects(:create_transaction!).returns(transaction)
     end
 
     it 'sends withdrawal' do
@@ -558,7 +558,7 @@ describe WalletService do
       subject { service.collect_deposit!(deposit, spread_deposit) }
 
       before do
-        fake_wallet_adapter.expects(:create_transaction!).returns(transaction.first)
+        service.adapter.expects(:create_transaction!).returns(transaction.first)
       end
 
       it 'creates single transaction' do
@@ -591,8 +591,8 @@ describe WalletService do
       subject { service.collect_deposit!(deposit, spread_deposit) }
 
       before do
-        fake_wallet_adapter.expects(:create_transaction!).with(spread_deposit.first, subtract_fee: true).returns(transaction.first)
-        fake_wallet_adapter.expects(:create_transaction!).with(spread_deposit.second, subtract_fee: true).returns(transaction.second)
+        service.adapter.expects(:create_transaction!).with(spread_deposit.first, subtract_fee: true).returns(transaction.first)
+        service.adapter.expects(:create_transaction!).with(spread_deposit.second, subtract_fee: true).returns(transaction.second)
       end
 
       it 'creates two transactions' do
@@ -628,7 +628,7 @@ describe WalletService do
 
     context 'Adapter collect fees for transaction' do
       before do
-        fake_wallet_adapter.expects(:prepare_deposit_collection!).returns(transactions)
+        service.adapter.expects(:prepare_deposit_collection!).returns(transactions)
       end
 
       it 'returns transaction' do

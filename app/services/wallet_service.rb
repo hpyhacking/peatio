@@ -3,7 +3,7 @@ class WalletService
 
   def initialize(wallet)
     @wallet = wallet
-    @adapter = Peatio::Wallet.registry[wallet.gateway.to_sym]
+    @adapter = Peatio::Wallet.registry[wallet.gateway.to_sym].new
     @adapter.configure(wallet: @wallet.to_wallet_api_settings,
                        currency: @wallet.currency.to_blockchain_api_settings)
   end
