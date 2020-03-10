@@ -10,11 +10,11 @@ describe API::V2::Market::Orders, type: :request do
   describe 'GET /api/v2/market/orders' do
     before do
       # NOTE: We specify updated_at attribute for testing order of Order.
-      create(:order_bid, :btcusd, price: '11'.to_d, volume: '123.12345678', member: member, updated_at: Time.now + 5)
+      create(:order_bid, :btcusd, price: '11'.to_d, volume: '123.12345678', member: member, created_at: 1.day.ago, updated_at: Time.now + 5)
       create(:order_bid, :btceth, price: '11'.to_d, volume: '123.1234', member: member)
-      create(:order_bid, :btcusd, price: '12'.to_d, volume: '123.12345678', member: member, state: Order::CANCEL)
-      create(:order_ask, :btcusd, price: '13'.to_d, volume: '123.12345678', member: member, state: Order::WAIT, updated_at: Time.now + 10)
-      create(:order_ask, :btcusd, price: '14'.to_d, volume: '123.12345678', member: member, state: Order::DONE)
+      create(:order_bid, :btcusd, price: '12'.to_d, volume: '123.12345678', created_at: 1.day.ago, member: member, state: Order::CANCEL)
+      create(:order_ask, :btcusd, price: '13'.to_d, volume: '123.12345678', created_at: 2.hours.ago, member: member, state: Order::WAIT, updated_at: Time.now + 10)
+      create(:order_ask, :btcusd, price: '14'.to_d, volume: '123.12345678', created_at: 6.hours.ago, member: member, state: Order::DONE)
     end
 
     it 'requires authentication' do
@@ -136,6 +136,42 @@ describe API::V2::Market::Orders, type: :request do
       expect(response).to be_successful
       expect(result.map{|r| r['side']}.uniq.size).to eq 1
       expect(result.map{|r| r['side']}.uniq.first).to eq 'sell'
+    end
+
+    it 'returns orders with base unit btc' do
+      api_get '/api/v2/market/orders', params: { base_unit: 'btc' }, token: token
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result.size).to eq 5
+    end
+
+    it 'returns orders with quote unit eth' do
+      api_get '/api/v2/market/orders', params: { base_unit: 'btc' }, token: token
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result.size).to eq 5
+    end
+
+    it 'returns orders with timestamp filter' do
+      api_get '/api/v2/market/orders', params: { time_from: 7.hours.ago.to_i, time_to: 5.hours.ago.to_i }, token: token
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result.size).to eq 1
+    end
+
+    it 'returns orders with timestamp filter' do
+      api_get '/api/v2/market/orders', params: { time_from: 3.hours.ago.to_i }, token: token
+
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result.size).to eq 2
     end
 
     it 'denies access to unverified member' do

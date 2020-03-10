@@ -39,8 +39,8 @@ FactoryBot.define do
     end
 
     trait :btceth do
-      bid { :btc }
-      ask { :dash }
+      bid { :eth }
+      ask { :btc }
       market { Market.find(:btceth) }
       state { :wait }
       ord_type { 'limit' }
@@ -90,8 +90,8 @@ FactoryBot.define do
     end
 
     trait :btceth do
-      bid { :btc }
-      ask { :dash }
+      bid { :eth }
+      ask { :btc }
       market { Market.find(:btceth) }
       state { :wait }
       ord_type { 'limit' }

@@ -15,6 +15,14 @@ module API
                    type: String,
                    values: { value: -> { ::Market.enabled.ids }, message: 'market.market.doesnt_exist' },
                    desc: -> { V2::Entities::Market.documentation[:id] }
+          optional :base_unit,
+                   type: String,
+                   values: { value: -> { ::Market.enabled.pluck(:base_unit) }, message: 'market.market.doesnt_exist' },
+                   desc: -> { V2::Entities::Market.documentation[:base_unit] }
+          optional :quote_unit,
+                   type: String,
+                   values: { value: -> { ::Market.enabled.pluck(:quote_unit) }, message: 'market.market.doesnt_exist' },
+                   desc: -> { V2::Entities::Market.documentation[:quote_unit] }
           optional :state,
                    values: { value: ->(v) { [*v].all? { |value| value.in? Order.state.values } }, message: 'market.order.invalid_state' },
                    desc: 'Filter order by state.'
@@ -41,13 +49,27 @@ module API
                    type: String,
                    values: { value: %w(buy sell), message: 'market.order.invalid_type' },
                    desc: 'Filter order by type.'
+          optional :time_from,
+                   type: { value: Integer, message: 'market.order.non_integer_time_from' },
+                   allow_blank: { value: false, message: 'market.order.empty_time_from' },
+                   desc: "An integer represents the seconds elapsed since Unix epoch."\
+                         "If set, only orders created after the time will be returned."
+          optional :time_to,
+                   type: { value: Integer, message: 'market.order.non_integer_time_to' },
+                   allow_blank: { value: false, message: 'market.order.empty_time_to' },
+                   desc: "An integer represents the seconds elapsed since Unix epoch."\
+                         "If set, only orders created before the time will be returned."
         end
         get '/orders' do
           current_user.orders.order(updated_at: params[:order_by])
                       .tap { |q| q.where!(market: params[:market]) if params[:market] }
+                      .tap { |q| q.where!(ask: params[:base_unit]) if params[:base_unit] }
+                      .tap { |q| q.where!(bid: params[:quote_unit]) if params[:quote_unit] }
                       .tap { |q| q.where!(state: params[:state]) if params[:state] }
                       .tap { |q| q.where!(ord_type: params[:ord_type]) if params[:ord_type] }
                       .tap { |q| q.where!(type: (params[:type] == 'buy' ? 'OrderBid' : 'OrderAsk')) if params[:type] }
+                      .tap { |q| q.where!('created_at >= ?', Time.at(params[:time_from])) if params[:time_from] }
+                      .tap { |q| q.where!('created_at < ?', Time.at(params[:time_to])) if params[:time_to] }
                       .tap { |q| present paginate(q, false), with: API::V2::Entities::Order }
         end
 
