@@ -7,7 +7,7 @@ git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 ruby '~> 2.6'
 
 gem 'ransack', '~> 2.1.1'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 5.2.4'
 gem 'puma', '~> 3.12.2'
 gem 'mysql2', '~> 0.5.2'
 gem 'redis', '~> 4.1.2', require: ['redis', 'redis/connection/hiredis']
@@ -27,7 +27,7 @@ gem 'jquery-rails', '~> 4.3.5'
 gem 'bootstrap', '~> 4.3.1'
 gem 'font-awesome-sass', '~> 5.6.1'
 gem 'rbtree', '~> 0.4.2'
-gem 'grape', '~> 1.1.0'
+gem 'grape', '~> 1.3.1'
 gem 'grape-entity', '~> 0.7.1'
 gem 'grape-swagger', '~> 0.30.1'
 gem 'grape-swagger-ui', '~> 2.2.8'
@@ -73,7 +73,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'annotate',   '~> 2.7.4'
+  gem 'annotate',   '~> 3.1.0'
   gem 'ruby-prof',  '~> 0.17.0', require: false
   gem 'listen',     '>= 3.0.5', '< 3.2'
 end

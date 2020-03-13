@@ -140,7 +140,7 @@ describe API::V2::Management::Currencies, type: :request do
     end
 
     it 'should update currency' do
-      data.merge!(id: currency.id, visible: 'true', withdraw_fee: 0.1)
+      data.merge!(id: currency.id, visible: 'true', withdraw_fee: '0.1')
       request
 
       expect(response).to have_http_status 200

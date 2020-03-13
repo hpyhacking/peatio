@@ -27,7 +27,7 @@ describe API::V2::Management::Transfers, type: :request do
 
     let(:valid_operation) do
       { currency: :btc,
-        amount:   0.0001,
+        amount:   '0.0001',
         account_src: {
           code: 102
         },
@@ -134,7 +134,7 @@ describe API::V2::Management::Transfers, type: :request do
       let(:operation) do
         {
           currency: :btc,
-          amount:   1.1,
+          amount:   '1.1',
           account_src: {
             code: 202,
             uid:  sender_member.uid
@@ -198,7 +198,7 @@ describe API::V2::Management::Transfers, type: :request do
         [
           {
             currency: base_unit,
-            amount:   0.0001,
+            amount:   '0.0001',
             account_src: {
               code: coin_revenues_code
             },
@@ -209,7 +209,7 @@ describe API::V2::Management::Transfers, type: :request do
           },
           {
             currency: base_unit,
-            amount:   0.00015,
+            amount:   '0.00015',
             account_src: {
               code: coin_revenues_code
             },
@@ -220,7 +220,7 @@ describe API::V2::Management::Transfers, type: :request do
           },
           {
             currency: base_unit,
-            amount:   0.0003,
+            amount:   '0.0003',
             account_src: {
               code: coin_revenues_code
             },
@@ -231,7 +231,7 @@ describe API::V2::Management::Transfers, type: :request do
           },
           {
             currency: quote_unit,
-            amount:   0.075,
+            amount:   '0.075',
             account_src: {
               code: fiat_revenues_code
             },
@@ -242,7 +242,7 @@ describe API::V2::Management::Transfers, type: :request do
           },
           {
             currency: quote_unit,
-            amount:   0.05,
+            amount:   '0.05',
             account_src: {
               code: fiat_revenues_code
             },
@@ -288,7 +288,7 @@ describe API::V2::Management::Transfers, type: :request do
           [
             {
               currency: base_unit,
-              amount:   0.0001,
+              amount:   '0.0001',
               account_src: {
                 code: fiat_revenues_code  # Wrong code because base_unit is coin.
               },
@@ -299,7 +299,7 @@ describe API::V2::Management::Transfers, type: :request do
             },
             {
               currency: quote_unit,
-              amount:   0.05,
+              amount:  '0.05',
               account_src: {
                 code: fiat_revenues_code
               },
