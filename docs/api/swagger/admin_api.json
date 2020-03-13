@@ -709,10 +709,11 @@
               "bitcoin",
               "geth",
               "parity",
+              "dash",
               "litecoin",
-              "ripple",
               "bitcoincash",
-              "dash"
+              "ripple",
+              "bitgo"
             ],
             "required": false
           },
@@ -812,10 +813,11 @@
               "bitcoin",
               "geth",
               "parity",
+              "dash",
               "litecoin",
-              "ripple",
               "bitcoincash",
-              "dash"
+              "ripple",
+              "bitgo"
             ],
             "required": true
           },
@@ -1894,11 +1896,11 @@
               "bitcoind",
               "geth",
               "parity",
-              "peth",
+              "dashd",
               "litecoind",
-              "rippled",
               "bitcoincashd",
-              "dashd"
+              "rippled",
+              "bitgo"
             ],
             "required": false
           },
@@ -2031,11 +2033,11 @@
               "bitcoind",
               "geth",
               "parity",
-              "peth",
+              "dashd",
               "litecoind",
-              "rippled",
               "bitcoincashd",
-              "dashd"
+              "rippled",
+              "bitgo"
             ],
             "required": true
           }
@@ -2349,7 +2351,8 @@
               "canceled",
               "rejected",
               "accepted",
-              "collected"
+              "collected",
+              "skipped"
             ],
             "required": false
           },
@@ -2622,14 +2625,6 @@
                 "confirming"
               ]
             },
-            "required": false
-          },
-          {
-            "in": "query",
-            "name": "account",
-            "description": "The account code.",
-            "type": "integer",
-            "format": "int32",
             "required": false
           },
           {
@@ -3587,7 +3582,8 @@
               "technical",
               "member",
               "broker",
-              "trader"
+              "trader",
+              "maker"
             ],
             "required": false
           },
@@ -4099,6 +4095,10 @@
           "type": "integer",
           "format": "int32",
           "description": "Unique order id."
+        },
+        "uuid": {
+          "type": "string",
+          "description": "Unique order UUID."
         },
         "side": {
           "type": "string",

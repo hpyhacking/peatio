@@ -1,7 +1,8 @@
-# Peatio Management API v2
+Peatio Management API v2
+========================
 Management API is server-to-server API with high privileges.
 
-## Version: 2.3.44
+**Version:** 2.4.0
 
 **Contact information:**  
 openware.com  
@@ -11,53 +12,47 @@ hello@openware.com
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
 ### /accounts/balance
+---
+##### ***POST***
+**Description:** Queries the account balance for the given UID and currency.
 
-#### POST
-##### Description:
-
-Queries the account balance for the given UID and currency.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | uid | formData | The shared user ID. | Yes | string |
 | currency | formData | The currency code. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Queries the account balance for the given UID and currency. | [Balance](#balance) |
 
 ### /deposits/state
+---
+##### ***PUT***
+**Description:** Allows to load money or cancel deposit.
 
-#### PUT
-##### Description:
-
-Allows to load money or cancel deposit.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | tid | formData | The shared transaction ID. | Yes | string |
 | state | formData | The new state to apply. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Allows to load money or cancel deposit. | [Deposit](#deposit) |
 
 ### /deposits/new
+---
+##### ***POST***
+**Description:** Creates new fiat deposit with state set to «submitted». Optionally pass field «state» set to «accepted» if want to load money instantly. You can also use PUT /fiat_deposits/:id later to load money or cancel deposit.
 
-#### POST
-##### Description:
-
-Creates new fiat deposit with state set to «submitted». Optionally pass field «state» set to «accepted» if want to load money instantly. You can also use PUT /fiat_deposits/:id later to load money or cancel deposit.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -67,39 +62,35 @@ Creates new fiat deposit with state set to «submitted». Optionally pass field 
 | amount | formData | The deposit amount. | Yes | double |
 | state | formData | The state of deposit. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Creates new fiat deposit with state set to «submitted». Optionally pass field «state» set to «accepted» if want to load money instantly. You can also use PUT /fiat_deposits/:id later to load money or cancel deposit. | [Deposit](#deposit) |
 
 ### /deposits/get
+---
+##### ***POST***
+**Description:** Returns deposit by TID.
 
-#### POST
-##### Description:
-
-Returns deposit by TID.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | tid | formData | The transaction ID. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns deposit by TID. | [Deposit](#deposit) |
 
 ### /deposits
+---
+##### ***POST***
+**Description:** Returns deposits as paginated collection.
 
-#### POST
-##### Description:
-
-Returns deposits as paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -109,48 +100,40 @@ Returns deposits as paginated collection.
 | limit | formData | The number of deposits per page (defaults to 100, maximum is 1000). | No | integer |
 | state | formData | The state to filter by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns deposits as paginated collection. | [Deposit](#deposit) |
 
 ### /withdraws/action
+---
+##### ***PUT***
+**Summary:** Performs action on withdraw.
 
-#### PUT
-##### Summary:
+**Description:** «process» – system will lock the money, check for suspected activity, validate recipient address, and initiate the processing of the withdraw. «cancel»  – system will mark withdraw as «canceled», and unlock the money.
 
-Performs action on withdraw.
-
-##### Description:
-
-«process» – system will lock the money, check for suspected activity, validate recipient address, and initiate the processing of the withdraw. «cancel»  – system will mark withdraw as «canceled», and unlock the money.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | tid | formData | The shared transaction ID. | Yes | string |
 | action | formData | The action to perform. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Performs action on withdraw. | [Withdraw](#withdraw) |
 
 ### /withdraws/new
+---
+##### ***POST***
+**Summary:** Creates new withdraw.
 
-#### POST
-##### Summary:
+**Description:** Creates new withdraw. The behaviours for fiat and crypto withdraws are different. Fiat: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, and assign state to «rejected» or «accepted». The processing will not begin automatically. The processing may be initiated manually from admin panel or by PUT /management_api/v1/withdraws/action. Coin: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, validate withdraw address and set state to «rejected» or «accepted». Then in case state is «accepted» withdraw workers will perform interactions with blockchain. The withdraw receives new state «processing». Then withdraw receives state either «confirming» or «failed».Then in case state is «confirming» withdraw confirmations workers will perform interactions with blockchain.Withdraw receives state «succeed» when it receives minimum necessary amount of confirmations.
 
-Creates new withdraw.
-
-##### Description:
-
-Creates new withdraw. The behaviours for fiat and crypto withdraws are different. Fiat: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, and assign state to «rejected» or «accepted». The processing will not begin automatically. The processing may be initiated manually from admin panel or by PUT /management_api/v1/withdraws/action. Coin: money are immediately locked, withdraw state is set to «submitted», system workers will validate withdraw later against suspected activity, validate withdraw address and set state to «rejected» or «accepted». Then in case state is «accepted» withdraw workers will perform interactions with blockchain. The withdraw receives new state «processing». Then withdraw receives state either «confirming» or «failed».Then in case state is «confirming» withdraw confirmations workers will perform interactions with blockchain.Withdraw receives state «succeed» when it receives minimum necessary amount of confirmations.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -163,39 +146,35 @@ Creates new withdraw. The behaviours for fiat and crypto withdraws are different
 | note | formData | The note for withdraw. | No | string |
 | action | formData | The action to perform. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Creates new withdraw. | [Withdraw](#withdraw) |
 
 ### /withdraws/get
+---
+##### ***POST***
+**Description:** Returns withdraw by ID.
 
-#### POST
-##### Description:
-
-Returns withdraw by ID.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | tid | formData | The shared transaction ID. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns withdraw by ID. | [Withdraw](#withdraw) |
 
 ### /withdraws
+---
+##### ***POST***
+**Description:** Returns withdraws as paginated collection.
 
-#### POST
-##### Description:
-
-Returns withdraws as paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -205,33 +184,29 @@ Returns withdraws as paginated collection.
 | limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
 | state | formData | The state to filter by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns withdraws as paginated collection. | [Withdraw](#withdraw) |
 
 ### /timestamp
+---
+##### ***POST***
+**Description:** Returns server time in seconds since Unix epoch.
 
-#### POST
-##### Description:
-
-Returns server time in seconds since Unix epoch.
-
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 201 | Returns server time in seconds since Unix epoch. |
 
 ### /assets/new
+---
+##### ***POST***
+**Description:** Creates new asset operation.
 
-#### POST
-##### Description:
-
-Creates new asset operation.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -240,20 +215,18 @@ Creates new asset operation.
 | debit | formData | Operation debit amount. | No | double |
 | credit | formData | Operation credit amount. | No | double |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Creates new asset operation. | [Operation](#operation) |
 
 ### /assets
+---
+##### ***POST***
+**Description:** Returns assets as paginated collection.
 
-#### POST
-##### Description:
-
-Returns assets as paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -264,20 +237,18 @@ Returns assets as paginated collection.
 | time_to | formData | An integer represents the seconds elapsed since Unix epoch.If set, only operations before the time will be returned. | No | integer |
 | reference_type | formData | The reference type for operations filtering | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns assets as paginated collection. | [Operation](#operation) |
 
 ### /expenses/new
+---
+##### ***POST***
+**Description:** Creates new expense operation.
 
-#### POST
-##### Description:
-
-Creates new expense operation.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -286,20 +257,18 @@ Creates new expense operation.
 | debit | formData | Operation debit amount. | No | double |
 | credit | formData | Operation credit amount. | No | double |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Creates new expense operation. | [Operation](#operation) |
 
 ### /expenses
+---
+##### ***POST***
+**Description:** Returns expenses as paginated collection.
 
-#### POST
-##### Description:
-
-Returns expenses as paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -310,20 +279,18 @@ Returns expenses as paginated collection.
 | time_to | formData | An integer represents the seconds elapsed since Unix epoch.If set, only operations before the time will be returned. | No | integer |
 | reference_type | formData | The reference type for operations filtering | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns expenses as paginated collection. | [Operation](#operation) |
 
 ### /revenues/new
+---
+##### ***POST***
+**Description:** Creates new revenue operation.
 
-#### POST
-##### Description:
-
-Creates new revenue operation.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -332,20 +299,18 @@ Creates new revenue operation.
 | debit | formData | Operation debit amount. | No | double |
 | credit | formData | Operation credit amount. | No | double |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Creates new revenue operation. | [Operation](#operation) |
 
 ### /revenues
+---
+##### ***POST***
+**Description:** Returns revenues as paginated collection.
 
-#### POST
-##### Description:
-
-Returns revenues as paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -356,20 +321,18 @@ Returns revenues as paginated collection.
 | time_to | formData | An integer represents the seconds elapsed since Unix epoch.If set, only operations before the time will be returned. | No | integer |
 | reference_type | formData | The reference type for operations filtering | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns revenues as paginated collection. | [Operation](#operation) |
 
 ### /liabilities/new
+---
+##### ***POST***
+**Description:** Creates new liability operation.
 
-#### POST
-##### Description:
-
-Creates new liability operation.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -379,20 +342,18 @@ Creates new liability operation.
 | debit | formData | Operation debit amount. | No | double |
 | credit | formData | Operation credit amount. | No | double |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Creates new liability operation. | [Operation](#operation) |
 
 ### /liabilities
+---
+##### ***POST***
+**Description:** Returns liabilities as paginated collection.
 
-#### POST
-##### Description:
-
-Returns liabilities as paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -404,20 +365,18 @@ Returns liabilities as paginated collection.
 | page | formData | The page number (defaults to 1). | No | integer |
 | limit | formData | The number of objects per page (defaults to 100, maximum is 10000). | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns liabilities as paginated collection. | [Operation](#operation) |
 
 ### /transfers/new
+---
+##### ***POST***
+**Description:** Creates new transfer.
 
-#### POST
-##### Description:
-
-Creates new transfer.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -431,20 +390,18 @@ Creates new transfer.
 | operations[account_dst][code] | formData | Destination Account code. | Yes | [ integer ] |
 | operations[account_dst][uid] | formData | Destination Account User ID (for accounts with member scope). | Yes | [ string ] |
 
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 201 | Creates new transfer. |
 
 ### /trades
+---
+##### ***POST***
+**Description:** Returns trades as paginated collection.
 
-#### POST
-##### Description:
-
-Returns trades as paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -453,40 +410,36 @@ Returns trades as paginated collection.
 | page | formData | The page number (defaults to 1). | No | integer |
 | limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns trades as paginated collection. | [Trade](#trade) |
 
 ### /members/group
+---
+##### ***POST***
+**Description:** Set user group.
 
-#### POST
-##### Description:
-
-Set user group.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | uid | formData | The shared user ID. | Yes | string |
 | group | formData | User gruop | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 201 | Set user group. |
 
 ### /fee_schedule/trading_fees
+---
+##### ***POST***
+**Description:** Returns trading_fees table as paginated collection
 
-#### POST
-##### Description:
-
-Returns trading_fees table as paginated collection
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -495,20 +448,18 @@ Returns trading_fees table as paginated collection
 | page | formData | The page number (defaults to 1). | No | integer |
 | limit | formData | The number of objects per page (defaults to 100, maximum is 1000). | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 201 | Returns trading_fees table as paginated collection |
 
 ### /currencies/update
+---
+##### ***PUT***
+**Description:** Update  currency.
 
-#### PUT
-##### Description:
-
-Update  currency.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -529,39 +480,35 @@ Update  currency.
 | precision | formData | Currency precision | No | integer |
 | icon_url | formData | Currency icon | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Update  currency. | [Currency](#currency) |
 
 ### /currencies/{code}
+---
+##### ***POST***
+**Description:** Returns currency by code.
 
-#### POST
-##### Description:
-
-Returns currency by code.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | code | path | The currency code. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Returns currency by code. | [Currency](#currency) |
 
 ### /markets/update
+---
+##### ***PUT***
+**Description:** Update market.
 
-#### PUT
-##### Description:
-
-Update market.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -574,16 +521,16 @@ Update market.
 | max_price | formData | Maximum order price. | No | double |
 | position | formData | Market position. | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Update market. | [Market](#market) |
 
 ### Models
+---
 
-
-#### Balance
+### Balance  
 
 Queries the account balance for the given UID and currency.
 
@@ -593,7 +540,7 @@ Queries the account balance for the given UID and currency.
 | balance | string | The account balance. | No |
 | locked | string | The locked account balance. | No |
 
-#### Deposit
+### Deposit  
 
 Returns deposits as paginated collection.
 
@@ -610,7 +557,7 @@ Returns deposits as paginated collection.
 | blockchain_txid | string | The transaction ID on the Blockchain (coin only). | No |
 | blockchain_confirmations | string | The number of transaction confirmations on the Blockchain (coin only). | No |
 
-#### Withdraw
+### Withdraw  
 
 Returns withdraws as paginated collection.
 
@@ -628,7 +575,7 @@ Returns withdraws as paginated collection.
 | created_at | string | The datetime when withdraw was created. | No |
 | blockchain_txid | string | The transaction ID on the Blockchain (coin only). | No |
 
-#### Operation
+### Operation  
 
 Returns liabilities as paginated collection.
 
@@ -642,7 +589,7 @@ Returns liabilities as paginated collection.
 | reference_type | string | The type of operations. | No |
 | created_at | string | The datetime when operation was created. | No |
 
-#### Trade
+### Trade  
 
 Returns trades as paginated collection.
 
@@ -662,7 +609,7 @@ Returns trades as paginated collection.
 | side | string | Trade side. | No |
 | order_id | integer | Order id. | No |
 
-#### Currency
+### Currency  
 
 Returns currency by code.
 
@@ -695,7 +642,7 @@ Returns currency by code.
 | created_at | string | Currency created time in iso8601 format. | No |
 | updated_at | string | Currency updated time in iso8601 format. | No |
 
-#### Market
+### Market  
 
 Update market.
 

@@ -1,7 +1,8 @@
-# Peatio User API v2
+Peatio User API v2
+==================
 API for Peatio application.
 
-## Version: 2.3.44
+**Version:** 2.4.0
 
 **Contact information:**  
 openware.com  
@@ -11,6 +12,7 @@ hello@openware.com
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
 ### Security
+---
 **Bearer**  
 
 |apiKey|*API Key*|
@@ -18,14 +20,34 @@ hello@openware.com
 |Name|JWT|
 |In|header|
 
+### /public/webhooks/{event}
+---
+##### ***POST***
+**Description:** Bitgo Transfer Webhook
+
+**Parameters**
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ---- |
+| event | path | Name of event can be deposit or withdraw | Yes | string |
+| type | formData | Type of event. | Yes | string |
+| hash | formData | Transfer txid. | Yes | string |
+| transfer | formData | Transfer id. | Yes | string |
+| coin | formData | Currency code. | Yes | string |
+| wallet | formData | Wallet id. | Yes | string |
+
+**Responses**
+
+| Code | Description |
+| ---- | ----------- |
+| 201 | Bitgo Transfer Webhook |
+
 ### /public/trading_fees
+---
+##### ***GET***
+**Description:** Returns trading_fees table as paginated collection
 
-#### GET
-##### Description:
-
-Returns trading_fees table as paginated collection
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -36,117 +58,101 @@ Returns trading_fees table as paginated collection
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Returns trading_fees table as paginated collection | [ [TradingFee](#tradingfee) ] |
 
 ### /public/health/ready
+---
+##### ***GET***
+**Description:** Get application readiness status
 
-#### GET
-##### Description:
-
-Get application readiness status
-
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get application readiness status |
 
 ### /public/health/alive
+---
+##### ***GET***
+**Description:** Get application liveness status
 
-#### GET
-##### Description:
-
-Get application liveness status
-
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get application liveness status |
 
 ### /public/version
+---
+##### ***GET***
+**Description:** Get running Peatio version and build details.
 
-#### GET
-##### Description:
-
-Get running Peatio version and build details.
-
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get running Peatio version and build details. |
 
 ### /public/timestamp
+---
+##### ***GET***
+**Description:** Get server current time, in seconds since Unix epoch.
 
-#### GET
-##### Description:
-
-Get server current time, in seconds since Unix epoch.
-
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get server current time, in seconds since Unix epoch. |
 
 ### /public/member-levels
+---
+##### ***GET***
+**Description:** Returns hash of minimum levels and the privileges they provide.
 
-#### GET
-##### Description:
-
-Returns hash of minimum levels and the privileges they provide.
-
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Returns hash of minimum levels and the privileges they provide. |
 
 ### /public/markets/{market}/tickers
+---
+##### ***GET***
+**Description:** Get ticker of specific market.
 
-#### GET
-##### Description:
-
-Get ticker of specific market.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | path |  | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get ticker of specific market. | [Ticker](#ticker) |
 
 ### /public/markets/tickers
+---
+##### ***GET***
+**Description:** Get ticker of all markets (For response doc see /:market/tickers/ response).
 
-#### GET
-##### Description:
-
-Get ticker of all markets (For response doc see /:market/tickers/ response).
-
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get ticker of all markets (For response doc see /:market/tickers/ response). | [Ticker](#ticker) |
 
 ### /public/markets/{market}/k-line
+---
+##### ***GET***
+**Description:** Get OHLC(k line) of specific market.
 
-#### GET
-##### Description:
-
-Get OHLC(k line) of specific market.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -156,63 +162,56 @@ Get OHLC(k line) of specific market.
 | time_to | query | An integer represents the seconds elapsed since Unix epoch. If set, only k-line data till that time will be returned. | No | integer |
 | limit | query | Limit the number of returned data points default to 30. Ignored if time_from and time_to are given. | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get OHLC(k line) of specific market. |
 
 ### /public/markets/{market}/depth
+---
+##### ***GET***
+**Description:** Get depth or specified market. Both asks and bids are sorted from highest price to lowest.
 
-#### GET
-##### Description:
-
-Get depth or specified market. Both asks and bids are sorted from highest price to lowest.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | path |  | Yes | string |
 | limit | query | Limit the number of returned price levels. Default to 300. | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get depth or specified market. Both asks and bids are sorted from highest price to lowest. |
 
 ### /public/markets/{market}/trades
+---
+##### ***GET***
+**Description:** Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.
 
-#### GET
-##### Description:
-
-Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | path |  | Yes | string |
 | limit | query | Limit the number of returned trades. Default to 100. | No | integer |
-| page | query | Specify the page of paginated results. | No | integer |
 | timestamp | query | An integer represents the seconds elapsed since Unix epoch.If set, only trades executed before the time will be returned. | No | integer |
 | order_by | query | If set, returned trades will be sorted in specific order, default to 'desc'. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get recent trades on market, each trade is included only once. Trades are sorted in reverse creation order. | [ [Trade](#trade) ] |
 
 ### /public/markets/{market}/order-book
+---
+##### ***GET***
+**Description:** Get the order book of specified market.
 
-#### GET
-##### Description:
-
-Get the order book of specified market.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -220,40 +219,36 @@ Get the order book of specified market.
 | asks_limit | query | Limit the number of returned sell orders. Default to 20. | No | integer |
 | bids_limit | query | Limit the number of returned buy orders. Default to 20. | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get the order book of specified market. | [ [OrderBook](#orderbook) ] |
 
 ### /public/markets
+---
+##### ***GET***
+**Description:** Get all available markets.
 
-#### GET
-##### Description:
-
-Get all available markets.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all available markets. | [ [Market](#market) ] |
 
 ### /public/currencies
+---
+##### ***GET***
+**Description:** Get list of currencies
 
-#### GET
-##### Description:
-
-Get list of currencies
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -261,39 +256,35 @@ Get list of currencies
 | page | query | Specify the page of paginated results. | No | integer |
 | type | query | Currency type | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get list of currencies | [ [Currency](#currency) ] |
 
 ### /public/currencies/{id}
+---
+##### ***GET***
+**Description:** Get a currency
 
-#### GET
-##### Description:
-
-Get a currency
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | Currency code. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get a currency | [Currency](#currency) |
 
 ### /account/transactions
+---
+##### ***GET***
+**Description:** Get your transactions history.
 
-#### GET
-##### Description:
-
-Get your transactions history.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -301,23 +292,23 @@ Get your transactions history.
 | order_by | query | Sorting order | No | string |
 | time_from | query | An integer represents the seconds elapsed since Unix epoch. | No | integer |
 | time_to | query | An integer represents the seconds elapsed since Unix epoch. | No | integer |
+| deposit_state | query | Filter deposits by states. | No | string |
+| withdraw_state | query | Filter withdraws by states. | No | string |
 | limit | query | Limit the number of returned transactions. Default to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get your transactions history. |
 
 ### /account/withdraws
+---
+##### ***POST***
+**Description:** Creates new withdrawal to active beneficiary.
 
-#### POST
-##### Description:
-
-Creates new withdrawal to active beneficiary.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -327,95 +318,86 @@ Creates new withdrawal to active beneficiary.
 | amount | formData | The amount to withdraw. | Yes | double |
 | note | formData | Optional metadata to be applied to the transaction. Used to tag transactions with memorable comments. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 201 | Creates new withdrawal to active beneficiary. |
 
-#### GET
-##### Description:
+##### ***GET***
+**Description:** List your withdraws as paginated collection.
 
-List your withdraws as paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | query | Currency code. | No | string |
 | limit | query | Number of withdraws per page (defaults to 100, maximum is 100). | No | integer |
+| state | query | Filter withdrawals by states. | No | string |
 | page | query | Page number (defaults to 1). | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | List your withdraws as paginated collection. | [ [Withdraw](#withdraw) ] |
 
 ### /account/beneficiaries/{id}
+---
+##### ***DELETE***
+**Description:** Delete beneficiary
 
-#### DELETE
-##### Description:
-
-Delete beneficiary
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | Beneficiary Identifier in Database | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 204 | Delete beneficiary |
 
-#### GET
-##### Description:
+##### ***GET***
+**Description:** Get beneficiary by ID
 
-Get beneficiary by ID
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | Beneficiary Identifier in Database | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get beneficiary by ID | [Beneficiary](#beneficiary) |
 
 ### /account/beneficiaries/{id}/activate
+---
+##### ***PATCH***
+**Description:** Activates beneficiary with pin
 
-#### PATCH
-##### Description:
-
-Activates beneficiary with pin
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | Beneficiary Identifier in Database | Yes | integer |
 | pin | formData | Pin code for beneficiary activation | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Activates beneficiary with pin | [Beneficiary](#beneficiary) |
 
 ### /account/beneficiaries
+---
+##### ***POST***
+**Description:** Create new beneficiary
 
-#### POST
-##### Description:
-
-Create new beneficiary
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -424,138 +406,125 @@ Create new beneficiary
 | description | formData | Human rememberable name which refer beneficiary. | No | string |
 | data | formData | Beneficiary data in JSON format | Yes | json |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Create new beneficiary | [Beneficiary](#beneficiary) |
 
-#### GET
-##### Description:
+##### ***GET***
+**Description:** Get list of user beneficiaries
 
-Get list of user beneficiaries
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | query | Beneficiary currency code. | No | string |
 | state | query | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get list of user beneficiaries | [ [Beneficiary](#beneficiary) ] |
 
 ### /account/deposit_address/{currency}
+---
+##### ***GET***
+**Description:** Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later.
 
-#### GET
-##### Description:
-
-Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | path | The account you want to deposit to. | Yes | string |
 | address_format | query | Address format legacy/cash | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Returns deposit address for account you want to deposit to by currency. The address may be blank because address generation process is still in progress. If this case you should try again later. | [Deposit](#deposit) |
 
 ### /account/deposits/{txid}
+---
+##### ***GET***
+**Description:** Get details of specific deposit.
 
-#### GET
-##### Description:
-
-Get details of specific deposit.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | txid | path | Deposit transaction id | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get details of specific deposit. | [Deposit](#deposit) |
 
 ### /account/deposits
+---
+##### ***GET***
+**Description:** Get your deposits history.
 
-#### GET
-##### Description:
-
-Get your deposits history.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | query | Currency code | No | string |
-| state | query |  | No | string |
+| state | query | Filter deposits by states. | No | string |
 | limit | query | Number of deposits per page (defaults to 100, maximum is 100). | No | integer |
 | page | query | Page number (defaults to 1). | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get your deposits history. | [ [Deposit](#deposit) ] |
 
 ### /account/balances/{currency}
+---
+##### ***GET***
+**Description:** Get user account by currency
 
-#### GET
-##### Description:
-
-Get user account by currency
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | currency | path | The currency code. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get user account by currency | [Account](#account) |
 
 ### /account/balances
+---
+##### ***GET***
+**Description:** Get list of user accounts
 
-#### GET
-##### Description:
-
-Get list of user accounts
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | limit | query | Limit the number of returned paginations. Defaults to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
+| nonzero | query | Filter non zero balances. | No | boolean |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get list of user accounts | [ [Account](#account) ] |
 
 ### /market/trades
+---
+##### ***GET***
+**Description:** Get your executed trades. Trades are sorted in reverse creation order.
 
-#### GET
-##### Description:
-
-Get your executed trades. Trades are sorted in reverse creation order.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -566,59 +535,53 @@ Get your executed trades. Trades are sorted in reverse creation order.
 | time_to | query | An integer represents the seconds elapsed since Unix epoch.If set, only trades executed before the time will be returned. | No | integer |
 | order_by | query | If set, returned trades will be sorted in specific order, default to 'desc'. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get your executed trades. Trades are sorted in reverse creation order. | [ [Trade](#trade) ] |
 
 ### /market/orders/cancel
+---
+##### ***POST***
+**Description:** Cancel all my orders.
 
-#### POST
-##### Description:
-
-Cancel all my orders.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | formData |  | No | string |
 | side | formData | If present, only sell orders (asks) or buy orders (bids) will be canncelled. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Cancel all my orders. | [Order](#order) |
 
 ### /market/orders/{id}/cancel
+---
+##### ***POST***
+**Description:** Cancel an order.
 
-#### POST
-##### Description:
-
-Cancel an order.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path |  | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 201 | Cancel an order. |
 
 ### /market/orders
+---
+##### ***POST***
+**Description:** Create a Sell/Buy order.
 
-#### POST
-##### Description:
-
-Create a Sell/Buy order.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -628,58 +591,58 @@ Create a Sell/Buy order.
 | ord_type | formData |  | No | string |
 | price | formData |  | Yes | double |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Create a Sell/Buy order. | [Order](#order) |
 
-#### GET
-##### Description:
+##### ***GET***
+**Description:** Get your orders, result is paginated.
 
-Get your orders, result is paginated.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | query |  | No | string |
+| base_unit | query |  | No | string |
+| quote_unit | query |  | No | string |
 | state | query | Filter order by state. | No | string |
 | limit | query | Limit the number of returned orders, default to 100. | No | integer |
 | page | query | Specify the page of paginated results. | No | integer |
 | order_by | query | If set, returned orders will be sorted in specific order, default to "desc". | No | string |
 | ord_type | query | Filter order by ord_type. | No | string |
 | type | query | Filter order by type. | No | string |
+| time_from | query | An integer represents the seconds elapsed since Unix epoch.If set, only orders created after the time will be returned. | No | integer |
+| time_to | query | An integer represents the seconds elapsed since Unix epoch.If set, only orders created before the time will be returned. | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get your orders, result is paginated. | [ [Order](#order) ] |
 
 ### /market/orders/{id}
+---
+##### ***GET***
+**Description:** Get information of specified order.
 
-#### GET
-##### Description:
-
-Get information of specified order.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path |  | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get information of specified order. | [Order](#order) |
 
 ### Models
+---
 
-
-#### TradingFee
+### TradingFee  
 
 Returns trading_fees table as paginated collection
 
@@ -693,7 +656,7 @@ Returns trading_fees table as paginated collection
 | created_at | string | Trading fee table created time in iso8601 format. | No |
 | updated_at | string | Trading fee table updated time in iso8601 format. | No |
 
-#### Ticker
+### Ticker  
 
 Get ticker of all markets (For response doc see /:market/tickers/ response).
 
@@ -702,7 +665,7 @@ Get ticker of all markets (For response doc see /:market/tickers/ response).
 | at | integer | Timestamp of ticker | No |
 | ticker | [TickerEntry](#tickerentry) | Ticker entry for specified time | No |
 
-#### TickerEntry
+### TickerEntry  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -717,7 +680,7 @@ Get ticker of all markets (For response doc see /:market/tickers/ response).
 | avg_price | double | Average price more precisely VWAP is calculated by adding up the total traded for every transaction(price multiplied by the number of shares traded) and then dividing by the total shares traded | No |
 | price_change_percent | string | Price change in the next format +3.19%.Price change is calculated using next formula (last - open) / open * 100% | No |
 
-#### Trade
+### Trade  
 
 Get your executed trades. Trades are sorted in reverse creation order.
 
@@ -736,7 +699,7 @@ Get your executed trades. Trades are sorted in reverse creation order.
 | side | string | Trade side. | No |
 | order_id | integer | Order id. | No |
 
-#### OrderBook
+### OrderBook  
 
 Get the order book of specified market.
 
@@ -745,13 +708,14 @@ Get the order book of specified market.
 | asks | [ [Order](#order) ] | Asks in orderbook | No |
 | bids | [ [Order](#order) ] | Bids in orderbook | No |
 
-#### Order
+### Order  
 
 Get your orders, result is paginated.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | id | integer | Unique order id. | No |
+| uuid | string | Unique order UUID. | No |
 | side | string | Either 'sell' or 'buy'. | No |
 | ord_type | string | Type of order, either 'limit' or 'market'. | No |
 | price | double | Price for each unit. e.g.If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | No |
@@ -766,7 +730,7 @@ Get your orders, result is paginated.
 | trades_count | integer | Count of trades. | No |
 | trades | [ [Trade](#trade) ] | Trades wiht this order. | No |
 
-#### Market
+### Market  
 
 Get all available markets.
 
@@ -783,7 +747,7 @@ Get all available markets.
 | price_precision | double | Precision for order price. | No |
 | state | string | Market state defines if user can see/trade on current market. | No |
 
-#### Currency
+### Currency  
 
 Get a currency
 
@@ -809,7 +773,7 @@ Get a currency
 | icon_url | string | Currency icon | No |
 | min_confirmations | string | Number of confirmations required for confirming deposit or withdrawal | No |
 
-#### Withdraw
+### Withdraw  
 
 List your withdraws as paginated collection.
 
@@ -829,7 +793,7 @@ List your withdraws as paginated collection.
 | updated_at | string | The datetimes for the withdrawal. | No |
 | done_at | string | The datetime when withdraw was completed | No |
 
-#### Beneficiary
+### Beneficiary  
 
 Get list of user beneficiaries
 
@@ -842,7 +806,7 @@ Get list of user beneficiaries
 | data | json | Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address. | No |
 | state | string | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No |
 
-#### Deposit
+### Deposit  
 
 Get your deposits history.
 
@@ -859,7 +823,7 @@ Get your deposits history.
 | completed_at | string | The datetime when deposit was completed.. | No |
 | tid | string | The shared transaction ID | No |
 
-#### Account
+### Account  
 
 Get list of user accounts
 
@@ -869,7 +833,7 @@ Get list of user accounts
 | balance | double | Account balance. | No |
 | locked | double | Account locked funds. | No |
 
-#### Transactions
+### Transactions  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -884,7 +848,7 @@ Get list of user accounts
 | updated_at | string | Transaction updated time in iso8601 format. | No |
 | type | string | Type of transaction | No |
 
-#### Member
+### Member  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |

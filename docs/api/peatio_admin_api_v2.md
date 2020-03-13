@@ -1,7 +1,8 @@
-# Peatio Admin API v2
+Peatio Admin API v2
+===================
 Admin API high privileged API with RBAC.
 
-## Version: 2.3.44
+**Version:** 2.4.0
 
 **Contact information:**  
 openware.com  
@@ -11,33 +12,29 @@ hello@openware.com
 **License:** https://github.com/rubykube/peatio/blob/master/LICENSE.md
 
 ### /adjustments/action
+---
+##### ***POST***
+**Description:** Accepts adjustment and creates operations or reject adjustment.
 
-#### POST
-##### Description:
-
-Accepts adjustment and creates operations or reject adjustment.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | formData | Unique adjustment identifier in database. | Yes | integer |
 | action | formData | Adjustment action all available actions: [:accept, :reject] | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Accepts adjustment and creates operations or reject adjustment. | [Adjustment](#adjustment) |
 
 ### /adjustments/new
+---
+##### ***POST***
+**Description:** Create new adjustment.
 
-#### POST
-##### Description:
-
-Create new adjustment.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -50,39 +47,35 @@ Create new adjustment.
 | receiving_account_code | formData | Adjustment receiving account code. | Yes | integer |
 | receiving_member_uid | formData | Adjustment receiving account code. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Create new adjustment. | [Adjustment](#adjustment) |
 
 ### /adjustments/{id}
+---
+##### ***GET***
+**Description:** Get adjustment by ID
 
-#### GET
-##### Description:
-
-Get adjustment by ID
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | Adjsustment Identifier in Database | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get adjustment by ID | [Adjustment](#adjustment) |
 
 ### /adjustments
+---
+##### ***GET***
+**Description:** Get all adjustments, result is paginated.
 
-#### GET
-##### Description:
-
-Get all adjustments, result is paginated.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -97,59 +90,53 @@ Get all adjustments, result is paginated.
 | state | query | Adjustment's state. | No | string |
 | category | query | Adjustment category | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all adjustments, result is paginated. | [ [Adjustment](#adjustment) ] |
 
 ### /orders/cancel
+---
+##### ***POST***
+**Description:** Cancel all orders.
 
-#### POST
-##### Description:
-
-Cancel all orders.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | market | formData | Unique order id. | Yes | string |
 | side | formData | If present, only sell orders (asks) or buy orders (bids) will be cancelled. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 201 | Cancel all orders. |
 
 ### /orders/{id}/cancel
+---
+##### ***POST***
+**Description:** Cancel an order.
 
-#### POST
-##### Description:
-
-Cancel an order.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | Unique order id. | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 201 | Cancel an order. |
 
 ### /orders
+---
+##### ***GET***
+**Description:** Get all orders, result is paginated.
 
-#### GET
-##### Description:
-
-Get all orders, result is paginated.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -169,20 +156,18 @@ Get all orders, result is paginated.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all orders, result is paginated. | [ [Order](#order) ] |
 
 ### /blockchains/update
+---
+##### ***POST***
+**Description:** Update blockchain.
 
-#### POST
-##### Description:
-
-Update blockchain.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -197,20 +182,18 @@ Update blockchain.
 | status | formData | Blockchain status (active/disabled). | No | string |
 | min_confirmations | formData | Minimum number of confirmations. | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Update blockchain. | [Blockchain](#blockchain) |
 
 ### /blockchains/new
+---
+##### ***POST***
+**Description:** Create new blockchain.
 
-#### POST
-##### Description:
-
-Create new blockchain.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -224,52 +207,46 @@ Create new blockchain.
 | status | formData | Blockchain status (active/disabled). | No | string |
 | min_confirmations | formData | Minimum number of confirmations. | No | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Create new blockchain. | [Blockchain](#blockchain) |
 
 ### /blockchains/{id}
+---
+##### ***GET***
+**Description:** Get a blockchain.
 
-#### GET
-##### Description:
-
-Get a blockchain.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | Unique blockchain identifier in database. | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get a blockchain. | [Blockchain](#blockchain) |
 
 ### /blockchains/clients
+---
+##### ***GET***
+**Description:** Get available blockchain clients.
 
-#### GET
-##### Description:
-
-Get available blockchain clients.
-
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get available blockchain clients. |
 
 ### /blockchains
+---
+##### ***GET***
+**Description:** Get all blockchains, result is paginated.
 
-#### GET
-##### Description:
-
-Get all blockchains, result is paginated.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -278,20 +255,18 @@ Get all blockchains, result is paginated.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all blockchains, result is paginated. | [ [Blockchain](#blockchain) ] |
 
 ### /currencies/update
+---
+##### ***POST***
+**Description:** Update currency.
 
-#### POST
-##### Description:
-
-Update currency.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -314,20 +289,18 @@ Update currency.
 | symbol | formData | Currency symbol | No | string |
 | blockchain_key | formData | Associated blockchain key which will perform transactions synchronization for currency. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Update currency. | [Currency](#currency) |
 
 ### /currencies/new
+---
+##### ***POST***
+**Description:** Create new currency.
 
-#### POST
-##### Description:
-
-Create new currency.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -353,39 +326,35 @@ Create new currency.
 | subunits | formData | Fraction of the basic monetary unit. | No | integer |
 | blockchain_key | formData | Associated blockchain key which will perform transactions synchronization for currency. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Create new currency. | [Currency](#currency) |
 
 ### /currencies/{code}
+---
+##### ***GET***
+**Description:** Get a currency.
 
-#### GET
-##### Description:
-
-Get a currency.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | code | path | Unique currency code. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get a currency. | [Currency](#currency) |
 
 ### /currencies
+---
+##### ***GET***
+**Description:** Get list of currencies
 
-#### GET
-##### Description:
-
-Get list of currencies
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -395,20 +364,18 @@ Get list of currencies
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get list of currencies | [ [Currency](#currency) ] |
 
 ### /markets/update
+---
+##### ***POST***
+**Description:** Update market.
 
-#### POST
-##### Description:
-
-Update market.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -421,20 +388,18 @@ Update market.
 | min_price | formData | Minimum order price. | No | double |
 | min_amount | formData | Minimum order amount. | No | double |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Update market. | [Market](#market) |
 
 ### /markets/new
+---
+##### ***POST***
+**Description:** Create new market.
 
-#### POST
-##### Description:
-
-Create new market.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -448,39 +413,35 @@ Create new market.
 | min_price | formData | Minimum order price. | Yes | double |
 | min_amount | formData | Minimum order amount. | Yes | double |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Create new market. | [Market](#market) |
 
 ### /markets/{id}
+---
+##### ***GET***
+**Description:** Get market.
 
-#### GET
-##### Description:
-
-Get market.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | Unique market id. It's always in the form of xxxyyy,where xxx is the base currency code, yyy is the quotecurrency code, e.g. 'btcusd'. All available markets canbe found at /api/v2/markets. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get market. | [Market](#market) |
 
 ### /markets
+---
+##### ***GET***
+**Description:** Get all markets, result is paginated.
 
-#### GET
-##### Description:
-
-Get all markets, result is paginated.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -489,20 +450,18 @@ Get all markets, result is paginated.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all markets, result is paginated. | [ [Market](#market) ] |
 
 ### /wallets/update
+---
+##### ***POST***
+**Description:** Update wallet.
 
-#### POST
-##### Description:
-
-Update wallet.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -517,20 +476,18 @@ Update wallet.
 | gateway | formData | Wallet gateway. | No | string |
 | currency | formData | Wallet currency code. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Update wallet. | [Wallet](#wallet) |
 
 ### /wallets/new
+---
+##### ***POST***
+**Description:** Creates new wallet.
 
-#### POST
-##### Description:
-
-Creates new wallet.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -544,65 +501,57 @@ Creates new wallet.
 | kind | formData | Kind of wallet 'deposit','fee','hot','warm' or 'cold'. | Yes | string |
 | gateway | formData | Wallet gateway. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Creates new wallet. | [Wallet](#wallet) |
 
 ### /wallets/{id}
+---
+##### ***GET***
+**Description:** Get a wallet.
 
-#### GET
-##### Description:
-
-Get a wallet.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | Unique wallet identifier in database. | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get a wallet. | [Wallet](#wallet) |
 
 ### /wallets/gateways
+---
+##### ***GET***
+**Description:** List wallet gateways.
 
-#### GET
-##### Description:
-
-List wallet gateways.
-
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | List wallet gateways. |
 
 ### /wallets/kinds
+---
+##### ***GET***
+**Description:** List wallet kinds.
 
-#### GET
-##### Description:
-
-List wallet kinds.
-
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | List wallet kinds. |
 
 ### /wallets
+---
+##### ***GET***
+**Description:** Get all wallets, result is paginated.
 
-#### GET
-##### Description:
-
-Get all wallets, result is paginated.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -614,20 +563,18 @@ Get all wallets, result is paginated.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all wallets, result is paginated. | [ [Wallet](#wallet) ] |
 
 ### /deposits/new
+---
+##### ***POST***
+**Description:** Creates new fiat deposit .
 
-#### POST
-##### Description:
-
-Creates new fiat deposit .
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -636,40 +583,36 @@ Creates new fiat deposit .
 | amount | formData | Deposit amount. | Yes | double |
 | tid | formData | Deposit tid. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Creates new fiat deposit . | [Deposit](#deposit) |
 
 ### /deposits/actions
+---
+##### ***POST***
+**Description:** Take an action on the deposit.
 
-#### POST
-##### Description:
-
-Take an action on the deposit.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | formData | Unique deposit id. | Yes | integer |
 | action | formData | Valid actions are [:cancel, :reject, :accept, :skip, :dispatch]. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Take an action on the deposit. | [Deposit](#deposit) |
 
 ### /deposits
+---
+##### ***GET***
+**Description:** Get all deposits, result is paginated.
 
-#### GET
-##### Description:
-
-Get all deposits, result is paginated.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -689,20 +632,18 @@ Get all deposits, result is paginated.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all deposits, result is paginated. | [ [Deposit](#deposit) ] |
 
 ### /withdraws/actions
+---
+##### ***POST***
+**Description:** Take an action on the withdrawal.
 
-#### POST
-##### Description:
-
-Take an action on the withdrawal.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -710,44 +651,39 @@ Take an action on the withdrawal.
 | action | formData | Valid actions are [:submit, :cancel, :accept, :reject, :process, :load, :dispatch, :success, :skip, :fail, :err]. | Yes | string |
 | txid | formData | The withdrawal transaction id. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | Take an action on the withdrawal. | [Withdraw](#withdraw) |
 
 ### /withdraws/{id}
+---
+##### ***GET***
+**Description:** Get withdraw by ID.
 
-#### GET
-##### Description:
-
-Get withdraw by ID.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | The withdrawal id. | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get withdraw by ID. | [Withdraw](#withdraw) |
 
 ### /withdraws
+---
+##### ***GET***
+**Description:** Get all withdraws, result is paginated.
 
-#### GET
-##### Description:
-
-Get all withdraws, result is paginated.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | state | formData | The withdrawal state. | No | [ string ] |
-| account | query | The account code. | No | integer |
 | id | query | The withdrawal id. | No | integer |
 | txid | query | The withdrawal transaction id. | No | string |
 | tid | query | Withdraw tid. | No | string |
@@ -764,39 +700,35 @@ Get all withdraws, result is paginated.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all withdraws, result is paginated. | [ [Withdraw](#withdraw) ] |
 
 ### /trades/{id}
+---
+##### ***GET***
+**Description:** Get a trade with detailed information.
 
-#### GET
-##### Description:
-
-Get a trade with detailed information.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | path | Trade ID. | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get a trade with detailed information. | [Blockchain](#blockchain) |
 
 ### /trades
+---
+##### ***GET***
+**Description:** Get all trades, result is paginated.
 
-#### GET
-##### Description:
-
-Get all trades, result is paginated.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -811,20 +743,18 @@ Get all trades, result is paginated.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all trades, result is paginated. | [ [Trade](#trade) ] |
 
 ### /assets
+---
+##### ***GET***
+**Description:** Returns assets as a paginated collection.
 
-#### GET
-##### Description:
-
-Returns assets as a paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -840,20 +770,18 @@ Returns assets as a paginated collection.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Returns assets as a paginated collection. | [Operation](#operation) |
 
 ### /expenses
+---
+##### ***GET***
+**Description:** Returns expenses as a paginated collection.
 
-#### GET
-##### Description:
-
-Returns expenses as a paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -869,20 +797,18 @@ Returns expenses as a paginated collection.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Returns expenses as a paginated collection. | [Operation](#operation) |
 
 ### /revenues
+---
+##### ***GET***
+**Description:** Returns revenues as a paginated collection.
 
-#### GET
-##### Description:
-
-Returns revenues as a paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -898,20 +824,18 @@ Returns revenues as a paginated collection.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Returns revenues as a paginated collection. | [Operation](#operation) |
 
 ### /liabilities
+---
+##### ***GET***
+**Description:** Returns liabilities as a paginated collection.
 
-#### GET
-##### Description:
-
-Returns liabilities as a paginated collection.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -928,70 +852,62 @@ Returns liabilities as a paginated collection.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Returns liabilities as a paginated collection. | [Operation](#operation) |
 
 ### /members/{uid}
+---
+##### ***PUT***
+**Description:** Set user group.
 
-#### PUT
-##### Description:
-
-Set user group.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | uid | path | The shared user ID. | Yes | string |
 | group | formData | User gruop | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Set user group. | [Member](#member) |
 
-#### GET
-##### Description:
+##### ***GET***
+**Description:** Get a member.
 
-Get a member.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | uid | path | The shared user ID. | Yes | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get a member. | [Member](#member) |
 
 ### /members/groups
+---
+##### ***GET***
+**Description:** Get available members groups.
 
-#### GET
-##### Description:
-
-Get available members groups.
-
-##### Responses
+**Responses**
 
 | Code | Description |
 | ---- | ----------- |
 | 200 | Get available members groups. |
 
 ### /members
+---
+##### ***GET***
+**Description:** Get all members, result is paginated.
 
-#### GET
-##### Description:
-
-Get all members, result is paginated.
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -1008,39 +924,35 @@ Get all members, result is paginated.
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Get all members, result is paginated. | [ [Member](#member) ] |
 
 ### /trading_fees/delete
+---
+##### ***POST***
+**Description:** It deletes trading fees record
 
-#### POST
-##### Description:
-
-It deletes trading fees record
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
 | id | formData | Unique trading fee table identifier in database. | Yes | integer |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | It deletes trading fees record | [TradingFee](#tradingfee) |
 
 ### /trading_fees/update
+---
+##### ***POST***
+**Description:** It updates trading fees record
 
-#### POST
-##### Description:
-
-It updates trading fees record
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -1050,20 +962,18 @@ It updates trading fees record
 | group | formData | Member group for define maker/taker fee. | No | string |
 | market_id | formData | Market id for define maker/taker fee. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | It updates trading fees record | [TradingFee](#tradingfee) |
 
 ### /trading_fees/new
+---
+##### ***POST***
+**Description:** It creates trading fees record
 
-#### POST
-##### Description:
-
-It creates trading fees record
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -1072,20 +982,18 @@ It creates trading fees record
 | group | formData | Member group for define maker/taker fee. | No | string |
 | market_id | formData | Market id for define maker/taker fee. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 201 | It creates trading fees record | [TradingFee](#tradingfee) |
 
 ### /trading_fees
+---
+##### ***GET***
+**Description:** Returns trading_fees table as paginated collection
 
-#### GET
-##### Description:
-
-Returns trading_fees table as paginated collection
-
-##### Parameters
+**Parameters**
 
 | Name | Located in | Description | Required | Schema |
 | ---- | ---------- | ----------- | -------- | ---- |
@@ -1096,16 +1004,16 @@ Returns trading_fees table as paginated collection
 | ordering | query | If set, returned values will be sorted in specific order, defaults to 'asc'. | No | string |
 | order_by | query | Name of the field, which result will be ordered by. | No | string |
 
-##### Responses
+**Responses**
 
 | Code | Description | Schema |
 | ---- | ----------- | ------ |
 | 200 | Returns trading_fees table as paginated collection | [ [TradingFee](#tradingfee) ] |
 
 ### Models
+---
 
-
-#### Adjustment
+### Adjustment  
 
 Get all adjustments, result is paginated.
 
@@ -1130,7 +1038,7 @@ Get all adjustments, result is paginated.
 | created_at | string | The datetime when operation was created. | No |
 | updated_at | string | The datetime when operation was updated. | No |
 
-#### Operation
+### Operation  
 
 Returns liabilities as a paginated collection.
 
@@ -1147,13 +1055,14 @@ Returns liabilities as a paginated collection.
 | reference_type | string | The type of operations. | No |
 | created_at | string | The datetime when operation was created. | No |
 
-#### Order
+### Order  
 
 Get all orders, result is paginated.
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
 | id | integer | Unique order id. | No |
+| uuid | string | Unique order UUID. | No |
 | side | string | Either 'sell' or 'buy'. | No |
 | ord_type | string | Type of order, either 'limit' or 'market'. | No |
 | price | double | Price for each unit. e.g.If you want to sell/buy 1 btc at 3000 usd, the price is '3000.0' | No |
@@ -1169,7 +1078,7 @@ Get all orders, result is paginated.
 | email | string | The shared user email. | No |
 | uid | string | The shared user ID. | No |
 
-#### Blockchain
+### Blockchain  
 
 Get a trade with detailed information.
 
@@ -1188,7 +1097,7 @@ Get a trade with detailed information.
 | created_at | string | Blockchain created time in iso8601 format. | No |
 | updated_at | string | Blockchain updated time in iso8601 format. | No |
 
-#### Currency
+### Currency  
 
 Get list of currencies
 
@@ -1221,7 +1130,7 @@ Get list of currencies
 | created_at | string | Currency created time in iso8601 format. | No |
 | updated_at | string | Currency updated time in iso8601 format. | No |
 
-#### Market
+### Market  
 
 Get all markets, result is paginated.
 
@@ -1241,7 +1150,7 @@ Get all markets, result is paginated.
 | created_at | string | Market created time in iso8601 format. | No |
 | updated_at | string | Market updated time in iso8601 format. | No |
 
-#### Wallet
+### Wallet  
 
 Get all wallets, result is paginated.
 
@@ -1260,7 +1169,7 @@ Get all wallets, result is paginated.
 | created_at | string | Wallet created time in iso8601 format. | No |
 | updated_at | string | Wallet updated time in iso8601 format. | No |
 
-#### Deposit
+### Deposit  
 
 Get all deposits, result is paginated.
 
@@ -1286,7 +1195,7 @@ Get all deposits, result is paginated.
 | spread | string | Deposit collection spread. | No |
 | updated_at | string | The datetime when deposit was updated. | No |
 
-#### Withdraw
+### Withdraw  
 
 Get all withdraws, result is paginated.
 
@@ -1314,7 +1223,7 @@ Get all withdraws, result is paginated.
 | amount | double | The withdrawal amount. | No |
 | tid | string | Withdraw tid. | No |
 
-#### Beneficiary
+### Beneficiary  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -1325,7 +1234,7 @@ Get all withdraws, result is paginated.
 | data | json | Bank Account details for fiat Beneficiary in JSON format.For crypto it's blockchain address. | No |
 | state | string | Defines either beneficiary active - user can use it to withdraw moneyor pending - requires beneficiary activation with pin. | No |
 
-#### Trade
+### Trade  
 
 Get all trades, result is paginated.
 
@@ -1351,7 +1260,7 @@ Get all trades, result is paginated.
 | taker_fee_amount | double | Trade taker fee amount. | No |
 | taker_order | [Order](#order) |  | No |
 
-#### Member
+### Member  
 
 Get all members, result is paginated.
 
@@ -1368,7 +1277,7 @@ Get all members, result is paginated.
 | created_at | string | Member created time in iso8601 format. | No |
 | updated_at | string | Member updated time in iso8601 format. | No |
 
-#### Account
+### Account  
 
 | Name | Type | Description | Required |
 | ---- | ---- | ----------- | -------- |
@@ -1376,7 +1285,7 @@ Get all members, result is paginated.
 | balance | double | Account balance. | No |
 | locked | double | Account locked funds. | No |
 
-#### TradingFee
+### TradingFee  
 
 Returns trading_fees table as paginated collection
 

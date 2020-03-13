@@ -331,7 +331,8 @@
               "canceled",
               "rejected",
               "accepted",
-              "collected"
+              "collected",
+              "skipped"
             ],
             "required": false
           }

@@ -40,6 +40,74 @@
     }
   ],
   "paths": {
+    "/public/webhooks/{event}": {
+      "post": {
+        "description": "Bitgo Transfer Webhook",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "event",
+            "description": "Name of event can be deposit or withdraw",
+            "type": "string",
+            "enum": [
+              "deposit",
+              "withdraw"
+            ],
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "type",
+            "description": "Type of event.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "hash",
+            "description": "Transfer txid.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "transfer",
+            "description": "Transfer id.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "coin",
+            "description": "Currency code.",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "wallet",
+            "description": "Wallet id.",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Bitgo Transfer Webhook"
+          }
+        },
+        "tags": [
+          "public"
+        ],
+        "operationId": "postPublicWebhooksEvent"
+      }
+    },
     "/public/trading_fees": {
       "get": {
         "description": "Returns trading_fees table as paginated collection",
@@ -434,15 +502,6 @@
           },
           {
             "in": "query",
-            "name": "page",
-            "description": "Specify the page of paginated results.",
-            "type": "integer",
-            "format": "int32",
-            "default": 1,
-            "required": false
-          },
-          {
-            "in": "query",
             "name": "timestamp",
             "description": "An integer represents the seconds elapsed since Unix epoch.If set, only trades executed before the time will be returned.",
             "type": "integer",
@@ -735,6 +794,20 @@
           },
           {
             "in": "query",
+            "name": "deposit_state",
+            "description": "Filter deposits by states.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "withdraw_state",
+            "description": "Filter withdraws by states.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "description": "Limit the number of returned transactions. Default to 100.",
             "type": "integer",
@@ -866,6 +939,13 @@
             "default": 100,
             "minimum": 1,
             "maximum": 100,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "state",
+            "description": "Filter withdrawals by states.",
+            "type": "string",
             "required": false
           },
           {
@@ -1209,15 +1289,8 @@
           {
             "in": "query",
             "name": "state",
-            "description": "",
+            "description": "Filter deposits by states.",
             "type": "string",
-            "enum": [
-              "submitted",
-              "canceled",
-              "rejected",
-              "accepted",
-              "collected"
-            ],
             "required": false
           },
           {
@@ -1318,6 +1391,13 @@
             "type": "integer",
             "format": "int32",
             "default": 1,
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "nonzero",
+            "description": "Filter non zero balances.",
+            "type": "boolean",
             "required": false
           }
         ],
@@ -1608,16 +1688,39 @@
           },
           {
             "in": "query",
+            "name": "base_unit",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "btc",
+              "eth",
+              "eth",
+              "trst",
+              "trst",
+              "trst"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "quote_unit",
+            "description": "",
+            "type": "string",
+            "enum": [
+              "usd",
+              "btc",
+              "usd",
+              "btc",
+              "eth",
+              "usd"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "state",
             "description": "Filter order by state.",
             "type": "string",
-            "enum": [
-              "pending",
-              "wait",
-              "done",
-              "cancel",
-              "reject"
-            ],
             "required": false
           },
           {
@@ -1672,6 +1775,22 @@
               "buy",
               "sell"
             ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_from",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only orders created after the time will be returned.",
+            "type": "integer",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "time_to",
+            "description": "An integer represents the seconds elapsed since Unix epoch.If set, only orders created before the time will be returned.",
+            "type": "integer",
+            "format": "int32",
             "required": false
           }
         ],
@@ -1918,6 +2037,10 @@
           "type": "integer",
           "format": "int32",
           "description": "Unique order id."
+        },
+        "uuid": {
+          "type": "string",
+          "description": "Unique order UUID."
         },
         "side": {
           "type": "string",
