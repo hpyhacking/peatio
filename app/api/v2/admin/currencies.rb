@@ -9,7 +9,7 @@ module API
         helpers do
           # Collection of shared params, used to
           # generate required/optional Grape params.
-          OPTIONAL_CURRENCY_PARAMS = {
+          OPTIONAL_CURRENCY_PARAMS ||= {
             name: { desc: -> { API::V2::Admin::Entities::Currency.documentation[:name][:desc] } },
             deposit_fee: {
               type: { value: BigDecimal, message: 'admin.currency.non_decimal_deposit_fee' },

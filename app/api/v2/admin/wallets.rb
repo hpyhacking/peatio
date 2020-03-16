@@ -9,7 +9,7 @@ module API
         helpers do
           # Collection of shared params, used to
           # generate required/optional Grape params.
-          OPTIONAL_WALLET_PARAMS = {
+          OPTIONAL_WALLET_PARAMS ||= {
             settings: {
               type: { value: JSON, message: 'admin.wallet.non_json_settings' },
               default: {},

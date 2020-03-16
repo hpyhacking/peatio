@@ -136,7 +136,7 @@ class Withdraw < ApplicationRecord
     end
 
     event :err do
-      transitions from: :processing, to: :errored, on_transition: :add_error
+      transitions from: :processing, to: :errored, after: :add_error
     end
   end
 

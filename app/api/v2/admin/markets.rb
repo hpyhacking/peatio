@@ -9,7 +9,7 @@ module API
         helpers do
           # Collection of shared params, used to
           # generate required/optional Grape params.
-          OPTIONAL_MARKET_PARAMS = {
+          OPTIONAL_MARKET_PARAMS ||= {
             amount_precision: {
               type: { value: Integer, message: 'admin.market.non_integer_amount_precision' },
               values: { value: -> (p){ p && p >= 0 }, message: 'admin.market.invalid_amount_precision' },

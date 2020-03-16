@@ -79,7 +79,7 @@ module API
 
       class ValidateCurrencyAddressFormat < Grape::Validations::Base
 
-        REASON = 'doesnt_support_cash_address_format'
+        REASON ||= 'doesnt_support_cash_address_format'
         def validate_param!(name, params)
           return unless params.key?(name)
           currency = Currency.find_by(id: params[:currency])
