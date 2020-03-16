@@ -26,6 +26,11 @@ class Trade < ApplicationRecord
 
   # == Callbacks ============================================================
 
+  after_validation(on: :create) do
+    # Set taker type before creation
+    self.taker_type = taker_order&.side
+  end
+
   after_commit on: :create do
     EventAPI.notify ['market', market_id, 'trade_completed'].join('.'), \
       Serializers::EventAPI::TradeCompleted.call(self)
@@ -52,9 +57,18 @@ class Trade < ApplicationRecord
       end
     end
 
-    def from_influx(params)
-      Peatio::InfluxDB.client.query("select id, price, amount, total, taker_type, market, time as created_at from trades where market='#{params['market']}' order by #{params['order_by']} limit #{params['limit']}") do |_name, _tags, points|
+    def public_from_influx(market, limit = 100)
+      trades_query = 'SELECT id, price, amount, total, taker_type, market, created_at FROM trades WHERE market=%{market} ORDER BY desc LIMIT %{limit}'
+      Peatio::InfluxDB.client.query trades_query, params: { market: market, limit: limit } do |_name, _tags, points|
         return points.map(&:deep_symbolize_keys!)
+      end
+    end
+
+    # Low, High, First, Last, sum total (amount * price), sum 24 hours amount and average 24 hours price calculated using VWAP ratio for 24 hours trades
+    def market_ticker_from_influx(market)
+      tickers_query = 'SELECT MIN(price), MAX(price), FIRST(price), LAST(price), SUM(total) AS volume, SUM(amount) AS amount, SUM(total) / SUM(amount) AS vwap FROM trades WHERE market=%{market} AND time > now() - 24h'
+      Peatio::InfluxDB.client.query tickers_query, params: { market: market } do |_name, _tags, points|
+        return points.map(&:deep_symbolize_keys!).first
       end
     end
   end
@@ -102,14 +116,14 @@ class Trade < ApplicationRecord
       total:          total.to_s || ZERO,
       market:         market.id,
       side:           side(member),
-      taker_type:     taker_order.side,
+      taker_type:     taker_type,
       created_at:     created_at.to_i,
       order_id:       order_for_member(member).id }
   end
 
   def for_global
     { tid:        id,
-      taker_type: taker_order.side,
+      taker_type: taker_type,
       date:       created_at.to_i,
       price:      price.to_s || ZERO,
       amount:     amount.to_s || ZERO }
@@ -138,13 +152,13 @@ class Trade < ApplicationRecord
                     price:      price,
                     amount:     amount,
                     total:      total,
-                    taker_type: taker_order.side },
-      tags:       { market: market.id },
-      timestamp:  created_at.to_i }
+                    taker_type: taker_type,
+                    created_at: created_at.to_i },
+      tags:       { market: market.id } }
   end
 
   def write_to_influx
-    Peatio::InfluxDB.client.write_point(self.class.table_name, influx_data, "s")
+    Peatio::InfluxDB.client.write_point(self.class.table_name, influx_data, "ns")
   end
 
   private

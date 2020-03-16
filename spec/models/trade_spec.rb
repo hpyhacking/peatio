@@ -42,6 +42,66 @@ describe Trade, '#for_notify' do
   end
 end
 
+describe Trade, '#market_ticker_from_influx' do
+  after { delete_measurments("trades") }
+
+  context 'no trades executed yet' do
+    it 'returns ticker' do
+      expect(Trade.market_ticker_from_influx(:btcusd)).to eq([])
+    end
+  end
+
+  context 'single trade was executed' do
+    let!(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
+    let(:expected_ticker) do
+      {
+        :min=>5,
+        :max=>5,
+        :first=>5,
+        :last=>5,
+        :volume=>5.5,
+        :amount=>1.1,
+        :vwap=>5
+      }
+    end
+
+    before do
+      trade.write_to_influx
+    end
+
+    it 'returns ticker' do
+      expect(Trade.market_ticker_from_influx(trade.market_id).except(:time)).to eq(expected_ticker)
+    end
+  end
+
+  context 'multiple trades were executed' do
+    let!(:trade1) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
+    let!(:trade2) { create(:trade, :btcusd, price: '6.0'.to_d, amount: '0.9'.to_d, total: '5.4'.to_d)}
+    let!(:trade3) { create(:trade, :btcusd, price: '7.0'.to_d, amount: '0.9'.to_d, total: '5.4'.to_d)}
+    let(:expected_ticker) do
+      {
+        :amount => 2.9,
+        :first => 5,
+        :last => 7,
+        :max => 7,
+        :min => 5,
+        :volume => 16.3,
+        :vwap => 5.620689655172415
+      }
+    end
+
+    before do
+      trade1.write_to_influx
+      trade2.write_to_influx
+      trade3.write_to_influx
+    end
+
+    it 'returns ticker' do
+      expect(Trade.market_ticker_from_influx(trade1.market_id).except(:time)).to eq(expected_ticker)
+    end
+  end
+end
+
 describe Trade, '#record_complete_operations!' do
   # Persist orders and trades in database.
   let!(:trade){ create(:trade, :btcusd, :with_deposit_liability) }

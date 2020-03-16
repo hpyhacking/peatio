@@ -519,8 +519,11 @@ describe API::V2::Public::Markets, type: :request do
     let!(:bid_trade) { create(:trade, :btcusd, taker_order: bid, created_at: 1.day.ago) }
 
 
-    before do
+    after do
       delete_measurments('trades')
+    end
+
+    before do
       ask_trade.write_to_influx
       bid_trade.write_to_influx
     end
