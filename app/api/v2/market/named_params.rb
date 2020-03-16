@@ -38,7 +38,7 @@ module API
 
         params :order_id do
           requires :id,
-                   type: { value: Integer, message: 'market.order.non_integer_id' },
+                   type: String,
                    allow_blank: false,
                    desc: -> { V2::Entities::Order.documentation[:id] }
         end

@@ -160,7 +160,6 @@ describe API::V2::Market::Orders, type: :request do
       api_get '/api/v2/market/orders', params: { time_from: 7.hours.ago.to_i, time_to: 5.hours.ago.to_i }, token: token
 
       result = JSON.parse(response.body)
-
       expect(response).to be_successful
       expect(result.size).to eq 1
     end
@@ -185,12 +184,21 @@ describe API::V2::Market::Orders, type: :request do
     let(:order)  { create(:order_bid, :btcusd, price: '12.32'.to_d, volume: '3.14', origin_volume: '12.13', member: member, trades_count: 1) }
     let!(:trade) { create(:trade, :btcusd, taker_order: order) }
 
-    it 'should get specified order' do
+    it 'should get specified order by id' do
       api_get "/api/v2/market/orders/#{order.id}", token: token
       expect(response).to be_successful
 
       result = JSON.parse(response.body)
       expect(result['id']).to eq order.id
+      expect(result['executed_volume']).to eq '8.99'
+    end
+
+    it 'should get specified order by uuid' do
+      api_get "/api/v2/market/orders/#{order.uuid}", token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result['uuid']).to eq order.uuid
       expect(result['executed_volume']).to eq '8.99'
     end
 
@@ -205,9 +213,15 @@ describe API::V2::Market::Orders, type: :request do
     end
 
     it 'should get 404 error when order doesn\'t exist' do
-      api_get '/api/v2/market/orders/1234', token: token
-      expect(response.code).to eq '404'
-      expect(response).to include_api_error('record.not_found')
+        api_get '/api/v2/market/orders/1234', token: token
+        expect(response.code).to eq '404'
+        expect(response).to include_api_error('record.not_found')
+    end
+
+    it 'should raise error' do
+      api_get '/api/v2/market/orders/1234asd', token: token
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('market.order.invaild_id_or_uuid')
     end
   end
 

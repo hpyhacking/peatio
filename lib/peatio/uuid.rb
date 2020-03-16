@@ -3,6 +3,10 @@ class UUID
     def generate
       SecureRandom.uuid
     end
+
+    def validate(uuid)
+      uuid.match?(/\A[\da-f]{32}\z/i) || uuid.match?(/\A(urn:uuid:)?[\da-f]{8}-([\da-f]{4}-){3}[\da-f]{12}\z/i)
+    end
   end
 
   class Type < ActiveRecord::Type::Value

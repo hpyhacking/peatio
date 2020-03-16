@@ -79,7 +79,13 @@ module API
           use :order_id
         end
         get '/orders/:id' do
-          order = current_user.orders.find_by!(id: params[:id])
+          if params[:id].match?(/\A[0-9]+\z/)
+            order = current_user.orders.find_by!(id: params[:id])
+          elsif UUID.validate(params[:id])
+            order = current_user.orders.find_by!(uuid: params[:id])
+          else
+            error!({ errors: ['market.order.invaild_id_or_uuid'] }, 422)
+          end
           present order, with: API::V2::Entities::Order, type: :full
         end
 
