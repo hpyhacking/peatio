@@ -8,17 +8,17 @@ module Operations
 end
 
 # == Schema Information
-# Schema version: 20181210162905
+# Schema version: 20200316132213
 #
 # Table name: assets
 #
 #  id             :integer          not null, primary key
 #  code           :integer          not null
 #  currency_id    :string(255)      not null
-#  reference_id   :integer
 #  reference_type :string(255)
-#  debit          :decimal(32, 16)  default(0.0), not null
-#  credit         :decimal(32, 16)  default(0.0), not null
+#  reference_id   :integer
+#  debit          :decimal(32, 16)  default("0.0000000000000000"), not null
+#  credit         :decimal(32, 16)  default("0.0000000000000000"), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

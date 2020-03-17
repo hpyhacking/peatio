@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 describe API::V2::Admin::Markets, type: :request do
@@ -18,6 +17,7 @@ describe API::V2::Admin::Markets, type: :request do
       expect(result.fetch('id')).to eq market.id
       expect(result.fetch('base_unit')).to eq market.base_currency
       expect(result.fetch('quote_unit')).to eq market.quote_currency
+      expect(result.fetch('data')).to eq market.data
     end
 
     it 'returns error in case of invalid id' do
@@ -44,7 +44,7 @@ describe API::V2::Admin::Markets, type: :request do
     end
 
     it 'returns markets by ascending order' do
-      api_get '/api/v2/admin/markets', params: { ordering: 'asc', order_by: 'quote_currency'}, token: token
+      api_get '/api/v2/admin/markets', params: { ordering: 'asc', order_by: 'quote_currency' }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -85,7 +85,12 @@ describe API::V2::Admin::Markets, type: :request do
         price_precision: 2,
         amount_precision: 2,
         min_price: 0.01,
-        min_amount: 0.01
+        min_amount: 0.01,
+        data: {
+          upstream: {
+            driver: :opendax
+          }
+        }
       }
     end
 
@@ -94,6 +99,7 @@ describe API::V2::Admin::Markets, type: :request do
       result = JSON.parse(response.body)
       expect(response).to be_successful
       expect(result['id']).to eq 'trstbtc'
+      expect(result['data']).to eq({ 'upstream' => { 'driver' => 'opendax' } })
     end
 
     it 'validate base_currency param' do
@@ -118,7 +124,7 @@ describe API::V2::Admin::Markets, type: :request do
     end
 
     it 'checked required params' do
-      api_post '/api/v2/admin/markets/new', params: { }, token: token
+      api_post '/api/v2/admin/markets/new', params: {}, token: token
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.market.missing_base_currency')
@@ -145,8 +151,23 @@ describe API::V2::Admin::Markets, type: :request do
       expect(result['min_price']).to eq '0.1'
     end
 
+    it 'updates data' do
+      api_post '/api/v2/admin/markets/update', params: { id: Market.first.id, data: { 'upstream' => { 'driver' => 'opendax' } } }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result['data']).to eq({ 'upstream' => { 'driver' => 'opendax' } })
+    end
+
+    it 'validates data field' do
+      api_post '/api/v2/admin/markets/update', params: { id: Market.first.id, data: 'data' }, token: token
+
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.market.invalid_data')
+    end
+
     it 'checkes required params' do
-      api_post '/api/v2/admin/markets/update', params: { }, token: token
+      api_post '/api/v2/admin/markets/update', params: {}, token: token
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.market.missing_id')

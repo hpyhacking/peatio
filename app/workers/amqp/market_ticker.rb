@@ -15,9 +15,12 @@ module Workers
       end
 
       def process(payload, metadata, delivery_info)
-        trade = Trade.new payload
-        update_ticker trade
-        update_latest_trades trade
+        case metadata[:headers]['type']
+        when 'local'
+          trade = Trade.new payload
+          update_ticker trade
+          update_latest_trades trade
+        end
       end
 
       def update_ticker(trade)

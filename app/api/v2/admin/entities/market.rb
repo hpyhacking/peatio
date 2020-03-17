@@ -15,6 +15,14 @@ module API
           )
 
           expose(
+            :data,
+            documentation: {
+              type: JSON,
+              desc: 'Market additional data.'
+            }
+          )
+
+          expose(
             :created_at,
             format_with: :iso8601,
             documentation: {

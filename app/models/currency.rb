@@ -190,7 +190,7 @@ class Currency < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20190923085927
+# Schema version: 20200316132213
 #
 # Table name: currencies
 #
@@ -199,20 +199,20 @@ end
 #  blockchain_key        :string(32)
 #  symbol                :string(1)        not null
 #  type                  :string(30)       default("coin"), not null
-#  deposit_fee           :decimal(32, 16)  default(0.0), not null
-#  min_deposit_amount    :decimal(32, 16)  default(0.0), not null
-#  min_collection_amount :decimal(32, 16)  default(0.0), not null
-#  withdraw_fee          :decimal(32, 16)  default(0.0), not null
-#  min_withdraw_amount   :decimal(32, 16)  default(0.0), not null
-#  withdraw_limit_24h    :decimal(32, 16)  default(0.0), not null
-#  withdraw_limit_72h    :decimal(32, 16)  default(0.0), not null
-#  position              :integer          default(0), not null
-#  options               :string(1000)     default({})
-#  visible               :boolean          default(TRUE), not null
-#  deposit_enabled       :boolean          default(TRUE), not null
-#  withdrawal_enabled    :boolean          default(TRUE), not null
-#  base_factor           :bigint           default(1), not null
-#  precision             :integer          default(8), not null
+#  deposit_fee           :decimal(32, 16)  default("0.0000000000000000"), not null
+#  min_deposit_amount    :decimal(32, 16)  default("0.0000000000000000"), not null
+#  min_collection_amount :decimal(32, 16)  default("0.0000000000000000"), not null
+#  withdraw_fee          :decimal(32, 16)  default("0.0000000000000000"), not null
+#  min_withdraw_amount   :decimal(32, 16)  default("0.0000000000000000"), not null
+#  withdraw_limit_24h    :decimal(32, 16)  default("0.0000000000000000"), not null
+#  withdraw_limit_72h    :decimal(32, 16)  default("0.0000000000000000"), not null
+#  position              :integer          default("0"), not null
+#  options               :string(1000)     default("{}")
+#  visible               :boolean          default("1"), not null
+#  deposit_enabled       :boolean          default("1"), not null
+#  withdrawal_enabled    :boolean          default("1"), not null
+#  base_factor           :bigint           default("1"), not null
+#  precision             :integer          default("8"), not null
 #  icon_url              :string(255)
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null

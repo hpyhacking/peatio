@@ -6,6 +6,9 @@ module Workers
         when 'local'
           trade = Trade.new payload
           trade.write_to_influx
+        when 'upstream'
+          trade = Trade.new payload.merge(total: payload['price'].to_d * payload['amount'].to_d )
+          trade.write_to_influx
         end
       end
     end

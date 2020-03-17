@@ -26,6 +26,10 @@ describe Market do
     it 'state' do
       expect(subject.state).to eq 'enabled'
     end
+
+    it 'data' do
+      expect(subject.data).to eq({})
+    end
   end
 
   # TODO: Find better way for delegation testing.

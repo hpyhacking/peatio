@@ -133,15 +133,15 @@ class Account < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20180529125011
+# Schema version: 20200316132213
 #
 # Table name: accounts
 #
 #  id          :integer          not null, primary key
 #  member_id   :integer          not null
 #  currency_id :string(10)       not null
-#  balance     :decimal(32, 16)  default(0.0), not null
-#  locked      :decimal(32, 16)  default(0.0), not null
+#  balance     :decimal(32, 16)  default("0.0000000000000000"), not null
+#  locked      :decimal(32, 16)  default("0.0000000000000000"), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

@@ -33,6 +33,11 @@ module API
               default: 0,
               desc: -> { API::V2::Admin::Entities::Market.documentation[:position][:desc] }
             },
+            data: {
+              type: { value: JSON, message: 'admin.market.invalid_data' },
+              default: {},
+              desc: -> { API::V2::Admin::Entities::Market.documentation[:data][:desc] }
+            },
             state: {
               values: { value: ::Market::STATES, message: 'admin.market.invalid_state' },
               default: 'enabled',
