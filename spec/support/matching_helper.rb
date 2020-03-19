@@ -18,7 +18,7 @@ def print_time(time_hash)
 end
 
 module Matching
-  class <<self
+  class << self
     @@mock_order_id = 10_000
 
     def mock_limit_order(attrs)

@@ -45,7 +45,6 @@ module Ethereum
     end
 
     def prepare_deposit_collection!(transaction, deposit_spread, deposit_currency)
-      # TODO: Add spec for this behaviour.
       # Don't prepare for deposit_collection in case of eth deposit.
       return [] if deposit_currency.dig(:options, :erc20_contract_address).blank?
 

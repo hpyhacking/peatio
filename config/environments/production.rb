@@ -29,8 +29,7 @@ Rails.application.configure do
   config.public_file_server.enabled = true
 
   # Compress JavaScripts.
-  # FIXME: Disable mangler due to issues with Angular module definition at «Funds».
-  config.assets.js_compressor = Uglifier.new(mangle: false)
+  config.assets.js_compressor = Uglifier.new(mangle: true)
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier

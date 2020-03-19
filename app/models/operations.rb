@@ -3,9 +3,8 @@
 
 module Operations
   class << self
-    # TODO: Add specs for this function.
     def build_account_number(currency_id:, account_code:, member_uid: nil)
-      [currency_id, account_code, member_uid].compact.join('-')
+      [currency_id.to_s, account_code.to_s, member_uid].compact.join('-')
     end
 
     def split_account_number(account_number:)

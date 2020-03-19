@@ -22,6 +22,24 @@ queue:
   matching:
     name: peatio.matching
     durable: true
+    # You can set queue maximum length (see https://www.rabbitmq.com/maxlength.html).
+    # For order matching queue it is recommended to set limit about to 10000 per market.
+    # So in case you have 10 markets you would set 1000000. But this value is relative and depends on your business (market load).
+    #
+    # max_length: 10000
+    #
+    # Alternatively you can pass custom arguments here (for example in case your use RabbitMQ plugins):
+    #
+    # arguments:
+    #   x-max-length: 10000
+    #
+    # When you change any parameter of queue definition it is required to drop it in RabbitMQ admin panel.
+    # In case you want this to be done transparently and automatically I recommend to set auto_delete to true.
+    #
+    # auto_delete: true
+    #
+    # In such case queue will be deleted automatically once all workers are disconnected. This should ensure queue
+    # is created from scratch with new configuration at next redeployment.
   slave_book:
     name: peatio.orderbook.slave
     durable: true

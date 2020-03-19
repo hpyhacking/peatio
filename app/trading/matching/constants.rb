@@ -33,10 +33,10 @@ module Matching
 
   # TODO: Use OrderError & TradeError instead of
   # NotEnoughVolume, ExceedSumLimit, TradeExecutionError.
-  class NotEnoughVolume     < Error; end
-  class ExceedSumLimit      < Error; end
-
+  class NotEnoughVolume < Error; end
+  class ExceedSumLimit < Error; end
   class MarketOrderbookError < OrderError; end
+
   class TradeExecutionError < Error
     attr_accessor :options
 

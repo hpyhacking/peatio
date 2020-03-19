@@ -301,6 +301,14 @@ describe Ethereum::Wallet do
                                                           hash: txid,
                                                           status: 'pending')
       end
+
+      context 'erc20_contract_address is not configured properly in currency' do
+        it 'returns empty array' do
+          currency = trst.to_blockchain_api_settings.deep_dup
+          currency[:options].delete(:erc20_contract_address)
+          expect(wallet.prepare_deposit_collection!(transaction, spread_deposit, currency)).to eq []
+        end
+      end
     end
   end
 

@@ -7,7 +7,7 @@ module Vault
   module TOTP
     Error = Class.new(StandardError)
 
-    class <<self
+    class << self
 
       def server_available?
         read_data('sys/health').present?
