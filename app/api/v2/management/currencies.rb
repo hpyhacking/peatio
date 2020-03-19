@@ -5,6 +5,26 @@ module API
   module V2
     module Management
       class Currencies < Grape::API
+        # POST: api/v2/management/currencies/list
+        desc 'Return currencies list.' do
+          @settings[:scope] = :read_currencies
+          success API::V2::Management::Entities::Currency
+        end
+        params do
+          optional :type,
+                   type: String,
+                   values: { value: %w[fiat coin], message: 'management.currency.invalid_type' },
+                   desc: -> { API::V2::Entities::Currency.documentation[:type][:desc] }
+        end
+        post '/currencies/list' do
+          currencies = Currency.all
+          currencies = currencies.where(type: params[:type]).includes(:blockchain) if params[:type] == 'coin'
+          currencies = currencies.where(type: params[:type]) if params[:type] == 'fiat'
+          present currencies.ordered, with: API::V2::Entities::Currency
+
+          status 200
+        end
+
         # POST: api/v2/management/currencies
         desc 'Returns currency by code.' do
           @settings[:scope] = :read_currencies

@@ -151,4 +151,45 @@ describe API::V2::Management::Currencies, type: :request do
       expect(result.fetch('withdraw_fee')).to eq '0.1'
     end
   end
+
+  describe 'POST /api/v2/management/currencies/list' do
+    def request
+      post_json "/api/v2/management/currencies/list", multisig_jwt_management_api_v1({ data: data }, *signers)
+    end
+    let(:signers) { %i[alex jeff] }
+    let(:data) { {} }
+
+    it 'lists visible currencies' do
+      request
+      expect(response).to have_http_status 200
+
+      result = JSON.parse(response.body)
+      expect(result.size).to eq Currency.count
+    end
+
+    it 'lists visible coins' do
+      data.merge!(type: 'coin')
+      request
+      expect(response).to have_http_status 200
+
+      result = JSON.parse(response.body)
+      expect(result.size).to eq Currency.coins.size
+    end
+
+    it 'lists visible fiats' do
+      data.merge!(type: 'fiat')
+      request
+      expect(response).to have_http_status 200
+
+      result = JSON.parse(response.body, symbolize_names: true)
+      expect(result.size).to eq Currency.fiats.size
+      expect(result.dig(0, :id)).to eq 'usd'
+    end
+
+    it 'returns error in case of invalid type' do
+      data.merge!(type: 'invalid')
+      request
+      expect(response).to have_http_status 422
+    end
+  end
 end
