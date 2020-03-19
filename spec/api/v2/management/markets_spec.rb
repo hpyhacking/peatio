@@ -7,6 +7,7 @@ describe API::V2::Management::Markets, type: :request do
     management_api_v1_security_configuration.merge! \
       scopes: {
         write_markets: { permitted_signers: %i[alex jeff], mandatory_signers: %i[alex] },
+        read_markets: { permitted_signers: %i[alex jeff], mandatory_signers: %i[alex] },
       }
   end
 
@@ -92,6 +93,32 @@ describe API::V2::Management::Markets, type: :request do
       expect(result.fetch('id')).to eq market.id
       expect(result.fetch('state')).to eq 'disabled'
       expect(result.fetch('min_amount')).to eq '0.1'
+    end
+  end
+
+  describe 'fetch markets list' do
+    def request
+      post_json '/api/v2/management/markets/list', multisig_jwt_management_api_v1({ data: data }, *signers)
+    end
+
+
+    let(:data) { {} }
+    let(:signers) { %i[alex jeff] }
+
+    let(:expected_keys) do
+      %w[id name base_unit quote_unit min_price max_price
+         min_amount amount_precision price_precision state]
+    end
+
+    it 'lists enabled markets' do
+      request
+      expect(response).to have_http_status 200
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq Market.count
+      result.each do |market|
+        expect(market.keys).to eq expected_keys
+      end
     end
   end
 end

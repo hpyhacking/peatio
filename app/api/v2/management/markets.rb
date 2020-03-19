@@ -5,7 +5,7 @@ module API
   module V2
     module Management
       class Markets < Grape::API
-        # POST: api/v2/management/markets/update
+        # PUT: api/v2/management/markets/update
         desc 'Update market.' do
           @settings[:scope] = :write_markets
           success API::V2::Management::Entities::Market
@@ -42,9 +42,6 @@ module API
           optional :position,
                    type: { value: Integer },
                    desc: -> { API::V2::Management::Entities::Market.documentation[:position][:desc] }
-          optional :state,
-                   values: { value: ::Market::STATES },
-                   desc: -> { API::V2::Management::Entities::Market.documentation[:state][:desc] }
         end
         put '/markets/update' do
           market = ::Market.find_by!(params.slice(:id))
@@ -54,6 +51,16 @@ module API
             body errors: market.errors.full_messages
             status 422
           end
+        end
+
+        # POST: api/v2/management/markets/list
+        desc 'Return markets list.' do
+          @settings[:scope] = :read_markets
+          success API::V2::Management::Entities::Market
+        end
+        post '/markets/list' do
+          present ::Market.ordered, with: API::V2::Entities::Market
+          status 200
         end
       end
     end
