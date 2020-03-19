@@ -124,6 +124,20 @@ steps:
       - 2-2-stable
       - 2-3-stable
 
+# Redeploy on devkube
+- name: devkube-redeploy
+  image: rubykube/microkube:0.2.0
+  environment:
+    WEBHOOK_JWT_SECRET:
+      from_secret: devkube_webhook_secret
+  commands:
+    - export latest_image=quay.io/openware/peatio:$(cat .tags)
+    - cd /home/app
+    - bundle exec rake payload:send[peatio,$latest_image,http://www.devkube.com:1337]
+  when:
+    branch:
+      - master
+
 # Update changelog and API documentation, then push it to sdk repository and notify.
 - name: push-and-notify
   image: quay.io/openware/sdk-citools:2.3.1
