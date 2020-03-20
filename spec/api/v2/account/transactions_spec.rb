@@ -119,6 +119,14 @@ describe API::V2::Account::Transactions, type: :request do
         expect(result.pluck('confimations').any? { |c| c.nil? ? true : c > 1 }).to be_truthy
       end
 
+      it 'returns transaction with txid filter' do
+        api_get '/api/v2/account/transactions', params: { txid: Deposits::Coin.first.txid }, token: token
+        result = JSON.parse(response.body)
+
+        expect(result.size).to eq 1
+        expect(result.all? { |d| d['txid'] == Deposits::Coin.first.txid }).to be_truthy
+      end
+
       context 'state filters' do
         before do
           create_list(:deposit_usd, 4, member: member, updated_at: 5.hour.ago, aasm_state: 'accepted')

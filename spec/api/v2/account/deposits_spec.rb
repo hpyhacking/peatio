@@ -86,6 +86,14 @@ describe API::V2::Account::Deposits, type: :request do
       expect(result.all? { |d| d['currency'] == 'usd' }).to be_truthy
     end
 
+    it 'returns deposits with txid filter' do
+      api_get '/api/v2/account/deposits', params: { txid: Deposit.first.txid }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 1
+      expect(result.all? { |d| d['txid'] == Deposit.first.txid }).to be_truthy
+    end
+
     it 'returns deposits for currency btc' do
       api_get '/api/v2/account/deposits', params: { currency: 'btc' }, token: token
       result = JSON.parse(response.body)

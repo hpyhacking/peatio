@@ -46,6 +46,11 @@ module API
                    desc: 'Filter withdraws by states.',
                    default: []
 
+          optional :txid,
+                   type: String,
+                   allow_blank: false,
+                   desc: 'Transaction id.'
+
           optional :limit,
                    type: { value: Integer, message: 'account.transactions.non_integer_limit' },
                    values: { value: 1..1000, message: 'account.transactions.invalid_limit' },
@@ -77,6 +82,7 @@ module API
           result = ActiveRecord::Base.connection.exec_query(sql).to_hash
 
           result.select! { |t|  t['currency_id'] == params[:currency].downcase } if params[:currency].present?
+          result.select! { |t|  t['txid'] == params[:txid] } if params[:txid].present?
           result.select! { |t|  t['updated_at'] >= Time.at(params[:time_from]) } if params[:time_from].present?
           result.select! { |t|  t['updated_at'] <= Time.at(params[:time_to]) } if params[:time_to].present?
 

@@ -55,6 +55,15 @@ describe API::V2::Account::Withdraws, type: :request do
     end
 
 
+    it 'returns withdraws with txid filter' do
+      api_get '/api/v2/account/withdraws', params: { rid: btc_withdraws.first.rid }, token: token
+      result = JSON.parse(response.body)
+
+      expect(result.size).to eq 1
+      expect(result.all? { |d| d['rid'] == btc_withdraws.first.rid }).to be_truthy
+    end
+
+
     it 'filters withdraws by multiple states' do
       create(:usd_withdraw, member: member, aasm_state: :rejected)
       api_get '/api/v2/account/withdraws', params: { state: ['canceled', 'rejected'] }, token: token

@@ -24,6 +24,10 @@ module API
           optional :state,
                    values: { value: ->(v) { [*v].all? { |value| value.in? Withdraw::STATES.map(&:to_s) } }, message: 'account.withdraw.invalid_state' },
                    desc: 'Filter withdrawals by states.'
+          optional :rid,
+                   type: String,
+                   allow_blank: false,
+                   desc: 'Wallet address on the Blockchain.'
           optional :page,
                    type: { value: Integer, message: 'account.withdraw.non_integer_page' },
                    values: { value: -> (p){ p.try(:positive?) }, message: 'account.withdraw.non_positive_page'},
@@ -36,6 +40,7 @@ module API
           current_user.withdraws.order(id: :desc)
                       .tap { |q| q.where!(currency: currency) if currency }
                       .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
+                      .tap { |q| q.where!(rid: params[:rid]) if params[:rid] }
                       .tap { |q| present paginate(q), with: API::V2::Entities::Withdraw }
         end
 

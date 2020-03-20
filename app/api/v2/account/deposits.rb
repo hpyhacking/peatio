@@ -22,6 +22,10 @@ module API
           optional :state,
                    values: { value: ->(v) { [*v].all? { |value| value.in? Deposit::STATES.map(&:to_s) } }, message: 'account.deposit.invalid_state' },
                    desc: 'Filter deposits by states.'
+          optional :txid,
+                   type: String,
+                   allow_blank: false,
+                   desc: 'Deposit transaction id.'
           optional :limit,
                    type: { value: Integer, message: 'account.deposit.non_integer_limit' },
                    values: { value: 1..100, message: 'account.deposit.invalid_limit' },
@@ -38,6 +42,7 @@ module API
 
           current_user.deposits.order(id: :desc)
                       .tap { |q| q.where!(currency: currency) if currency }
+                      .tap { |q| q.where!(txid: params[:txid]) if params[:txid] }
                       .tap { |q| q.where!(aasm_state: params[:state]) if params[:state] }
                       .tap { |q| present paginate(q), with: API::V2::Entities::Deposit }
         end
