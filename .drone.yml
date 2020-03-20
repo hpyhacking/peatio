@@ -124,7 +124,7 @@ steps:
       - 2-2-stable
       - 2-3-stable
 
-# Redeploy on devkube
+# Redeploy on master.devkube.com
 - name: devkube-redeploy
   image: rubykube/microkube:0.2.0
   environment:
@@ -133,7 +133,7 @@ steps:
   commands:
     - export latest_image=quay.io/openware/peatio:$(cat .tags)
     - cd /home/app
-    - bundle exec rake payload:send[peatio,$latest_image,http://www.devkube.com:1337]
+    - bundle exec rake payload:send[peatio,$latest_image,http://master.devkube.com:1337]
   when:
     branch:
       - master
