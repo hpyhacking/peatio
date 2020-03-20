@@ -55,6 +55,9 @@ class Market < ApplicationRecord
 
   # == Relationships ========================================================
 
+  has_one :base, class_name: 'Currency', foreign_key: :id, primary_key: :base_unit
+  has_one :quote, class_name: 'Currency', foreign_key: :id, primary_key: :quote_unit
+
   has_many :trading_fees, dependent: :delete_all
 
   # == Validations ==========================================================

@@ -26,5 +26,41 @@ FactoryBot.define do
       position          { 3 }
       state             { :enabled }
     end
+
+    trait :btceur do
+      id                { 'btceur' }
+      base_currency     { 'btc' }
+      quote_currency    { 'eur' }
+      amount_precision  { 8 }
+      price_precision   { 2 }
+      min_price         { 0.01 }
+      min_amount        { 0.00000001 }
+      position          { 1 }
+      state             { :enabled }
+    end
+
+    trait :ethusd do
+      id                { 'ethusd' }
+      base_currency     { 'eth' }
+      quote_currency    { 'usd' }
+      amount_precision  { 6 }
+      price_precision   { 4 }
+      min_price         { 0.01 }
+      min_amount        { 0.0001 }
+      position          { 5 }
+      state             { :enabled }
+    end
+
+    trait :btctrst do
+      id                { 'btctrst' }
+      base_currency     { 'btc' }
+      quote_currency    { 'trst' }
+      amount_precision  { 6 }
+      price_precision   { 4 }
+      min_price         { 0.01 }
+      min_amount        { 0.0001 }
+      position          { 5 }
+      state             { :enabled }
+    end
   end
 end

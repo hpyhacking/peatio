@@ -4,6 +4,7 @@
 describe API::V2::Public::Markets, type: :request do
 
   describe 'GET /api/v2/markets' do
+    before { create(:market, :ethusd) }
 
     let(:expected_keys) do
       %w[id name base_unit quote_unit min_price max_price
@@ -17,12 +18,12 @@ describe API::V2::Public::Markets, type: :request do
 
       expect(result.size).to eq Market.enabled.size
       result.each do |market|
-        expect(market.keys).to eq expected_keys
+        expect(market.keys).to contain_exactly(*expected_keys)
       end
     end
 
     context 'pagination' do
-      it 'returns paginated currencies' do
+      it 'returns paginated markets' do
         get '/api/v2/public/markets', params: { limit: 2 }
 
         result = JSON.parse(response.body)
@@ -31,6 +32,130 @@ describe API::V2::Public::Markets, type: :request do
 
         expect(response.headers.fetch('Total').to_i).to eq Market.enabled.size
         expect(result.size).to eq(2)
+      end
+    end
+
+    context 'filters' do
+      context 'base_unit & quote_unit' do
+        it 'filters by base_unit' do
+          get '/api/v2/public/markets', params: { base_unit: :btc }
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+
+          expect(result.size).to eq Market.enabled.where(base_unit: :btc).size
+          result.each do |market|
+            expect(market['base_unit']).to eq 'btc'
+          end
+        end
+
+        it 'filters by quote_unit' do
+          get '/api/v2/public/markets', params: { quote_unit: :usd }
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+
+          expect(result.size).to eq Market.enabled.where(quote_unit: :usd).size
+          result.each do |market|
+            expect(market['quote_unit']).to eq 'usd'
+          end
+        end
+
+        it 'does not filter' do
+          get '/api/v2/public/markets'
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+
+          expect(result.size).to eq Market.enabled.size
+        end
+      end
+
+      context 'base_code & quote_code' do
+        it 'filters by base_code' do
+          get '/api/v2/public/markets', params: { search: { base_code: "bt" } }
+          # Since we have next markets list:
+          # btcusd, btceth, ethusd
+          # Since 2 of them has 'bt' in base_unit (btc).
+          # We expect them to be returned in API response.
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+
+          expect(result.pluck('id')).to contain_exactly('btceth', 'btcusd')
+        end
+
+        it 'filters by quote_code' do
+          Currency.find(:eur).update(visible: true)
+          create(:market, :btceur)
+          # Since we have next markets list:
+          # btceur, btcusd, btceth, ethusd
+          # Since 2 of them has 'e' in quote_unit (eur, eth).
+          # We expect them to be returned in API response.
+          get '/api/v2/public/markets', params: { search: { quote_code: "e" } }
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+
+          expect(result.pluck('id')).to contain_exactly('btceth', 'btceur')
+        end
+      end
+
+      context 'quote_name' do
+        before do
+          Currency.find(:eur).update(visible: true)
+          create(:market, :btceur)
+          create(:market, :btctrst)
+        end
+
+        it 'filters by name 1' do
+          # Since we have next markets list:
+          # btceur, btcusd, btceth, btctrst, ethusd
+          # Since 3 of them has 'E' in quote name (Euro, Ethereum, We Trust).
+          # We expect them to be returned in API response.
+          get '/api/v2/public/markets', params: { search: { quote_name: 'E' } }
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+          expect(result.pluck('id')).to contain_exactly('btceth', 'btceur', 'btctrst')
+        end
+
+        it 'filters by name 2' do
+          # Since we have next markets list:
+          # btceur, btcusd, btceth, btctrst, ethusd
+          # Since 3 of them has 'uS' in quote name (US Dollar, We Trust).
+          # We expect them to be returned in API response.
+          get '/api/v2/public/markets', params: { search: { quote_name: 'uS' } }
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+          expect(result.pluck('id')).to contain_exactly('btcusd', 'btctrst', 'ethusd')
+        end
+      end
+
+      context 'complex filter' do
+        before do
+          Currency.find(:eur).update(visible: true)
+          create(:market, :btceur)
+          create(:market, :btctrst)
+        end
+
+        it 'filters by base_unit & quote_name or quote_code' do
+          # Since we have next markets list:
+          # btceur, btcusd, btceth, btctrst, ethusd
+          # 1. Filter by base_unit btc: btceur, btcusd, btceth, btctrst
+          # 2. Filter by quote_code or quote_name 'et': btceth, btctrst (Ethereum, WeTrust)
+          # We expect them to be returned in API response.
+          get '/api/v2/public/markets', params: { base_unit: :btc, search: { quote_name: 'et', quote_code: 'et' } }
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+          expect(result.pluck('id')).to contain_exactly('btceth', 'btctrst')
+        end
+
+        it 'filters by base_unit & quote_code' do
+          # Since we have next markets list:
+          # btceur, btcusd, btceth, btctrst, ethusd
+          # 1. Filter by base_unit btc: btceur, btcusd, btceth, btctrst
+          # 2. Filter by quote_code 'et': btceth (eth)
+          # We expect them to be returned in API response.
+          get '/api/v2/public/markets', params: { base_unit: :btc, search: { quote_code: 'et' } }
+          expect(response).to be_successful
+          result = JSON.parse(response.body)
+          expect(result.pluck('id')).to contain_exactly('btceth')
+        end
       end
     end
   end
@@ -367,7 +492,7 @@ describe API::V2::Public::Markets, type: :request do
         get '/api/v2/public/markets/tickers'
         expect(response).to be_successful
         expect(JSON.parse(response.body)['btcusd']['at']).not_to be_nil
-        expect(JSON.parse(response.body)['btcusd']['ticker']).to eq (expected_ticker)
+        expect(JSON.parse(response.body)['btcusd']['ticker']).to include(expected_ticker)
       end
     end
 
@@ -388,7 +513,7 @@ describe API::V2::Public::Markets, type: :request do
         get '/api/v2/public/markets/tickers'
         expect(response).to be_successful
         expect(JSON.parse(response.body)['btcusd']['at']).not_to be_nil
-        expect(JSON.parse(response.body)['btcusd']['ticker']).to eq (expected_ticker)
+        expect(JSON.parse(response.body)['btcusd']['ticker']).to include(expected_ticker)
       end
     end
 
@@ -414,7 +539,7 @@ describe API::V2::Public::Markets, type: :request do
         get '/api/v2/public/markets/tickers'
         expect(response).to be_successful
         expect(JSON.parse(response.body)['btcusd']['at']).not_to be_nil
-        expect(JSON.parse(response.body)['btcusd']['ticker']).to eq (expected_ticker)
+        expect(JSON.parse(response.body)['btcusd']['ticker']).to include(expected_ticker)
       end
     end
   end
@@ -434,7 +559,7 @@ describe API::V2::Public::Markets, type: :request do
       it 'returns market tickers' do
         get '/api/v2/public/markets/btcusd/tickers'
         expect(response).to be_successful
-        expect(JSON.parse(response.body)['ticker']).to eq (expected_ticker)
+        expect(JSON.parse(response.body)['ticker']).to include(expected_ticker)
       end
     end
 
@@ -454,7 +579,7 @@ describe API::V2::Public::Markets, type: :request do
       it 'returns market tickers' do
         get '/api/v2/public/markets/btcusd/tickers'
         expect(response).to be_successful
-        expect(JSON.parse(response.body)['ticker']).to eq (expected_ticker)
+        expect(JSON.parse(response.body)['ticker']).to include(expected_ticker)
       end
     end
 
@@ -479,7 +604,7 @@ describe API::V2::Public::Markets, type: :request do
       it 'returns market tickers' do
         get '/api/v2/public/markets/btcusd/tickers'
         expect(response).to be_successful
-        expect(JSON.parse(response.body)['ticker']).to eq (expected_ticker)
+        expect(JSON.parse(response.body)['ticker']).to include(expected_ticker)
       end
     end
   end

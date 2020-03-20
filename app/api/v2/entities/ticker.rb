@@ -87,6 +87,14 @@ module API
                     'Price change is calculated using next formula (last - open) / open * 100%'
             }
           )
+
+          expose(
+            :at,
+            documentation: {
+              type: Integer,
+              desc: 'Timestamp of ticker'
+            }
+          )
         end
 
         expose(

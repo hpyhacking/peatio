@@ -5,6 +5,7 @@ FactoryBot.define do
   factory :currency do
     trait :usd do
       code                 { 'usd' }
+      name                 { 'US Dollar' }
       symbol               { '$' }
       type                 { 'fiat' }
       precision            { 2 }
@@ -18,6 +19,7 @@ FactoryBot.define do
     trait :eur do
       code                 { 'eur' }
       symbol               { '€' }
+      name                 { 'Euro' }
       type                 { 'fiat' }
       precision            { 8 }
       withdraw_limit_24h   { 100 }
@@ -31,6 +33,7 @@ FactoryBot.define do
     trait :btc do
       blockchain_key       { 'btc-testnet' }
       code                 { 'btc' }
+      name                 { 'Bitcoin' }
       symbol               { '฿' }
       type                 { 'coin' }
       base_factor          { 100_000_000 }
@@ -44,6 +47,7 @@ FactoryBot.define do
     trait :eth do
       blockchain_key       { 'eth-rinkeby' }
       code                 { 'eth' }
+      name                 { 'Ethereum' }
       symbol               { 'Ξ' }
       type                 { 'coin' }
       base_factor          { 1_000_000_000_000_000_000 }
@@ -60,6 +64,7 @@ FactoryBot.define do
     trait :trst do
       blockchain_key       { 'eth-rinkeby' }
       code                 { 'trst' }
+      name                 { 'WeTrust' }
       symbol               { 'Ξ' }
       type                 { 'coin' }
       base_factor          { 1_000_000 }
@@ -77,6 +82,7 @@ FactoryBot.define do
     trait :ring do
       blockchain_key       { 'eth-kovan' }
       code                 { 'ring' }
+      name                 { 'Evolution Land Global Token' }
       symbol               { 'Ξ' }
       type                 { 'coin' }
       base_factor          { 1_000_000 }
@@ -91,6 +97,7 @@ FactoryBot.define do
     trait :fake do
       blockchain_key      { 'fake-testnet' }
       code                { 'fake' }
+      name                { 'Fake Coin' }
       symbol              { 'F' }
       type                { 'coin' }
       base_factor         { 1_000_000 }
