@@ -133,9 +133,8 @@ module API
                      desc: 'Limit the number of returned price levels. Default to 300.'
           end
           get ":market/depth" do
-            global = Global[params[:market]]
-            asks = global.asks[0,params[:limit]]
-            bids = global.bids[0,params[:limit]]
+            asks = OrderAsk.get_depth(params[:market])[0, params[:limit]]
+            bids = OrderBid.get_depth(params[:market])[0, params[:limit]]
             { timestamp: Time.now.to_i, asks: asks, bids: bids }
           end
 
@@ -165,15 +164,14 @@ module API
                      desc: "Limit the number of returned data points default to 30. Ignored if time_from and time_to are given."
           end
           get ":market/k-line" do
-            KLineService
-              .new(params[:market], params[:period])
-              .get_ohlc(params.slice(:limit, :time_from, :time_to))
+            KLineService[params[:market], params[:period]]
+              .get_ohlc(params.slice(:limit, :time_from, :time_to).merge(offset: true))
           end
 
           desc 'Get ticker of all markets (For response doc see /:market/tickers/ response).'
           get "/tickers" do
             ::Market.enabled.ordered.inject({}) do |h, m|
-              h[m.id] = format_ticker Global[m.id].ticker
+              h[m.id] = format_ticker TickersService[m].ticker
               h
             end
           end
@@ -187,7 +185,7 @@ module API
                      desc: -> { V2::Entities::Market.documentation[:id] }
           end
           get "/:market/tickers/" do
-            present format_ticker(Global[params[:market]].ticker),
+            present format_ticker(TickersService[params[:market]].ticker),
                     with: API::V2::Entities::Ticker
           end
         end

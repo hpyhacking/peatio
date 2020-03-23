@@ -11,6 +11,18 @@
   min_amount:        0.0001
   position:          100
   state:             enabled
+  data:              {}
+  # The data field for store some special data market
+  # Can be used in upstream worker
+  # Example for upstream:
+  # data: {
+  #   "upstream"=> {
+  #                 "driver"=>"opendax",
+  #                 "target"=>"btcusdt",
+  #                 "rest"=>"https://url",
+  #                 "websocket"=>"wss://url"
+  #                }
+  # }
 
 - id:                ethusd
   base_unit:         eth
@@ -22,6 +34,7 @@
   min_amount:        0.0001
   position:          101
   state:             enabled
+  data:              {}
 
 - id:                trstusd
   base_unit:         trst
@@ -33,6 +46,7 @@
   min_amount:        0.0001
   position:          102
   state:             enabled
+  data:              {}
 
 - id:                ethbtc
   base_unit:         eth
@@ -44,6 +58,7 @@
   min_amount:        0.0001
   position:          103
   state:             enabled
+  data:              {}
 
 - id:                trstbtc
   base_unit:         trst
@@ -55,6 +70,7 @@
   min_amount:        0.0001
   position:          104
   state:             enabled
+  data:              {}
 
 - id:                trsteth
   base_unit:         trst
@@ -66,4 +82,5 @@
   min_amount:        0.0001
   position:          105
   state:             enabled
+  data:              {}
 <% end %>

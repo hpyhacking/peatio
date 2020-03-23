@@ -74,8 +74,8 @@ module API
       memoize :current_market
 
       def format_ticker(ticker)
-        permitted_keys = %i[buy sell low high open last volume
-                            avg_price price_change_percent at]
+        permitted_keys = %i[low high open last volume amount
+                            avg_price price_change_percent]
 
         # Add vol for compatibility with old API.
         formatted_ticker = ticker.slice(*permitted_keys)

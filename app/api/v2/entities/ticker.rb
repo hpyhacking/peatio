@@ -7,22 +7,6 @@ module API
       class Ticker < Base
         class TickerEntry < Base
           expose(
-            :buy,
-            documentation: {
-              type: BigDecimal,
-              desc: 'Best buy (highest) price in current orderbook (0.0 if there is no buy orders)'
-            }
-          )
-
-          expose(
-            :sell,
-            documentation: {
-              type: BigDecimal,
-              desc: 'Best sell (lowest) price in current orderbook (0.0 if there is no sell orders)'
-            }
-          )
-
-          expose(
             :low,
             documentation: {
               type: BigDecimal,
@@ -58,7 +42,15 @@ module API
             :volume,
             documentation: {
               type: BigDecimal,
-              desc: 'Total amount of trades executed during last 24 hours (recalculated once in 15 minuets)'
+              desc: 'Total volume of trades executed during last 24 hours'
+            }
+          )
+
+          expose(
+            :amount,
+            documentation: {
+              type: BigDecimal,
+              desc: 'Total amount of trades executed during last 24 hours'
             }
           )
 

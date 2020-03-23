@@ -11,30 +11,28 @@ describe OrderAsk do
   end
 
   context 'compute locked for market order' do
-    let(:price_levels) do
-      [
-        ['202'.to_d, '10.0'.to_d],
-        ['201'.to_d, '10.0'.to_d],
-        ['200'.to_d, '10.0'.to_d],
-        ['100'.to_d, '10.0'.to_d]
-      ]
-    end
-
-    before do
-      global = Global.new('btcusd')
-      global.stubs(:asks).returns(price_levels)
-      Global.stubs(:[]).returns(global)
+    let!(:orders) do
+      create(:order_ask, :btcusd, price: '202', volume: '10.0', state: :wait)
+      create(:order_ask, :btcusd, price: '201', volume: '10.0', state: :wait)
+      create(:order_ask, :btcusd, price: '200', volume: '10.0', state: :wait)
+      create(:order_ask, :btcusd, price: '100', volume: '10.0', state: :wait)
     end
 
     it 'should require a little' do
-      bid = OrderBid.new(volume: '5'.to_d, ord_type: 'market').compute_locked
-      expect(bid).to eq('1010'.to_d * OrderBid::LOCKING_BUFFER_FACTOR)
+      bid = OrderBid.new(market_id: :btcusd, volume: '5'.to_d, ord_type: 'market').compute_locked
+      expect(bid).to eq('500'.to_d * OrderBid::LOCKING_BUFFER_FACTOR)
     end
 
     it 'should make sure price is greater than min_price' do
       ask = OrderAsk.new(market_id: market.id, price: '0.0'.to_d, ord_type: 'limit')
       expect(ask).not_to be_valid
       expect(ask.errors[:price]).to include "must be greater than or equal to #{market.min_price}"
+    end
+
+    it 'should raise error if the market is not deep enough' do
+      expect do
+        OrderAsk.new(market_id: :btcusd, volume: '50'.to_d, ord_type: 'market').compute_locked
+      end.to raise_error(Order::InsufficientMarketLiquidity)
     end
 
     it 'should make sure amount is greater than zero' do

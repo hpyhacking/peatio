@@ -206,16 +206,19 @@ describe API::V2::Public::Markets, type: :request do
   end
 
   describe 'GET /api/v2/markets/:market/depth' do
-    let(:asks) { [['100', '2.0'], ['120', '1.0']] }
-    let(:bids) { [['90', '3.0'], ['50', '1.0']] }
+    before do
+      create_list(:order_bid, 5, :btcusd)
+      create_list(:order_bid, 5, :btcusd, price: 2)
+      create_list(:order_ask, 5, :btcusd)
+      create_list(:order_ask, 5, :btcusd, price: 3)
+    end
+
+    let(:asks) { [["1.0", "5.0"], ["3.0", "5.0"]] }
+    let(:bids) { [["2.0", "5.0"], ["1.0", "5.0"]] }
+
     let(:market) { :btcusd }
 
     context 'valid market param' do
-      before do
-        global = mock('global', asks: asks, bids: bids)
-        Global.stubs(:[]).returns(global)
-      end
-
       it 'sorts asks and bids from highest to lowest' do
         get "/api/v2/public/markets/#{market}/depth"
         expect(response).to be_successful
@@ -476,15 +479,13 @@ describe API::V2::Public::Markets, type: :request do
   end
 
   describe 'GET /api/v2/markets/tickers' do
-    before { clear_redis }
-    after { clear_redis }
+    after { delete_measurments("trades") }
 
     context 'no trades executed yet' do
       let(:expected_ticker) do
-        { 'buy' => '0.0', 'sell' => '0.0',
-          'low' => '0.0', 'high' => '0.0',
+        { 'low' => '0.0', 'high' => '0.0',
           'open' => '0.0', 'last' => '0.0',
-          'volume' => '0.0', 'vol' => '0.0',
+          'volume' => '0.0', 'vol' => '0.0', 'amount' => '0.0',
           'avg_price' => '0.0', 'price_change_percent' => '+0.00%' }
       end
 
@@ -499,14 +500,13 @@ describe API::V2::Public::Markets, type: :request do
     context 'single trade was executed' do
       let!(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
       let(:expected_ticker) do
-        { 'buy' => '0.0', 'sell' => '0.0',
-          'low' => '5.0', 'high' => '5.0',
+        { 'low' => '5.0', 'high' => '5.0',
           'open' => '5.0', 'last' => '5.0',
-          'volume' => '1.1', 'vol' => '1.1',
+          'volume' => '5.5', 'vol' => '5.5', 'amount' => '1.1',
           'avg_price' => '5.0', 'price_change_percent' => '+0.00%' }
       end
       before do
-        Workers::AMQP::MarketTicker.new.process(trade.as_json, { headers: { 'type' => 'local' } }, nil)
+        trade.write_to_influx
       end
 
       it 'returns market tickers' do
@@ -521,18 +521,15 @@ describe API::V2::Public::Markets, type: :request do
       let!(:trade1) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
       let!(:trade2) { create(:trade, :btcusd, price: '6.0'.to_d, amount: '0.9'.to_d, total: '5.4'.to_d)}
 
-      # open = 6.0 because it takes last by default.
-      # to make it work correctly need to run k-line daemon.
       let(:expected_ticker) do
-        { 'buy' => '0.0', 'sell' => '0.0',
-          'low' => '5.0', 'high' => '6.0',
-          'open' => '6.0', 'last' => '6.0',
-          'vol' => '2.0', 'volume' => '2.0',
-          'avg_price' => '5.45', 'price_change_percent' => '+0.00%' }
+        { 'low' => '5.0', 'high' => '6.0',
+          'open' => '5.0', 'last' => '6.0',
+          'vol' => '10.9', 'volume' => '10.9', 'amount' => '2.0',
+          'avg_price' => '5.45', 'price_change_percent' => '+20.00%' }
       end
       before do
-        Workers::AMQP::MarketTicker.new.process(trade1.as_json, { headers: { 'type' => 'local' } }, nil)
-        Workers::AMQP::MarketTicker.new.process(trade2.as_json, { headers: { 'type' => 'local' } }, nil)
+        trade1.write_to_influx
+        trade2.write_to_influx
       end
 
       it 'returns market tickers' do
@@ -545,14 +542,12 @@ describe API::V2::Public::Markets, type: :request do
   end
 
   describe 'GET /api/v2/public/markets/:market/tickers' do
-    before { clear_redis }
-    after { clear_redis }
+    after { delete_measurments("trades") }
     context 'no trades executed yet' do
       let(:expected_ticker) do
-        { 'buy' => '0.0', 'sell' => '0.0',
-          'low' => '0.0', 'high' => '0.0',
+        { 'low' => '0.0', 'high' => '0.0',
           'open' => '0.0', 'last' => '0.0',
-          'volume' => '0.0', 'vol' => '0.0',
+          'volume' => '0.0', 'vol' => '0.0', 'amount' => '0.0',
           'avg_price' => '0.0', 'price_change_percent' => '+0.00%'  }
       end
 
@@ -566,14 +561,13 @@ describe API::V2::Public::Markets, type: :request do
     context 'single trade was executed' do
       let!(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
       let(:expected_ticker) do
-        { 'buy' => '0.0', 'sell' => '0.0',
-          'low' => '5.0', 'high' => '5.0',
+        { 'low' => '5.0', 'high' => '5.0',
           'open' => '5.0', 'last' => '5.0',
-          'volume' => '1.1', 'vol' => '1.1',
+          'volume' => '5.5', 'vol' => '5.5', 'amount' => '1.1',
           'avg_price' => '5.0', 'price_change_percent' => '+0.00%' }
       end
       before do
-        Workers::AMQP::MarketTicker.new.process(trade.as_json, { headers: { 'type' => 'local' } }, nil)
+        trade.write_to_influx
       end
 
       it 'returns market tickers' do
@@ -590,15 +584,14 @@ describe API::V2::Public::Markets, type: :request do
       # open = 6.0 because it takes last by default.
       # to make it work correctly need to run k-line daemon.
       let(:expected_ticker) do
-        { 'buy' => '0.0', 'sell' => '0.0',
-          'low' => '5.0', 'high' => '6.0',
-          'open' => '6.0', 'last' => '6.0',
-          'vol' => '2.0', 'volume' => '2.0',
-          'avg_price' => '5.45', 'price_change_percent' => '+0.00%' }
+        { 'low' => '5.0', 'high' => '6.0',
+          'open' => '5.0', 'last' => '6.0',
+          'vol' => '10.9', 'volume' => '10.9', 'amount' => '2.0',
+          'avg_price' => '5.45', 'price_change_percent' => '+20.00%' }
       end
       before do
-        Workers::AMQP::MarketTicker.new.process(trade1.as_json, { headers: { 'type' => 'local' } }, nil)
-        Workers::AMQP::MarketTicker.new.process(trade2.as_json, { headers: { 'type' => 'local' } }, nil)
+        trade1.write_to_influx
+        trade2.write_to_influx
       end
 
       it 'returns market tickers' do

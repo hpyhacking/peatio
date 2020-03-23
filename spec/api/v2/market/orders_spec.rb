@@ -348,8 +348,7 @@ describe API::V2::Market::Orders, type: :request do
       end
 
       it 'creates sell order' do
-        # Stub bids in order book so we can create ask market order.
-        Global.any_instance.expects(:bids).once.returns([[10.to_d, 10.to_d]])
+        create(:order_bid, :btcusd, price: '10'.to_d, volume: '10', origin_volume: '10', member: member)
 
         member.get_account(:btc).update_attributes(balance: 1)
 
@@ -359,6 +358,21 @@ describe API::V2::Market::Orders, type: :request do
 
         expect(response).to be_successful
         expect(JSON.parse(response.body)['id']).to eq OrderAsk.last.id
+      end
+
+      it 'creates buy order' do
+        create(:order_ask, :btcusd, price: '10'.to_d, volume: '10', origin_volume: '10', member: member)
+
+        member.get_account(:usd).update_attributes(balance: 10)
+
+        api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'buy', volume: '0.5', ord_type: 'market' }
+
+        expect do
+          api_post '/api/v2/market/orders', token: token, params: { market: 'btcusd', side: 'buy', volume: '0.5', ord_type: 'market' }
+        end.to change(OrderBid, :count).by(1)
+
+        expect(response).to be_successful
+        expect(JSON.parse(response.body)['id']).to eq OrderBid.last.id
       end
     end
   end

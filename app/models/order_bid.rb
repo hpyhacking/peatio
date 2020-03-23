@@ -4,6 +4,15 @@
 class OrderBid < Order
   scope :matching_rule, -> { order(price: :desc, created_at: :asc) }
 
+  class << self
+    def get_depth(market_id)
+      where(market_id: market_id, state: :wait, ord_type: :limit)
+        .group(:price)
+        .sum(:volume)
+        .to_a
+        .tap { |o| o.reverse! }
+    end
+  end
   # @deprecated
   def hold_account
     member.get_account(bid)
@@ -46,7 +55,7 @@ class OrderBid < Order
     when 'limit'
       price*volume
     when 'market'
-      funds = estimate_required_funds(Global[market_id].asks) {|p, v| p*v }
+      funds = estimate_required_funds(OrderAsk.get_depth(market_id)) {|p, v| p*v }
       # Maximum funds precision defined in Market::FUNDS_PRECISION.
       (funds*LOCKING_BUFFER_FACTOR).round(Market::FUNDS_PRECISION, BigDecimal::ROUND_UP)
     end

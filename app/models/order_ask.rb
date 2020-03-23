@@ -4,6 +4,14 @@
 class OrderAsk < Order
   scope :matching_rule, -> { order(price: :asc, created_at: :asc) }
 
+  class << self
+    def get_depth(market_id)
+      where(market_id: market_id, state: :wait, ord_type: :limit)
+        .group(:price)
+        .sum(:volume)
+        .to_a
+    end
+  end
   # @deprecated
   def hold_account
     member.get_account(ask)
@@ -45,10 +53,9 @@ class OrderAsk < Order
     when 'limit'
       volume
     when 'market'
-      estimate_required_funds(Global[market_id].bids) {|_p, v| v}
+      estimate_required_funds(OrderBid.get_depth(market_id)) {|_p, v| v}
     end
   end
-
 end
 
 # == Schema Information

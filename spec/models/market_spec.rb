@@ -32,35 +32,6 @@ describe Market do
     end
   end
 
-  # TODO: Find better way for delegation testing.
-  context 'shortcut of global access' do
-    let(:market) { Market.find(:btcusd) }
-
-    it 'bids' do
-      expect(market.bids).to eq market.global.bids
-    end
-
-    it 'asks' do
-      expect(market.asks).to eq market.global.asks
-    end
-
-    it 'trades' do
-      expect(market.trades).to eq market.global.trades
-    end
-
-    it 'ticker' do
-      expect(market.ticker).to eq market.global.ticker
-    end
-
-    it 'h24_volume' do
-      expect(market.h24_volume).to eq market.global.h24_volume
-    end
-
-    it 'avg_h24_price' do
-      expect(market.avg_h24_price).to eq market.global.avg_h24_price
-    end
-  end
-
   context 'validations' do
     let(:valid_attributes) do
       { base_currency:    :btc,

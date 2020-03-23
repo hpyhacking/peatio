@@ -18,6 +18,17 @@ class KLineService
     10_080 => '1w'                                                    # weeks
   }.freeze
 
+  class << self
+    def [](market, period)
+      services[[market, period]] ||= new(market, period)
+    end
+
+    def services
+      @services ||= {}
+    end
+  end
+
+
   attr_accessor :market_id, :period
 
   def initialize(marked_id, period)
@@ -38,8 +49,9 @@ class KLineService
     q = ["SELECT * FROM candles_#{@period} WHERE market='#{@market_id}'"]
     q << "AND time >= #{time_from.to_i * 1_000_000_000}" if time_from.present?
     q << "AND time <= #{time_to.to_i * 1_000_000_000}" if time_to.present?
+    q << "ORDER BY #{options[:order_by]}" if options[:order_by]
     q << "LIMIT #{options[:limit]}" if options[:limit]
-    q << "OFFSET #{offset}" if offset.present?
+    q << "OFFSET #{offset}" if offset.present? && options[:offset]
 
     Peatio::InfluxDB.client(epoch: 's').query(q.join(' ')) do |_name, _tags, points|
       return points.map do |point|
@@ -54,6 +66,10 @@ class KLineService
     Peatio::InfluxDB.client(epoch: 's').query(q.join(' ')) do |_, _, values|
       return options[:limit].to_i < values.first['count'] ? values.first['count'] - options[:limit] : 0
     end
+  end
+
+  def event_name(period)
+    "kline-#{humanize_period(period)}"
   end
 
   def humanize_period(period)

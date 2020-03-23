@@ -11,32 +11,31 @@ describe OrderBid do
   end
 
   context 'compute locked for market order' do
-    let(:price_levels) do
-      [
-        ['100'.to_d, '10.0'.to_d],
-        ['101'.to_d, '10.0'.to_d],
-        ['102'.to_d, '10.0'.to_d],
-        ['200'.to_d, '10.0'.to_d]
-      ]
+    let!(:ask_orders) do
+      create(:order_ask, :btcusd, price: '200', volume: '10.0', state: :wait)
+      create(:order_ask, :btcusd, price: '102', volume: '10.0', state: :wait)
+      create(:order_ask, :btcusd, price: '101', volume: '10.0', state: :wait)
+      create(:order_ask, :btcusd, price: '100', volume: '10.0', state: :wait)
     end
 
-    before do
-      global = Global.new('btcusd')
-      global.stubs(:asks).returns(price_levels)
-      Global.stubs(:[]).returns(global)
+    let!(:bid_orders) do
+      create(:order_bid, :btcusd, price: '200', volume: '10.0', state: :wait)
+      create(:order_bid, :btcusd, price: '102', volume: '10.0', state: :wait)
+      create(:order_bid, :btcusd, price: '101', volume: '10.0', state: :wait)
+      create(:order_bid, :btcusd, price: '100', volume: '10.0', state: :wait)
     end
 
-    it 'should require a little' do
-      expect(OrderBid.new(volume: '5'.to_d, ord_type: 'market').compute_locked).to eq '500'.to_d * OrderBid::LOCKING_BUFFER_FACTOR
+    it 'should require a volume' do
+      expect(OrderAsk.new(market_id: :btcusd, volume: '5'.to_d, ord_type: 'market').compute_locked).to eq '5'.to_d
     end
 
-    it 'should require more' do
-      expect(OrderBid.new(volume: '25'.to_d, ord_type: 'market').compute_locked).to eq '2520'.to_d * OrderBid::LOCKING_BUFFER_FACTOR
+    it 'should require a volume' do
+      expect(OrderAsk.new(market_id: :btcusd, volume: '25'.to_d, ord_type: 'market').compute_locked).to eq '25'.to_d
     end
 
     it 'should raise error if the market is not deep enough' do
       expect do
-        OrderBid.new(volume: '50'.to_d, ord_type: 'market').compute_locked
+        OrderBid.new(market_id: :btcusd, volume: '50'.to_d, ord_type: 'market').compute_locked
       end.to raise_error(Order::InsufficientMarketLiquidity)
     end
 

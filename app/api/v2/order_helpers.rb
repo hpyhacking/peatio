@@ -49,7 +49,7 @@ module API
         order.save!
 
         AMQP::Queue.enqueue(:order_processor,
-                          { action: 'submit', order: order.attributes_before_type_cast },
+                          { action: 'submit', order: order.attributes },
                           { persistent: false })
 
         # Notify third party trading engine about order submit.

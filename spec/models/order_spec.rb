@@ -240,22 +240,6 @@ describe Order, '#avg_price' do
   end
 end
 
-describe Order, '#estimate_required_funds' do
-  let(:price_levels) do
-    [
-      ['1.0'.to_d, '10.0'.to_d],
-      ['2.0'.to_d, '20.0'.to_d],
-      ['3.0'.to_d, '30.0'.to_d]
-    ]
-  end
-
-  before do
-    global = Global.new('btcusd')
-    global.stubs(:asks).returns(price_levels)
-    Global.stubs(:[]).returns(global)
-  end
-end
-
 describe Order, '#record_submit_operations!' do
   # Persist Order in database.
   let!(:order){ create(:order_ask, :btcusd, :with_deposit_liability) }

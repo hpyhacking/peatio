@@ -127,9 +127,6 @@ class Market < ApplicationRecord
 
   # == Instance Methods =====================================================
 
-  delegate :bids, :asks, :trades, :ticker, :h24_volume, :avg_h24_price,
-           to: :global
-
   def name
     "#{base_currency}/#{quote_currency}".upcase
   end
@@ -158,10 +155,6 @@ class Market < ApplicationRecord
 
   def unit_info
     { name: name, base_unit: base_currency, quote_unit: quote_currency }
-  end
-
-  def global
-    Global[id]
   end
 
   # min_amount_by_precision - is the smallest positive number which could be
