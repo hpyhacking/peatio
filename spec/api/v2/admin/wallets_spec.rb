@@ -203,6 +203,16 @@ describe API::V2::Admin::Wallets, type: :request do
       expect(result['currency']).to eq 'btc'
     end
 
+    it 'update wallet with new secret' do
+      api_post '/api/v2/admin/wallets/update', params: { id: Wallet.first.id, currency: 'btc', settings: { secret: 'new secret'} }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result['currency']).to eq 'btc'
+      expect(Wallet.first.settings['uri']).to eq 'http://127.0.0.1:8545'
+      expect(Wallet.first.settings['secret']).to eq 'new secret'
+    end
+
     it 'validate blockchain_key' do
       api_post '/api/v2/admin/wallets/update', params: { id: Wallet.first.id, blockchain_key: 'test' }, token: token
 
