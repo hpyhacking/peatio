@@ -73,6 +73,15 @@ module API
         )
 
         expose(
+          :created_at,
+          format_with: :iso8601,
+          documentation: {
+            type: String,
+            desc: "Transaction created time in iso8601 format."
+          }
+        )
+
+        expose(
           :updated_at,
           format_with: :iso8601,
           documentation: {
