@@ -8,8 +8,8 @@ class WalletService
                        currency: @wallet.currency.to_blockchain_api_settings)
   end
 
-  def create_address!(account, address_id)
-    @adapter.create_address!(uid: account.member.uid, address_id: address_id)
+  def create_address!(account, pa_details)
+    @adapter.create_address!(uid: account.member.uid, pa_details: pa_details)
   end
 
   def build_withdrawal!(withdrawal)

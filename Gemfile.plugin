@@ -3,8 +3,8 @@ git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 
 # List your plugins here.
 
-gem 'peatio-dash', '~> 2.5.0'
-gem 'peatio-litecoin', '~> 2.5.0'
-gem 'peatio-bitcoincash', '~> 2.5.0'
-gem 'peatio-ripple', '~> 2.5.0'
-gem 'peatio-bitgo', '~> 1.1.0'
+gem 'peatio-dash', '~> 2.5.1'
+gem 'peatio-litecoin', '~> 2.5.1'
+gem 'peatio-bitcoincash', '~> 2.5.1'
+gem 'peatio-ripple', '~> 2.5.1'
+gem 'peatio-bitgo', '~> 1.1.1'
