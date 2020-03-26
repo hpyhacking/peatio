@@ -16,7 +16,7 @@ GET request parameters:
 | `stream` | List of streams to be subscribed on | Yes              |
 
 List of supported public streams:
-* [`<market>.update`](#update) (global state updates)
+* [`<market>.ob-inc`](#order-book) market order-book update
 * [`<market>.trades` ](#trades)
 * [`<market>.kline-PERIOD` ](#kline-point) (available periods are "1m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "12h", "1d", "3d", "1w")
 * [`global.tickers`](#tickers)
@@ -26,15 +26,6 @@ List of supported private streams (requires authentication):
 * [`trade`](#trade)
 
 You can find a format of these events below in the doc.
-
-
-## Public channels architecture
-
-![scheme](images/peatio/scheme_ranger_public_channels.png)
-
-## Private channels architecture
-
-![scheme](images/peatio/scheme_ranger_private_channels.png)
 
 ### Authentication
 
@@ -46,7 +37,7 @@ Authentication happens on websocket message with following JSON structure.
 }
 ```
 
-If authenticaton was done, server will respond successfully
+If authentication was done, server will respond successfully
 
 ```JSON
 {
@@ -76,7 +67,7 @@ If authentication JWT token has invalid type, server return an error
 }
 ```
 
-If other error occured during the message handling server throws an error
+If other error occurred during the message handling server throws an error
 
 ```JSON
 {
@@ -96,41 +87,55 @@ If other error occured during the message handling server throws an error
 }
 ```
 
+### Streams subscription
 
-When user successfully authenticated server subsribes client to given streams
-passed as GET request parameter `?stream=` (can be specified multiple times)
+#### Using  parameters
 
-When order or trade done, websocket server send message to client with object details.
+You can specify streams to subscribe to by passing the `stream` GET parameter in the connection URL. The parameter can be specified multiple times for subscribing to multiple streams.
 
-Depending on what trade happend server will send the `ask` and `bid` details.
+example:
+
+```
+wss://demo.openware.com/api/v2/ranger/public/?stream=global.tickers&stream=ethusd.trades
+```
+
+This will subscribe you to *tickers* and *trades* events from *ethusd* market once the connection is established.
+
+#### Subscribe and unsubscribe events
+You can manage the connection subscriptions by send the following events after the connection is established:
+
+Subscribe event will subscribe you to the list of  streams provided:
+
+```json
+{"event":"subscribe","streams":["ethusd.trades","ethusd.ob-inc"]}
+```
+
+The server confirms the subscription with the following message and provides the new list of your current subscrictions:
+
+```json
+{"success":{"message":"subscribed","streams":["global.tickers","ethusd.trades","ethusd.ob-inc"]}}
+```
+
+Unsubscribe event will unsubscribe you to the list of  streams provided:
+
+```json
+{"event":"unsubscribe","streams":["ethusd.trades","ethusd.ob-inc"]}
+```
+
+The server confirms the unsubscription with the following message and provides the new list of your current subscrictions:
+
+```json
+{"success":{"message":"unsubscribed","streams":["global.tickers","ethusd.kline-15m"]}}
+```
+
 
 ### Public streams
 
-#### Order-Book update
-
-This stream sends periodically the full order-book with a maximum or 300 price levels for every side.
-
-Here is structure of `<market>.update` event:
-
-| Field  | Description                                             |
-| ------ | ------------------------------------------------------- |
-| `asks` | Added asks with price and total volume expose as array. |
-| `bids` | Added bids with price and total volume expose as array. |
-
-Example:
-
-```ruby
-{
-  asks: [["4.0", "0.01"], ["3.0", "4.01"]], # first is price & second is total volume
-  bids: [["3.5", "4.0"]]
-}
-```
-
-#### Order-Book Incremental
+#### Order-Book
 
 This stream sends a snapshot of the order-book at the subscription time, then it sends increments. Volumes information in increments replace the previous values. If the volume is zero the price point should be removed from the order-book.
 
-Register to stream `<market>.ob-inc`to receive snapshot and increments messages.
+Register to stream `<market>.ob-inc` to receive snapshot and increments messages.
 
 Example of order-book snapshot:
 
@@ -230,17 +235,16 @@ Here is structure of `Order` event:
 | ------------------ | ------------------------------------------------------------ |
 | `id`               | Unique order id.                                             |
 | `market`           | The market in which the order is placed. (In peatio `market_id`) |
-| `side`             | Type of order, either `but` or `sell`.                        |
-| `ord_type`         | Order tyep, either `limit` or `market`.                      |
+| `order_type`       | Order type, either `limit` or `market`.                      |
 | `price`            | Order price.                                                 |
 | `avg_price`        | Order average price.                                         |
-| `state`            | One of `wait`, `done`, or `cancel`.                          |
+| `state`            | One of `wait`, `done`, `reject` or `cancel`.                 |
 | `origin_volume`    | The amount user want to sell/buy.                            |
 | `remaining_volume` | Remaining amount user want to sell/buy.                      |
 | `executed_volume`  | Executed amount for current order.                           |
 | `created_at`       | Order create time.                                           |
 | `updated_at`       | Order create time.                                           |
-| `trades_count`     | Trades wiht this order.                                      |
+| `trades_count`     | Trades with this order.                                      |
 | `kind`             | Type of order, either `bid` or `ask`. (Deprecated)           |
 | `at`               | Order create time. (Deprecated) (In peatio `created_at`)     |
 
@@ -248,17 +252,17 @@ Here is structure of `Order` event:
 
 Here is structure of `Trade` event:
 
-| Field           | Description                                                  |
-| --------------- | ------------------------------------------------------------ |
-| `id`            | Uniq trade id.                                               |
-| `price`         | Price for each unit.                                         |
-| `amount`        | The amount of trade.                                         |
-| `total`         | The total of trade (volume * price).                         |
-| `market`        | The market in which the trade is placed. (In peatio market_id) |
-| `side`          | Type of order in trade that related to current user `sell` or `buy`. |
-| `taker_type`    | Taker type of trade, either `buy` or `sell`.                 |
-| `created_at`    | Trade create time.                                           |
-| `order_id`      | User order identifier in trade.                              |
+| Field        | Description                                                  |
+| ------------ | ------------------------------------------------------------ |
+| `id`         | Unique trade identifier.                                     |
+| `price`      | Price for each unit.                                         |
+| `amount`     | The amount of trade.                                         |
+| `total`      | The total of trade (volume * price).                         |
+| `market`     | The market in which the trade is placed. (In peatio market_id) |
+| `side`       | Type of order in trade that related to current user `sell` or `buy`. |
+| `taker_type` | Order side of the taker for the trade, either `buy` or `sell`. |
+| `created_at` | Trade create time.                                           |
+| `order_id`   | User order identifier in trade.                              |
 
 
 ### Development
