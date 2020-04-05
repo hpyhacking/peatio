@@ -10,7 +10,7 @@ MAINTAINER lbellet@heliostech.fr
 # See https://docs.docker.com/engine/reference/commandline/build/#set-build-time-variables-build-arg
 #
 ARG RAILS_ENV=production
-ENV RAILS_ENV=${RAILS_ENV} APP_HOME=/home/app
+ENV RAILS_ENV=${RAILS_ENV} APP_HOME=/home/app KAIGARA_VERSION=0.1.3
 
 # Allow customization of user ID and group ID (it's useful when you use Docker bind mounts)
 ARG UID=1000
@@ -21,13 +21,17 @@ ENV TZ=UTC
 
 # Create group "app" and user "app".
 RUN groupadd -r --gid ${GID} app \
- && useradd --system --create-home --home ${APP_HOME} --shell /sbin/nologin --no-log-init \
+  && useradd --system --create-home --home ${APP_HOME} --shell /sbin/nologin --no-log-init \
       --gid ${GID} --uid ${UID} app
 
 # Install system dependencies.
 RUN apt-get update \
- && apt-get install -y \
+  && apt-get install -y \
       default-libmysqlclient-dev
+
+# Install Kaigara
+RUN curl -Lo /usr/bin/kaigara https://github.com/openware/kaigara/releases/download/${KAIGARA_VERSION}/kaigara \
+  && chmod +x /usr/bin/kaigara
 
 WORKDIR $APP_HOME
 
@@ -36,7 +40,7 @@ COPY Gemfile Gemfile.lock $APP_HOME/
 RUN mkdir -p /opt/vendor/bundle \
   && gem install bundler:2.0.2 \
   && chown -R app:app /opt/vendor $APP_HOME \
-  && su app -s /bin/bash -c "bundle install --path /opt/vendor/bundle"
+  && su app -s /bin/bash -c "bundle install --jobs $(nproc) --path /opt/vendor/bundle"
 
 # Copy application sources.
 COPY --chown=app:app . $APP_HOME
