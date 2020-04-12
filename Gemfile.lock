@@ -224,7 +224,7 @@ GEM
     io-console (0.5.6)
     irb (1.2.3)
       reline (>= 0.0.1)
-    irix (2.4.1)
+    irix (2.4.2)
       em-synchrony (~> 1.0)
       em-websocket
       eventmachine
@@ -535,7 +535,7 @@ DEPENDENCIES
   hiredis (~> 0.6.0)
   influxdb (~> 0.7.0)
   irb
-  irix (~> 2.4.1)
+  irix (~> 2.4.2)
   jbuilder (~> 2.7.0)
   jquery-rails (~> 4.3.5)
   jwt (~> 2.1.0)

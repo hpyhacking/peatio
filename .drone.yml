@@ -58,7 +58,7 @@ steps:
 
 # Update application version
 - name: git-tag-and-push
-  image: quay.io/openware/sdk-citools:2.3.1
+  image: quay.io/openware/sdk-citools:2.4.3
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
@@ -76,6 +76,7 @@ steps:
       - 2-1-stable
       - 2-2-stable
       - 2-3-stable
+      - 2-4-stable
 
 # Copy bundler cache from the build environment to your host machine.
 # Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
@@ -106,6 +107,26 @@ steps:
     branch:
     - master
 
+- name: docs-generate
+  image: quay.io/openware/ruby-node:2.6.5
+  environment:
+    DATABASE_HOST: database
+    INFLUXDB_HOST: influxdb
+    RABBITMQ_HOST: rabbitmq
+    EVENT_API_RABBITMQ_HOST: rabbitmq
+    REDIS_URL: redis://redis:6379
+  commands:
+    - gem install bundler -v 2.0.2
+    - bin/gendocs
+  when:
+    branch:
+      - master
+      - 2-0-stable
+      - 2-1-stable
+      - 2-2-stable
+      - 2-3-stable
+      - 2-4-stable
+
 # Build and push docker image using ".tags" file.
 - name: docker-build-and-push
   image: plugins/docker
@@ -123,6 +144,7 @@ steps:
       - 2-1-stable
       - 2-2-stable
       - 2-3-stable
+      - 2-4-stable
 
 # Redeploy on master.devkube.com
 - name: devkube-redeploy
@@ -140,7 +162,7 @@ steps:
 
 # Update changelog and API documentation, then push it to sdk repository and notify.
 - name: push-and-notify
-  image: quay.io/openware/sdk-citools:2.3.1
+  image: quay.io/openware/sdk-citools:2.4.3
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
@@ -167,6 +189,7 @@ steps:
       - 2-1-stable
       - 2-2-stable
       - 2-3-stable
+      - 2-4-stable
 
 # Copy docker cache from the build environment to your host machine.
 # Plugin description: http://plugins.drone.io/drillster/drone-volume-cache

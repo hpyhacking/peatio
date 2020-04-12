@@ -94,5 +94,35 @@ describe API::V2::Public::Currencies, type: :request do
         expect(result.size).to eq(2)
       end
     end
+
+    context 'search' do
+      it 'searches by code' do
+        get '/api/v2/public/currencies', params: { search: { code: 't' } }
+
+        expect(response).to be_successful
+        result = JSON.parse(response.body)
+
+        expect(result.pluck('id')).to contain_exactly('eth', 'btc', 'trst')
+      end
+
+      it 'searches by name' do
+        get '/api/v2/public/currencies', params: { search: { name: 'e' } }
+
+        expect(response).to be_successful
+        result = JSON.parse(response.body)
+
+        expect(result.pluck('name')).to contain_exactly('Ethereum', 'Evolution Land Global Token', 'WeTrust')
+      end
+
+      it 'searches by code or name' do
+        get '/api/v2/public/currencies', params: { search: { name: 'us', code: 'us' } }
+
+        expect(response).to be_successful
+        result = JSON.parse(response.body)
+
+        expect(result.pluck('id')).to contain_exactly('usd', 'trst')
+        expect(result.pluck('name')).to contain_exactly('US Dollar', 'WeTrust')
+      end
+    end
   end
 end

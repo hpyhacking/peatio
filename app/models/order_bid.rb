@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 class OrderBid < Order
+  LOCKING_BUFFER_FACTOR = '1.1'.to_d
   scope :matching_rule, -> { order(price: :desc, created_at: :asc) }
 
   class << self
@@ -49,7 +50,6 @@ class OrderBid < Order
     bid_currency
   end
 
-  LOCKING_BUFFER_FACTOR = '1.1'.to_d
   def compute_locked
     case ord_type
     when 'limit'
@@ -57,7 +57,7 @@ class OrderBid < Order
     when 'market'
       funds = estimate_required_funds(OrderAsk.get_depth(market_id)) {|p, v| p*v }
       # Maximum funds precision defined in Market::FUNDS_PRECISION.
-      (funds*LOCKING_BUFFER_FACTOR).round(Market::FUNDS_PRECISION, BigDecimal::ROUND_UP)
+      funds.round(Market::FUNDS_PRECISION, BigDecimal::ROUND_UP)
     end
   end
 

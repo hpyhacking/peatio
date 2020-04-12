@@ -18,9 +18,9 @@ describe OrderAsk do
       create(:order_ask, :btcusd, price: '100', volume: '10.0', state: :wait)
     end
 
-    it 'should require a little' do
+    it 'should require locked in order funds' do
       bid = OrderBid.new(market_id: :btcusd, volume: '5'.to_d, ord_type: 'market').compute_locked
-      expect(bid).to eq('500'.to_d * OrderBid::LOCKING_BUFFER_FACTOR)
+      expect(bid).to eq('500'.to_d)
     end
 
     it 'should make sure price is greater than min_price' do

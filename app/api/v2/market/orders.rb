@@ -108,7 +108,13 @@ module API
         end
         post '/orders/:id/cancel' do
           begin
-            order = current_user.orders.find(params[:id])
+            if params[:id].match?(/\A[0-9]+\z/)
+              order = current_user.orders.find_by!(id: params[:id])
+            elsif UUID.validate(params[:id])
+              order = current_user.orders.find_by!(uuid: params[:id])
+            else
+              error!({ errors: ['market.order.invaild_id_or_uuid'] }, 422)
+            end
             cancel_order(order)
             present order, with: API::V2::Entities::Order
           rescue ActiveRecord::RecordNotFound => e

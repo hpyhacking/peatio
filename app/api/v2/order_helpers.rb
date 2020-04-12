@@ -20,6 +20,17 @@ module API
         current_user.get_account(order.currency).balance >= order.locked
       end
 
+      def compute_locked(order)
+        balance = current_user.get_account(order.currency).balance
+        compute_locked = order.compute_locked
+        raise ::Account::AccountError if balance < compute_locked 
+
+        # For Buy market order we use locking_buffer to cover 10% price change
+        # during order execution if user will request 100% order
+        # we will lock all user balance without locking_buffer
+        order.locked = order.origin_locked = [compute_locked * OrderBid::LOCKING_BUFFER_FACTOR, balance].min
+      end
+
       def create_order(attrs)
         create_order_errors = {
           ::Account::AccountError => 'market.account.insufficient_balance',
@@ -43,7 +54,12 @@ module API
       end
 
       def submit_order(order)
-        order.locked = order.origin_locked = order.compute_locked
+        if order.ord_type == 'market' && order.side == 'buy'
+          compute_locked(order)
+        else
+          order.locked = order.origin_locked = order.compute_locked
+        end
+
         raise ::Account::AccountError unless check_balance(order)
 
         order.save!

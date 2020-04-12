@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.44"
+    "version": "2.4.0"
   },
   "swagger": "2.0",
   "produces": [
@@ -1670,7 +1670,7 @@
             "in": "formData",
             "name": "visible",
             "description": "Currency display possibility status (true/false).",
-            "type": "boolean",
+            "type": "Boolean",
             "default": true,
             "required": false
           },
@@ -1678,7 +1678,7 @@
             "in": "formData",
             "name": "deposit_enabled",
             "description": "Currency deposit possibility status (true/false).",
-            "type": "boolean",
+            "type": "Boolean",
             "default": true,
             "required": false
           },
@@ -1686,7 +1686,7 @@
             "in": "formData",
             "name": "withdrawal_enabled",
             "description": "Currency withdrawal possibility status (true/false).",
-            "type": "boolean",
+            "type": "Boolean",
             "default": true,
             "required": false
           },
@@ -1751,6 +1751,65 @@
           "currencies"
         ],
         "operationId": "postCurrenciesCode"
+      }
+    },
+    "/currencies/list": {
+      "post": {
+        "description": "Return currencies list.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "type",
+            "description": "Currency type",
+            "type": "string",
+            "enum": [
+              "fiat",
+              "coin"
+            ],
+            "required": false
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Return currencies list.",
+            "schema": {
+              "$ref": "#/definitions/Currency"
+            }
+          }
+        },
+        "tags": [
+          "currencies"
+        ],
+        "operationId": "postCurrenciesList"
+      }
+    },
+    "/markets/list": {
+      "post": {
+        "description": "Return markets list.",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Return markets list.",
+            "schema": {
+              "$ref": "#/definitions/Market"
+            }
+          }
+        },
+        "tags": [
+          "markets"
+        ],
+        "operationId": "postMarketsList"
       }
     },
     "/markets/update": {
@@ -2188,7 +2247,7 @@
           "description": "Currency updated time in iso8601 format."
         }
       },
-      "description": "Returns currency by code."
+      "description": "Return currencies list."
     },
     "Market": {
       "type": "object",

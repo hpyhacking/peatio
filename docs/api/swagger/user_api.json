@@ -10,7 +10,7 @@
     "license": {
       "url": "https://github.com/rubykube/peatio/blob/master/LICENSE.md"
     },
-    "version": "2.3.44"
+    "version": "2.4.0"
   },
   "swagger": "2.0",
   "produces": [
@@ -626,6 +626,79 @@
             "format": "int32",
             "default": 1,
             "required": false
+          },
+          {
+            "in": "query",
+            "name": "ordering",
+            "description": "If set, returned values will be sorted in specific order, defaults to 'asc'.",
+            "type": "string",
+            "default": "asc",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "order_by",
+            "description": "Name of the field, which result will be ordered by.",
+            "type": "string",
+            "default": "position",
+            "enum": [
+              "id",
+              "position"
+            ],
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "base_unit",
+            "description": "Strict filter for base unit",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "quote_unit",
+            "description": "Strict filter for quote unit",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "description": "",
+            "type": "json",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "search[base_code]",
+            "description": "Search base currency code using LIKE",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "search[quote_code]",
+            "description": "Search qoute currency code using LIKE",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "search[base_name]",
+            "description": "Search base currency name using LIKE",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "search[quote_name]",
+            "description": "Search quote currency name using LIKE",
+            "type": "string",
+            "required": false
           }
         ],
         "responses": {
@@ -808,6 +881,13 @@
           },
           {
             "in": "query",
+            "name": "txid",
+            "description": "Transaction id.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "description": "Limit the number of returned transactions. Default to 100.",
             "type": "integer",
@@ -945,6 +1025,13 @@
             "in": "query",
             "name": "state",
             "description": "Filter withdrawals by states.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "rid",
+            "description": "Wallet address on the Blockchain.",
             "type": "string",
             "required": false
           },
@@ -1295,6 +1382,13 @@
           },
           {
             "in": "query",
+            "name": "txid",
+            "description": "Deposit transaction id.",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "description": "Number of deposits per page (defaults to 100, maximum is 100).",
             "type": "integer",
@@ -1397,7 +1491,28 @@
             "in": "query",
             "name": "nonzero",
             "description": "Filter non zero balances.",
-            "type": "boolean",
+            "type": "Boolean",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "description": "",
+            "type": "json",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "search[currency_code]",
+            "description": "",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "search[currency_name]",
+            "description": "",
+            "type": "string",
             "required": false
           }
         ],
@@ -1571,8 +1686,7 @@
             "in": "path",
             "name": "id",
             "description": "",
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
             "required": true
           }
         ],
@@ -1822,8 +1936,7 @@
             "in": "path",
             "name": "id",
             "description": "",
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
             "required": true
           }
         ],
@@ -1898,16 +2011,6 @@
     "TickerEntry": {
       "type": "object",
       "properties": {
-        "buy": {
-          "type": "number",
-          "format": "double",
-          "description": "Best buy (highest) price in current orderbook (0.0 if there is no buy orders)"
-        },
-        "sell": {
-          "type": "number",
-          "format": "double",
-          "description": "Best sell (lowest) price in current orderbook (0.0 if there is no sell orders)"
-        },
         "low": {
           "type": "number",
           "format": "double",
@@ -1931,7 +2034,12 @@
         "volume": {
           "type": "number",
           "format": "double",
-          "description": "Total amount of trades executed during last 24 hours (recalculated once in 15 minuets)"
+          "description": "Total volume of trades executed during last 24 hours"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "description": "Total amount of trades executed during last 24 hours"
         },
         "vol": {
           "type": "number",
@@ -1946,6 +2054,11 @@
         "price_change_percent": {
           "type": "string",
           "description": "Price change in the next format +3.19%.Price change is calculated using next formula (last - open) / open * 100%"
+        },
+        "at": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Timestamp of ticker"
         }
       }
     },

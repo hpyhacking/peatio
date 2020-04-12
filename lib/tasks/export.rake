@@ -130,7 +130,8 @@ namespace :export do
 
   def export(model_name)
     model_name.constantize.all.map do |m|
-      m.attributes.except('settings_encrypted', 'created_at', 'updated_at').merge('settings' => m.try(:settings))
+      m.attributes.except('settings_encrypted', 'data_encrypted', 'created_at', 'updated_at')
+       .merge('settings' => m.try(:settings), 'data' => m.try(:data))
     end.map { |r| r.transform_values! { |v| v.is_a?(BigDecimal) ? v.to_f : v } }.map(&:compact)
   end
 end
