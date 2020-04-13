@@ -33,9 +33,6 @@ Dir.chdir APP_ROOT do
 
   # in production we run db:setup as k8s jobs
   if ENV['RAILS_ENV'] == 'production'
-    puts "\n=== Compiling assets ==="
-    system 'bin/rake assets:clobber assets:precompile'
-
     puts "\n=== Preparing database schema ==="
     system 'bin/rake db:schema:dump'
   else

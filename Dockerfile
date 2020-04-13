@@ -52,8 +52,7 @@ USER app
 RUN echo "# This file was overridden by default during docker image build." > Gemfile.plugin \
   && ./bin/init_config \
   && chmod +x ./bin/logger \
-  && bundle exec rake tmp:create \
-  && bundle exec rake assets:precompile
+  && bundle exec rake tmp:create
 
 # Expose port 3000 to the Docker host, so we can access it from the outside.
 EXPOSE 3000

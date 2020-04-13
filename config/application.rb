@@ -5,7 +5,7 @@ require_relative 'boot'
 
 require 'rails'
 
-%w( active_record action_controller action_view active_job sprockets ).each { |framework| require "#{framework}/railtie" }
+%w( active_record action_controller action_view active_job ).each { |framework| require "#{framework}/railtie" }
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -42,8 +42,6 @@ module Peatio
     # Configure relative url root by setting URL_ROOT_PATH environment variable.
     # Used by microkube with API Gateway.
     config.relative_url_root = ENV.fetch('URL_ROOT_PATH', '/')
-
-    config.assets.initialize_on_precompile = true
 
     # Remove cookies and cookies session.
     config.middleware.delete ActionDispatch::Cookies

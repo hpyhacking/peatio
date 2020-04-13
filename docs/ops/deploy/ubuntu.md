@@ -192,10 +192,6 @@ A JavaScript Runtime is needed for Asset Pipeline to work. Any runtime will do b
     # Initialize the database and load the seed data
     bundle exec rake db:setup
 
-**Precompile assets**
-
-    bundle exec rake assets:precompile
-
 **Run daemons**
 
 Read how to deal with Peatio daemons at [Peatio daemons](https://github.com/rubykube/peatio/blob/master/docs/peatio/daemons.md).
