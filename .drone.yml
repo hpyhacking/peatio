@@ -58,7 +58,7 @@ steps:
 
 # Update application version
 - name: git-tag-and-push
-  image: quay.io/openware/sdk-citools:2.4.3
+  image: quay.io/openware/sdk-citools:2.4.5
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
@@ -162,7 +162,7 @@ steps:
 
 # Update changelog and API documentation, then push it to sdk repository and notify.
 - name: push-and-notify
-  image: quay.io/openware/sdk-citools:2.4.3
+  image: quay.io/openware/sdk-citools:2.4.5
   environment:
     BOT_USERNAME: kite-bot
     BOT_NAME: Kite Bot
