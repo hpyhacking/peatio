@@ -36,7 +36,7 @@ RUN curl -Lo /usr/bin/kaigara https://github.com/openware/kaigara/releases/downl
 WORKDIR $APP_HOME
 
 # Install dependencies defined in Gemfile.
-COPY Gemfile Gemfile.lock $APP_HOME/
+COPY --chown=app:app Gemfile Gemfile.lock $APP_HOME/
 RUN mkdir -p /opt/vendor/bundle \
   && gem install bundler:2.0.2 \
   && chown -R app:app /opt/vendor $APP_HOME \
@@ -64,7 +64,7 @@ CMD ["bundle", "exec", "puma", "--config", "config/puma.rb"]
 FROM base
 
 # Copy Gemfile.plugin for installing plugins.
-COPY Gemfile.plugin Gemfile.lock $APP_HOME/
+COPY --chown=app:app Gemfile.plugin Gemfile.lock $APP_HOME/
 
 # Install plugins.
 RUN bundle install --path /opt/vendor/bundle
