@@ -459,6 +459,17 @@ describe Withdraw do
         end
       end
 
+      context 'from skipped' do
+        before do
+          subject.update!(aasm_state: :skipped)
+        end
+
+        it do
+          subject.fail!
+          expect(subject.failed?).to be true
+        end
+      end
+
       context 'with archived beneficiary' do
         let(:member) { create(:member) }
         let(:address) { Faker::Blockchain::Ethereum.address }

@@ -128,7 +128,7 @@ class Withdraw < ApplicationRecord
     end
 
     event :fail do
-      transitions from: %i[processing confirming errored], to: :failed
+      transitions from: %i[processing confirming skipped errored], to: :failed
       after do
         unlock_funds
         record_cancel_operations!
