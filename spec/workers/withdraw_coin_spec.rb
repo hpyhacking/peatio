@@ -60,7 +60,9 @@ describe Workers::AMQP::WithdrawCoin do
 
   context 'WalletService2 raises error' do
     before do
-      WalletService.expects(:new)
+      WalletService.any_instance.expects(:load_balance!)
+                   .returns(100)
+      WalletService.any_instance.expects(:build_withdrawal!)
                    .raises(Peatio::Wallet::Registry::NotRegisteredAdapterError)
     end
 

@@ -40,6 +40,20 @@ describe API::V2::Admin::Wallets, type: :request do
 
       expect(result['settings']).not_to include('secret')
     end
+
+    it 'retunrs NA balance if node not accessible' do
+      api_get "/api/v2/admin/wallets/#{wallet.id}", token: token
+      expect(response).to be_successful
+      expect(response_body['balance']).to eq('N/A')
+    end
+
+    it 'returns wallet balance if node accessible' do
+      WalletService.any_instance.stubs(:load_balance!).returns('1')
+
+      api_get "/api/v2/admin/wallets/#{wallet.id}", token: token
+      expect(response).to be_successful
+      expect(response_body['balance']).to eq('1')
+    end
   end
 
   describe 'GET /api/v2/admin/wallets' do
@@ -48,7 +62,7 @@ describe API::V2::Admin::Wallets, type: :request do
       expect(response).to be_successful
 
       result = JSON.parse(response.body)
-      expect(result.size).to eq 13
+      expect(result.size).to eq Wallet.count
     end
 
     it 'returns wallets by ascending order' do
@@ -65,7 +79,7 @@ describe API::V2::Admin::Wallets, type: :request do
 
       expect(response).to be_successful
 
-      expect(response.headers.fetch('Total')).to eq '13'
+      expect(response.headers.fetch('Total')).to eq Wallet.count.to_s
       expect(result.size).to eq 6
       expect(result.first['name']).to eq 'Ethereum Deposit Wallet'
 
@@ -74,9 +88,9 @@ describe API::V2::Admin::Wallets, type: :request do
 
       expect(response).to be_successful
 
-      expect(response.headers.fetch('Total')).to eq '13'
-      expect(result.size).to eq 6
-      expect(result.first['name']).to eq 'Kovan Ethereum Fee Wallet'
+      expect(response.headers.fetch('Total')).to eq Wallet.count.to_s
+      expect(result.size).to eq 2
+      expect(result.first['name']).to eq 'Bitcoin Hot Wallet'
     end
 
     it 'return error in case of not permitted ability' do
