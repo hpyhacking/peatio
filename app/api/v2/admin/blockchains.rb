@@ -41,6 +41,20 @@ module API
           present Blockchain.find(params[:id]), with: API::V2::Admin::Entities::Blockchain
         end
 
+        desc 'Get a latest blockchain block.'
+        params do
+          requires :id,
+                   type: { value: Integer, message: 'admin.blockchain.non_integer_id' },
+                   desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:id][:desc] }
+        end
+        get '/blockchains/:id/latest_block' do
+          authorize! :read, Blockchain
+
+          Blockchain.find(params[:id])&.blockchain_api.latest_block_number
+        rescue
+          error!({ errors: ['admin.blockchain.latest_block'] }, 422)
+        end
+
         desc 'Create new blockchain.' do
           success API::V2::Admin::Entities::Blockchain
         end

@@ -40,6 +40,56 @@ describe API::V2::Admin::Blockchains, type: :request do
     end
   end
 
+  describe 'GET /api/v2/admin/blockchains/:id/latest_block' do
+    let(:blockchain) { Blockchain.find_by(key: "eth-rinkeby") }
+
+    it 'returns error in case of invalid id' do
+      api_get "/api/v2/admin/blockchains/#{Blockchain.last.id + 42}/latest_block", token: token
+
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('admin.blockchain.latest_block')
+    end
+
+    it 'returns error in case of node inaccessibility' do
+      api_get "/api/v2/admin/blockchains/#{blockchain.id}/latest_block", token: token
+
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('admin.blockchain.latest_block')
+    end
+
+    context 'get latest_block' do
+      let(:blockchain) { Blockchain.find_by(key: "eth-rinkeby") }
+
+      around do |example|
+        WebMock.disable_net_connect!
+        example.run
+        WebMock.allow_net_connect!
+      end
+
+      let(:eth_blockchain) do
+        Ethereum::Blockchain.new.tap { |b| b.configure(server: 'http://127.0.0.1:8545') }
+      end
+
+      it 'returns node latest block' do
+        block_number = '0x16b916'
+
+        stub_request(:post, 'http://127.0.0.1:8545')
+          .with(body: { jsonrpc: '2.0',
+                        id: 1,
+                        method: :eth_blockNumber,
+                        params:  [] }.to_json)
+          .to_return(body: { result: block_number,
+                             error:  nil,
+                             id:     1 }.to_json)
+
+        api_get "/api/v2/admin/blockchains/#{blockchain.id}/latest_block", token: token
+
+        expect(response.code).to eq '200'
+        expect(response_body).to eq 1489174
+      end
+    end
+  end
+
   describe 'GET /api/v2/admin/blockchains' do
     it 'lists of blockchains' do
       api_get '/api/v2/admin/blockchains', token: token
