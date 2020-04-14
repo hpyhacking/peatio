@@ -62,7 +62,6 @@ describe API::V2::Admin::Members, type: :request do
       it 'filters by uid' do
         api_get'/api/v2/admin/members', token: token, params: { uid: uid }
         result = JSON.parse(response.body)
-
         expect(result.length).to eq 1
         expect(result.first['id']).to eq admin.id
       end
@@ -98,6 +97,17 @@ describe API::V2::Admin::Members, type: :request do
     end
 
     context 'get user by uid' do
+      let!(:account) { member.touch_accounts }
+      let(:address) { Faker::Blockchain::Ethereum.address }
+      let(:coin) { Currency.find(:btc) }
+
+      let!(:beneficiary) { create(:beneficiary,
+                                  member: member,
+                                  currency: coin,
+                                  state: :active,
+                                  data: generate(:coin_beneficiary_data).merge(address: address)) }
+
+
       it 'returns user entities' do
         api_get "/api/v2/admin/members/UID1234", token: token
         expect(response.code).to eq '404'
@@ -114,6 +124,12 @@ describe API::V2::Admin::Members, type: :request do
         expect(result['email']).to eq(member.email)
         expect(result['uid']).to eq(member.uid)
         expect(result['group']).to eq(member.group)
+        expect(result['accounts'][0]['deposit_address']).to eq(member.accounts[0].payment_address&.address)
+        expect(result['accounts'][0]['currency']).to eq(member.accounts[0].currency.id)
+        expect(result['accounts'][0]['balance']).to eq(member.accounts[0].balance.to_s)
+        expect(result['accounts'][0]['locked']).to eq(member.accounts[0].locked.to_s)
+        expect(result['beneficiaries'][0]['currency']).to eq(member.beneficiaries[0].currency_id)
+        expect(result['beneficiaries'][0]['data']['address']).to eq(member.beneficiaries[0].data['address'])
       end
     end
   end

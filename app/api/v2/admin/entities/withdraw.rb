@@ -89,6 +89,15 @@ module API
           )
 
           expose(
+            :error,
+            documentation: {
+              type: String,
+              desc: 'Withdraw error.'
+            },
+            unless: ->(w) { w.succeed? }
+          )
+
+          expose(
             :completed_at,
             format_with: :iso8601,
             documentation: {

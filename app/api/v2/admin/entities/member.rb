@@ -65,6 +65,30 @@ module API
             }
           )
 
+          expose(
+            :beneficiaries,
+            using: API::V2::Entities::Beneficiary,
+            documentation: {
+              type: 'API::V2::Entities::Beneficiary',
+              is_array: true,
+              desc: 'Member Beneficiary.'
+            }
+          ) do |m|
+              m.beneficiaries
+            end
+
+          expose(
+            :accounts,
+            using: API::V2::Admin::Entities::Account,
+            documentation: {
+              type: 'API::V2::Admin::Entities::Account',
+              is_array: true,
+              desc: 'Member accounts.'
+            }
+          ) do |m|
+              m.accounts.includes(:currency)
+            end
+
         end
       end
     end

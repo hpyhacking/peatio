@@ -172,6 +172,26 @@ describe API::V2::Admin::Withdraws, type: :request do
         end
       end
     end
+
+    context 'with error message' do
+      context 'does not have error message' do
+        let!(:withdraw) { create(:usd_withdraw, :with_beneficiary, :with_deposit_liability, aasm_state: :succeed) }
+
+        it 'without error message in withdrawal payload' do
+          api_get "/api/v2/admin/withdraws/#{withdraw.id}", token: token
+          expect(response_body.include?('error')).to be_falsey
+        end
+      end
+
+      context 'includes error message' do
+        let!(:withdraw) { create(:usd_withdraw, :with_beneficiary, :with_deposit_liability, aasm_state: :skipped) }
+
+        it 'includes error message in withdrawal payload' do
+          api_get "/api/v2/admin/withdraws/#{withdraw.id}", token: token
+          expect(response_body.include?('error')).to be_truthy
+        end
+      end
+    end
   end
 
   describe 'POST /api/v2/admin/withdraws/actions' do
