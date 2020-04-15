@@ -7,6 +7,17 @@ module API
       module Entities
         class Market < API::V2::Entities::Market
           expose(
+            :engine,
+            documentation: {
+              type: Integer,
+              desc: 'Market position.'
+            }
+          ) do |market, _option|
+            market.engine
+          end
+
+
+          expose(
             :position,
             documentation: {
               type: Integer,

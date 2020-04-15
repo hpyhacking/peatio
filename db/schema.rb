@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_17_080916) do
+ActiveRecord::Schema.define(version: 2020_04_14_155144) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -133,6 +133,17 @@ ActiveRecord::Schema.define(version: 2020_03_17_080916) do
     t.index ["type"], name: "index_deposits_on_type"
   end
 
+  create_table "engines", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "driver", null: false
+    t.string "uid"
+    t.string "url"
+    t.string "key_encrypted"
+    t.string "secret_encrypted"
+    t.json "data_encrypted"
+    t.integer "state", default: 1, null: false
+  end
+
   create_table "expenses", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "code", null: false
     t.string "currency_id", null: false
@@ -164,6 +175,7 @@ ActiveRecord::Schema.define(version: 2020_03_17_080916) do
   create_table "markets", id: :string, limit: 20, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "base_unit", limit: 10, null: false
     t.string "quote_unit", limit: 10, null: false
+    t.bigint "engine_id", null: false
     t.integer "amount_precision", limit: 1, default: 4, null: false
     t.integer "price_precision", limit: 1, default: 4, null: false
     t.decimal "min_price", precision: 32, scale: 16, default: "0.0", null: false
@@ -176,6 +188,7 @@ ActiveRecord::Schema.define(version: 2020_03_17_080916) do
     t.datetime "updated_at", null: false
     t.index ["base_unit", "quote_unit"], name: "index_markets_on_base_unit_and_quote_unit", unique: true
     t.index ["base_unit"], name: "index_markets_on_base_unit"
+    t.index ["engine_id"], name: "index_markets_on_engine_id"
     t.index ["position"], name: "index_markets_on_position"
     t.index ["quote_unit"], name: "index_markets_on_quote_unit"
   end
@@ -210,6 +223,7 @@ ActiveRecord::Schema.define(version: 2020_03_17_080916) do
 
   create_table "orders", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.binary "uuid", limit: 16, null: false
+    t.string "remote_id"
     t.string "bid", limit: 10, null: false
     t.string "ask", limit: 10, null: false
     t.string "market_id", limit: 20, null: false

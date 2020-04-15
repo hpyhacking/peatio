@@ -64,12 +64,13 @@ class OrderBid < Order
 end
 
 # == Schema Information
-# Schema version: 20200316132213
+# Schema version: 20200414155144
 #
 # Table name: orders
 #
 #  id             :integer          not null, primary key
 #  uuid           :binary(16)       not null
+#  remote_id      :string(255)
 #  bid            :string(10)       not null
 #  ask            :string(10)       not null
 #  market_id      :string(20)       not null

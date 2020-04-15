@@ -57,6 +57,7 @@ class Market < ApplicationRecord
 
   has_one :base, class_name: 'Currency', foreign_key: :id, primary_key: :base_unit
   has_one :quote, class_name: 'Currency', foreign_key: :id, primary_key: :quote_unit
+  belongs_to :engine, required: true
 
   has_many :trading_fees, dependent: :delete_all
 
@@ -187,13 +188,14 @@ private
 end
 
 # == Schema Information
-# Schema version: 20200317080916
+# Schema version: 20200414155144
 #
 # Table name: markets
 #
 #  id               :string(20)       not null, primary key
 #  base_unit        :string(10)       not null
 #  quote_unit       :string(10)       not null
+#  engine_id        :bigint           not null
 #  amount_precision :integer          default("4"), not null
 #  price_precision  :integer          default("4"), not null
 #  min_price        :decimal(32, 16)  default("0.0000000000000000"), not null
@@ -209,6 +211,7 @@ end
 #
 #  index_markets_on_base_unit                 (base_unit)
 #  index_markets_on_base_unit_and_quote_unit  (base_unit,quote_unit) UNIQUE
+#  index_markets_on_engine_id                 (engine_id)
 #  index_markets_on_position                  (position)
 #  index_markets_on_quote_unit                (quote_unit)
 #

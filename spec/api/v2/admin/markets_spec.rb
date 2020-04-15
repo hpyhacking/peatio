@@ -78,10 +78,12 @@ describe API::V2::Admin::Markets, type: :request do
   end
 
   describe 'POST /api/v2/admin/markets/new' do
+    let(:engine) { create(:engine) }
     let(:valid_params) do
       {
         base_currency: 'trst',
         quote_currency: 'btc',
+        engine_id: engine.id,
         price_precision: 2,
         amount_precision: 2,
         min_price: 0.01,

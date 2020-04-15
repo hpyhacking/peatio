@@ -97,6 +97,9 @@ module API
           requires :quote_currency,
                    values: { value: -> { ::Currency.ids }, message: 'admin.market.currency_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:quote_unit][:desc] }
+          requires :engine_id,
+                   type: { value: Integer, message: 'admin.market.non_integer_engine_id' },
+                   desc: -> { API::V2::Admin::Entities::Market.documentation[:engine][:desc] }
           requires :min_price,
                    type: { value: BigDecimal, message: 'admin.market.non_decimal_min_price' },
                    values: { value: -> (p){ p && p >= 0 }, message: 'admin.market.invalid_min_price' },

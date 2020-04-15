@@ -3,6 +3,7 @@
 
 FactoryBot.define do
   factory :market do
+    engine { create(:engine) }
     trait :btcusd do
       id                { 'btcusd' }
       base_currency     { 'btc' }

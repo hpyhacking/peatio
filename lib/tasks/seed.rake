@@ -33,6 +33,16 @@ namespace :seed do
     end
   end
 
+  desc 'Adds missing engines to database defined at config/seed/engines.yml.'
+  task engines: :environment do
+    Engine.transaction do
+      YAML.load_file(Rails.root.join('config/seed/engines.yml')).each do |hash|
+        next if Engine.exists?(name: hash.fetch('name'))
+        Engine.create!(hash)
+      end
+    end
+  end
+
   desc 'Adds missing markets to database defined at config/seed/markets.yml.'
   task markets: :environment do
     Market.transaction do

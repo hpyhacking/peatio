@@ -1,0 +1,18 @@
+<% if ENV['ENGINES_CONFIG'] %>
+<%= File.read(ENV['ENGINES_CONFIG']) %>
+<% else %>
+- name:              Peatio Default Engine
+  driver:            peatio
+  state:             online
+- name:              Local Finex Spot Engine
+  driver:            finex-spot
+  state:             online
+- name:              Opendax Finex Spot Engine
+  driver:            opendax-cloud
+  uid:               U123456789
+  url:               https://www.opendax.io/api/v2/finex
+  key_encrypted:     ""
+  secret_encrypted:  ""
+  data_encrypted:    {}
+  state:             online
+<% end %>

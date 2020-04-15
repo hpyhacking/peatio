@@ -36,6 +36,7 @@ describe Market do
     let(:valid_attributes) do
       { base_currency:    :btc,
         quote_currency:   :trst,
+        engine:           create(:engine),
         min_amount:       0.0001,
         min_price:        0.0001,
         amount_precision: 4,
@@ -46,6 +47,7 @@ describe Market do
     let(:mirror_attributes) do
       { base_currency:    :usd,
         quote_currency:   :btc,
+        engine:           create(:engine),
         min_amount:       0.0001,
         min_price:        0.0001,
         amount_precision: 4,

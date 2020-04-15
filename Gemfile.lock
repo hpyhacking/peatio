@@ -485,7 +485,7 @@ DEPENDENCIES
   hiredis (~> 0.6.0)
   influxdb (~> 0.7.0)
   irb
-  irix (~> 2.4.1)
+  irix (~> 2.4.2)
   jwt (~> 2.1.0)
   jwt-multisig (~> 1.0.0)
   jwt-rack (~> 0.1.0)
