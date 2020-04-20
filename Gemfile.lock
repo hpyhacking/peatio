@@ -203,7 +203,7 @@ GEM
     io-console (0.5.6)
     irb (1.2.3)
       reline (>= 0.0.1)
-    irix (2.4.2)
+    irix (2.4.3)
       em-synchrony (~> 1.0)
       em-websocket
       eventmachine
@@ -290,7 +290,7 @@ GEM
       memoist (~> 0.16.0)
       net-http-persistent (~> 3.0.1)
       peatio (>= 0.6.3)
-    peatio-bitgo (1.1.1)
+    peatio-bitgo (1.1.2)
       activesupport (~> 5.2.3)
       better-faraday (~> 1.0.5)
       faraday (~> 0.15.4)
@@ -485,7 +485,7 @@ DEPENDENCIES
   hiredis (~> 0.6.0)
   influxdb (~> 0.7.0)
   irb
-  irix (~> 2.4.2)
+  irix (~> 2.4.3)
   jwt (~> 2.1.0)
   jwt-multisig (~> 1.0.0)
   jwt-rack (~> 0.1.0)
@@ -499,7 +499,7 @@ DEPENDENCIES
   net-http-persistent (~> 3.0.1)
   peatio (= 2.4.3)
   peatio-bitcoincash (~> 2.5.1)
-  peatio-bitgo (~> 1.1.1)
+  peatio-bitgo (~> 1.1.2)
   peatio-dash (~> 2.5.1)
   peatio-litecoin (~> 2.5.1)
   peatio-ripple (~> 2.5.1)
