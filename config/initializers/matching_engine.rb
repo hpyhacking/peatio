@@ -9,3 +9,4 @@ when 'peatio'
   Rails.logger.info { 'Use default matching engine' }
 end
 Order::TYPES.freeze
+Order.enumerize :ord_type, in: Order::TYPES, scope: true

@@ -6,7 +6,8 @@ class OrderAsk < Order
 
   class << self
     def get_depth(market_id)
-      where(market_id: market_id, state: :wait, ord_type: :limit)
+      where(market_id: market_id, state: :wait)
+        .where.not(ord_type: :market)
         .group(:price)
         .sum(:volume)
         .to_a

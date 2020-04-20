@@ -17,7 +17,6 @@ class Order < ApplicationRecord
   enumerize :state, in: STATES, scope: true
 
   TYPES = %w[market limit]
-  enumerize :ord_type, in: TYPES, scope: true
 
   belongs_to :ask_currency, class_name: 'Currency', foreign_key: :ask
   belongs_to :bid_currency, class_name: 'Currency', foreign_key: :bid
