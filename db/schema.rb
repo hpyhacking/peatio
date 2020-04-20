@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_155144) do
+ActiveRecord::Schema.define(version: 2020_04_20_141636) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 2020_04_14_155144) do
     t.string "url"
     t.string "key_encrypted"
     t.string "secret_encrypted"
-    t.json "data_encrypted"
+    t.string "data_encrypted", limit: 1024
     t.integer "state", default: 1, null: false
   end
 
