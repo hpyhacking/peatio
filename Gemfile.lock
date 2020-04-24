@@ -268,7 +268,7 @@ GEM
     parallel (1.19.1)
     parser (2.7.0.4)
       ast (~> 2.4.0)
-    peatio (2.4.3)
+    peatio (2.4.4)
       activemodel (> 5.2, <= 6.0.0)
       amqp
       bunny
@@ -497,7 +497,7 @@ DEPENDENCIES
   mocha (~> 1.8)
   mysql2 (~> 0.5.2)
   net-http-persistent (~> 3.0.1)
-  peatio (= 2.4.3)
+  peatio (= 2.4.4)
   peatio-bitcoincash (~> 2.5.1)
   peatio-bitgo (~> 1.1.2)
   peatio-dash (~> 2.5.1)
