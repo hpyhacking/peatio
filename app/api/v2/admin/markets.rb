@@ -99,7 +99,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:quote_unit][:desc] }
           requires :engine_id,
                    type: { value: Integer, message: 'admin.market.non_integer_engine_id' },
-                   desc: -> { API::V2::Admin::Entities::Market.documentation[:engine][:desc] }
+                   desc: -> { API::V2::Admin::Entities::Market.documentation[:engine_id][:desc] }
           requires :min_price,
                    type: { value: BigDecimal, message: 'admin.market.non_decimal_min_price' },
                    values: { value: -> (p){ p && p >= 0 }, message: 'admin.market.invalid_min_price' },
@@ -129,6 +129,9 @@ module API
           use :update_market_params
           requires :id,
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:id][:desc] }
+          optional :engine_id,
+                   type: { value: Integer, message: 'admin.market.non_integer_engine_id' },
+                   desc: -> { API::V2::Admin::Entities::Market.documentation[:engine_id][:desc] }
           optional :min_price,
                    type: { value: BigDecimal, message: 'admin.market.non_decimal_min_price' },
                    values: { value: -> (p){ p >= 0 }, message: 'admin.market.invalid_min_price' },

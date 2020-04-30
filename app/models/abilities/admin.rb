@@ -19,6 +19,7 @@ module Abilities
       can :manage, Operations::Liability
       can :manage, Operations::Revenue
 
+      can :manage, Engine
       can :manage, Market
       can :manage, Currency
       can :manage, Blockchain

@@ -18,6 +18,7 @@ module Abilities
       can :read, Account
       can :read, PaymentAddress
 
+      can :manage, Engine
       can :manage, Market
       can :manage, Currency
       can :manage, Blockchain
