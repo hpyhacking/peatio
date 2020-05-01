@@ -40,7 +40,6 @@ class BlockchainService
     ActiveRecord::Base.transaction do
       accepted_deposits = deposits.map(&method(:update_or_create_deposit)).compact
       withdrawals.each(&method(:update_withdrawal))
-      update_height(block_number)
     end
     accepted_deposits.each(&:collect!)
     block

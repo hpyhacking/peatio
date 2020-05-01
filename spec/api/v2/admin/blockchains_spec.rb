@@ -8,7 +8,7 @@ describe API::V2::Admin::Blockchains, type: :request do
   let(:level_3_member_token) { jwt_for(level_3_member) }
 
   describe 'GET /api/v2/admin/blockchains/:id' do
-    let(:blockchain) { Blockchain.find_by(key: "eth-rinkeby") }
+    let(:blockchain) { Blockchain.find_by(key: 'eth-rinkeby') }
 
     it 'returns information about specified blockchain' do
       api_get "/api/v2/admin/blockchains/#{blockchain.id}", token: token
@@ -253,6 +253,111 @@ describe API::V2::Admin::Blockchains, type: :request do
       api_post '/api/v2/admin/blockchains/update', token: level_3_member_token, params: { id: Blockchain.first.id }
       expect(response.code).to eq '403'
       expect(response).to include_api_error('admin.ability.not_permitted')
+    end
+  end
+
+  describe 'POST /api/v2/admin/blockchains/process_block' do
+    context 'returns error' do
+      it 'in case of not permitted ability' do
+        api_post '/api/v2/admin/blockchains/process_block', token: level_3_member_token, params: { block_number: 1, id: Blockchain.last.id }
+        expect(response.code).to eq '403'
+        expect(response).to include_api_error('admin.ability.not_permitted')
+      end
+
+      it 'when blockchain doesnt exist' do
+        api_post "/api/v2/admin/blockchains/process_block", params: { block_number: 1, id: Blockchain.last.id + 1 }, token: token
+        expect(response.code).to eq '404'
+        expect(response).to include_api_error('record.not_found')
+      end
+
+      it 'when blockchain is not accessible' do
+        api_post "/api/v2/admin/blockchains/process_block", params: { block_number: 1, id: Blockchain.last.id }, token: token
+        result = JSON.parse(response.body)
+
+        expect(response).to include_api_error('admin.blockchain.process_block')
+      end
+    end
+
+    context 'successful' do
+      let!(:blockchain) { Blockchain.find_by(key: 'btc-testnet') }
+      let(:service) { BlockchainService.new(blockchain) }
+      let!(:currency) { create(:currency, :btc, id: 'fake', symbol: 'F') }
+      let(:block_number) { 3 }
+      let!(:member) { create(:member) }
+
+      before do
+        Blockchain.any_instance.stubs(:blockchain_api).returns(service)
+        service.stubs(:latest_block_number).returns(4)
+        clear_redis
+        PaymentAddress.create!(currency: currency,
+                               account: member.get_account(currency),
+                               address: 'fake_address')
+      end
+
+      context 'deposit' do
+        let(:transaction) { Peatio::Transaction.new(hash: 'fake_txid', to_address: 'fake_address', amount: 5, block_number: block_number, currency_id: 'fake', txout: 4, status: 'success') }
+
+        before do
+          service.adapter.stubs(:fetch_block!).returns([transaction])
+        end
+
+        it 'detects in the block' do
+          expect(Deposits::Coin.where(currency: currency).exists?).to be false
+
+          api_post '/api/v2/admin/blockchains/process_block', token: token, params: { block_number: block_number, id: blockchain.id }
+          result = JSON.parse(response.body)
+          expect(response).to be_successful
+          expect(Deposits::Coin.where(currency: currency).exists?).to be true
+        end
+
+        it 'doesn\'t update height of blockchain' do
+          blockchain_height = blockchain.height
+          expect(blockchain_height).not_to eq (block_number)
+  
+          api_post '/api/v2/admin/blockchains/process_block', token: token, params: { block_number: block_number, id: blockchain.id }
+          result = JSON.parse(response.body)
+          expect(response).to be_successful
+          expect(result['height']).not_to eq block_number
+          expect(result['height']).to eq blockchain_height
+        end
+      end
+
+      context 'withdraw' do
+        let!(:member_account) { member.get_account(:fake).tap { |ac| ac.update!(balance: 50, locked: 10) } }
+        let!(:withdrawal) do
+          Withdraw.create!(member: member,
+                           currency: currency,
+                           amount: 1,
+                           txid: "fake_hash",
+                           rid: 'fake_address',
+                           sum: 1,
+                           type: Withdraws::Coin,
+                           aasm_state: :confirming)
+        end
+
+        let!(:transaction) do
+          Peatio::Transaction.new(hash: 'fake_hash', to_address: 'fake_address', amount: 1, block_number: block_number, currency_id: currency.id, txout: 10, status: 'pending')
+        end
+  
+        let!(:succeed_transaction) do
+          Peatio::Transaction.new(hash: 'fake_hash', to_address: 'fake_address', amount: 1, block_number: block_number, currency_id: currency.id, txout: 10, status: 'success')
+        end
+  
+
+        before do
+          service.adapter.stubs(:fetch_block!).returns([transaction])
+          service.adapter.stubs(:fetch_transaction).with(transaction).returns(succeed_transaction)
+        end
+
+        it 'detects successfuly in the block' do
+          expect(Withdraws::Coin.find_by(currency: currency, txid: transaction.hash).succeed?).to be false
+
+          api_post '/api/v2/admin/blockchains/process_block', token: token, params: { block_number: block_number, id: blockchain.id }
+          result = JSON.parse(response.body)
+          expect(response).to be_successful
+          expect(Withdraws::Coin.find_by(currency: currency, txid: transaction.hash).succeed?).to be true
+        end
+      end
     end
   end
 end
