@@ -4,8 +4,8 @@
 require 'securerandom'
 
 class Member < ApplicationRecord
-  ROLES = %w[superadmin admin accountant compliance support technical member broker trader maker]
-  ADMIN_ROLES = %w[superadmin admin accountant compliance support technical]
+  ROLES = %w[superadmin admin manager accountant compliance support technical member broker trader maker]
+  ADMIN_ROLES = %w[superadmin admin accountant compliance support technical manager]
 
   has_many :orders
   has_many :accounts

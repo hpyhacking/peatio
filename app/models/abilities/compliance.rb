@@ -13,8 +13,8 @@ module Abilities
       can :read, Operations::Revenue
 
       can :read, Member
-      can :read, Deposit
-      can :read, Withdraw
+      can %i[read write], Deposit
+      can %i[read write], Withdraw
       can :read, Account
       can :read, PaymentAddress
     end
