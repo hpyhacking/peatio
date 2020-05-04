@@ -56,6 +56,12 @@ module API
                    type: String,
                    values: { value: -> { ::Deposit.aasm.events.map(&:name).map(&:to_s) }, message: 'admin.deposit.invalid_action' },
                    desc: "Valid actions are #{::Deposit.aasm.events.map(&:name)}."
+          given action: ->(val) { val == 'process' } do
+            optional :fees,
+                     type: Boolean,
+                     default: false,
+                     desc: 'Process deposit collection with collecting fees or not'
+          end
         end
         post '/deposits/actions' do
           authorize! :write, Deposit
@@ -63,7 +69,11 @@ module API
           deposit = Deposit.find(params[:id])
 
           if deposit.public_send("may_#{params[:action]}?")
-            deposit.public_send("#{params[:action]}!")
+            if params[:action] == 'process'
+              deposit.public_send("#{params[:action]}!", params[:fees])
+            else
+              deposit.public_send("#{params[:action]}!")
+            end
             present deposit, with: API::V2::Admin::Entities::Deposit
           else
             body errors: ["admin.depodit.cannot_#{params[:action]}"]

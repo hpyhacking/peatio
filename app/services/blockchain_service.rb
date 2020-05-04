@@ -41,7 +41,7 @@ class BlockchainService
       accepted_deposits = deposits.map(&method(:update_or_create_deposit)).compact
       withdrawals.each(&method(:update_withdrawal))
     end
-    accepted_deposits.each(&:collect!)
+    accepted_deposits.each(&:process!)
     block
   end
 

@@ -122,7 +122,7 @@ describe API::V2::Admin::Deposits, type: :request do
       end
 
       it 'does not pass coin action for fiat' do
-        api_post url, token: token, params: { action: 'collect_fee', id: fiat.id }
+        api_post url, token: token, params: { action: 'collect', id: fiat.id }
 
         expect(response.status).to eq 422
         expect(response).to include_api_error('admin.deposit.invalid_action')
@@ -148,6 +148,22 @@ describe API::V2::Admin::Deposits, type: :request do
         api_post url, token: token, params: { action: 'reject', id: fiat.id }
         expect(response).to be_successful
         expect(fiat.reload.aasm_state).to eq('rejected')
+      end
+    end
+
+    context 'action :process' do
+      it 'sends event to deposit_collection daemon' do
+        AMQP::Queue.expects(:enqueue).with(:deposit_collection, id: coin.id)
+        api_post url, token: token, params: { action: 'process', id: coin.id }
+
+        expect(response).to be_successful
+      end
+
+      it 'sends event to deposit_collection daemon' do
+        AMQP::Queue.expects(:enqueue).with(:deposit_collection_fees, id: coin.id)
+        api_post url, token: token, params: { action: 'process', fees: true, id: coin.id }
+
+        expect(response).to be_successful
       end
     end
   end

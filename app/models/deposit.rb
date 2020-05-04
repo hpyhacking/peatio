@@ -33,6 +33,7 @@ class Deposit < ApplicationRecord
     state :canceled
     state :rejected
     state :accepted
+    state :processing
     state :skipped
     state :collected
     event(:cancel) { transitions from: :submitted, to: :canceled }
@@ -40,15 +41,29 @@ class Deposit < ApplicationRecord
     event :accept do
       transitions from: :submitted, to: :accepted
       after do
-        plus_funds
-        record_complete_operations!
+        if coin?
+          account.plus_locked_funds(amount)
+        else
+          account.plus_funds(amount)
+        end
+        record_submit_operations!
       end
     end
     event :skip do
-      transitions from: :accepted, to: :skipped
+      transitions from: :processing, to: :skipped
+    end
+    event :process do
+      transitions from: :accepted, to: :processing do
+        guard { coin? }
+        after :collect!
+      end
     end
     event :dispatch do
-      transitions from: %i[accepted skipped], to: :collected
+      transitions from: %i[processing skipped], to: :collected
+      after do
+        account.unlock_funds(amount)
+        record_complete_operations!
+      end
     end
   end
 
@@ -98,11 +113,6 @@ class Deposit < ApplicationRecord
     !submitted?
   end
 
-  # @deprecated
-  def plus_funds
-    account.plus_funds(amount)
-  end
-
   def collect!(collect_fee = true)
     return unless coin?
 
@@ -116,7 +126,7 @@ class Deposit < ApplicationRecord
   private
 
   # Creates dependant operations for deposit.
-  def record_complete_operations!
+  def record_submit_operations!
     transaction do
       # Credit main fiat/crypto Asset account.
       Operations::Asset.credit!(
@@ -133,12 +143,28 @@ class Deposit < ApplicationRecord
         member_id: member_id
       )
 
-      # Credit main fiat/crypto Liability account.
+      kind = coin? ? :locked : :main
+      # Credit locked fiat/crypto Liability account.
       Operations::Liability.credit!(
         amount: amount,
         currency: currency,
         reference: self,
-        member_id: member_id
+        member_id: member_id,
+        kind: kind
+      )
+    end
+  end
+
+  # Creates dependant operations for complete deposit.
+  def record_complete_operations!
+    transaction do
+      Operations::Liability.transfer!(
+        amount:     amount,
+        currency:   currency,
+        reference:  self,
+        from_kind:  :locked,
+        to_kind:    :main,
+        member_id:  member_id
       )
     end
   end

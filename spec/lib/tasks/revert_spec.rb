@@ -36,7 +36,10 @@ describe 'revert.rake' do
     before do
       # Deposit 5 btc to Alice
       # Deposit 50 usd to Bob
-      create(:deposit_btc, member_id: alice.id, amount: 5).accept!
+      deposit = create(:deposit_btc, member_id: alice.id, amount: 5)
+      deposit.accept!
+      deposit.process!
+      deposit.dispatch!
       create(:deposit_usd, member_id: bob.id, amount: 50).accept!
       alice.get_account(:btc).lock_funds(5)
       bob.get_account(:usd).lock_funds(50)
@@ -96,7 +99,10 @@ describe 'revert.rake' do
     before do
       # Deposit 5 btc to Alice
       # Deposit 50 usd to Bob
-      create(:deposit_btc, member_id: alice.id, amount: 5).accept!
+      deposit = create(:deposit_btc, member_id: alice.id, amount: 5)
+      deposit.accept!
+      deposit.process!
+      deposit.dispatch!
       create(:deposit_usd, member_id: bob.id, amount: 50).accept!
       alice.get_account(:btc).lock_funds(5)
       bob.get_account(:usd).lock_funds(50)

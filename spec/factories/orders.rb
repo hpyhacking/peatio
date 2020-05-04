@@ -7,8 +7,10 @@ FactoryBot.define do
     # Create liability history by passing with_deposit_liability trait.
     trait :with_deposit_liability do
       before(:create) do |order|
-        create(:deposit_usd, member: order.member, amount: order.locked)
-          .accept!
+        deposit = create(:deposit_usd, member: order.member, amount: order.locked)
+        deposit.accept!
+        deposit.process!
+        deposit.dispatch!
       end
 
       bid { :usd }
@@ -58,8 +60,10 @@ FactoryBot.define do
     # Create liability history by passing with_deposit_liability trait.
     trait :with_deposit_liability do
       before(:create) do |order|
-        create(:deposit_btc, member: order.member, amount: order.locked)
-          .accept!
+        deposit = create(:deposit_btc, member: order.member, amount: order.locked)
+        deposit.accept!
+        deposit.process!
+        deposit.dispatch!
       end
 
       bid { :usd }

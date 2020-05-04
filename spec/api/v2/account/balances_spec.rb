@@ -12,7 +12,11 @@ describe API::V2::Account::Balances, type: :request do
 
   before do
     deposit_btc.accept!
+    deposit_btc.process!
+    deposit_btc.dispatch
     deposit_eth.accept!
+    deposit_eth.process!
+    deposit_eth.dispatch
     withdraw.submit! && withdraw.accept!
   end
 

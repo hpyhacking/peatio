@@ -17,7 +17,7 @@ module API
             ActiveRecord::Base.transaction do
               accepted_deposits = process_deposit_event(event)
             end
-            accepted_deposits.each(&:collect!)
+            accepted_deposits.each(&:process!)
           end
         elsif params[:event] == 'withdraw'
           # For withdraw events we use only Withdraw events.

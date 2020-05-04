@@ -3,7 +3,7 @@
 
 describe Workers::AMQP::DepositCollectionFees do
   let(:deposit) do
-    create(:deposit, :deposit_trst).tap { |d| d.accept! }
+    create(:deposit, :deposit_trst).tap { |d| d.accept! }.tap { |d| d.process! }
   end
   let(:wallet) { Wallet.find_by_blockchain_key('eth-rinkeby') }
   let(:wallet_service) { WalletService.new(wallet) }

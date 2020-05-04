@@ -393,6 +393,7 @@ describe BlockchainService do
       service.process_block(block_number)
       expect(Deposits::Coin.where(currency: fake_currency1).exists?).to be true
       expect(Deposits::Coin.where(currency: fake_currency2).exists?).to be true
+      Deposit.find_each { |d| d.dispatch! }
 
       [fake_account1, fake_account2].map { |a| a.reload }
       withdraw1 = Withdraw.create!(member: member, currency: fake_currency1, amount: 1, txid: "fake_hash5",

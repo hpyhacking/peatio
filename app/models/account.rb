@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 class Account < ApplicationRecord
@@ -34,12 +33,14 @@ class Account < ApplicationRecord
   # Returns active deposit address for account or creates new if any exists.
   def payment_address
     return unless currency.coin?
+
     payment_addresses.last&.enqueue_address_generation || payment_addresses.create!(currency: currency)
   end
 
   # Attempts to create additional deposit address for account.
   def payment_address!
     return unless currency.coin?
+
     record = payment_address
 
     # The address generation process is in progress.
@@ -52,7 +53,7 @@ class Account < ApplicationRecord
   end
 
   def plus_funds!(amount)
-    update_columns((attributes_after_plus_funds!(amount)))
+    update_columns(attributes_after_plus_funds!(amount))
   end
 
   def plus_funds(amount)
@@ -61,8 +62,28 @@ class Account < ApplicationRecord
   end
 
   def attributes_after_plus_funds!(amount)
-    raise AccountError, "Cannot add funds (account id: #{id}, amount: #{amount}, balance: #{balance})." if amount <= ZERO
+    if amount <= ZERO
+      raise AccountError, "Cannot add funds (account id: #{id}, amount: #{amount}, balance: #{balance})."
+    end
+
     { balance: balance + amount }
+  end
+
+  def plus_locked_funds!(amount)
+    update_columns(attributes_after_plus_locked_funds!(amount))
+  end
+
+  def plus_locked_funds(amount)
+    with_lock { plus_locked_funds!(amount) }
+    self
+  end
+
+  def attributes_after_plus_locked_funds!(amount)
+    if amount <= ZERO
+      raise AccountError, "Cannot add funds (account id: #{id}, amount: #{amount}, locked: #{locked})."
+    end
+
+    { locked: locked + amount }
   end
 
   def sub_funds!(amount)
@@ -75,7 +96,10 @@ class Account < ApplicationRecord
   end
 
   def attributes_after_sub_funds!(amount)
-    raise AccountError, "Cannot subtract funds (account id: #{id}, amount: #{amount}, balance: #{balance})." if amount <= ZERO || amount > balance
+    if amount <= ZERO || amount > balance
+      raise AccountError, "Cannot subtract funds (account id: #{id}, amount: #{amount}, balance: #{balance})."
+    end
+
     { balance: balance - amount }
   end
 
@@ -89,7 +113,10 @@ class Account < ApplicationRecord
   end
 
   def attributes_after_lock_funds!(amount)
-    raise AccountError, "Cannot lock funds (account id: #{id}, amount: #{amount}, balance: #{balance}, locked: #{locked})." if amount <= ZERO || amount > balance
+    if amount <= ZERO || amount > balance
+      raise AccountError, "Cannot lock funds (account id: #{id}, amount: #{amount}, balance: #{balance}, locked: #{locked})."
+    end
+
     { balance: balance - amount, locked: locked + amount }
   end
 
@@ -103,7 +130,10 @@ class Account < ApplicationRecord
   end
 
   def attributes_after_unlock_funds!(amount)
-    raise AccountError, "Cannot unlock funds (account id: #{id}, amount: #{amount}, balance: #{balance} locked: #{locked})." if amount <= ZERO || amount > locked
+    if amount <= ZERO || amount > locked
+      raise AccountError, "Cannot unlock funds (account id: #{id}, amount: #{amount}, balance: #{balance} locked: #{locked})."
+    end
+
     { balance: balance + amount, locked: locked - amount }
   end
 
@@ -117,7 +147,10 @@ class Account < ApplicationRecord
   end
 
   def attributes_after_unlock_and_sub_funds!(amount)
-    raise AccountError, "Cannot unlock and sub funds (account id: #{id}, amount: #{amount}, locked: #{locked})." if amount <= ZERO || amount > locked
+    if amount <= ZERO || amount > locked
+      raise AccountError, "Cannot unlock and sub funds (account id: #{id}, amount: #{amount}, locked: #{locked})."
+    end
+
     { locked: locked - amount }
   end
 

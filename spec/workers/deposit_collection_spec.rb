@@ -5,6 +5,7 @@ describe Workers::AMQP::DepositCollection do
   let(:deposit) do
     create(:deposit_btc)
       .tap { |d| d.accept! }
+      .tap { |d| d.process }
       .tap { |d| d.update!(spread: spread) }
   end
   let(:wallet) { Wallet.find_by_blockchain_key('btc-testnet') }

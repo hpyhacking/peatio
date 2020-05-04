@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 describe Deposit do
@@ -85,7 +84,7 @@ describe Deposit do
     context :record_complete_operations! do
       subject { deposit }
       it 'creates single asset operation' do
-        expect{ subject.accept! }.to change{ Operations::Asset.count }.by(1)
+        expect { subject.accept! }.to change { Operations::Asset.count }.by(1)
       end
 
       it 'credits assets with correct amount' do
@@ -95,7 +94,7 @@ describe Deposit do
       end
 
       it 'creates single liability operation' do
-        expect{ subject.accept! }.to change{ Operations::Liability.count }.by(1)
+        expect { subject.accept! }.to change { Operations::Liability.count }.by(1)
       end
 
       it 'credits liabilities with correct amount' do
@@ -106,13 +105,13 @@ describe Deposit do
 
       context 'zero deposit fee' do
         it 'doesn\'t create revenue operation' do
-          expect{ subject.accept! }.to_not change{ Operations::Revenue.count }
+          expect { subject.accept! }.to_not change { Operations::Revenue.count }
         end
       end
 
       context 'greater than zero deposit fee' do
         let(:currency) do
-          Currency.find(:usd).tap{ |c| c.update(deposit_fee: 0.01) }
+          Currency.find(:usd).tap { |c| c.update(deposit_fee: 0.01) }
         end
 
         let(:deposit) do
@@ -120,7 +119,7 @@ describe Deposit do
         end
 
         it 'creates single revenue operation' do
-          expect{ subject.accept! }.to change{ Operations::Revenue.count }.by(1)
+          expect { subject.accept! }.to change { Operations::Revenue.count }.by(1)
         end
 
         it 'credits revenues with fee amount' do
@@ -130,11 +129,11 @@ describe Deposit do
         end
 
         it 'creates revenue from member' do
-          expect{ subject.accept! }.to change{ Operations::Revenue.where(member: member).count }.by(1)
+          expect { subject.accept! }.to change { Operations::Revenue.where(member: member).count }.by(1)
         end
       end
 
-      it 'credits both legacy and operations based member balance' do
+      it 'credits both legacy and operations based member balance for fait deposit' do
         subject.accept!
 
         %i[main locked].each do |kind|
@@ -144,6 +143,86 @@ describe Deposit do
             subject.member.legacy_balance_for(currency: subject.currency, kind: kind)
           )
         end
+      end
+
+      context 'credits both legacy and operations based member balance for coin deposit' do
+        subject { create(:deposit_btc, amount: 3.7) }
+        it do
+          subject.accept!
+          %i[main locked].each do |kind|
+            expect(
+              subject.member.balance_for(currency: subject.currency, kind: kind)
+            ).to eq(
+              subject.member.legacy_balance_for(currency: subject.currency, kind: kind)
+            )
+          end
+        end
+      end
+    end
+  end
+
+  context :process do
+    let(:crypto_deposit) { create(:deposit_btc, amount: 3.7) }
+
+    it 'doesnt process fiat deposit' do
+      deposit.accept!
+      expect(deposit.process!).to eq false
+    end
+
+    it 'process coin deposit' do
+      crypto_deposit = create(:deposit_btc, amount: 3.7)
+      crypto_deposit.accept!
+      expect(crypto_deposit.process!).to eq true
+      expect(crypto_deposit.processing?).to eq true
+    end
+
+    it 'produce amqp message for collect deposit' do
+      AMQP::Queue.expects(:enqueue).with(:events_processor, { subject: :operation,
+                                                              payload: { code: 212,
+                                                                         currency: 'btc',
+                                                                         member_id: crypto_deposit.member_id,
+                                                                         reference_id: crypto_deposit.id,
+                                                                         reference_type: 'deposit',
+                                                                         debit: 0.0,
+                                                                         credit: 0.37e1 } })
+      AMQP::Queue.expects(:enqueue).with(:deposit_collection_fees, id: crypto_deposit.id)
+      crypto_deposit.accept!
+      crypto_deposit.process!
+    end
+
+    it 'produces amqp message for collect deposit' do
+      AMQP::Queue.expects(:enqueue).with(:events_processor, { subject: :operation,
+                                                              payload: { code: 212,
+                                                                         currency: 'btc',
+                                                                         member_id: crypto_deposit.member_id,
+                                                                         reference_id: crypto_deposit.id,
+                                                                         reference_type: 'deposit',
+                                                                         debit: 0.0,
+                                                                         credit: 0.37e1 } })
+      AMQP::Queue.expects(:enqueue).with(:deposit_collection, id: crypto_deposit.id)
+      crypto_deposit.accept!
+      crypto_deposit.process!(false)
+    end
+  end
+
+  context :dispatch do
+    let(:crypto_deposit) { create(:deposit_btc, amount: 3.7) }
+
+    before do
+      crypto_deposit.accept!
+      crypto_deposit.process!
+    end
+
+    subject { crypto_deposit }
+    it 'dispatches deposit' do
+      subject.dispatch!
+
+      %i[main locked].each do |kind|
+        expect(
+          subject.member.balance_for(currency: subject.currency, kind: kind)
+        ).to eq(
+          subject.member.legacy_balance_for(currency: subject.currency, kind: kind)
+        )
       end
     end
   end

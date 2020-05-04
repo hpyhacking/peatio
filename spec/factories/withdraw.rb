@@ -14,8 +14,10 @@ FactoryBot.define do
     # We need to have valid Liability-based balance to spend funds.
     trait :with_deposit_liability do
       before(:create) do |withdraw|
-        create(:deposit_btc, member: withdraw.member, amount: withdraw.sum)
-          .accept!
+        deposit = create(:deposit_btc, member: withdraw.member, amount: withdraw.sum)
+        deposit.accept!
+        deposit.process!
+        deposit.dispatch!
       end
     end
 

@@ -58,6 +58,8 @@ describe 'Accounting' do
 
   before do
     deposit_btc.accept!
+    deposit_btc.process!
+    deposit_btc.dispatch!
     deposit_usd.accept!
 
     order_bid.hold_account!.lock_funds!(order_bid.locked)
