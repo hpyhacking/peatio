@@ -29,13 +29,6 @@ describe Vault::TOTP do
     end
   end
 
-  describe '.exist?' do
-    before { described_class.stubs(:read_data).with('totp/keys/uid').returns( ['data'] ) }
-    it 'creates secret' do
-      described_class.exist?(uid)
-    end
-  end
-
   describe '.validate?' do
     before do
       described_class.stubs(:write_data).returns( OpenStruct.new({data: data}) )
@@ -44,11 +37,6 @@ describe Vault::TOTP do
     let(:data) { { valid: true } }
 
     subject { described_class.validate?(uid, 'code') }
-
-    context 'when not exist' do
-      before { described_class.stubs(:exist?).returns( false ) }
-      it { is_expected.to eq false }
-    end
 
     context 'when valid' do
       before { described_class.stubs(:exist?).returns( true ) }
