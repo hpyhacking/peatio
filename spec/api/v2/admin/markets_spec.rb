@@ -101,6 +101,7 @@ describe API::V2::Admin::Markets, type: :request do
       result = JSON.parse(response.body)
       expect(response).to be_successful
       expect(result['id']).to eq 'trstbtc'
+      expect(result['engine_id']).to eq Market.last.engine_id
       expect(result['data']).to eq({ 'upstream' => { 'driver' => 'opendax' } })
     end
 

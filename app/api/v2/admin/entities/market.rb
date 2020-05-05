@@ -10,12 +10,9 @@ module API
             :engine_id,
             documentation: {
               type: Integer,
-              desc: 'Market position.'
+              desc: 'Engine id for this market.'
             }
-          ) do |market, _option|
-            market.engine
-          end
-
+          )
 
           expose(
             :position,
