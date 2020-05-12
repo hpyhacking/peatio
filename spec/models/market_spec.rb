@@ -28,7 +28,7 @@ describe Market do
     end
 
     it 'data' do
-      expect(subject.data).to eq({})
+      expect(subject.data).to eq(nil)
     end
   end
 

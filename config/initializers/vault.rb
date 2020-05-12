@@ -18,7 +18,7 @@ Thread.new do
     renew_process
   rescue StandardError => e
     report_exception(e)
-    break
+    sleep 60
   end
 end
 
