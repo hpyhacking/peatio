@@ -52,7 +52,7 @@ module Workers
         if res.to_a[0].values[0] == 1
           begin
             yield
-          rescue StandartError => e
+          rescue StandardError => e
             report_exception(e)
           ensure
             ActiveRecord::Base.connection.exec_query("SELECT RELEASE_LOCK('Peatio_#{klass}')")

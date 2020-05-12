@@ -50,6 +50,14 @@ class BlockchainService
     @latest_block_number = nil
   end
 
+  def update_height(block_number)
+    raise Error, "#{blockchain.name} height was reset." if blockchain.height != blockchain.reload.height
+
+    # NOTE: We use update_column to not change updated_at timestamp
+    # because we use it for detecting blockchain configuration changes see Workers::Daemon::Blockchain#run.
+    blockchain.update_column(:height, block_number) if latest_block_number - block_number >= blockchain.min_confirmations
+  end
+
   private
 
   def filter_deposits(block)
@@ -123,11 +131,5 @@ class BlockchainService
     elsif transaction.status.success? && latest_block_number - withdrawal.block_number >= @blockchain.min_confirmations
       withdrawal.success!
     end
-  end
-
-  def update_height(block_number)
-    raise Error, "#{blockchain.name} height was reset." if blockchain.height != blockchain.reload.height
-
-    blockchain.update(height: block_number) if latest_block_number - block_number >= blockchain.min_confirmations
   end
 end
