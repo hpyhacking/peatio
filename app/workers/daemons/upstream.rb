@@ -4,14 +4,27 @@ module Workers
   module Daemons
     class Upstream < Base
       def run
-        Market.all.map { |m| m if m.data.present? }.compact.map { |m| Thread.new { process(m) } }.map(&:join)
+        Engine.all.map { |e| Thread.new { process(e) } }.map(&:join)
       end
 
-      def process(market)
+      def process(engine)
         EM.synchrony do
-          upstream = market.data['upstream']
-          Peatio::Upstream.registry[upstream['driver']].new(upstream.merge('source' => market.id, 'amqp' => ::AMQP::Queue)).ws_connect
-          Rails.logger.info "Upstream #{market.data['upstream']} started"
+          upstream = Peatio::Upstream.registry[engine.driver]
+          engine.markets.each do |market|
+            target = if market.data.present? && market.data['target'].present?
+                       market.data['target']
+                     else
+                       market.id
+                     end
+
+            configs = engine.data.merge('source' => market.id, 'amqp' => ::AMQP::Queue, 'target' => target)
+
+            upstream.new(configs).ws_connect
+            Rails.logger.info "Upstream with driver #{engine.driver} for #{market.id} started"
+          rescue StandardError => e
+            report_exception(e)
+            next
+          end
         end
       end
 

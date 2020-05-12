@@ -39,7 +39,7 @@ class Engine < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200414155144
+# Schema version: 20200504183201
 #
 # Table name: engines
 #
@@ -50,6 +50,6 @@ end
 #  url              :string(255)
 #  key_encrypted    :string(255)
 #  secret_encrypted :string(255)
-#  data_encrypted   :json
+#  data_encrypted   :string(1024)
 #  state            :integer          default("1"), not null
 #

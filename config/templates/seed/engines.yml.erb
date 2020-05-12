@@ -8,11 +8,21 @@
   driver:            finex-spot
   state:             online
 - name:              Opendax Finex Spot Engine
-  driver:            opendax-cloud
+  driver:            opendax
   uid:               U123456789
   url:               https://www.opendax.io/api/v2/finex
-  key_encrypted:     ""
-  secret_encrypted:  ""
-  data_encrypted:    {}
+  key:               ""
+  secret:            ""
+  data:              {}
+  # The data field for store some special engines metadata
+  # Can be used in upstream worker
+  # Example for upstream:
+  #                {
+  #                 "rest"=>"https://url",
+  #                 "websocket"=>"wss://url",
+  #                 "trade_proxy"=>true,
+  #                 "orderbook_proxy"=>"true"
+  #                }
+  # }
   state:             online
 <% end %>

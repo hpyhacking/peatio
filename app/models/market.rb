@@ -19,10 +19,6 @@ class Market < ApplicationRecord
 
   # == Constants ============================================================
 
-  include Vault::EncryptedModel
-
-  vault_lazy_decrypt!
-
   # Since we use decimal with 16 digits fractional part for storing numbers in DB
   # sum of multipliers fractional parts must not be greater then 16.
   # In the worst situation we have 3 multipliers (price * amount * fee).
@@ -48,8 +44,6 @@ class Market < ApplicationRecord
   # For avoiding DB migration and config we use alias as temporary solution.
   alias_attribute :base_currency, :base_unit
   alias_attribute :quote_currency, :quote_unit
-
-  vault_attribute :data, serialize: :json, default: {}
 
   # == Extensions ===========================================================
 
@@ -188,7 +182,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20200414155144
+# Schema version: 20200504183201
 #
 # Table name: markets
 #
@@ -202,7 +196,7 @@ end
 #  max_price        :decimal(32, 16)  default("0.0000000000000000"), not null
 #  min_amount       :decimal(32, 16)  default("0.0000000000000000"), not null
 #  position         :integer          default("0"), not null
-#  data_encrypted   :string(1024)
+#  data             :json
 #  state            :string(32)       default("enabled"), not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
