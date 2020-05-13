@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_04_183201) do
+ActiveRecord::Schema.define(version: 2020_05_13_153429) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -249,6 +249,7 @@ ActiveRecord::Schema.define(version: 2020_05_04_183201) do
     t.index ["type", "state", "market_id"], name: "index_orders_on_type_and_state_and_market_id"
     t.index ["type", "state", "member_id"], name: "index_orders_on_type_and_state_and_member_id"
     t.index ["updated_at"], name: "index_orders_on_updated_at"
+    t.index ["uuid"], name: "index_orders_on_uuid", unique: true
   end
 
   create_table "payment_addresses", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

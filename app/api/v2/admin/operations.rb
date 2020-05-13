@@ -71,10 +71,11 @@ module API
             klass = ::Operations.const_get(op_type.capitalize)
             authorize! :read, klass
 
-            search = klass.ransack(ransack_params.merge(member_uid_eq: params[:uid]))
+            member = Member.find_by(uid: params[:uid]) if params[:uid].present?
+            search = klass.ransack(ransack_params.merge(member_id_eq: member&.id))
             search.sorts = "#{params[:order_by]} #{params[:ordering]}"
 
-            present paginate(search.result), with: API::V2::Admin::Entities::Operation
+            present paginate(search.result, false), with: API::V2::Admin::Entities::Operation
           end
         end
       end

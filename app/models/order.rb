@@ -300,7 +300,7 @@ class Order < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200414155144
+# Schema version: 20200513153429
 #
 # Table name: orders
 #
@@ -335,4 +335,5 @@ end
 #  index_orders_on_type_and_state_and_market_id  (type,state,market_id)
 #  index_orders_on_type_and_state_and_member_id  (type,state,member_id)
 #  index_orders_on_updated_at                    (updated_at)
+#  index_orders_on_uuid                          (uuid) UNIQUE
 #

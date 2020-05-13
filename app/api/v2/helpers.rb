@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 module API
@@ -19,11 +18,13 @@ module API
       def set_ets_context!
         return unless defined?(Raven)
 
-        Raven.user_context(
-          email: current_user.email,
-          uid: current_user.uid,
-          role: current_user.role
-        ) if current_user
+        if current_user
+          Raven.user_context(
+            email: current_user.email,
+            uid: current_user.uid,
+            role: current_user.role
+          )
+        end
         Raven.tags_context(
           peatio_version: Peatio::Application::VERSION
         )
@@ -58,9 +59,9 @@ module API
         if request.env.key?('jwt.payload')
           begin
             Member.from_payload(request.env['jwt.payload'].symbolize_keys)
-              # Handle race conditions when creating member record.
-              # We do not handle race condition for update operations.
-              # http://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-find_or_create_by
+          # Handle race conditions when creating member record.
+          # We do not handle race condition for update operations.
+          # http://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-find_or_create_by
           rescue ActiveRecord::RecordNotUnique
             retry
           end
@@ -79,7 +80,7 @@ module API
 
         # Add vol for compatibility with old API.
         formatted_ticker = ticker.slice(*permitted_keys)
-                             .merge(vol: ticker[:volume])
+                                 .merge(vol: ticker[:volume])
         { at: ticker[:at],
           ticker: formatted_ticker }
       end
@@ -88,7 +89,12 @@ module API
         per_page = params[:limit] || Kaminari.config.default_per_page
         per_page = [per_page.to_i, Kaminari.config.max_per_page].compact.min
 
-        Kaminari.paginate_array(collection).page(params[:page].to_i).per(per_page).tap do |data|
+        result = if collection.is_a?(::ActiveRecord::Relation)
+                   collection.page(params[:page].to_i).per(per_page)
+                 elsif collection.is_a?(Array)
+                   Kaminari.paginate_array(collection).page(params[:page].to_i).per(per_page)
+                 end
+        result.tap do |data|
           header 'Total',       data.total_count.to_s if include_total
           header 'Per-Page',    data.limit_value.to_s
           header 'Page',        data.current_page.to_s

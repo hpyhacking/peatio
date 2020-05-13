@@ -44,9 +44,14 @@ module API
         get '/orders' do
           authorize! :read, Order
 
+          if params[:uid].present? || params[:email].present?
+            member = Member.find_by('uid = ? OR email = ?', params[:uid], params[:email])
+            params.except!(:uid, :email).merge!(member_id: member.id) if member.present?
+          end
+
           ransack_params = Helpers::RansackBuilder.new(params)
-                             .eq(:price, :origin_volume, :ord_type, :state)
-                             .translate(market: :market_id, uid: :member_uid, email: :member_email)
+                             .eq(:price, :origin_volume, :ord_type, :state, :member_id)
+                             .translate(market: :market_id)
                              .with_daterange
                              .merge({
                                 type_eq: params[:type].present? ? params[:type] == 'buy' ? 'OrderBid' : 'OrderAsk' : nil

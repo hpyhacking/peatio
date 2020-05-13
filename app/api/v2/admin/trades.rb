@@ -29,11 +29,13 @@ module API
         get '/trades' do
           authorize! :read, Trade
 
-          ransack_params = Helpers::RansackBuilder.new(params)
+          member = Member.find_by(uid: params[:uid]) if params[:uid].present?
+
+          ransack_params = Helpers::RansackBuilder.new(params.except!(:uid))
                              .translate(market: :market_id)
                              .with_daterange
                              .merge(g: [
-                               { maker_uid_eq: params[:uid], taker_uid_eq: params[:uid], m: 'or' },
+                               { maker_id_eq: member&.id, taker_id_eq: member&.id, m: 'or' },
                                { maker_order_id_eq: params[:order_id], taker_order_id_eq: params[:order_id], m: 'or' },
                              ]).build
 
