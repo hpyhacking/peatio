@@ -53,13 +53,13 @@ class Deposit < ApplicationRecord
       transitions from: :processing, to: :skipped
     end
     event :process do
-      transitions from: :accepted, to: :processing do
+      transitions from: %i[accepted skipped], to: :processing do
         guard { coin? }
         after :collect!
       end
     end
     event :dispatch do
-      transitions from: %i[processing skipped], to: :collected
+      transitions from: %i[processing], to: :collected
       after do
         account.unlock_funds(amount)
         record_complete_operations!

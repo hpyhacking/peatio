@@ -205,6 +205,45 @@ describe Deposit do
     end
   end
 
+
+  context :processing do
+    let(:crypto_deposit) { create(:deposit_btc, amount: 3.7) }
+
+    before do
+      crypto_deposit.accept!
+      crypto_deposit.process!
+    end
+
+    subject { crypto_deposit }
+
+    it 'commit deposit to collected' do
+      # Minus locked and plus main accounts
+      expect { subject.dispatch! }.to change { Operations::Liability.count }.by(2)
+
+      %i[main locked].each do |kind|
+        expect(
+          subject.member.balance_for(currency: subject.currency, kind: kind)
+        ).to eq(
+          subject.member.legacy_balance_for(currency: subject.currency, kind: kind)
+        )
+      end
+      expect(crypto_deposit.aasm_state).to eq('collected')
+    end
+
+    it 'dispatch deposit to skipped' do
+      # Minus locked and plus main accounts
+      expect { subject.skip! }.to change { Operations::Liability.count }.by(0)
+
+      %i[main locked].each do |kind|
+        expect(
+          subject.member.balance_for(currency: subject.currency, kind: kind)
+        ).to eq(
+          subject.member.legacy_balance_for(currency: subject.currency, kind: kind)
+        )
+      end
+      expect(crypto_deposit.aasm_state).to eq('skipped')
+    end
+  end
   context :dispatch do
     let(:crypto_deposit) { create(:deposit_btc, amount: 3.7) }
 

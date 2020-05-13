@@ -35,11 +35,9 @@ module Workers
 
                 (from_block..bc_service.latest_block_number).each do |block_id|
                   Rails.logger.info { "Started processing #{@blockchain.key} block number #{block_id}." }
-                  ActiveRecord::Base.transaction do
-                    block_json = bc_service.process_block(block_id)
-                    Rails.logger.info { "Fetch #{block_json.transactions.count} transactions in block number #{block_id}." }
-                    bc_service.update_height(block_id)
-                  end
+                  block_json = bc_service.process_block(block_id)
+                  Rails.logger.info { "Fetch #{block_json.transactions.count} transactions in block number #{block_id}." }
+                  bc_service.update_height(block_id)
                   Rails.logger.info { "Finished processing #{@blockchain.key} block number #{block_id}." }
                 end
               rescue StandardError => e
