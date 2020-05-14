@@ -117,10 +117,15 @@ class Market < ApplicationRecord
 
   # == Callbacks ============================================================
 
+  after_initialize :initialize_defaults, if: :new_record?
   before_validation(on: :create) { self.id = "#{base_currency}#{quote_currency}" }
   after_commit { AMQP::Queue.enqueue(:matching, action: 'new', market: id) }
 
   # == Instance Methods =====================================================
+
+  def initialize_defaults
+    self.data = {} if data.blank?
+  end
 
   def name
     "#{base_currency}/#{quote_currency}".upcase
