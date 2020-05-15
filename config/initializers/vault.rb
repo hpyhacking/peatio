@@ -13,17 +13,19 @@ Vault.configure do |config|
   config.application = ENV.fetch('VAULT_APP_NAME', 'peatio')
 end
 
-Thread.new do
-  loop do
-    renew_process
-  rescue StandardError => e
-    report_exception(e)
-    sleep 60
+if Rails.env.production?
+  def renew_process
+    token = Vault.auth_token.lookup(Vault.token)
+    sleep(token.data[:ttl] * (1 + rand) * 0.1)
+    Vault.auth_token.renew(token.data[:id])
   end
-end
 
-def renew_process
-  token = Vault.auth_token.lookup(Vault.token)
-  sleep(token.data[:ttl] * (1 + rand) * 0.1)
-  Vault.auth_token.renew(token.data[:id])
+  Thread.new do
+    loop do
+      renew_process
+    rescue StandardError => e
+      report_exception(e)
+      sleep 60
+    end
+  end
 end
