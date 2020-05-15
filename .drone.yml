@@ -72,11 +72,7 @@ steps:
   when:
     branch:
       - master
-      - 2-0-stable
-      - 2-1-stable
-      - 2-2-stable
-      - 2-3-stable
-      - 2-4-stable
+      - "*-stable"
 
 # Copy bundler cache from the build environment to your host machine.
 # Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
@@ -121,11 +117,7 @@ steps:
   when:
     branch:
       - master
-      - 2-0-stable
-      - 2-1-stable
-      - 2-2-stable
-      - 2-3-stable
-      - 2-4-stable
+      - "*-stable"
 
 # Build and push docker image using ".tags" file.
 - name: docker-build-and-push
@@ -140,11 +132,8 @@ steps:
   when:
     branch:
       - master
-      - 2-0-stable
-      - 2-1-stable
-      - 2-2-stable
-      - 2-3-stable
-      - 2-4-stable
+      - "*-stable"
+      - "integration/*"
 
 # Redeploy on master.devkube.com
 - name: devkube-redeploy
@@ -185,11 +174,7 @@ steps:
   when:
     branch:
       - master
-      - 2-0-stable
-      - 2-1-stable
-      - 2-2-stable
-      - 2-3-stable
-      - 2-4-stable
+      - "*-stable"
 
 # Copy docker cache from the build environment to your host machine.
 # Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
