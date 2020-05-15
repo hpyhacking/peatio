@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :engine do
-    name { Faker::Company.name }
+    name { Faker::Company.unique.bs }
     driver { 'peatio' }
     state { 'online' }
   end

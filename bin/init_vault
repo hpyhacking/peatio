@@ -1,4 +1,10 @@
+#!/usr/bin/env sh
 DOCKER_VAULT_ID=`docker ps | grep vault  | awk '{ print $1 }'`
+
+if [ -z "${DOCKER_VAULT_ID}" ]; then
+    echo "Vault container not found"
+    exit 1
+fi
 
 if [ -z "${VAULT_TOKEN}" ]; then
     VAULT_TOKEN='changeme'
