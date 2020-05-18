@@ -295,10 +295,11 @@ describe API::V2::Admin::Blockchains, type: :request do
       end
 
       context 'deposit' do
-        let(:transaction) { Peatio::Transaction.new(hash: 'fake_txid', to_address: 'fake_address', from_addresses: ['fake_address'],amount: 5, block_number: block_number, currency_id: 'fake', txout: 4, status: 'success') }
+        let(:transaction) { Peatio::Transaction.new(hash: 'fake_txid', from_addresses: ['fake_address'], to_address: 'fake_address', amount: 5, block_number: block_number, currency_id: 'fake', txout: 4, status: 'success') }
+        let(:expected_block) { Peatio::Block.new(block_number, [transaction]) }
 
         before do
-          service.adapter.stubs(:fetch_block!).returns([transaction])
+          service.adapter.stubs(:fetch_block!).returns(expected_block)
         end
 
         it 'detects in the block' do
@@ -343,8 +344,11 @@ describe API::V2::Admin::Blockchains, type: :request do
           Peatio::Transaction.new(hash: 'fake_hash', to_address: 'fake_address', from_addresses: ['fake_address'], amount: 1, block_number: block_number, currency_id: currency.id, txout: 10, status: 'success')
         end
 
+        let(:expected_block) { Peatio::Block.new(block_number, [transaction]) }
+  
+
         before do
-          service.adapter.stubs(:fetch_block!).returns([transaction])
+          service.adapter.stubs(:fetch_block!).returns(expected_block)
           service.adapter.stubs(:fetch_transaction).with(transaction).returns(succeed_transaction)
         end
 

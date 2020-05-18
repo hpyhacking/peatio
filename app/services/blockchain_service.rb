@@ -4,10 +4,10 @@ class BlockchainService
 
   attr_reader :blockchain, :currencies, :adapter
 
-  def initialize(blockchian)
-    @blockchain = blockchian
-    @currencies = blockchian.currencies.deposit_enabled
-    @adapter = Peatio::Blockchain.registry[blockchian.client.to_sym].new
+  def initialize(blockchain)
+    @blockchain = blockchain
+    @currencies = blockchain.currencies.deposit_enabled
+    @adapter = Peatio::Blockchain.registry[blockchain.client.to_sym].new
     @adapter.configure(server: @blockchain.server,
                        currencies: @currencies.map(&:to_blockchain_api_settings))
   end
@@ -61,8 +61,7 @@ class BlockchainService
   private
 
   def filter_deposits(block)
-    # TODO: Process addresses in batch in case of huge number of PA.
-    addresses = PaymentAddress.where(currency: @currencies).pluck(:address).compact
+    addresses = PaymentAddress.where(currency: @currencies, address: block.transactions.map(&:to_address)).pluck(:address)
     block.select { |transaction| transaction.to_address.in?(addresses) }
   end
 
