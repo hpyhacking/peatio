@@ -46,6 +46,7 @@ module API
         mount Management::TradingFees
         mount Management::Currencies
         mount Management::Markets
+        mount Management::Beneficiaries
 
         # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/management/swagger
         # Add swagger documentation for Peatio Management API
