@@ -37,7 +37,7 @@ WORKDIR $APP_HOME
 # Install dependencies defined in Gemfile.
 COPY --chown=app:app Gemfile Gemfile.lock $APP_HOME/
 RUN mkdir -p /opt/vendor/bundle \
-  && gem install bundler:2.0.2 \
+  && gem install bundler:2.1.4 \
   && chown -R app:app /opt/vendor $APP_HOME \
   && su app -s /bin/bash -c "bundle install --jobs $(nproc) --path /opt/vendor/bundle"
 

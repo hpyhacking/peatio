@@ -50,11 +50,10 @@ steps:
     RAILS_ENV: test
   commands:
   - bin/init_config
-  - gem install bundler:2.0.2
+  - gem install bundler:2.1.4
   - bundle install --jobs=$(nproc) --retry=3 --path vendor/bundle
   - bundle exec rake db:create db:migrate
   - LOG_LEVEL=warn bundle exec rspec
-
 
 # Update application version
 - name: git-tag-and-push
@@ -124,7 +123,7 @@ steps:
     EVENT_API_RABBITMQ_HOST: rabbitmq
     REDIS_URL: redis://redis:6379
   commands:
-    - gem install bundler -v 2.0.2
+    - gem install bundler:2.1.4
     - bin/gendocs
   when:
     branch:
