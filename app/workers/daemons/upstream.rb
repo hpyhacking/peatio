@@ -25,6 +25,8 @@ module Workers
             report_exception(e)
             next
           end
+        rescue Peatio::AdapterRegistry::NotRegisteredAdapterError => e
+          report_exception(e)
         end
       end
 
