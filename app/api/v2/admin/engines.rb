@@ -49,6 +49,8 @@ module API
                    desc: -> { 'Credentials for remote engine' }
           optional :secret,
                    desc: -> { 'Credentials for remote engine' }
+          optional :data,
+                   desc: -> { 'Metadata for engine' }
         end
         post '/engines/new' do
           authorize! :create, ::Engine

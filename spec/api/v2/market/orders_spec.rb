@@ -68,6 +68,14 @@ describe API::V2::Market::Orders, type: :request do
       expect(result.size).to eq 4
     end
 
+    it 'returns orders for several markets' do
+      api_get '/api/v2/market/orders', params: { market: ['btcusd', 'btceth'] }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result.size).to eq 5
+    end
+
     it 'returns orders with state done' do
       api_get '/api/v2/market/orders', params: { market: 'btcusd', state: Order::DONE }, token: token
       result = JSON.parse(response.body)

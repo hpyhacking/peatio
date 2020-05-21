@@ -38,6 +38,14 @@ module API
           )
 
           expose(
+            :data,
+            documentation: {
+              type: String,
+              desc: 'Engine metadata'
+            }
+          )
+
+          expose(
             :state,
             documentation: {
               type: String,

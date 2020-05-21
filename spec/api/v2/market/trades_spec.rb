@@ -97,6 +97,14 @@ describe API::V2::Market::Trades, type: :request do
       expect(result.find { |t| t['id'] == btcusd_bid_trade.id }['order_id']).to eq btcusd_bid.id
     end
 
+    it 'returns trades for several markets' do
+      api_get '/api/v2/market/trades', params: { market: ['btcusd', 'btceth'] }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(result.size).to eq 4
+    end
+
     it 'returns 1 trade' do
       api_get '/api/v2/market/trades', params: { market: 'btcusd', limit: 1 }, token: token
       result = JSON.parse(response.body)

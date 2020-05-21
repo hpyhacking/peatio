@@ -84,6 +84,7 @@ describe API::V2::Admin::Engines, type: :request do
         uid: 'UID123456',
         key: 'your_key',
         secret: 'your_secret',
+        data: { some_data: 'some data' }
       }
     end
 
@@ -92,6 +93,7 @@ describe API::V2::Admin::Engines, type: :request do
       result = JSON.parse(response.body)
       expect(response).to be_successful
       expect(result['name']).to eq 'New engine'
+      expect(result['data']).to eq({ 'some_data' => 'some data' })
 
       api_post '/api/v2/admin/engines/new', token: token, params: valid_params
       expect(response).to have_http_status 422
