@@ -10,6 +10,7 @@ namespace :export do
     Rake::Task['export:currencies'].invoke
     Rake::Task['export:markets'].invoke
     Rake::Task['export:wallets'].invoke
+    Rake::Task['export:engines'].invoke
     Rake::Task['export:trading_fees'].invoke
   end
 
@@ -59,6 +60,15 @@ namespace :export do
 
     result.map! { |r| r.except!('id') }
     File.open('config/seed/trading_fees_backup.yml', 'w') do |file|
+      file.write result.to_yaml
+    end
+  end
+
+  desc 'Export engines to yaml file.'
+  task engines: :environment do
+    result = export('Engine')
+
+    File.open('config/seed/engines_backup.yml', 'w') do |file|
       file.write result.to_yaml
     end
   end
@@ -130,8 +140,12 @@ namespace :export do
 
   def export(model_name)
     model_name.constantize.all.map do |m|
-      m.attributes.except('settings_encrypted', 'data_encrypted', 'created_at', 'updated_at')
-       .merge('settings' => m.try(:settings), 'data' => m.try(:data))
+      m.attributes.except('settings_encrypted', 'data_encrypted', 'created_at',
+                          'updated_at', 'key', 'secret')
+       .merge('settings' => m.try(:settings),
+              'data' => m.try(:data),
+              'key' => m.try(:key),
+              'secret' => m.try(:secret))
     end.map { |r| r.transform_values! { |v| v.is_a?(BigDecimal) ? v.to_f : v } }.map(&:compact)
   end
 end
