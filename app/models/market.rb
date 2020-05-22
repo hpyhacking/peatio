@@ -113,6 +113,7 @@ class Market < ApplicationRecord
   # == Scopes ===============================================================
 
   scope :ordered, -> { order(position: :asc) }
+  scope :active, -> { where(state: %i[enabled hidden]) }
   scope :enabled, -> { where(state: :enabled) }
 
   # == Callbacks ============================================================

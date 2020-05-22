@@ -70,7 +70,7 @@ module API
       memoize :current_user
 
       def current_market
-        ::Market.enabled.find_by_id(params[:market])
+        ::Market.active.find_by_id(params[:market])
       end
       memoize :current_market
 

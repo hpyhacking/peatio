@@ -2,7 +2,7 @@ module Jobs
   module Cron
     class KLine
       def self.process
-        Market.enabled.each do |market|
+        Market.active.each do |market|
           ::KLineService::AVAILABLE_POINT_PERIODS.each do |period|
             service = ::KLineService[market.id, period]
             point = service.get_ohlc(order_by: :desc, limit: 1, offset: false).first

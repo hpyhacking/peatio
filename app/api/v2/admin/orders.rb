@@ -92,7 +92,7 @@ module API
         desc 'Cancel all orders.'
         params do
           requires :market,
-                   values: { value: -> { ::Market.enabled.ids }, message: 'admin.order.market_doesnt_exist' },
+                   values: { value: -> { ::Market.active.ids }, message: 'admin.order.market_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Order.documentation[:id][:desc] }
           optional :side,
                    values: { value: %w(sell buy), message: 'admin.order.invalid_side' },

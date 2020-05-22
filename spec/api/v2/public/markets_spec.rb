@@ -22,6 +22,17 @@ describe API::V2::Public::Markets, type: :request do
       end
     end
 
+    context 'api will return hidden markets' do
+      before { create(:market, :btceur, state: :hidden) }
+      it 'returns hidden market' do
+        get '/api/v2/public/markets'
+        expect(response).to be_successful
+        result = JSON.parse(response.body)
+
+        expect(result.find { |currency| currency['id'] == 'btceur' }['state']).to eq('hidden')
+      end
+    end
+
     context 'pagination' do
       it 'returns paginated markets' do
         get '/api/v2/public/markets', params: { limit: 2 }

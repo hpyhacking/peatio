@@ -3,7 +3,7 @@ module Jobs
     class Ticker
       def self.process
         @tickers = {}
-        Market.enabled.each do |market|
+        Market.active.each do |market|
           service = TickersService[market]
           @tickers[market.id] = service.ticker
         end

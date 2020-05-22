@@ -13,7 +13,7 @@ module API
         params do
           optional :uid,      type: String,  desc: 'The shared user ID.'
           optional :market, type: String,
-                   values: { value: -> { ::Market.enabled.ids },
+                   values: { value: -> { ::Market.active.ids },
                    message: 'Market does not exist' }
           optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'The page number (defaults to 1).'
           optional :limit,    type: Integer, default: 100, range: 1..1000, desc: 'The number of objects per page (defaults to 100, maximum is 1000).'

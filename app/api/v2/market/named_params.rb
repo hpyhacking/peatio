@@ -10,7 +10,7 @@ module API
         params :enabled_markets do
           requires :market,
                    type: String,
-                   values: { value: -> { ::Market.enabled.ids }, message: 'market.market.doesnt_exist_or_not_enabled' },
+                   values: { value: -> { ::Market.active.ids }, message: 'market.market.doesnt_exist_or_not_enabled' },
                    desc: -> { V2::Entities::Market.documentation[:id] }
         end
 
