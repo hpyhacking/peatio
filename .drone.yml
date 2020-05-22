@@ -43,7 +43,7 @@ steps:
   image: ruby:2.6.5
   environment:
     DATABASE_HOST: database
-    INFLUXDB_HOST: influxdb
+    INFLUXDB_SERVICE_HOST: influxdb
     RABBITMQ_HOST: rabbitmq
     EVENT_API_RABBITMQ_HOST: rabbitmq
     REDIS_URL: redis://redis:6379
