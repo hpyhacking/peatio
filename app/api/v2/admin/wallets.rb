@@ -13,7 +13,7 @@ module API
             settings: {
               type: { value: JSON, message: 'admin.wallet.non_json_settings' },
               default: {},
-              desc: -> { API::V2::Admin::Entities::Wallet.documentation[:settings][:desc] }
+              desc: -> { 'Wallet settings' }
             },
             max_balance: {
               type: { value: BigDecimal, message: 'admin.blockchain.non_decimal_max_balance' },

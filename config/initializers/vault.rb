@@ -13,7 +13,7 @@ Vault.configure do |config|
   config.application = ENV.fetch('VAULT_APP_NAME', 'peatio')
 end
 
-if Rails.env.production?
+if Rails.env.production? && ENV.fetch('VAULT_RENEW', false)
   def renew_process
     token = Vault.auth_token.lookup(Vault.token)
     sleep(token.data[:ttl] * (1 + rand) * 0.1)

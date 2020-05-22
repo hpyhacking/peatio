@@ -38,7 +38,7 @@ describe API::V2::Admin::Wallets, type: :request do
       expect(response).to be_successful
       result = JSON.parse(response.body)
 
-      expect(result['settings']).not_to include('secret')
+      expect(result).not_to include('settings')
     end
 
     it 'retunrs NA balance if node not accessible' do

@@ -96,7 +96,7 @@ module API
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:explorer_address][:desc] }
             optional :server,
                      regexp: { value: URI::regexp, message: 'admin.blockchain.invalid_server' },
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:server][:desc] }
+                     desc: -> { 'Blockchain server url' }
             optional :status,
                      values: { value: %w(active disabled), message: 'admin.blockchain.invalid_status' },
                      default: 'active',
@@ -140,7 +140,7 @@ module API
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:client][:desc] }
             optional :server,
                      regexp: { value: URI::regexp, message: 'admin.blockchain.invalid_server' },
-                     desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:server][:desc] }
+                     desc: -> { 'Blockchain server url' }
             optional :height,
                      type: { value: Integer, message: 'admin.blockchain.non_integer_height' },
                      values: { value: -> (p){ p.try(:positive?) }, message: 'admin.blockchain.non_positive_height' },

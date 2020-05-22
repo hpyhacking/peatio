@@ -88,16 +88,6 @@ module API
           )
 
           expose(
-            :settings,
-            documentation: {
-              type: JSON,
-              desc: 'Wallet settings.'
-            }
-          ) do |wallet, _options|
-            wallet.settings.except('secret')
-          end
-
-          expose(
             :created_at,
             format_with: :iso8601,
             documentation: {

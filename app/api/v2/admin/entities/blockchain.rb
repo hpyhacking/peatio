@@ -39,14 +39,6 @@ module API
           )
 
           expose(
-            :server,
-            documentation:{
-              type: String,
-              desc: 'Blockchain server url.'
-            }
-          )
-
-          expose(
             :height,
             documentation:{
               type: Integer,
