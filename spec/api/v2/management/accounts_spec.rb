@@ -37,4 +37,41 @@ describe API::V2::Management::Deposits, type: :request do
       )
     end
   end
+
+  describe 'get balances' do
+    def request
+      post_json '/api/v2/management/accounts/balances', multisig_jwt_management_api_v1({ data: data }, *signers)
+    end
+
+    let(:data) { { currency: 'usd'} }
+    let(:signers) { %i[alex jeff] }
+    let!(:members) { create_list(:member, 12, :barong) }
+    let!(:deposits) do
+      members.each do |member|
+        create(:deposit_usd, member: member).accept
+      end
+    end
+
+    it 'returns the correct status code' do
+      request
+      expect(response).to have_http_status(200)
+    end
+
+    it 'paginates' do
+      balances = Account.order(id: :asc).pluck(:balance)
+      data.merge!(page: 1, limit: 4)
+      request
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body).map { |x| x.fetch('balance').to_f }).to eq balances[0...4].map(&:to_f)
+      data.merge!(page: 3, limit: 4)
+      request
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body).map { |x| x.fetch('balance').to_f }).to eq balances[8...12].map(&:to_f)
+    end
+
+    it 'contains the correct response data' do
+      request
+      expect(JSON.parse(response.body).map { |x| x.fetch('balance').to_f }).to eq Account.order(id: :asc).pluck(:balance).map(&:to_f)
+    end
+  end
 end
