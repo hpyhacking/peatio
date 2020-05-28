@@ -93,7 +93,7 @@ describe API::V2::Admin::Engines, type: :request do
       result = JSON.parse(response.body)
       expect(response).to be_successful
       expect(result['name']).to eq 'New engine'
-      expect(result['data']).to eq({ 'some_data' => 'some data' })
+      expect(result['data'].blank?).to eq true
 
       api_post '/api/v2/admin/engines/new', token: token, params: valid_params
       expect(response).to have_http_status 422
