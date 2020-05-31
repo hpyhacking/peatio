@@ -23,6 +23,8 @@ module API
                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:address][:desc] }
           optional :tid,
                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:tid][:desc] }
+          optional :email,
+                  desc: -> { API::V2::Admin::Entities::Deposit.documentation[:email][:desc] }
           use :uid
           use :currency
           use :currency_type
@@ -35,7 +37,7 @@ module API
 
           ransack_params = Helpers::RansackBuilder.new(params)
                              .eq(:id, :txid, :tid, :address)
-                             .translate(state: :aasm_state, uid: :member_uid, currency: :currency_id)
+                             .translate(state: :aasm_state, uid: :member_uid, currency: :currency_id, email: :member_email)
                              .with_daterange
                              .merge(type_eq: params[:type].present? ? "Deposits::#{params[:type]}" : nil)
                              .build

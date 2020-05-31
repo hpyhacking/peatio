@@ -99,6 +99,21 @@ describe API::V2::Admin::Deposits, type: :request do
         expect(actual.map { |a| a['member'] }).to match_array expected.map(&:member_id)
         expect(actual.map { |a| a['type'] }).to all eq 'coin'
       end
+
+      it 'by email' do
+        api_get url, token: token, params: { email: level_3_member.email }
+
+        expected = (coin_deposits + fiat_deposits).select { |d| d.member.email == level_3_member.email }
+
+        expect(response_body.length).to eq expected.length
+        expect(response_body.map { |a| a['state'] }).to match_array expected.map(&:aasm_state)
+        expect(response_body.map { |a| a['id'] }).to match_array expected.map(&:id)
+        expect(response_body.map { |a| a['currency'] }).to match_array expected.map(&:currency_id)
+        expect(response_body.map { |a| a['member'] }).to all eq level_3_member.id
+        expect(response_body.map { |a| a['type'] }).to match_array(expected.map { |d| d.coin? ? 'coin' : 'fiat' })
+        expect(response_body.map { |a| a['uid'] }).to match_array(expected.map { |d| d.member.uid })
+        expect(response_body.map { |a| a['email'] }).to match_array(expected.map { |d| d.member.email })
+      end
     end
   end
 
