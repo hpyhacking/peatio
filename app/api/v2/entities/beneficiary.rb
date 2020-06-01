@@ -55,6 +55,15 @@ module API
             type: String
           }
         )
+
+        expose(
+            :sent_at,
+            format_with: :iso8601,
+            documentation: {
+                desc: 'Time when last pin was sent',
+                type: String
+            }
+        )
       end
     end
   end

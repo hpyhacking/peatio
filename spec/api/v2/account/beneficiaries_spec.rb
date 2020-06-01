@@ -540,6 +540,130 @@ describe API::V2::Account::Beneficiaries, 'PATCH /activate', type: :request do
   end
 end
 
+describe API::V2::Account::Beneficiaries, 'PATCH /resend_pin', type: :request do
+
+  let(:member) { create(:member, :level_3) }
+  let(:token) { jwt_for(member) }
+
+  def response_body
+    JSON.parse(response.body)
+  end
+
+  context 'invalid params' do
+    let!(:pending_beneficiary) { create(:beneficiary, member: member) }
+
+    let(:resend_data) do
+      { id: pending_beneficiary.id }
+    end
+
+    context 'id has invalid type' do
+      let(:endpoint) do
+        "/api/v2/account/beneficiaries/id/resend_pin"
+      end
+
+      it do
+        api_patch endpoint, params: resend_data.merge(id: :id), token: token
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('account.beneficiary.non_integer_id')
+      end
+    end
+  end
+
+  context 'pending beneficiary' do
+    let(:endpoint) do
+      "/api/v2/account/beneficiaries/#{pending_beneficiary.id}/resend_pin"
+    end
+
+    let(:resend_data) do
+      { id: pending_beneficiary.id }
+    end
+
+    let!(:pending_beneficiary) { create(:beneficiary, member: member) }
+
+    context '1 minute from last request on create or resend passed' do
+      it do
+        pending_beneficiary.update(sent_at: 1.minute.ago)
+        api_patch endpoint, params: resend_data, token: token
+        expect(response.status).to eq 204
+      end
+    end
+
+    context '1 minute from last request on create or resend not passed' do
+      it do
+        api_patch endpoint, params: resend_data, token: token
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('account.beneficiary.cant_resend_within_1_minute')
+        expect(response_body.include?("sent_at")).to eq true
+      end
+    end
+  end
+
+  context 'active beneficiary' do
+    let(:endpoint) do
+      "/api/v2/account/beneficiaries/#{active_beneficiary.id}/resend_pin"
+    end
+
+    let(:resend_data) do
+      { id: active_beneficiary.id }
+    end
+
+    let!(:active_beneficiary) { create(:beneficiary, state: :active, member: member) }
+
+    context '1 minute from last request on create or resend passed' do
+      it do
+        api_patch endpoint, params: resend_data, token: token
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('account.beneficiary.cant_resend')
+      end
+    end
+
+    context '1 minute from last request on create or resend not passed' do
+      it do
+        api_patch endpoint, params: resend_data, token: token
+        expect(response.status).to eq 422
+        expect(response).to include_api_error('account.beneficiary.cant_resend')
+      end
+    end
+  end
+
+  context 'archived beneficiary' do
+    let(:endpoint) do
+      "/api/v2/account/beneficiaries/#{archived_beneficiary.id}/resend_pin"
+    end
+
+    let(:resend_data) do
+      { id:  archived_beneficiary.id }
+    end
+
+    let!(:archived_beneficiary) { create(:beneficiary, state: :archived, member: member) }
+
+    it do
+      api_patch endpoint, params: resend_data, token: token
+      expect(response.status).to eq 404
+    end
+  end
+
+  context 'other user beneficiary' do
+    let(:member2) { create(:member, :level_3) }
+
+    let(:endpoint) do
+      "/api/v2/account/beneficiaries/#{pending_beneficiary.id}/resend_pin"
+    end
+
+    let(:activation_data) do
+      { id:  pending_beneficiary.id,
+        pin: pending_beneficiary.pin }
+    end
+
+    let!(:pending_beneficiary) { create(:beneficiary, member: member2) }
+
+    it do
+      api_patch endpoint, params: activation_data, token: token
+      expect(response.status).to eq 404
+    end
+  end
+end
+
 describe API::V2::Account::Beneficiaries, 'DELETE /:id', type: :request do
 
   let(:member) { create(:member, :level_3) }

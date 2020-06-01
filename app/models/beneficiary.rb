@@ -22,8 +22,6 @@ class Beneficiary < ApplicationRecord
 
   # == Attributes ===========================================================
 
-  attr_readonly :pin
-
   # == Extensions ===========================================================
 
   enumerize :state, in: STATES_MAPPING, scope: true
@@ -82,6 +80,8 @@ class Beneficiary < ApplicationRecord
 
     # Generate Beneficiary Pin
     self.pin ||= self.class.generate_pin
+    # Record time when we send event to Event API
+    self.sent_at = Time.now
   end
 
   # == Class Methods ========================================================
@@ -107,6 +107,7 @@ class Beneficiary < ApplicationRecord
       data:        data,
       pin:         pin,
       state:       state,
+      sent_at:     sent_at.iso8601,
       created_at:  created_at.iso8601,
       updated_at:  updated_at.iso8601 }
   end
@@ -124,6 +125,10 @@ class Beneficiary < ApplicationRecord
 
   def rid
     currency.coin? ? coin_rid : fiat_rid
+  end
+
+  def regenerate_pin!
+    update(pin: self.class.generate_pin, sent_at: Time.now)
   end
 
   private

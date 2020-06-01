@@ -4,17 +4,6 @@
 # TODO: AASM tests.
 # TODO: Event API tests.
 
-describe Beneficiary, 'Attributes' do
-  context 'attr_readonly pin' do
-    subject { create(:beneficiary, pin: 123_456) }
-
-    it 'doesn\'t allow to update' do
-      subject.update!(pin: 654_321)
-      expect(subject.reload.pin).to eq(123_456)
-    end
-  end
-end
-
 describe Beneficiary, 'Relationships' do
   context 'beneficiary build by factory' do
     subject { build(:beneficiary) }
@@ -107,6 +96,16 @@ describe Beneficiary, 'Callback' do
       expect(subject.pin).to eq(pin)
     end
   end
+
+  context 'before_create' do
+    subject { build(:beneficiary) }
+    it 'generates sent_at' do
+      expect(subject.sent_at).to be_nil
+      subject.save!
+      expect(subject.sent_at).to_not be_nil
+      expect(subject.sent_at).to eq(subject.created_at)
+    end
+  end
 end
 
 describe Beneficiary, 'Instance Methods' do
@@ -141,6 +140,20 @@ describe Beneficiary, 'Instance Methods' do
       it do
         expect(subject.rid).to include(address)
       end
+    end
+  end
+
+  context 'regenerate pin' do
+    subject { create(:beneficiary) }
+
+    it do
+      sent_at = subject.sent_at
+      pin = subject.pin
+
+      Time.stubs(:now).returns(Time.mktime(1970,1,1))
+      subject.regenerate_pin!
+      expect(subject.pin).to_not eq(pin)
+      expect(subject.sent_at).to_not eq(sent_at)
     end
   end
 end

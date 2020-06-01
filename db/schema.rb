@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_13_153429) do
+ActiveRecord::Schema.define(version: 2020_05_27_130534) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2020_05_13_153429) do
     t.string "description", default: ""
     t.json "data"
     t.integer "pin", limit: 3, null: false, unsigned: true
+    t.datetime "sent_at"
     t.integer "state", limit: 1, default: 0, null: false, unsigned: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
