@@ -507,7 +507,7 @@ DEPENDENCIES
   peatio-bitcoincash (~> 2.6.0)
   peatio-bitgo (~> 2.6.0)
   peatio-dash (~> 2.6.0)
-  peatio-electrum (~> 2.6.0)
+  peatio-electrum (~> 2.6.1)
   peatio-litecoin (~> 2.6.0)
   peatio-ripple (~> 2.6.0)
   pry-byebug (~> 3.7)
