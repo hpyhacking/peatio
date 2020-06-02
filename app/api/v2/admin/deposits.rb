@@ -97,7 +97,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:tid][:desc] }
         end
         post '/deposits/new' do
-          authorize! :create, Deposit
+          authorize! :create, ::Deposits::Fiat
 
           declared_params = declared(params, include_missing: false)
           member   = Member.find_by(uid: declared_params[:uid])

@@ -66,7 +66,7 @@ module API
             present trading_fee, with: API::V2::Admin::Entities::TradingFee
             status 201
           else
-            body errors: trading_fees.errors.full_messages
+            body errors: trading_fee.errors.full_messages
             status 422
           end
         end

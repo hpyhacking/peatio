@@ -143,6 +143,16 @@ describe API::V2::Admin::TradingFees, type: :request do
         expect(response).to include_api_error('admin.trading_fee.invalid_taker')
       end
     end
+
+    context 'invalid maker/taker fee' do
+      it 'returns status 422 and error' do
+        api_post '/api/v2/admin/trading_fees/new', token: token, params: { taker: 1, maker: 1, group: 'vip-1', market_id: 'btcusd' }
+
+        expect(response).to have_http_status(422)
+        expect(response).to include_api_error('Maker must be less than or equal to 0.5')
+        expect(response).to include_api_error('Taker must be less than or equal to 0.5')
+      end
+    end
   end
 
   describe 'POST /trading_fees/update' do
