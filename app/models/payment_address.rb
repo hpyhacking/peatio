@@ -26,10 +26,9 @@ class PaymentAddress < ApplicationRecord
   end
 
   def enqueue_address_generation
-    if address.blank? && currency.coin?
+    if currency.coin?
       AMQP::Queue.enqueue(:deposit_coin_address, { account_id: account.id }, { persistent: true })
     end
-    self
   end
 
   def format_address(format)

@@ -33,8 +33,15 @@ class Account < ApplicationRecord
   # Returns active deposit address for account or creates new if any exists.
   def payment_address
     return unless currency.coin?
+    pa = payment_addresses.last
 
-    payment_addresses.last&.enqueue_address_generation || payment_addresses.create!(currency: currency)
+    if pa.blank?
+      pa = payment_addresses.create!(currency: currency)
+    elsif pa.address.blank?
+      pa.enqueue_address_generation
+    end
+
+    pa
   end
 
   # Attempts to create additional deposit address for account.

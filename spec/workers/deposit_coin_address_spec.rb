@@ -54,5 +54,24 @@ describe Workers::AMQP::DepositCoinAddress do
                  .slice(:address, :secret, :details)).to eq(create_address_result.merge(details: {}))
       end
     end
+
+    context 'should skip address with details' do
+      let(:create_address_result) do
+        { address: nil,
+          secret: secret,
+          details: {
+            address_id: 'address_id'
+          } }
+      end
+
+      it 'shouldnt create address' do
+        Workers::AMQP::DepositCoinAddress.new.process(account_id: account.id)
+        expect(subject).to eq nil
+        payment_address.reload
+        expect(payment_address.as_json
+                 .deep_symbolize_keys
+                 .slice(:address, :secret, :details)).to eq(create_address_result.merge(details: {:address_id=>"address_id"}))
+      end
+    end
   end
 end

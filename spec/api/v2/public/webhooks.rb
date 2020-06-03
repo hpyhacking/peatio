@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe API::V2::Public::Webhooks, type: :request do
-  describe 'GET /trading_fees' do
+  describe 'GET /webhooks/:event' do
 
     let(:member) { create(:member) }
 
@@ -29,12 +29,12 @@ describe API::V2::Public::Webhooks, type: :request do
     end
 
     let!(:wallet) { create(:wallet, :eth_deposit, name: 'Bitgo Deposit',
-                          gateway: :bitgo, settings: 
+                          gateway: :bitgo, settings:
                           { uri: 'http://localhost',
                             secret: 'changeme',
-                            bitgo_wallet_id: '5e4d43680f39a6710435b74edba4e2c2',
-                            bitgo_access_token: 'changeme',
-                            bitgo_test_net: false }) }
+                            wallet_id: '5e4d43680f39a6710435b74edba4e2c2',
+                            access_token: 'changeme',
+                            testnet: false }) }
 
     let(:request_body) {
       { 'event' => 'deposit',
@@ -72,7 +72,6 @@ describe API::V2::Public::Webhooks, type: :request do
           'version' => '2' }
       }
 
-
       it 'doesnt create deposit and return 200' do
         expect do
           api_post '/api/v2/public/webhooks/deposit', params: request_body
@@ -82,7 +81,7 @@ describe API::V2::Public::Webhooks, type: :request do
       end
     end
 
-    context 'valid webhook callback' do 
+    context 'valid webhook callback' do
 
       before do
         member.get_account(:eth).payment_addresses.create(currency_id: :eth, address: '0x1ef338196bd0207ba4852ba7a6847eed59331b84')
@@ -136,6 +135,58 @@ describe API::V2::Public::Webhooks, type: :request do
         api_post '/api/v2/public/webhooks/deposit', params: request_body
         expect(response.status).to eq 422
         expect(response).to include_api_error('public.webhook.cannot_perfom_transfer')
+      end
+    end
+
+    context 'address confirmation event' do
+      let(:request_body) {
+        { 'event' => 'deposit',
+          'address' => '0xa049b0202ba078caa723c6b59594247b0c9f33e24878950f8537cedff9ea20ac',
+          'type' => 'address_confirmation',
+          'walletId' => '5e4e824894d4902c060f20c28b161fa8',
+          'hash' => '0xa049b0202ba078caa723c6b59594247b0c9f33e24878950f8537cedff9ea20ac',
+        }
+      }
+
+      context 'valid webhook callback' do
+        context 'update payment address' do
+          before do
+            member.get_account(:eth).payment_addresses.create(currency_id: :eth, address: nil, details: { address_id: 'address_id' })
+            WalletService.any_instance.stubs(:trigger_webhook_event).with(request_body).returns({ address_id: 'address_id', currency_id: 'eth' })
+          end
+
+          it 'should create address for member' do
+            api_post '/api/v2/public/webhooks/deposit', params: request_body
+            expect(response.status).to eq 200
+            expect(member.get_account(:eth).payment_addresses[0].address).to eq request_body['address']
+          end
+        end
+
+        context 'skip payment address' do
+          before do
+            member.get_account(:eth).payment_addresses.create(currency_id: :eth, address: request_body['address'], details: { address_id: 'address_id' })
+            WalletService.any_instance.stubs(:trigger_webhook_event).with(request_body).returns({ address_id: 'address_id', currency_id: 'eth' })
+          end
+
+          it 'should not update address if address already exists' do
+            api_post '/api/v2/public/webhooks/deposit', params: request_body
+            expect(response.status).to eq 200
+            expect(member.get_account(:eth).payment_addresses[0].created_at).to eq member.get_account(:eth).payment_addresses[0].updated_at
+          end
+        end
+      end
+
+      context 'adapter raises error invalid' do
+        before do
+          member.get_account(:eth).payment_addresses.create(currency_id: :eth, address: nil, details: { address_id: 'address_id' })
+          WalletService.any_instance.stubs(:trigger_webhook_event).with(request_body).raises(Peatio::Wallet::ClientError.new('something went wrong'))
+        end
+
+        it 'returns error' do
+          api_post '/api/v2/public/webhooks/deposit', params: request_body
+          expect(response.status).to eq 422
+          expect(response).to include_api_error('public.webhook.cannot_perfom_address_confirmation')
+        end
       end
     end
   end

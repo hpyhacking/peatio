@@ -27,15 +27,14 @@ module Workers
             next if pa.address.present?
 
             # Supply address ID in case of BitGo address generation if it exists.
-            result = wallet_service.create_address!(acc, pa.details)
+            result = wallet_service.create_address!(acc, pa.details.merge(updated_at: pa.updated_at))
 
-            pa.update!(address: result[:address],
-                       secret:  result[:secret],
-                       details: result.fetch(:details, {}).merge(pa.details))
+            if result.present?
+              pa.update!(address: result[:address],
+                         secret:  result[:secret],
+                         details: result.fetch(:details, {}).merge(pa.details))
+            end
           end
-
-          # Enqueue address generation again if address is not provided.
-          pa.enqueue_address_generation if pa.address.blank?
 
           pa.trigger_address_event unless pa.address.blank?
         end

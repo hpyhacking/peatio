@@ -61,6 +61,29 @@ describe Account do
       subject { create_account(:usd).payment_address }
       it { is_expected.to be_nil }
     end
+
+    context 'coin currency' do
+      context 'address blank' do
+        let(:account) { create_account(:eth) }
+        subject { account.payment_address }
+        it do
+          AMQP::Queue.expects(:enqueue).with(:deposit_coin_address, { account_id: account.id }, { persistent: true })
+          expect(is_expected).to_not be_nil
+          expect(is_expected.target.currency_id).to eq 'eth'
+          expect(is_expected.target.address).to eq nil
+        end
+      end
+
+      context 'there is no payment address' do
+        let(:account) { create_account(:eth) }
+        it do
+          pa = account.payment_address
+          expect(account).to_not be_nil
+          expect(pa.currency_id).to eq 'eth'
+          expect(pa.address).to eq nil
+        end
+      end
+    end
   end
 
   describe 'concurrent lock_funds' do

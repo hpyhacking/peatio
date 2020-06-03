@@ -7,11 +7,10 @@ describe PaymentAddress do
     let!(:account) { member.get_account(:btc) }
     let(:secret) { 's3cr3t' }
     let(:details) { { 'a' => 'b', 'b' => 'c' } }
-    let!(:addr) { create(:payment_address, :btc_address, secret: secret) }
+    let!(:addr) { create(:payment_address, :btc_address, address: nil, secret: secret, account_id: account.id) }
 
     it 'generate address after commit' do
-      AMQP::Queue.expects(:enqueue)
-               .with(:deposit_coin_address, { account_id: account.id }, { persistent: true })
+      AMQP::Queue.expects(:enqueue).with(:deposit_coin_address, { account_id: account.id }, { persistent: true })
       account.payment_address
     end
 

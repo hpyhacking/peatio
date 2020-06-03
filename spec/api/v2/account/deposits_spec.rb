@@ -161,21 +161,35 @@ describe API::V2::Account::Deposits, type: :request do
     end
 
     context 'successful' do
-      before { member.get_account(:bch).payment_address.update!(address: '2N2wNXrdo4oEngp498XGnGCbru29MycHogR') }
+      context 'eth address' do
+        let(:currency) { :eth }
+        before { member.get_account(:eth).payment_address.update!(address: '2N2wNXrdo4oEngp498XGnGCbru29MycHogR') }
+
+        it 'expose data about eth address' do
+          api_get "/api/v2/account/deposit_address/#{currency}", token: token
+          expect(response.body).to eq '{"currency":"eth","address":"2n2wnxrdo4oengp498xgngcbru29mychogr","state":"active"}'
+        end
+
+        it 'pending user address state' do
+          member.get_account(:eth).payment_address.update!(address: nil)
+          api_get "/api/v2/account/deposit_address/#{currency}", token: token
+          expect(response.body).to eq '{"currency":"eth","address":null,"state":"pending"}'
+        end
+      end
 
       xit 'doesn\'t expose sensitive data' do
         api_get "/api/v2/account/deposit_address/#{currency}", token: token
-        expect(response.body).to eq '{"currency":"bch","address":"bchtest:pp49pee25hv4esy7ercslnvnvxqvk5gjdv5a06mg35"}'
+        expect(response.body).to eq '{"currency":"bch","address":"bchtest:pp49pee25hv4esy7ercslnvnvxqvk5gjdv5a06mg35","state": "active"}'
       end
 
       xit 'return cash address' do
         api_get "/api/v2/account/deposit_address/#{currency}", params: { address_format: 'cash'}, token: token
-        expect(response.body).to eq '{"currency":"bch","address":"bchtest:pp49pee25hv4esy7ercslnvnvxqvk5gjdv5a06mg35"}'
+        expect(response.body).to eq '{"currency":"bch","address":"bchtest:pp49pee25hv4esy7ercslnvnvxqvk5gjdv5a06mg35","state": "active"}'
       end
 
       xit 'return legacy address' do
         api_get "/api/v2/account/deposit_address/#{currency}", params: { address_format: 'legacy'}, token: token
-        expect(response.body).to eq '{"currency":"bch","address":"2N2wNXrdo4oEngp498XGnGCbru29MycHogR"}'
+        expect(response.body).to eq '{"currency":"bch","address":"2N2wNXrdo4oEngp498XGnGCbru29MycHogR","state": "active"}'
       end
     end
 
