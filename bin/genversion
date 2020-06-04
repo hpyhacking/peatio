@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -ex
+
+test -f .tags
+VERSION=$(<.tags)
+
+cat > config/initializers/versioning.rb << EOF
+# encoding: UTF-8
+# frozen_string_literal: true
+# This file is auto-generated from the current state of VCS.
+# Instead of editing this file, please use bin/gendocs.
+
+module Peatio
+  class Application
+    GIT_TAG =    '${VERSION}'
+    GIT_SHA =    '$(git rev-parse --short HEAD)'
+    BUILD_DATE = '$(date -u +"%Y-%m-%d %T")'
+    VERSION =    GIT_TAG
+  end
+end
+EOF

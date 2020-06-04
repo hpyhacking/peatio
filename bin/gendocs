@@ -8,24 +8,6 @@ if [ -f tmp/pids/server.pid ]; then
   kill $(cat tmp/pids/server.pid)
 fi
 
-if [ -n "${V}" ]; then
-cat > config/initializers/versioning.rb << EOF
-# encoding: UTF-8
-# frozen_string_literal: true
-# This file is auto-generated from the current state of VCS.
-# Instead of editing this file, please use bin/gendocs.
-
-module Peatio
-  class Application
-    GIT_TAG =    '${V}'
-    GIT_SHA =    '$(git rev-parse --short HEAD)'
-    BUILD_DATE = '$(date --rfc-3339=seconds)'
-    VERSION =    GIT_TAG
-  end
-end
-EOF
-fi
-
 bundle install
 # Generate seed files.
 bin/init_config
