@@ -5,8 +5,11 @@ module Ethereum
 
     DEFAULT_ERC20_FEE = { gas_limit: 90_000, gas_price: 1_000_000_000 }.freeze
 
-    def initialize(settings = {})
-      @settings = settings
+    DEFAULT_FEATURES = { skip_deposit_collection: false }.freeze
+
+    def initialize(custom_features = {})
+      @features = DEFAULT_FEATURES.merge(custom_features).slice(*SUPPORTED_FEATURES)
+      @settings = {}
     end
 
     def configure(settings = {})

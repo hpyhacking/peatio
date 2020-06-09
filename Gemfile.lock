@@ -6,6 +6,26 @@ GIT
       rails (>= 4.1)
       vault (~> 0.5)
 
+GIT
+  remote: https://github.com/openware/peatio-core
+  revision: 8307870d0dcf8afa45da7674a86040d55070b661
+  branch: enhancement/add-wallet-features
+  specs:
+    peatio (2.6.0)
+      activemodel (> 5.2, <= 6.0.0)
+      amqp
+      bunny
+      clamp
+      em-synchrony (~> 1.0)
+      em-websocket
+      eventmachine
+      faraday_middleware (~> 0.13.1)
+      faye (~> 1.2)
+      jwt
+      mysql2
+      prometheus-client
+      thin
+
 GEM
   remote: https://rubygems.org/
   specs:

@@ -9,7 +9,9 @@ class FakeBlockchain < Peatio::Blockchain::Abstract
 end
 
 class FakeWallet < Peatio::Wallet::Abstract
-  def initialize; end
+  def initialize(features = {})
+    @features = features
+  end
 
   def configure(settings = {}); end
 end

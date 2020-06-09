@@ -3,7 +3,7 @@ class WalletService
 
   def initialize(wallet)
     @wallet = wallet
-    @adapter = Peatio::Wallet.registry[wallet.gateway.to_sym].new
+    @adapter = Peatio::Wallet.registry[wallet.gateway.to_sym].new(wallet.settings)
     @adapter.configure(wallet: @wallet.to_wallet_api_settings,
                        currency: @wallet.currency.to_blockchain_api_settings)
   end
@@ -25,10 +25,11 @@ class WalletService
         .map do |w|
         # NOTE: Consider min_collection_amount is defined per wallet.
         #       For now min_collection_amount is currency config.
-        { address:               w.address,
-          balance:               w.current_balance,
-          max_balance:           w.max_balance,
-          min_collection_amount: @wallet.currency.min_collection_amount }
+        { address:                 w.address,
+          balance:                 w.current_balance,
+          max_balance:             w.max_balance,
+          min_collection_amount:   @wallet.currency.min_collection_amount,
+          skip_deposit_collection: w.service.skip_deposit_collection? }
       end
     raise StandardError, "destination wallets don't exist" if destination_wallets.blank?
 
@@ -106,6 +107,10 @@ class WalletService
     @adapter.trigger_webhook_event(event)
   end
 
+  def skip_deposit_collection?
+    @adapter.features[:skip_deposit_collection]
+  end
+
   private
 
   # @return [Array<Peatio::Transaction>] result of spread in form of
@@ -136,9 +141,11 @@ class WalletService
         left_amount = 0
       end
 
-      Peatio::Transaction.new(to_address:   dw[:address],
-                              amount:       amount_for_wallet,
-                              currency_id:  @wallet.currency_id)
+      transaction = Peatio::Transaction.new(to_address:  dw[:address],
+                                            amount:      amount_for_wallet,
+                                            currency_id: @wallet.currency_id)
+      transaction.status = :skipped if dw[:skip_deposit_collection]
+      transaction
     rescue => e
       # If have exception skip wallet.
       report_exception(e)
@@ -151,11 +158,12 @@ class WalletService
       left_amount = 0
     end
 
-    # Remove zero transactions from spread.
+    # Remove zero and skipped transactions from spread.
     spread.filter { |t| t.amount > 0 }.tap do |sp|
       unless sp.map(&:amount).sum == original_amount
         raise Error, "Deposit spread failed deposit.amount != collection_spread.values.sum"
       end
+      sp.delete_if { |tr| tr.status == 'skipped' }
     end
   end
 end
