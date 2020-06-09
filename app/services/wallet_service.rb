@@ -53,7 +53,8 @@ class WalletService
     #       are saved in PaymentAddress.
     @adapter.configure(
       wallet: @wallet.to_wallet_api_settings
-                     .merge(address: pa.address, secret: pa.secret)
+                     .merge(address: pa.address)
+                     .tap { |s| s.merge(secret: pa.secret) if pa.secret.present? }
                      .compact
     )
 
