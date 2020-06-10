@@ -106,6 +106,27 @@ describe WalletService do
         end
       end
 
+      context 'single wallet available + skip_deposit_collection' do
+
+        let(:destination_wallets) do
+          [{ address: 'destination-wallet-1',
+            balance: 8.8,
+            max_balance: 10,
+            min_collection_amount: 1,
+            skip_deposit_collection: true }]
+        end
+
+        let(:expected_spread) do
+          []
+        end
+
+        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+
+        it 'returns empty spread' do
+          expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
+        end
+      end
+
       context 'Single wallet is full' do
 
         let(:destination_wallets) do

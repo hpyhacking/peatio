@@ -31,7 +31,6 @@
     uri:          http://127.0.0.1:8545
     secret:       'test'
 
-
 - name:             Ethereum Warm Wallet
   blockchain_key:   eth-rinkeby
   currency_id:      eth
@@ -135,6 +134,9 @@
     #
     # Bitcoind gateway client settings.
     uri:          http://user:password@127.0.0.1:18332
+    # skip_deposit_collection - defines if deposit will be collected to
+    # this wallet. Supported values: true | false. By default `false`.
+    skip_deposit_collection: true
 
 - name:             Bitcoin Warm Wallet
   blockchain_key:   btc-testnet
