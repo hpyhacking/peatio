@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_04_091304) do
+ActiveRecord::Schema.define(version: 2020_08_05_102002) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -34,8 +34,8 @@ ActiveRecord::Schema.define(version: 2020_08_04_091304) do
     t.string "currency_id", null: false
     t.integer "category", limit: 1, null: false
     t.integer "state", limit: 1, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 3, null: false
+    t.datetime "updated_at", precision: 3, null: false
     t.index ["currency_id", "state"], name: "index_adjustments_on_currency_id_and_state"
     t.index ["currency_id"], name: "index_adjustments_on_currency_id"
   end
@@ -123,9 +123,9 @@ ActiveRecord::Schema.define(version: 2020_08_04_091304) do
     t.string "type", limit: 30, null: false
     t.string "tid", limit: 64, null: false, collation: "utf8_bin"
     t.string "spread", limit: 1000
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "completed_at"
+    t.datetime "created_at", precision: 3, null: false
+    t.datetime "updated_at", precision: 3, null: false
+    t.datetime "completed_at", precision: 3
     t.index ["aasm_state", "member_id", "currency_id"], name: "index_deposits_on_aasm_state_and_member_id_and_currency_id"
     t.index ["currency_id", "txid", "txout"], name: "index_deposits_on_currency_id_and_txid_and_txout", unique: true
     t.index ["currency_id"], name: "index_deposits_on_currency_id"
@@ -194,10 +194,10 @@ ActiveRecord::Schema.define(version: 2020_08_04_091304) do
     t.decimal "max_price", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "min_amount", precision: 32, scale: 16, default: "0.0", null: false
     t.integer "position", default: 0, null: false
-    t.json "data"
     t.string "state", limit: 32, default: "enabled", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "data"
     t.index ["base_unit", "quote_unit"], name: "index_markets_on_base_unit_and_quote_unit", unique: true
     t.index ["base_unit"], name: "index_markets_on_base_unit"
     t.index ["engine_id"], name: "index_markets_on_engine_id"
@@ -289,6 +289,34 @@ ActiveRecord::Schema.define(version: 2020_08_04_091304) do
     t.index ["reference_type", "reference_id"], name: "index_revenues_on_reference_type_and_reference_id"
   end
 
+  create_table "stats_member_pnl", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "member_id", null: false
+    t.string "pnl_currency_id", limit: 10, null: false
+    t.string "currency_id", limit: 10, null: false
+    t.decimal "total_credit", precision: 48, scale: 16, default: "0.0"
+    t.decimal "total_credit_fees", precision: 48, scale: 16, default: "0.0"
+    t.decimal "total_debit_fees", precision: 48, scale: 16, default: "0.0"
+    t.decimal "total_debit", precision: 48, scale: 16, default: "0.0"
+    t.decimal "total_credit_value", precision: 48, scale: 16, default: "0.0"
+    t.decimal "total_debit_value", precision: 48, scale: 16, default: "0.0"
+    t.decimal "total_balance_value", precision: 48, scale: 16, default: "0.0"
+    t.decimal "average_balance_price", precision: 48, scale: 16, default: "0.0"
+    t.datetime "created_at", default: -> { "current_timestamp()" }, null: false
+    t.datetime "updated_at", default: -> { "current_timestamp()" }, null: false
+    t.index ["pnl_currency_id", "currency_id", "member_id"], name: "index_currency_ids_and_member_id", unique: true
+  end
+
+  create_table "stats_member_pnl_idx", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "pnl_currency_id", limit: 10, null: false
+    t.string "currency_id", limit: 10, null: false
+    t.string "reference_type", null: false
+    t.bigint "last_id"
+    t.datetime "created_at", default: -> { "current_timestamp()" }, null: false
+    t.datetime "updated_at", default: -> { "current_timestamp()" }, null: false
+    t.index ["pnl_currency_id", "currency_id", "last_id"], name: "index_currency_ids_and_last_id"
+    t.index ["pnl_currency_id", "currency_id", "reference_type"], name: "index_currency_ids_and_type", unique: true
+  end
+
   create_table "trades", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.decimal "price", precision: 32, scale: 16, null: false
     t.decimal "amount", precision: 32, scale: 16, null: false
@@ -299,8 +327,8 @@ ActiveRecord::Schema.define(version: 2020_08_04_091304) do
     t.integer "maker_id", null: false
     t.integer "taker_id", null: false
     t.string "taker_type", limit: 20, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 3, null: false
+    t.datetime "updated_at", precision: 3, null: false
     t.index ["created_at"], name: "index_trades_on_created_at"
     t.index ["maker_id", "taker_id"], name: "index_trades_on_maker_id_and_taker_id"
     t.index ["maker_order_id"], name: "index_trades_on_maker_order_id"
@@ -324,8 +352,8 @@ ActiveRecord::Schema.define(version: 2020_08_04_091304) do
     t.string "key", limit: 30, null: false
     t.integer "category", limit: 1, null: false
     t.string "description", default: ""
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 3, null: false
+    t.datetime "updated_at", precision: 3, null: false
     t.index ["key"], name: "index_transfers_on_key", unique: true
   end
 
@@ -374,9 +402,9 @@ ActiveRecord::Schema.define(version: 2020_08_04_091304) do
     t.string "rid", limit: 95, null: false
     t.string "note", limit: 256
     t.json "error"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "completed_at"
+    t.datetime "created_at", precision: 3, null: false
+    t.datetime "updated_at", precision: 3, null: false
+    t.datetime "completed_at", precision: 3
     t.index ["aasm_state"], name: "index_withdraws_on_aasm_state"
     t.index ["currency_id", "txid"], name: "index_withdraws_on_currency_id_and_txid", unique: true
     t.index ["currency_id"], name: "index_withdraws_on_currency_id"

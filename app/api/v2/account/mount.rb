@@ -10,7 +10,7 @@ module API::V2
       mount Account::Beneficiaries
       mount Account::Withdraws
       mount Account::Transactions
-      mount Account::Portfolio
+      mount Account::Stats
     end
   end
 end

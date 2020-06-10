@@ -2,8 +2,8 @@
 
 # InfluxDB test helpers
 module InfluxTestHelper
-  def delete_measurments(measurment)
-    Peatio::InfluxDB.client.query("delete from #{measurment}")
+  def delete_measurments(measurement)
+    Peatio::InfluxDB.client.query("delete from #{measurement}")
   end
 end
 

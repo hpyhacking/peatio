@@ -42,6 +42,183 @@ describe Trade, '#for_notify' do
   end
 end
 
+describe Trade, '#trade_from_influx_after_date' do
+  after { delete_measurments("trades") }
+
+  context 'no trades executed yet' do
+    it 'returns trade' do
+      expect(Trade.trade_from_influx_after_date(:btcusd, Time.now)).to eq([])
+    end
+  end
+
+  context 'single trade was executing' do
+    let(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
+    let(:expected_trade) do
+      {
+        :id=>trade.id,
+        :price=>5,
+        :amount=>1.1,
+        :total=>5.5,
+        :taker_type=>trade.taker_type,
+        :market=>'btcusd',
+        :created_at=>trade.created_at.to_i
+      }
+    end
+
+    before do
+      trade.write_to_influx
+    end
+
+    it 'returns trade' do
+      expect(Trade.trade_from_influx_after_date(trade.market_id, Time.now).except(:time)).to eq(expected_trade)
+    end
+  end
+
+  context 'multiple trades were executed' do
+    let!(:trade1) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d, created_at: Time.now)}
+    let!(:trade2) { create(:trade, :btcusd, price: '6.0'.to_d, amount: '0.9'.to_d, total: '5.4'.to_d, created_at: Time.now + 3.minutes)}
+    let!(:trade3) { create(:trade, :btcusd, price: '7.0'.to_d, amount: '0.9'.to_d, total: '5.4'.to_d, created_at: Time.now + 4.minutes)}
+
+    let(:expected_trade) do
+      {
+        :id=>trade1.id,
+        :price=>5.0,
+        :amount=>1.1,
+        :total=>5.5,
+        :taker_type=>trade1.taker_type,
+        :market=>'btcusd',
+        :created_at=>trade1.created_at.to_i
+      }
+    end
+
+    before do
+      trade1.write_to_influx
+      trade2.write_to_influx
+      trade3.write_to_influx
+    end
+
+    it 'returns trade' do
+      expect(Trade.trade_from_influx_after_date(trade1.market_id, Time.now - 1.minutes).except(:time)).to eq(expected_trade)
+    end
+  end
+end
+
+describe Trade, '#trade_from_influx_before_date' do
+  after { delete_measurments("trades") }
+
+  context 'no trades executed yet' do
+    it 'returns trade' do
+      expect(Trade.trade_from_influx_before_date(:btcusd, Time.now)).to eq([])
+    end
+  end
+
+  context 'single trade was executed' do
+    let(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
+    let(:expected_trade) do
+      {
+        :id=>trade.id,
+        :price=>5,
+        :amount=>1.1,
+        :total=>5.5,
+        :taker_type=>trade.taker_type,
+        :market=>'btcusd',
+        :created_at=>trade.created_at.to_i
+      }
+    end
+
+    before do
+      trade.write_to_influx
+    end
+
+    it 'returns trade' do
+      expect(Trade.trade_from_influx_before_date(trade.market_id, Time.now + 3.minutes).except(:time)).to eq(expected_trade)
+    end
+  end
+
+  context 'multiple trades were executed' do
+    let!(:trade3) { create(:trade, :btcusd, price: '7.0'.to_d, amount: '0.9'.to_d, total: '5.4'.to_d, created_at: Time.now)}
+    let!(:trade2) { create(:trade, :btcusd, price: '6.0'.to_d, amount: '0.9'.to_d, total: '5.4'.to_d, created_at: 2.days.ago)}
+    let!(:trade1) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d, created_at: 3.days.ago)}
+    let(:expected_trade) do
+      {
+        :id=>trade3.id,
+        :price=>7,
+        :amount=>0.9,
+        :total=>5.4,
+        :taker_type=>trade3.taker_type,
+        :market=>'btcusd',
+        :created_at=>trade3.created_at.to_i
+      }
+    end
+
+    before do
+      trade1.write_to_influx
+      trade2.write_to_influx
+      trade3.write_to_influx
+    end
+
+    it 'returns trade' do
+      expect(Trade.trade_from_influx_before_date(trade1.market_id, Time.now + 3.minutes).except(:time)).to eq(expected_trade)
+    end
+  end
+end
+
+describe Trade, '#nearest_trade_from_influx' do
+  after { delete_measurments("trades") }
+
+  context 'no trades executed yet' do
+    it 'returns trade' do
+      expect(Trade.nearest_trade_from_influx(:btcusd, Time.now)).to eq([])
+    end
+  end
+
+  context 'trade executed before date' do
+    let(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
+    let(:expected_trade) do
+      {
+        :id=>trade.id,
+        :price=>5,
+        :amount=>1.1,
+        :total=>5.5,
+        :taker_type=>trade.taker_type,
+        :market=>'btcusd',
+        :created_at=>trade.created_at.to_i
+      }
+    end
+
+    before do
+      trade.write_to_influx
+    end
+
+    it 'returns trade' do
+      expect(Trade.nearest_trade_from_influx(trade.market_id, Time.now + 3.minutes).except(:time)).to eq(expected_trade)
+    end
+  end
+
+  context 'trade executed after date' do
+    let(:trade) { create(:trade, :btcusd, price: '5.0'.to_d, amount: '1.1'.to_d, total: '5.5'.to_d)}
+    let(:expected_trade) do
+      {
+        :id=>trade.id,
+        :price=>5,
+        :amount=>1.1,
+        :total=>5.5,
+        :taker_type=>trade.taker_type,
+        :market=>'btcusd',
+        :created_at=>trade.created_at.to_i
+      }
+    end
+
+    before do
+      trade.write_to_influx
+    end
+
+    it 'returns trade' do
+      expect(Trade.nearest_trade_from_influx(trade.market_id, Time.now).except(:time)).to eq(expected_trade)
+    end
+  end
+end
+
 describe Trade, '#market_ticker_from_influx' do
   after { delete_measurments("trades") }
 

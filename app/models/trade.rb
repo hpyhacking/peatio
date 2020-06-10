@@ -71,6 +71,25 @@ class Trade < ApplicationRecord
         return points.map(&:deep_symbolize_keys!).first
       end
     end
+
+    def trade_from_influx_before_date(market, date)
+      trades_query = 'SELECT id, price, amount, total, taker_type, market, created_at FROM trades WHERE market=%{market} AND created_at < %{date} ORDER BY DESC LIMIT 1 '
+      Peatio::InfluxDB.client(keyshard: market).query trades_query, params: { market: market, date: date.to_i } do |_name, _tags, points|
+        return points.map(&:deep_symbolize_keys!).first
+      end
+    end
+
+    def trade_from_influx_after_date(market, date)
+      trades_query = 'SELECT id, price, amount, total, taker_type, market, created_at FROM trades WHERE market=%{market} AND created_at >= %{date} ORDER BY ASC LIMIT 1 '
+      Peatio::InfluxDB.client(keyshard: market).query trades_query, params: { market: market, date: date.to_i } do |_name, _tags, points|
+        return points.map(&:deep_symbolize_keys!).first
+      end
+    end
+
+    def nearest_trade_from_influx(market, date)
+      res = trade_from_influx_before_date(market, date)
+      res.blank? ? trade_from_influx_after_date(market, date) : res
+    end
   end
 
   # == Instance Methods =====================================================

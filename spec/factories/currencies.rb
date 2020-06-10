@@ -54,7 +54,7 @@ FactoryBot.define do
       withdraw_limit_24h   { 0.1 }
       withdraw_limit_72h   { 1 }
       withdraw_fee         { 0.025 }
-      position             { 4 }
+      position             { 3 }
       options do
         { gas_limit: 21_000,
           gas_price: 1_000_000_000 }
@@ -71,7 +71,7 @@ FactoryBot.define do
       withdraw_limit_24h   { 100 }
       withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.025 }
-      position             { 6 }
+      position             { 4 }
       options do
         { gas_limit: 90_000,
           gas_price: 1_000_000_000,
@@ -89,7 +89,7 @@ FactoryBot.define do
       withdraw_limit_24h   { 100 }
       withdraw_limit_72h   { 1000 }
       withdraw_fee         { 0.025 }
-      position             { 7 }
+      position             { 5 }
       options \
         { { erc20_contract_address: '0xf8720eb6ad4a530cccb696043a0d10831e2ff60e' } }
     end
@@ -104,7 +104,7 @@ FactoryBot.define do
       withdraw_limit_24h  { 100 }
       withdraw_limit_72h  { 1000 }
       withdraw_fee        { 0.02 }
-      position            { 10 }
+      position            { 6 }
       options             { {} }
     end
   end
