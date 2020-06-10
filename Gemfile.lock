@@ -6,26 +6,6 @@ GIT
       rails (>= 4.1)
       vault (~> 0.5)
 
-GIT
-  remote: https://github.com/openware/peatio-core
-  revision: 8307870d0dcf8afa45da7674a86040d55070b661
-  branch: enhancement/add-wallet-features
-  specs:
-    peatio (2.6.0)
-      activemodel (> 5.2, <= 6.0.0)
-      amqp
-      bunny
-      clamp
-      em-synchrony (~> 1.0)
-      em-websocket
-      eventmachine
-      faraday_middleware (~> 0.13.1)
-      faye (~> 1.2)
-      jwt
-      mysql2
-      prometheus-client
-      thin
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -298,7 +278,7 @@ GEM
       mysql2
       prometheus-client
       thin
-    peatio-bitcoincash (2.6.0)
+    peatio-bitcoincash (2.6.1)
       activesupport (~> 5.2.3)
       better-faraday (~> 1.0.5)
       cash-addr (~> 0.2.0)
@@ -306,14 +286,14 @@ GEM
       memoist (~> 0.16.0)
       net-http-persistent (~> 3.0.1)
       peatio (>= 0.6.3)
-    peatio-bitgo (2.6.0)
+    peatio-bitgo (2.6.2)
       activesupport (~> 5.2.3)
       better-faraday (~> 1.0.5)
       faraday (~> 0.17)
       memoist (~> 0.16.0)
       net-http-persistent (~> 3.0.1)
       peatio (>= 0.6.3)
-    peatio-dash (2.6.0)
+    peatio-dash (2.6.1)
       activesupport (~> 5.2.3)
       better-faraday (~> 1.0.5)
       faraday (~> 0.17)
@@ -325,14 +305,14 @@ GEM
       faraday (~> 0.17)
       net-http-persistent (~> 3.0.1)
       peatio (>= 0.6.3)
-    peatio-litecoin (2.6.0)
+    peatio-litecoin (2.6.1)
       activesupport (~> 5.2.3)
       better-faraday (~> 1.0.5)
       faraday (~> 0.17)
       memoist (~> 0.16.0)
       net-http-persistent (~> 3.0.1)
       peatio (>= 0.6.3)
-    peatio-ripple (2.6.0)
+    peatio-ripple (2.6.1)
       activesupport (~> 5.2.3)
       better-faraday (~> 1.0.5)
       faraday (~> 0.17)
@@ -523,13 +503,13 @@ DEPENDENCIES
   mocha (~> 1.8)
   mysql2 (~> 0.5.2)
   net-http-persistent (~> 3.0.1)
-  peatio (~> 2.6.0)
-  peatio-bitcoincash (~> 2.6.0)
-  peatio-bitgo (~> 2.6.0)
-  peatio-dash (~> 2.6.0)
-  peatio-electrum (~> 2.6.1)
-  peatio-litecoin (~> 2.6.0)
-  peatio-ripple (~> 2.6.0)
+  peatio (= 2.6.1)
+  peatio-bitcoincash (~> 2.6.1)
+  peatio-bitgo (~> 2.6.2)
+  peatio-dash (~> 2.6.1)
+  peatio-electrum (~> 2.6.2)
+  peatio-litecoin (~> 2.6.1)
+  peatio-ripple (~> 2.6.1)
   pry-byebug (~> 3.7)
   puma (~> 3.12.2)
   rack-attack (~> 5.4.2)
