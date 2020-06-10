@@ -31,16 +31,28 @@ module API
                     .camelize
                     .constantize
 
+          if klass == ::Operations::Revenue && attrs.dig(:uid)
+            member_id = Member.find_by!(uid: attrs.fetch(:uid)).id
+          else
+            member_id = nil
+          end
+
           if attrs[:credit].present?
-            klass.credit!(amount: attrs.fetch(:credit),
-                          currency: currency,
-                          code: attrs.fetch(:code),
-                          reference: attrs[:reference])
+            klass.credit!({
+              amount: attrs.fetch(:credit),
+              currency: currency,
+              code: attrs.fetch(:code),
+              member_id: member_id,
+              reference: attrs[:reference]
+            }.compact)
           elsif attrs[:debit].present?
-            klass.debit!(amount: attrs.fetch(:debit),
-                         currency: currency,
-                         code: attrs.fetch(:code),
-                         reference: attrs[:reference])
+            klass.debit!({
+              amount: attrs.fetch(:debit),
+              currency: currency,
+              code: attrs.fetch(:code),
+              member_id: member_id,
+              reference: attrs[:reference]
+            }.compact)
           end
         end
 
