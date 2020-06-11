@@ -55,7 +55,7 @@ class WalletService
     @adapter.configure(
       wallet: @wallet.to_wallet_api_settings
                      .merge(address: pa.address)
-                     .tap { |s| s.merge(secret: pa.secret) if pa.secret.present? }
+                     .tap { |s| s.merge!(secret: pa.secret) if pa.secret.present? }
                      .compact
     )
 
