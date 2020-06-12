@@ -83,7 +83,9 @@ module API
               default: 8,
               desc: -> { API::V2::Admin::Entities::Currency.documentation[:precision][:desc] }
             },
-            icon_url: { desc: -> { API::V2::Admin::Entities::Currency.documentation[:icon_url][:desc] } }
+            icon_url: { desc: -> { API::V2::Admin::Entities::Currency.documentation[:icon_url][:desc] } },
+            description: { desc: -> { API::V2::Admin::Entities::Currency.documentation[:description][:desc] } },
+            homepage: { desc: -> { API::V2::Admin::Entities::Currency.documentation[:homepage][:desc] } },
           }
 
           params :create_currency_params do

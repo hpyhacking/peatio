@@ -26,6 +26,31 @@ module API
         )
 
         expose(
+          :description,
+          documentation: {
+            type: String,
+            desc: 'Currency description',
+            example: -> { ::Currency.visible.first.symbol }
+          }
+        )
+
+        expose(
+          :homepage,
+          documentation: {
+            type: String,
+            desc: 'Currency homepage',
+            example: -> { ::Currency.visible.first.symbol }
+          }
+        )
+
+        expose(
+          :price,
+          documentation: {
+            desc: 'Currency current price'
+          }
+        )
+
+        expose(
           :symbol,
           documentation: {
             type: String,
