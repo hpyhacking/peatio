@@ -153,6 +153,7 @@ module Ethereum
 
       txn_receipt.fetch('logs').each_with_object([]) do |log, formatted_txs|
 
+        next if log['blockHash'].blank? && log['blockNumber'].blank?
         next if log.fetch('topics').blank? || log.fetch('topics')[0] != TOKEN_EVENT_IDENTIFIER
 
         # Skip if ERC20 contract address doesn't match.

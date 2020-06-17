@@ -297,6 +297,25 @@ describe Ethereum::Blockchain do
       it 'builds formatted transactions for passed transaction' do
         expect(blockchain.send(:build_transactions, tx_hash)).to contain_exactly(*expected_transactions)
       end
+
+      context :pending_erc20_transaction do
+
+        let(:tx_file_name) { '0xb44861cb188356c67bec27a35abab1b7ef33fc402330faa9ac4d863ef621d7b1.json' }
+
+        let(:tx_hash) do
+          Rails.root.join('spec', 'resources', 'ethereum-data', 'rinkeby', 'transactions', tx_file_name)
+              .yield_self { |file_path| File.open(file_path) }
+              .yield_self { |file| JSON.load(file) }
+        end
+
+        let(:expected_transactions) do
+          []
+        end
+
+        it 'builds formatted transactions for passed transaction' do
+          expect(blockchain.send(:build_transactions, tx_hash)).to contain_exactly(*expected_transactions)
+        end
+      end
     end
   end
 
