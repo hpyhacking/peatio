@@ -15,7 +15,7 @@ module API
           {
             git_tag: Peatio::Application::GIT_TAG,
             git_sha: Peatio::Application::GIT_SHA,
-            build_date: DateTime.rfc3339(Peatio::Application::BUILD_DATE),
+            build_date: Peatio::Application::BUILD_DATE,
             version: Peatio::Application::VERSION
           }.tap do |v|
             present OpenStruct.new(v), with: Entities::Version
