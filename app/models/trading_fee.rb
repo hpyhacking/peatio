@@ -108,15 +108,7 @@ class TradingFee < ApplicationRecord
   # (group == 'any' && market_id == 'btcusd') >
   # (group == 'any' && market_id == 'any')
   def weight
-    (group.any? ? 0 : 10) + (market_id.any? ? 0 : 1)
-  end
-
-  def group
-    super&.inquiry
-  end
-
-  def market_id
-    super&.inquiry
+    (group == 'any' ? 0 : 10) + (market_id == 'any' ? 0 : 1)
   end
 
   def wipe_cache
