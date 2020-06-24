@@ -31,7 +31,7 @@ module API
           search = TradingFee.ransack(ransack_params)
           search.sorts = "#{params[:order_by]} #{params[:ordering]}"
 
-          present paginate(search.result), with: API::V2::Entities::TradingFee
+          present paginate(Rails.cache.fetch("trading_fees_#{params}", expires_in: 600) { search.result.load.to_a }), with: API::V2::Entities::TradingFee
         end
       end
     end

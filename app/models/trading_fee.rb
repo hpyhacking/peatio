@@ -77,6 +77,7 @@ class TradingFee < ApplicationRecord
   # == Callbacks ============================================================
 
   before_create { self.group = self.group.strip.downcase }
+  after_commit :wipe_cache
 
   # == Class Methods ========================================================
 
@@ -116,6 +117,10 @@ class TradingFee < ApplicationRecord
 
   def market_id
     super&.inquiry
+  end
+
+  def wipe_cache
+    Rails.cache.delete_matched("tradind_fees*")
   end
 end
 

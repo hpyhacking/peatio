@@ -95,7 +95,7 @@ class Market < ApplicationRecord
 
   validates :base_currency, :quote_currency, inclusion: { in: -> (_) { Currency.codes } }
 
-  validate  :currencies_must_be_visible, if: ->(m) { m.state.enabled? }
+  validate  :currencies_must_be_visible, if: ->(m) { m.state == 'enabled' }
 
   validates :min_price,
             presence: true,
@@ -121,6 +121,7 @@ class Market < ApplicationRecord
   after_initialize :initialize_defaults, if: :new_record?
   before_validation(on: :create) { self.id = "#{base_currency}#{quote_currency}" }
   after_commit { AMQP::Queue.enqueue(:matching, action: 'new', market: id) }
+  after_commit :wipe_cache
 
   # == Instance Methods =====================================================
 
@@ -128,12 +129,12 @@ class Market < ApplicationRecord
     self.data = {} if data.blank?
   end
 
-  def name
-    "#{base_currency}/#{quote_currency}".upcase
+  def wipe_cache
+    Rails.cache.delete_matched("markets*")
   end
 
-  def state
-    super&.inquiry
+  def name
+    "#{base_currency}/#{quote_currency}".upcase
   end
 
   def as_json(*)

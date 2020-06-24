@@ -77,6 +77,7 @@ class Currency < ApplicationRecord
   end
 
   after_update :disable_markets
+  after_commit :wipe_cache
 
   # == Class Methods ========================================================
 
@@ -107,6 +108,14 @@ class Currency < ApplicationRecord
   delegate :explorer_transaction, :blockchain_api, :explorer_address, to: :blockchain
 
   types.each { |t| define_method("#{t}?") { type == t.to_s } }
+
+  def blockchain
+    Rails.cache.fetch("#{code}_blockchain", expires_in: 60) { Blockchain.find_by(key: blockchain_key) }
+  end
+
+  def wipe_cache
+    Rails.cache.delete_matched("currencies*")
+  end
 
   # Allows to dynamically check value of id/code:
   #

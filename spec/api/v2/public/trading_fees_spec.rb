@@ -3,6 +3,7 @@
 
 describe API::V2::Public::TradingFees, type: :request do
 
+  before(:each) { clear_redis }
   describe 'GET /trading_fees' do
     before do
       create(:trading_fee, maker: 0.0005, taker: 0.001, market_id: :btcusd, group: 'vip-0')

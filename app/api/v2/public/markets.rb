@@ -62,7 +62,7 @@ module API
             # Add default ordering (position asc) for cases markets where unit position is same.
             search.sorts = ["#{params[:order_by]} #{params[:ordering]}", "position asc"]
 
-            present paginate(search.result),
+            present paginate(Rails.cache.fetch("markets_#{params}", expires_in: 600) { search.result.load.to_a }),
                     with: API::V2::Entities::Market,
                     extended: !!params[:extended]
           end
@@ -170,9 +170,11 @@ module API
 
           desc 'Get ticker of all markets (For response doc see /:market/tickers/ response).'
           get "/tickers" do
-            ::Market.active.ordered.inject({}) do |h, m|
-              h[m.id] = format_ticker TickersService[m].ticker
-              h
+            Rails.cache.fetch(:markets_tickers, expires_in: 60) do
+              ::Market.active.ordered.inject({}) do |h, m|
+                h[m.id] = format_ticker TickersService[m].ticker
+                h
+              end
             end
           end
 
