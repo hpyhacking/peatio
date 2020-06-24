@@ -21,7 +21,7 @@ module Jobs
                             avg_price price_change_percent]
 
         { at: ticker[:at],
-          ticker: formatted_ticker }
+          ticker: ticker }
       end
     end
   end
