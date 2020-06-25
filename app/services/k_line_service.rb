@@ -53,7 +53,7 @@ class KLineService
     q << "LIMIT #{options[:limit]}" if options[:limit]
     q << "OFFSET #{offset}" if offset.present? && options[:offset]
 
-    Peatio::InfluxDB.client(epoch: 's').query(q.join(' ')) do |_name, _tags, points|
+    Peatio::InfluxDB.client(keyshard: @market_id, epoch: 's').query(q.join(' ')) do |_name, _tags, points|
       return points.map do |point|
         [point['time'], point['open'], point['high'], point['low'], point['close'], point['volume']]
       end
@@ -63,7 +63,7 @@ class KLineService
   def calculate_offset(options)
     q = ["SELECT COUNT(high) FROM candles_#{@period} WHERE market='#{@market_id}'"]
     q << "AND time <= #{options[:time_to].to_i * 1_000_000_000}" if options[:time_to].present?
-    Peatio::InfluxDB.client(epoch: 's').query(q.join(' ')) do |_, _, values|
+    Peatio::InfluxDB.client(keyshard: @market_id, epoch: 's').query(q.join(' ')) do |_, _, values|
       return options[:limit].to_i < values.first['count'] ? values.first['count'] - options[:limit] : 0
     end
   end

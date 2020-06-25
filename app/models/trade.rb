@@ -59,7 +59,7 @@ class Trade < ApplicationRecord
 
     def public_from_influx(market, limit = 100)
       trades_query = 'SELECT id, price, amount, total, taker_type, market, created_at FROM trades WHERE market=%{market} ORDER BY desc LIMIT %{limit}'
-      Peatio::InfluxDB.client.query trades_query, params: { market: market, limit: limit } do |_name, _tags, points|
+      Peatio::InfluxDB.client(keyshard: market).query trades_query, params: { market: market, limit: limit } do |_name, _tags, points|
         return points.map(&:deep_symbolize_keys!)
       end
     end
@@ -67,7 +67,7 @@ class Trade < ApplicationRecord
     # Low, High, First, Last, sum total (amount * price), sum 24 hours amount and average 24 hours price calculated using VWAP ratio for 24 hours trades
     def market_ticker_from_influx(market)
       tickers_query = 'SELECT MIN(price), MAX(price), FIRST(price), LAST(price), SUM(total) AS volume, SUM(amount) AS amount, SUM(total) / SUM(amount) AS vwap FROM trades WHERE market=%{market} AND time > now() - 24h'
-      Peatio::InfluxDB.client.query tickers_query, params: { market: market } do |_name, _tags, points|
+      Peatio::InfluxDB.client(keyshard: market).query tickers_query, params: { market: market } do |_name, _tags, points|
         return points.map(&:deep_symbolize_keys!).first
       end
     end
@@ -158,7 +158,7 @@ class Trade < ApplicationRecord
   end
 
   def write_to_influx
-    Peatio::InfluxDB.client.write_point(self.class.table_name, influx_data, "ns")
+    Peatio::InfluxDB.client(keyshard: market_id).write_point(self.class.table_name, influx_data, "ns")
   end
 
   private
