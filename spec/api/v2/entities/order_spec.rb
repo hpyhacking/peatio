@@ -29,6 +29,9 @@ describe API::V2::Entities::Order do
 
     it { expect(subject.side).to eq 'sell' }
 
+    it { expect(subject.maker_fee).to eq order.maker_fee }
+    it { expect(subject.taker_fee).to eq order.taker_fee }
+
     it { expect(subject.trades).to be_nil }
     it { expect(subject.trades_count).to be_zero }
 

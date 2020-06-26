@@ -126,6 +126,22 @@ module API
           end
 
         expose(
+          :maker_fee,
+          documentation: {
+            type: BigDecimal,
+            desc: "Fee for maker."
+          }
+        )
+  
+        expose(
+          :taker_fee,
+          documentation: {
+            type: BigDecimal,
+            desc: "Fee for taker."
+          }
+        )
+
+        expose(
           :trades_count,
           documentation: {
             type: Integer,
