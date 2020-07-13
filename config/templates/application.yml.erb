@@ -5,6 +5,8 @@ defaults: &defaults
   # `redis://:[password]@[hostname]:[port]/[db]`
   # (password, port and database are optional).
   REDIS_URL:      redis://localhost:6379
+  REDIS_PASSWORD: ~
+  REDIS_CLUSTER:  false
 
   # Application URL configuration variables.
   URL_HOST:                peatio.tech
