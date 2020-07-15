@@ -3,7 +3,10 @@
 
 describe Peatio::InfluxDB do
   context 'host sharding' do
-    before { ENV['INFLUXDB_HOST'] = 'inflxudb-0,inflxudb-1' }
+    before do
+      Peatio::InfluxDB.instance_variable_set(:@clients, {})
+      ENV['INFLUXDB_HOST'] = 'inflxudb-0,inflxudb-1'
+    end
 
     after do
       ENV['INFLUXDB_HOST'] = 'influxdb'
