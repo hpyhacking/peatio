@@ -69,11 +69,7 @@ module API
           deposit = Deposit.find(params[:id])
 
           if deposit.public_send("may_#{params[:action]}?")
-            if params[:action] == 'process'
-              deposit.public_send("#{params[:action]}!", params[:fees])
-            else
-              deposit.public_send("#{params[:action]}!")
-            end
+            deposit.public_send("#{params[:action]}!")
             present deposit, with: API::V2::Admin::Entities::Deposit
           else
             body errors: ["admin.depodit.cannot_#{params[:action]}"]

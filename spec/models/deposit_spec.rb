@@ -175,34 +175,6 @@ describe Deposit do
       expect(crypto_deposit.process!).to eq true
       expect(crypto_deposit.processing?).to eq true
     end
-
-    it 'produce amqp message for collect deposit' do
-      AMQP::Queue.expects(:enqueue).with(:events_processor, { subject: :operation,
-                                                              payload: { code: 212,
-                                                                         currency: 'btc',
-                                                                         member_id: crypto_deposit.member_id,
-                                                                         reference_id: crypto_deposit.id,
-                                                                         reference_type: 'deposit',
-                                                                         debit: 0.0,
-                                                                         credit: 0.37e1 } })
-      AMQP::Queue.expects(:enqueue).with(:deposit_collection_fees, id: crypto_deposit.id)
-      crypto_deposit.accept!
-      crypto_deposit.process!
-    end
-
-    it 'produces amqp message for collect deposit' do
-      AMQP::Queue.expects(:enqueue).with(:events_processor, { subject: :operation,
-                                                              payload: { code: 212,
-                                                                         currency: 'btc',
-                                                                         member_id: crypto_deposit.member_id,
-                                                                         reference_id: crypto_deposit.id,
-                                                                         reference_type: 'deposit',
-                                                                         debit: 0.0,
-                                                                         credit: 0.37e1 } })
-      AMQP::Queue.expects(:enqueue).with(:deposit_collection, id: crypto_deposit.id)
-      crypto_deposit.accept!
-      crypto_deposit.process!(false)
-    end
   end
 
 

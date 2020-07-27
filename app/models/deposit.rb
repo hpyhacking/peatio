@@ -36,6 +36,7 @@ class Deposit < ApplicationRecord
     state :processing
     state :skipped
     state :collected
+    state :fee_processing
     event(:cancel) { transitions from: :submitted, to: :canceled }
     event(:reject) { transitions from: :submitted, to: :rejected }
     event :accept do
@@ -55,11 +56,15 @@ class Deposit < ApplicationRecord
     event :process do
       transitions from: %i[accepted skipped], to: :processing do
         guard { coin? }
-        after :collect!
+      end
+    end
+    event :fee_process do
+      transitions from: %i[accepted processing skipped], to: :fee_processing do
+        guard { coin? }
       end
     end
     event :dispatch do
-      transitions from: %i[processing], to: :collected
+      transitions from: %i[processing fee_processing], to: :collected
       after do
         account.unlock_funds(amount)
         record_complete_operations!
@@ -111,16 +116,6 @@ class Deposit < ApplicationRecord
 
   def completed?
     !submitted?
-  end
-
-  def collect!(collect_fee = true)
-    return unless coin?
-
-    if collect_fee
-      AMQP::Queue.enqueue(:deposit_collection_fees, id: id)
-    else
-      AMQP::Queue.enqueue(:deposit_collection, id: id)
-    end
   end
 
   private
