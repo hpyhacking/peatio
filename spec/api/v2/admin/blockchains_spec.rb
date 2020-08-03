@@ -127,6 +127,70 @@ describe API::V2::Admin::Blockchains, type: :request do
       expect(result.first['key']).to eq 'eth-rinkeby'
     end
 
+    it 'returns blockchains filtered by key' do
+      api_get '/api/v2/admin/blockchains', params: { key: "eth-kovan" }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(response.headers.fetch('Total')).to eq '1'
+      expect(result.size).to eq 1
+      expect(result.first['key']).to eq 'eth-kovan'
+    end
+
+    it 'returns error in case invalid blockchain key' do
+      api_get '/api/v2/admin/blockchains', params: { key: "inv" }, token: token
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('admin.blockchain.blockchain_key_doesnt_exist')
+    end
+
+    it 'returns blockchains filtered by client' do
+      api_get '/api/v2/admin/blockchains', params: { client: "parity" }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(response.headers.fetch('Total')).to eq '1'
+      expect(result.size).to eq 1
+      expect(result.first['name']).to eq 'Ethereum Kovan'
+    end
+
+    it 'returns error in case invalid blockchain client' do
+      api_get '/api/v2/admin/blockchains', params: { client: "inv" }, token: token
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('admin.blockchain.blockchain_client_doesnt_exist')
+    end
+
+    it 'returns blockchains filtered by status' do
+      api_get '/api/v2/admin/blockchains', params: { status: "active" }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(response.headers.fetch('Total')).to eq '3'
+      expect(result.size).to eq 3
+      expect(result.map { |r| r["status"]}).to all eq "active"
+    end
+
+    it 'returns error in case invalid blockchain status' do
+      api_get '/api/v2/admin/blockchains', params: { status: "inv" }, token: token
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('admin.blockchain.blockchain_status_doesnt_exist')
+    end
+
+    it 'returns blockchains filtered by name' do
+      api_get '/api/v2/admin/blockchains', params: { name: "Ethereum Kovan" }, token: token
+      result = JSON.parse(response.body)
+
+      expect(response).to be_successful
+      expect(response.headers.fetch('Total')).to eq '1'
+      expect(result.size).to eq 1
+      expect(result.first['name']).to eq 'Ethereum Kovan'
+    end
+
+    it 'returns error in case invalid blockchain name' do
+      api_get '/api/v2/admin/blockchains', params: { name: "inv" }, token: token
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('admin.blockchain.blockchain_name_doesnt_exist')
+    end
+
     it 'return error in case of not permitted ability' do
       api_get "/api/v2/admin/blockchains", token: level_3_member_token
       expect(response.code).to eq '403'
@@ -314,7 +378,7 @@ describe API::V2::Admin::Blockchains, type: :request do
         it 'doesn\'t update height of blockchain' do
           blockchain_height = blockchain.height
           expect(blockchain_height).not_to eq (block_number)
-  
+
           api_post '/api/v2/admin/blockchains/process_block', token: token, params: { block_number: block_number, id: blockchain.id }
           result = JSON.parse(response.body)
           expect(response).to be_successful
@@ -345,7 +409,6 @@ describe API::V2::Admin::Blockchains, type: :request do
         end
 
         let(:expected_block) { Peatio::Block.new(block_number, [transaction]) }
-  
 
         before do
           service.adapter.stubs(:fetch_block!).returns(expected_block)

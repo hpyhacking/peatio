@@ -12,14 +12,31 @@ module API
             is_array: true,
             success: API::V2::Admin::Entities::Blockchain
           params do
+            optional :key,
+              values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.blockchain.blockchain_key_doesnt_exist' },
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:key][:desc] }
+            optional :client,
+              values: { value: -> { ::Blockchain.clients.map(&:to_s)  }, message: 'admin.blockchain.blockchain_client_doesnt_exist' },
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:client][:desc] }
+            optional :status,
+              values: { value: -> { %w[active disabled] }, message: 'admin.blockchain.blockchain_status_doesnt_exist' },
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:status][:desc] }
+            optional :name,
+              values: { value: -> { ::Blockchain.pluck(:name) }, message: 'admin.blockchain.blockchain_name_doesnt_exist' },
+              desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:name][:desc] }
             use :pagination
             use :ordering
           end
           get do
             authorize! :read, Blockchain
 
-            result = Blockchain.order(params[:order_by] => params[:ordering])
-            present paginate(result), with: API::V2::Admin::Entities::Blockchain
+            ransack_params = Helpers::RansackBuilder.new(params)
+                               .eq(:key, :client, :status, :name)
+                               .build
+
+            search = ::Blockchain.ransack(ransack_params)
+            search.sorts = "#{params[:order_by]} #{params[:ordering]}"
+            present paginate(search.result), with: API::V2::Admin::Entities::Blockchain
           end
 
           desc 'Get available blockchain clients.',
