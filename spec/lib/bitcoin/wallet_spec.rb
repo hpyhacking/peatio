@@ -31,6 +31,9 @@ describe Bitcoin::Wallet do
     let(:uri) { 'http://user:password@127.0.0.1:18332' }
     let(:uri_without_authority) { 'http://127.0.0.1:18332' }
 
+    let(:uri_with_wallet) { 'http://user:password@127.0.0.1:18332/wallet/testwallet' }
+    let(:uri_with_wallet_no_authority) { 'http://127.0.0.1:18332/wallet/testwallet' }
+
     let(:settings) do
       {
         wallet:
@@ -54,6 +57,25 @@ describe Bitcoin::Wallet do
                            error:  nil,
                            id:     nil }.to_json)
 
+      result = wallet.create_address!(uid: 'UID123')
+      expect(result.as_json.symbolize_keys).to eq(address: address)
+    end
+
+    it 'works with wallet path' do
+      wallet.configure({
+        wallet: {
+          address: 'something',
+          uri:     uri_with_wallet },
+        currency: {}
+      })
+      address = '2N4qYjye5yENLEkz4UkLFxzPaxJatF3kRwf'
+      stub_request(:post, uri_with_wallet_no_authority)
+        .with(body: { jsonrpc: '1.0',
+                      method: :getnewaddress,
+                      params:  [] }.to_json)
+        .to_return(body: { result: address,
+                           error:  nil,
+                           id:     nil }.to_json)
       result = wallet.create_address!(uid: 'UID123')
       expect(result.as_json.symbolize_keys).to eq(address: address)
     end

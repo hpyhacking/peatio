@@ -14,12 +14,13 @@ module Bitcoin
 
     def initialize(endpoint, idle_timeout: 5)
       @json_rpc_endpoint = URI.parse(endpoint)
+      @path = @json_rpc_endpoint.path.empty? ? "/" : @json_rpc_endpoint.path
       @idle_timeout = idle_timeout
     end
 
     def json_rpc(method, params = [])
       response = connection.post \
-        '/',
+        @path,
         {jsonrpc: '1.0', method: method, params: params}.to_json,
         {'Accept' => 'application/json',
          'Content-Type' => 'application/json'}
