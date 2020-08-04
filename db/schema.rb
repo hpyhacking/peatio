@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_130534) do
+ActiveRecord::Schema.define(version: 2020_08_04_091304) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -156,6 +156,17 @@ ActiveRecord::Schema.define(version: 2020_05_27_130534) do
     t.datetime "updated_at", null: false
     t.index ["currency_id"], name: "index_expenses_on_currency_id"
     t.index ["reference_type", "reference_id"], name: "index_expenses_on_reference_type_and_reference_id"
+  end
+
+  create_table "jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "pointer", unsigned: true
+    t.integer "counter"
+    t.json "data"
+    t.integer "error_code", limit: 1, default: 255, null: false, unsigned: true
+    t.string "error_message"
+    t.datetime "started_at"
+    t.datetime "finished_at"
   end
 
   create_table "liabilities", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

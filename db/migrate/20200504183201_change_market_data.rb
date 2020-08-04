@@ -1,6 +1,6 @@
 class ChangeMarketData < ActiveRecord::Migration[5.2]
   def change
-    add_column :markets, :data, :json
+    add_column :markets, :data, :json, after: :position
 
     Market.all.each do |m|
       next if m.data_encrypted.nil?
