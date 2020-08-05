@@ -17,6 +17,7 @@ module Abilities
       can %i[read write], Withdraw
       can :read, Account
       can :read, PaymentAddress
+      can :read, Beneficiary
 
       can :create, Deposits::Fiat
       can :create, Adjustment

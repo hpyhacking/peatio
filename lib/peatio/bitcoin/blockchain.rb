@@ -35,6 +35,17 @@ module Bitcoin
       raise Peatio::Blockchain::ClientError, e
     end
 
+    def transaction_sources(transaction)
+      transaction_hash = client.json_rpc(:getrawtransaction, [transaction.hash, 1])
+      transaction_hash['vin'].each_with_object([]) do |vin, source_addresses|
+        next if vin['txid'].blank?
+
+        vin_transaction = client.json_rpc(:getrawtransaction, [vin['txid'], 1])
+        source = vin_transaction['vout'].find { |hash| hash['n'] == vin['vout'] }
+        source_addresses << source['scriptPubKey']['addresses'][0]
+      end.compact.uniq
+    end
+
     def load_balance_of_address!(address, _currency_id)
       address_with_balance = client.json_rpc(:listaddressgroupings)
                                    .flatten(1)

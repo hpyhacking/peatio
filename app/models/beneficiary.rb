@@ -10,9 +10,9 @@ class Beneficiary < ApplicationRecord
   include AASM
   include AASM::Locking
 
-  STATES_MAPPING = { pending: 0, active: 1, archived: 2 }.freeze
+  STATES_MAPPING = { pending: 0, active: 1, archived: 2, aml_processing: 3, aml_suspicious: 4 }.freeze
 
-  STATES = %i[pending active archived].freeze
+  STATES = %i[pending aml_processing aml_suspicious active archived].freeze
   STATES_AVAILABLE_FOR_MEMBER = %i[pending active]
 
   PIN_LENGTH  = 6
@@ -29,14 +29,31 @@ class Beneficiary < ApplicationRecord
   aasm column: :state, enum: :states_mapping, whiny_transitions: false do
     state :pending, initial: true
     state :active
+    state :aml_processing
+    state :aml_suspicious
     state :archived
 
     event :activate do
-      transitions from: :pending, to: :active, guard: :valid_pin?
+      if Peatio::AML.adapter.present?
+        transitions from: :pending, to: :aml_processing, guard: :valid_pin?
+        after do
+          enable! if aml_check!
+        end
+      else
+        transitions from: :pending, to: :active, guard: :valid_pin?
+      end
     end
 
+    event :enable do
+      transitions from: :aml_processing, to: :active
+    end if Peatio::AML.adapter.present?
+
+    event :aml_suspicious do
+      transitions from: :aml_processing, to: :aml_suspicious
+    end if Peatio::AML.adapter.present?
+
     event :archive do
-      transitions from: %i[pending active], to: :archived
+      transitions from: %i[pending aml_processing aml_suspicious active], to: :archived
     end
   end
 
@@ -110,6 +127,17 @@ class Beneficiary < ApplicationRecord
       sent_at:     sent_at.iso8601,
       created_at:  created_at.iso8601,
       updated_at:  updated_at.iso8601 }
+  end
+
+  def aml_check!
+    result = Peatio::AML.check!(rid, currency_id, member.uid)
+    if result.risk_detected
+      b.aml_suspicious!
+      return nil
+    end
+    return nil if result.pending
+
+    true
   end
 
   def valid_pin?(user_pin)

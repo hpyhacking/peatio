@@ -109,6 +109,30 @@ module API
             status 422
           end
         end
+
+        desc 'Creates new crypto refund',
+          success: API::V2::Admin::Entities::Refund
+        params do
+          requires :id,
+                   type: { value: Integer, message: 'admin.deposit.non_integer_type' },
+                   desc: -> { 'Deposit id' }
+          requires :address,
+                   desc: -> { API::V2::Admin::Entities::Refund.documentation[:address][:desc] }
+        end
+        post '/deposits/:id/refund' do
+          authorize! :wrrie, Deposit
+
+          deposit = Deposit.find(params[:id])
+
+          refund = ::Refund.new(deposit: deposit, address: params[:address])
+
+          if refund.save
+            present refund, with: API::V2::Admin::Entities::Refund
+          else
+            body errors: refund.errors.full_messages
+            status 422
+          end
+        end
       end
     end
   end

@@ -24,6 +24,7 @@ module Abilities
 
       can :read, Account
       can :read, PaymentAddress
+      can :read, Beneficiary
     end
   end
 end

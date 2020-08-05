@@ -1,23 +1,6 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-class FakeBlockchain < Peatio::Blockchain::Abstract
-  def initialize
-    @features = {cash_addr_format: false, case_sensitive: true}
-  end
-
-  def configure(settings = {}); end
-end
-
-class FakeWallet < Peatio::Wallet::Abstract
-  def initialize; end
-
-  def configure(settings = {}); end
-end
-
-Peatio::Blockchain.registry[:fake] = FakeBlockchain
-Peatio::Wallet.registry[:fake] = FakeWallet
-
 describe WalletService do
   let!(:blockchain) { create(:blockchain, 'fake-testnet') }
   let!(:currency) { create(:currency, :fake) }

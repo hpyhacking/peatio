@@ -32,6 +32,102 @@ describe Bitcoin::Blockchain do
     end
   end
 
+  context :transaction_sources do
+    let(:server) { 'http://user:password@127.0.0.1:18332' }
+    let(:endpoint) { '127.0.0.1:18332' }
+    let(:blockchain) do
+      Bitcoin::Blockchain.new.tap {|b| b.configure(server: server)}
+    end
+
+    def request_raw_transaction(transaction)
+      {
+        jsonrpc: '1.0',
+        method: :getrawtransaction,
+        params: [transaction.hash, 1]
+      }.to_json
+    end
+
+    context 'transaction 3 vins' do
+
+      let(:transaction_file_name) { 'b3aa85765aa52cf7eb0a7f0eb7ac3447b9b1a82b9323bdd8d73fc305073a3711.json' }
+      let(:transaction_data) do
+        Rails.root.join('spec', 'resources', 'bitcoin-data', transaction_file_name)
+          .yield_self { |file_path| File.open(file_path) }
+          .yield_self { |file| JSON.load(file) }
+      end
+
+      let(:vin1_transaction_file_name) { 'vin-1ec4bf89b77f0d72ee41f41c97a6d380bd69e0221bf182b993b64bb37d017b57.json' }
+      let(:vin1_transaction_data) do
+        Rails.root.join('spec', 'resources', 'bitcoin-data', vin1_transaction_file_name)
+          .yield_self { |file_path| File.open(file_path) }
+          .yield_self { |file| JSON.load(file) }
+      end
+
+      let(:vin2_transaction_file_name) { 'vin-8bde1da3d2315e09f910cb9782018fe243740c56cd7ca78a19016b169e74180a.json' }
+      let(:vin2_transaction_data) do
+        Rails.root.join('spec', 'resources', 'bitcoin-data', vin2_transaction_file_name)
+          .yield_self { |file_path| File.open(file_path) }
+          .yield_self { |file| JSON.load(file) }
+      end
+
+      let(:vin3_transaction_file_name) { 'vin-64a04cad438b64e260bc0b832bde79913d618d3206e834de66bbcb1304629d61.json' }
+      let(:vin3_transaction_data) do
+        Rails.root.join('spec', 'resources', 'bitcoin-data', vin3_transaction_file_name)
+          .yield_self { |file_path| File.open(file_path) }
+          .yield_self { |file| JSON.load(file) }
+      end
+
+      let(:transaction) { Peatio::Transaction.new(hash: 'b3aa85765aa52cf7eb0a7f0eb7ac3447b9b1a82b9323bdd8d73fc305073a3711') }
+      let(:vin1_transaction) { Peatio::Transaction.new(hash: '1ec4bf89b77f0d72ee41f41c97a6d380bd69e0221bf182b993b64bb37d017b57') }
+      let(:vin2_transaction) { Peatio::Transaction.new(hash: '8bde1da3d2315e09f910cb9782018fe243740c56cd7ca78a19016b169e74180a') }
+      let(:vin3_transaction) { Peatio::Transaction.new(hash: '64a04cad438b64e260bc0b832bde79913d618d3206e834de66bbcb1304629d61') }
+
+      before do
+        stub_request(:post, endpoint)
+          .with(body: request_raw_transaction(transaction))
+          .to_return(body: transaction_data.to_json)
+
+        stub_request(:post, endpoint)
+          .with(body: request_raw_transaction(vin1_transaction))
+          .to_return(body: vin1_transaction_data.to_json)
+
+        stub_request(:post, endpoint)
+          .with(body: request_raw_transaction(vin2_transaction))
+          .to_return(body: vin2_transaction_data.to_json)
+
+        stub_request(:post, endpoint)
+          .with(body: request_raw_transaction(vin3_transaction))
+          .to_return(body: vin3_transaction_data.to_json)
+      end
+
+      it do
+        addresses = blockchain.transaction_sources(transaction)
+        expect(addresses).to eq(['1GsV7tXxXhfdp7kEFoFkgQLUWyv2xgPjnQ'])
+      end
+    end
+
+    context 'miner transaction' do
+      let(:transaction) { Peatio::Transaction.new(hash: '1da4b5a135cc0fee9d3aeb5428a898fd12fe5b1b777fd291dbbdbb72c2da8759') }
+      let(:transaction_file_name) { 'miner_transaction.json' }
+      let(:transaction_data) do
+        Rails.root.join('spec', 'resources', 'bitcoin-data', transaction_file_name)
+          .yield_self { |file_path| File.open(file_path) }
+          .yield_self { |file| JSON.load(file) }
+      end
+
+      before do
+        stub_request(:post, endpoint)
+          .with(body: request_raw_transaction(transaction))
+          .to_return(body: transaction_data.to_json)
+      end
+
+      it do
+        addresses = blockchain.transaction_sources(transaction)
+        expect(addresses).to eq([])
+      end
+    end
+  end
+
   context :latest_block_number do
     around do |example|
       WebMock.disable_net_connect!

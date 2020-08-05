@@ -23,6 +23,14 @@ module API
         )
 
         expose(
+          :uid,
+          documentation: {
+            desc: 'Beneficiary owner',
+            type: String
+          }
+        ) { |b| b.member.uid }
+
+        expose(
           :name,
           documentation: {
             desc: 'Human rememberable name which refer beneficiary.',

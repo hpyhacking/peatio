@@ -6,7 +6,7 @@ git_source(:github) { |repo_slug| "https://github.com/#{repo_slug}" }
 
 ruby '~> 2.6'
 
-gem 'ransack', '~> 2.1.1'
+gem 'ransack', '~> 2.3.2'
 gem 'rails', '~> 5.2.4'
 gem 'puma', '~> 3.12.2'
 gem 'mysql2', '~> 0.5.2'
@@ -14,7 +14,7 @@ gem 'redis', '~> 4.1.2', require: ['redis', 'redis/connection/hiredis']
 gem 'hiredis', '~> 0.6.0'
 gem 'figaro', '~> 1.1.1'
 gem 'hashie', '~> 3.6.0'
-gem 'aasm', '~> 5.0.0'
+gem 'aasm', '~> 5.0.8'
 gem 'bunny', '~> 2.14.1'
 gem 'cancancan', '~> 2.3.0'
 gem 'enumerize', '~> 2.2.2'
@@ -27,7 +27,7 @@ gem 'grape-swagger-ui', '~> 2.2.8'
 gem 'grape-swagger-entity', '~> 0.2.5'
 gem 'grape_logging', '~> 1.8.0'
 gem 'rack-attack', '~> 5.4.2'
-gem 'faraday', '~> 0.15.4'
+gem 'faraday', '~> 0.17'
 gem 'better-faraday', '~> 1.0.5'
 gem 'faraday_middleware', '~> 0.13.1'
 gem 'faye', '~> 1.2'
@@ -47,8 +47,8 @@ gem 'jwt-multisig', '~> 1.0.0'
 gem 'cash-addr', '~> 0.2.0', require: 'cash_addr'
 gem 'digest-sha3', '~> 1.1.0'
 gem 'scout_apm', '~> 2.4', require: false
-gem 'peatio', '= 2.4.4'
-gem 'irix', '~> 2.4.5'
+gem 'peatio', '~> 2.6.0'
+gem 'irix', '~> 2.6.0'
 gem 'rack-cors', '~> 1.0.6', require: false
 gem 'jwt-rack', '~> 0.1.0', require: false
 gem 'env-tweaks', '~> 1.0.0'

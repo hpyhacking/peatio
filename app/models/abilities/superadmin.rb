@@ -23,6 +23,7 @@ module Abilities
       can :manage, Market
       can :manage, Currency
       can :manage, Blockchain
+      can :manage, Beneficiary
       can :manage, Account
       can :manage, Wallet
       can :manage, TradingFee

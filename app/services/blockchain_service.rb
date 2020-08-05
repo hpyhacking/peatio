@@ -89,6 +89,10 @@ class BlockchainService
     # TODO: Rewrite this guard clause
     return unless PaymentAddress.exists?(currency_id: transaction.currency_id, address: transaction.to_address)
 
+    if transaction.from_addresses.blank? && adapter.respond_to?(:transaction_sources)
+      transaction.from_addresses = adapter.transaction_sources(transaction)
+    end
+
     deposit =
       Deposits::Coin.find_or_create_by!(
         currency_id: transaction.currency_id,

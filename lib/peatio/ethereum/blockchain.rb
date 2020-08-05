@@ -135,13 +135,14 @@ module Ethereum
 
     def build_eth_transactions(block_txn)
       @eth.map do |currency|
-        { hash:          normalize_txid(block_txn.fetch('hash')),
-          amount:        convert_from_base_unit(block_txn.fetch('value').hex, currency),
-          to_address:    normalize_address(block_txn['to']),
-          txout:         block_txn.fetch('transactionIndex').to_i(16),
-          block_number:  block_txn.fetch('blockNumber').to_i(16),
-          currency_id:   currency.fetch(:id),
-          status:        transaction_status(block_txn) }
+        { hash:           normalize_txid(block_txn.fetch('hash')),
+          amount:         convert_from_base_unit(block_txn.fetch('value').hex, currency),
+          from_addresses: [normalize_address(block_txn['from'])],
+          to_address:     normalize_address(block_txn['to']),
+          txout:          block_txn.fetch('transactionIndex').to_i(16),
+          block_number:   block_txn.fetch('blockNumber').to_i(16),
+          currency_id:    currency.fetch(:id),
+          status:         transaction_status(block_txn) }
       end
     end
 
@@ -163,13 +164,14 @@ module Ethereum
         destination_address = normalize_address('0x' + log.fetch('topics').last[-40..-1])
 
         currencies.each do |currency|
-          formatted_txs << { hash:         normalize_txid(txn_receipt.fetch('transactionHash')),
-                             amount:       convert_from_base_unit(log.fetch('data').hex, currency),
-                             to_address:   destination_address,
-                             txout:        log['logIndex'].to_i(16),
-                             block_number: txn_receipt.fetch('blockNumber').to_i(16),
-                             currency_id:  currency.fetch(:id),
-                             status:       transaction_status(txn_receipt) }
+          formatted_txs << { hash:            normalize_txid(txn_receipt.fetch('transactionHash')),
+                             amount:          convert_from_base_unit(log.fetch('data').hex, currency),
+                             from_addresses:  [normalize_address(txn_receipt['from'])],
+                             to_address:      destination_address,
+                             txout:           log['logIndex'].to_i(16),
+                             block_number:    txn_receipt.fetch('blockNumber').to_i(16),
+                             currency_id:     currency.fetch(:id),
+                             status:          transaction_status(txn_receipt) }
         end
       end
     end

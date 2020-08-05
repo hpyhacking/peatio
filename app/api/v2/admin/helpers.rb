@@ -37,6 +37,16 @@ module API
             self
           end
 
+          def translate_in(opt)
+            opt.each { |k, v| @build.merge!("#{v}_in" => @params[k]) }
+            self
+          end
+
+          def in(*keys)
+            keys.each { |k| @build.merge!("#{k}_in" => @params[k]) }
+            self
+          end
+
           def eq(*keys)
             keys.each { |k| @build.merge!("#{k}_eq" => @params[k]) }
             self
