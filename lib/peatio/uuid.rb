@@ -21,5 +21,11 @@ class UUID
     def serialize(value)
       [ value.delete('-') ].pack('H*')
     end
+
+    def quoted_id(value)
+      return if value.nil?
+
+      "x'#{value.unpack('H*').first}'"
+    end
   end
 end

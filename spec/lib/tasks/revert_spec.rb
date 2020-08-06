@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-Rails.application.load_tasks
-
 describe 'revert.rake' do
   let(:bob) { create(:member, :level_3, email: 'bob@gmail.com') }
   let(:alice) { create(:member, :level_3, email: 'alice@gmail.com') }

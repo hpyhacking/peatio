@@ -30,14 +30,13 @@ gem 'rack-attack', '~> 5.4.2'
 gem 'faraday', '~> 0.17'
 gem 'better-faraday', '~> 1.0.5'
 gem 'faraday_middleware', '~> 0.13.1'
-gem 'faye', '~> 1.2'
+gem 'faye', '~> 1.4'
 gem 'eventmachine', '~> 1.2'
 gem 'em-synchrony', '~> 1.0'
 gem 'jwt', '~> 2.1.0'
 gem 'email_validator', '~> 1.6.0'
 gem 'validate_url', '~> 1.0.4'
 gem 'god', '~> 0.13.7', require: false
-gem 'mini_racer', '~> 0.2.4', require: false
 gem 'arel-is-blank', '~> 1.0.0'
 gem 'sentry-raven', '~> 2.9.0', require: false
 gem 'memoist', '~> 0.16.0'

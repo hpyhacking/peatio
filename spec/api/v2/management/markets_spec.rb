@@ -65,7 +65,7 @@ describe API::V2::Management::Markets, type: :request do
       request
 
       expect(response).to have_http_status 422
-      expect(response.body).to match(/Position must be an integer/i)
+      expect(response.body).to match(/Position must be greater than or equal to 0/i)
     end
 
     it 'should validate state param' do
