@@ -42,17 +42,18 @@ describe API::V2::Admin::Wallets, type: :request do
     end
 
     it 'retunrs NA balance if node not accessible' do
+      wallet.update(balance: wallet.current_balance)
       api_get "/api/v2/admin/wallets/#{wallet.id}", token: token
       expect(response).to be_successful
       expect(response_body['balance']).to eq('N/A')
     end
 
     it 'returns wallet balance if node accessible' do
-      WalletService.any_instance.stubs(:load_balance!).returns('1')
+      wallet.update(balance: {wallet.currency_id => '1'})
 
       api_get "/api/v2/admin/wallets/#{wallet.id}", token: token
       expect(response).to be_successful
-      expect(response_body['balance']).to eq('1')
+      expect(response_body['balance']).to eq({ wallet.currency_id =>'1' })
     end
   end
 

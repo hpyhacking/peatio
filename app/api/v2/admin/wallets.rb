@@ -90,7 +90,7 @@ module API
         get '/wallets/:id' do
           authorize! :read, Wallet
 
-          present ::Wallet.find(params[:id]), with: API::V2::Admin::Entities::Wallet, full: true
+          present ::Wallet.find(params[:id]), with: API::V2::Admin::Entities::Wallet
         end
 
         desc 'Creates new wallet.' do
@@ -121,7 +121,7 @@ module API
 
           wallet = ::Wallet.new(declared(params))
           if wallet.save
-            present wallet, with: API::V2::Admin::Entities::Wallet, full: true
+            present wallet, with: API::V2::Admin::Entities::Wallet
             status 201
           else
             body errors: wallet.errors.full_messages
@@ -161,7 +161,7 @@ module API
 
           params[:settings] = wallet.settings.merge(params[:settings]) if params[:settings]
           if wallet.update(declared(params, include_missing: false))
-            present wallet, with: API::V2::Admin::Entities::Wallet, full: true
+            present wallet, with: API::V2::Admin::Entities::Wallet
           else
             body errors: wallet.errors.full_messages
             status 422

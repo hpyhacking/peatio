@@ -68,11 +68,8 @@ module API
             documentation: {
               type: BigDecimal,
               desc: 'Wallet balance'
-            },
-            if: ->(_, options) { options[:full] }
-          ) do |wallet, _options|
-            wallet.current_balance
-          end
+            }
+          )
 
           expose(
             :blockchain_key,
