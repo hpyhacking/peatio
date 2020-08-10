@@ -101,6 +101,7 @@ class BlockchainService
         d.address = transaction.to_address
         d.amount = transaction.amount
         d.member = PaymentAddress.find_by(currency_id: transaction.currency_id, address: transaction.to_address).account.member
+        d.from_addresses = transaction.from_addresses
         d.block_number = transaction.block_number
       end
 

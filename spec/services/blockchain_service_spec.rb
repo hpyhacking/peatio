@@ -21,13 +21,13 @@ describe BlockchainService do
 
   let!(:member) { create(:member) }
 
-  let(:transaction) { Peatio::Transaction.new(hash: 'fake_txid', to_address: 'fake_address', amount: 5, block_number: 3, currency_id: 'fake1', txout: 4, status: 'success') }
+  let(:transaction) { Peatio::Transaction.new(hash: 'fake_txid', to_address: 'fake_address', from_addresses: ['fake_address'], amount: 5, block_number: 3, currency_id: 'fake1', txout: 4, status: 'success') }
 
   let(:expected_transactions) do
     [
-      { hash: 'fake_hash1', to_address: 'fake_address', amount: 1, block_number: 2, currency_id: 'fake1', txout: 1, status: 'success' },
-      { hash: 'fake_hash2', to_address: 'fake_address1', amount: 2, block_number: 2, currency_id: 'fake1', txout: 2, status: 'success' },
-      { hash: 'fake_hash3', to_address: 'fake_address2', amount: 3, block_number: 2, currency_id: 'fake2', txout: 3, status: 'success' }
+      { hash: 'fake_hash1', to_address: 'fake_address', amount: 1, block_number: 2, currency_id: 'fake1', txout: 1, from_addresses: ['fake_address'], status: 'success' },
+      { hash: 'fake_hash2', to_address: 'fake_address1', amount: 2, block_number: 2, currency_id: 'fake1', txout: 2, from_addresses: ['fake_address'], status: 'success' },
+      { hash: 'fake_hash3', to_address: 'fake_address2', amount: 3, block_number: 2, currency_id: 'fake2', txout: 3, from_addresses: ['fake_address'], status: 'success' }
     ].map { |t| Peatio::Transaction.new(t) }
   end
 
@@ -74,7 +74,8 @@ describe BlockchainService do
                         amount: transaction.amount,
                         address: transaction.to_address,
                         block_number: transaction.block_number,
-                        txout: transaction.txout).exists?).to be true }
+                        txout: transaction.txout,
+                        from_addresses: transaction.from_addresses).exists?).to be true }
       end
 
       context 'collect deposit after processing block' do
