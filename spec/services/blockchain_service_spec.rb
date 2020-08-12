@@ -146,11 +146,11 @@ describe BlockchainService do
 
       subject { Deposits::Coin.where(currency: [fake_currency1, fake_currency2]) }
 
-      it { expect(subject.count).to eq 2 }
-
-      it { expect(Deposits::Coin.where(currency: fake_currency1).exists?).to be true }
-
-      it { expect(Deposits::Coin.where(currency: fake_currency2).exists?).to be true }
+      it do
+        expect(subject.count).to eq 2
+        expect(Deposits::Coin.where(currency: fake_currency1).exists?).to be true
+        expect(Deposits::Coin.where(currency: fake_currency2).exists?).to be true
+      end
     end
   end
 
@@ -217,9 +217,10 @@ describe BlockchainService do
 
     subject { Withdraws::Coin.where(currency: fake_currency1) }
 
-    it { expect(subject.find_by(txid: expected_transactions.first.hash).block_number).to eq(expected_transactions.first.block_number) }
-
-    it { expect(subject.find_by(txid: expected_transactions.second.hash).block_number).to eq(expected_transactions.second.block_number) }
+    it do
+      expect(subject.find_by(txid: expected_transactions.first.hash).block_number).to eq(expected_transactions.first.block_number)
+      expect(subject.find_by(txid: expected_transactions.second.hash).block_number).to eq(expected_transactions.second.block_number)
+    end
   end
 
   context 'two fake withdrawals for two currency were updated during block processing' do
@@ -253,9 +254,10 @@ describe BlockchainService do
 
     subject { Withdraws::Coin.where(currency: [fake_currency1, fake_currency2]) }
 
-    it { expect(subject.find_by(txid: expected_transactions.first.hash).block_number).to eq(expected_transactions.first.block_number) }
-
-    it { expect(subject.find_by(txid: expected_transactions.third.hash).block_number).to eq(expected_transactions.third.block_number) }
+    it do
+      expect(subject.find_by(txid: expected_transactions.first.hash).block_number).to eq(expected_transactions.first.block_number)
+      expect(subject.find_by(txid: expected_transactions.third.hash).block_number).to eq(expected_transactions.third.block_number)
+    end
 
     context 'fail withdrawal if transaction has status :fail' do
 

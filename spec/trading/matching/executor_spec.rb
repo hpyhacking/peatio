@@ -187,10 +187,12 @@ describe Matching::Executor do
         subject.execute!
       end
 
-      it { expect(ask.member.balance_for(currency: bid.currency, kind: :main)).to eq(49.5) }
-      it { expect(bid.member.balance_for(currency: ask.currency, kind: :main)).to eq(4.9) }
-      it { expect(Operations::Revenue.find_by(currency: bid.currency, member: ask.member).credit).to eq(0.5) }
-      it { expect(Operations::Revenue.find_by(currency: ask.currency, member: bid.member).credit).to eq(0.1) }
+      it do
+        expect(ask.member.balance_for(currency: bid.currency, kind: :main)).to eq(49.5)
+        expect(bid.member.balance_for(currency: ask.currency, kind: :main)).to eq(4.9)
+        expect(Operations::Revenue.find_by(currency: bid.currency, member: ask.member).credit).to eq(0.5)
+        expect(Operations::Revenue.find_by(currency: ask.currency, member: bid.member).credit).to eq(0.1)
+      end
     end
 
     context 'maker_fee: 0%, taker_fee: 2%' do
@@ -207,10 +209,12 @@ describe Matching::Executor do
         subject.execute!
       end
 
-      it { expect(ask.member.balance_for(currency: bid.currency, kind: :main)).to eq(50) }
-      it { expect(bid.member.balance_for(currency: ask.currency, kind: :main)).to eq(4.9) }
-      it { expect(Operations::Revenue.find_by(currency: bid.currency, member: ask.member).blank?).to eq(true) }
-      it { expect(Operations::Revenue.find_by(currency: ask.currency, member: bid.member).credit).to eq(0.1) }
+      it do
+        expect(ask.member.balance_for(currency: bid.currency, kind: :main)).to eq(50)
+        expect(bid.member.balance_for(currency: ask.currency, kind: :main)).to eq(4.9)
+        expect(Operations::Revenue.find_by(currency: bid.currency, member: ask.member).blank?).to eq(true)
+        expect(Operations::Revenue.find_by(currency: ask.currency, member: bid.member).credit).to eq(0.1)
+      end
     end
   end
 

@@ -13,7 +13,9 @@ describe Peatio::InfluxDB do
       Peatio::InfluxDB.instance_variable_set(:@clients, {})
     end
 
-    it { expect(Peatio::InfluxDB.client(keyshard: 'btcusd').config.hosts).to eq(['inflxudb-1']) }
-    it { expect(Peatio::InfluxDB.client(keyshard: 'ethusd').config.hosts).to eq(['inflxudb-0']) }
+    it do
+      expect(Peatio::InfluxDB.client(keyshard: 'btcusd').config.hosts).to eq(['inflxudb-1'])
+      expect(Peatio::InfluxDB.client(keyshard: 'ethusd').config.hosts).to eq(['inflxudb-0'])
+    end
   end
 end

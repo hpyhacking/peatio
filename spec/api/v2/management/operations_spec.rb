@@ -50,9 +50,8 @@ describe API::V2::Management::Operations, type: :request do
         context 'pagination' do
           let(:data) { { page: 2, limit: 8 } }
 
-          it { expect(response).to have_http_status(200) }
-
           it 'returns second page of operations' do
+            expect(response).to have_http_status(200)
             expect(JSON.parse(response.body).count).to eq 7
             credits = "operations/#{op_type}"
                         .camelize
@@ -82,9 +81,9 @@ describe API::V2::Management::Operations, type: :request do
 
         context 'filter by currency' do
           let(:data) { { currency: :btc } }
-          it { expect(response).to have_http_status(200) }
 
           it 'returns operations by currency' do
+            expect(response).to have_http_status(200)
             operations = "operations/#{op_type}"
                            .camelize
                            .constantize
@@ -101,9 +100,9 @@ describe API::V2::Management::Operations, type: :request do
             create_list(op_type, operations_number, member_id: member.id)
           end
           let(:data) { { uid: member.uid } }
-          it { expect(response).to have_http_status(200) }
 
           it 'returns operations by member UID' do
+            expect(response).to have_http_status(200)
             request(op_type.to_s.pluralize)
             operations = "operations/#{op_type}"
                            .camelize
@@ -207,9 +206,8 @@ describe API::V2::Management::Operations, type: :request do
             request(op_type.to_s.pluralize)
           end
 
-          it { expect(response).to have_http_status 200 }
-
           it 'returns operation' do
+            expect(response).to have_http_status 200
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
             expect(JSON.parse(response.body)['credit'].to_d).to eq amount.to_d
             expect(JSON.parse(response.body)['code']).to \
@@ -245,9 +243,8 @@ describe API::V2::Management::Operations, type: :request do
             request(op_type.to_s.pluralize)
           end
 
-          it { expect(response).to have_http_status 200 }
-
           it 'returns operation' do
+            expect(response).to have_http_status 200
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
             expect(JSON.parse(response.body)['debit'].to_d).to eq amount.to_d
             expect(JSON.parse(response.body)['code']).to \
@@ -285,9 +282,8 @@ describe API::V2::Management::Operations, type: :request do
             request(op_type.to_s.pluralize)
           end
 
-          it { expect(response).to have_http_status 200 }
-
           it 'returns operation' do
+            expect(response).to have_http_status 200
             expect(JSON.parse(response.body)['uid']).to eq member.uid
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
             expect(JSON.parse(response.body)['credit'].to_d).to eq amount.to_d
@@ -331,9 +327,8 @@ describe API::V2::Management::Operations, type: :request do
             request(op_type.to_s.pluralize)
           end
 
-          it { expect(response).to have_http_status 200 }
-
           it 'returns operation' do
+            expect(response).to have_http_status 200
             expect(JSON.parse(response.body)['uid']).to eq member.uid
             expect(JSON.parse(response.body)['currency']).to eq currency.code.to_s
             expect(JSON.parse(response.body)['debit'].to_d).to eq amount.to_d

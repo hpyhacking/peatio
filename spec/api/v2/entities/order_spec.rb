@@ -15,27 +15,29 @@ describe API::V2::Entities::Order do
   context 'default exposure' do
     subject { OpenStruct.new API::V2::Entities::Order.represent(order, {}).serializable_hash }
 
-    it { expect(subject.id).to eq order.id }
+    it do
+     expect(subject.id).to eq order.id
 
-    it { expect(subject.price).to eq order.price }
-    it { expect(subject.avg_price).to eq ::Trade::ZERO }
+     expect(subject.price).to eq order.price
+     expect(subject.avg_price).to eq ::Trade::ZERO
 
-    it { expect(subject.origin_volume).to eq order.origin_volume }
-    it { expect(subject.remaining_volume).to eq order.volume }
-    it { expect(subject.executed_volume).to eq(order.origin_volume - order.volume) }
+     expect(subject.origin_volume).to eq order.origin_volume
+     expect(subject.remaining_volume).to eq order.volume
+     expect(subject.executed_volume).to eq(order.origin_volume - order.volume)
 
-    it { expect(subject.state).to eq order.state }
-    it { expect(subject.market).to eq order.market_id }
+     expect(subject.state).to eq order.state
+     expect(subject.market).to eq order.market_id
 
-    it { expect(subject.side).to eq 'sell' }
+     expect(subject.side).to eq 'sell'
 
-    it { expect(subject.maker_fee).to eq order.maker_fee }
-    it { expect(subject.taker_fee).to eq order.taker_fee }
+     expect(subject.maker_fee).to eq order.maker_fee
+     expect(subject.taker_fee).to eq order.taker_fee
 
-    it { expect(subject.trades).to be_nil }
-    it { expect(subject.trades_count).to be_zero }
+     expect(subject.trades).to be_nil
+     expect(subject.trades_count).to be_zero
 
-    it { expect(subject.created_at).to eq order.created_at.iso8601 }
+     expect(subject.created_at).to eq order.created_at.iso8601
+    end
   end
 
   context 'full exposure' do

@@ -19,12 +19,14 @@ describe Trade, '#for_notify' do
 
   subject(:notify) { trade.for_notify(order_ask.member) }
 
-  it { expect(notify).not_to be_blank }
-  it { expect(notify[:side]).not_to be_blank }
-  it { expect(notify[:created_at]).not_to be_blank }
-  it { expect(notify[:price]).not_to be_blank }
-  it { expect(notify[:amount]).not_to be_blank }
-  it { expect(notify[:order_id]).to eq(order_ask.id) }
+  it do
+    expect(notify).not_to be_blank
+    expect(notify[:side]).not_to be_blank
+    expect(notify[:created_at]).not_to be_blank
+    expect(notify[:price]).not_to be_blank
+    expect(notify[:amount]).not_to be_blank
+    expect(notify[:order_id]).to eq(order_ask.id)
+  end
 
   it 'should use side as kind' do
     expect(trade.for_notify(Member.find(trade.maker_id))[:side]).to eq 'sell'
@@ -33,12 +35,14 @@ describe Trade, '#for_notify' do
   context 'notify for bid member' do
     subject(:notify) { trade.for_notify(order_bid.member) }
 
-    it { expect(notify).not_to be_blank }
-    it { expect(notify[:side]).not_to be_blank }
-    it { expect(notify[:created_at]).not_to be_blank }
-    it { expect(notify[:price]).not_to be_blank }
-    it { expect(notify[:amount]).not_to be_blank }
-    it { expect(notify[:order_id]).to eq(order_bid.id) }
+    it do
+      expect(notify).not_to be_blank
+      expect(notify[:side]).not_to be_blank
+      expect(notify[:created_at]).not_to be_blank
+      expect(notify[:price]).not_to be_blank
+      expect(notify[:amount]).not_to be_blank
+      expect(notify[:order_id]).to eq(order_bid.id)
+    end
   end
 end
 

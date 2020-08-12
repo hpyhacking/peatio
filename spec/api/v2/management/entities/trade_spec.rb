@@ -8,24 +8,20 @@ describe API::V2::Management::Entities::Trade do
 
   subject { OpenStruct.new API::V2::Management::Entities::Trade.represent(trade, side: 'sell').serializable_hash }
 
-  it { expect(subject.id).to eq trade.id }
-  it { expect(subject.order_id).to be_nil }
-
-  it { expect(subject.price).to eq trade.price }
-  it { expect(subject.amount).to eq trade.amount }
-
-  it { expect(subject.total).to eq trade.total }
-  it { expect(subject.market).to eq trade.market_id }
-
-  it { expect(subject.side).to eq 'sell' }
-
-  it { expect(subject.created_at).to eq trade.created_at.iso8601 }
-
-  it { expect(subject.maker_order_id).to eq trade.maker_order_id }
-  it { expect(subject.maker_order_id).to eq trade.maker_order_id }
-
-  it { expect(subject.maker_member_uid).to eq trade.maker.uid }
-  it { expect(subject.taker_member_uid).to eq trade.taker.uid }
+  it do
+    expect(subject.id).to eq trade.id
+    expect(subject.order_id).to be_nil
+    expect(subject.price).to eq trade.price
+    expect(subject.amount).to eq trade.amount
+    expect(subject.total).to eq trade.total
+    expect(subject.market).to eq trade.market_id
+    expect(subject.side).to eq 'sell'
+    expect(subject.created_at).to eq trade.created_at.iso8601
+    expect(subject.maker_order_id).to eq trade.maker_order_id
+    expect(subject.maker_order_id).to eq trade.maker_order_id
+    expect(subject.maker_member_uid).to eq trade.maker.uid
+    expect(subject.taker_member_uid).to eq trade.taker.uid
+  end
 
 
   context 'sell order maker' do

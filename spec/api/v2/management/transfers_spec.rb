@@ -45,8 +45,10 @@ describe API::V2::Management::Transfers, type: :request do
         request
       end
 
-      it { expect(response).to have_http_status(422) }
-      it { expect(response.body).to match(/key is missing/i) }
+      it do
+        expect(response).to have_http_status(422)
+        expect(response.body).to match(/key is missing/i)
+      end
     end
 
     context 'empty category' do
@@ -57,8 +59,10 @@ describe API::V2::Management::Transfers, type: :request do
         request
       end
 
-      it { expect(response).to have_http_status(422) }
-      it { expect(response.body).to match(/category is missing/i) }
+      it do
+        expect(response).to have_http_status(422)
+        expect(response.body).to match(/category is missing/i)
+      end
     end
 
     context 'empty description' do
@@ -77,8 +81,10 @@ describe API::V2::Management::Transfers, type: :request do
 
       before { request }
 
-      it { expect(response).to have_http_status(422) }
-      it { expect(response.body).to match(/operations is empty/i) }
+      it do
+        expect(response).to have_http_status(422)
+        expect(response.body).to match(/operations is empty/i)
+      end
     end
 
     context 'invalid account code' do
@@ -88,8 +94,10 @@ describe API::V2::Management::Transfers, type: :request do
       end
       before { request }
 
-      it { expect(response).to have_http_status(422) }
-      it { expect(response.body).to match(/does not have a valid value/i) }
+      it do
+        expect(response).to have_http_status(422)
+        expect(response.body).to match(/does not have a valid value/i)
+      end
     end
 
     context 'invalid currency' do
@@ -99,8 +107,10 @@ describe API::V2::Management::Transfers, type: :request do
       end
       before { request }
 
-      it { expect(response).to have_http_status(422) }
-      it { expect(response.body).to match(/does not have a valid value/i) }
+      it do
+        expect(response).to have_http_status(422)
+        expect(response.body).to match(/does not have a valid value/i)
+      end
     end
 
     context 'invalid amount' do
@@ -110,8 +120,10 @@ describe API::V2::Management::Transfers, type: :request do
       end
       before { request }
 
-      it { expect(response).to have_http_status(422) }
-      it { expect(response.body).to match(/does not have a valid value/i) }
+      it do
+        expect(response).to have_http_status(422)
+        expect(response.body).to match(/does not have a valid value/i)
+      end
     end
 
     context 'existing transfer key' do
@@ -122,8 +134,10 @@ describe API::V2::Management::Transfers, type: :request do
         request
       end
 
-      it { expect(response).to have_http_status 422 }
-      it { expect(response.body).to match(/key has already been taken/i) }
+      it do
+        expect(response).to have_http_status 422
+        expect(response.body).to match(/key has already been taken/i)
+      end
     end
 
     context 'debit liability on account with insufficient balance' do
@@ -148,8 +162,11 @@ describe API::V2::Management::Transfers, type: :request do
       let(:operations) {[operation]}
 
       before { request }
-      it { expect(response).to have_http_status 422 }
-      it { expect(response.body).to match(/account balance is insufficient/i) }
+
+      it do
+        expect(response).to have_http_status 422
+        expect(response.body).to match(/account balance is insufficient/i)
+      end
     end
 
     context 'referral program story' do

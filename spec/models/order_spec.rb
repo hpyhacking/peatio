@@ -10,11 +10,13 @@ describe Order, 'validations', type: :model do
            .flatten
     end
 
-    it { is_expected.to include :ord_type }
-    it { is_expected.to include :volume }
-    it { is_expected.to include :origin_volume }
-    it { is_expected.to include :locked }
-    it { is_expected.to include :origin_locked }
+    it do
+      is_expected.to include :ord_type
+      is_expected.to include :volume
+      is_expected.to include :origin_volume
+      is_expected.to include :locked
+      is_expected.to include :origin_locked
+    end
   end
 
   context 'limit order' do
@@ -75,9 +77,11 @@ describe Order, '#submit' do
     Order.submit(order_ask.id)
   end
 
-  it { expect(order_bid.reload.state).to eq 'wait' }
-  it { expect(Operations::Liability.where(reference: order_ask).count).to eq 2 }
-  it { expect(Operations::Liability.where(reference: order_bid).count).to eq 2 }
+  it do
+    expect(order_bid.reload.state).to eq 'wait'
+    expect(Operations::Liability.where(reference: order_ask).count).to eq 2
+    expect(Operations::Liability.where(reference: order_bid).count).to eq 2
+  end
 
   context 'validations' do
     before do

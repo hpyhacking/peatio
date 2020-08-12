@@ -84,48 +84,60 @@ describe Adjustment do
     context 'asset and liability' do
       let!(:adjustment) { create(:adjustment, currency_id: 'btc', receiving_account_number: "btc-202-#{member.uid}", amount: 1) }
 
-      it { expect(subject.first.is_a?(Operations::Asset)).to be_truthy }
-      it { expect(subject.second.is_a?(Operations::Liability)).to be_truthy }
-      it { expect(subject.first.credit).to eq(1) }
-      it { expect(subject.second.credit).to eq(1) }
+      it do
+        expect(subject.first.is_a?(Operations::Asset)).to be_truthy
+        expect(subject.second.is_a?(Operations::Liability)).to be_truthy
+        expect(subject.first.credit).to eq(1)
+        expect(subject.second.credit).to eq(1)
+      end
 
       context 'negative amount' do
         let!(:adjustment) { create(:adjustment, currency_id: 'btc', receiving_account_number: "btc-202-#{member.uid}", amount: -1) }
 
-        it { expect(subject.first.debit).to eq(1) }
-        it { expect(subject.second.debit).to eq(1) }
+        it do
+          expect(subject.first.debit).to eq(1)
+          expect(subject.second.debit).to eq(1)
+        end
       end
     end
 
     context 'asset and revenue' do
       let!(:adjustment) { create(:adjustment, currency_id: 'btc', receiving_account_number: "btc-302", amount: 1) }
 
-      it { expect(subject.first.is_a?(Operations::Asset)).to be_truthy }
-      it { expect(subject.second.is_a?(Operations::Revenue)).to be_truthy }
-      it { expect(subject.first.credit).to eq(1) }
-      it { expect(subject.second.credit).to eq(1) }
+      it do
+        expect(subject.first.is_a?(Operations::Asset)).to be_truthy
+        expect(subject.second.is_a?(Operations::Revenue)).to be_truthy
+        expect(subject.first.credit).to eq(1)
+        expect(subject.second.credit).to eq(1)
+      end
 
       context 'negative amount' do
         let!(:adjustment) { create(:adjustment, currency_id: 'btc', receiving_account_number: "btc-302", amount: -1) }
 
-        it { expect(subject.first.debit).to eq(1) }
-        it { expect(subject.second.debit).to eq(1) }
+        it do
+          expect(subject.first.debit).to eq(1)
+          expect(subject.second.debit).to eq(1)
+        end
       end
     end
 
     context 'asset and expense' do
       let!(:adjustment) { create(:adjustment, currency_id: 'btc', receiving_account_number: "btc-402", amount: 1) }
 
-      it { expect(subject.first.is_a?(Operations::Asset)).to be_truthy }
-      it { expect(subject.second.is_a?(Operations::Expense)).to be_truthy }
-      it { expect(subject.first.credit).to eq(1) }
-      it { expect(subject.second.debit).to eq(1) }
+      it do
+        expect(subject.first.is_a?(Operations::Asset)).to be_truthy
+        expect(subject.second.is_a?(Operations::Expense)).to be_truthy
+        expect(subject.first.credit).to eq(1)
+        expect(subject.second.debit).to eq(1)
+      end
 
       context 'negative amount' do
         let!(:adjustment) { create(:adjustment, currency_id: 'btc', receiving_account_number: "btc-402", amount: -1) }
 
-        it { expect(subject.first.debit).to eq(1) }
-        it { expect(subject.second.credit).to eq(1) }
+        it do
+          expect(subject.first.debit).to eq(1)
+          expect(subject.second.credit).to eq(1)
+        end
       end
     end
   end

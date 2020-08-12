@@ -34,9 +34,9 @@ describe API::V2::Account::Balances, type: :request do
     context 'all balances' do
       before { api_get '/api/v2/account/balances', token: token }
 
-      it { expect(response).to have_http_status 200 }
 
       it 'returns current user balances' do
+        expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
                               { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0' },
@@ -52,9 +52,8 @@ describe API::V2::Account::Balances, type: :request do
     context 'use nonzero parameter == true' do
       before { api_get '/api/v2/account/balances', token: token, params: {nonzero: true} }
 
-      it { expect(response).to have_http_status 200 }
-
       it 'returns nonzero balances' do
+        expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
                             { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0' },
@@ -66,9 +65,8 @@ describe API::V2::Account::Balances, type: :request do
     context 'use nonzero parameter == false' do
       before { api_get '/api/v2/account/balances', token: token, params: {nonzero: false} }
 
-      it { expect(response).to have_http_status 200 }
-
       it 'returns all balances' do
+        expect(response).to have_http_status 200
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(
                               { 'currency' => 'btc',  'balance' => '5.0',  'locked'  => '5.0' },
@@ -84,9 +82,9 @@ describe API::V2::Account::Balances, type: :request do
     context 'use nonzero parameter == string' do
       before { api_get '/api/v2/account/balances', token: token, params: {nonzero: "token"} }
 
-      it { expect(response).to have_http_status 422 }
 
       it 'returns all balances' do
+        expect(response).to have_http_status 422
         result = JSON.parse(response.body)
         expect(result).to contain_exactly(["errors", ["account.balances.invalid_nonzero"]])
       end
@@ -195,9 +193,8 @@ describe API::V2::Account::Balances, type: :request do
 
     before { api_get '/api/v2/account/balances/eth', token: token }
 
-    it { expect(response).to have_http_status 200 }
-
     it 'returns current user balance by currency' do
+      expect(response).to have_http_status 200
       result = JSON.parse(response.body)
       expect(result).to match response_body
     end
@@ -206,9 +203,10 @@ describe API::V2::Account::Balances, type: :request do
 
       before { api_get '/api/v2/account/balances/somecoin', token: token }
 
-      it { expect(response).to have_http_status 422 }
-
-      it { expect(response).to include_api_error('account.currency.doesnt_exist') }
+      it do
+        expect(response).to have_http_status 422
+        expect(response).to include_api_error('account.currency.doesnt_exist')
+      end
 
     end
 
@@ -219,7 +217,9 @@ describe API::V2::Account::Balances, type: :request do
         api_get '/api/v2/account/balances/eth', token: token
       end
 
-      it { expect(response).to have_http_status 422 }
+      it do
+        expect(response).to have_http_status 422
+      end
 
     end
   end

@@ -151,9 +151,11 @@ describe TradingFee, 'Class Methods' do
       let(:order) { Order.new(member: member, market_id: :btcusd) }
       subject { TradingFee.for(group: order.member.group, market_id: order.market_id) }
 
-      it { expect(subject).to be_truthy }
-      it { expect(subject.market_id).to eq('btcusd') }
-      it { expect(subject.group).to eq('vip-0') }
+      it do
+        expect(subject).to be_truthy
+        expect(subject.market_id).to eq('btcusd')
+        expect(subject.group).to eq('vip-0')
+      end
     end
 
     context 'get trading_fee with group' do
@@ -166,9 +168,11 @@ describe TradingFee, 'Class Methods' do
       let(:order) { Order.new(member: member, market_id: :btcusd) }
       subject { TradingFee.for(group: order.member.group, market_id: order.market_id) }
 
-      it { expect(subject).to be_truthy }
-      it { expect(subject.market_id).to eq('btcusd') }
-      it { expect(subject.group).to eq('any') }
+      it do
+        expect(subject).to be_truthy
+        expect(subject.market_id).to eq('btcusd')
+        expect(subject.group).to eq('any')
+      end
     end
 
     context 'get trading_fee with market_id' do
@@ -181,9 +185,11 @@ describe TradingFee, 'Class Methods' do
       let(:order) { Order.new(member: member, market_id: :btceth) }
       subject { TradingFee.for(group: order.member.group, market_id: order.market_id) }
 
-      it { expect(subject).to be_truthy }
-      it { expect(subject.market_id).to eq('any') }
-      it { expect(subject.group).to eq('vip-0') }
+      it do
+        expect(subject).to be_truthy
+        expect(subject.market_id).to eq('any')
+        expect(subject.group).to eq('vip-0')
+      end
     end
 
     context 'get default trading_fee' do
@@ -196,18 +202,22 @@ describe TradingFee, 'Class Methods' do
       let(:order) { Order.new(member: member, market_id: :btceth) }
       subject { TradingFee.for(group: order.member.group, market_id: order.market_id) }
 
-      it { expect(subject).to be_truthy }
-      it { expect(subject.market_id).to eq('any') }
-      it { expect(subject.group).to eq('any') }
+      it do
+        expect(subject).to be_truthy
+        expect(subject.market_id).to eq('any')
+        expect(subject.group).to eq('any')
+      end
     end
 
     context 'get default trading_fee (doesnt create it)' do
       let(:order) { Order.new(member: member, market_id: :btceth) }
       subject { TradingFee.for(group: order.member.group, market_id: order.market_id) }
 
-      it { expect(subject).to be_truthy }
-      it { expect(subject.market_id).to eq('any') }
-      it { expect(subject.group).to eq('any') }
+      it do
+        expect(subject).to be_truthy
+        expect(subject.market_id).to eq('any')
+        expect(subject.group).to eq('any')
+      end
     end
   end
 end

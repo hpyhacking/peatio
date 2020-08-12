@@ -8,19 +8,25 @@ describe API::V2::Management::Entities::Operation do
 
       subject { OpenStruct.new API::V2::Management::Entities::Operation.represent(record).serializable_hash }
 
-      it { expect(subject.code).to eq record.code }
-      it { expect(subject.currency).to eq record.currency_id }
-      it { expect(subject.created_at).to eq record.created_at.iso8601 }
+      it do
+        expect(subject.code).to eq record.code
+        expect(subject.currency).to eq record.currency_id
+        expect(subject.created_at).to eq record.created_at.iso8601
+      end
 
       context 'credit' do
-        it { expect(subject.credit).to eq record.credit }
-        it { expect(subject.respond_to?(:debit)).to be_falsey }
+        it do
+          expect(subject.credit).to eq record.credit
+          expect(subject.respond_to?(:debit)).to be_falsey
+        end
       end
 
       context 'debit' do
         let(:record) { create(:asset, :debit) }
-        it { expect(subject.debit).to eq record.debit }
-        it { expect(subject.respond_to?(:credit)).to be_falsey }
+        it do
+          expect(subject.debit).to eq record.debit
+          expect(subject.respond_to?(:credit)).to be_falsey
+        end
       end
     end
   end
@@ -31,20 +37,27 @@ describe API::V2::Management::Entities::Operation do
 
       subject { OpenStruct.new API::V2::Management::Entities::Operation.represent(record).serializable_hash }
 
-      it { expect(subject.code).to eq record.code }
-      it { expect(subject.currency).to eq record.currency_id }
-      it { expect(subject.uid).to eq record.member.uid }
-      it { expect(subject.created_at).to eq record.created_at.iso8601 }
+      it do
+        expect(subject.code).to eq record.code
+        expect(subject.currency).to eq record.currency_id
+        expect(subject.uid).to eq record.member.uid
+        expect(subject.created_at).to eq record.created_at.iso8601
+      end
 
       context 'credit' do
-        it { expect(subject.credit).to eq record.credit }
-        it { expect(subject.respond_to?(:debit)).to be_falsey }
+        it do
+          expect(subject.credit).to eq record.credit
+          expect(subject.respond_to?(:debit)).to be_falsey
+        end
       end
 
       context 'debit' do
         let(:record) { create(:asset, :debit) }
-        it { expect(subject.debit).to eq record.debit }
-        it { expect(subject.respond_to?(:credit)).to be_falsey }
+
+        it do
+          expect(subject.debit).to eq record.debit
+          expect(subject.respond_to?(:credit)).to be_falsey
+        end
       end
     end
   end
