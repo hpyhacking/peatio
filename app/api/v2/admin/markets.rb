@@ -66,7 +66,7 @@ module API
           use :ordering
         end
         get '/markets' do
-          authorize! :read, ::Market
+          admin_authorize! :read, ::Market
 
           result = ::Market.order(params[:order_by] => params[:ordering])
           present paginate(result), with: API::V2::Admin::Entities::Market
@@ -81,7 +81,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:id][:desc] }
         end
         get '/markets/:id' do
-          authorize! :read, ::Market
+          admin_authorize! :read, ::Market
 
           present ::Market.find(params[:id]), with: API::V2::Admin::Entities::Market
         end
@@ -110,7 +110,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:min_amount][:desc] }
         end
         post '/markets/new' do
-          authorize! :create, ::Market
+          admin_authorize! :create, ::Market
 
           market = ::Market.new(declared(params))
           if market.save
@@ -143,7 +143,7 @@ module API
 
         end
         post '/markets/update' do
-          authorize! :write, ::Market
+          admin_authorize! :update, ::Market
 
           market = ::Market.find(params[:id])
           if market.update(declared(params, include_missing: false))

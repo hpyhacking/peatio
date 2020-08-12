@@ -1,0 +1,144 @@
+roles:
+  - superadmin
+  - admin
+  - manager
+  - accountant
+  - compliance
+  - support
+  - technical
+  - member
+  - broker
+  - trader
+  - maker
+
+admin_permissions:
+  superadmin:
+    manage:
+      - Operations::Account
+      - Operations::Asset
+      - Operations::Expense
+      - Operations::Liability
+      - Operations::Revenue
+      - Deposit
+      - Withdraw
+      - Account
+      - PaymentAddress
+      - Member
+      - Engine
+      - Market
+      - Currency
+      - Blockchain
+      - TradingFee
+      - Wallet
+      - Adjustment
+      - Beneficiary
+    read:
+      - Trade
+      - Order
+    update:
+      - Order
+  admin:
+    read:
+      - Trade
+      - Account
+      - PaymentAddress
+      - Member
+      - Order
+    update:
+      - Order
+      - Member
+    manage:
+      - Beneficiary
+      - Operations::Account
+      - Operations::Asset
+      - Operations::Expense
+      - Operations::Liability
+      - Operations::Revenue
+      - Engine
+      - Market
+      - Currency
+      - Blockchain
+      - Wallet
+      - TradingFee
+      - Adjustment
+      - Deposit
+      - Withdraw
+  accountant:
+    read:
+      - Operations::Account
+      - Operations::Asset
+      - Operations::Expense
+      - Operations::Liability
+      - Operations::Revenue
+      - Member
+      - Deposit
+      - Withdraw
+      - Account
+      - PaymentAddress
+      - Beneficiary
+    update:
+      - Deposit
+      - Withdraw
+    create:
+      - Deposits::Fiat
+      - Adjustment
+  compliance:
+    read:
+      - Operations::Account
+      - Operations::Asset
+      - Operations::Expense
+      - Operations::Liability
+      - Operations::Revenue
+      - Member
+      - Deposit
+      - Withdraw
+      - Account
+      - PaymentAddress
+      - Beneficiary
+    update:
+      - Deposit
+      - Withdraw
+  manager:
+    read:
+      - Operations::Account
+      - Operations::Asset
+      - Operations::Expense
+      - Operations::Liability
+      - Operations::Revenue
+      - Deposit
+      - Withdraw
+      - Account
+      - PaymentAddress
+      - Beneficiary
+      - Member
+      - Trade
+      - Order
+    manage:
+      - Currency
+      - Blockchain
+  support:
+    read:
+      - Deposit
+      - Withdraw
+      - Account
+      - Member
+  technical:
+    read:
+      - Operations::Account
+      - Operations::Asset
+      - Operations::Expense
+      - Operations::Liability
+      - Operations::Revenue
+      - Deposit
+      - Withdraw
+      - Account
+      - PaymentAddress
+      - Beneficiary
+      - Member
+    manage:
+      - Engine
+      - Market
+      - Currency
+      - Blockchain
+      - TradingFee
+      - Wallet

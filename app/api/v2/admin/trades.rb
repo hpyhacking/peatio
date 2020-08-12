@@ -27,7 +27,7 @@ module API
           use :ordering
         end
         get '/trades' do
-          authorize! :read, Trade
+          admin_authorize! :read, Trade
 
           member = Member.find_by(uid: params[:uid]) if params[:uid].present?
 
@@ -58,7 +58,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Trade.documentation[:id][:desc] }
         end
         get '/trades/:id' do
-          authorize! :read, Trade
+          admin_authorize! :read, Trade
 
           present Trade.find(params[:id]), with: API::V2::Admin::Entities::Trade, extended: true
         end

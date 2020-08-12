@@ -28,7 +28,7 @@ module API
             use :ordering
           end
           get do
-            authorize! :read, Blockchain
+            admin_authorize! :read, Blockchain
 
             ransack_params = Helpers::RansackBuilder.new(params)
                                .eq(:key, :client, :status, :name)
@@ -54,7 +54,7 @@ module API
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:id][:desc] }
           end
           get '/:id' do
-            authorize! :read, Blockchain
+            admin_authorize! :read, Blockchain
 
             present Blockchain.find(params[:id]), with: API::V2::Admin::Entities::Blockchain
           end
@@ -66,7 +66,7 @@ module API
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:id][:desc] }
           end
           get '/:id/latest_block' do
-            authorize! :read, Blockchain
+            admin_authorize! :read, Blockchain
 
             Blockchain.find(params[:id])&.blockchain_api.latest_block_number
           rescue
@@ -108,7 +108,7 @@ module API
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:min_confirmations][:desc] }
           end
           post '/new' do
-            authorize! :create, Blockchain
+            admin_authorize! :create, Blockchain
 
             blockchain = Blockchain.new(declared(params))
             if blockchain.save
@@ -158,7 +158,7 @@ module API
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:min_confirmations][:desc] }
           end
           post '/update' do
-            authorize! :write, Blockchain
+            admin_authorize! :update, Blockchain
 
             blockchain = Blockchain.find(params[:id])
             if blockchain.update(declared(params, include_missing: false))
@@ -182,7 +182,7 @@ module API
                      desc: -> { 'The id of a particular block on blockchain' }
           end
           post '/process_block' do
-            authorize! :write, Blockchain
+            admin_authorize! :update, Blockchain
 
             blockchain = Blockchain.find(params[:id])
             begin

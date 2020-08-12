@@ -45,7 +45,7 @@ module API
           end
           get op_type_plural do
             klass = ::Operations.const_get(op_type.capitalize)
-            authorize! :read, klass
+            admin_authorize! :read, klass
 
             search = klass.ransack(ransack_params)
             search.sorts = "#{params[:order_by]} #{params[:ordering]}"
@@ -69,7 +69,7 @@ module API
           end
           get op_type_plural do
             klass = ::Operations.const_get(op_type.capitalize)
-            authorize! :read, klass
+            admin_authorize! :read, klass
 
             member = Member.find_by(uid: params[:uid]) if params[:uid].present?
             search = klass.ransack(ransack_params.merge(member_id_eq: member&.id))

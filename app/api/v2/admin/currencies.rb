@@ -110,7 +110,7 @@ module API
           use :ordering
         end
         get '/currencies' do
-          authorize! :read, Currency
+          admin_authorize! :read, Currency
 
           search = Currency.ransack(type_eq: params[:type])
           search.sorts = "#{params[:order_by]} #{params[:ordering]}"
@@ -128,7 +128,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:code][:desc] }
         end
         get '/currencies/:code' do
-          authorize! :read, Currency
+          admin_authorize! :read, Currency
 
           present Currency.find(params[:code]), with: API::V2::Admin::Entities::Currency
         end
@@ -161,7 +161,7 @@ module API
           mutually_exclusive :base_factor, :subunits, message: 'admin.currency.one_of_base_factor_subunits_fields'
         end
         post '/currencies/new' do
-          authorize! :create, Currency
+          admin_authorize! :create, Currency
 
           currency = Currency.new(declared(params, include_missing: false))
           if currency.save
@@ -188,7 +188,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:blockchain_key][:desc] }
         end
         post '/currencies/update' do
-          authorize! :write, Currency
+          admin_authorize! :update, Currency
 
           currency = Currency.find(params[:code])
           if currency.update(declared(params, include_missing: false))

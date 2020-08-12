@@ -24,6 +24,7 @@ module API
         mount Admin::Adjustments
         mount Admin::Engines
         mount Admin::Beneficiaries
+        mount Admin::Abilities
 
         # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/admin/swagger
         # Add swagger documentation for Peatio Admin API

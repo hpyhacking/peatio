@@ -30,7 +30,7 @@ module API
           end
 
           get do
-            authorize! :read, Beneficiary
+            admin_authorize! :read, Beneficiary
 
             ransack_params = Helpers::RansackBuilder.new(params)
                                                     .eq(:id)
@@ -59,7 +59,7 @@ module API
           end
 
           post '/actions' do
-            authorize! :write, Beneficiary
+            admin_authorize! :update, Beneficiary
 
             beneficiary = Beneficiary.find(params[:id])
 

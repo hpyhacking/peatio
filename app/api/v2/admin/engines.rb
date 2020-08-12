@@ -14,7 +14,7 @@ module API
           use :ordering
         end
         get '/engines' do
-          authorize! :read, ::Engine
+          admin_authorize! :read, ::Engine
 
           result = ::Engine.order(params[:order_by] => params[:ordering])
           present paginate(result), with: API::V2::Admin::Entities::Engine
@@ -29,7 +29,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Engine.documentation[:id][:desc] }
         end
         get '/engines/:id' do
-          authorize! :read, ::Engine
+          admin_authorize! :read, ::Engine
 
           present ::Engine.find(params[:id]), with: API::V2::Admin::Entities::Engine
         end
@@ -53,7 +53,7 @@ module API
                    desc: -> { 'Metadata for engine' }
         end
         post '/engines/new' do
-          authorize! :create, ::Engine
+          admin_authorize! :create, ::Engine
 
           engine = ::Engine.new(declared(params))
           if engine.save
@@ -85,7 +85,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Engine.documentation[:state][:desc] }
         end
         post '/engines/update' do
-          authorize! :write, ::Engine
+          admin_authorize! :update, ::Engine
 
           engine = ::Engine.find(params[:id])
           if engine.update(declared(params, include_missing: false))

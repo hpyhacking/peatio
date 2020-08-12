@@ -34,7 +34,7 @@ module API
           use :ordering
         end
         get '/withdraws' do
-          authorize! :read, Withdraw
+          admin_authorize! :read, Withdraw
 
           ransack_params = Helpers::RansackBuilder.new(params)
                              .eq(:id, :txid, :rid, :tid)
@@ -58,7 +58,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:id][:desc] }
         end
         get '/withdraws/:id' do
-          authorize! :read, Withdraw
+          admin_authorize! :read, Withdraw
 
           withdraw = Withdraw.find_by!(id: params[:id])
           present withdraw,
@@ -83,7 +83,7 @@ module API
           end
         end
         post '/withdraws/actions' do
-          authorize! :write, Withdraw
+          admin_authorize! :update, Withdraw
 
           declared_params = declared(params, include_missing: false)
 

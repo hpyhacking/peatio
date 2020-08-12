@@ -26,7 +26,7 @@ module API
                     desc: -> { API::V2::Admin::Entities::Adjustment.documentation[:category][:desc] }
           end
           get do
-            authorize! :read, Adjustment
+            admin_authorize! :read, Adjustment
 
             ransack_params = Helpers::RansackBuilder.new(params)
                                                     .eq(:state, :category)
@@ -48,7 +48,7 @@ module API
                     desc: 'Adjsustment Identifier in Database'
           end
           get ':id' do
-            authorize! :read, Adjustment
+            admin_authorize! :read, Adjustment
 
             present ::Adjustment.find(params[:id]), with: API::V2::Admin::Entities::Adjustment
           end
@@ -86,7 +86,7 @@ module API
                     desc: -> { API::V2::Admin::Entities::Adjustment.documentation[:receiving_account_code][:desc] }
           end
           post '/new' do
-            authorize! :create, Adjustment
+            admin_authorize! :create, Adjustment
 
             # Do not accept member_uid if account code is not Liability or Revenue
             # Raise error if there is no :receiving_member_uid for Liability
@@ -126,7 +126,7 @@ module API
                     desc: "Adjustment action all available actions: #{Adjustment.aasm.events.map(&:name)}"
           end
           post '/action' do
-            authorize! :write, Adjustment
+            admin_authorize! :update, Adjustment
             adjustment = Adjustment.find(params[:id])
 
             if adjustment.public_send("may_#{params[:action]}?")

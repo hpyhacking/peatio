@@ -24,7 +24,7 @@ module API
           use :ordering
         end
         get '/trading_fees' do
-          authorize! :read, TradingFee
+          admin_authorize! :read, TradingFee
 
           ransack_params = Helpers::RansackBuilder.new(params)
                              .eq(:group, :market_id)
@@ -59,7 +59,7 @@ module API
                              message: 'admin.trading_fee.market_doesnt_exist' }
         end
         post '/trading_fees/new' do
-          authorize! :create, TradingFee
+          admin_authorize! :create, TradingFee
 
           trading_fee = ::TradingFee.new(declared(params))
           if trading_fee.save
@@ -96,7 +96,7 @@ module API
                              message: 'admin.trading_fee.market_doesnt_exist' }
         end
         post '/trading_fees/update' do
-          authorize! :write, TradingFee
+          admin_authorize! :update, TradingFee
 
           trading_fee = ::TradingFee.find(params[:id])
           if trading_fee.update(declared(params, include_missing: false))
@@ -115,7 +115,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::TradingFee.documentation[:id][:desc] }
         end
         post '/trading_fees/delete' do
-          authorize! :delete, TradingFee
+          admin_authorize! :delete, TradingFee
 
           present TradingFee.destroy(params[:id]), with: API::V2::Admin::Entities::TradingFee
         end

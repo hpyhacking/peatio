@@ -42,7 +42,7 @@ module API
           use :ordering
         end
         get '/orders' do
-          authorize! :read, Order
+          admin_authorize! :read, Order
 
           if params[:uid].present? || params[:email].present?
             member = Member.find_by('uid = ? OR email = ?', params[:uid], params[:email])
@@ -75,7 +75,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Order.documentation[:id][:desc] }
         end
         post '/orders/:id/cancel' do
-          authorize! :update, ::Order
+          admin_authorize! :update, ::Order
 
           begin
             order = Order.find(params[:id])
@@ -99,7 +99,7 @@ module API
                    desc: 'If present, only sell orders (asks) or buy orders (bids) will be cancelled.'
         end
         post '/orders/cancel' do
-          authorize! :update, ::Order
+          admin_authorize! :update, ::Order
 
           begin
             ransack_params = Helpers::RansackBuilder.new(params)

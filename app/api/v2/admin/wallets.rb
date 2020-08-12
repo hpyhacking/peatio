@@ -56,7 +56,7 @@ module API
           use :ordering
         end
         get '/wallets' do
-          authorize! :read, Wallet
+          admin_authorize! :read, Wallet
 
           ransack_params = Helpers::RansackBuilder.new(params)
                              .eq(:blockchain_key)
@@ -88,7 +88,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:id][:desc] }
         end
         get '/wallets/:id' do
-          authorize! :read, Wallet
+          admin_authorize! :read, Wallet
 
           present ::Wallet.find(params[:id]), with: API::V2::Admin::Entities::Wallet
         end
@@ -117,7 +117,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:gateway][:desc] }
         end
         post '/wallets/new' do
-          authorize! :create, Wallet
+          admin_authorize! :create, Wallet
 
           wallet = ::Wallet.new(declared(params))
           if wallet.save
@@ -156,7 +156,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currency][:desc] }
         end
         post '/wallets/update' do
-          authorize! :write, Wallet
+          admin_authorize! :update, Wallet
           wallet = ::Wallet.find(params[:id])
 
           params[:settings] = wallet.settings.merge(params[:settings]) if params[:settings]

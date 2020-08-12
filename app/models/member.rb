@@ -4,9 +4,6 @@
 require 'securerandom'
 
 class Member < ApplicationRecord
-  ROLES = %w[superadmin admin manager accountant compliance support technical member broker trader maker]
-  ADMIN_ROLES = %w[superadmin admin accountant compliance support technical manager]
-
   has_many :orders
   has_many :accounts
   has_many :stats_member_pnl
@@ -22,7 +19,7 @@ class Member < ApplicationRecord
   validates :uid, length: { maximum: 32 }
   validates :email, presence: true, uniqueness: true, email: true
   validates :level, numericality: { greater_than_or_equal_to: 0 }
-  validates :role, inclusion: { in: ROLES }
+  validates :role, inclusion: { in: ::Ability.roles }
 
   before_create { self.group = self.group.strip.downcase }
 
