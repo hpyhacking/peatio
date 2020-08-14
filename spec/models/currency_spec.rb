@@ -107,4 +107,15 @@ describe Currency do
       expect(fake_currency.subunits).to eq(2)
     end
   end
+
+  context 'validate max currency' do
+    before { ENV['MAX_CURRENCIES'] = '6' }
+    after  { ENV['MAX_CURRENCIES'] = nil }
+
+    it 'should raise validation error for max currency' do
+      record = build(:currency, :fake, id: 'fake2', type: 'fiat', base_factor: 100)
+      record.save
+      expect(record.errors.full_messages).to include(/Max Currency limit has been reached/i)
+    end
+  end
 end

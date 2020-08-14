@@ -64,6 +64,10 @@ class Market < ApplicationRecord
   end
 
   validate on: :create do
+    if ENV['MAX_MARKETS'].present? && Market.count >= ENV['MAX_MARKETS'].to_i
+      errors.add(:max, 'Market limit has been reached')
+    end
+
     if Market.where(base_currency: quote_currency, quote_currency: base_currency).present? ||
        Market.where(base_currency: base_currency, quote_currency: quote_currency).present?
       errors.add(:base, "#{base_currency.upcase}, #{quote_currency.upcase} market already exists")

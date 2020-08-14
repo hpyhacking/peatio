@@ -128,6 +128,10 @@ defaults: &defaults
   VAULT_URL:    http://127.0.0.1:8200
   VAULT_TOKEN:  changeme
 
+  # Configure to limit currencies and markets on the platform.
+  MAX_CURRENCIES: ~
+  MAX_MARKETS:    ~
+
 development:
   <<: *defaults
 
