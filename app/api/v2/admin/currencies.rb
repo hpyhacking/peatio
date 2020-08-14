@@ -188,7 +188,7 @@ module API
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:blockchain_key][:desc] }
         end
         post '/currencies/update' do
-          admin_authorize! :update, Currency
+          admin_authorize! :update, Currency, params.except(:code)
 
           currency = Currency.find(params[:code])
           if currency.update(declared(params, include_missing: false))

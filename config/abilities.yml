@@ -113,9 +113,16 @@ admin_permissions:
       - Member
       - Trade
       - Order
-    manage:
-      - Currency
-      - Blockchain
+    update:
+      - Currency:
+        - name
+        - symbol
+        - position
+        - icon_url
+      - Blockchain:
+        - name
+        - explorer_address
+        - explorer_transaction
   support:
     read:
       - Deposit

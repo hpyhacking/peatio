@@ -5,8 +5,14 @@ module API
     module Helpers
       extend Memoist
 
-      def admin_authorize!(*args)
-        AdminAbility.new(current_user).authorize!(*args)
+      def admin_authorize!(action, model, attributes = {})
+        if attributes.present?
+          attributes.each do |k, _|
+            AdminAbility.new(current_user).authorize!(action, model, k)
+          end
+        else
+          AdminAbility.new(current_user).authorize!(action, model)
+        end
       rescue StandardError
         error!({ errors: ['admin.ability.not_permitted'] }, 403)
       end

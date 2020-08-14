@@ -158,7 +158,7 @@ module API
                      desc: -> { API::V2::Admin::Entities::Blockchain.documentation[:min_confirmations][:desc] }
           end
           post '/update' do
-            admin_authorize! :update, Blockchain
+            admin_authorize! :update, Blockchain, params.except(:id)
 
             blockchain = Blockchain.find(params[:id])
             if blockchain.update(declared(params, include_missing: false))
