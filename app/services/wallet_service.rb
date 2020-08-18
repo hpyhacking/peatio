@@ -89,7 +89,7 @@ class WalletService
   end
 
   def load_balance!
-    { @wallet.currency_id => @adapter.load_balance! }
+    @adapter.load_balance!
   rescue Peatio::Wallet::Error => e
     report_exception(e)
     BlockchainService.new(wallet.blockchain).load_balance!(@wallet.address, @wallet.currency_id)
