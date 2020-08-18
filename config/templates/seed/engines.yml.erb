@@ -1,13 +1,13 @@
 <% if ENV['ENGINES_CONFIG'] %>
 <%= File.read(ENV['ENGINES_CONFIG']) %>
 <% else %>
-- name:              Peatio Default Engine
+- name:              peatio-default-engine
   driver:            peatio
   state:             online
-- name:              Local Finex Spot Engine
+- name:              local-finex-spot-engine
   driver:            finex-spot
   state:             online
-- name:              Opendax Finex Spot Engine
+- name:              opendax-finex-spote-engine
   driver:            opendax
   uid:               U123456789
   url:               https://www.opendax.io/api/v2/finex

@@ -79,7 +79,7 @@ describe API::V2::Admin::Engines, type: :request do
     let(:engine) { create(:engine) }
     let(:valid_params) do
       {
-        name: 'New engine',
+        name: 'new-engine',
         driver: 'new_driver',
         uid: 'UID123456',
         key: 'your_key',
@@ -92,7 +92,7 @@ describe API::V2::Admin::Engines, type: :request do
       api_post '/api/v2/admin/engines/new', token: token, params: valid_params
       result = JSON.parse(response.body)
       expect(response).to be_successful
-      expect(result['name']).to eq 'New engine'
+      expect(result['name']).to eq 'new-engine'
       expect(result['data'].blank?).to eq true
 
       api_post '/api/v2/admin/engines/new', token: token, params: valid_params

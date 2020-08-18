@@ -33,6 +33,8 @@ class Engine < ApplicationRecord
 
   # == Callbacks ============================================================
 
+  before_create { self.name = name.strip.downcase }
+
   # == Class Methods ========================================================
 
   # == Instance Methods =====================================================

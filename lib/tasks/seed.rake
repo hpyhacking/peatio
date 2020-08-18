@@ -70,7 +70,16 @@ namespace :seed do
             legacy_key_value = hash.delete(old_key)
             hash[new_key] ||= legacy_key_value
           end
-          Market.create!(hash)
+
+          # Select engine with provided name
+          engine = Engine.find_by(name: hash[:engine_name])
+          if engine.present?
+            hash.delete :engine_name
+            hash[:engine_id] = engine.id
+            Market.create!(hash)
+          else
+            Rails.logger "Engine doesn't exist"
+          end
         end
     end
   end
