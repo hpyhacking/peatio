@@ -22,6 +22,7 @@ module API
           expose :completed_at, format_with: :iso8601, documentation: { type: String, desc: 'The datetime when deposit was completed.' }
           expose :txid, as: :blockchain_txid, if: -> (d, _) { d.coin? }, documentation: { type: String, desc: 'The transaction ID on the Blockchain (coin only).' }
           expose :confirmations, as: :blockchain_confirmations, if: -> (d, _) { d.coin? }, documentation: { type: String, desc: 'The number of transaction confirmations on the Blockchain (coin only).' }
+          expose :transfer_type, documentation: { type: String, desc: 'deposit transfer_type.' }
         end
       end
     end

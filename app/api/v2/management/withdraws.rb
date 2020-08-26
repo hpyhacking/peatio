@@ -90,6 +90,9 @@ module API
           requires :amount,         type: BigDecimal, desc: 'The amount to withdraw.'
           optional :note,           type: String, desc: 'The note for withdraw.'
           optional :action,         type: String, values: %w[process], desc: 'The action to perform.'
+          optional :transfer_type,  type: String,
+                                    values: { value: -> { Withdraw::TRANSFER_TYPES.keys }, message: 'account.withdraw.transfer_type_not_in_list' },
+                                    desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:transfer_type][:desc] }
 
           exactly_one_of :rid, :beneficiary_id
         end
@@ -108,7 +111,7 @@ module API
             error!({ errors: ['management.beneficiary.invalid_state_for_withdrawal'] }, 422)
           end
 
-          declared_params = declared(params, include_missing: false).slice(:tid, :rid, :note).merge(
+          declared_params = declared(params, include_missing: false).slice(:tid, :rid, :note, :transfer_type).merge(
             sum: params[:amount],
             member: member,
             currency: currency,

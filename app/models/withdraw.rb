@@ -22,6 +22,9 @@ class Withdraw < ApplicationRecord
   include TIDIdentifiable
   include FeeChargeable
 
+  extend Enumerize
+  TRANSFER_TYPES = { fiat: 100, crypto: 200 }
+
   # Optional beneficiary association gives ability to support both in-peatio
   # beneficiaries and managed by third party application.
   belongs_to :beneficiary, optional: true
@@ -30,6 +33,7 @@ class Withdraw < ApplicationRecord
 
   before_validation(on: :create) { self.rid ||= beneficiary.rid if beneficiary.present? }
   before_validation { self.completed_at ||= Time.current if completed? }
+  before_validation { self.transfer_type ||= coin? ? 'crypto' : 'fiat' }
 
   validates :rid, :aasm_state, presence: true
   validates :txid, uniqueness: { scope: :currency_id }, if: :txid?

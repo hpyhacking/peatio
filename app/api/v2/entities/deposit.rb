@@ -66,6 +66,15 @@ module API
         )
 
         expose(
+          :transfer_type,
+          documentation: {
+              type: String,
+              desc: 'Deposit transfer type'
+          }
+        )
+
+
+        expose(
           :created_at,
           format_with: :iso8601,
           documentation: {

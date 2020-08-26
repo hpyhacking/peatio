@@ -91,6 +91,14 @@ module API
         )
 
         expose(
+          :transfer_type,
+          documentation: {
+              type: String,
+              desc: 'Withdraw transfer type'
+          }
+        )
+
+        expose(
           :created_at,
           :updated_at,
           format_with: :iso8601,

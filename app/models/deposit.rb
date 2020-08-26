@@ -14,6 +14,9 @@ class Deposit < ApplicationRecord
   include TIDIdentifiable
   include FeeChargeable
 
+  extend Enumerize
+  TRANSFER_TYPES = { fiat: 100, crypto: 200 }
+
   acts_as_eventable prefix: 'deposit', on: %i[create update]
 
   validates :tid, :aasm_state, :type, presence: true
@@ -28,6 +31,7 @@ class Deposit < ApplicationRecord
   scope :recent, -> { order(id: :desc) }
 
   before_validation { self.completed_at ||= Time.current if completed? }
+  before_validation { self.transfer_type ||= coin? ? 'crypto' : 'fiat' }
 
   aasm whiny_transitions: false do
     state :submitted, initial: true
@@ -208,26 +212,27 @@ class Deposit < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20190426145506
+# Schema version: 20200806143442
 #
 # Table name: deposits
 #
-#  id           :integer          not null, primary key
-#  member_id    :integer          not null
-#  currency_id  :string(10)       not null
-#  amount       :decimal(32, 16)  not null
-#  fee          :decimal(32, 16)  not null
-#  address      :string(95)
-#  txid         :string(128)
-#  txout        :integer
-#  aasm_state   :string(30)       not null
-#  block_number :integer
-#  type         :string(30)       not null
-#  tid          :string(64)       not null
-#  spread       :string(1000)
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  completed_at :datetime
+#  id             :integer          not null, primary key
+#  member_id      :integer          not null
+#  currency_id    :string(10)       not null
+#  amount         :decimal(32, 16)  not null
+#  fee            :decimal(32, 16)  not null
+#  address        :string(95)
+#  from_addresses :string(1000)
+#  txid           :string(128)
+#  txout          :integer
+#  aasm_state     :string(30)       not null
+#  block_number   :integer
+#  type           :string(30)       not null
+#  tid            :string(64)       not null
+#  spread         :string(1000)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  completed_at   :datetime
 #
 # Indexes
 #

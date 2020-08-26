@@ -55,6 +55,9 @@ module API
           requires :currency, type: String, values: -> { Currency.fiats.codes(bothcase: true) }, desc: 'The currency code.'
           requires :amount,   type: BigDecimal, desc: 'The deposit amount.'
           optional :state,    type: String, desc: 'The state of deposit.', values: %w[accepted]
+          optional :transfer_type,  type: String,
+                                    values:  { value: -> { Deposit::TRANSFER_TYPES.keys }, message: 'account.deposit.transfer_type_not_in_list' },
+                                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:transfer_type][:desc] }
         end
         post '/deposits/new' do
           member   = Member.find_by(uid: params[:uid])
@@ -64,7 +67,7 @@ module API
             error!({ errors: ['management.currency.deposit_disabled'] }, 422)
           end
 
-          data     = { member: member, currency: currency }.merge!(params.slice(:amount, :tid))
+          data     = { member: member, currency: currency }.merge!(params.slice(:amount, :tid, :transfer_type))
           deposit  = ::Deposits::Fiat.new(data)
           if deposit.save
             deposit.charge! if params[:state] == 'accepted'

@@ -95,6 +95,7 @@ describe API::V2::Management::Deposits, type: :request do
       expect(record.amount).to eq 750.77
       expect(record.aasm_state).to eq 'submitted'
       expect(record.account).to eq member.get_account(currency)
+      expect(response_body['transfer_type']).to eq 'fiat'
     end
 
     it 'can create fiat deposit and immediately accept it' do
