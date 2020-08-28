@@ -97,9 +97,6 @@ module API
           requires :quote_currency,
                    values: { value: -> { ::Currency.ids }, message: 'admin.market.currency_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:quote_unit][:desc] }
-          requires :engine_id,
-                   type: { value: Integer, message: 'admin.market.non_integer_engine_id' },
-                   desc: -> { API::V2::Admin::Entities::Market.documentation[:engine_id][:desc] }
           requires :min_price,
                    type: { value: BigDecimal, message: 'admin.market.non_decimal_min_price' },
                    values: { value: -> (p){ p && p >= 0 }, message: 'admin.market.invalid_min_price' },
@@ -108,11 +105,18 @@ module API
                    type: { value: BigDecimal, message: 'admin.market.non_decimal_min_amount' },
                    values: { value: -> (p){ p && p >= 0 }, message: 'admin.market.invalid_min_amount' },
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:min_amount][:desc] }
+          optional :engine_id,
+                   type: { value: Integer, message: 'admin.market.non_integer_engine_id' },
+                   desc: -> { API::V2::Admin::Entities::Market.documentation[:engine_id][:desc] }
+          optional :engine_name,
+                   values: { value: -> { ::Engine.pluck(:name) }, message: 'admin.market.engine_doesnt_exist' },
+                   desc: -> { API::V2::Admin::Entities::Engine.documentation[:name][:desc] }
+          exactly_one_of :engine_id, :engine_name, message: 'admin.market.one_of_engine_id_engine_name_fields'
         end
         post '/markets/new' do
           admin_authorize! :create, ::Market
 
-          market = ::Market.new(declared(params))
+          market = ::Market.new(declared(params, include_missing: false))
           if market.save
             present market, with: API::V2::Admin::Entities::Market
             status 201

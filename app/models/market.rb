@@ -183,6 +183,10 @@ class Market < ApplicationRecord
     0.1.to_d**price_precision
   end
 
+  def engine_name=(engine_name)
+    self.engine = Engine.find_by(name: engine_name)
+  end
+
 private
 
   def currencies_must_be_visible

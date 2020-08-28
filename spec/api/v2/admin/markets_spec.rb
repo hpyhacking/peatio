@@ -105,6 +105,15 @@ describe API::V2::Admin::Markets, type: :request do
       expect(result['data']).to eq({ 'upstream' => { 'driver' => 'opendax' } })
     end
 
+    it 'create new market with engine name param' do
+      api_post '/api/v2/admin/markets/new', token: token, params: valid_params.except(:engine_id).merge(engine_name: engine.name)
+      result = JSON.parse(response.body)
+      expect(response).to be_successful
+      expect(result['id']).to eq 'trstbtc'
+      expect(result['engine_id']).to eq Market.last.engine_id
+      expect(result['data']).to eq({ 'upstream' => { 'driver' => 'opendax' } })
+    end
+
     it 'validate base_currency param' do
       api_post '/api/v2/admin/markets/new', token: token, params: valid_params.merge(base_currency: 'test')
 
@@ -126,12 +135,27 @@ describe API::V2::Admin::Markets, type: :request do
       expect(response).to include_api_error('admin.market.invalid_state')
     end
 
+    it 'validate engine name param' do
+      api_post '/api/v2/admin/markets/new', token: token, params: valid_params.except(:engine_id).merge(engine_name: 'test')
+
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.market.engine_doesnt_exist')
+    end
+
+    it 'checked exactly_one_ofr params' do
+      api_post '/api/v2/admin/markets/new', token: token, params: valid_params.merge(engine_name: 'test')
+
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.market.one_of_engine_id_engine_name_fields')
+    end
+
     it 'checked required params' do
       api_post '/api/v2/admin/markets/new', params: {}, token: token
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.market.missing_base_currency')
       expect(response).to include_api_error('admin.market.missing_quote_currency')
+      expect(response).to include_api_error('admin.market.one_of_engine_id_engine_name_fields')
     end
 
     it 'return error in case of not permitted ability' do
