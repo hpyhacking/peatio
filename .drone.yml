@@ -56,7 +56,7 @@ steps:
   - LOG_LEVEL=warn bundle exec rspec
 
 # Update application version
-- name: git-tag-and-push
+- name: git-tag-stable
   image: quay.io/openware/sdk-citools:2.4.5
   environment:
     BOT_USERNAME: kite-bot
@@ -71,18 +71,22 @@ steps:
     - bin/genversion
   when:
     branch:
-      - master
       - "*-stable"
 
-# Tag integration versions
-- name: git-tag-integration
-  image: alpine
+- name: git-tag-snapshot
+  image: quay.io/openware/sdk-citools:2.4.5
+  environment:
+    BRANCH_NAME: master
+    REPO_NAME: ${DRONE_REPO}
+    GITHUB_API_KEY:
+      from_secret: kite_bot_key
   commands:
-    - apk update && apk add git bash
-    - echo ${DRONE_BRANCH} | tr -s / - > .tags
+    - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile ci:prebuild
     - bin/genversion
   when:
     branch:
+      - master
+      - "fix/*"
       - "integration/*"
 
 # Copy bundler cache from the build environment to your host machine.
@@ -145,6 +149,7 @@ steps:
       - master
       - "*-stable"
       - "integration/*"
+      - "fix/*"
 
 # Redeploy on master.devkube.com
 - name: devkube-redeploy
