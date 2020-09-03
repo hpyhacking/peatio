@@ -116,7 +116,6 @@ admin_permissions:
     update:
       - Currency:
         - name
-        - symbol
         - position
         - icon_url
       - Blockchain:

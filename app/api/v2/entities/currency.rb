@@ -30,7 +30,7 @@ module API
           documentation: {
             type: String,
             desc: 'Currency description',
-            example: -> { ::Currency.visible.first.symbol }
+            example: -> { ::Currency.visible.first.id }
           }
         )
 
@@ -39,7 +39,7 @@ module API
           documentation: {
             type: String,
             desc: 'Currency homepage',
-            example: -> { ::Currency.visible.first.symbol }
+            example: -> { ::Currency.visible.first.id }
           }
         )
 
@@ -47,15 +47,6 @@ module API
           :price,
           documentation: {
             desc: 'Currency current price'
-          }
-        )
-
-        expose(
-          :symbol,
-          documentation: {
-            type: String,
-            desc: 'Currency symbol',
-            example: -> { ::Currency.visible.first.symbol }
           }
         )
 

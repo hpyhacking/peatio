@@ -12,7 +12,7 @@ describe API::V2::Admin::Currencies, type: :request do
     let(:coin) { Currency.find(:btc) }
 
     let(:expected_for_fiat) do
-      %w[code symbol type deposit_fee withdraw_fee withdraw_limit_24h withdraw_limit_72h min_collection_amount base_factor precision position]
+      %w[code type deposit_fee withdraw_fee withdraw_limit_24h withdraw_limit_72h min_collection_amount base_factor precision position]
     end
     let(:expected_for_coin) do
       expected_for_fiat.concat(%w[blockchain_key base_factor precision subunits options])
@@ -129,7 +129,7 @@ describe API::V2::Admin::Currencies, type: :request do
 
   describe 'POST /api/v2/admin/currencies/new' do
     it 'create coin' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet' }, token: token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', blockchain_key: 'btc-testnet' }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -137,7 +137,7 @@ describe API::V2::Admin::Currencies, type: :request do
     end
 
     it 'create fiat' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', type: 'fiat' }, token: token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', type: 'fiat' }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -145,20 +145,20 @@ describe API::V2::Admin::Currencies, type: :request do
     end
 
     it 'validate blockchain_key param' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'test-blockchain' }, token: token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', blockchain_key: 'test-blockchain' }, token: token
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.currency.blockchain_key_doesnt_exist')
     end
 
     it 'validate type param' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'test-blockchain' , type: 'test'}, token: token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', blockchain_key: 'test-blockchain' , type: 'test'}, token: token
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.currency.invalid_type')
     end
 
     it 'validate visible param' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', type: 'fiat', visible: '123'}, token: token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', type: 'fiat', visible: '123'}, token: token
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.currency.non_boolean_visible')
@@ -180,28 +180,28 @@ describe API::V2::Admin::Currencies, type: :request do
     end
 
     it 'validate options param' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', type: 'fiat', options: 'test'}, token: token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', type: 'fiat', options: 'test'}, token: token
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.currency.non_json_options')
     end
 
     it 'verifies subunits >= 0' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet', subunits: -1 }, token: token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', blockchain_key: 'btc-testnet', subunits: -1 }, token: token
 
       expect(response).to include_api_error 'admin.currency.invalid_subunits'
       expect(response).not_to be_successful
     end
 
     it 'verifies subunits <= 18' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet', subunits: 19 }, token: token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', blockchain_key: 'btc-testnet', subunits: 19 }, token: token
 
       expect(response).to include_api_error 'admin.currency.invalid_subunits'
       expect(response).not_to be_successful
     end
 
     it 'creates 1_000_000_000_000_000_000 base_factor' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet', subunits: 18 }, token: token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', blockchain_key: 'btc-testnet', subunits: 18 }, token: token
 
       result = JSON.parse(response.body)
       expect(response).to be_successful
@@ -210,7 +210,7 @@ describe API::V2::Admin::Currencies, type: :request do
     end
 
     it 'return error while putting base_factor and subunit params' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet', subunits: 18, base_factor: 1 }, token: token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', blockchain_key: 'btc-testnet', subunits: 18, base_factor: 1 }, token: token
 
       result = JSON.parse(response.body)
 
@@ -219,7 +219,7 @@ describe API::V2::Admin::Currencies, type: :request do
     end
 
     it 'creates currency with 1000 base_factor' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet', base_factor: 1000 }, token: token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', blockchain_key: 'btc-testnet', base_factor: 1000 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
@@ -232,12 +232,11 @@ describe API::V2::Admin::Currencies, type: :request do
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.currency.missing_code')
-      expect(response).to include_api_error('admin.currency.missing_symbol')
       expect(response).to include_api_error('admin.currency.missing_blockchain_key')
     end
 
     it 'return error in case of not permitted ability' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', symbol: 'T', blockchain_key: 'btc-testnet' }, token: level_3_member_token
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', blockchain_key: 'btc-testnet' }, token: level_3_member_token
 
       expect(response.code).to eq '403'
       expect(response).to include_api_error('admin.ability.not_permitted')
@@ -257,28 +256,28 @@ describe API::V2::Admin::Currencies, type: :request do
       end
 
       it 'updates fiat' do
-        api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'fiat').code, symbol: 'S' }, token: manager_token
+        api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'fiat').code, name: 'Test' }, token: manager_token
         result = JSON.parse(response.body)
 
         expect(response).to be_successful
-        expect(result['symbol']).to eq 'S'
+        expect(result['name']).to eq 'Test'
       end
     end
 
     it 'update fiat' do
-      api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'fiat').code, symbol: 'S' }, token: token
+      api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'fiat').code, min_collection_amount: 1.2 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
-      expect(result['symbol']).to eq 'S'
+      expect(result['min_collection_amount']).to eq '1.2'
     end
 
     it 'update coin' do
-      api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'coin').code, symbol: 'S' }, token: token
+      api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'coin').code, min_collection_amount: 1.2 }, token: token
       result = JSON.parse(response.body)
 
       expect(response).to be_successful
-      expect(result['symbol']).to eq 'S'
+      expect(result['min_collection_amount']).to eq '1.2'
     end
 
     it 'validate blockchain_key param' do
@@ -332,7 +331,7 @@ describe API::V2::Admin::Currencies, type: :request do
     end
 
     it 'return error in case of not permitted ability' do
-      api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id, symbol: 'T' }, token: level_3_member_token
+      api_post '/api/v2/admin/currencies/update', params: { code: Currency.first.id }, token: level_3_member_token
 
       expect(response.code).to eq '403'
       expect(response).to include_api_error('admin.ability.not_permitted')

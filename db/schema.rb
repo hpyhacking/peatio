@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_26_091118) do
+ActiveRecord::Schema.define(version: 2020_09_02_082403) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -89,7 +89,6 @@ ActiveRecord::Schema.define(version: 2020_08_26_091118) do
     t.text "description"
     t.string "homepage"
     t.string "blockchain_key", limit: 32
-    t.string "symbol", limit: 1, null: false
     t.string "type", limit: 30, default: "coin", null: false
     t.decimal "deposit_fee", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "min_deposit_amount", precision: 32, scale: 16, default: "0.0", null: false

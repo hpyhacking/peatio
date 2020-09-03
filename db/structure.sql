@@ -124,7 +124,6 @@ CREATE TABLE `currencies` (
   `id` varchar(10) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `blockchain_key` varchar(32) DEFAULT NULL,
-  `symbol` varchar(1) NOT NULL,
   `type` varchar(30) NOT NULL DEFAULT 'coin',
   `deposit_fee` decimal(32,16) NOT NULL DEFAULT '0.0000000000000000',
   `min_deposit_amount` decimal(32,16) NOT NULL DEFAULT '0.0000000000000000',

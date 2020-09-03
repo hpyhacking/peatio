@@ -356,7 +356,6 @@ describe API::V2::Admin::Blockchains, type: :request do
 
       it 'when blockchain is not accessible' do
         api_post "/api/v2/admin/blockchains/process_block", params: { block_number: 1, id: Blockchain.last.id }, token: token
-        result = JSON.parse(response.body)
 
         expect(response).to include_api_error('admin.blockchain.process_block')
       end
@@ -365,7 +364,7 @@ describe API::V2::Admin::Blockchains, type: :request do
     context 'successful' do
       let!(:blockchain) { Blockchain.find_by(key: 'btc-testnet') }
       let(:service) { BlockchainService.new(blockchain) }
-      let!(:currency) { create(:currency, :btc, id: 'fake', symbol: 'F') }
+      let!(:currency) { create(:currency, :btc, id: 'fake') }
       let(:block_number) { 3 }
       let!(:member) { create(:member) }
 

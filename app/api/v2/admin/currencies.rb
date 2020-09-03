@@ -140,8 +140,6 @@ module API
           use :create_currency_params
           requires :code,
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:code][:desc] }
-          requires :symbol,
-                   desc: -> { API::V2::Admin::Entities::Currency.documentation[:symbol][:desc] }
           optional :type,
                    values: { value: ::Currency.types.map(&:to_s), message: 'admin.currency.invalid_type' },
                    default: 'coin',
@@ -181,8 +179,6 @@ module API
           requires :code,
                    values: { value: -> { ::Currency.codes }, message: 'admin.currency.doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:code][:desc] }
-          optional :symbol,
-                   desc: -> { API::V2::Admin::Entities::Currency.documentation[:symbol][:desc] }
           optional :blockchain_key,
                    values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.currency.blockchain_key_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:blockchain_key][:desc] }
