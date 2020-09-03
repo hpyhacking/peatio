@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_02_082403) do
+ActiveRecord::Schema.define(version: 2020_09_03_113109) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2020_09_02_082403) do
     t.text "description"
     t.string "homepage"
     t.string "blockchain_key", limit: 32
+    t.string "parent_id"
     t.string "type", limit: 30, default: "coin", null: false
     t.decimal "deposit_fee", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "min_deposit_amount", precision: 32, scale: 16, default: "0.0", null: false
@@ -108,6 +109,7 @@ ActiveRecord::Schema.define(version: 2020_09_02_082403) do
     t.decimal "price", precision: 32, scale: 16
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["parent_id"], name: "index_currencies_on_parent_id"
     t.index ["position"], name: "index_currencies_on_position"
     t.index ["visible"], name: "index_currencies_on_visible"
   end

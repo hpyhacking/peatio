@@ -28,6 +28,29 @@ describe Currency do
     end
   end
 
+  context 'token' do
+    let!(:currency) { Currency.find(:ring) }
+    let!(:trst_currency) { Currency.find(:trst) }
+    let!(:fiat_currency) { Currency.find(:eur) }
+
+    # coin configuration
+    it 'validate parent_id presence' do
+      currency.parent_id = nil
+      expect(currency.valid?).to eq true
+    end
+
+    # token configuration
+    it 'validate parent_id value' do
+      currency.parent_id = fiat_currency.id
+      expect(currency.valid?).to be_falsey
+      expect(currency.errors[:parent_id]).to eq ["is not included in the list"]
+
+      currency.parent_id = trst_currency.id
+      expect(currency.valid?).to be_falsey
+      expect(currency.errors[:parent_id]).to eq ["is not included in the list"]
+    end
+  end
+
   context 'scopes' do
     let(:currency) { Currency.find(:btc) }
 
@@ -116,6 +139,44 @@ describe Currency do
       record = build(:currency, :fake, id: 'fake2', type: 'fiat', base_factor: 100)
       record.save
       expect(record.errors.full_messages).to include(/Max Currency limit has been reached/i)
+    end
+  end
+
+  context 'Methods' do
+    context 'token?' do
+      let!(:coin) { Currency.find(:btc) }
+      let!(:token) { Currency.find(:trst) }
+
+      it { expect(coin.token?).to eq false }
+      it { expect(token.token?).to eq true }
+    end
+  end
+
+  context 'Callbacks' do
+    context 'blockchain key' do
+      let!(:coin) { Currency.find(:btc) }
+      let!(:token) { Currency.find(:trst) }
+
+      it 'should update blockchain key' do
+        token.update_attributes :blockchain_key => coin.blockchain_key
+        expect(token.reload.blockchain_key).to eq(coin.blockchain_key)
+      end
+
+      it 'should create currency with default blockchain key' do
+        currency = Currency.new(code: 'test', parent_id: coin.id)
+
+        expect(currency.blockchain_key).to eq nil
+        expect(currency.valid?).to eq true
+        expect(currency.blockchain_key).to eq coin.blockchain_key
+      end
+
+      it 'should create currency with non default blockchain key' do
+        currency = Currency.new(code: 'test', parent_id: coin.id, blockchain_key: token.blockchain_key)
+
+        expect(currency.blockchain_key).to eq token.blockchain_key
+        expect(currency.valid?).to eq true
+        expect(currency.blockchain_key).to eq token.blockchain_key
+      end
     end
   end
 end

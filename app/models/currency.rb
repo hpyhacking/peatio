@@ -31,6 +31,8 @@ class Currency < ApplicationRecord
 
   belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
 
+  has_one :parent, class_name: 'Currency', foreign_key: :id, primary_key: :parent_id
+
   # == Validations ==========================================================
 
   validate on: :create do
@@ -40,6 +42,10 @@ class Currency < ApplicationRecord
   end
 
   validates :code, presence: true, uniqueness: { case_sensitive: false }
+
+  validates :parent_id, allow_blank: true,
+            inclusion: { in: ->(_) { Currency.coins_without_tokens.pluck(:id).map(&:to_s) } },
+            if: :coin?
 
   validates :blockchain_key,
             inclusion: { in: ->(_) { Blockchain.pluck(:key).map(&:to_s) } },
@@ -68,14 +74,17 @@ class Currency < ApplicationRecord
   scope :deposit_enabled, -> { where(deposit_enabled: true) }
   scope :withdrawal_enabled, -> { where(withdrawal_enabled: true) }
   scope :ordered, -> { order(position: :asc) }
-  scope :coins,   -> { where(type: :coin) }
-  scope :fiats,   -> { where(type: :fiat) }
+  scope :coins, -> { where(type: :coin) }
+  scope :fiats, -> { where(type: :fiat) }
+  # This scope select all coins without parent_id, which means that they are not tokens
+  scope :coins_without_tokens, -> { coins.where(parent_id: nil) }
 
   # == Callbacks ============================================================
 
   before_validation :initialize_options
   before_validation { self.code = code.downcase }
   before_validation { self.deposit_fee = 0 unless fiat? }
+  before_validation { self.blockchain_key = parent.blockchain_key if token? && blockchain_key.blank? }
 
   before_validation do
     self.erc20_contract_address = erc20_contract_address.try(:downcase) if erc20_contract_address.present?
@@ -137,10 +146,11 @@ class Currency < ApplicationRecord
     self.base_factor = 10 ** n
   end
 
-  def as_json(*)
-    { code: code,
-      coin: coin?,
-      fiat: fiat? }
+  # This method defines that token currency need to have parent_id and coin type
+  # We use parent_id for token type to inherit some useful info such as blockchain_key from parent currency
+  # For coin currency enough to have only coin type
+  def token?
+    parent_id.present? && coin?
   end
 
   def to_blockchain_api_settings

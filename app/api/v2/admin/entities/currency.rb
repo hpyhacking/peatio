@@ -26,6 +26,15 @@ module API
           )
 
           expose(
+            :parent_id,
+            documentation: {
+              desc: 'Parent currency id.',
+              type: String
+            },
+            if: -> (currency){ currency.token? }
+          )
+
+          expose(
             :min_collection_amount,
             documentation: {
               type: BigDecimal,
