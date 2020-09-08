@@ -20,7 +20,7 @@ module API
                    values: { value: -> { Currency.visible.codes(bothcase: true) }, message: 'account.currency.doesnt_exist' },
                    desc: 'Currency code'
           optional :state,
-                   values: { value: ->(v) { [*v].all? { |value| value.in? Deposit::STATES.map(&:to_s) } }, message: 'account.deposit.invalid_state' },
+                   values: { value: ->(v) { (Array.wrap(v) - ::Deposit.aasm.states.map(&:name).map(&:to_s)).blank? }, message: 'account.deposit.invalid_state' },
                    desc: 'Filter deposits by states.'
           optional :txid,
                    type: String,
@@ -85,7 +85,13 @@ module API
             error!({ errors: ['account.currency.deposit_disabled'] }, 422)
           end
 
-          payment_address = current_user.get_account(currency).payment_address
+          wallet = Wallet.deposit_wallet(currency.id)
+
+          unless wallet.present?
+            error!({ errors: ['account.wallet.not_found'] }, 422)
+          end
+
+          payment_address = current_user.payment_address(wallet.id)
           present payment_address, with: API::V2::Entities::PaymentAddress, address_format: params[:address_format]
         end
       end

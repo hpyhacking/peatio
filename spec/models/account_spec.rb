@@ -54,38 +54,6 @@ describe Account do
     end
   end
 
-  describe '#payment_address' do
-    it { expect(subject.payment_address).not_to be_nil }
-    it { expect(subject.payment_address).to be_is_a(PaymentAddress) }
-    context 'fiat currency' do
-      subject { create_account(:usd).payment_address }
-      it { is_expected.to be_nil }
-    end
-
-    context 'coin currency' do
-      context 'address blank' do
-        let(:account) { create_account(:eth) }
-        subject { account.payment_address }
-        it do
-          AMQP::Queue.expects(:enqueue).with(:deposit_coin_address, { account_id: account.id }, { persistent: true })
-          expect(is_expected).to_not be_nil
-          expect(is_expected.target.currency_id).to eq 'eth'
-          expect(is_expected.target.address).to eq nil
-        end
-      end
-
-      context 'there is no payment address' do
-        let(:account) { create_account(:eth) }
-        it do
-          pa = account.payment_address
-          expect(account).to_not be_nil
-          expect(pa.currency_id).to eq 'eth'
-          expect(pa.address).to eq nil
-        end
-      end
-    end
-  end
-
   describe 'concurrent lock_funds' do
     it 'should raise error on the second lock_funds' do
       account1 = Account.find subject.id
@@ -119,19 +87,6 @@ describe Account do
         # We have created 3 account.
         expect{ currency.update_columns(visible: false) }.to change { Account.visible.count }.by(-1)
         currency.update_columns(visible: true)
-      end
-    end
-  end
-
-  describe '#payment_address!' do
-    it 'returns the same payment address is address generation process is in progress' do
-      expect(subject.payment_address!).to eq subject.payment_address
-    end
-
-    it 'return new payment address if previous has address generated' do
-      subject.payment_address.tap do |previous|
-        previous.update!(address: '1JSmYcCjBGm7RbjPppjZ1gGTDpBEmTGgGA')
-        expect(subject.payment_address!).not_to eq previous
       end
     end
   end

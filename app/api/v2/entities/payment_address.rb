@@ -6,15 +6,15 @@ module API
     module Entities
       class PaymentAddress < Base
         expose(
-          :currency_id,
-          as: :currency,
+          :currencies,
           documentation: {
-            desc: 'Currency code.',
-            type: String,
-            values: -> { ::Currency.visible.codes },
-            example: -> { ::Currency.visible.first.id }
+            desc: 'Currencies codes.',
+            type: Array,
+            example: -> { ::Currency.visible.codes }
           }
-        )
+        ) do |pa|
+          pa.wallet.currencies.codes
+        end
 
         expose(
           :address,

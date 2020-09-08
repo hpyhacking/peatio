@@ -151,7 +151,7 @@ describe Withdraw do
       before { subject.accept! }
 
       it 'transitions to :processing after calling #process! when withdrawing fiat currency' do
-        subject.stubs(:coin?).returns(false)
+        subject.currency.stubs(:coin?).returns(false)
 
         subject.process!
 
@@ -159,7 +159,7 @@ describe Withdraw do
       end
 
       it 'transitions to :failed after calling #fail! when withdrawing fiat currency' do
-        subject.stubs(:coin?).returns(false)
+        subject.currency.stubs(:coin?).returns(false)
 
         subject.process!
 
@@ -731,13 +731,5 @@ describe Withdraw do
       expect(record.errors[:amount]).to include("precision must be less than or equal to #{currency.precision}")
       expect(record.errors[:sum]).to include("precision must be less than or equal to #{currency.precision}")
     end
-  end
-
-  it 'doesn\'t raise exceptions in before_validation callbacks if member doesn\'t exist' do
-    expect { Withdraw.new.validate }.not_to raise_error
-  end
-
-  it 'doesn\'t raise exceptions in before_validation callbacks if currency doesn\'t exist' do
-    expect { Withdraw.new(member: create(:member)).validate }.not_to raise_error
   end
 end

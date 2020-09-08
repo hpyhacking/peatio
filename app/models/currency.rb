@@ -5,12 +5,6 @@ class Currency < ApplicationRecord
 
   # == Constants ============================================================
 
-  DEFAULT_OPTIONS_SCHEMA = {
-    erc20_contract_address: {
-      title: 'ERC20 Contract Address',
-      type: 'string'
-    }
-  }
   OPTIONS_ATTRIBUTES = %i[erc20_contract_address gas_limit gas_price].freeze
 
   # == Attributes ===========================================================
@@ -25,11 +19,12 @@ class Currency < ApplicationRecord
 
   # == Extensions ===========================================================
 
-  store :options, accessors: OPTIONS_ATTRIBUTES, coder: JSON
+  store :options, accessors: OPTIONS_ATTRIBUTES
 
   # == Relationships ========================================================
 
   belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
+  has_and_belongs_to_many :wallets
 
   has_one :parent, class_name: 'Currency', foreign_key: :id, primary_key: :parent_id
 
@@ -66,8 +61,6 @@ class Currency < ApplicationRecord
             :position,
             numericality: { greater_than_or_equal_to: 0 }
 
-  validate :validate_options
-
   # == Scopes ===============================================================
 
   scope :visible, -> { where(visible: true) }
@@ -81,7 +74,7 @@ class Currency < ApplicationRecord
 
   # == Callbacks ============================================================
 
-  before_validation :initialize_options
+  before_create :initialize_defaults
   before_validation { self.code = code.downcase }
   before_validation { self.deposit_fee = 0 unless fiat? }
   before_validation { self.blockchain_key = parent.blockchain_key if token? && blockchain_key.blank? }
@@ -131,6 +124,10 @@ class Currency < ApplicationRecord
     Rails.cache.delete_matched("currencies*")
   end
 
+  def initialize_defaults
+    self.options = {} if options.blank?
+  end
+
   # Allows to dynamically check value of id/code:
   #
   #   id.btc? # true if code equals to "btc".
@@ -162,21 +159,6 @@ class Currency < ApplicationRecord
                                   options:     opt)
   end
 
-  def summary
-    locked  = Account.with_currency(code).sum(:locked)
-    balance = Account.with_currency(code).sum(:balance)
-    { name:     id.upcase,
-      sum:      locked + balance,
-      balance:  balance,
-      locked:   locked,
-      coinable: coin?,
-      hot:      coin? ? balance : nil }
-  end
-
-  def is_erc20?
-    erc20_contract_address.present?
-  end
-
   def dependent_markets
     Market.where('base_unit = ? OR quote_unit = ?', id, id)
   end
@@ -187,29 +169,8 @@ class Currency < ApplicationRecord
     end
   end
 
-  def initialize_options
-    self.options = options.present? ? options : {}
-  end
-
-  def validate_options
-    errors.add(:options, :invalid) unless Hash === options if options.present?
-  end
-
-  def build_options_schema
-    default_schema = DEFAULT_OPTIONS_SCHEMA
-    props_schema = (options.keys - OPTIONS_ATTRIBUTES.map(&:to_s)) \
-                       .map{|v| [v, { title: v.to_s.humanize, format: "table"}]}.to_h
-    default_schema.merge!(props_schema)
-  end
-
-  def set_options_values
-    options.keys.present?  ? \
-          options.keys.map{|v| [v, options[v]]}.to_h \
-          : OPTIONS_ATTRIBUTES.map(&:to_s).map{|v| [v, '']}.to_h
-  end
-
   def subunits
-    Math.log(self.base_factor, 10).round
+    Math.log(base_factor, 10).round
   end
 end
 

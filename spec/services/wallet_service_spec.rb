@@ -43,7 +43,7 @@ describe WalletService do
   end
 
   context :build_withdrawal! do
-    let(:withdrawal) { OpenStruct.new(rid: 'fake-address', amount: 100) }
+    let(:withdrawal) { OpenStruct.new(rid: 'fake-address', amount: 100, currency: currency) }
 
     let(:transaction) do
       Peatio::Transaction.new(hash:        '0xfake',
@@ -78,7 +78,7 @@ describe WalletService do
     #   * Partial spread between first, second and third.
     #   * Deposit doesn't fit to all wallets.
 
-    let(:amount) { 1.2 }
+    let(:deposit) { Deposit.new(amount: 1.2, currency_id: :fake) }
 
     context 'Single wallet' do
 
@@ -94,11 +94,11 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-1',
              status: 'pending',
-             amount: amount,
-             currency_id: currency.id }]
+             amount: deposit.amount,
+             currency_id: currency.id }.as_json].map(&:symbolize_keys)
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to single wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -112,7 +112,7 @@ describe WalletService do
           [{ address: 'destination-wallet-1',
             balance: 8.8,
             max_balance: 10,
-            min_collection_amount: 1,
+            min_collection_amount: deposit.amount,
             skip_deposit_collection: true }]
         end
 
@@ -120,7 +120,7 @@ describe WalletService do
           []
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'returns empty spread' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -139,11 +139,11 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-1',
              status: 'pending',
-             amount: amount,
-             currency_id: currency.id }]
+             amount: deposit.amount,
+             currency_id: currency.id }.as_json].map(&:symbolize_keys)
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to last wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -170,11 +170,11 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-1',
              status: 'pending',
-             amount: amount,
-             currency_id: currency.id }]
+             amount: deposit.amount,
+             currency_id: currency.id }.as_json].map(&:symbolize_keys)
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to last wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -198,11 +198,11 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-2',
              status: 'pending',
-             amount: amount,
-             currency_id: currency.id }]
+             amount: deposit.amount,
+             currency_id: currency.id }.as_json].map(&:symbolize_keys)
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to last wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -212,7 +212,7 @@ describe WalletService do
 
       context 'Partial spread between first and second' do
 
-        let(:amount) { 10 }
+        let(:deposit) { Deposit.new(amount: 10, currency_id: :fake) }
 
         let(:destination_wallets) do
           [{ address: 'destination-wallet-1',
@@ -228,15 +228,15 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-1',
              status: 'pending',
-             amount: 5,
+             amount: '5.0',
              currency_id: currency.id },
            { to_address: 'destination-wallet-2',
              status: 'pending',
-             amount: 5,
-             currency_id: currency.id }]
+             amount: '5.0',
+             currency_id: currency.id }.as_json].map(&:symbolize_keys)
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to last wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -259,11 +259,11 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-2',
              status: 'pending',
-             amount: 1.2,
-             currency_id: currency.id }]
+             amount: '1.2',
+             currency_id: currency.id }.as_json].map(&:symbolize_keys)
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to last wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -287,11 +287,11 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-2',
              status: 'pending',
-             amount: 1.2,
-             currency_id: currency.id }]
+             amount: '1.2',
+             currency_id: currency.id }.as_json].map(&:symbolize_keys)
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to single wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -309,12 +309,12 @@ describe WalletService do
            { address: 'destination-wallet-2',
              balance: 100,
              max_balance: 100,
-             min_collection_amount: 3 }]
+             min_collection_amount: 3 }.as_json].map(&:symbolize_keys)
         end
 
         let(:expected_spread) { [] }
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to single wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -327,7 +327,7 @@ describe WalletService do
 
       context 'Partial spread between first and second' do
 
-        let(:amount) { 10 }
+        let(:deposit) { Deposit.new(amount: 10, currency_id: :fake) }
 
         let(:destination_wallets) do
           [{ address: 'destination-wallet-1',
@@ -347,15 +347,15 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-1',
              status: 'pending',
-             amount: 5,
+             amount: '5.0',
              currency_id: currency.id },
            { to_address: 'destination-wallet-2',
              status: 'pending',
-             amount: 5,
-             currency_id: currency.id}]
+             amount: '5.0',
+             currency_id: currency.id }.as_json].map(&:symbolize_keys)
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to last wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -365,7 +365,7 @@ describe WalletService do
 
       context 'Partial spread between first and third' do
 
-        let(:amount) { 10 }
+        let(:deposit) { Deposit.new(amount: 10, currency_id: :fake) }
 
         let(:destination_wallets) do
           [{ address: 'destination-wallet-1',
@@ -385,15 +385,15 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-1',
              status: 'pending',
-             amount: 5,
+             amount: '5.0',
              currency_id: currency.id },
            { to_address: 'destination-wallet-3',
              status: 'pending',
-             amount: 5,
-             currency_id: currency.id}]
+             amount: '5.0',
+             currency_id: currency.id }.as_json].map(&:symbolize_keys)
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to last wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -421,11 +421,11 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-3',
              status: 'pending',
-             amount: amount,
-             currency_id: currency.id }]
+             amount: deposit.amount,
+             currency_id: currency.id }.as_json].map(&:symbolize_keys)
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to last wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -435,7 +435,7 @@ describe WalletService do
 
       context 'Partial spread between first, second and third' do
 
-        let(:amount) { 10 }
+        let(:deposit) { Deposit.new(amount: 10, currency_id: :fake) }
 
         let(:destination_wallets) do
           [{ address: 'destination-wallet-1',
@@ -455,19 +455,19 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-1',
              status: 'pending',
-             amount: 3,
+             amount: '3.0',
              currency_id: currency.id },
            { to_address: 'destination-wallet-2',
              status: 'pending',
-             amount: 3,
+             amount: '3.0',
              currency_id: currency.id },
            { to_address: 'destination-wallet-3',
              status: 'pending',
-             amount: 4,
-             currency_id: currency.id}]
+             amount: '4.0',
+             currency_id: currency.id }.as_json].map(&:symbolize_keys)
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to last wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -477,7 +477,7 @@ describe WalletService do
 
       context 'Partial spread between first, second and third + skip deposit collection option' do
 
-        let(:amount) { 10 }
+        let(:deposit) { Deposit.new(amount: 10, currency_id: :fake) }
 
         let(:destination_wallets) do
           [{ address: 'destination-wallet-1',
@@ -498,15 +498,15 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'destination-wallet-2',
              status: 'pending',
-             amount: 3,
+             amount: '3.0',
              currency_id: currency.id },
            { to_address: 'destination-wallet-3',
              status: 'pending',
-             amount: 4,
+             amount: '4.0',
              currency_id: currency.id}]
         end
 
-        subject { service.send(:spread_between_wallets, amount, destination_wallets) }
+        subject { service.send(:spread_between_wallets, deposit, destination_wallets) }
 
         it 'spreads everything to last wallet' do
           expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
@@ -542,7 +542,7 @@ describe WalletService do
       end
 
       it 'spreads everything to cold wallet' do
-        expect(Wallet.active.withdraw.where(currency_id: deposit.currency_id).count).to eq 2
+        expect(Wallet.active.withdraw.joins(:currencies).where(currencies: { id: deposit.currency_id }).count).to eq 2
 
         expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
         expect(subject).to all(be_a(Peatio::Transaction))
@@ -557,7 +557,7 @@ describe WalletService do
       end
 
       it 'skips warm wallet and spreads everything to cold wallet' do
-        expect(Wallet.active.withdraw.where(currency_id: deposit.currency_id).count).to eq 3
+        expect(Wallet.active.withdraw.joins(:currencies).where(currencies: { id: deposit.currency_id }).count).to eq 3
 
         expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
         expect(subject).to all(be_a(Peatio::Transaction))

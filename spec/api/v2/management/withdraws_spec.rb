@@ -47,7 +47,7 @@ describe API::V2::Management::Withdraws, type: :request do
       data.merge!(currency: :usd)
       request
       expect(response).to have_http_status(200)
-      expect(JSON.parse(response.body).count).to eq Withdraw.with_currency(:usd).count
+      expect(JSON.parse(response.body).count).to eq Withdraw.where(currency_id: :usd).count
     end
 
     it 'filters by state' do

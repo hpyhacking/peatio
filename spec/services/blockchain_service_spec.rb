@@ -16,8 +16,10 @@ describe BlockchainService do
   let(:fake_adapter) { FakeBlockchain.new }
   let(:service) { BlockchainService.new(blockchain) }
 
+  let!(:fake_currency) { create(:currency, :fake) }
   let!(:fake_currency1) { create(:currency, :fake, id: 'fake1') }
   let!(:fake_currency2) { create(:currency, :fake, id: 'fake2') }
+  let!(:wallet) { create(:wallet, :fake_deposit) }
 
   let!(:member) { create(:member) }
 
@@ -34,6 +36,7 @@ describe BlockchainService do
   let(:expected_block) { Peatio::Block.new(block_number, expected_transactions) }
 
   before do
+    wallet.currencies << [fake_currency1, fake_currency2]
     Peatio::Blockchain.registry.expects(:[])
                          .with(:fake)
                          .returns(fake_adapter.class)
@@ -53,8 +56,8 @@ describe BlockchainService do
     context 'single fake deposit was created during block processing' do
 
       before do
-        PaymentAddress.create!(currency: fake_currency1,
-                               account: member.get_account(fake_currency1),
+        PaymentAddress.create!(member: member,
+                               wallet: wallet,
                                address: 'fake_address')
         service.adapter.stubs(:fetch_block!).returns(expected_block)
         service.process_block(block_number)
@@ -99,12 +102,12 @@ describe BlockchainService do
 
     context 'two fake deposits for one currency were created during block processing' do
       before do
-        PaymentAddress.create!(currency: fake_currency1,
-          account: member.get_account(fake_currency1),
-          address: 'fake_address')
-        PaymentAddress.create!(currency: fake_currency1,
-          account: member.get_account(fake_currency1),
-          address: 'fake_address1')
+        PaymentAddress.create!(member: member,
+                               wallet: wallet,
+                               address: 'fake_address')
+        PaymentAddress.create!(member: member,
+                               wallet: wallet,
+                               address: 'fake_address1')
         service.adapter.stubs(:fetch_block!).returns(expected_block)
         service.process_block(block_number)
       end
@@ -134,12 +137,12 @@ describe BlockchainService do
 
     context 'two fake deposits for two currency were created during block processing' do
       before do
-        PaymentAddress.create!(currency: fake_currency1,
-          account: member.get_account(fake_currency1),
-          address: 'fake_address')
-        PaymentAddress.create!(currency: fake_currency2,
-          account: member.get_account(fake_currency2),
-          address: 'fake_address2')
+        PaymentAddress.create!(member: member,
+                               wallet: wallet,
+                               address: 'fake_address')
+        PaymentAddress.create!(member: member,
+                               wallet: wallet,
+                               address: 'fake_address2')
         service.adapter.stubs(:fetch_block!).returns(expected_block)
         service.process_block(block_number)
       end
@@ -382,12 +385,12 @@ describe BlockchainService do
 
     before do
       service.stubs(:latest_block_number).returns(100)
-      PaymentAddress.create!(currency: fake_currency1,
-        account: fake_account1,
-        address: 'fake_address')
-      PaymentAddress.create!(currency: fake_currency2,
-        account: fake_account2,
-        address: 'fake_address2')
+      PaymentAddress.create!(member: member,
+                             wallet: wallet,
+                             address: 'fake_address')
+      PaymentAddress.create!(member: member,
+                             wallet: wallet,
+                             address: 'fake_address2')
       service.adapter.stubs(:fetch_block!).returns(expected_block, expected_block1)
     end
 

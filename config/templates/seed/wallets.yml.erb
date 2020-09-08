@@ -3,7 +3,7 @@
 <% else %>
 - name:             Ethereum Deposit Wallet
   blockchain_key:   eth-rinkeby
-  currency_id:      eth
+  currency_ids:     eth,trst
   # Address where deposits will be collected to.
   address:          '0x2b9fBC10EbAeEc28a8Fc10069C0BC29E45eBEB9C'  # IMPORTANT: Always wrap this value in quotes!
   kind:             deposit  # Wallet kind (deposit, hot, warm, cold or fee).
@@ -18,7 +18,7 @@
 
 - name:             Ethereum Hot Wallet
   blockchain_key:   eth-rinkeby
-  currency_id:      eth
+  currency_ids:     eth,trst
   # Address where deposits will be collected to.
   address:          '0x270704935783087a01c7a28d8f2d8f01670c8050'  # IMPORTANT: Always wrap this value in quotes!
   kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
@@ -33,7 +33,7 @@
 
 - name:             Ethereum Warm Wallet
   blockchain_key:   eth-rinkeby
-  currency_id:      eth
+  currency_ids:     eth,trst
   # Address where deposits will be collected to.
   address:          '0x2b9fBC10EbAeEc28a8Fc10069C0BC29E45eBEB9C'  # IMPORTANT: Always wrap this value in quotes!
   kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
@@ -48,7 +48,7 @@
 
 - name:             Ethereum Wallet for paying ERC20 fees
   blockchain_key:   eth-rinkeby
-  currency_id:      eth
+  currency_ids:     eth
   # Address where deposits will be collected to.
   address:          '0x270704935783087a01c7a28d8f2d8f01670c8050'  # IMPORTANT: Always wrap this value in quotes!
   kind:             fee  # Wallet kind (deposit, hot, warm, cold or fee).
@@ -61,55 +61,9 @@
     uri:          http://127.0.0.1:8545
     secret:       'test'
 
-- name:             WeTrust Deposit Wallet
-  blockchain_key:   eth-rinkeby
-  currency_id:      trst
-  # Address where deposits will be collected to.
-  address:          '0x2b9fBC10EbAeEc28a8Fc10069C0BC29E45eBEB9C'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             deposit  # Wallet kind (deposit, hot, warm, cold or fee).
-  max_balance:      0.0
-  status:           active
-  gateway:          geth     # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://127.0.0.1:8545
-    secret:       'changeme'
-
-- name:             WeTrust Hot Wallet
-  blockchain_key:   eth-rinkeby
-  currency_id:      trst
-  # Address where deposits will be collected to.
-  address:          '0x270704935783087a01c7a28d8f2d8f01670c8050'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
-  max_balance:      100.0
-  status:           active
-  gateway:          geth    # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://127.0.0.1:8545
-    secret:       'test'
-
-
-- name:             WeTrust Warm Wallet
-  blockchain_key:   eth-rinkeby
-  currency_id:      trst
-  # Address where deposits will be collected to.
-  address:          '0x2b9fBC10EbAeEc28a8Fc10069C0BC29E45eBEB9C'  # IMPORTANT: Always wrap this value in quotes!
-  kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
-  max_balance:      1000.0
-  status:           active
-  gateway:          geth    # Gateway client name.
-  settings:
-    #
-    # Geth gateway client settings.
-    uri:          http://127.0.0.1:8545
-    secret:       'test'
-
 - name:             Bitcoin Deposit Wallet
   blockchain_key:   btc-testnet
-  currency_id:      btc
+  currency_ids:     btc
   # Address where deposits will be collected to.
   address:          '2N4qYjye5yENLEkz4UkLFxzPaxJatF3kRwf'  # IMPORTANT: Always wrap this value in quotes!
   kind:             deposit   # Wallet kind (deposit, hot, warm, cold or fee).
@@ -123,7 +77,7 @@
 
 - name:             Bitcoin Hot Wallet
   blockchain_key:   btc-testnet
-  currency_id:      btc
+  currency_ids:     btc
   # Address where deposits will be collected to.
   address:          '2N4qYjye5yENLEkz4UkLFxzPaxJatF3kRwf'  # IMPORTANT: Always wrap this value in quotes!
   kind:             hot       # Wallet kind (deposit, hot, warm, cold or fee).
@@ -140,7 +94,7 @@
 
 - name:             Bitcoin Warm Wallet
   blockchain_key:   btc-testnet
-  currency_id:      btc
+  currency_ids:     btc
   # Address where deposits will be collected to.
   address:          '2N4qYjye5yENLEkz4UkLFxzPaxJatF3kRwf'  # IMPORTANT: Always wrap this value in quotes!
   kind:             warm      # Wallet kind (deposit, hot, warm, cold or fee).

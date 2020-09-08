@@ -5,7 +5,9 @@ FactoryBot.define do
   factory :wallet do
 
     trait :eth_deposit do
-      currency_id        { 'eth' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'eth', wallet_id: w.id)
+      end
       blockchain_key     { 'eth-rinkeby' }
       name               { 'Ethereum Deposit Wallet' }
       address            { '0x828058628DF254Ebf252e0b1b5393D1DED91E369' }
@@ -18,7 +20,9 @@ FactoryBot.define do
     end
 
     trait :eth_hot do
-      currency_id        { 'eth' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'eth', wallet_id: w.id)
+      end
       blockchain_key     { 'eth-rinkeby' }
       name               { 'Ethereum Hot Wallet' }
       address            { '0xb6a61c43DAe37c0890936D720DC42b5CBda990F9' }
@@ -31,7 +35,9 @@ FactoryBot.define do
     end
 
     trait :eth_warm do
-      currency_id        { 'eth' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'eth', wallet_id: w.id)
+      end
       blockchain_key     { 'eth-rinkeby' }
       name               { 'Ethereum Warm Wallet' }
       address            { '0x2b9fBC10EbAeEc28a8Fc10069C0BC29E45eBEB9C' }
@@ -44,7 +50,9 @@ FactoryBot.define do
     end
 
     trait :eth_cold do
-      currency_id        { 'eth' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'eth', wallet_id: w.id)
+      end
       blockchain_key     { 'eth-rinkeby' }
       name               { 'Ethereum Cold Wallet' }
       address            { '0x2b9fBC10EbAeEc28a8Fc10069C0BC29E45eBEB9C' }
@@ -57,7 +65,9 @@ FactoryBot.define do
     end
 
     trait :eth_fee do
-      currency_id        { 'eth' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'eth', wallet_id: w.id)
+      end
       blockchain_key     { 'eth-rinkeby' }
       name               { 'Ethereum Fee Wallet' }
       address            { '0x45a31b15a2ab8a8477375b36b6f5a0c63733dce8' }
@@ -70,7 +80,9 @@ FactoryBot.define do
     end
 
     trait :trst_deposit do
-      currency_id        { 'trst' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'trst', wallet_id: w.id)
+      end
       blockchain_key     { 'eth-rinkeby' }
       name               { 'Trust Coin Deposit Wallet' }
       address            { '0x828058628DF254Ebf252e0b1b5393D1DED91E369' }
@@ -83,7 +95,9 @@ FactoryBot.define do
     end
 
     trait :trst_hot do
-      currency_id        { 'trst' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'trst', wallet_id: w.id)
+      end
       blockchain_key     { 'eth-rinkeby' }
       name               { 'Trust Coin Hot Wallet' }
       address            { '0xb6a61c43DAe37c0890936D720DC42b5CBda990F9' }
@@ -96,7 +110,9 @@ FactoryBot.define do
     end
 
     trait :btc_deposit do
-      currency_id        { 'btc' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'btc', wallet_id: w.id)
+      end
       blockchain_key     { 'btc-testnet' }
       name               { 'Bitcoin Deposit Wallet' }
       address            { '3DX3Ak4751ckkoTFbYSY9FEQ6B7mJ4furT' }
@@ -109,7 +125,9 @@ FactoryBot.define do
     end
 
     trait :btc_hot do
-      currency_id        { 'btc' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'btc', wallet_id: w.id)
+      end
       blockchain_key     { 'btc-testnet' }
       name               { 'Bitcoin Hot Wallet' }
       address            { '3NwYr8JxjHG2MBkgdBiHCxStSWDzyjS5U8' }
@@ -122,7 +140,9 @@ FactoryBot.define do
     end
 
     trait :fake_deposit do
-      currency_id       { 'fake' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'fake', wallet_id: w.id)
+      end
       blockchain_key    { 'fake-testnet' }
       name              { 'Fake Currency Deposit Wallet' }
       address           { 'fake-deposit' }
@@ -134,7 +154,9 @@ FactoryBot.define do
     end
 
     trait :fake_hot do
-      currency_id       { 'fake' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'fake', wallet_id: w.id)
+      end
       blockchain_key    { 'fake-testnet' }
       name              { 'Fake Currency Hot Wallet' }
       address           { 'fake-hot' }
@@ -146,7 +168,9 @@ FactoryBot.define do
     end
 
     trait :fake_warm do
-      currency_id       { 'fake' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'fake', wallet_id: w.id)
+      end
       blockchain_key    { 'fake-testnet' }
       name              { 'Fake Currency Warm Wallet' }
       address           { 'fake-warm' }
@@ -158,7 +182,9 @@ FactoryBot.define do
     end
 
     trait :fake_cold do
-      currency_id       { 'fake' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'fake', wallet_id: w.id)
+      end
       blockchain_key    { 'fake-testnet' }
       name              { 'Fake Currency Cold Wallet' }
       address           { 'fake-cold' }
@@ -170,7 +196,9 @@ FactoryBot.define do
     end
 
     trait :fake_fee do
-      currency_id        { 'fake' }
+      after(:create) do |w|
+        CurrencyWallet.create(currency_id: 'fake', wallet_id: w.id)
+      end
       blockchain_key     { 'fake-testnet' }
       name               { 'Fake Currency Fee Wallet' }
       address            { 'fake-fee' }

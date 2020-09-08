@@ -18,11 +18,11 @@ module API
                      type: Integer,
                      desc: -> { API::V2::Entities::Beneficiary.documentation[:id][:desc] }
             optional :currency,
-                     values: { value: ->(v) { [*v].all? { |value| value.in? ::Currency.ids } }, message: 'account.currency.doesnt_exist' },
+                     values: { value: ->(v) { (Array.wrap(v) - ::Currency.codes).blank? }, message: 'account.currency.doesnt_exist' },
                      desc: 'Beneficiary currency code'
             optional :state,
                      type: Array[Integer],
-                     values: { value: ->(v) { [*v].all? { |value| value.in? ::Beneficiary::STATES_MAPPING.values } }, message: 'account.beneficiary.invalid_state' },
+                     values: { value: ->(v) { (Array.wrap(v) - ::Beneficiary::STATES_MAPPING.values).blank? }, message: 'account.beneficiary.invalid_state' },
                      desc: 'Beneficiary state',
                      coerce_with: lambda { |val|
                        val.map { |s| Beneficiary::STATES_MAPPING[s.to_sym] }

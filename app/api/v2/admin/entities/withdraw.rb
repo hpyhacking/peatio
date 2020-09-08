@@ -53,7 +53,7 @@ module API
               type: Integer,
               desc: 'The withdrawal block_number.'
             },
-            if: ->(w) { w.coin? }
+            if: ->(w) { w.currency.coin? }
           )
 
           expose(

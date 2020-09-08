@@ -35,7 +35,7 @@ describe API::V2::Admin::Withdraws, type: :request do
       expect(actual.map { |a| a['id'] }).to match_array expected.map(&:id)
       expect(actual.map { |a| a['currency'] }).to match_array expected.map(&:currency_id)
       expect(actual.map { |a| a['member'] }).to match_array expected.map(&:member_id)
-      expect(actual.map { |a| a['type'] }).to match_array(expected.map { |d| d.coin? ? 'coin' : 'fiat' })
+      expect(actual.map { |a| a['type'] }).to match_array(expected.map { |d| d.currency.coin? ? 'coin' : 'fiat' })
       expect(actual.map { |a| a['uid'] }).to match_array(expected.map { |d| d.member.uid })
       expect(actual.map { |a| a['email'] }).to match_array(expected.map { |d| d.member.email })
     end
@@ -72,7 +72,7 @@ describe API::V2::Admin::Withdraws, type: :request do
         expect(actual.map { |a| a['id'] }).to match_array expected.map(&:id)
         expect(actual.map { |a| a['currency'] }).to match_array expected.map(&:currency_id)
         expect(actual.map { |a| a['member'] }).to all eq level_3_member.id
-        expect(actual.map { |a| a['type'] }).to match_array(expected.map { |d| d.coin? ? 'coin' : 'fiat' })
+        expect(actual.map { |a| a['type'] }).to match_array(expected.map { |d| d.currency.coin? ? 'coin' : 'fiat' })
         expect(actual.map { |a| a['uid'] }).to match_array(expected.map { |d| d.member.uid })
         expect(actual.map { |a| a['email'] }).to match_array(expected.map { |d| d.member.email })
       end

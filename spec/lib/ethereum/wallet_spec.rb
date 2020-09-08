@@ -101,11 +101,11 @@ describe Ethereum::Wallet do
       Currency.find_by(id: :ring)
     end
 
-    let(:deposit_wallet_eth) { Wallet.find_by(currency: :eth, kind: :deposit) }
-    let(:hot_wallet_eth) { Wallet.find_by(currency: :eth, kind: :hot) }
-    let(:fee_wallet) { Wallet.find_by(currency: :eth, kind: :fee) }
-    let(:deposit_wallet_trst) { Wallet.find_by(currency: :trst, kind: :deposit) }
-    let(:hot_wallet_trst) { Wallet.find_by(currency: :trst, kind: :hot) }
+    let(:deposit_wallet_eth) { Wallet.joins(:currencies).find_by(currencies: { id: :eth }, kind: :deposit) }
+    let(:hot_wallet_eth) { Wallet.joins(:currencies).find_by(currencies: { id: :eth }, kind: :hot) }
+    let(:fee_wallet) { Wallet.joins(:currencies).find_by(currencies: { id: :eth }, kind: :fee) }
+    let(:deposit_wallet_trst) { Wallet.joins(:currencies).find_by(currencies: { id: :eth }, kind: :deposit) }
+    let(:hot_wallet_trst) { Wallet.joins(:currencies).find_by(currencies: { id: :eth }, kind: :hot) }
 
     let(:uri) { 'http://127.0.0.1:8545' }
 
@@ -136,7 +136,7 @@ describe Ethereum::Wallet do
       let(:settings) do
         {
           wallet: deposit_wallet_eth.to_wallet_api_settings,
-          currency: hot_wallet_eth.currency.to_blockchain_api_settings
+          currency: eth.to_blockchain_api_settings
         }
       end
 
@@ -237,7 +237,7 @@ describe Ethereum::Wallet do
       let(:settings) do
         {
           wallet: deposit_wallet_trst.to_wallet_api_settings,
-          currency: hot_wallet_trst.currency.to_blockchain_api_settings
+          currency: trst.to_blockchain_api_settings
         }
       end
 
@@ -302,7 +302,7 @@ describe Ethereum::Wallet do
       let(:settings) do
         {
           wallet: fee_wallet.to_wallet_api_settings,
-          currency: fee_wallet.currency.to_blockchain_api_settings
+          currency: eth.to_blockchain_api_settings
         }
       end
 
@@ -341,8 +341,16 @@ describe Ethereum::Wallet do
       WebMock.allow_net_connect!
     end
 
-    let(:hot_wallet_trst) { Wallet.find_by(currency: :trst, kind: :hot) }
-    let(:hot_wallet_eth) { Wallet.find_by(currency: :eth, kind: :hot) }
+    let(:eth) do
+      Currency.find_by(id: :eth)
+    end
+
+    let(:trst) do
+      Currency.find_by(id: :trst)
+    end
+
+    let(:hot_wallet_trst) { Wallet.joins(:currencies).find_by(currencies: { id: :trst }, kind: :hot) }
+    let(:hot_wallet_eth) { Wallet.joins(:currencies).find_by(currencies: { id: :eth }, kind: :hot) }
 
     let(:response1) do
       {
@@ -365,7 +373,7 @@ describe Ethereum::Wallet do
         wallet:
           { address: 'something',
             uri:     'http://127.0.0.1:8545' },
-        currency: hot_wallet_eth.currency.to_blockchain_api_settings
+        currency: eth.to_blockchain_api_settings
       }
     end
 
@@ -374,7 +382,7 @@ describe Ethereum::Wallet do
         wallet:
           { address: 'something',
             uri:     'http://127.0.0.1:8545' },
-        currency: hot_wallet_trst.currency.to_blockchain_api_settings
+        currency: trst.to_blockchain_api_settings
       }
     end
 

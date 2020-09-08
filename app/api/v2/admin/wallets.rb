@@ -51,7 +51,10 @@ module API
           optional :kind,
                    values: { value: -> { Wallet.kind.values }, message: 'admin.wallet.invalid_kind' },
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:kind][:desc] }
-          use :currency
+          optional :currencies,
+                   values: { value: ->(v) { (Array.wrap(v) - ::Currency.codes).blank? }, message: 'admin.wallet.currency_doesnt_exist' },
+                   types: [String, Array], coerce_with: ->(c) { Array.wrap(c) },
+                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currencies][:desc] }
           use :pagination
           use :ordering
         end
@@ -60,13 +63,13 @@ module API
 
           ransack_params = Helpers::RansackBuilder.new(params)
                              .eq(:blockchain_key)
-                             .translate(currency: :currency_id)
+                             .translate_in(currencies: :currencies_id)
                              .merge(kind_eq: params[:kind].present? ? Wallet.kinds[params[:kind].to_sym] : nil)
                              .build
 
           search = ::Wallet.ransack(ransack_params)
           search.sorts = "#{params[:order_by]} #{params[:ordering]}"
-          present paginate(search.result), with: API::V2::Admin::Entities::Wallet
+          present paginate(search.result.includes(:currencies).distinct), with: API::V2::Admin::Entities::Wallet
         end
 
         desc 'List wallet kinds.'
@@ -105,16 +108,23 @@ module API
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:name][:desc] }
           requires :address,
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:address][:desc] }
-          requires :currency,
+          optional :currencies,
+                   values: { value: ->(v) { (Array.wrap(v) - ::Currency.codes).blank? }, message: 'admin.wallet.currency_doesnt_exist' },
+                   types: [String, Array], coerce_with: ->(c) { Array.wrap(c) },
+                   as: :currency_ids,
+                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currencies][:desc] }
+          # @deprecated Please use `currencies` field
+          optional :currency,
                    values: { value: -> { ::Currency.codes }, message: 'admin.wallet.currency_doesnt_exist' },
-                   as: :currency_id,
-                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currency][:desc] }
+                   as: :currency_ids,
+                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currencies][:desc] }
           requires :kind,
                    values: { value: ::Wallet.kind.values, message: 'admin.wallet.invalid_kind' },
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:kind][:desc] }
           requires :gateway,
                    values: { value: -> { ::Wallet.gateways.map(&:to_s) }, message: 'admin.wallet.gateway_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:gateway][:desc] }
+          exactly_one_of :currencies, :currency, message: 'admin.wallet.currencies_field_is_missing'
         end
         post '/wallets/new' do
           admin_authorize! :create, Wallet
@@ -150,10 +160,11 @@ module API
           optional :gateway,
                    values: { value: -> { ::Wallet.gateways.map(&:to_s) }, message: 'admin.wallet.gateway_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:gateway][:desc] }
-          optional :currency,
-                   values: { value: -> { ::Currency.codes }, message: 'admin.wallet.currency_doesnt_exist' },
-                   as: :currency_id,
-                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currency][:desc] }
+          optional :currencies,
+                   values: { value: ->(v) { (Array.wrap(v) - ::Currency.codes).blank? }, message: 'admin.wallet.currency_doesnt_exist' },
+                   types: [String, Array], coerce_with: ->(c) { Array.wrap(c) },
+                   as: :currency_ids,
+                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currencies][:desc] }
         end
         post '/wallets/update' do
           admin_authorize! :update, Wallet
@@ -166,6 +177,58 @@ module API
             body errors: wallet.errors.full_messages
             status 422
           end
+        end
+
+        desc 'Add currency to the wallet' do
+          success API::V2::Admin::Entities::Wallet
+        end
+        params do
+          requires :id,
+                   type: { value: Integer, message: 'admin.wallet.non_integer_id' },
+                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:id][:desc] }
+          requires :currencies,
+                   values: { value: ->(v) { (Array.wrap(v) - ::Currency.codes).blank? }, message: 'admin.wallet.currency_doesnt_exist' },
+                   types: [String, Array], coerce_with: ->(c) { Array.wrap(c) },
+                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currencies][:desc] }
+        end
+        post '/wallets/currencies' do
+          wallet = Wallet.find(params[:id])
+
+          wallet.transaction do
+            params[:currencies].each do |c_id|
+              c_w = CurrencyWallet.new(currency_id: c_id, wallet_id: params[:id])
+              error!({ errors: c_w.errors.full_messages }, 422) unless c_w.save
+            end
+          end
+
+          present wallet, with: API::V2::Admin::Entities::Wallet
+          status 201
+        end
+
+        desc 'Delete currency from the wallet' do
+          success API::V2::Admin::Entities::Wallet
+        end
+        params do
+          requires :id,
+                   type: { value: Integer, message: 'admin.wallet.non_integer_id' },
+                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:id][:desc] }
+          requires :currencies,
+                   values: { value: ->(v) { (Array.wrap(v) - ::Currency.codes).blank? }, message: 'admin.wallet.currency_doesnt_exist' },
+                   types: [String, Array], coerce_with: ->(c) { Array.wrap(c) },
+                   desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currencies][:desc] }
+        end
+        delete '/wallets/currencies' do
+          wallet = Wallet.find(params[:id])
+          wallet.transaction do
+            params[:currencies].each do |c_id|
+              # Check if exist (will return error)
+              CurrencyWallet.find_by!(currency_id: c_id, wallet_id: params[:id])
+              # Delete relation
+              CurrencyWallet.delete(currency_id: c_id, wallet_id: params[:id])
+            end
+          end
+
+          present wallet, with: API::V2::Admin::Entities::Wallet
         end
       end
     end

@@ -12,7 +12,7 @@ module API
           success: API::V2::Admin::Entities::Deposit
         params do
           optional :state,
-                   values: { value: -> { Deposit::STATES.map(&:to_s) }, message: 'admin.deposit.invalid_state' },
+                   values: { value: -> { ::Deposit.aasm.states.map(&:name).map(&:to_s) }, message: 'admin.deposit.invalid_state' },
                    desc: -> { API::V2::Admin::Entities::Deposit.documentation[:state][:desc] }
           optional :id,
                    type: Integer,

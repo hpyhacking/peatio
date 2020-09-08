@@ -4,9 +4,9 @@
 require 'csv'
 
 class Order < ApplicationRecord
-  include BelongsToMarket
-  include BelongsToMember
 
+  belongs_to :market, required: true
+  belongs_to :member, required: true
   attribute :uuid, :uuid
 
   # Error is raised in case market doesn't have enough volume to fulfill the Order.
@@ -65,6 +65,7 @@ class Order < ApplicationRecord
 
   scope :done, -> { with_state(:done) }
   scope :active, -> { with_state(:wait) }
+  scope :with_market, ->(market) { where(market_id: market) }
 
   # Custom ransackers.
 

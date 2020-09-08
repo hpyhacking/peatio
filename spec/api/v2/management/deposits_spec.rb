@@ -68,7 +68,7 @@ describe API::V2::Management::Deposits, type: :request do
       data.merge!(currency: :usd)
       request
       expect(response).to have_http_status(200)
-      expect(JSON.parse(response.body).count).to eq Deposit.with_currency(:usd).count
+      expect(JSON.parse(response.body).count).to eq Deposit.where(currency_id: :usd).count
     end
   end
 

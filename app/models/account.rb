@@ -3,14 +3,12 @@
 class Account < ApplicationRecord
   AccountError = Class.new(StandardError)
 
-  include BelongsToCurrency
-  include BelongsToMember
+  belongs_to :currency, required: true
+  belongs_to :member, required: true
 
   acts_as_eventable prefix: 'account', on: %i[create update]
 
   ZERO = 0.to_d
-
-  has_many :payment_addresses, -> { order(id: :asc) }
 
   validates :member_id, uniqueness: { scope: :currency_id }
   validates :balance, :locked, numericality: { greater_than_or_equal_to: 0.to_d }
@@ -28,35 +26,6 @@ class Account < ApplicationRecord
       created_at: created_at&.iso8601,
       updated_at: updated_at&.iso8601
     }
-  end
-
-  # Returns active deposit address for account or creates new if any exists.
-  def payment_address
-    return unless currency.coin?
-    pa = payment_addresses.last
-
-    if pa.blank?
-      pa = payment_addresses.create!(currency: currency)
-    elsif pa.address.blank?
-      pa.enqueue_address_generation
-    end
-
-    pa
-  end
-
-  # Attempts to create additional deposit address for account.
-  def payment_address!
-    return unless currency.coin?
-
-    record = payment_address
-
-    # The address generation process is in progress.
-    if record.address.blank?
-      record
-    else
-      # allows user to have multiple addresses.
-      payment_addresses.create!(currency: currency)
-    end
   end
 
   def plus_funds!(amount)
@@ -163,12 +132,6 @@ class Account < ApplicationRecord
 
   def amount
     balance + locked
-  end
-
-  def as_json(*)
-    super.merge! \
-      deposit_address: payment_address&.address,
-      currency:        currency_id
   end
 end
 

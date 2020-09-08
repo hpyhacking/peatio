@@ -3,7 +3,7 @@
 
 module Withdraws
   class Coin < Withdraw
-    include HasOneBlockchainThroughCurrency
+    has_one :blockchain, through: :currency
 
     before_validation do
       next unless blockchain_api&.supports_cash_addr_format? && rid?
@@ -20,27 +20,6 @@ module Withdraws
       if blockchain_api&.supports_cash_addr_format? && rid?
         errors.add(:rid, :invalid) unless CashAddr::Converter.is_valid?(rid)
       end
-    end
-
-    def audit!
-      # TODO: Revert this inspection with WalletService/BlockchainService v2.
-      # wallet = Wallet.active.deposit.find_by(currency_id: currency_id)
-      # inspection = WalletClient[wallet].inspect_address!(rid)
-
-      # if inspection[:is_valid] == false
-      #   Rails.logger.info { "#{self.class.name}##{id} uses invalid address: #{rid.inspect}" }
-      #   reject!
-      # else
-      #   super
-      # end
-      super
-    end
-
-    def as_json(*)
-      super.merge \
-        wallet_url:       wallet_url,
-        transaction_url:  transaction_url,
-        confirmations:    confirmations
     end
 
     def as_json_for_event_api

@@ -5,13 +5,14 @@ describe PaymentAddress do
   context '.create' do
     let(:member)  { create(:member, :level_3) }
     let!(:account) { member.get_account(:btc) }
+    let!(:wallet) { Wallet.joins(:currencies).find_by(currencies: { id: :btc }) }
     let(:secret) { 's3cr3t' }
     let(:details) { { 'a' => 'b', 'b' => 'c' } }
-    let!(:addr) { create(:payment_address, :btc_address, address: nil, secret: secret, account_id: account.id) }
+    let!(:addr) { create(:payment_address, :btc_address, address: nil, secret: secret, wallet_id: wallet.id) }
 
     it 'generate address after commit' do
-      AMQP::Queue.expects(:enqueue).with(:deposit_coin_address, { account_id: account.id }, { persistent: true })
-      account.payment_address
+      AMQP::Queue.expects(:enqueue).with(:deposit_coin_address, { member_id: member.id, wallet_id: wallet.id }, { persistent: true })
+      member.payment_address(wallet.id)
     end
 
     it 'updates secret' do

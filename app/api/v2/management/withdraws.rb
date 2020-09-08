@@ -13,7 +13,7 @@ module API
                 when 'process'
                   withdraw.submit!
                   # Process fiat withdraw immediately. Crypto withdraws will be processed by workers.
-                  if withdraw.fiat?
+                  if withdraw.currency.fiat?
                     withdraw.accept!
                     if withdraw.quick?
                       withdraw.process!

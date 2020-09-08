@@ -12,7 +12,7 @@ module API
           success: API::V2::Entities::Order
         params do
           optional :market,
-                   values: { value: ->(v) { [*v].all? { |value| value.in? ::Market.active.ids} }, message: 'market.market.doesnt_exist' },
+                   values: { value: ->(v) { (Array.wrap(v) - ::Market.active.ids).blank? }, message: 'market.market.doesnt_exist' },
                    desc: -> { V2::Entities::Market.documentation[:id] }
           optional :base_unit,
                    type: String,
@@ -23,7 +23,7 @@ module API
                    values: { value: -> { ::Market.active.pluck(:quote_unit) }, message: 'market.market.doesnt_exist' },
                    desc: -> { V2::Entities::Market.documentation[:quote_unit] }
           optional :state,
-                   values: { value: ->(v) { [*v].all? { |value| value.in? Order.state.values } }, message: 'market.order.invalid_state' },
+                   values: { value: ->(v) { (Array.wrap(v) - Order.state.values).blank? }, message: 'market.order.invalid_state' },
                    desc: 'Filter order by state.'
           optional :limit,
                    type: { value: Integer, message: 'market.order.non_integer_limit' },

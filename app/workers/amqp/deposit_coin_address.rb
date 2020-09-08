@@ -7,32 +7,38 @@ module Workers
       def process(payload)
         payload.symbolize_keys!
 
-        acc = Account.find_by_id(payload[:account_id])
-        return unless acc
-        return unless acc.currency.coin?
+        member = Member.find_by_id(payload[:member_id])
+        unless member
+          Rails.logger.warn do
+            'Unable to generate deposit address.'\
+            "Member with id: #{payload[:member_id]} doesn't exist"
+          end
+          return
+        end
 
-        wallet = Wallet.active.deposit.find_by(currency_id: acc.currency_id)
+        wallet = Wallet.find_by_id(payload[:wallet_id])
+
         unless wallet
           Rails.logger.warn do
-            "Unable to generate deposit address."\
-            "Deposit Wallet for #{acc.currency_id} doesn't exist"
+            'Unable to generate deposit address.'\
+            "Deposit Wallet with id: #{payload[:wallet_id]} doesn't exist"
           end
           return
         end
 
         wallet_service = WalletService.new(wallet)
 
-        acc.payment_address.tap do |pa|
+        member.payment_address(wallet.id).tap do |pa|
           pa.with_lock do
             next if pa.address.present?
 
             # Supply address ID in case of BitGo address generation if it exists.
-            result = wallet_service.create_address!(acc, pa.details.merge(updated_at: pa.updated_at))
+            result = wallet_service.create_address!(member.uid, pa.details.merge(updated_at: pa.updated_at))
 
             if result.present?
               pa.update!(address: result[:address],
-                         secret:  result[:secret],
-                         details: result.fetch(:details, {}).merge(pa.details))
+                        secret:  result[:secret],
+                        details: result.fetch(:details, {}).merge(pa.details))
             end
           end
 

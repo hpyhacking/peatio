@@ -4,32 +4,32 @@
 FactoryBot.define do
   factory :payment_address do
     address { Faker::Blockchain::Bitcoin.address }
-    currency { Currency.find(:usd) }
-    account { create(:member, :level_3).get_account(:usd) }
+    member { create(:member, :level_3) }
+    wallet { Wallet.joins(:currencies).find_by(currencies: { id: 'usd' }) }
 
     trait :btc_address do
-      currency { Currency.find(:btc) }
-      account { create(:member, :level_3).get_account(:btc) }
+      member { create(:member, :level_3) }
+      wallet { Wallet.joins(:currencies).find_by(currencies: { id: 'btc' }) }
     end
 
     trait :eth_address do
-      currency { Currency.find(:eth) }
-      account { create(:member, :level_3).get_account(:eth) }
+      member { create(:member, :level_3) }
+      wallet { Wallet.joins(:currencies).find_by(currencies: { id: 'eth' }) }
     end
 
     trait :trst_address do
-      currency { Currency.find(:trst) }
-      account { create(:member, :level_3).get_account(:trst) }
+      member { create(:member, :level_3) }
+      wallet { Wallet.joins(:currencies).find_by(currencies: { id: 'trst' }) }
     end
 
     trait :ring_address do
-      currency { Currency.find(:ring) }
-      account { create(:member, :level_3).get_account(:ring) }
+      member { create(:member, :level_3) }
+      wallet { Wallet.joins(:currencies).find_by(currencies: { id: 'ring' }) }
     end
 
     trait :ltc_address do
-      currency { Currency.find(:ltc) }
-      account { create(:member, :level_3).get_account(:ltc) }
+      member { create(:member, :level_3) }
+      wallet { Wallet.joins(:currencies).find_by(currencies: { id: 'ltc' }) }
     end
 
     factory :btc_payment_address,  traits: [:btc_address]

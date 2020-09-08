@@ -3,7 +3,7 @@
 
 module Deposits
   class Coin < Deposit
-    include HasOneBlockchainThroughCurrency
+    has_one :blockchain, through: :currency
 
     validate { errors.add(:currency, :invalid) if currency && !currency.coin? }
     validates :address, :txid, presence: true
@@ -18,11 +18,6 @@ module Deposits
     before_validation do
       next unless blockchain_api&.supports_cash_addr_format? && address?
       self.address = CashAddr::Converter.to_cash_address(address)
-    end
-
-    def as_json(*)
-      super.merge!(transaction_url: transaction_url,
-                   confirmations:   confirmations)
     end
 
     def as_json_for_event_api

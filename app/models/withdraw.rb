@@ -17,13 +17,14 @@ class Withdraw < ApplicationRecord
 
   include AASM
   include AASM::Locking
-  include BelongsToCurrency
-  include BelongsToMember
   include TIDIdentifiable
   include FeeChargeable
 
   extend Enumerize
   TRANSFER_TYPES = { fiat: 100, crypto: 200 }
+
+  belongs_to :currency, required: true
+  belongs_to :member, required: true
 
   # Optional beneficiary association gives ability to support both in-peatio
   # beneficiaries and managed by third party application.
@@ -33,7 +34,7 @@ class Withdraw < ApplicationRecord
 
   before_validation(on: :create) { self.rid ||= beneficiary.rid if beneficiary.present? }
   before_validation { self.completed_at ||= Time.current if completed? }
-  before_validation { self.transfer_type ||= coin? ? 'crypto' : 'fiat' }
+  before_validation { self.transfer_type ||= currency.coin? ? 'crypto' : 'fiat' }
 
   validates :rid, :aasm_state, presence: true
   validates :txid, uniqueness: { scope: :currency_id }, if: :txid?
@@ -101,7 +102,7 @@ class Withdraw < ApplicationRecord
       transitions from: :accepted, to: :confirming do
         # Load event is available only for coin withdrawals.
         guard do
-          coin? && txid?
+          currency.coin? && txid?
         end
       end
     end
@@ -110,7 +111,7 @@ class Withdraw < ApplicationRecord
       transitions from: :processing, to: :confirming do
         # Validate txid presence on coin withdrawal dispatch.
         guard do
-          fiat? || txid?
+          currency.fiat? || txid?
         end
       end
     end
@@ -118,7 +119,7 @@ class Withdraw < ApplicationRecord
     event :success do
       transitions from: %i[confirming errored], to: :succeed do
         guard do
-          fiat? || txid?
+          currency.fiat? || txid?
         end
         after do
           unlock_and_sub_funds
@@ -142,6 +143,19 @@ class Withdraw < ApplicationRecord
     event :err do
       transitions from: :processing, to: :errored, after: :add_error
     end
+  end
+
+  def blockchain_api
+    currency.blockchain_api
+  end
+
+  def confirmations
+    return 0 if block_number.blank?
+    return blockchain.processed_height - block_number if (blockchain.processed_height - block_number) >= 0
+    'N/A'
+  rescue StandardError => e
+    report_exception(e)
+    'N/A'
   end
 
   def account
@@ -176,14 +190,6 @@ class Withdraw < ApplicationRecord
       accept!
       process! if quick? && currency.coin?
     end
-  end
-
-  def fiat?
-    Withdraws::Fiat === self
-  end
-
-  def coin?
-    !fiat?
   end
 
   def completed?
@@ -283,7 +289,7 @@ private
   end
 
   def send_coins!
-    AMQP::Queue.enqueue(:withdraw_coin, id: id) if coin?
+    AMQP::Queue.enqueue(:withdraw_coin, id: id) if currency.coin?
   end
 end
 

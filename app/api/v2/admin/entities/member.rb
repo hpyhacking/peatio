@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # frozen_string_literal: true
 
 module API
@@ -29,7 +28,6 @@ module API
               desc: 'Member\'s role.'
             }
           )
-
 
           expose(
             :group,
@@ -74,21 +72,20 @@ module API
               desc: 'Member Beneficiary.'
             }
           ) do |m|
-              m.beneficiaries
-            end
+            m.beneficiaries
+          end
 
           expose(
             :accounts,
-            using: API::V2::Admin::Entities::Account,
+            using: API::V2::Entities::Account,
             documentation: {
-              type: 'API::V2::Admin::Entities::Account',
+              type: 'API::V2::Entities::Account',
               is_array: true,
               desc: 'Member accounts.'
             }
           ) do |m|
-              m.accounts.includes(:currency)
-            end
-
+            m.accounts.includes(:currency)
+          end
         end
       end
     end

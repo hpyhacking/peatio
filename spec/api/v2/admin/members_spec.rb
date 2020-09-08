@@ -124,7 +124,6 @@ describe API::V2::Admin::Members, type: :request do
         expect(result['email']).to eq(member.email)
         expect(result['uid']).to eq(member.uid)
         expect(result['group']).to eq(member.group)
-        expect(result['accounts'][0]['deposit_address']).to eq(member.accounts[0].payment_address&.address)
         expect(result['accounts'][0]['currency']).to eq(member.accounts[0].currency.id)
         expect(result['accounts'][0]['balance']).to eq(member.accounts[0].balance.to_s)
         expect(result['accounts'][0]['locked']).to eq(member.accounts[0].locked.to_s)

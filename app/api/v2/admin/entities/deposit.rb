@@ -37,7 +37,7 @@ module API
               type: String,
               desc: 'Deposit blockchain address.'
             },
-            if: ->(deposit) { deposit.coin? }
+            if: ->(deposit) { deposit.currency.coin? }
           )
 
           expose(
@@ -46,7 +46,7 @@ module API
               type: Integer,
               desc: 'Deposit blockchain transaction output.'
             },
-            if: ->(deposit) { deposit.coin? }
+            if: ->(deposit) { deposit.currency.coin? }
           )
 
           expose(
@@ -55,7 +55,7 @@ module API
               type: Integer,
               desc: 'Deposit blockchain block number.'
             },
-            if: ->(deposit) { deposit.coin? }
+            if: ->(deposit) { deposit.currency.coin? }
           )
 
           expose(
@@ -64,7 +64,7 @@ module API
               type: String,
               desc: 'Deposit type (fiat or coin).'
             }
-          ) { |d| d.fiat? ? :fiat : :coin }
+          ) { |d| d.currency.fiat? ? :fiat : :coin }
 
           expose(
             :tid,

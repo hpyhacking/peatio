@@ -141,15 +141,7 @@ class Market < ApplicationRecord
     "#{base_currency}/#{quote_currency}".upcase
   end
 
-  def as_json(*)
-    super.merge!(name: name)
-  end
-
   alias to_s name
-
-  def latest_price
-    Trade.latest_price(self)
-  end
 
   def round_amount(d)
     d.round(amount_precision, BigDecimal::ROUND_DOWN)

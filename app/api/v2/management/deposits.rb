@@ -15,7 +15,7 @@ module API
           optional :currency, type: String,  values: -> { Currency.codes(bothcase: true) }, desc: 'The currency code.'
           optional :page,     type: Integer, default: 1,   integer_gt_zero: true, desc: 'The page number (defaults to 1).'
           optional :limit,    type: Integer, default: 100, range: 1..1000, desc: 'The number of deposits per page (defaults to 100, maximum is 1000).'
-          optional :state,    type: String, values: -> { Deposit::STATES.map(&:to_s) }, desc: 'The state to filter by.'
+          optional :state,    type: String, values: -> { ::Deposit.aasm.states.map(&:name).map(&:to_s) }, desc: 'The state to filter by.'
         end
         post '/deposits' do
           currency = Currency.find(params[:currency]) if params[:currency].present?

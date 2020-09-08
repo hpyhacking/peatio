@@ -12,7 +12,7 @@ module API
           success: API::V2::Admin::Entities::Withdraw
         params do
           optional :state,
-                   values: { value: ->(v) { [*v].all? { |value| value.in? Withdraw::STATES.map(&:to_s) } }, message: 'admin.withdraw.invalid_state' },
+                   values: { value: ->(v) { (Array.wrap(v) - Withdraw::STATES.map(&:to_s)).blank? }, message: 'admin.withdraw.invalid_state' },
                    desc: -> { API::V2::Admin::Entities::Withdraw.documentation[:state][:desc] }
           optional :id,
                    type: Integer,
@@ -89,7 +89,7 @@ module API
 
           withdraw = Withdraw.find(declared_params[:id])
 
-          if withdraw.fiat? && declared_params[:txid].present?
+          if withdraw.currency.fiat? && declared_params[:txid].present?
             error!({ errors: ['admin.withdraw.redundant_txid'] }, 422)
           end
 

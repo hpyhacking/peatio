@@ -28,7 +28,7 @@ module API
             type: String,
             desc: 'The withdrawal type'
           }
-        ) { |w| w.fiat? ? :fiat : :coin }
+        ) { |w| w.currency.fiat? ? :fiat : :coin }
 
         expose(
           :sum,
@@ -75,7 +75,7 @@ module API
 
         expose(
           :confirmations,
-          if: ->(withdraw) { withdraw.coin? },
+          if: ->(withdraw) { withdraw.currency.coin? },
           documentation: {
             type: Integer,
             desc: 'Number of confirmations.'

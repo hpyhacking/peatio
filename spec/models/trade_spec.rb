@@ -1,17 +1,6 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
-describe Trade, '.latest_price' do
-  context 'no trade' do
-    it { expect(Trade.latest_price(:btcusd)).to be_d '0.0' }
-  end
-
-  context 'add one trade' do
-    let!(:trade) { create(:trade, :btcusd, market_id: :btcusd) }
-    it { expect(Trade.latest_price(:btcusd)).to eq(trade.price) }
-  end
-end
-
 describe Trade, '#for_notify' do
   let(:order_ask) { create(:order_ask, :btcusd) }
   let(:order_bid) { create(:order_bid, :btcusd) }

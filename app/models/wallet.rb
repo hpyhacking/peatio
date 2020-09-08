@@ -30,11 +30,11 @@ class Wallet < ApplicationRecord
 
   NOT_AVAILABLE = 'N/A'.freeze
 
-  include BelongsToCurrency
 
   vault_attribute :settings, serialize: :json, default: {}
 
   belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
+  has_and_belongs_to_many :currencies
 
   validates :name,    presence: true, uniqueness: true
   validates :address, presence: true
@@ -50,10 +50,11 @@ class Wallet < ApplicationRecord
   scope :deposit,  -> { where(kind: kinds(deposit: true, values: true)) }
   scope :fee,      -> { where(kind: kinds(fee: true, values: true)) }
   scope :withdraw, -> { where(kind: kinds(withdraw: true, values: true)) }
-  scope :ordered,  -> { order(kind: :asc) }
+  scope :with_currency, ->(currency) { joins(:currencies).where(currencies: { id: currency }) }
+  scope :ordered, -> { order(kind: :asc) }
 
   before_validation do
-    next unless blockchain_api&.supports_cash_addr_format? && address?
+    next unless address? && blockchain.blockchain_api.supports_cash_addr_format?
     self.address = CashAddr::Converter.to_cash_address(address)
   end
 
@@ -87,10 +88,23 @@ class Wallet < ApplicationRecord
           end
         end
     end
+
+    def deposit_wallet(currency_id)
+      Wallet.deposit.joins(:currencies).find_by(currencies: { id: currency_id })
+    end
   end
 
-  def current_balance
-    WalletService.new(self).load_balance!
+  def current_balance(currency = nil)
+    if currency.present?
+      WalletService.new(self).load_balance!(currency)
+    else
+      currencies.each_with_object({}) do |c, balances|
+        balances[c.id] = WalletService.new(self).load_balance!(c)
+      rescue StandardError => e
+        report_exception(e)
+        balances[c.id] = NOT_AVAILABLE
+      end
+    end
   rescue StandardError => e
     report_exception(e)
     NOT_AVAILABLE

@@ -7,7 +7,7 @@ class Member < ApplicationRecord
   has_many :orders
   has_many :accounts
   has_many :stats_member_pnl
-  has_many :payment_addresses, through: :accounts
+  has_many :payment_addresses
   has_many :withdraws, -> { order(id: :desc) }
   has_many :deposits, -> { order(id: :desc) }
   has_many :beneficiaries, -> { order(id: :desc) }
@@ -83,7 +83,41 @@ class Member < ApplicationRecord
     trades.each(&:revert_trade!)
   end
 
-private
+  def payment_address(wallet_id)
+    wallet = Wallet.find(wallet_id)
+
+    return if wallet.blank?
+
+    pa = PaymentAddress.find_by(member: self, wallet: wallet)
+
+    if pa.blank?
+      pa = payment_addresses.create!(wallet: wallet)
+    elsif pa.address.blank?
+      pa.enqueue_address_generation
+    end
+
+    pa
+  end
+
+  # Attempts to create additional deposit address for account.
+  def payment_address!(wallet_id)
+    wallet = Wallet.find(wallet_id)
+
+    return if wallet.blank?
+
+    pa = PaymentAddress.find_by(member: self, wallet: wallet)
+
+    # The address generation process is in progress.
+    if pa.address.blank?
+      pa
+    else
+      # allows user to have multiple addresses.
+      pa = payment_addresses.create!(wallet: wallet)
+    end
+    pa
+  end
+
+  private
 
   def downcase_email
     self.email = email.try(:downcase)

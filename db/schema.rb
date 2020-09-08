@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_03_113109) do
+ActiveRecord::Schema.define(version: 2020_09_07_133518) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 2020_09_03_113109) do
     t.decimal "withdraw_limit_24h", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "withdraw_limit_72h", precision: 32, scale: 16, default: "0.0", null: false
     t.integer "position", default: 0, null: false
-    t.string "options", limit: 1000, default: "{}"
+    t.json "options"
     t.boolean "visible", default: true, null: false
     t.boolean "deposit_enabled", default: true, null: false
     t.boolean "withdrawal_enabled", default: true, null: false
@@ -112,6 +112,14 @@ ActiveRecord::Schema.define(version: 2020_09_03_113109) do
     t.index ["parent_id"], name: "index_currencies_on_parent_id"
     t.index ["position"], name: "index_currencies_on_position"
     t.index ["visible"], name: "index_currencies_on_visible"
+  end
+
+  create_table "currencies_wallets", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "currency_id"
+    t.integer "wallet_id"
+    t.index ["currency_id", "wallet_id"], name: "index_currencies_wallets_on_currency_id_and_wallet_id", unique: true
+    t.index ["currency_id"], name: "index_currencies_wallets_on_currency_id"
+    t.index ["wallet_id"], name: "index_currencies_wallets_on_wallet_id"
   end
 
   create_table "deposits", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -271,14 +279,16 @@ ActiveRecord::Schema.define(version: 2020_09_03_113109) do
   end
 
   create_table "payment_addresses", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "currency_id", limit: 10, null: false
-    t.integer "account_id", null: false
+    t.bigint "member_id"
+    t.bigint "wallet_id"
     t.string "address", limit: 95
     t.string "secret_encrypted"
     t.string "details_encrypted", limit: 1024
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["currency_id", "address"], name: "index_payment_addresses_on_currency_id_and_address", unique: true
+    t.index ["address"], name: "index_payment_addresses_on_currency_id_and_address", unique: true
+    t.index ["member_id"], name: "index_payment_addresses_on_member_id"
+    t.index ["wallet_id"], name: "index_payment_addresses_on_wallet_id"
   end
 
   create_table "refunds", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -387,7 +397,6 @@ ActiveRecord::Schema.define(version: 2020_09_03_113109) do
 
   create_table "wallets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "blockchain_key", limit: 32
-    t.string "currency_id", limit: 10
     t.string "name", limit: 64
     t.string "address", null: false
     t.integer "kind", null: false
@@ -398,8 +407,7 @@ ActiveRecord::Schema.define(version: 2020_09_03_113109) do
     t.string "status", limit: 32
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["currency_id"], name: "index_wallets_on_currency_id"
-    t.index ["kind", "currency_id", "status"], name: "index_wallets_on_kind_and_currency_id_and_status"
+    t.index ["kind", "status"], name: "index_wallets_on_kind_and_currency_id_and_status"
     t.index ["kind"], name: "index_wallets_on_kind"
     t.index ["status"], name: "index_wallets_on_status"
   end

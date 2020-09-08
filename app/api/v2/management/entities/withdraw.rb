@@ -27,7 +27,7 @@ module API
           ]
           expose :aasm_state, as: :state, documentation: { type: String, desc: 'The withdraw state. ' + states.join(' ') }
           expose :created_at, format_with: :iso8601, documentation: { type: String, desc: 'The datetime when withdraw was created.' }
-          expose :txid, as: :blockchain_txid, documentation: { type: String, desc: 'The transaction ID on the Blockchain (coin only).' }, if: -> (w, _) { w.coin? }
+          expose :txid, as: :blockchain_txid, documentation: { type: String, desc: 'The transaction ID on the Blockchain (coin only).' }, if: -> (w, _) { w.currency.coin? }
           expose :transfer_type, documentation: { type: String, desc: 'withdraw transfer_type.' }
         end
       end

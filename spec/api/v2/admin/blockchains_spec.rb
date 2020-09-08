@@ -367,13 +367,15 @@ describe API::V2::Admin::Blockchains, type: :request do
       let!(:currency) { create(:currency, :btc, id: 'fake') }
       let(:block_number) { 3 }
       let!(:member) { create(:member) }
+      let!(:fake_blockchain) { create(:blockchain, 'fake-testnet') }
+      let!(:wallet) { create(:wallet, :fake_deposit) }
 
       before do
         Blockchain.any_instance.stubs(:blockchain_api).returns(service)
         service.stubs(:latest_block_number).returns(4)
         clear_redis
-        PaymentAddress.create!(currency: currency,
-                               account: member.get_account(currency),
+        PaymentAddress.create!(member: member,
+                               wallet: wallet,
                                address: 'fake_address')
       end
 

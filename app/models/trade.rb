@@ -5,12 +5,12 @@ require 'peatio/influxdb'
 class Trade < ApplicationRecord
   # == Constants ============================================================
 
-  include BelongsToMarket
   extend Enumerize
   ZERO = '0.0'.to_d
 
   # == Relationships ========================================================
 
+  belongs_to :market, required: true
   belongs_to :maker_order, class_name: 'Order', foreign_key: :maker_order_id, required: true
   belongs_to :taker_order, class_name: 'Order', foreign_key: :taker_order_id, required: true
   belongs_to :maker, class_name: 'Member', foreign_key: :maker_id, required: true
@@ -23,6 +23,7 @@ class Trade < ApplicationRecord
   # == Scopes ===============================================================
 
   scope :h24, -> { where('created_at > ?', 24.hours.ago) }
+  scope :with_market, ->(market) { where(market_id: market) }
 
   # == Callbacks ============================================================
 
@@ -39,11 +40,6 @@ class Trade < ApplicationRecord
   # == Class Methods ========================================================
 
   class << self
-    def latest_price(market)
-      trade = with_market(market).order(id: :desc).limit(1).first
-      trade ? trade.price : 0
-    end
-
     def to_csv
       attributes = %w[id price amount maker_order_id taker_order_id market_id maker_id taker_id total created_at updated_at]
       CSV.generate(headers: true) do |csv|

@@ -53,7 +53,7 @@ module API
             type: Integer,
             desc: 'Number of deposit confirmations.'
           },
-          if: ->(deposit) { deposit.coin? }
+          if: ->(deposit) { deposit.currency.coin? }
         )
 
         expose(

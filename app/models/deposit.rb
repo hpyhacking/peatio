@@ -2,20 +2,21 @@
 # frozen_string_literal: true
 
 class Deposit < ApplicationRecord
-  STATES = %i[submitted canceled rejected accepted collected skipped].freeze
+  STATES = %i[submitted canceled rejected accepted collected skipped processing fee_processing].freeze
 
   serialize :spread, Array
   serialize :from_addresses, Array
 
   include AASM
   include AASM::Locking
-  include BelongsToCurrency
-  include BelongsToMember
   include TIDIdentifiable
   include FeeChargeable
 
   extend Enumerize
   TRANSFER_TYPES = { fiat: 100, crypto: 200 }
+
+  belongs_to :currency, required: true
+  belongs_to :member, required: true
 
   acts_as_eventable prefix: 'deposit', on: %i[create update]
 
@@ -31,7 +32,7 @@ class Deposit < ApplicationRecord
   scope :recent, -> { order(id: :desc) }
 
   before_validation { self.completed_at ||= Time.current if completed? }
-  before_validation { self.transfer_type ||= coin? ? 'crypto' : 'fiat' }
+  before_validation { self.transfer_type ||= currency.coin? ? 'crypto' : 'fiat' }
 
   aasm whiny_transitions: false do
     state :submitted, initial: true
@@ -49,7 +50,7 @@ class Deposit < ApplicationRecord
     event :accept do
       transitions from: :submitted, to: :accepted
       after do
-        if coin?
+        if currency.coin?
           account.plus_locked_funds(amount)
         else
           account.plus_funds(amount)
@@ -70,20 +71,20 @@ class Deposit < ApplicationRecord
         end
       else
         transitions from: %i[accepted skipped], to: :processing do
-          guard { coin? }
+          guard { currency.coin? }
         end
       end
     end
 
     event :fee_process do
       transitions from: %i[accepted processing skipped], to: :fee_processing do
-        guard { coin? }
+        guard { currency.coin? }
       end
     end
 
     event :process_collect do
       transitions from: %i[aml_processing aml_suspicious], to: :processing do
-        guard { coin? }
+        guard { currency.coin? }
       end
     end if Peatio::AML.adapter.present?
 
@@ -101,7 +102,7 @@ class Deposit < ApplicationRecord
 
     event :refund do
       transitions from: %i[aml_suspicious skipped], to: :refunding do
-        guard { coin? }
+        guard { currency.coin? }
       end
     end
   end
@@ -118,6 +119,19 @@ class Deposit < ApplicationRecord
     true
   end
 
+  def blockchain_api
+    currency.blockchain_api
+  end
+
+  def confirmations
+    return 0 if block_number.blank?
+    return blockchain.processed_height - block_number if (blockchain.processed_height - block_number) >= 0
+    'N/A'
+  rescue StandardError => e
+    report_exception(e)
+    'N/A'
+  end
+
   def spread_to_transactions
     spread.map { |s| Peatio::Transaction.new(s) }
   end
@@ -125,8 +139,7 @@ class Deposit < ApplicationRecord
   def spread_between_wallets!
     return false if spread.present?
 
-    deposit_wallet = Wallet.active.deposit.find_by(currency_id: currency_id)
-    spread = WalletService.new(deposit_wallet).spread_deposit(self)
+    spread = WalletService.new(Wallet.deposit_wallet(currency_id)).spread_deposit(self)
     update!(spread: spread.map(&:as_json))
   end
 
@@ -184,7 +197,7 @@ class Deposit < ApplicationRecord
         member_id: member_id
       )
 
-      kind = coin? ? :locked : :main
+      kind = currency.coin? ? :locked : :main
       # Credit locked fiat/crypto Liability account.
       Operations::Liability.credit!(
         amount: amount,

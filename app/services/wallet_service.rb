@@ -3,32 +3,37 @@ class WalletService
 
   def initialize(wallet)
     @wallet = wallet
-    @adapter = Peatio::Wallet.registry[wallet.gateway.to_sym].new(wallet.settings.symbolize_keys)
-    @adapter.configure(wallet: @wallet.to_wallet_api_settings,
-                       currency: @wallet.currency.to_blockchain_api_settings)
+    @adapter = Peatio::Wallet.registry[wallet.gateway.to_sym].new
   end
 
-  def create_address!(account, pa_details)
-    @adapter.create_address!(uid: account.member.uid, pa_details: pa_details)
+  def create_address!(uid, pa_details)
+    @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
+                       currency: @wallet.currencies.first.to_blockchain_api_settings)
+    @adapter.create_address!(uid: uid, pa_details: pa_details)
   end
 
   def build_withdrawal!(withdrawal)
+    @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
+                       currency: withdrawal.currency.to_blockchain_api_settings)
     transaction = Peatio::Transaction.new(to_address: withdrawal.rid,
                                           amount:     withdrawal.amount)
     @adapter.create_transaction!(transaction)
   end
 
   def spread_deposit(deposit)
+    @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
+                       currency: deposit.currency.to_blockchain_api_settings)
+
     destination_wallets =
       Wallet.active.withdraw.ordered
-        .where(currency_id: deposit.currency_id)
+        .joins(:currencies).where(currencies: { id: deposit.currency_id })
         .map do |w|
         # NOTE: Consider min_collection_amount is defined per wallet.
         #       For now min_collection_amount is currency config.
         { address:                 w.address,
-          balance:                 w.current_balance,
+          balance:                 w.current_balance(deposit.currency),
           max_balance:             w.max_balance,
-          min_collection_amount:   @wallet.currency.min_collection_amount,
+          min_collection_amount:   deposit.currency.min_collection_amount,
           skip_deposit_collection: w.service.skip_deposit_collection? }
       end
     raise StandardError, "destination wallets don't exist" if destination_wallets.blank?
@@ -43,12 +48,14 @@ class WalletService
     # (except the last one see previous comment).
     destination_wallets.reject! { |dw| dw[:balance] == Wallet::NOT_AVAILABLE }
 
-    spread_between_wallets(deposit.amount, destination_wallets)
+    spread_between_wallets(deposit, destination_wallets)
   end
 
   # TODO: We don't need deposit_spread anymore.
   def collect_deposit!(deposit, deposit_spread)
-    pa = deposit.account.payment_address
+    @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
+                       currency: deposit.currency.to_blockchain_api_settings)
+    pa = deposit.member.payment_address(@wallet.id)
     # NOTE: Deposit wallet configuration is tricky because wallet UIR
     #       is saved on Wallet model but wallet address and secret
     #       are saved in PaymentAddress.
@@ -64,11 +71,8 @@ class WalletService
 
   # TODO: We don't need deposit_spread anymore.
   def deposit_collection_fees!(deposit, deposit_spread)
-    # To be sure that it will use currency from deposit
-    @adapter.configure(
-      currency: deposit.currency.to_blockchain_api_settings
-    )
-
+    @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
+                       currency: deposit.currency.to_blockchain_api_settings)
     deposit_transaction = Peatio::Transaction.new(hash:         deposit.txid,
                                                   txout:        deposit.txout,
                                                   to_address:   deposit.address,
@@ -88,11 +92,13 @@ class WalletService
     @adapter.create_transaction!(refund_transaction, subtract_fee: true)
   end
 
-  def load_balance!
+  def load_balance!(currency)
+    @adapter.configure(wallet:   @wallet.to_wallet_api_settings,
+                       currency: currency)
     @adapter.load_balance!
   rescue Peatio::Wallet::Error => e
     report_exception(e)
-    BlockchainService.new(wallet.blockchain).load_balance!(@wallet.address, @wallet.currency_id)
+    BlockchainService.new(wallet.blockchain).load_balance!(@wallet.address, currency.id)
   end
 
   def register_webhooks!(url)
@@ -115,7 +121,8 @@ class WalletService
 
   # @return [Array<Peatio::Transaction>] result of spread in form of
   # transactions array with amount and to_address defined.
-  def spread_between_wallets(original_amount, destination_wallets)
+  def spread_between_wallets(deposit, destination_wallets)
+    original_amount = deposit.amount
     if original_amount < destination_wallets.pluck(:min_collection_amount).min
       return []
     end
@@ -142,8 +149,8 @@ class WalletService
       end
 
       transaction = Peatio::Transaction.new(to_address:  dw[:address],
-                                            amount:      amount_for_wallet,
-                                            currency_id: @wallet.currency_id)
+                                            amount:      amount_for_wallet.to_d,
+                                            currency_id: deposit.currency_id)
       transaction.status = :skipped if dw[:skip_deposit_collection]
       transaction
     rescue => e

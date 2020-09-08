@@ -145,7 +145,8 @@ namespace :export do
        .merge('settings' => m.try(:settings),
               'data' => m.try(:data),
               'key' => m.try(:key),
-              'secret' => m.try(:secret))
+              'secret' => m.try(:secret),
+              'currency_ids' => m.try(:currency_ids))
     end.map { |r| r.transform_values! { |v| v.is_a?(BigDecimal) ? v.to_f : v } }.map(&:compact)
   end
 end

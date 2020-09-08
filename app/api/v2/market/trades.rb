@@ -12,7 +12,7 @@ module API
           success: API::V2::Entities::Trade
         params do
           optional :market,
-                   values: { value: ->(v) { [*v].all? { |value| value.in? ::Market.active.ids } }, message: 'market.market.doesnt_exist' },
+                   values: { value: ->(v) { (Array.wrap(v) - ::Market.active.ids).blank? }, message: 'market.market.doesnt_exist' },
                    desc: -> { V2::Entities::Market.documentation[:id] }
           use :trade_filters
         end
