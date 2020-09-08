@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_07_133518) do
+ActiveRecord::Schema.define(version: 2020_09_08_105929) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -410,6 +410,18 @@ ActiveRecord::Schema.define(version: 2020_09_07_133518) do
     t.index ["kind", "status"], name: "index_wallets_on_kind_and_currency_id_and_status"
     t.index ["kind"], name: "index_wallets_on_kind"
     t.index ["status"], name: "index_wallets_on_status"
+  end
+
+  create_table "withdraw_limits", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "group", limit: 32, default: "any", null: false
+    t.string "kyc_level", limit: 32, default: "any", null: false
+    t.decimal "limit_24_hour", precision: 32, scale: 16, default: "0.0", null: false
+    t.decimal "limit_1_month", precision: 32, scale: 16, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group", "kyc_level"], name: "index_withdraw_limits_on_group_and_kyc_level", unique: true
+    t.index ["group"], name: "index_withdraw_limits_on_group"
+    t.index ["kyc_level"], name: "index_withdraw_limits_on_kyc_level"
   end
 
   create_table "withdraws", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

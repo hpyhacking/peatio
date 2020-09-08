@@ -403,14 +403,12 @@ describe BlockchainService do
       [fake_account1, fake_account2].map { |a| a.reload }
       withdraw1 = Withdraw.create!(member: member, currency: fake_currency1, amount: 1, txid: "fake_hash5",
         rid: 'fake_address4', sum: 1, type: Withdraws::Coin)
-      withdraw1.submit!
       withdraw1.accept!
       withdraw1.process!
       withdraw1.dispatch!
 
       withdraw2 = Withdraw.create!(member: member, currency: fake_currency2, amount: 3, txid: "fake_hash6",
         rid: 'fake_address4', sum: 3, type: Withdraws::Coin)
-      withdraw2.submit!
       withdraw2.accept!
       withdraw2.process!
       withdraw2.dispatch!

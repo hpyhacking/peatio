@@ -7,6 +7,7 @@ require 'openssl'
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
 ENV['EVENT_API_JWT_PRIVATE_KEY'] ||= Base64.urlsafe_encode64(OpenSSL::PKey::RSA.generate(2048).to_pem)
+ENV['WITHDRAW_ADMIN_APPROVE'] = 'true'
 
 # We remove lib/peatio.rb from LOAD_PATH because of conflict with peatio gem.
 # lib/peatio.rb is added to LOAD_PATH later after requiring gems.
@@ -82,6 +83,7 @@ RSpec.configure do |config|
     DatabaseCleaner.start
     AMQP::Queue.stubs(:publish)
     KlineDB.stubs(:kline).returns([])
+    Currency.any_instance.stubs(:price).returns(1.to_d)
     %w[eth-kovan eth-rinkeby btc-testnet].each { |blockchain| FactoryBot.create(:blockchain, blockchain) }
     %i[usd btc eth trst ring eur].each { |ccy| FactoryBot.create(:currency, ccy) }
 
@@ -91,6 +93,7 @@ RSpec.configure do |config|
     %i[btcusd btceth].each { |market| FactoryBot.create(:market, market) }
     %w[101 102 201 202 211 212 301 302 401 402].each { |ac_code| FactoryBot.create(:operations_account, ac_code)}
     FactoryBot.create(:trading_fee, market_id: :any, group: :any, maker: 0.0015, taker: 0.0015)
+    FactoryBot.create(:withdraw_limit)
   end
 
   config.after(:each) do

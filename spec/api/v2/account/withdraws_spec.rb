@@ -290,7 +290,7 @@ describe API::V2::Account::Withdraws, type: :request do
       expect(response).to have_http_status(201)
       record = Withdraw.last
       expect(record.sum).to eq amount
-      expect(record.aasm_state).to eq 'submitted'
+      expect(record.aasm_state).to eq 'accepted'
       expect(record.account).to eq account
       expect(record.account.balance).to eq(1.2 - amount)
       expect(record.account.locked).to eq amount
@@ -311,6 +311,23 @@ describe API::V2::Account::Withdraws, type: :request do
       api_post '/api/v2/account/withdraws', params: data.merge(note: long_note), token: token
       expect(response).to have_http_status(422)
       expect(response).to include_api_error('account.withdraw.too_long_note')
+    end
+  end
+
+  describe 'GET /withdraws/sums' do
+    let!(:btc_withdraws) { create_list(:btc_withdraw, 2, :with_deposit_liability, member: member) }
+    let!(:usd_withdraws) { create_list(:usd_withdraw, 2, :with_deposit_liability, member: member) }
+
+    before do
+      btc_withdraws.map(&:accept!)
+      usd_withdraws.map(&:accept!)
+    end
+
+    it 'returns withdrawals sums' do
+      api_get '/api/v2/account/withdraws/sums', token: token
+
+      expect(response_body.key?('last_24_hours')).to be_truthy
+      expect(response_body.key?('last_1_month')).to be_truthy
     end
   end
 end

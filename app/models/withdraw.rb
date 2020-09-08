@@ -3,7 +3,6 @@
 
 class Withdraw < ApplicationRecord
   STATES = %i[ prepared
-               submitted
                rejected
                accepted
                skipped
@@ -14,6 +13,7 @@ class Withdraw < ApplicationRecord
                errored
                confirming].freeze
   COMPLETED_STATES = %i[succeed rejected canceled failed].freeze
+  SUCCEED_PROCESSING_STATES = %i[prepared accepted skipped processing errored confirming succeed].freeze
 
   include AASM
   include AASM::Locking
@@ -47,11 +47,14 @@ class Withdraw < ApplicationRecord
     errors.add(:beneficiary, 'not active') if beneficiary.present? && !beneficiary.active? && !aasm_state.to_sym.in?(COMPLETED_STATES)
   end
 
+  validate :verify_limits, on: :create
   scope :completed, -> { where(aasm_state: COMPLETED_STATES) }
+  scope :succeed_processing, -> { where(aasm_state: SUCCEED_PROCESSING_STATES) }
+  scope :last_24_hours, -> { where('created_at > ?', 24.hour.ago) }
+  scope :last_1_month, -> { where('created_at > ?', 1.month.ago) }
 
   aasm whiny_transitions: false do
     state :prepared, initial: true
-    state :submitted
     state :canceled
     state :accepted
     state :skipped
@@ -63,16 +66,19 @@ class Withdraw < ApplicationRecord
     state :errored
     state :confirming
 
-    event :submit do
-      transitions from: :prepared, to: :submitted
+    event :accept do
+      transitions from: :prepared, to: :accepted
       after do
         lock_funds
         record_submit_operations!
       end
+      after_commit do
+        process! if ENV.false?('WITHDRAW_ADMIN_APPROVE') && currency.coin?
+      end
     end
 
     event :cancel do
-      transitions from: %i[prepared submitted accepted], to: :canceled
+      transitions from: %i[prepared accepted], to: :canceled
       after do
         unless aasm.from_state == :prepared
           unlock_funds
@@ -81,12 +87,8 @@ class Withdraw < ApplicationRecord
       end
     end
 
-    event :accept do
-      transitions from: :submitted, to: :accepted
-    end
-
     event :reject do
-      transitions from: %i[submitted to_reject accepted confirming], to: :rejected
+      transitions from: %i[to_reject accepted confirming], to: :rejected
       after do
         unlock_funds
         record_cancel_operations!
@@ -145,17 +147,20 @@ class Withdraw < ApplicationRecord
     end
   end
 
-  def blockchain_api
-    currency.blockchain_api
-  end
+  class << self
+    def sum_query
+      'SELECT sum(w.sum * c.price) as sum FROM withdraws as w ' \
+      'INNER JOIN currencies as c ON c.id=w.currency_id ' \
+      'where w.member_id = ? AND w.aasm_state IN (?) AND w.created_at > ?;'
+    end
 
-  def confirmations
-    return 0 if block_number.blank?
-    return blockchain.processed_height - block_number if (blockchain.processed_height - block_number) >= 0
-    'N/A'
-  rescue StandardError => e
-    report_exception(e)
-    'N/A'
+    def sanitize_execute_sum_queries(member_id)
+      squery_24h = ActiveRecord::Base.sanitize_sql_for_conditions([sum_query, member_id, SUCCEED_PROCESSING_STATES, 24.hours.ago])
+      squery_1m = ActiveRecord::Base.sanitize_sql_for_conditions([sum_query, member_id, SUCCEED_PROCESSING_STATES, 1.month.ago])
+      sum_withdraws_24_hours = ActiveRecord::Base.connection.exec_query(squery_24h).to_hash.first['sum'].to_d
+      sum_withdraws_1_month = ActiveRecord::Base.connection.exec_query(squery_1m).to_hash.first['sum'].to_d
+      [sum_withdraws_24_hours, sum_withdraws_1_month]
+    end
   end
 
   def account
@@ -170,26 +175,30 @@ class Withdraw < ApplicationRecord
     end
   end
 
-  def quick?
-    sums_24h = Withdraw.where(currency_id: currency_id,
-      member_id: member_id,
-      created_at: [1.day.ago..Time.now],
-      aasm_state: [:processing, :confirming, :succeed])
-      .sum(:sum) + sum
-    sums_72h = Withdraw.where(currency_id: currency_id,
-      member_id: member_id,
-      created_at: [3.day.ago..Time.now],
-      aasm_state: [:processing, :confirming, :succeed])
-      .sum(:sum) + sum
+  def verify_limits
+    limits = WithdrawLimit.for(kyc_level: member.level, group: member.group)
+    # Withdraw limits in USD and withdraw sum in currency.
+    # Convert withdraw sums with price from the currency model.
+    sum_24_hours, sum_1_month = Withdraw.sanitize_execute_sum_queries(member_id)
 
-    sums_24h <= currency.withdraw_limit_24h && sums_72h <= currency.withdraw_limit_72h
+    if sum_24_hours + sum * currency.price > limits.limit_24_hour
+      errors.add(:withdraw, '24 hours limit exceeded')
+    elsif sum_1_month + sum * currency.price > limits.limit_1_month
+      errors.add(:withdraw, '1 month limit exceeded')
+    end
   end
 
-  def audit!
-    with_lock do
-      accept!
-      process! if quick? && currency.coin?
-    end
+  def blockchain_api
+    currency.blockchain_api
+  end
+
+  def confirmations
+    return 0 if block_number.blank?
+    return blockchain.processed_height - block_number if (blockchain.processed_height - block_number) >= 0
+    'N/A'
+  rescue StandardError => e
+    report_exception(e)
+    'N/A'
   end
 
   def completed?
@@ -294,7 +303,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20200211124707
+# Schema version: 20200827105929
 #
 # Table name: withdraws
 #
@@ -309,8 +318,9 @@ end
 #  block_number   :integer
 #  sum            :decimal(32, 16)  not null
 #  type           :string(30)       not null
+#  transfer_type  :integer
 #  tid            :string(64)       not null
-#  rid            :string(95)       not null
+#  rid            :string(256)      not null
 #  note           :string(256)
 #  error          :json
 #  created_at     :datetime         not null

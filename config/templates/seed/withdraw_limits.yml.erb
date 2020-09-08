@@ -1,0 +1,9 @@
+<% if ENV['WITHDRAW_LIMITS_CONFIG'] %>
+<%= File.read(ENV['WITHDRAW_LIMITS_CONFIG']) %>
+<% else %>
+- kyc_level:        any
+  group:            any
+  # limits in USD
+  limit_24_hour:    100
+  limit_1_month:    1000
+<% end %>

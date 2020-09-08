@@ -17,7 +17,7 @@ describe API::V2::Account::Balances, type: :request do
     deposit_eth.accept!
     deposit_eth.process!
     deposit_eth.dispatch
-    withdraw.submit! && withdraw.accept!
+    withdraw.accept!
   end
 
   describe 'GET api/v2/account/balances' do

@@ -86,7 +86,6 @@ describe 'Accounting' do
     let(:btc_withdraw) { create(:btc_withdraw, sum: 1000.to_d, member: buyer ) }
 
     before do
-      btc_withdraw.submit!
       btc_withdraw.accept!
       btc_withdraw.update(txid: 'a1a43ab7166f81059449f80a35abdc6febe62fe1f75a0cdb25d49ebae3fc10d9')
       btc_withdraw.process!

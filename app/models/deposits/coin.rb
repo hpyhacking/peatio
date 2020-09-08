@@ -1,6 +1,8 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+# Deprecated
+# TODO: Delete this class and update type column
 module Deposits
   class Coin < Deposit
     has_one :blockchain, through: :currency
@@ -27,26 +29,28 @@ module Deposits
 end
 
 # == Schema Information
-# Schema version: 20190426145506
+# Schema version: 20200827105929
 #
 # Table name: deposits
 #
-#  id           :integer          not null, primary key
-#  member_id    :integer          not null
-#  currency_id  :string(10)       not null
-#  amount       :decimal(32, 16)  not null
-#  fee          :decimal(32, 16)  not null
-#  address      :string(95)
-#  txid         :string(128)
-#  txout        :integer
-#  aasm_state   :string(30)       not null
-#  block_number :integer
-#  type         :string(30)       not null
-#  tid          :string(64)       not null
-#  spread       :string(1000)
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  completed_at :datetime
+#  id             :integer          not null, primary key
+#  member_id      :integer          not null
+#  currency_id    :string(10)       not null
+#  amount         :decimal(32, 16)  not null
+#  fee            :decimal(32, 16)  not null
+#  address        :string(95)
+#  from_addresses :string(1000)
+#  txid           :string(128)
+#  txout          :integer
+#  aasm_state     :string(30)       not null
+#  block_number   :integer
+#  type           :string(30)       not null
+#  transfer_type  :integer
+#  tid            :string(64)       not null
+#  spread         :string(1000)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  completed_at   :datetime
 #
 # Indexes
 #

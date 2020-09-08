@@ -1,6 +1,8 @@
 # encoding: UTF-8
 # frozen_string_literal: true
 
+# Deprecated
+# TODO: Delete this class and update type column
 module Withdraws
   class Fiat < Withdraw
 
@@ -8,7 +10,7 @@ module Withdraws
 end
 
 # == Schema Information
-# Schema version: 20200211124707
+# Schema version: 20200827105929
 #
 # Table name: withdraws
 #
@@ -23,8 +25,9 @@ end
 #  block_number   :integer
 #  sum            :decimal(32, 16)  not null
 #  type           :string(30)       not null
+#  transfer_type  :integer
 #  tid            :string(64)       not null
-#  rid            :string(95)       not null
+#  rid            :string(256)      not null
 #  note           :string(256)
 #  error          :json
 #  created_at     :datetime         not null

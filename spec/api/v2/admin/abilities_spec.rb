@@ -12,7 +12,7 @@ describe API::V2::Admin::Abilities, type: :request do
 
         expect(response).to be_successful
         expect(result).to eq(
-          "manage" => ["Beneficiary", "Operations::Account", "Operations::Asset", "Operations::Expense", "Operations::Liability", "Operations::Revenue", "Engine", "Market", "Currency", "Blockchain", "Wallet", "TradingFee", "Adjustment", "Deposit", "Withdraw"],
+          "manage" => ["Beneficiary", "Operations::Account", "Operations::Asset", "Operations::Expense", "Operations::Liability", "Operations::Revenue", "Engine", "Market", "Currency", "Blockchain", "Wallet", "TradingFee", "WithdrawLimit", "Adjustment", "Deposit", "Withdraw"],
           "read" => ["Trade", "Account", "PaymentAddress", "Member", "Order"],
           "update" => ["Order", "Member"],
         )

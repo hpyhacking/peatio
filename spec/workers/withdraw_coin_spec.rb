@@ -6,7 +6,6 @@ describe Workers::AMQP::WithdrawCoin do
   let(:withdrawal) { create(:btc_withdraw, :with_deposit_liability) }
   let(:processing_withdrawal) do
     create(:btc_withdraw, :with_deposit_liability)
-      .tap(&:submit!)
       .tap(&:accept!)
       .tap(&:process!)
   end

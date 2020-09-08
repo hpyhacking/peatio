@@ -177,21 +177,6 @@ describe API::V2::Account::Deposits, type: :request do
           expect(response.body).to eq '{"currencies":["eth"],"address":null,"state":"pending"}'
         end
       end
-
-      xit 'doesn\'t expose sensitive data' do
-        api_get "/api/v2/account/deposit_address/#{currency}", token: token
-        expect(response.body).to eq '{"currency":"bch","address":"bchtest:pp49pee25hv4esy7ercslnvnvxqvk5gjdv5a06mg35","state": "active"}'
-      end
-
-      xit 'return cash address' do
-        api_get "/api/v2/account/deposit_address/#{currency}", params: { address_format: 'cash'}, token: token
-        expect(response.body).to eq '{"currency":"bch","address":"bchtest:pp49pee25hv4esy7ercslnvnvxqvk5gjdv5a06mg35","state": "active"}'
-      end
-
-      xit 'return legacy address' do
-        api_get "/api/v2/account/deposit_address/#{currency}", params: { address_format: 'legacy'}, token: token
-        expect(response.body).to eq '{"currency":"bch","address":"2N2wNXrdo4oEngp498XGnGCbru29MycHogR","state": "active"}'
-      end
     end
 
     context 'disabled deposit for currency' do

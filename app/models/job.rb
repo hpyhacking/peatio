@@ -14,3 +14,19 @@ class Job < ApplicationRecord
     job.save!
   end
 end
+
+# == Schema Information
+# Schema version: 20200827105929
+#
+# Table name: jobs
+#
+#  id            :bigint           not null, primary key
+#  name          :string(255)      not null
+#  pointer       :integer          unsigned
+#  counter       :integer
+#  data          :json
+#  error_code    :integer          default(255), unsigned, not null
+#  error_message :string(255)
+#  started_at    :datetime
+#  finished_at   :datetime
+#

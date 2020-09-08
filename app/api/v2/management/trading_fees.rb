@@ -25,7 +25,7 @@ module API
             .order(id: :desc)
             .tap { |t| t.where!(market_id: params[:market_id]) if params[:market_id] }
             .tap { |t| t.where!(group: params[:group]) if params[:group] }
-            .tap { |q| present paginate(q), with: API::V2::Admin::Entities::TradingFee }
+            .tap { |q| present paginate(q), with: API::V2::Entities::TradingFee }
           status 200
         end
       end

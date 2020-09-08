@@ -13,6 +13,7 @@ module API
         mount Public::Tools
         mount Public::TradingFees
         mount Public::Webhooks
+        mount Public::WithdrawLimits
       end
     end
   end

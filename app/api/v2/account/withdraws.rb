@@ -44,6 +44,13 @@ module API
                       .tap { |q| present paginate(q), with: API::V2::Entities::Withdraw }
         end
 
+        desc 'Returns withdrawal sums for last 4 hours and 1 month'
+        get '/withdraws/sums' do
+          sum_24_hours, sum_1_month = Withdraw.sanitize_execute_sum_queries(current_user.id)
+
+          present({ last_24_hours: sum_24_hours, last_1_month: sum_1_month })
+        end
+
         desc 'Creates new withdrawal to active beneficiary.'
         params do
           requires :otp,
@@ -91,6 +98,7 @@ module API
             error!({ errors: ['account.currency.withdrawal_disabled'] }, 422)
           end
 
+          # TODO: Delete subclasses from Deposit and Withdraw
           withdraw = "withdraws/#{currency.type}".camelize.constantize.new \
             beneficiary: beneficiary,
             sum:         params[:amount],
@@ -98,7 +106,7 @@ module API
             currency:    currency,
             note:        params[:note]
           withdraw.save!
-          withdraw.with_lock { withdraw.submit! }
+          withdraw.with_lock { withdraw.accept! }
           present withdraw, with: API::V2::Entities::Withdraw
 
         rescue ::Account::AccountError => e

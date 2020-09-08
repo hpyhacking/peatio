@@ -29,6 +29,7 @@ admin_permissions:
       - Currency
       - Blockchain
       - TradingFee
+      - WithdrawLimit
       - Wallet
       - Adjustment
       - Beneficiary
@@ -60,6 +61,7 @@ admin_permissions:
       - Blockchain
       - Wallet
       - TradingFee
+      - WithdrawLimit
       - Adjustment
       - Deposit
       - Withdraw
@@ -147,4 +149,5 @@ admin_permissions:
       - Currency
       - Blockchain
       - TradingFee
+      - WithdrawLimit
       - Wallet

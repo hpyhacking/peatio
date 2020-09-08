@@ -226,16 +226,9 @@ describe API::V2::Admin::Withdraws, type: :request do
     end
 
     context 'updates withdraw' do
-      before { [coin, fiat].map(&:submit!) }
-
-      it 'accept fiat' do
-        api_post url, token: token, params: { action: 'accept', id: fiat.id }
-        expect(fiat.reload.aasm_state).to eq('accepted')
-        expect(response).to be_successful
-      end
+      before { [coin, fiat].map(&:accept!) }
 
       it 'process coin' do
-        coin.accept!
         api_post url, token: token, params: { action: 'process', id: coin.id }
         expect(coin.reload.aasm_state).to eq('processing')
       end

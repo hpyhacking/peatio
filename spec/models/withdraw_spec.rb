@@ -2,90 +2,6 @@
 # frozen_string_literal: true
 
 describe Withdraw do
-  context 'bank withdraw' do
-    describe '#audit!' do
-      subject { create(:usd_withdraw, :with_deposit_liability) }
-      before  { subject.submit! }
-
-      it 'should accept withdraw with clean history' do
-        subject.audit!
-        expect(subject).to be_accepted
-      end
-
-      it 'should accept quick withdraw directly' do
-        subject.update_attributes sum: 5
-        subject.audit!
-        expect(subject).to be_accepted
-      end
-    end
-  end
-
-  context 'coin withdraw' do
-    describe '#audit!' do
-      subject { create(:btc_withdraw, :with_deposit_liability, sum: sum) }
-      let(:sum) { 10.to_d }
-      before { subject.submit! }
-
-      xit 'should be rejected if address is invalid' do
-        WalletClient.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: false }))
-        subject.audit!
-        expect(subject).to be_rejected
-      end
-
-      context 'internal recipient' do
-        let(:payment_address) { create(:btc_payment_address) }
-        subject { create(:btc_withdraw, :with_deposit_liability, rid: payment_address.address) }
-
-        around do |example|
-          WebMock.disable_net_connect!
-          example.run
-          WebMock.allow_net_connect!
-        end
-
-        let :request_body do
-          { jsonrpc: '1.0',
-            method:  'validateaddress',
-            params:  [payment_address.address]
-          }.to_json
-        end
-
-        let(:response_body) { '{"result":{"isvalid":true,"ismine":true}}' }
-
-        before do
-          stub_request(:post, 'http://127.0.0.1:18332').with(body: request_body).to_return(body: response_body)
-        end
-
-        it 'permits withdraw to address which belongs to Peatio' do
-          subject.audit!
-          expect(subject).to be_accepted
-        end
-      end
-
-      xit 'should accept withdraw with clean history' do
-        WalletClient.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: true }))
-        subject.audit!
-        expect(subject).to be_accepted
-      end
-
-      context 'sum less than quick withdraw limit' do
-        let(:sum) { '0.099'.to_d }
-        xit 'should approve quick withdraw directly' do
-          WalletClient.stubs(:[]).returns(mock('rpc', inspect_address!: { is_valid: true }))
-          subject.audit!
-          expect(subject).to be_processing
-        end
-      end
-    end
-
-    describe 'balance validations' do
-      subject { build :btc_withdraw }
-
-      it 'validates balance' do
-        expect { subject.save }.to raise_error(::Account::AccountError)
-      end
-    end
-  end
-
   context 'aasm_state' do
     subject { create(:usd_withdraw, :with_deposit_liability, sum: 1000) }
 
@@ -98,42 +14,42 @@ describe Withdraw do
     end
 
     it 'transitions to :rejected after calling #reject!' do
-      subject.submit!
+      subject.accept!
       subject.reject!
 
       expect(subject.rejected?).to be true
     end
 
-    context :submit do
-      it 'transitions to :submitted after calling #submit!' do
-        subject.submit!
-        expect(subject.submitted?).to be true
+    context :accept do
+      it 'transitions to :submitted after calling #accept!' do
+        subject.accept!
+        expect(subject.accepted?).to be true
         expect(subject.sum).to eq subject.account.locked
       end
 
       context :record_submit_operations! do
         it 'creates two liability operations' do
-          expect{ subject.submit! }.to change{ Operations::Liability.count }.by(2)
+          expect{ subject.accept! }.to change{ Operations::Liability.count }.by(2)
         end
 
         it 'doesn\'t create asset operations' do
-          expect{ subject.submit! }.to_not change{ Operations::Asset.count }
+          expect{ subject.accept! }.to_not change{ Operations::Asset.count }
         end
 
         it 'debits main liabilities for member' do
-          expect{ subject.submit! }.to change {
+          expect{ subject.accept! }.to change {
             subject.member.balance_for(currency: subject.currency, kind: :main)
           }.by(-subject.sum)
         end
 
         it 'credits locked liabilities for member' do
-          expect{ subject.submit! }.to change {
+          expect{ subject.accept! }.to change {
             subject.member.balance_for(currency: subject.currency, kind: :locked)
           }.by(subject.sum)
         end
 
         it 'updates both legacy and operations based member balance' do
-          subject.submit!
+          subject.accept!
 
           %i[main locked].each do |kind|
             expect(
@@ -147,7 +63,7 @@ describe Withdraw do
     end
 
     context :process do
-      before { subject.submit! }
+      before { subject.accept! }
       before { subject.accept! }
 
       it 'transitions to :processing after calling #process! when withdrawing fiat currency' do
@@ -207,14 +123,14 @@ describe Withdraw do
       end
 
       it 'transitions from :submitted to :canceled after calling #cancel!' do
-        subject.submit!
+        subject.accept!
         subject.cancel!
 
         expect(subject.canceled?).to be true
       end
 
       it 'transitions from :accepted to :canceled after calling #cancel!' do
-        subject.submit!
+        subject.accept!
         subject.accept!
         subject.cancel!
 
@@ -223,7 +139,7 @@ describe Withdraw do
 
       context :record_cancel_operations do
         before do
-          subject.submit!
+          subject.accept!
           subject.accept!
         end
         it 'creates two liability operations' do
@@ -262,7 +178,7 @@ describe Withdraw do
 
     context :skip do
       before do
-        subject.submit!
+        subject.accept!
         subject.accept!
         subject.process!
       end
@@ -276,7 +192,7 @@ describe Withdraw do
 
     context :reject do
       before do
-        subject.submit!
+        subject.accept!
       end
 
       it 'transitions from :submitted to :rejected after calling #reject!' do
@@ -342,7 +258,7 @@ describe Withdraw do
     context :success do
 
       before do
-        subject.submit!
+        subject.accept!
         subject.accept!
         subject.process!
         subject.dispatch!
@@ -406,7 +322,6 @@ describe Withdraw do
 
       subject { create(:btc_withdraw, :with_deposit_liability) }
 
-      before { subject.submit! }
       before { subject.accept! }
 
       it 'doesn\'t change state after calling #load! when withdrawing coin currency' do
@@ -426,7 +341,7 @@ describe Withdraw do
 
       subject { create(:btc_withdraw, :with_deposit_liability) }
 
-      before { subject.submit! }
+      before { subject.accept! }
       before { subject.accept! }
 
       it 'doesn\'t change state after calling #load! when withdrawing coin currency' do
@@ -444,7 +359,7 @@ describe Withdraw do
     context :fail do
       subject { create(:btc_withdraw, :with_deposit_liability) }
 
-      before { subject.submit! }
+      before { subject.accept! }
       before { subject.accept! }
 
       context 'from errored' do
@@ -477,7 +392,7 @@ describe Withdraw do
 
         subject { create(:btc_withdraw, :with_deposit_liability, member: member, rid: address, beneficiary: beneficiary) }
 
-        before { subject.submit! }
+        before { subject.accept! }
         before { subject.accept! }
 
         let!(:beneficiary) { create(:beneficiary,
@@ -499,40 +414,6 @@ describe Withdraw do
     end
   end
 
-  context '#quick?' do
-
-    before do
-      withdraw.currency.update(
-        'withdraw_limit_24h': 1,
-        'withdraw_limit_72h': 3
-      )
-    end
-
-    context 'returns false if exceeds 24h withdraw limit' do
-      subject(:withdraw) { create(:btc_withdraw, :with_deposit_liability, sum: 2, aasm_state: 'accepted') }
-      it { expect(withdraw).to_not be_quick }
-    end
-
-    context 'returns false if exceeds 72h withdraw limit' do
-      subject(:withdraw) { create(:btc_withdraw, :with_deposit_liability, sum: 4, aasm_state: 'accepted') }
-      it { expect(withdraw).to_not be_quick }
-    end
-
-    context 'returns true if doesn\'t exceeds 24h withdraw limit' do
-      subject(:withdraw) { create(:btc_withdraw, :with_deposit_liability, sum: 0.5.to_d, aasm_state: 'accepted') }
-      it { expect(withdraw).to be_quick }
-    end
-
-    context 'returns false if exceeds 24h withdraw limit' do
-      subject(:withdraw) { create(:btc_withdraw, :with_deposit_liability, sum: 0.5.to_d, aasm_state: 'accepted') }
-      it do
-        second_withdraw = create(:btc_withdraw, :with_deposit_liability, member: withdraw.member, sum: 0.8.to_d, aasm_state: 'accepted')
-        second_withdraw.process!
-        expect(second_withdraw).to_not be_quick
-      end
-    end
-  end
-
   context 'fee is set to fixed value of 10' do
     let(:withdraw) { create(:usd_withdraw, :with_deposit_liability, sum: 200) }
     before { Currency.any_instance.expects(:withdraw_fee).once.returns(10) }
@@ -543,7 +424,9 @@ describe Withdraw do
   end
 
   context 'fee exceeds amount' do
-    let(:withdraw) { build(:usd_withdraw, sum: 200, member: nil) }
+    let(:member) { create(:member) }
+    let!(:account) { member.get_account(:usd).tap { |x| x.update!(balance: 200.0.to_d) } }
+    let(:withdraw) { build(:usd_withdraw, sum: 200, member: member) }
     before { Currency.any_instance.expects(:withdraw_fee).once.returns(200) }
     it 'fails validation' do
       expect(withdraw.save).to eq false
@@ -561,7 +444,7 @@ describe Withdraw do
 
   it 'validates uniqueness of TID' do
     record1 = create(:btc_withdraw, :with_deposit_liability)
-    record2 = build(:btc_withdraw, tid: record1.tid, member: nil)
+    record2 = build(:btc_withdraw, tid: record1.tid, member: record1.member)
     record2.save
     expect(record2.errors[:tid]).to match(["has already been taken"])
   end
@@ -624,46 +507,10 @@ describe Withdraw do
     end
   end
 
-  context 'CashAddr' do
-    let(:member) { create(:member) }
-    let(:account) { member.get_account(:bch).tap { |x| x.update!(balance: 1.0.to_d) } }
-    let :record do
-      Withdraws::Coin.new \
-        currency: Currency.find(:bch),
-        member:   member,
-        rid:      address,
-        sum:      1.0.to_d
-    end
-
-    context 'valid CashAddr address' do
-      let(:address) { 'bitcoincash:qqkv9wr69ry2p9l53lxp635va4h86wv435995w8p2h' }
-      xit { expect(record.save).to eq true }
-    end
-
-    context 'invalid CashAddr address' do
-      let(:address) { 'bitcoincash::qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a' }
-      xit do
-        expect(record.save).to eq false
-        expect(record.errors.full_messages).to include 'Rid is invalid'
-      end
-    end
-
-    context 'valid legacy address' do
-      let(:address) { '155fzsEBHy9Ri2bMQ8uuuR3tv1YzcDywd4' }
-      xit { expect(record.save).to eq true }
-    end
-
-    context 'invalid legacy address' do
-      let(:address) { '155fzsEBHy9Ri2bMQ8uuuR3tv1YzcDywd400' }
-      xit do
-        expect(record.save).to eq false
-        expect(record.errors.full_messages).to include 'Rid is invalid'
-      end
-    end
-  end
-
   context 'validate min withdrawal sum' do
-    subject { build(:btc_withdraw, sum: 0.1, member: nil) }
+    let(:member) { create(:member) }
+    let!(:account) { member.get_account(:btc).tap { |x| x.update!(balance: 1.0.to_d) } }
+    subject { build(:btc_withdraw, sum: 0.1, member: member) }
 
     before do
       Currency.find('btc').update(min_withdraw_amount: 0.5.to_d)
@@ -730,6 +577,47 @@ describe Withdraw do
       expect(record.valid?).to be_falsey
       expect(record.errors[:amount]).to include("precision must be less than or equal to #{currency.precision}")
       expect(record.errors[:sum]).to include("precision must be less than or equal to #{currency.precision}")
+    end
+  end
+
+  context 'verify_limits' do
+    let!(:member) { create(:member, group: 'vip-1', level: 1) }
+    let!(:withdraw_limit) { create(:withdraw_limit, group: 'vip-1', kyc_level: 1, limit_24_hour: 6, limit_1_month: 10) }
+    let(:withdraw) { build(:btc_withdraw, :with_deposit_liability, member: member, sum: 0.5.to_d) }
+
+    before do
+      Currency.any_instance.unstub(:price)
+      Currency.find('btc').update!(price: 10)
+      member.get_account(:btc).update!(balance: 1000)
+    end
+
+    context 'enough limits' do
+      it { expect(withdraw.valid?).to be_truthy }
+    end
+
+    context 'Withdraw 24 hours limit exceeded' do
+      it do
+        withdraw.sum = 100
+        withdraw.validate
+        expect(withdraw.errors.full_messages).to include('Withdraw 24 hours limit exceeded')
+      end
+
+      it 'withdraw in different currency' do
+        Currency.find('usd').update!(price: 1)
+        withdraw.sum = 100
+        withdraw.validate
+        expect(withdraw.errors.full_messages).to include('Withdraw 24 hours limit exceeded')
+      end
+    end
+
+    context 'Withdraw 1 month limit exceeded' do
+      before { withdraw.save }
+      it do
+        withdraw.update(created_at: 2.day.ago)
+        withdraw = build(:btc_withdraw, :with_deposit_liability, member: member, sum: 0.6.to_d)
+        withdraw.validate
+        expect(withdraw.errors.full_messages).to include('Withdraw 1 month limit exceeded')
+      end
     end
   end
 end
