@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_105929) do
+ActiveRecord::Schema.define(version: 2020_09_09_083000) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "member_id", null: false
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_105929) do
     t.decimal "min_withdraw_amount", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "withdraw_limit_24h", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "withdraw_limit_72h", precision: 32, scale: 16, default: "0.0", null: false
-    t.integer "position", default: 0, null: false
+    t.integer "position", null: false
     t.json "options"
     t.boolean "visible", default: true, null: false
     t.boolean "deposit_enabled", default: true, null: false
@@ -207,7 +207,7 @@ ActiveRecord::Schema.define(version: 2020_09_08_105929) do
     t.decimal "min_price", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "max_price", precision: 32, scale: 16, default: "0.0", null: false
     t.decimal "min_amount", precision: 32, scale: 16, default: "0.0", null: false
-    t.integer "position", default: 0, null: false
+    t.integer "position", null: false
     t.json "data"
     t.string "state", limit: 32, default: "enabled", null: false
     t.datetime "created_at", null: false

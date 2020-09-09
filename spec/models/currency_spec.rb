@@ -26,6 +26,22 @@ describe Currency do
       expect(currency.valid?).to be_truthy
       expect(currency.errors[:blockchain_key]).to be_empty
     end
+
+    it 'validates position' do
+      currency.position = 0
+      expect(currency.valid?).to be_falsey
+      expect(currency.errors[:position].size).to eq(1)
+    end
+
+    it 'validate position value on update' do
+      currency.update(position: nil)
+      expect(currency.valid?).to eq false
+      expect(currency.errors[:position].size).to eq(2)
+
+      currency.update(position: 0)
+      expect(currency.valid?).to eq false
+      expect(currency.errors[:position].size).to eq(1)
+    end
   end
 
   context 'token' do
@@ -176,6 +192,94 @@ describe Currency do
         expect(currency.blockchain_key).to eq token.blockchain_key
         expect(currency.valid?).to eq true
         expect(currency.blockchain_key).to eq token.blockchain_key
+      end
+    end
+
+    context 'after_create' do
+      let!(:coin) { Currency.find(:btc) }
+
+      it 'move to the bottom if there is no position' do
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3],
+                                                                  ['eth', 4], ['trst', 5], ['ring', 6]]
+        Currency.create(code: 'test', parent_id: coin.id)
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3], ['eth', 4],
+                                                                  ['trst', 5], ['ring', 6], ['test', 7]]
+      end
+
+      it 'move to the bottom of all currencies' do
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3],
+                                                                  ['eth', 4], ['trst', 5], ['ring', 6]]
+        Currency.create(code: 'test', parent_id: coin.id, position: 7)
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3], ['eth', 4],
+                                                                  ['trst', 5], ['ring', 6], ['test', 7]]
+      end
+
+      it 'move to the bottom when position is greater that currencies count' do
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3],
+                                                                  ['eth', 4], ['trst', 5], ['ring', 6]]
+        Currency.create(code: 'test', parent_id: coin.id, position: Currency.all.count + 2)
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3], ['eth', 4],
+                                                                  ['trst', 5], ['ring', 6], ['test', 7]]
+      end
+
+      it 'move to the top of all currencies' do
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3],
+                                                                  ['eth', 4], ['trst', 5], ['ring', 6]]
+        Currency.create(code: 'test', parent_id: coin.id, position: 1)
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['test', 1], ['usd', 2], ['eur', 3], ['btc', 4],
+                                                                  ['eth', 5], ['trst', 6], ['ring', 7]]
+      end
+
+      it 'move to the middle of all currencies' do
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3],
+                                                                  ['eth', 4], ['trst', 5], ['ring', 6]]
+        Currency.create(code: 'test', parent_id: coin.id, position: 5)
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3],
+                                                                  ['eth', 4], ['test', 5], ['trst', 6], ['ring', 7]]
+      end
+
+      it 'position equal to currencies amount' do
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3],
+                                                                  ['eth', 4], ['trst', 5], ['ring', 6]]
+        Currency.create(code: 'test', parent_id: coin.id, position: 6)
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3], ['eth', 4],
+                                                                  ['trst', 5], ['test', 6], ['ring', 7]]
+      end
+    end
+
+    context 'before update' do
+      let!(:coin) { Currency.find(:btc) }
+
+      it 'move to the bottom of all currencies' do
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3],
+                                                                  ['eth', 4], ['trst', 5], ['ring', 6]]
+        coin.update(position: 6)
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['eth', 3],
+                                                                  ['trst', 4], ['ring', 5], ['btc', 6]]
+      end
+
+      it 'move to the bottom when position is greater that currencies count' do
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3],
+                                                                  ['eth', 4], ['trst', 5], ['ring', 6]]
+        coin.update(position: Currency.all.count + 2)
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['eth', 3],
+                                                                  ['trst', 4], ['ring', 5], ['btc', 6]]
+      end
+
+      it 'move to the top of all currencies' do
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3],
+                                                                  ['eth', 4], ['trst', 5], ['ring', 6]]
+        coin.update(position: 1)
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['btc', 1], ['usd', 2], ['eur', 3],
+                                                                  ['eth', 4], ['trst', 5], ['ring', 6]]
+      end
+
+      it 'move to the middle of all currencies' do
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3],
+                                                                  ['eth', 4], ['trst', 5], ['ring', 6]]
+        coin.update(position: 4)
+        expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['eth', 3],
+                                                                  ['btc', 4], ['trst', 5], ['ring', 6]]
       end
     end
   end

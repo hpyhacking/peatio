@@ -30,7 +30,7 @@ module API
             },
             position: {
               type: { value: Integer, message: 'admin.market.non_integer_position' },
-              default: 0,
+              values: { value: -> (p){ p > ::Market::TOP_POSITION }, message: 'admin.market.invalid_position' },
               desc: -> { API::V2::Admin::Entities::Market.documentation[:position][:desc] }
             },
             data: {
@@ -63,7 +63,13 @@ module API
           success: API::V2::Admin::Entities::Market
         params do
           use :pagination
-          use :ordering
+          optional :ordering,
+                   values: { value: %w(asc desc), message: 'admin.pagination.invalid_ordering' },
+                   default: 'asc',
+                   desc: 'If set, returned values will be sorted in specific order, defaults to \'asc\'.'
+          optional :order_by,
+                   default: 'position',
+                   desc: 'Name of the field, which result will be ordered by.'
         end
         get '/markets' do
           admin_authorize! :read, ::Market

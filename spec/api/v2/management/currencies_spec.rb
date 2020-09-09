@@ -91,14 +91,6 @@ describe API::V2::Management::Currencies, type: :request do
       expect(response.body).to match(/management.currency.invalid_withdraw_limit_72h/i)
     end
 
-    it 'should validate position param' do
-      data.merge!(id: currency.id, position: -100.0)
-      request
-
-      expect(response).to have_http_status 422
-      expect(response.body).to match(/Position must be greater than or equal to 0/i)
-    end
-
     it 'should validate options param' do
       data.merge!(id: currency.id, options: 'blah-blah')
       request
@@ -115,6 +107,13 @@ describe API::V2::Management::Currencies, type: :request do
       expect(response.body).to match(/management.currency.non_boolean_visible/i)
     end
 
+    it 'should validate position param' do
+      data.merge!(id: currency.id, position: 0)
+      request
+
+      expect(response).to have_http_status 422
+      expect(response.body).to match(/management.currency.invalid_position/i)
+    end
 
     it 'should validate deposit_enabled param' do
       data.merge!(id: currency.id, deposit_enabled: 'blah-blah')

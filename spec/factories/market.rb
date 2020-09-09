@@ -24,7 +24,7 @@ FactoryBot.define do
       price_precision   { 6 }
       min_price         { 0.000001 }
       min_amount        { 0.0001 }
-      position          { 3 }
+      position          { 2 }
       state             { :enabled }
     end
 
@@ -36,7 +36,7 @@ FactoryBot.define do
       price_precision   { 2 }
       min_price         { 0.01 }
       min_amount        { 0.00000001 }
-      position          { 1 }
+      position          { 3 }
       state             { :enabled }
     end
 
@@ -48,7 +48,7 @@ FactoryBot.define do
       price_precision   { 4 }
       min_price         { 0.01 }
       min_amount        { 0.0001 }
-      position          { 5 }
+      position          { 4 }
       state             { :enabled }
     end
 

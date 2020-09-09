@@ -85,7 +85,7 @@ RSpec.configure do |config|
     KlineDB.stubs(:kline).returns([])
     Currency.any_instance.stubs(:price).returns(1.to_d)
     %w[eth-kovan eth-rinkeby btc-testnet].each { |blockchain| FactoryBot.create(:blockchain, blockchain) }
-    %i[usd btc eth trst ring eur].each { |ccy| FactoryBot.create(:currency, ccy) }
+    %i[usd eur btc eth trst ring].each { |ccy| FactoryBot.create(:currency, ccy) }
 
     %i[ eth_deposit eth_hot eth_warm eth_fee
         trst_deposit trst_hot

@@ -6,6 +6,7 @@ class Currency < ApplicationRecord
   # == Constants ============================================================
 
   OPTIONS_ATTRIBUTES = %i[erc20_contract_address gas_limit gas_price].freeze
+  TOP_POSITION = 1
 
   # == Attributes ===========================================================
 
@@ -20,6 +21,8 @@ class Currency < ApplicationRecord
   # == Extensions ===========================================================
 
   store :options, accessors: OPTIONS_ATTRIBUTES
+
+  include Helpers::ReorderPosition
 
   # == Relationships ========================================================
 
@@ -37,6 +40,10 @@ class Currency < ApplicationRecord
   end
 
   validates :code, presence: true, uniqueness: { case_sensitive: false }
+
+  validates :position,
+            presence: true,
+            numericality: { greater_than_or_equal_to: TOP_POSITION, only_integer: true }
 
   validates :parent_id, allow_blank: true,
             inclusion: { in: ->(_) { Currency.coins_without_tokens.pluck(:id).map(&:to_s) } },
@@ -58,7 +65,6 @@ class Currency < ApplicationRecord
             :withdraw_limit_24h,
             :withdraw_limit_72h,
             :precision,
-            :position,
             numericality: { greater_than_or_equal_to: 0 }
 
   # == Scopes ===============================================================
@@ -75,13 +81,17 @@ class Currency < ApplicationRecord
   # == Callbacks ============================================================
 
   before_create :initialize_defaults
+  after_create { insert_position(self) }
   before_validation { self.code = code.downcase }
   before_validation { self.deposit_fee = 0 unless fiat? }
   before_validation { self.blockchain_key = parent.blockchain_key if token? && blockchain_key.blank? }
+  before_validation(on: :create) { self.position = Currency.count + 1 unless position.present? }
 
   before_validation do
     self.erc20_contract_address = erc20_contract_address.try(:downcase) if erc20_contract_address.present?
   end
+
+  before_update { update_position(self) if position_changed? }
 
   after_update :disable_markets
   after_commit :wipe_cache
@@ -175,7 +185,7 @@ class Currency < ApplicationRecord
 end
 
 # == Schema Information
-# Schema version: 20200902082403
+# Schema version: 20200909083000
 #
 # Table name: currencies
 #
@@ -184,6 +194,7 @@ end
 #  description           :text(65535)
 #  homepage              :string(255)
 #  blockchain_key        :string(32)
+#  parent_id             :string(255)
 #  type                  :string(30)       default("coin"), not null
 #  deposit_fee           :decimal(32, 16)  default(0.0), not null
 #  min_deposit_amount    :decimal(32, 16)  default(0.0), not null
@@ -192,8 +203,8 @@ end
 #  min_withdraw_amount   :decimal(32, 16)  default(0.0), not null
 #  withdraw_limit_24h    :decimal(32, 16)  default(0.0), not null
 #  withdraw_limit_72h    :decimal(32, 16)  default(0.0), not null
-#  position              :integer          default(0), not null
-#  options               :string(1000)     default({})
+#  position              :integer          not null
+#  options               :json
 #  visible               :boolean          default(TRUE), not null
 #  deposit_enabled       :boolean          default(TRUE), not null
 #  withdrawal_enabled    :boolean          default(TRUE), not null
@@ -206,6 +217,7 @@ end
 #
 # Indexes
 #
-#  index_currencies_on_position  (position)
-#  index_currencies_on_visible   (visible)
+#  index_currencies_on_parent_id  (parent_id)
+#  index_currencies_on_position   (position)
+#  index_currencies_on_visible    (visible)
 #

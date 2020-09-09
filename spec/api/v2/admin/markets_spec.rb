@@ -20,6 +20,14 @@ describe API::V2::Admin::Markets, type: :request do
       expect(result.fetch('data')).to eq market.data
     end
 
+    it 'returns ordered by position currencies' do
+      api_get "/api/v2/admin/markets/", token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result.pluck('position')).to eq Market.ordered.pluck(:position)
+    end
+
     it 'returns error in case of invalid id' do
       api_get '/api/v2/admin/markets/120', token: token
 
@@ -58,7 +66,7 @@ describe API::V2::Admin::Markets, type: :request do
       expect(response).to be_successful
       expect(response.headers.fetch('Total')).to eq '2'
       expect(result.size).to eq 1
-      expect(result.first['id']).to eq 'btceth'
+      expect(result.first['id']).to eq 'btcusd'
 
       api_get '/api/v2/admin/markets', params: { limit: 1, page: 2 }, token: token
       result = JSON.parse(response.body)
@@ -66,7 +74,7 @@ describe API::V2::Admin::Markets, type: :request do
       expect(response).to be_successful
       expect(response.headers.fetch('Total')).to eq '2'
       expect(result.size).to eq 1
-      expect(result.first['id']).to eq 'btcusd'
+      expect(result.first['id']).to eq 'btceth'
     end
 
     it 'return error in case of not permitted ability' do
@@ -135,6 +143,13 @@ describe API::V2::Admin::Markets, type: :request do
       expect(response).to include_api_error('admin.market.invalid_state')
     end
 
+    it 'validate position param' do
+      api_post '/api/v2/admin/markets/new', token: token, params: valid_params.merge(position: 0)
+
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.market.invalid_position')
+    end
+
     it 'validate engine name param' do
       api_post '/api/v2/admin/markets/new', token: token, params: valid_params.except(:engine_id).merge(engine_name: 'test')
 
@@ -191,6 +206,13 @@ describe API::V2::Admin::Markets, type: :request do
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.market.invalid_data')
+    end
+
+    it 'validates position' do
+      api_post '/api/v2/admin/markets/update', params: { id: Market.first.id, position: 0 }, token: token
+
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.market.invalid_position')
     end
 
     it 'checkes required params' do

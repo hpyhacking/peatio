@@ -55,7 +55,7 @@ module API
             },
             position: {
               type: { value: Integer, message: 'admin.currency.non_integer_position' },
-              default: 0,
+              values: { value: -> (p){ p > ::Currency::TOP_POSITION }, message: 'admin.currency.invalid_position' },
               desc: -> { API::V2::Admin::Entities::Currency.documentation[:position][:desc] }
             },
             options: {
@@ -107,7 +107,13 @@ module API
         params do
           use :currency_type
           use :pagination
-          use :ordering
+          optional :ordering,
+                   values: { value: %w(asc desc), message: 'admin.pagination.invalid_ordering' },
+                   default: 'asc',
+                   desc: 'If set, returned values will be sorted in specific order, defaults to \'asc\'.'
+          optional :order_by,
+                   default: 'position',
+                   desc: 'Name of the field, which result will be ordered by.'
         end
         get '/currencies' do
           admin_authorize! :read, Currency

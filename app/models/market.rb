@@ -26,6 +26,7 @@ class Market < ApplicationRecord
   # So 10 left for amount and price precision.
   DB_DECIMAL_PRECISION = 16
   FUNDS_PRECISION = 10
+  TOP_POSITION = 1
 
   STATES = %w[enabled disabled hidden locked sale presale].freeze
   # enabled - user can view and trade.
@@ -46,6 +47,8 @@ class Market < ApplicationRecord
   alias_attribute :quote_currency, :quote_unit
 
   # == Extensions ===========================================================
+
+  include Helpers::ReorderPosition
 
   # == Relationships ========================================================
 
@@ -82,9 +85,12 @@ class Market < ApplicationRecord
 
   validates :min_amount, precision: { less_than_or_eq_to: ->(m) { m.amount_precision } }
 
+  validates :position,
+            presence: true,
+            numericality: { greater_than_or_equal_to: TOP_POSITION, only_integer: true }
+
   validates :amount_precision,
             :price_precision,
-            :position,
             numericality: { greater_than_or_equal_to: 0, only_integer: true }
 
   validates :price_precision,
@@ -124,8 +130,13 @@ class Market < ApplicationRecord
 
   after_initialize :initialize_defaults, if: :new_record?
   before_validation(on: :create) { self.id = "#{base_currency}#{quote_currency}" }
+  before_validation(on: :create) { self.position = Market.count + 1 unless position.present? }
+
   after_commit { AMQP::Queue.enqueue(:matching, action: 'new', market: id) }
   after_commit :wipe_cache
+  after_create { insert_position(self) }
+
+  before_update { update_position(self) if position_changed? }
 
   # == Instance Methods =====================================================
 
@@ -179,7 +190,7 @@ class Market < ApplicationRecord
     self.engine = Engine.find_by(name: engine_name)
   end
 
-private
+  private
 
   def currencies_must_be_visible
     %i[base_currency quote_currency].each do |unit|
@@ -189,7 +200,7 @@ private
 end
 
 # == Schema Information
-# Schema version: 20200504183201
+# Schema version: 20200909083000
 #
 # Table name: markets
 #
@@ -197,12 +208,12 @@ end
 #  base_unit        :string(10)       not null
 #  quote_unit       :string(10)       not null
 #  engine_id        :bigint           not null
-#  amount_precision :integer          default("4"), not null
-#  price_precision  :integer          default("4"), not null
-#  min_price        :decimal(32, 16)  default("0.0000000000000000"), not null
-#  max_price        :decimal(32, 16)  default("0.0000000000000000"), not null
-#  min_amount       :decimal(32, 16)  default("0.0000000000000000"), not null
-#  position         :integer          default("0"), not null
+#  amount_precision :integer          default(4), not null
+#  price_precision  :integer          default(4), not null
+#  min_price        :decimal(32, 16)  default(0.0), not null
+#  max_price        :decimal(32, 16)  default(0.0), not null
+#  min_amount       :decimal(32, 16)  default(0.0), not null
+#  position         :integer          not null
 #  data             :json
 #  state            :string(32)       default("enabled"), not null
 #  created_at       :datetime         not null

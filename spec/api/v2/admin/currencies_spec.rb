@@ -46,6 +46,14 @@ describe API::V2::Admin::Currencies, type: :request do
       expected_for_coin.each { |key| expect(result).to have_key key }
     end
 
+    it 'returns ordered by position currencies' do
+      api_get "/api/v2/admin/currencies/", token: token
+      expect(response).to be_successful
+
+      result = JSON.parse(response.body)
+      expect(result.pluck('position')).to eq Currency.ordered.pluck(:position)
+    end
+
     it 'returns error in case of invalid code' do
       api_get '/api/v2/admin/currencies/invalid', token: token
 
@@ -83,7 +91,7 @@ describe API::V2::Admin::Currencies, type: :request do
 
       result = JSON.parse(response.body, symbolize_names: true)
       expect(result.size).to eq Currency.fiats.size
-      expect(result.dig(0, :code)).to eq 'eur'
+      expect(result.dig(0, :code)).to eq 'usd'
     end
 
     it 'returns error in case of invalid type' do
@@ -107,7 +115,7 @@ describe API::V2::Admin::Currencies, type: :request do
 
       expect(response.headers.fetch('Total')).to eq '6'
       expect(result.size).to eq 3
-      expect(result.first['code']).to eq 'btc'
+      expect(result.first['code']).to eq 'usd'
 
       api_get '/api/v2/admin/currencies', params: { limit: 3, page: 2 }, token: token
       result = JSON.parse(response.body)
@@ -116,7 +124,7 @@ describe API::V2::Admin::Currencies, type: :request do
 
       expect(response.headers.fetch('Total')).to eq '6'
       expect(result.size).to eq 3
-      expect(result.first['code']).to eq 'ring'
+      expect(result.first['code']).to eq 'eth'
     end
 
     it 'return error in case of not permitted ability' do
@@ -171,6 +179,12 @@ describe API::V2::Admin::Currencies, type: :request do
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.currency.non_boolean_visible')
+    end
+
+    it 'validate position param' do
+      api_post '/api/v2/admin/currencies/new', params: { code: 'test', type: 'fiat', position: 0 }, token: token
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.currency.invalid_position')
     end
 
     it 'validate parent_id param' do
@@ -305,6 +319,12 @@ describe API::V2::Admin::Currencies, type: :request do
       api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'coin').code, parent_id: 'trst' }, token: token
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.currency.parent_id_doesnt_exist')
+    end
+
+    it 'validate position param' do
+      api_post '/api/v2/admin/currencies/update', params: { code: Currency.find_by(type: 'coin').code, position: 0 }, token: token
+      expect(response).to have_http_status 422
+      expect(response).to include_api_error('admin.currency.invalid_position')
     end
 
     it 'validate visible param' do

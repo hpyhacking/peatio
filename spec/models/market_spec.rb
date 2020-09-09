@@ -90,10 +90,24 @@ describe Market do
     end
 
     it 'validates fields to be greater than or equal to 0' do
-      %i[price_precision amount_precision position].each do |field|
+      %i[price_precision amount_precision].each do |field|
         record = Market.new(valid_attributes.merge(field => -1))
         record.save
         expect(record.errors.full_messages).to include(/#{to_readable(field)} must be greater than or equal to 0/i)
+      end
+    end
+
+    it 'validates fields to be greater than or equal to top position' do
+      record = Market.new(valid_attributes.merge(:position => 0))
+      record.save
+      expect(record.errors.full_messages).to include(/position must be greater than or equal to 1/i)
+    end
+
+    it 'validates fields to be greater than or equal to 0' do
+      %i[price_precision amount_precision].each do |field|
+        record = Market.new(valid_attributes.merge(field => 'test'))
+        record.save
+        expect(record.errors.full_messages).to include(/#{to_readable(field)} is not a number/i)
       end
     end
 
@@ -126,6 +140,17 @@ describe Market do
         record = Market.new(valid_attributes.merge(field => disabled_currency.code, state: 'disabled'))
         expect(record.save).to eq true
       end
+    end
+
+    it 'validate position value on update' do
+      market = Market.find(:btcusd)
+      market.update(position: nil)
+      expect(market.valid?).to eq false
+      expect(market.errors[:position].size).to eq(2)
+
+      market.update(position: 0)
+      expect(market.valid?).to eq false
+      expect(market.errors[:position].size).to eq(1)
     end
 
     it 'allows to disable all markets' do
@@ -179,6 +204,81 @@ describe Market do
       record = build(:market, :btctrst)
       record.save
       expect(record.errors.full_messages).to include(/Max Market limit has been reached/i)
+    end
+  end
+
+  context 'callbacks' do
+    let(:valid_attributes) do
+      { base_currency:    :btc,
+        quote_currency:   :trst,
+        engine:           create(:engine),
+        min_amount:       0.0001,
+        min_price:        0.0001,
+        amount_precision: 4,
+        price_precision:  4
+      }
+    end
+
+    context 'after_create' do
+
+      it 'move to the bottom if there is no position' do
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2]]
+        Market.create(valid_attributes)
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+      end
+
+      it 'move to the bottom of all currencies' do
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2]]
+        Market.create(valid_attributes.merge(position: 3))
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+      end
+
+      it 'move to the bottom when position is greater that currencies count' do
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2]]
+        Market.create(valid_attributes.merge(position: Market.all.count + 2))
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+      end
+
+      it 'move to the top of all currencies' do
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2]]
+        Market.create(valid_attributes.merge(position: 1))
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btctrst", 1], ["btcusd", 2], ["btceth", 3]]
+      end
+
+      it 'move to the middle of all currencies' do
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2]]
+        Market.create(valid_attributes.merge(position: 2))
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btctrst", 2], ["btceth", 3]]
+      end
+    end
+
+    context 'before update' do
+      let!(:btctrst) { Market.create(valid_attributes) }
+      let(:btceth) { Market.find(:btceth) }
+
+      it 'move to the bottom of all currencies' do
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+        btceth.update(position: 3)
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btctrst", 2], ["btceth", 3]]
+      end
+
+      it 'move to the bottom when position is greater that markets count' do
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+        btceth.update(position: Market.all.count + 2)
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btctrst", 2], ["btceth", 3]]
+      end
+
+      it 'move to the top of all currencies' do
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+        btceth.update(position: 1)
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btceth", 1], ["btcusd", 2], ["btctrst", 3]]
+      end
+
+      it 'move to the middle of all currencies' do
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btceth", 2], ["btctrst", 3]]
+        btctrst.update(position: 2)
+        expect(Market.all.ordered.pluck(:id, :position)).to eq [["btcusd", 1], ["btctrst", 2], ["btceth", 3]]
+      end
     end
   end
 end

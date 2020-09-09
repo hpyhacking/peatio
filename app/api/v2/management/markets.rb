@@ -41,6 +41,7 @@ module API
                    desc: -> { API::V2::Management::Entities::Market.documentation[:max_price][:desc] }
           optional :position,
                    type: { value: Integer },
+                   values: { value: -> (p){ p > ::Market::TOP_POSITION } },
                    desc: -> { API::V2::Management::Entities::Market.documentation[:position][:desc] }
         end
         put '/markets/update' do
