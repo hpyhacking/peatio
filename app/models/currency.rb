@@ -160,6 +160,14 @@ class Currency < ApplicationRecord
     parent_id.present? && coin?
   end
 
+  def get_price
+    if price.blank? || price.zero?
+      raise "Price for currency #{id} is unknown"
+    else
+      price
+    end
+  end
+
   def to_blockchain_api_settings
     # We pass options are available as top-level hash keys and via options for
     # compatibility with Wallet#to_wallet_api_settings.

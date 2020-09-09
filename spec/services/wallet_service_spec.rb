@@ -571,6 +571,81 @@ describe WalletService do
         expect{ subject }.to raise_error(StandardError)
       end
     end
+
+    context 'currency price recalculation' do
+      let(:deposit) { create(:deposit_btc, amount: amount, currency: currency) }
+
+      context 'collect to hot wallet' do
+        let(:expected_spread) do
+          [{ to_address: 'fake-hot',
+             status: 'pending',
+             amount: (deposit.amount * deposit.currency.price).to_s,
+             currency_id: currency.id }]
+        end
+
+        before do
+          # Deposit with amount 2 and currency price 42
+          hot_wallet.update!(max_balance: 100)
+          deposit.currency.update!(price: 42)
+          # Hot wallet balance is empty
+          Wallet.any_instance.stubs(:current_balance).with(deposit.currency).returns(0)
+          Currency.any_instance.unstub(:price)
+        end
+
+        it 'skip hot wallet and collect to cold' do
+          expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
+          expect(subject).to all(be_a(Peatio::Transaction))
+        end
+      end
+
+      context 'collect to cold wallet' do
+        let(:expected_spread) do
+          [{ to_address: 'fake-cold',
+             status: 'pending',
+             amount: (deposit.amount * deposit.currency.price).to_s,
+             currency_id: currency.id }]
+        end
+
+        before do
+          # Hot wallet balance is ful.
+          deposit.currency.update!(price: 42)
+          Wallet.any_instance.stubs(:current_balance).with(deposit.currency).returns(deposit.amount)
+          Currency.any_instance.unstub(:price)
+        end
+
+        it 'skip hot wallet and collect to cold' do
+          expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
+          expect(subject).to all(be_a(Peatio::Transaction))
+        end
+      end
+
+      context 'split to hot and cold wallet' do
+        let(:expected_spread) do
+          [{ to_address: 'fake-hot',
+             status: 'pending',
+             amount: '58.0',
+             currency_id: currency.id },
+           { to_address: 'fake-cold',
+             status: 'pending',
+             amount: '26.0',
+             currency_id: currency.id }]
+        end
+
+        before do
+          # Deposit with amount 2 and currency price 42
+          hot_wallet.update!(max_balance: 100)
+          # Hot wallet balance is full and cold wallet balance is not available.
+          deposit.currency.update!(price: 42)
+          Wallet.any_instance.stubs(:current_balance).with(deposit.currency).returns(deposit.amount / 2)
+          Currency.any_instance.unstub(:price)
+        end
+
+        it 'skip hot wallet and collect to cold' do
+          expect(subject.map(&:as_json).map(&:symbolize_keys)).to contain_exactly(*expected_spread)
+          expect(subject).to all(be_a(Peatio::Transaction))
+        end
+      end
+    end
   end
 
   context :collect_deposit do

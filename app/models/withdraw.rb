@@ -181,7 +181,7 @@ class Withdraw < ApplicationRecord
     # Convert withdraw sums with price from the currency model.
     sum_24_hours, sum_1_month = Withdraw.sanitize_execute_sum_queries(member_id)
 
-    if sum_24_hours + sum * currency.price > limits.limit_24_hour
+    if sum_24_hours + sum * currency.get_price > limits.limit_24_hour
       errors.add(:withdraw, '24 hours limit exceeded')
     elsif sum_1_month + sum * currency.price > limits.limit_1_month
       errors.add(:withdraw, '1 month limit exceeded')

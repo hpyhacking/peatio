@@ -31,7 +31,8 @@ class WalletService
         # NOTE: Consider min_collection_amount is defined per wallet.
         #       For now min_collection_amount is currency config.
         { address:                 w.address,
-          balance:                 w.current_balance(deposit.currency),
+          balance:                 w.current_balance(deposit.currency) * deposit.currency.get_price.to_d,
+          # Wallet max_balance will be in the platform currency
           max_balance:             w.max_balance,
           min_collection_amount:   deposit.currency.min_collection_amount,
           skip_deposit_collection: w.service.skip_deposit_collection? }
@@ -122,7 +123,7 @@ class WalletService
   # @return [Array<Peatio::Transaction>] result of spread in form of
   # transactions array with amount and to_address defined.
   def spread_between_wallets(deposit, destination_wallets)
-    original_amount = deposit.amount
+    original_amount = deposit.amount * deposit.currency.get_price.to_d
     if original_amount < destination_wallets.pluck(:min_collection_amount).min
       return []
     end
