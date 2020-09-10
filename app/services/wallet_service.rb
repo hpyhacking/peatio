@@ -81,9 +81,12 @@ class WalletService
                                                   amount:       deposit.amount,
                                                   currency_id:  deposit.currency_id)
 
-    @adapter.prepare_deposit_collection!(deposit_transaction,
+    transactions = @adapter.prepare_deposit_collection!(deposit_transaction,
                                          deposit_spread,
                                          deposit.currency.to_blockchain_api_settings)
+
+    deposit.update(spread: deposit.spread.map { |s| s.merge(options: transactions.first.options) }) if transactions.present?
+    transactions
   end
 
   def refund!(refund)
