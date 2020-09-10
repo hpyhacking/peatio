@@ -145,9 +145,9 @@ class Currency < ApplicationRecord
   def link_wallets
     if parent_id.present?
       # Iterate through active deposit/withdraw wallets
-      Wallet.active.deposit.withdraw.each do |wallet|
+      Wallet.active.where.not(kind: :fee).with_currency(parent_id).each do |wallet|
         # Link parent currency with wallet
-        CurrencyWallet.create(currency_id: parent_id, wallet_id: wallet.id)
+        CurrencyWallet.create(currency_id: id, wallet_id: wallet.id)
       end
     end
   end

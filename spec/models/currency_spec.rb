@@ -247,20 +247,23 @@ describe Currency do
       end
 
       context 'link_wallets' do
+        let!(:coin) { Currency.find(:eth) }
+        let!(:wallet) { Wallet.deposit_wallet(:eth) }
+
         context 'without parent id' do
           it 'should not create currency wallet' do
             currency = Currency.create(code: 'test')
-            expect(CurrencyWallet.find_by(currency_id: currency.parent_id)).to eq nil
+            expect(CurrencyWallet.find_by(currency_id: currency.id, wallet_id: wallet.id)).to eq nil
           end
         end
 
         context 'with parent id' do
           it 'should create currency wallet' do
             currency = Currency.create(code: 'test', parent_id: coin.id)
-            wallet = CurrencyWallet.find_by(currency_id: currency.parent_id)
+            c_w = CurrencyWallet.find_by(currency_id: currency.id, wallet_id: wallet.id)
 
-            expect(wallet.present?).to eq true
-            expect(wallet.currency_id).to eq currency.parent_id
+            expect(c_w.present?).to eq true
+            expect(c_w.currency_id).to eq currency.id
           end
         end
       end

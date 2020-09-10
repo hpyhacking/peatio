@@ -579,7 +579,7 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'fake-hot',
              status: 'pending',
-             amount: (deposit.amount * deposit.currency.price).to_s,
+             amount: deposit.amount.to_s,
              currency_id: currency.id }]
         end
 
@@ -602,7 +602,7 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'fake-cold',
              status: 'pending',
-             amount: (deposit.amount * deposit.currency.price).to_s,
+             amount: deposit.amount.to_s,
              currency_id: currency.id }]
         end
 
@@ -623,11 +623,11 @@ describe WalletService do
         let(:expected_spread) do
           [{ to_address: 'fake-hot',
              status: 'pending',
-             amount: '58.0',
+             amount: '1.38095238',
              currency_id: currency.id },
            { to_address: 'fake-cold',
              status: 'pending',
-             amount: '26.0',
+             amount: '0.61904762',
              currency_id: currency.id }]
         end
 
