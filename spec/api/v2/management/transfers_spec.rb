@@ -27,18 +27,54 @@ describe API::V2::Management::Transfers, type: :request do
 
     let(:valid_operation) do
       { currency: :btc,
-        amount:   '0.0001',
+        amount: '0.0001',
         account_src: {
           code: 102
         },
         account_dst: {
           code: 102
+        } }
+    end
+
+    context 'automatically creates an account, if transfer will be send' do
+      let!(:sender_member) { create(:member, :level_3) }
+      let!(:receiver_member) { create(:member, :level_3) }
+      let!(:deposit) { create(:deposit_btc, member: sender_member, amount: 1) }
+
+      let(:operation) do
+        {
+          currency: :btc,
+          amount: '0.5',
+          account_src: {
+            code: 202,
+            uid: sender_member.uid
+          },
+          account_dst: {
+            code: 202,
+            uid: receiver_member.uid
+          }
         }
-      }
+      end
+
+      let(:operations) { [operation] }
+
+      before do
+        deposit.accept!
+        deposit.process!
+        deposit.dispatch!
+      end
+
+      it do
+        expect(receiver_member.accounts.count).to eq(0)
+
+        request
+        expect(response).to have_http_status(201)
+        expect(receiver_member.accounts.count).to eq(1)
+      end
     end
 
     context 'empty key' do
-      let(:operations) {[valid_operation]}
+      let(:operations) { [valid_operation] }
 
       before do
         data.delete(:key)

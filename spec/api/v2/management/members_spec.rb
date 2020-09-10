@@ -10,6 +10,53 @@ describe API::V2::Management::Members, type: :request do
       }
   end
 
+  describe 'create member' do
+    def request
+      post_json '/api/v2/management/members', multisig_jwt_management_api_v1({ data: data }, *signers)
+    end
+
+    let(:data) { build(:member).slice(:uid, :email, :level, :role, :group, :state) }
+    let(:signers) { %i[alex jeff] }
+
+    it 'returns member' do
+      request
+      expect(response).to have_http_status(200)
+      expect(JSON.parse(response.body)).to include( data )
+    end
+
+    context 'invalid params' do
+      context 'email' do
+        it 'returns status 422 and error' do
+          data[:email] = 'fake_email'
+
+          request
+          expect(response).to have_http_status(422)
+          expect(JSON.parse(response.body)['errors']).to eq("Validation failed: Email is invalid")
+        end
+      end
+
+      context 'level' do
+        it 'returns status 422 and error' do
+          data[:level] = 'fake_level'
+
+          request
+          expect(response).to have_http_status(422)
+          expect(JSON.parse(response.body)['error']).to eq("level is invalid")
+        end
+      end
+
+      context 'role' do
+        it 'returns status 422 and error' do
+          data[:role] = 'fake_role'
+
+          request
+          expect(response).to have_http_status(422)
+          expect(JSON.parse(response.body)['errors']).to eq("Validation failed: Role is not included in the list")
+        end
+      end
+    end
+  end
+
   describe 'set user group' do
     def request
       post_json '/api/v2/management/members/group', multisig_jwt_management_api_v1({ data: data }, *signers)
