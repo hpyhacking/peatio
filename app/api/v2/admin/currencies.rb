@@ -53,11 +53,6 @@ module API
               default: 0.0,
               desc: -> { API::V2::Admin::Entities::Currency.documentation[:withdraw_limit_72h][:desc] }
             },
-            position: {
-              type: { value: Integer, message: 'admin.currency.non_integer_position' },
-              values: { value: -> (p){ p > ::Currency::TOP_POSITION }, message: 'admin.currency.invalid_position' },
-              desc: -> { API::V2::Admin::Entities::Currency.documentation[:position][:desc] }
-            },
             options: {
               type: { value: JSON, message: 'admin.currency.non_json_options' },
               default: 0.0,
@@ -153,12 +148,15 @@ module API
           optional :base_factor,
                    type: { value: Integer, message: 'admin.currency.non_integer_base_factor' },
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:base_factor][:desc] }
+          optional :position,
+                   type: { value: Integer, message: 'admin.currency.non_integer_position' },
+                   desc: -> { API::V2::Admin::Entities::Currency.documentation[:position][:desc] }
           optional :subunits,
                    type: { value: Integer, message: 'admin.currency.non_integer_subunits' },
                    values: { value: (0..18), message: 'admin.currency.invalid_subunits' },
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:subunits][:desc] }
           given type: ->(val) { val == 'coin' } do
-            requires :blockchain_key,
+            optional :blockchain_key,
                      values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.currency.blockchain_key_doesnt_exist' },
                      desc: -> { API::V2::Admin::Entities::Currency.documentation[:blockchain_key][:desc] }
             optional :parent_id,
@@ -188,6 +186,10 @@ module API
           requires :code,
                    values: { value: -> { ::Currency.codes }, message: 'admin.currency.doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:code][:desc] }
+          optional :position,
+                   type: { value: Integer, message: 'admin.currency.non_integer_position' },
+                   values: { value: -> (p){ p >= ::Currency::TOP_POSITION }, message: 'admin.currency.invalid_position' },
+                   desc: -> { API::V2::Admin::Entities::Currency.documentation[:position][:desc] }
           optional :blockchain_key,
                    values: { value: -> { ::Blockchain.pluck(:key) }, message: 'admin.currency.blockchain_key_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Currency.documentation[:blockchain_key][:desc] }

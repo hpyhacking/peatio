@@ -85,7 +85,7 @@ module API
                    desc: -> { API::V2::Management::Entities::Currency.documentation[:withdraw_limit_72h][:desc] }
           optional :position,
                    type: { value: Integer, message: 'management.currency.non_integer_position' },
-                   values: { value: -> (p){ p > ::Currency::TOP_POSITION }, message: 'management.currency.invalid_position' },
+                   values: { value: -> (p){ p >= ::Currency::TOP_POSITION }, message: 'management.currency.invalid_position' },
                    desc: -> { API::V2::Management::Entities::Currency.documentation[:position][:desc] }
           optional :options,
                    type: { value: JSON, message: 'management.currency.non_json_options' },

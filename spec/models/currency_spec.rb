@@ -245,6 +245,25 @@ describe Currency do
         expect(Currency.all.ordered.pluck(:id, :position)).to eq [['usd', 1], ['eur', 2], ['btc', 3], ['eth', 4],
                                                                   ['trst', 5], ['test', 6], ['ring', 7]]
       end
+
+      context 'link_wallets' do
+        context 'without parent id' do
+          it 'should not create currency wallet' do
+            currency = Currency.create(code: 'test')
+            expect(CurrencyWallet.find_by(currency_id: currency.parent_id)).to eq nil
+          end
+        end
+
+        context 'with parent id' do
+          it 'should create currency wallet' do
+            currency = Currency.create(code: 'test', parent_id: coin.id)
+            wallet = CurrencyWallet.find_by(currency_id: currency.parent_id)
+
+            expect(wallet.present?).to eq true
+            expect(wallet.currency_id).to eq currency.parent_id
+          end
+        end
+      end
     end
 
     context 'before update' do

@@ -81,7 +81,11 @@ class Currency < ApplicationRecord
   # == Callbacks ============================================================
 
   before_create :initialize_defaults
-  after_create { insert_position(self) }
+  after_create do
+    link_wallets
+    insert_position(self)
+  end
+
   before_validation { self.code = code.downcase }
   before_validation { self.deposit_fee = 0 unless fiat? }
   before_validation { self.blockchain_key = parent.blockchain_key if token? && blockchain_key.blank? }
@@ -136,6 +140,16 @@ class Currency < ApplicationRecord
 
   def initialize_defaults
     self.options = {} if options.blank?
+  end
+
+  def link_wallets
+    if parent_id.present?
+      # Iterate through active deposit/withdraw wallets
+      Wallet.active.deposit.withdraw.each do |wallet|
+        # Link parent currency with wallet
+        CurrencyWallet.create(currency_id: parent_id, wallet_id: wallet.id)
+      end
+    end
   end
 
   # Allows to dynamically check value of id/code:

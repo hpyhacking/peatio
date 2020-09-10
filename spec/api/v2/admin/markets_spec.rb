@@ -143,13 +143,6 @@ describe API::V2::Admin::Markets, type: :request do
       expect(response).to include_api_error('admin.market.invalid_state')
     end
 
-    it 'validate position param' do
-      api_post '/api/v2/admin/markets/new', token: token, params: valid_params.merge(position: 0)
-
-      expect(response).to have_http_status 422
-      expect(response).to include_api_error('admin.market.invalid_position')
-    end
-
     it 'validate engine name param' do
       api_post '/api/v2/admin/markets/new', token: token, params: valid_params.except(:engine_id).merge(engine_name: 'test')
 

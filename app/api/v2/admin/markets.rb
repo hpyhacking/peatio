@@ -28,11 +28,6 @@ module API
               default: 0.0,
               desc: -> { API::V2::Admin::Entities::Market.documentation[:max_price][:desc] }
             },
-            position: {
-              type: { value: Integer, message: 'admin.market.non_integer_position' },
-              values: { value: -> (p){ p > ::Market::TOP_POSITION }, message: 'admin.market.invalid_position' },
-              desc: -> { API::V2::Admin::Entities::Market.documentation[:position][:desc] }
-            },
             data: {
               type: { value: JSON, message: 'admin.market.invalid_data' },
               default: {},
@@ -114,6 +109,9 @@ module API
           optional :engine_id,
                    type: { value: Integer, message: 'admin.market.non_integer_engine_id' },
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:engine_id][:desc] }
+          optional :position,
+                   type: { value: Integer, message: 'admin.market.non_integer_position' },
+                   desc: -> { API::V2::Admin::Entities::Market.documentation[:position][:desc] }
           optional :engine_name,
                    values: { value: -> { ::Engine.pluck(:name) }, message: 'admin.market.engine_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Engine.documentation[:name][:desc] }
@@ -142,6 +140,10 @@ module API
           optional :engine_id,
                    type: { value: Integer, message: 'admin.market.non_integer_engine_id' },
                    desc: -> { API::V2::Admin::Entities::Market.documentation[:engine_id][:desc] }
+          optional :position,
+                   type: { value: Integer, message: 'admin.market.non_integer_position' },
+                   values: { value: -> (p){ p >= ::Market::TOP_POSITION }, message: 'admin.market.invalid_position' },
+                   desc: -> { API::V2::Admin::Entities::Market.documentation[:position][:desc] }
           optional :min_price,
                    type: { value: BigDecimal, message: 'admin.market.non_decimal_min_price' },
                    values: { value: -> (p){ p >= 0 }, message: 'admin.market.invalid_min_price' },

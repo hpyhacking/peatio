@@ -181,12 +181,6 @@ describe API::V2::Admin::Currencies, type: :request do
       expect(response).to include_api_error('admin.currency.non_boolean_visible')
     end
 
-    it 'validate position param' do
-      api_post '/api/v2/admin/currencies/new', params: { code: 'test', type: 'fiat', position: 0 }, token: token
-      expect(response).to have_http_status 422
-      expect(response).to include_api_error('admin.currency.invalid_position')
-    end
-
     it 'validate parent_id param' do
       api_post '/api/v2/admin/currencies/new', params: { code: 'test', type: 'coin', parent_id: 'trst'}, token: token
 
@@ -261,7 +255,6 @@ describe API::V2::Admin::Currencies, type: :request do
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.currency.missing_code')
-      expect(response).to include_api_error('admin.currency.missing_blockchain_key')
     end
 
     it 'return error in case of not permitted ability' do
