@@ -8,12 +8,12 @@ module Jobs::Cron
         idx = last_idx(pnl_currency, currency)
 
         query = "
-        SELECT 'Trade', id, updated_at as ts FROM trades WHERE id > #{idx['Trade']} UNION
-        SELECT 'Adjustment', id, updated_at as ts FROM adjustments WHERE updated_at > '#{idx['Adjustment']}' AND currency_id = '#{currency.id}' AND state = 2 UNION
-        SELECT 'Transfer', id, updated_at as ts FROM transfers WHERE id > #{idx['Transfer']} UNION
-        SELECT 'Withdraw', id, completed_at as ts FROM withdraws WHERE completed_at > '#{idx['Withdraw']}' AND currency_id = '#{currency.id}' AND aasm_state = 'succeed' UNION
-        SELECT 'Deposit', id, created_at as ts FROM deposits WHERE created_at > '#{idx['DepositCoin']}' AND currency_id = '#{currency.id}' AND type = 'Deposits::Coin' UNION
-        SELECT 'Deposit', id, completed_at as ts FROM deposits WHERE completed_at > '#{idx['DepositFiat']}' AND currency_id = '#{currency.id}' AND type = 'Deposits::Fiat' AND aasm_state = 'accepted'
+        (SELECT 'Trade', id, updated_at as ts FROM trades WHERE id > #{idx['Trade']} ORDER BY ts,id LIMIT #{batch_size}) UNION ALL
+        (SELECT 'Adjustment', id, updated_at as ts FROM adjustments WHERE updated_at > '#{idx['Adjustment']}' AND currency_id = '#{currency.id}' AND state = 2 ORDER BY ts,id LIMIT #{batch_size}) UNION ALL
+        (SELECT 'Transfer', id, updated_at as ts FROM transfers WHERE id > #{idx['Transfer']} ORDER BY ts,id LIMIT #{batch_size}) UNION ALL
+        (SELECT 'Withdraw', id, completed_at as ts FROM withdraws WHERE completed_at > '#{idx['Withdraw']}' AND currency_id = '#{currency.id}' AND aasm_state = 'succeed' ORDER BY ts,id LIMIT #{batch_size}) UNION ALL
+        (SELECT 'Deposit', id, created_at as ts FROM deposits WHERE created_at > '#{idx['DepositCoin']}' AND currency_id = '#{currency.id}' AND type = 'Deposits::Coin' ORDER BY ts,id LIMIT #{batch_size}) UNION ALL
+        (SELECT 'Deposit', id, completed_at as ts FROM deposits WHERE completed_at > '#{idx['DepositFiat']}' AND currency_id = '#{currency.id}' AND type = 'Deposits::Fiat' AND aasm_state = 'accepted' ORDER BY ts,id LIMIT #{batch_size})
         ORDER BY ts,id ASC LIMIT #{batch_size};"
 
         trade_idx = adjustment_idx = transfer_idx = withdraw_idx = deposit_fiat_idx = deposit_coin_idx = nil
