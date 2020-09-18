@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'csv'
+require 'peatio/import'
 
 namespace :import do
   # Detailed instruction https://github.com/rubykube/peatio/blob/master/docs/tasks/import.md
@@ -92,6 +93,15 @@ namespace :import do
     end
     Kernel.puts "Addresses created #{count}"
     Kernel.puts "Errored #{errors_count}"
+  end
+
+  desc 'Import configs(blockchains, currencies, wallets, markets, engines) to the database'
+  task :configs, [:config_load_path] => :environment do |_, args|
+    args.with_defaults(:config_load_path => 'import_configs.yaml')
+
+    import_data = YAML.load_file(Rails.root.join(args[:config_load_path]))
+
+    Peatio::Import.new(import_data).load_all
   end
 
   desc 'Load local trades to the influx'

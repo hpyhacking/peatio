@@ -1,0 +1,123 @@
+# encoding: UTF-8
+# frozen_string_literal: true
+
+module Peatio
+  class Import
+    attr_accessor :data
+
+    def initialize(data)
+      @data = data
+    end
+
+    def load_all
+      load_blockchains
+      load_currencies
+      load_wallets
+      load_engines
+      load_markets
+    end
+
+    def load_blockchains
+      return unless @data.include? 'blockchains'
+
+      Kernel.puts 'Importing blockchains'
+      ::Blockchain.transaction do
+        @data['blockchains'].each do |hash|
+          next if ::Blockchain.exists?(key: hash.fetch('key'))
+
+          ::Blockchain.create!(hash)
+          Kernel.puts "Created #{hash.fetch('key')} blockchain"
+        end
+      end
+    end
+
+    def load_currencies
+      return unless @data.include? 'currencies'
+
+      Kernel.puts 'Importing currencies'
+      ::Currency.transaction do
+        @data['currencies'].each do |hash|
+          next if ::Currency.exists?(id: hash.fetch('id'))
+
+          ::Currency.create!(hash)
+          Kernel.puts "Created #{hash.fetch('id')} currency"
+        end
+      end
+    end
+
+    def load_wallets
+      return unless @data.include? 'wallets'
+
+      Kernel.puts 'Importing wallets'
+      ::Wallet.transaction do
+        @data['wallets'].each do |hash|
+          next if ::Wallet.exists?(name: hash.fetch('name'))
+
+          if hash['currency_ids'].is_a?(String)
+            hash['currency_ids'] = hash['currency_ids'].split(',')
+          end
+
+          ::Wallet.create!(hash)
+
+          Kernel.puts "Created #{hash.fetch('name')} wallet"
+        end
+      end
+    end
+
+    def load_engines
+      return unless @data.include? 'engines'
+
+      Kernel.puts 'Importing engines'
+      ::Engine.transaction do
+        @data['engines'].each do |hash|
+          next if ::Engine.exists?(name: hash.fetch('name'))
+
+          ::Engine.create!(hash)
+          Kernel.puts "Created #{hash.fetch('name')} engine"
+        end
+      end
+    end
+
+    def load_markets
+      return unless @data.include? 'markets'
+
+      Kernel.puts 'Importing markets'
+      ::Market.transaction do
+        @data['markets'].map(&:symbolize_keys).each do |hash|
+          next if ::Market.exists?(id: hash.fetch(:id))
+
+          # For compatibility with old markets.yml
+          # If state is not defined set it from enabled.
+          enabled = hash.delete(:enabled)
+          hash[:state] ||= enabled ? :enabled : :disabled
+
+          # For compatibility with old markets.yml we keep legacy-new keys mapping.
+          # New key value has higher priority than legacy.
+          legacy_keys_mappings = { ask_unit:       :base_unit,
+                                   bid_unit:       :quote_unit,
+                                   ask_precision:  :amount_precision,
+                                   bid_precision:  :price_precision,
+                                   min_ask_price:  :min_price,
+                                   max_bid_price:  :max_price,
+                                   min_ask_amount: :min_amount,
+                                   min_bid_amount: :min_amount }
+
+          legacy_keys_mappings.each do |old_key, new_key|
+            legacy_key_value = hash.delete(old_key)
+            hash[new_key] ||= legacy_key_value
+          end
+
+          # Select engine with provided name
+          engine = ::Engine.find_by(name: hash[:engine_name])
+          if engine.present?
+            hash.delete :engine_name
+            hash[:engine_id] = engine.id
+            ::Market.create!(hash)
+          else
+            Kernel.puts "Engine #{hash[:engine_name]} doesn't exist"
+          end
+        end
+      end
+    end
+  end
+end

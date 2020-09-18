@@ -13,6 +13,7 @@ namespace :seed do
     end
   end
 
+  # TODO: Deprecate seed tasks in favour of import:configs
   desc 'Adds missing currencies to database defined at config/seed/currencies.yml.'
   task currencies: :environment do
     Currency.transaction do
