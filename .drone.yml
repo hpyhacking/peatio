@@ -192,6 +192,24 @@ steps:
       - master
       - "*-stable"
 
+# Trigger custom Peatio image build
+- name: build-custom-image
+  image: curlimages/curl
+  environment:
+    SERVER: https://ci.openware.work
+    REPO: openware/assembly-line
+    BRANCH: master
+    COMPONENT: peatio
+    DRONE_TOKEN:
+      from_secret: drone_token
+  commands:
+    - COMPONENT_VERSION=$(cat .tags)
+    - "curl -s -XPOST -H \"Authorization: Bearer $DRONE_TOKEN\" -i \"$SERVER/api/repos/$REPO/builds?branch=$BRANCH&ASSEMBLY_COMPONENT_VERSION=$COMPONENT_VERSION&ASSEMBLY_COMPONENT=$COMPONENT\""
+  when:
+    branch:
+      - master
+      - "*-stable"
+
 # Copy docker cache from the build environment to your host machine.
 # Plugin description: http://plugins.drone.io/drillster/drone-volume-cache
 - name: rebuild-docker-cache
