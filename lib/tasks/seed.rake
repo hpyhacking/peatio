@@ -79,7 +79,7 @@ namespace :seed do
             hash[:engine_id] = engine.id
             Market.create!(hash)
           else
-            Rails.logger "Engine doesn't exist"
+            Rails.logger.error "Engine doesn't exist"
           end
         end
     end

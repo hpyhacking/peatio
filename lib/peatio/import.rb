@@ -15,6 +15,7 @@ module Peatio
       load_wallets
       load_engines
       load_markets
+      load_trading_fees
     end
 
     def load_blockchains
@@ -60,6 +61,20 @@ module Peatio
           ::Wallet.create!(hash)
 
           Kernel.puts "Created #{hash.fetch('name')} wallet"
+        end
+      end
+    end
+
+    def load_trading_fees
+      return unless @data.include? 'trading_fees'
+
+      Kernel.puts 'Importing trading_fees'
+      ::TradingFee.transaction do
+        @data['trading_fees'].each do |hash|
+          next if ::TradingFee.exists?(market_id: hash.fetch('market_id'), group: hash.fetch('group'))
+
+          ::TradingFee.create!(hash)
+          Kernel.puts "Created [#{hash.fetch('market_id')}, #{hash.fetch('group')}] trading fees"
         end
       end
     end

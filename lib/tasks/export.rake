@@ -2,6 +2,7 @@
 
 require 'yaml'
 require 'csv'
+require 'peatio/export'
 
 namespace :export do
   desc 'Export all configs to yaml files.'
@@ -15,70 +16,48 @@ namespace :export do
   end
 
   desc 'Export blockchains config to yaml file.'
-  task blockchains: :environment do
-    result = export('Blockchain')
-
-    result.map! { |r| r.except!('id') }
-    File.open('config/seed/blockchains_backup.yml', 'w') do |file|
-      file.write result.to_yaml
-    end
+  task :blockchains, [:export_path] => [:environment] do |_, args|
+    args.with_defaults(export_path: 'config/seed/blockchains.yml')
+    File.write(args.export_path, Peatio::Export.new.export_blockchains.to_yaml)
   end
 
   desc 'Export currencies config to yaml file.'
-  task currencies: :environment do
-    result = export('Currency')
-
-    result.each { |c| c['options'] = c['options'].to_h }
-
-    File.open('config/seed/currencies_backup.yml', 'w') do |file|
-      file.write result.to_yaml
-    end
+  task :currencies, [:export_path] => [:environment] do |_, args|
+    args.with_defaults(export_path: 'config/seed/currencies_backup.yml')
+    File.write(args.export_path, Peatio::Export.new.export_currencies.to_yaml)
   end
 
   desc 'Export markets config to yaml file.'
-  task markets: :environment do
-    result = export('Market')
-
-    File.open('config/seed/markets_backup.yml', 'w') do |file|
-      file.write result.to_yaml
-    end
+  task :markets, [:export_path] => [:environment] do |_, args|
+    args.with_defaults(export_path: 'config/seed/markets_backup.yml')
+    File.write(args.export_path, Peatio::Export.new.export_markets.to_yaml)
   end
 
   desc 'Export wallets config to yaml file.'
-  task wallets: :environment do
-    result = export('Wallet')
-
-    result.map! { |r| r.except!('id') }
-    File.open('config/seed/wallets_backup.yml', 'w') do |file|
-      file.write result.to_yaml
-    end
+  task :wallets, [:export_path] => [:environment] do |_, args|
+    args.with_defaults(export_path: 'config/seed/wallets_backup.yml')
+    File.write(args.export_path, Peatio::Export.new.export_wallets.to_yaml)
   end
 
   desc 'Export trading fees config to yaml file.'
-  task trading_fees: :environment do
-    result = export('TradingFee')
-
-    result.map! { |r| r.except!('id') }
-    File.open('config/seed/trading_fees_backup.yml', 'w') do |file|
-      file.write result.to_yaml
-    end
+  task :trading_fees, [:export_path] => [:environment] do |_, args|
+    args.with_defaults(export_path: 'config/seed/trading_fees_backup.yml')
+    File.write(args.export_path, Peatio::Export.new.export_trading_fees.to_yaml)
   end
 
   desc 'Export engines to yaml file.'
-  task engines: :environment do
-    result = export('Engine')
-
-    File.open('config/seed/engines_backup.yml', 'w') do |file|
-      file.write result.to_yaml
-    end
+  task :engines, [:export_path] => [:environment] do |_, args|
+    args.with_defaults(export_path: 'config/seed/engines_backup.yml')
+    File.write(args.export_path, Peatio::Export.new.export_engines.to_yaml)
   end
 
   desc 'Export all members to csv file.'
-  task users: :environment do
+  task :users, [:export_path] => [:environment] do |_, args|
+    args.with_defaults(export_path: 'exported_users.csv')
     count = 0
     errors_count = 0
     begin
-      CSV.open('exported_users.csv', 'w') do |csv|
+      CSV.open(args.export_path, 'w') do |csv|
         csv << %w[uid email level role state]
         Member.find_each do |member|
           csv << [member.uid, member.email, member.level, member.role, member.state]
@@ -95,11 +74,12 @@ namespace :export do
   end
 
   desc 'Export accounts to csv file.'
-  task accounts: :environment do
+  task :accounts, [:export_path] => [:environment] do |_, args|
+    args.with_defaults(export_path: 'exported_accounts.csv')
     count = 0
     errors_count = 0
     begin
-      CSV.open('exported_accounts.csv', 'w') do |csv|
+      CSV.open(args.export_path, 'w') do |csv|
         csv << %w[uid currency_id main_balance locked_balance]
         Account.find_each do |account|
           if account.balance.positive? || account.locked.positive?
@@ -118,11 +98,12 @@ namespace :export do
   end
 
   desc 'Export addresses to csv file.'
-  task addresses: :environment do
+  task :addresses, [:export_path] => [:environment] do |_, args|
+    args.with_defaults(export_path: 'exported_addresses.csv')
     count = 0
     errors_count = 0
     begin
-      CSV.open('exported_addresses.csv', 'w') do |csv|
+      CSV.open(args.export_path, 'w') do |csv|
         csv << %w[uid currency_id address secret details]
         PaymentAddress.find_each do |address|
           csv << [address.account.member.uid, address.currency_id, address.address, address.secret, address.details]
@@ -138,15 +119,17 @@ namespace :export do
     Kernel.puts "Errored #{errors_count}"
   end
 
-  def export(model_name)
-    model_name.constantize.all.map do |m|
-      m.attributes.except('settings_encrypted', 'data_encrypted', 'created_at',
-                          'updated_at', 'key', 'secret')
-       .merge('settings' => m.try(:settings),
-              'data' => m.try(:data),
-              'key' => m.try(:key),
-              'secret' => m.try(:secret),
-              'currency_ids' => m.try(:currency_ids))
-    end.map { |r| r.transform_values! { |v| v.is_a?(BigDecimal) ? v.to_f : v } }.map(&:compact)
+  desc 'Export configs(blockchains, currencies, wallets, markets, engines) from the database'
+  task :configs, [:export_path] => [:environment] do |_, args|
+    args.with_defaults(export_path: 'export_configs.yaml')
+    ex = Peatio::Export.new
+    File.write(args.export_path, {
+      'blockchains' => ex.export_blockchains,
+      'currencies' => ex.export_currencies,
+      'markets' => ex.export_markets,
+      'wallets' => ex.export_wallets,
+      'trading_fees' => ex.export_trading_fees,
+      'engines' => ex.export_engines
+    }.to_yaml)
   end
 end

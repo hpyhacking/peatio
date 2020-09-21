@@ -95,12 +95,11 @@ namespace :import do
     Kernel.puts "Errored #{errors_count}"
   end
 
-  desc 'Import configs(blockchains, currencies, wallets, markets, engines) to the database'
+  desc 'Import configs(blockchains, currencies, wallets, trading_fees, markets, engines) to the database'
   task :configs, [:config_load_path] => :environment do |_, args|
-    args.with_defaults(:config_load_path => 'import_configs.yaml')
+    args.with_defaults(config_load_path: 'import_configs.yaml')
 
     import_data = YAML.load_file(Rails.root.join(args[:config_load_path]))
-
     Peatio::Import.new(import_data).load_all
   end
 
