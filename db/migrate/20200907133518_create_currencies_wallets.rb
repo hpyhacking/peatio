@@ -29,6 +29,7 @@ class CreateCurrenciesWallets < ActiveRecord::Migration[5.2]
         end
         change_column_default :currencies, :options, nil
         remove_column :wallets, :currency_id
+        remove_index :payment_addresses, column: [:currency_id, :address]
         remove_column :payment_addresses, :currency_id
         remove_column :payment_addresses, :account_id
         change_column :currencies, :options, :json

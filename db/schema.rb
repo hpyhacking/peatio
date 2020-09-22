@@ -286,7 +286,6 @@ ActiveRecord::Schema.define(version: 2020_09_09_083000) do
     t.string "details_encrypted", limit: 1024
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["address"], name: "index_payment_addresses_on_currency_id_and_address", unique: true
     t.index ["member_id"], name: "index_payment_addresses_on_member_id"
     t.index ["wallet_id"], name: "index_payment_addresses_on_wallet_id"
   end
