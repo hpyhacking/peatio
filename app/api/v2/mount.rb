@@ -33,9 +33,10 @@ module API
       include Constraints
       include ExceptionHandlers
 
-      mount Public::Mount   => :public
-      mount Account::Mount  => :account
-      mount Market::Mount   => :market
+      mount Public::Mount        => :public
+      mount Account::Mount       => :account
+      mount Market::Mount        => :market
+      mount CoinMarketCap::Mount => :coinmarketcap
 
       # The documentation is accessible at http://localhost:3000/swagger?url=/api/v2/swagger
       # Add swagger documentation for Peatio User API

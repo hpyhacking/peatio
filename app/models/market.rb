@@ -152,6 +152,10 @@ class Market < ApplicationRecord
     "#{base_currency}/#{quote_currency}".upcase
   end
 
+  def underscore_name
+    "#{base_currency.upcase}_#{quote_currency.upcase}"
+  end
+
   alias to_s name
 
   def round_amount(d)
