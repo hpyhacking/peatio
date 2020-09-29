@@ -10,11 +10,6 @@ module API
           # Collection of shared params, used to
           # generate required/optional Grape params.
           OPTIONAL_WALLET_PARAMS ||= {
-            settings: {
-              type: { value: JSON, message: 'admin.wallet.non_json_settings' },
-              default: {},
-              desc: -> { 'Wallet settings' }
-            },
             max_balance: {
               type: { value: BigDecimal, message: 'admin.blockchain.non_decimal_max_balance' },
               values: { value: -> (p){ p >= 0 }, message: 'admin.wallet.invalid_max_balance' },
@@ -124,6 +119,15 @@ module API
           requires :gateway,
                    values: { value: -> { ::Wallet.gateways.map(&:to_s) }, message: 'admin.wallet.gateway_doesnt_exist' },
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:gateway][:desc] }
+          optional :settings, type: JSON,
+                              default: {},
+                              desc: -> { 'Wallet settings (uri, secret)' } do
+            optional :uri,
+                     values: { value: ->(v) { URI.parse(v).is_a?(URI::HTTP) || URI.parse(v).is_a?(URI::HTTPS) }, message: 'admin.wallet.invalid_uri_setting' },
+                     desc: -> { 'Wallet uri setting' }
+            optional :secret,
+                     desc: -> { 'Wallet secret setting' }
+          end
           exactly_one_of :currencies, :currency, message: 'admin.wallet.currencies_field_is_missing'
         end
         post '/wallets/new' do
@@ -165,6 +169,15 @@ module API
                    types: [String, Array], coerce_with: ->(c) { Array.wrap(c) },
                    as: :currency_ids,
                    desc: -> { API::V2::Admin::Entities::Wallet.documentation[:currencies][:desc] }
+          optional :settings, type: JSON,
+                              default: {},
+                              desc: -> { 'Wallet settings' } do
+            optional :uri,
+                     values: { value: ->(v) { URI.parse(v).is_a?(URI::HTTP) || URI.parse(v).is_a?(URI::HTTPS) }, message: 'admin.wallet.invalid_uri_setting' },
+                     desc: -> { 'Wallet uri setting' }
+            optional :secret,
+                     desc: -> { 'Wallet secret setting' }
+          end
         end
         post '/wallets/update' do
           admin_authorize! :update, Wallet

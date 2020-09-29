@@ -212,6 +212,13 @@ describe API::V2::Admin::Wallets, type: :request do
       expect(response).to include_api_error('admin.wallet.currency_doesnt_exist')
     end
 
+    it 'validate uri' do
+      api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'hot', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', settings: { uri: 'invalid_uri'}, gateway: 'geth' }, token: token
+
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('admin.wallet.invalid_uri_setting')
+    end
+
     it 'return error in case of not permitted ability' do
       api_post '/api/v2/admin/wallets/new', params: { name: 'Test', kind: 'deposit', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', gateway: 'geth', settings: { uri: 'http://127.0.0.1:18332'}}, token: level_3_member_token
 
@@ -287,6 +294,13 @@ describe API::V2::Admin::Wallets, type: :request do
 
       expect(response).to have_http_status 422
       expect(response).to include_api_error('admin.wallet.missing_id')
+    end
+
+    it 'validate uri' do
+      api_post '/api/v2/admin/wallets/update', params: { id: Wallet.first.id, name: 'Test', kind: 'hot', currencies: 'eth', address: 'blank', blockchain_key: 'btc-testnet', settings: { uri: 'invalid_uri'}, gateway: 'geth' }, token: token
+
+      expect(response.code).to eq '422'
+      expect(response).to include_api_error('admin.wallet.invalid_uri_setting')
     end
 
     it 'return error in case of not permitted ability' do

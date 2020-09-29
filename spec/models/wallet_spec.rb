@@ -34,12 +34,6 @@ describe Wallet do
       expect(subject.errors.full_messages).to eq ['Kind is not included in the list']
     end
 
-    it 'validates structure of uri' do
-      subject.uri = 'Wrong URL'
-      expect(subject).to_not be_valid
-      expect(subject.errors.full_messages).to eq ['Uri is not a valid URL']
-    end
-
     it 'validates name uniqueness' do
       subject.name = Wallet.first.name
       expect(subject).to_not be_valid

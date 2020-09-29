@@ -15,7 +15,6 @@ class Wallet < ApplicationRecord
   ENUMERIZED_KINDS = { deposit: 100, fee: 200, hot: 310, warm: 320, cold: 330 }.freeze
   enumerize :kind, in: ENUMERIZED_KINDS, scope: true
 
-  # Remove after admin panel deletion.
   SETTING_ATTRIBUTES = %i[ uri secret ].freeze
 
   SETTING_ATTRIBUTES.each do |attribute|
@@ -30,7 +29,6 @@ class Wallet < ApplicationRecord
 
   NOT_AVAILABLE = 'N/A'.freeze
 
-
   vault_attribute :settings, serialize: :json, default: {}
 
   belongs_to :blockchain, foreign_key: :blockchain_key, primary_key: :key
@@ -44,7 +42,6 @@ class Wallet < ApplicationRecord
   validates :gateway, inclusion: { in: ->(_){ Wallet.gateways.map(&:to_s) } }
 
   validates :max_balance, numericality: { greater_than_or_equal_to: 0 }
-  validates :uri, url: { allow_blank: true }
 
   scope :active,   -> { where(status: :active) }
   scope :deposit,  -> { where(kind: kinds(deposit: true, values: true)) }
